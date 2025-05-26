@@ -17,22 +17,33 @@ interface Deduction {
   description: string | null;
 }
 
-// Tip güvenliği için yardımcı fonksiyon:
-function extractEmployee(employeeField: unknown): Employee | null {
-  if (Array.isArray(employeeField)) {
+// Supabase'den gelen satırın gerçek tipini tanımla
+type RawEmployee = { id: string | number; name: string } | null | undefined;
+type RawDeduction = {
+  id: string | number;
+  employee_id: string | number;
+  date: string;
+  type: string;
+  amount: number | string;
+  description: string | null;
+  employee: RawEmployee | RawEmployee[];
+};
+
+function extractEmployee(employeeField: RawEmployee | RawEmployee[]): Employee | null {
+  if (Array.isArray(employeeField) && employeeField.length > 0) {
     const emp = employeeField[0];
-    if (emp && typeof emp === 'object' && emp !== null && 'id' in emp && 'name' in emp) {
+    if (emp && typeof emp === 'object' && 'id' in emp && 'name' in emp) {
       return {
-        id: String((emp as any).id),
-        name: String((emp as any).name),
+        id: String(emp.id),
+        name: String(emp.name),
       };
     }
     return null;
   }
   if (employeeField && typeof employeeField === 'object' && 'id' in employeeField && 'name' in employeeField) {
     return {
-      id: String((employeeField as any).id),
-      name: String((employeeField as any).name),
+      id: String(employeeField.id),
+      name: String(employeeField.name),
     };
   }
   return null;
@@ -53,7 +64,7 @@ export default function DeductionsList() {
     if (error) {
       setError(error.message);
     } else {
-      const normalized: Deduction[] = (data ?? []).map((d: any) => ({
+      const normalized: Deduction[] = (data ?? []).map((d: RawDeduction): Deduction => ({
         id: String(d.id),
         employee_id: String(d.employee_id),
         date: String(d.date),
