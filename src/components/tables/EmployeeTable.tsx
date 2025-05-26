@@ -6,6 +6,7 @@ type Props = {
   employees: Employee[];
   loading: boolean;
   onVerify: (employeeId: string) => void;
+  onYevmiyeOpen?: () => void; // <-- BUNU EKLE!
 };
 
 export const EmployeeTable = ({
