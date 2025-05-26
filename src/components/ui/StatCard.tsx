@@ -1,5 +1,4 @@
 // src/components/ui/StatCard.tsx
-import { FiCheckCircle, FiDollarSign, FiUserPlus, FiXCircle } from 'react-icons/fi';
 import type { ReactNode } from 'react';
 
 type StatCardProps = {
