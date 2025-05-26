@@ -96,45 +96,45 @@ export default function KisiselSorgulama() {
   // Filtrelenmiş içerik
   const filteredContent = (() => {
     if (activeFilter === 'work') {
-      return <RecordTable
+      return <RecordTable<WorkLog>
         title="Yevmiye Kayıtları"
         icon={<FiBriefcase className="text-green-600" />}
         records={workLogs}
         columns={[
-          { label: 'Tarih', render: (r: WorkLog) => r.date },
-          { label: 'Tip', render: (r: WorkLog) => (
+          { label: 'Tarih', render: (r) => r.date },
+          { label: 'Tip', render: (r) => (
             <span className={`px-2 py-1 rounded-full ${r.amount === 1 ? 'bg-green-100 text-green-600' : 'bg-amber-100 text-amber-600'}`}>
               {r.amount === 1 ? 'Tam Gün' : 'Yarım Gün'}
             </span>
           )},
-          { label: 'Açıklama', render: (r: WorkLog) => r.description || '-' }
+          { label: 'Açıklama', render: (r) => r.description || '-' }
         ]}
       />;
     }
 
     if (activeFilter === 'advance') {
-      return <RecordTable
+      return <RecordTable<Deduction>
         title="Avans Kayıtları"
         icon={<FiCreditCard className="text-amber-600" />}
         records={deductions.filter(d => d.type === 'advance')}
         columns={[
-          { label: 'Tarih', render: (r: Deduction) => r.date },
-          { label: 'Tutar', render: (r: Deduction) => <span className="font-medium">{r.amount} ₺</span> },
-          { label: 'Açıklama', render: (r: Deduction) => r.description || '-' }
+          { label: 'Tarih', render: (r) => r.date },
+          { label: 'Tutar', render: (r) => <span className="font-medium">{r.amount} ₺</span> },
+          { label: 'Açıklama', render: (r) => r.description || '-' }
         ]}
       />;
     }
 
     if (activeFilter === 'deduction') {
-      return <RecordTable
+      return <RecordTable<Deduction>
         title="Kesinti Kayıtları"
         icon={<FiXCircle className="text-red-600" />}
         records={deductions.filter(d => d.type !== 'advance')}
         columns={[
-          { label: 'Tarih', render: (r: Deduction) => r.date },
-          { label: 'Tür', render: (r: Deduction) => r.type },
-          { label: 'Tutar', render: (r: Deduction) => <span className="font-medium">{r.amount} ₺</span> },
-          { label: 'Açıklama', render: (r: Deduction) => r.description || '-' }
+          { label: 'Tarih', render: (r) => r.date },
+          { label: 'Tür', render: (r) => r.type },
+          { label: 'Tutar', render: (r) => <span className="font-medium">{r.amount} ₺</span> },
+          { label: 'Açıklama', render: (r) => r.description || '-' }
         ]}
       />;
     }
@@ -172,41 +172,41 @@ export default function KisiselSorgulama() {
 
     return (
       <div className="space-y-6">
-        <RecordTable
+        <RecordTable<WorkLog>
           title="Yevmiye Kayıtları"
           icon={<FiBriefcase className="text-green-600" />}
           records={workLogs}
           columns={[
-            { label: 'Tarih', render: (r: WorkLog) => r.date },
-            { label: 'Tip', render: (r: WorkLog) => (
+            { label: 'Tarih', render: (r) => r.date },
+            { label: 'Tip', render: (r) => (
               <span className={`px-2 py-1 rounded-full ${r.amount === 1 ? 'bg-green-100 text-green-600' : 'bg-amber-100 text-amber-600'}`}>
                 {r.amount === 1 ? 'Tam Gün' : 'Yarım Gün'}
               </span>
             )},
-            { label: 'Açıklama', render: (r: WorkLog) => r.description || '-' }
+            { label: 'Açıklama', render: (r) => r.description || '-' }
           ]}
         />
 
-        <RecordTable
+        <RecordTable<Deduction>
           title="Avans Kayıtları"
           icon={<FiCreditCard className="text-amber-600" />}
           records={deductions.filter(d => d.type === 'advance')}
           columns={[
-            { label: 'Tarih', render: (r: Deduction) => r.date },
-            { label: 'Tutar', render: (r: Deduction) => <span className="font-medium">{r.amount} ₺</span> },
-            { label: 'Açıklama', render: (r: Deduction) => r.description || '-' }
+            { label: 'Tarih', render: (r) => r.date },
+            { label: 'Tutar', render: (r) => <span className="font-medium">{r.amount} ₺</span> },
+            { label: 'Açıklama', render: (r) => r.description || '-' }
           ]}
         />
 
-        <RecordTable
+        <RecordTable<Deduction>
           title="Kesinti Kayıtları"
           icon={<FiXCircle className="text-red-600" />}
           records={deductions.filter(d => d.type !== 'advance')}
           columns={[
-            { label: 'Tarih', render: (r: Deduction) => r.date },
-            { label: 'Tür', render: (r: Deduction) => r.type },
-            { label: 'Tutar', render: (r: Deduction) => <span className="font-medium">{r.amount} ₺</span> },
-            { label: 'Açıklama', render: (r: Deduction) => r.description || '-' }
+            { label: 'Tarih', render: (r) => r.date },
+            { label: 'Tür', render: (r) => r.type },
+            { label: 'Tutar', render: (r) => <span className="font-medium">{r.amount} ₺</span> },
+            { label: 'Açıklama', render: (r) => r.description || '-' }
           ]}
         />
       </div>
@@ -265,91 +265,60 @@ export default function KisiselSorgulama() {
                   }}
                   className="px-5 py-3 hover:bg-gray-50 cursor-pointer border-b border-gray-100 last:border-0 flex items-center justify-between"
                 >
-                  <div>
-                    <div className="font-medium text-gray-900">{emp.name}</div>
-                    <div className="text-sm text-gray-500">{emp.position}</div>
-                  </div>
-                  <FiArrowUpRight className="text-gray-400" />
+                  <span>{emp.name}</span>
+                  <span className="text-sm text-gray-400">{emp.position}</span>
                 </div>
               ))}
             </div>
           )}
         </div>
 
-        {selectedEmployee && (
-          <>
-            {/* Çalışan Bilgileri */}
-            <div className="bg-white rounded-xl shadow-sm p-6 mb-6 grid md:grid-cols-3 gap-4 border border-gray-200">
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-indigo-100 rounded-lg">
-                  <FiUser className="w-5 h-5 text-indigo-600" />
-                </div>
-                <div>
-                  <div className="text-sm text-gray-500">Ad Soyad</div>
-                  <div className="font-medium">{selectedEmployee.name}</div>
-                </div>
-              </div>
+        {/* Filtreler */}
+        <div className="mb-6 flex flex-wrap gap-2">
+          {FILTERS.map(filter => (
+            <button
+              key={filter.value}
+              onClick={() => setActiveFilter(filter.value)}
+              className={`inline-flex items-center gap-2 px-4 py-2 rounded-full font-semibold text-sm shadow-sm transition
+                ${activeFilter === filter.value ? `${filter.color} shadow-md` : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'}`}
+            >
+              {filter.icon}
+              {filter.label}
+            </button>
+          ))}
+        </div>
 
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-indigo-100 rounded-lg">
-                  <FiBriefcase className="w-5 h-5 text-indigo-600" />
-                </div>
-                <div>
-                  <div className="text-sm text-gray-500">Pozisyon</div>
-                  <div className="font-medium">{selectedEmployee.position}</div>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-indigo-100 rounded-lg">
-                  <FiDollarSign className="w-5 h-5 text-indigo-600" />
-                </div>
-                <div>
-                  <div className="text-sm text-gray-500">Günlük Ücret</div>
-                  <div className="font-medium">{selectedEmployee.daily_wage} ₺</div>
-                </div>
-              </div>
-            </div>
-
-            {/* Filtreler */}
-            <div className="flex flex-wrap gap-2 mb-6">
-              {FILTERS.map(filter => (
-                <button
-                  key={filter.value}
-                  onClick={() => setActiveFilter(filter.value)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
-                    activeFilter === filter.value
-                      ? `${filter.color} border border-indigo-500`
-                      : 'bg-white border border-gray-200 hover:border-indigo-200'
-                  }`}
-                >
-                  {filter.icon}
-                  {filter.label}
-                </button>
-              ))}
-            </div>
-
-            {/* İçerik */}
-            {loading ? (
-              <div className="text-center p-8">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600 mx-auto"></div>
-                <p className="mt-3 text-gray-500">Yükleniyor...</p>
-              </div>
-            ) : (
-              filteredContent
-            )}
-          </>
+        {loading ? (
+          <div className="text-center text-gray-400 py-20">Yükleniyor...</div>
+        ) : selectedEmployee ? (
+          filteredContent
+        ) : (
+          <div className="text-center text-gray-400 py-20">Önce bir çalışan seçin.</div>
         )}
       </div>
     </div>
   );
 }
 
-const RecordTable = ({ title, icon, records, columns }: {
+function SummaryCard({ title, value, icon, color }: { title: string; value: string | number; icon: React.ReactNode; color: string }) {
+  return (
+    <div className={`flex items-center gap-3 p-6 rounded-xl shadow-sm ${color}`}>
+      <div className="w-12 h-12 flex items-center justify-center bg-white rounded-full text-2xl">
+        {icon}
+      </div>
+      <div>
+        <div className="text-sm font-semibold">{title}</div>
+        <div className="text-lg font-bold">{value}</div>
+      </div>
+    </div>
+  );
+}
+
+const RecordTable = <T,>({ title, icon, records, columns }: {
   title: string;
   icon: React.ReactNode;
-  records: any[];
-  columns: { label: string; render: (row: any) => any }[];
+  records: T[];
+  columns: { label: string; render: (row: T) => React.ReactNode }[];
 }) => {
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
@@ -386,27 +355,6 @@ const RecordTable = ({ title, icon, records, columns }: {
           </table>
         </div>
       )}
-    </div>
-  );
-};
-
-const SummaryCard = ({ title, value, icon, color }: {
-  title: string;
-  value: string | number;
-  icon: React.ReactNode;
-  color: string;
-}) => {
-  return (
-    <div className={`${color} rounded-xl p-4`}>
-      <div className="flex items-center justify-between">
-        <div>
-          <div className="text-sm text-gray-600">{title}</div>
-          <div className="text-2xl font-bold mt-1">{value}</div>
-        </div>
-        <div className="p-2 bg-white/30 rounded-lg">
-          {icon}
-        </div>
-      </div>
     </div>
   );
 };
