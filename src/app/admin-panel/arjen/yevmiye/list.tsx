@@ -18,15 +18,36 @@ interface WorkLog {
   description: string | null;
 }
 
-// Supabase'den gelen ham veri tipi (employee dizisi olarak geliyor)
+// Supabase'den gelen ham veri tipi (employee dizisi veya null/undefined olabilir)
+type RawEmployee = { id: string; name: string } | null | undefined;
 type RawWorkLog = {
   id: string;
   employee_id: string;
   date: string;
   amount: number;
   description: string | null;
-  employee: Employee[] | null;
+  employee: RawEmployee | RawEmployee[];
 };
+
+function extractEmployee(employeeField: RawEmployee | RawEmployee[]): Employee | null {
+  if (Array.isArray(employeeField) && employeeField.length > 0) {
+    const emp = employeeField[0];
+    if (emp && typeof emp === 'object' && 'id' in emp && 'name' in emp) {
+      return {
+        id: String(emp.id),
+        name: String(emp.name),
+      };
+    }
+    return null;
+  }
+  if (employeeField && typeof employeeField === 'object' && 'id' in employeeField && 'name' in employeeField) {
+    return {
+      id: String(employeeField.id),
+      name: String(employeeField.name),
+    };
+  }
+  return null;
+}
 
 export default function WorkLogsList() {
   const [logs, setLogs] = useState<WorkLog[]>([]);
@@ -36,7 +57,7 @@ export default function WorkLogsList() {
   const fetchLogs = async () => {
     setLoading(true);
     const { data, error } = await supabase
-      .from<RawWorkLog>('work_logs')
+      .from('work_logs')
       .select('id, employee_id, date, amount, description, employee:employee_id(id, name)')
       .order('date', { ascending: false });
 
@@ -44,15 +65,16 @@ export default function WorkLogsList() {
       setError(error.message);
     } else {
       setLogs(
-        (data || []).map((log) => ({
-          id: log.id,
-          employee_id: log.employee_id,
-          date: log.date,
-          amount: log.amount,
-          description: log.description,
-          employee: Array.isArray(log.employee) ? log.employee[0] ?? null : log.employee ?? null,
+        (data ?? []).map((log: RawWorkLog): WorkLog => ({
+          id: String(log.id),
+          employee_id: String(log.employee_id),
+          date: String(log.date),
+          amount: Number(log.amount),
+          description: log.description !== undefined && log.description !== null ? String(log.description) : null,
+          employee: extractEmployee(log.employee),
         }))
       );
+      setError(null);
     }
     setLoading(false);
   };
