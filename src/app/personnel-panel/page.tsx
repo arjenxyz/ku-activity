@@ -104,26 +104,27 @@ export default function PersonelPanel() {
         return;
       }
 
+      
       const { data: employeeData } = await supabase
-        .from<Employee>('employees')
-        .select('*')
-        .eq('id', session.employee_id)
-        .single();
-      setEmployee(employeeData);
+  .from('employees')
+  .select('*')
+  .eq('id', session.employee_id)
+  .single();
+setEmployee(employeeData as Employee);
 
-      setLoading(true);
-      const { data: workData } = await supabase
-        .from<WorkLog>('work_logs')
-        .select('*')
-        .eq('employee_id', session.employee_id)
-        .order('date', { ascending: false });
+const { data: workData } = await supabase
+  .from('work_logs')
+  .select('*')
+  .eq('employee_id', session.employee_id)
+  .order('date', { ascending: false });
+setWorkLogs(workData as WorkLog[]);
 
-      const { data: deductionsData } = await supabase
-        .from<Deduction>('deductions')
-        .select('*')
-        .eq('employee_id', session.employee_id)
-        .order('date', { ascending: false });
-
+const { data: deductionsData } = await supabase
+  .from('deductions')
+  .select('*')
+  .eq('employee_id', session.employee_id)
+  .order('date', { ascending: false });
+setDeductions(deductionsData as Deduction[]);
       setWorkLogs(workData || []);
       setDeductions(deductionsData || []);
       setLoading(false);
