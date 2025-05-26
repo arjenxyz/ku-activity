@@ -5,8 +5,8 @@ import { TableHeader, TableCell } from '@/components/ui/Table';
 type Props = {
   employees: Employee[];
   loading: boolean;
-  onVerify: (employeeId: string) => void;
-  onYevmiyeOpen?: () => void; // <-- BUNU EKLE!
+  onVerify: (id: string) => void; // sadece bir tane!
+  onYevmiyeOpen?: () => void;
 };
 
 export const EmployeeTable = ({
