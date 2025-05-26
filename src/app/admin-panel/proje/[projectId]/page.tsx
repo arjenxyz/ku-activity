@@ -28,9 +28,11 @@ export default function ProjectDashboard() {
   const params = useParams();
   const router = useRouter();
 
+  // Proje ID'sini güvenli şekilde alma
   const projectIdRaw = params.projectId;
   const projectId = Array.isArray(projectIdRaw) ? projectIdRaw[0] : projectIdRaw;
 
+  // State Management
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [filteredEmployees, setFilteredEmployees] = useState<Employee[]>([]);
   const [project, setProject] = useState<Project | null>(null);
@@ -39,6 +41,7 @@ export default function ProjectDashboard() {
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState<AttendanceStats>({ present: 0, absent: 0, late: 0 });
 
+  // UI States
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedMonth, setSelectedMonth] = useState(projectDateHelpers.getCurrentMonth());
   const [departmentFilter, setDepartmentFilter] = useState('all');
@@ -46,13 +49,16 @@ export default function ProjectDashboard() {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [addWorkLogOpen, setAddWorkLogOpen] = useState(false);
 
+  // Proje ID kontrolü
   if (!projectId) {
     return <div className="p-8 text-center text-red-600">Geçersiz proje ID</div>;
   }
 
+  // Veri yükleme ve filtreleme
   const initializeData = useCallback(async () => {
     try {
       setLoading(true);
+      
       const [projectData, employeesData, logsData, deductionsData] = await Promise.all([
         fetchProject(projectId),
         fetchEmployees(projectId, selectedMonth),
@@ -76,13 +82,14 @@ export default function ProjectDashboard() {
     }
   }, [projectId, selectedMonth, router]);
 
+  // Filtre uygulama
   const applyFilters = useCallback(() => {
     let filtered = employees;
-
+    
     if (departmentFilter !== 'all') {
       filtered = filtered.filter(emp => emp.position === departmentFilter);
     }
-
+    
     if (searchTerm.trim()) {
       const term = searchTerm.toLowerCase();
       filtered = filtered.filter(emp =>
@@ -91,7 +98,7 @@ export default function ProjectDashboard() {
         emp.phone.toLowerCase().includes(term)
       );
     }
-
+    
     setFilteredEmployees(filtered);
   }, [employees, departmentFilter, searchTerm]);
 
@@ -103,21 +110,44 @@ export default function ProjectDashboard() {
     applyFilters();
   }, [applyFilters]);
 
-  const handleMonthChange = (newMonth: string) => {
+  // İşlevsel güncellemeler
+  const handleMonthChange = useCallback((newMonth: string) => {
     setSelectedMonth(newMonth);
     initializeData();
-  };
+  }, [initializeData]);
 
-  const handleDeleteLog = async (logId: string) => {
+  const handleDeleteLog = useCallback(async (logId: string) => {
     await deleteWorkLog(logId);
-    await initializeData();
-  };
+    initializeData();
+  }, [initializeData]);
 
-  const handleDeleteDeduction = async (deductionId: string) => {
+  const handleDeleteDeduction = useCallback(async (deductionId: string) => {
     await deleteDeduction(deductionId);
-    await initializeData();
-  };
+    initializeData();
+  }, [initializeData]);
 
+  const handleDeleteProject = useCallback(async () => {
+    try {
+      // await deleteProject(projectId); // API çağrısı aktif edilmeli
+      router.push('/admin-panel/proje');
+    } catch (error) {
+      console.error('Proje silme hatası:', error);
+    }
+  }, [projectId, router]);
+
+  // Hesaplamalar
+  const totalPayroll = useCallback(() => {
+    return filteredEmployees.reduce(
+      (acc, emp) => acc + emp.daily_wage * (emp.total_days || 0),
+      0
+    );
+  }, [filteredEmployees]);
+
+  const todayMissing = useCallback(() => {
+    return filteredEmployees.filter(emp => !emp.today_verified).length;
+  }, [filteredEmployees]);
+
+  // Action Buttons
   const actionButtons = [
     {
       icon: <FiUserPlus />,
@@ -145,30 +175,26 @@ export default function ProjectDashboard() {
     }
   ];
 
-  const totalPayroll = filteredEmployees.reduce(
-    (acc, emp) => acc + emp.daily_wage * (emp.total_days || 0),
-    0
-  );
-
-  const todayMissing = filteredEmployees.filter(emp => !emp.today_verified).length;
-
   if (!project) return <div className="p-8 text-center">Proje yükleniyor...</div>;
 
   return (
     <div className="min-h-screen bg-gray-50 p-4 md:p-8">
       <div className="max-w-7xl mx-auto space-y-6">
+        {/* Mobile Menu */}
         <MobileMenu
           open={mobileMenuOpen}
           onClose={() => setMobileMenuOpen(false)}
           buttons={actionButtons}
         />
 
+        {/* Action Buttons */}
         <div className="hidden md:flex flex-wrap gap-3">
           {actionButtons.map(btn => (
             <ActionButton key={btn.text} {...btn} />
           ))}
         </div>
 
+        {/* Header Section */}
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-gray-900">
@@ -182,7 +208,8 @@ export default function ProjectDashboard() {
             </h1>
             <p className="text-gray-600">{formatDate(dayjs().toString(), DATE_FORMATS.DAY_MONTH_YEAR)}</p>
           </div>
-
+          
+          {/* Month Picker */}
           <div className="flex items-center gap-2 bg-white px-3 py-2 border rounded-lg">
             <FiCalendar className="text-gray-400" />
             <input
@@ -194,6 +221,7 @@ export default function ProjectDashboard() {
           </div>
         </div>
 
+        {/* Stats Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <StatCard
             title="Toplam Personel"
@@ -203,13 +231,13 @@ export default function ProjectDashboard() {
           />
           <StatCard
             title="Bugün Onaysız"
-            value={todayMissing}
+            value={todayMissing()}
             icon={<FiFileText />}
             color="bg-red-100 text-red-600"
           />
           <StatCard
             title="Toplam Maaş"
-            value={`₺${totalPayroll.toLocaleString()}`}
+            value={`₺${totalPayroll().toLocaleString()}`}
             icon={<FiFilter />}
             color="bg-green-100 text-green-600"
           />
@@ -221,6 +249,7 @@ export default function ProjectDashboard() {
           />
         </div>
 
+        {/* Filters */}
         <div className="flex flex-col md:flex-row gap-3">
           <div className="relative flex-1">
             <FiSearch className="absolute left-3 top-3 text-gray-400" />
@@ -232,7 +261,7 @@ export default function ProjectDashboard() {
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
-
+          
           <select
             className="border rounded-lg px-3 py-2"
             value={departmentFilter}
@@ -245,6 +274,7 @@ export default function ProjectDashboard() {
           </select>
         </div>
 
+        {/* Tables */}
         <EmployeeTable
           employees={filteredEmployees}
           loading={loading}
@@ -258,16 +288,13 @@ export default function ProjectDashboard() {
           onDelete={handleDeleteDeduction}
         />
 
+        {/* Modals */}
         <ProjectSettingsModal
           project={project}
           isOpen={settingsOpen}
           onClose={() => setSettingsOpen(false)}
-          onUpdate={(updatedProject: Project) => {
-            setProject(updatedProject);
-          }}
-          onDelete={() => {
-            router.push('/admin-panel/proje');
-          }}
+          onUpdate={(updatedProject: Project) => setProject(updatedProject)}
+          onDelete={handleDeleteProject}
         />
 
         <AddWorkLogModal
