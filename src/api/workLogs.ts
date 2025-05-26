@@ -1,5 +1,6 @@
 import { supabase } from '../app/lib/supabaseClient';
 import type { WorkLog } from '@/types/adminTypes';
+import type { PostgrestError } from '@supabase/supabase-js';
 
 export const fetchWorkLogs = async (
   projectId: string
@@ -18,7 +19,7 @@ export const fetchWorkLogs = async (
     .order('date', { ascending: false });
 
   if (error) {
-    console.error('Supabase error:', error);  // Hata varsa burada loglanacak
+    console.error('Supabase error:', error);
   }
 
   return data?.map(log => ({
@@ -29,7 +30,7 @@ export const fetchWorkLogs = async (
 
 export const createWorkLog = async (
   logData: Omit<WorkLog, 'id' | 'employee'> & { project_id: string }
-): Promise<{ error: any }> => {
+): Promise<{ error: PostgrestError | null }> => {
   const { error } = await supabase
     .from('work_logs')
     .insert([logData]);
@@ -38,10 +39,11 @@ export const createWorkLog = async (
 
 export const deleteWorkLog = async (
   logId: string
-): Promise<{ error: any }> => {
+): Promise<{ error: PostgrestError | null }> => {
   const { error } = await supabase
     .from('work_logs')
     .delete()
     .eq('id', logId);
   return { error };
 };
+
