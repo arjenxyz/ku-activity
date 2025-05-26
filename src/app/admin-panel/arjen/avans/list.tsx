@@ -24,19 +24,17 @@ export default function DeductionsList() {
 
   const fetchDeductions = async () => {
     setLoading(true);
-    // Supabase sorgusunda generic tipi select'e veriyoruz, from'a değil!
     const { data, error } = await supabase
       .from('deductions')
-      .select<Deduction>('id, employee_id, date, type, amount, description, employee:employee_id(id, name)')
+      .select('id, employee_id, date, type, amount, description, employee:employee_id(id, name)')
       .order('date', { ascending: false });
 
     if (error) {
       setError(error.message);
     } else {
       setDeductions(
-        (data || []).map(d => ({
+        ((data ?? []) as Deduction[]).map(d => ({
           ...d,
-          // employee'nin bazen dizi olarak gelebileceği durum için kontrol
           employee: Array.isArray(d.employee) ? d.employee[0] || null : d.employee ?? null,
         }))
       );
@@ -47,7 +45,6 @@ export default function DeductionsList() {
 
   useEffect(() => {
     fetchDeductions();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleDelete = async (id: string) => {
