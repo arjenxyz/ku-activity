@@ -4,22 +4,37 @@ import type { NextRequest } from "next/server";
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Eğer istek admin-panel/login sayfası ise, yönlendirme yapma!
+  // Admin login sayfası izinli
   if (pathname === "/admin-panel/login") {
     return NextResponse.next();
   }
 
-  // Admin panel yollarını kontrol et
+  // Personel login sayfası izinli
+  if (pathname === "/personnel-login") {
+    return NextResponse.next();
+  }
+
+  // Admin panel yolları kontrolü
   if (pathname.startsWith("/admin-panel")) {
-    const cookie = request.cookies.get("admin_session");
-    if (!cookie) {
-      // Giriş yoksa admin login sayfasına yolla
+    const adminCookie = request.cookies.get("admin_session");
+    if (!adminCookie) {
       return NextResponse.redirect(new URL("/admin-panel/login", request.url));
     }
   }
+
+  // Personel panel yolları kontrolü
+  if (pathname.startsWith("/personnel-panel")) {
+    const personnelCookie = request.cookies.get("personnel_session");
+    if (!personnelCookie) {
+      return NextResponse.redirect(new URL("/personnel-login", request.url));
+    }
+  }
+
+  // Diğer istekler serbest
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/admin-panel/:path*"]
+  matcher: ["/admin-panel/:path*", "/personnel-panel/:path*"],
 };
+
