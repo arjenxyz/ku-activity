@@ -23,7 +23,7 @@ export default function DeductionForm() {
 
   useEffect(() => {
     const fetchEmployees = async () => {
-      let { data, error } = await supabase.from('employees').select('id, name');
+      const { data, error } = await supabase.from('employees').select('id, name');
       if (error) {
         setMessage({type: 'error', text: 'Çalışanlar yüklenemedi: ' + error.message });
         setEmployees([]);
