@@ -44,7 +44,7 @@ export default function NewEmployeePage() {
 
     setLoading(true);
 
-    const { data, error: insertError } = await supabase
+    const { error: insertError } = await supabase
       .from('employees')
       .insert([{
         name: form.name,
@@ -71,7 +71,6 @@ export default function NewEmployeePage() {
     }, 1200);
   };
 
-  // Eğer projectId yoksa, formu gösterme
   if (!projectId) {
     return (
       <div className="min-h-screen flex items-center justify-center">
