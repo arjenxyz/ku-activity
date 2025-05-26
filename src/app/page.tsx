@@ -16,7 +16,7 @@ export default function Home() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 mt-8">
             <a
-              href="/admin-panel/login"
+              href="/admin-panel/"
               className="bg-white/90 text-indigo-900 px-8 py-4 rounded-xl font-bold shadow-lg hover:bg-white hover:shadow-xl transition-all duration-300 flex items-center gap-2"
             >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
