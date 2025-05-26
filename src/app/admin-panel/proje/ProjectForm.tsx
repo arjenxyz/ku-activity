@@ -40,7 +40,7 @@ export default function ProjectForm({
               status: project.status,
             });
           }
-        } catch (err) {
+        } catch {
           setError('Proje bilgileri yüklenemedi');
         }
       }
@@ -61,7 +61,7 @@ export default function ProjectForm({
         await createProject(formData);
       }
       onSuccess();
-    } catch (err: unknown) {
+    } catch {
       setError('Proje kaydedilemedi. Lütfen tekrar deneyin.');
     } finally {
       setIsSubmitting(false);
