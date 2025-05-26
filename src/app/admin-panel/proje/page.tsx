@@ -51,6 +51,14 @@ export default function ProjectPage() {
     setEditingId(null);
   };
 
+  // onDelete fonksiyonu id parametresi beklemeli!
+  const handleDeleteProject = async (id: string) => {
+    // Burada projenin silinmesi işlemini ekleyebilirsin (örn. api call)
+    // await deleteProject(id);
+    // Silindikten sonra listeyi yenile:
+    fetchProjects(filter, searchTerm).then(setProjects);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
@@ -74,9 +82,8 @@ export default function ProjectPage() {
         <ProjectList
           projects={projects}
           loading={loading}
-          filter={filter}
           onEdit={handleEditProject}
-          onDelete={() => fetchProjects(filter, searchTerm).then(setProjects)}
+          onDelete={handleDeleteProject}
         />
       </div>
     </div>
