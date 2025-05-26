@@ -5,8 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { supabase } from '../../../../lib/supabaseClient';
 import {
   FiChevronDown, FiUser, FiList, FiCreditCard, FiXCircle,
-  FiDollarSign, FiCalendar, FiBriefcase, FiPhone, FiMail,
-  FiArrowUpRight, FiArrowLeft
+  FiDollarSign, FiCalendar, FiBriefcase, FiArrowUpRight, FiArrowLeft
 } from 'react-icons/fi';
 
 type Employee = {
@@ -88,13 +87,11 @@ export default function KisiselSorgulama() {
     })();
   }, [selectedEmployee]);
 
-  // Hesaplamalar
   const totalWork = workLogs.filter(w => w.amount === 1).length + workLogs.filter(w => w.amount !== 1).length * 0.5;
   const totalAdvance = deductions.filter(d => d.type === 'advance').reduce((acc, d) => acc + d.amount, 0);
   const totalDeduct = deductions.filter(d => d.type !== 'advance').reduce((acc, d) => acc + d.amount, 0);
   const netSalary = selectedEmployee ? totalWork * selectedEmployee.daily_wage - totalAdvance - totalDeduct : 0;
 
-  // Filtrelenmiş içerik
   const filteredContent = (() => {
     if (activeFilter === 'work') {
       return <RecordTable
@@ -330,7 +327,6 @@ export default function KisiselSorgulama() {
               ))}
             </div>
 
-            {/* İçerik */}
             {loading ? (
               <div className="text-center p-8">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600 mx-auto"></div>
@@ -346,7 +342,6 @@ export default function KisiselSorgulama() {
   );
 }
 
-// Yardımcı Komponentler
 const RecordTable = ({ title, icon, records, columns }: {
   title: string;
   icon: React.ReactNode;
