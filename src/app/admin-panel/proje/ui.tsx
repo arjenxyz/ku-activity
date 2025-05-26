@@ -1,4 +1,4 @@
-import { FiCalendar, FiMapPin, FiDollarSign } from 'react-icons/fi';
+import { FiCalendar, FiMapPin } from 'react-icons/fi';
 
 export const InputWithIcon = ({
   icon,
