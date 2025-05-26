@@ -56,6 +56,7 @@ export const EmployeePage = () => {
         employees={employees}
         onSubmit={handleModalSave}
         employeeId={selectedEmployeeId}
+        projectId={projectId} // ← Bunu ekle!
       />
     </>
   );
