@@ -187,7 +187,6 @@ setDeductions(deductionsData as Deduction[]);
           records={deductions.filter(d => d.type !== 'advance')}
           columns={[
             { label: 'Tarih', render: (r) => r.date },
-            { label: 'Tür', render: (r) => r.type },
             { label: 'Tutar', render: (r) => <span className="font-medium">{r.amount} ₺</span> },
             { label: 'Açıklama', render: (r) => r.description || '-' }
           ]}
