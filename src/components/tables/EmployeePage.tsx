@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import type { Employee } from '@/types/adminTypes';
 import { fetchEmployees } from '@/api/employees';
 import { EmployeeTable } from './EmployeeTable';
@@ -15,16 +15,17 @@ export const EmployeePage = () => {
   const today = new Date();
   const selectedMonth = `${today.getFullYear()}-${(today.getMonth() + 1).toString().padStart(2, '0')}`;
 
-  const loadEmployees = async () => {
+  // loadEmployees fonksiyonunu useCallback ile sarmala, bağımlılıkları ekle
+  const loadEmployees = useCallback(async () => {
     setLoading(true);
     const data = await fetchEmployees(projectId, selectedMonth);
     setEmployees(data.employees);
     setLoading(false);
-  };
+  }, [projectId, selectedMonth]);
 
   useEffect(() => {
     loadEmployees();
-  }, [projectId, selectedMonth]);
+  }, [loadEmployees]);
 
   const handleVerifyClick = (employeeId: string) => {
     setSelectedEmployeeId(employeeId);
