@@ -23,7 +23,7 @@ export default function WorkLogForm() {
   // Çalışanları çek
   useEffect(() => {
     const fetchEmployees = async () => {
-      let { data, error } = await supabase.from('employees').select('id, name');
+      const { data, error } = await supabase.from('employees').select('id, name');  // const olarak değiştirildi
       if (error) {
         setMessage({type: 'error', text: 'Çalışanlar yüklenemedi: ' + error.message });
         setEmployees([]);
