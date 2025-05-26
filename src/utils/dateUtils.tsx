@@ -26,11 +26,11 @@ export const formatDate = (
 // Ay işlemleri
 export const getMonthRange = (month: string) => {
   const start = dayjs(month).startOf('month');
-  const end = dayjs(month).endOf('month');
+  const endDayjs = dayjs(month).endOf('month');
   return {
     start: start.format(DATE_FORMATS.DATABASE_DATE),
-    end: end.format(DATE_FORMATS.DATABASE_DATE),
-    daysInMonth: end.date(),
+    end: endDayjs.format(DATE_FORMATS.DATABASE_DATE),
+    daysInMonth: endDayjs.date(),
   };
 };
 
