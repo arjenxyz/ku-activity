@@ -5,7 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { supabase } from '../../../../lib/supabaseClient';
 import {
   FiChevronDown, FiUser, FiList, FiCreditCard, FiXCircle,
-  FiDollarSign, FiCalendar, FiBriefcase, FiArrowUpRight, FiArrowLeft
+  FiDollarSign, FiCalendar, FiBriefcase,  FiArrowLeft
 } from 'react-icons/fi';
 
 type Employee = {
