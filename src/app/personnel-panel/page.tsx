@@ -105,7 +105,7 @@ export default function PersonelPanel() {
       }
 
       const { data: employeeData } = await supabase
-        .from<Employee>('employees')
+        .from<Employee, Employee>('employees')
         .select('*')
         .eq('id', session.employee_id)
         .single();
@@ -113,13 +113,13 @@ export default function PersonelPanel() {
 
       setLoading(true);
       const { data: workData } = await supabase
-        .from<WorkLog>('work_logs')
+       .from<WorkLog, WorkLog>('work_logs')
         .select('*')
         .eq('employee_id', session.employee_id)
         .order('date', { ascending: false });
 
       const { data: deductionsData } = await supabase
-        .from<Deduction>('deductions')
+        .from<Deduction, Deduction>('deductions')
         .select('*')
         .eq('employee_id', session.employee_id)
         .order('date', { ascending: false });
