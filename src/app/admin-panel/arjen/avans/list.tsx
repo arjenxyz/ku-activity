@@ -17,6 +17,27 @@ interface Deduction {
   description: string | null;
 }
 
+// Tip güvenliği için yardımcı fonksiyon:
+function extractEmployee(employeeField: unknown): Employee | null {
+  if (Array.isArray(employeeField)) {
+    const emp = employeeField[0];
+    if (emp && typeof emp === 'object' && emp !== null && 'id' in emp && 'name' in emp) {
+      return {
+        id: String((emp as any).id),
+        name: String((emp as any).name),
+      };
+    }
+    return null;
+  }
+  if (employeeField && typeof employeeField === 'object' && 'id' in employeeField && 'name' in employeeField) {
+    return {
+      id: String((employeeField as any).id),
+      name: String((employeeField as any).name),
+    };
+  }
+  return null;
+}
+
 export default function DeductionsList() {
   const [deductions, setDeductions] = useState<Deduction[]>([]);
   const [loading, setLoading] = useState(true);
@@ -32,27 +53,15 @@ export default function DeductionsList() {
     if (error) {
       setError(error.message);
     } else {
-      const normalized: Deduction[] = (data ?? []).map((d) => {
-        const employeeObj =
-          Array.isArray(d.employee)
-            ? (d.employee[0]
-              ? { id: String(d.employee[0].id), name: String(d.employee[0].name) }
-              : null)
-            : d.employee
-              ? { id: String(d.employee.id), name: String(d.employee.name) }
-              : null;
-
-        return {
-          ...d,
-          employee: employeeObj,
-          id: String(d.id),
-          employee_id: String(d.employee_id),
-          date: String(d.date),
-          type: String(d.type),
-          amount: Number(d.amount),
-          description: d.description !== undefined && d.description !== null ? String(d.description) : null,
-        } as Deduction;
-      });
+      const normalized: Deduction[] = (data ?? []).map((d: any) => ({
+        id: String(d.id),
+        employee_id: String(d.employee_id),
+        date: String(d.date),
+        type: String(d.type),
+        amount: Number(d.amount),
+        description: d.description !== undefined && d.description !== null ? String(d.description) : null,
+        employee: extractEmployee(d.employee),
+      }));
       setDeductions(normalized);
       setError(null);
     }
