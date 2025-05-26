@@ -35,7 +35,7 @@ export const getMonthRange = (month: string) => {
 
 // Takvim görünümü için ay günlerini oluşturma
 export const generateCalendarDays = (month: string) => {
-  const { start, end, daysInMonth } = getMonthRange(month);
+  const { start, daysInMonth } = getMonthRange(month);
   return Array.from({ length: daysInMonth }, (_, i) =>
     dayjs(start).add(i, 'day').format(DATE_FORMATS.DATABASE_DATE)
   );
