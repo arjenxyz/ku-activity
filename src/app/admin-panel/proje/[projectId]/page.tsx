@@ -8,7 +8,6 @@ import { FiUserPlus, FiUserCheck, FiFileText, FiFilter, FiRefreshCw, FiSearch, F
 // API Hooks
 import { fetchProject } from '@/api/projects';
 import { fetchEmployees } from '@/api/employees';
-import { fetchWorkLogs, deleteWorkLog } from '@/api/workLogs';
 import { fetchDeductions, deleteDeduction } from '@/api/deductions';
 
 // Components
@@ -21,22 +20,17 @@ import { ActionButton } from '@/components/ui/ActionButton';
 import { MobileMenu } from '@/components/ui/MobileMenu';
 
 // Types & Utils
-import type { Employee, AttendanceStats, Project, WorkLog, Deduction } from '@/types/adminTypes';
+import type { Employee, AttendanceStats, Project, Deduction } from '@/types/adminTypes';
 import { DATE_FORMATS, formatDate, projectDateHelpers } from '@/utils/dateUtils';
 
 export default function ProjectDashboard() {
   const params = useParams();
   const router = useRouter();
 
-  // Proje ID'sini güvenli şekilde alma
-  const projectIdRaw = params.projectId;
-  const projectId = Array.isArray(projectIdRaw) ? projectIdRaw[0] : projectIdRaw;
-
   // State Management
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [filteredEmployees, setFilteredEmployees] = useState<Employee[]>([]);
   const [project, setProject] = useState<Project | null>(null);
-  const [logs, setLogs] = useState<WorkLog[]>([]);
   const [deductions, setDeductions] = useState<Deduction[]>([]);
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState<AttendanceStats>({ present: 0, absent: 0, late: 0 });
@@ -49,20 +43,23 @@ export default function ProjectDashboard() {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [addWorkLogOpen, setAddWorkLogOpen] = useState(false);
 
-  // Proje ID kontrolü
+  // Project ID handling
+  const projectIdRaw = params.projectId;
+  const projectId = Array.isArray(projectIdRaw) ? projectIdRaw[0] : projectIdRaw;
+
+  // Early return for invalid project ID
   if (!projectId) {
     return <div className="p-8 text-center text-red-600">Geçersiz proje ID</div>;
   }
 
-  // Veri yükleme ve filtreleme
+  // Data initialization
   const initializeData = useCallback(async () => {
     try {
       setLoading(true);
       
-      const [projectData, employeesData, logsData, deductionsData] = await Promise.all([
+      const [projectData, employeesData, deductionsData] = await Promise.all([
         fetchProject(projectId),
         fetchEmployees(projectId, selectedMonth),
-        fetchWorkLogs(projectId),
         fetchDeductions(projectId)
       ]);
 
@@ -72,7 +69,6 @@ export default function ProjectDashboard() {
         setStats(employeesData.attendanceStats);
         setFilteredEmployees(employeesData.employees);
       }
-      if (logsData) setLogs(logsData);
       if (deductionsData) setDeductions(deductionsData);
     } catch (error) {
       console.error('Data initialization error:', error);
@@ -82,7 +78,7 @@ export default function ProjectDashboard() {
     }
   }, [projectId, selectedMonth, router]);
 
-  // Filtre uygulama
+  // Filtering logic
   const applyFilters = useCallback(() => {
     let filtered = employees;
     
@@ -102,6 +98,7 @@ export default function ProjectDashboard() {
     setFilteredEmployees(filtered);
   }, [employees, departmentFilter, searchTerm]);
 
+  // Effects
   useEffect(() => {
     initializeData();
   }, [initializeData]);
@@ -110,14 +107,9 @@ export default function ProjectDashboard() {
     applyFilters();
   }, [applyFilters]);
 
-  // İşlevsel güncellemeler
+  // Event handlers
   const handleMonthChange = useCallback((newMonth: string) => {
     setSelectedMonth(newMonth);
-    initializeData();
-  }, [initializeData]);
-
-  const handleDeleteLog = useCallback(async (logId: string) => {
-    await deleteWorkLog(logId);
     initializeData();
   }, [initializeData]);
 
@@ -128,26 +120,14 @@ export default function ProjectDashboard() {
 
   const handleDeleteProject = useCallback(async () => {
     try {
-      // await deleteProject(projectId); // API çağrısı aktif edilmeli
+      // await deleteProject(projectId);
       router.push('/admin-panel/proje');
     } catch (error) {
       console.error('Proje silme hatası:', error);
     }
   }, [projectId, router]);
 
-  // Hesaplamalar
-  const totalPayroll = useCallback(() => {
-    return filteredEmployees.reduce(
-      (acc, emp) => acc + emp.daily_wage * (emp.total_days || 0),
-      0
-    );
-  }, [filteredEmployees]);
-
-  const todayMissing = useCallback(() => {
-    return filteredEmployees.filter(emp => !emp.today_verified).length;
-  }, [filteredEmployees]);
-
-  // Action Buttons
+  // Action buttons configuration
   const actionButtons = [
     {
       icon: <FiUserPlus />,
@@ -175,26 +155,31 @@ export default function ProjectDashboard() {
     }
   ];
 
+  // Calculations
+  const totalPayroll = filteredEmployees.reduce(
+    (acc, emp) => acc + emp.daily_wage * (emp.total_days || 0),
+    0
+  );
+
+  const todayMissing = filteredEmployees.filter(emp => !emp.today_verified).length;
+
   if (!project) return <div className="p-8 text-center">Proje yükleniyor...</div>;
 
   return (
     <div className="min-h-screen bg-gray-50 p-4 md:p-8">
       <div className="max-w-7xl mx-auto space-y-6">
-        {/* Mobile Menu */}
         <MobileMenu
           open={mobileMenuOpen}
           onClose={() => setMobileMenuOpen(false)}
           buttons={actionButtons}
         />
 
-        {/* Action Buttons */}
         <div className="hidden md:flex flex-wrap gap-3">
           {actionButtons.map(btn => (
             <ActionButton key={btn.text} {...btn} />
           ))}
         </div>
 
-        {/* Header Section */}
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-gray-900">
@@ -209,7 +194,6 @@ export default function ProjectDashboard() {
             <p className="text-gray-600">{formatDate(dayjs().toString(), DATE_FORMATS.DAY_MONTH_YEAR)}</p>
           </div>
           
-          {/* Month Picker */}
           <div className="flex items-center gap-2 bg-white px-3 py-2 border rounded-lg">
             <FiCalendar className="text-gray-400" />
             <input
@@ -221,7 +205,6 @@ export default function ProjectDashboard() {
           </div>
         </div>
 
-        {/* Stats Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <StatCard
             title="Toplam Personel"
@@ -231,13 +214,13 @@ export default function ProjectDashboard() {
           />
           <StatCard
             title="Bugün Onaysız"
-            value={todayMissing()}
+            value={todayMissing}
             icon={<FiFileText />}
             color="bg-red-100 text-red-600"
           />
           <StatCard
             title="Toplam Maaş"
-            value={`₺${totalPayroll().toLocaleString()}`}
+            value={`₺${totalPayroll.toLocaleString()}`}
             icon={<FiFilter />}
             color="bg-green-100 text-green-600"
           />
@@ -249,7 +232,6 @@ export default function ProjectDashboard() {
           />
         </div>
 
-        {/* Filters */}
         <div className="flex flex-col md:flex-row gap-3">
           <div className="relative flex-1">
             <FiSearch className="absolute left-3 top-3 text-gray-400" />
@@ -274,11 +256,9 @@ export default function ProjectDashboard() {
           </select>
         </div>
 
-        {/* Tables */}
         <EmployeeTable
           employees={filteredEmployees}
           loading={loading}
-          onVerify={() => {}}
           onYevmiyeOpen={() => setAddWorkLogOpen(true)}
         />
 
@@ -288,12 +268,11 @@ export default function ProjectDashboard() {
           onDelete={handleDeleteDeduction}
         />
 
-        {/* Modals */}
         <ProjectSettingsModal
           project={project}
           isOpen={settingsOpen}
           onClose={() => setSettingsOpen(false)}
-          onUpdate={(updatedProject: Project) => setProject(updatedProject)}
+          onUpdate={setProject}
           onDelete={handleDeleteProject}
         />
 
