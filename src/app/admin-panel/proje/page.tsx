@@ -51,11 +51,8 @@ export default function ProjectPage() {
     setEditingId(null);
   };
 
-  // onDelete fonksiyonu id parametresi beklemeli!
-  const handleDeleteProject = async (id: string) => {
-    // Burada projenin silinmesi işlemini ekleyebilirsin (örn. api call)
-    // await deleteProject(id);
-    // Silindikten sonra listeyi yenile:
+  // id kullanılmıyor, lint hatası almamak için "_" kullanıldı
+  const handleDeleteProject = async (_: string) => {
     fetchProjects(filter, searchTerm).then(setProjects);
   };
 
