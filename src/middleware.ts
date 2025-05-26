@@ -10,7 +10,7 @@ export function middleware(request: NextRequest) {
   }
 
   // Personel login sayfası izinli
-  if (pathname === "/personnel-login") {
+  if (pathname === "/personnel-panel/login") {
     return NextResponse.next();
   }
 
@@ -26,7 +26,7 @@ export function middleware(request: NextRequest) {
   if (pathname.startsWith("/personnel-panel")) {
     const personnelCookie = request.cookies.get("personnel_session");
     if (!personnelCookie) {
-      return NextResponse.redirect(new URL("/personnel-login", request.url));
+      return NextResponse.redirect(new URL("/personnel-panel/login", request.url));
     }
   }
 
