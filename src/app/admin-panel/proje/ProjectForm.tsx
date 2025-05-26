@@ -50,31 +50,35 @@ export default function ProjectForm({
     loadProjectData();
   }, [editingId]);
 
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  setError(null);
-  setIsSubmitting(true);
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    setIsSubmitting(true);
 
-  try {
-    let result;
-    if (editingId) {
-      result = await updateProject(editingId, formData);
-    } else {
-      result = await createProject(formData);
+    try {
+      let result;
+      if (editingId) {
+        result = await updateProject(editingId, formData);
+      } else {
+        result = await createProject(formData);
+      }
+      console.log('Başarılı:', result);
+      onSuccess();
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        console.error('Detaylı hata:', {
+          message: err.message,
+          // err.code veya err.details gibi varsa ekleyebilirsin
+        });
+        setError(err.message || 'Proje kaydedilemedi. Lütfen tekrar deneyin.');
+      } else {
+        console.error('Bilinmeyen hata:', err);
+        setError('Proje kaydedilemedi. Lütfen tekrar deneyin.');
+      }
+    } finally {
+      setIsSubmitting(false);
     }
-    console.log('Başarılı:', result); // Ekstra log
-    onSuccess();
-  } catch (err: any) { // Hata tipini any olarak belirtiyoruz
-    console.error('Detaylı hata:', {
-      message: err.message,
-      code: err.code,
-      details: err.details
-    });
-    setError(err.message || 'Proje kaydedilemedi. Lütfen tekrar deneyin.');
-  } finally {
-    setIsSubmitting(false);
-  }
-};
+  };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -93,7 +97,7 @@ const handleSubmit = async (e: React.FormEvent) => {
           {editingId ? 'Projeyi Düzenle' : 'Yeni Proje Ekle'}
         </h2>
       </div>
-      
+
       <form onSubmit={handleSubmit} className="p-6 space-y-4">
         {error && (
           <div className="p-3 bg-red-50 text-red-600 rounded-md flex items-center">
@@ -205,4 +209,6 @@ const handleSubmit = async (e: React.FormEvent) => {
       </form>
     </div>
   );
+}
+
 }
