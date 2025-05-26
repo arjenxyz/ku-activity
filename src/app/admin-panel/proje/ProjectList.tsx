@@ -43,14 +43,12 @@ const categoryConfig = {
 export default function ProjectList({
   projects,
   loading,
-  filter,
   onCreate,
   onEdit,
   onDelete
 }: {
   projects: Project[];
   loading: boolean;
-  filter: string;
   onCreate?: () => void;
   onEdit: (id: string) => void;
   onDelete: (id: string) => Promise<void>;
