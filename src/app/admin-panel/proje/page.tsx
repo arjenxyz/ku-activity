@@ -51,8 +51,9 @@ export default function ProjectPage() {
     setEditingId(null);
   };
 
-  // id kullanılmıyor, lint hatası almamak için "_" kullanıldı
-  const handleDeleteProject = async (_: string) => {
+  const handleDeleteProject = async (id: string) => {
+    // TODO: Proje silme işlemi ekle: await deleteProject(id);
+    // Şu anda sadece listeyi yenile
     fetchProjects(filter, searchTerm).then(setProjects);
   };
 
