@@ -32,21 +32,27 @@ export default function DeductionsList() {
     if (error) {
       setError(error.message);
     } else {
-      // Burada gelen employee alanı dizi olabiliyor, onu düzeltiyoruz:
-      const normalized: Deduction[] = (data ?? []).map((d: any) => ({
-        ...d,
-        employee: Array.isArray(d.employee)
-          ? (d.employee[0] ? { id: String(d.employee[0].id), name: String(d.employee[0].name) } : null)
-          : d.employee
-            ? { id: String(d.employee.id), name: String(d.employee.name) }
-            : null,
-        id: String(d.id),
-        employee_id: String(d.employee_id),
-        date: String(d.date),
-        type: String(d.type),
-        amount: Number(d.amount),
-        description: d.description !== undefined && d.description !== null ? String(d.description) : null,
-      }));
+      const normalized: Deduction[] = (data ?? []).map((d) => {
+        const employeeObj =
+          Array.isArray(d.employee)
+            ? (d.employee[0]
+              ? { id: String(d.employee[0].id), name: String(d.employee[0].name) }
+              : null)
+            : d.employee
+              ? { id: String(d.employee.id), name: String(d.employee.name) }
+              : null;
+
+        return {
+          ...d,
+          employee: employeeObj,
+          id: String(d.id),
+          employee_id: String(d.employee_id),
+          date: String(d.date),
+          type: String(d.type),
+          amount: Number(d.amount),
+          description: d.description !== undefined && d.description !== null ? String(d.description) : null,
+        } as Deduction;
+      });
       setDeductions(normalized);
       setError(null);
     }
