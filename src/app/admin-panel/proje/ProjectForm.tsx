@@ -41,7 +41,6 @@ export default function ProjectForm({
             });
           }
         } catch (err) {
-          console.error('Proje bilgileri yüklenirken hata:', err);
           setError('Proje bilgileri yüklenemedi');
         }
       }
@@ -56,25 +55,14 @@ export default function ProjectForm({
     setIsSubmitting(true);
 
     try {
-      let result;
       if (editingId) {
-        result = await updateProject(editingId, formData);
+        await updateProject(editingId, formData);
       } else {
-        result = await createProject(formData);
+        await createProject(formData);
       }
-      console.log('Başarılı:', result);
       onSuccess();
     } catch (err: unknown) {
-      if (err instanceof Error) {
-        console.error('Detaylı hata:', {
-          message: err.message,
-          // err.code veya err.details gibi varsa ekleyebilirsin
-        });
-        setError(err.message || 'Proje kaydedilemedi. Lütfen tekrar deneyin.');
-      } else {
-        console.error('Bilinmeyen hata:', err);
-        setError('Proje kaydedilemedi. Lütfen tekrar deneyin.');
-      }
+      setError('Proje kaydedilemedi. Lütfen tekrar deneyin.');
     } finally {
       setIsSubmitting(false);
     }
@@ -97,7 +85,6 @@ export default function ProjectForm({
           {editingId ? 'Projeyi Düzenle' : 'Yeni Proje Ekle'}
         </h2>
       </div>
-
       <form onSubmit={handleSubmit} className="p-6 space-y-4">
         {error && (
           <div className="p-3 bg-red-50 text-red-600 rounded-md flex items-center">
@@ -105,7 +92,6 @@ export default function ProjectForm({
             <span>{error}</span>
           </div>
         )}
-
         <div className="space-y-6">
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
@@ -122,7 +108,6 @@ export default function ProjectForm({
               placeholder="Proje adını giriniz"
             />
           </div>
-
           <div>
             <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-1">
               Konum
@@ -137,7 +122,6 @@ export default function ProjectForm({
               placeholder="Proje konumunu giriniz"
             />
           </div>
-
           <div>
             <label htmlFor="start_date" className="block text-sm font-medium text-gray-700 mb-1">
               Başlangıç Tarihi*
@@ -152,7 +136,6 @@ export default function ProjectForm({
               className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
             />
           </div>
-
           <div>
             <label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-1">
               Durum*
@@ -170,7 +153,6 @@ export default function ProjectForm({
               <option value="completed">Tamamlanan</option>
             </select>
           </div>
-
           <div>
             <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
               Açıklama
@@ -186,7 +168,6 @@ export default function ProjectForm({
             />
           </div>
         </div>
-
         <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-200 mt-6">
           <button
             type="button"
