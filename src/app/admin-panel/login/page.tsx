@@ -64,8 +64,12 @@ export default function AdminLogin() {
       document.cookie = `admin_session=${sessionToken}; Path=/; Secure; SameSite=Strict; Max-Age=${60 * 60 * 24 * 7}`;
       router.push("/admin-panel/proje");
 
-    } catch (err) {
-      console.error("Giriş hatası:", err);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        console.error("Giriş hatası:", err.message);
+      } else {
+        console.error("Giriş hatası:", err);
+      }
       setError("Bir hata oluştu. Lütfen tekrar deneyin.");
     } finally {
       setIsLoading(false);
@@ -76,8 +80,7 @@ export default function AdminLogin() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-900 via-blue-800 to-purple-900 p-4">
       <form
         onSubmit={handleLogin}
-        className="bg-white/5 backdrop-blur-lg rounded-2xl p-8 w-full max-w-md space-y-6 
-                 shadow-xl border border-white/10 relative overflow-hidden"
+        className="bg-white/5 backdrop-blur-lg rounded-2xl p-8 w-full max-w-md space-y-6 shadow-xl border border-white/10 relative overflow-hidden"
       >
         {/* Dekoratif arka plan elementleri */}
         <div className="absolute -top-32 -right-32 w-64 h-64 bg-indigo-500/20 rounded-full blur-3xl" />
@@ -85,8 +88,7 @@ export default function AdminLogin() {
 
         {/* Başlık */}
         <div className="text-center space-y-2">
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-indigo-300 to-blue-400 
-                         bg-clip-text text-transparent mb-2">
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-indigo-300 to-blue-400 bg-clip-text text-transparent mb-2">
             ArjenDev
           </h1>
           <h2 className="text-xl font-semibold text-gray-200">Yönetici Paneli Girişi</h2>
@@ -94,55 +96,39 @@ export default function AdminLogin() {
 
         {/* Form Alanları */}
         <div className="space-y-4">
-          {/* Email Input */}
           <div className="group relative">
             <input
               type="email"
               required
-              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg
-                         text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 
-                         focus:ring-indigo-400 transition-all duration-200"
+              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition-all duration-200"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               autoComplete="username"
               placeholder=" "
             />
-            <label className="absolute left-4 top-3.5 text-gray-400 pointer-events-none
-                              transition-all duration-200 group-focus-within:-translate-y-6 
-                              group-focus-within:text-sm group-focus-within:text-indigo-300 
-                              group-[input:not(:placeholder-shown)]:-translate-y-6 
-                              group-[input:not(:placeholder-shown)]:text-sm">
+            <label className="absolute left-4 top-3.5 text-gray-400 pointer-events-none transition-all duration-200 group-focus-within:-translate-y-6 group-focus-within:text-sm group-focus-within:text-indigo-300 group-[input:not(:placeholder-shown)]:-translate-y-6 group-[input:not(:placeholder-shown)]:text-sm">
               Email Adresiniz
             </label>
           </div>
 
-          {/* Password Input */}
           <div className="group relative">
             <input
               type="password"
               required
-              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg
-                         text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 
-                         focus:ring-indigo-400 transition-all duration-200"
+              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition-all duration-200"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               autoComplete="current-password"
               placeholder=" "
             />
-            <label className="absolute left-4 top-3.5 text-gray-400 pointer-events-none
-                              transition-all duration-200 group-focus-within:-translate-y-6 
-                              group-focus-within:text-sm group-focus-within:text-indigo-300 
-                              group-[input:not(:placeholder-shown)]:-translate-y-6 
-                              group-[input:not(:placeholder-shown)]:text-sm">
+            <label className="absolute left-4 top-3.5 text-gray-400 pointer-events-none transition-all duration-200 group-focus-within:-translate-y-6 group-focus-within:text-sm group-focus-within:text-indigo-300 group-[input:not(:placeholder-shown)]:-translate-y-6 group-[input:not(:placeholder-shown)]:text-sm">
               Şifreniz
             </label>
           </div>
         </div>
 
-        {/* Hata Mesajı */}
         {error && (
-          <div className="p-3 bg-red-400/10 border border-red-400/20 rounded-lg flex items-center 
-                          gap-2 animate-fade-in">
+          <div className="p-3 bg-red-400/10 border border-red-400/20 rounded-lg flex items-center gap-2 animate-fade-in">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5 text-red-400"
@@ -159,13 +145,10 @@ export default function AdminLogin() {
           </div>
         )}
 
-        {/* Giriş Butonu */}
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full py-3.5 bg-indigo-600 hover:bg-indigo-700 rounded-lg
-                   text-white font-medium transition-all duration-200 disabled:opacity-50 
-                   disabled:cursor-not-allowed relative overflow-hidden group"
+          className="w-full py-3.5 bg-indigo-600 hover:bg-indigo-700 rounded-lg text-white font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden group"
         >
           {isLoading ? (
             <div className="flex items-center justify-center gap-2">
@@ -194,18 +177,13 @@ export default function AdminLogin() {
           ) : (
             <>
               <span className="relative z-10">Giriş Yap</span>
-              <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/30 to-transparent
-                             opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+              <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
             </>
           )}
         </button>
 
-        {/* Ekstra Linkler */}
         <div className="text-center pt-4 border-t border-white/10">
-          <a
-            href="#"
-            className="text-sm text-gray-400 hover:text-indigo-300 transition-colors"
-          >
+          <a href="#" className="text-sm text-gray-400 hover:text-indigo-300 transition-colors">
             Şifremi Unuttum
           </a>
         </div>
