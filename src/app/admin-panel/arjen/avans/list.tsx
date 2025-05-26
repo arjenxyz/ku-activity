@@ -1,5 +1,3 @@
-'use client';
-
 import { useEffect, useState } from 'react';
 import { supabase } from '../../../lib/supabaseClient';
 import { FiTrash2 } from 'react-icons/fi';
@@ -26,17 +24,24 @@ export default function DeductionsList() {
 
   const fetchDeductions = async () => {
     setLoading(true);
+    // Supabase sorgusuna Deduction[] tipini veriyoruz
     const { data, error } = await supabase
-      .from('deductions')
+      .from<Deduction>('deductions')
       .select('id, employee_id, date, type, amount, description, employee:employee_id(id, name)')
       .order('date', { ascending: false });
-    if (error) setError(error.message);
-    else setDeductions(
-      (data || []).map((d: any) => ({
-        ...d,
-        employee: Array.isArray(d.employee) ? d.employee[0] || null : d.employee ?? null,
-      }))
-    );
+
+    if (error) {
+      setError(error.message);
+    } else {
+      setDeductions(
+        (data || []).map(d => ({
+          ...d,
+          // employee'nin bazen dizi olarak gelebileceği durum için kontrol
+          employee: Array.isArray(d.employee) ? d.employee[0] || null : d.employee ?? null,
+        }))
+      );
+      setError(null);
+    }
     setLoading(false);
   };
 
