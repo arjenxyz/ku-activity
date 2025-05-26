@@ -42,7 +42,7 @@ export default function ProjectDashboard() {
   const projectId = Array.isArray(projectIdRaw) ? projectIdRaw[0] : projectIdRaw;
 
   const initializeData = useCallback(async () => {
-    if (!projectId) return; // Hook dışında kontrol değil, burada kontrol yapılıyor
+    if (!projectId) return;
     try {
       setLoading(true);
       const [projectData, employeesData, deductionsData] = await Promise.all([
@@ -98,6 +98,13 @@ export default function ProjectDashboard() {
       console.error('Proje silme hatası:', error);
     }
   }, [router]);
+
+  // YENİ: onVerify fonksiyonu eklendi
+  const handleVerifyEmployee = (id: string) => {
+    // Burada personelin doğrulama işlemini gerçekleştir.
+    // Örneğin bir API çağrısı yapabilir, state güncelleyebilirsin.
+    console.log("Doğrulanan personel id:", id);
+  };
 
   useEffect(() => {
     if (projectId) {
@@ -215,7 +222,12 @@ export default function ProjectDashboard() {
             ))}
           </select>
         </div>
-        <EmployeeTable employees={filteredEmployees} loading={loading} onYevmiyeOpen={() => setAddWorkLogOpen(true)} />
+        <EmployeeTable
+          employees={filteredEmployees}
+          loading={loading}
+          onYevmiyeOpen={() => setAddWorkLogOpen(true)}
+          onVerify={handleVerifyEmployee} // <-- EKLENDİ!
+        />
         <DeductionTable deductions={deductions} loading={loading} onDelete={handleDeleteDeduction} />
         <ProjectSettingsModal project={project} isOpen={settingsOpen} onClose={() => setSettingsOpen(false)} onUpdate={setProject} onDelete={handleDeleteProject} />
         <AddWorkLogModal isOpen={addWorkLogOpen} onClose={() => setAddWorkLogOpen(false)} employees={employees} onSubmit={initializeData} projectId={projectId} />
