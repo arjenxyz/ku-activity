@@ -1,16 +1,7 @@
 import { supabase } from '../app/lib/supabaseClient';
 import type { Employee, AttendanceStats } from '@/types/adminTypes';
+import type { PostgrestError } from '@supabase/supabase-js';
 import dayjs from 'dayjs';
-
-type RawEmployee = {
-  position: string | null;
-};
-
-type AttendanceRecord = {
-  status: 'present' | 'absent' | 'late';
-  date: string;
-  employee_id: string;
-};
 
 export const fetchEmployees = async (
   projectId: string,
@@ -30,8 +21,6 @@ export const fetchEmployees = async (
     .eq('project_id', projectId)
     .neq('position', null);
 
-  const departments = (deptData as RawEmployee[] | null)?.map((d) => d.position) ?? [];
-  
   // Çalışanlar
   const { data: employeesData } = await supabase
     .from('employees')
@@ -45,22 +34,23 @@ export const fetchEmployees = async (
     .gte('date', monthStart)
     .lte('date', monthEnd);
 
+  // İstatistikler
   const stats = {
-    present: (attendanceData as AttendanceRecord[] | null)?.filter(a => a.status === 'present').length ?? 0,
-    absent: (attendanceData as AttendanceRecord[] | null)?.filter(a => a.status === 'absent').length ?? 0,
-    late: (attendanceData as AttendanceRecord[] | null)?.filter(a => a.status === 'late').length ?? 0,
+    present: attendanceData?.filter(a => a.status === 'present').length || 0,
+    absent: attendanceData?.filter(a => a.status === 'absent').length || 0,
+    late: attendanceData?.filter(a => a.status === 'late').length || 0,
   };
 
   return {
-    departments: [...new Set(departments.filter(Boolean))] as string[],
-    employees: (employeesData as Employee[]) ?? [],
+    departments: [...new Set(deptData?.map(d => d.position))] as string[],
+    employees: employeesData as Employee[],
     attendanceStats: stats
   };
 };
 
 export const verifyDailyAttendance = async (
   employeeId: string
-): Promise<{ error: any }> => {
+): Promise<{ error: PostgrestError | null }> => {
   const { error } = await supabase
     .from('attendance')
     .insert([{
@@ -68,6 +58,5 @@ export const verifyDailyAttendance = async (
       date: dayjs().format('YYYY-MM-DD'),
       status: 'present'
     }]);
-
   return { error };
 };
