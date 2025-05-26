@@ -39,7 +39,6 @@ type Deduction = {
   description: string | null;
 };
 
-// Modern dark palette for official/corporate look
 const FILTERS = [
   {
     value: 'all',
@@ -94,7 +93,6 @@ export default function PersonelPanel() {
     }
 
     (async () => {
-      // Session'ı kontrol et
       const { data: session, error: sessionError } = await supabase
         .from('personnel_sessions')
         .select('employee_id, expires_at')
@@ -106,23 +104,22 @@ export default function PersonelPanel() {
         return;
       }
 
-      // Personel bilgisi
       const { data: employeeData } = await supabase
-        .from('employees')
+        .from<Employee>('employees')
         .select('*')
         .eq('id', session.employee_id)
         .single();
       setEmployee(employeeData);
 
-      // Kayıtlar
       setLoading(true);
       const { data: workData } = await supabase
-        .from('work_logs')
+        .from<WorkLog>('work_logs')
         .select('*')
         .eq('employee_id', session.employee_id)
         .order('date', { ascending: false });
+
       const { data: deductionsData } = await supabase
-        .from('deductions')
+        .from<Deduction>('deductions')
         .select('*')
         .eq('employee_id', session.employee_id)
         .order('date', { ascending: false });
@@ -133,57 +130,68 @@ export default function PersonelPanel() {
     })();
   }, [router]);
 
-  // Hesaplamalar
   const totalWork = workLogs.filter(w => w.amount === 1).length + workLogs.filter(w => w.amount !== 1).length * 0.5;
   const totalEarned = employee ? totalWork * employee.daily_wage : 0;
   const totalAdvance = deductions.filter(d => d.type === 'advance').reduce((acc, d) => acc + d.amount, 0);
   const totalDeduct = deductions.filter(d => d.type !== 'advance').reduce((acc, d) => acc + d.amount, 0);
   const netSalary = employee ? totalEarned - totalAdvance - totalDeduct : 0;
 
-  // Filtreye göre içerik
   const filteredContent = (() => {
     if (activeFilter === 'work') {
-      return <RecordTable
-        title="Yevmiye Kayıtları"
-        icon={<FiBriefcase className="text-[#5BE49B]" />}
-        records={workLogs}
-        columns={[
-          { label: 'Tarih', render: (r: WorkLog) => r.date },
-          { label: 'Tip', render: (r: WorkLog) => (
-            <span className={`px-2 py-1 rounded-full ${r.amount === 1
-              ? 'bg-[#1E3231]/40 text-[#5BE49B]'
-              : 'bg-[#2C241A]/40 text-[#FFB86B]'}`}>
-              {r.amount === 1 ? 'Tam Gün' : 'Yarım Gün'}
-            </span>
-          )},
-          { label: 'Açıklama', render: (r: WorkLog) => r.description || '-' }
-        ]}
-      />;
+      return (
+        <RecordTable<WorkLog>
+          title="Yevmiye Kayıtları"
+          icon={<FiBriefcase className="text-[#5BE49B]" />}
+          records={workLogs}
+          columns={[
+            { label: 'Tarih', render: (r) => r.date },
+            {
+              label: 'Tip',
+              render: (r) => (
+                <span
+                  className={`px-2 py-1 rounded-full ${
+                    r.amount === 1
+                      ? 'bg-[#1E3231]/40 text-[#5BE49B]'
+                      : 'bg-[#2C241A]/40 text-[#FFB86B]'
+                  }`}
+                >
+                  {r.amount === 1 ? 'Tam Gün' : 'Yarım Gün'}
+                </span>
+              )
+            },
+            { label: 'Açıklama', render: (r) => r.description || '-' }
+          ]}
+        />
+      );
     }
     if (activeFilter === 'advance') {
-      return <RecordTable
-        title="Avans Kayıtları"
-        icon={<FiCreditCard className="text-[#FFB86B]" />}
-        records={deductions.filter(d => d.type === 'advance')}
-        columns={[
-          { label: 'Tarih', render: (r: Deduction) => r.date },
-          { label: 'Tutar', render: (r: Deduction) => <span className="font-medium">{r.amount} ₺</span> },
-          { label: 'Açıklama', render: (r: Deduction) => r.description || '-' }
-        ]}
-      />;
+      return (
+        <RecordTable<Deduction>
+          title="Avans Kayıtları"
+          icon={<FiCreditCard className="text-[#FFB86B]" />}
+          records={deductions.filter(d => d.type === 'advance')}
+          columns={[
+            { label: 'Tarih', render: (r) => r.date },
+            { label: 'Tutar', render: (r) => <span className="font-medium">{r.amount} ₺</span> },
+            { label: 'Açıklama', render: (r) => r.description || '-' }
+          ]}
+        />
+      );
     }
     if (activeFilter === 'deduction') {
-      return <RecordTable
-        title="Kesinti Kayıtları"
-        icon={<FiXCircle className="text-[#FF7F7F]" />}
-        records={deductions.filter(d => d.type !== 'advance')}
-        columns={[
-          { label: 'Tarih', render: (r: Deduction) => r.date },
-          { label: 'Tür', render: (r: Deduction) => r.type },
-          { label: 'Tutar', render: (r: Deduction) => <span className="font-medium">{r.amount} ₺</span> },
-          { label: 'Açıklama', render: (r: Deduction) => r.description || '-' }
-        ]}
-      />;
+      return (
+        <RecordTable<Deduction>
+          title="Kesinti Kayıtları"
+          icon={<FiXCircle className="text-[#FF7F7F]" />}
+          records={deductions.filter(d => d.type !== 'advance')}
+          columns={[
+            { label: 'Tarih', render: (r) => r.date },
+            { label: 'Tür', render: (r) => r.type },
+            { label: 'Tutar', render: (r) => <span className="font-medium">{r.amount} ₺</span> },
+            { label: 'Açıklama', render: (r) => r.description || '-' }
+          ]}
+        />
+      );
     }
     if (activeFilter === 'salary') {
       return (
@@ -221,44 +229,50 @@ export default function PersonelPanel() {
         </div>
       );
     }
-    // Tüm Kayıtlar
     return (
       <div className="space-y-6">
-        <RecordTable
+        <RecordTable<WorkLog>
           title="Yevmiye Kayıtları"
           icon={<FiBriefcase className="text-[#5BE49B]" />}
           records={workLogs}
           columns={[
-            { label: 'Tarih', render: (r: WorkLog) => r.date },
-            { label: 'Tip', render: (r: WorkLog) => (
-              <span className={`px-2 py-1 rounded-full ${r.amount === 1
-                ? 'bg-[#1E3231]/40 text-[#5BE49B]'
-                : 'bg-[#2C241A]/40 text-[#FFB86B]'}`}>
-                {r.amount === 1 ? 'Tam Gün' : 'Yarım Gün'}
-              </span>
-            )},
-            { label: 'Açıklama', render: (r: WorkLog) => r.description || '-' }
+            { label: 'Tarih', render: (r) => r.date },
+            {
+              label: 'Tip',
+              render: (r) => (
+                <span
+                  className={`px-2 py-1 rounded-full ${
+                    r.amount === 1
+                      ? 'bg-[#1E3231]/40 text-[#5BE49B]'
+                      : 'bg-[#2C241A]/40 text-[#FFB86B]'
+                  }`}
+                >
+                  {r.amount === 1 ? 'Tam Gün' : 'Yarım Gün'}
+                </span>
+              )
+            },
+            { label: 'Açıklama', render: (r) => r.description || '-' }
           ]}
         />
-        <RecordTable
+        <RecordTable<Deduction>
           title="Avans Kayıtları"
           icon={<FiCreditCard className="text-[#FFB86B]" />}
           records={deductions.filter(d => d.type === 'advance')}
           columns={[
-            { label: 'Tarih', render: (r: Deduction) => r.date },
-            { label: 'Tutar', render: (r: Deduction) => <span className="font-medium">{r.amount} ₺</span> },
-            { label: 'Açıklama', render: (r: Deduction) => r.description || '-' }
+            { label: 'Tarih', render: (r) => r.date },
+            { label: 'Tutar', render: (r) => <span className="font-medium">{r.amount} ₺</span> },
+            { label: 'Açıklama', render: (r) => r.description || '-' }
           ]}
         />
-        <RecordTable
+        <RecordTable<Deduction>
           title="Kesinti Kayıtları"
           icon={<FiXCircle className="text-[#FF7F7F]" />}
           records={deductions.filter(d => d.type !== 'advance')}
           columns={[
-            { label: 'Tarih', render: (r: Deduction) => r.date },
-            { label: 'Tür', render: (r: Deduction) => r.type },
-            { label: 'Tutar', render: (r: Deduction) => <span className="font-medium">{r.amount} ₺</span> },
-            { label: 'Açıklama', render: (r: Deduction) => r.description || '-' }
+            { label: 'Tarih', render: (r) => r.date },
+            { label: 'Tür', render: (r) => r.type },
+            { label: 'Tutar', render: (r) => <span className="font-medium">{r.amount} ₺</span> },
+            { label: 'Açıklama', render: (r) => r.description || '-' }
           ]}
         />
       </div>
@@ -269,92 +283,59 @@ export default function PersonelPanel() {
     <div className="min-h-screen bg-[#181C25] dark:bg-[#181C25] text-[#E8EAED] p-4 md:p-8">
       <div className="max-w-6xl mx-auto">
         <div className="flex items-center justify-between mb-8">
-          <h1 className="text-2xl font-bold flex items-center gap-3 text-[#E8EAED]">
-            <FiUser className="w-6 h-6 text-[#7FB4FF]" />
-            <span className="bg-gradient-to-r from-[#7FB4FF] to-[#B085F5] bg-clip-text text-transparent">
-              Personel Paneli
-            </span>
-          </h1>
-        </div>
-        {employee && (
-          <>
-            <div className="bg-[#23293A] rounded-xl shadow-sm p-6 mb-6 grid grid-cols-1 md:grid-cols-4 gap-4 border border-[#28344a]">
-              <InfoBlock
-                icon={<FiUser className="w-5 h-5 text-[#7FB4FF]" />}
-                label="Ad Soyad"
-                value={employee.name}
-              />
-              <InfoBlock
-                icon={<FiBriefcase className="w-5 h-5 text-[#7FB4FF]" />}
-                label="Pozisyon"
-                value={employee.position}
-              />
-              <InfoBlock
-                icon={<FiDollarSign className="w-5 h-5 text-[#7FB4FF]" />}
-                label="Günlük Ücret"
-                value={`${employee.daily_wage} ₺`}
-              />
-              <InfoBlock
-                icon={<FiDollarSign className="w-5 h-5 text-[#B085F5]" />}
-                label="Toplam Aldığı"
-                value={`${totalEarned} ₺`}
-              />
-            </div>
-            <div className="flex flex-wrap gap-2 mb-6">
-              {FILTERS.map(filter => (
-                <button
-                  key={filter.value}
-                  onClick={() => setActiveFilter(filter.value)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all font-medium border ${filter.border} ${
-                    activeFilter === filter.value
-                      ? `${filter.color} ring-2 ring-[#7FB4FF]`
-                      : 'bg-[#222736] text-[#B5B8C5] hover:bg-[#233A5B]/30'
-                  }`}
-                >
-                  {filter.icon}
-                  {filter.label}
-                </button>
-              ))}
-            </div>
-            {loading ? (
-              <div className="text-center p-8">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#7FB4FF] mx-auto"></div>
-                <p className="mt-3 text-[#B5B8C5]">Yükleniyor...</p>
+          <h1 className="text-2xl font-bold">Personel Paneli</h1>
+          {employee && (
+            <div className="flex items-center gap-3 bg-[#23293A] p-3 rounded-xl shadow-sm border border-[#28344a]">
+              <FiUser className="text-[#7FB4FF] w-6 h-6" />
+              <div>
+                <p className="font-semibold">{employee.name}</p>
+                <p className="text-sm text-[#B5B8C5]">{employee.position}</p>
               </div>
-            ) : (
-              filteredContent
-            )}
-          </>
-        )}
-        {!employee && (
-          <div className="text-center text-[#B5B8C5] text-lg mt-20">
-            Personel bilgisi bulunamadı. Lütfen tekrar giriş yapın.
-          </div>
+            </div>
+          )}
+        </div>
+
+        <div className="flex flex-wrap gap-3 mb-8">
+          {FILTERS.map(filter => (
+            <button
+              key={filter.value}
+              onClick={() => setActiveFilter(filter.value)}
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl border transition-colors ${filter.border} ${
+                activeFilter === filter.value ? filter.color : 'text-[#B5B8C5] hover:bg-[#28344a]'
+              }`}
+            >
+              {filter.icon}
+              {filter.label}
+            </button>
+          ))}
+        </div>
+
+        {loading ? (
+          <div className="text-center py-20">Yükleniyor...</div>
+        ) : (
+          filteredContent
         )}
       </div>
     </div>
   );
 }
 
-// Bilgi bloğu
-const InfoBlock = ({ icon, label, value }: { icon: React.ReactNode; label: string; value: string | number }) => (
-  <div className="flex items-center gap-3">
-    <div className="p-2 bg-[#20304a]/60 rounded-lg">
-      {icon}
-    </div>
-    <div>
-      <div className="text-sm text-[#B5B8C5]">{label}</div>
-      <div className="font-medium text-[#E8EAED]">{value}</div>
-    </div>
-  </div>
-);
+type Column<T> = {
+  label: string;
+  render: (row: T) => React.ReactNode;
+};
 
-const RecordTable = ({ title, icon, records, columns }: { 
+function RecordTable<T>({
+  title,
+  icon,
+  records,
+  columns
+}: {
   title: string;
   icon: React.ReactNode;
-  records: any[];
-  columns: { label: string; render: (row: any) => any }[];
-}) => {
+  records: T[];
+  columns: Column<T>[];
+}) {
   return (
     <div className="bg-[#23293A] rounded-xl shadow-sm border border-[#28344a] overflow-hidden">
       <div className="px-6 py-4 border-b border-[#28344a] flex items-center gap-3">
@@ -368,18 +349,18 @@ const RecordTable = ({ title, icon, records, columns }: {
           <table className="w-full">
             <thead className="bg-[#1A1F2B]">
               <tr>
-                {columns.map((col, index) => (
-                  <th key={index} className="px-6 py-3 text-left text-sm font-medium text-[#B5B8C5]">
+                {columns.map((col, idx) => (
+                  <th key={idx} className="px-6 py-3 text-left text-sm font-medium text-[#B5B8C5]">
                     {col.label}
                   </th>
                 ))}
               </tr>
             </thead>
             <tbody className="divide-y divide-[#28344a]">
-              {records.map((record, rowIndex) => (
-                <tr key={rowIndex} className="hover:bg-[#20304a]/40 transition-colors">
-                  {columns.map((col, colIndex) => (
-                    <td key={colIndex} className="px-6 py-4 text-sm text-[#E8EAED]">
+              {records.map((record, rowIdx) => (
+                <tr key={rowIdx} className="hover:bg-[#20304a]/40 transition-colors">
+                  {columns.map((col, colIdx) => (
+                    <td key={colIdx} className="px-6 py-4 text-sm text-[#E8EAED]">
                       {col.render(record)}
                     </td>
                   ))}
@@ -391,25 +372,26 @@ const RecordTable = ({ title, icon, records, columns }: {
       )}
     </div>
   );
-};
+}
 
-const SummaryCard = ({ title, value, icon, color }: { 
+function SummaryCard({
+  title,
+  value,
+  icon,
+  color
+}: {
   title: string;
   value: string | number;
   icon: React.ReactNode;
   color: string;
-}) => {
+}) {
   return (
-    <div className={`${color} rounded-xl p-4`}>
-      <div className="flex items-center justify-between">
-        <div>
-          <div className="text-sm text-[#B5B8C5]">{title}</div>
-          <div className="text-2xl font-bold text-[#E8EAED] mt-1">{value}</div>
-        </div>
-        <div className="p-2 bg-white/10 rounded-lg">
-          {icon}
-        </div>
+    <div className={`rounded-xl p-6 flex items-center gap-4 shadow-sm border border-[#28344a] ${color}`}>
+      <div className="w-12 h-12 flex items-center justify-center bg-white/10 rounded-lg">{icon}</div>
+      <div>
+        <p className="text-sm text-[#B5B8C5]">{title}</p>
+        <p className="font-semibold text-lg">{value}</p>
       </div>
     </div>
   );
-};
+}
