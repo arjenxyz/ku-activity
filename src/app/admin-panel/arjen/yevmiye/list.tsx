@@ -18,6 +18,16 @@ interface WorkLog {
   description: string | null;
 }
 
+// Supabase'den gelen ham veri tipi (employee dizisi olarak geliyor)
+type RawWorkLog = {
+  id: string;
+  employee_id: string;
+  date: string;
+  amount: number;
+  description: string | null;
+  employee: Employee[] | null;
+};
+
 export default function WorkLogsList() {
   const [logs, setLogs] = useState<WorkLog[]>([]);
   const [loading, setLoading] = useState(true);
@@ -26,16 +36,24 @@ export default function WorkLogsList() {
   const fetchLogs = async () => {
     setLoading(true);
     const { data, error } = await supabase
-      .from('work_logs')
+      .from<RawWorkLog>('work_logs')
       .select('id, employee_id, date, amount, description, employee:employee_id(id, name)')
       .order('date', { ascending: false });
-    if (error) setError(error.message);
-    else setLogs(
-      (data || []).map((log: any) => ({
-        ...log,
-        employee: Array.isArray(log.employee) ? log.employee[0] || null : log.employee ?? null,
-      }))
-    );
+
+    if (error) {
+      setError(error.message);
+    } else {
+      setLogs(
+        (data || []).map((log) => ({
+          id: log.id,
+          employee_id: log.employee_id,
+          date: log.date,
+          amount: log.amount,
+          description: log.description,
+          employee: Array.isArray(log.employee) ? log.employee[0] ?? null : log.employee ?? null,
+        }))
+      );
+    }
     setLoading(false);
   };
 
@@ -70,7 +88,7 @@ export default function WorkLogsList() {
               </tr>
             </thead>
             <tbody>
-              {logs.map(log => (
+              {logs.map((log) => (
                 <tr key={log.id} className="hover:bg-gray-50">
                   <td className="border px-2 py-1">{log.employee?.name || '-'}</td>
                   <td className="border px-2 py-1">{log.date}</td>
