@@ -11,12 +11,9 @@ export type Project = {
 };
 
 export type ProjectFormData = {
-  id: string;
   name: string;
   location?: string;
   start_date: string;
   description?: string;
   status: 'active' | 'planned' | 'completed' | 'archived';
-  onEdit: (id: string) => void;
-  onDelete: () => Promise<void>;
 };
