@@ -88,7 +88,7 @@ export default function PersonelPanel() {
   useEffect(() => {
     const sessionToken = getSessionTokenFromCookie();
     if (!sessionToken) {
-      router.replace('/personnel-login');
+      router.replace('/personnel-panel/login');
       return;
     }
 
@@ -100,7 +100,7 @@ export default function PersonelPanel() {
         .single();
 
       if (!session || sessionError || dayjs(session.expires_at).isBefore(dayjs())) {
-        router.replace('/personnel-login');
+        router.replace('/personnel-panel/login');
         return;
       }
 
