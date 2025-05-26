@@ -17,8 +17,17 @@ type Employee = {
   password_code: string | null;
 };
 
+type BlobData = {
+  width: number;
+  height: number;
+  top: number;
+  left: number;
+  scale: number;
+  duration: number;
+};
+
 // Helper: Random blob data for animated bg (client-only, avoids hydration mismatch)
-const generateBlobs = (count: number) =>
+const generateBlobs = (count: number): BlobData[] =>
   Array.from({ length: count }, () => ({
     width: 120 + Math.random() * 120,
     height: 120 + Math.random() * 120,
@@ -39,7 +48,7 @@ export default function PersonnelLogin() {
   const [isLoading, setIsLoading] = useState(false);
   const [isProjectOpen, setIsProjectOpen] = useState(false);
   const [isEmployeeOpen, setIsEmployeeOpen] = useState(false);
-  const [blobs, setBlobs] = useState<any[]>([]); // for bg animation
+  const [blobs, setBlobs] = useState<BlobData[]>([]); // for bg animation
   const projectRef = useRef<HTMLDivElement>(null);
   const employeeRef = useRef<HTMLDivElement>(null);
 
@@ -316,37 +325,57 @@ export default function PersonnelLogin() {
             </div>
             <input
               type="password"
-              className="flex-1 bg-transparent outline-none text-gray-700 dark:text-gray-200 text-base font-medium placeholder-gray-400 dark:placeholder-gray-500"
+              className="flex-1 bg-transparent outline-none text-gray-700 dark:text-gray-200 text-base font-medium placeholder-gray-400"
               placeholder="Şifre"
               value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
               disabled={!employeeId}
-              onChange={e => setPassword(e.target.value)}
-              autoComplete="off"
+              autoComplete="current-password"
+              maxLength={40}
             />
           </motion.div>
+        </div>
 
-          {/* Hata Mesajı */}
+        {/* Hata Mesajı */}
+        <AnimatePresence>
           {error && (
             <motion.div
-              initial={{ opacity: 0, y: 5 }}
+              initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-red-500 text-sm font-medium select-none"
+              exit={{ opacity: 0 }}
+              className="px-4 py-3 bg-red-100 dark:bg-red-900/20 border border-red-200 dark:border-red-700/30 rounded-xl text-red-600 dark:text-red-300 text-center text-sm mt-1"
             >
-              {error}
+              ⚠️ {error}
             </motion.div>
           )}
+        </AnimatePresence>
 
-          {/* Giriş Butonu */}
-          <button
-            type="submit"
-            disabled={isLoading}
-            className={`w-full rounded-xl py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold text-lg
-              hover:from-blue-700 hover:to-indigo-700 transition-colors
-              disabled:opacity-50 disabled:cursor-not-allowed
-            `}
-          >
-            {isLoading ? 'Giriş Yapılıyor...' : 'Giriş Yap'}
-          </button>
+        {/* Giriş Butonu */}
+        <motion.button
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          disabled={isLoading || !projectId || !employeeId || !password}
+          className={`w-full py-4 rounded-xl bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-800 text-gray-700 dark:text-gray-200 font-semibold text-lg relative overflow-hidden group transition-all
+            ${isLoading || !projectId || !employeeId || !password ? 'opacity-60 cursor-not-allowed' : ''}
+          `}
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-20 transition-opacity pointer-events-none" />
+          <span className="relative z-10 flex items-center justify-center gap-2">
+            {isLoading ? (
+              <motion.div
+                className="w-5 h-5 border-2 border-gray-500 dark:border-gray-300 rounded-full border-t-transparent animate-spin"
+              />
+            ) : (
+              <FiLock className="w-5 h-5" />
+            )}
+            {isLoading ? 'Giriş Yapılıyor...' : 'Sisteme Giriş Yap'}
+          </span>
+        </motion.button>
+
+        {/* Alt Bilgi */}
+        <div className="text-center text-gray-500 dark:text-gray-400 text-xs font-light tracking-wide flex items-center justify-center gap-2 pt-2">
+          <span className="opacity-70">ArjenDev</span>
         </div>
       </motion.form>
     </div>
