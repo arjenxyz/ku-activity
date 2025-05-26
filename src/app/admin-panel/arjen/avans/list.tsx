@@ -26,7 +26,7 @@ export default function DeductionsList() {
     setLoading(true);
     // Supabase sorgusuna Deduction[] tipini veriyoruz
     const { data, error } = await supabase
-      .from<Deduction>('deductions')
+      .from<Deduction, Deduction>('deductions')
       .select('id, employee_id, date, type, amount, description, employee:employee_id(id, name)')
       .order('date', { ascending: false });
 
