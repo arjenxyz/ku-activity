@@ -2,18 +2,16 @@ import { FiCheckCircle, FiXCircle } from 'react-icons/fi';
 import type { Employee } from '@/types/adminTypes';
 import { TableHeader, TableCell } from '@/components/ui/Table';
 
-// src/components/tables/EmployeeTable.tsx içindeki Props interface'i
 type Props = {
   employees: Employee[];
   loading: boolean;
   onVerify: (employeeId: string) => void;
-  onYevmiyeOpen: (employeeId: string) => void;
 };
+
 export const EmployeeTable = ({
   employees,
   loading,
   onVerify,
-  onYevmiyeOpen
 }: Props) => {
   return (
     <div className="bg-white shadow rounded-xl overflow-hidden">
@@ -28,7 +26,6 @@ export const EmployeeTable = ({
               <TableHeader>İşlemler</TableHeader>
             </tr>
           </thead>
-          
           <tbody className="bg-white divide-y divide-gray-200">
             {loading ? (
               <tr>
@@ -53,7 +50,6 @@ export const EmployeeTable = ({
                       {emp.monthly_attendance?.filter(d => d > 0).length || 0} Gün
                     </div>
                   </TableCell>
-                  
                   <TableCell className="md:table-cell hidden">
                     <div className="font-medium">{emp.total_days}</div>
                     <div className="text-xs text-gray-500">
@@ -61,7 +57,6 @@ export const EmployeeTable = ({
                       {emp.monthly_attendance?.length || 0} gün
                     </div>
                   </TableCell>
-
                   <TableCell>
                     <div className="font-medium">
                       ₺ {(emp.daily_wage * (emp.total_days || 0)).toLocaleString()}
@@ -70,7 +65,6 @@ export const EmployeeTable = ({
                       {emp.total_days} Gün
                     </div>
                   </TableCell>
-
                   <TableCell>
                     {emp.today_verified ? (
                       <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
@@ -82,7 +76,6 @@ export const EmployeeTable = ({
                       </span>
                     )}
                   </TableCell>
-
                   <TableCell>
                     {!emp.today_verified && (
                       <button
