@@ -288,7 +288,6 @@ setDeductions(deductionsData as Deduction[]);
               <FiUser className="text-[#7FB4FF] w-6 h-6" />
               <div>
                 <p className="font-semibold">{employee.name}</p>
-                <p className="text-sm text-[#B5B8C5]">{employee.position}</p>
               </div>
             </div>
           )}
