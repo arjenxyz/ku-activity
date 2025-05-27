@@ -44,11 +44,11 @@ const MenuItems = ({ pathname, projectId }: MenuItemsProps) => {
           },
           {
             label: "Avans Ekle",
-            href: `/admin-panel/proje/${projectId}/add-advance`,
+            href: `/admin-panel/arjen/avans`,
           },
           {
             label: "Yevmiye Ekle",
-            href: `/admin-panel/proje/${projectId}/add-daily`,
+            href: `/admin-panel/arjen/yevmiye`,
           },
           {
             label: "Asgari Ekle",
@@ -64,7 +64,7 @@ const MenuItems = ({ pathname, projectId }: MenuItemsProps) => {
         subItems: [
           {
             label: "Personel Sorgulaması",
-            href: `/admin-panel/sorgulama/personel/${projectId}`,
+            href: `/admin-panel/arjen/sorgulama/${projectId}`,
           },
           {
             label: "Admin Sorgulama",
