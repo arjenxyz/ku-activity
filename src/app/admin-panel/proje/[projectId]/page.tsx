@@ -16,7 +16,7 @@ import { DeductionTable } from '@/components/tables/DeductionTable';
 import { StatCard } from '@/components/ui/StatCard';
 import { ActionButton } from '@/components/ui/ActionButton';
 import { MobileMenu } from '@/components/ui/MobileMenu';
-import { Sidebar } from '../../../../components/ui/Sidebar';
+import { Sidebar } from '@/components/ui/Sidebar/Sidebar';
 import type { Employee, AttendanceStats, Project, Deduction } from '@/types/adminTypes';
 import { DATE_FORMATS, formatDate, projectDateHelpers } from '@/utils/dateUtils';
 
