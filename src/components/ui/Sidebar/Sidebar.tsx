@@ -27,20 +27,22 @@ const Sidebar: React.FC<SidebarProps> = ({ setSettingsOpen }) => {
   return (
     <>
       {/* Menü Açma Butonu (Su Damlası Efekti) */}
-      <AnimatePresence> {/* Bu kısmı AnimatePresence içine aldık */}
+      <AnimatePresence>
         {!sidebarOpen && (
           <motion.button
             onClick={() => setSidebarOpen(true)}
-            // Yeni pozisyonlama: fixed, sol kenara yapışık ve yarısı dışarıda
-            className="group fixed top-1/2 -translate-y-1/2 left-0 z-50 transform -translate-x-1/2" // `transform -translate-x-1/2` ile butonun yarısı dışarıda kalacak
-            initial={{ x: -50, opacity: 0 }} // Başlangıçta ekran dışı ve görünmez
-            animate={{ x: 0, opacity: 1 }}   // Animasyonla yarı içeri gel ve görünür ol
-            exit={{ x: -50, opacity: 0 }}    // Çıkarken tekrar dışarı git
+            // Daha basit pozisyonlama: Fixed ve dikey ortalama.
+            // translateX değerini tamamen motion animasyonlarına bırakıyoruz.
+            className="group fixed top-1/2 -translate-y-1/2 z-50"
+            // initial ve animate değerlerini daha doğru ayarlıyoruz
+            initial={{ x: -60, opacity: 0 }} // Başlangıçta daha fazla dışarıda
+            animate={{ x: -10, opacity: 1 }} // Yarısı içeride (yaklaşık 10px içeride kalacak)
+            exit={{ x: -60, opacity: 0 }}   // Çıkarken tekrar dışarı
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
             aria-label="Toggle sidebar"
           >
             <div className="relative">
-              {/* Ana Buton: backdrop-blur-lg ile cam efekti */}
+              {/* Ana Buton */}
               <div
                 className="p-1.5 rounded-full backdrop-blur-lg
                            bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10
@@ -48,13 +50,13 @@ const Sidebar: React.FC<SidebarProps> = ({ setSettingsOpen }) => {
                            dark:shadow-white/10 dark:hover:shadow-white/20
                            transition-all duration-300"
               >
-                {/* İç Kontur: Gradient arka plan, hafif sınır */}
+                {/* İç Kontur */}
                 <div
                   className="p-2 rounded-full bg-gradient-to-br
                              from-white/30 to-white/10 dark:from-black/30 dark:to-black/10
                              border border-white/20 dark:border-black/20"
                 >
-                  {/* İkon: Ok (sağ ok) */}
+                  {/* İkon */}
                   <FiChevronRight
                     className="w-6 h-6 text-black dark:text-white
                                transform group-hover:translate-x-0.5 transition-transform"
@@ -62,7 +64,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setSettingsOpen }) => {
                 </div>
               </div>
 
-              {/* Hover Efekt Işıltısı: Butonun üzerine gelindiğinde parlayan renkli ışık */}
+              {/* Hover Efekt Işıltısı */}
               <div
                 className="absolute inset-0 rounded-full
                            bg-gradient-to-br from-blue-400/20 to-purple-400/20
@@ -70,7 +72,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setSettingsOpen }) => {
                            transition-opacity duration-300 pointer-events-none"
               />
 
-              {/* Su Damlası Yansıması: Üstten gelen hafif parlaklık efekti */}
+              {/* Su Damlası Yansıması */}
               <div
                 className="absolute top-0 left-0 w-full h-full
                            rounded-full bg-gradient-to-br from-white/30 to-transparent
