@@ -5,7 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import dayjs from 'dayjs';
 import { FiUserPlus, FiFileText, FiFilter, FiRefreshCw } from 'react-icons/fi';
 
-import { fetchProject, deleteProject } from '@/api/projects';
+import { fetchProject } from '@/api/projects';
 import { fetchEmployees } from '@/api/employees';
 
 import Sidebar from '@/components/ui/Sidebar/Sidebar';
