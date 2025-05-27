@@ -14,7 +14,8 @@ const LogoutButton = () => {
       alert("Çıkış yapıldı");
       router.push("/giris"); // Çıkış sonrası giriş sayfasına yönlendirme
     } catch (error) {
-      alert("Çıkış yaparken bir hata oluştu");
+      console.error("Çıkış yaparken bir hata oluştu:", error);
+      alert("Çıkış yaparken bir hata oluştu.");
     }
   };
 
