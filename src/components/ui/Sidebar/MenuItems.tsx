@@ -1,6 +1,13 @@
 import Link from "next/link";
 import { useState, useCallback, useMemo } from "react";
-import { FiPlus, FiFileText, FiUsers, FiDollarSign, FiChevronRight, FiSearch } from "react-icons/fi";
+import {
+  FiPlus,
+  FiFileText,
+  FiUsers,
+  FiDollarSign,
+  FiChevronRight,
+  FiSearch,
+} from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface MenuItem {
@@ -25,7 +32,7 @@ const MenuItems = ({ pathname, projectId }: MenuItemsProps) => {
     () => [
       {
         label: "Personel Yönetimi",
-        icon: <FiUsers className="text-lg text-blue-500" />,
+        icon: <FiUsers className="text-lg text-blue-500 dark:text-blue-400" />,
         subItems: [
           {
             label: "Yeni Personel Ekle",
@@ -51,7 +58,9 @@ const MenuItems = ({ pathname, projectId }: MenuItemsProps) => {
       },
       {
         label: "Sorgulama Yönetimi",
-        icon: <FiSearch className="text-lg text-orange-500" />,
+        icon: (
+          <FiSearch className="text-lg text-orange-500 dark:text-orange-400" />
+        ),
         subItems: [
           {
             label: "Personel Sorgulaması",
@@ -85,7 +94,9 @@ const MenuItems = ({ pathname, projectId }: MenuItemsProps) => {
       },
       {
         label: "Raporlar",
-        icon: <FiFileText className="text-lg text-purple-500" />,
+        icon: (
+          <FiFileText className="text-lg text-purple-500 dark:text-purple-400" />
+        ),
         subItems: [
           {
             label: "Admin Raporları",
@@ -103,7 +114,9 @@ const MenuItems = ({ pathname, projectId }: MenuItemsProps) => {
       },
       {
         label: "Finans İşlemleri",
-        icon: <FiDollarSign className="text-lg text-green-500" />,
+        icon: (
+          <FiDollarSign className="text-lg text-green-500 dark:text-green-400" />
+        ),
         subItems: [
           {
             label: "Avans Yönetimi",
@@ -147,23 +160,23 @@ const MenuItems = ({ pathname, projectId }: MenuItemsProps) => {
                   className={`flex items-center justify-between w-full px-4 py-3 rounded-xl transition-all
                     ${
                       active || isOpen
-                        ? "bg-gradient-to-r from-blue-50 to-blue-100 shadow-sm"
-                        : "hover:bg-gray-50"
+                        ? "bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900 dark:to-blue-800 shadow-sm"
+                        : "hover:bg-gray-50 dark:hover:bg-gray-800"
                     }`}
                   aria-expanded={isOpen}
                 >
                   <div className="flex items-center gap-3">
-                    <span className="p-2 bg-white rounded-lg shadow-sm">
+                    <span className="p-2 bg-white dark:bg-gray-900 rounded-lg shadow-sm">
                       {icon}
                     </span>
-                    <span className="text-sm font-medium text-gray-700">
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
                       {label}
                     </span>
                   </div>
                   <motion.div
                     animate={{ rotate: isOpen ? 90 : 0 }}
                     transition={{ type: "spring", stiffness: 300 }}
-                    className="text-gray-400"
+                    className="text-gray-400 dark:text-gray-500"
                   >
                     <FiChevronRight />
                   </motion.div>
@@ -184,11 +197,11 @@ const MenuItems = ({ pathname, projectId }: MenuItemsProps) => {
                           className={`flex items-center px-4 py-2.5 text-sm rounded-lg transition-colors
                             ${
                               pathname?.startsWith(subHref)
-                                ? "bg-blue-50 text-blue-600 font-semibold"
-                                : "hover:bg-gray-50 text-gray-600"
+                                ? "bg-blue-50 dark:bg-blue-900 text-blue-600 dark:text-blue-300 font-semibold"
+                                : "hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-300"
                             }`}
                         >
-                          <FiPlus className="mr-2 text-blue-400" />
+                          <FiPlus className="mr-2 text-blue-400 dark:text-blue-300" />
                           {subLabel}
                         </Link>
                       ))}
@@ -202,14 +215,14 @@ const MenuItems = ({ pathname, projectId }: MenuItemsProps) => {
                 className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all
                   ${
                     active
-                      ? "bg-gradient-to-r from-blue-50 to-blue-100 shadow-sm"
-                      : "hover:bg-gray-50"
+                      ? "bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900 dark:to-blue-800 shadow-sm"
+                      : "hover:bg-gray-50 dark:hover:bg-gray-800"
                   }`}
               >
-                <span className="p-2 bg-white rounded-lg shadow-sm">
+                <span className="p-2 bg-white dark:bg-gray-900 rounded-lg shadow-sm">
                   {icon}
                 </span>
-                <span className="text-sm font-medium text-gray-700">
+                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
                   {label}
                 </span>
               </Link>
