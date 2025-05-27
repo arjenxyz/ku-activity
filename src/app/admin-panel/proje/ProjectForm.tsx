@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { FiCheck, FiX, FiChevronDown } from 'react-icons/fi'; // FiChevronDown ikonu eklendi
+import { FiCheck, FiX, FiChevronDown } from 'react-icons/fi'; // FiChevronDown eklendi
 import { createProject, updateProject, fetchProjects } from '../../lib/proje/projectService';
 import type { Project, ProjectFormData } from '../../lib/proje/types';
 
@@ -24,7 +24,7 @@ export default function ProjectForm({
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Drop-down menü durumu
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Drop-down durum kontrolü
 
   useEffect(() => {
     const loadProjectData = async () => {
@@ -79,7 +79,7 @@ export default function ProjectForm({
     }));
   };
 
-  const handleStatusSelect = (status: string) => {
+  const handleStatusSelect = (status: "active" | "planned" | "completed" | "archived") => {
     setFormData(prev => ({
       ...prev,
       status,
@@ -119,7 +119,7 @@ export default function ProjectForm({
             />
           </div>
 
-          {/* Drop-down Menü - Durum */}
+          {/* Durum Drop-down */}
           <div>
             <label htmlFor="status" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Durum*
@@ -134,7 +134,9 @@ export default function ProjectForm({
                   ? 'Aktif'
                   : formData.status === 'planned'
                   ? 'Planlanan'
-                  : 'Tamamlanan'}
+                  : formData.status === 'completed'
+                  ? 'Tamamlanan'
+                  : 'Arşivlenmiş'}
                 <FiChevronDown className="w-4 h-4" />
               </button>
               {isDropdownOpen && (
@@ -157,12 +159,18 @@ export default function ProjectForm({
                   >
                     Tamamlanan
                   </li>
+                  <li
+                    onClick={() => handleStatusSelect('archived')}
+                    className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer"
+                  >
+                    Arşivlenmiş
+                  </li>
                 </ul>
               )}
             </div>
           </div>
 
-          {/* Diğer Alanlar */}
+          {/* Başlangıç Tarihi */}
           <div>
             <label htmlFor="start_date" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Başlangıç Tarihi*
@@ -177,6 +185,8 @@ export default function ProjectForm({
               className="block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-900 dark:text-gray-100"
             />
           </div>
+
+          {/* Açıklama */}
           <div>
             <label htmlFor="description" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Açıklama
