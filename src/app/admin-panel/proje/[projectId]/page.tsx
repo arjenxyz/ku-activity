@@ -4,12 +4,12 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import dayjs from 'dayjs';
-import { FiUserPlus, FiFileText, FiFilter, FiRefreshCw, FiSettings as FiSettingsIcon } from 'react-icons/fi'; // FiSettingsIcon'ı geri ekledim eğer kullanmak istersen
+import { FiUserPlus, FiFileText, FiFilter, FiRefreshCw } from 'react-icons/fi'; // FiSettingsIcon'ı kaldırdık
 
-import { fetchProject, deleteProject } from '@/api/projects'; // deleteProject import'ını ekledim
+import { fetchProject, deleteProject } from '@/api/projects';
 import { fetchEmployees } from '@/api/employees';
 
-import { ProjectSettingsModal } from '@/components/modals/ProjectSettingsModal'; // ProjectSettingsModal'ı import et!
+import { ProjectSettingsModal } from '@/components/modals/ProjectSettingsModal'; // ProjectSettingsModal'ı import etmeyi unutma
 import Sidebar from '@/components/ui/Sidebar/Sidebar';
 import { StatCard } from '@/components/ui/StatCard';
 import type { Employee, AttendanceStats, Project } from '@/types/adminTypes';
@@ -23,7 +23,7 @@ export default function ProjectDashboard() {
   const [project, setProject] = useState<Project | null>(null);
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState<AttendanceStats>({ present: 0, absent: 0, late: 0 });
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false); // isSettingsOpen olarak kalsın
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   const projectIdRaw = params.projectId;
   const projectId = Array.isArray(projectIdRaw) ? projectIdRaw[0] : projectIdRaw;
@@ -60,12 +60,10 @@ export default function ProjectDashboard() {
     return <div className="p-8 text-center text-red-600">Geçersiz proje ID</div>;
   }
 
-  // Yüklenme durumunda sadece basit bir "Yükleniyor..." göster
   if (loading) {
     return <div className="p-8 text-center">Yükleniyor...</div>;
   }
 
-  // Proje yüklenmediyse hata göster
   if (!project) {
     return <div className="p-8 text-center">Proje bulunamadı veya yüklenirken bir hata oluştu.</div>;
   }
@@ -77,14 +75,11 @@ export default function ProjectDashboard() {
 
   const todayMissing = employees.filter(emp => !emp.today_verified).length;
 
-  // onDelete fonksiyonunu ProjectSettingsModal'ın beklediği gibi tanımla
   const onDelete = async () => {
     if (!projectId) return;
     try {
-      // deleteProject fonksiyonunu çağırıyoruz
       const { error } = await deleteProject(projectId);
       if (!error) {
-        // Silme başarılı olursa projeler sayfasına yönlendir
         router.replace('/admin-panel/');
       } else {
         console.error('Proje silme hatası:', error);
@@ -96,36 +91,26 @@ export default function ProjectDashboard() {
     }
   };
 
-
   return (
     <div className="relative min-h-screen bg-gray-50 p-4 md:p-8">
       {/* Sidebar'a setIsSettingsOpen prop'unu geçirin */}
       <Sidebar setSettingsOpen={setIsSettingsOpen} />
 
       {/* isSettingsOpen durumuna göre ProjectSettingsModal'ı gösterin */}
-      {project && ( // project null değilse modalı render etmeliyiz
+      {project && (
         <ProjectSettingsModal
           project={project}
-          isOpen={isSettingsOpen} // isSettingsOpen state'ine bağlı
-          onClose={() => setIsSettingsOpen(false)} // Modalı kapatmak için setter'ı kullan
-          onUpdate={setProject} // Project state'ini güncellemek için setter'ı kullan
-          onDelete={onDelete} // Silme işlemini yöneten fonksiyonu ver
+          isOpen={isSettingsOpen}
+          onClose={() => setIsSettingsOpen(false)}
+          onUpdate={setProject}
+          onDelete={onDelete}
         />
       )}
 
       <div className="max-w-7xl mx-auto space-y-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">
-            {project.name}
-            {/* Bu butonu kaldırabilirsin veya farklı bir işlev için kullanabilirsin,
-                çünkü artık Sidebar üzerinden açılıyor. */}
-            <button
-              onClick={() => setIsSettingsOpen(true)}
-              className="ml-2 p-2 hover:bg-gray-100 rounded-full"
-            >
-              <FiSettingsIcon />
-            </button>
-          </h1>
+          {/* H1 başlığının yanındaki ayarlar butonu kaldırıldı */}
+          <h1 className="text-2xl font-bold text-gray-900">{project.name}</h1>
           <p className="text-gray-600">{formatDate(dayjs().toString(), DATE_FORMATS.DAY_MONTH_YEAR)}</p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
