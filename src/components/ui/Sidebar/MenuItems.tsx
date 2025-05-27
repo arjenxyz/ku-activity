@@ -15,7 +15,7 @@ interface MenuItem {
 
 interface MenuItemsProps {
   pathname: string;
-  projectId: number;
+  projectId: string;
 }
 
 const MenuItems = ({ pathname, projectId }: MenuItemsProps) => {
