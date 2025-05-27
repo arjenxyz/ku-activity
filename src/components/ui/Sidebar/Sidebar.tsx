@@ -27,15 +27,15 @@ export const Sidebar: React.FC<SidebarProps> = ({ setSettingsOpen }) => {
     <>
       <motion.button
         onClick={() => setSidebarOpen(!sidebarOpen)}
-        className="fixed top-6 left-4 z-50 p-3 bg-white shadow-xl rounded-full hover:shadow-lg transition-all"
+        className="fixed top-6 left-4 z-50 p-3 bg-white dark:bg-gray-800 shadow-xl rounded-full hover:shadow-lg transition-all"
         whileHover={{ scale: 1.05 }}
         animate={{ rotate: sidebarOpen ? 180 : 0 }}
         aria-label="Toggle sidebar"
       >
         {sidebarOpen ? (
-          <FiX className="w-5 h-5 text-gray-700" />
+          <FiX className="w-5 h-5 text-gray-700 dark:text-gray-300" />
         ) : (
-          <FiChevronRight className="w-5 h-5 text-gray-700" />
+          <FiChevronRight className="w-5 h-5 text-gray-700 dark:text-gray-300" />
         )}
       </motion.button>
 
@@ -48,20 +48,20 @@ export const Sidebar: React.FC<SidebarProps> = ({ setSettingsOpen }) => {
               animate={{ x: 0 }}
               exit={{ x: -300 }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="fixed top-0 left-0 h-screen w-72 bg-gradient-to-b from-white to-gray-50 border-r border-gray-200 shadow-2xl flex flex-col z-40"
+              className="fixed top-0 left-0 h-screen w-72 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 border-r border-gray-200 dark:border-gray-700 shadow-2xl flex flex-col z-40"
             >
               <div className="flex-1 flex flex-col overflow-hidden">
                 {/* Header */}
-                <div className="p-6 border-b border-gray-200">
+                <div className="p-6 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
                   <div className="flex items-center gap-3">
-                    <div className="p-2 bg-blue-100 rounded-lg">
-                      <FiLayout className="w-6 h-6 text-blue-600" />
+                    <div className="p-2 bg-blue-100 dark:bg-blue-900 rounded-lg">
+                      <FiLayout className="w-6 h-6 text-blue-600 dark:text-blue-300" />
                     </div>
                     <div>
-                      <h2 className="text-lg font-semibold text-gray-900">
+                      <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
                         Proje Yönetimi
                       </h2>
-                      <p className="text-sm text-gray-500 font-mono mt-1">
+                      <p className="text-sm text-gray-500 dark:text-gray-400 font-mono mt-1">
                         #{projectId.slice(0, 8)}
                       </p>
                     </div>
@@ -74,11 +74,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ setSettingsOpen }) => {
                 </div>
 
                 {/* Footer */}
-                <div className="p-4 border-t border-gray-200 bg-white">
+                <div className="p-4 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
                   {/* Ayarları Aç Butonu */}
                   <button
                     onClick={() => setSettingsOpen(true)}
-                    className="flex items-center justify-center gap-2 w-full px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors shadow"
+                    className="flex items-center justify-center gap-2 w-full px-4 py-2 bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors shadow"
                   >
                     <FiSettings className="text-xl" />
                     <span>Ayarları Aç</span>
@@ -97,7 +97,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ setSettingsOpen }) => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/20 backdrop-blur-sm z-30"
+              className="fixed inset-0 bg-black/20 dark:bg-black/50 backdrop-blur-sm z-30"
               onClick={() => setSidebarOpen(false)}
             />
           </>
