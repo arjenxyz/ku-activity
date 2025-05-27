@@ -37,4 +37,3 @@ export function middleware(request: NextRequest) {
 export const config = {
   matcher: ["/admin-panel/:path*", "/personnel-panel/:path*"],
 };
-
