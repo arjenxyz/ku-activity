@@ -16,6 +16,7 @@ import { DeductionTable } from '@/components/tables/DeductionTable';
 import { StatCard } from '@/components/ui/StatCard';
 import { ActionButton } from '@/components/ui/ActionButton';
 import { MobileMenu } from '@/components/ui/MobileMenu';
+import { Sidebar } from '@/components/ui/Sidebar'; // Sidebar bileşeni eklendi
 
 import type { Employee, AttendanceStats, Project, Deduction } from '@/types/adminTypes';
 import { DATE_FORMATS, formatDate, projectDateHelpers } from '@/utils/dateUtils';
@@ -99,10 +100,7 @@ export default function ProjectDashboard() {
     }
   }, [router]);
 
-  // YENİ: onVerify fonksiyonu eklendi
   const handleVerifyEmployee = (id: string) => {
-    // Burada personelin doğrulama işlemini gerçekleştir.
-    // Örneğin bir API çağrısı yapabilir, state güncelleyebilirsin.
     console.log("Doğrulanan personel id:", id);
   };
 
@@ -159,7 +157,8 @@ export default function ProjectDashboard() {
   const todayMissing = filteredEmployees.filter(emp => !emp.today_verified).length;
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-8">
+    <div className="relative min-h-screen bg-gray-50 p-4 md:p-8">
+      <Sidebar /> {/* Sidebar burada çağrıldı */}
       <div className="max-w-7xl mx-auto space-y-6">
         <MobileMenu
           open={mobileMenuOpen}
@@ -226,7 +225,7 @@ export default function ProjectDashboard() {
           employees={filteredEmployees}
           loading={loading}
           onYevmiyeOpen={() => setAddWorkLogOpen(true)}
-          onVerify={handleVerifyEmployee} // <-- EKLENDİ!
+          onVerify={handleVerifyEmployee}
         />
         <DeductionTable deductions={deductions} loading={loading} onDelete={handleDeleteDeduction} />
         <ProjectSettingsModal project={project} isOpen={settingsOpen} onClose={() => setSettingsOpen(false)} onUpdate={setProject} onDelete={handleDeleteProject} />
