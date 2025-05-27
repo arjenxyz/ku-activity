@@ -7,11 +7,7 @@ export default function ThemeToggle() {
   const [isDark, setIsDark] = useState(false);
   const pathname = usePathname();
 
-  // Gizlemek istediğin route'ları buraya ekle
-  const hiddenRoutes = ['/admin-panel/login', '/personnel-panel', '/personnel-panel/login'];
-
-  if (hiddenRoutes.includes(pathname)) return null;
-
+  // Hook'lar yukarıda kullanılmalı, koşullu render aşağıda yapılmalı
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme === "dark") {
@@ -34,6 +30,10 @@ export default function ThemeToggle() {
       setIsDark(true);
     }
   };
+
+  // Bu sayfalarda butonu gizle
+  const hiddenRoutes = ['/admin-panel/login', '/personnel-panel', '/personnel-panel/login'];
+  if (hiddenRoutes.includes(pathname)) return null;
 
   return (
     <button
