@@ -1,9 +1,58 @@
-// /pages/index.js
+'use client'; // Next.js 13+ ise client component olarak tanımla
+
+import { useState, useEffect } from 'react';
+
 export default function Home() {
+  const [isDark, setIsDark] = useState(false);
+
+  // Sayfa yüklendiğinde localStorage'dan temayı al ve uygula
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      setIsDark(true);
+      document.documentElement.classList.add('dark');
+    } else {
+      setIsDark(false);
+      document.documentElement.classList.remove('dark');
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    if (isDark) {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+      setIsDark(false);
+    } else {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+      setIsDark(true);
+    }
+  };
+
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col min-h-screen transition-colors duration-500 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+      {/* Tema Toggle Butonu */}
+      <button
+        onClick={toggleTheme}
+        className="fixed top-4 right-4 z-50 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 p-2 rounded-full shadow-md hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+        aria-label="Toggle Dark Mode"
+        title="Tema Değiştir"
+      >
+        {isDark ? (
+          // Güneş ikonu (açık mod için)
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1m8.66-8.66l-.7.7M4.34 4.34l-.7.7M21 12h-1M4 12H3m16.66 4.66l-.7-.7M4.34 19.66l-.7-.7M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+        ) : (
+          // Ay ikonu (karanlık mod için)
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" stroke="none">
+            <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z" />
+          </svg>
+        )}
+      </button>
+
       {/* Hero Section */}
-      <section className="min-h-screen relative bg-gradient-to-br from-indigo-900 via-blue-800 to-indigo-700 text-white px-6 md:px-20 py-28 flex flex-col md:flex-row items-center justify-between overflow-hidden">
+      <section className="min-h-screen relative bg-gradient-to-br from-indigo-900 via-blue-800 to-indigo-700 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 text-white px-6 md:px-20 py-28 flex flex-col md:flex-row items-center justify-between overflow-hidden transition-colors duration-500">
         <div className="max-w-2xl space-y-6 z-10">
           <h1 className="text-5xl md:text-6xl font-extrabold leading-tight bg-gradient-to-r from-indigo-50 to-blue-100 bg-clip-text text-transparent">
             Modern Personel Yönetimi <br />
@@ -39,4 +88,3 @@ export default function Home() {
     </div>
   );
 }
-
