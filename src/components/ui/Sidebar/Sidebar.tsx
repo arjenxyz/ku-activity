@@ -1,109 +1,67 @@
 "use client";
 
-import { Dispatch, SetStateAction, useState, useEffect } from "react";
-import { usePathname } from "next/navigation";
-import { FiChevronRight, FiLayout, FiSettings } from "react-icons/fi";
-import { motion, AnimatePresence } from "framer-motion";
-import MenuItems from "./MenuItems";
-import LogoutButton from "./LogoutButton";
+import { motion } from "framer-motion";
+import { FiChevronRight } from "react-icons/fi";
 
-type SidebarProps = {
-  setSettingsOpen: Dispatch<SetStateAction<boolean>>; // Prop tanımı eklendi
-};
-
-export const Sidebar: React.FC<SidebarProps> = ({ setSettingsOpen }) => {
-  const pathname = usePathname();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [projectId, setProjectId] = useState<string | null>(null);
-
-  useEffect(() => {
-    const match = pathname.match(/^\/admin-panel\/proje\/([a-f0-9-]{36})/);
-    setProjectId(match ? match[1] : null);
-  }, [pathname]);
-
-  if (!projectId) return null;
-
+export const SidebarToggleButton = ({ 
+  onClick 
+}: { 
+  onClick: () => void 
+}) => {
   return (
-    <>
-      {/* Menü Açma Butonu */}
-      {!sidebarOpen && (
-        <motion.button
-          onClick={() => setSidebarOpen(true)}
-          className="fixed top-6 left-4 z-50 p-4 bg-blue-500 hover:bg-blue-600 text-white shadow-xl rounded-full transition-all flex items-center gap-2"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.95 }}
-          aria-label="Toggle sidebar"
+    <motion.button
+      onClick={onClick}
+      className="group fixed top-6 left-4 z-50 p-3 rounded-2xl bg-gradient-to-br from-blue-600 to-purple-600 shadow-2xl shadow-blue-500/40 hover:shadow-purple-500/40 transition-all duration-300"
+      initial={{ opacity: 0, x: -20 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: -20 }}
+      whileHover={{
+        scale: 1.1,
+        rotate: [0, -2, 2, -2, 0],
+        transition: { duration: 0.6 }
+      }}
+      whileTap={{ scale: 0.95 }}
+      aria-label="Toggle menu"
+    >
+      <div className="relative">
+        {/* Ana İkon */}
+        <motion.div
+          className="text-white"
+          animate={{
+            rotate: 0,
+            transition: { type: "spring", stiffness: 300 }
+          }}
         >
-          <FiChevronRight className="w-5 h-5" />
-          <span className="text-sm font-medium">Menüyü Aç</span>
-        </motion.button>
-      )}
+          <FiChevronRight className="w-6 h-6 transform group-hover:rotate-180 transition-transform" />
+        </motion.div>
 
-      <AnimatePresence>
-        {sidebarOpen && (
-          <>
-            {/* Sidebar */}
-            <motion.aside
-              initial={{ x: -300 }}
-              animate={{ x: 0 }}
-              exit={{ x: -300 }}
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="fixed top-0 left-0 h-screen w-72 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 border-r border-gray-200 dark:border-gray-700 shadow-2xl flex flex-col z-40"
-            >
-              <div className="flex-1 flex flex-col overflow-hidden">
-                {/* Header */}
-                <div className="p-6 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 bg-blue-100 dark:bg-blue-900 rounded-lg">
-                      <FiLayout className="w-6 h-6 text-blue-600 dark:text-blue-300" />
-                    </div>
-                    <div>
-                      <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-                        Proje Yönetimi
-                      </h2>
-                      <p className="text-sm text-gray-500 dark:text-gray-400 font-mono mt-1">
-                        #{projectId.slice(0, 8)}
-                      </p>
-                    </div>
-                  </div>
-                </div>
+        {/* Hover Efekt Işıltısı */}
+        <motion.div
+          className="absolute inset-0 -z-10 bg-gradient-to-r from-blue-400/30 to-purple-400/30 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          initial={{ scale: 0.8 }}
+          animate={{ scale: 1 }}
+        />
 
-                {/* Menu Items */}
-                <div className="flex-1 overflow-y-auto px-3 py-4">
-                  <MenuItems pathname={pathname} projectId={projectId} />
-                </div>
-
-                {/* Footer */}
-                <div className="p-4 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
-                  {/* Ayarları Aç Butonu */}
-                  <button
-                    onClick={() => setSettingsOpen(true)}
-                    className="flex items-center justify-center gap-2 w-full px-4 py-2 bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors shadow"
-                  >
-                    <FiSettings className="text-xl" />
-                    <span>Ayarları Aç</span>
-                  </button>
-
-                  {/* Çıkış Yap Butonu */}
-                  <div className="mt-4">
-                    <LogoutButton />
-                  </div>
-                </div>
-              </div>
-            </motion.aside>
-
-            {/* Overlay */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/20 dark:bg-black/50 backdrop-blur-sm z-30"
-              onClick={() => setSidebarOpen(false)} // Overlay'e tıklandığında menüyü kapat
-            />
-          </>
-        )}
-      </AnimatePresence>
-    </>
+        {/* Partikül Efektleri */}
+        <div className="absolute -top-2 -right-2">
+          <motion.div
+            className="w-2 h-2 bg-white rounded-full"
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ delay: 0.2 }}
+          />
+        </div>
+        
+        <div className="absolute -bottom-2 -left-2">
+          <motion.div
+            className="w-2 h-2 bg-white rounded-full"
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ delay: 0.3 }}
+          />
+        </div>
+      </div>
+    </motion.button>
   );
 };
 
