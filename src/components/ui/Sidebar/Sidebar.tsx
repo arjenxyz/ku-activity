@@ -1,18 +1,21 @@
 "use client";
 
+import { Dispatch, SetStateAction, useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { useState, useEffect } from "react";
 import { FiChevronRight, FiX, FiLayout } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
 import MenuItems from "./MenuItems";
 import LogoutButton from "./LogoutButton";
 
-export const Sidebar = () => {
+type SidebarProps = {
+  setSettingsOpen: Dispatch<SetStateAction<boolean>>; // Prop tanımı eklendi
+};
+
+export const Sidebar: React.FC<SidebarProps> = ({ setSettingsOpen }) => {
   const pathname = usePathname();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [projectId, setProjectId] = useState<string | null>(null);
 
-  // UUID formatında proje ID'sini yakalama
   useEffect(() => {
     const match = pathname.match(/^\/admin-panel\/proje\/([a-f0-9-]{36})/);
     setProjectId(match ? match[1] : null);
@@ -22,7 +25,6 @@ export const Sidebar = () => {
 
   return (
     <>
-      {/* Floating Toggle Button */}
       <motion.button
         onClick={() => setSidebarOpen(!sidebarOpen)}
         className="fixed top-6 left-4 z-50 p-3 bg-white shadow-xl rounded-full hover:shadow-lg transition-all"
@@ -40,7 +42,6 @@ export const Sidebar = () => {
       <AnimatePresence>
         {sidebarOpen && (
           <>
-            {/* Sidebar */}
             <motion.aside
               initial={{ x: -300 }}
               animate={{ x: 0 }}
@@ -49,7 +50,6 @@ export const Sidebar = () => {
               className="fixed top-0 left-0 h-screen w-72 bg-gradient-to-b from-white to-gray-50 border-r border-gray-200 shadow-2xl flex flex-col z-40"
             >
               <div className="flex-1 flex flex-col overflow-hidden">
-                {/* Header */}
                 <div className="p-6 border-b border-gray-200">
                   <div className="flex items-center gap-3">
                     <div className="p-2 bg-blue-100 rounded-lg">
@@ -66,19 +66,21 @@ export const Sidebar = () => {
                   </div>
                 </div>
 
-                {/* Menu Items */}
                 <div className="flex-1 overflow-y-auto px-3 py-4">
                   <MenuItems pathname={pathname} projectId={projectId} />
                 </div>
 
-                {/* Footer */}
                 <div className="p-4 border-t border-gray-200 bg-white">
-                  <LogoutButton />
+                  <button
+                    onClick={() => setSettingsOpen(true)} // setSettingsOpen kullanımı
+                    className="text-blue-600 hover:text-blue-800 transition"
+                  >
+                    Ayarları Aç
+                  </button>
                 </div>
               </div>
             </motion.aside>
 
-            {/* Overlay */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
