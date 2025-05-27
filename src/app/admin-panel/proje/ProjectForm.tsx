@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { FiCheck, FiX, FiChevronDown } from 'react-icons/fi'; // FiChevronDown eklendi
+import { FiCheck, FiX, FiChevronDown, FiCalendar } from 'react-icons/fi'; // FiCalendar eklendi
 import { createProject, updateProject, fetchProjects } from '../../lib/proje/projectService';
 import type { Project, ProjectFormData } from '../../lib/proje/types';
 
@@ -24,7 +24,7 @@ export default function ProjectForm({
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Drop-down durum kontrolü
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   useEffect(() => {
     const loadProjectData = async () => {
@@ -94,19 +94,20 @@ export default function ProjectForm({
           {editingId ? 'Projeyi Düzenle' : 'Yeni Proje Ekle'}
         </h2>
       </div>
-      <form onSubmit={handleSubmit} className="p-6 space-y-4">
+      <form onSubmit={handleSubmit} className="p-6 space-y-6">
         {error && (
           <div className="p-3 bg-red-50 dark:bg-red-900 text-red-600 dark:text-red-200 rounded-md flex items-center">
             <FiX className="mr-2 flex-shrink-0" />
             <span>{error}</span>
           </div>
         )}
-        <div className="space-y-6">
-          {/* Proje Adı */}
-          <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-              Proje Adı*
-            </label>
+
+        {/* Proje Adı */}
+        <div>
+          <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            Proje Adı*
+          </label>
+          <div className="relative">
             <input
               type="text"
               name="name"
@@ -114,67 +115,34 @@ export default function ProjectForm({
               value={formData.name}
               onChange={handleChange}
               required
-              className="block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-900 dark:text-gray-100"
+              className="block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-900 dark:text-gray-100 px-4 py-2"
               placeholder="Proje adını giriniz"
             />
           </div>
+        </div>
 
-          {/* Durum Drop-down */}
-          <div>
-            <label htmlFor="status" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-              Durum*
-            </label>
-            <div className="relative">
-              <button
-                type="button"
-                onClick={() => setIsDropdownOpen(prev => !prev)}
-                className="flex items-center justify-between w-full rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-2 text-sm text-gray-700 dark:text-gray-100 shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                {formData.status === 'active'
-                  ? 'Aktif'
-                  : formData.status === 'planned'
-                  ? 'Planlanan'
-                  : formData.status === 'completed'
-                  ? 'Tamamlanan'
-                  : 'Arşivlenmiş'}
-                <FiChevronDown className="w-4 h-4" />
-              </button>
-              {isDropdownOpen && (
-                <ul className="absolute z-10 mt-2 w-full bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-md shadow-lg">
-                  <li
-                    onClick={() => handleStatusSelect('active')}
-                    className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer"
-                  >
-                    Aktif
-                  </li>
-                  <li
-                    onClick={() => handleStatusSelect('planned')}
-                    className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer"
-                  >
-                    Planlanan
-                  </li>
-                  <li
-                    onClick={() => handleStatusSelect('completed')}
-                    className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer"
-                  >
-                    Tamamlanan
-                  </li>
-                  <li
-                    onClick={() => handleStatusSelect('archived')}
-                    className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer"
-                  >
-                    Arşivlenmiş
-                  </li>
-                </ul>
-              )}
-            </div>
-          </div>
+        {/* Konum */}
+        <div>
+          <label htmlFor="location" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            Konum
+          </label>
+          <input
+            type="text"
+            name="location"
+            id="location"
+            value={formData.location}
+            onChange={handleChange}
+            className="block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-900 dark:text-gray-100 px-4 py-2"
+            placeholder="Proje konumunu giriniz"
+          />
+        </div>
 
-          {/* Başlangıç Tarihi */}
-          <div>
-            <label htmlFor="start_date" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-              Başlangıç Tarihi*
-            </label>
+        {/* Başlangıç Tarihi */}
+        <div>
+          <label htmlFor="start_date" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            Başlangıç Tarihi*
+          </label>
+          <div className="relative">
             <input
               type="date"
               name="start_date"
@@ -182,26 +150,80 @@ export default function ProjectForm({
               value={formData.start_date}
               onChange={handleChange}
               required
-              className="block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-900 dark:text-gray-100"
+              className="block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-900 dark:text-gray-100 px-4 py-2 pr-10"
             />
-          </div>
-
-          {/* Açıklama */}
-          <div>
-            <label htmlFor="description" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-              Açıklama
-            </label>
-            <textarea
-              name="description"
-              id="description"
-              value={formData.description}
-              onChange={handleChange}
-              rows={3}
-              className="block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-900 dark:text-gray-100"
-              placeholder="Proje açıklamasını giriniz"
-            />
+            <FiCalendar className="absolute right-3 top-2.5 text-gray-400 dark:text-gray-500 pointer-events-none" />
           </div>
         </div>
+
+        {/* Açıklama */}
+        <div>
+          <label htmlFor="description" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            Açıklama
+          </label>
+          <textarea
+            name="description"
+            id="description"
+            value={formData.description}
+            onChange={handleChange}
+            rows={3}
+            className="block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-900 dark:text-gray-100 px-4 py-2"
+            placeholder="Proje açıklamasını giriniz"
+          />
+        </div>
+
+        {/* Durum Drop-down */}
+        <div>
+          <label htmlFor="status" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            Durum*
+          </label>
+          <div className="relative">
+            <button
+              type="button"
+              onClick={() => setIsDropdownOpen(prev => !prev)}
+              className="flex items-center justify-between w-full rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-2 text-sm text-gray-700 dark:text-gray-100 shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              {formData.status === 'active'
+                ? 'Aktif'
+                : formData.status === 'planned'
+                ? 'Planlanan'
+                : formData.status === 'completed'
+                ? 'Tamamlanan'
+                : 'Arşivlenmiş'}
+              <FiChevronDown className="w-4 h-4" />
+            </button>
+            {isDropdownOpen && (
+              <ul className="absolute z-10 mt-2 w-full bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-md shadow-lg">
+                <li
+                  onClick={() => handleStatusSelect('active')}
+                  className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer"
+                >
+                  Aktif
+                </li>
+                <li
+                  onClick={() => handleStatusSelect('planned')}
+                  className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer"
+                >
+                  Planlanan
+                </li>
+                <li
+                  onClick={() => handleStatusSelect('completed')}
+                  className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer"
+                >
+                  Tamamlanan
+                </li>
+                <li
+                  onClick={() => handleStatusSelect('archived')}
+                  className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer"
+                >
+                  Arşivlenmiş
+                </li>
+              </ul>
+            )}
+          </div>
+        </div>
+
+        {/* Butonlar */}
         <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-200 dark:border-gray-700 mt-6">
           <button
             type="button"
