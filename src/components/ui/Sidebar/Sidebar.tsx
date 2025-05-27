@@ -1,3 +1,4 @@
+// src/components/ui/Sidebar/Sidebar.tsx
 "use client";
 
 import { Dispatch, SetStateAction, useState, useEffect } from "react";
@@ -26,56 +27,59 @@ const Sidebar: React.FC<SidebarProps> = ({ setSettingsOpen }) => {
   return (
     <>
       {/* Menü Açma Butonu (Su Damlası Efekti) */}
-      {!sidebarOpen && (
-        <motion.button
-          onClick={() => setSidebarOpen(true)}
-          className="group fixed top-6 left-0 z-50 translate-x-1/2"
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -20 }}
-          transition={{ type: "spring", stiffness: 300 }}
-          aria-label="Toggle sidebar"
-        >
-          <div className="relative">
-            {/* Ana Buton */}
-            <div
-              className="p-1.5 rounded-full backdrop-blur-lg 
-                bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10
-                shadow-lg shadow-black/10 hover:shadow-black/20
-                dark:shadow-white/10 dark:hover:shadow-white/20
-                transition-all duration-300"
-            >
-              {/* İç Kontur */}
+      <AnimatePresence> {/* Bu kısmı AnimatePresence içine aldık */}
+        {!sidebarOpen && (
+          <motion.button
+            onClick={() => setSidebarOpen(true)}
+            // Yeni pozisyonlama: fixed, sol kenara yapışık ve yarısı dışarıda
+            className="group fixed top-1/2 -translate-y-1/2 left-0 z-50 transform -translate-x-1/2" // `transform -translate-x-1/2` ile butonun yarısı dışarıda kalacak
+            initial={{ x: -50, opacity: 0 }} // Başlangıçta ekran dışı ve görünmez
+            animate={{ x: 0, opacity: 1 }}   // Animasyonla yarı içeri gel ve görünür ol
+            exit={{ x: -50, opacity: 0 }}    // Çıkarken tekrar dışarı git
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            aria-label="Toggle sidebar"
+          >
+            <div className="relative">
+              {/* Ana Buton: backdrop-blur-lg ile cam efekti */}
               <div
-                className="p-2 rounded-full bg-gradient-to-br 
-                  from-white/30 to-white/10 dark:from-black/30 dark:to-black/10
-                  border border-white/20 dark:border-black/20"
+                className="p-1.5 rounded-full backdrop-blur-lg
+                           bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10
+                           shadow-lg shadow-black/10 hover:shadow-black/20
+                           dark:shadow-white/10 dark:hover:shadow-white/20
+                           transition-all duration-300"
               >
-                {/* İkon */}
-                <FiChevronRight
-                  className="w-6 h-6 text-black dark:text-white 
-                    transform group-hover:translate-x-0.5 transition-transform"
-                />
+                {/* İç Kontur: Gradient arka plan, hafif sınır */}
+                <div
+                  className="p-2 rounded-full bg-gradient-to-br
+                             from-white/30 to-white/10 dark:from-black/30 dark:to-black/10
+                             border border-white/20 dark:border-black/20"
+                >
+                  {/* İkon: Ok (sağ ok) */}
+                  <FiChevronRight
+                    className="w-6 h-6 text-black dark:text-white
+                               transform group-hover:translate-x-0.5 transition-transform"
+                  />
+                </div>
               </div>
+
+              {/* Hover Efekt Işıltısı: Butonun üzerine gelindiğinde parlayan renkli ışık */}
+              <div
+                className="absolute inset-0 rounded-full
+                           bg-gradient-to-br from-blue-400/20 to-purple-400/20
+                           opacity-0 group-hover:opacity-100 blur-md
+                           transition-opacity duration-300 pointer-events-none"
+              />
+
+              {/* Su Damlası Yansıması: Üstten gelen hafif parlaklık efekti */}
+              <div
+                className="absolute top-0 left-0 w-full h-full
+                           rounded-full bg-gradient-to-br from-white/30 to-transparent
+                           opacity-30 pointer-events-none"
+              />
             </div>
-
-            {/* Hover Efekt Işıltısı */}
-            <div
-              className="absolute inset-0 rounded-full 
-                bg-gradient-to-br from-blue-400/20 to-purple-400/20 
-                opacity-0 group-hover:opacity-100 blur-md
-                transition-opacity duration-300 pointer-events-none"
-            />
-
-            {/* Su Damlası Yansıması */}
-            <div
-              className="absolute top-0 left-0 w-full h-full 
-                rounded-full bg-gradient-to-br from-white/30 to-transparent 
-                opacity-30 pointer-events-none"
-            />
-          </div>
-        </motion.button>
-      )}
+          </motion.button>
+        )}
+      </AnimatePresence>
 
       <AnimatePresence>
         {sidebarOpen && (
