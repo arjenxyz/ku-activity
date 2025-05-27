@@ -29,7 +29,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setSettingsOpen }) => {
       {!sidebarOpen && (
         <motion.button
           onClick={() => setSidebarOpen(true)}
-          className="group fixed top-6 left-4 z-50"
+          className="group fixed top-6 left-0 z-50 translate-x-1/2"
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: -20 }}
