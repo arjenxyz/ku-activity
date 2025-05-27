@@ -62,7 +62,7 @@ export const ProjectSettingsModal = ({
       if (!error) {
         onDelete();
         onClose();
-        router.push('/admin-panel/proje'); // ✅ yönlendirme burada
+        router.push('/admin-panel/'); // ✅ yönlendirme burada
       } else {
         alert('Projeyi silerken hata oluştu.');
       }
