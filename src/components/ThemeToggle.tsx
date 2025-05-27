@@ -1,9 +1,16 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 
 export default function ThemeToggle() {
   const [isDark, setIsDark] = useState(false);
+  const pathname = usePathname();
+
+  // Gizlemek istediğin route'ları buraya ekle
+  const hiddenRoutes = ['/admin-panel/login', '/personnel-panel', '/personnel-panel/login'];
+
+  if (hiddenRoutes.includes(pathname)) return null;
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
