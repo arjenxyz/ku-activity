@@ -20,7 +20,7 @@ export default function ProjectDashboard() {
 
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [project, setProject] = useState<Project | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true); // Yüklenme durumunu takip ediyoruz
   const [stats, setStats] = useState<AttendanceStats>({ present: 0, absent: 0, late: 0 });
   const [settingsOpen, setSettingsOpen] = useState(false);
 
@@ -30,7 +30,7 @@ export default function ProjectDashboard() {
   const initializeData = useCallback(async () => {
     if (!projectId) return;
     try {
-      setLoading(true);
+      setLoading(true); // Yüklenme durumunu başlatıyoruz
       const selectedMonth = dayjs().format('YYYY-MM'); // or use a state/prop if you have one
       const [projectData, employeesData] = await Promise.all([
         fetchProject(projectId),
@@ -45,7 +45,7 @@ export default function ProjectDashboard() {
       console.error('Proje yükleme hatası:', error);
       router.push('/admin-panel/');
     } finally {
-      setLoading(false);
+      setLoading(false); // Yüklenme durumu tamamlandı
     }
   }, [projectId, router]);
 
@@ -59,6 +59,12 @@ export default function ProjectDashboard() {
     return <div className="p-8 text-center text-red-600">Geçersiz proje ID</div>;
   }
 
+  // Eğer yükleniyorsa yükleniyor göstergesini render'lıyoruz
+  if (loading) {
+    return <div className="p-8 text-center">Yükleniyor...</div>;
+  }
+
+  // Eğer proje yoksa yükleniyor mesajı gösteriyoruz
   if (!project) {
     return <div className="p-8 text-center">Proje yükleniyor...</div>;
   }
