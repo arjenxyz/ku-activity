@@ -26,7 +26,7 @@ export default function ProjectList({
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 transition-colors duration-300">
+    <div className="min-h-[50vh] bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 transition-colors duration-300">
       {/* Header */}
       <header className="sticky top-0 z-10 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm shadow-sm">
         <div className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto py-4 flex justify-end">
@@ -119,7 +119,9 @@ export default function ProjectList({
                 <div className="hidden md:flex items-center justify-between gap-4">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-3">
-                      <h3 className="text-lg font-semibold truncate text-gray-900 dark:text-gray-100">{project.name}</h3>
+                      <h3 className="text-lg font-semibold truncate text-gray-900 dark:text-gray-100">
+                        {project.name}
+                      </h3>
                       {statusIcons[project.status]}
                     </div>
                     <div className="flex items-center gap-4 mt-2">
