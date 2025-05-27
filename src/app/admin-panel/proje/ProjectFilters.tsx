@@ -14,33 +14,39 @@ export default function ProjectFilters({
   onFilterChange: (filter: ProjectFilter) => void;
 }) {
   return (
-    <div className="bg-white shadow rounded-lg p-4 mb-8">
+    <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-4 mb-8 transition-colors duration-300">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-1">
+          <label
+            htmlFor="search"
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+          >
             Proje Ara
           </label>
           <div className="relative rounded-md shadow-sm">
             <input
               type="text"
               id="search"
-              className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-4 pr-12 py-2 sm:text-sm border-gray-300 rounded-md border"
+              className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-4 pr-12 py-2 sm:text-sm border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-900 dark:text-gray-100"
               placeholder="Proje adına göre ara..."
               value={searchTerm}
               onChange={(e) => onSearchChange(e.target.value)}
             />
             <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-              <FiSearch className="h-5 w-5 text-gray-400" />
+              <FiSearch className="h-5 w-5 text-gray-400 dark:text-gray-500" />
             </div>
           </div>
         </div>
         <div>
-          <label htmlFor="filter" className="block text-sm font-medium text-gray-700 mb-1">
+          <label
+            htmlFor="filter"
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+          >
             Duruma Göre Filtrele
           </label>
           <select
             id="filter"
-            className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm rounded-md border"
+            className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-3 pr-10 py-2 text-base border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 rounded-md sm:text-sm"
             value={filter}
             onChange={(e) => onFilterChange(e.target.value as ProjectFilter)}
           >
