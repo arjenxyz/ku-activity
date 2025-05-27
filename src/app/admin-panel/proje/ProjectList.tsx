@@ -9,14 +9,10 @@ export default function ProjectList({
   projects,
   loading,
   onCreate,
-   onEdit,
-  onDelete
 }: {
   projects: Project[];
   loading: boolean;
   onCreate?: () => void;
- onEdit?: (id: string) => void; // Proje düzenleme fonksiyonu
-  onDelete?: (id: string) => Promise<void>; // Proje silme fonksiyonu
 }) {
   const router = useRouter();
 
