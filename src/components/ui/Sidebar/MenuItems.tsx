@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useState, useCallback, useMemo } from "react";
-import { FiPlus, FiFileText, FiUsers, FiDollarSign, FiChevronRight } from "react-icons/fi";
+import { FiPlus, FiFileText, FiUsers, FiDollarSign, FiChevronRight, FiSearch, FiClipboard } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface MenuItem {
@@ -35,6 +35,70 @@ const MenuItems = ({ pathname, projectId }: MenuItemsProps) => {
             label: "Personel Listesi",
             href: `/admin-panel/proje/${projectId}/list`,
           },
+          {
+            label: "Avans Ekle",
+            href: `/admin-panel/proje/${projectId}/add-advance`,
+          },
+          {
+            label: "Yevmiye Ekle",
+            href: `/admin-panel/proje/${projectId}/add-daily`,
+          },
+          {
+            label: "Asgari Ekle",
+            href: `/admin-panel/proje/${projectId}/add-minimum`,
+          },
+        ],
+      },
+      {
+        label: "Sorgulama Yönetimi",
+        icon: <FiSearch className="text-lg text-orange-500" />,
+        subItems: [
+          {
+            label: "Personel Sorgulaması",
+            href: `/admin-panel/sorgulama/personel/${projectId}`,
+          },
+          {
+            label: "Admin Sorgulama",
+            href: `/admin-panel/sorgulama/admin/${projectId}`,
+          },
+          {
+            label: "Personel Şifreleri",
+            href: `/admin-panel/sorgulama/personel-passwords/${projectId}`,
+          },
+          {
+            label: "Admin Şifreleri",
+            href: `/admin-panel/sorgulama/admin-passwords/${projectId}`,
+          },
+          {
+            label: "Avans Sorgulama",
+            href: `/admin-panel/sorgulama/advance/${projectId}`,
+          },
+          {
+            label: "Yevmiye Sorgulama",
+            href: `/admin-panel/sorgulama/daily/${projectId}`,
+          },
+          {
+            label: "Asgari Sorgulama",
+            href: `/admin-panel/sorgulama/minimum/${projectId}`,
+          },
+        ],
+      },
+      {
+        label: "Raporlar",
+        icon: <FiFileText className="text-lg text-purple-500" />,
+        subItems: [
+          {
+            label: "Admin Raporları",
+            href: `/admin-panel/reports/admin/${projectId}`,
+          },
+          {
+            label: "Günlük Onaylananlar",
+            href: `/admin-panel/reports/daily-approved/${projectId}`,
+          },
+          {
+            label: "Onaylanmayanlar",
+            href: `/admin-panel/reports/not-approved/${projectId}`,
+          },
         ],
       },
       {
@@ -50,11 +114,6 @@ const MenuItems = ({ pathname, projectId }: MenuItemsProps) => {
             href: `/admin-panel/arjen/bordro/${projectId}`,
           },
         ],
-      },
-      {
-        label: "Raporlar",
-        icon: <FiFileText className="text-lg text-purple-500" />,
-        href: `/admin-panel/arjen/sorgulama/${projectId}/`,
       },
     ],
     [projectId]
