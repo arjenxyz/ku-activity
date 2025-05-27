@@ -8,10 +8,7 @@ import { motion } from 'framer-motion';
 export default function ProjectList({
   projects,
   loading,
-  onCreate,
-  onDelete,
-  onEdit
-  
+  onCreate
 }: {
   projects: Project[];
   loading: boolean;
