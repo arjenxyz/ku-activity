@@ -55,21 +55,21 @@ export const ProjectSettingsModal = ({
     }
   };
 
-  const handleDelete = async () => {
-    setIsSubmitting(true);
-    try {
-      const { error } = await deleteProject(project.id);
-      if (!error) {
-        onDelete();
-        onClose();
-        router.push('/admin-panel/'); // ✅ yönlendirme burada
-      } else {
-        alert('Projeyi silerken hata oluştu.');
-      }
-    } finally {
-      setIsSubmitting(false);
+ const handleDelete = async () => {
+  setIsSubmitting(true);
+  try {
+    const { error } = await deleteProject(project.id);
+    if (!error) {
+      onDelete();       // Üst komponentteki temizleme işlemleri yapılır
+      onClose();        // Modal kapatılır
+      router.replace('/admin-panel/');  // Geri gelmeyi engelleyecek şekilde yönlendirme yapılır
+    } else {
+      alert('Projeyi silerken hata oluştu.');
     }
-  };
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   if (!isOpen) return null;
 
