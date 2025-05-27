@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { FiCheck, FiX } from 'react-icons/fi';
+import { FiCheck, FiX, FiChevronDown } from 'react-icons/fi'; // FiChevronDown ikonu eklendi
 import { createProject, updateProject, fetchProjects } from '../../lib/proje/projectService';
 import type { Project, ProjectFormData } from '../../lib/proje/types';
 
@@ -24,6 +24,7 @@ export default function ProjectForm({
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Drop-down menü durumu
 
   useEffect(() => {
     const loadProjectData = async () => {
@@ -78,6 +79,14 @@ export default function ProjectForm({
     }));
   };
 
+  const handleStatusSelect = (status: string) => {
+    setFormData(prev => ({
+      ...prev,
+      status,
+    }));
+    setIsDropdownOpen(false); // Drop-down menüyü kapat
+  };
+
   return (
     <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden mb-8 border border-gray-200 dark:border-gray-700">
       <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
@@ -93,6 +102,7 @@ export default function ProjectForm({
           </div>
         )}
         <div className="space-y-6">
+          {/* Proje Adı */}
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Proje Adı*
@@ -108,20 +118,51 @@ export default function ProjectForm({
               placeholder="Proje adını giriniz"
             />
           </div>
+
+          {/* Drop-down Menü - Durum */}
           <div>
-            <label htmlFor="location" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-              Konum
+            <label htmlFor="status" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              Durum*
             </label>
-            <input
-              type="text"
-              name="location"
-              id="location"
-              value={formData.location}
-              onChange={handleChange}
-              className="block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-900 dark:text-gray-100"
-              placeholder="Proje konumunu giriniz"
-            />
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setIsDropdownOpen(prev => !prev)}
+                className="flex items-center justify-between w-full rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-2 text-sm text-gray-700 dark:text-gray-100 shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              >
+                {formData.status === 'active'
+                  ? 'Aktif'
+                  : formData.status === 'planned'
+                  ? 'Planlanan'
+                  : 'Tamamlanan'}
+                <FiChevronDown className="w-4 h-4" />
+              </button>
+              {isDropdownOpen && (
+                <ul className="absolute z-10 mt-2 w-full bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-md shadow-lg">
+                  <li
+                    onClick={() => handleStatusSelect('active')}
+                    className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer"
+                  >
+                    Aktif
+                  </li>
+                  <li
+                    onClick={() => handleStatusSelect('planned')}
+                    className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer"
+                  >
+                    Planlanan
+                  </li>
+                  <li
+                    onClick={() => handleStatusSelect('completed')}
+                    className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer"
+                  >
+                    Tamamlanan
+                  </li>
+                </ul>
+              )}
+            </div>
           </div>
+
+          {/* Diğer Alanlar */}
           <div>
             <label htmlFor="start_date" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Başlangıç Tarihi*
@@ -135,23 +176,6 @@ export default function ProjectForm({
               required
               className="block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-900 dark:text-gray-100"
             />
-          </div>
-          <div>
-            <label htmlFor="status" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-              Durum*
-            </label>
-            <select
-              name="status"
-              id="status"
-              value={formData.status}
-              onChange={handleChange}
-              required
-              className="block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-900 dark:text-gray-100"
-            >
-              <option value="active">Aktif</option>
-              <option value="planned">Planlanan</option>
-              <option value="completed">Tamamlanan</option>
-            </select>
           </div>
           <div>
             <label htmlFor="description" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
