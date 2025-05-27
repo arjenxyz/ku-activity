@@ -1,13 +1,15 @@
+// src/app/admin-panel/projects/[projectId]/page.tsx
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import dayjs from 'dayjs';
-import { FiUserPlus, FiFileText, FiFilter, FiRefreshCw } from 'react-icons/fi';
+import { FiUserPlus, FiFileText, FiFilter, FiRefreshCw, FiSettings as FiSettingsIcon } from 'react-icons/fi'; // FiSettingsIcon'ı geri ekledim eğer kullanmak istersen
 
-import { fetchProject } from '@/api/projects';
+import { fetchProject, deleteProject } from '@/api/projects'; // deleteProject import'ını ekledim
 import { fetchEmployees } from '@/api/employees';
 
+import { ProjectSettingsModal } from '@/components/modals/ProjectSettingsModal'; // ProjectSettingsModal'ı import et!
 import Sidebar from '@/components/ui/Sidebar/Sidebar';
 import { StatCard } from '@/components/ui/StatCard';
 import type { Employee, AttendanceStats, Project } from '@/types/adminTypes';
@@ -21,8 +23,7 @@ export default function ProjectDashboard() {
   const [project, setProject] = useState<Project | null>(null);
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState<AttendanceStats>({ present: 0, absent: 0, late: 0 });
-  // Yeni: Ayarlar panelinin açık/kapalı durumunu yönetmek için bir state tanımlayın
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false); // isSettingsOpen olarak kalsın
 
   const projectIdRaw = params.projectId;
   const projectId = Array.isArray(projectIdRaw) ? projectIdRaw[0] : projectIdRaw;
@@ -59,12 +60,14 @@ export default function ProjectDashboard() {
     return <div className="p-8 text-center text-red-600">Geçersiz proje ID</div>;
   }
 
+  // Yüklenme durumunda sadece basit bir "Yükleniyor..." göster
   if (loading) {
     return <div className="p-8 text-center">Yükleniyor...</div>;
   }
 
+  // Proje yüklenmediyse hata göster
   if (!project) {
-    return <div className="p-8 text-center">Proje yükleniyor...</div>;
+    return <div className="p-8 text-center">Proje bulunamadı veya yüklenirken bir hata oluştu.</div>;
   }
 
   const totalPayroll = employees.reduce(
@@ -74,29 +77,55 @@ export default function ProjectDashboard() {
 
   const todayMissing = employees.filter(emp => !emp.today_verified).length;
 
+  // onDelete fonksiyonunu ProjectSettingsModal'ın beklediği gibi tanımla
+  const onDelete = async () => {
+    if (!projectId) return;
+    try {
+      // deleteProject fonksiyonunu çağırıyoruz
+      const { error } = await deleteProject(projectId);
+      if (!error) {
+        // Silme başarılı olursa projeler sayfasına yönlendir
+        router.replace('/admin-panel/');
+      } else {
+        console.error('Proje silme hatası:', error);
+        alert('Proje silinirken hata oluştu.');
+      }
+    } catch (error) {
+      console.error('Proje silme hatası:', error);
+      alert('Proje silinirken hata oluştu.');
+    }
+  };
+
+
   return (
     <div className="relative min-h-screen bg-gray-50 p-4 md:p-8">
-      {/* Sidebar'a setSettingsOpen prop'unu geçirin */}
+      {/* Sidebar'a setIsSettingsOpen prop'unu geçirin */}
       <Sidebar setSettingsOpen={setIsSettingsOpen} />
 
-      {/* isSettingsOpen durumuna göre ayarlar panelini gösterin */}
-      {isSettingsOpen && (
-        <div className="fixed inset-0 bg-white dark:bg-gray-900 z-50 p-8 flex flex-col items-center justify-center">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">Ayarlar Paneli</h2>
-          <p className="text-gray-700 dark:text-gray-300 mb-8">Burada proje ayarlarınızı düzenleyebilirsiniz.</p>
-          <button
-            onClick={() => setIsSettingsOpen(false)}
-            className="px-6 py-3 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-300"
-          >
-            Ayarları Kapat
-          </button>
-          {/* Buraya ayarlar ile ilgili diğer bileşenleri ekleyebilirsiniz */}
-        </div>
+      {/* isSettingsOpen durumuna göre ProjectSettingsModal'ı gösterin */}
+      {project && ( // project null değilse modalı render etmeliyiz
+        <ProjectSettingsModal
+          project={project}
+          isOpen={isSettingsOpen} // isSettingsOpen state'ine bağlı
+          onClose={() => setIsSettingsOpen(false)} // Modalı kapatmak için setter'ı kullan
+          onUpdate={setProject} // Project state'ini güncellemek için setter'ı kullan
+          onDelete={onDelete} // Silme işlemini yöneten fonksiyonu ver
+        />
       )}
 
       <div className="max-w-7xl mx-auto space-y-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">{project.name}</h1>
+          <h1 className="text-2xl font-bold text-gray-900">
+            {project.name}
+            {/* Bu butonu kaldırabilirsin veya farklı bir işlev için kullanabilirsin,
+                çünkü artık Sidebar üzerinden açılıyor. */}
+            <button
+              onClick={() => setIsSettingsOpen(true)}
+              className="ml-2 p-2 hover:bg-gray-100 rounded-full"
+            >
+              <FiSettingsIcon />
+            </button>
+          </h1>
           <p className="text-gray-600">{formatDate(dayjs().toString(), DATE_FORMATS.DAY_MONTH_YEAR)}</p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
