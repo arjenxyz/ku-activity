@@ -2,7 +2,7 @@
 
 import { Dispatch, SetStateAction, useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { FiChevronRight, FiX, FiLayout, FiSettings } from "react-icons/fi";
+import { FiChevronRight, FiLayout, FiSettings } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
 import MenuItems from "./MenuItems";
 import LogoutButton from "./LogoutButton";
@@ -25,19 +25,19 @@ export const Sidebar: React.FC<SidebarProps> = ({ setSettingsOpen }) => {
 
   return (
     <>
-      <motion.button
-        onClick={() => setSidebarOpen(!sidebarOpen)}
-        className="fixed top-6 left-4 z-50 p-3 bg-white dark:bg-gray-800 shadow-xl rounded-full hover:shadow-lg transition-all"
-        whileHover={{ scale: 1.05 }}
-        animate={{ rotate: sidebarOpen ? 180 : 0 }}
-        aria-label="Toggle sidebar"
-      >
-        {sidebarOpen ? (
-          <FiX className="w-5 h-5 text-gray-700 dark:text-gray-300" />
-        ) : (
-          <FiChevronRight className="w-5 h-5 text-gray-700 dark:text-gray-300" />
-        )}
-      </motion.button>
+      {/* Menü Açma Butonu */}
+      {!sidebarOpen && (
+        <motion.button
+          onClick={() => setSidebarOpen(true)}
+          className="fixed top-6 left-4 z-50 p-4 bg-blue-500 hover:bg-blue-600 text-white shadow-xl rounded-full transition-all flex items-center gap-2"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
+          aria-label="Toggle sidebar"
+        >
+          <FiChevronRight className="w-5 h-5" />
+          <span className="text-sm font-medium">Menüyü Aç</span>
+        </motion.button>
+      )}
 
       <AnimatePresence>
         {sidebarOpen && (
@@ -98,7 +98,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ setSettingsOpen }) => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               className="fixed inset-0 bg-black/20 dark:bg-black/50 backdrop-blur-sm z-30"
-              onClick={() => setSidebarOpen(false)}
+              onClick={() => setSidebarOpen(false)} // Overlay'e tıklandığında menüyü kapat
             />
           </>
         )}
