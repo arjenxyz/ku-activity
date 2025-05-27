@@ -58,7 +58,7 @@ export default function ProjectPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 py-8 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
       <div className="max-w-6xl mx-auto">
         <Header onAddProject={handleAddProject} />
 
@@ -91,12 +91,14 @@ export default function ProjectPage() {
 const Header = ({ onAddProject }: { onAddProject: () => void }) => (
   <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
     <div>
-      <h1 className="text-3xl font-bold text-gray-900">Proje Yönetimi</h1>
-      <p className="mt-2 text-sm text-gray-600">Tüm projelerinizi tek bir yerden yönetin</p>
+      <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Proje Yönetimi</h1>
+      <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+        Tüm projelerinizi tek bir yerden yönetin
+      </p>
     </div>
     <button
       onClick={onAddProject}
-      className="mt-4 md:mt-0 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700"
+      className="mt-4 md:mt-0 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600"
     >
       Yeni Proje
     </button>
