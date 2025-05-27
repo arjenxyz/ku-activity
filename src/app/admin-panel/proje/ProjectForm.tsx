@@ -79,22 +79,22 @@ export default function ProjectForm({
   };
 
   return (
-    <div className="bg-white shadow rounded-lg overflow-hidden mb-8 border border-gray-200">
-      <div className="px-6 py-4 border-b border-gray-200 bg-gray-50">
-        <h2 className="text-lg font-semibold text-gray-800">
+    <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden mb-8 border border-gray-200 dark:border-gray-700">
+      <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
+        <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100">
           {editingId ? 'Projeyi Düzenle' : 'Yeni Proje Ekle'}
         </h2>
       </div>
       <form onSubmit={handleSubmit} className="p-6 space-y-4">
         {error && (
-          <div className="p-3 bg-red-50 text-red-600 rounded-md flex items-center">
+          <div className="p-3 bg-red-50 dark:bg-red-900 text-red-600 dark:text-red-200 rounded-md flex items-center">
             <FiX className="mr-2 flex-shrink-0" />
             <span>{error}</span>
           </div>
         )}
         <div className="space-y-6">
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Proje Adı*
             </label>
             <input
@@ -104,12 +104,12 @@ export default function ProjectForm({
               value={formData.name}
               onChange={handleChange}
               required
-              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+              className="block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-900 dark:text-gray-100"
               placeholder="Proje adını giriniz"
             />
           </div>
           <div>
-            <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="location" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Konum
             </label>
             <input
@@ -118,12 +118,12 @@ export default function ProjectForm({
               id="location"
               value={formData.location}
               onChange={handleChange}
-              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+              className="block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-900 dark:text-gray-100"
               placeholder="Proje konumunu giriniz"
             />
           </div>
           <div>
-            <label htmlFor="start_date" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="start_date" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Başlangıç Tarihi*
             </label>
             <input
@@ -133,11 +133,11 @@ export default function ProjectForm({
               value={formData.start_date}
               onChange={handleChange}
               required
-              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+              className="block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-900 dark:text-gray-100"
             />
           </div>
           <div>
-            <label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="status" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Durum*
             </label>
             <select
@@ -146,7 +146,7 @@ export default function ProjectForm({
               value={formData.status}
               onChange={handleChange}
               required
-              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+              className="block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-900 dark:text-gray-100"
             >
               <option value="active">Aktif</option>
               <option value="planned">Planlanan</option>
@@ -154,7 +154,7 @@ export default function ProjectForm({
             </select>
           </div>
           <div>
-            <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="description" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Açıklama
             </label>
             <textarea
@@ -163,17 +163,17 @@ export default function ProjectForm({
               value={formData.description}
               onChange={handleChange}
               rows={3}
-              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+              className="block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-900 dark:text-gray-100"
               placeholder="Proje açıklamasını giriniz"
             />
           </div>
         </div>
-        <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-200 mt-6">
+        <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-200 dark:border-gray-700 mt-6">
           <button
             type="button"
             onClick={onCancel}
             disabled={isSubmitting}
-            className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+            className="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
           >
             <FiX className="mr-2 h-4 w-4" />
             İptal
