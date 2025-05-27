@@ -12,7 +12,7 @@ const LogoutButton = () => {
       await fetch("/api/logout", { method: "POST" });
 
       alert("Çıkış yapıldı");
-      router.push("/giris"); // Çıkış sonrası giriş sayfasına yönlendirme
+      router.push("/admin-panel"); // Çıkış sonrası giriş sayfasına yönlendirme
     } catch (error) {
       console.error("Çıkış yaparken bir hata oluştu:", error);
       alert("Çıkış yaparken bir hata oluştu.");
