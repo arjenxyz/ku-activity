@@ -62,7 +62,7 @@ export default function AdminLogin() {
 
       // Cookie ve yönlendirme
       document.cookie = `admin_session=${sessionToken}; Path=/; Secure; SameSite=Strict; Max-Age=${60 * 60 * 24 * 7}`;
-      router.push("/admin-panel/proje");
+      router.push("/admin-panel/");
 
     } catch (err) {
       console.error("Giriş hatası:", err);
