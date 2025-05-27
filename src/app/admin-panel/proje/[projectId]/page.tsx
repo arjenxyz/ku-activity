@@ -3,12 +3,11 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import dayjs from 'dayjs';
-import { FiUserPlus, FiFileText, FiFilter, FiRefreshCw, FiSettings as FiSettingsIcon } from 'react-icons/fi';
+import { FiUserPlus, FiFileText, FiFilter, FiRefreshCw } from 'react-icons/fi';
 
 import { fetchProject, deleteProject } from '@/api/projects';
 import { fetchEmployees } from '@/api/employees';
 
-import { ProjectSettingsModal } from '@/components/modals/ProjectSettingsModal';
 import Sidebar from '@/components/ui/Sidebar/Sidebar';
 import { StatCard } from '@/components/ui/StatCard';
 import type { Employee, AttendanceStats, Project } from '@/types/adminTypes';
@@ -20,9 +19,8 @@ export default function ProjectDashboard() {
 
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [project, setProject] = useState<Project | null>(null);
-  const [loading, setLoading] = useState(true); // Yüklenme durumunu takip ediyoruz
+  const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState<AttendanceStats>({ present: 0, absent: 0, late: 0 });
-  const [settingsOpen, setSettingsOpen] = useState(false);
 
   const projectIdRaw = params.projectId;
   const projectId = Array.isArray(projectIdRaw) ? projectIdRaw[0] : projectIdRaw;
@@ -30,8 +28,8 @@ export default function ProjectDashboard() {
   const initializeData = useCallback(async () => {
     if (!projectId) return;
     try {
-      setLoading(true); // Yüklenme durumunu başlatıyoruz
-      const selectedMonth = dayjs().format('YYYY-MM'); // or use a state/prop if you have one
+      setLoading(true);
+      const selectedMonth = dayjs().format('YYYY-MM');
       const [projectData, employeesData] = await Promise.all([
         fetchProject(projectId),
         fetchEmployees(projectId, selectedMonth)
@@ -45,7 +43,7 @@ export default function ProjectDashboard() {
       console.error('Proje yükleme hatası:', error);
       router.push('/admin-panel/');
     } finally {
-      setLoading(false); // Yüklenme durumu tamamlandı
+      setLoading(false);
     }
   }, [projectId, router]);
 
@@ -59,12 +57,10 @@ export default function ProjectDashboard() {
     return <div className="p-8 text-center text-red-600">Geçersiz proje ID</div>;
   }
 
-  // Eğer yükleniyorsa yükleniyor göstergesini render'lıyoruz
   if (loading) {
     return <div className="p-8 text-center">Yükleniyor...</div>;
   }
 
-  // Eğer proje yoksa yükleniyor mesajı gösteriyoruz
   if (!project) {
     return <div className="p-8 text-center">Proje yükleniyor...</div>;
   }
@@ -76,35 +72,12 @@ export default function ProjectDashboard() {
 
   const todayMissing = employees.filter(emp => !emp.today_verified).length;
 
-  const onDelete = async () => {
-    if (!projectId) return;
-    const confirmDelete = window.confirm('Bu projeyi silmek istediğinizden emin misiniz?');
-    if (!confirmDelete) return;
-
-    try {
-      await deleteProject(projectId); // Projeyi silmek için API çağrısı
-      alert('Proje başarıyla silindi.');
-      router.push('/admin-panel/'); // Silindikten sonra projeler sayfasına yönlendir
-    } catch (error) {
-      console.error('Proje silme hatası:', error);
-      alert('Proje silinirken hata oluştu.');
-    }
-  };
-
   return (
     <div className="relative min-h-screen bg-gray-50 p-4 md:p-8">
-      <Sidebar setSettingsOpen={setSettingsOpen} />
+      <Sidebar />
       <div className="max-w-7xl mx-auto space-y-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">
-            {project.name}
-            <button
-              onClick={() => setSettingsOpen(true)}
-              className="ml-2 p-2 hover:bg-gray-100 rounded-full"
-            >
-              <FiSettingsIcon />
-            </button>
-          </h1>
+          <h1 className="text-2xl font-bold text-gray-900">{project.name}</h1>
           <p className="text-gray-600">{formatDate(dayjs().toString(), DATE_FORMATS.DAY_MONTH_YEAR)}</p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -113,13 +86,6 @@ export default function ProjectDashboard() {
           <StatCard title="Toplam Maaş" value={`₺${totalPayroll.toLocaleString()}`} icon={<FiFilter />} color="bg-green-100 text-green-600" />
           <StatCard title="Aylık Katılım" value={`${stats.present}/${stats.present + stats.absent}`} icon={<FiRefreshCw />} color="bg-purple-100 text-purple-600" />
         </div>
-        <ProjectSettingsModal
-          project={project}
-          isOpen={settingsOpen}
-          onClose={() => setSettingsOpen(false)}
-          onUpdate={setProject}
-          onDelete={onDelete} // Buraya async gerçek silme fonksiyonunu verdik
-        />
       </div>
     </div>
   );
