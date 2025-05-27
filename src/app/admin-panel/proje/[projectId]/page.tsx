@@ -21,6 +21,8 @@ export default function ProjectDashboard() {
   const [project, setProject] = useState<Project | null>(null);
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState<AttendanceStats>({ present: 0, absent: 0, late: 0 });
+  // Yeni: Ayarlar panelinin açık/kapalı durumunu yönetmek için bir state tanımlayın
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   const projectIdRaw = params.projectId;
   const projectId = Array.isArray(projectIdRaw) ? projectIdRaw[0] : projectIdRaw;
@@ -74,7 +76,24 @@ export default function ProjectDashboard() {
 
   return (
     <div className="relative min-h-screen bg-gray-50 p-4 md:p-8">
-      <Sidebar />
+      {/* Sidebar'a setSettingsOpen prop'unu geçirin */}
+      <Sidebar setSettingsOpen={setIsSettingsOpen} />
+
+      {/* isSettingsOpen durumuna göre ayarlar panelini gösterin */}
+      {isSettingsOpen && (
+        <div className="fixed inset-0 bg-white dark:bg-gray-900 z-50 p-8 flex flex-col items-center justify-center">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">Ayarlar Paneli</h2>
+          <p className="text-gray-700 dark:text-gray-300 mb-8">Burada proje ayarlarınızı düzenleyebilirsiniz.</p>
+          <button
+            onClick={() => setIsSettingsOpen(false)}
+            className="px-6 py-3 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-300"
+          >
+            Ayarları Kapat
+          </button>
+          {/* Buraya ayarlar ile ilgili diğer bileşenleri ekleyebilirsiniz */}
+        </div>
+      )}
+
       <div className="max-w-7xl mx-auto space-y-6">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">{project.name}</h1>
