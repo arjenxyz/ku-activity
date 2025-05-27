@@ -3,7 +3,6 @@
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
-import { supabase } from "../../../app/lib/supabaseClient"; // Supabase istemcisi src\app\lib\supabaseClient.ts
 import MenuItems from "./MenuItems";
 import LogoutButton from "./LogoutButton";
 
