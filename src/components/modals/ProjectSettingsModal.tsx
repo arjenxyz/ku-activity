@@ -71,6 +71,7 @@ export const ProjectSettingsModal = ({
   }
 };
 
+
   if (!isOpen) return null;
 
   return (
@@ -194,3 +195,5 @@ export const ProjectSettingsModal = ({
     </div>
   );
 };
+
+  
