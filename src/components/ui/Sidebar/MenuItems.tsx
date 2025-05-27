@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useState, useCallback, useMemo } from "react";
-import { FiPlus, FiFileText, FiUsers, FiDollarSign, FiChevronRight, FiSearch, FiClipboard } from "react-icons/fi";
+import { FiPlus, FiFileText, FiUsers, FiDollarSign, FiChevronRight, FiSearch } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface MenuItem {
