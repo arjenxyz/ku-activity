@@ -119,8 +119,8 @@ const MenuItems = ({ pathname, projectId }: MenuItemsProps) => {
         ),
         subItems: [
           {
-            label: "Avans Yönetimi",
-            href: `/admin-panel/arjen/avans/${projectId}`,
+            label: "Ne durumdayız?",
+            href: `/admin-panel/arjen/durum/${projectId}`,
           },
           {
             label: "Maaş Bordroları",
