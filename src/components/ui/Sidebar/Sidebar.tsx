@@ -2,75 +2,93 @@
 
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
-import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
+import { FiChevronRight, FiX, FiLayout } from "react-icons/fi";
+import { motion, AnimatePresence } from "framer-motion";
 import MenuItems from "./MenuItems";
 import LogoutButton from "./LogoutButton";
 
 export const Sidebar = () => {
   const pathname = usePathname();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [projectId, setProjectId] = useState<number | null>(null); // Başlangıçta null
+  const [projectId, setProjectId] = useState<string | null>(null);
 
-  // URL'deki proje ID'sini belirleme
+  // UUID formatında proje ID'sini yakalama
   useEffect(() => {
-    const match = pathname.match(/^\/admin-panel\/proje\/([a-f0-9-]+)$/);
-    if (match) {
-      const projectIdString = match[1];
-      const projectIdNumber = parseInt(projectIdString, 10); // String'i number'a çevir
-      setProjectId(projectIdNumber);
-    } else {
-      setProjectId(null); // Proje ID'si yoksa null yap
-    }
+    const match = pathname.match(/^\/admin-panel\/proje\/([a-f0-9-]{36})/);
+    setProjectId(match ? match[1] : null);
   }, [pathname]);
 
-  // Eğer proje ID'si yoksa Sidebar'ı gösterme
-  if (!projectId) {
-    return null;
-  }
+  if (!projectId) return null;
 
   return (
     <>
-      {/* Menü açma/kapatma düğmesi */}
-      <button
+      {/* Floating Toggle Button */}
+      <motion.button
         onClick={() => setSidebarOpen(!sidebarOpen)}
-        className="fixed top-4 left-4 z-50 p-2 rounded-lg bg-gray-700 text-white shadow-lg hover:bg-gray-600 transition-colors"
-        aria-label="Toggle menu"
+        className="fixed top-6 left-4 z-50 p-3 bg-white shadow-xl rounded-full hover:shadow-lg transition-all"
+        whileHover={{ scale: 1.05 }}
+        animate={{ rotate: sidebarOpen ? 180 : 0 }}
+        aria-label="Toggle sidebar"
       >
-        {sidebarOpen ? <AiOutlineClose size={24} /> : <AiOutlineMenu size={24} />}
-      </button>
+        {sidebarOpen ? (
+          <FiX className="w-5 h-5 text-gray-700" />
+        ) : (
+          <FiChevronRight className="w-5 h-5 text-gray-700" />
+        )}
+      </motion.button>
 
-      {/* Yan Menü */}
-      <aside
-        className={`fixed top-0 left-0 h-screen w-64 bg-white text-gray-900 shadow-xl flex flex-col transform transition-transform duration-300 z-40 ${
-          sidebarOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
-      >
-        <div className="flex-1 flex flex-col overflow-hidden">
-          {/* Üst Kontrol Paneli */}
-          <div className="p-4 border-b border-gray-300 flex flex-col gap-4">
-            <h2 className="text-xl font-bold flex items-center gap-2">
-              <span className="bg-blue-600 text-white p-2 rounded-lg">AP</span>
-              Admin Panel - {projectId}
-            </h2>
-          </div>
+      <AnimatePresence>
+        {sidebarOpen && (
+          <>
+            {/* Sidebar */}
+            <motion.aside
+              initial={{ x: -300 }}
+              animate={{ x: 0 }}
+              exit={{ x: -300 }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              className="fixed top-0 left-0 h-screen w-72 bg-gradient-to-b from-white to-gray-50 border-r border-gray-200 shadow-2xl flex flex-col z-40"
+            >
+              <div className="flex-1 flex flex-col overflow-hidden">
+                {/* Header */}
+                <div className="p-6 border-b border-gray-200">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 bg-blue-100 rounded-lg">
+                      <FiLayout className="w-6 h-6 text-blue-600" />
+                    </div>
+                    <div>
+                      <h2 className="text-lg font-semibold text-gray-900">
+                        Proje Yönetimi
+                      </h2>
+                      <p className="text-sm text-gray-500 font-mono mt-1">
+                        #{projectId.slice(0, 8)}
+                      </p>
+                    </div>
+                  </div>
+                </div>
 
-          {/* Menü Öğeleri */}
-          <MenuItems pathname={pathname} projectId={projectId} />
+                {/* Menu Items */}
+                <div className="flex-1 overflow-y-auto px-3 py-4">
+                  <MenuItems pathname={pathname} projectId={projectId} />
+                </div>
 
-          {/* Alt Kısım */}
-          <div className="p-4 border-t border-gray-300 mt-auto">
-            <LogoutButton />
-          </div>
-        </div>
-      </aside>
+                {/* Footer */}
+                <div className="p-4 border-t border-gray-200 bg-white">
+                  <LogoutButton />
+                </div>
+              </div>
+            </motion.aside>
 
-      {/* İçerik için boşluk bırak */}
-      <div
-        className={`fixed top-0 left-0 h-screen w-screen bg-black/50 z-30 transition-opacity ${
-          sidebarOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-        }`}
-        onClick={() => setSidebarOpen(false)}
-      ></div>
+            {/* Overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/20 backdrop-blur-sm z-30"
+              onClick={() => setSidebarOpen(false)}
+            />
+          </>
+        )}
+      </AnimatePresence>
     </>
   );
 };
