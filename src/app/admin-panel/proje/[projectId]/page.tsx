@@ -9,7 +9,7 @@ import { fetchProject, deleteProject } from '@/api/projects';
 import { fetchEmployees } from '@/api/employees';
 
 import { ProjectSettingsModal } from '@/components/modals/ProjectSettingsModal';
-import { Sidebar } from '@/components/ui/Sidebar/Sidebar';
+import Sidebar from '@/components/ui/Sidebar/Sidebar';
 import { StatCard } from '@/components/ui/StatCard';
 import type { Employee, AttendanceStats, Project } from '@/types/adminTypes';
 import { DATE_FORMATS, formatDate } from '@/utils/dateUtils';
