@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState, useCallback, useMemo } from "react";
 import { AiOutlineHome, AiOutlineFolder, AiOutlineSetting, AiOutlineMenu } from "react-icons/ai";
-import { FiLogOut, FiUser, FiFileText, FiChevronDown } from "react-icons/fi";
+import { FiLogOut, FiChevronDown } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface MenuItem {
