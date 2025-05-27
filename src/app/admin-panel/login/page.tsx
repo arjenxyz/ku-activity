@@ -73,44 +73,50 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-900 via-blue-800 to-purple-900 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900 p-4">
       <form
         onSubmit={handleLogin}
-        className="bg-white/5 backdrop-blur-lg rounded-2xl p-8 w-full max-w-md space-y-6 
-                 shadow-xl border border-white/10 relative overflow-hidden"
+        className="bg-slate-100/10 backdrop-blur-lg rounded-2xl p-8 w-full max-w-md space-y-6 
+                 shadow-2xl border border-gray-300/20 relative overflow-hidden
+                 hover:shadow-[0_0_30px_-10px_rgba(203,213,225,0.3)] transition-shadow duration-300"
       >
-        {/* Dekoratif arka plan elementleri */}
-        <div className="absolute -top-32 -right-32 w-64 h-64 bg-indigo-500/20 rounded-full blur-3xl" />
-        <div className="absolute -bottom-48 -left-48 w-64 h-64 bg-purple-500/20 rounded-full blur-3xl" />
+        {/* Metalik efektler */}
+        <div className="absolute inset-0 bg-[linear-gradient(45deg,rgba(255,255,255,0.05)_25%,transparent_25%,transparent_75%,rgba(255,255,255,0.05)_75%)] opacity-20" />
+        
+        {/* Dekoratif parlak çizgiler */}
+        <div className="absolute -top-1 left-1/2 w-[200%] h-1 bg-gradient-to-r from-transparent via-white/30 to-transparent 
+                      transform -translate-x-1/2 -rotate-3" />
 
         {/* Başlık */}
-        <div className="text-center space-y-2">
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-indigo-300 to-blue-400 
-                         bg-clip-text text-transparent mb-2">
+        <div className="text-center space-y-2 relative z-10">
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-slate-300 via-gray-300 to-slate-300 
+                         bg-clip-text text-transparent mb-2 tracking-wider">
             ArjenDev
           </h1>
-          <h2 className="text-xl font-semibold text-gray-200">Yönetici Paneli Girişi</h2>
+          <h2 className="text-xl font-medium text-slate-300">Yönetici Paneli Girişi</h2>
         </div>
 
         {/* Form Alanları */}
-        <div className="space-y-4">
+        <div className="space-y-4 relative z-10">
           {/* Email Input */}
           <div className="group relative">
             <input
               type="email"
               required
-              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg
-                         text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 
-                         focus:ring-indigo-400 transition-all duration-200"
+              className="w-full px-4 py-3 bg-gray-100/10 border-2 border-gray-300/20 rounded-xl
+                         text-slate-200 placeholder-slate-400/80 focus:outline-none focus:border-slate-400 
+                         focus:ring-2 focus:ring-slate-400/30 transition-all duration-300
+                         shadow-[inset_0_2px_4px_0_rgba(255,255,255,0.05)]"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               autoComplete="username"
               placeholder=" "
             />
-            <label className="absolute left-4 top-3.5 text-gray-400 pointer-events-none
-                              transition-all duration-200 group-focus-within:-translate-y-6 
-                              group-focus-within:text-sm group-focus-within:text-indigo-300 
-                              group-[input:not(:placeholder-shown)]:-translate-y-6 
+            <label className="absolute left-4 top-4 text-slate-400/80 pointer-events-none
+                              transition-all duration-300 group-focus-within:top-0 group-focus-within:-translate-y-3 
+                              group-focus-within:text-sm group-focus-within:text-slate-300 
+                              group-[input:not(:placeholder-shown)]:top-0 
+                              group-[input:not(:placeholder-shown)]:-translate-y-3
                               group-[input:not(:placeholder-shown)]:text-sm">
               Email Adresiniz
             </label>
@@ -121,18 +127,20 @@ export default function AdminLogin() {
             <input
               type="password"
               required
-              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg
-                         text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 
-                         focus:ring-indigo-400 transition-all duration-200"
+              className="w-full px-4 py-3 bg-gray-100/10 border-2 border-gray-300/20 rounded-xl
+                         text-slate-200 placeholder-slate-400/80 focus:outline-none focus:border-slate-400 
+                         focus:ring-2 focus:ring-slate-400/30 transition-all duration-300
+                         shadow-[inset_0_2px_4px_0_rgba(255,255,255,0.05)]"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               autoComplete="current-password"
               placeholder=" "
             />
-            <label className="absolute left-4 top-3.5 text-gray-400 pointer-events-none
-                              transition-all duration-200 group-focus-within:-translate-y-6 
-                              group-focus-within:text-sm group-focus-within:text-indigo-300 
-                              group-[input:not(:placeholder-shown)]:-translate-y-6 
+            <label className="absolute left-4 top-4 text-slate-400/80 pointer-events-none
+                              transition-all duration-300 group-focus-within:top-0 group-focus-within:-translate-y-3 
+                              group-focus-within:text-sm group-focus-within:text-slate-300 
+                              group-[input:not(:placeholder-shown)]:top-0 
+                              group-[input:not(:placeholder-shown)]:-translate-y-3
                               group-[input:not(:placeholder-shown)]:text-sm">
               Şifreniz
             </label>
@@ -141,8 +149,8 @@ export default function AdminLogin() {
 
         {/* Hata Mesajı */}
         {error && (
-          <div className="p-3 bg-red-400/10 border border-red-400/20 rounded-lg flex items-center 
-                          gap-2 animate-fade-in">
+          <div className="p-3 bg-red-400/10 border-2 border-red-400/20 rounded-xl flex items-center 
+                          gap-2 animate-fade-in relative z-10">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5 text-red-400"
@@ -163,10 +171,12 @@ export default function AdminLogin() {
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full py-3.5 bg-indigo-600 hover:bg-indigo-700 rounded-lg
-                   text-white font-medium transition-all duration-200 disabled:opacity-50 
-                   disabled:cursor-not-allowed relative overflow-hidden group"
+          className="w-full py-4 bg-gradient-to-r from-slate-600 to-slate-500 hover:from-slate-500 hover:to-slate-400 
+                   text-white font-medium rounded-xl transition-all duration-300 disabled:opacity-50 
+                   disabled:cursor-not-allowed relative overflow-hidden group shadow-lg"
         >
+          <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 
+                         group-hover:opacity-30 transition-opacity duration-300" />
           {isLoading ? (
             <div className="flex items-center justify-center gap-2">
               <svg
@@ -192,23 +202,13 @@ export default function AdminLogin() {
               <span>Giriş Yapılıyor...</span>
             </div>
           ) : (
-            <>
-              <span className="relative z-10">Giriş Yap</span>
-              <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/30 to-transparent
-                             opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
-            </>
+            <div className="relative">
+              <span className="drop-shadow-md">Giriş Yap</span>
+              <div className="absolute -top-1 left-0 w-full h-1 bg-gradient-to-r from-transparent via-white/40 to-transparent 
+                            opacity-0 group-hover:opacity-50 transition-opacity duration-300" />
+            </div>
           )}
         </button>
-
-        {/* Ekstra Linkler */}
-        <div className="text-center pt-4 border-t border-white/10">
-          <a
-            href="#"
-            className="text-sm text-gray-400 hover:text-indigo-300 transition-colors"
-          >
-            Şifremi Unuttum
-          </a>
-        </div>
       </form>
     </div>
   );
