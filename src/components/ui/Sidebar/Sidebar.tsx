@@ -42,6 +42,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ setSettingsOpen }) => {
       <AnimatePresence>
         {sidebarOpen && (
           <>
+            {/* Sidebar */}
             <motion.aside
               initial={{ x: -300 }}
               animate={{ x: 0 }}
@@ -50,6 +51,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ setSettingsOpen }) => {
               className="fixed top-0 left-0 h-screen w-72 bg-gradient-to-b from-white to-gray-50 border-r border-gray-200 shadow-2xl flex flex-col z-40"
             >
               <div className="flex-1 flex flex-col overflow-hidden">
+                {/* Header */}
                 <div className="p-6 border-b border-gray-200">
                   <div className="flex items-center gap-3">
                     <div className="p-2 bg-blue-100 rounded-lg">
@@ -66,21 +68,27 @@ export const Sidebar: React.FC<SidebarProps> = ({ setSettingsOpen }) => {
                   </div>
                 </div>
 
+                {/* Menu Items */}
                 <div className="flex-1 overflow-y-auto px-3 py-4">
                   <MenuItems pathname={pathname} projectId={projectId} />
                 </div>
 
+                {/* Footer */}
                 <div className="p-4 border-t border-gray-200 bg-white">
                   <button
-                    onClick={() => setSettingsOpen(true)} // setSettingsOpen kullanımı
+                    onClick={() => setSettingsOpen(true)} // Ayarları açma butonu
                     className="text-blue-600 hover:text-blue-800 transition"
                   >
                     Ayarları Aç
                   </button>
+                  <div className="mt-4">
+                    <LogoutButton /> {/* LogoutButton burada kullanılıyor */}
+                  </div>
                 </div>
               </div>
             </motion.aside>
 
+            {/* Overlay */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
