@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import dayjs from 'dayjs';
-import { FiUserPlus, FiFileText, FiFilter, FiRefreshCw, FiFilter as FiSettingsIcon } from 'react-icons/fi';
+import { FiUserPlus, FiFileText, FiFilter, FiRefreshCw, FiSettings as FiSettingsIcon } from 'react-icons/fi';
 
 import { fetchProject, deleteProject } from '@/api/projects';
 import { fetchEmployees } from '@/api/employees';
@@ -70,10 +70,14 @@ export default function ProjectDashboard() {
 
   const todayMissing = employees.filter(emp => !emp.today_verified).length;
 
-  // *** İşte burası önemli: onDelete fonksiyonunu async ve gerçek silme yapacak şekilde tanımlıyoruz ***
   const onDelete = async () => {
     if (!projectId) return;
+    const confirmDelete = window.confirm('Bu projeyi silmek istediğinizden emin misiniz?');
+    if (!confirmDelete) return;
+
     try {
+      await deleteProject(projectId); // Projeyi silmek için API çağrısı
+      alert('Proje başarıyla silindi.');
       router.push('/admin-panel/'); // Silindikten sonra projeler sayfasına yönlendir
     } catch (error) {
       console.error('Proje silme hatası:', error);
@@ -108,10 +112,9 @@ export default function ProjectDashboard() {
           isOpen={settingsOpen}
           onClose={() => setSettingsOpen(false)}
           onUpdate={setProject}
-          onDelete={onDelete}  // Buraya async gerçek silme fonksiyonunu verdik
+          onDelete={onDelete} // Buraya async gerçek silme fonksiyonunu verdik
         />
       </div>
     </div>
   );
 }
-
