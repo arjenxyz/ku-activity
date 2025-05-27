@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useState, useCallback, useMemo } from "react";
-import { AiOutlineFolder, AiOutlineFileText, AiOutlineProject, AiOutlineDown } from "react-icons/ai";
+import { FiPlus, FiFileText, FiUsers, FiDollarSign, FiChevronRight } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface MenuItem {
@@ -15,107 +15,121 @@ interface MenuItem {
 
 interface MenuItemsProps {
   pathname: string;
-  projectId: number; // projectId tanımlandı
+  projectId: number;
 }
 
 const MenuItems = ({ pathname, projectId }: MenuItemsProps) => {
-  const [openMenus, setOpenMenus] = useState<string[]>([]);
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
 
-  const menuItems = useMemo<MenuItem[]>(() => [
-    {
-      label: "Projects",
-      icon: <AiOutlineProject className="text-lg" />,
-      subItems: [
-        {
-          label: "Add New Personnel",
-          href: `/admin-panel/proje/${projectId}/new`,
-        },
-      ],
-    },
-    {
-      label: "Advance Operations",
-      icon: <AiOutlineFolder className="text-lg" />,
-      subItems: [
-        {
-          label: "Add Advance",
-          href: `/admin-panel/arjen/avans/${projectId}`,
-        },
-        {
-          label: "Advance List",
-          href: `/admin-panel/arjen/avans/liste/${projectId}`,
-        },
-      ],
-    },
-    {
-      label: "Query",
-      icon: <AiOutlineFileText className="text-lg" />,
-      href: `/admin-panel/arjen/sorgulama/${projectId}/`,
-    },
-  ], [projectId]);
+  const menuItems = useMemo<MenuItem[]>(
+    () => [
+      {
+        label: "Personel Yönetimi",
+        icon: <FiUsers className="text-lg text-blue-500" />,
+        subItems: [
+          {
+            label: "Yeni Personel Ekle",
+            href: `/admin-panel/proje/${projectId}/new`,
+          },
+          {
+            label: "Personel Listesi",
+            href: `/admin-panel/proje/${projectId}/list`,
+          },
+        ],
+      },
+      {
+        label: "Finans İşlemleri",
+        icon: <FiDollarSign className="text-lg text-green-500" />,
+        subItems: [
+          {
+            label: "Avans Yönetimi",
+            href: `/admin-panel/arjen/avans/${projectId}`,
+          },
+          {
+            label: "Maaş Bordroları",
+            href: `/admin-panel/arjen/bordro/${projectId}`,
+          },
+        ],
+      },
+      {
+        label: "Raporlar",
+        icon: <FiFileText className="text-lg text-purple-500" />,
+        href: `/admin-panel/arjen/sorgulama/${projectId}/`,
+      },
+    ],
+    [projectId]
+  );
 
-  const isActive = useCallback((href?: string, subItems?: MenuItem['subItems']) => {
-    if (href) return pathname?.startsWith(href);
-    if (subItems) return subItems.some(sub => pathname?.startsWith(sub.href));
-    return false;
-  }, [pathname]);
+  const isActive = useCallback(
+    (href?: string, subItems?: MenuItem["subItems"]) => {
+      if (href) return pathname?.startsWith(href);
+      if (subItems) return subItems.some((sub) => pathname?.startsWith(sub.href));
+      return false;
+    },
+    [pathname]
+  );
 
   const toggleMenu = useCallback((label: string) => {
-    setOpenMenus((prev) =>
-      prev.includes(label)
-        ? prev.filter((item) => item !== label)
-        : [...prev, label]
-    );
+    setOpenMenu((prev) => (prev === label ? null : label));
   }, []);
 
   return (
-    <nav className="flex-1 overflow-y-auto py-2 px-1">
+    <nav className="flex-1 overflow-y-auto px-2 py-4 space-y-1">
       {menuItems.map(({ label, icon, href, subItems }) => {
         const active = isActive(href, subItems);
-        const isOpen = openMenus.includes(label);
+        const isOpen = openMenu === label;
 
         return (
-          <div key={label} className="mb-1">
+          <div key={label} className="relative group">
             {subItems ? (
               <>
                 <button
                   onClick={() => toggleMenu(label)}
-                  className={`flex items-center justify-between w-full px-3 py-2.5 rounded-lg transition-colors ${
-                    active
-                      ? "bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300"
-                      : "hover:bg-gray-100 dark:hover:bg-gray-700"
-                  }`}
+                  className={`flex items-center justify-between w-full px-4 py-3 rounded-xl transition-all
+                    ${
+                      active || isOpen
+                        ? "bg-gradient-to-r from-blue-50 to-blue-100 shadow-sm"
+                        : "hover:bg-gray-50"
+                    }`}
                   aria-expanded={isOpen}
                 >
                   <div className="flex items-center gap-3">
-                    {icon}
-                    <span className="text-sm font-medium">{label}</span>
+                    <span className="p-2 bg-white rounded-lg shadow-sm">
+                      {icon}
+                    </span>
+                    <span className="text-sm font-medium text-gray-700">
+                      {label}
+                    </span>
                   </div>
                   <motion.div
-                    animate={{ rotate: isOpen ? 180 : 0 }}
-                    transition={{ duration: 0.2 }}
+                    animate={{ rotate: isOpen ? 90 : 0 }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                    className="text-gray-400"
                   >
-                    <AiOutlineDown className="text-sm" />
+                    <FiChevronRight />
                   </motion.div>
                 </button>
 
                 <AnimatePresence>
                   {isOpen && (
                     <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: "auto" }}
-                      exit={{ opacity: 0, height: 0 }}
-                      className="ml-8 mt-1 space-y-1"
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="ml-10 mt-1 space-y-1"
                     >
                       {subItems.map(({ label: subLabel, href: subHref }) => (
                         <Link
                           href={subHref}
                           key={subHref}
-                          className={`block px-3 py-2 text-sm rounded-lg transition-colors ${
-                            pathname?.startsWith(subHref)
-                              ? "bg-blue-50 dark:bg-blue-800/20 text-blue-600 dark:text-blue-300"
-                              : "hover:bg-gray-100 dark:hover:bg-gray-700"
-                          }`}
+                          className={`flex items-center px-4 py-2.5 text-sm rounded-lg transition-colors
+                            ${
+                              pathname?.startsWith(subHref)
+                                ? "bg-blue-50 text-blue-600 font-semibold"
+                                : "hover:bg-gray-50 text-gray-600"
+                            }`}
                         >
+                          <FiPlus className="mr-2 text-blue-400" />
                           {subLabel}
                         </Link>
                       ))}
@@ -126,14 +140,19 @@ const MenuItems = ({ pathname, projectId }: MenuItemsProps) => {
             ) : (
               <Link
                 href={href!}
-                className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors ${
-                  active
-                    ? "bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300"
-                    : "hover:bg-gray-100 dark:hover:bg-gray-700"
-                }`}
+                className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all
+                  ${
+                    active
+                      ? "bg-gradient-to-r from-blue-50 to-blue-100 shadow-sm"
+                      : "hover:bg-gray-50"
+                  }`}
               >
-                {icon}
-                <span className="text-sm font-medium">{label}</span>
+                <span className="p-2 bg-white rounded-lg shadow-sm">
+                  {icon}
+                </span>
+                <span className="text-sm font-medium text-gray-700">
+                  {label}
+                </span>
               </Link>
             )}
           </div>
