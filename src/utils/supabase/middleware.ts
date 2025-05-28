@@ -1,7 +1,7 @@
 // src/utils/supabase/middleware.ts
-import { createServerClient } from '@supabase/ssr';
+import { createServerClient } from '@supabase/ssr'; // Bu import kalsın
 import { NextResponse, type NextRequest } from 'next/server';
-import type { CookieOptions } from '@supabase/ssr'; // alternatif olarak bunu tanımlayabiliriz
+// import type { CookieOptions } from '@supabase/ssr'; // BU SATIRI KALDIR!
 
 export async function updateSession(request: NextRequest) {
   try {
@@ -17,11 +17,11 @@ export async function updateSession(request: NextRequest) {
       {
         cookies: {
           get: (name: string) => request.cookies.get(name)?.value,
-          set: (name: string, value: string, options: CookieOptions) => {
+          set: (name: string, value: string, options) => { // 'options' burada otomatik olarak tip çıkarılır
             request.cookies.set({ name, value, ...options });
             response.cookies.set({ name, value, ...options });
           },
-          remove: (name: string, options: CookieOptions) => {
+          remove: (name: string, options) => { // Aynı şekilde
             const expiredCookie = { name, value: '', ...options, expires: new Date(0) };
             request.cookies.set(expiredCookie);
             response.cookies.set(expiredCookie);
