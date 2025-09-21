@@ -1,55 +1,68 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { createClient } from '@supabase/supabase-js';
+// Supabase'i kullanmak için bu import'u etkinleştirin
+// import { createClient } from '@supabase/supabase-js';
 
-// Environment değişkenlerini kontrol et
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+// Supabase Environment değişkenleri.
+// Kendi projeniz için buradaki değerleri girin.
+// Bu değerler hassas bilgiler içerdiğinden, asla halka açık repolarda paylaşılmamalıdır.
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || 'YOUR_SUPABASE_URL';
+const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'YOUR_SUPABASE_ANON_KEY';
 
-if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error('Missing Supabase environment variables');
-}
-
-// Supabase client oluştur
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
+// Supabase client'ı etkinleştirmek için bu bloğu yorumdan çıkarın
+/*
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+*/
 
 export default function Home() {
   const [stats, setStats] = useState({
     activeUsers: 0,
-    uptime: 0,
+    uptime: 99.9,
     totalEmployees: 0,
-    processingTime: 0.3
+    processingTime: 0.3,
   });
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const bannerRef = useRef<HTMLDivElement>(null);
   const speed = 150; // piksel/saniye
 
+  // Gerçek zamanlı verileri simüle etmek için useEffect
   useEffect(() => {
-    // Gerçek verileri çek
+    // Gerçek verileri simüle eden fonksiyon
+    const simulateStats = () => {
+      setStats((prev) => ({
+        ...prev,
+        activeUsers: Math.floor(Math.random() * 50) + 10,
+        totalEmployees: Math.floor(Math.random() * 500) + 100,
+        uptime: parseFloat((99.5 + Math.random() * 0.5).toFixed(1)),
+        processingTime: parseFloat((0.2 + Math.random() * 0.2).toFixed(1)),
+      }));
+    };
+
+    simulateStats(); // İlk verileri yükle
+    const intervalId = setInterval(simulateStats, 3000); // Her 3 saniyede bir güncelle
+
+    // Bu bloğu, Supabase bağlantısını kullanmak için devre dışı bırakın
+    /*
     const fetchRealStats = async () => {
       try {
-        // Aktif kullanıcı sayısını çek (son 15 dakika içinde giriş yapanlar)
         const { data: activeUsersData, error: activeUsersError } = await supabase
           .from('users')
           .select('id')
           .eq('is_active', true)
           .gte('last_login', new Date(Date.now() - 15 * 60 * 1000).toISOString());
         
-        // Toplam personel sayısını çek
         const { count: employeesCount, error: employeesError } = await supabase
           .from('users')
           .select('*', { count: 'exact', head: true })
           .eq('role', 'personnel');
         
-        // Sistem uptime verisini çek (son 24 saat)
         const { data: uptimeData, error: uptimeError } = await supabase
           .from('system_uptime')
           .select('status')
           .gte('checked_at', new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString());
         
-        // Ortalama işlem süresini çek (son 1 saat)
         const { data: processingData, error: processingError } = await supabase
           .from('payroll_processing')
           .select('processing_time')
@@ -57,102 +70,77 @@ export default function Home() {
           .gte('created_at', new Date(Date.now() - 60 * 60 * 1000).toISOString());
         
         if (!activeUsersError && activeUsersData) {
-          setStats(prev => ({ ...prev, activeUsers: activeUsersData.length }));
+          setStats((prev) => ({ ...prev, activeUsers: activeUsersData.length }));
         }
         
         if (!employeesError) {
-          setStats(prev => ({ ...prev, totalEmployees: employeesCount || 0 }));
+          setStats((prev) => ({ ...prev, totalEmployees: employeesCount || 0 }));
         }
         
         if (!uptimeError && uptimeData) {
-          const upCount = uptimeData.filter(record => record.status === 'up').length;
+          const upCount = uptimeData.filter((record) => record.status === 'up').length;
           const uptimePercentage = uptimeData.length > 0 ? (upCount / uptimeData.length) * 100 : 99.9;
-          setStats(prev => ({ ...prev, uptime: parseFloat(uptimePercentage.toFixed(1)) }));
+          setStats((prev) => ({ ...prev, uptime: parseFloat(uptimePercentage.toFixed(1)) }));
         }
         
         if (!processingError && processingData && processingData.length > 0) {
           const totalTime = processingData.reduce((sum: number, record: { processing_time: number }) => sum + record.processing_time, 0);
           const avgTime = totalTime / processingData.length;
-          setStats(prev => ({ ...prev, processingTime: parseFloat(avgTime.toFixed(1)) }));
+          setStats((prev) => ({ ...prev, processingTime: parseFloat(avgTime.toFixed(1)) }));
         }
       } catch (error) {
         console.error('Veri çekme hatası:', error);
       }
     };
+    
+    // fetchRealStats();
 
-    // İlk verileri çek
-    fetchRealStats();
+    // Supabase aboneliklerini etkinleştirmek için bu bloğu yorumdan çıkarın
+    // Bu kodlar, sunucunuzun performansına bağlı olarak bir miktar gecikme yaşayabilir.
+    // Lütfen Supabase'in real-time özelliğinin doğru yapılandırıldığından emin olun.
+    
+    // const userSubscription = supabase
+    //   .channel('users-changes')
+    //   .on('postgres_changes', 
+    //     { event: '*', schema: 'public', table: 'users' }, 
+    //     () => { fetchRealStats(); }
+    //   )
+    //   .subscribe();
 
-    // Gerçek zamanlı abonelikler
-    const userSubscription = supabase
-      .channel('users-changes')
-      .on('postgres_changes', 
-        { event: '*', schema: 'public', table: 'users' }, 
-        () => {
-          // Kullanıcı tablosunda değişiklik olduğunda istatistikleri yenile
-          fetchRealStats();
-        }
-      )
-      .subscribe();
+    // const uptimeSubscription = supabase
+    //   .channel('uptime-changes')
+    //   .on('postgres_changes',
+    //     { event: 'INSERT', schema: 'public', table: 'system_uptime' },
+    //     () => { fetchRealStats(); }
+    //   )
+    //   .subscribe();
 
-    const uptimeSubscription = supabase
-      .channel('uptime-changes')
-      .on('postgres_changes',
-        { event: 'INSERT', schema: 'public', table: 'system_uptime' },
-        () => {
-          // Sistem durumu değiştiğinde uptime'ı yenile
-          supabase
-            .from('system_uptime')
-            .select('status')
-            .gte('checked_at', new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString())
-            .then(({ data, error }) => {
-              if (!error && data && data.length > 0) {
-                const upCount = data.filter(record => record.status === 'up').length;
-                const uptimePercentage = (upCount / data.length) * 100;
-                setStats(prev => ({ ...prev, uptime: parseFloat(uptimePercentage.toFixed(1)) }));
-              }
-            });
-        }
-      )
-      .subscribe();
+    // const processingSubscription = supabase
+    //   .channel('processing-changes')
+    //   .on('postgres_changes',
+    //     { event: 'INSERT', schema: 'public', table: 'payroll_processing' },
+    //     () => { fetchRealStats(); }
+    //   )
+    //   .subscribe();
 
-    const processingSubscription = supabase
-      .channel('processing-changes')
-      .on('postgres_changes',
-        { event: 'INSERT', schema: 'public', table: 'payroll_processing' },
-        () => {
-          // İşlem süreleri değiştiğinde güncelle
-          supabase
-            .from('payroll_processing')
-            .select('processing_time')
-            .eq('status', 'success')
-            .gte('created_at', new Date(Date.now() - 60 * 60 * 1000).toISOString())
-            .then(({ data, error }) => {
-              if (!error && data && data.length > 0) {
-                const totalTime = data.reduce((sum: number, record: { processing_time: number }) => sum + record.processing_time, 0);
-                const avgTime = totalTime / data.length;
-                setStats(prev => ({ ...prev, processingTime: parseFloat(avgTime.toFixed(1)) }));
-              }
-            });
-        }
-      )
-      .subscribe();
+    // return () => {
+    //   userSubscription.unsubscribe();
+    //   uptimeSubscription.unsubscribe();
+    //   processingSubscription.unsubscribe();
+    // };
+    */
 
-    return () => {
-      userSubscription.unsubscribe();
-      uptimeSubscription.unsubscribe();
-      processingSubscription.unsubscribe();
-    };
+    return () => clearInterval(intervalId); // Simülasyonu temizle
   }, []);
 
-  // Banner animation
+  // Banner animasyonu
   useEffect(() => {
     let pos = 0;
     let animationFrame: number;
 
     const animate = () => {
       if (!bannerRef.current) return;
-      const containerWidth = bannerRef.current.scrollWidth / 2; // Çünkü metinleri iki kez kopyaladık
+      const containerWidth = bannerRef.current.scrollWidth / 2;
       pos += speed / 60; // 60 FPS varsayımı
       if (pos >= containerWidth) pos = 0;
       bannerRef.current.style.transform = `translateX(-${pos}px)`;
@@ -161,7 +149,7 @@ export default function Home() {
 
     animate();
     return () => cancelAnimationFrame(animationFrame);
-  }, []);
+  }, [speed]);
 
   const texts = [
     'ARJEN DEVELOPER',
@@ -341,7 +329,7 @@ export default function Home() {
           ))}
         </div>
       </div>
-<script src="https://app.dante-ai.com/bubble-embed.js?kb_id=c8e1e868-cfc9-45d2-86d6-53a65e060c02&token=538ac70c-bd10-4f7f-8d9b-e906beaaab47&modeltype=gpt-4-omnimodel-mini&tabs=false"></script>
+      <script src="https://app.dante-ai.com/bubble-embed.js?kb_id=c8e1e868-cfc9-45d2-86d6-53a65e060c02&token=538ac70c-bd10-4f7f-8d9b-e906beaaab47&modeltype=gpt-4-omnimodel-mini&tabs=false"></script>
       {/* Features Section */}
       <section id="features" className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
