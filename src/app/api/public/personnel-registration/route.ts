@@ -54,7 +54,15 @@ export async function POST(request: Request) {
     });
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Başvuru başarısız';
-    const status = message.includes('KEY') ? 503 : 400;
-    return NextResponse.json({ error: message }, { status });
+    const isConfig =
+      message.includes('FIELD_ENCRYPTION_KEY') || message.includes('SUPABASE_SERVICE_ROLE_KEY');
+    if (isConfig) {
+      console.error('[personnel-registration] Sunucu yapılandırması eksik:', message);
+      return NextResponse.json(
+        { error: 'Başvuru şu an alınamıyor. Lütfen daha sonra tekrar deneyin veya yöneticinize bildirin.' },
+        { status: 503 }
+      );
+    }
+    return NextResponse.json({ error: message }, { status: 400 });
   }
 }
