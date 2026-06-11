@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { Suspense, useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { createClient } from '@/utils/supabase/client';
@@ -12,7 +12,7 @@ import {
   noAutofillPasswordProps,
 } from '@/components/auth/noAutofill';
 
-export default function DeveloperLoginPage() {
+function DeveloperLoginContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const supabase = createClient();
@@ -81,5 +81,13 @@ export default function DeveloperLoginPage() {
         </p>
       </div>
     </div>
+  );
+}
+
+export default function DeveloperLoginPage() {
+  return (
+    <Suspense fallback={<div className="min-h-[100dvh] flex items-center justify-center text-slate-500">Yükleniyor…</div>}>
+      <DeveloperLoginContent />
+    </Suspense>
   );
 }

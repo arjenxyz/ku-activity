@@ -27,6 +27,10 @@ export const metadata: Metadata = {
   formatDetection: {
     telephone: false,
   },
+  icons: {
+    icon: '/favicon.ico',
+    apple: [{ url: '/api/pwa-icon/192', sizes: '192x192', type: 'image/png' }],
+  },
 };
 
 export const viewport: Viewport = {

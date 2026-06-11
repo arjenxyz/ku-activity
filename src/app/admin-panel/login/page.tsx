@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, FormEvent, ChangeEvent, useEffect, type Dispatch, type SetStateAction } from 'react';
+import { Suspense, useState, FormEvent, ChangeEvent, useEffect, type Dispatch, type SetStateAction } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { createClient } from '@/utils/supabase/client';
 import { AuthLayout } from '@/components/auth/AuthLayout';
@@ -22,7 +22,7 @@ import {
 
 type Tab = 'login' | 'reset';
 
-export default function AdminAuth() {
+function AdminAuthContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const supabase = createClient();
@@ -215,5 +215,13 @@ export default function AdminAuth() {
         </form>
       )}
     </AuthLayout>
+  );
+}
+
+export default function AdminAuthPage() {
+  return (
+    <Suspense fallback={<div className="min-h-[100dvh] flex items-center justify-center text-slate-500">Yükleniyor…</div>}>
+      <AdminAuthContent />
+    </Suspense>
   );
 }
