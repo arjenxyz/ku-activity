@@ -17,8 +17,6 @@ export const fetchEmployees = async (
   employees: Employee[];
   attendanceStats: AttendanceStats;
 }> => {
-  const monthStart = dayjs(selectedMonth).startOf('month').format('YYYY-MM-DD');
-  const monthEnd = dayjs(selectedMonth).endOf('month').format('YYYY-MM-DD');
   const today = dayjs().format('YYYY-MM-DD');
 
   const employeesData = (await fetchProjectEmployees(projectId)).map((e) => ({
