@@ -3,23 +3,52 @@ import {
   attachRegistrationPhoto,
   submitRegistrationApplication,
 } from '@/lib/registration-service';
+import { recordContractAcceptances, type ContractAcceptanceInput } from '@/lib/contract-service';
+
+function parseAcceptances(raw: FormDataEntryValue | null): ContractAcceptanceInput[] {
+  if (!raw || typeof raw !== 'string') return [];
+  try {
+    const parsed = JSON.parse(raw) as ContractAcceptanceInput[];
+    if (!Array.isArray(parsed)) return [];
+    return parsed.filter(
+      (item) => typeof item.contractId === 'string' && typeof item.version === 'number'
+    );
+  } catch {
+    return [];
+  }
+}
 
 export async function POST(request: Request) {
   try {
     const contentType = request.headers.get('content-type') ?? '';
+    const userAgent = request.headers.get('user-agent');
 
     if (contentType.includes('multipart/form-data')) {
       const formData = await request.formData();
       const photo = formData.get('photo');
+      const acceptances = parseAcceptances(formData.get('contractAcceptances'));
+
+      const firstName = String(formData.get('firstName') ?? '');
+      const lastName = String(formData.get('lastName') ?? '');
+      const email = String(formData.get('email') ?? '');
 
       const result = await submitRegistrationApplication({
-        firstName: String(formData.get('firstName') ?? ''),
-        lastName: String(formData.get('lastName') ?? ''),
-        email: String(formData.get('email') ?? ''),
+        firstName,
+        lastName,
+        email,
         phone: formData.get('phone') ? String(formData.get('phone')) : undefined,
         tcKimlik: String(formData.get('tcKimlik') ?? ''),
         birthDate: String(formData.get('birthDate') ?? ''),
         iban: String(formData.get('iban') ?? ''),
+      });
+
+      await recordContractAcceptances({
+        registrationRequestId: result.id,
+        email,
+        firstName,
+        lastName,
+        acceptances,
+        userAgent,
       });
 
       if (!(photo instanceof File) || photo.size === 0) {
@@ -32,10 +61,15 @@ export async function POST(request: Request) {
         verificationCode: result.verificationCode,
         approvalUrl: result.approvalUrl,
         reused: result.reused,
+        contractsRecorded: true,
       });
     }
 
     const body = await request.json();
+    const acceptances = Array.isArray(body.contractAcceptances)
+      ? (body.contractAcceptances as ContractAcceptanceInput[])
+      : [];
+
     const result = await submitRegistrationApplication({
       firstName: body.firstName ?? '',
       lastName: body.lastName ?? '',
@@ -44,6 +78,15 @@ export async function POST(request: Request) {
       tcKimlik: body.tcKimlik ?? '',
       birthDate: body.birthDate ?? '',
       iban: body.iban ?? '',
+    });
+
+    await recordContractAcceptances({
+      registrationRequestId: result.id,
+      email: body.email ?? '',
+      firstName: body.firstName ?? '',
+      lastName: body.lastName ?? '',
+      acceptances,
+      userAgent,
     });
 
     return NextResponse.json({

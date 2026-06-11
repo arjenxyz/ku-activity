@@ -332,6 +332,9 @@ export async function approveRegistration(input: ApproveRegistrationInput) {
     throw new Error('Başvuru durumu güncellenemedi');
   }
 
+  const { linkContractAcceptancesToEmployee } = await import('@/lib/contract-service');
+  await linkContractAcceptancesToEmployee(req.id, employee.id);
+
   return { employeeId: employee.id, email: req.email };
 }
 

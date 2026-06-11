@@ -19,6 +19,7 @@ import {
 import { EmployeeAvatar } from '@/components/employee/EmployeeAvatar';
 import { PersonnelCalendar } from '@/components/personnel/PersonnelCalendar';
 import { PersonnelMonthFilter } from '@/components/personnel/PersonnelMonthFilter';
+import { PersonnelContractsSection } from '@/components/personnel/PersonnelContractsSection';
 import { PersonnelPasswordForm } from '@/components/personnel/PersonnelPasswordForm';
 import { PersonnelShell } from '@/components/personnel/PersonnelShell';
 import { PersonnelStatGrid } from '@/components/personnel/PersonnelStatGrid';
@@ -277,6 +278,7 @@ export default function PersonelPanel() {
               </dl>
             </div>
           )}
+          <PersonnelContractsSection />
           <PersonnelPasswordForm />
         </div>
       );

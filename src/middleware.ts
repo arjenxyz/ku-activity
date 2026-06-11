@@ -13,6 +13,7 @@ const PERSONNEL_PUBLIC = new Set([PERSONNEL_LOGIN, PERSONNEL_BASVURU]);
 
 function shouldRefreshSupabaseSession(pathname: string) {
   if (pathname.startsWith('/api/public')) return false;
+  if (pathname.startsWith('/sozlesme')) return false;
   if (PERSONNEL_PUBLIC.has(pathname)) return false;
   if (pathname === ADMIN_LOGIN || pathname === ADMIN_REGISTER) return false;
   if (pathname === DEVELOPER_LOGIN) return false;

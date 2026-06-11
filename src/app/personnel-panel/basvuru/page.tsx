@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic';
 import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { FiShield } from 'react-icons/fi';
+import { ContractAcceptanceBlock } from '@/components/contracts/ContractAcceptanceBlock';
 import { EmployeePhotoPicker } from '@/components/employee/EmployeePhotoPicker';
 import { PersonnelLoginLayout } from '@/components/personnel/PersonnelLoginLayout';
 import { AuthAlert } from '@/components/auth/AuthAlerts';
@@ -67,6 +68,22 @@ export default function PersonnelApplicationPage() {
   const [status, setStatus] = useState<RegistrationStatus | null>(null);
   const [approvedEmail, setApprovedEmail] = useState<string | null>(null);
   const [approvedPosition, setApprovedPosition] = useState<string | null>(null);
+  const [contractsReady, setContractsReady] = useState(false);
+  const [contractAcceptances, setContractAcceptances] = useState<
+    Array<{ contractId: string; version: number }>
+  >([]);
+
+  const handleAllContractsAccepted = useCallback(
+    (acceptances: Array<{ contractId: string; version: number }>) => {
+      setContractAcceptances(acceptances);
+      setContractsReady(true);
+    },
+    []
+  );
+
+  const handleContractsIncomplete = useCallback(() => {
+    setContractsReady(false);
+  }, []);
 
   const applyStatus = useCallback((payload: StatusPayload | null) => {
     if (!payload) return;
@@ -187,6 +204,10 @@ export default function PersonnelApplicationPage() {
       setError('Lütfen selfie ile kendi fotoğrafınızı çekin.');
       return;
     }
+    if (!contractsReady || contractAcceptances.length === 0) {
+      setError('Başvuruyu göndermeden önce tüm sözleşmeleri sonuna kadar okuyup onaylayın.');
+      return;
+    }
 
     setLoading(true);
     try {
@@ -198,6 +219,7 @@ export default function PersonnelApplicationPage() {
       body.append('tcKimlik', form.tc_kimlik);
       body.append('birthDate', form.birth_date);
       body.append('iban', form.iban);
+      body.append('contractAcceptances', JSON.stringify(contractAcceptances));
       body.append('photo', photoFile);
 
       const res = await fetch('/api/public/personnel-registration', {
@@ -424,9 +446,15 @@ export default function PersonnelApplicationPage() {
             required
           />
         </div>
+
+        <ContractAcceptanceBlock
+          onAllAccepted={handleAllContractsAccepted}
+          onIncomplete={handleContractsIncomplete}
+        />
+
         <button
           type="submit"
-          disabled={loading}
+          disabled={loading || !contractsReady}
           className="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-medium disabled:opacity-50"
         >
           {loading ? 'Gönderiliyor…' : 'Başvuruyu Gönder'}
