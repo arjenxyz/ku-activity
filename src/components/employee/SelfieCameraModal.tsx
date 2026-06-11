@@ -7,9 +7,10 @@ type Props = {
   open: boolean;
   onClose: () => void;
   onCapture: (file: File) => void;
+  onUseNativeCamera?: () => void;
 };
 
-export function SelfieCameraModal({ open, onClose, onCapture }: Props) {
+export function SelfieCameraModal({ open, onClose, onCapture, onUseNativeCamera }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const [ready, setReady] = useState(false);
@@ -37,9 +38,9 @@ export function SelfieCameraModal({ open, onClose, onCapture }: Props) {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: {
-          facingMode: 'user',
-          width: { ideal: 1280 },
-          height: { ideal: 720 },
+          facingMode: { ideal: 'user' },
+          width: { ideal: 1080 },
+          height: { ideal: 1440 },
         },
         audio: false,
       });
@@ -51,6 +52,8 @@ export function SelfieCameraModal({ open, onClose, onCapture }: Props) {
         return;
       }
 
+      video.setAttribute('playsinline', 'true');
+      video.setAttribute('webkit-playsinline', 'true');
       video.srcObject = stream;
       await video.play();
       setReady(true);
@@ -62,23 +65,26 @@ export function SelfieCameraModal({ open, onClose, onCapture }: Props) {
       } else if (msg.includes('NotFound') || msg.includes('DevicesNotFound')) {
         setError('Kamera bulunamadı.');
       } else {
-        setError('Kamera açılamadı. Lütfen tekrar deneyin.');
+        setError('Kamera açılamadı. Aşağıdaki alternatifi deneyin.');
       }
     }
   }, [stopStream]);
 
   useEffect(() => {
-    if (open) {
-      void startStream();
-    } else {
+    if (!open) {
       stopStream();
       setError(null);
+      return;
     }
-  }, [open, startStream, stopStream]);
 
-  useEffect(() => {
-    return () => stopStream();
-  }, [stopStream]);
+    document.body.style.overflow = 'hidden';
+    void startStream();
+
+    return () => {
+      document.body.style.overflow = '';
+      stopStream();
+    };
+  }, [open, startStream, stopStream]);
 
   const handleCapture = () => {
     const video = videoRef.current;
@@ -103,7 +109,7 @@ export function SelfieCameraModal({ open, onClose, onCapture }: Props) {
         onClose();
       },
       'image/jpeg',
-      0.92
+      0.9
     );
   };
 
@@ -111,48 +117,71 @@ export function SelfieCameraModal({ open, onClose, onCapture }: Props) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/60 p-4"
+      className="fixed inset-0 z-[100] flex flex-col bg-black touch-none"
       role="dialog"
       aria-modal="true"
       aria-label="Selfie kamerası"
     >
-      <div className="w-full max-w-md rounded-2xl bg-white shadow-xl overflow-hidden">
-        <div className="flex items-center justify-between px-4 py-3 border-b border-slate-200">
-          <h3 className="text-sm font-semibold text-slate-900">Selfie çek</h3>
+      <div className="flex items-center justify-between px-4 py-3 text-white shrink-0 pt-[max(0.75rem,env(safe-area-inset-top))]">
+        <h3 className="text-base font-semibold">Selfie çek</h3>
+        <button
+          type="button"
+          onClick={onClose}
+          className="p-3 -mr-2 rounded-full text-white/90 active:bg-white/10"
+          aria-label="Kapat"
+        >
+          <FiX className="w-6 h-6" />
+        </button>
+      </div>
+
+      <div className="relative flex-1 min-h-0 bg-black">
+        <video
+          ref={videoRef}
+          autoPlay
+          playsInline
+          muted
+          className={`absolute inset-0 h-full w-full object-cover ${ready ? 'scale-x-[-1]' : ''}`}
+        />
+        {!ready && !error && (
+          <div className="absolute inset-0 flex items-center justify-center text-sm text-white/80">
+            Kamera açılıyor…
+          </div>
+        )}
+        {error && (
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 p-6 text-center text-sm text-white">
+            <p>{error}</p>
+            {onUseNativeCamera && (
+              <button
+                type="button"
+                onClick={() => {
+                  onClose();
+                  onUseNativeCamera();
+                }}
+                className="rounded-full bg-white px-5 py-3 text-sm font-semibold text-slate-900"
+              >
+                Telefon kamerasını aç
+              </button>
+            )}
+          </div>
+        )}
+        {ready && (
+          <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+            <div className="h-[min(58vh,420px)] w-[min(72vw,300px)] rounded-[999px] border-2 border-white/45 shadow-[inset_0_0_0_9999px_rgba(0,0,0,0.25)]" />
+          </div>
+        )}
+        {ready && (
+          <p className="pointer-events-none absolute bottom-4 left-0 right-0 text-center text-xs text-white/80 px-4">
+            Yüzünüz oval çerçeveye gelsin
+          </p>
+        )}
+      </div>
+
+      <div className="shrink-0 px-6 py-5 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
+        <div className="flex items-center justify-center gap-8">
           <button
             type="button"
             onClick={onClose}
-            className="p-2 rounded-lg text-slate-500 hover:bg-slate-100"
-            aria-label="Kapat"
-          >
-            <FiX className="w-5 h-5" />
-          </button>
-        </div>
-
-        <div className="relative bg-black aspect-[3/4] sm:aspect-[4/3]">
-          <video
-            ref={videoRef}
-            playsInline
-            muted
-            className={`absolute inset-0 w-full h-full object-cover ${ready ? 'scale-x-[-1]' : ''}`}
-          />
-          {!ready && !error && (
-            <div className="absolute inset-0 flex items-center justify-center text-sm text-white/80">
-              Kamera açılıyor…
-            </div>
-          )}
-          {error && (
-            <div className="absolute inset-0 flex items-center justify-center p-6 text-center text-sm text-white">
-              {error}
-            </div>
-          )}
-        </div>
-
-        <div className="flex gap-2 p-4">
-          <button
-            type="button"
-            onClick={onClose}
-            className="flex-1 px-4 py-2.5 text-sm font-medium rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-50"
+            className="min-h-12 min-w-[5.5rem] rounded-full border border-white/30 px-5 text-sm font-medium text-white active:bg-white/10"
           >
             İptal
           </button>
@@ -160,11 +189,25 @@ export function SelfieCameraModal({ open, onClose, onCapture }: Props) {
             type="button"
             onClick={handleCapture}
             disabled={!ready}
-            className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium rounded-lg bg-slate-800 text-white hover:bg-slate-900 disabled:opacity-50"
+            aria-label="Fotoğrafı al"
+            className="flex h-[4.5rem] w-[4.5rem] items-center justify-center rounded-full border-4 border-white bg-white/15 text-white active:scale-95 disabled:opacity-40"
           >
-            <FiCamera className="w-4 h-4" />
-            Fotoğrafı al
+            <FiCamera className="h-7 w-7" />
           </button>
+          {onUseNativeCamera ? (
+            <button
+              type="button"
+              onClick={() => {
+                onClose();
+                onUseNativeCamera();
+              }}
+              className="min-h-12 min-w-[5.5rem] text-center text-xs font-medium text-white/80 underline-offset-2 active:text-white"
+            >
+              Telefon kamerası
+            </button>
+          ) : (
+            <div className="min-w-[5.5rem]" aria-hidden />
+          )}
         </div>
       </div>
     </div>

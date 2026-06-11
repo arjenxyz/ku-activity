@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { FiCamera, FiImage, FiTrash2 } from 'react-icons/fi';
 import { EmployeeAvatar } from './EmployeeAvatar';
 import { SelfieCameraModal } from './SelfieCameraModal';
+import { prefersNativeCamera } from '@/lib/device-camera';
 
 const MAX_BYTES = 5 * 1024 * 1024;
 const ALLOWED = new Set(['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif']);
@@ -45,7 +46,8 @@ export function EmployeePhotoPicker({
     setError(null);
     if (!file) return;
 
-    if (!ALLOWED.has(file.type)) {
+    const type = file.type || 'image/jpeg';
+    if (!ALLOWED.has(type) && !type.startsWith('image/')) {
       setError('JPEG, PNG, WebP veya GIF seçin');
       return;
     }
@@ -64,60 +66,82 @@ export function EmployeePhotoPicker({
     if (galleryRef.current) galleryRef.current.value = '';
   };
 
-  const displayName = name.trim() || 'Personel';
+  const openNativeCamera = () => {
+    cameraRef.current?.click();
+  };
 
   const openCamera = () => {
+    if (isSelfie && prefersNativeCamera()) {
+      openNativeCamera();
+      return;
+    }
     if (isSelfie && typeof navigator !== 'undefined' && navigator.mediaDevices) {
       setSelfieOpen(true);
       return;
     }
-    cameraRef.current?.click();
+    openNativeCamera();
   };
 
+  const displayName = name.trim() || 'Personel';
+
   return (
-    <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-3">
-      <div className="flex items-start gap-4">
+    <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-4">
+      <div className="flex flex-col items-center gap-3 sm:flex-row sm:items-start sm:gap-4">
         <div className="relative shrink-0">
           {preview ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={preview}
               alt={displayName}
-              className="w-20 h-20 rounded-2xl object-cover bg-slate-200"
+              className="h-28 w-28 rounded-2xl object-cover bg-slate-200 sm:h-20 sm:w-20"
             />
           ) : (
-            <EmployeeAvatar name={displayName} size="lg" className="!rounded-2xl !w-20 !h-20" />
+            <EmployeeAvatar
+              name={displayName}
+              size="lg"
+              className="!rounded-2xl !h-28 !w-28 sm:!h-20 sm:!w-20"
+            />
           )}
         </div>
-        <div className="min-w-0 flex-1">
+        <div className="min-w-0 flex-1 text-center sm:text-left">
           <p className="text-sm font-semibold text-slate-900">
             {isSelfie ? 'Kendi fotoğrafınız' : 'Personel fotoğrafı'}
             {required ? ' *' : ''}
           </p>
-          <p className="text-xs text-slate-500 mt-0.5">
+          <p className="text-xs text-slate-500 mt-1">
             {isSelfie
-              ? 'Telefonunuzun ön kamerasıyla yüzünüzün net göründüğü bir selfie çekin.'
+              ? 'Ön kamerayla yüzünüzün net göründüğü bir selfie çekin. Mobilde doğrudan telefon kamerası açılır.'
               : 'Her personel için ayrı fotoğraf çekin veya yükleyin. Bu fotoğraf personel panelinde de görünür.'}
           </p>
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
         <button
           type="button"
           onClick={openCamera}
-          className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium rounded-lg bg-slate-800 text-white hover:bg-slate-900"
+          className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-slate-800 px-4 py-3 text-sm font-medium text-white active:bg-slate-900 sm:w-auto sm:min-h-0 sm:rounded-lg sm:py-2"
         >
-          <FiCamera className="w-4 h-4" />
+          <FiCamera className="h-5 w-5 shrink-0" />
           {isSelfie ? 'Selfie Çek' : 'Fotoğraf Çek'}
         </button>
+        {isSelfie && (
+          <button
+            type="button"
+            onClick={openNativeCamera}
+            className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-medium text-slate-700 active:bg-slate-50 sm:w-auto sm:min-h-0 sm:rounded-lg sm:py-2"
+          >
+            <FiImage className="h-5 w-5 shrink-0" />
+            Galeriden seç
+          </button>
+        )}
         {!isSelfie && (
           <button
             type="button"
             onClick={() => galleryRef.current?.click()}
-            className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium rounded-lg border border-slate-300 text-slate-700 hover:bg-white"
+            className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-medium text-slate-700 active:bg-slate-50 sm:w-auto sm:min-h-0 sm:rounded-lg sm:py-2"
           >
-            <FiImage className="w-4 h-4" />
+            <FiImage className="h-5 w-5 shrink-0" />
             Galeriden Seç
           </button>
         )}
@@ -125,9 +149,9 @@ export function EmployeePhotoPicker({
           <button
             type="button"
             onClick={clear}
-            className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium rounded-lg border border-red-200 text-red-700 hover:bg-red-50"
+            className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl border border-red-200 px-4 py-3 text-sm font-medium text-red-700 active:bg-red-50 sm:w-auto sm:min-h-0 sm:rounded-lg sm:py-2"
           >
-            <FiTrash2 className="w-4 h-4" />
+            <FiTrash2 className="h-5 w-5 shrink-0" />
             Kaldır
           </button>
         )}
@@ -138,7 +162,7 @@ export function EmployeePhotoPicker({
         type="file"
         accept="image/*"
         capture={isSelfie ? 'user' : 'environment'}
-        className="hidden"
+        className="sr-only"
         onChange={(e) => pickFile(e.target.files?.[0] ?? null)}
       />
       {!isSelfie && (
@@ -146,7 +170,16 @@ export function EmployeePhotoPicker({
           ref={galleryRef}
           type="file"
           accept="image/jpeg,image/png,image/webp,image/gif"
-          className="hidden"
+          className="sr-only"
+          onChange={(e) => pickFile(e.target.files?.[0] ?? null)}
+        />
+      )}
+      {isSelfie && (
+        <input
+          ref={galleryRef}
+          type="file"
+          accept="image/jpeg,image/png,image/webp,image/gif"
+          className="sr-only"
           onChange={(e) => pickFile(e.target.files?.[0] ?? null)}
         />
       )}
@@ -161,6 +194,7 @@ export function EmployeePhotoPicker({
           open={selfieOpen}
           onClose={() => setSelfieOpen(false)}
           onCapture={pickFile}
+          onUseNativeCamera={openNativeCamera}
         />
       )}
     </div>
