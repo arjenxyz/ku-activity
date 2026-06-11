@@ -139,15 +139,28 @@ export async function getPublicRegistrationStatus(code: string) {
   const admin = createAdminClient();
   const { data } = await admin
     .from('employee_registration_requests')
-    .select('status, first_name, last_name, created_at, expires_at')
+    .select('status, first_name, last_name, email, created_at, expires_at, employee_id')
     .eq('verification_code', normalized)
     .maybeSingle();
 
   if (!data) return null;
 
+  let position: string | null = null;
+  if (data.status === 'approved' && data.employee_id) {
+    const { data: emp } = await admin
+      .from('employees')
+      .select('position, is_active')
+      .eq('id', data.employee_id)
+      .maybeSingle();
+    position = emp?.position ?? null;
+  }
+
   return {
     status: data.status,
     name: formatFullName(data.first_name, data.last_name),
+    email: data.email,
+    position,
+    active: data.status === 'approved',
     createdAt: data.created_at,
     expiresAt: data.expires_at,
   };
@@ -212,18 +225,43 @@ export type ApproveRegistrationInput = {
   dailyWage: number;
   position: string;
   pin: string;
-  hireDate?: string;
+  hireDate: string;
   approvedBy: string;
 };
 
 export async function approveRegistration(input: ApproveRegistrationInput) {
   assertEncryptionReady();
 
+  const projectId = input.projectId?.trim();
+  const position = input.position?.trim();
+  const hireDate = input.hireDate?.trim();
+
+  if (!projectId) {
+    throw new Error('Proje seçimi zorunludur');
+  }
+  if (!position) {
+    throw new Error('Pozisyon zorunludur');
+  }
+  if (!Number.isFinite(input.dailyWage) || input.dailyWage <= 0) {
+    throw new Error('Geçerli bir günlük yevmiye girin');
+  }
+  if (!hireDate) {
+    throw new Error('İşe giriş tarihi zorunludur');
+  }
   if (input.pin.length < 4 || input.pin.length > 12) {
-    throw new Error('PIN 4-12 karakter olmalı');
+    throw new Error('Personel giriş şifresi (PIN) 4-12 karakter olmalı');
   }
 
   const admin = createAdminClient();
+
+  const { data: project } = await admin
+    .from('projects')
+    .select('id')
+    .eq('id', projectId)
+    .maybeSingle();
+  if (!project) {
+    throw new Error('Seçilen proje bulunamadı');
+  }
   const { data: req, error: reqError } = await admin
     .from('employee_registration_requests')
     .select('*')
@@ -249,14 +287,15 @@ export async function approveRegistration(input: ApproveRegistrationInput) {
   const { data: employee, error: empError } = await admin
     .from('employees')
     .insert({
-      project_id: input.projectId,
+      project_id: projectId,
       name: fullName,
       email: req.email,
       phone: req.phone,
       daily_wage: input.dailyWage,
-      position: input.position,
-      hire_date: input.hireDate || null,
+      position,
+      hire_date: hireDate,
       pin_hash: pinHash,
+      is_active: true,
     })
     .select('id')
     .single();
@@ -277,13 +316,13 @@ export async function approveRegistration(input: ApproveRegistrationInput) {
     throw new Error('Hassas veriler kaydedilemedi');
   }
 
-  await transferRegistrationPhotoToEmployee(req.photo_path ?? null, input.projectId, employee.id);
+  await transferRegistrationPhotoToEmployee(req.photo_path ?? null, projectId, employee.id);
 
   const { error: updError } = await admin
     .from('employee_registration_requests')
     .update({
       status: 'approved',
-      project_id: input.projectId,
+      project_id: projectId,
       employee_id: employee.id,
       approved_by: input.approvedBy,
     })

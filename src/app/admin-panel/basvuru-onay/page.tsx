@@ -93,9 +93,21 @@ function BasvuruOnayContent() {
     if (initialKod) lookup(initialKod);
   }, [initialKod, lookup]);
 
+  const adminFormValid =
+    Boolean(form.projectId) &&
+    Boolean(form.position.trim()) &&
+    Number(form.daily_wage) > 0 &&
+    Boolean(form.hire_date) &&
+    form.pin.length >= 4 &&
+    form.pin.length <= 12;
+
   const handleApprove = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!registration) return;
+    if (!adminFormValid) {
+      setError('Onaylamadan önce tüm yönetici alanlarını doldurun.');
+      return;
+    }
     setLoading(true);
     setError(null);
     try {
@@ -112,7 +124,9 @@ function BasvuruOnayContent() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Onay başarısız');
-      setSuccess(`Personel onaylandı. Giriş: ${data.email}`);
+      setSuccess(
+        `Personel kaydı aktif. ${data.email} adresi ile hemen giriş yapabilir — şifreyi personele iletin.`
+      );
       setRegistration(null);
       setTimeout(() => router.push(`/admin-panel/proje/${form.projectId}/list`), 1500);
     } catch (e) {
@@ -228,7 +242,14 @@ function BasvuruOnayContent() {
           </div>
 
           <form onSubmit={handleApprove} className="space-y-3 border-t border-slate-200 pt-4">
-            <p className="text-sm font-medium text-slate-800">Yönetici alanları</p>
+            <div className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-900">
+              <p className="font-medium">Onaylamadan önce zorunlu</p>
+              <p className="text-xs mt-0.5">
+                Proje, pozisyon, yevmiye, işe giriş tarihi ve personel giriş şifresi (PIN) olmadan
+                başvuru onaylanamaz. Onay sonrası personel anında sisteme giriş yapabilir.
+              </p>
+            </div>
+            <p className="text-sm font-medium text-slate-800">Yönetici alanları *</p>
             <div>
               <label className={labelClass}>Proje *</label>
               <select
@@ -266,12 +287,13 @@ function BasvuruOnayContent() {
               />
             </div>
             <div>
-              <label className={labelClass}>İşe giriş</label>
+              <label className={labelClass}>İşe giriş *</label>
               <input
                 type="date"
                 className={inputClass}
                 value={form.hire_date}
                 onChange={(e) => setForm({ ...form, hire_date: e.target.value })}
+                required
               />
             </div>
             <div>
@@ -288,7 +310,7 @@ function BasvuruOnayContent() {
               <p className="text-xs text-slate-500 mt-1">Personel bu şifre ile panele giriş yapar.</p>
             </div>
             <div className="flex flex-wrap gap-2 pt-2">
-              <button type="submit" className={btnPrimary} disabled={loading}>
+              <button type="submit" className={btnPrimary} disabled={loading || !adminFormValid}>
                 <FiCheck className="w-4 h-4" />
                 Onayla ve kaydet
               </button>

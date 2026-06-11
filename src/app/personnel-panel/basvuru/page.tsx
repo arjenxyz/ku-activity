@@ -32,13 +32,18 @@ const labelClass = 'block text-sm font-medium text-gray-700 dark:text-gray-300 m
 
 type RegistrationStatus = 'pending' | 'approved' | 'rejected' | string;
 
-async function fetchRegistrationStatus(code: string): Promise<RegistrationStatus | null> {
+type StatusPayload = {
+  status: RegistrationStatus;
+  email?: string;
+  position?: string | null;
+};
+
+async function fetchRegistrationStatus(code: string): Promise<StatusPayload | null> {
   const res = await fetch(
     `/api/public/personnel-registration/status?kod=${encodeURIComponent(code)}`
   );
   if (!res.ok) return null;
-  const data = await res.json();
-  return data.status as RegistrationStatus;
+  return res.json() as Promise<StatusPayload>;
 }
 
 export default function PersonnelApplicationPage() {
@@ -57,10 +62,18 @@ export default function PersonnelApplicationPage() {
   const [error, setError] = useState('');
   const [result, setResult] = useState<PendingRegistration | null>(null);
   const [status, setStatus] = useState<RegistrationStatus | null>(null);
+  const [approvedEmail, setApprovedEmail] = useState<string | null>(null);
+  const [approvedPosition, setApprovedPosition] = useState<string | null>(null);
 
-  const applyStatus = useCallback((next: RegistrationStatus | null) => {
-    setStatus(next);
-    if (next === 'approved' || next === 'rejected') {
+  const applyStatus = useCallback((payload: StatusPayload | null) => {
+    if (!payload) return;
+    setStatus(payload.status);
+    if (payload.status === 'approved') {
+      setApprovedEmail(payload.email ?? null);
+      setApprovedPosition(payload.position ?? null);
+      clearPendingRegistration();
+    }
+    if (payload.status === 'rejected') {
       clearPendingRegistration();
     }
   }, []);
@@ -93,7 +106,7 @@ export default function PersonnelApplicationPage() {
         return;
       }
 
-      if (next === 'rejected') {
+      if (next.status === 'rejected') {
         clearPendingRegistration();
         setResult(saved);
         setStatus('rejected');
@@ -101,16 +114,18 @@ export default function PersonnelApplicationPage() {
         return;
       }
 
-      if (next === 'approved') {
+      if (next.status === 'approved') {
         clearPendingRegistration();
         setResult(saved);
         setStatus('approved');
+        setApprovedEmail(next.email ?? null);
+        setApprovedPosition(next.position ?? null);
         setBootstrapping(false);
         return;
       }
 
       setResult(saved);
-      setStatus(next);
+      setStatus(next.status);
       setBootstrapping(false);
     })();
 
@@ -220,21 +235,43 @@ export default function PersonnelApplicationPage() {
   }
 
   if (result && status === 'approved') {
+    const loginHref = approvedEmail
+      ? `/personnel-panel/login?email=${encodeURIComponent(approvedEmail)}`
+      : '/personnel-panel/login';
+
     return (
       <PersonnelLoginLayout
-        title="Başvurunuz Onaylandı"
-        subtitle="Artık personel paneline giriş yapabilirsiniz."
+        title="Hesabınız Aktif"
+        subtitle="Yönetici onayı tamamlandı — hemen giriş yapabilirsiniz."
       >
         <div className="space-y-6 text-center">
           <AuthAlert
             type="success"
-            message="Başvurunuz onaylandı! Yöneticinizin verdiği e-posta ve şifre ile giriş yapın."
+            message="Başvurunuz onaylandı ve personel kaydınız oluşturuldu. Sistem şu an aktif."
           />
+          <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-left space-y-2">
+            {approvedEmail && (
+              <p>
+                <span className="text-slate-500">Giriş e-postası:</span>{' '}
+                <strong className="text-slate-900">{approvedEmail}</strong>
+              </p>
+            )}
+            {approvedPosition && (
+              <p>
+                <span className="text-slate-500">Pozisyon:</span>{' '}
+                <strong className="text-slate-900">{approvedPosition}</strong>
+              </p>
+            )}
+            <p className="text-slate-600">
+              Şifre olarak yöneticinizin onay sırasında belirlediği <strong>PIN</strong> kodunu
+              kullanın.
+            </p>
+          </div>
           <Link
-            href="/personnel-panel/login"
+            href={loginHref}
             className="inline-flex w-full items-center justify-center rounded-xl bg-blue-600 py-3 text-sm font-semibold text-white hover:bg-blue-700"
           >
-            Giriş sayfasına git
+            Personel paneline giriş yap
           </Link>
         </div>
       </PersonnelLoginLayout>

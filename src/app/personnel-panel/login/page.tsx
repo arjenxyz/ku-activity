@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { loadPendingRegistration } from '@/lib/registration-pending-storage';
 import { FiLock } from 'react-icons/fi';
 import { PersonnelLoginLayout } from '@/components/personnel/PersonnelLoginLayout';
 import { AuthAlert, LoadingSpinner } from '@/components/auth/AuthAlerts';
@@ -18,12 +19,20 @@ const inputClass =
 
 const labelClass = 'block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5';
 
-export default function PersonnelLogin() {
+function PersonnelLoginContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [email, setEmail] = useState('');
+  const [hasPendingApplication, setHasPendingApplication] = useState(false);
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const fromUrl = searchParams.get('email');
+    if (fromUrl) setEmail(fromUrl);
+    setHasPendingApplication(Boolean(loadPendingRegistration()));
+  }, [searchParams]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -110,15 +119,30 @@ export default function PersonnelLogin() {
         </button>
       </form>
       <p className="mt-4 text-center text-sm text-gray-500 dark:text-gray-400">
-        Henüz kayıtlı değil misiniz?{' '}
-        <Link
-          href="/personnel-panel/basvuru"
-          prefetch
-          className="text-blue-600 font-semibold hover:underline"
-        >
-          Başvuru yapın
-        </Link>
+        {hasPendingApplication ? (
+          <>
+            Onay bekleyen başvurunuz var.{' '}
+            <Link href="/personnel-panel/basvuru" className="text-blue-600 font-semibold hover:underline">
+              QR kodunu görüntüle
+            </Link>
+          </>
+        ) : (
+          <>
+            Henüz kayıtlı değil misiniz?{' '}
+            <Link href="/personnel-panel/basvuru" prefetch className="text-blue-600 font-semibold hover:underline">
+              Başvuru yapın
+            </Link>
+          </>
+        )}
       </p>
     </PersonnelLoginLayout>
+  );
+}
+
+export default function PersonnelLogin() {
+  return (
+    <Suspense fallback={<div className="min-h-[100dvh] flex items-center justify-center text-slate-500">Yükleniyor…</div>}>
+      <PersonnelLoginContent />
+    </Suspense>
   );
 }
