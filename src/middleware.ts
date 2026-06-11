@@ -38,6 +38,7 @@ export async function middleware(request: NextRequest) {
 
   if (isDeveloperRoute || isDeveloperLogin) {
     const supabase = await getSupabaseMiddlewareClient(request);
+    if (!supabase) return response;
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -59,6 +60,7 @@ export async function middleware(request: NextRequest) {
 
   if (isAdminRoute || isAdminPublic) {
     const supabase = await getSupabaseMiddlewareClient(request);
+    if (!supabase) return response;
     const {
       data: { user },
     } = await supabase.auth.getUser();
