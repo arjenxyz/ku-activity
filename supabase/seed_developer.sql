@@ -1,0 +1,13 @@
+-- İLK DEVELOPER HESABI
+-- 1) Supabase Auth → Users → Add user (e-posta + şifre, Auto Confirm)
+-- 2) UUID'yi kopyalayıp aşağıyı çalıştırın:
+
+-- insert into public.profiles (id, full_name, phone, role, is_active)
+-- values (
+--   'BURAYA-AUTH-UUID'::uuid,
+--   'Arjen Developer',
+--   null,
+--   'developer',
+--   true
+-- )
+-- on conflict (id) do update set role = 'developer', is_active = true;
