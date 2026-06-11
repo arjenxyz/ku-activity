@@ -1,13 +1,19 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { FiShield } from 'react-icons/fi';
 import { EmployeePhotoPicker } from '@/components/employee/EmployeePhotoPicker';
 import { PersonnelLoginLayout } from '@/components/personnel/PersonnelLoginLayout';
 import { AuthAlert } from '@/components/auth/AuthAlerts';
 import { formatFullName } from '@/lib/format';
+import {
+  clearPendingRegistration,
+  loadPendingRegistration,
+  savePendingRegistration,
+  type PendingRegistration,
+} from '@/lib/registration-pending-storage';
 
 const RegistrationQrCode = dynamic(
   () =>
@@ -24,13 +30,19 @@ const inputClass =
   'block w-full rounded-xl border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-900 px-4 py-3 text-sm focus:ring-2 focus:ring-blue-500';
 const labelClass = 'block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5';
 
-type Result = {
-  verificationCode: string;
-  approvalUrl: string;
-  reused?: boolean;
-};
+type RegistrationStatus = 'pending' | 'approved' | 'rejected' | string;
+
+async function fetchRegistrationStatus(code: string): Promise<RegistrationStatus | null> {
+  const res = await fetch(
+    `/api/public/personnel-registration/status?kod=${encodeURIComponent(code)}`
+  );
+  if (!res.ok) return null;
+  const data = await res.json();
+  return data.status as RegistrationStatus;
+}
 
 export default function PersonnelApplicationPage() {
+  const [bootstrapping, setBootstrapping] = useState(true);
   const [form, setForm] = useState({
     first_name: '',
     last_name: '',
@@ -43,22 +55,79 @@ export default function PersonnelApplicationPage() {
   const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [result, setResult] = useState<Result | null>(null);
-  const [status, setStatus] = useState<string | null>(null);
+  const [result, setResult] = useState<PendingRegistration | null>(null);
+  const [status, setStatus] = useState<RegistrationStatus | null>(null);
+
+  const applyStatus = useCallback((next: RegistrationStatus | null) => {
+    setStatus(next);
+    if (next === 'approved' || next === 'rejected') {
+      clearPendingRegistration();
+    }
+  }, []);
+
+  const refreshStatus = useCallback(
+    async (code: string) => {
+      const next = await fetchRegistrationStatus(code);
+      if (next) applyStatus(next);
+      return next;
+    },
+    [applyStatus]
+  );
 
   useEffect(() => {
-    if (!result?.verificationCode) return;
-    const t = setInterval(async () => {
-      const res = await fetch(
-        `/api/public/personnel-registration/status?kod=${encodeURIComponent(result.verificationCode)}`
-      );
-      if (res.ok) {
-        const data = await res.json();
-        setStatus(data.status);
+    let cancelled = false;
+
+    (async () => {
+      const saved = loadPendingRegistration();
+      if (!saved) {
+        if (!cancelled) setBootstrapping(false);
+        return;
       }
+
+      const next = await fetchRegistrationStatus(saved.verificationCode);
+      if (cancelled) return;
+
+      if (!next) {
+        clearPendingRegistration();
+        setBootstrapping(false);
+        return;
+      }
+
+      if (next === 'rejected') {
+        clearPendingRegistration();
+        setResult(saved);
+        setStatus('rejected');
+        setBootstrapping(false);
+        return;
+      }
+
+      if (next === 'approved') {
+        clearPendingRegistration();
+        setResult(saved);
+        setStatus('approved');
+        setBootstrapping(false);
+        return;
+      }
+
+      setResult(saved);
+      setStatus(next);
+      setBootstrapping(false);
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!result?.verificationCode || status !== 'pending') return;
+
+    const t = setInterval(() => {
+      void refreshStatus(result.verificationCode);
     }, 5000);
+
     return () => clearInterval(t);
-  }, [result?.verificationCode]);
+  }, [result?.verificationCode, status, refreshStatus]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -87,7 +156,14 @@ export default function PersonnelApplicationPage() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Başvuru gönderilemedi');
-      setResult(data);
+
+      const pending: PendingRegistration = {
+        verificationCode: data.verificationCode,
+        approvalUrl: data.approvalUrl,
+        reused: data.reused,
+      };
+      savePendingRegistration(pending);
+      setResult(pending);
       setStatus('pending');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Hata oluştu');
@@ -96,18 +172,38 @@ export default function PersonnelApplicationPage() {
     }
   };
 
-  if (result) {
+  const startNewApplication = () => {
+    clearPendingRegistration();
+    setResult(null);
+    setStatus(null);
+    setError('');
+  };
+
+  if (bootstrapping) {
+    return (
+      <PersonnelLoginLayout title="Başvuru" subtitle="Yükleniyor…">
+        <div className="flex justify-center py-12">
+          <div className="h-10 w-10 animate-spin rounded-full border-2 border-blue-600 border-t-transparent" />
+        </div>
+      </PersonnelLoginLayout>
+    );
+  }
+
+  if (result && status === 'pending') {
     return (
       <PersonnelLoginLayout
-        title="Başvurunuz Alındı"
-        subtitle="Yöneticiniz QR kodu okutarak veya başvuru kodunu girerek onaylasın."
+        title="Başvurunuz Bekliyor"
+        subtitle="Yöneticiniz onaylayana kadar bu ekranı açık tutun veya tekrar bu sayfaya gelin."
       >
         <div className="space-y-6 text-center">
           {result.reused && (
             <p className="text-sm text-blue-700 bg-blue-50 rounded-lg px-3 py-2">
-              Bu e-posta için bekleyen başvurunuz zaten vardı; aynı kod geçerlidir.
+              Bekleyen başvurunuz devam ediyor; aynı kod geçerlidir.
             </p>
           )}
+          <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+            Onay bekleniyor — bu sayfayı kapatıp tekrar açsanız bile QR kodunuz burada kalır.
+          </div>
           <div className="flex justify-center">
             <RegistrationQrCode value={result.approvalUrl} />
           </div>
@@ -118,21 +214,45 @@ export default function PersonnelApplicationPage() {
           <p className="text-sm text-gray-600 dark:text-gray-400">
             Bu ekranı yöneticinize gösterin. Onay sonrası size giriş bilgileri verilecektir.
           </p>
-          {status === 'approved' && (
-            <AuthAlert
-              type="success"
-              message="Başvurunuz onaylandı! Yöneticinizin verdiği e-posta ve şifre ile giriş yapabilirsiniz."
-            />
-          )}
-          {status === 'rejected' && (
-            <AuthAlert type="error" message="Başvurunuz reddedildi. Yöneticinizle iletişime geçin." />
-          )}
+        </div>
+      </PersonnelLoginLayout>
+    );
+  }
+
+  if (result && status === 'approved') {
+    return (
+      <PersonnelLoginLayout
+        title="Başvurunuz Onaylandı"
+        subtitle="Artık personel paneline giriş yapabilirsiniz."
+      >
+        <div className="space-y-6 text-center">
+          <AuthAlert
+            type="success"
+            message="Başvurunuz onaylandı! Yöneticinizin verdiği e-posta ve şifre ile giriş yapın."
+          />
           <Link
             href="/personnel-panel/login"
-            className="inline-block text-sm text-blue-600 hover:underline"
+            className="inline-flex w-full items-center justify-center rounded-xl bg-blue-600 py-3 text-sm font-semibold text-white hover:bg-blue-700"
           >
-            Giriş sayfasına dön
+            Giriş sayfasına git
           </Link>
+        </div>
+      </PersonnelLoginLayout>
+    );
+  }
+
+  if (result && status === 'rejected') {
+    return (
+      <PersonnelLoginLayout title="Başvuru Reddedildi" subtitle="Yöneticinizle görüşüp yeniden başvurabilirsiniz.">
+        <div className="space-y-6 text-center">
+          <AuthAlert type="error" message="Başvurunuz reddedildi. Yöneticinizle iletişime geçin." />
+          <button
+            type="button"
+            onClick={startNewApplication}
+            className="inline-flex w-full items-center justify-center rounded-xl border border-slate-300 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50"
+          >
+            Yeni başvuru yap
+          </button>
         </div>
       </PersonnelLoginLayout>
     );
