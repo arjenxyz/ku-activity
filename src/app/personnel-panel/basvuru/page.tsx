@@ -26,6 +26,9 @@ const RegistrationQrCode = dynamic(
   }
 );
 
+/** Onay kontrolü — 15 sn yeterli; sekme arka plandayken durur (Vercel/Supabase kotası) */
+const STATUS_POLL_MS = 15_000;
+
 const inputClass =
   'block w-full rounded-xl border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-900 px-4 py-3 text-sm focus:ring-2 focus:ring-blue-500';
 const labelClass = 'block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5';
@@ -137,11 +140,43 @@ export default function PersonnelApplicationPage() {
   useEffect(() => {
     if (!result?.verificationCode || status !== 'pending') return;
 
-    const t = setInterval(() => {
-      void refreshStatus(result.verificationCode);
-    }, 5000);
+    const code = result.verificationCode;
+    let timer: ReturnType<typeof setInterval> | null = null;
 
-    return () => clearInterval(t);
+    const tick = () => {
+      if (typeof document !== 'undefined' && document.hidden) return;
+      void refreshStatus(code);
+    };
+
+    const start = () => {
+      if (timer) return;
+      timer = setInterval(tick, STATUS_POLL_MS);
+    };
+
+    const stop = () => {
+      if (timer) {
+        clearInterval(timer);
+        timer = null;
+      }
+    };
+
+    const onVisibility = () => {
+      if (document.hidden) {
+        stop();
+      } else {
+        void refreshStatus(code);
+        start();
+      }
+    };
+
+    void refreshStatus(code);
+    start();
+    document.addEventListener('visibilitychange', onVisibility);
+
+    return () => {
+      stop();
+      document.removeEventListener('visibilitychange', onVisibility);
+    };
   }, [result?.verificationCode, status, refreshStatus]);
 
   const handleSubmit = async (e: React.FormEvent) => {
