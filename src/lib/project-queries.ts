@@ -79,6 +79,7 @@ export async function queryProjectById(supabase: SupabaseClient, projectId: stri
 export function apiErrorMessage(err: unknown, fallback = 'Sistem hatası') {
   if (err instanceof Error) {
     if (err.message === 'UNAUTHORIZED') return { status: 401, message: 'Oturum yok veya yönetici yetkisi gerekli' };
+    if (err.message === 'FORBIDDEN') return { status: 403, message: 'Bu projeye erişim yetkiniz yok' };
     if (err.message.includes('SUPABASE_SERVICE_ROLE_KEY')) {
       return { status: 500, message: 'Sunucu yapılandırması eksik (SERVICE_ROLE_KEY)' };
     }

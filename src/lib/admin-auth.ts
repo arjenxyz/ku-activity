@@ -1,4 +1,5 @@
 import { createClient } from '@/utils/supabase/server';
+import { assertAdminProjectAccess } from '@/lib/project-access';
 
 export async function getAdminUser() {
   const supabase = await createClient();
@@ -18,4 +19,9 @@ export async function requireAdminUser() {
   const user = await getAdminUser();
   if (!user) throw new Error('UNAUTHORIZED');
   return user;
+}
+
+/** Yönetici oturumu + proje sahipliği (veya platform admin) */
+export async function requireAdminProjectAccess(projectId: string) {
+  return assertAdminProjectAccess(projectId);
 }

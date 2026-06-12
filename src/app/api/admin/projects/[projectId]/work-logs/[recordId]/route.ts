@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { requireAdminUser } from '@/lib/admin-auth';
+import { requireAdminProjectAccess } from '@/lib/admin-auth';
 import { createClient } from '@/utils/supabase/server';
 import { apiErrorMessage } from '@/lib/project-queries';
 import { mesaiTypeToUnits, type MesaiType } from '@/lib/work-log';
@@ -8,8 +8,8 @@ type Ctx = { params: Promise<{ projectId: string; recordId: string }> };
 
 export async function PATCH(request: Request, ctx: Ctx) {
   try {
-    const user = await requireAdminUser();
     const { projectId, recordId } = await ctx.params;
+    const user = await requireAdminProjectAccess(projectId);
     const body = await request.json();
     const { date, amount, description, mesaiType, reconfirmAdmin } = body as {
       date?: string;
@@ -62,8 +62,8 @@ export async function PATCH(request: Request, ctx: Ctx) {
 
 export async function DELETE(_request: Request, ctx: Ctx) {
   try {
-    await requireAdminUser();
     const { projectId, recordId } = await ctx.params;
+    await requireAdminProjectAccess(projectId);
     const supabase = await createClient();
     const { error } = await supabase
       .from('work_logs')

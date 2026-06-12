@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { requireAdminUser } from '@/lib/admin-auth';
+import { requireAdminProjectAccess } from '@/lib/admin-auth';
 import { createClient } from '@/utils/supabase/server';
 import { queryProjectById, apiErrorMessage } from '@/lib/project-queries';
 import type { ProjectFormData, ProjectStatus } from '@/types/project';
@@ -10,8 +10,8 @@ type RouteContext = { params: Promise<{ projectId: string }> };
 
 export async function GET(_request: Request, context: RouteContext) {
   try {
-    await requireAdminUser();
     const { projectId } = await context.params;
+    await requireAdminProjectAccess(projectId);
 
     const supabase = await createClient();
     const { data, error } = await queryProjectById(supabase, projectId);
@@ -29,8 +29,8 @@ export async function GET(_request: Request, context: RouteContext) {
 
 export async function PATCH(request: Request, context: RouteContext) {
   try {
-    await requireAdminUser();
     const { projectId } = await context.params;
+    await requireAdminProjectAccess(projectId);
     const body = (await request.json()) as Partial<ProjectFormData>;
 
     if (body.status && !VALID_STATUSES.includes(body.status)) {
@@ -76,8 +76,8 @@ export async function PATCH(request: Request, context: RouteContext) {
 
 export async function DELETE(_request: Request, context: RouteContext) {
   try {
-    await requireAdminUser();
     const { projectId } = await context.params;
+    await requireAdminProjectAccess(projectId);
 
     const supabase = await createClient();
     const { error } = await supabase.from('projects').delete().eq('id', projectId);

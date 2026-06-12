@@ -27,6 +27,7 @@ import {
   generateVerificationCode,
   normalizeVerificationCode,
 } from '@/lib/registration-codes';
+import { assertAdminOwnsProject } from '@/lib/project-access';
 import { signedRegistrationPhotoUrl } from '@/lib/photo-storage';
 import {
   transferRegistrationPhotoToEmployee,
@@ -346,6 +347,8 @@ export async function approveRegistration(input: ApproveRegistrationInput) {
   }
 
   const admin = createAdminClient();
+
+  await assertAdminOwnsProject(admin, projectId, input.approvedBy);
 
   const { data: project } = await admin
     .from('projects')

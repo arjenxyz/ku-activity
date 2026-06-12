@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { requireAdminUser } from '@/lib/admin-auth';
+import { requireAdminProjectAccess } from '@/lib/admin-auth';
 import { createAdminClient } from '@/utils/supabase/admin';
 import { decryptField, maskIban, maskTcKimlik } from '@/lib/field-encryption';
 import { apiErrorMessage } from '@/lib/project-queries';
@@ -8,8 +8,8 @@ type Ctx = { params: Promise<{ projectId: string; employeeId: string }> };
 
 export async function GET(_request: Request, ctx: Ctx) {
   try {
-    await requireAdminUser();
     const { projectId, employeeId } = await ctx.params;
+    await requireAdminProjectAccess(projectId);
     const admin = createAdminClient();
 
     const { data: emp } = await admin

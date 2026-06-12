@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
-import { requireAdminUser } from '@/lib/admin-auth';
+import { requireAdminProjectAccess } from '@/lib/admin-auth';
 import {
   encryptField,
   PLACEHOLDER_IBAN,
@@ -13,8 +13,6 @@ import { createAdminClient } from '@/utils/supabase/admin';
 
 export async function POST(request: Request) {
   try {
-    await requireAdminUser();
-
     const body = await request.json();
     const {
       projectId,
@@ -61,6 +59,8 @@ export async function POST(request: Request) {
         { status: 400 }
       );
     }
+
+    await requireAdminProjectAccess(projectId);
 
     if (!validateTcKimlik(tc)) {
       return NextResponse.json({ error: 'Geçersiz T.C. kimlik numarası' }, { status: 400 });

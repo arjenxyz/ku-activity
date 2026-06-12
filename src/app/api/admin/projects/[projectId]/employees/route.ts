@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { requireAdminUser } from '@/lib/admin-auth';
+import { requireAdminProjectAccess } from '@/lib/admin-auth';
 import { queryProjectEmployees } from '@/lib/employee-db';
 import { withSignedEmployeePhotos } from '@/lib/photo-storage';
 import { createClient } from '@/utils/supabase/server';
@@ -9,8 +9,8 @@ type Ctx = { params: Promise<{ projectId: string }> };
 
 export async function GET(_req: Request, ctx: Ctx) {
   try {
-    await requireAdminUser();
     const { projectId } = await ctx.params;
+    await requireAdminProjectAccess(projectId);
     const supabase = await createClient();
     const { data, error } = await queryProjectEmployees(supabase, projectId);
 

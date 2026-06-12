@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { requireAdminUser } from '@/lib/admin-auth';
+import { requireAdminProjectAccess } from '@/lib/admin-auth';
 import { createClient } from '@/utils/supabase/server';
 import { apiErrorMessage } from '@/lib/project-queries';
 
@@ -7,8 +7,8 @@ type Ctx = { params: Promise<{ projectId: string }> };
 
 export async function GET(request: Request, ctx: Ctx) {
   try {
-    await requireAdminUser();
     const { projectId } = await ctx.params;
+    await requireAdminProjectAccess(projectId);
     const { searchParams } = new URL(request.url);
     const employeeId = searchParams.get('employeeId');
     const month = searchParams.get('month');
@@ -37,8 +37,8 @@ export async function GET(request: Request, ctx: Ctx) {
 
 export async function POST(request: Request, ctx: Ctx) {
   try {
-    await requireAdminUser();
     const { projectId } = await ctx.params;
+    await requireAdminProjectAccess(projectId);
     const { employeeId, date, amount, description } = await request.json();
     if (!employeeId || !date || amount == null) {
       return NextResponse.json({ error: 'Zorunlu alanlar eksik' }, { status: 400 });

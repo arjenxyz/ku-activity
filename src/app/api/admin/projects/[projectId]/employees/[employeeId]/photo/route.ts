@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { requireAdminUser } from '@/lib/admin-auth';
+import { requireAdminProjectAccess } from '@/lib/admin-auth';
 import { createAdminClient } from '@/utils/supabase/admin';
 import { apiErrorMessage } from '@/lib/project-queries';
 import {
@@ -22,8 +22,8 @@ type Ctx = { params: Promise<{ projectId: string; employeeId: string }> };
 
 export async function POST(request: Request, ctx: Ctx) {
   try {
-    await requireAdminUser();
     const { projectId, employeeId } = await ctx.params;
+    await requireAdminProjectAccess(projectId);
     const formData = await request.formData();
     const file = formData.get('file');
 
@@ -100,8 +100,8 @@ export async function POST(request: Request, ctx: Ctx) {
 
 export async function DELETE(_request: Request, ctx: Ctx) {
   try {
-    await requireAdminUser();
     const { projectId, employeeId } = await ctx.params;
+    await requireAdminProjectAccess(projectId);
     const admin = createAdminClient();
 
     const { data: employee, error: empError } = await admin

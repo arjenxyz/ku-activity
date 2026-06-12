@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { requireAdminUser } from '@/lib/admin-auth';
+import { requireAdminProjectAccess } from '@/lib/admin-auth';
 import { createClient } from '@/utils/supabase/server';
 import { apiErrorMessage } from '@/lib/project-queries';
 
@@ -14,8 +14,8 @@ function monthBounds(month: string) {
 
 export async function GET(request: Request, ctx: Ctx) {
   try {
-    await requireAdminUser();
     const { projectId } = await ctx.params;
+    await requireAdminProjectAccess(projectId);
     const month = new URL(request.url).searchParams.get('month');
     const supabase = await createClient();
 
@@ -45,8 +45,8 @@ export async function GET(request: Request, ctx: Ctx) {
 
 export async function POST(request: Request, ctx: Ctx) {
   try {
-    await requireAdminUser();
     const { projectId } = await ctx.params;
+    await requireAdminProjectAccess(projectId);
     const { month } = await request.json();
     if (!month) return NextResponse.json({ error: 'Ay gerekli (YYYY-MM)' }, { status: 400 });
 

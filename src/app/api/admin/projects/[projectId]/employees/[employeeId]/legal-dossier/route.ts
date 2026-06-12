@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { requireAdminUser } from '@/lib/admin-auth';
+import { requireAdminProjectAccess } from '@/lib/admin-auth';
 import { buildLegalDossier, dossierZipFilename } from '@/lib/legal-dossier/build-legal-dossier';
 import { buildDossierZip } from '@/lib/legal-dossier/build-zip';
 import { apiErrorMessage } from '@/lib/project-queries';
@@ -8,8 +8,8 @@ type Ctx = { params: Promise<{ projectId: string; employeeId: string }> };
 
 export async function GET(_request: Request, ctx: Ctx) {
   try {
-    const user = await requireAdminUser();
     const { projectId, employeeId } = await ctx.params;
+    const user = await requireAdminProjectAccess(projectId);
 
     const dossier = await buildLegalDossier({
       projectId,
