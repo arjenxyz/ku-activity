@@ -40,6 +40,7 @@ export async function POST(request: Request) {
         tcKimlik: String(formData.get('tcKimlik') ?? ''),
         birthDate: String(formData.get('birthDate') ?? ''),
         iban: String(formData.get('iban') ?? ''),
+        pin: String(formData.get('pin') ?? ''),
       });
 
       await recordContractAcceptances({
@@ -78,6 +79,7 @@ export async function POST(request: Request) {
       tcKimlik: body.tcKimlik ?? '',
       birthDate: body.birthDate ?? '',
       iban: body.iban ?? '',
+      pin: body.pin ?? '',
     });
 
     await recordContractAcceptances({

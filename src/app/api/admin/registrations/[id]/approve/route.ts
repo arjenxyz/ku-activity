@@ -16,7 +16,6 @@ export async function POST(request: Request, ctx: Ctx) {
       projectId: body.projectId,
       dailyWage: Number(body.dailyWage),
       position: body.position,
-      pin: body.pin,
       hireDate: body.hireDate,
       approvedBy: user.id,
     });

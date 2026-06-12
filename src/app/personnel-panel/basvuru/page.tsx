@@ -8,7 +8,13 @@ import { ContractAcceptanceBlock } from '@/components/contracts/ContractAcceptan
 import { EmployeePhotoPicker } from '@/components/employee/EmployeePhotoPicker';
 import { PersonnelLoginLayout } from '@/components/personnel/PersonnelLoginLayout';
 import { AuthAlert } from '@/components/auth/AuthAlerts';
+import { BirthDatePicker } from '@/components/forms/BirthDatePicker';
+import {
+  constructionAgeErrorMessage,
+  isConstructionEligibleBirthDate,
+} from '@/lib/age-validation';
 import { formatFullName } from '@/lib/format';
+import { validatePersonnelPinMatch } from '@/lib/personnel-pin';
 import {
   clearPendingRegistration,
   loadPendingRegistration,
@@ -60,13 +66,14 @@ export default function PersonnelApplicationPage() {
     tc_kimlik: '',
     birth_date: '',
     iban: '',
+    pin: '',
+    pin_confirm: '',
   });
   const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [result, setResult] = useState<PendingRegistration | null>(null);
   const [status, setStatus] = useState<RegistrationStatus | null>(null);
-  const [approvedEmail, setApprovedEmail] = useState<string | null>(null);
   const [approvedPosition, setApprovedPosition] = useState<string | null>(null);
   const [contractsReady, setContractsReady] = useState(false);
   const [contractAcceptances, setContractAcceptances] = useState<
@@ -89,7 +96,6 @@ export default function PersonnelApplicationPage() {
     if (!payload) return;
     setStatus(payload.status);
     if (payload.status === 'approved') {
-      setApprovedEmail(payload.email ?? null);
       setApprovedPosition(payload.position ?? null);
       clearPendingRegistration();
     }
@@ -138,7 +144,6 @@ export default function PersonnelApplicationPage() {
         clearPendingRegistration();
         setResult(saved);
         setStatus('approved');
-        setApprovedEmail(next.email ?? null);
         setApprovedPosition(next.position ?? null);
         setBootstrapping(false);
         return;
@@ -208,6 +213,15 @@ export default function PersonnelApplicationPage() {
       setError('Başvuruyu göndermeden önce tüm sözleşmeleri sonuna kadar okuyup onaylayın.');
       return;
     }
+    if (!form.birth_date || !isConstructionEligibleBirthDate(form.birth_date)) {
+      setError(constructionAgeErrorMessage());
+      return;
+    }
+    const pinError = validatePersonnelPinMatch(form.pin, form.pin_confirm);
+    if (pinError) {
+      setError(pinError);
+      return;
+    }
 
     setLoading(true);
     try {
@@ -219,6 +233,7 @@ export default function PersonnelApplicationPage() {
       body.append('tcKimlik', form.tc_kimlik);
       body.append('birthDate', form.birth_date);
       body.append('iban', form.iban);
+      body.append('pin', form.pin);
       body.append('contractAcceptances', JSON.stringify(contractAcceptances));
       body.append('photo', photoFile);
 
@@ -233,6 +248,7 @@ export default function PersonnelApplicationPage() {
         verificationCode: data.verificationCode,
         approvalUrl: data.approvalUrl,
         reused: data.reused,
+        tcKimlik: form.tc_kimlik,
       };
       savePendingRegistration(pending);
       setResult(pending);
@@ -292,8 +308,8 @@ export default function PersonnelApplicationPage() {
   }
 
   if (result && status === 'approved') {
-    const loginHref = approvedEmail
-      ? `/personnel-panel/login?email=${encodeURIComponent(approvedEmail)}`
+    const loginHref = result.tcKimlik
+      ? `/personnel-panel/login?tc=${encodeURIComponent(result.tcKimlik)}`
       : '/personnel-panel/login';
 
     return (
@@ -307,12 +323,6 @@ export default function PersonnelApplicationPage() {
             message="Başvurunuz onaylandı ve personel kaydınız oluşturuldu. Sistem şu an aktif."
           />
           <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-left space-y-2">
-            {approvedEmail && (
-              <p>
-                <span className="text-slate-500">Giriş e-postası:</span>{' '}
-                <strong className="text-slate-900">{approvedEmail}</strong>
-              </p>
-            )}
             {approvedPosition && (
               <p>
                 <span className="text-slate-500">Pozisyon:</span>{' '}
@@ -320,8 +330,8 @@ export default function PersonnelApplicationPage() {
               </p>
             )}
             <p className="text-slate-600">
-              Şifre olarak yöneticinizin onay sırasında belirlediği <strong>PIN</strong> kodunu
-              kullanın.
+              <strong>T.C. kimlik numaranız</strong> ve başvuruda belirlediğiniz{' '}
+              <strong>PIN</strong> ile giriş yapın.
             </p>
           </div>
           <Link
@@ -426,16 +436,13 @@ export default function PersonnelApplicationPage() {
             required
           />
         </div>
-        <div>
-          <label className={labelClass}>Doğum Tarihi *</label>
-          <input
-            type="date"
-            className={inputClass}
-            value={form.birth_date}
-            onChange={(e) => setForm({ ...form, birth_date: e.target.value })}
-            required
-          />
-        </div>
+        <BirthDatePicker
+          value={form.birth_date}
+          onChange={(birth_date) => setForm({ ...form, birth_date })}
+          inputClass={inputClass}
+          labelClass={labelClass}
+          required
+        />
         <div>
           <label className={labelClass}>IBAN *</label>
           <input
@@ -445,6 +452,36 @@ export default function PersonnelApplicationPage() {
             onChange={(e) => setForm({ ...form, iban: e.target.value.toUpperCase() })}
             required
           />
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label className={labelClass}>Giriş şifresi (PIN) *</label>
+            <input
+              type="password"
+              className={inputClass}
+              inputMode="numeric"
+              maxLength={12}
+              value={form.pin}
+              onChange={(e) => setForm({ ...form, pin: e.target.value.replace(/\D/g, '') })}
+              autoComplete="new-password"
+              required
+            />
+            <p className="text-xs text-slate-500 mt-1">4-12 rakam. Panele girişte kullanılacak.</p>
+          </div>
+          <div>
+            <label className={labelClass}>PIN tekrar *</label>
+            <input
+              type="password"
+              className={inputClass}
+              inputMode="numeric"
+              maxLength={12}
+              value={form.pin_confirm}
+              onChange={(e) => setForm({ ...form, pin_confirm: e.target.value.replace(/\D/g, '') })}
+              autoComplete="new-password"
+              required
+            />
+          </div>
         </div>
 
         <ContractAcceptanceBlock

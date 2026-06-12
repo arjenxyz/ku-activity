@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import { createAdminClient } from '@/utils/supabase/admin';
+import { hashTcKimlik, validateTcKimlik } from '@/lib/field-encryption';
+import { validatePersonnelPin } from '@/lib/personnel-pin';
 import {
   generateSessionToken,
   getSessionExpiry,
@@ -8,10 +10,6 @@ import {
   personnelCookieOptions,
   PERSONNEL_COOKIE,
 } from '@/lib/personnel-session';
-
-function normalizeEmail(email: string) {
-  return email.trim().toLowerCase();
-}
 
 type LoginEmployee = {
   id: string;
@@ -23,17 +21,24 @@ type LoginEmployee = {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { email, password } = body as {
-      email?: string;
+    const { tcKimlik, password } = body as {
+      tcKimlik?: string;
       password?: string;
     };
 
-    if (!email || !password || typeof email !== 'string' || typeof password !== 'string') {
-      return NextResponse.json({ error: 'E-posta ve şifre gerekli' }, { status: 400 });
+    const tc = (tcKimlik ?? '').replace(/\D/g, '');
+
+    if (!tc || !password || typeof password !== 'string') {
+      return NextResponse.json({ error: 'T.C. kimlik ve şifre gerekli' }, { status: 400 });
     }
 
-    if (password.length < 4 || password.length > 64) {
-      return NextResponse.json({ error: 'Geçersiz şifre' }, { status: 400 });
+    if (!validateTcKimlik(tc)) {
+      return NextResponse.json({ error: 'Geçersiz T.C. kimlik veya şifre' }, { status: 401 });
+    }
+
+    const pinError = validatePersonnelPin(password);
+    if (pinError) {
+      return NextResponse.json({ error: 'Geçersiz T.C. kimlik veya şifre' }, { status: 401 });
     }
 
     if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
@@ -46,33 +51,48 @@ export async function POST(request: Request) {
       );
     }
 
+    if (!process.env.FIELD_ENCRYPTION_KEY) {
+      return NextResponse.json(
+        { error: 'Sunucu yapılandırması eksik: FIELD_ENCRYPTION_KEY tanımlı değil' },
+        { status: 503 }
+      );
+    }
+
     const admin = createAdminClient();
-    const normalized = normalizeEmail(email);
+    const tcLookupHash = hashTcKimlik(tc);
     let employee: LoginEmployee | null = null;
 
-    const { data: rpcRows, error: rpcError } = await admin.rpc('get_employee_for_login', {
-      p_email: normalized,
+    const { data: rpcRows, error: rpcError } = await admin.rpc('get_employee_for_login_by_tc', {
+      p_tc_lookup_hash: tcLookupHash,
     });
 
     if (!rpcError && Array.isArray(rpcRows) && rpcRows.length > 0) {
       employee = rpcRows[0] as LoginEmployee;
     } else {
       if (rpcError) {
-        console.warn('get_employee_for_login RPC:', rpcError.message);
+        console.warn('get_employee_for_login_by_tc RPC:', rpcError.message);
       }
-      const { data, error } = await admin
-        .from('employees')
-        .select('id, project_id, pin_hash, is_active')
-        .ilike('email', normalized)
+      const { data: sensitive } = await admin
+        .from('employee_sensitive_data')
+        .select('employee_id')
+        .eq('tc_lookup_hash', tcLookupHash)
         .maybeSingle();
 
-      if (!error && data) {
-        employee = data as LoginEmployee;
+      if (sensitive?.employee_id) {
+        const { data, error } = await admin
+          .from('employees')
+          .select('id, project_id, pin_hash, is_active')
+          .eq('id', sensitive.employee_id)
+          .maybeSingle();
+
+        if (!error && data) {
+          employee = data as LoginEmployee;
+        }
       }
     }
 
     if (!employee || !employee.is_active) {
-      return NextResponse.json({ error: 'Geçersiz e-posta veya şifre' }, { status: 401 });
+      return NextResponse.json({ error: 'Geçersiz T.C. kimlik veya şifre' }, { status: 401 });
     }
 
     if (!employee.pin_hash) {
@@ -93,7 +113,7 @@ export async function POST(request: Request) {
     }
 
     if (!valid) {
-      return NextResponse.json({ error: 'Geçersiz e-posta veya şifre' }, { status: 401 });
+      return NextResponse.json({ error: 'Geçersiz T.C. kimlik veya şifre' }, { status: 401 });
     }
 
     const token = generateSessionToken();

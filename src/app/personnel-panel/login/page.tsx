@@ -10,7 +10,6 @@ import { AuthAlert, LoadingSpinner } from '@/components/auth/AuthAlerts';
 import { AutofillTrap } from '@/components/auth/AutofillTrap';
 import {
   noAutofillFormProps,
-  noAutofillEmailProps,
   noAutofillPasswordProps,
 } from '@/components/auth/noAutofill';
 
@@ -22,15 +21,22 @@ const labelClass = 'block text-sm font-medium text-gray-700 dark:text-gray-300 m
 function PersonnelLoginContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [email, setEmail] = useState('');
+  const [tcKimlik, setTcKimlik] = useState('');
   const [hasPendingApplication, setHasPendingApplication] = useState(false);
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    const fromUrl = searchParams.get('email');
-    if (fromUrl) setEmail(fromUrl);
+    const fromUrl = searchParams.get('tc');
+    if (fromUrl) {
+      setTcKimlik(fromUrl.replace(/\D/g, '').slice(0, 11));
+    } else {
+      const pending = loadPendingRegistration();
+      if (pending?.tcKimlik) {
+        setTcKimlik(pending.tcKimlik);
+      }
+    }
     setHasPendingApplication(Boolean(loadPendingRegistration()));
   }, [searchParams]);
 
@@ -43,7 +49,7 @@ function PersonnelLoginContent() {
       const res = await fetch('/api/auth/personnel/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ tcKimlik, password }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -65,34 +71,37 @@ function PersonnelLoginContent() {
         <AutofillTrap />
 
         <div>
-          <label htmlFor="personnel-email" className={labelClass}>
-            E-posta
+          <label htmlFor="personnel-tc" className={labelClass}>
+            T.C. Kimlik No
           </label>
           <input
-            id="personnel-email"
-            name="personnel-email"
-            type="email"
+            id="personnel-tc"
+            name="personnel-tc"
+            type="text"
             className={inputClass}
-            placeholder="ornek@firma.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            placeholder="11 haneli T.C. kimlik"
+            inputMode="numeric"
+            maxLength={11}
+            value={tcKimlik}
+            onChange={(e) => setTcKimlik(e.target.value.replace(/\D/g, '').slice(0, 11))}
             required
-            {...noAutofillEmailProps}
+            autoComplete="off"
           />
         </div>
 
         <div>
           <label htmlFor="personnel-password" className={labelClass}>
-            Şifre
+            Giriş şifresi (PIN)
           </label>
           <input
             id="personnel-password"
             name="personnel-password"
             type="password"
             className={inputClass}
-            placeholder="Şifreniz"
+            placeholder="PIN"
+            inputMode="numeric"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value.replace(/\D/g, ''))}
             required
             {...noAutofillPasswordProps}
           />
@@ -102,7 +111,7 @@ function PersonnelLoginContent() {
 
         <button
           type="submit"
-          disabled={isLoading || !email || !password}
+          disabled={isLoading || tcKimlik.length !== 11 || !password}
           className="touch-target w-full inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 disabled:opacity-50 text-white px-6 py-3.5 rounded-xl font-semibold shadow-lg shadow-blue-500/25 transition-all"
         >
           {isLoading ? (

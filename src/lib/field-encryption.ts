@@ -1,4 +1,4 @@
-import { createCipheriv, createDecipheriv, randomBytes, scryptSync } from 'crypto';
+import { createCipheriv, createDecipheriv, createHmac, randomBytes, scryptSync } from 'crypto';
 
 const ALGO = 'aes-256-gcm';
 
@@ -28,6 +28,19 @@ export function decryptField(blob: string): string {
   const decipher = createDecipheriv(ALGO, key, iv);
   decipher.setAuthTag(tag);
   return Buffer.concat([decipher.update(data), decipher.final()]).toString('utf8');
+}
+
+/** T.C. kimlik ile giriş araması — şifreli alan açılmadan eşleştirme */
+export function hashTcKimlik(tc: string): string {
+  const normalized = tc.replace(/\D/g, '');
+  if (!/^\d{11}$/.test(normalized)) {
+    throw new Error('Geçersiz T.C. kimlik numarası');
+  }
+  const secret = process.env.FIELD_ENCRYPTION_KEY;
+  if (!secret || secret.length < 16) {
+    throw new Error('FIELD_ENCRYPTION_KEY eksik veya çok kısa (.env)');
+  }
+  return createHmac('sha256', secret).update(`tc-lookup-v1:${normalized}`).digest('hex');
 }
 
 export function maskTcKimlik(tc: string) {

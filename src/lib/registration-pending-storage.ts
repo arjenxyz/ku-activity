@@ -4,6 +4,7 @@ export type PendingRegistration = {
   verificationCode: string;
   approvalUrl: string;
   reused?: boolean;
+  tcKimlik?: string;
 };
 
 export function savePendingRegistration(data: PendingRegistration) {

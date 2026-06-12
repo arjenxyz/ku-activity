@@ -3,12 +3,18 @@ import { createAdminClient } from '@/utils/supabase/admin';
 import {
   decryptField,
   encryptField,
+  hashTcKimlik,
   maskIban,
   maskTcKimlik,
   normalizeIban,
   validateTcKimlik,
   validateTurkishIban,
 } from '@/lib/field-encryption';
+import { validatePersonnelPin } from '@/lib/personnel-pin';
+import {
+  constructionAgeErrorMessage,
+  isConstructionEligibleBirthDate,
+} from '@/lib/age-validation';
 import { formatFullName } from '@/lib/format';
 import {
   buildAdminApprovalUrl,
@@ -29,6 +35,7 @@ export type RegistrationApplyInput = {
   tcKimlik: string;
   birthDate: string;
   iban: string;
+  pin: string;
 };
 
 function assertEncryptionReady() {
@@ -63,11 +70,31 @@ export async function submitRegistrationApplication(input: RegistrationApplyInpu
   if (!birthDate) {
     throw new Error('Doğum tarihi zorunludur');
   }
+  if (!isConstructionEligibleBirthDate(birthDate)) {
+    throw new Error(constructionAgeErrorMessage());
+  }
   if (!validateTurkishIban(iban)) {
     throw new Error('Geçersiz IBAN (TR ile 26 karakter)');
   }
+  const pinError = validatePersonnelPin(input.pin);
+  if (pinError) {
+    throw new Error(pinError);
+  }
+
+  const tcLookupHash = hashTcKimlik(tc);
+  const pinHash = await bcrypt.hash(input.pin.trim(), 12);
 
   const admin = createAdminClient();
+
+  const { data: existingByTc } = await admin
+    .from('employee_sensitive_data')
+    .select('employee_id')
+    .eq('tc_lookup_hash', tcLookupHash)
+    .maybeSingle();
+
+  if (existingByTc) {
+    throw new Error('Bu T.C. kimlik numarası ile kayıtlı personel zaten var');
+  }
 
   const { data: existingEmployee } = await admin
     .from('employees')
@@ -79,6 +106,22 @@ export async function submitRegistrationApplication(input: RegistrationApplyInpu
     throw new Error('Bu e-posta ile kayıtlı personel zaten var');
   }
 
+  const { data: pendingByTc } = await admin
+    .from('employee_registration_requests')
+    .select('id, verification_code')
+    .eq('tc_lookup_hash', tcLookupHash)
+    .eq('status', 'pending')
+    .maybeSingle();
+
+  if (pendingByTc) {
+    return {
+      id: pendingByTc.id,
+      verificationCode: pendingByTc.verification_code,
+      approvalUrl: buildAdminApprovalUrl(pendingByTc.verification_code),
+      reused: true,
+    };
+  }
+
   const { data: pending } = await admin
     .from('employee_registration_requests')
     .select('id, verification_code')
@@ -87,6 +130,20 @@ export async function submitRegistrationApplication(input: RegistrationApplyInpu
     .maybeSingle();
 
   if (pending) {
+    await admin
+      .from('employee_registration_requests')
+      .update({
+        pin_hash: pinHash,
+        tc_lookup_hash: tcLookupHash,
+        first_name: firstName,
+        last_name: lastName,
+        phone,
+        tc_kimlik_enc: encryptField(tc),
+        birth_date_enc: encryptField(birthDate),
+        iban_enc: encryptField(iban),
+      })
+      .eq('id', pending.id);
+
     return {
       id: pending.id,
       verificationCode: pending.verification_code,
@@ -108,6 +165,8 @@ export async function submitRegistrationApplication(input: RegistrationApplyInpu
         tc_kimlik_enc: encryptField(tc),
         birth_date_enc: encryptField(birthDate),
         iban_enc: encryptField(iban),
+        pin_hash: pinHash,
+        tc_lookup_hash: tcLookupHash,
       })
       .select('id, verification_code')
       .single();
@@ -224,7 +283,6 @@ export type ApproveRegistrationInput = {
   projectId: string;
   dailyWage: number;
   position: string;
-  pin: string;
   hireDate: string;
   approvedBy: string;
 };
@@ -247,9 +305,6 @@ export async function approveRegistration(input: ApproveRegistrationInput) {
   }
   if (!hireDate) {
     throw new Error('İşe giriş tarihi zorunludur');
-  }
-  if (input.pin.length < 4 || input.pin.length > 12) {
-    throw new Error('Personel giriş şifresi (PIN) 4-12 karakter olmalı');
   }
 
   const admin = createAdminClient();
@@ -281,7 +336,19 @@ export async function approveRegistration(input: ApproveRegistrationInput) {
     throw new Error('Başvuru süresi dolmuş');
   }
 
-  const pinHash = await bcrypt.hash(input.pin, 12);
+  const birthDate = decryptField(req.birth_date_enc);
+  if (!isConstructionEligibleBirthDate(birthDate)) {
+    throw new Error(constructionAgeErrorMessage());
+  }
+
+  const pinHash = req.pin_hash as string | null;
+  if (!pinHash) {
+    throw new Error('Başvuruda giriş şifresi (PIN) tanımlı değil. Personelin başvuruyu yenilemesi gerekir.');
+  }
+
+  const tcLookupHash =
+    (req.tc_lookup_hash as string | null) ?? hashTcKimlik(decryptField(req.tc_kimlik_enc));
+
   const fullName = formatFullName(req.first_name, req.last_name);
 
   const { data: employee, error: empError } = await admin
@@ -309,6 +376,7 @@ export async function approveRegistration(input: ApproveRegistrationInput) {
     tc_kimlik_enc: req.tc_kimlik_enc,
     birth_date_enc: req.birth_date_enc,
     iban_enc: req.iban_enc,
+    tc_lookup_hash: tcLookupHash,
   });
 
   if (sensError) {

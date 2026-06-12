@@ -8,6 +8,11 @@ import { ProjectPageHeader } from '@/components/project/ProjectPageHeader';
 import { AlertBanner } from '@/components/project/AlertBanner';
 import { cardClass, btnPrimary, labelClass, inputClass, btnSecondary } from '@/components/project/ui';
 import { fetchEmployee, updateEmployee } from '@/lib/project-api';
+import {
+  getAgeFromBirthDate,
+  isConstructionEligibleBirthDate,
+  MIN_CONSTRUCTION_AGE,
+} from '@/lib/age-validation';
 import { formatDate, formatFullName, splitFullName } from '@/lib/format';
 
 export default function EditEmployeePage() {
@@ -202,7 +207,14 @@ export default function EditEmployeePage() {
           <div className="rounded-xl border border-amber-200 bg-amber-50/80 p-4 text-sm space-y-1">
             <p className="font-medium text-amber-900">Hassas bilgiler (şifreli)</p>
             <p>T.C.: {showSensitive && sensitive.tcKimlik ? sensitive.tcKimlik : sensitive.tcKimlikMasked}</p>
-            <p>Doğum: {formatDate(sensitive.birthDate)}</p>
+            <p>
+              Doğum: {formatDate(sensitive.birthDate)} ({getAgeFromBirthDate(sensitive.birthDate)} yaş)
+            </p>
+            {!isConstructionEligibleBirthDate(sensitive.birthDate) && (
+              <p className="text-red-700 text-xs font-medium">
+                Uyarı: {MIN_CONSTRUCTION_AGE} yaş altı — inşaat sahasında çalışamaz.
+              </p>
+            )}
             <p>IBAN: {showSensitive && sensitive.iban ? sensitive.iban : sensitive.ibanMasked}</p>
             <button
               type="button"

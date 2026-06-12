@@ -1,7 +1,13 @@
 import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import { requireAdminUser } from '@/lib/admin-auth';
+import {
+  encryptField,
+  hashTcKimlik,
+  validateTcKimlik,
+} from '@/lib/field-encryption';
 import { formatFullName } from '@/lib/format';
+import { validatePersonnelPin } from '@/lib/personnel-pin';
 import { createAdminClient } from '@/utils/supabase/admin';
 
 export async function POST(request: Request) {
@@ -20,6 +26,7 @@ export async function POST(request: Request) {
       position,
       hireDate,
       pin,
+      tcKimlik,
     } = body as {
       projectId?: string;
       name?: string;
@@ -31,6 +38,7 @@ export async function POST(request: Request) {
       position?: string;
       hireDate?: string;
       pin?: string;
+      tcKimlik?: string;
     };
 
     const fullName =
@@ -38,8 +46,17 @@ export async function POST(request: Request) {
         ? formatFullName(firstName ?? '', lastName ?? '')
         : (name ?? '').trim();
 
-    if (!projectId || !fullName || !email || !position || dailyWage == null || !pin) {
-      return NextResponse.json({ error: 'Zorunlu alanlar eksik (ad, soyad, e-posta)' }, { status: 400 });
+    const tc = (tcKimlik ?? '').replace(/\D/g, '');
+
+    if (!projectId || !fullName || !email || !position || dailyWage == null || !pin || !tc) {
+      return NextResponse.json(
+        { error: 'Zorunlu alanlar eksik (ad, soyad, e-posta, T.C. kimlik)' },
+        { status: 400 }
+      );
+    }
+
+    if (!validateTcKimlik(tc)) {
+      return NextResponse.json({ error: 'Geçersiz T.C. kimlik numarası' }, { status: 400 });
     }
 
     if (firstName != null || lastName != null) {
@@ -53,12 +70,27 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Geçerli bir e-posta girin' }, { status: 400 });
     }
 
-    if (pin.length < 4 || pin.length > 12) {
-      return NextResponse.json({ error: 'PIN 4-12 karakter olmalı' }, { status: 400 });
+    const pinError = validatePersonnelPin(pin);
+    if (pinError) {
+      return NextResponse.json({ error: pinError }, { status: 400 });
     }
 
-    const pinHash = await bcrypt.hash(pin, 12);
+    const pinHash = await bcrypt.hash(pin.trim(), 12);
     const admin = createAdminClient();
+    const tcLookupHash = hashTcKimlik(tc);
+
+    const { data: existingTc } = await admin
+      .from('employee_sensitive_data')
+      .select('employee_id')
+      .eq('tc_lookup_hash', tcLookupHash)
+      .maybeSingle();
+
+    if (existingTc) {
+      return NextResponse.json(
+        { error: 'Bu T.C. kimlik numarası ile kayıtlı personel zaten var' },
+        { status: 400 }
+      );
+    }
 
     const { data, error } = await admin
       .from('employees')
@@ -78,6 +110,20 @@ export async function POST(request: Request) {
     if (error) {
       console.error('Personel ekleme hatası:', error);
       return NextResponse.json({ error: 'Kayıt oluşturulamadı' }, { status: 500 });
+    }
+
+    const { error: sensError } = await admin.from('employee_sensitive_data').insert({
+      employee_id: data.id,
+      tc_kimlik_enc: encryptField(tc),
+      birth_date_enc: encryptField('1970-01-01'),
+      iban_enc: encryptField('TR000000000000000000000000'),
+      tc_lookup_hash: tcLookupHash,
+    });
+
+    if (sensError) {
+      await admin.from('employees').delete().eq('id', data.id);
+      console.error('Hassas veri ekleme hatası:', sensError);
+      return NextResponse.json({ error: 'Personel T.C. kaydı oluşturulamadı' }, { status: 500 });
     }
 
     return NextResponse.json({ success: true, id: data.id });

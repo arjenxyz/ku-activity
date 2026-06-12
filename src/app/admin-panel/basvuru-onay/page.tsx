@@ -16,6 +16,12 @@ const QrCameraScanner = dynamic(
   }
 );
 import { cardClass, btnPrimary, labelClass, inputClass, btnSecondary } from '@/components/project/ui';
+import {
+  constructionAgeErrorMessage,
+  getAgeFromBirthDate,
+  isConstructionEligibleBirthDate,
+  MIN_CONSTRUCTION_AGE,
+} from '@/lib/age-validation';
 import { formatDate } from '@/lib/format';
 
 type Registration = {
@@ -56,7 +62,6 @@ function BasvuruOnayContent() {
     projectId: '',
     position: '',
     daily_wage: '',
-    pin: '',
     hire_date: dayjs().format('YYYY-MM-DD'),
   });
 
@@ -93,17 +98,25 @@ function BasvuruOnayContent() {
     if (initialKod) lookup(initialKod);
   }, [initialKod, lookup]);
 
+  const birthDateEligible = registration
+    ? isConstructionEligibleBirthDate(registration.sensitive.birthDate)
+    : true;
+  const applicantAge = registration ? getAgeFromBirthDate(registration.sensitive.birthDate) : null;
+
   const adminFormValid =
     Boolean(form.projectId) &&
     Boolean(form.position.trim()) &&
     Number(form.daily_wage) > 0 &&
     Boolean(form.hire_date) &&
-    form.pin.length >= 4 &&
-    form.pin.length <= 12;
+    birthDateEligible;
 
   const handleApprove = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!registration) return;
+    if (!birthDateEligible) {
+      setError(constructionAgeErrorMessage());
+      return;
+    }
     if (!adminFormValid) {
       setError('Onaylamadan önce tüm yönetici alanlarını doldurun.');
       return;
@@ -118,7 +131,6 @@ function BasvuruOnayContent() {
           projectId: form.projectId,
           position: form.position,
           dailyWage: Number(form.daily_wage),
-          pin: form.pin,
           hireDate: form.hire_date,
         }),
       });
@@ -230,7 +242,20 @@ function BasvuruOnayContent() {
           <div className="rounded-lg bg-slate-50 border border-slate-200 p-3 text-sm space-y-1">
             <p className="font-medium text-slate-700">Hassas bilgiler (şifreli saklanır)</p>
             <p>T.C.: {showSensitive ? registration.sensitive.tcKimlik : registration.sensitive.tcKimlikMasked}</p>
-            <p>Doğum: {formatDate(registration.sensitive.birthDate)}</p>
+            <p>
+              Doğum: {formatDate(registration.sensitive.birthDate)}
+              {applicantAge !== null && (
+                <span className={birthDateEligible ? ' text-slate-600' : ' text-red-700 font-medium'}>
+                  {' '}
+                  ({applicantAge} yaş)
+                </span>
+              )}
+            </p>
+            {!birthDateEligible && (
+              <p className="text-red-700 text-xs font-medium mt-1">
+                {MIN_CONSTRUCTION_AGE} yaş altı — inşaat sahasında çalışamaz, onaylanamaz.
+              </p>
+            )}
             <p>IBAN: {showSensitive ? registration.sensitive.iban : registration.sensitive.ibanMasked}</p>
             <button
               type="button"
@@ -245,8 +270,8 @@ function BasvuruOnayContent() {
             <div className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-900">
               <p className="font-medium">Onaylamadan önce zorunlu</p>
               <p className="text-xs mt-0.5">
-                Proje, pozisyon, yevmiye, işe giriş tarihi ve personel giriş şifresi (PIN) olmadan
-                başvuru onaylanamaz. Onay sonrası personel anında sisteme giriş yapabilir.
+                Proje, pozisyon, yevmiye ve işe giriş tarihi olmadan başvuru onaylanamaz.
+                Personel, başvuruda belirlediği PIN ile T.C. kimlik numarasından giriş yapar.
               </p>
             </div>
             <p className="text-sm font-medium text-slate-800">Yönetici alanları *</p>
@@ -295,19 +320,6 @@ function BasvuruOnayContent() {
                 onChange={(e) => setForm({ ...form, hire_date: e.target.value })}
                 required
               />
-            </div>
-            <div>
-              <label className={labelClass}>Personel giriş şifresi (PIN) *</label>
-              <input
-                type="password"
-                className={inputClass}
-                value={form.pin}
-                onChange={(e) => setForm({ ...form, pin: e.target.value })}
-                minLength={4}
-                maxLength={12}
-                required
-              />
-              <p className="text-xs text-slate-500 mt-1">Personel bu şifre ile panele giriş yapar.</p>
             </div>
             <div className="flex flex-wrap gap-2 pt-2">
               <button type="submit" className={btnPrimary} disabled={loading || !adminFormValid}>

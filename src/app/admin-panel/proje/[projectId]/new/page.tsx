@@ -12,6 +12,7 @@ const initialForm = {
   last_name: '',
   email: '',
   phone: '',
+  tc_kimlik: '',
   daily_wage: '',
   position: '',
   hire_date: dayjs().format('YYYY-MM-DD'),
@@ -35,8 +36,16 @@ export default function NewEmployeePage() {
     setError(null);
     setSuccess(false);
 
-    if (!form.first_name.trim() || !form.last_name.trim() || !form.email || !form.daily_wage || !form.position || !form.pin) {
-      setError('Lütfen zorunlu alanları doldurun (ad, soyad, e-posta).');
+    if (
+      !form.first_name.trim() ||
+      !form.last_name.trim() ||
+      !form.email ||
+      !form.tc_kimlik ||
+      !form.daily_wage ||
+      !form.position ||
+      !form.pin
+    ) {
+      setError('Lütfen zorunlu alanları doldurun (ad, soyad, e-posta, T.C. kimlik).');
       return;
     }
     if (!projectId) {
@@ -59,6 +68,7 @@ export default function NewEmployeePage() {
           position: form.position,
           hireDate: form.hire_date,
           pin: form.pin,
+          tcKimlik: form.tc_kimlik,
         }),
       });
 
@@ -135,6 +145,22 @@ export default function NewEmployeePage() {
           <div>
             <label className={labelClass}>Telefon</label>
             <input type="tel" name="phone" value={form.phone} onChange={handleChange} className={inputClass} />
+          </div>
+          <div>
+            <label className={labelClass}>T.C. Kimlik No *</label>
+            <input
+              type="text"
+              name="tc_kimlik"
+              value={form.tc_kimlik}
+              onChange={(e) =>
+                setForm({ ...form, tc_kimlik: e.target.value.replace(/\D/g, '').slice(0, 11) })
+              }
+              className={inputClass}
+              inputMode="numeric"
+              maxLength={11}
+              required
+            />
+            <p className="text-xs text-slate-500 mt-1">Personel panele T.C. kimlik + PIN ile giriş yapar.</p>
           </div>
           <div>
             <label className={labelClass}>Günlük Maaş (₺) *</label>
