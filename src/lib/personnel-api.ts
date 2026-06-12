@@ -26,6 +26,7 @@ export type PersonnelEmployee = {
   position: string;
   hire_date: string | null;
   photo_url?: string | null;
+  iban_masked?: string | null;
   project_id: string;
   project_name?: string;
   project?: PersonnelProject | null;
@@ -109,6 +110,16 @@ export async function confirmPersonnelAttendance(date?: string, amount?: number)
     status: WorkLogApprovalStatus;
     record: { amount: number; mesai_type: string };
   };
+}
+
+export async function disputePersonnelWorkLog(recordId: string, note: string) {
+  const res = await fetch(`/api/personnel/work-logs/${encodeURIComponent(recordId)}/dispute`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ note }),
+  });
+  if (!res.ok) throw new Error(await parseError(res));
+  return res.json();
 }
 
 export async function changePersonnelPassword(currentPassword: string, newPassword: string) {

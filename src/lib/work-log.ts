@@ -4,6 +4,7 @@ export type WorkLogApprovalStatus =
   | 'confirmed'
   | 'pending_employee'
   | 'pending_admin'
+  | 'disputed'
   | 'none';
 
 export const MESAI_OPTIONS: Array<{ value: MesaiType; label: string; hint: string }> = [
@@ -38,9 +39,11 @@ export function totalPayUnits(amount: number, mesaiUnits: number): number {
 export function getWorkLogApprovalStatus(log: {
   admin_confirmed_at?: string | null;
   employee_confirmed_at?: string | null;
+  employee_disputed_at?: string | null;
   approved?: boolean | null;
 }): WorkLogApprovalStatus {
   if (log.approved) return 'confirmed';
+  if (log.employee_disputed_at && !log.employee_confirmed_at) return 'disputed';
   if (log.admin_confirmed_at && !log.employee_confirmed_at) return 'pending_employee';
   if (log.employee_confirmed_at && !log.admin_confirmed_at) return 'pending_admin';
   if (log.admin_confirmed_at || log.employee_confirmed_at) {
@@ -57,6 +60,8 @@ export function approvalStatusLabel(status: WorkLogApprovalStatus): string {
       return 'Personel onayı bekliyor';
     case 'pending_admin':
       return 'Yönetici onayı bekliyor';
+    case 'disputed':
+      return 'İtiraz edildi';
     default:
       return 'Kayıt yok';
   }

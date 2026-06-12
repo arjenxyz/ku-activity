@@ -11,6 +11,8 @@ export type WorkLog = {
   approved?: boolean;
   admin_confirmed_at?: string | null;
   employee_confirmed_at?: string | null;
+  employee_dispute_note?: string | null;
+  employee_disputed_at?: string | null;
 };
 
 export type Deduction = {

@@ -10,6 +10,16 @@ export function formatDate(value: string) {
   return new Date(value + (value.length === 10 ? 'T12:00:00' : '')).toLocaleDateString('tr-TR');
 }
 
+export function formatDateTime(value: string) {
+  return new Date(value).toLocaleString('tr-TR', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+}
+
 export function formatFullName(firstName: string, lastName: string) {
   return `${firstName.trim()} ${lastName.trim()}`.trim();
 }

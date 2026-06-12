@@ -143,3 +143,49 @@ export async function employeeConfirmWorkLog(
   }
   return data as WorkLogRow;
 }
+
+export async function employeeDisputeWorkLog(
+  admin: SupabaseClient,
+  params: {
+    recordId: string;
+    employeeId: string;
+    note: string;
+  }
+): Promise<WorkLogRow> {
+  const note = params.note.trim();
+  if (note.length < 5) {
+    throw new Error('İtiraz notu en az 5 karakter olmalı');
+  }
+
+  const { data: existing, error: loadError } = await admin
+    .from('work_logs')
+    .select('*')
+    .eq('id', params.recordId)
+    .eq('employee_id', params.employeeId)
+    .maybeSingle();
+
+  if (loadError || !existing) {
+    throw new Error('Yevmiye kaydı bulunamadı');
+  }
+
+  if (existing.approved) {
+    throw new Error('Onaylanmış kayda itiraz edilemez');
+  }
+
+  if (existing.employee_confirmed_at) {
+    throw new Error('Zaten onayladığınız kayda itiraz edilemez');
+  }
+
+  const { data, error } = await admin
+    .from('work_logs')
+    .update({
+      employee_dispute_note: note,
+      employee_disputed_at: new Date().toISOString(),
+    })
+    .eq('id', params.recordId)
+    .select('*')
+    .single();
+
+  if (error) throw new Error(error.message);
+  return data as WorkLogRow;
+}

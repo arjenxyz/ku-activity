@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   FiBookOpen,
@@ -11,11 +11,8 @@ import {
   FiCreditCard,
   FiDollarSign,
   FiList,
-  FiPrinter,
   FiSettings,
-  FiShield,
   FiTrendingUp,
-  FiXCircle,
 } from 'react-icons/fi';
 import { EmployeeAvatar } from '@/components/employee/EmployeeAvatar';
 import { PersonnelCalendar } from '@/components/personnel/PersonnelCalendar';
@@ -31,58 +28,42 @@ import { PersonnelRightsPanel } from '@/components/personnel/PersonnelRightsPane
 import { PersonnelShell } from '@/components/personnel/PersonnelShell';
 import { PersonnelStatGrid } from '@/components/personnel/PersonnelStatGrid';
 import { PersonnelTabNav } from '@/components/personnel/PersonnelTabNav';
-import {
-  PersonnelBadge,
-  PersonnelRecordRow,
-  PersonnelSection,
-} from '@/components/personnel/PersonnelRecordCard';
+import { PersonnelSection } from '@/components/personnel/PersonnelRecordCard';
+import { PersonnelFinancePanel } from '@/components/personnel/PersonnelFinancePanel';
+import { PersonnelBottomNav } from '@/components/personnel/PersonnelBottomNav';
+import { PersonnelPullToRefresh } from '@/components/personnel/PersonnelPullToRefresh';
+import { PersonnelPwaInstallBanner } from '@/components/personnel/PersonnelPwaInstallBanner';
+import { PersonnelDisplaySettings } from '@/components/personnel/PersonnelDisplaySettings';
+import { PersonnelWorkLogItem } from '@/components/personnel/PersonnelWorkLogItem';
 import { usePersonnelDashboard } from '@/hooks/usePersonnelDashboard';
+import { usePersonnelTab, type PersonnelTabId } from '@/hooks/usePersonnelTab';
 import { formatDate, formatMoney } from '@/lib/format';
-import {
-  formatWorkLogSummary,
-  getWorkLogApprovalStatus,
-  approvalStatusLabel,
-} from '@/lib/work-log';
-import {
-  buildMonthCalendar,
-  currentMonth,
-  deductionTypeLabel,
-  workDayLabel,
-  type WorkLog,
-} from '@/lib/personnel-stats';
+import { getWorkLogApprovalStatus } from '@/lib/work-log';
+import { buildMonthCalendar, currentMonth } from '@/lib/personnel-stats';
 
-const TABS = [
+const DESKTOP_TABS = [
   { id: 'overview', label: 'Özet', icon: <FiList className="w-4 h-4" /> },
   { id: 'work', label: 'Yevmiye', icon: <FiBriefcase className="w-4 h-4" /> },
-  { id: 'advance', label: 'Avans', icon: <FiCreditCard className="w-4 h-4" /> },
-  { id: 'deduction', label: 'Kesinti', icon: <FiXCircle className="w-4 h-4" /> },
-  { id: 'minimum', label: 'Asgari', icon: <FiShield className="w-4 h-4" /> },
-  { id: 'calendar', label: 'Takvim', icon: <FiCalendar className="w-4 h-4" /> },
-  { id: 'salary', label: 'Maaş', icon: <FiDollarSign className="w-4 h-4" /> },
+  { id: 'finance', label: 'Finans', icon: <FiDollarSign className="w-4 h-4" /> },
   { id: 'rights', label: 'Haklarım', icon: <FiBookOpen className="w-4 h-4" /> },
   { id: 'settings', label: 'Ayarlar', icon: <FiSettings className="w-4 h-4" /> },
 ];
 
-function approvalBadge(log: Pick<WorkLog, 'approved' | 'admin_confirmed_at' | 'employee_confirmed_at'>) {
-  const status = getWorkLogApprovalStatus(log);
-  if (status === 'confirmed') {
-    return <PersonnelBadge variant="success">Onaylı</PersonnelBadge>;
-  }
-  if (status === 'pending_employee') {
-    return <PersonnelBadge variant="warning">Sizin onayınız</PersonnelBadge>;
-  }
-  if (status === 'pending_admin') {
-    return <PersonnelBadge variant="warning">Yönetici bekliyor</PersonnelBadge>;
-  }
-  return <PersonnelBadge variant="warning">{approvalStatusLabel(status)}</PersonnelBadge>;
-}
+const MOBILE_TABS = [
+  { id: 'overview', label: 'Özet', icon: <FiList /> },
+  { id: 'work', label: 'Yevmiye', icon: <FiBriefcase /> },
+  { id: 'finance', label: 'Finans', icon: <FiDollarSign /> },
+  { id: 'rights', label: 'Haklar', icon: <FiBookOpen /> },
+  { id: 'settings', label: 'Ayarlar', icon: <FiSettings /> },
+];
 
-export default function PersonelPanel() {
+function PersonelPanelContent() {
   const router = useRouter();
   const [month, setMonth] = useState(currentMonth);
-  const [activeTab, setActiveTab] = useState('overview');
+  const { activeTab, setActiveTab } = usePersonnelTab('overview');
+  const loadFinance = activeTab === 'overview' || activeTab === 'finance';
   const { employee, workLogs, deductions, minimumWages, stats, loading, error, reload } =
-    usePersonnelDashboard(month);
+    usePersonnelDashboard(month, { loadFinance });
 
   const pendingEmployeeCount = workLogs.filter(
     (log) => getWorkLogApprovalStatus(log) === 'pending_employee'
@@ -143,15 +124,21 @@ export default function PersonelPanel() {
       ]
     : [];
 
+  const tabsWithBadges = DESKTOP_TABS.map((tab) => ({
+    ...tab,
+    badge: tab.id === 'work' && pendingEmployeeCount > 0 ? pendingEmployeeCount : undefined,
+  }));
+
+  const mobileTabsWithBadges = MOBILE_TABS.map((tab) => ({
+    ...tab,
+    badge: tab.id === 'work' && pendingEmployeeCount > 0 ? pendingEmployeeCount : undefined,
+  }));
+
   const handlePrint = () => {
     window.print();
   };
 
-  const tabsWithBadges = TABS.map((tab) => ({
-    ...tab,
-    badge:
-      tab.id === 'work' && pendingEmployeeCount > 0 ? pendingEmployeeCount : undefined,
-  }));
+  const goTab = (id: string) => setActiveTab(id as PersonnelTabId);
 
   const renderContent = () => {
     if (loading) {
@@ -173,108 +160,39 @@ export default function PersonelPanel() {
 
     if (activeTab === 'work') {
       return (
-        <PersonnelSection
-          title="Yevmiye Kayıtları"
-          icon={<FiBriefcase className="w-5 h-5 text-green-600" />}
-          isEmpty={workLogs.length === 0}
-        >
-          <div>
-            {workLogs.map((r) => (
-              <PersonnelRecordRow
-                key={r.id}
-                left={formatDate(r.date)}
-                right={
-                  <div className="flex flex-col items-end gap-1">
-                    <PersonnelBadge variant={r.amount === 1 ? 'success' : 'warning'}>
-                      {workDayLabel(Number(r.amount), r.mesai_type)}
-                    </PersonnelBadge>
-                    {approvalBadge(r)}
-                  </div>
-                }
-                sub={
-                  r.description ||
-                  formatWorkLogSummary(Number(r.amount), r.mesai_type ?? null)
-                }
-              />
-            ))}
-          </div>
-        </PersonnelSection>
-      );
-    }
-
-    if (activeTab === 'advance') {
-      return (
-        <PersonnelSection
-          title="Avans Kayıtları"
-          icon={<FiCreditCard className="w-5 h-5 text-amber-600" />}
-          isEmpty={advances.length === 0}
-        >
-          <div>
-            {advances.map((r) => (
-              <PersonnelRecordRow
-                key={r.id}
-                left={formatDate(r.date)}
-                right={formatMoney(Number(r.amount))}
-                sub={r.description || undefined}
-              />
-            ))}
-          </div>
-        </PersonnelSection>
-      );
-    }
-
-    if (activeTab === 'deduction') {
-      return (
-        <PersonnelSection
-          title="Kesinti Kayıtları"
-          icon={<FiXCircle className="w-5 h-5 text-red-500" />}
-          isEmpty={otherDeductions.length === 0}
-        >
-          <div>
-            {otherDeductions.map((r) => (
-              <PersonnelRecordRow
-                key={r.id}
-                left={formatDate(r.date)}
-                right={formatMoney(Number(r.amount))}
-                sub={r.description || deductionTypeLabel(r.type)}
-              />
-            ))}
-          </div>
-        </PersonnelSection>
-      );
-    }
-
-    if (activeTab === 'minimum') {
-      return (
-        <PersonnelSection
-          title="Asgari Ücret Kayıtları"
-          icon={<FiShield className="w-5 h-5 text-indigo-600" />}
-          isEmpty={minimumWages.length === 0}
-          emptyMessage="Bu dönem için asgari ücret kaydı yok"
-        >
-          <div>
-            {minimumWages.map((r) => (
-              <PersonnelRecordRow
-                key={r.id}
-                left={formatDate(r.date)}
-                right={formatMoney(Number(r.amount))}
-                sub={r.description || undefined}
-              />
-            ))}
-          </div>
-          {stats && stats.totalMinimum > 0 && (
-            <div className="px-4 sm:px-6 py-3 border-t border-gray-100 dark:border-slate-700 bg-gray-50/50 dark:bg-slate-900/30">
-              <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                Dönem toplamı: {formatMoney(stats.totalMinimum)}
-              </p>
+        <div className="space-y-6">
+          <PersonnelSection
+            title="Yevmiye Kayıtları"
+            icon={<FiBriefcase className="w-5 h-5 text-green-600" />}
+            isEmpty={workLogs.length === 0}
+          >
+            <div>
+              {workLogs.map((r) => (
+                <PersonnelWorkLogItem
+                  key={r.id}
+                  log={r}
+                  showActions
+                  onUpdated={() => void reload()}
+                />
+              ))}
             </div>
-          )}
-        </PersonnelSection>
+          </PersonnelSection>
+          <PersonnelCalendar days={calendarDays} />
+        </div>
       );
     }
 
-    if (activeTab === 'calendar') {
-      return <PersonnelCalendar days={calendarDays} />;
+    if (activeTab === 'finance' && stats) {
+      return (
+        <PersonnelFinancePanel
+          stats={stats}
+          employeeDailyWage={employee ? Number(employee.daily_wage) : undefined}
+          advances={advances}
+          otherDeductions={otherDeductions}
+          minimumWages={minimumWages}
+          onPrint={handlePrint}
+        />
+      );
     }
 
     if (activeTab === 'rights') {
@@ -300,6 +218,14 @@ export default function PersonelPanel() {
                     <dd className="font-medium text-gray-900 dark:text-white">{employee.phone}</dd>
                   </div>
                 )}
+                {employee.iban_masked && (
+                  <div>
+                    <dt className="text-gray-500">IBAN</dt>
+                    <dd className="font-medium text-gray-900 dark:text-white font-mono text-xs sm:text-sm">
+                      {employee.iban_masked}
+                    </dd>
+                  </div>
+                )}
                 {employee.hire_date && (
                   <div>
                     <dt className="text-gray-500">İşe giriş</dt>
@@ -317,74 +243,30 @@ export default function PersonelPanel() {
               </dl>
             </div>
           )}
+          <PersonnelDisplaySettings />
           <PersonnelContractsSection />
           <PersonnelPasswordForm />
         </div>
       );
     }
 
-    if (activeTab === 'salary' && stats) {
+    if (activeTab === 'finance' && !stats) {
       return (
-        <div className="space-y-4 print-area">
-          <div className="bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl p-6 text-white shadow-lg shadow-blue-500/25">
-            <div className="flex items-start justify-between gap-4">
-              <div>
-                <p className="text-sm text-blue-100">Tahmini Net Maaş</p>
-                <p className="text-3xl sm:text-4xl font-bold mt-2">{formatMoney(stats.net)}</p>
-                <p className="text-xs text-blue-100/80 mt-3">
-                  Brüt {formatMoney(stats.gross)} − Avans {formatMoney(stats.totalAdvance)} − Kesinti{' '}
-                  {formatMoney(stats.totalDeduct)}
-                  {stats.totalMinimum > 0 && ` · Asgari ${formatMoney(stats.totalMinimum)}`}
-                </p>
-              </div>
-              <button
-                type="button"
-                onClick={handlePrint}
-                className="print:hidden shrink-0 inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-white/15 hover:bg-white/25 text-sm"
-              >
-                <FiPrinter className="w-4 h-4" />
-                Yazdır
-              </button>
-            </div>
-          </div>
-          <PersonnelStatGrid
-            items={[
-              {
-                label: 'Günlük Yevmiye',
-                value: employee ? formatMoney(Number(employee.daily_wage)) : '—',
-                icon: <FiBriefcase className="w-5 h-5 text-blue-600" />,
-                accent: 'bg-blue-50 dark:bg-blue-900/30',
-              },
-              {
-                label: 'Onaylı / Bekleyen',
-                value: `${stats.approvedDays} / ${stats.pendingDays}`,
-                icon: <FiCheckCircle className="w-5 h-5 text-emerald-600" />,
-                accent: 'bg-emerald-50 dark:bg-emerald-900/30',
-              },
-              {
-                label: 'Brüt',
-                value: formatMoney(stats.gross),
-                icon: <FiTrendingUp className="w-5 h-5 text-emerald-600" />,
-                accent: 'bg-emerald-50 dark:bg-emerald-900/30',
-              },
-              {
-                label: 'Kesintiler',
-                value: formatMoney(stats.totalDeduct),
-                icon: <FiXCircle className="w-5 h-5 text-red-500" />,
-                accent: 'bg-red-50 dark:bg-red-900/30',
-              },
-            ]}
-          />
+        <div className="flex flex-col items-center justify-center py-16 gap-3">
+          <div className="w-8 h-8 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
+          <p className="text-sm text-gray-500">Finans verileri yükleniyor…</p>
         </div>
       );
     }
 
     return (
       <div className="space-y-4 sm:space-y-6">
+        <PersonnelPwaInstallBanner />
+
         <PersonnelAlertBar
           pendingApprovals={pendingEmployeeCount}
           pendingAdminDays={pendingAdminCount}
-          onGoToWork={() => setActiveTab('work')}
+          onGoToWork={() => goTab('work')}
         />
 
         <PersonnelPendingApprovals workLogs={workLogs} onConfirmed={() => void reload()} />
@@ -402,7 +284,12 @@ export default function PersonelPanel() {
               Profil
             </p>
             <div className="flex items-center gap-4">
-              <EmployeeAvatar name={employee.name} photoUrl={employee.photo_url} size="lg" className="!rounded-2xl" />
+              <EmployeeAvatar
+                name={employee.name}
+                photoUrl={employee.photo_url}
+                size="lg"
+                className="!rounded-2xl"
+              />
               <div className="min-w-0">
                 <p className="text-lg font-bold text-gray-900 dark:text-white">{employee.name}</p>
                 <p className="text-sm text-gray-500 dark:text-gray-400">{employee.position}</p>
@@ -436,35 +323,30 @@ export default function PersonelPanel() {
         >
           <div>
             {workLogs.slice(0, 5).map((r) => (
-              <PersonnelRecordRow
-                key={r.id}
-                left={formatDate(r.date)}
-                right={
-                  <div className="flex items-center gap-2">
-                    <span>{workDayLabel(Number(r.amount), r.mesai_type)}</span>
-                    {approvalBadge(r)}
-                  </div>
-                }
-              />
+              <PersonnelWorkLogItem key={r.id} log={r} onUpdated={() => void reload()} />
             ))}
           </div>
         </PersonnelSection>
 
-        <PersonnelSection
-          title="Son Avanslar"
-          icon={<FiCreditCard className="w-5 h-5 text-amber-600" />}
-          isEmpty={advances.length === 0}
-        >
-          <div>
-            {advances.slice(0, 5).map((r) => (
-              <PersonnelRecordRow
-                key={r.id}
-                left={formatDate(r.date)}
-                right={formatMoney(Number(r.amount))}
-              />
-            ))}
-          </div>
-        </PersonnelSection>
+        {loadFinance && advances.length > 0 && (
+          <PersonnelSection
+            title="Son Avanslar"
+            icon={<FiCreditCard className="w-5 h-5 text-amber-600" />}
+            isEmpty={advances.length === 0}
+          >
+            <div>
+              {advances.slice(0, 5).map((r) => (
+                <div
+                  key={r.id}
+                  className="flex items-center justify-between px-4 sm:px-6 py-3 border-b border-gray-100 dark:border-slate-700 last:border-0 text-sm"
+                >
+                  <span>{formatDate(r.date)}</span>
+                  <span className="font-medium">{formatMoney(Number(r.amount))}</span>
+                </div>
+              ))}
+            </div>
+          </PersonnelSection>
+        )}
       </div>
     );
   };
@@ -476,18 +358,40 @@ export default function PersonelPanel() {
       alertCount={alertCount}
       onLogout={handleLogout}
     >
-      <div className="mb-6">
-        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white tracking-tight">
-          Hoş geldiniz{employee ? `, ${employee.name.split(' ')[0]}` : ''}
-        </h1>
-        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-          Puantaj onayları, proje bilgisi ve maaş özetiniz tek panelde.
-        </p>
-      </div>
+      <PersonnelPullToRefresh onRefresh={reload}>
+        <div className="pb-20 sm:pb-0">
+          <div className="mb-6">
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white tracking-tight">
+              Hoş geldiniz{employee ? `, ${employee.name.split(' ')[0]}` : ''}
+            </h1>
+            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+              Puantaj onayları, proje bilgisi ve maaş özetiniz tek panelde.
+            </p>
+          </div>
 
-      <PersonnelMonthFilter month={month} onChange={setMonth} />
-      <PersonnelTabNav tabs={tabsWithBadges} active={activeTab} onChange={setActiveTab} />
-      {renderContent()}
+          <PersonnelMonthFilter month={month} onChange={setMonth} />
+          <div className="hidden sm:block">
+            <PersonnelTabNav tabs={tabsWithBadges} active={activeTab} onChange={goTab} />
+          </div>
+          {renderContent()}
+        </div>
+      </PersonnelPullToRefresh>
+
+      <PersonnelBottomNav tabs={mobileTabsWithBadges} active={activeTab} onChange={goTab} />
     </PersonnelShell>
+  );
+}
+
+export default function PersonelPanel() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-[100dvh] flex items-center justify-center">
+          <div className="w-10 h-10 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
+        </div>
+      }
+    >
+      <PersonelPanelContent />
+    </Suspense>
   );
 }

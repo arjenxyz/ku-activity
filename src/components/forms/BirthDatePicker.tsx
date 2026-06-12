@@ -44,7 +44,7 @@ export function BirthDatePicker({
   const [day, setDay] = useState('');
 
   const years = useMemo(() => getEligibleBirthYears(), []);
-  const maxBirthLabel = useMemo(() => getMaxBirthDate().format('DD.MM.YYYY'), []);
+  const maxBirthLabel = getMaxBirthDate().format('DD.MM.YYYY');
 
   useEffect(() => {
     const parsed = parseValue(value);

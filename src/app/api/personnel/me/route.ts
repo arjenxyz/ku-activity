@@ -2,7 +2,23 @@ import { NextResponse } from 'next/server';
 import { createAdminClient } from '@/utils/supabase/admin';
 import { queryEmployeeById, queryPersonnelProfile } from '@/lib/employee-db';
 import { requirePersonnelSession } from '@/lib/personnel-auth';
+import { decryptField, maskIban } from '@/lib/field-encryption';
 import { signedEmployeePhotoUrl } from '@/lib/photo-storage';
+
+async function loadMaskedIban(admin: ReturnType<typeof createAdminClient>, employeeId: string) {
+  const { data } = await admin
+    .from('employee_sensitive_data')
+    .select('iban_enc')
+    .eq('employee_id', employeeId)
+    .maybeSingle();
+
+  if (!data?.iban_enc) return null;
+  try {
+    return maskIban(decryptField(data.iban_enc));
+  } catch {
+    return null;
+  }
+}
 
 async function loadProject(admin: ReturnType<typeof createAdminClient>, projectId: string) {
   const { data } = await admin
@@ -37,10 +53,10 @@ export async function GET() {
 
     if (!viewError && viewData) {
       const project = await loadProject(admin, viewData.project_id);
-      const photo_url = await signedEmployeePhotoUrl(
-        viewData.photo_path,
-        viewData.photo_url
-      );
+      const [photo_url, iban_masked] = await Promise.all([
+        signedEmployeePhotoUrl(viewData.photo_path, viewData.photo_url),
+        loadMaskedIban(admin, session.employeeId),
+      ]);
       return NextResponse.json({
         employee: {
           id: viewData.employee_id,
@@ -51,6 +67,7 @@ export async function GET() {
           position: viewData.position,
           hire_date: viewData.hire_date,
           photo_url,
+          iban_masked,
           project_id: viewData.project_id,
           project_name: viewData.project_name,
           project,
@@ -66,12 +83,16 @@ export async function GET() {
 
     const project = data.project_id ? await loadProject(admin, data.project_id) : null;
 
-    const photo_url = await signedEmployeePhotoUrl(data.photo_path, data.photo_url);
+    const [photo_url, iban_masked] = await Promise.all([
+      signedEmployeePhotoUrl(data.photo_path, data.photo_url),
+      loadMaskedIban(admin, session.employeeId),
+    ]);
 
     return NextResponse.json({
       employee: {
         ...data,
         photo_url,
+        iban_masked,
         project_name: project?.name,
         project,
       },

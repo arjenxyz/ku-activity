@@ -148,3 +148,34 @@ a {
   border-color: rgba(59, 130, 246, 0.35);
   color: #bfdbfe;
 }
+
+/* Personel paneli — erişilebilirlik */
+.personnel-large-text {
+  font-size: 1.0625rem;
+}
+
+.personnel-large-text .text-xs {
+  font-size: 0.8125rem;
+}
+
+.personnel-large-text .text-sm {
+  font-size: 0.9375rem;
+}
+
+.personnel-large-text .text-lg {
+  font-size: 1.25rem;
+}
+
+.personnel-high-contrast {
+  --tw-text-opacity: 1;
+}
+
+.personnel-high-contrast .text-gray-500,
+.personnel-high-contrast .text-slate-500 {
+  color: #334155;
+}
+
+.dark .personnel-high-contrast .text-gray-500,
+.dark .personnel-high-contrast .text-slate-500 {
+  color: #e2e8f0;
+}

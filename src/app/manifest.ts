@@ -6,13 +6,13 @@ export default function manifest(): MetadataRoute.Manifest {
     short_name: 'CrewLedger',
     description:
       'Construction crew management: attendance, wages, contracts, and payroll.',
-    start_url: '/',
+    start_url: '/personnel-panel',
     scope: '/',
     display: 'standalone',
     orientation: 'portrait-primary',
     background_color: '#ffffff',
     theme_color: '#2563eb',
-    lang: 'en',
+    lang: 'tr',
     dir: 'ltr',
     categories: ['business', 'productivity'],
     icons: [

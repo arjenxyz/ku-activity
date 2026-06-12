@@ -1,3 +1,5 @@
+import { PersonnelDisplayProvider } from '@/lib/personnel-display-preferences';
+
 export default function PersonnelPanelLayout({ children }: { children: React.ReactNode }) {
-  return children;
+  return <PersonnelDisplayProvider>{children}</PersonnelDisplayProvider>;
 }

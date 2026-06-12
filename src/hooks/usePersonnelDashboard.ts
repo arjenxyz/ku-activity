@@ -13,7 +13,12 @@ import {
 } from '@/lib/personnel-api';
 import { computePersonnelStats, type Deduction, type MinimumWage, type WorkLog } from '@/lib/personnel-stats';
 
-export function usePersonnelDashboard(month: string) {
+type Options = {
+  loadFinance?: boolean;
+};
+
+export function usePersonnelDashboard(month: string, options: Options = {}) {
+  const { loadFinance = true } = options;
   const router = useRouter();
   const [employee, setEmployee] = useState<PersonnelEmployee | null>(null);
   const [workLogs, setWorkLogs] = useState<WorkLog[]>([]);
@@ -21,26 +26,17 @@ export function usePersonnelDashboard(month: string) {
   const [minimumWages, setMinimumWages] = useState<MinimumWage[]>([]);
   const [monthStats, setMonthStats] = useState<MonthStats | null>(null);
   const [loading, setLoading] = useState(true);
+  const [financeLoading, setFinanceLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const reload = useCallback(async () => {
+  const reloadCore = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
       const me = await fetchPersonnelMe();
       setEmployee(me);
-
-      const [wl, ded, min, stats] = await Promise.all([
-        fetchPersonnelWorkLogs(month),
-        fetchPersonnelDeductions(month),
-        fetchPersonnelMinimumWages(month).catch(() => [] as MinimumWage[]),
-        fetchPersonnelMonthStats(month).catch(() => null),
-      ]);
-
+      const wl = await fetchPersonnelWorkLogs(month);
       setWorkLogs(wl);
-      setDeductions(ded);
-      setMinimumWages(min);
-      setMonthStats(stats);
     } catch (e) {
       const msg = e instanceof Error ? e.message : 'Veri yüklenemedi';
       if (msg.includes('Oturum') || msg.includes('401')) {
@@ -53,9 +49,38 @@ export function usePersonnelDashboard(month: string) {
     }
   }, [month, router]);
 
+  const reloadFinance = useCallback(async () => {
+    if (!loadFinance) return;
+    setFinanceLoading(true);
+    try {
+      const [ded, min, stats] = await Promise.all([
+        fetchPersonnelDeductions(month),
+        fetchPersonnelMinimumWages(month).catch(() => [] as MinimumWage[]),
+        fetchPersonnelMonthStats(month).catch(() => null),
+      ]);
+      setDeductions(ded);
+      setMinimumWages(min);
+      setMonthStats(stats);
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : 'Finans verisi yüklenemedi';
+      setError(msg);
+    } finally {
+      setFinanceLoading(false);
+    }
+  }, [loadFinance, month]);
+
+  const reload = useCallback(async () => {
+    await reloadCore();
+    await reloadFinance();
+  }, [reloadCore, reloadFinance]);
+
   useEffect(() => {
-    reload();
-  }, [reload]);
+    void reloadCore();
+  }, [reloadCore]);
+
+  useEffect(() => {
+    void reloadFinance();
+  }, [reloadFinance]);
 
   const stats = employee
     ? monthStats
@@ -69,7 +94,9 @@ export function usePersonnelDashboard(month: string) {
           totalMinimum: Number(monthStats.total_minimum),
           net: Number(monthStats.net_pay),
         }
-      : computePersonnelStats(workLogs, deductions, Number(employee.daily_wage), minimumWages)
+      : loadFinance
+        ? computePersonnelStats(workLogs, deductions, Number(employee.daily_wage), minimumWages)
+        : computePersonnelStats(workLogs, [], Number(employee.daily_wage), [])
     : null;
 
   return {
@@ -78,7 +105,8 @@ export function usePersonnelDashboard(month: string) {
     deductions,
     minimumWages,
     stats,
-    loading,
+    loading: loading || (loadFinance && financeLoading && !monthStats && deductions.length === 0),
+    financeLoading,
     error,
     reload,
   };

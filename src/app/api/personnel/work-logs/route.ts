@@ -11,7 +11,7 @@ export async function GET(request: Request) {
     let q = admin
       .from('work_logs')
       .select(
-        'id, date, amount, mesai_type, mesai_units, description, hours_worked, approved, admin_confirmed_at, employee_confirmed_at'
+        'id, date, amount, mesai_type, mesai_units, description, hours_worked, approved, admin_confirmed_at, employee_confirmed_at, employee_dispute_note, employee_disputed_at'
       )
       .eq('employee_id', session.employeeId)
       .order('date', { ascending: false })
