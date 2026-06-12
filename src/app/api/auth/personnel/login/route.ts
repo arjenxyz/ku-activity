@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import { createAdminClient } from '@/utils/supabase/admin';
-import { hashTcKimlik, validateTcKimlik } from '@/lib/field-encryption';
+import { validateTcKimlik } from '@/lib/field-encryption';
+import { findEmployeeForTcLogin } from '@/lib/personnel-login';
 import { validatePersonnelPin } from '@/lib/personnel-pin';
 import {
   generateSessionToken,
@@ -10,13 +11,6 @@ import {
   personnelCookieOptions,
   PERSONNEL_COOKIE,
 } from '@/lib/personnel-session';
-
-type LoginEmployee = {
-  id: string;
-  project_id: string;
-  pin_hash: string;
-  is_active: boolean;
-};
 
 export async function POST(request: Request) {
   try {
@@ -59,40 +53,17 @@ export async function POST(request: Request) {
     }
 
     const admin = createAdminClient();
-    const tcLookupHash = hashTcKimlik(tc);
-    let employee: LoginEmployee | null = null;
+    const employee = await findEmployeeForTcLogin(admin, tc);
 
-    const { data: rpcRows, error: rpcError } = await admin.rpc('get_employee_for_login_by_tc', {
-      p_tc_lookup_hash: tcLookupHash,
-    });
-
-    if (!rpcError && Array.isArray(rpcRows) && rpcRows.length > 0) {
-      employee = rpcRows[0] as LoginEmployee;
-    } else {
-      if (rpcError) {
-        console.warn('get_employee_for_login_by_tc RPC:', rpcError.message);
-      }
-      const { data: sensitive } = await admin
-        .from('employee_sensitive_data')
-        .select('employee_id')
-        .eq('tc_lookup_hash', tcLookupHash)
-        .maybeSingle();
-
-      if (sensitive?.employee_id) {
-        const { data, error } = await admin
-          .from('employees')
-          .select('id, project_id, pin_hash, is_active')
-          .eq('id', sensitive.employee_id)
-          .maybeSingle();
-
-        if (!error && data) {
-          employee = data as LoginEmployee;
-        }
-      }
+    if (!employee) {
+      return NextResponse.json({ error: 'Geçersiz T.C. kimlik veya şifre' }, { status: 401 });
     }
 
-    if (!employee || !employee.is_active) {
-      return NextResponse.json({ error: 'Geçersiz T.C. kimlik veya şifre' }, { status: 401 });
+    if (!employee.is_active) {
+      return NextResponse.json(
+        { error: 'Personel hesabınız pasif. Yöneticinizle iletişime geçin.' },
+        { status: 403 }
+      );
     }
 
     if (!employee.pin_hash) {
@@ -102,9 +73,11 @@ export async function POST(request: Request) {
       );
     }
 
+    const pin = password.trim();
+
     let valid = false;
     try {
-      valid = await bcrypt.compare(password, employee.pin_hash);
+      valid = await bcrypt.compare(pin, employee.pin_hash);
     } catch {
       return NextResponse.json(
         { error: 'Personel şifre kaydı bozuk. Yönetici panelinden şifreyi yenileyin.' },

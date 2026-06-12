@@ -147,7 +147,7 @@ create policy "payroll_lines_admin_tenant" on public.payroll_lines
     public.is_admin()
     and exists (
       select 1 from public.payroll_periods pp
-      where pp.id = payroll_lines.payroll_period_id
+      where pp.id = payroll_lines.period_id
         and public.can_access_project(pp.project_id)
     )
   )
@@ -155,7 +155,7 @@ create policy "payroll_lines_admin_tenant" on public.payroll_lines
     public.is_admin()
     and exists (
       select 1 from public.payroll_periods pp
-      where pp.id = payroll_lines.payroll_period_id
+      where pp.id = payroll_lines.period_id
         and public.can_access_project(pp.project_id)
     )
   );

@@ -1,6 +1,10 @@
 import type { Deduction, MinimumWage, WorkLog } from '@/lib/personnel-stats';
 import type { WorkLogApprovalStatus } from '@/lib/work-log';
 
+function personnelFetch(input: RequestInfo | URL, init?: RequestInit) {
+  return fetch(input, { credentials: 'same-origin', ...init });
+}
+
 async function parseError(res: Response) {
   const data = await res.json().catch(() => ({}));
   return (data as { error?: string }).error || res.statusText;
@@ -49,42 +53,42 @@ function monthQuery(month?: string) {
 }
 
 export async function fetchPersonnelMe() {
-  const res = await fetch('/api/personnel/me');
+  const res = await personnelFetch('/api/personnel/me');
   if (!res.ok) throw new Error(await parseError(res));
   const data = await res.json();
   return data.employee as PersonnelEmployee;
 }
 
 export async function fetchPersonnelWorkLogs(month?: string) {
-  const res = await fetch(`/api/personnel/work-logs${monthQuery(month)}`);
+  const res = await personnelFetch(`/api/personnel/work-logs${monthQuery(month)}`);
   if (!res.ok) throw new Error(await parseError(res));
   const data = await res.json();
   return (data.workLogs ?? []) as WorkLog[];
 }
 
 export async function fetchPersonnelDeductions(month?: string) {
-  const res = await fetch(`/api/personnel/deductions${monthQuery(month)}`);
+  const res = await personnelFetch(`/api/personnel/deductions${monthQuery(month)}`);
   if (!res.ok) throw new Error(await parseError(res));
   const data = await res.json();
   return (data.deductions ?? []) as Deduction[];
 }
 
 export async function fetchPersonnelMinimumWages(month?: string) {
-  const res = await fetch(`/api/personnel/minimum-wages${monthQuery(month)}`);
+  const res = await personnelFetch(`/api/personnel/minimum-wages${monthQuery(month)}`);
   if (!res.ok) throw new Error(await parseError(res));
   const data = await res.json();
   return (data.records ?? []) as MinimumWage[];
 }
 
 export async function fetchPersonnelMonthStats(month: string) {
-  const res = await fetch(`/api/personnel/summary?month=${encodeURIComponent(month)}`);
+  const res = await personnelFetch(`/api/personnel/summary?month=${encodeURIComponent(month)}`);
   if (!res.ok) throw new Error(await parseError(res));
   const data = await res.json();
   return data.stats as MonthStats;
 }
 
 export async function fetchPersonnelTodayAttendance() {
-  const res = await fetch('/api/personnel/work-logs/today');
+  const res = await personnelFetch('/api/personnel/work-logs/today');
   if (!res.ok) throw new Error(await parseError(res));
   return res.json() as Promise<{
     date: string;
@@ -99,7 +103,7 @@ export async function fetchPersonnelTodayAttendance() {
 }
 
 export async function confirmPersonnelAttendance(date?: string, amount?: number) {
-  const res = await fetch('/api/personnel/work-logs/confirm', {
+  const res = await personnelFetch('/api/personnel/work-logs/confirm', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ date, amount }),
@@ -113,7 +117,7 @@ export async function confirmPersonnelAttendance(date?: string, amount?: number)
 }
 
 export async function disputePersonnelWorkLog(recordId: string, note: string) {
-  const res = await fetch(`/api/personnel/work-logs/${encodeURIComponent(recordId)}/dispute`, {
+  const res = await personnelFetch(`/api/personnel/work-logs/${encodeURIComponent(recordId)}/dispute`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ note }),
@@ -123,7 +127,7 @@ export async function disputePersonnelWorkLog(recordId: string, note: string) {
 }
 
 export async function changePersonnelPassword(currentPassword: string, newPassword: string) {
-  const res = await fetch('/api/personnel/change-password', {
+  const res = await personnelFetch('/api/personnel/change-password', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ currentPassword, newPassword }),

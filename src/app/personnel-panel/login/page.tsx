@@ -2,7 +2,7 @@
 
 import { Suspense, useEffect, useState } from 'react';
 import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { loadPendingRegistration } from '@/lib/registration-pending-storage';
 import { FiLock } from 'react-icons/fi';
 import { PersonnelLoginLayout } from '@/components/personnel/PersonnelLoginLayout';
@@ -20,7 +20,6 @@ const inputClass =
 const labelClass = 'block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5';
 
 function PersonnelLoginContent() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const [tcKimlik, setTcKimlik] = useState('');
   const [hasPendingApplication, setHasPendingApplication] = useState(false);
@@ -50,15 +49,18 @@ function PersonnelLoginContent() {
       const res = await fetch('/api/auth/personnel/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tcKimlik, password }),
+        credentials: 'same-origin',
+        body: JSON.stringify({
+          tcKimlik: tcKimlik.replace(/\D/g, ''),
+          password: password.trim(),
+        }),
       });
       const data = await res.json();
       if (!res.ok) {
         setError(data.error || `Giriş başarısız (${res.status})`);
         return;
       }
-      router.push('/personnel-panel');
-      router.refresh();
+      window.location.assign('/personnel-panel');
     } catch {
       setError('Sistem hatası — lütfen tekrar deneyin');
     } finally {

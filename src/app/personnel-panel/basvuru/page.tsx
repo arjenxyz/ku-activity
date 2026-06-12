@@ -128,7 +128,13 @@ export default function PersonnelApplicationPage() {
   const refreshStatus = useCallback(
     async (code: string) => {
       const next = await fetchRegistrationStatus(code);
-      if (next) applyStatus(next);
+      if (!next) {
+        clearPendingRegistration();
+        setResult(null);
+        setStatus('rejected');
+        return null;
+      }
+      applyStatus(next);
       return next;
     },
     [applyStatus]
@@ -426,11 +432,14 @@ export default function PersonnelApplicationPage() {
     );
   }
 
-  if (result && status === 'rejected') {
+  if (status === 'rejected') {
     return (
       <PersonnelLoginLayout title="Başvuru Reddedildi" subtitle="Yöneticinizle görüşüp yeniden başvurabilirsiniz.">
         <div className="space-y-6 text-center">
-          <AuthAlert type="error" message="Başvurunuz reddedildi. Yöneticinizle iletişime geçin." />
+          <AuthAlert
+            type="error"
+            message="Başvurunuz reddedildi veya iptal edildi. Aynı e-posta ile yeniden başvurabilirsiniz."
+          />
           <button
             type="button"
             onClick={startNewApplication}

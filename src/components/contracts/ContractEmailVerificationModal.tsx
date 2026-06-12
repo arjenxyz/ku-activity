@@ -133,6 +133,7 @@ export function ContractEmailVerificationModal({
   const [sentTo, setSentTo] = useState<string | null>(null);
   const [expiresInMinutes, setExpiresInMinutes] = useState<number | null>(null);
   const [error, setError] = useState('');
+  const [notice, setNotice] = useState('');
   const autoVerifyLock = useRef(false);
 
   const resetState = useCallback(() => {
@@ -140,6 +141,7 @@ export function ContractEmailVerificationModal({
     setSentTo(null);
     setExpiresInMinutes(null);
     setError('');
+    setNotice('');
     autoVerifyLock.current = false;
   }, []);
 
@@ -163,6 +165,7 @@ export function ContractEmailVerificationModal({
   const sendCode = useCallback(async () => {
     if (!formData) return;
     setError('');
+    setNotice('');
     setSending(true);
     try {
       const res = await fetch('/api/public/contract-otp/prepare', {
@@ -175,6 +178,11 @@ export function ContractEmailVerificationModal({
       setExpiresInMinutes(
         typeof data.expiresInMinutes === 'number' ? data.expiresInMinutes : null
       );
+      if (data.resumingPending) {
+        setNotice(
+          'Onay bekleyen başvurunuz bulundu. Doğrulamadan sonra bilgileriniz güncellenecek; mevcut başvuru kodunuz aynı kalır.'
+        );
+      }
       setCode('');
       autoVerifyLock.current = false;
     } catch (err) {
@@ -398,6 +406,12 @@ export function ContractEmailVerificationModal({
                 </button>
               </div>
             </>
+          )}
+
+          {notice && (
+            <div className="rounded-xl border border-blue-200 dark:border-blue-900/50 bg-blue-50 dark:bg-blue-950/30 px-3.5 py-3 text-sm text-blue-800 dark:text-blue-200">
+              <span className="text-xs leading-relaxed">{notice}</span>
+            </div>
           )}
 
           {error && (

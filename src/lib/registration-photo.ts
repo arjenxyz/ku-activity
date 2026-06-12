@@ -55,6 +55,13 @@ export async function deleteOtpDraftPhoto(draftPath: string | null) {
   await admin.storage.from(EMPLOYEE_PHOTOS_BUCKET).remove([draftPath]);
 }
 
+export async function deleteRegistrationPhoto(photoPath: string | null) {
+  if (!photoPath) return;
+  const admin = createAdminClient();
+  await admin.storage.from(REGISTRATION_PHOTOS_BUCKET).remove([photoPath]);
+  await admin.storage.from(EMPLOYEE_PHOTOS_BUCKET).remove([photoPath]);
+}
+
 export async function moveDraftPhotoToRegistration(draftPath: string, requestId: string) {
   const admin = createAdminClient();
   let blob: Blob | null = null;

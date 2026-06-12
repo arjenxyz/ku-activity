@@ -28,12 +28,15 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Personel bulunamadı' }, { status: 404 });
     }
 
-    const valid = await bcrypt.compare(currentPassword, employee.pin_hash);
+    const currentPin = currentPassword.trim();
+    const newPin = newPassword.trim();
+
+    const valid = await bcrypt.compare(currentPin, employee.pin_hash);
     if (!valid) {
       return NextResponse.json({ error: 'Mevcut şifre hatalı' }, { status: 401 });
     }
 
-    const pinHash = await bcrypt.hash(newPassword, 12);
+    const pinHash = await bcrypt.hash(newPin, 12);
     const { error: updateError } = await admin
       .from('employees')
       .update({ pin_hash: pinHash })

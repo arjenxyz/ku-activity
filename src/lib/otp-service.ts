@@ -3,7 +3,7 @@ import { createAdminClient } from '@/utils/supabase/admin';
 import { isEmailOtpConfigured, maskEmail, sendOtpEmail } from '@/lib/otp-delivery';
 import type { ContractAcceptanceInput } from '@/lib/contract-service';
 import { deleteOtpDraftPhoto, uploadOtpDraftPhoto } from '@/lib/registration-photo';
-import { assertIdentityUnique } from '@/lib/identity-uniqueness';
+import { assertIdentityUnique, findPendingRegistrationIdForResubmit } from '@/lib/identity-uniqueness';
 import { validateRegistrationDraft } from '@/lib/registration-draft-validation';
 import {
   submitRegistrationFromOtpDraft,
@@ -92,7 +92,7 @@ export async function prepareContractOtpRegistration(params: {
   draft: OtpRegistrationDraft;
   photo: File;
   userAgent?: string | null;
-}): Promise<{ maskedDestination: string; expiresInMinutes: number }> {
+}): Promise<{ maskedDestination: string; expiresInMinutes: number; resumingPending?: boolean }> {
   const email = normalizeEmail(params.draft.email);
   if (!email.includes('@')) {
     throw new Error('Geçerli bir e-posta adresi girin');
@@ -121,11 +121,17 @@ export async function prepareContractOtpRegistration(params: {
   }
 
   const admin = createAdminClient();
+  const pendingRegistrationId = await findPendingRegistrationIdForResubmit(admin, {
+    email: params.draft.email,
+    tcKimlik: params.draft.tcKimlik,
+  });
+
   await assertIdentityUnique(admin, {
     email: params.draft.email,
     phone: params.draft.phone,
     tcKimlik: params.draft.tcKimlik,
     iban: params.draft.iban,
+    excludeRegistrationId: pendingRegistrationId ?? undefined,
   });
 
   const daily = await countDailySends();
@@ -192,7 +198,11 @@ export async function prepareContractOtpRegistration(params: {
     throw new Error('Doğrulama kaydı güncellenemedi');
   }
 
-  return { maskedDestination: maskEmail(email), expiresInMinutes: OTP_TTL_MINUTES };
+  return {
+    maskedDestination: maskEmail(email),
+    expiresInMinutes: OTP_TTL_MINUTES,
+    resumingPending: Boolean(pendingRegistrationId),
+  };
 }
 
 async function loadActiveChallenge(

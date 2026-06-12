@@ -19,9 +19,10 @@ export async function getPersonnelSession(): Promise<PersonnelSession | null> {
     p_token_hash: hashToken(token),
   });
 
-  if (error || !data || data.length === 0) return null;
+  const rows = Array.isArray(data) ? data : data ? [data] : [];
+  if (error || rows.length === 0) return null;
 
-  const row = data[0] as {
+  const row = rows[0] as {
     session_id: string;
     employee_id: string;
     project_id: string;

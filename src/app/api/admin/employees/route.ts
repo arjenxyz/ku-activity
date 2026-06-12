@@ -10,6 +10,7 @@ import { formatFullName } from '@/lib/format';
 import { assertIdentityUnique, mapIdentityUniqueViolation } from '@/lib/identity-uniqueness';
 import { validatePersonnelPin } from '@/lib/personnel-pin';
 import { createAdminClient } from '@/utils/supabase/admin';
+import { apiErrorMessage } from '@/lib/project-queries';
 
 export async function POST(request: Request) {
   try {
@@ -138,16 +139,17 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ success: true, id: data.id });
   } catch (err) {
-    if (err instanceof Error && err.message === 'UNAUTHORIZED') {
-      return NextResponse.json({ error: 'Yetkisiz' }, { status: 401 });
-    }
     if (err instanceof Error) {
       const mapped = mapIdentityUniqueViolation(err.message);
       if (mapped || err.message.includes('zaten var') || err.message.includes('Geçersiz')) {
         return NextResponse.json({ error: mapped ?? err.message }, { status: 409 });
       }
     }
+    const { status, message } = apiErrorMessage(err);
+    if (status !== 500) {
+      return NextResponse.json({ error: message }, { status });
+    }
     console.error('Personel ekleme hatası:', err);
-    return NextResponse.json({ error: 'Sistem hatası' }, { status: 500 });
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

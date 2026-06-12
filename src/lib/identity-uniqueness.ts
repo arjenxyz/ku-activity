@@ -76,6 +76,37 @@ async function sensitiveHasHash(
   return Boolean(data);
 }
 
+/** Aynı e-posta veya T.C. ile bekleyen başvuru — yeniden gönderimde güncellenir */
+export async function findPendingRegistrationIdForResubmit(
+  admin: SupabaseClient,
+  input: { email: string; tcKimlik: string }
+): Promise<string | null> {
+  const email = input.email.trim().toLowerCase();
+  const tcHash = hashTcKimlik(input.tcKimlik.replace(/\D/g, ''));
+
+  const { data: byTc } = await admin
+    .from('employee_registration_requests')
+    .select('id')
+    .eq('tc_lookup_hash', tcHash)
+    .eq('status', 'pending')
+    .maybeSingle();
+
+  const { data: byEmail } = await admin
+    .from('employee_registration_requests')
+    .select('id')
+    .ilike('email', email)
+    .eq('status', 'pending')
+    .maybeSingle();
+
+  if (byTc && byEmail && byTc.id !== byEmail.id) {
+    throw new Error(
+      'Bu e-posta ve T.C. kimlik farklı bekleyen başvurularla eşleşiyor. Lütfen destek ile iletişime geçin.'
+    );
+  }
+
+  return byTc?.id ?? byEmail?.id ?? null;
+}
+
 async function pendingHasHash(
   admin: SupabaseClient,
   column: 'tc_lookup_hash' | 'phone_lookup_hash' | 'iban_lookup_hash',
@@ -121,7 +152,9 @@ export async function assertIdentityUnique(
   }
   const { data: pendingEmail } = await pendingEmailQuery.maybeSingle();
   if (pendingEmail) {
-    throw new Error('Bu e-posta ile bekleyen başvuru zaten var');
+    throw new Error(
+      'Bu e-posta ile onay bekleyen bir başvuru var. Yönetici onaylayana kadar aynı bilgilerle tekrar gönderebilir veya QR kodunuzu görüntüleyebilirsiniz.'
+    );
   }
 
   if (
@@ -130,7 +163,9 @@ export async function assertIdentityUnique(
     throw new Error('Bu T.C. kimlik numarası ile kayıtlı personel zaten var');
   }
   if (await pendingHasHash(admin, 'tc_lookup_hash', hashes.tcLookupHash, input.excludeRegistrationId)) {
-    throw new Error('Bu T.C. kimlik numarası ile bekleyen başvuru zaten var');
+    throw new Error(
+      'Bu T.C. kimlik numarası ile onay bekleyen bir başvuru var. Yönetici onaylayana kadar aynı bilgilerle tekrar gönderebilirsiniz.'
+    );
   }
 
   if (hashes.phoneLookupHash) {

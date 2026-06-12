@@ -6,6 +6,40 @@ export type AdminProjectActor = {
   email: string | null;
 };
 
+async function claimOrphanProjectWithServiceRole(
+  admin: SupabaseClient,
+  projectId: string,
+  userId: string
+): Promise<boolean> {
+  const { data: project } = await admin
+    .from('projects')
+    .select('created_by')
+    .eq('id', projectId)
+    .maybeSingle();
+
+  if (!project) return false;
+  if (project.created_by === userId) return true;
+  if (project.created_by !== null) return false;
+
+  const { data: claimed, error } = await admin
+    .from('projects')
+    .update({ created_by: userId })
+    .eq('id', projectId)
+    .is('created_by', null)
+    .select('id')
+    .maybeSingle();
+
+  if (!error && claimed) return true;
+
+  const { data: refreshed } = await admin
+    .from('projects')
+    .select('created_by')
+    .eq('id', projectId)
+    .maybeSingle();
+
+  return refreshed?.created_by === userId;
+}
+
 /** Oturumlu yönetici — RLS + RPC ile proje erişimi */
 export async function assertAdminProjectAccess(projectId: string): Promise<AdminProjectActor> {
   const supabase = await createClient();
@@ -21,6 +55,18 @@ export async function assertAdminProjectAccess(projectId: string): Promise<Admin
   const { data: isAdmin, error: adminError } = await supabase.rpc('is_admin');
   if (adminError || !isAdmin) {
     throw new Error('UNAUTHORIZED');
+  }
+
+  const { data: claimed, error: claimError } = await supabase.rpc('claim_orphan_project', {
+    p_project_id: projectId,
+  });
+
+  if (!claimError && claimed) {
+    return { id: user.id, email: user.email ?? null };
+  }
+
+  if (claimError && !claimError.message.includes('claim_orphan_project')) {
+    console.warn('claim_orphan_project:', claimError.message);
   }
 
   const { data: allowed, error: accessError } = await supabase.rpc('can_access_project', {
@@ -50,14 +96,8 @@ export async function assertAdminOwnsProject(
     return;
   }
 
-  const { data: project } = await admin
-    .from('projects')
-    .select('id')
-    .eq('id', projectId)
-    .eq('created_by', userId)
-    .maybeSingle();
+  const owned = await claimOrphanProjectWithServiceRole(admin, projectId, userId);
+  if (owned) return;
 
-  if (!project) {
-    throw new Error('FORBIDDEN');
-  }
+  throw new Error('FORBIDDEN');
 }

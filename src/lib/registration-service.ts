@@ -3,7 +3,6 @@ import { createAdminClient } from '@/utils/supabase/admin';
 import {
   decryptField,
   encryptField,
-  hashTcKimlik,
   maskIban,
   maskTcKimlik,
   normalizeIban,
@@ -14,6 +13,7 @@ import {
 } from '@/lib/field-encryption';
 import {
   assertIdentityUnique,
+  findPendingRegistrationIdForResubmit,
   mapIdentityUniqueViolation,
 } from '@/lib/identity-uniqueness';
 import { validatePersonnelPin } from '@/lib/personnel-pin';
@@ -30,6 +30,7 @@ import {
 import { assertAdminOwnsProject } from '@/lib/project-access';
 import { signedRegistrationPhotoUrl } from '@/lib/photo-storage';
 import {
+  deleteRegistrationPhoto,
   transferRegistrationPhotoToEmployee,
   uploadRegistrationPhoto,
 } from '@/lib/registration-photo';
@@ -100,84 +101,50 @@ export async function submitRegistrationApplication(input: RegistrationApplyInpu
   const pinHash = await bcrypt.hash(input.pin.trim(), 12);
   const admin = createAdminClient();
 
-  const { data: pendingByTc } = await admin
-    .from('employee_registration_requests')
-    .select('id, verification_code')
-    .eq('tc_lookup_hash', hashTcKimlik(tc))
-    .eq('status', 'pending')
-    .maybeSingle();
+  const existingPendingId = await findPendingRegistrationIdForResubmit(admin, {
+    email,
+    tcKimlik: tc,
+  });
 
-  if (pendingByTc) {
-    const hashes = await assertIdentityUnique(admin, {
-      email,
-      phone,
-      tcKimlik: tc,
-      iban,
-      excludeRegistrationId: pendingByTc.id,
-    });
-
-    await admin
+  if (existingPendingId) {
+    const { data: pending } = await admin
       .from('employee_registration_requests')
-      .update({
-        pin_hash: pinHash,
-        tc_lookup_hash: hashes.tcLookupHash,
-        phone_lookup_hash: hashes.phoneLookupHash,
-        iban_lookup_hash: hashes.ibanLookupHash,
-        first_name: firstName,
-        last_name: lastName,
+      .select('id, verification_code')
+      .eq('id', existingPendingId)
+      .maybeSingle();
+
+    if (pending) {
+      const hashes = await assertIdentityUnique(admin, {
+        email,
         phone,
-        tc_kimlik_enc: encryptField(tc),
-        birth_date_enc: encryptField(birthDate),
-        iban_enc: encryptField(iban),
-      })
-      .eq('id', pendingByTc.id);
+        tcKimlik: tc,
+        iban,
+        excludeRegistrationId: pending.id,
+      });
 
-    return {
-      id: pendingByTc.id,
-      verificationCode: pendingByTc.verification_code,
-      approvalUrl: buildAdminApprovalUrl(pendingByTc.verification_code),
-      reused: true,
-    };
-  }
+      await admin
+        .from('employee_registration_requests')
+        .update({
+          pin_hash: pinHash,
+          tc_lookup_hash: hashes.tcLookupHash,
+          phone_lookup_hash: hashes.phoneLookupHash,
+          iban_lookup_hash: hashes.ibanLookupHash,
+          first_name: firstName,
+          last_name: lastName,
+          phone,
+          tc_kimlik_enc: encryptField(tc),
+          birth_date_enc: encryptField(birthDate),
+          iban_enc: encryptField(iban),
+        })
+        .eq('id', pending.id);
 
-  const { data: pending } = await admin
-    .from('employee_registration_requests')
-    .select('id, verification_code')
-    .ilike('email', email)
-    .eq('status', 'pending')
-    .maybeSingle();
-
-  if (pending) {
-    const hashes = await assertIdentityUnique(admin, {
-      email,
-      phone,
-      tcKimlik: tc,
-      iban,
-      excludeRegistrationId: pending.id,
-    });
-
-    await admin
-      .from('employee_registration_requests')
-      .update({
-        pin_hash: pinHash,
-        tc_lookup_hash: hashes.tcLookupHash,
-        phone_lookup_hash: hashes.phoneLookupHash,
-        iban_lookup_hash: hashes.ibanLookupHash,
-        first_name: firstName,
-        last_name: lastName,
-        phone,
-        tc_kimlik_enc: encryptField(tc),
-        birth_date_enc: encryptField(birthDate),
-        iban_enc: encryptField(iban),
-      })
-      .eq('id', pending.id);
-
-    return {
-      id: pending.id,
-      verificationCode: pending.verification_code,
-      approvalUrl: buildAdminApprovalUrl(pending.verification_code),
-      reused: true,
-    };
+      return {
+        id: pending.id,
+        verificationCode: pending.verification_code,
+        approvalUrl: buildAdminApprovalUrl(pending.verification_code),
+        reused: true,
+      };
+    }
   }
 
   const hashes = await assertIdentityUnique(admin, {
@@ -458,16 +425,34 @@ export async function approveRegistration(input: ApproveRegistrationInput) {
   return { employeeId: employee.id, email: req.email };
 }
 
-export async function rejectRegistration(id: string, reason?: string) {
+/** Bekleyen başvuruyu ve ilişkili verileri kalıcı olarak siler (red) */
+export async function rejectRegistration(id: string) {
   const admin = createAdminClient();
-  const { error } = await admin
+
+  const { data: req, error: loadError } = await admin
     .from('employee_registration_requests')
-    .update({
-      status: 'rejected',
-      rejected_reason: reason?.trim() || null,
-    })
+    .select('id, photo_path, status')
+    .eq('id', id)
+    .maybeSingle();
+
+  if (loadError) throw new Error(loadError.message);
+  if (!req) throw new Error('Başvuru bulunamadı');
+  if (req.status !== 'pending') {
+    throw new Error('Yalnızca bekleyen başvurular reddedilebilir');
+  }
+
+  await admin
+    .from('personnel_contract_acceptances')
+    .delete()
+    .eq('registration_request_id', id);
+
+  await deleteRegistrationPhoto(req.photo_path ?? null);
+
+  const { error: deleteError } = await admin
+    .from('employee_registration_requests')
+    .delete()
     .eq('id', id)
     .eq('status', 'pending');
 
-  if (error) throw new Error(error.message);
+  if (deleteError) throw new Error(deleteError.message);
 }

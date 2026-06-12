@@ -149,7 +149,14 @@ function BasvuruOnayContent() {
   };
 
   const handleReject = async () => {
-    if (!registration || !confirm('Başvuruyu reddetmek istediğinize emin misiniz?')) return;
+    if (
+      !registration ||
+      !confirm(
+        'Başvuruyu reddetmek istediğinize emin misiniz? Kayıt, fotoğraf ve sözleşme onayları kalıcı olarak silinir; personel aynı bilgilerle yeniden başvurabilir.'
+      )
+    ) {
+      return;
+    }
     setLoading(true);
     try {
       const res = await fetch(`/api/admin/registrations/${registration.id}/reject`, {
@@ -161,7 +168,7 @@ function BasvuruOnayContent() {
         const data = await res.json();
         throw new Error(data.error);
       }
-      setSuccess('Başvuru reddedildi.');
+      setSuccess('Başvuru reddedildi ve veritabanından silindi.');
       setRegistration(null);
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Red başarısız');
