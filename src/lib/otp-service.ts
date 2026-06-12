@@ -3,6 +3,7 @@ import { createAdminClient } from '@/utils/supabase/admin';
 import { isEmailOtpConfigured, maskEmail, sendOtpEmail } from '@/lib/otp-delivery';
 import type { ContractAcceptanceInput } from '@/lib/contract-service';
 import { deleteOtpDraftPhoto, uploadOtpDraftPhoto } from '@/lib/registration-photo';
+import { assertIdentityUnique } from '@/lib/identity-uniqueness';
 import {
   submitRegistrationFromOtpDraft,
   type OtpRegistrationDraft,
@@ -104,6 +105,14 @@ export async function prepareContractOtpRegistration(params: {
     throw new Error('Sözleşme onayları eksik');
   }
 
+  const admin = createAdminClient();
+  await assertIdentityUnique(admin, {
+    email: params.draft.email,
+    phone: params.draft.phone,
+    tcKimlik: params.draft.tcKimlik,
+    iban: params.draft.iban,
+  });
+
   const daily = await countDailySends();
   if (daily >= DAILY_OTP_SEND_LIMIT) {
     throw new Error(
@@ -124,7 +133,6 @@ export async function prepareContractOtpRegistration(params: {
 
   const draftPhotoPath = await uploadOtpDraftPhoto(challengeId, params.photo);
 
-  const admin = createAdminClient();
   const { error: insertError } = await admin.from('contract_otp_challenges').insert({
     id: challengeId,
     channel: 'email',

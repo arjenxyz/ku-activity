@@ -9,7 +9,12 @@ import {
   normalizeIban,
   validateTcKimlik,
   validateTurkishIban,
+  validateTurkishMobilePhone,
 } from '@/lib/field-encryption';
+import {
+  assertIdentityUnique,
+  mapIdentityUniqueViolation,
+} from '@/lib/identity-uniqueness';
 import { validatePersonnelPin } from '@/lib/personnel-pin';
 import {
   constructionAgeErrorMessage,
@@ -76,44 +81,49 @@ export async function submitRegistrationApplication(input: RegistrationApplyInpu
   if (!validateTurkishIban(iban)) {
     throw new Error('Geçersiz IBAN (TR ile 26 karakter)');
   }
+  if (phone && !validateTurkishMobilePhone(phone)) {
+    throw new Error('Geçersiz telefon numarası');
+  }
   const pinError = validatePersonnelPin(input.pin);
   if (pinError) {
     throw new Error(pinError);
   }
 
-  const tcLookupHash = hashTcKimlik(tc);
   const pinHash = await bcrypt.hash(input.pin.trim(), 12);
-
   const admin = createAdminClient();
-
-  const { data: existingByTc } = await admin
-    .from('employee_sensitive_data')
-    .select('employee_id')
-    .eq('tc_lookup_hash', tcLookupHash)
-    .maybeSingle();
-
-  if (existingByTc) {
-    throw new Error('Bu T.C. kimlik numarası ile kayıtlı personel zaten var');
-  }
-
-  const { data: existingEmployee } = await admin
-    .from('employees')
-    .select('id')
-    .ilike('email', email)
-    .maybeSingle();
-
-  if (existingEmployee) {
-    throw new Error('Bu e-posta ile kayıtlı personel zaten var');
-  }
 
   const { data: pendingByTc } = await admin
     .from('employee_registration_requests')
     .select('id, verification_code')
-    .eq('tc_lookup_hash', tcLookupHash)
+    .eq('tc_lookup_hash', hashTcKimlik(tc))
     .eq('status', 'pending')
     .maybeSingle();
 
   if (pendingByTc) {
+    const hashes = await assertIdentityUnique(admin, {
+      email,
+      phone,
+      tcKimlik: tc,
+      iban,
+      excludeRegistrationId: pendingByTc.id,
+    });
+
+    await admin
+      .from('employee_registration_requests')
+      .update({
+        pin_hash: pinHash,
+        tc_lookup_hash: hashes.tcLookupHash,
+        phone_lookup_hash: hashes.phoneLookupHash,
+        iban_lookup_hash: hashes.ibanLookupHash,
+        first_name: firstName,
+        last_name: lastName,
+        phone,
+        tc_kimlik_enc: encryptField(tc),
+        birth_date_enc: encryptField(birthDate),
+        iban_enc: encryptField(iban),
+      })
+      .eq('id', pendingByTc.id);
+
     return {
       id: pendingByTc.id,
       verificationCode: pendingByTc.verification_code,
@@ -130,11 +140,21 @@ export async function submitRegistrationApplication(input: RegistrationApplyInpu
     .maybeSingle();
 
   if (pending) {
+    const hashes = await assertIdentityUnique(admin, {
+      email,
+      phone,
+      tcKimlik: tc,
+      iban,
+      excludeRegistrationId: pending.id,
+    });
+
     await admin
       .from('employee_registration_requests')
       .update({
         pin_hash: pinHash,
-        tc_lookup_hash: tcLookupHash,
+        tc_lookup_hash: hashes.tcLookupHash,
+        phone_lookup_hash: hashes.phoneLookupHash,
+        iban_lookup_hash: hashes.ibanLookupHash,
         first_name: firstName,
         last_name: lastName,
         phone,
@@ -152,6 +172,13 @@ export async function submitRegistrationApplication(input: RegistrationApplyInpu
     };
   }
 
+  const hashes = await assertIdentityUnique(admin, {
+    email,
+    phone,
+    tcKimlik: tc,
+    iban,
+  });
+
   let verificationCode = generateVerificationCode();
   for (let attempt = 0; attempt < 5; attempt++) {
     const { data, error } = await admin
@@ -166,7 +193,9 @@ export async function submitRegistrationApplication(input: RegistrationApplyInpu
         birth_date_enc: encryptField(birthDate),
         iban_enc: encryptField(iban),
         pin_hash: pinHash,
-        tc_lookup_hash: tcLookupHash,
+        tc_lookup_hash: hashes.tcLookupHash,
+        phone_lookup_hash: hashes.phoneLookupHash,
+        iban_lookup_hash: hashes.ibanLookupHash,
       })
       .select('id, verification_code')
       .single();
@@ -180,6 +209,8 @@ export async function submitRegistrationApplication(input: RegistrationApplyInpu
       };
     }
     if (error?.code === '23505') {
+      const mapped = mapIdentityUniqueViolation(error.message ?? '');
+      if (mapped) throw new Error(mapped);
       verificationCode = generateVerificationCode();
       continue;
     }
@@ -346,8 +377,15 @@ export async function approveRegistration(input: ApproveRegistrationInput) {
     throw new Error('Başvuruda giriş şifresi (PIN) tanımlı değil. Personelin başvuruyu yenilemesi gerekir.');
   }
 
-  const tcLookupHash =
-    (req.tc_lookup_hash as string | null) ?? hashTcKimlik(decryptField(req.tc_kimlik_enc));
+  const tcPlain = decryptField(req.tc_kimlik_enc);
+  const ibanPlain = decryptField(req.iban_enc);
+
+  const hashes = await assertIdentityUnique(admin, {
+    email: req.email,
+    phone: req.phone,
+    tcKimlik: tcPlain,
+    iban: ibanPlain,
+  });
 
   const fullName = formatFullName(req.first_name, req.last_name);
 
@@ -358,6 +396,7 @@ export async function approveRegistration(input: ApproveRegistrationInput) {
       name: fullName,
       email: req.email,
       phone: req.phone,
+      phone_lookup_hash: hashes.phoneLookupHash,
       daily_wage: input.dailyWage,
       position,
       hire_date: hireDate,
@@ -368,7 +407,8 @@ export async function approveRegistration(input: ApproveRegistrationInput) {
     .single();
 
   if (empError || !employee) {
-    throw new Error(empError?.message || 'Personel oluşturulamadı');
+    const mapped = mapIdentityUniqueViolation(empError?.message ?? '');
+    throw new Error(mapped ?? empError?.message ?? 'Personel oluşturulamadı');
   }
 
   const { error: sensError } = await admin.from('employee_sensitive_data').insert({
@@ -376,12 +416,14 @@ export async function approveRegistration(input: ApproveRegistrationInput) {
     tc_kimlik_enc: req.tc_kimlik_enc,
     birth_date_enc: req.birth_date_enc,
     iban_enc: req.iban_enc,
-    tc_lookup_hash: tcLookupHash,
+    tc_lookup_hash: hashes.tcLookupHash,
+    iban_lookup_hash: hashes.ibanLookupHash,
   });
 
   if (sensError) {
     await admin.from('employees').delete().eq('id', employee.id);
-    throw new Error('Hassas veriler kaydedilemedi');
+    const mapped = mapIdentityUniqueViolation(sensError.message ?? '');
+    throw new Error(mapped ?? 'Hassas veriler kaydedilemedi');
   }
 
   await transferRegistrationPhotoToEmployee(req.photo_path ?? null, projectId, employee.id);

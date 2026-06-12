@@ -67,8 +67,75 @@ export function validateTcKimlik(tc: string): boolean {
   return d11 === digits[10];
 }
 
+export const PLACEHOLDER_IBAN = 'TR000000000000000000000000';
+
 export function normalizeIban(iban: string) {
   return iban.replace(/\s/g, '').toUpperCase();
+}
+
+/** Türkiye cep: 905XXXXXXXXX */
+export function normalizePhoneDigits(phone: string): string | null {
+  const digits = phone.replace(/\D/g, '');
+  if (!digits) return null;
+  if (digits.length === 11 && digits.startsWith('0')) {
+    return `90${digits.slice(1)}`;
+  }
+  if (digits.length === 10 && digits.startsWith('5')) {
+    return `90${digits}`;
+  }
+  if (digits.length === 12 && digits.startsWith('90')) {
+    return digits;
+  }
+  return null;
+}
+
+export function validateTurkishMobilePhone(phone: string): boolean {
+  const normalized = normalizePhoneDigits(phone);
+  return normalized !== null && /^905\d{9}$/.test(normalized);
+}
+
+export function hashPhoneLookup(phone: string): string {
+  const normalized = normalizePhoneDigits(phone);
+  if (!normalized || !/^905\d{9}$/.test(normalized)) {
+    throw new Error('Geçersiz telefon numarası');
+  }
+  const secret = process.env.FIELD_ENCRYPTION_KEY;
+  if (!secret || secret.length < 16) {
+    throw new Error('FIELD_ENCRYPTION_KEY eksik veya çok kısa (.env)');
+  }
+  return createHmac('sha256', secret).update(`phone-lookup-v1:${normalized}`).digest('hex');
+}
+
+export function computePhoneLookupHash(phone: string | null | undefined): string | null {
+  if (!phone?.trim()) return null;
+  try {
+    return hashPhoneLookup(phone);
+  } catch {
+    return null;
+  }
+}
+
+export function hashIbanLookup(iban: string): string {
+  const normalized = normalizeIban(iban);
+  if (!validateTurkishIban(normalized)) {
+    throw new Error('Geçersiz IBAN');
+  }
+  const secret = process.env.FIELD_ENCRYPTION_KEY;
+  if (!secret || secret.length < 16) {
+    throw new Error('FIELD_ENCRYPTION_KEY eksik veya çok kısa (.env)');
+  }
+  return createHmac('sha256', secret).update(`iban-lookup-v1:${normalized}`).digest('hex');
+}
+
+export function computeIbanLookupHash(iban: string | null | undefined): string | null {
+  if (!iban?.trim()) return null;
+  const normalized = normalizeIban(iban);
+  if (normalized === PLACEHOLDER_IBAN) return null;
+  try {
+    return hashIbanLookup(normalized);
+  } catch {
+    return null;
+  }
 }
 
 export function validateTurkishIban(iban: string) {

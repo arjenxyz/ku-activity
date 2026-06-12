@@ -3,7 +3,12 @@ import { requireAdminUser } from '@/lib/admin-auth';
 import { queryEmployeeById } from '@/lib/employee-db';
 import { withSignedEmployeePhoto } from '@/lib/photo-storage';
 import { formatFullName } from '@/lib/format';
+import {
+  assertEmployeeContactUnique,
+  mapIdentityUniqueViolation,
+} from '@/lib/identity-uniqueness';
 import { createClient } from '@/utils/supabase/server';
+import { createAdminClient } from '@/utils/supabase/admin';
 import { apiErrorMessage } from '@/lib/project-queries';
 
 type Ctx = { params: Promise<{ projectId: string; employeeId: string }> };
@@ -66,14 +71,26 @@ export async function PATCH(request: Request, ctx: Ctx) {
       updates.name = name.trim();
     }
 
-    if (email !== undefined) {
-      const normalized = email.trim().toLowerCase();
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalized)) {
-        return NextResponse.json({ error: 'Geçerli bir e-posta girin' }, { status: 400 });
+    if (email !== undefined || phone !== undefined) {
+      const admin = createAdminClient();
+      try {
+        const contactUpdates = await assertEmployeeContactUnique(admin, {
+          email,
+          phone,
+          excludeEmployeeId: employeeId,
+        });
+        if (contactUpdates.email !== undefined) {
+          updates.email = contactUpdates.email;
+        }
+        if (phone !== undefined) {
+          updates.phone = phone || null;
+          updates.phone_lookup_hash = contactUpdates.phoneLookupHash ?? null;
+        }
+      } catch (err) {
+        const message = err instanceof Error ? err.message : 'Güncelleme başarısız';
+        return NextResponse.json({ error: message }, { status: 409 });
       }
-      updates.email = normalized;
     }
-    if (phone !== undefined) updates.phone = phone || null;
     if (position !== undefined) updates.position = position;
     if (dailyWage !== undefined) updates.daily_wage = dailyWage;
     if (hireDate !== undefined) updates.hire_date = hireDate || null;
@@ -90,7 +107,13 @@ export async function PATCH(request: Request, ctx: Ctx) {
       .eq('id', employeeId)
       .eq('project_id', projectId);
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) {
+      const mapped = mapIdentityUniqueViolation(error.message ?? '');
+      return NextResponse.json(
+        { error: mapped ?? error.message },
+        { status: mapped ? 409 : 500 }
+      );
+    }
 
     const { data, error: readError } = await queryEmployeeById(supabase, employeeId);
     if (readError || !data) {
