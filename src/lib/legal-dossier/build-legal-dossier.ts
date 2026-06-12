@@ -5,6 +5,7 @@ import './collectors';
 import { getDossierCollectors } from './registry';
 import { renderDossierSummaryHtml } from './render-summary-html';
 import { jsonFile, slugifyFilename } from './utils';
+import { downloadEmployeePhotoBytes } from '@/lib/photo-storage';
 import {
   LEGAL_DOSSIER_SCHEMA_VERSION,
   PERSONNEL_SELF_EXPORT_DAILY_LIMIT,
@@ -12,17 +13,6 @@ import {
   type DossierExportType,
   type LegalDossierResult,
 } from './types';
-
-async function fetchPhotoBuffer(photoUrl: string | null): Promise<Uint8Array | null> {
-  if (!photoUrl) return null;
-  try {
-    const res = await fetch(photoUrl);
-    if (!res.ok) return null;
-    return new Uint8Array(await res.arrayBuffer());
-  } catch {
-    return null;
-  }
-}
 
 async function assertPersonnelExportQuota(employeeId: string) {
   const admin = createAdminClient();
@@ -101,7 +91,7 @@ export async function buildLegalDossier(params: {
 
   const { data: emp, error: empError } = await admin
     .from('employees')
-    .select('id, name, email, phone, position, daily_wage, hire_date, is_active, photo_url')
+    .select('id, name, email, phone, position, daily_wage, hire_date, is_active, photo_url, photo_path')
     .eq('id', params.employeeId)
     .eq('project_id', params.projectId)
     .maybeSingle();
@@ -220,11 +210,12 @@ export async function buildLegalDossier(params: {
 
   files.push({ path: 'README.txt', content: readmeLines.join('\n') });
 
-  const photoBytes = await fetchPhotoBuffer(emp.photo_url);
+  const photoBytes = await downloadEmployeePhotoBytes(emp.photo_path, emp.photo_url);
   if (photoBytes) {
-    const ext = emp.photo_url?.includes('.png')
+    const pathRef = String(emp.photo_path ?? emp.photo_url ?? '');
+    const ext = pathRef.includes('.png')
       ? 'png'
-      : emp.photo_url?.includes('.webp')
+      : pathRef.includes('.webp')
         ? 'webp'
         : 'jpg';
     files.push({ path: `01-profil/foto.${ext}`, content: photoBytes });

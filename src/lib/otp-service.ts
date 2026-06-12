@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs';
 import { createAdminClient } from '@/utils/supabase/admin';
 import { isEmailOtpConfigured, maskEmail, sendOtpEmail } from '@/lib/otp-delivery';
 import type { ContractAcceptanceInput } from '@/lib/contract-service';
-import { uploadOtpDraftPhoto } from '@/lib/registration-photo';
+import { deleteOtpDraftPhoto, uploadOtpDraftPhoto } from '@/lib/registration-photo';
 import {
   submitRegistrationFromOtpDraft,
   type OtpRegistrationDraft,
@@ -52,9 +52,13 @@ async function countDailySends(): Promise<number> {
   const { count, error } = await admin
     .from('contract_otp_challenges')
     .select('id', { count: 'exact', head: true })
-    .gte('created_at', since);
+    .not('email_sent_at', 'is', null)
+    .gte('email_sent_at', since);
 
-  if (error) throw new Error('OTP kotası kontrol edilemedi');
+  if (error) {
+    if (error.message.includes('email_sent_at')) return 0;
+    throw new Error('OTP kotası kontrol edilemedi');
+  }
   return count ?? 0;
 }
 
@@ -66,10 +70,20 @@ async function countRecentSendsForDestination(email: string): Promise<number> {
     .select('id', { count: 'exact', head: true })
     .eq('email', email)
     .eq('channel', 'email')
-    .gte('created_at', since);
+    .not('email_sent_at', 'is', null)
+    .gte('email_sent_at', since);
 
-  if (error) throw new Error('OTP sıklık kontrolü başarısız');
+  if (error) {
+    if (error.message.includes('email_sent_at')) return 0;
+    throw new Error('OTP sıklık kontrolü başarısız');
+  }
   return count ?? 0;
+}
+
+async function rollbackOtpChallenge(challengeId: string, draftPhotoPath: string | null) {
+  const admin = createAdminClient();
+  await admin.from('contract_otp_challenges').delete().eq('id', challengeId);
+  await deleteOtpDraftPhoto(draftPhotoPath);
 }
 
 export async function prepareContractOtpRegistration(params: {
@@ -138,7 +152,22 @@ export async function prepareContractOtpRegistration(params: {
     throw new Error('Doğrulama kodu oluşturulamadı');
   }
 
-  await sendOtpEmail(email, code, linkToken, OTP_TTL_MINUTES);
+  try {
+    await sendOtpEmail(email, code, linkToken, OTP_TTL_MINUTES);
+  } catch (err) {
+    await rollbackOtpChallenge(challengeId, draftPhotoPath);
+    throw err;
+  }
+
+  const { error: sentError } = await admin
+    .from('contract_otp_challenges')
+    .update({ email_sent_at: new Date().toISOString() })
+    .eq('id', challengeId);
+
+  if (sentError && !sentError.message.includes('email_sent_at')) {
+    await rollbackOtpChallenge(challengeId, draftPhotoPath);
+    throw new Error('Doğrulama kaydı güncellenemedi');
+  }
 
   return { maskedDestination: maskEmail(email), expiresInMinutes: OTP_TTL_MINUTES };
 }

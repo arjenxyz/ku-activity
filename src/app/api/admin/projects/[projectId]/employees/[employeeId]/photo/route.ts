@@ -2,10 +2,14 @@ import { NextResponse } from 'next/server';
 import { requireAdminUser } from '@/lib/admin-auth';
 import { createAdminClient } from '@/utils/supabase/admin';
 import { apiErrorMessage } from '@/lib/project-queries';
+import {
+  EMPLOYEE_PHOTOS_BUCKET,
+  employeePhotoObjectPath,
+  signedEmployeePhotoUrl,
+} from '@/lib/photo-storage';
 
 const ALLOWED_TYPES = new Set(['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif']);
 const MAX_BYTES = 5 * 1024 * 1024;
-const BUCKET = 'employee-photos';
 
 function extForMime(mime: string) {
   if (mime === 'image/png') return 'png';
@@ -52,10 +56,10 @@ export async function POST(request: Request, ctx: Ctx) {
     }
 
     const ext = extForMime(file.type);
-    const path = `${projectId}/${employeeId}.${ext}`;
+    const path = employeePhotoObjectPath(projectId, employeeId, ext);
     const buffer = Buffer.from(await file.arrayBuffer());
 
-    const { error: uploadError } = await admin.storage.from(BUCKET).upload(path, buffer, {
+    const { error: uploadError } = await admin.storage.from(EMPLOYEE_PHOTOS_BUCKET).upload(path, buffer, {
       contentType: file.type,
       upsert: true,
       cacheControl: '3600',
@@ -67,28 +71,26 @@ export async function POST(request: Request, ctx: Ctx) {
         {
           error:
             uploadError.message.includes('Bucket not found') || uploadError.message.includes('bucket')
-              ? '012_employee_photos.sql çalıştırın (storage bucket)'
+              ? '025_private_photo_storage.sql çalıştırın'
               : 'Fotoğraf yüklenemedi',
         },
         { status: 500 }
       );
     }
 
-    const { data: urlData } = admin.storage.from(BUCKET).getPublicUrl(path);
-    const photoUrl = urlData.publicUrl;
-
     const { error: updateError } = await admin
       .from('employees')
-      .update({ photo_url: photoUrl })
+      .update({ photo_path: path, photo_url: null })
       .eq('id', employeeId);
 
     if (updateError) {
-      const hint = updateError.message.includes('photo_url')
-        ? '013_schema_repair.sql çalıştırın (photo_url kolonu)'
+      const hint = updateError.message.includes('photo_path')
+        ? '025_private_photo_storage.sql çalıştırın (photo_path kolonu)'
         : 'Kayıt güncellenemedi';
       return NextResponse.json({ error: hint }, { status: 500 });
     }
 
+    const photoUrl = await signedEmployeePhotoUrl(path);
     return NextResponse.json({ photoUrl });
   } catch (err) {
     const { status, message } = apiErrorMessage(err);
@@ -116,16 +118,16 @@ export async function DELETE(_request: Request, ctx: Ctx) {
     const exts = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
     await Promise.all(
       exts.map((ext) =>
-        admin.storage.from(BUCKET).remove([`${projectId}/${employeeId}.${ext}`])
+        admin.storage.from(EMPLOYEE_PHOTOS_BUCKET).remove([employeePhotoObjectPath(projectId, employeeId, ext)])
       )
     );
 
     const { error: clearError } = await admin
       .from('employees')
-      .update({ photo_url: null })
+      .update({ photo_path: null, photo_url: null })
       .eq('id', employeeId);
 
-    if (clearError && !clearError.message.includes('photo_url')) {
+    if (clearError && !clearError.message.includes('photo')) {
       return NextResponse.json({ error: 'Fotoğraf kaldırılamadı' }, { status: 500 });
     }
 

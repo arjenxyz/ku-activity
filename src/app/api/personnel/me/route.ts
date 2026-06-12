@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { createAdminClient } from '@/utils/supabase/admin';
 import { queryEmployeeById, queryPersonnelProfile } from '@/lib/employee-db';
 import { requirePersonnelSession } from '@/lib/personnel-auth';
+import { signedEmployeePhotoUrl } from '@/lib/photo-storage';
 
 async function loadProject(admin: ReturnType<typeof createAdminClient>, projectId: string) {
   const { data } = await admin
@@ -36,6 +37,10 @@ export async function GET() {
 
     if (!viewError && viewData) {
       const project = await loadProject(admin, viewData.project_id);
+      const photo_url = await signedEmployeePhotoUrl(
+        viewData.photo_path,
+        viewData.photo_url
+      );
       return NextResponse.json({
         employee: {
           id: viewData.employee_id,
@@ -45,7 +50,7 @@ export async function GET() {
           daily_wage: viewData.daily_wage,
           position: viewData.position,
           hire_date: viewData.hire_date,
-          photo_url: viewData.photo_url ?? null,
+          photo_url,
           project_id: viewData.project_id,
           project_name: viewData.project_name,
           project,
@@ -61,10 +66,12 @@ export async function GET() {
 
     const project = data.project_id ? await loadProject(admin, data.project_id) : null;
 
+    const photo_url = await signedEmployeePhotoUrl(data.photo_path, data.photo_url);
+
     return NextResponse.json({
       employee: {
         ...data,
-        photo_url: data.photo_url ?? null,
+        photo_url,
         project_name: project?.name,
         project,
       },

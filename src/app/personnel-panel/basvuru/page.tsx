@@ -21,6 +21,13 @@ import {
   validatePersonnelPinMatch,
 } from '@/lib/personnel-pin';
 import {
+  clearRegistrationFormDraft,
+  loadRegistrationDraftPhoto,
+  loadRegistrationFormDraft,
+  saveRegistrationDraftPhoto,
+  saveRegistrationFormDraft,
+} from '@/lib/registration-form-draft-storage';
+import {
   clearPendingRegistration,
   loadPendingRegistration,
   savePendingRegistration,
@@ -90,6 +97,10 @@ export default function PersonnelApplicationPage() {
   >([]);
   const [verifyModalOpen, setVerifyModalOpen] = useState(false);
   const [verifyFormData, setVerifyFormData] = useState<FormData | null>(null);
+  const [initialContractAcceptances, setInitialContractAcceptances] = useState<
+    Array<{ contractId: string; version: number }> | undefined
+  >(undefined);
+  const [showDraftNotice, setShowDraftNotice] = useState(false);
 
   const handleAllContractsAccepted = useCallback(
     (acceptances: Array<{ contractId: string; version: number }>) => {
@@ -109,6 +120,7 @@ export default function PersonnelApplicationPage() {
     if (payload.status === 'approved') {
       setApprovedPosition(payload.position ?? null);
       clearPendingRegistration();
+      void clearRegistrationFormDraft();
     }
     if (payload.status === 'rejected') {
       clearPendingRegistration();
@@ -128,8 +140,22 @@ export default function PersonnelApplicationPage() {
     let cancelled = false;
 
     (async () => {
+      const restoreFormDraft = async () => {
+        const draft = loadRegistrationFormDraft();
+        const photo = await loadRegistrationDraftPhoto();
+        if (cancelled) return;
+        if (draft) {
+          setForm(draft.form);
+          setContractAcceptances(draft.contractAcceptances);
+          setInitialContractAcceptances(draft.contractAcceptances);
+          setShowDraftNotice(true);
+        }
+        if (photo) setPhotoFile(photo);
+      };
+
       const saved = loadPendingRegistration();
       if (!saved) {
+        await restoreFormDraft();
         if (!cancelled) setBootstrapping(false);
         return;
       }
@@ -139,6 +165,7 @@ export default function PersonnelApplicationPage() {
 
       if (!next) {
         clearPendingRegistration();
+        await restoreFormDraft();
         setBootstrapping(false);
         return;
       }
@@ -153,6 +180,7 @@ export default function PersonnelApplicationPage() {
 
       if (next.status === 'approved') {
         clearPendingRegistration();
+        void clearRegistrationFormDraft();
         setResult(saved);
         setStatus('approved');
         setApprovedPosition(next.position ?? null);
@@ -212,6 +240,19 @@ export default function PersonnelApplicationPage() {
     };
   }, [result?.verificationCode, status, refreshStatus]);
 
+  useEffect(() => {
+    if (bootstrapping || result) return;
+
+    const timer = window.setTimeout(() => {
+      saveRegistrationFormDraft({ form, contractAcceptances });
+      if (photoFile) {
+        void saveRegistrationDraftPhoto(photoFile);
+      }
+    }, 500);
+
+    return () => window.clearTimeout(timer);
+  }, [form, contractAcceptances, photoFile, bootstrapping, result]);
+
   const buildFormData = (): FormData | null => {
     if (!photoFile) return null;
     const body = new FormData();
@@ -267,17 +308,37 @@ export default function PersonnelApplicationPage() {
   const handleVerificationSuccess = (pending: PendingRegistration) => {
     setVerifyModalOpen(false);
     setVerifyFormData(null);
+    void clearRegistrationFormDraft();
     savePendingRegistration(pending);
     setResult(pending);
     setStatus('pending');
     setLoading(false);
+    setShowDraftNotice(false);
+    setInitialContractAcceptances(undefined);
   };
 
   const startNewApplication = () => {
     clearPendingRegistration();
+    void clearRegistrationFormDraft();
     setResult(null);
     setStatus(null);
     setError('');
+    setForm({
+      first_name: '',
+      last_name: '',
+      email: '',
+      phone: '',
+      tc_kimlik: '',
+      birth_date: '',
+      iban: '',
+      pin: '',
+      pin_confirm: '',
+    });
+    setPhotoFile(null);
+    setContractAcceptances([]);
+    setContractsReady(false);
+    setInitialContractAcceptances(undefined);
+    setShowDraftNotice(false);
   };
 
   if (bootstrapping) {
@@ -390,6 +451,19 @@ export default function PersonnelApplicationPage() {
       subtitle="Bilgilerinizi girin; yönetici onayından sonra sisteme alınacaksınız."
     >
       {error && <AuthAlert type="error" message={error} />}
+
+      {showDraftNotice && (
+        <div className="mb-4 flex items-start justify-between gap-3 rounded-xl border border-emerald-200 dark:border-emerald-900/50 bg-emerald-50 dark:bg-emerald-950/30 px-4 py-3 text-sm text-emerald-900 dark:text-emerald-100">
+          <p>Kaldığınız yerden devam ediyorsunuz — bilgileriniz bu cihazda saklandı.</p>
+          <button
+            type="button"
+            onClick={() => setShowDraftNotice(false)}
+            className="shrink-0 text-xs font-medium text-emerald-700 dark:text-emerald-300 hover:underline"
+          >
+            Tamam
+          </button>
+        </div>
+      )}
 
       <div className="mb-5 flex items-start gap-2 rounded-xl bg-blue-50 dark:bg-blue-950/40 border border-blue-100 dark:border-blue-900 p-3 text-xs text-blue-900 dark:text-blue-200 xl:hidden">
         <FiShield className="w-4 h-4 shrink-0 mt-0.5" />
@@ -535,6 +609,7 @@ export default function PersonnelApplicationPage() {
 
         <ContractAcceptanceBlock
           layout="gate"
+          initialAcceptances={initialContractAcceptances}
           onAllAccepted={handleAllContractsAccepted}
           onIncomplete={handleContractsIncomplete}
         />

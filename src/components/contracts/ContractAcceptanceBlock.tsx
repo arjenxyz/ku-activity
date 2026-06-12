@@ -10,12 +10,15 @@ type Props = {
   onIncomplete: () => void;
   /** default: kart listesi | sidebar: dar sütun | gate: tek satır + sıralı modal */
   layout?: 'default' | 'sidebar' | 'gate';
+  /** Başvuru taslağından geri yükleme */
+  initialAcceptances?: Array<{ contractId: string; version: number }>;
 };
 
 export function ContractAcceptanceBlock({
   onAllAccepted,
   onIncomplete,
   layout = 'default',
+  initialAcceptances,
 }: Props) {
   const isSidebar = layout === 'sidebar';
   const isGate = layout === 'gate';
@@ -38,6 +41,18 @@ export function ContractAcceptanceBlock({
       .catch(() => setError('Sözleşmeler yüklenemedi.'))
       .finally(() => setLoading(false));
   }, []);
+
+  useEffect(() => {
+    if (!initialAcceptances?.length || !contracts.length) return;
+    const restored: Record<string, boolean> = {};
+    for (const item of initialAcceptances) {
+      const match = contracts.find((c) => c.id === item.contractId && c.version === item.version);
+      if (match) restored[item.contractId] = true;
+    }
+    if (Object.keys(restored).length > 0) {
+      setAccepted(restored);
+    }
+  }, [initialAcceptances, contracts]);
 
   useEffect(() => {
     const required = contracts;

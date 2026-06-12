@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { requireAdminUser } from '@/lib/admin-auth';
 import { queryEmployeeById } from '@/lib/employee-db';
+import { withSignedEmployeePhoto } from '@/lib/photo-storage';
 import { formatFullName } from '@/lib/format';
 import { createClient } from '@/utils/supabase/server';
 import { apiErrorMessage } from '@/lib/project-queries';
@@ -19,7 +20,8 @@ export async function GET(_request: Request, ctx: Ctx) {
       return NextResponse.json({ error: 'Personel bulunamadı' }, { status: 404 });
     }
 
-    return NextResponse.json({ employee: data });
+    const employee = await withSignedEmployeePhoto(data);
+    return NextResponse.json({ employee });
   } catch (err) {
     const { status, message } = apiErrorMessage(err);
     return NextResponse.json({ error: message }, { status });

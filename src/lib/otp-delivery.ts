@@ -102,6 +102,11 @@ export async function sendOtpEmail(
 
   if (!res.ok) {
     const detail = await res.text().catch(() => '');
+    if (res.status === 401) {
+      throw new Error(
+        'E-posta servisi yapılandırması hatalı (Brevo API anahtarı geçersiz). Yöneticinize bildirin.'
+      );
+    }
     throw new Error(
       `E-posta gönderilemedi (${res.status})${detail ? `: ${detail.slice(0, 120)}` : ''}`
     );

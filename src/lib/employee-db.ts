@@ -11,6 +11,7 @@ export type EmployeeRow = {
   hire_date: string | null;
   project_id?: string;
   photo_url?: string | null;
+  photo_path?: string | null;
   is_system_account?: boolean;
 };
 
@@ -20,6 +21,7 @@ const BASE_FIELDS =
 function isMissingColumnError(message: string) {
   return (
     message.includes('photo_url') ||
+    message.includes('photo_path') ||
     message.includes('is_system_account') ||
     message.includes('does not exist')
   );
@@ -36,7 +38,7 @@ export async function queryProjectEmployees(
 ): Promise<{ data: EmployeeRow[]; error: string | null }> {
   const extended = await supabase
     .from('employees')
-    .select(`${BASE_FIELDS}, photo_url, is_system_account`)
+    .select(`${BASE_FIELDS}, photo_url, photo_path, is_system_account`)
     .eq('project_id', projectId)
     .order('name');
 
@@ -68,7 +70,7 @@ export async function queryEmployeeById(
 ): Promise<{ data: EmployeeRow | null; error: string | null }> {
   const extended = await supabase
     .from('employees')
-    .select(`${BASE_FIELDS}, photo_url`)
+    .select(`${BASE_FIELDS}, photo_url, photo_path`)
     .eq('id', employeeId)
     .maybeSingle();
 
@@ -107,6 +109,7 @@ export async function queryPersonnelProfile(
     position: string | null;
     hire_date: string | null;
     photo_url?: string | null;
+    photo_path?: string | null;
     project_id: string;
     project_name: string;
   } | null;
@@ -117,7 +120,7 @@ export async function queryPersonnelProfile(
 
   const extended = await supabase
     .from('v_personnel_employee_profile')
-    .select(`${core}, photo_url`)
+    .select(`${core}, photo_url, photo_path`)
     .eq('employee_id', employeeId)
     .maybeSingle();
 

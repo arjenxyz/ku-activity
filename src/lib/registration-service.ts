@@ -21,8 +21,8 @@ import {
   generateVerificationCode,
   normalizeVerificationCode,
 } from '@/lib/registration-codes';
+import { signedRegistrationPhotoUrl } from '@/lib/photo-storage';
 import {
-  publicPhotoUrl,
   transferRegistrationPhotoToEmployee,
   uploadRegistrationPhoto,
 } from '@/lib/registration-photo';
@@ -254,7 +254,7 @@ export async function getRegistrationForAdmin(code: string) {
     expiresAt: data.expires_at,
     createdAt: data.created_at,
     rejectedReason: data.rejected_reason,
-    photoUrl: data.photo_path ? publicPhotoUrl(data.photo_path) : null,
+    photoUrl: data.photo_path ? await signedRegistrationPhotoUrl(data.photo_path) : null,
     sensitive: {
       tcKimlik: tc,
       tcKimlikMasked: maskTcKimlik(tc),

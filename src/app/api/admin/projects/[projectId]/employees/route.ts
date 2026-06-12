@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { requireAdminUser } from '@/lib/admin-auth';
 import { queryProjectEmployees } from '@/lib/employee-db';
+import { withSignedEmployeePhotos } from '@/lib/photo-storage';
 import { createClient } from '@/utils/supabase/server';
 import { apiErrorMessage } from '@/lib/project-queries';
 
@@ -24,7 +25,8 @@ export async function GET(_req: Request, ctx: Ctx) {
       );
     }
 
-    return NextResponse.json({ employees: data ?? [] });
+    const employees = await withSignedEmployeePhotos(data ?? []);
+    return NextResponse.json({ employees });
   } catch (err) {
     const { status, message } = apiErrorMessage(err);
     return NextResponse.json({ error: message }, { status });
