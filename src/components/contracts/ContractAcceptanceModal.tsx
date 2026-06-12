@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { FiCheck, FiChevronDown, FiX } from 'react-icons/fi';
+import { FiCheck, FiChevronDown, FiFileText, FiX } from 'react-icons/fi';
 import type { ContractItem } from './ContractScrollReader';
 
 type Props = {
@@ -15,6 +15,7 @@ export function ContractAcceptanceModal({ contract, accepted, onAccept, onClose 
   const scrollRef = useRef<HTMLDivElement>(null);
   const [scrolledToEnd, setScrolledToEnd] = useState(accepted);
   const [scrollProgress, setScrollProgress] = useState(accepted ? 100 : 0);
+  const [consentChecked, setConsentChecked] = useState(accepted);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -42,10 +43,12 @@ export function ContractAcceptanceModal({ contract, accepted, onAccept, onClose 
     if (accepted) {
       setScrolledToEnd(true);
       setScrollProgress(100);
+      setConsentChecked(true);
     }
   }, [accepted]);
 
   useEffect(() => {
+    setConsentChecked(accepted);
     const el = scrollRef.current;
     if (!el) return;
     if (el.scrollHeight <= el.clientHeight + 12) {
@@ -56,10 +59,10 @@ export function ContractAcceptanceModal({ contract, accepted, onAccept, onClose 
       setScrollProgress(0);
       el.scrollTop = 0;
     }
-  }, [contract.id]);
+  }, [contract.id, accepted]);
 
-  const canAccept = scrolledToEnd || accepted;
-  const showScrollHint = !canAccept && scrollProgress < 95;
+  const canAccept = (scrolledToEnd || accepted) && consentChecked;
+  const showScrollHint = !scrolledToEnd && !accepted && scrollProgress < 95;
 
   return (
     <div
@@ -73,12 +76,10 @@ export function ContractAcceptanceModal({ contract, accepted, onAccept, onClose 
         className="bg-white dark:bg-slate-900 w-full sm:max-w-2xl h-[96dvh] sm:h-auto sm:max-h-[88vh] rounded-t-[1.75rem] sm:rounded-2xl shadow-2xl border border-slate-200/80 dark:border-slate-700 flex flex-col overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Mobil tutamaç */}
         <div className="sm:hidden flex justify-center pt-3 pb-1 shrink-0">
           <div className="w-10 h-1 rounded-full bg-slate-300 dark:bg-slate-600" aria-hidden />
         </div>
 
-        {/* Okuma ilerlemesi */}
         <div
           className="h-0.5 bg-blue-600 transition-[width] duration-150 shrink-0"
           style={{ width: `${scrollProgress}%` }}
@@ -108,6 +109,18 @@ export function ContractAcceptanceModal({ contract, accepted, onAccept, onClose 
           </button>
         </div>
 
+        {contract.summary && (
+          <div className="px-4 sm:px-5 py-3 bg-blue-50/80 dark:bg-blue-950/40 border-b border-blue-100 dark:border-blue-900/50 shrink-0">
+            <p className="text-xs font-semibold text-blue-800 dark:text-blue-200 uppercase tracking-wide flex items-center gap-1.5 mb-1.5">
+              <FiFileText className="w-3.5 h-3.5" />
+              Özet — ne onaylıyorsunuz?
+            </p>
+            <p className="text-sm text-blue-900/90 dark:text-blue-100/90 leading-relaxed">
+              {contract.summary}
+            </p>
+          </div>
+        )}
+
         <div className="relative flex-1 min-h-0">
           <div
             ref={scrollRef}
@@ -129,7 +142,7 @@ export function ContractAcceptanceModal({ contract, accepted, onAccept, onClose 
           )}
         </div>
 
-        {!canAccept && (
+        {!scrolledToEnd && !accepted && (
           <p className="px-4 py-2.5 text-xs text-amber-800 dark:text-amber-200 bg-amber-50 dark:bg-amber-950/50 border-t border-amber-100 dark:border-amber-900 shrink-0">
             Onaylamak için sözleşmeyi sonuna kadar okuyun.
           </p>
@@ -142,17 +155,32 @@ export function ContractAcceptanceModal({ contract, accepted, onAccept, onClose 
               Bu sözleşmeyi onayladınız.
             </p>
           ) : (
-            <button
-              type="button"
-              disabled={!canAccept}
-              onClick={() => {
-                onAccept();
-                onClose();
-              }}
-              className="w-full min-h-[48px] py-3 rounded-xl bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white text-sm font-semibold disabled:opacity-40 disabled:cursor-not-allowed touch-manipulation transition-colors"
-            >
-              Okudum, anladım ve kabul ediyorum
-            </button>
+            <>
+              <label className="flex items-start gap-3 text-sm text-slate-700 dark:text-slate-300 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={consentChecked}
+                  disabled={!scrolledToEnd}
+                  onChange={(e) => setConsentChecked(e.target.checked)}
+                  className="mt-0.5 h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 disabled:opacity-40"
+                />
+                <span>
+                  Yukarıdaki özeti ve sözleşme metninin tamamını okudum; hiçbir baskı altında
+                  kalmadan özgür irademle kabul ediyorum.
+                </span>
+              </label>
+              <button
+                type="button"
+                disabled={!canAccept}
+                onClick={() => {
+                  onAccept();
+                  onClose();
+                }}
+                className="w-full min-h-[48px] py-3 rounded-xl bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white text-sm font-semibold disabled:opacity-40 disabled:cursor-not-allowed touch-manipulation transition-colors"
+              >
+                Okudum, anladım ve kabul ediyorum
+              </button>
+            </>
           )}
           <button
             type="button"

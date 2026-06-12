@@ -7,6 +7,7 @@ export type ContractItem = {
   id: string;
   slug: string;
   title: string;
+  summary?: string | null;
   contentHtml: string;
   version: number;
 };

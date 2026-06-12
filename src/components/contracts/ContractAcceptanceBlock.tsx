@@ -120,6 +120,11 @@ export function ContractAcceptanceBlock({
                     >
                       {contract.title}
                     </p>
+                    {contract.summary && (
+                      <p className="text-xs text-slate-600 dark:text-slate-400 mt-0.5 line-clamp-2 leading-snug">
+                        {contract.summary}
+                      </p>
+                    )}
                     <p className="text-xs text-slate-500 mt-0.5">
                       Sürüm {contract.version}
                       {isAccepted ? ' · Onaylandı' : ' · Okunup onaylanmalı'}

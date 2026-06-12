@@ -6,6 +6,17 @@ async function parseError(res: Response) {
   return (data as { error?: string }).error || res.statusText;
 }
 
+export type PersonnelProject = {
+  id: string;
+  name: string;
+  status: string;
+  description: string | null;
+  location: string | null;
+  code: string | null;
+  workStartTime: string | null;
+  workEndTime: string | null;
+};
+
 export type PersonnelEmployee = {
   id: string;
   name: string;
@@ -17,6 +28,7 @@ export type PersonnelEmployee = {
   photo_url?: string | null;
   project_id: string;
   project_name?: string;
+  project?: PersonnelProject | null;
 };
 
 export type MonthStats = {
@@ -85,11 +97,11 @@ export async function fetchPersonnelTodayAttendance() {
   }>;
 }
 
-export async function confirmPersonnelAttendance(amount?: number) {
+export async function confirmPersonnelAttendance(date?: string, amount?: number) {
   const res = await fetch('/api/personnel/work-logs/confirm', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ amount }),
+    body: JSON.stringify({ date, amount }),
   });
   if (!res.ok) throw new Error(await parseError(res));
   const data = await res.json();

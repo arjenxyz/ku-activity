@@ -1,12 +1,11 @@
 import { NextResponse } from 'next/server';
-import { verifyContractOtpAndSubmit } from '@/lib/otp-service';
+import { confirmContractOtpLink } from '@/lib/otp-service';
 
-export async function POST(request: Request) {
+export async function GET(request: Request) {
   try {
-    const body = (await request.json()) as { email?: string; code?: string };
-    const result = await verifyContractOtpAndSubmit({
-      email: body.email ?? '',
-      code: body.code ?? '',
+    const token = new URL(request.url).searchParams.get('k') ?? '';
+    const result = await confirmContractOtpLink({
+      linkToken: token,
       userAgent: request.headers.get('user-agent'),
     });
 

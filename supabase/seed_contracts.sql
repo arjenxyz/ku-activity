@@ -7,12 +7,20 @@
 -- Metin güncellemesi sonrası version artırın; personel yeni sürümü tekrar onaylamak zorunda kalır.
 -- =========================================================================================
 
-insert into public.personnel_contracts (slug, title, content_html, version, is_required, sort_order)
+insert into public.personnel_contracts (slug, title, summary, content_html, version, is_required, sort_order)
 values
 (
   'ekip-calismasi',
   'Saha Ekip Çalışması, Sevk, İdare ve Görev Kabul Sözleşmesi',
+  'Sahada İSG kurallarına uyum, KKD kullanımı, disiplin ve gizlilik yükümlülüklerinizi; çalışma düzeni, fesih ve elektronik onay koşullarını kabul ettiğinizi beyan edersiniz.',
   $html$
+<div class="contract-parties">
+  <p><strong>İşletmeci / Yönetici:</strong> {{COMPANY_LEGAL_NAME}} ({{COMPANY_TRADE_NAME}})</p>
+  <p><strong>Adres:</strong> {{COMPANY_ADDRESS}}, {{COMPANY_CITY}}</p>
+  <p><strong>Vergi Dairesi / No:</strong> {{COMPANY_TAX_OFFICE}} — {{COMPANY_TAX_ID}}</p>
+  <p><strong>İletişim:</strong> {{COMPANY_EMAIL}} · {{COMPANY_PHONE}}</p>
+  <p><strong>Yetkili:</strong> {{COMPANY_AUTHORIZED_REP}}</p>
+</div>
 <div class="contract-meta">
   <p><strong>Belge türü:</strong> Saha ekip çalışması ve görev kabul sözleşmesi</p>
   <p><strong>Yürürlük:</strong> Elektronik onay anından itibaren</p>
@@ -62,20 +70,80 @@ values
 <p>Personel, işbu Sözleşme metnini dijital başvuru platformu üzerinden okuduğunu; onay anına ilişkin tarih-saat, sürüm numarası, e-posta ve teknik kayıtların delil niteliğinde olduğunu; hiçbir baskı altında kalmadan özgür iradesiyle metnin tamamını kabul ettiğini beyan eder.</p>
 <p>Sözleşme metninde değişiklik yapılması halinde güncel sürümün yeniden onaylanması gerekebilir.</p>
 
-<h2>8. BÖLÜNEBİLİRLİK</h2>
+<h2>8. MESAİ, FAZLA ÇALIŞMA VE İZİN</h2>
+<p>Günlük çalışma süresi ve mesai uygulamaları proje bazında Yönetici tarafından belirlenir. Fazla çalışma (mesai) kayıtları dijital puantaj sisteminde çeyrek, yarım veya tam mesai olarak işlenir; ücretlendirme yevmiye sözleşmesi ve proje kurallarına göre yapılır. Yıllık izin ve mazeret izinleri 4857 sayılı İş Kanunu ve ilgili mevzuat çerçevesinde uygulanır.</p>
+
+<h2>9. UYUŞMAZLIK VE YETKİLİ MAHKEME</h2>
+<p>İşbu Sözleşmeden doğan uyuşmazlıklarda öncelikle iyi niyetli müzakere ve arabuluculuk yolu denenir. Çözülemeyen uyuşmazlıklarda <strong>{{COMPANY_CITY}} İş Mahkemeleri ve İcra Daireleri</strong> yetkilidir.</p>
+
+<h2>10. BÖLÜNEBİLİRLİK</h2>
 <p>Herhangi bir hükmün geçersiz sayılması, diğer hükümlerin geçerliliğini etkilemez.</p>
 $html$,
-  2,
+  3,
   true,
   1
 ),
 (
-  'gizlilik-veri',
-  'Gizlilik, Bilgi Güvenliği ve Kişisel Verilerin İşlenmesi (KVKK) Taahhütnamesi',
+  'kvkk-aydinlatma',
+  'KVKK Kişisel Verilerin İşlenmesine İlişkin Aydınlatma Metni',
+  'Kimlik, iletişim, finans ve özlük verilerinizin hangi amaçlarla, hangi hukuki sebeplerle işlendiğini; aktarım, saklama süresi ve KVKK m.11 haklarınızı okuduğunuzu onaylarsınız.',
   $html$
+<div class="contract-parties">
+  <p><strong>Veri Sorumlusu:</strong> {{COMPANY_LEGAL_NAME}}</p>
+  <p><strong>Adres:</strong> {{COMPANY_ADDRESS}}, {{COMPANY_CITY}}</p>
+  <p><strong>İrtibat:</strong> {{COMPANY_EMAIL}} · {{COMPANY_PHONE}}</p>
+  <p><strong>Veri Sorumlusu Temsilcisi:</strong> {{COMPANY_DATA_CONTROLLER}}</p>
+</div>
 <div class="contract-meta">
-  <p><strong>Belge türü:</strong> KVKK aydınlatma ve açık rıza / gizlilik taahhütnamesi</p>
-  <p><strong>Veri sorumlusu sıfatı:</strong> Proje yönetimi ve personel kayıt süreçlerini yürüten Yönetici / sistem işletmecisi</p>
+  <p><strong>Belge türü:</strong> KVKK m.10 aydınlatma metni (rıza gerektirmeyen bilgilendirme)</p>
+  <p><strong>Yasal dayanak:</strong> 6698 sayılı KVKK ve Aydınlatma Yükümlülüğünün Yerine Getirilmesinde Uyulacak Usul ve Esaslar Hakkında Tebliğ</p>
+</div>
+
+<h2>1. VERİ SORUMLUSUNUN KİMLİĞİ</h2>
+<p>6698 sayılı Kişisel Verilerin Korunması Kanunu ("<strong>KVKK</strong>") uyarınca veri sorumlusu {{COMPANY_LEGAL_NAME}}'dir. Başvuru ve şikâyetlerinizi {{COMPANY_EMAIL}} adresine veya yazılı olarak {{COMPANY_ADDRESS}} adresine iletebilirsiniz.</p>
+
+<h2>2. İŞLENEN KİŞİSEL VERİ KATEGORİLERİ</h2>
+<ul>
+  <li>Kimlik: ad-soyad, T.C. kimlik numarası, doğum tarihi;</li>
+  <li>İletişim: telefon, e-posta, adres;</li>
+  <li>Finans: IBAN, ödeme kayıtları;</li>
+  <li>Özlük ve performans: pozisyon, işe giriş, yevmiye, puantaj, avans/kesinti;</li>
+  <li>Görsel: başvuru fotoğrafı (kimlik teyidi);</li>
+  <li>İşlem güvenliği: IP, oturum ve onay logları.</li>
+</ul>
+
+<h2>3. İŞLEME AMAÇLARI VE HUKUKİ SEBEPLER</h2>
+<p>Verileriniz; iş ilişkisinin kurulması ve ifası (KVKK m.5/2-c), hukuki yükümlülüklerin yerine getirilmesi (m.5/2-ç), İSG ve iş mevzuatı, ücret ödemesi, saha güvenliği, uyuşmazlık ispatı ve meşru menfaat (m.5/2-f) kapsamında işlenir.</p>
+
+<h2>4. VERİLERİN AKTARILDIĞI TARAFLAR</h2>
+<p>Yasal zorunluluk halinde kamu kurumlarına; proje yürütümü için ana yüklenici/işveren yetkililerine; barındırma, e-posta ve altyapı hizmeti sunan tedarikçilere (KVKK m.8/9 önlemleriyle) aktarılabilir.</p>
+
+<h2>5. TOPLAMA YÖNTEMİ VE SAKLAMA SÜRESİ</h2>
+<p>Veriler elektronik başvuru formu, personel paneli, puantaj kayıtları ve yönetici girişleri aracılığıyla toplanır. Saklama süresi ilgili mevzuat ve işleme amacının gerektirdiği süre ile sınırlıdır.</p>
+
+<h2>6. İLGİLİ KİŞİNİN HAKLARI (KVKK m.11)</h2>
+<p>Verilerinizin işlenip işlenmediğini öğrenme, bilgi talep etme, düzeltme, silme, itiraz ve zararın giderilmesini talep etme haklarına sahipsiniz. Başvurular en geç 30 gün içinde yanıtlanır.</p>
+
+<h2>7. AYDINLATMA ONAYI</h2>
+<p>Personel; işbu aydınlatma metnini okuduğunu, veri sorumlusunun kimliğini ve kişisel verilerinin işlenmesine ilişkin esasları anladığını elektronik ortamda onaylar. Açık rıza gerektiren işlemler için ayrıca "Açık Rıza ve Gizlilik" belgesi imzalanır.</p>
+$html$,
+  3,
+  true,
+  2
+),
+(
+  'gizlilik-veri',
+  'Kişisel Veriler Açık Rıza, Gizlilik ve Bilgi Güvenliği Taahhütnamesi',
+  'Kişisel verilerinizin işlenmesi, saklanması ve aktarımına açık rıza verir; saha ve kurumsal gizlilik yükümlülüklerinizi kabul edersiniz.',
+  $html$
+<div class="contract-parties">
+  <p><strong>Veri Sorumlusu:</strong> {{COMPANY_LEGAL_NAME}}</p>
+  <p><strong>Adres:</strong> {{COMPANY_ADDRESS}}, {{COMPANY_CITY}}</p>
+  <p><strong>İrtibat:</strong> {{COMPANY_EMAIL}} · {{COMPANY_PHONE}}</p>
+</div>
+<div class="contract-meta">
+  <p><strong>Belge türü:</strong> KVKK açık rıza ve gizlilik taahhütnamesi</p>
+  <p><strong>Önkoşul:</strong> "KVKK Aydınlatma Metni" ayrıca okunmuş ve onaylanmış olmalıdır.</p>
 </div>
 
 <h2>1. TAAHHÜTNAMENİN AMACI VE YASAL DAYANAĞI</h2>
@@ -115,16 +183,22 @@ $html$,
 <p>Gizlilik ve sır saklama yükümlülükleri, sahadaki çalışmanın sona ermesinden sonra da süresiz devam eder. İhlal halinde tazminat ve sair hukuki yollara başvurma hakkı saklıdır.</p>
 
 <h2>8. AÇIK RIZA VE ELEKTRONİK ONAY</h2>
-<p>Personel; kişisel verilerinin ve gerektiğinde özel nitelikli kişisel verilerinin işbu metinde belirtilen amaçlarla işlenmesine, saklanmasına ve aktarılmasına; aydınlatıldığını teyit ederek, özgür iradesiyle elektronik ortamda açık rıza verdiğini kabul eder.</p>
+<p>Personel; KVKK Aydınlatma Metni'ni okuduğunu teyit ederek; kişisel verilerinin ve gerektiğinde özel nitelikli kişisel verilerinin işbu metinde belirtilen amaçlarla işlenmesine, saklanmasına ve aktarılmasına özgür iradesiyle elektronik ortamda <strong>açık rıza</strong> verdiğini kabul eder.</p>
 $html$,
-  2,
+  3,
   true,
-  2
+  3
 ),
 (
   'ucret-yevmiye',
   'Ücret, Yevmiye, Hakediş ve Ödeme Usulleri Bilgilendirme ve Onay Metni',
+  'Yevmiye hesaplama, mesai, avans/mahsup, IBAN ödemesi, delil sözleşmesi ve vergi/SGK kesintilerine ilişkin kuralları okuyup onaylarsınız.',
   $html$
+<div class="contract-parties">
+  <p><strong>İşletmeci:</strong> {{COMPANY_LEGAL_NAME}} ({{COMPANY_TRADE_NAME}})</p>
+  <p><strong>Adres:</strong> {{COMPANY_ADDRESS}}, {{COMPANY_CITY}}</p>
+  <p><strong>İletişim:</strong> {{COMPANY_EMAIL}} · {{COMPANY_PHONE}}</p>
+</div>
 <div class="contract-meta">
   <p><strong>Belge türü:</strong> Ücret ve ödeme usulleri bilgilendirme metni</p>
   <p><strong>Önemli:</strong> Nihai günlük yevmiye tutarı, Yönetici onayı sırasında sisteme işlenir ve Personel'e gösterilir.</p>
@@ -153,13 +227,20 @@ $html$,
 <h2>7. BEYAN VE ELEKTRONİK KABUL</h2>
 <p>Personel; yevmiye hesaplama yöntemini, avans/mahsup kurallarını, ödeme usullerini ve delil sözleşmesini eksiksiz okuduğunu; sistemde tanımlanan güncel yevmiye ve ödeme şartlarını kabul ettiğini elektronik ortamda onaylayarak taahhüt eder.</p>
 <p><em>Not: Kesin yevmiye tutarı, yönetici onay ekranında ayrıca gösterilir ve o an onaylanır.</em></p>
+
+<h2>8. MESAİ ÜCRETLENDİRMESİ</h2>
+<p>Fazla çalışma (mesai) kayıtları sistemde çeyrek (%25), yarım (%50) veya tam (%100) günlük yevmiye ek ücreti olarak işlenir. Mesai onayı yönetici ve personel çift onayına tabidir.</p>
+
+<h2>9. UYUŞMAZLIK VE YETKİLİ MAHKEME</h2>
+<p>Ücret uyuşmazlıklarında dijital kayıtlar delil sözleşmesi kapsamında esas alınır. Yetkili mahkeme <strong>{{COMPANY_CITY}} İş Mahkemeleri</strong>dir.</p>
 $html$,
-  2,
+  3,
   true,
-  3
+  4
 )
 on conflict (slug) do update set
   title = excluded.title,
+  summary = excluded.summary,
   content_html = excluded.content_html,
   version = excluded.version,
   sort_order = excluded.sort_order,

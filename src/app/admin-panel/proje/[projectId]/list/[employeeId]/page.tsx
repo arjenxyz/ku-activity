@@ -13,6 +13,7 @@ import {
   isConstructionEligibleBirthDate,
   MIN_CONSTRUCTION_AGE,
 } from '@/lib/age-validation';
+import { LegalDossierDownloadButton } from '@/components/admin/LegalDossierDownloadButton';
 import { formatDate, formatFullName, splitFullName } from '@/lib/format';
 
 export default function EditEmployeePage() {
@@ -114,10 +115,20 @@ export default function EditEmployeePage() {
 
   return (
     <div>
-      <ProjectPageHeader
-        title="Personel Düzenle"
-        description={displayName || 'Personel bilgilerini güncelleyin.'}
-      />
+      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+        <div className="mb-6">
+          <ProjectPageHeader
+            title="Personel Düzenle"
+            description={displayName || 'Personel bilgilerini güncelleyin.'}
+          />
+        </div>
+        <LegalDossierDownloadButton
+          projectId={projectId}
+          employeeId={employeeId}
+          employeeName={displayName || 'personel'}
+          variant="primary"
+        />
+      </div>
       {error && <AlertBanner type="error" message={error} />}
       {success && <AlertBanner type="success" message="Personel güncellendi." />}
 

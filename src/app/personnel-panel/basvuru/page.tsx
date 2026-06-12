@@ -5,8 +5,7 @@ import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { FiShield } from 'react-icons/fi';
 import { ContractAcceptanceBlock } from '@/components/contracts/ContractAcceptanceBlock';
-import { ContractOtpVerification } from '@/components/contracts/ContractOtpVerification';
-import type { OtpChannel } from '@/lib/otp-delivery';
+import { ContractEmailVerificationModal } from '@/components/contracts/ContractEmailVerificationModal';
 import { EmployeePhotoPicker } from '@/components/employee/EmployeePhotoPicker';
 import { PersonnelLoginLayout } from '@/components/personnel/PersonnelLoginLayout';
 import { AuthAlert } from '@/components/auth/AuthAlerts';
@@ -89,8 +88,8 @@ export default function PersonnelApplicationPage() {
   const [contractAcceptances, setContractAcceptances] = useState<
     Array<{ contractId: string; version: number }>
   >([]);
-  const [contractOtpToken, setContractOtpToken] = useState('');
-  const [contractOtpChannel, setContractOtpChannel] = useState<OtpChannel>('email');
+  const [verifyModalOpen, setVerifyModalOpen] = useState(false);
+  const [verifyFormData, setVerifyFormData] = useState<FormData | null>(null);
 
   const handleAllContractsAccepted = useCallback(
     (acceptances: Array<{ contractId: string; version: number }>) => {
@@ -102,16 +101,6 @@ export default function PersonnelApplicationPage() {
 
   const handleContractsIncomplete = useCallback(() => {
     setContractsReady(false);
-    setContractOtpToken('');
-  }, []);
-
-  const handleOtpVerified = useCallback((token: string, channel: OtpChannel) => {
-    setContractOtpToken(token);
-    setContractOtpChannel(channel);
-  }, []);
-
-  const handleOtpReset = useCallback(() => {
-    setContractOtpToken('');
   }, []);
 
   const applyStatus = useCallback((payload: StatusPayload | null) => {
@@ -223,7 +212,23 @@ export default function PersonnelApplicationPage() {
     };
   }, [result?.verificationCode, status, refreshStatus]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const buildFormData = (): FormData | null => {
+    if (!photoFile) return null;
+    const body = new FormData();
+    body.append('firstName', form.first_name.trim());
+    body.append('lastName', form.last_name.trim());
+    body.append('email', form.email.trim());
+    if (form.phone) body.append('phone', form.phone);
+    body.append('tcKimlik', form.tc_kimlik);
+    body.append('birthDate', form.birth_date);
+    body.append('iban', form.iban);
+    body.append('pin', form.pin);
+    body.append('contractAcceptances', JSON.stringify(contractAcceptances));
+    body.append('photo', photoFile);
+    return body;
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
 
@@ -235,10 +240,6 @@ export default function PersonnelApplicationPage() {
       setError('Başvuruyu göndermeden önce tüm sözleşmeleri sonuna kadar okuyup onaylayın.');
       return;
     }
-    if (!contractOtpToken) {
-      setError('Başvuruyu göndermeden önce e-posta veya SMS ile doğrulama kodunu onaylayın.');
-      return;
-    }
     if (!form.birth_date || !isConstructionEligibleBirthDate(form.birth_date)) {
       setError(constructionAgeErrorMessage());
       return;
@@ -248,44 +249,28 @@ export default function PersonnelApplicationPage() {
       setError(pinError);
       return;
     }
-
-    setLoading(true);
-    try {
-      const body = new FormData();
-      body.append('firstName', form.first_name.trim());
-      body.append('lastName', form.last_name.trim());
-      body.append('email', form.email.trim());
-      if (form.phone) body.append('phone', form.phone);
-      body.append('tcKimlik', form.tc_kimlik);
-      body.append('birthDate', form.birth_date);
-      body.append('iban', form.iban);
-      body.append('pin', form.pin);
-      body.append('contractAcceptances', JSON.stringify(contractAcceptances));
-      body.append('contractOtpToken', contractOtpToken);
-      body.append('contractOtpChannel', contractOtpChannel);
-      body.append('photo', photoFile);
-
-      const res = await fetch('/api/public/personnel-registration', {
-        method: 'POST',
-        body,
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Başvuru gönderilemedi');
-
-      const pending: PendingRegistration = {
-        verificationCode: data.verificationCode,
-        approvalUrl: data.approvalUrl,
-        reused: data.reused,
-        tcKimlik: form.tc_kimlik,
-      };
-      savePendingRegistration(pending);
-      setResult(pending);
-      setStatus('pending');
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Hata oluştu');
-    } finally {
-      setLoading(false);
+    if (!form.email.trim()) {
+      setError('E-posta adresi zorunludur.');
+      return;
     }
+
+    const data = buildFormData();
+    if (!data) {
+      setError('Form verileri hazırlanamadı.');
+      return;
+    }
+
+    setVerifyFormData(data);
+    setVerifyModalOpen(true);
+  };
+
+  const handleVerificationSuccess = (pending: PendingRegistration) => {
+    setVerifyModalOpen(false);
+    setVerifyFormData(null);
+    savePendingRegistration(pending);
+    setResult(pending);
+    setStatus('pending');
+    setLoading(false);
   };
 
   const startNewApplication = () => {
@@ -416,7 +401,6 @@ export default function PersonnelApplicationPage() {
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(280px,32%)] xl:grid-cols-[minmax(220px,260px)_minmax(0,1fr)_minmax(250px,300px)] xl:gap-5 lg:items-start">
-          {/* Sütun 1 — fotoğraf (xl) */}
           <section className={`${panelClass} lg:col-start-1 lg:row-start-1 xl:col-start-1 xl:row-start-1`}>
             <h2 className={sectionTitleClass}>Profil fotoğrafı</h2>
             <EmployeePhotoPicker
@@ -436,7 +420,6 @@ export default function PersonnelApplicationPage() {
             </div>
           </section>
 
-          {/* Sütun 2 — form */}
           <section className="space-y-4 lg:col-start-1 lg:row-start-2 xl:col-start-2 xl:row-start-1 min-w-0 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/50 p-4 sm:p-5 xl:border-0 xl:bg-transparent xl:p-0 xl:rounded-none">
             <h2 className={sectionTitleClass}>Kişisel bilgiler</h2>
 
@@ -468,6 +451,9 @@ export default function PersonnelApplicationPage() {
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
                   required
                 />
+                <p className="text-xs text-slate-500 mt-1">
+                  Doğrulama kodu bu adrese gönderilir.
+                </p>
               </div>
               <div>
                 <label className={labelClass}>Telefon</label>
@@ -546,7 +532,6 @@ export default function PersonnelApplicationPage() {
             </div>
           </section>
 
-          {/* Sütun 3 — sözleşmeler */}
           <section
             className={`${panelClass} lg:col-start-2 lg:row-start-1 lg:row-span-2 xl:col-start-3 xl:row-start-1 xl:self-start`}
           >
@@ -556,17 +541,11 @@ export default function PersonnelApplicationPage() {
               onAllAccepted={handleAllContractsAccepted}
               onIncomplete={handleContractsIncomplete}
             />
-
             {contractsReady && (
-              <div className="mt-4 pt-4 border-t border-slate-200 dark:border-slate-600">
-                <ContractOtpVerification
-                  email={form.email}
-                  phone={form.phone}
-                  disabled={loading}
-                  onVerified={handleOtpVerified}
-                  onReset={handleOtpReset}
-                />
-              </div>
+              <p className="mt-4 pt-4 border-t border-slate-200 dark:border-slate-600 text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                Sözleşmeler tamam. <strong>Başvuruyu Gönder</strong> dediğinizde e-postanıza
+                doğrulama kodu ve tek tıkla onay bağlantısı gönderilir.
+              </p>
             )}
           </section>
         </div>
@@ -580,13 +559,25 @@ export default function PersonnelApplicationPage() {
           </p>
           <button
             type="submit"
-            disabled={loading || !contractsReady || !contractOtpToken}
+            disabled={loading || !contractsReady}
             className="order-1 sm:order-2 w-full sm:w-auto sm:min-w-[200px] px-8 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-medium disabled:opacity-50"
           >
-            {loading ? 'Gönderiliyor…' : 'Başvuruyu Gönder'}
+            Başvuruyu Gönder
           </button>
         </div>
       </form>
+
+      <ContractEmailVerificationModal
+        open={verifyModalOpen}
+        formData={verifyFormData}
+        onClose={() => {
+          if (!loading) {
+            setVerifyModalOpen(false);
+            setVerifyFormData(null);
+          }
+        }}
+        onSuccess={handleVerificationSuccess}
+      />
     </PersonnelLoginLayout>
   );
 }

@@ -11,6 +11,7 @@ export async function GET() {
           id: c.id,
           slug: c.slug,
           title: c.title,
+          summary: c.summary,
           contentHtml: c.contentHtml,
           version: c.version,
         })),

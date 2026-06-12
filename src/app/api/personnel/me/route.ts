@@ -3,6 +3,27 @@ import { createAdminClient } from '@/utils/supabase/admin';
 import { queryEmployeeById, queryPersonnelProfile } from '@/lib/employee-db';
 import { requirePersonnelSession } from '@/lib/personnel-auth';
 
+async function loadProject(admin: ReturnType<typeof createAdminClient>, projectId: string) {
+  const { data } = await admin
+    .from('projects')
+    .select('id, name, status, description, location, code, work_start_time, work_end_time')
+    .eq('id', projectId)
+    .maybeSingle();
+
+  if (!data) return null;
+
+  return {
+    id: data.id,
+    name: data.name,
+    status: String(data.status),
+    description: data.description ?? null,
+    location: data.location ?? null,
+    code: data.code ?? null,
+    workStartTime: data.work_start_time ?? null,
+    workEndTime: data.work_end_time ?? null,
+  };
+}
+
 export async function GET() {
   try {
     const session = await requirePersonnelSession();
@@ -14,6 +35,7 @@ export async function GET() {
     );
 
     if (!viewError && viewData) {
+      const project = await loadProject(admin, viewData.project_id);
       return NextResponse.json({
         employee: {
           id: viewData.employee_id,
@@ -26,6 +48,7 @@ export async function GET() {
           photo_url: viewData.photo_url ?? null,
           project_id: viewData.project_id,
           project_name: viewData.project_name,
+          project,
         },
       });
     }
@@ -36,17 +59,14 @@ export async function GET() {
       return NextResponse.json({ error: 'Personel bulunamadı' }, { status: 404 });
     }
 
-    const { data: project } = await admin
-      .from('projects')
-      .select('name')
-      .eq('id', data.project_id!)
-      .maybeSingle();
+    const project = data.project_id ? await loadProject(admin, data.project_id) : null;
 
     return NextResponse.json({
       employee: {
         ...data,
         photo_url: data.photo_url ?? null,
         project_name: project?.name,
+        project,
       },
     });
   } catch {

@@ -8,11 +8,18 @@ import { APP_NAME } from '@/lib/brand';
 type PersonnelShellProps = {
   employeeName?: string;
   position?: string;
+  alertCount?: number;
   onLogout: () => void;
   children: React.ReactNode;
 };
 
-export function PersonnelShell({ employeeName, position, onLogout, children }: PersonnelShellProps) {
+export function PersonnelShell({
+  employeeName,
+  position,
+  alertCount = 0,
+  onLogout,
+  children,
+}: PersonnelShellProps) {
   return (
     <div className="min-h-[100dvh] bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-slate-950 dark:via-slate-900 dark:to-blue-950">
       <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
@@ -35,6 +42,14 @@ export function PersonnelShell({ employeeName, position, onLogout, children }: P
           </Link>
 
           <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+            {alertCount > 0 && (
+              <span
+                className="relative inline-flex h-9 w-9 items-center justify-center rounded-xl bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300"
+                title={`${alertCount} bekleyen işlem`}
+              >
+                <span className="text-sm font-bold">{alertCount > 9 ? '9+' : alertCount}</span>
+              </span>
+            )}
             {employeeName && (
               <div className="hidden sm:block text-right">
                 <p className="text-sm font-semibold text-gray-900 dark:text-white">{employeeName}</p>

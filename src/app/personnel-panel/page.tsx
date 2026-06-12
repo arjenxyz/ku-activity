@@ -18,6 +18,10 @@ import {
 } from 'react-icons/fi';
 import { EmployeeAvatar } from '@/components/employee/EmployeeAvatar';
 import { PersonnelCalendar } from '@/components/personnel/PersonnelCalendar';
+import { PersonnelAlertBar } from '@/components/personnel/PersonnelAlertBar';
+import { PersonnelMesaiSummary } from '@/components/personnel/PersonnelMesaiSummary';
+import { PersonnelPendingApprovals } from '@/components/personnel/PersonnelPendingApprovals';
+import { PersonnelProjectCard } from '@/components/personnel/PersonnelProjectCard';
 import { PersonnelTodayAttendance } from '@/components/personnel/PersonnelTodayAttendance';
 import { PersonnelMonthFilter } from '@/components/personnel/PersonnelMonthFilter';
 import { PersonnelContractsSection } from '@/components/personnel/PersonnelContractsSection';
@@ -32,7 +36,11 @@ import {
 } from '@/components/personnel/PersonnelRecordCard';
 import { usePersonnelDashboard } from '@/hooks/usePersonnelDashboard';
 import { formatDate, formatMoney } from '@/lib/format';
-import { getWorkLogApprovalStatus, approvalStatusLabel } from '@/lib/work-log';
+import {
+  formatWorkLogSummary,
+  getWorkLogApprovalStatus,
+  approvalStatusLabel,
+} from '@/lib/work-log';
 import {
   buildMonthCalendar,
   currentMonth,
@@ -70,8 +78,16 @@ export default function PersonelPanel() {
   const router = useRouter();
   const [month, setMonth] = useState(currentMonth);
   const [activeTab, setActiveTab] = useState('overview');
-  const { employee, workLogs, deductions, minimumWages, stats, loading, error } =
+  const { employee, workLogs, deductions, minimumWages, stats, loading, error, reload } =
     usePersonnelDashboard(month);
+
+  const pendingEmployeeCount = workLogs.filter(
+    (log) => getWorkLogApprovalStatus(log) === 'pending_employee'
+  ).length;
+  const pendingAdminCount = workLogs.filter(
+    (log) => getWorkLogApprovalStatus(log) === 'pending_admin'
+  ).length;
+  const alertCount = pendingEmployeeCount + (pendingAdminCount > 0 ? 1 : 0);
 
   const handleLogout = async () => {
     await fetch('/api/auth/personnel/logout', { method: 'POST' });
@@ -128,6 +144,12 @@ export default function PersonelPanel() {
     window.print();
   };
 
+  const tabsWithBadges = TABS.map((tab) => ({
+    ...tab,
+    badge:
+      tab.id === 'work' && pendingEmployeeCount > 0 ? pendingEmployeeCount : undefined,
+  }));
+
   const renderContent = () => {
     if (loading) {
       return (
@@ -166,7 +188,10 @@ export default function PersonelPanel() {
                     {approvalBadge(r)}
                   </div>
                 }
-                sub={r.description || undefined}
+                sub={
+                  r.description ||
+                  formatWorkLogSummary(Number(r.amount), r.mesai_type ?? null)
+                }
               />
             ))}
           </div>
@@ -349,7 +374,20 @@ export default function PersonelPanel() {
 
     return (
       <div className="space-y-4 sm:space-y-6">
+        <PersonnelAlertBar
+          pendingApprovals={pendingEmployeeCount}
+          pendingAdminDays={pendingAdminCount}
+          onGoToWork={() => setActiveTab('work')}
+        />
+
+        <PersonnelPendingApprovals workLogs={workLogs} onConfirmed={() => void reload()} />
+
         <PersonnelTodayAttendance />
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <PersonnelProjectCard project={employee?.project} />
+          <PersonnelMesaiSummary workLogs={workLogs} />
+        </div>
 
         {employee && (
           <div className="bg-white dark:bg-slate-800 rounded-2xl border border-gray-100 dark:border-slate-700 shadow-sm p-4 sm:p-6">
@@ -366,6 +404,9 @@ export default function PersonelPanel() {
                     {employee.project_name}
                   </p>
                 )}
+                <p className="text-sm font-medium text-emerald-600 dark:text-emerald-400 mt-1">
+                  Günlük yevmiye: {formatMoney(Number(employee.daily_wage))}
+                </p>
                 {employee.hire_date && (
                   <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">
                     İşe giriş: {formatDate(employee.hire_date)}
@@ -425,6 +466,7 @@ export default function PersonelPanel() {
     <PersonnelShell
       employeeName={employee?.name}
       position={employee?.position}
+      alertCount={alertCount}
       onLogout={handleLogout}
     >
       <div className="mb-6">
@@ -432,12 +474,12 @@ export default function PersonelPanel() {
           Hoş geldiniz{employee ? `, ${employee.name.split(' ')[0]}` : ''}
         </h1>
         <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-          Yevmiye, avans ve maaş özetinizi buradan takip edebilirsiniz.
+          Puantaj onayları, proje bilgisi ve maaş özetiniz tek panelde.
         </p>
       </div>
 
       <PersonnelMonthFilter month={month} onChange={setMonth} />
-      <PersonnelTabNav tabs={TABS} active={activeTab} onChange={setActiveTab} />
+      <PersonnelTabNav tabs={tabsWithBadges} active={activeTab} onChange={setActiveTab} />
       {renderContent()}
     </PersonnelShell>
   );

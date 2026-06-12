@@ -1,9 +1,12 @@
 import { createAdminClient } from '@/utils/supabase/admin';
+import { applyContractPlaceholders, hashContractContent } from '@/lib/contract-templates';
 import { formatFullName } from '@/lib/format';
+
 export type PersonnelContract = {
   id: string;
   slug: string;
   title: string;
+  summary: string | null;
   contentHtml: string;
   version: number;
   isRequired: boolean;
@@ -24,16 +27,19 @@ function mapContract(row: {
   id: string;
   slug: string;
   title: string;
+  summary?: string | null;
   content_html: string;
   version: number;
   is_required: boolean;
   sort_order: number;
 }): PersonnelContract {
+  const contentHtml = applyContractPlaceholders(row.content_html);
   return {
     id: row.id,
     slug: row.slug,
     title: row.title,
-    contentHtml: row.content_html,
+    summary: row.summary ?? null,
+    contentHtml,
     version: row.version,
     isRequired: row.is_required,
     sortOrder: row.sort_order,
@@ -44,7 +50,7 @@ export async function listActiveContracts(): Promise<PersonnelContract[]> {
   const admin = createAdminClient();
   const { data, error } = await admin
     .from('personnel_contracts')
-    .select('id, slug, title, content_html, version, is_required, sort_order')
+    .select('id, slug, title, summary, content_html, version, is_required, sort_order')
     .eq('is_active', true)
     .order('sort_order', { ascending: true });
 
@@ -60,12 +66,14 @@ export async function getContractByAccessToken(token: string) {
       `
       id,
       contract_version,
+      content_hash,
       email,
       full_name,
       accepted_at,
       personnel_contracts (
         slug,
         title,
+        summary,
         content_html,
         version
       )
@@ -75,17 +83,38 @@ export async function getContractByAccessToken(token: string) {
     .maybeSingle();
 
   const contract = unwrapJoin(
-    (acceptance as { personnel_contracts?: { slug: string; title: string; content_html: string; version: number } | { slug: string; title: string; content_html: string; version: number }[] } | null)
-      ?.personnel_contracts
+    (
+      acceptance as {
+        personnel_contracts?:
+          | {
+              slug: string;
+              title: string;
+              summary?: string | null;
+              content_html: string;
+              version: number;
+            }
+          | {
+              slug: string;
+              title: string;
+              summary?: string | null;
+              content_html: string;
+              version: number;
+            }[];
+      } | null
+    )?.personnel_contracts
   );
 
   if (error || !acceptance || !contract) return null;
 
+  const contentHtml = applyContractPlaceholders(contract.content_html);
+
   return {
     slug: contract.slug,
     title: contract.title,
-    contentHtml: contract.content_html,
+    summary: contract.summary ?? null,
+    contentHtml,
     version: acceptance.contract_version,
+    contentHash: (acceptance as { content_hash?: string | null }).content_hash ?? null,
     acceptedAt: acceptance.accepted_at,
     fullName: acceptance.full_name,
     email: acceptance.email,
@@ -126,15 +155,19 @@ export async function recordContractAcceptances(params: {
 
   const fullName = formatFullName(params.firstName, params.lastName);
   const now = new Date().toISOString();
-  const rows = params.acceptances.map((item) => ({
-    contract_id: item.contractId,
-    contract_version: item.version,
-    registration_request_id: params.registrationRequestId,
-    email: params.email.trim().toLowerCase(),
-    full_name: fullName,
-    scroll_completed_at: now,
-    user_agent: params.userAgent?.slice(0, 500) ?? null,
-  }));
+  const rows = params.acceptances.map((item) => {
+    const contract = contractById.get(item.contractId)!;
+    return {
+      contract_id: item.contractId,
+      contract_version: item.version,
+      content_hash: hashContractContent(contract.slug, contract.version, contract.contentHtml),
+      registration_request_id: params.registrationRequestId,
+      email: params.email.trim().toLowerCase(),
+      full_name: fullName,
+      scroll_completed_at: now,
+      user_agent: params.userAgent?.slice(0, 500) ?? null,
+    };
+  });
 
   await admin
     .from('personnel_contract_acceptances')
@@ -165,8 +198,9 @@ export async function listEmployeeContracts(employeeId: string) {
       `
       access_token,
       contract_version,
+      content_hash,
       accepted_at,
-      personnel_contracts (slug, title, content_html, version)
+      personnel_contracts (slug, title, summary, content_html, version)
     `
     )
     .eq('employee_id', employeeId)
@@ -175,15 +209,23 @@ export async function listEmployeeContracts(employeeId: string) {
   if (error) throw new Error(error.message);
 
   return (data ?? []).flatMap((row) => {
-    const contract = unwrapJoin(row.personnel_contracts as { slug: string; title: string; content_html: string; version: number } | { slug: string; title: string; content_html: string; version: number }[]);
+    const contract = unwrapJoin(
+      row.personnel_contracts as
+        | { slug: string; title: string; summary?: string | null; content_html: string; version: number }
+        | { slug: string; title: string; summary?: string | null; content_html: string; version: number }[]
+    );
     if (!contract) return [];
-    return [{
-      slug: contract.slug,
-      title: contract.title,
-      contentHtml: contract.content_html,
-      version: row.contract_version,
-      acceptedAt: row.accepted_at,
-      accessToken: row.access_token,
-    }];
+    return [
+      {
+        slug: contract.slug,
+        title: contract.title,
+        summary: contract.summary ?? null,
+        contentHtml: applyContractPlaceholders(contract.content_html),
+        version: row.contract_version,
+        contentHash: (row as { content_hash?: string | null }).content_hash ?? null,
+        acceptedAt: row.accepted_at,
+        accessToken: row.access_token,
+      },
+    ];
   });
 }

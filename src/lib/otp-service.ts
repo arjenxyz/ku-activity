@@ -1,17 +1,35 @@
 import bcrypt from 'bcryptjs';
 import { createAdminClient } from '@/utils/supabase/admin';
+import { isEmailOtpConfigured, maskEmail, sendOtpEmail } from '@/lib/otp-delivery';
+import type { ContractAcceptanceInput } from '@/lib/contract-service';
+import { uploadOtpDraftPhoto } from '@/lib/registration-photo';
 import {
-  deliverOtp,
-  isEmailOtpConfigured,
-  isSmsOtpConfigured,
-  type OtpChannel,
-} from '@/lib/otp-delivery';
+  submitRegistrationFromOtpDraft,
+  type OtpRegistrationDraft,
+  type OtpSubmissionResult,
+} from '@/lib/otp-registration';
 
 export const OTP_LENGTH = 6;
 export const OTP_TTL_MINUTES = 10;
 export const OTP_TOKEN_TTL_MINUTES = 30;
 export const DAILY_OTP_SEND_LIMIT = 20;
 export const MAX_VERIFY_ATTEMPTS = 5;
+
+type ChallengeRow = {
+  id: string;
+  email: string;
+  code_hash: string;
+  attempts: number;
+  expires_at: string;
+  verified_at: string | null;
+  verification_token: string | null;
+  consumed_at: string | null;
+  submitted_at: string | null;
+  link_token: string | null;
+  draft_json: OtpRegistrationDraft | null;
+  draft_photo_path: string | null;
+  draft_contract_acceptances: ContractAcceptanceInput[] | null;
+};
 
 function normalizeEmail(email: string): string {
   return email.trim().toLowerCase();
@@ -40,35 +58,36 @@ async function countDailySends(): Promise<number> {
   return count ?? 0;
 }
 
-async function countRecentSendsForDestination(email: string, channel: OtpChannel): Promise<number> {
+async function countRecentSendsForDestination(email: string): Promise<number> {
   const admin = createAdminClient();
   const since = new Date(Date.now() - 60 * 60 * 1000).toISOString();
   const { count, error } = await admin
     .from('contract_otp_challenges')
     .select('id', { count: 'exact', head: true })
     .eq('email', email)
-    .eq('channel', channel)
+    .eq('channel', 'email')
     .gte('created_at', since);
 
   if (error) throw new Error('OTP sıklık kontrolü başarısız');
   return count ?? 0;
 }
 
-export async function sendContractOtp(params: {
-  channel: OtpChannel;
-  email: string;
-  phone?: string | null;
+export async function prepareContractOtpRegistration(params: {
+  draft: OtpRegistrationDraft;
+  photo: File;
+  userAgent?: string | null;
 }): Promise<{ maskedDestination: string; expiresInMinutes: number }> {
-  const email = normalizeEmail(params.email);
+  const email = normalizeEmail(params.draft.email);
   if (!email.includes('@')) {
     throw new Error('Geçerli bir e-posta adresi girin');
   }
 
-  if (params.channel === 'email' && !isEmailOtpConfigured() && process.env.NODE_ENV !== 'development') {
+  if (!isEmailOtpConfigured() && process.env.NODE_ENV !== 'development') {
     throw new Error('E-posta doğrulama servisi yapılandırılmamış');
   }
-  if (params.channel === 'sms' && !isSmsOtpConfigured()) {
-    throw new Error('SMS doğrulama servisi yapılandırılmamış. E-posta ile deneyin.');
+
+  if (!params.draft.contractAcceptances?.length) {
+    throw new Error('Sözleşme onayları eksik');
   }
 
   const daily = await countDailySends();
@@ -78,43 +97,101 @@ export async function sendContractOtp(params: {
     );
   }
 
-  const hourly = await countRecentSendsForDestination(email, params.channel);
+  const hourly = await countRecentSendsForDestination(email);
   if (hourly >= 3) {
     throw new Error('Çok sık kod istendi. Lütfen bir saat sonra tekrar deneyin.');
   }
 
   const code = generateCode();
   const codeHash = await bcrypt.hash(code, 10);
+  const linkToken = generateToken();
+  const challengeId = crypto.randomUUID();
   const expiresAt = new Date(Date.now() + OTP_TTL_MINUTES * 60 * 1000).toISOString();
+
+  const draftPhotoPath = await uploadOtpDraftPhoto(challengeId, params.photo);
 
   const admin = createAdminClient();
   const { error: insertError } = await admin.from('contract_otp_challenges').insert({
-    channel: params.channel,
+    id: challengeId,
+    channel: 'email',
     email,
-    phone: params.phone?.trim() || null,
+    phone: params.draft.phone?.trim() || null,
     code_hash: codeHash,
     expires_at: expiresAt,
+    link_token: linkToken,
+    draft_json: {
+      firstName: params.draft.firstName,
+      lastName: params.draft.lastName,
+      email: params.draft.email,
+      phone: params.draft.phone,
+      tcKimlik: params.draft.tcKimlik,
+      birthDate: params.draft.birthDate,
+      iban: params.draft.iban,
+      pin: params.draft.pin,
+      contractAcceptances: params.draft.contractAcceptances,
+    },
+    draft_photo_path: draftPhotoPath,
+    draft_contract_acceptances: params.draft.contractAcceptances,
   });
 
   if (insertError) {
     throw new Error('Doğrulama kodu oluşturulamadı');
   }
 
-  const { maskedDestination } = await deliverOtp({
-    channel: params.channel,
-    email,
-    phone: params.phone,
-    code,
-  });
+  await sendOtpEmail(email, code, linkToken, OTP_TTL_MINUTES);
 
-  return { maskedDestination, expiresInMinutes: OTP_TTL_MINUTES };
+  return { maskedDestination: maskEmail(email), expiresInMinutes: OTP_TTL_MINUTES };
 }
 
-export async function verifyContractOtp(params: {
-  channel: OtpChannel;
+async function loadActiveChallenge(
+  admin: ReturnType<typeof createAdminClient>,
+  email: string
+): Promise<ChallengeRow | null> {
+  const { data, error } = await admin
+    .from('contract_otp_challenges')
+    .select(
+      'id, email, code_hash, attempts, expires_at, verified_at, verification_token, consumed_at, submitted_at, link_token, draft_json, draft_photo_path, draft_contract_acceptances'
+    )
+    .eq('email', email)
+    .eq('channel', 'email')
+    .is('consumed_at', null)
+    .is('submitted_at', null)
+    .order('created_at', { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  if (error || !data) return null;
+  return data as ChallengeRow;
+}
+
+async function submitIfDraftReady(
+  row: ChallengeRow,
+  userAgent?: string | null
+): Promise<OtpSubmissionResult | null> {
+  if (!row.draft_json) return null;
+  if (row.submitted_at) {
+    throw new Error('Bu başvuru zaten gönderildi');
+  }
+
+  const draft: OtpRegistrationDraft = {
+    ...row.draft_json,
+    contractAcceptances:
+      row.draft_contract_acceptances ?? row.draft_json.contractAcceptances ?? [],
+  };
+
+  return submitRegistrationFromOtpDraft({
+    challengeId: row.id,
+    draft,
+    draftPhotoPath: row.draft_photo_path,
+    userAgent,
+  });
+}
+
+export async function verifyContractOtpAndSubmit(params: {
   email: string;
   code: string;
-}): Promise<{ verificationToken: string; expiresInMinutes: number }> {
+  userAgent?: string | null;
+}): Promise<OtpSubmissionResult> {
   const email = normalizeEmail(params.email);
   const code = params.code.trim();
   if (!/^\d{6}$/.test(code)) {
@@ -122,25 +199,14 @@ export async function verifyContractOtp(params: {
   }
 
   const admin = createAdminClient();
-  const { data: row, error } = await admin
-    .from('contract_otp_challenges')
-    .select('id, code_hash, attempts, expires_at, verified_at, verification_token')
-    .eq('email', email)
-    .eq('channel', params.channel)
-    .is('consumed_at', null)
-    .order('created_at', { ascending: false })
-    .limit(1)
-    .maybeSingle();
+  const row = await loadActiveChallenge(admin, email);
 
-  if (error || !row) {
+  if (!row) {
     throw new Error('Geçerli bir doğrulama isteği bulunamadı. Önce kod gönderin.');
   }
 
-  if (row.verified_at && row.verification_token) {
-    return {
-      verificationToken: row.verification_token,
-      expiresInMinutes: OTP_TOKEN_TTL_MINUTES,
-    };
+  if (row.submitted_at) {
+    throw new Error('Bu başvuru zaten gönderildi');
   }
 
   if (new Date(row.expires_at).getTime() < Date.now()) {
@@ -163,7 +229,7 @@ export async function verifyContractOtp(params: {
   const verificationToken = generateToken();
   const verifiedExpires = new Date(Date.now() + OTP_TOKEN_TTL_MINUTES * 60 * 1000).toISOString();
 
-  const { error: updateError } = await admin
+  await admin
     .from('contract_otp_challenges')
     .update({
       verified_at: new Date().toISOString(),
@@ -172,13 +238,68 @@ export async function verifyContractOtp(params: {
     })
     .eq('id', row.id);
 
-  if (updateError) {
-    throw new Error('Doğrulama tamamlanamadı');
+  const result = await submitIfDraftReady(row, params.userAgent);
+  if (!result) {
+    throw new Error('Başvuru taslağı bulunamadı. Lütfen yeniden başvurun.');
   }
 
-  return { verificationToken, expiresInMinutes: OTP_TOKEN_TTL_MINUTES };
+  return result;
 }
 
+export async function confirmContractOtpLink(params: {
+  linkToken: string;
+  userAgent?: string | null;
+}): Promise<OtpSubmissionResult> {
+  const token = params.linkToken.trim();
+  if (!token) {
+    throw new Error('Geçersiz doğrulama bağlantısı');
+  }
+
+  const admin = createAdminClient();
+  const { data: row, error } = await admin
+    .from('contract_otp_challenges')
+    .select(
+      'id, email, code_hash, attempts, expires_at, verified_at, verification_token, consumed_at, submitted_at, link_token, draft_json, draft_photo_path, draft_contract_acceptances'
+    )
+    .eq('link_token', token)
+    .maybeSingle();
+
+  if (error || !row) {
+    throw new Error('Doğrulama bağlantısı geçersiz veya süresi dolmuş');
+  }
+
+  const challenge = row as ChallengeRow;
+
+  if (challenge.consumed_at || challenge.submitted_at) {
+    throw new Error('Bu bağlantı zaten kullanıldı');
+  }
+
+  if (new Date(challenge.expires_at).getTime() < Date.now()) {
+    throw new Error('Doğrulama bağlantısının süresi doldu. Yeni kod isteyin.');
+  }
+
+  if (!challenge.verified_at) {
+    const verificationToken = generateToken();
+    const verifiedExpires = new Date(Date.now() + OTP_TOKEN_TTL_MINUTES * 60 * 1000).toISOString();
+    await admin
+      .from('contract_otp_challenges')
+      .update({
+        verified_at: new Date().toISOString(),
+        verification_token: verificationToken,
+        expires_at: verifiedExpires,
+      })
+      .eq('id', challenge.id);
+  }
+
+  const result = await submitIfDraftReady(challenge, params.userAgent);
+  if (!result) {
+    throw new Error('Başvuru taslağı bulunamadı');
+  }
+
+  return result;
+}
+
+/** @deprecated Eski akış — artık prepare + verify kullanılıyor */
 export async function consumeContractOtpToken(params: {
   verificationToken: string;
   email: string;

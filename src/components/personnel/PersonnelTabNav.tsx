@@ -6,6 +6,7 @@ export type TabItem = {
   id: string;
   label: string;
   icon: ReactNode;
+  badge?: number;
 };
 
 export function PersonnelTabNav({
@@ -35,6 +36,11 @@ export function PersonnelTabNav({
             >
               {tab.icon}
               {tab.label}
+              {tab.badge != null && tab.badge > 0 && (
+                <span className="ml-0.5 min-w-[1.25rem] h-5 px-1.5 inline-flex items-center justify-center rounded-full bg-red-500 text-white text-[10px] font-bold">
+                  {tab.badge > 9 ? '9+' : tab.badge}
+                </span>
+              )}
             </button>
           );
         })}

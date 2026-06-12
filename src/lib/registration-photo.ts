@@ -14,6 +14,72 @@ export function registrationPhotoPath(requestId: string, ext = 'jpg') {
   return `registrations/${requestId}.${ext}`;
 }
 
+export function otpDraftPhotoPath(challengeId: string, ext = 'jpg') {
+  return `registrations/otp-drafts/${challengeId}.${ext}`;
+}
+
+export async function uploadOtpDraftPhoto(challengeId: string, file: File) {
+  if (!ALLOWED.has(file.type)) {
+    throw new Error('JPEG, PNG veya WebP yükleyin');
+  }
+  if (file.size > MAX_BYTES) {
+    throw new Error('Fotoğraf en fazla 5 MB olabilir');
+  }
+
+  const ext = extForMime(file.type);
+  const path = otpDraftPhotoPath(challengeId, ext);
+  const buffer = Buffer.from(await file.arrayBuffer());
+  const admin = createAdminClient();
+
+  const { error } = await admin.storage.from(BUCKET).upload(path, buffer, {
+    contentType: file.type,
+    upsert: true,
+    cacheControl: '3600',
+  });
+
+  if (error) {
+    throw new Error(
+      error.message.includes('Bucket') ? '012 veya 013 migration çalıştırın' : 'Fotoğraf yüklenemedi'
+    );
+  }
+
+  return path;
+}
+
+export async function moveDraftPhotoToRegistration(draftPath: string, requestId: string) {
+  const admin = createAdminClient();
+  const { data: blob, error: dlError } = await admin.storage.from(BUCKET).download(draftPath);
+
+  if (dlError || !blob) {
+    throw new Error('Başvuru fotoğrafı bulunamadı. Lütfen yeniden başvurun.');
+  }
+
+  const ext = draftPath.split('.').pop() || 'jpg';
+  const finalPath = registrationPhotoPath(requestId, ext);
+  const buffer = Buffer.from(await blob.arrayBuffer());
+  const contentType =
+    ext === 'png' ? 'image/png' : ext === 'webp' ? 'image/webp' : 'image/jpeg';
+
+  const { error: upError } = await admin.storage.from(BUCKET).upload(finalPath, buffer, {
+    contentType,
+    upsert: true,
+    cacheControl: '3600',
+  });
+
+  if (upError) {
+    throw new Error('Fotoğraf kaydedilemedi');
+  }
+
+  await admin.storage.from(BUCKET).remove([draftPath]);
+
+  await admin
+    .from('employee_registration_requests')
+    .update({ photo_path: finalPath })
+    .eq('id', requestId);
+
+  return finalPath;
+}
+
 export function publicPhotoUrl(path: string) {
   const admin = createAdminClient();
   return admin.storage.from(BUCKET).getPublicUrl(path).data.publicUrl;

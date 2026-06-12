@@ -128,3 +128,23 @@ a {
 .contract-meta p {
   margin-bottom: 0.35rem;
 }
+
+.contract-parties {
+  margin-bottom: 1rem;
+  padding: 0.85rem 1rem;
+  border-radius: 0.75rem;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  font-size: 0.8rem;
+  color: #1e3a5f;
+}
+
+.contract-parties p {
+  margin-bottom: 0.35rem;
+}
+
+.dark .contract-parties {
+  background: rgba(30, 58, 138, 0.2);
+  border-color: rgba(59, 130, 246, 0.35);
+  color: #bfdbfe;
+}

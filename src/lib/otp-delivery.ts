@@ -1,8 +1,9 @@
-/** OTP gönderimi — Brevo (e-posta, ücretsiz 300/gün) + isteğe bağlı Twilio SMS */
+/** OTP gönderimi — Brevo e-posta */
 
-export type OtpChannel = 'email' | 'sms';
+import { APP_NAME } from '@/lib/brand';
+import { buildContractOtpConfirmUrl } from '@/lib/app-url';
 
-const OTP_SUBJECT = 'Sözleşme onay doğrulama kodu';
+const OTP_SUBJECT = `${APP_NAME} — Başvuru doğrulama kodu`;
 
 export function maskEmail(email: string): string {
   const [local, domain] = email.split('@');
@@ -11,29 +12,73 @@ export function maskEmail(email: string): string {
   return `${head}***@${domain}`;
 }
 
-export function maskPhone(phone: string): string {
-  const digits = phone.replace(/\D/g, '');
-  if (digits.length < 4) return '***';
-  return `***${digits.slice(-4)}`;
+function buildOtpEmailHtml(code: string, linkToken: string, expiresMinutes: number): string {
+  const confirmUrl = buildContractOtpConfirmUrl(linkToken);
+  return `<!DOCTYPE html>
+<html lang="tr">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#f1f5f9;font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;">
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#f1f5f9;padding:32px 16px;">
+    <tr><td align="center">
+      <table role="presentation" width="100%" style="max-width:480px;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(15,23,42,0.08);">
+        <tr><td style="background:linear-gradient(135deg,#2563eb,#4f46e5);padding:28px 32px;text-align:center;">
+          <p style="margin:0;font-size:22px;font-weight:700;color:#ffffff;letter-spacing:-0.02em;">${APP_NAME}</p>
+          <p style="margin:8px 0 0;font-size:13px;color:rgba(255,255,255,0.85);">Personel başvuru doğrulaması</p>
+        </td></tr>
+        <tr><td style="padding:32px;">
+          <p style="margin:0 0 8px;font-size:15px;color:#334155;line-height:1.5;">Başvurunuzu tamamlamak için doğrulama kodunuz:</p>
+          <div style="margin:20px 0;padding:20px;background:#f8fafc;border:2px dashed #cbd5e1;border-radius:12px;text-align:center;">
+            <p style="margin:0;font-size:36px;font-weight:800;letter-spacing:10px;color:#0f172a;font-family:ui-monospace,monospace;">${code}</p>
+          </div>
+          <p style="margin:0 0 20px;font-size:13px;color:#64748b;text-align:center;">Kodu kopyalayıp başvuru ekranına yapıştırabilirsiniz.</p>
+          <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+            <tr><td align="center" style="padding:8px 0 24px;">
+              <a href="${confirmUrl}" style="display:inline-block;padding:14px 28px;background:#2563eb;color:#ffffff;text-decoration:none;font-size:15px;font-weight:600;border-radius:12px;">Başvurumu doğrula ve gönder</a>
+            </td></tr>
+          </table>
+          <p style="margin:0;font-size:12px;color:#94a3b8;line-height:1.6;text-align:center;">
+            Bu kod ve bağlantı <strong>${expiresMinutes} dakika</strong> geçerlidir.<br>
+            İşlemi siz yapmadıysanız bu e-postayı yok sayın.
+          </p>
+        </td></tr>
+        <tr><td style="padding:16px 32px;background:#f8fafc;border-top:1px solid #e2e8f0;">
+          <p style="margin:0;font-size:11px;color:#94a3b8;text-align:center;">${APP_NAME} · İnşaat personel yönetimi</p>
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`;
 }
 
-export function formatTurkeyE164(phone: string): string | null {
-  const digits = phone.replace(/\D/g, '');
-  if (digits.length === 10 && digits.startsWith('5')) return `+90${digits}`;
-  if (digits.length === 11 && digits.startsWith('0')) return `+90${digits.slice(1)}`;
-  if (digits.length === 12 && digits.startsWith('90')) return `+${digits}`;
-  if (phone.startsWith('+90') && digits.length === 12) return `+${digits}`;
-  return null;
+function buildOtpEmailText(code: string, linkToken: string, expiresMinutes: number): string {
+  const confirmUrl = buildContractOtpConfirmUrl(linkToken);
+  return [
+    `${APP_NAME} — Başvuru doğrulama`,
+    '',
+    `Doğrulama kodunuz: ${code}`,
+    '',
+    `Tek tıkla onay ve gönderim: ${confirmUrl}`,
+    '',
+    `Bu kod ${expiresMinutes} dakika geçerlidir.`,
+    'Bu işlemi siz yapmadıysanız bu e-postayı yok sayın.',
+  ].join('\n');
 }
 
-export async function sendOtpEmail(email: string, code: string): Promise<void> {
+export async function sendOtpEmail(
+  email: string,
+  code: string,
+  linkToken: string,
+  expiresMinutes: number
+): Promise<void> {
   const apiKey = process.env.BREVO_API_KEY;
   const senderEmail = process.env.BREVO_SENDER_EMAIL;
-  const senderName = process.env.BREVO_SENDER_NAME ?? 'CrewLedger';
+  const senderName = process.env.BREVO_SENDER_NAME ?? APP_NAME;
 
   if (!apiKey || !senderEmail) {
     if (process.env.NODE_ENV === 'development') {
       console.info(`[otp-dev] E-posta OTP ${email}: ${code}`);
+      console.info(`[otp-dev] Link: ${buildContractOtpConfirmUrl(linkToken)}`);
       return;
     }
     throw new Error('E-posta doğrulama yapılandırılmamış (BREVO_API_KEY, BREVO_SENDER_EMAIL)');
@@ -50,84 +95,19 @@ export async function sendOtpEmail(email: string, code: string): Promise<void> {
       sender: { name: senderName, email: senderEmail },
       to: [{ email: email.trim().toLowerCase() }],
       subject: OTP_SUBJECT,
-      textContent: [
-        `Doğrulama kodunuz: ${code}`,
-        '',
-        'Bu kod 10 dakika geçerlidir.',
-        'Başvuru sırasında sözleşme onayınızı doğrulamak için kullanılır.',
-        'Bu işlemi siz yapmadıysanız bu e-postayı yok sayın.',
-      ].join('\n'),
+      htmlContent: buildOtpEmailHtml(code, linkToken, expiresMinutes),
+      textContent: buildOtpEmailText(code, linkToken, expiresMinutes),
     }),
   });
 
   if (!res.ok) {
     const detail = await res.text().catch(() => '');
-    throw new Error(`E-posta gönderilemedi (${res.status})${detail ? `: ${detail.slice(0, 120)}` : ''}`);
-  }
-}
-
-export async function sendOtpSms(phoneE164: string, code: string): Promise<void> {
-  const accountSid = process.env.TWILIO_ACCOUNT_SID;
-  const authToken = process.env.TWILIO_AUTH_TOKEN;
-  const from = process.env.TWILIO_SMS_FROM;
-
-  if (!accountSid || !authToken || !from) {
     throw new Error(
-      'SMS doğrulama yapılandırılmamış. E-posta ile doğrulamayı seçin veya TWILIO_* ortam değişkenlerini tanımlayın.'
+      `E-posta gönderilemedi (${res.status})${detail ? `: ${detail.slice(0, 120)}` : ''}`
     );
   }
-
-  const body = new URLSearchParams({
-    To: phoneE164,
-    From: from,
-    Body: `CrewLedger contract verification code: ${code} (valid 10 min)`,
-  });
-
-  const res = await fetch(
-    `https://api.twilio.com/2010-04-01/Accounts/${accountSid}/Messages.json`,
-    {
-      method: 'POST',
-      headers: {
-        Authorization: `Basic ${Buffer.from(`${accountSid}:${authToken}`).toString('base64')}`,
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: body.toString(),
-    }
-  );
-
-  if (!res.ok) {
-    const detail = await res.text().catch(() => '');
-    throw new Error(`SMS gönderilemedi${detail ? `: ${detail.slice(0, 160)}` : ''}`);
-  }
-}
-
-export async function deliverOtp(params: {
-  channel: OtpChannel;
-  email: string;
-  phone?: string | null;
-  code: string;
-}): Promise<{ maskedDestination: string }> {
-  if (params.channel === 'email') {
-    await sendOtpEmail(params.email, params.code);
-    return { maskedDestination: maskEmail(params.email) };
-  }
-
-  const e164 = formatTurkeyE164(params.phone ?? '');
-  if (!e164) {
-    throw new Error('Geçerli bir cep telefonu numarası girin (5xx xxx xx xx)');
-  }
-  await sendOtpSms(e164, params.code);
-  return { maskedDestination: maskPhone(e164) };
 }
 
 export function isEmailOtpConfigured(): boolean {
   return Boolean(process.env.BREVO_API_KEY && process.env.BREVO_SENDER_EMAIL);
-}
-
-export function isSmsOtpConfigured(): boolean {
-  return Boolean(
-    process.env.TWILIO_ACCOUNT_SID &&
-      process.env.TWILIO_AUTH_TOKEN &&
-      process.env.TWILIO_SMS_FROM
-  );
 }
