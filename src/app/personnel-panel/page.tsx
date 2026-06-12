@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import {
+  FiBookOpen,
   FiBriefcase,
   FiCalendar,
   FiCheckCircle,
@@ -26,6 +27,7 @@ import { PersonnelTodayAttendance } from '@/components/personnel/PersonnelTodayA
 import { PersonnelMonthFilter } from '@/components/personnel/PersonnelMonthFilter';
 import { PersonnelContractsSection } from '@/components/personnel/PersonnelContractsSection';
 import { PersonnelPasswordForm } from '@/components/personnel/PersonnelPasswordForm';
+import { PersonnelRightsPanel } from '@/components/personnel/PersonnelRightsPanel';
 import { PersonnelShell } from '@/components/personnel/PersonnelShell';
 import { PersonnelStatGrid } from '@/components/personnel/PersonnelStatGrid';
 import { PersonnelTabNav } from '@/components/personnel/PersonnelTabNav';
@@ -57,6 +59,7 @@ const TABS = [
   { id: 'minimum', label: 'Asgari', icon: <FiShield className="w-4 h-4" /> },
   { id: 'calendar', label: 'Takvim', icon: <FiCalendar className="w-4 h-4" /> },
   { id: 'salary', label: 'Maaş', icon: <FiDollarSign className="w-4 h-4" /> },
+  { id: 'rights', label: 'Haklarım', icon: <FiBookOpen className="w-4 h-4" /> },
   { id: 'settings', label: 'Ayarlar', icon: <FiSettings className="w-4 h-4" /> },
 ];
 
@@ -272,6 +275,10 @@ export default function PersonelPanel() {
 
     if (activeTab === 'calendar') {
       return <PersonnelCalendar days={calendarDays} />;
+    }
+
+    if (activeTab === 'rights') {
+      return <PersonnelRightsPanel workLogs={workLogs} />;
     }
 
     if (activeTab === 'settings') {

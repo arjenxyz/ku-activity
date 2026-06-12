@@ -12,6 +12,10 @@ export function registerDossierCollector(collector: DossierCollector) {
   }
 }
 
-export function getDossierCollectors(): DossierCollector[] {
-  return [...collectors].sort((a, b) => a.order - b.order);
+export function getDossierCollectors(exportType: 'admin' | 'personnel_self' = 'admin'): DossierCollector[] {
+  const sorted = [...collectors].sort((a, b) => a.order - b.order);
+  if (exportType === 'personnel_self') {
+    return sorted.filter((c) => c.id !== 'extensions_placeholder');
+  }
+  return sorted;
 }

@@ -16,10 +16,15 @@ export async function GET(_request: Request, ctx: Ctx) {
       employeeId,
       exportedByEmail: user.email ?? 'admin',
       exportedById: user.id,
+      exportType: 'admin',
     });
 
     const zip = await buildDossierZip(dossier.files);
-    const filename = dossierZipFilename(dossier.employeeName, String(dossier.manifest.exportedAt));
+    const filename = dossierZipFilename(
+      dossier.employeeName,
+      String(dossier.manifest.exportedAt),
+      'admin'
+    );
 
     return new NextResponse(new Uint8Array(zip), {
       headers: {

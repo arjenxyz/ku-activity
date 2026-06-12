@@ -1,0 +1,49 @@
+import { NextResponse } from 'next/server';
+import { requirePersonnelSession } from '@/lib/personnel-auth';
+import { buildLegalDossier, dossierZipFilename } from '@/lib/legal-dossier/build-legal-dossier';
+import { buildDossierZip } from '@/lib/legal-dossier/build-zip';
+import { createAdminClient } from '@/utils/supabase/admin';
+
+export async function GET() {
+  try {
+    const session = await requirePersonnelSession();
+    const admin = createAdminClient();
+
+    const { data: emp } = await admin
+      .from('employees')
+      .select('email, name')
+      .eq('id', session.employeeId)
+      .maybeSingle();
+
+    if (!emp?.email) {
+      return NextResponse.json({ error: 'Personel bulunamadı' }, { status: 404 });
+    }
+
+    const dossier = await buildLegalDossier({
+      projectId: session.projectId,
+      employeeId: session.employeeId,
+      exportedByEmail: emp.email,
+      exportedById: null,
+      exportType: 'personnel_self',
+    });
+
+    const zip = await buildDossierZip(dossier.files);
+    const filename = dossierZipFilename(
+      dossier.employeeName,
+      String(dossier.manifest.exportedAt),
+      'personnel_self'
+    );
+
+    return new NextResponse(new Uint8Array(zip), {
+      headers: {
+        'Content-Type': 'application/zip',
+        'Content-Disposition': `attachment; filename="${filename}"`,
+        'Cache-Control': 'no-store',
+      },
+    });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'İndirilemedi';
+    const status = message === 'UNAUTHORIZED' ? 401 : 400;
+    return NextResponse.json({ error: message }, { status });
+  }
+}
