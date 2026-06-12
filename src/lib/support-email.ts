@@ -1,10 +1,11 @@
-export const SUPPORT_EMAIL =
-  process.env.NEXT_PUBLIC_SUPPORT_EMAIL || 'info@arjendev.com';
+import { APP_NAME, DEFAULT_SUPPORT_EMAIL } from '@/lib/brand';
+
+export const SUPPORT_EMAIL = process.env.NEXT_PUBLIC_SUPPORT_EMAIL || DEFAULT_SUPPORT_EMAIL;
 
 export function verificationCodeMailto(subject?: string) {
-  const s = subject || 'ArjenDev — Proje doğrulama kodu talebi';
+  const s = subject || `${APP_NAME} — Project verification code request`;
   const body = encodeURIComponent(
-    'Merhaba,\n\nArjenDev personel yönetim sistemini kullanmak istiyorum.\nLütfen bir proje doğrulama kodu gönderebilir misiniz?\n\nFirma adı:\nİletişim telefonu:\nTahmini personel sayısı:\n\nTeşekkürler.'
+    `Hello,\n\nI would like to use ${APP_NAME} for construction workforce management.\nPlease send a project verification code.\n\nCompany name:\nPhone:\nEstimated crew size:\n\nThank you.`
   );
   return `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent(s)}&body=${body}`;
 }

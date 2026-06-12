@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ThemeToggleButton } from '@/components/auth/ThemeToggleButton';
+import { BrandMark } from '@/components/brand/BrandMark';
+import { APP_NAME, APP_TAGLINE_TR } from '@/lib/brand';
 
 const navLinks = [
   { href: '#hero', label: 'Anasayfa' },
@@ -40,13 +42,11 @@ export function HomeHeader() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 safe-px">
           <div className="flex justify-between items-center py-3 sm:py-4">
             <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group min-w-0">
-              <div className="w-9 h-9 sm:w-10 sm:h-10 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/25 flex-shrink-0">
-                <span className="text-white font-bold text-base sm:text-lg">A</span>
-              </div>
+              <BrandMark size="sm" className="sm:w-10 sm:h-10" />
               <div className="min-w-0">
-                <p className="text-base sm:text-xl font-bold text-gray-900 dark:text-white truncate">ArjenDev</p>
+                <p className="text-base sm:text-xl font-bold text-gray-900 dark:text-white truncate">{APP_NAME}</p>
                 <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 truncate hidden sm:block">
-                  İnşaat Personel Yönetimi
+                  {APP_TAGLINE_TR}
                 </p>
               </div>
             </Link>

@@ -2,6 +2,8 @@
 
 import Link from 'next/link';
 import { FiLogOut } from 'react-icons/fi';
+import { BrandMark } from '@/components/brand/BrandMark';
+import { APP_NAME } from '@/lib/brand';
 
 type PersonnelShellProps = {
   employeeName?: string;
@@ -21,12 +23,10 @@ export function PersonnelShell({ employeeName, position, onLogout, children }: P
       <header className="sticky top-0 z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-lg border-b border-gray-200/70 dark:border-slate-700/70 safe-pt">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between gap-3">
           <Link href="/" className="flex items-center gap-2.5 min-w-0 group">
-            <div className="w-9 h-9 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/25 shrink-0">
-              <span className="text-white font-bold text-sm">A</span>
-            </div>
+            <BrandMark size="sm" />
             <div className="min-w-0">
               <p className="text-sm sm:text-base font-bold text-gray-900 dark:text-white truncate">
-                ArjenDev
+                {APP_NAME}
               </p>
               <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 truncate">
                 Personel Paneli

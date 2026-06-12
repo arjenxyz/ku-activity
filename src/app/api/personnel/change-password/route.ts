@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import { createAdminClient } from '@/utils/supabase/admin';
 import { requirePersonnelSession } from '@/lib/personnel-auth';
+import { validatePersonnelPin } from '@/lib/personnel-pin';
 
 export async function POST(request: Request) {
   try {
@@ -11,8 +12,9 @@ export async function POST(request: Request) {
     if (!currentPassword || !newPassword) {
       return NextResponse.json({ error: 'Mevcut ve yeni şifre gerekli' }, { status: 400 });
     }
-    if (newPassword.length < 4 || newPassword.length > 12) {
-      return NextResponse.json({ error: 'Yeni şifre 4-12 karakter olmalı' }, { status: 400 });
+    const pinError = validatePersonnelPin(newPassword);
+    if (pinError) {
+      return NextResponse.json({ error: pinError }, { status: 400 });
     }
 
     const admin = createAdminClient();

@@ -8,6 +8,11 @@ import { AlertBanner } from '@/components/project/AlertBanner';
 import { cardClass, btnPrimary, labelClass, inputClass } from '@/components/project/ui';
 import { useProjectEmployees } from '@/hooks/useProjectEmployees';
 import { resetEmployeePin } from '@/lib/project-api';
+import {
+  PERSONNEL_PIN_LENGTH,
+  sanitizePersonnelPinInput,
+  validatePersonnelPin,
+} from '@/lib/personnel-pin';
 
 export default function PersonelSifreleriPage() {
   const { projectId } = useParams() as { projectId: string };
@@ -22,8 +27,13 @@ export default function PersonelSifreleriPage() {
     e.preventDefault();
     setError(null);
     setSuccess(null);
-    if (!employeeId || pin.length < 4) {
-      setError('Personel seçin ve en az 4 haneli şifre girin.');
+    if (!employeeId) {
+      setError('Personel seçin.');
+      return;
+    }
+    const pinError = validatePersonnelPin(pin);
+    if (pinError) {
+      setError(pinError);
       return;
     }
     setLoading(true);
@@ -63,11 +73,11 @@ export default function PersonelSifreleriPage() {
               type="password"
               className={inputClass}
               value={pin}
-              onChange={(e) => setPin(e.target.value)}
-              minLength={4}
-              maxLength={12}
+              onChange={(e) => setPin(sanitizePersonnelPinInput(e.target.value))}
+              inputMode="numeric"
+              maxLength={PERSONNEL_PIN_LENGTH}
               autoComplete="new-password"
-              placeholder="4-12 karakter"
+              placeholder={`${PERSONNEL_PIN_LENGTH} haneli PIN`}
               required
             />
           </div>

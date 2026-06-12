@@ -2,17 +2,17 @@ import type { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'ArjenDev — İnşaat Personel Yönetimi',
-    short_name: 'ArjenDev',
+    name: 'CrewLedger — Construction Workforce',
+    short_name: 'CrewLedger',
     description:
-      'Yevmiye, avans, proje takibi ve maaş hesaplamaları için modern HR yönetim platformu.',
+      'Construction crew management: attendance, wages, contracts, and payroll.',
     start_url: '/',
     scope: '/',
     display: 'standalone',
     orientation: 'portrait-primary',
     background_color: '#ffffff',
     theme_color: '#2563eb',
-    lang: 'tr',
+    lang: 'en',
     dir: 'ltr',
     categories: ['business', 'productivity'],
     icons: [

@@ -1,6 +1,8 @@
 'use client';
 
 import Link from 'next/link';
+import { BrandMark } from '@/components/brand/BrandMark';
+import { APP_NAME, APP_TAGLINE_TR } from '@/lib/brand';
 import { SUPPORT_EMAIL, verificationCodeMailto } from '@/lib/support-email';
 
 export function HomeFooter() {
@@ -10,12 +12,10 @@ export function HomeFooter() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
           <div className="lg:col-span-2 space-y-5">
             <div className="flex items-center space-x-3">
-              <div className="w-11 h-11 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center">
-                <span className="text-white font-bold text-lg">A</span>
-              </div>
+              <BrandMark size="lg" />
               <div>
-                <h3 className="text-xl font-bold">ArjenDev</h3>
-                <p className="text-slate-400 text-sm">İnşaat Personel Yönetimi</p>
+                <h3 className="text-xl font-bold">{APP_NAME}</h3>
+                <p className="text-slate-400 text-sm">{APP_TAGLINE_TR}</p>
               </div>
             </div>
             <p className="text-slate-300 text-sm leading-relaxed max-w-md">
@@ -81,7 +81,7 @@ export function HomeFooter() {
         </div>
 
         <div className="border-t border-slate-800 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <p className="text-slate-400 text-sm">© 2026 ArjenDev. Tüm hakları saklıdır.</p>
+          <p className="text-slate-400 text-sm">© 2026 {APP_NAME}. All rights reserved.</p>
           <div className="flex flex-wrap justify-center gap-5 text-sm">
             <a href="#" className="text-slate-400 hover:text-white transition-colors">Gizlilik Politikası</a>
             <a href="#" className="text-slate-400 hover:text-white transition-colors">Kullanım Şartları</a>

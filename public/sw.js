@@ -1,4 +1,4 @@
-const CACHE_NAME = 'arjendev-v2';
+const CACHE_NAME = 'crewledger-v1';
 const PRECACHE_URLS = ['/', '/admin-panel/login', '/personnel-panel/login'];
 
 function shouldSkip(request) {

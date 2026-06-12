@@ -6,6 +6,10 @@ import dayjs from 'dayjs';
 import { ProjectPageHeader } from '@/components/project/ProjectPageHeader';
 import { AlertBanner } from '@/components/project/AlertBanner';
 import { cardClass, btnPrimary, labelClass, inputClass, btnSecondary } from '@/components/project/ui';
+import {
+  PERSONNEL_PIN_LENGTH,
+  sanitizePersonnelPinInput,
+} from '@/lib/personnel-pin';
 
 const initialForm = {
   first_name: '',
@@ -28,7 +32,10 @@ export default function NewEmployeePage() {
   const [success, setSuccess] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value ?? '' });
+    const { name, value } = e.target;
+    const next =
+      name === 'pin' ? sanitizePersonnelPinInput(value ?? '') : (value ?? '');
+    setForm({ ...form, [name]: next });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -190,12 +197,14 @@ export default function NewEmployeePage() {
               value={form.pin}
               onChange={handleChange}
               className={inputClass}
-              minLength={4}
-              maxLength={12}
+              inputMode="numeric"
+              maxLength={PERSONNEL_PIN_LENGTH}
               autoComplete="new-password"
               required
             />
-            <p className="text-xs text-slate-500 mt-1">4-12 karakter. E-posta ile birlikte giriş için kullanılır.</p>
+            <p className="text-xs text-slate-500 mt-1">
+              {PERSONNEL_PIN_LENGTH} haneli rakam. T.C. kimlik ile panele giriş için kullanılır.
+            </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-3 pt-2">
             <button type="submit" className={btnPrimary} disabled={loading}>

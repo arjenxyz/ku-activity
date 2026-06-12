@@ -1,8 +1,11 @@
+/** Personel giriş PIN uzunluğu */
+export const PERSONNEL_PIN_LENGTH = 6;
+
 /** Personel giriş PIN doğrulama — hata mesajı veya null (geçerli) */
 export function validatePersonnelPin(pin: string): string | null {
   const trimmed = pin.trim();
-  if (trimmed.length < 4 || trimmed.length > 12) {
-    return 'Giriş şifresi (PIN) 4-12 rakam olmalıdır';
+  if (trimmed.length !== PERSONNEL_PIN_LENGTH) {
+    return `Giriş şifresi (PIN) ${PERSONNEL_PIN_LENGTH} haneli olmalıdır`;
   }
   if (!/^\d+$/.test(trimmed)) {
     return 'PIN yalnızca rakam içermelidir';
@@ -17,4 +20,9 @@ export function validatePersonnelPinMatch(pin: string, confirm: string): string 
     return 'PIN tekrarı eşleşmiyor';
   }
   return null;
+}
+
+/** PIN alanı için yalnızca rakam ve maksimum uzunluk */
+export function sanitizePersonnelPinInput(value: string): string {
+  return value.replace(/\D/g, '').slice(0, PERSONNEL_PIN_LENGTH);
 }

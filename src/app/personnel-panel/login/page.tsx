@@ -7,6 +7,7 @@ import { loadPendingRegistration } from '@/lib/registration-pending-storage';
 import { FiLock } from 'react-icons/fi';
 import { PersonnelLoginLayout } from '@/components/personnel/PersonnelLoginLayout';
 import { AuthAlert, LoadingSpinner } from '@/components/auth/AuthAlerts';
+import { PERSONNEL_PIN_LENGTH, sanitizePersonnelPinInput } from '@/lib/personnel-pin';
 import { AutofillTrap } from '@/components/auth/AutofillTrap';
 import {
   noAutofillFormProps,
@@ -98,10 +99,11 @@ function PersonnelLoginContent() {
             name="personnel-password"
             type="password"
             className={inputClass}
-            placeholder="PIN"
+            placeholder={`${PERSONNEL_PIN_LENGTH} haneli PIN`}
             inputMode="numeric"
+            maxLength={PERSONNEL_PIN_LENGTH}
             value={password}
-            onChange={(e) => setPassword(e.target.value.replace(/\D/g, ''))}
+            onChange={(e) => setPassword(sanitizePersonnelPinInput(e.target.value))}
             required
             {...noAutofillPasswordProps}
           />
@@ -111,7 +113,7 @@ function PersonnelLoginContent() {
 
         <button
           type="submit"
-          disabled={isLoading || tcKimlik.length !== 11 || !password}
+          disabled={isLoading || tcKimlik.length !== 11 || password.length !== PERSONNEL_PIN_LENGTH}
           className="touch-target w-full inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 disabled:opacity-50 text-white px-6 py-3.5 rounded-xl font-semibold shadow-lg shadow-blue-500/25 transition-all"
         >
           {isLoading ? (

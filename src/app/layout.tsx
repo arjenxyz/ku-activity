@@ -15,20 +15,20 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'ArjenDev | İnşaat Personel Yönetim Sistemi',
+  title: 'CrewLedger | Construction Workforce Platform',
   description:
-    'Yevmiye, avans, proje takibi ve maaş hesaplamaları için modern HR yönetim platformu. İnşaat sektörüne özel dijital çözümler.',
-  applicationName: 'ArjenDev',
+    'Attendance, daily wages, contracts, and crew management for construction sites. Built with Next.js and Supabase.',
+  applicationName: 'CrewLedger',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
-    title: 'ArjenDev',
+    title: 'CrewLedger',
   },
   formatDetection: {
     telephone: false,
   },
   icons: {
-    icon: '/favicon.ico',
+    icon: [{ url: '/icon.svg', type: 'image/svg+xml' }],
     apple: [{ url: '/api/pwa-icon/192', sizes: '192x192', type: 'image/png' }],
   },
 };

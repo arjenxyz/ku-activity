@@ -1,4 +1,4 @@
-const STORAGE_KEY = 'arjendev-pending-registration';
+const STORAGE_KEY = 'crewledger-pending-registration';
 
 export type PendingRegistration = {
   verificationCode: string;

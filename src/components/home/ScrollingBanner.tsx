@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react';
 
 const texts = [
-  'ARJEN DEVELOPER',
+  'CREWLEDGER',
   'İNŞAAT PERSONEL YÖNETİMİ',
   'YEVMİYE & AVANS TAKİBİ',
   'DİJİTAL HR ÇÖZÜMLERİ',

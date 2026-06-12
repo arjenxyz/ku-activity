@@ -4,6 +4,7 @@ import {
   submitRegistrationApplication,
 } from '@/lib/registration-service';
 import { recordContractAcceptances, type ContractAcceptanceInput } from '@/lib/contract-service';
+import { consumeContractOtpToken } from '@/lib/otp-service';
 
 function parseAcceptances(raw: FormDataEntryValue | null): ContractAcceptanceInput[] {
   if (!raw || typeof raw !== 'string') return [];
@@ -31,6 +32,16 @@ export async function POST(request: Request) {
       const firstName = String(formData.get('firstName') ?? '');
       const lastName = String(formData.get('lastName') ?? '');
       const email = String(formData.get('email') ?? '');
+      const contractOtpToken = String(formData.get('contractOtpToken') ?? '');
+
+      if (!contractOtpToken) {
+        return NextResponse.json(
+          { error: 'Sözleşme doğrulama kodu gerekli' },
+          { status: 400 }
+        );
+      }
+
+      await consumeContractOtpToken({ verificationToken: contractOtpToken, email });
 
       const result = await submitRegistrationApplication({
         firstName,
@@ -70,6 +81,15 @@ export async function POST(request: Request) {
     const acceptances = Array.isArray(body.contractAcceptances)
       ? (body.contractAcceptances as ContractAcceptanceInput[])
       : [];
+
+    if (!body.contractOtpToken) {
+      return NextResponse.json({ error: 'Sözleşme doğrulama kodu gerekli' }, { status: 400 });
+    }
+
+    await consumeContractOtpToken({
+      verificationToken: String(body.contractOtpToken),
+      email: body.email ?? '',
+    });
 
     const result = await submitRegistrationApplication({
       firstName: body.firstName ?? '',

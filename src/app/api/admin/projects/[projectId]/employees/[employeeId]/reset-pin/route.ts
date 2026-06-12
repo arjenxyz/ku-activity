@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs';
 import { requireAdminUser } from '@/lib/admin-auth';
 import { createClient } from '@/utils/supabase/server';
 import { apiErrorMessage } from '@/lib/project-queries';
+import { validatePersonnelPin } from '@/lib/personnel-pin';
 
 type Ctx = { params: Promise<{ projectId: string; employeeId: string }> };
 
@@ -12,11 +13,12 @@ export async function POST(request: Request, ctx: Ctx) {
     const { projectId, employeeId } = await ctx.params;
     const { pin } = (await request.json()) as { pin?: string };
 
-    if (!pin || pin.length < 4 || pin.length > 12) {
-      return NextResponse.json({ error: 'PIN 4-12 karakter olmalı' }, { status: 400 });
+    const pinError = validatePersonnelPin(pin ?? '');
+    if (pinError) {
+      return NextResponse.json({ error: pinError }, { status: 400 });
     }
 
-    const pinHash = await bcrypt.hash(pin, 12);
+    const pinHash = await bcrypt.hash(pin!.trim(), 12);
     const supabase = await createClient();
     const { error } = await supabase
       .from('employees')

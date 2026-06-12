@@ -5,6 +5,8 @@ import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { FiShield } from 'react-icons/fi';
 import { ContractAcceptanceBlock } from '@/components/contracts/ContractAcceptanceBlock';
+import { ContractOtpVerification } from '@/components/contracts/ContractOtpVerification';
+import type { OtpChannel } from '@/lib/otp-delivery';
 import { EmployeePhotoPicker } from '@/components/employee/EmployeePhotoPicker';
 import { PersonnelLoginLayout } from '@/components/personnel/PersonnelLoginLayout';
 import { AuthAlert } from '@/components/auth/AuthAlerts';
@@ -14,7 +16,11 @@ import {
   isConstructionEligibleBirthDate,
 } from '@/lib/age-validation';
 import { formatFullName } from '@/lib/format';
-import { validatePersonnelPinMatch } from '@/lib/personnel-pin';
+import {
+  PERSONNEL_PIN_LENGTH,
+  sanitizePersonnelPinInput,
+  validatePersonnelPinMatch,
+} from '@/lib/personnel-pin';
 import {
   clearPendingRegistration,
   loadPendingRegistration,
@@ -39,6 +45,10 @@ const STATUS_POLL_MS = 15_000;
 const inputClass =
   'block w-full rounded-xl border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-900 px-4 py-3 text-sm focus:ring-2 focus:ring-blue-500';
 const labelClass = 'block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5';
+const sectionTitleClass =
+  'text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-3';
+const panelClass =
+  'rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/70 dark:bg-slate-900/40 p-4 sm:p-5';
 
 type RegistrationStatus = 'pending' | 'approved' | 'rejected' | string;
 
@@ -79,6 +89,8 @@ export default function PersonnelApplicationPage() {
   const [contractAcceptances, setContractAcceptances] = useState<
     Array<{ contractId: string; version: number }>
   >([]);
+  const [contractOtpToken, setContractOtpToken] = useState('');
+  const [contractOtpChannel, setContractOtpChannel] = useState<OtpChannel>('email');
 
   const handleAllContractsAccepted = useCallback(
     (acceptances: Array<{ contractId: string; version: number }>) => {
@@ -90,6 +102,16 @@ export default function PersonnelApplicationPage() {
 
   const handleContractsIncomplete = useCallback(() => {
     setContractsReady(false);
+    setContractOtpToken('');
+  }, []);
+
+  const handleOtpVerified = useCallback((token: string, channel: OtpChannel) => {
+    setContractOtpToken(token);
+    setContractOtpChannel(channel);
+  }, []);
+
+  const handleOtpReset = useCallback(() => {
+    setContractOtpToken('');
   }, []);
 
   const applyStatus = useCallback((payload: StatusPayload | null) => {
@@ -213,6 +235,10 @@ export default function PersonnelApplicationPage() {
       setError('Başvuruyu göndermeden önce tüm sözleşmeleri sonuna kadar okuyup onaylayın.');
       return;
     }
+    if (!contractOtpToken) {
+      setError('Başvuruyu göndermeden önce e-posta veya SMS ile doğrulama kodunu onaylayın.');
+      return;
+    }
     if (!form.birth_date || !isConstructionEligibleBirthDate(form.birth_date)) {
       setError(constructionAgeErrorMessage());
       return;
@@ -235,6 +261,8 @@ export default function PersonnelApplicationPage() {
       body.append('iban', form.iban);
       body.append('pin', form.pin);
       body.append('contractAcceptances', JSON.stringify(contractAcceptances));
+      body.append('contractOtpToken', contractOtpToken);
+      body.append('contractOtpChannel', contractOtpChannel);
       body.append('photo', photoFile);
 
       const res = await fetch('/api/public/personnel-registration', {
@@ -280,28 +308,34 @@ export default function PersonnelApplicationPage() {
   if (result && status === 'pending') {
     return (
       <PersonnelLoginLayout
+        size="wide"
+        alignTop
         title="Başvurunuz Bekliyor"
         subtitle="Yöneticiniz onaylayana kadar bu ekranı açık tutun veya tekrar bu sayfaya gelin."
       >
-        <div className="space-y-6 text-center">
+        <div className="space-y-6">
           {result.reused && (
-            <p className="text-sm text-blue-700 bg-blue-50 rounded-lg px-3 py-2">
+            <p className="text-sm text-blue-700 bg-blue-50 rounded-lg px-3 py-2 text-center">
               Bekleyen başvurunuz devam ediyor; aynı kod geçerlidir.
             </p>
           )}
-          <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
-            Onay bekleniyor — bu sayfayı kapatıp tekrar açsanız bile QR kodunuz burada kalır.
+          <div className="lg:grid lg:grid-cols-2 lg:gap-10 lg:items-center">
+            <div className="flex justify-center lg:justify-end">
+              <RegistrationQrCode value={result.approvalUrl} />
+            </div>
+            <div className="space-y-4 text-center lg:text-left mt-6 lg:mt-0">
+              <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+                Onay bekleniyor — bu sayfayı kapatıp tekrar açsanız bile QR kodunuz burada kalır.
+              </div>
+              <div className="rounded-xl bg-slate-900 text-white py-4 px-6">
+                <p className="text-xs text-slate-400 uppercase tracking-wider mb-1">Başvuru Kodu</p>
+                <p className="text-2xl font-bold tracking-widest">{result.verificationCode}</p>
+              </div>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Bu ekranı yöneticinize gösterin. Onay sonrası size giriş bilgileri verilecektir.
+              </p>
+            </div>
           </div>
-          <div className="flex justify-center">
-            <RegistrationQrCode value={result.approvalUrl} />
-          </div>
-          <div className="rounded-xl bg-slate-900 text-white py-4 px-6">
-            <p className="text-xs text-slate-400 uppercase tracking-wider mb-1">Başvuru Kodu</p>
-            <p className="text-2xl font-bold tracking-widest">{result.verificationCode}</p>
-          </div>
-          <p className="text-sm text-gray-600 dark:text-gray-400">
-            Bu ekranı yöneticinize gösterin. Onay sonrası size giriş bilgileri verilecektir.
-          </p>
         </div>
       </PersonnelLoginLayout>
     );
@@ -314,10 +348,11 @@ export default function PersonnelApplicationPage() {
 
     return (
       <PersonnelLoginLayout
+        size="wide"
         title="Hesabınız Aktif"
         subtitle="Yönetici onayı tamamlandı — hemen giriş yapabilirsiniz."
       >
-        <div className="space-y-6 text-center">
+        <div className="space-y-6 text-center max-w-lg mx-auto">
           <AuthAlert
             type="success"
             message="Başvurunuz onaylandı ve personel kaydınız oluşturuldu. Sistem şu an aktif."
@@ -364,10 +399,14 @@ export default function PersonnelApplicationPage() {
 
   return (
     <PersonnelLoginLayout
+      size="wide"
+      alignTop
       title="Personel Başvurusu"
       subtitle="Bilgilerinizi girin; yönetici onayından sonra sisteme alınacaksınız."
     >
-      <div className="mb-4 flex items-start gap-2 rounded-xl bg-blue-50 dark:bg-blue-950/40 border border-blue-100 dark:border-blue-900 p-3 text-xs text-blue-900 dark:text-blue-200">
+      {error && <AuthAlert type="error" message={error} />}
+
+      <div className="mb-5 flex items-start gap-2 rounded-xl bg-blue-50 dark:bg-blue-950/40 border border-blue-100 dark:border-blue-900 p-3 text-xs text-blue-900 dark:text-blue-200 xl:hidden">
         <FiShield className="w-4 h-4 shrink-0 mt-0.5" />
         <p>
           T.C. kimlik, doğum tarihi ve IBAN bilgileriniz sunucuda şifrelenerek saklanır; yalnızca
@@ -375,133 +414,178 @@ export default function PersonnelApplicationPage() {
         </p>
       </div>
 
-      {error && <AuthAlert type="error" message={error} />}
-
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <EmployeePhotoPicker
-          variant="selfie"
-          name={formatFullName(form.first_name, form.last_name)}
-          value={photoFile}
-          onChange={setPhotoFile}
-          required
-        />
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label className={labelClass}>Ad *</label>
-            <input
-              className={inputClass}
-              value={form.first_name}
-              onChange={(e) => setForm({ ...form, first_name: e.target.value })}
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(280px,32%)] xl:grid-cols-[minmax(220px,260px)_minmax(0,1fr)_minmax(250px,300px)] xl:gap-5 lg:items-start">
+          {/* Sütun 1 — fotoğraf (xl) */}
+          <section className={`${panelClass} lg:col-start-1 lg:row-start-1 xl:col-start-1 xl:row-start-1`}>
+            <h2 className={sectionTitleClass}>Profil fotoğrafı</h2>
+            <EmployeePhotoPicker
+              variant="selfie"
+              layout="stacked"
+              name={formatFullName(form.first_name, form.last_name)}
+              value={photoFile}
+              onChange={setPhotoFile}
               required
             />
-          </div>
-          <div>
-            <label className={labelClass}>Soyad *</label>
-            <input
-              className={inputClass}
-              value={form.last_name}
-              onChange={(e) => setForm({ ...form, last_name: e.target.value })}
-              required
+            <div className="hidden xl:flex items-start gap-2 mt-4 pt-4 border-t border-slate-200 dark:border-slate-600 text-xs text-slate-600 dark:text-slate-400">
+              <FiShield className="w-4 h-4 shrink-0 mt-0.5 text-blue-600" />
+              <p>
+                Hassas bilgileriniz şifrelenerek saklanır; yalnızca yetkili yöneticiler
+                görebilir.
+              </p>
+            </div>
+          </section>
+
+          {/* Sütun 2 — form */}
+          <section className="space-y-4 lg:col-start-1 lg:row-start-2 xl:col-start-2 xl:row-start-1 min-w-0 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/50 p-4 sm:p-5 xl:border-0 xl:bg-transparent xl:p-0 xl:rounded-none">
+            <h2 className={sectionTitleClass}>Kişisel bilgiler</h2>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className={labelClass}>Ad *</label>
+                <input
+                  className={inputClass}
+                  value={form.first_name}
+                  onChange={(e) => setForm({ ...form, first_name: e.target.value })}
+                  required
+                />
+              </div>
+              <div>
+                <label className={labelClass}>Soyad *</label>
+                <input
+                  className={inputClass}
+                  value={form.last_name}
+                  onChange={(e) => setForm({ ...form, last_name: e.target.value })}
+                  required
+                />
+              </div>
+              <div>
+                <label className={labelClass}>E-posta *</label>
+                <input
+                  type="email"
+                  className={inputClass}
+                  value={form.email}
+                  onChange={(e) => setForm({ ...form, email: e.target.value })}
+                  required
+                />
+              </div>
+              <div>
+                <label className={labelClass}>Telefon</label>
+                <input
+                  type="tel"
+                  className={inputClass}
+                  value={form.phone}
+                  onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                />
+              </div>
+              <div>
+                <label className={labelClass}>T.C. Kimlik No *</label>
+                <input
+                  className={inputClass}
+                  inputMode="numeric"
+                  maxLength={11}
+                  value={form.tc_kimlik}
+                  onChange={(e) => setForm({ ...form, tc_kimlik: e.target.value.replace(/\D/g, '') })}
+                  required
+                />
+              </div>
+              <div className="sm:col-span-2">
+                <BirthDatePicker
+                  value={form.birth_date}
+                  onChange={(birth_date) => setForm({ ...form, birth_date })}
+                  inputClass={inputClass}
+                  labelClass={labelClass}
+                  required
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className={labelClass}>IBAN *</label>
+              <input
+                className={inputClass}
+                placeholder="TR00 0000 0000 0000 0000 0000 00"
+                value={form.iban}
+                onChange={(e) => setForm({ ...form, iban: e.target.value.toUpperCase() })}
+                required
+              />
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className={labelClass}>Giriş şifresi (PIN) *</label>
+                <input
+                  type="password"
+                  className={inputClass}
+                  inputMode="numeric"
+                  maxLength={PERSONNEL_PIN_LENGTH}
+                  value={form.pin}
+                  onChange={(e) => setForm({ ...form, pin: sanitizePersonnelPinInput(e.target.value) })}
+                  autoComplete="new-password"
+                  required
+                />
+                <p className="text-xs text-slate-500 mt-1">
+                  {PERSONNEL_PIN_LENGTH} haneli rakam. Panele girişte kullanılacak.
+                </p>
+              </div>
+              <div>
+                <label className={labelClass}>PIN tekrar *</label>
+                <input
+                  type="password"
+                  className={inputClass}
+                  inputMode="numeric"
+                  maxLength={PERSONNEL_PIN_LENGTH}
+                  value={form.pin_confirm}
+                  onChange={(e) =>
+                    setForm({ ...form, pin_confirm: sanitizePersonnelPinInput(e.target.value) })
+                  }
+                  autoComplete="new-password"
+                  required
+                />
+              </div>
+            </div>
+          </section>
+
+          {/* Sütun 3 — sözleşmeler */}
+          <section
+            className={`${panelClass} lg:col-start-2 lg:row-start-1 lg:row-span-2 xl:col-start-3 xl:row-start-1 xl:self-start`}
+          >
+            <h2 className={sectionTitleClass}>Sözleşmeler</h2>
+            <ContractAcceptanceBlock
+              layout="sidebar"
+              onAllAccepted={handleAllContractsAccepted}
+              onIncomplete={handleContractsIncomplete}
             />
-          </div>
-        </div>
-        <div>
-          <label className={labelClass}>E-posta *</label>
-          <input
-            type="email"
-            className={inputClass}
-            value={form.email}
-            onChange={(e) => setForm({ ...form, email: e.target.value })}
-            required
-          />
-        </div>
-        <div>
-          <label className={labelClass}>Telefon</label>
-          <input
-            type="tel"
-            className={inputClass}
-            value={form.phone}
-            onChange={(e) => setForm({ ...form, phone: e.target.value })}
-          />
-        </div>
-        <div>
-          <label className={labelClass}>T.C. Kimlik No *</label>
-          <input
-            className={inputClass}
-            inputMode="numeric"
-            maxLength={11}
-            value={form.tc_kimlik}
-            onChange={(e) => setForm({ ...form, tc_kimlik: e.target.value.replace(/\D/g, '') })}
-            required
-          />
-        </div>
-        <BirthDatePicker
-          value={form.birth_date}
-          onChange={(birth_date) => setForm({ ...form, birth_date })}
-          inputClass={inputClass}
-          labelClass={labelClass}
-          required
-        />
-        <div>
-          <label className={labelClass}>IBAN *</label>
-          <input
-            className={inputClass}
-            placeholder="TR00 0000 0000 0000 0000 0000 00"
-            value={form.iban}
-            onChange={(e) => setForm({ ...form, iban: e.target.value.toUpperCase() })}
-            required
-          />
+
+            {contractsReady && (
+              <div className="mt-4 pt-4 border-t border-slate-200 dark:border-slate-600">
+                <ContractOtpVerification
+                  email={form.email}
+                  phone={form.phone}
+                  disabled={loading}
+                  onVerified={handleOtpVerified}
+                  onReset={handleOtpReset}
+                />
+              </div>
+            )}
+          </section>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label className={labelClass}>Giriş şifresi (PIN) *</label>
-            <input
-              type="password"
-              className={inputClass}
-              inputMode="numeric"
-              maxLength={12}
-              value={form.pin}
-              onChange={(e) => setForm({ ...form, pin: e.target.value.replace(/\D/g, '') })}
-              autoComplete="new-password"
-              required
-            />
-            <p className="text-xs text-slate-500 mt-1">4-12 rakam. Panele girişte kullanılacak.</p>
-          </div>
-          <div>
-            <label className={labelClass}>PIN tekrar *</label>
-            <input
-              type="password"
-              className={inputClass}
-              inputMode="numeric"
-              maxLength={12}
-              value={form.pin_confirm}
-              onChange={(e) => setForm({ ...form, pin_confirm: e.target.value.replace(/\D/g, '') })}
-              autoComplete="new-password"
-              required
-            />
-          </div>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-6 border-t border-slate-200 dark:border-slate-700">
+          <p className="text-sm text-gray-500 order-2 sm:order-1">
+            Zaten onaylı hesabınız var mı?{' '}
+            <Link href="/personnel-panel/login" className="text-blue-600 hover:underline">
+              Giriş yapın
+            </Link>
+          </p>
+          <button
+            type="submit"
+            disabled={loading || !contractsReady || !contractOtpToken}
+            className="order-1 sm:order-2 w-full sm:w-auto sm:min-w-[200px] px-8 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-medium disabled:opacity-50"
+          >
+            {loading ? 'Gönderiliyor…' : 'Başvuruyu Gönder'}
+          </button>
         </div>
-
-        <ContractAcceptanceBlock
-          onAllAccepted={handleAllContractsAccepted}
-          onIncomplete={handleContractsIncomplete}
-        />
-
-        <button
-          type="submit"
-          disabled={loading || !contractsReady}
-          className="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-medium disabled:opacity-50"
-        >
-          {loading ? 'Gönderiliyor…' : 'Başvuruyu Gönder'}
-        </button>
-        <p className="text-center text-sm text-gray-500">
-          Zaten onaylı hesabınız var mı?{' '}
-          <Link href="/personnel-panel/login" className="text-blue-600 hover:underline">
-            Giriş yapın
-          </Link>
-        </p>
       </form>
     </PersonnelLoginLayout>
   );

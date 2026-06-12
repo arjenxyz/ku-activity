@@ -43,7 +43,7 @@ export async function POST(request: Request) {
       return NextResponse.json(
         {
           error:
-            'Proje oluşturmak için doğrulama kodu gerekli. Kod almak için info@arjendev.com adresine e-posta gönderin.',
+            'Proje oluşturmak için doğrulama kodu gerekli. Destek e-postasına başvurun.',
         },
         { status: 400 }
       );

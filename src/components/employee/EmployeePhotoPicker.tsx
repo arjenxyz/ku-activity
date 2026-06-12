@@ -16,6 +16,8 @@ type Props = {
   required?: boolean;
   /** selfie = ön kamera, personel kendi çeker */
   variant?: 'admin' | 'selfie';
+  /** Dar sütun / başvuru paneli için dikey düzen */
+  layout?: 'default' | 'stacked';
 };
 
 export function EmployeePhotoPicker({
@@ -24,7 +26,9 @@ export function EmployeePhotoPicker({
   onChange,
   required,
   variant = 'admin',
+  layout = 'default',
 }: Props) {
+  const isStacked = layout === 'stacked';
   const isSelfie = variant === 'selfie';
   const cameraRef = useRef<HTMLInputElement>(null);
   const galleryRef = useRef<HTMLInputElement>(null);
@@ -84,26 +88,46 @@ export function EmployeePhotoPicker({
 
   const displayName = name.trim() || 'Personel';
 
+  const photoClass = isStacked
+    ? 'h-32 w-32'
+    : 'h-28 w-28 sm:h-20 sm:w-20';
+
   return (
-    <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-4">
-      <div className="flex flex-col items-center gap-3 sm:flex-row sm:items-start sm:gap-4">
+    <div
+      className={
+        isStacked
+          ? 'space-y-4'
+          : 'rounded-xl border border-slate-200 bg-slate-50/80 p-4 space-y-4'
+      }
+    >
+      <div
+        className={
+          isStacked
+            ? 'flex flex-col items-center gap-3 text-center'
+            : 'flex flex-col items-center gap-3 sm:flex-row sm:items-start sm:gap-4'
+        }
+      >
         <div className="relative shrink-0">
           {preview ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={preview}
               alt={displayName}
-              className="h-28 w-28 rounded-2xl object-cover bg-slate-200 sm:h-20 sm:w-20"
+              className={`${photoClass} rounded-2xl object-cover bg-slate-200`}
             />
           ) : (
             <EmployeeAvatar
               name={displayName}
               size="lg"
-              className="!rounded-2xl !h-28 !w-28 sm:!h-20 sm:!w-20"
+              className={
+                isStacked
+                  ? '!rounded-2xl !h-32 !w-32'
+                  : '!rounded-2xl !h-28 !w-28 sm:!h-20 sm:!w-20'
+              }
             />
           )}
         </div>
-        <div className="min-w-0 flex-1 text-center sm:text-left">
+        <div className={`min-w-0 flex-1 ${isStacked ? 'text-center' : 'text-center sm:text-left'}`}>
           <p className="text-sm font-semibold text-slate-900">
             {isSelfie ? 'Kendi fotoğrafınız' : 'Personel fotoğrafı'}
             {required ? ' *' : ''}
@@ -116,11 +140,17 @@ export function EmployeePhotoPicker({
         </div>
       </div>
 
-      <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
+      <div
+        className={
+          isStacked ? 'flex flex-col gap-2' : 'flex flex-col gap-2 sm:flex-row sm:flex-wrap'
+        }
+      >
         <button
           type="button"
           onClick={openCamera}
-          className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-slate-800 px-4 py-3 text-sm font-medium text-white active:bg-slate-900 sm:w-auto sm:min-h-0 sm:rounded-lg sm:py-2"
+          className={`inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-slate-800 px-4 py-3 text-sm font-medium text-white active:bg-slate-900 ${
+            isStacked ? '' : 'sm:w-auto sm:min-h-0 sm:rounded-lg sm:py-2'
+          }`}
         >
           <FiCamera className="h-5 w-5 shrink-0" />
           {isSelfie ? 'Selfie Çek' : 'Fotoğraf Çek'}
@@ -129,7 +159,9 @@ export function EmployeePhotoPicker({
           <button
             type="button"
             onClick={openNativeCamera}
-            className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-medium text-slate-700 active:bg-slate-50 sm:w-auto sm:min-h-0 sm:rounded-lg sm:py-2"
+            className={`inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-medium text-slate-700 active:bg-slate-50 ${
+              isStacked ? '' : 'sm:w-auto sm:min-h-0 sm:rounded-lg sm:py-2'
+            }`}
           >
             <FiImage className="h-5 w-5 shrink-0" />
             Galeriden seç
@@ -139,7 +171,9 @@ export function EmployeePhotoPicker({
           <button
             type="button"
             onClick={() => galleryRef.current?.click()}
-            className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-medium text-slate-700 active:bg-slate-50 sm:w-auto sm:min-h-0 sm:rounded-lg sm:py-2"
+            className={`inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-medium text-slate-700 active:bg-slate-50 ${
+              isStacked ? '' : 'sm:w-auto sm:min-h-0 sm:rounded-lg sm:py-2'
+            }`}
           >
             <FiImage className="h-5 w-5 shrink-0" />
             Galeriden Seç
@@ -149,7 +183,9 @@ export function EmployeePhotoPicker({
           <button
             type="button"
             onClick={clear}
-            className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl border border-red-200 px-4 py-3 text-sm font-medium text-red-700 active:bg-red-50 sm:w-auto sm:min-h-0 sm:rounded-lg sm:py-2"
+            className={`inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl border border-red-200 px-4 py-3 text-sm font-medium text-red-700 active:bg-red-50 ${
+              isStacked ? '' : 'sm:w-auto sm:min-h-0 sm:rounded-lg sm:py-2'
+            }`}
           >
             <FiTrash2 className="h-5 w-5 shrink-0" />
             Kaldır

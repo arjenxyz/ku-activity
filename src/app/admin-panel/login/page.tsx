@@ -139,7 +139,7 @@ function AdminAuthContent() {
             <input
               id="admin-email"
               name="admin-email"
-              placeholder="ornek@arjendev.com"
+              placeholder="admin@example.com"
               value={email}
               onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
               className={inputClass}
@@ -189,7 +189,7 @@ function AdminAuthContent() {
             <input
               id="reset-email"
               name="reset-email"
-              placeholder="ornek@arjendev.com"
+              placeholder="admin@example.com"
               value={resetEmail}
               onChange={(e) => setResetEmail(e.target.value)}
               className={inputClass}

@@ -3,6 +3,11 @@
 import { useState } from 'react';
 import { FiLock } from 'react-icons/fi';
 import { changePersonnelPassword } from '@/lib/personnel-api';
+import {
+  PERSONNEL_PIN_LENGTH,
+  sanitizePersonnelPinInput,
+  validatePersonnelPin,
+} from '@/lib/personnel-pin';
 
 export function PersonnelPasswordForm() {
   const [current, setCurrent] = useState('');
@@ -18,6 +23,11 @@ export function PersonnelPasswordForm() {
     setSuccess(false);
     if (next !== confirm) {
       setError('Yeni şifreler eşleşmiyor');
+      return;
+    }
+    const pinError = validatePersonnelPin(next);
+    if (pinError) {
+      setError(pinError);
       return;
     }
     setLoading(true);
@@ -46,7 +56,9 @@ export function PersonnelPasswordForm() {
         <FiLock className="w-5 h-5 text-blue-600" />
         <h2 className="font-semibold text-gray-900 dark:text-white">Şifre Değiştir</h2>
       </div>
-      <p className="text-xs text-gray-500">Personel paneli giriş şifrenizi güncelleyin (4-12 karakter).</p>
+      <p className="text-xs text-gray-500">
+        Personel paneli giriş şifrenizi güncelleyin ({PERSONNEL_PIN_LENGTH} haneli rakam).
+      </p>
 
       <div>
         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -56,7 +68,9 @@ export function PersonnelPasswordForm() {
           type="password"
           className={inputClass}
           value={current}
-          onChange={(e) => setCurrent(e.target.value)}
+          onChange={(e) => setCurrent(sanitizePersonnelPinInput(e.target.value))}
+          inputMode="numeric"
+          maxLength={PERSONNEL_PIN_LENGTH}
           required
           autoComplete="current-password"
         />
@@ -69,10 +83,10 @@ export function PersonnelPasswordForm() {
           type="password"
           className={inputClass}
           value={next}
-          onChange={(e) => setNext(e.target.value)}
+          onChange={(e) => setNext(sanitizePersonnelPinInput(e.target.value))}
           required
-          minLength={4}
-          maxLength={12}
+          inputMode="numeric"
+          maxLength={PERSONNEL_PIN_LENGTH}
           autoComplete="new-password"
         />
       </div>
@@ -84,10 +98,10 @@ export function PersonnelPasswordForm() {
           type="password"
           className={inputClass}
           value={confirm}
-          onChange={(e) => setConfirm(e.target.value)}
+          onChange={(e) => setConfirm(sanitizePersonnelPinInput(e.target.value))}
           required
-          minLength={4}
-          maxLength={12}
+          inputMode="numeric"
+          maxLength={PERSONNEL_PIN_LENGTH}
           autoComplete="new-password"
         />
       </div>

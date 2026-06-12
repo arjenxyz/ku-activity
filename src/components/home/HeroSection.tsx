@@ -114,7 +114,7 @@ export function HeroSection({ stats }: HeroSectionProps) {
                     <div className="w-3 h-3 rounded-full bg-yellow-400" />
                     <div className="w-3 h-3 rounded-full bg-green-400" />
                   </div>
-                  <span className="text-xs text-gray-400 ml-2">ArjenDev Dashboard</span>
+                  <span className="text-xs text-gray-400 ml-2">CrewLedger Dashboard</span>
                   <div className="ml-auto flex items-center gap-1.5">
                     <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
                     <span className="text-xs text-green-600 dark:text-green-400 font-medium">Canlı</span>

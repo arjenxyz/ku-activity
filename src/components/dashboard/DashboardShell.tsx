@@ -5,6 +5,8 @@ import { usePathname } from 'next/navigation';
 import { useState, useEffect, useMemo } from 'react';
 import { FiGrid, FiLogOut } from 'react-icons/fi';
 import { ProjectNavLinks } from '@/components/project/ProjectNavMenu';
+import { BrandMark } from '@/components/brand/BrandMark';
+import { APP_NAME } from '@/lib/brand';
 
 const PROJECT_ID_RE = /^\/admin-panel\/proje\/([a-f0-9-]{36})/;
 
@@ -38,10 +40,8 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
       <header className="sticky top-0 z-30 bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
           <Link href="/admin-panel" className="flex items-center gap-2.5 min-w-0">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center text-white font-bold text-sm shrink-0">
-              A
-            </div>
-            <span className="font-semibold text-slate-900 truncate">ArjenDev</span>
+            <BrandMark size="sm" className="w-8 h-8 rounded-lg" />
+            <span className="font-semibold text-slate-900 truncate">{APP_NAME}</span>
           </Link>
 
           {/* Masaüstü — proje sayfasında sol menü var, burada sadece genel */}

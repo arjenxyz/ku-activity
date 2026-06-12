@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
     let resetEmail = email;
     if (isPhone) {
       const cleanPhone = email.replace(/\D/g, '');
-      resetEmail = `${cleanPhone}@arjendev.com`;
+      resetEmail = `${cleanPhone}@crewledger.app`;
     }
 
     const { error } = await supabase.auth.resetPasswordForEmail(resetEmail, {

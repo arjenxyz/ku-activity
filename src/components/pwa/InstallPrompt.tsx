@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { BrandMark } from '@/components/brand/BrandMark';
 
 type BeforeInstallPromptEvent = Event & {
   prompt: () => Promise<void>;
@@ -73,11 +74,9 @@ export function InstallPrompt() {
       aria-label="Uygulamayı yükle"
     >
       <div className="mx-auto max-w-lg pointer-events-auto bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-2xl shadow-2xl p-4 flex gap-3 items-start">
-        <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center flex-shrink-0 text-white font-bold">
-          A
-        </div>
+        <BrandMark size="lg" />
         <div className="flex-1 min-w-0">
-          <p className="font-semibold text-gray-900 dark:text-white text-sm">ArjenDev uygulamasını yükleyin</p>
+          <p className="font-semibold text-gray-900 dark:text-white text-sm">Install CrewLedger</p>
           <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5 leading-relaxed">
             {showIOSHint
               ? 'Safari\'de Paylaş düğmesine basın, ardından "Ana Ekrana Ekle" seçin.'
