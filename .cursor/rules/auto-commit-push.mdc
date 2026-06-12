@@ -1,0 +1,24 @@
+---
+description: Her kod değişikliğinden sonra otomatik commit ve push
+alwaysApply: true
+---
+
+# Otomatik commit ve push
+
+Kullanıcı her kod değişikliğinden sonra otomatik commit ve push istiyor.
+
+## Ne zaman
+
+Görev tamamlandığında ve anlamlı, çalışan bir değişiklik seti oluştuğunda (kullanıcı ayrıca istemese bile):
+
+1. `git status` ve `git diff` ile değişiklikleri kontrol et
+2. İlgili dosyaları stage et (`.env`, secret dosyaları hariç)
+3. Kısa, odaklı bir commit mesajı yaz
+4. `git push origin HEAD` ile push et
+5. Kullanıcıya commit hash ve özet bildir
+
+## İstisnalar
+
+- Sadece soru/inceleme yapıldıysa ve kod değişmediysa commit yapma
+- Kullanıcı açıkça "commit yapma" derse uy
+- Secret içeren dosyaları commit etme
