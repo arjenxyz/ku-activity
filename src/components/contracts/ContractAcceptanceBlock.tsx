@@ -1,15 +1,15 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { FiCheckCircle, FiChevronRight } from 'react-icons/fi';
+import { useCallback, useEffect, useState } from 'react';
+import { FiCheckCircle, FiChevronRight, FiFileText } from 'react-icons/fi';
 import { ContractAcceptanceModal } from './ContractAcceptanceModal';
 import type { ContractItem } from './ContractScrollReader';
 
 type Props = {
   onAllAccepted: (acceptances: Array<{ contractId: string; version: number }>) => void;
   onIncomplete: () => void;
-  /** Sağ sütun dar alan için tek sütun kompakt görünüm */
-  layout?: 'default' | 'sidebar';
+  /** default: kart listesi | sidebar: dar sütun | gate: tek satır + sıralı modal */
+  layout?: 'default' | 'sidebar' | 'gate';
 };
 
 export function ContractAcceptanceBlock({
@@ -18,6 +18,7 @@ export function ContractAcceptanceBlock({
   layout = 'default',
 }: Props) {
   const isSidebar = layout === 'sidebar';
+  const isGate = layout === 'gate';
   const [contracts, setContracts] = useState<ContractItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -53,12 +54,23 @@ export function ContractAcceptanceBlock({
   }, [accepted, contracts, onAllAccepted, onIncomplete]);
 
   const handleAccept = (contractId: string) => {
-    setAccepted((prev) => ({ ...prev, [contractId]: true }));
+    const nextAccepted = { ...accepted, [contractId]: true };
+    setAccepted(nextAccepted);
+
+    if (isGate) {
+      const nextContract = contracts.find((c) => !nextAccepted[c.id]) ?? null;
+      setOpenContract(nextContract);
+    }
   };
+
+  const openGate = useCallback(() => {
+    const next = contracts.find((c) => !accepted[c.id]) ?? contracts[0] ?? null;
+    setOpenContract(next);
+  }, [accepted, contracts]);
 
   if (loading) {
     return (
-      <div className="rounded-xl border border-slate-200 p-4 text-center text-sm text-slate-500">
+      <div className="rounded-xl border border-slate-200 dark:border-slate-700 p-4 text-center text-sm text-slate-500">
         Sözleşmeler yükleniyor…
       </div>
     );
@@ -71,6 +83,87 @@ export function ContractAcceptanceBlock({
   }
 
   const acceptedCount = contracts.filter((c) => accepted[c.id]).length;
+  const allDone = acceptedCount === contracts.length && contracts.length > 0;
+  const openContractIndex = openContract
+    ? contracts.findIndex((c) => c.id === openContract.id)
+    : -1;
+
+  if (isGate) {
+    return (
+      <>
+        <div
+          className={`rounded-xl border p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center gap-4 ${
+            allDone
+              ? 'border-emerald-200 dark:border-emerald-800 bg-emerald-50/60 dark:bg-emerald-950/20'
+              : 'border-slate-200 dark:border-slate-700 bg-slate-50/70 dark:bg-slate-900/40'
+          }`}
+        >
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center gap-2">
+              {allDone ? (
+                <FiCheckCircle className="w-5 h-5 text-emerald-600 shrink-0" />
+              ) : (
+                <FiFileText className="w-5 h-5 text-blue-600 shrink-0" />
+              )}
+              <p className="text-sm font-semibold text-slate-900 dark:text-white">
+                {allDone ? 'Tüm sözleşmeler onaylandı' : 'Sözleşmeler'}
+              </p>
+            </div>
+            <p className="mt-1 text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+              {allDone
+                ? 'Başvuruyu gönderebilirsiniz. İsterseniz sözleşmeleri yeniden gözden geçirebilirsiniz.'
+                : 'Her sözleşmeyi sırayla açıp sonuna kadar okuyup onaylamanız gerekir.'}
+            </p>
+            <div className="flex items-center gap-2 mt-3">
+              <div className="flex items-center gap-1.5" aria-hidden>
+                {contracts.map((c) => (
+                  <span
+                    key={c.id}
+                    className={`w-2.5 h-2.5 rounded-full transition-colors ${
+                      accepted[c.id] ? 'bg-emerald-500' : 'bg-slate-300 dark:bg-slate-600'
+                    }`}
+                  />
+                ))}
+              </div>
+              <span className="text-xs font-medium text-slate-700 dark:text-slate-300">
+                {acceptedCount}/{contracts.length} onaylandı
+              </span>
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={openGate}
+            className={`shrink-0 w-full sm:w-auto min-h-[44px] px-5 py-2.5 rounded-xl text-sm font-semibold transition-colors touch-manipulation ${
+              allDone
+                ? 'border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 hover:bg-white dark:hover:bg-slate-800'
+                : 'bg-blue-600 hover:bg-blue-700 text-white'
+            }`}
+          >
+            {allDone
+              ? 'Gözden geçir'
+              : acceptedCount === 0
+                ? 'Sözleşmeleri oku'
+                : `Devam et (${acceptedCount}/${contracts.length})`}
+          </button>
+        </div>
+
+        {openContract && (
+          <ContractAcceptanceModal
+            contract={openContract}
+            accepted={Boolean(accepted[openContract.id])}
+            onAccept={() => handleAccept(openContract.id)}
+            onClose={() => setOpenContract(null)}
+            closeOnAccept={false}
+            stepLabel={
+              openContractIndex >= 0
+                ? `${openContractIndex + 1} / ${contracts.length}`
+                : undefined
+            }
+          />
+        )}
+      </>
+    );
+  }
 
   return (
     <>

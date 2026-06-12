@@ -400,8 +400,8 @@ export default function PersonnelApplicationPage() {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(280px,32%)] xl:grid-cols-[minmax(220px,260px)_minmax(0,1fr)_minmax(250px,300px)] xl:gap-5 lg:items-start">
-          <section className={`${panelClass} lg:col-start-1 lg:row-start-1 xl:col-start-1 xl:row-start-1`}>
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(220px,280px)_minmax(0,1fr)] lg:items-start">
+          <section className={panelClass}>
             <h2 className={sectionTitleClass}>Profil fotoğrafı</h2>
             <EmployeePhotoPicker
               variant="selfie"
@@ -411,7 +411,7 @@ export default function PersonnelApplicationPage() {
               onChange={setPhotoFile}
               required
             />
-            <div className="hidden xl:flex items-start gap-2 mt-4 pt-4 border-t border-slate-200 dark:border-slate-600 text-xs text-slate-600 dark:text-slate-400">
+            <div className="hidden lg:flex items-start gap-2 mt-4 pt-4 border-t border-slate-200 dark:border-slate-600 text-xs text-slate-600 dark:text-slate-400">
               <FiShield className="w-4 h-4 shrink-0 mt-0.5 text-blue-600" />
               <p>
                 Hassas bilgileriniz şifrelenerek saklanır; yalnızca yetkili yöneticiler
@@ -420,7 +420,7 @@ export default function PersonnelApplicationPage() {
             </div>
           </section>
 
-          <section className="space-y-4 lg:col-start-1 lg:row-start-2 xl:col-start-2 xl:row-start-1 min-w-0 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/50 p-4 sm:p-5 xl:border-0 xl:bg-transparent xl:p-0 xl:rounded-none">
+          <section className="space-y-4 min-w-0 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/50 p-4 sm:p-5 lg:border-0 lg:bg-transparent lg:p-0 lg:rounded-none">
             <h2 className={sectionTitleClass}>Kişisel bilgiler</h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -531,24 +531,20 @@ export default function PersonnelApplicationPage() {
               </div>
             </div>
           </section>
-
-          <section
-            className={`${panelClass} lg:col-start-2 lg:row-start-1 lg:row-span-2 xl:col-start-3 xl:row-start-1 xl:self-start`}
-          >
-            <h2 className={sectionTitleClass}>Sözleşmeler</h2>
-            <ContractAcceptanceBlock
-              layout="sidebar"
-              onAllAccepted={handleAllContractsAccepted}
-              onIncomplete={handleContractsIncomplete}
-            />
-            {contractsReady && (
-              <p className="mt-4 pt-4 border-t border-slate-200 dark:border-slate-600 text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                Sözleşmeler tamam. <strong>Başvuruyu Gönder</strong> dediğinizde e-postanıza
-                doğrulama kodu ve tek tıkla onay bağlantısı gönderilir.
-              </p>
-            )}
-          </section>
         </div>
+
+        <ContractAcceptanceBlock
+          layout="gate"
+          onAllAccepted={handleAllContractsAccepted}
+          onIncomplete={handleContractsIncomplete}
+        />
+
+        {contractsReady && (
+          <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed -mt-2">
+            Sözleşmeler tamam. <strong>Başvuruyu Gönder</strong> dediğinizde e-postanıza doğrulama
+            kodu ve tek tıkla onay bağlantısı gönderilir.
+          </p>
+        )}
 
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-6 border-t border-slate-200 dark:border-slate-700">
           <p className="text-sm text-gray-500 order-2 sm:order-1">

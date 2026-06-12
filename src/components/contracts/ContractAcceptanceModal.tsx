@@ -9,9 +9,20 @@ type Props = {
   accepted: boolean;
   onAccept: () => void;
   onClose: () => void;
+  /** Sıralı onay akışında bir sonraki sözleşmeye geçerken kapanmayı engeller */
+  closeOnAccept?: boolean;
+  /** Örn. "2 / 4" — başlık altında gösterilir */
+  stepLabel?: string;
 };
 
-export function ContractAcceptanceModal({ contract, accepted, onAccept, onClose }: Props) {
+export function ContractAcceptanceModal({
+  contract,
+  accepted,
+  onAccept,
+  onClose,
+  closeOnAccept = true,
+  stepLabel,
+}: Props) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [scrolledToEnd, setScrolledToEnd] = useState(accepted);
   const [scrollProgress, setScrollProgress] = useState(accepted ? 100 : 0);
@@ -95,6 +106,7 @@ export function ContractAcceptanceModal({ contract, accepted, onAccept, onClose 
               {contract.title}
             </h2>
             <p className="text-xs text-slate-500 mt-1">
+              {stepLabel ? `${stepLabel} · ` : ''}
               Sürüm {contract.version}
               {accepted ? ' · Onaylandı' : ' · Sonuna kadar kaydırın'}
             </p>
@@ -174,7 +186,7 @@ export function ContractAcceptanceModal({ contract, accepted, onAccept, onClose 
                 disabled={!canAccept}
                 onClick={() => {
                   onAccept();
-                  onClose();
+                  if (closeOnAccept) onClose();
                 }}
                 className="w-full min-h-[48px] py-3 rounded-xl bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white text-sm font-semibold disabled:opacity-40 disabled:cursor-not-allowed touch-manipulation transition-colors"
               >
