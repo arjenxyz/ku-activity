@@ -1,7 +1,5 @@
 import { createAdminClient } from '@/utils/supabase/admin';
 import { formatFullName } from '@/lib/format';
-import { sendPersonnelContractsEmail } from '@/lib/contract-email';
-
 export type PersonnelContract = {
   id: string;
   slug: string;
@@ -146,12 +144,6 @@ export async function recordContractAcceptances(params: {
   const { error } = await admin.from('personnel_contract_acceptances').insert(rows);
 
   if (error) throw new Error('Sözleşme onayları kaydedilemedi: ' + error.message);
-
-  await sendPersonnelContractsEmail({
-    email: params.email.trim().toLowerCase(),
-    fullName,
-    registrationRequestId: params.registrationRequestId,
-  });
 }
 
 export async function linkContractAcceptancesToEmployee(

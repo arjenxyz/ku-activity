@@ -29,7 +29,7 @@ export function ContractAcceptanceBlock({ onAllAccepted, onIncomplete }: Props) 
   }, []);
 
   useEffect(() => {
-    const required = contracts.filter((c) => true);
+    const required = contracts;
     const allDone =
       required.length > 0 && required.every((c) => accepted[c.id]);
 
@@ -66,7 +66,7 @@ export function ContractAcceptanceBlock({ onAllAccepted, onIncomplete }: Props) 
         <p className="font-medium">Zorunlu sözleşmeler</p>
         <p className="text-xs mt-1 text-blue-800">
           Başvuruyu göndermeden önce her sözleşmeyi <strong>sonuna kadar</strong> okuyup onaylamanız
-          gerekir. Onayladığınız metinler e-posta adresinize de gönderilir.
+          gerekir. Onayladığınız metinlere personel panelinden istediğiniz zaman erişebilirsiniz.
         </p>
       </div>
       {contracts.map((contract) => (
