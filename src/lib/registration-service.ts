@@ -80,7 +80,9 @@ export async function submitRegistrationApplication(input: RegistrationApplyInpu
     throw new Error(constructionAgeErrorMessage());
   }
   if (!validateTurkishIban(iban)) {
-    throw new Error('Geçersiz IBAN (TR ile 26 karakter)');
+    throw new Error(
+      'Geçerli bir IBAN girin (TR ile 26 karakter, kontrol hanesi doğru olmalı).'
+    );
   }
   if (!phoneRaw) {
     throw new Error('Telefon numarası zorunludur');

@@ -1,10 +1,11 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import {
-  computeIbanLookupHash,
   computePhoneLookupHash,
+  hashIbanLookup,
   hashTcKimlik,
   normalizeIban,
   PLACEHOLDER_IBAN,
+  validateTurkishIban,
   validateTurkishMobilePhone,
 } from '@/lib/field-encryption';
 
@@ -30,11 +31,15 @@ export function buildIdentityHashes(input: IdentityInput): IdentityHashes {
   }
 
   const normalizedIban = normalizeIban(input.iban);
-  const ibanLookupHash =
-    normalizedIban === PLACEHOLDER_IBAN ? null : computeIbanLookupHash(normalizedIban);
-  if (!ibanLookupHash && normalizedIban !== PLACEHOLDER_IBAN) {
-    throw new Error('Geçersiz IBAN (TR ile 26 karakter)');
+  if (!normalizedIban || normalizedIban === PLACEHOLDER_IBAN) {
+    throw new Error('IBAN zorunludur');
   }
+  if (!validateTurkishIban(normalizedIban)) {
+    throw new Error(
+      'Geçerli bir IBAN girin (TR ile 26 karakter, kontrol hanesi doğru olmalı).'
+    );
+  }
+  const ibanLookupHash = hashIbanLookup(normalizedIban);
 
   return {
     tcLookupHash: hashTcKimlik(input.tcKimlik.replace(/\D/g, '')),

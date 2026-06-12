@@ -11,11 +11,7 @@ import { PersonnelLoginLayout } from '@/components/personnel/PersonnelLoginLayou
 import { AuthAlert } from '@/components/auth/AuthAlerts';
 import { BirthDatePicker } from '@/components/forms/BirthDatePicker';
 import { TurkishPhoneInput } from '@/components/forms/TurkishPhoneInput';
-import { validateTurkishMobilePhone } from '@/lib/field-encryption';
-import {
-  constructionAgeErrorMessage,
-  isConstructionEligibleBirthDate,
-} from '@/lib/age-validation';
+import { validateRegistrationDraft } from '@/lib/registration-draft-validation';
 import { formatFullName } from '@/lib/format';
 import {
   PERSONNEL_PIN_LENGTH,
@@ -283,25 +279,23 @@ export default function PersonnelApplicationPage() {
       setError('Başvuruyu göndermeden önce tüm sözleşmeleri sonuna kadar okuyup onaylayın.');
       return;
     }
-    if (!form.birth_date || !isConstructionEligibleBirthDate(form.birth_date)) {
-      setError(constructionAgeErrorMessage());
-      return;
-    }
     const pinError = validatePersonnelPinMatch(form.pin, form.pin_confirm);
     if (pinError) {
       setError(pinError);
       return;
     }
-    if (!form.email.trim()) {
-      setError('E-posta adresi zorunludur.');
-      return;
-    }
-    if (!form.phone.trim()) {
-      setError('Telefon numarası zorunludur.');
-      return;
-    }
-    if (!validateTurkishMobilePhone(form.phone)) {
-      setError('Geçerli bir cep telefonu girin (ör. 534 968 5678).');
+    const draftError = validateRegistrationDraft({
+      firstName: form.first_name,
+      lastName: form.last_name,
+      email: form.email,
+      phone: form.phone,
+      tcKimlik: form.tc_kimlik,
+      birthDate: form.birth_date,
+      iban: form.iban,
+      pin: form.pin,
+    });
+    if (draftError) {
+      setError(draftError);
       return;
     }
 
@@ -661,6 +655,11 @@ export default function PersonnelApplicationPage() {
             setVerifyModalOpen(false);
             setVerifyFormData(null);
           }
+        }}
+        onFormFieldError={(message) => {
+          setVerifyModalOpen(false);
+          setVerifyFormData(null);
+          setError(message);
         }}
         onSuccess={handleVerificationSuccess}
       />

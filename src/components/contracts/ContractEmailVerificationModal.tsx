@@ -12,6 +12,7 @@ import {
 import { BrandMark } from '@/components/brand/BrandMark';
 import { APP_NAME } from '@/lib/brand';
 import type { PendingRegistration } from '@/lib/registration-pending-storage';
+import { isRegistrationFormFieldError } from '@/lib/registration-draft-validation';
 
 const OTP_LENGTH = 6;
 
@@ -20,6 +21,8 @@ type Props = {
   formData: FormData | null;
   onClose: () => void;
   onSuccess: (pending: PendingRegistration) => void;
+  /** Form alanı hatası — modal kapanır, mesaj ana formda gösterilir */
+  onFormFieldError?: (message: string) => void;
 };
 
 function OtpInput({
@@ -122,6 +125,7 @@ export function ContractEmailVerificationModal({
   formData,
   onClose,
   onSuccess,
+  onFormFieldError,
 }: Props) {
   const [code, setCode] = useState('');
   const [sending, setSending] = useState(false);
@@ -174,11 +178,17 @@ export function ContractEmailVerificationModal({
       setCode('');
       autoVerifyLock.current = false;
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'E-posta gönderilemedi');
+      const message = err instanceof Error ? err.message : 'E-posta gönderilemedi';
+      if (onFormFieldError && isRegistrationFormFieldError(message)) {
+        onFormFieldError(message);
+        onClose();
+        return;
+      }
+      setError(message);
     } finally {
       setSending(false);
     }
-  }, [formData]);
+  }, [formData, onClose, onFormFieldError]);
 
   useEffect(() => {
     if (open && formData && !sentTo && !sending && !error) {

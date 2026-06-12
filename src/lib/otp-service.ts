@@ -4,7 +4,7 @@ import { isEmailOtpConfigured, maskEmail, sendOtpEmail } from '@/lib/otp-deliver
 import type { ContractAcceptanceInput } from '@/lib/contract-service';
 import { deleteOtpDraftPhoto, uploadOtpDraftPhoto } from '@/lib/registration-photo';
 import { assertIdentityUnique } from '@/lib/identity-uniqueness';
-import { validateTurkishMobilePhone } from '@/lib/field-encryption';
+import { validateRegistrationDraft } from '@/lib/registration-draft-validation';
 import {
   submitRegistrationFromOtpDraft,
   type OtpRegistrationDraft,
@@ -106,12 +106,18 @@ export async function prepareContractOtpRegistration(params: {
     throw new Error('Sözleşme onayları eksik');
   }
 
-  const phone = params.draft.phone?.trim() ?? '';
-  if (!phone) {
-    throw new Error('Telefon numarası zorunludur');
-  }
-  if (!validateTurkishMobilePhone(phone)) {
-    throw new Error('Geçersiz telefon numarası');
+  const draftError = validateRegistrationDraft({
+    firstName: params.draft.firstName,
+    lastName: params.draft.lastName,
+    email: params.draft.email,
+    phone: params.draft.phone ?? '',
+    tcKimlik: params.draft.tcKimlik,
+    birthDate: params.draft.birthDate,
+    iban: params.draft.iban,
+    pin: params.draft.pin,
+  });
+  if (draftError) {
+    throw new Error(draftError);
   }
 
   const admin = createAdminClient();
