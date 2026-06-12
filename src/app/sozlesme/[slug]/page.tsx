@@ -1,8 +1,9 @@
 'use client';
 
 import { Suspense, useEffect, useState } from 'react';
+import Link from 'next/link';
 import { useParams, useSearchParams } from 'next/navigation';
-import { FiPrinter } from 'react-icons/fi';
+import { FiArrowLeft, FiPrinter } from 'react-icons/fi';
 
 type ContractView = {
   title: string;
@@ -18,6 +19,8 @@ function ContractViewContent() {
   const searchParams = useSearchParams();
   const slug = params.slug as string;
   const token = searchParams.get('t') ?? '';
+  const fromPersonnel = searchParams.get('from') === 'personnel';
+  const backHref = '/personnel-panel?tab=settings';
 
   const [contract, setContract] = useState<ContractView | null>(null);
   const [error, setError] = useState('');
@@ -55,7 +58,16 @@ function ContractViewContent() {
   return (
     <div className="min-h-screen bg-white text-slate-900 print-area">
       <div className="max-w-3xl mx-auto px-4 py-8 print:py-4">
-        <div className="flex flex-wrap gap-2 mb-6 print:hidden">
+        <div className="flex flex-wrap items-center gap-2 mb-6 print:hidden">
+          {fromPersonnel && (
+            <Link
+              href={backHref}
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border border-slate-200 bg-white text-slate-800 text-sm font-medium hover:bg-slate-50 min-h-[44px]"
+            >
+              <FiArrowLeft className="w-4 h-4" />
+              Ayarlara dön
+            </Link>
+          )}
           <button
             type="button"
             onClick={() => window.print()}

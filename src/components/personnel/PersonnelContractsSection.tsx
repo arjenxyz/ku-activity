@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { FiDownload, FiFileText, FiShield } from 'react-icons/fi';
 import { formatDate } from '@/lib/format';
 
@@ -70,15 +71,13 @@ export function PersonnelContractsSection() {
                   </p>
                 )}
               </div>
-              <a
-                href={`/sozlesme/${c.slug}?t=${c.accessToken}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-1.5 text-sm font-medium text-blue-600 hover:underline shrink-0"
+              <Link
+                href={`/sozlesme/${c.slug}?t=${encodeURIComponent(c.accessToken)}&from=personnel`}
+                className="inline-flex items-center justify-center gap-1.5 text-sm font-medium text-blue-600 hover:underline shrink-0 min-h-[44px]"
               >
                 <FiDownload className="w-4 h-4" />
                 Görüntüle
-              </a>
+              </Link>
             </div>
           </li>
         ))}
