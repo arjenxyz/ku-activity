@@ -10,6 +10,8 @@ import { EmployeePhotoPicker } from '@/components/employee/EmployeePhotoPicker';
 import { PersonnelLoginLayout } from '@/components/personnel/PersonnelLoginLayout';
 import { AuthAlert } from '@/components/auth/AuthAlerts';
 import { BirthDatePicker } from '@/components/forms/BirthDatePicker';
+import { TurkishPhoneInput } from '@/components/forms/TurkishPhoneInput';
+import { validateTurkishMobilePhone } from '@/lib/field-encryption';
 import {
   constructionAgeErrorMessage,
   isConstructionEligibleBirthDate,
@@ -259,7 +261,7 @@ export default function PersonnelApplicationPage() {
     body.append('firstName', form.first_name.trim());
     body.append('lastName', form.last_name.trim());
     body.append('email', form.email.trim());
-    if (form.phone) body.append('phone', form.phone);
+    body.append('phone', form.phone);
     body.append('tcKimlik', form.tc_kimlik);
     body.append('birthDate', form.birth_date);
     body.append('iban', form.iban);
@@ -292,6 +294,14 @@ export default function PersonnelApplicationPage() {
     }
     if (!form.email.trim()) {
       setError('E-posta adresi zorunludur.');
+      return;
+    }
+    if (!form.phone.trim()) {
+      setError('Telefon numarası zorunludur.');
+      return;
+    }
+    if (!validateTurkishMobilePhone(form.phone)) {
+      setError('Geçerli bir cep telefonu girin (ör. 534 968 5678).');
       return;
     }
 
@@ -530,13 +540,18 @@ export default function PersonnelApplicationPage() {
                 </p>
               </div>
               <div>
-                <label className={labelClass}>Telefon</label>
-                <input
-                  type="tel"
-                  className={inputClass}
+                <label className={labelClass} htmlFor="basvuru-phone">
+                  Telefon *
+                </label>
+                <TurkishPhoneInput
+                  id="basvuru-phone"
                   value={form.phone}
-                  onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                  onChange={(phone) => setForm({ ...form, phone })}
+                  required
                 />
+                <p className="text-xs text-slate-500 mt-1">
+                  Türkiye cep numarası; ülke kodu +90 otomatik eklenir.
+                </p>
               </div>
               <div>
                 <label className={labelClass}>T.C. Kimlik No *</label>

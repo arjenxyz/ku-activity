@@ -9,6 +9,7 @@ import {
   normalizeIban,
   validateTcKimlik,
   validateTurkishIban,
+  toStoredTurkishPhone,
   validateTurkishMobilePhone,
 } from '@/lib/field-encryption';
 import {
@@ -36,7 +37,7 @@ export type RegistrationApplyInput = {
   firstName: string;
   lastName: string;
   email: string;
-  phone?: string;
+  phone: string;
   tcKimlik: string;
   birthDate: string;
   iban: string;
@@ -58,7 +59,7 @@ export async function submitRegistrationApplication(input: RegistrationApplyInpu
   const firstName = input.firstName.trim();
   const lastName = input.lastName.trim();
   const email = input.email.trim().toLowerCase();
-  const phone = input.phone?.trim() || null;
+  const phoneRaw = input.phone?.trim() ?? '';
   const tc = input.tcKimlik.replace(/\D/g, '');
   const birthDate = input.birthDate;
   const iban = normalizeIban(input.iban);
@@ -81,9 +82,13 @@ export async function submitRegistrationApplication(input: RegistrationApplyInpu
   if (!validateTurkishIban(iban)) {
     throw new Error('Geçersiz IBAN (TR ile 26 karakter)');
   }
-  if (phone && !validateTurkishMobilePhone(phone)) {
+  if (!phoneRaw) {
+    throw new Error('Telefon numarası zorunludur');
+  }
+  if (!validateTurkishMobilePhone(phoneRaw)) {
     throw new Error('Geçersiz telefon numarası');
   }
+  const phone = toStoredTurkishPhone(phoneRaw);
   const pinError = validatePersonnelPin(input.pin);
   if (pinError) {
     throw new Error(pinError);

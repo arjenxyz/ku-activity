@@ -30,7 +30,7 @@ export async function POST(request: Request) {
         firstName: String(formData.get('firstName') ?? ''),
         lastName: String(formData.get('lastName') ?? ''),
         email: String(formData.get('email') ?? ''),
-        phone: formData.get('phone') ? String(formData.get('phone')) : undefined,
+        phone: String(formData.get('phone') ?? ''),
         tcKimlik: String(formData.get('tcKimlik') ?? ''),
         birthDate: String(formData.get('birthDate') ?? ''),
         iban: String(formData.get('iban') ?? ''),

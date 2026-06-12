@@ -94,6 +94,34 @@ export function validateTurkishMobilePhone(phone: string): boolean {
   return normalized !== null && /^905\d{9}$/.test(normalized);
 }
 
+/** Ulusal numara: 5349685678 → 534 968 5678 */
+export function formatTurkishPhoneNational(digits: string): string {
+  const d = digits.replace(/\D/g, '').slice(0, 10);
+  if (d.length <= 3) return d;
+  if (d.length <= 6) return `${d.slice(0, 3)} ${d.slice(3)}`;
+  return `${d.slice(0, 3)} ${d.slice(3, 6)} ${d.slice(6)}`;
+}
+
+/** Kayıt/gösterim: +90 534 968 5678 */
+export function toStoredTurkishPhone(phoneOrNational: string): string {
+  const normalized = normalizePhoneDigits(phoneOrNational);
+  if (normalized) {
+    return `+90 ${formatTurkishPhoneNational(normalized.slice(2))}`;
+  }
+  const national = phoneOrNational.replace(/\D/g, '').slice(0, 10);
+  if (!national) return '';
+  return `+90 ${formatTurkishPhoneNational(national)}`;
+}
+
+export function extractTurkishNationalDigits(phone: string): string {
+  const normalized = normalizePhoneDigits(phone);
+  if (normalized) return normalized.slice(2);
+  let digits = phone.replace(/\D/g, '');
+  if (digits.startsWith('90') && digits.length > 10) digits = digits.slice(2);
+  else if (digits.startsWith('0')) digits = digits.slice(1);
+  return digits.slice(0, 10);
+}
+
 export function hashPhoneLookup(phone: string): string {
   const normalized = normalizePhoneDigits(phone);
   if (!normalized || !/^905\d{9}$/.test(normalized)) {
