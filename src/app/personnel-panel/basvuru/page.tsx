@@ -358,34 +358,31 @@ export default function PersonnelApplicationPage() {
   if (result && status === 'pending') {
     return (
       <PersonnelLoginLayout
-        size="wide"
         alignTop
         title="Başvurunuz Bekliyor"
         subtitle="Yöneticiniz onaylayana kadar bu ekranı açık tutun veya tekrar bu sayfaya gelin."
       >
-        <div className="space-y-6">
+        <div className="space-y-5 text-center">
           {result.reused && (
-            <p className="text-sm text-blue-700 bg-blue-50 rounded-lg px-3 py-2 text-center">
+            <p className="text-sm text-blue-700 bg-blue-50 dark:bg-blue-950/40 rounded-lg px-3 py-2">
               Bekleyen başvurunuz devam ediyor; aynı kod geçerlidir.
             </p>
           )}
-          <div className="lg:grid lg:grid-cols-2 lg:gap-10 lg:items-center">
-            <div className="flex justify-center lg:justify-end">
-              <RegistrationQrCode value={result.approvalUrl} />
-            </div>
-            <div className="space-y-4 text-center lg:text-left mt-6 lg:mt-0">
-              <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
-                Onay bekleniyor — bu sayfayı kapatıp tekrar açsanız bile QR kodunuz burada kalır.
-              </div>
-              <div className="rounded-xl bg-slate-900 text-white py-4 px-6">
-                <p className="text-xs text-slate-400 uppercase tracking-wider mb-1">Başvuru Kodu</p>
-                <p className="text-2xl font-bold tracking-widest">{result.verificationCode}</p>
-              </div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                Bu ekranı yöneticinize gösterin. Onay sonrası size giriş bilgileri verilecektir.
-              </p>
-            </div>
+          <div className="flex justify-center">
+            <RegistrationQrCode value={result.approvalUrl} />
           </div>
+          <div className="rounded-xl border border-amber-200 dark:border-amber-900/50 bg-amber-50 dark:bg-amber-950/30 px-4 py-3 text-sm text-amber-900 dark:text-amber-100 text-left">
+            Onay bekleniyor — bu sayfayı kapatıp tekrar açsanız bile QR kodunuz burada kalır.
+          </div>
+          <div className="rounded-xl bg-slate-900 text-white py-4 px-5">
+            <p className="text-xs text-slate-400 uppercase tracking-wider mb-1">Başvuru Kodu</p>
+            <p className="text-xl sm:text-2xl font-bold tracking-widest break-all">
+              {result.verificationCode}
+            </p>
+          </div>
+          <p className="text-sm text-gray-600 dark:text-gray-400 text-left">
+            Bu ekranı yöneticinize gösterin. Onay sonrası size giriş bilgileri verilecektir.
+          </p>
         </div>
       </PersonnelLoginLayout>
     );
@@ -398,11 +395,10 @@ export default function PersonnelApplicationPage() {
 
     return (
       <PersonnelLoginLayout
-        size="wide"
         title="Hesabınız Aktif"
         subtitle="Yönetici onayı tamamlandı — hemen giriş yapabilirsiniz."
       >
-        <div className="space-y-6 text-center max-w-lg mx-auto">
+        <div className="space-y-6 text-center">
           <AuthAlert
             type="success"
             message="Başvurunuz onaylandı ve personel kaydınız oluşturuldu. Sistem şu an aktif."
