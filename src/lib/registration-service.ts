@@ -362,6 +362,7 @@ export async function approveRegistration(input: ApproveRegistrationInput) {
     phone: req.phone,
     tcKimlik: tcPlain,
     iban: ibanPlain,
+    excludeRegistrationId: req.id,
   });
 
   const fullName = formatFullName(req.first_name, req.last_name);
