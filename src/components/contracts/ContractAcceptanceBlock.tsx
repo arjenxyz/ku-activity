@@ -92,29 +92,32 @@ export function ContractAcceptanceBlock({
     return (
       <>
         <div
-          className={`rounded-xl border p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center gap-4 ${
+          className={`rounded-xl border p-3 sm:p-4 flex flex-col sm:flex-row sm:items-center gap-3 ${
             allDone
               ? 'border-emerald-200 dark:border-emerald-800 bg-emerald-50/60 dark:bg-emerald-950/20'
               : 'border-slate-200 dark:border-slate-700 bg-slate-50/70 dark:bg-slate-900/40'
           }`}
         >
           <div className="min-w-0 flex-1">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-wrap">
               {allDone ? (
-                <FiCheckCircle className="w-5 h-5 text-emerald-600 shrink-0" />
+                <FiCheckCircle className="w-4 h-4 text-emerald-600 shrink-0" />
               ) : (
-                <FiFileText className="w-5 h-5 text-blue-600 shrink-0" />
+                <FiFileText className="w-4 h-4 text-blue-600 shrink-0" />
               )}
               <p className="text-sm font-semibold text-slate-900 dark:text-white">
-                {allDone ? 'Tüm sözleşmeler onaylandı' : 'Sözleşmeler'}
+                {allDone ? 'Sözleşmeler tamam' : 'Sözleşmeler'}
               </p>
+              <span className="text-xs text-slate-500 sm:hidden">
+                {acceptedCount}/{contracts.length}
+              </span>
             </div>
-            <p className="mt-1 text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+            <p className="mt-1 text-xs text-slate-600 dark:text-slate-400 leading-relaxed hidden sm:block">
               {allDone
-                ? 'Başvuruyu gönderebilirsiniz. İsterseniz sözleşmeleri yeniden gözden geçirebilirsiniz.'
-                : 'Her sözleşmeyi sırayla açıp sonuna kadar okuyup onaylamanız gerekir.'}
+                ? 'Başvuruyu gönderebilirsiniz.'
+                : 'Sırayla okuyup onaylayın.'}
             </p>
-            <div className="flex items-center gap-2 mt-3">
+            <div className="hidden sm:flex items-center gap-2 mt-2">
               <div className="flex items-center gap-1.5" aria-hidden>
                 {contracts.map((c) => (
                   <span
@@ -133,7 +136,7 @@ export function ContractAcceptanceBlock({
           <button
             type="button"
             onClick={openGate}
-            className={`shrink-0 w-full sm:w-auto min-h-[44px] px-5 py-2.5 rounded-xl text-sm font-semibold transition-colors touch-manipulation ${
+            className={`shrink-0 w-full sm:w-auto min-h-[40px] px-4 py-2 rounded-xl text-sm font-semibold transition-colors touch-manipulation ${
               allDone
                 ? 'border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 hover:bg-white dark:hover:bg-slate-800'
                 : 'bg-blue-600 hover:bg-blue-700 text-white'
