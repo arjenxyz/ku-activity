@@ -114,10 +114,11 @@ export function toStoredTurkishPhone(phoneOrNational: string): string {
 }
 
 export function extractTurkishNationalDigits(phone: string): string {
+  if (!phone?.trim()) return '';
   const normalized = normalizePhoneDigits(phone);
   if (normalized) return normalized.slice(2);
   let digits = phone.replace(/\D/g, '');
-  if (digits.startsWith('90') && digits.length > 10) digits = digits.slice(2);
+  if (digits.startsWith('90')) digits = digits.slice(2);
   else if (digits.startsWith('0')) digits = digits.slice(1);
   return digits.slice(0, 10);
 }

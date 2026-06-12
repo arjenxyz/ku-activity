@@ -15,11 +15,12 @@ type Props = {
   disabled?: boolean;
 };
 
+/** Ulusal alan — kullanıcı 90 / 0 / +90 yazsa da sadece 10 haneli numara kalır */
 function parseInputDigits(raw: string): string {
   let digits = raw.replace(/\D/g, '');
-  if (digits.startsWith('90') && digits.length > 10) {
+  if (digits.startsWith('90')) {
     digits = digits.slice(2);
-  } else if (digits.startsWith('0') && digits.length >= 11) {
+  } else if (digits.startsWith('0')) {
     digits = digits.slice(1);
   }
   return digits.slice(0, 10);
@@ -42,7 +43,11 @@ export function TurkishPhoneInput({
       onChange('');
       return;
     }
-    if (digits[0] !== '5') return;
+    // 905… yazımı 90 kırpıldıktan sonra 5 ile devam eder; geçersiz önekte sıfırla (mobilde silme)
+    if (digits[0] !== '5') {
+      onChange('');
+      return;
+    }
     onChange(toStoredTurkishPhone(digits));
   };
 
@@ -65,7 +70,7 @@ export function TurkishPhoneInput({
         id={id}
         type="tel"
         inputMode="numeric"
-        autoComplete="tel-national"
+        autoComplete="off"
         disabled={disabled}
         required={required}
         className="min-w-0 flex-1 border-0 bg-transparent px-4 py-3 text-sm tabular-nums tracking-wide focus:outline-none focus:ring-0"
