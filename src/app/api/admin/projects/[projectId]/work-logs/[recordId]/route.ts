@@ -2,28 +2,34 @@ import { NextResponse } from 'next/server';
 import { requireAdminUser } from '@/lib/admin-auth';
 import { createClient } from '@/utils/supabase/server';
 import { apiErrorMessage } from '@/lib/project-queries';
+import { mesaiTypeToUnits, type MesaiType } from '@/lib/work-log';
 
 type Ctx = { params: Promise<{ projectId: string; recordId: string }> };
 
 export async function PATCH(request: Request, ctx: Ctx) {
   try {
-    await requireAdminUser();
+    const user = await requireAdminUser();
     const { projectId, recordId } = await ctx.params;
     const body = await request.json();
-    const { date, amount, description, approved } = body as {
+    const { date, amount, description, mesaiType, reconfirmAdmin } = body as {
       date?: string;
       amount?: number;
       description?: string | null;
-      approved?: boolean;
+      mesaiType?: MesaiType;
+      reconfirmAdmin?: boolean;
     };
 
     const updates: Record<string, unknown> = {};
     if (date !== undefined) updates.date = date;
     if (amount !== undefined) updates.amount = amount;
     if (description !== undefined) updates.description = description || null;
-    if (approved !== undefined) {
-      updates.approved = approved;
-      updates.approved_at = approved ? new Date().toISOString() : null;
+    if (mesaiType !== undefined) {
+      updates.mesai_type = mesaiType;
+      updates.mesai_units = mesaiTypeToUnits(mesaiType);
+    }
+    if (reconfirmAdmin) {
+      updates.admin_confirmed_at = new Date().toISOString();
+      updates.approved_by = user.id;
     }
 
     if (!Object.keys(updates).length) {

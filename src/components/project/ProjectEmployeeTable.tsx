@@ -1,17 +1,51 @@
 import Link from 'next/link';
-import { FiCheckCircle, FiXCircle, FiUserPlus } from 'react-icons/fi';
+import { FiCheckCircle, FiClock, FiUserPlus, FiUser } from 'react-icons/fi';
 import { EmployeeAvatar } from '@/components/employee/EmployeeAvatar';
 import { EmployeePhotoUpload } from '@/components/employee/EmployeePhotoUpload';
+import { approvalStatusLabel } from '@/lib/work-log';
 import type { Employee } from '@/types/adminTypes';
 
 type Props = {
   employees: Employee[];
   loading: boolean;
   projectId: string;
-  onVerify: (employeeId: string) => void;
+  onVerify: (employeeId: string, employeeName: string) => void;
   verifyingId: string | null;
   onPhotoChange?: (employeeId: string, photoUrl: string | null) => void;
 };
+
+function StatusBadge({ status }: { status: Employee['today_attendance_status'] }) {
+  if (status === 'confirmed') {
+    return (
+      <span className="inline-flex items-center gap-1 text-xs font-medium text-emerald-700">
+        <FiCheckCircle className="w-3.5 h-3.5" />
+        Onaylı
+      </span>
+    );
+  }
+  if (status === 'pending_employee') {
+    return (
+      <span className="inline-flex items-center gap-1 text-xs font-medium text-amber-700">
+        <FiUser className="w-3.5 h-3.5" />
+        Personel bekliyor
+      </span>
+    );
+  }
+  if (status === 'pending_admin') {
+    return (
+      <span className="inline-flex items-center gap-1 text-xs font-medium text-blue-700">
+        <FiClock className="w-3.5 h-3.5" />
+        Sizin onayınız bekleniyor
+      </span>
+    );
+  }
+  return (
+    <span className="inline-flex items-center gap-1 text-xs font-medium text-slate-500">
+      <FiClock className="w-3.5 h-3.5" />
+      {approvalStatusLabel('none')}
+    </span>
+  );
+}
 
 export function ProjectEmployeeTable({
   employees,
@@ -28,7 +62,9 @@ export function ProjectEmployeeTable({
           <h2 className="text-sm font-semibold text-slate-900 uppercase tracking-wide">
             Personel Listesi
           </h2>
-          <p className="text-xs text-slate-500 mt-0.5">Bu projeye kayıtlı personel</p>
+          <p className="text-xs text-slate-500 mt-0.5">
+            Çift onay: yönetici + personel aynı günü onaylayınca yevmiye kesinleşir
+          </p>
         </div>
         <Link
           href={`/admin-panel/proje/${projectId}/new`}
@@ -52,46 +88,43 @@ export function ProjectEmployeeTable({
               <th className="text-right font-semibold text-slate-600 px-6 py-3">İşlem</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-100">
+          <tbody>
             {loading ? (
               <tr>
                 <td colSpan={7} className="px-6 py-12 text-center text-slate-500">
-                  Yükleniyor...
+                  Yükleniyor…
                 </td>
               </tr>
             ) : employees.length === 0 ? (
               <tr>
-                <td colSpan={7} className="px-6 py-12 text-center">
-                  <p className="text-slate-600 font-medium">Henüz personel kaydı yok</p>
-                  <Link
-                    href={`/admin-panel/proje/${projectId}/new`}
-                    className="inline-block mt-3 text-sm text-blue-700 hover:underline"
-                  >
-                    İlk personeli ekleyin
-                  </Link>
+                <td colSpan={7} className="px-6 py-12 text-center text-slate-500">
+                  Bu projede henüz personel yok.
                 </td>
               </tr>
             ) : (
               employees.map((emp) => {
                 const monthDays = emp.monthly_attendance?.filter((d) => d > 0).length ?? 0;
+                const status = emp.today_attendance_status ?? 'none';
+                const canAdminAct = status !== 'confirmed';
+
                 return (
-                  <tr key={emp.id} className="hover:bg-slate-50/80">
-                    <td className="px-4 py-3.5">
+                  <tr key={emp.id} className="border-b border-slate-100 hover:bg-slate-50/50">
+                    <td className="px-4 py-3">
                       {onPhotoChange ? (
                         <EmployeePhotoUpload
                           projectId={projectId}
                           employeeId={emp.id}
                           name={emp.name}
-                          photoUrl={emp.photo_url}
-                          compact
+                          photoUrl={emp.photo_url ?? null}
                           onChange={(url) => onPhotoChange(emp.id, url)}
+                          compact
                         />
                       ) : (
                         <EmployeeAvatar name={emp.name} photoUrl={emp.photo_url} size="sm" />
                       )}
                     </td>
-                    <td className="px-6 py-3.5">
-                      <span className="font-medium text-slate-900">{emp.name}</span>
+                    <td className="px-6 py-3.5 font-medium text-slate-900">
+                      {emp.name}
                       <span className="block md:hidden text-xs text-slate-500">{emp.position}</span>
                     </td>
                     <td className="px-6 py-3.5 text-slate-600 hidden md:table-cell">
@@ -104,27 +137,21 @@ export function ProjectEmployeeTable({
                       {monthDays} gün
                     </td>
                     <td className="px-6 py-3.5">
-                      {emp.today_verified ? (
-                        <span className="inline-flex items-center gap-1 text-xs font-medium text-emerald-700">
-                          <FiCheckCircle className="w-3.5 h-3.5" />
-                          Onaylı
-                        </span>
-                      ) : (
-                        <span className="inline-flex items-center gap-1 text-xs font-medium text-amber-700">
-                          <FiXCircle className="w-3.5 h-3.5" />
-                          Bekliyor
-                        </span>
-                      )}
+                      <StatusBadge status={status} />
                     </td>
                     <td className="px-6 py-3.5 text-right">
-                      {!emp.today_verified && (
+                      {canAdminAct && (
                         <button
                           type="button"
                           disabled={verifyingId === emp.id}
-                          onClick={() => onVerify(emp.id)}
+                          onClick={() => onVerify(emp.id, emp.name)}
                           className="text-xs font-medium px-3 py-1.5 rounded-md border border-slate-300 text-slate-700 hover:bg-slate-100 disabled:opacity-50"
                         >
-                          {verifyingId === emp.id ? '...' : 'Yevmiye Onayla'}
+                          {verifyingId === emp.id
+                            ? '...'
+                            : status === 'pending_employee'
+                              ? 'Düzenle'
+                              : 'Yoklama'}
                         </button>
                       )}
                     </td>

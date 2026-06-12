@@ -31,6 +31,8 @@ export const ProjectSettingsModal = ({
     end_date: project.end_date || '',
     description: project.description || '',
     status: project.status,
+    work_start_time: project.work_start_time?.slice(0, 5) ?? '08:00',
+    work_end_time: project.work_end_time?.slice(0, 5) ?? '17:00',
   });
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -45,6 +47,8 @@ export const ProjectSettingsModal = ({
       end_date: project.end_date || '',
       description: project.description || '',
       status: project.status,
+      work_start_time: project.work_start_time?.slice(0, 5) ?? '08:00',
+      work_end_time: project.work_end_time?.slice(0, 5) ?? '17:00',
     });
   }, [project]);
 
@@ -138,6 +142,26 @@ export const ProjectSettingsModal = ({
             <div>
               <label className="block text-sm font-medium mb-1">Bitiş</label>
               <input type="date" className={inputClass} value={formData.end_date} onChange={(e) => setFormData({ ...formData, end_date: e.target.value })} />
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="block text-sm font-medium mb-1">İş başı saati</label>
+              <input
+                type="time"
+                className={inputClass}
+                value={formData.work_start_time ?? '08:00'}
+                onChange={(e) => setFormData({ ...formData, work_start_time: e.target.value })}
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-1">İş bitiş saati</label>
+              <input
+                type="time"
+                className={inputClass}
+                value={formData.work_end_time ?? '17:00'}
+                onChange={(e) => setFormData({ ...formData, work_end_time: e.target.value })}
+              />
             </div>
           </div>
           <div>

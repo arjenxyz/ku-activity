@@ -6,8 +6,10 @@ import dayjs from 'dayjs';
 import { FiRefreshCw } from 'react-icons/fi';
 
 import { fetchProject } from '@/api/projects';
-import { fetchEmployees, verifyDailyAttendance } from '@/api/employees';
+import { confirmAdminAttendance, fetchEmployees } from '@/api/employees';
+import { AdminAttendanceModal } from '@/components/admin/AdminAttendanceModal';
 import { ProjectSettingsModal } from '@/components/modals/ProjectSettingsModal';
+import type { MesaiType } from '@/lib/work-log';
 import { ProjectDetailHeader } from '@/components/project/ProjectDetailHeader';
 import { ProjectOverviewStats } from '@/components/project/ProjectOverviewStats';
 import { ProjectEmployeeTable } from '@/components/project/ProjectEmployeeTable';
@@ -25,6 +27,7 @@ export default function ProjectDetailPage() {
   const [loading, setLoading] = useState(true);
   const [employeesLoading, setEmployeesLoading] = useState(false);
   const [verifyingId, setVerifyingId] = useState<string | null>(null);
+  const [attendanceTarget, setAttendanceTarget] = useState<{ id: string; name: string } | null>(null);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -67,15 +70,30 @@ export default function ProjectDetailPage() {
     loadAll();
   }, [loadAll]);
 
-  const handleVerify = async (employeeId: string) => {
-    if (!projectId) return;
-    setVerifyingId(employeeId);
-    const { error: verifyError } = await verifyDailyAttendance(employeeId, projectId);
+  const handleVerifyClick = (employeeId: string, employeeName: string) => {
+    setAttendanceTarget({ id: employeeId, name: employeeName });
+  };
+
+  const handleAttendanceSubmit = async (data: {
+    amount: number;
+    mesaiType: MesaiType;
+    description: string;
+  }) => {
+    if (!projectId || !attendanceTarget) return;
+    setVerifyingId(attendanceTarget.id);
+    const { error: verifyError } = await confirmAdminAttendance({
+      projectId,
+      employeeId: attendanceTarget.id,
+      amount: data.amount,
+      mesaiType: data.mesaiType,
+      description: data.description || undefined,
+    });
     setVerifyingId(null);
     if (verifyError) {
       alert('Onay kaydedilemedi: ' + verifyError.message);
       return;
     }
+    setAttendanceTarget(null);
     await loadEmployees();
   };
 
@@ -156,13 +174,21 @@ export default function ProjectDetailPage() {
         employees={employees}
         loading={employeesLoading}
         projectId={projectId}
-        onVerify={handleVerify}
+        onVerify={handleVerifyClick}
         verifyingId={verifyingId}
         onPhotoChange={(employeeId, photoUrl) =>
           setEmployees((prev) =>
             prev.map((e) => (e.id === employeeId ? { ...e, photo_url: photoUrl } : e))
           )
         }
+      />
+
+      <AdminAttendanceModal
+        employeeName={attendanceTarget?.name ?? ''}
+        isOpen={Boolean(attendanceTarget)}
+        loading={Boolean(verifyingId)}
+        onClose={() => setAttendanceTarget(null)}
+        onSubmit={handleAttendanceSubmit}
       />
 
       <ProjectSettingsModal

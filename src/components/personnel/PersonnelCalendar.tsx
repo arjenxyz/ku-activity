@@ -7,7 +7,9 @@ export function PersonnelCalendar({ days }: { days: CalendarDay[] }) {
     <div className="bg-white dark:bg-slate-800 rounded-2xl border border-gray-100 dark:border-slate-700 shadow-sm overflow-hidden">
       <div className="px-4 py-3 border-b border-gray-100 dark:border-slate-700">
         <h2 className="font-semibold text-gray-900 dark:text-white">Puantaj Takvimi</h2>
-        <p className="text-xs text-gray-500 mt-0.5">Yeşil: onaylı · Sarı: bekleyen · Gri: kayıt yok</p>
+        <p className="text-xs text-gray-500 mt-0.5">
+          Yeşil: çift onaylı · Sarı: tek taraf onaylı · Gri: kayıt yok
+        </p>
       </div>
       <div className="p-4">
         <div className="grid grid-cols-7 gap-1 mb-1">

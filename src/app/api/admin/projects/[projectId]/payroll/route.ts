@@ -63,13 +63,16 @@ export async function POST(request: Request, ctx: Ctx) {
     for (const emp of employees ?? []) {
       const { data: logs } = await supabase
         .from('work_logs')
-        .select('amount')
+        .select('amount, mesai_units')
         .eq('employee_id', emp.id)
         .gte('date', start)
         .lte('date', end)
         .eq('approved', true);
 
-      const workDays = (logs ?? []).reduce((s, l) => s + Number(l.amount), 0);
+      const workDays = (logs ?? []).reduce(
+        (s, l) => s + Number(l.amount) + Number(l.mesai_units ?? 0),
+        0
+      );
       const gross = workDays * Number(emp.daily_wage);
 
       const { data: adv } = await supabase

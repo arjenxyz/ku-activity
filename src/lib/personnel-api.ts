@@ -1,4 +1,5 @@
 import type { Deduction, MinimumWage, WorkLog } from '@/lib/personnel-stats';
+import type { WorkLogApprovalStatus } from '@/lib/work-log';
 
 async function parseError(res: Response) {
   const data = await res.json().catch(() => ({}));
@@ -67,6 +68,35 @@ export async function fetchPersonnelMonthStats(month: string) {
   if (!res.ok) throw new Error(await parseError(res));
   const data = await res.json();
   return data.stats as MonthStats;
+}
+
+export async function fetchPersonnelTodayAttendance() {
+  const res = await fetch('/api/personnel/work-logs/today');
+  if (!res.ok) throw new Error(await parseError(res));
+  return res.json() as Promise<{
+    date: string;
+    status: WorkLogApprovalStatus;
+    workLog: { amount: number; mesai_type: string } | null;
+    project: {
+      name: string;
+      workStartTime: string | null;
+      workEndTime: string | null;
+    } | null;
+  }>;
+}
+
+export async function confirmPersonnelAttendance(amount?: number) {
+  const res = await fetch('/api/personnel/work-logs/confirm', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ amount }),
+  });
+  if (!res.ok) throw new Error(await parseError(res));
+  const data = await res.json();
+  return data as {
+    status: WorkLogApprovalStatus;
+    record: { amount: number; mesai_type: string };
+  };
 }
 
 export async function changePersonnelPassword(currentPassword: string, newPassword: string) {

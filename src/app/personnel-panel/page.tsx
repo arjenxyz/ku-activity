@@ -18,6 +18,7 @@ import {
 } from 'react-icons/fi';
 import { EmployeeAvatar } from '@/components/employee/EmployeeAvatar';
 import { PersonnelCalendar } from '@/components/personnel/PersonnelCalendar';
+import { PersonnelTodayAttendance } from '@/components/personnel/PersonnelTodayAttendance';
 import { PersonnelMonthFilter } from '@/components/personnel/PersonnelMonthFilter';
 import { PersonnelContractsSection } from '@/components/personnel/PersonnelContractsSection';
 import { PersonnelPasswordForm } from '@/components/personnel/PersonnelPasswordForm';
@@ -31,11 +32,13 @@ import {
 } from '@/components/personnel/PersonnelRecordCard';
 import { usePersonnelDashboard } from '@/hooks/usePersonnelDashboard';
 import { formatDate, formatMoney } from '@/lib/format';
+import { getWorkLogApprovalStatus, approvalStatusLabel } from '@/lib/work-log';
 import {
   buildMonthCalendar,
   currentMonth,
   deductionTypeLabel,
   workDayLabel,
+  type WorkLog,
 } from '@/lib/personnel-stats';
 
 const TABS = [
@@ -49,14 +52,18 @@ const TABS = [
   { id: 'settings', label: 'Ayarlar', icon: <FiSettings className="w-4 h-4" /> },
 ];
 
-function approvalBadge(approved?: boolean) {
-  if (approved === false) {
-    return <PersonnelBadge variant="warning">Bekliyor</PersonnelBadge>;
-  }
-  if (approved === true || approved !== false) {
+function approvalBadge(log: Pick<WorkLog, 'approved' | 'admin_confirmed_at' | 'employee_confirmed_at'>) {
+  const status = getWorkLogApprovalStatus(log);
+  if (status === 'confirmed') {
     return <PersonnelBadge variant="success">Onaylı</PersonnelBadge>;
   }
-  return null;
+  if (status === 'pending_employee') {
+    return <PersonnelBadge variant="warning">Sizin onayınız</PersonnelBadge>;
+  }
+  if (status === 'pending_admin') {
+    return <PersonnelBadge variant="warning">Yönetici bekliyor</PersonnelBadge>;
+  }
+  return <PersonnelBadge variant="warning">{approvalStatusLabel(status)}</PersonnelBadge>;
 }
 
 export default function PersonelPanel() {
@@ -154,9 +161,9 @@ export default function PersonelPanel() {
                 right={
                   <div className="flex flex-col items-end gap-1">
                     <PersonnelBadge variant={r.amount === 1 ? 'success' : 'warning'}>
-                      {workDayLabel(Number(r.amount))}
+                      {workDayLabel(Number(r.amount), r.mesai_type)}
                     </PersonnelBadge>
-                    {approvalBadge(r.approved)}
+                    {approvalBadge(r)}
                   </div>
                 }
                 sub={r.description || undefined}
@@ -342,6 +349,8 @@ export default function PersonelPanel() {
 
     return (
       <div className="space-y-4 sm:space-y-6">
+        <PersonnelTodayAttendance />
+
         {employee && (
           <div className="bg-white dark:bg-slate-800 rounded-2xl border border-gray-100 dark:border-slate-700 shadow-sm p-4 sm:p-6">
             <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
@@ -384,8 +393,8 @@ export default function PersonelPanel() {
                 left={formatDate(r.date)}
                 right={
                   <div className="flex items-center gap-2">
-                    <span>{workDayLabel(Number(r.amount))}</span>
-                    {approvalBadge(r.approved)}
+                    <span>{workDayLabel(Number(r.amount), r.mesai_type)}</span>
+                    {approvalBadge(r)}
                   </div>
                 }
               />

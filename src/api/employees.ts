@@ -2,11 +2,16 @@ import type { Employee, AttendanceStats } from '@/types/adminTypes';
 import type { PostgrestError } from '@supabase/supabase-js';
 import dayjs from 'dayjs';
 import { fetchProjectEmployees } from '@/lib/project-api';
+import { getWorkLogApprovalStatus, totalPayUnits } from '@/lib/work-log';
 
 type WorkLogSummary = {
   employee_id: string;
   date: string;
   amount: number;
+  mesai_units?: number;
+  approved?: boolean;
+  admin_confirmed_at?: string | null;
+  employee_confirmed_at?: string | null;
 };
 
 export const fetchEmployees = async (
@@ -32,18 +37,10 @@ export const fetchEmployees = async (
     `/api/admin/projects/${projectId}/work-logs?month=${encodeURIComponent(selectedMonth)}`
   );
   const workPayload = res.ok ? await res.json() : { records: [] };
-  const workLogs = (workPayload.records ?? []) as Array<{
-    employee_id: string;
-    date: string;
-    amount: number;
-  }>;
+  const workLogs = (workPayload.records ?? []) as WorkLogSummary[];
 
   const logs = workLogs.filter((w): w is WorkLogSummary => Boolean(w.employee_id));
   const presentDays = logs.filter((w) => Number(w.amount) > 0).length;
-
-  const todayVerifiedIds = new Set(
-    logs.filter((w) => w.date === today && Number(w.amount) > 0).map((w) => w.employee_id)
-  );
 
   const employeesWithMeta = employeesData.map((emp) => {
     const employeeLogs = logs.filter((w) => w.employee_id === emp.id);
@@ -51,12 +48,16 @@ export const fetchEmployees = async (
     const monthlyAttendance = Array.from({ length: daysInMonth }, (_, i) => {
       const date = dayjs(selectedMonth).date(i + 1).format('YYYY-MM-DD');
       const log = employeeLogs.find((w) => w.date === date);
-      return log ? Number(log.amount) : 0;
+      return log ? totalPayUnits(log.amount, log.mesai_units ?? 0) : 0;
     });
+
+    const todayLog = employeeLogs.find((w) => w.date === today);
+    const todayStatus = todayLog ? getWorkLogApprovalStatus(todayLog) : 'none';
 
     return {
       ...emp,
-      today_verified: todayVerifiedIds.has(emp.id),
+      today_verified: todayStatus === 'confirmed',
+      today_attendance_status: todayStatus,
       monthly_attendance: monthlyAttendance,
     } as Employee;
   });
@@ -74,18 +75,27 @@ export const fetchEmployees = async (
   };
 };
 
-export const verifyDailyAttendance = async (
-  employeeId: string,
-  projectId: string
+export type AdminAttendanceConfirmPayload = {
+  employeeId: string;
+  projectId: string;
+  amount: number;
+  mesaiType: 'none' | 'ceyrek' | 'yarim' | 'tam';
+  date?: string;
+  description?: string;
+};
+
+export const confirmAdminAttendance = async (
+  payload: AdminAttendanceConfirmPayload
 ): Promise<{ error: PostgrestError | null }> => {
-  const res = await fetch(`/api/admin/projects/${projectId}/work-logs`, {
+  const res = await fetch(`/api/admin/projects/${payload.projectId}/work-logs`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      employeeId,
-      date: dayjs().format('YYYY-MM-DD'),
-      amount: 1,
-      approved: false,
+      employeeId: payload.employeeId,
+      date: payload.date ?? dayjs().format('YYYY-MM-DD'),
+      amount: payload.amount,
+      mesaiType: payload.mesaiType,
+      description: payload.description,
     }),
   });
 

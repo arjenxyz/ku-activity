@@ -8,6 +8,8 @@ import { EntryFormCard } from '@/components/project/EntryFormCard';
 import { AlertBanner } from '@/components/project/AlertBanner';
 import { useProjectEmployees } from '@/hooks/useProjectEmployees';
 import { postWorkLog } from '@/lib/project-api';
+import { MESAI_OPTIONS } from '@/lib/work-log';
+import { labelClass, inputClass, cardClass } from '@/components/project/ui';
 
 export default function YevmiyePage() {
   const { projectId } = useParams() as { projectId: string };
@@ -16,6 +18,7 @@ export default function YevmiyePage() {
   const [values, setValues] = useState({
     date: dayjs().format('YYYY-MM-DD'),
     amount: '1',
+    mesaiType: 'none' as 'none' | 'ceyrek' | 'yarim' | 'tam',
     description: '',
   });
   const [loading, setLoading] = useState(false);
@@ -36,11 +39,16 @@ export default function YevmiyePage() {
         employeeId,
         date: values.date,
         amount: Number(values.amount),
+        mesaiType: Number(values.amount) < 1 ? 'none' : values.mesaiType,
         description: values.description || undefined,
-        approved: true,
       });
-      setSuccess('Yevmiye kaydı oluşturuldu.');
-      setValues({ date: dayjs().format('YYYY-MM-DD'), amount: '1', description: '' });
+      setSuccess('Yönetici onayı kaydedildi — personel onayı bekleniyor.');
+      setValues({
+        date: dayjs().format('YYYY-MM-DD'),
+        amount: '1',
+        mesaiType: 'none',
+        description: '',
+      });
       setEmployeeId('');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Kayıt başarısız');
@@ -53,7 +61,7 @@ export default function YevmiyePage() {
     <div>
       <ProjectPageHeader
         title="Yevmiye Ekle"
-        description="Günlük çalışma kaydı girin (gün sayısı)."
+        description="Yönetici onayı — personel de onaylayınca gün kesinleşir."
       />
       {empError && <AlertBanner type="error" message={empError} />}
       {error && <AlertBanner type="error" message={error} />}
@@ -65,14 +73,43 @@ export default function YevmiyePage() {
         onEmployeeChange={setEmployeeId}
         fields={[
           { name: 'date', label: 'Tarih', type: 'date' },
-          { name: 'amount', label: 'Gün Sayısı', type: 'number', step: '0.5' },
+          { name: 'amount', label: 'Gün (1=tam, 0.5=yarım)', type: 'number', step: '0.5' },
           { name: 'description', label: 'Açıklama', type: 'textarea', required: false },
         ]}
         values={values}
-        onChange={(n, v) => setValues((s) => ({ ...s, [n]: v }))}
+        onChange={(n, v) => {
+          setValues((s) => {
+            const next = { ...s, [n]: v };
+            if (n === 'amount' && Number(v) < 1) next.mesaiType = 'none';
+            return next;
+          });
+        }}
         onSubmit={handleSubmit}
         loading={loading || empLoading}
       />
+      <div className={`${cardClass} p-4 sm:p-6 max-w-xl -mt-4 mb-6`}>
+        <label className={labelClass}>Mesai (yalnızca tam günde)</label>
+        <select
+          className={inputClass}
+          value={values.mesaiType}
+          disabled={Number(values.amount) < 1}
+          onChange={(e) =>
+            setValues((s) => ({
+              ...s,
+              mesaiType: e.target.value as 'none' | 'ceyrek' | 'yarim' | 'tam',
+            }))
+          }
+        >
+          {MESAI_OPTIONS.map((o) => (
+            <option key={o.value} value={o.value}>
+              {o.label}
+            </option>
+          ))}
+        </select>
+        <p className="text-xs text-slate-500 mt-2">
+          Çeyrek = günlük yevmiyenin %25’i ek · Yarım = %50 · Tam = bir günlük yevmiye ek
+        </p>
+      </div>
     </div>
   );
 }

@@ -45,6 +45,12 @@ export async function PATCH(request: Request, context: RouteContext) {
     if (body.end_date !== undefined) updates.end_date = body.end_date || null;
     if (body.description !== undefined) updates.description = body.description.trim() || null;
     if (body.status !== undefined) updates.status = body.status;
+    if (body.work_start_time !== undefined) {
+      updates.work_start_time = body.work_start_time || '08:00';
+    }
+    if (body.work_end_time !== undefined) {
+      updates.work_end_time = body.work_end_time || null;
+    }
 
     const supabase = await createClient();
     const { data, error } = await supabase

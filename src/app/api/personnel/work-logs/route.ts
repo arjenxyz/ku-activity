@@ -10,7 +10,9 @@ export async function GET(request: Request) {
 
     let q = admin
       .from('work_logs')
-      .select('id, date, amount, description, hours_worked, approved')
+      .select(
+        'id, date, amount, mesai_type, mesai_units, description, hours_worked, approved, admin_confirmed_at, employee_confirmed_at'
+      )
       .eq('employee_id', session.employeeId)
       .order('date', { ascending: false })
       .limit(366);

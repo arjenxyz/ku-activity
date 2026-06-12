@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { requireAdminUser } from '@/lib/admin-auth';
 import { createClient } from '@/utils/supabase/server';
 import { apiErrorMessage } from '@/lib/project-queries';
+import { adminConfirmWorkLog } from '@/lib/work-log-service';
+import type { MesaiType } from '@/lib/work-log';
 
 type Ctx = { params: Promise<{ projectId: string }> };
 
@@ -48,45 +50,48 @@ export async function GET(request: Request, ctx: Ctx) {
 
 export async function POST(request: Request, ctx: Ctx) {
   try {
-    await requireAdminUser();
+    const user = await requireAdminUser();
     const { projectId } = await ctx.params;
     const body = await request.json();
-    const { employeeId, date, amount, description, approved } = body as {
+    const { employeeId, date, amount, description, mesaiType } = body as {
       employeeId?: string;
       date?: string;
       amount?: number;
       description?: string;
-      approved?: boolean;
+      mesaiType?: MesaiType;
     };
 
     if (!employeeId || !date || amount == null) {
       return NextResponse.json({ error: 'Zorunlu alanlar eksik' }, { status: 400 });
     }
 
-    const supabase = await createClient();
-    const { data, error } = await supabase
-      .from('work_logs')
-      .insert({
-        project_id: projectId,
-        employee_id: employeeId,
-        date,
-        amount,
-        description: description || null,
-        approved: approved ?? true,
-        approved_at: approved !== false ? new Date().toISOString() : null,
-      })
-      .select('*')
-      .single();
-
-    if (error) {
-      if (error.code === '23505') {
-        return NextResponse.json({ error: 'Bu tarih için zaten yevmiye kaydı var' }, { status: 409 });
-      }
-      return NextResponse.json({ error: error.message }, { status: 500 });
+    if (amount !== 1 && amount !== 0.5) {
+      return NextResponse.json({ error: 'Gün miktarı tam (1) veya yarım (0.5) olmalı' }, { status: 400 });
     }
-    return NextResponse.json({ record: data }, { status: 201 });
+
+    const mesai = mesaiType ?? 'none';
+    if (mesai !== 'none' && amount < 1) {
+      return NextResponse.json(
+        { error: 'Mesai yalnızca tam gün çalışmada tanımlanabilir' },
+        { status: 400 }
+      );
+    }
+
+    const supabase = await createClient();
+    const record = await adminConfirmWorkLog(supabase, {
+      projectId,
+      employeeId,
+      date,
+      amount,
+      mesaiType: mesai,
+      description: description ?? null,
+      approvedBy: user.id,
+    });
+
+    return NextResponse.json({ record }, { status: 201 });
   } catch (err) {
-    const { status, message } = apiErrorMessage(err);
+    const message = err instanceof Error ? err.message : 'Kayıt oluşturulamadı';
+    const status = message.includes('zaten') ? 409 : 400;
     return NextResponse.json({ error: message }, { status });
   }
 }

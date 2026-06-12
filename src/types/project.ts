@@ -14,6 +14,8 @@ export type Project = {
   updated_at: string;
   employee_count?: number;
   active_employee_count?: number;
+  work_start_time?: string | null;
+  work_end_time?: string | null;
 };
 
 export type ProjectFormData = {
@@ -25,6 +27,8 @@ export type ProjectFormData = {
   description?: string;
   status: ProjectStatus;
   verificationCode?: string;
+  work_start_time?: string;
+  work_end_time?: string;
 };
 
 export const PROJECT_STATUS_LABELS: Record<ProjectStatus, string> = {

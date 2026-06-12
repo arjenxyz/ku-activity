@@ -50,7 +50,13 @@ export async function fetchProjectSummary(projectId: string) {
 
 export async function postWorkLog(
   projectId: string,
-  body: { employeeId: string; date: string; amount: number; description?: string; approved?: boolean }
+  body: {
+    employeeId: string;
+    date: string;
+    amount: number;
+    description?: string;
+    mesaiType?: 'none' | 'ceyrek' | 'yarim' | 'tam';
+  }
 ) {
   const res = await fetch(`/api/admin/projects/${projectId}/work-logs`, {
     method: 'POST',

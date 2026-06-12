@@ -1,11 +1,16 @@
 import dayjs from 'dayjs';
+import { getWorkLogApprovalStatus, totalPayUnits, type MesaiType } from '@/lib/work-log';
 
 export type WorkLog = {
   id: string;
   date: string;
   amount: number;
+  mesai_type?: MesaiType | string | null;
+  mesai_units?: number;
   description: string | null;
   approved?: boolean;
+  admin_confirmed_at?: string | null;
+  employee_confirmed_at?: string | null;
 };
 
 export type Deduction = {
@@ -34,10 +39,13 @@ export type PersonnelStats = {
   net: number;
 };
 
-export function workDayLabel(amount: number) {
-  if (amount === 1) return 'Tam gün';
-  if (amount === 0.5) return 'Yarım gün';
-  return `${amount} gün`;
+export function workDayLabel(amount: number, mesaiType?: MesaiType | string | null) {
+  const base = amount === 1 ? 'Tam gün' : amount === 0.5 ? 'Yarım gün' : `${amount} gün`;
+  if (!mesaiType || mesaiType === 'none') return base;
+  if (mesaiType === 'ceyrek') return `${base} + çeyrek mesai`;
+  if (mesaiType === 'yarim') return `${base} + yarım mesai`;
+  if (mesaiType === 'tam') return `${base} + tam mesai`;
+  return base;
 }
 
 export function deductionTypeLabel(type: string) {
@@ -51,19 +59,23 @@ export function deductionTypeLabel(type: string) {
   return map[type] ?? type;
 }
 
+function payUnitsForLog(w: WorkLog): number {
+  return totalPayUnits(w.amount, w.mesai_units ?? 0);
+}
+
 export function computePersonnelStats(
   workLogs: WorkLog[],
   deductions: Deduction[],
   dailyWage: number,
   minimumWages: MinimumWage[] = []
 ): PersonnelStats {
-  const workDays = workLogs.reduce((s, w) => s + Number(w.amount), 0);
+  const workDays = workLogs.reduce((s, w) => s + payUnitsForLog(w), 0);
   const approvedDays = workLogs
-    .filter((w) => w.approved !== false)
-    .reduce((s, w) => s + Number(w.amount), 0);
+    .filter((w) => w.approved === true)
+    .reduce((s, w) => s + payUnitsForLog(w), 0);
   const pendingDays = workLogs
-    .filter((w) => w.approved === false)
-    .reduce((s, w) => s + Number(w.amount), 0);
+    .filter((w) => w.approved !== true)
+    .reduce((s, w) => s + payUnitsForLog(w), 0);
   const gross = workDays * dailyWage;
   const totalAdvance = deductions
     .filter((d) => d.type === 'advance')
@@ -92,17 +104,25 @@ export type CalendarDay = {
   inMonth: boolean;
   workAmount: number;
   approved: boolean | null;
+  approvalStatus: ReturnType<typeof getWorkLogApprovalStatus> | null;
 };
 
 export function buildMonthCalendar(month: string, workLogs: WorkLog[]): CalendarDay[] {
   const start = dayjs(`${month}-01`);
   const daysInMonth = start.daysInMonth();
-  const firstDow = start.day(); // 0 Sun
+  const firstDow = start.day();
   const mondayFirstOffset = (firstDow + 6) % 7;
   const cells: CalendarDay[] = [];
 
   for (let i = 0; i < mondayFirstOffset; i++) {
-    cells.push({ date: '', day: 0, inMonth: false, workAmount: 0, approved: null });
+    cells.push({
+      date: '',
+      day: 0,
+      inMonth: false,
+      workAmount: 0,
+      approved: null,
+      approvalStatus: null,
+    });
   }
 
   for (let d = 1; d <= daysInMonth; d++) {
@@ -112,8 +132,9 @@ export function buildMonthCalendar(month: string, workLogs: WorkLog[]): Calendar
       date,
       day: d,
       inMonth: true,
-      workAmount: log ? Number(log.amount) : 0,
-      approved: log ? log.approved !== false : null,
+      workAmount: log ? payUnitsForLog(log) : 0,
+      approved: log ? log.approved === true : null,
+      approvalStatus: log ? getWorkLogApprovalStatus(log) : null,
     });
   }
 
