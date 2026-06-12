@@ -1,8 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import Link from 'next/link';
-import { FiPlus, FiUserCheck } from 'react-icons/fi';
+import { FiPlus } from 'react-icons/fi';
 import ProjectList from './proje/ProjectList';
 import ProjectForm from './proje/ProjectForm';
 import ProjectFilters, { type ProjectFilter } from './proje/ProjectFilters';
@@ -68,13 +67,6 @@ export default function ProjectPage() {
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
-          <Link
-            href="/admin-panel/basvuru-onay"
-            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 text-slate-800 text-sm font-medium"
-          >
-            <FiUserCheck className="w-4 h-4" />
-            Başvuru Onayı
-          </Link>
           <button
             type="button"
             onClick={() => {

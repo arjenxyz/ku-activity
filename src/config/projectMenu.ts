@@ -18,7 +18,7 @@ export function getProjectMenuGroups(projectId: string): ProjectMenuGroup[] {
       links: [
         { label: 'Proje Özeti', href: () => `/admin-panel/proje/${id}` },
         { label: 'Yeni Personel Ekle', href: () => `/admin-panel/proje/${id}/new` },
-        { label: 'Başvuru Onayı (QR/Kod)', href: () => `/admin-panel/basvuru-onay` },
+        { label: 'Başvuru Onayı', href: (id) => `/admin-panel/proje/${id}/basvuru-onay` },
         { label: 'Personel Listesi', href: () => `/admin-panel/proje/${id}/list` },
         { label: 'Avans Ekle', href: () => `/admin-panel/proje/${id}/avans` },
         { label: 'Yevmiye Ekle', href: () => `/admin-panel/proje/${id}/yevmiye` },
