@@ -2,8 +2,10 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { FiCopy, FiPlus, FiTrash2 } from 'react-icons/fi';
+import { FiAlertTriangle, FiCopy, FiPlus, FiTrash2 } from 'react-icons/fi';
 import { DeveloperShell } from '@/components/developer/DeveloperShell';
+
+const WIPE_CONFIRM_PHRASE = 'TUM VERILERI SIL';
 
 type CodeRow = {
   id: string;
@@ -31,6 +33,10 @@ export default function DeveloperPanelPage() {
     notes: '',
     expiresDays: '90',
   });
+  const [wipeOpen, setWipeOpen] = useState(false);
+  const [wipePhrase, setWipePhrase] = useState('');
+  const [wiping, setWiping] = useState(false);
+  const [wipeResult, setWipeResult] = useState<string | null>(null);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -96,6 +102,41 @@ export default function DeveloperPanelPage() {
 
   const copyCode = (code: string) => {
     navigator.clipboard.writeText(code);
+  };
+
+  const handleWipeDatabase = async () => {
+    if (wipePhrase.trim() !== WIPE_CONFIRM_PHRASE) {
+      setError(`Onay için kutucuğa tam olarak şunu yazın: ${WIPE_CONFIRM_PHRASE}`);
+      return;
+    }
+    if (
+      !confirm(
+        'Son uyarı: Tüm projeler, personel, başvurular, yevmiyeler ve fotoğraflar kalıcı olarak silinecek. Devam?'
+      )
+    ) {
+      return;
+    }
+
+    setWiping(true);
+    setError(null);
+    setWipeResult(null);
+    try {
+      const res = await fetch('/api/developer/wipe-database', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ confirmPhrase: wipePhrase.trim() }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Silinemedi');
+      setWipeResult('Tüm uygulama verileri sıfırlandı. Developer hesabınız ve sözleşme şablonları korundu.');
+      setWipeOpen(false);
+      setWipePhrase('');
+      await load();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Silme başarısız');
+    } finally {
+      setWiping(false);
+    }
   };
 
   const statusOf = (row: CodeRow) => {
@@ -188,6 +229,77 @@ export default function DeveloperPanelPage() {
           </div>
         )}
       </div>
+
+      <section className="mt-10 border border-red-900/50 rounded-2xl overflow-hidden">
+        <div className="bg-red-950/40 px-5 py-4 border-b border-red-900/50">
+          <h2 className="font-semibold text-red-200 flex items-center gap-2">
+            <FiAlertTriangle className="w-4 h-4" />
+            Tehlikeli Bölge
+          </h2>
+          <p className="text-xs text-red-300/80 mt-1">
+            Tüm projeler, personel, başvurular, OTP, yevmiye, bordro, doğrulama kodları ve storage
+            fotoğrafları silinir. Developer girişi ve sözleşme şablonları kalır.
+          </p>
+        </div>
+        <div className="p-5 space-y-4">
+          {wipeResult && (
+            <div className="p-3 rounded-lg bg-emerald-900/30 border border-emerald-800 text-emerald-200 text-sm">
+              {wipeResult}
+            </div>
+          )}
+          {!wipeOpen ? (
+            <button
+              type="button"
+              onClick={() => {
+                setWipeOpen(true);
+                setWipePhrase('');
+                setWipeResult(null);
+              }}
+              className="px-4 py-2.5 rounded-lg bg-red-700 hover:bg-red-600 text-sm font-medium text-white"
+            >
+              Tüm Supabase Verilerini Sil
+            </button>
+          ) : (
+            <div className="space-y-3 max-w-md">
+              <p className="text-sm text-slate-300">
+                Onaylamak için{' '}
+                <code className="text-red-300 font-mono text-xs bg-slate-950 px-1.5 py-0.5 rounded">
+                  {WIPE_CONFIRM_PHRASE}
+                </code>{' '}
+                yazın:
+              </p>
+              <input
+                className="w-full rounded-lg bg-slate-950 border border-red-900/60 px-3 py-2 text-sm font-mono"
+                value={wipePhrase}
+                onChange={(e) => setWipePhrase(e.target.value)}
+                placeholder={WIPE_CONFIRM_PHRASE}
+                autoComplete="off"
+              />
+              <div className="flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  disabled={wiping || wipePhrase.trim() !== WIPE_CONFIRM_PHRASE}
+                  onClick={() => void handleWipeDatabase()}
+                  className="px-4 py-2 rounded-lg bg-red-700 hover:bg-red-600 text-sm font-medium disabled:opacity-50 text-white"
+                >
+                  {wiping ? 'Siliniyor…' : 'Kalıcı Olarak Sil'}
+                </button>
+                <button
+                  type="button"
+                  disabled={wiping}
+                  onClick={() => {
+                    setWipeOpen(false);
+                    setWipePhrase('');
+                  }}
+                  className="px-4 py-2 rounded-lg border border-slate-700 text-sm text-slate-300 hover:bg-slate-800"
+                >
+                  Vazgeç
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
     </DeveloperShell>
   );
 }

@@ -1,0 +1,50 @@
+import { NextResponse } from 'next/server';
+import { requireDeveloperUser } from '@/lib/developer-auth';
+import { wipeApplicationStorage } from '@/lib/developer-wipe-storage';
+import { createClient } from '@/utils/supabase/server';
+
+export const WIPE_CONFIRM_PHRASE = 'TUM VERILERI SIL';
+
+export async function POST(request: Request) {
+  try {
+    await requireDeveloperUser();
+
+    const body = (await request.json()) as { confirmPhrase?: string };
+    if (body.confirmPhrase?.trim() !== WIPE_CONFIRM_PHRASE) {
+      return NextResponse.json(
+        {
+          error: `Onay metni hatalı. Kutucuğa tam olarak şunu yazın: ${WIPE_CONFIRM_PHRASE}`,
+        },
+        { status: 400 }
+      );
+    }
+
+    const supabase = await createClient();
+    const { data, error } = await supabase.rpc('developer_wipe_application_data');
+
+    if (error) {
+      const message = error.message.includes('UNAUTHORIZED')
+        ? 'Yetkisiz'
+        : error.message.includes('developer_wipe_application_data')
+          ? '027_developer_wipe_data.sql migration çalıştırın'
+          : error.message;
+      const status = error.message.includes('UNAUTHORIZED') ? 401 : 500;
+      return NextResponse.json({ error: message }, { status });
+    }
+
+    const storage = await wipeApplicationStorage();
+
+    return NextResponse.json({
+      ok: true,
+      deleted: data?.deleted ?? data,
+      storage,
+      preserved: ['profiles', 'auth.users', 'personnel_contracts (şablonlar)'],
+    });
+  } catch (err) {
+    if (err instanceof Error && err.message === 'UNAUTHORIZED') {
+      return NextResponse.json({ error: 'Yetkisiz' }, { status: 401 });
+    }
+    console.error('[developer/wipe-database]', err);
+    return NextResponse.json({ error: 'Veriler silinemedi' }, { status: 500 });
+  }
+}
