@@ -1,0 +1,1 @@
+export const WIPE_CONFIRM_PHRASE = 'TUM VERILERI SIL';

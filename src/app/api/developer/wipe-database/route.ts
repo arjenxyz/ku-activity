@@ -1,9 +1,8 @@
 import { NextResponse } from 'next/server';
 import { requireDeveloperUser } from '@/lib/developer-auth';
+import { WIPE_CONFIRM_PHRASE } from '@/lib/developer-wipe';
 import { wipeApplicationStorage } from '@/lib/developer-wipe-storage';
 import { createClient } from '@/utils/supabase/server';
-
-export const WIPE_CONFIRM_PHRASE = 'TUM VERILERI SIL';
 
 export async function POST(request: Request) {
   try {

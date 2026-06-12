@@ -237,7 +237,7 @@ export function QrCameraScanner({ onScan, disabled }: Props) {
     return () => {
       cancelled = true;
     };
-  }, [viewfinderOpen, active, regionId, handleDecoded, releaseScanner]);
+  }, [viewfinderOpen, active, regionId, handleDecoded, releaseScanner, stop]);
 
   const start = () => {
     if (disabled || starting || active) return;

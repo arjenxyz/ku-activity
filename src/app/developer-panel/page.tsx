@@ -4,8 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { FiAlertTriangle, FiCopy, FiPlus, FiTrash2 } from 'react-icons/fi';
 import { DeveloperShell } from '@/components/developer/DeveloperShell';
-
-const WIPE_CONFIRM_PHRASE = 'TUM VERILERI SIL';
+import { WIPE_CONFIRM_PHRASE } from '@/lib/developer-wipe';
 
 type CodeRow = {
   id: string;
