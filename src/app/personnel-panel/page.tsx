@@ -280,24 +280,26 @@ function PersonelPanelContent() {
 
         {employee && (
           <div className="bg-white dark:bg-slate-800 rounded-2xl border border-gray-100 dark:border-slate-700 shadow-sm p-4 sm:p-6">
-            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">
+            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
               Profil
             </p>
-            <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-5">
+            <div className="flex items-center gap-4">
               <EmployeeAvatar
                 name={employee.name}
                 photoUrl={employee.photo_url}
                 size="xl"
-                className="!rounded-2xl ring-4 ring-slate-100 dark:ring-slate-700"
+                className="!rounded-2xl"
               />
-              <div className="min-w-0 text-center sm:text-left flex-1">
-                <p className="text-xl font-bold text-gray-900 dark:text-white">{employee.name}</p>
-                <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">{employee.position}</p>
-                <p className="text-base font-semibold text-emerald-600 dark:text-emerald-400 mt-2">
+              <div className="min-w-0 flex-1">
+                <p className="text-lg font-bold text-gray-900 dark:text-white truncate">
+                  {employee.name}
+                </p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">{employee.position}</p>
+                <p className="text-sm font-medium text-emerald-600 dark:text-emerald-400 mt-1">
                   Günlük yevmiye: {formatMoney(Number(employee.daily_wage))}
                 </p>
                 {employee.hire_date && (
-                  <p className="text-sm text-gray-400 dark:text-gray-500 mt-1">
+                  <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">
                     İşe giriş: {formatDate(employee.hire_date)}
                   </p>
                 )}

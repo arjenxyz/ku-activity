@@ -8,7 +8,7 @@ const sizeClass: Record<Size, string> = {
   sm: 'w-9 h-9 text-sm',
   md: 'w-12 h-12 text-base',
   lg: 'w-16 h-16 text-xl',
-  xl: 'w-24 h-24 sm:w-28 sm:h-28 text-3xl',
+  xl: 'w-20 h-20 sm:w-24 sm:h-24 text-2xl',
 };
 
 export function EmployeeAvatar({
