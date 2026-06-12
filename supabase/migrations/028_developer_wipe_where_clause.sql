@@ -1,5 +1,4 @@
--- Developer panel: tüm uygulama verilerini sıfırlama (profil/auth korunur)
--- Supabase: DELETE requires a WHERE clause → where true
+-- Supabase: DELETE requires a WHERE clause — wipe fonksiyonunu güncelle
 
 create or replace function public.developer_wipe_application_data()
 returns jsonb
