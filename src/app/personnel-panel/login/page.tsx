@@ -4,6 +4,7 @@ import { Suspense, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { loadPendingRegistration } from '@/lib/registration-pending-storage';
+import { hasActivePersonnelSession, redirectToPersonnelPanel } from '@/lib/personnel-session-check';
 import { FiLock } from 'react-icons/fi';
 import { PersonnelLoginLayout } from '@/components/personnel/PersonnelLoginLayout';
 import { AuthAlert, LoadingSpinner } from '@/components/auth/AuthAlerts';
@@ -26,6 +27,23 @@ function PersonnelLoginContent() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [checkingSession, setCheckingSession] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+    void (async () => {
+      const active = await hasActivePersonnelSession();
+      if (cancelled) return;
+      if (active) {
+        redirectToPersonnelPanel();
+        return;
+      }
+      setCheckingSession(false);
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     const fromUrl = searchParams.get('tc');
@@ -39,6 +57,17 @@ function PersonnelLoginContent() {
     }
     setHasPendingApplication(Boolean(loadPendingRegistration()));
   }, [searchParams]);
+
+  if (checkingSession) {
+    return (
+      <PersonnelLoginLayout>
+        <div className="flex flex-col items-center justify-center py-16 gap-3 text-slate-500">
+          <LoadingSpinner />
+          <p className="text-sm">Oturum kontrol ediliyor…</p>
+        </div>
+      </PersonnelLoginLayout>
+    );
+  }
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();

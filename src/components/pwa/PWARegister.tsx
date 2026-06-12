@@ -19,7 +19,10 @@ export function PWARegister() {
           return;
         }
 
-        await navigator.serviceWorker.register('/sw.js', { scope: '/' });
+        await navigator.serviceWorker.register('/sw.js', {
+          scope: '/',
+          updateViaCache: 'none',
+        });
       } catch (error) {
         console.error('Service worker işlemi başarısız:', error);
       }

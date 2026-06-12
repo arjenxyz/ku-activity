@@ -33,13 +33,30 @@ export function usePersonnelDashboard(month: string, options: Options = {}) {
     setLoading(true);
     setError(null);
     try {
-      const me = await fetchPersonnelMe();
+      let me: PersonnelEmployee | null = null;
+      let lastErr: unknown;
+      for (let attempt = 0; attempt < 2; attempt++) {
+        try {
+          me = await fetchPersonnelMe();
+          break;
+        } catch (e) {
+          lastErr = e;
+          const msg = e instanceof Error ? e.message : '';
+          const authFailure = msg.includes('Oturum') || msg.includes('401') || msg.includes('geçersiz');
+          if (attempt === 0 && authFailure) {
+            await new Promise((r) => setTimeout(r, 400));
+            continue;
+          }
+          throw e;
+        }
+      }
+      if (!me) throw lastErr ?? new Error('Oturum geçersiz');
       setEmployee(me);
       const wl = await fetchPersonnelWorkLogs(month);
       setWorkLogs(wl);
     } catch (e) {
       const msg = e instanceof Error ? e.message : 'Veri yüklenemedi';
-      if (msg.includes('Oturum') || msg.includes('401')) {
+      if (msg.includes('Oturum') || msg.includes('401') || msg.includes('geçersiz')) {
         router.replace('/personnel-panel/login');
         return;
       }

@@ -22,7 +22,7 @@ export function personnelCookieOptions(expires: Date): Partial<ResponseCookie> {
   return {
     httpOnly: true,
     secure: isProd,
-    sameSite: 'strict',
+    sameSite: 'lax',
     path: '/',
     expires,
     maxAge: SESSION_DAYS * 24 * 60 * 60,
