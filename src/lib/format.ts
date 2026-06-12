@@ -1,9 +1,10 @@
 export function formatMoney(value: number) {
+  const safe = Number.isFinite(value) ? value : 0;
   return new Intl.NumberFormat('tr-TR', {
     style: 'currency',
     currency: 'TRY',
     maximumFractionDigits: 0,
-  }).format(value);
+  }).format(safe);
 }
 
 export function formatDate(value: string) {

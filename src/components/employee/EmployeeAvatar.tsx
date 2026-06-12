@@ -2,12 +2,13 @@
 
 import { useState } from 'react';
 
-type Size = 'sm' | 'md' | 'lg';
+type Size = 'sm' | 'md' | 'lg' | 'xl';
 
 const sizeClass: Record<Size, string> = {
   sm: 'w-9 h-9 text-sm',
   md: 'w-12 h-12 text-base',
   lg: 'w-16 h-16 text-xl',
+  xl: 'w-24 h-24 sm:w-28 sm:h-28 text-3xl',
 };
 
 export function EmployeeAvatar({

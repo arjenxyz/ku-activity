@@ -1,5 +1,6 @@
 import type { Deduction, MinimumWage, WorkLog } from '@/lib/personnel-stats';
 import type { WorkLogApprovalStatus } from '@/lib/work-log';
+import { normalizeMonthStats } from '@/lib/personnel-month-stats';
 
 function personnelFetch(input: RequestInfo | URL, init?: RequestInit) {
   return fetch(input, { credentials: 'same-origin', ...init });
@@ -84,7 +85,7 @@ export async function fetchPersonnelMonthStats(month: string) {
   const res = await personnelFetch(`/api/personnel/summary?month=${encodeURIComponent(month)}`);
   if (!res.ok) throw new Error(await parseError(res));
   const data = await res.json();
-  return data.stats as MonthStats;
+  return normalizeMonthStats((data.stats ?? {}) as Record<string, unknown>, month);
 }
 
 export async function fetchPersonnelTodayAttendance() {

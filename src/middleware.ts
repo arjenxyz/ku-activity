@@ -82,8 +82,13 @@ export async function middleware(request: NextRequest) {
     }
   }
 
+  const hasPersonnelCookie = Boolean(request.cookies.get(PERSONNEL_COOKIE)?.value);
+
+  if (hasPersonnelCookie && pathname === '/') {
+    return NextResponse.redirect(new URL('/personnel-panel', request.url));
+  }
+
   if (isPersonnelRoute || pathname === PERSONNEL_LOGIN) {
-    const hasPersonnelCookie = Boolean(request.cookies.get(PERSONNEL_COOKIE)?.value);
     if (hasPersonnelCookie && pathname === PERSONNEL_LOGIN) {
       return NextResponse.redirect(new URL('/personnel-panel', request.url));
     }

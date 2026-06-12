@@ -2,7 +2,8 @@ import { createHash, randomBytes } from 'crypto';
 import type { ResponseCookie } from 'next/dist/compiled/@edge-runtime/cookies';
 
 export { PERSONNEL_COOKIE } from './personnel-cookie';
-const SESSION_DAYS = 7;
+/** Çıkış yapılana kadar oturum açık kalsın; her aktivitede süre yenilenir */
+const SESSION_DAYS = 365;
 
 export function hashToken(token: string): string {
   return createHash('sha256').update(token).digest('hex');

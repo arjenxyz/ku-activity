@@ -1,46 +1,82 @@
-import { cookies } from 'next/headers';
-import { createAdminClient } from '@/utils/supabase/admin';
-import { PERSONNEL_COOKIE, hashToken } from '@/lib/personnel-session';
-
-export type PersonnelSession = {
-  sessionId: string;
-  employeeId: string;
-  projectId: string;
-  expiresAt: string;
-};
-
-export async function getPersonnelSession(): Promise<PersonnelSession | null> {
-  const cookieStore = await cookies();
-  const token = cookieStore.get(PERSONNEL_COOKIE)?.value;
-  if (!token) return null;
-
-  const admin = createAdminClient();
-  const { data, error } = await admin.rpc('validate_personnel_session', {
-    p_token_hash: hashToken(token),
-  });
-
-  const rows = Array.isArray(data) ? data : data ? [data] : [];
-  if (error || rows.length === 0) return null;
-
-  const row = rows[0] as {
-    session_id: string;
-    employee_id: string;
-    project_id: string;
-    expires_at: string;
-  };
-
-  return {
-    sessionId: row.session_id,
-    employeeId: row.employee_id,
-    projectId: row.project_id,
-    expiresAt: row.expires_at,
-  };
-}
-
-export async function requirePersonnelSession(): Promise<PersonnelSession> {
-  const session = await getPersonnelSession();
-  if (!session) {
-    throw new Error('UNAUTHORIZED');
-  }
-  return session;
-}
+import { cookies } from 'next/headers';
+import { createAdminClient } from '@/utils/supabase/admin';
+import {
+  PERSONNEL_COOKIE,
+  getSessionExpiry,
+  hashToken,
+  personnelCookieOptions,
+} from '@/lib/personnel-session';
+
+export type PersonnelSession = {
+  sessionId: string;
+  employeeId: string;
+  projectId: string;
+  expiresAt: string;
+};
+
+const SLIDE_REFRESH_WITHIN_MS = 30 * 24 * 60 * 60 * 1000;
+
+async function loadSessionFromToken(token: string): Promise<PersonnelSession | null> {
+  const admin = createAdminClient();
+  const { data, error } = await admin.rpc('validate_personnel_session', {
+    p_token_hash: hashToken(token),
+  });
+
+  const rows = Array.isArray(data) ? data : data ? [data] : [];
+  if (error || rows.length === 0) return null;
+
+  const row = rows[0] as {
+    session_id: string;
+    employee_id: string;
+    project_id: string;
+    expires_at: string;
+  };
+
+  return {
+    sessionId: row.session_id,
+    employeeId: row.employee_id,
+    projectId: row.project_id,
+    expiresAt: row.expires_at,
+  };
+}
+
+async function slidePersonnelSession(sessionId: string, token: string) {
+  const expiresAt = getSessionExpiry();
+  const admin = createAdminClient();
+  await admin
+    .from('personnel_sessions')
+    .update({ expires_at: expiresAt.toISOString() })
+    .eq('id', sessionId)
+    .is('revoked_at', null);
+
+  const cookieStore = await cookies();
+  cookieStore.set(PERSONNEL_COOKIE, token, personnelCookieOptions(expiresAt));
+}
+
+export async function getPersonnelSession(): Promise<PersonnelSession | null> {
+  const cookieStore = await cookies();
+  const token = cookieStore.get(PERSONNEL_COOKIE)?.value;
+  if (!token) return null;
+  return loadSessionFromToken(token);
+}
+
+export async function requirePersonnelSession(): Promise<PersonnelSession> {
+  const cookieStore = await cookies();
+  const token = cookieStore.get(PERSONNEL_COOKIE)?.value;
+  if (!token) {
+    throw new Error('UNAUTHORIZED');
+  }
+
+  const session = await loadSessionFromToken(token);
+  if (!session) {
+    throw new Error('UNAUTHORIZED');
+  }
+
+  const msLeft = new Date(session.expiresAt).getTime() - Date.now();
+  if (msLeft < SLIDE_REFRESH_WITHIN_MS) {
+    await slidePersonnelSession(session.sessionId, token);
+    session.expiresAt = getSessionExpiry().toISOString();
+  }
+
+  return session;
+}

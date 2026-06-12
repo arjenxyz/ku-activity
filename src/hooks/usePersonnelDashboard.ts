@@ -82,17 +82,19 @@ export function usePersonnelDashboard(month: string, options: Options = {}) {
     void reloadFinance();
   }, [reloadFinance]);
 
+  const safeNum = (v: number) => (Number.isFinite(v) ? v : 0);
+
   const stats = employee
     ? monthStats
       ? {
-          workDays: Number(monthStats.work_days),
-          approvedDays: Number(monthStats.approved_days),
-          pendingDays: Number(monthStats.pending_days),
-          gross: Number(monthStats.gross_pay),
-          totalAdvance: Number(monthStats.total_advances),
-          totalDeduct: Number(monthStats.total_deductions),
-          totalMinimum: Number(monthStats.total_minimum),
-          net: Number(monthStats.net_pay),
+          workDays: safeNum(monthStats.work_days),
+          approvedDays: safeNum(monthStats.approved_days),
+          pendingDays: safeNum(monthStats.pending_days),
+          gross: safeNum(monthStats.gross_pay),
+          totalAdvance: safeNum(monthStats.total_advances),
+          totalDeduct: safeNum(monthStats.total_deductions),
+          totalMinimum: safeNum(monthStats.total_minimum),
+          net: safeNum(monthStats.net_pay),
         }
       : loadFinance
         ? computePersonnelStats(workLogs, deductions, Number(employee.daily_wage), minimumWages)
