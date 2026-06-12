@@ -8,11 +8,11 @@ import { FiLock } from 'react-icons/fi';
 import { PersonnelLoginLayout } from '@/components/personnel/PersonnelLoginLayout';
 import { AuthAlert, LoadingSpinner } from '@/components/auth/AuthAlerts';
 import { PERSONNEL_PIN_LENGTH, sanitizePersonnelPinInput } from '@/lib/personnel-pin';
-import { AutofillTrap } from '@/components/auth/AutofillTrap';
 import {
-  noAutofillFormProps,
-  noAutofillPasswordProps,
-} from '@/components/auth/noAutofill';
+  loginPinInputProps,
+  loginTcInputProps,
+  personnelLoginFormProps,
+} from '@/components/auth/loginFormProps';
 
 const inputClass =
   'block w-full rounded-xl border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-900 px-4 py-3 text-sm text-gray-900 dark:text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow';
@@ -68,44 +68,40 @@ function PersonnelLoginContent() {
 
   return (
     <PersonnelLoginLayout>
-      <form onSubmit={handleLogin} className="space-y-5 relative" {...noAutofillFormProps}>
-        <AutofillTrap />
-
+      <form onSubmit={handleLogin} className="space-y-5" {...personnelLoginFormProps}>
         <div>
           <label htmlFor="personnel-tc" className={labelClass}>
             T.C. Kimlik No
           </label>
           <input
             id="personnel-tc"
-            name="personnel-tc"
-            type="text"
             className={inputClass}
             placeholder="11 haneli T.C. kimlik"
-            inputMode="numeric"
             maxLength={11}
             value={tcKimlik}
             onChange={(e) => setTcKimlik(e.target.value.replace(/\D/g, '').slice(0, 11))}
             required
-            autoComplete="off"
+            data-lpignore="true"
+            data-1p-ignore="true"
+            {...loginTcInputProps}
           />
         </div>
 
         <div>
-          <label htmlFor="personnel-password" className={labelClass}>
+          <label htmlFor="personnel-pin" className={labelClass}>
             Giriş şifresi (PIN)
           </label>
           <input
-            id="personnel-password"
-            name="personnel-password"
-            type="password"
-            className={inputClass}
+            id="personnel-pin"
+            className={`${inputClass} pin-mask`}
             placeholder={`${PERSONNEL_PIN_LENGTH} haneli PIN`}
-            inputMode="numeric"
             maxLength={PERSONNEL_PIN_LENGTH}
             value={password}
             onChange={(e) => setPassword(sanitizePersonnelPinInput(e.target.value))}
             required
-            {...noAutofillPasswordProps}
+            data-lpignore="true"
+            data-1p-ignore="true"
+            {...loginPinInputProps}
           />
         </div>
 

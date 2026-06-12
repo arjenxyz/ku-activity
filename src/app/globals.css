@@ -149,6 +149,12 @@ a {
   color: #bfdbfe;
 }
 
+/* PIN girişi — type=password yerine (Google şifre uyarısını tetiklemez) */
+.pin-mask {
+  -webkit-text-security: disc;
+  text-security: disc;
+}
+
 /* Personel paneli — erişilebilirlik */
 .personnel-large-text {
   font-size: 1.0625rem;

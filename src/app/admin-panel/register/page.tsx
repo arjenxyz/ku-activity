@@ -7,12 +7,11 @@ import { FiUserPlus } from 'react-icons/fi';
 import { AuthLayout } from '@/components/auth/AuthLayout';
 import { AuthAlert, LoadingSpinner } from '@/components/auth/AuthAlerts';
 import { inputClass, labelClass, primaryButtonClass } from '@/components/auth/authStyles';
-import { AutofillTrap } from '@/components/auth/AutofillTrap';
 import {
-  noAutofillFormProps,
-  noAutofillEmailProps,
-  noAutofillPasswordProps,
-} from '@/components/auth/noAutofill';
+  credentialLoginFormProps,
+  loginEmailInputProps,
+  registerPasswordInputProps,
+} from '@/components/auth/loginFormProps';
 import { createClient } from '@/utils/supabase/client';
 import { verificationCodeMailto } from '@/lib/support-email';
 
@@ -75,24 +74,22 @@ export default function AdminRegisterPage() {
         </a>
       </p>
 
-      <form onSubmit={handleSubmit} className="space-y-4 relative" {...noAutofillFormProps}>
-        <AutofillTrap />
-
+      <form onSubmit={handleSubmit} className="space-y-4" {...credentialLoginFormProps}>
         <div>
           <label htmlFor="reg-name" className={labelClass}>Ad Soyad *</label>
-          <input id="reg-name" className={inputClass} value={fullName} onChange={(e) => setFullName(e.target.value)} required />
+          <input id="reg-name" className={inputClass} value={fullName} onChange={(e) => setFullName(e.target.value)} required autoComplete="name" />
         </div>
         <div>
           <label htmlFor="reg-email" className={labelClass}>E-posta *</label>
-          <input id="reg-email" type="email" className={inputClass} value={email} onChange={(e) => setEmail(e.target.value)} required {...noAutofillEmailProps} />
+          <input id="reg-email" className={inputClass} value={email} onChange={(e) => setEmail(e.target.value)} required {...loginEmailInputProps} />
         </div>
         <div>
           <label htmlFor="reg-phone" className={labelClass}>Telefon</label>
-          <input id="reg-phone" type="tel" className={inputClass} value={phone} onChange={(e) => setPhone(e.target.value)} />
+          <input id="reg-phone" type="tel" className={inputClass} value={phone} onChange={(e) => setPhone(e.target.value)} autoComplete="tel" />
         </div>
         <div>
           <label htmlFor="reg-password" className={labelClass}>Şifre *</label>
-          <input id="reg-password" type="password" className={inputClass} value={password} onChange={(e) => setPassword(e.target.value)} required minLength={6} {...noAutofillPasswordProps} />
+          <input id="reg-password" className={inputClass} value={password} onChange={(e) => setPassword(e.target.value)} required minLength={6} {...registerPasswordInputProps} />
           <p className="text-xs text-gray-500 mt-1">En az 6 karakter</p>
         </div>
 

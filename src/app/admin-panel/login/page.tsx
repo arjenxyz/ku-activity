@@ -11,14 +11,13 @@ import {
   primaryButtonClass,
   linkButtonClass,
 } from '@/components/auth/authStyles';
-import { AutofillTrap } from '@/components/auth/AutofillTrap';
 import { verificationCodeMailto } from '@/lib/support-email';
 import Link from 'next/link';
 import {
-  noAutofillFormProps,
-  noAutofillEmailProps,
-  noAutofillPasswordProps,
-} from '@/components/auth/noAutofill';
+  credentialLoginFormProps,
+  loginEmailInputProps,
+  loginPasswordInputProps,
+} from '@/components/auth/loginFormProps';
 
 type Tab = 'login' | 'reset';
 
@@ -130,21 +129,19 @@ function AdminAuthContent() {
       {errorMessage && <AuthAlert message={errorMessage} type="error" />}
 
       {activeTab === 'login' ? (
-        <form className="space-y-5 relative" onSubmit={handleLogin} {...noAutofillFormProps}>
-          <AutofillTrap />
+        <form className="space-y-5" onSubmit={handleLogin} {...credentialLoginFormProps}>
           <div>
             <label htmlFor="admin-email" className={labelClass}>
               E-posta
             </label>
             <input
               id="admin-email"
-              name="admin-email"
               placeholder="admin@example.com"
               value={email}
               onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
               className={inputClass}
               required
-              {...noAutofillEmailProps}
+              {...loginEmailInputProps}
             />
           </div>
           <div>
@@ -153,14 +150,12 @@ function AdminAuthContent() {
             </label>
             <input
               id="admin-password"
-              name="admin-password"
-              type="password"
               placeholder="Şifreniz"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className={inputClass}
               required
-              {...noAutofillPasswordProps}
+              {...loginPasswordInputProps}
             />
           </div>
           <button type="submit" disabled={isLoading} className={primaryButtonClass}>
@@ -180,21 +175,19 @@ function AdminAuthContent() {
           </div>
         </form>
       ) : (
-        <form className="space-y-5 relative" onSubmit={handleReset} {...noAutofillFormProps}>
-          <AutofillTrap />
+        <form className="space-y-5" onSubmit={handleReset} {...credentialLoginFormProps}>
           <div>
             <label htmlFor="reset-email" className={labelClass}>
               E-posta
             </label>
             <input
               id="reset-email"
-              name="reset-email"
               placeholder="admin@example.com"
               value={resetEmail}
               onChange={(e) => setResetEmail(e.target.value)}
               className={inputClass}
               required
-              {...noAutofillEmailProps}
+              {...loginEmailInputProps}
             />
           </div>
           <button type="submit" disabled={isLoading} className={primaryButtonClass}>

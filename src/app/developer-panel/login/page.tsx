@@ -7,10 +7,10 @@ import { createClient } from '@/utils/supabase/client';
 import { AuthAlert, LoadingSpinner } from '@/components/auth/AuthAlerts';
 import { inputClass, labelClass } from '@/components/auth/authStyles';
 import {
-  noAutofillFormProps,
-  noAutofillEmailProps,
-  noAutofillPasswordProps,
-} from '@/components/auth/noAutofill';
+  credentialLoginFormProps,
+  loginEmailInputProps,
+  loginPasswordInputProps,
+} from '@/components/auth/loginFormProps';
 
 function DeveloperLoginContent() {
   const router = useRouter();
@@ -61,14 +61,14 @@ function DeveloperLoginContent() {
           <p className="text-sm text-slate-400 mt-2">Doğrulama kodu yönetimi</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4" {...noAutofillFormProps}>
+        <form onSubmit={handleSubmit} className="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4" {...credentialLoginFormProps}>
           <div>
             <label htmlFor="dev-email" className={`${labelClass} text-slate-300`}>E-posta</label>
-            <input id="dev-email" type="email" className={`${inputClass} bg-slate-950 border-slate-700 text-white`} value={email} onChange={(e) => setEmail(e.target.value)} required {...noAutofillEmailProps} />
+            <input id="dev-email" className={`${inputClass} bg-slate-950 border-slate-700 text-white`} value={email} onChange={(e) => setEmail(e.target.value)} required {...loginEmailInputProps} />
           </div>
           <div>
             <label htmlFor="dev-password" className={`${labelClass} text-slate-300`}>Şifre</label>
-            <input id="dev-password" type="password" className={`${inputClass} bg-slate-950 border-slate-700 text-white`} value={password} onChange={(e) => setPassword(e.target.value)} required {...noAutofillPasswordProps} />
+            <input id="dev-password" className={`${inputClass} bg-slate-950 border-slate-700 text-white`} value={password} onChange={(e) => setPassword(e.target.value)} required {...loginPasswordInputProps} />
           </div>
           {error && <AuthAlert message={error} type="error" />}
           <button type="submit" disabled={loading} className="w-full py-3 rounded-xl bg-violet-600 hover:bg-violet-700 text-white font-semibold disabled:opacity-50 inline-flex items-center justify-center gap-2">
