@@ -38,7 +38,7 @@ import { usePersonnelDashboard } from '@/hooks/usePersonnelDashboard';
 import { usePersonnelTab, type PersonnelTabId } from '@/hooks/usePersonnelTab';
 import { formatDate, formatMoney } from '@/lib/format';
 import { getWorkLogApprovalStatus } from '@/lib/work-log';
-import { buildMonthCalendar, computeMesaiStats, currentMonth, formatMesaiCountSummary } from '@/lib/personnel-stats';
+import { buildMonthCalendar, computeMesaiStats, currentMonth, getMesaiCountLines } from '@/lib/personnel-stats';
 
 const DESKTOP_TABS = [
   { id: 'overview', label: 'Özet', icon: <FiList className="w-4 h-4" /> },
@@ -94,10 +94,15 @@ function PersonelPanelContent() {
         },
         {
           label: 'Mesai',
-          value: mesaiStats ? formatMesaiCountSummary(mesaiStats) : '0 tam · 0 çeyrek · 0 yarım',
-          icon: <FiClock className="w-5 h-5 text-orange-600 dark:text-orange-400" />,
-          accent: 'bg-orange-50 dark:bg-orange-900/30',
-          compactValue: true,
+          valueLines: mesaiStats
+            ? getMesaiCountLines(mesaiStats)
+            : [
+                { count: 0, label: 'Tam mesai' },
+                { count: 0, label: 'Çeyrek mesai' },
+                { count: 0, label: 'Yarım mesai' },
+              ],
+          icon: <FiClock className="w-5 h-5 text-slate-500 dark:text-slate-400" />,
+          accent: 'bg-slate-50 dark:bg-slate-900/40',
         },
         {
           label: 'Brüt Kazanç',

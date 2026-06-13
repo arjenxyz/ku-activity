@@ -1,11 +1,16 @@
 import type { ReactNode } from 'react';
 
+export type StatValueLine = {
+  count: number;
+  label: string;
+};
+
 export type StatItem = {
   label: string;
-  value: string;
+  value?: string;
+  valueLines?: StatValueLine[];
   icon: ReactNode;
   accent: string;
-  compactValue?: boolean;
 };
 
 export function PersonnelStatGrid({ items }: { items: StatItem[] }) {
@@ -20,15 +25,35 @@ export function PersonnelStatGrid({ items }: { items: StatItem[] }) {
             {item.icon}
           </div>
           <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">{item.label}</p>
-          <p
-            className={`font-bold text-gray-900 dark:text-white mt-0.5 ${
-              item.compactValue
-                ? 'text-sm sm:text-base leading-snug'
-                : 'text-lg sm:text-xl truncate'
-            }`}
-          >
-            {item.value}
-          </p>
+          {item.valueLines ? (
+            <ul className="mt-2 space-y-1.5">
+              {item.valueLines.map((line) => (
+                <li
+                  key={line.label}
+                  className={`flex items-baseline justify-between gap-2 text-xs sm:text-sm ${
+                    line.count === 0
+                      ? 'text-gray-400 dark:text-gray-500'
+                      : 'text-gray-600 dark:text-gray-300'
+                  }`}
+                >
+                  <span>{line.label}</span>
+                  <span
+                    className={`tabular-nums shrink-0 ${
+                      line.count === 0
+                        ? 'font-normal'
+                        : 'font-semibold text-gray-800 dark:text-gray-100'
+                    }`}
+                  >
+                    {line.count}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mt-0.5 truncate">
+              {item.value}
+            </p>
+          )}
         </div>
       ))}
     </div>
