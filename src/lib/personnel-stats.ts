@@ -107,6 +107,7 @@ export type CalendarDay = {
   workAmount: number;
   approved: boolean | null;
   approvalStatus: ReturnType<typeof getWorkLogApprovalStatus> | null;
+  isToday?: boolean;
 };
 
 export function buildMonthCalendar(month: string, workLogs: WorkLog[]): CalendarDay[] {
@@ -137,6 +138,7 @@ export function buildMonthCalendar(month: string, workLogs: WorkLog[]): Calendar
       workAmount: log ? payUnitsForLog(log) : 0,
       approved: log ? log.approved === true : null,
       approvalStatus: log ? getWorkLogApprovalStatus(log) : null,
+      isToday: date === dayjs().format('YYYY-MM-DD'),
     });
   }
 

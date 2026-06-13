@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense } from 'react';
+import { Suspense, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   FiBookOpen,
@@ -59,7 +59,7 @@ const MOBILE_TABS = [
 
 function PersonelPanelContent() {
   const router = useRouter();
-  const month = currentMonth();
+  const [month, setMonth] = useState(currentMonth);
   const { activeTab, setActiveTab } = usePersonnelTab('overview');
   const loadFinance = activeTab === 'overview' || activeTab === 'finance';
   const { employee, workLogs, deductions, minimumWages, stats, loading, error, reload } =
@@ -160,8 +160,10 @@ function PersonelPanelContent() {
     if (activeTab === 'work') {
       return (
         <div className="space-y-6">
+          <PersonnelCalendar month={month} onMonthChange={setMonth} days={calendarDays} />
+
           <PersonnelSection
-            title="Yevmiye Kayıtları"
+            title={`Yevmiye Kayıtları · ${new Date(`${month}-01T12:00:00`).toLocaleDateString('tr-TR', { month: 'long', year: 'numeric' })}`}
             icon={<FiBriefcase className="w-5 h-5 text-green-600" />}
             isEmpty={workLogs.length === 0}
           >
@@ -176,7 +178,6 @@ function PersonelPanelContent() {
               ))}
             </div>
           </PersonnelSection>
-          <PersonnelCalendar days={calendarDays} />
         </div>
       );
     }
