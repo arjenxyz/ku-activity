@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense, useState } from 'react';
+import { Suspense } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   FiBookOpen,
@@ -11,6 +11,7 @@ import {
   FiCreditCard,
   FiDollarSign,
   FiList,
+  FiLogOut,
   FiSettings,
   FiTrendingUp,
 } from 'react-icons/fi';
@@ -21,7 +22,6 @@ import { PersonnelMesaiSummary } from '@/components/personnel/PersonnelMesaiSumm
 import { PersonnelPendingApprovals } from '@/components/personnel/PersonnelPendingApprovals';
 import { PersonnelProjectCard } from '@/components/personnel/PersonnelProjectCard';
 import { PersonnelTodayAttendance } from '@/components/personnel/PersonnelTodayAttendance';
-import { PersonnelMonthFilter } from '@/components/personnel/PersonnelMonthFilter';
 import { PersonnelContractsSection } from '@/components/personnel/PersonnelContractsSection';
 import { PersonnelPasswordForm } from '@/components/personnel/PersonnelPasswordForm';
 import { PersonnelRightsPanel } from '@/components/personnel/PersonnelRightsPanel';
@@ -59,7 +59,7 @@ const MOBILE_TABS = [
 
 function PersonelPanelContent() {
   const router = useRouter();
-  const [month, setMonth] = useState(currentMonth);
+  const month = currentMonth();
   const { activeTab, setActiveTab } = usePersonnelTab('overview');
   const loadFinance = activeTab === 'overview' || activeTab === 'finance';
   const { employee, workLogs, deductions, minimumWages, stats, loading, error, reload } =
@@ -71,7 +71,6 @@ function PersonelPanelContent() {
   const pendingAdminCount = workLogs.filter(
     (log) => getWorkLogApprovalStatus(log) === 'pending_admin'
   ).length;
-  const alertCount = pendingEmployeeCount + (pendingAdminCount > 0 ? 1 : 0);
 
   const handleLogout = async () => {
     await fetch('/api/auth/personnel/logout', { method: 'POST' });
@@ -246,6 +245,20 @@ function PersonelPanelContent() {
           <PersonnelDisplaySettings />
           <PersonnelContractsSection />
           <PersonnelPasswordForm />
+
+          <div className="pt-2">
+            <button
+              type="button"
+              onClick={() => void handleLogout()}
+              className="w-full flex items-center justify-center gap-2 px-4 py-3.5 rounded-2xl border border-red-200 dark:border-red-900/40 bg-red-50 dark:bg-red-950/25 text-red-700 dark:text-red-300 font-semibold text-sm hover:bg-red-100 dark:hover:bg-red-950/40 active:bg-red-200/80 transition-colors min-h-[48px] shadow-sm"
+            >
+              <FiLogOut className="w-4 h-4" />
+              Çıkış Yap
+            </button>
+            <p className="text-center text-xs text-gray-400 dark:text-gray-500 mt-2">
+              Oturumunuz güvenli şekilde sonlandırılır
+            </p>
+          </div>
         </div>
       );
     }
@@ -346,12 +359,7 @@ function PersonelPanelContent() {
   };
 
   return (
-    <PersonnelShell
-      employeeName={employee?.name}
-      position={employee?.position}
-      alertCount={alertCount}
-      onLogout={handleLogout}
-    >
+    <PersonnelShell>
       <PersonnelPullToRefresh onRefresh={reload}>
         <div className="pb-20 sm:pb-0">
           <div className="mb-6">
@@ -363,7 +371,6 @@ function PersonelPanelContent() {
             </p>
           </div>
 
-          <PersonnelMonthFilter month={month} onChange={setMonth} />
           <div className="hidden sm:block">
             <PersonnelTabNav tabs={tabsWithBadges} active={activeTab} onChange={goTab} />
           </div>
