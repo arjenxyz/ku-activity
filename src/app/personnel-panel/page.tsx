@@ -26,6 +26,7 @@ import { PersonnelPasswordForm } from '@/components/personnel/PersonnelPasswordF
 import { PersonnelRightsPanel } from '@/components/personnel/PersonnelRightsPanel';
 import { PersonnelShell } from '@/components/personnel/PersonnelShell';
 import { PersonnelStatGrid } from '@/components/personnel/PersonnelStatGrid';
+import { PersonnelMesaiOverview } from '@/components/personnel/PersonnelMesaiOverview';
 import { PersonnelTabNav } from '@/components/personnel/PersonnelTabNav';
 import { PersonnelSection } from '@/components/personnel/PersonnelRecordCard';
 import { PersonnelFinancePanel } from '@/components/personnel/PersonnelFinancePanel';
@@ -84,6 +85,14 @@ function PersonelPanelContent() {
   const calendarDays = buildMonthCalendar(month, workLogs);
   const mesaiStats = employee ? computeMesaiStats(workLogs, Number(employee.daily_wage)) : null;
 
+  const mesaiLines = mesaiStats
+    ? getMesaiCountLines(mesaiStats)
+    : [
+        { count: 0, label: 'Tam mesai' },
+        { count: 0, label: 'Çeyrek mesai' },
+        { count: 0, label: 'Yarım mesai' },
+      ];
+
   const statItems = stats
     ? [
         {
@@ -91,18 +100,6 @@ function PersonelPanelContent() {
           value: stats.workDays.toString(),
           icon: <FiCalendar className="w-5 h-5 text-blue-600 dark:text-blue-400" />,
           accent: 'bg-blue-50 dark:bg-blue-900/30',
-        },
-        {
-          label: 'Mesai',
-          valueLines: mesaiStats
-            ? getMesaiCountLines(mesaiStats)
-            : [
-                { count: 0, label: 'Tam mesai' },
-                { count: 0, label: 'Çeyrek mesai' },
-                { count: 0, label: 'Yarım mesai' },
-              ],
-          icon: <FiClock className="w-5 h-5 text-slate-500 dark:text-slate-400" />,
-          accent: 'bg-slate-50 dark:bg-slate-900/40',
         },
         {
           label: 'Brüt Kazanç',
@@ -332,7 +329,12 @@ function PersonelPanelContent() {
           </div>
         )}
 
-        {stats && <PersonnelStatGrid items={statItems} />}
+        {stats && (
+          <div className="space-y-3 sm:space-y-4 mb-6 sm:mb-8">
+            <PersonnelStatGrid items={statItems} />
+            <PersonnelMesaiOverview lines={mesaiLines} onOpen={() => goTab('mesai')} />
+          </div>
+        )}
 
         <PersonnelSection
           title="Son Yevmiyeler"
