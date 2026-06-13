@@ -127,6 +127,12 @@ export function computeMesaiStats(workLogs: WorkLog[], dailyWage: number): Mesai
   };
 }
 
+/** Özet kartları için: "2 tam · 1 çeyrek · 3 yarım" */
+export function formatMesaiCountSummary(stats: Pick<MesaiStats, 'byType'>): string {
+  const { tam, ceyrek, yarim } = stats.byType;
+  return `${tam.count} tam · ${ceyrek.count} çeyrek · ${yarim.count} yarım`;
+}
+
 export function computePersonnelStats(
   workLogs: WorkLog[],
   deductions: Deduction[],

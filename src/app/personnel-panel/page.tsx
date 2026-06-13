@@ -38,7 +38,7 @@ import { usePersonnelDashboard } from '@/hooks/usePersonnelDashboard';
 import { usePersonnelTab, type PersonnelTabId } from '@/hooks/usePersonnelTab';
 import { formatDate, formatMoney } from '@/lib/format';
 import { getWorkLogApprovalStatus } from '@/lib/work-log';
-import { buildMonthCalendar, currentMonth } from '@/lib/personnel-stats';
+import { buildMonthCalendar, computeMesaiStats, currentMonth, formatMesaiCountSummary } from '@/lib/personnel-stats';
 
 const DESKTOP_TABS = [
   { id: 'overview', label: 'Özet', icon: <FiList className="w-4 h-4" /> },
@@ -82,6 +82,7 @@ function PersonelPanelContent() {
   const advances = deductions.filter((d) => d.type === 'advance');
   const otherDeductions = deductions.filter((d) => d.type !== 'advance');
   const calendarDays = buildMonthCalendar(month, workLogs);
+  const mesaiStats = employee ? computeMesaiStats(workLogs, Number(employee.daily_wage)) : null;
 
   const statItems = stats
     ? [
@@ -92,10 +93,11 @@ function PersonelPanelContent() {
           accent: 'bg-blue-50 dark:bg-blue-900/30',
         },
         {
-          label: 'Mesai Kazancı',
-          value: formatMoney(stats.mesaiPay),
+          label: 'Mesai',
+          value: mesaiStats ? formatMesaiCountSummary(mesaiStats) : '0 tam · 0 çeyrek · 0 yarım',
           icon: <FiClock className="w-5 h-5 text-orange-600 dark:text-orange-400" />,
           accent: 'bg-orange-50 dark:bg-orange-900/30',
+          compactValue: true,
         },
         {
           label: 'Brüt Kazanç',

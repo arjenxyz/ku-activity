@@ -5,6 +5,7 @@ export type StatItem = {
   value: string;
   icon: ReactNode;
   accent: string;
+  compactValue?: boolean;
 };
 
 export function PersonnelStatGrid({ items }: { items: StatItem[] }) {
@@ -19,7 +20,13 @@ export function PersonnelStatGrid({ items }: { items: StatItem[] }) {
             {item.icon}
           </div>
           <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">{item.label}</p>
-          <p className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mt-0.5 truncate">
+          <p
+            className={`font-bold text-gray-900 dark:text-white mt-0.5 ${
+              item.compactValue
+                ? 'text-sm sm:text-base leading-snug'
+                : 'text-lg sm:text-xl truncate'
+            }`}
+          >
             {item.value}
           </p>
         </div>
