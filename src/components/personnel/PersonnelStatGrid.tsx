@@ -1,10 +1,5 @@
 import type { ReactNode } from 'react';
 
-export type StatValueLine = {
-  count: number;
-  label: string;
-};
-
 export type StatItem = {
   label: string;
   value: string;

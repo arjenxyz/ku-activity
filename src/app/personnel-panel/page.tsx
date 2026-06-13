@@ -13,6 +13,7 @@ import {
   FiLogOut,
   FiSettings,
   FiTrendingUp,
+  FiXCircle,
 } from 'react-icons/fi';
 import { EmployeeAvatar } from '@/components/employee/EmployeeAvatar';
 import { PersonnelCalendar } from '@/components/personnel/PersonnelCalendar';
@@ -26,7 +27,7 @@ import { PersonnelPasswordForm } from '@/components/personnel/PersonnelPasswordF
 import { PersonnelRightsPanel } from '@/components/personnel/PersonnelRightsPanel';
 import { PersonnelShell } from '@/components/personnel/PersonnelShell';
 import { PersonnelStatGrid } from '@/components/personnel/PersonnelStatGrid';
-import { PersonnelMesaiOverview } from '@/components/personnel/PersonnelMesaiOverview';
+import { PersonnelOverviewStrip } from '@/components/personnel/PersonnelOverviewStrip';
 import { PersonnelTabNav } from '@/components/personnel/PersonnelTabNav';
 import { PersonnelSection } from '@/components/personnel/PersonnelRecordCard';
 import { PersonnelFinancePanel } from '@/components/personnel/PersonnelFinancePanel';
@@ -39,7 +40,7 @@ import { usePersonnelDashboard } from '@/hooks/usePersonnelDashboard';
 import { usePersonnelTab, type PersonnelTabId } from '@/hooks/usePersonnelTab';
 import { formatDate, formatMoney } from '@/lib/format';
 import { getWorkLogApprovalStatus } from '@/lib/work-log';
-import { buildMonthCalendar, computeMesaiStats, currentMonth, getMesaiCountLines } from '@/lib/personnel-stats';
+import { buildMonthCalendar, computeMesaiStats, currentMonth, getMesaiCountLines, getWorkDayCountLines } from '@/lib/personnel-stats';
 
 const DESKTOP_TABS = [
   { id: 'overview', label: 'Özet', icon: <FiList className="w-4 h-4" /> },
@@ -85,6 +86,7 @@ function PersonelPanelContent() {
   const calendarDays = buildMonthCalendar(month, workLogs);
   const mesaiStats = employee ? computeMesaiStats(workLogs, Number(employee.daily_wage)) : null;
 
+  const workDayLines = getWorkDayCountLines(workLogs);
   const mesaiLines = mesaiStats
     ? getMesaiCountLines(mesaiStats)
     : [
@@ -96,12 +98,6 @@ function PersonelPanelContent() {
   const statItems = stats
     ? [
         {
-          label: 'Çalışılan Gün',
-          value: stats.workDays.toString(),
-          icon: <FiCalendar className="w-5 h-5 text-blue-600 dark:text-blue-400" />,
-          accent: 'bg-blue-50 dark:bg-blue-900/30',
-        },
-        {
           label: 'Brüt Kazanç',
           value: formatMoney(stats.gross),
           icon: <FiTrendingUp className="w-5 h-5 text-green-600 dark:text-green-400" />,
@@ -112,6 +108,12 @@ function PersonelPanelContent() {
           value: formatMoney(stats.totalAdvance),
           icon: <FiCreditCard className="w-5 h-5 text-amber-600 dark:text-amber-400" />,
           accent: 'bg-amber-50 dark:bg-amber-900/30',
+        },
+        {
+          label: 'Kesinti',
+          value: formatMoney(stats.totalDeduct),
+          icon: <FiXCircle className="w-5 h-5 text-red-500 dark:text-red-400" />,
+          accent: 'bg-red-50 dark:bg-red-900/30',
         },
         {
           label: 'Net Maaş',
@@ -332,7 +334,20 @@ function PersonelPanelContent() {
         {stats && (
           <div className="space-y-3 sm:space-y-4 mb-6 sm:mb-8">
             <PersonnelStatGrid items={statItems} />
-            <PersonnelMesaiOverview lines={mesaiLines} onOpen={() => goTab('mesai')} />
+            <PersonnelOverviewStrip
+              title="Çalışılan Gün"
+              icon={<FiCalendar className="w-4 h-4 text-blue-600 dark:text-blue-400" />}
+              iconClassName="bg-blue-50 dark:bg-blue-900/30"
+              lines={workDayLines}
+              onOpen={() => goTab('work')}
+            />
+            <PersonnelOverviewStrip
+              title="Mesai"
+              icon={<FiClock className="w-4 h-4 text-slate-500 dark:text-slate-400" />}
+              lines={mesaiLines}
+              formatLineLabel={(label) => label.replace(' mesai', '')}
+              onOpen={() => goTab('mesai')}
+            />
           </div>
         )}
 

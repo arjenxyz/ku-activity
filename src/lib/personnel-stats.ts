@@ -127,7 +127,7 @@ export function computeMesaiStats(workLogs: WorkLog[], dailyWage: number): Mesai
   };
 }
 
-/** Özet kartı için mesai adet satırları */
+/** Özet şeridi için mesai adet satırları */
 export function getMesaiCountLines(
   stats: Pick<MesaiStats, 'byType'>
 ): Array<{ count: number; label: string }> {
@@ -135,6 +135,29 @@ export function getMesaiCountLines(
     { count: stats.byType.tam.count, label: 'Tam mesai' },
     { count: stats.byType.ceyrek.count, label: 'Çeyrek mesai' },
     { count: stats.byType.yarim.count, label: 'Yarım mesai' },
+  ];
+}
+
+/** Özet şeridi için çalışılan gün satırları */
+export function getWorkDayCountLines(
+  workLogs: WorkLog[]
+): Array<{ count: number; label: string; display?: string }> {
+  let full = 0;
+  let half = 0;
+
+  for (const log of workLogs) {
+    const amount = Number(log.amount);
+    if (amount === 1) full += 1;
+    else if (amount === 0.5) half += 1;
+  }
+
+  const total = workLogs.reduce((s, w) => s + workDayUnitsForLog(w), 0);
+  const totalDisplay = total % 1 === 0 ? String(total) : total.toFixed(1);
+
+  return [
+    { count: full, label: 'Tam gün' },
+    { count: half, label: 'Yarım gün' },
+    { count: total, label: 'Toplam gün', display: totalDisplay },
   ];
 }
 
