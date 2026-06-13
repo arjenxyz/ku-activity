@@ -6,8 +6,6 @@ import {
   FiBookOpen,
   FiBriefcase,
   FiCalendar,
-  FiCheckCircle,
-  FiClock,
   FiCreditCard,
   FiDollarSign,
   FiList,
@@ -89,18 +87,6 @@ function PersonelPanelContent() {
           value: stats.workDays.toString(),
           icon: <FiCalendar className="w-5 h-5 text-blue-600 dark:text-blue-400" />,
           accent: 'bg-blue-50 dark:bg-blue-900/30',
-        },
-        {
-          label: 'Onaylı Gün',
-          value: stats.approvedDays.toString(),
-          icon: <FiCheckCircle className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />,
-          accent: 'bg-emerald-50 dark:bg-emerald-900/30',
-        },
-        {
-          label: 'Bekleyen Gün',
-          value: stats.pendingDays.toString(),
-          icon: <FiClock className="w-5 h-5 text-amber-600 dark:text-amber-400" />,
-          accent: 'bg-amber-50 dark:bg-amber-900/30',
         },
         {
           label: 'Brüt Kazanç',
