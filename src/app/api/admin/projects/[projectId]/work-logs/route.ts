@@ -22,6 +22,7 @@ export async function GET(request: Request, ctx: Ctx) {
     const employeeId = searchParams.get('employeeId');
     const month = searchParams.get('month');
     const approved = searchParams.get('approved');
+    const disputed = searchParams.get('disputed');
 
     const supabase = await createClient();
     let q = supabase
@@ -34,6 +35,7 @@ export async function GET(request: Request, ctx: Ctx) {
     if (employeeId) q = q.eq('employee_id', employeeId);
     if (approved === 'true') q = q.eq('approved', true);
     if (approved === 'false') q = q.eq('approved', false);
+    if (disputed === 'true') q = q.not('employee_disputed_at', 'is', null);
     if (month) {
       const { start, end } = monthRange(month);
       q = q.gte('date', start).lte('date', end);

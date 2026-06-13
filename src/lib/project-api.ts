@@ -102,13 +102,14 @@ export async function postMinimumWage(
 export async function fetchRecords(
   projectId: string,
   type: 'work-logs' | 'deductions' | 'minimum-wages',
-  params?: { employeeId?: string; month?: string; approved?: string; deductionType?: string }
+  params?: { employeeId?: string; month?: string; approved?: string; deductionType?: string; disputed?: string }
 ) {
   const q = new URLSearchParams();
   if (params?.employeeId) q.set('employeeId', params.employeeId);
   if (params?.month) q.set('month', params.month);
   if (params?.approved) q.set('approved', params.approved);
   if (params?.deductionType) q.set('deductionType', params.deductionType);
+  if (params?.disputed) q.set('disputed', params.disputed);
 
   const res = await fetch(`/api/admin/projects/${projectId}/${type}?${q}`);
   if (!res.ok) throw new Error(await parseError(res));
@@ -154,6 +155,9 @@ export async function updateProjectRecord(
     description?: string | null;
     approved?: boolean;
     type?: string;
+    mesaiType?: 'none' | 'ceyrek' | 'yarim' | 'tam';
+    resolveDispute?: boolean;
+    reconfirmAdmin?: boolean;
   }
 ) {
   const res = await fetch(`/api/admin/projects/${projectId}/${type}/${recordId}`, {

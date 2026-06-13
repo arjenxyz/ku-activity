@@ -62,7 +62,12 @@ export async function adminConfirmWorkLog(
   if (existing) {
     const { data, error } = await admin
       .from('work_logs')
-      .update(payload)
+      .update({
+        ...payload,
+        employee_dispute_note: null,
+        employee_disputed_at: null,
+        employee_confirmed_at: null,
+      })
       .eq('id', existing.id)
       .select('*')
       .single();

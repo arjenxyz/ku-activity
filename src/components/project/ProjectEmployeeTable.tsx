@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { FiCheckCircle, FiClock, FiUserPlus, FiUser } from 'react-icons/fi';
+import { FiAlertTriangle, FiCheckCircle, FiClock, FiUserPlus, FiUser } from 'react-icons/fi';
 import { EmployeeAvatar } from '@/components/employee/EmployeeAvatar';
 import { EmployeePhotoUpload } from '@/components/employee/EmployeePhotoUpload';
 import { approvalStatusLabel } from '@/lib/work-log';
@@ -28,6 +28,14 @@ function StatusBadge({ status }: { status: Employee['today_attendance_status'] }
       <span className="inline-flex items-center gap-1 text-xs font-medium text-amber-700">
         <FiUser className="w-3.5 h-3.5" />
         Personel bekliyor
+      </span>
+    );
+  }
+  if (status === 'disputed') {
+    return (
+      <span className="inline-flex items-center gap-1 text-xs font-medium text-red-700">
+        <FiAlertTriangle className="w-3.5 h-3.5" />
+        Personel itiraz etti
       </span>
     );
   }

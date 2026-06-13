@@ -12,6 +12,7 @@ type WorkLogSummary = {
   approved?: boolean;
   admin_confirmed_at?: string | null;
   employee_confirmed_at?: string | null;
+  employee_disputed_at?: string | null;
 };
 
 export const fetchEmployees = async (

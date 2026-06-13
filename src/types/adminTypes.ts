@@ -12,7 +12,7 @@ export type Employee = {
   photo_url?: string | null;
   total_days?: number;
   today_verified?: boolean;
-  today_attendance_status?: 'confirmed' | 'pending_employee' | 'pending_admin' | 'none';
+  today_attendance_status?: 'confirmed' | 'pending_employee' | 'pending_admin' | 'disputed' | 'none';
   monthly_attendance?: number[];
 };
 

@@ -11,12 +11,13 @@ export async function PATCH(request: Request, ctx: Ctx) {
     const { projectId, recordId } = await ctx.params;
     const user = await requireAdminProjectAccess(projectId);
     const body = await request.json();
-    const { date, amount, description, mesaiType, reconfirmAdmin } = body as {
+    const { date, amount, description, mesaiType, reconfirmAdmin, resolveDispute } = body as {
       date?: string;
       amount?: number;
       description?: string | null;
       mesaiType?: MesaiType;
       reconfirmAdmin?: boolean;
+      resolveDispute?: boolean;
     };
 
     const updates: Record<string, unknown> = {};
@@ -28,6 +29,13 @@ export async function PATCH(request: Request, ctx: Ctx) {
       updates.mesai_units = mesaiTypeToUnits(mesaiType);
     }
     if (reconfirmAdmin) {
+      updates.admin_confirmed_at = new Date().toISOString();
+      updates.approved_by = user.id;
+    }
+    if (resolveDispute) {
+      updates.employee_dispute_note = null;
+      updates.employee_disputed_at = null;
+      updates.employee_confirmed_at = null;
       updates.admin_confirmed_at = new Date().toISOString();
       updates.approved_by = user.id;
     }

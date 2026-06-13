@@ -13,6 +13,8 @@ import type { MesaiType } from '@/lib/work-log';
 import { ProjectDetailHeader } from '@/components/project/ProjectDetailHeader';
 import { ProjectOverviewStats } from '@/components/project/ProjectOverviewStats';
 import { ProjectEmployeeTable } from '@/components/project/ProjectEmployeeTable';
+import { AlertBanner } from '@/components/project/AlertBanner';
+import { fetchRecords } from '@/lib/project-api';
 import type { Employee, AttendanceStats } from '@/types/adminTypes';
 import type { Project } from '@/types/project';
 
@@ -30,6 +32,7 @@ export default function ProjectDetailPage() {
   const [attendanceTarget, setAttendanceTarget] = useState<{ id: string; name: string } | null>(null);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [openDisputeCount, setOpenDisputeCount] = useState(0);
 
   const loadEmployees = useCallback(async () => {
     if (!projectId) return;
@@ -58,6 +61,8 @@ export default function ProjectDetailPage() {
       }
       setProject(projectData);
       await loadEmployees();
+      const disputed = await fetchRecords(projectId, 'work-logs', { disputed: 'true' });
+      setOpenDisputeCount((disputed.records ?? []).length);
     } catch (e) {
       setError('Veriler yüklenirken hata oluştu');
       console.error(e);
@@ -161,6 +166,21 @@ export default function ProjectDetailPage() {
       </div>
 
       <ProjectDetailHeader project={project} onSettings={() => setIsSettingsOpen(true)} />
+
+      {openDisputeCount > 0 && (
+        <div className="space-y-2">
+          <AlertBanner
+            type="warning"
+            message={`${openDisputeCount} personel itirazı açık. Kayıtları düzeltip personelin tekrar onaylamasını sağlayın.`}
+          />
+          <a
+            href={`/admin-panel/proje/${projectId}/itirazlar`}
+            className="inline-flex text-sm font-medium text-amber-900 hover:underline"
+          >
+            Personel İtirazları sayfasına git →
+          </a>
+        </div>
+      )}
 
       <ProjectOverviewStats
         employeeCount={employees.length}

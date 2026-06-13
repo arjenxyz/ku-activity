@@ -11,6 +11,7 @@ import { AlertBanner } from '@/components/project/AlertBanner';
 import { useProjectEmployees } from '@/hooks/useProjectEmployees';
 import { fetchRecords } from '@/lib/project-api';
 import { formatDate } from '@/lib/format';
+import { approvalStatusLabel, getWorkLogApprovalStatus } from '@/lib/work-log';
 
 type Record = {
   id: string;
@@ -18,6 +19,11 @@ type Record = {
   amount: number;
   approved: boolean;
   description?: string | null;
+  mesai_type?: string | null;
+  admin_confirmed_at?: string | null;
+  employee_confirmed_at?: string | null;
+  employee_disputed_at?: string | null;
+  employee_dispute_note?: string | null;
   employees?: { name: string } | null;
 };
 
@@ -73,17 +79,35 @@ export default function YevmiyeSorgulamaPage() {
           { key: 'date', header: 'Tarih', render: (r) => formatDate(r.date) },
           { key: 'amount', header: 'Gün', render: (r) => r.amount },
           {
-            key: 'approved',
-            header: 'Onay',
-            render: (r) => (
-              <span
-                className={`text-xs px-2 py-0.5 rounded ${
-                  r.approved ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'
-                }`}
-              >
-                {r.approved ? 'Onaylı' : 'Bekliyor'}
-              </span>
-            ),
+            key: 'status',
+            header: 'Durum',
+            render: (r) => {
+              const status = getWorkLogApprovalStatus(r);
+              const tone =
+                status === 'confirmed'
+                  ? 'bg-emerald-50 text-emerald-700'
+                  : status === 'disputed'
+                    ? 'bg-red-50 text-red-700'
+                    : 'bg-amber-50 text-amber-700';
+              return (
+                <span className={`text-xs px-2 py-0.5 rounded ${tone}`}>
+                  {approvalStatusLabel(status)}
+                </span>
+              );
+            },
+          },
+          {
+            key: 'dispute',
+            header: 'İtiraz',
+            render: (r) =>
+              r.employee_dispute_note ? (
+                <span className="text-xs text-red-700 max-w-[12rem] truncate block" title={r.employee_dispute_note}>
+                  {r.employee_dispute_note}
+                </span>
+              ) : (
+                '—'
+              ),
+            hideOnMobile: true,
           },
           {
             key: 'desc',
