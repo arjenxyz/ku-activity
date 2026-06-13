@@ -92,6 +92,12 @@ function PersonelPanelContent() {
           accent: 'bg-blue-50 dark:bg-blue-900/30',
         },
         {
+          label: 'Mesai Kazancı',
+          value: formatMoney(stats.mesaiPay),
+          icon: <FiClock className="w-5 h-5 text-orange-600 dark:text-orange-400" />,
+          accent: 'bg-orange-50 dark:bg-orange-900/30',
+        },
+        {
           label: 'Brüt Kazanç',
           value: formatMoney(stats.gross),
           icon: <FiTrendingUp className="w-5 h-5 text-green-600 dark:text-green-400" />,
