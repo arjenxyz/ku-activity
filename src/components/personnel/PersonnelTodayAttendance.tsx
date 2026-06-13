@@ -68,6 +68,7 @@ export function PersonnelTodayAttendance() {
 
   const canConfirm = status === 'none' || status === 'pending_employee';
   const isConfirmed = status === 'confirmed';
+  const isDisputed = status === 'disputed';
 
   return (
     <div className="rounded-2xl border border-blue-100 dark:border-blue-900/50 bg-gradient-to-br from-blue-50/80 to-white dark:from-slate-800 dark:to-slate-900 p-4 sm:p-5 shadow-sm">
@@ -115,6 +116,12 @@ export function PersonnelTodayAttendance() {
               ? 'Bugün çalıştım — onaylıyorum'
               : 'Bugün çalıştım (bildir)'}
         </button>
+      )}
+
+      {isDisputed && (
+        <p className="text-xs text-red-700 dark:text-red-300 mt-3">
+          Yönetici kaydına itiraz ettiniz. Düzeltme sonrası tekrar onay isteği gelecektir.
+        </p>
       )}
 
       {status === 'pending_employee' && (

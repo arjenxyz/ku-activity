@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { requireAdminProjectAccess } from '@/lib/admin-auth';
-import { createClient } from '@/utils/supabase/server';
+import { createAdminClient } from '@/utils/supabase/admin';
 import { apiErrorMessage } from '@/lib/project-queries';
 import { mesaiTypeToUnits, type MesaiType } from '@/lib/work-log';
 
@@ -38,13 +38,14 @@ export async function PATCH(request: Request, ctx: Ctx) {
       updates.employee_confirmed_at = null;
       updates.admin_confirmed_at = new Date().toISOString();
       updates.approved_by = user.id;
+      updates.approved = false;
     }
 
     if (!Object.keys(updates).length) {
       return NextResponse.json({ error: 'Güncellenecek alan yok' }, { status: 400 });
     }
 
-    const supabase = await createClient();
+    const supabase = createAdminClient();
     const { data, error } = await supabase
       .from('work_logs')
       .update(updates)
@@ -72,7 +73,7 @@ export async function DELETE(_request: Request, ctx: Ctx) {
   try {
     const { projectId, recordId } = await ctx.params;
     await requireAdminProjectAccess(projectId);
-    const supabase = await createClient();
+    const supabase = createAdminClient();
     const { error } = await supabase
       .from('work_logs')
       .delete()

@@ -57,17 +57,16 @@ export async function adminConfirmWorkLog(
     description: params.description ?? null,
     admin_confirmed_at: now,
     approved_by: params.approvedBy ?? null,
+    approved: false,
+    employee_confirmed_at: null,
+    employee_dispute_note: null,
+    employee_disputed_at: null,
   };
 
   if (existing) {
     const { data, error } = await admin
       .from('work_logs')
-      .update({
-        ...payload,
-        employee_dispute_note: null,
-        employee_disputed_at: null,
-        employee_confirmed_at: null,
-      })
+      .update(payload)
       .eq('id', existing.id)
       .select('*')
       .single();
@@ -79,8 +78,6 @@ export async function adminConfirmWorkLog(
     .from('work_logs')
     .insert({
       ...payload,
-      employee_confirmed_at: null,
-      approved: false,
     })
     .select('*')
     .single();

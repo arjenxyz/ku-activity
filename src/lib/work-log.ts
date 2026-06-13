@@ -43,11 +43,24 @@ export function getWorkLogApprovalStatus(log: {
   approved?: boolean | null;
 }): WorkLogApprovalStatus {
   if (log.approved) return 'confirmed';
-  if (log.employee_disputed_at && !log.employee_confirmed_at) return 'disputed';
-  if (log.admin_confirmed_at && !log.employee_confirmed_at) return 'pending_employee';
-  if (log.employee_confirmed_at && !log.admin_confirmed_at) return 'pending_admin';
-  if (log.admin_confirmed_at || log.employee_confirmed_at) {
-    return log.admin_confirmed_at ? 'pending_employee' : 'pending_admin';
+
+  const adminAt = log.admin_confirmed_at ? Date.parse(log.admin_confirmed_at) : 0;
+  const employeeAt = log.employee_confirmed_at ? Date.parse(log.employee_confirmed_at) : 0;
+  const disputedAt = log.employee_disputed_at ? Date.parse(log.employee_disputed_at) : 0;
+
+  // Yönetici itirazdan sonra kaydı yenilediyse personel onayına düşer
+  if (disputedAt > 0 && adminAt > disputedAt && !employeeAt) {
+    return 'pending_employee';
+  }
+
+  if (disputedAt > 0 && !employeeAt && adminAt <= disputedAt) {
+    return 'disputed';
+  }
+
+  if (adminAt && !employeeAt) return 'pending_employee';
+  if (employeeAt && !adminAt) return 'pending_admin';
+  if (adminAt || employeeAt) {
+    return adminAt ? 'pending_employee' : 'pending_admin';
   }
   return 'none';
 }

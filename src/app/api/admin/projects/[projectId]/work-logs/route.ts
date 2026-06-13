@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { requireAdminProjectAccess } from '@/lib/admin-auth';
-import { createClient } from '@/utils/supabase/server';
+import { createAdminClient } from '@/utils/supabase/admin';
 import { apiErrorMessage } from '@/lib/project-queries';
 import { adminConfirmWorkLog } from '@/lib/work-log-service';
 import type { MesaiType } from '@/lib/work-log';
@@ -24,7 +24,7 @@ export async function GET(request: Request, ctx: Ctx) {
     const approved = searchParams.get('approved');
     const disputed = searchParams.get('disputed');
 
-    const supabase = await createClient();
+    const supabase = createAdminClient();
     let q = supabase
       .from('work_logs')
       .select('*, employees(name)')
@@ -79,7 +79,7 @@ export async function POST(request: Request, ctx: Ctx) {
       );
     }
 
-    const supabase = await createClient();
+    const supabase = createAdminClient();
     const record = await adminConfirmWorkLog(supabase, {
       projectId,
       employeeId,

@@ -14,7 +14,7 @@ export async function GET() {
       admin
         .from('work_logs')
         .select(
-          'id, date, amount, mesai_type, mesai_units, description, approved, admin_confirmed_at, employee_confirmed_at'
+          'id, date, amount, mesai_type, mesai_units, description, approved, admin_confirmed_at, employee_confirmed_at, employee_dispute_note, employee_disputed_at'
         )
         .eq('employee_id', session.employeeId)
         .eq('date', today)
