@@ -9,6 +9,7 @@ export function normalizeMonthStats(raw: Record<string, unknown>, month: string)
   };
 
   const gross = num(raw.gross_pay, raw.gross);
+  const mesaiPay = num(raw.mesai_pay);
   const totalAdvances = num(raw.total_advances, raw.total_advance);
   const totalDeductions = num(raw.total_deductions, raw.total_deduction);
   const totalMinimum = num(raw.total_minimum);
@@ -22,6 +23,9 @@ export function normalizeMonthStats(raw: Record<string, unknown>, month: string)
     work_days: num(raw.work_days),
     approved_days: num(raw.approved_days),
     pending_days: num(raw.pending_days),
+    mesai_units: num(raw.mesai_units),
+    mesai_pay: mesaiPay,
+    base_pay: num(raw.base_pay, gross - mesaiPay),
     gross_pay: gross,
     total_advances: totalAdvances,
     total_deductions: totalDeductions,

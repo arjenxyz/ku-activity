@@ -162,7 +162,7 @@ export function PersonnelCalendar({ month, onMonthChange, days }: Props) {
                 className={`aspect-square min-h-[40px] rounded-xl flex flex-col items-center justify-center text-center p-0.5 transition-colors ${cellStyle(cell)} ${todayRing}`}
                 title={
                   hasWork
-                    ? `${cell.date} · ${cell.workAmount} birim · ${STATUS_STYLES[status].label}`
+                    ? `${cell.date} · ${cell.workAmount} gün · ${STATUS_STYLES[status].label}`
                     : cell.date
                 }
               >

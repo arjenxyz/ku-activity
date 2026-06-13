@@ -6,6 +6,7 @@ import {
   FiBookOpen,
   FiBriefcase,
   FiCalendar,
+  FiClock,
   FiCreditCard,
   FiDollarSign,
   FiList,
@@ -16,7 +17,7 @@ import {
 import { EmployeeAvatar } from '@/components/employee/EmployeeAvatar';
 import { PersonnelCalendar } from '@/components/personnel/PersonnelCalendar';
 import { PersonnelAlertBar } from '@/components/personnel/PersonnelAlertBar';
-import { PersonnelMesaiSummary } from '@/components/personnel/PersonnelMesaiSummary';
+import { PersonnelMesaiPanel } from '@/components/personnel/PersonnelMesaiPanel';
 import { PersonnelPendingApprovals } from '@/components/personnel/PersonnelPendingApprovals';
 import { PersonnelProjectCard } from '@/components/personnel/PersonnelProjectCard';
 import { PersonnelTodayAttendance } from '@/components/personnel/PersonnelTodayAttendance';
@@ -42,6 +43,7 @@ import { buildMonthCalendar, currentMonth } from '@/lib/personnel-stats';
 const DESKTOP_TABS = [
   { id: 'overview', label: 'Özet', icon: <FiList className="w-4 h-4" /> },
   { id: 'work', label: 'Yevmiye', icon: <FiBriefcase className="w-4 h-4" /> },
+  { id: 'mesai', label: 'Mesai', icon: <FiClock className="w-4 h-4" /> },
   { id: 'finance', label: 'Finans', icon: <FiDollarSign className="w-4 h-4" /> },
   { id: 'rights', label: 'Haklarım', icon: <FiBookOpen className="w-4 h-4" /> },
   { id: 'settings', label: 'Ayarlar', icon: <FiSettings className="w-4 h-4" /> },
@@ -50,6 +52,7 @@ const DESKTOP_TABS = [
 const MOBILE_TABS = [
   { id: 'overview', label: 'Özet', icon: <FiList /> },
   { id: 'work', label: 'Yevmiye', icon: <FiBriefcase /> },
+  { id: 'mesai', label: 'Mesai', icon: <FiClock /> },
   { id: 'finance', label: 'Finans', icon: <FiDollarSign /> },
   { id: 'rights', label: 'Haklar', icon: <FiBookOpen /> },
   { id: 'settings', label: 'Ayarlar', icon: <FiSettings /> },
@@ -168,6 +171,17 @@ function PersonelPanelContent() {
       );
     }
 
+    if (activeTab === 'mesai' && employee) {
+      return (
+        <PersonnelMesaiPanel
+          month={month}
+          onMonthChange={setMonth}
+          workLogs={workLogs}
+          dailyWage={Number(employee.daily_wage)}
+        />
+      );
+    }
+
     if (activeTab === 'finance' && stats) {
       return (
         <PersonnelFinancePanel
@@ -273,10 +287,7 @@ function PersonelPanelContent() {
 
         <PersonnelTodayAttendance />
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <PersonnelProjectCard project={employee?.project} />
-          <PersonnelMesaiSummary workLogs={workLogs} />
-        </div>
+        <PersonnelProjectCard project={employee?.project} />
 
         {employee && (
           <div className="bg-white dark:bg-slate-800 rounded-2xl border border-gray-100 dark:border-slate-700 shadow-sm p-4 sm:p-6">

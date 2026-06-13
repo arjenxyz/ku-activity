@@ -69,11 +69,9 @@ export async function POST(request: Request, ctx: Ctx) {
         .lte('date', end)
         .eq('approved', true);
 
-      const workDays = (logs ?? []).reduce(
-        (s, l) => s + Number(l.amount) + Number(l.mesai_units ?? 0),
-        0
-      );
-      const gross = workDays * Number(emp.daily_wage);
+      const workDays = (logs ?? []).reduce((s, l) => s + Number(l.amount), 0);
+      const mesaiUnits = (logs ?? []).reduce((s, l) => s + Number(l.mesai_units ?? 0), 0);
+      const gross = workDays * Number(emp.daily_wage) + mesaiUnits * Number(emp.daily_wage);
 
       const { data: adv } = await supabase
         .from('deductions')

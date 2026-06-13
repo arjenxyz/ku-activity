@@ -10,6 +10,8 @@ import { formatDate } from '@/lib/format';
 
 type Stats = {
   gross: number;
+  basePay: number;
+  mesaiPay: number;
   totalAdvance: number;
   totalDeduct: number;
   totalMinimum: number;
@@ -36,7 +38,11 @@ export function PersonnelFinancePanel({
   onPrint,
 }: Props) {
   const rows = [
-    { label: 'Brüt kazanç', value: stats.gross, tone: 'text-emerald-600' },
+    { label: 'Yevmiye (gün × ücret)', value: stats.basePay, tone: 'text-emerald-600' },
+    ...(stats.mesaiPay > 0
+      ? [{ label: 'Mesai kazancı (+)', value: stats.mesaiPay, tone: 'text-orange-600' }]
+      : []),
+    { label: 'Brüt toplam', value: stats.gross, tone: 'text-emerald-700 dark:text-emerald-400' },
     { label: 'Avanslar (−)', value: -stats.totalAdvance, tone: 'text-amber-600' },
     { label: 'Kesintiler (−)', value: -stats.totalDeduct, tone: 'text-red-500' },
     ...(stats.totalMinimum > 0

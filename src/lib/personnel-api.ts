@@ -42,6 +42,9 @@ export type MonthStats = {
   work_days: number;
   approved_days: number;
   pending_days: number;
+  mesai_units: number;
+  mesai_pay: number;
+  base_pay: number;
   gross_pay: number;
   total_advances: number;
   total_deductions: number;
