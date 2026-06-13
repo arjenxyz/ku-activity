@@ -34,6 +34,7 @@ import { PersonnelFinancePanel } from '@/components/personnel/PersonnelFinancePa
 import { PersonnelBottomNav } from '@/components/personnel/PersonnelBottomNav';
 import { PersonnelPullToRefresh } from '@/components/personnel/PersonnelPullToRefresh';
 import { PersonnelPwaInstallBanner } from '@/components/personnel/PersonnelPwaInstallBanner';
+import { PersonnelDisplaySettings } from '@/components/personnel/PersonnelDisplaySettings';
 import { PersonnelTrustFooter } from '@/components/personnel/PersonnelTrustFooter';
 import { PersonnelWorkLogItem } from '@/components/personnel/PersonnelWorkLogItem';
 import { usePersonnelDashboard } from '@/hooks/usePersonnelDashboard';
