@@ -23,7 +23,7 @@ async function loadMaskedIban(admin: ReturnType<typeof createAdminClient>, emplo
 async function loadProject(admin: ReturnType<typeof createAdminClient>, projectId: string) {
   const { data } = await admin
     .from('projects')
-    .select('id, name, status, description, location, code, work_start_time, work_end_time')
+    .select('id, name, status, description, location, code, work_start_time, work_end_time, created_by')
     .eq('id', projectId)
     .maybeSingle();
 
@@ -38,6 +38,27 @@ async function loadProject(admin: ReturnType<typeof createAdminClient>, projectI
     code: data.code ?? null,
     workStartTime: data.work_start_time ?? null,
     workEndTime: data.work_end_time ?? null,
+    createdBy: data.created_by as string | null,
+  };
+}
+
+async function loadProjectManager(
+  admin: ReturnType<typeof createAdminClient>,
+  createdBy: string | null | undefined
+) {
+  if (!createdBy) return null;
+
+  const { data } = await admin
+    .from('profiles')
+    .select('full_name, phone')
+    .eq('id', createdBy)
+    .maybeSingle();
+
+  if (!data?.phone?.trim()) return null;
+
+  return {
+    name: data.full_name ?? null,
+    phone: data.phone.trim(),
   };
 }
 
@@ -53,6 +74,7 @@ export async function GET() {
 
     if (!viewError && viewData) {
       const project = await loadProject(admin, viewData.project_id);
+      const manager = project ? await loadProjectManager(admin, project.createdBy) : null;
       const [photo_url, iban_masked] = await Promise.all([
         signedEmployeePhotoUrl(viewData.photo_path, viewData.photo_url),
         loadMaskedIban(admin, session.employeeId),
@@ -70,7 +92,19 @@ export async function GET() {
           iban_masked,
           project_id: viewData.project_id,
           project_name: viewData.project_name,
-          project,
+          project: project
+            ? {
+                id: project.id,
+                name: project.name,
+                status: project.status,
+                description: project.description,
+                location: project.location,
+                code: project.code,
+                workStartTime: project.workStartTime,
+                workEndTime: project.workEndTime,
+              }
+            : null,
+          manager,
         },
       });
     }
@@ -82,6 +116,7 @@ export async function GET() {
     }
 
     const project = data.project_id ? await loadProject(admin, data.project_id) : null;
+    const manager = project ? await loadProjectManager(admin, project.createdBy) : null;
 
     const [photo_url, iban_masked] = await Promise.all([
       signedEmployeePhotoUrl(data.photo_path, data.photo_url),
@@ -94,7 +129,19 @@ export async function GET() {
         photo_url,
         iban_masked,
         project_name: project?.name,
-        project,
+        project: project
+          ? {
+              id: project.id,
+              name: project.name,
+              status: project.status,
+              description: project.description,
+              location: project.location,
+              code: project.code,
+              workStartTime: project.workStartTime,
+              workEndTime: project.workEndTime,
+            }
+          : null,
+        manager,
       },
     });
   } catch {

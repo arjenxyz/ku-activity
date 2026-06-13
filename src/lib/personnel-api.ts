@@ -22,6 +22,11 @@ export type PersonnelProject = {
   workEndTime: string | null;
 };
 
+export type PersonnelManager = {
+  name: string | null;
+  phone: string;
+};
+
 export type PersonnelEmployee = {
   id: string;
   name: string;
@@ -35,6 +40,7 @@ export type PersonnelEmployee = {
   project_id: string;
   project_name?: string;
   project?: PersonnelProject | null;
+  manager?: PersonnelManager | null;
 };
 
 export type MonthStats = {

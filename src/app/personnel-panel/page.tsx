@@ -34,7 +34,7 @@ import { PersonnelFinancePanel } from '@/components/personnel/PersonnelFinancePa
 import { PersonnelBottomNav } from '@/components/personnel/PersonnelBottomNav';
 import { PersonnelPullToRefresh } from '@/components/personnel/PersonnelPullToRefresh';
 import { PersonnelPwaInstallBanner } from '@/components/personnel/PersonnelPwaInstallBanner';
-import { PersonnelDisplaySettings } from '@/components/personnel/PersonnelDisplaySettings';
+import { PersonnelTrustFooter } from '@/components/personnel/PersonnelTrustFooter';
 import { PersonnelWorkLogItem } from '@/components/personnel/PersonnelWorkLogItem';
 import { usePersonnelDashboard } from '@/hooks/usePersonnelDashboard';
 import { usePersonnelTab, type PersonnelTabId } from '@/hooks/usePersonnelTab';
@@ -351,37 +351,7 @@ function PersonelPanelContent() {
           </div>
         )}
 
-        <PersonnelSection
-          title="Son Yevmiyeler"
-          icon={<FiBriefcase className="w-5 h-5 text-green-600" />}
-          isEmpty={workLogs.length === 0}
-        >
-          <div>
-            {workLogs.slice(0, 5).map((r) => (
-              <PersonnelWorkLogItem key={r.id} log={r} onUpdated={() => void reload()} />
-            ))}
-          </div>
-        </PersonnelSection>
-
-        {loadFinance && advances.length > 0 && (
-          <PersonnelSection
-            title="Son Avanslar"
-            icon={<FiCreditCard className="w-5 h-5 text-amber-600" />}
-            isEmpty={advances.length === 0}
-          >
-            <div>
-              {advances.slice(0, 5).map((r) => (
-                <div
-                  key={r.id}
-                  className="flex items-center justify-between px-4 sm:px-6 py-3 border-b border-gray-100 dark:border-slate-700 last:border-0 text-sm"
-                >
-                  <span>{formatDate(r.date)}</span>
-                  <span className="font-medium">{formatMoney(Number(r.amount))}</span>
-                </div>
-              ))}
-            </div>
-          </PersonnelSection>
-        )}
+        <PersonnelTrustFooter managerPhone={employee?.manager?.phone} />
       </div>
     );
   };
