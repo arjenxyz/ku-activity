@@ -20,7 +20,7 @@ import { PersonnelCalendar } from '@/components/personnel/PersonnelCalendar';
 import { PersonnelAlertBar } from '@/components/personnel/PersonnelAlertBar';
 import { PersonnelMesaiPanel } from '@/components/personnel/PersonnelMesaiPanel';
 import { PersonnelPendingApprovals } from '@/components/personnel/PersonnelPendingApprovals';
-import { PersonnelProjectCard } from '@/components/personnel/PersonnelProjectCard';
+import { PersonnelProjectMenuBar } from '@/components/personnel/PersonnelProjectMenuBar';
 import { PersonnelTodayAttendance } from '@/components/personnel/PersonnelTodayAttendance';
 import { PersonnelContractsSection } from '@/components/personnel/PersonnelContractsSection';
 import { PersonnelPasswordForm } from '@/components/personnel/PersonnelPasswordForm';
@@ -299,8 +299,6 @@ function PersonelPanelContent() {
 
         <PersonnelTodayAttendance />
 
-        <PersonnelProjectCard project={employee?.project} />
-
         {employee && (
           <div className="bg-white dark:bg-slate-800 rounded-2xl border border-gray-100 dark:border-slate-700 shadow-sm p-4 sm:p-6">
             <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
@@ -399,8 +397,11 @@ function PersonelPanelContent() {
             </p>
           </div>
 
-          <div className="hidden sm:block">
-            <PersonnelTabNav tabs={tabsWithBadges} active={activeTab} onChange={goTab} />
+          <div className="mb-4 sm:mb-6 space-y-3">
+            <div className="hidden sm:block">
+              <PersonnelTabNav tabs={tabsWithBadges} active={activeTab} onChange={goTab} />
+            </div>
+            <PersonnelProjectMenuBar project={employee?.project} />
           </div>
           {renderContent()}
         </div>
