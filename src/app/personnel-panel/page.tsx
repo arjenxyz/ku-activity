@@ -352,7 +352,10 @@ function PersonelPanelContent() {
           </div>
         )}
 
-        <PersonnelTrustFooter managerPhone={employee?.manager?.phone} />
+        <PersonnelTrustFooter
+          managerPhone={employee?.manager?.phone}
+          managerName={employee?.manager?.name}
+        />
       </div>
     );
   };
