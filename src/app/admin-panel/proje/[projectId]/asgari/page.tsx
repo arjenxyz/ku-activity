@@ -12,12 +12,9 @@ import { RecordsTable } from '@/components/project/RecordsTable';
 import { useProjectEmployees } from '@/hooks/useProjectEmployees';
 import { fetchRecords, postMinimumWage } from '@/lib/project-api';
 import { formatMoney, formatDate } from '@/lib/format';
-import {
-  computeMinimumWageGap,
-  getOfficialMonthlyMinimumWageGross,
-  getOfficialMonthlyMinimumWageNet,
-} from '@/lib/minimum-wage';
+import { computeMinimumWageGapWithPolicy, type ResolvedWagePolicy } from '@/lib/wage-policy-calc';
 import { computeGrossPay, type WorkLog } from '@/lib/personnel-stats';
+import { YEVMIYE_TRIGGER_LABELS, DEFAULT_WAGE_POLICY, type WagePolicy } from '@/types/wage-policy';
 import { cardClass, labelClass, inputClass, btnPrimary, btnSecondary } from '@/components/project/ui';
 
 type MinimumRecord = {
@@ -43,9 +40,18 @@ export default function AsgariPage() {
   const [error, setError] = useState<string | null>(null);
   const [monthRecords, setMonthRecords] = useState<MinimumRecord[]>([]);
   const [approvedGross, setApprovedGross] = useState(0);
+  const [workedDays, setWorkedDays] = useState(0);
+  const [wagePolicy, setWagePolicy] = useState<ResolvedWagePolicy | null>(null);
 
   const selectedEmployee = employees.find((e) => e.id === employeeId);
   const dailyWage = selectedEmployee ? Number(selectedEmployee.daily_wage) : 0;
+
+  useEffect(() => {
+    fetch(`/api/admin/projects/${projectId}/wage-policy`)
+      .then(async (res) => (res.ok ? res.json() : null))
+      .then((d) => setWagePolicy(d?.resolved ?? null))
+      .catch(() => setWagePolicy(null));
+  }, [projectId]);
 
   const loadPreview = useCallback(async () => {
     if (!employeeId) {
@@ -60,8 +66,9 @@ export default function AsgariPage() {
         fetchRecords(projectId, 'minimum-wages', { employeeId, month }),
       ]);
       const logs = (logsRes.records ?? []) as WorkLog[];
-      const { gross } = computeGrossPay(logs, dailyWage);
+      const { gross, workDays } = computeGrossPay(logs, dailyWage, { approvedOnly: true });
       setApprovedGross(gross);
+      setWorkedDays(workDays);
       setMonthRecords(minRes.records ?? []);
     } catch {
       setApprovedGross(0);
@@ -80,12 +87,21 @@ export default function AsgariPage() {
     [monthRecords]
   );
 
+  const policy: WagePolicy = wagePolicy ?? DEFAULT_WAGE_POLICY;
+
   const gap = useMemo(
     () =>
       employeeId
-        ? computeMinimumWageGap({ grossEarned: approvedGross, minimumPaid })
+        ? computeMinimumWageGapWithPolicy({
+            month,
+            hireDate: selectedEmployee?.hire_date,
+            grossEarned: approvedGross,
+            minimumPaid,
+            workedDays,
+            policy,
+          })
         : null,
-    [employeeId, approvedGross, minimumPaid]
+    [employeeId, month, selectedEmployee?.hire_date, approvedGross, minimumPaid, workedDays, policy]
   );
 
   const handleFillSuggested = () => {
@@ -127,22 +143,27 @@ export default function AsgariPage() {
     }
   };
 
-  const officialGross = getOfficialMonthlyMinimumWageGross();
-  const officialNet = getOfficialMonthlyMinimumWageNet();
+  const policyConfigured = wagePolicy?.configuredAt != null;
 
   return (
     <div>
       <ProjectPageHeader
         title="Asgari Ekle"
-        description="Yevmiye kazancı resmi asgari ücretin altındaysa tamamlama ödemesi kaydedin."
+        description="Yevmiye kazancı, şirket politikanızdaki asgari tavanın altındaysa taşeron farkını kaydedin."
       />
-      <p className="-mt-4 mb-6">
+      <p className="-mt-4 mb-6 flex flex-wrap gap-x-4 gap-y-1 text-sm">
         <Link
           href={`/admin-panel/proje/${projectId}/sorgulama/asgari`}
-          className="inline-flex items-center gap-1.5 text-sm text-indigo-600 hover:text-indigo-700 dark:text-indigo-400"
+          className="inline-flex items-center gap-1.5 text-indigo-600 hover:text-indigo-700"
         >
-          Asgari sorgulama ve düzenleme
+          Asgari sorgulama
           <FiExternalLink className="w-4 h-4" />
+        </Link>
+        <Link
+          href={`/admin-panel/proje/${projectId}/maas-politikasi`}
+          className="text-indigo-600 hover:text-indigo-700"
+        >
+          Maaş politikası
         </Link>
       </p>
 
@@ -150,18 +171,24 @@ export default function AsgariPage() {
       {error && <AlertBanner type="error" message={error} />}
       {success && <AlertBanner type="success" message={success} />}
 
-      <div className={`${cardClass} p-4 sm:p-6 mb-6 border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/50 dark:bg-indigo-950/20`}>
+      {!policyConfigured && (
+        <AlertBanner
+          type="error"
+          message="Henüz maaş politikası doldurulmamış. Ana yetkili şirket ayarlarını tamamlamalı."
+        />
+      )}
+
+      <div className={`${cardClass} p-4 sm:p-6 mb-6 border-indigo-100 bg-indigo-50/50`}>
         <div className="flex gap-3">
           <FiInfo className="w-5 h-5 text-indigo-600 shrink-0 mt-0.5" />
-          <div className="text-sm text-slate-700 dark:text-slate-300 space-y-1">
+          <div className="text-sm text-slate-700 space-y-1">
             <p>
-              2026 resmi brüt asgari ücret: <strong>{formatMoney(officialGross)}</strong> (net:{' '}
-              {formatMoney(officialNet)}). Onaylı yevmiye + mesai brütü bu tutarın altındaysa
-              farkı asgari tamamlama olarak ödeyebilirsiniz.
+              <strong>Taşeron farkı</strong> = Hak edilen asgari − onaylı yevmiye − ödenen asgari
             </p>
             <p className="text-xs text-slate-500">
-              Önerilen tutar yalnızca onaylı yevmiye kayıtlarına göre hesaplanır; avans ve kesintiler
-              net ödemede ayrıca düşülür.
+              Yevmiye ödeme zamanınız:{' '}
+              {policy.yevmiyePaymentTriggers.map((t) => YEVMIYE_TRIGGER_LABELS[t]).join(' · ')}
+              {policy.yevmiyePaymentNotes ? ` — ${policy.yevmiyePaymentNotes}` : ''}
             </p>
           </div>
         </div>
@@ -193,11 +220,11 @@ export default function AsgariPage() {
           ) : gap ? (
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
               {[
-                { label: 'Onaylı brüt kazanç', value: formatMoney(gap.grossEarned) },
+                { label: 'Onaylı yevmiye', value: formatMoney(gap.grossEarned) },
                 { label: 'Ödenen asgari', value: formatMoney(gap.minimumPaid) },
-                { label: 'Resmi asgari (brüt)', value: formatMoney(gap.officialGross) },
+                { label: 'Hak edilen asgari', value: formatMoney(gap.eligibleMinimum) },
                 {
-                  label: gap.isBelowMinimum ? 'Önerilen tamamlama' : 'Durum',
+                  label: gap.isBelowMinimum ? 'Taşeron farkı' : 'Durum',
                   value: gap.isBelowMinimum ? formatMoney(gap.suggestedTopUp) : 'Tamamlandı',
                   highlight: gap.isBelowMinimum && gap.suggestedTopUp > 0,
                 },

@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect, useMemo } from 'react';
-import { FiGrid, FiLogOut } from 'react-icons/fi';
+import { FiGrid, FiLogOut, FiSettings } from 'react-icons/fi';
 import { ProjectNavLinks } from '@/components/project/ProjectNavMenu';
 import { BrandMark } from '@/components/brand/BrandMark';
 import { APP_NAME } from '@/lib/brand';
@@ -56,6 +56,17 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
             >
               <FiGrid className="w-4 h-4" />
               Projeler
+            </Link>
+            <Link
+              href="/admin-panel/maas-politikasi"
+              className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                pathname === '/admin-panel/maas-politikasi'
+                  ? 'text-blue-700 bg-blue-50'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+              }`}
+            >
+              <FiSettings className="w-4 h-4" />
+              Maaş Politikası
             </Link>
             <button
               type="button"
