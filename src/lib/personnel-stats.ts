@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { computeNetPay } from '@/lib/minimum-wage';
 import { getWorkLogApprovalStatus, type MesaiType } from '@/lib/work-log';
 
 export type WorkLog = {
@@ -161,6 +162,22 @@ export function getWorkDayCountLines(
   ];
 }
 
+export function computeGrossPay(
+  workLogs: WorkLog[],
+  dailyWage: number,
+  options?: { approvedOnly?: boolean }
+): { basePay: number; mesaiPay: number; gross: number; workDays: number; mesaiUnits: number } {
+  const logs = options?.approvedOnly
+    ? workLogs.filter((w) => w.approved === true)
+    : workLogs;
+  const workDays = logs.reduce((s, w) => s + workDayUnitsForLog(w), 0);
+  const mesaiUnits = logs.reduce((s, w) => s + mesaiUnitsForLog(w), 0);
+  const mesaiPay = logs.reduce((s, w) => s + mesaiPayForLog(w, dailyWage), 0);
+  const basePay = workDays * dailyWage;
+  const gross = basePay + mesaiPay;
+  return { basePay, mesaiPay, gross, workDays, mesaiUnits };
+}
+
 export function computePersonnelStats(
   workLogs: WorkLog[],
   deductions: Deduction[],
@@ -185,7 +202,7 @@ export function computePersonnelStats(
     .filter((d) => d.type !== 'advance')
     .reduce((s, d) => s + Number(d.amount), 0);
   const totalMinimum = minimumWages.reduce((s, m) => s + Number(m.amount), 0);
-  const net = gross - totalAdvance - totalDeduct;
+  const net = computeNetPay(gross, totalAdvance, totalDeduct, totalMinimum);
 
   return {
     workDays,

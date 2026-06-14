@@ -1,4 +1,5 @@
 import type { MonthStats } from '@/lib/personnel-api';
+import { computeNetPay } from '@/lib/minimum-wage';
 
 /** RPC yanıtı 011 (gross_pay…) veya 018 (gross…) anahtarlarını destekler */
 export function normalizeMonthStats(raw: Record<string, unknown>, month: string): MonthStats {
@@ -16,7 +17,7 @@ export function normalizeMonthStats(raw: Record<string, unknown>, month: string)
   const net =
     raw.net_pay != null || raw.net != null
       ? num(raw.net_pay, raw.net)
-      : gross - totalAdvances - totalDeductions;
+      : computeNetPay(gross, totalAdvances, totalDeductions, totalMinimum);
 
   return {
     month: typeof raw.month === 'string' ? raw.month : month,

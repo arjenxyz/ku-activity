@@ -80,8 +80,9 @@ export default function BordroPage() {
       gross: acc.gross + Number(l.gross_pay),
       net: acc.net + Number(l.net_pay),
       advances: acc.advances + Number(l.advances),
+      minimum: acc.minimum + Number(l.minimum_paid),
     }),
-    { gross: 0, net: 0, advances: 0 }
+    { gross: 0, net: 0, advances: 0, minimum: 0 }
   );
 
   return (
@@ -109,10 +110,11 @@ export default function BordroPage() {
       </div>
 
       {lines.length > 0 && (
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
           {[
             { label: 'Toplam Brüt', value: formatMoney(totals.gross) },
             { label: 'Toplam Avans', value: formatMoney(totals.advances) },
+            { label: 'Toplam Asgari', value: formatMoney(totals.minimum) },
             { label: 'Toplam Net', value: formatMoney(totals.net) },
           ].map((s) => (
             <div key={s.label} className={`${cardClass} p-4`}>
@@ -141,6 +143,12 @@ export default function BordroPage() {
             key: 'ded',
             header: 'Kesinti',
             render: (r) => formatMoney(Number(r.other_deductions)),
+            hideOnMobile: true,
+          },
+          {
+            key: 'min',
+            header: 'Asgari',
+            render: (r) => formatMoney(Number(r.minimum_paid)),
             hideOnMobile: true,
           },
           { key: 'net', header: 'Net', render: (r) => formatMoney(Number(r.net_pay)) },

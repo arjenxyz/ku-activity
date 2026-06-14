@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { requireAdminProjectAccess } from '@/lib/admin-auth';
 import { createClient } from '@/utils/supabase/server';
 import { apiErrorMessage } from '@/lib/project-queries';
+import { computeNetPay } from '@/lib/minimum-wage';
 
 type Ctx = { params: Promise<{ projectId: string }> };
 
@@ -99,7 +100,7 @@ export async function POST(request: Request, ctx: Ctx) {
       const advances = (adv ?? []).reduce((s, r) => s + Number(r.amount), 0);
       const otherDed = (ded ?? []).reduce((s, r) => s + Number(r.amount), 0);
       const minimumPaid = (min ?? []).reduce((s, r) => s + Number(r.amount), 0);
-      const net = gross - advances - otherDed;
+      const net = computeNetPay(gross, advances, otherDed, minimumPaid);
 
       lines.push({
         employee_id: emp.id,

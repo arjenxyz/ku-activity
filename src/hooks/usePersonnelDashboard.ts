@@ -12,6 +12,7 @@ import {
   type PersonnelEmployee,
 } from '@/lib/personnel-api';
 import { computePersonnelStats, type Deduction, type MinimumWage, type WorkLog } from '@/lib/personnel-stats';
+import { computeNetPay } from '@/lib/minimum-wage';
 
 type Options = {
   loadFinance?: boolean;
@@ -114,7 +115,12 @@ export function usePersonnelDashboard(month: string, options: Options = {}) {
           totalAdvance: safeNum(monthStats.total_advances),
           totalDeduct: safeNum(monthStats.total_deductions),
           totalMinimum: safeNum(monthStats.total_minimum),
-          net: safeNum(monthStats.net_pay),
+          net: computeNetPay(
+            safeNum(monthStats.gross_pay),
+            safeNum(monthStats.total_advances),
+            safeNum(monthStats.total_deductions),
+            safeNum(monthStats.total_minimum)
+          ),
         }
       : loadFinance
         ? computePersonnelStats(workLogs, deductions, Number(employee.daily_wage), minimumWages)

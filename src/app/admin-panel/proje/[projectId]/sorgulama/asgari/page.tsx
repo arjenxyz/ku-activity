@@ -91,6 +91,12 @@ export default function AsgariSorgulamaPage() {
           },
         ]}
       />
+
+      {records.length > 0 && (
+        <p className="text-sm text-slate-600 dark:text-slate-400 mt-3 text-right font-semibold">
+          Toplam: {formatMoney(records.reduce((s, r) => s + Number(r.amount), 0))}
+        </p>
+      )}
     </div>
   );
 }

@@ -41,7 +41,8 @@ export default function DurumPage() {
     summary != null
       ? Number(summary.total_work_pay ?? 0) -
         Number(summary.total_advances ?? 0) -
-        Number(summary.total_deductions ?? 0)
+        Number(summary.total_deductions ?? 0) +
+        Number(summary.total_minimum ?? 0)
       : 0;
 
   return (
@@ -61,7 +62,7 @@ export default function DurumPage() {
             <p className="text-sm text-slate-300">Tahmini Net Durum</p>
             <p className="text-3xl font-bold mt-2">{formatMoney(netEstimate)}</p>
             <p className="text-xs text-slate-400 mt-2">
-              Brüt yevmiye − avans − kesintiler (yaklaşık)
+              Brüt yevmiye − avans − kesintiler + asgari tamamlama (yaklaşık)
             </p>
           </div>
 

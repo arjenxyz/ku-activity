@@ -1,9 +1,10 @@
 'use client';
 
-import { FiCreditCard, FiDollarSign, FiPrinter, FiShield, FiXCircle } from 'react-icons/fi';
+import { FiCreditCard, FiDollarSign, FiInfo, FiPrinter, FiShield, FiXCircle } from 'react-icons/fi';
 import { formatMoney } from '@/lib/format';
 import type { Deduction, MinimumWage } from '@/lib/personnel-stats';
 import { deductionTypeLabel } from '@/lib/personnel-stats';
+import { computeMinimumWageGap, getOfficialMonthlyMinimumWageNet } from '@/lib/minimum-wage';
 import { PersonnelRecordRow, PersonnelSection } from './PersonnelRecordCard';
 import { PersonnelStatGrid } from './PersonnelStatGrid';
 import { formatDate } from '@/lib/format';
@@ -37,6 +38,11 @@ export function PersonnelFinancePanel({
   minimumWages,
   onPrint,
 }: Props) {
+  const gap = computeMinimumWageGap({
+    grossEarned: stats.gross,
+    minimumPaid: stats.totalMinimum,
+  });
+
   const rows = [
     { label: 'Yevmiye (gün × ücret)', value: stats.basePay, tone: 'text-emerald-600' },
     ...(stats.mesaiPay > 0
@@ -96,6 +102,33 @@ export function PersonnelFinancePanel({
           </li>
         </ul>
       </div>
+
+      {(gap.isBelowMinimum || stats.totalMinimum > 0) && (
+        <div className="rounded-2xl border border-indigo-100 dark:border-indigo-900/50 bg-indigo-50/60 dark:bg-indigo-950/25 p-4 sm:p-5">
+          <div className="flex gap-3">
+            <FiInfo className="w-5 h-5 text-indigo-600 shrink-0 mt-0.5" />
+            <div className="text-sm space-y-1">
+              <p className="font-medium text-gray-900 dark:text-white">Asgari ücret bilgisi</p>
+              <p className="text-gray-600 dark:text-gray-300">
+                Resmi aylık net asgari: {formatMoney(getOfficialMonthlyMinimumWageNet())}. Brüt
+                kazancınız + asgari tamamlama:{' '}
+                {formatMoney(stats.gross + stats.totalMinimum)}.
+              </p>
+              {gap.isBelowMinimum && gap.remainingGap > 0 && (
+                <p className="text-amber-700 dark:text-amber-400">
+                  Brüt referansına göre tahmini eksik tamamlama: {formatMoney(gap.remainingGap)}.
+                  Kesin tutar işveren tarafından belirlenir.
+                </p>
+              )}
+              {!gap.isBelowMinimum && stats.totalMinimum > 0 && (
+                <p className="text-emerald-700 dark:text-emerald-400">
+                  Bu dönem için asgari tamamlama kaydı mevcut.
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
 
       {employeeDailyWage != null && (
         <PersonnelStatGrid
