@@ -12,6 +12,7 @@ import {
   FiList,
   FiLogOut,
   FiSettings,
+  FiShield,
   FiTrendingUp,
   FiXCircle,
 } from 'react-icons/fi';
@@ -31,6 +32,7 @@ import { PersonnelOverviewStrip } from '@/components/personnel/PersonnelOverview
 import { PersonnelTabNav } from '@/components/personnel/PersonnelTabNav';
 import { PersonnelSection } from '@/components/personnel/PersonnelRecordCard';
 import { PersonnelFinancePanel } from '@/components/personnel/PersonnelFinancePanel';
+import { PersonnelAsgariPanel } from '@/components/personnel/PersonnelAsgariPanel';
 import { PersonnelBottomNav } from '@/components/personnel/PersonnelBottomNav';
 import { PersonnelPullToRefresh } from '@/components/personnel/PersonnelPullToRefresh';
 import { PersonnelPwaInstallBanner } from '@/components/personnel/PersonnelPwaInstallBanner';
@@ -38,6 +40,7 @@ import { PersonnelDisplaySettings } from '@/components/personnel/PersonnelDispla
 import { PersonnelTrustFooter } from '@/components/personnel/PersonnelTrustFooter';
 import { PersonnelWorkLogItem } from '@/components/personnel/PersonnelWorkLogItem';
 import { usePersonnelDashboard } from '@/hooks/usePersonnelDashboard';
+import { usePersonnelAsgari } from '@/hooks/usePersonnelAsgari';
 import { usePersonnelTab, type PersonnelTabId } from '@/hooks/usePersonnelTab';
 import { formatDate, formatMoney } from '@/lib/format';
 import { getWorkLogApprovalStatus } from '@/lib/work-log';
@@ -47,6 +50,7 @@ const DESKTOP_TABS = [
   { id: 'overview', label: 'Özet', icon: <FiList className="w-4 h-4" /> },
   { id: 'work', label: 'Yevmiye', icon: <FiBriefcase className="w-4 h-4" /> },
   { id: 'mesai', label: 'Mesai', icon: <FiClock className="w-4 h-4" /> },
+  { id: 'asgari', label: 'Asgari', icon: <FiShield className="w-4 h-4" /> },
   { id: 'finance', label: 'Finans', icon: <FiDollarSign className="w-4 h-4" /> },
   { id: 'rights', label: 'Haklarım', icon: <FiBookOpen className="w-4 h-4" /> },
   { id: 'settings', label: 'Ayarlar', icon: <FiSettings className="w-4 h-4" /> },
@@ -56,6 +60,7 @@ const MOBILE_TABS = [
   { id: 'overview', label: 'Özet', icon: <FiList /> },
   { id: 'work', label: 'Yevmiye', icon: <FiBriefcase /> },
   { id: 'mesai', label: 'Mesai', icon: <FiClock /> },
+  { id: 'asgari', label: 'Asgari', icon: <FiShield /> },
   { id: 'finance', label: 'Finans', icon: <FiDollarSign /> },
   { id: 'rights', label: 'Haklar', icon: <FiBookOpen /> },
   { id: 'settings', label: 'Ayarlar', icon: <FiSettings /> },
@@ -66,8 +71,15 @@ function PersonelPanelContent() {
   const [month, setMonth] = useState(currentMonth);
   const { activeTab, setActiveTab } = usePersonnelTab('overview');
   const loadFinance = activeTab === 'overview' || activeTab === 'finance';
-  const { employee, workLogs, deductions, minimumWages, stats, loading, error, reload } =
+  const loadAsgari = activeTab === 'asgari';
+  const { employee, workLogs, deductions, stats, loading, error, reload } =
     usePersonnelDashboard(month, { loadFinance });
+  const {
+    data: asgariData,
+    loading: asgariLoading,
+    error: asgariError,
+    reload: reloadAsgari,
+  } = usePersonnelAsgari(month, loadAsgari);
 
   const pendingEmployeeCount = workLogs.filter(
     (log) => getWorkLogApprovalStatus(log) === 'pending_employee'
@@ -127,12 +139,26 @@ function PersonelPanelContent() {
 
   const tabsWithBadges = DESKTOP_TABS.map((tab) => ({
     ...tab,
-    badge: tab.id === 'work' && pendingEmployeeCount > 0 ? pendingEmployeeCount : undefined,
+    badge:
+      tab.id === 'work' && pendingEmployeeCount > 0
+        ? pendingEmployeeCount
+        : tab.id === 'asgari' &&
+            asgariData?.gap.paymentStatus &&
+            (asgariData.gap.paymentStatus === 'open' || asgariData.gap.paymentStatus === 'partial')
+          ? 1
+          : undefined,
   }));
 
   const mobileTabsWithBadges = MOBILE_TABS.map((tab) => ({
     ...tab,
-    badge: tab.id === 'work' && pendingEmployeeCount > 0 ? pendingEmployeeCount : undefined,
+    badge:
+      tab.id === 'work' && pendingEmployeeCount > 0
+        ? pendingEmployeeCount
+        : tab.id === 'asgari' &&
+            asgariData?.gap.paymentStatus &&
+            (asgariData.gap.paymentStatus === 'open' || asgariData.gap.paymentStatus === 'partial')
+          ? 1
+          : undefined,
   }));
 
   const handlePrint = () => {
@@ -142,7 +168,7 @@ function PersonelPanelContent() {
   const goTab = (id: string) => setActiveTab(id as PersonnelTabId);
 
   const renderContent = () => {
-    if (loading) {
+    if (loading && activeTab !== 'asgari') {
       return (
         <div className="flex flex-col items-center justify-center py-24 gap-4">
           <div className="w-10 h-10 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
@@ -151,7 +177,7 @@ function PersonelPanelContent() {
       );
     }
 
-    if (error) {
+    if (error && activeTab !== 'asgari') {
       return (
         <div className="rounded-2xl border border-red-200 bg-red-50 dark:bg-red-950/30 dark:border-red-800 p-6 text-center">
           <p className="text-sm text-red-700 dark:text-red-300">{error}</p>
@@ -195,6 +221,19 @@ function PersonelPanelContent() {
       );
     }
 
+    if (activeTab === 'asgari') {
+      return (
+        <PersonnelAsgariPanel
+          month={month}
+          onMonthChange={setMonth}
+          data={asgariData}
+          loading={asgariLoading}
+          error={asgariError}
+          onRetry={() => void reloadAsgari()}
+        />
+      );
+    }
+
     if (activeTab === 'finance' && stats) {
       return (
         <PersonnelFinancePanel
@@ -202,8 +241,8 @@ function PersonelPanelContent() {
           employeeDailyWage={employee ? Number(employee.daily_wage) : undefined}
           advances={advances}
           otherDeductions={otherDeductions}
-          minimumWages={minimumWages}
           onPrint={handlePrint}
+          onOpenAsgari={() => goTab('asgari')}
         />
       );
     }
@@ -362,7 +401,12 @@ function PersonelPanelContent() {
 
   return (
     <PersonnelShell>
-      <PersonnelPullToRefresh onRefresh={reload}>
+      <PersonnelPullToRefresh
+        onRefresh={async () => {
+          await reload();
+          if (loadAsgari) await reloadAsgari();
+        }}
+      >
         <div className="pb-20 sm:pb-0">
           <div className="mb-6">
             <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white tracking-tight">

@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
-export const PERSONNEL_TABS = ['overview', 'work', 'mesai', 'finance', 'rights', 'settings'] as const;
+export const PERSONNEL_TABS = ['overview', 'work', 'mesai', 'asgari', 'finance', 'rights', 'settings'] as const;
 export type PersonnelTabId = (typeof PERSONNEL_TABS)[number];
 
 function isValidTab(value: string | null): value is PersonnelTabId {

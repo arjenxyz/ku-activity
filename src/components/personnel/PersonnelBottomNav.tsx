@@ -20,7 +20,7 @@ export function PersonnelBottomNav({
 }) {
   return (
     <nav className="fixed bottom-0 inset-x-0 z-50 sm:hidden border-t border-gray-200 dark:border-slate-700 bg-white/95 dark:bg-slate-900/95 backdrop-blur-lg safe-pb">
-      <div className="flex justify-around items-stretch max-w-lg mx-auto">
+      <div className="flex justify-between items-stretch max-w-lg mx-auto px-0.5">
         {tabs.map((tab) => {
           const isActive = active === tab.id;
           return (
@@ -28,7 +28,7 @@ export function PersonnelBottomNav({
               key={tab.id}
               type="button"
               onClick={() => onChange(tab.id)}
-              className={`relative flex-1 flex flex-col items-center justify-center gap-0.5 py-2.5 min-h-[56px] text-[10px] font-medium ${
+              className={`relative flex-1 flex flex-col items-center justify-center gap-0.5 py-2 min-h-[56px] text-[9px] font-medium max-w-[4.5rem] ${
                 isActive ? 'text-blue-600' : 'text-gray-500 dark:text-gray-400'
               }`}
             >

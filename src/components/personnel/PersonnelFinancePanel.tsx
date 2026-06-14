@@ -1,10 +1,9 @@
 'use client';
 
-import { FiCreditCard, FiDollarSign, FiInfo, FiPrinter, FiShield, FiXCircle } from 'react-icons/fi';
+import { FiCreditCard, FiDollarSign, FiExternalLink, FiPrinter, FiShield, FiXCircle } from 'react-icons/fi';
 import { formatMoney } from '@/lib/format';
-import type { Deduction, MinimumWage } from '@/lib/personnel-stats';
+import type { Deduction } from '@/lib/personnel-stats';
 import { deductionTypeLabel } from '@/lib/personnel-stats';
-import { computeMinimumWageGap, getOfficialMonthlyMinimumWageNet } from '@/lib/minimum-wage';
 import { PersonnelRecordRow, PersonnelSection } from './PersonnelRecordCard';
 import { PersonnelStatGrid } from './PersonnelStatGrid';
 import { formatDate } from '@/lib/format';
@@ -26,8 +25,8 @@ type Props = {
   employeeDailyWage?: number;
   advances: Deduction[];
   otherDeductions: Deduction[];
-  minimumWages: MinimumWage[];
   onPrint?: () => void;
+  onOpenAsgari?: () => void;
 };
 
 export function PersonnelFinancePanel({
@@ -35,14 +34,9 @@ export function PersonnelFinancePanel({
   employeeDailyWage,
   advances,
   otherDeductions,
-  minimumWages,
   onPrint,
+  onOpenAsgari,
 }: Props) {
-  const gap = computeMinimumWageGap({
-    grossEarned: stats.gross,
-    minimumPaid: stats.totalMinimum,
-  });
-
   const rows = [
     { label: 'Yevmiye (gün × ücret)', value: stats.basePay, tone: 'text-emerald-600' },
     ...(stats.mesaiPay > 0
@@ -103,31 +97,23 @@ export function PersonnelFinancePanel({
         </ul>
       </div>
 
-      {(gap.isBelowMinimum || stats.totalMinimum > 0) && (
-        <div className="rounded-2xl border border-indigo-100 dark:border-indigo-900/50 bg-indigo-50/60 dark:bg-indigo-950/25 p-4 sm:p-5">
-          <div className="flex gap-3">
-            <FiInfo className="w-5 h-5 text-indigo-600 shrink-0 mt-0.5" />
-            <div className="text-sm space-y-1">
-              <p className="font-medium text-gray-900 dark:text-white">Asgari ücret bilgisi</p>
-              <p className="text-gray-600 dark:text-gray-300">
-                Resmi aylık net asgari: {formatMoney(getOfficialMonthlyMinimumWageNet())}. Brüt
-                kazancınız + asgari tamamlama:{' '}
-                {formatMoney(stats.gross + stats.totalMinimum)}.
+      {onOpenAsgari && (
+        <button
+          type="button"
+          onClick={onOpenAsgari}
+          className="w-full flex items-center justify-between gap-3 rounded-2xl border border-indigo-100 dark:border-indigo-900/50 bg-indigo-50/60 dark:bg-indigo-950/25 px-4 sm:px-5 py-4 text-left hover:bg-indigo-50 dark:hover:bg-indigo-950/40 transition-colors"
+        >
+          <div className="flex items-center gap-3 min-w-0">
+            <FiShield className="w-5 h-5 text-indigo-600 shrink-0" />
+            <div>
+              <p className="text-sm font-semibold text-gray-900 dark:text-white">Asgari ücret detayı</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                Dönem tavanı, ödemeler ve tahmini kalan tutar
               </p>
-              {gap.isBelowMinimum && gap.remainingGap > 0 && (
-                <p className="text-amber-700 dark:text-amber-400">
-                  Brüt referansına göre tahmini eksik tamamlama: {formatMoney(gap.remainingGap)}.
-                  Kesin tutar işveren tarafından belirlenir.
-                </p>
-              )}
-              {!gap.isBelowMinimum && stats.totalMinimum > 0 && (
-                <p className="text-emerald-700 dark:text-emerald-400">
-                  Bu dönem için asgari tamamlama kaydı mevcut.
-                </p>
-              )}
             </div>
           </div>
-        </div>
+          <FiExternalLink className="w-4 h-4 text-indigo-600 shrink-0" />
+        </button>
       )}
 
       {employeeDailyWage != null && (
@@ -178,24 +164,6 @@ export function PersonnelFinancePanel({
               left={formatDate(r.date)}
               right={formatMoney(Number(r.amount))}
               sub={r.description || deductionTypeLabel(r.type)}
-            />
-          ))}
-        </div>
-      </PersonnelSection>
-
-      <PersonnelSection
-        title="Asgari ücret"
-        icon={<FiShield className="w-5 h-5 text-indigo-600" />}
-        isEmpty={minimumWages.length === 0}
-        emptyMessage="Bu dönem için asgari ücret kaydı yok"
-      >
-        <div>
-          {minimumWages.map((r) => (
-            <PersonnelRecordRow
-              key={r.id}
-              left={formatDate(r.date)}
-              right={formatMoney(Number(r.amount))}
-              sub={r.description || undefined}
             />
           ))}
         </div>
