@@ -1,21 +1,28 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useState, useEffect, useMemo } from 'react';
-import { FiGrid, FiLogOut, FiSettings } from 'react-icons/fi';
+import { FiGrid, FiLogOut, FiSettings, FiSliders } from 'react-icons/fi';
 import { ProjectNavLinks } from '@/components/project/ProjectNavMenu';
+import { ProjectSettingsModal } from '@/components/modals/ProjectSettingsModal';
+import { ProjectStatusBadge } from '@/components/project/ProjectStatusBadge';
 import { BrandMark } from '@/components/brand/BrandMark';
 import { APP_NAME } from '@/lib/brand';
+import { useAdminCurrentProject } from '@/hooks/useAdminCurrentProject';
 
 const PROJECT_ID_RE = /^\/admin-panel\/proje\/([a-f0-9-]{36})/;
 
 export function DashboardShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
   const projectId = useMemo(() => pathname.match(PROJECT_ID_RE)?.[1] ?? null, [pathname]);
+  const { project, setProject } = useAdminCurrentProject(projectId);
   const isProjectsHome = pathname === '/admin-panel';
+  const isGlobalWagePolicy = pathname === '/admin-panel/maas-politikasi';
 
   useEffect(() => {
     setMenuOpen(false);
@@ -38,14 +45,56 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900">
       <header className="sticky top-0 z-30 bg-white border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
-          <Link href="/admin-panel" className="flex items-center gap-2.5 min-w-0">
-            <BrandMark size="sm" className="w-8 h-8 rounded-lg" />
-            <span className="font-semibold text-slate-900 truncate">{APP_NAME}</span>
-          </Link>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-3">
+          <div className="flex items-center min-w-0 gap-2 sm:gap-2.5">
+            <Link
+              href="/admin-panel"
+              className="flex items-center gap-2 shrink-0 rounded-lg hover:opacity-90 transition-opacity"
+            >
+              <BrandMark size="sm" className="w-8 h-8 rounded-lg" />
+              <span className="font-semibold text-slate-900 hidden sm:inline">{APP_NAME}</span>
+            </Link>
 
-          {/* Masaüstü — proje sayfasında sol menü var, burada sadece genel */}
-          <div className="hidden sm:flex items-center gap-1">
+            {projectId && project && (
+              <>
+                <span
+                  className="hidden sm:block text-slate-300 font-light select-none"
+                  aria-hidden
+                >
+                  /
+                </span>
+                <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
+                  <Link
+                    href={`/admin-panel/proje/${projectId}`}
+                    className="min-w-0 flex items-center gap-2 rounded-lg px-1 sm:px-0 py-1 hover:bg-slate-50 transition-colors"
+                    title={project.name}
+                  >
+                    <span className="font-medium text-slate-800 truncate max-w-[120px] sm:max-w-[200px] lg:max-w-xs text-sm sm:text-base">
+                      {project.name}
+                    </span>
+                    <span className="hidden md:inline-flex shrink-0">
+                      <ProjectStatusBadge status={project.status} />
+                    </span>
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={() => setSettingsOpen(true)}
+                    className="hidden sm:flex shrink-0 items-center justify-center w-8 h-8 rounded-lg text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-colors"
+                    title="Proje ayarları"
+                    aria-label="Proje ayarları"
+                  >
+                    <FiSliders className="w-4 h-4" />
+                  </button>
+                </div>
+              </>
+            )}
+
+            {projectId && !project && (
+              <span className="hidden sm:inline text-sm text-slate-400 truncate">Yükleniyor…</span>
+            )}
+          </div>
+
+          <div className="hidden sm:flex items-center gap-1 shrink-0">
             <Link
               href="/admin-panel"
               className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
@@ -60,7 +109,7 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
             <Link
               href="/admin-panel/maas-politikasi"
               className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                pathname === '/admin-panel/maas-politikasi'
+                isGlobalWagePolicy
                   ? 'text-blue-700 bg-blue-50'
                   : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
               }`}
@@ -78,10 +127,9 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
             </button>
           </div>
 
-          {/* Mobil — tek menü: genel + proje linkleri */}
           <button
             type="button"
-            className="sm:hidden flex flex-col justify-center items-center w-10 h-10 rounded-lg hover:bg-slate-100 transition-colors"
+            className="sm:hidden flex flex-col justify-center items-center w-10 h-10 rounded-lg hover:bg-slate-100 transition-colors shrink-0"
             onClick={() => setMenuOpen((v) => !v)}
             aria-label={menuOpen ? 'Menüyü kapat' : 'Menüyü aç'}
             aria-expanded={menuOpen}
@@ -105,7 +153,6 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
         </div>
       </header>
 
-      {/* Mobil yan panel — tek menü */}
       <div
         className={`fixed inset-0 z-40 sm:hidden transition-opacity duration-300 ${
           menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
@@ -122,6 +169,28 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
           }`}
         >
           <div className="flex-1 overflow-y-auto pt-16 px-4 pb-4">
+            {project && projectId && (
+              <div className="mb-4 px-2 py-3 rounded-xl bg-slate-50 border border-slate-100">
+                <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-1">
+                  Aktif proje
+                </p>
+                <p className="font-semibold text-slate-900 truncate">{project.name}</p>
+                <div className="mt-2 flex flex-wrap items-center gap-2">
+                  <ProjectStatusBadge status={project.status} />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSettingsOpen(true);
+                      closeMenu();
+                    }}
+                    className="text-xs font-medium text-slate-600 hover:text-slate-900"
+                  >
+                    Proje ayarları
+                  </button>
+                </div>
+              </div>
+            )}
+
             <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-2 px-2">
               Genel
             </p>
@@ -158,6 +227,19 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
           </div>
         </nav>
       </div>
+
+      {project && (
+        <ProjectSettingsModal
+          project={project}
+          isOpen={settingsOpen}
+          onClose={() => setSettingsOpen(false)}
+          onUpdate={(updated) => setProject(updated)}
+          onDelete={() => {
+            setSettingsOpen(false);
+            router.replace('/admin-panel');
+          }}
+        />
+      )}
 
       <main>{children}</main>
     </div>

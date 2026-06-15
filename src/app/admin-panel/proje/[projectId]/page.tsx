@@ -8,13 +8,12 @@ import { FiRefreshCw } from 'react-icons/fi';
 import { fetchProject } from '@/api/projects';
 import { confirmAdminAttendance, fetchEmployees } from '@/api/employees';
 import { AdminAttendanceModal } from '@/components/admin/AdminAttendanceModal';
-import { ProjectSettingsModal } from '@/components/modals/ProjectSettingsModal';
-import type { MesaiType } from '@/lib/work-log';
-import { ProjectDetailHeader } from '@/components/project/ProjectDetailHeader';
+import { ProjectPageHeader } from '@/components/project/ProjectPageHeader';
 import { ProjectOverviewStats } from '@/components/project/ProjectOverviewStats';
 import { ProjectEmployeeTable } from '@/components/project/ProjectEmployeeTable';
 import { AlertBanner } from '@/components/project/AlertBanner';
 import { fetchRecords } from '@/lib/project-api';
+import type { MesaiType } from '@/lib/work-log';
 import type { Employee, AttendanceStats } from '@/types/adminTypes';
 import type { Project } from '@/types/project';
 
@@ -30,7 +29,6 @@ export default function ProjectDetailPage() {
   const [employeesLoading, setEmployeesLoading] = useState(false);
   const [verifyingId, setVerifyingId] = useState<string | null>(null);
   const [attendanceTarget, setAttendanceTarget] = useState<{ id: string; name: string } | null>(null);
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [openDisputeCount, setOpenDisputeCount] = useState(0);
 
@@ -102,10 +100,6 @@ export default function ProjectDetailPage() {
     await loadEmployees();
   };
 
-  const handleDelete = async () => {
-    router.replace('/admin-panel');
-  };
-
   if (!projectId) {
     return (
       <div className="max-w-5xl mx-auto px-4 py-16 text-center text-red-600">
@@ -118,8 +112,8 @@ export default function ProjectDetailPage() {
     return (
       <div className="space-y-4">
         <div className="animate-pulse space-y-4">
-          <div className="h-32 bg-slate-200 rounded-lg" />
-          <div className="grid grid-cols-4 gap-4">
+          <div className="h-10 bg-slate-200 rounded-lg w-48" />
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {[1, 2, 3, 4].map((i) => (
               <div key={i} className="h-24 bg-slate-200 rounded-lg" />
             ))}
@@ -154,18 +148,20 @@ export default function ProjectDetailPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-end">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <ProjectPageHeader
+          title="Proje özeti"
+          description="Günlük yoklama, personel durumu ve açık itirazlar."
+        />
         <button
           type="button"
           onClick={() => loadAll()}
-          className="inline-flex items-center gap-2 text-sm text-slate-600 hover:text-slate-900"
+          className="inline-flex items-center gap-2 text-sm text-slate-600 hover:text-slate-900 shrink-0"
         >
           <FiRefreshCw className="w-4 h-4" />
           Yenile
         </button>
       </div>
-
-      <ProjectDetailHeader project={project} onSettings={() => setIsSettingsOpen(true)} />
 
       {openDisputeCount > 0 && (
         <div className="space-y-2">
@@ -209,14 +205,6 @@ export default function ProjectDetailPage() {
         loading={Boolean(verifyingId)}
         onClose={() => setAttendanceTarget(null)}
         onSubmit={handleAttendanceSubmit}
-      />
-
-      <ProjectSettingsModal
-        project={project}
-        isOpen={isSettingsOpen}
-        onClose={() => setIsSettingsOpen(false)}
-        onUpdate={setProject}
-        onDelete={handleDelete}
       />
     </div>
   );
