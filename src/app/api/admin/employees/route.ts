@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import bcrypt from 'bcryptjs';
 import { requireAdminProjectAccess } from '@/lib/admin-auth';
 import {
   encryptField,
@@ -9,6 +8,7 @@ import {
 import { formatFullName } from '@/lib/format';
 import { assertIdentityUnique, mapIdentityUniqueViolation } from '@/lib/identity-uniqueness';
 import { validatePersonnelPin } from '@/lib/personnel-pin';
+import { buildEmployeePinFields } from '@/lib/personnel-pin-storage';
 import { createAdminClient } from '@/utils/supabase/admin';
 import { apiErrorMessage } from '@/lib/project-queries';
 
@@ -83,7 +83,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: pinError }, { status: 400 });
     }
 
-    const pinHash = await bcrypt.hash(pin.trim(), 12);
+    const pinFields = await buildEmployeePinFields(pin);
     const admin = createAdminClient();
 
     const hashes = await assertIdentityUnique(admin, {
@@ -104,7 +104,8 @@ export async function POST(request: Request) {
         daily_wage: dailyWage,
         position,
         hire_date: hireDate || null,
-        pin_hash: pinHash,
+        pin_hash: pinFields.pin_hash,
+        pin_encrypted: pinFields.pin_encrypted,
       })
       .select('id')
       .single();

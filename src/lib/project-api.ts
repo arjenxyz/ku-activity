@@ -131,6 +131,22 @@ export async function resetEmployeePin(projectId: string, employeeId: string, pi
   return res.json();
 }
 
+export type EmployeePinRow = {
+  id: string;
+  name: string;
+  isActive: boolean;
+  hasPin: boolean;
+  pin: string | null;
+  pinVisible: boolean;
+};
+
+export async function fetchEmployeePins(projectId: string) {
+  const res = await fetch(`/api/admin/projects/${projectId}/employees/pins`);
+  if (!res.ok) throw new Error(await parseError(res));
+  const data = await res.json();
+  return (data.employees ?? []) as EmployeePinRow[];
+}
+
 export async function generatePayroll(projectId: string, month: string) {
   const res = await fetch(`/api/admin/projects/${projectId}/payroll`, {
     method: 'POST',

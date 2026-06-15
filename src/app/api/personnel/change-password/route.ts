@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs';
 import { createAdminClient } from '@/utils/supabase/admin';
 import { requirePersonnelSession } from '@/lib/personnel-auth';
 import { validatePersonnelPin } from '@/lib/personnel-pin';
+import { buildEmployeePinFields } from '@/lib/personnel-pin-storage';
 
 export async function POST(request: Request) {
   try {
@@ -36,10 +37,10 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Mevcut şifre hatalı' }, { status: 401 });
     }
 
-    const pinHash = await bcrypt.hash(newPin, 12);
+    const pinFields = await buildEmployeePinFields(newPin);
     const { error: updateError } = await admin
       .from('employees')
-      .update({ pin_hash: pinHash })
+      .update(pinFields)
       .eq('id', session.employeeId);
 
     if (updateError) {

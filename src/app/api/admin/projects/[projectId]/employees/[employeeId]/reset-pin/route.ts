@@ -1,10 +1,9 @@
 import { NextResponse } from 'next/server';
-import bcrypt from 'bcryptjs';
 import { requireAdminProjectAccess } from '@/lib/admin-auth';
 import { createClient } from '@/utils/supabase/server';
 import { apiErrorMessage } from '@/lib/project-queries';
 import { validatePersonnelPin } from '@/lib/personnel-pin';
-
+import { buildEmployeePinFields } from '@/lib/personnel-pin-storage';
 type Ctx = { params: Promise<{ projectId: string; employeeId: string }> };
 
 export async function POST(request: Request, ctx: Ctx) {
@@ -18,11 +17,11 @@ export async function POST(request: Request, ctx: Ctx) {
       return NextResponse.json({ error: pinError }, { status: 400 });
     }
 
-    const pinHash = await bcrypt.hash(pin!.trim(), 12);
+    const pinFields = await buildEmployeePinFields(pin!);
     const supabase = await createClient();
     const { error } = await supabase
       .from('employees')
-      .update({ pin_hash: pinHash })
+      .update(pinFields)
       .eq('id', employeeId)
       .eq('project_id', projectId);
 

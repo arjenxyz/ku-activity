@@ -1,4 +1,4 @@
-import bcrypt from 'bcryptjs';
+import { buildEmployeePinFields } from '@/lib/personnel-pin-storage';
 import { createAdminClient } from '@/utils/supabase/admin';
 import {
   decryptField,
@@ -98,7 +98,7 @@ export async function submitRegistrationApplication(input: RegistrationApplyInpu
     throw new Error(pinError);
   }
 
-  const pinHash = await bcrypt.hash(input.pin.trim(), 12);
+  const pinFields = await buildEmployeePinFields(input.pin);
   const admin = createAdminClient();
 
   const existingPendingId = await findPendingRegistrationIdForResubmit(admin, {
@@ -125,7 +125,8 @@ export async function submitRegistrationApplication(input: RegistrationApplyInpu
       await admin
         .from('employee_registration_requests')
         .update({
-          pin_hash: pinHash,
+          pin_hash: pinFields.pin_hash,
+          pin_encrypted: pinFields.pin_encrypted,
           tc_lookup_hash: hashes.tcLookupHash,
           phone_lookup_hash: hashes.phoneLookupHash,
           iban_lookup_hash: hashes.ibanLookupHash,
@@ -167,7 +168,8 @@ export async function submitRegistrationApplication(input: RegistrationApplyInpu
         tc_kimlik_enc: encryptField(tc),
         birth_date_enc: encryptField(birthDate),
         iban_enc: encryptField(iban),
-        pin_hash: pinHash,
+        pin_hash: pinFields.pin_hash,
+        pin_encrypted: pinFields.pin_encrypted,
         tc_lookup_hash: hashes.tcLookupHash,
         phone_lookup_hash: hashes.phoneLookupHash,
         iban_lookup_hash: hashes.ibanLookupHash,
@@ -350,6 +352,7 @@ export async function approveRegistration(input: ApproveRegistrationInput) {
   }
 
   const pinHash = req.pin_hash as string | null;
+  const pinEncrypted = (req.pin_encrypted as string | null) ?? null;
   if (!pinHash) {
     throw new Error('Başvuruda giriş şifresi (PIN) tanımlı değil. Personelin başvuruyu yenilemesi gerekir.');
   }
@@ -379,6 +382,7 @@ export async function approveRegistration(input: ApproveRegistrationInput) {
       position,
       hire_date: hireDate,
       pin_hash: pinHash,
+      pin_encrypted: pinEncrypted,
       is_active: true,
     })
     .select('id')
