@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState, useEffect, useMemo } from 'react';
-import { FiGrid, FiLogOut, FiSettings, FiSliders } from 'react-icons/fi';
+import { FiLogOut, FiSettings, FiSliders } from 'react-icons/fi';
 import { ProjectNavLinks } from '@/components/project/ProjectNavMenu';
 import { ProjectSettingsModal } from '@/components/modals/ProjectSettingsModal';
 import { ProjectStatusBadge } from '@/components/project/ProjectStatusBadge';
@@ -23,7 +23,6 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
 
   const projectId = useMemo(() => pathname.match(PROJECT_ID_RE)?.[1] ?? null, [pathname]);
   const { project, setProject } = useAdminCurrentProject(projectId);
-  const isProjectsHome = pathname === '/admin-panel';
   const isGlobalWagePolicy = pathname === '/admin-panel/maas-politikasi';
 
   useEffect(() => {
@@ -97,17 +96,6 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
           </div>
 
           <div className="hidden sm:flex items-center gap-1 shrink-0">
-            <Link
-              href="/admin-panel"
-              className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                isProjectsHome
-                  ? 'text-blue-700 bg-blue-50'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
-              }`}
-            >
-              <FiGrid className="w-4 h-4" />
-              Projeler
-            </Link>
             <Link
               href="/admin-panel/maas-politikasi"
               className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
@@ -184,24 +172,6 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
                 }}
               />
             )}
-
-            <div>
-              <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5 px-1">
-                Genel
-              </p>
-              <Link
-                href="/admin-panel"
-                onClick={closeMenu}
-                className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium ${
-                  isProjectsHome
-                    ? 'bg-blue-600 text-white shadow-sm'
-                    : 'text-slate-700 bg-white border border-slate-200/80 hover:border-slate-300'
-                }`}
-              >
-                <FiGrid className="w-4 h-4" />
-                Projeler
-              </Link>
-            </div>
 
             {projectId && <ProjectNavLinks projectId={projectId} onNavigate={closeMenu} />}
           </div>
