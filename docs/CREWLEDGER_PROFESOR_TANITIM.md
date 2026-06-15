@@ -1,7 +1,6 @@
 # CrewLedger — İnşaat Saha Personel Yönetim Platformu
 
-**Proje tanıtım belgesi**  
-*Profesör sunumu ve akademik değerlendirme için hazırlanmıştır.*
+**Proje tanıtım belgesi**
 
 ---
 
@@ -271,9 +270,9 @@ Tüm teknik belgeler: [`docs/README.md`](./README.md)
 
 ---
 
-## 9. Akademik Değerlendirme Açısından Katkılar
+## 9. Teknik Alan Katkıları
 
-CrewLedger aşağıdaki alanlarda **uygulamalı bir vaka çalışması** sunar:
+CrewLedger aşağıdaki alanlarda uygulamalı bir referans sunar:
 
 | Alan | Katkı |
 |------|--------|
@@ -299,8 +298,6 @@ CrewLedger aşağıdaki alanlarda **uygulamalı bir vaka çalışması** sunar:
 ## 11. Sonuç
 
 CrewLedger, inşaat sektöründeki **personel ödeme ve puantaj** süreçlerini dijitalleştiren, **çift onay** ve **şeffaflık** ilkelerine dayanan modern bir web platformudur. Yönetici verimliliğini artırırken personelin kendi verilerini doğrulamasına olanak tanır; hassas verileri şifreler ve denetlenebilir kayıt tutar.
-
-Proje; full-stack web geliştirme, güvenli veri yönetimi ve sektöre özgü iş kurallarının yazılıma aktarılması açısından kapsamlı bir **bitirme / araştırma / demo** projesi niteliği taşır.
 
 ---
 

@@ -2,7 +2,7 @@
 
 **CrewLedger** ([crewledger.vercel.app](https://crewledger.vercel.app)), inşaat ve şantiye ortamlarında personel puantajı, mesai, finans ve işe alım süreçlerini dijitalleştiren full-stack bir web platformudur.
 
-Bu klasör, **GitHub**, **üniversite burs başvuruları**, **akademik sunumlar** ve **teknik değerlendirme** için hazırlanmış resmi dokümantasyon setidir.
+Bu klasör, **GitHub** ve **teknik değerlendirme** için hazırlanmış resmi dokümantasyon setidir.
 
 ---
 
@@ -10,8 +10,7 @@ Bu klasör, **GitHub**, **üniversite burs başvuruları**, **akademik sunumlar*
 
 | Okuyucu | Önerilen belgeler |
 |---------|-------------------|
-| Burs / proje jürisi | [Genel Bakış](./01-GENEL-BAKIS.md), [Problem ve Çözüm](./02-PROBLEM-VE-COZUM.md), [Bursluk Başvuru Rehberi](./12-BURSLUK-BASVURU.md) |
-| Akademik danışman | [Profesör Tanıtım](./CREWLEDGER_PROFESOR_TANITIM.md), [Mimari](./03-MIMARI.md), [İş Kuralları](./09-IS-KURALLARI.md) |
+| Ürün / iş ortağı | [Genel Bakış](./01-GENEL-BAKIS.md), [Problem ve Çözüm](./02-PROBLEM-VE-COZUM.md), [Proje Tanıtımı](./CREWLEDGER_PROFESOR_TANITIM.md) |
 | Yazılım geliştirici | [Teknoloji Yığını](./04-TEKNOLOJI-YIGINI.md), [Veritabanı](./05-VERITABANI.md), [API Referansı](./10-API-REFERANSI.md), [Kurulum](./11-KURULUM-VE-DEPLOY.md) |
 | Güvenlik / KVKK denetçisi | [Güvenlik ve KVKK](./06-GUVENLIK-VE-KVKK.md), [Hukuki Dosya](./09-IS-KURALLARI.md#hukuki-dosya) |
 
@@ -32,8 +31,7 @@ Bu klasör, **GitHub**, **üniversite burs başvuruları**, **akademik sunumlar*
 | 09 | [İş Kuralları](./09-IS-KURALLARI.md) | Çift onay, mesai, asgari, bordro formülleri |
 | 10 | [API Referansı](./10-API-REFERANSI.md) | REST uç noktaları özeti |
 | 11 | [Kurulum ve Deploy](./11-KURULUM-VE-DEPLOY.md) | Yerel geliştirme, env, Supabase, Vercel |
-| 12 | [Bursluk Başvuru Rehberi](./12-BURSLUK-BASVURU.md) | Burs dosyasına eklenecek özet, metrikler, savunma |
-| — | [Profesör Tanıtım](./CREWLEDGER_PROFESOR_TANITIM.md) | Akademik sunum özeti (mevcut belge) |
+| — | [Proje Tanıtımı](./CREWLEDGER_PROFESOR_TANITIM.md) | Ürün ve özellik özeti |
 
 ---
 
@@ -58,7 +56,7 @@ Bu klasör, **GitHub**, **üniversite burs başvuruları**, **akademik sunumlar*
 | Dokümantasyon | Haziran 2026 |
 | Migration sayısı | 40 (001–036 + alt dosyalar) |
 | Ana dil (UI) | Türkçe |
-| Lisans | Proje sahibi — burs / akademik kullanım için açık kaynak inceleme |
+| Lisans | Proje sahibi |
 
 ---
 

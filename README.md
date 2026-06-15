@@ -40,7 +40,7 @@ CrewLedger, şantiye ve taşeron firmalarının personel yevmiyesini, mesaisini,
 
 ## Dokümantasyon
 
-**Tüm teknik ve akademik belgeler `docs/` klasöründedir.**
+**Tüm teknik belgeler `docs/` klasöründedir.**
 
 | Belge | İçerik |
 |-------|--------|
@@ -56,8 +56,7 @@ CrewLedger, şantiye ve taşeron firmalarının personel yevmiyesini, mesaisini,
 | [İş Kuralları](./docs/09-IS-KURALLARI.md) | Formüller |
 | [API Referansı](./docs/10-API-REFERANSI.md) | REST endpoint'ler |
 | [Kurulum](./docs/11-KURULUM-VE-DEPLOY.md) | Yerel + Vercel |
-| [Bursluk Rehberi](./docs/12-BURSLUK-BASVURU.md) | Üniversite başvurusu |
-| [Profesör Tanıtım](./docs/CREWLEDGER_PROFESOR_TANITIM.md) | Akademik özet |
+| [Proje Tanıtımı](./docs/CREWLEDGER_PROFESOR_TANITIM.md) | Ürün özeti |
 
 ---
 
@@ -79,12 +78,6 @@ Detaylı kurulum: [docs/11-KURULUM-VE-DEPLOY.md](./docs/11-KURULUM-VE-DEPLOY.md)
 ## Teknoloji
 
 Next.js 15 · React 18 · TypeScript · Tailwind CSS · Supabase (PostgreSQL) · Vercel
-
----
-
-## Akademik / burs kullanımı
-
-Bu proje üniversite burs başvuruları ve sosyal etki odaklı yazılım yarışmaları için geliştirilmektedir. Hazır metinler ve jüri SSS: [docs/12-BURSLUK-BASVURU.md](./docs/12-BURSLUK-BASVURU.md)
 
 ---
 

@@ -94,20 +94,8 @@ Her yönetici (admin), **yalnızca kendi oluşturduğu projelere** erişir — k
 
 ---
 
-## Akademik ve burs bağlamı
-
-CrewLedger, üniversite **burs**, **TEKNOFEST**, **bitirme projesi** ve **sosyal etki** başvuruları için tasarlanmış gerçek dünya problemini çözen bir yazılım ürünüdür:
-
-- **Sosyal etki:** İşçinin kendi maaş verisini görebilmesi, güç asimetrisini azaltır.
-- **Teknik derinlik:** Full-stack, veritabanı trigger’ları, şifreleme, PWA.
-- **Sektörel uygunluk:** İnşaatın yevmiye + mesai + taşeron ödeme gerçekliğine uyum.
-
-Detaylı burs metinleri için: [12-BURSLUK-BASVURU.md](./12-BURSLUK-BASVURU.md)
-
----
-
 ## İlgili belgeler
 
 - [Problem ve Çözüm](./02-PROBLEM-VE-COZUM.md)
 - [Mimari](./03-MIMARI.md)
-- [Profesör Tanıtım](./CREWLEDGER_PROFESOR_TANITIM.md)
+- [Proje Tanıtımı](./CREWLEDGER_PROFESOR_TANITIM.md)
