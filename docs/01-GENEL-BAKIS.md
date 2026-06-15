@@ -7,7 +7,7 @@
 | Alan | Açıklama |
 |------|----------|
 | **Ürün adı** | CrewLedger |
-| **Alan adı** | crewledger.app |
+| **Canlı adres** | [crewledger.vercel.app](https://crewledger.vercel.app) |
 | **Slogan (EN)** | Construction Workforce Platform |
 | **Slogan (TR)** | İnşaat Personel Yönetimi |
 | **Hedef sektör** | İnşaat, şantiye, taşeron firmalar |
@@ -57,7 +57,7 @@ Her yönetici (admin), **yalnızca kendi oluşturduğu projelere** erişir — k
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                     crewledger.app                           │
+│              crewledger.vercel.app                             │
 ├─────────────┬─────────────┬─────────────┬─────────────────┤
 │  Ana site   │ Admin Panel │Personel Panel│ Developer Panel │
 │     /       │/admin-panel │/personnel-   │/developer-panel │

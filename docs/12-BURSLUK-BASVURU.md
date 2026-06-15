@@ -130,7 +130,7 @@ Proje akademik değerlendirme ve burs başvuruları için dokümante edilmiştir
 | Alan | Değer |
 |------|-------|
 | Proje | CrewLedger |
-| Web | https://crewledger.app |
+| Web | https://crewledger.vercel.app |
 | Repo | https://github.com/arjenxyz/personel |
 | Destek | hello@crewledger.app |
 

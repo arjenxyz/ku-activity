@@ -1,6 +1,6 @@
 # CrewLedger — Dokümantasyon Merkezi
 
-**CrewLedger** (crewledger.app), inşaat ve şantiye ortamlarında personel puantajı, mesai, finans ve işe alım süreçlerini dijitalleştiren full-stack bir web platformudur.
+**CrewLedger** ([crewledger.vercel.app](https://crewledger.vercel.app)), inşaat ve şantiye ortamlarında personel puantajı, mesai, finans ve işe alım süreçlerini dijitalleştiren full-stack bir web platformudur.
 
 Bu klasör, **GitHub**, **üniversite burs başvuruları**, **akademik sunumlar** ve **teknik değerlendirme** için hazırlanmış resmi dokümantasyon setidir.
 
@@ -73,4 +73,4 @@ Dokümantasyon, kod tabanıyla birlikte güncellenir. Yeni özellik eklendiğind
 
 ---
 
-*CrewLedger — İnşaat Personel Yönetimi · crewledger.app*
+*CrewLedger — İnşaat Personel Yönetimi · [crewledger.vercel.app](https://crewledger.vercel.app)*

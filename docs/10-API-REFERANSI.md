@@ -2,7 +2,7 @@
 
 Tüm endpoint’ler JSON döner. Hata formatı: `{ "error": "mesaj" }`
 
-**Base URL:** `https://crewledger.app` (veya yerel `http://localhost:3000`)
+**Base URL:** `https://crewledger.vercel.app` (veya yerel `http://localhost:3000`)
 
 ---
 

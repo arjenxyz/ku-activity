@@ -94,7 +94,7 @@ npm start
 3. Environment Variables — tüm `.env.local` değerlerini ekle
 4. Deploy
 
-**Önemli:** `NEXT_PUBLIC_APP_URL` production domain olmalı (`https://crewledger.app`).
+**Önemli:** `NEXT_PUBLIC_APP_URL` production domain olmalı (`https://crewledger.vercel.app`).
 
 ---
 
@@ -122,7 +122,7 @@ Migration’lar RLS politikalarını içerir. Manuel tablo ekleme yapılırsa RL
 Vercel Cron veya harici scheduler:
 
 ```
-GET https://crewledger.app/api/cron/personnel-pending-reminders
+GET https://crewledger.vercel.app/api/cron/personnel-pending-reminders
 Authorization: Bearer {CRON_SECRET}
 ```
 

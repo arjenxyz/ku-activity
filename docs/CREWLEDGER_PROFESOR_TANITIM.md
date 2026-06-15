@@ -7,7 +7,7 @@
 
 ## 1. Özet
 
-**CrewLedger** (crewledger.app), inşaat ve şantiye ortamlarında çalışan personelin **puantaj (yevmiye)**, **mesai**, **avans**, **kesinti**, **bordro** ve **sözleşme** süreçlerini dijitalleştiren, web tabanlı bir **iş gücü yönetim platformudur**.
+**CrewLedger** ([crewledger.vercel.app](https://crewledger.vercel.app)), inşaat ve şantiye ortamlarında çalışan personelin **puantaj (yevmiye)**, **mesai**, **avans**, **kesinti**, **bordro** ve **sözleşme** süreçlerini dijitalleştiren, web tabanlı bir **iş gücü yönetim platformudur**.
 
 Geleneksel yöntemlerde puantaj defterleri, WhatsApp mesajları ve Excel tablolarıyla yürütülen süreçler; hata riski, şeffaflık eksikliği ve personel–yönetici arasında güven sorunları doğurur. CrewLedger bu sorunu **çift onaylı yoklama**, **ortak veri kaynağı** (yönetici ve personel aynı veritabanını görür) ve **mobil öncelikli personel paneli** ile çözmeyi hedefler.
 
