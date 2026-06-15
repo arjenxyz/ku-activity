@@ -1,36 +1,97 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CrewLedger
 
-## Getting Started
+**İnşaat Personel Yönetim Platformu** — puantaj, mesai, finans, asgari ücret ve dijital işe alım.
 
-First, run the development server:
+[![Next.js](https://img.shields.io/badge/Next.js-15-black)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)](https://www.typescriptlang.org/)
+[![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-green)](https://supabase.com/)
+
+🌐 **https://crewledger.app**
+
+---
+
+## Nedir?
+
+CrewLedger, şantiye ve taşeron firmalarının personel yevmiyesini, mesaisini, avans/kesintilerini ve asgari ücret tamamlamasını **tek platformda** yönetmesini sağlar. Personel, mobil PWA üzerinden kendi kayıtlarını görür ve **çift onay** ile puantajı doğrular.
+
+### Temel özellikler
+
+- ✅ **Çift onaylı yoklama** — veritabanı trigger ile zorunlu
+- ✅ **Personel şeffaflığı** — yönetici ile aynı veri kaynağı
+- ✅ **Mesai ayrımı** — çalışılan günden bağımsız kazanç
+- ✅ **Asgari ücret modülü** — politika + taşeron farkı + personel sekmesi
+- ✅ **Dijital işe alım** — QR, OTP sözleşme, selfie
+- ✅ **KVKK odaklı** — T.C./IBAN şifreleme (AES-256-GCM)
+- ✅ **PWA** — telefona kurulabilir personel uygulaması
+- ✅ **Hukuki dosya** — denetim için ZIP/CSV export
+
+---
+
+## Paneller
+
+| Panel | URL | Kullanıcı |
+|-------|-----|-----------|
+| Ana site | `/` | Tanıtım |
+| Yönetici | `/admin-panel` | Şantiye sorumlusu |
+| Personel | `/personnel-panel` | Saha işçisi |
+| Geliştirici | `/developer-panel` | Platform operatörü |
+
+---
+
+## Dokümantasyon
+
+**Tüm teknik ve akademik belgeler `docs/` klasöründedir.**
+
+| Belge | İçerik |
+|-------|--------|
+| [**docs/README.md**](./docs/README.md) | Dokümantasyon indeksi |
+| [Genel Bakış](./docs/01-GENEL-BAKIS.md) | Vizyon ve kapsam |
+| [Problem ve Çözüm](./docs/02-PROBLEM-VE-COZUM.md) | Sektörel analiz |
+| [Mimari](./docs/03-MIMARI.md) | Sistem tasarımı |
+| [Teknoloji Yığını](./docs/04-TEKNOLOJI-YIGINI.md) | Stack detayı |
+| [Veritabanı](./docs/05-VERITABANI.md) | Şema ve migration |
+| [Güvenlik ve KVKK](./docs/06-GUVENLIK-VE-KVKK.md) | Şifreleme, RLS |
+| [Yönetici Paneli](./docs/07-ADMIN-PANEL.md) | Admin özellikleri |
+| [Personel Paneli](./docs/08-PERSONEL-PANEL.md) | PWA ve sekmeler |
+| [İş Kuralları](./docs/09-IS-KURALLARI.md) | Formüller |
+| [API Referansı](./docs/10-API-REFERANSI.md) | REST endpoint'ler |
+| [Kurulum](./docs/11-KURULUM-VE-DEPLOY.md) | Yerel + Vercel |
+| [Bursluk Rehberi](./docs/12-BURSLUK-BASVURU.md) | Üniversite başvurusu |
+| [Profesör Tanıtım](./docs/CREWLEDGER_PROFESOR_TANITIM.md) | Akademik özet |
+
+---
+
+## Hızlı başlangıç
 
 ```bash
+git clone https://github.com/arjenxyz/personel.git
+cd personel
+npm install
+cp .env.example .env.local   # veya docs/11-KURULUM-VE-DEPLOY.md şablonunu kullan
+# Supabase migration'ları sırayla çalıştır (supabase/migrations/)
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Detaylı kurulum: [docs/11-KURULUM-VE-DEPLOY.md](./docs/11-KURULUM-VE-DEPLOY.md)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Teknoloji
 
-## Learn More
+Next.js 15 · React 18 · TypeScript · Tailwind CSS · Supabase (PostgreSQL) · Vercel
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Akademik / burs kullanımı
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Bu proje üniversite burs başvuruları ve sosyal etki odaklı yazılım yarışmaları için geliştirilmektedir. Hazır metinler ve jüri SSS: [docs/12-BURSLUK-BASVURU.md](./docs/12-BURSLUK-BASVURU.md)
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Sürüm
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**v0.1.0** — Haziran 2026
+
+---
+
+*CrewLedger — Construction Workforce Platform*

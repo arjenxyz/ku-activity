@@ -79,8 +79,10 @@ Mesai, çalışılan günden **ayrı** hesaplanır:
 Aylık **net maaş** hesabı:
 
 ```
-Net = Brüt (yevmiye + mesai) − Avanslar − Kesintiler
+Net = Brüt (yevmiye + mesai) − Avanslar − Kesintiler + Asgari tamamlamalar
 ```
+
+**Maaş politikası:** Ana yetkili şirket genelinde yevmiye ödeme zamanı (ay sonu / çatı / iş bitimi) ve asgari oranlama kurallarını tanımlar (`wage_policies`, migration 036). Admin **Asgari Ekle** sayfası taşeron farkını önerir; personel **Asgari** sekmesinde hak edilen / ödenen / kalan tutarı görür.
 
 Yönetici **bordro** modülü ile dönemsel maaş özetlerini oluşturabilir; personel kendi panelinde aynı verileri görür.
 
@@ -133,6 +135,7 @@ Proje (şantiye) bazlı çalışır. Her proje için:
 **Finans**
 - Proje durumu özeti
 - Maaş bordroları
+- Şirket / proje **maaş politikası** (`/maas-politikasi`)
 
 **Proje izolasyonu:** Her yönetici yalnızca kendi oluşturduğu projelere erişir (`030_admin_project_isolation`).
 
@@ -145,7 +148,8 @@ Mobil öncelikli, PWA olarak telefona kurulabilir:
 | **Özet** | Brüt/avans/kesinti/net, çalışılan gün ve mesai şeritleri, onay bekleyen kayıtlar, güven notu |
 | **Yevmiye** | Aylık puantaj takvimi, kayıt listesi, onay/itiraz |
 | **Mesai** | Mesai takvimi (TL kazancı), tür bazında özet |
-| **Finans** | Maaş dökümü, avans/kesinti/asgari listeleri |
+| **Asgari** | Politika tabanlı hak edilen / ödenen / kalan, ödeme listesi, SSS |
+| **Finans** | Maaş dökümü, avans/kesinti listeleri |
 | **Haklarım** | KVKK bilgilendirme, hukuki dosya indirme |
 | **Ayarlar** | Proje bilgisi, sözleşmeler, şifre, görünüm tercihleri |
 
@@ -183,13 +187,14 @@ Mobil öncelikli, PWA olarak telefona kurulabilir:
 
 ### 5.2 Veritabanı Tasarımı
 
-38 adet SQL migration ile evrimsel şema yönetimi. Başlıca tablolar:
+38 adet SQL migration ile evrimsel şema yönetimi (001–036). Başlıca tablolar:
 
 - `projects` — şantiye/projeler
 - `employees` — personel kayıtları
 - `work_logs` — yevmiye + çift onay + mesai + itiraz alanları
 - `deductions` — avans ve kesintiler
 - `minimum_wages` — asgari ücret kayıtları
+- `wage_policies` — şirket/proje maaş politikası (JSONB)
 - `payroll_periods` / `payroll_lines` — bordro
 - `employee_registration_requests` — başvurular
 - `employee_sensitive_data` — şifreli T.C./IBAN
@@ -235,6 +240,13 @@ RESTful API route’ları rol bazlı ayrılmıştır:
 6. **PWA** — Şantiyede mobil tarayıcı/PWA ile personel erişimi; uygulama mağazası gerekmez.
 7. **Hukuki dosya export** — Denetim ve arşiv için tek tıkla paket.
 8. **Multi-tenant proje yapısı** — Bir yönetici birden fazla şantiyeyi izole şekilde yönetir.
+9. **Maaş politikası motoru** — Asgari ve yevmiye ödeme kuralları şirket bazında yapılandırılır.
+
+---
+
+## Ek: Dokümantasyon
+
+Tüm teknik belgeler: [`docs/README.md`](./README.md)
 
 ---
 
