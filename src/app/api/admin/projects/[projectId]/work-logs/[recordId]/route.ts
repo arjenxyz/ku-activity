@@ -11,19 +11,21 @@ export async function PATCH(request: Request, ctx: Ctx) {
     const { projectId, recordId } = await ctx.params;
     const user = await requireAdminProjectAccess(projectId);
     const body = await request.json();
-    const { date, amount, description, mesaiType, reconfirmAdmin, resolveDispute } = body as {
+    const { date, amount, description, mesaiType, reconfirmAdmin, resolveDispute, jobId } = body as {
       date?: string;
       amount?: number;
       description?: string | null;
       mesaiType?: MesaiType;
       reconfirmAdmin?: boolean;
       resolveDispute?: boolean;
+      jobId?: string | null;
     };
 
     const updates: Record<string, unknown> = {};
     if (date !== undefined) updates.date = date;
     if (amount !== undefined) updates.amount = amount;
     if (description !== undefined) updates.description = description || null;
+    if (jobId !== undefined) updates.job_id = jobId || null;
     if (mesaiType !== undefined) {
       updates.mesai_type = mesaiType;
       updates.mesai_units = mesaiTypeToUnits(mesaiType);

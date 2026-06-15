@@ -55,12 +55,13 @@ export async function POST(request: Request, ctx: Ctx) {
     const { projectId } = await ctx.params;
     const user = await requireAdminProjectAccess(projectId);
     const body = await request.json();
-    const { employeeId, date, amount, description, mesaiType } = body as {
+    const { employeeId, date, amount, description, mesaiType, jobId } = body as {
       employeeId?: string;
       date?: string;
       amount?: number;
       description?: string;
       mesaiType?: MesaiType;
+      jobId?: string | null;
     };
 
     if (!employeeId || !date || amount == null) {
@@ -88,6 +89,7 @@ export async function POST(request: Request, ctx: Ctx) {
       mesaiType: mesai,
       description: description ?? null,
       approvedBy: user.id,
+      jobId: jobId ?? null,
     });
 
     return NextResponse.json({ record }, { status: 201 });

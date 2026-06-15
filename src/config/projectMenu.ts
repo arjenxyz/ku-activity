@@ -56,6 +56,7 @@ export function getProjectMenuGroups(projectId: string): ProjectMenuGroup[] {
         { label: 'Ne durumdayız?', href: () => `/admin-panel/proje/${id}/durum` },
         { label: 'Maaş Bordroları', href: () => `/admin-panel/proje/${id}/bordro` },
         { label: 'Maaş Politikası', href: () => `/admin-panel/proje/${id}/maas-politikasi` },
+        { label: 'Taşeron Karı', href: () => `/admin-panel/proje/${id}/kar` },
       ],
     },
   ];

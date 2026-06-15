@@ -41,6 +41,7 @@ export async function adminConfirmWorkLog(
     mesaiType: MesaiType;
     description?: string | null;
     approvedBy?: string | null;
+    jobId?: string | null;
   }
 ): Promise<WorkLogRow> {
   const existing = await findWorkLog(admin, params.employeeId, params.date);
@@ -55,6 +56,7 @@ export async function adminConfirmWorkLog(
     mesai_type: params.mesaiType,
     mesai_units,
     description: params.description ?? null,
+    job_id: params.jobId ?? null,
     admin_confirmed_at: now,
     approved_by: params.approvedBy ?? null,
     approved: false,
