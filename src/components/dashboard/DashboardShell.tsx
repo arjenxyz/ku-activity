@@ -7,9 +7,11 @@ import { FiGrid, FiLogOut, FiSettings, FiSliders } from 'react-icons/fi';
 import { ProjectNavLinks } from '@/components/project/ProjectNavMenu';
 import { ProjectSettingsModal } from '@/components/modals/ProjectSettingsModal';
 import { ProjectStatusBadge } from '@/components/project/ProjectStatusBadge';
+import { AdminMenuBrandBar, AdminProjectMenuCard } from '@/components/dashboard/AdminMenuChrome';
 import { BrandMark } from '@/components/brand/BrandMark';
 import { APP_NAME } from '@/lib/brand';
 import { useAdminCurrentProject } from '@/hooks/useAdminCurrentProject';
+import { AdminProjectSettingsProvider } from '@/hooks/useAdminProjectSettings';
 
 const PROJECT_ID_RE = /^\/admin-panel\/proje\/([a-f0-9-]{36})/;
 
@@ -164,58 +166,47 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
           onClick={closeMenu}
         />
         <nav
-          className={`absolute top-0 right-0 h-full w-[min(100%,300px)] bg-white shadow-xl transition-transform duration-300 flex flex-col ${
+          className={`absolute top-0 right-0 h-full w-[min(100%,320px)] bg-slate-50 shadow-xl transition-transform duration-300 flex flex-col ${
             menuOpen ? 'translate-x-0' : 'translate-x-full'
           }`}
         >
-          <div className="flex-1 overflow-y-auto pt-16 px-4 pb-4">
+          <AdminMenuBrandBar showClose onClose={closeMenu} onNavigate={closeMenu} />
+
+          <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
             {project && projectId && (
-              <div className="mb-4 px-2 py-3 rounded-xl bg-slate-50 border border-slate-100">
-                <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-1">
-                  Aktif proje
-                </p>
-                <p className="font-semibold text-slate-900 truncate">{project.name}</p>
-                <div className="mt-2 flex flex-wrap items-center gap-2">
-                  <ProjectStatusBadge status={project.status} />
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setSettingsOpen(true);
-                      closeMenu();
-                    }}
-                    className="text-xs font-medium text-slate-600 hover:text-slate-900"
-                  >
-                    Proje ayarları
-                  </button>
-                </div>
-              </div>
+              <AdminProjectMenuCard
+                project={project}
+                projectId={projectId}
+                onNavigate={closeMenu}
+                onSettings={() => {
+                  setSettingsOpen(true);
+                  closeMenu();
+                }}
+              />
             )}
 
-            <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-2 px-2">
-              Genel
-            </p>
-            <Link
-              href="/admin-panel"
-              onClick={closeMenu}
-              className={`flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium mb-4 ${
-                isProjectsHome ? 'bg-blue-50 text-blue-700' : 'text-slate-700 hover:bg-slate-50'
-              }`}
-            >
-              <FiGrid className="w-5 h-5" />
-              Projeler
-            </Link>
+            <div>
+              <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5 px-1">
+                Genel
+              </p>
+              <Link
+                href="/admin-panel"
+                onClick={closeMenu}
+                className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium ${
+                  isProjectsHome
+                    ? 'bg-blue-600 text-white shadow-sm'
+                    : 'text-slate-700 bg-white border border-slate-200/80 hover:border-slate-300'
+                }`}
+              >
+                <FiGrid className="w-4 h-4" />
+                Projeler
+              </Link>
+            </div>
 
-            {projectId && (
-              <>
-                <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-2 px-2">
-                  Proje Menüsü
-                </p>
-                <ProjectNavLinks projectId={projectId} onNavigate={closeMenu} />
-              </>
-            )}
+            {projectId && <ProjectNavLinks projectId={projectId} onNavigate={closeMenu} />}
           </div>
 
-          <div className="shrink-0 p-4 border-t border-slate-100">
+          <div className="shrink-0 p-4 border-t border-slate-200 bg-white">
             <button
               type="button"
               onClick={handleLogout}
@@ -241,7 +232,11 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
         />
       )}
 
-      <main>{children}</main>
+      <main>
+        <AdminProjectSettingsProvider openProjectSettings={() => setSettingsOpen(true)}>
+          {children}
+        </AdminProjectSettingsProvider>
+      </main>
     </div>
   );
 }

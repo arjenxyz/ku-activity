@@ -4,6 +4,9 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { FiChevronDown } from 'react-icons/fi';
+import { AdminMenuBrandBar, AdminProjectMenuCard } from '@/components/dashboard/AdminMenuChrome';
+import { useAdminCurrentProject } from '@/hooks/useAdminCurrentProject';
+import { useAdminProjectSettings } from '@/hooks/useAdminProjectSettings';
 import {
   findActiveMenuGroupId,
   getProjectMenuGroups,
@@ -138,9 +141,24 @@ export function ProjectNavLinks({
 }
 
 export function ProjectNavMenu({ projectId }: { projectId: string }) {
+  const { project } = useAdminCurrentProject(projectId);
+  const settingsCtx = useAdminProjectSettings();
+
   return (
-    <aside className="hidden lg:block w-56 xl:w-60 shrink-0 sticky top-20 self-start">
-      <ProjectNavLinks projectId={projectId} />
+    <aside className="hidden lg:flex lg:flex-col w-56 xl:w-60 shrink-0 sticky top-20 self-start max-h-[calc(100vh-6rem)]">
+      <div className="rounded-xl border border-slate-200/80 bg-white shadow-sm overflow-hidden flex flex-col max-h-full">
+        <AdminMenuBrandBar />
+        <div className="flex-1 overflow-y-auto p-3 space-y-3">
+          {project && (
+            <AdminProjectMenuCard
+              project={project}
+              projectId={projectId}
+              onSettings={settingsCtx ? () => settingsCtx.openProjectSettings() : undefined}
+            />
+          )}
+          <ProjectNavLinks projectId={projectId} />
+        </div>
+      </div>
     </aside>
   );
 }
