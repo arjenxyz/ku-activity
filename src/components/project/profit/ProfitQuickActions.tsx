@@ -13,6 +13,8 @@ type Props = {
 const links = (projectId: string, jobId?: string) => {
   const q = jobId ? `?job=${jobId}` : '';
   return [
+    { label: 'Bloklar', href: `/admin-panel/proje/${projectId}/bloklar` },
+    { label: 'Ekipler', href: `/admin-panel/proje/${projectId}/ekiplar` },
     { label: 'Yevmiye', href: `/admin-panel/proje/${projectId}/yevmiye${q}` },
     { label: 'Avans', href: `/admin-panel/proje/${projectId}/avans${q}` },
     { label: 'Kesinti', href: `/admin-panel/proje/${projectId}/kesinti${q}` },
@@ -56,7 +58,7 @@ export function ProfitQuickActions({ projectId, onAddJob, onRefresh, refreshing 
 export function JobQuickLinks({ projectId, jobId }: { projectId: string; jobId: string }) {
   return (
     <div className="flex flex-wrap gap-2">
-      {links(projectId, jobId).map((l) => (
+      {links(projectId, jobId).slice(2).map((l) => (
         <Link
           key={l.href}
           href={l.href}

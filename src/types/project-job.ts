@@ -11,6 +11,7 @@ export type ProjectJob = {
   completed_at: string | null;
   notes: string | null;
   sort_order: number;
+  block_id: string | null;
   created_at: string;
   updated_at: string;
 };
@@ -74,6 +75,13 @@ export type ProjectProfitOverview = {
     profitPerShareApproved: number;
     shareCount: number;
   };
+};
+
+export type ExtendedProfitOverview = ProjectProfitOverview & {
+  blocks: import('@/types/project-block').ProjectBlock[];
+  teams: import('@/types/project-block').TeamWithMembers[];
+  blockSummaries: import('@/types/project-block').BlockProfitSummary[];
+  teamsWithoutBlock: Array<{ id: string; name: string; member_count: number }>;
 };
 
 export const PROJECT_JOB_STATUS_LABELS: Record<ProjectJobStatus, string> = {

@@ -31,12 +31,13 @@ export async function POST(request: Request, ctx: Ctx) {
     const { projectId } = await ctx.params;
     await requireAdminProjectAccess(projectId);
     const body = await request.json();
-    const { name, unitLabel, unitPrice, quantity, notes } = body as {
+    const { name, unitLabel, unitPrice, quantity, notes, blockId } = body as {
       name?: string;
       unitLabel?: string;
       unitPrice?: number;
       quantity?: number;
       notes?: string;
+      blockId?: string | null;
     };
 
     if (!name?.trim()) {
@@ -64,6 +65,7 @@ export async function POST(request: Request, ctx: Ctx) {
         unit_price: unitPrice,
         quantity,
         notes: notes?.trim() || null,
+        block_id: blockId ?? null,
         sort_order: count ?? 0,
       })
       .select('*')

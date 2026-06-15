@@ -1,4 +1,5 @@
-import type { ProjectProfitOverview } from '@/types/project-job';
+import type { ExtendedProfitOverview } from '@/types/project-job';
+import type { ProjectBlock, TeamWithMembers } from '@/types/project-block';
 
 async function parseError(res: Response) {
   const data = await res.json().catch(() => ({}));
@@ -219,7 +220,7 @@ export async function updateEmployee(
 export async function fetchProjectProfit(projectId: string) {
   const res = await fetch(`/api/admin/projects/${projectId}/profit`);
   if (!res.ok) throw new Error(await parseError(res));
-  return res.json() as Promise<ProjectProfitOverview>;
+  return res.json() as Promise<ExtendedProfitOverview>;
 }
 
 export async function updateProfitShareCount(projectId: string, shareCount: number) {
@@ -229,7 +230,7 @@ export async function updateProfitShareCount(projectId: string, shareCount: numb
     body: JSON.stringify({ shareCount }),
   });
   if (!res.ok) throw new Error(await parseError(res));
-  return res.json() as Promise<{ overview: ProjectProfitOverview }>;
+  return res.json() as Promise<{ overview: ExtendedProfitOverview }>;
 }
 
 export async function createProjectJob(
@@ -240,6 +241,7 @@ export async function createProjectJob(
     unitPrice: number;
     quantity: number;
     notes?: string;
+    blockId?: string | null;
   }
 ) {
   const res = await fetch(`/api/admin/projects/${projectId}/jobs`, {
@@ -248,7 +250,7 @@ export async function createProjectJob(
     body: JSON.stringify(body),
   });
   if (!res.ok) throw new Error(await parseError(res));
-  return res.json() as Promise<{ overview: ProjectProfitOverview }>;
+  return res.json() as Promise<{ overview: ExtendedProfitOverview }>;
 }
 
 export async function updateProjectJob(
@@ -269,7 +271,7 @@ export async function updateProjectJob(
     body: JSON.stringify(body),
   });
   if (!res.ok) throw new Error(await parseError(res));
-  return res.json() as Promise<{ overview: ProjectProfitOverview }>;
+  return res.json() as Promise<{ overview: ExtendedProfitOverview }>;
 }
 
 export async function deleteProjectJob(projectId: string, jobId: string) {
@@ -277,7 +279,7 @@ export async function deleteProjectJob(projectId: string, jobId: string) {
     method: 'DELETE',
   });
   if (!res.ok) throw new Error(await parseError(res));
-  return res.json() as Promise<{ overview: ProjectProfitOverview }>;
+  return res.json() as Promise<{ overview: ExtendedProfitOverview }>;
 }
 
 export async function fetchProjectJobs(projectId: string) {
@@ -315,7 +317,7 @@ export async function createJobExpense(
     body: JSON.stringify(body),
   });
   if (!res.ok) throw new Error(await parseError(res));
-  return res.json() as Promise<{ overview: ProjectProfitOverview }>;
+  return res.json() as Promise<{ overview: ExtendedProfitOverview }>;
 }
 
 export async function deleteJobExpense(projectId: string, jobId: string, expenseId: string) {
@@ -324,5 +326,96 @@ export async function deleteJobExpense(projectId: string, jobId: string, expense
     { method: 'DELETE' }
   );
   if (!res.ok) throw new Error(await parseError(res));
-  return res.json() as Promise<{ overview: ProjectProfitOverview }>;
+  return res.json() as Promise<{ overview: ExtendedProfitOverview }>;
+}
+
+export async function fetchProjectBlocks(projectId: string) {
+  const res = await fetch(`/api/admin/projects/${projectId}/blocks`);
+  if (!res.ok) throw new Error(await parseError(res));
+  const data = await res.json();
+  return (data.blocks ?? []) as ProjectBlock[];
+}
+
+export async function createProjectBlock(
+  projectId: string,
+  body: { name: string; notes?: string }
+) {
+  const res = await fetch(`/api/admin/projects/${projectId}/blocks`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) throw new Error(await parseError(res));
+  return res.json() as Promise<{ block: ProjectBlock }>;
+}
+
+export async function completeProjectBlock(projectId: string, blockId: string) {
+  const res = await fetch(`/api/admin/projects/${projectId}/blocks/${blockId}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ status: 'completed' }),
+  });
+  if (!res.ok) throw new Error(await parseError(res));
+  return res.json() as Promise<{ block: ProjectBlock }>;
+}
+
+export async function fetchProjectTeams(projectId: string) {
+  const res = await fetch(`/api/admin/projects/${projectId}/teams`);
+  if (!res.ok) throw new Error(await parseError(res));
+  const data = await res.json();
+  return (data.teams ?? []) as TeamWithMembers[];
+}
+
+export async function createProjectTeam(
+  projectId: string,
+  body: { name: string; blockId?: string | null; currentJobId?: string | null }
+) {
+  const res = await fetch(`/api/admin/projects/${projectId}/teams`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) throw new Error(await parseError(res));
+  return res.json() as Promise<{ teams: TeamWithMembers[] }>;
+}
+
+export async function updateProjectTeam(
+  projectId: string,
+  teamId: string,
+  body: { name?: string; blockId?: string | null; currentJobId?: string | null }
+) {
+  const res = await fetch(`/api/admin/projects/${projectId}/teams/${teamId}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) throw new Error(await parseError(res));
+  return res.json() as Promise<{ teams: TeamWithMembers[] }>;
+}
+
+export async function deleteProjectTeam(projectId: string, teamId: string) {
+  const res = await fetch(`/api/admin/projects/${projectId}/teams/${teamId}`, {
+    method: 'DELETE',
+  });
+  if (!res.ok) throw new Error(await parseError(res));
+  return res.json() as Promise<{ teams: TeamWithMembers[] }>;
+}
+
+export async function addTeamMember(projectId: string, teamId: string, employeeId: string) {
+  const res = await fetch(`/api/admin/projects/${projectId}/teams/${teamId}/members`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ employeeId }),
+  });
+  if (!res.ok) throw new Error(await parseError(res));
+  return res.json() as Promise<{ teams: TeamWithMembers[] }>;
+}
+
+export async function removeTeamMember(projectId: string, teamId: string, memberId: string) {
+  const res = await fetch(
+    `/api/admin/projects/${projectId}/teams/${teamId}/members?memberId=${memberId}`,
+    { method: 'DELETE' }
+  );
+  if (!res.ok) throw new Error(await parseError(res));
+  return res.json() as Promise<{ teams: TeamWithMembers[] }>;
 }

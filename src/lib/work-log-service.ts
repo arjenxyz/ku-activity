@@ -1,5 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { mesaiTypeToUnits, type MesaiType } from '@/lib/work-log';
+import { assertEmployeeTeamHasActiveBlock } from '@/lib/team-work-guard';
 
 export type WorkLogRow = {
   id: string;
@@ -44,6 +45,8 @@ export async function adminConfirmWorkLog(
     jobId?: string | null;
   }
 ): Promise<WorkLogRow> {
+  await assertEmployeeTeamHasActiveBlock(admin, params.employeeId, params.projectId);
+
   const existing = await findWorkLog(admin, params.employeeId, params.date);
   const now = new Date().toISOString();
   const mesai_units = mesaiTypeToUnits(params.mesaiType);

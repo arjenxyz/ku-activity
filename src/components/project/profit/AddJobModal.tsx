@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { inputClass, labelClass, btnPrimary, btnSecondary } from '@/components/project/ui';
 import { formatMoney } from '@/lib/format';
+import type { ProjectBlock } from '@/types/project-block';
 
 type JobForm = {
   name: string;
@@ -10,6 +11,7 @@ type JobForm = {
   unitPrice: string;
   quantity: string;
   notes: string;
+  blockId: string;
 };
 
 const emptyForm: JobForm = {
@@ -18,23 +20,27 @@ const emptyForm: JobForm = {
   unitPrice: '',
   quantity: '',
   notes: '',
+  blockId: '',
 };
 
 type Props = {
   open: boolean;
   onClose: () => void;
+  blocks?: ProjectBlock[];
   onSubmit: (data: {
     name: string;
     unitLabel: string;
     unitPrice: number;
     quantity: number;
     notes?: string;
+    blockId?: string | null;
   }) => Promise<void>;
   saving?: boolean;
 };
 
-export function AddJobModal({ open, onClose, onSubmit, saving }: Props) {
+export function AddJobModal({ open, onClose, onSubmit, saving, blocks = [] }: Props) {
   const [form, setForm] = useState<JobForm>(emptyForm);
+  const activeBlocks = blocks.filter((b) => b.status === 'active');
 
   useEffect(() => {
     if (!open) setForm(emptyForm);
@@ -53,6 +59,7 @@ export function AddJobModal({ open, onClose, onSubmit, saving }: Props) {
       unitPrice: Number(form.unitPrice),
       quantity: Number(form.quantity),
       notes: form.notes || undefined,
+      blockId: form.blockId || null,
     });
     onClose();
   };
@@ -63,7 +70,7 @@ export function AddJobModal({ open, onClose, onSubmit, saving }: Props) {
         <div className="px-5 py-4 border-b border-slate-100">
           <h2 className="text-lg font-semibold text-slate-900">Yeni iş kalemi</h2>
           <p className="text-sm text-slate-500 mt-0.5">
-            Üst taşerondan aldığınız işi tanımlayın — alacak otomatik hesaplanır.
+            Aynı bloğa birden fazla iş ekleyebilirsiniz (ör. çatı ahşap + çatı kiremit).
           </p>
         </div>
         <form onSubmit={handleSubmit} className="p-5 space-y-4">
@@ -73,11 +80,28 @@ export function AddJobModal({ open, onClose, onSubmit, saving }: Props) {
               className={inputClass}
               required
               autoFocus
-              placeholder="Örn. Çatı kaplama"
+              placeholder="Örn. Çatı ahşap"
               value={form.name}
               onChange={(e) => setForm((s) => ({ ...s, name: e.target.value }))}
             />
           </div>
+          {activeBlocks.length > 0 && (
+            <div>
+              <label className={labelClass}>Blok</label>
+              <select
+                className={inputClass}
+                value={form.blockId}
+                onChange={(e) => setForm((s) => ({ ...s, blockId: e.target.value }))}
+              >
+                <option value="">Blok seçilmedi</option>
+                {activeBlocks.map((b) => (
+                  <option key={b.id} value={b.id}>
+                    {b.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className={labelClass}>Birim fiyat (₺) *</label>
@@ -124,7 +148,7 @@ export function AddJobModal({ open, onClose, onSubmit, saving }: Props) {
             <label className={labelClass}>Not (isteğe bağlı)</label>
             <input
               className={inputClass}
-              placeholder="Blok, kat, açıklama…"
+              placeholder="Kat, açıklama…"
               value={form.notes}
               onChange={(e) => setForm((s) => ({ ...s, notes: e.target.value }))}
             />

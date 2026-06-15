@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { ProjectPageHeader } from '@/components/project/ProjectPageHeader';
 import { AlertBanner } from '@/components/project/AlertBanner';
+import { BlockProfitCard } from '@/components/project/profit/BlockProfitCard';
 import { AddJobModal } from '@/components/project/profit/AddJobModal';
 import { JobProfitCard } from '@/components/project/profit/JobProfitCard';
 import { PartnerSettings } from '@/components/project/profit/PartnerSettings';
@@ -20,13 +21,14 @@ import {
   updateProfitShareCount,
   updateProjectJob,
 } from '@/lib/project-api';
-import type { ProjectProfitOverview } from '@/types/project-job';
+import type { ExtendedProfitOverview } from '@/types/project-job';
 
 type JobFilter = 'all' | 'active' | 'completed';
+type ViewMode = 'jobs' | 'blocks';
 
 export default function KarPage() {
   const { projectId } = useParams() as { projectId: string };
-  const [overview, setOverview] = useState<ProjectProfitOverview | null>(null);
+  const [overview, setOverview] = useState<ExtendedProfitOverview | null>(null);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -36,7 +38,9 @@ export default function KarPage() {
   const [saving, setSaving] = useState(false);
   const [addJobOpen, setAddJobOpen] = useState(false);
   const [jobFilter, setJobFilter] = useState<JobFilter>('all');
+  const [viewMode, setViewMode] = useState<ViewMode>('blocks');
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [expandedBlockId, setExpandedBlockId] = useState<string | null>(null);
 
   const load = useCallback(async (silent = false) => {
     if (!silent) setLoading(true);
@@ -50,6 +54,11 @@ export default function KarPage() {
         if (prev && data.jobs.some((j) => j.job.id === prev)) return prev;
         const firstActive = data.jobs.find((j) => j.job.status === 'active');
         return firstActive?.job.id ?? data.jobs[0]?.job.id ?? null;
+      });
+      setExpandedBlockId((prev) => {
+        if (prev && data.blockSummaries?.some((b) => b.block.id === prev)) return prev;
+        const firstActive = data.blockSummaries?.find((b) => b.block.status === 'active');
+        return firstActive?.block.id ?? data.blockSummaries?.[0]?.block.id ?? null;
       });
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Yüklenemedi');
@@ -124,6 +133,7 @@ export default function KarPage() {
     unitPrice: number;
     quantity: number;
     notes?: string;
+    blockId?: string | null;
   }) => {
     setSaving(true);
     try {
@@ -161,6 +171,12 @@ export default function KarPage() {
 
       {error && <AlertBanner type="error" message={error} />}
       {success && <AlertBanner type="success" message={success} />}
+      {overview && overview.teamsWithoutBlock?.length > 0 && (
+        <AlertBanner
+          type="error"
+          message={`${overview.teamsWithoutBlock.length} ekibin aktif bloğu yok (${overview.teamsWithoutBlock.map((t) => t.name).join(', ')}). Ekipler sayfasından blok atayın — aksi halde yevmiye girişi engellenir.`}
+        />
+      )}
 
       {loading ? (
         <div className={`${cardClass} p-12 text-center text-sm text-slate-500`}>Yükleniyor…</div>
@@ -169,6 +185,59 @@ export default function KarPage() {
           <ProfitTotalsStrip overview={overview} />
           <ProfitFormulaHelp />
 
+          <div className="flex rounded-lg border border-slate-200 p-0.5 bg-slate-50 w-fit">
+            <button
+              type="button"
+              onClick={() => setViewMode('blocks')}
+              className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
+                viewMode === 'blocks'
+                  ? 'bg-white text-slate-900 shadow-sm'
+                  : 'text-slate-500 hover:text-slate-700'
+              }`}
+            >
+              Blok bazlı
+            </button>
+            <button
+              type="button"
+              onClick={() => setViewMode('jobs')}
+              className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
+                viewMode === 'jobs'
+                  ? 'bg-white text-slate-900 shadow-sm'
+                  : 'text-slate-500 hover:text-slate-700'
+              }`}
+            >
+              İş kalemi bazlı
+            </button>
+          </div>
+
+          {viewMode === 'blocks' ? (
+            <section className="space-y-3">
+              <h2 className="text-base font-semibold text-slate-900">Blok özeti</h2>
+              {overview.blockSummaries.length === 0 ? (
+                <div className={`${cardClass} p-10 text-center`}>
+                  <p className="text-slate-600 font-medium">Henüz blok yok</p>
+                  <p className="text-sm text-slate-500 mt-2">
+                    Blok oluşturup ekiplere atayın; onaylı yevmiye otomatik işlenir.
+                  </p>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  {overview.blockSummaries.map((summary) => (
+                    <BlockProfitCard
+                      key={summary.block.id}
+                      summary={summary}
+                      expanded={expandedBlockId === summary.block.id}
+                      onToggle={() =>
+                        setExpandedBlockId((id) =>
+                          id === summary.block.id ? null : summary.block.id
+                        )
+                      }
+                    />
+                  ))}
+                </div>
+              )}
+            </section>
+          ) : (
           <section className="space-y-3">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <h2 className="text-base font-semibold text-slate-900">İş kalemleri</h2>
@@ -270,6 +339,7 @@ export default function KarPage() {
               </div>
             )}
           </section>
+          )}
 
           <PartnerSettings
             shareCount={shareCount}
@@ -300,6 +370,7 @@ export default function KarPage() {
         onClose={() => setAddJobOpen(false)}
         onSubmit={handleAddJob}
         saving={saving}
+        blocks={overview?.blocks}
       />
     </div>
   );

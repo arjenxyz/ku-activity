@@ -9,7 +9,7 @@ import { cardClass, inputClass, labelClass, btnPrimary, btnSecondary } from '@/c
 import { formatMoney, formatDate } from '@/lib/format';
 import { profitMarginPercent } from '@/lib/profit-display';
 import { createJobExpense, deleteJobExpense } from '@/lib/project-api';
-import type { JobProfitSummary, ProjectProfitOverview } from '@/types/project-job';
+import type { ExtendedProfitOverview, JobProfitSummary } from '@/types/project-job';
 import { PROJECT_JOB_STATUS_LABELS } from '@/types/project-job';
 
 type Props = {
@@ -18,7 +18,7 @@ type Props = {
   expanded: boolean;
   onToggle: () => void;
   disabled?: boolean;
-  onOverview: (overview: ProjectProfitOverview) => void;
+  onOverview: (overview: ExtendedProfitOverview) => void;
   onToggleStatus: () => void;
   onDelete: () => void;
 };
