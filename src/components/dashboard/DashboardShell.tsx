@@ -8,14 +8,17 @@ import { ProjectNavLinks } from '@/components/project/ProjectNavMenu';
 import { ProjectSettingsModal } from '@/components/modals/ProjectSettingsModal';
 import { ProjectStatusBadge } from '@/components/project/ProjectStatusBadge';
 import { AdminMenuBrandBar, AdminProjectMenuCard } from '@/components/dashboard/AdminMenuChrome';
+import { AdminSimpleModeGuard } from '@/components/dashboard/AdminSimpleModeGuard';
+import { AdminUiModeToggle } from '@/components/dashboard/AdminUiModeToggle';
 import { BrandMark } from '@/components/brand/BrandMark';
 import { APP_NAME } from '@/lib/brand';
 import { useAdminCurrentProject } from '@/hooks/useAdminCurrentProject';
 import { AdminProjectSettingsProvider } from '@/hooks/useAdminProjectSettings';
+import { AdminUiModeProvider, useAdminUiMode } from '@/hooks/useAdminUiMode';
 
 const PROJECT_ID_RE = /^\/admin-panel\/proje\/([a-f0-9-]{36})/;
 
-export function DashboardShell({ children }: { children: React.ReactNode }) {
+function DashboardShellInner({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -23,6 +26,7 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
 
   const projectId = useMemo(() => pathname.match(PROJECT_ID_RE)?.[1] ?? null, [pathname]);
   const { project, setProject } = useAdminCurrentProject(projectId);
+  const { isAdvanced } = useAdminUiMode();
   const isGlobalWagePolicy = pathname === '/admin-panel/maas-politikasi';
 
   useEffect(() => {
@@ -77,15 +81,17 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
                       <ProjectStatusBadge status={project.status} />
                     </span>
                   </Link>
-                  <button
-                    type="button"
-                    onClick={() => setSettingsOpen(true)}
-                    className="hidden sm:flex shrink-0 items-center justify-center w-8 h-8 rounded-lg text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-colors"
-                    title="Proje ayarları"
-                    aria-label="Proje ayarları"
-                  >
-                    <FiSliders className="w-4 h-4" />
-                  </button>
+                  {isAdvanced && (
+                    <button
+                      type="button"
+                      onClick={() => setSettingsOpen(true)}
+                      className="hidden sm:flex shrink-0 items-center justify-center w-8 h-8 rounded-lg text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-colors"
+                      title="Proje ayarları"
+                      aria-label="Proje ayarları"
+                    >
+                      <FiSliders className="w-4 h-4" />
+                    </button>
+                  )}
                 </div>
               </>
             )}
@@ -95,18 +101,21 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
             )}
           </div>
 
-          <div className="hidden sm:flex items-center gap-1 shrink-0">
-            <Link
-              href="/admin-panel/maas-politikasi"
-              className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                isGlobalWagePolicy
-                  ? 'text-blue-700 bg-blue-50'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
-              }`}
-            >
-              <FiSettings className="w-4 h-4" />
-              Maaş Politikası
-            </Link>
+          <div className="hidden sm:flex items-center gap-2 shrink-0">
+            <AdminUiModeToggle compact />
+            {isAdvanced && (
+              <Link
+                href="/admin-panel/maas-politikasi"
+                className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  isGlobalWagePolicy
+                    ? 'text-blue-700 bg-blue-50'
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                }`}
+              >
+                <FiSettings className="w-4 h-4" />
+                Maaş Politikası
+              </Link>
+            )}
             <button
               type="button"
               onClick={handleLogout}
@@ -166,14 +175,26 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
                 project={project}
                 projectId={projectId}
                 onNavigate={closeMenu}
-                onSettings={() => {
-                  setSettingsOpen(true);
-                  closeMenu();
-                }}
+                onSettings={
+                  isAdvanced
+                    ? () => {
+                        setSettingsOpen(true);
+                        closeMenu();
+                      }
+                    : undefined
+                }
               />
             )}
 
             {projectId && <ProjectNavLinks projectId={projectId} onNavigate={closeMenu} />}
+            {!projectId && (
+              <div className="px-1">
+                <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-2">
+                  Arayüz
+                </p>
+                <AdminUiModeToggle className="w-full flex" />
+              </div>
+            )}
           </div>
 
           <div className="shrink-0 p-4 border-t border-slate-200 bg-white">
@@ -204,9 +225,17 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
 
       <main>
         <AdminProjectSettingsProvider openProjectSettings={() => setSettingsOpen(true)}>
-          {children}
+          <AdminSimpleModeGuard projectId={projectId}>{children}</AdminSimpleModeGuard>
         </AdminProjectSettingsProvider>
       </main>
     </div>
+  );
+}
+
+export function DashboardShell({ children }: { children: React.ReactNode }) {
+  return (
+    <AdminUiModeProvider>
+      <DashboardShellInner>{children}</DashboardShellInner>
+    </AdminUiModeProvider>
   );
 }

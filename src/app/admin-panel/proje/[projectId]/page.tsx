@@ -16,6 +16,7 @@ import { fetchRecords } from '@/lib/project-api';
 import type { MesaiType } from '@/lib/work-log';
 import type { Employee, AttendanceStats } from '@/types/adminTypes';
 import type { Project } from '@/types/project';
+import { useAdminUiMode } from '@/hooks/useAdminUiMode';
 
 export default function ProjectDetailPage() {
   const params = useParams();
@@ -31,6 +32,7 @@ export default function ProjectDetailPage() {
   const [attendanceTarget, setAttendanceTarget] = useState<{ id: string; name: string } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [openDisputeCount, setOpenDisputeCount] = useState(0);
+  const { isSimple } = useAdminUiMode();
 
   const loadEmployees = useCallback(async () => {
     if (!projectId) return;
@@ -150,8 +152,12 @@ export default function ProjectDetailPage() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <ProjectPageHeader
-          title="Proje özeti"
-          description="Günlük yoklama, personel durumu ve açık itirazlar."
+          title={isSimple ? 'Günlük yoklama' : 'Proje özeti'}
+          description={
+            isSimple
+              ? 'Personel yoklaması, mesai onayı ve günlük durum.'
+              : 'Günlük yoklama, personel durumu ve açık itirazlar.'
+          }
         />
         <button
           type="button"
