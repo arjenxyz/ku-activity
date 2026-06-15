@@ -6,13 +6,18 @@ import dayjs from 'dayjs';
 import { ProjectPageHeader } from '@/components/project/ProjectPageHeader';
 import { EntryFormCard } from '@/components/project/EntryFormCard';
 import { AlertBanner } from '@/components/project/AlertBanner';
+import { JobSelectField } from '@/components/project/JobSelectField';
 import { useProjectEmployees } from '@/hooks/useProjectEmployees';
+import { useProjectJobs } from '@/hooks/useProjectJobs';
 import { postDeduction } from '@/lib/project-api';
+import { cardClass } from '@/components/project/ui';
 
 export default function AvansPage() {
   const { projectId } = useParams() as { projectId: string };
   const { employees, loading: empLoading, error: empError } = useProjectEmployees(projectId);
+  const { jobs } = useProjectJobs(projectId);
   const [employeeId, setEmployeeId] = useState('');
+  const [jobId, setJobId] = useState('');
   const [values, setValues] = useState({
     date: dayjs().format('YYYY-MM-DD'),
     amount: '',
@@ -38,10 +43,12 @@ export default function AvansPage() {
         type: 'advance',
         amount: Number(values.amount),
         description: values.description || undefined,
+        jobId: jobId || null,
       });
       setSuccess('Avans kaydı oluşturuldu.');
       setValues({ date: dayjs().format('YYYY-MM-DD'), amount: '', description: '' });
       setEmployeeId('');
+      setJobId('');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Kayıt başarısız');
     } finally {
@@ -51,7 +58,10 @@ export default function AvansPage() {
 
   return (
     <div>
-      <ProjectPageHeader title="Avans Ekle" description="Personele avans kaydı girin." />
+      <ProjectPageHeader
+        title="Avans Ekle"
+        description="Personele avans kaydı girin. İsteğe bağlı iş kalemine bağlayarak taşeron kârına yansıtın."
+      />
       {empError && <AlertBanner type="error" message={empError} />}
       {error && <AlertBanner type="error" message={error} />}
       {success && <AlertBanner type="success" message={success} />}
@@ -70,6 +80,11 @@ export default function AvansPage() {
         onSubmit={handleSubmit}
         loading={loading || empLoading}
       />
+      {jobs.length > 0 && (
+        <div className={`${cardClass} p-4 sm:p-6 max-w-xl -mt-4 mb-6`}>
+          <JobSelectField jobs={jobs} value={jobId} onChange={setJobId} />
+        </div>
+      )}
     </div>
   );
 }

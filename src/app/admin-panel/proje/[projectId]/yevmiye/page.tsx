@@ -1,20 +1,22 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useParams } from 'next/navigation';
 import dayjs from 'dayjs';
 import { ProjectPageHeader } from '@/components/project/ProjectPageHeader';
 import { EntryFormCard } from '@/components/project/EntryFormCard';
 import { AlertBanner } from '@/components/project/AlertBanner';
 import { useProjectEmployees } from '@/hooks/useProjectEmployees';
-import { fetchProjectJobs, postWorkLog } from '@/lib/project-api';
+import { useProjectJobs } from '@/hooks/useProjectJobs';
+import { postWorkLog } from '@/lib/project-api';
 import { MESAI_OPTIONS } from '@/lib/work-log';
+import { JobSelectField } from '@/components/project/JobSelectField';
 import { labelClass, inputClass, cardClass } from '@/components/project/ui';
 
 export default function YevmiyePage() {
   const { projectId } = useParams() as { projectId: string };
   const { employees, loading: empLoading, error: empError } = useProjectEmployees(projectId);
-  const [jobs, setJobs] = useState<Array<{ id: string; name: string; status: string }>>([]);
+  const { jobs } = useProjectJobs(projectId);
   const [employeeId, setEmployeeId] = useState('');
   const [jobId, setJobId] = useState('');
   const [values, setValues] = useState({
@@ -26,12 +28,6 @@ export default function YevmiyePage() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    fetchProjectJobs(projectId)
-      .then(setJobs)
-      .catch(() => setJobs([]));
-  }, [projectId]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -99,23 +95,7 @@ export default function YevmiyePage() {
       />
       {jobs.length > 0 && (
         <div className={`${cardClass} p-4 sm:p-6 max-w-xl -mt-4 mb-2`}>
-          <label className={labelClass}>İş kalemi (taşeron kârı için — isteğe bağlı)</label>
-          <select
-            className={inputClass}
-            value={jobId}
-            onChange={(e) => setJobId(e.target.value)}
-          >
-            <option value="">Seçilmedi</option>
-            {jobs.map((j) => (
-              <option key={j.id} value={j.id}>
-                {j.name}
-                {j.status === 'completed' ? ' (tamamlandı)' : ''}
-              </option>
-            ))}
-          </select>
-          <p className="text-xs text-slate-500 mt-2">
-            Personelde ek alan görünmez; yalnızca taşeron kâr hesabında kullanılır.
-          </p>
+          <JobSelectField jobs={jobs} value={jobId} onChange={setJobId} />
         </div>
       )}
       <div className={`${cardClass} p-4 sm:p-6 max-w-xl -mt-4 mb-6`}>

@@ -27,7 +27,7 @@ export async function GET(request: Request, ctx: Ctx) {
     const supabase = createAdminClient();
     let q = supabase
       .from('work_logs')
-      .select('*, employees(name)')
+      .select('*, employees(name), project_jobs:job_id(name)')
       .eq('project_id', projectId)
       .order('date', { ascending: false })
       .limit(200);

@@ -9,21 +9,26 @@ import { RecordsTable } from '@/components/project/RecordsTable';
 import { RecordEditActions } from '@/components/project/RecordEditActions';
 import { AlertBanner } from '@/components/project/AlertBanner';
 import { useProjectEmployees } from '@/hooks/useProjectEmployees';
+import { useProjectJobs } from '@/hooks/useProjectJobs';
 import { fetchRecords } from '@/lib/project-api';
 import { formatMoney, formatDate } from '@/lib/format';
+import { jobNameFromJoin } from '@/lib/job-record-label';
 
 type Record = {
   id: string;
   date: string;
   amount: number;
   type: string;
+  job_id?: string | null;
   description?: string | null;
   employees?: { name: string } | null;
+  project_jobs?: { name: string } | null;
 };
 
 export default function KesintiSorgulamaPage() {
   const { projectId } = useParams() as { projectId: string };
   const { employees, error: empError } = useProjectEmployees(projectId);
+  const { jobs } = useProjectJobs(projectId);
   const [employeeId, setEmployeeId] = useState('');
   const [month, setMonth] = useState(dayjs().format('YYYY-MM'));
   const [records, setRecords] = useState<Record[]>([]);
@@ -53,7 +58,7 @@ export default function KesintiSorgulamaPage() {
     <div>
       <ProjectPageHeader
         title="Kesinti Sorgulama"
-        description="Kesinti kayıtlarını görüntüleyin, düzenleyin veya silin."
+        description="Kesinti kayıtlarını görüntüleyin, iş kalemini düzenleyin veya silin."
       />
       {empError && <AlertBanner type="error" message={empError} />}
       {error && <AlertBanner type="error" message={error} />}
@@ -77,6 +82,12 @@ export default function KesintiSorgulamaPage() {
           { key: 'type', header: 'Tür', render: (r) => r.type, hideOnMobile: true },
           { key: 'amount', header: 'Tutar', render: (r) => formatMoney(Number(r.amount)) },
           {
+            key: 'job',
+            header: 'İş kalemi',
+            render: (r) => jobNameFromJoin(r),
+            hideOnMobile: true,
+          },
+          {
             key: 'desc',
             header: 'Açıklama',
             render: (r) => r.description || '—',
@@ -90,6 +101,7 @@ export default function KesintiSorgulamaPage() {
                 projectId={projectId}
                 recordType="deductions"
                 record={r}
+                jobs={jobs}
                 onChanged={load}
               />
             ),

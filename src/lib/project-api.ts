@@ -78,6 +78,7 @@ export async function postDeduction(
     type: string;
     amount: number;
     description?: string;
+    jobId?: string | null;
   }
 ) {
   const res = await fetch(`/api/admin/projects/${projectId}/deductions`, {
@@ -301,4 +302,27 @@ export async function deleteProjectPartner(projectId: string, partnerId: string)
     method: 'DELETE',
   });
   if (!res.ok) throw new Error(await parseError(res));
+}
+
+export async function createJobExpense(
+  projectId: string,
+  jobId: string,
+  body: { date?: string; amount: number; description?: string }
+) {
+  const res = await fetch(`/api/admin/projects/${projectId}/jobs/${jobId}/expenses`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) throw new Error(await parseError(res));
+  return res.json() as Promise<{ overview: ProjectProfitOverview }>;
+}
+
+export async function deleteJobExpense(projectId: string, jobId: string, expenseId: string) {
+  const res = await fetch(
+    `/api/admin/projects/${projectId}/jobs/${jobId}/expenses/${expenseId}`,
+    { method: 'DELETE' }
+  );
+  if (!res.ok) throw new Error(await parseError(res));
+  return res.json() as Promise<{ overview: ProjectProfitOverview }>;
 }

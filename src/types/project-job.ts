@@ -29,11 +29,26 @@ export type ProjectProfitSettings = {
   updated_at: string;
 };
 
+export type ProjectJobExpense = {
+  id: string;
+  project_id: string;
+  job_id: string;
+  date: string;
+  amount: number;
+  description: string | null;
+  created_at: string;
+};
+
 export type JobProfitSummary = {
   job: ProjectJob;
   contractTotal: number;
   laborCostApproved: number;
   laborCostPending: number;
+  advancesCost: number;
+  deductionsCost: number;
+  materialCost: number;
+  totalCostApproved: number;
+  totalCostPending: number;
   profitApproved: number;
   profitPending: number;
   approvedWorkDays: number;
@@ -41,6 +56,7 @@ export type JobProfitSummary = {
   shareCount: number;
   profitPerShareApproved: number;
   profitPerSharePending: number;
+  expenses: ProjectJobExpense[];
 };
 
 export type ProjectProfitOverview = {
@@ -50,6 +66,10 @@ export type ProjectProfitOverview = {
   totals: {
     contractTotal: number;
     laborCostApproved: number;
+    advancesCost: number;
+    deductionsCost: number;
+    materialCost: number;
+    totalCostApproved: number;
     profitApproved: number;
     profitPerShareApproved: number;
     shareCount: number;

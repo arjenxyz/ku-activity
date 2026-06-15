@@ -7,7 +7,10 @@ import {
   updateProjectRecord,
   type ProjectRecordType,
 } from '@/lib/project-api';
+import { JobSelectField } from '@/components/project/JobSelectField';
 import { inputClass, labelClass, btnPrimary, btnSecondary } from './ui';
+
+type JobOption = { id: string; name: string; status?: string };
 
 type BaseRecord = {
   id: string;
@@ -15,6 +18,7 @@ type BaseRecord = {
   amount: number;
   description?: string | null;
   approved?: boolean;
+  job_id?: string | null;
 };
 
 type Props = {
@@ -23,6 +27,7 @@ type Props = {
   record: BaseRecord;
   onChanged: () => void;
   showApproved?: boolean;
+  jobs?: JobOption[];
 };
 
 export function RecordEditActions({
@@ -31,6 +36,7 @@ export function RecordEditActions({
   record,
   onChanged,
   showApproved,
+  jobs = [],
 }: Props) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -40,7 +46,11 @@ export function RecordEditActions({
     amount: String(record.amount),
     description: record.description ?? '',
     approved: record.approved ?? true,
+    jobId: record.job_id ?? '',
   });
+
+  const showJobSelect =
+    jobs.length > 0 && (recordType === 'work-logs' || recordType === 'deductions');
 
   const openEdit = () => {
     setForm({
@@ -48,6 +58,7 @@ export function RecordEditActions({
       amount: String(record.amount),
       description: record.description ?? '',
       approved: record.approved ?? true,
+      jobId: record.job_id ?? '',
     });
     setError(null);
     setOpen(true);
@@ -63,6 +74,7 @@ export function RecordEditActions({
         amount: Number(form.amount),
         description: form.description || null,
         ...(showApproved ? { approved: form.approved } : {}),
+        ...(showJobSelect ? { jobId: form.jobId || null } : {}),
       });
       setOpen(false);
       onChanged();
@@ -112,7 +124,7 @@ export function RecordEditActions({
 
       {open && (
         <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4 bg-black/40">
-          <div className="bg-white rounded-xl shadow-xl w-full max-w-md p-5 space-y-4">
+          <div className="bg-white rounded-xl shadow-xl w-full max-w-md p-5 space-y-4 max-h-[90vh] overflow-y-auto">
             <h3 className="text-lg font-semibold text-slate-900">Kaydı Düzenle</h3>
             <form onSubmit={handleSave} className="space-y-3">
               <div>
@@ -134,7 +146,7 @@ export function RecordEditActions({
                   className={inputClass}
                   value={form.amount}
                   onChange={(e) => setForm({ ...form, amount: e.target.value })}
-                  min={recordType === 'work-logs' ? 0 : 0}
+                  min={0}
                   step={recordType === 'work-logs' ? '0.5' : '1'}
                   required
                 />
@@ -152,6 +164,15 @@ export function RecordEditActions({
                     Onaylı
                   </label>
                 </div>
+              )}
+              {showJobSelect && (
+                <JobSelectField
+                  jobs={jobs}
+                  value={form.jobId}
+                  onChange={(jobId) => setForm({ ...form, jobId })}
+                  label="İş kalemi"
+                  hint="Taşeron kâr hesabında bu işe yazılır."
+                />
               )}
               <div>
                 <label className={labelClass}>Açıklama</label>

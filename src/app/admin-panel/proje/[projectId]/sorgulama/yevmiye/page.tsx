@@ -9,8 +9,10 @@ import { RecordsTable } from '@/components/project/RecordsTable';
 import { RecordEditActions } from '@/components/project/RecordEditActions';
 import { AlertBanner } from '@/components/project/AlertBanner';
 import { useProjectEmployees } from '@/hooks/useProjectEmployees';
+import { useProjectJobs } from '@/hooks/useProjectJobs';
 import { fetchRecords } from '@/lib/project-api';
 import { formatDate } from '@/lib/format';
+import { jobNameFromJoin } from '@/lib/job-record-label';
 import { approvalStatusLabel, getWorkLogApprovalStatus } from '@/lib/work-log';
 
 type Record = {
@@ -18,6 +20,7 @@ type Record = {
   date: string;
   amount: number;
   approved: boolean;
+  job_id?: string | null;
   description?: string | null;
   mesai_type?: string | null;
   admin_confirmed_at?: string | null;
@@ -25,11 +28,13 @@ type Record = {
   employee_disputed_at?: string | null;
   employee_dispute_note?: string | null;
   employees?: { name: string } | null;
+  project_jobs?: { name: string } | null;
 };
 
 export default function YevmiyeSorgulamaPage() {
   const { projectId } = useParams() as { projectId: string };
   const { employees, error: empError } = useProjectEmployees(projectId);
+  const { jobs } = useProjectJobs(projectId);
   const [employeeId, setEmployeeId] = useState('');
   const [month, setMonth] = useState(dayjs().format('YYYY-MM'));
   const [records, setRecords] = useState<Record[]>([]);
@@ -56,7 +61,7 @@ export default function YevmiyeSorgulamaPage() {
     <div>
       <ProjectPageHeader
         title="Yevmiye Sorgulama"
-        description="Yevmiye kayıtlarını görüntüleyin, düzenleyin veya silin."
+        description="Yevmiye kayıtlarını görüntüleyin, iş kalemini düzenleyin veya silin."
       />
       {empError && <AlertBanner type="error" message={empError} />}
       {error && <AlertBanner type="error" message={error} />}
@@ -78,6 +83,12 @@ export default function YevmiyeSorgulamaPage() {
           },
           { key: 'date', header: 'Tarih', render: (r) => formatDate(r.date) },
           { key: 'amount', header: 'Gün', render: (r) => r.amount },
+          {
+            key: 'job',
+            header: 'İş kalemi',
+            render: (r) => jobNameFromJoin(r),
+            hideOnMobile: true,
+          },
           {
             key: 'status',
             header: 'Durum',
@@ -101,7 +112,10 @@ export default function YevmiyeSorgulamaPage() {
             header: 'İtiraz',
             render: (r) =>
               r.employee_dispute_note ? (
-                <span className="text-xs text-red-700 max-w-[12rem] truncate block" title={r.employee_dispute_note}>
+                <span
+                  className="text-xs text-red-700 max-w-[12rem] truncate block"
+                  title={r.employee_dispute_note}
+                >
                   {r.employee_dispute_note}
                 </span>
               ) : (
@@ -123,6 +137,7 @@ export default function YevmiyeSorgulamaPage() {
                 projectId={projectId}
                 recordType="work-logs"
                 record={r}
+                jobs={jobs}
                 showApproved
                 onChanged={load}
               />

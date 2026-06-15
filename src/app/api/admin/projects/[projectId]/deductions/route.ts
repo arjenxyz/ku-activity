@@ -17,7 +17,7 @@ export async function GET(request: Request, ctx: Ctx) {
     const supabase = await createClient();
     let q = supabase
       .from('deductions')
-      .select('*, employees(name)')
+      .select('*, employees(name), project_jobs:job_id(name)')
       .eq('project_id', projectId)
       .order('date', { ascending: false })
       .limit(200);
@@ -44,7 +44,7 @@ export async function POST(request: Request, ctx: Ctx) {
   try {
     const { projectId } = await ctx.params;
     await requireAdminProjectAccess(projectId);
-    const { employeeId, date, type, amount, description } = await request.json();
+    const { employeeId, date, type, amount, description, jobId } = await request.json();
 
     if (!employeeId || !date || !type || amount == null) {
       return NextResponse.json({ error: 'Zorunlu alanlar eksik' }, { status: 400 });
@@ -60,6 +60,7 @@ export async function POST(request: Request, ctx: Ctx) {
         type,
         amount,
         description: description || null,
+        job_id: jobId || null,
       })
       .select('*')
       .single();

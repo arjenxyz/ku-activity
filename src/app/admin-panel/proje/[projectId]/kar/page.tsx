@@ -19,6 +19,7 @@ import {
 import { computeContractTotal } from '@/lib/job-profit';
 import type { ProjectProfitOverview } from '@/types/project-job';
 import { PROJECT_JOB_STATUS_LABELS } from '@/types/project-job';
+import { JobExpenseSection } from '@/components/project/JobExpenseSection';
 
 export default function KarPage() {
   const { projectId } = useParams() as { projectId: string };
@@ -160,7 +161,7 @@ export default function KarPage() {
     <div className="space-y-6">
       <ProjectPageHeader
         title="Taşeron Karı"
-        description="Üst taşerondan aldığınız işin bedeli − işçi yevmiyeleri = kâr. Personel panelini etkilemez."
+        description="Alınan iş bedeli − (yevmiye + avans + kesinti + malzeme) = kâr. Personel panelini etkilemez."
       />
 
       {error && <AlertBanner type="error" message={error} />}
@@ -172,11 +173,11 @@ export default function KarPage() {
         <>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
             <div className={`${cardClass} p-6 lg:col-span-2 bg-emerald-900 text-white`}>
-              <p className="text-sm text-emerald-200">Proje toplam kâr (onaylı yevmiye)</p>
+              <p className="text-sm text-emerald-200">Proje toplam kâr</p>
               <p className="text-3xl font-bold mt-2">{formatMoney(overview.totals.profitApproved)}</p>
               <p className="text-xs text-emerald-300 mt-2">
-                Alınan iş: {formatMoney(overview.totals.contractTotal)} − işçi:{' '}
-                {formatMoney(overview.totals.laborCostApproved)}
+                Alınan iş {formatMoney(overview.totals.contractTotal)} − toplam gider{' '}
+                {formatMoney(overview.totals.totalCostApproved)}
               </p>
             </div>
             <div className={`${cardClass} p-6 bg-slate-800 text-white`}>
@@ -317,14 +318,28 @@ export default function KarPage() {
           </div>
 
           <div className="space-y-4">
-            <div className="flex items-center justify-between gap-2">
+            <div className="flex flex-wrap items-center justify-between gap-2">
               <h2 className="text-base font-semibold text-slate-900">İş kalemleri</h2>
-              <Link
-                href={`/admin-panel/proje/${projectId}/yevmiye`}
-                className="text-sm text-blue-600 hover:underline"
-              >
-                Yevmiye girerken iş kalemi seç →
-              </Link>
+              <div className="flex flex-wrap gap-3 text-sm">
+                <Link
+                  href={`/admin-panel/proje/${projectId}/yevmiye`}
+                  className="text-blue-600 hover:underline"
+                >
+                  Yevmiye →
+                </Link>
+                <Link
+                  href={`/admin-panel/proje/${projectId}/avans`}
+                  className="text-blue-600 hover:underline"
+                >
+                  Avans →
+                </Link>
+                <Link
+                  href={`/admin-panel/proje/${projectId}/kesinti`}
+                  className="text-blue-600 hover:underline"
+                >
+                  Kesinti →
+                </Link>
+              </div>
             </div>
 
             {overview.jobs.length === 0 ? (
@@ -375,15 +390,14 @@ export default function KarPage() {
                         </button>
                       </div>
                     </div>
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-px bg-slate-100">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-px bg-slate-100">
                       {[
-                        { label: 'İşçi yevmiyesi (onaylı)', value: formatMoney(item.laborCostApproved) },
+                        { label: 'Yevmiye (onaylı)', value: formatMoney(item.laborCostApproved) },
+                        { label: 'Avans', value: formatMoney(item.advancesCost) },
+                        { label: 'Kesinti', value: formatMoney(item.deductionsCost) },
+                        { label: 'Malzeme', value: formatMoney(item.materialCost) },
                         { label: 'Kâr', value: formatMoney(item.profitApproved) },
                         { label: 'Ortak başı', value: formatMoney(item.profitPerShareApproved) },
-                        {
-                          label: 'Onaylı gün',
-                          value: `${item.approvedWorkDays} gün`,
-                        },
                       ].map((cell) => (
                         <div key={cell.label} className="bg-white p-4">
                           <p className="text-xs text-slate-500">{cell.label}</p>
@@ -391,6 +405,14 @@ export default function KarPage() {
                         </div>
                       ))}
                     </div>
+                    <JobExpenseSection
+                      projectId={projectId}
+                      jobId={job.id}
+                      expenses={item.expenses}
+                      materialCost={item.materialCost}
+                      disabled={saving}
+                      onOverview={(next) => setOverview(next)}
+                    />
                     {item.pendingWorkDays > 0 && (
                       <p className="text-xs text-amber-700 bg-amber-50 px-5 py-2">
                         {item.pendingWorkDays} gün onay bekliyor — onaylanınca işçi maliyeti{' '}

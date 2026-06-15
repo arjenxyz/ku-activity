@@ -6,7 +6,9 @@ import dayjs from 'dayjs';
 import { ProjectPageHeader } from '@/components/project/ProjectPageHeader';
 import { AlertBanner } from '@/components/project/AlertBanner';
 import { EmployeeSelect } from '@/components/project/EmployeeSelect';
+import { JobSelectField } from '@/components/project/JobSelectField';
 import { useProjectEmployees } from '@/hooks/useProjectEmployees';
+import { useProjectJobs } from '@/hooks/useProjectJobs';
 import { postDeduction } from '@/lib/project-api';
 import { cardClass, labelClass, inputClass, btnPrimary } from '@/components/project/ui';
 
@@ -19,7 +21,9 @@ const DEDUCTION_TYPES = [
 export default function KesintiPage() {
   const { projectId } = useParams() as { projectId: string };
   const { employees, loading: empLoading, error: empError } = useProjectEmployees(projectId);
+  const { jobs } = useProjectJobs(projectId);
   const [employeeId, setEmployeeId] = useState('');
+  const [jobId, setJobId] = useState('');
   const [deductionType, setDeductionType] = useState<(typeof DEDUCTION_TYPES)[number]['value']>(
     'deduction'
   );
@@ -48,10 +52,12 @@ export default function KesintiPage() {
         type: deductionType,
         amount: Number(values.amount),
         description: values.description || undefined,
+        jobId: jobId || null,
       });
       setSuccess('Kesinti kaydı oluşturuldu.');
       setValues({ date: dayjs().format('YYYY-MM-DD'), amount: '', description: '' });
       setEmployeeId('');
+      setJobId('');
       setDeductionType('deduction');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Kayıt başarısız');
@@ -124,6 +130,10 @@ export default function KesintiPage() {
               onChange={(e) => setValues((s) => ({ ...s, description: e.target.value }))}
             />
           </div>
+
+          {jobs.length > 0 && (
+            <JobSelectField jobs={jobs} value={jobId} onChange={setJobId} />
+          )}
 
           <button type="submit" className={btnPrimary} disabled={loading || empLoading}>
             {loading ? 'Kaydediliyor…' : 'Kesinti kaydet'}
