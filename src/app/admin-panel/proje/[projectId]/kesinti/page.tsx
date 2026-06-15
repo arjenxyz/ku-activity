@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { useParams, useSearchParams } from 'next/navigation';
 import dayjs from 'dayjs';
 import { ProjectPageHeader } from '@/components/project/ProjectPageHeader';
 import { AlertBanner } from '@/components/project/AlertBanner';
@@ -20,6 +20,7 @@ const DEDUCTION_TYPES = [
 
 export default function KesintiPage() {
   const { projectId } = useParams() as { projectId: string };
+  const searchParams = useSearchParams();
   const { employees, loading: empLoading, error: empError } = useProjectEmployees(projectId);
   const { jobs } = useProjectJobs(projectId);
   const [employeeId, setEmployeeId] = useState('');
@@ -35,6 +36,13 @@ export default function KesintiPage() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fromUrl = searchParams.get('job');
+    if (fromUrl && jobs.some((j) => j.id === fromUrl)) {
+      setJobId(fromUrl);
+    }
+  }, [searchParams, jobs]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

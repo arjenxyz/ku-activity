@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
+import { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
 import { ProjectPageHeader } from '@/components/project/ProjectPageHeader';
 import { EntryFormCard } from '@/components/project/EntryFormCard';
@@ -15,6 +15,7 @@ import { labelClass, inputClass, cardClass } from '@/components/project/ui';
 
 export default function YevmiyePage() {
   const { projectId } = useParams() as { projectId: string };
+  const searchParams = useSearchParams();
   const { employees, loading: empLoading, error: empError } = useProjectEmployees(projectId);
   const { jobs } = useProjectJobs(projectId);
   const [employeeId, setEmployeeId] = useState('');
@@ -28,6 +29,13 @@ export default function YevmiyePage() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fromUrl = searchParams.get('job');
+    if (fromUrl && jobs.some((j) => j.id === fromUrl)) {
+      setJobId(fromUrl);
+    }
+  }, [searchParams, jobs]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
