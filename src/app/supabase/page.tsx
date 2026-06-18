@@ -3,21 +3,13 @@ import { SupabaseStatusPage } from '@/components/supabase/SupabaseStatusPage';
 import { getKeepaliveStatus } from '@/lib/supabase-keepalive';
 
 export const metadata: Metadata = {
-  title: 'Supabase Durumu | CrewLedger',
-  description: 'Supabase keepalive ve veritabanı bağlantı durumu',
+  title: 'Durum',
+  robots: { index: false, follow: false },
 };
 
 export const dynamic = 'force-dynamic';
 
 export default async function SupabaseStatusRoute() {
   const status = await getKeepaliveStatus();
-
-  return (
-    <SupabaseStatusPage
-      initial={{
-        ...status,
-        checkedAt: new Date().toISOString(),
-      }}
-    />
-  );
+  return <SupabaseStatusPage status={status} />;
 }
