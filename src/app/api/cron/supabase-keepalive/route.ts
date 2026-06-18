@@ -7,9 +7,7 @@ export const maxDuration = 30;
 
 /**
  * Supabase ücretsiz planda ~7 gün hareketsizlikten sonra projeyi duraklatır.
- * Bu endpoint hafif bir DB sorgusu yaparak projeyi "aktif" tutar.
- *
- * Vercel Cron (günde 1) + isteğe bağlı harici ping (6 saatte bir) önerilir.
+ * cron-job.org ile 6–12 saatte bir GET isteği gönderin (Vercel Cron kullanılmaz).
  */
 export async function GET(request: Request) {
   if (!authorizeCronRequest(request)) {
