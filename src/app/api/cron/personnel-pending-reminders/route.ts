@@ -1,18 +1,12 @@
 import { NextResponse } from 'next/server';
+import { authorizeCronRequest } from '@/lib/cron-auth';
 import { createAdminClient } from '@/utils/supabase/admin';
 import { sendPersonnelPendingReminderEmail } from '@/lib/personnel-reminder-email';
 
 export const dynamic = 'force-dynamic';
 
-function authorize(request: Request): boolean {
-  const secret = process.env.CRON_SECRET;
-  if (!secret) return process.env.NODE_ENV === 'development';
-  const header = request.headers.get('authorization');
-  return header === `Bearer ${secret}`;
-}
-
 export async function GET(request: Request) {
-  if (!authorize(request)) {
+  if (!authorizeCronRequest(request)) {
     return NextResponse.json({ error: 'Yetkisiz' }, { status: 401 });
   }
 
