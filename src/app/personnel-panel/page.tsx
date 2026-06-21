@@ -233,14 +233,7 @@ function PersonelPanelContent() {
 
     if (activeTab === 'finance' && stats && employee) {
       return (
-        <PersonnelFinancePanel
-          stats={stats}
-          employeeDailyWage={Number(employee.daily_wage)}
-          advances={advances}
-          otherDeductions={otherDeductions}
-          onPrint={handlePrint}
-          onOpenAsgari={() => goTab('asgari')}
-        />
+        <PersonnelFinancePanel stats={stats} onPrint={handlePrint} />
       );
     }
 

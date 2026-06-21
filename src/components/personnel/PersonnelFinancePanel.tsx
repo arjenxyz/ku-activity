@@ -1,12 +1,7 @@
 'use client';
 
-import { FiCreditCard, FiDollarSign, FiExternalLink, FiPrinter, FiShield, FiXCircle } from 'react-icons/fi';
+import { FiPrinter } from 'react-icons/fi';
 import { formatMoney } from '@/lib/format';
-import type { Deduction } from '@/lib/personnel-stats';
-import { deductionTypeLabel } from '@/lib/personnel-stats';
-import { PersonnelRecordRow, PersonnelSection } from './PersonnelRecordCard';
-import { PersonnelStatGrid } from './PersonnelStatGrid';
-import { formatDate } from '@/lib/format';
 
 type Stats = {
   gross: number;
@@ -16,27 +11,14 @@ type Stats = {
   totalDeduct: number;
   totalMinimum: number;
   net: number;
-  approvedDays: number;
-  pendingDays: number;
 };
 
 type Props = {
   stats: Stats;
-  employeeDailyWage?: number;
-  advances: Deduction[];
-  otherDeductions: Deduction[];
   onPrint?: () => void;
-  onOpenAsgari?: () => void;
 };
 
-export function PersonnelFinancePanel({
-  stats,
-  employeeDailyWage,
-  advances,
-  otherDeductions,
-  onPrint,
-  onOpenAsgari,
-}: Props) {
+export function PersonnelFinancePanel({ stats, onPrint }: Props) {
   const rows = [
     { label: 'Yevmiye (gün × ücret)', value: stats.basePay, tone: 'text-emerald-600' },
     ...(stats.mesaiPay > 0
@@ -84,7 +66,6 @@ export function PersonnelFinancePanel({
               <span className="text-sm text-gray-600 dark:text-gray-300">{row.label}</span>
               <span className={`text-sm font-semibold tabular-nums ${row.tone}`}>
                 {formatMoney(Math.abs(row.value))}
-                {row.value < 0 ? '' : ''}
               </span>
             </li>
           ))}
@@ -96,78 +77,6 @@ export function PersonnelFinancePanel({
           </li>
         </ul>
       </div>
-
-      {onOpenAsgari && (
-        <button
-          type="button"
-          onClick={onOpenAsgari}
-          className="w-full flex items-center justify-between gap-3 rounded-2xl border border-indigo-100 dark:border-indigo-900/50 bg-indigo-50/60 dark:bg-indigo-950/25 px-4 sm:px-5 py-4 text-left hover:bg-indigo-50 dark:hover:bg-indigo-950/40 transition-colors"
-        >
-          <div className="flex items-center gap-3 min-w-0">
-            <FiShield className="w-5 h-5 text-indigo-600 shrink-0" />
-            <div>
-              <p className="text-sm font-semibold text-gray-900 dark:text-white">Asgari ücret detayı</p>
-              <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
-                Dönem tavanı, ödemeler ve tahmini kalan tutar
-              </p>
-            </div>
-          </div>
-          <FiExternalLink className="w-4 h-4 text-indigo-600 shrink-0" />
-        </button>
-      )}
-
-      {employeeDailyWage != null && (
-        <PersonnelStatGrid
-          items={[
-            {
-              label: 'Günlük yevmiye',
-              value: formatMoney(employeeDailyWage),
-              icon: <FiDollarSign className="w-5 h-5 text-blue-600" />,
-              accent: 'bg-blue-50 dark:bg-blue-900/30',
-            },
-            {
-              label: 'Onaylı / Bekleyen',
-              value: `${stats.approvedDays} / ${stats.pendingDays}`,
-              icon: <FiShield className="w-5 h-5 text-emerald-600" />,
-              accent: 'bg-emerald-50 dark:bg-emerald-900/30',
-            },
-          ]}
-        />
-      )}
-
-      <PersonnelSection
-        title="Avanslar"
-        icon={<FiCreditCard className="w-5 h-5 text-amber-600" />}
-        isEmpty={advances.length === 0}
-      >
-        <div>
-          {advances.map((r) => (
-            <PersonnelRecordRow
-              key={r.id}
-              left={formatDate(r.date)}
-              right={formatMoney(Number(r.amount))}
-              sub={r.description || undefined}
-            />
-          ))}
-        </div>
-      </PersonnelSection>
-
-      <PersonnelSection
-        title="Kesintiler"
-        icon={<FiXCircle className="w-5 h-5 text-red-500" />}
-        isEmpty={otherDeductions.length === 0}
-      >
-        <div>
-          {otherDeductions.map((r) => (
-            <PersonnelRecordRow
-              key={r.id}
-              left={formatDate(r.date)}
-              right={formatMoney(Number(r.amount))}
-              sub={r.description || deductionTypeLabel(r.type)}
-            />
-          ))}
-        </div>
-      </PersonnelSection>
     </div>
   );
 }
