@@ -37,6 +37,12 @@ export default function manifest(): MetadataRoute.Manifest {
     ],
     shortcuts: [
       {
+        name: 'QR Yoklama',
+        short_name: 'Yoklama',
+        url: '/personnel-panel/yoklama',
+        icons: [{ src: '/api/pwa-icon/192', sizes: '192x192' }],
+      },
+      {
         name: 'Yönetici Girişi',
         short_name: 'Yönetici',
         url: '/admin-panel/login',

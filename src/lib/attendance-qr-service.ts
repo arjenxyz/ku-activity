@@ -1,21 +1,15 @@
 import { randomBytes } from 'crypto';
 import type { SupabaseClient } from '@supabase/supabase-js';
-import dayjs from 'dayjs';
 import { assertEmployeeTeamHasActiveBlock } from '@/lib/team-work-guard';
 import type { WorkLogRow } from '@/lib/work-log-service';
 
-const SESSION_PREFIX = 'YOK-';
-const PERSONAL_PREFIX = 'PER-';
+const TOKEN_PREFIX = 'YOK-';
 const TOKEN_CHARS = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 
 export function normalizeAttendanceToken(raw: string): string | null {
   const text = raw.trim().toUpperCase();
-  const match = text.match(/(YOK|PER)-[A-Z0-9]{10,14}/);
+  const match = text.match(/YOK-[A-Z0-9]{10,14}/);
   return match ? match[0] : null;
-}
-
-export function isPersonalAttendanceToken(token: string) {
-  return token.toUpperCase().startsWith(PERSONAL_PREFIX);
 }
 
 export function parseAttendanceTokenFromQr(raw: string): string | null {
@@ -51,13 +45,18 @@ function generateTokenBody(length = 12) {
   return out;
 }
 
-export function generateSessionAttendanceToken() {
-  return `${SESSION_PREFIX}${generateTokenBody(12)}`;
+export function generateAttendanceToken() {
+  return `${TOKEN_PREFIX}${generateTokenBody(12)}`;
 }
 
-export function generatePersonalAttendanceToken() {
-  return `${PERSONAL_PREFIX}${generateTokenBody(12)}`;
-}
+export type AttendanceSessionRow = {
+  id: string;
+  project_id: string;
+  work_date: string;
+  status: 'active' | 'completed';
+  started_at: string;
+  completed_at: string | null;
+};
 
 export type AttendanceQrRow = {
   id: string;
@@ -65,16 +64,7 @@ export type AttendanceQrRow = {
   work_date: string;
   token: string;
   is_active: boolean;
-  created_at: string;
-};
-
-export type PersonalAttendanceTokenRow = {
-  id: string;
-  project_id: string;
-  employee_id: string;
-  work_date: string;
-  token: string;
-  is_active: boolean;
+  session_id: string | null;
   created_at: string;
 };
 
@@ -83,73 +73,100 @@ export type AttendanceCheckInRow = {
   employee_id: string;
   employee_name: string;
   created_at: string;
-  work_log_id: string;
-  source: 'session' | 'personal';
+  work_log_id: string | null;
+  yevmiye_kayitli: boolean;
 };
 
-const SESSION_QR_SELECT = 'id, project_id, work_date, token, is_active, created_at';
-const PERSONAL_SELECT =
-  'id, project_id, employee_id, work_date, token, is_active, created_at';
+const SESSION_SELECT = 'id, project_id, work_date, status, started_at, completed_at';
+const QR_SELECT =
+  'id, project_id, work_date, token, is_active, session_id, created_at';
 
-// ─── Usta sıra QR (YOK-) ───────────────────────────────────────────────────
+export async function getActiveSession(
+  admin: SupabaseClient,
+  projectId: string,
+  workDate: string
+): Promise<AttendanceSessionRow | null> {
+  const { data } = await admin
+    .from('attendance_sessions')
+    .select(SESSION_SELECT)
+    .eq('project_id', projectId)
+    .eq('work_date', workDate.slice(0, 10))
+    .eq('status', 'active')
+    .maybeSingle();
+
+  return (data as AttendanceSessionRow | null) ?? null;
+}
+
+export async function getSessionForDate(
+  admin: SupabaseClient,
+  projectId: string,
+  workDate: string
+): Promise<AttendanceSessionRow | null> {
+  const active = await getActiveSession(admin, projectId, workDate);
+  if (active) return active;
+
+  const { data } = await admin
+    .from('attendance_sessions')
+    .select(SESSION_SELECT)
+    .eq('project_id', projectId)
+    .eq('work_date', workDate.slice(0, 10))
+    .eq('status', 'completed')
+    .order('completed_at', { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  return (data as AttendanceSessionRow | null) ?? null;
+}
 
 export async function getActiveAttendanceQr(
   admin: SupabaseClient,
   projectId: string,
   workDate: string
 ): Promise<AttendanceQrRow | null> {
-  const date = workDate.slice(0, 10);
+  const session = await getActiveSession(admin, projectId, workDate);
+  if (!session) return null;
+
   const { data } = await admin
     .from('project_daily_attendance_qr')
-    .select(SESSION_QR_SELECT)
-    .eq('project_id', projectId)
-    .eq('work_date', date)
+    .select(QR_SELECT)
+    .eq('session_id', session.id)
     .eq('is_active', true)
     .maybeSingle();
 
   return (data as AttendanceQrRow | null) ?? null;
 }
 
-async function revokeActiveSessionQrsForDate(
-  admin: SupabaseClient,
-  projectId: string,
-  workDate: string
-) {
+async function revokeSessionQrs(admin: SupabaseClient, sessionId: string) {
   const now = new Date().toISOString();
   await admin
     .from('project_daily_attendance_qr')
     .update({ is_active: false, revoked_at: now })
-    .eq('project_id', projectId)
-    .eq('work_date', workDate.slice(0, 10))
+    .eq('session_id', sessionId)
     .eq('is_active', true);
 }
 
-export async function createActiveAttendanceQr(
+async function insertSessionQr(
   admin: SupabaseClient,
-  params: { projectId: string; workDate: string; createdBy?: string | null }
+  params: {
+    projectId: string;
+    workDate: string;
+    sessionId: string;
+    createdBy?: string | null;
+  }
 ): Promise<AttendanceQrRow> {
-  await revokeActiveSessionQrsForDate(admin, params.projectId, params.workDate);
-  return insertActiveSessionQr(admin, params);
-}
-
-async function insertActiveSessionQr(
-  admin: SupabaseClient,
-  params: { projectId: string; workDate: string; createdBy?: string | null }
-): Promise<AttendanceQrRow> {
-  const workDate = params.workDate.slice(0, 10);
-
   for (let attempt = 0; attempt < 5; attempt++) {
-    const token = generateSessionAttendanceToken();
+    const token = generateAttendanceToken();
     const { data, error } = await admin
       .from('project_daily_attendance_qr')
       .insert({
         project_id: params.projectId,
-        work_date: workDate,
+        work_date: params.workDate.slice(0, 10),
+        session_id: params.sessionId,
         token,
         is_active: true,
         created_by: params.createdBy ?? null,
       })
-      .select(SESSION_QR_SELECT)
+      .select(QR_SELECT)
       .single();
 
     if (!error && data) return data as AttendanceQrRow;
@@ -159,187 +176,82 @@ async function insertActiveSessionQr(
   throw new Error('Yoklama QR kodu oluşturulamadı');
 }
 
-export async function getOrCreateTodayAttendanceQr(
+/** Usta: yoklama oturumunu başlat */
+export async function startAttendanceSession(
   admin: SupabaseClient,
-  params: { projectId: string; workDate: string; createdBy?: string | null }
-): Promise<AttendanceQrRow> {
-  const active = await getActiveAttendanceQr(admin, params.projectId, params.workDate);
-  if (active) return active;
-  return createActiveAttendanceQr(admin, params);
-}
+  params: { projectId: string; workDate: string; startedBy?: string | null }
+): Promise<{ session: AttendanceSessionRow; qr: AttendanceQrRow }> {
+  const workDate = params.workDate.slice(0, 10);
 
-async function loadActiveSessionQrByToken(admin: SupabaseClient, token: string) {
-  const normalized = normalizeAttendanceToken(token);
-  if (!normalized || isPersonalAttendanceToken(normalized)) return null;
+  const existing = await getActiveSession(admin, params.projectId, workDate);
+  if (existing) {
+    const qr = await getActiveAttendanceQr(admin, params.projectId, workDate);
+    if (qr) return { session: existing, qr };
+    const newQr = await insertSessionQr(admin, {
+      projectId: params.projectId,
+      workDate,
+      sessionId: existing.id,
+      createdBy: params.startedBy,
+    });
+    return { session: existing, qr: newQr };
+  }
 
-  const { data } = await admin
-    .from('project_daily_attendance_qr')
-    .select(SESSION_QR_SELECT)
-    .eq('token', normalized)
-    .eq('is_active', true)
-    .maybeSingle();
+  const { data: session, error } = await admin
+    .from('attendance_sessions')
+    .insert({
+      project_id: params.projectId,
+      work_date: workDate,
+      status: 'active',
+      started_by: params.startedBy ?? null,
+    })
+    .select(SESSION_SELECT)
+    .single();
 
-  return (data as AttendanceQrRow | null) ?? null;
-}
+  if (error) throw new Error(error.message);
 
-async function spawnNextSessionQr(admin: SupabaseClient, usedQr: AttendanceQrRow) {
-  return insertActiveSessionQr(admin, {
-    projectId: usedQr.project_id,
-    workDate: usedQr.work_date,
+  const qr = await insertSessionQr(admin, {
+    projectId: params.projectId,
+    workDate,
+    sessionId: session.id,
+    createdBy: params.startedBy,
   });
+
+  return { session: session as AttendanceSessionRow, qr };
 }
 
-// ─── Kişisel kod (PER-) ─────────────────────────────────────────────────────
-
-export async function getActivePersonalToken(
+export async function listSessionCheckIns(
   admin: SupabaseClient,
-  employeeId: string,
-  workDate: string
-): Promise<PersonalAttendanceTokenRow | null> {
-  const { data } = await admin
-    .from('personnel_attendance_tokens')
-    .select(PERSONAL_SELECT)
-    .eq('employee_id', employeeId)
-    .eq('work_date', workDate.slice(0, 10))
-    .eq('is_active', true)
-    .maybeSingle();
-
-  return (data as PersonalAttendanceTokenRow | null) ?? null;
-}
-
-async function revokeActivePersonalTokens(
-  admin: SupabaseClient,
-  employeeId: string,
-  workDate: string
-) {
-  const now = new Date().toISOString();
-  await admin
-    .from('personnel_attendance_tokens')
-    .update({ is_active: false, used_at: now })
-    .eq('employee_id', employeeId)
-    .eq('work_date', workDate.slice(0, 10))
-    .eq('is_active', true);
-}
-
-async function insertPersonalToken(
-  admin: SupabaseClient,
-  params: {
-    projectId: string;
-    employeeId: string;
-    workDate: string;
-    createdBy?: string | null;
-  }
-): Promise<PersonalAttendanceTokenRow> {
-  const workDate = params.workDate.slice(0, 10);
-
-  for (let attempt = 0; attempt < 5; attempt++) {
-    const token = generatePersonalAttendanceToken();
-    const { data, error } = await admin
-      .from('personnel_attendance_tokens')
-      .insert({
-        project_id: params.projectId,
-        employee_id: params.employeeId,
-        work_date: workDate,
-        token,
-        is_active: true,
-        created_by: params.createdBy ?? null,
-      })
-      .select(PERSONAL_SELECT)
-      .single();
-
-    if (!error && data) return data as PersonalAttendanceTokenRow;
-    if (error?.code !== '23505') break;
-  }
-
-  throw new Error('Kişisel yoklama kodu oluşturulamadı');
-}
-
-/** Personel uygulaması: aktif kişisel kod yoksa oluştur */
-export async function getOrCreatePersonalAttendanceToken(
-  admin: SupabaseClient,
-  params: {
-    projectId: string;
-    employeeId: string;
-    workDate: string;
-    createdBy?: string | null;
-  }
-): Promise<PersonalAttendanceTokenRow | null> {
-  const workDate = params.workDate.slice(0, 10);
-  const existing = await findWorkLog(admin, params.employeeId, workDate);
-  if (existing?.approved) return null;
-
-  const active = await getActivePersonalToken(admin, params.employeeId, workDate);
-  if (active) return active;
-
-  return insertPersonalToken(admin, params);
-}
-
-/** Usta: geçmiş gün / unutulan yoklama için yeni kişisel kod */
-export async function regeneratePersonalAttendanceToken(
-  admin: SupabaseClient,
-  params: {
-    projectId: string;
-    employeeId: string;
-    workDate: string;
-    createdBy?: string | null;
-  }
-): Promise<PersonalAttendanceTokenRow> {
-  await revokeActivePersonalTokens(admin, params.employeeId, params.workDate);
-  return insertPersonalToken(admin, params);
-}
-
-async function loadActivePersonalTokenByToken(admin: SupabaseClient, token: string) {
-  const normalized = normalizeAttendanceToken(token);
-  if (!normalized || !isPersonalAttendanceToken(normalized)) return null;
-
-  const { data } = await admin
-    .from('personnel_attendance_tokens')
-    .select(PERSONAL_SELECT)
-    .eq('token', normalized)
-    .eq('is_active', true)
-    .maybeSingle();
-
-  return (data as PersonalAttendanceTokenRow | null) ?? null;
-}
-
-// ─── Ortak ──────────────────────────────────────────────────────────────────
-
-export async function listAttendanceCheckInsForDate(
-  admin: SupabaseClient,
-  projectId: string,
-  workDate: string
+  sessionId: string
 ): Promise<AttendanceCheckInRow[]> {
-  const date = workDate.slice(0, 10);
   const { data, error } = await admin
-    .from('work_logs')
+    .from('attendance_session_checkins')
     .select(
       `
       id,
       employee_id,
-      employee_confirmed_at,
-      description,
+      scanned_at,
+      work_log_id,
       employees!inner(name)
     `
     )
-    .eq('project_id', projectId)
-    .eq('date', date)
-    .not('employee_confirmed_at', 'is', null)
-    .not('admin_confirmed_at', 'is', null)
-    .order('employee_confirmed_at', { ascending: false });
+    .eq('session_id', sessionId)
+    .order('scanned_at', { ascending: false });
 
-  if (error) throw new Error(error.message);
+  if (error) {
+    if (error.message.includes('attendance_session_checkins')) return [];
+    throw new Error(error.message);
+  }
 
   return (data ?? []).map((row) => {
     const emp = row.employees as { name: string } | { name: string }[] | null;
     const name = Array.isArray(emp) ? emp[0]?.name : emp?.name;
-    const desc = (row.description as string | null) ?? '';
     return {
       id: row.id as string,
       employee_id: row.employee_id as string,
       employee_name: name ?? 'Personel',
-      work_log_id: row.id as string,
-      created_at: (row.employee_confirmed_at as string) ?? new Date().toISOString(),
-      source: desc.includes('Kişisel') ? 'personal' : 'session',
+      work_log_id: (row.work_log_id as string | null) ?? null,
+      created_at: row.scanned_at as string,
+      yevmiye_kayitli: Boolean(row.work_log_id),
     };
   });
 }
@@ -358,22 +270,19 @@ async function findWorkLog(
   return (data as WorkLogRow | null) ?? null;
 }
 
-async function upsertApprovedWorkLog(
+async function createApprovedWorkLog(
   admin: SupabaseClient,
   params: {
     projectId: string;
     employeeId: string;
     workDate: string;
-    description: string;
   }
 ): Promise<WorkLogRow> {
   const now = new Date().toISOString();
   const existing = await findWorkLog(admin, params.employeeId, params.workDate);
 
   if (existing?.approved) {
-    throw new Error(
-      `${dayjs(params.workDate).format('DD.MM.YYYY')} için yoklamanız zaten kayıtlı`
-    );
+    return existing;
   }
 
   if (existing) {
@@ -385,7 +294,7 @@ async function upsertApprovedWorkLog(
         employee_confirmed_at: now,
         employee_dispute_note: null,
         employee_disputed_at: null,
-        description: params.description,
+        description: 'QR yoklama',
       })
       .eq('id', existing.id)
       .select('*')
@@ -403,7 +312,7 @@ async function upsertApprovedWorkLog(
       amount: 1,
       mesai_type: 'none',
       mesai_units: 0,
-      description: params.description,
+      description: 'QR yoklama',
       admin_confirmed_at: now,
       employee_confirmed_at: now,
       approved_by: null,
@@ -413,9 +322,8 @@ async function upsertApprovedWorkLog(
 
   if (error) {
     if (error.code === '23505') {
-      throw new Error(
-        `${dayjs(params.workDate).format('DD.MM.YYYY')} için yoklamanız zaten kayıtlı`
-      );
+      const retry = await findWorkLog(admin, params.employeeId, params.workDate);
+      if (retry) return retry;
     }
     throw new Error(error.message);
   }
@@ -423,18 +331,73 @@ async function upsertApprovedWorkLog(
   return data as WorkLogRow;
 }
 
-/** Usta sıra QR — tek kullanımlık, giriş yapan personele yazar */
-async function checkInViaSessionQr(
+async function loadActiveQrByToken(admin: SupabaseClient, token: string) {
+  const normalized = normalizeAttendanceToken(token);
+  if (!normalized) return null;
+
+  const { data } = await admin
+    .from('project_daily_attendance_qr')
+    .select(QR_SELECT)
+    .eq('token', normalized)
+    .eq('is_active', true)
+    .maybeSingle();
+
+  return (data as AttendanceQrRow | null) ?? null;
+}
+
+/** Personel QR okutunca listeye eklenir; yevmiye usta bitirince yazılır */
+export async function scanAttendanceQr(
   admin: SupabaseClient,
   params: { token: string; employeeId: string; projectId: string }
-): Promise<{ workLog: WorkLogRow; workDate: string }> {
-  const qr = await loadActiveSessionQrByToken(admin, params.token);
+): Promise<{ workDate: string; employeeName: string; alreadyListed: boolean }> {
+  const qr = await loadActiveQrByToken(admin, params.token);
   if (!qr) {
-    throw new Error('Geçersiz veya kullanılmış usta QR kodu. Ustadan güncel kodu alın.');
+    throw new Error('Geçersiz veya kullanılmış QR. Ustadan güncel kodu isteyin.');
   }
 
   if (qr.project_id !== params.projectId) {
     throw new Error('Bu QR kodu sizin projenize ait değil');
+  }
+
+  if (!qr.session_id) {
+    throw new Error('Yoklama oturumu aktif değil');
+  }
+
+  const { data: session } = await admin
+    .from('attendance_sessions')
+    .select(SESSION_SELECT)
+    .eq('id', qr.session_id)
+    .eq('status', 'active')
+    .maybeSingle();
+
+  if (!session) {
+    throw new Error('Yoklama oturumu kapalı. Usta yoklamayı bitirmiş olabilir.');
+  }
+
+  await assertEmployeeTeamHasActiveBlock(admin, params.employeeId, params.projectId);
+
+  const { data: employee } = await admin
+    .from('employees')
+    .select('name')
+    .eq('id', params.employeeId)
+    .maybeSingle();
+
+  const employeeName = (employee?.name as string) ?? 'Personel';
+
+  const { data: existingCheckin } = await admin
+    .from('attendance_session_checkins')
+    .select('id')
+    .eq('session_id', qr.session_id)
+    .eq('employee_id', params.employeeId)
+    .maybeSingle();
+
+  if (existingCheckin) {
+    await rotateSessionQr(admin, qr);
+    return {
+      workDate: qr.work_date,
+      employeeName,
+      alreadyListed: true,
+    };
   }
 
   const now = new Date().toISOString();
@@ -447,112 +410,99 @@ async function checkInViaSessionQr(
     .maybeSingle();
 
   if (!claimed) {
-    throw new Error('Geçersiz veya kullanılmış usta QR kodu. Ustadan güncel kodu alın.');
+    throw new Error('Geçersiz veya kullanılmış QR. Ustadan güncel kodu isteyin.');
   }
 
-  await assertEmployeeTeamHasActiveBlock(admin, params.employeeId, params.projectId);
-
-  let workLog: WorkLogRow;
-  try {
-    workLog = await upsertApprovedWorkLog(admin, {
-      projectId: params.projectId,
-      employeeId: params.employeeId,
-      workDate: qr.work_date,
-      description: 'QR yoklama',
-    });
-  } catch (err) {
-    await spawnNextSessionQr(admin, qr);
-    throw err;
-  }
-
-  await admin.from('attendance_qr_checkins').insert({
-    qr_id: qr.id,
+  const { error: checkinError } = await admin.from('attendance_session_checkins').insert({
+    session_id: qr.session_id,
     employee_id: params.employeeId,
-    work_log_id: workLog.id,
   });
 
-  await spawnNextSessionQr(admin, qr);
+  if (checkinError) {
+    if (checkinError.code === '23505') {
+      await rotateSessionQr(admin, qr);
+      return { workDate: qr.work_date, employeeName, alreadyListed: true };
+    }
+    throw new Error(checkinError.message);
+  }
 
-  return { workLog, workDate: qr.work_date };
+  await rotateSessionQr(admin, qr);
+
+  return { workDate: qr.work_date, employeeName, alreadyListed: false };
 }
 
-/** Kişisel kod — yalnızca kod sahibi personelin hesabında geçerli */
-async function checkInViaPersonalToken(
+async function rotateSessionQr(admin: SupabaseClient, usedQr: AttendanceQrRow) {
+  if (!usedQr.session_id) return;
+  await insertSessionQr(admin, {
+    projectId: usedQr.project_id,
+    workDate: usedQr.work_date,
+    sessionId: usedQr.session_id,
+  });
+}
+
+/** Usta: yoklamayı bitir — listedekilerin yevmiyesini yazar */
+export async function completeAttendanceSession(
   admin: SupabaseClient,
-  params: { token: string; employeeId: string; projectId: string }
-): Promise<{ workLog: WorkLogRow; workDate: string }> {
-  const personal = await loadActivePersonalTokenByToken(admin, params.token);
-  if (!personal) {
-    throw new Error('Geçersiz veya kullanılmış kişisel kod.');
+  params: { projectId: string; workDate: string; completedBy?: string | null }
+): Promise<{ count: number; session: AttendanceSessionRow }> {
+  const workDate = params.workDate.slice(0, 10);
+  const session = await getActiveSession(admin, params.projectId, workDate);
+
+  if (!session) {
+    throw new Error('Aktif yoklama oturumu yok');
   }
 
-  if (personal.project_id !== params.projectId) {
-    throw new Error('Bu kod sizin projenize ait değil');
-  }
-
-  if (personal.employee_id !== params.employeeId) {
-    throw new Error('Bu kod size ait değil. Başkasının kodunu kullanamazsınız.');
-  }
-
+  const checkIns = await listSessionCheckIns(admin, session.id);
   const now = new Date().toISOString();
-  const { data: claimed } = await admin
-    .from('personnel_attendance_tokens')
-    .update({ is_active: false, used_at: now })
-    .eq('id', personal.id)
-    .eq('is_active', true)
-    .select('id')
-    .maybeSingle();
+  let count = 0;
 
-  if (!claimed) {
-    throw new Error('Geçersiz veya kullanılmış kişisel kod.');
+  for (const checkIn of checkIns) {
+    if (checkIn.work_log_id) {
+      count += 1;
+      continue;
+    }
+
+    const workLog = await createApprovedWorkLog(admin, {
+      projectId: params.projectId,
+      employeeId: checkIn.employee_id,
+      workDate,
+    });
+
+    await admin
+      .from('attendance_session_checkins')
+      .update({ work_log_id: workLog.id })
+      .eq('id', checkIn.id);
+
+    count += 1;
   }
 
-  await assertEmployeeTeamHasActiveBlock(admin, params.employeeId, params.projectId);
+  await revokeSessionQrs(admin, session.id);
 
-  const workLog = await upsertApprovedWorkLog(admin, {
-    projectId: params.projectId,
-    employeeId: params.employeeId,
-    workDate: personal.work_date,
-    description: 'Kişisel kod yoklama',
-  });
+  const { data: completed, error } = await admin
+    .from('attendance_sessions')
+    .update({
+      status: 'completed',
+      completed_at: now,
+      completed_by: params.completedBy ?? null,
+    })
+    .eq('id', session.id)
+    .select(SESSION_SELECT)
+    .single();
 
-  await admin.from('personnel_attendance_checkins').insert({
-    token_id: personal.id,
-    employee_id: params.employeeId,
-    work_log_id: workLog.id,
-  });
+  if (error) throw new Error(error.message);
 
-  return { workLog, workDate: personal.work_date };
+  return { count, session: completed as AttendanceSessionRow };
 }
 
+// Geriye dönük export
 export async function checkInViaAttendanceQr(
   admin: SupabaseClient,
   params: { token: string; employeeId: string; projectId: string }
-): Promise<{ workLog: WorkLogRow; workDate: string }> {
-  const normalized = normalizeAttendanceToken(params.token);
-  if (!normalized) {
-    throw new Error('Geçersiz yoklama kodu');
-  }
-
-  if (isPersonalAttendanceToken(normalized)) {
-    return checkInViaPersonalToken(admin, { ...params, token: normalized });
-  }
-
-  return checkInViaSessionQr(admin, { ...params, token: normalized });
-}
-
-// Geriye dönük uyumluluk
-export function generateAttendanceToken() {
-  return generateSessionAttendanceToken();
+) {
+  const result = await scanAttendanceQr(admin, params);
+  return { workDate: result.workDate, alreadyListed: result.alreadyListed };
 }
 
 export async function loadActiveAttendanceQrByToken(admin: SupabaseClient, token: string) {
-  return loadActiveSessionQrByToken(admin, token);
-}
-
-export async function getOrCreateDailyAttendanceQr(
-  admin: SupabaseClient,
-  params: { projectId: string; workDate: string; createdBy?: string | null }
-) {
-  return getOrCreateTodayAttendanceQr(admin, params);
+  return loadActiveQrByToken(admin, token);
 }

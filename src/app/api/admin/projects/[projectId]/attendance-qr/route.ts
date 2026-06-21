@@ -4,51 +4,52 @@ import { requireAdminProjectAccess } from '@/lib/admin-auth';
 import { createAdminClient } from '@/utils/supabase/admin';
 import {
   buildAttendanceQrUrl,
-  createActiveAttendanceQr,
   getActiveAttendanceQr,
-  getOrCreateTodayAttendanceQr,
-  listAttendanceCheckInsForDate,
+  getSessionForDate,
+  listSessionCheckIns,
+  startAttendanceSession,
 } from '@/lib/attendance-qr-service';
 import { apiErrorMessage } from '@/lib/project-queries';
 
 type Ctx = { params: Promise<{ projectId: string }> };
 
-function serializeQr(qr: { id: string; project_id: string; work_date: string; token: string; created_at: string }, origin: string) {
-  return {
-    ...qr,
-    url: buildAttendanceQrUrl(qr.token, origin),
-  };
+function serializeQr(
+  qr: {
+    id: string;
+    project_id: string;
+    work_date: string;
+    token: string;
+    created_at: string;
+  },
+  origin: string
+) {
+  return { ...qr, url: buildAttendanceQrUrl(qr.token, origin) };
 }
 
 export async function GET(request: Request, ctx: Ctx) {
   try {
     const { projectId } = await ctx.params;
-    const user = await requireAdminProjectAccess(projectId);
+    await requireAdminProjectAccess(projectId);
     const { searchParams } = new URL(request.url);
     const workDate =
       searchParams.get('date')?.slice(0, 10) ?? dayjs().format('YYYY-MM-DD');
     const today = dayjs().format('YYYY-MM-DD');
-    const isToday = workDate === today;
 
     const admin = createAdminClient();
-    let qr = await getActiveAttendanceQr(admin, projectId, workDate);
-
-    if (!qr && isToday) {
-      qr = await getOrCreateTodayAttendanceQr(admin, {
-        projectId,
-        workDate,
-        createdBy: user.id,
-      });
-    }
-
-    const checkIns = await listAttendanceCheckInsForDate(admin, projectId, workDate);
+    const session = await getSessionForDate(admin, projectId, workDate);
+    const qr =
+      session?.status === 'active'
+        ? await getActiveAttendanceQr(admin, projectId, workDate)
+        : null;
+    const checkIns = session ? await listSessionCheckIns(admin, session.id) : [];
     const origin = new URL(request.url).origin;
 
     return NextResponse.json({
+      session,
       qr: qr ? serializeQr(qr, origin) : null,
       checkIns,
-      isToday,
-      canCreateNew: !isToday || !qr,
+      isToday: workDate === today,
+      canStart: !session || session.status === 'completed',
     });
   } catch (err) {
     const { status, message } = apiErrorMessage(err);
@@ -56,7 +57,7 @@ export async function GET(request: Request, ctx: Ctx) {
   }
 }
 
-/** Geçmiş günler: sınırsız yeni QR. Bugün: yalnızca henüz QR yoksa. */
+/** Yoklama oturumunu başlat */
 export async function POST(request: Request, ctx: Ctx) {
   try {
     const { projectId } = await ctx.params;
@@ -65,37 +66,23 @@ export async function POST(request: Request, ctx: Ctx) {
     const workDate =
       (typeof body.date === 'string' ? body.date.slice(0, 10) : null) ??
       dayjs().format('YYYY-MM-DD');
-    const today = dayjs().format('YYYY-MM-DD');
-    const isToday = workDate === today;
 
     const admin = createAdminClient();
-
-    if (isToday) {
-      const existing = await getActiveAttendanceQr(admin, projectId, workDate);
-      if (existing) {
-        return NextResponse.json(
-          {
-            error:
-              'Bugün için QR zaten oluşturuldu. Her personel okutunca QR ve kod otomatik yenilenir.',
-          },
-          { status: 400 }
-        );
-      }
-    }
-
-    const qr = await createActiveAttendanceQr(admin, {
+    const { session, qr } = await startAttendanceSession(admin, {
       projectId,
       workDate,
-      createdBy: user.id,
+      startedBy: user.id,
     });
-    const checkIns = await listAttendanceCheckInsForDate(admin, projectId, workDate);
+    const checkIns = await listSessionCheckIns(admin, session.id);
     const origin = new URL(request.url).origin;
+    const today = dayjs().format('YYYY-MM-DD');
 
     return NextResponse.json({
+      session,
       qr: serializeQr(qr, origin),
       checkIns,
-      isToday,
-      canCreateNew: !isToday,
+      isToday: workDate === today,
+      canStart: false,
     });
   } catch (err) {
     const { status, message } = apiErrorMessage(err);

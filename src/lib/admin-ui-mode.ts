@@ -24,9 +24,9 @@ export function getSimpleMenuLinks(projectId: string): ProjectMenuLink[] {
   const id = projectId;
   return [
     {
-      label: 'Yoklama QR',
+      label: 'Yoklama',
       href: () => `/admin-panel/proje/${id}/yevmiye`,
-      hint: 'Günlük QR oluştur, mesai ekle',
+      hint: 'QR ile günlük yoklama',
     },
     {
       label: 'Avans',

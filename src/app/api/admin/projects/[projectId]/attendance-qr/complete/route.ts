@@ -4,7 +4,9 @@ import { requireAdminProjectAccess } from '@/lib/admin-auth';
 import { createAdminClient } from '@/utils/supabase/admin';
 import {
   buildAttendanceQrUrl,
-  regeneratePersonalAttendanceToken,
+  completeAttendanceSession,
+  getActiveAttendanceQr,
+  listSessionCheckIns,
 } from '@/lib/attendance-qr-service';
 import { apiErrorMessage } from '@/lib/project-queries';
 
@@ -15,44 +17,32 @@ export async function POST(request: Request, ctx: Ctx) {
     const { projectId } = await ctx.params;
     const user = await requireAdminProjectAccess(projectId);
     const body = await request.json().catch(() => ({}));
-    const employeeId = typeof body.employeeId === 'string' ? body.employeeId : '';
     const workDate =
       (typeof body.date === 'string' ? body.date.slice(0, 10) : null) ??
       dayjs().format('YYYY-MM-DD');
 
-    if (!employeeId) {
-      return NextResponse.json({ error: 'Personel seçin' }, { status: 400 });
-    }
-
     const admin = createAdminClient();
-
-    const { data: employee } = await admin
-      .from('employees')
-      .select('id, name, project_id')
-      .eq('id', employeeId)
-      .eq('project_id', projectId)
-      .maybeSingle();
-
-    if (!employee) {
-      return NextResponse.json({ error: 'Personel bulunamadı' }, { status: 404 });
-    }
-
-    const personal = await regeneratePersonalAttendanceToken(admin, {
+    const { count, session } = await completeAttendanceSession(admin, {
       projectId,
-      employeeId,
       workDate,
-      createdBy: user.id,
+      completedBy: user.id,
     });
 
+    const checkIns = await listSessionCheckIns(admin, session.id);
+    const qr = await getActiveAttendanceQr(admin, projectId, workDate);
     const origin = new URL(request.url).origin;
+    const today = dayjs().format('YYYY-MM-DD');
 
     return NextResponse.json({
-      employee: { id: employee.id, name: employee.name },
-      personal: {
-        token: personal.token,
-        url: buildAttendanceQrUrl(personal.token, origin),
-        work_date: personal.work_date,
-      },
+      session,
+      qr: qr
+        ? { ...qr, url: buildAttendanceQrUrl(qr.token, origin) }
+        : null,
+      checkIns,
+      count,
+      message: `${count} personel için tam gün yevmiye kaydedildi.`,
+      isToday: workDate === today,
+      canStart: true,
     });
   } catch (err) {
     const { status, message } = apiErrorMessage(err);

@@ -31,9 +31,7 @@ import { PersonnelTabNav } from '@/components/personnel/PersonnelTabNav';
 import { PersonnelSection } from '@/components/personnel/PersonnelRecordCard';
 import { PersonnelFinancePanel } from '@/components/personnel/PersonnelFinancePanel';
 import { PersonnelAsgariPanel } from '@/components/personnel/PersonnelAsgariPanel';
-import { PersonnelBottomNav } from '@/components/personnel/PersonnelBottomNav';
 import { PersonnelPullToRefresh } from '@/components/personnel/PersonnelPullToRefresh';
-import { PersonnelPwaInstallBanner } from '@/components/personnel/PersonnelPwaInstallBanner';
 import { PersonnelTrustFooter } from '@/components/personnel/PersonnelTrustFooter';
 import { PersonnelWorkLogItem } from '@/components/personnel/PersonnelWorkLogItem';
 import { usePersonnelDashboard } from '@/hooks/usePersonnelDashboard';
@@ -51,16 +49,6 @@ const DESKTOP_TABS = [
   { id: 'finance', label: 'Finans', icon: <FiDollarSign className="w-4 h-4" /> },
   { id: 'rights', label: 'Haklarım', icon: <FiBookOpen className="w-4 h-4" /> },
   { id: 'settings', label: 'Ayarlar', icon: <FiSettings className="w-4 h-4" /> },
-];
-
-const MOBILE_TABS = [
-  { id: 'overview', label: 'Özet', icon: <FiList /> },
-  { id: 'work', label: 'Yevmiye', icon: <FiBriefcase /> },
-  { id: 'mesai', label: 'Mesai', icon: <FiClock /> },
-  { id: 'asgari', label: 'Asgari', icon: <FiShield /> },
-  { id: 'finance', label: 'Finans', icon: <FiDollarSign /> },
-  { id: 'rights', label: 'Haklar', icon: <FiBookOpen /> },
-  { id: 'settings', label: 'Ayarlar', icon: <FiSettings /> },
 ];
 
 function PersonelPanelContent() {
@@ -135,18 +123,6 @@ function PersonelPanelContent() {
     : [];
 
   const tabsWithBadges = DESKTOP_TABS.map((tab) => ({
-    ...tab,
-    badge:
-      tab.id === 'work' && pendingEmployeeCount > 0
-        ? pendingEmployeeCount
-        : tab.id === 'asgari' &&
-            asgariData?.gap.paymentStatus &&
-            (asgariData.gap.paymentStatus === 'open' || asgariData.gap.paymentStatus === 'partial')
-          ? 1
-          : undefined,
-  }));
-
-  const mobileTabsWithBadges = MOBILE_TABS.map((tab) => ({
     ...tab,
     badge:
       tab.id === 'work' && pendingEmployeeCount > 0
@@ -267,8 +243,6 @@ function PersonelPanelContent() {
 
     return (
       <div className="space-y-4 sm:space-y-6">
-        <PersonnelPwaInstallBanner />
-
         <PersonnelAlertBar
           pendingApprovals={pendingEmployeeCount}
           pendingAdminDays={pendingAdminCount}
@@ -346,29 +320,22 @@ function PersonelPanelContent() {
             if (loadAsgari) await reloadAsgari();
           }}
         >
-          <div className="pb-20 sm:pb-0 no-print">
-            <div className="mb-6 no-print">
-              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white tracking-tight">
+          <div className="no-print">
+            <div className="mb-4 sm:mb-6 no-print">
+              <h1 className="text-xl sm:text-3xl font-bold text-gray-900 dark:text-white tracking-tight">
                 Hoş geldiniz{employee ? `, ${employee.name.split(' ')[0]}` : ''}
               </h1>
               <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                Puantaj onayları, proje bilgisi ve maaş özetiniz tek panelde.
+                Puantaj, yoklama ve maaş özeti tek panelde.
               </p>
             </div>
 
-            <div className="hidden sm:block mb-6 no-print">
+            <div className="mb-4 sm:mb-6 no-print">
               <PersonnelTabNav tabs={tabsWithBadges} active={activeTab} onChange={goTab} />
             </div>
             {renderContent()}
           </div>
         </PersonnelPullToRefresh>
-
-        <PersonnelBottomNav
-          tabs={mobileTabsWithBadges}
-          active={activeTab}
-          onChange={goTab}
-          className="no-print"
-        />
       </PersonnelShell>
 
       {activeTab === 'finance' && employee && stats && (

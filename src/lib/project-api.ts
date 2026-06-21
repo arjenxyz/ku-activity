@@ -52,6 +52,14 @@ export async function fetchProjectSummary(projectId: string) {
 }
 
 export type AttendanceQrPayload = {
+  session: {
+    id: string;
+    project_id: string;
+    work_date: string;
+    status: 'active' | 'completed';
+    started_at: string;
+    completed_at: string | null;
+  } | null;
   qr: {
     id: string;
     project_id: string;
@@ -64,12 +72,14 @@ export type AttendanceQrPayload = {
     id: string;
     employee_id: string;
     employee_name: string;
-    work_log_id: string;
+    work_log_id: string | null;
     created_at: string;
-    source?: 'session' | 'personal';
+    yevmiye_kayitli: boolean;
   }>;
   isToday: boolean;
-  canCreateNew: boolean;
+  canStart: boolean;
+  count?: number;
+  message?: string;
 };
 
 export async function fetchAttendanceQr(projectId: string, date?: string) {
@@ -79,7 +89,7 @@ export async function fetchAttendanceQr(projectId: string, date?: string) {
   return (await res.json()) as AttendanceQrPayload;
 }
 
-export async function createAttendanceQr(projectId: string, date: string) {
+export async function startAttendanceSession(projectId: string, date: string) {
   const res = await fetch(`/api/admin/projects/${projectId}/attendance-qr`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -89,27 +99,14 @@ export async function createAttendanceQr(projectId: string, date: string) {
   return (await res.json()) as AttendanceQrPayload;
 }
 
-export type PersonalAttendanceAdminPayload = {
-  employee: { id: string; name: string };
-  personal: {
-    token: string;
-    url: string;
-    work_date: string;
-  };
-};
-
-export async function createPersonalAttendanceCode(
-  projectId: string,
-  employeeId: string,
-  date: string
-) {
-  const res = await fetch(`/api/admin/projects/${projectId}/attendance-qr/personal`, {
+export async function completeAttendanceSession(projectId: string, date: string) {
+  const res = await fetch(`/api/admin/projects/${projectId}/attendance-qr/complete`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ employeeId, date }),
+    body: JSON.stringify({ date }),
   });
   if (!res.ok) throw new Error(await parseError(res));
-  return (await res.json()) as PersonalAttendanceAdminPayload;
+  return (await res.json()) as AttendanceQrPayload;
 }
 
 export async function postWorkLog(

@@ -2,8 +2,7 @@ import { NextResponse } from 'next/server';
 import dayjs from 'dayjs';
 import { createAdminClient } from '@/utils/supabase/admin';
 import { requirePersonnelSession } from '@/lib/personnel-auth';
-import { checkInViaAttendanceQr } from '@/lib/attendance-qr-service';
-import { getWorkLogApprovalStatus } from '@/lib/work-log';
+import { scanAttendanceQr } from '@/lib/attendance-qr-service';
 
 export async function POST(request: Request) {
   try {
@@ -16,22 +15,30 @@ export async function POST(request: Request) {
     }
 
     const admin = createAdminClient();
-    const { workLog, workDate } = await checkInViaAttendanceQr(admin, {
+    const result = await scanAttendanceQr(admin, {
       token,
       employeeId: session.employeeId,
       projectId: session.projectId,
     });
 
-    const dateLabel = dayjs(workDate).format('DD.MM.YYYY');
-    const isToday = workDate === dayjs().format('YYYY-MM-DD');
+    const dateLabel = dayjs(result.workDate).format('DD.MM.YYYY');
+    const isToday = result.workDate === dayjs().format('YYYY-MM-DD');
+
+    let message: string;
+    if (result.alreadyListed) {
+      message = isToday
+        ? 'Zaten yoklama listesindesiniz. Usta yoklamayı bitirince tam gün kaydedilecek.'
+        : `${dateLabel} için zaten listedesiniz.`;
+    } else {
+      message = isToday
+        ? 'Yoklama listesine eklendiniz. Usta bitirince tam gün yevmiye yazılacak.'
+        : `${dateLabel} günü için yoklama listesine eklendiniz.`;
+    }
 
     return NextResponse.json({
       ok: true,
-      record: workLog,
-      status: getWorkLogApprovalStatus(workLog),
-      message: isToday
-        ? 'Yoklama kaydedildi — bugün tam gün çalışıldı.'
-        : `${dateLabel} günü için yoklama kaydedildi.`,
+      alreadyListed: result.alreadyListed,
+      message,
     });
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Yoklama kaydedilemedi';
