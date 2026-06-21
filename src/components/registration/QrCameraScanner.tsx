@@ -8,6 +8,9 @@ import { parseRegistrationCodeFromQr } from '@/lib/parse-registration-qr';
 type Props = {
   onScan: (code: string) => void;
   disabled?: boolean;
+  /** Varsayılan: başvuru kodu. Yoklama için parseAttendanceTokenFromQr verin. */
+  parseQr?: (raw: string) => string | null;
+  invalidQrMessage?: string;
 };
 
 function isLikelyDesktop() {
@@ -97,7 +100,12 @@ function mapCameraError(msg: string) {
   return 'Kamera açılamadı. Farklı tarayıcı deneyin, QR görseli yükleyin veya kodu elle girin.';
 }
 
-export function QrCameraScanner({ onScan, disabled }: Props) {
+export function QrCameraScanner({
+  onScan,
+  disabled,
+  parseQr,
+  invalidQrMessage = 'Görselde geçerli başvuru QR kodu bulunamadı.',
+}: Props) {
   const regionId = useId().replace(/:/g, '');
   const scannerRef = useRef<Html5Qrcode | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -109,12 +117,13 @@ export function QrCameraScanner({ onScan, disabled }: Props) {
 
   const handleDecoded = useCallback(
     (decoded: string) => {
-      const code = parseRegistrationCodeFromQr(decoded);
+      const parser = parseQr ?? parseRegistrationCodeFromQr;
+      const code = parser(decoded);
       if (!code) return false;
       onScan(code);
       return true;
     },
-    [onScan]
+    [onScan, parseQr]
   );
 
   const releaseScanner = useCallback(async () => {
@@ -260,7 +269,7 @@ export function QrCameraScanner({ onScan, disabled }: Props) {
     try {
       const decoded = await scanner.scanFile(file, false);
       if (!handleDecoded(decoded)) {
-        setError('Görselde geçerli başvuru QR kodu bulunamadı.');
+        setError(invalidQrMessage);
       }
     } catch (e) {
       const msg = e instanceof Error ? e.message : 'QR okunamadı';

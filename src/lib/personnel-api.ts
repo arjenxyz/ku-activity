@@ -141,6 +141,34 @@ export async function disputePersonnelWorkLog(recordId: string, note: string) {
   return res.json();
 }
 
+export async function scanAttendanceQr(token: string) {
+  const res = await personnelFetch('/api/personnel/attendance-qr/scan', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ token }),
+  });
+  if (!res.ok) throw new Error(await parseError(res));
+  return res.json() as Promise<{ ok: boolean; message?: string; status: WorkLogApprovalStatus }>;
+}
+
+export type PersonalAttendancePayload = {
+  workDate: string;
+  alreadyCheckedIn: boolean;
+  status?: WorkLogApprovalStatus;
+  personal: {
+    token: string;
+    url: string;
+    work_date: string;
+  } | null;
+};
+
+export async function fetchPersonalAttendanceCode(date?: string) {
+  const q = date ? `?date=${encodeURIComponent(date)}` : '';
+  const res = await personnelFetch(`/api/personnel/attendance-qr/me${q}`);
+  if (!res.ok) throw new Error(await parseError(res));
+  return res.json() as Promise<PersonalAttendancePayload>;
+}
+
 export async function changePersonnelPassword(currentPassword: string, newPassword: string) {
   const res = await personnelFetch('/api/personnel/change-password', {
     method: 'POST',

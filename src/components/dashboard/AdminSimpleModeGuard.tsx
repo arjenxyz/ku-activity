@@ -30,7 +30,7 @@ export function AdminSimpleModeGuard({
       </p>
       <AlertBanner
         type="warning"
-        message="Basit modda yalnızca yoklama, yevmiye, avans ve onay sayfalarına erişilir."
+        message="Basit modda yoklama QR, avans ve itiraz sayfalarına erişilir."
       />
       <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
         <AdminUiModeToggle />

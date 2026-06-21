@@ -24,24 +24,14 @@ export function getSimpleMenuLinks(projectId: string): ProjectMenuLink[] {
   const id = projectId;
   return [
     {
-      label: 'Günlük yoklama',
-      href: () => `/admin-panel/proje/${id}`,
-      hint: 'Personel onayı ve mesai',
-    },
-    {
-      label: 'Yevmiye',
+      label: 'Yoklama QR',
       href: () => `/admin-panel/proje/${id}/yevmiye`,
-      hint: 'Gün ve mesai kaydı',
+      hint: 'Günlük QR oluştur, mesai ekle',
     },
     {
       label: 'Avans',
       href: () => `/admin-panel/proje/${id}/avans`,
       hint: 'Avans ekleme',
-    },
-    {
-      label: 'Bekleyen onaylar',
-      href: () => `/admin-panel/proje/${id}/raporlar/onaysiz`,
-      hint: 'Personelin onaylamadığı günler',
     },
     {
       label: 'Personel itirazları',
@@ -52,10 +42,8 @@ export function getSimpleMenuLinks(projectId: string): ProjectMenuLink[] {
 }
 
 const SIMPLE_PROJECT_SUFFIXES = [
-  '',
   '/yevmiye',
   '/avans',
-  '/raporlar/onaysiz',
   '/itirazlar',
 ] as const;
 

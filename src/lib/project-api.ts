@@ -51,6 +51,67 @@ export async function fetchProjectSummary(projectId: string) {
   return res.json();
 }
 
+export type AttendanceQrPayload = {
+  qr: {
+    id: string;
+    project_id: string;
+    work_date: string;
+    token: string;
+    url: string;
+    created_at: string;
+  } | null;
+  checkIns: Array<{
+    id: string;
+    employee_id: string;
+    employee_name: string;
+    work_log_id: string;
+    created_at: string;
+    source?: 'session' | 'personal';
+  }>;
+  isToday: boolean;
+  canCreateNew: boolean;
+};
+
+export async function fetchAttendanceQr(projectId: string, date?: string) {
+  const q = date ? `?date=${encodeURIComponent(date)}` : '';
+  const res = await fetch(`/api/admin/projects/${projectId}/attendance-qr${q}`);
+  if (!res.ok) throw new Error(await parseError(res));
+  return (await res.json()) as AttendanceQrPayload;
+}
+
+export async function createAttendanceQr(projectId: string, date: string) {
+  const res = await fetch(`/api/admin/projects/${projectId}/attendance-qr`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ date }),
+  });
+  if (!res.ok) throw new Error(await parseError(res));
+  return (await res.json()) as AttendanceQrPayload;
+}
+
+export type PersonalAttendanceAdminPayload = {
+  employee: { id: string; name: string };
+  personal: {
+    token: string;
+    url: string;
+    work_date: string;
+  };
+};
+
+export async function createPersonalAttendanceCode(
+  projectId: string,
+  employeeId: string,
+  date: string
+) {
+  const res = await fetch(`/api/admin/projects/${projectId}/attendance-qr/personal`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ employeeId, date }),
+  });
+  if (!res.ok) throw new Error(await parseError(res));
+  return (await res.json()) as PersonalAttendanceAdminPayload;
+}
+
 export async function postWorkLog(
   projectId: string,
   body: {

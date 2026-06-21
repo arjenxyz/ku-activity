@@ -1,23 +1,16 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import { FiCheckCircle, FiClock } from 'react-icons/fi';
-import {
-  approvalStatusLabel,
-  formatWorkLogSummary,
-  type WorkLogApprovalStatus,
-} from '@/lib/work-log';
-import { confirmPersonnelAttendance, fetchPersonnelTodayAttendance } from '@/lib/personnel-api';
+import Link from 'next/link';
+import { FiCheckCircle, FiClock, FiMaximize2 } from 'react-icons/fi';
+import { formatWorkLogSummary } from '@/lib/work-log';
+import { fetchPersonnelTodayAttendance } from '@/lib/personnel-api';
 
 export function PersonnelTodayAttendance() {
   const [loading, setLoading] = useState(true);
-  const [confirming, setConfirming] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [status, setStatus] = useState<WorkLogApprovalStatus>('none');
-  const [workLog, setWorkLog] = useState<{
-    amount: number;
-    mesai_type: string;
-  } | null>(null);
+  const [status, setStatus] = useState<string>('none');
+  const [workLog, setWorkLog] = useState<{ amount: number; mesai_type: string } | null>(null);
   const [project, setProject] = useState<{
     name: string;
     workStartTime: string | null;
@@ -43,21 +36,6 @@ export function PersonnelTodayAttendance() {
     void load();
   }, [load]);
 
-  const handleConfirm = async () => {
-    setConfirming(true);
-    setError(null);
-    try {
-      const result = await confirmPersonnelAttendance();
-      setStatus(result.status);
-      setWorkLog(result.record);
-      await load();
-    } catch (e) {
-      setError(e instanceof Error ? e.message : 'Onay kaydedilemedi');
-    } finally {
-      setConfirming(false);
-    }
-  };
-
   const formatTime = (t: string | null | undefined) => (t ? t.slice(0, 5) : '—');
 
   if (loading) {
@@ -66,13 +44,7 @@ export function PersonnelTodayAttendance() {
     );
   }
 
-  const canConfirm = status === 'none';
   const isConfirmed = status === 'confirmed';
-
-  // Yönetici kaydı veya itiraz — onay kutusunda gösterilir, çift UI olmasın
-  if (status === 'pending_employee' || status === 'disputed') {
-    return null;
-  }
 
   return (
     <div className="rounded-2xl border border-blue-100 dark:border-blue-900/50 bg-gradient-to-br from-blue-50/80 to-white dark:from-slate-800 dark:to-slate-900 p-4 sm:p-5 shadow-sm">
@@ -95,35 +67,26 @@ export function PersonnelTodayAttendance() {
         )}
       </div>
 
-      <p className="text-sm font-medium text-slate-800 dark:text-slate-100 mt-3">
-        {approvalStatusLabel(status)}
-      </p>
+        <p className="text-sm font-medium text-slate-800 dark:text-slate-100 mt-3">
+          {isConfirmed ? 'Bugün tam gün kayıtlısınız' : 'Yoklama bekleniyor'}
+        </p>
 
       {workLog && (
         <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
-          Kayıt: {formatWorkLogSummary(workLog.amount, workLog.mesai_type)}
+          {formatWorkLogSummary(workLog.amount, workLog.mesai_type)}
         </p>
       )}
 
       {error && <p className="text-xs text-red-600 mt-2">{error}</p>}
 
-      {canConfirm && (
-        <button
-          type="button"
-          onClick={handleConfirm}
-          disabled={confirming}
-          className="mt-4 w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold disabled:opacity-50"
+      {!isConfirmed && (
+        <Link
+          href="/personnel-panel/yoklama"
+          className="mt-4 w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold"
         >
-          {confirming
-            ? 'Kaydediliyor…'
-            : 'Bugün çalıştım (bildir)'}
-        </button>
-      )}
-
-      {status === 'pending_admin' && (
-        <p className="text-xs text-amber-700 dark:text-amber-300 mt-3">
-          Bildiriminiz alındı. Yönetici onayından sonra gün kesinleşir.
-        </p>
+          <FiMaximize2 className="w-4 h-4" />
+          QR ile yoklama
+        </Link>
       )}
     </div>
   );
