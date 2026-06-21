@@ -36,12 +36,14 @@ export function PersonnelContractsSection() {
 
   if (!contracts.length) {
     return (
-      <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5">
-        <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide flex items-center gap-2 mb-2">
-          <FiFileText className="w-4 h-4" />
-          Sözleşmelerim
-        </p>
-        <p className="text-sm text-slate-500">Kayıtlı sözleşme onayınız bulunmuyor.</p>
+      <div className="rounded-2xl border border-slate-200/80 dark:border-slate-700 bg-white dark:bg-slate-800 overflow-hidden shadow-sm">
+        <div className="px-4 py-3 border-b border-slate-100 dark:border-slate-700/80 bg-slate-50/80 dark:bg-slate-800/50">
+          <p className="text-xs font-semibold text-slate-600 dark:text-slate-300 uppercase tracking-wide flex items-center gap-2">
+            <FiFileText className="w-4 h-4 text-blue-600" />
+            Sözleşmelerim
+          </p>
+        </div>
+        <p className="px-4 py-4 text-sm text-slate-500">Onayladığınız sözleşme bulunmuyor.</p>
       </div>
     );
   }
@@ -51,7 +53,7 @@ export function PersonnelContractsSection() {
       <div className="px-4 py-3 border-b border-slate-100 dark:border-slate-700/80 bg-slate-50/80 dark:bg-slate-800/50">
         <p className="text-xs font-semibold text-slate-600 dark:text-slate-300 uppercase tracking-wide flex items-center gap-2">
           <FiFileText className="w-4 h-4 text-blue-600" />
-          Sözleşmelerim ({contracts.length})
+          Sözleşmelerim{contracts.length > 0 ? ` (${contracts.length})` : ''}
         </p>
       </div>
       <ul className="divide-y divide-slate-100 dark:divide-slate-700/80">

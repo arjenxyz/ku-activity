@@ -244,7 +244,7 @@ function PersonelPanelContent() {
     }
 
     if (activeTab === 'rights') {
-      return <PersonnelRightsPanel workLogs={workLogs} />;
+      return <PersonnelRightsPanel />;
     }
 
     if (activeTab === 'settings' && employee) {
