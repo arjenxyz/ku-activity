@@ -43,6 +43,65 @@ export function AdminMenuBrandBar({ onNavigate, onClose, showClose }: BrandProps
   );
 }
 
+type MobileHeaderProps = {
+  project?: Project | null;
+  projectId?: string | null;
+  onClose: () => void;
+  onSettings?: () => void;
+};
+
+/** Mobil drawer — sadece proje adı, marka tekrarı yok */
+export function AdminMobileDrawerHeader({
+  project,
+  projectId,
+  onClose,
+  onSettings,
+}: MobileHeaderProps) {
+  return (
+    <div className="shrink-0 flex items-center gap-2 px-3 h-14 border-b border-slate-200 bg-white">
+      <div className="min-w-0 flex-1">
+        {project && projectId ? (
+          <>
+            <Link
+              href={`/admin-panel/proje/${projectId}`}
+              onClick={onClose}
+              className="block font-semibold text-slate-900 truncate text-[15px] leading-tight"
+            >
+              {project.name}
+            </Link>
+            <div className="mt-0.5 flex items-center gap-2 min-w-0">
+              <ProjectStatusBadge status={project.status} />
+              {project.location && (
+                <span className="text-[11px] text-slate-500 truncate">{project.location}</span>
+              )}
+            </div>
+          </>
+        ) : (
+          <p className="font-semibold text-slate-900">Menü</p>
+        )}
+      </div>
+      {onSettings && (
+        <button
+          type="button"
+          onClick={onSettings}
+          className="shrink-0 flex items-center justify-center w-9 h-9 rounded-lg text-slate-500 hover:bg-slate-100"
+          aria-label="Proje ayarları"
+        >
+          <FiSliders className="w-4 h-4" />
+        </button>
+      )}
+      <button
+        type="button"
+        onClick={onClose}
+        className="shrink-0 flex items-center justify-center w-9 h-9 rounded-lg text-slate-500 hover:bg-slate-100"
+        aria-label="Menüyü kapat"
+      >
+        <FiX className="w-5 h-5" />
+      </button>
+    </div>
+  );
+}
+
 type ProjectCardProps = {
   project: Project;
   projectId: string;

@@ -7,7 +7,7 @@ import { FiLogOut, FiSettings, FiSliders } from 'react-icons/fi';
 import { ProjectNavLinks } from '@/components/project/ProjectNavMenu';
 import { ProjectSettingsModal } from '@/components/modals/ProjectSettingsModal';
 import { ProjectStatusBadge } from '@/components/project/ProjectStatusBadge';
-import { AdminMenuBrandBar, AdminProjectMenuCard } from '@/components/dashboard/AdminMenuChrome';
+import { AdminMobileDrawerHeader } from '@/components/dashboard/AdminMenuChrome';
 import { AdminSimpleModeGuard } from '@/components/dashboard/AdminSimpleModeGuard';
 import { AdminUiModeToggle } from '@/components/dashboard/AdminUiModeToggle';
 import { BrandMark } from '@/components/brand/BrandMark';
@@ -163,48 +163,58 @@ function DashboardShellInner({ children }: { children: React.ReactNode }) {
           onClick={closeMenu}
         />
         <nav
-          className={`absolute top-0 right-0 h-full w-[min(100%,320px)] bg-slate-50 shadow-xl transition-transform duration-300 flex flex-col ${
+          className={`absolute top-0 right-0 h-full w-full max-w-[280px] bg-white shadow-xl transition-transform duration-300 flex flex-col ${
             menuOpen ? 'translate-x-0' : 'translate-x-full'
           }`}
         >
-          <AdminMenuBrandBar showClose onClose={closeMenu} onNavigate={closeMenu} />
+          <AdminMobileDrawerHeader
+            project={project}
+            projectId={projectId}
+            onClose={closeMenu}
+            onSettings={
+              isAdvanced && projectId
+                ? () => {
+                    setSettingsOpen(true);
+                    closeMenu();
+                  }
+                : undefined
+            }
+          />
 
-          <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
-            {project && projectId && (
-              <AdminProjectMenuCard
-                project={project}
-                projectId={projectId}
-                onNavigate={closeMenu}
-                onSettings={
-                  isAdvanced
-                    ? () => {
-                        setSettingsOpen(true);
-                        closeMenu();
-                      }
-                    : undefined
-                }
-              />
+          <div className="flex-1 overflow-y-auto overscroll-contain px-2 py-2">
+            {projectId && (
+              <ProjectNavLinks projectId={projectId} variant="mobile" onNavigate={closeMenu} />
             )}
-
-            {projectId && <ProjectNavLinks projectId={projectId} onNavigate={closeMenu} />}
             {!projectId && (
-              <div className="px-1">
-                <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-2">
-                  Arayüz
-                </p>
+              <div className="px-2 py-2">
                 <AdminUiModeToggle className="w-full flex" />
               </div>
             )}
           </div>
 
-          <div className="shrink-0 p-4 border-t border-slate-200 bg-white">
+          <div className="shrink-0 p-3 border-t border-slate-200 bg-slate-50 space-y-2 safe-pb">
+            {projectId && <AdminUiModeToggle className="w-full flex" compact />}
+            {isAdvanced && (
+              <Link
+                href="/admin-panel/maas-politikasi"
+                onClick={closeMenu}
+                className={`flex items-center justify-center gap-2 w-full px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  isGlobalWagePolicy
+                    ? 'text-blue-700 bg-blue-50'
+                    : 'text-slate-600 hover:bg-white'
+                }`}
+              >
+                <FiSettings className="w-4 h-4" />
+                Maaş Politikası
+              </Link>
+            )}
             <button
               type="button"
               onClick={handleLogout}
-              className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-semibold text-red-600 border border-red-100 bg-red-50 hover:bg-red-100 transition-colors"
+              className="w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-600 hover:text-red-600 hover:bg-white transition-colors"
             >
               <FiLogOut className="w-4 h-4" />
-              Çıkış Yap
+              Çıkış
             </button>
           </div>
         </nav>
