@@ -3,20 +3,35 @@ import { createAdminClient } from '@/utils/supabase/admin';
 import { queryEmployeeById, queryPersonnelProfile } from '@/lib/employee-db';
 import { requirePersonnelSession } from '@/lib/personnel-auth';
 import { decryptField, maskIban } from '@/lib/field-encryption';
+import { splitFullName } from '@/lib/format';
 import { signedEmployeePhotoUrl } from '@/lib/photo-storage';
 
-async function loadMaskedIban(admin: ReturnType<typeof createAdminClient>, employeeId: string) {
+async function loadSensitivePersonal(
+  admin: ReturnType<typeof createAdminClient>,
+  employeeId: string
+) {
   const { data } = await admin
     .from('employee_sensitive_data')
-    .select('iban_enc')
+    .select('tc_kimlik_enc, birth_date_enc, iban_enc')
     .eq('employee_id', employeeId)
     .maybeSingle();
 
-  if (!data?.iban_enc) return null;
+  if (!data) {
+    return { tc_kimlik: null, birth_date: null, iban: null, iban_masked: null };
+  }
+
   try {
-    return maskIban(decryptField(data.iban_enc));
+    const tc = decryptField(data.tc_kimlik_enc);
+    const birthDate = decryptField(data.birth_date_enc);
+    const iban = decryptField(data.iban_enc);
+    return {
+      tc_kimlik: tc,
+      birth_date: birthDate,
+      iban,
+      iban_masked: maskIban(iban),
+    };
   } catch {
-    return null;
+    return { tc_kimlik: null, birth_date: null, iban: null, iban_masked: null };
   }
 }
 
@@ -75,21 +90,27 @@ export async function GET() {
     if (!viewError && viewData) {
       const project = await loadProject(admin, viewData.project_id);
       const manager = project ? await loadProjectManager(admin, project.createdBy) : null;
-      const [photo_url, iban_masked] = await Promise.all([
+      const [photo_url, sensitive] = await Promise.all([
         signedEmployeePhotoUrl(viewData.photo_path, viewData.photo_url),
-        loadMaskedIban(admin, session.employeeId),
+        loadSensitivePersonal(admin, session.employeeId),
       ]);
+      const { firstName, lastName } = splitFullName(viewData.name);
       return NextResponse.json({
         employee: {
           id: viewData.employee_id,
           name: viewData.name,
+          first_name: firstName,
+          last_name: lastName,
           email: viewData.email,
           phone: viewData.phone,
           daily_wage: viewData.daily_wage,
           position: viewData.position,
           hire_date: viewData.hire_date,
           photo_url,
-          iban_masked,
+          tc_kimlik: sensitive.tc_kimlik,
+          birth_date: sensitive.birth_date,
+          iban: sensitive.iban,
+          iban_masked: sensitive.iban_masked,
           project_id: viewData.project_id,
           project_name: viewData.project_name,
           project: project
@@ -118,16 +139,22 @@ export async function GET() {
     const project = data.project_id ? await loadProject(admin, data.project_id) : null;
     const manager = project ? await loadProjectManager(admin, project.createdBy) : null;
 
-    const [photo_url, iban_masked] = await Promise.all([
+    const [photo_url, sensitive] = await Promise.all([
       signedEmployeePhotoUrl(data.photo_path, data.photo_url),
-      loadMaskedIban(admin, session.employeeId),
+      loadSensitivePersonal(admin, session.employeeId),
     ]);
+    const { firstName, lastName } = splitFullName(data.name);
 
     return NextResponse.json({
       employee: {
         ...data,
+        first_name: firstName,
+        last_name: lastName,
         photo_url,
-        iban_masked,
+        tc_kimlik: sensitive.tc_kimlik,
+        birth_date: sensitive.birth_date,
+        iban: sensitive.iban,
+        iban_masked: sensitive.iban_masked,
         project_name: project?.name,
         project: project
           ? {

@@ -30,12 +30,17 @@ export type PersonnelManager = {
 export type PersonnelEmployee = {
   id: string;
   name: string;
+  first_name?: string;
+  last_name?: string;
   email: string;
   phone: string | null;
   daily_wage: number;
   position: string;
   hire_date: string | null;
   photo_url?: string | null;
+  tc_kimlik?: string | null;
+  birth_date?: string | null;
+  iban?: string | null;
   iban_masked?: string | null;
   project_id: string;
   project_name?: string;

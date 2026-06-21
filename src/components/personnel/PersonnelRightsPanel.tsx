@@ -2,6 +2,7 @@
 
 import { FiBookOpen, FiMail } from 'react-icons/fi';
 import { DEFAULT_SUPPORT_EMAIL } from '@/lib/brand';
+import { PersonnelContractsSection } from './PersonnelContractsSection';
 import { PersonnelFairnessCard } from './PersonnelFairnessCard';
 import { PersonnelMyDossierDownload } from './PersonnelMyDossierDownload';
 import type { WorkLog } from '@/lib/personnel-stats';
@@ -23,7 +24,9 @@ export function PersonnelRightsPanel({ workLogs }: Props) {
   const supportEmail = process.env.NEXT_PUBLIC_SUPPORT_EMAIL || DEFAULT_SUPPORT_EMAIL;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5 max-w-lg mx-auto">
+      <PersonnelContractsSection />
+
       <PersonnelFairnessCard workLogs={workLogs} />
 
       <PersonnelMyDossierDownload />

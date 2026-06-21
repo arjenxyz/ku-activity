@@ -20,7 +20,7 @@ function ContractViewContent() {
   const slug = params.slug as string;
   const token = searchParams.get('t') ?? '';
   const fromPersonnel = searchParams.get('from') === 'personnel';
-  const backHref = '/personnel-panel?tab=settings';
+  const backHref = '/personnel-panel?tab=rights';
 
   const [contract, setContract] = useState<ContractView | null>(null);
   const [error, setError] = useState('');

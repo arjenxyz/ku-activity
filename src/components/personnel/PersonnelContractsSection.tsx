@@ -27,56 +27,58 @@ export function PersonnelContractsSection() {
   }, []);
 
   if (loading) {
-    return <p className="text-sm text-slate-500">Sözleşmeler yükleniyor…</p>;
+    return (
+      <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5">
+        <p className="text-sm text-slate-500">Sözleşmeler yükleniyor…</p>
+      </div>
+    );
   }
 
   if (!contracts.length) {
     return (
-      <div className="rounded-2xl border border-gray-100 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 sm:p-6">
-        <p className="text-sm text-gray-500">Kayıtlı sözleşme onayınız bulunmuyor.</p>
+      <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5">
+        <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide flex items-center gap-2 mb-2">
+          <FiFileText className="w-4 h-4" />
+          Sözleşmelerim
+        </p>
+        <p className="text-sm text-slate-500">Kayıtlı sözleşme onayınız bulunmuyor.</p>
       </div>
     );
   }
 
   return (
-    <div className="bg-white dark:bg-slate-800 rounded-2xl border border-gray-100 dark:border-slate-700 shadow-sm p-4 sm:p-6 space-y-3">
-      <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider flex items-center gap-2">
-        <FiFileText className="w-4 h-4" />
-        Sözleşmelerim ({contracts.length})
-      </p>
-      <ul className="space-y-3">
+    <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 overflow-hidden shadow-sm">
+      <div className="px-4 py-3 border-b border-slate-100 dark:border-slate-700/80 bg-slate-50/80 dark:bg-slate-800/50">
+        <p className="text-xs font-semibold text-slate-600 dark:text-slate-300 uppercase tracking-wide flex items-center gap-2">
+          <FiFileText className="w-4 h-4 text-blue-600" />
+          Sözleşmelerim ({contracts.length})
+        </p>
+      </div>
+      <ul className="divide-y divide-slate-100 dark:divide-slate-700/80">
         {contracts.map((c) => (
-          <li
-            key={c.slug}
-            className="rounded-xl border border-slate-200 dark:border-slate-600 px-4 py-3 space-y-2"
-          >
-            <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2">
-              <div className="min-w-0">
-                <p className="text-sm font-medium text-gray-900 dark:text-white">{c.title}</p>
-                {c.summary && (
-                  <p className="text-xs text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">
-                    {c.summary}
-                  </p>
-                )}
-                <p className="text-xs text-gray-500 mt-1.5">
-                  Sürüm {c.version} · Onay: {formatDate(c.acceptedAt.slice(0, 10))}
+          <li key={c.slug} className="px-4 py-3.5">
+            <div className="flex items-start justify-between gap-3">
+              <div className="min-w-0 flex-1">
+                <p className="text-sm font-medium text-slate-900 dark:text-white">{c.title}</p>
+                <p className="text-xs text-slate-500 mt-1">
+                  Sürüm {c.version} · {formatDate(c.acceptedAt.slice(0, 10))}
                 </p>
                 {c.contentHash && (
                   <p
-                    className="text-[10px] text-slate-400 font-mono mt-1 truncate flex items-center gap-1"
+                    className="text-[10px] text-slate-400 font-mono mt-1 flex items-center gap-1 truncate"
                     title={c.contentHash}
                   >
                     <FiShield className="w-3 h-3 shrink-0" />
-                    Hash: {c.contentHash.slice(0, 16)}…
+                    {c.contentHash.slice(0, 12)}…
                   </p>
                 )}
               </div>
               <Link
                 href={`/sozlesme/${c.slug}?t=${encodeURIComponent(c.accessToken)}&from=personnel`}
-                className="inline-flex items-center justify-center gap-1.5 text-sm font-medium text-blue-600 hover:underline shrink-0 min-h-[44px]"
+                className="shrink-0 inline-flex items-center gap-1 px-3 py-2 rounded-xl text-xs font-semibold text-blue-600 bg-blue-50 dark:bg-blue-950/40 hover:bg-blue-100 transition-colors"
               >
-                <FiDownload className="w-4 h-4" />
-                Görüntüle
+                <FiDownload className="w-3.5 h-3.5" />
+                Aç
               </Link>
             </div>
           </li>

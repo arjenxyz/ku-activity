@@ -6,29 +6,63 @@ export function PersonnelDisplaySettings() {
   const { largeText, highContrast, setLargeText, setHighContrast } = usePersonnelDisplay();
 
   return (
-    <div className="rounded-2xl border border-gray-100 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 sm:p-6 space-y-4">
-      <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Görünüm</p>
-      <label className="flex items-center justify-between gap-3 cursor-pointer">
-        <span className="text-sm text-gray-800 dark:text-gray-200">Büyük yazı</span>
-        <input
-          type="checkbox"
+    <div className="rounded-2xl border border-slate-200/80 dark:border-slate-700 bg-white dark:bg-slate-800 overflow-hidden shadow-sm">
+      <div className="px-4 py-3 border-b border-slate-100 dark:border-slate-700/80 bg-slate-50/80 dark:bg-slate-800/50">
+        <p className="text-xs font-semibold text-slate-600 dark:text-slate-300 uppercase tracking-wide">
+          Görünüm
+        </p>
+      </div>
+      <div className="divide-y divide-slate-100 dark:divide-slate-700/80">
+        <ToggleRow
+          label="Büyük yazı"
+          hint="Metinleri büyütür"
           checked={largeText}
-          onChange={(e) => setLargeText(e.target.checked)}
-          className="h-5 w-5 rounded border-gray-300 text-blue-600"
+          onChange={setLargeText}
         />
-      </label>
-      <label className="flex items-center justify-between gap-3 cursor-pointer">
-        <span className="text-sm text-gray-800 dark:text-gray-200">Yüksek kontrast</span>
-        <input
-          type="checkbox"
+        <ToggleRow
+          label="Yüksek kontrast"
+          hint="Sahada okumayı kolaylaştırır"
           checked={highContrast}
-          onChange={(e) => setHighContrast(e.target.checked)}
-          className="h-5 w-5 rounded border-gray-300 text-blue-600"
+          onChange={setHighContrast}
         />
-      </label>
-      <p className="text-xs text-gray-500">
-        Sahada güneş altında okumayı kolaylaştırır.
-      </p>
+      </div>
+    </div>
+  );
+}
+
+function ToggleRow({
+  label,
+  hint,
+  checked,
+  onChange,
+}: {
+  label: string;
+  hint: string;
+  checked: boolean;
+  onChange: (v: boolean) => void;
+}) {
+  return (
+    <div className="flex items-center justify-between gap-4 px-4 py-3.5">
+      <div>
+        <p className="text-sm font-medium text-slate-900 dark:text-white">{label}</p>
+        <p className="text-xs text-slate-500 mt-0.5">{hint}</p>
+      </div>
+      <button
+        type="button"
+        role="switch"
+        aria-checked={checked}
+        aria-label={label}
+        onClick={() => onChange(!checked)}
+        className={`relative shrink-0 w-11 h-6 rounded-full transition-colors ${
+          checked ? 'bg-blue-600' : 'bg-slate-200 dark:bg-slate-600'
+        }`}
+      >
+        <span
+          className={`absolute top-0.5 left-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform ${
+            checked ? 'translate-x-5' : 'translate-x-0'
+          }`}
+        />
+      </button>
     </div>
   );
 }

@@ -10,7 +10,6 @@ import {
   FiCreditCard,
   FiDollarSign,
   FiList,
-  FiLogOut,
   FiSettings,
   FiShield,
   FiTrendingUp,
@@ -21,10 +20,8 @@ import { PersonnelCalendar } from '@/components/personnel/PersonnelCalendar';
 import { PersonnelAlertBar } from '@/components/personnel/PersonnelAlertBar';
 import { PersonnelMesaiPanel } from '@/components/personnel/PersonnelMesaiPanel';
 import { PersonnelPendingApprovals } from '@/components/personnel/PersonnelPendingApprovals';
-import { PersonnelProjectCard } from '@/components/personnel/PersonnelProjectCard';
 import { PersonnelTodayAttendance } from '@/components/personnel/PersonnelTodayAttendance';
-import { PersonnelContractsSection } from '@/components/personnel/PersonnelContractsSection';
-import { PersonnelPasswordForm } from '@/components/personnel/PersonnelPasswordForm';
+import { PersonnelSettingsPage } from '@/components/personnel/PersonnelSettingsPage';
 import { PersonnelRightsPanel } from '@/components/personnel/PersonnelRightsPanel';
 import { PersonnelShell } from '@/components/personnel/PersonnelShell';
 import { PersonnelStatGrid } from '@/components/personnel/PersonnelStatGrid';
@@ -36,7 +33,6 @@ import { PersonnelAsgariPanel } from '@/components/personnel/PersonnelAsgariPane
 import { PersonnelBottomNav } from '@/components/personnel/PersonnelBottomNav';
 import { PersonnelPullToRefresh } from '@/components/personnel/PersonnelPullToRefresh';
 import { PersonnelPwaInstallBanner } from '@/components/personnel/PersonnelPwaInstallBanner';
-import { PersonnelDisplaySettings } from '@/components/personnel/PersonnelDisplaySettings';
 import { PersonnelTrustFooter } from '@/components/personnel/PersonnelTrustFooter';
 import { PersonnelWorkLogItem } from '@/components/personnel/PersonnelWorkLogItem';
 import { usePersonnelDashboard } from '@/hooks/usePersonnelDashboard';
@@ -251,69 +247,17 @@ function PersonelPanelContent() {
       return <PersonnelRightsPanel workLogs={workLogs} />;
     }
 
+    if (activeTab === 'settings' && employee) {
+      return (
+        <PersonnelSettingsPage employee={employee} onLogout={() => void handleLogout()} />
+      );
+    }
+
     if (activeTab === 'settings') {
       return (
-        <div className="space-y-6">
-          <PersonnelProjectCard project={employee?.project} />
-
-          {employee && (
-            <div className="bg-white dark:bg-slate-800 rounded-2xl border border-gray-100 dark:border-slate-700 shadow-sm p-4 sm:p-6">
-              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
-                Hesap Bilgileri
-              </p>
-              <dl className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
-                <div>
-                  <dt className="text-gray-500">E-posta</dt>
-                  <dd className="font-medium text-gray-900 dark:text-white">{employee.email}</dd>
-                </div>
-                {employee.phone && (
-                  <div>
-                    <dt className="text-gray-500">Telefon</dt>
-                    <dd className="font-medium text-gray-900 dark:text-white">{employee.phone}</dd>
-                  </div>
-                )}
-                {employee.iban_masked && (
-                  <div>
-                    <dt className="text-gray-500">IBAN</dt>
-                    <dd className="font-medium text-gray-900 dark:text-white font-mono text-xs sm:text-sm">
-                      {employee.iban_masked}
-                    </dd>
-                  </div>
-                )}
-                {employee.hire_date && (
-                  <div>
-                    <dt className="text-gray-500">İşe giriş</dt>
-                    <dd className="font-medium text-gray-900 dark:text-white">
-                      {formatDate(employee.hire_date)}
-                    </dd>
-                  </div>
-                )}
-                <div>
-                  <dt className="text-gray-500">Günlük yevmiye</dt>
-                  <dd className="font-medium text-gray-900 dark:text-white">
-                    {formatMoney(Number(employee.daily_wage))}
-                  </dd>
-                </div>
-              </dl>
-            </div>
-          )}
-          <PersonnelDisplaySettings />
-          <PersonnelContractsSection />
-          <PersonnelPasswordForm />
-
-          <div className="pt-2">
-            <button
-              type="button"
-              onClick={() => void handleLogout()}
-              className="w-full flex items-center justify-center gap-2 px-4 py-3.5 rounded-2xl border border-red-200 dark:border-red-900/40 bg-red-50 dark:bg-red-950/25 text-red-700 dark:text-red-300 font-semibold text-sm hover:bg-red-100 dark:hover:bg-red-950/40 active:bg-red-200/80 transition-colors min-h-[48px] shadow-sm"
-            >
-              <FiLogOut className="w-4 h-4" />
-              Çıkış Yap
-            </button>
-            <p className="text-center text-xs text-gray-400 dark:text-gray-500 mt-2">
-              Oturumunuz güvenli şekilde sonlandırılır
-            </p>
-          </div>
+        <div className="flex flex-col items-center justify-center py-16 gap-3">
+          <div className="w-8 h-8 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
+          <p className="text-sm text-gray-500">Yükleniyor…</p>
         </div>
       );
     }
