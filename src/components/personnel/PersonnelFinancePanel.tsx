@@ -33,30 +33,26 @@ export function PersonnelFinancePanel({ stats, onPrint }: Props) {
   ];
 
   return (
-    <div className="space-y-6 no-print">
-      <div className="bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl p-6 text-white shadow-lg shadow-blue-500/25">
-        <div className="flex items-start justify-between gap-4">
-          <div>
-            <p className="text-sm text-blue-100">Tahmini net maaş</p>
-            <p className="text-3xl sm:text-4xl font-bold mt-2">{formatMoney(stats.net)}</p>
-          </div>
+    <div className="no-print">
+      <div className="rounded-2xl border border-gray-100 dark:border-slate-700 bg-white dark:bg-slate-800 overflow-hidden">
+        <div className="flex items-center justify-between gap-3 px-4 sm:px-6 py-3 border-b border-gray-100 dark:border-slate-700">
+          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Maaş dökümü</p>
           {onPrint && (
             <button
               type="button"
               onClick={onPrint}
-              className="print:hidden shrink-0 inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-white/15 hover:bg-white/25 text-sm"
+              className="inline-flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/40 hover:bg-blue-100 dark:hover:bg-blue-950/60 transition-colors"
             >
-              <FiPrinter className="w-4 h-4" />
-              Yazdır
+              <FiPrinter className="w-4 h-4 shrink-0" />
+              <span className="text-left leading-tight">
+                <span className="block">Detaylı döküm</span>
+                <span className="block text-[10px] font-normal text-blue-500/80 dark:text-blue-400/70">
+                  Yazdır veya PDF kaydet
+                </span>
+              </span>
             </button>
           )}
         </div>
-      </div>
-
-      <div className="rounded-2xl border border-gray-100 dark:border-slate-700 bg-white dark:bg-slate-800 overflow-hidden">
-        <p className="px-4 sm:px-6 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wider border-b border-gray-100 dark:border-slate-700">
-          Maaş dökümü
-        </p>
         <ul>
           {rows.map((row) => (
             <li
