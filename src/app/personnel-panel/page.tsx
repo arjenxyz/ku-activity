@@ -21,6 +21,7 @@ import { PersonnelAlertBar } from '@/components/personnel/PersonnelAlertBar';
 import { PersonnelMesaiPanel } from '@/components/personnel/PersonnelMesaiPanel';
 import { PersonnelPendingApprovals } from '@/components/personnel/PersonnelPendingApprovals';
 import { PersonnelTodayAttendance } from '@/components/personnel/PersonnelTodayAttendance';
+import { PersonnelPayrollPrint } from '@/components/personnel/PersonnelPayrollPrint';
 import { PersonnelSettingsPage } from '@/components/personnel/PersonnelSettingsPage';
 import { PersonnelRightsPanel } from '@/components/personnel/PersonnelRightsPanel';
 import { PersonnelShell } from '@/components/personnel/PersonnelShell';
@@ -68,7 +69,7 @@ function PersonelPanelContent() {
   const { activeTab, setActiveTab } = usePersonnelTab('overview');
   const loadFinance = activeTab === 'overview' || activeTab === 'finance';
   const loadAsgari = activeTab === 'asgari';
-  const { employee, workLogs, deductions, stats, loading, error, reload } =
+  const { employee, workLogs, deductions, minimumWages, stats, loading, error, reload } =
     usePersonnelDashboard(month, { loadFinance });
   const {
     data: asgariData,
@@ -230,11 +231,11 @@ function PersonelPanelContent() {
       );
     }
 
-    if (activeTab === 'finance' && stats) {
+    if (activeTab === 'finance' && stats && employee) {
       return (
         <PersonnelFinancePanel
           stats={stats}
-          employeeDailyWage={employee ? Number(employee.daily_wage) : undefined}
+          employeeDailyWage={Number(employee.daily_wage)}
           advances={advances}
           otherDeductions={otherDeductions}
           onPrint={handlePrint}
@@ -344,32 +345,51 @@ function PersonelPanelContent() {
   };
 
   return (
-    <PersonnelShell>
-      <PersonnelPullToRefresh
-        onRefresh={async () => {
-          await reload();
-          if (loadAsgari) await reloadAsgari();
-        }}
-      >
-        <div className="pb-20 sm:pb-0">
-          <div className="mb-6">
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white tracking-tight">
-              Hoş geldiniz{employee ? `, ${employee.name.split(' ')[0]}` : ''}
-            </h1>
-            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-              Puantaj onayları, proje bilgisi ve maaş özetiniz tek panelde.
-            </p>
-          </div>
+    <>
+      <PersonnelShell>
+        <PersonnelPullToRefresh
+          onRefresh={async () => {
+            await reload();
+            if (loadAsgari) await reloadAsgari();
+          }}
+        >
+          <div className="pb-20 sm:pb-0 no-print">
+            <div className="mb-6 no-print">
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white tracking-tight">
+                Hoş geldiniz{employee ? `, ${employee.name.split(' ')[0]}` : ''}
+              </h1>
+              <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                Puantaj onayları, proje bilgisi ve maaş özetiniz tek panelde.
+              </p>
+            </div>
 
-          <div className="hidden sm:block mb-6">
-            <PersonnelTabNav tabs={tabsWithBadges} active={activeTab} onChange={goTab} />
+            <div className="hidden sm:block mb-6 no-print">
+              <PersonnelTabNav tabs={tabsWithBadges} active={activeTab} onChange={goTab} />
+            </div>
+            {renderContent()}
           </div>
-          {renderContent()}
-        </div>
-      </PersonnelPullToRefresh>
+        </PersonnelPullToRefresh>
 
-      <PersonnelBottomNav tabs={mobileTabsWithBadges} active={activeTab} onChange={goTab} />
-    </PersonnelShell>
+        <PersonnelBottomNav
+          tabs={mobileTabsWithBadges}
+          active={activeTab}
+          onChange={goTab}
+          className="no-print"
+        />
+      </PersonnelShell>
+
+      {activeTab === 'finance' && employee && stats && (
+        <PersonnelPayrollPrint
+          employee={employee}
+          month={month}
+          stats={stats}
+          workLogs={workLogs}
+          advances={advances}
+          otherDeductions={otherDeductions}
+          minimumWages={minimumWages}
+        />
+      )}
+    </>
   );
 }
 

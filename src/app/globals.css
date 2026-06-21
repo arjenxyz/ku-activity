@@ -185,3 +185,249 @@ a {
 .dark .personnel-high-contrast .text-slate-500 {
   color: #e2e8f0;
 }
+
+/* Ekranda gizli — yazdırmada görünür */
+.print-only {
+  display: none;
+}
+
+.no-print {
+  /* screen default */
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 12mm 14mm;
+  }
+
+  body {
+    background: #fff !important;
+    color: #0f172a !important;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+
+  #personnel-payroll-print {
+    font-family: system-ui, 'Segoe UI', sans-serif;
+    font-size: 10pt;
+    line-height: 1.4;
+    color: #0f172a;
+  }
+
+  .personnel-payroll-print .payroll-print-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+    border-bottom: 2px solid #1e40af;
+  }
+
+  .personnel-payroll-print .payroll-print-brand {
+    font-size: 9pt;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #2563eb;
+    margin: 0 0 4px;
+  }
+
+  .personnel-payroll-print .payroll-print-title {
+    font-size: 18pt;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .personnel-payroll-print .payroll-print-sub {
+    margin: 4px 0 0;
+    font-size: 11pt;
+    color: #475569;
+    text-transform: capitalize;
+  }
+
+  .personnel-payroll-print .payroll-print-meta {
+    text-align: right;
+    font-size: 8.5pt;
+    color: #64748b;
+  }
+
+  .personnel-payroll-print .payroll-print-meta p {
+    margin: 0 0 4px;
+  }
+
+  .personnel-payroll-print .payroll-print-section {
+    margin-bottom: 14px;
+    page-break-inside: avoid;
+  }
+
+  .personnel-payroll-print h2 {
+    font-size: 10pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #1e40af;
+    margin: 0 0 8px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  .personnel-payroll-print .payroll-print-info {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 9pt;
+  }
+
+  .personnel-payroll-print .payroll-print-info td {
+    padding: 5px 8px;
+    border: 1px solid #e2e8f0;
+  }
+
+  .personnel-payroll-print .payroll-print-info td:nth-child(odd) {
+    background: #f8fafc;
+    font-weight: 600;
+    width: 18%;
+    color: #475569;
+  }
+
+  .personnel-payroll-print .payroll-print-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+  }
+
+  .personnel-payroll-print .payroll-print-summary-grid > div {
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 8px;
+    text-align: center;
+  }
+
+  .personnel-payroll-print .payroll-print-summary-grid span {
+    display: block;
+    font-size: 8pt;
+    color: #64748b;
+    margin-bottom: 4px;
+  }
+
+  .personnel-payroll-print .payroll-print-summary-grid strong {
+    font-size: 11pt;
+  }
+
+  .personnel-payroll-print .payroll-print-net {
+    background: #eff6ff;
+    border-color: #93c5fd !important;
+  }
+
+  .personnel-payroll-print .payroll-print-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 8.5pt;
+  }
+
+  .personnel-payroll-print .payroll-print-table th,
+  .personnel-payroll-print .payroll-print-table td {
+    border: 1px solid #cbd5e1;
+    padding: 5px 6px;
+    text-align: left;
+  }
+
+  .personnel-payroll-print .payroll-print-table th {
+    background: #f1f5f9;
+    font-weight: 600;
+    font-size: 8pt;
+  }
+
+  .personnel-payroll-print .payroll-print-table tfoot td {
+    background: #f8fafc;
+    font-weight: 600;
+  }
+
+  .personnel-payroll-print .payroll-print-table .num,
+  .personnel-payroll-print .payroll-print-calc-table .num {
+    text-align: right;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .personnel-payroll-print .payroll-print-empty {
+    font-size: 9pt;
+    color: #64748b;
+    margin: 0;
+    font-style: italic;
+  }
+
+  .personnel-payroll-print .payroll-print-calc-table {
+    width: 100%;
+    max-width: 420px;
+    margin-left: auto;
+    border-collapse: collapse;
+    font-size: 9.5pt;
+  }
+
+  .personnel-payroll-print .payroll-print-calc-table td {
+    padding: 6px 8px;
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  .personnel-payroll-print .payroll-print-calc-table tr.subtotal td {
+    border-top: 2px solid #cbd5e1;
+    padding-top: 8px;
+  }
+
+  .personnel-payroll-print .payroll-print-calc-table tr.total td {
+    border-top: 2px solid #1e40af;
+    border-bottom: 2px solid #1e40af;
+    background: #eff6ff;
+    font-size: 11pt;
+    padding: 10px 8px;
+  }
+
+  .personnel-payroll-print .payroll-print-note {
+    font-size: 8pt;
+    color: #64748b;
+    margin: 8px 0 0;
+    text-align: right;
+  }
+
+  .personnel-payroll-print .payroll-print-footer {
+    margin-top: 20px;
+    padding-top: 12px;
+    border-top: 1px solid #e2e8f0;
+    font-size: 7.5pt;
+    color: #64748b;
+  }
+
+  .personnel-payroll-print .payroll-print-signatures {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-top: 24px;
+  }
+
+  .personnel-payroll-print .payroll-print-signatures span {
+    font-size: 8pt;
+    font-weight: 600;
+    color: #334155;
+  }
+
+  .personnel-payroll-print .payroll-print-signatures .line {
+    height: 1px;
+    background: #94a3b8;
+    margin: 28px 0 6px;
+  }
+
+  .personnel-payroll-print .payroll-print-signatures small {
+    font-size: 7.5pt;
+    color: #64748b;
+  }
+}

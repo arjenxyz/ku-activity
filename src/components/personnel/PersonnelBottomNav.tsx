@@ -13,13 +13,17 @@ export function PersonnelBottomNav({
   tabs,
   active,
   onChange,
+  className = '',
 }: {
   tabs: BottomNavItem[];
   active: string;
   onChange: (id: string) => void;
+  className?: string;
 }) {
   return (
-    <nav className="fixed bottom-0 inset-x-0 z-50 sm:hidden border-t border-gray-200 dark:border-slate-700 bg-white/95 dark:bg-slate-900/95 backdrop-blur-lg safe-pb">
+    <nav
+      className={`fixed bottom-0 inset-x-0 z-50 sm:hidden border-t border-gray-200 dark:border-slate-700 bg-white/95 dark:bg-slate-900/95 backdrop-blur-lg safe-pb ${className}`}
+    >
       <div className="flex overflow-x-auto scrollbar-none max-w-lg mx-auto">
         {tabs.map((tab) => {
           const isActive = active === tab.id;

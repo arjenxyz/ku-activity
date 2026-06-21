@@ -51,7 +51,7 @@ export function PersonnelFinancePanel({
   ];
 
   return (
-    <div className="space-y-6 print-area">
+    <div className="space-y-6 no-print">
       <div className="bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl p-6 text-white shadow-lg shadow-blue-500/25">
         <div className="flex items-start justify-between gap-4">
           <div>
