@@ -8,9 +8,11 @@ import {
   getProjectCalendarDate,
   loadProjectAttendanceSchedule,
 } from '@/lib/attendance-window';
+import { resolveAttendanceLocale } from '@/lib/i18n/attendance-messages';
 
 export async function GET(request: Request) {
   try {
+    const locale = resolveAttendanceLocale(request.headers.get('accept-language'));
     const session = await requirePersonnelSession();
     const { searchParams } = new URL(request.url);
 
@@ -26,6 +28,7 @@ export async function GET(request: Request) {
       employeeId: session.employeeId,
       projectId: session.projectId,
       workDate,
+      locale,
     });
     const window = getAttendanceWindowStatus(workDate, schedule);
 

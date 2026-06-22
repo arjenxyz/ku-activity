@@ -147,12 +147,21 @@ export async function scanAttendanceQr(token: string, options?: { replace?: bool
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ token, replace: options?.replace === true }),
   });
-  if (!res.ok) throw new Error(await parseError(res));
+  if (!res.ok) {
+    const data = (await res.json().catch(() => ({}))) as {
+      error?: string;
+      errorCode?: string;
+    };
+    const err = new Error(data.error || res.statusText) as Error & { code?: string };
+    err.code = data.errorCode;
+    throw err;
+  }
   return res.json() as Promise<{
     ok: boolean;
     alreadyListed?: boolean;
     replaced?: boolean;
     message?: string;
+    messageCode?: string;
     workDate?: string;
     status?: PersonnelAttendanceStatusPayload;
   }>;
@@ -160,10 +169,11 @@ export async function scanAttendanceQr(token: string, options?: { replace?: bool
 
 export type PersonnelAttendanceStatusPayload = {
   workDate: string;
-  state: 'none' | 'waiting' | 'completed' | 'cancelled';
+  state: 'none' | 'waiting' | 'completed' | 'cancelled' | 'removed';
   listedAt: string | null;
   completedAt: string | null;
   message: string;
+  messageCode?: string;
   window?: {
     workDate: string;
     timezone: string;

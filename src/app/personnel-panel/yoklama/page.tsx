@@ -21,7 +21,7 @@ import {
 } from '@/lib/personnel-api';
 import { btnPrimary, inputClass } from '@/components/project/ui';
 
-type ViewMode = 'scan' | 'waiting' | 'completed' | 'cancelled' | 'rescan';
+type ViewMode = 'scan' | 'waiting' | 'completed' | 'cancelled' | 'removed' | 'rescan';
 
 function YoklamaContent() {
   const searchParams = useSearchParams();
@@ -41,6 +41,7 @@ function YoklamaContent() {
     if (s.state === 'waiting') setView('waiting');
     else if (s.state === 'completed') setView('completed');
     else if (s.state === 'cancelled') setView('cancelled');
+    else if (s.state === 'removed') setView('removed');
     else setView('scan');
   }, []);
 
@@ -63,7 +64,7 @@ function YoklamaContent() {
   }, [refreshStatus]);
 
   useEffect(() => {
-    if (view !== 'waiting') return;
+    if (view !== 'waiting' && view !== 'removed') return;
     const timer = window.setInterval(() => void refreshStatus(), 4000);
     return () => window.clearInterval(timer);
   }, [view, refreshStatus]);
@@ -158,7 +159,9 @@ function YoklamaContent() {
         ) : view === 'completed' ? (
           <CompletedScreen status={status} onProblem={startRescan} />
         ) : view === 'cancelled' ? (
-          <CancelledScreen onRescan={startRescan} />
+          <CancelledScreen status={status} onRescan={startRescan} />
+        ) : view === 'removed' ? (
+          <RemovedScreen status={status} onRescan={startRescan} />
         ) : showScanner ? (
           <>
             {status?.window && !status.window.isOpen && status.state === 'none' && (
@@ -275,17 +278,48 @@ function CompletedScreen({
   );
 }
 
-function CancelledScreen({ onRescan }: { onRescan: () => void }) {
+function CancelledScreen({
+  status,
+  onRescan,
+}: {
+  status: PersonnelAttendanceStatusPayload | null;
+  onRescan: () => void;
+}) {
   return (
     <div className="mt-6 space-y-4">
       <div className="rounded-2xl border border-amber-200 bg-amber-50 p-6 text-center">
         <FiAlertCircle className="mx-auto h-10 w-10 text-amber-600" />
         <p className="mt-3 font-semibold text-amber-900">Yoklama iptal edildi</p>
-        <p className="mt-2 text-sm text-amber-800">
-          Ustanızla iletişime geçin ve yeni yoklama için QR kodu alın.
+        <p className="mt-2 text-sm text-amber-800 leading-relaxed">
+          {status?.message ??
+            'Yoklama iptal edildi. Lütfen yöneticinizle iletişime geçip tekrar okutun.'}
         </p>
         <button type="button" onClick={onRescan} className={`${btnPrimary} mt-5 w-full py-3`}>
           Yeni kod ile okut
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function RemovedScreen({
+  status,
+  onRescan,
+}: {
+  status: PersonnelAttendanceStatusPayload | null;
+  onRescan: () => void;
+}) {
+  return (
+    <div className="mt-6 space-y-4">
+      <div className="rounded-2xl border border-red-200 bg-red-50 p-6 text-center">
+        <FiAlertCircle className="mx-auto h-10 w-10 text-red-600" />
+        <p className="mt-3 font-semibold text-red-900">Yoklamadan çıkarıldınız</p>
+        <p className="mt-2 text-sm text-red-800 leading-relaxed">
+          {status?.message ??
+            'Yöneticiniz sizi yoklamadan çıkardı. Yanlış olduğunu düşünüyorsanız lütfen yöneticinizle iletişime geçin.'}
+        </p>
+        <button type="button" onClick={onRescan} className={`${btnPrimary} mt-5 w-full py-3`}>
+          Yeni kod ile tekrar okut
         </button>
       </div>
     </div>

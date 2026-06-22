@@ -1,10 +1,17 @@
 import { NextResponse } from 'next/server';
-import dayjs from 'dayjs';
 import { createAdminClient } from '@/utils/supabase/admin';
 import { requirePersonnelSession } from '@/lib/personnel-auth';
 import { scanAttendanceQr, getPersonnelAttendanceStatus } from '@/lib/attendance-qr-service';
+import {
+  ATTENDANCE_MESSAGE_CODES,
+  isAttendanceScanError,
+  resolveAttendanceLocale,
+  tAttendance,
+} from '@/lib/i18n/attendance-messages';
 
 export async function POST(request: Request) {
+  const locale = resolveAttendanceLocale(request.headers.get('accept-language'));
+
   try {
     const session = await requirePersonnelSession();
     const body = await request.json().catch(() => ({}));
@@ -12,7 +19,13 @@ export async function POST(request: Request) {
     const replacePrevious = body.replace === true;
 
     if (!token) {
-      return NextResponse.json({ error: 'QR kodu gerekli' }, { status: 400 });
+      return NextResponse.json(
+        {
+          error: tAttendance(ATTENDANCE_MESSAGE_CODES.TOKEN_REQUIRED, locale),
+          errorCode: ATTENDANCE_MESSAGE_CODES.TOKEN_REQUIRED,
+        },
+        { status: 400 }
+      );
     }
 
     const admin = createAdminClient();
@@ -21,27 +34,28 @@ export async function POST(request: Request) {
       employeeId: session.employeeId,
       projectId: session.projectId,
       replacePrevious,
+      locale,
     });
-
-    const dateLabel = dayjs(result.workDate).format('DD.MM.YYYY');
-    const isToday = result.workDate === dayjs().format('YYYY-MM-DD');
 
     const status = await getPersonnelAttendanceStatus(admin, {
       employeeId: session.employeeId,
       projectId: session.projectId,
       workDate: result.workDate,
+      locale,
     });
 
     let message: string;
+    let messageCode = status.messageCode;
+
     if (replacePrevious && !result.alreadyListed) {
-      message =
-        'Yeniden okutma başarılı. Önceki kaydınız silindi, listeye tekrar eklendiniz.';
+      messageCode = ATTENDANCE_MESSAGE_CODES.SCAN_REPLACED;
+      message = tAttendance(messageCode, locale);
     } else if (result.alreadyListed) {
-      message = status.message;
+      messageCode = ATTENDANCE_MESSAGE_CODES.ALREADY_LISTED;
+      message = tAttendance(messageCode, locale);
     } else {
-      message = isToday
-        ? 'Listeye eklendiniz. Ustanız diğer personelin yoklamasını alıp işlemi tamamlayacak.'
-        : `${dateLabel} günü için yoklama listesine eklendiniz.`;
+      messageCode = ATTENDANCE_MESSAGE_CODES.SCAN_SUCCESS;
+      message = tAttendance(messageCode, locale);
     }
 
     return NextResponse.json({
@@ -49,12 +63,22 @@ export async function POST(request: Request) {
       alreadyListed: result.alreadyListed,
       replaced: replacePrevious && !result.alreadyListed,
       message,
+      messageCode,
       workDate: result.workDate,
       status,
     });
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'Yoklama kaydedilemedi';
-    const status = message.includes('zaten') ? 409 : 400;
-    return NextResponse.json({ error: message }, { status });
+    if (isAttendanceScanError(err)) {
+      return NextResponse.json(
+        { error: err.message, errorCode: err.code },
+        { status: err.code === ATTENDANCE_MESSAGE_CODES.ALREADY_LISTED ? 409 : 400 }
+      );
+    }
+
+    const message = err instanceof Error ? err.message : tAttendance(ATTENDANCE_MESSAGE_CODES.SCAN_FAILED, locale);
+    return NextResponse.json(
+      { error: message, errorCode: ATTENDANCE_MESSAGE_CODES.SCAN_FAILED },
+      { status: 400 }
+    );
   }
 }
