@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { BrandMark } from '@/components/brand/BrandMark';
 
 type BeforeInstallPromptEvent = Event & {
@@ -22,11 +23,16 @@ function isStandalone() {
 }
 
 export function InstallPrompt() {
+  const pathname = usePathname() ?? '';
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [showIOSHint, setShowIOSHint] = useState(false);
   const [dismissed, setDismissed] = useState(false);
 
+  const isPersonnelContext =
+    pathname.startsWith('/personnel-panel') || pathname === '/';
+
   useEffect(() => {
+    if (!isPersonnelContext) return;
     if (isStandalone()) return;
 
     const dismissedAt = localStorage.getItem('pwa-install-dismissed');
@@ -47,7 +53,7 @@ export function InstallPrompt() {
 
     window.addEventListener('beforeinstallprompt', onBeforeInstall);
     return () => window.removeEventListener('beforeinstallprompt', onBeforeInstall);
-  }, []);
+  }, [isPersonnelContext]);
 
   const dismiss = () => {
     localStorage.setItem('pwa-install-dismissed', String(Date.now()));
@@ -64,7 +70,7 @@ export function InstallPrompt() {
     dismiss();
   };
 
-  if (dismissed || isStandalone()) return null;
+  if (!isPersonnelContext || dismissed || isStandalone()) return null;
   if (!deferredPrompt && !showIOSHint) return null;
 
   return (

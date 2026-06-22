@@ -83,7 +83,7 @@ export function HomeFooter() {
         <div className="border-t border-slate-800 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
           <p className="text-slate-400 text-sm">© 2026 {APP_NAME}. All rights reserved.</p>
           <div className="flex flex-wrap justify-center gap-5 text-sm">
-            <a href="#" className="text-slate-400 hover:text-white transition-colors">Gizlilik Politikası</a>
+            <Link href="/gizlilik" className="text-slate-400 hover:text-white transition-colors">Gizlilik Politikası</Link>
             <a href="#" className="text-slate-400 hover:text-white transition-colors">Kullanım Şartları</a>
             <a href="#" className="text-slate-400 hover:text-white transition-colors">KVKK</a>
           </div>

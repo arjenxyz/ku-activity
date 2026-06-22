@@ -1,7 +1,14 @@
 import { ImageResponse } from 'next/og';
 
+export type PwaIconVariant = 'personnel' | 'admin';
+
+const GRADIENTS: Record<PwaIconVariant, string> = {
+  personnel: 'linear-gradient(135deg, #2563eb 0%, #4f46e5 100%)',
+  admin: 'linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%)',
+};
+
 /** PWA / favicon — CrewLedger mark */
-export function renderPwaIcon(size: number) {
+export function renderPwaIcon(size: number, variant: PwaIconVariant = 'personnel') {
   const pad = size * 0.14;
   const inner = size - pad * 2;
   const stroke = Math.max(2, size * 0.04);
@@ -15,7 +22,7 @@ export function renderPwaIcon(size: number) {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          background: 'linear-gradient(135deg, #2563eb 0%, #4f46e5 100%)',
+          background: GRADIENTS[variant],
           borderRadius: size * 0.21,
         }}
       >

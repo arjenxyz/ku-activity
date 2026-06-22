@@ -1,0 +1,109 @@
+import type { MetadataRoute } from 'next';
+import { getTwaOrigin } from '@/lib/twa-config';
+
+export type PwaAppVariant = 'personnel' | 'admin';
+
+const ORIGIN = getTwaOrigin();
+
+function iconUrl(variant: PwaAppVariant, size: 192 | 512) {
+  return `${ORIGIN}/icons/${variant}/${size}`;
+}
+
+function baseIcons(variant: PwaAppVariant): MetadataRoute.Manifest['icons'] {
+  return [
+    {
+      src: iconUrl(variant, 192),
+      sizes: '192x192',
+      type: 'image/png',
+      purpose: 'any',
+    },
+    {
+      src: iconUrl(variant, 512),
+      sizes: '512x512',
+      type: 'image/png',
+      purpose: 'any',
+    },
+    {
+      src: iconUrl(variant, 512),
+      sizes: '512x512',
+      type: 'image/png',
+      purpose: 'maskable',
+    },
+  ];
+}
+
+export function buildPersonnelManifest(): MetadataRoute.Manifest {
+  return {
+    id: '/personnel-panel',
+    name: 'CrewLedger Personel',
+    short_name: 'CrewLedger',
+    description:
+      'Şantiye personeli için yoklama, yevmiye, mesai ve maaş özeti. Construction crew self-service app.',
+    start_url: '/personnel-panel/login',
+    scope: '/',
+    display: 'standalone',
+    display_override: ['standalone', 'minimal-ui'],
+    orientation: 'portrait-primary',
+    background_color: '#ffffff',
+    theme_color: '#2563eb',
+    lang: 'tr',
+    dir: 'ltr',
+    categories: ['business', 'productivity'],
+    prefer_related_applications: false,
+    icons: baseIcons('personnel'),
+    shortcuts: [
+      {
+        name: 'QR Yoklama',
+        short_name: 'Yoklama',
+        url: '/personnel-panel/yoklama',
+        icons: [{ src: iconUrl('personnel', 192), sizes: '192x192', type: 'image/png' }],
+      },
+      {
+        name: 'Özet',
+        short_name: 'Özet',
+        url: '/personnel-panel',
+        icons: [{ src: iconUrl('personnel', 192), sizes: '192x192', type: 'image/png' }],
+      },
+    ],
+  };
+}
+
+export function buildAdminManifest(): MetadataRoute.Manifest {
+  return {
+    id: '/admin-panel',
+    name: 'CrewLedger Yönetici',
+    short_name: 'CL Yönetici',
+    description:
+      'Şantiye yöneticileri için personel, yevmiye, bordro ve proje yönetimi. Construction workforce admin.',
+    start_url: '/admin-panel/login',
+    scope: '/',
+    display: 'standalone',
+    display_override: ['standalone', 'minimal-ui'],
+    orientation: 'any',
+    background_color: '#f8fafc',
+    theme_color: '#0f172a',
+    lang: 'tr',
+    dir: 'ltr',
+    categories: ['business', 'productivity'],
+    prefer_related_applications: false,
+    icons: baseIcons('admin'),
+    shortcuts: [
+      {
+        name: 'Projeler',
+        short_name: 'Projeler',
+        url: '/admin-panel',
+        icons: [{ src: iconUrl('admin', 192), sizes: '192x192', type: 'image/png' }],
+      },
+      {
+        name: 'Başvuru Onay',
+        short_name: 'Başvurular',
+        url: '/admin-panel/basvuru-onay',
+        icons: [{ src: iconUrl('admin', 192), sizes: '192x192', type: 'image/png' }],
+      },
+    ],
+  };
+}
+
+export function manifestForVariant(variant: PwaAppVariant): MetadataRoute.Manifest {
+  return variant === 'admin' ? buildAdminManifest() : buildPersonnelManifest();
+}
