@@ -6,14 +6,10 @@ import dayjs from 'dayjs';
 import { FiRefreshCw } from 'react-icons/fi';
 
 import { fetchProject } from '@/api/projects';
-import { confirmAdminAttendance, fetchEmployees } from '@/api/employees';
-import { AdminAttendanceModal } from '@/components/admin/AdminAttendanceModal';
+import { fetchEmployees } from '@/api/employees';
 import { ProjectPageHeader } from '@/components/project/ProjectPageHeader';
 import { ProjectOverviewStats } from '@/components/project/ProjectOverviewStats';
 import { ProjectEmployeeTable } from '@/components/project/ProjectEmployeeTable';
-import { AlertBanner } from '@/components/project/AlertBanner';
-import { fetchRecords } from '@/lib/project-api';
-import type { MesaiType } from '@/lib/work-log';
 import type { Employee, AttendanceStats } from '@/types/adminTypes';
 import type { Project } from '@/types/project';
 import { useAdminUiMode } from '@/hooks/useAdminUiMode';
@@ -28,10 +24,7 @@ export default function ProjectDetailPage() {
   const [stats, setStats] = useState<AttendanceStats>({ present: 0, absent: 0, late: 0 });
   const [loading, setLoading] = useState(true);
   const [employeesLoading, setEmployeesLoading] = useState(false);
-  const [verifyingId, setVerifyingId] = useState<string | null>(null);
-  const [attendanceTarget, setAttendanceTarget] = useState<{ id: string; name: string } | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [openDisputeCount, setOpenDisputeCount] = useState(0);
   const { isSimple } = useAdminUiMode();
 
   const loadEmployees = useCallback(async () => {
@@ -61,8 +54,6 @@ export default function ProjectDetailPage() {
       }
       setProject(projectData);
       await loadEmployees();
-      const disputed = await fetchRecords(projectId, 'work-logs', { disputed: 'true' });
-      setOpenDisputeCount((disputed.records ?? []).length);
     } catch (e) {
       setError('Veriler yüklenirken hata oluştu');
       console.error(e);
@@ -74,33 +65,6 @@ export default function ProjectDetailPage() {
   useEffect(() => {
     loadAll();
   }, [loadAll]);
-
-  const handleVerifyClick = (employeeId: string, employeeName: string) => {
-    setAttendanceTarget({ id: employeeId, name: employeeName });
-  };
-
-  const handleAttendanceSubmit = async (data: {
-    amount: number;
-    mesaiType: MesaiType;
-    description: string;
-  }) => {
-    if (!projectId || !attendanceTarget) return;
-    setVerifyingId(attendanceTarget.id);
-    const { error: verifyError } = await confirmAdminAttendance({
-      projectId,
-      employeeId: attendanceTarget.id,
-      amount: data.amount,
-      mesaiType: data.mesaiType,
-      description: data.description || undefined,
-    });
-    setVerifyingId(null);
-    if (verifyError) {
-      alert('Onay kaydedilemedi: ' + verifyError.message);
-      return;
-    }
-    setAttendanceTarget(null);
-    await loadEmployees();
-  };
 
   if (!projectId) {
     return (
@@ -155,8 +119,8 @@ export default function ProjectDetailPage() {
           title={isSimple ? 'Günlük yoklama' : 'Proje özeti'}
           description={
             isSimple
-              ? 'Personel yoklaması, mesai onayı ve günlük durum.'
-              : 'Günlük yoklama, personel durumu ve açık itirazlar.'
+              ? 'Personel yoklaması ve günlük durum.'
+              : 'QR yoklama, personel durumu ve aylık özet.'
           }
         />
         <button
@@ -168,21 +132,6 @@ export default function ProjectDetailPage() {
           Yenile
         </button>
       </div>
-
-      {openDisputeCount > 0 && (
-        <div className="space-y-2">
-          <AlertBanner
-            type="warning"
-            message={`${openDisputeCount} personel itirazı açık. Kayıtları düzeltip personelin tekrar onaylamasını sağlayın.`}
-          />
-          <a
-            href={`/admin-panel/proje/${projectId}/itirazlar`}
-            className="inline-flex text-sm font-medium text-amber-900 hover:underline"
-          >
-            Personel İtirazları sayfasına git →
-          </a>
-        </div>
-      )}
 
       <ProjectOverviewStats
         employeeCount={employees.length}
@@ -196,21 +145,11 @@ export default function ProjectDetailPage() {
         employees={employees}
         loading={employeesLoading}
         projectId={projectId}
-        onVerify={handleVerifyClick}
-        verifyingId={verifyingId}
         onPhotoChange={(employeeId, photoUrl) =>
           setEmployees((prev) =>
             prev.map((e) => (e.id === employeeId ? { ...e, photo_url: photoUrl } : e))
           )
         }
-      />
-
-      <AdminAttendanceModal
-        employeeName={attendanceTarget?.name ?? ''}
-        isOpen={Boolean(attendanceTarget)}
-        loading={Boolean(verifyingId)}
-        onClose={() => setAttendanceTarget(null)}
-        onSubmit={handleAttendanceSubmit}
       />
     </div>
   );

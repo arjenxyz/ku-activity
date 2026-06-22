@@ -61,9 +61,9 @@ export async function adminConfirmWorkLog(
     description: params.description ?? null,
     job_id: params.jobId ?? null,
     admin_confirmed_at: now,
+    employee_confirmed_at: now,
     approved_by: params.approvedBy ?? null,
-    approved: false,
-    employee_confirmed_at: null,
+    approved: true,
     employee_dispute_note: null,
     employee_disputed_at: null,
   };

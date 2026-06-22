@@ -86,7 +86,6 @@ export function getProjectMenuGroups(projectId: string): ProjectMenuGroup[] {
         { label: 'Raporlar', href: () => `/admin-panel/proje/${id}/raporlar` },
         { label: 'Onaylananlar', href: () => `/admin-panel/proje/${id}/raporlar/onaylanan` },
         { label: 'Bekleyen kayıtlar', href: () => `/admin-panel/proje/${id}/raporlar/onaysiz` },
-        { label: 'Personel itirazları', href: () => `/admin-panel/proje/${id}/itirazlar` },
         {
           label: 'Kayıt geçmişi',
           href: () => `/admin-panel/proje/${id}/kayit-gecmisi`,

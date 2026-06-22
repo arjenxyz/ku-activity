@@ -31,16 +31,12 @@ const WAGE_RIGHTS = [
 
 const WORK_RIGHTS = [
   {
+    title: 'Yoklama ve yevmiye',
+    text: 'Günlük yoklama QR ile alınır. Usta yoklamayı bitirdiğinde tam gün kaydınız otomatik oluşur.',
+  },
+  {
     title: 'Kayıtları görüntüleme',
-    text: 'Yevmiye sekmesinde tüm çalışma günlerinizi, mesai ve onay durumlarını görebilirsiniz.',
-  },
-  {
-    title: 'Onay hakkı',
-    text: 'Yöneticinin girdiği günleri onaylamadan ödeme hesabına dahil edilmez. Bekleyen günleri Yevmiye sekmesinden onaylayın.',
-  },
-  {
-    title: 'İtiraz hakkı',
-    text: 'Hatalı veya eksik gördüğünüz yevmiye kayıtlarına itiraz edebilirsiniz. İtirazınız kayıt altına alınır.',
+    text: 'Yevmiye sekmesinde tüm çalışma günlerinizi ve mesai kayıtlarınızı görebilirsiniz.',
   },
 ];
 

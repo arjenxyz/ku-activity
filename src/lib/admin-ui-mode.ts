@@ -34,9 +34,9 @@ export function getSimpleMenuLinks(projectId: string): ProjectMenuLink[] {
       hint: 'Avans ekleme',
     },
     {
-      label: 'Personel itirazları',
-      href: () => `/admin-panel/proje/${id}/itirazlar`,
-      hint: 'Yevmiye itirazları',
+      label: 'Kesinti',
+      href: () => `/admin-panel/proje/${id}/kesinti`,
+      hint: 'Kesinti ekleme',
     },
   ];
 }
@@ -44,7 +44,7 @@ export function getSimpleMenuLinks(projectId: string): ProjectMenuLink[] {
 const SIMPLE_PROJECT_SUFFIXES = [
   '/yevmiye',
   '/avans',
-  '/itirazlar',
+  '/kesinti',
 ] as const;
 
 /** Basit modda erişilebilir proje sayfaları */

@@ -30,17 +30,16 @@ export async function PATCH(request: Request, ctx: Ctx) {
       updates.mesai_type = mesaiType;
       updates.mesai_units = mesaiTypeToUnits(mesaiType);
     }
-    if (reconfirmAdmin) {
-      updates.admin_confirmed_at = new Date().toISOString();
+    if (reconfirmAdmin || resolveDispute) {
+      const now = new Date().toISOString();
+      updates.admin_confirmed_at = now;
+      updates.employee_confirmed_at = now;
       updates.approved_by = user.id;
-    }
-    if (resolveDispute) {
-      updates.employee_dispute_note = null;
-      updates.employee_disputed_at = null;
-      updates.employee_confirmed_at = null;
-      updates.admin_confirmed_at = new Date().toISOString();
-      updates.approved_by = user.id;
-      updates.approved = false;
+      updates.approved = true;
+      if (resolveDispute) {
+        updates.employee_dispute_note = null;
+        updates.employee_disputed_at = null;
+      }
     }
 
     if (!Object.keys(updates).length) {

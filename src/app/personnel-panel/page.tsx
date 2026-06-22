@@ -17,9 +17,7 @@ import {
 } from 'react-icons/fi';
 import { EmployeeAvatar } from '@/components/employee/EmployeeAvatar';
 import { PersonnelCalendar } from '@/components/personnel/PersonnelCalendar';
-import { PersonnelAlertBar } from '@/components/personnel/PersonnelAlertBar';
 import { PersonnelMesaiPanel } from '@/components/personnel/PersonnelMesaiPanel';
-import { PersonnelPendingApprovals } from '@/components/personnel/PersonnelPendingApprovals';
 import { PersonnelTodayAttendance } from '@/components/personnel/PersonnelTodayAttendance';
 import { PersonnelPayrollPrint } from '@/components/personnel/PersonnelPayrollPrint';
 import { PersonnelSettingsPage } from '@/components/personnel/PersonnelSettingsPage';
@@ -41,7 +39,6 @@ import { usePersonnelDashboard } from '@/hooks/usePersonnelDashboard';
 import { usePersonnelAsgari } from '@/hooks/usePersonnelAsgari';
 import { usePersonnelTab, type PersonnelTabId } from '@/hooks/usePersonnelTab';
 import { formatDate, formatMoney } from '@/lib/format';
-import { getWorkLogApprovalStatus } from '@/lib/work-log';
 import { buildMonthCalendar, computeMesaiStats, currentMonth, getMesaiCountLines, getWorkDayCountLines } from '@/lib/personnel-stats';
 
 const DESKTOP_TABS = [
@@ -68,13 +65,6 @@ function PersonelPanelContent() {
     error: asgariError,
     reload: reloadAsgari,
   } = usePersonnelAsgari(month, loadAsgari);
-
-  const pendingEmployeeCount = workLogs.filter(
-    (log) => getWorkLogApprovalStatus(log) === 'pending_employee'
-  ).length;
-  const pendingAdminCount = workLogs.filter(
-    (log) => getWorkLogApprovalStatus(log) === 'pending_admin'
-  ).length;
 
   const handleLogout = async () => {
     await fetch('/api/auth/personnel/logout', { method: 'POST' });
@@ -128,13 +118,11 @@ function PersonelPanelContent() {
   const tabsWithBadges = DESKTOP_TABS.map((tab) => ({
     ...tab,
     badge:
-      tab.id === 'work' && pendingEmployeeCount > 0
-        ? pendingEmployeeCount
-        : tab.id === 'asgari' &&
-            asgariData?.gap.paymentStatus &&
-            (asgariData.gap.paymentStatus === 'open' || asgariData.gap.paymentStatus === 'partial')
-          ? 1
-          : undefined,
+      tab.id === 'asgari' &&
+      asgariData?.gap.paymentStatus &&
+      (asgariData.gap.paymentStatus === 'open' || asgariData.gap.paymentStatus === 'partial')
+        ? 1
+        : undefined,
   }));
 
   const handlePrint = () => {
@@ -173,12 +161,7 @@ function PersonelPanelContent() {
           >
             <div>
               {workLogs.map((r) => (
-                <PersonnelWorkLogItem
-                  key={r.id}
-                  log={r}
-                  showActions
-                  onUpdated={() => void reload()}
-                />
+                <PersonnelWorkLogItem key={r.id} log={r} />
               ))}
             </div>
           </PersonnelSection>
@@ -261,16 +244,6 @@ function PersonelPanelContent() {
         </div>
 
         <PersonnelTodayAttendance />
-
-        <PersonnelPendingApprovals workLogs={workLogs} onConfirmed={() => void reload()} />
-
-        {pendingEmployeeCount === 0 && (
-          <PersonnelAlertBar
-            pendingApprovals={pendingEmployeeCount}
-            pendingAdminDays={pendingAdminCount}
-            onGoToWork={() => goTab('work')}
-          />
-        )}
 
         {stats && (
           <PersonnelNetHero
