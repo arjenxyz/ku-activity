@@ -21,7 +21,7 @@ export function PersonnelPanelChrome({ children }: { children: React.ReactNode }
   return (
     <div className="min-h-[100dvh] bg-slate-50 dark:bg-slate-950 sm:bg-transparent">
       <PersonnelMobileHeader />
-      <div className="pt-[calc(3.5rem+env(safe-area-inset-top))] pb-[calc(5.25rem+env(safe-area-inset-bottom))] sm:pt-0 sm:pb-0">
+      <div className="pt-[calc(3.5rem+env(safe-area-inset-top))] pb-[calc(4.75rem+env(safe-area-inset-bottom))] sm:pt-0 sm:pb-0">
         {children}
       </div>
       <PersonnelAppBottomNav />

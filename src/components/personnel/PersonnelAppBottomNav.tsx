@@ -11,11 +11,11 @@ import {
   FiDollarSign,
   FiHome,
   FiMenu,
-  FiMaximize2,
   FiSettings,
   FiShield,
   FiX,
 } from 'react-icons/fi';
+import { TbQrcode } from 'react-icons/tb';
 import { PERSONNEL_MORE_ITEMS } from '@/config/personnel-mobile-nav';
 import type { PersonnelTabId } from '@/hooks/usePersonnelTab';
 import { PERSONNEL_TABS } from '@/hooks/usePersonnelTab';
@@ -119,7 +119,7 @@ function NavInner() {
                     : 'bg-gradient-to-br from-emerald-500 to-teal-600 text-white shadow-emerald-500/30 active:scale-95'
                 }`}
               >
-                <FiMaximize2 className="h-6 w-6" strokeWidth={2.25} />
+                <TbQrcode className="h-6 w-6" />
               </span>
               <span
                 className={`mt-1 text-[10px] font-bold ${isYoklama ? 'text-emerald-600' : 'text-slate-600 dark:text-slate-400'}`}

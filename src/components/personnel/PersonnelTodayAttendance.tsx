@@ -2,7 +2,8 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
-import { FiCheckCircle, FiClock, FiMaximize2 } from 'react-icons/fi';
+import { FiCheckCircle, FiClock } from 'react-icons/fi';
+import { TbQrcode } from 'react-icons/tb';
 import { formatWorkLogSummary } from '@/lib/work-log';
 import { fetchPersonnelTodayAttendance } from '@/lib/personnel-api';
 
@@ -84,7 +85,7 @@ export function PersonnelTodayAttendance() {
           href="/personnel-panel/yoklama"
           className="mt-4 w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white text-sm font-semibold touch-target"
         >
-          <FiMaximize2 className="w-5 h-5" />
+          <TbQrcode className="w-5 h-5" />
           Usta QR okut
         </Link>
       )}

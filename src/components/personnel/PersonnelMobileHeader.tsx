@@ -59,7 +59,7 @@ function HeaderInner() {
           <h1 className="truncate text-base font-bold text-slate-900 dark:text-white">{title}</h1>
         </div>
 
-        {!isYoklama && (
+        {!isYoklama && tab !== 'settings' && (
           <Link
             href="/personnel-panel?tab=settings"
             className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"

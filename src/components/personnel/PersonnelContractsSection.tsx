@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { FiDownload, FiFileText, FiShield } from 'react-icons/fi';
 import { formatDate } from '@/lib/format';
 
@@ -16,6 +16,7 @@ type ContractRow = {
 };
 
 export function PersonnelContractsSection() {
+  const router = useRouter();
   const [contracts, setContracts] = useState<ContractRow[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -75,13 +76,18 @@ export function PersonnelContractsSection() {
                   </p>
                 )}
               </div>
-              <Link
-                href={`/sozlesme/${c.slug}?t=${encodeURIComponent(c.accessToken)}&from=personnel`}
+              <button
+                type="button"
+                onClick={() =>
+                  router.push(
+                    `/sozlesme/${c.slug}?t=${encodeURIComponent(c.accessToken)}&from=personnel`
+                  )
+                }
                 className="shrink-0 inline-flex items-center gap-1 px-3 py-2 rounded-xl text-xs font-semibold text-blue-600 bg-blue-50 dark:bg-blue-950/40 hover:bg-blue-100 transition-colors"
               >
                 <FiDownload className="w-3.5 h-3.5" />
                 Aç
-              </Link>
+              </button>
             </div>
           </li>
         ))}

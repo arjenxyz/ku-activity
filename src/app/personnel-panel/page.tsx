@@ -31,6 +31,8 @@ import { PersonnelTabNav } from '@/components/personnel/PersonnelTabNav';
 import { PersonnelSection } from '@/components/personnel/PersonnelRecordCard';
 import { PersonnelFinancePanel } from '@/components/personnel/PersonnelFinancePanel';
 import { PersonnelAsgariPanel } from '@/components/personnel/PersonnelAsgariPanel';
+import { PersonnelQuickActions } from '@/components/personnel/PersonnelQuickActions';
+import { PersonnelNetHero } from '@/components/personnel/PersonnelNetHero';
 import { PersonnelPullToRefresh } from '@/components/personnel/PersonnelPullToRefresh';
 import { PersonnelPwaInstallBanner } from '@/components/personnel/PersonnelPwaInstallBanner';
 import { PersonnelTrustFooter } from '@/components/personnel/PersonnelTrustFooter';
@@ -210,7 +212,9 @@ function PersonelPanelContent() {
 
     if (activeTab === 'finance' && stats && employee) {
       return (
-        <PersonnelFinancePanel stats={stats} onPrint={handlePrint} />
+        <div className="max-w-lg mx-auto w-full">
+          <PersonnelFinancePanel stats={stats} onPrint={handlePrint} />
+        </div>
       );
     }
 
@@ -244,29 +248,50 @@ function PersonelPanelContent() {
 
     return (
       <div className="space-y-4 sm:space-y-6">
-        <div className="sm:hidden -mt-1 mb-1">
+        <div className="sm:hidden -mt-0.5">
           <p className="text-lg font-bold text-gray-900 dark:text-white">
             Merhaba{employee ? `, ${employee.name.split(' ')[0]}` : ''}
           </p>
-          <p className="text-sm text-gray-500 dark:text-gray-400">Bu ayın özeti</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400">
+            {new Date(`${month}-01T12:00:00`).toLocaleDateString('tr-TR', {
+              month: 'long',
+              year: 'numeric',
+            })}
+          </p>
         </div>
+
+        <PersonnelTodayAttendance />
+
+        <PersonnelPendingApprovals workLogs={workLogs} onConfirmed={() => void reload()} />
+
+        {pendingEmployeeCount === 0 && (
+          <PersonnelAlertBar
+            pendingApprovals={pendingEmployeeCount}
+            pendingAdminDays={pendingAdminCount}
+            onGoToWork={() => goTab('work')}
+          />
+        )}
+
+        {stats && (
+          <PersonnelNetHero
+            net={stats.net}
+            gross={stats.gross}
+            monthLabel={new Date(`${month}-01T12:00:00`).toLocaleDateString('tr-TR', {
+              month: 'long',
+              year: 'numeric',
+            })}
+            onOpenFinance={() => goTab('finance')}
+          />
+        )}
+
+        <PersonnelQuickActions onNavigate={goTab} />
 
         <div className="sm:hidden">
           <PersonnelPwaInstallBanner />
         </div>
 
-        <PersonnelAlertBar
-          pendingApprovals={pendingEmployeeCount}
-          pendingAdminDays={pendingAdminCount}
-          onGoToWork={() => goTab('work')}
-        />
-
-        <PersonnelPendingApprovals workLogs={workLogs} onConfirmed={() => void reload()} />
-
-        <PersonnelTodayAttendance />
-
         {employee && (
-          <div className="bg-white dark:bg-slate-800 rounded-2xl border border-gray-100 dark:border-slate-700 shadow-sm p-4 sm:p-6">
+          <div className="hidden sm:block bg-white dark:bg-slate-800 rounded-2xl border border-gray-100 dark:border-slate-700 shadow-sm p-4 sm:p-6">
             <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
               Profil
             </p>
@@ -296,8 +321,10 @@ function PersonelPanelContent() {
         )}
 
         {stats && (
-          <div className="space-y-3 sm:space-y-4 mb-6 sm:mb-8">
-            <PersonnelStatGrid items={statItems} />
+          <div className="space-y-3 sm:space-y-4 mb-2 sm:mb-8">
+            <div className="hidden sm:block">
+              <PersonnelStatGrid items={statItems} />
+            </div>
             <PersonnelOverviewStrip
               title="Çalışılan Gün"
               icon={<FiCalendar className="w-4 h-4 text-blue-600 dark:text-blue-400" />}

@@ -2,7 +2,7 @@
 
 import { Suspense, useEffect, useState } from 'react';
 import Link from 'next/link';
-import { useParams, useSearchParams } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { FiArrowLeft, FiPrinter } from 'react-icons/fi';
 
 type ContractView = {
@@ -16,6 +16,7 @@ type ContractView = {
 
 function ContractViewContent() {
   const params = useParams();
+  const router = useRouter();
   const searchParams = useSearchParams();
   const slug = params.slug as string;
   const token = searchParams.get('t') ?? '';
@@ -24,6 +25,16 @@ function ContractViewContent() {
 
   const [contract, setContract] = useState<ContractView | null>(null);
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    if (!fromPersonnel) return;
+    window.history.pushState({ personnelContract: true }, '');
+    const onPopState = () => {
+      router.replace(backHref);
+    };
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
+  }, [fromPersonnel, router, backHref]);
 
   useEffect(() => {
     if (!token) {
@@ -65,7 +76,7 @@ function ContractViewContent() {
               className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border border-slate-200 bg-white text-slate-800 text-sm font-medium hover:bg-slate-50 min-h-[44px]"
             >
               <FiArrowLeft className="w-4 h-4" />
-              Ayarlara dön
+              Haklarıma dön
             </Link>
           )}
           <button
