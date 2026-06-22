@@ -118,6 +118,139 @@ export async function getSessionForDate(
   return (data as AttendanceSessionRow | null) ?? null;
 }
 
+export type PersonnelAttendanceState = 'none' | 'waiting' | 'completed' | 'cancelled';
+
+export type PersonnelAttendanceStatus = {
+  workDate: string;
+  state: PersonnelAttendanceState;
+  listedAt: string | null;
+  completedAt: string | null;
+  message: string;
+};
+
+/** Personelin bugünkü yoklama durumu */
+export async function getPersonnelAttendanceStatus(
+  admin: SupabaseClient,
+  params: { employeeId: string; projectId: string; workDate?: string }
+): Promise<PersonnelAttendanceStatus> {
+  const workDate = (params.workDate ?? new Date().toISOString().slice(0, 10)).slice(0, 10);
+
+  const { data: rows } = await admin
+    .from('attendance_session_checkins')
+    .select(
+      `
+      id,
+      scanned_at,
+      work_log_id,
+      attendance_sessions!inner(id, project_id, work_date, status, completed_at)
+    `
+    )
+    .eq('employee_id', params.employeeId)
+    .eq('attendance_sessions.project_id', params.projectId)
+    .eq('attendance_sessions.work_date', workDate)
+    .order('scanned_at', { ascending: false })
+    .limit(1);
+
+  const row = rows?.[0];
+  if (!row) {
+    return {
+      workDate,
+      state: 'none',
+      listedAt: null,
+      completedAt: null,
+      message: 'Bugün için yoklama kaydınız yok.',
+    };
+  }
+
+  const sessionRaw = row.attendance_sessions as
+    | { status: string; completed_at: string | null }
+    | { status: string; completed_at: string | null }[];
+  const session = Array.isArray(sessionRaw) ? sessionRaw[0] : sessionRaw;
+  const listedAt = row.scanned_at as string;
+  const workLogId = row.work_log_id as string | null;
+
+  if (session?.status === 'cancelled') {
+    return {
+      workDate,
+      state: 'cancelled',
+      listedAt,
+      completedAt: session.completed_at,
+      message: 'Yoklama iptal edildi. Ustanızla iletişime geçin.',
+    };
+  }
+
+  if (session?.status === 'completed' && workLogId) {
+    return {
+      workDate,
+      state: 'completed',
+      listedAt,
+      completedAt: session.completed_at,
+      message: 'Bugünün yoklaması tamamlandı. Tam gün yevmiyeniz kaydedildi.',
+    };
+  }
+
+  if (session?.status === 'active') {
+    return {
+      workDate,
+      state: 'waiting',
+      listedAt,
+      completedAt: null,
+      message:
+        'Listeye eklendiniz. Ustanız diğer personelin yoklamasını alıp işlemi tamamlayacak.',
+    };
+  }
+
+  return {
+    workDate,
+    state: 'waiting',
+    listedAt,
+    completedAt: session?.completed_at ?? null,
+    message: 'Yoklama kaydınız işleniyor. Ustanızla iletişime geçmekten çekinmeyin.',
+  };
+}
+
+/** Aynı gün önceki yoklama kaydını temizle (yeniden okutma) */
+export async function clearEmployeeAttendanceForDate(
+  admin: SupabaseClient,
+  params: { employeeId: string; projectId: string; workDate: string }
+): Promise<void> {
+  const workDate = params.workDate.slice(0, 10);
+
+  const { data: checkIns } = await admin
+    .from('attendance_session_checkins')
+    .select(
+      `
+      id,
+      work_log_id,
+      attendance_sessions!inner(project_id, work_date)
+    `
+    )
+    .eq('employee_id', params.employeeId);
+
+  const toClear = (checkIns ?? []).filter((c) => {
+    const sessionRaw = c.attendance_sessions as
+      | { project_id: string; work_date: string }
+      | { project_id: string; work_date: string }[];
+    const session = Array.isArray(sessionRaw) ? sessionRaw[0] : sessionRaw;
+    return session?.project_id === params.projectId && session?.work_date === workDate;
+  });
+
+  const workLogIds = toClear
+    .map((c) => c.work_log_id as string | null)
+    .filter((id): id is string => Boolean(id));
+
+  if (workLogIds.length > 0) {
+    const { error: wlError } = await admin.from('work_logs').delete().in('id', workLogIds);
+    if (wlError) throw new Error(wlError.message);
+  }
+
+  const checkInIds = toClear.map((c) => c.id as string);
+  if (checkInIds.length > 0) {
+    const { error } = await admin.from('attendance_session_checkins').delete().in('id', checkInIds);
+    if (error) throw new Error(error.message);
+  }
+}
+
 export async function getActiveAttendanceQr(
   admin: SupabaseClient,
   projectId: string,
@@ -348,7 +481,12 @@ async function loadActiveQrByToken(admin: SupabaseClient, token: string) {
 /** Personel QR okutunca listeye eklenir; yevmiye usta bitirince yazılır */
 export async function scanAttendanceQr(
   admin: SupabaseClient,
-  params: { token: string; employeeId: string; projectId: string }
+  params: {
+    token: string;
+    employeeId: string;
+    projectId: string;
+    replacePrevious?: boolean;
+  }
 ): Promise<{ workDate: string; employeeName: string; alreadyListed: boolean }> {
   const qr = await loadActiveQrByToken(admin, params.token);
   if (!qr) {
@@ -371,7 +509,7 @@ export async function scanAttendanceQr(
     .maybeSingle();
 
   if (!session) {
-    throw new Error('Yoklama oturumu kapalı. Usta yoklamayı bitirmiş olabilir.');
+    throw new Error('Yoklama oturumu kapalı. Ustadan yeni yoklama başlatmasını isteyin.');
   }
 
   await assertEmployeeTeamHasActiveBlock(admin, params.employeeId, params.projectId);
@@ -383,6 +521,14 @@ export async function scanAttendanceQr(
     .maybeSingle();
 
   const employeeName = (employee?.name as string) ?? 'Personel';
+
+  if (params.replacePrevious) {
+    await clearEmployeeAttendanceForDate(admin, {
+      employeeId: params.employeeId,
+      projectId: params.projectId,
+      workDate: qr.work_date,
+    });
+  }
 
   const { data: existingCheckin } = await admin
     .from('attendance_session_checkins')

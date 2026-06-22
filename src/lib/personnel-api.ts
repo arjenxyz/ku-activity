@@ -141,18 +141,36 @@ export async function disputePersonnelWorkLog(recordId: string, note: string) {
   return res.json();
 }
 
-export async function scanAttendanceQr(token: string) {
+export async function scanAttendanceQr(token: string, options?: { replace?: boolean }) {
   const res = await personnelFetch('/api/personnel/attendance-qr/scan', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ token }),
+    body: JSON.stringify({ token, replace: options?.replace === true }),
   });
   if (!res.ok) throw new Error(await parseError(res));
   return res.json() as Promise<{
     ok: boolean;
     alreadyListed?: boolean;
+    replaced?: boolean;
     message?: string;
+    workDate?: string;
+    status?: PersonnelAttendanceStatusPayload;
   }>;
+}
+
+export type PersonnelAttendanceStatusPayload = {
+  workDate: string;
+  state: 'none' | 'waiting' | 'completed' | 'cancelled';
+  listedAt: string | null;
+  completedAt: string | null;
+  message: string;
+};
+
+export async function fetchPersonnelAttendanceStatus(date?: string) {
+  const q = date ? `?date=${encodeURIComponent(date)}` : '';
+  const res = await personnelFetch(`/api/personnel/attendance-qr/status${q}`);
+  if (!res.ok) throw new Error(await parseError(res));
+  return res.json() as Promise<PersonnelAttendanceStatusPayload>;
 }
 
 export async function changePersonnelPassword(currentPassword: string, newPassword: string) {
