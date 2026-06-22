@@ -6,6 +6,11 @@ import type { Project, ProjectFormData, ProjectStatus } from '@/types/project';
 import { PROJECT_STATUS_LABELS } from '@/types/project';
 import { FiX, FiTrash2, FiSettings, FiAlertTriangle } from 'react-icons/fi';
 import { updateProject, deleteProject } from '@/api/projects';
+import {
+  COMMON_PROJECT_TIMEZONES,
+  DEFAULT_PROJECT_TIMEZONE,
+  guessTimezoneFromLocation,
+} from '@/lib/attendance-window';
 
 type Props = {
   project: Project;
@@ -33,6 +38,7 @@ export const ProjectSettingsModal = ({
     status: project.status,
     work_start_time: project.work_start_time?.slice(0, 5) ?? '08:00',
     work_end_time: project.work_end_time?.slice(0, 5) ?? '17:00',
+    timezone: project.timezone ?? DEFAULT_PROJECT_TIMEZONE,
   });
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -132,7 +138,35 @@ export const ProjectSettingsModal = ({
           </div>
           <div>
             <label className="block text-sm font-medium mb-1">Konum</label>
-            <input type="text" className={inputClass} value={formData.location} onChange={(e) => setFormData({ ...formData, location: e.target.value })} />
+            <input
+              type="text"
+              className={inputClass}
+              value={formData.location}
+              onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+              onBlur={() => {
+                const guessed = guessTimezoneFromLocation(formData.location);
+                if (guessed && formData.timezone === DEFAULT_PROJECT_TIMEZONE) {
+                  setFormData((f) => ({ ...f, timezone: guessed }));
+                }
+              }}
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">Saat dilimi (yoklama)</label>
+            <select
+              className={inputClass}
+              value={formData.timezone ?? DEFAULT_PROJECT_TIMEZONE}
+              onChange={(e) => setFormData({ ...formData, timezone: e.target.value })}
+            >
+              {COMMON_PROJECT_TIMEZONES.map((tz) => (
+                <option key={tz.value} value={tz.value}>
+                  {tz.label}
+                </option>
+              ))}
+            </select>
+            <p className="mt-1 text-xs text-slate-500">
+              Yoklama: iş bitişinden sonra başlar, ertesi iş başından 1 dk önce biter.
+            </p>
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>

@@ -164,6 +164,17 @@ export type PersonnelAttendanceStatusPayload = {
   listedAt: string | null;
   completedAt: string | null;
   message: string;
+  window?: {
+    workDate: string;
+    timezone: string;
+    workStartTime: string;
+    workEndTime: string;
+    windowStartLabel: string;
+    windowEndLabel: string;
+    isOpen: boolean;
+    currentOpenWorkDate: string | null;
+    message: string;
+  };
 };
 
 export async function fetchPersonnelAttendanceStatus(date?: string) {

@@ -160,7 +160,18 @@ function YoklamaContent() {
         ) : view === 'cancelled' ? (
           <CancelledScreen onRescan={startRescan} />
         ) : showScanner ? (
-          <ScannerSection
+          <>
+            {status?.window && !status.window.isOpen && status.state === 'none' && (
+              <div className="mt-5 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-4 text-sm text-amber-900">
+                <p className="font-semibold">Yoklama saati dışında</p>
+                <p className="mt-2 leading-relaxed">{status.window.message}</p>
+                <p className="mt-2 text-xs opacity-90">
+                  İzin verilen süre: {status.window.windowStartLabel} –{' '}
+                  {status.window.windowEndLabel}
+                </p>
+              </div>
+            )}
+            <ScannerSection
             tab={tab}
             setTab={setTab}
             scanning={scanning}
@@ -171,7 +182,11 @@ function YoklamaContent() {
             error={error}
             isRescan={view === 'rescan'}
             onCancelRescan={() => void refreshStatus()}
+            scannerDisabled={
+              Boolean(status?.window && !status.window.isOpen && status.state === 'none')
+            }
           />
+          </>
         ) : null}
       </div>
     </PersonnelShell>
@@ -307,6 +322,7 @@ function ScannerSection({
   error,
   isRescan,
   onCancelRescan,
+  scannerDisabled = false,
 }: {
   tab: 'scan' | 'code';
   setTab: (t: 'scan' | 'code') => void;
@@ -318,6 +334,7 @@ function ScannerSection({
   error: string | null;
   isRescan: boolean;
   onCancelRescan: () => void;
+  scannerDisabled?: boolean;
 }) {
   return (
     <div className="mt-5 space-y-4">
@@ -367,7 +384,7 @@ function ScannerSection({
               onScan={onScan}
               parseQr={parseAttendanceTokenFromQr}
               invalidQrMessage="Geçerli bir yoklama QR kodu değil."
-              disabled={scanning}
+              disabled={scanning || scannerDisabled}
             />
           </div>
         </div>
@@ -387,7 +404,7 @@ function ScannerSection({
               placeholder="YOK-..."
               value={manualCode}
               onChange={(e) => setManualCode(e.target.value.toUpperCase())}
-              disabled={scanning}
+              disabled={scanning || scannerDisabled}
               autoComplete="off"
               spellCheck={false}
             />
@@ -395,7 +412,7 @@ function ScannerSection({
           <button
             type="submit"
             className={`${btnPrimary} w-full py-3.5 text-base touch-target`}
-            disabled={scanning || !manualCode.trim()}
+                  disabled={scanning || scannerDisabled || !manualCode.trim()}
           >
             {scanning ? 'Gönderiliyor…' : isRescan ? 'Yeniden okut' : 'Yoklamaya katıl'}
           </button>

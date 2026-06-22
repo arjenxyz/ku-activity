@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import {
   FiCheckCircle,
+  FiClock,
   FiCopy,
   FiPlay,
   FiRefreshCw,
@@ -42,7 +43,7 @@ function copyText(text: string) {
 }
 
 export function AttendanceQrPanel({ projectId }: Props) {
-  const [date, setDate] = useState(dayjs().format('YYYY-MM-DD'));
+  const [date, setDate] = useState('');
   const [data, setData] = useState<AttendanceQrPayload | null>(null);
   const [loading, setLoading] = useState(true);
   const [acting, setActing] = useState(false);
@@ -55,7 +56,12 @@ export function AttendanceQrPanel({ projectId }: Props) {
     setLoading(true);
     setError(null);
     try {
-      const payload = await fetchAttendanceQr(projectId, date);
+      const payload = await fetchAttendanceQr(projectId, date || undefined);
+      const resolvedDate =
+        payload.window?.currentOpenWorkDate ?? payload.window?.workDate ?? date;
+      if (resolvedDate && resolvedDate !== date) {
+        setDate(resolvedDate);
+      }
       setData(payload);
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Yüklenemedi');
@@ -73,6 +79,11 @@ export function AttendanceQrPanel({ projectId }: Props) {
   const isCompleted = data?.session?.status === 'completed';
   const activeToken = data?.qr?.token;
   const checkInCount = data?.checkIns.length ?? 0;
+  const windowInfo = data?.window;
+  const windowOpen = windowInfo?.isOpen ?? false;
+  const formattedDate = date
+    ? dayjs(date).format('DD MMMM YYYY')
+    : dayjs().format('DD MMMM YYYY');
 
   useEffect(() => {
     if (!isActive || !activeToken) return;
@@ -159,8 +170,6 @@ export function AttendanceQrPanel({ projectId }: Props) {
     window.setTimeout(() => setCopied(false), 2000);
   };
 
-  const formattedDate = dayjs(date).format('DD MMMM YYYY');
-
   return (
     <section className="mb-6 overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-sm">
       {/* Header */}
@@ -243,6 +252,30 @@ export function AttendanceQrPanel({ projectId }: Props) {
           <p className="text-sm text-emerald-800 bg-emerald-50 border border-emerald-100 rounded-xl px-4 py-3">
             {success}
           </p>
+        )}
+
+        {windowInfo && (
+          <div
+            className={`rounded-xl border px-4 py-3 text-sm ${
+              windowOpen
+                ? 'border-emerald-200 bg-emerald-50 text-emerald-900'
+                : 'border-amber-200 bg-amber-50 text-amber-900'
+            }`}
+          >
+            <p className="flex items-start gap-2 font-medium">
+              <FiClock className="mt-0.5 h-4 w-4 shrink-0" />
+              <span>
+                İş saatleri: {windowInfo.workStartTime} – {windowInfo.workEndTime} (
+                {windowInfo.timezone})
+              </span>
+            </p>
+            <p className="mt-2 text-xs sm:text-sm leading-relaxed opacity-90">
+              {windowInfo.message}
+            </p>
+            <p className="mt-1 text-xs opacity-80">
+              Yoklama penceresi: {windowInfo.windowStartLabel} → {windowInfo.windowEndLabel}
+            </p>
+          </div>
         )}
 
         {loading && !data ? (
@@ -422,13 +455,15 @@ export function AttendanceQrPanel({ projectId }: Props) {
               {formattedDate} için yoklama yok
             </p>
             <p className="mt-2 text-sm text-slate-500 max-w-sm mx-auto">
-              Başlattığınızda QR oluşur; personel okudukça listeye eklenir.
+              {windowOpen
+                ? 'Başlattığınızda QR oluşur; personel okudukça listeye eklenir.'
+                : 'Şu an yoklama penceresi kapalı. İş bitiş saatinden sonra tekrar deneyin.'}
             </p>
             <button
               type="button"
               onClick={() => void handleStart()}
-              disabled={acting}
-              className={`${btnPrimary} mt-6 inline-flex items-center gap-2 px-6 py-3 text-base`}
+              disabled={acting || !windowOpen}
+              className={`${btnPrimary} mt-6 inline-flex items-center gap-2 px-6 py-3 text-base disabled:opacity-50`}
             >
               <FiPlay className="w-5 h-5" />
               {acting ? 'Başlatılıyor…' : 'Yoklamayı başlat'}

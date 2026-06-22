@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import dayjs from 'dayjs';
 import { requireAdminProjectAccess } from '@/lib/admin-auth';
 import { createAdminClient } from '@/utils/supabase/admin';
 import {
@@ -8,6 +7,12 @@ import {
   getActiveAttendanceQr,
   listSessionCheckIns,
 } from '@/lib/attendance-qr-service';
+import {
+  getAttendanceWindowStatus,
+  getCurrentOpenWorkDate,
+  getProjectCalendarDate,
+  loadProjectAttendanceSchedule,
+} from '@/lib/attendance-window';
 import { apiErrorMessage } from '@/lib/project-queries';
 
 type Ctx = { params: Promise<{ projectId: string }> };
@@ -17,11 +22,13 @@ export async function POST(request: Request, ctx: Ctx) {
     const { projectId } = await ctx.params;
     const user = await requireAdminProjectAccess(projectId);
     const body = await request.json().catch(() => ({}));
+    const admin = createAdminClient();
+    const schedule = await loadProjectAttendanceSchedule(admin, projectId);
     const workDate =
       (typeof body.date === 'string' ? body.date.slice(0, 10) : null) ??
-      dayjs().format('YYYY-MM-DD');
+      getCurrentOpenWorkDate(schedule) ??
+      getProjectCalendarDate(schedule);
 
-    const admin = createAdminClient();
     const { count, session } = await completeAttendanceSession(admin, {
       projectId,
       workDate,
@@ -31,7 +38,8 @@ export async function POST(request: Request, ctx: Ctx) {
     const checkIns = await listSessionCheckIns(admin, session.id);
     const qr = await getActiveAttendanceQr(admin, projectId, workDate);
     const origin = new URL(request.url).origin;
-    const today = dayjs().format('YYYY-MM-DD');
+    const calendarToday = getProjectCalendarDate(schedule);
+    const window = getAttendanceWindowStatus(workDate, schedule);
 
     return NextResponse.json({
       session,
@@ -41,8 +49,9 @@ export async function POST(request: Request, ctx: Ctx) {
       checkIns,
       count,
       message: `${count} personel için tam gün yevmiye kaydedildi.`,
-      isToday: workDate === today,
-      canStart: true,
+      isToday: workDate === calendarToday,
+      canStart: window.isOpen,
+      window,
     });
   } catch (err) {
     const { status, message } = apiErrorMessage(err);

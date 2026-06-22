@@ -51,6 +51,9 @@ export async function PATCH(request: Request, context: RouteContext) {
     if (body.work_end_time !== undefined) {
       updates.work_end_time = body.work_end_time || null;
     }
+    if (body.timezone !== undefined) {
+      updates.timezone = body.timezone?.trim() || 'Europe/Istanbul';
+    }
 
     const supabase = await createClient();
     const { data, error } = await supabase

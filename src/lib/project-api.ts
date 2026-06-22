@@ -80,6 +80,21 @@ export type AttendanceQrPayload = {
   canStart: boolean;
   count?: number;
   message?: string;
+  window?: AttendanceWindowPayload;
+};
+
+export type AttendanceWindowPayload = {
+  workDate: string;
+  timezone: string;
+  workStartTime: string;
+  workEndTime: string;
+  windowStart: string;
+  windowEnd: string;
+  windowStartLabel: string;
+  windowEndLabel: string;
+  isOpen: boolean;
+  currentOpenWorkDate: string | null;
+  message: string;
 };
 
 export async function fetchAttendanceQr(projectId: string, date?: string) {

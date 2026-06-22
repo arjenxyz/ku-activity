@@ -1,15 +1,21 @@
 import { NextResponse } from 'next/server';
-import dayjs from 'dayjs';
 import { requireAdminProjectAccess } from '@/lib/admin-auth';
 import { createAdminClient } from '@/utils/supabase/admin';
 import {
   buildAttendanceQrUrl,
   cancelAttendanceSession,
   getActiveAttendanceQr,
+  getProjectAttendanceWindowStatus,
   getSessionForDate,
   listSessionCheckIns,
   startAttendanceSession,
 } from '@/lib/attendance-qr-service';
+import {
+  getAttendanceWindowStatus,
+  getCurrentOpenWorkDate,
+  getProjectCalendarDate,
+  loadProjectAttendanceSchedule,
+} from '@/lib/attendance-window';
 import { apiErrorMessage } from '@/lib/project-queries';
 
 type Ctx = { params: Promise<{ projectId: string }> };
@@ -32,11 +38,16 @@ export async function GET(request: Request, ctx: Ctx) {
     const { projectId } = await ctx.params;
     await requireAdminProjectAccess(projectId);
     const { searchParams } = new URL(request.url);
-    const workDate =
-      searchParams.get('date')?.slice(0, 10) ?? dayjs().format('YYYY-MM-DD');
-    const today = dayjs().format('YYYY-MM-DD');
 
     const admin = createAdminClient();
+    const schedule = await loadProjectAttendanceSchedule(admin, projectId);
+    const openWorkDate = getCurrentOpenWorkDate(schedule);
+    const workDate =
+      searchParams.get('date')?.slice(0, 10) ??
+      openWorkDate ??
+      getProjectCalendarDate(schedule);
+    const calendarToday = getProjectCalendarDate(schedule);
+
     const session = await getSessionForDate(admin, projectId, workDate);
     const qr =
       session?.status === 'active'
@@ -44,13 +55,17 @@ export async function GET(request: Request, ctx: Ctx) {
         : null;
     const checkIns = session ? await listSessionCheckIns(admin, session.id) : [];
     const origin = new URL(request.url).origin;
+    const window = getAttendanceWindowStatus(workDate, schedule);
 
     return NextResponse.json({
       session,
       qr: qr ? serializeQr(qr, origin) : null,
       checkIns,
-      isToday: workDate === today,
-      canStart: !session || session.status === 'completed',
+      isToday: workDate === calendarToday,
+      canStart:
+        (!session || session.status === 'completed' || session.status === 'cancelled') &&
+        window.isOpen,
+      window,
     });
   } catch (err) {
     const { status, message } = apiErrorMessage(err);
@@ -64,11 +79,13 @@ export async function POST(request: Request, ctx: Ctx) {
     const { projectId } = await ctx.params;
     const user = await requireAdminProjectAccess(projectId);
     const body = await request.json().catch(() => ({}));
+    const admin = createAdminClient();
+    const schedule = await loadProjectAttendanceSchedule(admin, projectId);
     const workDate =
       (typeof body.date === 'string' ? body.date.slice(0, 10) : null) ??
-      dayjs().format('YYYY-MM-DD');
+      getCurrentOpenWorkDate(schedule) ??
+      getProjectCalendarDate(schedule);
 
-    const admin = createAdminClient();
     const { session, qr } = await startAttendanceSession(admin, {
       projectId,
       workDate,
@@ -76,14 +93,16 @@ export async function POST(request: Request, ctx: Ctx) {
     });
     const checkIns = await listSessionCheckIns(admin, session.id);
     const origin = new URL(request.url).origin;
-    const today = dayjs().format('YYYY-MM-DD');
+    const calendarToday = getProjectCalendarDate(schedule);
+    const window = await getProjectAttendanceWindowStatus(admin, projectId, workDate);
 
     return NextResponse.json({
       session,
       qr: serializeQr(qr, origin),
       checkIns,
-      isToday: workDate === today,
+      isToday: workDate === calendarToday,
       canStart: false,
+      window,
     });
   } catch (err) {
     const { status, message } = apiErrorMessage(err);
@@ -97,25 +116,29 @@ export async function DELETE(request: Request, ctx: Ctx) {
     const { projectId } = await ctx.params;
     const user = await requireAdminProjectAccess(projectId);
     const body = await request.json().catch(() => ({}));
+    const admin = createAdminClient();
+    const schedule = await loadProjectAttendanceSchedule(admin, projectId);
     const workDate =
       (typeof body.date === 'string' ? body.date.slice(0, 10) : null) ??
-      dayjs().format('YYYY-MM-DD');
+      getCurrentOpenWorkDate(schedule) ??
+      getProjectCalendarDate(schedule);
 
-    const admin = createAdminClient();
     await cancelAttendanceSession(admin, {
       projectId,
       workDate,
       cancelledBy: user.id,
     });
 
-    const today = dayjs().format('YYYY-MM-DD');
+    const calendarToday = getProjectCalendarDate(schedule);
+    const window = getAttendanceWindowStatus(workDate, schedule);
 
     return NextResponse.json({
       session: null,
       qr: null,
       checkIns: [],
-      isToday: workDate === today,
-      canStart: true,
+      isToday: workDate === calendarToday,
+      canStart: window.isOpen,
+      window,
       message: 'Yoklama iptal edildi.',
     });
   } catch (err) {

@@ -1,5 +1,10 @@
 import { randomBytes } from 'crypto';
 import type { SupabaseClient } from '@supabase/supabase-js';
+import {
+  assertAttendanceWindowOpen,
+  getAttendanceWindowStatus,
+  loadProjectAttendanceSchedule,
+} from '@/lib/attendance-window';
 import { assertEmployeeTeamHasActiveBlock } from '@/lib/team-work-guard';
 import type { WorkLogRow } from '@/lib/work-log-service';
 
@@ -116,6 +121,15 @@ export async function getSessionForDate(
     .maybeSingle();
 
   return (data as AttendanceSessionRow | null) ?? null;
+}
+
+export async function getProjectAttendanceWindowStatus(
+  admin: SupabaseClient,
+  projectId: string,
+  workDate: string
+) {
+  const schedule = await loadProjectAttendanceSchedule(admin, projectId);
+  return getAttendanceWindowStatus(workDate, schedule);
 }
 
 export type PersonnelAttendanceState = 'none' | 'waiting' | 'completed' | 'cancelled';
@@ -316,6 +330,9 @@ export async function startAttendanceSession(
 ): Promise<{ session: AttendanceSessionRow; qr: AttendanceQrRow }> {
   const workDate = params.workDate.slice(0, 10);
 
+  const schedule = await loadProjectAttendanceSchedule(admin, params.projectId);
+  assertAttendanceWindowOpen(workDate, schedule);
+
   const existing = await getActiveSession(admin, params.projectId, workDate);
   if (existing) {
     const qr = await getActiveAttendanceQr(admin, params.projectId, workDate);
@@ -512,6 +529,9 @@ export async function scanAttendanceQr(
     throw new Error('Yoklama oturumu kapalı. Ustadan yeni yoklama başlatmasını isteyin.');
   }
 
+  const schedule = await loadProjectAttendanceSchedule(admin, params.projectId);
+  assertAttendanceWindowOpen(qr.work_date, schedule);
+
   await assertEmployeeTeamHasActiveBlock(admin, params.employeeId, params.projectId);
 
   const { data: employee } = await admin
@@ -597,6 +617,9 @@ export async function completeAttendanceSession(
   if (!session) {
     throw new Error('Aktif yoklama oturumu yok');
   }
+
+  const schedule = await loadProjectAttendanceSchedule(admin, params.projectId);
+  assertAttendanceWindowOpen(workDate, schedule);
 
   const checkIns = await listSessionCheckIns(admin, session.id);
   const now = new Date().toISOString();
