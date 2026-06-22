@@ -56,7 +56,7 @@ export type AttendanceQrPayload = {
     id: string;
     project_id: string;
     work_date: string;
-    status: 'active' | 'completed';
+    status: 'active' | 'completed' | 'cancelled';
     started_at: string;
     completed_at: string | null;
   } | null;
@@ -107,6 +107,24 @@ export async function completeAttendanceSession(projectId: string, date: string)
   });
   if (!res.ok) throw new Error(await parseError(res));
   return (await res.json()) as AttendanceQrPayload;
+}
+
+export async function cancelAttendanceSession(projectId: string, date: string) {
+  const res = await fetch(`/api/admin/projects/${projectId}/attendance-qr`, {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ date }),
+  });
+  if (!res.ok) throw new Error(await parseError(res));
+  return (await res.json()) as AttendanceQrPayload;
+}
+
+export async function removeAttendanceCheckIn(projectId: string, checkInId: string) {
+  const res = await fetch(
+    `/api/admin/projects/${projectId}/attendance-qr/checkins/${checkInId}`,
+    { method: 'DELETE' }
+  );
+  if (!res.ok) throw new Error(await parseError(res));
 }
 
 export async function postWorkLog(

@@ -4,6 +4,7 @@ import { requireAdminProjectAccess } from '@/lib/admin-auth';
 import { createAdminClient } from '@/utils/supabase/admin';
 import {
   buildAttendanceQrUrl,
+  cancelAttendanceSession,
   getActiveAttendanceQr,
   getSessionForDate,
   listSessionCheckIns,
@@ -83,6 +84,39 @@ export async function POST(request: Request, ctx: Ctx) {
       checkIns,
       isToday: workDate === today,
       canStart: false,
+    });
+  } catch (err) {
+    const { status, message } = apiErrorMessage(err);
+    return NextResponse.json({ error: message }, { status });
+  }
+}
+
+/** Aktif yoklamayı iptal et */
+export async function DELETE(request: Request, ctx: Ctx) {
+  try {
+    const { projectId } = await ctx.params;
+    const user = await requireAdminProjectAccess(projectId);
+    const body = await request.json().catch(() => ({}));
+    const workDate =
+      (typeof body.date === 'string' ? body.date.slice(0, 10) : null) ??
+      dayjs().format('YYYY-MM-DD');
+
+    const admin = createAdminClient();
+    await cancelAttendanceSession(admin, {
+      projectId,
+      workDate,
+      cancelledBy: user.id,
+    });
+
+    const today = dayjs().format('YYYY-MM-DD');
+
+    return NextResponse.json({
+      session: null,
+      qr: null,
+      checkIns: [],
+      isToday: workDate === today,
+      canStart: true,
+      message: 'Yoklama iptal edildi.',
     });
   } catch (err) {
     const { status, message } = apiErrorMessage(err);

@@ -53,7 +53,7 @@ export type AttendanceSessionRow = {
   id: string;
   project_id: string;
   work_date: string;
-  status: 'active' | 'completed';
+  status: 'active' | 'completed' | 'cancelled';
   started_at: string;
   completed_at: string | null;
 };
@@ -492,6 +492,75 @@ export async function completeAttendanceSession(
   if (error) throw new Error(error.message);
 
   return { count, session: completed as AttendanceSessionRow };
+}
+
+/** Usta: aktif yoklamayı iptal et — yevmiye yazılmaz */
+export async function cancelAttendanceSession(
+  admin: SupabaseClient,
+  params: { projectId: string; workDate: string; cancelledBy?: string | null }
+): Promise<void> {
+  const workDate = params.workDate.slice(0, 10);
+  const session = await getActiveSession(admin, params.projectId, workDate);
+
+  if (!session) {
+    throw new Error('İptal edilecek aktif yoklama yok');
+  }
+
+  const now = new Date().toISOString();
+  await revokeSessionQrs(admin, session.id);
+
+  await admin.from('attendance_session_checkins').delete().eq('session_id', session.id);
+
+  const { error } = await admin
+    .from('attendance_sessions')
+    .update({
+      status: 'cancelled',
+      completed_at: now,
+      completed_by: params.cancelledBy ?? null,
+    })
+    .eq('id', session.id);
+
+  if (error) throw new Error(error.message);
+}
+
+/** Listeden personel kaldır (yalnızca aktif oturum, yevmiye yazılmadan önce) */
+export async function removeSessionCheckIn(
+  admin: SupabaseClient,
+  params: { projectId: string; checkInId: string }
+): Promise<void> {
+  const { data: checkIn } = await admin
+    .from('attendance_session_checkins')
+    .select('id, session_id, work_log_id, attendance_sessions!inner(project_id, status)')
+    .eq('id', params.checkInId)
+    .maybeSingle();
+
+  if (!checkIn) {
+    throw new Error('Kayıt bulunamadı');
+  }
+
+  const sessionRaw = checkIn.attendance_sessions as
+    | { project_id: string; status: string }
+    | { project_id: string; status: string }[];
+  const session = Array.isArray(sessionRaw) ? sessionRaw[0] : sessionRaw;
+
+  if (!session || session.project_id !== params.projectId) {
+    throw new Error('Kayıt bulunamadı');
+  }
+
+  if (session.status !== 'active') {
+    throw new Error('Yalnızca devam eden yoklamadan kaldırılabilir');
+  }
+
+  if (checkIn.work_log_id) {
+    throw new Error('Yevmiyesi yazılmış kayıt kaldırılamaz');
+  }
+
+  const { error } = await admin
+    .from('attendance_session_checkins')
+    .delete()
+    .eq('id', params.checkInId);
+
+  if (error) throw new Error(error.message);
 }
 
 // Geriye dönük export
