@@ -9,7 +9,7 @@ Kullanıcı her kod değişikliğinden sonra otomatik commit ve push istiyor.
 
 ## Ne zaman
 
-Görev tamamlandığında ve anlamlı, çalışan bir değişiklik seti oluştuğunda (kullanıcı ayrıca istemese bile):
+Görev tamamlandığında veya anlamlı bir değişiklik seti oluştuğunda — kullanıcı ayrıca istemese bile her değişiklik sonrası:
 
 1. `git status` ve `git diff` ile değişiklikleri kontrol et
 2. İlgili dosyaları stage et (`.env`, secret dosyaları hariç)
