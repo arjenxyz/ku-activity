@@ -127,13 +127,13 @@ function YoklamaContent() {
   return (
     <PersonnelShell>
       <div className="mx-auto max-w-lg">
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-600 via-emerald-700 to-teal-800 px-5 py-6 text-white shadow-lg">
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-600 via-emerald-700 to-teal-800 px-4 py-5 sm:px-5 sm:py-6 text-white shadow-lg sm:mt-0">
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.15),transparent_60%)]" />
           <div className="relative">
             <p className="text-xs font-medium uppercase tracking-wider text-emerald-100/90">
               Günlük yoklama
             </p>
-            <h1 className="mt-1 text-2xl font-bold tracking-tight">
+            <h1 className="mt-1 text-xl sm:text-2xl font-bold tracking-tight">
               {view === 'rescan' ? 'Yeniden okut' : 'QR okut'}
             </h1>
             <p className="mt-2 text-sm leading-relaxed text-emerald-50/90">

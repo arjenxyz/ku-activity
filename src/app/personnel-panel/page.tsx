@@ -32,6 +32,7 @@ import { PersonnelSection } from '@/components/personnel/PersonnelRecordCard';
 import { PersonnelFinancePanel } from '@/components/personnel/PersonnelFinancePanel';
 import { PersonnelAsgariPanel } from '@/components/personnel/PersonnelAsgariPanel';
 import { PersonnelPullToRefresh } from '@/components/personnel/PersonnelPullToRefresh';
+import { PersonnelPwaInstallBanner } from '@/components/personnel/PersonnelPwaInstallBanner';
 import { PersonnelTrustFooter } from '@/components/personnel/PersonnelTrustFooter';
 import { PersonnelWorkLogItem } from '@/components/personnel/PersonnelWorkLogItem';
 import { usePersonnelDashboard } from '@/hooks/usePersonnelDashboard';
@@ -243,6 +244,17 @@ function PersonelPanelContent() {
 
     return (
       <div className="space-y-4 sm:space-y-6">
+        <div className="sm:hidden -mt-1 mb-1">
+          <p className="text-lg font-bold text-gray-900 dark:text-white">
+            Merhaba{employee ? `, ${employee.name.split(' ')[0]}` : ''}
+          </p>
+          <p className="text-sm text-gray-500 dark:text-gray-400">Bu ayın özeti</p>
+        </div>
+
+        <div className="sm:hidden">
+          <PersonnelPwaInstallBanner />
+        </div>
+
         <PersonnelAlertBar
           pendingApprovals={pendingEmployeeCount}
           pendingAdminDays={pendingAdminCount}
@@ -321,7 +333,7 @@ function PersonelPanelContent() {
           }}
         >
           <div className="no-print">
-            <div className="mb-4 sm:mb-6 no-print">
+            <div className="mb-4 sm:mb-6 no-print hidden sm:block">
               <h1 className="text-xl sm:text-3xl font-bold text-gray-900 dark:text-white tracking-tight">
                 Hoş geldiniz{employee ? `, ${employee.name.split(' ')[0]}` : ''}
               </h1>
@@ -330,7 +342,11 @@ function PersonelPanelContent() {
               </p>
             </div>
 
-            <div className="mb-4 sm:mb-6 no-print">
+            <div className="mb-4 sm:mb-6 no-print hidden sm:block">
+              <PersonnelPwaInstallBanner />
+            </div>
+
+            <div className="mb-4 sm:mb-6 no-print hidden sm:block">
               <PersonnelTabNav tabs={tabsWithBadges} active={activeTab} onChange={goTab} />
             </div>
             {renderContent()}

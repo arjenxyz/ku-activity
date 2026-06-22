@@ -2,7 +2,7 @@
 
 import { usePathname } from 'next/navigation';
 import { PersonnelAppBottomNav } from '@/components/personnel/PersonnelAppBottomNav';
-import { PersonnelPwaInstallBanner } from '@/components/personnel/PersonnelPwaInstallBanner';
+import { PersonnelMobileHeader } from '@/components/personnel/PersonnelMobileHeader';
 
 function showPersonnelChrome(pathname: string) {
   if (pathname.startsWith('/personnel-panel/login')) return false;
@@ -19,10 +19,12 @@ export function PersonnelPanelChrome({ children }: { children: React.ReactNode }
   }
 
   return (
-    <>
-      <div className="pb-[calc(4.5rem+env(safe-area-inset-bottom))] sm:pb-0">{children}</div>
-      <PersonnelPwaInstallBanner />
+    <div className="min-h-[100dvh] bg-slate-50 dark:bg-slate-950 sm:bg-transparent">
+      <PersonnelMobileHeader />
+      <div className="pt-[calc(3.5rem+env(safe-area-inset-top))] pb-[calc(5.25rem+env(safe-area-inset-bottom))] sm:pt-0 sm:pb-0">
+        {children}
+      </div>
       <PersonnelAppBottomNav />
-    </>
+    </div>
   );
 }

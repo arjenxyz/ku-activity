@@ -1,96 +1,232 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname, useSearchParams } from 'next/navigation';
-import { Suspense } from 'react';
-import { FiBriefcase, FiDollarSign, FiHome, FiMaximize2 } from 'react-icons/fi';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { Suspense, useEffect, useState } from 'react';
+import {
+  FiBookOpen,
+  FiBriefcase,
+  FiChevronRight,
+  FiClock,
+  FiDollarSign,
+  FiHome,
+  FiMenu,
+  FiMaximize2,
+  FiSettings,
+  FiShield,
+  FiX,
+} from 'react-icons/fi';
+import { PERSONNEL_MORE_ITEMS } from '@/config/personnel-mobile-nav';
+import type { PersonnelTabId } from '@/hooks/usePersonnelTab';
+import { PERSONNEL_TABS } from '@/hooks/usePersonnelTab';
+
+const MORE_TABS: PersonnelTabId[] = ['mesai', 'asgari', 'rights', 'settings'];
+
+function moreIcon(tab: (typeof PERSONNEL_MORE_ITEMS)[number]['tab']) {
+  switch (tab) {
+    case 'mesai':
+      return FiClock;
+    case 'asgari':
+      return FiShield;
+    case 'rights':
+      return FiBookOpen;
+    case 'settings':
+      return FiSettings;
+  }
+}
+
+function isValidTab(value: string | null): value is PersonnelTabId {
+  return PERSONNEL_TABS.includes(value as PersonnelTabId);
+}
 
 function NavInner() {
-  const pathname = usePathname();
+  const pathname = usePathname() ?? '';
+  const router = useRouter();
   const searchParams = useSearchParams();
-  const tab = searchParams.get('tab');
+  const tabParam = searchParams.get('tab');
+  const tab = isValidTab(tabParam) ? tabParam : 'overview';
+  const [moreOpen, setMoreOpen] = useState(false);
 
-  const items = [
-    {
-      id: 'home',
-      label: 'Panel',
-      href: '/personnel-panel',
-      icon: FiHome,
-      active: pathname === '/personnel-panel' && (!tab || tab === 'overview'),
-    },
-    {
-      id: 'yoklama',
-      label: 'Yoklama',
-      href: '/personnel-panel/yoklama',
-      icon: FiMaximize2,
-      prominent: true,
-      active: pathname.startsWith('/personnel-panel/yoklama'),
-    },
-    {
-      id: 'work',
-      label: 'Yevmiye',
-      href: '/personnel-panel?tab=work',
-      icon: FiBriefcase,
-      active: pathname === '/personnel-panel' && tab === 'work',
-    },
-    {
-      id: 'finance',
-      label: 'Finans',
-      href: '/personnel-panel?tab=finance',
-      icon: FiDollarSign,
-      active: pathname === '/personnel-panel' && tab === 'finance',
-    },
-  ] as const;
+  useEffect(() => {
+    setMoreOpen(false);
+  }, [pathname, tabParam]);
+
+  useEffect(() => {
+    if (!moreOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMoreOpen(false);
+    };
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', onKey);
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', onKey);
+    };
+  }, [moreOpen]);
+
+  const isHome = pathname === '/personnel-panel' && tab === 'overview';
+  const isWork = pathname === '/personnel-panel' && tab === 'work';
+  const isFinance = pathname === '/personnel-panel' && tab === 'finance';
+  const isYoklama = pathname.startsWith('/personnel-panel/yoklama');
+  const isMore = pathname === '/personnel-panel' && MORE_TABS.includes(tab);
+
+  const goTab = (id: PersonnelTabId) => {
+    router.push(`/personnel-panel?tab=${id}`, { scroll: false });
+    setMoreOpen(false);
+  };
+
+  const sideLinkClass = (active: boolean) =>
+    `flex flex-1 flex-col items-center justify-center gap-0.5 rounded-xl py-2 min-h-[52px] touch-target transition-colors ${
+      active ? 'text-blue-600 dark:text-blue-400' : 'text-slate-500 dark:text-slate-400'
+    }`;
+
+  const iconWrapClass = (active: boolean) =>
+    `flex h-8 w-8 items-center justify-center rounded-xl transition-colors ${
+      active ? 'bg-blue-50 dark:bg-blue-950/50' : ''
+    }`;
 
   return (
-    <nav
-      className="fixed bottom-0 inset-x-0 z-50 sm:hidden border-t border-gray-200 dark:border-slate-700 bg-white/95 dark:bg-slate-900/95 backdrop-blur-lg safe-pb"
-      aria-label="Personel mobil menü"
-    >
-      <div className="flex items-end max-w-lg mx-auto px-1">
-        {items.map((item) => {
-          const Icon = item.icon;
-
-          if ('prominent' in item && item.prominent) {
-            return (
-              <Link
-                key={item.id}
-                href={item.href}
-                className="flex flex-col items-center flex-1 -mt-3 pb-1 touch-target"
-              >
-                <span
-                  className={`flex items-center justify-center w-14 h-14 rounded-2xl shadow-lg transition-colors ${
-                    item.active
-                      ? 'bg-blue-600 text-white shadow-blue-500/40 ring-2 ring-blue-300'
-                      : 'bg-blue-600 text-white shadow-blue-500/30 active:bg-blue-700'
-                  }`}
-                >
-                  <Icon className="w-6 h-6" strokeWidth={2.25} />
-                </span>
-                <span
-                  className={`mt-1 text-[10px] font-semibold ${item.active ? 'text-blue-600' : 'text-gray-600 dark:text-gray-400'}`}
-                >
-                  {item.label}
-                </span>
-              </Link>
-            );
-          }
-
-          return (
-            <Link
-              key={item.id}
-              href={item.href}
-              className={`flex flex-col items-center justify-center gap-0.5 py-2.5 min-h-[52px] flex-1 text-[10px] font-medium touch-target ${
-                item.active ? 'text-blue-600' : 'text-gray-500 dark:text-gray-400'
-              }`}
-            >
-              <Icon className="w-5 h-5" />
-              <span>{item.label}</span>
+    <>
+      <nav
+        className="fixed bottom-0 inset-x-0 z-50 sm:hidden"
+        aria-label="Personel uygulama menüsü"
+      >
+        <div className="mx-auto max-w-lg px-3 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
+          <div className="flex items-end gap-1 rounded-2xl border border-slate-200/90 bg-white/95 px-1 py-1 shadow-[0_-4px_24px_rgba(15,23,42,0.08)] backdrop-blur-xl dark:border-slate-700 dark:bg-slate-900/95">
+            <Link href="/personnel-panel" className={sideLinkClass(isHome)}>
+              <span className={iconWrapClass(isHome)}>
+                <FiHome className="h-5 w-5" strokeWidth={isHome ? 2.25 : 2} />
+              </span>
+              <span className="text-[10px] font-semibold">Ana Sayfa</span>
             </Link>
-          );
-        })}
-      </div>
-    </nav>
+
+            <Link href="/personnel-panel?tab=work" className={sideLinkClass(isWork)}>
+              <span className={iconWrapClass(isWork)}>
+                <FiBriefcase className="h-5 w-5" strokeWidth={isWork ? 2.25 : 2} />
+              </span>
+              <span className="text-[10px] font-semibold">Yevmiye</span>
+            </Link>
+
+            <Link
+              href="/personnel-panel/yoklama"
+              className="flex flex-col items-center flex-1 -mt-5 touch-target"
+              aria-current={isYoklama ? 'page' : undefined}
+            >
+              <span
+                className={`flex h-[3.25rem] w-[3.25rem] items-center justify-center rounded-2xl shadow-lg transition-all ${
+                  isYoklama
+                    ? 'bg-gradient-to-br from-emerald-500 to-teal-600 text-white ring-4 ring-emerald-100 dark:ring-emerald-900/40'
+                    : 'bg-gradient-to-br from-emerald-500 to-teal-600 text-white shadow-emerald-500/30 active:scale-95'
+                }`}
+              >
+                <FiMaximize2 className="h-6 w-6" strokeWidth={2.25} />
+              </span>
+              <span
+                className={`mt-1 text-[10px] font-bold ${isYoklama ? 'text-emerald-600' : 'text-slate-600 dark:text-slate-400'}`}
+              >
+                Yoklama
+              </span>
+            </Link>
+
+            <Link href="/personnel-panel?tab=finance" className={sideLinkClass(isFinance)}>
+              <span className={iconWrapClass(isFinance)}>
+                <FiDollarSign className="h-5 w-5" strokeWidth={isFinance ? 2.25 : 2} />
+              </span>
+              <span className="text-[10px] font-semibold">Finans</span>
+            </Link>
+
+            <button
+              type="button"
+              onClick={() => setMoreOpen(true)}
+              className={sideLinkClass(isMore)}
+              aria-expanded={moreOpen}
+              aria-haspopup="dialog"
+            >
+              <span className={iconWrapClass(isMore)}>
+                <FiMenu className="h-5 w-5" strokeWidth={isMore ? 2.25 : 2} />
+              </span>
+              <span className="text-[10px] font-semibold">Menü</span>
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      {moreOpen && (
+        <div className="fixed inset-0 z-[60] sm:hidden" role="dialog" aria-modal="true">
+          <button
+            type="button"
+            className="absolute inset-0 bg-slate-900/40 backdrop-blur-[2px]"
+            aria-label="Kapat"
+            onClick={() => setMoreOpen(false)}
+          />
+          <div className="absolute inset-x-0 bottom-0 max-h-[min(70vh,28rem)] overflow-hidden rounded-t-3xl bg-white dark:bg-slate-900 shadow-2xl safe-pb animate-[slideUp_0.25s_ease-out]">
+            <div className="flex items-center justify-between border-b border-slate-100 px-5 py-4 dark:border-slate-800">
+              <div>
+                <p className="text-base font-bold text-slate-900 dark:text-white">Menü</p>
+                <p className="text-xs text-slate-500">Diğer bölümler</p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setMoreOpen(false)}
+                className="flex h-10 w-10 items-center justify-center rounded-xl text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800"
+                aria-label="Kapat"
+              >
+                <FiX className="h-5 w-5" />
+              </button>
+            </div>
+            <ul className="overflow-y-auto p-3 space-y-1">
+              {PERSONNEL_MORE_ITEMS.map((item) => {
+                const Icon = moreIcon(item.tab);
+                const active = tab === item.tab;
+                return (
+                  <li key={item.tab}>
+                    <button
+                      type="button"
+                      onClick={() => goTab(item.tab)}
+                      className={`flex w-full items-center gap-3 rounded-2xl px-4 py-3.5 text-left transition-colors ${
+                        active
+                          ? 'bg-blue-50 dark:bg-blue-950/40'
+                          : 'hover:bg-slate-50 dark:hover:bg-slate-800/60'
+                      }`}
+                    >
+                      <span
+                        className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${
+                          active
+                            ? 'bg-blue-600 text-white'
+                            : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'
+                        }`}
+                      >
+                        <Icon className="h-5 w-5" />
+                      </span>
+                      <span className="min-w-0 flex-1">
+                        <span className="block text-sm font-semibold text-slate-900 dark:text-white">
+                          {item.label}
+                        </span>
+                        <span className="block text-xs text-slate-500 dark:text-slate-400">
+                          {item.description}
+                        </span>
+                      </span>
+                      <FiChevronRight className="h-4 w-4 shrink-0 text-slate-400" />
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        </div>
+      )}
+
+      <style jsx global>{`
+        @keyframes slideUp {
+          from {
+            transform: translateY(100%);
+          }
+          to {
+            transform: translateY(0);
+          }
+        }
+      `}</style>
+    </>
   );
 }
 
