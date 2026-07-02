@@ -24,8 +24,8 @@ export const metadata: Metadata = {
     title: 'CrewLedger',
   },
   icons: {
-    icon: [{ url: `${ORIGIN}/icons/personnel/192?v=3`, sizes: '192x192', type: 'image/png' }],
-    apple: [{ url: `${ORIGIN}/icons/personnel/192?v=3`, sizes: '192x192', type: 'image/png' }],
+    icon: [{ url: `${ORIGIN}/icons/personnel/192?v=4`, sizes: '192x192', type: 'image/png' }],
+    apple: [{ url: `${ORIGIN}/icons/personnel/192?v=4`, sizes: '192x192', type: 'image/png' }],
   },
   other: {
     'mobile-web-app-capable': 'yes',

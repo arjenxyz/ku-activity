@@ -2,112 +2,84 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { BrandMark } from '@/components/brand/BrandMark';
+import { PERSONNEL_INTRO_IMAGE, PERSONNEL_PWA_SPLASH_BG } from '@/lib/personnel-pwa-brand';
 
-const DISPLAY_MS = 2800;
-const EXIT_MS = 420;
+const DISPLAY_MS = 3400;
+const EXIT_MS = 480;
+const MIN_LOAD_MS = 1200;
 
 type Props = {
   onComplete: () => void;
 };
 
-function IntroHero() {
+function IntroLoadingFooter() {
   return (
-    <div className="relative h-full w-full overflow-hidden bg-gradient-to-b from-sky-400 via-sky-500 to-sky-600">
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -left-8 top-[18%] h-24 w-56 rounded-full bg-white/35 blur-2xl" />
-        <div className="absolute right-0 top-[28%] h-28 w-64 rounded-full bg-white/30 blur-3xl" />
-        <div className="absolute bottom-[22%] left-[10%] h-20 w-72 rounded-full bg-white/25 blur-2xl" />
-      </div>
-
-      <motion.div
-        className="pointer-events-none absolute inset-x-0 bottom-[18%] flex justify-center"
-        initial={{ y: 48, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ type: 'spring', stiffness: 120, damping: 18, delay: 0.1 }}
+    <motion.div
+      className="absolute inset-x-0 bottom-0 z-10 flex flex-col items-center px-6 pt-20"
+      style={{
+        paddingBottom: 'max(1.75rem, env(safe-area-inset-bottom))',
+        background:
+          'linear-gradient(to top, rgba(6,13,20,0.97) 0%, rgba(6,13,20,0.72) 45%, transparent 100%)',
+      }}
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.15, duration: 0.55, ease: 'easeOut' }}
+    >
+      <motion.p
+        className="mb-4 text-center text-[15px] font-medium tracking-wide text-white/90"
+        animate={{ opacity: [0.65, 1, 0.65] }}
+        transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
       >
-        <svg
-          viewBox="0 0 420 220"
-          className="h-44 w-[min(92vw,24rem)] text-white/90 drop-shadow-lg"
-          aria-hidden
-        >
-          <path
-            fill="currentColor"
-            d="M40 190h340v12H40zM120 190V92h18v98h-18zm140 0V110h16v80h-16zm60 0V70h14v120h-14zM90 190l70-118 14 8-70 110z"
-            opacity="0.92"
-          />
-          <path
-            stroke="currentColor"
-            strokeWidth="5"
-            strokeLinecap="round"
-            fill="none"
-            d="M300 190V40M300 40l48-18M300 40l-12 52"
-            opacity="0.95"
-          />
-          <rect x="286" y="52" width="28" height="10" rx="2" fill="currentColor" opacity="0.9" />
-        </svg>
-      </motion.div>
+        Uygulama hazırlanıyor…
+      </motion.p>
 
-      <div className="relative flex h-full flex-col items-center justify-between px-6 pb-10 pt-14 safe-pt safe-pb">
-        <motion.p
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.15, duration: 0.4 }}
-          className="text-center text-[11px] font-bold uppercase tracking-[0.22em] text-white/75"
-        >
-          CrewLedger Personel
-        </motion.p>
-
-        <div className="flex flex-col items-center gap-5">
-          <motion.h1
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.25, duration: 0.45 }}
-            className="max-w-xs text-center text-2xl font-bold uppercase leading-tight tracking-wide text-white drop-shadow-md"
-          >
-            Şantiyede güvenle ilerle
-          </motion.h1>
-
-          <motion.div
-            initial={{ opacity: 0, scale: 0.92 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.4, duration: 0.4 }}
-            className="flex items-center gap-2.5"
-          >
-            {['Yoklama', 'Yevmiye', 'Bordro'].map((label) => (
-              <span
-                key={label}
-                className="rounded-full border border-amber-200/50 bg-amber-400/90 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-amber-950 shadow-sm"
-              >
-                {label}
-              </span>
-            ))}
-          </motion.div>
-        </div>
-
+      <div className="relative mx-auto h-1 w-[min(72vw,220px)] overflow-hidden rounded-full bg-white/12">
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.4 }}
-          className="flex flex-col items-center gap-2"
-        >
-          <BrandMark size="lg" className="!h-14 !w-14 !rounded-2xl ring-2 ring-white/30 shadow-xl" />
-          <span className="text-sm font-bold tracking-[0.12em] text-white">CREWLEDGER</span>
-        </motion.div>
+          className="absolute inset-y-0 left-0 w-[38%] rounded-full bg-gradient-to-r from-sky-500/20 via-sky-400 to-sky-500/20 shadow-[0_0_12px_rgba(56,189,248,0.55)]"
+          animate={{ x: ['-120%', '320%'] }}
+          transition={{ duration: 1.35, repeat: Infinity, ease: 'easeInOut' }}
+        />
       </div>
-    </div>
+
+      <div className="mt-4 flex items-center justify-center gap-2">
+        {[0, 1, 2].map((i) => (
+          <motion.span
+            key={i}
+            className="h-2 w-2 rounded-full bg-sky-400"
+            animate={{
+              opacity: [0.25, 1, 0.25],
+              scale: [0.75, 1.15, 0.75],
+              y: [0, -3, 0],
+            }}
+            transition={{
+              duration: 0.9,
+              repeat: Infinity,
+              delay: i * 0.16,
+              ease: 'easeInOut',
+            }}
+          />
+        ))}
+      </div>
+    </motion.div>
   );
 }
 
-/** Yalnızca hero aşaması — logo PWA splash'te */
 export function PersonnelAppIntro({ onComplete }: Props) {
   const [fading, setFading] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [imageReady, setImageReady] = useState(false);
+  const [readyAt, setReadyAt] = useState<number | null>(null);
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    if (!imageReady || readyAt !== null) return;
+    setReadyAt(Date.now());
+  }, [imageReady, readyAt]);
 
   const finish = useCallback(() => {
     if (fading) return;
@@ -116,27 +88,45 @@ export function PersonnelAppIntro({ onComplete }: Props) {
   }, [fading, onComplete]);
 
   useEffect(() => {
-    const toExit = window.setTimeout(() => finish(), DISPLAY_MS);
+    if (!readyAt) return;
+
+    const elapsed = Date.now() - readyAt;
+    const wait = Math.max(DISPLAY_MS - elapsed, MIN_LOAD_MS);
+    const toExit = window.setTimeout(() => finish(), wait);
     return () => window.clearTimeout(toExit);
-  }, [finish]);
+  }, [readyAt, finish]);
 
   if (!mounted) return null;
 
   return createPortal(
     <motion.div
-      role="button"
-      tabIndex={0}
-      aria-label="Açılış ekranı — geçmek için dokunun"
-      onClick={finish}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') finish();
-      }}
-      className="fixed inset-0 z-[9999] h-[100dvh] w-full max-sm:block sm:hidden cursor-default touch-none"
+      role="presentation"
+      aria-busy="true"
+      aria-label="Uygulama hazırlanıyor"
+      className="fixed inset-0 z-[9999] h-[100dvh] w-full max-sm:block sm:hidden touch-none overflow-hidden"
+      style={{ backgroundColor: PERSONNEL_PWA_SPLASH_BG }}
       initial={{ opacity: 1 }}
       animate={{ opacity: fading ? 0 : 1 }}
       transition={{ duration: EXIT_MS / 1000 }}
     >
-      <IntroHero />
+      <motion.div
+        className="absolute inset-0"
+        initial={{ scale: 1.06 }}
+        animate={{ scale: 1 }}
+        transition={{ duration: 4.5, ease: [0.22, 1, 0.36, 1] }}
+      >
+        <Image
+          src={PERSONNEL_INTRO_IMAGE}
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center"
+          onLoad={() => setImageReady(true)}
+        />
+      </motion.div>
+
+      <IntroLoadingFooter />
     </motion.div>,
     document.body
   );

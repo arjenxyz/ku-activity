@@ -1,5 +1,5 @@
-/** Personel intro — oturum başına bir kez (PWA her açılışta hero gösterilsin) */
-export const PERSONNEL_INTRO_STORAGE_KEY = 'cl-personnel-intro-v3';
+/** Personel intro — oturum başına bir kez */
+export const PERSONNEL_INTRO_STORAGE_KEY = 'cl-personnel-intro-v4';
 
 export function hasSeenPersonnelIntro(): boolean {
   try {
