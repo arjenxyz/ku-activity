@@ -3,7 +3,6 @@
 import dynamic from 'next/dynamic';
 import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
-import { FiShield } from 'react-icons/fi';
 import { ContractAcceptanceBlock } from '@/components/contracts/ContractAcceptanceBlock';
 import { ContractEmailVerificationModal } from '@/components/contracts/ContractEmailVerificationModal';
 import { PersonnelLoginLayout } from '@/components/personnel/PersonnelLoginLayout';
@@ -442,20 +441,13 @@ export default function PersonnelApplicationPage() {
     <PersonnelLoginLayout
       size="wide"
       alignTop
+      compact
       title="Personel Başvurusu"
       subtitle="Bilgilerinizi girin; yönetici onayından sonra sisteme alınacaksınız."
     >
       {error && <AuthAlert type="error" message={error} />}
 
-      <div className="mb-5 flex items-start gap-2 rounded-xl bg-blue-50 dark:bg-blue-950/40 border border-blue-100 dark:border-blue-900 p-3 text-xs text-blue-900 dark:text-blue-200 xl:hidden">
-        <FiShield className="w-4 h-4 shrink-0 mt-0.5" />
-        <p>
-          T.C. kimlik, doğum tarihi ve IBAN bilgileriniz sunucuda şifrelenerek saklanır; yalnızca
-          yetkili yöneticiler görebilir.
-        </p>
-      </div>
-
-      <form onSubmit={handleSubmit} className="space-y-5">
+      <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-3 gap-2">
           {[
             { id: 1 as RegistrationStep, label: 'Temel' },
@@ -601,6 +593,9 @@ export default function PersonnelApplicationPage() {
                   onChange={(e) => setForm({ ...form, iban: e.target.value.toUpperCase() })}
                   required
                 />
+                <p className="text-[11px] text-slate-500 mt-1">
+                  Kimlik ve IBAN bilgileriniz şifreli saklanır.
+                </p>
               </div>
 
               <h3 className={sectionTitleClass}>Giriş güvenliği</h3>
