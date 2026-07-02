@@ -7,15 +7,23 @@ const ADMIN_LOGIN = '/admin-panel/login';
 const ADMIN_REGISTER = '/admin-panel/register';
 const PERSONNEL_LOGIN = '/personnel-panel/login';
 const PERSONNEL_BASVURU = '/personnel-panel/basvuru';
+const PERSONNEL_SIFREMI_UNUTTUM = '/personnel-panel/sifremi-unuttum';
 const DEVELOPER_LOGIN = '/developer-panel/login';
 
-const PERSONNEL_PUBLIC = new Set([PERSONNEL_LOGIN, PERSONNEL_BASVURU]);
+function isPersonnelPublicPath(pathname: string): boolean {
+  if (pathname === PERSONNEL_LOGIN) return true;
+  if (pathname === PERSONNEL_SIFREMI_UNUTTUM) return true;
+  if (pathname === PERSONNEL_BASVURU || pathname.startsWith(`${PERSONNEL_BASVURU}/`)) {
+    return true;
+  }
+  return false;
+}
 
 function shouldRefreshSupabaseSession(pathname: string) {
   if (pathname.startsWith('/api/public')) return false;
   if (pathname.startsWith('/api/auth/personnel')) return false;
   if (pathname.startsWith('/sozlesme')) return false;
-  if (PERSONNEL_PUBLIC.has(pathname)) return false;
+  if (isPersonnelPublicPath(pathname)) return false;
   if (pathname === ADMIN_LOGIN || pathname === ADMIN_REGISTER) return false;
   if (pathname === DEVELOPER_LOGIN) return false;
   return true;
@@ -31,7 +39,7 @@ export async function middleware(request: NextRequest) {
   const isAdminLogin = pathname === ADMIN_LOGIN;
   const isAdminRegister = pathname === ADMIN_REGISTER;
   const isAdminPublic = isAdminLogin || isAdminRegister;
-  const isPersonnelPublic = PERSONNEL_PUBLIC.has(pathname);
+  const isPersonnelPublic = isPersonnelPublicPath(pathname);
   const isDeveloperLogin = pathname === DEVELOPER_LOGIN;
   const isAdminRoute = pathname.startsWith('/admin-panel') && !isAdminPublic;
   const isDeveloperRoute = pathname.startsWith('/developer-panel') && !isDeveloperLogin;
