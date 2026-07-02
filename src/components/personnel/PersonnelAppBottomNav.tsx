@@ -3,7 +3,14 @@
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { Suspense, useState } from 'react';
-import { NavIconHome, NavIconQr } from '@/components/personnel/PersonnelNavIcons';
+import { motion } from 'framer-motion';
+import {
+  NavIconFinance,
+  NavIconHome,
+  NavIconMenu,
+  NavIconQr,
+  NavIconWork,
+} from '@/components/personnel/PersonnelNavIcons';
 import { PersonnelNavHub } from '@/components/personnel/PersonnelNavHub';
 import { PERSONNEL_HUB_TABS } from '@/config/personnel-mobile-nav';
 import type { PersonnelTabId } from '@/hooks/usePersonnelTab';
@@ -13,16 +20,14 @@ function isValidTab(value: string | null): value is PersonnelTabId {
   return PERSONNEL_TABS.includes(value as PersonnelTabId);
 }
 
-function NavIconPanel({ className = 'w-5 h-5' }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden>
-      <rect x="3" y="3" width="8" height="8" rx="2" stroke="currentColor" strokeWidth="1.75" />
-      <rect x="13" y="3" width="8" height="5" rx="2" stroke="currentColor" strokeWidth="1.75" />
-      <rect x="13" y="10" width="8" height="11" rx="2" stroke="currentColor" strokeWidth="1.75" />
-      <rect x="3" y="13" width="8" height="8" rx="2" stroke="currentColor" strokeWidth="1.75" />
-    </svg>
-  );
-}
+type DockItem = {
+  id: string;
+  label: string;
+  href?: string;
+  onClick?: () => void;
+  icon: React.ReactNode;
+  isCenter?: boolean;
+};
 
 function NavInner() {
   const pathname = usePathname() ?? '';
@@ -32,9 +37,62 @@ function NavInner() {
   const [hubOpen, setHubOpen] = useState(false);
 
   const isHome = pathname === '/personnel-panel' && tab === 'overview';
+  const isWork = pathname === '/personnel-panel' && tab === 'work';
+  const isFinance = pathname === '/personnel-panel' && tab === 'finance';
   const isYoklama = pathname.startsWith('/personnel-panel/yoklama');
-  const isPanelSection =
-    isYoklama || (pathname === '/personnel-panel' && PERSONNEL_HUB_TABS.includes(tab));
+  const isMore =
+    hubOpen || (pathname === '/personnel-panel' && PERSONNEL_HUB_TABS.includes(tab));
+
+  const items: DockItem[] = [
+    {
+      id: 'home',
+      label: 'Özet',
+      href: '/personnel-panel',
+      icon: <NavIconHome className="w-[1.35rem] h-[1.35rem]" />,
+    },
+    {
+      id: 'work',
+      label: 'Yevmiye',
+      href: '/personnel-panel?tab=work',
+      icon: <NavIconWork className="w-[1.35rem] h-[1.35rem]" />,
+    },
+    {
+      id: 'yoklama',
+      label: 'Yoklama',
+      href: '/personnel-panel/yoklama',
+      icon: <NavIconQr className="w-6 h-6" />,
+      isCenter: true,
+    },
+    {
+      id: 'finance',
+      label: 'Finans',
+      href: '/personnel-panel?tab=finance',
+      icon: <NavIconFinance className="w-[1.35rem] h-[1.35rem]" />,
+    },
+    {
+      id: 'more',
+      label: 'Menü',
+      onClick: () => setHubOpen(true),
+      icon: <NavIconMenu className="w-[1.35rem] h-[1.35rem]" />,
+    },
+  ];
+
+  const isActive = (id: string) => {
+    switch (id) {
+      case 'home':
+        return isHome;
+      case 'work':
+        return isWork;
+      case 'yoklama':
+        return isYoklama;
+      case 'finance':
+        return isFinance;
+      case 'more':
+        return isMore && !isYoklama;
+      default:
+        return false;
+    }
+  };
 
   return (
     <>
@@ -42,104 +100,135 @@ function NavInner() {
         className="fixed bottom-0 inset-x-0 z-50 sm:hidden pointer-events-none"
         aria-label="Personel navigasyon"
       >
-        <div className="mx-auto max-w-lg px-5 pb-[max(0.75rem,env(safe-area-inset-bottom))] pointer-events-auto">
-          {/* Marka dock — selamlama kartı ile aynı dil */}
-          <div className="relative overflow-hidden rounded-[1.25rem] shadow-xl shadow-blue-950/30">
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-800 via-blue-900 to-indigo-950" />
-            <div
-              className="absolute inset-0 opacity-[0.08]"
-              style={{
-                backgroundImage: `url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='1' fill-rule='evenodd'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E")`,
-              }}
-            />
+        <div className="mx-auto max-w-lg px-4 pb-[max(0.65rem,env(safe-area-inset-bottom))] pointer-events-auto">
+          <motion.div
+            initial={{ y: 24, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ type: 'spring', stiffness: 380, damping: 28 }}
+            className="relative rounded-[1.65rem] border border-white/70 bg-white/85 shadow-[0_12px_48px_rgba(15,23,42,0.14)] backdrop-blur-2xl dark:border-slate-700/80 dark:bg-slate-900/90"
+          >
+            {/* Yumuşak üst parıltı */}
+            <div className="pointer-events-none absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-blue-400/40 to-transparent" />
 
-            <div className="relative flex items-stretch h-[4.25rem]">
-              {/* Özet */}
-              <Link
-                href="/personnel-panel"
-                className={`relative flex flex-1 flex-col items-center justify-center gap-1 touch-target transition-colors ${
-                  isHome ? 'text-white' : 'text-blue-200/70 hover:text-white'
-                }`}
-                aria-current={isHome ? 'page' : undefined}
-              >
-                <span
-                  className={`flex h-9 w-9 items-center justify-center rounded-xl transition-all ${
-                    isHome ? 'bg-white/20 text-white' : 'text-blue-100'
-                  }`}
-                >
-                  <NavIconHome />
-                </span>
-                <span className="text-[10px] font-semibold">Özet</span>
-                {isHome && (
-                  <span className="absolute bottom-2 h-0.5 w-5 rounded-full bg-white/90" />
-                )}
-              </Link>
+            <div className="flex items-end justify-between px-1.5 pt-2 pb-1.5">
+              {items.map((item) => {
+                const active = isActive(item.id);
 
-              {/* QR — orta aksiyon */}
-              <Link
-                href="/personnel-panel/yoklama"
-                className="relative flex flex-col items-center justify-end flex-1 -mt-7 touch-target"
-                aria-current={isYoklama ? 'page' : undefined}
-              >
-                <span
-                  className={`flex h-[3.75rem] w-[3.75rem] items-center justify-center rounded-2xl border-4 border-slate-100 dark:border-slate-900 transition-all active:scale-95 ${
-                    isYoklama
-                      ? 'bg-gradient-to-br from-teal-400 to-emerald-600 text-white shadow-lg shadow-emerald-500/50'
-                      : 'bg-gradient-to-br from-emerald-400 to-teal-600 text-white shadow-xl shadow-emerald-600/40'
-                  }`}
-                >
-                  <NavIconQr className="w-7 h-7" />
-                </span>
-                <span
-                  className={`mt-1.5 text-[10px] font-bold pb-1 ${
-                    isYoklama ? 'text-emerald-300' : 'text-blue-100'
-                  }`}
-                >
-                  Yoklama
-                </span>
-              </Link>
+                if (item.isCenter) {
+                  return (
+                    <Link
+                      key={item.id}
+                      href={item.href!}
+                      className="relative flex flex-1 flex-col items-center -mt-8 touch-target"
+                      aria-current={active ? 'page' : undefined}
+                    >
+                      <motion.span
+                        animate={
+                          active
+                            ? { scale: 1, boxShadow: '0 12px 28px rgba(16,185,129,0.45)' }
+                            : { scale: [1, 1.04, 1], boxShadow: '0 10px 24px rgba(16,185,129,0.35)' }
+                        }
+                        transition={
+                          active
+                            ? { type: 'spring', stiffness: 400, damping: 22 }
+                            : { duration: 2.8, repeat: Infinity, ease: 'easeInOut' }
+                        }
+                        className={`relative flex h-[3.6rem] w-[3.6rem] items-center justify-center rounded-[1.15rem] text-white ${
+                          active
+                            ? 'bg-gradient-to-br from-emerald-500 to-teal-600 ring-4 ring-emerald-100 dark:ring-emerald-900/50'
+                            : 'bg-gradient-to-br from-emerald-400 to-teal-500'
+                        }`}
+                      >
+                        {!active && (
+                          <motion.span
+                            className="absolute inset-0 rounded-[1.15rem] border-2 border-emerald-300/60"
+                            animate={{ scale: [1, 1.18, 1], opacity: [0.6, 0, 0.6] }}
+                            transition={{ duration: 2.2, repeat: Infinity, ease: 'easeOut' }}
+                          />
+                        )}
+                        {item.icon}
+                      </motion.span>
+                      <motion.span
+                        animate={{ opacity: 1, y: 0 }}
+                        className={`mt-1.5 text-[10px] font-bold ${
+                          active ? 'text-emerald-600' : 'text-slate-600 dark:text-slate-400'
+                        }`}
+                      >
+                        {item.label}
+                      </motion.span>
+                    </Link>
+                  );
+                }
 
-              {/* Panel hub */}
-              <button
-                type="button"
-                onClick={() => setHubOpen(true)}
-                className={`relative flex flex-1 flex-col items-center justify-center gap-1 touch-target transition-colors ${
-                  isPanelSection && !isYoklama ? 'text-white' : 'text-blue-200/70 hover:text-white'
-                }`}
-                aria-expanded={hubOpen}
-                aria-haspopup="dialog"
-              >
-                <span
-                  className={`flex h-9 w-9 items-center justify-center rounded-xl transition-all ${
-                    isPanelSection && !isYoklama
-                      ? 'bg-white/20 text-white'
-                      : 'text-blue-100'
-                  }`}
-                >
-                  <NavIconPanel />
-                </span>
-                <span className="text-[10px] font-semibold">Panel</span>
-                {isPanelSection && !isYoklama && (
-                  <span className="absolute bottom-2 h-0.5 w-5 rounded-full bg-white/90" />
-                )}
-              </button>
+                const inner = (
+                  <>
+                    <motion.span
+                      layout
+                      className="relative flex h-9 w-9 items-center justify-center"
+                    >
+                      {active && (
+                        <motion.span
+                          layoutId="personnel-dock-pill"
+                          className="absolute inset-0 rounded-xl bg-blue-600 shadow-md shadow-blue-600/30"
+                          transition={{ type: 'spring', stiffness: 420, damping: 32 }}
+                        />
+                      )}
+                      <span
+                        className={`relative z-10 transition-colors duration-200 ${
+                          active ? 'text-white' : 'text-slate-500 dark:text-slate-400'
+                        }`}
+                      >
+                        {item.icon}
+                      </span>
+                    </motion.span>
+                    <motion.span
+                      animate={{
+                        color: active ? '#2563eb' : undefined,
+                        fontWeight: active ? 700 : 600,
+                      }}
+                      className={`mt-0.5 text-[10px] ${active ? '' : 'text-slate-500 dark:text-slate-400'}`}
+                      style={active ? { color: '#2563eb' } : undefined}
+                    >
+                      {item.label}
+                    </motion.span>
+                  </>
+                );
+
+                const className =
+                  'relative flex flex-1 flex-col items-center justify-center py-1 min-h-[52px] touch-target';
+
+                if (item.href) {
+                  return (
+                    <Link
+                      key={item.id}
+                      href={item.href}
+                      className={className}
+                      aria-current={active ? 'page' : undefined}
+                    >
+                      {inner}
+                    </Link>
+                  );
+                }
+
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={item.onClick}
+                    className={className}
+                    aria-expanded={hubOpen}
+                    aria-haspopup="dialog"
+                  >
+                    {inner}
+                  </button>
+                );
+              })}
             </div>
-          </div>
+          </motion.div>
         </div>
       </nav>
 
       <PersonnelNavHub open={hubOpen} onClose={() => setHubOpen(false)} />
-
-      <style jsx global>{`
-        @keyframes personnelSheetUp {
-          from {
-            transform: translateY(100%);
-          }
-          to {
-            transform: translateY(0);
-          }
-        }
-      `}</style>
     </>
   );
 }
