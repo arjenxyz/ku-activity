@@ -9,7 +9,6 @@ import { FiLock } from 'react-icons/fi';
 import { PersonnelLoginLayout } from '@/components/personnel/PersonnelLoginLayout';
 import { AuthAlert, LoadingSpinner } from '@/components/auth/AuthAlerts';
 import { PERSONNEL_PIN_LENGTH, sanitizePersonnelPinInput } from '@/lib/personnel-pin';
-import { SUPPORT_EMAIL } from '@/lib/support-email';
 import {
   loginPinInputProps,
   loginTcInputProps,
@@ -29,9 +28,6 @@ function PersonnelLoginContent() {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [checkingSession, setCheckingSession] = useState(true);
-  const forgotPinHref = `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent(
-    'CrewLedger - Personel PIN sifirlama talebi'
-  )}`;
 
   useEffect(() => {
     let cancelled = false;
@@ -179,9 +175,9 @@ function PersonnelLoginContent() {
           )}
         </p>
         <p>
-          <a href={forgotPinHref} className="text-blue-600 font-semibold hover:underline">
+          <Link href="/personnel-panel/sifremi-unuttum" className="text-blue-600 font-semibold hover:underline">
             Şifremi unuttum
-          </a>
+          </Link>
         </p>
       </div>
     </PersonnelLoginLayout>
