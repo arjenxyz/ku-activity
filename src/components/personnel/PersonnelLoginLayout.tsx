@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { BrandMark } from '@/components/brand/BrandMark';
+import { usePersonnelAuthPageBackground } from '@/hooks/usePersonnelAuthPageBackground';
 import {
   PERSONNEL_AUTH_BG_IMAGE,
   PERSONNEL_PWA_SPLASH_BG,
@@ -28,12 +29,14 @@ export function PersonnelLoginLayout({
   alignTop = false,
   compact = false,
 }: PersonnelLoginLayoutProps) {
+  usePersonnelAuthPageBackground();
+
   const maxWidthClass = size === 'wide' ? 'max-w-7xl' : 'max-w-md';
   const isCompact = compact || (size === 'wide' && alignTop);
 
   return (
-    <>
-      <div className="fixed inset-0 -z-10 pointer-events-none overflow-hidden" aria-hidden>
+    <div className="relative isolate min-h-[100dvh] overflow-x-hidden">
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden>
         <div className="absolute inset-0" style={{ backgroundColor: PERSONNEL_PWA_SPLASH_BG }} />
         <Image
           src={PERSONNEL_AUTH_BG_IMAGE}
@@ -47,7 +50,7 @@ export function PersonnelLoginLayout({
       </div>
 
       <div
-        className={`relative flex flex-col overflow-x-hidden ${
+        className={`relative z-10 flex flex-col ${
           alignTop ? '' : 'min-h-[100dvh]'
         }`}
       >
@@ -126,6 +129,6 @@ export function PersonnelLoginLayout({
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

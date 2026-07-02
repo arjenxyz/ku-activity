@@ -21,6 +21,14 @@ function computeShowIntro(pathname: string): boolean {
   return !hasSeenPersonnelIntro();
 }
 
+function isPersonnelAuthPath(pathname: string) {
+  return (
+    pathname.startsWith('/personnel-panel/login') ||
+    pathname.startsWith('/personnel-panel/sifremi-unuttum') ||
+    pathname.startsWith('/personnel-panel/basvuru')
+  );
+}
+
 export function PersonnelIntroGate({ children }: { children: React.ReactNode }) {
   const pathname = usePathname() ?? '';
   const [showIntro, setShowIntro] = useState(false);
@@ -31,14 +39,20 @@ export function PersonnelIntroGate({ children }: { children: React.ReactNode }) 
 
   useLayoutEffect(() => {
     if (!showIntro) return;
-    const prev = document.documentElement.style.backgroundColor;
+    const prevHtml = document.documentElement.style.backgroundColor;
+    const prevBodyOverflow = document.body.style.overflow;
     document.documentElement.style.backgroundColor = PERSONNEL_PWA_SPLASH_BG;
     document.body.style.overflow = 'hidden';
     return () => {
-      document.documentElement.style.backgroundColor = prev;
-      document.body.style.overflow = '';
+      if (isPersonnelAuthPath(pathname)) {
+        document.documentElement.style.backgroundColor = PERSONNEL_PWA_SPLASH_BG;
+        document.body.style.backgroundColor = 'transparent';
+      } else {
+        document.documentElement.style.backgroundColor = prevHtml;
+      }
+      document.body.style.overflow = prevBodyOverflow;
     };
-  }, [showIntro]);
+  }, [showIntro, pathname]);
 
   const handleComplete = () => {
     markPersonnelIntroSeen();
