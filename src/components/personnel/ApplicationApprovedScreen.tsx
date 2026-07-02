@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { FiArrowRight, FiCheck } from 'react-icons/fi';
-import { BrandMark } from '@/components/brand/BrandMark';
+import { BrandLockup } from '@/components/brand/BrandLockup';
 
 type Props = {
   loginHref: string;
@@ -18,10 +18,12 @@ export function ApplicationApprovedScreen({ loginHref, position }: Props) {
       </div>
 
       <div className="flex flex-1 flex-col px-4 pt-5 pb-6 safe-pt safe-pb max-w-md mx-auto w-full">
-        <div className="flex items-center justify-center gap-2 mb-5">
-          <BrandMark size="sm" className="ring-2 ring-white/30" />
-          <span className="text-sm font-semibold tracking-wide text-white/95">CREWLEDGER</span>
-        </div>
+        <BrandLockup
+          size="sm"
+          className="mb-5"
+          iconClassName="ring-2 ring-white/30"
+          wordmarkClassName="text-white/95 font-semibold"
+        />
 
         <div className="flex flex-1 flex-col justify-center">
           <div className="rounded-3xl bg-white shadow-2xl shadow-emerald-950/20 overflow-hidden text-center">

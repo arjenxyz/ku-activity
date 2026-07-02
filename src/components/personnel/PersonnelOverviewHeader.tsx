@@ -1,6 +1,6 @@
 'use client';
 
-import { BrandMark } from '@/components/brand/BrandMark';
+import { BrandLockup } from '@/components/brand/BrandLockup';
 import { EmployeeAvatar } from '@/components/employee/EmployeeAvatar';
 
 type Props = {
@@ -32,13 +32,13 @@ export function PersonnelOverviewHeader({ firstName, fullName, position, photoUr
       <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-white/10 blur-2xl pointer-events-none" />
 
       <div className="relative px-5 py-5 sm:px-6 sm:py-6">
-        <div className="flex items-center gap-2 mb-4">
-          <BrandMark size="sm" className="ring-2 ring-white/25 shadow-md" />
-          <div className="min-w-0">
-            <p className="text-sm font-bold tracking-[0.14em] text-white">CREWLEDGER</p>
-            <p className="text-[11px] font-medium text-blue-100/90">Personel paneli</p>
-          </div>
-        </div>
+        <BrandLockup
+          size="sm"
+          className="items-start text-left mb-4"
+          iconClassName="ring-2 ring-white/25 shadow-md"
+          subtitle="Personel paneli"
+          subtitleClassName="text-[11px] font-medium text-blue-100/90"
+        />
 
         <div className="flex items-end justify-between gap-4">
           <div className="min-w-0 flex-1">

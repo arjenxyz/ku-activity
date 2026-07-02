@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { BrandLockup } from '@/components/brand/BrandLockup';
 import { BrandMark } from '@/components/brand/BrandMark';
 import { usePersonnelAuthPageBackground } from '@/hooks/usePersonnelAuthPageBackground';
 import {
@@ -66,15 +67,14 @@ export function PersonnelLoginLayout({
         >
           <div className={`w-full ${maxWidthClass}`}>
             {!isCompact && (
-              <div className="flex flex-col items-center text-center mb-6 sm:mb-7">
-                <BrandMark size="lg" className="shadow-xl shadow-black/40" />
-                <p className="mt-3 text-sm font-semibold tracking-[0.2em] text-white/95">
-                  CREWLEDGER
-                </p>
-                <p className="mt-1 text-[10px] font-medium uppercase tracking-[0.28em] text-white/40">
-                  Personel Girişi
-                </p>
-              </div>
+              <BrandLockup
+                size="lg"
+                className="mb-6 sm:mb-7"
+                iconClassName="shadow-xl shadow-black/40"
+                wordmarkClassName="text-white/95"
+                subtitle="Personel Girişi"
+                subtitleClassName="text-[10px] font-medium uppercase tracking-[0.28em] text-white/40"
+              />
             )}
 
             {isCompact && (
