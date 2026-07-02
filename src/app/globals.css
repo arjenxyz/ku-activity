@@ -81,14 +81,18 @@ a {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* html5-qrcode — PC web kamerası siyah ekran düzeltmesi */
+/* html5-qrcode — PC web kamerası: cover tarama kutusunu kaydırır, contain kullan */
 .qr-scanner-view video {
   display: block !important;
   width: 100% !important;
   height: auto !important;
   max-height: min(50vh, 360px);
-  object-fit: cover !important;
+  object-fit: contain !important;
   background: #0f172a;
+}
+
+.qr-scanner-view img {
+  object-fit: contain !important;
 }
 
 .qr-scanner-view #qr-shaded-region {

@@ -52,6 +52,43 @@ async function ensureCameraPermission() {
   stream.getTracks().forEach((track) => track.stop());
 }
 
+function buildScanConfig(desktop: boolean) {
+  if (desktop) {
+    return {
+      fps: 15,
+      // PC: tüm görüntüyü tara — telefon ekranındaki QR için daha güvenilir
+      qrbox: (viewfinderWidth: number, viewfinderHeight: number) => ({
+        width: Math.floor(viewfinderWidth * 0.92),
+        height: Math.floor(viewfinderHeight * 0.92),
+      }),
+      disableFlip: false,
+    };
+  }
+
+  return {
+    fps: 10,
+    qrbox: (viewfinderWidth: number, viewfinderHeight: number) => {
+      const edge = Math.min(viewfinderWidth, viewfinderHeight);
+      const size = Math.max(160, Math.floor(edge * 0.7));
+      return { width: size, height: size };
+    },
+    disableFlip: false,
+  };
+}
+
+function buildCameraConstraint(
+  camera: string | MediaTrackConstraints,
+  desktop: boolean
+): string | MediaTrackConstraints {
+  if (typeof camera === 'string') return camera;
+  if (!desktop) return camera;
+  return {
+    ...camera,
+    width: { ideal: 1280 },
+    height: { ideal: 720 },
+  };
+}
+
 async function pickCameraConfigs(): Promise<Array<string | MediaTrackConstraints>> {
   const desktop = isLikelyDesktop();
   const configs: Array<string | MediaTrackConstraints> = [];
@@ -109,22 +146,38 @@ export function QrCameraScanner({
   const regionId = useId().replace(/:/g, '');
   const scannerRef = useRef<Html5Qrcode | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const onScanRef = useRef(onScan);
+  const parseQrRef = useRef(parseQr);
   const [viewfinderOpen, setViewfinderOpen] = useState(false);
   const [active, setActive] = useState(false);
   const [starting, setStarting] = useState(false);
   const [scanningFile, setScanningFile] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [lastRawScan, setLastRawScan] = useState<string | null>(null);
 
-  const handleDecoded = useCallback(
-    (decoded: string) => {
-      const parser = parseQr ?? parseRegistrationCodeFromQr;
-      const code = parser(decoded);
-      if (!code) return false;
-      onScan(code);
-      return true;
-    },
-    [onScan, parseQr]
-  );
+  useEffect(() => {
+    onScanRef.current = onScan;
+  }, [onScan]);
+
+  useEffect(() => {
+    parseQrRef.current = parseQr;
+  }, [parseQr]);
+
+  const handleDecoded = useCallback((decoded: string) => {
+    const parser = parseQrRef.current ?? parseRegistrationCodeFromQr;
+    const code = parser(decoded);
+    if (!code) {
+      setLastRawScan(decoded.slice(0, 120));
+      setError(
+        'QR okundu ancak geçerli başvuru kodu bulunamadı. Personelin başvuru ekranındaki QR kodunu gösterin.'
+      );
+      return false;
+    }
+    setError(null);
+    setLastRawScan(null);
+    onScanRef.current(code);
+    return true;
+  }, []);
 
   const releaseScanner = useCallback(async () => {
     const scanner = scannerRef.current;
@@ -157,13 +210,15 @@ export function QrCameraScanner({
   }, [releaseScanner]);
 
   useEffect(() => {
-    if (!viewfinderOpen || active) return;
+    if (!viewfinderOpen || active || starting) return;
 
     let cancelled = false;
 
     const boot = async () => {
       setError(null);
+      setLastRawScan(null);
       setStarting(true);
+      const desktop = isLikelyDesktop();
 
       try {
         await ensureCameraPermission();
@@ -175,19 +230,12 @@ export function QrCameraScanner({
 
         const scanner = new Html5Qrcode(regionId, {
           verbose: false,
-          useBarCodeDetectorIfSupported: true,
+          // BarcodeDetector canlı PC kamerasında sık sık sessizce başarısız olur
+          useBarCodeDetectorIfSupported: !desktop,
         });
         scannerRef.current = scanner;
 
-        const scanConfig = {
-          fps: 10,
-          qrbox: (viewfinderWidth: number, viewfinderHeight: number) => {
-            const edge = Math.min(viewfinderWidth, viewfinderHeight);
-            const size = Math.max(160, Math.floor(edge * 0.7));
-            return { width: size, height: size };
-          },
-          disableFlip: false,
-        };
+        const scanConfig = buildScanConfig(desktop);
 
         const onDecode = (decoded: string) => {
           if (handleDecoded(decoded)) {
@@ -201,9 +249,14 @@ export function QrCameraScanner({
         for (const camera of cameraConfigs) {
           if (cancelled) return;
           try {
-            await scanner.start(camera, scanConfig, onDecode, () => {
-              /* karede QR yok */
-            });
+            await scanner.start(
+              buildCameraConstraint(camera, desktop),
+              scanConfig,
+              onDecode,
+              () => {
+                /* karede QR yok */
+              }
+            );
             if (cancelled) {
               await scanner.stop().catch(() => {});
               return;
@@ -246,7 +299,7 @@ export function QrCameraScanner({
     return () => {
       cancelled = true;
     };
-  }, [viewfinderOpen, active, regionId, handleDecoded, releaseScanner, stop]);
+  }, [viewfinderOpen, active, starting, regionId, handleDecoded, releaseScanner, stop]);
 
   const start = () => {
     if (disabled || starting || active) return;
@@ -263,7 +316,7 @@ export function QrCameraScanner({
 
     const scanner = new Html5Qrcode(regionId, {
       verbose: false,
-      useBarCodeDetectorIfSupported: true,
+      useBarCodeDetectorIfSupported: !isLikelyDesktop(),
     });
 
     try {
@@ -340,11 +393,21 @@ export function QrCameraScanner({
         ].join(' ')}
       />
 
-      {error && <p className="text-sm text-red-600">{error}</p>}
+      {error && (
+        <div className="space-y-1">
+          <p className="text-sm text-red-600">{error}</p>
+          {lastRawScan && (
+            <p className="text-xs text-slate-500 break-all">
+              Okunan: {lastRawScan}
+            </p>
+          )}
+        </div>
+      )}
       {active && (
         <p className="text-xs text-slate-500">
-          Personelin telefonundaki QR kodunu web kameranıza gösterin. PC&apos;de telefonu ekrana
-          yaklaştırın; okumazsa ekran görüntüsünü &quot;QR Görseli Yükle&quot; ile seçin.
+          Personelin telefonundaki başvuru QR kodunu kameraya gösterin. PC&apos;de telefonu sabit
+          tutun, parlaklığı artırın; okumazsa ekran görüntüsünü &quot;QR Görseli Yükle&quot; ile
+          seçin veya <strong>ARJ-</strong> kodunu elle yazın.
         </p>
       )}
       {!active && !error && (

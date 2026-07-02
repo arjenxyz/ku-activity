@@ -7,7 +7,12 @@ export function RegistrationQrCode({ value, size = 220 }: { value: string; size?
   const [dataUrl, setDataUrl] = useState<string | null>(null);
 
   useEffect(() => {
-    QRCode.toDataURL(value, { width: size, margin: 2, color: { dark: '#0f172a', light: '#ffffff' } })
+    QRCode.toDataURL(value, {
+      width: size,
+      margin: 3,
+      errorCorrectionLevel: 'M',
+      color: { dark: '#0f172a', light: '#ffffff' },
+    })
       .then(setDataUrl)
       .catch(() => setDataUrl(null));
   }, [value, size]);
