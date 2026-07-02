@@ -396,7 +396,7 @@ export default function PersonnelApplicationPage() {
       title="Personel Başvurusu"
       subtitle="Bilgilerinizi girin; yönetici onayından sonra sisteme alınacaksınız."
     >
-      {error && <AuthAlert type="error" message={error} tone="glass" />}
+      {error && <AuthAlert type="error" message={error} tone="personnel" />}
 
       <p className={personnelAuthInfoBannerClass}>
         Başvurunuz onay bekliyorsa yeni form doldurmayın.{' '}

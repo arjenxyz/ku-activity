@@ -41,7 +41,7 @@ export function PersonnelLoginLayout({
   const verticalAlignTop = alignTop || isDense;
 
   return (
-    <div className="relative isolate min-h-[100dvh] overflow-x-hidden">
+    <div className="personnel-auth-page relative isolate min-h-[100dvh] overflow-x-hidden text-white">
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden>
         <div className="absolute inset-0" style={{ backgroundColor: PERSONNEL_PWA_SPLASH_BG }} />
         <Image
@@ -49,11 +49,11 @@ export function PersonnelLoginLayout({
           alt=""
           fill
           priority
-          className="object-cover object-center scale-105"
+          className="object-cover object-center scale-105 opacity-40"
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0b1624]/88 via-[#0b1624]/78 to-[#060d14]/92" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(6,13,20,0.55)_100%)]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0b1624]/95 via-[#0b1624]/92 to-[#060d14]/96" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(6,13,20,0.65)_100%)]" />
       </div>
 
       <div
@@ -81,7 +81,7 @@ export function PersonnelLoginLayout({
                 iconClassName="shadow-xl shadow-black/40"
                 wordmarkClassName="text-white/95"
                 subtitle="Personel Girişi"
-                subtitleClassName="text-[10px] font-medium uppercase tracking-[0.28em] text-white/40"
+                subtitleClassName="text-[11px] font-medium uppercase tracking-[0.22em] text-slate-400"
               />
             )}
 
@@ -122,8 +122,8 @@ export function PersonnelLoginLayout({
                 <div
                   className={
                     isDense
-                      ? 'border-b border-white/[0.08] pb-3 mb-4'
-                      : 'border-b border-white/[0.08] pb-5 mb-6'
+                      ? 'border-b border-slate-600/45 pb-3 mb-4'
+                      : 'border-b border-slate-600/45 pb-5 mb-6'
                   }
                 >
                   <h1
@@ -139,8 +139,8 @@ export function PersonnelLoginLayout({
                     <p
                       className={
                         isDense
-                          ? 'mt-1 text-xs text-white/50 leading-snug'
-                          : 'mt-1.5 text-sm text-white/55 leading-relaxed'
+                          ? 'mt-1 text-xs text-slate-400 leading-snug'
+                          : 'mt-1.5 text-sm text-slate-400 leading-relaxed'
                       }
                     >
                       {subtitle}

@@ -233,7 +233,7 @@ function PersonnelLoginContent() {
           />
         </div>
 
-        {error && <AuthAlert message={error} type="error" tone="glass" />}
+        {error && <AuthAlert message={error} type="error" tone="personnel" />}
 
         <button
           type="submit"
@@ -258,7 +258,7 @@ function PersonnelLoginContent() {
         </button>
       </form>
       <div
-        className={`mt-4 pt-3 border-t border-white/[0.08] space-y-1.5 text-center ${personnelAuthFooterTextClass}`}
+        className={`mt-4 pt-3 border-t border-slate-600/45 space-y-1.5 text-center ${personnelAuthFooterTextClass}`}
       >
         <p>
           Hesabınız mı yok?{' '}
