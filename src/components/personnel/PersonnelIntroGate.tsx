@@ -7,11 +7,9 @@ import {
   markPersonnelIntroSeen,
   PersonnelAppIntro,
 } from '@/components/personnel/PersonnelAppIntro';
-import { isStandalonePwa } from '@/lib/pwa-standalone';
 
 function shouldSkipIntro(pathname: string) {
   if (pathname.startsWith('/personnel-panel/basvuru')) return true;
-  if (isStandalonePwa()) return true;
   return false;
 }
 
