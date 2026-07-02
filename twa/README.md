@@ -63,14 +63,15 @@ bubblewrap init --manifest https://crewledger.vercel.app/manifest-personnel.webm
 bubblewrap build
 ```
 
-**Açılış ekranı (splash):** Web tarafındaki 2 aşamalı intro ile çakışmaması için `twa-manifest.json` içinde:
+**Açılış ekranı (splash):** Manifest `background_color` / `theme_color` ve `/icons/personnel/maskable/512` gökyüzü mavisi markayı kullanır. Bubblewrap `twa-manifest.json` içinde manifest ile uyumlu tutun:
 
 ```json
-"backgroundColor": "#1d4ed8",
-"splashScreenFadeOutDuration": 0
+"backgroundColor": "#0ea5e9",
+"themeColor": "#0284c7",
+"splashScreenFadeOutDuration": 300
 ```
 
-Böylece Android splash anında kaybolur; kullanıcı yalnızca web intro'sunu (logo → Şantiyede güvenle ilerle) görür. `bubblewrap update` sonrası bu alanları kontrol edin.
+iOS PWA için tam ekran splash: `/icons/personnel/splash/{genişlik}/{yükseklik}` (layout'ta `apple-touch-startup-image` bağlı).
 
 ### 3. Yönetici uygulaması
 

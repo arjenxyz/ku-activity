@@ -1,13 +1,10 @@
 import type { Metadata, Viewport } from 'next';
-import Script from 'next/script';
 import { PersonnelDisplayProvider } from '@/lib/personnel-display-preferences';
-import { PersonnelIntroGate } from '@/components/personnel/PersonnelIntroGate';
 import { PersonnelPanelChrome } from '@/components/personnel/PersonnelPanelChrome';
 import {
-  PERSONNEL_INTRO_HERO_BG,
-  PERSONNEL_INTRO_SPLASH_BG,
-  PERSONNEL_INTRO_STORAGE_KEY,
-} from '@/lib/personnel-intro-splash';
+  PERSONNEL_PWA_STARTUP_IMAGES,
+  PERSONNEL_PWA_THEME,
+} from '@/lib/personnel-pwa-brand';
 import { getTwaOrigin } from '@/lib/twa-config';
 
 const ORIGIN = getTwaOrigin();
@@ -19,7 +16,7 @@ export const metadata: Metadata = {
   manifest: '/manifest-personnel.webmanifest',
   appleWebApp: {
     capable: true,
-    statusBarStyle: 'default',
+    statusBarStyle: 'black-translucent',
     title: 'CrewLedger',
   },
   icons: {
@@ -32,19 +29,22 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: PERSONNEL_INTRO_SPLASH_BG,
+  themeColor: PERSONNEL_PWA_THEME,
 };
 
 export default function PersonnelPanelLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <Script id="personnel-intro-splash-bridge" strategy="beforeInteractive">
-        {`(function(){try{var p=location.pathname;if(p.indexOf('/personnel-panel/basvuru')===0)return;if(localStorage.getItem('${PERSONNEL_INTRO_STORAGE_KEY}')==='1')return;if(!window.matchMedia('(max-width:639px)').matches)return;var st=window.matchMedia('(display-mode: standalone)').matches||window.matchMedia('(display-mode: fullscreen)').matches||(navigator.standalone===true);document.documentElement.style.backgroundColor=st?'${PERSONNEL_INTRO_HERO_BG}':'${PERSONNEL_INTRO_SPLASH_BG}';}catch(e){}})();`}
-      </Script>
+      {PERSONNEL_PWA_STARTUP_IMAGES.map(({ href, media }) => (
+        <link
+          key={`${href}-${media}`}
+          rel="apple-touch-startup-image"
+          href={`${ORIGIN}${href}`}
+          media={media}
+        />
+      ))}
       <PersonnelDisplayProvider>
-        <PersonnelIntroGate>
-          <PersonnelPanelChrome>{children}</PersonnelPanelChrome>
-        </PersonnelIntroGate>
+        <PersonnelPanelChrome>{children}</PersonnelPanelChrome>
       </PersonnelDisplayProvider>
     </>
   );

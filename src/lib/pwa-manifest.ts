@@ -1,5 +1,8 @@
 import type { MetadataRoute } from 'next';
-import { PERSONNEL_INTRO_SPLASH_BG } from '@/lib/personnel-intro-splash';
+import {
+  PERSONNEL_PWA_SPLASH_BG,
+  PERSONNEL_PWA_THEME,
+} from '@/lib/personnel-pwa-brand';
 import { getTwaOrigin } from '@/lib/twa-config';
 
 export type PwaAppVariant = 'personnel' | 'admin';
@@ -11,7 +14,7 @@ function iconUrl(variant: PwaAppVariant, size: 192 | 512) {
 }
 
 function baseIcons(variant: PwaAppVariant): MetadataRoute.Manifest['icons'] {
-  return [
+  const icons: MetadataRoute.Manifest['icons'] = [
     {
       src: iconUrl(variant, 192),
       sizes: '192x192',
@@ -24,13 +27,25 @@ function baseIcons(variant: PwaAppVariant): MetadataRoute.Manifest['icons'] {
       type: 'image/png',
       purpose: 'any',
     },
-    {
+  ];
+
+  if (variant === 'personnel') {
+    icons.push({
+      src: `${ORIGIN}/icons/personnel/maskable/512`,
+      sizes: '512x512',
+      type: 'image/png',
+      purpose: 'maskable',
+    });
+  } else {
+    icons.push({
       src: iconUrl(variant, 512),
       sizes: '512x512',
       type: 'image/png',
       purpose: 'maskable',
-    },
-  ];
+    });
+  }
+
+  return icons;
 }
 
 export function buildPersonnelManifest(): MetadataRoute.Manifest {
@@ -45,8 +60,8 @@ export function buildPersonnelManifest(): MetadataRoute.Manifest {
     display: 'standalone',
     display_override: ['standalone', 'minimal-ui'],
     orientation: 'portrait-primary',
-    background_color: PERSONNEL_INTRO_SPLASH_BG,
-    theme_color: PERSONNEL_INTRO_SPLASH_BG,
+    background_color: PERSONNEL_PWA_SPLASH_BG,
+    theme_color: PERSONNEL_PWA_THEME,
     lang: 'tr',
     dir: 'ltr',
     categories: ['business', 'productivity'],
