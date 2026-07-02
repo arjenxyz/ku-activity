@@ -30,11 +30,25 @@ import {
 /** Onay kontrolü — 15 sn yeterli; sekme arka plandayken durur (Vercel/Supabase kotası) */
 const STATUS_POLL_MS = 15_000;
 
-const inputClass =
-  'block w-full rounded-xl border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-900 px-4 py-3 text-sm focus:ring-2 focus:ring-blue-500';
-const labelClass = 'block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5';
-const sectionTitleClass =
-  'text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-3';
+import {
+  personnelAuthDividerClass,
+  personnelAuthInfoBannerClass,
+  personnelAuthInputClass,
+  personnelAuthLabelClass,
+  personnelAuthLinkClass,
+  personnelAuthMutedTextClass,
+  personnelAuthPrimaryBtnClass,
+  personnelAuthSecondaryBtnClass,
+  personnelAuthSectionClass,
+  personnelAuthSectionTitleClass,
+  personnelAuthStepActiveClass,
+  personnelAuthStepDisabledClass,
+  personnelAuthStepIdleClass,
+} from '@/lib/personnel-auth-ui';
+
+const inputClass = personnelAuthInputClass;
+const labelClass = personnelAuthLabelClass;
+const sectionTitleClass = personnelAuthSectionTitleClass;
 
 type RegistrationStatus = 'pending' | 'approved' | 'rejected' | string;
 
@@ -382,11 +396,11 @@ export default function PersonnelApplicationPage() {
       title="Personel Başvurusu"
       subtitle="Bilgilerinizi girin; yönetici onayından sonra sisteme alınacaksınız."
     >
-      {error && <AuthAlert type="error" message={error} />}
+      {error && <AuthAlert type="error" message={error} tone="glass" />}
 
-      <p className="mb-4 rounded-xl border border-blue-100 bg-blue-50/80 px-4 py-3 text-sm text-blue-900 dark:border-blue-900/40 dark:bg-blue-950/40 dark:text-blue-100">
+      <p className={personnelAuthInfoBannerClass}>
         Başvurunuz onay bekliyorsa yeni form doldurmayın.{' '}
-        <Link href="/personnel-panel/login" className="font-semibold underline underline-offset-2">
+        <Link href="/personnel-panel/login" className={`${personnelAuthLinkClass} underline underline-offset-2`}>
           Giriş ekranından
         </Link>{' '}
         kimlik ve PIN ile durumunuza bakın.
@@ -404,12 +418,12 @@ export default function PersonnelApplicationPage() {
               type="button"
               onClick={() => goToStep(step.id)}
               disabled={!canOpenStep(step.id)}
-              className={`rounded-xl border px-3 py-2.5 text-xs font-semibold transition-colors ${
+              className={`px-3 py-2.5 text-xs font-semibold transition-colors ${
                 activeStep === step.id
-                  ? 'border-blue-600 bg-blue-600 text-white'
+                  ? personnelAuthStepActiveClass
                   : canOpenStep(step.id)
-                    ? 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300'
-                    : 'border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-400 cursor-not-allowed'
+                    ? personnelAuthStepIdleClass
+                    : personnelAuthStepDisabledClass
               }`}
             >
               {step.id}. {step.label}
@@ -418,7 +432,7 @@ export default function PersonnelApplicationPage() {
         </div>
 
         {activeStep === 1 && (
-          <section className="space-y-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/50 p-4 sm:p-5">
+          <section className={personnelAuthSectionClass}>
             <h2 className={sectionTitleClass}>Temel bilgiler</h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -477,7 +491,7 @@ export default function PersonnelApplicationPage() {
                   required
                 />
                 {form.identity_type === 'foreign' && (
-                  <p className="text-xs text-slate-500 mt-1">
+                  <p className={personnelAuthMutedTextClass}>
                     Harf ve rakam kullanabilirsiniz.
                   </p>
                 )}
@@ -494,7 +508,7 @@ export default function PersonnelApplicationPage() {
                   placeholder="123 456 789"
                   required
                 />
-                <p className="text-xs text-slate-500 mt-1">
+                <p className={personnelAuthMutedTextClass}>
                   Ülke kodunu seçip numarayı girin. Yabancı numaralar desteklenir.
                 </p>
               </div>
@@ -513,7 +527,7 @@ export default function PersonnelApplicationPage() {
 
         {activeStep === 2 && (
           <div className="space-y-5">
-            <section className="space-y-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/50 p-4 sm:p-5">
+            <section className={personnelAuthSectionClass}>
               <h2 className={sectionTitleClass}>Diğer gerekli bilgiler</h2>
               <div>
                 <label className={labelClass}>E-posta *</label>
@@ -524,7 +538,7 @@ export default function PersonnelApplicationPage() {
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
                   required
                 />
-                <p className="text-xs text-slate-500 mt-1">
+                <p className={personnelAuthMutedTextClass}>
                   Doğrulama kodu bu adrese gönderilir.
                 </p>
               </div>
@@ -537,7 +551,7 @@ export default function PersonnelApplicationPage() {
                   onChange={(iban) => setForm({ ...form, iban })}
                   required
                 />
-                <p className="text-[11px] text-slate-500 mt-1">
+                <p className={`${personnelAuthMutedTextClass} text-[11px]`}>
                   Kimlik ve IBAN bilgileriniz şifreli saklanır.
                 </p>
               </div>
@@ -557,7 +571,7 @@ export default function PersonnelApplicationPage() {
                   autoComplete="new-password"
                   required
                 />
-                <p className="text-xs text-slate-500 mt-1">
+                <p className={personnelAuthMutedTextClass}>
                   {PERSONNEL_PIN_LENGTH} haneli rakam. Panele girişte kullanılacak.
                 </p>
               </div>
@@ -585,13 +599,14 @@ export default function PersonnelApplicationPage() {
           <div className="space-y-4">
             <ContractAcceptanceBlock
               layout="gate"
+              appearance="glass"
               initialAcceptances={initialContractAcceptances}
               onAllAccepted={handleAllContractsAccepted}
               onIncomplete={handleContractsIncomplete}
             />
 
             {contractsReady && (
-              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+              <p className="text-xs text-white/55 leading-relaxed">
                 Sözleşmeler tamam. <strong>Başvuruyu Gönder</strong> dediğinizde e-postanıza doğrulama
                 kodu ve tek tıkla onay bağlantısı gönderilir.
               </p>
@@ -599,13 +614,13 @@ export default function PersonnelApplicationPage() {
           </div>
         )}
 
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-end gap-4 pt-5 border-t border-slate-200 dark:border-slate-700">
+        <div className={`flex flex-col sm:flex-row sm:items-center sm:justify-end gap-4 ${personnelAuthDividerClass}`}>
           <div className="flex gap-2 w-full sm:w-auto sm:ml-auto">
             {activeStep > 1 && (
               <button
                 type="button"
                 onClick={() => setActiveStep((prev) => (prev - 1) as RegistrationStep)}
-                className="w-1/3 sm:w-auto px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 font-medium"
+                className={`w-1/3 sm:w-auto ${personnelAuthSecondaryBtnClass}`}
               >
                 Geri
               </button>
@@ -625,7 +640,7 @@ export default function PersonnelApplicationPage() {
                   setError('');
                   setActiveStep((prev) => (prev + 1) as RegistrationStep);
                 }}
-                className="flex-1 sm:w-auto px-8 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-medium"
+                className={`flex-1 sm:w-auto px-8 py-3 ${personnelAuthPrimaryBtnClass}`}
               >
                 Devam et
               </button>
@@ -633,7 +648,7 @@ export default function PersonnelApplicationPage() {
               <button
                 type="submit"
                 disabled={loading || !contractsReady}
-                className="flex-1 sm:w-auto sm:min-w-[200px] px-8 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-medium disabled:opacity-50"
+                className={`flex-1 sm:w-auto sm:min-w-[200px] px-8 py-3 ${personnelAuthPrimaryBtnClass}`}
               >
                 Başvuruyu Gönder
               </button>

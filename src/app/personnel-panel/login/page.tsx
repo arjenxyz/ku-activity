@@ -24,10 +24,16 @@ import {
   personnelLoginFormProps,
 } from '@/components/auth/loginFormProps';
 
-const inputClass =
-  'block w-full rounded-xl border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-900 px-4 py-3 text-sm text-gray-900 dark:text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow';
+import {
+  personnelAuthFooterTextClass,
+  personnelAuthInputClass,
+  personnelAuthLabelClass,
+  personnelAuthLinkClass,
+  personnelAuthPrimaryBtnClass,
+} from '@/lib/personnel-auth-ui';
 
-const labelClass = 'block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5';
+const inputClass = personnelAuthInputClass;
+const labelClass = personnelAuthLabelClass;
 
 function PersonnelLoginContent() {
   const searchParams = useSearchParams();
@@ -96,7 +102,7 @@ function PersonnelLoginContent() {
   if (checkingSession) {
     return (
       <PersonnelLoginLayout>
-        <div className="flex flex-col items-center justify-center py-16 gap-3 text-slate-500">
+        <div className="flex flex-col items-center justify-center py-16 gap-3 text-white/60">
           <LoadingSpinner />
           <p className="text-sm">Oturum kontrol ediliyor…</p>
         </div>
@@ -206,7 +212,7 @@ function PersonnelLoginContent() {
           />
         </div>
 
-        {error && <AuthAlert message={error} type="error" />}
+        {error && <AuthAlert message={error} type="error" tone="glass" />}
 
         <button
           type="submit"
@@ -215,7 +221,7 @@ function PersonnelLoginContent() {
             (identityType === 'tc' ? identityNumber.length !== 11 : identityNumber.trim().length < 5) ||
             password.length !== PERSONNEL_PIN_LENGTH
           }
-          className="touch-target w-full inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 disabled:opacity-50 text-white px-6 py-3.5 rounded-xl font-semibold shadow-lg shadow-blue-500/25 transition-all"
+          className={personnelAuthPrimaryBtnClass}
         >
           {isLoading ? (
             <>
@@ -230,15 +236,15 @@ function PersonnelLoginContent() {
           )}
         </button>
       </form>
-      <div className="mt-4 space-y-2 text-center text-sm text-gray-500 dark:text-gray-400">
+      <div className={`mt-4 space-y-2 text-center ${personnelAuthFooterTextClass}`}>
         <p>
           Hesabınız mı yok?{' '}
-          <Link href="/personnel-panel/basvuru" prefetch className="text-blue-600 font-semibold hover:underline">
+          <Link href="/personnel-panel/basvuru" prefetch className={personnelAuthLinkClass}>
             Başvuru yapın
           </Link>
         </p>
         <p>
-          <Link href="/personnel-panel/sifremi-unuttum" className="text-blue-600 font-semibold hover:underline">
+          <Link href="/personnel-panel/sifremi-unuttum" className={personnelAuthLinkClass}>
             Şifremi unuttum
           </Link>
         </p>
@@ -249,7 +255,7 @@ function PersonnelLoginContent() {
 
 export default function PersonnelLogin() {
   return (
-    <Suspense fallback={<div className="min-h-[100dvh] flex items-center justify-center text-slate-500">Yükleniyor…</div>}>
+    <Suspense fallback={<div className="min-h-[100dvh] flex items-center justify-center text-white/60">Yükleniyor…</div>}>
       <PersonnelLoginContent />
     </Suspense>
   );

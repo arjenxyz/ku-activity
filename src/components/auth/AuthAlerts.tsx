@@ -1,17 +1,24 @@
 type AuthAlertProps = {
   message: string;
   type: 'success' | 'error';
+  /** Koyu cam arka plan üzerinde */
+  tone?: 'default' | 'glass';
 };
 
-export function AuthAlert({ message, type }: AuthAlertProps) {
+export function AuthAlert({ message, type, tone = 'default' }: AuthAlertProps) {
   const isSuccess = type === 'success';
+  const isGlass = tone === 'glass';
 
   return (
     <div
-      className={`mb-6 px-4 py-3 rounded-xl text-sm border ${
-        isSuccess
-          ? 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800 text-green-700 dark:text-green-300'
-          : 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800 text-red-700 dark:text-red-300'
+      className={`mb-6 px-4 py-3 rounded-xl text-sm border backdrop-blur-md ${
+        isGlass
+          ? isSuccess
+            ? 'bg-emerald-500/15 border-emerald-400/30 text-emerald-100'
+            : 'bg-red-500/15 border-red-400/30 text-red-100'
+          : isSuccess
+            ? 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800 text-green-700 dark:text-green-300'
+            : 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800 text-red-700 dark:text-red-300'
       }`}
     >
       <div className="flex items-start gap-2">

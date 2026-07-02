@@ -6,6 +6,7 @@ import {
   PERSONNEL_AUTH_BG_IMAGE,
   PERSONNEL_PWA_SPLASH_BG,
 } from '@/lib/personnel-pwa-brand';
+import { personnelAuthCardClass } from '@/lib/personnel-auth-ui';
 
 type PersonnelLoginLayoutProps = {
   children: React.ReactNode;
@@ -116,7 +117,7 @@ export function PersonnelLoginLayout({
             </div>
 
             <div
-              className={`bg-white dark:bg-slate-800 rounded-2xl shadow-xl shadow-black/30 border border-white/10 dark:border-slate-700 ${
+              className={`${personnelAuthCardClass} ${
                 isCompact ? 'p-4 sm:p-6 lg:p-8' : size === 'wide' ? 'p-5 sm:p-6 lg:p-8' : 'p-5 sm:p-7'
               }`}
             >
