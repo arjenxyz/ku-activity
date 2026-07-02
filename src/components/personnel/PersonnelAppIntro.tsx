@@ -3,18 +3,16 @@
 import { useCallback, useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { BrandMark } from '@/components/brand/BrandMark';
-import {
-  PERSONNEL_INTRO_SPLASH_BG,
-  PERSONNEL_INTRO_STORAGE_KEY,
-} from '@/lib/personnel-intro-splash';
+import { PERSONNEL_INTRO_SPLASH_BG } from '@/lib/personnel-intro-splash';
 
-const INTRO_STORAGE_KEY = PERSONNEL_INTRO_STORAGE_KEY;
 const PHASE1_MS = 1400;
 const PHASE2_MS = 2400;
 const EXIT_MS = 420;
 
 type Props = {
   onComplete: () => void;
+  /** PWA/TWA zaten ikon splash gösterdi — doğrudan hero fazına geç */
+  startAtHero?: boolean;
 };
 
 function IntroLogoPhase() {
@@ -138,8 +136,8 @@ function IntroHeroPhase() {
   );
 }
 
-export function PersonnelAppIntro({ onComplete }: Props) {
-  const [phase, setPhase] = useState<1 | 2>(1);
+export function PersonnelAppIntro({ onComplete, startAtHero = false }: Props) {
+  const [phase, setPhase] = useState<1 | 2>(startAtHero ? 2 : 1);
   const [fading, setFading] = useState(false);
 
   const finish = useCallback(() => {
@@ -149,13 +147,16 @@ export function PersonnelAppIntro({ onComplete }: Props) {
   }, [fading, onComplete]);
 
   useEffect(() => {
-    const toHero = window.setTimeout(() => setPhase(2), PHASE1_MS);
-    const toExit = window.setTimeout(() => finish(), PHASE1_MS + PHASE2_MS);
+    const phase1Delay = startAtHero ? 0 : PHASE1_MS;
+    const toHero = startAtHero
+      ? undefined
+      : window.setTimeout(() => setPhase(2), PHASE1_MS);
+    const toExit = window.setTimeout(() => finish(), phase1Delay + PHASE2_MS);
     return () => {
-      window.clearTimeout(toHero);
+      if (toHero !== undefined) window.clearTimeout(toHero);
       window.clearTimeout(toExit);
     };
-  }, [finish]);
+  }, [finish, startAtHero]);
 
   return (
     <motion.button
@@ -173,21 +174,3 @@ export function PersonnelAppIntro({ onComplete }: Props) {
     </motion.button>
   );
 }
-
-export function markPersonnelIntroSeen() {
-  try {
-    sessionStorage.setItem(INTRO_STORAGE_KEY, '1');
-  } catch {
-    /* private mode */
-  }
-}
-
-export function hasSeenPersonnelIntro() {
-  try {
-    return sessionStorage.getItem(INTRO_STORAGE_KEY) === '1';
-  } catch {
-    return false;
-  }
-}
-
-export { INTRO_STORAGE_KEY };

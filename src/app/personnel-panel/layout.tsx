@@ -4,6 +4,7 @@ import { PersonnelDisplayProvider } from '@/lib/personnel-display-preferences';
 import { PersonnelIntroGate } from '@/components/personnel/PersonnelIntroGate';
 import { PersonnelPanelChrome } from '@/components/personnel/PersonnelPanelChrome';
 import {
+  PERSONNEL_INTRO_HERO_BG,
   PERSONNEL_INTRO_SPLASH_BG,
   PERSONNEL_INTRO_STORAGE_KEY,
 } from '@/lib/personnel-intro-splash';
@@ -38,7 +39,7 @@ export default function PersonnelPanelLayout({ children }: { children: React.Rea
   return (
     <>
       <Script id="personnel-intro-splash-bridge" strategy="beforeInteractive">
-        {`(function(){try{var p=location.pathname;if(p.indexOf('/personnel-panel/basvuru')===0)return;if(sessionStorage.getItem('${PERSONNEL_INTRO_STORAGE_KEY}')==='1')return;if(!window.matchMedia('(max-width:639px)').matches)return;document.documentElement.style.backgroundColor='${PERSONNEL_INTRO_SPLASH_BG}';}catch(e){}})();`}
+        {`(function(){try{var p=location.pathname;if(p.indexOf('/personnel-panel/basvuru')===0)return;if(localStorage.getItem('${PERSONNEL_INTRO_STORAGE_KEY}')==='1')return;if(!window.matchMedia('(max-width:639px)').matches)return;var st=window.matchMedia('(display-mode: standalone)').matches||window.matchMedia('(display-mode: fullscreen)').matches||(navigator.standalone===true);document.documentElement.style.backgroundColor=st?'${PERSONNEL_INTRO_HERO_BG}':'${PERSONNEL_INTRO_SPLASH_BG}';}catch(e){}})();`}
       </Script>
       <PersonnelDisplayProvider>
         <PersonnelIntroGate>
