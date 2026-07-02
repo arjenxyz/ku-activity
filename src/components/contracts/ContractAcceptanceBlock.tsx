@@ -158,10 +158,10 @@ export function ContractAcceptanceBlock({
             }`}
           >
             {allDone
-              ? 'Gözden geçir'
+              ? 'Sözleşmeleri gözden geçir'
               : acceptedCount === 0
-                ? 'Sözleşmeleri oku'
-                : `Devam et (${acceptedCount}/${contracts.length})`}
+                ? 'Sözleşmeleri aç'
+                : `Kaldığın yerden devam et (${acceptedCount}/${contracts.length})`}
           </button>
         </div>
 
@@ -238,7 +238,7 @@ export function ContractAcceptanceBlock({
                     )}
                     <p className="text-xs text-slate-500 mt-0.5">
                       Sürüm {contract.version}
-                      {isAccepted ? ' · Onaylandı' : ' · Okunup onaylanmalı'}
+                      {isAccepted ? ' · Onaylandı' : ' · Açıp okuyun ve onaylayın'}
                     </p>
                   </div>
                   <FiChevronRight className="w-4 h-4 text-slate-400 shrink-0" />

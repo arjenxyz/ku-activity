@@ -90,7 +90,7 @@ export function ContractAcceptanceModal({
       onClick={onClose}
     >
       <div
-        className="bg-white dark:bg-slate-900 w-full sm:max-w-xl h-[min(92dvh,680px)] rounded-t-2xl sm:rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 flex flex-col overflow-hidden"
+        className="bg-white dark:bg-slate-900 w-full sm:max-w-2xl h-[min(92dvh,720px)] rounded-t-2xl sm:rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 flex flex-col overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="h-1 bg-slate-100 dark:bg-slate-800 shrink-0" aria-hidden>
@@ -100,10 +100,10 @@ export function ContractAcceptanceModal({
           />
         </div>
 
-        <div className="flex items-start gap-3 px-4 py-3 border-b border-slate-200 dark:border-slate-700 shrink-0">
+        <div className="flex items-start gap-3 px-4 py-3 border-b border-slate-200 dark:border-slate-700 shrink-0 bg-gradient-to-r from-slate-50 to-blue-50/60 dark:from-slate-900 dark:to-slate-900">
           <div className="min-w-0 flex-1">
             {stepLabel && (
-              <span className="inline-block mb-1.5 rounded-full bg-slate-100 dark:bg-slate-800 px-2 py-0.5 text-[11px] font-medium text-slate-600 dark:text-slate-300">
+              <span className="inline-block mb-1.5 rounded-full bg-white dark:bg-slate-800 px-2 py-0.5 text-[11px] font-medium text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
                 Sözleşme {stepLabel}
               </span>
             )}
@@ -115,7 +115,7 @@ export function ContractAcceptanceModal({
             </h2>
             <p className="text-[11px] text-slate-500 mt-1">
               Sürüm {contract.version}
-              {accepted ? ' · Onaylandı' : scrolledToEnd ? ' · Okuma tamam' : ' · Aşağı kaydırın'}
+              {accepted ? ' · Onaylandı' : scrolledToEnd ? ' · Okuma tamam' : ' · Metni sonuna kadar kaydırın'}
             </p>
           </div>
           <button
@@ -155,7 +155,7 @@ export function ContractAcceptanceModal({
               className="pointer-events-none absolute inset-x-0 bottom-0 h-14 bg-gradient-to-t from-white via-white/95 to-transparent dark:from-slate-900 dark:via-slate-900/95 flex items-end justify-center pb-1.5"
               aria-hidden
             >
-              <span className="inline-flex items-center gap-1 text-[11px] text-slate-500 dark:text-slate-400">
+              <span className="inline-flex items-center gap-1 text-[11px] text-slate-500 dark:text-slate-400 bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-700 rounded-full px-2 py-1">
                 <FiChevronDown className="w-3.5 h-3.5 sm:animate-pulse" />
                 Metnin sonuna kadar kaydırın
               </span>
@@ -194,7 +194,7 @@ export function ContractAcceptanceModal({
                 />
                 <span>
                   <span className="hidden sm:inline">
-                    Özeti ve sözleşme metninin tamamını okudum; özgür irademle kabul ediyorum.
+                    Özeti ve sözleşme metninin tamamını okudum, anladım ve kurumsal onayımı veriyorum.
                   </span>
                   <span className="sm:hidden">Metni okudum ve kabul ediyorum.</span>
                 </span>
@@ -209,14 +209,14 @@ export function ContractAcceptanceModal({
                   }}
                   className="flex-1 min-h-[44px] py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold disabled:opacity-40 disabled:cursor-not-allowed"
                 >
-                  Kabul ediyorum
+                  Sözleşmeyi onayla
                 </button>
                 <button
                   type="button"
                   onClick={onClose}
                   className="shrink-0 text-sm text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 px-1"
                 >
-                  Sonra
+                  Daha sonra
                 </button>
               </div>
             </>

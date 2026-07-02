@@ -85,15 +85,6 @@ export function PersonnelLoginLayout({
               {children}
             </div>
 
-            <p className="mt-4 mb-0 text-center text-sm text-gray-500 dark:text-gray-400">
-              Yönetici misiniz?{' '}
-              <Link
-                href="/admin-panel/login"
-                className="text-blue-600 dark:text-blue-400 font-semibold hover:underline"
-              >
-                Yönetici Girişi
-              </Link>
-            </p>
           </div>
         </div>
       </div>

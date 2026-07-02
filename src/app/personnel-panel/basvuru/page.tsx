@@ -61,6 +61,7 @@ type StatusPayload = {
   email?: string;
   position?: string | null;
 };
+type RegistrationStep = 1 | 2 | 3;
 
 async function fetchRegistrationStatus(code: string): Promise<StatusPayload | null> {
   const res = await fetch(
@@ -99,6 +100,7 @@ export default function PersonnelApplicationPage() {
     Array<{ contractId: string; version: number }> | undefined
   >(undefined);
   const [showDraftNotice, setShowDraftNotice] = useState(false);
+  const [activeStep, setActiveStep] = useState<RegistrationStep>(1);
 
   const handleAllContractsAccepted = useCallback(
     (acceptances: Array<{ contractId: string; version: number }>) => {
@@ -482,109 +484,137 @@ export default function PersonnelApplicationPage() {
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(220px,280px)_minmax(0,1fr)] lg:items-start">
-          <section className={panelClass}>
-            <h2 className={sectionTitleClass}>Profil fotoğrafı</h2>
-            <EmployeePhotoPicker
-              variant="selfie"
-              layout="stacked"
-              name={formatFullName(form.first_name, form.last_name)}
-              value={photoFile}
-              onChange={setPhotoFile}
-              required
-            />
-            <div className="hidden lg:flex items-start gap-2 mt-4 pt-4 border-t border-slate-200 dark:border-slate-600 text-xs text-slate-600 dark:text-slate-400">
-              <FiShield className="w-4 h-4 shrink-0 mt-0.5 text-blue-600" />
-              <p>
-                Hassas bilgileriniz şifrelenerek saklanır; yalnızca yetkili yöneticiler
-                görebilir.
-              </p>
-            </div>
-          </section>
+      <form onSubmit={handleSubmit} className="space-y-5">
+        <div className="grid grid-cols-3 gap-2">
+          {[
+            { id: 1 as RegistrationStep, label: 'Kimlik' },
+            { id: 2 as RegistrationStep, label: 'Güvenlik' },
+            { id: 3 as RegistrationStep, label: 'Sözleşme' },
+          ].map((step) => (
+            <button
+              key={step.id}
+              type="button"
+              onClick={() => setActiveStep(step.id)}
+              className={`rounded-xl border px-3 py-2.5 text-xs font-semibold transition-colors ${
+                activeStep === step.id
+                  ? 'border-blue-600 bg-blue-600 text-white'
+                  : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300'
+              }`}
+            >
+              {step.id}. {step.label}
+            </button>
+          ))}
+        </div>
 
-          <section className="space-y-4 min-w-0 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/50 p-4 sm:p-5 lg:border-0 lg:bg-transparent lg:p-0 lg:rounded-none">
-            <h2 className={sectionTitleClass}>Kişisel bilgiler</h2>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className={labelClass}>Ad *</label>
-                <input
-                  className={inputClass}
-                  value={form.first_name}
-                  onChange={(e) => setForm({ ...form, first_name: e.target.value })}
-                  required
-                />
-              </div>
-              <div>
-                <label className={labelClass}>Soyad *</label>
-                <input
-                  className={inputClass}
-                  value={form.last_name}
-                  onChange={(e) => setForm({ ...form, last_name: e.target.value })}
-                  required
-                />
-              </div>
-              <div>
-                <label className={labelClass}>E-posta *</label>
-                <input
-                  type="email"
-                  className={inputClass}
-                  value={form.email}
-                  onChange={(e) => setForm({ ...form, email: e.target.value })}
-                  required
-                />
-                <p className="text-xs text-slate-500 mt-1">
-                  Doğrulama kodu bu adrese gönderilir.
-                </p>
-              </div>
-              <div>
-                <label className={labelClass} htmlFor="basvuru-phone">
-                  Telefon *
-                </label>
-                <TurkishPhoneInput
-                  id="basvuru-phone"
-                  value={form.phone}
-                  onChange={(phone) => setForm({ ...form, phone })}
-                  required
-                />
-                <p className="text-xs text-slate-500 mt-1">
-                  Türkiye cep numarası; ülke kodu +90 otomatik eklenir.
-                </p>
-              </div>
-              <div>
-                <label className={labelClass}>T.C. Kimlik No *</label>
-                <input
-                  className={inputClass}
-                  inputMode="numeric"
-                  maxLength={11}
-                  value={form.tc_kimlik}
-                  onChange={(e) => setForm({ ...form, tc_kimlik: e.target.value.replace(/\D/g, '') })}
-                  required
-                />
-              </div>
-              <div className="sm:col-span-2">
-                <BirthDatePicker
-                  value={form.birth_date}
-                  onChange={(birth_date) => setForm({ ...form, birth_date })}
-                  inputClass={inputClass}
-                  labelClass={labelClass}
-                  required
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className={labelClass}>IBAN *</label>
-              <input
-                className={inputClass}
-                placeholder="TR00 0000 0000 0000 0000 0000 00"
-                value={form.iban}
-                onChange={(e) => setForm({ ...form, iban: e.target.value.toUpperCase() })}
+        {activeStep === 1 && (
+          <div className="space-y-5">
+            <div className={panelClass}>
+              <h2 className={sectionTitleClass}>Profil fotoğrafı</h2>
+              <EmployeePhotoPicker
+                variant="selfie"
+                layout="stacked"
+                name={formatFullName(form.first_name, form.last_name)}
+                value={photoFile}
+                onChange={setPhotoFile}
                 required
               />
+              <div className="flex items-start gap-2 mt-4 pt-4 border-t border-slate-200 dark:border-slate-600 text-xs text-slate-600 dark:text-slate-400">
+                <FiShield className="w-4 h-4 shrink-0 mt-0.5 text-blue-600" />
+                <p>
+                  Hassas bilgileriniz şifrelenerek saklanır; yalnızca yetkili yöneticiler
+                  görebilir.
+                </p>
+              </div>
             </div>
 
+            <section className="space-y-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/50 p-4 sm:p-5">
+              <h2 className={sectionTitleClass}>Kişisel bilgiler</h2>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className={labelClass}>Ad *</label>
+                  <input
+                    className={inputClass}
+                    value={form.first_name}
+                    onChange={(e) => setForm({ ...form, first_name: e.target.value })}
+                    required
+                  />
+                </div>
+                <div>
+                  <label className={labelClass}>Soyad *</label>
+                  <input
+                    className={inputClass}
+                    value={form.last_name}
+                    onChange={(e) => setForm({ ...form, last_name: e.target.value })}
+                    required
+                  />
+                </div>
+                <div>
+                  <label className={labelClass}>E-posta *</label>
+                  <input
+                    type="email"
+                    className={inputClass}
+                    value={form.email}
+                    onChange={(e) => setForm({ ...form, email: e.target.value })}
+                    required
+                  />
+                  <p className="text-xs text-slate-500 mt-1">
+                    Doğrulama kodu bu adrese gönderilir.
+                  </p>
+                </div>
+                <div>
+                  <label className={labelClass} htmlFor="basvuru-phone">
+                    Telefon *
+                  </label>
+                  <TurkishPhoneInput
+                    id="basvuru-phone"
+                    value={form.phone}
+                    onChange={(phone) => setForm({ ...form, phone })}
+                    required
+                  />
+                  <p className="text-xs text-slate-500 mt-1">
+                    Türkiye cep numarası; ülke kodu +90 otomatik eklenir.
+                  </p>
+                </div>
+                <div>
+                  <label className={labelClass}>T.C. Kimlik No *</label>
+                  <input
+                    className={inputClass}
+                    inputMode="numeric"
+                    maxLength={11}
+                    value={form.tc_kimlik}
+                    onChange={(e) => setForm({ ...form, tc_kimlik: e.target.value.replace(/\D/g, '') })}
+                    required
+                  />
+                </div>
+                <div className="sm:col-span-2">
+                  <BirthDatePicker
+                    value={form.birth_date}
+                    onChange={(birth_date) => setForm({ ...form, birth_date })}
+                    inputClass={inputClass}
+                    labelClass={labelClass}
+                    required
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className={labelClass}>IBAN *</label>
+                <input
+                  className={inputClass}
+                  placeholder="TR00 0000 0000 0000 0000 0000 00"
+                  value={form.iban}
+                  onChange={(e) => setForm({ ...form, iban: e.target.value.toUpperCase() })}
+                  required
+                />
+              </div>
+            </section>
+          </div>
+        )}
+
+        {activeStep === 2 && (
+          <section className="space-y-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/50 p-4 sm:p-5">
+            <h2 className={sectionTitleClass}>Güvenlik</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className={labelClass}>Giriş şifresi (PIN) *</label>
@@ -619,36 +649,61 @@ export default function PersonnelApplicationPage() {
               </div>
             </div>
           </section>
-        </div>
-
-        <ContractAcceptanceBlock
-          layout="gate"
-          initialAcceptances={initialContractAcceptances}
-          onAllAccepted={handleAllContractsAccepted}
-          onIncomplete={handleContractsIncomplete}
-        />
-
-        {contractsReady && (
-          <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed -mt-2">
-            Sözleşmeler tamam. <strong>Başvuruyu Gönder</strong> dediğinizde e-postanıza doğrulama
-            kodu ve tek tıkla onay bağlantısı gönderilir.
-          </p>
         )}
 
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-6 border-t border-slate-200 dark:border-slate-700">
+        {activeStep === 3 && (
+          <div className="space-y-4">
+            <ContractAcceptanceBlock
+              layout="gate"
+              initialAcceptances={initialContractAcceptances}
+              onAllAccepted={handleAllContractsAccepted}
+              onIncomplete={handleContractsIncomplete}
+            />
+
+            {contractsReady && (
+              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                Sözleşmeler tamam. <strong>Başvuruyu Gönder</strong> dediğinizde e-postanıza doğrulama
+                kodu ve tek tıkla onay bağlantısı gönderilir.
+              </p>
+            )}
+          </div>
+        )}
+
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-5 border-t border-slate-200 dark:border-slate-700">
           <p className="text-sm text-gray-500 order-2 sm:order-1">
-            Zaten onaylı hesabınız var mı?{' '}
+            Zaten hesabınız var mı?{' '}
             <Link href="/personnel-panel/login" className="text-blue-600 hover:underline">
               Giriş yapın
             </Link>
           </p>
-          <button
-            type="submit"
-            disabled={loading || !contractsReady}
-            className="order-1 sm:order-2 w-full sm:w-auto sm:min-w-[200px] px-8 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-medium disabled:opacity-50"
-          >
-            Başvuruyu Gönder
-          </button>
+          <div className="order-1 sm:order-2 flex gap-2 w-full sm:w-auto">
+            {activeStep > 1 && (
+              <button
+                type="button"
+                onClick={() => setActiveStep((prev) => (prev - 1) as RegistrationStep)}
+                className="w-1/3 sm:w-auto px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 font-medium"
+              >
+                Geri
+              </button>
+            )}
+            {activeStep < 3 ? (
+              <button
+                type="button"
+                onClick={() => setActiveStep((prev) => (prev + 1) as RegistrationStep)}
+                className="flex-1 sm:w-auto px-8 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-medium"
+              >
+                Devam et
+              </button>
+            ) : (
+              <button
+                type="submit"
+                disabled={loading || !contractsReady}
+                className="flex-1 sm:w-auto sm:min-w-[200px] px-8 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-medium disabled:opacity-50"
+              >
+                Başvuruyu Gönder
+              </button>
+            )}
+          </div>
         </div>
       </form>
 

@@ -9,6 +9,7 @@ import { FiLock } from 'react-icons/fi';
 import { PersonnelLoginLayout } from '@/components/personnel/PersonnelLoginLayout';
 import { AuthAlert, LoadingSpinner } from '@/components/auth/AuthAlerts';
 import { PERSONNEL_PIN_LENGTH, sanitizePersonnelPinInput } from '@/lib/personnel-pin';
+import { SUPPORT_EMAIL } from '@/lib/support-email';
 import {
   loginPinInputProps,
   loginTcInputProps,
@@ -28,6 +29,9 @@ function PersonnelLoginContent() {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [checkingSession, setCheckingSession] = useState(true);
+  const forgotPinHref = `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent(
+    'CrewLedger - Personel PIN sifirlama talebi'
+  )}`;
 
   useEffect(() => {
     let cancelled = false;
@@ -156,23 +160,30 @@ function PersonnelLoginContent() {
           )}
         </button>
       </form>
-      <p className="mt-4 text-center text-sm text-gray-500 dark:text-gray-400">
-        {hasPendingApplication ? (
-          <>
-            Onay bekleyen başvurunuz var.{' '}
-            <Link href="/personnel-panel/basvuru" className="text-blue-600 font-semibold hover:underline">
-              QR kodunu görüntüle
-            </Link>
-          </>
-        ) : (
-          <>
-            Henüz kayıtlı değil misiniz?{' '}
-            <Link href="/personnel-panel/basvuru" prefetch className="text-blue-600 font-semibold hover:underline">
-              Başvuru yapın
-            </Link>
-          </>
-        )}
-      </p>
+      <div className="mt-4 space-y-2 text-center text-sm text-gray-500 dark:text-gray-400">
+        <p>
+          {hasPendingApplication ? (
+            <>
+              Onay bekleyen başvurunuz var.{' '}
+              <Link href="/personnel-panel/basvuru" className="text-blue-600 font-semibold hover:underline">
+                QR kodunu görüntüle
+              </Link>
+            </>
+          ) : (
+            <>
+              Hesabınız mı yok?{' '}
+              <Link href="/personnel-panel/basvuru" prefetch className="text-blue-600 font-semibold hover:underline">
+                Başvuru yapın
+              </Link>
+            </>
+          )}
+        </p>
+        <p>
+          <a href={forgotPinHref} className="text-blue-600 font-semibold hover:underline">
+            Şifremi unuttum
+          </a>
+        </p>
+      </div>
     </PersonnelLoginLayout>
   );
 }
