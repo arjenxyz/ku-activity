@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { BrandMark } from '@/components/brand/BrandMark';
 
 type PersonnelLoginLayoutProps = {
@@ -36,13 +35,13 @@ export function PersonnelLoginLayout({
           alignTop ? '' : 'min-h-[100dvh]'
         }`}
       >
-        <div className="flex items-center justify-between px-4 sm:px-6 pt-4 sm:pt-6 safe-pt safe-px">
-          <Link href="/" className="inline-flex items-center gap-2.5 group">
-          <BrandMark size="sm" />
-            <span className="text-sm font-semibold text-gray-700 dark:text-gray-200 group-hover:text-blue-600 transition-colors">
-              Ana sayfa
+        <div className="flex items-center justify-center px-4 sm:px-6 pt-4 sm:pt-6 safe-pt safe-px">
+          <div className="inline-flex items-center gap-2.5">
+            <BrandMark size="sm" />
+            <span className="text-sm font-semibold tracking-wide text-gray-700 dark:text-gray-200">
+              CREWLEDGER
             </span>
-          </Link>
+          </div>
         </div>
 
         <div
