@@ -1,6 +1,7 @@
 'use client';
 
 import type { ReactNode } from 'react';
+import { FiChevronRight } from 'react-icons/fi';
 
 export type OverviewLine = {
   count: number;
@@ -20,7 +21,7 @@ type Props = {
 export function PersonnelOverviewStrip({
   title,
   icon,
-  iconClassName = 'bg-slate-50 dark:bg-slate-900/40',
+  iconClassName = 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300',
   lines,
   formatLineLabel = (label) => label,
   onOpen,
@@ -28,53 +29,49 @@ export function PersonnelOverviewStrip({
   const cols = lines.length;
 
   return (
-    <div className="rounded-2xl border border-gray-100 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm px-4 sm:px-5 py-3.5 sm:py-4">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-5">
-        <div className="flex items-center gap-2.5 shrink-0">
-          <div
-            className={`w-9 h-9 rounded-xl flex items-center justify-center ${iconClassName}`}
-          >
-            {icon}
-          </div>
-          <p className="text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400">{title}</p>
+    <button
+      type="button"
+      onClick={onOpen}
+      disabled={!onOpen}
+      className={`w-full text-left rounded-2xl border border-slate-200/80 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm px-4 sm:px-5 py-4 transition-all ${
+        onOpen
+          ? 'hover:border-blue-200 dark:hover:border-blue-800 hover:shadow-md active:scale-[0.995] cursor-pointer'
+          : 'cursor-default'
+      }`}
+    >
+      <div className="flex items-center gap-3 mb-3">
+        <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${iconClassName}`}>
+          {icon}
         </div>
-
-        <ul
-          className={`flex-1 grid divide-x divide-gray-100 dark:divide-slate-700 ${
-            cols === 2 ? 'grid-cols-2' : cols === 4 ? 'grid-cols-4' : 'grid-cols-3'
-          }`}
-        >
-          {lines.map((line) => (
-            <li
-              key={line.label}
-              className="px-2 sm:px-4 first:pl-0 last:pr-0 text-center sm:text-left"
-            >
-              <p className="text-[11px] text-gray-400 dark:text-gray-500 leading-tight">
-                {formatLineLabel(line.label)}
-              </p>
-              <p
-                className={`mt-0.5 text-base sm:text-lg tabular-nums ${
-                  line.count === 0 && !line.display
-                    ? 'font-normal text-gray-300 dark:text-gray-600'
-                    : 'font-semibold text-gray-800 dark:text-gray-100'
-                }`}
-              >
-                {line.display ?? line.count}
-              </p>
-            </li>
-          ))}
-        </ul>
-
-        {onOpen && (
-          <button
-            type="button"
-            onClick={onOpen}
-            className="shrink-0 text-xs font-medium text-blue-600 dark:text-blue-400 hover:underline self-start sm:self-center"
-          >
-            Detay
-          </button>
-        )}
+        <p className="text-sm font-semibold text-slate-900 dark:text-white flex-1">{title}</p>
+        {onOpen && <FiChevronRight className="w-4 h-4 text-slate-400 shrink-0" />}
       </div>
-    </div>
+
+      <ul
+        className={`grid gap-2 ${
+          cols === 2 ? 'grid-cols-2' : cols === 4 ? 'grid-cols-4' : 'grid-cols-3'
+        }`}
+      >
+        {lines.map((line) => (
+          <li
+            key={line.label}
+            className="rounded-xl bg-slate-50 dark:bg-slate-900/50 px-3 py-2.5 text-center sm:text-left"
+          >
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+              {formatLineLabel(line.label)}
+            </p>
+            <p
+              className={`mt-0.5 text-lg tabular-nums ${
+                line.count === 0 && !line.display
+                  ? 'font-medium text-slate-300 dark:text-slate-600'
+                  : 'font-bold text-slate-900 dark:text-white'
+              }`}
+            >
+              {line.display ?? line.count}
+            </p>
+          </li>
+        ))}
+      </ul>
+    </button>
   );
 }

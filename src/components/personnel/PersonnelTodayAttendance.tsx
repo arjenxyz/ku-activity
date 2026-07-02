@@ -41,54 +41,85 @@ export function PersonnelTodayAttendance() {
 
   if (loading) {
     return (
-      <div className="rounded-2xl border border-gray-100 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 animate-pulse h-28" />
+      <div className="rounded-2xl sm:rounded-3xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 animate-pulse">
+        <div className="h-4 w-32 bg-slate-200 dark:bg-slate-700 rounded" />
+        <div className="mt-4 h-6 w-48 bg-slate-200 dark:bg-slate-700 rounded" />
+        <div className="mt-6 h-11 bg-slate-200 dark:bg-slate-700 rounded-xl" />
+      </div>
     );
   }
 
   const isConfirmed = status === 'confirmed';
 
   return (
-    <div className="rounded-2xl border border-blue-100 dark:border-blue-900/50 bg-gradient-to-br from-blue-50/80 to-white dark:from-slate-800 dark:to-slate-900 p-4 sm:p-5 shadow-sm">
-      <div className="flex items-start justify-between gap-3">
-        <div>
-          <p className="text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wider">
-            Bugünkü yoklama
-          </p>
-          {project && (
-            <p className="text-xs text-slate-500 mt-0.5">
-              İş başı {formatTime(project.workStartTime)}
-              {project.workEndTime ? ` – ${formatTime(project.workEndTime)}` : ''}
+    <div
+      className={`relative overflow-hidden rounded-2xl sm:rounded-3xl border shadow-sm ${
+        isConfirmed
+          ? 'border-emerald-200/80 dark:border-emerald-800/50 bg-gradient-to-br from-emerald-50/90 via-white to-white dark:from-emerald-950/20 dark:via-slate-800 dark:to-slate-900'
+          : 'border-amber-200/80 dark:border-amber-900/40 bg-gradient-to-br from-amber-50/80 via-white to-white dark:from-amber-950/15 dark:via-slate-800 dark:to-slate-900'
+      }`}
+    >
+      <div className="p-4 sm:p-5">
+        <div className="flex items-start justify-between gap-3">
+          <div className="min-w-0">
+            <p
+              className={`text-[11px] font-bold uppercase tracking-wider ${
+                isConfirmed
+                  ? 'text-emerald-700 dark:text-emerald-400'
+                  : 'text-amber-700 dark:text-amber-400'
+              }`}
+            >
+              Bugünkü yoklama
             </p>
-          )}
+            {project?.name && (
+              <p className="mt-1 text-sm font-semibold text-slate-900 dark:text-white truncate">
+                {project.name}
+              </p>
+            )}
+            {project && (
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                Mesai {formatTime(project.workStartTime)}
+                {project.workEndTime ? ` – ${formatTime(project.workEndTime)}` : ''}
+              </p>
+            )}
+          </div>
+          <span
+            className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl ${
+              isConfirmed
+                ? 'bg-emerald-100 text-emerald-600 dark:bg-emerald-900/40 dark:text-emerald-400'
+                : 'bg-amber-100 text-amber-600 dark:bg-amber-900/40 dark:text-amber-400'
+            }`}
+          >
+            {isConfirmed ? (
+              <FiCheckCircle className="w-5 h-5" />
+            ) : (
+              <FiClock className="w-5 h-5" />
+            )}
+          </span>
         </div>
-        {isConfirmed ? (
-          <FiCheckCircle className="w-6 h-6 text-emerald-600 shrink-0" />
-        ) : (
-          <FiClock className="w-6 h-6 text-amber-600 shrink-0" />
+
+        <p className="mt-3 text-base font-semibold text-slate-900 dark:text-white">
+          {isConfirmed ? 'Tam gün kayıtlısınız' : 'Henüz yoklama yok'}
+        </p>
+
+        {workLog && (
+          <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
+            {formatWorkLogSummary(workLog.amount, workLog.mesai_type)}
+          </p>
+        )}
+
+        {error && <p className="text-xs text-red-600 dark:text-red-400 mt-2">{error}</p>}
+
+        {!isConfirmed && (
+          <Link
+            href="/personnel-panel/yoklama"
+            className="mt-4 w-full flex items-center justify-center gap-2.5 py-3.5 rounded-2xl bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white text-sm font-semibold shadow-lg shadow-blue-600/20 touch-target transition-colors"
+          >
+            <TbQrcode className="w-5 h-5" />
+            Usta QR okut
+          </Link>
         )}
       </div>
-
-        <p className="text-sm font-medium text-slate-800 dark:text-slate-100 mt-3">
-          {isConfirmed ? 'Bugün tam gün kayıtlısınız' : 'Yoklama bekleniyor'}
-        </p>
-
-      {workLog && (
-        <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
-          {formatWorkLogSummary(workLog.amount, workLog.mesai_type)}
-        </p>
-      )}
-
-      {error && <p className="text-xs text-red-600 mt-2">{error}</p>}
-
-      {!isConfirmed && (
-        <Link
-          href="/personnel-panel/yoklama"
-          className="mt-4 w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white text-sm font-semibold touch-target"
-        >
-          <TbQrcode className="w-5 h-5" />
-          Usta QR okut
-        </Link>
-      )}
     </div>
   );
 }

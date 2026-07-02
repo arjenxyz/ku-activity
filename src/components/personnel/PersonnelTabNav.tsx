@@ -19,8 +19,8 @@ export function PersonnelTabNav({
   onChange: (id: string) => void;
 }) {
   return (
-    <div className="mb-6 -mx-4 sm:mx-0">
-      <div className="flex gap-2 overflow-x-auto px-4 sm:px-0 pb-1 scrollbar-hide snap-x snap-mandatory">
+    <div className="mb-5 sm:mb-6 -mx-3 sm:mx-0">
+      <div className="flex gap-1.5 sm:gap-2 overflow-x-auto px-3 sm:px-0 pb-1 scrollbar-hide snap-x snap-mandatory">
         {tabs.map((tab) => {
           const isActive = active === tab.id;
           return (
@@ -28,10 +28,10 @@ export function PersonnelTabNav({
               key={tab.id}
               type="button"
               onClick={() => onChange(tab.id)}
-              className={`snap-start shrink-0 inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
+              className={`snap-start shrink-0 inline-flex items-center gap-2 px-3.5 sm:px-4 py-2.5 rounded-xl text-sm font-semibold transition-all ${
                 isActive
-                  ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/25'
-                  : 'bg-white dark:bg-slate-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-700'
+                  ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-lg shadow-slate-900/15'
+                  : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600'
               }`}
             >
               {tab.icon}

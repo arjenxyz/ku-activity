@@ -5,6 +5,7 @@ export type StatItem = {
   value: string;
   icon: ReactNode;
   accent: string;
+  iconWrap?: string;
 };
 
 export function PersonnelStatGrid({ items }: { items: StatItem[] }) {
@@ -13,13 +14,20 @@ export function PersonnelStatGrid({ items }: { items: StatItem[] }) {
       {items.map((item) => (
         <div
           key={item.label}
-          className="bg-white dark:bg-slate-800 rounded-2xl border border-gray-100 dark:border-slate-700 shadow-sm p-4 sm:p-5"
+          className="relative overflow-hidden rounded-2xl border border-slate-200/80 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm p-4 sm:p-5"
         >
-          <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-3 ${item.accent}`}>
+          <div
+            className={`absolute top-0 right-0 w-20 h-20 rounded-full blur-2xl opacity-40 pointer-events-none ${item.accent}`}
+          />
+          <div
+            className={`relative w-10 h-10 rounded-xl flex items-center justify-center mb-3 ${item.iconWrap ?? item.accent}`}
+          >
             {item.icon}
           </div>
-          <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">{item.label}</p>
-          <p className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mt-0.5 truncate">
+          <p className="text-xs font-medium uppercase tracking-wide text-slate-500 dark:text-slate-400">
+            {item.label}
+          </p>
+          <p className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white mt-1 tabular-nums truncate">
             {item.value}
           </p>
         </div>

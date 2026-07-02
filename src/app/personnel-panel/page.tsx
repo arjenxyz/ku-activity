@@ -15,7 +15,8 @@ import {
   FiTrendingUp,
   FiXCircle,
 } from 'react-icons/fi';
-import { EmployeeAvatar } from '@/components/employee/EmployeeAvatar';
+import { PersonnelOverviewHeader } from '@/components/personnel/PersonnelOverviewHeader';
+import { PersonnelNetHero } from '@/components/personnel/PersonnelNetHero';
 import { PersonnelCalendar } from '@/components/personnel/PersonnelCalendar';
 import { PersonnelMesaiPanel } from '@/components/personnel/PersonnelMesaiPanel';
 import { PersonnelTodayAttendance } from '@/components/personnel/PersonnelTodayAttendance';
@@ -30,7 +31,6 @@ import { PersonnelSection } from '@/components/personnel/PersonnelRecordCard';
 import { PersonnelFinancePanel } from '@/components/personnel/PersonnelFinancePanel';
 import { PersonnelAsgariPanel } from '@/components/personnel/PersonnelAsgariPanel';
 import { PersonnelQuickActions } from '@/components/personnel/PersonnelQuickActions';
-import { PersonnelNetHero } from '@/components/personnel/PersonnelNetHero';
 import { PersonnelPullToRefresh } from '@/components/personnel/PersonnelPullToRefresh';
 import { PersonnelPwaInstallBanner } from '@/components/personnel/PersonnelPwaInstallBanner';
 import { PersonnelTrustFooter } from '@/components/personnel/PersonnelTrustFooter';
@@ -38,7 +38,7 @@ import { PersonnelWorkLogItem } from '@/components/personnel/PersonnelWorkLogIte
 import { usePersonnelDashboard } from '@/hooks/usePersonnelDashboard';
 import { usePersonnelAsgari } from '@/hooks/usePersonnelAsgari';
 import { usePersonnelTab, type PersonnelTabId } from '@/hooks/usePersonnelTab';
-import { formatDate, formatMoney } from '@/lib/format';
+import { formatMoney } from '@/lib/format';
 import { buildMonthCalendar, computeMesaiStats, currentMonth, getMesaiCountLines, getWorkDayCountLines } from '@/lib/personnel-stats';
 
 const DESKTOP_TABS = [
@@ -92,25 +92,29 @@ function PersonelPanelContent() {
           label: 'Brüt Kazanç',
           value: formatMoney(stats.gross),
           icon: <FiTrendingUp className="w-5 h-5 text-green-600 dark:text-green-400" />,
-          accent: 'bg-green-50 dark:bg-green-900/30',
+          accent: 'bg-green-400',
+          iconWrap: 'bg-green-50 dark:bg-green-900/30',
         },
         {
           label: 'Toplam Avans',
           value: formatMoney(stats.totalAdvance),
           icon: <FiCreditCard className="w-5 h-5 text-amber-600 dark:text-amber-400" />,
-          accent: 'bg-amber-50 dark:bg-amber-900/30',
+          accent: 'bg-amber-400',
+          iconWrap: 'bg-amber-50 dark:bg-amber-900/30',
         },
         {
           label: 'Kesinti',
           value: formatMoney(stats.totalDeduct),
           icon: <FiXCircle className="w-5 h-5 text-red-500 dark:text-red-400" />,
-          accent: 'bg-red-50 dark:bg-red-900/30',
+          accent: 'bg-red-400',
+          iconWrap: 'bg-red-50 dark:bg-red-900/30',
         },
         {
           label: 'Net Maaş',
           value: formatMoney(stats.net),
           icon: <FiDollarSign className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />,
-          accent: 'bg-indigo-50 dark:bg-indigo-900/30',
+          accent: 'bg-indigo-400',
+          iconWrap: 'bg-indigo-50 dark:bg-indigo-900/30',
         },
       ]
     : [];
@@ -229,19 +233,24 @@ function PersonelPanelContent() {
       );
     }
 
+    const monthLabel = new Date(`${month}-01T12:00:00`).toLocaleDateString('tr-TR', {
+      month: 'long',
+      year: 'numeric',
+    });
+
     return (
-      <div className="space-y-4 sm:space-y-6">
-        <div className="sm:hidden -mt-0.5">
-          <p className="text-lg font-bold text-gray-900 dark:text-white">
-            Merhaba{employee ? `, ${employee.name.split(' ')[0]}` : ''}
-          </p>
-          <p className="text-sm text-gray-500 dark:text-gray-400">
-            {new Date(`${month}-01T12:00:00`).toLocaleDateString('tr-TR', {
-              month: 'long',
-              year: 'numeric',
-            })}
-          </p>
-        </div>
+      <div className="space-y-4 sm:space-y-5">
+        {employee && (
+          <PersonnelOverviewHeader
+            firstName={employee.name.split(' ')[0]}
+            fullName={employee.name}
+            position={employee.position}
+            photoUrl={employee.photo_url}
+            dailyWage={Number(employee.daily_wage)}
+            month={month}
+            onMonthChange={setMonth}
+          />
+        )}
 
         <PersonnelTodayAttendance />
 
@@ -249,10 +258,9 @@ function PersonelPanelContent() {
           <PersonnelNetHero
             net={stats.net}
             gross={stats.gross}
-            monthLabel={new Date(`${month}-01T12:00:00`).toLocaleDateString('tr-TR', {
-              month: 'long',
-              year: 'numeric',
-            })}
+            totalAdvance={stats.totalAdvance}
+            totalDeduct={stats.totalDeduct}
+            monthLabel={monthLabel}
             onOpenFinance={() => goTab('finance')}
           />
         )}
@@ -263,55 +271,29 @@ function PersonelPanelContent() {
           <PersonnelPwaInstallBanner />
         </div>
 
-        {employee && (
-          <div className="hidden sm:block bg-white dark:bg-slate-800 rounded-2xl border border-gray-100 dark:border-slate-700 shadow-sm p-4 sm:p-6">
-            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
-              Profil
-            </p>
-            <div className="flex items-center gap-4">
-              <EmployeeAvatar
-                name={employee.name}
-                photoUrl={employee.photo_url}
-                size="xl"
-                className="!rounded-2xl"
-              />
-              <div className="min-w-0 flex-1">
-                <p className="text-lg font-bold text-gray-900 dark:text-white truncate">
-                  {employee.name}
-                </p>
-                <p className="text-sm text-gray-500 dark:text-gray-400">{employee.position}</p>
-                <p className="text-sm font-medium text-emerald-600 dark:text-emerald-400 mt-1">
-                  Günlük yevmiye: {formatMoney(Number(employee.daily_wage))}
-                </p>
-                {employee.hire_date && (
-                  <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">
-                    İşe giriş: {formatDate(employee.hire_date)}
-                  </p>
-                )}
-              </div>
-            </div>
-          </div>
-        )}
-
         {stats && (
-          <div className="space-y-3 sm:space-y-4 mb-2 sm:mb-8">
-            <div className="hidden sm:block">
-              <PersonnelStatGrid items={statItems} />
+          <div className="space-y-3 sm:space-y-4">
+            <p className="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500 hidden sm:block">
+              Dönem özeti
+            </p>
+            <PersonnelStatGrid items={statItems} />
+            <div className="grid sm:grid-cols-2 gap-3">
+              <PersonnelOverviewStrip
+                title="Çalışılan gün"
+                icon={<FiCalendar className="w-4 h-4" />}
+                iconClassName="bg-blue-100 text-blue-600 dark:bg-blue-900/40 dark:text-blue-400"
+                lines={workDayLines}
+                onOpen={() => goTab('work')}
+              />
+              <PersonnelOverviewStrip
+                title="Mesai dağılımı"
+                icon={<FiClock className="w-4 h-4" />}
+                iconClassName="bg-violet-100 text-violet-600 dark:bg-violet-900/40 dark:text-violet-400"
+                lines={mesaiLines}
+                formatLineLabel={(label) => label.replace(' mesai', '')}
+                onOpen={() => goTab('mesai')}
+              />
             </div>
-            <PersonnelOverviewStrip
-              title="Çalışılan Gün"
-              icon={<FiCalendar className="w-4 h-4 text-blue-600 dark:text-blue-400" />}
-              iconClassName="bg-blue-50 dark:bg-blue-900/30"
-              lines={workDayLines}
-              onOpen={() => goTab('work')}
-            />
-            <PersonnelOverviewStrip
-              title="Mesai"
-              icon={<FiClock className="w-4 h-4 text-slate-500 dark:text-slate-400" />}
-              lines={mesaiLines}
-              formatLineLabel={(label) => label.replace(' mesai', '')}
-              onOpen={() => goTab('mesai')}
-            />
           </div>
         )}
 
@@ -333,12 +315,9 @@ function PersonelPanelContent() {
           }}
         >
           <div className="no-print">
-            <div className="mb-4 sm:mb-6 no-print hidden sm:block">
-              <h1 className="text-xl sm:text-3xl font-bold text-gray-900 dark:text-white tracking-tight">
-                Hoş geldiniz{employee ? `, ${employee.name.split(' ')[0]}` : ''}
-              </h1>
-              <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                Puantaj, yoklama ve maaş özeti tek panelde.
+            <div className="mb-4 sm:mb-5 no-print hidden sm:block">
+              <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
+                Puantaj, yoklama ve maaş özeti
               </p>
             </div>
 
