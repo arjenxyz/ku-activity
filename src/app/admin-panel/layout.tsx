@@ -16,8 +16,8 @@ export const metadata: Metadata = {
     title: 'CL Yönetici',
   },
   icons: {
-    icon: [{ url: `${ORIGIN}${CREWLEDGER_APP_ICON}?v=5`, sizes: '512x512', type: 'image/png' }],
-    apple: [{ url: `${ORIGIN}${CREWLEDGER_APP_ICON}?v=5`, sizes: '512x512', type: 'image/png' }],
+    icon: [{ url: `${ORIGIN}${CREWLEDGER_APP_ICON}?v=6`, sizes: '512x512', type: 'image/png' }],
+    apple: [{ url: `${ORIGIN}${CREWLEDGER_APP_ICON}?v=6`, sizes: '512x512', type: 'image/png' }],
   },
   other: {
     'mobile-web-app-capable': 'yes',

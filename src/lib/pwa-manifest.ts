@@ -1,5 +1,4 @@
 import type { MetadataRoute } from 'next';
-import { CREWLEDGER_APP_ICON } from '@/lib/brand';
 import {
   PERSONNEL_PWA_SPLASH_BG,
   PERSONNEL_PWA_THEME,
@@ -10,25 +9,28 @@ export type PwaAppVariant = 'personnel' | 'admin';
 
 const ORIGIN = getTwaOrigin();
 /** PWA ikon/manifest önbelleğini kırmak için — değişince artır */
-const PWA_ASSET_VERSION = '5';
+const PWA_ASSET_VERSION = '6';
 
-function appIconUrl() {
-  return `${ORIGIN}${CREWLEDGER_APP_ICON}?v=${PWA_ASSET_VERSION}`;
+function appIconUrl(size: 192 | 512) {
+  return `${ORIGIN}/api/pwa-icon/${size}?v=${PWA_ASSET_VERSION}`;
+}
+
+function maskableIconUrl(size: 192 | 512 = 512) {
+  return `${ORIGIN}/icons/personnel/maskable/${size}?v=${PWA_ASSET_VERSION}`;
 }
 
 function baseIcons(): MetadataRoute.Manifest['icons'] {
-  const src = appIconUrl();
   return [
-    { src, sizes: '192x192', type: 'image/png', purpose: 'any' },
-    { src, sizes: '512x512', type: 'image/png', purpose: 'any' },
-    { src, sizes: '512x512', type: 'image/png', purpose: 'maskable' },
+    { src: appIconUrl(192), sizes: '192x192', type: 'image/png', purpose: 'any' },
+    { src: appIconUrl(512), sizes: '512x512', type: 'image/png', purpose: 'any' },
+    { src: maskableIconUrl(512), sizes: '512x512', type: 'image/png', purpose: 'maskable' },
   ];
 }
 
 export function buildPersonnelManifest(): MetadataRoute.Manifest {
-  const icon = appIconUrl();
+  const icon = appIconUrl(192);
   return {
-    id: '/personnel-panel?v=5',
+    id: '/personnel-panel?v=6',
     name: 'CrewLedger Personel',
     short_name: 'CrewLedger',
     description:
@@ -63,9 +65,9 @@ export function buildPersonnelManifest(): MetadataRoute.Manifest {
 }
 
 export function buildAdminManifest(): MetadataRoute.Manifest {
-  const icon = appIconUrl();
+  const icon = appIconUrl(192);
   return {
-    id: '/admin-panel?v=5',
+    id: '/admin-panel?v=6',
     name: 'CrewLedger Yönetici',
     short_name: 'CL Yönetici',
     description:

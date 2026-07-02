@@ -7,3 +7,6 @@ export const DEFAULT_SUPPORT_EMAIL = 'hello@crewledger.app';
 
 /** Uygulama + marka ikonu (PWA, TWA, BrandMark, favicon) */
 export const CREWLEDGER_APP_ICON = '/crewledger.png';
+
+/** İkon köşe / PWA splash arka plan rengi — crewledger.png ile birebir */
+export const CREWLEDGER_ICON_BG = '#001840';

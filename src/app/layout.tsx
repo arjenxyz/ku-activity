@@ -29,8 +29,8 @@ export const metadata: Metadata = {
     telephone: false,
   },
   icons: {
-    icon: [{ url: `${CREWLEDGER_APP_ICON}?v=5`, sizes: '512x512', type: 'image/png' }],
-    apple: [{ url: `${CREWLEDGER_APP_ICON}?v=5`, sizes: '512x512', type: 'image/png' }],
+    icon: [{ url: `${CREWLEDGER_APP_ICON}?v=6`, sizes: '512x512', type: 'image/png' }],
+    apple: [{ url: `${CREWLEDGER_APP_ICON}?v=6`, sizes: '512x512', type: 'image/png' }],
   },
 };
 

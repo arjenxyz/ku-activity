@@ -42,7 +42,7 @@ export function PersonnelLoginLayout({
           className="object-cover object-center"
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-[#0b1624]/25" />
+        <div className="absolute inset-0 bg-[#001840]/20" />
       </div>
 
       <div
