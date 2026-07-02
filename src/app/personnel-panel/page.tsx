@@ -30,7 +30,6 @@ import { PersonnelTabNav } from '@/components/personnel/PersonnelTabNav';
 import { PersonnelSection } from '@/components/personnel/PersonnelRecordCard';
 import { PersonnelFinancePanel } from '@/components/personnel/PersonnelFinancePanel';
 import { PersonnelAsgariPanel } from '@/components/personnel/PersonnelAsgariPanel';
-import { PersonnelQuickActions } from '@/components/personnel/PersonnelQuickActions';
 import { PersonnelPullToRefresh } from '@/components/personnel/PersonnelPullToRefresh';
 import { PersonnelPwaInstallBanner } from '@/components/personnel/PersonnelPwaInstallBanner';
 import { PersonnelTrustFooter } from '@/components/personnel/PersonnelTrustFooter';
@@ -264,8 +263,6 @@ function PersonelPanelContent() {
             onOpenFinance={() => goTab('finance')}
           />
         )}
-
-        <PersonnelQuickActions onNavigate={goTab} />
 
         <div className="sm:hidden">
           <PersonnelPwaInstallBanner />

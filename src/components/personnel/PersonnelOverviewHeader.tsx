@@ -44,7 +44,7 @@ export function PersonnelOverviewHeader({
                 name={fullName}
                 photoUrl={photoUrl}
                 size="lg"
-                className="!rounded-2xl ring-2 ring-white dark:ring-slate-700 shadow-md shrink-0 hidden sm:flex"
+                className="!rounded-2xl ring-2 ring-white dark:ring-slate-700 shadow-md shrink-0"
               />
             )}
             <div className="min-w-0">
