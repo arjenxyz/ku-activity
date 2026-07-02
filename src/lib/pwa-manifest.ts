@@ -1,4 +1,5 @@
 import type { MetadataRoute } from 'next';
+import { PERSONNEL_INTRO_SPLASH_BG } from '@/lib/personnel-intro-splash';
 import { getTwaOrigin } from '@/lib/twa-config';
 
 export type PwaAppVariant = 'personnel' | 'admin';
@@ -44,8 +45,8 @@ export function buildPersonnelManifest(): MetadataRoute.Manifest {
     display: 'standalone',
     display_override: ['standalone', 'minimal-ui'],
     orientation: 'portrait-primary',
-    background_color: '#ffffff',
-    theme_color: '#2563eb',
+    background_color: PERSONNEL_INTRO_SPLASH_BG,
+    theme_color: PERSONNEL_INTRO_SPLASH_BG,
     lang: 'tr',
     dir: 'ltr',
     categories: ['business', 'productivity'],

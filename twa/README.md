@@ -63,6 +63,15 @@ bubblewrap init --manifest https://crewledger.vercel.app/manifest-personnel.webm
 bubblewrap build
 ```
 
+**Açılış ekranı (splash):** Web tarafındaki 2 aşamalı intro ile çakışmaması için `twa-manifest.json` içinde:
+
+```json
+"backgroundColor": "#1d4ed8",
+"splashScreenFadeOutDuration": 0
+```
+
+Böylece Android splash anında kaybolur; kullanıcı yalnızca web intro'sunu (logo → Şantiyede güvenle ilerle) görür. `bubblewrap update` sonrası bu alanları kontrol edin.
+
 ### 3. Yönetici uygulaması
 
 ```bash

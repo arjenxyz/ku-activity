@@ -3,8 +3,12 @@
 import { useCallback, useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { BrandMark } from '@/components/brand/BrandMark';
+import {
+  PERSONNEL_INTRO_SPLASH_BG,
+  PERSONNEL_INTRO_STORAGE_KEY,
+} from '@/lib/personnel-intro-splash';
 
-const INTRO_STORAGE_KEY = 'cl-personnel-intro-v1';
+const INTRO_STORAGE_KEY = PERSONNEL_INTRO_STORAGE_KEY;
 const PHASE1_MS = 1400;
 const PHASE2_MS = 2400;
 const EXIT_MS = 420;
@@ -17,7 +21,8 @@ function IntroLogoPhase() {
   return (
     <motion.div
       key="logo"
-      className="absolute inset-0 flex items-center justify-center bg-blue-700"
+      className="absolute inset-0 flex items-center justify-center"
+      style={{ backgroundColor: PERSONNEL_INTRO_SPLASH_BG }}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
