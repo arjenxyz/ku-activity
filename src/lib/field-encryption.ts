@@ -104,6 +104,43 @@ export function normalizeIban(iban: string) {
   return iban.replace(/\s/g, '').toUpperCase();
 }
 
+/** Görüntüleme: TR00 0000 0000 … */
+export function formatTurkishIbanDisplay(iban: string) {
+  const clean = normalizeIban(iban);
+  if (!clean) return '';
+  return clean.replace(/(.{4})/g, '$1 ').trim();
+}
+
+/** Yazarken TR önekini korur; yalnızca rakam (TR sonrası), en fazla 26 karakter */
+export function sanitizeTurkishIbanInput(raw: string): string {
+  let clean = raw.replace(/\s/g, '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+  if (!clean) return '';
+
+  if (!clean.startsWith('TR')) {
+    const digits = clean.replace(/\D/g, '');
+    clean = digits ? `TR${digits}` : 'TR';
+  }
+
+  return `TR${clean.slice(2).replace(/\D/g, '')}`.slice(0, 26);
+}
+
+/** Panodan veya yapıştırmadan IBAN çıkarır */
+export function parseIbanFromText(text: string): string {
+  const trimmed = text.trim();
+  if (!trimmed) return '';
+
+  let clean = trimmed.toUpperCase();
+  if (clean.startsWith('IBAN')) clean = clean.slice(4).trim();
+  clean = clean.replace(/\s/g, '').replace(/[^A-Z0-9]/g, '');
+
+  return sanitizeTurkishIbanInput(clean);
+}
+
+export function looksLikeTurkishIban(text: string): boolean {
+  const parsed = parseIbanFromText(text);
+  return /^TR\d{14,24}$/.test(parsed);
+}
+
 /** Telefonu E.164 benzeri normalize eder (yalnız rakam, + olmadan ülke kodu dahil). */
 export function normalizePhoneDigits(phone: string): string | null {
   const raw = phone.trim();

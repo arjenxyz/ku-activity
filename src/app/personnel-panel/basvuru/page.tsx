@@ -9,6 +9,7 @@ import { PersonnelLoginLayout } from '@/components/personnel/PersonnelLoginLayou
 import { AuthAlert } from '@/components/auth/AuthAlerts';
 import { BirthDatePicker } from '@/components/forms/BirthDatePicker';
 import { TurkishPhoneInput } from '@/components/forms/TurkishPhoneInput';
+import { TurkishIbanInput } from '@/components/forms/TurkishIbanInput';
 import { normalizeIdentityNumber, validateIdentityNumber, validateInternationalPhone } from '@/lib/field-encryption';
 import { validateRegistrationDraft } from '@/lib/registration-draft-validation';
 import {
@@ -586,11 +587,10 @@ export default function PersonnelApplicationPage() {
 
               <div>
                 <label className={labelClass}>IBAN *</label>
-                <input
+                <TurkishIbanInput
                   className={inputClass}
-                  placeholder="TR00 0000 0000 0000 0000 0000 00"
                   value={form.iban}
-                  onChange={(e) => setForm({ ...form, iban: e.target.value.toUpperCase() })}
+                  onChange={(iban) => setForm({ ...form, iban })}
                   required
                 />
                 <p className="text-[11px] text-slate-500 mt-1">
