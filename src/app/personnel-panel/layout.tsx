@@ -25,8 +25,8 @@ export const metadata: Metadata = {
     title: 'CrewLedger',
   },
   icons: {
-    icon: [{ url: `${CREWLEDGER_APP_ICON}?v=8`, sizes: '512x512', type: 'image/png' }],
-    apple: [{ url: `${CREWLEDGER_APP_ICON}?v=8`, sizes: '512x512', type: 'image/png' }],
+    icon: [{ url: `${CREWLEDGER_APP_ICON}?v=9`, sizes: '512x512', type: 'image/png' }],
+    apple: [{ url: `${CREWLEDGER_APP_ICON}?v=9`, sizes: '512x512', type: 'image/png' }],
   },
   other: {
     'mobile-web-app-capable': 'yes',

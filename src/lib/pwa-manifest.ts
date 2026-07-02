@@ -7,7 +7,7 @@ import {
 export type PwaAppVariant = 'personnel' | 'admin';
 
 /** PWA ikon/manifest önbelleğini kırmak için — değişince artır */
-const PWA_ASSET_VERSION = '8';
+const PWA_ASSET_VERSION = '9';
 
 function appIconUrl(size: 192 | 512) {
   return `/api/pwa-icon/${size}?v=${PWA_ASSET_VERSION}`;
