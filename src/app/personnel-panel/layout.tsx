@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { PersonnelDisplayProvider } from '@/lib/personnel-display-preferences';
+import { PersonnelIntroGate } from '@/components/personnel/PersonnelIntroGate';
 import { PersonnelPanelChrome } from '@/components/personnel/PersonnelPanelChrome';
 import {
   PERSONNEL_PWA_STARTUP_IMAGES,
@@ -44,7 +45,9 @@ export default function PersonnelPanelLayout({ children }: { children: React.Rea
         />
       ))}
       <PersonnelDisplayProvider>
-        <PersonnelPanelChrome>{children}</PersonnelPanelChrome>
+        <PersonnelIntroGate>
+          <PersonnelPanelChrome>{children}</PersonnelPanelChrome>
+        </PersonnelIntroGate>
       </PersonnelDisplayProvider>
     </>
   );
