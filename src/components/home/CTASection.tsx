@@ -14,34 +14,57 @@ export function CTASection() {
         }}
       />
 
-      <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={false}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-3xl sm:text-4xl font-bold text-white">
-            Personel yönetiminde dijital dönüşüme hazır mısınız?
-          </h2>
-          <p className="mt-4 text-lg text-blue-100 max-w-2xl mx-auto">
-            Şantiye operasyonlarınızı optimize edin, manuel süreçlerden kurtulun ve zamandan tasarruf edin.
-          </p>
-          <div className="mt-10 flex flex-col sm:flex-row justify-center gap-4">
-            <Link
-              href="/admin-panel/register"
-              className="inline-flex items-center justify-center gap-2 bg-white text-blue-700 px-8 py-3.5 rounded-xl font-semibold hover:bg-blue-50 shadow-xl transition-all hover:-translate-y-0.5"
-            >
-              Ücretsiz Kayıt Ol
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
-            </Link>
-            <a
-              href="#contact"
-              className="inline-flex items-center justify-center border-2 border-white/40 text-white px-8 py-3.5 rounded-xl font-semibold hover:bg-white/10 transition-colors"
-            >
-              İletişime Geçin
-            </a>
+          <div className="grid lg:grid-cols-2 gap-8 items-center">
+            <div className="text-center lg:text-left">
+              <h2 className="text-3xl sm:text-4xl font-bold text-white">
+                Personel yönetiminde dijital dönüşüme hazır mısınız?
+              </h2>
+              <p className="mt-4 text-lg text-blue-100 max-w-2xl mx-auto lg:mx-0">
+                Şantiye operasyonlarınızı optimize edin, manuel süreçlerden kurtulun ve zamandan tasarruf edin.
+              </p>
+              <div className="mt-8 flex flex-col sm:flex-row lg:justify-start justify-center gap-4">
+                <Link
+                  href="/admin-panel/register"
+                  className="inline-flex items-center justify-center gap-2 bg-white text-blue-700 px-8 py-3.5 rounded-xl font-semibold hover:bg-blue-50 shadow-xl transition-all hover:-translate-y-0.5"
+                >
+                  Ücretsiz Kayıt Ol
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                </Link>
+                <a
+                  href="#contact"
+                  className="inline-flex items-center justify-center border-2 border-white/40 text-white px-8 py-3.5 rounded-xl font-semibold hover:bg-white/10 transition-colors"
+                >
+                  İletişime Geçin
+                </a>
+              </div>
+            </div>
+
+            <div className="rounded-2xl bg-white/10 backdrop-blur border border-white/20 p-5 sm:p-6">
+              <p className="text-white font-semibold text-base">İlk haftada neler kazanırsınız?</p>
+              <ul className="mt-4 space-y-3">
+                {[
+                  'Yoklama ve yevmiye akışında standart operasyon',
+                  'Avans/kesinti kayıtlarında tek kaynak doğruluğu',
+                  'Mobil ekip için sade ve hızlı kullanım',
+                  'Yönetici için raporlanabilir günlük görünürlük',
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-2.5 text-sm text-blue-100">
+                    <span className="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white/20 text-white text-xs">
+                      ✓
+                    </span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </motion.div>
       </div>

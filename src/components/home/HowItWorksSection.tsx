@@ -46,7 +46,7 @@ export function HowItWorksSection() {
             3 adımda dijital dönüşüm
           </h2>
           <p className="mt-4 text-lg text-gray-600 dark:text-gray-400">
-            Dakikalar içinde kurulum yapın, hemen kullanmaya başlayın.
+            Dakikalar içinde kurulum yapın, ekipleri tanımlayın ve aynı gün canlı kullanıma geçin.
           </p>
         </motion.div>
 
@@ -76,6 +76,23 @@ export function HowItWorksSection() {
               </p>
             </motion.div>
           ))}
+        </div>
+
+        <div className="mt-14 rounded-2xl border border-blue-100 dark:border-slate-700 bg-blue-50/70 dark:bg-slate-800/60 p-5 sm:p-6">
+          <div className="grid md:grid-cols-3 gap-4">
+            <div className="rounded-xl bg-white dark:bg-slate-900 border border-blue-100 dark:border-slate-700 p-4">
+              <p className="text-xs text-slate-500 dark:text-slate-400">1. gün</p>
+              <p className="mt-1 font-semibold text-slate-900 dark:text-white">Kurulum & kullanıcı açılışı</p>
+            </div>
+            <div className="rounded-xl bg-white dark:bg-slate-900 border border-blue-100 dark:border-slate-700 p-4">
+              <p className="text-xs text-slate-500 dark:text-slate-400">2-3. gün</p>
+              <p className="mt-1 font-semibold text-slate-900 dark:text-white">Yoklama ve yevmiye operasyonu</p>
+            </div>
+            <div className="rounded-xl bg-white dark:bg-slate-900 border border-blue-100 dark:border-slate-700 p-4">
+              <p className="text-xs text-slate-500 dark:text-slate-400">İlk hafta</p>
+              <p className="mt-1 font-semibold text-slate-900 dark:text-white">Raporlama ve finans görünürlüğü</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>

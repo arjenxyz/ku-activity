@@ -9,6 +9,13 @@ type HeroSectionProps = {
   stats: HomeStats;
 };
 
+const capabilityPills = [
+  'QR Yoklama',
+  'Anlık Mesai',
+  'Asgari Uyum',
+  'Mobil PWA',
+];
+
 function getPerformanceLabel(uptime: number) {
   if (uptime >= 99.9) return '⭐ Olağanüstü';
   if (uptime >= 99.5) return 'Mükemmel';
@@ -59,6 +66,17 @@ export function HeroSection({ stats }: HeroSectionProps) {
               kullanıcı dostu arayüz ile şantiye operasyonlarınızı dijitalleştirin.
             </p>
 
+            <div className="mt-5 flex flex-wrap gap-2.5">
+              {capabilityPills.map((pill) => (
+                <span
+                  key={pill}
+                  className="inline-flex items-center px-3 py-1.5 rounded-full bg-white/90 dark:bg-slate-800 border border-blue-100 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-200"
+                >
+                  {pill}
+                </span>
+              ))}
+            </div>
+
             <div className="mt-8 flex flex-col sm:flex-row gap-3">
               <Link
                 href="/admin-panel/register"
@@ -95,6 +113,17 @@ export function HeroSection({ stats }: HeroSectionProps) {
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                 </svg>
                 Türkçe destek
+              </div>
+            </div>
+
+            <div className="mt-8 grid grid-cols-2 gap-3 max-w-md">
+              <div className="rounded-xl border border-blue-100 dark:border-slate-700 bg-white/70 dark:bg-slate-800/70 backdrop-blur p-3.5">
+                <p className="text-[11px] uppercase tracking-wide text-slate-500 dark:text-slate-400">Kurulum</p>
+                <p className="text-base font-semibold text-slate-900 dark:text-white mt-1">~10 dakika</p>
+              </div>
+              <div className="rounded-xl border border-blue-100 dark:border-slate-700 bg-white/70 dark:bg-slate-800/70 backdrop-blur p-3.5">
+                <p className="text-[11px] uppercase tracking-wide text-slate-500 dark:text-slate-400">Kullanım</p>
+                <p className="text-base font-semibold text-slate-900 dark:text-white mt-1">Saha odaklı</p>
               </div>
             </div>
           </motion.div>
@@ -146,6 +175,29 @@ export function HeroSection({ stats }: HeroSectionProps) {
                       </span>
                     </div>
                   ))}
+
+                  <div className="p-4 bg-blue-50/80 dark:bg-blue-950/30 rounded-xl border border-blue-100 dark:border-blue-900/50">
+                    <div className="flex items-center justify-between mb-2.5">
+                      <p className="text-sm font-semibold text-slate-800 dark:text-slate-100">Bugün tamamlanan işlem</p>
+                      <span className="text-xs px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300">
+                        +18%
+                      </span>
+                    </div>
+                    <div className="grid grid-cols-3 gap-2 text-center">
+                      <div className="rounded-lg bg-white dark:bg-slate-900 px-2 py-2">
+                        <p className="text-[11px] text-slate-500 dark:text-slate-400">Yoklama</p>
+                        <p className="text-sm font-bold text-slate-900 dark:text-white">124</p>
+                      </div>
+                      <div className="rounded-lg bg-white dark:bg-slate-900 px-2 py-2">
+                        <p className="text-[11px] text-slate-500 dark:text-slate-400">Mesai</p>
+                        <p className="text-sm font-bold text-slate-900 dark:text-white">37</p>
+                      </div>
+                      <div className="rounded-lg bg-white dark:bg-slate-900 px-2 py-2">
+                        <p className="text-[11px] text-slate-500 dark:text-slate-400">Avans</p>
+                        <p className="text-sm font-bold text-slate-900 dark:text-white">16</p>
+                      </div>
+                    </div>
+                  </div>
 
                   <div className="pt-2">
                     <div className="flex justify-between text-sm mb-2">
