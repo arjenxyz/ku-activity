@@ -1,11 +1,13 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import {
   FiBriefcase,
+  FiCamera,
   FiChevronLeft,
   FiChevronRight,
   FiCreditCard,
+  FiImage,
   FiLock,
   FiLogOut,
   FiMail,
@@ -55,9 +57,38 @@ function formatPhoneDisplay(phone: string | null | undefined) {
 export function PersonnelSettingsPage({ employee, onLogout }: Props) {
   const [passwordOpen, setPasswordOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<SettingsSectionId>('home');
+  const [photoUrl, setPhotoUrl] = useState(employee.photo_url ?? null);
+  const [photoBusy, setPhotoBusy] = useState(false);
+  const [photoError, setPhotoError] = useState<string | null>(null);
+  const cameraInputRef = useRef<HTMLInputElement>(null);
+  const galleryInputRef = useRef<HTMLInputElement>(null);
 
   const firstName = employee.first_name || employee.name.split(' ')[0] || '—';
   const lastName = employee.last_name || employee.name.split(' ').slice(1).join(' ') || '—';
+
+  const uploadPhoto = async (file: File | null) => {
+    if (!file) return;
+    setPhotoError(null);
+    setPhotoBusy(true);
+    try {
+      const body = new FormData();
+      body.append('file', file);
+      const res = await fetch('/api/personnel/me/photo', {
+        method: 'POST',
+        credentials: 'same-origin',
+        body,
+      });
+      const data = (await res.json().catch(() => ({}))) as { photoUrl?: string; error?: string };
+      if (!res.ok) throw new Error(data.error || 'Fotoğraf yüklenemedi');
+      setPhotoUrl(data.photoUrl ?? null);
+    } catch (err) {
+      setPhotoError(err instanceof Error ? err.message : 'Fotoğraf yüklenemedi');
+    } finally {
+      setPhotoBusy(false);
+      if (cameraInputRef.current) cameraInputRef.current.value = '';
+      if (galleryInputRef.current) galleryInputRef.current.value = '';
+    }
+  };
 
   const sectionMeta = useMemo(
     () => ({
@@ -228,21 +259,73 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
           style={{ backgroundImage: 'radial-gradient(circle at 80% 20%, white 0%, transparent 50%)' }}
         />
         <div className="relative px-5 py-6 flex items-center gap-4">
-          <EmployeeAvatar
-            name={employee.name}
-            photoUrl={employee.photo_url}
-            size="xl"
-            className="!rounded-2xl ring-2 ring-white/30 shadow-lg"
-          />
+          <button
+            type="button"
+            disabled={photoBusy}
+            onClick={() => cameraInputRef.current?.click()}
+            className="group shrink-0 text-left"
+            title="Profil fotoğrafını güncelle"
+          >
+            <span className="relative block">
+              <EmployeeAvatar
+                name={employee.name}
+                photoUrl={photoUrl}
+                size="xl"
+                className="!rounded-2xl ring-2 ring-white/30 shadow-lg"
+              />
+              <span className="absolute -bottom-1 -right-1 flex h-7 w-7 items-center justify-center rounded-full bg-white text-blue-700 shadow-md">
+                <FiCamera className="w-3.5 h-3.5" />
+              </span>
+            </span>
+          </button>
           <div className="min-w-0 flex-1">
             <h2 className="text-xl font-bold truncate">{employee.name}</h2>
             <p className="text-blue-100 text-sm mt-0.5 truncate">{sectionMeta[activeSection].title}</p>
             <p className="text-blue-100/80 text-xs mt-1 leading-relaxed">
               {sectionMeta[activeSection].subtitle}
             </p>
+            <div className="mt-2 flex flex-wrap items-center gap-2 text-xs">
+              <button
+                type="button"
+                disabled={photoBusy}
+                onClick={() => cameraInputRef.current?.click()}
+                className="inline-flex items-center gap-1 rounded-full bg-white/15 hover:bg-white/20 px-3 py-1.5 transition-colors disabled:opacity-60"
+              >
+                <FiCamera className="w-3.5 h-3.5" />
+                {photoBusy ? 'Yükleniyor…' : 'Fotoğraf çek'}
+              </button>
+              <button
+                type="button"
+                disabled={photoBusy}
+                onClick={() => galleryInputRef.current?.click()}
+                className="inline-flex items-center gap-1 rounded-full bg-white/15 hover:bg-white/20 px-3 py-1.5 transition-colors disabled:opacity-60"
+              >
+                <FiImage className="w-3.5 h-3.5" />
+                Galeriden yükle
+              </button>
+            </div>
           </div>
         </div>
       </div>
+      {photoError && (
+        <p className="text-xs text-red-600 -mt-2">{photoError}</p>
+      )}
+
+      <input
+        ref={cameraInputRef}
+        type="file"
+        accept="image/*"
+        capture="user"
+        className="sr-only"
+        onChange={(e) => void uploadPhoto(e.target.files?.[0] ?? null)}
+      />
+      <input
+        ref={galleryInputRef}
+        type="file"
+        accept="image/jpeg,image/png,image/webp,image/gif"
+        className="sr-only"
+        onChange={(e) => void uploadPhoto(e.target.files?.[0] ?? null)}
+      />
 
       {activeSection !== 'home' && (
         <button

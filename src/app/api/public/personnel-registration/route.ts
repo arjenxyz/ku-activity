@@ -63,11 +63,9 @@ export async function POST(request: Request) {
         userAgent,
       });
 
-      if (!(photo instanceof File) || photo.size === 0) {
-        return NextResponse.json({ error: 'Kendi fotoğrafınızı çekmeniz gerekir' }, { status: 400 });
+      if (photo instanceof File && photo.size > 0) {
+        await attachRegistrationPhoto(result.id, photo);
       }
-
-      await attachRegistrationPhoto(result.id, photo);
 
       return NextResponse.json({
         verificationCode: result.verificationCode,
@@ -115,7 +113,7 @@ export async function POST(request: Request) {
       verificationCode: result.verificationCode,
       approvalUrl: result.approvalUrl,
       reused: result.reused,
-      photoRequired: true,
+      photoRequired: false,
     });
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Başvuru başarısız';

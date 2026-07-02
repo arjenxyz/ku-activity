@@ -6,13 +6,11 @@ import Link from 'next/link';
 import { FiShield } from 'react-icons/fi';
 import { ContractAcceptanceBlock } from '@/components/contracts/ContractAcceptanceBlock';
 import { ContractEmailVerificationModal } from '@/components/contracts/ContractEmailVerificationModal';
-import { EmployeePhotoPicker } from '@/components/employee/EmployeePhotoPicker';
 import { PersonnelLoginLayout } from '@/components/personnel/PersonnelLoginLayout';
 import { AuthAlert } from '@/components/auth/AuthAlerts';
 import { BirthDatePicker } from '@/components/forms/BirthDatePicker';
 import { TurkishPhoneInput } from '@/components/forms/TurkishPhoneInput';
 import { validateRegistrationDraft } from '@/lib/registration-draft-validation';
-import { formatFullName } from '@/lib/format';
 import {
   PERSONNEL_PIN_LENGTH,
   sanitizePersonnelPinInput,
@@ -20,9 +18,7 @@ import {
 } from '@/lib/personnel-pin';
 import {
   clearRegistrationFormDraft,
-  loadRegistrationDraftPhoto,
   loadRegistrationFormDraft,
-  saveRegistrationDraftPhoto,
   saveRegistrationFormDraft,
 } from '@/lib/registration-form-draft-storage';
 import {
@@ -84,7 +80,6 @@ export default function PersonnelApplicationPage() {
     pin: '',
     pin_confirm: '',
   });
-  const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [result, setResult] = useState<PendingRegistration | null>(null);
@@ -148,7 +143,6 @@ export default function PersonnelApplicationPage() {
     (async () => {
       const restoreFormDraft = async () => {
         const draft = loadRegistrationFormDraft();
-        const photo = await loadRegistrationDraftPhoto();
         if (cancelled) return;
         if (draft) {
           setForm(draft.form);
@@ -156,7 +150,6 @@ export default function PersonnelApplicationPage() {
           setInitialContractAcceptances(draft.contractAcceptances);
           setShowDraftNotice(true);
         }
-        if (photo) setPhotoFile(photo);
       };
 
       const saved = loadPendingRegistration();
@@ -251,16 +244,12 @@ export default function PersonnelApplicationPage() {
 
     const timer = window.setTimeout(() => {
       saveRegistrationFormDraft({ form, contractAcceptances });
-      if (photoFile) {
-        void saveRegistrationDraftPhoto(photoFile);
-      }
     }, 500);
 
     return () => window.clearTimeout(timer);
-  }, [form, contractAcceptances, photoFile, bootstrapping, result]);
+  }, [form, contractAcceptances, bootstrapping, result]);
 
   const buildFormData = (): FormData | null => {
-    if (!photoFile) return null;
     const body = new FormData();
     body.append('firstName', form.first_name.trim());
     body.append('lastName', form.last_name.trim());
@@ -271,7 +260,6 @@ export default function PersonnelApplicationPage() {
     body.append('iban', form.iban);
     body.append('pin', form.pin);
     body.append('contractAcceptances', JSON.stringify(contractAcceptances));
-    body.append('photo', photoFile);
     return body;
   };
 
@@ -279,10 +267,6 @@ export default function PersonnelApplicationPage() {
     e.preventDefault();
     setError('');
 
-    if (!photoFile) {
-      setError('Lütfen selfie ile kendi fotoğrafınızı çekin.');
-      return;
-    }
     if (!contractsReady || contractAcceptances.length === 0) {
       setError('Başvuruyu göndermeden önce tüm sözleşmeleri sonuna kadar okuyup onaylayın.');
       return;
@@ -346,7 +330,6 @@ export default function PersonnelApplicationPage() {
       pin: '',
       pin_confirm: '',
     });
-    setPhotoFile(null);
     setContractAcceptances([]);
     setContractsReady(false);
     setInitialContractAcceptances(undefined);
@@ -487,8 +470,8 @@ export default function PersonnelApplicationPage() {
       <form onSubmit={handleSubmit} className="space-y-5">
         <div className="grid grid-cols-3 gap-2">
           {[
-            { id: 1 as RegistrationStep, label: 'Kimlik' },
-            { id: 2 as RegistrationStep, label: 'Güvenlik' },
+            { id: 1 as RegistrationStep, label: 'Temel' },
+            { id: 2 as RegistrationStep, label: 'Diğer' },
             { id: 3 as RegistrationStep, label: 'Sözleşme' },
           ].map((step) => (
             <button
@@ -507,95 +490,82 @@ export default function PersonnelApplicationPage() {
         </div>
 
         {activeStep === 1 && (
-          <div className="space-y-5">
-            <div className={panelClass}>
-              <h2 className={sectionTitleClass}>Profil fotoğrafı</h2>
-              <EmployeePhotoPicker
-                variant="selfie"
-                layout="stacked"
-                name={formatFullName(form.first_name, form.last_name)}
-                value={photoFile}
-                onChange={setPhotoFile}
-                required
-              />
-              <div className="flex items-start gap-2 mt-4 pt-4 border-t border-slate-200 dark:border-slate-600 text-xs text-slate-600 dark:text-slate-400">
-                <FiShield className="w-4 h-4 shrink-0 mt-0.5 text-blue-600" />
-                <p>
-                  Hassas bilgileriniz şifrelenerek saklanır; yalnızca yetkili yöneticiler
-                  görebilir.
+          <section className="space-y-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/50 p-4 sm:p-5">
+            <h2 className={sectionTitleClass}>Temel bilgiler</h2>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className={labelClass}>Ad *</label>
+                <input
+                  className={inputClass}
+                  value={form.first_name}
+                  onChange={(e) => setForm({ ...form, first_name: e.target.value })}
+                  required
+                />
+              </div>
+              <div>
+                <label className={labelClass}>Soyad *</label>
+                <input
+                  className={inputClass}
+                  value={form.last_name}
+                  onChange={(e) => setForm({ ...form, last_name: e.target.value })}
+                  required
+                />
+              </div>
+              <div>
+                <label className={labelClass}>T.C. Kimlik No *</label>
+                <input
+                  className={inputClass}
+                  inputMode="numeric"
+                  maxLength={11}
+                  value={form.tc_kimlik}
+                  onChange={(e) => setForm({ ...form, tc_kimlik: e.target.value.replace(/\D/g, '') })}
+                  required
+                />
+              </div>
+              <div>
+                <label className={labelClass} htmlFor="basvuru-phone">
+                  Telefon *
+                </label>
+                <TurkishPhoneInput
+                  id="basvuru-phone"
+                  value={form.phone}
+                  onChange={(phone) => setForm({ ...form, phone })}
+                  required
+                />
+                <p className="text-xs text-slate-500 mt-1">
+                  Türkiye cep numarası; ülke kodu +90 otomatik eklenir.
                 </p>
               </div>
+              <div className="sm:col-span-2">
+                <BirthDatePicker
+                  value={form.birth_date}
+                  onChange={(birth_date) => setForm({ ...form, birth_date })}
+                  inputClass={inputClass}
+                  labelClass={labelClass}
+                  required
+                />
+              </div>
             </div>
+          </section>
+        )}
 
+        {activeStep === 2 && (
+          <div className="space-y-5">
             <section className="space-y-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/50 p-4 sm:p-5">
-              <h2 className={sectionTitleClass}>Kişisel bilgiler</h2>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className={labelClass}>Ad *</label>
-                  <input
-                    className={inputClass}
-                    value={form.first_name}
-                    onChange={(e) => setForm({ ...form, first_name: e.target.value })}
-                    required
-                  />
-                </div>
-                <div>
-                  <label className={labelClass}>Soyad *</label>
-                  <input
-                    className={inputClass}
-                    value={form.last_name}
-                    onChange={(e) => setForm({ ...form, last_name: e.target.value })}
-                    required
-                  />
-                </div>
-                <div>
-                  <label className={labelClass}>E-posta *</label>
-                  <input
-                    type="email"
-                    className={inputClass}
-                    value={form.email}
-                    onChange={(e) => setForm({ ...form, email: e.target.value })}
-                    required
-                  />
-                  <p className="text-xs text-slate-500 mt-1">
-                    Doğrulama kodu bu adrese gönderilir.
-                  </p>
-                </div>
-                <div>
-                  <label className={labelClass} htmlFor="basvuru-phone">
-                    Telefon *
-                  </label>
-                  <TurkishPhoneInput
-                    id="basvuru-phone"
-                    value={form.phone}
-                    onChange={(phone) => setForm({ ...form, phone })}
-                    required
-                  />
-                  <p className="text-xs text-slate-500 mt-1">
-                    Türkiye cep numarası; ülke kodu +90 otomatik eklenir.
-                  </p>
-                </div>
-                <div>
-                  <label className={labelClass}>T.C. Kimlik No *</label>
-                  <input
-                    className={inputClass}
-                    inputMode="numeric"
-                    maxLength={11}
-                    value={form.tc_kimlik}
-                    onChange={(e) => setForm({ ...form, tc_kimlik: e.target.value.replace(/\D/g, '') })}
-                    required
-                  />
-                </div>
-                <div className="sm:col-span-2">
-                  <BirthDatePicker
-                    value={form.birth_date}
-                    onChange={(birth_date) => setForm({ ...form, birth_date })}
-                    inputClass={inputClass}
-                    labelClass={labelClass}
-                    required
-                  />
-                </div>
+              <h2 className={sectionTitleClass}>Diğer gerekli bilgiler</h2>
+              <div>
+                <label className={labelClass}>E-posta *</label>
+                <input
+                  type="email"
+                  className={inputClass}
+                  value={form.email}
+                  onChange={(e) => setForm({ ...form, email: e.target.value })}
+                  required
+                />
+                <p className="text-xs text-slate-500 mt-1">
+                  Doğrulama kodu bu adrese gönderilir.
+                </p>
               </div>
 
               <div>
@@ -608,13 +578,9 @@ export default function PersonnelApplicationPage() {
                   required
                 />
               </div>
-            </section>
-          </div>
-        )}
 
-        {activeStep === 2 && (
-          <section className="space-y-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/50 p-4 sm:p-5">
-            <h2 className={sectionTitleClass}>Güvenlik</h2>
+              <h3 className={sectionTitleClass}>Giriş güvenliği</h3>
+
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className={labelClass}>Giriş şifresi (PIN) *</label>
@@ -648,7 +614,8 @@ export default function PersonnelApplicationPage() {
                 />
               </div>
             </div>
-          </section>
+            </section>
+          </div>
         )}
 
         {activeStep === 3 && (
