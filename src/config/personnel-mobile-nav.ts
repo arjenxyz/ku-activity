@@ -77,3 +77,5 @@ export const PERSONNEL_NAV_ACCENTS = {
     idle: 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300',
   },
 } as const;
+
+export type PersonnelMainNavAccent = 'home' | 'work' | 'finance' | 'menu';

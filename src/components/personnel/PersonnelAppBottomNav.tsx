@@ -8,6 +8,7 @@ import { BrandMark } from '@/components/brand/BrandMark';
 import {
   PERSONNEL_MORE_ITEMS,
   PERSONNEL_NAV_ACCENTS,
+  type PersonnelMainNavAccent,
   type PersonnelMoreAccent,
 } from '@/config/personnel-mobile-nav';
 import type { PersonnelTabId } from '@/hooks/usePersonnelTab';
@@ -48,7 +49,7 @@ type NavItemProps = {
   onClick?: () => void;
   active: boolean;
   label: string;
-  accent: keyof typeof PERSONNEL_NAV_ACCENTS;
+  accent: PersonnelMainNavAccent;
   icon: ReactNode;
   className?: string;
 };
