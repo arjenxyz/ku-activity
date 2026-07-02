@@ -22,7 +22,7 @@ function ChromeBody({ children }: { children: React.ReactNode }) {
     <>
       <PersonnelMobileHeader />
       <div
-        className={`pb-[calc(4.75rem+env(safe-area-inset-bottom))] sm:pt-0 sm:pb-0 ${
+        className={`pb-[calc(5.25rem+env(safe-area-inset-bottom))] sm:pt-0 sm:pb-0 ${
           isOverview
             ? 'pt-[max(0.5rem,env(safe-area-inset-top))]'
             : 'pt-[calc(3rem+env(safe-area-inset-top))]'
