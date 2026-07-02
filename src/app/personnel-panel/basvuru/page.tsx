@@ -6,6 +6,8 @@ import { ContractAcceptanceBlock } from '@/components/contracts/ContractAcceptan
 import { ContractEmailVerificationModal } from '@/components/contracts/ContractEmailVerificationModal';
 import { PersonnelLoginLayout } from '@/components/personnel/PersonnelLoginLayout';
 import { PendingApplicationWaitingScreen } from '@/components/personnel/PendingApplicationWaitingScreen';
+import { ApplicationApprovedScreen } from '@/components/personnel/ApplicationApprovedScreen';
+import { ApplicationRejectedScreen } from '@/components/personnel/ApplicationRejectedScreen';
 import { AuthAlert } from '@/components/auth/AuthAlerts';
 import { BirthDatePicker } from '@/components/forms/BirthDatePicker';
 import { TurkishPhoneInput } from '@/components/forms/TurkishPhoneInput';
@@ -364,56 +366,12 @@ export default function PersonnelApplicationPage() {
       : '/personnel-panel/login';
 
     return (
-      <PersonnelLoginLayout
-        title="Hesabınız Aktif"
-        subtitle="Yönetici onayı tamamlandı — hemen giriş yapabilirsiniz."
-      >
-        <div className="space-y-6 text-center">
-          <AuthAlert
-            type="success"
-            message="Başvurunuz onaylandı ve personel kaydınız oluşturuldu. Sistem şu an aktif."
-          />
-          <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-left space-y-2">
-            {approvedPosition && (
-              <p>
-                <span className="text-slate-500">Pozisyon:</span>{' '}
-                <strong className="text-slate-900">{approvedPosition}</strong>
-              </p>
-            )}
-            <p className="text-slate-600">
-              <strong>T.C. kimlik numaranız</strong> ve başvuruda belirlediğiniz{' '}
-              <strong>PIN</strong> ile giriş yapın.
-            </p>
-          </div>
-          <Link
-            href={loginHref}
-            className="inline-flex w-full items-center justify-center rounded-xl bg-blue-600 py-3 text-sm font-semibold text-white hover:bg-blue-700"
-          >
-            Personel paneline giriş yap
-          </Link>
-        </div>
-      </PersonnelLoginLayout>
+      <ApplicationApprovedScreen loginHref={loginHref} position={approvedPosition} />
     );
   }
 
   if (status === 'rejected') {
-    return (
-      <PersonnelLoginLayout title="Başvuru Reddedildi" subtitle="Yöneticinizle görüşüp yeniden başvurabilirsiniz.">
-        <div className="space-y-6 text-center">
-          <AuthAlert
-            type="error"
-            message="Başvurunuz reddedildi. Kayıtlarınız silindi; yeniden başvurabilirsiniz."
-          />
-          <button
-            type="button"
-            onClick={startNewApplication}
-            className="inline-flex w-full items-center justify-center rounded-xl border border-slate-300 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50"
-          >
-            Yeni başvuru yap
-          </button>
-        </div>
-      </PersonnelLoginLayout>
-    );
+    return <ApplicationRejectedScreen onNewApplication={startNewApplication} />;
   }
 
   return (
