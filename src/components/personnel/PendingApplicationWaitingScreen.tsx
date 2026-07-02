@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { BrandMark } from '@/components/brand/BrandMark';
 import { RegistrationQrCode } from '@/components/registration/RegistrationQrCode';
 
@@ -32,6 +32,17 @@ export function PendingApplicationWaitingScreen({
   onSignOut,
 }: Props) {
   const qrSize = useQrSize();
+  const [copied, setCopied] = useState(false);
+
+  const copyCode = useCallback(async () => {
+    try {
+      await navigator.clipboard.writeText(verificationCode);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
+    } catch {
+      /* pano izni yoksa sessizce geç */
+    }
+  }, [verificationCode]);
 
   return (
     <div className="relative flex min-h-[100dvh] flex-col overflow-x-hidden">
@@ -68,14 +79,22 @@ export function PendingApplicationWaitingScreen({
                 className="w-full max-w-[288px] h-auto rounded-2xl border-0 shadow-inner ring-1 ring-slate-100"
               />
 
-              <div className="w-full rounded-2xl bg-slate-900 px-4 py-4 text-center">
+              <button
+                type="button"
+                onClick={() => void copyCode()}
+                className="w-full rounded-2xl bg-slate-900 px-4 py-4 text-center active:scale-[0.98] transition-transform touch-manipulation"
+                aria-label="Başvuru kodunu kopyala"
+              >
                 <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-400">
                   Başvuru kodu
                 </p>
                 <p className="mt-2 text-2xl font-bold font-mono text-white tracking-[0.12em] break-all">
                   {verificationCode}
                 </p>
-              </div>
+                <p className="mt-2 text-[11px] font-medium text-slate-400">
+                  {copied ? 'Kopyalandı ✓' : 'Kopyalamak için dokunun'}
+                </p>
+              </button>
             </div>
           </div>
         </div>
