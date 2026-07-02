@@ -73,20 +73,29 @@ export function normalizeIban(iban: string) {
   return iban.replace(/\s/g, '').toUpperCase();
 }
 
-/** Türkiye cep: 905XXXXXXXXX */
+/** Telefonu E.164 benzeri normalize eder (yalnız rakam, + olmadan ülke kodu dahil). */
 export function normalizePhoneDigits(phone: string): string | null {
-  const digits = phone.replace(/\D/g, '');
+  const raw = phone.trim();
+  let digits = raw.replace(/\D/g, '');
   if (!digits) return null;
+  if (raw.startsWith('00')) {
+    digits = digits.slice(2);
+  }
   if (digits.length === 11 && digits.startsWith('0')) {
     return `90${digits.slice(1)}`;
   }
   if (digits.length === 10 && digits.startsWith('5')) {
     return `90${digits}`;
   }
-  if (digits.length === 12 && digits.startsWith('90')) {
+  if (digits.length >= 8 && digits.length <= 15) {
     return digits;
   }
   return null;
+}
+
+export function validateInternationalPhone(phone: string): boolean {
+  const normalized = normalizePhoneDigits(phone);
+  return normalized !== null && /^\d{8,15}$/.test(normalized);
 }
 
 export function validateTurkishMobilePhone(phone: string): boolean {
@@ -105,12 +114,21 @@ export function formatTurkishPhoneNational(digits: string): string {
 /** Kayıt/gösterim: +90 534 968 5678 */
 export function toStoredTurkishPhone(phoneOrNational: string): string {
   const normalized = normalizePhoneDigits(phoneOrNational);
-  if (normalized) {
+  if (normalized && normalized.startsWith('90')) {
     return `+90 ${formatTurkishPhoneNational(normalized.slice(2))}`;
   }
   const national = phoneOrNational.replace(/\D/g, '').slice(0, 10);
   if (!national) return '';
   return `+90 ${formatTurkishPhoneNational(national)}`;
+}
+
+export function toStoredPhone(phone: string): string {
+  const normalized = normalizePhoneDigits(phone);
+  if (!normalized) return '';
+  if (normalized.startsWith('90')) {
+    return `+90 ${formatTurkishPhoneNational(normalized.slice(2))}`;
+  }
+  return `+${normalized}`;
 }
 
 export function extractTurkishNationalDigits(phone: string): string {
@@ -125,7 +143,7 @@ export function extractTurkishNationalDigits(phone: string): string {
 
 export function hashPhoneLookup(phone: string): string {
   const normalized = normalizePhoneDigits(phone);
-  if (!normalized || !/^905\d{9}$/.test(normalized)) {
+  if (!normalized || !/^\d{8,15}$/.test(normalized)) {
     throw new Error('Geçersiz telefon numarası');
   }
   const secret = process.env.FIELD_ENCRYPTION_KEY;

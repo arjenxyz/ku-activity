@@ -8,8 +8,8 @@ import {
   normalizeIban,
   validateTcKimlik,
   validateTurkishIban,
-  toStoredTurkishPhone,
-  validateTurkishMobilePhone,
+  toStoredPhone,
+  validateInternationalPhone,
 } from '@/lib/field-encryption';
 import {
   assertIdentityUnique,
@@ -89,10 +89,10 @@ export async function submitRegistrationApplication(input: RegistrationApplyInpu
   if (!phoneRaw) {
     throw new Error('Telefon numarası zorunludur');
   }
-  if (!validateTurkishMobilePhone(phoneRaw)) {
+  if (!validateInternationalPhone(phoneRaw)) {
     throw new Error('Geçersiz telefon numarası');
   }
-  const phone = toStoredTurkishPhone(phoneRaw);
+  const phone = toStoredPhone(phoneRaw);
   const pinError = validatePersonnelPin(input.pin);
   if (pinError) {
     throw new Error(pinError);

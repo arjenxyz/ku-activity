@@ -6,7 +6,7 @@ import {
   normalizeIban,
   validateTcKimlik,
   validateTurkishIban,
-  validateTurkishMobilePhone,
+  validateInternationalPhone,
 } from '@/lib/field-encryption';
 import { validatePersonnelPin } from '@/lib/personnel-pin';
 
@@ -42,8 +42,8 @@ export function validateRegistrationDraft(input: RegistrationDraftFields): strin
   if (!phone) {
     return 'Telefon numarası zorunludur.';
   }
-  if (!validateTurkishMobilePhone(phone)) {
-    return 'Geçerli bir cep telefonu girin (ör. 534 968 5678).';
+  if (!validateInternationalPhone(phone)) {
+    return 'Geçerli bir telefon numarası girin (ülke kodu dahil).';
   }
   if (!tc || !validateTcKimlik(tc)) {
     return 'Geçerli bir T.C. kimlik numarası girin.';

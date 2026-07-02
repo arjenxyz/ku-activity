@@ -10,6 +10,7 @@ import { PersonnelLoginLayout } from '@/components/personnel/PersonnelLoginLayou
 import { AuthAlert } from '@/components/auth/AuthAlerts';
 import { BirthDatePicker } from '@/components/forms/BirthDatePicker';
 import { TurkishPhoneInput } from '@/components/forms/TurkishPhoneInput';
+import { validateInternationalPhone } from '@/lib/field-encryption';
 import { validateRegistrationDraft } from '@/lib/registration-draft-validation';
 import {
   PERSONNEL_PIN_LENGTH,
@@ -102,7 +103,7 @@ export default function PersonnelApplicationPage() {
     form.first_name.trim().length > 0 &&
     form.last_name.trim().length > 0 &&
     form.tc_kimlik.length === 11 &&
-    form.phone.trim().length > 0 &&
+    validateInternationalPhone(form.phone) &&
     form.birth_date.trim().length > 0;
   const isStep2Complete =
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim()) &&
@@ -560,11 +561,12 @@ export default function PersonnelApplicationPage() {
                   id="basvuru-phone"
                   value={form.phone}
                   onChange={(phone) => setForm({ ...form, phone })}
-                  placeholder="5xx xxx xx xx"
+                  allowCountryCodeSelect
+                  placeholder="123 456 789"
                   required
                 />
                 <p className="text-xs text-slate-500 mt-1">
-                  Türkiye cep numarası; ülke kodu +90 otomatik eklenir.
+                  Ülke kodunu seçip numarayı girin. Yabancı numaralar desteklenir.
                 </p>
               </div>
               <div className="sm:col-span-2">
