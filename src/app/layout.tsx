@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { PWARegister } from '@/components/pwa/PWARegister';
 import { InstallPrompt } from '@/components/pwa/InstallPrompt';
-import { CREWLEDGER_PWA_ICON_512 } from '@/lib/brand';
+import { CREWLEDGER_APP_ICON } from '@/lib/brand';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -29,8 +29,8 @@ export const metadata: Metadata = {
     telephone: false,
   },
   icons: {
-    icon: [{ url: `${CREWLEDGER_PWA_ICON_512}?v=7`, sizes: '512x512', type: 'image/png' }],
-    apple: [{ url: `${CREWLEDGER_PWA_ICON_512}?v=7`, sizes: '512x512', type: 'image/png' }],
+    icon: [{ url: `${CREWLEDGER_APP_ICON}?v=8`, sizes: '512x512', type: 'image/png' }],
+    apple: [{ url: `${CREWLEDGER_APP_ICON}?v=8`, sizes: '512x512', type: 'image/png' }],
   },
 };
 

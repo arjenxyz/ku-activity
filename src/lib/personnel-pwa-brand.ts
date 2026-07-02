@@ -1,17 +1,15 @@
-import { CREWLEDGER_ICON_BG } from '@/lib/brand';
-
 /** Personel intro / PWA splash görseli ve renkleri */
 export const PERSONNEL_INTRO_IMAGE = '/crewledger-intro.png';
 
 /** Giriş, şifremi unuttum ve başvuru ekranları arka planı */
 export const PERSONNEL_AUTH_BG_IMAGE = '/crewledger-temp.png';
 
-/** PNG kenar tonu — PWA splash ve intro köprüsü (ikon ile aynı) */
-export const PERSONNEL_PWA_SPLASH_BG = CREWLEDGER_ICON_BG;
+/** Intro PNG kenar tonu — PWA splash köprüsü */
+export const PERSONNEL_PWA_SPLASH_BG = '#0b1624';
 export const PERSONNEL_PWA_THEME = '#163a5c';
 
 export const PERSONNEL_PWA_GRADIENT =
-  'linear-gradient(180deg, #1a3a52 0%, #001840 55%, #000f28 100%)';
+  'linear-gradient(180deg, #1a3a52 0%, #0b1624 55%, #060d14 100%)';
 
 /** iOS apple-touch-startup-image */
 export const PERSONNEL_PWA_STARTUP_IMAGES = [

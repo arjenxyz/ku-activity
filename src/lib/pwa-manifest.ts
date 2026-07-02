@@ -1,9 +1,5 @@
 import type { MetadataRoute } from 'next';
 import {
-  CREWLEDGER_PWA_ICON_192,
-  CREWLEDGER_PWA_ICON_512,
-} from '@/lib/brand';
-import {
   PERSONNEL_PWA_SPLASH_BG,
   PERSONNEL_PWA_THEME,
 } from '@/lib/personnel-pwa-brand';
@@ -11,12 +7,10 @@ import {
 export type PwaAppVariant = 'personnel' | 'admin';
 
 /** PWA ikon/manifest önbelleğini kırmak için — değişince artır */
-const PWA_ASSET_VERSION = '7';
+const PWA_ASSET_VERSION = '8';
 
-/** Göreli URL — kurulum yapılan origin ile aynı host (beyaz kenar / 404 önlemi) */
 function appIconUrl(size: 192 | 512) {
-  const base = size === 192 ? CREWLEDGER_PWA_ICON_192 : CREWLEDGER_PWA_ICON_512;
-  return `${base}?v=${PWA_ASSET_VERSION}`;
+  return `/api/pwa-icon/${size}?v=${PWA_ASSET_VERSION}`;
 }
 
 function baseIcons(): MetadataRoute.Manifest['icons'] {
@@ -33,7 +27,7 @@ function baseIcons(): MetadataRoute.Manifest['icons'] {
 export function buildPersonnelManifest(): MetadataRoute.Manifest {
   const icon = appIconUrl(192);
   return {
-    id: '/personnel-panel?v=7',
+    id: '/personnel-panel?v=8',
     name: 'CrewLedger Personel',
     short_name: 'CrewLedger',
     description:
@@ -70,7 +64,7 @@ export function buildPersonnelManifest(): MetadataRoute.Manifest {
 export function buildAdminManifest(): MetadataRoute.Manifest {
   const icon = appIconUrl(192);
   return {
-    id: '/admin-panel?v=7',
+    id: '/admin-panel?v=8',
     name: 'CrewLedger Yönetici',
     short_name: 'CL Yönetici',
     description:
