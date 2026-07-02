@@ -3,7 +3,15 @@
 import { useEffect, useState } from 'react';
 import QRCode from 'qrcode';
 
-export function RegistrationQrCode({ value, size = 220 }: { value: string; size?: number }) {
+export function RegistrationQrCode({
+  value,
+  size = 220,
+  className = 'rounded-xl border border-slate-200 bg-white p-2',
+}: {
+  value: string;
+  size?: number;
+  className?: string;
+}) {
   const [dataUrl, setDataUrl] = useState<string | null>(null);
 
   useEffect(() => {
@@ -33,7 +41,7 @@ export function RegistrationQrCode({ value, size = 220 }: { value: string; size?
       alt="Admin onay QR kodu"
       width={size}
       height={size}
-      className="rounded-xl border border-slate-200 bg-white p-2"
+      className={className}
     />
   );
 }

@@ -1,12 +1,12 @@
 'use client';
 
-import dynamic from 'next/dynamic';
 import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { ContractAcceptanceBlock } from '@/components/contracts/ContractAcceptanceBlock';
 import { ContractEmailVerificationModal } from '@/components/contracts/ContractEmailVerificationModal';
 import { PersonnelLoginLayout } from '@/components/personnel/PersonnelLoginLayout';
 import { PendingApplicationAccessForm } from '@/components/personnel/PendingApplicationAccessForm';
+import { PendingApplicationWaitingScreen } from '@/components/personnel/PendingApplicationWaitingScreen';
 import { AuthAlert } from '@/components/auth/AuthAlerts';
 import { BirthDatePicker } from '@/components/forms/BirthDatePicker';
 import { TurkishPhoneInput } from '@/components/forms/TurkishPhoneInput';
@@ -24,17 +24,6 @@ import {
   savePendingRegistration,
   type PendingRegistration,
 } from '@/lib/registration-pending-storage';
-
-const RegistrationQrCode = dynamic(
-  () =>
-    import('@/components/registration/RegistrationQrCode').then((m) => m.RegistrationQrCode),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="w-[220px] h-[220px] bg-slate-100 rounded-xl animate-pulse mx-auto" />
-    ),
-  }
-);
 
 /** Onay kontrolü — 15 sn yeterli; sekme arka plandayken durur (Vercel/Supabase kotası) */
 const STATUS_POLL_MS = 15_000;
@@ -363,26 +352,11 @@ export default function PersonnelApplicationPage() {
 
   if (result && status === 'pending') {
     return (
-      <PersonnelLoginLayout alignTop compact title="Onay bekleniyor" subtitle="Yönetici onaylayınca bu ekran güncellenir.">
-        <div className="space-y-4 text-center">
-          <div className="flex justify-center">
-            <RegistrationQrCode value={result.approvalUrl} size={200} />
-          </div>
-          <div className="rounded-xl bg-slate-900 text-white py-3 px-4">
-            <p className="text-[11px] text-slate-400 uppercase tracking-wider mb-1">Başvuru kodu</p>
-            <p className="text-xl font-bold font-mono tracking-wider break-all">
-              {result.verificationCode}
-            </p>
-          </div>
-          <button
-            type="button"
-            onClick={handlePendingSignOut}
-            className="w-full text-center text-xs text-slate-500 hover:text-slate-700 py-2"
-          >
-            Bu cihazda çıkış
-          </button>
-        </div>
-      </PersonnelLoginLayout>
+      <PendingApplicationWaitingScreen
+        approvalUrl={result.approvalUrl}
+        verificationCode={result.verificationCode}
+        onSignOut={handlePendingSignOut}
+      />
     );
   }
 
