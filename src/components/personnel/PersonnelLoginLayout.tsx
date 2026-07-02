@@ -76,8 +76,8 @@ export function PersonnelLoginLayout({
             {!isCompact && (
               <BrandLockup
                 size="lg"
-                layout={isDense ? 'stacked' : 'inline'}
-                className={isDense ? 'mb-4' : 'mb-6 sm:mb-7'}
+                layout="inline"
+                className={isDense ? 'mb-3.5' : 'mb-6 sm:mb-7'}
                 iconClassName="shadow-xl shadow-black/40"
                 wordmarkClassName="text-white/95"
                 subtitle="Personel Girişi"

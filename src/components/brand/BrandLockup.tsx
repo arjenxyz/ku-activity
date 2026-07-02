@@ -13,24 +13,25 @@ type Props = {
   subtitleClassName?: string;
 };
 
+/** Yazı yüksekliği ikon kutusuyla hizalı; abartılı büyük font yok */
 const sizeConfig = {
   sm: {
     icon: 'sm' as const,
-    inlineWordmark: 'text-[1.35rem] sm:text-[2.25rem] leading-none tracking-[0.04em]',
-    stackedWordmark: 'text-[1.35rem] leading-none tracking-[0.1em]',
+    wordmark: 'h-9 text-xs tracking-[0.1em]',
     gap: 'gap-2',
+    stackedGap: 'mt-2',
   },
   md: {
     icon: 'md' as const,
-    inlineWordmark: 'text-[1.5rem] sm:text-[2.5rem] leading-none tracking-[0.04em]',
-    stackedWordmark: 'text-[1.5rem] leading-none tracking-[0.1em]',
+    wordmark: 'h-10 text-sm tracking-[0.08em]',
     gap: 'gap-2.5',
+    stackedGap: 'mt-2',
   },
   lg: {
     icon: 'lg' as const,
-    inlineWordmark: 'text-[1.65rem] sm:text-[3rem] leading-none tracking-[0.04em]',
-    stackedWordmark: 'text-[2rem] leading-none tracking-[0.1em]',
+    wordmark: 'h-12 text-sm sm:text-[15px] tracking-[0.08em]',
     gap: 'gap-2.5',
+    stackedGap: 'mt-2',
   },
 } as const;
 
@@ -44,20 +45,21 @@ export function BrandLockup({
   subtitleClassName = '',
 }: Props) {
   const cfg = sizeConfig[size];
-  const wordmarkClass =
-    layout === 'stacked' ? cfg.stackedWordmark : cfg.inlineWordmark;
+  const wordmarkEl = (
+    <span
+      className={`inline-flex items-center font-semibold text-white whitespace-nowrap ${cfg.wordmark} ${wordmarkClassName}`}
+    >
+      CREWLEDGER
+    </span>
+  );
 
   if (layout === 'stacked') {
     return (
       <div className={`flex flex-col items-center text-center ${className}`}>
         <BrandMark size={cfg.icon} className={iconClassName} />
-        <span
-          className={`mt-2.5 font-bold text-white whitespace-nowrap ${wordmarkClass} ${wordmarkClassName}`}
-        >
-          CREWLEDGER
-        </span>
+        <div className={cfg.stackedGap}>{wordmarkEl}</div>
         {subtitle ? (
-          <p className={`mt-1.5 ${subtitleClassName}`}>{subtitle}</p>
+          <p className={`mt-1 ${subtitleClassName}`}>{subtitle}</p>
         ) : null}
       </div>
     );
@@ -67,14 +69,10 @@ export function BrandLockup({
     <div className={`flex flex-col items-center text-center ${className}`}>
       <div className={`flex items-center flex-nowrap ${cfg.gap}`}>
         <BrandMark size={cfg.icon} className={iconClassName} />
-        <span
-          className={`font-bold text-white whitespace-nowrap ${wordmarkClass} ${wordmarkClassName}`}
-        >
-          CREWLEDGER
-        </span>
+        {wordmarkEl}
       </div>
       {subtitle ? (
-        <p className={`mt-2 ${subtitleClassName}`}>{subtitle}</p>
+        <p className={`mt-1.5 ${subtitleClassName}`}>{subtitle}</p>
       ) : null}
     </div>
   );
