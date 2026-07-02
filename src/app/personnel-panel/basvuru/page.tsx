@@ -47,8 +47,6 @@ const inputClass =
 const labelClass = 'block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5';
 const sectionTitleClass =
   'text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-3';
-const panelClass =
-  'rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/70 dark:bg-slate-900/40 p-4 sm:p-5';
 
 type RegistrationStatus = 'pending' | 'approved' | 'rejected' | string;
 
