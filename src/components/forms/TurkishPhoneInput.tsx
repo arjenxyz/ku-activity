@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   extractTurkishNationalDigits,
   formatTurkishPhoneNational,
@@ -19,13 +19,21 @@ type Props = {
   allowCountryCodeSelect?: boolean;
 };
 
-const COUNTRY_OPTIONS = [
-  { code: '90', label: 'TR +90' },
-  { code: '49', label: 'DE +49' },
-  { code: '994', label: 'AZ +994' },
-  { code: '998', label: 'UZ +998' },
-  { code: '963', label: 'SY +963' },
-  { code: '995', label: 'GE +995' },
+type CountryOption = {
+  code: string;
+  label: string;
+  flag: string;
+  sample: string;
+  maxLocalDigits: number;
+};
+
+const COUNTRY_OPTIONS: CountryOption[] = [
+  { code: '90', label: 'Türkiye', flag: '🇹🇷', sample: '5xx xxx xx xx', maxLocalDigits: 10 },
+  { code: '49', label: 'Almanya', flag: '🇩🇪', sample: '15x xxx xxxx', maxLocalDigits: 11 },
+  { code: '994', label: 'Azerbaycan', flag: '🇦🇿', sample: '50 xxx xx xx', maxLocalDigits: 9 },
+  { code: '998', label: 'Özbekistan', flag: '🇺🇿', sample: '90 xxx xx xx', maxLocalDigits: 9 },
+  { code: '963', label: 'Suriye', flag: '🇸🇾', sample: '9xx xxx xxx', maxLocalDigits: 9 },
+  { code: '995', label: 'Gürcistan', flag: '🇬🇪', sample: '5xx xxx xxx', maxLocalDigits: 9 },
 ];
 
 function formatIntlLocalDigits(digits: string): string {
@@ -36,6 +44,12 @@ function formatIntlLocalDigits(digits: string): string {
     parts.push(d.slice(i, i + 3));
   }
   return parts.join(' ');
+}
+
+function detectCountryByNormalizedDigits(normalized: string): CountryOption | null {
+  if (!normalized) return null;
+  const sorted = [...COUNTRY_OPTIONS].sort((a, b) => b.code.length - a.code.length);
+  return sorted.find((country) => normalized.startsWith(country.code)) ?? null;
 }
 
 /** Ulusal alan — kullanıcı 90 / 0 / +90 yazsa da sadece 10 haneli numara kalır */
@@ -60,18 +74,35 @@ export function TurkishPhoneInput({
   allowCountryCodeSelect = false,
 }: Props) {
   const initialNormalized = normalizePhoneDigits(value) ?? '';
-  const initialCountry =
-    COUNTRY_OPTIONS.find((c) => initialNormalized.startsWith(c.code))?.code ?? COUNTRY_OPTIONS[0].code;
+  const initialCountry = detectCountryByNormalizedDigits(initialNormalized)?.code ?? COUNTRY_OPTIONS[0].code;
   const [countryCode, setCountryCode] = useState(initialCountry);
+  const normalized = normalizePhoneDigits(value) ?? '';
+  const detectedCountry = detectCountryByNormalizedDigits(normalized);
+  const resolvedCountry = detectedCountry?.code ?? countryCode;
+  const currentCountry = COUNTRY_OPTIONS.find((c) => c.code === resolvedCountry) ?? COUNTRY_OPTIONS[0];
+  const localDigits = normalized.startsWith(resolvedCountry)
+    ? normalized.slice(resolvedCountry.length)
+    : '';
+  const maxLocalDigits = currentCountry.maxLocalDigits;
+  const dynamicPlaceholder = currentCountry.sample;
+  const countryOptions = useMemo(
+    () =>
+      COUNTRY_OPTIONS.map((country) => (
+        <option key={country.code} value={country.code}>
+          {country.flag} {country.label} (+{country.code})
+        </option>
+      )),
+    []
+  );
+
+  useEffect(() => {
+    if (!allowCountryCodeSelect) return;
+    if (detectedCountry?.code && detectedCountry.code !== countryCode) {
+      setCountryCode(detectedCountry.code);
+    }
+  }, [allowCountryCodeSelect, detectedCountry?.code, countryCode]);
 
   if (allowCountryCodeSelect) {
-    const normalized = normalizePhoneDigits(value) ?? '';
-    const resolvedCountry =
-      COUNTRY_OPTIONS.find((c) => normalized.startsWith(c.code))?.code ?? countryCode;
-    const localDigits = normalized.startsWith(resolvedCountry)
-      ? normalized.slice(resolvedCountry.length)
-      : '';
-
     return (
       <div
         className={`flex overflow-hidden rounded-xl border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-900 focus-within:ring-2 focus-within:ring-blue-500 ${className}`}
@@ -81,18 +112,15 @@ export function TurkishPhoneInput({
           onChange={(e) => {
             const nextCode = e.target.value;
             setCountryCode(nextCode);
-            const nextLocal = localDigits.replace(/\D/g, '').slice(0, 15 - nextCode.length);
+            const nextMax = COUNTRY_OPTIONS.find((c) => c.code === nextCode)?.maxLocalDigits ?? 12;
+            const nextLocal = localDigits.replace(/\D/g, '').slice(0, nextMax);
             onChange(nextLocal ? `+${nextCode}${nextLocal}` : '');
           }}
           className="shrink-0 border-r border-gray-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-800/80 px-2 py-3 text-sm font-semibold text-slate-700 dark:text-slate-200 focus:outline-none"
           disabled={disabled}
           aria-label="Ülke kodu"
         >
-          {COUNTRY_OPTIONS.map((country) => (
-            <option key={country.code} value={country.code}>
-              {country.label}
-            </option>
-          ))}
+          {countryOptions}
         </select>
         <input
           id={id}
@@ -102,10 +130,10 @@ export function TurkishPhoneInput({
           disabled={disabled}
           required={required}
           className="min-w-0 flex-1 border-0 bg-transparent px-4 py-3 text-sm tabular-nums tracking-wide focus:outline-none focus:ring-0"
-          placeholder="123 456 789"
+          placeholder={dynamicPlaceholder}
           value={formatIntlLocalDigits(localDigits)}
           onChange={(e) => {
-            const digits = e.target.value.replace(/\D/g, '').slice(0, 15 - resolvedCountry.length);
+            const digits = e.target.value.replace(/\D/g, '').slice(0, maxLocalDigits);
             onChange(digits ? `+${resolvedCountry}${digits}` : '');
           }}
           aria-label="Telefon numarası"
