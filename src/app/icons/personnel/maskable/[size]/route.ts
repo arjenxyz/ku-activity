@@ -13,5 +13,5 @@ export async function GET(
     return new Response('Invalid size', { status: 400 });
   }
 
-  return serveCrewledgerAppIcon(size, 'maskable');
+  return serveCrewledgerAppIcon(size);
 }
