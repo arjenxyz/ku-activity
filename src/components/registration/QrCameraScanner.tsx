@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { FiCamera, FiImage, FiX } from 'react-icons/fi';
 import { Html5Qrcode, type CameraDevice } from 'html5-qrcode';
-import { parseRegistrationCodeFromQr } from '@/lib/parse-registration-qr';
+import { parseRegistrationCodeFromQr, extractVerificationCode } from '@/lib/parse-registration-qr';
 
 type Props = {
   onScan: (code: string) => void;
@@ -165,7 +165,7 @@ export function QrCameraScanner({
 
   const handleDecoded = useCallback((decoded: string) => {
     const parser = parseQrRef.current ?? parseRegistrationCodeFromQr;
-    const code = parser(decoded);
+    const code = parser(decoded) ?? extractVerificationCode(decoded);
     if (!code) {
       setLastRawScan(decoded.slice(0, 120));
       setError(
@@ -416,9 +416,9 @@ export function QrCameraScanner({
       )}
       {active && (
         <p className="text-xs text-slate-500">
-          Personelin telefonundaki başvuru QR kodunu kameraya gösterin. PC&apos;de telefonu sabit
-          tutun, parlaklığı artırın; okumazsa ekran görüntüsünü &quot;QR Görseli Yükle&quot; ile
-          seçin veya <strong>ARJ-</strong> kodunu elle yazın.
+          Personelin başvuru ekranındaki QR kodunu kameraya gösterin. Önizleme aynalı görünebilir;
+          okuma her yönden çalışır. Okumazsa alttaki <strong className="font-mono">ARJ-</strong>{' '}
+          kodunu yazın — otomatik doğrulanır.
         </p>
       )}
       {!active && !error && (

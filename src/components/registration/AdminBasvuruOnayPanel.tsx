@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import dayjs from 'dayjs';
 import Link from 'next/link';
@@ -15,6 +15,10 @@ import {
   isConstructionEligibleBirthDate,
 } from '@/lib/age-validation';
 import { formatDate } from '@/lib/format';
+import {
+  extractVerificationCode,
+  registrationStatusMessage,
+} from '@/lib/parse-registration-qr';
 
 const QrCameraScanner = dynamic(
   () => import('@/components/registration/QrCameraScanner').then((m) => m.QrCameraScanner),
@@ -69,6 +73,7 @@ export function AdminBasvuruOnayPanel({ projectId }: Props) {
     daily_wage: '',
     hire_date: dayjs().format('YYYY-MM-DD'),
   });
+  const lastAutoLookupRef = useRef('');
 
   useEffect(() => {
     fetch(`/api/admin/projects/${projectId}`)
@@ -78,19 +83,25 @@ export function AdminBasvuruOnayPanel({ projectId }: Props) {
   }, [projectId]);
 
   const lookup = useCallback(async (kod: string) => {
-    if (!kod.trim()) return;
+    const normalized = extractVerificationCode(kod) ?? kod.trim().toUpperCase();
+    if (!normalized) return;
     setLoading(true);
     setError(null);
     setSuccess(null);
     setShowSensitive(false);
     try {
-      const res = await fetch(`/api/admin/registrations/lookup?kod=${encodeURIComponent(kod.trim())}`);
+      const res = await fetch(`/api/admin/registrations/lookup?kod=${encodeURIComponent(normalized)}`);
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Bulunamadı');
-      setRegistration(data.registration);
-      if (data.registration.status !== 'pending') {
-        setError(`Bu başvuru durumu: ${data.registration.status}`);
+      if (!res.ok) {
+        throw new Error(
+          res.status === 404
+            ? 'Bu kod geçersiz veya sistemde kayıtlı değil. Personelin ekranındaki ARJ- kodunu kontrol edin.'
+            : data.error || 'Bulunamadı'
+        );
       }
+      setRegistration(data.registration);
+      const statusMsg = registrationStatusMessage(data.registration.status);
+      if (statusMsg) setError(statusMsg);
     } catch (e) {
       setRegistration(null);
       setError(e instanceof Error ? e.message : 'Arama başarısız');
@@ -98,6 +109,41 @@ export function AdminBasvuruOnayPanel({ projectId }: Props) {
       setLoading(false);
     }
   }, []);
+
+  useEffect(() => {
+    const code = extractVerificationCode(codeInput);
+    if (!code || code === lastAutoLookupRef.current || loading) return;
+
+    const timer = window.setTimeout(() => {
+      lastAutoLookupRef.current = code;
+      void lookup(code);
+    }, 450);
+
+    return () => window.clearTimeout(timer);
+  }, [codeInput, loading, lookup]);
+
+  const handleCodePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+    const pasted = e.clipboardData.getData('text');
+    const code = extractVerificationCode(pasted);
+    if (!code) return;
+    e.preventDefault();
+    setCodeInput(code);
+    lastAutoLookupRef.current = code;
+    void lookup(code);
+  };
+
+  const handleCodeChange = (raw: string) => {
+    const upper = raw.toUpperCase();
+    setCodeInput(upper);
+    if (!upper.trim()) {
+      lastAutoLookupRef.current = '';
+      return;
+    }
+    const extracted = extractVerificationCode(upper);
+    if (!extracted) {
+      lastAutoLookupRef.current = '';
+    }
+  };
 
   useEffect(() => {
     if (initialKod) lookup(initialKod);
@@ -221,20 +267,30 @@ export function AdminBasvuruOnayPanel({ projectId }: Props) {
               id="basvuru-kod"
               className={`${inputClass} flex-1 uppercase tracking-wide font-mono text-base sm:text-sm min-h-[44px]`}
               value={codeInput}
-              onChange={(e) => setCodeInput(e.target.value.toUpperCase())}
+              onChange={(e) => handleCodeChange(e.target.value)}
+              onPaste={handleCodePaste}
               placeholder="ARJ-XXXXXX"
               autoComplete="off"
+              spellCheck={false}
             />
             <button
               type="button"
-              onClick={() => lookup(codeInput)}
-              disabled={loading || !codeInput.trim()}
+              onClick={() => {
+                const code = extractVerificationCode(codeInput);
+                if (code) lastAutoLookupRef.current = code;
+                void lookup(codeInput);
+              }}
+              disabled={loading || !extractVerificationCode(codeInput)}
               className={`${btnPrimary} sm:min-w-[7rem] min-h-[44px] shrink-0`}
             >
               <FiSearch className="w-4 h-4" />
               {loading ? 'Aranıyor…' : 'Bul'}
             </button>
           </div>
+          <p className="text-xs text-slate-500 mt-1.5">
+            Kod tamamlanınca otomatik aranır. QR okunamazsa personelin ekranındaki{' '}
+            <strong className="font-mono">ARJ-</strong> kodunu yazın veya yapıştırın.
+          </p>
         </div>
       </section>
 
