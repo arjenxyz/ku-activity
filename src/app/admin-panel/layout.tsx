@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { AdminPanelLayout } from '@/components/dashboard/AdminPanelLayout';
+import { CREWLEDGER_APP_ICON } from '@/lib/brand';
 import { getTwaOrigin } from '@/lib/twa-config';
 
 const ORIGIN = getTwaOrigin();
@@ -15,8 +16,8 @@ export const metadata: Metadata = {
     title: 'CL Yönetici',
   },
   icons: {
-    icon: [{ url: `${ORIGIN}/icons/admin/192`, sizes: '192x192', type: 'image/png' }],
-    apple: [{ url: `${ORIGIN}/icons/admin/192`, sizes: '192x192', type: 'image/png' }],
+    icon: [{ url: `${ORIGIN}${CREWLEDGER_APP_ICON}?v=5`, sizes: '512x512', type: 'image/png' }],
+    apple: [{ url: `${ORIGIN}${CREWLEDGER_APP_ICON}?v=5`, sizes: '512x512', type: 'image/png' }],
   },
   other: {
     'mobile-web-app-capable': 'yes',

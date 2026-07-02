@@ -1,4 +1,4 @@
-import { renderPwaIcon } from '@/lib/pwaIcon';
+import { serveCrewledgerAppIcon } from '@/lib/serve-app-icon';
 
 const ALLOWED = [192, 512] as const;
 
@@ -13,5 +13,5 @@ export async function GET(
     return new Response('Invalid size', { status: 400 });
   }
 
-  return renderPwaIcon(size);
+  return serveCrewledgerAppIcon();
 }

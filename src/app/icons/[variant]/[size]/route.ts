@@ -1,4 +1,4 @@
-import { renderPwaIcon, type PwaIconVariant } from '@/lib/pwaIcon';
+import { serveCrewledgerAppIcon } from '@/lib/serve-app-icon';
 
 const ALLOWED = [192, 512] as const;
 
@@ -16,11 +16,5 @@ export async function GET(
     return new Response('Invalid size', { status: 400 });
   }
 
-  const variant = variantParam as PwaIconVariant;
-  const response = renderPwaIcon(size, variant);
-
-  response.headers.set('Cache-Control', 'public, max-age=86400, immutable');
-  response.headers.set('Content-Type', 'image/png');
-
-  return response;
+  return serveCrewledgerAppIcon();
 }
