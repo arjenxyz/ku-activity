@@ -136,7 +136,7 @@ function PersonnelLoginContent() {
           tcKimlik: data.tcKimlik,
         };
         savePendingRegistration(pending);
-        window.location.assign('/personnel-panel/basvuru');
+        redirectToPendingApplication();
         return;
       }
 

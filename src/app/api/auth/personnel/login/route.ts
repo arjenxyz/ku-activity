@@ -89,7 +89,7 @@ export async function POST(request: Request) {
         });
         response.cookies.set(
           PENDING_REGISTRATION_COOKIE,
-          '1',
+          pendingAccess.verificationCode,
           pendingRegistrationCookieOptions(true)
         );
         return response;

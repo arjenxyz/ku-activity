@@ -19,6 +19,7 @@ import {
 } from '@/lib/personnel-pin';
 import {
   clearPendingRegistration,
+  hasLegacyPendingCookieFlag,
   loadPendingRegistration,
   savePendingRegistration,
   type PendingRegistration,
@@ -155,6 +156,10 @@ export default function PersonnelApplicationPage() {
     (async () => {
       const saved = loadPendingRegistration();
       if (!saved) {
+        if (!cancelled && hasLegacyPendingCookieFlag()) {
+          window.location.replace('/personnel-panel/login');
+          return;
+        }
         if (!cancelled) setBootstrapping(false);
         return;
       }
@@ -420,6 +425,14 @@ export default function PersonnelApplicationPage() {
       subtitle="Bilgilerinizi girin; yönetici onayından sonra sisteme alınacaksınız."
     >
       {error && <AuthAlert type="error" message={error} />}
+
+      <p className="mb-4 rounded-xl border border-blue-100 bg-blue-50/80 px-4 py-3 text-sm text-blue-900 dark:border-blue-900/40 dark:bg-blue-950/40 dark:text-blue-100">
+        Başvurunuz onay bekliyorsa yeni form doldurmayın.{' '}
+        <Link href="/personnel-panel/login" className="font-semibold underline underline-offset-2">
+          Giriş ekranından
+        </Link>{' '}
+        kimlik ve PIN ile durumunuza bakın.
+      </p>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-3 gap-2">
