@@ -30,6 +30,9 @@ import {
   personnelAuthLabelClass,
   personnelAuthLinkClass,
   personnelAuthPrimaryBtnClass,
+  personnelAuthSegmentActiveClass,
+  personnelAuthSegmentIdleClass,
+  personnelAuthSegmentWrapClass,
 } from '@/lib/personnel-auth-ui';
 
 const inputClass = personnelAuthInputClass;
@@ -158,26 +161,43 @@ function PersonnelLoginContent() {
     <PersonnelLoginLayout
       subtitle="Kimlik numaranız ve PIN ile giriş yapın."
     >
-      <form onSubmit={handleLogin} className="space-y-5" {...personnelLoginFormProps}>
+      <form onSubmit={handleLogin} className="space-y-6" {...personnelLoginFormProps}>
+        <div>
+          <span className={labelClass}>Kimlik türü</span>
+          <div className={personnelAuthSegmentWrapClass} role="group" aria-label="Kimlik türü">
+            <button
+              type="button"
+              className={identityType === 'tc' ? personnelAuthSegmentActiveClass : personnelAuthSegmentIdleClass}
+              onClick={() => {
+                setIdentityType('tc');
+                setIdentityNumber('');
+              }}
+            >
+              T.C. Kimlik
+            </button>
+            <button
+              type="button"
+              className={
+                identityType === 'foreign' ? personnelAuthSegmentActiveClass : personnelAuthSegmentIdleClass
+              }
+              onClick={() => {
+                setIdentityType('foreign');
+                setIdentityNumber('');
+              }}
+            >
+              Yabancı / Pasaport
+            </button>
+          </div>
+        </div>
+
         <div>
           <label htmlFor="personnel-tc" className={labelClass}>
             {identityType === 'tc' ? 'T.C. Kimlik No' : 'Yabancı Kimlik / Pasaport No'}
           </label>
-          <select
-            className={`${inputClass} mb-2`}
-            value={identityType}
-            onChange={(e) => {
-              setIdentityType(e.target.value as 'tc' | 'foreign');
-              setIdentityNumber('');
-            }}
-          >
-            <option value="tc">T.C. Kimlik No</option>
-            <option value="foreign">Yabancı Kimlik / Pasaport</option>
-          </select>
           <input
             id="personnel-tc"
             className={inputClass}
-            placeholder={identityType === 'tc' ? '11 haneli T.C. kimlik' : 'Yabancı kimlik / pasaport no'}
+            placeholder={identityType === 'tc' ? '11 haneli T.C. kimlik numarası' : 'Kimlik veya pasaport numarası'}
             maxLength={identityType === 'tc' ? 11 : 20}
             value={identityNumber}
             onChange={(e) =>
@@ -196,7 +216,7 @@ function PersonnelLoginContent() {
 
         <div>
           <label htmlFor="personnel-pin" className={labelClass}>
-            Giriş şifresi (PIN)
+            Giriş PIN
           </label>
           <input
             id="personnel-pin"
@@ -230,13 +250,15 @@ function PersonnelLoginContent() {
             </>
           ) : (
             <>
-              <FiLock className="w-4 h-4" />
+              <FiLock className="w-4 h-4 opacity-90" />
               Giriş Yap
             </>
           )}
         </button>
       </form>
-      <div className={`mt-4 space-y-2 text-center ${personnelAuthFooterTextClass}`}>
+      <div
+        className={`mt-6 pt-5 border-t border-white/[0.08] space-y-2 text-center ${personnelAuthFooterTextClass}`}
+      >
         <p>
           Hesabınız mı yok?{' '}
           <Link href="/personnel-panel/basvuru" prefetch className={personnelAuthLinkClass}>

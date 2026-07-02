@@ -43,10 +43,11 @@ export function PersonnelLoginLayout({
           alt=""
           fill
           priority
-          className="object-cover object-center"
+          className="object-cover object-center scale-105"
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-[#0b1624]/20" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0b1624]/88 via-[#0b1624]/78 to-[#060d14]/92" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(6,13,20,0.55)_100%)]" />
       </div>
 
       <div
@@ -54,17 +55,6 @@ export function PersonnelLoginLayout({
           alignTop ? '' : 'min-h-[100dvh]'
         }`}
       >
-        {!isCompact && (
-          <div className="flex items-center justify-center px-4 sm:px-6 pt-4 sm:pt-6 safe-pt safe-px">
-            <div className="inline-flex items-center gap-2.5">
-              <BrandMark size="sm" />
-              <span className="text-sm font-semibold tracking-wide text-white/90">
-                CREWLEDGER
-              </span>
-            </div>
-          </div>
-        )}
-
         <div
           className={`flex justify-center px-4 sm:px-6 lg:px-8 ${
             alignTop
@@ -75,55 +65,56 @@ export function PersonnelLoginLayout({
           }`}
         >
           <div className={`w-full ${maxWidthClass}`}>
-            <div
-              className={`${
-                isCompact ? 'mb-3 sm:mb-5' : 'mb-6'
-              } ${size === 'wide' ? 'text-center xl:text-left' : 'text-center'}`}
-            >
-              {isCompact ? (
+            {!isCompact && (
+              <div className="flex flex-col items-center text-center mb-6 sm:mb-7">
+                <BrandMark size="lg" className="shadow-xl shadow-black/40" />
+                <p className="mt-3 text-sm font-semibold tracking-[0.2em] text-white/95">
+                  CREWLEDGER
+                </p>
+                <p className="mt-1 text-[10px] font-medium uppercase tracking-[0.28em] text-white/40">
+                  Personel Girişi
+                </p>
+              </div>
+            )}
+
+            {isCompact && (
+              <div
+                className={`mb-3 sm:mb-5 ${
+                  size === 'wide' ? 'text-center xl:text-left' : 'text-center'
+                }`}
+              >
                 <div className="flex items-center justify-center gap-2.5 sm:justify-start xl:justify-start">
                   <BrandMark size="sm" />
                   <div className="min-w-0 text-left">
-                    <h1 className="text-lg sm:text-2xl font-bold text-white leading-tight">
+                    <h1 className="text-lg sm:text-2xl font-semibold text-white leading-tight">
                       {title}
                     </h1>
                     {subtitle && (
-                      <p className="hidden sm:block mt-0.5 text-xs sm:text-sm text-white/70 line-clamp-2">
+                      <p className="hidden sm:block mt-0.5 text-xs sm:text-sm text-white/55 line-clamp-2">
                         {subtitle}
                       </p>
                     )}
                   </div>
                 </div>
-              ) : (
-                <>
-                  <div
-                    className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 text-sky-200 text-sm font-medium mb-4 backdrop-blur-sm ${
-                      size === 'wide' ? 'xl:mx-0' : ''
-                    }`}
-                  >
-                    <span className="relative flex h-2 w-2">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75" />
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-sky-400" />
-                    </span>
-                    Personel Paneli
-                  </div>
-                  <h1 className="text-2xl sm:text-3xl font-bold text-white">{title}</h1>
-                  <p
-                    className={`mt-2 text-sm text-white/70 ${
-                      size === 'wide' ? 'xl:max-w-2xl' : ''
-                    }`}
-                  >
-                    {subtitle}
-                  </p>
-                </>
-              )}
-            </div>
+              </div>
+            )}
 
             <div
               className={`${personnelAuthCardClass} ${
-                isCompact ? 'p-4 sm:p-6 lg:p-8' : size === 'wide' ? 'p-5 sm:p-6 lg:p-8' : 'p-5 sm:p-7'
+                isCompact ? 'p-4 sm:p-6 lg:p-8' : size === 'wide' ? 'p-5 sm:p-6 lg:p-8' : 'p-6 sm:p-7'
               }`}
             >
+              {!isCompact && (
+                <div className="border-b border-white/[0.08] pb-5 mb-6">
+                  <h1 className="text-xl sm:text-2xl font-semibold text-white tracking-tight">
+                    {title}
+                  </h1>
+                  {subtitle && (
+                    <p className="mt-1.5 text-sm text-white/55 leading-relaxed">{subtitle}</p>
+                  )}
+                </div>
+              )}
+
               {children}
             </div>
           </div>
