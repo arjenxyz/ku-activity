@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { ContractAcceptanceBlock } from '@/components/contracts/ContractAcceptanceBlock';
 import { ContractEmailVerificationModal } from '@/components/contracts/ContractEmailVerificationModal';
 import { PersonnelLoginLayout } from '@/components/personnel/PersonnelLoginLayout';
+import { PendingApplicationAccessForm } from '@/components/personnel/PendingApplicationAccessForm';
 import { AuthAlert } from '@/components/auth/AuthAlerts';
 import { BirthDatePicker } from '@/components/forms/BirthDatePicker';
 import { TurkishPhoneInput } from '@/components/forms/TurkishPhoneInput';
@@ -315,6 +316,19 @@ export default function PersonnelApplicationPage() {
     setInitialContractAcceptances(undefined);
   };
 
+  const handlePendingAccess = (pending: PendingRegistration) => {
+    setError('');
+    setResult(pending);
+    setStatus('pending');
+  };
+
+  const handlePendingSignOut = () => {
+    clearPendingRegistration();
+    setResult(null);
+    setStatus(null);
+    setError('');
+  };
+
   const startNewApplication = () => {
     clearPendingRegistration();
     setResult(null);
@@ -360,9 +374,13 @@ export default function PersonnelApplicationPage() {
               {result.verificationCode}
             </p>
           </div>
-          <p className="text-xs text-slate-500">
-            Bu kodu veya QR&apos;ı yöneticinize gösterin.
-          </p>
+          <button
+            type="button"
+            onClick={handlePendingSignOut}
+            className="w-full text-center text-xs text-slate-500 hover:text-slate-700 py-2"
+          >
+            Bu cihazda çıkış
+          </button>
         </div>
       </PersonnelLoginLayout>
     );
@@ -414,7 +432,7 @@ export default function PersonnelApplicationPage() {
         <div className="space-y-6 text-center">
           <AuthAlert
             type="error"
-            message="Başvurunuz reddedildi veya iptal edildi. Aynı e-posta ile yeniden başvurabilirsiniz."
+            message="Başvurunuz reddedildi. Kayıtlarınız silindi; yeniden başvurabilirsiniz."
           />
           <button
             type="button"
@@ -437,6 +455,8 @@ export default function PersonnelApplicationPage() {
       subtitle="Bilgilerinizi girin; yönetici onayından sonra sisteme alınacaksınız."
     >
       {error && <AuthAlert type="error" message={error} />}
+
+      <PendingApplicationAccessForm onSuccess={handlePendingAccess} />
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-3 gap-2">
@@ -645,14 +665,8 @@ export default function PersonnelApplicationPage() {
           </div>
         )}
 
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-5 border-t border-slate-200 dark:border-slate-700">
-          <p className="text-sm text-gray-500 order-2 sm:order-1">
-            Zaten hesabınız var mı?{' '}
-            <Link href="/personnel-panel/login" className="text-blue-600 hover:underline">
-              Giriş yapın
-            </Link>
-          </p>
-          <div className="order-1 sm:order-2 flex gap-2 w-full sm:w-auto">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-end gap-4 pt-5 border-t border-slate-200 dark:border-slate-700">
+          <div className="flex gap-2 w-full sm:w-auto sm:ml-auto">
             {activeStep > 1 && (
               <button
                 type="button"

@@ -1,9 +1,12 @@
+import bcrypt from 'bcryptjs';
 import { buildEmployeePinFields } from '@/lib/personnel-pin-storage';
 import { createAdminClient } from '@/utils/supabase/admin';
+import type { SupabaseClient } from '@supabase/supabase-js';
 import {
   decryptField,
   encryptField,
   type IdentityType,
+  hashIdentityLookup,
   normalizeIdentityNumber,
   maskIban,
   maskTcKimlik,
@@ -469,13 +472,98 @@ export async function approveRegistration(input: ApproveRegistrationInput) {
   return { employeeId: employee.id, email: req.email };
 }
 
+export type PendingAccessResult = {
+  verificationCode: string;
+  approvalUrl: string;
+  identityType: IdentityType;
+  identityNumber: string;
+  tcKimlik?: string;
+};
+
+async function findPendingRegistrationByIdentity(
+  admin: SupabaseClient,
+  identityType: IdentityType,
+  identityNumber: string
+) {
+  const normalized = normalizeIdentityNumber(identityType, identityNumber);
+  if (!validateIdentityNumber(identityType, normalized)) return null;
+
+  const identityLookupHash = hashIdentityLookup(identityType, normalized);
+  const { data, error } = await admin
+    .from('employee_registration_requests')
+    .select('id, verification_code, status, pin_hash, expires_at, email, photo_path')
+    .eq('identity_type', identityType)
+    .eq('identity_lookup_hash', identityLookupHash)
+    .eq('status', 'pending')
+    .maybeSingle();
+
+  if (error || !data) return null;
+  return data;
+}
+
+/** Onay bekleyen başvuruya kimlik + PIN ile erişim (personel paneli oturumu açmaz) */
+export async function verifyPendingRegistrationAccess(params: {
+  identityType: IdentityType;
+  identityNumber: string;
+  pin: string;
+}): Promise<PendingAccessResult | 'expired' | null> {
+  const identityType = params.identityType === 'foreign' ? 'foreign' : 'tc';
+  const identityNumber = normalizeIdentityNumber(identityType, params.identityNumber.trim());
+  const pinError = validatePersonnelPin(params.pin);
+  if (pinError || !validateIdentityNumber(identityType, identityNumber)) {
+    return null;
+  }
+
+  const admin = createAdminClient();
+  const row = await findPendingRegistrationByIdentity(admin, identityType, identityNumber);
+  if (!row?.pin_hash) return null;
+
+  if (new Date(row.expires_at) < new Date()) {
+    await purgeRegistrationRequest(admin, row.id, row.email ?? null, row.photo_path ?? null);
+    return 'expired';
+  }
+
+  const valid = await bcrypt.compare(params.pin.trim(), row.pin_hash);
+  if (!valid) return null;
+
+  return {
+    verificationCode: row.verification_code,
+    approvalUrl: buildAdminApprovalUrl(row.verification_code),
+    identityType,
+    identityNumber,
+    tcKimlik: identityType === 'tc' ? identityNumber : undefined,
+  };
+}
+
+/** Başvuru kaydı ve ilişkili OTP / sözleşme / fotoğraf verilerini kalıcı siler */
+async function purgeRegistrationRequest(
+  admin: SupabaseClient,
+  registrationId: string,
+  email: string | null,
+  photoPath: string | null
+) {
+  await admin
+    .from('personnel_contract_acceptances')
+    .delete()
+    .eq('registration_request_id', registrationId);
+
+  const normalizedEmail = email?.trim().toLowerCase();
+  if (normalizedEmail) {
+    await admin.from('contract_otp_challenges').delete().eq('email', normalizedEmail);
+  }
+
+  await deleteRegistrationPhoto(photoPath);
+
+  await admin.from('employee_registration_requests').delete().eq('id', registrationId);
+}
+
 /** Bekleyen başvuruyu ve ilişkili verileri kalıcı olarak siler (red) */
 export async function rejectRegistration(id: string) {
   const admin = createAdminClient();
 
   const { data: req, error: loadError } = await admin
     .from('employee_registration_requests')
-    .select('id, photo_path, status')
+    .select('id, photo_path, status, email')
     .eq('id', id)
     .maybeSingle();
 
@@ -485,18 +573,14 @@ export async function rejectRegistration(id: string) {
     throw new Error('Yalnızca bekleyen başvurular reddedilebilir');
   }
 
-  await admin
-    .from('personnel_contract_acceptances')
-    .delete()
-    .eq('registration_request_id', id);
+  await purgeRegistrationRequest(admin, req.id, req.email ?? null, req.photo_path ?? null);
+}
 
-  await deleteRegistrationPhoto(req.photo_path ?? null);
-
-  const { error: deleteError } = await admin
-    .from('employee_registration_requests')
-    .delete()
-    .eq('id', id)
-    .eq('status', 'pending');
-
-  if (deleteError) throw new Error(deleteError.message);
+export async function hasPendingRegistrationForIdentity(
+  identityType: IdentityType,
+  identityNumber: string
+): Promise<boolean> {
+  const admin = createAdminClient();
+  const row = await findPendingRegistrationByIdentity(admin, identityType, identityNumber);
+  return Boolean(row);
 }

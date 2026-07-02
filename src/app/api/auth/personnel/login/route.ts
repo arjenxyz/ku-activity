@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs';
 import { createAdminClient } from '@/utils/supabase/admin';
 import { validateIdentityNumber } from '@/lib/field-encryption';
 import { findEmployeeForIdentityLogin } from '@/lib/personnel-login';
+import { hasPendingRegistrationForIdentity } from '@/lib/registration-service';
 import { validatePersonnelPin } from '@/lib/personnel-pin';
 import {
   generateSessionToken,
@@ -56,6 +57,18 @@ export async function POST(request: Request) {
     }
 
     const admin = createAdminClient();
+
+    const pending = await hasPendingRegistrationForIdentity(normalizedType, loginIdentity);
+    if (pending) {
+      return NextResponse.json(
+        {
+          error:
+            'Başvurunuz henüz onaylanmadı. Başvuru ekranından kimlik ve PIN ile durumunuzu görüntüleyin.',
+        },
+        { status: 403 }
+      );
+    }
+
     const employee = await findEmployeeForIdentityLogin(admin, normalizedType, loginIdentity);
 
     if (!employee) {
