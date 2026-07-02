@@ -20,6 +20,8 @@ type PersonnelLoginLayoutProps = {
   alignTop?: boolean;
   /** Mobilde üst alanı sadeleştirir (başvuru vb.) */
   compact?: boolean;
+  /** Giriş gibi kısa formlar — daha az boşluk, üstten hizalı */
+  dense?: boolean;
 };
 
 export function PersonnelLoginLayout({
@@ -29,11 +31,14 @@ export function PersonnelLoginLayout({
   size = 'default',
   alignTop = false,
   compact = false,
+  dense = false,
 }: PersonnelLoginLayoutProps) {
   usePersonnelAuthPageBackground();
 
   const maxWidthClass = size === 'wide' ? 'max-w-7xl' : 'max-w-md';
   const isCompact = compact || (size === 'wide' && alignTop);
+  const isDense = dense && !isCompact;
+  const verticalAlignTop = alignTop || isDense;
 
   return (
     <div className="relative isolate min-h-[100dvh] overflow-x-hidden">
@@ -53,15 +58,17 @@ export function PersonnelLoginLayout({
 
       <div
         className={`relative z-10 flex flex-col ${
-          alignTop ? '' : 'min-h-[100dvh]'
+          verticalAlignTop ? '' : 'min-h-[100dvh]'
         }`}
       >
         <div
           className={`flex justify-center px-4 sm:px-6 lg:px-8 ${
-            alignTop
+            verticalAlignTop
               ? isCompact
                 ? 'pt-3 pb-3 sm:pt-6 sm:pb-5 safe-pt safe-pb'
-                : 'pt-6 pb-4 sm:pt-8 sm:pb-6'
+                : isDense
+                  ? 'pt-5 pb-5 sm:pt-6 sm:pb-6 safe-pt safe-pb'
+                  : 'pt-6 pb-4 sm:pt-8 sm:pb-6'
               : 'flex-1 py-8 safe-pb items-center'
           }`}
         >
@@ -69,7 +76,8 @@ export function PersonnelLoginLayout({
             {!isCompact && (
               <BrandLockup
                 size="lg"
-                className="mb-6 sm:mb-7"
+                layout={isDense ? 'stacked' : 'inline'}
+                className={isDense ? 'mb-4' : 'mb-6 sm:mb-7'}
                 iconClassName="shadow-xl shadow-black/40"
                 wordmarkClassName="text-white/95"
                 subtitle="Personel Girişi"
@@ -101,16 +109,42 @@ export function PersonnelLoginLayout({
 
             <div
               className={`${personnelAuthCardClass} ${
-                isCompact ? 'p-4 sm:p-6 lg:p-8' : size === 'wide' ? 'p-5 sm:p-6 lg:p-8' : 'p-6 sm:p-7'
+                isCompact
+                  ? 'p-4 sm:p-6 lg:p-8'
+                  : isDense
+                    ? 'p-5 sm:p-6'
+                    : size === 'wide'
+                      ? 'p-5 sm:p-6 lg:p-8'
+                      : 'p-6 sm:p-7'
               }`}
             >
               {!isCompact && (
-                <div className="border-b border-white/[0.08] pb-5 mb-6">
-                  <h1 className="text-xl sm:text-2xl font-semibold text-white tracking-tight">
+                <div
+                  className={
+                    isDense
+                      ? 'border-b border-white/[0.08] pb-3 mb-4'
+                      : 'border-b border-white/[0.08] pb-5 mb-6'
+                  }
+                >
+                  <h1
+                    className={
+                      isDense
+                        ? 'text-lg font-semibold text-white tracking-tight'
+                        : 'text-xl sm:text-2xl font-semibold text-white tracking-tight'
+                    }
+                  >
                     {title}
                   </h1>
                   {subtitle && (
-                    <p className="mt-1.5 text-sm text-white/55 leading-relaxed">{subtitle}</p>
+                    <p
+                      className={
+                        isDense
+                          ? 'mt-1 text-xs text-white/50 leading-snug'
+                          : 'mt-1.5 text-sm text-white/55 leading-relaxed'
+                      }
+                    >
+                      {subtitle}
+                    </p>
                   )}
                 </div>
               )}

@@ -104,8 +104,8 @@ function PersonnelLoginContent() {
 
   if (checkingSession) {
     return (
-      <PersonnelLoginLayout>
-        <div className="flex flex-col items-center justify-center py-16 gap-3 text-white/60">
+      <PersonnelLoginLayout dense>
+        <div className="flex flex-col items-center justify-center py-12 gap-3 text-white/60">
           <LoadingSpinner />
           <p className="text-sm">Oturum kontrol ediliyor…</p>
         </div>
@@ -159,9 +159,10 @@ function PersonnelLoginContent() {
 
   return (
     <PersonnelLoginLayout
+      dense
       subtitle="Kimlik numaranız ve PIN ile giriş yapın."
     >
-      <form onSubmit={handleLogin} className="space-y-6" {...personnelLoginFormProps}>
+      <form onSubmit={handleLogin} className="space-y-4" {...personnelLoginFormProps}>
         <div>
           <span className={labelClass}>Kimlik türü</span>
           <div className={personnelAuthSegmentWrapClass} role="group" aria-label="Kimlik türü">
@@ -257,7 +258,7 @@ function PersonnelLoginContent() {
         </button>
       </form>
       <div
-        className={`mt-6 pt-5 border-t border-white/[0.08] space-y-2 text-center ${personnelAuthFooterTextClass}`}
+        className={`mt-4 pt-3 border-t border-white/[0.08] space-y-1.5 text-center ${personnelAuthFooterTextClass}`}
       >
         <p>
           Hesabınız mı yok?{' '}
