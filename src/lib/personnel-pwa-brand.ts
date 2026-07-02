@@ -1,6 +1,9 @@
 /** Personel intro / PWA splash görseli ve renkleri */
 export const PERSONNEL_INTRO_IMAGE = '/crewledger-intro.png';
 
+/** Giriş, şifremi unuttum ve başvuru ekranları arka planı */
+export const PERSONNEL_AUTH_BG_IMAGE = '/crewledger-temp.png';
+
 /** PNG kenar tonu — PWA splash ve intro köprüsü */
 export const PERSONNEL_PWA_SPLASH_BG = '#0b1624';
 export const PERSONNEL_PWA_THEME = '#163a5c';

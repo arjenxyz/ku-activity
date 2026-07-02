@@ -1,6 +1,11 @@
 'use client';
 
+import Image from 'next/image';
 import { BrandMark } from '@/components/brand/BrandMark';
+import {
+  PERSONNEL_AUTH_BG_IMAGE,
+  PERSONNEL_PWA_SPLASH_BG,
+} from '@/lib/personnel-pwa-brand';
 
 type PersonnelLoginLayoutProps = {
   children: React.ReactNode;
@@ -27,11 +32,17 @@ export function PersonnelLoginLayout({
 
   return (
     <>
-      {/* fixed: dekor taşması sayfa yüksekliğini şişirmez */}
       <div className="fixed inset-0 -z-10 pointer-events-none overflow-hidden" aria-hidden>
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-slate-950 dark:via-slate-900 dark:to-blue-950" />
-        <div className="absolute -top-32 right-0 w-[min(500px,90vw)] h-[min(500px,90vw)] bg-blue-400/10 dark:bg-blue-500/5 rounded-full blur-3xl" />
-        <div className="absolute -bottom-32 left-0 w-[min(400px,80vw)] h-[min(400px,80vw)] bg-indigo-400/10 dark:bg-indigo-500/5 rounded-full blur-3xl" />
+        <div className="absolute inset-0" style={{ backgroundColor: PERSONNEL_PWA_SPLASH_BG }} />
+        <Image
+          src={PERSONNEL_AUTH_BG_IMAGE}
+          alt=""
+          fill
+          priority
+          className="object-cover object-center"
+          sizes="100vw"
+        />
+        <div className="absolute inset-0 bg-[#0b1624]/25" />
       </div>
 
       <div
@@ -43,7 +54,7 @@ export function PersonnelLoginLayout({
           <div className="flex items-center justify-center px-4 sm:px-6 pt-4 sm:pt-6 safe-pt safe-px">
             <div className="inline-flex items-center gap-2.5">
               <BrandMark size="sm" />
-              <span className="text-sm font-semibold tracking-wide text-gray-700 dark:text-gray-200">
+              <span className="text-sm font-semibold tracking-wide text-white/90">
                 CREWLEDGER
               </span>
             </div>
@@ -69,11 +80,11 @@ export function PersonnelLoginLayout({
                 <div className="flex items-center justify-center gap-2.5 sm:justify-start xl:justify-start">
                   <BrandMark size="sm" />
                   <div className="min-w-0 text-left">
-                    <h1 className="text-lg sm:text-2xl font-bold text-gray-900 dark:text-white leading-tight">
+                    <h1 className="text-lg sm:text-2xl font-bold text-white leading-tight">
                       {title}
                     </h1>
                     {subtitle && (
-                      <p className="hidden sm:block mt-0.5 text-xs sm:text-sm text-gray-500 dark:text-gray-400 line-clamp-2">
+                      <p className="hidden sm:block mt-0.5 text-xs sm:text-sm text-white/70 line-clamp-2">
                         {subtitle}
                       </p>
                     )}
@@ -82,19 +93,19 @@ export function PersonnelLoginLayout({
               ) : (
                 <>
                   <div
-                    className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 text-sm font-medium mb-4 ${
+                    className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 text-sky-200 text-sm font-medium mb-4 backdrop-blur-sm ${
                       size === 'wide' ? 'xl:mx-0' : ''
                     }`}
                   >
                     <span className="relative flex h-2 w-2">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500" />
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75" />
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-sky-400" />
                     </span>
                     Personel Paneli
                   </div>
-                  <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">{title}</h1>
+                  <h1 className="text-2xl sm:text-3xl font-bold text-white">{title}</h1>
                   <p
-                    className={`mt-2 text-sm text-gray-500 dark:text-gray-400 ${
+                    className={`mt-2 text-sm text-white/70 ${
                       size === 'wide' ? 'xl:max-w-2xl' : ''
                     }`}
                   >
@@ -105,13 +116,12 @@ export function PersonnelLoginLayout({
             </div>
 
             <div
-              className={`bg-white dark:bg-slate-800 rounded-2xl shadow-xl shadow-gray-200/50 dark:shadow-black/30 border border-gray-100 dark:border-slate-700 ${
+              className={`bg-white dark:bg-slate-800 rounded-2xl shadow-xl shadow-black/30 border border-white/10 dark:border-slate-700 ${
                 isCompact ? 'p-4 sm:p-6 lg:p-8' : size === 'wide' ? 'p-5 sm:p-6 lg:p-8' : 'p-5 sm:p-7'
               }`}
             >
               {children}
             </div>
-
           </div>
         </div>
       </div>
