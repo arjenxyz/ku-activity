@@ -7,17 +7,17 @@ export const PERSONNEL_PWA_GRADIENT =
 /** iOS apple-touch-startup-image — yaygın portrait boyutlar */
 export const PERSONNEL_PWA_STARTUP_IMAGES = [
   {
-    href: '/icons/personnel/splash/1170/2532',
+    href: '/icons/personnel/splash/1170/2532?v=3',
     media:
       '(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)',
   },
   {
-    href: '/icons/personnel/splash/1284/2778',
+    href: '/icons/personnel/splash/1284/2778?v=3',
     media:
       '(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)',
   },
   {
-    href: '/icons/personnel/splash/1170/2532',
+    href: '/icons/personnel/splash/1170/2532?v=3',
     media: '(orientation: portrait)',
   },
 ] as const;

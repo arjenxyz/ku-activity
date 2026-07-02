@@ -8,9 +8,11 @@ import { getTwaOrigin } from '@/lib/twa-config';
 export type PwaAppVariant = 'personnel' | 'admin';
 
 const ORIGIN = getTwaOrigin();
+/** PWA ikon/manifest önbelleğini kırmak için — değişince artır */
+const PWA_ASSET_VERSION = '3';
 
 function iconUrl(variant: PwaAppVariant, size: 192 | 512) {
-  return `${ORIGIN}/icons/${variant}/${size}`;
+  return `${ORIGIN}/icons/${variant}/${size}?v=${PWA_ASSET_VERSION}`;
 }
 
 function baseIcons(variant: PwaAppVariant): MetadataRoute.Manifest['icons'] {
@@ -31,7 +33,7 @@ function baseIcons(variant: PwaAppVariant): MetadataRoute.Manifest['icons'] {
 
   if (variant === 'personnel') {
     icons.push({
-      src: `${ORIGIN}/icons/personnel/maskable/512`,
+      src: `${ORIGIN}/icons/personnel/maskable/512?v=${PWA_ASSET_VERSION}`,
       sizes: '512x512',
       type: 'image/png',
       purpose: 'maskable',
@@ -50,7 +52,7 @@ function baseIcons(variant: PwaAppVariant): MetadataRoute.Manifest['icons'] {
 
 export function buildPersonnelManifest(): MetadataRoute.Manifest {
   return {
-    id: '/personnel-panel',
+    id: '/personnel-panel?v=3',
     name: 'CrewLedger Personel',
     short_name: 'CrewLedger',
     description:

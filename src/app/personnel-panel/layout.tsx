@@ -1,8 +1,11 @@
 import type { Metadata, Viewport } from 'next';
+import Script from 'next/script';
 import { PersonnelDisplayProvider } from '@/lib/personnel-display-preferences';
 import { PersonnelIntroGate } from '@/components/personnel/PersonnelIntroGate';
 import { PersonnelPanelChrome } from '@/components/personnel/PersonnelPanelChrome';
+import { PERSONNEL_INTRO_STORAGE_KEY } from '@/lib/personnel-intro';
 import {
+  PERSONNEL_PWA_SPLASH_BG,
   PERSONNEL_PWA_STARTUP_IMAGES,
   PERSONNEL_PWA_THEME,
 } from '@/lib/personnel-pwa-brand';
@@ -21,8 +24,8 @@ export const metadata: Metadata = {
     title: 'CrewLedger',
   },
   icons: {
-    icon: [{ url: `${ORIGIN}/icons/personnel/192`, sizes: '192x192', type: 'image/png' }],
-    apple: [{ url: `${ORIGIN}/icons/personnel/192`, sizes: '192x192', type: 'image/png' }],
+    icon: [{ url: `${ORIGIN}/icons/personnel/192?v=3`, sizes: '192x192', type: 'image/png' }],
+    apple: [{ url: `${ORIGIN}/icons/personnel/192?v=3`, sizes: '192x192', type: 'image/png' }],
   },
   other: {
     'mobile-web-app-capable': 'yes',
@@ -36,6 +39,9 @@ export const viewport: Viewport = {
 export default function PersonnelPanelLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
+      <Script id="personnel-intro-bridge" strategy="beforeInteractive">
+        {`(function(){try{var p=location.pathname;if(p.indexOf('/personnel-panel/basvuru')===0)return;if(sessionStorage.getItem('${PERSONNEL_INTRO_STORAGE_KEY}')==='1')return;if(!window.matchMedia('(max-width:639px)').matches)return;document.documentElement.style.backgroundColor='${PERSONNEL_PWA_SPLASH_BG}';}catch(e){}})();`}
+      </Script>
       {PERSONNEL_PWA_STARTUP_IMAGES.map(({ href, media }) => (
         <link
           key={`${href}-${media}`}

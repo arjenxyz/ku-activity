@@ -5,7 +5,7 @@ export async function GET() {
   return Response.json(manifest, {
     headers: {
       'Content-Type': 'application/manifest+json; charset=utf-8',
-      'Cache-Control': 'public, max-age=3600, stale-while-revalidate=86400',
+      'Cache-Control': 'public, max-age=300, must-revalidate',
     },
   });
 }

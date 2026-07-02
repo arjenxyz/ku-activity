@@ -2,11 +2,11 @@
 
 import { usePathname } from 'next/navigation';
 import { useLayoutEffect, useState } from 'react';
+import { PersonnelAppIntro } from '@/components/personnel/PersonnelAppIntro';
 import {
   hasSeenPersonnelIntro,
   markPersonnelIntroSeen,
-  PersonnelAppIntro,
-} from '@/components/personnel/PersonnelAppIntro';
+} from '@/lib/personnel-intro';
 import { PERSONNEL_PWA_SPLASH_BG } from '@/lib/personnel-pwa-brand';
 
 function shouldSkipIntro(pathname: string) {
@@ -15,6 +15,7 @@ function shouldSkipIntro(pathname: string) {
 }
 
 function computeShowIntro(pathname: string): boolean {
+  if (typeof window === 'undefined') return false;
   if (shouldSkipIntro(pathname)) return false;
   if (!window.matchMedia('(max-width: 639px)').matches) return false;
   return !hasSeenPersonnelIntro();
@@ -30,9 +31,12 @@ export function PersonnelIntroGate({ children }: { children: React.ReactNode }) 
 
   useLayoutEffect(() => {
     if (!showIntro) return;
+    const prev = document.documentElement.style.backgroundColor;
     document.documentElement.style.backgroundColor = PERSONNEL_PWA_SPLASH_BG;
+    document.body.style.overflow = 'hidden';
     return () => {
-      document.documentElement.style.backgroundColor = '';
+      document.documentElement.style.backgroundColor = prev;
+      document.body.style.overflow = '';
     };
   }, [showIntro]);
 
@@ -44,7 +48,9 @@ export function PersonnelIntroGate({ children }: { children: React.ReactNode }) 
   return (
     <>
       {showIntro && <PersonnelAppIntro onComplete={handleComplete} />}
-      <div className={showIntro ? 'invisible pointer-events-none' : undefined}>{children}</div>
+      <div aria-hidden={showIntro} className={showIntro ? 'invisible pointer-events-none' : undefined}>
+        {children}
+      </div>
     </>
   );
 }
