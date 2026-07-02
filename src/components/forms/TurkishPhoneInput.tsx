@@ -52,6 +52,20 @@ function detectCountryByNormalizedDigits(normalized: string): CountryOption | nu
   return sorted.find((country) => normalized.startsWith(country.code)) ?? null;
 }
 
+/** +90534 gibi kısmi girişlerde de yerel rakamları çıkarır */
+function parseStoredIntlPhone(
+  value: string,
+  fallbackCountry: string
+): { countryCode: string; localDigits: string } {
+  const digits = value.replace(/\D/g, '');
+  if (!digits) return { countryCode: fallbackCountry, localDigits: '' };
+
+  const detected = detectCountryByNormalizedDigits(digits);
+  const countryCode = detected?.code ?? fallbackCountry;
+  const localDigits = digits.startsWith(countryCode) ? digits.slice(countryCode.length) : digits;
+  return { countryCode, localDigits };
+}
+
 /** Ulusal alan — kullanıcı 90 / 0 / +90 yazsa da sadece 10 haneli numara kalır */
 function parseInputDigits(raw: string): string {
   let digits = raw.replace(/\D/g, '');
@@ -76,20 +90,17 @@ export function TurkishPhoneInput({
   const initialNormalized = normalizePhoneDigits(value) ?? '';
   const initialCountry = detectCountryByNormalizedDigits(initialNormalized)?.code ?? COUNTRY_OPTIONS[0].code;
   const [countryCode, setCountryCode] = useState(initialCountry);
-  const normalized = normalizePhoneDigits(value) ?? '';
-  const detectedCountry = detectCountryByNormalizedDigits(normalized);
-  const resolvedCountry = detectedCountry?.code ?? countryCode;
+  const parsedIntl = parseStoredIntlPhone(value, countryCode);
+  const resolvedCountry = parsedIntl.countryCode;
+  const localDigits = parsedIntl.localDigits;
   const currentCountry = COUNTRY_OPTIONS.find((c) => c.code === resolvedCountry) ?? COUNTRY_OPTIONS[0];
-  const localDigits = normalized.startsWith(resolvedCountry)
-    ? normalized.slice(resolvedCountry.length)
-    : '';
   const maxLocalDigits = currentCountry.maxLocalDigits;
   const dynamicPlaceholder = currentCountry.sample;
   const countryOptions = useMemo(
     () =>
       COUNTRY_OPTIONS.map((country) => (
-        <option key={country.code} value={country.code}>
-          {country.flag} {country.label} (+{country.code})
+        <option key={country.code} value={country.code} title={country.label}>
+          {country.flag} +{country.code}
         </option>
       )),
     []
@@ -97,10 +108,10 @@ export function TurkishPhoneInput({
 
   useEffect(() => {
     if (!allowCountryCodeSelect) return;
-    if (detectedCountry?.code && detectedCountry.code !== countryCode) {
-      setCountryCode(detectedCountry.code);
+    if (parsedIntl.countryCode && parsedIntl.countryCode !== countryCode) {
+      setCountryCode(parsedIntl.countryCode);
     }
-  }, [allowCountryCodeSelect, detectedCountry?.code, countryCode]);
+  }, [allowCountryCodeSelect, parsedIntl.countryCode, countryCode]);
 
   if (allowCountryCodeSelect) {
     return (
@@ -116,7 +127,7 @@ export function TurkishPhoneInput({
             const nextLocal = localDigits.replace(/\D/g, '').slice(0, nextMax);
             onChange(nextLocal ? `+${nextCode}${nextLocal}` : '');
           }}
-          className="shrink-0 border-r border-gray-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-800/80 px-2 py-3 text-sm font-semibold text-slate-700 dark:text-slate-200 focus:outline-none"
+          className="w-[4.25rem] shrink-0 border-r border-gray-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-800/80 pl-1.5 pr-0.5 py-2.5 text-xs font-semibold text-slate-700 dark:text-slate-200 focus:outline-none appearance-none text-center"
           disabled={disabled}
           aria-label="Ülke kodu"
         >
@@ -126,10 +137,10 @@ export function TurkishPhoneInput({
           id={id}
           type="tel"
           inputMode="numeric"
-          autoComplete="off"
+          autoComplete="tel-national"
           disabled={disabled}
           required={required}
-          className="min-w-0 flex-1 border-0 bg-transparent px-4 py-3 text-sm tabular-nums tracking-wide focus:outline-none focus:ring-0"
+          className="min-w-0 flex-1 border-0 bg-transparent px-2.5 py-2.5 text-sm tabular-nums focus:outline-none focus:ring-0"
           placeholder={dynamicPlaceholder}
           value={formatIntlLocalDigits(localDigits)}
           onChange={(e) => {
