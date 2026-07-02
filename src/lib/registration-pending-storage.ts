@@ -1,5 +1,6 @@
 const STORAGE_KEY = 'crewledger-pending-registration';
 export const PENDING_REGISTRATION_COOKIE = 'crewledger-pending-app';
+export const PENDING_COOKIE_MAX_AGE = 60 * 60 * 24 * 30;
 
 export type PendingRegistration = {
   verificationCode: string;
@@ -12,11 +13,24 @@ export type PendingRegistration = {
 
 function setPendingCookie(active: boolean) {
   if (typeof document === 'undefined') return;
+  const secure = window.location.protocol === 'https:' ? '; Secure' : '';
   if (active) {
-    document.cookie = `${PENDING_REGISTRATION_COOKIE}=1; path=/; max-age=${60 * 60 * 24 * 30}; SameSite=Lax`;
+    document.cookie = `${PENDING_REGISTRATION_COOKIE}=1; path=/; max-age=${PENDING_COOKIE_MAX_AGE}; SameSite=Lax${secure}`;
   } else {
-    document.cookie = `${PENDING_REGISTRATION_COOKIE}=; path=/; max-age=0; SameSite=Lax`;
+    document.cookie = `${PENDING_REGISTRATION_COOKIE}=; path=/; max-age=0; SameSite=Lax${secure}`;
   }
+}
+
+/** Sunucu tarafı pending çerezi (middleware ile uyumlu) */
+export function pendingRegistrationCookieOptions(active: boolean) {
+  const isProd = process.env.NODE_ENV === 'production';
+  return {
+    httpOnly: false,
+    secure: isProd,
+    sameSite: 'lax' as const,
+    path: '/',
+    maxAge: active ? PENDING_COOKIE_MAX_AGE : 0,
+  };
 }
 
 export function savePendingRegistration(data: PendingRegistration) {

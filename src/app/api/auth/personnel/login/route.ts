@@ -4,6 +4,10 @@ import { createAdminClient } from '@/utils/supabase/admin';
 import { validateIdentityNumber } from '@/lib/field-encryption';
 import { findEmployeeForIdentityLogin } from '@/lib/personnel-login';
 import { verifyPendingRegistrationAccess } from '@/lib/registration-service';
+import {
+  PENDING_REGISTRATION_COOKIE,
+  pendingRegistrationCookieOptions,
+} from '@/lib/registration-pending-storage';
 import { validatePersonnelPin } from '@/lib/personnel-pin';
 import {
   generateSessionToken,
@@ -75,7 +79,7 @@ export async function POST(request: Request) {
       }
 
       if (pendingAccess) {
-        return NextResponse.json({
+        const response = NextResponse.json({
           pending: true,
           verificationCode: pendingAccess.verificationCode,
           approvalUrl: pendingAccess.approvalUrl,
@@ -83,6 +87,12 @@ export async function POST(request: Request) {
           identityNumber: pendingAccess.identityNumber,
           tcKimlik: pendingAccess.tcKimlik,
         });
+        response.cookies.set(
+          PENDING_REGISTRATION_COOKIE,
+          '1',
+          pendingRegistrationCookieOptions(true)
+        );
+        return response;
       }
 
       return NextResponse.json({ error: 'Geçersiz kimlik numarası veya şifre' }, { status: 401 });

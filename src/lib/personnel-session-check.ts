@@ -14,3 +14,7 @@ export async function hasActivePersonnelSession(): Promise<boolean> {
 export function redirectToPersonnelPanel() {
   window.location.replace('/personnel-panel');
 }
+
+export function redirectToPendingApplication() {
+  window.location.replace('/personnel-panel/basvuru');
+}

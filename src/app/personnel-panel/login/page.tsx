@@ -4,11 +4,16 @@ import { Suspense, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import {
+  clearPendingRegistration,
   loadPendingRegistration,
   savePendingRegistration,
   type PendingRegistration,
 } from '@/lib/registration-pending-storage';
-import { hasActivePersonnelSession, redirectToPersonnelPanel } from '@/lib/personnel-session-check';
+import {
+  hasActivePersonnelSession,
+  redirectToPendingApplication,
+  redirectToPersonnelPanel,
+} from '@/lib/personnel-session-check';
 import { FiLock } from 'react-icons/fi';
 import { PersonnelLoginLayout } from '@/components/personnel/PersonnelLoginLayout';
 import { AuthAlert, LoadingSpinner } from '@/components/auth/AuthAlerts';
@@ -41,6 +46,27 @@ function PersonnelLoginContent() {
       if (active) {
         redirectToPersonnelPanel();
         return;
+      }
+
+      const pending = loadPendingRegistration();
+      if (pending) {
+        try {
+          const res = await fetch(
+            `/api/public/personnel-registration/status?kod=${encodeURIComponent(pending.verificationCode)}`
+          );
+          if (cancelled) return;
+          if (res.ok) {
+            const data = (await res.json()) as { status?: string };
+            if (data.status === 'pending' || data.status === 'approved' || data.status === 'rejected') {
+              savePendingRegistration(pending);
+              redirectToPendingApplication();
+              return;
+            }
+          }
+          clearPendingRegistration();
+        } catch {
+          /* giriş formuna devam */
+        }
       }
 
       setCheckingSession(false);
