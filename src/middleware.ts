@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { updateSession, getSupabaseMiddlewareClient } from '@/utils/supabase/middleware';
 import { PERSONNEL_COOKIE } from '@/lib/personnel-cookie';
+import { PENDING_REGISTRATION_COOKIE } from '@/lib/registration-pending-storage';
 
 const ADMIN_LOGIN = '/admin-panel/login';
 const ADMIN_REGISTER = '/admin-panel/register';
@@ -91,9 +92,19 @@ export async function middleware(request: NextRequest) {
   }
 
   const hasPersonnelCookie = Boolean(request.cookies.get(PERSONNEL_COOKIE)?.value);
+  const hasPendingApplicationCookie =
+    request.cookies.get(PENDING_REGISTRATION_COOKIE)?.value === '1';
 
   if (hasPersonnelCookie && pathname === '/') {
     return NextResponse.redirect(new URL('/personnel-panel', request.url));
+  }
+
+  if (
+    !hasPersonnelCookie &&
+    hasPendingApplicationCookie &&
+    (pathname === PERSONNEL_LOGIN || isPersonnelRoute)
+  ) {
+    return NextResponse.redirect(new URL(PERSONNEL_BASVURU, request.url));
   }
 
   if (isPersonnelRoute || pathname === PERSONNEL_LOGIN) {

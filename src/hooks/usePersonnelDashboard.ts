@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { loadPendingRegistration } from '@/lib/registration-pending-storage';
 import {
   fetchPersonnelDeductions,
   fetchPersonnelMe,
@@ -58,6 +59,10 @@ export function usePersonnelDashboard(month: string, options: Options = {}) {
     } catch (e) {
       const msg = e instanceof Error ? e.message : 'Veri yüklenemedi';
       if (msg.includes('Oturum') || msg.includes('401') || msg.includes('geçersiz')) {
+        if (loadPendingRegistration()) {
+          router.replace('/personnel-panel/basvuru');
+          return;
+        }
         router.replace('/personnel-panel/login');
         return;
       }

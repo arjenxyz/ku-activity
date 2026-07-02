@@ -170,6 +170,8 @@ export default function PersonnelApplicationPage() {
         return;
       }
 
+      savePendingRegistration(saved);
+
       const next = await fetchRegistrationStatus(saved.verificationCode);
       if (cancelled) return;
 
@@ -347,31 +349,19 @@ export default function PersonnelApplicationPage() {
 
   if (result && status === 'pending') {
     return (
-      <PersonnelLoginLayout
-        alignTop
-        title="Başvurunuz Bekliyor"
-        subtitle="Yöneticiniz onaylayana kadar bu ekranı açık tutun veya tekrar bu sayfaya gelin."
-      >
-        <div className="space-y-5 text-center">
-          {result.reused && (
-            <p className="text-sm text-blue-700 bg-blue-50 dark:bg-blue-950/40 rounded-lg px-3 py-2">
-              Bekleyen başvurunuz devam ediyor; aynı kod geçerlidir.
-            </p>
-          )}
+      <PersonnelLoginLayout alignTop compact title="Onay bekleniyor" subtitle="Yönetici onaylayınca bu ekran güncellenir.">
+        <div className="space-y-4 text-center">
           <div className="flex justify-center">
-            <RegistrationQrCode value={result.approvalUrl} />
+            <RegistrationQrCode value={result.approvalUrl} size={200} />
           </div>
-          <div className="rounded-xl border border-amber-200 dark:border-amber-900/50 bg-amber-50 dark:bg-amber-950/30 px-4 py-3 text-sm text-amber-900 dark:text-amber-100 text-left">
-            Onay bekleniyor — bu sayfayı kapatıp tekrar açsanız bile QR kodunuz burada kalır.
-          </div>
-          <div className="rounded-xl bg-slate-900 text-white py-4 px-5">
-            <p className="text-xs text-slate-400 uppercase tracking-wider mb-1">Başvuru Kodu</p>
-            <p className="text-xl sm:text-2xl font-bold tracking-widest break-all">
+          <div className="rounded-xl bg-slate-900 text-white py-3 px-4">
+            <p className="text-[11px] text-slate-400 uppercase tracking-wider mb-1">Başvuru kodu</p>
+            <p className="text-xl font-bold font-mono tracking-wider break-all">
               {result.verificationCode}
             </p>
           </div>
-          <p className="text-sm text-gray-600 dark:text-gray-400 text-left">
-            Bu ekranı yöneticinize gösterin. Onay sonrası size giriş bilgileri verilecektir.
+          <p className="text-xs text-slate-500">
+            Bu kodu veya QR&apos;ı yöneticinize gösterin.
           </p>
         </div>
       </PersonnelLoginLayout>

@@ -4,7 +4,11 @@ import { Suspense, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { loadPendingRegistration } from '@/lib/registration-pending-storage';
-import { hasActivePersonnelSession, redirectToPersonnelPanel } from '@/lib/personnel-session-check';
+import {
+  hasActivePersonnelSession,
+  redirectToPendingApplication,
+  redirectToPersonnelPanel,
+} from '@/lib/personnel-session-check';
 import { FiLock } from 'react-icons/fi';
 import { PersonnelLoginLayout } from '@/components/personnel/PersonnelLoginLayout';
 import { AuthAlert, LoadingSpinner } from '@/components/auth/AuthAlerts';
@@ -24,7 +28,6 @@ function PersonnelLoginContent() {
   const searchParams = useSearchParams();
   const [identityType, setIdentityType] = useState<'tc' | 'foreign'>('tc');
   const [identityNumber, setIdentityNumber] = useState('');
-  const [hasPendingApplication, setHasPendingApplication] = useState(false);
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -39,6 +42,26 @@ function PersonnelLoginContent() {
         redirectToPersonnelPanel();
         return;
       }
+
+      const pending = loadPendingRegistration();
+      if (pending) {
+        try {
+          const res = await fetch(
+            `/api/public/personnel-registration/status?kod=${encodeURIComponent(pending.verificationCode)}`
+          );
+          if (cancelled) return;
+          if (res.ok) {
+            const data = (await res.json()) as { status?: string };
+            if (data.status === 'pending') {
+              redirectToPendingApplication();
+              return;
+            }
+          }
+        } catch {
+          /* giriş ekranına devam */
+        }
+      }
+
       setCheckingSession(false);
     })();
     return () => {
@@ -61,7 +84,6 @@ function PersonnelLoginContent() {
         setIdentityNumber(pending.tcKimlik);
       }
     }
-    setHasPendingApplication(Boolean(loadPendingRegistration()));
   }, [searchParams]);
 
   if (checkingSession) {
@@ -187,21 +209,10 @@ function PersonnelLoginContent() {
       </form>
       <div className="mt-4 space-y-2 text-center text-sm text-gray-500 dark:text-gray-400">
         <p>
-          {hasPendingApplication ? (
-            <>
-              Onay bekleyen başvurunuz var.{' '}
-              <Link href="/personnel-panel/basvuru" className="text-blue-600 font-semibold hover:underline">
-                QR kodunu görüntüle
-              </Link>
-            </>
-          ) : (
-            <>
-              Hesabınız mı yok?{' '}
-              <Link href="/personnel-panel/basvuru" prefetch className="text-blue-600 font-semibold hover:underline">
-                Başvuru yapın
-              </Link>
-            </>
-          )}
+          Hesabınız mı yok?{' '}
+          <Link href="/personnel-panel/basvuru" prefetch className="text-blue-600 font-semibold hover:underline">
+            Başvuru yapın
+          </Link>
         </p>
         <p>
           <Link href="/personnel-panel/sifremi-unuttum" className="text-blue-600 font-semibold hover:underline">
