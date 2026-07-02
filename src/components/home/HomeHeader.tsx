@@ -9,7 +9,7 @@ import { APP_NAME, APP_TAGLINE_TR } from '@/lib/brand';
 const navLinks = [
   { href: '#hero', label: 'Anasayfa' },
   { href: '#features', label: 'Özellikler' },
-  { href: '#how-it-works', label: 'Nasıl Çalışır' },
+  { href: '#play-store', label: 'Google Play' },
   { href: '#contact', label: 'İletişim' },
 ];
 

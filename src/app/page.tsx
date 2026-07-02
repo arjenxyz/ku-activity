@@ -5,7 +5,7 @@ import { HeroSection } from '@/components/home/HeroSection';
 import { ScrollingBanner } from '@/components/home/ScrollingBanner';
 import { TrustBar } from '@/components/home/TrustBar';
 import { FeaturesSection } from '@/components/home/FeaturesSection';
-import { HowItWorksSection } from '@/components/home/HowItWorksSection';
+import { PlayStoreSection } from '@/components/home/PlayStoreSection';
 import { CTASection } from '@/components/home/CTASection';
 import { HomeFooter } from '@/components/home/HomeFooter';
 import { useHomeStats } from '@/hooks/useHomeStats';
@@ -21,7 +21,7 @@ export default function Home() {
         <ScrollingBanner />
         <TrustBar />
         <FeaturesSection />
-        <HowItWorksSection />
+        <PlayStoreSection />
         <CTASection />
       </main>
       <HomeFooter />

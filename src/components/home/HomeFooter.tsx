@@ -72,7 +72,7 @@ export function HomeFooter() {
             <div className="space-y-2.5 text-sm">
               <a href="#hero" className="block text-slate-300 hover:text-white transition-colors">Ana Sayfa</a>
               <a href="#features" className="block text-slate-300 hover:text-white transition-colors">Özellikler</a>
-              <a href="#how-it-works" className="block text-slate-300 hover:text-white transition-colors">Nasıl Çalışır</a>
+              <a href="#play-store" className="block text-slate-300 hover:text-white transition-colors">Google Play</a>
               <Link href="/admin-panel/register" className="block text-slate-300 hover:text-white transition-colors">Ücretsiz Kayıt</Link>
               <Link href="/admin-panel/login" className="block text-slate-300 hover:text-white transition-colors">Yönetici Girişi</Link>
               <Link href="/personnel-panel/login" className="block text-slate-300 hover:text-white transition-colors">Personel Girişi</Link>
