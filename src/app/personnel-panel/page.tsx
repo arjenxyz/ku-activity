@@ -16,6 +16,7 @@ import {
   FiXCircle,
 } from 'react-icons/fi';
 import { PersonnelOverviewHeader } from '@/components/personnel/PersonnelOverviewHeader';
+import { PersonnelMonthChip } from '@/components/personnel/PersonnelMonthChip';
 import { PersonnelNetHero } from '@/components/personnel/PersonnelNetHero';
 import { PersonnelCalendar } from '@/components/personnel/PersonnelCalendar';
 import { PersonnelMesaiPanel } from '@/components/personnel/PersonnelMesaiPanel';
@@ -245,11 +246,12 @@ function PersonelPanelContent() {
             fullName={employee.name}
             position={employee.position}
             photoUrl={employee.photo_url}
-            dailyWage={Number(employee.daily_wage)}
-            month={month}
-            onMonthChange={setMonth}
           />
         )}
+
+        <div className="flex justify-end">
+          <PersonnelMonthChip month={month} onChange={setMonth} />
+        </div>
 
         <PersonnelTodayAttendance />
 
