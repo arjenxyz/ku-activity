@@ -1,17 +1,21 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import {
+  FiBriefcase,
+  FiChevronLeft,
   FiChevronRight,
   FiCreditCard,
-  FiBriefcase,
   FiLock,
   FiLogOut,
   FiMail,
   FiPhone,
+  FiSettings,
+  FiShield,
   FiUser,
 } from 'react-icons/fi';
 import { EmployeeAvatar } from '@/components/employee/EmployeeAvatar';
+import { PersonnelContractsSection } from '@/components/personnel/PersonnelContractsSection';
 import { PersonnelDisplaySettings } from '@/components/personnel/PersonnelDisplaySettings';
 import { PersonnelPasswordModal } from '@/components/personnel/PersonnelPasswordModal';
 import { PersonnelProjectCard } from '@/components/personnel/PersonnelProjectCard';
@@ -23,6 +27,16 @@ type Props = {
   employee: PersonnelEmployee;
   onLogout: () => void;
 };
+
+type SettingsSectionId =
+  | 'home'
+  | 'personal'
+  | 'contact'
+  | 'bank'
+  | 'work'
+  | 'contracts'
+  | 'security'
+  | 'app';
 
 function formatIbanDisplay(iban: string | null | undefined) {
   if (!iban) return '—';
@@ -40,20 +54,178 @@ function formatPhoneDisplay(phone: string | null | undefined) {
 
 export function PersonnelSettingsPage({ employee, onLogout }: Props) {
   const [passwordOpen, setPasswordOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState<SettingsSectionId>('home');
 
   const firstName = employee.first_name || employee.name.split(' ')[0] || '—';
-  const lastName =
-    employee.last_name || employee.name.split(' ').slice(1).join(' ') || '—';
+  const lastName = employee.last_name || employee.name.split(' ').slice(1).join(' ') || '—';
+
+  const sectionMeta = useMemo(
+    () => ({
+      home: { title: 'Ayarlar', subtitle: 'Hesabınızı ve uygulama tercihlerinizi yönetin.' },
+      personal: { title: 'Kişisel Ayarlar', subtitle: 'Kimlik ve kişisel bilgileriniz.' },
+      contact: { title: 'İletişim', subtitle: 'E-posta ve telefon bilgileriniz.' },
+      bank: { title: 'Banka Bilgileri', subtitle: 'IBAN bilgileriniz.' },
+      work: { title: 'İş Bilgileri', subtitle: 'Pozisyon, yevmiye ve şantiye bilgileriniz.' },
+      contracts: { title: 'Sözleşmeler', subtitle: 'Onayladığınız sözleşme kayıtları.' },
+      security: { title: 'Güvenlik', subtitle: 'PIN ve hesap güvenliği.' },
+      app: { title: 'Uygulama Ayarları', subtitle: 'Görünüm ve kullanım tercihleri.' },
+    }),
+    []
+  );
+
+  const menuItems: Array<{
+    id: Exclude<SettingsSectionId, 'home'>;
+    title: string;
+    subtitle: string;
+    icon: React.ReactNode;
+  }> = [
+    {
+      id: 'personal',
+      title: 'Kişisel ayarlar',
+      subtitle: 'Ad, soyad, T.C. kimlik, doğum tarihi',
+      icon: <FiUser className="w-4 h-4" />,
+    },
+    {
+      id: 'contact',
+      title: 'İletişim',
+      subtitle: 'E-posta ve telefon numarası',
+      icon: <FiPhone className="w-4 h-4" />,
+    },
+    {
+      id: 'bank',
+      title: 'Banka',
+      subtitle: 'IBAN bilgisi',
+      icon: <FiCreditCard className="w-4 h-4" />,
+    },
+    {
+      id: 'work',
+      title: 'İş bilgileri',
+      subtitle: 'Pozisyon, yevmiye ve proje',
+      icon: <FiBriefcase className="w-4 h-4" />,
+    },
+    {
+      id: 'contracts',
+      title: 'Sözleşmeler',
+      subtitle: 'Onayladığınız sözleşmeler',
+      icon: <FiShield className="w-4 h-4" />,
+    },
+    {
+      id: 'security',
+      title: 'Güvenlik',
+      subtitle: 'PIN kodu ve hesap güvenliği',
+      icon: <FiLock className="w-4 h-4" />,
+    },
+    {
+      id: 'app',
+      title: 'Uygulama ayarları',
+      subtitle: 'Tema ve görünüm tercihleri',
+      icon: <FiSettings className="w-4 h-4" />,
+    },
+  ];
+
+  const renderSection = () => {
+    switch (activeSection) {
+      case 'personal':
+        return (
+          <SettingsGroup title="Kişisel bilgiler" icon={<FiUser className="w-4 h-4" />}>
+            <InfoRow label="Ad" value={firstName} />
+            <InfoRow label="Soyad" value={lastName} />
+            <InfoRow label="T.C. kimlik no" value={employee.tc_kimlik || '—'} mono />
+            <InfoRow
+              label="Doğum tarihi"
+              value={employee.birth_date ? formatDate(employee.birth_date) : '—'}
+            />
+          </SettingsGroup>
+        );
+      case 'contact':
+        return (
+          <SettingsGroup title="İletişim" icon={<FiMail className="w-4 h-4" />}>
+            <InfoRow label="E-posta" value={employee.email || '—'} />
+            <InfoRow
+              label="Telefon"
+              value={formatPhoneDisplay(employee.phone)}
+              icon={<FiPhone className="w-3.5 h-3.5 text-slate-400" />}
+            />
+          </SettingsGroup>
+        );
+      case 'bank':
+        return (
+          <SettingsGroup title="Banka" icon={<FiCreditCard className="w-4 h-4" />}>
+            <InfoRow label="IBAN" value={formatIbanDisplay(employee.iban)} mono />
+          </SettingsGroup>
+        );
+      case 'work':
+        return (
+          <div className="space-y-4">
+            <SettingsGroup title="İş bilgileri" icon={<FiBriefcase className="w-4 h-4" />}>
+              <InfoRow label="Pozisyon" value={employee.position || '—'} />
+              <InfoRow label="Günlük yevmiye" value={formatMoney(Number(employee.daily_wage))} />
+              <InfoRow
+                label="İşe giriş"
+                value={employee.hire_date ? formatDate(employee.hire_date) : '—'}
+              />
+            </SettingsGroup>
+            {employee.project && <PersonnelProjectCard project={employee.project} />}
+          </div>
+        );
+      case 'contracts':
+        return <PersonnelContractsSection />;
+      case 'security':
+        return (
+          <div className="rounded-2xl border border-slate-200/80 dark:border-slate-700 bg-white dark:bg-slate-800 overflow-hidden shadow-sm">
+            <button
+              type="button"
+              onClick={() => setPasswordOpen(true)}
+              className="w-full flex items-center gap-3 px-4 py-4 text-left hover:bg-slate-50 dark:hover:bg-slate-800/80 active:bg-slate-100 transition-colors"
+            >
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">
+                <FiLock className="w-4 h-4" />
+              </span>
+              <div className="flex-1 min-w-0">
+                <p className="font-medium text-slate-900 dark:text-white">PIN kodu</p>
+                <p className="text-xs text-slate-500 mt-0.5">Giriş şifrenizi güncelleyin</p>
+              </div>
+              <FiChevronRight className="w-5 h-5 text-slate-400 shrink-0" />
+            </button>
+          </div>
+        );
+      case 'app':
+        return <PersonnelDisplaySettings />;
+      default:
+        return (
+          <div className="rounded-2xl border border-slate-200/80 dark:border-slate-700 bg-white dark:bg-slate-800 overflow-hidden shadow-sm">
+            {menuItems.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => setActiveSection(item.id)}
+                className="w-full flex items-center gap-3 px-4 py-3.5 text-left border-b border-slate-100 dark:border-slate-700/80 last:border-b-0 hover:bg-slate-50 dark:hover:bg-slate-800/80 transition-colors"
+              >
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">
+                  {item.icon}
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="block text-sm font-semibold text-slate-900 dark:text-white">
+                    {item.title}
+                  </span>
+                  <span className="block text-xs text-slate-500 dark:text-slate-400 truncate">
+                    {item.subtitle}
+                  </span>
+                </span>
+                <FiChevronRight className="w-4 h-4 text-slate-400" />
+              </button>
+            ))}
+          </div>
+        );
+    }
+  };
 
   return (
     <div className="space-y-5 max-w-lg mx-auto">
-      {/* Profil hero */}
       <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 text-white shadow-lg shadow-blue-600/20">
         <div
           className="absolute inset-0 opacity-20"
-          style={{
-            backgroundImage: 'radial-gradient(circle at 80% 20%, white 0%, transparent 50%)',
-          }}
+          style={{ backgroundImage: 'radial-gradient(circle at 80% 20%, white 0%, transparent 50%)' }}
         />
         <div className="relative px-5 py-6 flex items-center gap-4">
           <EmployeeAvatar
@@ -64,86 +236,37 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
           />
           <div className="min-w-0 flex-1">
             <h2 className="text-xl font-bold truncate">{employee.name}</h2>
-            <p className="text-blue-100 text-sm mt-0.5 truncate">{employee.position}</p>
-            {employee.project_name && (
-              <span className="inline-block mt-2 text-[11px] font-medium bg-white/15 backdrop-blur px-2.5 py-1 rounded-full truncate max-w-full">
-                {employee.project_name}
-              </span>
-            )}
+            <p className="text-blue-100 text-sm mt-0.5 truncate">{sectionMeta[activeSection].title}</p>
+            <p className="text-blue-100/80 text-xs mt-1 leading-relaxed">
+              {sectionMeta[activeSection].subtitle}
+            </p>
           </div>
         </div>
       </div>
 
-      {/* Kişisel bilgiler — kayıt formundaki alanlar */}
-      <SettingsGroup title="Kişisel bilgiler" icon={<FiUser className="w-4 h-4" />}>
-        <InfoRow label="Ad" value={firstName} />
-        <InfoRow label="Soyad" value={lastName} />
-        <InfoRow label="T.C. kimlik no" value={employee.tc_kimlik || '—'} mono />
-        <InfoRow
-          label="Doğum tarihi"
-          value={employee.birth_date ? formatDate(employee.birth_date) : '—'}
-        />
-      </SettingsGroup>
-
-      <SettingsGroup title="İletişim" icon={<FiMail className="w-4 h-4" />}>
-        <InfoRow label="E-posta" value={employee.email || '—'} />
-        <InfoRow
-          label="Telefon"
-          value={formatPhoneDisplay(employee.phone)}
-          icon={<FiPhone className="w-3.5 h-3.5 text-slate-400" />}
-        />
-      </SettingsGroup>
-
-      <SettingsGroup title="Banka" icon={<FiCreditCard className="w-4 h-4" />}>
-        <InfoRow label="IBAN" value={formatIbanDisplay(employee.iban)} mono />
-      </SettingsGroup>
-
-      <SettingsGroup title="İş bilgileri" icon={<FiBriefcase className="w-4 h-4" />}>
-        <InfoRow label="Pozisyon" value={employee.position || '—'} />
-        <InfoRow label="Günlük yevmiye" value={formatMoney(Number(employee.daily_wage))} />
-        <InfoRow
-          label="İşe giriş"
-          value={employee.hire_date ? formatDate(employee.hire_date) : '—'}
-        />
-      </SettingsGroup>
-
-      {employee.project && (
-        <div>
-          <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-2 px-1">
-            Şantiye
-          </p>
-          <PersonnelProjectCard project={employee.project} />
-        </div>
-      )}
-
-      {/* Güvenlik */}
-      <div className="rounded-2xl border border-slate-200/80 dark:border-slate-700 bg-white dark:bg-slate-800 overflow-hidden shadow-sm">
+      {activeSection !== 'home' && (
         <button
           type="button"
-          onClick={() => setPasswordOpen(true)}
-          className="w-full flex items-center gap-3 px-4 py-4 text-left hover:bg-slate-50 dark:hover:bg-slate-800/80 active:bg-slate-100 transition-colors"
+          onClick={() => setActiveSection('home')}
+          className="inline-flex items-center gap-1 text-sm font-medium text-blue-700 dark:text-blue-400 hover:underline"
         >
-          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">
-            <FiLock className="w-4 h-4" />
-          </span>
-          <div className="flex-1 min-w-0">
-            <p className="font-medium text-slate-900 dark:text-white">Giriş şifresi</p>
-            <p className="text-xs text-slate-500 mt-0.5">PIN kodunuzu değiştirin</p>
-          </div>
-          <FiChevronRight className="w-5 h-5 text-slate-400 shrink-0" />
+          <FiChevronLeft className="w-4 h-4" />
+          Ayarlar listesine dön
         </button>
-      </div>
+      )}
 
-      <PersonnelDisplaySettings />
+      {renderSection()}
 
-      <button
-        type="button"
-        onClick={onLogout}
-        className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl text-sm font-medium text-slate-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/20 transition-colors"
-      >
-        <FiLogOut className="w-4 h-4" />
-        Çıkış yap
-      </button>
+      {activeSection === 'home' && (
+        <button
+          type="button"
+          onClick={onLogout}
+          className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl text-sm font-medium text-slate-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/20 transition-colors"
+        >
+          <FiLogOut className="w-4 h-4" />
+          Çıkış yap
+        </button>
+      )}
 
       <PersonnelPasswordModal open={passwordOpen} onClose={() => setPasswordOpen(false)} />
     </div>
