@@ -156,7 +156,7 @@ function PersonnelLoginContent() {
 
   return (
     <PersonnelLoginLayout
-      subtitle="Kimlik numaranız ve PIN ile giriş yapın. Onay bekleyen başvurular da aynı bilgilerle durum ekranına yönlendirilir."
+      subtitle="Kimlik numaranız ve PIN ile giriş yapın."
     >
       <form onSubmit={handleLogin} className="space-y-5" {...personnelLoginFormProps}>
         <div>
