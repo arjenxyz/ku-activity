@@ -48,8 +48,6 @@ async function ensureCameraPermission() {
   if (!window.isSecureContext) {
     throw new Error('Kamera yalnızca HTTPS veya localhost üzerinde çalışır.');
   }
-  const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
-  stream.getTracks().forEach((track) => track.stop());
 }
 
 function buildScanConfig(desktop: boolean) {
@@ -148,6 +146,8 @@ export function QrCameraScanner({
   const fileInputRef = useRef<HTMLInputElement>(null);
   const onScanRef = useRef(onScan);
   const parseQrRef = useRef(parseQr);
+  const bootingRef = useRef(false);
+  const stopRef = useRef<() => Promise<void>>(async () => {});
   const [viewfinderOpen, setViewfinderOpen] = useState(false);
   const [active, setActive] = useState(false);
   const [starting, setStarting] = useState(false);
@@ -204,15 +204,20 @@ export function QrCameraScanner({
   }, [releaseScanner]);
 
   useEffect(() => {
+    stopRef.current = stop;
+  }, [stop]);
+
+  useEffect(() => {
     return () => {
       void releaseScanner();
     };
   }, [releaseScanner]);
 
   useEffect(() => {
-    if (!viewfinderOpen || active || starting) return;
+    if (!viewfinderOpen || active || bootingRef.current) return;
 
     let cancelled = false;
+    bootingRef.current = true;
 
     const boot = async () => {
       setError(null);
@@ -221,11 +226,13 @@ export function QrCameraScanner({
       const desktop = isLikelyDesktop();
 
       try {
-        await ensureCameraPermission();
+        ensureCameraPermission();
         await waitForElement(regionId);
         if (cancelled) return;
 
-        await releaseScanner();
+        if (scannerRef.current) {
+          await releaseScanner();
+        }
         if (cancelled) return;
 
         const scanner = new Html5Qrcode(regionId, {
@@ -239,7 +246,7 @@ export function QrCameraScanner({
 
         const onDecode = (decoded: string) => {
           if (handleDecoded(decoded)) {
-            void stop();
+            void stopRef.current();
           }
         };
 
@@ -262,7 +269,6 @@ export function QrCameraScanner({
               return;
             }
             setActive(true);
-            setStarting(false);
             return;
           } catch (e) {
             lastError = e instanceof Error ? e : new Error('Kamera açılamadı');
@@ -280,17 +286,18 @@ export function QrCameraScanner({
         } catch {
           /* */
         }
-        setStarting(false);
         setViewfinderOpen(false);
 
         const msg = lastError?.message ?? 'Kamera açılamadı';
         setError(mapCameraError(msg));
       } catch (e) {
         if (cancelled) return;
-        setStarting(false);
         setViewfinderOpen(false);
         const msg = e instanceof Error ? e.message : 'Kamera açılamadı';
         setError(mapCameraError(msg));
+      } finally {
+        bootingRef.current = false;
+        if (!cancelled) setStarting(false);
       }
     };
 
@@ -298,8 +305,9 @@ export function QrCameraScanner({
 
     return () => {
       cancelled = true;
+      bootingRef.current = false;
     };
-  }, [viewfinderOpen, active, starting, regionId, handleDecoded, releaseScanner, stop]);
+  }, [viewfinderOpen, active, regionId, handleDecoded, releaseScanner]);
 
   const start = () => {
     if (disabled || starting || active) return;
@@ -402,6 +410,9 @@ export function QrCameraScanner({
             </p>
           )}
         </div>
+      )}
+      {starting && !active && !error && (
+        <p className="text-xs text-slate-500">Kamera başlatılıyor, lütfen bekleyin…</p>
       )}
       {active && (
         <p className="text-xs text-slate-500">
