@@ -7,6 +7,7 @@ export type RegistrationFormDraft = {
   last_name: string;
   email: string;
   phone: string;
+  identity_type: 'tc' | 'foreign';
   tc_kimlik: string;
   birth_date: string;
   iban: string;
@@ -25,6 +26,7 @@ const EMPTY_FORM: RegistrationFormDraft = {
   last_name: '',
   email: '',
   phone: '',
+  identity_type: 'tc',
   tc_kimlik: '',
   birth_date: '',
   iban: '',

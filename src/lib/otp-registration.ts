@@ -44,6 +44,8 @@ export async function submitRegistrationFromOtpDraft(params: {
       lastName: params.draft.lastName,
       email: params.draft.email,
       phone: params.draft.phone,
+      identityType: params.draft.identityType ?? 'tc',
+      identityNumber: params.draft.identityNumber ?? params.draft.tcKimlik,
       tcKimlik: params.draft.tcKimlik,
       birthDate: params.draft.birthDate,
       iban: params.draft.iban,

@@ -22,7 +22,8 @@ const labelClass = 'block text-sm font-medium text-gray-700 dark:text-gray-300 m
 
 function PersonnelLoginContent() {
   const searchParams = useSearchParams();
-  const [tcKimlik, setTcKimlik] = useState('');
+  const [identityType, setIdentityType] = useState<'tc' | 'foreign'>('tc');
+  const [identityNumber, setIdentityNumber] = useState('');
   const [hasPendingApplication, setHasPendingApplication] = useState(false);
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -48,11 +49,16 @@ function PersonnelLoginContent() {
   useEffect(() => {
     const fromUrl = searchParams.get('tc');
     if (fromUrl) {
-      setTcKimlik(fromUrl.replace(/\D/g, '').slice(0, 11));
+      setIdentityType('tc');
+      setIdentityNumber(fromUrl.replace(/\D/g, '').slice(0, 11));
     } else {
       const pending = loadPendingRegistration();
-      if (pending?.tcKimlik) {
-        setTcKimlik(pending.tcKimlik);
+      if (pending?.identityNumber) {
+        setIdentityType(pending.identityType === 'foreign' ? 'foreign' : 'tc');
+        setIdentityNumber(pending.identityNumber);
+      } else if (pending?.tcKimlik) {
+        setIdentityType('tc');
+        setIdentityNumber(pending.tcKimlik);
       }
     }
     setHasPendingApplication(Boolean(loadPendingRegistration()));
@@ -80,7 +86,9 @@ function PersonnelLoginContent() {
         headers: { 'Content-Type': 'application/json' },
         credentials: 'same-origin',
         body: JSON.stringify({
-          tcKimlik: tcKimlik.replace(/\D/g, ''),
+          identityType,
+          identityNumber,
+          tcKimlik: identityType === 'tc' ? identityNumber.replace(/\D/g, '') : undefined,
           password: password.trim(),
         }),
       });
@@ -102,15 +110,32 @@ function PersonnelLoginContent() {
       <form onSubmit={handleLogin} className="space-y-5" {...personnelLoginFormProps}>
         <div>
           <label htmlFor="personnel-tc" className={labelClass}>
-            T.C. Kimlik No
+            {identityType === 'tc' ? 'T.C. Kimlik No' : 'Yabancı Kimlik / Pasaport No'}
           </label>
+          <select
+            className={`${inputClass} mb-2`}
+            value={identityType}
+            onChange={(e) => {
+              setIdentityType(e.target.value as 'tc' | 'foreign');
+              setIdentityNumber('');
+            }}
+          >
+            <option value="tc">T.C. Kimlik No</option>
+            <option value="foreign">Yabancı Kimlik / Pasaport</option>
+          </select>
           <input
             id="personnel-tc"
             className={inputClass}
-            placeholder="11 haneli T.C. kimlik"
-            maxLength={11}
-            value={tcKimlik}
-            onChange={(e) => setTcKimlik(e.target.value.replace(/\D/g, '').slice(0, 11))}
+            placeholder={identityType === 'tc' ? '11 haneli T.C. kimlik' : 'Yabancı kimlik / pasaport no'}
+            maxLength={identityType === 'tc' ? 11 : 20}
+            value={identityNumber}
+            onChange={(e) =>
+              setIdentityNumber(
+                identityType === 'tc'
+                  ? e.target.value.replace(/\D/g, '').slice(0, 11)
+                  : e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 20)
+              )
+            }
             required
             data-lpignore="true"
             data-1p-ignore="true"
@@ -140,7 +165,11 @@ function PersonnelLoginContent() {
 
         <button
           type="submit"
-          disabled={isLoading || tcKimlik.length !== 11 || password.length !== PERSONNEL_PIN_LENGTH}
+          disabled={
+            isLoading ||
+            (identityType === 'tc' ? identityNumber.length !== 11 : identityNumber.trim().length < 5) ||
+            password.length !== PERSONNEL_PIN_LENGTH
+          }
           className="touch-target w-full inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 disabled:opacity-50 text-white px-6 py-3.5 rounded-xl font-semibold shadow-lg shadow-blue-500/25 transition-all"
         >
           {isLoading ? (

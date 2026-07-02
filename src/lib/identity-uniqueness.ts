@@ -1,32 +1,36 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import {
   computePhoneLookupHash,
+  hashIdentityLookup,
   hashIbanLookup,
-  hashTcKimlik,
+  type IdentityType,
   normalizeIban,
   PLACEHOLDER_IBAN,
   validateTurkishIban,
-  validateTurkishMobilePhone,
+  validateInternationalPhone,
 } from '@/lib/field-encryption';
 
 export type IdentityInput = {
   email: string;
   phone?: string | null;
-  tcKimlik: string;
+  identityType: IdentityType;
+  identityNumber: string;
+  tcKimlik?: string;
   iban: string;
   excludeEmployeeId?: string;
   excludeRegistrationId?: string;
 };
 
 export type IdentityHashes = {
-  tcLookupHash: string;
+  identityLookupHash: string;
+  tcLookupHash: string | null;
   phoneLookupHash: string | null;
   ibanLookupHash: string | null;
 };
 
 export function buildIdentityHashes(input: IdentityInput): IdentityHashes {
   const phone = input.phone?.trim() || null;
-  if (phone && !validateTurkishMobilePhone(phone)) {
+  if (phone && !validateInternationalPhone(phone)) {
     throw new Error('Geçersiz telefon numarası');
   }
 
@@ -42,7 +46,8 @@ export function buildIdentityHashes(input: IdentityInput): IdentityHashes {
   const ibanLookupHash = hashIbanLookup(normalizedIban);
 
   return {
-    tcLookupHash: hashTcKimlik(input.tcKimlik.replace(/\D/g, '')),
+    identityLookupHash: hashIdentityLookup(input.identityType, input.identityNumber),
+    tcLookupHash: input.identityType === 'tc' ? hashIdentityLookup('tc', input.identityNumber) : null,
     phoneLookupHash: phone ? computePhoneLookupHash(phone) : null,
     ibanLookupHash,
   };
@@ -64,11 +69,15 @@ async function employeeHasHash(
 
 async function sensitiveHasHash(
   admin: SupabaseClient,
-  column: 'tc_lookup_hash' | 'iban_lookup_hash',
+  column: 'identity_lookup_hash' | 'tc_lookup_hash' | 'iban_lookup_hash',
   hash: string,
-  excludeEmployeeId?: string
+  excludeEmployeeId?: string,
+  identityType?: IdentityType
 ): Promise<boolean> {
   let query = admin.from('employee_sensitive_data').select('employee_id').eq(column, hash);
+  if (identityType && column === 'identity_lookup_hash') {
+    query = query.eq('identity_type', identityType);
+  }
   if (excludeEmployeeId) {
     query = query.neq('employee_id', excludeEmployeeId);
   }
@@ -79,15 +88,16 @@ async function sensitiveHasHash(
 /** Aynı e-posta veya T.C. ile bekleyen başvuru — yeniden gönderimde güncellenir */
 export async function findPendingRegistrationIdForResubmit(
   admin: SupabaseClient,
-  input: { email: string; tcKimlik: string }
+  input: { email: string; identityType: IdentityType; identityNumber: string }
 ): Promise<string | null> {
   const email = input.email.trim().toLowerCase();
-  const tcHash = hashTcKimlik(input.tcKimlik.replace(/\D/g, ''));
+  const identityHash = hashIdentityLookup(input.identityType, input.identityNumber);
 
-  const { data: byTc } = await admin
+  const { data: byIdentity } = await admin
     .from('employee_registration_requests')
     .select('id')
-    .eq('tc_lookup_hash', tcHash)
+    .eq('identity_type', input.identityType)
+    .eq('identity_lookup_hash', identityHash)
     .eq('status', 'pending')
     .maybeSingle();
 
@@ -98,26 +108,30 @@ export async function findPendingRegistrationIdForResubmit(
     .eq('status', 'pending')
     .maybeSingle();
 
-  if (byTc && byEmail && byTc.id !== byEmail.id) {
+  if (byIdentity && byEmail && byIdentity.id !== byEmail.id) {
     throw new Error(
-      'Bu e-posta ve T.C. kimlik farklı bekleyen başvurularla eşleşiyor. Lütfen destek ile iletişime geçin.'
+      'Bu e-posta ve kimlik bilgisi farklı bekleyen başvurularla eşleşiyor. Lütfen destek ile iletişime geçin.'
     );
   }
 
-  return byTc?.id ?? byEmail?.id ?? null;
+  return byIdentity?.id ?? byEmail?.id ?? null;
 }
 
 async function pendingHasHash(
   admin: SupabaseClient,
-  column: 'tc_lookup_hash' | 'phone_lookup_hash' | 'iban_lookup_hash',
+  column: 'identity_lookup_hash' | 'tc_lookup_hash' | 'phone_lookup_hash' | 'iban_lookup_hash',
   hash: string,
-  excludeRegistrationId?: string
+  excludeRegistrationId?: string,
+  identityType?: IdentityType
 ): Promise<boolean> {
   let query = admin
     .from('employee_registration_requests')
     .select('id')
     .eq(column, hash)
     .eq('status', 'pending');
+  if (identityType && column === 'identity_lookup_hash') {
+    query = query.eq('identity_type', identityType);
+  }
   if (excludeRegistrationId) {
     query = query.neq('id', excludeRegistrationId);
   }
@@ -125,7 +139,7 @@ async function pendingHasHash(
   return Boolean(data);
 }
 
-/** E-posta, telefon, T.C. ve IBAN başka personel/başvuruda kullanılamaz */
+/** E-posta, telefon, kimlik ve IBAN başka personel/başvuruda kullanılamaz */
 export async function assertIdentityUnique(
   admin: SupabaseClient,
   input: IdentityInput
@@ -158,13 +172,33 @@ export async function assertIdentityUnique(
   }
 
   if (
-    await sensitiveHasHash(admin, 'tc_lookup_hash', hashes.tcLookupHash, input.excludeEmployeeId)
+    await sensitiveHasHash(
+      admin,
+      'identity_lookup_hash',
+      hashes.identityLookupHash,
+      input.excludeEmployeeId,
+      input.identityType
+    )
   ) {
-    throw new Error('Bu T.C. kimlik numarası ile kayıtlı personel zaten var');
-  }
-  if (await pendingHasHash(admin, 'tc_lookup_hash', hashes.tcLookupHash, input.excludeRegistrationId)) {
     throw new Error(
-      'Bu T.C. kimlik numarası ile onay bekleyen bir başvuru var. Yönetici onaylayana kadar aynı bilgilerle tekrar gönderebilirsiniz.'
+      input.identityType === 'tc'
+        ? 'Bu T.C. kimlik numarası ile kayıtlı personel zaten var'
+        : 'Bu kimlik numarası ile kayıtlı personel zaten var'
+    );
+  }
+  if (
+    await pendingHasHash(
+      admin,
+      'identity_lookup_hash',
+      hashes.identityLookupHash,
+      input.excludeRegistrationId,
+      input.identityType
+    )
+  ) {
+    throw new Error(
+      input.identityType === 'tc'
+        ? 'Bu T.C. kimlik numarası ile onay bekleyen bir başvuru var. Yönetici onaylayana kadar aynı bilgilerle tekrar gönderebilirsiniz.'
+        : 'Bu kimlik numarası ile onay bekleyen bir başvuru var. Yönetici onaylayana kadar aynı bilgilerle tekrar gönderebilirsiniz.'
     );
   }
 
@@ -234,7 +268,7 @@ export async function assertEmployeeContactUnique(
 
   if (input.phone !== undefined) {
     const phone = input.phone?.trim() || null;
-    if (phone && !validateTurkishMobilePhone(phone)) {
+    if (phone && !validateInternationalPhone(phone)) {
       throw new Error('Geçersiz telefon numarası');
     }
     const phoneLookupHash = phone ? computePhoneLookupHash(phone) : null;
@@ -276,6 +310,9 @@ export function mapIdentityUniqueViolation(message: string): string | null {
   if (lower.includes('employee_sensitive_data_tc_lookup_hash')) {
     return 'Bu T.C. kimlik numarası ile kayıtlı personel zaten var';
   }
+  if (lower.includes('employee_sensitive_data_identity_lookup_hash')) {
+    return 'Bu kimlik numarası ile kayıtlı personel zaten var';
+  }
   if (lower.includes('employee_sensitive_data_iban_lookup_hash')) {
     return 'Bu IBAN ile kayıtlı personel zaten var';
   }
@@ -284,6 +321,9 @@ export function mapIdentityUniqueViolation(message: string): string | null {
   }
   if (lower.includes('employee_registration_requests_tc_pending')) {
     return 'Bu T.C. kimlik numarası ile bekleyen başvuru zaten var';
+  }
+  if (lower.includes('employee_registration_requests_identity_pending')) {
+    return 'Bu kimlik numarası ile bekleyen başvuru zaten var';
   }
   if (lower.includes('employee_registration_requests_phone_pending')) {
     return 'Bu telefon numarası ile bekleyen başvuru zaten var';

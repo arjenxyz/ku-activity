@@ -3,10 +3,12 @@ import { createAdminClient } from '@/utils/supabase/admin';
 import {
   decryptField,
   encryptField,
+  type IdentityType,
+  normalizeIdentityNumber,
   maskIban,
   maskTcKimlik,
   normalizeIban,
-  validateTcKimlik,
+  validateIdentityNumber,
   validateTurkishIban,
   toStoredPhone,
   validateInternationalPhone,
@@ -40,6 +42,8 @@ export type RegistrationApplyInput = {
   lastName: string;
   email: string;
   phone: string;
+  identityType: IdentityType;
+  identityNumber: string;
   tcKimlik: string;
   birthDate: string;
   iban: string;
@@ -62,7 +66,8 @@ export async function submitRegistrationApplication(input: RegistrationApplyInpu
   const lastName = input.lastName.trim();
   const email = input.email.trim().toLowerCase();
   const phoneRaw = input.phone?.trim() ?? '';
-  const tc = input.tcKimlik.replace(/\D/g, '');
+  const identityType = (input.identityType ?? 'tc') as IdentityType;
+  const identityNumber = normalizeIdentityNumber(identityType, input.identityNumber || input.tcKimlik || '');
   const birthDate = input.birthDate;
   const iban = normalizeIban(input.iban);
 
@@ -72,8 +77,12 @@ export async function submitRegistrationApplication(input: RegistrationApplyInpu
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     throw new Error('Geçerli bir e-posta girin');
   }
-  if (!validateTcKimlik(tc)) {
-    throw new Error('Geçersiz T.C. kimlik numarası');
+  if (!validateIdentityNumber(identityType, identityNumber)) {
+    throw new Error(
+      identityType === 'tc'
+        ? 'Geçersiz T.C. kimlik numarası'
+        : 'Geçersiz yabancı kimlik / pasaport numarası'
+    );
   }
   if (!birthDate) {
     throw new Error('Doğum tarihi zorunludur');
@@ -103,7 +112,8 @@ export async function submitRegistrationApplication(input: RegistrationApplyInpu
 
   const existingPendingId = await findPendingRegistrationIdForResubmit(admin, {
     email,
-    tcKimlik: tc,
+    identityType,
+    identityNumber,
   });
 
   if (existingPendingId) {
@@ -117,7 +127,9 @@ export async function submitRegistrationApplication(input: RegistrationApplyInpu
       const hashes = await assertIdentityUnique(admin, {
         email,
         phone,
-        tcKimlik: tc,
+        identityType,
+        identityNumber,
+        tcKimlik: identityType === 'tc' ? identityNumber : '',
         iban,
         excludeRegistrationId: pending.id,
       });
@@ -127,13 +139,16 @@ export async function submitRegistrationApplication(input: RegistrationApplyInpu
         .update({
           pin_hash: pinFields.pin_hash,
           pin_encrypted: pinFields.pin_encrypted,
+          identity_type: identityType,
+          identity_number_enc: encryptField(identityNumber),
+          identity_lookup_hash: hashes.identityLookupHash,
           tc_lookup_hash: hashes.tcLookupHash,
           phone_lookup_hash: hashes.phoneLookupHash,
           iban_lookup_hash: hashes.ibanLookupHash,
           first_name: firstName,
           last_name: lastName,
           phone,
-          tc_kimlik_enc: encryptField(tc),
+          tc_kimlik_enc: identityType === 'tc' ? encryptField(identityNumber) : null,
           birth_date_enc: encryptField(birthDate),
           iban_enc: encryptField(iban),
         })
@@ -151,7 +166,9 @@ export async function submitRegistrationApplication(input: RegistrationApplyInpu
   const hashes = await assertIdentityUnique(admin, {
     email,
     phone,
-    tcKimlik: tc,
+    identityType,
+    identityNumber,
+    tcKimlik: identityType === 'tc' ? identityNumber : '',
     iban,
   });
 
@@ -165,9 +182,12 @@ export async function submitRegistrationApplication(input: RegistrationApplyInpu
         last_name: lastName,
         email,
         phone,
-        tc_kimlik_enc: encryptField(tc),
+        tc_kimlik_enc: identityType === 'tc' ? encryptField(identityNumber) : null,
         birth_date_enc: encryptField(birthDate),
         iban_enc: encryptField(iban),
+        identity_type: identityType,
+        identity_number_enc: encryptField(identityNumber),
+        identity_lookup_hash: hashes.identityLookupHash,
         pin_hash: pinFields.pin_hash,
         pin_encrypted: pinFields.pin_encrypted,
         tc_lookup_hash: hashes.tcLookupHash,
@@ -245,7 +265,13 @@ export async function getRegistrationForAdmin(code: string) {
 
   if (error || !data) return null;
 
-  const tc = decryptField(data.tc_kimlik_enc);
+  const identityType = (data.identity_type as IdentityType | null) ?? 'tc';
+  const identityPlain = data.identity_number_enc
+    ? decryptField(data.identity_number_enc)
+    : data.tc_kimlik_enc
+      ? decryptField(data.tc_kimlik_enc)
+      : '';
+  const tc = identityType === 'tc' ? identityPlain : '';
   const birthDate = decryptField(data.birth_date_enc);
   const iban = decryptField(data.iban_enc);
 
@@ -264,8 +290,10 @@ export async function getRegistrationForAdmin(code: string) {
     rejectedReason: data.rejected_reason,
     photoUrl: data.photo_path ? await signedRegistrationPhotoUrl(data.photo_path) : null,
     sensitive: {
+      identityType,
+      identityNumber: identityPlain,
       tcKimlik: tc,
-      tcKimlikMasked: maskTcKimlik(tc),
+      tcKimlikMasked: tc ? maskTcKimlik(tc) : identityPlain,
       birthDate,
       iban,
       ibanMasked: maskIban(iban),
@@ -357,12 +385,20 @@ export async function approveRegistration(input: ApproveRegistrationInput) {
     throw new Error('Başvuruda giriş şifresi (PIN) tanımlı değil. Personelin başvuruyu yenilemesi gerekir.');
   }
 
-  const tcPlain = decryptField(req.tc_kimlik_enc);
+  const identityType = ((req.identity_type as IdentityType | null) ?? 'tc') as IdentityType;
+  const identityPlain = req.identity_number_enc
+    ? decryptField(req.identity_number_enc)
+    : req.tc_kimlik_enc
+      ? decryptField(req.tc_kimlik_enc)
+      : '';
+  const tcPlain = identityType === 'tc' ? identityPlain : '';
   const ibanPlain = decryptField(req.iban_enc);
 
   const hashes = await assertIdentityUnique(admin, {
     email: req.email,
     phone: req.phone,
+    identityType,
+    identityNumber: identityPlain,
     tcKimlik: tcPlain,
     iban: ibanPlain,
     excludeRegistrationId: req.id,
@@ -398,6 +434,9 @@ export async function approveRegistration(input: ApproveRegistrationInput) {
     tc_kimlik_enc: req.tc_kimlik_enc,
     birth_date_enc: req.birth_date_enc,
     iban_enc: req.iban_enc,
+    identity_type: identityType,
+    identity_number_enc: req.identity_number_enc ?? req.tc_kimlik_enc,
+    identity_lookup_hash: hashes.identityLookupHash,
     tc_lookup_hash: hashes.tcLookupHash,
     iban_lookup_hash: hashes.ibanLookupHash,
   });

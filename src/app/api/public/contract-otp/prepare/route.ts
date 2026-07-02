@@ -21,23 +21,21 @@ export async function POST(request: Request) {
     const photo = formData.get('photo');
     const acceptances = parseAcceptances(formData.get('contractAcceptances'));
 
-    if (!(photo instanceof File) || photo.size === 0) {
-      return NextResponse.json({ error: 'Fotoğraf gerekli' }, { status: 400 });
-    }
-
     const result = await prepareContractOtpRegistration({
       draft: {
         firstName: String(formData.get('firstName') ?? ''),
         lastName: String(formData.get('lastName') ?? ''),
         email: String(formData.get('email') ?? ''),
         phone: String(formData.get('phone') ?? ''),
+        identityType: (String(formData.get('identityType') ?? 'tc') as 'tc' | 'foreign'),
+        identityNumber: String(formData.get('identityNumber') ?? ''),
         tcKimlik: String(formData.get('tcKimlik') ?? ''),
         birthDate: String(formData.get('birthDate') ?? ''),
         iban: String(formData.get('iban') ?? ''),
         pin: String(formData.get('pin') ?? ''),
         contractAcceptances: acceptances,
       },
-      photo,
+      photo: photo instanceof File && photo.size > 0 ? photo : null,
       userAgent: request.headers.get('user-agent'),
     });
 

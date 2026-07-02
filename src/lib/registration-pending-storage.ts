@@ -5,6 +5,8 @@ export type PendingRegistration = {
   approvalUrl: string;
   reused?: boolean;
   tcKimlik?: string;
+  identityType?: 'tc' | 'foreign';
+  identityNumber?: string;
 };
 
 export function savePendingRegistration(data: PendingRegistration) {

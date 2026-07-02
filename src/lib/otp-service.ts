@@ -90,7 +90,7 @@ async function rollbackOtpChallenge(challengeId: string, draftPhotoPath: string 
 
 export async function prepareContractOtpRegistration(params: {
   draft: OtpRegistrationDraft;
-  photo: File;
+  photo: File | null;
   userAgent?: string | null;
 }): Promise<{ maskedDestination: string; expiresInMinutes: number; resumingPending?: boolean }> {
   const email = normalizeEmail(params.draft.email);
@@ -111,6 +111,7 @@ export async function prepareContractOtpRegistration(params: {
     lastName: params.draft.lastName,
     email: params.draft.email,
     phone: params.draft.phone ?? '',
+    identityType: params.draft.identityType ?? 'tc',
     tcKimlik: params.draft.tcKimlik,
     birthDate: params.draft.birthDate,
     iban: params.draft.iban,
@@ -123,12 +124,15 @@ export async function prepareContractOtpRegistration(params: {
   const admin = createAdminClient();
   const pendingRegistrationId = await findPendingRegistrationIdForResubmit(admin, {
     email: params.draft.email,
-    tcKimlik: params.draft.tcKimlik,
+    identityType: params.draft.identityType ?? 'tc',
+    identityNumber: params.draft.identityNumber ?? params.draft.tcKimlik,
   });
 
   await assertIdentityUnique(admin, {
     email: params.draft.email,
     phone: params.draft.phone,
+    identityType: params.draft.identityType ?? 'tc',
+    identityNumber: params.draft.identityNumber ?? params.draft.tcKimlik,
     tcKimlik: params.draft.tcKimlik,
     iban: params.draft.iban,
     excludeRegistrationId: pendingRegistrationId ?? undefined,
@@ -152,7 +156,7 @@ export async function prepareContractOtpRegistration(params: {
   const challengeId = crypto.randomUUID();
   const expiresAt = new Date(Date.now() + OTP_TTL_MINUTES * 60 * 1000).toISOString();
 
-  const draftPhotoPath = await uploadOtpDraftPhoto(challengeId, params.photo);
+  const draftPhotoPath = params.photo ? await uploadOtpDraftPhoto(challengeId, params.photo) : null;
 
   const { error: insertError } = await admin.from('contract_otp_challenges').insert({
     id: challengeId,
@@ -167,6 +171,8 @@ export async function prepareContractOtpRegistration(params: {
       lastName: params.draft.lastName,
       email: params.draft.email,
       phone: params.draft.phone,
+      identityType: params.draft.identityType ?? 'tc',
+      identityNumber: params.draft.identityNumber ?? params.draft.tcKimlik,
       tcKimlik: params.draft.tcKimlik,
       birthDate: params.draft.birthDate,
       iban: params.draft.iban,

@@ -67,6 +67,37 @@ export function validateTcKimlik(tc: string): boolean {
   return d11 === digits[10];
 }
 
+export type IdentityType = 'tc' | 'foreign';
+
+export function normalizeIdentityNumber(identityType: IdentityType, value: string): string {
+  if (identityType === 'tc') {
+    return value.replace(/\D/g, '');
+  }
+  return value.trim().toUpperCase();
+}
+
+export function validateIdentityNumber(identityType: IdentityType, value: string): boolean {
+  if (identityType === 'tc') {
+    return validateTcKimlik(value);
+  }
+  const normalized = normalizeIdentityNumber(identityType, value);
+  return /^[A-Z0-9]{5,20}$/.test(normalized);
+}
+
+export function hashIdentityLookup(identityType: IdentityType, identityNumber: string): string {
+  const normalized = normalizeIdentityNumber(identityType, identityNumber);
+  if (!validateIdentityNumber(identityType, normalized)) {
+    throw new Error('Geçersiz kimlik numarası');
+  }
+  const secret = process.env.FIELD_ENCRYPTION_KEY;
+  if (!secret || secret.length < 16) {
+    throw new Error('FIELD_ENCRYPTION_KEY eksik veya çok kısa (.env)');
+  }
+  return createHmac('sha256', secret)
+    .update(`identity-lookup-v1:${identityType}:${normalized}`)
+    .digest('hex');
+}
+
 export const PLACEHOLDER_IBAN = 'TR000000000000000000000000';
 
 export function normalizeIban(iban: string) {

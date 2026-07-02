@@ -1,5 +1,10 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { decryptField, hashTcKimlik } from '@/lib/field-encryption';
+import {
+  decryptField,
+  hashIdentityLookup,
+  normalizeIdentityNumber,
+  type IdentityType,
+} from '@/lib/field-encryption';
 
 export type LoginEmployee = {
   id: string;
@@ -59,27 +64,46 @@ async function findEmployeeByDecryptedTc(
   return null;
 }
 
-export async function findEmployeeForTcLogin(
+export async function findEmployeeForIdentityLogin(
   admin: SupabaseClient,
-  tc: string
+  identityType: IdentityType,
+  identityNumber: string
 ): Promise<LoginEmployee | null> {
-  const tcLookupHash = hashTcKimlik(tc);
+  const normalized = normalizeIdentityNumber(identityType, identityNumber);
+  const identityLookupHash = hashIdentityLookup(identityType, normalized);
+  const tcLookupHash = identityType === 'tc' ? identityLookupHash : null;
 
-  const { data: rpcRows, error: rpcError } = await admin.rpc('get_employee_for_login_by_tc', {
-    p_tc_lookup_hash: tcLookupHash,
-  });
+  const { data: byIdentityRows, error: byIdentityError } = await admin.rpc(
+    'get_employee_for_login_by_identity',
+    {
+      p_identity_type: identityType,
+      p_identity_lookup_hash: identityLookupHash,
+    }
+  );
 
-  if (!rpcError) {
-    const rows = normalizeRpcRows(rpcRows);
+  if (!byIdentityError) {
+    const rows = normalizeRpcRows(byIdentityRows);
     if (rows.length > 0) return rows[0] as LoginEmployee;
-  } else {
-    console.warn('get_employee_for_login_by_tc RPC:', rpcError.message);
+  }
+
+  if (tcLookupHash) {
+    const { data: rpcRows, error: rpcError } = await admin.rpc('get_employee_for_login_by_tc', {
+      p_tc_lookup_hash: tcLookupHash,
+    });
+
+    if (!rpcError) {
+      const rows = normalizeRpcRows(rpcRows);
+      if (rows.length > 0) return rows[0] as LoginEmployee;
+    } else {
+      console.warn('get_employee_for_login_by_tc RPC:', rpcError.message);
+    }
   }
 
   const { data: sensitive } = await admin
     .from('employee_sensitive_data')
     .select('employee_id')
-    .eq('tc_lookup_hash', tcLookupHash)
+    .eq('identity_type', identityType)
+    .eq('identity_lookup_hash', identityLookupHash)
     .maybeSingle();
 
   if (sensitive?.employee_id) {
@@ -87,5 +111,8 @@ export async function findEmployeeForTcLogin(
     if (employee) return employee;
   }
 
-  return findEmployeeByDecryptedTc(admin, tc, tcLookupHash);
+  if (tcLookupHash) {
+    return findEmployeeByDecryptedTc(admin, normalized, tcLookupHash);
+  }
+  return null;
 }

@@ -38,6 +38,8 @@ type Registration = {
   expiresAt: string;
   photoUrl?: string | null;
   sensitive: {
+    identityType?: 'tc' | 'foreign';
+    identityNumber?: string;
     tcKimlikMasked: string;
     birthDate: string;
     ibanMasked: string;
@@ -275,10 +277,18 @@ export function AdminBasvuruOnayPanel({ projectId }: Props) {
               </p>
               <div className="grid grid-cols-1 gap-2 rounded-xl bg-slate-50 border border-slate-200 p-3">
                 <p className="break-all">
-                  <span className="text-slate-500">T.C.: </span>
-                  {showSensitive
-                    ? registration.sensitive.tcKimlik
-                    : registration.sensitive.tcKimlikMasked}
+                  <span className="text-slate-500">
+                    {registration.sensitive.identityType === 'foreign'
+                      ? 'Yabancı Kimlik / Pasaport: '
+                      : 'T.C.: '}
+                  </span>
+                  {registration.sensitive.identityType === 'foreign'
+                    ? showSensitive
+                      ? registration.sensitive.identityNumber
+                      : registration.sensitive.identityNumber
+                    : showSensitive
+                      ? registration.sensitive.tcKimlik
+                      : registration.sensitive.tcKimlikMasked}
                 </p>
                 <p>
                   <span className="text-slate-500">Doğum: </span>
@@ -318,7 +328,7 @@ export function AdminBasvuruOnayPanel({ projectId }: Props) {
                 <p className="font-medium">Onay bilgileri</p>
                 <p className="text-xs mt-1 leading-relaxed opacity-90">
                   Personel <strong>{projectName ?? 'seçili proje'}</strong> altına eklenecek. Giriş:
-                  T.C. kimlik + başvuruda belirlediği PIN.
+                  kimlik numarası + başvuruda belirlediği PIN.
                 </p>
               </div>
 

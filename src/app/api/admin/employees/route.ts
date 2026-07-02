@@ -89,6 +89,8 @@ export async function POST(request: Request) {
     const hashes = await assertIdentityUnique(admin, {
       email: normalizedEmail,
       phone: phone || null,
+      identityType: 'tc',
+      identityNumber: tc,
       tcKimlik: tc,
       iban: resolvedIban,
     });
@@ -121,6 +123,9 @@ export async function POST(request: Request) {
 
     const { error: sensError } = await admin.from('employee_sensitive_data').insert({
       employee_id: data.id,
+      identity_type: 'tc',
+      identity_number_enc: encryptField(tc),
+      identity_lookup_hash: hashes.identityLookupHash,
       tc_kimlik_enc: encryptField(tc),
       birth_date_enc: encryptField(resolvedBirthDate),
       iban_enc: encryptField(resolvedIban),

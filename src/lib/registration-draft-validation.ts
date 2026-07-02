@@ -3,8 +3,10 @@ import {
   constructionAgeErrorMessage,
 } from '@/lib/age-validation';
 import {
+  type IdentityType,
+  normalizeIdentityNumber,
   normalizeIban,
-  validateTcKimlik,
+  validateIdentityNumber,
   validateTurkishIban,
   validateInternationalPhone,
 } from '@/lib/field-encryption';
@@ -15,6 +17,7 @@ export type RegistrationDraftFields = {
   lastName: string;
   email: string;
   phone: string;
+  identityType: IdentityType;
   tcKimlik: string;
   birthDate: string;
   iban: string;
@@ -27,7 +30,7 @@ export function validateRegistrationDraft(input: RegistrationDraftFields): strin
   const lastName = input.lastName.trim();
   const email = input.email.trim().toLowerCase();
   const phone = input.phone.trim();
-  const tc = input.tcKimlik.replace(/\D/g, '');
+  const identityNumber = normalizeIdentityNumber(input.identityType, input.tcKimlik);
   const iban = normalizeIban(input.iban);
 
   if (!firstName || !lastName) {
@@ -45,8 +48,10 @@ export function validateRegistrationDraft(input: RegistrationDraftFields): strin
   if (!validateInternationalPhone(phone)) {
     return 'Geçerli bir telefon numarası girin (ülke kodu dahil).';
   }
-  if (!tc || !validateTcKimlik(tc)) {
-    return 'Geçerli bir T.C. kimlik numarası girin.';
+  if (!identityNumber || !validateIdentityNumber(input.identityType, identityNumber)) {
+    return input.identityType === 'tc'
+      ? 'Geçerli bir T.C. kimlik numarası girin.'
+      : 'Geçerli bir yabancı kimlik / pasaport numarası girin.';
   }
   if (!input.birthDate) {
     return 'Doğum tarihi zorunludur.';

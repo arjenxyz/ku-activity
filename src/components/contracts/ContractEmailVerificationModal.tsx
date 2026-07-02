@@ -223,6 +223,8 @@ export function ContractEmailVerificationModal({
         approvalUrl: data.approvalUrl,
         reused: data.reused,
         tcKimlik: String(formData.get('tcKimlik') ?? ''),
+        identityType: (String(formData.get('identityType') ?? 'tc') as 'tc' | 'foreign'),
+        identityNumber: String(formData.get('identityNumber') ?? ''),
       });
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Doğrulama başarısız');

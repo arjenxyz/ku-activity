@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import { createAdminClient } from '@/utils/supabase/admin';
-import { validateTcKimlik } from '@/lib/field-encryption';
-import { findEmployeeForTcLogin } from '@/lib/personnel-login';
+import { validateIdentityNumber } from '@/lib/field-encryption';
+import { findEmployeeForIdentityLogin } from '@/lib/personnel-login';
 import { validatePersonnelPin } from '@/lib/personnel-pin';
 import {
   generateSessionToken,
@@ -15,24 +15,27 @@ import {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { tcKimlik, password } = body as {
+    const { identityType, identityNumber, tcKimlik, password } = body as {
+      identityType?: 'tc' | 'foreign';
+      identityNumber?: string;
       tcKimlik?: string;
       password?: string;
     };
 
-    const tc = (tcKimlik ?? '').replace(/\D/g, '');
+    const normalizedType = identityType === 'foreign' ? 'foreign' : 'tc';
+    const loginIdentity = (identityNumber ?? tcKimlik ?? '').trim();
 
-    if (!tc || !password || typeof password !== 'string') {
-      return NextResponse.json({ error: 'T.C. kimlik ve şifre gerekli' }, { status: 400 });
+    if (!loginIdentity || !password || typeof password !== 'string') {
+      return NextResponse.json({ error: 'Kimlik numarası ve şifre gerekli' }, { status: 400 });
     }
 
-    if (!validateTcKimlik(tc)) {
-      return NextResponse.json({ error: 'Geçersiz T.C. kimlik veya şifre' }, { status: 401 });
+    if (!validateIdentityNumber(normalizedType, loginIdentity)) {
+      return NextResponse.json({ error: 'Geçersiz kimlik numarası veya şifre' }, { status: 401 });
     }
 
     const pinError = validatePersonnelPin(password);
     if (pinError) {
-      return NextResponse.json({ error: 'Geçersiz T.C. kimlik veya şifre' }, { status: 401 });
+      return NextResponse.json({ error: 'Geçersiz kimlik numarası veya şifre' }, { status: 401 });
     }
 
     if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
@@ -53,10 +56,10 @@ export async function POST(request: Request) {
     }
 
     const admin = createAdminClient();
-    const employee = await findEmployeeForTcLogin(admin, tc);
+    const employee = await findEmployeeForIdentityLogin(admin, normalizedType, loginIdentity);
 
     if (!employee) {
-      return NextResponse.json({ error: 'Geçersiz T.C. kimlik veya şifre' }, { status: 401 });
+      return NextResponse.json({ error: 'Geçersiz kimlik numarası veya şifre' }, { status: 401 });
     }
 
     if (!employee.is_active) {
@@ -86,7 +89,7 @@ export async function POST(request: Request) {
     }
 
     if (!valid) {
-      return NextResponse.json({ error: 'Geçersiz T.C. kimlik veya şifre' }, { status: 401 });
+      return NextResponse.json({ error: 'Geçersiz kimlik numarası veya şifre' }, { status: 401 });
     }
 
     const token = generateSessionToken();
