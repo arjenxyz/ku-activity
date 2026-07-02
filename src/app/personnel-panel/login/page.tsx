@@ -3,12 +3,12 @@
 import { Suspense, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { loadPendingRegistration } from '@/lib/registration-pending-storage';
 import {
-  hasActivePersonnelSession,
-  redirectToPendingApplication,
-  redirectToPersonnelPanel,
-} from '@/lib/personnel-session-check';
+  loadPendingRegistration,
+  savePendingRegistration,
+  type PendingRegistration,
+} from '@/lib/registration-pending-storage';
+import { hasActivePersonnelSession, redirectToPersonnelPanel } from '@/lib/personnel-session-check';
 import { FiLock } from 'react-icons/fi';
 import { PersonnelLoginLayout } from '@/components/personnel/PersonnelLoginLayout';
 import { AuthAlert, LoadingSpinner } from '@/components/auth/AuthAlerts';
@@ -41,25 +41,6 @@ function PersonnelLoginContent() {
       if (active) {
         redirectToPersonnelPanel();
         return;
-      }
-
-      const pending = loadPendingRegistration();
-      if (pending) {
-        try {
-          const res = await fetch(
-            `/api/public/personnel-registration/status?kod=${encodeURIComponent(pending.verificationCode)}`
-          );
-          if (cancelled) return;
-          if (res.ok) {
-            const data = (await res.json()) as { status?: string };
-            if (data.status === 'pending') {
-              redirectToPendingApplication();
-              return;
-            }
-          }
-        } catch {
-          /* giriş ekranına devam */
-        }
       }
 
       setCheckingSession(false);
@@ -119,6 +100,20 @@ function PersonnelLoginContent() {
         setError(data.error || `Giriş başarısız (${res.status})`);
         return;
       }
+
+      if (data.pending) {
+        const pending: PendingRegistration = {
+          verificationCode: data.verificationCode,
+          approvalUrl: data.approvalUrl,
+          identityType: data.identityType,
+          identityNumber: data.identityNumber,
+          tcKimlik: data.tcKimlik,
+        };
+        savePendingRegistration(pending);
+        window.location.assign('/personnel-panel/basvuru');
+        return;
+      }
+
       window.location.assign('/personnel-panel');
     } catch {
       setError('Sistem hatası — lütfen tekrar deneyin');
@@ -128,7 +123,9 @@ function PersonnelLoginContent() {
   };
 
   return (
-    <PersonnelLoginLayout>
+    <PersonnelLoginLayout
+      subtitle="Kimlik numaranız ve PIN ile giriş yapın. Onay bekleyen başvurular da aynı bilgilerle durum ekranına yönlendirilir."
+    >
       <form onSubmit={handleLogin} className="space-y-5" {...personnelLoginFormProps}>
         <div>
           <label htmlFor="personnel-tc" className={labelClass}>

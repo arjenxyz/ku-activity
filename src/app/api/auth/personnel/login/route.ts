@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs';
 import { createAdminClient } from '@/utils/supabase/admin';
 import { validateIdentityNumber } from '@/lib/field-encryption';
 import { findEmployeeForIdentityLogin } from '@/lib/personnel-login';
-import { hasPendingRegistrationForIdentity } from '@/lib/registration-service';
+import { verifyPendingRegistrationAccess } from '@/lib/registration-service';
 import { validatePersonnelPin } from '@/lib/personnel-pin';
 import {
   generateSessionToken,
@@ -58,20 +58,33 @@ export async function POST(request: Request) {
 
     const admin = createAdminClient();
 
-    const pending = await hasPendingRegistrationForIdentity(normalizedType, loginIdentity);
-    if (pending) {
-      return NextResponse.json(
-        {
-          error:
-            'Başvurunuz henüz onaylanmadı. Başvuru ekranından kimlik ve PIN ile durumunuzu görüntüleyin.',
-        },
-        { status: 403 }
-      );
-    }
-
     const employee = await findEmployeeForIdentityLogin(admin, normalizedType, loginIdentity);
 
     if (!employee) {
+      const pendingAccess = await verifyPendingRegistrationAccess({
+        identityType: normalizedType,
+        identityNumber: loginIdentity,
+        pin: password,
+      });
+
+      if (pendingAccess === 'expired') {
+        return NextResponse.json(
+          { error: 'Başvuru süresi dolmuş. Yeni başvuru yapabilirsiniz.' },
+          { status: 410 }
+        );
+      }
+
+      if (pendingAccess) {
+        return NextResponse.json({
+          pending: true,
+          verificationCode: pendingAccess.verificationCode,
+          approvalUrl: pendingAccess.approvalUrl,
+          identityType: pendingAccess.identityType,
+          identityNumber: pendingAccess.identityNumber,
+          tcKimlik: pendingAccess.tcKimlik,
+        });
+      }
+
       return NextResponse.json({ error: 'Geçersiz kimlik numarası veya şifre' }, { status: 401 });
     }
 

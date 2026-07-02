@@ -99,11 +99,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/personnel-panel', request.url));
   }
 
-  if (
-    !hasPersonnelCookie &&
-    hasPendingApplicationCookie &&
-    (pathname === PERSONNEL_LOGIN || isPersonnelRoute)
-  ) {
+  if (!hasPersonnelCookie && hasPendingApplicationCookie && isPersonnelRoute) {
     return NextResponse.redirect(new URL(PERSONNEL_BASVURU, request.url));
   }
 

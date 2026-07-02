@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { ContractAcceptanceBlock } from '@/components/contracts/ContractAcceptanceBlock';
 import { ContractEmailVerificationModal } from '@/components/contracts/ContractEmailVerificationModal';
 import { PersonnelLoginLayout } from '@/components/personnel/PersonnelLoginLayout';
-import { PendingApplicationAccessForm } from '@/components/personnel/PendingApplicationAccessForm';
 import { PendingApplicationWaitingScreen } from '@/components/personnel/PendingApplicationWaitingScreen';
 import { AuthAlert } from '@/components/auth/AuthAlerts';
 import { BirthDatePicker } from '@/components/forms/BirthDatePicker';
@@ -305,17 +304,9 @@ export default function PersonnelApplicationPage() {
     setInitialContractAcceptances(undefined);
   };
 
-  const handlePendingAccess = (pending: PendingRegistration) => {
-    setError('');
-    setResult(pending);
-    setStatus('pending');
-  };
-
   const handlePendingSignOut = () => {
     clearPendingRegistration();
-    setResult(null);
-    setStatus(null);
-    setError('');
+    window.location.assign('/personnel-panel/login');
   };
 
   const startNewApplication = () => {
@@ -429,8 +420,6 @@ export default function PersonnelApplicationPage() {
       subtitle="Bilgilerinizi girin; yönetici onayından sonra sisteme alınacaksınız."
     >
       {error && <AuthAlert type="error" message={error} />}
-
-      <PendingApplicationAccessForm onSuccess={handlePendingAccess} />
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-3 gap-2">
