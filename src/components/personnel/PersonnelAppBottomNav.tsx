@@ -1,272 +1,134 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { Suspense, useEffect, useState, type ReactNode } from 'react';
-import { FiChevronRight, FiX } from 'react-icons/fi';
-import { BrandMark } from '@/components/brand/BrandMark';
-import {
-  PERSONNEL_MORE_ITEMS,
-  PERSONNEL_NAV_ACCENTS,
-  type PersonnelMainNavAccent,
-  type PersonnelMoreAccent,
-} from '@/config/personnel-mobile-nav';
+import { usePathname, useSearchParams } from 'next/navigation';
+import { Suspense, useState } from 'react';
+import { NavIconHome, NavIconQr } from '@/components/personnel/PersonnelNavIcons';
+import { PersonnelNavHub } from '@/components/personnel/PersonnelNavHub';
+import { PERSONNEL_HUB_TABS } from '@/config/personnel-mobile-nav';
 import type { PersonnelTabId } from '@/hooks/usePersonnelTab';
 import { PERSONNEL_TABS } from '@/hooks/usePersonnelTab';
-import {
-  NavIconAsgari,
-  NavIconFinance,
-  NavIconHome,
-  NavIconMenu,
-  NavIconMesai,
-  NavIconQr,
-  NavIconRights,
-  NavIconSettings,
-  NavIconWork,
-} from '@/components/personnel/PersonnelNavIcons';
-
-const MORE_TABS: PersonnelTabId[] = ['mesai', 'asgari', 'rights', 'settings'];
 
 function isValidTab(value: string | null): value is PersonnelTabId {
   return PERSONNEL_TABS.includes(value as PersonnelTabId);
 }
 
-function moreIcon(tab: (typeof PERSONNEL_MORE_ITEMS)[number]['tab']) {
-  switch (tab) {
-    case 'mesai':
-      return NavIconMesai;
-    case 'asgari':
-      return NavIconAsgari;
-    case 'rights':
-      return NavIconRights;
-    case 'settings':
-      return NavIconSettings;
-  }
-}
-
-type NavItemProps = {
-  href?: string;
-  onClick?: () => void;
-  active: boolean;
-  label: string;
-  accent: PersonnelMainNavAccent;
-  icon: ReactNode;
-  className?: string;
-};
-
-function NavItem({ href, onClick, active, label, accent, icon, className = '' }: NavItemProps) {
-  const styles = PERSONNEL_NAV_ACCENTS[accent];
-  const inner = (
-    <>
-      <span
-        className={`flex h-9 w-9 items-center justify-center rounded-xl transition-all duration-200 ${
-          active ? styles.active : styles.idle
-        }`}
-      >
-        {icon}
-      </span>
-      <span
-        className={`mt-1 text-[10px] font-semibold leading-none ${
-          active ? styles.text : 'text-slate-500 dark:text-slate-400'
-        }`}
-      >
-        {label}
-      </span>
-    </>
-  );
-
-  const baseClass = `flex flex-1 flex-col items-center justify-center py-1.5 min-h-[56px] touch-target transition-transform active:scale-95 ${className}`;
-
-  if (href) {
-    return (
-      <Link href={href} className={baseClass} aria-current={active ? 'page' : undefined}>
-        {inner}
-      </Link>
-    );
-  }
-
+function NavIconPanel({ className = 'w-5 h-5' }: { className?: string }) {
   return (
-    <button type="button" onClick={onClick} className={baseClass}>
-      {inner}
-    </button>
+    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden>
+      <rect x="3" y="3" width="8" height="8" rx="2" stroke="currentColor" strokeWidth="1.75" />
+      <rect x="13" y="3" width="8" height="5" rx="2" stroke="currentColor" strokeWidth="1.75" />
+      <rect x="13" y="10" width="8" height="11" rx="2" stroke="currentColor" strokeWidth="1.75" />
+      <rect x="3" y="13" width="8" height="8" rx="2" stroke="currentColor" strokeWidth="1.75" />
+    </svg>
   );
 }
 
 function NavInner() {
   const pathname = usePathname() ?? '';
-  const router = useRouter();
   const searchParams = useSearchParams();
   const tabParam = searchParams.get('tab');
   const tab = isValidTab(tabParam) ? tabParam : 'overview';
-  const [moreOpen, setMoreOpen] = useState(false);
-
-  useEffect(() => {
-    setMoreOpen(false);
-  }, [pathname, tabParam]);
-
-  useEffect(() => {
-    if (!moreOpen) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setMoreOpen(false);
-    };
-    document.body.style.overflow = 'hidden';
-    window.addEventListener('keydown', onKey);
-    return () => {
-      document.body.style.overflow = '';
-      window.removeEventListener('keydown', onKey);
-    };
-  }, [moreOpen]);
+  const [hubOpen, setHubOpen] = useState(false);
 
   const isHome = pathname === '/personnel-panel' && tab === 'overview';
-  const isWork = pathname === '/personnel-panel' && tab === 'work';
-  const isFinance = pathname === '/personnel-panel' && tab === 'finance';
   const isYoklama = pathname.startsWith('/personnel-panel/yoklama');
-  const isMore = pathname === '/personnel-panel' && MORE_TABS.includes(tab);
-
-  const goTab = (id: PersonnelTabId) => {
-    router.push(`/personnel-panel?tab=${id}`, { scroll: false });
-    setMoreOpen(false);
-  };
+  const isPanelSection =
+    isYoklama || (pathname === '/personnel-panel' && PERSONNEL_HUB_TABS.includes(tab));
 
   return (
     <>
       <nav
         className="fixed bottom-0 inset-x-0 z-50 sm:hidden pointer-events-none"
-        aria-label="Personel uygulama menüsü"
+        aria-label="Personel navigasyon"
       >
-        <div className="mx-auto max-w-lg px-4 pb-[max(0.625rem,env(safe-area-inset-bottom))] pointer-events-auto">
-          <div className="relative rounded-[1.35rem] border border-slate-200/90 bg-white/95 px-2 pt-2 pb-1.5 shadow-[0_8px_32px_rgba(15,23,42,0.12)] backdrop-blur-xl dark:border-slate-700/90 dark:bg-slate-900/95">
-            <div className="flex items-end justify-between gap-0.5">
-              <NavItem
+        <div className="mx-auto max-w-lg px-5 pb-[max(0.75rem,env(safe-area-inset-bottom))] pointer-events-auto">
+          {/* Marka dock — selamlama kartı ile aynı dil */}
+          <div className="relative overflow-hidden rounded-[1.25rem] shadow-xl shadow-blue-950/30">
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-800 via-blue-900 to-indigo-950" />
+            <div
+              className="absolute inset-0 opacity-[0.08]"
+              style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='1' fill-rule='evenodd'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E")`,
+              }}
+            />
+
+            <div className="relative flex items-stretch h-[4.25rem]">
+              {/* Özet */}
+              <Link
                 href="/personnel-panel"
-                active={isHome}
-                label="Ana Sayfa"
-                accent="home"
-                icon={<NavIconHome />}
-              />
+                className={`relative flex flex-1 flex-col items-center justify-center gap-1 touch-target transition-colors ${
+                  isHome ? 'text-white' : 'text-blue-200/70 hover:text-white'
+                }`}
+                aria-current={isHome ? 'page' : undefined}
+              >
+                <span
+                  className={`flex h-9 w-9 items-center justify-center rounded-xl transition-all ${
+                    isHome ? 'bg-white/20 text-white' : 'text-blue-100'
+                  }`}
+                >
+                  <NavIconHome />
+                </span>
+                <span className="text-[10px] font-semibold">Özet</span>
+                {isHome && (
+                  <span className="absolute bottom-2 h-0.5 w-5 rounded-full bg-white/90" />
+                )}
+              </Link>
 
-              <NavItem
-                href="/personnel-panel?tab=work"
-                active={isWork}
-                label="Yevmiye"
-                accent="work"
-                icon={<NavIconWork />}
-              />
-
+              {/* QR — orta aksiyon */}
               <Link
                 href="/personnel-panel/yoklama"
-                className="flex flex-col items-center flex-1 -mt-6 touch-target"
+                className="relative flex flex-col items-center justify-end flex-1 -mt-7 touch-target"
                 aria-current={isYoklama ? 'page' : undefined}
               >
                 <span
-                  className={`flex h-[3.5rem] w-[3.5rem] items-center justify-center rounded-2xl text-white transition-all active:scale-95 ${
+                  className={`flex h-[3.75rem] w-[3.75rem] items-center justify-center rounded-2xl border-4 border-slate-100 dark:border-slate-900 transition-all active:scale-95 ${
                     isYoklama
-                      ? 'bg-gradient-to-br from-emerald-500 to-teal-600 shadow-lg shadow-emerald-500/40 ring-4 ring-emerald-100 dark:ring-emerald-900/50'
-                      : 'bg-gradient-to-br from-emerald-500 to-teal-600 shadow-xl shadow-emerald-600/35'
+                      ? 'bg-gradient-to-br from-teal-400 to-emerald-600 text-white shadow-lg shadow-emerald-500/50'
+                      : 'bg-gradient-to-br from-emerald-400 to-teal-600 text-white shadow-xl shadow-emerald-600/40'
                   }`}
                 >
-                  <NavIconQr />
+                  <NavIconQr className="w-7 h-7" />
                 </span>
                 <span
-                  className={`mt-1.5 text-[10px] font-bold ${
-                    isYoklama ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-600 dark:text-slate-400'
+                  className={`mt-1.5 text-[10px] font-bold pb-1 ${
+                    isYoklama ? 'text-emerald-300' : 'text-blue-100'
                   }`}
                 >
                   Yoklama
                 </span>
               </Link>
 
-              <NavItem
-                href="/personnel-panel?tab=finance"
-                active={isFinance}
-                label="Finans"
-                accent="finance"
-                icon={<NavIconFinance />}
-              />
-
-              <NavItem
-                onClick={() => setMoreOpen(true)}
-                active={isMore}
-                label="Menü"
-                accent="menu"
-                icon={<NavIconMenu />}
-              />
+              {/* Panel hub */}
+              <button
+                type="button"
+                onClick={() => setHubOpen(true)}
+                className={`relative flex flex-1 flex-col items-center justify-center gap-1 touch-target transition-colors ${
+                  isPanelSection && !isYoklama ? 'text-white' : 'text-blue-200/70 hover:text-white'
+                }`}
+                aria-expanded={hubOpen}
+                aria-haspopup="dialog"
+              >
+                <span
+                  className={`flex h-9 w-9 items-center justify-center rounded-xl transition-all ${
+                    isPanelSection && !isYoklama
+                      ? 'bg-white/20 text-white'
+                      : 'text-blue-100'
+                  }`}
+                >
+                  <NavIconPanel />
+                </span>
+                <span className="text-[10px] font-semibold">Panel</span>
+                {isPanelSection && !isYoklama && (
+                  <span className="absolute bottom-2 h-0.5 w-5 rounded-full bg-white/90" />
+                )}
+              </button>
             </div>
           </div>
         </div>
       </nav>
 
-      {moreOpen && (
-        <div className="fixed inset-0 z-[60] sm:hidden" role="dialog" aria-modal="true" aria-label="Menü">
-          <button
-            type="button"
-            className="absolute inset-0 bg-slate-900/50 backdrop-blur-sm"
-            aria-label="Kapat"
-            onClick={() => setMoreOpen(false)}
-          />
-          <div className="absolute inset-x-0 bottom-0 max-h-[min(75vh,32rem)] overflow-hidden rounded-t-[1.75rem] bg-white dark:bg-slate-900 shadow-2xl safe-pb animate-[personnelSheetUp_0.28s_ease-out]">
-            <div className="flex justify-center pt-3 pb-1">
-              <span className="h-1 w-10 rounded-full bg-slate-200 dark:bg-slate-700" />
-            </div>
-
-            <div className="flex items-center justify-between px-5 pb-4 pt-2 border-b border-slate-100 dark:border-slate-800">
-              <div className="flex items-center gap-3 min-w-0">
-                <BrandMark size="sm" />
-                <div>
-                  <p className="text-base font-bold text-slate-900 dark:text-white">Menü</p>
-                  <p className="text-xs text-slate-500">Diğer bölümler</p>
-                </div>
-              </div>
-              <button
-                type="button"
-                onClick={() => setMoreOpen(false)}
-                className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
-                aria-label="Kapat"
-              >
-                <FiX className="h-5 w-5" />
-              </button>
-            </div>
-
-            <ul className="overflow-y-auto p-4 grid gap-2">
-              {PERSONNEL_MORE_ITEMS.map((item) => {
-                const Icon = moreIcon(item.tab);
-                const active = tab === item.tab;
-                const accent = PERSONNEL_NAV_ACCENTS[item.accent as PersonnelMoreAccent];
-                return (
-                  <li key={item.tab}>
-                    <button
-                      type="button"
-                      onClick={() => goTab(item.tab)}
-                      className={`flex w-full items-center gap-3.5 rounded-2xl border px-4 py-3.5 text-left transition-all active:scale-[0.99] ${
-                        active
-                          ? 'border-blue-200 bg-blue-50/80 dark:border-blue-800 dark:bg-blue-950/30'
-                          : 'border-slate-200/80 bg-slate-50/50 hover:bg-white dark:border-slate-700 dark:bg-slate-800/40 dark:hover:bg-slate-800'
-                      }`}
-                    >
-                      <span
-                        className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${
-                          active ? accent.active : accent.idle
-                        }`}
-                      >
-                        <Icon />
-                      </span>
-                      <span className="min-w-0 flex-1">
-                        <span className="block text-sm font-semibold text-slate-900 dark:text-white">
-                          {item.label}
-                        </span>
-                        <span className="block text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                          {item.description}
-                        </span>
-                      </span>
-                      <FiChevronRight className="h-4 w-4 shrink-0 text-slate-400" />
-                    </button>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        </div>
-      )}
+      <PersonnelNavHub open={hubOpen} onClose={() => setHubOpen(false)} />
 
       <style jsx global>{`
         @keyframes personnelSheetUp {

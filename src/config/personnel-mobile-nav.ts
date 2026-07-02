@@ -10,72 +10,147 @@ export const PERSONNEL_MOBILE_TAB_TITLES: Record<PersonnelTabId, string> = {
   settings: 'Ayarlar',
 };
 
-export const PERSONNEL_MORE_ITEMS = [
-  {
-    tab: 'mesai' as const,
-    label: 'Mesai',
-    description: 'Fazla çalışma kayıtları',
-    accent: 'violet',
-  },
-  {
-    tab: 'asgari' as const,
-    label: 'Asgari Ücret',
-    description: 'Tamamlama ve ödeme durumu',
-    accent: 'indigo',
-  },
-  {
-    tab: 'rights' as const,
-    label: 'Haklarım',
-    description: 'Sözleşmeler ve belgeler',
-    accent: 'sky',
-  },
-  {
-    tab: 'settings' as const,
-    label: 'Ayarlar',
-    description: 'Profil ve güvenlik',
-    accent: 'slate',
-  },
-] as const;
+export type PersonnelHubItem = {
+  id: string;
+  label: string;
+  description: string;
+  accent: PersonnelMoreAccent;
+  tab?: PersonnelTabId;
+  href?: string;
+};
 
-export type PersonnelMoreAccent = (typeof PERSONNEL_MORE_ITEMS)[number]['accent'];
+export type PersonnelHubSection = {
+  title: string;
+  subtitle: string;
+  items: PersonnelHubItem[];
+};
 
-export const PERSONNEL_NAV_ACCENTS = {
-  home: {
-    active: 'bg-blue-600 text-white shadow-md shadow-blue-600/30',
-    idle: 'bg-blue-50 text-blue-600 dark:bg-blue-950/50 dark:text-blue-400',
-    text: 'text-blue-600 dark:text-blue-400',
+/** Panel hub — tüm bölümler kategorilere ayrılmış */
+export const PERSONNEL_HUB_SECTIONS: PersonnelHubSection[] = [
+  {
+    title: 'Sahada',
+    subtitle: 'Günlük çalışma kayıtları',
+    items: [
+      {
+        id: 'work',
+        tab: 'work',
+        label: 'Yevmiye',
+        description: 'Çalışılan günler',
+        accent: 'emerald',
+      },
+      {
+        id: 'mesai',
+        tab: 'mesai',
+        label: 'Mesai',
+        description: 'Fazla mesai',
+        accent: 'violet',
+      },
+      {
+        id: 'yoklama',
+        href: '/personnel-panel/yoklama',
+        label: 'Yoklama',
+        description: 'QR ile giriş',
+        accent: 'teal',
+      },
+    ],
   },
-  work: {
-    active: 'bg-emerald-600 text-white shadow-md shadow-emerald-600/30',
-    idle: 'bg-emerald-50 text-emerald-600 dark:bg-emerald-950/50 dark:text-emerald-400',
-    text: 'text-emerald-600 dark:text-emerald-400',
+  {
+    title: 'Finans',
+    subtitle: 'Maaş ve ödemeler',
+    items: [
+      {
+        id: 'finance',
+        tab: 'finance',
+        label: 'Bordro',
+        description: 'Net maaş özeti',
+        accent: 'indigo',
+      },
+      {
+        id: 'asgari',
+        tab: 'asgari',
+        label: 'Asgari',
+        description: 'Tamamlama durumu',
+        accent: 'blue',
+      },
+    ],
   },
-  finance: {
-    active: 'bg-indigo-600 text-white shadow-md shadow-indigo-600/30',
-    idle: 'bg-indigo-50 text-indigo-600 dark:bg-indigo-950/50 dark:text-indigo-400',
-    text: 'text-indigo-600 dark:text-indigo-400',
+  {
+    title: 'Hesabım',
+    subtitle: 'Profil ve belgeler',
+    items: [
+      {
+        id: 'rights',
+        tab: 'rights',
+        label: 'Haklarım',
+        description: 'Sözleşmeler',
+        accent: 'sky',
+      },
+      {
+        id: 'settings',
+        tab: 'settings',
+        label: 'Ayarlar',
+        description: 'PIN ve profil',
+        accent: 'slate',
+      },
+    ],
   },
-  menu: {
-    active: 'bg-slate-800 text-white shadow-md shadow-slate-900/20',
-    idle: 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300',
-    text: 'text-slate-700 dark:text-slate-300',
+];
+
+export const PERSONNEL_HUB_TABS: PersonnelTabId[] = [
+  'work',
+  'mesai',
+  'finance',
+  'asgari',
+  'rights',
+  'settings',
+];
+
+export type PersonnelMoreAccent =
+  | 'emerald'
+  | 'violet'
+  | 'teal'
+  | 'indigo'
+  | 'blue'
+  | 'sky'
+  | 'slate';
+
+export const PERSONNEL_NAV_TILE_ACCENTS: Record<
+  PersonnelMoreAccent,
+  { tile: string; icon: string; glow: string }
+> = {
+  emerald: {
+    tile: 'from-emerald-500/20 to-emerald-600/5 border-emerald-500/25',
+    icon: 'bg-emerald-500 text-white shadow-emerald-500/30',
+    glow: 'shadow-emerald-500/10',
   },
   violet: {
-    active: 'bg-violet-600 text-white',
-    idle: 'bg-violet-100 text-violet-600 dark:bg-violet-950/60 dark:text-violet-400',
+    tile: 'from-violet-500/20 to-violet-600/5 border-violet-500/25',
+    icon: 'bg-violet-500 text-white shadow-violet-500/30',
+    glow: 'shadow-violet-500/10',
+  },
+  teal: {
+    tile: 'from-teal-500/20 to-teal-600/5 border-teal-500/25',
+    icon: 'bg-teal-500 text-white shadow-teal-500/30',
+    glow: 'shadow-teal-500/10',
   },
   indigo: {
-    active: 'bg-indigo-600 text-white',
-    idle: 'bg-indigo-100 text-indigo-600 dark:bg-indigo-950/60 dark:text-indigo-400',
+    tile: 'from-indigo-500/20 to-indigo-600/5 border-indigo-500/25',
+    icon: 'bg-indigo-500 text-white shadow-indigo-500/30',
+    glow: 'shadow-indigo-500/10',
+  },
+  blue: {
+    tile: 'from-blue-500/20 to-blue-600/5 border-blue-500/25',
+    icon: 'bg-blue-600 text-white shadow-blue-500/30',
+    glow: 'shadow-blue-500/10',
   },
   sky: {
-    active: 'bg-sky-600 text-white',
-    idle: 'bg-sky-100 text-sky-600 dark:bg-sky-950/60 dark:text-sky-400',
+    tile: 'from-sky-500/20 to-sky-600/5 border-sky-500/25',
+    icon: 'bg-sky-500 text-white shadow-sky-500/30',
+    glow: 'shadow-sky-500/10',
   },
   slate: {
-    active: 'bg-slate-700 text-white',
-    idle: 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300',
+    tile: 'from-slate-500/15 to-slate-600/5 border-slate-500/20',
+    icon: 'bg-slate-600 text-white shadow-slate-500/20',
+    glow: 'shadow-slate-500/10',
   },
-} as const;
-
-export type PersonnelMainNavAccent = 'home' | 'work' | 'finance' | 'menu';
+};
