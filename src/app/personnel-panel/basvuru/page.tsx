@@ -57,6 +57,10 @@ type StatusPayload = {
 };
 type RegistrationStep = 1 | 2 | 3;
 
+function toTurkishUpper(value: string) {
+  return value.toLocaleUpperCase('tr-TR');
+}
+
 async function fetchRegistrationStatus(code: string): Promise<StatusPayload | null> {
   const res = await fetch(
     `/api/public/personnel-registration/status?kod=${encodeURIComponent(code)}`
@@ -94,6 +98,30 @@ export default function PersonnelApplicationPage() {
   >(undefined);
   const [showDraftNotice, setShowDraftNotice] = useState(false);
   const [activeStep, setActiveStep] = useState<RegistrationStep>(1);
+  const isStep1Complete =
+    form.first_name.trim().length > 0 &&
+    form.last_name.trim().length > 0 &&
+    form.tc_kimlik.length === 11 &&
+    form.phone.trim().length > 0 &&
+    form.birth_date.trim().length > 0;
+  const isStep2Complete =
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim()) &&
+    form.iban.trim().length > 0 &&
+    form.pin.length === PERSONNEL_PIN_LENGTH &&
+    form.pin_confirm.length === PERSONNEL_PIN_LENGTH &&
+    !validatePersonnelPinMatch(form.pin, form.pin_confirm);
+
+  const canOpenStep = (step: RegistrationStep) => {
+    if (step === 1) return true;
+    if (step === 2) return isStep1Complete;
+    return isStep1Complete && isStep2Complete;
+  };
+
+  const goToStep = (step: RegistrationStep) => {
+    if (!canOpenStep(step)) return;
+    setError('');
+    setActiveStep(step);
+  };
 
   const handleAllContractsAccepted = useCallback(
     (acceptances: Array<{ contractId: string; version: number }>) => {
@@ -475,11 +503,14 @@ export default function PersonnelApplicationPage() {
             <button
               key={step.id}
               type="button"
-              onClick={() => setActiveStep(step.id)}
+              onClick={() => goToStep(step.id)}
+              disabled={!canOpenStep(step.id)}
               className={`rounded-xl border px-3 py-2.5 text-xs font-semibold transition-colors ${
                 activeStep === step.id
                   ? 'border-blue-600 bg-blue-600 text-white'
-                  : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300'
+                  : canOpenStep(step.id)
+                    ? 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300'
+                    : 'border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-400 cursor-not-allowed'
               }`}
             >
               {step.id}. {step.label}
@@ -497,7 +528,7 @@ export default function PersonnelApplicationPage() {
                 <input
                   className={inputClass}
                   value={form.first_name}
-                  onChange={(e) => setForm({ ...form, first_name: e.target.value })}
+                  onChange={(e) => setForm({ ...form, first_name: toTurkishUpper(e.target.value) })}
                   required
                 />
               </div>
@@ -506,7 +537,7 @@ export default function PersonnelApplicationPage() {
                 <input
                   className={inputClass}
                   value={form.last_name}
-                  onChange={(e) => setForm({ ...form, last_name: e.target.value })}
+                  onChange={(e) => setForm({ ...form, last_name: toTurkishUpper(e.target.value) })}
                   required
                 />
               </div>
@@ -529,6 +560,7 @@ export default function PersonnelApplicationPage() {
                   id="basvuru-phone"
                   value={form.phone}
                   onChange={(phone) => setForm({ ...form, phone })}
+                  placeholder="5xx xxx xx xx"
                   required
                 />
                 <p className="text-xs text-slate-500 mt-1">
@@ -654,7 +686,18 @@ export default function PersonnelApplicationPage() {
             {activeStep < 3 ? (
               <button
                 type="button"
-                onClick={() => setActiveStep((prev) => (prev + 1) as RegistrationStep)}
+                onClick={() => {
+                  if (activeStep === 1 && !isStep1Complete) {
+                    setError('Temel bilgileri eksiksiz doldurmadan diğer adıma geçemezsiniz.');
+                    return;
+                  }
+                  if (activeStep === 2 && !isStep2Complete) {
+                    setError('Diğer gerekli bilgileri eksiksiz doldurmadan sözleşme adımına geçemezsiniz.');
+                    return;
+                  }
+                  setError('');
+                  setActiveStep((prev) => (prev + 1) as RegistrationStep);
+                }}
                 className="flex-1 sm:w-auto px-8 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-medium"
               >
                 Devam et

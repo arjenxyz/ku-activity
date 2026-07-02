@@ -13,6 +13,7 @@ type Props = {
   required?: boolean;
   id?: string;
   disabled?: boolean;
+  placeholder?: string;
 };
 
 /** Ulusal alan — kullanıcı 90 / 0 / +90 yazsa da sadece 10 haneli numara kalır */
@@ -33,6 +34,7 @@ export function TurkishPhoneInput({
   required,
   id,
   disabled,
+  placeholder = '5xx xxx xx xx',
 }: Props) {
   const national = extractTurkishNationalDigits(value);
   const display = formatTurkishPhoneNational(national);
@@ -74,7 +76,7 @@ export function TurkishPhoneInput({
         disabled={disabled}
         required={required}
         className="min-w-0 flex-1 border-0 bg-transparent px-4 py-3 text-sm tabular-nums tracking-wide focus:outline-none focus:ring-0"
-        placeholder="534 968 5678"
+        placeholder={placeholder}
         value={display}
         onChange={handleChange}
         aria-label="Cep telefonu numarası"
