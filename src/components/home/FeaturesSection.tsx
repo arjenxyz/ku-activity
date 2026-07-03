@@ -5,21 +5,22 @@ import { motion } from 'framer-motion';
 
 const features = [
   {
-    title: 'Yevmiye Yönetimi',
+    title: 'Çift Onaylı Yevmiye',
     description:
-      'Günlük çalışma kayıtları, mesai hesaplamaları ve proje bazlı yevmiye takibi — şantiyede tek akış.',
+      'Tam/yarım gün puantaj ve çeyrek, yarım, tam mesai kaydı. Yönetici girer; personel onaylar veya itiraz eder — iki taraf onayı olmadan kayıt kesinleşmez.',
     icon: (
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth={1.75}
-        d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+        d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"
       />
     ),
   },
   {
-    title: 'Avans Takibi',
-    description: 'Talep, onay ve kesinti hesaplamaları tek ekranda.',
+    title: 'Avans & Kesinti',
+    description:
+      'Proje bazında avans ve kesinti girişi. Brüt, avans, kesinti ve net tutar maaş bordrosunda ve personel finans sekmesinde aynı formülle hesaplanır.',
     icon: (
       <path
         strokeLinecap="round"
@@ -30,8 +31,22 @@ const features = [
     ),
   },
   {
-    title: 'Proje Yönetimi',
-    description: 'Çoklu şantiye, personel ve maliyet verileri proje bazında ayrılmış.',
+    title: 'Asgari Ücret Tamamlama',
+    description:
+      'Şirket ve proje maaş politikasına göre hak edilen, ödenen ve kalan tutar. Taşeron farkı önerisi; personel asgari sekmesinde dökümü görür.',
+    icon: (
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={1.75}
+        d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"
+      />
+    ),
+  },
+  {
+    title: 'Proje Bazlı Şantiye',
+    description:
+      'Her şantiye ayrı proje; personel, blok, ekip ve finans kayıtları proje içinde tutulur. Yönetici yalnızca kendi oluşturduğu projelere erişir.',
     icon: (
       <path
         strokeLinecap="round"
@@ -42,8 +57,9 @@ const features = [
     ),
   },
   {
-    title: 'Detaylı Raporlama',
-    description: 'Yevmiye, avans ve iş gücü verilerini raporlanabilir özetlere dönüştürün.',
+    title: 'Raporlar & Bordro',
+    description:
+      'Onaylanan ve bekleyen yevmiyeler, açık personel itirazları, maaş bordroları ile yevmiye, avans ve kesinti arşiv sorgulaması.',
     icon: (
       <path
         strokeLinecap="round"
@@ -54,26 +70,15 @@ const features = [
     ),
   },
   {
-    title: 'Güvenli Veri Saklama',
-    description: 'Rol tabanlı erişim ve şifreli depolama ile hassas kayıtlar korunur.',
+    title: 'Personel Uygulaması',
+    description:
+      'PWA olarak telefona kurulur. Özet, yevmiye, mesai, finans, asgari ve haklarım sekmeleri — yönetici paneliyle aynı veritabanından beslenir.',
     icon: (
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth={1.75}
-        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-      />
-    ),
-  },
-  {
-    title: 'Personel Paneli',
-    description: 'Çalışanlar yevmiye, avans ve çalışma geçmişini kendi ekranlarından görür.',
-    icon: (
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={1.75}
-        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+        d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"
       />
     ),
   },
@@ -177,13 +182,13 @@ export function FeaturesSection() {
               Platform Özellikleri
             </div>
             <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-3xl lg:text-4xl">
-              Şantiye operasyonu için tek platform
+              Puantajdan bordroya gerçek modüller
             </h2>
             <p className="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-400 sm:mt-4 sm:text-base lg:text-lg">
-              <span className="md:hidden">Yevmiye, avans ve raporlama — tek panelde.</span>
+              <span className="md:hidden">Çift onaylı yevmiye, finans ve asgari — proje bazında.</span>
               <span className="hidden md:inline">
-                Yevmiyeden raporlamaya kadar tüm personel süreçleri tek panelde. Sahada ve ofiste aynı
-                veri, aynı doğruluk.
+                Yevmiye, mesai, avans, kesinti, asgari tamamlama ve bordro proje bazında yönetilir. Personel
+                uygulaması yönetici paneliyle aynı kayıtları gösterir; gizli kesinti mimari olarak mümkün değildir.
               </span>
             </p>
             <div
