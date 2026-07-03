@@ -42,6 +42,7 @@ export function PersonnelLoginLayout({
 
   return (
     <div className="personnel-auth-page relative isolate min-h-[100dvh] overflow-x-hidden text-white">
+      {/* Arka plan: şantiye görseli görünür kalsın; sadece okunabilirlik için hafif degrade */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden>
         <div className="absolute inset-0" style={{ backgroundColor: PERSONNEL_PWA_SPLASH_BG }} />
         <Image
@@ -49,11 +50,10 @@ export function PersonnelLoginLayout({
           alt=""
           fill
           priority
-          className="object-cover object-center scale-105 opacity-40"
+          className="object-cover object-center"
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0b1624]/95 via-[#0b1624]/92 to-[#060d14]/96" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(6,13,20,0.65)_100%)]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#050b1a]/60 via-transparent to-[#050b1a]/80" />
       </div>
 
       <div
@@ -66,9 +66,7 @@ export function PersonnelLoginLayout({
             verticalAlignTop
               ? isCompact
                 ? 'pt-3 pb-3 sm:pt-6 sm:pb-5 safe-pt safe-pb'
-                : isDense
-                  ? 'pt-5 pb-5 sm:pt-6 sm:pb-6 safe-pt safe-pb'
-                  : 'pt-6 pb-4 sm:pt-8 sm:pb-6'
+                : 'pt-8 pb-6 sm:pt-10 sm:pb-8 safe-pt safe-pb'
               : 'flex-1 py-8 safe-pb items-center'
           }`}
         >
@@ -77,11 +75,11 @@ export function PersonnelLoginLayout({
               <BrandLockup
                 size="lg"
                 layout="inline"
-                className={isDense ? 'mb-3.5' : 'mb-6 sm:mb-7'}
-                iconClassName="shadow-xl shadow-black/40"
-                wordmarkClassName="text-white/95"
-                subtitle="Personel Girişi"
-                subtitleClassName="text-[11px] font-medium uppercase tracking-[0.22em] text-slate-400"
+                className="mb-5 sm:mb-6"
+                iconClassName="shadow-xl shadow-black/50 ring-1 ring-white/10"
+                wordmarkClassName="text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)]"
+                subtitle="Personel Paneli"
+                subtitleClassName="text-[11px] font-medium uppercase tracking-[0.24em] text-sky-200/70 drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)]"
               />
             )}
 
@@ -94,11 +92,11 @@ export function PersonnelLoginLayout({
                 <div className="flex items-center justify-center gap-2.5 sm:justify-start xl:justify-start">
                   <BrandMark size="sm" />
                   <div className="min-w-0 text-left">
-                    <h1 className="text-lg sm:text-2xl font-semibold text-white leading-tight">
+                    <h1 className="text-lg sm:text-2xl font-semibold text-white leading-tight drop-shadow-[0_1px_4px_rgba(0,0,0,0.6)]">
                       {title}
                     </h1>
                     {subtitle && (
-                      <p className="hidden sm:block mt-0.5 text-xs sm:text-sm text-white/55 line-clamp-2">
+                      <p className="hidden sm:block mt-0.5 text-xs sm:text-sm text-slate-300 line-clamp-2">
                         {subtitle}
                       </p>
                     )}
@@ -112,40 +110,21 @@ export function PersonnelLoginLayout({
                 isCompact
                   ? 'p-4 sm:p-6 lg:p-8'
                   : isDense
-                    ? 'p-5 sm:p-6'
+                    ? 'p-5 sm:p-7'
                     : size === 'wide'
                       ? 'p-5 sm:p-6 lg:p-8'
                       : 'p-6 sm:p-7'
               }`}
             >
               {!isCompact && (
-                <div
-                  className={
-                    isDense
-                      ? 'border-b border-slate-600/45 pb-3 mb-4'
-                      : 'border-b border-slate-600/45 pb-5 mb-6'
-                  }
-                >
-                  <h1
-                    className={
-                      isDense
-                        ? 'text-lg font-semibold text-white tracking-tight'
-                        : 'text-xl sm:text-2xl font-semibold text-white tracking-tight'
-                    }
-                  >
+                <div className="mb-5 sm:mb-6">
+                  <h1 className="text-xl font-bold text-white tracking-tight">
                     {title}
                   </h1>
                   {subtitle && (
-                    <p
-                      className={
-                        isDense
-                          ? 'mt-1 text-xs text-slate-400 leading-snug'
-                          : 'mt-1.5 text-sm text-slate-400 leading-relaxed'
-                      }
-                    >
-                      {subtitle}
-                    </p>
+                    <p className="mt-1 text-sm text-slate-400 leading-relaxed">{subtitle}</p>
                   )}
+                  <div className="mt-4 h-px bg-gradient-to-r from-blue-500/50 via-[#2c4270]/60 to-transparent" />
                 </div>
               )}
 

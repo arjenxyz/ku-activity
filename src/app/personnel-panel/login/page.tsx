@@ -258,7 +258,7 @@ function PersonnelLoginContent() {
         </button>
       </form>
       <div
-        className={`mt-4 pt-3 border-t border-slate-600/45 space-y-1.5 text-center ${personnelAuthFooterTextClass}`}
+        className={`mt-5 pt-4 border-t border-[#2c4270]/60 space-y-2 text-center ${personnelAuthFooterTextClass}`}
       >
         <p>
           Hesabınız mı yok?{' '}

@@ -67,8 +67,8 @@ function DogrulaContent() {
     return (
       <PersonnelLoginLayout title="Doğrulanıyor…" subtitle="Başvurunuz gönderiliyor, lütfen bekleyin.">
         <div className="flex flex-col items-center py-16 gap-4">
-          <div className="w-12 h-12 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
-          <p className="text-sm text-slate-500">E-posta bağlantınız doğrulanıyor…</p>
+          <div className="w-12 h-12 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+          <p className="text-sm text-slate-400">E-posta bağlantınız doğrulanıyor…</p>
         </div>
       </PersonnelLoginLayout>
     );
@@ -78,11 +78,11 @@ function DogrulaContent() {
     return (
       <PersonnelLoginLayout title="Doğrulama başarısız" subtitle="Bağlantı geçersiz veya süresi dolmuş olabilir.">
         <div className="space-y-6 text-center max-w-md mx-auto">
-          <FiXCircle className="w-14 h-14 text-red-500 mx-auto" />
-          <p className="text-sm text-red-700 bg-red-50 rounded-xl px-4 py-3">{error}</p>
+          <FiXCircle className="w-14 h-14 text-red-400 mx-auto" />
+          <p className="text-sm text-red-100 bg-red-950/60 border border-red-500/40 rounded-xl px-4 py-3">{error}</p>
           <Link
             href="/personnel-panel/basvuru"
-            className="inline-flex w-full items-center justify-center rounded-xl bg-blue-600 py-3 text-sm font-semibold text-white hover:bg-blue-700"
+            className="inline-flex w-full items-center justify-center rounded-xl bg-blue-600 py-3 text-sm font-semibold text-white hover:bg-blue-500"
           >
             Başvuru sayfasına dön
           </Link>
@@ -94,14 +94,14 @@ function DogrulaContent() {
   return (
     <PersonnelLoginLayout title="Başvuru gönderildi" subtitle="Yönetici onay ekranına yönlendiriliyorsunuz…">
       <div className="space-y-6 text-center max-w-md mx-auto">
-        <FiCheckCircle className="w-14 h-14 text-emerald-600 mx-auto" />
-        <div className="rounded-xl bg-emerald-50 border border-emerald-100 px-4 py-3 text-sm text-emerald-900">
+        <FiCheckCircle className="w-14 h-14 text-emerald-400 mx-auto" />
+        <div className="rounded-xl bg-emerald-950/60 border border-emerald-500/40 px-4 py-3 text-sm text-emerald-100">
           E-posta doğrulandı ve başvurunuz alındı.
           {pending?.verificationCode && (
             <p className="mt-2 font-mono font-bold tracking-widest">{pending.verificationCode}</p>
           )}
         </div>
-        <p className="text-xs text-slate-500">Birazdan onay bekleme ekranına geçeceksiniz…</p>
+        <p className="text-xs text-slate-400">Birazdan onay bekleme ekranına geçeceksiniz…</p>
       </div>
     </PersonnelLoginLayout>
   );

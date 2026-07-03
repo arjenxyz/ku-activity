@@ -172,7 +172,7 @@ a {
 .personnel-auth-input:-webkit-autofill,
 .personnel-auth-input:-webkit-autofill:hover,
 .personnel-auth-input:-webkit-autofill:focus {
-  -webkit-box-shadow: 0 0 0 1000px #111c2e inset;
+  -webkit-box-shadow: 0 0 0 1000px #13203f inset;
   -webkit-text-fill-color: #f8fafc;
   caret-color: #f8fafc;
   transition: background-color 9999s ease-out 0s;

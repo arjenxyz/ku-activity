@@ -6,11 +6,11 @@ import { createClient } from '@/utils/supabase/client';
 import { AuthLayout } from '@/components/auth/AuthLayout';
 import { AuthAlert, LoadingSpinner } from '@/components/auth/AuthAlerts';
 import {
-  inputClass,
-  labelClass,
-  primaryButtonClass,
-  linkButtonClass,
-} from '@/components/auth/authStyles';
+  personnelAuthInputClass as inputClass,
+  personnelAuthLabelClass as labelClass,
+  personnelAuthPrimaryBtnClass as primaryButtonClass,
+  personnelAuthLinkClass as linkButtonClass,
+} from '@/lib/personnel-auth-ui';
 import { verificationCodeMailto } from '@/lib/support-email';
 import Link from 'next/link';
 import {
@@ -104,29 +104,31 @@ function AdminAuthContent() {
       variant="admin"
       alternateLogin={{ href: '/personnel-panel/login', label: 'Personel Girişi' }}
     >
-      <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-1 text-center">
-        {activeTab === 'login' ? 'Yönetici Girişi' : 'Şifremi Unuttum'}
-      </h2>
-      <p className="text-sm text-gray-500 dark:text-gray-400 text-center mb-2">
-        {activeTab === 'login'
-          ? 'Hesabınız yoksa ücretsiz kayıt olun'
-          : 'Kayıtlı e-posta adresinize sıfırlama bağlantısı gönderilir'}
-      </p>
-      {activeTab === 'login' && (
-        <p className="text-xs text-center text-blue-600 dark:text-blue-400 mb-4">
-          <Link href="/admin-panel/register" className="font-semibold hover:underline">
-            Yönetici hesabı oluştur →
-          </Link>
-          {' · '}
-          <a href={verificationCodeMailto()} className="hover:underline">
-            Doğrulama kodu talep et
-          </a>
+      <div className="mb-5">
+        <h2 className="text-xl font-bold text-white tracking-tight">
+          {activeTab === 'login' ? 'Yönetici Girişi' : 'Şifremi Unuttum'}
+        </h2>
+        <p className="mt-1 text-sm text-slate-400 leading-relaxed">
+          {activeTab === 'login'
+            ? 'Hesabınız yoksa ücretsiz kayıt olun'
+            : 'Kayıtlı e-posta adresinize sıfırlama bağlantısı gönderilir'}
         </p>
-      )}
-      {activeTab === 'reset' && <div className="mb-4" />}
+        {activeTab === 'login' && (
+          <p className="mt-2 text-xs text-sky-400">
+            <Link href="/admin-panel/register" className="font-semibold hover:underline">
+              Yönetici hesabı oluştur →
+            </Link>
+            {' · '}
+            <a href={verificationCodeMailto()} className="hover:underline">
+              Doğrulama kodu talep et
+            </a>
+          </p>
+        )}
+        <div className="mt-4 h-px bg-gradient-to-r from-blue-500/50 via-[#2c4270]/60 to-transparent" />
+      </div>
 
-      {successMessage && <AuthAlert message={successMessage} type="success" />}
-      {errorMessage && <AuthAlert message={errorMessage} type="error" />}
+      {successMessage && <AuthAlert message={successMessage} type="success" tone="personnel" />}
+      {errorMessage && <AuthAlert message={errorMessage} type="error" tone="personnel" />}
 
       {activeTab === 'login' ? (
         <form className="space-y-5" onSubmit={handleLogin} {...credentialLoginFormProps}>
