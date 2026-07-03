@@ -228,21 +228,6 @@ export function PlayStoreSection() {
             Personel ve yönetici için ayrı uygulamalar. Kurulum gerektirmez; telefonunuzdan hemen
             kullanmaya başlayın.
           </p>
-
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-6 text-sm text-slate-500 dark:text-slate-400">
-            {[
-              { icon: '📱', label: 'Android uyumlu' },
-              { icon: '⚡', label: 'Anında erişim' },
-              { icon: '🔒', label: 'Güvenli giriş' },
-            ].map((item) => (
-              <span key={item.label} className="inline-flex items-center gap-2 font-medium">
-                <span className="text-base" aria-hidden>
-                  {item.icon}
-                </span>
-                {item.label}
-              </span>
-            ))}
-          </div>
         </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-6 lg:gap-8 max-w-5xl mx-auto">
