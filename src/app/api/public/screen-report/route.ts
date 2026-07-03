@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { sendScreenReportEmail } from '@/lib/screen-report-email';
+import { sendScreenReport } from '@/lib/screen-report';
 
 export const dynamic = 'force-dynamic';
 
@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
       ? body.diagnostics.filter((d): d is string => typeof d === 'string').slice(0, 10)
       : [];
 
-    await sendScreenReportEmail({
+    await sendScreenReport({
       screenshotBase64: screenshot,
       pageUrl: typeof body.pageUrl === 'string' ? body.pageUrl.slice(0, 500) : '',
       userAgent: typeof body.userAgent === 'string' ? body.userAgent.slice(0, 500) : '',

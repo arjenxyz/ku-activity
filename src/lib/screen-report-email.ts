@@ -1,17 +1,10 @@
-/** Ekran raporu — Brevo ile geliştirici e-postası */
+/** Ekran raporu — Brevo ile geliştirici e-postası (Discord yoksa yedek) */
 
 import { APP_NAME, DEFAULT_SUPPORT_EMAIL } from '@/lib/brand';
+import type { ScreenReportInput } from '@/lib/screen-report-types';
+import { stripScreenshotDataUrl } from '@/lib/screen-report-types';
 
-export type ScreenReportInput = {
-  screenshotBase64: string;
-  pageUrl: string;
-  userAgent: string;
-  capturedAt: string;
-  formError?: string;
-  diagnostics?: string[];
-  note?: string;
-  screenLabel?: string;
-};
+export type { ScreenReportInput };
 
 function reportRecipient(): string {
   return (
@@ -19,11 +12,6 @@ function reportRecipient(): string {
     process.env.NEXT_PUBLIC_SUPPORT_EMAIL ||
     DEFAULT_SUPPORT_EMAIL
   );
-}
-
-function stripDataUrl(dataUrl: string): string {
-  const idx = dataUrl.indexOf(',');
-  return idx >= 0 ? dataUrl.slice(idx + 1) : dataUrl;
 }
 
 function buildReportHtml(input: ScreenReportInput): string {
@@ -96,7 +84,7 @@ export async function sendScreenReportEmail(input: ScreenReportInput): Promise<v
         pageUrl: input.pageUrl,
         formError: input.formError,
         note: input.note,
-        screenshotBytes: stripDataUrl(input.screenshotBase64).length,
+        screenshotBytes: stripScreenshotDataUrl(input.screenshotBase64).length,
       });
       return;
     }
@@ -119,7 +107,7 @@ export async function sendScreenReportEmail(input: ScreenReportInput): Promise<v
       attachment: [
         {
           name: `crewledger-screen-${Date.now()}.jpg`,
-          content: stripDataUrl(input.screenshotBase64),
+          content: stripScreenshotDataUrl(input.screenshotBase64),
         },
       ],
     }),
