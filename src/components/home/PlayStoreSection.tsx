@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { GooglePlayBadge, GooglePlayIcon } from '@/components/home/GooglePlayBadge';
 import {
@@ -12,65 +13,32 @@ const apps = [
     id: 'personel',
     badge: 'Personel',
     title: 'Personel Uygulaması',
-    tagline: '',
     description:
       'Yoklama, yevmiye, mesai ve bordro görüntüleme. Başvuru ve günlük işlemler için tasarlandı.',
-    features: [] as string[],
     playUrl: PLAY_STORE_PERSONNEL_URL,
-    gradient: 'from-blue-500 via-blue-600 to-indigo-700',
-    glow: 'bg-blue-500/30',
-    cardBg: 'from-blue-50/90 via-white to-indigo-50/50 dark:from-slate-900 dark:via-slate-900 dark:to-blue-950/40',
-    border: 'border-blue-200/60 dark:border-blue-500/20',
-    iconBg: 'from-blue-400 to-indigo-600',
-    accent: 'text-blue-600 dark:text-blue-400',
-    ring: 'ring-blue-500/20',
-    icon: (
-      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={1.75}
-          d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"
-        />
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={1.75}
-          d="M9 10a3 3 0 106 0"
-        />
-      </svg>
-    ),
+    accentBar: 'bg-gradient-to-b from-blue-500 to-indigo-600',
+    badgeClass:
+      'text-blue-700 bg-blue-50 border-blue-200/80 dark:text-blue-300 dark:bg-blue-950/50 dark:border-blue-800/50',
+    panelClass:
+      'bg-gradient-to-br from-blue-50/50 via-white to-white dark:from-slate-900 dark:via-slate-900 dark:to-blue-950/30',
+    iconRing: 'ring-blue-200/80 dark:ring-blue-800/50',
   },
   {
     id: 'admin',
     badge: 'Yönetici',
     title: 'Yönetici Uygulaması',
-    tagline: '',
     description:
       'Proje yönetimi, personel onayı, yevmiye ve raporlar. Ofisten veya sahada tam kontrol.',
-    features: [] as string[],
     playUrl: PLAY_STORE_ADMIN_URL,
-    gradient: 'from-slate-700 via-slate-800 to-slate-950',
-    glow: 'bg-slate-500/25',
-    cardBg: 'from-slate-50/90 via-white to-slate-100/80 dark:from-slate-900 dark:via-slate-900 dark:to-slate-950',
-    border: 'border-slate-200/80 dark:border-slate-600/30',
-    iconBg: 'from-slate-600 to-slate-900',
-    accent: 'text-slate-700 dark:text-slate-300',
-    ring: 'ring-slate-500/20',
-    icon: (
-      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={1.75}
-          d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-        />
-      </svg>
-    ),
+    accentBar: 'bg-gradient-to-b from-slate-500 to-[#0E1548]',
+    badgeClass:
+      'text-slate-200 bg-white/10 border-white/15',
+    panelClass: 'bg-[#0E1548] text-white',
+    iconRing: 'ring-white/20',
   },
 ] as const;
 
-function AppCard({
+function AppPanel({
   app,
   index,
 }: {
@@ -78,94 +46,55 @@ function AppCard({
   index: number;
 }) {
   const hasPlayLink = Boolean(app.playUrl);
+  const isNavy = app.id === 'admin';
 
   return (
     <motion.article
-      className={`group relative overflow-hidden rounded-[1.75rem] border ${app.border} bg-gradient-to-br ${app.cardBg} shadow-xl shadow-slate-200/50 dark:shadow-black/30 transition-shadow hover:shadow-2xl hover:shadow-slate-300/40 dark:hover:shadow-black/50`}
-      initial={{ opacity: 0, y: 24 }}
+      className={`relative flex flex-col overflow-hidden rounded-2xl border sm:rounded-none sm:border-0 ${
+        isNavy
+          ? 'border-[#1a2560] sm:border-l sm:border-white/10'
+          : 'border-slate-200/80 dark:border-slate-700/70 sm:border-r sm:border-slate-200/80 dark:sm:border-slate-700/70'
+      } ${app.panelClass}`}
+      initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
-      transition={{ delay: index * 0.12, duration: 0.5 }}
+      transition={{ delay: index * 0.1, duration: 0.45 }}
     >
-      {/* Dekoratif üst şerit */}
-      <div className={`relative h-28 sm:h-32 bg-gradient-to-br ${app.gradient} overflow-hidden`}>
-        <div
-          className="absolute inset-0 opacity-20"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.4' fill-rule='evenodd'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E")`,
-          }}
-        />
-        <div className={`absolute -right-8 -top-8 h-40 w-40 rounded-full ${app.glow} blur-2xl`} />
-        <div className="absolute -left-4 bottom-0 h-24 w-24 rounded-full bg-white/10 blur-xl" />
+      <div className={`absolute inset-y-0 left-0 w-1 ${app.accentBar}`} aria-hidden />
 
-        {/* Telefon silüeti */}
-        <div className="absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 opacity-90">
-          <div className="relative h-[88px] w-[44px] sm:h-[100px] sm:w-[50px] rounded-[14px] border-[2.5px] border-white/40 bg-white/10 backdrop-blur-md shadow-2xl">
-            <div className="absolute left-1/2 top-2 h-1 w-6 -translate-x-1/2 rounded-full bg-white/50" />
-            <div className="absolute inset-x-1.5 top-5 bottom-3 rounded-md bg-white/15 overflow-hidden">
-              <div className={`h-full w-full bg-gradient-to-b ${app.gradient} opacity-60`} />
-              <div className="absolute inset-x-1 top-2 space-y-1">
-                <div className="h-1 w-3/4 rounded bg-white/50" />
-                <div className="h-1 w-1/2 rounded bg-white/30" />
-                <div className="h-1 w-2/3 rounded bg-white/25" />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Uygulama ikonu */}
-        <div className="absolute left-5 sm:left-7 bottom-0 translate-y-1/2">
+      <div className="flex flex-1 flex-col p-6 sm:p-8 pl-7 sm:pl-9">
+        <div className="flex items-start gap-4">
           <div
-            className={`flex h-[4.5rem] w-[4.5rem] sm:h-20 sm:w-20 items-center justify-center rounded-[1.35rem] bg-gradient-to-br ${app.iconBg} text-white shadow-2xl ring-4 ring-white dark:ring-slate-900 ${app.ring} transition-transform group-hover:scale-105`}
+            className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white shadow-md ring-2 ${app.iconRing} ${isNavy ? '' : 'dark:bg-slate-800'}`}
           >
-            {app.icon}
+            <Image src="/crewledger.png" alt="" width={36} height={36} className="h-9 w-9 rounded-lg" />
+          </div>
+          <div className="min-w-0 flex-1">
+            <div className="flex flex-wrap items-center gap-2">
+              <span
+                className={`inline-flex rounded-full border px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider ${app.badgeClass}`}
+              >
+                {app.badge}
+              </span>
+              <span className={`text-[11px] font-medium ${isNavy ? 'text-blue-200/70' : 'text-slate-400'}`}>
+                Android · Ücretsiz
+              </span>
+            </div>
+            <h3 className={`mt-2 text-xl font-bold tracking-tight ${isNavy ? 'text-white' : 'text-slate-900 dark:text-white'}`}>
+              {app.title}
+            </h3>
           </div>
         </div>
-      </div>
 
-      <div className="px-5 sm:px-7 pt-12 sm:pt-14 pb-6 sm:pb-8">
-        <div className="flex flex-wrap items-center gap-2 mb-2">
-          <span
-            className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wider ${app.accent} bg-white/80 dark:bg-slate-800/80 border ${app.border}`}
-          >
-            {app.badge}
-          </span>
-          <span className="text-[11px] font-medium text-slate-400 dark:text-slate-500">
-            Android · Ücretsiz
-          </span>
-        </div>
-
-        <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-          {app.title}
-        </h3>
-        {app.tagline ? (
-          <p className={`mt-1 text-sm font-semibold ${app.accent}`}>{app.tagline}</p>
-        ) : null}
-        <p className={`${app.tagline ? 'mt-3' : 'mt-2'} text-sm sm:text-[15px] leading-relaxed text-gray-600 dark:text-gray-400`}>
+        <p
+          className={`mt-4 flex-1 text-sm leading-relaxed sm:text-[15px] ${
+            isNavy ? 'text-blue-100/85' : 'text-slate-600 dark:text-slate-400'
+          }`}
+        >
           {app.description}
         </p>
 
-        {app.features.length > 0 ? (
-        <ul className="mt-5 flex flex-wrap gap-2">
-          {app.features.map((feature) => (
-            <li
-              key={feature}
-              className="inline-flex items-center gap-1.5 rounded-full bg-white/80 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700 px-3 py-1 text-xs font-medium text-slate-700 dark:text-slate-300 shadow-sm"
-            >
-              <svg className="h-3 w-3 text-emerald-500 shrink-0" fill="currentColor" viewBox="0 0 20 20" aria-hidden>
-                <path
-                  fillRule="evenodd"
-                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              {feature}
-            </li>
-          ))}
-        </ul>
-        ) : null}
-
-        <div className="mt-7 pt-6 border-t border-slate-200/80 dark:border-slate-700/80">
+        <div className={`mt-6 pt-5 border-t ${isNavy ? 'border-white/10' : 'border-slate-200/80 dark:border-slate-700/70'}`}>
           <GooglePlayBadge href={app.playUrl} enabled={hasPlayLink} />
         </div>
       </div>
@@ -175,48 +104,63 @@ function AppCard({
 
 export function PlayStoreSection() {
   return (
-    <section id="play-store" className="relative py-20 lg:py-28 overflow-hidden">
-      {/* Arka plan */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-white via-slate-50 to-white dark:from-slate-950 dark:via-slate-900 dark:to-slate-950" />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-gradient-to-b from-emerald-400/8 via-blue-400/10 to-transparent dark:from-emerald-500/5 dark:via-blue-500/8 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-indigo-400/8 dark:bg-indigo-500/5 rounded-full blur-3xl translate-x-1/3" />
+    <section id="play-store" className="relative overflow-hidden py-20 lg:py-28">
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-white via-slate-50/80 to-white dark:from-slate-950 dark:via-slate-900 dark:to-slate-950" />
+      <div className="absolute top-1/4 left-0 h-[380px] w-[380px] rounded-full bg-blue-400/10 blur-3xl dark:bg-blue-500/5" />
+      <div className="absolute bottom-0 right-0 h-[320px] w-[320px] rounded-full bg-indigo-400/10 blur-3xl dark:bg-indigo-500/5" />
       <div
-        className="absolute inset-0 opacity-[0.025] dark:opacity-[0.04]"
+        className="absolute inset-0 -z-10 opacity-[0.025] dark:opacity-[0.04]"
         style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2310b981' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%232563eb' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
         }}
+        aria-hidden
       />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
-          className="text-center max-w-3xl mx-auto mb-14 lg:mb-20"
+          className="mx-auto mb-10 max-w-3xl text-center lg:mb-14"
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <div className="inline-flex items-center gap-2.5 rounded-full border border-emerald-200/80 dark:border-emerald-800/50 bg-emerald-50/80 dark:bg-emerald-950/40 px-4 py-2 mb-6 shadow-sm">
-            <span className="flex h-8 w-8 items-center justify-center rounded-full border border-emerald-200/80 bg-white shadow-md dark:border-emerald-800/50 dark:bg-slate-900">
-              <GooglePlayIcon className="h-5 w-5" />
-            </span>
-            <span className="text-sm font-semibold text-emerald-800 dark:text-emerald-300 tracking-wide">
-              Mobil Uygulama
-            </span>
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-blue-200/80 bg-blue-50/80 px-4 py-1.5 text-sm font-semibold text-blue-700 dark:border-blue-800/50 dark:bg-blue-950/40 dark:text-blue-300">
+            <GooglePlayIcon className="h-4 w-4" />
+            Mobil Uygulama
           </div>
 
-          <h2 className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold tracking-tight text-gray-900 dark:text-white leading-tight">
+          <h2 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
             Google Play&apos;den{' '}
-            <span className="bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
               indirin
             </span>
           </h2>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-6 lg:gap-8 max-w-5xl mx-auto">
-          {apps.map((app, i) => (
-            <AppCard key={app.id} app={app} index={i} />
-          ))}
-        </div>
+        <motion.div
+          className="mx-auto max-w-5xl overflow-hidden rounded-[1.75rem] border border-slate-200/80 bg-white/80 shadow-2xl shadow-slate-200/50 backdrop-blur-sm dark:border-slate-700/70 dark:bg-slate-900/60 dark:shadow-black/40"
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.55 }}
+        >
+          <div className="overflow-hidden rounded-t-[1.75rem]">
+            <Image
+              src="/banner.png"
+              alt="CrewLedger mobil uygulamaları"
+              width={749}
+              height={208}
+              className="block h-auto w-full"
+              sizes="(min-width: 1024px) 896px, 100vw"
+            />
+          </div>
+
+          <div className="grid sm:grid-cols-2">
+            {apps.map((app, i) => (
+              <AppPanel key={app.id} app={app} index={i} />
+            ))}
+          </div>
+        </motion.div>
       </div>
     </section>
   );
