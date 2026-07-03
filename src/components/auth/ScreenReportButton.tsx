@@ -94,9 +94,13 @@ export function ScreenReportButton({ captureRootRef, screenLabel }: Props) {
         onClick={() => void handleOpen()}
         disabled={capturing}
         aria-label="Sorun bildir"
-        className="screen-report-ignore touch-target inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/20 bg-black/25 text-white backdrop-blur-sm hover:bg-black/40 transition-colors disabled:opacity-60"
+        className={`${capturing ? '' : 'screen-report-btn '}screen-report-ignore touch-target inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/20 bg-black/25 text-white backdrop-blur-sm hover:bg-black/40 transition-colors disabled:opacity-60`}
       >
-        {capturing ? <FiLoader className="h-5 w-5 animate-spin" /> : <FiFlag className="h-5 w-5" />}
+        {capturing ? (
+          <FiLoader className="h-5 w-5 animate-spin" />
+        ) : (
+          <FiFlag className="screen-report-flag h-5 w-5" aria-hidden />
+        )}
       </button>
 
       {open && screenshot ? (

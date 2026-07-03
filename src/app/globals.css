@@ -159,6 +159,54 @@ a {
   text-security: disc;
 }
 
+/* Sorun bildir — üst bar bayrak ikonu */
+@keyframes screen-report-glow {
+  0%,
+  100% {
+    border-color: rgb(255 255 255 / 0.2);
+    box-shadow: 0 0 0 0 rgb(56 189 248 / 0);
+  }
+  50% {
+    border-color: rgb(125 211 252 / 0.55);
+    box-shadow: 0 0 14px 2px rgb(56 189 248 / 0.35);
+  }
+}
+
+@keyframes screen-report-flag-wave {
+  0%,
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+  20% {
+    transform: rotate(-10deg) scale(1.06);
+  }
+  40% {
+    transform: rotate(8deg) scale(1.03);
+  }
+  60% {
+    transform: rotate(-5deg) scale(1.04);
+  }
+  80% {
+    transform: rotate(4deg) scale(1.02);
+  }
+}
+
+.screen-report-btn {
+  animation: screen-report-glow 2.8s ease-in-out infinite;
+}
+
+.screen-report-flag {
+  transform-origin: 18% 88%;
+  animation: screen-report-flag-wave 2.2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .screen-report-btn,
+  .screen-report-flag {
+    animation: none;
+  }
+}
+
 /* Personel giriş — mobil tarayıcıda beyaz input / autofill düzeltmesi */
 .personnel-auth-page {
   color-scheme: dark;
