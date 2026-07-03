@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { HeroPlayStorePromo } from '@/components/home/HeroPlayStorePromo';
 
 const capabilityPills = [
   'QR Yoklama',
@@ -26,6 +27,7 @@ export function HeroSection() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid lg:grid-cols-2 lg:gap-10 xl:gap-14 items-center">
         <motion.div
           className="max-w-3xl"
           initial={false}
@@ -102,6 +104,9 @@ export function HeroSection() {
             </div>
           </div>
         </motion.div>
+
+        <HeroPlayStorePromo />
+        </div>
       </div>
     </section>
   );
