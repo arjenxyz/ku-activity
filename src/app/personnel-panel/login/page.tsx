@@ -18,6 +18,7 @@ import { FiLock } from 'react-icons/fi';
 import { PersonnelLoginLayout } from '@/components/personnel/PersonnelLoginLayout';
 import { useAuthReport } from '@/components/auth/AuthReportContext';
 import { AuthAlert, LoadingSpinner } from '@/components/auth/AuthAlerts';
+import { ForgotPinModal } from '@/components/auth/ForgotPinModal';
 import { PERSONNEL_PIN_LENGTH, sanitizePersonnelPinInput } from '@/lib/personnel-pin';
 import {
   loginPinInputProps,
@@ -44,6 +45,13 @@ function LoginForm() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [forgotOpen, setForgotOpen] = useState(false);
+
+  useEffect(() => {
+    if (searchParams.get('forgot') === '1') {
+      setForgotOpen(true);
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     const fromUrl = searchParams.get('tc');
@@ -185,11 +193,21 @@ function LoginForm() {
           </Link>
         </p>
         <p>
-          <Link href="/personnel-panel/sifremi-unuttum" className={personnelAuthLinkClass}>
+          <button
+            type="button"
+            onClick={() => setForgotOpen(true)}
+            className={`${personnelAuthLinkClass} bg-transparent border-0 p-0 cursor-pointer`}
+          >
             Şifremi unuttum
-          </Link>
+          </button>
         </p>
       </div>
+
+      <ForgotPinModal
+        open={forgotOpen}
+        onClose={() => setForgotOpen(false)}
+        initialTc={identityNumber}
+      />
     </>
   );
 }
