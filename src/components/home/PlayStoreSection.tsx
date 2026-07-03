@@ -13,10 +13,10 @@ const apps = [
     id: 'personel',
     badge: 'Personel',
     title: 'Personel Uygulaması',
-    tagline: 'Sahada her gün ihtiyacınız olan her şey',
+    tagline: '',
     description:
       'Yoklama, yevmiye, mesai ve bordro görüntüleme. Başvuru ve günlük işlemler için tasarlandı.',
-    features: ['QR Yoklama', 'Yevmiye & Mesai', 'Bordro', 'Başvuru'],
+    features: [] as string[],
     playUrl: PLAY_STORE_PERSONNEL_URL,
     webFallback: '/personnel-panel/basvuru',
     webLabel: 'Web sürümünü aç',
@@ -143,11 +143,14 @@ function AppCard({
         <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
           {app.title}
         </h3>
-        <p className={`mt-1 text-sm font-semibold ${app.accent}`}>{app.tagline}</p>
-        <p className="mt-3 text-sm sm:text-[15px] leading-relaxed text-gray-600 dark:text-gray-400">
+        {app.tagline ? (
+          <p className={`mt-1 text-sm font-semibold ${app.accent}`}>{app.tagline}</p>
+        ) : null}
+        <p className={`${app.tagline ? 'mt-3' : 'mt-2'} text-sm sm:text-[15px] leading-relaxed text-gray-600 dark:text-gray-400`}>
           {app.description}
         </p>
 
+        {app.features.length > 0 ? (
         <ul className="mt-5 flex flex-wrap gap-2">
           {app.features.map((feature) => (
             <li
@@ -165,6 +168,7 @@ function AppCard({
             </li>
           ))}
         </ul>
+        ) : null}
 
         <div className="mt-7 pt-6 border-t border-slate-200/80 dark:border-slate-700/80 flex flex-col sm:flex-row sm:items-center gap-4">
           <GooglePlayBadge href={app.playUrl} enabled={hasPlayLink} />
