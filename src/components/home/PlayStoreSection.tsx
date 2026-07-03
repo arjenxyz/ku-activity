@@ -14,25 +14,19 @@ import {
 const apps = [
   {
     id: 'personel',
-    badge: 'Personel',
     title: 'Personel Uygulaması',
     description:
       'Yoklama, yevmiye, mesai ve bordro görüntüleme. Başvuru ve günlük işlemler için tasarlandı.',
     playUrl: PLAY_STORE_PERSONNEL_URL,
     iconSrc: PLAY_STORE_PERSONNEL_ICON,
-    badgeClass:
-      'text-blue-700 bg-blue-50 border-blue-100 dark:text-blue-300 dark:bg-blue-950/40 dark:border-blue-900/50',
   },
   {
     id: 'admin',
-    badge: 'Yönetici',
     title: 'Yönetici Uygulaması',
     description:
       'Proje yönetimi, personel onayı, yevmiye ve raporlar. Ofisten veya sahada tam kontrol.',
     playUrl: PLAY_STORE_ADMIN_URL,
     iconSrc: PLAY_STORE_ADMIN_ICON,
-    badgeClass:
-      'text-slate-700 bg-slate-100 border-slate-200 dark:text-slate-300 dark:bg-slate-800 dark:border-slate-700',
   },
 ] as const;
 
@@ -74,15 +68,8 @@ function AppCard({
           <Image src={app.iconSrc} alt="" width={56} height={56} className="h-full w-full object-cover" />
         </div>
         <div className="min-w-0">
-          <div className="flex flex-wrap items-center gap-2">
-            <span
-              className={`inline-flex rounded-md border px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider ${app.badgeClass}`}
-            >
-              {app.badge}
-            </span>
-            <span className="text-xs text-slate-400">Android · Ücretsiz</span>
-          </div>
-          <h3 className="mt-1.5 text-lg font-bold tracking-tight text-slate-900 dark:text-white">{app.title}</h3>
+          <p className="text-xs text-slate-400">Android · Ücretsiz</p>
+          <h3 className="mt-1 text-lg font-bold tracking-tight text-slate-900 dark:text-white">{app.title}</h3>
         </div>
       </div>
 
