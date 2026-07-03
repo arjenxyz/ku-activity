@@ -54,15 +54,17 @@ function CardsConnector({ layout }: { layout: 'row' | 'column' }) {
 function AppCard({
   app,
   index,
+  className = '',
 }: {
   app: (typeof apps)[number];
   index: number;
+  className?: string;
 }) {
   const hasPlayLink = Boolean(app.playUrl);
 
   return (
     <motion.article
-      className="flex h-full flex-col rounded-2xl border border-slate-200/90 bg-white p-6 shadow-sm transition-shadow hover:shadow-md dark:border-slate-800 dark:bg-slate-900 sm:p-7"
+      className={`flex h-full flex-col rounded-2xl border border-slate-200/90 bg-white p-6 shadow-sm transition-shadow hover:shadow-md dark:border-slate-800 dark:bg-slate-900 sm:p-7 ${className}`}
       initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
@@ -104,6 +106,23 @@ function AppCard({
   );
 }
 
+function MobileStackedAppCards() {
+  return (
+    <div className="relative sm:hidden">
+      <AppCard
+        app={apps[0]}
+        index={0}
+        className="relative z-20 shadow-md ring-1 ring-slate-200/50 dark:ring-slate-700/50"
+      />
+      <AppCard
+        app={apps[1]}
+        index={1}
+        className="relative z-10 -mt-10 shadow-sm"
+      />
+    </div>
+  );
+}
+
 export function PlayStoreSection() {
   return (
     <section id="play-store" className="py-20 lg:py-24">
@@ -131,11 +150,7 @@ export function PlayStoreSection() {
             <AppCard app={apps[1]} index={1} />
           </div>
 
-          <div className="space-y-4 sm:hidden">
-            <AppCard app={apps[0]} index={0} />
-            <CardsConnector layout="column" />
-            <AppCard app={apps[1]} index={1} />
-          </div>
+          <MobileStackedAppCards />
         </div>
       </div>
     </section>
