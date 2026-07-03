@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { BrandMark } from '@/components/brand/BrandMark';
 import { APP_NAME, APP_TAGLINE_TR } from '@/lib/brand';
@@ -8,6 +9,21 @@ import { SUPPORT_EMAIL, verificationCodeMailto } from '@/lib/support-email';
 export function HomeFooter() {
   return (
     <footer id="contact" className="bg-[#0E1548] text-white">
+      <div className="relative w-full overflow-hidden">
+        <Image
+          src="/footer.png"
+          alt="CrewLedger şantiye ekibi"
+          width={1842}
+          height={854}
+          className="block h-auto w-full object-cover object-bottom"
+          sizes="100vw"
+        />
+        <div
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-b from-transparent to-[#0E1548] sm:h-16"
+          aria-hidden
+        />
+      </div>
+
       <div className="max-w-7xl mx-auto px-6 py-14">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
           <div className="lg:col-span-2 space-y-5">
