@@ -4,13 +4,6 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { HeroPlayStorePromo } from '@/components/home/HeroPlayStorePromo';
 
-const capabilityPills = [
-  'QR Yoklama',
-  'Anlık Mesai',
-  'Asgari Uyum',
-  'Mobil PWA',
-];
-
 export function HeroSection() {
   return (
     <section id="hero" className="relative pt-[max(6.5rem,calc(env(safe-area-inset-top)+5rem))] pb-12 sm:pb-16 lg:pt-36 lg:pb-24 overflow-hidden">
@@ -53,17 +46,6 @@ export function HeroSection() {
             Yevmiye, avans, proje takibi ve maaş hesaplamaları tek platformda. Güvenli, hızlı ve
             kullanıcı dostu arayüz ile şantiye operasyonlarınızı dijitalleştirin.
           </p>
-
-          <div className="mt-5 flex flex-wrap gap-2.5">
-            {capabilityPills.map((pill) => (
-              <span
-                key={pill}
-                className="inline-flex items-center px-3 py-1.5 rounded-full bg-white/90 dark:bg-slate-800 border border-blue-100 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-200"
-              >
-                {pill}
-              </span>
-            ))}
-          </div>
 
           <div className="mt-8 flex flex-col sm:flex-row gap-3">
             <Link
