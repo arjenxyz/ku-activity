@@ -2,10 +2,10 @@
 
 import type { ReactNode } from 'react';
 import { useCallback, useEffect, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 const AUTOPLAY_MS = 4500;
-const springTransition = { type: 'spring' as const, stiffness: 280, damping: 30 };
+const springTransition = { type: 'spring' as const, stiffness: 300, damping: 32 };
 
 const features = [
   {
@@ -109,49 +109,42 @@ function FeaturesIcon({ className }: { className?: string }) {
   );
 }
 
-function FeatureIconBox({
-  icon,
-  size = 'md',
-}: {
-  icon: ReactNode;
-  size?: 'sm' | 'md' | 'lg';
-}) {
-  const box =
-    size === 'lg' ? 'h-14 w-14 rounded-2xl' : size === 'md' ? 'h-11 w-11 rounded-xl' : 'h-9 w-9 rounded-lg';
-  const svg = size === 'lg' ? 'h-7 w-7' : size === 'md' ? 'h-5 w-5' : 'h-4 w-4';
-
+function FeatureIconBox({ icon }: { icon: ReactNode }) {
   return (
-    <div
-      className={`flex shrink-0 items-center justify-center bg-gradient-to-br from-[#0E1548] to-indigo-700 text-white shadow-md shadow-[#0E1548]/20 ${box}`}
-    >
-      <svg className={svg} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#0E1548] to-indigo-700 text-white shadow-md shadow-[#0E1548]/20 sm:h-14 sm:w-14 sm:rounded-2xl">
+      <svg className="h-6 w-6 sm:h-7 sm:w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
         {icon}
       </svg>
     </div>
   );
 }
 
-function FeatureCardBody({ feature, index }: { feature: Feature; index: number }) {
+function FeatureCardSlide({ feature, index }: { feature: Feature; index: number }) {
   const indexLabel = String(index + 1).padStart(2, '0');
   const totalLabel = String(features.length).padStart(2, '0');
 
   return (
-    <>
-      <div className="flex items-start justify-between gap-3">
-        <span className="inline-flex rounded-md border border-blue-100 bg-blue-50 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-blue-700 dark:border-blue-900/50 dark:bg-blue-950/40 dark:text-blue-300">
-          {feature.tag}
-        </span>
-        <span className="font-mono text-xs text-slate-400 dark:text-slate-500">
-          {indexLabel}/{totalLabel}
-        </span>
+    <article className="box-border w-full shrink-0 grow-0 basis-full px-5 pb-6 pt-7 sm:px-8 sm:pb-8 sm:pt-9">
+      <div className="flex items-start gap-3 sm:gap-4">
+        <FeatureIconBox icon={feature.icon} />
+        <div className="min-w-0 flex-1">
+          <div className="flex items-start justify-between gap-2">
+            <span className="inline-flex rounded-md border border-blue-100 bg-blue-50 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-blue-700 dark:border-blue-900/50 dark:bg-blue-950/40 dark:text-blue-300">
+              {feature.tag}
+            </span>
+            <span className="shrink-0 font-mono text-xs text-slate-400 dark:text-slate-500">
+              {indexLabel}/{totalLabel}
+            </span>
+          </div>
+          <h3 className="mt-2 text-lg font-bold tracking-tight text-slate-900 dark:text-white sm:mt-3 sm:text-2xl">
+            {feature.title}
+          </h3>
+          <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-400 sm:mt-3 sm:text-base">
+            {feature.description}
+          </p>
+        </div>
       </div>
-      <h3 className="mt-3 text-xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-2xl">
-        {feature.title}
-      </h3>
-      <p className="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-400 sm:text-base">
-        {feature.description}
-      </p>
-    </>
+    </article>
   );
 }
 
@@ -181,222 +174,113 @@ function useFeatureCarousel() {
     return () => window.clearInterval(id);
   }, [paused, reducedMotion, goNext]);
 
-  return { active, setPaused, reducedMotion, goTo, goNext, goPrev };
+  return { active, paused, setPaused, reducedMotion, goTo, goNext, goPrev };
 }
 
-function MobileFeatureDeck() {
-  const { active, setPaused, goTo, reducedMotion } = useFeatureCarousel();
+function FeatureCarousel() {
+  const { active, paused, setPaused, reducedMotion, goTo, goNext, goPrev } = useFeatureCarousel();
 
   return (
     <div
-      className="md:hidden"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-      onTouchStart={() => setPaused(true)}
-      onTouchEnd={() => setPaused(false)}
-    >
-      <div className="space-y-2" role="tablist" aria-label="Platform özellikleri">
-        {features.map((feature, index) => {
-          const isActive = index === active;
-
-          return (
-            <motion.article
-              key={feature.title}
-              layout
-              transition={springTransition}
-              className={`relative overflow-hidden rounded-2xl border transition-colors ${
-                isActive
-                  ? 'border-blue-200/90 bg-white shadow-md ring-1 ring-blue-100/80 dark:border-blue-900/40 dark:bg-slate-900 dark:ring-blue-900/30'
-                  : 'border-slate-200/80 bg-white/90 shadow-sm dark:border-slate-800 dark:bg-slate-900/80'
-              }`}
-            >
-              {isActive && (
-                <div
-                  className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#0E1548] via-blue-600 to-indigo-500"
-                  aria-hidden
-                />
-              )}
-
-              <button
-                type="button"
-                role="tab"
-                aria-selected={isActive}
-                aria-expanded={isActive}
-                onClick={() => goTo(index)}
-                className={`flex w-full items-center gap-3 text-left transition-colors ${
-                  isActive ? 'p-4 pt-5' : 'p-3.5 active:bg-slate-50 dark:active:bg-slate-800/50'
-                }`}
-              >
-                <FeatureIconBox icon={feature.icon} size={isActive ? 'md' : 'sm'} />
-                <div className="min-w-0 flex-1">
-                  <span
-                    className={`inline-flex rounded-md border px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider ${
-                      isActive
-                        ? 'border-blue-100 bg-blue-50 text-blue-700 dark:border-blue-900/50 dark:bg-blue-950/40 dark:text-blue-300'
-                        : 'border-slate-200 bg-slate-50 text-slate-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400'
-                    }`}
-                  >
-                    {feature.tag}
-                  </span>
-                  <p
-                    className={`mt-1 truncate font-semibold tracking-tight text-slate-900 dark:text-white ${
-                      isActive ? 'text-base' : 'text-sm'
-                    }`}
-                  >
-                    {feature.title}
-                  </p>
-                </div>
-                <svg
-                  className={`h-4 w-4 shrink-0 text-slate-400 transition-transform ${isActive ? 'rotate-180' : ''}`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  aria-hidden
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-
-              <AnimatePresence initial={false}>
-                {isActive && (
-                  <motion.div
-                    key="body"
-                    initial={reducedMotion ? { opacity: 0 } : { opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    exit={reducedMotion ? { opacity: 0 } : { opacity: 0, height: 0 }}
-                    transition={{ duration: 0.28, ease: 'easeOut' }}
-                    className="overflow-hidden"
-                  >
-                    <div className="border-t border-slate-100 px-4 pb-4 pt-3 dark:border-slate-800">
-                      <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-400">
-                        {feature.description}
-                      </p>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.article>
-          );
-        })}
-      </div>
-
-      <div className="mt-4 flex items-center justify-center gap-1.5">
-        {features.map((feature, index) => (
-          <button
-            key={feature.title}
-            type="button"
-            onClick={() => goTo(index)}
-            className={`h-1.5 rounded-full transition-all ${
-              index === active ? 'w-6 bg-[#0E1548]' : 'w-1.5 bg-slate-300 dark:bg-slate-600'
-            }`}
-            aria-label={`${feature.title} özelliğine git`}
-          />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function DesktopFeatureCarousel() {
-  const { active, setPaused, reducedMotion, goTo, goNext, goPrev } = useFeatureCarousel();
-
-  const feature = features[active];
-
-  return (
-    <div
-      className="relative hidden md:block"
+      className="min-w-0"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onFocusCapture={() => setPaused(true)}
       onBlurCapture={(e) => {
         if (!e.currentTarget.contains(e.relatedTarget as Node)) setPaused(false);
       }}
+      onTouchStart={() => setPaused(true)}
+      onTouchEnd={() => setPaused(false)}
     >
-      <div className="relative overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
+      <div className="relative isolate overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
         <div
           className="absolute inset-x-0 top-0 z-10 h-1 bg-gradient-to-r from-[#0E1548] via-blue-600 to-indigo-500"
           aria-hidden
         />
 
-        <div className="relative px-6 pb-6 pt-7 sm:px-8 sm:pb-8 sm:pt-9">
-          <div className="mb-5 flex items-start justify-between gap-4">
-            <FeatureIconBox icon={feature.icon} size="lg" />
-            <div className="flex items-center gap-1.5">
-              <button
-                type="button"
-                onClick={goPrev}
-                className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 text-slate-500 transition-colors hover:border-slate-300 hover:bg-slate-50 hover:text-slate-800 dark:border-slate-700 dark:hover:bg-slate-800 dark:hover:text-slate-200"
-                aria-label="Önceki özellik"
-              >
-                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
-              </button>
-              <button
-                type="button"
-                onClick={goNext}
-                className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 text-slate-500 transition-colors hover:border-slate-300 hover:bg-slate-50 hover:text-slate-800 dark:border-slate-700 dark:hover:bg-slate-800 dark:hover:text-slate-200"
-                aria-label="Sonraki özellik"
-              >
-                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </button>
-            </div>
-          </div>
+        <div className="absolute right-3 top-4 z-20 hidden items-center gap-1.5 sm:right-4 sm:top-5 sm:flex">
+          <button
+            type="button"
+            onClick={goPrev}
+            className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-500 transition-colors hover:border-slate-300 hover:bg-slate-50 hover:text-slate-800 dark:border-slate-700 dark:bg-slate-900 dark:hover:bg-slate-800 dark:hover:text-slate-200"
+            aria-label="Önceki özellik"
+          >
+            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+          <button
+            type="button"
+            onClick={goNext}
+            className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-500 transition-colors hover:border-slate-300 hover:bg-slate-50 hover:text-slate-800 dark:border-slate-700 dark:bg-slate-900 dark:hover:bg-slate-800 dark:hover:text-slate-200"
+            aria-label="Sonraki özellik"
+          >
+            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
 
-          <div className="min-h-[180px]">
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.div
-                key={feature.title}
-                initial={reducedMotion ? { opacity: 0 } : { opacity: 0, x: 24 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={reducedMotion ? { opacity: 0 } : { opacity: 0, x: -24 }}
-                transition={{ duration: 0.32, ease: 'easeOut' }}
-                aria-live="polite"
-              >
-                <FeatureCardBody feature={feature} index={active} />
-              </motion.div>
-            </AnimatePresence>
-          </div>
+        <div className="overflow-hidden">
+          <motion.div
+            className="flex w-full"
+            animate={{ x: `-${active * 100}%` }}
+            transition={reducedMotion ? { duration: 0 } : springTransition}
+            aria-live="polite"
+          >
+            {features.map((feature, index) => (
+              <FeatureCardSlide key={feature.title} feature={feature} index={index} />
+            ))}
+          </motion.div>
         </div>
       </div>
 
-      <ul className="mt-4 hidden gap-2 lg:grid lg:grid-cols-3">
+      <div
+        className="mt-4 flex gap-2 overflow-x-auto py-1 scrollbar-hide"
+        role="tablist"
+        aria-label="Özellik seçimi"
+      >
         {features.map((item, i) => {
           const isActive = i === active;
-          const isNext = i === (active + 1) % features.length;
-          const isPrev = i === (active - 1 + features.length) % features.length;
-          if (!isActive && !isNext && !isPrev) return null;
-
           return (
-            <li key={item.title}>
-              <button
-                type="button"
-                onClick={() => goTo(i)}
-                className={`w-full rounded-xl border px-3 py-2.5 text-left transition-all ${
-                  isActive
-                    ? 'border-blue-200 bg-blue-50/80 dark:border-blue-900/50 dark:bg-blue-950/30'
-                    : 'border-transparent bg-white/60 opacity-70 hover:opacity-100 dark:bg-slate-900/40'
-                }`}
-              >
-                <p className="truncate text-sm font-semibold text-slate-800 dark:text-slate-200">{item.title}</p>
-              </button>
-            </li>
+            <button
+              key={item.title}
+              type="button"
+              role="tab"
+              aria-selected={isActive}
+              onClick={() => goTo(i)}
+              className={`relative shrink-0 rounded-full border px-3.5 py-2 text-xs font-semibold transition-colors ${
+                isActive
+                  ? 'border-[#0E1548] bg-[#0E1548] text-white'
+                  : 'border-slate-200 bg-white text-slate-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300'
+              }`}
+            >
+              {isActive && !reducedMotion && !paused && (
+                <motion.span
+                  key={`progress-${active}`}
+                  className="absolute inset-y-0 left-0 rounded-full bg-white/20"
+                  initial={{ width: '0%' }}
+                  animate={{ width: '100%' }}
+                  transition={{ duration: AUTOPLAY_MS / 1000, ease: 'linear' }}
+                  aria-hidden
+                />
+              )}
+              <span className="relative">{item.tag}</span>
+            </button>
           );
         })}
-      </ul>
+      </div>
     </div>
   );
 }
 
 export function FeaturesSection() {
   return (
-    <section id="features" className="bg-slate-50/80 py-12 dark:bg-slate-950/50 sm:py-16 lg:py-24">
+    <section id="features" className="overflow-x-hidden bg-slate-50/80 py-12 dark:bg-slate-950/50 sm:py-16 lg:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="lg:grid lg:grid-cols-[minmax(0,320px)_1fr] lg:items-start lg:gap-12 xl:gap-16">
+        <div className="lg:grid lg:grid-cols-[minmax(0,320px)_minmax(0,1fr)] lg:items-start lg:gap-12 xl:gap-16">
           <motion.div
-            className="lg:sticky lg:top-28"
+            className="lg:sticky lg:top-28 lg:z-10 lg:bg-slate-50/95 lg:pr-4 dark:lg:bg-slate-950/95"
             initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -410,8 +294,8 @@ export function FeaturesSection() {
               Puantajdan bordroya gerçek modüller
             </h2>
             <p className="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-400 sm:mt-4 sm:text-base lg:text-lg">
-              <span className="md:hidden">6 modül — başlığa dokunarak açın veya otomatik geçişi izleyin.</span>
-              <span className="hidden md:inline">
+              <span className="lg:hidden">Yana kayan kartlar — etiketlere dokunarak geçin.</span>
+              <span className="hidden lg:inline">
                 Yevmiye, mesai, avans, kesinti, asgari tamamlama ve bordro proje bazında yönetilir. Personel
                 uygulaması yönetici paneliyle aynı kayıtları gösterir.
               </span>
@@ -422,9 +306,8 @@ export function FeaturesSection() {
             />
           </motion.div>
 
-          <div className="mt-6 sm:mt-8 lg:mt-0">
-            <MobileFeatureDeck />
-            <DesktopFeatureCarousel />
+          <div className="mt-6 min-w-0 sm:mt-8 lg:mt-0">
+            <FeatureCarousel />
           </div>
         </div>
       </div>
