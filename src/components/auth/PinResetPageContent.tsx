@@ -277,12 +277,6 @@ export function PinResetPageContent({ token }: Props) {
             )}
           </button>
         </form>
-
-        <p className={`text-center ${personnelAuthMutedTextClass}`}>
-          <Link href="/personnel-panel/login" className={personnelAuthLinkClass}>
-            Giriş ekranına dön
-          </Link>
-        </p>
       </div>
     </PersonnelLoginLayout>
   );
