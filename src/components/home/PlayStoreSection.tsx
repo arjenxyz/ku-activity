@@ -1,7 +1,8 @@
 'use client';
 
 import Image from 'next/image';
-import { useEffect, useRef, useState } from 'react';
+import type { RefObject } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { GooglePlayBadge, GooglePlayIcon } from '@/components/home/GooglePlayBadge';
 import {
@@ -10,6 +11,9 @@ import {
   PLAY_STORE_PERSONNEL_ICON,
   PLAY_STORE_PERSONNEL_URL,
 } from '@/lib/play-store';
+
+const AUTO_SWAP_MS = 4500;
+const HEADER_PEEK = 88;
 
 const apps = [
   {
@@ -38,9 +42,7 @@ const apps = [
 
 type App = (typeof apps)[number];
 
-/** Personel başlık bloğu yüksekliği — yönetici kartı bu çizginin altından başlar */
-const PERSONEL_HEADER_PEEK = 88;
-const PERSONEL_FRONT_PEEK = 40;
+const springTransition = { type: 'spring' as const, stiffness: 260, damping: 28 };
 
 function CardsConnector({ layout }: { layout: 'row' | 'column' }) {
   if (layout === 'column') {
@@ -112,7 +114,7 @@ function AppCardHeader({ app, onHeaderClick }: { app: App; onHeaderClick?: () =>
         type="button"
         onClick={onHeaderClick}
         className="flex w-full items-center gap-4 rounded-xl text-left transition-colors active:bg-slate-50 dark:active:bg-slate-800/50"
-        aria-label={`${app.title} — kartı öne getir`}
+        aria-label={`${app.title} — kartları değiştir`}
       >
         {content}
       </button>
@@ -126,15 +128,18 @@ function MobileStackCard({
   app,
   isFront,
   onHeaderClick,
+  cardRef,
 }: {
   app: App;
   isFront: boolean;
   onHeaderClick?: () => void;
+  cardRef?: RefObject<HTMLElement | null>;
 }) {
   const hasPlayLink = Boolean(app.playUrl);
 
   return (
     <article
+      ref={cardRef as RefObject<HTMLElement>}
       className={`flex flex-col rounded-2xl border border-slate-200/90 bg-white p-6 dark:border-slate-800 dark:bg-slate-900 ${
         isFront ? 'shadow-md ring-1 ring-slate-200/50 dark:ring-slate-700/50' : 'shadow-sm'
       }`}
@@ -154,29 +159,48 @@ function MobileStackCard({
 
 function MobileStackedAppCards() {
   const [adminOnTop, setAdminOnTop] = useState(true);
-  const personelRef = useRef<HTMLDivElement>(null);
-  const [personelHeight, setPersonelHeight] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(false);
+  const personelRef = useRef<HTMLElement>(null);
+  const adminRef = useRef<HTMLElement>(null);
+  const [heights, setHeights] = useState({ personel: 320, admin: 320 });
+
+  const swap = useCallback(() => setAdminOnTop((v) => !v), []);
 
   useEffect(() => {
-    const el = personelRef.current;
-    if (!el) return;
-
-    const measure = () => setPersonelHeight(el.offsetHeight);
-    measure();
-
-    const ro = new ResizeObserver(measure);
-    ro.observe(el);
-    return () => ro.disconnect();
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const sync = () => setReducedMotion(mq.matches);
+    sync();
+    mq.addEventListener('change', sync);
+    return () => mq.removeEventListener('change', sync);
   }, []);
 
-  const adminMarginTop =
-    personelHeight > 0
-      ? adminOnTop
-        ? -(personelHeight - PERSONEL_HEADER_PEEK)
-        : -PERSONEL_FRONT_PEEK
-      : adminOnTop
-        ? -240
-        : -PERSONEL_FRONT_PEEK;
+  useEffect(() => {
+    const measure = () => {
+      setHeights({
+        personel: personelRef.current?.offsetHeight ?? 320,
+        admin: adminRef.current?.offsetHeight ?? 320,
+      });
+    };
+
+    measure();
+    const ro = new ResizeObserver(measure);
+    if (personelRef.current) ro.observe(personelRef.current);
+    if (adminRef.current) ro.observe(adminRef.current);
+    return () => ro.disconnect();
+  }, [adminOnTop]);
+
+  useEffect(() => {
+    if (paused || reducedMotion) return;
+    const id = window.setInterval(swap, AUTO_SWAP_MS);
+    return () => window.clearInterval(id);
+  }, [paused, reducedMotion, swap]);
+
+  const personelTop = adminOnTop ? 0 : HEADER_PEEK;
+  const adminTop = adminOnTop ? HEADER_PEEK : 0;
+  const personelZ = adminOnTop ? 10 : 20;
+  const adminZ = adminOnTop ? 20 : 10;
+  const stackHeight = HEADER_PEEK + Math.max(heights.personel, heights.admin);
 
   return (
     <motion.div
@@ -185,26 +209,33 @@ function MobileStackedAppCards() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
       transition={{ duration: 0.4 }}
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      onTouchStart={() => setPaused(true)}
+      onTouchEnd={() => setPaused(false)}
     >
-      <div ref={personelRef} className={`relative ${adminOnTop ? 'z-10' : 'z-20'}`}>
-        <MobileStackCard
-          app={apps[0]}
-          isFront={!adminOnTop}
-          onHeaderClick={adminOnTop ? () => setAdminOnTop(false) : undefined}
-        />
-      </div>
+      <div className="relative" style={{ minHeight: stackHeight }}>
+        <motion.div
+          className="absolute inset-x-0"
+          animate={{ top: personelTop, zIndex: personelZ }}
+          transition={springTransition}
+        >
+          <MobileStackCard
+            app={apps[0]}
+            isFront={!adminOnTop}
+            cardRef={personelRef}
+            onHeaderClick={swap}
+          />
+        </motion.div>
 
-      <motion.div
-        animate={{ marginTop: adminMarginTop }}
-        transition={{ type: 'spring', stiffness: 260, damping: 28 }}
-        className={`relative ${adminOnTop ? 'z-20' : 'z-10'}`}
-      >
-        <MobileStackCard
-          app={apps[1]}
-          isFront={adminOnTop}
-          onHeaderClick={!adminOnTop ? () => setAdminOnTop(true) : undefined}
-        />
-      </motion.div>
+        <motion.div
+          className="absolute inset-x-0"
+          animate={{ top: adminTop, zIndex: adminZ }}
+          transition={springTransition}
+        >
+          <MobileStackCard app={apps[1]} isFront={adminOnTop} cardRef={adminRef} onHeaderClick={swap} />
+        </motion.div>
+      </div>
     </motion.div>
   );
 }
