@@ -101,17 +101,6 @@ export function HeroSection() {
               Türkçe destek
             </div>
           </div>
-
-          <div className="mt-8 grid grid-cols-2 gap-3 max-w-md">
-            <div className="rounded-xl border border-blue-100 dark:border-slate-700 bg-white/70 dark:bg-slate-800/70 backdrop-blur p-3.5">
-              <p className="text-[11px] uppercase tracking-wide text-slate-500 dark:text-slate-400">Kurulum</p>
-              <p className="text-base font-semibold text-slate-900 dark:text-white mt-1">~10 dakika</p>
-            </div>
-            <div className="rounded-xl border border-blue-100 dark:border-slate-700 bg-white/70 dark:bg-slate-800/70 backdrop-blur p-3.5">
-              <p className="text-[11px] uppercase tracking-wide text-slate-500 dark:text-slate-400">Kullanım</p>
-              <p className="text-base font-semibold text-slate-900 dark:text-white mt-1">Saha odaklı</p>
-            </div>
-          </div>
         </motion.div>
       </div>
     </section>
