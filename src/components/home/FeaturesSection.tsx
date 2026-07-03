@@ -197,15 +197,24 @@ function FeatureCardGrid() {
   );
 }
 
+type GestureAxis = 'none' | 'horizontal' | 'vertical';
+
 function InfiniteFeatureMarquee() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const dragMovedRef = useRef(false);
-  const dragStateRef = useRef({ startX: 0, startScroll: 0, pointerId: -1, moved: false });
+  const dragStateRef = useRef({
+    startX: 0,
+    startY: 0,
+    startScroll: 0,
+    pointerId: -1,
+    moved: false,
+    axis: 'none' as GestureAxis,
+  });
   const pausedRef = useRef(false);
   const clickPausedRef = useRef(false);
-  const autoScrollingRef = useRef(false);
-  const lastAutoScrollAtRef = useRef(0);
   const ignoreScrollHandlerRef = useRef(false);
+  const programmaticScrollSkipsRef = useRef(0);
+  const userScrolledRef = useRef(false);
   const scrollResumeTimerRef = useRef<number>(0);
   const rafRef = useRef<number>(0);
 
@@ -226,6 +235,7 @@ function InfiniteFeatureMarquee() {
   const scheduleAutoResume = useCallback(() => {
     window.clearTimeout(scrollResumeTimerRef.current);
     scrollResumeTimerRef.current = window.setTimeout(() => {
+      userScrolledRef.current = false;
       setInteractionPaused(false);
     }, 1500);
   }, []);
@@ -268,11 +278,9 @@ function InfiniteFeatureMarquee() {
       if (!pausedRef.current && el.scrollWidth > 0) {
         const half = el.scrollWidth / 2;
         const speed = half / MARQUEE_DURATION_S;
-        autoScrollingRef.current = true;
+        programmaticScrollSkipsRef.current = 3;
         el.scrollLeft += speed * dt;
         if (el.scrollLeft >= half) el.scrollLeft -= half;
-        lastAutoScrollAtRef.current = performance.now();
-        autoScrollingRef.current = false;
       }
 
       rafRef.current = requestAnimationFrame(tick);
@@ -282,25 +290,47 @@ function InfiniteFeatureMarquee() {
     return () => cancelAnimationFrame(rafRef.current);
   }, [reducedMotion]);
 
+  const lockGestureAxis = useCallback((dx: number, dy: number) => {
+    const drag = dragStateRef.current;
+    if (drag.axis !== 'none') return drag.axis;
+
+    if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return 'none';
+
+    const axis: GestureAxis = Math.abs(dy) > Math.abs(dx) ? 'vertical' : 'horizontal';
+    dragStateRef.current.axis = axis;
+
+    if (axis === 'horizontal') {
+      setHoldPaused(true);
+      setInteractionPaused(true);
+      window.clearTimeout(scrollResumeTimerRef.current);
+    } else {
+      setHoldPaused(false);
+    }
+
+    return axis;
+  }, []);
+
   const handlePointerDown = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
     const el = scrollRef.current;
     if (!el || e.button !== 0) return;
 
     dragMovedRef.current = false;
-    dragStateRef.current.moved = false;
-    setHoldPaused(true);
-    setInteractionPaused(true);
+    userScrolledRef.current = false;
+    dragStateRef.current = {
+      startX: e.clientX,
+      startY: e.clientY,
+      startScroll: el.scrollLeft,
+      pointerId: e.pointerId,
+      moved: false,
+      axis: 'none',
+    };
     window.clearTimeout(scrollResumeTimerRef.current);
     window.getSelection()?.removeAllRanges();
 
     if (e.pointerType === 'touch') return;
 
-    dragStateRef.current = {
-      startX: e.clientX,
-      startScroll: el.scrollLeft,
-      pointerId: e.pointerId,
-      moved: false,
-    };
+    setHoldPaused(true);
+    setInteractionPaused(true);
     setIsDragging(true);
     el.setPointerCapture(e.pointerId);
   }, []);
@@ -309,9 +339,20 @@ function InfiniteFeatureMarquee() {
     (e: React.PointerEvent<HTMLDivElement>) => {
       const el = scrollRef.current;
       const drag = dragStateRef.current;
-      if (!el || drag.pointerId !== e.pointerId || e.pointerType === 'touch') return;
+      if (!el || drag.pointerId !== e.pointerId) return;
 
       const dx = e.clientX - drag.startX;
+      const dy = e.clientY - drag.startY;
+
+      if (e.pointerType === 'touch') {
+        const axis = lockGestureAxis(dx, dy);
+        if (axis === 'horizontal' && Math.abs(dx) > 8) {
+          dragStateRef.current.moved = true;
+          dragMovedRef.current = true;
+        }
+        return;
+      }
+
       if (Math.abs(dx) > 6) {
         dragStateRef.current.moved = true;
         dragMovedRef.current = true;
@@ -320,16 +361,18 @@ function InfiniteFeatureMarquee() {
       el.scrollLeft = drag.startScroll - dx;
       normalizeScroll(el);
     },
-    [normalizeScroll],
+    [normalizeScroll, lockGestureAxis],
   );
 
   const finishPointerInteraction = useCallback(
     (moved: boolean) => {
       setHoldPaused(false);
       setIsDragging(false);
-      dragMovedRef.current = moved;
 
-      if (moved && !clickPausedRef.current) {
+      const didMove = moved || dragMovedRef.current || userScrolledRef.current;
+      dragMovedRef.current = didMove;
+
+      if (didMove && !clickPausedRef.current) {
         setInteractionPaused(true);
         scheduleAutoResume();
         return;
@@ -337,10 +380,10 @@ function InfiniteFeatureMarquee() {
 
       if (!clickPausedRef.current) {
         window.setTimeout(() => {
-          if (!clickPausedRef.current) {
+          if (!clickPausedRef.current && !userScrolledRef.current) {
             setInteractionPaused(false);
           }
-        }, 0);
+        }, 50);
       }
     },
     [scheduleAutoResume],
@@ -351,19 +394,27 @@ function InfiniteFeatureMarquee() {
       const el = scrollRef.current;
       if (!el) return;
 
-      if (e.pointerType === 'touch') {
-        normalizeScroll(el);
-        finishPointerInteraction(dragMovedRef.current);
-        return;
-      }
-
       const drag = dragStateRef.current;
       if (drag.pointerId !== e.pointerId) return;
+
+      if (e.pointerType === 'touch') {
+        normalizeScroll(el);
+        if (drag.axis === 'vertical') {
+          dragStateRef.current.pointerId = -1;
+          dragStateRef.current.axis = 'none';
+          return;
+        }
+        finishPointerInteraction(dragMovedRef.current || drag.moved);
+        dragStateRef.current.pointerId = -1;
+        dragStateRef.current.axis = 'none';
+        return;
+      }
 
       if (el.hasPointerCapture(e.pointerId)) {
         el.releasePointerCapture(e.pointerId);
       }
       dragStateRef.current.pointerId = -1;
+      dragStateRef.current.axis = 'none';
       normalizeScroll(el);
       finishPointerInteraction(drag.moved);
     },
@@ -374,14 +425,20 @@ function InfiniteFeatureMarquee() {
     const el = scrollRef.current;
     if (!el || ignoreScrollHandlerRef.current) return;
 
-    if (!autoScrollingRef.current && performance.now() - lastAutoScrollAtRef.current > 80) {
-      dragMovedRef.current = true;
-      dragStateRef.current.moved = true;
-      setInteractionPaused(true);
-      window.clearTimeout(scrollResumeTimerRef.current);
-      if (!clickPausedRef.current) {
-        scheduleAutoResume();
-      }
+    if (programmaticScrollSkipsRef.current > 0) {
+      programmaticScrollSkipsRef.current -= 1;
+      normalizeScroll(el);
+      return;
+    }
+
+    dragMovedRef.current = true;
+    dragStateRef.current.moved = true;
+    userScrolledRef.current = true;
+    setHoldPaused(true);
+    setInteractionPaused(true);
+    window.clearTimeout(scrollResumeTimerRef.current);
+    if (!clickPausedRef.current) {
+      scheduleAutoResume();
     }
 
     normalizeScroll(el);
@@ -430,7 +487,6 @@ function InfiniteFeatureMarquee() {
       <div
         ref={scrollRef}
         className="overflow-x-auto py-1 scrollbar-hide overscroll-x-contain select-none [-webkit-overflow-scrolling:touch]"
-        style={{ touchAction: 'pan-x' }}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={endDrag}
