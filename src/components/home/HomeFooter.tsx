@@ -8,18 +8,22 @@ import { SUPPORT_EMAIL, verificationCodeMailto } from '@/lib/support-email';
 
 export function HomeFooter() {
   return (
-    <footer id="contact" className="bg-[#0E1548] text-white">
-      <div className="relative w-full overflow-hidden">
+    <footer id="contact" className="relative bg-[#0E1548] text-white">
+      <div className="relative -mt-28 sm:-mt-36 lg:-mt-44 w-full overflow-hidden">
         <Image
           src="/footer.png"
           alt="CrewLedger şantiye ekibi"
           width={1842}
           height={854}
-          className="block h-auto w-full object-cover object-bottom"
+          className="block h-auto w-full object-cover object-bottom [mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.35)_12%,black_28%,black_100%)]"
           sizes="100vw"
         />
         <div
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-b from-transparent to-[#0E1548] sm:h-16"
+          className="pointer-events-none absolute inset-x-0 top-0 h-44 sm:h-56 md:h-64 bg-gradient-to-b from-white via-white/85 to-transparent dark:from-slate-950 dark:via-slate-950/85"
+          aria-hidden
+        />
+        <div
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-b from-transparent to-[#0E1548] sm:h-20"
           aria-hidden
         />
       </div>

@@ -189,7 +189,7 @@ function AppCard({
 
 export function PlayStoreSection() {
   return (
-    <section id="play-store" className="relative py-20 lg:py-28 overflow-hidden">
+    <section id="play-store" className="relative py-20 lg:py-28 pb-28 lg:pb-36 overflow-hidden">
       {/* Arka plan */}
       <div className="absolute inset-0 -z-10 bg-gradient-to-b from-white via-slate-50 to-white dark:from-slate-950 dark:via-slate-900 dark:to-slate-950" />
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-gradient-to-b from-emerald-400/8 via-blue-400/10 to-transparent dark:from-emerald-500/5 dark:via-blue-500/8 rounded-full blur-3xl" />
@@ -199,6 +199,11 @@ export function PlayStoreSection() {
         style={{
           backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2310b981' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
         }}
+      />
+
+      <div
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-40 sm:h-52 bg-gradient-to-b from-transparent via-white/90 to-white dark:via-slate-950/90 dark:to-slate-950"
+        aria-hidden
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
