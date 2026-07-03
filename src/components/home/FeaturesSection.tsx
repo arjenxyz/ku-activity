@@ -161,13 +161,14 @@ function FeatureLoopCarousel() {
         if (!e.currentTarget.contains(e.relatedTarget as Node)) setPaused(false);
       }}
     >
-      <div className="relative overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
+      <div className="relative rounded-2xl border border-slate-200/90 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
         <div
-          className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#0E1548] via-blue-600 to-indigo-500"
+          className="absolute inset-x-0 top-0 z-10 h-1 rounded-t-2xl bg-gradient-to-r from-[#0E1548] via-blue-600 to-indigo-500"
           aria-hidden
         />
 
-        <div className="relative min-h-[220px] p-5 sm:min-h-[240px] sm:p-7 lg:min-h-[260px] lg:p-8">
+        <div className="relative overflow-hidden rounded-2xl px-5 pb-5 pt-6 sm:px-7 sm:pb-7 sm:pt-8 lg:px-8 lg:pb-8 lg:pt-9">
+          <div className="relative min-h-[200px] sm:min-h-[220px] lg:min-h-[240px]">
           <AnimatePresence mode="wait" initial={false}>
             <motion.article
               key={feature.title}
@@ -224,12 +225,13 @@ function FeatureLoopCarousel() {
               </p>
             </motion.article>
           </AnimatePresence>
+          </div>
         </div>
       </div>
 
-      <div className="mt-5 flex flex-wrap items-center justify-between gap-3 md:mt-4 md:justify-end">
+      <div className="mt-4 md:mt-4 md:flex md:justify-end">
         <div
-          className="flex flex-1 gap-2 overflow-x-auto pb-0.5 scrollbar-none md:hidden"
+          className="-mx-4 flex gap-2.5 overflow-x-auto px-4 py-2 scrollbar-none md:hidden"
           role="tablist"
           aria-label="Özellik seçimi"
         >
@@ -243,11 +245,11 @@ function FeatureLoopCarousel() {
                 aria-selected={isActive}
                 aria-label={item.title}
                 onClick={() => goTo(i)}
-                className={`relative shrink-0 overflow-hidden rounded-full transition-colors ${
+                className={`relative shrink-0 rounded-full transition-colors ${
                   isActive
-                    ? 'bg-[#0E1548] text-white'
-                    : 'bg-white text-slate-600 ring-1 ring-slate-200 hover:ring-slate-300 dark:bg-slate-900 dark:text-slate-300 dark:ring-slate-700'
-                } px-3 py-1.5 text-xs font-semibold sm:px-3.5`}
+                    ? 'border border-[#0E1548] bg-[#0E1548] text-white'
+                    : 'border border-slate-200 bg-white text-slate-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300'
+                } px-3.5 py-2 text-xs font-semibold`}
               >
                 {isActive && !reducedMotion && !paused && (
                   <motion.span
@@ -265,7 +267,7 @@ function FeatureLoopCarousel() {
           })}
         </div>
 
-        <p className="text-xs text-slate-400 dark:text-slate-500">
+        <p className="hidden text-xs text-slate-400 dark:text-slate-500 md:block">
           {paused || reducedMotion ? 'Duraklatıldı' : 'Otomatik geçiş'}
         </p>
       </div>
