@@ -65,7 +65,7 @@ function DeveloperLoginContent() {
     setLoading(true);
     try {
       const { error: resetError } = await supabase.auth.resetPasswordForEmail(resetEmail, {
-        redirectTo: `${window.location.origin}/developer-panel/login`,
+        redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent('/auth/yeni-sifre?panel=developer')}`,
       });
       if (resetError) throw resetError;
       setSuccess('Şifre sıfırlama bağlantısı e-posta adresinize gönderildi.');

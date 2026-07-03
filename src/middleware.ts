@@ -23,6 +23,7 @@ function isPersonnelPublicPath(pathname: string): boolean {
 }
 
 function shouldRefreshSupabaseSession(pathname: string) {
+  if (pathname.startsWith('/auth/')) return false;
   if (pathname.startsWith('/api/public')) return false;
   if (pathname.startsWith('/api/auth/personnel')) return false;
   if (pathname.startsWith('/sozlesme')) return false;

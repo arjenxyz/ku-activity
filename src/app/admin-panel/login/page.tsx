@@ -88,7 +88,7 @@ function AdminAuthContent() {
 
     try {
       const { error } = await supabase.auth.resetPasswordForEmail(resetEmail, {
-        redirectTo: `${window.location.origin}/admin-panel/login`,
+        redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent('/auth/yeni-sifre?panel=admin')}`,
       });
       if (error) throw error;
       showMessage(setSuccessMessage, 'Şifre sıfırlama bağlantısı e-posta adresinize gönderildi.');
