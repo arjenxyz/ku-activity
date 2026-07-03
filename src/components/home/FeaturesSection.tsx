@@ -1,7 +1,7 @@
 'use client';
 
 import type { ReactNode } from 'react';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 
 const AUTOPLAY_MS = 4500;
@@ -178,6 +178,17 @@ function useFeatureCarousel() {
 
 function FeatureCarousel() {
   const { active, paused, setPaused, reducedMotion, goTo } = useFeatureCarousel();
+  const pillRefs = useRef<(HTMLButtonElement | null)[]>([]);
+
+  useEffect(() => {
+    const pill = pillRefs.current[active];
+    if (!pill) return;
+    pill.scrollIntoView({
+      behavior: reducedMotion ? 'auto' : 'smooth',
+      inline: 'center',
+      block: 'nearest',
+    });
+  }, [active, reducedMotion]);
 
   return (
     <div
@@ -212,7 +223,7 @@ function FeatureCarousel() {
       </div>
 
       <div
-        className="mt-4 flex gap-2 overflow-x-auto py-1 scrollbar-hide"
+        className="mt-4 flex gap-2 overflow-x-auto py-1 scrollbar-hide scroll-smooth"
         role="tablist"
         aria-label="Özellik seçimi"
       >
@@ -221,6 +232,9 @@ function FeatureCarousel() {
           return (
             <button
               key={item.title}
+              ref={(el) => {
+                pillRefs.current[i] = el;
+              }}
               type="button"
               role="tab"
               aria-selected={isActive}
