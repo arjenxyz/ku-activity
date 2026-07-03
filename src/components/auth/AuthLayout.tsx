@@ -51,7 +51,7 @@ export function AuthLayout({ variant, children, alternateLogin }: AuthLayoutProp
           <BrandLockup
             size="lg"
             layout="inline"
-            className="mb-5 sm:mb-6"
+            className="mb-10 sm:mb-12"
             iconClassName="shadow-xl shadow-black/50 ring-1 ring-white/10"
             wordmarkClassName="text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)]"
             subtitle={variant === 'admin' ? 'Yönetici Paneli' : 'Personel Paneli'}

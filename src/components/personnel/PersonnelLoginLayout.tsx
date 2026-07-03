@@ -38,7 +38,8 @@ export function PersonnelLoginLayout({
   const maxWidthClass = size === 'wide' ? 'max-w-7xl' : 'max-w-md';
   const isCompact = compact || (size === 'wide' && alignTop);
   const isDense = dense && !isCompact;
-  const verticalAlignTop = alignTop || isDense;
+  /** dense = kısa form; dikey ortala. alignTop = uzun form; üstten başla */
+  const verticalAlignTop = alignTop && !isDense;
 
   return (
     <div className="personnel-auth-page relative isolate min-h-[100dvh] overflow-x-hidden text-white">
@@ -66,8 +67,8 @@ export function PersonnelLoginLayout({
             verticalAlignTop
               ? isCompact
                 ? 'pt-3 pb-3 sm:pt-6 sm:pb-5 safe-pt safe-pb'
-                : 'pt-8 pb-6 sm:pt-10 sm:pb-8 safe-pt safe-pb'
-              : 'flex-1 py-8 safe-pb items-center'
+                : 'pt-6 pb-6 sm:pt-8 sm:pb-8 safe-pt safe-pb'
+              : 'flex-1 flex items-center justify-center py-6 sm:py-10 safe-pt safe-pb'
           }`}
         >
           <div className={`w-full ${maxWidthClass}`}>
@@ -75,7 +76,7 @@ export function PersonnelLoginLayout({
               <BrandLockup
                 size="lg"
                 layout="inline"
-                className="mb-5 sm:mb-6"
+                className="mb-10 sm:mb-12"
                 iconClassName="shadow-xl shadow-black/50 ring-1 ring-white/10"
                 wordmarkClassName="text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)]"
                 subtitle="Personel Paneli"
