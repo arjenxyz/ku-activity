@@ -13,7 +13,8 @@ import {
 } from '@/lib/play-store';
 
 const AUTO_SWAP_MS = 4500;
-const HEADER_PEEK = 88;
+/** Mobilde üstte görünen kartın yalnızca başlık şeridi yüksekliği */
+const HEADER_PEEK = 108;
 
 const apps = [
   {
@@ -27,7 +28,8 @@ const apps = [
     badgeClass:
       'text-violet-700 bg-violet-100/90 border-violet-200/80 dark:text-violet-300 dark:bg-violet-950/50 dark:border-violet-800/50',
     cardClass:
-      'border-violet-200/80 bg-gradient-to-br from-violet-50/95 via-[#f3f0fa] to-violet-100/50 dark:border-violet-900/40 dark:from-violet-950/40 dark:via-slate-900 dark:to-violet-950/20',
+      'border-violet-200 bg-[#f3f0fa] dark:border-violet-900/50 dark:bg-violet-950/30',
+    peekClass: 'bg-[#ebe6f4] dark:bg-violet-950/50',
     dividerClass: 'border-violet-100/90 dark:border-violet-900/30',
     ringClass: 'ring-violet-200/60 dark:ring-violet-800/40',
     headerActiveClass: 'active:bg-violet-100/70 dark:active:bg-violet-950/40',
@@ -44,7 +46,8 @@ const apps = [
     badgeClass:
       'text-teal-800 bg-teal-50/95 border-teal-200/80 dark:text-teal-300 dark:bg-teal-950/45 dark:border-teal-800/50',
     cardClass:
-      'border-teal-200/80 bg-gradient-to-br from-teal-50/95 via-[#f0f7f5] to-emerald-50/60 dark:border-teal-900/40 dark:from-teal-950/35 dark:via-slate-900 dark:to-emerald-950/20',
+      'border-teal-200 bg-[#f0f7f5] dark:border-teal-900/50 dark:bg-teal-950/30',
+    peekClass: 'bg-[#e4f0ec] dark:bg-teal-950/50',
     dividerClass: 'border-teal-100/90 dark:border-teal-900/30',
     ringClass: 'ring-teal-200/60 dark:ring-teal-800/40',
     headerActiveClass: 'active:bg-teal-100/70 dark:active:bg-teal-950/40',
@@ -100,22 +103,41 @@ function AppCard({
   );
 }
 
-function AppCardHeader({ app, onHeaderClick }: { app: App; onHeaderClick?: () => void }) {
+function AppCardHeader({
+  app,
+  onHeaderClick,
+  compact = false,
+}: {
+  app: App;
+  onHeaderClick?: () => void;
+  compact?: boolean;
+}) {
+  const iconSize = compact ? 'h-11 w-11' : 'h-14 w-14';
+  const titleClass = compact
+    ? 'mt-1 truncate text-sm font-bold tracking-tight text-slate-900 dark:text-white'
+    : 'mt-1.5 text-lg font-bold tracking-tight text-slate-900 dark:text-white';
+
   const content = (
     <>
-      <div className={`h-14 w-14 shrink-0 overflow-hidden rounded-xl ring-1 ${app.iconRingClass}`}>
-        <Image src={app.iconSrc} alt="" width={56} height={56} className="h-full w-full object-cover" />
+      <div className={`${iconSize} shrink-0 overflow-hidden rounded-xl ring-1 ${app.iconRingClass}`}>
+        <Image
+          src={app.iconSrc}
+          alt=""
+          width={compact ? 44 : 56}
+          height={compact ? 44 : 56}
+          className="h-full w-full object-cover"
+        />
       </div>
-      <div className="min-w-0">
-        <div className="flex flex-wrap items-center gap-2">
+      <div className="min-w-0 flex-1">
+        <div className="flex flex-wrap items-center gap-1.5">
           <span
             className={`inline-flex rounded-md border px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider ${app.badgeClass}`}
           >
             {app.badge}
           </span>
-          <span className="text-xs text-slate-400">Android · Ücretsiz</span>
+          {!compact && <span className="text-xs text-slate-400">Android · Ücretsiz</span>}
         </div>
-        <h3 className="mt-1.5 text-lg font-bold tracking-tight text-slate-900 dark:text-white">{app.title}</h3>
+        <h3 className={titleClass}>{app.title}</h3>
       </div>
     </>
   );
@@ -152,19 +174,24 @@ function MobileStackCard({
   return (
     <article
       ref={cardRef as RefObject<HTMLElement>}
-      className={`flex flex-col rounded-2xl border p-6 ${app.cardClass} ${
-        isFront ? `shadow-md ring-1 ${app.ringClass}` : 'shadow-sm'
+      style={isFront ? undefined : { height: HEADER_PEEK }}
+      className={`flex flex-col overflow-hidden rounded-2xl border ${
+        isFront ? `p-6 shadow-lg ring-1 ${app.ringClass} ${app.cardClass}` : `p-4 shadow-sm ${app.peekClass} ${app.cardClass}`
       }`}
     >
-      <AppCardHeader app={app} onHeaderClick={onHeaderClick} />
-      <p className="mt-5 flex-1 text-sm leading-relaxed text-slate-600 dark:text-slate-400">{app.description}</p>
-      <div
-        className={`mt-6 border-t pt-5 ${app.dividerClass}`}
-        onClick={(e) => e.stopPropagation()}
-        onKeyDown={(e) => e.stopPropagation()}
-      >
-        <GooglePlayBadge href={app.playUrl} enabled={hasPlayLink} fullWidth />
-      </div>
+      <AppCardHeader app={app} onHeaderClick={onHeaderClick} compact={!isFront} />
+      {isFront && (
+        <>
+          <p className="mt-5 flex-1 text-sm leading-relaxed text-slate-600 dark:text-slate-400">{app.description}</p>
+          <div
+            className={`mt-6 border-t pt-5 ${app.dividerClass}`}
+            onClick={(e) => e.stopPropagation()}
+            onKeyDown={(e) => e.stopPropagation()}
+          >
+            <GooglePlayBadge href={app.playUrl} enabled={hasPlayLink} fullWidth />
+          </div>
+        </>
+      )}
     </article>
   );
 }
@@ -175,6 +202,8 @@ function MobileStackedAppCards() {
   const [reducedMotion, setReducedMotion] = useState(false);
   const personelRef = useRef<HTMLElement>(null);
   const adminRef = useRef<HTMLElement>(null);
+  const personelProbeRef = useRef<HTMLElement>(null);
+  const adminProbeRef = useRef<HTMLElement>(null);
   const [heights, setHeights] = useState({ personel: 320, admin: 320 });
 
   const swap = useCallback(() => setAdminOnTop((v) => !v), []);
@@ -190,15 +219,17 @@ function MobileStackedAppCards() {
   useEffect(() => {
     const measure = () => {
       setHeights({
-        personel: personelRef.current?.offsetHeight ?? 320,
-        admin: adminRef.current?.offsetHeight ?? 320,
+        personel: personelProbeRef.current?.offsetHeight ?? personelRef.current?.offsetHeight ?? 320,
+        admin: adminProbeRef.current?.offsetHeight ?? adminRef.current?.offsetHeight ?? 320,
       });
     };
 
     measure();
     const ro = new ResizeObserver(measure);
-    if (personelRef.current) ro.observe(personelRef.current);
-    if (adminRef.current) ro.observe(adminRef.current);
+    if (personelProbeRef.current) ro.observe(personelProbeRef.current);
+    if (adminProbeRef.current) ro.observe(adminProbeRef.current);
+    const frontRef = adminOnTop ? adminRef : personelRef;
+    if (frontRef.current) ro.observe(frontRef.current);
     return () => ro.disconnect();
   }, [adminOnTop]);
 
@@ -212,11 +243,12 @@ function MobileStackedAppCards() {
   const adminTop = adminOnTop ? HEADER_PEEK : 0;
   const personelZ = adminOnTop ? 10 : 20;
   const adminZ = adminOnTop ? 20 : 10;
-  const stackHeight = HEADER_PEEK + Math.max(heights.personel, heights.admin);
+  const frontHeight = adminOnTop ? heights.admin : heights.personel;
+  const stackHeight = HEADER_PEEK + frontHeight;
 
   return (
     <motion.div
-      className="relative sm:hidden"
+      className="relative isolate sm:hidden"
       initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
@@ -227,8 +259,26 @@ function MobileStackedAppCards() {
       onTouchEnd={() => setPaused(false)}
     >
       <div className="relative" style={{ minHeight: stackHeight }}>
+        {/* Görünmez tam boy ölçüm — stack yüksekliği doğru hesaplansın */}
+        <div className="pointer-events-none absolute -left-[9999px] top-0 w-full max-w-none opacity-0" aria-hidden>
+          <article ref={personelProbeRef} className={`flex flex-col rounded-2xl border p-6 ${apps[0].cardClass}`}>
+            <AppCardHeader app={apps[0]} />
+            <p className="mt-5 text-sm">{apps[0].description}</p>
+            <div className={`mt-6 border-t pt-5 ${apps[0].dividerClass}`}>
+              <div className="h-14" />
+            </div>
+          </article>
+          <article ref={adminProbeRef} className={`mt-4 flex flex-col rounded-2xl border p-6 ${apps[1].cardClass}`}>
+            <AppCardHeader app={apps[1]} />
+            <p className="mt-5 text-sm">{apps[1].description}</p>
+            <div className={`mt-6 border-t pt-5 ${apps[1].dividerClass}`}>
+              <div className="h-14" />
+            </div>
+          </article>
+        </div>
+
         <motion.div
-          className="absolute inset-x-0"
+          className="absolute inset-x-0 will-change-transform"
           animate={{ top: personelTop, zIndex: personelZ }}
           transition={springTransition}
         >
@@ -241,7 +291,7 @@ function MobileStackedAppCards() {
         </motion.div>
 
         <motion.div
-          className="absolute inset-x-0"
+          className="absolute inset-x-0 will-change-transform"
           animate={{ top: adminTop, zIndex: adminZ }}
           transition={springTransition}
         >
