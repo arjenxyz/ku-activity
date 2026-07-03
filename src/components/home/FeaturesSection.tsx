@@ -166,7 +166,6 @@ function useFeatureCarousel() {
   }, []);
 
   const goNext = useCallback(() => goTo(active + 1), [active, goTo]);
-  const goPrev = useCallback(() => goTo(active - 1), [active, goTo]);
 
   useEffect(() => {
     if (paused || reducedMotion) return;
@@ -174,11 +173,11 @@ function useFeatureCarousel() {
     return () => window.clearInterval(id);
   }, [paused, reducedMotion, goNext]);
 
-  return { active, paused, setPaused, reducedMotion, goTo, goNext, goPrev };
+  return { active, paused, setPaused, reducedMotion, goTo, goNext };
 }
 
 function FeatureCarousel() {
-  const { active, paused, setPaused, reducedMotion, goTo, goNext, goPrev } = useFeatureCarousel();
+  const { active, paused, setPaused, reducedMotion, goTo } = useFeatureCarousel();
 
   return (
     <div
@@ -197,29 +196,6 @@ function FeatureCarousel() {
           className="absolute inset-x-0 top-0 z-10 h-1 bg-gradient-to-r from-[#0E1548] via-blue-600 to-indigo-500"
           aria-hidden
         />
-
-        <div className="absolute right-3 top-4 z-20 hidden items-center gap-1.5 sm:right-4 sm:top-5 sm:flex">
-          <button
-            type="button"
-            onClick={goPrev}
-            className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-500 transition-colors hover:border-slate-300 hover:bg-slate-50 hover:text-slate-800 dark:border-slate-700 dark:bg-slate-900 dark:hover:bg-slate-800 dark:hover:text-slate-200"
-            aria-label="Önceki özellik"
-          >
-            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
-          <button
-            type="button"
-            onClick={goNext}
-            className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-500 transition-colors hover:border-slate-300 hover:bg-slate-50 hover:text-slate-800 dark:border-slate-700 dark:bg-slate-900 dark:hover:bg-slate-800 dark:hover:text-slate-200"
-            aria-label="Sonraki özellik"
-          >
-            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
-        </div>
 
         <div className="overflow-hidden">
           <motion.div
