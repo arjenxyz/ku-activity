@@ -8,7 +8,7 @@ import {
   PERSONNEL_AUTH_BG_IMAGE,
   PERSONNEL_PWA_SPLASH_BG,
 } from '@/lib/personnel-pwa-brand';
-import { personnelAuthCardClass } from '@/lib/personnel-auth-ui';
+import { personnelAuthCardClass, personnelAuthCardDividerClass } from '@/lib/personnel-auth-ui';
 
 type PersonnelLoginLayoutProps = {
   children: React.ReactNode;
@@ -118,13 +118,13 @@ export function PersonnelLoginLayout({
             >
               {!isCompact && (
                 <div className="mb-5 sm:mb-6">
-                  <h1 className="text-xl font-bold text-white tracking-tight">
+                  <h1 className="text-xl font-bold text-slate-900 tracking-tight">
                     {title}
                   </h1>
                   {subtitle && (
-                    <p className="mt-1 text-sm text-slate-400 leading-relaxed">{subtitle}</p>
+                    <p className="mt-1 text-sm text-slate-500 leading-relaxed">{subtitle}</p>
                   )}
-                  <div className="mt-4 h-px bg-gradient-to-r from-blue-500/50 via-[#2c4270]/60 to-transparent" />
+                  <div className={personnelAuthCardDividerClass} />
                 </div>
               )}
 

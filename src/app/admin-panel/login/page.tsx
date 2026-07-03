@@ -10,6 +10,7 @@ import {
   personnelAuthLabelClass as labelClass,
   personnelAuthPrimaryBtnClass as primaryButtonClass,
   personnelAuthLinkClass as linkButtonClass,
+  personnelAuthCardDividerClass,
 } from '@/lib/personnel-auth-ui';
 import { verificationCodeMailto } from '@/lib/support-email';
 import Link from 'next/link';
@@ -105,16 +106,16 @@ function AdminAuthContent() {
       alternateLogin={{ href: '/personnel-panel/login', label: 'Personel Girişi' }}
     >
       <div className="mb-5">
-        <h2 className="text-xl font-bold text-white tracking-tight">
+        <h2 className="text-xl font-bold text-slate-900 tracking-tight">
           {activeTab === 'login' ? 'Yönetici Girişi' : 'Şifremi Unuttum'}
         </h2>
-        <p className="mt-1 text-sm text-slate-400 leading-relaxed">
+        <p className="mt-1 text-sm text-slate-500 leading-relaxed">
           {activeTab === 'login'
             ? 'Hesabınız yoksa ücretsiz kayıt olun'
             : 'Kayıtlı e-posta adresinize sıfırlama bağlantısı gönderilir'}
         </p>
         {activeTab === 'login' && (
-          <p className="mt-2 text-xs text-sky-400">
+          <p className="mt-2 text-xs text-blue-600">
             <Link href="/admin-panel/register" className="font-semibold hover:underline">
               Yönetici hesabı oluştur →
             </Link>
@@ -124,7 +125,7 @@ function AdminAuthContent() {
             </a>
           </p>
         )}
-        <div className="mt-4 h-px bg-gradient-to-r from-blue-500/50 via-[#2c4270]/60 to-transparent" />
+        <div className={personnelAuthCardDividerClass} />
       </div>
 
       {successMessage && <AuthAlert message={successMessage} type="success" tone="personnel" />}

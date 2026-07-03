@@ -33,6 +33,7 @@ import {
   personnelAuthSegmentActiveClass,
   personnelAuthSegmentIdleClass,
   personnelAuthSegmentWrapClass,
+  personnelAuthDividerClass,
 } from '@/lib/personnel-auth-ui';
 
 const inputClass = personnelAuthInputClass;
@@ -258,7 +259,7 @@ function PersonnelLoginContent() {
         </button>
       </form>
       <div
-        className={`mt-5 pt-4 border-t border-[#2c4270]/60 space-y-2 text-center ${personnelAuthFooterTextClass}`}
+        className={`mt-5 ${personnelAuthDividerClass} space-y-2 text-center ${personnelAuthFooterTextClass}`}
       >
         <p>
           Hesabınız mı yok?{' '}

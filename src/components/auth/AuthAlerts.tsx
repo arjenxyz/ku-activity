@@ -15,8 +15,8 @@ export function AuthAlert({ message, type, tone = 'default' }: AuthAlertProps) {
       className={`mb-4 px-4 py-3 rounded-lg text-sm border ${
         isPersonnel
           ? isSuccess
-            ? 'bg-emerald-950/60 border-emerald-500/40 text-emerald-100'
-            : 'bg-red-950/60 border-red-500/40 text-red-100'
+            ? 'bg-emerald-50 border-emerald-200 text-emerald-800'
+            : 'bg-red-50 border-red-200 text-red-700'
           : isGlass
             ? isSuccess
               ? 'bg-emerald-500/15 border-emerald-400/30 text-emerald-100 backdrop-blur-md'
