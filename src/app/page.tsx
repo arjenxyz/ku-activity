@@ -8,16 +8,13 @@ import { FeaturesSection } from '@/components/home/FeaturesSection';
 import { PlayStoreSection } from '@/components/home/PlayStoreSection';
 import { CTASection } from '@/components/home/CTASection';
 import { HomeFooter } from '@/components/home/HomeFooter';
-import { useHomeStats } from '@/hooks/useHomeStats';
 
 export default function Home() {
-  const stats = useHomeStats();
-
   return (
     <div className="min-h-screen bg-white dark:bg-slate-950 scroll-smooth">
       <HomeHeader />
       <main>
-        <HeroSection stats={stats} />
+        <HeroSection />
         <ScrollingBanner />
         <TrustBar />
         <FeaturesSection />
