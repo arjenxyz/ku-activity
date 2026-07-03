@@ -15,73 +15,62 @@ import { GooglePlayBadge, GooglePlayIcon } from '@/components/home/GooglePlayBad
 const heroApps = [
   {
     id: 'personel',
-    badge: 'Personel',
     title: 'Personel Uygulaması',
     subtitle: 'Yoklama, yevmiye, mesai',
     description: 'Sahada günlük işlemler: QR yoklama, bordro görüntüleme ve başvuru.',
     features: ['QR Yoklama', 'Bordro', 'Başvuru'],
     playUrl: PLAY_STORE_PERSONNEL_URL,
     iconSrc: PLAY_STORE_PERSONNEL_ICON,
-    gradient: 'from-blue-500 to-indigo-600',
-    glow: 'shadow-blue-500/30',
-    ring: 'ring-blue-400/40',
-    chipBg: 'bg-blue-50 dark:bg-blue-950/50 text-blue-700 dark:text-blue-300 border-blue-100 dark:border-blue-800',
-    panelBorder: 'border-blue-200/80 dark:border-blue-700/60',
-    panelBg: 'from-blue-50/90 via-white to-indigo-50/60 dark:from-slate-900 dark:via-slate-900 dark:to-blue-950/40',
+    panelBorder: 'border-violet-200/80 dark:border-violet-800/50',
+    panelBg: 'bg-gradient-to-br from-violet-50/95 via-white to-indigo-50/50 dark:from-violet-950/30 dark:via-slate-900 dark:to-indigo-950/20',
+    iconRing: 'ring-violet-200/90 dark:ring-violet-800/60',
+    featureChip: 'border-violet-100 bg-white/90 text-violet-800/90 dark:border-violet-900/50 dark:bg-violet-950/40 dark:text-violet-200',
+    accent: 'text-violet-600 dark:text-violet-400',
   },
   {
     id: 'admin',
-    badge: 'Yönetici',
     title: 'Yönetici Uygulaması',
     subtitle: 'Proje, onay, raporlar',
     description: 'Şantiye operasyonu: proje yönetimi, personel onayı ve raporlar.',
     features: ['Proje', 'Onay', 'Raporlar'],
     playUrl: PLAY_STORE_ADMIN_URL,
     iconSrc: PLAY_STORE_ADMIN_ICON,
-    gradient: 'from-slate-600 to-slate-900',
-    glow: 'shadow-slate-500/25',
-    ring: 'ring-slate-400/35',
-    chipBg: 'bg-slate-50 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700',
-    panelBorder: 'border-slate-200/80 dark:border-slate-600/50',
-    panelBg: 'from-slate-50/90 via-white to-slate-100/70 dark:from-slate-900 dark:via-slate-900 dark:to-slate-950',
+    panelBorder: 'border-teal-200/80 dark:border-teal-800/50',
+    panelBg: 'bg-gradient-to-br from-teal-50/95 via-white to-emerald-50/45 dark:from-teal-950/25 dark:via-slate-900 dark:to-emerald-950/15',
+    iconRing: 'ring-teal-200/90 dark:ring-teal-800/60',
+    featureChip: 'border-teal-100 bg-white/90 text-teal-800/90 dark:border-teal-900/50 dark:bg-teal-950/40 dark:text-teal-200',
+    accent: 'text-teal-600 dark:text-teal-400',
   },
 ] as const;
 
-function AppChoicePanel({
+function ModalCardsConnector() {
+  return (
+    <div className="hidden items-stretch justify-center px-1 lg:flex" aria-hidden>
+      <div className="w-px self-stretch bg-gradient-to-b from-transparent via-slate-200 to-transparent dark:via-slate-700" />
+    </div>
+  );
+}
+
+function AppChoiceCard({
   app,
-  selected,
-  onSelect,
+  index,
 }: {
   app: (typeof heroApps)[number];
-  selected: boolean;
-  onSelect: () => void;
+  index: number;
 }) {
   const hasPlayLink = Boolean(app.playUrl);
 
   return (
-    <button
-      type="button"
-      onClick={onSelect}
-      className={`group relative flex h-full w-full flex-col rounded-2xl border-2 bg-gradient-to-br p-5 text-left transition-all xl:p-6 ${
-        selected
-          ? `${app.panelBorder} ${app.ring} ring-4 shadow-xl`
-          : 'border-slate-200/80 dark:border-slate-700/70 hover:border-slate-300 dark:hover:border-slate-600 hover:shadow-lg'
-      } ${app.panelBg}`}
+    <motion.article
+      className={`flex h-full flex-col rounded-2xl border p-5 xl:p-6 ${app.panelBorder} ${app.panelBg} shadow-sm transition-shadow hover:shadow-md`}
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: index * 0.06, duration: 0.35 }}
     >
-      {selected && (
-        <span className="absolute right-4 top-4 flex h-7 w-7 items-center justify-center rounded-full bg-emerald-500 text-white shadow-md">
-          <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 20 20" aria-hidden>
-            <path
-              fillRule="evenodd"
-              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-              clipRule="evenodd"
-            />
-          </svg>
-        </span>
-      )}
-
       <div className="flex items-start gap-4">
-        <div className="h-16 w-16 shrink-0 overflow-hidden rounded-2xl shadow-lg ring-2 ring-white/80 transition-transform group-hover:scale-105 dark:ring-slate-800">
+        <div
+          className={`h-14 w-14 shrink-0 overflow-hidden rounded-xl shadow-sm ring-2 ${app.iconRing} xl:h-16 xl:w-16 xl:rounded-2xl`}
+        >
           <Image
             src={app.iconSrc}
             alt=""
@@ -90,38 +79,30 @@ function AppChoicePanel({
             className="h-full w-full object-cover"
           />
         </div>
-        <div className="min-w-0 flex-1 pr-6">
-          <span
-            className={`inline-flex rounded-full border px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider ${app.chipBg}`}
-          >
-            {app.badge}
-          </span>
-          <h3 className="mt-2 text-lg font-bold text-slate-900 dark:text-white">{app.title}</h3>
+        <div className="min-w-0 flex-1">
+          <p className={`text-xs font-semibold ${app.accent}`}>Android · Ücretsiz</p>
+          <h3 className="mt-1 text-lg font-bold tracking-tight text-slate-900 dark:text-white">{app.title}</h3>
           <p className="text-sm font-medium text-slate-500 dark:text-slate-400">{app.subtitle}</p>
         </div>
       </div>
 
-      <p className="mt-4 text-sm leading-relaxed text-slate-600 dark:text-slate-400">{app.description}</p>
+      <p className="mt-4 flex-1 text-sm leading-relaxed text-slate-600 dark:text-slate-400">{app.description}</p>
 
       <ul className="mt-4 flex flex-wrap gap-2">
         {app.features.map((feature) => (
           <li
             key={feature}
-            className="inline-flex items-center rounded-full border border-slate-200/80 dark:border-slate-600 bg-white/80 dark:bg-slate-800/80 px-2.5 py-1 text-xs font-medium text-slate-600 dark:text-slate-300"
+            className={`inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-medium ${app.featureChip}`}
           >
             {feature}
           </li>
         ))}
       </ul>
 
-      <div
-        className="mt-auto pt-6"
-        onClick={(e) => e.stopPropagation()}
-        onKeyDown={(e) => e.stopPropagation()}
-      >
-        <GooglePlayBadge href={app.playUrl} enabled={hasPlayLink} />
+      <div className="mt-6 border-t border-slate-200/70 pt-5 dark:border-slate-700/60">
+        <GooglePlayBadge href={app.playUrl} enabled={hasPlayLink} fullWidth />
       </div>
-    </button>
+    </motion.article>
   );
 }
 
@@ -132,13 +113,14 @@ function PlayStoreChoiceModal({
   open: boolean;
   onClose: () => void;
 }) {
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    if (!open) {
-      setSelectedId(null);
-      return;
-    }
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!open) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
     };
@@ -150,13 +132,13 @@ function PlayStoreChoiceModal({
     };
   }, [open, onClose]);
 
-  if (typeof document === 'undefined') return null;
+  if (!mounted || typeof document === 'undefined') return null;
 
   return createPortal(
     <AnimatePresence>
       {open && (
         <motion.div
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6"
+          className="fixed inset-0 z-[100] hidden items-center justify-center p-6 lg:flex xl:p-8"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -166,29 +148,34 @@ function PlayStoreChoiceModal({
         >
           <button
             type="button"
-            className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
+            className="absolute inset-0 bg-[#0E1548]/50 backdrop-blur-sm"
             aria-label="Kapat"
             onClick={onClose}
           />
 
           <motion.div
             className="relative z-10 w-full max-w-4xl"
-            initial={{ opacity: 0, scale: 0.96, y: 16 }}
+            initial={{ opacity: 0, scale: 0.97, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.96, y: 16 }}
-            transition={{ type: 'spring', damping: 26, stiffness: 320 }}
+            exit={{ opacity: 0, scale: 0.97, y: 20 }}
+            transition={{ type: 'spring', damping: 28, stiffness: 340 }}
           >
-            <div className="overflow-hidden rounded-[1.75rem] border border-white/20 bg-white/95 shadow-2xl dark:border-slate-700 dark:bg-slate-900/95">
-              <div className="flex items-center justify-between gap-4 border-b border-slate-200/80 px-5 py-4 dark:border-slate-700/80 sm:px-6">
+            <div className="overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-2xl shadow-[#0E1548]/10 dark:border-slate-700 dark:bg-slate-900 dark:shadow-black/40">
+              <div
+                className="h-1 bg-gradient-to-r from-[#0E1548] via-blue-600 to-indigo-500"
+                aria-hidden
+              />
+
+              <div className="flex items-start justify-between gap-4 px-6 py-5">
                 <div className="flex items-center gap-3">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200/80 bg-white shadow-md dark:border-slate-600 dark:bg-slate-800">
+                  <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-slate-200/80 bg-slate-50 shadow-sm dark:border-slate-600 dark:bg-slate-800">
                     <GooglePlayIcon className="h-6 w-6" />
                   </span>
                   <div>
-                    <h2 id="play-store-choice-title" className="text-lg font-bold text-slate-900 dark:text-white">
+                    <h2 id="play-store-choice-title" className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">
                       Uygulamanızı seçin
                     </h2>
-                    <p className="text-sm text-slate-500 dark:text-slate-400">
+                    <p className="mt-0.5 text-sm text-slate-500 dark:text-slate-400">
                       Personel veya yönetici sürümünü indirin
                     </p>
                   </div>
@@ -196,7 +183,7 @@ function PlayStoreChoiceModal({
                 <button
                   type="button"
                   onClick={onClose}
-                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-slate-200 text-slate-500 transition-colors hover:bg-slate-100 dark:border-slate-600 dark:hover:bg-slate-800"
+                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-slate-200 text-slate-500 transition-colors hover:border-slate-300 hover:bg-slate-50 dark:border-slate-600 dark:hover:bg-slate-800"
                   aria-label="Kapat"
                 >
                   <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
@@ -205,15 +192,10 @@ function PlayStoreChoiceModal({
                 </button>
               </div>
 
-              <div className="grid gap-4 p-4 sm:grid-cols-2 sm:gap-5 sm:p-6">
-                {heroApps.map((app) => (
-                  <AppChoicePanel
-                    key={app.id}
-                    app={app}
-                    selected={selectedId === app.id}
-                    onSelect={() => setSelectedId(app.id)}
-                  />
-                ))}
+              <div className="grid grid-cols-[1fr_auto_1fr] items-stretch gap-0 px-6 pb-6">
+                <AppChoiceCard app={heroApps[0]} index={0} />
+                <ModalCardsConnector />
+                <AppChoiceCard app={heroApps[1]} index={1} />
               </div>
             </div>
           </motion.div>
@@ -237,13 +219,18 @@ export function HeroPlayStorePromo() {
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.7, delay: 0.15 }}
       >
-        <div className="absolute -inset-6 rounded-[2.5rem] bg-gradient-to-br from-emerald-400/20 via-blue-500/15 to-indigo-500/20 blur-2xl" />
+        <div className="absolute -inset-6 rounded-[2.5rem] bg-gradient-to-br from-violet-400/15 via-blue-500/10 to-teal-400/15 blur-2xl" />
 
         <button
           type="button"
           onClick={openModal}
-          className="group relative w-full overflow-hidden rounded-[2rem] border border-white/60 bg-white/75 text-left shadow-2xl shadow-blue-900/10 backdrop-blur-xl transition-all hover:-translate-y-1 hover:shadow-emerald-500/15 dark:border-slate-700/80 dark:bg-slate-900/75 dark:shadow-black/40"
+          className="group relative w-full overflow-hidden rounded-2xl border border-slate-200/80 bg-white text-left shadow-xl shadow-[#0E1548]/5 transition-all hover:-translate-y-0.5 hover:shadow-2xl hover:shadow-blue-900/10 dark:border-slate-700/80 dark:bg-slate-900 dark:shadow-black/30"
         >
+          <div
+            className="h-1 bg-gradient-to-r from-[#0E1548] via-blue-600 to-indigo-500"
+            aria-hidden
+          />
+
           <Image
             src="/banner.png"
             alt="Google Play'den CrewLedger uygulamasını indirin"
@@ -280,7 +267,7 @@ export function HeroPlayStorePromo() {
               <span className="text-xs font-medium text-slate-500 dark:text-slate-400">2 uygulama · Ücretsiz</span>
             </div>
 
-            <div className="mt-6 inline-flex items-center gap-2 rounded-xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white shadow-lg transition-all group-hover:bg-slate-800 group-hover:shadow-xl dark:bg-white dark:text-slate-900 dark:group-hover:bg-slate-100">
+            <div className="mt-6 inline-flex items-center gap-2 rounded-xl bg-[#0E1548] px-5 py-3 text-sm font-semibold text-white shadow-lg transition-all group-hover:bg-[#151d5c] group-hover:shadow-xl">
               <GooglePlayIcon className="h-5 w-5" />
               Uygulama seç
               <svg
