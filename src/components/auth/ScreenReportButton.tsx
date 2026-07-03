@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import { FiFlag, FiLoader, FiX } from 'react-icons/fi';
+import { FiAlertTriangle, FiLoader, FiX } from 'react-icons/fi';
 import { captureElementScreenshot } from '@/lib/capture-screen';
 import {
   personnelAuthInputClass,
@@ -94,12 +94,12 @@ export function ScreenReportButton({ captureRootRef, screenLabel }: Props) {
         onClick={() => void handleOpen()}
         disabled={capturing}
         aria-label="Sorun bildir"
-        className={`${capturing ? '' : 'screen-report-btn '}screen-report-ignore touch-target inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/20 bg-black/25 text-white backdrop-blur-sm hover:bg-black/40 transition-colors disabled:opacity-60`}
+        className="screen-report-ignore touch-target inline-flex h-10 w-10 items-center justify-center rounded-xl border border-red-400/35 bg-black/30 text-red-400 backdrop-blur-sm hover:bg-red-950/45 hover:border-red-400/55 hover:text-red-300 transition-colors disabled:opacity-60"
       >
         {capturing ? (
-          <FiLoader className="h-5 w-5 animate-spin" />
+          <FiLoader className="h-5 w-5 animate-spin text-white" />
         ) : (
-          <FiFlag className="screen-report-flag h-5 w-5" aria-hidden />
+          <FiAlertTriangle className="h-6 w-6" strokeWidth={2.25} aria-hidden />
         )}
       </button>
 
