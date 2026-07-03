@@ -33,6 +33,7 @@ export default function PersonnelForgotPasswordPage() {
     <PersonnelLoginLayout
       title="Şifremi unuttum"
       subtitle="Kısa bilgileri doldurun, PIN sıfırlama talebinizi tek tıkla gönderin."
+      screenLabel="Şifremi Unuttum"
     >
       <form className="space-y-4">
         <div>

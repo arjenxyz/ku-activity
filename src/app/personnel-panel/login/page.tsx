@@ -16,6 +16,7 @@ import {
 } from '@/lib/personnel-session-check';
 import { FiLock } from 'react-icons/fi';
 import { PersonnelLoginLayout } from '@/components/personnel/PersonnelLoginLayout';
+import { useAuthReport } from '@/components/auth/AuthReportContext';
 import { AuthAlert, LoadingSpinner } from '@/components/auth/AuthAlerts';
 import { PERSONNEL_PIN_LENGTH, sanitizePersonnelPinInput } from '@/lib/personnel-pin';
 import {
@@ -36,51 +37,13 @@ import {
 const inputClass = personnelAuthInputClass;
 const labelClass = personnelAuthLabelClass;
 
-function PersonnelLoginContent() {
+function LoginForm() {
   const searchParams = useSearchParams();
+  const { setFormError } = useAuthReport();
   const [identityNumber, setIdentityNumber] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [checkingSession, setCheckingSession] = useState(true);
-
-  useEffect(() => {
-    let cancelled = false;
-    void (async () => {
-      const active = await hasActivePersonnelSession();
-      if (cancelled) return;
-      if (active) {
-        redirectToPersonnelPanel();
-        return;
-      }
-
-      const pending = loadPendingRegistration();
-      if (pending) {
-        try {
-          const res = await fetch(
-            `/api/public/personnel-registration/status?kod=${encodeURIComponent(pending.verificationCode)}`
-          );
-          if (cancelled) return;
-          if (res.ok) {
-            const data = (await res.json()) as { status?: string };
-            if (data.status === 'pending' || data.status === 'approved' || data.status === 'rejected') {
-              savePendingRegistration(pending);
-              redirectToPendingApplication();
-              return;
-            }
-          }
-          clearPendingRegistration();
-        } catch {
-          /* giriş formuna devam */
-        }
-      }
-
-      setCheckingSession(false);
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, []);
 
   useEffect(() => {
     const fromUrl = searchParams.get('tc');
@@ -96,16 +59,9 @@ function PersonnelLoginContent() {
     }
   }, [searchParams]);
 
-  if (checkingSession) {
-    return (
-      <PersonnelLoginLayout dense>
-        <div className="flex flex-col items-center justify-center py-12 gap-3 text-white/60">
-          <LoadingSpinner />
-          <p className="text-sm">Oturum kontrol ediliyor…</p>
-        </div>
-      </PersonnelLoginLayout>
-    );
-  }
+  useEffect(() => {
+    setFormError(error || undefined);
+  }, [error, setFormError]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -154,10 +110,7 @@ function PersonnelLoginContent() {
   };
 
   return (
-    <PersonnelLoginLayout
-      dense
-      subtitle="T.C. kimlik numaranız ve PIN ile giriş yapın."
-    >
+    <>
       <form onSubmit={handleLogin} className="space-y-4" {...personnelLoginFormProps}>
         <div>
           <label htmlFor="personnel-tc" className={labelClass}>
@@ -235,6 +188,65 @@ function PersonnelLoginContent() {
           </Link>
         </p>
       </div>
+    </>
+  );
+}
+
+function PersonnelLoginContent() {
+  const [checkingSession, setCheckingSession] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+    void (async () => {
+      const active = await hasActivePersonnelSession();
+      if (cancelled) return;
+      if (active) {
+        redirectToPersonnelPanel();
+        return;
+      }
+
+      const pending = loadPendingRegistration();
+      if (pending) {
+        try {
+          const res = await fetch(
+            `/api/public/personnel-registration/status?kod=${encodeURIComponent(pending.verificationCode)}`
+          );
+          if (cancelled) return;
+          if (res.ok) {
+            const data = (await res.json()) as { status?: string };
+            if (data.status === 'pending' || data.status === 'approved' || data.status === 'rejected') {
+              savePendingRegistration(pending);
+              redirectToPendingApplication();
+              return;
+            }
+          }
+          clearPendingRegistration();
+        } catch {
+          /* giriş formuna devam */
+        }
+      }
+
+      setCheckingSession(false);
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  return (
+    <PersonnelLoginLayout
+      dense
+      screenLabel="Personel Giriş"
+      subtitle="T.C. kimlik numaranız ve PIN ile giriş yapın."
+    >
+      {checkingSession ? (
+        <div className="flex flex-col items-center justify-center py-12 gap-3 text-slate-500">
+          <LoadingSpinner />
+          <p className="text-sm">Oturum kontrol ediliyor…</p>
+        </div>
+      ) : (
+        <LoginForm />
+      )}
     </PersonnelLoginLayout>
   );
 }

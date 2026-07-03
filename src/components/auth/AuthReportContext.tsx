@@ -1,0 +1,62 @@
+'use client';
+
+import { createContext, useCallback, useContext, useMemo, useState } from 'react';
+
+type AuthReportContextValue = {
+  formError?: string;
+  setFormError: (message?: string) => void;
+  getReportPayload: () => {
+    formError?: string;
+    diagnostics: string[];
+    pageUrl: string;
+    userAgent: string;
+    capturedAt: string;
+  };
+};
+
+const AuthReportContext = createContext<AuthReportContextValue | null>(null);
+
+const diagnostics: string[] = [];
+const MAX_DIAG = 8;
+
+export function pushAuthDiagnostic(message: string) {
+  diagnostics.unshift(`${new Date().toISOString()} — ${message}`);
+  if (diagnostics.length > MAX_DIAG) diagnostics.length = MAX_DIAG;
+}
+
+export function AuthReportProvider({ children }: { children: React.ReactNode }) {
+  const [formError, setFormErrorState] = useState<string | undefined>();
+
+  const setFormError = useCallback((message?: string) => {
+    setFormErrorState(message?.trim() || undefined);
+    if (message?.trim()) {
+      pushAuthDiagnostic(`Form: ${message.trim()}`);
+    }
+  }, []);
+
+  const getReportPayload = useCallback(
+    () => ({
+      formError,
+      diagnostics: [...diagnostics],
+      pageUrl: typeof window !== 'undefined' ? window.location.href : '',
+      userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : '',
+      capturedAt: new Date().toISOString(),
+    }),
+    [formError]
+  );
+
+  const value = useMemo(
+    () => ({ formError, setFormError, getReportPayload }),
+    [formError, setFormError, getReportPayload]
+  );
+
+  return <AuthReportContext.Provider value={value}>{children}</AuthReportContext.Provider>;
+}
+
+export function useAuthReport() {
+  const ctx = useContext(AuthReportContext);
+  if (!ctx) {
+    throw new Error('useAuthReport AuthReportProvider içinde kullanılmalı');
+  }
+  return ctx;
+}

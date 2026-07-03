@@ -390,6 +390,7 @@ export default function PersonnelApplicationPage() {
       size="wide"
       alignTop
       compact
+      screenLabel="Personel Başvuru"
       title="Personel Başvurusu"
       subtitle="Bilgilerinizi girin; yönetici onayından sonra sisteme alınacaksınız."
     >
