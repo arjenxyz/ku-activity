@@ -1,11 +1,15 @@
 'use client';
 
 import type { ReactNode } from 'react';
-import { motion } from 'framer-motion';
+import { useCallback, useEffect, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+
+const AUTOPLAY_MS = 5000;
 
 const features = [
   {
     title: 'Çift Onaylı Yevmiye',
+    tag: 'Puantaj',
     description:
       'Tam/yarım gün puantaj ve çeyrek, yarım, tam mesai kaydı. Yönetici girer; personel onaylar veya itiraz eder — iki taraf onayı olmadan kayıt kesinleşmez.',
     icon: (
@@ -19,6 +23,7 @@ const features = [
   },
   {
     title: 'Avans & Kesinti',
+    tag: 'Finans',
     description:
       'Proje bazında avans ve kesinti girişi. Brüt, avans, kesinti ve net tutar maaş bordrosunda ve personel finans sekmesinde aynı formülle hesaplanır.',
     icon: (
@@ -32,6 +37,7 @@ const features = [
   },
   {
     title: 'Asgari Ücret Tamamlama',
+    tag: 'Politika',
     description:
       'Şirket ve proje maaş politikasına göre hak edilen, ödenen ve kalan tutar. Taşeron farkı önerisi; personel asgari sekmesinde dökümü görür.',
     icon: (
@@ -45,6 +51,7 @@ const features = [
   },
   {
     title: 'Proje Bazlı Şantiye',
+    tag: 'Operasyon',
     description:
       'Her şantiye ayrı proje; personel, blok, ekip ve finans kayıtları proje içinde tutulur. Yönetici yalnızca kendi oluşturduğu projelere erişir.',
     icon: (
@@ -58,6 +65,7 @@ const features = [
   },
   {
     title: 'Raporlar & Bordro',
+    tag: 'Raporlama',
     description:
       'Onaylanan ve bekleyen yevmiyeler, açık personel itirazları, maaş bordroları ile yevmiye, avans ve kesinti arşiv sorgulaması.',
     icon: (
@@ -71,6 +79,7 @@ const features = [
   },
   {
     title: 'Personel Uygulaması',
+    tag: 'Mobil PWA',
     description:
       'PWA olarak telefona kurulur. Özet, yevmiye, mesai, finans, asgari ve haklarım sekmeleri — yönetici paneliyle aynı veritabanından beslenir.',
     icon: (
@@ -97,13 +106,13 @@ function FeaturesIcon({ className }: { className?: string }) {
   );
 }
 
-function FeatureIconBox({ icon, size = 'md' }: { icon: ReactNode; size?: 'sm' | 'md' }) {
-  const box = size === 'sm' ? 'h-9 w-9 rounded-lg' : 'h-12 w-12 rounded-xl';
-  const svg = size === 'sm' ? 'h-4 w-4' : 'h-5 w-5';
+function FeatureIconBox({ icon, large = false }: { icon: ReactNode; large?: boolean }) {
+  const box = large ? 'h-14 w-14 rounded-2xl' : 'h-10 w-10 rounded-xl';
+  const svg = large ? 'h-7 w-7' : 'h-5 w-5';
 
   return (
     <div
-      className={`flex shrink-0 items-center justify-center bg-[#0E1548] text-white shadow-sm ${box}`}
+      className={`flex shrink-0 items-center justify-center bg-[#0E1548] text-white shadow-md shadow-[#0E1548]/25 ${box}`}
     >
       <svg className={svg} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
         {icon}
@@ -112,55 +121,182 @@ function FeatureIconBox({ icon, size = 'md' }: { icon: ReactNode; size?: 'sm' | 
   );
 }
 
-function FeatureCard({
-  feature,
-  index,
-}: {
-  feature: (typeof features)[number];
-  index: number;
-}) {
+function FeatureLoopCarousel() {
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const sync = () => setReducedMotion(mq.matches);
+    sync();
+    mq.addEventListener('change', sync);
+    return () => mq.removeEventListener('change', sync);
+  }, []);
+
+  const goTo = useCallback((index: number) => {
+    setActive((index + features.length) % features.length);
+  }, []);
+
+  const goNext = useCallback(() => goTo(active + 1), [active, goTo]);
+  const goPrev = useCallback(() => goTo(active - 1), [active, goTo]);
+
+  useEffect(() => {
+    if (paused || reducedMotion) return;
+    const id = window.setInterval(goNext, AUTOPLAY_MS);
+    return () => window.clearInterval(id);
+  }, [paused, reducedMotion, goNext]);
+
+  const feature = features[active];
+  const indexLabel = String(active + 1).padStart(2, '0');
+  const totalLabel = String(features.length).padStart(2, '0');
+
   return (
-    <motion.article
-      className="group flex h-full flex-col rounded-2xl border border-slate-200/90 bg-white p-6 shadow-sm transition-all duration-200 hover:border-blue-200 hover:shadow-md dark:border-slate-800 dark:bg-slate-900 dark:hover:border-blue-900/50 sm:p-7"
-      initial={{ opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-40px' }}
-      transition={{ delay: index * 0.06, duration: 0.4 }}
+    <div
+      className="relative"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      onFocusCapture={() => setPaused(true)}
+      onBlurCapture={(e) => {
+        if (!e.currentTarget.contains(e.relatedTarget as Node)) setPaused(false);
+      }}
     >
-      <FeatureIconBox icon={feature.icon} />
+      <div className="relative overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
+        <div
+          className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#0E1548] via-blue-600 to-indigo-500"
+          aria-hidden
+        />
 
-      <h3 className="mt-5 text-lg font-bold tracking-tight text-slate-900 dark:text-white">
-        {feature.title}
-      </h3>
-      <p className="mt-2 flex-1 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
-        {feature.description}
-      </p>
-    </motion.article>
-  );
-}
+        <div className="relative min-h-[220px] p-5 sm:min-h-[240px] sm:p-7 lg:min-h-[260px] lg:p-8">
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.article
+              key={feature.title}
+              initial={reducedMotion ? { opacity: 0 } : { opacity: 0, x: 28 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={reducedMotion ? { opacity: 0 } : { opacity: 0, x: -28 }}
+              transition={{ duration: 0.35, ease: 'easeOut' }}
+              className="flex h-full flex-col"
+              aria-live="polite"
+              aria-atomic="true"
+            >
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex items-center gap-3 sm:gap-4">
+                  <FeatureIconBox icon={feature.icon} large />
+                  <div>
+                    <span className="inline-flex rounded-md border border-blue-100 bg-blue-50 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-blue-700 dark:border-blue-900/50 dark:bg-blue-950/40 dark:text-blue-300">
+                      {feature.tag}
+                    </span>
+                    <p className="mt-2 font-mono text-xs text-slate-400 dark:text-slate-500">
+                      {indexLabel} / {totalLabel}
+                    </p>
+                  </div>
+                </div>
 
-function MobileFeatureCarousel() {
-  return (
-    <div className="md:hidden">
-      <div className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-1 scrollbar-none">
-        {features.map((feature) => (
-          <article
-            key={feature.title}
-            className="flex w-[78vw] max-w-[300px] shrink-0 snap-start flex-col rounded-xl border border-slate-200/90 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900"
-          >
-            <FeatureIconBox icon={feature.icon} size="sm" />
-            <h3 className="mt-3 text-base font-bold tracking-tight text-slate-900 dark:text-white">
-              {feature.title}
-            </h3>
-            <p className="mt-1.5 line-clamp-3 text-sm leading-snug text-slate-600 dark:text-slate-400">
-              {feature.description}
-            </p>
-          </article>
-        ))}
+                <div className="hidden items-center gap-1.5 sm:flex">
+                  <button
+                    type="button"
+                    onClick={goPrev}
+                    className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 text-slate-500 transition-colors hover:border-slate-300 hover:bg-slate-50 hover:text-slate-800 dark:border-slate-700 dark:hover:bg-slate-800 dark:hover:text-slate-200"
+                    aria-label="Önceki özellik"
+                  >
+                    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                    </svg>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={goNext}
+                    className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 text-slate-500 transition-colors hover:border-slate-300 hover:bg-slate-50 hover:text-slate-800 dark:border-slate-700 dark:hover:bg-slate-800 dark:hover:text-slate-200"
+                    aria-label="Sonraki özellik"
+                  >
+                    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              <h3 className="mt-5 text-xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-2xl">
+                {feature.title}
+              </h3>
+              <p className="mt-3 max-w-2xl text-sm leading-relaxed text-slate-600 dark:text-slate-400 sm:text-base">
+                {feature.description}
+              </p>
+            </motion.article>
+          </AnimatePresence>
+        </div>
       </div>
-      <p className="mt-3 text-center text-xs text-slate-400 dark:text-slate-500">
-        Kaydırarak diğer özelliklere geçin
-      </p>
+
+      <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
+        <div
+          className="flex flex-1 gap-2 overflow-x-auto pb-0.5 scrollbar-none"
+          role="tablist"
+          aria-label="Özellik seçimi"
+        >
+          {features.map((item, i) => {
+            const isActive = i === active;
+            return (
+              <button
+                key={item.title}
+                type="button"
+                role="tab"
+                aria-selected={isActive}
+                aria-label={item.title}
+                onClick={() => goTo(i)}
+                className={`relative shrink-0 overflow-hidden rounded-full transition-colors ${
+                  isActive
+                    ? 'bg-[#0E1548] text-white'
+                    : 'bg-white text-slate-600 ring-1 ring-slate-200 hover:ring-slate-300 dark:bg-slate-900 dark:text-slate-300 dark:ring-slate-700'
+                } px-3 py-1.5 text-xs font-semibold sm:px-3.5`}
+              >
+                {isActive && !reducedMotion && !paused && (
+                  <motion.span
+                    key={`progress-${active}`}
+                    className="absolute inset-y-0 left-0 bg-white/20"
+                    initial={{ width: '0%' }}
+                    animate={{ width: '100%' }}
+                    transition={{ duration: AUTOPLAY_MS / 1000, ease: 'linear' }}
+                    aria-hidden
+                  />
+                )}
+                <span className="relative">{item.tag}</span>
+              </button>
+            );
+          })}
+        </div>
+
+        <p className="text-xs text-slate-400 dark:text-slate-500">
+          {paused || reducedMotion ? 'Duraklatıldı' : 'Otomatik geçiş'}
+        </p>
+      </div>
+
+      <ul className="mt-4 hidden gap-2 lg:grid lg:grid-cols-3">
+        {features.map((item, i) => {
+          const isActive = i === active;
+          const isNext = i === (active + 1) % features.length;
+          const isPrev = i === (active - 1 + features.length) % features.length;
+          if (!isActive && !isNext && !isPrev) return null;
+
+          return (
+            <li key={item.title}>
+              <button
+                type="button"
+                onClick={() => goTo(i)}
+                className={`w-full rounded-xl border px-3 py-2.5 text-left transition-all ${
+                  isActive
+                    ? 'border-blue-200 bg-blue-50/80 dark:border-blue-900/50 dark:bg-blue-950/30'
+                    : 'border-transparent bg-white/60 opacity-70 hover:opacity-100 dark:bg-slate-900/40'
+                }`}
+              >
+                <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">{item.tag}</p>
+                <p className="mt-0.5 truncate text-sm font-semibold text-slate-800 dark:text-slate-200">
+                  {item.title}
+                </p>
+              </button>
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 }
@@ -169,7 +305,7 @@ export function FeaturesSection() {
   return (
     <section id="features" className="bg-slate-50/80 py-12 dark:bg-slate-950/50 sm:py-16 lg:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="lg:grid lg:grid-cols-[minmax(0,340px)_1fr] lg:items-start lg:gap-14 xl:gap-20">
+        <div className="lg:grid lg:grid-cols-[minmax(0,320px)_1fr] lg:items-start lg:gap-12 xl:gap-16">
           <motion.div
             className="lg:sticky lg:top-28"
             initial={{ opacity: 0, y: 12 }}
@@ -188,7 +324,7 @@ export function FeaturesSection() {
               <span className="md:hidden">Çift onaylı yevmiye, finans ve asgari — proje bazında.</span>
               <span className="hidden md:inline">
                 Yevmiye, mesai, avans, kesinti, asgari tamamlama ve bordro proje bazında yönetilir. Personel
-                uygulaması yönetici paneliyle aynı kayıtları gösterir; gizli kesinti mimari olarak mümkün değildir.
+                uygulaması yönetici paneliyle aynı kayıtları gösterir.
               </span>
             </p>
             <div
@@ -198,13 +334,7 @@ export function FeaturesSection() {
           </motion.div>
 
           <div className="mt-6 sm:mt-8 lg:mt-0">
-            <MobileFeatureCarousel />
-
-            <div className="hidden md:grid md:grid-cols-2 md:gap-5">
-              {features.map((feature, i) => (
-                <FeatureCard key={feature.title} feature={feature} index={i} />
-              ))}
-            </div>
+            <FeatureLoopCarousel />
           </div>
         </div>
       </div>
