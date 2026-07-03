@@ -31,6 +31,33 @@ const apps = [
   },
 ] as const;
 
+function CardsConnector({ layout }: { layout: 'row' | 'column' }) {
+  const badge = (
+    <div className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-slate-200/90 bg-white shadow-lg ring-4 ring-slate-50 dark:border-slate-600 dark:bg-[#0E1548] dark:ring-slate-950">
+      <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-500/10 to-indigo-600/15" aria-hidden />
+      <GooglePlayIcon className="relative h-6 w-6" />
+    </div>
+  );
+
+  if (layout === 'column') {
+    return (
+      <div className="flex items-center justify-center py-1" aria-hidden>
+        <div className="h-px flex-1 max-w-[4.5rem] bg-gradient-to-r from-transparent to-slate-200 dark:to-slate-700" />
+        {badge}
+        <div className="h-px flex-1 max-w-[4.5rem] bg-gradient-to-l from-transparent to-slate-200 dark:to-slate-700" />
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex h-full flex-col items-center px-2 sm:px-3" aria-hidden>
+      <div className="min-h-6 w-px flex-1 bg-gradient-to-b from-transparent via-slate-200 to-slate-300 dark:via-slate-700" />
+      {badge}
+      <div className="min-h-6 w-px flex-1 bg-gradient-to-b from-slate-300 via-slate-200 to-transparent dark:from-slate-700" />
+    </div>
+  );
+}
+
 function AppCard({
   app,
   index,
@@ -98,10 +125,18 @@ export function PlayStoreSection() {
           </h2>
         </motion.div>
 
-        <div className="mx-auto grid max-w-4xl gap-5 sm:grid-cols-2 sm:gap-6">
-          {apps.map((app, i) => (
-            <AppCard key={app.id} app={app} index={i} />
-          ))}
+        <div className="mx-auto max-w-4xl">
+          <div className="hidden sm:grid sm:grid-cols-[1fr_auto_1fr] sm:items-stretch sm:gap-0">
+            <AppCard app={apps[0]} index={0} />
+            <CardsConnector layout="row" />
+            <AppCard app={apps[1]} index={1} />
+          </div>
+
+          <div className="space-y-4 sm:hidden">
+            <AppCard app={apps[0]} index={0} />
+            <CardsConnector layout="column" />
+            <AppCard app={apps[1]} index={1} />
+          </div>
         </div>
       </div>
     </section>
