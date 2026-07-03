@@ -1,7 +1,7 @@
 'use client';
 
 import type { ReactNode } from 'react';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 
 const MARQUEE_DURATION_S = 52;
@@ -123,11 +123,13 @@ function FeatureCard({
   index,
   selected,
   onSelect,
+  dragMovedRef,
 }: {
   feature: Feature;
   index: number;
   selected: boolean;
   onSelect: (index: number) => void;
+  dragMovedRef: React.RefObject<boolean>;
 }) {
   const indexLabel = String((index % features.length) + 1).padStart(2, '0');
   const totalLabel = String(features.length).padStart(2, '0');
@@ -137,14 +139,17 @@ function FeatureCard({
       role="button"
       tabIndex={0}
       aria-pressed={selected}
-      onClick={() => onSelect(index % features.length)}
+      onClick={() => {
+        if (dragMovedRef.current) return;
+        onSelect(index % features.length);
+      }}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
           onSelect(index % features.length);
         }
       }}
-      className={`flex h-full min-h-[300px] w-[min(82vw,320px)] shrink-0 cursor-pointer flex-col rounded-2xl border bg-white p-5 shadow-sm transition-all sm:w-[320px] sm:p-6 dark:bg-slate-900 ${
+      className={`flex h-full min-h-[300px] w-[min(82vw,320px)] shrink-0 cursor-grab active:cursor-grabbing flex-col rounded-2xl border bg-white p-5 shadow-sm transition-[border-color,box-shadow] sm:w-[320px] sm:p-6 dark:bg-slate-900 ${
         selected
           ? 'border-[#0E1548] ring-2 ring-[#0E1548]/30 shadow-md dark:border-blue-500 dark:ring-blue-500/30'
           : 'border-slate-200/90 hover:border-slate-300 hover:shadow-md dark:border-slate-700 dark:hover:border-slate-600'
@@ -197,12 +202,23 @@ function FeatureCardGrid() {
 }
 
 function InfiniteFeatureMarquee() {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const dragMovedRef = useRef(false);
+  const dragStateRef = useRef({ startX: 0, startScroll: 0, pointerId: -1 });
+  const pausedRef = useRef(false);
+  const rafRef = useRef<number>(0);
+
   const [holdPaused, setHoldPaused] = useState(false);
   const [clickPaused, setClickPaused] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [reducedMotion, setReducedMotion] = useState(false);
 
-  const isPaused = holdPaused || clickPaused;
+  const isPaused = holdPaused || clickPaused || isDragging;
+
+  useEffect(() => {
+    pausedRef.current = isPaused;
+  }, [isPaused]);
 
   useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -212,13 +228,103 @@ function InfiniteFeatureMarquee() {
     return () => mq.removeEventListener('change', sync);
   }, []);
 
-  const handlePointerDown = useCallback(() => {
-    setHoldPaused(true);
+  const normalizeScroll = useCallback((el: HTMLDivElement) => {
+    const half = el.scrollWidth / 2;
+    if (half <= 0) return;
+    if (el.scrollLeft >= half) el.scrollLeft -= half;
+    if (el.scrollLeft < 0) el.scrollLeft += half;
   }, []);
 
-  const handlePointerUp = useCallback(() => {
-    setHoldPaused(false);
+  useEffect(() => {
+    if (reducedMotion) return;
+
+    const el = scrollRef.current;
+    if (!el) return;
+
+    let lastTime = performance.now();
+
+    const tick = (now: number) => {
+      const dt = Math.min((now - lastTime) / 1000, 0.05);
+      lastTime = now;
+
+      if (!pausedRef.current && el.scrollWidth > 0) {
+        const half = el.scrollWidth / 2;
+        const speed = half / MARQUEE_DURATION_S;
+        el.scrollLeft += speed * dt;
+        if (el.scrollLeft >= half) el.scrollLeft -= half;
+      }
+
+      rafRef.current = requestAnimationFrame(tick);
+    };
+
+    rafRef.current = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafRef.current);
+  }, [reducedMotion]);
+
+  const handlePointerDown = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
+    const el = scrollRef.current;
+    if (!el || e.button !== 0) return;
+
+    dragMovedRef.current = false;
+    setHoldPaused(true);
+
+    if (e.pointerType === 'touch') return;
+
+    dragStateRef.current = {
+      startX: e.clientX,
+      startScroll: el.scrollLeft,
+      pointerId: e.pointerId,
+    };
+    setIsDragging(true);
+    el.setPointerCapture(e.pointerId);
   }, []);
+
+  const handlePointerMove = useCallback(
+    (e: React.PointerEvent<HTMLDivElement>) => {
+      const el = scrollRef.current;
+      const drag = dragStateRef.current;
+      if (!el || drag.pointerId !== e.pointerId || e.pointerType === 'touch') return;
+
+      const dx = e.clientX - drag.startX;
+      if (Math.abs(dx) > 6) dragMovedRef.current = true;
+
+      el.scrollLeft = drag.startScroll - dx;
+      normalizeScroll(el);
+    },
+    [normalizeScroll],
+  );
+
+  const endDrag = useCallback(
+    (e: React.PointerEvent<HTMLDivElement>) => {
+      const el = scrollRef.current;
+      if (!el) return;
+
+      if (e.pointerType === 'touch') {
+        setHoldPaused(false);
+        normalizeScroll(el);
+        return;
+      }
+
+      const drag = dragStateRef.current;
+      if (drag.pointerId !== e.pointerId) return;
+
+      if (el.hasPointerCapture(e.pointerId)) {
+        el.releasePointerCapture(e.pointerId);
+      }
+      dragStateRef.current.pointerId = -1;
+      setIsDragging(false);
+      setHoldPaused(false);
+      normalizeScroll(el);
+    },
+    [normalizeScroll],
+  );
+
+  const handleScroll = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    if (holdPaused || isDragging) dragMovedRef.current = true;
+    normalizeScroll(el);
+  }, [normalizeScroll, holdPaused, isDragging]);
 
   const handleCardSelect = useCallback(
     (index: number) => {
@@ -251,16 +357,16 @@ function InfiniteFeatureMarquee() {
       />
 
       <div
-        className="overflow-hidden py-1 touch-pan-y"
+        ref={scrollRef}
+        className="overflow-x-auto py-1 scrollbar-hide overscroll-x-contain [-webkit-overflow-scrolling:touch]"
+        style={{ touchAction: 'pan-x' }}
         onPointerDown={handlePointerDown}
-        onPointerUp={handlePointerUp}
-        onPointerCancel={handlePointerUp}
-        onPointerLeave={handlePointerUp}
+        onPointerMove={handlePointerMove}
+        onPointerUp={endDrag}
+        onPointerCancel={endDrag}
+        onScroll={handleScroll}
       >
-        <div
-          className={`features-marquee-track flex w-max items-stretch gap-4 sm:gap-5 ${isPaused ? 'is-paused' : ''}`}
-          style={{ ['--features-marquee-duration' as string]: `${MARQUEE_DURATION_S}s` }}
-        >
+        <div className="flex w-max items-stretch gap-4 sm:gap-5">
           {loopItems.map((feature, index) => (
             <FeatureCard
               key={`${feature.title}-${index}`}
@@ -268,6 +374,7 @@ function InfiniteFeatureMarquee() {
               index={index}
               selected={selectedIndex === index % features.length && clickPaused}
               onSelect={handleCardSelect}
+              dragMovedRef={dragMovedRef}
             />
           ))}
         </div>
@@ -280,7 +387,7 @@ function InfiniteFeatureMarquee() {
             Duraklatıldı — kutuya tekrar dokunarak devam edin
           </span>
         ) : (
-          'Basılı tutarak veya kutuya dokunarak durdurabilirsiniz'
+          'Parmağınızla kaydırın; basılı tutarak veya kutuya dokunarak durdurabilirsiniz'
         )}
       </p>
     </div>
