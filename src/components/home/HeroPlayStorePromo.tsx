@@ -45,60 +45,39 @@ export function HeroPlayStorePromo() {
             Google Play&apos;den indirebilirsiniz.
           </p>
 
-          <div className="mt-5 flex items-center gap-3">
-            <div className="flex -space-x-2">
-              {heroApps.map((app) => (
-                <div
-                  key={app.id}
-                  className="h-10 w-10 overflow-hidden rounded-xl ring-2 ring-white dark:ring-slate-900"
-                >
-                  <Image
-                    src={app.iconSrc}
-                    alt=""
-                    width={40}
-                    height={40}
-                    className="h-full w-full object-cover"
-                  />
-                </div>
-              ))}
+          <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <div className="flex -space-x-2">
+                {heroApps.map((app) => (
+                  <div
+                    key={app.id}
+                    className="h-10 w-10 overflow-hidden rounded-xl ring-2 ring-white dark:ring-slate-900"
+                  >
+                    <Image
+                      src={app.iconSrc}
+                      alt=""
+                      width={40}
+                      height={40}
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+                ))}
+              </div>
+              <span className="text-xs font-medium text-slate-500 dark:text-slate-400">2 uygulama · Ücretsiz</span>
             </div>
-            <span className="text-xs font-medium text-slate-500 dark:text-slate-400">2 uygulama · Ücretsiz</span>
-          </div>
 
-          <span className="mt-6 inline-flex items-center gap-2 rounded-xl bg-[#0E1548] px-5 py-3 text-sm font-semibold text-white shadow-lg transition-all group-hover:bg-[#151d5c] group-hover:shadow-xl">
-            <GooglePlayIcon className="h-5 w-5" />
-            Uygulama seç
-            <svg
-              className="h-4 w-4 transition-transform group-hover:translate-y-0.5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              aria-hidden
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-            </svg>
-          </span>
-
-          <div className="mt-5 flex items-center gap-4 border-t border-slate-200/70 pt-4 text-xs text-slate-500 dark:border-slate-700/70 dark:text-slate-400">
-            <span className="inline-flex items-center gap-1.5">
-              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 dark:bg-emerald-900/40 dark:text-emerald-400">
-                <svg className="h-3 w-3" fill="currentColor" viewBox="0 0 20 20" aria-hidden>
-                  <path
-                    fillRule="evenodd"
-                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </span>
-              Güvenli giriş
-            </span>
-            <span className="inline-flex items-center gap-1.5">
-              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-blue-100 text-blue-600 dark:bg-blue-900/40 dark:text-blue-400">
-                <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-              </span>
-              Anında erişim
+            <span className="inline-flex items-center gap-2 rounded-xl bg-[#0E1548] px-5 py-3 text-sm font-semibold text-white shadow-lg transition-all group-hover:bg-[#151d5c] group-hover:shadow-xl">
+              <GooglePlayIcon className="h-5 w-5" />
+              Uygulama seç
+              <svg
+                className="h-4 w-4 transition-transform group-hover:translate-y-0.5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+              </svg>
             </span>
           </div>
         </div>
