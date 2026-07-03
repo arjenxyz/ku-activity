@@ -15,6 +15,8 @@ import { createHash, randomBytes } from 'crypto';
 
 const PIN_RESET_LINK_MINUTES = 30;
 
+export { PIN_RESET_LINK_MINUTES };
+
 type EmployeeContact = {
   id: string;
   name: string;
@@ -214,7 +216,10 @@ export async function sendPersonnelPinResetLink(input: {
 
 export async function validatePinResetToken(
   token: string
-): Promise<{ ok: true; employeeName: string } | { ok: false; error: string }> {
+): Promise<
+  | { ok: true; employeeName: string; expiresAt: string; expiresInMinutes: number }
+  | { ok: false; error: string }
+> {
   const trimmed = token.trim();
   if (!trimmed) return { ok: false, error: 'Geçersiz bağlantı' };
 
@@ -229,10 +234,14 @@ export async function validatePinResetToken(
     return { ok: false, error: 'Bağlantı geçersiz veya süresi dolmuş.' };
   }
   if (row.consumed_at) {
-    return { ok: false, error: 'Bu bağlantı daha önce kullanılmış.' };
+    return { ok: false, error: 'Bu bağlantı daha önce kullanıldı. Yeni bir sıfırlama linki isteyin.' };
   }
-  if (new Date(row.expires_at as string) < new Date()) {
-    return { ok: false, error: 'Bağlantının süresi dolmuş. Giriş ekranından yeni link isteyin.' };
+  const expiresAt = row.expires_at as string;
+  if (new Date(expiresAt) < new Date()) {
+    return {
+      ok: false,
+      error: `Bağlantının süresi doldu (${PIN_RESET_LINK_MINUTES} dakika). Giriş ekranından yeni link isteyin.`,
+    };
   }
 
   const employee = await loadEmployeeContact(row.employee_id as string);
@@ -240,7 +249,12 @@ export async function validatePinResetToken(
     return { ok: false, error: 'Hesap aktif değil. Yöneticinize başvurun.' };
   }
 
-  return { ok: true, employeeName: employee.name };
+  return {
+    ok: true,
+    employeeName: employee.name,
+    expiresAt,
+    expiresInMinutes: PIN_RESET_LINK_MINUTES,
+  };
 }
 
 export async function completePersonnelPinReset(input: {
@@ -255,6 +269,8 @@ export async function completePersonnelPinReset(input: {
 
   const admin = createAdminClient();
   const tokenHash = hashResetToken(trimmed);
+  const nowIso = new Date().toISOString();
+
   const { data: row, error } = await admin
     .from('personnel_pin_reset_tokens')
     .select('id, employee_id, expires_at, consumed_at')
@@ -265,10 +281,13 @@ export async function completePersonnelPinReset(input: {
     return { ok: false, error: 'Bağlantı geçersiz veya süresi dolmuş.' };
   }
   if (row.consumed_at) {
-    return { ok: false, error: 'Bu bağlantı daha önce kullanılmış.' };
+    return { ok: false, error: 'Bu bağlantı daha önce kullanıldı. Yeni bir sıfırlama linki isteyin.' };
   }
   if (new Date(row.expires_at as string) < new Date()) {
-    return { ok: false, error: 'Bağlantının süresi dolmuş. Giriş ekranından yeni link isteyin.' };
+    return {
+      ok: false,
+      error: `Bağlantının süresi doldu (${PIN_RESET_LINK_MINUTES} dakika). Giriş ekranından yeni link isteyin.`,
+    };
   }
 
   const employee = await loadEmployeeContact(row.employee_id as string);
@@ -286,10 +305,18 @@ export async function completePersonnelPinReset(input: {
     return { ok: false, error: 'PIN güncellenemedi' };
   }
 
-  await admin
+  const { data: consumed, error: consumeError } = await admin
     .from('personnel_pin_reset_tokens')
-    .update({ consumed_at: new Date().toISOString() })
-    .eq('id', row.id);
+    .update({ consumed_at: nowIso })
+    .eq('id', row.id)
+    .is('consumed_at', null)
+    .gt('expires_at', nowIso)
+    .select('id')
+    .maybeSingle();
+
+  if (consumeError || !consumed) {
+    return { ok: false, error: 'Bu bağlantı daha önce kullanıldı veya süresi doldu.' };
+  }
 
   return { ok: true };
 }

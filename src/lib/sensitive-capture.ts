@@ -7,8 +7,8 @@ export const SENSITIVE_CAPTURE_SELECTOR = [
   '#forgot-tc',
   '#forgot-pin-tc',
   '#forgot-pin-tc-hint',
-  '#forgot-pin-new',
-  '#forgot-pin-confirm',
+  '#reset-new-pin',
+  '#reset-confirm-pin',
   'input.pin-mask',
   'input[type="password"]',
 ].join(', ');

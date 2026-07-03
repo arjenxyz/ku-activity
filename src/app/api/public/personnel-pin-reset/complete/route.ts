@@ -13,7 +13,12 @@ export async function GET(req: NextRequest) {
     if (!result.ok) {
       return NextResponse.json({ error: result.error }, { status: 400 });
     }
-    return NextResponse.json({ ok: true, employeeName: result.employeeName });
+    return NextResponse.json({
+      ok: true,
+      employeeName: result.employeeName,
+      expiresAt: result.expiresAt,
+      expiresInMinutes: result.expiresInMinutes,
+    });
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Bağlantı doğrulanamadı';
     return NextResponse.json({ error: message }, { status: 500 });

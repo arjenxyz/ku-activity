@@ -1,14 +1,10 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import { FiLoader, FiLock, FiX } from 'react-icons/fi';
+import { FiLoader, FiX } from 'react-icons/fi';
 import { AuthAlert } from '@/components/auth/AuthAlerts';
 import { TurkishPhoneInput } from '@/components/forms/TurkishPhoneInput';
-import {
-  PERSONNEL_PIN_LENGTH,
-  sanitizePersonnelPinInput,
-  validatePersonnelPinMatch,
-} from '@/lib/personnel-pin';
+import { buildPersonnelPinResetUrl } from '@/lib/app-url';
 import {
   personnelAuthInfoBannerClass,
   personnelAuthInputClass,
@@ -19,7 +15,7 @@ import {
   personnelAuthSecondaryBtnClass,
 } from '@/lib/personnel-auth-ui';
 
-type View = 'form' | 'set-pin' | 'no-email' | 'link-sent' | 'done';
+type View = 'form' | 'no-email' | 'link-sent';
 
 type Props = {
   open: boolean;
@@ -35,31 +31,21 @@ export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
   const [tcKimlik, setTcKimlik] = useState(initialTc);
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
-  const [resetToken, setResetToken] = useState('');
-  const [employeeName, setEmployeeName] = useState('');
-  const [newPin, setNewPin] = useState('');
-  const [confirmPin, setConfirmPin] = useState('');
   const [verifying, setVerifying] = useState(false);
-  const [savingPin, setSavingPin] = useState(false);
   const [linkSending, setLinkSending] = useState(false);
   const [hintLoading, setHintLoading] = useState(false);
   const [error, setError] = useState('');
   const [maskedEmail, setMaskedEmail] = useState<string | null>(null);
 
-  const busy = verifying || savingPin || linkSending || hintLoading;
+  const busy = verifying || linkSending || hintLoading;
 
   const resetState = useCallback(() => {
     setView('form');
     setPhone('');
     setEmail('');
-    setResetToken('');
-    setEmployeeName('');
-    setNewPin('');
-    setConfirmPin('');
     setError('');
     setMaskedEmail(null);
     setVerifying(false);
-    setSavingPin(false);
     setLinkSending(false);
     setHintLoading(false);
   }, []);
@@ -90,9 +76,6 @@ export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
   const formReady =
     tcKimlik.replace(/\D/g, '').length === 11 && phone.trim().length > 0 && email.trim().length > 0;
 
-  const pinReady =
-    newPin.length === PERSONNEL_PIN_LENGTH && confirmPin.length === PERSONNEL_PIN_LENGTH;
-
   const handleVerify = async () => {
     if (verifying || !formReady) return;
     setError('');
@@ -111,13 +94,11 @@ export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
       const data = (await res.json()) as {
         error?: string;
         resetToken?: string;
-        employeeName?: string;
       };
       if (!res.ok) throw new Error(data.error || 'Doğrulama başarısız');
       if (!data.resetToken) throw new Error('Oturum başlatılamadı');
-      setResetToken(data.resetToken);
-      setEmployeeName(data.employeeName ?? '');
-      setView('set-pin');
+      handleClose();
+      window.location.assign(buildPersonnelPinResetUrl(data.resetToken));
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Doğrulama başarısız');
     } finally {
@@ -147,32 +128,6 @@ export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
       setError(err instanceof Error ? err.message : 'Link gönderilemedi');
     } finally {
       setLinkSending(false);
-    }
-  };
-
-  const handleSavePin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (savingPin || !resetToken) return;
-    setError('');
-    const pinError = validatePersonnelPinMatch(newPin, confirmPin);
-    if (pinError) {
-      setError(pinError);
-      return;
-    }
-    setSavingPin(true);
-    try {
-      const res = await fetch('/api/public/personnel-pin-reset/complete', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ token: resetToken, newPin }),
-      });
-      const data = (await res.json()) as { error?: string };
-      if (!res.ok) throw new Error(data.error || 'PIN kaydedilemedi');
-      setView('done');
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'PIN kaydedilemedi');
-    } finally {
-      setSavingPin(false);
     }
   };
 
@@ -206,11 +161,7 @@ export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
       ? 'E-postanızı hatırlamıyorsanız aşağıdaki seçenekleri kullanın.'
       : view === 'link-sent'
         ? 'E-postanızı kontrol edin.'
-        : view === 'set-pin'
-          ? 'Yeni giriş PIN\'inizi belirleyin.'
-          : view === 'done'
-            ? 'PIN güncellendi.'
-            : 'Kimliğinizi doğrulayın, ardından yeni PIN\'inizi siz belirleyin.';
+        : 'Kimliğinizi doğrulayın; yeni PIN\'i ayrı bir sayfada belirleyeceksiniz.';
 
   if (!open) return null;
 
@@ -241,91 +192,17 @@ export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
         </div>
 
         <div className="px-5 py-4 overflow-y-auto space-y-4">
-          {view === 'done' ? (
+          {view === 'link-sent' ? (
             <div className="space-y-4">
               <AuthAlert
                 type="success"
                 tone="personnel"
-                message="Yeni PIN'iniz kaydedildi. Artık giriş ekranından yeni PIN'inizle oturum açabilirsiniz."
-              />
-              <button type="button" onClick={handleClose} className={personnelAuthPrimaryBtnClass}>
-                Giriş ekranına dön
-              </button>
-            </div>
-          ) : view === 'link-sent' ? (
-            <div className="space-y-4">
-              <AuthAlert
-                type="success"
-                tone="personnel"
-                message="Sıfırlama linki e-posta adresinize gönderildi. Bağlantı 30 dakika geçerlidir; linke tıklayarak yeni PIN'inizi belirleyebilirsiniz."
+                message="Sıfırlama linki e-posta adresinize gönderildi. Bağlantı 30 dakika geçerlidir ve yalnızca bir kez kullanılabilir."
               />
               <button type="button" onClick={handleClose} className={personnelAuthPrimaryBtnClass}>
                 Tamam
               </button>
             </div>
-          ) : view === 'set-pin' ? (
-            <form onSubmit={(e) => void handleSavePin(e)} className="space-y-4">
-              {employeeName ? (
-                <p className={personnelAuthInfoBannerClass}>
-                  Merhaba <strong>{employeeName}</strong>, kimliğiniz doğrulandı. Yeni PIN&apos;inizi
-                  girin.
-                </p>
-              ) : null}
-
-              <div>
-                <label className={labelClass} htmlFor="forgot-pin-new">
-                  Yeni PIN *
-                </label>
-                <input
-                  id="forgot-pin-new"
-                  className={`${inputClass} pin-mask`}
-                  data-sensitive-capture
-                  value={newPin}
-                  onChange={(e) => setNewPin(sanitizePersonnelPinInput(e.target.value))}
-                  placeholder={`${PERSONNEL_PIN_LENGTH} haneli PIN`}
-                  maxLength={PERSONNEL_PIN_LENGTH}
-                  inputMode="numeric"
-                  required
-                />
-              </div>
-
-              <div>
-                <label className={labelClass} htmlFor="forgot-pin-confirm">
-                  Yeni PIN tekrar *
-                </label>
-                <input
-                  id="forgot-pin-confirm"
-                  className={`${inputClass} pin-mask`}
-                  data-sensitive-capture
-                  value={confirmPin}
-                  onChange={(e) => setConfirmPin(sanitizePersonnelPinInput(e.target.value))}
-                  placeholder={`${PERSONNEL_PIN_LENGTH} haneli PIN`}
-                  maxLength={PERSONNEL_PIN_LENGTH}
-                  inputMode="numeric"
-                  required
-                />
-              </div>
-
-              {error ? <AuthAlert type="error" tone="personnel" message={error} /> : null}
-
-              <button
-                type="submit"
-                disabled={savingPin || !pinReady}
-                className={personnelAuthPrimaryBtnClass}
-              >
-                {savingPin ? (
-                  <>
-                    <FiLoader className="h-4 w-4 animate-spin" />
-                    Kaydediliyor…
-                  </>
-                ) : (
-                  <>
-                    <FiLock className="w-4 h-4 opacity-90" />
-                    Yeni PIN&apos;i kaydet
-                  </>
-                )}
-              </button>
-            </form>
           ) : view === 'no-email' ? (
             <div className="space-y-4">
               <div className={personnelAuthMutedTextClass.replace('text-xs', 'text-sm')}>
@@ -467,7 +344,7 @@ export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
                     Doğrulanıyor…
                   </>
                 ) : (
-                  'Doğrula ve yeni PIN belirle'
+                  'Doğrula ve devam et'
                 )}
               </button>
 
@@ -486,6 +363,11 @@ export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
                   'E-postama sıfırlama linki gönder'
                 )}
               </button>
+
+              <p className={`text-center ${personnelAuthMutedTextClass}`}>
+                Bağlantı <strong>30 dakika</strong> geçerlidir ve <strong>yalnızca bir kez</strong>{' '}
+                kullanılabilir.
+              </p>
 
               <p className={`text-center ${personnelAuthMutedTextClass}`}>
                 <button
