@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { GooglePlayBadge, GooglePlayIcon } from '@/components/home/GooglePlayBadge';
 import {
@@ -18,8 +17,6 @@ const apps = [
       'Yoklama, yevmiye, mesai ve bordro görüntüleme. Başvuru ve günlük işlemler için tasarlandı.',
     features: [] as string[],
     playUrl: PLAY_STORE_PERSONNEL_URL,
-    webFallback: '/personnel-panel/basvuru',
-    webLabel: 'Web sürümünü aç',
     gradient: 'from-blue-500 via-blue-600 to-indigo-700',
     glow: 'bg-blue-500/30',
     cardBg: 'from-blue-50/90 via-white to-indigo-50/50 dark:from-slate-900 dark:via-slate-900 dark:to-blue-950/40',
@@ -53,8 +50,6 @@ const apps = [
       'Proje yönetimi, personel onayı, yevmiye ve raporlar. Ofisten veya sahada tam kontrol.',
     features: ['Proje Yönetimi', 'Başvuru Onayı', 'Yevmiye', 'Raporlar'],
     playUrl: PLAY_STORE_ADMIN_URL,
-    webFallback: '/admin-panel/login',
-    webLabel: 'Web sürümünü aç',
     gradient: 'from-slate-700 via-slate-800 to-slate-950',
     glow: 'bg-slate-500/25',
     cardBg: 'from-slate-50/90 via-white to-slate-100/80 dark:from-slate-900 dark:via-slate-900 dark:to-slate-950',
@@ -170,21 +165,8 @@ function AppCard({
         </ul>
         ) : null}
 
-        <div className="mt-7 pt-6 border-t border-slate-200/80 dark:border-slate-700/80 flex flex-col sm:flex-row sm:items-center gap-4">
+        <div className="mt-7 pt-6 border-t border-slate-200/80 dark:border-slate-700/80">
           <GooglePlayBadge href={app.playUrl} enabled={hasPlayLink} />
-          <Link
-            href={app.webFallback}
-            className={`inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold transition-all hover:-translate-y-0.5 ${
-              app.id === 'personel'
-                ? 'bg-blue-600 text-white hover:bg-blue-700 shadow-lg shadow-blue-500/25'
-                : 'bg-slate-800 text-white hover:bg-slate-900 shadow-lg shadow-slate-500/20 dark:bg-slate-700 dark:hover:bg-slate-600'
-            }`}
-          >
-            {app.webLabel}
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-            </svg>
-          </Link>
         </div>
       </div>
     </motion.article>

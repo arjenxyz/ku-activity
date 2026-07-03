@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { AnimatePresence, motion } from 'framer-motion';
 import { createPortal } from 'react-dom';
 import {
@@ -20,8 +19,6 @@ const heroApps = [
     description: 'Sahada günlük işlemler: QR yoklama, bordro görüntüleme ve başvuru.',
     features: ['QR Yoklama', 'Bordro', 'Başvuru'],
     playUrl: PLAY_STORE_PERSONNEL_URL,
-    webFallback: '/personnel-panel/basvuru',
-    webLabel: 'Web sürümünü aç',
     gradient: 'from-blue-500 to-indigo-600',
     glow: 'shadow-blue-500/30',
     ring: 'ring-blue-400/40',
@@ -37,8 +34,6 @@ const heroApps = [
     description: 'Şantiye operasyonu: proje yönetimi, personel onayı ve raporlar.',
     features: ['Proje', 'Onay', 'Raporlar'],
     playUrl: PLAY_STORE_ADMIN_URL,
-    webFallback: '/admin-panel/login',
-    webLabel: 'Web sürümünü aç',
     gradient: 'from-slate-600 to-slate-900',
     glow: 'shadow-slate-500/25',
     ring: 'ring-slate-400/35',
@@ -112,24 +107,11 @@ function AppChoicePanel({
       </ul>
 
       <div
-        className="mt-auto pt-6 space-y-3"
+        className="mt-auto pt-6"
         onClick={(e) => e.stopPropagation()}
         onKeyDown={(e) => e.stopPropagation()}
       >
         <GooglePlayBadge href={app.playUrl} enabled={hasPlayLink} />
-        <Link
-          href={app.webFallback}
-          className={`inline-flex w-full items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition-colors ${
-            app.id === 'personel'
-              ? 'bg-blue-600 text-white hover:bg-blue-700'
-              : 'bg-slate-800 text-white hover:bg-slate-900 dark:bg-slate-700 dark:hover:bg-slate-600'
-          }`}
-        >
-          {app.webLabel}
-          <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-          </svg>
-        </Link>
       </div>
     </button>
   );
