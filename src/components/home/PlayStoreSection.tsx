@@ -215,8 +215,8 @@ export function PlayStoreSection() {
           transition={{ duration: 0.5 }}
         >
           <div className="inline-flex items-center gap-2.5 rounded-full border border-emerald-200/80 dark:border-emerald-800/50 bg-emerald-50/80 dark:bg-emerald-950/40 px-4 py-2 mb-6 shadow-sm">
-            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-emerald-500 to-green-600 text-white shadow-md shadow-emerald-500/30">
-              <GooglePlayIcon className="h-4 w-4" />
+            <span className="flex h-8 w-8 items-center justify-center rounded-full border border-emerald-200/80 bg-white shadow-md dark:border-emerald-800/50 dark:bg-slate-900">
+              <GooglePlayIcon className="h-5 w-5" />
             </span>
             <span className="text-sm font-semibold text-emerald-800 dark:text-emerald-300 tracking-wide">
               Mobil Uygulama

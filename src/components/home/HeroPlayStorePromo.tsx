@@ -191,8 +191,8 @@ function PlayStoreChoiceModal({
             <div className="overflow-hidden rounded-[1.75rem] border border-white/20 bg-white/95 shadow-2xl dark:border-slate-700 dark:bg-slate-900/95">
               <div className="flex items-center justify-between gap-4 border-b border-slate-200/80 px-5 py-4 dark:border-slate-700/80 sm:px-6">
                 <div className="flex items-center gap-3">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-green-600 text-white shadow-md">
-                    <GooglePlayIcon className="h-5 w-5" />
+                  <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200/80 bg-white shadow-md dark:border-slate-600 dark:bg-slate-800">
+                    <GooglePlayIcon className="h-6 w-6" />
                   </span>
                   <div>
                     <h2 id="play-store-choice-title" className="text-lg font-bold text-slate-900 dark:text-white">
