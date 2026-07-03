@@ -140,23 +140,6 @@ export function FeaturesSection() {
             </div>
           ))}
         </div>
-
-        <div className="mt-12 grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-          {[
-            { label: 'Tek panelde süreç', value: '9+' },
-            { label: 'Anlık kayıt görünümü', value: 'Canlı' },
-            { label: 'Mobil uyum puanı', value: 'A+' },
-            { label: 'Kurumsal güvenlik', value: 'Rol bazlı' },
-          ].map((item) => (
-            <div
-              key={item.label}
-              className="rounded-xl border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-4 py-3.5"
-            >
-              <p className="text-xs text-gray-500 dark:text-gray-400">{item.label}</p>
-              <p className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mt-1">{item.value}</p>
-            </div>
-          ))}
-        </div>
       </div>
     </section>
   );
