@@ -230,52 +230,21 @@ export function HeroPlayStorePromo() {
         transition={{ duration: 0.7, delay: 0.15 }}
       >
         <div className="absolute -inset-6 rounded-[2.5rem] bg-gradient-to-br from-emerald-400/20 via-blue-500/15 to-indigo-500/20 blur-2xl" />
-        <div className="absolute top-8 -right-4 h-32 w-32 rounded-full bg-emerald-400/15 blur-3xl" />
-        <div className="absolute -bottom-6 left-8 h-40 w-40 rounded-full bg-blue-500/10 blur-3xl" />
 
         <button
           type="button"
           onClick={openModal}
           className="group relative w-full overflow-hidden rounded-[2rem] border border-white/60 bg-white/75 text-left shadow-2xl shadow-blue-900/10 backdrop-blur-xl transition-all hover:-translate-y-1 hover:shadow-emerald-500/15 dark:border-slate-700/80 dark:bg-slate-900/75 dark:shadow-black/40"
         >
-          <div className="relative h-28 bg-gradient-to-r from-emerald-500 via-green-500 to-teal-600 overflow-hidden">
-            <div
-              className="absolute inset-0 opacity-25"
-              style={{
-                backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.5' fill-rule='evenodd'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E")`,
-              }}
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
-
-            <div className="relative flex h-full items-center justify-between px-7">
-              <div>
-                <div className="inline-flex items-center gap-2 rounded-full bg-white/20 px-3 py-1 text-xs font-semibold text-white backdrop-blur-sm">
-                  <GooglePlayIcon className="h-3.5 w-3.5" />
-                  Google Play
-                </div>
-                <p className="mt-2 text-xl font-bold tracking-tight text-white">Uygulamayı indirin</p>
-              </div>
-
-              <motion.div
-                className="relative mr-2"
-                animate={{ y: [0, -6, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-              >
-                <div className="relative h-[108px] w-[54px] rounded-[18px] border-[3px] border-white/50 bg-slate-900 shadow-2xl shadow-black/30">
-                  <div className="absolute left-1/2 top-2.5 h-1 w-7 -translate-x-1/2 rounded-full bg-white/30" />
-                  <div className="absolute inset-[5px] overflow-hidden rounded-[12px] bg-slate-950">
-                    <Image
-                      src="/crewledger.png"
-                      alt=""
-                      width={44}
-                      height={44}
-                      className="absolute left-1/2 top-1/2 h-8 w-8 -translate-x-1/2 -translate-y-1/2 rounded-lg"
-                    />
-                  </div>
-                </div>
-              </motion.div>
-            </div>
-          </div>
+          <Image
+            src="/banner.png"
+            alt="Google Play'den CrewLedger uygulamasını indirin"
+            width={749}
+            height={208}
+            className="block h-auto w-full"
+            sizes="(min-width: 1024px) 50vw"
+            priority
+          />
 
           <div className="p-6 xl:p-7">
             <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-400">
