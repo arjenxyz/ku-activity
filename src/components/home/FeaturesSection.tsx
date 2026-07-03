@@ -1,12 +1,11 @@
 'use client';
 
-import type { ReactNode, RefObject } from 'react';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import type { ReactNode } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
 const AUTOPLAY_MS = 4500;
-const HEADER_PEEK = 88;
-const springTransition = { type: 'spring' as const, stiffness: 260, damping: 28 };
+const springTransition = { type: 'spring' as const, stiffness: 280, damping: 30 };
 
 const features = [
   {
@@ -110,13 +109,20 @@ function FeaturesIcon({ className }: { className?: string }) {
   );
 }
 
-function FeatureIconBox({ icon, large = false }: { icon: ReactNode; large?: boolean }) {
-  const box = large ? 'h-14 w-14 rounded-2xl' : 'h-10 w-10 rounded-xl';
-  const svg = large ? 'h-7 w-7' : 'h-5 w-5';
+function FeatureIconBox({
+  icon,
+  size = 'md',
+}: {
+  icon: ReactNode;
+  size?: 'sm' | 'md' | 'lg';
+}) {
+  const box =
+    size === 'lg' ? 'h-14 w-14 rounded-2xl' : size === 'md' ? 'h-11 w-11 rounded-xl' : 'h-9 w-9 rounded-lg';
+  const svg = size === 'lg' ? 'h-7 w-7' : size === 'md' ? 'h-5 w-5' : 'h-4 w-4';
 
   return (
     <div
-      className={`flex shrink-0 items-center justify-center bg-[#0E1548] text-white shadow-md shadow-[#0E1548]/25 ${box}`}
+      className={`flex shrink-0 items-center justify-center bg-gradient-to-br from-[#0E1548] to-indigo-700 text-white shadow-md shadow-[#0E1548]/20 ${box}`}
     >
       <svg className={svg} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
         {icon}
@@ -125,197 +131,31 @@ function FeatureIconBox({ icon, large = false }: { icon: ReactNode; large?: bool
   );
 }
 
-function FeatureCardHeader({
-  feature,
-  index,
-  isFront,
-  onHeaderClick,
-}: {
-  feature: Feature;
-  index: number;
-  isFront: boolean;
-  onHeaderClick?: () => void;
-}) {
+function FeatureCardBody({ feature, index }: { feature: Feature; index: number }) {
   const indexLabel = String(index + 1).padStart(2, '0');
   const totalLabel = String(features.length).padStart(2, '0');
 
-  const content = (
-    <div className="flex items-center gap-3">
-      <FeatureIconBox icon={feature.icon} large={isFront} />
-      <div className="min-w-0">
+  return (
+    <>
+      <div className="flex items-start justify-between gap-3">
         <span className="inline-flex rounded-md border border-blue-100 bg-blue-50 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-blue-700 dark:border-blue-900/50 dark:bg-blue-950/40 dark:text-blue-300">
           {feature.tag}
         </span>
-        <p className="mt-1 font-mono text-xs text-slate-400 dark:text-slate-500">
-          {indexLabel} / {totalLabel}
-        </p>
-        <h3
-          className={`mt-1 font-bold tracking-tight text-slate-900 dark:text-white ${
-            isFront ? 'text-xl' : 'text-base'
-          }`}
-        >
-          {feature.title}
-        </h3>
+        <span className="font-mono text-xs text-slate-400 dark:text-slate-500">
+          {indexLabel}/{totalLabel}
+        </span>
       </div>
-    </div>
-  );
-
-  if (onHeaderClick) {
-    return (
-      <button
-        type="button"
-        onClick={onHeaderClick}
-        className="w-full rounded-xl text-left transition-colors active:bg-slate-50 dark:active:bg-slate-800/50"
-        aria-label={`${feature.title} — sonraki özelliğe geç`}
-      >
-        {content}
-      </button>
-    );
-  }
-
-  return content;
-}
-
-function FeatureStackCard({
-  feature,
-  featureIndex,
-  isFront,
-  onHeaderClick,
-  cardRef,
-}: {
-  feature: Feature;
-  featureIndex: number;
-  isFront: boolean;
-  onHeaderClick?: () => void;
-  cardRef?: RefObject<HTMLElement | null>;
-}) {
-  return (
-    <article
-      ref={cardRef as RefObject<HTMLElement>}
-      className={`relative overflow-hidden rounded-2xl border border-slate-200/90 bg-white p-5 dark:border-slate-800 dark:bg-slate-900 ${
-        isFront ? 'shadow-md ring-1 ring-slate-200/50 dark:ring-slate-700/50' : 'shadow-sm'
-      }`}
-    >
-      <div
-        className="absolute inset-x-0 top-0 z-10 h-1 rounded-t-2xl bg-gradient-to-r from-[#0E1548] via-blue-600 to-indigo-500"
-        aria-hidden
-      />
-      <FeatureCardHeader
-        feature={feature}
-        index={featureIndex}
-        isFront={isFront}
-        onHeaderClick={onHeaderClick}
-      />
-      {isFront && (
-        <p className="mt-4 text-sm leading-relaxed text-slate-600 dark:text-slate-400">{feature.description}</p>
-      )}
-    </article>
+      <h3 className="mt-3 text-xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-2xl">
+        {feature.title}
+      </h3>
+      <p className="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-400 sm:text-base">
+        {feature.description}
+      </p>
+    </>
   );
 }
 
-function MobileStackedFeatures() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [peekOnTop, setPeekOnTop] = useState(true);
-  const [paused, setPaused] = useState(false);
-  const [reducedMotion, setReducedMotion] = useState(false);
-  const frontRef = useRef<HTMLElement>(null);
-  const peekRef = useRef<HTMLElement>(null);
-  const [heights, setHeights] = useState({ front: 220, peek: 88 });
-
-  const frontFeature = features[activeIndex];
-  const peekFeature = features[(activeIndex + 1) % features.length];
-  const peekIndex = (activeIndex + 1) % features.length;
-
-  const advance = useCallback(() => {
-    setPeekOnTop((v) => !v);
-    setActiveIndex((i) => (i + 1) % features.length);
-  }, []);
-
-  useEffect(() => {
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const sync = () => setReducedMotion(mq.matches);
-    sync();
-    mq.addEventListener('change', sync);
-    return () => mq.removeEventListener('change', sync);
-  }, []);
-
-  useEffect(() => {
-    const measure = () => {
-      setHeights({
-        front: frontRef.current?.offsetHeight ?? 220,
-        peek: peekRef.current?.offsetHeight ?? 88,
-      });
-    };
-    measure();
-    const ro = new ResizeObserver(measure);
-    if (frontRef.current) ro.observe(frontRef.current);
-    if (peekRef.current) ro.observe(peekRef.current);
-    return () => ro.disconnect();
-  }, [activeIndex, peekOnTop]);
-
-  useEffect(() => {
-    if (paused || reducedMotion) return;
-    const id = window.setInterval(advance, AUTOPLAY_MS);
-    return () => window.clearInterval(id);
-  }, [paused, reducedMotion, advance]);
-
-  const topFeature = peekOnTop ? peekFeature : frontFeature;
-  const bottomFeature = peekOnTop ? frontFeature : peekFeature;
-  const topIndex = peekOnTop ? peekIndex : activeIndex;
-  const bottomIndex = peekOnTop ? activeIndex : peekIndex;
-
-  const topPos = peekOnTop ? 0 : HEADER_PEEK;
-  const bottomPos = peekOnTop ? HEADER_PEEK : 0;
-  const topZ = peekOnTop ? 10 : 20;
-  const bottomZ = peekOnTop ? 20 : 10;
-
-  const topIsFront = topFeature.title === frontFeature.title;
-  const bottomIsFront = bottomFeature.title === frontFeature.title;
-
-  const stackHeight = HEADER_PEEK + Math.max(heights.front, heights.peek);
-
-  return (
-    <div
-      className="md:hidden"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-      onTouchStart={() => setPaused(true)}
-      onTouchEnd={() => setPaused(false)}
-    >
-      <div className="relative" style={{ minHeight: stackHeight }}>
-        <motion.div
-          className="absolute inset-x-0"
-          animate={{ top: topPos, zIndex: topZ }}
-          transition={springTransition}
-        >
-          <FeatureStackCard
-            feature={topFeature}
-            featureIndex={topIndex}
-            isFront={topIsFront}
-            onHeaderClick={advance}
-            cardRef={topIsFront ? frontRef : peekRef}
-          />
-        </motion.div>
-
-        <motion.div
-          className="absolute inset-x-0"
-          animate={{ top: bottomPos, zIndex: bottomZ }}
-          transition={springTransition}
-        >
-          <FeatureStackCard
-            feature={bottomFeature}
-            featureIndex={bottomIndex}
-            isFront={bottomIsFront}
-            onHeaderClick={advance}
-            cardRef={bottomIsFront ? frontRef : peekRef}
-          />
-        </motion.div>
-      </div>
-    </div>
-  );
-}
-
-function DesktopFeatureCarousel() {
+function useFeatureCarousel() {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
@@ -341,9 +181,126 @@ function DesktopFeatureCarousel() {
     return () => window.clearInterval(id);
   }, [paused, reducedMotion, goNext]);
 
+  return { active, setPaused, reducedMotion, goTo, goNext, goPrev };
+}
+
+function MobileFeatureDeck() {
+  const { active, setPaused, goTo, reducedMotion } = useFeatureCarousel();
+
+  return (
+    <div
+      className="md:hidden"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      onTouchStart={() => setPaused(true)}
+      onTouchEnd={() => setPaused(false)}
+    >
+      <div className="space-y-2" role="tablist" aria-label="Platform özellikleri">
+        {features.map((feature, index) => {
+          const isActive = index === active;
+
+          return (
+            <motion.article
+              key={feature.title}
+              layout
+              transition={springTransition}
+              className={`relative overflow-hidden rounded-2xl border transition-colors ${
+                isActive
+                  ? 'border-blue-200/90 bg-white shadow-md ring-1 ring-blue-100/80 dark:border-blue-900/40 dark:bg-slate-900 dark:ring-blue-900/30'
+                  : 'border-slate-200/80 bg-white/90 shadow-sm dark:border-slate-800 dark:bg-slate-900/80'
+              }`}
+            >
+              {isActive && (
+                <div
+                  className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#0E1548] via-blue-600 to-indigo-500"
+                  aria-hidden
+                />
+              )}
+
+              <button
+                type="button"
+                role="tab"
+                aria-selected={isActive}
+                aria-expanded={isActive}
+                onClick={() => goTo(index)}
+                className={`flex w-full items-center gap-3 text-left transition-colors ${
+                  isActive ? 'p-4 pt-5' : 'p-3.5 active:bg-slate-50 dark:active:bg-slate-800/50'
+                }`}
+              >
+                <FeatureIconBox icon={feature.icon} size={isActive ? 'md' : 'sm'} />
+                <div className="min-w-0 flex-1">
+                  <span
+                    className={`inline-flex rounded-md border px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider ${
+                      isActive
+                        ? 'border-blue-100 bg-blue-50 text-blue-700 dark:border-blue-900/50 dark:bg-blue-950/40 dark:text-blue-300'
+                        : 'border-slate-200 bg-slate-50 text-slate-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400'
+                    }`}
+                  >
+                    {feature.tag}
+                  </span>
+                  <p
+                    className={`mt-1 truncate font-semibold tracking-tight text-slate-900 dark:text-white ${
+                      isActive ? 'text-base' : 'text-sm'
+                    }`}
+                  >
+                    {feature.title}
+                  </p>
+                </div>
+                <svg
+                  className={`h-4 w-4 shrink-0 text-slate-400 transition-transform ${isActive ? 'rotate-180' : ''}`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  aria-hidden
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+
+              <AnimatePresence initial={false}>
+                {isActive && (
+                  <motion.div
+                    key="body"
+                    initial={reducedMotion ? { opacity: 0 } : { opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={reducedMotion ? { opacity: 0 } : { opacity: 0, height: 0 }}
+                    transition={{ duration: 0.28, ease: 'easeOut' }}
+                    className="overflow-hidden"
+                  >
+                    <div className="border-t border-slate-100 px-4 pb-4 pt-3 dark:border-slate-800">
+                      <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+                        {feature.description}
+                      </p>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.article>
+          );
+        })}
+      </div>
+
+      <div className="mt-4 flex items-center justify-center gap-1.5">
+        {features.map((feature, index) => (
+          <button
+            key={feature.title}
+            type="button"
+            onClick={() => goTo(index)}
+            className={`h-1.5 rounded-full transition-all ${
+              index === active ? 'w-6 bg-[#0E1548]' : 'w-1.5 bg-slate-300 dark:bg-slate-600'
+            }`}
+            aria-label={`${feature.title} özelliğine git`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function DesktopFeatureCarousel() {
+  const { active, setPaused, reducedMotion, goTo, goNext, goPrev } = useFeatureCarousel();
+
   const feature = features[active];
-  const indexLabel = String(active + 1).padStart(2, '0');
-  const totalLabel = String(features.length).padStart(2, '0');
 
   return (
     <div
@@ -355,66 +312,51 @@ function DesktopFeatureCarousel() {
         if (!e.currentTarget.contains(e.relatedTarget as Node)) setPaused(false);
       }}
     >
-      <div className="relative rounded-2xl border border-slate-200/90 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
+      <div className="relative overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
         <div
-          className="absolute inset-x-0 top-0 z-10 h-1 rounded-t-2xl bg-gradient-to-r from-[#0E1548] via-blue-600 to-indigo-500"
+          className="absolute inset-x-0 top-0 z-10 h-1 bg-gradient-to-r from-[#0E1548] via-blue-600 to-indigo-500"
           aria-hidden
         />
 
-        <div className="relative overflow-hidden rounded-2xl px-5 pb-5 pt-6 sm:px-7 sm:pb-7 sm:pt-8 lg:px-8 lg:pb-8 lg:pt-9">
-          <div className="relative min-h-[220px] lg:min-h-[240px]">
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.article
-                key={feature.title}
-                initial={reducedMotion ? { opacity: 0 } : { opacity: 0, x: 28 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={reducedMotion ? { opacity: 0 } : { opacity: 0, x: -28 }}
-                transition={{ duration: 0.35, ease: 'easeOut' }}
-                className="flex h-full flex-col"
-                aria-live="polite"
-                aria-atomic="true"
+        <div className="relative px-6 pb-6 pt-7 sm:px-8 sm:pb-8 sm:pt-9">
+          <div className="mb-5 flex items-start justify-between gap-4">
+            <FeatureIconBox icon={feature.icon} size="lg" />
+            <div className="flex items-center gap-1.5">
+              <button
+                type="button"
+                onClick={goPrev}
+                className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 text-slate-500 transition-colors hover:border-slate-300 hover:bg-slate-50 hover:text-slate-800 dark:border-slate-700 dark:hover:bg-slate-800 dark:hover:text-slate-200"
+                aria-label="Önceki özellik"
               >
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex items-center gap-3 sm:gap-4">
-                    <FeatureIconBox icon={feature.icon} large />
-                    <div>
-                      <p className="font-mono text-xs text-slate-400 dark:text-slate-500">
-                        {indexLabel} / {totalLabel}
-                      </p>
-                    </div>
-                  </div>
+                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+              <button
+                type="button"
+                onClick={goNext}
+                className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 text-slate-500 transition-colors hover:border-slate-300 hover:bg-slate-50 hover:text-slate-800 dark:border-slate-700 dark:hover:bg-slate-800 dark:hover:text-slate-200"
+                aria-label="Sonraki özellik"
+              >
+                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            </div>
+          </div>
 
-                  <div className="flex items-center gap-1.5">
-                    <button
-                      type="button"
-                      onClick={goPrev}
-                      className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 text-slate-500 transition-colors hover:border-slate-300 hover:bg-slate-50 hover:text-slate-800 dark:border-slate-700 dark:hover:bg-slate-800 dark:hover:text-slate-200"
-                      aria-label="Önceki özellik"
-                    >
-                      <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                      </svg>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={goNext}
-                      className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 text-slate-500 transition-colors hover:border-slate-300 hover:bg-slate-50 hover:text-slate-800 dark:border-slate-700 dark:hover:bg-slate-800 dark:hover:text-slate-200"
-                      aria-label="Sonraki özellik"
-                    >
-                      <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-
-                <h3 className="mt-5 text-xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-2xl">
-                  {feature.title}
-                </h3>
-                <p className="mt-3 max-w-2xl text-sm leading-relaxed text-slate-600 dark:text-slate-400 sm:text-base">
-                  {feature.description}
-                </p>
-              </motion.article>
+          <div className="min-h-[180px]">
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.div
+                key={feature.title}
+                initial={reducedMotion ? { opacity: 0 } : { opacity: 0, x: 24 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={reducedMotion ? { opacity: 0 } : { opacity: 0, x: -24 }}
+                transition={{ duration: 0.32, ease: 'easeOut' }}
+                aria-live="polite"
+              >
+                <FeatureCardBody feature={feature} index={active} />
+              </motion.div>
             </AnimatePresence>
           </div>
         </div>
@@ -468,7 +410,7 @@ export function FeaturesSection() {
               Puantajdan bordroya gerçek modüller
             </h2>
             <p className="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-400 sm:mt-4 sm:text-base lg:text-lg">
-              <span className="md:hidden">Çift onaylı yevmiye, finans ve asgari — proje bazında.</span>
+              <span className="md:hidden">6 modül — başlığa dokunarak açın veya otomatik geçişi izleyin.</span>
               <span className="hidden md:inline">
                 Yevmiye, mesai, avans, kesinti, asgari tamamlama ve bordro proje bazında yönetilir. Personel
                 uygulaması yönetici paneliyle aynı kayıtları gösterir.
@@ -481,7 +423,7 @@ export function FeaturesSection() {
           </motion.div>
 
           <div className="mt-6 sm:mt-8 lg:mt-0">
-            <MobileStackedFeatures />
+            <MobileFeatureDeck />
             <DesktopFeatureCarousel />
           </div>
         </div>

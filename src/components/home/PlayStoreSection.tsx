@@ -25,7 +25,13 @@ const apps = [
     playUrl: PLAY_STORE_PERSONNEL_URL,
     iconSrc: PLAY_STORE_PERSONNEL_ICON,
     badgeClass:
-      'text-blue-700 bg-blue-50 border-blue-100 dark:text-blue-300 dark:bg-blue-950/40 dark:border-blue-900/50',
+      'text-violet-700 bg-violet-100/90 border-violet-200/80 dark:text-violet-300 dark:bg-violet-950/50 dark:border-violet-800/50',
+    cardClass:
+      'border-violet-200/80 bg-gradient-to-br from-violet-50/95 via-[#f3f0fa] to-violet-100/50 dark:border-violet-900/40 dark:from-violet-950/40 dark:via-slate-900 dark:to-violet-950/20',
+    dividerClass: 'border-violet-100/90 dark:border-violet-900/30',
+    ringClass: 'ring-violet-200/60 dark:ring-violet-800/40',
+    headerActiveClass: 'active:bg-violet-100/70 dark:active:bg-violet-950/40',
+    iconRingClass: 'ring-violet-200/70 dark:ring-violet-800/50',
   },
   {
     id: 'admin',
@@ -36,7 +42,13 @@ const apps = [
     playUrl: PLAY_STORE_ADMIN_URL,
     iconSrc: PLAY_STORE_ADMIN_ICON,
     badgeClass:
-      'text-slate-700 bg-slate-100 border-slate-200 dark:text-slate-300 dark:bg-slate-800 dark:border-slate-700',
+      'text-teal-800 bg-teal-50/95 border-teal-200/80 dark:text-teal-300 dark:bg-teal-950/45 dark:border-teal-800/50',
+    cardClass:
+      'border-teal-200/80 bg-gradient-to-br from-teal-50/95 via-[#f0f7f5] to-emerald-50/60 dark:border-teal-900/40 dark:from-teal-950/35 dark:via-slate-900 dark:to-emerald-950/20',
+    dividerClass: 'border-teal-100/90 dark:border-teal-900/30',
+    ringClass: 'ring-teal-200/60 dark:ring-teal-800/40',
+    headerActiveClass: 'active:bg-teal-100/70 dark:active:bg-teal-950/40',
+    iconRingClass: 'ring-teal-200/70 dark:ring-teal-800/50',
   },
 ] as const;
 
@@ -73,7 +85,7 @@ function AppCard({
 
   return (
     <motion.article
-      className={`flex h-full flex-col rounded-2xl border border-slate-200/90 bg-white p-6 shadow-sm transition-shadow hover:shadow-md dark:border-slate-800 dark:bg-slate-900 sm:p-7 ${className}`}
+      className={`flex h-full flex-col rounded-2xl border p-6 shadow-sm transition-shadow hover:shadow-md sm:p-7 ${app.cardClass} ${className}`}
       initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
@@ -81,7 +93,7 @@ function AppCard({
     >
       <AppCardHeader app={app} />
       <p className="mt-5 flex-1 text-sm leading-relaxed text-slate-600 dark:text-slate-400">{app.description}</p>
-      <div className="mt-6 border-t border-slate-100 pt-5 dark:border-slate-800">
+      <div className={`mt-6 border-t pt-5 ${app.dividerClass}`}>
         <GooglePlayBadge href={app.playUrl} enabled={hasPlayLink} fullWidth />
       </div>
     </motion.article>
@@ -91,7 +103,7 @@ function AppCard({
 function AppCardHeader({ app, onHeaderClick }: { app: App; onHeaderClick?: () => void }) {
   const content = (
     <>
-      <div className="h-14 w-14 shrink-0 overflow-hidden rounded-xl ring-1 ring-slate-200/80 dark:ring-slate-700">
+      <div className={`h-14 w-14 shrink-0 overflow-hidden rounded-xl ring-1 ${app.iconRingClass}`}>
         <Image src={app.iconSrc} alt="" width={56} height={56} className="h-full w-full object-cover" />
       </div>
       <div className="min-w-0">
@@ -113,7 +125,7 @@ function AppCardHeader({ app, onHeaderClick }: { app: App; onHeaderClick?: () =>
       <button
         type="button"
         onClick={onHeaderClick}
-        className="flex w-full items-center gap-4 rounded-xl text-left transition-colors active:bg-slate-50 dark:active:bg-slate-800/50"
+        className={`flex w-full items-center gap-4 rounded-xl text-left transition-colors ${app.headerActiveClass}`}
         aria-label={`${app.title} — kartları değiştir`}
       >
         {content}
@@ -140,14 +152,14 @@ function MobileStackCard({
   return (
     <article
       ref={cardRef as RefObject<HTMLElement>}
-      className={`flex flex-col rounded-2xl border border-slate-200/90 bg-white p-6 dark:border-slate-800 dark:bg-slate-900 ${
-        isFront ? 'shadow-md ring-1 ring-slate-200/50 dark:ring-slate-700/50' : 'shadow-sm'
+      className={`flex flex-col rounded-2xl border p-6 ${app.cardClass} ${
+        isFront ? `shadow-md ring-1 ${app.ringClass}` : 'shadow-sm'
       }`}
     >
       <AppCardHeader app={app} onHeaderClick={onHeaderClick} />
       <p className="mt-5 flex-1 text-sm leading-relaxed text-slate-600 dark:text-slate-400">{app.description}</p>
       <div
-        className="mt-6 border-t border-slate-100 pt-5 dark:border-slate-800"
+        className={`mt-6 border-t pt-5 ${app.dividerClass}`}
         onClick={(e) => e.stopPropagation()}
         onKeyDown={(e) => e.stopPropagation()}
       >

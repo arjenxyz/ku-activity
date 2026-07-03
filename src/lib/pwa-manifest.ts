@@ -27,7 +27,7 @@ function baseIcons(): MetadataRoute.Manifest['icons'] {
 export function buildPersonnelManifest(): MetadataRoute.Manifest {
   const icon = appIconUrl(192);
   return {
-    id: '/personnel-panel?v=8',
+    id: '/personnel-panel?v=9',
     name: 'CrewLedger Personel',
     short_name: 'CrewLedger',
     description:
@@ -64,7 +64,7 @@ export function buildPersonnelManifest(): MetadataRoute.Manifest {
 export function buildAdminManifest(): MetadataRoute.Manifest {
   const icon = appIconUrl(192);
   return {
-    id: '/admin-panel?v=8',
+    id: '/admin-panel?v=9',
     name: 'CrewLedger Yönetici',
     short_name: 'CL Yönetici',
     description:
