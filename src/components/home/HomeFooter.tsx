@@ -25,7 +25,7 @@ export function HomeFooter() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 py-14">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mb-12">
           <div className="lg:col-span-2 space-y-5">
             <div className="flex items-center space-x-3">
               <BrandMark size="lg" />
@@ -80,18 +80,6 @@ export function HomeFooter() {
                 </svg>
                 Maslak Mahallesi, İstanbul
               </p>
-            </div>
-          </div>
-
-          <div>
-            <h4 className="text-sm font-semibold uppercase tracking-wider text-slate-400 mb-4">Hızlı Erişim</h4>
-            <div className="space-y-2.5 text-sm">
-              <a href="#hero" className="block text-slate-300 hover:text-white transition-colors">Ana Sayfa</a>
-              <a href="#features" className="block text-slate-300 hover:text-white transition-colors">Özellikler</a>
-              <a href="#play-store" className="block text-slate-300 hover:text-white transition-colors">Google Play</a>
-              <Link href="/admin-panel/register" className="block text-slate-300 hover:text-white transition-colors">Ücretsiz Kayıt</Link>
-              <Link href="/admin-panel/login" className="block text-slate-300 hover:text-white transition-colors">Yönetici Girişi</Link>
-              <Link href="/personnel-panel/login" className="block text-slate-300 hover:text-white transition-colors">Personel Girişi</Link>
             </div>
           </div>
         </div>
