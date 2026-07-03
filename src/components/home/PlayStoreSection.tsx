@@ -36,28 +36,17 @@ const apps = [
 ] as const;
 
 function CardsConnector({ layout }: { layout: 'row' | 'column' }) {
-  const badge = (
-    <div className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-slate-200/90 bg-white shadow-lg ring-4 ring-slate-50 dark:border-slate-600 dark:bg-[#0E1548] dark:ring-slate-950">
-      <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-500/10 to-indigo-600/15" aria-hidden />
-      <GooglePlayIcon className="relative h-6 w-6" />
-    </div>
-  );
-
   if (layout === 'column') {
     return (
-      <div className="flex items-center justify-center py-1" aria-hidden>
-        <div className="h-px flex-1 max-w-[4.5rem] bg-gradient-to-r from-transparent to-slate-200 dark:to-slate-700" />
-        {badge}
-        <div className="h-px flex-1 max-w-[4.5rem] bg-gradient-to-l from-transparent to-slate-200 dark:to-slate-700" />
+      <div className="flex justify-center py-1" aria-hidden>
+        <div className="h-px w-full max-w-xs bg-gradient-to-r from-transparent via-slate-200 to-transparent dark:via-slate-700" />
       </div>
     );
   }
 
   return (
-    <div className="flex h-full flex-col items-center px-2 sm:px-3" aria-hidden>
-      <div className="min-h-6 w-px flex-1 bg-gradient-to-b from-transparent via-slate-200 to-slate-300 dark:via-slate-700" />
-      {badge}
-      <div className="min-h-6 w-px flex-1 bg-gradient-to-b from-slate-300 via-slate-200 to-transparent dark:from-slate-700" />
+    <div className="flex h-full justify-center px-2 sm:px-3" aria-hidden>
+      <div className="w-px self-stretch bg-gradient-to-b from-transparent via-slate-200 to-transparent dark:via-slate-700" />
     </div>
   );
 }
