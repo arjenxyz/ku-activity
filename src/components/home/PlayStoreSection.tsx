@@ -4,7 +4,9 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { GooglePlayBadge, GooglePlayIcon } from '@/components/home/GooglePlayBadge';
 import {
+  PLAY_STORE_ADMIN_ICON,
   PLAY_STORE_ADMIN_URL,
+  PLAY_STORE_PERSONNEL_ICON,
   PLAY_STORE_PERSONNEL_URL,
 } from '@/lib/play-store';
 
@@ -16,6 +18,7 @@ const apps = [
     description:
       'Yoklama, yevmiye, mesai ve bordro görüntüleme. Başvuru ve günlük işlemler için tasarlandı.',
     playUrl: PLAY_STORE_PERSONNEL_URL,
+    iconSrc: PLAY_STORE_PERSONNEL_ICON,
     badgeClass:
       'text-blue-700 bg-blue-50 border-blue-100 dark:text-blue-300 dark:bg-blue-950/40 dark:border-blue-900/50',
   },
@@ -26,6 +29,7 @@ const apps = [
     description:
       'Proje yönetimi, personel onayı, yevmiye ve raporlar. Ofisten veya sahada tam kontrol.',
     playUrl: PLAY_STORE_ADMIN_URL,
+    iconSrc: PLAY_STORE_ADMIN_ICON,
     badgeClass:
       'text-slate-700 bg-slate-100 border-slate-200 dark:text-slate-300 dark:bg-slate-800 dark:border-slate-700',
   },
@@ -76,8 +80,14 @@ function AppCard({
       transition={{ delay: index * 0.08, duration: 0.4 }}
     >
       <div className="flex items-center gap-4">
-        <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-slate-50 ring-1 ring-slate-200/80 dark:bg-slate-800 dark:ring-slate-700">
-          <Image src="/crewledger.png" alt="" width={36} height={36} className="h-9 w-9 rounded-lg" />
+        <div className="h-14 w-14 shrink-0 overflow-hidden rounded-xl ring-1 ring-slate-200/80 dark:ring-slate-700">
+          <Image
+            src={app.iconSrc}
+            alt=""
+            width={56}
+            height={56}
+            className="h-full w-full object-cover"
+          />
         </div>
         <div className="min-w-0">
           <div className="flex flex-wrap items-center gap-2">

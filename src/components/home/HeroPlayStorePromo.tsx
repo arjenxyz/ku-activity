@@ -5,7 +5,9 @@ import Image from 'next/image';
 import { AnimatePresence, motion } from 'framer-motion';
 import { createPortal } from 'react-dom';
 import {
+  PLAY_STORE_ADMIN_ICON,
   PLAY_STORE_ADMIN_URL,
+  PLAY_STORE_PERSONNEL_ICON,
   PLAY_STORE_PERSONNEL_URL,
 } from '@/lib/play-store';
 import { GooglePlayBadge, GooglePlayIcon } from '@/components/home/GooglePlayBadge';
@@ -19,6 +21,7 @@ const heroApps = [
     description: 'Sahada günlük işlemler: QR yoklama, bordro görüntüleme ve başvuru.',
     features: ['QR Yoklama', 'Bordro', 'Başvuru'],
     playUrl: PLAY_STORE_PERSONNEL_URL,
+    iconSrc: PLAY_STORE_PERSONNEL_ICON,
     gradient: 'from-blue-500 to-indigo-600',
     glow: 'shadow-blue-500/30',
     ring: 'ring-blue-400/40',
@@ -34,6 +37,7 @@ const heroApps = [
     description: 'Şantiye operasyonu: proje yönetimi, personel onayı ve raporlar.',
     features: ['Proje', 'Onay', 'Raporlar'],
     playUrl: PLAY_STORE_ADMIN_URL,
+    iconSrc: PLAY_STORE_ADMIN_ICON,
     gradient: 'from-slate-600 to-slate-900',
     glow: 'shadow-slate-500/25',
     ring: 'ring-slate-400/35',
@@ -77,10 +81,14 @@ function AppChoicePanel({
       )}
 
       <div className="flex items-start gap-4">
-        <div
-          className={`flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br ${app.gradient} text-white shadow-lg ${app.glow} transition-transform group-hover:scale-105`}
-        >
-          <Image src="/crewledger.png" alt="" width={36} height={36} className="h-9 w-9 rounded-lg" />
+        <div className="h-16 w-16 shrink-0 overflow-hidden rounded-2xl shadow-lg ring-2 ring-white/80 transition-transform group-hover:scale-105 dark:ring-slate-800">
+          <Image
+            src={app.iconSrc}
+            alt=""
+            width={64}
+            height={64}
+            className="h-full w-full object-cover"
+          />
         </div>
         <div className="min-w-0 flex-1 pr-6">
           <span
@@ -257,9 +265,15 @@ export function HeroPlayStorePromo() {
                 {heroApps.map((app) => (
                   <div
                     key={app.id}
-                    className={`flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br ${app.gradient} ring-2 ring-white dark:ring-slate-900`}
+                    className="h-10 w-10 overflow-hidden rounded-xl ring-2 ring-white dark:ring-slate-900"
                   >
-                    <Image src="/crewledger.png" alt="" width={24} height={24} className="h-6 w-6 rounded-md" />
+                    <Image
+                      src={app.iconSrc}
+                      alt=""
+                      width={40}
+                      height={40}
+                      className="h-full w-full object-cover"
+                    />
                   </div>
                 ))}
               </div>

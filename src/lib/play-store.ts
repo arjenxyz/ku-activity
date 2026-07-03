@@ -6,5 +6,9 @@ export const PLAY_STORE_PERSONNEL_URL =
 export const PLAY_STORE_ADMIN_URL =
   process.env.NEXT_PUBLIC_PLAY_STORE_ADMIN_URL?.trim() || '';
 
+export const PLAY_STORE_PERSONNEL_ICON = '/personel-icon.png';
+
+export const PLAY_STORE_ADMIN_ICON = '/yönetici.png';
+
 export const PLAY_STORE_BADGE_TR =
   'https://play.google.com/intl/tr_tr/badges/static/images/badges/tr_badge_web_generic.png';
