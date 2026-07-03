@@ -15,35 +15,48 @@ const navLinks = [
   { href: '#contact', label: 'İletişim' },
 ];
 
-function LoginCluster({ className = '', onNavigate }: { className?: string; onNavigate?: () => void }) {
+function AppIconBadge({
+  src,
+  variant,
+}: {
+  src: string;
+  variant: 'personel' | 'admin';
+}) {
+  const shell =
+    variant === 'personel'
+      ? 'bg-gradient-to-br from-violet-100 to-indigo-100 ring-violet-200/60 dark:from-violet-950/50 dark:to-indigo-950/40 dark:ring-violet-800/40'
+      : 'bg-white/20 ring-white/25';
+
   return (
-    <div
-      className={`inline-flex items-center rounded-xl border border-slate-200/90 bg-slate-100/70 p-1 dark:border-slate-700/80 dark:bg-slate-800/60 ${className}`}
+    <span
+      className={`relative flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-lg p-0.5 ring-1 ${shell}`}
     >
+      <Image src={src} alt="" width={28} height={28} className="h-full w-full rounded-[6px] object-cover" />
+    </span>
+  );
+}
+
+function DesktopLoginActions({ onNavigate }: { onNavigate?: () => void }) {
+  return (
+    <div className="flex items-center gap-2">
       <Link
         href="/personnel-panel/login"
         onClick={onNavigate}
-        className="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold text-slate-700 transition-colors hover:bg-white hover:text-slate-900 dark:text-slate-200 dark:hover:bg-slate-900 dark:hover:text-white"
+        aria-label="Personel girişi"
+        className="group inline-flex items-center gap-2 rounded-xl border border-slate-200/90 bg-white px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm transition-all hover:border-violet-200 hover:bg-violet-50/40 hover:text-violet-950 hover:shadow-md dark:border-slate-600 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-violet-800 dark:hover:bg-violet-950/30 dark:hover:text-violet-100"
       >
-        <span className="relative h-6 w-6 shrink-0 overflow-hidden rounded-md shadow-sm ring-1 ring-black/5">
-          <Image src={PLAY_STORE_PERSONNEL_ICON} alt="" width={24} height={24} className="h-full w-full object-cover" />
-        </span>
-        <span className="hidden xl:inline">Personel Girişi</span>
-        <span className="xl:hidden">Personel</span>
+        <AppIconBadge src={PLAY_STORE_PERSONNEL_ICON} variant="personel" />
+        <span className="hidden lg:inline">Personel</span>
       </Link>
-
-      <span className="mx-0.5 h-5 w-px shrink-0 bg-slate-300/80 dark:bg-slate-600" aria-hidden />
 
       <Link
         href="/admin-panel/login"
         onClick={onNavigate}
-        className="inline-flex items-center gap-2 rounded-lg bg-[#0E1548] px-3 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[#151d5c] dark:shadow-black/20"
+        aria-label="Yönetici girişi"
+        className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-3.5 py-2 text-sm font-semibold text-white shadow-md shadow-blue-500/25 transition-all hover:from-blue-700 hover:to-indigo-700 hover:shadow-lg hover:shadow-blue-500/30 active:from-blue-800 active:to-indigo-800"
       >
-        <span className="relative h-6 w-6 shrink-0 overflow-hidden rounded-md shadow-sm ring-1 ring-white/20">
-          <Image src={PLAY_STORE_ADMIN_ICON} alt="" width={24} height={24} className="h-full w-full object-cover" />
-        </span>
-        <span className="hidden xl:inline">Yönetici Girişi</span>
-        <span className="xl:hidden">Yönetici</span>
+        <AppIconBadge src={PLAY_STORE_ADMIN_ICON} variant="admin" />
+        <span className="hidden lg:inline">Yönetici</span>
       </Link>
     </div>
   );
@@ -51,30 +64,47 @@ function LoginCluster({ className = '', onNavigate }: { className?: string; onNa
 
 function MobileLoginLinks({ onNavigate }: { onNavigate?: () => void }) {
   return (
-    <div className="space-y-2">
+    <div className="space-y-3">
+      <p className="px-1 text-xs font-bold uppercase tracking-wider text-slate-400">Giriş</p>
+
       <Link
         href="/personnel-panel/login"
         onClick={onNavigate}
-        className="touch-target flex items-center gap-3 rounded-xl border border-slate-200/90 bg-slate-50 px-4 py-3.5 font-semibold text-slate-800 transition-colors active:bg-slate-100 dark:border-slate-700 dark:bg-slate-800/50 dark:text-slate-100 dark:active:bg-slate-800"
+        className="touch-target group flex items-center gap-3 overflow-hidden rounded-2xl border border-violet-200/70 bg-gradient-to-br from-violet-50/90 via-white to-indigo-50/50 p-4 shadow-sm transition-all active:scale-[0.99] dark:border-violet-900/50 dark:from-violet-950/30 dark:via-slate-900 dark:to-indigo-950/20"
       >
-        <span className="relative h-9 w-9 shrink-0 overflow-hidden rounded-xl ring-1 ring-black/5">
-          <Image src={PLAY_STORE_PERSONNEL_ICON} alt="" width={36} height={36} className="h-full w-full object-cover" />
+        <AppIconBadge src={PLAY_STORE_PERSONNEL_ICON} variant="personel" />
+        <span className="min-w-0 flex-1">
+          <span className="block text-sm font-bold text-slate-900 dark:text-white">Personel Girişi</span>
+          <span className="mt-0.5 block text-xs text-slate-500 dark:text-slate-400">Yoklama, yevmiye, bordro</span>
         </span>
-        <span className="flex-1">Personel Girişi</span>
-        <svg className="h-4 w-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+        <svg
+          className="h-4 w-4 shrink-0 text-violet-400 transition-transform group-hover:translate-x-0.5"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          aria-hidden
+        >
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
         </svg>
       </Link>
+
       <Link
         href="/admin-panel/login"
         onClick={onNavigate}
-        className="touch-target flex items-center gap-3 rounded-xl bg-[#0E1548] px-4 py-3.5 font-semibold text-white shadow-md shadow-[#0E1548]/20 transition-colors active:bg-[#151d5c]"
+        className="touch-target group flex items-center gap-3 overflow-hidden rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 p-4 shadow-lg shadow-blue-500/25 transition-all active:scale-[0.99] active:from-blue-700 active:to-indigo-700"
       >
-        <span className="relative h-9 w-9 shrink-0 overflow-hidden rounded-xl ring-1 ring-white/20">
-          <Image src={PLAY_STORE_ADMIN_ICON} alt="" width={36} height={36} className="h-full w-full object-cover" />
+        <AppIconBadge src={PLAY_STORE_ADMIN_ICON} variant="admin" />
+        <span className="min-w-0 flex-1">
+          <span className="block text-sm font-bold text-white">Yönetici Girişi</span>
+          <span className="mt-0.5 block text-xs text-blue-100">Proje, onay, raporlar</span>
         </span>
-        <span className="flex-1">Yönetici Girişi</span>
-        <svg className="h-4 w-4 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+        <svg
+          className="h-4 w-4 shrink-0 text-white/70 transition-transform group-hover:translate-x-0.5"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          aria-hidden
+        >
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
         </svg>
       </Link>
@@ -132,9 +162,9 @@ export function HomeHeader() {
               ))}
             </nav>
 
-            <div className="hidden md:flex items-center gap-2.5">
+            <div className="hidden md:flex items-center gap-2">
               <ThemeToggleButton />
-              <LoginCluster />
+              <DesktopLoginActions />
             </div>
 
             <div className="flex items-center gap-1 md:hidden">
