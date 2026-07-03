@@ -71,7 +71,7 @@ function AppCard({
         {app.description}
       </p>
 
-      <div className="mt-6 border-t border-slate-100 pt-5 dark:border-slate-800">
+      <div className="mt-6 flex justify-end border-t border-slate-100 pt-5 dark:border-slate-800">
         <GooglePlayBadge href={app.playUrl} enabled={hasPlayLink} />
       </div>
     </motion.article>
