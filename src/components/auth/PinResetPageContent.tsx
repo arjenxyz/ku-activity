@@ -111,7 +111,6 @@ export function PinResetPageContent({ token }: Props) {
     }
   }, [expired, expiresInMinutes]);
 
-  const pinProgress = newPin.length;
   const pinsMatch = newPin.length === PERSONNEL_PIN_LENGTH && newPin === confirmPin;
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -229,16 +228,6 @@ export function PinResetPageContent({ token }: Props) {
               autoComplete="off"
               required
             />
-            <div className="mt-2 flex justify-center gap-1.5" aria-hidden>
-              {Array.from({ length: PERSONNEL_PIN_LENGTH }).map((_, i) => (
-                <span
-                  key={i}
-                  className={`h-2 w-2 rounded-full transition-colors ${
-                    i < pinProgress ? 'bg-blue-600' : 'bg-slate-200'
-                  }`}
-                />
-              ))}
-            </div>
           </div>
 
           <div>
