@@ -221,17 +221,6 @@ export function PlayStoreSection() {
             <AppCard key={app.id} app={app} index={i} />
           ))}
         </div>
-
-        <motion.p
-          className="mt-12 text-center text-sm text-slate-500 dark:text-slate-400 max-w-xl mx-auto leading-relaxed"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.3 }}
-        >
-          Mağaza bağlantıları yayınlandığında burada görünür. Şimdilik tarayıcıdan da aynı panellere
-          erişebilirsiniz.
-        </motion.p>
       </div>
     </section>
   );
