@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { FiClock, FiLoader, FiLock, FiShield } from 'react-icons/fi';
+import { FiClock, FiLoader, FiLock } from 'react-icons/fi';
 import { AuthAlert, LoadingSpinner } from '@/components/auth/AuthAlerts';
 import { PersonnelLoginLayout } from '@/components/personnel/PersonnelLoginLayout';
 import {
@@ -13,7 +13,6 @@ import {
 } from '@/lib/personnel-pin';
 import {
   personnelAuthFooterTextClass,
-  personnelAuthInfoBannerClass,
   personnelAuthInputClass,
   personnelAuthLabelClass,
   personnelAuthLinkClass,
@@ -209,16 +208,6 @@ export function PinResetPageContent({ token }: Props) {
             <p className="text-sm font-semibold">Kalan süre: {formatCountdown(remainingMs)}</p>
             <p className="text-xs opacity-80 mt-0.5">
               Bağlantı {expiresInMinutes} dakika geçerlidir; süre dolunca otomatik iptal olur.
-            </p>
-          </div>
-        </div>
-
-        <div className={`${personnelAuthInfoBannerClass} flex gap-3 items-start`}>
-          <FiShield className="h-5 w-5 shrink-0 mt-0.5" aria-hidden />
-          <div className="text-sm leading-relaxed">
-            <p className="font-semibold mb-1">Tek kullanımlık bağlantı</p>
-            <p>
-              PIN&apos;i bir kez kaydettiğinizde bu link devre dışı kalır. Başkasıyla paylaşmayın.
             </p>
           </div>
         </div>
