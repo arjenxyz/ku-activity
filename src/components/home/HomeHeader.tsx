@@ -1,8 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { AnimatePresence, motion } from 'framer-motion';
 import { ThemeToggleButton } from '@/components/auth/ThemeToggleButton';
 import { BrandMark } from '@/components/brand/BrandMark';
 import { APP_NAME, APP_TAGLINE_TR } from '@/lib/brand';
@@ -15,99 +16,197 @@ const navLinks = [
   { href: '#contact', label: 'İletişim' },
 ];
 
-function AppIconBadge({
-  src,
-  variant,
-}: {
-  src: string;
-  variant: 'personel' | 'admin';
-}) {
-  const shell =
-    variant === 'personel'
-      ? 'bg-gradient-to-br from-violet-100 to-indigo-100 ring-violet-200/60 dark:from-violet-950/50 dark:to-indigo-950/40 dark:ring-violet-800/40'
-      : 'bg-white/20 ring-white/25';
+const loginPanels = [
+  {
+    id: 'personel',
+    href: '/personnel-panel/login',
+    title: 'Personel Paneli',
+    headline: 'Sahadayım',
+    description: 'Yoklama, yevmiye ve bordro görüntüleme',
+    icon: PLAY_STORE_PERSONNEL_ICON,
+    cardClass:
+      'border-violet-200/80 bg-gradient-to-br from-violet-50/95 via-white to-indigo-50/60 hover:border-violet-300 hover:shadow-md dark:border-violet-900/50 dark:from-violet-950/35 dark:via-slate-900 dark:to-indigo-950/25 dark:hover:border-violet-700',
+    titleClass: 'text-slate-900 dark:text-white',
+    descClass: 'text-slate-500 dark:text-slate-400',
+    badgeClass: 'bg-violet-100 text-violet-700 dark:bg-violet-950/60 dark:text-violet-300',
+  },
+  {
+    id: 'admin',
+    href: '/admin-panel/login',
+    title: 'Yönetici Paneli',
+    headline: 'Yönetiyorum',
+    description: 'Proje, personel onayı ve raporlar',
+    icon: PLAY_STORE_ADMIN_ICON,
+    cardClass:
+      'border-blue-200/80 bg-gradient-to-br from-blue-50/95 via-white to-indigo-50/60 hover:border-blue-300 hover:shadow-md dark:border-blue-900/50 dark:from-blue-950/35 dark:via-slate-900 dark:to-indigo-950/25 dark:hover:border-blue-700',
+    titleClass: 'text-slate-900 dark:text-white',
+    descClass: 'text-slate-500 dark:text-slate-400',
+    badgeClass: 'bg-blue-100 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300',
+  },
+] as const;
 
+function LoginRolePickerPanel({ onNavigate, compact }: { onNavigate?: () => void; compact?: boolean }) {
   return (
-    <span
-      className={`relative flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-lg p-0.5 ring-1 ${shell}`}
-    >
-      <Image src={src} alt="" width={28} height={28} className="h-full w-full rounded-[6px] object-cover" />
-    </span>
-  );
-}
+    <div className={compact ? 'space-y-3' : 'space-y-4 p-4 sm:p-5'}>
+      {!compact && (
+        <div
+          className="h-1 rounded-full bg-gradient-to-r from-[#0E1548] via-blue-600 to-indigo-500"
+          aria-hidden
+        />
+      )}
 
-function DesktopLoginActions({ onNavigate }: { onNavigate?: () => void }) {
-  return (
-    <div className="flex items-center gap-2">
-      <Link
-        href="/personnel-panel/login"
-        onClick={onNavigate}
-        aria-label="Personel girişi"
-        className="group inline-flex items-center gap-2 rounded-xl border border-slate-200/90 bg-white px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm transition-all hover:border-violet-200 hover:bg-violet-50/40 hover:text-violet-950 hover:shadow-md dark:border-slate-600 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-violet-800 dark:hover:bg-violet-950/30 dark:hover:text-violet-100"
-      >
-        <AppIconBadge src={PLAY_STORE_PERSONNEL_ICON} variant="personel" />
-        <span className="hidden lg:inline">Personel</span>
-      </Link>
+      <div className={compact ? 'px-1' : ''}>
+        <p className="text-sm font-bold text-slate-900 dark:text-white">
+          Hangi yetki ile giriş yapmak istiyorsunuz?
+        </p>
+        <p className="mt-1 text-xs leading-relaxed text-slate-500 dark:text-slate-400">
+          Personel ve yönetici panelleri ayrı giriş ekranlarına yönlendirir.
+        </p>
+      </div>
 
-      <Link
-        href="/admin-panel/login"
-        onClick={onNavigate}
-        aria-label="Yönetici girişi"
-        className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-3.5 py-2 text-sm font-semibold text-white shadow-md shadow-blue-500/25 transition-all hover:from-blue-700 hover:to-indigo-700 hover:shadow-lg hover:shadow-blue-500/30 active:from-blue-800 active:to-indigo-800"
-      >
-        <AppIconBadge src={PLAY_STORE_ADMIN_ICON} variant="admin" />
-        <span className="hidden lg:inline">Yönetici</span>
-      </Link>
+      <div className="grid grid-cols-2 gap-2.5 sm:gap-3">
+        {loginPanels.map((panel) => (
+          <Link
+            key={panel.id}
+            href={panel.href}
+            onClick={onNavigate}
+            className={`group flex flex-col rounded-xl border p-3 transition-all active:scale-[0.98] sm:p-3.5 ${panel.cardClass}`}
+          >
+            <span className={`mb-2 inline-flex w-fit rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${panel.badgeClass}`}>
+              {panel.headline}
+            </span>
+            <span className="relative mx-auto mb-2 h-11 w-11 overflow-hidden rounded-xl shadow-sm ring-1 ring-black/5">
+              <Image src={panel.icon} alt="" width={44} height={44} className="h-full w-full object-cover" />
+            </span>
+            <span className={`text-center text-sm font-bold leading-tight ${panel.titleClass}`}>{panel.title}</span>
+            <span className={`mt-1 text-center text-[11px] leading-snug ${panel.descClass}`}>{panel.description}</span>
+            <span className="mt-2 flex items-center justify-center gap-1 text-[11px] font-semibold text-blue-600 opacity-0 transition-opacity group-hover:opacity-100 dark:text-blue-400">
+              Devam et
+              <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </span>
+          </Link>
+        ))}
+      </div>
     </div>
   );
 }
 
-function MobileLoginLinks({ onNavigate }: { onNavigate?: () => void }) {
+function LoginDropdown({ open, onClose }: { open: boolean; onClose: () => void }) {
   return (
-    <div className="space-y-3">
-      <p className="px-1 text-xs font-bold uppercase tracking-wider text-slate-400">Giriş</p>
+    <AnimatePresence>
+      {open && (
+        <>
+          <button
+            type="button"
+            className="fixed inset-0 z-40 cursor-default"
+            aria-label="Giriş menüsünü kapat"
+            onClick={onClose}
+          />
+          <motion.div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="login-role-title"
+            initial={{ opacity: 0, y: -10, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -10, scale: 0.98 }}
+            transition={{ type: 'spring', damping: 28, stiffness: 360 }}
+            className="absolute right-0 top-[calc(100%+0.5rem)] z-50 w-[min(calc(100vw-2rem),400px)] overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-xl shadow-slate-900/10 dark:border-slate-700 dark:bg-slate-900 dark:shadow-black/40"
+          >
+            <p id="login-role-title" className="sr-only">
+              Hangi yetki ile giriş yapmak istiyorsunuz?
+            </p>
+            <LoginRolePickerPanel onNavigate={onClose} />
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  );
+}
 
-      <Link
-        href="/personnel-panel/login"
-        onClick={onNavigate}
-        className="touch-target group flex items-center gap-3 overflow-hidden rounded-2xl border border-violet-200/70 bg-gradient-to-br from-violet-50/90 via-white to-indigo-50/50 p-4 shadow-sm transition-all active:scale-[0.99] dark:border-violet-900/50 dark:from-violet-950/30 dark:via-slate-900 dark:to-indigo-950/20"
+function DesktopLoginTrigger() {
+  const [open, setOpen] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  const close = useCallback(() => setOpen(false), []);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') close();
+    };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [open, close]);
+
+  return (
+    <div ref={rootRef} className="relative">
+      <button
+        type="button"
+        onClick={() => setOpen((value) => !value)}
+        aria-expanded={open}
+        aria-haspopup="dialog"
+        className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-md shadow-blue-500/25 transition-all hover:from-blue-700 hover:to-indigo-700 hover:shadow-lg hover:shadow-blue-500/30"
       >
-        <AppIconBadge src={PLAY_STORE_PERSONNEL_ICON} variant="personel" />
-        <span className="min-w-0 flex-1">
-          <span className="block text-sm font-bold text-slate-900 dark:text-white">Personel Girişi</span>
-          <span className="mt-0.5 block text-xs text-slate-500 dark:text-slate-400">Yoklama, yevmiye, bordro</span>
-        </span>
+        Giriş Yap
         <svg
-          className="h-4 w-4 shrink-0 text-violet-400 transition-transform group-hover:translate-x-0.5"
+          className={`h-4 w-4 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
           aria-hidden
         >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
         </svg>
-      </Link>
+      </button>
+      <LoginDropdown open={open} onClose={close} />
+    </div>
+  );
+}
 
-      <Link
-        href="/admin-panel/login"
-        onClick={onNavigate}
-        className="touch-target group flex items-center gap-3 overflow-hidden rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 p-4 shadow-lg shadow-blue-500/25 transition-all active:scale-[0.99] active:from-blue-700 active:to-indigo-700"
+function MobileLoginSection({ onNavigate }: { onNavigate?: () => void }) {
+  const [expanded, setExpanded] = useState(false);
+
+  return (
+    <div className="space-y-2">
+      <button
+        type="button"
+        onClick={() => setExpanded((value) => !value)}
+        aria-expanded={expanded}
+        className="touch-target flex w-full items-center justify-between rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-3.5 text-sm font-semibold text-white shadow-lg shadow-blue-500/25"
       >
-        <AppIconBadge src={PLAY_STORE_ADMIN_ICON} variant="admin" />
-        <span className="min-w-0 flex-1">
-          <span className="block text-sm font-bold text-white">Yönetici Girişi</span>
-          <span className="mt-0.5 block text-xs text-blue-100">Proje, onay, raporlar</span>
-        </span>
+        Giriş Yap
         <svg
-          className="h-4 w-4 shrink-0 text-white/70 transition-transform group-hover:translate-x-0.5"
+          className={`h-4 w-4 transition-transform duration-200 ${expanded ? 'rotate-180' : ''}`}
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
           aria-hidden
         >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
         </svg>
-      </Link>
+      </button>
+
+      <AnimatePresence initial={false}>
+        {expanded && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
+            className="overflow-hidden rounded-2xl border border-slate-200/90 bg-slate-50/80 dark:border-slate-700 dark:bg-slate-800/50"
+          >
+            <LoginRolePickerPanel
+              compact
+              onNavigate={() => {
+                setExpanded(false);
+                onNavigate?.();
+              }}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
@@ -164,7 +263,7 @@ export function HomeHeader() {
 
             <div className="hidden md:flex items-center gap-2">
               <ThemeToggleButton />
-              <DesktopLoginActions />
+              <DesktopLoginTrigger />
             </div>
 
             <div className="flex items-center gap-1 md:hidden">
@@ -223,8 +322,8 @@ export function HomeHeader() {
                 {link.label}
               </a>
             ))}
-            <div className="mt-auto space-y-2 pt-4 border-t border-gray-200 dark:border-slate-700">
-              <MobileLoginLinks onNavigate={() => setIsMenuOpen(false)} />
+            <div className="mt-auto pt-4 border-t border-gray-200 dark:border-slate-700">
+              <MobileLoginSection onNavigate={() => setIsMenuOpen(false)} />
             </div>
           </div>
         </nav>
