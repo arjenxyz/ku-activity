@@ -2,10 +2,11 @@
 
 import type { ReactNode } from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 
 const AUTOPLAY_MS = 4500;
 const springTransition = { type: 'spring' as const, stiffness: 300, damping: 32 };
+const fadeTransition = { duration: 0.28, ease: [0.4, 0, 0.2, 1] as const };
 
 const features = [
   {
@@ -80,7 +81,7 @@ const features = [
   },
   {
     title: 'Personel Uygulaması',
-    tag: 'Mobil',
+    tag: 'Mobil PWA',
     description:
       'PWA olarak telefona kurulur. Özet, yevmiye, mesai, finans, asgari ve haklarım sekmeleri — yönetici paneliyle aynı veritabanından beslenir.',
     icon: (
@@ -109,29 +110,48 @@ function FeaturesIcon({ className }: { className?: string }) {
   );
 }
 
-function FeatureIconBox({ icon }: { icon: ReactNode }) {
+function FeatureIconBox({ icon, large }: { icon: ReactNode; large?: boolean }) {
   return (
-    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#0E1548] to-indigo-700 text-white shadow-sm sm:h-12 sm:w-12">
-      <svg className="h-5 w-5 sm:h-6 sm:w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+    <div
+      className={`flex shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#0E1548] to-indigo-700 text-white shadow-lg shadow-[#0E1548]/20 ${
+        large ? 'h-16 w-16' : 'h-12 w-12'
+      }`}
+    >
+      <svg
+        className={large ? 'h-8 w-8' : 'h-6 w-6'}
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        aria-hidden
+      >
         {icon}
       </svg>
     </div>
   );
 }
 
-function FeatureCardSlide({ feature }: { feature: Feature }) {
+function FeatureContent({ feature, index }: { feature: Feature; index: number }) {
+  const indexLabel = String(index + 1).padStart(2, '0');
+  const totalLabel = String(features.length).padStart(2, '0');
+
   return (
-    <article className="box-border flex min-h-[220px] w-full shrink-0 grow-0 basis-full flex-col justify-center px-6 py-8 sm:min-h-[200px] sm:px-10 sm:py-10 lg:min-h-[180px]">
-      <div className="flex items-center gap-3 sm:gap-4">
-        <FeatureIconBox icon={feature.icon} />
-        <h3 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-2xl">
-          {feature.title}
-        </h3>
+    <div className="flex h-full flex-col justify-center">
+      <div className="flex items-start justify-between gap-4">
+        <FeatureIconBox icon={feature.icon} large />
+        <span className="font-mono text-sm text-slate-400 dark:text-slate-500">
+          {indexLabel}/{totalLabel}
+        </span>
       </div>
-      <p className="mt-4 max-w-2xl text-sm leading-relaxed text-slate-600 dark:text-slate-400 sm:mt-5 sm:text-base">
+      <p className="mt-6 text-xs font-bold uppercase tracking-widest text-blue-600 dark:text-blue-400">
+        {feature.tag}
+      </p>
+      <h3 className="mt-2 text-2xl font-bold tracking-tight text-slate-900 dark:text-white lg:text-3xl">
+        {feature.title}
+      </h3>
+      <p className="mt-4 max-w-xl text-base leading-relaxed text-slate-600 dark:text-slate-400">
         {feature.description}
       </p>
-    </article>
+    </div>
   );
 }
 
@@ -160,11 +180,103 @@ function useFeatureCarousel() {
     return () => window.clearInterval(id);
   }, [paused, reducedMotion, goNext]);
 
-  return { active, paused, setPaused, reducedMotion, goTo, goNext };
+  return { active, paused, setPaused, reducedMotion, goTo };
 }
 
-function FeatureCarousel() {
-  const { active, paused, setPaused, reducedMotion, goTo } = useFeatureCarousel();
+function TabProgress({ show }: { show: boolean }) {
+  if (!show) return null;
+  return (
+    <motion.span
+      key="progress"
+      className="absolute bottom-0 left-0 h-0.5 bg-[#0E1548] dark:bg-blue-400"
+      initial={{ width: '0%' }}
+      animate={{ width: '100%' }}
+      transition={{ duration: AUTOPLAY_MS / 1000, ease: 'linear' }}
+      aria-hidden
+    />
+  );
+}
+
+function DesktopFeaturePanel({
+  active,
+  paused,
+  reducedMotion,
+  goTo,
+  setPaused,
+}: {
+  active: number;
+  paused: boolean;
+  reducedMotion: boolean;
+  goTo: (index: number) => void;
+  setPaused: (value: boolean) => void;
+}) {
+  return (
+    <div
+      className="hidden lg:grid lg:min-h-[420px] lg:grid-cols-[240px_minmax(0,1fr)]"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      onFocusCapture={() => setPaused(true)}
+      onBlurCapture={(e) => {
+        if (!e.currentTarget.contains(e.relatedTarget as Node)) setPaused(false);
+      }}
+    >
+      <nav
+        className="flex flex-col border-r border-slate-100 bg-slate-50/80 p-3 dark:border-slate-800 dark:bg-slate-900/50"
+        role="tablist"
+        aria-label="Özellik seçimi"
+      >
+        {features.map((item, i) => {
+          const isActive = i === active;
+          return (
+            <button
+              key={item.title}
+              type="button"
+              role="tab"
+              aria-selected={isActive}
+              onClick={() => goTo(i)}
+              className={`relative overflow-hidden rounded-xl px-4 py-3.5 text-left text-sm font-semibold transition-colors ${
+                isActive
+                  ? 'bg-white text-[#0E1548] shadow-sm dark:bg-slate-800 dark:text-white'
+                  : 'text-slate-600 hover:bg-white/70 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800/60 dark:hover:text-white'
+              }`}
+            >
+              {item.tag}
+              <TabProgress show={isActive && !reducedMotion && !paused} />
+            </button>
+          );
+        })}
+      </nav>
+
+      <div className="relative overflow-hidden px-10 py-10 xl:px-12 xl:py-12" aria-live="polite">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={features[active].title}
+            initial={reducedMotion ? false : { opacity: 0, x: 16 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={reducedMotion ? undefined : { opacity: 0, x: -16 }}
+            transition={fadeTransition}
+          >
+            <FeatureContent feature={features[active]} index={active} />
+          </motion.div>
+        </AnimatePresence>
+      </div>
+    </div>
+  );
+}
+
+function MobileFeatureCarousel({
+  active,
+  paused,
+  reducedMotion,
+  goTo,
+  setPaused,
+}: {
+  active: number;
+  paused: boolean;
+  reducedMotion: boolean;
+  goTo: (index: number) => void;
+  setPaused: (value: boolean) => void;
+}) {
   const pillRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const pillListRef = useRef<HTMLDivElement>(null);
 
@@ -185,89 +297,105 @@ function FeatureCarousel() {
 
   return (
     <div
-      className="min-w-0"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-      onFocusCapture={() => setPaused(true)}
-      onBlurCapture={(e) => {
-        if (!e.currentTarget.contains(e.relatedTarget as Node)) setPaused(false);
-      }}
+      className="lg:hidden"
       onTouchStart={() => setPaused(true)}
       onTouchEnd={() => setPaused(false)}
     >
-      <div className="relative isolate overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
+      <div className="overflow-hidden">
+        <motion.div
+          className="flex w-full"
+          animate={{ x: `-${active * 100}%` }}
+          transition={reducedMotion ? { duration: 0 } : springTransition}
+          aria-live="polite"
+        >
+          {features.map((feature, index) => (
+            <article
+              key={feature.title}
+              className="box-border w-full shrink-0 grow-0 basis-full px-5 py-7 sm:px-7 sm:py-8"
+            >
+              <FeatureContent feature={feature} index={index} />
+            </article>
+          ))}
+        </motion.div>
+      </div>
+
+      <div className="relative border-t border-slate-100 bg-slate-50/80 px-4 py-3 dark:border-slate-800 dark:bg-slate-900/50">
         <div
-          className="absolute inset-x-0 top-0 z-10 h-1 bg-gradient-to-r from-[#0E1548] via-blue-600 to-indigo-500"
+          className="pointer-events-none absolute inset-y-0 left-0 z-10 w-5 bg-gradient-to-r from-slate-50/95 to-transparent dark:from-slate-900/95"
           aria-hidden
         />
-
-        {!reducedMotion && !paused && (
-          <motion.div
-            key={`bar-${active}`}
-            className="absolute inset-x-0 top-0 z-20 h-1 origin-left bg-white/40"
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: 1 }}
-            transition={{ duration: AUTOPLAY_MS / 1000, ease: 'linear' }}
-            aria-hidden
-          />
-        )}
-
-        <div className="overflow-hidden">
-          <motion.div
-            className="flex w-full"
-            animate={{ x: `-${active * 100}%` }}
-            transition={reducedMotion ? { duration: 0 } : springTransition}
-            aria-live="polite"
-          >
-            {features.map((feature) => (
-              <FeatureCardSlide key={feature.title} feature={feature} />
-            ))}
-          </motion.div>
-        </div>
-
-        <div className="border-t border-slate-100 bg-slate-50/60 px-4 py-4 dark:border-slate-800 dark:bg-slate-900/60 sm:px-6">
-          <div className="relative">
-            <div
-              className="pointer-events-none absolute inset-y-0 left-0 z-10 w-6 bg-gradient-to-r from-slate-50/95 to-transparent dark:from-slate-900/95 sm:hidden"
-              aria-hidden
-            />
-            <div
-              className="pointer-events-none absolute inset-y-0 right-0 z-10 w-6 bg-gradient-to-l from-slate-50/95 to-transparent dark:from-slate-900/95 sm:hidden"
-              aria-hidden
-            />
-
-            <div
-              ref={pillListRef}
-              className="flex gap-1.5 overflow-x-auto scrollbar-hide scroll-smooth sm:flex-wrap sm:justify-center sm:gap-2 sm:overflow-visible"
-              role="tablist"
-              aria-label="Özellik seçimi"
-            >
-              {features.map((item, i) => {
-                const isActive = i === active;
-                return (
-                  <button
-                    key={item.title}
-                    ref={(el) => {
-                      pillRefs.current[i] = el;
-                    }}
-                    type="button"
-                    role="tab"
-                    aria-selected={isActive}
-                    onClick={() => goTo(i)}
-                    className={`shrink-0 rounded-lg px-3 py-2 text-xs font-semibold transition-all sm:px-4 sm:text-sm ${
-                      isActive
-                        ? 'bg-[#0E1548] text-white shadow-sm'
-                        : 'text-slate-600 hover:bg-white hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white'
-                    }`}
-                  >
-                    {item.tag}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
+        <div
+          className="pointer-events-none absolute inset-y-0 right-0 z-10 w-5 bg-gradient-to-l from-slate-50/95 to-transparent dark:from-slate-900/95"
+          aria-hidden
+        />
+        <div
+          ref={pillListRef}
+          className="flex gap-2 overflow-x-auto scrollbar-hide scroll-smooth"
+          role="tablist"
+          aria-label="Özellik seçimi"
+        >
+          {features.map((item, i) => {
+            const isActive = i === active;
+            return (
+              <button
+                key={item.title}
+                ref={(el) => {
+                  pillRefs.current[i] = el;
+                }}
+                type="button"
+                role="tab"
+                aria-selected={isActive}
+                onClick={() => goTo(i)}
+                className={`relative shrink-0 overflow-hidden rounded-full border px-3.5 py-2 text-xs font-semibold transition-colors ${
+                  isActive
+                    ? 'border-[#0E1548] bg-[#0E1548] text-white'
+                    : 'border-slate-200 bg-white text-slate-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300'
+                }`}
+              >
+                {isActive && !reducedMotion && !paused && (
+                  <motion.span
+                    key={`progress-${active}`}
+                    className="absolute inset-y-0 left-0 bg-white/20"
+                    initial={{ width: '0%' }}
+                    animate={{ width: '100%' }}
+                    transition={{ duration: AUTOPLAY_MS / 1000, ease: 'linear' }}
+                    aria-hidden
+                  />
+                )}
+                <span className="relative">{item.tag}</span>
+              </button>
+            );
+          })}
         </div>
       </div>
+    </div>
+  );
+}
+
+function FeatureShowcase() {
+  const { active, paused, setPaused, reducedMotion, goTo } = useFeatureCarousel();
+
+  return (
+    <div className="relative isolate overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
+      <div
+        className="absolute inset-x-0 top-0 z-10 h-1 bg-gradient-to-r from-[#0E1548] via-blue-600 to-indigo-500"
+        aria-hidden
+      />
+
+      <DesktopFeaturePanel
+        active={active}
+        paused={paused}
+        reducedMotion={reducedMotion}
+        goTo={goTo}
+        setPaused={setPaused}
+      />
+      <MobileFeatureCarousel
+        active={active}
+        paused={paused}
+        reducedMotion={reducedMotion}
+        goTo={goTo}
+        setPaused={setPaused}
+      />
     </div>
   );
 }
@@ -277,7 +405,7 @@ export function FeaturesSection() {
     <section id="features" className="overflow-x-hidden bg-slate-50/80 py-12 dark:bg-slate-950/50 sm:py-16 lg:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
-          className="mx-auto max-w-3xl text-center"
+          className="max-w-2xl"
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -296,8 +424,8 @@ export function FeaturesSection() {
           </p>
         </motion.div>
 
-        <div className="mx-auto mt-8 max-w-4xl sm:mt-10 lg:mt-12">
-          <FeatureCarousel />
+        <div className="mt-8 sm:mt-10 lg:mt-12">
+          <FeatureShowcase />
         </div>
       </div>
     </section>
