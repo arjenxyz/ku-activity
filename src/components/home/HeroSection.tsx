@@ -1,8 +1,8 @@
 'use client';
 
-import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { HeroPlayStorePromo } from '@/components/home/HeroPlayStorePromo';
+import { LoginRoleButton } from '@/components/home/LoginRolePicker';
 
 export function HeroSection() {
   return (
@@ -48,15 +48,12 @@ export function HeroSection() {
           </p>
 
           <div className="mt-8 flex flex-col sm:flex-row gap-3">
-            <Link
-              href="/admin-panel/register"
-              className="touch-target inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white px-8 py-3.5 rounded-xl font-semibold shadow-lg shadow-blue-500/30 transition-all w-full sm:w-auto"
-            >
-              Ücretsiz Kayıt Ol
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            <LoginRoleButton className="touch-target inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white px-8 py-3.5 rounded-xl font-semibold shadow-lg shadow-blue-500/30 transition-all w-full sm:w-auto">
+              Giriş Yap
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
               </svg>
-            </Link>
+            </LoginRoleButton>
             <a
               href="#features"
               className="touch-target inline-flex items-center justify-center border-2 border-gray-200 dark:border-slate-600 text-gray-700 dark:text-gray-200 px-8 py-3.5 rounded-xl font-semibold hover:bg-gray-50 dark:hover:bg-slate-800 active:bg-gray-100 transition-colors w-full sm:w-auto"
