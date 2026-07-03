@@ -210,10 +210,6 @@ export function PlayStoreSection() {
               indirin
             </span>
           </h2>
-          <p className="mt-5 text-lg sm:text-xl text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl mx-auto">
-            Personel ve yönetici için ayrı uygulamalar. Kurulum gerektirmez; telefonunuzdan hemen
-            kullanmaya başlayın.
-          </p>
         </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-6 lg:gap-8 max-w-5xl mx-auto">
