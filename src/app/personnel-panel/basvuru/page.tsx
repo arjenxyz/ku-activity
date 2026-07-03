@@ -392,7 +392,7 @@ export default function PersonnelApplicationPage() {
       compact
       screenLabel="Personel Başvuru"
       title="Personel Başvurusu"
-      subtitle="Bilgilerinizi girin; yönetici onayından sonra sisteme alınacaksınız."
+      subtitle=""
     >
       {error && <AuthAlert type="error" message={error} tone="personnel" />}
 
