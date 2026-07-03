@@ -3,7 +3,6 @@
 import { HomeHeader } from '@/components/home/HomeHeader';
 import { HeroSection } from '@/components/home/HeroSection';
 import { ScrollingBanner } from '@/components/home/ScrollingBanner';
-import { TrustBar } from '@/components/home/TrustBar';
 import { FeaturesSection } from '@/components/home/FeaturesSection';
 import { PlayStoreSection } from '@/components/home/PlayStoreSection';
 import { CTASection } from '@/components/home/CTASection';
@@ -16,7 +15,6 @@ export default function Home() {
       <main>
         <HeroSection />
         <ScrollingBanner />
-        <TrustBar />
         <FeaturesSection />
         <PlayStoreSection />
         <CTASection />
