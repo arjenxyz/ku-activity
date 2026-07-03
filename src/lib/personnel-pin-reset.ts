@@ -14,8 +14,9 @@ import { createAdminClient } from '@/utils/supabase/admin';
 import { createHash, randomBytes } from 'crypto';
 
 const PIN_RESET_LINK_MINUTES = 30;
+const PIN_RESET_EMAIL_COOLDOWN_HOURS = 6;
 
-export { PIN_RESET_LINK_MINUTES };
+export { PIN_RESET_LINK_MINUTES, PIN_RESET_EMAIL_COOLDOWN_HOURS };
 
 type EmployeeContact = {
   id: string;
@@ -196,6 +197,61 @@ async function verifyEmployeeIdentity(input: {
   return employee;
 }
 
+function formatEmailCooldownMessage(remainingMs: number): string {
+  const totalMin = Math.max(1, Math.ceil(remainingMs / 60_000));
+  if (totalMin >= 60) {
+    const hours = Math.floor(totalMin / 60);
+    const mins = totalMin % 60;
+    if (mins > 0) {
+      return `Sıfırlama linki en fazla ${PIN_RESET_EMAIL_COOLDOWN_HOURS} saatte bir gönderilir. ${hours} saat ${mins} dakika sonra tekrar deneyin.`;
+    }
+    return `Sıfırlama linki en fazla ${PIN_RESET_EMAIL_COOLDOWN_HOURS} saatte bir gönderilir. ${hours} saat sonra tekrar deneyin.`;
+  }
+  return `Sıfırlama linki en fazla ${PIN_RESET_EMAIL_COOLDOWN_HOURS} saatte bir gönderilir. ${totalMin} dakika sonra tekrar deneyin.`;
+}
+
+async function assertPinResetEmailCooldown(
+  employeeId: string
+): Promise<{ ok: true } | { ok: false; error: string }> {
+  const admin = createAdminClient();
+  const { data, error } = await admin
+    .from('employees')
+    .select('last_pin_reset_email_at')
+    .eq('id', employeeId)
+    .maybeSingle();
+
+  if (error) {
+    if (error.message.includes('last_pin_reset_email_at')) {
+      throw new Error('053_pin_reset_email_cooldown.sql migration çalıştırın');
+    }
+    throw new Error(error.message);
+  }
+
+  const lastSent = data?.last_pin_reset_email_at as string | null | undefined;
+  if (!lastSent) return { ok: true };
+
+  const cooldownMs = PIN_RESET_EMAIL_COOLDOWN_HOURS * 60 * 60 * 1000;
+  const elapsed = Date.now() - new Date(lastSent).getTime();
+  if (elapsed >= cooldownMs) return { ok: true };
+
+  return { ok: false, error: formatEmailCooldownMessage(cooldownMs - elapsed) };
+}
+
+async function markPinResetEmailSent(employeeId: string): Promise<void> {
+  const admin = createAdminClient();
+  const { error } = await admin
+    .from('employees')
+    .update({ last_pin_reset_email_at: new Date().toISOString() })
+    .eq('id', employeeId);
+
+  if (error) {
+    if (error.message.includes('last_pin_reset_email_at')) {
+      throw new Error('053_pin_reset_email_cooldown.sql migration çalıştırın');
+    }
+    throw new Error(error.message);
+  }
+}
+
 export async function sendPersonnelPinResetLink(input: {
   tcKimlik: string;
   phone: string;
@@ -209,8 +265,14 @@ export async function sendPersonnelPinResetLink(input: {
     return { ok: false, error: GENERIC_MISMATCH };
   }
 
+  const cooldown = await assertPinResetEmailCooldown(employee.id);
+  if (!cooldown.ok) {
+    return { ok: false, error: cooldown.error };
+  }
+
   const token = await issuePinResetToken(employee.id);
   await sendPinResetLinkEmail(employee, token);
+  await markPinResetEmailSent(employee.id);
   return { ok: true };
 }
 

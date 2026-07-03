@@ -197,7 +197,7 @@ export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
               <AuthAlert
                 type="success"
                 tone="personnel"
-                message="Sıfırlama linki e-posta adresinize gönderildi. Bağlantı 30 dakika geçerlidir ve yalnızca bir kez kullanılabilir."
+                message="Sıfırlama linki e-posta adresinize gönderildi. Bağlantı 30 dakika geçerlidir, yalnızca bir kez kullanılabilir. Yeni link için 6 saat beklemeniz gerekir."
               />
               <button type="button" onClick={handleClose} className={personnelAuthPrimaryBtnClass}>
                 Tamam
@@ -365,8 +365,8 @@ export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
               </button>
 
               <p className={`text-center ${personnelAuthMutedTextClass}`}>
-                Bağlantı <strong>30 dakika</strong> geçerlidir ve <strong>yalnızca bir kez</strong>{' '}
-                kullanılabilir.
+                E-posta linki <strong>6 saatte bir</strong> istenebilir; bağlantı{' '}
+                <strong>30 dakika</strong> geçerlidir ve <strong>yalnızca bir kez</strong> kullanılabilir.
               </p>
 
               <p className={`text-center ${personnelAuthMutedTextClass}`}>
