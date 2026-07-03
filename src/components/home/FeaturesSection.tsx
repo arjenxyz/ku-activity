@@ -229,9 +229,9 @@ function FeatureLoopCarousel() {
         </div>
       </div>
 
-      <div className="mt-4 md:mt-4 md:flex md:justify-end">
+      <div className="mt-4 md:hidden">
         <div
-          className="-mx-4 flex gap-2.5 overflow-x-auto px-4 py-2 scrollbar-none md:hidden"
+          className="-mx-4 flex gap-2.5 overflow-x-auto px-4 py-2 scrollbar-none"
           role="tablist"
           aria-label="Özellik seçimi"
         >
