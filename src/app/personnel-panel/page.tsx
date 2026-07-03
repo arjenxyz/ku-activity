@@ -32,7 +32,6 @@ import { PersonnelSection } from '@/components/personnel/PersonnelRecordCard';
 import { PersonnelFinancePanel } from '@/components/personnel/PersonnelFinancePanel';
 import { PersonnelAsgariPanel } from '@/components/personnel/PersonnelAsgariPanel';
 import { PersonnelPullToRefresh } from '@/components/personnel/PersonnelPullToRefresh';
-import { PersonnelPwaInstallBanner } from '@/components/personnel/PersonnelPwaInstallBanner';
 import { PersonnelTrustFooter } from '@/components/personnel/PersonnelTrustFooter';
 import { PersonnelWorkLogItem } from '@/components/personnel/PersonnelWorkLogItem';
 import { usePersonnelDashboard } from '@/hooks/usePersonnelDashboard';
@@ -266,10 +265,6 @@ function PersonelPanelContent() {
           />
         )}
 
-        <div className="sm:hidden">
-          <PersonnelPwaInstallBanner />
-        </div>
-
         {stats && (
           <div className="space-y-3 sm:space-y-4">
             <p className="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500 hidden sm:block">
@@ -318,10 +313,6 @@ function PersonelPanelContent() {
               <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
                 Puantaj, yoklama ve maaş özeti
               </p>
-            </div>
-
-            <div className="mb-4 sm:mb-6 no-print hidden sm:block">
-              <PersonnelPwaInstallBanner />
             </div>
 
             <div className="mb-4 sm:mb-6 no-print hidden sm:block">
