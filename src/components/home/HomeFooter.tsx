@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { BrandMark } from '@/components/brand/BrandMark';
+import { SkyTwinkleStars } from '@/components/home/SkyTwinkleStars';
 import { APP_NAME, APP_TAGLINE_TR } from '@/lib/brand';
 import { SUPPORT_EMAIL, verificationCodeMailto } from '@/lib/support-email';
 
@@ -18,6 +19,7 @@ export function HomeFooter() {
           className="block h-auto w-full object-cover object-bottom"
           sizes="100vw"
         />
+        <SkyTwinkleStars maskSolidEnd={24} maskFadeEnd={38} maxTopPercent={30} density={44} />
         <div
           className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-b from-transparent to-[#0E1548] sm:h-16"
           aria-hidden

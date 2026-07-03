@@ -87,7 +87,36 @@ html.dark body {
       animation: none;
       display: none !important;
     }
+
+    .sky-twinkle-star {
+      animation: none;
+      opacity: 0.45;
+    }
   }
+}
+
+@keyframes star-twinkle {
+  0%,
+  100% {
+    opacity: var(--star-min-opacity, 0.15);
+    transform: scale(0.7);
+  }
+  50% {
+    opacity: var(--star-max-opacity, 0.95);
+    transform: scale(1.2);
+  }
+}
+
+.sky-twinkle-star {
+  animation: star-twinkle var(--twinkle-duration, 3.5s) ease-in-out infinite;
+  animation-delay: var(--twinkle-delay, 0s);
+  will-change: opacity, transform;
+}
+
+.sky-twinkle-star--glow {
+  box-shadow:
+    0 0 4px 1px rgba(255, 255, 255, 0.55),
+    0 0 10px 2px rgba(186, 230, 253, 0.25);
 }
 
 @keyframes brand-icon-rain {
