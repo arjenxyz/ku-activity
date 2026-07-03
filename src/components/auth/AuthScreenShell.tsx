@@ -8,6 +8,7 @@ import { ScreenReportButton } from '@/components/auth/ScreenReportButton';
 import { usePersonnelAuthPageBackground } from '@/hooks/usePersonnelAuthPageBackground';
 import {
   PERSONNEL_AUTH_BG_IMAGE,
+  PERSONNEL_AUTH_BG_IMAGE_DESKTOP,
   PERSONNEL_PWA_SPLASH_BG,
 } from '@/lib/personnel-pwa-brand';
 
@@ -51,7 +52,15 @@ export function AuthScreenShell({ children, screenLabel, panelLabel }: AuthScree
             alt=""
             fill
             priority
-            className="object-cover object-center"
+            className="object-cover object-center md:hidden"
+            sizes="100vw"
+          />
+          <Image
+            src={PERSONNEL_AUTH_BG_IMAGE_DESKTOP}
+            alt=""
+            fill
+            priority
+            className="hidden object-cover object-center md:block"
             sizes="100vw"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-[#050b1a]/60 via-transparent to-[#050b1a]/80" />

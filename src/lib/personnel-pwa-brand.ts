@@ -1,8 +1,11 @@
 /** Personel intro / PWA splash görseli ve renkleri */
 export const PERSONNEL_INTRO_IMAGE = '/crewledger-intro.png';
 
-/** Giriş, şifremi unuttum ve başvuru ekranları arka planı */
+/** Giriş, şifremi unuttum ve başvuru ekranları arka planı (mobil) */
 export const PERSONNEL_AUTH_BG_IMAGE = '/crewledger-temp.png';
+
+/** Aynı ekranlar — geniş masaüstü arka planı */
+export const PERSONNEL_AUTH_BG_IMAGE_DESKTOP = '/crewledger-desktop.png';
 
 /** Intro PNG kenar tonu — PWA splash köprüsü */
 export const PERSONNEL_PWA_SPLASH_BG = '#0b1624';
