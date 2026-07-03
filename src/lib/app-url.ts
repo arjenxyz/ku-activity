@@ -9,3 +9,7 @@ export function getAppBaseUrl(): string {
 export function buildContractOtpConfirmUrl(linkToken: string): string {
   return `${getAppBaseUrl()}/personnel-panel/basvuru/dogrula?k=${encodeURIComponent(linkToken)}`;
 }
+
+export function buildPersonnelPinResetUrl(linkToken: string): string {
+  return `${getAppBaseUrl()}/personnel-panel/pin-sifirla?k=${encodeURIComponent(linkToken)}`;
+}

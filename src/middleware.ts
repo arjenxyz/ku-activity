@@ -9,11 +9,13 @@ const ADMIN_REGISTER = '/admin-panel/register';
 const PERSONNEL_LOGIN = '/personnel-panel/login';
 const PERSONNEL_BASVURU = '/personnel-panel/basvuru';
 const PERSONNEL_SIFREMI_UNUTTUM = '/personnel-panel/sifremi-unuttum';
+const PERSONNEL_PIN_SIFIRLA = '/personnel-panel/pin-sifirla';
 const DEVELOPER_LOGIN = '/developer-panel/login';
 
 function isPersonnelPublicPath(pathname: string): boolean {
   if (pathname === PERSONNEL_LOGIN) return true;
   if (pathname === PERSONNEL_SIFREMI_UNUTTUM) return true;
+  if (pathname === PERSONNEL_PIN_SIFIRLA) return true;
   if (pathname === PERSONNEL_BASVURU || pathname.startsWith(`${PERSONNEL_BASVURU}/`)) {
     return true;
   }

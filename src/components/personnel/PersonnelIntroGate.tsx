@@ -25,6 +25,7 @@ function isPersonnelAuthPath(pathname: string) {
   return (
     pathname.startsWith('/personnel-panel/login') ||
     pathname.startsWith('/personnel-panel/sifremi-unuttum') ||
+    pathname.startsWith('/personnel-panel/pin-sifirla') ||
     pathname.startsWith('/personnel-panel/basvuru')
   );
 }

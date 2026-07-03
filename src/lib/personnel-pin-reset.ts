@@ -1,4 +1,5 @@
 import { APP_NAME, DEFAULT_SUPPORT_EMAIL } from '@/lib/brand';
+import { buildPersonnelPinResetUrl } from '@/lib/app-url';
 import {
   computePhoneLookupHash,
   normalizePhoneDigits,
@@ -7,7 +8,12 @@ import {
 } from '@/lib/field-encryption';
 import { findEmployeeForIdentityLogin } from '@/lib/personnel-login';
 import { maskEmail } from '@/lib/otp-delivery';
+import { validatePersonnelPin } from '@/lib/personnel-pin';
+import { buildEmployeePinFields } from '@/lib/personnel-pin-storage';
 import { createAdminClient } from '@/utils/supabase/admin';
+import { createHash, randomBytes } from 'crypto';
+
+const PIN_RESET_LINK_MINUTES = 30;
 
 type EmployeeContact = {
   id: string;
@@ -136,6 +142,157 @@ export async function submitPersonnelPinResetRequest(input: {
   return { ok: true };
 }
 
+function hashResetToken(token: string): string {
+  return createHash('sha256').update(token).digest('hex');
+}
+
+function createResetToken(): string {
+  return randomBytes(32).toString('base64url');
+}
+
+async function verifyEmployeeIdentity(input: {
+  tcKimlik: string;
+  phone: string;
+  email: string;
+}): Promise<EmployeeContact | null> {
+  const validationError = validatePinResetInputs(input);
+  if (validationError) return null;
+
+  const tc = input.tcKimlik.replace(/\D/g, '');
+  const employee = await findEmployeeContactByTc(tc);
+  if (
+    !employee?.is_active ||
+    !phonesMatch(employee, input.phone) ||
+    !emailsMatch(employee.email, input.email)
+  ) {
+    return null;
+  }
+  return employee;
+}
+
+export async function sendPersonnelPinResetLink(input: {
+  tcKimlik: string;
+  phone: string;
+  email: string;
+}): Promise<{ ok: true } | { ok: false; error: string }> {
+  const validationError = validatePinResetInputs(input);
+  if (validationError) return { ok: false, error: validationError };
+
+  const employee = await verifyEmployeeIdentity(input);
+  if (!employee) {
+    return { ok: false, error: GENERIC_MISMATCH };
+  }
+
+  const admin = createAdminClient();
+  const token = createResetToken();
+  const tokenHash = hashResetToken(token);
+  const expiresAt = new Date(Date.now() + PIN_RESET_LINK_MINUTES * 60 * 1000).toISOString();
+
+  await admin
+    .from('personnel_pin_reset_tokens')
+    .update({ consumed_at: new Date().toISOString() })
+    .eq('employee_id', employee.id)
+    .is('consumed_at', null);
+
+  const { error: insertError } = await admin.from('personnel_pin_reset_tokens').insert({
+    employee_id: employee.id,
+    token_hash: tokenHash,
+    expires_at: expiresAt,
+  });
+
+  if (insertError) {
+    if (insertError.message.includes('personnel_pin_reset_tokens')) {
+      throw new Error('PIN sıfırlama tablosu eksik — 052_personnel_pin_reset_tokens migration çalıştırın');
+    }
+    throw new Error(insertError.message);
+  }
+
+  await sendPinResetLinkEmail(employee, token);
+  return { ok: true };
+}
+
+export async function validatePinResetToken(
+  token: string
+): Promise<{ ok: true; employeeName: string } | { ok: false; error: string }> {
+  const trimmed = token.trim();
+  if (!trimmed) return { ok: false, error: 'Geçersiz bağlantı' };
+
+  const admin = createAdminClient();
+  const { data: row, error } = await admin
+    .from('personnel_pin_reset_tokens')
+    .select('employee_id, expires_at, consumed_at')
+    .eq('token_hash', hashResetToken(trimmed))
+    .maybeSingle();
+
+  if (error || !row) {
+    return { ok: false, error: 'Bağlantı geçersiz veya süresi dolmuş.' };
+  }
+  if (row.consumed_at) {
+    return { ok: false, error: 'Bu bağlantı daha önce kullanılmış.' };
+  }
+  if (new Date(row.expires_at as string) < new Date()) {
+    return { ok: false, error: 'Bağlantının süresi dolmuş. Giriş ekranından yeni link isteyin.' };
+  }
+
+  const employee = await loadEmployeeContact(row.employee_id as string);
+  if (!employee?.is_active) {
+    return { ok: false, error: 'Hesap aktif değil. Yöneticinize başvurun.' };
+  }
+
+  return { ok: true, employeeName: employee.name };
+}
+
+export async function completePersonnelPinReset(input: {
+  token: string;
+  newPin: string;
+}): Promise<{ ok: true } | { ok: false; error: string }> {
+  const pinError = validatePersonnelPin(input.newPin);
+  if (pinError) return { ok: false, error: pinError };
+
+  const trimmed = input.token.trim();
+  if (!trimmed) return { ok: false, error: 'Geçersiz bağlantı' };
+
+  const admin = createAdminClient();
+  const tokenHash = hashResetToken(trimmed);
+  const { data: row, error } = await admin
+    .from('personnel_pin_reset_tokens')
+    .select('id, employee_id, expires_at, consumed_at')
+    .eq('token_hash', tokenHash)
+    .maybeSingle();
+
+  if (error || !row) {
+    return { ok: false, error: 'Bağlantı geçersiz veya süresi dolmuş.' };
+  }
+  if (row.consumed_at) {
+    return { ok: false, error: 'Bu bağlantı daha önce kullanılmış.' };
+  }
+  if (new Date(row.expires_at as string) < new Date()) {
+    return { ok: false, error: 'Bağlantının süresi dolmuş. Giriş ekranından yeni link isteyin.' };
+  }
+
+  const employee = await loadEmployeeContact(row.employee_id as string);
+  if (!employee?.is_active) {
+    return { ok: false, error: 'Hesap aktif değil. Yöneticinize başvurun.' };
+  }
+
+  const pinFields = await buildEmployeePinFields(input.newPin);
+  const { error: updateError } = await admin
+    .from('employees')
+    .update(pinFields)
+    .eq('id', employee.id);
+
+  if (updateError) {
+    return { ok: false, error: 'PIN güncellenemedi' };
+  }
+
+  await admin
+    .from('personnel_pin_reset_tokens')
+    .update({ consumed_at: new Date().toISOString() })
+    .eq('id', row.id);
+
+  return { ok: true };
+}
+
 async function sendBrevoEmail(payload: {
   to: string;
   subject: string;
@@ -175,6 +332,37 @@ async function sendBrevoEmail(payload: {
     const detail = await res.text().catch(() => '');
     throw new Error(`E-posta gönderilemedi (${res.status})${detail ? `: ${detail.slice(0, 120)}` : ''}`);
   }
+}
+
+async function sendPinResetLinkEmail(employee: EmployeeContact, token: string): Promise<void> {
+  const resetUrl = buildPersonnelPinResetUrl(token);
+  const subject = `${APP_NAME} — PIN sıfırlama bağlantınız`;
+  const text = [
+    `Merhaba ${employee.name},`,
+    '',
+    'Kimlik bilgileriniz doğrulandı. Yeni PIN belirlemek için aşağıdaki bağlantıyı kullanın:',
+    resetUrl,
+    '',
+    `Bağlantı ${PIN_RESET_LINK_MINUTES} dakika geçerlidir ve yalnızca bir kez kullanılabilir.`,
+    'Bu talebi siz yapmadıysanız bu e-postayı yok sayın ve yöneticinize bildirin.',
+  ].join('\n');
+
+  const html = `<!DOCTYPE html><html lang="tr"><body style="font-family:system-ui,sans-serif;color:#334155;line-height:1.6;">
+<p>Merhaba <strong>${employee.name}</strong>,</p>
+<p>Kimlik bilgileriniz doğrulandı. Yeni PIN belirlemek için aşağıdaki düğmeye tıklayın:</p>
+<p style="margin:24px 0;text-align:center;">
+  <a href="${resetUrl}" style="display:inline-block;padding:14px 28px;background:#2563eb;color:#ffffff;text-decoration:none;font-size:15px;font-weight:600;border-radius:12px;">Yeni PIN belirle</a>
+</p>
+<p style="font-size:13px;color:#64748b;">Bağlantı ${PIN_RESET_LINK_MINUTES} dakika geçerlidir ve yalnızca bir kez kullanılabilir.</p>
+<p style="font-size:13px;color:#64748b;">Bu talebi siz yapmadıysanız bu e-postayı yok sayın.</p>
+</body></html>`;
+
+  await sendBrevoEmail({
+    to: employee.email,
+    subject,
+    html,
+    text,
+  });
 }
 
 async function sendPinResetEmails(employee: EmployeeContact): Promise<void> {

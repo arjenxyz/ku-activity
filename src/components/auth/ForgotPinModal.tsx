@@ -14,7 +14,7 @@ import {
   personnelAuthSecondaryBtnClass,
 } from '@/lib/personnel-auth-ui';
 
-type View = 'form' | 'no-email' | 'success';
+type View = 'form' | 'no-email' | 'success' | 'link-sent';
 
 type Props = {
   open: boolean;
@@ -31,6 +31,7 @@ export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [linkSending, setLinkSending] = useState(false);
   const [hintLoading, setHintLoading] = useState(false);
   const [error, setError] = useState('');
   const [maskedEmail, setMaskedEmail] = useState<string | null>(null);
@@ -43,6 +44,7 @@ export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
     setMaskedEmail(null);
     setSubmitting(false);
     setHintLoading(false);
+    setLinkSending(false);
   }, []);
 
   const handleClose = useCallback(() => {
@@ -62,11 +64,39 @@ export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && !submitting && !hintLoading) handleClose();
+      if (e.key === 'Escape' && !submitting && !hintLoading && !linkSending) handleClose();
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [open, submitting, hintLoading, handleClose]);
+  }, [open, submitting, hintLoading, linkSending, handleClose]);
+
+  const formReady =
+    tcKimlik.replace(/\D/g, '').length === 11 && phone.trim().length > 0 && email.trim().length > 0;
+
+  const handleSendLink = async () => {
+    if (linkSending || !formReady) return;
+    setError('');
+    setLinkSending(true);
+    try {
+      const res = await fetch('/api/public/personnel-pin-reset', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'send-link',
+          tcKimlik,
+          phone,
+          email,
+        }),
+      });
+      const data = (await res.json()) as { error?: string };
+      if (!res.ok) throw new Error(data.error || 'Link gönderilemedi');
+      setView('link-sent');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Link gönderilemedi');
+    } finally {
+      setLinkSending(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -137,7 +167,9 @@ export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
             <p className="mt-1 text-sm text-slate-500 leading-relaxed">
               {view === 'no-email'
                 ? 'E-postanızı hatırlamıyorsanız aşağıdaki seçenekleri kullanın.'
-                : view === 'success'
+                : view === 'link-sent'
+                  ? 'E-postanızı kontrol edin.'
+                  : view === 'success'
                   ? 'Talebiniz işleme alındı.'
                   : 'Kimliğinizi doğrulamak için kayıtlı bilgilerinizi girin.'}
             </p>
@@ -145,7 +177,7 @@ export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
           <button
             type="button"
             onClick={handleClose}
-            disabled={submitting || hintLoading}
+            disabled={submitting || hintLoading || linkSending}
             className="shrink-0 rounded-lg p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-600"
             aria-label="Kapat"
           >
@@ -154,7 +186,18 @@ export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
         </div>
 
         <div className="px-5 py-4 overflow-y-auto space-y-4">
-          {view === 'success' ? (
+          {view === 'link-sent' ? (
+            <div className="space-y-4">
+              <AuthAlert
+                type="success"
+                tone="personnel"
+                message="Sıfırlama linki e-posta adresinize gönderildi. Bağlantı 30 dakika geçerlidir; e-postadaki linke tıklayarak yeni PIN'inizi belirleyebilirsiniz."
+              />
+              <button type="button" onClick={handleClose} className={personnelAuthPrimaryBtnClass}>
+                Tamam
+              </button>
+            </div>
+          ) : view === 'success' ? (
             <div className="space-y-4">
               <AuthAlert
                 type="success"
@@ -302,22 +345,33 @@ export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
               {error ? <AuthAlert type="error" tone="personnel" message={error} /> : null}
 
               <button
-                type="submit"
-                disabled={
-                  submitting ||
-                  tcKimlik.replace(/\D/g, '').length !== 11 ||
-                  !phone.trim() ||
-                  !email.trim()
-                }
+                type="button"
+                onClick={() => void handleSendLink()}
+                disabled={linkSending || submitting || !formReady}
                 className={personnelAuthPrimaryBtnClass}
+              >
+                {linkSending ? (
+                  <>
+                    <FiLoader className="h-4 w-4 animate-spin" />
+                    Link gönderiliyor…
+                  </>
+                ) : (
+                  'E-postama sıfırlama linki gönder'
+                )}
+              </button>
+
+              <button
+                type="submit"
+                disabled={submitting || linkSending || !formReady}
+                className={`w-full inline-flex items-center justify-center gap-2 ${personnelAuthSecondaryBtnClass}`}
               >
                 {submitting ? (
                   <>
                     <FiLoader className="h-4 w-4 animate-spin" />
-                    Doğrulanıyor…
+                    Talep gönderiliyor…
                   </>
                 ) : (
-                  'Talep gönder'
+                  'Yöneticiye talep ilet'
                 )}
               </button>
 
