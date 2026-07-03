@@ -183,10 +183,10 @@ function FeatureLoopCarousel() {
                 <div className="flex items-center gap-3 sm:gap-4">
                   <FeatureIconBox icon={feature.icon} large />
                   <div>
-                    <span className="inline-flex rounded-md border border-blue-100 bg-blue-50 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-blue-700 dark:border-blue-900/50 dark:bg-blue-950/40 dark:text-blue-300">
+                    <span className="inline-flex rounded-md border border-blue-100 bg-blue-50 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-blue-700 md:hidden dark:border-blue-900/50 dark:bg-blue-950/40 dark:text-blue-300">
                       {feature.tag}
                     </span>
-                    <p className="mt-2 font-mono text-xs text-slate-400 dark:text-slate-500">
+                    <p className="mt-2 font-mono text-xs text-slate-400 dark:text-slate-500 md:mt-0">
                       {indexLabel} / {totalLabel}
                     </p>
                   </div>
@@ -227,9 +227,9 @@ function FeatureLoopCarousel() {
         </div>
       </div>
 
-      <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
+      <div className="mt-5 flex flex-wrap items-center justify-between gap-3 md:mt-4 md:justify-end">
         <div
-          className="flex flex-1 gap-2 overflow-x-auto pb-0.5 scrollbar-none"
+          className="flex flex-1 gap-2 overflow-x-auto pb-0.5 scrollbar-none md:hidden"
           role="tablist"
           aria-label="Özellik seçimi"
         >
@@ -288,8 +288,7 @@ function FeatureLoopCarousel() {
                     : 'border-transparent bg-white/60 opacity-70 hover:opacity-100 dark:bg-slate-900/40'
                 }`}
               >
-                <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">{item.tag}</p>
-                <p className="mt-0.5 truncate text-sm font-semibold text-slate-800 dark:text-slate-200">
+                <p className="truncate text-sm font-semibold text-slate-800 dark:text-slate-200">
                   {item.title}
                 </p>
               </button>
