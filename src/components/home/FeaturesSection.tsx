@@ -1,5 +1,6 @@
 'use client';
 
+import type { ReactNode } from 'react';
 import { motion } from 'framer-motion';
 
 const features = [
@@ -91,6 +92,21 @@ function FeaturesIcon({ className }: { className?: string }) {
   );
 }
 
+function FeatureIconBox({ icon, size = 'md' }: { icon: ReactNode; size?: 'sm' | 'md' }) {
+  const box = size === 'sm' ? 'h-9 w-9 rounded-lg' : 'h-12 w-12 rounded-xl';
+  const svg = size === 'sm' ? 'h-4 w-4' : 'h-5 w-5';
+
+  return (
+    <div
+      className={`flex shrink-0 items-center justify-center bg-[#0E1548] text-white shadow-sm ${box}`}
+    >
+      <svg className={svg} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+        {icon}
+      </svg>
+    </div>
+  );
+}
+
 function FeatureCard({
   feature,
   index,
@@ -106,11 +122,7 @@ function FeatureCard({
       viewport={{ once: true, margin: '-40px' }}
       transition={{ delay: index * 0.06, duration: 0.4 }}
     >
-      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#0E1548] text-white shadow-sm transition-transform duration-200 group-hover:scale-105">
-        <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
-          {feature.icon}
-        </svg>
-      </div>
+      <FeatureIconBox icon={feature.icon} />
 
       <h3 className="mt-5 text-lg font-bold tracking-tight text-slate-900 dark:text-white">
         {feature.title}
@@ -122,9 +134,35 @@ function FeatureCard({
   );
 }
 
+function MobileFeatureCarousel() {
+  return (
+    <div className="md:hidden">
+      <div className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-1 scrollbar-none">
+        {features.map((feature) => (
+          <article
+            key={feature.title}
+            className="flex w-[78vw] max-w-[300px] shrink-0 snap-start flex-col rounded-xl border border-slate-200/90 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900"
+          >
+            <FeatureIconBox icon={feature.icon} size="sm" />
+            <h3 className="mt-3 text-base font-bold tracking-tight text-slate-900 dark:text-white">
+              {feature.title}
+            </h3>
+            <p className="mt-1.5 line-clamp-3 text-sm leading-snug text-slate-600 dark:text-slate-400">
+              {feature.description}
+            </p>
+          </article>
+        ))}
+      </div>
+      <p className="mt-3 text-center text-xs text-slate-400 dark:text-slate-500">
+        Kaydırarak diğer özelliklere geçin
+      </p>
+    </div>
+  );
+}
+
 export function FeaturesSection() {
   return (
-    <section id="features" className="bg-slate-50/80 py-20 dark:bg-slate-950/50 lg:py-24">
+    <section id="features" className="bg-slate-50/80 py-12 dark:bg-slate-950/50 sm:py-16 lg:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="lg:grid lg:grid-cols-[minmax(0,340px)_1fr] lg:items-start lg:gap-14 xl:gap-20">
           <motion.div
@@ -134,27 +172,34 @@ export function FeaturesSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.4 }}
           >
-            <div className="mb-4 inline-flex items-center gap-2 text-sm font-semibold text-blue-600 dark:text-blue-400">
+            <div className="mb-3 inline-flex items-center gap-2 text-sm font-semibold text-blue-600 dark:text-blue-400 sm:mb-4">
               <FeaturesIcon className="h-4 w-4" />
               Platform Özellikleri
             </div>
-            <h2 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
+            <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-3xl lg:text-4xl">
               Şantiye operasyonu için tek platform
             </h2>
-            <p className="mt-4 text-base leading-relaxed text-slate-600 dark:text-slate-400 sm:text-lg">
-              Yevmiyeden raporlamaya kadar tüm personel süreçleri tek panelde. Sahada ve ofiste aynı
-              veri, aynı doğruluk.
+            <p className="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-400 sm:mt-4 sm:text-base lg:text-lg">
+              <span className="md:hidden">Yevmiye, avans ve raporlama — tek panelde.</span>
+              <span className="hidden md:inline">
+                Yevmiyeden raporlamaya kadar tüm personel süreçleri tek panelde. Sahada ve ofiste aynı
+                veri, aynı doğruluk.
+              </span>
             </p>
             <div
-              className="mt-8 hidden h-px w-16 bg-gradient-to-r from-[#0E1548] to-blue-500 lg:block"
+              className="mt-6 hidden h-px w-16 bg-gradient-to-r from-[#0E1548] to-blue-500 lg:block"
               aria-hidden
             />
           </motion.div>
 
-          <div className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:mt-0">
-            {features.map((feature, i) => (
-              <FeatureCard key={feature.title} feature={feature} index={i} />
-            ))}
+          <div className="mt-6 sm:mt-8 lg:mt-0">
+            <MobileFeatureCarousel />
+
+            <div className="hidden md:grid md:grid-cols-2 md:gap-5">
+              {features.map((feature, i) => (
+                <FeatureCard key={feature.title} feature={feature} index={i} />
+              ))}
+            </div>
           </div>
         </div>
       </div>
