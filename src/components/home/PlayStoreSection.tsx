@@ -45,10 +45,10 @@ const apps = [
     id: 'admin',
     badge: 'Yönetici',
     title: 'Yönetici Uygulaması',
-    tagline: 'Şantiye operasyonu tek elden',
+    tagline: '',
     description:
       'Proje yönetimi, personel onayı, yevmiye ve raporlar. Ofisten veya sahada tam kontrol.',
-    features: ['Proje Yönetimi', 'Başvuru Onayı', 'Yevmiye', 'Raporlar'],
+    features: [] as string[],
     playUrl: PLAY_STORE_ADMIN_URL,
     gradient: 'from-slate-700 via-slate-800 to-slate-950',
     glow: 'bg-slate-500/25',
