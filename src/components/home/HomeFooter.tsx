@@ -7,7 +7,7 @@ import { SUPPORT_EMAIL, verificationCodeMailto } from '@/lib/support-email';
 
 export function HomeFooter() {
   return (
-    <footer id="contact" className="bg-slate-900 text-white">
+    <footer id="contact" className="bg-[#0E1548] text-white">
       <div className="max-w-7xl mx-auto px-6 py-14">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
           <div className="lg:col-span-2 space-y-5">
