@@ -119,6 +119,7 @@ function LoginForm() {
           <input
             id="personnel-tc"
             className={inputClass}
+            data-sensitive-capture
             placeholder="11 haneli T.C. kimlik numarası"
             maxLength={11}
             inputMode="numeric"
@@ -138,6 +139,7 @@ function LoginForm() {
           <input
             id="personnel-pin"
             className={`${inputClass} pin-mask`}
+            data-sensitive-capture
             placeholder={`${PERSONNEL_PIN_LENGTH} haneli PIN`}
             maxLength={PERSONNEL_PIN_LENGTH}
             value={password}

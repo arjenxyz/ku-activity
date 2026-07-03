@@ -56,6 +56,7 @@ export default function PersonnelForgotPasswordPage() {
           <input
             id="forgot-tc"
             className={inputClass}
+            data-sensitive-capture
             value={tcKimlik}
             onChange={(e) => setTcKimlik(e.target.value.replace(/\D/g, '').slice(0, 11))}
             placeholder="11 haneli T.C. kimlik"

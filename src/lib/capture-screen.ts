@@ -1,5 +1,7 @@
 /** Görünür ekranın ekran görüntüsünü al (auth / hata raporu) */
 
+import { maskSensitiveFieldsInClone } from '@/lib/sensitive-capture';
+
 export async function captureElementScreenshot(
   element: HTMLElement,
   options?: { maxWidth?: number; quality?: number }
@@ -15,6 +17,9 @@ export async function captureElementScreenshot(
     ignoreElements: (el) =>
       el.classList.contains('screen-report-modal-root') ||
       el.classList.contains('screen-report-ignore'),
+    onclone: (clonedDoc) => {
+      maskSensitiveFieldsInClone(clonedDoc);
+    },
   });
 
   let out = canvas;

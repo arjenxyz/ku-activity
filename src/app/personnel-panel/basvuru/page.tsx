@@ -456,6 +456,7 @@ export default function PersonnelApplicationPage() {
                 <label className={labelClass}>T.C. Kimlik No *</label>
                 <input
                   className={inputClass}
+                  data-sensitive-capture
                   inputMode="numeric"
                   maxLength={11}
                   value={form.tc_kimlik}
@@ -537,6 +538,7 @@ export default function PersonnelApplicationPage() {
                 <input
                   type="password"
                   className={inputClass}
+                  data-sensitive-capture
                   inputMode="numeric"
                   maxLength={PERSONNEL_PIN_LENGTH}
                   value={form.pin}
