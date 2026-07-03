@@ -82,6 +82,15 @@ html.dark body {
     will-change: top, transform, opacity;
   }
 
+  .features-marquee-track {
+    animation: features-marquee var(--features-marquee-duration, 52s) linear infinite;
+    will-change: transform;
+  }
+
+  .features-marquee-track.is-paused {
+    animation-play-state: paused;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .brand-rain-particle {
       animation: none;
@@ -92,6 +101,19 @@ html.dark body {
       animation: none;
       opacity: 0.45;
     }
+
+    .features-marquee-track {
+      animation: none;
+    }
+  }
+}
+
+@keyframes features-marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
   }
 }
 

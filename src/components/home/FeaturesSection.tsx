@@ -1,12 +1,10 @@
 'use client';
 
 import type { ReactNode } from 'react';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { useCallback, useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 
-const AUTOPLAY_MS = 4500;
-const springTransition = { type: 'spring' as const, stiffness: 300, damping: 32 };
-const fadeTransition = { duration: 0.28, ease: [0.4, 0, 0.2, 1] as const };
+const MARQUEE_DURATION_S = 52;
 
 const features = [
   {
@@ -110,55 +108,101 @@ function FeaturesIcon({ className }: { className?: string }) {
   );
 }
 
-function FeatureIconBox({ icon, large }: { icon: ReactNode; large?: boolean }) {
+function FeatureIconBox({ icon }: { icon: ReactNode }) {
   return (
-    <div
-      className={`flex shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#0E1548] to-indigo-700 text-white shadow-lg shadow-[#0E1548]/20 ${
-        large ? 'h-16 w-16' : 'h-12 w-12'
-      }`}
-    >
-      <svg
-        className={large ? 'h-8 w-8' : 'h-6 w-6'}
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-        aria-hidden
-      >
+    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#0E1548] to-indigo-700 text-white shadow-md shadow-[#0E1548]/20">
+      <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
         {icon}
       </svg>
     </div>
   );
 }
 
-function FeatureContent({ feature, index }: { feature: Feature; index: number }) {
+function FeatureCard({
+  feature,
+  index,
+  selected,
+  onSelect,
+}: {
+  feature: Feature;
+  index: number;
+  selected: boolean;
+  onSelect: (index: number) => void;
+}) {
+  const indexLabel = String((index % features.length) + 1).padStart(2, '0');
+  const totalLabel = String(features.length).padStart(2, '0');
+
+  return (
+    <article
+      role="button"
+      tabIndex={0}
+      aria-pressed={selected}
+      onClick={() => onSelect(index % features.length)}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onSelect(index % features.length);
+        }
+      }}
+      className={`flex h-full min-h-[300px] w-[min(82vw,320px)] shrink-0 cursor-pointer flex-col rounded-2xl border bg-white p-5 shadow-sm transition-all sm:w-[320px] sm:p-6 dark:bg-slate-900 ${
+        selected
+          ? 'border-[#0E1548] ring-2 ring-[#0E1548]/30 shadow-md dark:border-blue-500 dark:ring-blue-500/30'
+          : 'border-slate-200/90 hover:border-slate-300 hover:shadow-md dark:border-slate-700 dark:hover:border-slate-600'
+      }`}
+    >
+      <div className="flex items-start justify-between gap-3">
+        <FeatureIconBox icon={feature.icon} />
+        <span className="font-mono text-xs text-slate-400 dark:text-slate-500">
+          {indexLabel}/{totalLabel}
+        </span>
+      </div>
+      <p className="mt-4 text-[10px] font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">
+        {feature.tag}
+      </p>
+      <h3 className="mt-1.5 text-lg font-bold tracking-tight text-slate-900 dark:text-white">{feature.title}</h3>
+      <p className="mt-3 flex-1 text-sm leading-relaxed text-slate-600 dark:text-slate-400">{feature.description}</p>
+    </article>
+  );
+}
+
+function StaticFeatureCard({ feature, index }: { feature: Feature; index: number }) {
   const indexLabel = String(index + 1).padStart(2, '0');
   const totalLabel = String(features.length).padStart(2, '0');
 
   return (
-    <div className="flex h-full flex-col justify-center">
-      <div className="flex items-start justify-between gap-4">
-        <FeatureIconBox icon={feature.icon} large />
-        <span className="font-mono text-sm text-slate-400 dark:text-slate-500">
+    <article className="flex min-h-[300px] flex-col rounded-2xl border border-slate-200/90 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-900 sm:p-6">
+      <div className="flex items-start justify-between gap-3">
+        <FeatureIconBox icon={feature.icon} />
+        <span className="font-mono text-xs text-slate-400 dark:text-slate-500">
           {indexLabel}/{totalLabel}
         </span>
       </div>
-      <p className="mt-6 text-xs font-bold uppercase tracking-widest text-blue-600 dark:text-blue-400">
+      <p className="mt-4 text-[10px] font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">
         {feature.tag}
       </p>
-      <h3 className="mt-2 text-2xl font-bold tracking-tight text-slate-900 dark:text-white lg:text-3xl">
-        {feature.title}
-      </h3>
-      <p className="mt-4 max-w-xl text-base leading-relaxed text-slate-600 dark:text-slate-400">
-        {feature.description}
-      </p>
+      <h3 className="mt-1.5 text-lg font-bold tracking-tight text-slate-900 dark:text-white">{feature.title}</h3>
+      <p className="mt-3 flex-1 text-sm leading-relaxed text-slate-600 dark:text-slate-400">{feature.description}</p>
+    </article>
+  );
+}
+
+function FeatureCardGrid() {
+  return (
+    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {features.map((feature, index) => (
+        <StaticFeatureCard key={feature.title} feature={feature} index={index} />
+      ))}
     </div>
   );
 }
 
-function useFeatureCarousel() {
-  const [active, setActive] = useState(0);
-  const [paused, setPaused] = useState(false);
+function InfiniteFeatureMarquee() {
+  const [holdPaused, setHoldPaused] = useState(false);
+  const [clickPaused, setClickPaused] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [reducedMotion, setReducedMotion] = useState(false);
+
+  const isPaused = holdPaused || clickPaused;
 
   useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -168,234 +212,77 @@ function useFeatureCarousel() {
     return () => mq.removeEventListener('change', sync);
   }, []);
 
-  const goTo = useCallback((index: number) => {
-    setActive((index + features.length) % features.length);
+  const handlePointerDown = useCallback(() => {
+    setHoldPaused(true);
   }, []);
 
-  const goNext = useCallback(() => goTo(active + 1), [active, goTo]);
+  const handlePointerUp = useCallback(() => {
+    setHoldPaused(false);
+  }, []);
 
-  useEffect(() => {
-    if (paused || reducedMotion) return;
-    const id = window.setInterval(goNext, AUTOPLAY_MS);
-    return () => window.clearInterval(id);
-  }, [paused, reducedMotion, goNext]);
-
-  return { active, paused, setPaused, reducedMotion, goTo };
-}
-
-function TabProgress({ show }: { show: boolean }) {
-  if (!show) return null;
-  return (
-    <motion.span
-      key="progress"
-      className="absolute bottom-0 left-0 h-0.5 bg-[#0E1548] dark:bg-blue-400"
-      initial={{ width: '0%' }}
-      animate={{ width: '100%' }}
-      transition={{ duration: AUTOPLAY_MS / 1000, ease: 'linear' }}
-      aria-hidden
-    />
+  const handleCardSelect = useCallback(
+    (index: number) => {
+      if (clickPaused && selectedIndex === index) {
+        setClickPaused(false);
+        setSelectedIndex(null);
+        return;
+      }
+      setClickPaused(true);
+      setSelectedIndex(index);
+    },
+    [clickPaused, selectedIndex],
   );
-}
 
-function DesktopFeaturePanel({
-  active,
-  paused,
-  reducedMotion,
-  goTo,
-  setPaused,
-}: {
-  active: number;
-  paused: boolean;
-  reducedMotion: boolean;
-  goTo: (index: number) => void;
-  setPaused: (value: boolean) => void;
-}) {
-  return (
-    <div
-      className="hidden lg:grid lg:min-h-[420px] lg:grid-cols-[240px_minmax(0,1fr)]"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-      onFocusCapture={() => setPaused(true)}
-      onBlurCapture={(e) => {
-        if (!e.currentTarget.contains(e.relatedTarget as Node)) setPaused(false);
-      }}
-    >
-      <nav
-        className="flex flex-col border-r border-slate-100 bg-slate-50/80 p-3 dark:border-slate-800 dark:bg-slate-900/50"
-        role="tablist"
-        aria-label="Özellik seçimi"
-      >
-        {features.map((item, i) => {
-          const isActive = i === active;
-          return (
-            <button
-              key={item.title}
-              type="button"
-              role="tab"
-              aria-selected={isActive}
-              onClick={() => goTo(i)}
-              className={`relative overflow-hidden rounded-xl px-4 py-3.5 text-left text-sm font-semibold transition-colors ${
-                isActive
-                  ? 'bg-white text-[#0E1548] shadow-sm dark:bg-slate-800 dark:text-white'
-                  : 'text-slate-600 hover:bg-white/70 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800/60 dark:hover:text-white'
-              }`}
-            >
-              {item.tag}
-              <TabProgress show={isActive && !reducedMotion && !paused} />
-            </button>
-          );
-        })}
-      </nav>
+  const loopItems = [...features, ...features];
 
-      <div className="relative overflow-hidden px-10 py-10 xl:px-12 xl:py-12" aria-live="polite">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={features[active].title}
-            initial={reducedMotion ? false : { opacity: 0, x: 16 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={reducedMotion ? undefined : { opacity: 0, x: -16 }}
-            transition={fadeTransition}
-          >
-            <FeatureContent feature={features[active]} index={active} />
-          </motion.div>
-        </AnimatePresence>
-      </div>
-    </div>
-  );
-}
-
-function MobileFeatureCarousel({
-  active,
-  paused,
-  reducedMotion,
-  goTo,
-  setPaused,
-}: {
-  active: number;
-  paused: boolean;
-  reducedMotion: boolean;
-  goTo: (index: number) => void;
-  setPaused: (value: boolean) => void;
-}) {
-  const pillRefs = useRef<(HTMLButtonElement | null)[]>([]);
-  const pillListRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const list = pillListRef.current;
-    const pill = pillRefs.current[active];
-    if (!list || !pill) return;
-
-    const listRect = list.getBoundingClientRect();
-    const pillRect = pill.getBoundingClientRect();
-    const targetLeft = pill.offsetLeft - list.offsetLeft - (listRect.width - pillRect.width) / 2;
-
-    list.scrollTo({
-      left: targetLeft,
-      behavior: reducedMotion ? 'auto' : 'smooth',
-    });
-  }, [active, reducedMotion]);
+  if (reducedMotion) {
+    return <FeatureCardGrid />;
+  }
 
   return (
-    <div
-      className="lg:hidden"
-      onTouchStart={() => setPaused(true)}
-      onTouchEnd={() => setPaused(false)}
-    >
-      <div className="overflow-hidden">
-        <motion.div
-          className="flex w-full"
-          animate={{ x: `-${active * 100}%` }}
-          transition={reducedMotion ? { duration: 0 } : springTransition}
-          aria-live="polite"
-        >
-          {features.map((feature, index) => (
-            <article
-              key={feature.title}
-              className="box-border w-full shrink-0 grow-0 basis-full px-5 py-7 sm:px-7 sm:py-8"
-            >
-              <FeatureContent feature={feature} index={index} />
-            </article>
-          ))}
-        </motion.div>
-      </div>
-
-      <div className="relative border-t border-slate-100 bg-slate-50/80 px-4 py-3 dark:border-slate-800 dark:bg-slate-900/50">
-        <div
-          className="pointer-events-none absolute inset-y-0 left-0 z-10 w-5 bg-gradient-to-r from-slate-50/95 to-transparent dark:from-slate-900/95"
-          aria-hidden
-        />
-        <div
-          className="pointer-events-none absolute inset-y-0 right-0 z-10 w-5 bg-gradient-to-l from-slate-50/95 to-transparent dark:from-slate-900/95"
-          aria-hidden
-        />
-        <div
-          ref={pillListRef}
-          className="flex gap-2 overflow-x-auto scrollbar-hide scroll-smooth"
-          role="tablist"
-          aria-label="Özellik seçimi"
-        >
-          {features.map((item, i) => {
-            const isActive = i === active;
-            return (
-              <button
-                key={item.title}
-                ref={(el) => {
-                  pillRefs.current[i] = el;
-                }}
-                type="button"
-                role="tab"
-                aria-selected={isActive}
-                onClick={() => goTo(i)}
-                className={`relative shrink-0 overflow-hidden rounded-full border px-3.5 py-2 text-xs font-semibold transition-colors ${
-                  isActive
-                    ? 'border-[#0E1548] bg-[#0E1548] text-white'
-                    : 'border-slate-200 bg-white text-slate-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300'
-                }`}
-              >
-                {isActive && !reducedMotion && !paused && (
-                  <motion.span
-                    key={`progress-${active}`}
-                    className="absolute inset-y-0 left-0 bg-white/20"
-                    initial={{ width: '0%' }}
-                    animate={{ width: '100%' }}
-                    transition={{ duration: AUTOPLAY_MS / 1000, ease: 'linear' }}
-                    aria-hidden
-                  />
-                )}
-                <span className="relative">{item.tag}</span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function FeatureShowcase() {
-  const { active, paused, setPaused, reducedMotion, goTo } = useFeatureCarousel();
-
-  return (
-    <div className="relative isolate overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
+    <div className="relative">
       <div
-        className="absolute inset-x-0 top-0 z-10 h-1 bg-gradient-to-r from-[#0E1548] via-blue-600 to-indigo-500"
+        className="pointer-events-none absolute inset-y-0 left-0 z-10 w-10 bg-gradient-to-r from-slate-50/95 to-transparent dark:from-slate-950/95 sm:w-16"
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l from-slate-50/95 to-transparent dark:from-slate-950/95 sm:w-16"
         aria-hidden
       />
 
-      <DesktopFeaturePanel
-        active={active}
-        paused={paused}
-        reducedMotion={reducedMotion}
-        goTo={goTo}
-        setPaused={setPaused}
-      />
-      <MobileFeatureCarousel
-        active={active}
-        paused={paused}
-        reducedMotion={reducedMotion}
-        goTo={goTo}
-        setPaused={setPaused}
-      />
+      <div
+        className="overflow-hidden py-1 touch-pan-y"
+        onPointerDown={handlePointerDown}
+        onPointerUp={handlePointerUp}
+        onPointerCancel={handlePointerUp}
+        onPointerLeave={handlePointerUp}
+      >
+        <div
+          className={`features-marquee-track flex w-max items-stretch gap-4 sm:gap-5 ${isPaused ? 'is-paused' : ''}`}
+          style={{ ['--features-marquee-duration' as string]: `${MARQUEE_DURATION_S}s` }}
+        >
+          {loopItems.map((feature, index) => (
+            <FeatureCard
+              key={`${feature.title}-${index}`}
+              feature={feature}
+              index={index}
+              selected={selectedIndex === index % features.length && clickPaused}
+              onSelect={handleCardSelect}
+            />
+          ))}
+        </div>
+      </div>
+
+      <p className="mt-4 text-center text-xs text-slate-500 dark:text-slate-400">
+        {isPaused ? (
+          <span className="inline-flex items-center gap-1.5 font-medium text-[#0E1548] dark:text-blue-400">
+            <span className="inline-block h-1.5 w-1.5 rounded-full bg-current" aria-hidden />
+            Duraklatıldı — kutuya tekrar dokunarak devam edin
+          </span>
+        ) : (
+          'Basılı tutarak veya kutuya dokunarak durdurabilirsiniz'
+        )}
+      </p>
     </div>
   );
 }
@@ -425,7 +312,7 @@ export function FeaturesSection() {
         </motion.div>
 
         <div className="mt-8 sm:mt-10 lg:mt-12">
-          <FeatureShowcase />
+          <InfiniteFeatureMarquee />
         </div>
       </div>
     </section>
