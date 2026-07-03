@@ -5,6 +5,7 @@ import type { RefObject } from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { GooglePlayBadge, GooglePlayIcon } from '@/components/home/GooglePlayBadge';
+import { BrandIconRain } from '@/components/home/BrandIconRain';
 import {
   PLAY_STORE_ADMIN_ICON,
   PLAY_STORE_ADMIN_URL,
@@ -304,8 +305,9 @@ function MobileStackedAppCards() {
 
 export function PlayStoreSection() {
   return (
-    <section id="play-store" className="py-20 lg:py-24">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section id="play-store" className="relative overflow-hidden py-20 lg:py-24">
+      <BrandIconRain />
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           className="mx-auto mb-12 max-w-2xl text-center"
           initial={{ opacity: 0, y: 12 }}

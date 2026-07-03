@@ -75,6 +75,39 @@ html.dark body {
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
+
+  .brand-rain-particle {
+    animation: brand-icon-rain var(--rain-duration, 18s) linear infinite;
+    animation-delay: var(--rain-delay, 0s);
+    will-change: top, transform, opacity;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .brand-rain-particle {
+      animation: none;
+      display: none !important;
+    }
+  }
+}
+
+@keyframes brand-icon-rain {
+  0% {
+    top: -12%;
+    transform: translateX(0) rotate(var(--rain-rotate, 0deg)) scale(0.92);
+    opacity: 0;
+  }
+  6% {
+    opacity: var(--rain-opacity, 0.2);
+  }
+  94% {
+    opacity: var(--rain-opacity, 0.2);
+  }
+  100% {
+    top: 112%;
+    transform: translateX(var(--rain-drift, 0px)) rotate(calc(var(--rain-rotate, 0deg) + 28deg))
+      scale(1);
+    opacity: 0;
+  }
 }
 
 /* PWA standalone modda üst boşluk */
