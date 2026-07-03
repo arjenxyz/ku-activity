@@ -482,9 +482,6 @@ export default function PersonnelApplicationPage() {
                   placeholder="123 456 789"
                   required
                 />
-                <p className={personnelAuthMutedTextClass}>
-                  Ülke kodunu seçip numarayı girin. Yabancı numaralar desteklenir.
-                </p>
               </div>
               <div className="sm:col-span-2">
                 <BirthDatePicker
