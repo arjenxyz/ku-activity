@@ -121,3 +121,18 @@ Chrome DevTools → Lighthouse → Progressive Web App:
 **iOS?** TWA yalnızca Android. iOS için mevcut PWA / Ana Ekrana Ekle yeterli.
 
 **Domain değişirse?** `NEXT_PUBLIC_APP_URL`, Bubblewrap host ve Play listing URL'lerini güncelleyin; `assetlinks.json` otomatik yeni domain'den sunulur.
+
+## APK dağıtımı (siteden indirme)
+
+Build sonrası APK otomatik yüklenebilir; **yayın için developer panel onayı gerekir**.
+
+1. Supabase'te `054_app_releases.sql` çalıştırın.
+2. Vercel env: `APK_UPLOAD_SECRET` (rastgele uzun secret).
+3. Build sonrası:
+   ```bash
+   node scripts/upload-apk.mjs --app personnel --file ./app-release-signed.apk --version 1.0.0 --code 1 --notes "Değişiklikler"
+   ```
+4. Developer Panel → APK Sürümleri — sürüm numarası ve notları kontrol edip **Yayınla**.
+5. Kullanıcılar `/apk` sayfasından indirir.
+
+Personel ve yönetici için ayrı `--app personnel|admin` ile yükleyin.

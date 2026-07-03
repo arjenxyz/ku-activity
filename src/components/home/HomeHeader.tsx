@@ -12,6 +12,7 @@ const navLinks = [
   { href: '#hero', label: 'Anasayfa' },
   { href: '#features', label: 'Özellikler' },
   { href: '#play-store', label: 'Google Play' },
+  { href: '/apk', label: 'APK İndir' },
   { href: '#contact', label: 'İletişim' },
 ];
 

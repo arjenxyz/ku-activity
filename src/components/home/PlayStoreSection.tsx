@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { GooglePlayBadge, GooglePlayIcon } from '@/components/home/GooglePlayBadge';
 import { BrandIconRain } from '@/components/home/BrandIconRain';
@@ -75,8 +76,14 @@ function AppCard({
 
       <p className="mt-5 flex-1 text-sm leading-relaxed text-slate-600 dark:text-slate-400">{app.description}</p>
 
-      <div className="mt-6 border-t border-slate-100 pt-5 dark:border-slate-800">
+      <div className="mt-6 border-t border-slate-100 pt-5 dark:border-slate-800 space-y-3">
         <GooglePlayBadge href={app.playUrl} enabled={hasPlayLink} fullWidth />
+        <Link
+          href="/apk"
+          className="flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-medium text-slate-600 transition-colors hover:border-slate-300 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800/60"
+        >
+          APK ile indir
+        </Link>
       </div>
     </motion.article>
   );
@@ -101,6 +108,13 @@ export function PlayStoreSection() {
           <h2 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
             Google Play&apos;den indirin
           </h2>
+          <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">
+            Play Store kullanamıyorsanız{' '}
+            <Link href="/apk" className="font-medium text-blue-600 hover:underline dark:text-blue-400">
+              APK indirme sayfasına
+            </Link>{' '}
+            göz atın.
+          </p>
         </motion.div>
 
         <div className="mx-auto max-w-4xl">
