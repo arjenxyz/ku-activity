@@ -82,7 +82,7 @@ export default function PersonelSifreleriPage() {
       <div className="flex flex-wrap items-start justify-between gap-3">
         <ProjectPageHeader
           title="Personel şifreleri"
-          description="Mevcut giriş PIN'lerini görüntüleyin veya yeni PIN atayın."
+          description="Personel giriş PIN'leri. Personel kendi PIN'ini sıfırladığında liste güncellenir — Yenile ile görüntüleyin."
         />
         <button
           type="button"

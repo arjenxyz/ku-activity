@@ -1,9 +1,14 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import { FiLoader, FiX } from 'react-icons/fi';
+import { FiLoader, FiLock, FiX } from 'react-icons/fi';
 import { AuthAlert } from '@/components/auth/AuthAlerts';
 import { TurkishPhoneInput } from '@/components/forms/TurkishPhoneInput';
+import {
+  PERSONNEL_PIN_LENGTH,
+  sanitizePersonnelPinInput,
+  validatePersonnelPinMatch,
+} from '@/lib/personnel-pin';
 import {
   personnelAuthInfoBannerClass,
   personnelAuthInputClass,
@@ -14,7 +19,7 @@ import {
   personnelAuthSecondaryBtnClass,
 } from '@/lib/personnel-auth-ui';
 
-type View = 'form' | 'no-email' | 'success' | 'link-sent';
+type View = 'form' | 'set-pin' | 'no-email' | 'link-sent' | 'done';
 
 type Props = {
   open: boolean;
@@ -30,21 +35,33 @@ export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
   const [tcKimlik, setTcKimlik] = useState(initialTc);
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
-  const [submitting, setSubmitting] = useState(false);
+  const [resetToken, setResetToken] = useState('');
+  const [employeeName, setEmployeeName] = useState('');
+  const [newPin, setNewPin] = useState('');
+  const [confirmPin, setConfirmPin] = useState('');
+  const [verifying, setVerifying] = useState(false);
+  const [savingPin, setSavingPin] = useState(false);
   const [linkSending, setLinkSending] = useState(false);
   const [hintLoading, setHintLoading] = useState(false);
   const [error, setError] = useState('');
   const [maskedEmail, setMaskedEmail] = useState<string | null>(null);
 
+  const busy = verifying || savingPin || linkSending || hintLoading;
+
   const resetState = useCallback(() => {
     setView('form');
     setPhone('');
     setEmail('');
+    setResetToken('');
+    setEmployeeName('');
+    setNewPin('');
+    setConfirmPin('');
     setError('');
     setMaskedEmail(null);
-    setSubmitting(false);
-    setHintLoading(false);
+    setVerifying(false);
+    setSavingPin(false);
     setLinkSending(false);
+    setHintLoading(false);
   }, []);
 
   const handleClose = useCallback(() => {
@@ -64,14 +81,49 @@ export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && !submitting && !hintLoading && !linkSending) handleClose();
+      if (e.key === 'Escape' && !busy) handleClose();
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [open, submitting, hintLoading, linkSending, handleClose]);
+  }, [open, busy, handleClose]);
 
   const formReady =
     tcKimlik.replace(/\D/g, '').length === 11 && phone.trim().length > 0 && email.trim().length > 0;
+
+  const pinReady =
+    newPin.length === PERSONNEL_PIN_LENGTH && confirmPin.length === PERSONNEL_PIN_LENGTH;
+
+  const handleVerify = async () => {
+    if (verifying || !formReady) return;
+    setError('');
+    setVerifying(true);
+    try {
+      const res = await fetch('/api/public/personnel-pin-reset', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'start-reset',
+          tcKimlik,
+          phone,
+          email,
+        }),
+      });
+      const data = (await res.json()) as {
+        error?: string;
+        resetToken?: string;
+        employeeName?: string;
+      };
+      if (!res.ok) throw new Error(data.error || 'Doğrulama başarısız');
+      if (!data.resetToken) throw new Error('Oturum başlatılamadı');
+      setResetToken(data.resetToken);
+      setEmployeeName(data.employeeName ?? '');
+      setView('set-pin');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Doğrulama başarısız');
+    } finally {
+      setVerifying(false);
+    }
+  };
 
   const handleSendLink = async () => {
     if (linkSending || !formReady) return;
@@ -98,29 +150,29 @@ export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSavePin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (submitting) return;
+    if (savingPin || !resetToken) return;
     setError('');
-    setSubmitting(true);
+    const pinError = validatePersonnelPinMatch(newPin, confirmPin);
+    if (pinError) {
+      setError(pinError);
+      return;
+    }
+    setSavingPin(true);
     try {
-      const res = await fetch('/api/public/personnel-pin-reset', {
+      const res = await fetch('/api/public/personnel-pin-reset/complete', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          action: 'request',
-          tcKimlik,
-          phone,
-          email,
-        }),
+        body: JSON.stringify({ token: resetToken, newPin }),
       });
       const data = (await res.json()) as { error?: string };
-      if (!res.ok) throw new Error(data.error || 'Talep gönderilemedi');
-      setView('success');
+      if (!res.ok) throw new Error(data.error || 'PIN kaydedilemedi');
+      setView('done');
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Talep gönderilemedi');
+      setError(err instanceof Error ? err.message : 'PIN kaydedilemedi');
     } finally {
-      setSubmitting(false);
+      setSavingPin(false);
     }
   };
 
@@ -149,6 +201,17 @@ export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
     }
   };
 
+  const subtitle =
+    view === 'no-email'
+      ? 'E-postanızı hatırlamıyorsanız aşağıdaki seçenekleri kullanın.'
+      : view === 'link-sent'
+        ? 'E-postanızı kontrol edin.'
+        : view === 'set-pin'
+          ? 'Yeni giriş PIN\'inizi belirleyin.'
+          : view === 'done'
+            ? 'PIN güncellendi.'
+            : 'Kimliğinizi doğrulayın, ardından yeni PIN\'inizi siz belirleyin.';
+
   if (!open) return null;
 
   return (
@@ -164,20 +227,12 @@ export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
             <h2 id="forgot-pin-title" className="text-lg font-bold text-slate-900">
               PIN sıfırlama
             </h2>
-            <p className="mt-1 text-sm text-slate-500 leading-relaxed">
-              {view === 'no-email'
-                ? 'E-postanızı hatırlamıyorsanız aşağıdaki seçenekleri kullanın.'
-                : view === 'link-sent'
-                  ? 'E-postanızı kontrol edin.'
-                  : view === 'success'
-                  ? 'Talebiniz işleme alındı.'
-                  : 'Kimliğinizi doğrulamak için kayıtlı bilgilerinizi girin.'}
-            </p>
+            <p className="mt-1 text-sm text-slate-500 leading-relaxed">{subtitle}</p>
           </div>
           <button
             type="button"
             onClick={handleClose}
-            disabled={submitting || hintLoading || linkSending}
+            disabled={busy}
             className="shrink-0 rounded-lg p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-600"
             aria-label="Kapat"
           >
@@ -186,39 +241,98 @@ export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
         </div>
 
         <div className="px-5 py-4 overflow-y-auto space-y-4">
-          {view === 'link-sent' ? (
+          {view === 'done' ? (
             <div className="space-y-4">
               <AuthAlert
                 type="success"
                 tone="personnel"
-                message="Sıfırlama linki e-posta adresinize gönderildi. Bağlantı 30 dakika geçerlidir; e-postadaki linke tıklayarak yeni PIN'inizi belirleyebilirsiniz."
+                message="Yeni PIN'iniz kaydedildi. Artık giriş ekranından yeni PIN'inizle oturum açabilirsiniz."
+              />
+              <button type="button" onClick={handleClose} className={personnelAuthPrimaryBtnClass}>
+                Giriş ekranına dön
+              </button>
+            </div>
+          ) : view === 'link-sent' ? (
+            <div className="space-y-4">
+              <AuthAlert
+                type="success"
+                tone="personnel"
+                message="Sıfırlama linki e-posta adresinize gönderildi. Bağlantı 30 dakika geçerlidir; linke tıklayarak yeni PIN'inizi belirleyebilirsiniz."
               />
               <button type="button" onClick={handleClose} className={personnelAuthPrimaryBtnClass}>
                 Tamam
               </button>
             </div>
-          ) : view === 'success' ? (
-            <div className="space-y-4">
-              <AuthAlert
-                type="success"
-                tone="personnel"
-                message="Bilgileriniz doğrulandı. PIN sıfırlama talebiniz alındı; kayıtlı e-posta adresinize bilgi gönderildi. Yöneticiniz yeni PIN'inizi tanımlayacaktır."
-              />
-              <button type="button" onClick={handleClose} className={personnelAuthPrimaryBtnClass}>
-                Tamam
+          ) : view === 'set-pin' ? (
+            <form onSubmit={(e) => void handleSavePin(e)} className="space-y-4">
+              {employeeName ? (
+                <p className={personnelAuthInfoBannerClass}>
+                  Merhaba <strong>{employeeName}</strong>, kimliğiniz doğrulandı. Yeni PIN&apos;inizi
+                  girin.
+                </p>
+              ) : null}
+
+              <div>
+                <label className={labelClass} htmlFor="forgot-pin-new">
+                  Yeni PIN *
+                </label>
+                <input
+                  id="forgot-pin-new"
+                  className={`${inputClass} pin-mask`}
+                  data-sensitive-capture
+                  value={newPin}
+                  onChange={(e) => setNewPin(sanitizePersonnelPinInput(e.target.value))}
+                  placeholder={`${PERSONNEL_PIN_LENGTH} haneli PIN`}
+                  maxLength={PERSONNEL_PIN_LENGTH}
+                  inputMode="numeric"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className={labelClass} htmlFor="forgot-pin-confirm">
+                  Yeni PIN tekrar *
+                </label>
+                <input
+                  id="forgot-pin-confirm"
+                  className={`${inputClass} pin-mask`}
+                  data-sensitive-capture
+                  value={confirmPin}
+                  onChange={(e) => setConfirmPin(sanitizePersonnelPinInput(e.target.value))}
+                  placeholder={`${PERSONNEL_PIN_LENGTH} haneli PIN`}
+                  maxLength={PERSONNEL_PIN_LENGTH}
+                  inputMode="numeric"
+                  required
+                />
+              </div>
+
+              {error ? <AuthAlert type="error" tone="personnel" message={error} /> : null}
+
+              <button
+                type="submit"
+                disabled={savingPin || !pinReady}
+                className={personnelAuthPrimaryBtnClass}
+              >
+                {savingPin ? (
+                  <>
+                    <FiLoader className="h-4 w-4 animate-spin" />
+                    Kaydediliyor…
+                  </>
+                ) : (
+                  <>
+                    <FiLock className="w-4 h-4 opacity-90" />
+                    Yeni PIN&apos;i kaydet
+                  </>
+                )}
               </button>
-            </div>
+            </form>
           ) : view === 'no-email' ? (
             <div className="space-y-4">
               <div className={personnelAuthMutedTextClass.replace('text-xs', 'text-sm')}>
                 <p className="mb-2">
                   E-posta adresinizi hatırlamıyorsanız <strong>şantiye yöneticinize</strong> veya{' '}
-                  <strong>İK biriminize</strong> başvurun. T.C. kimlik numaranızı ve telefonunuzu
-                  paylaşarak PIN sıfırlama talep edebilirsiniz.
-                </p>
-                <p>
-                  Yöneticiniz admin panelinden PIN&apos;inizi sıfırlayabilir; yeni PIN size güvenli
-                  bir kanaldan iletilir.
+                  <strong>İK biriminize</strong> başvurun. T.C. kimlik ve telefon bilgilerinizle
+                  kayıtlı e-postanızı öğrenebilirsiniz.
                 </p>
               </div>
 
@@ -254,7 +368,7 @@ export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
               {maskedEmail ? (
                 <p className={personnelAuthInfoBannerClass}>
                   Kayıtlı e-posta adresiniz <strong>{maskedEmail}</strong> şeklinde görünüyor.
-                  Hatırladıysanız tam adresi girerek talep oluşturabilirsiniz.
+                  Hatırladıysanız tam adresi girerek devam edebilirsiniz.
                 </p>
               ) : null}
 
@@ -294,7 +408,7 @@ export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
               </div>
             </div>
           ) : (
-            <form onSubmit={(e) => void handleSubmit(e)} className="space-y-4">
+            <div className="space-y-4">
               <div>
                 <label className={labelClass} htmlFor="forgot-pin-tc">
                   T.C. Kimlik No *
@@ -308,7 +422,6 @@ export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
                   placeholder="11 haneli T.C. kimlik"
                   maxLength={11}
                   inputMode="numeric"
-                  required
                 />
               </div>
 
@@ -322,7 +435,6 @@ export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
                   onChange={setPhone}
                   allowCountryCodeSelect
                   placeholder="5xx xxx xx xx"
-                  required
                 />
               </div>
 
@@ -338,7 +450,6 @@ export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="ornek@mail.com"
                   autoComplete="email"
-                  required
                 />
               </div>
 
@@ -346,9 +457,25 @@ export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
 
               <button
                 type="button"
-                onClick={() => void handleSendLink()}
-                disabled={linkSending || submitting || !formReady}
+                onClick={() => void handleVerify()}
+                disabled={verifying || linkSending || !formReady}
                 className={personnelAuthPrimaryBtnClass}
+              >
+                {verifying ? (
+                  <>
+                    <FiLoader className="h-4 w-4 animate-spin" />
+                    Doğrulanıyor…
+                  </>
+                ) : (
+                  'Doğrula ve yeni PIN belirle'
+                )}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => void handleSendLink()}
+                disabled={linkSending || verifying || !formReady}
+                className={`w-full inline-flex items-center justify-center gap-2 ${personnelAuthSecondaryBtnClass}`}
               >
                 {linkSending ? (
                   <>
@@ -357,21 +484,6 @@ export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
                   </>
                 ) : (
                   'E-postama sıfırlama linki gönder'
-                )}
-              </button>
-
-              <button
-                type="submit"
-                disabled={submitting || linkSending || !formReady}
-                className={`w-full inline-flex items-center justify-center gap-2 ${personnelAuthSecondaryBtnClass}`}
-              >
-                {submitting ? (
-                  <>
-                    <FiLoader className="h-4 w-4 animate-spin" />
-                    Talep gönderiliyor…
-                  </>
-                ) : (
-                  'Yöneticiye talep ilet'
                 )}
               </button>
 
@@ -388,7 +500,7 @@ export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
                   E-postamı hatırlamıyorum
                 </button>
               </p>
-            </form>
+            </div>
           )}
         </div>
       </div>

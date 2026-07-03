@@ -1,4 +1,4 @@
-import { APP_NAME, DEFAULT_SUPPORT_EMAIL } from '@/lib/brand';
+import { APP_NAME } from '@/lib/brand';
 import { buildPersonnelPinResetUrl } from '@/lib/app-url';
 import {
   computePhoneLookupHash,
@@ -119,27 +119,51 @@ export async function lookupPinResetEmailHint(input: {
   return { ok: true, maskedEmail: maskEmail(employee.email) };
 }
 
-export async function submitPersonnelPinResetRequest(input: {
+async function issuePinResetToken(employeeId: string): Promise<string> {
+  const admin = createAdminClient();
+  const token = createResetToken();
+  const tokenHash = hashResetToken(token);
+  const expiresAt = new Date(Date.now() + PIN_RESET_LINK_MINUTES * 60 * 1000).toISOString();
+
+  await admin
+    .from('personnel_pin_reset_tokens')
+    .update({ consumed_at: new Date().toISOString() })
+    .eq('employee_id', employeeId)
+    .is('consumed_at', null);
+
+  const { error: insertError } = await admin.from('personnel_pin_reset_tokens').insert({
+    employee_id: employeeId,
+    token_hash: tokenHash,
+    expires_at: expiresAt,
+  });
+
+  if (insertError) {
+    if (insertError.message.includes('personnel_pin_reset_tokens')) {
+      throw new Error('PIN sıfırlama tablosu eksik — 052_personnel_pin_reset_tokens migration çalıştırın');
+    }
+    throw new Error(insertError.message);
+  }
+
+  return token;
+}
+
+export async function startPersonnelPinReset(input: {
   tcKimlik: string;
   phone: string;
   email: string;
-}): Promise<{ ok: true } | { ok: false; error: string }> {
+}): Promise<
+  { ok: true; resetToken: string; employeeName: string } | { ok: false; error: string }
+> {
   const validationError = validatePinResetInputs(input);
   if (validationError) return { ok: false, error: validationError };
 
-  const tc = input.tcKimlik.replace(/\D/g, '');
-  const employee = await findEmployeeContactByTc(tc);
-
-  if (
-    !employee?.is_active ||
-    !phonesMatch(employee, input.phone) ||
-    !emailsMatch(employee.email, input.email)
-  ) {
+  const employee = await verifyEmployeeIdentity(input);
+  if (!employee) {
     return { ok: false, error: GENERIC_MISMATCH };
   }
 
-  await sendPinResetEmails(employee);
-  return { ok: true };
+  const resetToken = await issuePinResetToken(employee.id);
+  return { ok: true, resetToken, employeeName: employee.name };
 }
 
 function hashResetToken(token: string): string {
@@ -183,30 +207,7 @@ export async function sendPersonnelPinResetLink(input: {
     return { ok: false, error: GENERIC_MISMATCH };
   }
 
-  const admin = createAdminClient();
-  const token = createResetToken();
-  const tokenHash = hashResetToken(token);
-  const expiresAt = new Date(Date.now() + PIN_RESET_LINK_MINUTES * 60 * 1000).toISOString();
-
-  await admin
-    .from('personnel_pin_reset_tokens')
-    .update({ consumed_at: new Date().toISOString() })
-    .eq('employee_id', employee.id)
-    .is('consumed_at', null);
-
-  const { error: insertError } = await admin.from('personnel_pin_reset_tokens').insert({
-    employee_id: employee.id,
-    token_hash: tokenHash,
-    expires_at: expiresAt,
-  });
-
-  if (insertError) {
-    if (insertError.message.includes('personnel_pin_reset_tokens')) {
-      throw new Error('PIN sıfırlama tablosu eksik — 052_personnel_pin_reset_tokens migration çalıştırın');
-    }
-    throw new Error(insertError.message);
-  }
-
+  const token = await issuePinResetToken(employee.id);
   await sendPinResetLinkEmail(employee, token);
   return { ok: true };
 }
@@ -362,67 +363,5 @@ async function sendPinResetLinkEmail(employee: EmployeeContact, token: string): 
     subject,
     html,
     text,
-  });
-}
-
-async function sendPinResetEmails(employee: EmployeeContact): Promise<void> {
-  const notifyEmail =
-    process.env.PIN_RESET_NOTIFY_EMAIL?.trim() ||
-    process.env.NEXT_PUBLIC_SUPPORT_EMAIL?.trim() ||
-    DEFAULT_SUPPORT_EMAIL;
-
-  const employeeSubject = `${APP_NAME} — PIN sıfırlama talebiniz alındı`;
-  const employeeText = [
-    `Merhaba ${employee.name},`,
-    '',
-    'Kimlik bilgileriniz doğrulandı. PIN sıfırlama talebiniz alındı.',
-    'Şantiye yöneticiniz veya sistem yöneticiniz kayıtlı PIN\'inizi sıfırlayacaktır.',
-    'Yeni PIN\'iniz size güvenli bir kanaldan iletilecektir.',
-    '',
-    'Bu talebi siz yapmadıysanız derhal yöneticinize bildirin.',
-  ].join('\n');
-
-  const employeeHtml = `<!DOCTYPE html><html lang="tr"><body style="font-family:system-ui,sans-serif;color:#334155;line-height:1.6;">
-<p>Merhaba <strong>${employee.name}</strong>,</p>
-<p>Kimlik bilgileriniz doğrulandı. PIN sıfırlama talebiniz alındı.</p>
-<p>Şantiye yöneticiniz veya sistem yöneticiniz kayıtlı PIN'inizi sıfırlayacaktır. Yeni PIN'iniz size güvenli bir kanaldan iletilecektir.</p>
-<p style="color:#64748b;font-size:13px;">Bu talebi siz yapmadıysanız derhal yöneticinize bildirin.</p>
-</body></html>`;
-
-  const adminSubject = `${APP_NAME} — Doğrulanmış PIN sıfırlama talebi`;
-  const adminText = [
-    'Kimlik doğrulaması geçen PIN sıfırlama talebi:',
-    '',
-    `Personel: ${employee.name}`,
-    `Proje: ${employee.project_name ?? employee.project_id}`,
-    `E-posta: ${employee.email}`,
-    `Telefon: ${employee.phone ?? '-'}`,
-    '',
-    'Admin panelinden personel şifreleri ekranından yeni PIN atayın.',
-  ].join('\n');
-
-  const adminHtml = `<!DOCTYPE html><html lang="tr"><body style="font-family:system-ui,sans-serif;color:#334155;line-height:1.6;">
-<p><strong>Kimlik doğrulaması geçen PIN sıfırlama talebi</strong></p>
-<ul>
-<li>Personel: ${employee.name}</li>
-<li>Proje: ${employee.project_name ?? employee.project_id}</li>
-<li>E-posta: ${employee.email}</li>
-<li>Telefon: ${employee.phone ?? '-'}</li>
-</ul>
-<p>Admin panelinden personel şifreleri ekranından yeni PIN atayın.</p>
-</body></html>`;
-
-  await sendBrevoEmail({
-    to: employee.email,
-    subject: employeeSubject,
-    html: employeeHtml,
-    text: employeeText,
-  });
-
-  await sendBrevoEmail({
-    to: notifyEmail,
-    subject: adminSubject,
-    html: adminHtml,
-    text: adminText,
   });
 }
