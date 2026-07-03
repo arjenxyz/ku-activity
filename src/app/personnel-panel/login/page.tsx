@@ -30,9 +30,6 @@ import {
   personnelAuthLabelClass,
   personnelAuthLinkClass,
   personnelAuthPrimaryBtnClass,
-  personnelAuthSegmentActiveClass,
-  personnelAuthSegmentIdleClass,
-  personnelAuthSegmentWrapClass,
   personnelAuthDividerClass,
 } from '@/lib/personnel-auth-ui';
 
@@ -41,7 +38,6 @@ const labelClass = personnelAuthLabelClass;
 
 function PersonnelLoginContent() {
   const searchParams = useSearchParams();
-  const [identityType, setIdentityType] = useState<'tc' | 'foreign'>('tc');
   const [identityNumber, setIdentityNumber] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -89,17 +85,14 @@ function PersonnelLoginContent() {
   useEffect(() => {
     const fromUrl = searchParams.get('tc');
     if (fromUrl) {
-      setIdentityType('tc');
       setIdentityNumber(fromUrl.replace(/\D/g, '').slice(0, 11));
-    } else {
-      const pending = loadPendingRegistration();
-      if (pending?.identityNumber) {
-        setIdentityType(pending.identityType === 'foreign' ? 'foreign' : 'tc');
-        setIdentityNumber(pending.identityNumber);
-      } else if (pending?.tcKimlik) {
-        setIdentityType('tc');
-        setIdentityNumber(pending.tcKimlik);
-      }
+      return;
+    }
+    const pending = loadPendingRegistration();
+    if (pending?.identityNumber) {
+      setIdentityNumber(pending.identityNumber.replace(/\D/g, '').slice(0, 11));
+    } else if (pending?.tcKimlik) {
+      setIdentityNumber(pending.tcKimlik.replace(/\D/g, '').slice(0, 11));
     }
   }, [searchParams]);
 
@@ -119,15 +112,17 @@ function PersonnelLoginContent() {
     setError('');
     setIsLoading(true);
 
+    const tcKimlik = identityNumber.replace(/\D/g, '');
+
     try {
       const res = await fetch('/api/auth/personnel/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'same-origin',
         body: JSON.stringify({
-          identityType,
-          identityNumber,
-          tcKimlik: identityType === 'tc' ? identityNumber.replace(/\D/g, '') : undefined,
+          identityType: 'tc',
+          identityNumber: tcKimlik,
+          tcKimlik,
           password: password.trim(),
         }),
       });
@@ -141,9 +136,9 @@ function PersonnelLoginContent() {
         const pending: PendingRegistration = {
           verificationCode: data.verificationCode,
           approvalUrl: data.approvalUrl,
-          identityType: data.identityType,
-          identityNumber: data.identityNumber,
-          tcKimlik: data.tcKimlik,
+          identityType: 'tc',
+          identityNumber: data.identityNumber ?? tcKimlik,
+          tcKimlik: data.tcKimlik ?? tcKimlik,
         };
         savePendingRegistration(pending);
         redirectToPendingApplication();
@@ -161,54 +156,21 @@ function PersonnelLoginContent() {
   return (
     <PersonnelLoginLayout
       dense
-      subtitle="Kimlik numaranız ve PIN ile giriş yapın."
+      subtitle="T.C. kimlik numaranız ve PIN ile giriş yapın."
     >
       <form onSubmit={handleLogin} className="space-y-4" {...personnelLoginFormProps}>
         <div>
-          <span className={labelClass}>Kimlik türü</span>
-          <div className={personnelAuthSegmentWrapClass} role="group" aria-label="Kimlik türü">
-            <button
-              type="button"
-              className={identityType === 'tc' ? personnelAuthSegmentActiveClass : personnelAuthSegmentIdleClass}
-              onClick={() => {
-                setIdentityType('tc');
-                setIdentityNumber('');
-              }}
-            >
-              T.C. Kimlik
-            </button>
-            <button
-              type="button"
-              className={
-                identityType === 'foreign' ? personnelAuthSegmentActiveClass : personnelAuthSegmentIdleClass
-              }
-              onClick={() => {
-                setIdentityType('foreign');
-                setIdentityNumber('');
-              }}
-            >
-              Yabancı / Pasaport
-            </button>
-          </div>
-        </div>
-
-        <div>
           <label htmlFor="personnel-tc" className={labelClass}>
-            {identityType === 'tc' ? 'T.C. Kimlik No' : 'Yabancı Kimlik / Pasaport No'}
+            T.C. Kimlik No
           </label>
           <input
             id="personnel-tc"
             className={inputClass}
-            placeholder={identityType === 'tc' ? '11 haneli T.C. kimlik numarası' : 'Kimlik veya pasaport numarası'}
-            maxLength={identityType === 'tc' ? 11 : 20}
+            placeholder="11 haneli T.C. kimlik numarası"
+            maxLength={11}
+            inputMode="numeric"
             value={identityNumber}
-            onChange={(e) =>
-              setIdentityNumber(
-                identityType === 'tc'
-                  ? e.target.value.replace(/\D/g, '').slice(0, 11)
-                  : e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 20)
-              )
-            }
+            onChange={(e) => setIdentityNumber(e.target.value.replace(/\D/g, '').slice(0, 11))}
             required
             data-lpignore="true"
             data-1p-ignore="true"
@@ -240,7 +202,7 @@ function PersonnelLoginContent() {
           type="submit"
           disabled={
             isLoading ||
-            (identityType === 'tc' ? identityNumber.length !== 11 : identityNumber.trim().length < 5) ||
+            identityNumber.replace(/\D/g, '').length !== 11 ||
             password.length !== PERSONNEL_PIN_LENGTH
           }
           className={personnelAuthPrimaryBtnClass}

@@ -78,7 +78,6 @@ export default function PersonnelApplicationPage() {
     last_name: '',
     email: '',
     phone: '',
-    identity_type: 'tc' as 'tc' | 'foreign',
     tc_kimlik: '',
     birth_date: '',
     iban: '',
@@ -100,12 +99,11 @@ export default function PersonnelApplicationPage() {
     Array<{ contractId: string; version: number }> | undefined
   >(undefined);
   const [activeStep, setActiveStep] = useState<RegistrationStep>(1);
-  const identityLabel = form.identity_type === 'tc' ? 'T.C. Kimlik No' : 'Yabancı Kimlik / Pasaport No';
-  const normalizedIdentity = normalizeIdentityNumber(form.identity_type, form.tc_kimlik);
+  const normalizedIdentity = normalizeIdentityNumber('tc', form.tc_kimlik);
   const isStep1Complete =
     form.first_name.trim().length > 0 &&
     form.last_name.trim().length > 0 &&
-    validateIdentityNumber(form.identity_type, normalizedIdentity) &&
+    validateIdentityNumber('tc', normalizedIdentity) &&
     validateInternationalPhone(form.phone) &&
     form.birth_date.trim().length > 0;
   const isStep2Complete =
@@ -266,9 +264,9 @@ export default function PersonnelApplicationPage() {
     body.append('lastName', form.last_name.trim());
     body.append('email', form.email.trim());
     body.append('phone', form.phone);
-    body.append('identityType', form.identity_type);
+    body.append('identityType', 'tc');
     body.append('identityNumber', normalizedIdentity);
-    body.append('tcKimlik', form.tc_kimlik);
+    body.append('tcKimlik', normalizedIdentity);
     body.append('birthDate', form.birth_date);
     body.append('iban', form.iban);
     body.append('pin', form.pin);
@@ -294,7 +292,7 @@ export default function PersonnelApplicationPage() {
       lastName: form.last_name,
       email: form.email,
       phone: form.phone,
-      identityType: form.identity_type,
+      identityType: 'tc',
       tcKimlik: form.tc_kimlik,
       birthDate: form.birth_date,
       iban: form.iban,
@@ -340,7 +338,6 @@ export default function PersonnelApplicationPage() {
       last_name: '',
       email: '',
       phone: '',
-      identity_type: 'tc',
       tc_kimlik: '',
       birth_date: '',
       iban: '',
@@ -373,10 +370,10 @@ export default function PersonnelApplicationPage() {
   }
 
   if (result && status === 'approved') {
-    const loginHref = (result.identityType ?? 'tc') === 'tc' && result.identityNumber
-      ? `/personnel-panel/login?tc=${encodeURIComponent(result.identityNumber)}`
+    const loginHref = result.identityNumber
+      ? `/personnel-panel/login?tc=${encodeURIComponent(result.identityNumber.replace(/\D/g, '').slice(0, 11))}`
       : result.tcKimlik
-      ? `/personnel-panel/login?tc=${encodeURIComponent(result.tcKimlik)}`
+      ? `/personnel-panel/login?tc=${encodeURIComponent(result.tcKimlik.replace(/\D/g, '').slice(0, 11))}`
       : '/personnel-panel/login';
 
     return (
@@ -455,46 +452,21 @@ export default function PersonnelApplicationPage() {
                 />
               </div>
               <div>
-                <label className={labelClass}>Kimlik türü *</label>
-                <select
-                  className={inputClass}
-                  value={form.identity_type}
-                  onChange={(e) =>
-                    setForm({
-                      ...form,
-                      identity_type: e.target.value as 'tc' | 'foreign',
-                      tc_kimlik: '',
-                    })
-                  }
-                >
-                  <option value="tc">T.C. Kimlik No</option>
-                  <option value="foreign">Yabancı Kimlik / Pasaport</option>
-                </select>
-              </div>
-              <div>
-                <label className={labelClass}>{identityLabel} *</label>
+                <label className={labelClass}>T.C. Kimlik No *</label>
                 <input
                   className={inputClass}
-                  inputMode={form.identity_type === 'tc' ? 'numeric' : 'text'}
-                  maxLength={form.identity_type === 'tc' ? 11 : 20}
+                  inputMode="numeric"
+                  maxLength={11}
                   value={form.tc_kimlik}
                   onChange={(e) =>
                     setForm({
                       ...form,
-                      tc_kimlik:
-                        form.identity_type === 'tc'
-                          ? e.target.value.replace(/\D/g, '').slice(0, 11)
-                          : e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 20),
+                      tc_kimlik: e.target.value.replace(/\D/g, '').slice(0, 11),
                     })
                   }
-                  placeholder={form.identity_type === 'tc' ? '11 haneli T.C. kimlik' : 'Örn: U14523897'}
+                  placeholder="11 haneli T.C. kimlik"
                   required
                 />
-                {form.identity_type === 'foreign' && (
-                  <p className={personnelAuthMutedTextClass}>
-                    Harf ve rakam kullanabilirsiniz.
-                  </p>
-                )}
               </div>
               <div>
                 <label className={labelClass} htmlFor="basvuru-phone">
