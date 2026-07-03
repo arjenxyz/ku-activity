@@ -15,37 +15,70 @@ const navLinks = [
   { href: '#contact', label: 'İletişim' },
 ];
 
-function AppIcon({ src, alt }: { src: string; alt: string }) {
+function LoginCluster({ className = '', onNavigate }: { className?: string; onNavigate?: () => void }) {
   return (
-    <span className="relative h-7 w-7 shrink-0 overflow-hidden rounded-lg ring-1 ring-black/5 dark:ring-white/10">
-      <Image src={src} alt={alt} width={28} height={28} className="h-full w-full object-cover" />
-    </span>
+    <div
+      className={`inline-flex items-center rounded-xl border border-slate-200/90 bg-slate-100/70 p-1 dark:border-slate-700/80 dark:bg-slate-800/60 ${className}`}
+    >
+      <Link
+        href="/personnel-panel/login"
+        onClick={onNavigate}
+        className="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold text-slate-700 transition-colors hover:bg-white hover:text-slate-900 dark:text-slate-200 dark:hover:bg-slate-900 dark:hover:text-white"
+      >
+        <span className="relative h-6 w-6 shrink-0 overflow-hidden rounded-md shadow-sm ring-1 ring-black/5">
+          <Image src={PLAY_STORE_PERSONNEL_ICON} alt="" width={24} height={24} className="h-full w-full object-cover" />
+        </span>
+        <span className="hidden xl:inline">Personel Girişi</span>
+        <span className="xl:hidden">Personel</span>
+      </Link>
+
+      <span className="mx-0.5 h-5 w-px shrink-0 bg-slate-300/80 dark:bg-slate-600" aria-hidden />
+
+      <Link
+        href="/admin-panel/login"
+        onClick={onNavigate}
+        className="inline-flex items-center gap-2 rounded-lg bg-[#0E1548] px-3 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[#151d5c] dark:shadow-black/20"
+      >
+        <span className="relative h-6 w-6 shrink-0 overflow-hidden rounded-md shadow-sm ring-1 ring-white/20">
+          <Image src={PLAY_STORE_ADMIN_ICON} alt="" width={24} height={24} className="h-full w-full object-cover" />
+        </span>
+        <span className="hidden xl:inline">Yönetici Girişi</span>
+        <span className="xl:hidden">Yönetici</span>
+      </Link>
+    </div>
   );
 }
 
-function PersonnelLoginButton({ className = '', onClick }: { className?: string; onClick?: () => void }) {
+function MobileLoginLinks({ onNavigate }: { onNavigate?: () => void }) {
   return (
-    <Link
-      href="/personnel-panel/login"
-      onClick={onClick}
-      className={`inline-flex items-center gap-2.5 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm transition-all hover:border-violet-200 hover:bg-violet-50/60 hover:text-violet-900 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-violet-800 dark:hover:bg-violet-950/40 dark:hover:text-violet-100 ${className}`}
-    >
-      <AppIcon src={PLAY_STORE_PERSONNEL_ICON} alt="" />
-      Personel Girişi
-    </Link>
-  );
-}
-
-function AdminLoginButton({ className = '', onClick }: { className?: string; onClick?: () => void }) {
-  return (
-    <Link
-      href="/admin-panel/login"
-      onClick={onClick}
-      className={`inline-flex items-center gap-2.5 rounded-xl bg-[#0E1548] px-3.5 py-2 text-sm font-semibold text-white shadow-md shadow-[#0E1548]/20 transition-all hover:bg-[#151d5c] hover:shadow-lg dark:shadow-black/30 ${className}`}
-    >
-      <AppIcon src={PLAY_STORE_ADMIN_ICON} alt="" />
-      Yönetici Girişi
-    </Link>
+    <div className="space-y-2">
+      <Link
+        href="/personnel-panel/login"
+        onClick={onNavigate}
+        className="touch-target flex items-center gap-3 rounded-xl border border-slate-200/90 bg-slate-50 px-4 py-3.5 font-semibold text-slate-800 transition-colors active:bg-slate-100 dark:border-slate-700 dark:bg-slate-800/50 dark:text-slate-100 dark:active:bg-slate-800"
+      >
+        <span className="relative h-9 w-9 shrink-0 overflow-hidden rounded-xl ring-1 ring-black/5">
+          <Image src={PLAY_STORE_PERSONNEL_ICON} alt="" width={36} height={36} className="h-full w-full object-cover" />
+        </span>
+        <span className="flex-1">Personel Girişi</span>
+        <svg className="h-4 w-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+        </svg>
+      </Link>
+      <Link
+        href="/admin-panel/login"
+        onClick={onNavigate}
+        className="touch-target flex items-center gap-3 rounded-xl bg-[#0E1548] px-4 py-3.5 font-semibold text-white shadow-md shadow-[#0E1548]/20 transition-colors active:bg-[#151d5c]"
+      >
+        <span className="relative h-9 w-9 shrink-0 overflow-hidden rounded-xl ring-1 ring-white/20">
+          <Image src={PLAY_STORE_ADMIN_ICON} alt="" width={36} height={36} className="h-full w-full object-cover" />
+        </span>
+        <span className="flex-1">Yönetici Girişi</span>
+        <svg className="h-4 w-4 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+        </svg>
+      </Link>
+    </div>
   );
 }
 
@@ -99,10 +132,9 @@ export function HomeHeader() {
               ))}
             </nav>
 
-            <div className="hidden md:flex items-center gap-2">
+            <div className="hidden md:flex items-center gap-2.5">
               <ThemeToggleButton />
-              <PersonnelLoginButton />
-              <AdminLoginButton />
+              <LoginCluster />
             </div>
 
             <div className="flex items-center gap-1 md:hidden">
@@ -162,14 +194,7 @@ export function HomeHeader() {
               </a>
             ))}
             <div className="mt-auto space-y-2 pt-4 border-t border-gray-200 dark:border-slate-700">
-              <PersonnelLoginButton
-                className="touch-target w-full justify-center px-4 py-3.5"
-                onClick={() => setIsMenuOpen(false)}
-              />
-              <AdminLoginButton
-                className="touch-target w-full justify-center px-4 py-3.5"
-                onClick={() => setIsMenuOpen(false)}
-              />
+              <MobileLoginLinks onNavigate={() => setIsMenuOpen(false)} />
             </div>
           </div>
         </nav>
