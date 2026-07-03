@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { GooglePlayBadge, GooglePlayIcon } from '@/components/home/GooglePlayBadge';
 import {
@@ -35,6 +36,12 @@ const apps = [
   },
 ] as const;
 
+type App = (typeof apps)[number];
+
+/** Personel başlık bloğu yüksekliği — yönetici kartı bu çizginin altından başlar */
+const PERSONEL_HEADER_PEEK = 88;
+const PERSONEL_FRONT_PEEK = 40;
+
 function CardsConnector({ layout }: { layout: 'row' | 'column' }) {
   if (layout === 'column') {
     return (
@@ -56,7 +63,7 @@ function AppCard({
   index,
   className = '',
 }: {
-  app: (typeof apps)[number];
+  app: App;
   index: number;
   className?: string;
 }) {
@@ -70,35 +77,8 @@ function AppCard({
       viewport={{ once: true, margin: '-40px' }}
       transition={{ delay: index * 0.08, duration: 0.4 }}
     >
-      <div className="flex items-center gap-4">
-        <div className="h-14 w-14 shrink-0 overflow-hidden rounded-xl ring-1 ring-slate-200/80 dark:ring-slate-700">
-          <Image
-            src={app.iconSrc}
-            alt=""
-            width={56}
-            height={56}
-            className="h-full w-full object-cover"
-          />
-        </div>
-        <div className="min-w-0">
-          <div className="flex flex-wrap items-center gap-2">
-            <span
-              className={`inline-flex rounded-md border px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider ${app.badgeClass}`}
-            >
-              {app.badge}
-            </span>
-            <span className="text-xs text-slate-400">Android · Ücretsiz</span>
-          </div>
-          <h3 className="mt-1.5 text-lg font-bold tracking-tight text-slate-900 dark:text-white">
-            {app.title}
-          </h3>
-        </div>
-      </div>
-
-      <p className="mt-5 flex-1 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
-        {app.description}
-      </p>
-
+      <AppCardHeader app={app} />
+      <p className="mt-5 flex-1 text-sm leading-relaxed text-slate-600 dark:text-slate-400">{app.description}</p>
       <div className="mt-6 border-t border-slate-100 pt-5 dark:border-slate-800">
         <GooglePlayBadge href={app.playUrl} enabled={hasPlayLink} fullWidth />
       </div>
@@ -106,20 +86,126 @@ function AppCard({
   );
 }
 
-function MobileStackedAppCards() {
+function AppCardHeader({ app, onHeaderClick }: { app: App; onHeaderClick?: () => void }) {
+  const content = (
+    <>
+      <div className="h-14 w-14 shrink-0 overflow-hidden rounded-xl ring-1 ring-slate-200/80 dark:ring-slate-700">
+        <Image src={app.iconSrc} alt="" width={56} height={56} className="h-full w-full object-cover" />
+      </div>
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-center gap-2">
+          <span
+            className={`inline-flex rounded-md border px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider ${app.badgeClass}`}
+          >
+            {app.badge}
+          </span>
+          <span className="text-xs text-slate-400">Android · Ücretsiz</span>
+        </div>
+        <h3 className="mt-1.5 text-lg font-bold tracking-tight text-slate-900 dark:text-white">{app.title}</h3>
+      </div>
+    </>
+  );
+
+  if (onHeaderClick) {
+    return (
+      <button
+        type="button"
+        onClick={onHeaderClick}
+        className="flex w-full items-center gap-4 rounded-xl text-left transition-colors active:bg-slate-50 dark:active:bg-slate-800/50"
+        aria-label={`${app.title} — kartı öne getir`}
+      >
+        {content}
+      </button>
+    );
+  }
+
+  return <div className="flex items-center gap-4">{content}</div>;
+}
+
+function MobileStackCard({
+  app,
+  isFront,
+  onHeaderClick,
+}: {
+  app: App;
+  isFront: boolean;
+  onHeaderClick?: () => void;
+}) {
+  const hasPlayLink = Boolean(app.playUrl);
+
   return (
-    <div className="relative sm:hidden">
-      <AppCard
-        app={apps[0]}
-        index={0}
-        className="relative z-20 shadow-md ring-1 ring-slate-200/50 dark:ring-slate-700/50"
-      />
-      <AppCard
-        app={apps[1]}
-        index={1}
-        className="relative z-10 -mt-10 shadow-sm"
-      />
-    </div>
+    <article
+      className={`flex flex-col rounded-2xl border border-slate-200/90 bg-white p-6 dark:border-slate-800 dark:bg-slate-900 ${
+        isFront ? 'shadow-md ring-1 ring-slate-200/50 dark:ring-slate-700/50' : 'shadow-sm'
+      }`}
+    >
+      <AppCardHeader app={app} onHeaderClick={onHeaderClick} />
+      <p className="mt-5 flex-1 text-sm leading-relaxed text-slate-600 dark:text-slate-400">{app.description}</p>
+      <div
+        className="mt-6 border-t border-slate-100 pt-5 dark:border-slate-800"
+        onClick={(e) => e.stopPropagation()}
+        onKeyDown={(e) => e.stopPropagation()}
+      >
+        <GooglePlayBadge href={app.playUrl} enabled={hasPlayLink} fullWidth />
+      </div>
+    </article>
+  );
+}
+
+function MobileStackedAppCards() {
+  const [adminOnTop, setAdminOnTop] = useState(true);
+  const personelRef = useRef<HTMLDivElement>(null);
+  const [personelHeight, setPersonelHeight] = useState(0);
+
+  useEffect(() => {
+    const el = personelRef.current;
+    if (!el) return;
+
+    const measure = () => setPersonelHeight(el.offsetHeight);
+    measure();
+
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  const adminMarginTop =
+    personelHeight > 0
+      ? adminOnTop
+        ? -(personelHeight - PERSONEL_HEADER_PEEK)
+        : -PERSONEL_FRONT_PEEK
+      : adminOnTop
+        ? -240
+        : -PERSONEL_FRONT_PEEK;
+
+  return (
+    <motion.div
+      className="relative sm:hidden"
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-40px' }}
+      transition={{ duration: 0.4 }}
+    >
+      <div ref={personelRef} className={`relative ${adminOnTop ? 'z-10' : 'z-20'}`}>
+        <MobileStackCard
+          app={apps[0]}
+          isFront={!adminOnTop}
+          onHeaderClick={adminOnTop ? () => setAdminOnTop(false) : undefined}
+        />
+      </div>
+
+      <motion.div
+        animate={{ marginTop: adminMarginTop }}
+        transition={{ type: 'spring', stiffness: 260, damping: 28 }}
+        className={`relative ${adminOnTop ? 'z-20' : 'z-10'}`}
+      >
+        <MobileStackCard
+          app={apps[1]}
+          isFront={adminOnTop}
+          onHeaderClick={!adminOnTop ? () => setAdminOnTop(true) : undefined}
+        />
+      </motion.div>
+    </motion.div>
   );
 }
 
