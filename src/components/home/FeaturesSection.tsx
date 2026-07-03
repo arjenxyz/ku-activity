@@ -231,7 +231,7 @@ function FeatureLoopCarousel() {
 
       <div className="mt-4 md:hidden">
         <div
-          className="-mx-4 flex gap-2.5 overflow-x-auto px-4 py-2 scrollbar-none"
+          className="-mx-4 flex gap-2.5 overflow-x-auto px-4 py-2 scrollbar-hide"
           role="tablist"
           aria-label="Özellik seçimi"
         >
@@ -266,10 +266,6 @@ function FeatureLoopCarousel() {
             );
           })}
         </div>
-
-        <p className="hidden text-xs text-slate-400 dark:text-slate-500 md:block">
-          {paused || reducedMotion ? 'Duraklatıldı' : 'Otomatik geçiş'}
-        </p>
       </div>
 
       <ul className="mt-4 hidden gap-2 lg:grid lg:grid-cols-3">
