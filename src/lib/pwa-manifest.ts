@@ -8,7 +8,7 @@ import type { AppIconVariant } from '@/lib/brand';
 export type PwaAppVariant = AppIconVariant;
 
 /** PWA ikon/manifest önbelleğini kırmak için — değişince artır */
-export const PWA_ASSET_VERSION = '10';
+export const PWA_ASSET_VERSION = '11';
 
 function iconUrl(variant: PwaAppVariant, size: 192 | 512, purpose: 'any' | 'maskable' = 'any') {
   if (purpose === 'maskable') {
@@ -100,7 +100,29 @@ export function buildAdminManifest(): MetadataRoute.Manifest {
         url: '/admin-panel/basvuru-onay',
         icons: [{ src: icon, sizes: '192x192', type: 'image/png' }],
       },
+      {
+        name: 'Dekont paylaş',
+        short_name: 'Dekont',
+        url: '/admin-panel/dekont-paylas',
+        icons: [{ src: icon, sizes: '192x192', type: 'image/png' }],
+      },
     ],
+    share_target: {
+      action: '/api/admin/dekont/share-ingest',
+      method: 'POST',
+      enctype: 'multipart/form-data',
+      params: {
+        title: 'title',
+        text: 'text',
+        url: 'url',
+        files: [
+          {
+            name: 'dekont',
+            accept: ['application/pdf', 'image/jpeg', 'image/png', 'image/webp', 'image/heic'],
+          },
+        ],
+      },
+    },
   };
 }
 

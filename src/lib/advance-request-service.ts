@@ -235,11 +235,16 @@ export async function recordBankPayment(
     requestId: string;
     paymentDate?: string;
     referenceNo?: string;
-    fileBuffer: Buffer;
+    fileBuffer?: Buffer;
     fileName: string;
     mimeType: string;
     actor: AdminActor;
     backend?: StorageBackend;
+    existingProof?: {
+      backend: StorageBackend;
+      externalId: string;
+    };
+    proofOcrJson?: Record<string, unknown> | null;
   }
 ) {
   const row = await loadRequest(admin, params.requestId, params.projectId);
@@ -253,14 +258,20 @@ export async function recordBankPayment(
   const amount = row.approved_amount ?? row.requested_amount;
   const payDate = params.paymentDate ?? dayjs().format('YYYY-MM-DD');
 
-  const proof = await uploadAdvanceDekont({
-    buffer: params.fileBuffer,
-    fileName: params.fileName,
-    mimeType: params.mimeType,
-    projectId: params.projectId,
-    requestId: params.requestId,
-    backend: params.backend,
-  });
+  const proof = params.existingProof
+    ? { backend: params.existingProof.backend, externalId: params.existingProof.externalId }
+    : await uploadAdvanceDekont({
+        buffer: params.fileBuffer!,
+        fileName: params.fileName,
+        mimeType: params.mimeType,
+        projectId: params.projectId,
+        requestId: params.requestId,
+        backend: params.backend,
+      });
+
+  if (!params.existingProof && !params.fileBuffer) {
+    throw new AdvanceRequestError('Dekont dosyası gerekli', 'MISSING_FILE');
+  }
 
   const deductionId = await insertDeduction(admin, {
     projectId: row.project_id,
@@ -284,6 +295,7 @@ export async function recordBankPayment(
       proof_file_name: params.fileName,
       proof_mime_type: params.mimeType,
       proof_reference_no: params.referenceNo?.trim() || null,
+      proof_ocr_json: params.proofOcrJson ?? null,
     })
     .eq('id', params.requestId)
     .select('*')

@@ -60,6 +60,11 @@ export function getProjectMenuGroups(projectId: string): ProjectMenuGroup[] {
           href: () => `/admin-panel/proje/${id}/avans-talepleri`,
           hint: 'Personel talepleri — onay ve ödeme',
         },
+        {
+          label: 'Dekont paylaş (OCR)',
+          href: () => `/admin-panel/dekont-paylas`,
+          hint: 'Bankadan paylaş — otomatik eşleştirme',
+        },
         { label: 'Kesinti', href: () => `/admin-panel/proje/${id}/kesinti` },
         { label: 'Asgari ücret', href: () => `/admin-panel/proje/${id}/asgari` },
       ],

@@ -3,7 +3,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import QRCode from 'qrcode';
-import { FiCheck, FiCreditCard, FiRefreshCw, FiUpload, FiX } from 'react-icons/fi';
+import Link from 'next/link';
+import { FiCheck, FiCreditCard, FiRefreshCw, FiShare2, FiUpload, FiX } from 'react-icons/fi';
 import { AlertBanner } from '@/components/project/AlertBanner';
 import { ProjectPageHeader } from '@/components/project/ProjectPageHeader';
 import { JobSelectField } from '@/components/project/JobSelectField';
@@ -202,6 +203,17 @@ export function AdminAdvanceRequestsPanel({ projectId }: Props) {
 
       {error && <AlertBanner type="error" message={error} />}
       {success && <AlertBanner type="success" message={success} />}
+
+      <Link
+        href="/admin-panel/dekont-paylas"
+        className={`${cardClass} mb-6 flex items-center gap-3 border-blue-200 bg-blue-50/80 text-blue-900 hover:bg-blue-50 dark:border-blue-900 dark:bg-blue-950/30 dark:text-blue-200`}
+      >
+        <FiShare2 className="h-5 w-5 shrink-0" />
+        <div>
+          <p className="font-semibold">Bankadan dekont paylaş (OCR)</p>
+          <p className="text-sm opacity-80">Paylaş menüsünden gönderin — personel ve tutar otomatik önerilir</p>
+        </div>
+      </Link>
 
       <div className={`${cardClass} mb-6`}>
         <div className="flex flex-wrap gap-2">
