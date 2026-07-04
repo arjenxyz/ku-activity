@@ -9,6 +9,7 @@ type Props = {
   disabled?: boolean;
   parseQr: (raw: string) => string | null;
   invalidQrMessage?: string;
+  className?: string;
 };
 
 function isLikelyDesktop() {
@@ -28,7 +29,7 @@ function cameraPriority(cam: CameraDevice, desktop: boolean) {
   return 2;
 }
 
-async function waitForElement(id: string, attempts = 40): Promise<HTMLElement> {
+async function waitForElement(id: string, attempts = 50): Promise<HTMLElement> {
   for (let i = 0; i < attempts; i += 1) {
     const el = document.getElementById(id);
     if (el && el.clientWidth > 0 && el.clientHeight > 0) return el;
@@ -39,11 +40,24 @@ async function waitForElement(id: string, attempts = 40): Promise<HTMLElement> {
   return el;
 }
 
-/** Tam kare tarama — kütüphanenin kendi çerçevesi gizlenir */
-function buildScanConfig(viewfinderWidth: number, viewfinderHeight: number) {
+function buildScanConfig(desktop: boolean) {
+  if (desktop) {
+    return {
+      fps: 12,
+      qrbox: (viewfinderWidth: number, viewfinderHeight: number) => ({
+        width: Math.floor(viewfinderWidth * 0.85),
+        height: Math.floor(viewfinderHeight * 0.85),
+      }),
+      disableFlip: false,
+    };
+  }
   return {
-    fps: 12,
-    qrbox: { width: viewfinderWidth, height: viewfinderHeight },
+    fps: 10,
+    qrbox: (viewfinderWidth: number, viewfinderHeight: number) => {
+      const edge = Math.min(viewfinderWidth, viewfinderHeight);
+      const size = Math.max(200, Math.floor(edge * 0.68));
+      return { width: size, height: size };
+    },
     disableFlip: false,
   };
 }
@@ -98,19 +112,16 @@ function mapCameraError(msg: string) {
   if (msg.includes('secure') || msg.includes('SecureContext')) {
     return 'Kamera yalnızca güvenli bağlantıda (HTTPS) çalışır.';
   }
-  return 'Kamera açılamadı. Alttan kod girebilirsiniz.';
+  return 'Kamera açılamadı. Kod gir ile deneyin.';
 }
 
-/** Tek çerçeve — box-shadow vignette, çift köşe yok */
 function ScanSpotlight() {
   return (
     <div className="pointer-events-none absolute inset-0 z-[2] flex items-center justify-center">
       <div
-        className="relative h-[min(58vw,240px)] w-[min(58vw,240px)] rounded-2xl border-2 border-emerald-400/75"
-        style={{ boxShadow: '0 0 0 9999px rgba(0,0,0,0.52)' }}
-      >
-        <div className="absolute inset-x-3 top-1/2 h-px -translate-y-1/2 bg-gradient-to-r from-transparent via-emerald-400/80 to-transparent" />
-      </div>
+        className="relative h-[min(58vw,240px)] w-[min(58vw,240px)] rounded-2xl border-2 border-emerald-400/80"
+        style={{ boxShadow: '0 0 0 9999px rgba(0,0,0,0.45)' }}
+      />
     </div>
   );
 }
@@ -120,6 +131,7 @@ export function AttendanceQrScanner({
   disabled,
   parseQr,
   invalidQrMessage = 'Geçerli bir yoklama QR kodu değil.',
+  className = '',
 }: Props) {
   const regionId = useId().replace(/:/g, '');
   const scannerRef = useRef<Html5Qrcode | null>(null);
@@ -193,10 +205,7 @@ export function AttendanceQrScanner({
         });
         scannerRef.current = scanner;
 
-        const w = mount.clientWidth;
-        const h = mount.clientHeight;
-        const scanConfig = buildScanConfig(w, h);
-
+        const scanConfig = buildScanConfig(desktop);
         const onDecode = (decoded: string) => {
           const code = parseQrRef.current(decoded);
           if (!code) {
@@ -264,16 +273,10 @@ export function AttendanceQrScanner({
   }, [disabled, regionId, invalidQrMessage, releaseScanner]);
 
   return (
-    <div className="relative min-h-0 flex-1 overflow-hidden bg-black">
+    <div className={`relative overflow-hidden bg-black ${className}`}>
       <div id={regionId} className="attendance-scanner absolute inset-0" />
 
       {active && <ScanSpotlight />}
-
-      <div className="pointer-events-none absolute inset-x-0 top-0 z-[3] bg-gradient-to-b from-black/60 to-transparent px-4 pb-8 pt-3">
-        <p className="text-center text-sm font-medium text-white/95 drop-shadow-sm">
-          QR kodu yeşil çerçevenin içine getirin
-        </p>
-      </div>
 
       {starting && !active && !error && (
         <div className="absolute inset-0 z-[4] flex flex-col items-center justify-center gap-3 bg-black">
@@ -283,7 +286,7 @@ export function AttendanceQrScanner({
       )}
 
       {error && (
-        <div className="absolute inset-x-4 top-14 z-[4] rounded-xl bg-red-950/90 px-4 py-2.5 text-center text-sm text-red-100 backdrop-blur-sm">
+        <div className="absolute inset-x-4 top-4 z-[4] rounded-xl bg-red-950/90 px-4 py-2.5 text-center text-sm text-red-100 backdrop-blur-sm">
           {error}
         </div>
       )}

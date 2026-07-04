@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { Suspense, useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { FiCheckCircle, FiClock, FiHash, FiX } from 'react-icons/fi';
@@ -104,55 +105,25 @@ function YoklamaContent() {
 
   return (
     <>
-      {/* Mobil — her zaman kamera, durum yalnızca ince banner */}
-      <div className="fixed inset-x-0 top-0 bottom-[calc(5.25rem+env(safe-area-inset-bottom))] z-0 flex flex-col bg-black sm:hidden safe-pt">
-        <div className="relative min-h-0 flex-1">
-          {!loadingStatus && (
-            <AttendanceQrScanner
-              onScan={(t) => void submitToken(t)}
-              disabled={scannerDisabled}
-              parseQr={parseAttendanceTokenFromQr}
-              invalidQrMessage="Geçerli bir yoklama QR kodu değil."
-            />
-          )}
+      {/* Mobil — tam ekran kamera, alt bar yok */}
+      <div className="fixed inset-x-0 top-0 bottom-[calc(5.25rem+env(safe-area-inset-bottom))] z-0 bg-black sm:hidden">
+        <AttendanceQrScanner
+          className="absolute inset-0"
+          onScan={(t) => void submitToken(t)}
+          disabled={scannerDisabled}
+          parseQr={parseAttendanceTokenFromQr}
+          invalidQrMessage="Geçerli bir yoklama QR kodu değil."
+        />
 
-          {loadingStatus && (
-            <div className="absolute inset-0 flex items-center justify-center bg-black">
-              <div className="h-10 w-10 animate-spin rounded-full border-2 border-emerald-400 border-t-transparent" />
-            </div>
-          )}
-
-          {status && !loadingStatus && (
-            <StatusBanner
-              status={status}
-              forceReplace={forceReplace}
-              onForceReplace={() => setForceReplace(true)}
-              onCancelReplace={() => setForceReplace(false)}
-            />
-          )}
-
-          {windowClosed && (
-            <div className="absolute inset-x-3 top-3 z-[5] rounded-xl border border-amber-400/25 bg-amber-950/90 px-3 py-2.5 text-xs text-amber-50 shadow-lg">
-              <p className="font-semibold">Yoklama saati dışında</p>
-              <p className="mt-1 opacity-90">{status?.window?.message}</p>
-            </div>
-          )}
-
-          {successMsg && (
-            <div className="absolute inset-x-3 bottom-3 z-[5] flex items-center justify-center gap-2 rounded-xl bg-emerald-600/95 px-4 py-3 text-sm font-medium text-white shadow-lg">
-              <FiCheckCircle className="h-4 w-4 shrink-0" />
-              {successMsg}
-            </div>
-          )}
-
-          {error && !codeSheetOpen && !successMsg && (
-            <div className="absolute inset-x-3 bottom-3 z-[5] rounded-xl bg-red-950/90 px-4 py-2.5 text-center text-sm text-red-100">
-              {error}
-            </div>
-          )}
-        </div>
-
-        <div className="shrink-0 border-t border-white/10 bg-slate-950/95 px-4 py-3 backdrop-blur-md">
+        {/* Üst kontroller: iptal + kod gir */}
+        <div className="pointer-events-none absolute inset-x-0 top-0 z-20 flex items-start justify-between gap-3 px-3 pb-2 safe-pt">
+          <Link
+            href="/personnel-panel"
+            className="pointer-events-auto flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-black/45 text-white shadow-lg backdrop-blur-md transition active:bg-black/60"
+            aria-label="İptal — panele dön"
+          >
+            <FiX className="h-5 w-5" />
+          </Link>
           <button
             type="button"
             disabled={scannerDisabled}
@@ -160,12 +131,41 @@ function YoklamaContent() {
               setError(null);
               setCodeSheetOpen(true);
             }}
-            className="flex w-full items-center justify-center gap-2.5 rounded-xl border border-white/15 bg-white/10 py-3.5 text-sm font-semibold text-white transition active:bg-white/15 disabled:opacity-40"
+            className="pointer-events-auto inline-flex h-11 items-center gap-2 rounded-full bg-black/45 px-4 text-sm font-semibold text-white shadow-lg backdrop-blur-md transition active:bg-black/60 disabled:opacity-40"
           >
             <FiHash className="h-4 w-4" />
-            Kod ile yoklama
+            Kod gir
           </button>
         </div>
+
+        {status && (
+          <StatusBanner
+            status={status}
+            forceReplace={forceReplace}
+            onForceReplace={() => setForceReplace(true)}
+            onCancelReplace={() => setForceReplace(false)}
+          />
+        )}
+
+        {windowClosed && (
+          <div className="absolute inset-x-3 top-[calc(3.5rem+env(safe-area-inset-top))] z-[5] rounded-xl border border-amber-400/25 bg-amber-950/90 px-3 py-2.5 text-xs text-amber-50 shadow-lg">
+            <p className="font-semibold">Yoklama saati dışında</p>
+            <p className="mt-1 opacity-90">{status?.window?.message}</p>
+          </div>
+        )}
+
+        {successMsg && (
+          <div className="absolute inset-x-4 bottom-6 z-[5] flex items-center justify-center gap-2 rounded-xl bg-emerald-600/95 px-4 py-3 text-sm font-medium text-white shadow-lg">
+            <FiCheckCircle className="h-4 w-4 shrink-0" />
+            {successMsg}
+          </div>
+        )}
+
+        {error && !codeSheetOpen && !successMsg && (
+          <div className="absolute inset-x-4 bottom-6 z-[5] rounded-xl bg-red-950/90 px-4 py-2.5 text-center text-sm text-red-100">
+            {error}
+          </div>
+        )}
       </div>
 
       {/* Masaüstü */}
@@ -249,7 +249,7 @@ function StatusBanner({
 
   return (
     <div
-      className={`absolute inset-x-3 top-3 z-[5] rounded-xl border px-3 py-2.5 text-xs shadow-lg backdrop-blur-sm ${cfg.className}`}
+      className={`absolute inset-x-3 top-[calc(3.75rem+env(safe-area-inset-top))] z-[5] rounded-xl border px-3 py-2.5 text-xs shadow-lg backdrop-blur-sm ${cfg.className}`}
     >
       <div className="flex items-start gap-2">
         {cfg.icon}
