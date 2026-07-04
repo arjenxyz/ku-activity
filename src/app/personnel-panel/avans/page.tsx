@@ -4,7 +4,9 @@ import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import dayjs from 'dayjs';
 import { FiArrowLeft, FiPlus, FiXCircle } from 'react-icons/fi';
+import { AdvancePaymentDetailsExpand } from '@/components/advance/AdvancePaymentDetailsExpand';
 import { formatMoney } from '@/lib/format';
+import type { AdvancePaymentDetails } from '@/lib/advance-payment-details';
 import {
   ADVANCE_STATUS_LABELS,
   canCancelAdvance,
@@ -23,6 +25,7 @@ type RequestRow = {
   approved_at: string | null;
   paid_at: string | null;
   rejection_reason: string | null;
+  payment_details: AdvancePaymentDetails | null;
 };
 
 export default function PersonnelAvansPage() {
@@ -209,6 +212,9 @@ export default function PersonnelAvansPage() {
               )}
               {row.rejection_reason && (
                 <p className="mt-2 text-sm text-red-600">{row.rejection_reason}</p>
+              )}
+              {row.payment_details && (
+                <AdvancePaymentDetailsExpand details={row.payment_details} />
               )}
               {canCancelAdvance(row.status) && (
                 <button

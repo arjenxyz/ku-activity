@@ -23,6 +23,7 @@ import { formatMoney } from '@/lib/format';
 import { formatOcrIban } from '@/lib/advance-dekont-match';
 import type { DekontMatchSuggestion } from '@/lib/advance-dekont-match';
 import type { DekontOcrResult } from '@/lib/dekont-ocr';
+import { transferTypeLabel } from '@/lib/turkish-banks';
 import {
   MIN_MATCH_SCORE,
   MIN_TRUST_SCORE,
@@ -400,6 +401,9 @@ function DekontShareContent() {
                 <h3 className="font-semibold text-slate-900 dark:text-white">Okunan veriler</h3>
                 <dl className="mt-4 grid gap-3 text-sm">
                   {[
+                    ['Gönderen banka', ocr.senderBank ?? '—'],
+                    ['Alıcı banka', ocr.recipientBank ?? '—'],
+                    ['Transfer tipi', transferTypeLabel(ocr.transferType)],
                     ['Alıcı IBAN', formatOcrIban(ocr.recipientIban)],
                     ['Tutar', ocr.amount != null ? formatMoney(ocr.amount) : '—'],
                     ['Referans', ocr.referenceNo ?? '—'],

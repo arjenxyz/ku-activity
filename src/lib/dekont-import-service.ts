@@ -50,10 +50,14 @@ export async function ingestDekontDraft(params: {
     ocr = {
       rawText: '',
       recipientIban: null,
+      senderIban: null,
       allIbans: [],
       amount: null,
       referenceNo: null,
       paymentDate: null,
+      senderBank: null,
+      recipientBank: null,
+      transferType: null,
       confidence: 'low',
       source: 'none',
     };

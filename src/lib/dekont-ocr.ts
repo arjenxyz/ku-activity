@@ -1,13 +1,23 @@
 import { parseIbanFromText, validateTurkishIban, normalizeIban } from '@/lib/field-encryption';
 import { getGoogleVisionToken } from '@/lib/google-service-account';
+import {
+  bankNameFromIban,
+  detectBankFromText,
+  detectTransferType,
+  type TransferType,
+} from '@/lib/turkish-banks';
 
 export type DekontOcrResult = {
   rawText: string;
   recipientIban: string | null;
+  senderIban: string | null;
   allIbans: string[];
   amount: number | null;
   referenceNo: string | null;
   paymentDate: string | null;
+  senderBank: string | null;
+  recipientBank: string | null;
+  transferType: TransferType | null;
   confidence: 'high' | 'medium' | 'low';
   source: 'pdf' | 'vision' | 'none';
   bankKeywords?: string[];
@@ -89,11 +99,25 @@ function extractIbans(text: string): string[] {
   return [...found];
 }
 
+function pickIbanNearMarkers(text: string, ibans: string[], markers: string[]): string | null {
+  const upper = text.toLocaleUpperCase('tr-TR');
+  for (const marker of markers) {
+    const idx = upper.indexOf(marker);
+    if (idx === -1) continue;
+    const slice = upper.slice(idx, idx + 140);
+    const match = slice.match(/TR\d{2}(?:\s?\d{4}){5}\s?\d{2}/);
+    if (match) {
+      const compact = match[0].replace(/\s/g, '');
+      if (validateTurkishIban(compact)) return normalizeIban(compact);
+    }
+  }
+  return null;
+}
+
 function pickRecipientIban(text: string, ibans: string[]): string | null {
   if (ibans.length === 0) return null;
 
-  const upper = text.toLocaleUpperCase('tr-TR');
-  const recipientMarkers = [
+  const near = pickIbanNearMarkers(text, ibans, [
     'ALICI IBAN',
     'ALICI İBAN',
     'ALICI:',
@@ -102,21 +126,30 @@ function pickRecipientIban(text: string, ibans: string[]): string | null {
     'KARŞI HESAP',
     'KARSI HESAP',
     'ALICI HESAP',
-  ];
-
-  for (const marker of recipientMarkers) {
-    const idx = upper.indexOf(marker);
-    if (idx === -1) continue;
-    const slice = upper.slice(idx, idx + 120);
-    const match = slice.match(/TR\d{2}(?:\s?\d{4}){5}\s?\d{2}/);
-    if (match) {
-      const compact = match[0].replace(/\s/g, '');
-      if (validateTurkishIban(compact)) return normalizeIban(compact);
-    }
-  }
+  ]);
+  if (near) return near;
 
   if (ibans.length === 1) return ibans[0]!;
   return ibans[ibans.length - 1] ?? ibans[0]!;
+}
+
+function pickSenderIban(text: string, ibans: string[], recipientIban: string | null): string | null {
+  const near = pickIbanNearMarkers(text, ibans, [
+    'GÖNDEREN IBAN',
+    'GONDEREN IBAN',
+    'GÖNDEREN:',
+    'GONDEREN:',
+    'GÖNDEREN HESAP',
+    'GONDEREN HESAP',
+    'GÖNDERİCİ',
+    'GONDERICI',
+  ]);
+  if (near && near !== recipientIban) return near;
+
+  const others = ibans.filter((i) => i !== recipientIban);
+  if (others.length === 1) return others[0]!;
+  if (others.length > 1) return others[0]!;
+  return null;
 }
 
 function scoreConfidence(result: Omit<DekontOcrResult, 'confidence'>): 'high' | 'medium' | 'low' {
@@ -206,19 +239,28 @@ export async function analyzeDekont(params: {
 
   const allIbans = extractIbans(rawText);
   const recipientIban = pickRecipientIban(rawText, allIbans);
+  const senderIban = pickSenderIban(rawText, allIbans, recipientIban);
   const amount = parseTurkishAmount(rawText);
   const referenceNo = parseReferenceNo(rawText);
   const paymentDate = parsePaymentDate(rawText);
   const bankKeywords = findBankKeywords(rawText);
+  const transferType = detectTransferType(rawText);
+  const senderBank =
+    bankNameFromIban(senderIban) ?? detectBankFromText(rawText, 'sender') ?? detectBankFromText(rawText, 'any');
+  const recipientBank = bankNameFromIban(recipientIban) ?? detectBankFromText(rawText, 'recipient');
   const transferFields = [recipientIban, amount, paymentDate, referenceNo].filter(Boolean).length;
 
   const base = {
     rawText: rawText.slice(0, 12000),
     recipientIban,
+    senderIban,
     allIbans,
     amount,
     referenceNo,
     paymentDate,
+    senderBank,
+    recipientBank,
+    transferType,
     source,
     bankKeywords,
     isLikelyTransfer: bankKeywords.length >= 2 && transferFields >= 2,
