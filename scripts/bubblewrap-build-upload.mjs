@@ -96,7 +96,7 @@ function ensureGradleWindowsFixes(buildDir) {
 }
 
 function applyPlainTwaSplash(buildDir) {
-  run(process.execPath, [join(ROOT, 'scripts/twa-intro-splash.mjs'), buildDir], ROOT);
+  run(process.execPath, [join(ROOT, 'scripts/twa-minimal-splash.mjs'), buildDir], ROOT);
 }
 
 const args = parseArgs(process.argv);

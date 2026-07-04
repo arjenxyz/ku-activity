@@ -3,11 +3,7 @@
 import { usePathname } from 'next/navigation';
 import { useLayoutEffect, useState } from 'react';
 import { PersonnelAppIntro } from '@/components/personnel/PersonnelAppIntro';
-import {
-  hasSeenPersonnelIntro,
-  isTrustedWebActivity,
-  markPersonnelIntroSeen,
-} from '@/lib/personnel-intro';
+import { hasSeenPersonnelIntro, markPersonnelIntroSeen } from '@/lib/personnel-intro';
 import { PERSONNEL_PWA_SPLASH_BG } from '@/lib/personnel-pwa-brand';
 
 function shouldSkipIntro(pathname: string) {
@@ -17,7 +13,6 @@ function shouldSkipIntro(pathname: string) {
 
 function computeShowIntro(pathname: string): boolean {
   if (typeof window === 'undefined') return false;
-  if (isTrustedWebActivity()) return false;
   if (shouldSkipIntro(pathname)) return false;
   if (!window.matchMedia('(max-width: 639px)').matches) return false;
   return !hasSeenPersonnelIntro();
@@ -37,9 +32,6 @@ export function PersonnelIntroGate({ children }: { children: React.ReactNode }) 
   const [showIntro, setShowIntro] = useState(false);
 
   useLayoutEffect(() => {
-    if (isTrustedWebActivity()) {
-      markPersonnelIntroSeen();
-    }
     setShowIntro(computeShowIntro(pathname));
   }, [pathname]);
 

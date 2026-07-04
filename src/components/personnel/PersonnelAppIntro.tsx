@@ -2,13 +2,12 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
-import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { PERSONNEL_INTRO_IMAGE, PERSONNEL_PWA_SPLASH_BG } from '@/lib/personnel-pwa-brand';
 
-const DISPLAY_MS = 3400;
+const DISPLAY_MS = 3200;
 const EXIT_MS = 480;
-const MIN_LOAD_MS = 1200;
+const MIN_LOAD_MS = 1400;
 
 type Props = {
   onComplete: () => void;
@@ -25,7 +24,7 @@ function IntroLoadingFooter() {
       }}
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.15, duration: 0.55, ease: 'easeOut' }}
+      transition={{ delay: 0.05, duration: 0.4, ease: 'easeOut' }}
     >
       <motion.p
         className="mb-4 text-center text-[15px] font-medium tracking-wide text-white/90"
@@ -69,17 +68,11 @@ function IntroLoadingFooter() {
 export function PersonnelAppIntro({ onComplete }: Props) {
   const [fading, setFading] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const [imageReady, setImageReady] = useState(false);
-  const [readyAt, setReadyAt] = useState<number | null>(null);
 
   useEffect(() => {
     setMounted(true);
+    document.getElementById('cl-intro-boot')?.remove();
   }, []);
-
-  useEffect(() => {
-    if (!imageReady || readyAt !== null) return;
-    setReadyAt(Date.now());
-  }, [imageReady, readyAt]);
 
   const finish = useCallback(() => {
     if (fading) return;
@@ -88,13 +81,10 @@ export function PersonnelAppIntro({ onComplete }: Props) {
   }, [fading, onComplete]);
 
   useEffect(() => {
-    if (!readyAt) return;
-
-    const elapsed = Date.now() - readyAt;
-    const wait = Math.max(DISPLAY_MS - elapsed, MIN_LOAD_MS);
-    const toExit = window.setTimeout(() => finish(), wait);
+    if (!mounted) return;
+    const toExit = window.setTimeout(() => finish(), Math.max(DISPLAY_MS, MIN_LOAD_MS));
     return () => window.clearTimeout(toExit);
-  }, [readyAt, finish]);
+  }, [mounted, finish]);
 
   if (!mounted) return null;
 
@@ -111,18 +101,17 @@ export function PersonnelAppIntro({ onComplete }: Props) {
     >
       <motion.div
         className="absolute inset-0"
-        initial={{ scale: 1.06 }}
+        initial={{ scale: 1.04 }}
         animate={{ scale: 1 }}
         transition={{ duration: 4.5, ease: [0.22, 1, 0.36, 1] }}
       >
-        <Image
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
           src={PERSONNEL_INTRO_IMAGE}
           alt=""
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover object-center"
-          onLoad={() => setImageReady(true)}
+          decoding="async"
+          fetchPriority="high"
+          className="h-full w-full object-cover object-center"
         />
       </motion.div>
 

@@ -12,7 +12,7 @@
     "apk:build-upload:personnel": "node scripts/bubblewrap-build-upload.mjs --app personnel",
     "apk:build-upload:admin": "node scripts/bubblewrap-build-upload.mjs --app admin",
     "twa:fingerprint": "node scripts/twa-keystore-fingerprint.mjs",
-    "twa:intro-splash": "node scripts/twa-intro-splash.mjs twa-build/personel"
+    "twa:minimal-splash": "node scripts/twa-minimal-splash.mjs twa-build/personel"
   },
   "dependencies": {
     "@supabase/auth-helpers-nextjs": "^0.10.0",
