@@ -193,7 +193,7 @@ export function AttendanceQrScanner({
           throw new Error('Kamera yalnızca HTTPS üzerinde çalışır.');
         }
 
-        const mount = await waitForElement(regionId);
+        await waitForElement(regionId);
         if (cancelled) return;
 
         if (scannerRef.current) await releaseScanner();
