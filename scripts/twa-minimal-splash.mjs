@@ -23,8 +23,31 @@ function patchAndroidManifest(buildDir) {
     /\s*<meta-data android:name="android\.support\.customtabs\.trusted\.SPLASH_IMAGE_DRAWABLE"[\s\S]*?\/>\s*/g,
     '\n'
   );
+  xml = xml.replace(
+    /android:theme="@android:style\/Theme\.Translucent\.NoTitleBar"/g,
+    'android:theme="@style/Theme.CrewLedger.Launcher"'
+  );
   writeFileSync(manifestPath, xml);
-  console.log('AndroidManifest: SPLASH_IMAGE_DRAWABLE kaldırıldı');
+  console.log('AndroidManifest: SPLASH_IMAGE_DRAWABLE kaldırıldı, opak tema');
+}
+
+function patchOpaqueTheme(buildDir) {
+  const valuesDir = join(buildDir, 'app', 'src', 'main', 'res', 'values');
+  const themesPath = join(valuesDir, 'themes.xml');
+  const themesXml = `<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Translucent tema ilk kurulumda beyaz WebView flash veriyordu -->
+    <style name="Theme.CrewLedger.Launcher" parent="@android:style/Theme.NoTitleBar">
+        <item name="android:windowBackground">@color/backgroundColor</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowDisablePreview">false</item>
+        <item name="android:navigationBarColor">@color/navigationColor</item>
+        <item name="android:statusBarColor">@color/colorPrimary</item>
+    </style>
+</resources>
+`;
+  writeFileSync(themesPath, themesXml);
+  console.log('themes.xml: opak launcher arka planı (#0B1624)');
 }
 
 function patchConfigs(buildDir) {
@@ -62,8 +85,9 @@ function patchConfigs(buildDir) {
 function main() {
   const buildDir = resolve(process.argv[2] || 'twa-build/personel');
   patchAndroidManifest(buildDir);
+  patchOpaqueTheme(buildDir);
   patchConfigs(buildDir);
-  console.log('TWA: minimal splash + nav bar rengi intro ile uyumlu.');
+  console.log('TWA: minimal splash + opak tema + nav bar intro rengi.');
 }
 
 main();

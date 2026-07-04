@@ -3,6 +3,7 @@ import type { NextRequest } from 'next/server';
 import { updateSession, getSupabaseMiddlewareClient } from '@/utils/supabase/middleware';
 import { PERSONNEL_COOKIE } from '@/lib/personnel-cookie';
 import { PENDING_REGISTRATION_COOKIE } from '@/lib/registration-pending-storage';
+import { PERSONNEL_ROUTE_HEADER } from '@/lib/personnel-intro-boot-script';
 
 const ADMIN_LOGIN = '/admin-panel/login';
 const ADMIN_REGISTER = '/admin-panel/register';
@@ -33,8 +34,29 @@ function shouldRefreshSupabaseSession(pathname: string) {
   return true;
 }
 
+/** Root layout SSR'da personel rotası için koyu ilk kare */
+function withPersonnelRouteHint(response: NextResponse, pathname: string, request: NextRequest) {
+  if (!pathname.startsWith('/personnel-panel')) {
+    return response;
+  }
+
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set(PERSONNEL_ROUTE_HEADER, '1');
+
+  const next = NextResponse.next({
+    request: { headers: requestHeaders },
+  });
+
+  response.cookies.getAll().forEach((cookie) => {
+    next.cookies.set(cookie.name, cookie.value);
+  });
+
+  return next;
+}
+
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  const finish = (response: NextResponse) => withPersonnelRouteHint(response, pathname, request);
 
   const response = shouldRefreshSupabaseSession(pathname)
     ? await updateSession(request)
@@ -52,7 +74,7 @@ export async function middleware(request: NextRequest) {
 
   if (isDeveloperRoute || isDeveloperLogin) {
     const supabase = await getSupabaseMiddlewareClient(request);
-    if (!supabase) return response;
+    if (!supabase) return finish(response);
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -60,21 +82,21 @@ export async function middleware(request: NextRequest) {
     if (user) {
       const { data: isDeveloper } = await supabase.rpc('is_developer');
       if (isDeveloper && isDeveloperLogin) {
-        return NextResponse.redirect(new URL('/developer-panel', request.url));
+        return finish(NextResponse.redirect(new URL('/developer-panel', request.url)));
       }
       if (isDeveloperRoute && !isDeveloper) {
         const url = new URL(DEVELOPER_LOGIN, request.url);
         url.searchParams.set('error', 'yetkisiz');
-        return NextResponse.redirect(url);
+        return finish(NextResponse.redirect(url));
       }
     } else if (isDeveloperRoute) {
-      return NextResponse.redirect(new URL(DEVELOPER_LOGIN, request.url));
+      return finish(NextResponse.redirect(new URL(DEVELOPER_LOGIN, request.url)));
     }
   }
 
   if (isAdminRoute || isAdminPublic) {
     const supabase = await getSupabaseMiddlewareClient(request);
-    if (!supabase) return response;
+    if (!supabase) return finish(response);
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -82,15 +104,15 @@ export async function middleware(request: NextRequest) {
     if (user) {
       const { data: isAdmin } = await supabase.rpc('is_admin');
       if (isAdmin && (isAdminLogin || isAdminRegister)) {
-        return NextResponse.redirect(new URL('/admin-panel', request.url));
+        return finish(NextResponse.redirect(new URL('/admin-panel', request.url)));
       }
       if (isAdminRoute && !isAdmin) {
         const url = new URL(ADMIN_LOGIN, request.url);
         url.searchParams.set('error', 'yetkisiz');
-        return NextResponse.redirect(url);
+        return finish(NextResponse.redirect(url));
       }
     } else if (isAdminRoute) {
-      return NextResponse.redirect(new URL(ADMIN_LOGIN, request.url));
+      return finish(NextResponse.redirect(new URL(ADMIN_LOGIN, request.url)));
     }
   }
 
@@ -99,7 +121,7 @@ export async function middleware(request: NextRequest) {
   const hasPendingApplicationCookie = Boolean(pendingCode && pendingCode !== '1');
 
   if (hasPersonnelCookie && pathname === '/') {
-    return NextResponse.redirect(new URL('/personnel-panel', request.url));
+    return finish(NextResponse.redirect(new URL('/personnel-panel', request.url)));
   }
 
   if (
@@ -107,19 +129,19 @@ export async function middleware(request: NextRequest) {
     hasPendingApplicationCookie &&
     (pathname === PERSONNEL_LOGIN || isPersonnelRoute)
   ) {
-    return NextResponse.redirect(new URL(PERSONNEL_BASVURU, request.url));
+    return finish(NextResponse.redirect(new URL(PERSONNEL_BASVURU, request.url)));
   }
 
   if (isPersonnelRoute || pathname === PERSONNEL_LOGIN) {
     if (hasPersonnelCookie && pathname === PERSONNEL_LOGIN) {
-      return NextResponse.redirect(new URL('/personnel-panel', request.url));
+      return finish(NextResponse.redirect(new URL('/personnel-panel', request.url)));
     }
     if (!hasPersonnelCookie && isPersonnelRoute) {
-      return NextResponse.redirect(new URL(PERSONNEL_LOGIN, request.url));
+      return finish(NextResponse.redirect(new URL(PERSONNEL_LOGIN, request.url)));
     }
   }
 
-  return response;
+  return finish(response);
 }
 
 export const config = {
