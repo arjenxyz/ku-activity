@@ -105,17 +105,27 @@ function YoklamaContent() {
   };
 
   const windowClosed = Boolean(status?.window && !status.window.isOpen && status.state === 'none');
+  const failureBlocked =
+    !forceReplace && (status?.state === 'cancelled' || status?.state === 'removed');
+  const showScanner = !loadingStatus && !failureBlocked;
   const scanPaused =
     scanning ||
     windowClosed ||
     (!forceReplace &&
-      (status?.state === 'waiting' || status?.state === 'completed'));
+      (status?.state === 'waiting' ||
+        status?.state === 'completed' ||
+        status?.state === 'cancelled' ||
+        status?.state === 'removed'));
 
   return (
     <>
       {/* Mobil — tam ekran kamera, alt bar yok */}
       <div className="fixed inset-0 z-0 h-[100dvh] bg-black sm:hidden">
-        {!loadingStatus ? (
+        {!loadingStatus && !showScanner && failureBlocked && (
+          <div className="absolute inset-0 bg-[#060d14]" aria-hidden />
+        )}
+
+        {showScanner ? (
           <AttendanceQrScanner
             key={forceReplace ? 'rescan' : 'scan'}
             className="absolute inset-0 h-full w-full"
@@ -125,11 +135,11 @@ function YoklamaContent() {
             parseQr={parseAttendanceTokenFromQr}
             invalidQrMessage="Geçerli bir yoklama QR kodu değil."
           />
-        ) : (
+        ) : loadingStatus ? (
           <div className="absolute inset-0 flex items-center justify-center bg-black">
             <div className="h-10 w-10 animate-spin rounded-full border-2 border-emerald-400 border-t-transparent" />
           </div>
-        )}
+        ) : null}
 
         {/* Üst kontroller: iptal + kod gir */}
         <div className="pointer-events-none absolute inset-x-0 top-0 z-20 flex items-start justify-between gap-3 px-3 pb-2 safe-pt">
@@ -165,13 +175,21 @@ function YoklamaContent() {
           />
         )}
 
-        {forceReplace && (status?.state === 'waiting' || status?.state === 'completed') && (
+        {forceReplace &&
+          (status?.state === 'waiting' ||
+            status?.state === 'completed' ||
+            status?.state === 'cancelled' ||
+            status?.state === 'removed') && (
           <div className="absolute inset-x-4 top-[calc(3.75rem+env(safe-area-inset-top))] z-[7] flex items-center gap-3 rounded-2xl border border-amber-200/20 bg-[#0f1a28]/95 px-3.5 py-2.5 text-xs text-amber-50 shadow-lg backdrop-blur-md">
             <span className="relative flex h-2 w-2 shrink-0">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-400 opacity-60" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-400" />
             </span>
-            <p className="min-w-0 flex-1 font-medium">Yeniden okutma modu — önceki kayıt silinir.</p>
+            <p className="min-w-0 flex-1 font-medium">
+              {status?.state === 'cancelled' || status?.state === 'removed'
+                ? 'Yeniden okutma modu — yeni QR okutabilirsiniz.'
+                : 'Yeniden okutma modu — önceki kayıt silinir.'}
+            </p>
             <button
               type="button"
               onClick={() => setForceReplace(false)}

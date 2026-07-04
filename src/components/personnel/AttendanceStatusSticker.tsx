@@ -74,12 +74,12 @@ function resolveVariant(
   if (status.state === 'cancelled') {
     return {
       glow: 'bg-amber-400/20',
-      pill: 'Yoklama iptal',
+      pill: 'İptal edildi',
       icon: FiAlertCircle,
       iconRing: 'ring-amber-400/30 bg-amber-500/15',
       iconColor: 'text-amber-400',
-      title: 'Kayıt geçersiz',
-      hint: 'Yeni QR okutun — otomatik yeniden kaydedilir.',
+      title: 'Yoklama iptal edildi',
+      hint: 'Yöneticiniz bu yoklamayı iptal etti. Lütfen onunla iletişime geçiniz.',
       primaryAction: {
         label: 'Yeniden okut',
         onClick: onForceReplace,
@@ -140,51 +140,60 @@ function ResultContent({
   dismissLabel?: string;
 }) {
   const Icon = variant.icon;
+  const bottomAction = variant.primaryAction?.style === 'solid';
 
   return (
-    <div className="attendance-result-pop pointer-events-auto relative flex w-full max-w-sm flex-col items-center px-6 text-center">
+    <div className="attendance-result-pop pointer-events-auto relative flex h-full w-full max-w-sm flex-col px-6">
       {onDismiss && (
         <button
           type="button"
           onClick={onDismiss}
-          className="absolute -top-2 right-0 flex h-10 w-10 items-center justify-center rounded-full text-white/50 transition hover:bg-white/10 hover:text-white"
+          className="absolute right-0 top-0 flex h-10 w-10 items-center justify-center rounded-full text-white/50 transition hover:bg-white/10 hover:text-white"
           aria-label={dismissLabel}
         >
           <FiX className="h-5 w-5" />
         </button>
       )}
 
-      <StatusPill label={variant.pill} dot={variant.pillDot} />
+      <div className="flex flex-1 flex-col items-center justify-center text-center">
+        <StatusPill label={variant.pill} dot={variant.pillDot} />
 
-      <div className="relative mt-8 flex h-24 w-24 items-center justify-center">
-        <div className={`absolute inset-0 rounded-full blur-2xl ${variant.glow}`} aria-hidden />
-        <div
-          className={`relative flex h-[4.5rem] w-[4.5rem] items-center justify-center rounded-full ring-2 ${variant.iconRing}`}
-        >
-          <Icon className={`h-10 w-10 ${variant.iconColor}`} strokeWidth={2} />
+        <div className="relative mt-8 flex h-24 w-24 items-center justify-center">
+          <div className={`absolute inset-0 rounded-full blur-2xl ${variant.glow}`} aria-hidden />
+          <div
+            className={`relative flex h-[4.5rem] w-[4.5rem] items-center justify-center rounded-full ring-2 ${variant.iconRing}`}
+          >
+            <Icon className={`h-10 w-10 ${variant.iconColor}`} strokeWidth={2} />
+          </div>
         </div>
+
+        <h2 className="mt-6 text-2xl font-bold leading-tight tracking-tight text-white">
+          {variant.title}
+        </h2>
+        <p className="mt-3 max-w-[18rem] text-sm leading-relaxed text-white/65">{variant.hint}</p>
+
+        {variant.primaryAction && !bottomAction && (
+          <button
+            type="button"
+            onClick={variant.primaryAction.onClick}
+            className="mt-8 text-sm font-medium text-white/75 underline decoration-white/30 underline-offset-4 transition hover:text-white"
+          >
+            {variant.primaryAction.label}
+          </button>
+        )}
       </div>
 
-      <h2 className="mt-6 text-2xl font-bold leading-tight tracking-tight text-white">
-        {variant.title}
-      </h2>
-      <p className="mt-3 max-w-[18rem] text-sm leading-relaxed text-white/65">{variant.hint}</p>
-
-      {variant.primaryAction && (
-        <button
-          type="button"
-          onClick={variant.primaryAction.onClick}
-          className={
-            variant.primaryAction.style === 'solid'
-              ? 'mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-900 transition active:scale-[0.98]'
-              : 'mt-8 text-sm font-medium text-white/75 underline decoration-white/30 underline-offset-4 transition hover:text-white'
-          }
-        >
-          {variant.primaryAction.style === 'solid' && (
+      {variant.primaryAction && bottomAction && (
+        <div className="pb-8 safe-pb">
+          <button
+            type="button"
+            onClick={variant.primaryAction.onClick}
+            className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-white px-6 py-3.5 text-sm font-semibold text-slate-900 transition active:scale-[0.98]"
+          >
             <FiRefreshCw className="h-4 w-4 shrink-0" />
-          )}
-          {variant.primaryAction.label}
-        </button>
+            {variant.primaryAction.label}
+          </button>
+        </div>
       )}
     </div>
   );
@@ -218,7 +227,7 @@ export function AttendanceStatusSticker({
 
   return (
     <div
-      className="pointer-events-none absolute inset-0 z-[6] flex items-center justify-center"
+      className="pointer-events-none absolute inset-0 z-[6] flex items-stretch justify-center px-5"
       role="status"
       aria-live="polite"
     >
