@@ -18,13 +18,15 @@ function ChromeBody({ children }: { children: React.ReactNode }) {
   const tab = isValidTab(tabParam) ? tabParam : 'overview';
   const isOverview = pathname === '/personnel-panel' && tab === 'overview';
   const isYoklama = pathname.startsWith('/personnel-panel/yoklama');
+  const isAvansOnay = pathname.startsWith('/personnel-panel/avans-onay');
+  const hideBottomNav = isYoklama || isAvansOnay;
 
   return (
     <>
       <PersonnelMobileHeader />
       <div
         className={
-          isYoklama
+          hideBottomNav
             ? 'sm:pt-0 sm:pb-0'
             : `pb-[calc(5.25rem+env(safe-area-inset-bottom))] sm:pt-0 sm:pb-0 ${
                 isOverview
@@ -35,7 +37,7 @@ function ChromeBody({ children }: { children: React.ReactNode }) {
       >
         {children}
       </div>
-      {!isYoklama ? <PersonnelAppBottomNav /> : null}
+      {!hideBottomNav ? <PersonnelAppBottomNav /> : null}
     </>
   );
 }

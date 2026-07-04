@@ -198,8 +198,15 @@ function PersonelPanelContent() {
 
     if (activeTab === 'finance' && stats && employee) {
       return (
-        <div className="max-w-lg mx-auto w-full">
+        <div className="max-w-lg mx-auto w-full space-y-4">
           <PersonnelFinancePanel stats={stats} onPrint={handlePrint} />
+          <a
+            href="/personnel-panel/avans"
+            className="block rounded-2xl border border-amber-200 bg-amber-50 px-4 py-4 text-amber-900 dark:border-amber-900/50 dark:bg-amber-950/30 dark:text-amber-200"
+          >
+            <p className="font-semibold">Avans talebi</p>
+            <p className="mt-1 text-sm opacity-80">Talep oluşturun veya durumunu görün →</p>
+          </a>
         </div>
       );
     }

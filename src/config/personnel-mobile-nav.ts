@@ -66,6 +66,13 @@ export const PERSONNEL_HUB_SECTIONS: PersonnelHubSection[] = [
         accent: 'indigo',
       },
       {
+        id: 'avans',
+        href: '/personnel-panel/avans',
+        label: 'Avans talebi',
+        description: 'Talep oluştur ve takip et',
+        accent: 'blue',
+      },
+      {
         id: 'asgari',
         tab: 'asgari',
         label: 'Asgari',

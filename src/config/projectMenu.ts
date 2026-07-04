@@ -55,6 +55,11 @@ export function getProjectMenuGroups(projectId: string): ProjectMenuGroup[] {
       label: 'Diğer kayıtlar',
       links: [
         { label: 'Avans', href: () => `/admin-panel/proje/${id}/avans` },
+        {
+          label: 'Avans talepleri',
+          href: () => `/admin-panel/proje/${id}/avans-talepleri`,
+          hint: 'Personel talepleri — onay ve ödeme',
+        },
         { label: 'Kesinti', href: () => `/admin-panel/proje/${id}/kesinti` },
         { label: 'Asgari ücret', href: () => `/admin-panel/proje/${id}/asgari` },
       ],
