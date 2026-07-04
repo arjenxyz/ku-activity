@@ -53,7 +53,7 @@ declare
 begin
   if not exists (
     select 1 from public.profiles
-    where id = p_developer_id and role = 'developer' and is_active = true
+    where id = p_developer_id and role in ('developer', 'owner') and is_active = true
   ) then
     raise exception 'UNAUTHORIZED' using errcode = '42501';
   end if;
