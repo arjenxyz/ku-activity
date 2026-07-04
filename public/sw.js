@@ -1,4 +1,4 @@
-const CACHE_NAME = 'crewledger-v9';
+const CACHE_NAME = 'crewledger-v10';
 
 /** Oturum / panel sayfaları asla önbellekten sunulmaz — her açılışta sunucu cookie kontrol eder */
 const NETWORK_ONLY_PREFIXES = [

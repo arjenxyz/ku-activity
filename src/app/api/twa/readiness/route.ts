@@ -1,5 +1,5 @@
 import { buildAssetLinksJson } from '@/lib/twa-asset-links';
-import { CREWLEDGER_APP_ICON } from '@/lib/brand';
+import { ADMIN_APP_ICON, PERSONNEL_APP_ICON } from '@/lib/brand';
 import { buildAdminManifest, buildPersonnelManifest } from '@/lib/pwa-manifest';
 import {
   TWA_ADMIN_PACKAGE_ID,
@@ -19,14 +19,14 @@ export async function GET() {
     personnel: {
       packageId: TWA_PERSONNEL_PACKAGE_ID,
       manifestUrl: `${origin}/manifest-personnel.webmanifest`,
-      iconUrl: `${origin}${CREWLEDGER_APP_ICON}`,
+      iconUrl: `${origin}${PERSONNEL_APP_ICON}`,
       startUrl: buildPersonnelManifest().start_url,
       sha256Configured: TWA_PERSONNEL_SHA256.length > 0,
     },
     admin: {
       packageId: TWA_ADMIN_PACKAGE_ID,
       manifestUrl: `${origin}/manifest-admin.webmanifest`,
-      iconUrl: `${origin}${CREWLEDGER_APP_ICON}`,
+      iconUrl: `${origin}${ADMIN_APP_ICON}`,
       startUrl: buildAdminManifest().start_url,
       sha256Configured: TWA_ADMIN_SHA256.length > 0,
     },

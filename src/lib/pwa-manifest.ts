@@ -3,31 +3,37 @@ import {
   PERSONNEL_PWA_SPLASH_BG,
   PERSONNEL_PWA_THEME,
 } from '@/lib/personnel-pwa-brand';
+import type { AppIconVariant } from '@/lib/brand';
 
-export type PwaAppVariant = 'personnel' | 'admin';
+export type PwaAppVariant = AppIconVariant;
 
 /** PWA ikon/manifest önbelleğini kırmak için — değişince artır */
-const PWA_ASSET_VERSION = '9';
+export const PWA_ASSET_VERSION = '10';
 
-function appIconUrl(size: 192 | 512) {
-  return `/api/pwa-icon/${size}?v=${PWA_ASSET_VERSION}`;
+function iconUrl(variant: PwaAppVariant, size: 192 | 512, purpose: 'any' | 'maskable' = 'any') {
+  if (purpose === 'maskable') {
+    return `/icons/${variant}/maskable/${size}?v=${PWA_ASSET_VERSION}`;
+  }
+  return `/icons/${variant}/${size}?v=${PWA_ASSET_VERSION}`;
 }
 
-function baseIcons(): MetadataRoute.Manifest['icons'] {
-  const icon192 = appIconUrl(192);
-  const icon512 = appIconUrl(512);
+function iconsForVariant(variant: PwaAppVariant): MetadataRoute.Manifest['icons'] {
+  const icon192 = iconUrl(variant, 192, 'any');
+  const icon512 = iconUrl(variant, 512, 'any');
+  const mask192 = iconUrl(variant, 192, 'maskable');
+  const mask512 = iconUrl(variant, 512, 'maskable');
   return [
     { src: icon192, sizes: '192x192', type: 'image/png', purpose: 'any' },
     { src: icon512, sizes: '512x512', type: 'image/png', purpose: 'any' },
-    { src: icon192, sizes: '192x192', type: 'image/png', purpose: 'maskable' },
-    { src: icon512, sizes: '512x512', type: 'image/png', purpose: 'maskable' },
+    { src: mask192, sizes: '192x192', type: 'image/png', purpose: 'maskable' },
+    { src: mask512, sizes: '512x512', type: 'image/png', purpose: 'maskable' },
   ];
 }
 
 export function buildPersonnelManifest(): MetadataRoute.Manifest {
-  const icon = appIconUrl(192);
+  const icon = iconUrl('personnel', 192);
   return {
-    id: '/personnel-panel?v=9',
+    id: `/personnel-panel?v=${PWA_ASSET_VERSION}`,
     name: 'CrewLedger Personel',
     short_name: 'CrewLedger',
     description:
@@ -43,7 +49,7 @@ export function buildPersonnelManifest(): MetadataRoute.Manifest {
     dir: 'ltr',
     categories: ['business', 'productivity'],
     prefer_related_applications: false,
-    icons: baseIcons(),
+    icons: iconsForVariant('personnel'),
     shortcuts: [
       {
         name: 'QR Yoklama',
@@ -62,9 +68,9 @@ export function buildPersonnelManifest(): MetadataRoute.Manifest {
 }
 
 export function buildAdminManifest(): MetadataRoute.Manifest {
-  const icon = appIconUrl(192);
+  const icon = iconUrl('admin', 192);
   return {
-    id: '/admin-panel?v=9',
+    id: `/admin-panel?v=${PWA_ASSET_VERSION}`,
     name: 'CrewLedger Yönetici',
     short_name: 'CL Yönetici',
     description:
@@ -80,7 +86,7 @@ export function buildAdminManifest(): MetadataRoute.Manifest {
     dir: 'ltr',
     categories: ['business', 'productivity'],
     prefer_related_applications: false,
-    icons: baseIcons(),
+    icons: iconsForVariant('admin'),
     shortcuts: [
       {
         name: 'Projeler',

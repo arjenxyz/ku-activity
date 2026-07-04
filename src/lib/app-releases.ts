@@ -1,3 +1,5 @@
+import { ADMIN_APP_ICON, PERSONNEL_APP_ICON } from '@/lib/brand';
+
 export const APP_RELEASES_BUCKET = 'app-releases';
 
 export const APP_RELEASE_TYPES = ['personnel', 'admin'] as const;
@@ -34,8 +36,8 @@ export const APP_RELEASE_LABELS: Record<AppReleaseType, { title: string; descrip
 };
 
 export const APP_RELEASE_ICONS: Record<AppReleaseType, string> = {
-  personnel: '/personel-icon.png',
-  admin: '/yönetici.png',
+  personnel: PERSONNEL_APP_ICON,
+  admin: ADMIN_APP_ICON,
 };
 
 export function appReleaseObjectPath(appType: AppReleaseType, versionCode: number, versionName: string) {

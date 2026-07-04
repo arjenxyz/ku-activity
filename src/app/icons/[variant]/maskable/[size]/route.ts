@@ -23,5 +23,5 @@ export async function GET(
     return new Response('Invalid size', { status: 400 });
   }
 
-  return serveAppIcon(variant, size, 'any');
+  return serveAppIcon(variant, size, 'maskable');
 }

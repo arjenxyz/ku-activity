@@ -3,7 +3,8 @@ import Script from 'next/script';
 import { PersonnelDisplayProvider } from '@/lib/personnel-display-preferences';
 import { PersonnelIntroGate } from '@/components/personnel/PersonnelIntroGate';
 import { PersonnelPanelChrome } from '@/components/personnel/PersonnelPanelChrome';
-import { CREWLEDGER_APP_ICON } from '@/lib/brand';
+import { PERSONNEL_APP_ICON } from '@/lib/brand';
+import { PWA_ASSET_VERSION } from '@/lib/pwa-manifest';
 import { PERSONNEL_INTRO_STORAGE_KEY } from '@/lib/personnel-intro';
 import {
   PERSONNEL_PWA_SPLASH_BG,
@@ -25,8 +26,8 @@ export const metadata: Metadata = {
     title: 'CrewLedger',
   },
   icons: {
-    icon: [{ url: `${CREWLEDGER_APP_ICON}?v=9`, sizes: '512x512', type: 'image/png' }],
-    apple: [{ url: `${CREWLEDGER_APP_ICON}?v=9`, sizes: '512x512', type: 'image/png' }],
+    icon: [{ url: `${PERSONNEL_APP_ICON}?v=${PWA_ASSET_VERSION}`, sizes: '512x512', type: 'image/png' }],
+    apple: [{ url: `${PERSONNEL_APP_ICON}?v=${PWA_ASSET_VERSION}`, sizes: '512x512', type: 'image/png' }],
   },
   other: {
     'mobile-web-app-capable': 'yes',

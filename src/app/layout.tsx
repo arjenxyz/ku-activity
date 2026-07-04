@@ -4,6 +4,7 @@ import './globals.css';
 import { PWARegister } from '@/components/pwa/PWARegister';
 import { InstallPrompt } from '@/components/pwa/InstallPrompt';
 import { CREWLEDGER_APP_ICON } from '@/lib/brand';
+import { PWA_ASSET_VERSION } from '@/lib/pwa-manifest';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -29,8 +30,8 @@ export const metadata: Metadata = {
     telephone: false,
   },
   icons: {
-    icon: [{ url: `${CREWLEDGER_APP_ICON}?v=9`, sizes: '512x512', type: 'image/png' }],
-    apple: [{ url: `${CREWLEDGER_APP_ICON}?v=9`, sizes: '512x512', type: 'image/png' }],
+    icon: [{ url: `${CREWLEDGER_APP_ICON}?v=${PWA_ASSET_VERSION}`, sizes: '512x512', type: 'image/png' }],
+    apple: [{ url: `${CREWLEDGER_APP_ICON}?v=${PWA_ASSET_VERSION}`, sizes: '512x512', type: 'image/png' }],
   },
 };
 
