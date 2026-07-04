@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { BrandMark } from '@/components/brand/BrandMark';
-import { APP_NAME, DEFAULT_SUPPORT_EMAIL } from '@/lib/brand';
+import { APP_NAME } from '@/lib/brand';
 import { getPlatformInfo } from '@/lib/platform-config';
 import { getVolunteerProjectSummary } from '@/lib/platform-legal-content';
 
