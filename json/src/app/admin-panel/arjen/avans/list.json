@@ -1,0 +1,17 @@
+{
+  "confirmDelete": "Bu kaydı silmek istediğinize emin misiniz?",
+  "deleteError": "Silme hatası: {message}",
+  "title": "Avans / Kesinti Kayıtları",
+  "loading": "Yükleniyor...",
+  "colEmployee": "İşçi",
+  "colDate": "Tarih",
+  "colType": "Tür",
+  "colAmount": "Tutar",
+  "colDescription": "Açıklama",
+  "colDelete": "Sil",
+  "typeAdvance": "Avans",
+  "typeSubcontractorCut": "Taşeron Kesintisi",
+  "emptyValue": "-",
+  "deleteRecordTitle": "Kaydı Sil",
+  "noRecords": "Kayıt bulunamadı."
+}

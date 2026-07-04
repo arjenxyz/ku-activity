@@ -1,3 +1,4 @@
+import strings from '@json/src/app/admin-panel/proje/ProjectFilters.json';
 import { FiSearch } from 'react-icons/fi';
 import type { ProjectStatus } from '@/types/project';
 import { PROJECT_STATUS_LABELS } from '@/types/project';
@@ -20,14 +21,14 @@ export default function ProjectFilters({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label htmlFor="search" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
-            Proje Ara
+            {strings.searchLabel}
           </label>
           <div className="relative">
             <input
               type="text"
               id="search"
               className="block w-full pl-4 pr-10 py-2.5 text-sm border border-slate-200 dark:border-slate-700 rounded-xl bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="Ad, kod veya konum..."
+              placeholder={strings.searchPlaceholder}
               value={searchTerm}
               onChange={(e) => onSearchChange(e.target.value)}
             />
@@ -36,7 +37,7 @@ export default function ProjectFilters({
         </div>
         <div>
           <label htmlFor="filter" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
-            Durum
+            {strings.statusLabel}
           </label>
           <select
             id="filter"
@@ -44,7 +45,7 @@ export default function ProjectFilters({
             value={filter}
             onChange={(e) => onFilterChange(e.target.value as ProjectFilter)}
           >
-            <option value="all">Tüm Projeler</option>
+            <option value="all">{strings.allProjects}</option>
             {(Object.keys(PROJECT_STATUS_LABELS) as ProjectStatus[]).map((status) => (
               <option key={status} value={status}>
                 {PROJECT_STATUS_LABELS[status]}

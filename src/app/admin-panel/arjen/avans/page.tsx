@@ -1,10 +1,12 @@
 'use client';
 
+import strings from '@json/src/app/admin-panel/arjen/avans/page.json';
 import { useState, useEffect } from 'react';
 import { supabase } from '../../../lib/supabaseClient';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
+import { formatString } from '@/lib/strings/format';
 import { FiUser, FiCalendar, FiDollarSign, FiEdit2, FiCheckCircle, FiAlertCircle, FiRepeat } from 'react-icons/fi';
 
 dayjs.extend(utc);
@@ -15,7 +17,7 @@ export default function DeductionForm() {
   const [form, setForm] = useState({
     employee_id: '',
     date: dayjs().tz('Europe/Istanbul').format('YYYY-MM-DD'),
-    type: 'advance', // "advance" veya "subcontractor_cut"
+    type: 'advance',
     amount: '',
     description: '',
   });
@@ -25,7 +27,7 @@ export default function DeductionForm() {
     const fetchEmployees = async () => {
       const { data, error } = await supabase.from('employees').select('id, name');
       if (error) {
-        setMessage({type: 'error', text: 'Çalışanlar yüklenemedi: ' + error.message });
+        setMessage({ type: 'error', text: formatString(strings.employeesLoadFailed, { message: error.message }) });
         setEmployees([]);
       } else {
         setEmployees(data || []);
@@ -43,11 +45,11 @@ export default function DeductionForm() {
     setMessage(null);
 
     if (!form.employee_id || !form.date || !form.type || !form.amount) {
-      setMessage({type: 'error', text: 'Lütfen tüm zorunlu alanları doldurun.'});
+      setMessage({type: 'error', text: strings.requiredFields});
       return;
     }
     if (isNaN(Number(form.amount)) || Number(form.amount) <= 0) {
-      setMessage({type: 'error', text: 'Tutar pozitif ve sayısal olmalı.'});
+      setMessage({type: 'error', text: strings.invalidAmount});
       return;
     }
 
@@ -60,9 +62,9 @@ export default function DeductionForm() {
     }]);
 
     if (error) {
-      setMessage({type: 'error', text: 'Kayıt hatası: ' + error.message});
+      setMessage({ type: 'error', text: formatString(strings.saveError, { message: error.message }) });
     } else {
-      setMessage({type: 'success', text: 'Kayıt başarıyla eklendi!'});
+      setMessage({type: 'success', text: strings.saveSuccess});
       setForm({
         employee_id: '',
         date: dayjs().tz('Europe/Istanbul').format('YYYY-MM-DD'),
@@ -76,15 +78,13 @@ export default function DeductionForm() {
   return (
     <div className="max-w-lg mx-auto p-6 bg-white rounded-xl shadow-lg mt-8">
       <h2 className="text-2xl font-bold mb-2 flex items-center gap-2">
-        <FiRepeat className="text-indigo-600" /> Avans / Taşeron Kesintisi Kaydı
+        <FiRepeat className="text-indigo-600" /> {strings.title}
       </h2>
-      <p className="text-gray-500 mb-5">
-        İşçi için avans veya taşeron kesintilerini buradan kolayca ekleyebilirsiniz.
-      </p>
+      <p className="text-gray-500 mb-5">{strings.subtitle}</p>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className="block text-gray-700 font-medium mb-1 flex items-center gap-1">
-            <FiUser /> İşçi <span className="text-red-500">*</span>
+            <FiUser /> {strings.employeeLabel} <span className="text-red-500">*</span>
           </label>
           <select
             name="employee_id"
@@ -93,7 +93,7 @@ export default function DeductionForm() {
             className="border rounded-lg px-3 py-2 w-full focus:ring-2 focus:ring-indigo-300"
             required
           >
-            <option value="">İşçi Seçiniz</option>
+            <option value="">{strings.selectEmployee}</option>
             {employees.map(e => (
               <option key={e.id} value={e.id}>{e.name}</option>
             ))}
@@ -102,7 +102,7 @@ export default function DeductionForm() {
         <div className="flex gap-4">
           <div className="flex-1">
             <label className="block text-gray-700 font-medium mb-1 flex items-center gap-1">
-              <FiCalendar /> Tarih <span className="text-red-500">*</span>
+              <FiCalendar /> {strings.dateLabel} <span className="text-red-500">*</span>
             </label>
             <input
               type="date"
@@ -115,7 +115,7 @@ export default function DeductionForm() {
           </div>
           <div className="flex-1">
             <label className="block text-gray-700 font-medium mb-1 flex items-center gap-1">
-              <FiDollarSign /> Tutar <span className="text-red-500">*</span>
+              <FiDollarSign /> {strings.amountLabel} <span className="text-red-500">*</span>
             </label>
             <input
               type="number"
@@ -125,7 +125,7 @@ export default function DeductionForm() {
               value={form.amount}
               onChange={handleChange}
               className="border rounded-lg px-3 py-2 w-full focus:ring-2 focus:ring-indigo-300"
-              placeholder="Örn: 1000"
+              placeholder={strings.amountPlaceholder}
               required
             />
           </div>
@@ -133,7 +133,7 @@ export default function DeductionForm() {
         <div className="flex gap-4">
           <div className="flex-1">
             <label className="block text-gray-700 font-medium mb-1 flex items-center gap-1">
-              <FiRepeat /> Tür <span className="text-red-500">*</span>
+              <FiRepeat /> {strings.typeLabel} <span className="text-red-500">*</span>
             </label>
             <select
               name="type"
@@ -142,13 +142,13 @@ export default function DeductionForm() {
               className="border rounded-lg px-3 py-2 w-full focus:ring-2 focus:ring-indigo-300"
               required
             >
-              <option value="advance">Avans</option>
-              <option value="subcontractor_cut">Taşeron Kesintisi</option>
+              <option value="advance">{strings.typeAdvance}</option>
+              <option value="subcontractor_cut">{strings.typeSubcontractorCut}</option>
             </select>
           </div>
           <div className="flex-1">
             <label className="block text-gray-700 font-medium mb-1 flex items-center gap-1">
-              <FiEdit2 /> Açıklama
+              <FiEdit2 /> {strings.descriptionLabel}
             </label>
             <input
               type="text"
@@ -156,7 +156,7 @@ export default function DeductionForm() {
               value={form.description}
               onChange={handleChange}
               className="border rounded-lg px-3 py-2 w-full focus:ring-2 focus:ring-indigo-300"
-              placeholder="(İsteğe bağlı)"
+              placeholder={strings.descriptionPlaceholder}
               maxLength={100}
             />
           </div>
@@ -165,7 +165,7 @@ export default function DeductionForm() {
           type="submit"
           className="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors text-lg flex items-center justify-center gap-2"
         >
-          <FiCheckCircle /> Kaydet
+          <FiCheckCircle /> {strings.saveButton}
         </button>
         {message && (
           <div

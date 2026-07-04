@@ -1,10 +1,12 @@
 'use client';
 
+import strings from '@json/src/app/admin-panel/arjen/yevmiye/page.json';
 import { useState, useEffect } from 'react';
 import { supabase } from '../../../lib/supabaseClient';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
+import { formatString } from '@/lib/strings/format';
 import { FiUser, FiCalendar, FiClock, FiEdit2, FiCheckCircle, FiAlertCircle } from 'react-icons/fi';
 
 dayjs.extend(utc);
@@ -15,17 +17,16 @@ export default function WorkLogForm() {
   const [form, setForm] = useState({
     employee_id: '',
     date: dayjs().tz('Europe/Istanbul').format('YYYY-MM-DD'),
-    amount: '1', // 1 = tam gün, 0.5 = yarım gün
+    amount: '1',
     description: '',
   });
   const [message, setMessage] = useState<{type: 'success' | 'error'; text: string} | null>(null);
 
-  // Çalışanları çek
   useEffect(() => {
     const fetchEmployees = async () => {
-      const { data, error } = await supabase.from('employees').select('id, name');  // const olarak değiştirildi
+      const { data, error } = await supabase.from('employees').select('id, name');
       if (error) {
-        setMessage({type: 'error', text: 'Çalışanlar yüklenemedi: ' + error.message });
+        setMessage({ type: 'error', text: formatString(strings.employeesLoadFailed, { message: error.message }) });
         setEmployees([]);
       } else {
         setEmployees(data || []);
@@ -43,7 +44,7 @@ export default function WorkLogForm() {
     setMessage(null);
 
     if (!form.employee_id || !form.date || !form.amount) {
-      setMessage({type: 'error', text: 'Lütfen tüm zorunlu alanları doldurun.'});
+      setMessage({type: 'error', text: strings.requiredFields});
       return;
     }
 
@@ -55,9 +56,9 @@ export default function WorkLogForm() {
     }]);
 
     if (error) {
-      setMessage({type: 'error', text: 'Kayıt hatası: ' + error.message});
+      setMessage({ type: 'error', text: formatString(strings.saveError, { message: error.message }) });
     } else {
-      setMessage({type: 'success', text: 'Kayıt başarıyla eklendi!'});
+      setMessage({type: 'success', text: strings.saveSuccess});
       setForm({
         employee_id: '',
         date: dayjs().tz('Europe/Istanbul').format('YYYY-MM-DD'),
@@ -70,15 +71,13 @@ export default function WorkLogForm() {
   return (
     <div className="max-w-lg mx-auto p-6 bg-white rounded-xl shadow-lg mt-8">
       <h2 className="text-2xl font-bold mb-2 flex items-center gap-2">
-        <FiEdit2 className="text-indigo-600" /> Yevmiye Kaydı Oluştur
+        <FiEdit2 className="text-indigo-600" /> {strings.title}
       </h2>
-      <p className="text-gray-500 mb-5">
-        Günlük veya yarım günlük çalışma kayıtlarını buradan kolayca ekleyebilirsiniz.
-      </p>
+      <p className="text-gray-500 mb-5">{strings.subtitle}</p>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className="block text-gray-700 font-medium mb-1 flex items-center gap-1">
-            <FiUser /> İşçi <span className="text-red-500">*</span>
+            <FiUser /> {strings.employeeLabel} <span className="text-red-500">*</span>
           </label>
           <select
             name="employee_id"
@@ -87,7 +86,7 @@ export default function WorkLogForm() {
             className="border rounded-lg px-3 py-2 w-full focus:ring-2 focus:ring-indigo-300"
             required
           >
-            <option value="">İşçi Seçiniz</option>
+            <option value="">{strings.selectEmployee}</option>
             {employees.map(e => (
               <option key={e.id} value={e.id}>{e.name}</option>
             ))}
@@ -96,7 +95,7 @@ export default function WorkLogForm() {
         <div className="flex gap-4">
           <div className="flex-1">
             <label className="block text-gray-700 font-medium mb-1 flex items-center gap-1">
-              <FiCalendar /> Tarih <span className="text-red-500">*</span>
+              <FiCalendar /> {strings.dateLabel} <span className="text-red-500">*</span>
             </label>
             <input
               type="date"
@@ -109,7 +108,7 @@ export default function WorkLogForm() {
           </div>
           <div className="flex-1">
             <label className="block text-gray-700 font-medium mb-1 flex items-center gap-1">
-              <FiClock /> Çalışma Süresi <span className="text-red-500">*</span>
+              <FiClock /> {strings.durationLabel} <span className="text-red-500">*</span>
             </label>
             <select
               name="amount"
@@ -117,14 +116,14 @@ export default function WorkLogForm() {
               onChange={handleChange}
               className="border rounded-lg px-3 py-2 w-full focus:ring-2 focus:ring-indigo-300"
             >
-              <option value="1">Tam Gün</option>
-              <option value="0.5">Yarım Gün</option>
+              <option value="1">{strings.fullDay}</option>
+              <option value="0.5">{strings.halfDay}</option>
             </select>
           </div>
         </div>
         <div>
           <label className="block text-gray-700 font-medium mb-1 flex items-center gap-1">
-            <FiEdit2 /> Açıklama
+            <FiEdit2 /> {strings.descriptionLabel}
           </label>
           <input
             type="text"
@@ -132,7 +131,7 @@ export default function WorkLogForm() {
             value={form.description}
             onChange={handleChange}
             className="border rounded-lg px-3 py-2 w-full focus:ring-2 focus:ring-indigo-300"
-            placeholder="(İsteğe bağlı) Örn: Erken çıktı, yağmur vardı..."
+            placeholder={strings.descriptionPlaceholder}
             maxLength={100}
           />
         </div>
@@ -140,7 +139,7 @@ export default function WorkLogForm() {
           type="submit"
           className="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors text-lg flex items-center justify-center gap-2"
         >
-          <FiCheckCircle /> Kaydet
+          <FiCheckCircle /> {strings.saveButton}
         </button>
         {message && (
           <div

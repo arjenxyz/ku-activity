@@ -1,5 +1,6 @@
 'use client';
 
+import strings from '@json/src/app/admin-panel/maas-politikasi/page.json';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { AlertBanner } from '@/components/project/AlertBanner';
@@ -16,7 +17,7 @@ export default function CompanyWagePolicyPage() {
   useEffect(() => {
     fetch('/api/admin/wage-policy')
       .then(async (res) => {
-        if (!res.ok) throw new Error((await res.json()).error || 'Yüklenemedi');
+        if (!res.ok) throw new Error((await res.json()).error || strings.loadFailed);
         return res.json();
       })
       .then((d) => {
@@ -37,12 +38,12 @@ export default function CompanyWagePolicyPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ policy }),
       });
-      if (!res.ok) throw new Error((await res.json()).error || 'Kaydedilemedi');
+      if (!res.ok) throw new Error((await res.json()).error || strings.saveFailed);
       const d = await res.json();
       setPolicy(normalizeWagePolicy(d.policy));
-      setSuccess('Şirket politikası kaydedildi. Projeler varsayılan olarak bunu kullanır.');
+      setSuccess(strings.saveSuccess);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Kayıt başarısız');
+      setError(err instanceof Error ? err.message : strings.saveError);
     } finally {
       setSaving(false);
     }
@@ -55,7 +56,7 @@ export default function CompanyWagePolicyPage() {
 
       <p className="mb-6 text-sm">
         <Link href="/admin-panel" className="text-indigo-600 hover:text-indigo-700">
-          ← Projelere dön
+          {strings.backToProjects}
         </Link>
       </p>
 
@@ -65,8 +66,8 @@ export default function CompanyWagePolicyPage() {
         onSubmit={handleSubmit}
         loading={loading}
         saving={saving}
-        title="Şirket maaş politikası"
-        subtitle="Ana yetkili: yevmiye ödeme zamanı ve asgari hesap kurallarını burada belirleyin. Her proje isterse kendi özel kuralını tanımlayabilir."
+        title={strings.title}
+        subtitle={strings.subtitle}
       />
     </div>
   );

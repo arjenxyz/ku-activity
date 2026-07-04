@@ -1,5 +1,6 @@
 'use client';
 
+import strings from '@json/src/app/admin-panel/register/page.json';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -29,12 +30,6 @@ const sectionTitleClass =
   'text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-3';
 const panelClass =
   'rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/70 dark:bg-slate-900/40 p-4 sm:p-5';
-
-const STEPS = [
-  { title: 'Hesap oluştur', desc: 'Kişisel ve firma bilgilerinizi girin' },
-  { title: 'Doğrulama kodu', desc: 'Proje açmak için kod talep edin' },
-  { title: 'Şantiye ekleyin', desc: 'Personel ve puantaj yönetimine başlayın' },
-];
 
 export default function AdminRegisterPage() {
   const router = useRouter();
@@ -104,7 +99,7 @@ export default function AdminRegisterPage() {
       });
       const data = await res.json();
       if (!res.ok) {
-        setError(data.error || 'Kayıt başarısız');
+        setError(data.error || strings.registerFailed);
         return;
       }
 
@@ -120,7 +115,7 @@ export default function AdminRegisterPage() {
       router.replace('/admin-panel');
       router.refresh();
     } catch {
-      setError('Kayıt sırasında hata oluştu');
+      setError(strings.registerError);
     } finally {
       setIsLoading(false);
     }
@@ -131,9 +126,9 @@ export default function AdminRegisterPage() {
       <div className="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(240px,300px)_minmax(0,1fr)] xl:items-start">
         <aside className="space-y-4">
           <div className={panelClass}>
-            <h2 className={sectionTitleClass}>Nasıl çalışır?</h2>
+            <h2 className={sectionTitleClass}>{strings.howItWorks}</h2>
             <ol className="space-y-4">
-              {STEPS.map((step, index) => (
+              {strings.steps.map((step, index) => (
                 <li key={step.title} className="flex gap-3">
                   <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-blue-600 text-xs font-bold text-white">
                     {index + 1}
@@ -151,16 +146,15 @@ export default function AdminRegisterPage() {
             <div className="flex items-start gap-3">
               <FiMail className="h-5 w-5 shrink-0 text-blue-600 dark:text-blue-400 mt-0.5" />
               <div>
-                <p className="text-sm font-semibold text-blue-900 dark:text-blue-100">Doğrulama kodu</p>
+                <p className="text-sm font-semibold text-blue-900 dark:text-blue-100">{strings.verificationCodeTitle}</p>
                 <p className="mt-1.5 text-xs text-blue-800/90 dark:text-blue-200/80 leading-relaxed">
-                  İlk projenizi oluşturmak için doğrulama kodu gerekir. Kayıt sonrası e-posta ile
-                  talep edebilirsiniz.
+                  {strings.verificationCodeDesc}
                 </p>
                 <a
                   href={verificationCodeMailto()}
                   className="mt-3 inline-flex text-xs font-semibold text-blue-700 dark:text-blue-300 hover:underline"
                 >
-                  Kod için bize yazın →
+                  {strings.requestCodeLink}
                 </a>
               </div>
             </div>
@@ -168,8 +162,7 @@ export default function AdminRegisterPage() {
 
           <div className="hidden xl:block rounded-xl border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 p-4 text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
             <FiBriefcase className="h-4 w-4 text-slate-400 mb-2" />
-            CrewLedger; yevmiye, mesai, avans ve asgari ücret takibini şantiye operasyonlarına özel
-            olarak sunar.
+            {strings.productBlurb}
           </div>
         </aside>
 
@@ -182,11 +175,11 @@ export default function AdminRegisterPage() {
 
           <form onSubmit={handleSubmit} className="space-y-8" {...credentialLoginFormProps}>
             <section>
-              <h2 className={sectionTitleClass}>Kişisel bilgiler</h2>
+              <h2 className={sectionTitleClass}>{strings.personalInfo}</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label htmlFor="reg-first" className={labelClass}>
-                    Ad *
+                    {strings.firstNameLabel}
                   </label>
                   <input
                     id="reg-first"
@@ -199,7 +192,7 @@ export default function AdminRegisterPage() {
                 </div>
                 <div>
                   <label htmlFor="reg-last" className={labelClass}>
-                    Soyad *
+                    {strings.lastNameLabel}
                   </label>
                   <input
                     id="reg-last"
@@ -212,7 +205,7 @@ export default function AdminRegisterPage() {
                 </div>
                 <div className="sm:col-span-2">
                   <label htmlFor="reg-email" className={labelClass}>
-                    E-posta *
+                    {strings.emailLabel}
                   </label>
                   <input
                     id="reg-email"
@@ -225,7 +218,7 @@ export default function AdminRegisterPage() {
                 </div>
                 <div className="sm:col-span-2">
                   <label htmlFor="reg-phone" className={labelClass}>
-                    Cep telefonu *
+                    {strings.phoneLabel}
                   </label>
                   <TurkishPhoneInput
                     id="reg-phone"
@@ -239,24 +232,24 @@ export default function AdminRegisterPage() {
             </section>
 
             <section>
-              <h2 className={sectionTitleClass}>Firma ve operasyon</h2>
+              <h2 className={sectionTitleClass}>{strings.companySection}</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="sm:col-span-2">
                   <label htmlFor="reg-company" className={labelClass}>
-                    Firma veya şantiye adı *
+                    {strings.companyLabel}
                   </label>
                   <input
                     id="reg-company"
                     className={inputClass}
                     value={form.company_name}
                     onChange={(e) => update({ company_name: e.target.value })}
-                    placeholder="Örn. Yılmaz İnşaat / Merkez Şantiye"
+                    placeholder={strings.companyPlaceholder}
                     required
                   />
                 </div>
                 <div>
                   <label htmlFor="reg-job" className={labelClass}>
-                    Görev / unvan *
+                    {strings.jobTitleLabel}
                   </label>
                   <select
                     id="reg-job"
@@ -265,7 +258,7 @@ export default function AdminRegisterPage() {
                     onChange={(e) => update({ job_title: e.target.value })}
                     required
                   >
-                    <option value="">Seçin</option>
+                    <option value="">{strings.selectOption}</option>
                     {ADMIN_JOB_TITLES.map((title) => (
                       <option key={title} value={title}>
                         {title}
@@ -275,20 +268,20 @@ export default function AdminRegisterPage() {
                 </div>
                 <div>
                   <label htmlFor="reg-city" className={labelClass}>
-                    Şehir *
+                    {strings.cityLabel}
                   </label>
                   <input
                     id="reg-city"
                     className={inputClass}
                     value={form.city}
                     onChange={(e) => update({ city: e.target.value })}
-                    placeholder="Örn. İstanbul"
+                    placeholder={strings.cityPlaceholder}
                     required
                   />
                 </div>
                 <div>
                   <label htmlFor="reg-team" className={labelClass}>
-                    Tahmini personel sayısı *
+                    {strings.teamSizeLabel}
                   </label>
                   <select
                     id="reg-team"
@@ -297,7 +290,7 @@ export default function AdminRegisterPage() {
                     onChange={(e) => update({ team_size: e.target.value })}
                     required
                   >
-                    <option value="">Seçin</option>
+                    <option value="">{strings.selectOption}</option>
                     {ADMIN_TEAM_SIZES.map((opt) => (
                       <option key={opt.value} value={opt.value}>
                         {opt.label}
@@ -307,7 +300,7 @@ export default function AdminRegisterPage() {
                 </div>
                 <div>
                   <label htmlFor="reg-projects" className={labelClass}>
-                    Aktif şantiye sayısı *
+                    {strings.projectCountLabel}
                   </label>
                   <select
                     id="reg-projects"
@@ -316,7 +309,7 @@ export default function AdminRegisterPage() {
                     onChange={(e) => update({ project_count: e.target.value })}
                     required
                   >
-                    <option value="">Seçin</option>
+                    <option value="">{strings.selectOption}</option>
                     {ADMIN_PROJECT_COUNTS.map((opt) => (
                       <option key={opt.value} value={opt.value}>
                         {opt.label}
@@ -326,7 +319,7 @@ export default function AdminRegisterPage() {
                 </div>
                 <div className="sm:col-span-2">
                   <label htmlFor="reg-referral" className={labelClass}>
-                    Bizi nereden duydunuz?
+                    {strings.referralLabel}
                   </label>
                   <select
                     id="reg-referral"
@@ -334,7 +327,7 @@ export default function AdminRegisterPage() {
                     value={form.referral_source}
                     onChange={(e) => update({ referral_source: e.target.value })}
                   >
-                    <option value="">İsteğe bağlı</option>
+                    <option value="">{strings.referralOptional}</option>
                     {ADMIN_REFERRAL_SOURCES.map((opt) => (
                       <option key={opt.value} value={opt.value}>
                         {opt.label}
@@ -346,11 +339,11 @@ export default function AdminRegisterPage() {
             </section>
 
             <section>
-              <h2 className={sectionTitleClass}>Hesap güvenliği</h2>
+              <h2 className={sectionTitleClass}>{strings.securitySection}</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label htmlFor="reg-password" className={labelClass}>
-                    Şifre *
+                    {strings.passwordLabel}
                   </label>
                   <input
                     id="reg-password"
@@ -361,11 +354,11 @@ export default function AdminRegisterPage() {
                     minLength={6}
                     {...registerPasswordInputProps}
                   />
-                  <p className="text-xs text-gray-500 mt-1">En az 6 karakter</p>
+                  <p className="text-xs text-gray-500 mt-1">{strings.passwordHint}</p>
                 </div>
                 <div>
                   <label htmlFor="reg-password-confirm" className={labelClass}>
-                    Şifre tekrar *
+                    {strings.passwordConfirmLabel}
                   </label>
                   <input
                     id="reg-password-confirm"
@@ -383,10 +376,7 @@ export default function AdminRegisterPage() {
 
             <div className="rounded-xl border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/60 dark:bg-emerald-950/20 px-4 py-3 flex gap-3 text-xs text-emerald-900 dark:text-emerald-100">
               <FiCheckCircle className="h-4 w-4 shrink-0 mt-0.5" />
-              <p>
-                Kayıt ücretsizdir. Hesabınız oluşturulduktan sonra yönetici paneline yönlendirilirsiniz;
-                ilk şantiyenizi eklemek için doğrulama kodu talep etmeniz yeterlidir.
-              </p>
+              <p>{strings.freeNotice}</p>
             </div>
 
             <button
@@ -397,21 +387,21 @@ export default function AdminRegisterPage() {
               {isLoading ? (
                 <>
                   <LoadingSpinner />
-                  Hesap oluşturuluyor…
+                  {strings.creatingAccount}
                 </>
               ) : (
                 <>
                   <FiUserPlus className="w-4 h-4" />
-                  Yönetici hesabı oluştur
+                  {strings.submitButton}
                 </>
               )}
             </button>
           </form>
 
           <p className="mt-5 text-center text-xs text-gray-500 dark:text-gray-400">
-            Zaten hesabınız var mı?{' '}
+            {strings.hasAccount}{' '}
             <Link href="/admin-panel/login" className="text-blue-600 font-medium hover:underline">
-              Giriş yapın
+              {strings.loginLink}
             </Link>
           </p>
         </div>

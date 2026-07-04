@@ -1,3 +1,4 @@
+import strings from '@json/src/app/admin-panel/proje/ProjectList.json';
 import {
   FiMapPin,
   FiArrowUpRight,
@@ -9,6 +10,7 @@ import {
 import { format, parseISO, isValid } from 'date-fns';
 import { tr } from 'date-fns/locale';
 import { useRouter } from 'next/navigation';
+import { formatString } from '@/lib/strings/format';
 import type { Project, ProjectStatus } from '@/types/project';
 import { PROJECT_STATUS_LABELS } from '@/types/project';
 
@@ -21,9 +23,9 @@ const statusStyles: Record<ProjectStatus, string> = {
 };
 
 function formatDateSafe(value: string | null) {
-  if (!value) return '—';
+  if (!value) return strings.emptyDate;
   const d = parseISO(value);
-  return isValid(d) ? format(d, 'dd MMM yyyy', { locale: tr }) : '—';
+  return isValid(d) ? format(d, 'dd MMM yyyy', { locale: tr }) : strings.emptyDate;
 }
 
 export default function ProjectList({
@@ -52,8 +54,8 @@ export default function ProjectList({
   if (projects.length === 0) {
     return (
       <div className="text-center py-16 px-6 bg-white dark:bg-slate-900 rounded-2xl border border-dashed border-slate-300 dark:border-slate-700">
-        <p className="text-lg font-medium text-slate-800 dark:text-slate-200">Henüz proje yok</p>
-        <p className="text-sm text-slate-500 mt-1">Yeni Proje ile ilk şantiyenizi ekleyin.</p>
+        <p className="text-lg font-medium text-slate-800 dark:text-slate-200">{strings.emptyTitle}</p>
+        <p className="text-sm text-slate-500 mt-1">{strings.emptySubtitle}</p>
       </div>
     );
   }
@@ -88,11 +90,14 @@ export default function ProjectList({
               </p>
             )}
             <p className="text-xs text-slate-500">
-              Başlangıç: {formatDateSafe(project.start_date)}
+              {formatString(strings.startDate, { date: formatDateSafe(project.start_date) })}
             </p>
             <p className="flex items-center gap-2">
               <FiUsers className="w-4 h-4" />
-              {project.active_employee_count ?? 0} aktif / {project.employee_count ?? 0} personel
+              {formatString(strings.employeeCount, {
+                active: project.active_employee_count ?? 0,
+                total: project.employee_count ?? 0,
+              })}
             </p>
           </div>
 
@@ -102,7 +107,7 @@ export default function ProjectList({
               onClick={() => router.push(`/admin-panel/proje/${project.id}`)}
               className="flex-1 inline-flex items-center justify-center gap-2 px-3 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium transition-colors"
             >
-              Aç
+              {strings.open}
               <FiArrowUpRight className="w-4 h-4" />
             </button>
             {onEdit && (
@@ -110,7 +115,7 @@ export default function ProjectList({
                 type="button"
                 onClick={() => onEdit(project.id)}
                 className="p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800"
-                aria-label="Düzenle"
+                aria-label={strings.editAriaLabel}
               >
                 <FiEdit2 className="w-4 h-4" />
               </button>
@@ -120,7 +125,7 @@ export default function ProjectList({
                 type="button"
                 onClick={() => onDelete(project.id)}
                 className="p-2.5 rounded-xl border border-red-200 dark:border-red-900 text-red-600 hover:bg-red-50 dark:hover:bg-red-950/40"
-                aria-label="Sil"
+                aria-label={strings.deleteAriaLabel}
               >
                 <FiTrash2 className="w-4 h-4" />
               </button>

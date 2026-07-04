@@ -1,22 +1,24 @@
 import type { Metadata, Viewport } from 'next';
+import strings from '@json/src/app/admin-panel/layout.json';
 import { AdminIntroGate } from '@/components/admin/AdminIntroGate';
 import { AdminPanelLayout } from '@/components/dashboard/AdminPanelLayout';
-import { ADMIN_APP_ICON } from '@/lib/brand';
+import { ADMIN_APP_ICON, APP_NAME } from '@/lib/brand';
 import { ADMIN_PWA_STARTUP_IMAGES, ADMIN_PWA_THEME } from '@/lib/admin-pwa-brand';
 import { PWA_ASSET_VERSION } from '@/lib/pwa-manifest';
+import { formatString } from '@/lib/strings/format';
 import { getTwaOrigin } from '@/lib/twa-config';
 
 const ORIGIN = getTwaOrigin();
 
 export const metadata: Metadata = {
-  title: 'CrewLedger Yönetici',
-  description: 'Personel, yevmiye, bordro ve şantiye yönetimi.',
-  applicationName: 'CrewLedger Yönetici',
+  title: formatString(strings.title, { appName: APP_NAME }),
+  description: strings.description,
+  applicationName: formatString(strings.applicationName, { appName: APP_NAME }),
   manifest: '/manifest-admin.webmanifest',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
-    title: 'CL Yönetici',
+    title: strings.appleWebAppTitle,
   },
   icons: {
     icon: [{ url: `${ORIGIN}${ADMIN_APP_ICON}?v=${PWA_ASSET_VERSION}`, sizes: '512x512', type: 'image/png' }],

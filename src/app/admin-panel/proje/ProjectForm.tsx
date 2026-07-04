@@ -1,5 +1,6 @@
 'use client';
 
+import strings from '@json/src/app/admin-panel/proje/ProjectForm.json';
 import { useState, useEffect } from 'react';
 import { FiCheck, FiKey, FiX } from 'react-icons/fi';
 import { verificationCodeMailto } from '@/lib/support-email';
@@ -39,7 +40,7 @@ export default function ProjectForm({
     fetchProjectById(editingId)
       .then((project) => {
         if (!project) {
-          setError('Proje bulunamadı');
+          setError(strings.notFound);
           return;
         }
         setFormData({
@@ -52,7 +53,7 @@ export default function ProjectForm({
           status: project.status,
         });
       })
-      .catch(() => setError('Proje bilgileri yüklenemedi'));
+      .catch(() => setError(strings.loadFailed));
   }, [editingId]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -67,7 +68,7 @@ export default function ProjectForm({
       }
       onSuccess();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Proje kaydedilemedi');
+      setError(err instanceof Error ? err.message : strings.saveFailed);
     } finally {
       setIsSubmitting(false);
     }
@@ -87,7 +88,7 @@ export default function ProjectForm({
     <div className="bg-white dark:bg-slate-900 shadow-sm rounded-2xl overflow-hidden mb-6 border border-slate-200/80 dark:border-slate-800">
       <div className="px-6 py-4 border-b border-slate-200 dark:border-slate-800">
         <h2 className="text-lg font-semibold">
-          {editingId ? 'Projeyi Düzenle' : 'Yeni Proje'}
+          {editingId ? strings.editTitle : strings.newTitle}
         </h2>
       </div>
       <form onSubmit={handleSubmit} className="p-6 space-y-5">
@@ -104,12 +105,12 @@ export default function ProjectForm({
               <FiKey className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
               <div>
                 <label htmlFor="verificationCode" className="block text-sm font-semibold text-blue-900 dark:text-blue-100">
-                  Doğrulama Kodu *
+                  {strings.verificationCodeLabel}
                 </label>
                 <p className="text-xs text-blue-700/80 dark:text-blue-300/80 mt-1">
-                  Her yeni proje için tek kullanımlık kod gerekir. Kod almak için{' '}
+                  {strings.verificationCodeIntro}{' '}
                   <a href={verificationCodeMailto()} className="font-semibold underline hover:no-underline">
-                    e-posta ile talep edin
+                    {strings.verificationCodeLink}
                   </a>
                   .
                 </p>
@@ -123,7 +124,7 @@ export default function ProjectForm({
               onChange={handleChange}
               required
               className={inputClass}
-              placeholder="ARJD-XXXX-XXXX"
+              placeholder={strings.verificationCodePlaceholder}
               autoComplete="off"
             />
           </div>
@@ -131,15 +132,15 @@ export default function ProjectForm({
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div className="md:col-span-2">
-            <label htmlFor="name" className="block text-sm font-medium mb-1.5">Proje Adı *</label>
-            <input type="text" name="name" id="name" value={formData.name} onChange={handleChange} required className={inputClass} placeholder="Örn. Merkez Şantiye" />
+            <label htmlFor="name" className="block text-sm font-medium mb-1.5">{strings.nameLabel}</label>
+            <input type="text" name="name" id="name" value={formData.name} onChange={handleChange} required className={inputClass} placeholder={strings.namePlaceholder} />
           </div>
           <div>
-            <label htmlFor="code" className="block text-sm font-medium mb-1.5">Proje Kodu</label>
-            <input type="text" name="code" id="code" value={formData.code} onChange={handleChange} className={inputClass} placeholder="ORN-001" />
+            <label htmlFor="code" className="block text-sm font-medium mb-1.5">{strings.codeLabel}</label>
+            <input type="text" name="code" id="code" value={formData.code} onChange={handleChange} className={inputClass} placeholder={strings.codePlaceholder} />
           </div>
           <div>
-            <label htmlFor="status" className="block text-sm font-medium mb-1.5">Durum *</label>
+            <label htmlFor="status" className="block text-sm font-medium mb-1.5">{strings.statusLabel}</label>
             <select name="status" id="status" value={formData.status} onChange={handleChange} required className={inputClass}>
               {(Object.keys(PROJECT_STATUS_LABELS) as ProjectStatus[]).map((s) => (
                 <option key={s} value={s}>{PROJECT_STATUS_LABELS[s]}</option>
@@ -147,31 +148,31 @@ export default function ProjectForm({
             </select>
           </div>
           <div>
-            <label htmlFor="location" className="block text-sm font-medium mb-1.5">Konum</label>
-            <input type="text" name="location" id="location" value={formData.location} onChange={handleChange} className={inputClass} placeholder="İl / ilçe" />
+            <label htmlFor="location" className="block text-sm font-medium mb-1.5">{strings.locationLabel}</label>
+            <input type="text" name="location" id="location" value={formData.location} onChange={handleChange} className={inputClass} placeholder={strings.locationPlaceholder} />
           </div>
           <div>
-            <label htmlFor="start_date" className="block text-sm font-medium mb-1.5">Başlangıç</label>
+            <label htmlFor="start_date" className="block text-sm font-medium mb-1.5">{strings.startDateLabel}</label>
             <input type="date" name="start_date" id="start_date" value={formData.start_date} onChange={handleChange} className={inputClass} />
           </div>
           <div>
-            <label htmlFor="end_date" className="block text-sm font-medium mb-1.5">Bitiş (planlanan)</label>
+            <label htmlFor="end_date" className="block text-sm font-medium mb-1.5">{strings.endDateLabel}</label>
             <input type="date" name="end_date" id="end_date" value={formData.end_date} onChange={handleChange} className={inputClass} />
           </div>
           <div className="md:col-span-2">
-            <label htmlFor="description" className="block text-sm font-medium mb-1.5">Açıklama</label>
-            <textarea name="description" id="description" value={formData.description} onChange={handleChange} rows={3} className={inputClass} placeholder="Kısa proje notu..." />
+            <label htmlFor="description" className="block text-sm font-medium mb-1.5">{strings.descriptionLabel}</label>
+            <textarea name="description" id="description" value={formData.description} onChange={handleChange} rows={3} className={inputClass} placeholder={strings.descriptionPlaceholder} />
           </div>
         </div>
 
         <div className="flex justify-end gap-3 pt-4 border-t border-slate-200 dark:border-slate-800">
           <button type="button" onClick={onCancel} disabled={isSubmitting} className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-800">
             <FiX className="w-4 h-4" />
-            İptal
+            {strings.cancel}
           </button>
           <button type="submit" disabled={isSubmitting} className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium disabled:opacity-50">
             <FiCheck className="w-4 h-4" />
-            {isSubmitting ? 'Kaydediliyor...' : editingId ? 'Güncelle' : 'Oluştur'}
+            {isSubmitting ? strings.saving : editingId ? strings.update : strings.create}
           </button>
         </div>
       </form>

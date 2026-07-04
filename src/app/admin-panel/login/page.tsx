@@ -1,5 +1,6 @@
 'use client';
 
+import strings from '@json/src/app/admin-panel/login/page.json';
 import { Suspense, useState, FormEvent, ChangeEvent, useEffect, type Dispatch, type SetStateAction } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { createClient } from '@/utils/supabase/client';
@@ -37,7 +38,7 @@ function AdminAuthContent() {
 
   useEffect(() => {
     if (searchParams.get('error') === 'yetkisiz') {
-      setErrorMessage('Bu hesabın yönetici yetkisi yok veya profil kaydı eksik.');
+      setErrorMessage(strings.unauthorizedError);
     }
   }, [searchParams]);
 
@@ -65,15 +66,15 @@ function AdminAuthContent() {
       const { data: isAdmin, error: rpcError } = await supabase.rpc('is_admin');
       if (rpcError || !isAdmin) {
         await supabase.auth.signOut();
-        throw new Error('Bu hesap yönetici olarak tanımlı değil. seed_admin.sql adımlarını kontrol edin.');
+        throw new Error(strings.notAdminError);
       }
 
-      if (!data.session) throw new Error('Oturum oluşturulamadı');
+      if (!data.session) throw new Error(strings.sessionFailed);
 
       router.replace('/admin-panel');
       router.refresh();
     } catch (err) {
-      const msg = err instanceof Error ? err.message : 'Giriş başarısız';
+      const msg = err instanceof Error ? err.message : strings.loginFailed;
       showMessage(setErrorMessage, msg);
     } finally {
       setIsLoading(false);
@@ -91,9 +92,9 @@ function AdminAuthContent() {
         redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent('/auth/yeni-sifre?panel=admin')}`,
       });
       if (error) throw error;
-      showMessage(setSuccessMessage, 'Şifre sıfırlama bağlantısı e-posta adresinize gönderildi.');
+      showMessage(setSuccessMessage, strings.resetSent);
     } catch (err) {
-      const msg = err instanceof Error ? err.message : 'İşlem başarısız';
+      const msg = err instanceof Error ? err.message : strings.operationFailed;
       showMessage(setErrorMessage, msg);
     } finally {
       setIsLoading(false);
@@ -103,25 +104,23 @@ function AdminAuthContent() {
   return (
     <AuthLayout
       variant="admin"
-      alternateLogin={{ href: '/personnel-panel/login', label: 'Personel Girişi' }}
+      alternateLogin={{ href: '/personnel-panel/login', label: strings.personnelLogin }}
     >
       <div className="mb-5">
         <h2 className="text-xl font-bold text-slate-900 tracking-tight">
-          {activeTab === 'login' ? 'Yönetici Girişi' : 'Şifremi Unuttum'}
+          {activeTab === 'login' ? strings.loginTitle : strings.resetTitle}
         </h2>
         <p className="mt-1 text-sm text-slate-500 leading-relaxed">
-          {activeTab === 'login'
-            ? 'Hesabınız yoksa ücretsiz kayıt olun'
-            : 'Kayıtlı e-posta adresinize sıfırlama bağlantısı gönderilir'}
+          {activeTab === 'login' ? strings.loginSubtitle : strings.resetSubtitle}
         </p>
         {activeTab === 'login' && (
           <p className="mt-2 text-xs text-blue-600">
             <Link href="/admin-panel/register" className="font-semibold hover:underline">
-              Yönetici hesabı oluştur →
+              {strings.createAccountLink}
             </Link>
             {' · '}
             <a href={verificationCodeMailto()} className="hover:underline">
-              Doğrulama kodu talep et
+              {strings.requestVerificationCode}
             </a>
           </p>
         )}
@@ -135,11 +134,11 @@ function AdminAuthContent() {
         <form className="space-y-5" onSubmit={handleLogin} {...credentialLoginFormProps}>
           <div>
             <label htmlFor="admin-email" className={labelClass}>
-              E-posta
+              {strings.emailLabel}
             </label>
             <input
               id="admin-email"
-              placeholder="admin@example.com"
+              placeholder={strings.emailPlaceholder}
               value={email}
               onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
               className={inputClass}
@@ -149,11 +148,11 @@ function AdminAuthContent() {
           </div>
           <div>
             <label htmlFor="admin-password" className={labelClass}>
-              Şifre
+              {strings.passwordLabel}
             </label>
             <input
               id="admin-password"
-              placeholder="Şifreniz"
+              placeholder={strings.passwordPlaceholder}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className={inputClass}
@@ -165,15 +164,15 @@ function AdminAuthContent() {
             {isLoading ? (
               <>
                 <LoadingSpinner />
-                Giriş yapılıyor...
+                {strings.loggingIn}
               </>
             ) : (
-              'Giriş Yap'
+              strings.loginButton
             )}
           </button>
           <div className="text-center">
             <button type="button" onClick={() => setActiveTab('reset')} className={linkButtonClass}>
-              Şifremi unuttum
+              {strings.forgotPassword}
             </button>
           </div>
         </form>
@@ -181,11 +180,11 @@ function AdminAuthContent() {
         <form className="space-y-5" onSubmit={handleReset} {...credentialLoginFormProps}>
           <div>
             <label htmlFor="reset-email" className={labelClass}>
-              E-posta
+              {strings.emailLabel}
             </label>
             <input
               id="reset-email"
-              placeholder="admin@example.com"
+              placeholder={strings.emailPlaceholder}
               value={resetEmail}
               onChange={(e) => setResetEmail(e.target.value)}
               className={inputClass}
@@ -197,15 +196,15 @@ function AdminAuthContent() {
             {isLoading ? (
               <>
                 <LoadingSpinner />
-                Gönderiliyor...
+                {strings.sending}
               </>
             ) : (
-              'Sıfırlama Bağlantısı Gönder'
+              strings.sendResetLink
             )}
           </button>
           <div className="text-center">
             <button type="button" onClick={() => setActiveTab('login')} className={linkButtonClass}>
-              Giriş sayfasına dön
+              {strings.backToLogin}
             </button>
           </div>
         </form>
@@ -216,7 +215,7 @@ function AdminAuthContent() {
 
 export default function AdminAuthPage() {
   return (
-    <Suspense fallback={<div className="min-h-[100dvh] flex items-center justify-center text-slate-500">Yükleniyor…</div>}>
+    <Suspense fallback={<div className="min-h-[100dvh] flex items-center justify-center text-slate-500">{strings.loading}</div>}>
       <AdminAuthContent />
     </Suspense>
   );

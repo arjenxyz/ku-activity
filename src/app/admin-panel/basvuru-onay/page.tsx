@@ -1,5 +1,6 @@
 'use client';
 
+import strings from '@json/src/app/admin-panel/basvuru-onay/page.json';
 import { Suspense, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -34,7 +35,7 @@ function BasvuruOnayProjectPicker() {
   if (loading) {
     return (
       <div className="max-w-lg mx-auto px-4 py-16 text-center text-sm text-slate-500">
-        Projeler yükleniyor…
+        {strings.loadingProjects}
       </div>
     );
   }
@@ -42,14 +43,14 @@ function BasvuruOnayProjectPicker() {
   if (projects.length === 0) {
     return (
       <div className="max-w-lg mx-auto px-4 py-12 space-y-4 text-center">
-        <h1 className="text-xl font-semibold text-slate-900">Başvuru onayı</h1>
-        <p className="text-sm text-slate-600">Önce aktif bir proje oluşturmalısınız.</p>
+        <h1 className="text-xl font-semibold text-slate-900">{strings.title}</h1>
+        <p className="text-sm text-slate-600">{strings.noProjects}</p>
         <Link
           href="/admin-panel"
           className="inline-flex items-center gap-2 text-sm font-medium text-blue-700 hover:underline"
         >
           <FiGrid className="w-4 h-4" />
-          Projelere git
+          {strings.goToProjects}
         </Link>
       </div>
     );
@@ -58,7 +59,7 @@ function BasvuruOnayProjectPicker() {
   if (projects.length === 1) {
     return (
       <div className="max-w-lg mx-auto px-4 py-16 text-center text-sm text-slate-500">
-        Yönlendiriliyor…
+        {strings.redirecting}
       </div>
     );
   }
@@ -66,13 +67,14 @@ function BasvuruOnayProjectPicker() {
   return (
     <div className="max-w-lg mx-auto px-4 py-8 sm:py-12 space-y-6">
       <div className="text-center space-y-2">
-        <h1 className="text-xl sm:text-2xl font-semibold text-slate-900">Başvuru onayı</h1>
+        <h1 className="text-xl sm:text-2xl font-semibold text-slate-900">{strings.title}</h1>
         <p className="text-sm text-slate-600 leading-relaxed">
-          Başvuruyu hangi projeye ekleyeceğinizi seçin
+          {strings.selectProjectIntro}
           {kod ? (
             <>
               {' '}
-              (<span className="font-mono text-slate-800">{kod}</span> kodu taşınacak)
+              (<span className="font-mono text-slate-800">{kod}</span>
+              {strings.codeWillCarry}
             </>
           ) : (
             '.'
@@ -101,7 +103,7 @@ function BasvuruOnayProjectPicker() {
 
       <p className="text-center">
         <Link href="/admin-panel" className="text-sm text-blue-700 hover:underline">
-          ← Tüm projeler
+          {strings.allProjects}
         </Link>
       </p>
     </div>
@@ -111,7 +113,7 @@ function BasvuruOnayProjectPicker() {
 /** Eski QR linkleri — proje seçimine yönlendirir */
 export default function BasvuruOnayRedirectPage() {
   return (
-    <Suspense fallback={<div className="p-8 text-center text-slate-500">Yükleniyor…</div>}>
+    <Suspense fallback={<div className="p-8 text-center text-slate-500">{strings.loading}</div>}>
       <BasvuruOnayProjectPicker />
     </Suspense>
   );

@@ -1,11 +1,12 @@
 'use client';
 
+import strings from '@json/src/app/admin-panel/arjen/sorgulama/[projectId]/page.json';
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { supabase } from '../../../../lib/supabaseClient';
 import {
   FiChevronDown, FiUser, FiList, FiCreditCard, FiXCircle,
-  FiDollarSign, FiCalendar, FiBriefcase,  FiArrowLeft
+  FiDollarSign, FiCalendar, FiBriefcase, FiArrowLeft
 } from 'react-icons/fi';
 
 type Employee = {
@@ -34,13 +35,15 @@ type Deduction = {
   description: string | null;
 };
 
-const FILTERS = [
-  { value: 'all', label: 'Tüm Kayıtlar', icon: <FiList />, color: 'bg-indigo-100 text-indigo-600' },
-  { value: 'work', label: 'Yevmiye', icon: <FiBriefcase />, color: 'bg-green-100 text-green-600' },
-  { value: 'advance', label: 'Avanslar', icon: <FiCreditCard />, color: 'bg-amber-100 text-amber-600' },
-  { value: 'deduction', label: 'Kesintiler', icon: <FiXCircle />, color: 'bg-red-100 text-red-600' },
-  { value: 'salary', label: 'Maaş Özeti', icon: <FiDollarSign />, color: 'bg-purple-100 text-purple-600' },
-];
+const FILTER_CONFIG = [
+  { value: 'all', icon: <FiList />, color: 'bg-indigo-100 text-indigo-600' },
+  { value: 'work', icon: <FiBriefcase />, color: 'bg-green-100 text-green-600' },
+  { value: 'advance', icon: <FiCreditCard />, color: 'bg-amber-100 text-amber-600' },
+  { value: 'deduction', icon: <FiXCircle />, color: 'bg-red-100 text-red-600' },
+  { value: 'salary', icon: <FiDollarSign />, color: 'bg-purple-100 text-purple-600' },
+] as const;
+
+type FilterValue = (typeof FILTER_CONFIG)[number]['value'];
 
 export default function KisiselSorgulama() {
   const { projectId } = useParams();
@@ -48,10 +51,38 @@ export default function KisiselSorgulama() {
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
   const [employeeDropdownOpen, setEmployeeDropdownOpen] = useState(false);
-  const [activeFilter, setActiveFilter] = useState(FILTERS[0].value);
+  const [activeFilter, setActiveFilter] = useState<FilterValue>('all');
   const [workLogs, setWorkLogs] = useState<WorkLog[]>([]);
   const [deductions, setDeductions] = useState<Deduction[]>([]);
   const [loading, setLoading] = useState(false);
+
+  const dayTypeLabel = (amount: number) => (amount === 1 ? strings.fullDay : strings.halfDay);
+
+  const workLogColumns = [
+    { label: strings.colDate, render: (r: WorkLog) => r.date },
+    {
+      label: strings.colType,
+      render: (r: WorkLog) => (
+        <span className={`px-2 py-1 rounded-full ${r.amount === 1 ? 'bg-green-100 text-green-600' : 'bg-amber-100 text-amber-600'}`}>
+          {dayTypeLabel(r.amount)}
+        </span>
+      ),
+    },
+    { label: strings.colDescription, render: (r: WorkLog) => r.description || strings.emptyValue },
+  ];
+
+  const advanceColumns = [
+    { label: strings.colDate, render: (r: Deduction) => r.date },
+    { label: strings.colAmount, render: (r: Deduction) => <span className="font-medium">{r.amount} ₺</span> },
+    { label: strings.colDescription, render: (r: Deduction) => r.description || strings.emptyValue },
+  ];
+
+  const deductionColumns = [
+    { label: strings.colDate, render: (r: Deduction) => r.date },
+    { label: strings.colKind, render: (r: Deduction) => r.type },
+    { label: strings.colAmount, render: (r: Deduction) => <span className="font-medium">{r.amount} ₺</span> },
+    { label: strings.colDescription, render: (r: Deduction) => r.description || strings.emptyValue },
+  ];
 
   useEffect(() => {
     if (!projectId) return;
@@ -87,55 +118,36 @@ export default function KisiselSorgulama() {
     })();
   }, [selectedEmployee]);
 
-  // Hesaplamalar
   const totalWork = workLogs.filter(w => w.amount === 1).length + workLogs.filter(w => w.amount !== 1).length * 0.5;
   const totalAdvance = deductions.filter(d => d.type === 'advance').reduce((acc, d) => acc + d.amount, 0);
   const totalDeduct = deductions.filter(d => d.type !== 'advance').reduce((acc, d) => acc + d.amount, 0);
   const netSalary = selectedEmployee ? totalWork * selectedEmployee.daily_wage - totalAdvance - totalDeduct : 0;
 
-  // Filtrelenmiş içerik
   const filteredContent = (() => {
     if (activeFilter === 'work') {
       return <RecordTable<WorkLog>
-        title="Yevmiye Kayıtları"
+        title={strings.workLogsTitle}
         icon={<FiBriefcase className="text-green-600" />}
         records={workLogs}
-        columns={[
-          { label: 'Tarih', render: (r) => r.date },
-          { label: 'Tip', render: (r) => (
-            <span className={`px-2 py-1 rounded-full ${r.amount === 1 ? 'bg-green-100 text-green-600' : 'bg-amber-100 text-amber-600'}`}>
-              {r.amount === 1 ? 'Tam Gün' : 'Yarım Gün'}
-            </span>
-          )},
-          { label: 'Açıklama', render: (r) => r.description || '-' }
-        ]}
+        columns={workLogColumns}
       />;
     }
 
     if (activeFilter === 'advance') {
       return <RecordTable<Deduction>
-        title="Avans Kayıtları"
+        title={strings.advanceRecordsTitle}
         icon={<FiCreditCard className="text-amber-600" />}
         records={deductions.filter(d => d.type === 'advance')}
-        columns={[
-          { label: 'Tarih', render: (r) => r.date },
-          { label: 'Tutar', render: (r) => <span className="font-medium">{r.amount} ₺</span> },
-          { label: 'Açıklama', render: (r) => r.description || '-' }
-        ]}
+        columns={advanceColumns}
       />;
     }
 
     if (activeFilter === 'deduction') {
       return <RecordTable<Deduction>
-        title="Kesinti Kayıtları"
+        title={strings.deductionRecordsTitle}
         icon={<FiXCircle className="text-red-600" />}
         records={deductions.filter(d => d.type !== 'advance')}
-        columns={[
-          { label: 'Tarih', render: (r) => r.date },
-          { label: 'Tür', render: (r) => r.type },
-          { label: 'Tutar', render: (r) => <span className="font-medium">{r.amount} ₺</span> },
-          { label: 'Açıklama', render: (r) => r.description || '-' }
-        ]}
+        columns={deductionColumns}
       />;
     }
 
@@ -143,25 +155,25 @@ export default function KisiselSorgulama() {
       return (
         <div className="grid md:grid-cols-2 gap-4">
           <SummaryCard
-            title="Toplam Çalışma"
+            title={strings.summaryTotalWork}
             value={totalWork}
             icon={<FiCalendar className="w-5 h-5" />}
             color="bg-indigo-100 text-indigo-600"
           />
           <SummaryCard
-            title="Toplam Avans"
+            title={strings.summaryTotalAdvance}
             value={`${totalAdvance} ₺`}
             icon={<FiCreditCard className="w-5 h-5" />}
             color="bg-amber-100 text-amber-600"
           />
           <SummaryCard
-            title="Toplam Kesinti"
+            title={strings.summaryTotalDeduction}
             value={`${totalDeduct} ₺`}
             icon={<FiXCircle className="w-5 h-5" />}
             color="bg-red-100 text-red-600"
           />
           <SummaryCard
-            title="Net Maaş"
+            title={strings.summaryNetSalary}
             value={`${netSalary} ₺`}
             icon={<FiDollarSign className="w-5 h-5" />}
             color="bg-green-100 text-green-600"
@@ -173,41 +185,24 @@ export default function KisiselSorgulama() {
     return (
       <div className="space-y-6">
         <RecordTable<WorkLog>
-          title="Yevmiye Kayıtları"
+          title={strings.workLogsTitle}
           icon={<FiBriefcase className="text-green-600" />}
           records={workLogs}
-          columns={[
-            { label: 'Tarih', render: (r) => r.date },
-            { label: 'Tip', render: (r) => (
-              <span className={`px-2 py-1 rounded-full ${r.amount === 1 ? 'bg-green-100 text-green-600' : 'bg-amber-100 text-amber-600'}`}>
-                {r.amount === 1 ? 'Tam Gün' : 'Yarım Gün'}
-              </span>
-            )},
-            { label: 'Açıklama', render: (r) => r.description || '-' }
-          ]}
+          columns={workLogColumns}
         />
 
         <RecordTable<Deduction>
-          title="Avans Kayıtları"
+          title={strings.advanceRecordsTitle}
           icon={<FiCreditCard className="text-amber-600" />}
           records={deductions.filter(d => d.type === 'advance')}
-          columns={[
-            { label: 'Tarih', render: (r) => r.date },
-            { label: 'Tutar', render: (r) => <span className="font-medium">{r.amount} ₺</span> },
-            { label: 'Açıklama', render: (r) => r.description || '-' }
-          ]}
+          columns={advanceColumns}
         />
 
         <RecordTable<Deduction>
-          title="Kesinti Kayıtları"
+          title={strings.deductionRecordsTitle}
           icon={<FiXCircle className="text-red-600" />}
           records={deductions.filter(d => d.type !== 'advance')}
-          columns={[
-            { label: 'Tarih', render: (r) => r.date },
-            { label: 'Tür', render: (r) => r.type },
-            { label: 'Tutar', render: (r) => <span className="font-medium">{r.amount} ₺</span> },
-            { label: 'Açıklama', render: (r) => r.description || '-' }
-          ]}
+          columns={deductionColumns}
         />
       </div>
     );
@@ -216,26 +211,24 @@ export default function KisiselSorgulama() {
   return (
     <div className="min-h-screen bg-gray-50 p-4 md:p-8">
       <div className="max-w-6xl mx-auto">
-        {/* Geri Butonu */}
         <div className="flex items-center mb-8">
           <button
             onClick={() => router.back()}
             className="flex items-center gap-2 rounded-full border border-indigo-100 bg-white shadow-sm px-3 py-2 text-indigo-600 hover:bg-indigo-50 transition hover:shadow-md focus:outline-none"
-            title="Geri"
+            title={strings.backTitle}
             style={{ minWidth: 0 }}
           >
             <FiArrowLeft size={20} />
-            <span className="font-medium hidden sm:inline">Geri</span>
+            <span className="font-medium hidden sm:inline">{strings.backLabel}</span>
           </button>
           <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-3 ml-4">
             <FiUser className="w-6 h-6 text-indigo-600" />
             <span className="bg-gradient-to-r from-indigo-600 to-blue-600 bg-clip-text text-transparent">
-              Personel Sorgulama
+              {strings.pageTitle}
             </span>
           </h1>
         </div>
 
-        {/* Çalışan Seçim */}
         <div className="relative mb-6">
           <button
             onClick={() => setEmployeeDropdownOpen(!employeeDropdownOpen)}
@@ -248,7 +241,7 @@ export default function KisiselSorgulama() {
                   <span className="text-sm text-gray-500">({selectedEmployee.position})</span>
                 </>
               ) : (
-                <span className="text-gray-400">Çalışan seçiniz...</span>
+                <span className="text-gray-400">{strings.selectEmployee}</span>
               )}
             </div>
             <FiChevronDown className={`transform transition-transform ${employeeDropdownOpen ? 'rotate-180' : ''}`} />
@@ -273,9 +266,8 @@ export default function KisiselSorgulama() {
           )}
         </div>
 
-        {/* Filtreler */}
         <div className="mb-6 flex flex-wrap gap-2">
-          {FILTERS.map(filter => (
+          {FILTER_CONFIG.map(filter => (
             <button
               key={filter.value}
               onClick={() => setActiveFilter(filter.value)}
@@ -283,17 +275,17 @@ export default function KisiselSorgulama() {
                 ${activeFilter === filter.value ? `${filter.color} shadow-md` : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'}`}
             >
               {filter.icon}
-              {filter.label}
+              {strings.filters[filter.value]}
             </button>
           ))}
         </div>
 
         {loading ? (
-          <div className="text-center text-gray-400 py-20">Yükleniyor...</div>
+          <div className="text-center text-gray-400 py-20">{strings.loading}</div>
         ) : selectedEmployee ? (
           filteredContent
         ) : (
-          <div className="text-center text-gray-400 py-20">Önce bir çalışan seçin.</div>
+          <div className="text-center text-gray-400 py-20">{strings.selectEmployeeFirst}</div>
         )}
       </div>
     </div>
@@ -328,7 +320,7 @@ const RecordTable = <T,>({ title, icon, records, columns }: {
       </div>
 
       {records.length === 0 ? (
-        <div className="p-6 text-center text-gray-400">Kayıt bulunamadı</div>
+        <div className="p-6 text-center text-gray-400">{strings.noRecords}</div>
       ) : (
         <div className="overflow-x-auto">
           <table className="w-full">

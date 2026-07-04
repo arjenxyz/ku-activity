@@ -1,0 +1,10 @@
+{
+  "emptyTitle": "Henüz proje yok",
+  "emptySubtitle": "Yeni Proje ile ilk şantiyenizi ekleyin.",
+  "startDate": "Başlangıç: {date}",
+  "employeeCount": "{active} aktif / {total} personel",
+  "open": "Aç",
+  "editAriaLabel": "Düzenle",
+  "deleteAriaLabel": "Sil",
+  "emptyDate": "—"
+}

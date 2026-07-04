@@ -1,5 +1,7 @@
+import strings from '@json/src/app/admin-panel/arjen/avans/list.json';
 import { useEffect, useState } from 'react';
 import { supabase } from '../../../lib/supabaseClient';
+import { formatString } from '@/lib/strings/format';
 import { FiTrash2 } from 'react-icons/fi';
 
 interface Employee {
@@ -17,7 +19,6 @@ interface Deduction {
   description: string | null;
 }
 
-// Supabase'den gelen satırın gerçek tipini tanımla
 type RawEmployee = { id: string | number; name: string } | null | undefined;
 type RawDeduction = {
   id: string | number;
@@ -84,17 +85,17 @@ export default function DeductionsList() {
   }, []);
 
   const handleDelete = async (id: string) => {
-    if (!window.confirm('Bu kaydı silmek istediğinize emin misiniz?')) return;
+    if (!window.confirm(strings.confirmDelete)) return;
     const { error } = await supabase.from('deductions').delete().eq('id', id);
-    if (error) alert('Silme hatası: ' + error.message);
+    if (error) alert(formatString(strings.deleteError, { message: error.message }));
     else fetchDeductions();
   };
 
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white rounded-xl shadow-lg mt-8">
-      <h2 className="text-xl font-bold mb-4">Avans / Kesinti Kayıtları</h2>
+      <h2 className="text-xl font-bold mb-4">{strings.title}</h2>
       {loading ? (
-        <div>Yükleniyor...</div>
+        <div>{strings.loading}</div>
       ) : error ? (
         <div className="text-red-600">{error}</div>
       ) : (
@@ -102,29 +103,29 @@ export default function DeductionsList() {
           <table className="min-w-full border">
             <thead>
               <tr className="bg-gray-100">
-                <th className="px-2 py-1 border">İşçi</th>
-                <th className="px-2 py-1 border">Tarih</th>
-                <th className="px-2 py-1 border">Tür</th>
-                <th className="px-2 py-1 border">Tutar</th>
-                <th className="px-2 py-1 border">Açıklama</th>
-                <th className="px-2 py-1 border">Sil</th>
+                <th className="px-2 py-1 border">{strings.colEmployee}</th>
+                <th className="px-2 py-1 border">{strings.colDate}</th>
+                <th className="px-2 py-1 border">{strings.colType}</th>
+                <th className="px-2 py-1 border">{strings.colAmount}</th>
+                <th className="px-2 py-1 border">{strings.colDescription}</th>
+                <th className="px-2 py-1 border">{strings.colDelete}</th>
               </tr>
             </thead>
             <tbody>
               {deductions.map(ded => (
                 <tr key={ded.id} className="hover:bg-gray-50">
-                  <td className="border px-2 py-1">{ded.employee?.name || '-'}</td>
+                  <td className="border px-2 py-1">{ded.employee?.name || strings.emptyValue}</td>
                   <td className="border px-2 py-1">{ded.date}</td>
                   <td className="border px-2 py-1">
-                    {ded.type === 'advance' ? 'Avans' : 'Taşeron Kesintisi'}
+                    {ded.type === 'advance' ? strings.typeAdvance : strings.typeSubcontractorCut}
                   </td>
                   <td className="border px-2 py-1">{ded.amount} ₺</td>
-                  <td className="border px-2 py-1">{ded.description || '-'}</td>
+                  <td className="border px-2 py-1">{ded.description || strings.emptyValue}</td>
                   <td className="border px-2 py-1 text-center">
                     <button
                       className="text-red-600 hover:bg-red-50 rounded p-1"
                       onClick={() => handleDelete(ded.id)}
-                      title="Kaydı Sil"
+                      title={strings.deleteRecordTitle}
                     >
                       <FiTrash2 />
                     </button>
@@ -134,7 +135,7 @@ export default function DeductionsList() {
               {deductions.length === 0 && (
                 <tr>
                   <td colSpan={6} className="text-center py-6 text-gray-400">
-                    Kayıt bulunamadı.
+                    {strings.noRecords}
                   </td>
                 </tr>
               )}

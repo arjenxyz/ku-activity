@@ -1,5 +1,6 @@
 "use client";
 
+import strings from '@json/src/app/admin-panel/login/yedek.json';
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "../../lib/supabaseClient";
@@ -18,19 +19,16 @@ export default function AdminLogin() {
     setIsLoading(true);
 
     try {
-      // 1. Email doğrulama
       if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        setError("Geçerli bir email adresi giriniz");
+        setError(strings.invalidEmail);
         return;
       }
 
-      // 2. Şifre uzunluk kontrolü
       if (!password || password.length < 8) {
-        setError("Şifre en az 8 karakter olmalıdır");
+        setError(strings.passwordMinLength);
         return;
       }
 
-      // 3. Veritabanı sorgusu
       const { data, error: fetchError } = await supabase
         .from("admins")
         .select("id, email, password_hash")
@@ -38,39 +36,36 @@ export default function AdminLogin() {
         .single();
 
       if (fetchError || !data) {
-        setError("Geçersiz kimlik bilgileri");
+        setError(strings.invalidCredentials);
         return;
       }
 
-      // 4. Şifre karşılaştırma (bcrypt)
       const isPasswordValid = await bcrypt.compare(password, data.password_hash);
       if (!isPasswordValid) {
-        setError("Geçersiz kimlik bilgileri");
+        setError(strings.invalidCredentials);
         return;
       }
 
-      // 5. Oturum oluşturma
       const sessionToken = crypto.randomUUID();
       const { error: sessionError } = await supabase
         .from("admin_sessions")
         .insert({
           admin_id: data.id,
           session_token: sessionToken,
-          expires_at: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7).toISOString(), // 7 gün
+          expires_at: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7).toISOString(),
         });
 
       if (sessionError) {
-        setError("Oturum oluşturulamadı");
+        setError(strings.sessionFailed);
         return;
       }
 
-      // 6. Yönlendirme
       document.cookie = `admin_session=${sessionToken}; Path=/; Secure; SameSite=Strict; Max-Age=${60 * 60 * 24 * 7}`;
       router.push("/admin-panel/proje");
 
     } catch (err) {
       console.error("Giriş hatası:", err);
-      setError("Bir hata oluştu. Lütfen tekrar deneyin.");
+      setError(strings.genericError);
     } finally {
       setIsLoading(false);
     }
@@ -83,11 +78,11 @@ export default function AdminLogin() {
         className="bg-white shadow-lg rounded-xl p-8 w-full max-w-md space-y-6"
       >
         <h2 className="text-2xl font-semibold text-center text-indigo-600">
-          Yönetici Girişi
+          {strings.title}
         </h2>
 
         <div>
-          <label className="block mb-1 font-medium">Email</label>
+          <label className="block mb-1 font-medium">{strings.emailLabel}</label>
           <input
             type="email"
             required
@@ -99,7 +94,7 @@ export default function AdminLogin() {
         </div>
 
         <div>
-          <label className="block mb-1 font-medium">Şifre</label>
+          <label className="block mb-1 font-medium">{strings.passwordLabel}</label>
           <input
             type="password"
             required
@@ -155,10 +150,10 @@ export default function AdminLogin() {
                   d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                 ></path>
               </svg>
-              Giriş Yapılıyor...
+              {strings.loggingIn}
             </>
           ) : (
-            "Giriş Yap"
+            strings.loginButton
           )}
         </button>
       </form>
