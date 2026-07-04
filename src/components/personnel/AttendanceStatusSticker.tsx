@@ -143,59 +143,65 @@ function ResultContent({
   const bottomAction = variant.primaryAction?.style === 'solid';
 
   return (
-    <div className="attendance-result-pop pointer-events-auto relative flex h-full w-full max-w-sm flex-col px-6">
-      {onDismiss && (
-        <button
-          type="button"
-          onClick={onDismiss}
-          className="absolute right-0 top-0 flex h-10 w-10 items-center justify-center rounded-full text-white/50 transition hover:bg-white/10 hover:text-white"
-          aria-label={dismissLabel}
-        >
-          <FiX className="h-5 w-5" />
-        </button>
-      )}
-
-      <div className="flex flex-1 flex-col items-center justify-center text-center">
-        <StatusPill label={variant.pill} dot={variant.pillDot} />
-
-        <div className="relative mt-8 flex h-24 w-24 items-center justify-center">
-          <div className={`absolute inset-0 rounded-full blur-2xl ${variant.glow}`} aria-hidden />
-          <div
-            className={`relative flex h-[4.5rem] w-[4.5rem] items-center justify-center rounded-full ring-2 ${variant.iconRing}`}
-          >
-            <Icon className={`h-10 w-10 ${variant.iconColor}`} strokeWidth={2} />
-          </div>
-        </div>
-
-        <h2 className="mt-6 text-2xl font-bold leading-tight tracking-tight text-white">
-          {variant.title}
-        </h2>
-        <p className="mt-3 max-w-[18rem] text-sm leading-relaxed text-white/65">{variant.hint}</p>
-
-        {variant.primaryAction && !bottomAction && (
+    <>
+      <div
+        className={`attendance-result-pop pointer-events-auto relative flex w-full max-w-sm flex-col px-6 text-center ${
+          bottomAction ? 'pb-[calc(5.5rem+max(3rem,env(safe-area-inset-bottom,0px)))]' : 'h-full'
+        }`}
+      >
+        {onDismiss && (
           <button
             type="button"
-            onClick={variant.primaryAction.onClick}
-            className="mt-8 text-sm font-medium text-white/75 underline decoration-white/30 underline-offset-4 transition hover:text-white"
+            onClick={onDismiss}
+            className="absolute right-0 top-0 flex h-10 w-10 items-center justify-center rounded-full text-white/50 transition hover:bg-white/10 hover:text-white"
+            aria-label={dismissLabel}
           >
-            {variant.primaryAction.label}
+            <FiX className="h-5 w-5" />
           </button>
         )}
+
+        <div className="flex flex-1 flex-col items-center justify-center">
+          <StatusPill label={variant.pill} dot={variant.pillDot} />
+
+          <div className="relative mt-8 flex h-24 w-24 items-center justify-center">
+            <div className={`absolute inset-0 rounded-full blur-2xl ${variant.glow}`} aria-hidden />
+            <div
+              className={`relative flex h-[4.5rem] w-[4.5rem] items-center justify-center rounded-full ring-2 ${variant.iconRing}`}
+            >
+              <Icon className={`h-10 w-10 ${variant.iconColor}`} strokeWidth={2} />
+            </div>
+          </div>
+
+          <h2 className="mt-6 text-2xl font-bold leading-tight tracking-tight text-white">
+            {variant.title}
+          </h2>
+          <p className="mt-3 max-w-[18rem] text-sm leading-relaxed text-white/65">{variant.hint}</p>
+
+          {variant.primaryAction && !bottomAction && (
+            <button
+              type="button"
+              onClick={variant.primaryAction.onClick}
+              className="mt-8 text-sm font-medium text-white/75 underline decoration-white/30 underline-offset-4 transition hover:text-white"
+            >
+              {variant.primaryAction.label}
+            </button>
+          )}
+        </div>
       </div>
 
       {variant.primaryAction && bottomAction && (
-        <div className="pb-8 safe-pb">
+        <div className="pointer-events-auto fixed inset-x-0 bottom-0 z-[8] px-6 safe-pb-nav">
           <button
             type="button"
             onClick={variant.primaryAction.onClick}
-            className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-white px-6 py-3.5 text-sm font-semibold text-slate-900 transition active:scale-[0.98]"
+            className="mx-auto inline-flex w-full max-w-sm items-center justify-center gap-2 rounded-full bg-white px-6 py-3.5 text-sm font-semibold text-slate-900 shadow-lg transition active:scale-[0.98]"
           >
             <FiRefreshCw className="h-4 w-4 shrink-0" />
             {variant.primaryAction.label}
           </button>
         </div>
       )}
-    </div>
+    </>
   );
 }
 
@@ -227,7 +233,7 @@ export function AttendanceStatusSticker({
 
   return (
     <div
-      className="pointer-events-none absolute inset-0 z-[6] flex items-stretch justify-center px-5"
+      className="pointer-events-none fixed inset-0 z-[6] flex items-center justify-center px-5"
       role="status"
       aria-live="polite"
     >
@@ -255,7 +261,7 @@ export function AttendanceScanErrorOverlay({
   };
 
   return (
-    <div className="pointer-events-none absolute inset-0 z-[6] flex items-center justify-center">
+    <div className="pointer-events-none fixed inset-0 z-[6] flex items-center justify-center px-5">
       <ResultBackdrop glowClass={variant.glow} />
       <ResultContent variant={variant} onDismiss={onDismiss} dismissLabel="Hatayı kapat" />
     </div>

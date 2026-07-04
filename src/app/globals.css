@@ -62,6 +62,11 @@ html.dark body {
     padding-bottom: max(1rem, env(safe-area-inset-bottom));
   }
 
+  /* Android 3-tuş / gesture nav çubuğu — env(safe-area-inset-bottom) sıfır olabiliyor */
+  .safe-pb-nav {
+    padding-bottom: max(1.25rem, calc(env(safe-area-inset-bottom, 0px) + 3rem));
+  }
+
   .safe-px {
     padding-left: max(1rem, env(safe-area-inset-left));
     padding-right: max(1rem, env(safe-area-inset-right));
