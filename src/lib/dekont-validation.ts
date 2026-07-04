@@ -1,7 +1,7 @@
+import { formatOcrIban, type DekontMatchSuggestion } from '@/lib/advance-dekont-match';
 import type { DekontOcrResult } from '@/lib/dekont-ocr';
 import { findBankKeywords } from '@/lib/dekont-ocr';
 import { validateTurkishIban } from '@/lib/field-encryption';
-import type { DekontMatchSuggestion } from '@/lib/advance-dekont-match';
 
 export type DekontValidationCheck = {
   id: string;
@@ -115,6 +115,104 @@ export function validateDekontDocument(ocr: DekontOcrResult): DekontValidationRe
       : 'Bu dosya banka dekontu olarak kabul edilemedi';
 
   return { accepted, score: Math.min(100, score), checks, summary };
+}
+
+export function splitValidationChecks(checks: DekontValidationCheck[]) {
+  const passed = checks.filter((c) => c.passed);
+  const failed = checks.filter((c) => !c.passed);
+  const failedRequired = failed.filter((c) => c.required);
+  const failedOptional = failed.filter((c) => !c.required);
+  return { passed, failed, failedRequired, failedOptional };
+}
+
+/** Avans eşleştirmesi + onay koşulları — belge kontrollerinden ayrı detay listesi */
+export function buildMatchValidationChecks(
+  ocr: DekontOcrResult,
+  match: DekontMatchSuggestion | null
+): DekontValidationCheck[] {
+  const doc = validateDekontDocument(ocr);
+  const checks: DekontValidationCheck[] = [
+    {
+      id: 'doc_accepted',
+      label: 'Dekont belgesi güvenilir',
+      passed: doc.accepted,
+      detail: doc.summary,
+      required: true,
+    },
+  ];
+
+  if (!match) {
+    checks.push({
+      id: 'match_selected',
+      label: 'Avans talebi seçildi',
+      passed: false,
+      detail: 'Listeden bir talep seçin',
+      required: true,
+    });
+    return checks;
+  }
+
+  const ibanMatched = match.reasons.some((r) => r.includes('IBAN'));
+  const amountMatched = match.reasons.some((r) => r.includes('Tutar uyumlu'));
+  const amountCloseEnough =
+    amountMatched ||
+    (ocr.amount != null && Math.abs(ocr.amount - match.approvedAmount) <= 1);
+  const scoreOk = match.score >= MIN_MATCH_SCORE;
+
+  checks.push(
+    {
+      id: 'match_selected',
+      label: 'Avans talebi seçildi',
+      passed: true,
+      detail: `${match.employeeName}${match.projectName ? ` · ${match.projectName}` : ''}`,
+      required: true,
+    },
+    {
+      id: 'iban_match',
+      label: 'Alıcı IBAN personel kaydıyla eşleşiyor',
+      passed: ibanMatched,
+      detail: ibanMatched
+        ? formatOcrIban(ocr.recipientIban)
+        : ocr.recipientIban
+          ? `${formatOcrIban(ocr.recipientIban)} — kayıtlı IBAN ile uyuşmuyor`
+          : 'Dekonttan IBAN okunamadı',
+      required: true,
+    },
+    {
+      id: 'amount_match',
+      label: 'Transfer tutarı onaylı avansla uyumlu',
+      passed: amountCloseEnough,
+      detail:
+        ocr.amount != null
+          ? `Dekont: ${ocr.amount.toLocaleString('tr-TR')} ₺ · Onaylı avans: ${match.approvedAmount.toLocaleString('tr-TR')} ₺`
+          : 'Dekont tutarı okunamadı',
+      required: true,
+    },
+    {
+      id: 'match_score',
+      label: `Eşleşme skoru (minimum ${MIN_MATCH_SCORE})`,
+      passed: scoreOk,
+      detail: scoreOk
+        ? `Skor: ${match.score} — yeterli`
+        : `Skor: ${match.score} — en az ${MIN_MATCH_SCORE} gerekli`,
+      required: true,
+    }
+  );
+
+  const optionalReasons = match.reasons.filter(
+    (r) => !r.includes('IBAN') && !r.includes('Tutar uyumlu')
+  );
+  for (const reason of optionalReasons) {
+    checks.push({
+      id: `bonus_${reason.slice(0, 12)}`,
+      label: reason,
+      passed: true,
+      detail: 'Ek eşleşme sinyali',
+      required: false,
+    });
+  }
+
+  return checks;
 }
 
 export function validateMatchForConfirm(

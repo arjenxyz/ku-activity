@@ -9,6 +9,8 @@ import {
   FiAlertTriangle,
   FiCheck,
   FiCheckCircle,
+  FiChevronDown,
+  FiChevronUp,
   FiFileText,
   FiRefreshCw,
   FiShare2,
@@ -27,8 +29,11 @@ import { transferTypeLabel } from '@/lib/turkish-banks';
 import {
   MIN_MATCH_SCORE,
   MIN_TRUST_SCORE,
+  buildMatchValidationChecks,
+  splitValidationChecks,
   validateDekontDocument,
   validateMatchForConfirm,
+  type DekontValidationCheck,
   type DekontValidationResult,
 } from '@/lib/dekont-validation';
 
@@ -108,40 +113,166 @@ function StepIndicator({ step }: { step: Step }) {
   );
 }
 
-function ValidationChecklist({ validation }: { validation: DekontValidationResult }) {
+function CheckRow({ check, compact }: { check: DekontValidationCheck; compact?: boolean }) {
   return (
-    <ul className="space-y-2">
-      {validation.checks.map((check) => (
-        <li
-          key={check.id}
-          className={`flex items-start gap-3 rounded-xl border px-3 py-2.5 text-sm ${
-            check.passed
-              ? 'border-emerald-200/80 bg-emerald-50/60 dark:border-emerald-900/50 dark:bg-emerald-950/20'
-              : check.required
-                ? 'border-red-200/80 bg-red-50/60 dark:border-red-900/50 dark:bg-red-950/20'
-                : 'border-amber-200/60 bg-amber-50/40 dark:border-amber-900/40 dark:bg-amber-950/15'
-          }`}
-        >
-          {check.passed ? (
-            <FiCheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />
-          ) : check.required ? (
-            <FiXCircle className="mt-0.5 h-4 w-4 shrink-0 text-red-500" />
-          ) : (
-            <FiAlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-500" />
+    <li
+      className={`flex items-start gap-3 rounded-xl border px-3 py-2.5 text-sm ${
+        check.passed
+          ? 'border-emerald-200/80 bg-emerald-50/60 dark:border-emerald-900/50 dark:bg-emerald-950/20'
+          : check.required
+            ? 'border-red-200/80 bg-red-50/60 dark:border-red-900/50 dark:bg-red-950/20'
+            : 'border-amber-200/60 bg-amber-50/40 dark:border-amber-900/40 dark:bg-amber-950/15'
+      }`}
+    >
+      {check.passed ? (
+        <FiCheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />
+      ) : check.required ? (
+        <FiXCircle className="mt-0.5 h-4 w-4 shrink-0 text-red-500" />
+      ) : (
+        <FiAlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-500" />
+      )}
+      <div className="min-w-0 flex-1">
+        <p className="font-medium text-slate-800 dark:text-slate-100">
+          {check.label}
+          {!check.required && (
+            <span className="ml-1.5 text-[10px] font-normal uppercase text-slate-400">opsiyonel</span>
           )}
-          <div className="min-w-0 flex-1">
-            <p className="font-medium text-slate-800 dark:text-slate-100">
-              {check.label}
-              {!check.required && (
-                <span className="ml-1.5 text-[10px] font-normal uppercase text-slate-400">opsiyonel</span>
-              )}
-            </p>
-            {check.detail && <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">{check.detail}</p>}
-          </div>
-        </li>
-      ))}
-    </ul>
+        </p>
+        {check.detail && (
+          <p className={`mt-0.5 text-xs text-slate-500 dark:text-slate-400 ${compact ? 'line-clamp-2' : ''}`}>
+            {check.detail}
+          </p>
+        )}
+      </div>
+    </li>
   );
+}
+
+function ValidationDetailsPanel({
+  title,
+  checks,
+  defaultExpanded = false,
+}: {
+  title: string;
+  checks: DekontValidationCheck[];
+  defaultExpanded?: boolean;
+}) {
+  const [expanded, setExpanded] = useState(defaultExpanded);
+  const { passed, failedRequired, failedOptional } = splitValidationChecks(checks);
+  const failed = [...failedRequired, ...failedOptional];
+
+  return (
+    <div className="space-y-3">
+      <div className="flex flex-wrap items-center gap-2">
+        <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-semibold text-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-300">
+          <FiCheck className="h-3 w-3" />
+          {passed.length} uyumlu
+        </span>
+        {failedRequired.length > 0 && (
+          <span className="inline-flex items-center gap-1 rounded-full bg-red-100 px-2.5 py-1 text-xs font-semibold text-red-800 dark:bg-red-950/50 dark:text-red-300">
+            <FiXCircle className="h-3 w-3" />
+            {failedRequired.length} zorunlu sorun
+          </span>
+        )}
+        {failedOptional.length > 0 && (
+          <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 px-2.5 py-1 text-xs font-semibold text-amber-900 dark:bg-amber-950/40 dark:text-amber-200">
+            <FiAlertTriangle className="h-3 w-3" />
+            {failedOptional.length} eksik (opsiyonel)
+          </span>
+        )}
+      </div>
+
+      {!expanded && failedRequired.length > 0 && (
+        <div className="space-y-2">
+          <p className="text-xs font-semibold uppercase tracking-wide text-red-700 dark:text-red-400">
+            Düzeltilmesi gerekenler
+          </p>
+          <ul className="space-y-2">
+            {failedRequired.map((check) => (
+              <CheckRow key={check.id} check={check} compact />
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {!expanded && failedRequired.length === 0 && passed.length > 0 && (
+        <ul className="space-y-2">
+          {passed.slice(0, 2).map((check) => (
+            <CheckRow key={check.id} check={check} compact />
+          ))}
+          {passed.length > 2 && (
+            <p className="text-xs text-slate-500">+{passed.length - 2} uyumlu kontrol daha…</p>
+          )}
+        </ul>
+      )}
+
+      <button
+        type="button"
+        onClick={() => setExpanded((v) => !v)}
+        className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800/60 dark:text-slate-200 dark:hover:bg-slate-800"
+      >
+        {expanded ? (
+          <>
+            <FiChevronUp className="h-4 w-4" />
+            Detayları gizle
+          </>
+        ) : (
+          <>
+            <FiChevronDown className="h-4 w-4" />
+            Detayları göster
+          </>
+        )}
+      </button>
+
+      {expanded && (
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div className="space-y-2">
+            <p className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-emerald-700 dark:text-emerald-400">
+              <FiCheckCircle className="h-3.5 w-3.5" />
+              Uyumlu ({passed.length})
+            </p>
+            {passed.length === 0 ? (
+              <p className="rounded-xl border border-dashed border-slate-200 px-3 py-4 text-xs text-slate-500 dark:border-slate-700">
+                Henüz geçen kontrol yok
+              </p>
+            ) : (
+              <ul className="space-y-2">
+                {passed.map((check) => (
+                  <CheckRow key={check.id} check={check} />
+                ))}
+              </ul>
+            )}
+          </div>
+
+          <div className="space-y-2">
+            <p className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-red-700 dark:text-red-400">
+              <FiXCircle className="h-3.5 w-3.5" />
+              Sorunlu / eksik ({failed.length})
+            </p>
+            {failed.length === 0 ? (
+              <p className="rounded-xl border border-dashed border-emerald-200 bg-emerald-50/50 px-3 py-4 text-xs text-emerald-800 dark:border-emerald-900/50 dark:bg-emerald-950/20 dark:text-emerald-300">
+                Tüm kontroller geçti
+              </p>
+            ) : (
+              <ul className="space-y-2">
+                {failed.map((check) => (
+                  <CheckRow key={check.id} check={check} />
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
+      )}
+
+      {!expanded && (
+        <p className="text-[11px] text-slate-400">{title} — tüm maddeleri görmek için detayları açın</p>
+      )}
+    </div>
+  );
+}
+
+function ValidationChecklist({ validation }: { validation: DekontValidationResult }) {
+  return <ValidationDetailsPanel title="Belge doğrulama" checks={validation.checks} />;
 }
 
 function DekontShareContent() {
@@ -199,6 +330,10 @@ function DekontShareContent() {
   const selectedMatch = matches.find((m) => m.requestId === selectedRequestId) ?? null;
   const confirmReady = useMemo(
     () => (ocr && selectedMatch ? validateMatchForConfirm(ocr, selectedMatch) : { ok: false }),
+    [ocr, selectedMatch]
+  );
+  const matchChecks = useMemo(
+    () => (ocr ? buildMatchValidationChecks(ocr, selectedMatch) : []),
     [ocr, selectedMatch]
   );
 
@@ -399,6 +534,7 @@ function DekontShareContent() {
 
               <div className="rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
                 <h3 className="font-semibold text-slate-900 dark:text-white">Okunan veriler</h3>
+                <p className="mt-0.5 text-xs text-slate-500">OCR çıktısı — doğrulama maddeleriyle karşılaştırın</p>
                 <dl className="mt-4 grid gap-3 text-sm">
                   {[
                     ['Gönderen banka', ocr.senderBank ?? '—'],
@@ -498,19 +634,27 @@ function DekontShareContent() {
                 )}
 
                 {matches.length > 0 && (
-                  <div className="mt-6 grid gap-4 sm:grid-cols-2">
-                    <div>
-                      <label className={labelClass}>Referans no</label>
-                      <input className={inputClass} value={referenceNo} onChange={(e) => setReferenceNo(e.target.value)} />
-                    </div>
-                    <div>
-                      <label className={labelClass}>Ödeme tarihi</label>
-                      <input
-                        type="date"
-                        className={inputClass}
-                        value={paymentDate}
-                        onChange={(e) => setPaymentDate(e.target.value)}
-                      />
+                  <div className="mt-6 space-y-4">
+                    <ValidationDetailsPanel
+                      title="Onay koşulları"
+                      checks={matchChecks}
+                      defaultExpanded={!confirmReady.ok}
+                    />
+
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      <div>
+                        <label className={labelClass}>Referans no</label>
+                        <input className={inputClass} value={referenceNo} onChange={(e) => setReferenceNo(e.target.value)} />
+                      </div>
+                      <div>
+                        <label className={labelClass}>Ödeme tarihi</label>
+                        <input
+                          type="date"
+                          className={inputClass}
+                          value={paymentDate}
+                          onChange={(e) => setPaymentDate(e.target.value)}
+                        />
+                      </div>
                     </div>
                   </div>
                 )}
