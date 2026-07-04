@@ -27,26 +27,34 @@ function isPersonnelAuthPath(pathname: string) {
   );
 }
 
+/** Intro karar verilene kadar boot overlay kalsın */
 export function PersonnelIntroGate({ children }: { children: React.ReactNode }) {
   const pathname = usePathname() ?? '';
-  const [showIntro, setShowIntro] = useState(false);
+  const [showIntro, setShowIntro] = useState<boolean | null>(null);
 
   useLayoutEffect(() => {
-    setShowIntro(computeShowIntro(pathname));
+    const shouldShow = computeShowIntro(pathname);
+    setShowIntro(shouldShow);
+    if (!shouldShow) {
+      document.getElementById('cl-intro-boot')?.remove();
+    }
   }, [pathname]);
 
   useLayoutEffect(() => {
-    if (!showIntro) return;
+    if (showIntro !== true) return;
     const prevHtml = document.documentElement.style.backgroundColor;
+    const prevBody = document.body.style.backgroundColor;
     const prevBodyOverflow = document.body.style.overflow;
     document.documentElement.style.backgroundColor = PERSONNEL_PWA_SPLASH_BG;
+    document.body.style.backgroundColor = PERSONNEL_PWA_SPLASH_BG;
     document.body.style.overflow = 'hidden';
     return () => {
       if (isPersonnelAuthPath(pathname)) {
         document.documentElement.style.backgroundColor = PERSONNEL_PWA_SPLASH_BG;
-        document.body.style.backgroundColor = 'transparent';
+        document.body.style.backgroundColor = PERSONNEL_PWA_SPLASH_BG;
       } else {
         document.documentElement.style.backgroundColor = prevHtml;
+        document.body.style.backgroundColor = prevBody;
       }
       document.body.style.overflow = prevBodyOverflow;
     };
@@ -54,15 +62,14 @@ export function PersonnelIntroGate({ children }: { children: React.ReactNode }) 
 
   const handleComplete = () => {
     markPersonnelIntroSeen();
+    document.getElementById('cl-intro-boot')?.remove();
     setShowIntro(false);
   };
 
   return (
     <>
-      {showIntro && <PersonnelAppIntro onComplete={handleComplete} />}
-      <div aria-hidden={showIntro} className={showIntro ? 'invisible pointer-events-none' : undefined}>
-        {children}
-      </div>
+      {showIntro === true && <PersonnelAppIntro onComplete={handleComplete} />}
+      {showIntro === false && children}
     </>
   );
 }
