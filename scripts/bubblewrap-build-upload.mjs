@@ -39,12 +39,12 @@ function parseArgs(argv) {
   return args;
 }
 
-function run(cmd, args, cwd, env = process.env) {
+function run(cmd, args, cwd, env = process.env, options = {}) {
   console.log(`\n> ${cmd} ${args.join(' ')}\n`);
   const result = spawnSync(cmd, args, {
     stdio: 'inherit',
     cwd,
-    shell: process.platform === 'win32',
+    shell: options.shell ?? false,
     env,
   });
   if (result.status !== 0) {
@@ -137,7 +137,7 @@ if (!skipBuild) {
   run(gradlew, ['assembleRelease', '--stacktrace'], buildDir, {
     ...process.env,
     TWA_KEYSTORE_PASSWORD: keystorePassword,
-  });
+  }, { shell: process.platform === 'win32' });
 
   const releaseApk = join(buildDir, 'app', 'build', 'outputs', 'apk', 'release', 'app-release.apk');
   const signedCopy = join(buildDir, 'app-release-signed.apk');
