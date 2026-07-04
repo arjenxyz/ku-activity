@@ -1,0 +1,50 @@
+# Bubblewrap build klasöründeki APK'yı canlı siteye yükler (onay bekler).
+# Secrets: APK_UPLOAD_SECRET, APP_URL (https://crewledger.vercel.app)
+#
+# APK'yı CI'da üretmek için twa-build/{personel|admin} klasörünü artifact olarak
+# veya repo'da hazır tutmanız gerekir. Tam bubblewrap CI için Android SDK + keystore gerekir.
+
+name: APK Upload
+
+on:
+  workflow_dispatch:
+    inputs:
+      app:
+        description: Uygulama türü
+        required: true
+        type: choice
+        options:
+          - personnel
+          - admin
+      release_notes:
+        description: Değişiklik notları
+        required: false
+        type: string
+        default: GitHub Actions otomatik yükleme
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Upload APK from twa-build
+        env:
+          APP_URL: ${{ secrets.APP_URL }}
+          APK_UPLOAD_SECRET: ${{ secrets.APK_UPLOAD_SECRET }}
+          RELEASE_NOTES: ${{ github.event.inputs.release_notes }}
+        run: |
+          DIR="twa-build/personel"
+          if [ "${{ github.event.inputs.app }}" = "admin" ]; then
+            DIR="twa-build/admin"
+          fi
+          if [ ! -f "$DIR/app-release-signed.apk" ]; then
+            echo "APK yok: $DIR/app-release-signed.apk"
+            echo "Önce bubblewrap build çalıştırıp bu klasörü commit/artifact olarak ekleyin."
+            exit 1
+          fi
+          node scripts/upload-apk-from-twa.mjs --app "${{ github.event.inputs.app }}" --dir "$DIR"
