@@ -12,7 +12,9 @@
     "apk:build-upload:personnel": "node scripts/bubblewrap-build-upload.mjs --app personnel",
     "apk:build-upload:admin": "node scripts/bubblewrap-build-upload.mjs --app admin",
     "twa:fingerprint": "node scripts/twa-keystore-fingerprint.mjs",
-    "twa:minimal-splash": "node scripts/twa-minimal-splash.mjs twa-build/personel"
+    "twa:setup-admin": "node scripts/twa-setup-admin.mjs",
+    "twa:minimal-splash": "node scripts/twa-minimal-splash.mjs twa-build/personel",
+    "twa:minimal-splash:admin": "node scripts/twa-minimal-splash.mjs twa-build/admin --variant admin"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1079.0",

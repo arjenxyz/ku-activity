@@ -22,6 +22,10 @@ function parseArgs(argv) {
       args.keystore = argv[++i];
     } else if (key === '--alias' && argv[i + 1]) {
       args.alias = argv[++i];
+    } else if (key === '--app' && argv[i + 1]) {
+      const app = argv[++i];
+      if (app === 'admin') args.keystore = 'twa-build/admin/android.keystore';
+      if (app === 'personnel') args.keystore = 'twa-build/personel/android.keystore';
     }
   }
   return args;
@@ -61,5 +65,6 @@ if (!match) {
 const fingerprint = match[1].trim().toUpperCase();
 console.log(fingerprint);
 console.log('\nVercel env:');
-console.log(`TWA_PERSONNEL_SHA256_FINGERPRINTS=${fingerprint}`);
+const envKey = args.keystore.includes('/admin/') ? 'TWA_ADMIN_SHA256_FINGERPRINTS' : 'TWA_PERSONNEL_SHA256_FINGERPRINTS';
+console.log(`${envKey}=${fingerprint}`);
 console.log('\nsrc/lib/twa-fingerprints.defaults.ts dosyasına da ekleyin (APK sideload için).');

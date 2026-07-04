@@ -2,19 +2,34 @@
 
 /**
  * TWA: native splash görselini kaldır — yalnızca arka plan rengi, anında geçiş.
- * Navigasyon çubuğu intro ile aynı tonda (#0B1624), siyah flash önlenir.
  *
  *   node scripts/twa-minimal-splash.mjs twa-build/personel
+ *   node scripts/twa-minimal-splash.mjs twa-build/admin --variant admin
  */
 
 import { existsSync, readFileSync, writeFileSync } from 'fs';
 import { join, resolve } from 'path';
 
-const SPLASH_BG = '#0B1624';
-const NAV_BG = '#0B1624';
-const STATUS_BG = '#163A5C';
+const VARIANTS = {
+  personnel: {
+    splashBg: '#0B1624',
+    navBg: '#0B1624',
+    statusBg: '#163A5C',
+  },
+  admin: {
+    splashBg: '#0f172a',
+    navBg: '#0f172a',
+    statusBg: '#0f172a',
+  },
+};
 
-function patchAndroidManifest(buildDir) {
+function resolveVariant(buildDir, explicit) {
+  if (explicit === 'admin' || explicit === 'personnel') return explicit;
+  if (buildDir.replace(/\\/g, '/').includes('/admin')) return 'admin';
+  return 'personnel';
+}
+
+function patchAndroidManifest(buildDir, { navBg }) {
   const manifestPath = join(buildDir, 'app', 'src', 'main', 'AndroidManifest.xml');
   if (!existsSync(manifestPath)) return;
 
@@ -31,7 +46,7 @@ function patchAndroidManifest(buildDir) {
   console.log('AndroidManifest: SPLASH_IMAGE_DRAWABLE kaldırıldı, opak tema');
 }
 
-function patchOpaqueTheme(buildDir) {
+function patchOpaqueTheme(buildDir, { splashBg, navBg, statusBg }) {
   const valuesDir = join(buildDir, 'app', 'src', 'main', 'res', 'values');
   const themesPath = join(valuesDir, 'themes.xml');
   const themesXml = `<?xml version="1.0" encoding="utf-8"?>
@@ -47,20 +62,20 @@ function patchOpaqueTheme(buildDir) {
 </resources>
 `;
   writeFileSync(themesPath, themesXml);
-  console.log('themes.xml: opak launcher arka planı (#0B1624)');
+  console.log(`themes.xml: opak launcher arka planı (${splashBg})`);
 }
 
-function patchConfigs(buildDir) {
+function patchConfigs(buildDir, { splashBg, navBg, statusBg }) {
   const manifestPath = join(buildDir, 'twa-manifest.json');
   if (existsSync(manifestPath)) {
     const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
     manifest.splashScreenFadeOutDuration = 0;
-    manifest.backgroundColor = SPLASH_BG;
-    manifest.themeColor = STATUS_BG;
-    manifest.navigationColor = NAV_BG;
-    manifest.navigationColorDark = NAV_BG;
-    manifest.navigationDividerColor = NAV_BG;
-    manifest.navigationDividerColorDark = NAV_BG;
+    manifest.backgroundColor = splashBg;
+    manifest.themeColor = statusBg;
+    manifest.navigationColor = navBg;
+    manifest.navigationColorDark = navBg;
+    manifest.navigationDividerColor = navBg;
+    manifest.navigationDividerColorDark = navBg;
     writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
   }
 
@@ -68,26 +83,42 @@ function patchConfigs(buildDir) {
   if (existsSync(buildGradle)) {
     let gradle = readFileSync(buildGradle, 'utf8');
     gradle = gradle.replace(/splashScreenFadeOutDuration: \d+/, 'splashScreenFadeOutDuration: 0');
-    gradle = gradle.replace(/navigationColor: '#[^']+'/g, `navigationColor: '${NAV_BG}'`);
-    gradle = gradle.replace(/navigationColorDark: '#[^']+'/g, `navigationColorDark: '${NAV_BG}'`);
+    gradle = gradle.replace(/navigationColor: '#[^']+'/g, `navigationColor: '${navBg}'`);
+    gradle = gradle.replace(/navigationColorDark: '#[^']+'/g, `navigationColorDark: '${navBg}'`);
     gradle = gradle.replace(
       /navigationDividerColor: '#[^']+'/g,
-      `navigationDividerColor: '${NAV_BG}'`
+      `navigationDividerColor: '${navBg}'`
     );
     gradle = gradle.replace(
       /navigationDividerColorDark: '#[^']+'/g,
-      `navigationDividerColorDark: '${NAV_BG}'`
+      `navigationDividerColorDark: '${navBg}'`
     );
+    gradle = gradle.replace(/backgroundColor: '#[^']+'/g, `backgroundColor: '${splashBg}'`);
+    gradle = gradle.replace(/themeColor: '#[^']+'/g, `themeColor: '${statusBg}'`);
     writeFileSync(buildGradle, gradle);
   }
 }
 
 function main() {
-  const buildDir = resolve(process.argv[2] || 'twa-build/personel');
-  patchAndroidManifest(buildDir);
-  patchOpaqueTheme(buildDir);
-  patchConfigs(buildDir);
-  console.log('TWA: minimal splash + opak tema + nav bar intro rengi.');
+  const argv = process.argv.slice(2);
+  let variantArg;
+  const buildArgs = [];
+  for (let i = 0; i < argv.length; i += 1) {
+    if (argv[i] === '--variant' && argv[i + 1]) {
+      variantArg = argv[++i];
+    } else {
+      buildArgs.push(argv[i]);
+    }
+  }
+
+  const buildDir = resolve(buildArgs[0] || 'twa-build/personel');
+  const variant = resolveVariant(buildDir, variantArg);
+  const colors = VARIANTS[variant];
+
+  patchAndroidManifest(buildDir, colors);
+  patchOpaqueTheme(buildDir, colors);
+  patchConfigs(buildDir, colors);
+  console.log(`TWA (${variant}): minimal splash + opak tema + nav bar intro rengi.`);
 }
 
 main();

@@ -3,6 +3,7 @@ import type { NextRequest } from 'next/server';
 import { updateSession, getSupabaseMiddlewareClient } from '@/utils/supabase/middleware';
 import { PERSONNEL_COOKIE } from '@/lib/personnel-cookie';
 import { PENDING_REGISTRATION_COOKIE } from '@/lib/registration-pending-storage';
+import { ADMIN_ROUTE_HEADER } from '@/lib/admin-intro-boot-script';
 import { PERSONNEL_ROUTE_HEADER } from '@/lib/personnel-intro-boot-script';
 
 const ADMIN_LOGIN = '/admin-panel/login';
@@ -34,14 +35,17 @@ function shouldRefreshSupabaseSession(pathname: string) {
   return true;
 }
 
-/** Root layout SSR'da personel rotası için koyu ilk kare */
-function withPersonnelRouteHint(response: NextResponse, pathname: string, request: NextRequest) {
-  if (!pathname.startsWith('/personnel-panel')) {
+/** Root layout SSR'da PWA intro için ilk kare (personel / yönetici) */
+function withPwaRouteHint(response: NextResponse, pathname: string, request: NextRequest) {
+  const isPersonnel = pathname.startsWith('/personnel-panel');
+  const isAdmin = pathname.startsWith('/admin-panel');
+  if (!isPersonnel && !isAdmin) {
     return response;
   }
 
   const requestHeaders = new Headers(request.headers);
-  requestHeaders.set(PERSONNEL_ROUTE_HEADER, '1');
+  if (isPersonnel) requestHeaders.set(PERSONNEL_ROUTE_HEADER, '1');
+  if (isAdmin) requestHeaders.set(ADMIN_ROUTE_HEADER, '1');
 
   const next = NextResponse.next({
     request: { headers: requestHeaders },
@@ -56,7 +60,7 @@ function withPersonnelRouteHint(response: NextResponse, pathname: string, reques
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  const finish = (response: NextResponse) => withPersonnelRouteHint(response, pathname, request);
+  const finish = (response: NextResponse) => withPwaRouteHint(response, pathname, request);
 
   const response = shouldRefreshSupabaseSession(pathname)
     ? await updateSession(request)

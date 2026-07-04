@@ -1,4 +1,5 @@
 import type { MetadataRoute } from 'next';
+import { ADMIN_PWA_SPLASH_BG, ADMIN_PWA_THEME } from '@/lib/admin-pwa-brand';
 import {
   PERSONNEL_PWA_SPLASH_BG,
   PERSONNEL_PWA_THEME,
@@ -79,9 +80,9 @@ export function buildAdminManifest(): MetadataRoute.Manifest {
     scope: '/',
     display: 'standalone',
     display_override: ['standalone', 'minimal-ui'],
-    orientation: 'any',
-    background_color: '#f8fafc',
-    theme_color: '#0f172a',
+    orientation: 'portrait-primary',
+    background_color: ADMIN_PWA_SPLASH_BG,
+    theme_color: ADMIN_PWA_THEME,
     lang: 'tr',
     dir: 'ltr',
     categories: ['business', 'productivity'],

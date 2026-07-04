@@ -8,6 +8,13 @@ import { InstallPrompt } from '@/components/pwa/InstallPrompt';
 import { CREWLEDGER_APP_ICON } from '@/lib/brand';
 import { PWA_ASSET_VERSION } from '@/lib/pwa-manifest';
 import {
+  ADMIN_CRITICAL_CSS,
+  ADMIN_MOBILE_THEME_COLOR,
+  ADMIN_ROUTE_HEADER,
+  getAdminIntroBootScript,
+} from '@/lib/admin-intro-boot-script';
+import { ADMIN_INTRO_IMAGE, ADMIN_PWA_SPLASH_BG } from '@/lib/admin-pwa-brand';
+import {
   getPersonnelIntroBootScript,
   PERSONNEL_CRITICAL_CSS,
   PERSONNEL_MOBILE_THEME_COLOR,
@@ -62,12 +69,15 @@ export default async function RootLayout({
 }>) {
   const headerList = await headers();
   const isPersonnelRoute = headerList.get(PERSONNEL_ROUTE_HEADER) === '1';
-  const personnelSurfaceStyle = isPersonnelRoute
-    ? ({ backgroundColor: PERSONNEL_PWA_SPLASH_BG, colorScheme: 'dark' as const })
+  const isAdminRoute = headerList.get(ADMIN_ROUTE_HEADER) === '1';
+  const isPwaIntroRoute = isPersonnelRoute || isAdminRoute;
+  const pwaSplashBg = isPersonnelRoute ? PERSONNEL_PWA_SPLASH_BG : ADMIN_PWA_SPLASH_BG;
+  const pwaSurfaceStyle = isPwaIntroRoute
+    ? ({ backgroundColor: pwaSplashBg, colorScheme: 'dark' as const })
     : undefined;
 
   return (
-    <html lang="tr" style={personnelSurfaceStyle} suppressHydrationWarning>
+    <html lang="tr" style={pwaSurfaceStyle} suppressHydrationWarning>
       <head>
         {isPersonnelRoute ? (
           <>
@@ -77,19 +87,32 @@ export default async function RootLayout({
             <link rel="preload" as="image" href={PERSONNEL_INTRO_IMAGE} fetchPriority="high" />
           </>
         ) : null}
+        {isAdminRoute ? (
+          <>
+            <style dangerouslySetInnerHTML={{ __html: ADMIN_CRITICAL_CSS }} />
+            <meta name="color-scheme" content="dark" />
+            <meta name="theme-color" content={ADMIN_MOBILE_THEME_COLOR} />
+            <link rel="preload" as="image" href={ADMIN_INTRO_IMAGE} fetchPriority="high" />
+          </>
+        ) : null}
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased transition-colors duration-300 ${
-          isPersonnelRoute
+          isPwaIntroRoute
             ? 'text-gray-100'
             : 'bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100'
         }`}
-        style={personnelSurfaceStyle}
+        style={pwaSurfaceStyle}
         suppressHydrationWarning
       >
         {isPersonnelRoute ? (
           <Script id="personnel-intro-boot-root" strategy="beforeInteractive">
             {getPersonnelIntroBootScript()}
+          </Script>
+        ) : null}
+        {isAdminRoute ? (
+          <Script id="admin-intro-boot-root" strategy="beforeInteractive">
+            {getAdminIntroBootScript()}
           </Script>
         ) : null}
         <PWARegister />

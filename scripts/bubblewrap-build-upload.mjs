@@ -95,8 +95,13 @@ function ensureGradleWindowsFixes(buildDir) {
   writeFileSync(buildGradle, gradle);
 }
 
-function applyPlainTwaSplash(buildDir) {
-  run(process.execPath, [join(ROOT, 'scripts/twa-minimal-splash.mjs'), buildDir], ROOT);
+function applyPlainTwaSplash(buildDir, appType) {
+  const variant = appType === 'admin' ? 'admin' : 'personnel';
+  run(
+    process.execPath,
+    [join(ROOT, 'scripts/twa-minimal-splash.mjs'), buildDir, '--variant', variant],
+    ROOT
+  );
 }
 
 const args = parseArgs(process.argv);
@@ -115,7 +120,8 @@ const buildDir = resolve(ROOT, args.dir || DEFAULT_DIRS[appType]);
 
 if (!existsSync(join(buildDir, 'twa-manifest.json'))) {
   console.error(`Bubblewrap projesi yok: ${buildDir}`);
-  console.error('twa/README.md — bubblewrap init adımlarını uygulayın.');
+  console.error('Admin için: npm run twa:setup-admin');
+  console.error('Personel için: twa/README.md — bubblewrap init adımlarını uygulayın.');
   process.exit(1);
 }
 
@@ -124,7 +130,7 @@ if (!skipUpdate) {
 }
 
 ensureGradleWindowsFixes(buildDir);
-applyPlainTwaSplash(buildDir);
+applyPlainTwaSplash(buildDir, appType);
 
 if (!skipBuild) {
   const keystorePassword = process.env.TWA_KEYSTORE_PASSWORD?.trim();
