@@ -1,5 +1,6 @@
 'use client';
 
+import strings from '@json/src/app/admin-panel/proje/[projectId]/avans/page.json';
 import { useState, useEffect } from 'react';
 import { useParams, useSearchParams } from 'next/navigation';
 import dayjs from 'dayjs';
@@ -40,7 +41,7 @@ export default function AvansPage() {
     setError(null);
     setSuccess(null);
     if (!employeeId || !values.amount) {
-      setError('Personel ve tutar zorunludur.');
+      setError(strings.employeeAmountRequired);
       return;
     }
     setLoading(true);
@@ -53,12 +54,12 @@ export default function AvansPage() {
         description: values.description || undefined,
         jobId: jobId || null,
       });
-      setSuccess('Avans kaydı oluşturuldu.');
+      setSuccess(strings.successCreated);
       setValues({ date: dayjs().format('YYYY-MM-DD'), amount: '', description: '' });
       setEmployeeId('');
       setJobId('');
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Kayıt başarısız');
+      setError(err instanceof Error ? err.message : strings.saveFailed);
     } finally {
       setLoading(false);
     }
@@ -66,22 +67,19 @@ export default function AvansPage() {
 
   return (
     <div>
-      <ProjectPageHeader
-        title="Avans Ekle"
-        description="Personele avans kaydı girin. İsteğe bağlı iş kalemine bağlayarak taşeron kârına yansıtın."
-      />
+      <ProjectPageHeader title={strings.pageTitle} description={strings.pageDescription} />
       {empError && <AlertBanner type="error" message={empError} />}
       {error && <AlertBanner type="error" message={error} />}
       {success && <AlertBanner type="success" message={success} />}
       <EntryFormCard
-        title="Yeni Avans"
+        title={strings.formTitle}
         employees={employees}
         employeeId={employeeId}
         onEmployeeChange={setEmployeeId}
         fields={[
-          { name: 'date', label: 'Tarih', type: 'date' },
-          { name: 'amount', label: 'Tutar (₺)', type: 'number', step: '0.01' },
-          { name: 'description', label: 'Açıklama', type: 'textarea', required: false },
+          { name: 'date', label: strings.labelDate, type: 'date' },
+          { name: 'amount', label: strings.labelAmount, type: 'number', step: '0.01' },
+          { name: 'description', label: strings.labelDescription, type: 'textarea', required: false },
         ]}
         values={values}
         onChange={(n, v) => setValues((s) => ({ ...s, [n]: v }))}

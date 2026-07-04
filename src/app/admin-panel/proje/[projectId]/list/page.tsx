@@ -1,5 +1,6 @@
 'use client';
 
+import strings from '@json/src/app/admin-panel/proje/[projectId]/list/page.json';
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
@@ -40,13 +41,10 @@ export default function EmployeeListPage() {
   return (
     <div>
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-2">
-        <ProjectPageHeader
-          title="Personel Listesi"
-          description="Projedeki tüm personelleri görüntüleyin."
-        />
+        <ProjectPageHeader title={strings.pageTitle} description={strings.pageDescription} />
         <Link href={`/admin-panel/proje/${projectId}/new`} className={btnSecondary}>
           <FiUserPlus className="w-4 h-4" />
-          Yeni Personel
+          {strings.newEmployeeButton}
         </Link>
       </div>
 
@@ -55,11 +53,11 @@ export default function EmployeeListPage() {
       <RecordsTable
         loading={loading}
         rows={employees}
-        emptyMessage="Henüz personel eklenmemiş."
+        emptyMessage={strings.emptyMessage}
         columns={[
           {
             key: 'photo',
-            header: 'Fotoğraf',
+            header: strings.colPhoto,
             render: (r) => (
               <EmployeePhotoUpload
                 projectId={projectId}
@@ -71,53 +69,53 @@ export default function EmployeeListPage() {
               />
             ),
           },
-          { key: 'name', header: 'Ad Soyad', render: (r) => r.name },
+          { key: 'name', header: strings.colName, render: (r) => r.name },
           {
             key: 'position',
-            header: 'Pozisyon',
-            render: (r) => r.position || '—',
+            header: strings.colPosition,
+            render: (r) => r.position || strings.emptyCell,
             hideOnMobile: true,
           },
           {
             key: 'email',
-            header: 'E-posta',
-            render: (r) => r.email || '—',
+            header: strings.colEmail,
+            render: (r) => r.email || strings.emptyCell,
             hideOnMobile: true,
           },
           {
             key: 'wage',
-            header: 'Yevmiye',
+            header: strings.colWage,
             render: (r) => formatMoney(Number(r.daily_wage)),
           },
           {
             key: 'hire',
-            header: 'İşe Giriş',
-            render: (r) => (r.hire_date ? formatDate(r.hire_date) : '—'),
+            header: strings.colHireDate,
+            render: (r) => (r.hire_date ? formatDate(r.hire_date) : strings.emptyCell),
             hideOnMobile: true,
           },
           {
             key: 'status',
-            header: 'Durum',
+            header: strings.colStatus,
             render: (r) => (
               <span
                 className={`inline-flex px-2 py-0.5 rounded text-xs font-medium ${
                   r.is_active ? 'bg-emerald-50 text-emerald-700' : 'bg-slate-100 text-slate-600'
                 }`}
               >
-                {r.is_active ? 'Aktif' : 'Pasif'}
+                {r.is_active ? strings.statusActive : strings.statusInactive}
               </span>
             ),
           },
           {
             key: 'actions',
-            header: 'İşlem',
+            header: strings.colActions,
             render: (r) => (
               <Link
                 href={`/admin-panel/proje/${projectId}/list/${r.id}`}
                 className="inline-flex items-center gap-1 text-xs font-medium text-blue-700 hover:underline"
               >
                 <FiEdit2 className="w-3.5 h-3.5" />
-                Düzenle
+                {strings.editLink}
               </Link>
             ),
           },

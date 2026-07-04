@@ -1,5 +1,6 @@
 'use client';
 
+import strings from '@json/src/app/admin-panel/proje/[projectId]/sorgulama/admin/page.json';
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import dayjs from 'dayjs';
@@ -83,14 +84,11 @@ export default function AdminSorgulamaPage() {
 
   return (
     <div>
-      <ProjectPageHeader
-        title="Admin Sorgulama"
-        description="Tüm personelin aylık finansal özeti."
-      />
+      <ProjectPageHeader title={strings.pageTitle} description={strings.pageDescription} />
       {error && <AlertBanner type="error" message={error} />}
 
       <div className="mb-6 max-w-xs">
-        <label className={labelClass}>Ay</label>
+        <label className={labelClass}>{strings.labelMonth}</label>
         <input
           type="month"
           className={inputClass}
@@ -101,9 +99,9 @@ export default function AdminSorgulamaPage() {
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
         {[
-          { label: 'Toplam Brüt', value: formatMoney(totals.gross) },
-          { label: 'Toplam Avans', value: formatMoney(totals.advances) },
-          { label: 'Toplam Net', value: formatMoney(totals.net) },
+          { label: strings.totalGross, value: formatMoney(totals.gross) },
+          { label: strings.totalAdvances, value: formatMoney(totals.advances) },
+          { label: strings.totalNet, value: formatMoney(totals.net) },
         ].map((s) => (
           <div key={s.label} className={`${cardClass} p-4`}>
             <p className="text-xs text-slate-500">{s.label}</p>
@@ -116,22 +114,22 @@ export default function AdminSorgulamaPage() {
         loading={loading}
         rows={rows}
         columns={[
-          { key: 'name', header: 'Personel', render: (r) => r.name },
-          { key: 'days', header: 'Gün', render: (r) => r.workDays },
-          { key: 'gross', header: 'Brüt', render: (r) => formatMoney(r.gross) },
+          { key: 'name', header: strings.colEmployee, render: (r) => r.name },
+          { key: 'days', header: strings.colDays, render: (r) => r.workDays },
+          { key: 'gross', header: strings.colGross, render: (r) => formatMoney(r.gross) },
           {
             key: 'adv',
-            header: 'Avans',
+            header: strings.colAdvance,
             render: (r) => formatMoney(r.advances),
             hideOnMobile: true,
           },
           {
             key: 'min',
-            header: 'Asgari',
+            header: strings.colMinimum,
             render: (r) => formatMoney(r.minimum),
             hideOnMobile: true,
           },
-          { key: 'net', header: 'Net', render: (r) => formatMoney(r.net) },
+          { key: 'net', header: strings.colNet, render: (r) => formatMoney(r.net) },
         ]}
       />
     </div>

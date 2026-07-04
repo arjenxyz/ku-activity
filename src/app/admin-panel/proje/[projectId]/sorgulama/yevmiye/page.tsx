@@ -1,5 +1,6 @@
 'use client';
 
+import strings from '@json/src/app/admin-panel/proje/[projectId]/sorgulama/yevmiye/page.json';
 import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import dayjs from 'dayjs';
@@ -59,10 +60,7 @@ export default function YevmiyeSorgulamaPage() {
 
   return (
     <div>
-      <ProjectPageHeader
-        title="Yevmiye Sorgulama"
-        description="Yevmiye kayıtlarını görüntüleyin, iş kalemini düzenleyin veya silin."
-      />
+      <ProjectPageHeader title={strings.pageTitle} description={strings.pageDescription} />
       {empError && <AlertBanner type="error" message={empError} />}
       {error && <AlertBanner type="error" message={error} />}
       <QueryFilters
@@ -78,20 +76,20 @@ export default function YevmiyeSorgulamaPage() {
         columns={[
           {
             key: 'emp',
-            header: 'Personel',
-            render: (r) => r.employees?.name ?? '—',
+            header: strings.colEmployee,
+            render: (r) => r.employees?.name ?? strings.emptyCell,
           },
-          { key: 'date', header: 'Tarih', render: (r) => formatDate(r.date) },
-          { key: 'amount', header: 'Gün', render: (r) => r.amount },
+          { key: 'date', header: strings.colDate, render: (r) => formatDate(r.date) },
+          { key: 'amount', header: strings.colDays, render: (r) => r.amount },
           {
             key: 'job',
-            header: 'İş kalemi',
+            header: strings.colJob,
             render: (r) => jobNameFromJoin(r),
             hideOnMobile: true,
           },
           {
             key: 'status',
-            header: 'Durum',
+            header: strings.colStatus,
             render: (r) => {
               const status = getWorkLogApprovalStatus(r);
               const tone =
@@ -109,7 +107,7 @@ export default function YevmiyeSorgulamaPage() {
           },
           {
             key: 'dispute',
-            header: 'İtiraz',
+            header: strings.colDispute,
             render: (r) =>
               r.employee_dispute_note ? (
                 <span
@@ -119,19 +117,19 @@ export default function YevmiyeSorgulamaPage() {
                   {r.employee_dispute_note}
                 </span>
               ) : (
-                '—'
+                strings.emptyCell
               ),
             hideOnMobile: true,
           },
           {
             key: 'desc',
-            header: 'Açıklama',
-            render: (r) => r.description || '—',
+            header: strings.colDescription,
+            render: (r) => r.description || strings.emptyCell,
             hideOnMobile: true,
           },
           {
             key: 'actions',
-            header: 'İşlem',
+            header: strings.colActions,
             render: (r) => (
               <RecordEditActions
                 projectId={projectId}

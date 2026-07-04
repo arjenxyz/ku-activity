@@ -1,5 +1,7 @@
 'use client';
 
+import strings from '@json/src/app/admin-panel/proje/[projectId]/ekiplar/page.json';
+import { formatString } from '@/lib/strings/format';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
@@ -48,7 +50,7 @@ export default function EkiplerPage() {
       setBlocks(blocksData);
       setJobs(jobsData as Array<{ id: string; name: string; block_id?: string | null }>);
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Yüklenemedi');
+      setError(e instanceof Error ? e.message : strings.loadFailed);
     } finally {
       setLoading(false);
     }
@@ -68,9 +70,9 @@ export default function EkiplerPage() {
       const { teams: next } = await createProjectTeam(projectId, { name: teamName.trim() });
       setTeams(next);
       setTeamName('');
-      setSuccess('Ekip oluşturuldu. Blok ve iş atayın, personel ekleyin.');
+      setSuccess(strings.successTeamCreated);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Kayıt başarısız');
+      setError(err instanceof Error ? err.message : strings.saveFailed);
     } finally {
       setSaving(false);
     }
@@ -84,9 +86,9 @@ export default function EkiplerPage() {
     try {
       const { teams: next } = await updateProjectTeam(projectId, teamId, patch);
       setTeams(next);
-      setSuccess('Ekip güncellendi.');
+      setSuccess(strings.successTeamUpdated);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Güncellenemedi');
+      setError(err instanceof Error ? err.message : strings.updateFailed);
     } finally {
       setSaving(false);
     }
@@ -99,7 +101,7 @@ export default function EkiplerPage() {
       const { teams: next } = await addTeamMember(projectId, teamId, employeeId);
       setTeams(next);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Personel eklenemedi');
+      setError(err instanceof Error ? err.message : strings.addMemberFailed);
     } finally {
       setSaving(false);
     }
@@ -111,7 +113,7 @@ export default function EkiplerPage() {
       const { teams: next } = await removeTeamMember(projectId, teamId, memberId);
       setTeams(next);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Çıkarılamadı');
+      setError(err instanceof Error ? err.message : strings.removeMemberFailed);
     } finally {
       setSaving(false);
     }
@@ -121,15 +123,15 @@ export default function EkiplerPage() {
 
   return (
     <div className="space-y-5 pb-8">
-      <ProjectPageHeader
-        title="Ekipler"
-        description="İşçileri ekiplere ayırın, aktif bloğa ve güncel işe atayın. Onaylı yevmiye otomatik işlenir."
-      />
+      <ProjectPageHeader title={strings.pageTitle} description={strings.pageDescription} />
 
       {teamsWithoutBlock.length > 0 && (
         <AlertBanner
           type="error"
-          message={`${teamsWithoutBlock.length} ekibin blok ataması yok: ${teamsWithoutBlock.map((t) => t.name).join(', ')}. Yevmiye girişi engellenir.`}
+          message={formatString(strings.teamsWithoutBlockAlert, {
+            count: teamsWithoutBlock.length,
+            teamNames: teamsWithoutBlock.map((t) => t.name).join(', '),
+          })}
         />
       )}
 
@@ -137,35 +139,35 @@ export default function EkiplerPage() {
       {success && <AlertBanner type="success" message={success} />}
 
       <div className={`${cardClass} p-5`}>
-        <h2 className="text-sm font-semibold text-slate-900 mb-3">Yeni ekip</h2>
+        <h2 className="text-sm font-semibold text-slate-900 mb-3">{strings.sectionNewTeam}</h2>
         <form onSubmit={handleCreateTeam} className="flex flex-wrap gap-3 items-end">
           <div className="flex-1 min-w-[200px]">
-            <label className={labelClass}>Ekip adı</label>
+            <label className={labelClass}>{strings.labelTeamName}</label>
             <input
               className={inputClass}
-              placeholder="Örn. Çatı ekibi"
+              placeholder={strings.placeholderTeamName}
               value={teamName}
               onChange={(e) => setTeamName(e.target.value)}
               required
             />
           </div>
           <button type="submit" className={btnPrimary} disabled={saving}>
-            Ekle
+            {strings.addButton}
           </button>
         </form>
         <p className="text-xs text-slate-500 mt-3">
-          Önce{' '}
+          {strings.hintCreateBlockPrefix}{' '}
           <Link href={`/admin-panel/proje/${projectId}/bloklar`} className="text-emerald-700 hover:underline">
-            blok
+            {strings.hintBlockLink}
           </Link>{' '}
-          oluşturun, sonra ekibe atayın.
+          {strings.hintCreateBlockSuffix}
         </p>
       </div>
 
       {loading ? (
-        <div className={`${cardClass} p-10 text-center text-sm text-slate-500`}>Yükleniyor…</div>
+        <div className={`${cardClass} p-10 text-center text-sm text-slate-500`}>{strings.loading}</div>
       ) : teams.length === 0 ? (
-        <div className={`${cardClass} p-10 text-center text-slate-600`}>Henüz ekip yok.</div>
+        <div className={`${cardClass} p-10 text-center text-slate-600`}>{strings.emptyTeams}</div>
       ) : (
         <div className="space-y-4">
           {teams.map((team) => {
@@ -180,14 +182,14 @@ export default function EkiplerPage() {
                   <h3 className="text-lg font-semibold text-slate-900">{team.name}</h3>
                   {!team.block_id && (
                     <span className="text-xs px-2 py-1 rounded-full bg-amber-100 text-amber-800 font-medium">
-                      Blok atanmadı
+                      {strings.noBlockBadge}
                     </span>
                   )}
                 </div>
 
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
-                    <label className={labelClass}>Aktif blok</label>
+                    <label className={labelClass}>{strings.labelActiveBlock}</label>
                     <select
                       className={inputClass}
                       value={team.block_id ?? ''}
@@ -198,7 +200,7 @@ export default function EkiplerPage() {
                         })
                       }
                     >
-                      <option value="">Seçin…</option>
+                      <option value="">{strings.selectPlaceholder}</option>
                       {activeBlocks.map((b) => (
                         <option key={b.id} value={b.id}>
                           {b.name}
@@ -207,7 +209,7 @@ export default function EkiplerPage() {
                     </select>
                   </div>
                   <div>
-                    <label className={labelClass}>Güncel iş (otomatik yevmiye)</label>
+                    <label className={labelClass}>{strings.labelCurrentJob}</label>
                     <select
                       className={inputClass}
                       value={team.current_job_id ?? ''}
@@ -218,7 +220,7 @@ export default function EkiplerPage() {
                         })
                       }
                     >
-                      <option value="">Seçin…</option>
+                      <option value="">{strings.selectPlaceholder}</option>
                       {blockJobs.map((j) => (
                         <option key={j.id} value={j.id}>
                           {j.name}
@@ -229,7 +231,9 @@ export default function EkiplerPage() {
                 </div>
 
                 <div>
-                  <p className={labelClass}>Üyeler ({team.members.length})</p>
+                  <p className={labelClass}>
+                    {formatString(strings.membersLabel, { count: team.members.length })}
+                  </p>
                   {team.members.length > 0 && (
                     <ul className="mt-2 space-y-1">
                       {team.members.map((m) => (
@@ -244,7 +248,7 @@ export default function EkiplerPage() {
                             disabled={saving}
                             onClick={() => handleRemoveMember(team.id, m.id)}
                           >
-                            Çıkar
+                            {strings.removeMember}
                           </button>
                         </li>
                       ))}
@@ -265,8 +269,8 @@ export default function EkiplerPage() {
                     >
                       <option value="">
                         {availableEmployees.length === 0
-                          ? 'Eklenecek personel yok'
-                          : 'Personel ekle…'}
+                          ? strings.noAvailableEmployees
+                          : strings.addEmployeePlaceholder}
                       </option>
                       {availableEmployees.map((emp) => (
                         <option key={emp.id} value={emp.id}>

@@ -1,5 +1,7 @@
 'use client';
 
+import strings from '@json/src/app/admin-panel/proje/[projectId]/sorgulama/personel-sifreleri/page.json';
+import { formatString } from '@/lib/strings/format';
 import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { FiEye, FiEyeOff, FiRefreshCw } from 'react-icons/fi';
@@ -37,7 +39,7 @@ export default function PersonelSifreleriPage() {
       const rows = await fetchEmployeePins(projectId);
       setPinRows(rows);
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'PIN listesi yüklenemedi');
+      setError(e instanceof Error ? e.message : strings.loadFailed);
     } finally {
       setListLoading(false);
     }
@@ -52,7 +54,7 @@ export default function PersonelSifreleriPage() {
     setError(null);
     setSuccess(null);
     if (!employeeId) {
-      setError('Personel seçin.');
+      setError(strings.selectEmployeeError);
       return;
     }
     const pinError = validatePersonnelPin(pin);
@@ -64,12 +66,12 @@ export default function PersonelSifreleriPage() {
     try {
       await resetEmployeePin(projectId, employeeId, pin);
       const name = employees.find((e) => e.id === employeeId)?.name;
-      setSuccess(`${name ?? 'Personel'} için şifre güncellendi.`);
+      setSuccess(formatString(strings.successUpdated, { name: name ?? strings.defaultEmployeeName }));
       setPin('');
       setEmployeeId('');
       await loadPins();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Güncelleme başarısız');
+      setError(err instanceof Error ? err.message : strings.updateFailed);
     } finally {
       setLoading(false);
     }
@@ -80,10 +82,7 @@ export default function PersonelSifreleriPage() {
   return (
     <div className="space-y-6 pb-8">
       <div className="flex flex-wrap items-start justify-between gap-3">
-        <ProjectPageHeader
-          title="Personel şifreleri"
-          description="Personel giriş PIN'leri. Personel kendi PIN'ini sıfırladığında liste güncellenir — Yenile ile görüntüleyin."
-        />
+        <ProjectPageHeader title={strings.pageTitle} description={strings.pageDescription} />
         <button
           type="button"
           onClick={() => loadPins()}
@@ -91,7 +90,7 @@ export default function PersonelSifreleriPage() {
           className="inline-flex items-center gap-2 text-sm text-slate-600 hover:text-slate-900"
         >
           <FiRefreshCw className={`w-4 h-4 ${listLoading ? 'animate-spin' : ''}`} />
-          Yenile
+          {strings.refresh}
         </button>
       </div>
 
@@ -101,29 +100,29 @@ export default function PersonelSifreleriPage() {
 
       <section className={`${cardClass} overflow-hidden`}>
         <div className="px-4 py-3 sm:px-5 border-b border-slate-100 flex flex-wrap items-center justify-between gap-2">
-          <h2 className="text-sm font-semibold text-slate-900">Mevcut şifreler</h2>
+          <h2 className="text-sm font-semibold text-slate-900">{strings.sectionCurrentPins}</h2>
           <button
             type="button"
             onClick={() => setRevealed((v) => !v)}
             className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-600 hover:text-slate-900 px-2.5 py-1.5 rounded-lg hover:bg-slate-50"
           >
             {revealed ? <FiEyeOff className="w-3.5 h-3.5" /> : <FiEye className="w-3.5 h-3.5" />}
-            {revealed ? 'Gizle' : 'PIN göster'}
+            {revealed ? strings.hidePins : strings.showPins}
           </button>
         </div>
 
         {listLoading ? (
-          <p className="p-6 text-sm text-slate-500">Yükleniyor…</p>
+          <p className="p-6 text-sm text-slate-500">{strings.loading}</p>
         ) : pinRows.length === 0 ? (
-          <p className="p-6 text-sm text-slate-500">Bu projede personel yok.</p>
+          <p className="p-6 text-sm text-slate-500">{strings.emptyEmployees}</p>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
                 <tr className="bg-slate-50 text-left text-xs text-slate-500 uppercase tracking-wide">
-                  <th className="px-4 py-2.5 font-semibold">Personel</th>
-                  <th className="px-4 py-2.5 font-semibold">Durum</th>
-                  <th className="px-4 py-2.5 font-semibold">Giriş PIN</th>
+                  <th className="px-4 py-2.5 font-semibold">{strings.colEmployee}</th>
+                  <th className="px-4 py-2.5 font-semibold">{strings.colStatus}</th>
+                  <th className="px-4 py-2.5 font-semibold">{strings.colPin}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
@@ -138,20 +137,18 @@ export default function PersonelSifreleriPage() {
                             : 'bg-slate-100 text-slate-500'
                         }`}
                       >
-                        {row.isActive ? 'Aktif' : 'Pasif'}
+                        {row.isActive ? strings.statusActive : strings.statusInactive}
                       </span>
                     </td>
                     <td className="px-4 py-3 font-mono text-slate-800">
                       {!row.hasPin ? (
-                        <span className="text-slate-400 font-sans text-xs">PIN yok</span>
+                        <span className="text-slate-400 font-sans text-xs">{strings.noPin}</span>
                       ) : row.pinVisible && revealed ? (
                         row.pin
                       ) : row.pinVisible ? (
-                        '••••••'
+                        strings.maskedPin
                       ) : (
-                        <span className="text-amber-700 font-sans text-xs">
-                          Eski kayıt — yeniden atayın
-                        </span>
+                        <span className="text-amber-700 font-sans text-xs">{strings.legacyPinHint}</span>
                       )}
                     </td>
                   </tr>
@@ -163,13 +160,13 @@ export default function PersonelSifreleriPage() {
 
         {!listLoading && pinRows.length > 0 && visibleCount < pinRows.filter((r) => r.hasPin).length && (
           <p className="px-4 py-3 text-xs text-slate-500 border-t border-slate-100 bg-slate-50/50">
-            Eski personellerde PIN görünmeyebilir. Yeni PIN atayınca listede görünür.
+            {strings.legacyListHint}
           </p>
         )}
       </section>
 
       <form onSubmit={handleSubmit} className={`${cardClass} p-4 sm:p-6 max-w-lg`}>
-        <h2 className="text-sm font-semibold text-slate-900 mb-4">PIN sıfırla</h2>
+        <h2 className="text-sm font-semibold text-slate-900 mb-4">{strings.sectionResetPin}</h2>
         <div className="space-y-4">
           <EmployeeSelect
             employees={employees}
@@ -177,7 +174,7 @@ export default function PersonelSifreleriPage() {
             onChange={setEmployeeId}
           />
           <div>
-            <label className={labelClass}>Yeni şifre (PIN) *</label>
+            <label className={labelClass}>{strings.labelNewPin}</label>
             <input
               type="password"
               className={inputClass}
@@ -186,13 +183,13 @@ export default function PersonelSifreleriPage() {
               inputMode="numeric"
               maxLength={PERSONNEL_PIN_LENGTH}
               autoComplete="new-password"
-              placeholder={`${PERSONNEL_PIN_LENGTH} haneli PIN`}
+              placeholder={formatString(strings.pinPlaceholder, { pinLength: PERSONNEL_PIN_LENGTH })}
               required
             />
           </div>
           <div className="flex gap-2">
             <button type="submit" className={btnPrimary} disabled={loading || empLoading}>
-              {loading ? 'Kaydediliyor…' : 'Şifreyi güncelle'}
+              {loading ? strings.saving : strings.updateButton}
             </button>
             <button
               type="button"
@@ -202,7 +199,7 @@ export default function PersonelSifreleriPage() {
                 setPin('');
               }}
             >
-              Temizle
+              {strings.clearButton}
             </button>
           </div>
         </div>

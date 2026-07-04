@@ -1,5 +1,6 @@
 'use client';
 
+import strings from '@json/src/app/admin-panel/proje/[projectId]/yevmiye/page.json';
 import { useParams } from 'next/navigation';
 import { useState, useEffect, useCallback } from 'react';
 import dayjs from 'dayjs';
@@ -55,11 +56,11 @@ export default function YevmiyePage() {
     setError(null);
     setSuccess(null);
     if (!employeeId) {
-      setError('Personel seçin.');
+      setError(strings.selectEmployeeError);
       return;
     }
     if (!workLogId) {
-      setError('Seçilen personelin bu tarihte yoklama kaydı yok. Önce QR ile yoklama yapılmalı.');
+      setError(strings.noAttendanceError);
       return;
     }
     setLoading(true);
@@ -69,10 +70,10 @@ export default function YevmiyePage() {
         description: description || null,
         jobId: jobId || null,
       });
-      setSuccess('Mesai kaydedildi.');
+      setSuccess(strings.successSaved);
       setDescription('');
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Kayıt başarısız');
+      setError(err instanceof Error ? err.message : strings.saveFailed);
     } finally {
       setLoading(false);
     }
@@ -80,10 +81,7 @@ export default function YevmiyePage() {
 
   return (
     <div>
-      <ProjectPageHeader
-        title="Yoklama & Yevmiye"
-        description="Günlük QR ile tam gün yoklama. Mesaiyi buradan manuel ekleyin."
-      />
+      <ProjectPageHeader title={strings.pageTitle} description={strings.pageDescription} />
       {empError && <AlertBanner type="error" message={empError} />}
       {error && <AlertBanner type="error" message={error} />}
       {success && <AlertBanner type="success" message={success} />}
@@ -91,12 +89,12 @@ export default function YevmiyePage() {
       <AttendanceQrPanel projectId={projectId} />
 
       <form onSubmit={handleMesaiSubmit} className={`${cardClass} p-4 sm:p-6 mb-6 max-w-xl`}>
-        <h2 className="text-base font-semibold text-slate-900 mb-4">Mesai ekle</h2>
+        <h2 className="text-base font-semibold text-slate-900 mb-4">{strings.formTitle}</h2>
         <div className="space-y-4">
           <EmployeeSelect employees={employees} value={employeeId} onChange={setEmployeeId} />
 
           <div>
-            <label className={labelClass}>Tarih *</label>
+            <label className={labelClass}>{strings.labelDate}</label>
             <input
               type="date"
               className={inputClass}
@@ -108,14 +106,14 @@ export default function YevmiyePage() {
 
           {employeeId && date && !workLogId && (
             <p className="text-sm text-amber-700 bg-amber-50 border border-amber-100 rounded-xl px-4 py-3">
-              Bu personel seçili günde henüz QR ile yoklama yapmadı.
+              {strings.noQrWarning}
             </p>
           )}
 
           {jobs.length > 0 && <JobSelectField jobs={jobs} value={jobId} onChange={setJobId} />}
 
           <div>
-            <label className={labelClass}>Mesai türü *</label>
+            <label className={labelClass}>{strings.labelMesaiType}</label>
             <select
               className={inputClass}
               value={mesaiType}
@@ -127,13 +125,11 @@ export default function YevmiyePage() {
                 </option>
               ))}
             </select>
-            <p className="text-xs text-slate-500 mt-2">
-              Çeyrek = günlük yevmiyenin %25&apos;i · Yarım = %50 · Tam = bir günlük yevmiye ek
-            </p>
+            <p className="text-xs text-slate-500 mt-2">{strings.mesaiHint}</p>
           </div>
 
           <div>
-            <label className={labelClass}>Not (isteğe bağlı)</label>
+            <label className={labelClass}>{strings.labelNote}</label>
             <textarea
               className={`${inputClass} min-h-[80px] resize-y`}
               value={description}
@@ -142,7 +138,7 @@ export default function YevmiyePage() {
           </div>
 
           <button type="submit" className={btnPrimary} disabled={loading || empLoading || !workLogId}>
-            {loading ? 'Kaydediliyor…' : 'Mesai kaydet'}
+            {loading ? strings.saving : strings.saveButton}
           </button>
         </div>
       </form>

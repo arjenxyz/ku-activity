@@ -1,5 +1,6 @@
 'use client';
 
+import strings from '@json/src/app/admin-panel/proje/[projectId]/raporlar/onaylanan/page.json';
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import dayjs from 'dayjs';
@@ -41,10 +42,7 @@ export default function OnaylananRaporPage() {
 
   return (
     <div>
-      <ProjectPageHeader
-        title="Günlük Onaylananlar"
-        description="Onaylanmış yevmiye kayıtları."
-      />
+      <ProjectPageHeader title={strings.pageTitle} description={strings.pageDescription} />
       {empError && <AlertBanner type="error" message={empError} />}
       {error && <AlertBanner type="error" message={error} />}
       <QueryFilters
@@ -58,9 +56,9 @@ export default function OnaylananRaporPage() {
         loading={loading}
         rows={records}
         columns={[
-          { key: 'emp', header: 'Personel', render: (r) => r.employees?.name ?? '—' },
-          { key: 'date', header: 'Tarih', render: (r) => formatDate(r.date) },
-          { key: 'amount', header: 'Gün', render: (r) => r.amount },
+          { key: 'emp', header: strings.colEmployee, render: (r) => r.employees?.name ?? strings.emptyCell },
+          { key: 'date', header: strings.colDate, render: (r) => formatDate(r.date) },
+          { key: 'amount', header: strings.colDays, render: (r) => r.amount },
         ]}
       />
     </div>

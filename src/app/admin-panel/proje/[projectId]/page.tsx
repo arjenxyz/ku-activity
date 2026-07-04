@@ -1,5 +1,6 @@
 'use client';
 
+import strings from '@json/src/app/admin-panel/proje/[projectId]/page.json';
 import { useEffect, useState, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import dayjs from 'dayjs';
@@ -49,13 +50,13 @@ export default function ProjectDetailPage() {
     try {
       const projectData = await fetchProject(projectId);
       if (!projectData) {
-        setError('Proje bulunamadı');
+        setError(strings.projectNotFound);
         return;
       }
       setProject(projectData);
       await loadEmployees();
     } catch (e) {
-      setError('Veriler yüklenirken hata oluştu');
+      setError(strings.loadError);
       console.error(e);
     } finally {
       setLoading(false);
@@ -69,7 +70,7 @@ export default function ProjectDetailPage() {
   if (!projectId) {
     return (
       <div className="max-w-5xl mx-auto px-4 py-16 text-center text-red-600">
-        Geçersiz proje adresi
+        {strings.invalidProjectUrl}
       </div>
     );
   }
@@ -93,13 +94,13 @@ export default function ProjectDetailPage() {
   if (error || !project) {
     return (
       <div className="max-w-5xl mx-auto px-4 py-16 text-center">
-        <p className="text-slate-700 font-medium">{error || 'Proje bulunamadı'}</p>
+        <p className="text-slate-700 font-medium">{error || strings.projectNotFound}</p>
         <button
           type="button"
           onClick={() => router.push('/admin-panel')}
           className="mt-4 text-sm text-blue-700 hover:underline"
         >
-          Proje listesine dön
+          {strings.backToProjectList}
         </button>
       </div>
     );
@@ -116,12 +117,8 @@ export default function ProjectDetailPage() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <ProjectPageHeader
-          title={isSimple ? 'Günlük yoklama' : 'Proje özeti'}
-          description={
-            isSimple
-              ? 'Personel yoklaması ve günlük durum.'
-              : 'QR yoklama, personel durumu ve aylık özet.'
-          }
+          title={isSimple ? strings.titleSimple : strings.titleFull}
+          description={isSimple ? strings.descriptionSimple : strings.descriptionFull}
         />
         <button
           type="button"
@@ -129,7 +126,7 @@ export default function ProjectDetailPage() {
           className="inline-flex items-center gap-2 text-sm text-slate-600 hover:text-slate-900 shrink-0"
         >
           <FiRefreshCw className="w-4 h-4" />
-          Yenile
+          {strings.refresh}
         </button>
       </div>
 

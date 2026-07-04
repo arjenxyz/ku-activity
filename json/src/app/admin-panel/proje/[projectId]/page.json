@@ -1,0 +1,11 @@
+{
+  "invalidProjectUrl": "Geçersiz proje adresi",
+  "projectNotFound": "Proje bulunamadı",
+  "loadError": "Veriler yüklenirken hata oluştu",
+  "backToProjectList": "Proje listesine dön",
+  "titleSimple": "Günlük yoklama",
+  "titleFull": "Proje özeti",
+  "descriptionSimple": "Personel yoklaması ve günlük durum.",
+  "descriptionFull": "QR yoklama, personel durumu ve aylık özet.",
+  "refresh": "Yenile"
+}

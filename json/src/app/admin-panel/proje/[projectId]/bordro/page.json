@@ -1,0 +1,23 @@
+{
+  "loadFailed": "Bordro yüklenemedi",
+  "successGenerated": "{month} bordrosu hesaplandı.",
+  "generateFailed": "Hesaplama başarısız",
+  "pageTitle": "Maaş Bordroları",
+  "pageDescription": "Aylık bordro hesaplayın ve görüntüleyin.",
+  "labelPeriod": "Dönem",
+  "generating": "Hesaplanıyor…",
+  "generateButton": "Bordro Hesapla",
+  "totalGross": "Toplam Brüt",
+  "totalAdvances": "Toplam Avans",
+  "totalMinimum": "Toplam Asgari",
+  "totalNet": "Toplam Net",
+  "emptyMessage": "Bu dönem için bordro yok. Hesapla butonuna tıklayın.",
+  "colEmployee": "Personel",
+  "colDays": "Gün",
+  "colGross": "Brüt",
+  "colAdvance": "Avans",
+  "colDeduction": "Kesinti",
+  "colMinimum": "Asgari",
+  "colNet": "Net",
+  "emptyCell": "—"
+}

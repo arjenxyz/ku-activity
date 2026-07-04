@@ -1,5 +1,7 @@
 'use client';
 
+import strings from '@json/src/app/admin-panel/proje/[projectId]/list/[employeeId]/page.json';
+import { formatString } from '@/lib/strings/format';
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -82,7 +84,7 @@ export default function EditEmployeePage() {
     setSuccess(false);
 
     if (!form.first_name.trim() || !form.last_name.trim() || !form.email || !form.position || !form.daily_wage) {
-      setError('Ad, soyad, e-posta, pozisyon ve yevmiye zorunludur.');
+      setError(strings.requiredFieldsError);
       return;
     }
 
@@ -101,14 +103,14 @@ export default function EditEmployeePage() {
       setSuccess(true);
       setTimeout(() => router.push(`/admin-panel/proje/${projectId}/list`), 1000);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Güncellenemedi');
+      setError(err instanceof Error ? err.message : strings.updateFailed);
     } finally {
       setSaving(false);
     }
   };
 
   if (loading) {
-    return <div className="text-sm text-slate-500 py-12 text-center">Yükleniyor…</div>;
+    return <div className="text-sm text-slate-500 py-12 text-center">{strings.loading}</div>;
   }
 
   const displayName = formatFullName(form.first_name, form.last_name);
@@ -118,32 +120,32 @@ export default function EditEmployeePage() {
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
         <div className="mb-6">
           <ProjectPageHeader
-            title="Personel Düzenle"
-            description={displayName || 'Personel bilgilerini güncelleyin.'}
+            title={strings.pageTitle}
+            description={displayName || strings.pageDescriptionDefault}
           />
         </div>
         <LegalDossierDownloadButton
           projectId={projectId}
           employeeId={employeeId}
-          employeeName={displayName || 'personel'}
+          employeeName={displayName || strings.defaultEmployeeName}
           variant="primary"
         />
       </div>
       {error && <AlertBanner type="error" message={error} />}
-      {success && <AlertBanner type="success" message="Personel güncellendi." />}
+      {success && <AlertBanner type="success" message={strings.successUpdated} />}
 
       <form onSubmit={handleSubmit} className={`${cardClass} p-4 sm:p-6 max-w-xl space-y-4`}>
         <EmployeePhotoUpload
           projectId={projectId}
           employeeId={employeeId}
-          name={displayName || 'Personel'}
+          name={displayName || strings.photoFallbackName}
           photoUrl={photoUrl}
           onChange={setPhotoUrl}
         />
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className={labelClass}>Ad *</label>
+            <label className={labelClass}>{strings.labelFirstName}</label>
             <input
               type="text"
               name="first_name"
@@ -154,7 +156,7 @@ export default function EditEmployeePage() {
             />
           </div>
           <div>
-            <label className={labelClass}>Soyad *</label>
+            <label className={labelClass}>{strings.labelLastName}</label>
             <input
               type="text"
               name="last_name"
@@ -167,7 +169,7 @@ export default function EditEmployeePage() {
         </div>
 
         <div>
-          <label className={labelClass}>E-posta *</label>
+          <label className={labelClass}>{strings.labelEmail}</label>
           <input
             type="email"
             name="email"
@@ -178,11 +180,11 @@ export default function EditEmployeePage() {
           />
         </div>
         <div>
-          <label className={labelClass}>Telefon</label>
+          <label className={labelClass}>{strings.labelPhone}</label>
           <input type="tel" name="phone" value={form.phone} onChange={handleChange} className={inputClass} />
         </div>
         <div>
-          <label className={labelClass}>Pozisyon *</label>
+          <label className={labelClass}>{strings.labelPosition}</label>
           <input
             type="text"
             name="position"
@@ -193,7 +195,7 @@ export default function EditEmployeePage() {
           />
         </div>
         <div>
-          <label className={labelClass}>Günlük Yevmiye (₺) *</label>
+          <label className={labelClass}>{strings.labelDailyWage}</label>
           <input
             type="number"
             name="daily_wage"
@@ -205,7 +207,7 @@ export default function EditEmployeePage() {
           />
         </div>
         <div>
-          <label className={labelClass}>İşe Giriş Tarihi</label>
+          <label className={labelClass}>{strings.labelHireDate}</label>
           <input
             type="date"
             name="hire_date"
@@ -216,23 +218,26 @@ export default function EditEmployeePage() {
         </div>
         {sensitive && (
           <div className="rounded-xl border border-amber-200 bg-amber-50/80 p-4 text-sm space-y-1">
-            <p className="font-medium text-amber-900">Hassas bilgiler (şifreli)</p>
-            <p>T.C.: {showSensitive && sensitive.tcKimlik ? sensitive.tcKimlik : sensitive.tcKimlikMasked}</p>
+            <p className="font-medium text-amber-900">{strings.sensitiveTitle}</p>
+            <p>{strings.sensitiveTcPrefix} {showSensitive && sensitive.tcKimlik ? sensitive.tcKimlik : sensitive.tcKimlikMasked}</p>
             <p>
-              Doğum: {formatDate(sensitive.birthDate)} ({getAgeFromBirthDate(sensitive.birthDate)} yaş)
+              {strings.sensitiveBirthPrefix} {formatDate(sensitive.birthDate)}{' '}
+              {formatString(strings.sensitiveBirthSuffix, {
+                age: getAgeFromBirthDate(sensitive.birthDate),
+              })}
             </p>
             {!isConstructionEligibleBirthDate(sensitive.birthDate) && (
               <p className="text-red-700 text-xs font-medium">
-                Uyarı: {MIN_CONSTRUCTION_AGE} yaş altı — inşaat sahasında çalışamaz.
+                {formatString(strings.ageWarning, { minAge: MIN_CONSTRUCTION_AGE })}
               </p>
             )}
-            <p>IBAN: {showSensitive && sensitive.iban ? sensitive.iban : sensitive.ibanMasked}</p>
+            <p>{strings.sensitiveIbanPrefix} {showSensitive && sensitive.iban ? sensitive.iban : sensitive.ibanMasked}</p>
             <button
               type="button"
               onClick={() => setShowSensitive((v) => !v)}
               className="text-xs text-amber-800 hover:underline"
             >
-              {showSensitive ? 'Maskele' : 'Tam göster'}
+              {showSensitive ? strings.maskButton : strings.revealButton}
             </button>
           </div>
         )}
@@ -247,16 +252,16 @@ export default function EditEmployeePage() {
             className="rounded border-slate-300"
           />
           <label htmlFor="is_active" className="text-sm text-slate-700">
-            Aktif personel
+            {strings.activeEmployeeLabel}
           </label>
         </div>
 
         <div className="flex flex-col sm:flex-row gap-3 pt-2">
           <button type="submit" className={btnPrimary} disabled={saving}>
-            {saving ? 'Kaydediliyor…' : 'Güncelle'}
+            {saving ? strings.saving : strings.updateButton}
           </button>
           <Link href={`/admin-panel/proje/${projectId}/list`} className={btnSecondary}>
-            İptal
+            {strings.cancelButton}
           </Link>
         </div>
       </form>

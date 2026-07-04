@@ -1,5 +1,7 @@
 'use client';
 
+import strings from '@json/src/app/admin-panel/proje/[projectId]/kar/page.json';
+import { formatString } from '@/lib/strings/format';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { ProjectPageHeader } from '@/components/project/ProjectPageHeader';
@@ -61,7 +63,7 @@ export default function KarPage() {
         return firstActive?.block.id ?? data.blockSummaries?.[0]?.block.id ?? null;
       });
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Yüklenemedi');
+      setError(e instanceof Error ? e.message : strings.loadFailed);
     } finally {
       setLoading(false);
       setRefreshing(false);
@@ -103,9 +105,9 @@ export default function KarPage() {
     try {
       const { overview: next } = await updateProfitShareCount(projectId, Number(shareCount));
       setOverview(next);
-      notify('Ortak payı güncellendi.');
+      notify(strings.successShareUpdated);
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Kayıt başarısız');
+      setError(e instanceof Error ? e.message : strings.saveFailed);
     } finally {
       setSaving(false);
     }
@@ -119,9 +121,9 @@ export default function KarPage() {
       await addProjectPartner(projectId, partnerName.trim());
       setPartnerName('');
       await load(true);
-      notify('Ortak eklendi.');
+      notify(strings.successPartnerAdded);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Ortak eklenemedi');
+      setError(err instanceof Error ? err.message : strings.addPartnerFailed);
     } finally {
       setSaving(false);
     }
@@ -140,9 +142,9 @@ export default function KarPage() {
       const { overview: next } = await createProjectJob(projectId, data);
       setOverview(next);
       setExpandedId(next.jobs[next.jobs.length - 1]?.job.id ?? null);
-      notify(`"${data.name}" eklendi.`);
+      notify(formatString(strings.successJobAdded, { name: data.name }));
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'İş kalemi eklenemedi');
+      setError(err instanceof Error ? err.message : strings.addJobFailed);
       throw err;
     } finally {
       setSaving(false);
@@ -150,17 +152,14 @@ export default function KarPage() {
   };
 
   const filterTabs: { id: JobFilter; label: string; count: number }[] = [
-    { id: 'all', label: 'Tümü', count: counts.all },
-    { id: 'active', label: 'Devam eden', count: counts.active },
-    { id: 'completed', label: 'Tamamlanan', count: counts.completed },
+    { id: 'all', label: strings.filterAll, count: counts.all },
+    { id: 'active', label: strings.filterActive, count: counts.active },
+    { id: 'completed', label: strings.filterCompleted, count: counts.completed },
   ];
 
   return (
     <div className="space-y-5 pb-8">
-      <ProjectPageHeader
-        title="Taşeron Karı"
-        description="Üst taşerondan aldığınız işin net kârını takip edin. Personel paneli etkilenmez."
-      />
+      <ProjectPageHeader title={strings.pageTitle} description={strings.pageDescription} />
 
       <ProfitQuickActions
         projectId={projectId}
@@ -174,12 +173,15 @@ export default function KarPage() {
       {overview && overview.teamsWithoutBlock?.length > 0 && (
         <AlertBanner
           type="error"
-          message={`${overview.teamsWithoutBlock.length} ekibin aktif bloğu yok (${overview.teamsWithoutBlock.map((t) => t.name).join(', ')}). Ekipler sayfasından blok atayın — aksi halde yevmiye girişi engellenir.`}
+          message={formatString(strings.teamsWithoutBlockAlert, {
+            count: overview.teamsWithoutBlock.length,
+            teamNames: overview.teamsWithoutBlock.map((t) => t.name).join(', '),
+          })}
         />
       )}
 
       {loading ? (
-        <div className={`${cardClass} p-12 text-center text-sm text-slate-500`}>Yükleniyor…</div>
+        <div className={`${cardClass} p-12 text-center text-sm text-slate-500`}>{strings.loading}</div>
       ) : overview ? (
         <>
           <ProfitTotalsStrip overview={overview} />
@@ -195,7 +197,7 @@ export default function KarPage() {
                   : 'text-slate-500 hover:text-slate-700'
               }`}
             >
-              Blok bazlı
+              {strings.viewBlocks}
             </button>
             <button
               type="button"
@@ -206,19 +208,17 @@ export default function KarPage() {
                   : 'text-slate-500 hover:text-slate-700'
               }`}
             >
-              İş kalemi bazlı
+              {strings.viewJobs}
             </button>
           </div>
 
           {viewMode === 'blocks' ? (
             <section className="space-y-3">
-              <h2 className="text-base font-semibold text-slate-900">Blok özeti</h2>
+              <h2 className="text-base font-semibold text-slate-900">{strings.blockSummaryTitle}</h2>
               {overview.blockSummaries.length === 0 ? (
                 <div className={`${cardClass} p-10 text-center`}>
-                  <p className="text-slate-600 font-medium">Henüz blok yok</p>
-                  <p className="text-sm text-slate-500 mt-2">
-                    Blok oluşturup ekiplere atayın; onaylı yevmiye otomatik işlenir.
-                  </p>
+                  <p className="text-slate-600 font-medium">{strings.noBlocksTitle}</p>
+                  <p className="text-sm text-slate-500 mt-2">{strings.noBlocksHint}</p>
                 </div>
               ) : (
                 <div className="space-y-3">
@@ -240,7 +240,7 @@ export default function KarPage() {
           ) : (
           <section className="space-y-3">
             <div className="flex flex-wrap items-center justify-between gap-3">
-              <h2 className="text-base font-semibold text-slate-900">İş kalemleri</h2>
+              <h2 className="text-base font-semibold text-slate-900">{strings.jobsTitle}</h2>
               <div className="flex rounded-lg border border-slate-200 p-0.5 bg-slate-50">
                 {filterTabs.map((tab) => (
                   <button
@@ -266,19 +266,16 @@ export default function KarPage() {
               <div className={`${cardClass} p-10 text-center`}>
                 <p className="text-slate-600 font-medium">
                   {overview.jobs.length === 0
-                    ? 'Henüz iş kalemi yok'
-                    : 'Bu filtrede iş kalemi yok'}
+                    ? strings.noJobsTitle
+                    : strings.noJobsFilteredTitle}
                 </p>
-                <p className="text-sm text-slate-500 mt-2 max-w-md mx-auto">
-                  Üst taşerondan aldığınız işi ekleyin (ör. çatı 100 ₺/m² × 890 m²). Sonra yevmiye
-                  ve giderleri bu işe bağlayın.
-                </p>
+                <p className="text-sm text-slate-500 mt-2 max-w-md mx-auto">{strings.noJobsHint}</p>
                 <button
                   type="button"
                   onClick={() => setAddJobOpen(true)}
                   className="mt-4 px-5 py-2.5 rounded-lg bg-emerald-700 text-white text-sm font-medium hover:bg-emerald-800"
                 >
-                  İlk iş kalemini ekle
+                  {strings.addFirstJobButton}
                 </button>
               </div>
             ) : (
@@ -306,17 +303,13 @@ export default function KarPage() {
                         );
                         setOverview(next);
                       } catch (err) {
-                        setError(err instanceof Error ? err.message : 'Güncellenemedi');
+                        setError(err instanceof Error ? err.message : strings.updateFailed);
                       } finally {
                         setSaving(false);
                       }
                     }}
                     onDelete={async () => {
-                      if (
-                        !confirm(
-                          `"${item.job.name}" silinsin mi? Bağlı kayıtlar iş kaleminden ayrılır.`
-                        )
-                      ) {
+                      if (!confirm(formatString(strings.deleteJobConfirm, { name: item.job.name }))) {
                         return;
                       }
                       setSaving(true);
@@ -327,9 +320,9 @@ export default function KarPage() {
                         );
                         setOverview(next);
                         if (expandedId === item.job.id) setExpandedId(null);
-                        notify('İş kalemi silindi.');
+                        notify(strings.successJobDeleted);
                       } catch (err) {
-                        setError(err instanceof Error ? err.message : 'Silinemedi');
+                        setError(err instanceof Error ? err.message : strings.deleteFailed);
                       } finally {
                         setSaving(false);
                       }
@@ -356,7 +349,7 @@ export default function KarPage() {
                 await deleteProjectPartner(projectId, id);
                 await load(true);
               } catch (err) {
-                setError(err instanceof Error ? err.message : 'Silinemedi');
+                setError(err instanceof Error ? err.message : strings.deleteFailed);
               } finally {
                 setSaving(false);
               }

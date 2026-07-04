@@ -1,5 +1,7 @@
 'use client';
 
+import strings from '@json/src/app/admin-panel/proje/[projectId]/asgari/page.json';
+import { formatString } from '@/lib/strings/format';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
@@ -32,7 +34,7 @@ export default function AsgariPage() {
   const [values, setValues] = useState({
     date: dayjs().format('YYYY-MM-DD'),
     amount: '',
-    description: 'Asgari ücret tamamlama',
+    description: strings.defaultDescription,
   });
   const [loading, setLoading] = useState(false);
   const [previewLoading, setPreviewLoading] = useState(false);
@@ -109,7 +111,7 @@ export default function AsgariPage() {
     setValues((s) => ({
       ...s,
       amount: gap.suggestedTopUp.toFixed(2),
-      description: s.description || 'Asgari ücret tamamlama',
+      description: s.description || strings.defaultDescription,
     }));
   };
 
@@ -118,7 +120,7 @@ export default function AsgariPage() {
     setError(null);
     setSuccess(null);
     if (!employeeId || !values.amount) {
-      setError('Personel ve tutar zorunludur.');
+      setError(strings.employeeAmountRequired);
       return;
     }
     setLoading(true);
@@ -129,15 +131,15 @@ export default function AsgariPage() {
         amount: Number(values.amount),
         description: values.description || undefined,
       });
-      setSuccess('Asgari ödeme kaydı oluşturuldu.');
+      setSuccess(strings.successCreated);
       setValues({
         date: dayjs().format('YYYY-MM-DD'),
         amount: '',
-        description: 'Asgari ücret tamamlama',
+        description: strings.defaultDescription,
       });
       await loadPreview();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Kayıt başarısız');
+      setError(err instanceof Error ? err.message : strings.saveFailed);
     } finally {
       setLoading(false);
     }
@@ -147,23 +149,20 @@ export default function AsgariPage() {
 
   return (
     <div>
-      <ProjectPageHeader
-        title="Asgari Ekle"
-        description="Yevmiye kazancı, şirket politikanızdaki asgari tavanın altındaysa taşeron farkını kaydedin."
-      />
+      <ProjectPageHeader title={strings.pageTitle} description={strings.pageDescription} />
       <p className="-mt-4 mb-6 flex flex-wrap gap-x-4 gap-y-1 text-sm">
         <Link
           href={`/admin-panel/proje/${projectId}/sorgulama/asgari`}
           className="inline-flex items-center gap-1.5 text-indigo-600 hover:text-indigo-700"
         >
-          Asgari sorgulama
+          {strings.linkAsgariQuery}
           <FiExternalLink className="w-4 h-4" />
         </Link>
         <Link
           href={`/admin-panel/proje/${projectId}/maas-politikasi`}
           className="text-indigo-600 hover:text-indigo-700"
         >
-          Maaş politikası
+          {strings.linkWagePolicy}
         </Link>
       </p>
 
@@ -172,10 +171,7 @@ export default function AsgariPage() {
       {success && <AlertBanner type="success" message={success} />}
 
       {!policyConfigured && (
-        <AlertBanner
-          type="error"
-          message="Henüz maaş politikası doldurulmamış. Ana yetkili şirket ayarlarını tamamlamalı."
-        />
+        <AlertBanner type="error" message={strings.policyNotConfigured} />
       )}
 
       <div className={`${cardClass} p-4 sm:p-6 mb-6 border-indigo-100 bg-indigo-50/50`}>
@@ -183,10 +179,10 @@ export default function AsgariPage() {
           <FiInfo className="w-5 h-5 text-indigo-600 shrink-0 mt-0.5" />
           <div className="text-sm text-slate-700 space-y-1">
             <p>
-              <strong>Taşeron farkı</strong> = Hak edilen asgari − onaylı yevmiye − ödenen asgari
+              <strong>{strings.infoGapFormula}</strong> {strings.infoGapFormulaDetail}
             </p>
             <p className="text-xs text-slate-500">
-              Yevmiye ödeme zamanınız:{' '}
+              {strings.infoYevmiyePaymentPrefix}{' '}
               {policy.yevmiyePaymentTriggers.map((t) => YEVMIYE_TRIGGER_LABELS[t]).join(' · ')}
               {policy.yevmiyePaymentNotes ? ` — ${policy.yevmiyePaymentNotes}` : ''}
             </p>
@@ -195,10 +191,10 @@ export default function AsgariPage() {
       </div>
 
       <div className={`${cardClass} p-4 sm:p-6 mb-6`}>
-        <h2 className="text-base font-semibold text-slate-900 dark:text-white mb-4">Dönem ve personel</h2>
+        <h2 className="text-base font-semibold text-slate-900 dark:text-white mb-4">{strings.sectionPeriodEmployee}</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className={labelClass}>Ay</label>
+            <label className={labelClass}>{strings.labelMonth}</label>
             <input
               type="month"
               className={inputClass}
@@ -216,16 +212,16 @@ export default function AsgariPage() {
             {selectedEmployee?.name} · {dayjs(`${month}-01`).format('MMMM YYYY')}
           </h2>
           {previewLoading ? (
-            <p className="text-sm text-slate-500">Hesaplanıyor…</p>
+            <p className="text-sm text-slate-500">{strings.calculating}</p>
           ) : gap ? (
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
               {[
-                { label: 'Onaylı yevmiye', value: formatMoney(gap.grossEarned) },
-                { label: 'Ödenen asgari', value: formatMoney(gap.minimumPaid) },
-                { label: 'Hak edilen asgari', value: formatMoney(gap.eligibleMinimum) },
+                { label: strings.labelApprovedYevmiye, value: formatMoney(gap.grossEarned) },
+                { label: strings.labelPaidMinimum, value: formatMoney(gap.minimumPaid) },
+                { label: strings.labelEligibleMinimum, value: formatMoney(gap.eligibleMinimum) },
                 {
-                  label: gap.isBelowMinimum ? 'Taşeron farkı' : 'Durum',
-                  value: gap.isBelowMinimum ? formatMoney(gap.suggestedTopUp) : 'Tamamlandı',
+                  label: gap.isBelowMinimum ? strings.labelSubcontractorGap : strings.labelStatus,
+                  value: gap.isBelowMinimum ? formatMoney(gap.suggestedTopUp) : strings.statusComplete,
                   highlight: gap.isBelowMinimum && gap.suggestedTopUp > 0,
                 },
               ].map((item) => (
@@ -247,17 +243,17 @@ export default function AsgariPage() {
           ) : null}
           {gap && gap.suggestedTopUp > 0 && (
             <button type="button" className={btnSecondary} onClick={handleFillSuggested}>
-              Önerilen tutarı forma yaz ({formatMoney(gap.suggestedTopUp)})
+              {formatString(strings.fillSuggestedButton, { amount: formatMoney(gap.suggestedTopUp) })}
             </button>
           )}
         </div>
       )}
 
       <form onSubmit={handleSubmit} className={`${cardClass} p-4 sm:p-6 mb-6`}>
-        <h2 className="text-base font-semibold text-slate-900 dark:text-white mb-4">Yeni Asgari Ödeme</h2>
+        <h2 className="text-base font-semibold text-slate-900 dark:text-white mb-4">{strings.sectionNewPayment}</h2>
         <div className="space-y-4">
           <div>
-            <label className={labelClass}>Tarih *</label>
+            <label className={labelClass}>{strings.labelDate}</label>
             <input
               type="date"
               className={inputClass}
@@ -268,7 +264,7 @@ export default function AsgariPage() {
           </div>
 
           <div>
-            <label className={labelClass}>Tutar (₺) *</label>
+            <label className={labelClass}>{strings.labelAmount}</label>
             <input
               type="number"
               className={inputClass}
@@ -281,7 +277,7 @@ export default function AsgariPage() {
           </div>
 
           <div>
-            <label className={labelClass}>Açıklama</label>
+            <label className={labelClass}>{strings.labelDescription}</label>
             <textarea
               className={`${inputClass} min-h-[80px] resize-y`}
               value={values.description}
@@ -290,7 +286,7 @@ export default function AsgariPage() {
           </div>
 
           <button type="submit" className={btnPrimary} disabled={loading || empLoading || !employeeId}>
-            {loading ? 'Kaydediliyor…' : 'Asgari ödeme kaydet'}
+            {loading ? strings.saving : strings.saveButton}
           </button>
         </div>
       </form>
@@ -299,14 +295,14 @@ export default function AsgariPage() {
         <RecordsTable
           loading={previewLoading}
           rows={monthRecords}
-          emptyMessage="Bu dönem için kayıt yok."
+          emptyMessage={strings.emptyRecords}
           columns={[
-            { key: 'date', header: 'Tarih', render: (r) => formatDate(r.date) },
-            { key: 'amount', header: 'Tutar', render: (r) => formatMoney(Number(r.amount)) },
+            { key: 'date', header: strings.colDate, render: (r) => formatDate(r.date) },
+            { key: 'amount', header: strings.colAmount, render: (r) => formatMoney(Number(r.amount)) },
             {
               key: 'desc',
-              header: 'Açıklama',
-              render: (r) => r.description || '—',
+              header: strings.colDescription,
+              render: (r) => r.description || strings.emptyCell,
               hideOnMobile: true,
             },
           ]}
@@ -315,7 +311,7 @@ export default function AsgariPage() {
 
       {employeeId && monthRecords.length > 0 && (
         <p className="text-sm text-slate-600 dark:text-slate-400 mt-3 text-right font-medium">
-          Dönem toplamı: {formatMoney(minimumPaid)}
+          {formatString(strings.periodTotal, { amount: formatMoney(minimumPaid) })}
         </p>
       )}
     </div>

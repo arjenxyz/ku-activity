@@ -1,5 +1,7 @@
 'use client';
 
+import strings from '@json/src/app/admin-panel/proje/[projectId]/new/page.json';
+import { formatString } from '@/lib/strings/format';
 import { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import dayjs from 'dayjs';
@@ -52,11 +54,11 @@ export default function NewEmployeePage() {
       !form.position ||
       !form.pin
     ) {
-      setError('Lütfen zorunlu alanları doldurun (ad, soyad, e-posta, T.C. kimlik).');
+      setError(strings.requiredFieldsError);
       return;
     }
     if (!projectId) {
-      setError('Hatalı proje ID.');
+      setError(strings.invalidProjectId);
       return;
     }
 
@@ -81,7 +83,7 @@ export default function NewEmployeePage() {
 
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
-        setError('Kayıt sırasında bir hata oluştu: ' + (data.error || res.statusText));
+        setError(strings.registerErrorPrefix + (data.error || res.statusText));
         return;
       }
 
@@ -89,30 +91,27 @@ export default function NewEmployeePage() {
       setForm({ ...initialForm });
       setTimeout(() => router.push(`/admin-panel/proje/${projectId}`), 1200);
     } catch {
-      setError('Beklenmeyen bir hata oluştu.');
+      setError(strings.unexpectedError);
     } finally {
       setLoading(false);
     }
   };
 
   if (!projectId) {
-    return <AlertBanner type="error" message="Proje ID bulunamadı." />;
+    return <AlertBanner type="error" message={strings.projectIdNotFound} />;
   }
 
   return (
     <div>
-      <ProjectPageHeader
-        title="Yeni Personel Ekle"
-        description="Manuel kayıt. Fotoğraf için personelin başvuru formundan selfie çekmesi önerilir."
-      />
+      <ProjectPageHeader title={strings.pageTitle} description={strings.pageDescription} />
       {error && <AlertBanner type="error" message={error} />}
-      {success && <AlertBanner type="success" message="Personel başarıyla kaydedildi!" />}
+      {success && <AlertBanner type="success" message={strings.successRegistered} />}
 
       <form onSubmit={handleSubmit} className={`${cardClass} p-4 sm:p-6 max-w-xl`}>
         <div className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className={labelClass}>Ad *</label>
+              <label className={labelClass}>{strings.labelFirstName}</label>
               <input
                 type="text"
                 name="first_name"
@@ -124,7 +123,7 @@ export default function NewEmployeePage() {
               />
             </div>
             <div>
-              <label className={labelClass}>Soyad *</label>
+              <label className={labelClass}>{strings.labelLastName}</label>
               <input
                 type="text"
                 name="last_name"
@@ -137,7 +136,7 @@ export default function NewEmployeePage() {
             </div>
           </div>
           <div>
-            <label className={labelClass}>E-posta *</label>
+            <label className={labelClass}>{strings.labelEmail}</label>
             <input
               type="email"
               name="email"
@@ -147,14 +146,14 @@ export default function NewEmployeePage() {
               required
               autoComplete="off"
             />
-            <p className="text-xs text-slate-500 mt-1">Personel bu e-posta ile panele giriş yapar.</p>
+            <p className="text-xs text-slate-500 mt-1">{strings.emailHint}</p>
           </div>
           <div>
-            <label className={labelClass}>Telefon</label>
+            <label className={labelClass}>{strings.labelPhone}</label>
             <input type="tel" name="phone" value={form.phone} onChange={handleChange} className={inputClass} />
           </div>
           <div>
-            <label className={labelClass}>T.C. Kimlik No *</label>
+            <label className={labelClass}>{strings.labelTcKimlik}</label>
             <input
               type="text"
               name="tc_kimlik"
@@ -167,10 +166,10 @@ export default function NewEmployeePage() {
               maxLength={11}
               required
             />
-            <p className="text-xs text-slate-500 mt-1">Personel panele T.C. kimlik + PIN ile giriş yapar.</p>
+            <p className="text-xs text-slate-500 mt-1">{strings.tcKimlikHint}</p>
           </div>
           <div>
-            <label className={labelClass}>Günlük Maaş (₺) *</label>
+            <label className={labelClass}>{strings.labelDailyWage}</label>
             <input
               type="number"
               name="daily_wage"
@@ -182,15 +181,15 @@ export default function NewEmployeePage() {
             />
           </div>
           <div>
-            <label className={labelClass}>Pozisyon *</label>
+            <label className={labelClass}>{strings.labelPosition}</label>
             <input type="text" name="position" value={form.position} onChange={handleChange} className={inputClass} required />
           </div>
           <div>
-            <label className={labelClass}>İşe Giriş Tarihi</label>
+            <label className={labelClass}>{strings.labelHireDate}</label>
             <input type="date" name="hire_date" value={form.hire_date} onChange={handleChange} className={inputClass} />
           </div>
           <div>
-            <label className={labelClass}>Giriş şifresi *</label>
+            <label className={labelClass}>{strings.labelPin}</label>
             <input
               type="password"
               name="pin"
@@ -203,15 +202,15 @@ export default function NewEmployeePage() {
               required
             />
             <p className="text-xs text-slate-500 mt-1">
-              {PERSONNEL_PIN_LENGTH} haneli rakam. T.C. kimlik ile panele giriş için kullanılır.
+              {formatString(strings.pinHint, { pinLength: PERSONNEL_PIN_LENGTH })}
             </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-3 pt-2">
             <button type="submit" className={btnPrimary} disabled={loading}>
-              {loading ? 'Kaydediliyor…' : 'Kaydet'}
+              {loading ? strings.saving : strings.saveButton}
             </button>
             <button type="button" className={btnSecondary} onClick={() => router.back()}>
-              İptal
+              {strings.cancelButton}
             </button>
           </div>
         </div>

@@ -1,5 +1,6 @@
 'use client';
 
+import strings from '@json/src/app/admin-panel/proje/[projectId]/raporlar/page.json';
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
@@ -44,23 +45,20 @@ export default function RaporlarPage() {
 
   const cards = summary
     ? [
-        { label: 'Toplam Yevmiye (₺)', value: formatMoney(Number(summary.total_work_pay ?? 0)) },
-        { label: 'Çalışılan Gün', value: String(summary.total_work_days ?? 0) },
-        { label: 'Toplam Avans', value: formatMoney(Number(summary.total_advances ?? 0)) },
-        { label: 'Aktif Personel', value: String(summary.active_employee_count ?? 0) },
+        { label: strings.totalWorkPay, value: formatMoney(Number(summary.total_work_pay ?? 0)) },
+        { label: strings.workDays, value: String(summary.total_work_days ?? 0) },
+        { label: strings.totalAdvances, value: formatMoney(Number(summary.total_advances ?? 0)) },
+        { label: strings.activeEmployees, value: String(summary.active_employee_count ?? 0) },
       ]
     : [];
 
   return (
     <div>
-      <ProjectPageHeader
-        title="Admin Raporları"
-        description="Proje genelinde finansal özet ve aylık istatistikler."
-      />
+      <ProjectPageHeader title={strings.pageTitle} description={strings.pageDescription} />
       {error && <AlertBanner type="error" message={error} />}
 
       <div className="mb-6 max-w-xs">
-        <label className={labelClass}>Ay (aylık detay)</label>
+        <label className={labelClass}>{strings.labelMonth}</label>
         <input
           type="month"
           className={inputClass}
@@ -70,7 +68,7 @@ export default function RaporlarPage() {
       </div>
 
       {loading ? (
-        <div className={`${cardClass} p-8 text-center text-sm text-slate-500`}>Yükleniyor…</div>
+        <div className={`${cardClass} p-8 text-center text-sm text-slate-500`}>{strings.loading}</div>
       ) : (
         <>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
@@ -85,17 +83,17 @@ export default function RaporlarPage() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {[
               {
-                label: 'Onaylanan Yevmiye',
+                label: strings.approvedYevmiye,
                 value: monthStats.approved,
                 href: `/admin-panel/proje/${projectId}/raporlar/onaylanan`,
               },
               {
-                label: 'Bekleyen Yevmiye',
+                label: strings.pendingYevmiye,
                 value: monthStats.pending,
                 href: `/admin-panel/proje/${projectId}/raporlar/onaysiz`,
               },
               {
-                label: 'Ay Avans Toplamı',
+                label: strings.monthAdvanceTotal,
                 value: formatMoney(monthStats.advances),
                 href: `/admin-panel/proje/${projectId}/sorgulama/avans`,
               },
@@ -107,7 +105,7 @@ export default function RaporlarPage() {
               >
                 <p className="text-xs text-slate-500">{item.label}</p>
                 <p className="text-lg font-semibold text-slate-900 mt-1">{item.value}</p>
-                <p className="text-xs text-blue-600 mt-2">Detay →</p>
+                <p className="text-xs text-blue-600 mt-2">{strings.detailLink}</p>
               </Link>
             ))}
           </div>

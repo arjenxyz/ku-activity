@@ -1,5 +1,7 @@
 'use client';
 
+import strings from '@json/src/app/admin-panel/proje/[projectId]/bordro/page.json';
+import { formatString } from '@/lib/strings/format';
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import dayjs from 'dayjs';
@@ -43,7 +45,7 @@ export default function BordroPage() {
         }))
       );
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Bordro yüklenemedi');
+      setError(e instanceof Error ? e.message : strings.loadFailed);
       setLines([]);
     } finally {
       setLoading(false);
@@ -67,9 +69,9 @@ export default function BordroPage() {
           id: l.id ?? l.employee_id ?? `line-${i}`,
         }))
       );
-      setSuccess(`${month} bordrosu hesaplandı.`);
+      setSuccess(formatString(strings.successGenerated, { month }));
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Hesaplama başarısız');
+      setError(e instanceof Error ? e.message : strings.generateFailed);
     } finally {
       setGenerating(false);
     }
@@ -87,16 +89,13 @@ export default function BordroPage() {
 
   return (
     <div>
-      <ProjectPageHeader
-        title="Maaş Bordroları"
-        description="Aylık bordro hesaplayın ve görüntüleyin."
-      />
+      <ProjectPageHeader title={strings.pageTitle} description={strings.pageDescription} />
       {error && <AlertBanner type="error" message={error} />}
       {success && <AlertBanner type="success" message={success} />}
 
       <div className={`${cardClass} p-4 sm:p-6 mb-6 flex flex-col sm:flex-row sm:items-end gap-4`}>
         <div className="flex-1 max-w-xs">
-          <label className={labelClass}>Dönem</label>
+          <label className={labelClass}>{strings.labelPeriod}</label>
           <input
             type="month"
             className={inputClass}
@@ -105,17 +104,17 @@ export default function BordroPage() {
           />
         </div>
         <button type="button" className={btnPrimary} onClick={handleGenerate} disabled={generating}>
-          {generating ? 'Hesaplanıyor…' : 'Bordro Hesapla'}
+          {generating ? strings.generating : strings.generateButton}
         </button>
       </div>
 
       {lines.length > 0 && (
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
           {[
-            { label: 'Toplam Brüt', value: formatMoney(totals.gross) },
-            { label: 'Toplam Avans', value: formatMoney(totals.advances) },
-            { label: 'Toplam Asgari', value: formatMoney(totals.minimum) },
-            { label: 'Toplam Net', value: formatMoney(totals.net) },
+            { label: strings.totalGross, value: formatMoney(totals.gross) },
+            { label: strings.totalAdvances, value: formatMoney(totals.advances) },
+            { label: strings.totalMinimum, value: formatMoney(totals.minimum) },
+            { label: strings.totalNet, value: formatMoney(totals.net) },
           ].map((s) => (
             <div key={s.label} className={`${cardClass} p-4`}>
               <p className="text-xs text-slate-500">{s.label}</p>
@@ -128,30 +127,30 @@ export default function BordroPage() {
       <RecordsTable
         loading={loading}
         rows={lines}
-        emptyMessage="Bu dönem için bordro yok. Hesapla butonuna tıklayın."
+        emptyMessage={strings.emptyMessage}
         columns={[
-          { key: 'name', header: 'Personel', render: (r) => r.employees?.name ?? '—' },
-          { key: 'days', header: 'Gün', render: (r) => r.work_days },
-          { key: 'gross', header: 'Brüt', render: (r) => formatMoney(Number(r.gross_pay)) },
+          { key: 'name', header: strings.colEmployee, render: (r) => r.employees?.name ?? strings.emptyCell },
+          { key: 'days', header: strings.colDays, render: (r) => r.work_days },
+          { key: 'gross', header: strings.colGross, render: (r) => formatMoney(Number(r.gross_pay)) },
           {
             key: 'adv',
-            header: 'Avans',
+            header: strings.colAdvance,
             render: (r) => formatMoney(Number(r.advances)),
             hideOnMobile: true,
           },
           {
             key: 'ded',
-            header: 'Kesinti',
+            header: strings.colDeduction,
             render: (r) => formatMoney(Number(r.other_deductions)),
             hideOnMobile: true,
           },
           {
             key: 'min',
-            header: 'Asgari',
+            header: strings.colMinimum,
             render: (r) => formatMoney(Number(r.minimum_paid)),
             hideOnMobile: true,
           },
-          { key: 'net', header: 'Net', render: (r) => formatMoney(Number(r.net_pay)) },
+          { key: 'net', header: strings.colNet, render: (r) => formatMoney(Number(r.net_pay)) },
         ]}
       />
     </div>

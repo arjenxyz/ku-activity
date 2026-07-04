@@ -1,5 +1,6 @@
 'use client';
 
+import strings from '@json/src/app/admin-panel/proje/[projectId]/kayit-gecmisi/page.json';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { ProjectPageHeader } from '@/components/project/ProjectPageHeader';
@@ -12,10 +13,7 @@ export default function KayitGecmisiPage() {
 
   return (
     <div className="space-y-5 pb-8">
-      <ProjectPageHeader
-        title="Kayıt geçmişi"
-        description="Eski kayıtları sorgulayın ve düzenleyin. Günlük giriş için soldaki Yevmiye veya Diğer kayıtlar menüsünü kullanın."
-      />
+      <ProjectPageHeader title={strings.pageTitle} description={strings.pageDescription} />
 
       <div className="grid sm:grid-cols-2 gap-3">
         {links.map((item) => (

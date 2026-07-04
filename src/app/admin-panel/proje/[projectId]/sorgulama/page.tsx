@@ -1,5 +1,7 @@
 'use client';
 
+import strings from '@json/src/app/admin-panel/proje/[projectId]/sorgulama/page.json';
+import { formatString } from '@/lib/strings/format';
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import dayjs from 'dayjs';
@@ -54,12 +56,15 @@ export default function PersonelSorgulamaPage() {
   const totalAdv = advances.reduce((s, r) => s + Number(r.amount), 0);
   const totalMin = minimum.reduce((s, r) => s + Number(r.amount), 0);
 
+  const sections = [
+    { title: strings.sectionWorkLogs, rows: workLogs, isWorkLog: true },
+    { title: strings.sectionAdvances, rows: advances, isWorkLog: false },
+    { title: strings.sectionMinimum, rows: minimum, isWorkLog: false },
+  ];
+
   return (
     <div>
-      <ProjectPageHeader
-        title="Personel Sorgulaması"
-        description="Seçili personelin aylık özetini görüntüleyin."
-      />
+      <ProjectPageHeader title={strings.pageTitle} description={strings.pageDescription} />
       {empError && <AlertBanner type="error" message={empError} />}
       {error && <AlertBanner type="error" message={error} />}
 
@@ -73,18 +78,18 @@ export default function PersonelSorgulamaPage() {
 
       {!employeeId ? (
         <div className={`${cardClass} p-8 text-center text-sm text-slate-500`}>
-          Özet için personel seçin.
+          {strings.selectEmployeeHint}
         </div>
       ) : loading ? (
-        <div className={`${cardClass} p-8 text-center text-sm text-slate-500`}>Yükleniyor…</div>
+        <div className={`${cardClass} p-8 text-center text-sm text-slate-500`}>{strings.loading}</div>
       ) : (
         <div className="space-y-4">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {[
-              { label: 'Çalışılan Gün', value: workDays.toString() },
-              { label: 'Brüt', value: formatMoney(gross) },
-              { label: 'Avans', value: formatMoney(totalAdv) },
-              { label: 'Asgari', value: formatMoney(totalMin) },
+              { label: strings.workDays, value: workDays.toString() },
+              { label: strings.gross, value: formatMoney(gross) },
+              { label: strings.advances, value: formatMoney(totalAdv) },
+              { label: strings.minimum, value: formatMoney(totalMin) },
             ].map((s) => (
               <div key={s.label} className={`${cardClass} p-4`}>
                 <p className="text-xs text-slate-500">{s.label}</p>
@@ -93,25 +98,21 @@ export default function PersonelSorgulamaPage() {
             ))}
           </div>
 
-          {[
-            { title: 'Yevmiyeler', rows: workLogs },
-            { title: 'Avanslar', rows: advances },
-            { title: 'Asgari Ödemeler', rows: minimum },
-          ].map((section) => (
+          {sections.map((section) => (
             <div key={section.title} className={cardClass}>
               <div className="px-4 py-3 border-b border-slate-200 font-medium text-slate-800">
                 {section.title}
               </div>
               {section.rows.length === 0 ? (
-                <p className="p-4 text-sm text-slate-500">Kayıt yok.</p>
+                <p className="p-4 text-sm text-slate-500">{strings.noRecords}</p>
               ) : (
                 <ul className="divide-y divide-slate-100">
                   {section.rows.map((r) => (
                     <li key={r.id} className="px-4 py-3 flex justify-between gap-3 text-sm">
                       <span className="text-slate-600">{formatDate(r.date)}</span>
                       <span className="font-medium text-slate-900">
-                        {section.title === 'Yevmiyeler'
-                          ? `${r.amount} gün`
+                        {section.isWorkLog
+                          ? formatString(strings.workDaysUnit, { amount: r.amount })
                           : formatMoney(Number(r.amount))}
                       </span>
                     </li>

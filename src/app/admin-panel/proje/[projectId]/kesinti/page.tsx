@@ -1,5 +1,6 @@
 'use client';
 
+import strings from '@json/src/app/admin-panel/proje/[projectId]/kesinti/page.json';
 import { useState, useEffect } from 'react';
 import { useParams, useSearchParams } from 'next/navigation';
 import dayjs from 'dayjs';
@@ -13,9 +14,9 @@ import { postDeduction } from '@/lib/project-api';
 import { cardClass, labelClass, inputClass, btnPrimary } from '@/components/project/ui';
 
 const DEDUCTION_TYPES = [
-  { value: 'deduction', label: 'Kesinti' },
-  { value: 'subcontractor_cut', label: 'Taşeron kesintisi' },
-  { value: 'other', label: 'Diğer' },
+  { value: 'deduction', labelKey: 'deductionTypeDeduction' as const },
+  { value: 'subcontractor_cut', labelKey: 'deductionTypeSubcontractor' as const },
+  { value: 'other', labelKey: 'deductionTypeOther' as const },
 ] as const;
 
 export default function KesintiPage() {
@@ -49,7 +50,7 @@ export default function KesintiPage() {
     setError(null);
     setSuccess(null);
     if (!employeeId || !values.amount) {
-      setError('Personel ve tutar zorunludur.');
+      setError(strings.employeeAmountRequired);
       return;
     }
     setLoading(true);
@@ -62,13 +63,13 @@ export default function KesintiPage() {
         description: values.description || undefined,
         jobId: jobId || null,
       });
-      setSuccess('Kesinti kaydı oluşturuldu.');
+      setSuccess(strings.successCreated);
       setValues({ date: dayjs().format('YYYY-MM-DD'), amount: '', description: '' });
       setEmployeeId('');
       setJobId('');
       setDeductionType('deduction');
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Kayıt başarısız');
+      setError(err instanceof Error ? err.message : strings.saveFailed);
     } finally {
       setLoading(false);
     }
@@ -76,21 +77,18 @@ export default function KesintiPage() {
 
   return (
     <div>
-      <ProjectPageHeader
-        title="Kesinti Ekle"
-        description="Personel maaşından düşülecek kesinti kaydı girin."
-      />
+      <ProjectPageHeader title={strings.pageTitle} description={strings.pageDescription} />
       {empError && <AlertBanner type="error" message={empError} />}
       {error && <AlertBanner type="error" message={error} />}
       {success && <AlertBanner type="success" message={success} />}
 
       <form onSubmit={handleSubmit} className={`${cardClass} p-4 sm:p-6 mb-6`}>
-        <h2 className="text-base font-semibold text-slate-900 dark:text-white mb-4">Yeni Kesinti</h2>
+        <h2 className="text-base font-semibold text-slate-900 dark:text-white mb-4">{strings.formTitle}</h2>
         <div className="space-y-4">
           <EmployeeSelect employees={employees} value={employeeId} onChange={setEmployeeId} />
 
           <div>
-            <label className={labelClass}>Kesinti türü *</label>
+            <label className={labelClass}>{strings.labelDeductionType}</label>
             <select
               className={inputClass}
               value={deductionType}
@@ -100,14 +98,14 @@ export default function KesintiPage() {
             >
               {DEDUCTION_TYPES.map((t) => (
                 <option key={t.value} value={t.value}>
-                  {t.label}
+                  {strings[t.labelKey]}
                 </option>
               ))}
             </select>
           </div>
 
           <div>
-            <label className={labelClass}>Tarih *</label>
+            <label className={labelClass}>{strings.labelDate}</label>
             <input
               type="date"
               className={inputClass}
@@ -118,7 +116,7 @@ export default function KesintiPage() {
           </div>
 
           <div>
-            <label className={labelClass}>Tutar (₺) *</label>
+            <label className={labelClass}>{strings.labelAmount}</label>
             <input
               type="number"
               className={inputClass}
@@ -131,7 +129,7 @@ export default function KesintiPage() {
           </div>
 
           <div>
-            <label className={labelClass}>Açıklama</label>
+            <label className={labelClass}>{strings.labelDescription}</label>
             <textarea
               className={`${inputClass} min-h-[80px] resize-y`}
               value={values.description}
@@ -144,7 +142,7 @@ export default function KesintiPage() {
           )}
 
           <button type="submit" className={btnPrimary} disabled={loading || empLoading}>
-            {loading ? 'Kaydediliyor…' : 'Kesinti kaydet'}
+            {loading ? strings.saving : strings.saveButton}
           </button>
         </div>
       </form>

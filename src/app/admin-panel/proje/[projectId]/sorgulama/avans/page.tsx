@@ -1,5 +1,6 @@
 'use client';
 
+import strings from '@json/src/app/admin-panel/proje/[projectId]/sorgulama/avans/page.json';
 import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import dayjs from 'dayjs';
@@ -53,10 +54,7 @@ export default function AvansSorgulamaPage() {
 
   return (
     <div>
-      <ProjectPageHeader
-        title="Avans Sorgulama"
-        description="Avans kayıtlarını görüntüleyin, iş kalemini düzenleyin veya silin."
-      />
+      <ProjectPageHeader title={strings.pageTitle} description={strings.pageDescription} />
       {empError && <AlertBanner type="error" message={empError} />}
       {error && <AlertBanner type="error" message={error} />}
       <QueryFilters
@@ -72,26 +70,26 @@ export default function AvansSorgulamaPage() {
         columns={[
           {
             key: 'emp',
-            header: 'Personel',
-            render: (r) => r.employees?.name ?? '—',
+            header: strings.colEmployee,
+            render: (r) => r.employees?.name ?? strings.emptyCell,
           },
-          { key: 'date', header: 'Tarih', render: (r) => formatDate(r.date) },
-          { key: 'amount', header: 'Tutar', render: (r) => formatMoney(Number(r.amount)) },
+          { key: 'date', header: strings.colDate, render: (r) => formatDate(r.date) },
+          { key: 'amount', header: strings.colAmount, render: (r) => formatMoney(Number(r.amount)) },
           {
             key: 'job',
-            header: 'İş kalemi',
+            header: strings.colJob,
             render: (r) => jobNameFromJoin(r),
             hideOnMobile: true,
           },
           {
             key: 'desc',
-            header: 'Açıklama',
-            render: (r) => r.description || '—',
+            header: strings.colDescription,
+            render: (r) => r.description || strings.emptyCell,
             hideOnMobile: true,
           },
           {
             key: 'actions',
-            header: 'İşlem',
+            header: strings.colActions,
             render: (r) => (
               <RecordEditActions
                 projectId={projectId}

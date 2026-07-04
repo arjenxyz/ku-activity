@@ -1,5 +1,7 @@
 'use client';
 
+import strings from '@json/src/app/admin-panel/proje/[projectId]/bloklar/page.json';
+import { formatString } from '@/lib/strings/format';
 import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
@@ -30,7 +32,7 @@ export default function BloklarPage() {
       const data = await fetchProjectBlocks(projectId);
       setBlocks(data);
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Yüklenemedi');
+      setError(e instanceof Error ? e.message : strings.loadFailed);
     } finally {
       setLoading(false);
     }
@@ -48,29 +50,25 @@ export default function BloklarPage() {
       await createProjectBlock(projectId, { name: name.trim() });
       setName('');
       await load();
-      setSuccess('Blok oluşturuldu. Ekiplere atayın.');
+      setSuccess(strings.successCreated);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Kayıt başarısız');
+      setError(err instanceof Error ? err.message : strings.saveFailed);
     } finally {
       setSaving(false);
     }
   };
 
   const handleComplete = async (block: ProjectBlock) => {
-    if (
-      !confirm(
-        `"${block.name}" tamamlandı olarak işaretlensin mi?\n\nBu bloktaki ekiplerin blok ataması kaldırılır. Yeni blok oluşturup ekiplere atamanız gerekir.`
-      )
-    ) {
+    if (!confirm(formatString(strings.completeConfirm, { name: block.name }))) {
       return;
     }
     setSaving(true);
     try {
       await completeProjectBlock(projectId, block.id);
       await load();
-      setSuccess(`"${block.name}" tamamlandı. Ekipler sayfasından yeni blok atayın.`);
+      setSuccess(formatString(strings.successCompleted, { name: block.name }));
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'İşlem başarısız');
+      setError(err instanceof Error ? err.message : strings.actionFailed);
     } finally {
       setSaving(false);
     }
@@ -81,53 +79,50 @@ export default function BloklarPage() {
 
   return (
     <div className="space-y-5 pb-8">
-      <ProjectPageHeader
-        title="Bloklar"
-        description="İş alanlarını blok olarak tanımlayın. Ekipler bloğa atanır; onaylı yevmiye otomatik işlenir."
-      />
+      <ProjectPageHeader title={strings.pageTitle} description={strings.pageDescription} />
 
       {error && <AlertBanner type="error" message={error} />}
       {success && <AlertBanner type="success" message={success} />}
 
       <div className={`${cardClass} p-5`}>
-        <h2 className="text-sm font-semibold text-slate-900 mb-3">Yeni blok</h2>
+        <h2 className="text-sm font-semibold text-slate-900 mb-3">{strings.sectionNewBlock}</h2>
         <form onSubmit={handleCreate} className="flex flex-wrap gap-3 items-end">
           <div className="flex-1 min-w-[200px]">
-            <label className={labelClass}>Blok adı</label>
+            <label className={labelClass}>{strings.labelBlockName}</label>
             <input
               className={inputClass}
-              placeholder="Örn. A Blok, 3. Kat"
+              placeholder={strings.placeholderBlockName}
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
             />
           </div>
           <button type="submit" className={btnPrimary} disabled={saving}>
-            Ekle
+            {strings.addButton}
           </button>
         </form>
         <p className="text-xs text-slate-500 mt-3">
-          Blok tamamlanınca ekiplerin ataması sıfırlanır.{' '}
+          {strings.hintAfterCompletePrefix}{' '}
           <Link href={`/admin-panel/proje/${projectId}/ekiplar`} className="text-emerald-700 hover:underline">
-            Ekipler
+            {strings.hintTeamsLink}
           </Link>{' '}
-          sayfasından yeni blok atayın.
+          {strings.hintAfterCompleteSuffix}
         </p>
       </div>
 
       {loading ? (
-        <div className={`${cardClass} p-10 text-center text-sm text-slate-500`}>Yükleniyor…</div>
+        <div className={`${cardClass} p-10 text-center text-sm text-slate-500`}>{strings.loading}</div>
       ) : (
         <>
           <BlockList
-            title="Aktif bloklar"
+            title={strings.activeBlocksTitle}
             blocks={active}
-            empty="Henüz aktif blok yok."
+            empty={strings.activeBlocksEmpty}
             onComplete={handleComplete}
             saving={saving}
           />
           {completed.length > 0 && (
-            <BlockList title="Tamamlanan bloklar" blocks={completed} readOnly />
+            <BlockList title={strings.completedBlocksTitle} blocks={completed} readOnly />
           )}
         </>
       )}
@@ -154,7 +149,7 @@ function BlockList({
     <section className="space-y-2">
       <h2 className="text-base font-semibold text-slate-900">{title}</h2>
       {blocks.length === 0 ? (
-        <div className={`${cardClass} p-6 text-sm text-slate-500`}>{empty ?? 'Kayıt yok.'}</div>
+        <div className={`${cardClass} p-6 text-sm text-slate-500`}>{empty ?? strings.defaultEmpty}</div>
       ) : (
         <div className="space-y-2">
           {blocks.map((block) => (
@@ -177,7 +172,7 @@ function BlockList({
                   disabled={saving}
                   onClick={() => onComplete(block)}
                 >
-                  Tamamlandı
+                  {strings.completeButton}
                 </button>
               )}
             </div>

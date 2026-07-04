@@ -1,5 +1,6 @@
 'use client';
 
+import strings from '@json/src/app/admin-panel/proje/[projectId]/maas-politikasi/page.json';
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
@@ -27,7 +28,7 @@ export default function ProjectWagePolicyPage() {
   useEffect(() => {
     fetch(`/api/admin/projects/${projectId}/wage-policy`)
       .then(async (res) => {
-        if (!res.ok) throw new Error((await res.json()).error || 'Yüklenemedi');
+        if (!res.ok) throw new Error((await res.json()).error || strings.loadFailed);
         return res.json();
       })
       .then((d) => {
@@ -56,12 +57,12 @@ export default function ProjectWagePolicyPage() {
           policy: useCompanyDefault ? undefined : policy,
         }),
       });
-      if (!res.ok) throw new Error((await res.json()).error || 'Kaydedilemedi');
+      if (!res.ok) throw new Error((await res.json()).error || strings.saveFailedAlt);
       const d = await res.json();
       setResolved(d.resolved ?? null);
-      setSuccess('Proje politikası güncellendi.');
+      setSuccess(strings.successUpdated);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Kayıt başarısız');
+      setError(err instanceof Error ? err.message : strings.saveFailed);
     } finally {
       setSaving(false);
     }
@@ -69,20 +70,17 @@ export default function ProjectWagePolicyPage() {
 
   return (
     <div>
-      <ProjectPageHeader
-        title="Proje maaş politikası"
-        description="Bu şantiye şirket varsayılanını kullanabilir veya kendi kuralını tanımlayabilir."
-      />
+      <ProjectPageHeader title={strings.pageTitle} description={strings.pageDescription} />
       {error && <AlertBanner type="error" message={error} />}
       {success && <AlertBanner type="success" message={success} />}
 
       <p className="mb-4 text-sm">
         <Link href={`/admin-panel/proje/${projectId}/asgari`} className="text-indigo-600">
-          Asgari ekleme sayfasına git →
+          {strings.linkAsgari}
         </Link>
         {' · '}
         <Link href="/admin-panel/maas-politikasi" className="text-indigo-600">
-          Şirket politikası
+          {strings.linkCompanyPolicy}
         </Link>
       </p>
 
@@ -94,17 +92,20 @@ export default function ProjectWagePolicyPage() {
             onChange={(e) => setUseCompanyDefault(e.target.checked)}
             className="rounded border-slate-300"
           />
-          Şirket varsayılan politikasını kullan
+          {strings.useCompanyDefault}
         </label>
         {useCompanyDefault && resolved && (
           <ul className="mt-3 text-sm text-slate-600 space-y-1">
             <li>
-              Yevmiye:{' '}
+              {strings.yevmiyePrefix}{' '}
               {resolved.yevmiyePaymentTriggers
                 .map((t) => YEVMIYE_TRIGGER_LABELS[t])
                 .join(', ')}
             </li>
-            <li>Kaynak: {resolved.source === 'default' ? 'Henüz doldurulmamış varsayılan' : 'Şirket politikası'}</li>
+            <li>
+              {strings.sourceLabel}{' '}
+              {resolved.source === 'default' ? strings.sourceDefault : strings.sourceCompany}
+            </li>
           </ul>
         )}
       </div>
@@ -116,8 +117,8 @@ export default function ProjectWagePolicyPage() {
           onSubmit={handleSubmit}
           loading={loading}
           saving={saving}
-          title="Bu proje için özel kurallar"
-          subtitle="Yalnızca bu şantiye için geçerli ayarlar."
+          title={strings.customFormTitle}
+          subtitle={strings.customFormSubtitle}
         />
       )}
 
@@ -128,7 +129,7 @@ export default function ProjectWagePolicyPage() {
             className="inline-flex items-center px-4 py-2 rounded-xl bg-indigo-600 text-white text-sm font-medium"
             disabled={saving}
           >
-            {saving ? 'Kaydediliyor…' : 'Kaydet'}
+            {saving ? strings.saving : strings.saveButton}
           </button>
         </form>
       )}
