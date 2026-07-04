@@ -192,6 +192,20 @@ a {
   border-color: rgba(255, 255, 255, 0.45) !important;
 }
 
+/* Yoklama — tam ekran kamera */
+.attendance-scanner video {
+  width: 100% !important;
+  height: 100% !important;
+  max-height: none !important;
+  object-fit: cover !important;
+}
+
+.attendance-scanner > div,
+.attendance-scanner #qr-shaded-region {
+  width: 100% !important;
+  height: 100% !important;
+}
+
 /* Sözleşme metinleri */
 .contract-body h2 {
   font-size: 0.95rem;

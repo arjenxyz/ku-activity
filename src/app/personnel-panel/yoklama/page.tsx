@@ -4,14 +4,13 @@ import { Suspense, useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import {
   FiAlertCircle,
-  FiCamera,
   FiCheckCircle,
   FiClock,
   FiHash,
   FiRefreshCw,
 } from 'react-icons/fi';
-import { QrCameraScanner } from '@/components/registration/QrCameraScanner';
-import { PersonnelShell } from '@/components/personnel/PersonnelShell';
+import { AttendanceCodeSheet } from '@/components/personnel/AttendanceCodeSheet';
+import { AttendanceQrScanner } from '@/components/personnel/AttendanceQrScanner';
 import { formatDateTime } from '@/lib/format';
 import { parseAttendanceTokenFromQr } from '@/lib/attendance-qr-service';
 import {
@@ -19,7 +18,6 @@ import {
   scanAttendanceQr,
   type PersonnelAttendanceStatusPayload,
 } from '@/lib/personnel-api';
-import { btnPrimary, inputClass } from '@/components/project/ui';
 
 type ViewMode = 'scan' | 'waiting' | 'completed' | 'cancelled' | 'removed' | 'rescan';
 
@@ -33,7 +31,7 @@ function YoklamaContent() {
   const [loadingStatus, setLoadingStatus] = useState(true);
   const [manualCode, setManualCode] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const [tab, setTab] = useState<'scan' | 'code'>('scan');
+  const [codeSheetOpen, setCodeSheetOpen] = useState(false);
   const [autoScanned, setAutoScanned] = useState(false);
 
   const applyStatus = useCallback((s: PersonnelAttendanceStatusPayload) => {
@@ -85,9 +83,8 @@ function YoklamaContent() {
         } else {
           await refreshStatus();
         }
-        if (replace) {
-          setView('waiting');
-        }
+        setCodeSheetOpen(false);
+        if (replace) setView('waiting');
       } catch (e) {
         setError(e instanceof Error ? e.message : 'Okutma başarısız');
       } finally {
@@ -118,345 +115,353 @@ function YoklamaContent() {
   const startRescan = () => {
     setError(null);
     setManualCode('');
-    setTab('scan');
+    setCodeSheetOpen(false);
     setView('rescan');
   };
 
-  const showScanner = view === 'scan' || view === 'rescan';
+  const cancelRescan = () => {
+    setError(null);
+    setCodeSheetOpen(false);
+    void refreshStatus();
+  };
 
-  return (
-    <PersonnelShell>
-      <div className="mx-auto max-w-lg">
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-600 via-emerald-700 to-teal-800 px-4 py-5 sm:px-5 sm:py-6 text-white shadow-lg sm:mt-0">
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.15),transparent_60%)]" />
-          <div className="relative">
-            <p className="text-xs font-medium uppercase tracking-wider text-emerald-100/90">
-              Günlük yoklama
-            </p>
-            <h1 className="mt-1 text-xl sm:text-2xl font-bold tracking-tight">
-              {view === 'rescan' ? 'Yeniden okut' : 'QR okut'}
-            </h1>
-            <p className="mt-2 text-sm leading-relaxed text-emerald-50/90">
-              {view === 'waiting'
-                ? 'Ustanız yoklamayı tamamlayana kadar bu ekranda kalabilirsiniz.'
-                : view === 'completed'
-                  ? 'Bugünkü yoklamanız kayıt altına alındı.'
-                  : view === 'rescan'
-                    ? 'Ustanızdan yeni QR veya kod alıp tekrar okutun.'
-                    : 'Ustanın ekranındaki kodu okutun.'}
-            </p>
+  const showScanner = view === 'scan' || view === 'rescan';
+  const windowClosed = Boolean(status?.window && !status.window.isOpen && status.state === 'none');
+  const scannerDisabled = scanning || windowClosed;
+
+  if (loadingStatus && !status) {
+    return (
+      <div className="flex min-h-[50vh] items-center justify-center sm:min-h-[40vh]">
+        <div className="h-10 w-10 animate-spin rounded-full border-2 border-emerald-500 border-t-transparent" />
+      </div>
+    );
+  }
+
+  if (showScanner) {
+    return (
+      <>
+        <div className="fixed inset-x-0 top-[calc(3rem+env(safe-area-inset-top))] bottom-[calc(5.25rem+env(safe-area-inset-bottom))] z-0 flex flex-col sm:hidden">
+          {view === 'rescan' && (
+            <div className="relative z-30 shrink-0 border-b border-amber-400/30 bg-amber-950/90 px-4 py-2.5 text-xs text-amber-100">
+              Önceki kaydınız silinip yeni okutma ile listeye ekleneceksiniz.{' '}
+              <button type="button" onClick={cancelRescan} className="font-semibold underline">
+                Vazgeç
+              </button>
+            </div>
+          )}
+
+          {windowClosed && (
+            <div className="relative z-30 shrink-0 border-b border-amber-400/30 bg-amber-950/95 px-4 py-3 text-sm text-amber-50">
+              <p className="font-semibold">Yoklama saati dışında</p>
+              <p className="mt-1 text-xs leading-relaxed opacity-90">{status?.window?.message}</p>
+            </div>
+          )}
+
+          <AttendanceQrScanner
+            onScan={(t) => void submitToken(t, view === 'rescan')}
+            disabled={scannerDisabled}
+            parseQr={parseAttendanceTokenFromQr}
+            invalidQrMessage="Geçerli bir yoklama QR kodu değil."
+          />
+
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 z-30 flex justify-center px-4 pb-4">
+            <button
+              type="button"
+              disabled={scannerDisabled}
+              onClick={() => {
+                setError(null);
+                setCodeSheetOpen(true);
+              }}
+              className="pointer-events-auto inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/45 px-5 py-3 text-sm font-semibold text-white shadow-lg backdrop-blur-md transition hover:bg-black/55 disabled:opacity-50"
+            >
+              <FiHash className="h-4 w-4" />
+              Kod gir
+            </button>
           </div>
+
+          {error && !codeSheetOpen && (
+            <div className="absolute inset-x-4 bottom-[4.5rem] z-30 rounded-xl border border-red-400/40 bg-red-950/90 px-4 py-3 text-center text-sm text-red-100">
+              {error}
+            </div>
+          )}
         </div>
 
-        {loadingStatus && !status ? (
-          <div className="mt-6 h-48 rounded-2xl bg-slate-100 animate-pulse" />
-        ) : view === 'waiting' ? (
-          <WaitingScreen
+        {/* Masaüstü / geniş ekran */}
+        <div className="mx-auto hidden max-w-lg sm:block">
+          <DesktopScannerPanel
+            view={view}
             status={status}
-            onProblem={startRescan}
-            onRefresh={() => void refreshStatus()}
-          />
-        ) : view === 'completed' ? (
-          <CompletedScreen status={status} onProblem={startRescan} />
-        ) : view === 'cancelled' ? (
-          <CancelledScreen status={status} onRescan={startRescan} />
-        ) : view === 'removed' ? (
-          <RemovedScreen status={status} onRescan={startRescan} />
-        ) : showScanner ? (
-          <>
-            {status?.window && !status.window.isOpen && status.state === 'none' && (
-              <div className="mt-5 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-4 text-sm text-amber-900">
-                <p className="font-semibold">Yoklama saati dışında</p>
-                <p className="mt-2 leading-relaxed">{status.window.message}</p>
-                <p className="mt-2 text-xs opacity-90">
-                  İzin verilen süre: {status.window.windowStartLabel} –{' '}
-                  {status.window.windowEndLabel}
-                </p>
-              </div>
-            )}
-            <ScannerSection
-            tab={tab}
-            setTab={setTab}
             scanning={scanning}
             manualCode={manualCode}
             setManualCode={setManualCode}
+            error={error}
+            windowClosed={windowClosed}
             onScan={(t) => void submitToken(t, view === 'rescan')}
             onManualSubmit={handleManualSubmit}
-            error={error}
-            isRescan={view === 'rescan'}
-            onCancelRescan={() => void refreshStatus()}
-            scannerDisabled={
-              Boolean(status?.window && !status.window.isOpen && status.state === 'none')
-            }
+            onCancelRescan={cancelRescan}
           />
-          </>
-        ) : null}
-      </div>
-    </PersonnelShell>
-  );
-}
-
-function WaitingScreen({
-  status,
-  onProblem,
-  onRefresh,
-}: {
-  status: PersonnelAttendanceStatusPayload | null;
-  onProblem: () => void;
-  onRefresh: () => void;
-}) {
-  return (
-    <div className="mt-6 space-y-4">
-      <div className="overflow-hidden rounded-2xl border border-emerald-200 bg-gradient-to-b from-emerald-50 to-white p-6 shadow-sm">
-        <div className="flex items-start gap-4">
-          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-emerald-100">
-            <FiClock className="h-7 w-7 text-emerald-600 animate-pulse" />
-          </div>
-          <div className="min-w-0 flex-1">
-            <p className="text-lg font-semibold text-emerald-900">Okutma başarılı</p>
-            <p className="mt-2 text-sm leading-relaxed text-emerald-800">
-              {status?.message ??
-                'Listeye eklendiniz. Ustanız diğer personelin yoklamasını alıp işlemi tamamlayacak.'}
-            </p>
-            {status?.listedAt && (
-              <p className="mt-2 text-xs text-emerald-600">
-                Okutma: {formatDateTime(status.listedAt)}
-              </p>
-            )}
-          </div>
         </div>
 
-        <div className="mt-5 rounded-xl border border-emerald-100 bg-white/80 px-4 py-3">
-          <p className="text-sm text-slate-600 leading-relaxed">
-            Usta yoklamayı bitirdiğinde bu ekran otomatik güncellenir ve{' '}
-            <span className="font-medium text-slate-800">bugünün yoklaması tamamlandı</span>{' '}
-            mesajını görürsünüz.
-          </p>
-        </div>
+        <AttendanceCodeSheet
+          open={codeSheetOpen}
+          onClose={() => setCodeSheetOpen(false)}
+          code={manualCode}
+          onCodeChange={setManualCode}
+          onSubmit={handleManualSubmit}
+          submitting={scanning}
+          disabled={windowClosed}
+          isRescan={view === 'rescan'}
+        />
+      </>
+    );
+  }
 
-        <button
-          type="button"
-          onClick={onRefresh}
-          className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-emerald-700 hover:text-emerald-900"
-        >
-          <FiRefreshCw className="h-4 w-4" />
-          Durumu yenile
-        </button>
-      </div>
+  return (
+    <div className="mx-auto max-w-lg px-1 sm:px-0">
+      {view === 'waiting' && (
+        <StatusCard
+          tone="waiting"
+          icon={<FiClock className="h-7 w-7 text-emerald-500 animate-pulse" />}
+          title="Okutma başarılı"
+          message={
+            status?.message ??
+            'Listeye eklendiniz. Ustanız diğer personelin yoklamasını alıp işlemi tamamlayacak.'
+          }
+          meta={status?.listedAt ? `Okutma: ${formatDateTime(status.listedAt)}` : undefined}
+          footer="Usta yoklamayı bitirdiğinde bu ekran otomatik güncellenir."
+          onRefresh={() => void refreshStatus()}
+          onProblem={startRescan}
+        />
+      )}
 
-      <ProblemButton onClick={onProblem} />
+      {view === 'completed' && (
+        <StatusCard
+          tone="success"
+          icon={<FiCheckCircle className="h-8 w-8 text-emerald-500" />}
+          title="Bugünün yoklaması tamamlandı"
+          message={status?.message ?? 'Tam gün yevmiyeniz kaydedildi.'}
+          meta={status?.completedAt ? `Tamamlanma: ${formatDateTime(status.completedAt)}` : undefined}
+          onProblem={startRescan}
+        />
+      )}
+
+      {view === 'cancelled' && (
+        <StatusCard
+          tone="warning"
+          icon={<FiAlertCircle className="h-8 w-8 text-amber-500" />}
+          title="Yoklama iptal edildi"
+          message={
+            status?.message ??
+            'Yoklama iptal edildi. Lütfen yöneticinizle iletişime geçip tekrar okutun.'
+          }
+          primaryAction={{ label: 'Yeni kod ile okut', onClick: startRescan }}
+        />
+      )}
+
+      {view === 'removed' && (
+        <StatusCard
+          tone="danger"
+          icon={<FiAlertCircle className="h-8 w-8 text-red-500" />}
+          title="Yoklamadan çıkarıldınız"
+          message={
+            status?.message ??
+            'Yöneticiniz sizi yoklamadan çıkardı. Yanlış olduğunu düşünüyorsanız yöneticinizle iletişime geçin.'
+          }
+          primaryAction={{ label: 'Yeni kod ile tekrar okut', onClick: startRescan }}
+        />
+      )}
     </div>
   );
 }
 
-function CompletedScreen({
+function DesktopScannerPanel({
+  view,
   status,
-  onProblem,
-}: {
-  status: PersonnelAttendanceStatusPayload | null;
-  onProblem: () => void;
-}) {
-  return (
-    <div className="mt-6 space-y-4">
-      <div className="overflow-hidden rounded-2xl border border-emerald-200 bg-gradient-to-b from-emerald-50 to-white p-8 text-center shadow-sm">
-        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-100">
-          <FiCheckCircle className="h-9 w-9 text-emerald-600" />
-        </div>
-        <p className="mt-4 text-lg font-semibold text-emerald-900">Bugünün yoklaması tamamlandı</p>
-        <p className="mt-2 text-sm text-emerald-700">
-          {status?.message ?? 'Tam gün yevmiyeniz kaydedildi.'}
-        </p>
-        {status?.completedAt && (
-          <p className="mt-2 text-xs text-emerald-600">
-            Tamamlanma: {formatDateTime(status.completedAt)}
-          </p>
-        )}
-      </div>
-
-      <ProblemButton onClick={onProblem} />
-    </div>
-  );
-}
-
-function CancelledScreen({
-  status,
-  onRescan,
-}: {
-  status: PersonnelAttendanceStatusPayload | null;
-  onRescan: () => void;
-}) {
-  return (
-    <div className="mt-6 space-y-4">
-      <div className="rounded-2xl border border-amber-200 bg-amber-50 p-6 text-center">
-        <FiAlertCircle className="mx-auto h-10 w-10 text-amber-600" />
-        <p className="mt-3 font-semibold text-amber-900">Yoklama iptal edildi</p>
-        <p className="mt-2 text-sm text-amber-800 leading-relaxed">
-          {status?.message ??
-            'Yoklama iptal edildi. Lütfen yöneticinizle iletişime geçip tekrar okutun.'}
-        </p>
-        <button type="button" onClick={onRescan} className={`${btnPrimary} mt-5 w-full py-3`}>
-          Yeni kod ile okut
-        </button>
-      </div>
-    </div>
-  );
-}
-
-function RemovedScreen({
-  status,
-  onRescan,
-}: {
-  status: PersonnelAttendanceStatusPayload | null;
-  onRescan: () => void;
-}) {
-  return (
-    <div className="mt-6 space-y-4">
-      <div className="rounded-2xl border border-red-200 bg-red-50 p-6 text-center">
-        <FiAlertCircle className="mx-auto h-10 w-10 text-red-600" />
-        <p className="mt-3 font-semibold text-red-900">Yoklamadan çıkarıldınız</p>
-        <p className="mt-2 text-sm text-red-800 leading-relaxed">
-          {status?.message ??
-            'Yöneticiniz sizi yoklamadan çıkardı. Yanlış olduğunu düşünüyorsanız lütfen yöneticinizle iletişime geçin.'}
-        </p>
-        <button type="button" onClick={onRescan} className={`${btnPrimary} mt-5 w-full py-3`}>
-          Yeni kod ile tekrar okut
-        </button>
-      </div>
-    </div>
-  );
-}
-
-function ProblemButton({ onClick }: { onClick: () => void }) {
-  return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-      <p className="text-sm text-slate-600 leading-relaxed">
-        Herhangi bir sorun varsa önce ustanızla iletişime geçin. Usta size yeni QR veya kod
-        verdiyse aşağıdaki butona tıklayıp yeniden okutun — önceki yevmiye kaydınız silinir,
-        yenisi oluşturulur.
-      </p>
-      <button
-        type="button"
-        onClick={onClick}
-        className="mt-4 w-full rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-800 hover:bg-slate-100 transition-colors"
-      >
-        Sorun var — yeniden okut
-      </button>
-    </div>
-  );
-}
-
-function ScannerSection({
-  tab,
-  setTab,
   scanning,
   manualCode,
   setManualCode,
+  error,
+  windowClosed,
   onScan,
   onManualSubmit,
-  error,
-  isRescan,
   onCancelRescan,
-  scannerDisabled = false,
 }: {
-  tab: 'scan' | 'code';
-  setTab: (t: 'scan' | 'code') => void;
+  view: ViewMode;
+  status: PersonnelAttendanceStatusPayload | null;
   scanning: boolean;
   manualCode: string;
   setManualCode: (v: string) => void;
+  error: string | null;
+  windowClosed: boolean;
   onScan: (token: string) => void;
   onManualSubmit: (e: React.FormEvent) => void;
-  error: string | null;
-  isRescan: boolean;
   onCancelRescan: () => void;
-  scannerDisabled?: boolean;
 }) {
+  const [mode, setMode] = useState<'camera' | 'code'>('camera');
+
   return (
-    <div className="mt-5 space-y-4">
-      {isRescan && (
+    <div className="mt-4 space-y-4">
+      <div className="overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-600 to-teal-800 px-5 py-5 text-white shadow-lg">
+        <p className="text-xs font-medium uppercase tracking-wider text-emerald-100/90">Günlük yoklama</p>
+        <h1 className="mt-1 text-2xl font-bold">{view === 'rescan' ? 'Yeniden okut' : 'QR okut'}</h1>
+        <p className="mt-2 text-sm text-emerald-50/90">Ustanın ekranındaki kodu okutun veya kod girin.</p>
+      </div>
+
+      {view === 'rescan' && (
         <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
-          Önceki kaydınız silinecek ve yeni okutmanızla listeye tekrar ekleneceksiniz.
-          <button
-            type="button"
-            onClick={onCancelRescan}
-            className="mt-2 block text-xs font-medium text-amber-800 underline"
-          >
+          Önceki kaydınız silinecek.
+          <button type="button" onClick={onCancelRescan} className="ml-1 font-medium underline">
             Vazgeç
           </button>
         </div>
       )}
 
-      <div className="flex rounded-xl bg-slate-100 p-1">
+      {windowClosed && (
+        <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+          <p className="font-semibold">Yoklama saati dışında</p>
+          <p className="mt-1">{status?.window?.message}</p>
+        </div>
+      )}
+
+      <div className="flex rounded-xl bg-slate-100 p-1 dark:bg-slate-800">
         <button
           type="button"
-          onClick={() => setTab('scan')}
-          className={`flex flex-1 items-center justify-center gap-2 rounded-lg py-2.5 text-sm font-medium transition-colors ${
-            tab === 'scan' ? 'bg-white text-emerald-700 shadow-sm' : 'text-slate-600'
+          onClick={() => setMode('camera')}
+          className={`flex-1 rounded-lg py-2.5 text-sm font-medium ${
+            mode === 'camera' ? 'bg-white text-emerald-700 shadow-sm dark:bg-slate-900 dark:text-emerald-300' : 'text-slate-600'
           }`}
         >
-          <FiCamera className="h-4 w-4" />
           Kamera
         </button>
         <button
           type="button"
-          onClick={() => setTab('code')}
-          className={`flex flex-1 items-center justify-center gap-2 rounded-lg py-2.5 text-sm font-medium transition-colors ${
-            tab === 'code' ? 'bg-white text-emerald-700 shadow-sm' : 'text-slate-600'
+          onClick={() => setMode('code')}
+          className={`flex-1 rounded-lg py-2.5 text-sm font-medium ${
+            mode === 'code' ? 'bg-white text-emerald-700 shadow-sm dark:bg-slate-900 dark:text-emerald-300' : 'text-slate-600'
           }`}
         >
-          <FiHash className="h-4 w-4" />
           Kod gir
         </button>
       </div>
 
-      {tab === 'scan' ? (
-        <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-          <div className="border-b border-slate-100 bg-slate-50 px-4 py-3">
-            <p className="text-sm font-medium text-slate-700">QR kodu kameraya gösterin</p>
-          </div>
-          <div className="p-3 sm:p-4">
-            <QrCameraScanner
+      {mode === 'camera' ? (
+        <div className="overflow-hidden rounded-2xl border border-slate-200 bg-slate-950 shadow-sm dark:border-slate-700">
+          <div className="relative h-[min(420px,55vh)]">
+            <AttendanceQrScanner
               onScan={onScan}
+              disabled={scanning || windowClosed}
               parseQr={parseAttendanceTokenFromQr}
-              invalidQrMessage="Geçerli bir yoklama QR kodu değil."
-              disabled={scanning || scannerDisabled}
             />
           </div>
         </div>
       ) : (
-        <form
-          onSubmit={onManualSubmit}
-          className="space-y-4 rounded-2xl border border-slate-200 bg-white p-4 sm:p-5 shadow-sm"
-        >
-          <div>
-            <label className="mb-2 block text-sm font-medium text-slate-700" htmlFor="manual-code">
-              Yoklama kodu
-            </label>
-            <input
-              id="manual-code"
-              type="text"
-              className={`${inputClass} text-center font-mono text-lg uppercase tracking-[0.2em]`}
-              placeholder="YOK-..."
-              value={manualCode}
-              onChange={(e) => setManualCode(e.target.value.toUpperCase())}
-              disabled={scanning || scannerDisabled}
-              autoComplete="off"
-              spellCheck={false}
-            />
-          </div>
+        <form onSubmit={onManualSubmit} className="space-y-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+          <input
+            type="text"
+            value={manualCode}
+            onChange={(e) => setManualCode(e.target.value.toUpperCase())}
+            placeholder="YOK-…"
+            disabled={scanning || windowClosed}
+            className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-center font-mono text-lg uppercase tracking-[0.15em] dark:border-slate-700 dark:bg-slate-800"
+          />
           <button
             type="submit"
-            className={`${btnPrimary} w-full py-3.5 text-base touch-target`}
-                  disabled={scanning || scannerDisabled || !manualCode.trim()}
+            disabled={scanning || windowClosed || !manualCode.trim()}
+            className="w-full rounded-xl bg-emerald-600 py-3 font-semibold text-white hover:bg-emerald-700 disabled:opacity-50"
           >
-            {scanning ? 'Gönderiliyor…' : isRescan ? 'Yeniden okut' : 'Yoklamaya katıl'}
+            {scanning ? 'Gönderiliyor…' : 'Yoklamaya katıl'}
           </button>
         </form>
       )}
 
       {error && (
-        <p className="rounded-xl border border-red-100 bg-red-50 px-4 py-3 text-sm text-red-700">
+        <p className="rounded-xl border border-red-100 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-900 dark:bg-red-950 dark:text-red-200">
           {error}
         </p>
+      )}
+    </div>
+  );
+}
+
+function StatusCard({
+  tone,
+  icon,
+  title,
+  message,
+  meta,
+  footer,
+  onRefresh,
+  onProblem,
+  primaryAction,
+}: {
+  tone: 'waiting' | 'success' | 'warning' | 'danger';
+  icon: React.ReactNode;
+  title: string;
+  message: string;
+  meta?: string;
+  footer?: string;
+  onRefresh?: () => void;
+  onProblem?: () => void;
+  primaryAction?: { label: string; onClick: () => void };
+}) {
+  const toneStyles = {
+    waiting: 'border-emerald-200 bg-gradient-to-b from-emerald-50 to-white dark:from-emerald-950/40 dark:to-slate-900 dark:border-emerald-900',
+    success: 'border-emerald-200 bg-gradient-to-b from-emerald-50 to-white dark:from-emerald-950/40 dark:to-slate-900 dark:border-emerald-900',
+    warning: 'border-amber-200 bg-amber-50 dark:bg-amber-950/30 dark:border-amber-900',
+    danger: 'border-red-200 bg-red-50 dark:bg-red-950/30 dark:border-red-900',
+  } as const;
+
+  return (
+    <div className="mt-2 space-y-4 sm:mt-4">
+      <div className={`overflow-hidden rounded-2xl border p-6 shadow-sm ${toneStyles[tone]}`}>
+        <div className="flex flex-col items-center text-center">
+          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-white/80 dark:bg-slate-800/80">
+            {icon}
+          </div>
+          <h2 className="mt-4 text-lg font-semibold text-slate-900 dark:text-white">{title}</h2>
+          <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-300">{message}</p>
+          {meta && <p className="mt-2 text-xs text-slate-500">{meta}</p>}
+          {footer && (
+            <p className="mt-4 rounded-xl bg-white/70 px-4 py-3 text-sm text-slate-600 dark:bg-slate-800/70 dark:text-slate-300">
+              {footer}
+            </p>
+          )}
+          {onRefresh && (
+            <button
+              type="button"
+              onClick={onRefresh}
+              className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-emerald-700 dark:text-emerald-400"
+            >
+              <FiRefreshCw className="h-4 w-4" />
+              Durumu yenile
+            </button>
+          )}
+          {primaryAction && (
+            <button
+              type="button"
+              onClick={primaryAction.onClick}
+              className="mt-5 w-full rounded-xl bg-emerald-600 py-3 text-sm font-semibold text-white hover:bg-emerald-700"
+            >
+              {primaryAction.label}
+            </button>
+          )}
+        </div>
+      </div>
+
+      {onProblem && (
+        <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+          <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+            Sorun varsa ustanızla iletişime geçin. Yeni QR veya kod aldıysanız yeniden okutun — önceki
+            kayıt silinir.
+          </p>
+          <button
+            type="button"
+            onClick={onProblem}
+            className="mt-4 w-full rounded-xl border border-slate-300 bg-slate-50 py-3 text-sm font-semibold text-slate-800 hover:bg-slate-100 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100"
+          >
+            Sorun var — yeniden okut
+          </button>
+        </div>
       )}
     </div>
   );
@@ -466,8 +471,8 @@ export default function YoklamaPage() {
   return (
     <Suspense
       fallback={
-        <div className="flex min-h-[100dvh] items-center justify-center">
-          <div className="h-10 w-10 animate-spin rounded-full border-2 border-emerald-600 border-t-transparent" />
+        <div className="flex min-h-[50vh] items-center justify-center">
+          <div className="h-10 w-10 animate-spin rounded-full border-2 border-emerald-500 border-t-transparent" />
         </div>
       }
     >
