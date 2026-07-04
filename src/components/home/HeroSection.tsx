@@ -58,10 +58,10 @@ export function HeroSection() {
               </svg>
             </LoginRoleButton>
             <a
-              href="#proje-hakkinda"
+              href="#features"
               className="touch-target inline-flex items-center justify-center border-2 border-gray-200 dark:border-slate-600 text-gray-700 dark:text-gray-200 px-8 py-3.5 rounded-xl font-semibold hover:bg-gray-50 dark:hover:bg-slate-800 active:bg-gray-100 transition-colors w-full sm:w-auto"
             >
-              Proje hakkında
+              Özellikleri Keşfet
             </a>
           </div>
         </motion.div>

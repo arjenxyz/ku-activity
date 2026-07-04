@@ -93,7 +93,6 @@ export function HomeFooter() {
             <Link href="/gizlilik" className="text-slate-400 hover:text-white transition-colors">Gizlilik</Link>
             <Link href="/kullanim-sartlari" className="text-slate-400 hover:text-white transition-colors">Kullanım Şartları</Link>
             <Link href="/kvkk" className="text-slate-400 hover:text-white transition-colors">KVKK</Link>
-            <a href="#proje-hakkinda" className="text-slate-400 hover:text-white transition-colors">Gönüllülük Projesi</a>
           </div>
         </div>
       </div>
