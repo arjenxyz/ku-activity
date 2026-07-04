@@ -106,7 +106,7 @@ function YoklamaContent() {
   return (
     <>
       {/* Mobil — tam ekran kamera, alt bar yok */}
-      <div className="fixed inset-x-0 top-0 bottom-[calc(5.25rem+env(safe-area-inset-bottom))] z-0 bg-black sm:hidden">
+      <div className="fixed inset-0 z-0 bg-black sm:hidden safe-pb">
         <AttendanceQrScanner
           className="absolute inset-0"
           onScan={(t) => void submitToken(t)}

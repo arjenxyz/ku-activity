@@ -35,7 +35,7 @@ function ChromeBody({ children }: { children: React.ReactNode }) {
       >
         {children}
       </div>
-      <PersonnelAppBottomNav />
+      {!isYoklama ? <PersonnelAppBottomNav /> : null}
     </>
   );
 }
