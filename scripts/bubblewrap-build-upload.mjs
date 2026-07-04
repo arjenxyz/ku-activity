@@ -95,6 +95,10 @@ function ensureGradleWindowsFixes(buildDir) {
   writeFileSync(buildGradle, gradle);
 }
 
+function applyPlainTwaSplash(buildDir) {
+  run(process.execPath, [join(ROOT, 'scripts/twa-plain-splash.mjs'), buildDir], ROOT);
+}
+
 const args = parseArgs(process.argv);
 const appType = String(args.app ?? args.appType ?? '').trim();
 const skipBuild = Boolean(args['skip-build']);
@@ -120,6 +124,7 @@ if (!skipUpdate) {
 }
 
 ensureGradleWindowsFixes(buildDir);
+applyPlainTwaSplash(buildDir);
 
 if (!skipBuild) {
   const keystorePassword = process.env.TWA_KEYSTORE_PASSWORD?.trim();
