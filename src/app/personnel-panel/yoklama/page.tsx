@@ -101,16 +101,21 @@ function YoklamaContent() {
   };
 
   const windowClosed = Boolean(status?.window && !status.window.isOpen && status.state === 'none');
-  const scannerDisabled = scanning || windowClosed;
+  const scanPaused =
+    scanning ||
+    windowClosed ||
+    (!forceReplace &&
+      (status?.state === 'waiting' || status?.state === 'completed'));
 
   return (
     <>
       {/* Mobil — tam ekran kamera, alt bar yok */}
-      <div className="fixed inset-0 z-0 bg-black sm:hidden safe-pb">
+      <div className="fixed inset-0 z-0 h-[100dvh] bg-black sm:hidden">
         <AttendanceQrScanner
-          className="absolute inset-0"
+          className="absolute inset-0 h-full w-full"
           onScan={(t) => void submitToken(t)}
-          disabled={scannerDisabled}
+          disabled={scanPaused}
+          paused={scanPaused}
           parseQr={parseAttendanceTokenFromQr}
           invalidQrMessage="Geçerli bir yoklama QR kodu değil."
         />
@@ -126,7 +131,7 @@ function YoklamaContent() {
           </Link>
           <button
             type="button"
-            disabled={scannerDisabled}
+            disabled={scanPaused && !forceReplace && status?.state !== 'cancelled' && status?.state !== 'removed'}
             onClick={() => {
               setError(null);
               setCodeSheetOpen(true);
@@ -142,7 +147,10 @@ function YoklamaContent() {
           <StatusBanner
             status={status}
             forceReplace={forceReplace}
-            onForceReplace={() => setForceReplace(true)}
+            onForceReplace={() => {
+              setForceReplace(true);
+              setError(null);
+            }}
             onCancelReplace={() => setForceReplace(false)}
           />
         )}
@@ -180,7 +188,11 @@ function YoklamaContent() {
           successMsg={successMsg}
           windowClosed={windowClosed}
           forceReplace={forceReplace}
-          onForceReplace={() => setForceReplace(true)}
+          scanPaused={scanPaused}
+          onForceReplace={() => {
+            setForceReplace(true);
+            setError(null);
+          }}
           onCancelReplace={() => setForceReplace(false)}
           onScan={(t) => void submitToken(t)}
           onManualSubmit={handleManualSubmit}
@@ -296,6 +308,7 @@ function DesktopScannerPanel({
   successMsg,
   windowClosed,
   forceReplace,
+  scanPaused,
   onForceReplace,
   onCancelReplace,
   onScan,
@@ -310,6 +323,7 @@ function DesktopScannerPanel({
   successMsg: string | null;
   windowClosed: boolean;
   forceReplace: boolean;
+  scanPaused: boolean;
   onForceReplace: () => void;
   onCancelReplace: () => void;
   onScan: (token: string) => void;
@@ -375,8 +389,10 @@ function DesktopScannerPanel({
             {!loading && (
               <AttendanceQrScanner
                 onScan={onScan}
-                disabled={scanning || windowClosed}
+                disabled={scanPaused}
+                paused={scanPaused}
                 parseQr={parseAttendanceTokenFromQr}
+                className="absolute inset-0 h-full w-full"
               />
             )}
           </div>

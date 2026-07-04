@@ -192,22 +192,38 @@ a {
   border-color: rgba(255, 255, 255, 0.45) !important;
 }
 
-/* Yoklama — tam ekran kamera */
+/* Yoklama — tam ekran kamera (html5-qrcode inline height override) */
 .attendance-scanner {
+  position: absolute !important;
+  inset: 0 !important;
   width: 100% !important;
   height: 100% !important;
-  min-height: 200px;
   overflow: hidden !important;
   background: #000 !important;
 }
 
-.attendance-scanner video {
-  display: block !important;
+.attendance-scanner > div {
+  position: absolute !important;
+  inset: 0 !important;
   width: 100% !important;
   height: 100% !important;
+  max-height: none !important;
+  padding: 0 !important;
+}
+
+.attendance-scanner video {
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  min-width: 100% !important;
   min-height: 100% !important;
+  width: auto !important;
+  height: auto !important;
+  max-width: none !important;
+  max-height: none !important;
   object-fit: cover !important;
-  background: #000;
+  display: block !important;
 }
 
 /* Kütüphane çerçevesini gizle — videoyu gizleme */

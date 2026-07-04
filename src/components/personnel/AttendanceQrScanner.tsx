@@ -7,6 +7,8 @@ import { Html5Qrcode, type CameraDevice } from 'html5-qrcode';
 type Props = {
   onScan: (code: string) => void;
   disabled?: boolean;
+  /** true iken kamera durur (başarılı okutma sonrası) */
+  paused?: boolean;
   parseQr: (raw: string) => string | null;
   invalidQrMessage?: string;
   className?: string;
@@ -129,6 +131,7 @@ function ScanSpotlight() {
 export function AttendanceQrScanner({
   onScan,
   disabled,
+  paused = false,
   parseQr,
   invalidQrMessage = 'Geçerli bir yoklama QR kodu değil.',
   className = '',
@@ -138,6 +141,7 @@ export function AttendanceQrScanner({
   const onScanRef = useRef(onScan);
   const parseQrRef = useRef(parseQr);
   const bootingRef = useRef(false);
+  const decodedRef = useRef(false);
   const [active, setActive] = useState(false);
   const [starting, setStarting] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -175,7 +179,14 @@ export function AttendanceQrScanner({
   }, [releaseScanner]);
 
   useEffect(() => {
-    if (disabled || bootingRef.current) return;
+    if (!paused) decodedRef.current = false;
+  }, [paused]);
+
+  useEffect(() => {
+    if (disabled || paused) {
+      void releaseScanner();
+      return;
+    }
 
     let cancelled = false;
     bootingRef.current = true;
@@ -207,12 +218,15 @@ export function AttendanceQrScanner({
 
         const scanConfig = buildScanConfig(desktop);
         const onDecode = (decoded: string) => {
+          if (decodedRef.current) return;
           const code = parseQrRef.current(decoded);
           if (!code) {
             setError(invalidQrMessage);
             return;
           }
+          decodedRef.current = true;
           setError(null);
+          void releaseScanner();
           onScanRef.current(code);
         };
 
@@ -270,13 +284,17 @@ export function AttendanceQrScanner({
       cancelled = true;
       bootingRef.current = false;
     };
-  }, [disabled, regionId, invalidQrMessage, releaseScanner]);
+  }, [disabled, paused, regionId, invalidQrMessage, releaseScanner]);
 
   return (
-    <div className={`relative overflow-hidden bg-black ${className}`}>
-      <div id={regionId} className="attendance-scanner absolute inset-0" />
+    <div className={`relative h-full w-full overflow-hidden bg-black ${className}`}>
+      <div id={regionId} className="attendance-scanner absolute inset-0 h-full w-full" />
 
-      {active && <ScanSpotlight />}
+      {active && !paused && <ScanSpotlight />}
+
+      {paused && !starting && (
+        <div className="absolute inset-0 z-[3] bg-black/80 backdrop-blur-[2px]" aria-hidden />
+      )}
 
       {starting && !active && !error && (
         <div className="absolute inset-0 z-[4] flex flex-col items-center justify-center gap-3 bg-black">
