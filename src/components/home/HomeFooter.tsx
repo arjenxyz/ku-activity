@@ -37,9 +37,8 @@ export function HomeFooter() {
               </div>
             </div>
             <p className="text-slate-300 text-sm leading-relaxed max-w-md">
-              {APP_NAME}, <strong className="text-white">{DEFAULT_DEVELOPER_NAME}</strong> tarafından geliştirilen
-              gönüllülük esaslı personel takip platformudur. Herhangi bir şirkete bağlı değildir;
-              kullanım zorunlu değildir.
+              İnşaat sektörü için personel yönetim sistemi — yevmiye, avans, yoklama ve puantaj tek
+              platformda.
             </p>
             <div className="flex gap-3">
               {['twitter', 'linkedin'].map((social) => (
@@ -88,7 +87,7 @@ export function HomeFooter() {
         </div>
 
         <div className="border-t border-slate-800 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <p className="text-slate-400 text-sm">© 2026 {APP_NAME} · {DEFAULT_DEVELOPER_NAME}</p>
+          <p className="text-slate-400 text-sm">© 2026 {APP_NAME}</p>
           <div className="flex flex-wrap justify-center gap-5 text-sm">
             <Link href="/gizlilik" className="text-slate-400 hover:text-white transition-colors">Gizlilik</Link>
             <Link href="/kullanim-sartlari" className="text-slate-400 hover:text-white transition-colors">Kullanım Şartları</Link>
