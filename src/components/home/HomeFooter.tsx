@@ -37,8 +37,9 @@ export function HomeFooter() {
               </div>
             </div>
             <p className="text-slate-300 text-sm leading-relaxed max-w-md">
-              İnşaat sektörü için özel geliştirilmiş personel yönetim sistemi ile şantiye operasyonlarınızı{' '}
-              <span className="text-white font-medium">profesyonel düzeye taşıyoruz</span>.
+              {APP_NAME}, <strong className="text-white">Arjen Esen</strong> tarafından geliştirilen
+              gönüllülük esaslı personel takip platformudur. Herhangi bir şirkete bağlı değildir;
+              kullanım zorunlu değildir.
             </p>
             <div className="flex gap-3">
               {['twitter', 'linkedin'].map((social) => (
@@ -87,11 +88,12 @@ export function HomeFooter() {
         </div>
 
         <div className="border-t border-slate-800 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <p className="text-slate-400 text-sm">© 2026 {APP_NAME}. All rights reserved.</p>
+          <p className="text-slate-400 text-sm">© 2026 {APP_NAME} · Arjen Esen</p>
           <div className="flex flex-wrap justify-center gap-5 text-sm">
-            <Link href="/gizlilik" className="text-slate-400 hover:text-white transition-colors">Gizlilik Politikası</Link>
-            <a href="#" className="text-slate-400 hover:text-white transition-colors">Kullanım Şartları</a>
-            <a href="#" className="text-slate-400 hover:text-white transition-colors">KVKK</a>
+            <Link href="/gizlilik" className="text-slate-400 hover:text-white transition-colors">Gizlilik</Link>
+            <Link href="/kullanim-sartlari" className="text-slate-400 hover:text-white transition-colors">Kullanım Şartları</Link>
+            <Link href="/kvkk" className="text-slate-400 hover:text-white transition-colors">KVKK</Link>
+            <a href="#proje-hakkinda" className="text-slate-400 hover:text-white transition-colors">Gönüllülük Projesi</a>
           </div>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { DEFAULT_SUPPORT_EMAIL } from '@/lib/brand';
+import { getPlatformInfo } from '@/lib/platform-config';
 
 export type CompanyInfo = {
   legalName: string;
@@ -14,24 +14,20 @@ export type CompanyInfo = {
   authorizedRep: string;
 };
 
+/** Sözleşme yer tutucuları — tüzel şirket yerine gönüllülük platformu bilgileri */
 export function getCompanyInfo(): CompanyInfo {
+  const platform = getPlatformInfo();
   return {
-    legalName:
-      process.env.COMPANY_LEGAL_NAME?.trim() ||
-      'Örnek İnşaat ve Taşeronluk Anonim Şirketi',
-    tradeName: process.env.COMPANY_TRADE_NAME?.trim() || 'CrewLedger Demo İşletmesi',
-    address:
-      process.env.COMPANY_ADDRESS?.trim() ||
-      'Örnek Mah. Şantiye Cad. No:1, 34000 İstanbul',
-    city: process.env.COMPANY_CITY?.trim() || 'İstanbul',
-    taxOffice: process.env.COMPANY_TAX_OFFICE?.trim() || 'Örnek Vergi Dairesi',
-    taxId: process.env.COMPANY_TAX_ID?.trim() || '0000000000',
-    mersisNo: process.env.COMPANY_MERSIS?.trim() || '0000-0000-0000-0000',
-    email: process.env.COMPANY_EMAIL?.trim() || DEFAULT_SUPPORT_EMAIL,
-    phone: process.env.COMPANY_PHONE?.trim() || '+90 212 000 00 00',
-    dataController:
-      process.env.COMPANY_DATA_CONTROLLER?.trim() ||
-      'Proje Yöneticisi / İnsan Kaynakları Sorumlusu',
-    authorizedRep: process.env.COMPANY_AUTHORIZED_REP?.trim() || 'Yetkili Temsilci',
+    legalName: `${platform.name} (${platform.nature} — tüzel kişilik yoktur)`,
+    tradeName: platform.name,
+    address: 'Merkez adresi bulunmamaktadır — dijital platform',
+    city: 'Türkiye',
+    taxOffice: 'Uygulanmaz (tüzel kişilik yok)',
+    taxId: 'Uygulanmaz',
+    mersisNo: 'Uygulanmaz',
+    email: platform.contactEmail,
+    phone: 'Belirtilmemiş',
+    dataController: `${platform.developerName} (${platform.developerRole})`,
+    authorizedRep: platform.developerName,
   };
 }
