@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { BrandMark } from '@/components/brand/BrandMark';
 import { SkyTwinkleStars } from '@/components/home/SkyTwinkleStars';
-import { APP_NAME, APP_TAGLINE_TR } from '@/lib/brand';
+import { APP_NAME, APP_TAGLINE_TR, DEFAULT_DEVELOPER_NAME } from '@/lib/brand';
 import { SUPPORT_EMAIL, verificationCodeMailto } from '@/lib/support-email';
 
 export function HomeFooter() {
@@ -37,7 +37,7 @@ export function HomeFooter() {
               </div>
             </div>
             <p className="text-slate-300 text-sm leading-relaxed max-w-md">
-              {APP_NAME}, <strong className="text-white">Arjen Esen</strong> tarafından geliştirilen
+              {APP_NAME}, <strong className="text-white">{DEFAULT_DEVELOPER_NAME}</strong> tarafından geliştirilen
               gönüllülük esaslı personel takip platformudur. Herhangi bir şirkete bağlı değildir;
               kullanım zorunlu değildir.
             </p>
@@ -88,7 +88,7 @@ export function HomeFooter() {
         </div>
 
         <div className="border-t border-slate-800 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <p className="text-slate-400 text-sm">© 2026 {APP_NAME} · Arjen Esen</p>
+          <p className="text-slate-400 text-sm">© 2026 {APP_NAME} · {DEFAULT_DEVELOPER_NAME}</p>
           <div className="flex flex-wrap justify-center gap-5 text-sm">
             <Link href="/gizlilik" className="text-slate-400 hover:text-white transition-colors">Gizlilik</Link>
             <Link href="/kullanim-sartlari" className="text-slate-400 hover:text-white transition-colors">Kullanım Şartları</Link>

@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { HeroPlayStorePromo } from '@/components/home/HeroPlayStorePromo';
 import { LoginRoleButton } from '@/components/home/LoginRolePicker';
+import { DEFAULT_DEVELOPER_NAME } from '@/lib/brand';
 
 export function HeroSection() {
   return (
@@ -45,7 +46,7 @@ export function HeroSection() {
 
           <p className="mt-6 text-lg text-gray-600 dark:text-gray-300 max-w-xl leading-relaxed">
             Yevmiye, avans, kesinti, yoklama ve puantaj — hem yönetici hem personel panelinde
-            görünür. <strong className="font-medium text-gray-800 dark:text-gray-200">Arjen Esen</strong>{' '}
+            görünür. <strong className="font-medium text-gray-800 dark:text-gray-200">{DEFAULT_DEVELOPER_NAME}</strong>{' '}
             tarafından geliştirilen, kar amacı gütmeyen gönüllük platformu; kullanım zorunlu değildir.
           </p>
 

@@ -1,4 +1,4 @@
-import { APP_NAME, DEFAULT_APP_URL, DEFAULT_SUPPORT_EMAIL } from '@/lib/brand';
+import { APP_NAME, DEFAULT_APP_URL, DEFAULT_DEVELOPER_NAME, DEFAULT_SUPPORT_EMAIL } from '@/lib/brand';
 
 export type PlatformInfo = {
   name: string;
@@ -19,7 +19,7 @@ export function getPlatformInfo(): PlatformInfo {
     nature:
       process.env.PLATFORM_NATURE?.trim() ||
       'kar amacı gütmeyen, gönüllülük esaslı dijital personel takip platformu',
-    developerName: process.env.PLATFORM_DEVELOPER_NAME?.trim() || 'Arjen Esen',
+    developerName: process.env.PLATFORM_DEVELOPER_NAME?.trim() || DEFAULT_DEVELOPER_NAME,
     developerRole:
       process.env.PLATFORM_DEVELOPER_ROLE?.trim() ||
       'bireysel geliştirici ve platform operatörü',
