@@ -5,6 +5,8 @@ import {
   normalizeIban,
 } from '@/lib/field-encryption';
 import type { DekontOcrResult } from '@/lib/dekont-ocr';
+import { formatString } from '@/lib/strings/format';
+import strings from '@json/src/lib/advance-dekont-match.json';
 
 export type DekontMatchSuggestion = {
   requestId: string;
@@ -83,24 +85,29 @@ export async function suggestAdvanceMatches(
       const employeeHash = employeeIbanCache.get(row.employee_id);
       if (employeeHash && employeeHash === ibanHash) {
         score += 50;
-        reasons.push('Alıcı IBAN personel kaydıyla eşleşti');
+        reasons.push(strings.reasons.ibanMatch);
       }
     }
 
     if (params.ocr.amount != null && amountClose(params.ocr.amount, approvedAmount)) {
       score += 35;
-      reasons.push(`Tutar uyumlu (${params.ocr.amount} ≈ ${approvedAmount})`);
+      reasons.push(
+        formatString(strings.reasons.amountMatch, {
+          ocrAmount: params.ocr.amount,
+          approvedAmount,
+        })
+      );
     } else if (params.ocr.amount != null) {
       const diff = Math.abs(params.ocr.amount - approvedAmount);
       if (diff <= 50) {
         score += 15;
-        reasons.push('Tutar yakın');
+        reasons.push(strings.reasons.amountClose);
       }
     }
 
     if (params.ocr.referenceNo) {
       score += 5;
-      reasons.push('Referans no okundu');
+      reasons.push(strings.reasons.referenceRead);
     }
 
     const employeeCountForIban =
@@ -108,7 +115,7 @@ export async function suggestAdvanceMatches(
       [...employeeIbanCache.entries()].filter(([, h]) => h === ibanHash).length === 1;
     if (employeeCountForIban) {
       score += 10;
-      reasons.push('Tek aday personel');
+      reasons.push(strings.reasons.singleCandidate);
     }
 
     if (score <= 0) continue;
@@ -121,7 +128,7 @@ export async function suggestAdvanceMatches(
       projectId: row.project_id,
       projectName: projects?.name ?? null,
       employeeId: row.employee_id,
-      employeeName: employees?.name ?? 'Personel',
+      employeeName: employees?.name ?? strings.employeeFallback,
       approvedAmount,
       score,
       reasons,
@@ -134,6 +141,6 @@ export async function suggestAdvanceMatches(
 }
 
 export function formatOcrIban(iban: string | null) {
-  if (!iban) return '—';
+  if (!iban) return strings.ibanEmpty;
   return normalizeIban(iban).replace(/(.{4})/g, '$1 ').trim();
 }

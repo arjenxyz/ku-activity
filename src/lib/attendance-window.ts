@@ -2,6 +2,8 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 import type { SupabaseClient } from '@supabase/supabase-js';
+import { formatString } from '@/lib/strings/format';
+import strings from '@json/src/lib/attendance-window.json';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -59,7 +61,7 @@ export async function loadProjectAttendanceSchedule(
     .maybeSingle();
 
   if (error) throw new Error(error.message);
-  if (!data) throw new Error('Proje bulunamadı');
+  if (!data) throw new Error(strings.errors.projectNotFound);
 
   return scheduleFromProjectRow(data);
 }
@@ -132,11 +134,21 @@ export function getAttendanceWindowStatus(
 
   let message: string;
   if (isOpen) {
-    message = `${date} yoklaması şu an açık (${startLabel} – ${endLabel}, ${schedule.timezone}).`;
+    message = formatString(strings.messages.open, {
+      date,
+      startLabel,
+      endLabel,
+      timezone: schedule.timezone,
+    });
   } else if (currentOpenWorkDate) {
-    message = `Bu tarih için yoklama kapalı. Şu an ${currentOpenWorkDate} günü için yoklama yapılabilir.`;
+    message = formatString(strings.messages.otherDateOpen, { currentOpenWorkDate });
   } else {
-    message = `Yoklama penceresi kapalı. ${date} için izin verilen süre: ${startLabel} – ${endLabel} (${schedule.timezone}). İş bitişinden sonra, ertesi iş başından 1 dk öncesine kadar.`;
+    message = formatString(strings.messages.closed, {
+      date,
+      startLabel,
+      endLabel,
+      timezone: schedule.timezone,
+    });
   }
 
   return {
@@ -163,7 +175,12 @@ export function assertAttendanceWindowOpen(
 
   const status = getAttendanceWindowStatus(workDate, schedule, now);
   throw new Error(
-    `Yoklama saati dışında. ${status.workDate} için izin verilen süre: ${status.windowStartLabel} – ${status.windowEndLabel} (${status.timezone}).`
+    formatString(strings.errors.outsideWindow, {
+      workDate: status.workDate,
+      windowStartLabel: status.windowStartLabel,
+      windowEndLabel: status.windowEndLabel,
+      timezone: status.timezone,
+    })
   );
 }
 
@@ -199,15 +216,7 @@ export function getProjectCalendarDate(
   return dayjs(now).tz(schedule.timezone).format('YYYY-MM-DD');
 }
 
-export const COMMON_PROJECT_TIMEZONES = [
-  { value: 'Europe/Istanbul', label: 'Türkiye (İstanbul)' },
-  { value: 'Europe/Berlin', label: 'Almanya (Berlin)' },
-  { value: 'Europe/London', label: 'İngiltere (Londra)' },
-  { value: 'Europe/Paris', label: 'Fransa (Paris)' },
-  { value: 'Europe/Amsterdam', label: 'Hollanda (Amsterdam)' },
-  { value: 'Asia/Dubai', label: 'BAE (Dubai)' },
-  { value: 'Asia/Riyadh', label: 'Suudi Arabistan (Riyad)' },
-  { value: 'Asia/Qatar', label: 'Katar (Doha)' },
-  { value: 'Asia/Baku', label: 'Azerbaycan (Bakü)' },
-  { value: 'Europe/Moscow', label: 'Rusya (Moskova)' },
-] as const;
+export const COMMON_PROJECT_TIMEZONES = strings.timezones as ReadonlyArray<{
+  value: string;
+  label: string;
+}>;

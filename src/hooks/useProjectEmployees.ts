@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { fetchProjectEmployees, type ProjectEmployee } from '@/lib/project-api';
+import strings from '@json/src/hooks/useProjectEmployees.json';
 
 export function useProjectEmployees(projectId: string | undefined) {
   const [employees, setEmployees] = useState<ProjectEmployee[]>([]);
@@ -16,7 +17,7 @@ export function useProjectEmployees(projectId: string | undefined) {
       const data = await fetchProjectEmployees(projectId);
       setEmployees(data.filter((e) => e.is_active));
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Personel yüklenemedi');
+      setError(e instanceof Error ? e.message : strings.loadFailed);
     } finally {
       setLoading(false);
     }

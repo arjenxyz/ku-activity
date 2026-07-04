@@ -1,3 +1,5 @@
+import strings from '@json/src/types/wage-policy.json';
+
 /** Yevmiye ne zaman ödenir (birden fazla seçilebilir) */
 export type YevmiyePaymentTrigger = 'month_end' | 'roof_complete' | 'job_complete';
 
@@ -39,23 +41,14 @@ export const DEFAULT_WAGE_POLICY: WagePolicy = {
   configuredAt: null,
 };
 
-export const YEVMIYE_TRIGGER_LABELS: Record<YevmiyePaymentTrigger, string> = {
-  month_end: 'Ay sonunda',
-  roof_complete: 'Çatı / aşama bitince',
-  job_complete: 'İş bitiminde',
-};
+export const YEVMIYE_TRIGGER_LABELS: Record<YevmiyePaymentTrigger, string> =
+  strings.yevmiyeTriggerLabels as Record<YevmiyePaymentTrigger, string>;
 
-export const PRORATION_MODE_LABELS: Record<AsgariProrationMode, string> = {
-  calendar_days: 'İşe girişten ay sonuna (takvim günü)',
-  worked_days: 'Sadece çalışılan güne göre',
-  full_month: 'Her zaman tam ay (oranlama yok)',
-};
+export const PRORATION_MODE_LABELS: Record<AsgariProrationMode, string> =
+  strings.prorationModeLabels as Record<AsgariProrationMode, string>;
 
-export const DEKONT_DEDUCTION_LABELS: Record<DekontDeductionMode, string> = {
-  manual_review: 'Dekontu admin onaylasın (BES/kesinti elle)',
-  ignore: 'Kesintileri yok say (sadece net yatan tutar)',
-  auto_separate: 'Kesintileri ayrı satır olarak kaydet (ileride)',
-};
+export const DEKONT_DEDUCTION_LABELS: Record<DekontDeductionMode, string> =
+  strings.dekontDeductionLabels as Record<DekontDeductionMode, string>;
 
 export function normalizeWagePolicy(raw: unknown): WagePolicy {
   const o = raw && typeof raw === 'object' ? (raw as Record<string, unknown>) : {};

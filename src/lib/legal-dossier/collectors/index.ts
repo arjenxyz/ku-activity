@@ -2,6 +2,7 @@ import { decryptField } from '@/lib/field-encryption';
 import { applyContractPlaceholders } from '@/lib/contract-templates';
 import { getCompanyInfo } from '@/lib/company-config';
 import { approvalStatusLabel, formatWorkLogSummary, getWorkLogApprovalStatus } from '@/lib/work-log';
+import strings from '@json/src/lib/legal-dossier/collectors/index.json';
 import { registerDossierCollector } from '../registry';
 import { jsonFile, toCsv } from '../utils';
 import type { DossierFile } from '../types';
@@ -12,7 +13,7 @@ function formatTime(t: string | null | undefined) {
 
 registerDossierCollector({
   id: 'profile',
-  title: 'Personel profili',
+  title: strings.collectors.profile.title,
   order: 10,
   async collect(ctx) {
     const { data: emp, error } = await ctx.admin
@@ -24,7 +25,7 @@ registerDossierCollector({
       .eq('project_id', ctx.projectId)
       .maybeSingle();
 
-    if (error || !emp) throw new Error('Personel bulunamadı');
+    if (error || !emp) throw new Error(strings.errors.employeeNotFound);
 
     return [jsonFile('01-profil/personel.json', emp)];
   },
@@ -32,7 +33,7 @@ registerDossierCollector({
 
 registerDossierCollector({
   id: 'sensitive',
-  title: 'Hassas kimlik ve banka bilgileri',
+  title: strings.collectors.sensitive.title,
   order: 20,
   async collect(ctx) {
     const { data } = await ctx.admin
@@ -44,7 +45,7 @@ registerDossierCollector({
     if (!data || !process.env.FIELD_ENCRYPTION_KEY) {
       return [
         jsonFile('02-hassas/veriler.json', {
-          note: 'Hassas veri kaydı bulunamadı veya şifreleme yapılandırılmamış',
+          note: strings.collectors.sensitive.noDataNote,
         }),
       ];
     }
@@ -63,7 +64,7 @@ registerDossierCollector({
 
 registerDossierCollector({
   id: 'project',
-  title: 'Proje ve çalışma yeri',
+  title: strings.collectors.project.title,
   order: 30,
   async collect(ctx) {
     const { data: project } = await ctx.admin
@@ -90,7 +91,7 @@ registerDossierCollector({
 
 registerDossierCollector({
   id: 'work_logs',
-  title: 'Yevmiye ve puantaj kayıtları',
+  title: strings.collectors.workLogs.title,
   order: 40,
   async collect(ctx) {
     const { data: logs } = await ctx.admin
@@ -147,7 +148,7 @@ registerDossierCollector({
 
 registerDossierCollector({
   id: 'deductions',
-  title: 'Avans ve kesintiler',
+  title: strings.collectors.deductions.title,
   order: 50,
   async collect(ctx) {
     const { data } = await ctx.admin
@@ -171,7 +172,7 @@ registerDossierCollector({
 
 registerDossierCollector({
   id: 'minimum_wages',
-  title: 'Asgari ücret kayıtları',
+  title: strings.collectors.minimumWages.title,
   order: 60,
   async collect(ctx) {
     const { data } = await ctx.admin
@@ -195,7 +196,7 @@ registerDossierCollector({
 
 registerDossierCollector({
   id: 'payroll',
-  title: 'Bordro dönemleri ve satırlar',
+  title: strings.collectors.payroll.title,
   order: 70,
   async collect(ctx) {
     const { data: lines } = await ctx.admin
@@ -232,7 +233,7 @@ registerDossierCollector({
 
 registerDossierCollector({
   id: 'contracts',
-  title: 'Sözleşme onayları ve metinleri',
+  title: strings.collectors.contracts.title,
   order: 80,
   async collect(ctx) {
     const { data } = await ctx.admin
@@ -285,9 +286,9 @@ registerDossierCollector({
 .contract-meta{background:#f8fafc;border:1px solid #e2e8f0;padding:1rem;border-radius:8px;margin-bottom:1rem;font-size:0.85rem}
 </style></head><body>
 <div class="contract-meta">
-<p><strong>Onay:</strong> ${row.accepted_at}</p>
-<p><strong>Sürüm:</strong> ${row.contract_version}</p>
-${row.content_hash ? `<p><strong>İçerik hash:</strong> <code>${row.content_hash}</code></p>` : ''}
+<p><strong>${strings.contractHtml.approvedLabel}</strong> ${row.accepted_at}</p>
+<p><strong>${strings.contractHtml.versionLabel}</strong> ${row.contract_version}</p>
+${row.content_hash ? `<p><strong>${strings.contractHtml.contentHashLabel}</strong> <code>${row.content_hash}</code></p>` : ''}
 </div>
 ${html}
 </body></html>`;
@@ -305,7 +306,7 @@ ${html}
 
 registerDossierCollector({
   id: 'registration',
-  title: 'Başvuru ve onay geçmişi',
+  title: strings.collectors.registration.title,
   order: 90,
   async collect(ctx) {
     const { data: emp } = await ctx.admin
@@ -353,7 +354,7 @@ registerDossierCollector({
 
 registerDossierCollector({
   id: 'company',
-  title: 'İşletme / veri sorumlusu bilgisi',
+  title: strings.collectors.company.title,
   order: 5,
   async collect() {
     return [jsonFile('00-meta/isletme.json', getCompanyInfo())];
@@ -363,22 +364,14 @@ registerDossierCollector({
 /** Gelecek modüller için yer tutucu — örnek: izin talepleri, belgeler, disiplin */
 registerDossierCollector({
   id: 'extensions_placeholder',
-  title: 'Genişletilebilir modül alanı',
+  title: strings.collectors.extensionsPlaceholder.title,
   order: 999,
   async collect() {
     return [
       jsonFile('99-gelecek/README.json', {
-        message:
-          'CrewLedger hukuki dosya sistemi genişletilebilir. Yeni özellikler registerDossierCollector() ile eklenir.',
-        reservedModules: [
-          'leave_requests — İzin / devamsızlık talepleri',
-          'documents — Yüklenen belgeler',
-          'disciplinary — Disiplin kayıtları',
-          'communications — Bildirim ve mesaj logları',
-          'attendance_devices — Cihaz bazlı yoklama',
-        ],
-        integration:
-          'src/lib/legal-dossier/collectors/ altına yeni dosya ekleyip registerDossierCollector çağırın.',
+        message: strings.extensionsPlaceholder.message,
+        reservedModules: strings.extensionsPlaceholder.reservedModules,
+        integration: strings.extensionsPlaceholder.integration,
       }),
     ];
   },

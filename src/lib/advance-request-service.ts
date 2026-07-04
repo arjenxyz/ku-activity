@@ -7,6 +7,7 @@ import {
 } from '@/lib/advance-cash-token';
 import { uploadAdvanceDekont, type StorageBackend } from '@/lib/advance-external-storage';
 import type { AdvancePaymentMethod, AdvanceRequestStatus } from '@/lib/advance-types';
+import { formatString } from '@/lib/strings/format';
 import strings from '@json/src/lib/advance-request-service.json';
 
 export class AdvanceRequestError extends Error {
@@ -28,7 +29,7 @@ async function loadRequest(admin: SupabaseClient, requestId: string, projectId?:
   const { data, error } = await q.maybeSingle();
   if (error) {
     if (error.message.includes('advance_requests')) {
-      throw new AdvanceRequestError('056_advance_requests.sql çalıştırın', 'MIGRATION', 503);
+      throw new AdvanceRequestError(strings.migrationHint, 'MIGRATION', 503);
     }
     throw new AdvanceRequestError(error.message, 'DB', 500);
   }
@@ -103,7 +104,7 @@ export async function createAdvanceRequest(
 
   if (error) {
     if (error.message.includes('advance_requests')) {
-      throw new AdvanceRequestError('056_advance_requests.sql çalıştırın', 'MIGRATION', 503);
+      throw new AdvanceRequestError(strings.migrationHint, 'MIGRATION', 503);
     }
     throw new AdvanceRequestError(error.message, 'DB', 500);
   }
@@ -279,7 +280,9 @@ export async function recordBankPayment(
     employeeId: row.employee_id,
     amount,
     date: payDate,
-    description: `Avans (talep ${params.requestId.slice(0, 8)})`,
+    description: formatString(strings.deductionDescriptionBank, {
+      requestIdPrefix: params.requestId.slice(0, 8),
+    }),
     jobId: row.job_id,
   });
 
@@ -324,7 +327,7 @@ export async function confirmCashAdvance(
 
   if (tokenError) {
     if (tokenError.message.includes('advance_cash_tokens')) {
-      throw new AdvanceRequestError('056_advance_requests.sql çalıştırın', 'MIGRATION', 503);
+      throw new AdvanceRequestError(strings.migrationHint, 'MIGRATION', 503);
     }
     throw new AdvanceRequestError(tokenError.message, 'DB', 500);
   }
@@ -365,7 +368,9 @@ export async function confirmCashAdvance(
     employeeId: request.employee_id,
     amount,
     date: payDate,
-    description: `Nakit avans (talep ${request.id.slice(0, 8)})`,
+    description: formatString(strings.deductionDescriptionCash, {
+      requestIdPrefix: request.id.slice(0, 8),
+    }),
     jobId: request.job_id,
   });
 

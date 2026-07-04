@@ -1,0 +1,79 @@
+{
+  "tabTitles": {
+    "overview": "Ana Sayfa",
+    "work": "Yevmiye",
+    "mesai": "Mesai",
+    "asgari": "Asgari Ücret",
+    "finance": "Finans",
+    "rights": "Haklarım",
+    "settings": "Ayarlar"
+  },
+  "hubSections": [
+    {
+      "title": "Sahada",
+      "subtitle": "Günlük çalışma kayıtları",
+      "items": [
+        {
+          "id": "work",
+          "tab": "work",
+          "label": "Yevmiye",
+          "description": "Çalışılan günler"
+        },
+        {
+          "id": "mesai",
+          "tab": "mesai",
+          "label": "Mesai",
+          "description": "Fazla mesai"
+        },
+        {
+          "id": "yoklama",
+          "href": "/personnel-panel/yoklama",
+          "label": "Yoklama",
+          "description": "QR ile giriş"
+        }
+      ]
+    },
+    {
+      "title": "Finans",
+      "subtitle": "Maaş ve ödemeler",
+      "items": [
+        {
+          "id": "finance",
+          "tab": "finance",
+          "label": "Bordro",
+          "description": "Net maaş özeti"
+        },
+        {
+          "id": "avans",
+          "href": "/personnel-panel/avans",
+          "label": "Avans talebi",
+          "description": "Talep oluştur ve takip et"
+        },
+        {
+          "id": "asgari",
+          "tab": "asgari",
+          "label": "Asgari",
+          "description": "Tamamlama durumu"
+        }
+      ]
+    },
+    {
+      "title": "Hesabım",
+      "subtitle": "Profil ve belgeler",
+      "items": [
+        {
+          "id": "rights",
+          "tab": "rights",
+          "label": "Haklarım",
+          "description": "Sözleşmeler"
+        },
+        {
+          "id": "settings",
+          "tab": "settings",
+          "label": "Ayarlar",
+          "description": "PIN ve profil"
+        }
+      ]
+    }
+  ]
+}

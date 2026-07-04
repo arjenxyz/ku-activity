@@ -1,4 +1,7 @@
 {
+  "migrationHint": "056_advance_requests.sql çalıştırın",
+  "deductionDescriptionBank": "Avans (talep {requestIdPrefix})",
+  "deductionDescriptionCash": "Nakit avans (talep {requestIdPrefix})",
   "notFound": "Talep bulunamadı",
   "invalidAmount": "Geçerli bir tutar girin",
   "forbidden": "Bu talebe erişiminiz yok",

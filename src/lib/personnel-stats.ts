@@ -1,5 +1,7 @@
 import dayjs from 'dayjs';
+import strings from '@json/src/lib/personnel-stats.json';
 import { computeNetPay } from '@/lib/minimum-wage';
+import { formatString } from '@/lib/strings/format';
 import { getWorkLogApprovalStatus, type MesaiType } from '@/lib/work-log';
 
 export type WorkLog = {
@@ -60,22 +62,21 @@ export type MesaiStats = {
 };
 
 export function workDayLabel(amount: number, mesaiType?: MesaiType | string | null) {
-  const base = amount === 1 ? 'Tam gün' : amount === 0.5 ? 'Yarım gün' : `${amount} gün`;
+  const base =
+    amount === 1
+      ? strings.workDay.fullDay
+      : amount === 0.5
+        ? strings.workDay.halfDay
+        : formatString(strings.workDay.dayAmount, { amount });
   if (!mesaiType || mesaiType === 'none') return base;
-  if (mesaiType === 'ceyrek') return `${base} + çeyrek mesai`;
-  if (mesaiType === 'yarim') return `${base} + yarım mesai`;
-  if (mesaiType === 'tam') return `${base} + tam mesai`;
+  if (mesaiType === 'ceyrek') return formatString(strings.workDay.mesaiCeyrek, { base });
+  if (mesaiType === 'yarim') return formatString(strings.workDay.mesaiYarim, { base });
+  if (mesaiType === 'tam') return formatString(strings.workDay.mesaiTam, { base });
   return base;
 }
 
 export function deductionTypeLabel(type: string) {
-  const map: Record<string, string> = {
-    advance: 'Avans',
-    deduction: 'Kesinti',
-    other: 'Diğer',
-    subcontractor_cut: 'Taşeron kesintisi',
-    minimum: 'Asgari',
-  };
+  const map = strings.deductionTypes as Record<string, string>;
   return map[type] ?? type;
 }
 
@@ -133,9 +134,9 @@ export function getMesaiCountLines(
   stats: Pick<MesaiStats, 'byType'>
 ): Array<{ count: number; label: string }> {
   return [
-    { count: stats.byType.tam.count, label: 'Tam mesai' },
-    { count: stats.byType.ceyrek.count, label: 'Çeyrek mesai' },
-    { count: stats.byType.yarim.count, label: 'Yarım mesai' },
+    { count: stats.byType.tam.count, label: strings.mesaiCountLines.tam },
+    { count: stats.byType.ceyrek.count, label: strings.mesaiCountLines.ceyrek },
+    { count: stats.byType.yarim.count, label: strings.mesaiCountLines.yarim },
   ];
 }
 
@@ -156,9 +157,9 @@ export function getWorkDayCountLines(
   const totalDisplay = total % 1 === 0 ? String(total) : total.toFixed(1);
 
   return [
-    { count: full, label: 'Tam gün' },
-    { count: half, label: 'Yarım gün' },
-    { count: total, label: 'Toplam gün', display: totalDisplay },
+    { count: full, label: strings.workDayCountLines.full },
+    { count: half, label: strings.workDayCountLines.half },
+    { count: total, label: strings.workDayCountLines.total, display: totalDisplay },
   ];
 }
 

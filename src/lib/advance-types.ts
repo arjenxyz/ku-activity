@@ -1,3 +1,5 @@
+import strings from '@json/src/lib/advance-types.json';
+
 export type AdvanceRequestStatus =
   | 'pending'
   | 'approved'
@@ -9,20 +11,11 @@ export type AdvanceRequestStatus =
 
 export type AdvancePaymentMethod = 'bank_transfer' | 'cash';
 
-export const ADVANCE_STATUS_LABELS: Record<AdvanceRequestStatus, string> = {
-  pending: 'Talep bekliyor',
-  approved: 'Onaylandı — ödeme bekleniyor',
-  awaiting_receipt: 'Nakit teslimi bekleniyor',
-  paid: 'Ödendi',
-  rejected: 'Reddedildi',
-  cancelled: 'İptal edildi',
-  expired: 'Süresi doldu',
-};
+export const ADVANCE_STATUS_LABELS: Record<AdvanceRequestStatus, string> =
+  strings.statusLabels as Record<AdvanceRequestStatus, string>;
 
-export const ADVANCE_PAYMENT_METHOD_LABELS: Record<AdvancePaymentMethod, string> = {
-  bank_transfer: 'Havale / EFT',
-  cash: 'Nakit',
-};
+export const ADVANCE_PAYMENT_METHOD_LABELS: Record<AdvancePaymentMethod, string> =
+  strings.paymentMethodLabels as Record<AdvancePaymentMethod, string>;
 
 export type AdvanceRequestRow = {
   id: string;

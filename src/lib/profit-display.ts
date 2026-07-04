@@ -1,4 +1,6 @@
+import strings from '@json/src/lib/profit-display.json';
 import { formatMoney } from '@/lib/format';
+import { formatString } from '@/lib/strings/format';
 import type { JobProfitSummary } from '@/types/project-job';
 
 export function profitMarginPercent(profit: number, contractTotal: number): number {
@@ -15,38 +17,43 @@ export type WaterfallLine = {
 };
 
 export function buildJobWaterfall(item: JobProfitSummary): WaterfallLine[] {
+  const w = strings.waterfall;
   const lines: WaterfallLine[] = [
     {
       id: 'contract',
-      label: 'Üst taşerondan alacak',
+      label: w.contract.label,
       amount: item.contractTotal,
       tone: 'income',
-      hint: `${item.job.unit_price} ₺/${item.job.unit_label} × ${item.job.quantity} ${item.job.unit_label}`,
+      hint: formatString(w.contract.hint, {
+        unitPrice: item.job.unit_price,
+        unitLabel: item.job.unit_label,
+        quantity: item.job.quantity,
+      }),
     },
   ];
 
   if (item.laborCostApproved > 0 || item.approvedWorkDays > 0) {
     lines.push({
       id: 'labor',
-      label: 'İşçi yevmiyesi (onaylı)',
+      label: w.labor.label,
       amount: -item.laborCostApproved,
       tone: 'cost',
-      hint: `${item.approvedWorkDays} onaylı gün`,
+      hint: formatString(w.labor.hint, { approvedWorkDays: item.approvedWorkDays }),
     });
   }
   if (item.advancesCost > 0) {
     lines.push({
       id: 'advance',
-      label: 'Avanslar',
+      label: w.advance.label,
       amount: -item.advancesCost,
       tone: 'cost',
-      hint: 'Bu işe bağlı avans kayıtları',
+      hint: w.advance.hint,
     });
   }
   if (item.deductionsCost > 0) {
     lines.push({
       id: 'deduction',
-      label: 'Kesintiler',
+      label: w.deduction.label,
       amount: -item.deductionsCost,
       tone: 'cost',
     });
@@ -54,16 +61,16 @@ export function buildJobWaterfall(item: JobProfitSummary): WaterfallLine[] {
   if (item.materialCost > 0) {
     lines.push({
       id: 'material',
-      label: 'Malzeme gideri',
+      label: w.material.label,
       amount: -item.materialCost,
       tone: 'cost',
-      hint: `${item.expenses.length} kayıt`,
+      hint: formatString(w.material.hint, { expenseCount: item.expenses.length }),
     });
   }
 
   lines.push({
     id: 'profit',
-    label: 'Net kâr',
+    label: w.profit.label,
     amount: item.profitApproved,
     tone: 'total',
   });
@@ -71,7 +78,7 @@ export function buildJobWaterfall(item: JobProfitSummary): WaterfallLine[] {
   if (item.shareCount > 1) {
     lines.push({
       id: 'share',
-      label: `Ortak başı (${item.shareCount} kişi)`,
+      label: formatString(w.share.label, { shareCount: item.shareCount }),
       amount: item.profitPerShareApproved,
       tone: 'share',
     });

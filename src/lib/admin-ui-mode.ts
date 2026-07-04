@@ -1,13 +1,11 @@
 import type { ProjectMenuLink } from '@/config/projectMenu';
+import strings from '@json/src/lib/admin-ui-mode.json';
 
 export type AdminUiMode = 'simple' | 'advanced';
 
 export const ADMIN_UI_MODE_STORAGE_KEY = 'crewledger-admin-ui-mode';
 
-export const ADMIN_UI_MODE_LABELS: Record<AdminUiMode, string> = {
-  simple: 'Basit',
-  advanced: 'Gelişmiş',
-};
+export const ADMIN_UI_MODE_LABELS = strings.modeLabels as Record<AdminUiMode, string>;
 
 export function readAdminUiMode(): AdminUiMode {
   if (typeof window === 'undefined') return 'simple';
@@ -24,19 +22,19 @@ export function getSimpleMenuLinks(projectId: string): ProjectMenuLink[] {
   const id = projectId;
   return [
     {
-      label: 'Yoklama',
+      label: strings.simpleMenu.attendance.label,
       href: () => `/admin-panel/proje/${id}/yevmiye`,
-      hint: 'QR ile günlük yoklama',
+      hint: strings.simpleMenu.attendance.hint,
     },
     {
-      label: 'Avans',
+      label: strings.simpleMenu.advance.label,
       href: () => `/admin-panel/proje/${id}/avans`,
-      hint: 'Avans ekleme',
+      hint: strings.simpleMenu.advance.hint,
     },
     {
-      label: 'Kesinti',
+      label: strings.simpleMenu.deduction.label,
       href: () => `/admin-panel/proje/${id}/kesinti`,
-      hint: 'Kesinti ekleme',
+      hint: strings.simpleMenu.deduction.hint,
     },
   ];
 }

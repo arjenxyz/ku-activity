@@ -95,7 +95,7 @@ export function AdminMobileDrawerHeader({
         type="button"
         onClick={onClose}
         className="shrink-0 flex items-center justify-center w-9 h-9 rounded-lg text-slate-500 hover:bg-slate-100"
-        aria-label="Menüyü kapat"
+        aria-label={strings.closeMenuAriaLabel}
       >
         <FiX className="w-5 h-5" />
       </button>

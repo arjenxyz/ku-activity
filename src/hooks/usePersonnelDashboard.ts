@@ -14,6 +14,7 @@ import {
 } from '@/lib/personnel-api';
 import { computePersonnelStats, type Deduction, type MinimumWage, type WorkLog } from '@/lib/personnel-stats';
 import { computeNetPay } from '@/lib/minimum-wage';
+import strings from '@json/src/hooks/usePersonnelDashboard.json';
 
 type Options = {
   loadFinance?: boolean;
@@ -52,12 +53,12 @@ export function usePersonnelDashboard(month: string, options: Options = {}) {
           throw e;
         }
       }
-      if (!me) throw lastErr ?? new Error('Oturum geçersiz');
+      if (!me) throw lastErr ?? new Error(strings.sessionInvalid);
       setEmployee(me);
       const wl = await fetchPersonnelWorkLogs(month);
       setWorkLogs(wl);
     } catch (e) {
-      const msg = e instanceof Error ? e.message : 'Veri yüklenemedi';
+      const msg = e instanceof Error ? e.message : strings.loadFailed;
       if (msg.includes('Oturum') || msg.includes('401') || msg.includes('geçersiz')) {
         if (loadPendingRegistration()) {
           router.replace('/personnel-panel/basvuru');
@@ -85,7 +86,7 @@ export function usePersonnelDashboard(month: string, options: Options = {}) {
       setMinimumWages(min);
       setMonthStats(stats);
     } catch (e) {
-      const msg = e instanceof Error ? e.message : 'Finans verisi yüklenemedi';
+      const msg = e instanceof Error ? e.message : strings.financeLoadFailed;
       setError(msg);
     } finally {
       setFinanceLoading(false);

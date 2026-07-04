@@ -1,3 +1,5 @@
+import strings from '@json/src/types/project-block.json';
+
 export type ProjectBlockStatus = 'active' | 'completed';
 
 export type ProjectBlock = {
@@ -52,7 +54,5 @@ export type BlockProfitSummary = {
   teams: Array<{ id: string; name: string }>;
 };
 
-export const PROJECT_BLOCK_STATUS_LABELS: Record<ProjectBlockStatus, string> = {
-  active: 'Aktif',
-  completed: 'Tamamlandı',
-};
+export const PROJECT_BLOCK_STATUS_LABELS: Record<ProjectBlockStatus, string> =
+  strings.statusLabels as Record<ProjectBlockStatus, string>;

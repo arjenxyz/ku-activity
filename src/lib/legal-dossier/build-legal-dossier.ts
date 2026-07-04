@@ -1,6 +1,8 @@
 import { createAdminClient } from '@/utils/supabase/admin';
 import { decryptField } from '@/lib/field-encryption';
 import { APP_NAME } from '@/lib/brand';
+import { formatString } from '@/lib/strings/format';
+import strings from '@json/src/lib/legal-dossier/build-legal-dossier.json';
 import './collectors';
 import { getDossierCollectors } from './registry';
 import { renderDossierSummaryHtml } from './render-summary-html';
@@ -27,7 +29,9 @@ async function assertPersonnelExportQuota(employeeId: string) {
   if (error && !error.message.includes('export_type')) return;
   if ((count ?? 0) >= PERSONNEL_SELF_EXPORT_DAILY_LIMIT) {
     throw new Error(
-      `Günlük indirme limitine ulaştınız (${PERSONNEL_SELF_EXPORT_DAILY_LIMIT}). Yarın tekrar deneyin.`
+      formatString(strings.errors.dailyLimitReached, {
+        limit: PERSONNEL_SELF_EXPORT_DAILY_LIMIT,
+      })
     );
   }
 }
@@ -57,21 +61,7 @@ async function logExport(params: {
   }
 }
 
-const PERSONNEL_FAIRNESS_MANIFEST = {
-  title: 'CrewLedger Adil Kayıt İlkeleri',
-  principles: [
-    'Çift onay: Her yevmiye günü yönetici kaydı ve personel onayı ile kesinleşir; tek taraflı kayıt ödemeye yansımaz.',
-    'Şeffaflık: Panelde onaylı, bekleyen ve yönetici onayındaki günler ayrı görünür.',
-    'Erişim hakkı (KVKK m.11): Kendi verilerinizi bu ZIP ile indirebilirsiniz.',
-    'Sözleşme kanıtı: Onayladığınız sözleşmeler sürüm ve hash ile arşivlenir.',
-    'İtiraz: Kayıtlarla ilgili uyuşmazlıkta yöneticiniz veya veri sorumlusuna yazılı başvurabilirsiniz.',
-  ],
-  dualApprovalFlow: [
-    '1. Yönetici veya personel günü bildirir',
-    '2. Karşı taraf onaylar',
-    '3. Gün "Onaylı" olur ve maaş hesabına dahil edilir',
-  ],
-};
+const PERSONNEL_FAIRNESS_MANIFEST = strings.fairnessManifest;
 
 export async function buildLegalDossier(params: {
   projectId: string;
@@ -97,7 +87,7 @@ export async function buildLegalDossier(params: {
     .maybeSingle();
 
   if (empError || !emp) {
-    throw new Error('Personel bulunamadı');
+    throw new Error(strings.errors.employeeNotFound);
   }
 
   const ctx: DossierCollectorContext = {
@@ -161,8 +151,8 @@ export async function buildLegalDossier(params: {
     extensible: true,
     note:
       exportType === 'personnel_self'
-        ? 'Personel self-servis erişim paketi — KVKK m.11 kapsamında.'
-        : 'Yönetici hukuki dosya paketi.',
+        ? strings.manifestNotes.personnelSelf
+        : strings.manifestNotes.admin,
   };
 
   files.unshift(jsonFile('manifest.json', manifest));
@@ -180,33 +170,15 @@ export async function buildLegalDossier(params: {
     ),
   });
 
-  const readmeLines =
-    exportType === 'personnel_self'
-      ? [
-          `${APP_NAME} — Kayıtlarım (Personel Self-Servis)`,
-          `Personel: ${emp.name}`,
-          `Dışa aktarma: ${exportedAt}`,
-          '',
-          'Bu paket KVKK m.11 kapsamında kendi verilerinize erişim içindir.',
-          'İçerik: profil, yevmiye, ödemeler, sözleşmeler, başvuru geçmişi.',
-          'Çift onaylı günler "Onaylı" statüsünde maaş hesabına yansır.',
-          '',
-          'Dosyayı güvenli saklayın; üçüncü kişilerle paylaşmayın.',
-        ]
-      : [
-          `${APP_NAME} — Hukuki Personel Dosyası`,
-          `Personel: ${emp.name}`,
-          `Dışa aktarma: ${exportedAt}`,
-          `Yönetici: ${params.exportedByEmail}`,
-          '',
-          'İçerik:',
-          '- manifest.json — dosya indeksi ve özet',
-          '- OZET.html — yazdırılabilir özet',
-          '- 01-profil … 09-basvuru — modül klasörleri',
-          '- 08-sozlesmeler — onaylanmış sözleşme HTML kopyaları',
-          '',
-          'Kişisel verileri KVKK kapsamında koruyun.',
-        ];
+  const readmeTemplate =
+    exportType === 'personnel_self' ? strings.readme.personnelSelf : strings.readme.admin;
+  const readmeVars = {
+    appName: APP_NAME,
+    employeeName: emp.name,
+    exportedAt,
+    exportedByEmail: params.exportedByEmail,
+  };
+  const readmeLines = readmeTemplate.map((line) => formatString(line, readmeVars));
 
   files.push({ path: 'README.txt', content: readmeLines.join('\n') });
 
@@ -246,7 +218,7 @@ export function dossierZipFilename(
   const date = exportedAt.slice(0, 10);
   const slug = slugifyFilename(employeeName);
   if (exportType === 'personnel_self') {
-    return `crewledger-kayitlarim-${slug}-${date}.zip`;
+    return formatString(strings.zipFilenames.personnelSelf, { slug, date });
   }
-  return `crewledger-hukuki-dosya-${slug}-${date}.zip`;
+  return formatString(strings.zipFilenames.admin, { slug, date });
 }

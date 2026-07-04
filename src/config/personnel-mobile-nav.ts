@@ -1,14 +1,8 @@
+import strings from '@json/src/config/personnel-mobile-nav.json';
 import type { PersonnelTabId } from '@/hooks/usePersonnelTab';
 
-export const PERSONNEL_MOBILE_TAB_TITLES: Record<PersonnelTabId, string> = {
-  overview: 'Ana Sayfa',
-  work: 'Yevmiye',
-  mesai: 'Mesai',
-  asgari: 'Asgari Ücret',
-  finance: 'Finans',
-  rights: 'Haklarım',
-  settings: 'Ayarlar',
-};
+export const PERSONNEL_MOBILE_TAB_TITLES: Record<PersonnelTabId, string> =
+  strings.tabTitles as Record<PersonnelTabId, string>;
 
 export type PersonnelHubItem = {
   id: string;
@@ -25,83 +19,32 @@ export type PersonnelHubSection = {
   items: PersonnelHubItem[];
 };
 
+const HUB_ITEM_ACCENTS: Record<string, PersonnelMoreAccent> = {
+  work: 'emerald',
+  mesai: 'violet',
+  yoklama: 'teal',
+  finance: 'indigo',
+  avans: 'blue',
+  asgari: 'blue',
+  rights: 'sky',
+  settings: 'slate',
+};
+
 /** Panel hub — tüm bölümler kategorilere ayrılmış */
-export const PERSONNEL_HUB_SECTIONS: PersonnelHubSection[] = [
-  {
-    title: 'Sahada',
-    subtitle: 'Günlük çalışma kayıtları',
-    items: [
-      {
-        id: 'work',
-        tab: 'work',
-        label: 'Yevmiye',
-        description: 'Çalışılan günler',
-        accent: 'emerald',
-      },
-      {
-        id: 'mesai',
-        tab: 'mesai',
-        label: 'Mesai',
-        description: 'Fazla mesai',
-        accent: 'violet',
-      },
-      {
-        id: 'yoklama',
-        href: '/personnel-panel/yoklama',
-        label: 'Yoklama',
-        description: 'QR ile giriş',
-        accent: 'teal',
-      },
-    ],
-  },
-  {
-    title: 'Finans',
-    subtitle: 'Maaş ve ödemeler',
-    items: [
-      {
-        id: 'finance',
-        tab: 'finance',
-        label: 'Bordro',
-        description: 'Net maaş özeti',
-        accent: 'indigo',
-      },
-      {
-        id: 'avans',
-        href: '/personnel-panel/avans',
-        label: 'Avans talebi',
-        description: 'Talep oluştur ve takip et',
-        accent: 'blue',
-      },
-      {
-        id: 'asgari',
-        tab: 'asgari',
-        label: 'Asgari',
-        description: 'Tamamlama durumu',
-        accent: 'blue',
-      },
-    ],
-  },
-  {
-    title: 'Hesabım',
-    subtitle: 'Profil ve belgeler',
-    items: [
-      {
-        id: 'rights',
-        tab: 'rights',
-        label: 'Haklarım',
-        description: 'Sözleşmeler',
-        accent: 'sky',
-      },
-      {
-        id: 'settings',
-        tab: 'settings',
-        label: 'Ayarlar',
-        description: 'PIN ve profil',
-        accent: 'slate',
-      },
-    ],
-  },
-];
+export const PERSONNEL_HUB_SECTIONS: PersonnelHubSection[] = strings.hubSections.map(
+  (section) => ({
+    title: section.title,
+    subtitle: section.subtitle,
+    items: section.items.map((item) => ({
+      id: item.id,
+      label: item.label,
+      description: item.description,
+      accent: HUB_ITEM_ACCENTS[item.id] ?? 'slate',
+      ...(item.tab ? { tab: item.tab as PersonnelTabId } : {}),
+      ...(item.href ? { href: item.href } : {}),
+    })),
+  })
+);
 
 export const PERSONNEL_HUB_TABS: PersonnelTabId[] = [
   'work',

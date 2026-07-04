@@ -1,3 +1,5 @@
+import strings from '@json/src/types/project-job.json';
+
 export type ProjectJobStatus = 'active' | 'completed';
 
 export type ProjectJob = {
@@ -84,7 +86,5 @@ export type ExtendedProfitOverview = ProjectProfitOverview & {
   teamsWithoutBlock: Array<{ id: string; name: string; member_count: number }>;
 };
 
-export const PROJECT_JOB_STATUS_LABELS: Record<ProjectJobStatus, string> = {
-  active: 'Devam ediyor',
-  completed: 'Tamamlandı',
-};
+export const PROJECT_JOB_STATUS_LABELS: Record<ProjectJobStatus, string> =
+  strings.statusLabels as Record<ProjectJobStatus, string>;

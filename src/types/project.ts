@@ -1,3 +1,5 @@
+import strings from '@json/src/types/project.json';
+
 export type ProjectStatus = 'active' | 'planned' | 'paused' | 'completed' | 'archived';
 
 export type Project = {
@@ -33,10 +35,5 @@ export type ProjectFormData = {
   timezone?: string;
 };
 
-export const PROJECT_STATUS_LABELS: Record<ProjectStatus, string> = {
-  active: 'Aktif',
-  planned: 'Planlanan',
-  paused: 'Durduruldu',
-  completed: 'Tamamlandı',
-  archived: 'Arşivlendi',
-};
+export const PROJECT_STATUS_LABELS: Record<ProjectStatus, string> =
+  strings.statusLabels as Record<ProjectStatus, string>;

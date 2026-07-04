@@ -1,6 +1,7 @@
 'use client';
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import strings from '@json/src/lib/personnel-display-preferences.json';
 
 const STORAGE_KEY = 'crewledger-personnel-display';
 
@@ -71,7 +72,7 @@ export function PersonnelDisplayProvider({ children }: { children: React.ReactNo
 export function usePersonnelDisplay() {
   const ctx = useContext(PersonnelDisplayContext);
   if (!ctx) {
-    throw new Error('usePersonnelDisplay PersonnelDisplayProvider içinde kullanılmalı');
+    throw new Error(strings.providerError);
   }
   return ctx;
 }

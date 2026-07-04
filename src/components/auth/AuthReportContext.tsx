@@ -1,6 +1,7 @@
 'use client';
 
 import { createContext, useCallback, useContext, useMemo, useState } from 'react';
+import strings from '@json/src/components/auth/AuthReportContext.json';
 
 type AuthReportContextValue = {
   formError?: string;
@@ -56,7 +57,7 @@ export function AuthReportProvider({ children }: { children: React.ReactNode }) 
 export function useAuthReport() {
   const ctx = useContext(AuthReportContext);
   if (!ctx) {
-    throw new Error('useAuthReport AuthReportProvider içinde kullanılmalı');
+    throw new Error(strings.providerError);
   }
   return ctx;
 }

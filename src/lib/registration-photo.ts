@@ -7,6 +7,7 @@ import {
   registrationPhotoObjectPath,
   signedRegistrationPhotoUrl,
 } from '@/lib/photo-storage';
+import strings from '@json/src/lib/registration-photo.json';
 
 const MAX_BYTES = 5 * 1024 * 1024;
 const ALLOWED = new Set(['image/jpeg', 'image/jpg', 'image/png', 'image/webp']);
@@ -22,10 +23,10 @@ export { otpDraftPhotoObjectPath as otpDraftPhotoPath };
 
 export async function uploadOtpDraftPhoto(challengeId: string, file: File) {
   if (!ALLOWED.has(file.type)) {
-    throw new Error('JPEG, PNG veya WebP yükleyin');
+    throw new Error(strings.invalidMime);
   }
   if (file.size > MAX_BYTES) {
-    throw new Error('Fotoğraf en fazla 5 MB olabilir');
+    throw new Error(strings.maxSize);
   }
 
   const ext = extForMime(file.type);
@@ -41,7 +42,7 @@ export async function uploadOtpDraftPhoto(challengeId: string, file: File) {
 
   if (error) {
     throw new Error(
-      error.message.includes('Bucket') ? '025_private_photo_storage.sql çalıştırın' : 'Fotoğraf yüklenemedi'
+      error.message.includes('Bucket') ? strings.bucketMigrationOtp : strings.uploadFailed
     );
   }
 
@@ -72,7 +73,7 @@ export async function moveDraftPhotoToRegistration(draftPath: string, requestId:
   } else {
     const legacy = await admin.storage.from(EMPLOYEE_PHOTOS_BUCKET).download(draftPath);
     if (legacy.error || !legacy.data) {
-      throw new Error('Başvuru fotoğrafı bulunamadı. Lütfen yeniden başvurun.');
+      throw new Error(strings.draftNotFound);
     }
     blob = legacy.data;
   }
@@ -90,7 +91,7 @@ export async function moveDraftPhotoToRegistration(draftPath: string, requestId:
   });
 
   if (upError) {
-    throw new Error('Fotoğraf kaydedilemedi');
+    throw new Error(strings.saveFailed);
   }
 
   await deleteOtpDraftPhoto(draftPath);
@@ -110,10 +111,10 @@ export async function publicPhotoUrl(path: string) {
 
 export async function uploadRegistrationPhoto(requestId: string, file: File) {
   if (!ALLOWED.has(file.type)) {
-    throw new Error('JPEG, PNG veya WebP yükleyin');
+    throw new Error(strings.invalidMime);
   }
   if (file.size > MAX_BYTES) {
-    throw new Error('Fotoğraf en fazla 5 MB olabilir');
+    throw new Error(strings.maxSize);
   }
 
   const ext = extForMime(file.type);
@@ -128,7 +129,7 @@ export async function uploadRegistrationPhoto(requestId: string, file: File) {
   });
 
   if (error) {
-    throw new Error(error.message.includes('Bucket') ? '025 migration çalıştırın' : 'Fotoğraf yüklenemedi');
+    throw new Error(error.message.includes('Bucket') ? strings.bucketMigrationRegistration : strings.uploadFailed);
   }
 
   await admin

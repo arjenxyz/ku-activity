@@ -1,5 +1,7 @@
 import { APP_NAME } from '@/lib/brand';
+import { formatString } from '@/lib/strings/format';
 import type { DossierExportType, LegalDossierResult } from './types';
+import strings from '@json/src/lib/legal-dossier/render-summary-html.json';
 
 export function renderDossierSummaryHtml(
   manifest: LegalDossierResult['manifest'],
@@ -11,30 +13,23 @@ export function renderDossierSummaryHtml(
   const project = manifest.project as Record<string, unknown> | undefined;
   const sensitive = manifest.sensitive as Record<string, unknown> | null | undefined;
   const isSelf = exportType === 'personnel_self';
+  const missing = strings.missingValue;
 
   const sectionList = sectionTitles
     .map((s) => `<li><strong>${s.title}</strong></li>`)
     .join('');
 
   const title = isSelf
-    ? `${APP_NAME} — Kayıtlarım Özeti`
-    : `${APP_NAME} — Hukuki Personel Dosyası Özeti`;
+    ? formatString(strings.selfTitle, { appName: APP_NAME })
+    : formatString(strings.adminTitle, { appName: APP_NAME });
 
   const exportedByLine = isSelf
-    ? `<p><strong>Erişim türü:</strong> Personel self-servis (KVKK m.11)</p>`
-    : `<p><strong>İndiren yönetici:</strong> ${manifest.exportedByEmail}</p>`;
+    ? strings.accessTypeSelfHtml
+    : formatString(strings.exportedByHtml, {
+        exportedByEmail: String(manifest.exportedByEmail ?? ''),
+      });
 
-  const fairnessBlock = isSelf
-    ? `<div class="fair">
-    <h2>Adil kayıt sistemi</h2>
-    <ul>
-      <li>Yevmiye günleri <strong>çift onay</strong> ile kesinleşir (yönetici + personel).</li>
-      <li>Onaylanmamış günler maaş hesabına dahil edilmez.</li>
-      <li>Sözleşme onaylarınız sürüm ve hash ile saklanır.</li>
-      <li>Bu dosya, sistemdeki kayıtlarınızın tam kopyasıdır.</li>
-    </ul>
-  </div>`
-    : '';
+  const fairnessBlock = isSelf ? strings.fairnessBlockHtml : '';
 
   return `<!DOCTYPE html>
 <html lang="tr">
@@ -57,53 +52,49 @@ export function renderDossierSummaryHtml(
 <body>
   <h1>${title}</h1>
   <div class="meta">
-    <p><strong>Dışa aktarma:</strong> ${exportedAt}</p>
-    <p><strong>Şema sürümü:</strong> ${manifest.schemaVersion}</p>
+    <p><strong>${strings.exportLabel}</strong> ${exportedAt}</p>
+    <p><strong>${strings.schemaVersionLabel}</strong> ${manifest.schemaVersion}</p>
     ${exportedByLine}
   </div>
 
   ${fairnessBlock}
 
-  <h2>Personel</h2>
+  <h2>${strings.personnelHeading}</h2>
   <table>
-    <tr><th>Ad Soyad</th><td>${employee?.name ?? '—'}</td></tr>
-    <tr><th>E-posta</th><td>${employee?.email ?? '—'}</td></tr>
-    <tr><th>Telefon</th><td>${employee?.phone ?? '—'}</td></tr>
-    <tr><th>Pozisyon</th><td>${employee?.position ?? '—'}</td></tr>
-    <tr><th>Günlük yevmiye</th><td>${employee?.daily_wage ?? '—'} ₺</td></tr>
-    <tr><th>İşe giriş</th><td>${employee?.hire_date ?? '—'}</td></tr>
-    <tr><th>Durum</th><td>${employee?.is_active ? 'Aktif' : 'Pasif'}</td></tr>
+    <tr><th>${strings.fullNameLabel}</th><td>${employee?.name ?? missing}</td></tr>
+    <tr><th>${strings.emailLabel}</th><td>${employee?.email ?? missing}</td></tr>
+    <tr><th>${strings.phoneLabel}</th><td>${employee?.phone ?? missing}</td></tr>
+    <tr><th>${strings.positionLabel}</th><td>${employee?.position ?? missing}</td></tr>
+    <tr><th>${strings.dailyWageLabel}</th><td>${employee?.daily_wage ?? missing} ₺</td></tr>
+    <tr><th>${strings.hireDateLabel}</th><td>${employee?.hire_date ?? missing}</td></tr>
+    <tr><th>${strings.statusLabel}</th><td>${employee?.is_active ? strings.activeStatus : strings.inactiveStatus}</td></tr>
   </table>
 
   ${
     sensitive
-      ? `<h2>Kimlik / ödeme bilgileriniz</h2>
+      ? `<h2>${strings.sensitiveHeading}</h2>
   <table>
-    <tr><th>T.C. Kimlik</th><td>${sensitive.tcKimlik ?? '—'}</td></tr>
-    <tr><th>Doğum tarihi</th><td>${sensitive.birthDate ?? '—'}</td></tr>
-    <tr><th>IBAN</th><td>${sensitive.iban ?? '—'}</td></tr>
+    <tr><th>${strings.tcKimlikLabel}</th><td>${sensitive.tcKimlik ?? missing}</td></tr>
+    <tr><th>${strings.birthDateLabel}</th><td>${sensitive.birthDate ?? missing}</td></tr>
+    <tr><th>${strings.ibanLabel}</th><td>${sensitive.iban ?? missing}</td></tr>
   </table>`
       : ''
   }
 
-  <h2>Proje / Şantiye</h2>
+  <h2>${strings.projectHeading}</h2>
   <table>
-    <tr><th>Proje adı</th><td>${project?.name ?? '—'}</td></tr>
-    <tr><th>Kod</th><td>${project?.code ?? '—'}</td></tr>
-    <tr><th>Durum</th><td>${project?.status ?? '—'}</td></tr>
-    <tr><th>Konum</th><td>${project?.location ?? '—'}</td></tr>
-    <tr><th>Mesai saatleri</th><td>${project?.work_hours ?? '—'}</td></tr>
+    <tr><th>${strings.projectNameLabel}</th><td>${project?.name ?? missing}</td></tr>
+    <tr><th>${strings.codeLabel}</th><td>${project?.code ?? missing}</td></tr>
+    <tr><th>${strings.projectStatusLabel}</th><td>${project?.status ?? missing}</td></tr>
+    <tr><th>${strings.locationLabel}</th><td>${project?.location ?? missing}</td></tr>
+    <tr><th>${strings.workHoursLabel}</th><td>${project?.work_hours ?? missing}</td></tr>
   </table>
 
-  <h2>Dahil edilen kayıtlar</h2>
+  <h2>${strings.includedRecordsHeading}</h2>
   <ul>${sectionList}</ul>
 
   <div class="warn">
-    ${
-      isSelf
-        ? 'Bu özet ve ZIP içeriği bilgilendirme amaçlıdır. Kayıtlarla ilgili itirazınızı yöneticinize veya veri sorumlusuna iletebilirsiniz.'
-        : 'Bu özet bilgilendirme amaçlıdır. Tam kayıtlar ZIP içindeki dosyalarda yer alır. Kişisel veriler KVKK kapsamında korunmalıdır.'
-    }
+    ${isSelf ? strings.selfWarning : strings.adminWarning}
   </div>
 </body>
 </html>`;

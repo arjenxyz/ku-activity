@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import type { MinimumWage } from '@/lib/personnel-stats';
 import type { AsgariProrationMode, YevmiyePaymentTrigger } from '@/types/wage-policy';
+import strings from '@json/src/hooks/usePersonnelAsgari.json';
 
 export type PersonnelAsgariSummary = {
   month: string;
@@ -45,12 +46,12 @@ export function usePersonnelAsgari(month: string, enabled = true) {
       });
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));
-        throw new Error((body as { error?: string }).error || 'Asgari verisi yüklenemedi');
+        throw new Error((body as { error?: string }).error || strings.loadFailed);
       }
       const json = (await res.json()) as PersonnelAsgariSummary;
       setData(json);
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Yüklenemedi');
+      setError(e instanceof Error ? e.message : strings.genericLoadFailed);
       setData(null);
     } finally {
       setLoading(false);
