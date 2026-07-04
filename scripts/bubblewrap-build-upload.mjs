@@ -1,15 +1,16 @@
 #!/usr/bin/env node
 
 /**
- * Bubblewrap build + otomatik APK yükleme (developer onayı bekler).
+ * Bubblewrap update + Gradle release build + APK yükleme.
+ * bubblewrap build etkileşimli şifre ister; TWA_KEYSTORE_PASSWORD ile Gradle doğrudan kullanılır.
  *
  *   node scripts/bubblewrap-build-upload.mjs --app personnel
- *   node scripts/bubblewrap-build-upload.mjs --app admin --skip-build
+ *   node scripts/bubblewrap-build-upload.mjs --app personnel --skip-update --skip-build
  *
- * Ortam: APP_URL, APK_UPLOAD_SECRET
+ * Ortam: TWA_KEYSTORE_PASSWORD, APP_URL / NEXT_PUBLIC_APP_URL, APK_UPLOAD_SECRET
  */
 
-import { existsSync } from 'fs';
+import { copyFileSync, existsSync, readFileSync, writeFileSync } from 'fs';
 import { join, resolve } from 'path';
 import { spawnSync } from 'child_process';
 import { fileURLToPath } from 'url';
@@ -38,20 +39,71 @@ function parseArgs(argv) {
   return args;
 }
 
-function run(cmd, args, cwd) {
+function run(cmd, args, cwd, env = process.env) {
   console.log(`\n> ${cmd} ${args.join(' ')}\n`);
-  const result = spawnSync(cmd, args, { stdio: 'inherit', cwd, shell: process.platform === 'win32' });
+  const result = spawnSync(cmd, args, {
+    stdio: 'inherit',
+    cwd,
+    shell: process.platform === 'win32',
+    env,
+  });
   if (result.status !== 0) {
     process.exit(result.status ?? 1);
   }
 }
 
+function ensureGradleWindowsFixes(buildDir) {
+  const gradleProps = join(buildDir, 'gradle.properties');
+  if (existsSync(gradleProps)) {
+    let text = readFileSync(gradleProps, 'utf8');
+    if (!text.includes('android.overridePathCheck=true')) {
+      text = `${text.trimEnd()}\nandroid.overridePathCheck=true\n`;
+      writeFileSync(gradleProps, text);
+      console.log('gradle.properties: android.overridePathCheck=true eklendi');
+    }
+  }
+
+  const buildGradle = join(buildDir, 'app', 'build.gradle');
+  if (!existsSync(buildGradle)) return;
+
+  let gradle = readFileSync(buildGradle, 'utf8');
+  if (!gradle.includes('signingConfigs')) {
+    gradle = gradle.replace(
+      /android \{\n    compileSdkVersion/,
+      `android {
+    compileSdkVersion`
+    );
+    gradle = gradle.replace(
+      /(android \{\n    compileSdkVersion[^\n]+\n    namespace[^\n]+\n)/,
+      `$1    signingConfigs {
+        release {
+            storeFile file("\${rootDir}/android.keystore")
+            storePassword System.getenv('TWA_KEYSTORE_PASSWORD')
+            keyAlias 'android'
+            keyPassword System.getenv('TWA_KEYSTORE_PASSWORD')
+        }
+    }
+`
+    );
+  }
+  if (!gradle.includes('signingConfig signingConfigs.release')) {
+    gradle = gradle.replace(
+      /(release \{\n            minifyEnabled true\n)/,
+      `$1            signingConfig signingConfigs.release\n`
+    );
+  }
+  writeFileSync(buildGradle, gradle);
+}
+
 const args = parseArgs(process.argv);
 const appType = String(args.app ?? args.appType ?? '').trim();
 const skipBuild = Boolean(args['skip-build']);
+const skipUpdate = Boolean(args['skip-update']);
 
 if (appType !== 'personnel' && appType !== 'admin') {
-  console.error('Kullanım: node scripts/bubblewrap-build-upload.mjs --app personnel|admin [--skip-build] [--notes "..."]');
+  console.error(
+    'Kullanım: node scripts/bubblewrap-build-upload.mjs --app personnel|admin [--skip-update] [--skip-build] [--notes "..."]'
+  );
   process.exit(1);
 }
 
@@ -63,8 +115,33 @@ if (!existsSync(join(buildDir, 'twa-manifest.json'))) {
   process.exit(1);
 }
 
+if (!skipUpdate) {
+  run('npx', ['@bubblewrap/cli', 'update'], buildDir);
+}
+
+ensureGradleWindowsFixes(buildDir);
+
 if (!skipBuild) {
-  run('bubblewrap', ['build'], buildDir);
+  const keystorePassword = process.env.TWA_KEYSTORE_PASSWORD?.trim();
+  if (!keystorePassword) {
+    console.error('TWA_KEYSTORE_PASSWORD ortam değişkeni gerekli (keystore şifresi).');
+    process.exit(1);
+  }
+
+  const gradlew = process.platform === 'win32' ? 'gradlew.bat' : './gradlew';
+  run(gradlew, ['assembleRelease', '--stacktrace'], buildDir, {
+    ...process.env,
+    TWA_KEYSTORE_PASSWORD: keystorePassword,
+  });
+
+  const releaseApk = join(buildDir, 'app', 'build', 'outputs', 'apk', 'release', 'app-release.apk');
+  const signedCopy = join(buildDir, 'app-release-signed.apk');
+  if (!existsSync(releaseApk)) {
+    console.error(`APK bulunamadı: ${releaseApk}`);
+    process.exit(1);
+  }
+  copyFileSync(releaseApk, signedCopy);
+  console.log(`\nAPK: ${signedCopy}`);
 }
 
 const uploadArgs = [
