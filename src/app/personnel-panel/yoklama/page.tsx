@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { Suspense, useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { FiCheckCircle, FiClock, FiHash, FiX } from 'react-icons/fi';
+import { FiCheckCircle, FiClock, FiHash, FiInfo, FiMonitor, FiX } from 'react-icons/fi';
 import { AttendanceCodeSheet } from '@/components/personnel/AttendanceCodeSheet';
 import { AttendanceQrScanner } from '@/components/personnel/AttendanceQrScanner';
 import { parseAttendanceTokenFromQr } from '@/lib/attendance-qr-service';
@@ -176,9 +176,9 @@ function YoklamaContent() {
         )}
       </div>
 
-      {/* Masaüstü */}
+      {/* Masaüstü — yalnızca manuel kod */}
       <div className="mx-auto hidden max-w-lg sm:block">
-        <DesktopScannerPanel
+        <DesktopManualPanel
           status={status}
           loading={loadingStatus}
           scanning={scanning}
@@ -188,13 +188,11 @@ function YoklamaContent() {
           successMsg={successMsg}
           windowClosed={windowClosed}
           forceReplace={forceReplace}
-          scanPaused={scanPaused}
           onForceReplace={() => {
             setForceReplace(true);
             setError(null);
           }}
           onCancelReplace={() => setForceReplace(false)}
-          onScan={(t) => void submitToken(t)}
           onManualSubmit={handleManualSubmit}
         />
       </div>
@@ -298,7 +296,7 @@ function StatusBanner({
   );
 }
 
-function DesktopScannerPanel({
+function DesktopManualPanel({
   status,
   loading,
   scanning,
@@ -308,10 +306,8 @@ function DesktopScannerPanel({
   successMsg,
   windowClosed,
   forceReplace,
-  scanPaused,
   onForceReplace,
   onCancelReplace,
-  onScan,
   onManualSubmit,
 }: {
   status: PersonnelAttendanceStatusPayload | null;
@@ -323,33 +319,50 @@ function DesktopScannerPanel({
   successMsg: string | null;
   windowClosed: boolean;
   forceReplace: boolean;
-  scanPaused: boolean;
   onForceReplace: () => void;
   onCancelReplace: () => void;
-  onScan: (token: string) => void;
   onManualSubmit: (e: React.FormEvent) => void;
 }) {
-  const [mode, setMode] = useState<'camera' | 'code'>('camera');
+  const formDisabled = scanning || windowClosed || loading;
 
   return (
     <div className="mt-4 space-y-4">
       <div className="overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-600 to-teal-800 px-5 py-5 text-white shadow-lg">
         <p className="text-xs font-medium uppercase tracking-wider text-emerald-100/90">Günlük yoklama</p>
-        <h1 className="mt-1 text-2xl font-bold">QR okut</h1>
-        <p className="mt-2 text-sm text-emerald-50/90">Ustanın ekranındaki kodu okutun veya kod girin.</p>
+        <h1 className="mt-1 text-2xl font-bold">Kod ile yoklama</h1>
+        <p className="mt-2 text-sm text-emerald-50/90">Ustanızın verdiği yoklama kodunu aşağıya girin.</p>
+      </div>
+
+      <div className="flex gap-3 rounded-2xl border border-sky-200 bg-sky-50 px-4 py-3.5 text-sm text-sky-950 dark:border-sky-900 dark:bg-sky-950/40 dark:text-sky-100">
+        <FiMonitor className="mt-0.5 h-5 w-5 shrink-0 text-sky-600 dark:text-sky-400" />
+        <div className="space-y-1 leading-relaxed">
+          <p className="font-medium">QR okutma bu cihazda desteklenmiyor</p>
+          <p className="text-sky-800/90 dark:text-sky-200/90">
+            QR olarak okutmak için lütfen mobil uygulama üzerinden deneyiniz. Bu cihazda yalnızca
+            manuel kod girişi desteklenmektedir.
+          </p>
+        </div>
       </div>
 
       {status && status.state !== 'none' && (
         <div className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm dark:border-slate-700 dark:bg-slate-900">
           <p className="font-medium text-slate-900 dark:text-white">{status.message}</p>
           {(status.state === 'waiting' || status.state === 'completed') && !forceReplace && (
-            <button type="button" onClick={onForceReplace} className="mt-2 text-xs font-semibold text-emerald-600 underline">
-              Yeniden okut
+            <button
+              type="button"
+              onClick={onForceReplace}
+              className="mt-2 text-xs font-semibold text-emerald-600 underline dark:text-emerald-400"
+            >
+              Yeniden kaydet
             </button>
           )}
           {forceReplace && (
-            <button type="button" onClick={onCancelReplace} className="mt-2 text-xs font-semibold text-amber-600 underline">
-              Yeniden okutmayı iptal
+            <button
+              type="button"
+              onClick={onCancelReplace}
+              className="mt-2 text-xs font-semibold text-amber-600 underline"
+            >
+              Yeniden kaydı iptal
             </button>
           )}
         </div>
@@ -362,68 +375,53 @@ function DesktopScannerPanel({
         </div>
       )}
 
-      <div className="flex rounded-xl bg-slate-100 p-1 dark:bg-slate-800">
-        <button
-          type="button"
-          onClick={() => setMode('camera')}
-          className={`flex-1 rounded-lg py-2.5 text-sm font-medium ${
-            mode === 'camera' ? 'bg-white text-emerald-700 shadow-sm' : 'text-slate-600'
-          }`}
-        >
-          Kamera
-        </button>
-        <button
-          type="button"
-          onClick={() => setMode('code')}
-          className={`flex-1 rounded-lg py-2.5 text-sm font-medium ${
-            mode === 'code' ? 'bg-white text-emerald-700 shadow-sm' : 'text-slate-600'
-          }`}
-        >
-          Kod gir
-        </button>
-      </div>
-
-      {mode === 'camera' ? (
-        <div className="overflow-hidden rounded-2xl border border-slate-200 bg-slate-950 shadow-sm">
-          <div className="relative h-[min(420px,55vh)]">
-            {!loading && (
-              <AttendanceQrScanner
-                onScan={onScan}
-                disabled={scanPaused}
-                paused={scanPaused}
-                parseQr={parseAttendanceTokenFromQr}
-                className="absolute inset-0 h-full w-full"
-              />
-            )}
-          </div>
-        </div>
-      ) : (
-        <form onSubmit={onManualSubmit} className="space-y-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+      <form
+        onSubmit={onManualSubmit}
+        className="space-y-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-900"
+      >
+        <div>
+          <label
+            htmlFor="desktop-attendance-code"
+            className="mb-2 flex items-center gap-2 text-sm font-medium text-slate-700 dark:text-slate-300"
+          >
+            <FiHash className="h-4 w-4 text-emerald-600" />
+            Yoklama kodu
+          </label>
           <input
+            id="desktop-attendance-code"
             type="text"
             value={manualCode}
             onChange={(e) => setManualCode(e.target.value.toUpperCase())}
             placeholder="YOK-…"
-            disabled={scanning || windowClosed}
-            className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-center font-mono text-lg uppercase tracking-[0.15em]"
+            disabled={formDisabled}
+            autoComplete="off"
+            spellCheck={false}
+            className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-center font-mono text-lg uppercase tracking-[0.15em] text-slate-900 outline-none ring-emerald-500/30 placeholder:text-slate-400 focus:border-emerald-500 focus:ring-2 disabled:opacity-50 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
           />
-          <button
-            type="submit"
-            disabled={scanning || windowClosed || !manualCode.trim()}
-            className="w-full rounded-xl bg-emerald-600 py-3 font-semibold text-white hover:bg-emerald-700 disabled:opacity-50"
-          >
-            {scanning ? 'Gönderiliyor…' : 'Yoklamaya katıl'}
-          </button>
-        </form>
-      )}
+        </div>
+        <button
+          type="submit"
+          disabled={formDisabled || !manualCode.trim()}
+          className="w-full rounded-xl bg-emerald-600 py-3.5 font-semibold text-white shadow-sm transition hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-50"
+        >
+          {scanning ? 'Gönderiliyor…' : forceReplace ? 'Yeniden kaydet' : 'Yoklamaya katıl'}
+        </button>
+        <p className="flex items-start gap-2 text-xs leading-relaxed text-slate-500 dark:text-slate-400">
+          <FiInfo className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+          Kodu ustanızdan alın; büyük/küçük harf fark etmez.
+        </p>
+      </form>
 
       {successMsg && (
-        <p className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
+        <p className="flex items-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800 dark:border-emerald-900 dark:bg-emerald-950/40 dark:text-emerald-200">
+          <FiCheckCircle className="h-4 w-4 shrink-0" />
           {successMsg}
         </p>
       )}
       {error && (
-        <p className="rounded-xl border border-red-100 bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>
+        <p className="rounded-xl border border-red-100 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-900 dark:bg-red-950/40 dark:text-red-200">
+          {error}
+        </p>
       )}
     </div>
   );
