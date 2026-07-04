@@ -19,6 +19,7 @@ import {
 } from '@/lib/i18n/attendance-messages';
 import { assertEmployeeTeamHasActiveBlock } from '@/lib/team-work-guard';
 import type { WorkLogRow } from '@/lib/work-log-service';
+import strings from '@json/src/lib/attendance-qr-service.json';
 
 const TOKEN_PREFIX = 'YOK-';
 const TOKEN_CHARS = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
@@ -389,7 +390,7 @@ async function insertSessionQr(
     if (error?.code !== '23505') break;
   }
 
-  throw new Error('Yoklama QR kodu oluşturulamadı');
+  throw new Error(strings.qrCreateFailed);
 }
 
 /** Usta: yoklama oturumunu başlat */
@@ -467,7 +468,7 @@ export async function listSessionCheckIns(
     return {
       id: row.id as string,
       employee_id: row.employee_id as string,
-      employee_name: name ?? 'Personel',
+      employee_name: name ?? strings.employeeFallback,
       work_log_id: (row.work_log_id as string | null) ?? null,
       created_at: row.scanned_at as string,
       yevmiye_kayitli: Boolean(row.work_log_id),
@@ -513,7 +514,7 @@ async function createApprovedWorkLog(
         employee_confirmed_at: now,
         employee_dispute_note: null,
         employee_disputed_at: null,
-        description: 'QR yoklama',
+        description: strings.workLogDescription,
       })
       .eq('id', existing.id)
       .select('*')
@@ -531,7 +532,7 @@ async function createApprovedWorkLog(
       amount: 1,
       mesai_type: 'none',
       mesai_units: 0,
-      description: 'QR yoklama',
+      description: strings.workLogDescription,
       admin_confirmed_at: now,
       employee_confirmed_at: now,
       approved_by: null,
@@ -682,7 +683,7 @@ export async function scanAttendanceQr(
     .eq('id', params.employeeId)
     .maybeSingle();
 
-  const employeeName = (employee?.name as string) ?? 'Personel';
+  const employeeName = (employee?.name as string) ?? strings.employeeFallback;
 
   if (params.replacePrevious) {
     await clearEmployeeAttendanceForDate(admin, {
@@ -763,7 +764,7 @@ export async function completeAttendanceSession(
   const session = await getActiveSession(admin, params.projectId, workDate);
 
   if (!session) {
-    throw new Error('Aktif yoklama oturumu yok');
+    throw new Error(strings.noActiveSession);
   }
 
   const schedule = await loadProjectAttendanceSchedule(admin, params.projectId);
@@ -820,7 +821,7 @@ export async function cancelAttendanceSession(
   const session = await getActiveSession(admin, params.projectId, workDate);
 
   if (!session) {
-    throw new Error('İptal edilecek aktif yoklama yok');
+    throw new Error(strings.noSessionToCancel);
   }
 
   const now = new Date().toISOString();
@@ -862,7 +863,7 @@ export async function removeSessionCheckIn(
     .maybeSingle();
 
   if (!checkIn) {
-    throw new Error('Kayıt bulunamadı');
+    throw new Error(strings.recordNotFound);
   }
 
   const sessionRaw = checkIn.attendance_sessions as
@@ -871,15 +872,15 @@ export async function removeSessionCheckIn(
   const session = Array.isArray(sessionRaw) ? sessionRaw[0] : sessionRaw;
 
   if (!session || session.project_id !== params.projectId) {
-    throw new Error('Kayıt bulunamadı');
+    throw new Error(strings.recordNotFound);
   }
 
   if (session.status !== 'active') {
-    throw new Error('Yalnızca devam eden yoklamadan kaldırılabilir');
+    throw new Error(strings.removeActiveOnly);
   }
 
   if (checkIn.work_log_id) {
-    throw new Error('Yevmiyesi yazılmış kayıt kaldırılamaz');
+    throw new Error(strings.cannotRemoveWithWorkLog);
   }
 
   await recordAttendanceNotice(admin, {

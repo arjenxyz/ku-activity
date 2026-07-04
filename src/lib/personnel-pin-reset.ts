@@ -10,6 +10,8 @@ import { findEmployeeForIdentityLogin } from '@/lib/personnel-login';
 import { maskEmail } from '@/lib/otp-delivery';
 import { validatePersonnelPin } from '@/lib/personnel-pin';
 import { buildEmployeePinFields } from '@/lib/personnel-pin-storage';
+import { formatString } from '@/lib/strings/format';
+import strings from '@json/src/lib/personnel-pin-reset.json';
 import { createAdminClient } from '@/utils/supabase/admin';
 import { createHash, randomBytes } from 'crypto';
 
@@ -29,8 +31,7 @@ type EmployeeContact = {
   is_active: boolean;
 };
 
-const GENERIC_MISMATCH =
-  'Girdiğiniz bilgiler kayıtlarımızla eşleşmedi. Bilgilerinizi kontrol edin veya şantiye yöneticinize başvurun.';
+const GENERIC_MISMATCH = strings.errors.genericMismatch;
 
 async function loadEmployeeContact(employeeId: string): Promise<EmployeeContact | null> {
   const admin = createAdminClient();
@@ -92,14 +93,14 @@ export function validatePinResetInputs(input: {
   email?: string;
 }): string | null {
   const tc = input.tcKimlik.replace(/\D/g, '');
-  if (!validateTcKimlik(tc)) return 'Geçerli bir T.C. kimlik numarası girin.';
+  if (!validateTcKimlik(tc)) return strings.errors.invalidTc;
   if (!input.phone.trim() || !validateInternationalPhone(input.phone)) {
-    return 'Geçerli bir telefon numarası girin.';
+    return strings.errors.invalidPhone;
   }
   if (input.email !== undefined) {
     const email = input.email.trim().toLowerCase();
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      return 'Geçerli bir e-posta adresi girin.';
+      return strings.errors.invalidEmail;
     }
   }
   return null;
@@ -203,11 +204,21 @@ function formatEmailCooldownMessage(remainingMs: number): string {
     const hours = Math.floor(totalMin / 60);
     const mins = totalMin % 60;
     if (mins > 0) {
-      return `Sıfırlama linki en fazla ${PIN_RESET_EMAIL_COOLDOWN_HOURS} saatte bir gönderilir. ${hours} saat ${mins} dakika sonra tekrar deneyin.`;
+      return formatString(strings.cooldown.hoursAndMinutes, {
+        cooldownHours: PIN_RESET_EMAIL_COOLDOWN_HOURS,
+        hours,
+        minutes: mins,
+      });
     }
-    return `Sıfırlama linki en fazla ${PIN_RESET_EMAIL_COOLDOWN_HOURS} saatte bir gönderilir. ${hours} saat sonra tekrar deneyin.`;
+    return formatString(strings.cooldown.hoursOnly, {
+      cooldownHours: PIN_RESET_EMAIL_COOLDOWN_HOURS,
+      hours,
+    });
   }
-  return `Sıfırlama linki en fazla ${PIN_RESET_EMAIL_COOLDOWN_HOURS} saatte bir gönderilir. ${totalMin} dakika sonra tekrar deneyin.`;
+  return formatString(strings.cooldown.minutesOnly, {
+    cooldownHours: PIN_RESET_EMAIL_COOLDOWN_HOURS,
+    minutes: totalMin,
+  });
 }
 
 async function assertPinResetEmailCooldown(
@@ -283,7 +294,7 @@ export async function validatePinResetToken(
   | { ok: false; error: string }
 > {
   const trimmed = token.trim();
-  if (!trimmed) return { ok: false, error: 'Geçersiz bağlantı' };
+  if (!trimmed) return { ok: false, error: strings.errors.invalidLink };
 
   const admin = createAdminClient();
   const { data: row, error } = await admin
@@ -293,22 +304,22 @@ export async function validatePinResetToken(
     .maybeSingle();
 
   if (error || !row) {
-    return { ok: false, error: 'Bağlantı geçersiz veya süresi dolmuş.' };
+    return { ok: false, error: strings.errors.linkInvalidOrExpired };
   }
   if (row.consumed_at) {
-    return { ok: false, error: 'Bu bağlantı daha önce kullanıldı. Yeni bir sıfırlama linki isteyin.' };
+    return { ok: false, error: strings.errors.linkAlreadyUsed };
   }
   const expiresAt = row.expires_at as string;
   if (new Date(expiresAt) < new Date()) {
     return {
       ok: false,
-      error: `Bağlantının süresi doldu (${PIN_RESET_LINK_MINUTES} dakika). Giriş ekranından yeni link isteyin.`,
+      error: formatString(strings.errors.linkExpired, { minutes: PIN_RESET_LINK_MINUTES }),
     };
   }
 
   const employee = await loadEmployeeContact(row.employee_id as string);
   if (!employee?.is_active) {
-    return { ok: false, error: 'Hesap aktif değil. Yöneticinize başvurun.' };
+    return { ok: false, error: strings.errors.accountInactive };
   }
 
   return {
@@ -327,7 +338,7 @@ export async function completePersonnelPinReset(input: {
   if (pinError) return { ok: false, error: pinError };
 
   const trimmed = input.token.trim();
-  if (!trimmed) return { ok: false, error: 'Geçersiz bağlantı' };
+  if (!trimmed) return { ok: false, error: strings.errors.invalidLink };
 
   const admin = createAdminClient();
   const tokenHash = hashResetToken(trimmed);
@@ -340,21 +351,21 @@ export async function completePersonnelPinReset(input: {
     .maybeSingle();
 
   if (error || !row) {
-    return { ok: false, error: 'Bağlantı geçersiz veya süresi dolmuş.' };
+    return { ok: false, error: strings.errors.linkInvalidOrExpired };
   }
   if (row.consumed_at) {
-    return { ok: false, error: 'Bu bağlantı daha önce kullanıldı. Yeni bir sıfırlama linki isteyin.' };
+    return { ok: false, error: strings.errors.linkAlreadyUsed };
   }
   if (new Date(row.expires_at as string) < new Date()) {
     return {
       ok: false,
-      error: `Bağlantının süresi doldu (${PIN_RESET_LINK_MINUTES} dakika). Giriş ekranından yeni link isteyin.`,
+      error: formatString(strings.errors.linkExpired, { minutes: PIN_RESET_LINK_MINUTES }),
     };
   }
 
   const employee = await loadEmployeeContact(row.employee_id as string);
   if (!employee?.is_active) {
-    return { ok: false, error: 'Hesap aktif değil. Yöneticinize başvurun.' };
+    return { ok: false, error: strings.errors.accountInactive };
   }
 
   const pinFields = await buildEmployeePinFields(input.newPin);
@@ -364,7 +375,7 @@ export async function completePersonnelPinReset(input: {
     .eq('id', employee.id);
 
   if (updateError) {
-    return { ok: false, error: 'PIN güncellenemedi' };
+    return { ok: false, error: strings.errors.pinUpdateFailed };
   }
 
   const { data: consumed, error: consumeError } = await admin
@@ -377,7 +388,7 @@ export async function completePersonnelPinReset(input: {
     .maybeSingle();
 
   if (consumeError || !consumed) {
-    return { ok: false, error: 'Bu bağlantı daha önce kullanıldı veya süresi doldu.' };
+    return { ok: false, error: strings.errors.linkUsedOrExpired };
   }
 
   return { ok: true };
@@ -399,7 +410,7 @@ async function sendBrevoEmail(payload: {
       console.info(payload.text);
       return;
     }
-    throw new Error('PIN sıfırlama e-postası yapılandırılmamış');
+    throw new Error(strings.errors.emailNotConfigured);
   }
 
   const res = await fetch('https://api.brevo.com/v3/smtp/email', {
@@ -420,31 +431,36 @@ async function sendBrevoEmail(payload: {
 
   if (!res.ok) {
     const detail = await res.text().catch(() => '');
-    throw new Error(`E-posta gönderilemedi (${res.status})${detail ? `: ${detail.slice(0, 120)}` : ''}`);
+    throw new Error(
+      formatString(strings.errors.emailSendFailed, {
+        status: res.status,
+        detail: detail ? `: ${detail.slice(0, 120)}` : '',
+      })
+    );
   }
 }
 
 async function sendPinResetLinkEmail(employee: EmployeeContact, token: string): Promise<void> {
   const resetUrl = buildPersonnelPinResetUrl(token);
-  const subject = `${APP_NAME} — PIN sıfırlama bağlantınız`;
+  const subject = formatString(strings.email.subject, { appName: APP_NAME });
   const text = [
-    `Merhaba ${employee.name},`,
+    formatString(strings.email.greeting, { name: employee.name }),
     '',
-    'Girdiğiniz bilgiler sistemdeki kaydınızla uyuştu. Yeni PIN belirlemek için aşağıdaki bağlantıyı kullanın:',
+    strings.email.bodyIntro,
     resetUrl,
     '',
-    `Bağlantı ${PIN_RESET_LINK_MINUTES} dakika geçerlidir ve yalnızca bir kez kullanılabilir.`,
-    'Bu talebi siz yapmadıysanız bu e-postayı yok sayın ve yöneticinize bildirin.',
+    formatString(strings.email.validityNote, { minutes: PIN_RESET_LINK_MINUTES }),
+    strings.email.ignoreNote,
   ].join('\n');
 
   const html = `<!DOCTYPE html><html lang="tr"><body style="font-family:system-ui,sans-serif;color:#334155;line-height:1.6;">
-<p>Merhaba <strong>${employee.name}</strong>,</p>
-<p>Girdiğiniz bilgiler sistemdeki kaydınızla uyuştu. Yeni PIN belirlemek için aşağıdaki düğmeye tıklayın:</p>
+<p>${strings.email.greeting.replace('{name}', `<strong>${employee.name}</strong>`)}</p>
+<p>${strings.email.htmlIntro}</p>
 <p style="margin:24px 0;text-align:center;">
-  <a href="${resetUrl}" style="display:inline-block;padding:14px 28px;background:#2563eb;color:#ffffff;text-decoration:none;font-size:15px;font-weight:600;border-radius:12px;">Yeni PIN belirle</a>
+  <a href="${resetUrl}" style="display:inline-block;padding:14px 28px;background:#2563eb;color:#ffffff;text-decoration:none;font-size:15px;font-weight:600;border-radius:12px;">${strings.email.buttonLabel}</a>
 </p>
-<p style="font-size:13px;color:#64748b;">Bağlantı ${PIN_RESET_LINK_MINUTES} dakika geçerlidir ve yalnızca bir kez kullanılabilir.</p>
-<p style="font-size:13px;color:#64748b;">Bu talebi siz yapmadıysanız bu e-postayı yok sayın.</p>
+<p style="font-size:13px;color:#64748b;">${formatString(strings.email.validityNote, { minutes: PIN_RESET_LINK_MINUTES })}</p>
+<p style="font-size:13px;color:#64748b;">${strings.email.htmlIgnoreNote}</p>
 </body></html>`;
 
   await sendBrevoEmail({

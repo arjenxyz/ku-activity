@@ -1,0 +1,10 @@
+{
+  "qrCreateFailed": "Yoklama QR kodu oluşturulamadı",
+  "employeeFallback": "Personel",
+  "workLogDescription": "QR yoklama",
+  "noActiveSession": "Aktif yoklama oturumu yok",
+  "noSessionToCancel": "İptal edilecek aktif yoklama yok",
+  "recordNotFound": "Kayıt bulunamadı",
+  "removeActiveOnly": "Yalnızca devam eden yoklamadan kaldırılabilir",
+  "cannotRemoveWithWorkLog": "Yevmiyesi yazılmış kayıt kaldırılamaz"
+}

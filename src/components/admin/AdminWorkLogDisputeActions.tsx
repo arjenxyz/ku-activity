@@ -10,6 +10,7 @@ import { formatDateTime } from '@/lib/format';
 import { formatWorkLogSummary, type MesaiType } from '@/lib/work-log';
 import { MESAI_OPTIONS } from '@/lib/work-log';
 import { btnPrimary, btnSecondary, inputClass, labelClass } from '@/components/project/ui';
+import strings from '@json/src/components/admin/AdminWorkLogDisputeActions.json';
 
 export type DisputedWorkLog = {
   id: string;
@@ -55,7 +56,7 @@ export function AdminWorkLogDisputeActions({ projectId, record, onChanged }: Pro
     e.preventDefault();
     const amount = Number(form.amount);
     if (amount !== 1 && amount !== 0.5) {
-      setError('Gün miktarı tam (1) veya yarım (0.5) olmalı');
+      setError(strings.errors.invalidAmount);
       return;
     }
     setLoading(true);
@@ -71,7 +72,7 @@ export function AdminWorkLogDisputeActions({ projectId, record, onChanged }: Pro
       setOpen(false);
       onChanged();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Kayıt güncellenemedi');
+      setError(err instanceof Error ? err.message : strings.errors.updateFailed);
     } finally {
       setLoading(false);
     }
@@ -79,9 +80,7 @@ export function AdminWorkLogDisputeActions({ projectId, record, onChanged }: Pro
 
   const handleDelete = async () => {
     if (
-      !confirm(
-        'Bu yevmiye kaydını silmek istediğinize emin misiniz? Personelin itirazı da kapanır.'
-      )
+      !confirm(strings.deleteConfirm)
     ) {
       return;
     }
@@ -91,7 +90,7 @@ export function AdminWorkLogDisputeActions({ projectId, record, onChanged }: Pro
       await deleteProjectRecord(projectId, 'work-logs', record.id);
       onChanged();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Silinemedi');
+      setError(err instanceof Error ? err.message : strings.errors.deleteFailed);
     } finally {
       setLoading(false);
     }
@@ -107,7 +106,7 @@ export function AdminWorkLogDisputeActions({ projectId, record, onChanged }: Pro
           className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold disabled:opacity-50 min-h-[36px]"
         >
           <FiCheckCircle className="w-3.5 h-3.5" />
-          Düzelt ve yeniden gönder
+          {strings.resolveButton}
         </button>
         <button
           type="button"
@@ -116,7 +115,7 @@ export function AdminWorkLogDisputeActions({ projectId, record, onChanged }: Pro
           className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border border-red-200 text-red-700 hover:bg-red-50 text-xs font-semibold disabled:opacity-50 min-h-[36px]"
         >
           <FiTrash2 className="w-3.5 h-3.5" />
-          Kaydı sil
+          {strings.deleteButton}
         </button>
       </div>
       {error && !open && <p className="text-xs text-red-600 mt-2 text-right">{error}</p>}
@@ -124,23 +123,21 @@ export function AdminWorkLogDisputeActions({ projectId, record, onChanged }: Pro
       {open && (
         <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4 bg-black/40">
           <div className="bg-white rounded-xl shadow-xl w-full max-w-md p-5 space-y-4 max-h-[90dvh] overflow-y-auto">
-            <h3 className="text-lg font-semibold text-slate-900">İtirazı çöz</h3>
+            <h3 className="text-lg font-semibold text-slate-900">{strings.modalTitle}</h3>
             <div className="rounded-lg bg-amber-50 border border-amber-200 px-3 py-2 text-sm text-amber-950">
               <p className="font-medium flex items-center gap-1.5">
                 <FiAlertTriangle className="w-4 h-4 shrink-0" />
-                Personel itirazı
+                {strings.disputeLabel}
               </p>
               <p className="text-xs mt-1 opacity-90">{record.employee_dispute_note}</p>
               <p className="text-[11px] mt-1 text-amber-800">
                 {formatDateTime(record.employee_disputed_at)}
               </p>
             </div>
-            <p className="text-xs text-slate-600">
-              Kaydı düzelttikten sonra personelin tekrar onaylaması gerekir.
-            </p>
+            <p className="text-xs text-slate-600">{strings.resolveHint}</p>
             <form onSubmit={handleResolve} className="space-y-3">
               <div>
-                <label className={labelClass}>Tarih</label>
+                <label className={labelClass}>{strings.dateLabel}</label>
                 <input
                   type="date"
                   className={inputClass}
@@ -150,18 +147,18 @@ export function AdminWorkLogDisputeActions({ projectId, record, onChanged }: Pro
                 />
               </div>
               <div>
-                <label className={labelClass}>Gün</label>
+                <label className={labelClass}>{strings.dayLabel}</label>
                 <select
                   className={inputClass}
                   value={form.amount}
                   onChange={(e) => setForm({ ...form, amount: e.target.value })}
                 >
-                  <option value="1">Tam gün (1)</option>
-                  <option value="0.5">Yarım gün (0.5)</option>
+                  <option value="1">{strings.fullDayOption}</option>
+                  <option value="0.5">{strings.halfDayOption}</option>
                 </select>
               </div>
               <div>
-                <label className={labelClass}>Mesai</label>
+                <label className={labelClass}>{strings.mesaiLabel}</label>
                 <select
                   className={inputClass}
                   value={form.mesaiType}
@@ -178,7 +175,7 @@ export function AdminWorkLogDisputeActions({ projectId, record, onChanged }: Pro
                 </select>
               </div>
               <div>
-                <label className={labelClass}>Açıklama</label>
+                <label className={labelClass}>{strings.descriptionLabel}</label>
                 <input
                   type="text"
                   className={inputClass}
@@ -187,13 +184,13 @@ export function AdminWorkLogDisputeActions({ projectId, record, onChanged }: Pro
                 />
               </div>
               <p className="text-xs text-slate-500">
-                Önizleme:{' '}
+                {strings.previewLabel}{' '}
                 {formatWorkLogSummary(Number(form.amount), form.mesaiType)}
               </p>
               {error && <p className="text-sm text-red-600">{error}</p>}
               <div className="flex gap-2 pt-1">
                 <button type="submit" className={btnPrimary} disabled={loading}>
-                  {loading ? 'Kaydediliyor…' : 'Personel onayına gönder'}
+                  {loading ? strings.submitSaving : strings.submit}
                 </button>
                 <button
                   type="button"
@@ -201,7 +198,7 @@ export function AdminWorkLogDisputeActions({ projectId, record, onChanged }: Pro
                   onClick={() => setOpen(false)}
                   disabled={loading}
                 >
-                  İptal
+                  {strings.cancel}
                 </button>
               </div>
             </form>
@@ -220,7 +217,7 @@ export function AdminDisputeNote({ record }: { record: DisputedWorkLog }) {
         {record.employee_dispute_note}
       </p>
       <p className="text-xs text-amber-800 dark:text-amber-300 mt-1">
-        İtiraz: {formatDateTime(record.employee_disputed_at)}
+        {strings.disputePrefix} {formatDateTime(record.employee_disputed_at)}
       </p>
     </div>
   );

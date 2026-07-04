@@ -2,8 +2,8 @@
 
 import { APP_NAME } from '@/lib/brand';
 import { buildContractOtpConfirmUrl } from '@/lib/app-url';
-
-const OTP_SUBJECT = `${APP_NAME} — Başvuru doğrulama kodu`;
+import { formatString } from '@/lib/strings/format';
+import strings from '@json/src/lib/otp-delivery.json';
 
 export function maskEmail(email: string): string {
   const [local, domain] = email.split('@');
@@ -23,26 +23,25 @@ function buildOtpEmailHtml(code: string, linkToken: string, expiresMinutes: numb
       <table role="presentation" width="100%" style="max-width:480px;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(15,23,42,0.08);">
         <tr><td style="background:linear-gradient(135deg,#2563eb,#4f46e5);padding:28px 32px;text-align:center;">
           <p style="margin:0;font-size:22px;font-weight:700;color:#ffffff;letter-spacing:-0.02em;">${APP_NAME}</p>
-          <p style="margin:8px 0 0;font-size:13px;color:rgba(255,255,255,0.85);">Personel başvuru doğrulaması</p>
+          <p style="margin:8px 0 0;font-size:13px;color:rgba(255,255,255,0.85);">${strings.headerSubtitle}</p>
         </td></tr>
         <tr><td style="padding:32px;">
-          <p style="margin:0 0 8px;font-size:15px;color:#334155;line-height:1.5;">Başvurunuzu tamamlamak için doğrulama kodunuz:</p>
+          <p style="margin:0 0 8px;font-size:15px;color:#334155;line-height:1.5;">${strings.codeIntro}</p>
           <div style="margin:20px 0;padding:20px;background:#f8fafc;border:2px dashed #cbd5e1;border-radius:12px;text-align:center;">
             <p style="margin:0;font-size:36px;font-weight:800;letter-spacing:10px;color:#0f172a;font-family:ui-monospace,monospace;">${code}</p>
           </div>
-          <p style="margin:0 0 20px;font-size:13px;color:#64748b;text-align:center;">Kodu kopyalayıp başvuru ekranına yapıştırabilirsiniz.</p>
+          <p style="margin:0 0 20px;font-size:13px;color:#64748b;text-align:center;">${strings.codeHint}</p>
           <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
             <tr><td align="center" style="padding:8px 0 24px;">
-              <a href="${confirmUrl}" style="display:inline-block;padding:14px 28px;background:#2563eb;color:#ffffff;text-decoration:none;font-size:15px;font-weight:600;border-radius:12px;">Başvurumu doğrula ve gönder</a>
+              <a href="${confirmUrl}" style="display:inline-block;padding:14px 28px;background:#2563eb;color:#ffffff;text-decoration:none;font-size:15px;font-weight:600;border-radius:12px;">${strings.confirmButton}</a>
             </td></tr>
           </table>
           <p style="margin:0;font-size:12px;color:#94a3b8;line-height:1.6;text-align:center;">
-            Bu kod ve bağlantı <strong>${expiresMinutes} dakika</strong> geçerlidir.<br>
-            İşlemi siz yapmadıysanız bu e-postayı yok sayın.
+            ${formatString(strings.validityHtml, { minutes: expiresMinutes })}
           </p>
         </td></tr>
         <tr><td style="padding:16px 32px;background:#f8fafc;border-top:1px solid #e2e8f0;">
-          <p style="margin:0;font-size:11px;color:#94a3b8;text-align:center;">${APP_NAME} · İnşaat personel yönetimi</p>
+          <p style="margin:0;font-size:11px;color:#94a3b8;text-align:center;">${formatString(strings.footer, { appName: APP_NAME })}</p>
         </td></tr>
       </table>
     </td></tr>
@@ -54,14 +53,14 @@ function buildOtpEmailHtml(code: string, linkToken: string, expiresMinutes: numb
 function buildOtpEmailText(code: string, linkToken: string, expiresMinutes: number): string {
   const confirmUrl = buildContractOtpConfirmUrl(linkToken);
   return [
-    `${APP_NAME} — Başvuru doğrulama`,
+    formatString(strings.textTitle, { appName: APP_NAME }),
     '',
-    `Doğrulama kodunuz: ${code}`,
+    formatString(strings.textCode, { code }),
     '',
-    `Tek tıkla onay ve gönderim: ${confirmUrl}`,
+    formatString(strings.textConfirmLink, { url: confirmUrl }),
     '',
-    `Bu kod ${expiresMinutes} dakika geçerlidir.`,
-    'Bu işlemi siz yapmadıysanız bu e-postayı yok sayın.',
+    formatString(strings.textValidity, { minutes: expiresMinutes }),
+    strings.textIgnore,
   ].join('\n');
 }
 
@@ -81,7 +80,7 @@ export async function sendOtpEmail(
       console.info(`[otp-dev] Link: ${buildContractOtpConfirmUrl(linkToken)}`);
       return;
     }
-    throw new Error('E-posta doğrulama yapılandırılmamış (BREVO_API_KEY, BREVO_SENDER_EMAIL)');
+    throw new Error(strings.emailNotConfigured);
   }
 
   const res = await fetch('https://api.brevo.com/v3/smtp/email', {
@@ -94,7 +93,7 @@ export async function sendOtpEmail(
     body: JSON.stringify({
       sender: { name: senderName, email: senderEmail },
       to: [{ email: email.trim().toLowerCase() }],
-      subject: OTP_SUBJECT,
+      subject: formatString(strings.subject, { appName: APP_NAME }),
       htmlContent: buildOtpEmailHtml(code, linkToken, expiresMinutes),
       textContent: buildOtpEmailText(code, linkToken, expiresMinutes),
     }),
@@ -103,12 +102,13 @@ export async function sendOtpEmail(
   if (!res.ok) {
     const detail = await res.text().catch(() => '');
     if (res.status === 401) {
-      throw new Error(
-        'E-posta servisi yapılandırması hatalı (Brevo API anahtarı geçersiz). Yöneticinize bildirin.'
-      );
+      throw new Error(strings.invalidApiKey);
     }
     throw new Error(
-      `E-posta gönderilemedi (${res.status})${detail ? `: ${detail.slice(0, 120)}` : ''}`
+      formatString(strings.sendFailed, {
+        status: res.status,
+        detail: detail ? `: ${detail.slice(0, 120)}` : '',
+      })
     );
   }
 }

@@ -1,25 +1,12 @@
 import dayjs from 'dayjs';
+import strings from '@json/src/lib/age-validation.json';
+import { formatString } from '@/lib/strings/format';
 
 /** İnşaat sahasında çalışma için asgari yaş */
 export const MIN_CONSTRUCTION_AGE = 18;
 
 /** Doğum tarihi seçicide gösterilecek en eski yıl (yaklaşık üst yaş sınırı) */
 export const MAX_BIRTH_AGE = 80;
-
-const TURKISH_MONTHS = [
-  'Ocak',
-  'Şubat',
-  'Mart',
-  'Nisan',
-  'Mayıs',
-  'Haziran',
-  'Temmuz',
-  'Ağustos',
-  'Eylül',
-  'Ekim',
-  'Kasım',
-  'Aralık',
-] as const;
 
 /** Bugün itibarıyla en geç doğum tarihi (dahil) — 18 yaşını doldurmuş olmalı */
 export function getMaxBirthDate() {
@@ -45,7 +32,7 @@ export function getAgeFromBirthDate(date: string): number {
 }
 
 export function constructionAgeErrorMessage(): string {
-  return `İnşaat sahasında çalışmak için en az ${MIN_CONSTRUCTION_AGE} yaşında olmanız gerekir.`;
+  return formatString(strings.constructionAgeError, { minAge: MIN_CONSTRUCTION_AGE });
 }
 
 export function getEligibleBirthYears(): number[] {
@@ -69,7 +56,7 @@ export function getEligibleBirthDays(year: number, month: number): number[] {
 }
 
 export function formatBirthMonthLabel(month: number): string {
-  return TURKISH_MONTHS[month - 1] ?? String(month);
+  return strings.months[month - 1] ?? String(month);
 }
 
 export function composeBirthDate(year: number, month: number, day: number): string {

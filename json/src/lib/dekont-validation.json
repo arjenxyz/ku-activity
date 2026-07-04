@@ -1,0 +1,73 @@
+{
+  "checks": {
+    "readable": {
+      "label": "Belge okunabilir",
+      "detailChars": "{count} karakter okundu",
+      "detailFailed": "Metin çıkarılamadı — net bir dekont/görsel yükleyin"
+    },
+    "bankContext": {
+      "label": "Banka / havale içeriği",
+      "detailFailed": "Dekont, havale veya EFT ifadeleri bulunamadı"
+    },
+    "iban": {
+      "label": "Geçerli alıcı IBAN",
+      "detailPassed": "TR IBAN doğrulandı",
+      "detailFailed": "Geçerli alıcı IBAN okunamadı"
+    },
+    "amount": {
+      "label": "Transfer tutarı",
+      "detailFailed": "Tutar tespit edilemedi",
+      "detailAmount": "{amount} ₺"
+    },
+    "transferShape": {
+      "label": "Dekont yapısı (IBAN + tutar + tarih/referans)",
+      "detailPassed": "{count}/4 alan eşleşti",
+      "detailFailed": "Eksik alanlar var — rastgele PDF kabul edilmez"
+    },
+    "reference": {
+      "label": "Referans / işlem no",
+      "detailFailed": "Okunamadı (önerilir)"
+    },
+    "date": {
+      "label": "İşlem tarihi",
+      "detailFailed": "Okunamadı (önerilir)"
+    }
+  },
+  "summary": {
+    "accepted": "Dekont doğrulandı — avans eşleştirmesine geçilebilir",
+    "lowScore": "Güven skoru düşük — daha net bir dekont yükleyin",
+    "rejected": "Bu dosya banka dekontu olarak kabul edilemedi"
+  },
+  "match": {
+    "docAccepted": {
+      "label": "Dekont belgesi güvenilir"
+    },
+    "matchSelected": {
+      "label": "Avans talebi seçildi",
+      "detailFailed": "Listeden bir talep seçin",
+      "detailPassed": "{employeeName}{projectSuffix}"
+    },
+    "ibanMatch": {
+      "label": "Alıcı IBAN personel kaydıyla eşleşiyor",
+      "detailMismatch": "{iban} — kayıtlı IBAN ile uyuşmuyor",
+      "detailNoIban": "Dekonttan IBAN okunamadı"
+    },
+    "amountMatch": {
+      "label": "Transfer tutarı onaylı avansla uyumlu",
+      "detailCompare": "Dekont: {ocrAmount} ₺ · Onaylı avans: {approvedAmount} ₺",
+      "detailFailed": "Dekont tutarı okunamadı"
+    },
+    "matchScore": {
+      "label": "Eşleşme skoru (minimum {minScore})",
+      "detailPassed": "Skor: {score} — yeterli",
+      "detailFailed": "Skor: {score} — en az {minScore} gerekli"
+    },
+    "bonusDetail": "Ek eşleşme sinyali"
+  },
+  "confirm": {
+    "noMatchSelected": "Onaylanacak avans talebi seçilmedi",
+    "scoreInsufficient": "Eşleşme skoru yetersiz ({score}/{minScore}). IBAN ve tutar uyumu şart.",
+    "ibanMismatch": "Alıcı IBAN personel kaydıyla eşleşmedi — ödeme kaydedilemez",
+    "amountMismatch": "Dekont tutarı ({ocrAmount} ₺) onaylı avans ({approvedAmount} ₺) ile uyuşmuyor"
+  }
+}

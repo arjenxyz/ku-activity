@@ -1,4 +1,5 @@
 import { validateTurkishMobilePhone } from '@/lib/field-encryption';
+import strings from '@json/src/lib/admin-register-validation.json';
 
 export type AdminRegisterInput = {
   firstName: string;
@@ -25,40 +26,40 @@ export function validateAdminRegister(input: AdminRegisterInput): string | null 
   const city = input.city.trim();
 
   if (!firstName || !lastName) {
-    return 'Ad ve soyad zorunludur.';
+    return strings.nameRequired;
   }
   if (!email) {
-    return 'E-posta adresi zorunludur.';
+    return strings.emailRequired;
   }
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    return 'Geçerli bir e-posta adresi girin.';
+    return strings.emailInvalid;
   }
   if (!phone) {
-    return 'Telefon numarası zorunludur.';
+    return strings.phoneRequired;
   }
   if (!validateTurkishMobilePhone(phone)) {
-    return 'Geçerli bir cep telefonu girin (ör. 534 968 5678).';
+    return strings.phoneInvalid;
   }
   if (!companyName || companyName.length < 2) {
-    return 'Firma veya şantiye adı zorunludur.';
+    return strings.companyRequired;
   }
   if (!jobTitle) {
-    return 'Görev / unvan seçin.';
+    return strings.jobTitleRequired;
   }
   if (!city || city.length < 2) {
-    return 'Şehir bilgisi zorunludur.';
+    return strings.cityRequired;
   }
   if (!input.teamSize) {
-    return 'Tahmini personel sayısını seçin.';
+    return strings.teamSizeRequired;
   }
   if (!input.projectCount) {
-    return 'Aktif şantiye sayısını seçin.';
+    return strings.projectCountRequired;
   }
   if (!input.password || input.password.length < 6) {
-    return 'Şifre en az 6 karakter olmalıdır.';
+    return strings.passwordTooShort;
   }
   if (input.password !== input.passwordConfirm) {
-    return 'Şifreler eşleşmiyor.';
+    return strings.passwordMismatch;
   }
 
   return null;

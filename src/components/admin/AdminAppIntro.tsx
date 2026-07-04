@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { motion } from 'framer-motion';
 import { ADMIN_INTRO_IMAGE, ADMIN_PWA_SPLASH_BG } from '@/lib/admin-pwa-brand';
+import strings from '@json/src/components/admin/AdminAppIntro.json';
 
 const DISPLAY_MS = 3200;
 const EXIT_MS = 480;
@@ -31,7 +32,7 @@ function IntroLoadingFooter() {
         animate={{ opacity: [0.65, 1, 0.65] }}
         transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
       >
-        Yönetici uygulaması hazırlanıyor…
+        {strings.loadingText}
       </motion.p>
 
       <div className="relative mx-auto h-1 w-[min(72vw,220px)] overflow-hidden rounded-full bg-white/12">
@@ -92,7 +93,7 @@ export function AdminAppIntro({ onComplete }: Props) {
     <motion.div
       role="presentation"
       aria-busy="true"
-      aria-label="Yönetici uygulaması hazırlanıyor"
+      aria-label={strings.ariaLabel}
       className="fixed inset-0 z-[9999] h-[100dvh] w-full max-sm:block sm:hidden touch-none overflow-hidden"
       style={{ backgroundColor: ADMIN_PWA_SPLASH_BG }}
       initial={{ opacity: 1 }}

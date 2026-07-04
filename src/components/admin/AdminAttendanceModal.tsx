@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { FiX } from 'react-icons/fi';
 import { DAY_AMOUNT_OPTIONS, MESAI_OPTIONS, type MesaiType } from '@/lib/work-log';
+import strings from '@json/src/components/admin/AdminAttendanceModal.json';
 
 type Props = {
   employeeName: string;
@@ -35,17 +36,17 @@ export function AdminAttendanceModal({
           type="button"
           onClick={onClose}
           className="absolute top-4 right-4 text-slate-500 hover:text-slate-800"
-          aria-label="Kapat"
+          aria-label={strings.closeAriaLabel}
         >
           <FiX className="w-5 h-5" />
         </button>
 
-        <h2 className="font-bold text-lg text-slate-900 dark:text-white pr-8">Günlük yoklama</h2>
+        <h2 className="font-bold text-lg text-slate-900 dark:text-white pr-8">{strings.title}</h2>
         <p className="text-sm text-slate-500 mt-1 mb-4">{employeeName}</p>
 
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium mb-1.5">Çalışma günü</label>
+            <label className="block text-sm font-medium mb-1.5">{strings.workDayLabel}</label>
             <select
               className={inputClass}
               value={amount}
@@ -64,7 +65,7 @@ export function AdminAttendanceModal({
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1.5">Mesai</label>
+            <label className="block text-sm font-medium mb-1.5">{strings.mesaiLabel}</label>
             <select
               className={inputClass}
               value={mesaiType}
@@ -79,24 +80,23 @@ export function AdminAttendanceModal({
             </select>
             <p className="text-xs text-slate-500 mt-1">
               {amount < 1
-                ? 'Mesai yalnızca tam gün çalışmada tanımlanır.'
+                ? strings.mesaiHintDisabled
                 : MESAI_OPTIONS.find((o) => o.value === mesaiType)?.hint}
             </p>
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1.5">Not (isteğe bağlı)</label>
+            <label className="block text-sm font-medium mb-1.5">{strings.noteLabel}</label>
             <input
               className={inputClass}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="Örn. gece mesaisi, kalıntı iş"
+              placeholder={strings.notePlaceholder}
             />
           </div>
 
           <p className="text-xs text-amber-800 bg-amber-50 border border-amber-100 rounded-lg px-3 py-2">
-            Yönetici onayından sonra personelin de aynı günü onaylaması gerekir. İki taraf onaylayınca
-            yevmiye kesinleşir.
+            {strings.approvalHint}
           </p>
 
           <div className="flex gap-2 pt-1">
@@ -106,14 +106,14 @@ export function AdminAttendanceModal({
               onClick={() => onSubmit({ amount, mesaiType: amount < 1 ? 'none' : mesaiType, description })}
               className="flex-1 bg-slate-800 hover:bg-slate-900 text-white py-2.5 rounded-xl text-sm font-medium disabled:opacity-50"
             >
-              {loading ? 'Kaydediliyor…' : 'Onayla ve personele gönder'}
+              {loading ? strings.submitSaving : strings.submit}
             </button>
             <button
               type="button"
               onClick={onClose}
               className="flex-1 border border-slate-200 py-2.5 rounded-xl text-sm font-medium"
             >
-              Vazgeç
+              {strings.cancel}
             </button>
           </div>
         </div>

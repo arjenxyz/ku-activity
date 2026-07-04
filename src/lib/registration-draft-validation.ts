@@ -11,6 +11,7 @@ import {
   validateInternationalPhone,
 } from '@/lib/field-encryption';
 import { validatePersonnelPin } from '@/lib/personnel-pin';
+import strings from '@json/src/lib/registration-draft-validation.json';
 
 export type RegistrationDraftFields = {
   firstName: string;
@@ -34,36 +35,34 @@ export function validateRegistrationDraft(input: RegistrationDraftFields): strin
   const iban = normalizeIban(input.iban);
 
   if (!firstName || !lastName) {
-    return 'Ad ve soyad zorunludur.';
+    return strings.nameRequired;
   }
   if (!email) {
-    return 'E-posta adresi zorunludur.';
+    return strings.emailRequired;
   }
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    return 'Geçerli bir e-posta adresi girin.';
+    return strings.emailInvalid;
   }
   if (!phone) {
-    return 'Telefon numarası zorunludur.';
+    return strings.phoneRequired;
   }
   if (!validateInternationalPhone(phone)) {
-    return 'Geçerli bir telefon numarası girin (ülke kodu dahil).';
+    return strings.phoneInvalid;
   }
   if (!identityNumber || !validateIdentityNumber(input.identityType, identityNumber)) {
-    return input.identityType === 'tc'
-      ? 'Geçerli bir T.C. kimlik numarası girin.'
-      : 'Geçerli bir yabancı kimlik / pasaport numarası girin.';
+    return input.identityType === 'tc' ? strings.tcInvalid : strings.foreignIdInvalid;
   }
   if (!input.birthDate) {
-    return 'Doğum tarihi zorunludur.';
+    return strings.birthDateRequired;
   }
   if (!isConstructionEligibleBirthDate(input.birthDate)) {
     return constructionAgeErrorMessage();
   }
   if (!iban) {
-    return 'IBAN zorunludur.';
+    return strings.ibanRequired;
   }
   if (!validateTurkishIban(iban)) {
-    return 'Geçerli bir IBAN girin (TR ile 26 karakter, kontrol hanesi doğru olmalı).';
+    return strings.ibanInvalid;
   }
   const pinError = validatePersonnelPin(input.pin);
   if (pinError) {

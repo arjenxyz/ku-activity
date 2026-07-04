@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 import { FiDownload, FiFileText } from 'react-icons/fi';
+import { formatString } from '@/lib/strings/format';
+import strings from '@json/src/components/admin/LegalDossierDownloadButton.json';
 
 type Props = {
   projectId: string;
@@ -38,7 +40,7 @@ export function LegalDossierDownloadButton({
 
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
-        throw new Error((data as { error?: string }).error || 'Dosya indirilemedi');
+        throw new Error((data as { error?: string }).error || strings.errors.downloadFailed);
       }
 
       const blob = await res.blob();
@@ -47,14 +49,14 @@ export function LegalDossierDownloadButton({
       a.href = url;
       a.download = parseFilename(
         res.headers.get('Content-Disposition'),
-        `crewledger-hukuki-dosya.zip`
+        strings.fallbackFilename
       );
       document.body.appendChild(a);
       a.click();
       a.remove();
       URL.revokeObjectURL(url);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'İndirme başarısız');
+      setError(err instanceof Error ? err.message : strings.errors.genericFailed);
     } finally {
       setLoading(false);
     }
@@ -71,24 +73,24 @@ export function LegalDossierDownloadButton({
         type="button"
         onClick={() => void handleDownload()}
         disabled={loading}
-        title={`${employeeName} için hukuki personel dosyası (ZIP)`}
+        title={formatString(strings.title, { employeeName })}
         className={baseClass}
       >
         {loading ? (
           <>
             <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
-            Hazırlanıyor…
+            {strings.loading}
           </>
         ) : (
           <>
             <FiDownload className="w-4 h-4 shrink-0" />
-            Hukuki dosya indir
+            {strings.button}
           </>
         )}
       </button>
       <p className="mt-1.5 text-[11px] text-slate-500 flex items-start gap-1 max-w-xs">
         <FiFileText className="w-3.5 h-3.5 shrink-0 mt-0.5" />
-        Profil, hassas veriler, yevmiye, ödemeler, sözleşmeler ve başvuru geçmişi tek ZIP.
+        {strings.hint}
       </p>
       {error && <p className="mt-1 text-xs text-red-600">{error}</p>}
     </div>

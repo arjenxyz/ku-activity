@@ -36,6 +36,8 @@ import {
   type DekontValidationCheck,
   type DekontValidationResult,
 } from '@/lib/dekont-validation';
+import { formatString } from '@/lib/strings/format';
+import strings from '@json/src/components/admin/DekontSharePanel.json';
 
 type DraftPayload = {
   id: string;
@@ -47,9 +49,9 @@ type DraftPayload = {
 type Step = 'upload' | 'analyze' | 'review' | 'done';
 
 const STEPS: { id: Step; label: string }[] = [
-  { id: 'upload', label: 'Dekont al' },
-  { id: 'analyze', label: 'Analiz' },
-  { id: 'review', label: 'Eşleştir & onayla' },
+  { id: 'upload', label: strings.steps.upload },
+  { id: 'analyze', label: strings.steps.analyze },
+  { id: 'review', label: strings.steps.review },
 ];
 
 function TrustRing({ score, accepted }: { score: number; accepted: boolean }) {
@@ -78,7 +80,7 @@ function TrustRing({ score, accepted }: { score: number; accepted: boolean }) {
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         <span className="text-2xl font-bold tabular-nums text-slate-900 dark:text-white">{score}</span>
-        <span className="text-[10px] font-medium uppercase tracking-wider text-slate-500">Güven</span>
+        <span className="text-[10px] font-medium uppercase tracking-wider text-slate-500">{strings.trustLabel}</span>
       </div>
     </div>
   );
@@ -135,7 +137,7 @@ function CheckRow({ check, compact }: { check: DekontValidationCheck; compact?: 
         <p className="font-medium text-slate-800 dark:text-slate-100">
           {check.label}
           {!check.required && (
-            <span className="ml-1.5 text-[10px] font-normal uppercase text-slate-400">opsiyonel</span>
+            <span className="ml-1.5 text-[10px] font-normal uppercase text-slate-400">{strings.optionalBadge}</span>
           )}
         </p>
         {check.detail && (
@@ -166,18 +168,18 @@ function ValidationDetailsPanel({
       <div className="flex flex-wrap items-center gap-2">
         <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-semibold text-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-300">
           <FiCheck className="h-3 w-3" />
-          {passed.length} uyumlu
+          {formatString(strings.validation.matchedCount, { count: passed.length })}
         </span>
         {failedRequired.length > 0 && (
           <span className="inline-flex items-center gap-1 rounded-full bg-red-100 px-2.5 py-1 text-xs font-semibold text-red-800 dark:bg-red-950/50 dark:text-red-300">
             <FiXCircle className="h-3 w-3" />
-            {failedRequired.length} zorunlu sorun
+            {formatString(strings.validation.requiredIssuesCount, { count: failedRequired.length })}
           </span>
         )}
         {failedOptional.length > 0 && (
           <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 px-2.5 py-1 text-xs font-semibold text-amber-900 dark:bg-amber-950/40 dark:text-amber-200">
             <FiAlertTriangle className="h-3 w-3" />
-            {failedOptional.length} eksik (opsiyonel)
+            {formatString(strings.validation.optionalMissingCount, { count: failedOptional.length })}
           </span>
         )}
       </div>
@@ -185,7 +187,7 @@ function ValidationDetailsPanel({
       {!expanded && failedRequired.length > 0 && (
         <div className="space-y-2">
           <p className="text-xs font-semibold uppercase tracking-wide text-red-700 dark:text-red-400">
-            Düzeltilmesi gerekenler
+            {strings.validation.fixRequiredTitle}
           </p>
           <ul className="space-y-2">
             {failedRequired.map((check) => (
@@ -201,7 +203,7 @@ function ValidationDetailsPanel({
             <CheckRow key={check.id} check={check} compact />
           ))}
           {passed.length > 2 && (
-            <p className="text-xs text-slate-500">+{passed.length - 2} uyumlu kontrol daha…</p>
+            <p className="text-xs text-slate-500">{formatString(strings.validation.moreMatchedChecks, { count: passed.length - 2 })}</p>
           )}
         </ul>
       )}
@@ -214,12 +216,12 @@ function ValidationDetailsPanel({
         {expanded ? (
           <>
             <FiChevronUp className="h-4 w-4" />
-            Detayları gizle
+            {strings.validation.hideDetails}
           </>
         ) : (
           <>
             <FiChevronDown className="h-4 w-4" />
-            Detayları göster
+            {strings.validation.showDetails}
           </>
         )}
       </button>
@@ -229,11 +231,11 @@ function ValidationDetailsPanel({
           <div className="space-y-2">
             <p className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-emerald-700 dark:text-emerald-400">
               <FiCheckCircle className="h-3.5 w-3.5" />
-              Uyumlu ({passed.length})
+              {formatString(strings.validation.matchedSection, { count: passed.length })}
             </p>
             {passed.length === 0 ? (
               <p className="rounded-xl border border-dashed border-slate-200 px-3 py-4 text-xs text-slate-500 dark:border-slate-700">
-                Henüz geçen kontrol yok
+                {strings.validation.noPassedChecks}
               </p>
             ) : (
               <ul className="space-y-2">
@@ -247,11 +249,11 @@ function ValidationDetailsPanel({
           <div className="space-y-2">
             <p className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-red-700 dark:text-red-400">
               <FiXCircle className="h-3.5 w-3.5" />
-              Sorunlu / eksik ({failed.length})
+              {formatString(strings.validation.failedSection, { count: failed.length })}
             </p>
             {failed.length === 0 ? (
               <p className="rounded-xl border border-dashed border-emerald-200 bg-emerald-50/50 px-3 py-4 text-xs text-emerald-800 dark:border-emerald-900/50 dark:bg-emerald-950/20 dark:text-emerald-300">
-                Tüm kontroller geçti
+                {strings.validation.allPassed}
               </p>
             ) : (
               <ul className="space-y-2">
@@ -265,14 +267,14 @@ function ValidationDetailsPanel({
       )}
 
       {!expanded && (
-        <p className="text-[11px] text-slate-400">{title} — tüm maddeleri görmek için detayları açın</p>
+        <p className="text-[11px] text-slate-400">{formatString(strings.validation.expandHint, { title })}</p>
       )}
     </div>
   );
 }
 
 function ValidationChecklist({ validation }: { validation: DekontValidationResult }) {
-  return <ValidationDetailsPanel title="Belge doğrulama" checks={validation.checks} />;
+  return <ValidationDetailsPanel title={strings.validation.documentTitle} checks={validation.checks} />;
 }
 
 function DekontShareContent() {
@@ -301,7 +303,7 @@ function DekontShareContent() {
     try {
       const res = await fetch(`/api/admin/dekont/drafts/${id}`);
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Taslak yüklenemedi');
+      if (!res.ok) throw new Error(data.error || strings.errors.draftLoadFailed);
       const d = data.draft as DraftPayload;
       setDraft(d);
       setStep('review');
@@ -313,7 +315,7 @@ function DekontShareContent() {
       if (d.ocr_json.referenceNo) setReferenceNo(d.ocr_json.referenceNo);
       if (d.ocr_json.paymentDate) setPaymentDate(d.ocr_json.paymentDate);
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Taslak yüklenemedi');
+      setError(e instanceof Error ? e.message : strings.errors.draftLoadFailed);
       setStep('upload');
     } finally {
       setLoading(false);
@@ -347,11 +349,11 @@ function DekontShareContent() {
       form.append('file', file);
       const res = await fetch('/api/admin/dekont/analyze', { method: 'POST', body: form });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Analiz başarısız');
+      if (!res.ok) throw new Error(data.error || strings.errors.analyzeFailed);
       router.replace(`/admin-panel/dekont-paylas?draft=${data.draftId}`);
       await loadDraft(data.draftId);
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Analiz başarısız');
+      setError(e instanceof Error ? e.message : strings.errors.analyzeFailed);
       setStep('upload');
     } finally {
       setUploading(false);
@@ -386,13 +388,13 @@ function DekontShareContent() {
         }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Kayıt başarısız');
-      setSuccess('Ödeme kaydedildi — avans maaştan düşüldü.');
+      if (!res.ok) throw new Error(data.error || strings.errors.saveFailed);
+      setSuccess(strings.success.paymentSaved);
       setDraft(null);
       setStep('done');
       router.replace('/admin-panel/dekont-paylas');
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Kayıt başarısız');
+      setError(e instanceof Error ? e.message : strings.errors.saveFailed);
     } finally {
       setConfirming(false);
     }
@@ -401,8 +403,8 @@ function DekontShareContent() {
   return (
     <div className="space-y-6">
       <ProjectPageHeader
-        title="Dekont paylaş"
-        description="Bankadan gelen havale dekontunu güvenli OCR ile analiz edin. Rastgele PDF veya geçersiz belgeler otomatik reddedilir."
+        title={strings.header.title}
+        description={strings.header.description}
       />
 
       <div className="rounded-2xl border border-slate-200/80 bg-white/80 p-4 shadow-sm backdrop-blur dark:border-slate-800 dark:bg-slate-900/60">
@@ -437,13 +439,13 @@ function DekontShareContent() {
               >
                 <div className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-indigo-500/5" />
                 <FiUpload className="mx-auto h-10 w-10 text-indigo-500" />
-                <h3 className="mt-4 text-lg font-semibold text-slate-900 dark:text-white">Dekont yükle</h3>
+                <h3 className="mt-4 text-lg font-semibold text-slate-900 dark:text-white">{strings.upload.title}</h3>
                 <p className="mx-auto mt-2 max-w-sm text-sm text-slate-500">
-                  PDF veya net bir ekran görüntüsü sürükleyin. Yalnızca banka havale dekontları kabul edilir.
+                  {strings.upload.description}
                 </p>
                 <label className={`${btnPrimary} mt-6 inline-flex cursor-pointer items-center gap-2`}>
                   <FiFileText />
-                  Dosya seç
+                  {strings.upload.selectFile}
                   <input
                     type="file"
                     accept="application/pdf,image/jpeg,image/png,image/webp,image/heic"
@@ -452,7 +454,7 @@ function DekontShareContent() {
                     onChange={handleFileUpload}
                   />
                 </label>
-                <p className="mt-3 text-xs text-slate-400">Maks. 10 MB · PDF, JPG, PNG, WEBP</p>
+                <p className="mt-3 text-xs text-slate-400">{strings.upload.fileHint}</p>
               </div>
             </div>
 
@@ -461,10 +463,10 @@ function DekontShareContent() {
                 <div className="flex items-start gap-3">
                   <FiShare2 className="mt-0.5 h-5 w-5 shrink-0 text-blue-600 dark:text-blue-400" />
                   <div>
-                    <p className="font-semibold text-blue-900 dark:text-blue-100">Bankadan paylaş</p>
+                    <p className="font-semibold text-blue-900 dark:text-blue-100">{strings.shareFromBank.title}</p>
                     <p className="mt-1 text-sm text-blue-800/90 dark:text-blue-200/80">
-                      Garanti, Ziraat, İş Bankası, Akbank… → Dekont → Paylaş →{' '}
-                      <strong>CrewLedger Yönetici</strong>
+                      {strings.shareFromBank.descriptionPrefix}
+                      <strong>{strings.shareFromBank.appName}</strong>
                     </p>
                   </div>
                 </div>
@@ -474,12 +476,17 @@ function DekontShareContent() {
                 <div className="flex items-start gap-3">
                   <FiShield className="mt-0.5 h-5 w-5 shrink-0 text-emerald-600" />
                   <div>
-                    <p className="font-semibold text-slate-900 dark:text-white">Güvenlik kontrolleri</p>
+                    <p className="font-semibold text-slate-900 dark:text-white">{strings.security.title}</p>
                     <ul className="mt-2 space-y-1.5 text-xs text-slate-600 dark:text-slate-400">
-                      <li>· Geçerli TR IBAN ve transfer tutarı zorunlu</li>
-                      <li>· Banka / havale anahtar kelimeleri aranır</li>
-                      <li>· Personel IBAN + tutar eşleşmesi olmadan ödeme kaydı yapılamaz</li>
-                      <li>· Minimum güven skoru: {MIN_TRUST_SCORE} · Eşleşme: {MIN_MATCH_SCORE}+</li>
+                      <li>{strings.security.ibanRequired}</li>
+                      <li>{strings.security.keywords}</li>
+                      <li>{strings.security.matchRequired}</li>
+                      <li>
+                        {formatString(strings.security.minScores, {
+                          minTrust: MIN_TRUST_SCORE,
+                          minMatch: MIN_MATCH_SCORE,
+                        })}
+                      </li>
                     </ul>
                   </div>
                 </div>
@@ -497,8 +504,8 @@ function DekontShareContent() {
             className="flex flex-col items-center justify-center rounded-2xl border border-slate-200 bg-white py-20 dark:border-slate-800 dark:bg-slate-900"
           >
             <div className="h-12 w-12 animate-spin rounded-full border-2 border-indigo-600 border-t-transparent" />
-            <p className="mt-4 font-medium text-slate-700 dark:text-slate-200">Dekont analiz ediliyor…</p>
-            <p className="mt-1 text-sm text-slate-500">OCR · IBAN doğrulama · tutar çıkarma · güvenlik taraması</p>
+            <p className="mt-4 font-medium text-slate-700 dark:text-slate-200">{strings.analyze.title}</p>
+            <p className="mt-1 text-sm text-slate-500">{strings.analyze.subtitle}</p>
           </motion.div>
         )}
 
@@ -513,7 +520,7 @@ function DekontShareContent() {
               <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
                 <div className="flex items-center justify-between gap-4">
                   <div>
-                    <h3 className="font-semibold text-slate-900 dark:text-white">Belge doğrulama</h3>
+                    <h3 className="font-semibold text-slate-900 dark:text-white">{strings.review.documentValidation}</h3>
                     <p className="mt-0.5 truncate text-xs text-slate-500">{draft.proof_file_name}</p>
                   </div>
                   <TrustRing score={validation.score} accepted={validation.accepted} />
@@ -533,18 +540,25 @@ function DekontShareContent() {
               </div>
 
               <div className="rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
-                <h3 className="font-semibold text-slate-900 dark:text-white">Okunan veriler</h3>
-                <p className="mt-0.5 text-xs text-slate-500">OCR çıktısı — doğrulama maddeleriyle karşılaştırın</p>
+                <h3 className="font-semibold text-slate-900 dark:text-white">{strings.review.ocrDataTitle}</h3>
+                <p className="mt-0.5 text-xs text-slate-500">{strings.review.ocrDataSubtitle}</p>
                 <dl className="mt-4 grid gap-3 text-sm">
                   {[
-                    ['Gönderen banka', ocr.senderBank ?? '—'],
-                    ['Alıcı banka', ocr.recipientBank ?? '—'],
-                    ['Transfer tipi', transferTypeLabel(ocr.transferType)],
-                    ['Alıcı IBAN', formatOcrIban(ocr.recipientIban)],
-                    ['Tutar', ocr.amount != null ? formatMoney(ocr.amount) : '—'],
-                    ['Referans', ocr.referenceNo ?? '—'],
-                    ['Tarih', ocr.paymentDate ?? '—'],
-                    ['Kaynak', ocr.source === 'pdf' ? 'PDF metni' : ocr.source === 'vision' ? 'Görsel OCR' : '—'],
+                    [strings.ocrFields.senderBank, ocr.senderBank ?? strings.ocrFields.empty],
+                    [strings.ocrFields.recipientBank, ocr.recipientBank ?? strings.ocrFields.empty],
+                    [strings.ocrFields.transferType, transferTypeLabel(ocr.transferType)],
+                    [strings.ocrFields.recipientIban, formatOcrIban(ocr.recipientIban)],
+                    [strings.ocrFields.amount, ocr.amount != null ? formatMoney(ocr.amount) : strings.ocrFields.empty],
+                    [strings.ocrFields.reference, ocr.referenceNo ?? strings.ocrFields.empty],
+                    [strings.ocrFields.date, ocr.paymentDate ?? strings.ocrFields.empty],
+                    [
+                      strings.ocrFields.source,
+                      ocr.source === 'pdf'
+                        ? strings.ocrFields.sourcePdf
+                        : ocr.source === 'vision'
+                          ? strings.ocrFields.sourceVision
+                          : strings.ocrFields.empty,
+                    ],
                   ].map(([label, value]) => (
                     <div key={label} className="flex justify-between gap-4 border-b border-slate-100 pb-2 dark:border-slate-800">
                       <dt className="text-slate-500">{label}</dt>
@@ -557,20 +571,17 @@ function DekontShareContent() {
 
             <div className="xl:col-span-7 space-y-4">
               <div className="rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
-                <h3 className="font-semibold text-slate-900 dark:text-white">Avans talebi eşleştirmesi</h3>
+                <h3 className="font-semibold text-slate-900 dark:text-white">{strings.review.matchTitle}</h3>
                 <p className="mt-1 text-xs text-slate-500">
-                  IBAN + tutar uyumu zorunlu · Skor {MIN_MATCH_SCORE}+ olmayan eşleşmeler onaylanamaz
+                  {formatString(strings.review.matchSubtitle, { minMatch: MIN_MATCH_SCORE })}
                 </p>
 
                 {matches.length === 0 ? (
                   <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900 dark:border-amber-900/50 dark:bg-amber-950/30 dark:text-amber-200">
-                    <p className="font-medium">Uygun avans talebi bulunamadı</p>
-                    <p className="mt-1 opacity-90">
-                      Onaylı havale bekleyen talep yok veya IBAN/tutar eşleşmedi. Önce avans talebini onaylayın ve
-                      personel IBAN bilgisinin kayıtlı olduğundan emin olun.
-                    </p>
+                    <p className="font-medium">{strings.review.noMatchTitle}</p>
+                    <p className="mt-1 opacity-90">{strings.review.noMatchDescription}</p>
                     <Link href="/admin-panel" className={`${btnSecondary} mt-3 inline-flex`}>
-                      Projelere git
+                      {strings.review.goToProjects}
                     </Link>
                   </div>
                 ) : (
@@ -636,18 +647,18 @@ function DekontShareContent() {
                 {matches.length > 0 && (
                   <div className="mt-6 space-y-4">
                     <ValidationDetailsPanel
-                      title="Onay koşulları"
+                      title={strings.validation.confirmTitle}
                       checks={matchChecks}
                       defaultExpanded={!confirmReady.ok}
                     />
 
                     <div className="grid gap-4 sm:grid-cols-2">
                       <div>
-                        <label className={labelClass}>Referans no</label>
+                        <label className={labelClass}>{strings.review.referenceLabel}</label>
                         <input className={inputClass} value={referenceNo} onChange={(e) => setReferenceNo(e.target.value)} />
                       </div>
                       <div>
-                        <label className={labelClass}>Ödeme tarihi</label>
+                        <label className={labelClass}>{strings.review.paymentDateLabel}</label>
                         <input
                           type="date"
                           className={inputClass}
@@ -662,7 +673,7 @@ function DekontShareContent() {
                 {!confirmReady.ok && (
                   <p className="mt-4 flex items-start gap-2 rounded-xl bg-red-50 px-3 py-2 text-sm text-red-800 dark:bg-red-950/30 dark:text-red-200">
                     <FiAlertTriangle className="mt-0.5 shrink-0" />
-                    {confirmReady.reason ?? 'Onay koşulları sağlanmadı'}
+                    {confirmReady.reason ?? strings.review.confirmNotReady}
                   </p>
                 )}
 
@@ -674,19 +685,19 @@ function DekontShareContent() {
                     onClick={() => void handleConfirm()}
                   >
                     <FiCheck className="mr-1 inline" />
-                    {confirming ? 'Kaydediliyor…' : 'Ödemeyi kaydet'}
+                    {confirming ? strings.review.saveSaving : strings.review.savePayment}
                   </button>
                   {selectedProjectId && (
                     <Link
                       href={`/admin-panel/proje/${selectedProjectId}/avans-talepleri`}
                       className={btnSecondary}
                     >
-                      Avans talepleri
+                      {strings.review.advanceRequests}
                     </Link>
                   )}
                   <label className={`${btnSecondary} inline-flex cursor-pointer items-center gap-1`}>
                     <FiRefreshCw className="h-4 w-4" />
-                    Başka dekont
+                    {strings.review.anotherDekont}
                     <input
                       type="file"
                       accept="application/pdf,image/*"
@@ -710,7 +721,7 @@ export function DekontSharePanel() {
       fallback={
         <div className="flex flex-col items-center py-20">
           <div className="h-10 w-10 animate-spin rounded-full border-2 border-indigo-600 border-t-transparent" />
-          <p className="mt-3 text-sm text-slate-500">Yükleniyor…</p>
+          <p className="mt-3 text-sm text-slate-500">{strings.loading}</p>
         </div>
       }
     >

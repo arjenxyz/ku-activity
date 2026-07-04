@@ -3,6 +3,8 @@
 import { APP_NAME, DEFAULT_SUPPORT_EMAIL } from '@/lib/brand';
 import type { ScreenReportInput } from '@/lib/screen-report-types';
 import { stripScreenshotDataUrl } from '@/lib/screen-report-types';
+import { formatString } from '@/lib/strings/format';
+import strings from '@json/src/lib/screen-report-email.json';
 
 export type { ScreenReportInput };
 
@@ -18,28 +20,30 @@ function buildReportHtml(input: ScreenReportInput): string {
   const diag =
     input.diagnostics && input.diagnostics.length > 0
       ? input.diagnostics.map((d) => `<li>${escapeHtml(d)}</li>`).join('')
-      : '<li>Ek tanılama kaydı yok</li>';
+      : `<li>${strings.noDiagnostics}</li>`;
+
+  const screenLabel = input.screenLabel ?? strings.defaultScreenLabel;
 
   return `<!DOCTYPE html>
 <html lang="tr"><body style="font-family:system-ui,sans-serif;color:#0f172a;">
-  <h2 style="margin:0 0 12px;">${APP_NAME} — Ekran raporu</h2>
-  <p><strong>Ekran:</strong> ${escapeHtml(input.screenLabel ?? 'Auth')}</p>
-  <p><strong>Sayfa:</strong> ${escapeHtml(input.pageUrl)}</p>
-  <p><strong>Zaman:</strong> ${escapeHtml(input.capturedAt)}</p>
-  <p><strong>Tarayıcı:</strong> ${escapeHtml(input.userAgent.slice(0, 500))}</p>
+  <h2 style="margin:0 0 12px;">${formatString(strings.title, { appName: APP_NAME })}</h2>
+  <p><strong>${strings.screenLabel}</strong> ${escapeHtml(screenLabel)}</p>
+  <p><strong>${strings.pageLabel}</strong> ${escapeHtml(input.pageUrl)}</p>
+  <p><strong>${strings.timeLabel}</strong> ${escapeHtml(input.capturedAt)}</p>
+  <p><strong>${strings.browserLabel}</strong> ${escapeHtml(input.userAgent.slice(0, 500))}</p>
   ${
     input.formError
-      ? `<p><strong>Form hatası:</strong> ${escapeHtml(input.formError)}</p>`
+      ? `<p><strong>${strings.formErrorLabel}</strong> ${escapeHtml(input.formError)}</p>`
       : ''
   }
   ${
     input.note
-      ? `<p><strong>Kullanıcı notu:</strong> ${escapeHtml(input.note)}</p>`
+      ? `<p><strong>${strings.userNoteLabel}</strong> ${escapeHtml(input.note)}</p>`
       : ''
   }
-  <h3 style="margin:20px 0 8px;">Tanılama</h3>
+  <h3 style="margin:20px 0 8px;">${strings.diagnosticsTitle}</h3>
   <ul>${diag}</ul>
-  <p style="margin-top:24px;font-size:12px;color:#64748b;">Ekran görüntüsü e-posta ekinde.</p>
+  <p style="margin-top:24px;font-size:12px;color:#64748b;">${strings.screenshotNote}</p>
 </body></html>`;
 }
 
@@ -52,20 +56,22 @@ function escapeHtml(value: string): string {
 }
 
 function buildReportText(input: ScreenReportInput): string {
+  const screenLabel = input.screenLabel ?? strings.defaultScreenLabel;
+
   return [
-    `${APP_NAME} — Ekran raporu`,
+    formatString(strings.title, { appName: APP_NAME }),
     '',
-    `Ekran: ${input.screenLabel ?? 'Auth'}`,
-    `Sayfa: ${input.pageUrl}`,
-    `Zaman: ${input.capturedAt}`,
-    `Tarayıcı: ${input.userAgent}`,
-    input.formError ? `Form hatası: ${input.formError}` : '',
-    input.note ? `Kullanıcı notu: ${input.note}` : '',
+    `${strings.screenLabel} ${screenLabel}`,
+    `${strings.pageLabel} ${input.pageUrl}`,
+    `${strings.timeLabel} ${input.capturedAt}`,
+    `${strings.browserLabel} ${input.userAgent}`,
+    input.formError ? `${strings.formErrorLabel} ${input.formError}` : '',
+    input.note ? `${strings.userNoteLabel} ${input.note}` : '',
     '',
-    'Tanılama:',
-    ...(input.diagnostics?.length ? input.diagnostics : ['(yok)']),
+    `${strings.diagnosticsTitle}:`,
+    ...(input.diagnostics?.length ? input.diagnostics : [strings.textDiagnosticsNone]),
     '',
-    'Ekran görüntüsü e-posta ekinde.',
+    strings.screenshotNote,
   ]
     .filter(Boolean)
     .join('\n');
@@ -88,8 +94,10 @@ export async function sendScreenReportEmail(input: ScreenReportInput): Promise<v
       });
       return;
     }
-    throw new Error('Rapor e-postası yapılandırılmamış (BREVO_API_KEY, BREVO_SENDER_EMAIL)');
+    throw new Error(strings.emailNotConfigured);
   }
+
+  const screenLabel = input.screenLabel ?? strings.defaultScreenLabel;
 
   const res = await fetch('https://api.brevo.com/v3/smtp/email', {
     method: 'POST',
@@ -101,7 +109,7 @@ export async function sendScreenReportEmail(input: ScreenReportInput): Promise<v
     body: JSON.stringify({
       sender: { name: senderName, email: senderEmail },
       to: [{ email: to }],
-      subject: `${APP_NAME} — Ekran raporu (${input.screenLabel ?? 'Auth'})`,
+      subject: formatString(strings.subjectSuffix, { appName: APP_NAME, screenLabel }),
       htmlContent: buildReportHtml(input),
       textContent: buildReportText(input),
       attachment: [
@@ -116,7 +124,10 @@ export async function sendScreenReportEmail(input: ScreenReportInput): Promise<v
   if (!res.ok) {
     const detail = await res.text().catch(() => '');
     throw new Error(
-      `Rapor gönderilemedi (${res.status})${detail ? `: ${detail.slice(0, 120)}` : ''}`
+      formatString(strings.sendFailed, {
+        status: res.status,
+        detail: detail ? `: ${detail.slice(0, 120)}` : '',
+      })
     );
   }
 }

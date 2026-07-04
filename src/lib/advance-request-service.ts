@@ -7,6 +7,7 @@ import {
 } from '@/lib/advance-cash-token';
 import { uploadAdvanceDekont, type StorageBackend } from '@/lib/advance-external-storage';
 import type { AdvancePaymentMethod, AdvanceRequestStatus } from '@/lib/advance-types';
+import strings from '@json/src/lib/advance-request-service.json';
 
 export class AdvanceRequestError extends Error {
   constructor(
@@ -31,7 +32,7 @@ async function loadRequest(admin: SupabaseClient, requestId: string, projectId?:
     }
     throw new AdvanceRequestError(error.message, 'DB', 500);
   }
-  if (!data) throw new AdvanceRequestError('Talep bulunamadı', 'NOT_FOUND', 404);
+  if (!data) throw new AdvanceRequestError(strings.notFound, 'NOT_FOUND', 404);
   return data as {
     id: string;
     project_id: string;
@@ -85,7 +86,7 @@ export async function createAdvanceRequest(
   }
 ) {
   if (!Number.isFinite(params.amount) || params.amount <= 0) {
-    throw new AdvanceRequestError('Geçerli bir tutar girin', 'INVALID_AMOUNT');
+    throw new AdvanceRequestError(strings.invalidAmount, 'INVALID_AMOUNT');
   }
 
   const { data, error } = await admin
@@ -115,10 +116,10 @@ export async function cancelAdvanceRequest(
 ) {
   const row = await loadRequest(admin, params.requestId);
   if (row.employee_id !== params.employeeId) {
-    throw new AdvanceRequestError('Bu talebe erişiminiz yok', 'FORBIDDEN', 403);
+    throw new AdvanceRequestError(strings.forbidden, 'FORBIDDEN', 403);
   }
   if (row.status !== 'pending') {
-    throw new AdvanceRequestError('Yalnızca bekleyen talepler iptal edilebilir', 'INVALID_STATUS');
+    throw new AdvanceRequestError(strings.cancelPendingOnly, 'INVALID_STATUS');
   }
 
   const { data, error } = await admin
@@ -146,10 +147,10 @@ export async function approveAdvanceRequest(
 ) {
   const row = await loadRequest(admin, params.requestId, params.projectId);
   if (row.status !== 'pending') {
-    throw new AdvanceRequestError('Yalnızca bekleyen talepler onaylanabilir', 'INVALID_STATUS');
+    throw new AdvanceRequestError(strings.approvePendingOnly, 'INVALID_STATUS');
   }
   if (!Number.isFinite(params.approvedAmount) || params.approvedAmount <= 0) {
-    throw new AdvanceRequestError('Geçerli onay tutarı girin', 'INVALID_AMOUNT');
+    throw new AdvanceRequestError(strings.invalidApprovedAmount, 'INVALID_AMOUNT');
   }
 
   const now = new Date().toISOString();
@@ -203,7 +204,7 @@ export async function rejectAdvanceRequest(
 ) {
   const row = await loadRequest(admin, params.requestId, params.projectId);
   if (!['pending', 'approved', 'awaiting_receipt'].includes(row.status)) {
-    throw new AdvanceRequestError('Bu talep reddedilemez', 'INVALID_STATUS');
+    throw new AdvanceRequestError(strings.cannotReject, 'INVALID_STATUS');
   }
 
   const { data, error } = await admin
@@ -249,10 +250,10 @@ export async function recordBankPayment(
 ) {
   const row = await loadRequest(admin, params.requestId, params.projectId);
   if (row.status !== 'approved') {
-    throw new AdvanceRequestError('Havale ödemesi yalnızca onaylanmış taleplerde kaydedilebilir', 'INVALID_STATUS');
+    throw new AdvanceRequestError(strings.bankPaymentApprovedOnly, 'INVALID_STATUS');
   }
   if (row.payment_method !== 'bank_transfer') {
-    throw new AdvanceRequestError('Bu talep havale ile onaylanmadı', 'INVALID_METHOD');
+    throw new AdvanceRequestError(strings.notBankTransfer, 'INVALID_METHOD');
   }
 
   const amount = row.approved_amount ?? row.requested_amount;
@@ -270,7 +271,7 @@ export async function recordBankPayment(
       });
 
   if (!params.existingProof && !params.fileBuffer) {
-    throw new AdvanceRequestError('Dekont dosyası gerekli', 'MISSING_FILE');
+    throw new AdvanceRequestError(strings.missingFile, 'MISSING_FILE');
   }
 
   const deductionId = await insertDeduction(admin, {
@@ -311,7 +312,7 @@ export async function confirmCashAdvance(
 ) {
   const normalized = normalizeAdvanceCashToken(params.token);
   if (!normalized) {
-    throw new AdvanceRequestError('Geçersiz avans kodu', 'INVALID_TOKEN');
+    throw new AdvanceRequestError(strings.invalidToken, 'INVALID_TOKEN');
   }
 
   const { data: tokenRow, error: tokenError } = await admin
@@ -327,7 +328,7 @@ export async function confirmCashAdvance(
     }
     throw new AdvanceRequestError(tokenError.message, 'DB', 500);
   }
-  if (!tokenRow) throw new AdvanceRequestError('Kod geçersiz veya kullanılmış', 'INVALID_TOKEN');
+  if (!tokenRow) throw new AdvanceRequestError(strings.tokenInvalidOrUsed, 'INVALID_TOKEN');
 
   if (new Date(tokenRow.expires_at).getTime() < Date.now()) {
     await admin.from('advance_cash_tokens').update({ is_active: false }).eq('id', tokenRow.id);
@@ -336,7 +337,7 @@ export async function confirmCashAdvance(
       .update({ status: 'expired' })
       .eq('id', tokenRow.advance_request_id)
       .eq('status', 'awaiting_receipt');
-    throw new AdvanceRequestError('Kodun süresi dolmuş', 'EXPIRED');
+    throw new AdvanceRequestError(strings.tokenExpired, 'EXPIRED');
   }
 
   const request = tokenRow.advance_requests as {
@@ -351,10 +352,10 @@ export async function confirmCashAdvance(
   };
 
   if (request.employee_id !== params.employeeId) {
-    throw new AdvanceRequestError('Bu kod size ait değil', 'FORBIDDEN', 403);
+    throw new AdvanceRequestError(strings.tokenNotYours, 'FORBIDDEN', 403);
   }
   if (request.status !== 'awaiting_receipt' || request.payment_method !== 'cash') {
-    throw new AdvanceRequestError('Bu talep nakit onayı beklemiyor', 'INVALID_STATUS');
+    throw new AdvanceRequestError(strings.cashNotAwaiting, 'INVALID_STATUS');
   }
 
   const amount = request.approved_amount ?? request.requested_amount;
@@ -408,7 +409,7 @@ export async function getActiveCashToken(admin: SupabaseClient, requestId: strin
 export async function regenerateCashToken(admin: SupabaseClient, requestId: string, projectId: string) {
   const row = await loadRequest(admin, requestId, projectId);
   if (row.status !== 'awaiting_receipt' || row.payment_method !== 'cash') {
-    throw new AdvanceRequestError('Nakit QR yalnızca teslim bekleyen taleplerde oluşturulur', 'INVALID_STATUS');
+    throw new AdvanceRequestError(strings.cashQrAwaitingOnly, 'INVALID_STATUS');
   }
 
   await admin

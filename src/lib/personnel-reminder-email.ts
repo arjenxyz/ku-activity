@@ -1,7 +1,7 @@
 import { APP_NAME } from '@/lib/brand';
 import { getAppBaseUrl } from '@/lib/app-url';
-
-const SUBJECT = `${APP_NAME} — Onayınızı bekleyen yevmiye kayıtları`;
+import { formatString } from '@/lib/strings/format';
+import strings from '@json/src/lib/personnel-reminder-email.json';
 
 function buildHtml(name: string, count: number, panelUrl: string): string {
   return `<!DOCTYPE html>
@@ -13,15 +13,15 @@ function buildHtml(name: string, count: number, panelUrl: string): string {
       <table role="presentation" width="100%" style="max-width:480px;background:#ffffff;border-radius:16px;overflow:hidden;">
         <tr><td style="background:linear-gradient(135deg,#2563eb,#4f46e5);padding:24px 28px;">
           <p style="margin:0;font-size:20px;font-weight:700;color:#ffffff;">${APP_NAME}</p>
-          <p style="margin:6px 0 0;font-size:13px;color:rgba(255,255,255,0.85);">Yevmiye onayı hatırlatması</p>
+          <p style="margin:6px 0 0;font-size:13px;color:rgba(255,255,255,0.85);">${strings.headerSubtitle}</p>
         </td></tr>
         <tr><td style="padding:28px;">
-          <p style="margin:0 0 12px;font-size:15px;color:#334155;line-height:1.5;">Merhaba ${name},</p>
+          <p style="margin:0 0 12px;font-size:15px;color:#334155;line-height:1.5;">${formatString(strings.greeting, { name })}</p>
           <p style="margin:0 0 20px;font-size:15px;color:#334155;line-height:1.5;">
-            <strong>${count}</strong> yevmiye kaydı onayınızı bekliyor. Onaylamadan ödeme hesabına dahil edilmez.
+            <strong>${count}</strong> ${strings.bodyHtmlSuffix}
           </p>
           <table role="presentation" width="100%"><tr><td align="center">
-            <a href="${panelUrl}" style="display:inline-block;padding:14px 28px;background:#2563eb;color:#ffffff;text-decoration:none;font-size:15px;font-weight:600;border-radius:12px;">Panele git</a>
+            <a href="${panelUrl}" style="display:inline-block;padding:14px 28px;background:#2563eb;color:#ffffff;text-decoration:none;font-size:15px;font-weight:600;border-radius:12px;">${strings.buttonLabel}</a>
           </td></tr></table>
         </td></tr>
       </table>
@@ -33,11 +33,11 @@ function buildHtml(name: string, count: number, panelUrl: string): string {
 
 function buildText(name: string, count: number, panelUrl: string): string {
   return [
-    `${APP_NAME} — Yevmiye onayı`,
+    formatString(strings.textTitle, { appName: APP_NAME }),
     '',
-    `Merhaba ${name},`,
-    `${count} yevmiye kaydı onayınızı bekliyor.`,
-    `Panel: ${panelUrl}`,
+    formatString(strings.greeting, { name }),
+    formatString(strings.textBody, { count }),
+    formatString(strings.textPanel, { panelUrl }),
   ].join('\n');
 }
 
@@ -57,7 +57,7 @@ export async function sendPersonnelPendingReminderEmail(
       console.info(`[reminder-dev] ${email}: ${pendingCount} bekleyen kayıt`);
       return;
     }
-    throw new Error('E-posta yapılandırılmamış');
+    throw new Error(strings.emailNotConfigured);
   }
 
   const res = await fetch('https://api.brevo.com/v3/smtp/email', {
@@ -70,7 +70,7 @@ export async function sendPersonnelPendingReminderEmail(
     body: JSON.stringify({
       sender: { name: senderName, email: senderEmail },
       to: [{ email: email.trim().toLowerCase() }],
-      subject: SUBJECT,
+      subject: formatString(strings.subject, { appName: APP_NAME }),
       htmlContent: buildHtml(name, pendingCount, panelUrl),
       textContent: buildText(name, pendingCount, panelUrl),
     }),
@@ -78,6 +78,11 @@ export async function sendPersonnelPendingReminderEmail(
 
   if (!res.ok) {
     const detail = await res.text().catch(() => '');
-    throw new Error(`Hatırlatma gönderilemedi (${res.status})${detail ? `: ${detail.slice(0, 80)}` : ''}`);
+    throw new Error(
+      formatString(strings.sendFailed, {
+        status: res.status,
+        detail: detail ? `: ${detail.slice(0, 80)}` : '',
+      })
+    );
   }
 }
