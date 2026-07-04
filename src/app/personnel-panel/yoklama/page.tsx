@@ -3,10 +3,13 @@
 import Link from 'next/link';
 import { Suspense, useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { FiCheckCircle, FiHash, FiInfo, FiMonitor, FiX, FiXCircle } from 'react-icons/fi';
+import { FiCheckCircle, FiHash, FiInfo, FiMonitor, FiX } from 'react-icons/fi';
 import { AttendanceCodeSheet } from '@/components/personnel/AttendanceCodeSheet';
 import { AttendanceQrScanner } from '@/components/personnel/AttendanceQrScanner';
-import { AttendanceStatusSticker } from '@/components/personnel/AttendanceStatusSticker';
+import {
+  AttendanceScanErrorOverlay,
+  AttendanceStatusSticker,
+} from '@/components/personnel/AttendanceStatusSticker';
 import { parseAttendanceTokenFromQr } from '@/lib/attendance-qr-service';
 import {
   fetchPersonnelAttendanceStatus,
@@ -163,12 +166,16 @@ function YoklamaContent() {
         )}
 
         {forceReplace && (status?.state === 'waiting' || status?.state === 'completed') && (
-          <div className="absolute inset-x-3 top-[calc(3.75rem+env(safe-area-inset-top))] z-[5] flex items-center justify-between gap-2 rounded-xl border border-amber-400/30 bg-amber-950/90 px-3 py-2 text-xs text-amber-50 shadow-lg">
-            <p className="font-medium">Yeniden okutma modu — önceki kayıt silinir.</p>
+          <div className="absolute inset-x-4 top-[calc(3.75rem+env(safe-area-inset-top))] z-[7] flex items-center gap-3 rounded-2xl border border-amber-200/20 bg-[#0f1a28]/95 px-3.5 py-2.5 text-xs text-amber-50 shadow-lg backdrop-blur-md">
+            <span className="relative flex h-2 w-2 shrink-0">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-400 opacity-60" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-400" />
+            </span>
+            <p className="min-w-0 flex-1 font-medium">Yeniden okutma modu — önceki kayıt silinir.</p>
             <button
               type="button"
               onClick={() => setForceReplace(false)}
-              className="shrink-0 rounded-lg p-1 opacity-80 hover:opacity-100"
+              className="shrink-0 rounded-lg p-1.5 text-amber-100/80 transition hover:bg-white/10 hover:text-white"
               aria-label="Yeniden okutmayı iptal"
             >
               <FiX className="h-4 w-4" />
@@ -198,7 +205,7 @@ function YoklamaContent() {
             status.state === 'none' ||
             status.state === 'cancelled' ||
             status.state === 'removed') && (
-            <ScanErrorSticker message={error} onDismiss={() => setError(null)} />
+            <AttendanceScanErrorOverlay message={error} onDismiss={() => setError(null)} />
           )}
       </div>
 
@@ -234,35 +241,6 @@ function YoklamaContent() {
         isRescan={forceReplace || status?.state === 'cancelled' || status?.state === 'removed'}
       />
     </>
-  );
-}
-
-function ScanErrorSticker({
-  message,
-  onDismiss,
-}: {
-  message: string;
-  onDismiss: () => void;
-}) {
-  return (
-    <div className="pointer-events-none absolute inset-0 z-[6] flex items-center justify-center px-6">
-      <div className="pointer-events-auto relative w-full max-w-[280px] rotate-1 rounded-2xl border-[3px] border-red-400/70 bg-red-950/90 px-6 py-7 text-center shadow-2xl backdrop-blur-md">
-        <button
-          type="button"
-          onClick={onDismiss}
-          className="absolute -right-2 -top-2 flex h-8 w-8 items-center justify-center rounded-full bg-black/50 text-white shadow-lg"
-          aria-label="Hatayı kapat"
-        >
-          <FiX className="h-4 w-4" />
-        </button>
-        <p className="text-[11px] font-bold uppercase tracking-[0.35em] text-red-300/90">
-          Başarısız
-        </p>
-        <FiXCircle className="mx-auto mt-4 h-16 w-16 text-red-400" strokeWidth={1.5} />
-        <p className="mt-4 text-lg font-bold leading-tight text-red-50">Okutma başarısız</p>
-        <p className="mt-2 text-sm leading-snug text-red-200/85">{message}</p>
-      </div>
-    </div>
   );
 }
 
