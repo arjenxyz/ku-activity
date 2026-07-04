@@ -32,30 +32,23 @@ export function HeroSection() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500" />
             </span>
-            Gönüllülük projesi · İnşaat personel takibi
+            İnşaat sektörüne özel personel takibi
           </div>
 
           <h1 className="text-3xl sm:text-4xl md:text-5xl xl:text-6xl font-bold tracking-tight text-gray-900 dark:text-white leading-[1.15]">
-            Şantiye finansal takibini{' '}
+            Personel yönetimini{' '}
             <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-              şeffaf ve dijital
-            </span>{' '}
-            yapın
+              basitleştirin
+            </span>
           </h1>
 
           <p className="mt-6 text-lg text-gray-600 dark:text-gray-300 max-w-xl leading-relaxed">
             Yevmiye, avans, kesinti, yoklama ve puantaj — hem yönetici hem personel panelinde
-            görünür. <strong className="font-medium text-gray-800 dark:text-gray-200">{DEFAULT_DEVELOPER_NAME}</strong>{' '}
-            tarafından geliştirilen, kar amacı gütmeyen gönüllük platformu; kullanım zorunlu değildir.
+            görünür. Güvenli, hızlı ve kullanıcı dostu arayüz ile şantiye operasyonlarınızı dijitalleştirin.
           </p>
 
           <div className="mt-8 flex flex-col sm:flex-row gap-3">
-            <LoginRoleButton className="touch-target inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white px-8 py-3.5 rounded-xl font-semibold shadow-lg shadow-blue-500/30 transition-all w-full sm:w-auto">
-              Giriş Yap
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
-              </svg>
-            </LoginRoleButton>
+            <LoginRoleButton variant="hero" />
             <a
               href="#features"
               className="touch-target inline-flex items-center justify-center border-2 border-gray-200 dark:border-slate-600 text-gray-700 dark:text-gray-200 px-8 py-3.5 rounded-xl font-semibold hover:bg-gray-50 dark:hover:bg-slate-800 active:bg-gray-100 transition-colors w-full sm:w-auto"

@@ -1,11 +1,10 @@
 'use client';
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { AnimatePresence, motion } from 'framer-motion';
 import { ThemeToggleButton } from '@/components/auth/ThemeToggleButton';
 import { BrandMark } from '@/components/brand/BrandMark';
-import { LoginRolePickerPanel } from '@/components/home/LoginRolePicker';
+import { LoginRoleButton } from '@/components/home/LoginRolePicker';
 import { APP_NAME, APP_TAGLINE_TR } from '@/lib/brand';
 
 const navLinks = [
@@ -15,124 +14,6 @@ const navLinks = [
   { href: '/apk', label: 'APK İndir' },
   { href: '#contact', label: 'İletişim' },
 ];
-
-function LoginDropdown({ open, onClose }: { open: boolean; onClose: () => void }) {
-  return (
-    <AnimatePresence>
-      {open && (
-        <>
-          <button
-            type="button"
-            className="fixed inset-0 z-40 cursor-default"
-            aria-label="Giriş menüsünü kapat"
-            onClick={onClose}
-          />
-          <motion.div
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="login-role-title"
-            initial={{ opacity: 0, y: -10, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -10, scale: 0.98 }}
-            transition={{ type: 'spring', damping: 28, stiffness: 360 }}
-            className="absolute right-0 top-[calc(100%+0.5rem)] z-50 w-[min(calc(100vw-2rem),400px)] overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-xl shadow-slate-900/10 dark:border-slate-700 dark:bg-slate-900 dark:shadow-black/40"
-          >
-            <p id="login-role-title" className="sr-only">
-              Hangi yetki ile giriş yapmak istiyorsunuz?
-            </p>
-            <LoginRolePickerPanel onNavigate={onClose} />
-          </motion.div>
-        </>
-      )}
-    </AnimatePresence>
-  );
-}
-
-function DesktopLoginTrigger() {
-  const [open, setOpen] = useState(false);
-  const rootRef = useRef<HTMLDivElement>(null);
-
-  const close = useCallback(() => setOpen(false), []);
-
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') close();
-    };
-    document.addEventListener('keydown', onKey);
-    return () => document.removeEventListener('keydown', onKey);
-  }, [open, close]);
-
-  return (
-    <div ref={rootRef} className="relative">
-      <button
-        type="button"
-        onClick={() => setOpen((value) => !value)}
-        aria-expanded={open}
-        aria-haspopup="dialog"
-        className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-md shadow-blue-500/25 transition-all hover:from-blue-700 hover:to-indigo-700 hover:shadow-lg hover:shadow-blue-500/30"
-      >
-        Giriş Yap
-        <svg
-          className={`h-4 w-4 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          aria-hidden
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-        </svg>
-      </button>
-      <LoginDropdown open={open} onClose={close} />
-    </div>
-  );
-}
-
-function MobileLoginSection({ onNavigate }: { onNavigate?: () => void }) {
-  const [expanded, setExpanded] = useState(false);
-
-  return (
-    <div className="space-y-2">
-      <button
-        type="button"
-        onClick={() => setExpanded((value) => !value)}
-        aria-expanded={expanded}
-        className="touch-target flex w-full items-center justify-between rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-3.5 text-sm font-semibold text-white shadow-lg shadow-blue-500/25"
-      >
-        Giriş Yap
-        <svg
-          className={`h-4 w-4 transition-transform duration-200 ${expanded ? 'rotate-180' : ''}`}
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          aria-hidden
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-        </svg>
-      </button>
-
-      <AnimatePresence initial={false}>
-        {expanded && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
-            className="overflow-hidden rounded-2xl border border-slate-200/90 bg-slate-50/80 dark:border-slate-700 dark:bg-slate-800/50"
-          >
-            <LoginRolePickerPanel
-              compact
-              onNavigate={() => {
-                setExpanded(false);
-                onNavigate?.();
-              }}
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-}
 
 export function HomeHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -186,7 +67,7 @@ export function HomeHeader() {
 
             <div className="hidden md:flex items-center gap-2">
               <ThemeToggleButton />
-              <DesktopLoginTrigger />
+              <LoginRoleButton variant="header" showIcon={false} />
             </div>
 
             <div className="flex items-center gap-1 md:hidden">
@@ -198,17 +79,17 @@ export function HomeHeader() {
                 aria-expanded={isMenuOpen}
               >
                 <span
-                  className={`bg-blue-600 block transition-all duration-300 h-0.5 w-5 rounded-sm ${
+                  className={`bg-[#0E1548] dark:bg-blue-500 block transition-all duration-300 h-0.5 w-5 rounded-sm ${
                     isMenuOpen ? 'rotate-45 translate-y-1' : '-translate-y-0.5'
                   }`}
                 />
                 <span
-                  className={`bg-blue-600 block transition-all duration-300 h-0.5 w-5 rounded-sm my-1 ${
+                  className={`bg-[#0E1548] dark:bg-blue-500 block transition-all duration-300 h-0.5 w-5 rounded-sm my-1 ${
                     isMenuOpen ? 'opacity-0' : 'opacity-100'
                   }`}
                 />
                 <span
-                  className={`bg-blue-600 block transition-all duration-300 h-0.5 w-5 rounded-sm ${
+                  className={`bg-[#0E1548] dark:bg-blue-500 block transition-all duration-300 h-0.5 w-5 rounded-sm ${
                     isMenuOpen ? '-rotate-45 -translate-y-1' : 'translate-y-0.5'
                   }`}
                 />
@@ -246,7 +127,7 @@ export function HomeHeader() {
               </a>
             ))}
             <div className="mt-auto pt-4 border-t border-gray-200 dark:border-slate-700">
-              <MobileLoginSection onNavigate={() => setIsMenuOpen(false)} />
+              <LoginRoleButton variant="mobile" showIcon={false} />
             </div>
           </div>
         </nav>
