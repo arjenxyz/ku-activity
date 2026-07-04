@@ -124,10 +124,6 @@ export async function middleware(request: NextRequest) {
   const pendingCode = request.cookies.get(PENDING_REGISTRATION_COOKIE)?.value?.trim();
   const hasPendingApplicationCookie = Boolean(pendingCode && pendingCode !== '1');
 
-  if (hasPersonnelCookie && pathname === '/') {
-    return finish(NextResponse.redirect(new URL('/personnel-panel', request.url)));
-  }
-
   if (
     !hasPersonnelCookie &&
     hasPendingApplicationCookie &&
