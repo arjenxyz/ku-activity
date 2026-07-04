@@ -6,13 +6,14 @@ import { ThemeToggleButton } from '@/components/auth/ThemeToggleButton';
 import { BrandMark } from '@/components/brand/BrandMark';
 import { LoginRoleButton } from '@/components/home/LoginRolePicker';
 import { APP_NAME, APP_TAGLINE_TR } from '@/lib/brand';
+import strings from '@json/src/components/home/HomeHeader.json';
 
 const navLinks = [
-  { href: '#hero', label: 'Anasayfa' },
-  { href: '#features', label: 'Özellikler' },
-  { href: '#play-store', label: 'Google Play' },
-  { href: '/apk', label: 'APK İndir' },
-  { href: '#contact', label: 'İletişim' },
+  { href: '#hero', label: strings.navLinks.hero },
+  { href: '#features', label: strings.navLinks.features },
+  { href: '#play-store', label: strings.navLinks.playStore },
+  { href: '/apk', label: strings.navLinks.apk },
+  { href: '#contact', label: strings.navLinks.contact },
 ];
 
 export function HomeHeader() {
@@ -75,7 +76,7 @@ export function HomeHeader() {
               <button
                 className="touch-target flex flex-col justify-center items-center w-11 h-11 rounded-xl hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors"
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                aria-label={isMenuOpen ? 'Menüyü kapat' : 'Menüyü aç'}
+                aria-label={isMenuOpen ? strings.menuCloseAriaLabel : strings.menuOpenAriaLabel}
                 aria-expanded={isMenuOpen}
               >
                 <span
@@ -115,7 +116,7 @@ export function HomeHeader() {
           }`}
         >
           <div className="flex flex-col h-full p-5 pt-16">
-            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 px-2">Menü</p>
+            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 px-2">{strings.mobileMenuTitle}</p>
             {navLinks.map((link) => (
               <a
                 key={link.href}

@@ -1,0 +1,12 @@
+{
+  "navLinks": {
+    "hero": "Anasayfa",
+    "features": "Özellikler",
+    "playStore": "Google Play",
+    "apk": "APK İndir",
+    "contact": "İletişim"
+  },
+  "menuOpenAriaLabel": "Menüyü aç",
+  "menuCloseAriaLabel": "Menüyü kapat",
+  "mobileMenuTitle": "Menü"
+}

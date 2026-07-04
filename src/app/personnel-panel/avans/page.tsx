@@ -1,5 +1,6 @@
 'use client';
 
+import strings from '@json/src/app/personnel-panel/avans/page.json';
 import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import dayjs from 'dayjs';
@@ -44,10 +45,10 @@ export default function PersonnelAvansPage() {
     try {
       const res = await fetch('/api/personnel/advance-requests');
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Yüklenemedi');
+      if (!res.ok) throw new Error(data.error || strings.loadFailed);
       setRequests(data.requests ?? []);
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Yüklenemedi');
+      setError(e instanceof Error ? e.message : strings.loadFailed);
     } finally {
       setLoading(false);
     }
@@ -69,31 +70,31 @@ export default function PersonnelAvansPage() {
         body: JSON.stringify({ amount: Number(amount), note }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Talep gönderilemedi');
+      if (!res.ok) throw new Error(data.error || strings.submitFailed);
       setShowForm(false);
       setAmount('');
       setNote('');
-      setSuccess('Avans talebiniz iletildi. Onay bekleniyor.');
+      setSuccess(strings.submitSuccess);
       await load();
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Talep gönderilemedi');
+      setError(e instanceof Error ? e.message : strings.submitFailed);
     } finally {
       setSubmitting(false);
     }
   };
 
   const cancelRequest = async (id: string) => {
-    if (!window.confirm('Talebi iptal etmek istediğinize emin misiniz?')) return;
+    if (!window.confirm(strings.cancelConfirm)) return;
     setSubmitting(true);
     setError(null);
     try {
       const res = await fetch(`/api/personnel/advance-requests/${id}/cancel`, { method: 'POST' });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'İptal başarısız');
-      setSuccess('Talep iptal edildi.');
+      if (!res.ok) throw new Error(data.error || strings.cancelFailed);
+      setSuccess(strings.cancelSuccess);
       await load();
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'İptal başarısız');
+      setError(e instanceof Error ? e.message : strings.cancelFailed);
     } finally {
       setSubmitting(false);
     }
@@ -111,8 +112,8 @@ export default function PersonnelAvansPage() {
           <FiArrowLeft />
         </Link>
         <div>
-          <h1 className="text-lg font-bold text-slate-900 dark:text-white">Avans talebi</h1>
-          <p className="text-xs text-slate-500">Onay sonrası ödeme ayrı adımda yapılır</p>
+          <h1 className="text-lg font-bold text-slate-900 dark:text-white">{strings.pageTitle}</h1>
+          <p className="text-xs text-slate-500">{strings.pageSubtitle}</p>
         </div>
       </div>
 
@@ -132,8 +133,8 @@ export default function PersonnelAvansPage() {
           href="/personnel-panel/avans-onay"
           className="mb-4 block rounded-2xl bg-gradient-to-r from-amber-500 to-orange-500 px-4 py-4 text-white shadow-lg"
         >
-          <p className="font-semibold">Nakit avans teslimi bekleniyor</p>
-          <p className="mt-1 text-sm text-white/90">Parayı aldıysanız QR okutun veya kodu girin →</p>
+          <p className="font-semibold">{strings.awaitingCashTitle}</p>
+          <p className="mt-1 text-sm text-white/90">{strings.awaitingCashSubtitle}</p>
         </Link>
       )}
 
@@ -143,11 +144,11 @@ export default function PersonnelAvansPage() {
           onClick={() => setShowForm(true)}
           className="mb-6 flex w-full items-center justify-center gap-2 rounded-2xl bg-indigo-600 px-4 py-3.5 text-sm font-semibold text-white shadow-md"
         >
-          <FiPlus /> Yeni avans talebi
+          <FiPlus /> {strings.newRequestButton}
         </button>
       ) : (
         <form onSubmit={submitRequest} className="mb-6 rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-800">
-          <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">Tutar (TL)</label>
+          <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">{strings.amountLabel}</label>
           <input
             type="number"
             min="1"
@@ -157,7 +158,7 @@ export default function PersonnelAvansPage() {
             onChange={(e) => setAmount(e.target.value)}
             className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2.5 dark:border-slate-600 dark:bg-slate-900"
           />
-          <label className="mt-3 block text-sm font-medium text-slate-700 dark:text-slate-300">Not (isteğe bağlı)</label>
+          <label className="mt-3 block text-sm font-medium text-slate-700 dark:text-slate-300">{strings.noteLabel}</label>
           <textarea
             rows={2}
             value={note}
@@ -170,23 +171,23 @@ export default function PersonnelAvansPage() {
               disabled={submitting}
               className="flex-1 rounded-xl bg-indigo-600 py-2.5 text-sm font-semibold text-white disabled:opacity-60"
             >
-              Gönder
+              {strings.submitButton}
             </button>
             <button
               type="button"
               onClick={() => setShowForm(false)}
               className="rounded-xl border border-slate-200 px-4 py-2.5 text-sm dark:border-slate-600"
             >
-              Vazgeç
+              {strings.cancelButton}
             </button>
           </div>
         </form>
       )}
 
       {loading ? (
-        <p className="py-12 text-center text-sm text-slate-500">Yükleniyor…</p>
+        <p className="py-12 text-center text-sm text-slate-500">{strings.loading}</p>
       ) : requests.length === 0 ? (
-        <p className="py-8 text-center text-sm text-slate-500">Henüz avans talebiniz yok.</p>
+        <p className="py-8 text-center text-sm text-slate-500">{strings.emptyList}</p>
       ) : (
         <ul className="space-y-3">
           {requests.map((row) => (
@@ -223,7 +224,7 @@ export default function PersonnelAvansPage() {
                   onClick={() => void cancelRequest(row.id)}
                   className="mt-3 inline-flex items-center gap-1 text-sm text-red-500"
                 >
-                  <FiXCircle /> İptal et
+                  <FiXCircle /> {strings.cancelRequestButton}
                 </button>
               )}
             </li>

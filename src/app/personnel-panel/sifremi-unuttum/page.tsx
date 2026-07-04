@@ -1,5 +1,6 @@
 'use client';
 
+import strings from '@json/src/app/personnel-panel/sifremi-unuttum/page.json';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { LoadingSpinner } from '@/components/auth/AuthAlerts';
@@ -15,7 +16,7 @@ export default function PersonnelForgotPasswordRedirectPage() {
   return (
     <div className="min-h-[100dvh] flex flex-col items-center justify-center gap-3 text-white/70">
       <LoadingSpinner />
-      <p className="text-sm">Yönlendiriliyor…</p>
+      <p className="text-sm">{strings.redirecting}</p>
     </div>
   );
 }

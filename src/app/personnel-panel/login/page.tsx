@@ -1,5 +1,6 @@
 'use client';
 
+import strings from '@json/src/app/personnel-panel/login/page.json';
 import { Suspense, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
@@ -20,6 +21,7 @@ import { useAuthReport } from '@/components/auth/AuthReportContext';
 import { AuthAlert, LoadingSpinner } from '@/components/auth/AuthAlerts';
 import { ForgotPinModal } from '@/components/auth/ForgotPinModal';
 import { PERSONNEL_PIN_LENGTH, sanitizePersonnelPinInput } from '@/lib/personnel-pin';
+import { formatString } from '@/lib/strings/format';
 import {
   loginPinInputProps,
   loginTcInputProps,
@@ -92,7 +94,7 @@ function LoginForm() {
       });
       const data = await res.json();
       if (!res.ok) {
-        setError(data.error || `Giriş başarısız (${res.status})`);
+        setError(data.error || formatString(strings.loginFailedWithStatus, { status: res.status }));
         return;
       }
 
@@ -111,7 +113,7 @@ function LoginForm() {
 
       window.location.assign('/personnel-panel');
     } catch {
-      setError('Sistem hatası — lütfen tekrar deneyin');
+      setError(strings.systemError);
     } finally {
       setIsLoading(false);
     }
@@ -122,13 +124,13 @@ function LoginForm() {
       <form onSubmit={handleLogin} className="space-y-4" {...personnelLoginFormProps}>
         <div>
           <label htmlFor="personnel-tc" className={labelClass}>
-            T.C. Kimlik No
+            {strings.tcKimlikLabel}
           </label>
           <input
             id="personnel-tc"
             className={inputClass}
             data-sensitive-capture
-            placeholder="11 haneli T.C. kimlik numarası"
+            placeholder={strings.tcKimlikPlaceholder}
             maxLength={11}
             inputMode="numeric"
             value={identityNumber}
@@ -142,13 +144,13 @@ function LoginForm() {
 
         <div>
           <label htmlFor="personnel-pin" className={labelClass}>
-            Giriş PIN
+            {strings.pinLabel}
           </label>
           <input
             id="personnel-pin"
             className={`${inputClass} pin-mask`}
             data-sensitive-capture
-            placeholder={`${PERSONNEL_PIN_LENGTH} haneli PIN`}
+            placeholder={formatString(strings.pinPlaceholder, { pinLength: PERSONNEL_PIN_LENGTH })}
             maxLength={PERSONNEL_PIN_LENGTH}
             value={password}
             onChange={(e) => setPassword(sanitizePersonnelPinInput(e.target.value))}
@@ -173,12 +175,12 @@ function LoginForm() {
           {isLoading ? (
             <>
               <LoadingSpinner />
-              Giriş yapılıyor…
+              {strings.loggingIn}
             </>
           ) : (
             <>
               <FiLock className="w-4 h-4 opacity-90" />
-              Giriş Yap
+              {strings.loginButton}
             </>
           )}
         </button>
@@ -187,9 +189,9 @@ function LoginForm() {
         className={`mt-5 ${personnelAuthDividerClass} space-y-2 text-center ${personnelAuthFooterTextClass}`}
       >
         <p>
-          Hesabınız mı yok?{' '}
+          {strings.noAccountPrompt}{' '}
           <Link href="/personnel-panel/basvuru" prefetch className={personnelAuthLinkClass}>
-            Başvuru yapın
+            {strings.applyLink}
           </Link>
         </p>
         <p>
@@ -198,7 +200,7 @@ function LoginForm() {
             onClick={() => setForgotOpen(true)}
             className={`${personnelAuthLinkClass} bg-transparent border-0 p-0 cursor-pointer`}
           >
-            Şifremi unuttum
+            {strings.forgotPin}
           </button>
         </p>
       </div>
@@ -256,13 +258,13 @@ function PersonnelLoginContent() {
   return (
     <PersonnelLoginLayout
       dense
-      screenLabel="Personel Giriş"
-      subtitle="T.C. kimlik numaranız ve PIN ile giriş yapın."
+      screenLabel={strings.screenLabel}
+      subtitle={strings.subtitle}
     >
       {checkingSession ? (
         <div className="flex flex-col items-center justify-center py-12 gap-3 text-slate-500">
           <LoadingSpinner />
-          <p className="text-sm">Oturum kontrol ediliyor…</p>
+          <p className="text-sm">{strings.checkingSession}</p>
         </div>
       ) : (
         <LoginForm />
@@ -273,7 +275,7 @@ function PersonnelLoginContent() {
 
 export default function PersonnelLogin() {
   return (
-    <Suspense fallback={<div className="min-h-[100dvh] flex items-center justify-center text-white/60">Yükleniyor…</div>}>
+    <Suspense fallback={<div className="min-h-[100dvh] flex items-center justify-center text-white/60">{strings.loading}</div>}>
       <PersonnelLoginContent />
     </Suspense>
   );

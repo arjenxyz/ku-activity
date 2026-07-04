@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { PLAY_STORE_BADGE_TR } from '@/lib/play-store';
+import strings from '@json/src/components/home/GooglePlayBadge.json';
 
 export const GOOGLE_PLAY_ICON_SRC = '/Google_Play_icon.svg';
 
@@ -40,9 +41,9 @@ export function GooglePlayBadge({ href, enabled, size = 'md', fullWidth = false 
         </span>
         <div className="min-w-0 flex-1 text-left">
           <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">
-            Google Play
+            {strings.googlePlayLabel}
           </p>
-          <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">Yakında yayında</p>
+          <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">{strings.comingSoon}</p>
         </div>
       </div>
     );
@@ -55,14 +56,14 @@ export function GooglePlayBadge({ href, enabled, size = 'md', fullWidth = false 
         target="_blank"
         rel="noopener noreferrer"
         className={`${widthClass} items-center gap-3 rounded-2xl bg-slate-900 px-4 py-3 text-white shadow-md transition-colors hover:bg-slate-800 active:bg-slate-950 dark:bg-slate-950 dark:hover:bg-slate-900`}
-        aria-label="Google Play'den indir"
+        aria-label={strings.downloadAriaLabel}
       >
         <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/10">
           <GooglePlayIcon className="h-6 w-6" />
         </span>
         <div className="min-w-0 flex-1 text-left">
-          <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">Google Play</p>
-          <p className="text-sm font-semibold">İndir</p>
+          <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">{strings.googlePlayLabel}</p>
+          <p className="text-sm font-semibold">{strings.download}</p>
         </div>
         <svg className="h-5 w-5 shrink-0 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -77,11 +78,11 @@ export function GooglePlayBadge({ href, enabled, size = 'md', fullWidth = false 
       target="_blank"
       rel="noopener noreferrer"
       className="inline-block transition-transform hover:scale-[1.03] active:scale-[0.98] drop-shadow-lg"
-      aria-label="Google Play'den indir"
+      aria-label={strings.downloadAriaLabel}
     >
       <Image
         src={PLAY_STORE_BADGE_TR}
-        alt="Google Play'den edinin"
+        alt={strings.badgeAlt}
         width={200}
         height={59}
         className={`${badgeHeight} w-auto`}

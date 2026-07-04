@@ -1,5 +1,6 @@
 'use client';
 
+import strings from '@json/src/app/personnel-panel/basvuru/page.json';
 import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { ContractAcceptanceBlock } from '@/components/contracts/ContractAcceptanceBlock';
@@ -45,6 +46,7 @@ import {
   personnelAuthStepDisabledClass,
   personnelAuthStepIdleClass,
 } from '@/lib/personnel-auth-ui';
+import { formatString } from '@/lib/strings/format';
 
 const inputClass = personnelAuthInputClass;
 const labelClass = personnelAuthLabelClass;
@@ -279,7 +281,7 @@ export default function PersonnelApplicationPage() {
     setError('');
 
     if (!contractsReady || contractAcceptances.length === 0) {
-      setError('Başvuruyu göndermeden önce tüm sözleşmeleri sonuna kadar okuyup onaylayın.');
+      setError(strings.contractsRequiredError);
       return;
     }
     const pinError = validatePersonnelPinMatch(form.pin, form.pin_confirm);
@@ -305,7 +307,7 @@ export default function PersonnelApplicationPage() {
 
     const data = buildFormData();
     if (!data) {
-      setError('Form verileri hazırlanamadı.');
+      setError(strings.formDataError);
       return;
     }
 
@@ -351,7 +353,7 @@ export default function PersonnelApplicationPage() {
 
   if (bootstrapping) {
     return (
-      <PersonnelLoginLayout title="Başvuru" subtitle="Yükleniyor…">
+      <PersonnelLoginLayout title={strings.bootstrapTitle} subtitle={strings.bootstrapLoading}>
         <div className="flex justify-center py-12">
           <div className="h-10 w-10 animate-spin rounded-full border-2 border-blue-600 border-t-transparent" />
         </div>
@@ -390,26 +392,26 @@ export default function PersonnelApplicationPage() {
       size="wide"
       alignTop
       compact
-      screenLabel="Personel Başvuru"
-      title="Personel Başvurusu"
+      screenLabel={strings.screenLabel}
+      title={strings.title}
       subtitle=""
     >
       {error && <AuthAlert type="error" message={error} tone="personnel" />}
 
       <p className={personnelAuthInfoBannerClass}>
-        Başvurunuz onay bekliyorsa yeni form doldurmayın.{' '}
+        {strings.infoBannerPrefix}{' '}
         <Link href="/personnel-panel/login" className={`${personnelAuthLinkClass} underline underline-offset-2`}>
-          Giriş ekranından
+          {strings.infoBannerLink}
         </Link>{' '}
-        kimlik ve PIN ile durumunuza bakın.
+        {strings.infoBannerSuffix}
       </p>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-3 gap-2">
           {[
-            { id: 1 as RegistrationStep, label: 'Temel' },
-            { id: 2 as RegistrationStep, label: 'Diğer' },
-            { id: 3 as RegistrationStep, label: 'Sözleşme' },
+            { id: 1 as RegistrationStep, label: strings.steps.basic },
+            { id: 2 as RegistrationStep, label: strings.steps.other },
+            { id: 3 as RegistrationStep, label: strings.steps.contract },
           ].map((step) => (
             <button
               key={step.id}
@@ -431,11 +433,11 @@ export default function PersonnelApplicationPage() {
 
         {activeStep === 1 && (
           <section className={personnelAuthSectionClass}>
-            <h2 className={sectionTitleClass}>Temel bilgiler</h2>
+            <h2 className={sectionTitleClass}>{strings.sections.basicInfo}</h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className={labelClass}>Ad *</label>
+                <label className={labelClass}>{strings.labels.firstName}</label>
                 <input
                   className={inputClass}
                   value={form.first_name}
@@ -444,7 +446,7 @@ export default function PersonnelApplicationPage() {
                 />
               </div>
               <div>
-                <label className={labelClass}>Soyad *</label>
+                <label className={labelClass}>{strings.labels.lastName}</label>
                 <input
                   className={inputClass}
                   value={form.last_name}
@@ -453,7 +455,7 @@ export default function PersonnelApplicationPage() {
                 />
               </div>
               <div>
-                <label className={labelClass}>T.C. Kimlik No *</label>
+                <label className={labelClass}>{strings.labels.tcKimlik}</label>
                 <input
                   className={inputClass}
                   data-sensitive-capture
@@ -466,24 +468,23 @@ export default function PersonnelApplicationPage() {
                       tc_kimlik: e.target.value.replace(/\D/g, '').slice(0, 11),
                     })
                   }
-                  placeholder="11 haneli T.C. kimlik"
+                  placeholder={strings.tcKimlikPlaceholder}
                   required
                 />
                 <p className="mt-1.5 text-xs text-slate-500 leading-relaxed">
-                  T.C. kimlik numarası yalnızca format kontrolünden geçer; resmi kimlik doğrulaması
-                  işveren onay sürecinde yapılır.
+                  {strings.tcKimlikHint}
                 </p>
               </div>
               <div>
                 <label className={labelClass} htmlFor="basvuru-phone">
-                  Telefon *
+                  {strings.labels.phone}
                 </label>
                 <TurkishPhoneInput
                   id="basvuru-phone"
                   value={form.phone}
                   onChange={(phone) => setForm({ ...form, phone })}
                   allowCountryCodeSelect
-                  placeholder="123 456 789"
+                  placeholder={strings.phonePlaceholder}
                   required
                 />
               </div>
@@ -503,9 +504,9 @@ export default function PersonnelApplicationPage() {
         {activeStep === 2 && (
           <div className="space-y-5">
             <section className={personnelAuthSectionClass}>
-              <h2 className={sectionTitleClass}>Diğer gerekli bilgiler</h2>
+              <h2 className={sectionTitleClass}>{strings.sections.otherInfo}</h2>
               <div>
-                <label className={labelClass}>E-posta *</label>
+                <label className={labelClass}>{strings.labels.email}</label>
                 <input
                   type="email"
                   className={inputClass}
@@ -514,12 +515,12 @@ export default function PersonnelApplicationPage() {
                   required
                 />
                 <p className={personnelAuthMutedTextClass}>
-                  Doğrulama kodu bu adrese gönderilir.
+                  {strings.emailHint}
                 </p>
               </div>
 
               <div>
-                <label className={labelClass}>IBAN *</label>
+                <label className={labelClass}>{strings.labels.iban}</label>
                 <TurkishIbanInput
                   className={inputClass}
                   value={form.iban}
@@ -527,15 +528,15 @@ export default function PersonnelApplicationPage() {
                   required
                 />
                 <p className={`${personnelAuthMutedTextClass} text-[11px]`}>
-                  Kimlik ve IBAN bilgileriniz şifreli saklanır.
+                  {strings.ibanHint}
                 </p>
               </div>
 
-              <h3 className={sectionTitleClass}>Giriş güvenliği</h3>
+              <h3 className={sectionTitleClass}>{strings.sections.loginSecurity}</h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className={labelClass}>Giriş şifresi (PIN) *</label>
+                <label className={labelClass}>{strings.labels.pin}</label>
                 <input
                   type="password"
                   className={inputClass}
@@ -548,11 +549,11 @@ export default function PersonnelApplicationPage() {
                   required
                 />
                 <p className={personnelAuthMutedTextClass}>
-                  {PERSONNEL_PIN_LENGTH} haneli rakam. Panele girişte kullanılacak.
+                  {formatString(strings.pinHint, { pinLength: PERSONNEL_PIN_LENGTH })}
                 </p>
               </div>
               <div>
-                <label className={labelClass}>PIN tekrar *</label>
+                <label className={labelClass}>{strings.labels.pinConfirm}</label>
                 <input
                   type="password"
                   className={inputClass}
@@ -583,8 +584,9 @@ export default function PersonnelApplicationPage() {
 
             {contractsReady && (
               <p className="text-xs text-white/55 leading-relaxed">
-                Sözleşmeler tamam. <strong>Başvuruyu Gönder</strong> dediğinizde e-postanıza doğrulama
-                kodu ve tek tıkla onay bağlantısı gönderilir.
+                {strings.contractsReadyHintBefore}
+                <strong>{strings.contractsReadyHintBold}</strong>
+                {strings.contractsReadyHintAfter}
               </p>
             )}
           </div>
@@ -598,7 +600,7 @@ export default function PersonnelApplicationPage() {
                 onClick={() => setActiveStep((prev) => (prev - 1) as RegistrationStep)}
                 className={`w-1/3 sm:w-auto ${personnelAuthSecondaryBtnClass}`}
               >
-                Geri
+                {strings.backButton}
               </button>
             )}
             {activeStep < 3 ? (
@@ -606,11 +608,11 @@ export default function PersonnelApplicationPage() {
                 type="button"
                 onClick={() => {
                   if (activeStep === 1 && !isStep1Complete) {
-                    setError('Temel bilgileri eksiksiz doldurmadan diğer adıma geçemezsiniz.');
+                    setError(strings.step1IncompleteError);
                     return;
                   }
                   if (activeStep === 2 && !isStep2Complete) {
-                    setError('Diğer gerekli bilgileri eksiksiz doldurmadan sözleşme adımına geçemezsiniz.');
+                    setError(strings.step2IncompleteError);
                     return;
                   }
                   setError('');
@@ -618,7 +620,7 @@ export default function PersonnelApplicationPage() {
                 }}
                 className={`flex-1 sm:w-auto px-8 py-3 ${personnelAuthPrimaryBtnClass}`}
               >
-                Devam et
+                {strings.continueButton}
               </button>
             ) : (
               <button
@@ -626,7 +628,7 @@ export default function PersonnelApplicationPage() {
                 disabled={loading || !contractsReady}
                 className={`flex-1 sm:w-auto sm:min-w-[200px] px-8 py-3 ${personnelAuthPrimaryBtnClass}`}
               >
-                Başvuruyu Gönder
+                {strings.submitButton}
               </button>
             )}
           </div>

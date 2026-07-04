@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { FiArrowRight, FiCheck } from 'react-icons/fi';
 import { BrandLockup } from '@/components/brand/BrandLockup';
+import strings from '@json/src/components/personnel/ApplicationApprovedScreen.json';
 
 type Props = {
   loginHref: string;
@@ -32,25 +33,26 @@ export function ApplicationApprovedScreen({ loginHref, position }: Props) {
                 <FiCheck className="w-8 h-8" strokeWidth={2.5} />
               </div>
               <span className="mt-4 inline-flex items-center rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-800">
-                Hesabınız aktif
+                {strings.badge}
               </span>
-              <h1 className="mt-3 text-xl font-bold text-slate-900">Başvurunuz onaylandı</h1>
+              <h1 className="mt-3 text-xl font-bold text-slate-900">{strings.title}</h1>
               {position && (
                 <p className="mt-2 text-sm text-slate-600">
-                  Pozisyon: <span className="font-semibold text-slate-900">{position}</span>
+                  {strings.positionLabel}{' '}
+                  <span className="font-semibold text-slate-900">{position}</span>
                 </p>
               )}
             </div>
 
             <div className="px-6 pb-8 pt-4">
               <p className="text-sm text-slate-600 leading-relaxed">
-                Kimlik numaranız ve başvuruda belirlediğiniz PIN ile giriş yapabilirsiniz.
+                {strings.loginHint}
               </p>
               <Link
                 href={loginHref}
                 className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-emerald-600 py-3.5 text-sm font-semibold text-white hover:bg-emerald-700 active:scale-[0.98] transition-all shadow-lg shadow-emerald-600/25"
               >
-                Panele giriş yap
+                {strings.loginCta}
                 <FiArrowRight className="w-4 h-4" />
               </Link>
             </div>

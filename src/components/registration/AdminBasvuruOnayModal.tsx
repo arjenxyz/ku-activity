@@ -23,6 +23,8 @@ import {
 } from '@/lib/age-validation';
 import { formatDate } from '@/lib/format';
 import { registrationStatusMessage } from '@/lib/parse-registration-qr';
+import { formatString } from '@/lib/strings/format';
+import strings from '@json/src/components/registration/AdminBasvuruOnayModal.json';
 
 export type RegistrationApprovalData = {
   id: string;
@@ -69,55 +71,30 @@ const defaultForm: ApprovalForm = {
 };
 
 const IDENTITY_CHECKLIST_ITEMS = [
-  {
-    id: 'photo',
-    label: 'Başvuru fotoğrafı kimlik kartı / yüz ile uyumlu',
-  },
-  {
-    id: 'nameIdentity',
-    label: 'Ad-soyad ile kimlik numarası birbiriyle uyumlu',
-  },
-  {
-    id: 'contact',
-    label: 'Telefon ve e-posta adresi başvuru sahibine ait görünüyor',
-  },
-] as const;
+  { id: 'photo' as const, label: strings.checklist.photo },
+  { id: 'nameIdentity' as const, label: strings.checklist.nameIdentity },
+  { id: 'contact' as const, label: strings.checklist.contact },
+];
 
 type ChecklistId = (typeof IDENTITY_CHECKLIST_ITEMS)[number]['id'];
 
+const STATUS_BADGE_STYLES: Record<string, { className: string; dot: string }> = {
+  pending: { className: 'bg-amber-100 text-amber-900 ring-amber-200', dot: 'bg-amber-500' },
+  approved: { className: 'bg-emerald-100 text-emerald-900 ring-emerald-200', dot: 'bg-emerald-500' },
+  rejected: { className: 'bg-red-100 text-red-900 ring-red-200', dot: 'bg-red-500' },
+  expired: { className: 'bg-slate-100 text-slate-700 ring-slate-200', dot: 'bg-slate-400' },
+};
+
 function statusBadge(status: string) {
-  switch (status) {
-    case 'pending':
-      return {
-        label: 'Onay bekliyor',
-        className: 'bg-amber-100 text-amber-900 ring-amber-200',
-        dot: 'bg-amber-500',
-      };
-    case 'approved':
-      return {
-        label: 'Onaylanmış',
-        className: 'bg-emerald-100 text-emerald-900 ring-emerald-200',
-        dot: 'bg-emerald-500',
-      };
-    case 'rejected':
-      return {
-        label: 'Reddedilmiş',
-        className: 'bg-red-100 text-red-900 ring-red-200',
-        dot: 'bg-red-500',
-      };
-    case 'expired':
-      return {
-        label: 'Süresi dolmuş',
-        className: 'bg-slate-100 text-slate-700 ring-slate-200',
-        dot: 'bg-slate-400',
-      };
-    default:
-      return {
-        label: status,
-        className: 'bg-slate-100 text-slate-700 ring-slate-200',
-        dot: 'bg-slate-400',
-      };
-  }
+  const styles = STATUS_BADGE_STYLES[status] ?? {
+    className: 'bg-slate-100 text-slate-700 ring-slate-200',
+    dot: 'bg-slate-400',
+  };
+  const label =
+    status in strings.status
+      ? strings.status[status as keyof typeof strings.status]
+      : status;
+  return { label, ...styles };
 }
 
 export function AdminBasvuruOnayModal({
@@ -182,8 +159,8 @@ export function AdminBasvuruOnayModal({
 
   const identityLabel =
     registration.sensitive.identityType === 'foreign'
-      ? 'Yabancı Kimlik / Pasaport'
-      : 'T.C. Kimlik No';
+      ? strings.identity.foreign
+      : strings.identity.tc;
 
   const identityValue =
     registration.sensitive.identityType === 'foreign'
@@ -202,9 +179,7 @@ export function AdminBasvuruOnayModal({
     }
     if (!adminFormValid) {
       setLocalError(
-        checklistComplete
-          ? 'Pozisyon, yevmiye ve işe giriş tarihini doldurun.'
-          : 'Onaylamadan önce kimlik teyit maddelerinin tamamını işaretleyin.'
+        checklistComplete ? strings.errors.formIncomplete : strings.errors.checklistIncomplete
       );
       return;
     }
@@ -216,7 +191,7 @@ export function AdminBasvuruOnayModal({
         hireDate: form.hire_date,
       });
     } catch (e) {
-      setLocalError(e instanceof Error ? e.message : 'Onay başarısız');
+      setLocalError(e instanceof Error ? e.message : strings.errors.approveFailed);
     }
   };
 
@@ -231,11 +206,10 @@ export function AdminBasvuruOnayModal({
         type="button"
         className="absolute inset-0 bg-slate-900/55 backdrop-blur-sm"
         onClick={() => !loading && onClose()}
-        aria-label="Kapat"
+        aria-label={strings.closeOverlayAriaLabel}
       />
 
       <div className="relative w-full sm:max-w-3xl max-h-[min(96dvh,900px)] flex flex-col bg-white sm:rounded-2xl shadow-2xl shadow-slate-900/20 overflow-hidden">
-        {/* Üst başlık */}
         <div className="relative shrink-0 overflow-hidden border-b border-slate-100">
           <div className="absolute inset-0 bg-gradient-to-br from-slate-800 via-slate-900 to-blue-950" />
           <div
@@ -258,7 +232,7 @@ export function AdminBasvuruOnayModal({
                   id="basvuru-onay-modal-title"
                   className="mt-2 text-lg sm:text-xl font-bold text-white truncate"
                 >
-                  Başvuru inceleme
+                  {strings.modalTitle}
                 </h2>
                 <p className="text-sm text-slate-300 mt-0.5 font-mono">{registration.verificationCode}</p>
               </div>
@@ -267,7 +241,7 @@ export function AdminBasvuruOnayModal({
                 onClick={onClose}
                 disabled={loading}
                 className="shrink-0 flex h-9 w-9 items-center justify-center rounded-xl bg-white/10 text-white hover:bg-white/20 transition-colors disabled:opacity-50"
-                aria-label="Modalı kapat"
+                aria-label={strings.closeModalAriaLabel}
               >
                 <FiX className="w-5 h-5" />
               </button>
@@ -304,15 +278,16 @@ export function AdminBasvuruOnayModal({
                 </div>
                 <p className="mt-1.5 text-xs text-slate-400 inline-flex items-center gap-1">
                   <FiClock className="w-3.5 h-3.5" />
-                  Başvuru {formatDate(registration.createdAt.slice(0, 10))} · Son{' '}
-                  {formatDate(registration.expiresAt.slice(0, 10))}
+                  {formatString(strings.applicationDates, {
+                    createdDate: formatDate(registration.createdAt.slice(0, 10)),
+                    expiresDate: formatDate(registration.expiresAt.slice(0, 10)),
+                  })}
                 </p>
               </div>
             </div>
           </div>
         </div>
 
-        {/* İçerik */}
         <div className="flex-1 overflow-y-auto overscroll-contain">
           {statusMsg && (
             <div className="mx-4 sm:mx-6 mt-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
@@ -327,15 +302,14 @@ export function AdminBasvuruOnayModal({
           )}
 
           <div className="p-4 sm:p-6 grid lg:grid-cols-2 gap-5 sm:gap-6">
-            {/* Sol: kimlik bilgileri */}
             <section className="space-y-3">
               <div className="flex items-center gap-2">
                 <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-100 text-slate-700">
                   <FiShield className="w-4 h-4" />
                 </span>
                 <div>
-                  <h3 className="text-sm font-semibold text-slate-900">Kimlik & ödeme</h3>
-                  <p className="text-xs text-slate-500">Onay öncesi doğrulayın</p>
+                  <h3 className="text-sm font-semibold text-slate-900">{strings.identitySectionTitle}</h3>
+                  <p className="text-xs text-slate-500">{strings.identitySectionSubtitle}</p>
                 </div>
               </div>
 
@@ -348,7 +322,7 @@ export function AdminBasvuruOnayModal({
                 </div>
                 <div className="px-4 py-3">
                   <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-                    Doğum tarihi
+                    {strings.birthDateLabel}
                   </p>
                   <p className="mt-1 text-sm text-slate-900">
                     {formatDate(registration.sensitive.birthDate)}
@@ -359,7 +333,7 @@ export function AdminBasvuruOnayModal({
                         }
                       >
                         {' '}
-                        · {applicantAge} yaş
+                        {formatString(strings.ageSuffix, { age: applicantAge })}
                       </span>
                     )}
                   </p>
@@ -371,7 +345,7 @@ export function AdminBasvuruOnayModal({
                 </div>
                 <div className="px-4 py-3">
                   <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-                    IBAN
+                    {strings.ibanLabel}
                   </p>
                   <p className="mt-1 text-sm font-mono text-slate-900 break-all">
                     {showSensitive ? registration.sensitive.iban : registration.sensitive.ibanMasked}
@@ -387,12 +361,12 @@ export function AdminBasvuruOnayModal({
                 {showSensitive ? (
                   <>
                     <FiEyeOff className="w-3.5 h-3.5" />
-                    Hassas bilgileri gizle
+                    {strings.hideSensitive}
                   </>
                 ) : (
                   <>
                     <FiEye className="w-3.5 h-3.5" />
-                    Tam kimlik ve IBAN göster
+                    {strings.showSensitive}
                   </>
                 )}
               </button>
@@ -400,10 +374,8 @@ export function AdminBasvuruOnayModal({
               {isPending && (
                 <div className="rounded-xl border border-amber-200 bg-amber-50/80 p-4 space-y-3">
                   <div>
-                    <h4 className="text-sm font-semibold text-amber-950">Kimlik teyit kontrol listesi</h4>
-                    <p className="mt-0.5 text-xs text-amber-900/80">
-                      Resmi NVI doğrulaması yapılmaz; onay öncesi aşağıdaki maddeleri manuel teyit edin.
-                    </p>
+                    <h4 className="text-sm font-semibold text-amber-950">{strings.checklistTitle}</h4>
+                    <p className="mt-0.5 text-xs text-amber-900/80">{strings.checklistHint}</p>
                   </div>
                   <ul className="space-y-2">
                     {IDENTITY_CHECKLIST_ITEMS.map((item) => (
@@ -426,7 +398,6 @@ export function AdminBasvuruOnayModal({
               )}
             </section>
 
-            {/* Sağ: onay formu */}
             {isPending ? (
               <section className="space-y-4">
                 <div className="flex items-center gap-2">
@@ -434,21 +405,23 @@ export function AdminBasvuruOnayModal({
                     <FiCheck className="w-4 h-4" />
                   </span>
                   <div>
-                    <h3 className="text-sm font-semibold text-slate-900">Proje ataması</h3>
+                    <h3 className="text-sm font-semibold text-slate-900">{strings.assignmentTitle}</h3>
                     <p className="text-xs text-slate-500">
-                      {projectName ?? 'Seçili proje'} altına eklenecek
+                      {formatString(strings.assignmentSubtitle, {
+                        projectName: projectName ?? strings.assignmentSubtitleFallback,
+                      })}
                     </p>
                   </div>
                 </div>
 
                 <form id="basvuru-onay-modal-form" onSubmit={handleApprove} className="space-y-4">
                   <div className="rounded-xl border border-blue-100 bg-blue-50/60 px-4 py-3 text-sm text-blue-950">
-                    Personel girişi: kimlik numarası + başvuruda belirlediği PIN.
+                    {strings.loginHint}
                   </div>
 
                   <div>
                     <label htmlFor="modal-position" className={labelClass}>
-                      Pozisyon *
+                      {strings.positionLabel}
                     </label>
                     <div className="relative">
                       <FiUser className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
@@ -457,7 +430,7 @@ export function AdminBasvuruOnayModal({
                         className={`${inputClass} pl-9 min-h-[44px]`}
                         value={form.position}
                         onChange={(e) => setForm({ ...form, position: e.target.value })}
-                        placeholder="Örn. Demir işçisi, Kalıpçı"
+                        placeholder={strings.positionPlaceholder}
                         required
                         autoFocus
                       />
@@ -466,7 +439,7 @@ export function AdminBasvuruOnayModal({
 
                   <div>
                     <label htmlFor="modal-daily-wage" className={labelClass}>
-                      Günlük yevmiye (₺) *
+                      {strings.dailyWageLabel}
                     </label>
                     <div className="relative">
                       <FiDollarSign className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
@@ -479,7 +452,7 @@ export function AdminBasvuruOnayModal({
                         onChange={(e) => setForm({ ...form, daily_wage: e.target.value })}
                         min={0}
                         step="0.01"
-                        placeholder="1500"
+                        placeholder={strings.dailyWagePlaceholder}
                         required
                       />
                     </div>
@@ -487,7 +460,7 @@ export function AdminBasvuruOnayModal({
 
                   <div>
                     <label htmlFor="modal-hire-date" className={labelClass}>
-                      İşe giriş tarihi *
+                      {strings.hireDateLabel}
                     </label>
                     <div className="relative">
                       <FiCalendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
@@ -505,16 +478,12 @@ export function AdminBasvuruOnayModal({
               </section>
             ) : (
               <section className="flex flex-col justify-center rounded-xl border border-dashed border-slate-200 bg-slate-50/50 p-6 text-center">
-                <p className="text-sm text-slate-600">
-                  Bu başvuru üzerinde işlem yapılamaz. Yeni bir tarama yapın veya personelin güncel
-                  başvuru kodunu isteyin.
-                </p>
+                <p className="text-sm text-slate-600">{strings.notPendingMessage}</p>
               </section>
             )}
           </div>
         </div>
 
-        {/* Alt aksiyonlar */}
         <div className="shrink-0 border-t border-slate-100 bg-white px-4 sm:px-6 py-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
           {isPending ? (
             <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-2">
@@ -525,7 +494,7 @@ export function AdminBasvuruOnayModal({
                 className="inline-flex items-center justify-center gap-2 min-h-[48px] px-5 rounded-xl border border-red-200 bg-red-50 text-red-700 text-sm font-semibold hover:bg-red-100 disabled:opacity-50 transition-colors"
               >
                 <FiX className="w-4 h-4" />
-                Reddet
+                {strings.reject}
               </button>
               <button
                 type="submit"
@@ -534,7 +503,7 @@ export function AdminBasvuruOnayModal({
                 className="inline-flex items-center justify-center gap-2 min-h-[48px] px-6 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold shadow-lg shadow-blue-500/20 disabled:opacity-50 transition-colors"
               >
                 <FiCheck className="w-4 h-4" />
-                {loading ? 'Kaydediliyor…' : 'Onayla ve kaydet'}
+                {loading ? strings.approveSaving : strings.approve}
               </button>
             </div>
           ) : (
@@ -543,7 +512,7 @@ export function AdminBasvuruOnayModal({
               onClick={onClose}
               className="w-full sm:w-auto sm:ml-auto inline-flex items-center justify-center gap-2 min-h-[48px] px-6 rounded-xl border border-slate-200 bg-white text-sm font-semibold text-slate-700 hover:bg-slate-50"
             >
-              Kapat
+              {strings.close}
             </button>
           )}
         </div>

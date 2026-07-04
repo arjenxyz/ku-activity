@@ -1,0 +1,19 @@
+{
+  "sectionBadge": "Mobil Uygulama",
+  "sectionTitle": "Google Play'den indirin",
+  "sectionSubtitlePrefix": "Play Store kullanamıyorsanız",
+  "sectionSubtitleLink": "APK indirme sayfasına",
+  "sectionSubtitleSuffix": "göz atın.",
+  "platformLabel": "Android · Ücretsiz",
+  "apkDownload": "APK ile indir",
+  "apps": {
+    "personel": {
+      "title": "Personel Uygulaması",
+      "description": "Yoklama, yevmiye, mesai ve bordro görüntüleme. Başvuru ve günlük işlemler için tasarlandı."
+    },
+    "admin": {
+      "title": "Yönetici Uygulaması",
+      "description": "Proje yönetimi, personel onayı, yevmiye ve raporlar. Ofisten veya sahada tam kontrol."
+    }
+  }
+}

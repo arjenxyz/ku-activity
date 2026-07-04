@@ -4,10 +4,12 @@ import { BrandMark } from '@/components/brand/BrandMark';
 import { APP_NAME } from '@/lib/brand';
 import { getPlatformInfo } from '@/lib/platform-config';
 import { getVolunteerProjectSummary } from '@/lib/platform-legal-content';
+import { formatString } from '@/lib/strings/format';
+import strings from '@json/src/app/gizlilik/page.json';
 
 export const metadata: Metadata = {
-  title: 'Gizlilik Politikası',
-  description: 'CrewLedger gönüllülük platformu gizlilik politikası.',
+  title: strings.metadataTitle,
+  description: strings.metadataDescription,
 };
 
 export default function PrivacyPage() {
@@ -21,89 +23,81 @@ export default function PrivacyPage() {
           <BrandMark size="sm" />
           <div>
             <p className="font-semibold">{APP_NAME}</p>
-            <p className="text-xs text-slate-500">Gizlilik politikası</p>
+            <p className="text-xs text-slate-500">{strings.headerSubtitle}</p>
           </div>
         </div>
       </header>
 
       <main className="mx-auto max-w-3xl px-4 py-10 sm:px-6 prose prose-slate prose-sm sm:prose-base">
-        <h1>Gizlilik Politikası</h1>
+        <h1>{strings.title}</h1>
         <p className="lead text-slate-600">
-          Son güncelleme:{' '}
+          {strings.lastUpdatedPrefix}{' '}
           {new Date().toLocaleDateString('tr-TR', { year: 'numeric', month: 'long', day: 'numeric' })}
         </p>
 
-        <h2>1. Kimiz?</h2>
+        <h2>{strings.sections.who.heading}</h2>
         <p>
-          {s.developerLine} {s.noCompanyLine} Platform adresi:{' '}
+          {formatString(strings.sections.who.bodyPrefix, {
+            developerLine: s.developerLine,
+            noCompanyLine: s.noCompanyLine,
+          })}{' '}
           <a href={p.url} className="text-blue-600 hover:underline">
             {p.url}
           </a>
         </p>
 
-        <h2>2. Toplanan veriler</h2>
+        <h2>{strings.sections.dataCollected.heading}</h2>
         <ul>
           <li>
-            <strong>Personel:</strong> kimlik, iletişim, IBAN, doğum tarihi, profil fotoğrafı,
-            yevmiye, avans, kesinti, yoklama ve puantaj kayıtları.
+            <strong>{strings.sections.dataCollected.personnel}</strong>{' '}
+            {strings.sections.dataCollected.personnelDetail}
           </li>
           <li>
-            <strong>Yönetici:</strong> ad, e-posta, proje/şantiye bilgileri, oturum güvenliği.
+            <strong>{strings.sections.dataCollected.admin}</strong>{' '}
+            {strings.sections.dataCollected.adminDetail}
           </li>
           <li>
-            <strong>Teknik:</strong> HttpOnly oturum çerezleri, cihaz türü, hata günlükleri.
+            <strong>{strings.sections.dataCollected.technical}</strong>{' '}
+            {strings.sections.dataCollected.technicalDetail}
           </li>
         </ul>
 
-        <h2>3. Şeffaflık ilkesi</h2>
+        <h2>{strings.sections.transparency.heading}</h2>
         <p>{s.transparencyLine}</p>
 
-        <h2>4. İşleme amaçları</h2>
-        <p>
-          Veriler yalnızca dijital personel takibi, şeffaf finansal kayıt, yoklama, sözleşme onayı
-          ve platform güvenliği için işlenir. Veri satışı veya reklam profillemesi yapılmaz.
-        </p>
+        <h2>{strings.sections.purposes.heading}</h2>
+        <p>{strings.sections.purposes.body}</p>
 
-        <h2>5. Saklama ve güvenlik</h2>
-        <p>
-          HTTPS ile iletim; hassas alanlarda AES-256-GCM şifreleme; rol tabanlı erişim. T.C. kimlik
-          NVI ile doğrulanmaz — yalnızca algoritmik format kontrolü uygulanır.
-        </p>
+        <h2>{strings.sections.security.heading}</h2>
+        <p>{strings.sections.security.body}</p>
 
-        <h2>6. Üçüncü taraflar</h2>
-        <p>
-          Vercel (barındırma), Supabase (veritabanı), Brevo (e-posta), Google Cloud Vision (isteğe
-          bağlı dekont OCR). Yalnızca hizmet sunumu için gerekli verilere erişirler.
-        </p>
+        <h2>{strings.sections.thirdParties.heading}</h2>
+        <p>{strings.sections.thirdParties.body}</p>
 
-        <h2>7. Cihaz izinleri</h2>
-        <p>
-          Kamera yalnızca QR yoklama gibi açık kullanıcı eylemlerinde, cihaz izniyle kullanılır.
-          Arka planda gizli kayıt yapılmaz. Ayrıntılar personel sözleşmelerindeki &quot;Cihaz
-          İzinleri&quot; metninde yer alır.
-        </p>
+        <h2>{strings.sections.devicePermissions.heading}</h2>
+        <p>{strings.sections.devicePermissions.body}</p>
 
-        <h2>8. Haklarınız</h2>
+        <h2>{strings.sections.rights.heading}</h2>
         <p>
-          KVKK kapsamındaki haklarınız için önce kaydı oluşturan yöneticinize veya{' '}
+          {strings.sections.rights.bodyPrefix}{' '}
           <a href={`mailto:${p.contactEmail}`} className="text-blue-600 hover:underline">
             {p.contactEmail}
           </a>{' '}
-          adresine başvurabilirsiniz.
+          {strings.sections.rights.bodySuffix}
         </p>
 
-        <h2>9. Gönüllülük</h2>
+        <h2>{strings.sections.volunteer.heading}</h2>
         <p>{s.optionalUseLine}</p>
 
         <p className="text-sm text-slate-500 not-prose pt-6 flex flex-wrap gap-4">
           <Link href="/" className="text-blue-600 hover:underline">
-            ← Ana sayfa
+            {strings.footer.home}
           </Link>
           <Link href="/kvkk" className="text-blue-600 hover:underline">
-            KVKK Aydınlatma
+            {strings.footer.kvkk}
           </Link>
           <Link href="/kullanim-sartlari" className="text-blue-600 hover:underline">
-            Kullanım Şartları
+            {strings.footer.terms}
           </Link>
         </p>
       </main>

@@ -4,6 +4,7 @@ import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { FiCamera, FiImage, FiX } from 'react-icons/fi';
 import { Html5Qrcode, type CameraDevice } from 'html5-qrcode';
 import { parseRegistrationCodeFromQr, extractVerificationCode } from '@/lib/parse-registration-qr';
+import strings from '@json/src/components/registration/QrCameraScanner.json';
 
 type Props = {
   onScan: (code: string) => void;
@@ -37,16 +38,16 @@ async function waitForElement(id: string, attempts = 20): Promise<HTMLElement> {
     await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
   }
   const el = document.getElementById(id);
-  if (!el) throw new Error('Kamera alanı hazırlanamadı. Sayfayı yenileyip tekrar deneyin.');
+  if (!el) throw new Error(strings.errors.elementNotReady);
   return el;
 }
 
 async function ensureCameraPermission() {
   if (!navigator.mediaDevices?.getUserMedia) {
-    throw new Error('Tarayıcınız kamera erişimini desteklemiyor.');
+    throw new Error(strings.errors.cameraNotSupported);
   }
   if (!window.isSecureContext) {
-    throw new Error('Kamera yalnızca HTTPS veya localhost üzerinde çalışır.');
+    throw new Error(strings.errors.secureContextRequired);
   }
 }
 
@@ -54,7 +55,6 @@ function buildScanConfig(desktop: boolean) {
   if (desktop) {
     return {
       fps: 15,
-      // PC: tüm görüntüyü tara — telefon ekranındaki QR için daha güvenilir
       qrbox: (viewfinderWidth: number, viewfinderHeight: number) => ({
         width: Math.floor(viewfinderWidth * 0.92),
         height: Math.floor(viewfinderHeight * 0.92),
@@ -124,22 +124,22 @@ async function pickCameraConfigs(): Promise<Array<string | MediaTrackConstraints
 
 function mapCameraError(msg: string) {
   if (msg.includes('NotAllowed') || msg.includes('Permission')) {
-    return 'Kamera izni verilmedi. Tarayıcı adres çubuğundaki kamera ikonundan izin verin.';
+    return strings.errors.permissionDenied;
   }
   if (msg.includes('NotFound') || msg.includes('DevicesNotFound')) {
-    return 'Kamera bulunamadı. USB/webcam bağlı mı kontrol edin.';
+    return strings.errors.cameraNotFound;
   }
   if (msg.includes('secure') || msg.includes('SecureContext')) {
-    return 'Kamera yalnızca HTTPS veya localhost üzerinde çalışır.';
+    return strings.errors.secureContextRequired;
   }
-  return 'Kamera açılamadı. Farklı tarayıcı deneyin, QR görseli yükleyin veya kodu elle girin.';
+  return strings.errors.cameraOpenFailed;
 }
 
 export function QrCameraScanner({
   onScan,
   disabled,
   parseQr,
-  invalidQrMessage = 'Görselde geçerli başvuru QR kodu bulunamadı.',
+  invalidQrMessage = strings.invalidQrDefault,
 }: Props) {
   const regionId = useId().replace(/:/g, '');
   const scannerRef = useRef<Html5Qrcode | null>(null);
@@ -168,9 +168,7 @@ export function QrCameraScanner({
     const code = parser(decoded) ?? extractVerificationCode(decoded);
     if (!code) {
       setLastRawScan(decoded.slice(0, 120));
-      setError(
-        'QR okundu ancak geçerli başvuru kodu bulunamadı. Personelin başvuru ekranındaki QR kodunu gösterin.'
-      );
+      setError(strings.errors.qrReadNoCode);
       return false;
     }
     setError(null);
@@ -237,7 +235,6 @@ export function QrCameraScanner({
 
         const scanner = new Html5Qrcode(regionId, {
           verbose: false,
-          // BarcodeDetector canlı PC kamerasında sık sık sessizce başarısız olur
           useBarCodeDetectorIfSupported: !desktop,
         });
         scannerRef.current = scanner;
@@ -271,7 +268,7 @@ export function QrCameraScanner({
             setActive(true);
             return;
           } catch (e) {
-            lastError = e instanceof Error ? e : new Error('Kamera açılamadı');
+            lastError = e instanceof Error ? e : new Error(strings.errors.cameraOpenFailed);
             try {
               await scanner.stop();
             } catch {
@@ -288,12 +285,12 @@ export function QrCameraScanner({
         }
         setViewfinderOpen(false);
 
-        const msg = lastError?.message ?? 'Kamera açılamadı';
+        const msg = lastError?.message ?? strings.errors.cameraOpenFailed;
         setError(mapCameraError(msg));
       } catch (e) {
         if (cancelled) return;
         setViewfinderOpen(false);
-        const msg = e instanceof Error ? e.message : 'Kamera açılamadı';
+        const msg = e instanceof Error ? e.message : strings.errors.cameraOpenFailed;
         setError(mapCameraError(msg));
       } finally {
         bootingRef.current = false;
@@ -333,11 +330,11 @@ export function QrCameraScanner({
         setError(invalidQrMessage);
       }
     } catch (e) {
-      const msg = e instanceof Error ? e.message : 'QR okunamadı';
+      const msg = e instanceof Error ? e.message : strings.errors.imageScanFailed;
       setError(
         msg.includes('No QR code found') || msg.includes('NotFoundException')
-          ? 'Görselde QR kodu bulunamadı. Daha net bir ekran görüntüsü deneyin.'
-          : 'QR görseli okunamadı. Başvuru kodunu elle girebilirsiniz.'
+          ? strings.errors.noQrInImage
+          : strings.errors.imageScanFailed
       );
     } finally {
       try {
@@ -362,7 +359,7 @@ export function QrCameraScanner({
               className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-900 text-white text-sm font-medium disabled:opacity-50"
             >
               <FiCamera className="w-4 h-4" />
-              {starting ? 'Kamera açılıyor…' : 'Kamera ile QR Tara'}
+              {starting ? strings.openingCamera : strings.scanWithCamera}
             </button>
             <button
               type="button"
@@ -371,7 +368,7 @@ export function QrCameraScanner({
               className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-slate-300 text-slate-700 text-sm font-medium hover:bg-slate-50 disabled:opacity-50"
             >
               <FiImage className="w-4 h-4" />
-              {scanningFile ? 'Okunuyor…' : 'QR Görseli Yükle'}
+              {scanningFile ? strings.scanningFile : strings.uploadQrImage}
             </button>
             <input
               ref={fileInputRef}
@@ -388,7 +385,7 @@ export function QrCameraScanner({
             className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-slate-300 text-slate-700 text-sm font-medium hover:bg-slate-50"
           >
             <FiX className="w-4 h-4" />
-            Taramayı Durdur
+            {strings.stopScan}
           </button>
         )}
       </div>
@@ -406,25 +403,19 @@ export function QrCameraScanner({
           <p className="text-sm text-red-600">{error}</p>
           {lastRawScan && (
             <p className="text-xs text-slate-500 break-all">
-              Okunan: {lastRawScan}
+              {strings.rawScanPrefix} {lastRawScan}
             </p>
           )}
         </div>
       )}
       {starting && !active && !error && (
-        <p className="text-xs text-slate-500">Kamera başlatılıyor, lütfen bekleyin…</p>
+        <p className="text-xs text-slate-500">{strings.startingCamera}</p>
       )}
       {active && (
-        <p className="text-xs text-slate-500">
-          Personelin başvuru ekranındaki QR kodunu kameraya gösterin. Önizleme aynalı görünebilir;
-          okuma her yönden çalışır. Okumazsa alttaki <strong className="font-mono">ARJ-</strong>{' '}
-          kodunu yazın — otomatik doğrulanır.
-        </p>
+        <p className="text-xs text-slate-500">{strings.activeHint}</p>
       )}
       {!active && !error && (
-        <p className="text-xs text-slate-500">
-          PC&apos;de kamera açılmazsa QR ekran görüntüsünü yükleyin veya başvuru kodunu elle girin.
-        </p>
+        <p className="text-xs text-slate-500">{strings.idleHint}</p>
       )}
     </div>
   );

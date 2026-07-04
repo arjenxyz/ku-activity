@@ -1,14 +1,9 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import strings from '@json/src/components/home/ScrollingBanner.json';
 
-const texts = [
-  'CREWLEDGER',
-  'İNŞAAT PERSONEL YÖNETİMİ',
-  'YEVMİYE & AVANS TAKİBİ',
-  'DİJİTAL HR ÇÖZÜMLERİ',
-  'PROJE BAZLI TAKİP',
-];
+const texts = strings.texts;
 
 export function ScrollingBanner() {
   const bannerRef = useRef<HTMLDivElement>(null);

@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { PLAY_STORE_ADMIN_ICON, PLAY_STORE_PERSONNEL_ICON } from '@/lib/play-store';
 import { GooglePlayIcon } from '@/components/home/GooglePlayBadge';
+import strings from '@json/src/components/home/HeroPlayStorePromo.json';
 
 const heroApps = [
   { id: 'personel', iconSrc: PLAY_STORE_PERSONNEL_ICON },
@@ -31,7 +32,7 @@ export function HeroPlayStorePromo() {
 
         <Image
           src="/banner.png"
-          alt="Google Play'den CrewLedger uygulamasını indirin"
+          alt={strings.bannerAlt}
           width={749}
           height={208}
           className="block h-auto w-full"
@@ -41,8 +42,7 @@ export function HeroPlayStorePromo() {
 
         <div className="p-6 xl:p-7">
           <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-400">
-            Android için CrewLedger mobil uygulaması. Personel ve yönetici sürümlerinden birini seçerek
-            Google Play&apos;den indirebilirsiniz.
+            {strings.description}
           </p>
 
           <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
@@ -63,12 +63,12 @@ export function HeroPlayStorePromo() {
                   </div>
                 ))}
               </div>
-              <span className="text-xs font-medium text-slate-500 dark:text-slate-400">2 uygulama · Ücretsiz</span>
+              <span className="text-xs font-medium text-slate-500 dark:text-slate-400">{strings.appsCount}</span>
             </div>
 
             <span className="inline-flex items-center gap-2 rounded-xl bg-[#0E1548] px-5 py-3 text-sm font-semibold text-white shadow-lg transition-all group-hover:bg-[#151d5c] group-hover:shadow-xl">
               <GooglePlayIcon className="h-5 w-5" />
-              Uygulama seç
+              {strings.cta}
               <svg
                 className="h-4 w-4 transition-transform group-hover:translate-y-0.5"
                 fill="none"

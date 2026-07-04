@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { BrandLockup } from '@/components/brand/BrandLockup';
 import { RegistrationQrCode } from '@/components/registration/RegistrationQrCode';
+import strings from '@json/src/components/personnel/PendingApplicationWaitingScreen.json';
 
 type Props = {
   approvalUrl: string;
@@ -67,10 +68,10 @@ export function PendingApplicationWaitingScreen({
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500" />
                 </span>
-                Onay bekleniyor
+                {strings.badge}
               </div>
               <p className="mt-3 text-sm text-slate-600 leading-relaxed">
-                QR kodu veya başvuru kodunu yöneticinize gösterin.
+                {strings.instruction}
               </p>
             </div>
 
@@ -85,16 +86,16 @@ export function PendingApplicationWaitingScreen({
                 type="button"
                 onClick={() => void copyCode()}
                 className="w-full rounded-2xl bg-slate-900 px-4 py-4 text-center active:scale-[0.98] transition-transform touch-manipulation"
-                aria-label="Başvuru kodunu kopyala"
+                aria-label={strings.copyAriaLabel}
               >
                 <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-400">
-                  Başvuru kodu
+                  {strings.codeLabel}
                 </p>
                 <p className="mt-2 text-2xl font-bold font-mono text-white tracking-[0.12em] break-all">
                   {verificationCode}
                 </p>
                 <p className="mt-2 text-[11px] font-medium text-slate-400">
-                  {copied ? 'Kopyalandı ✓' : 'Kopyalamak için dokunun'}
+                  {copied ? strings.copied : strings.tapToCopy}
                 </p>
               </button>
             </div>
@@ -102,14 +103,14 @@ export function PendingApplicationWaitingScreen({
         </div>
 
         <p className="mt-5 text-center text-xs text-white/80">
-          Yönetici onaylayınca bu ekran otomatik güncellenir.
+          {strings.autoUpdateHint}
         </p>
         <button
           type="button"
           onClick={onSignOut}
           className="mt-2 w-full py-3 text-center text-xs font-medium text-white/70 hover:text-white"
         >
-          Bu cihazda çıkış
+          {strings.signOut}
         </button>
       </div>
     </div>

@@ -1,5 +1,6 @@
 'use client';
 
+import strings from '@json/src/app/personnel-panel/yoklama/page.json';
 import Link from 'next/link';
 import { Suspense, useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
@@ -65,7 +66,7 @@ function YoklamaContent() {
     async (raw: string) => {
       const token = parseAttendanceTokenFromQr(raw);
       if (!token) {
-        setError('Geçerli bir yoklama QR kodu değil.');
+        setError(strings.invalidQrMessage);
         return;
       }
       setScanning(true);
@@ -81,10 +82,10 @@ function YoklamaContent() {
         }
         setCodeSheetOpen(false);
         setForceReplace(false);
-        setSuccessMsg(replace ? 'Yeniden kaydedildi.' : 'Okutma başarılı.');
+        setSuccessMsg(replace ? strings.rescanSuccess : strings.scanSuccess);
         window.setTimeout(() => setSuccessMsg(null), 3500);
       } catch (e) {
-        setError(e instanceof Error ? e.message : 'Okutma başarısız');
+        setError(e instanceof Error ? e.message : strings.scanFailed);
       } finally {
         setScanning(false);
       }
@@ -133,7 +134,7 @@ function YoklamaContent() {
             disabled={scanPaused}
             paused={scanPaused}
             parseQr={parseAttendanceTokenFromQr}
-            invalidQrMessage="Geçerli bir yoklama QR kodu değil."
+            invalidQrMessage={strings.invalidQrMessage}
           />
         ) : loadingStatus ? (
           <div className="absolute inset-0 flex items-center justify-center bg-black">
@@ -146,7 +147,7 @@ function YoklamaContent() {
           <Link
             href="/personnel-panel"
             className="pointer-events-auto flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-black/45 text-white shadow-lg backdrop-blur-md transition active:bg-black/60"
-            aria-label="İptal — panele dön"
+            aria-label={strings.cancelAriaLabel}
           >
             <FiX className="h-5 w-5" />
           </Link>
@@ -160,7 +161,7 @@ function YoklamaContent() {
             className="pointer-events-auto inline-flex h-11 items-center gap-2 rounded-full bg-black/45 px-4 text-sm font-semibold text-white shadow-lg backdrop-blur-md transition active:bg-black/60 disabled:opacity-40"
           >
             <FiHash className="h-4 w-4" />
-            Kod gir
+            {strings.enterCodeButton}
           </button>
         </div>
 
@@ -187,14 +188,14 @@ function YoklamaContent() {
             </span>
             <p className="min-w-0 flex-1 font-medium">
               {status?.state === 'cancelled' || status?.state === 'removed'
-                ? 'Yeniden okutma modu — yeni QR okutabilirsiniz.'
-                : 'Yeniden okutma modu — önceki kayıt silinir.'}
+                ? strings.rescanModeNewQr
+                : strings.rescanModeReplace}
             </p>
             <button
               type="button"
               onClick={() => setForceReplace(false)}
               className="shrink-0 rounded-lg p-1.5 text-amber-100/80 transition hover:bg-white/10 hover:text-white"
-              aria-label="Yeniden okutmayı iptal"
+              aria-label={strings.cancelRescanAriaLabel}
             >
               <FiX className="h-4 w-4" />
             </button>
@@ -203,7 +204,7 @@ function YoklamaContent() {
 
         {windowClosed && (
           <div className="absolute inset-x-3 top-[calc(3.5rem+env(safe-area-inset-top))] z-[5] rounded-xl border border-amber-400/25 bg-amber-950/90 px-3 py-2.5 text-xs text-amber-50 shadow-lg">
-            <p className="font-semibold">Yoklama saati dışında</p>
+            <p className="font-semibold">{strings.outsideWindowTitle}</p>
             <p className="mt-1 opacity-90">{status?.window?.message}</p>
           </div>
         )}
@@ -295,18 +296,17 @@ function DesktopManualPanel({
   return (
     <div className="mt-4 space-y-4">
       <div className="overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-600 to-teal-800 px-5 py-5 text-white shadow-lg">
-        <p className="text-xs font-medium uppercase tracking-wider text-emerald-100/90">Günlük yoklama</p>
-        <h1 className="mt-1 text-2xl font-bold">Kod ile yoklama</h1>
-        <p className="mt-2 text-sm text-emerald-50/90">Ustanızın verdiği yoklama kodunu aşağıya girin.</p>
+        <p className="text-xs font-medium uppercase tracking-wider text-emerald-100/90">{strings.desktop.eyebrow}</p>
+        <h1 className="mt-1 text-2xl font-bold">{strings.desktop.title}</h1>
+        <p className="mt-2 text-sm text-emerald-50/90">{strings.desktop.subtitle}</p>
       </div>
 
       <div className="flex gap-3 rounded-2xl border border-sky-200 bg-sky-50 px-4 py-3.5 text-sm text-sky-950 dark:border-sky-900 dark:bg-sky-950/40 dark:text-sky-100">
         <FiMonitor className="mt-0.5 h-5 w-5 shrink-0 text-sky-600 dark:text-sky-400" />
         <div className="space-y-1 leading-relaxed">
-          <p className="font-medium">QR okutma bu cihazda desteklenmiyor</p>
+          <p className="font-medium">{strings.desktop.qrNotSupportedTitle}</p>
           <p className="text-sky-800/90 dark:text-sky-200/90">
-            QR olarak okutmak için lütfen mobil uygulama üzerinden deneyiniz. Bu cihazda yalnızca
-            manuel kod girişi desteklenmektedir.
+            {strings.desktop.qrNotSupportedBody}
           </p>
         </div>
       </div>
@@ -320,7 +320,7 @@ function DesktopManualPanel({
               onClick={onForceReplace}
               className="mt-2 text-xs font-semibold text-emerald-600 underline dark:text-emerald-400"
             >
-              Yeniden kaydet
+              {strings.desktop.rescanButton}
             </button>
           )}
           {forceReplace && (
@@ -329,7 +329,7 @@ function DesktopManualPanel({
               onClick={onCancelReplace}
               className="mt-2 text-xs font-semibold text-amber-600 underline"
             >
-              Yeniden kaydı iptal
+              {strings.desktop.cancelRescanButton}
             </button>
           )}
         </div>
@@ -337,7 +337,7 @@ function DesktopManualPanel({
 
       {windowClosed && (
         <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
-          <p className="font-semibold">Yoklama saati dışında</p>
+          <p className="font-semibold">{strings.outsideWindowTitle}</p>
           <p className="mt-1">{status?.window?.message}</p>
         </div>
       )}
@@ -352,14 +352,14 @@ function DesktopManualPanel({
             className="mb-2 flex items-center gap-2 text-sm font-medium text-slate-700 dark:text-slate-300"
           >
             <FiHash className="h-4 w-4 text-emerald-600" />
-            Yoklama kodu
+            {strings.desktop.codeLabel}
           </label>
           <input
             id="desktop-attendance-code"
             type="text"
             value={manualCode}
             onChange={(e) => setManualCode(e.target.value.toUpperCase())}
-            placeholder="YOK-…"
+            placeholder={strings.desktop.codePlaceholder}
             disabled={formDisabled}
             autoComplete="off"
             spellCheck={false}
@@ -371,11 +371,11 @@ function DesktopManualPanel({
           disabled={formDisabled || !manualCode.trim()}
           className="w-full rounded-xl bg-emerald-600 py-3.5 font-semibold text-white shadow-sm transition hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-50"
         >
-          {scanning ? 'Gönderiliyor…' : forceReplace ? 'Yeniden kaydet' : 'Yoklamaya katıl'}
+          {scanning ? strings.desktop.submitScanning : forceReplace ? strings.desktop.submitRescan : strings.desktop.submitJoin}
         </button>
         <p className="flex items-start gap-2 text-xs leading-relaxed text-slate-500 dark:text-slate-400">
           <FiInfo className="mt-0.5 h-3.5 w-3.5 shrink-0" />
-          Kodu ustanızdan alın; büyük/küçük harf fark etmez.
+          {strings.desktop.codeHint}
         </p>
       </form>
 

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import QRCode from 'qrcode';
+import strings from '@json/src/components/registration/RegistrationQrCode.json';
 
 export function RegistrationQrCode({
   value,
@@ -38,7 +39,7 @@ export function RegistrationQrCode({
     // eslint-disable-next-line @next/next/no-img-element
     <img
       src={dataUrl}
-      alt="Admin onay QR kodu"
+      alt={strings.alt}
       width={size}
       height={size}
       className={className}

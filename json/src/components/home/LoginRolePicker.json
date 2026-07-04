@@ -1,0 +1,22 @@
+{
+  "buttonDefault": "Giriş Yap",
+  "closeOverlayAriaLabel": "Giriş menüsünü kapat",
+  "closeButtonAriaLabel": "Kapat",
+  "modalTitle": "Giriş yap",
+  "modalSubtitle": "Personel ve yönetici panelleri ayrıdır. Rolünüze uygun girişi seçin.",
+  "footerNote": "Hesabınız yok mu? Personel başvurusu yöneticiniz üzerinden yapılır.",
+  "panels": {
+    "personel": {
+      "title": "Personel",
+      "subtitle": "Sahadayım",
+      "description": "Yoklama, yevmiye, avans ve bordro — kendi kayıtlarını gör.",
+      "features": ["QR yoklama", "Yevmiye", "Avans"]
+    },
+    "admin": {
+      "title": "Yönetici",
+      "subtitle": "Yönetiyorum",
+      "description": "Proje, personel onayı, puantaj ve raporlar — tek panel.",
+      "features": ["Projeler", "Onay", "Bordro"]
+    }
+  }
+}

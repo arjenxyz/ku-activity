@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { HeroPlayStorePromo } from '@/components/home/HeroPlayStorePromo';
 import { LoginRoleButton } from '@/components/home/LoginRolePicker';
+import strings from '@json/src/components/home/HeroSection.json';
 
 export function HeroSection() {
   return (
@@ -32,19 +33,18 @@ export function HeroSection() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500" />
             </span>
-            İnşaat sektörüne özel personel takibi
+            {strings.badge}
           </div>
 
           <h1 className="text-3xl sm:text-4xl md:text-5xl xl:text-6xl font-bold tracking-tight text-gray-900 dark:text-white leading-[1.15]">
-            Personel yönetimini{' '}
+            {strings.titlePrefix}{' '}
             <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-              basitleştirin
+              {strings.titleHighlight}
             </span>
           </h1>
 
           <p className="mt-6 text-lg text-gray-600 dark:text-gray-300 max-w-xl leading-relaxed">
-            Yevmiye, avans, kesinti, yoklama ve puantaj — hem yönetici hem personel panelinde
-            görünür. Güvenli, hızlı ve kullanıcı dostu arayüz ile şantiye operasyonlarınızı dijitalleştirin.
+            {strings.subtitle}
           </p>
 
           <div className="mt-8 flex flex-col sm:flex-row gap-3">
@@ -53,7 +53,7 @@ export function HeroSection() {
               href="#features"
               className="touch-target inline-flex items-center justify-center border-2 border-gray-200 dark:border-slate-600 text-gray-700 dark:text-gray-200 px-8 py-3.5 rounded-xl font-semibold hover:bg-gray-50 dark:hover:bg-slate-800 active:bg-gray-100 transition-colors w-full sm:w-auto"
             >
-              Özellikleri Keşfet
+              {strings.ctaExplore}
             </a>
           </div>
         </motion.div>

@@ -1,5 +1,6 @@
 'use client';
 
+import strings from '@json/src/components/personnel/PersonnelLoginLayout.json';
 import { AuthScreenShell } from '@/components/auth/AuthScreenShell';
 import { personnelAuthCardClass, personnelAuthCardDividerClass } from '@/lib/personnel-auth-ui';
 
@@ -21,13 +22,13 @@ type PersonnelLoginLayoutProps = {
 
 export function PersonnelLoginLayout({
   children,
-  title = 'Giriş yapın',
-  subtitle = 'Kayıtlı e-posta ve şifreniz ile hesabınıza erişin',
+  title = strings.defaultTitle,
+  subtitle = strings.defaultSubtitle,
   size = 'default',
   alignTop = false,
   compact = false,
   dense = false,
-  screenLabel = 'Personel Auth',
+  screenLabel = strings.defaultScreenLabel,
 }: PersonnelLoginLayoutProps) {
   const maxWidthClass = size === 'wide' ? 'max-w-7xl' : 'max-w-md';
   const isCompact = compact || (size === 'wide' && alignTop);
@@ -35,7 +36,7 @@ export function PersonnelLoginLayout({
   const verticalAlignTop = alignTop && !isDense;
 
   return (
-    <AuthScreenShell screenLabel={screenLabel} panelLabel="Personel Paneli">
+    <AuthScreenShell screenLabel={screenLabel} panelLabel={strings.panelLabel}>
       <div
         className={`flex flex-col flex-1 ${
           verticalAlignTop ? '' : 'min-h-0'

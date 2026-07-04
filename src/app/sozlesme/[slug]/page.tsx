@@ -4,6 +4,8 @@ import { Suspense, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { FiArrowLeft, FiPrinter } from 'react-icons/fi';
+import { formatString } from '@/lib/strings/format';
+import strings from '@json/src/app/sozlesme/[slug]/page.json';
 
 type ContractView = {
   title: string;
@@ -38,7 +40,7 @@ function ContractViewContent() {
 
   useEffect(() => {
     if (!token) {
-      setError('Geçersiz bağlantı.');
+      setError(strings.errors.invalidLink);
       return;
     }
     fetch(`/api/public/contracts/view?slug=${encodeURIComponent(slug)}&t=${encodeURIComponent(token)}`)
@@ -47,7 +49,7 @@ function ContractViewContent() {
         if (d.error) throw new Error(d.error);
         setContract(d);
       })
-      .catch((e) => setError(e instanceof Error ? e.message : 'Yüklenemedi'));
+      .catch((e) => setError(e instanceof Error ? e.message : strings.errors.loadFailed));
   }, [slug, token]);
 
   if (error) {
@@ -61,7 +63,7 @@ function ContractViewContent() {
   if (!contract) {
     return (
       <div className="min-h-screen flex items-center justify-center p-6">
-        <p className="text-slate-500">Yükleniyor…</p>
+        <p className="text-slate-500">{strings.loading}</p>
       </div>
     );
   }
@@ -76,7 +78,7 @@ function ContractViewContent() {
               className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border border-slate-200 bg-white text-slate-800 text-sm font-medium hover:bg-slate-50 min-h-[44px]"
             >
               <FiArrowLeft className="w-4 h-4" />
-              Haklarıma dön
+              {strings.backToRights}
             </Link>
           )}
           <button
@@ -85,15 +87,19 @@ function ContractViewContent() {
             className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-800 text-white text-sm"
           >
             <FiPrinter className="w-4 h-4" />
-            Yazdır / PDF kaydet
+            {strings.print}
           </button>
         </div>
 
         <header className="border-b border-slate-200 pb-4 mb-6">
           <h1 className="text-2xl font-bold">{contract.title}</h1>
           <p className="text-sm text-slate-500 mt-2">
-            Sürüm {contract.version} · Onaylayan: {contract.fullName} ({contract.email}) ·{' '}
-            {new Date(contract.acceptedAt).toLocaleString('tr-TR')}
+            {formatString(strings.versionLine, {
+              version: contract.version,
+              fullName: contract.fullName,
+              email: contract.email,
+              acceptedAt: new Date(contract.acceptedAt).toLocaleString('tr-TR'),
+            })}
           </p>
         </header>
 
@@ -103,7 +109,7 @@ function ContractViewContent() {
         />
 
         <footer className="mt-8 pt-4 border-t text-xs text-slate-500 print:mt-4">
-          <p>Bu belge dijital onay kaydı ile ilişkilidir. Saklamanız önerilir.</p>
+          <p>{strings.footer}</p>
         </footer>
       </div>
     </div>
@@ -112,7 +118,7 @@ function ContractViewContent() {
 
 export default function ContractPublicPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Yükleniyor…</div>}>
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">{strings.loading}</div>}>
       <ContractViewContent />
     </Suspense>
   );

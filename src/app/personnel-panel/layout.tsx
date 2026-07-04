@@ -1,8 +1,10 @@
 import type { Metadata, Viewport } from 'next';
+import strings from '@json/src/app/personnel-panel/layout.json';
 import { PersonnelDisplayProvider } from '@/lib/personnel-display-preferences';
 import { PersonnelIntroGate } from '@/components/personnel/PersonnelIntroGate';
 import { PersonnelPanelChrome } from '@/components/personnel/PersonnelPanelChrome';
-import { PERSONNEL_APP_ICON } from '@/lib/brand';
+import { APP_NAME, PERSONNEL_APP_ICON } from '@/lib/brand';
+import { formatString } from '@/lib/strings/format';
 import { PWA_ASSET_VERSION } from '@/lib/pwa-manifest';
 import { PERSONNEL_PWA_STARTUP_IMAGES, PERSONNEL_PWA_THEME } from '@/lib/personnel-pwa-brand';
 import { getTwaOrigin } from '@/lib/twa-config';
@@ -10,14 +12,14 @@ import { getTwaOrigin } from '@/lib/twa-config';
 const ORIGIN = getTwaOrigin();
 
 export const metadata: Metadata = {
-  title: 'CrewLedger Personel',
-  description: 'Yoklama, yevmiye ve maaş özeti — şantiye personel paneli.',
-  applicationName: 'CrewLedger Personel',
+  title: formatString(strings.title, { appName: APP_NAME }),
+  description: strings.description,
+  applicationName: formatString(strings.applicationName, { appName: APP_NAME }),
   manifest: '/manifest-personnel.webmanifest',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
-    title: 'CrewLedger',
+    title: formatString(strings.appleWebAppTitle, { appName: APP_NAME }),
   },
   icons: {
     icon: [{ url: `${PERSONNEL_APP_ICON}?v=${PWA_ASSET_VERSION}`, sizes: '512x512', type: 'image/png' }],

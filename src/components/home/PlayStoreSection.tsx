@@ -11,25 +11,24 @@ import {
   PLAY_STORE_PERSONNEL_ICON,
   PLAY_STORE_PERSONNEL_URL,
 } from '@/lib/play-store';
+import strings from '@json/src/components/home/PlayStoreSection.json';
 
 const apps = [
   {
-    id: 'personel',
-    title: 'Personel Uygulaması',
-    description:
-      'Yoklama, yevmiye, mesai ve bordro görüntüleme. Başvuru ve günlük işlemler için tasarlandı.',
+    id: 'personel' as const,
+    title: strings.apps.personel.title,
+    description: strings.apps.personel.description,
     playUrl: PLAY_STORE_PERSONNEL_URL,
     iconSrc: PLAY_STORE_PERSONNEL_ICON,
   },
   {
-    id: 'admin',
-    title: 'Yönetici Uygulaması',
-    description:
-      'Proje yönetimi, personel onayı, yevmiye ve raporlar. Ofisten veya sahada tam kontrol.',
+    id: 'admin' as const,
+    title: strings.apps.admin.title,
+    description: strings.apps.admin.description,
     playUrl: PLAY_STORE_ADMIN_URL,
     iconSrc: PLAY_STORE_ADMIN_ICON,
   },
-] as const;
+];
 
 function CardsConnector({ layout }: { layout: 'row' | 'column' }) {
   if (layout === 'column') {
@@ -69,7 +68,7 @@ function AppCard({
           <Image src={app.iconSrc} alt="" width={56} height={56} className="h-full w-full object-cover" />
         </div>
         <div className="min-w-0">
-          <p className="text-xs text-slate-400">Android · Ücretsiz</p>
+          <p className="text-xs text-slate-400">{strings.platformLabel}</p>
           <h3 className="mt-1 text-lg font-bold tracking-tight text-slate-900 dark:text-white">{app.title}</h3>
         </div>
       </div>
@@ -82,7 +81,7 @@ function AppCard({
           href="/apk"
           className="flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-medium text-slate-600 transition-colors hover:border-slate-300 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800/60"
         >
-          APK ile indir
+          {strings.apkDownload}
         </Link>
       </div>
     </motion.article>
@@ -103,17 +102,17 @@ export function PlayStoreSection() {
         >
           <div className="mb-4 inline-flex items-center gap-2 text-sm font-semibold text-blue-600 dark:text-blue-400">
             <GooglePlayIcon className="h-4 w-4" />
-            Mobil Uygulama
+            {strings.sectionBadge}
           </div>
           <h2 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
-            Google Play&apos;den indirin
+            {strings.sectionTitle}
           </h2>
           <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">
-            Play Store kullanamıyorsanız{' '}
+            {strings.sectionSubtitlePrefix}{' '}
             <Link href="/apk" className="font-medium text-blue-600 hover:underline dark:text-blue-400">
-              APK indirme sayfasına
+              {strings.sectionSubtitleLink}
             </Link>{' '}
-            göz atın.
+            {strings.sectionSubtitleSuffix}
           </p>
         </motion.div>
 

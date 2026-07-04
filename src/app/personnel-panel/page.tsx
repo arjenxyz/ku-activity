@@ -1,5 +1,6 @@
 'use client';
 
+import strings from '@json/src/app/personnel-panel/page.json';
 import { Suspense, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import {
@@ -38,16 +39,17 @@ import { usePersonnelDashboard } from '@/hooks/usePersonnelDashboard';
 import { usePersonnelAsgari } from '@/hooks/usePersonnelAsgari';
 import { usePersonnelTab, type PersonnelTabId } from '@/hooks/usePersonnelTab';
 import { formatMoney } from '@/lib/format';
+import { formatString } from '@/lib/strings/format';
 import { buildMonthCalendar, computeMesaiStats, currentMonth, getMesaiCountLines, getWorkDayCountLines } from '@/lib/personnel-stats';
 
 const DESKTOP_TABS = [
-  { id: 'overview', label: 'Özet', icon: <FiList className="w-4 h-4" /> },
-  { id: 'work', label: 'Yevmiye', icon: <FiBriefcase className="w-4 h-4" /> },
-  { id: 'mesai', label: 'Mesai', icon: <FiClock className="w-4 h-4" /> },
-  { id: 'asgari', label: 'Asgari', icon: <FiShield className="w-4 h-4" /> },
-  { id: 'finance', label: 'Finans', icon: <FiDollarSign className="w-4 h-4" /> },
-  { id: 'rights', label: 'Haklarım', icon: <FiBookOpen className="w-4 h-4" /> },
-  { id: 'settings', label: 'Ayarlar', icon: <FiSettings className="w-4 h-4" /> },
+  { id: 'overview', label: strings.tabs.overview, icon: <FiList className="w-4 h-4" /> },
+  { id: 'work', label: strings.tabs.work, icon: <FiBriefcase className="w-4 h-4" /> },
+  { id: 'mesai', label: strings.tabs.mesai, icon: <FiClock className="w-4 h-4" /> },
+  { id: 'asgari', label: strings.tabs.asgari, icon: <FiShield className="w-4 h-4" /> },
+  { id: 'finance', label: strings.tabs.finance, icon: <FiDollarSign className="w-4 h-4" /> },
+  { id: 'rights', label: strings.tabs.rights, icon: <FiBookOpen className="w-4 h-4" /> },
+  { id: 'settings', label: strings.tabs.settings, icon: <FiSettings className="w-4 h-4" /> },
 ];
 
 function PersonelPanelContent() {
@@ -80,36 +82,36 @@ function PersonelPanelContent() {
   const mesaiLines = mesaiStats
     ? getMesaiCountLines(mesaiStats)
     : [
-        { count: 0, label: 'Tam mesai' },
-        { count: 0, label: 'Çeyrek mesai' },
-        { count: 0, label: 'Yarım mesai' },
+        { count: 0, label: strings.mesaiFallbackLabels.full },
+        { count: 0, label: strings.mesaiFallbackLabels.quarter },
+        { count: 0, label: strings.mesaiFallbackLabels.half },
       ];
 
   const statItems = stats
     ? [
         {
-          label: 'Brüt Kazanç',
+          label: strings.stats.gross,
           value: formatMoney(stats.gross),
           icon: <FiTrendingUp className="w-5 h-5 text-green-600 dark:text-green-400" />,
           accent: 'bg-green-400',
           iconWrap: 'bg-green-50 dark:bg-green-900/30',
         },
         {
-          label: 'Toplam Avans',
+          label: strings.stats.totalAdvance,
           value: formatMoney(stats.totalAdvance),
           icon: <FiCreditCard className="w-5 h-5 text-amber-600 dark:text-amber-400" />,
           accent: 'bg-amber-400',
           iconWrap: 'bg-amber-50 dark:bg-amber-900/30',
         },
         {
-          label: 'Kesinti',
+          label: strings.stats.deduction,
           value: formatMoney(stats.totalDeduct),
           icon: <FiXCircle className="w-5 h-5 text-red-500 dark:text-red-400" />,
           accent: 'bg-red-400',
           iconWrap: 'bg-red-50 dark:bg-red-900/30',
         },
         {
-          label: 'Net Maaş',
+          label: strings.stats.netSalary,
           value: formatMoney(stats.net),
           icon: <FiDollarSign className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />,
           accent: 'bg-indigo-400',
@@ -139,7 +141,7 @@ function PersonelPanelContent() {
       return (
         <div className="flex flex-col items-center justify-center py-24 gap-4">
           <div className="w-10 h-10 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
-          <p className="text-sm text-gray-500 dark:text-gray-400">Verileriniz yükleniyor…</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400">{strings.loadingData}</p>
         </div>
       );
     }
@@ -158,7 +160,12 @@ function PersonelPanelContent() {
           <PersonnelCalendar month={month} onMonthChange={setMonth} days={calendarDays} />
 
           <PersonnelSection
-            title={`Yevmiye Kayıtları · ${new Date(`${month}-01T12:00:00`).toLocaleDateString('tr-TR', { month: 'long', year: 'numeric' })}`}
+            title={formatString(strings.workLogSectionTitle, {
+              monthLabel: new Date(`${month}-01T12:00:00`).toLocaleDateString('tr-TR', {
+                month: 'long',
+                year: 'numeric',
+              }),
+            })}
             icon={<FiBriefcase className="w-5 h-5 text-green-600" />}
             isEmpty={workLogs.length === 0}
           >
@@ -204,8 +211,8 @@ function PersonelPanelContent() {
             href="/personnel-panel/avans"
             className="block rounded-2xl border border-amber-200 bg-amber-50 px-4 py-4 text-amber-900 dark:border-amber-900/50 dark:bg-amber-950/30 dark:text-amber-200"
           >
-            <p className="font-semibold">Avans talebi</p>
-            <p className="mt-1 text-sm opacity-80">Talep oluşturun veya durumunu görün →</p>
+            <p className="font-semibold">{strings.advanceRequestTitle}</p>
+            <p className="mt-1 text-sm opacity-80">{strings.advanceRequestSubtitle}</p>
           </a>
         </div>
       );
@@ -225,7 +232,7 @@ function PersonelPanelContent() {
       return (
         <div className="flex flex-col items-center justify-center py-16 gap-3">
           <div className="w-8 h-8 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
-          <p className="text-sm text-gray-500">Yükleniyor…</p>
+          <p className="text-sm text-gray-500">{strings.loading}</p>
         </div>
       );
     }
@@ -234,7 +241,7 @@ function PersonelPanelContent() {
       return (
         <div className="flex flex-col items-center justify-center py-16 gap-3">
           <div className="w-8 h-8 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
-          <p className="text-sm text-gray-500">Finans verileri yükleniyor…</p>
+          <p className="text-sm text-gray-500">{strings.loadingFinance}</p>
         </div>
       );
     }
@@ -275,23 +282,23 @@ function PersonelPanelContent() {
         {stats && (
           <div className="space-y-3 sm:space-y-4">
             <p className="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500 hidden sm:block">
-              Dönem özeti
+              {strings.periodSummary}
             </p>
             <PersonnelStatGrid items={statItems} />
             <div className="grid sm:grid-cols-2 gap-3">
               <PersonnelOverviewStrip
-                title="Çalışılan gün"
+                title={strings.workDaysTitle}
                 icon={<FiCalendar className="w-4 h-4" />}
                 iconClassName="bg-blue-100 text-blue-600 dark:bg-blue-900/40 dark:text-blue-400"
                 lines={workDayLines}
                 onOpen={() => goTab('work')}
               />
               <PersonnelOverviewStrip
-                title="Mesai dağılımı"
+                title={strings.mesaiDistributionTitle}
                 icon={<FiClock className="w-4 h-4" />}
                 iconClassName="bg-violet-100 text-violet-600 dark:bg-violet-900/40 dark:text-violet-400"
                 lines={mesaiLines}
-                formatLineLabel={(label) => label.replace(' mesai', '')}
+                formatLineLabel={(label) => label.replace(strings.mesaiSuffix, '')}
                 onOpen={() => goTab('mesai')}
               />
             </div>
@@ -318,7 +325,7 @@ function PersonelPanelContent() {
           <div className="no-print">
             <div className="mb-4 sm:mb-5 no-print hidden sm:block">
               <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
-                Puantaj, yoklama ve maaş özeti
+                {strings.headerSubtitle}
               </p>
             </div>
 

@@ -1,5 +1,6 @@
 'use client';
 
+import strings from '@json/src/app/personnel-panel/avans-onay/page.json';
 import { Suspense, useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
@@ -14,7 +15,7 @@ const AttendanceQrScanner = dynamic(
     loading: () => (
       <div className="flex flex-col items-center justify-center py-24 gap-2 text-white/70">
         <FiLoader className="h-8 w-8 animate-spin" />
-        <p className="text-sm">Kamera yükleniyor…</p>
+        <p className="text-sm">{strings.cameraLoading}</p>
       </div>
     ),
   }
@@ -32,7 +33,7 @@ function AvansOnayContent() {
   const confirm = useCallback(async (raw: string) => {
     const token = parseAdvanceCashTokenFromQr(raw) ?? normalizeAdvanceCashToken(raw);
     if (!token) {
-      setError('Geçerli bir AVN- kodu okutun veya girin');
+      setError(strings.invalidTokenError);
       return;
     }
     setSubmitting(true);
@@ -44,10 +45,10 @@ function AvansOnayContent() {
         body: JSON.stringify({ token }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Onay kaydedilemedi');
+      if (!res.ok) throw new Error(data.error || strings.confirmFailed);
       setSuccess(true);
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Onay kaydedilemedi');
+      setError(e instanceof Error ? e.message : strings.confirmFailed);
     } finally {
       setSubmitting(false);
     }
@@ -71,15 +72,15 @@ function AvansOnayContent() {
     return (
       <div className="flex min-h-[100dvh] flex-col items-center justify-center bg-[#060d14] px-6 text-center text-white">
         <FiCheckCircle className="h-16 w-16 text-emerald-400" />
-        <h1 className="mt-4 text-2xl font-bold">Nakit avans onaylandı</h1>
+        <h1 className="mt-4 text-2xl font-bold">{strings.successTitle}</h1>
         <p className="mt-2 max-w-xs text-sm text-white/70">
-          Teslim aldığınız kaydedildi. Avans maaşınızdan düşülecek.
+          {strings.successMessage}
         </p>
         <Link
           href="/personnel-panel/avans"
           className="mt-8 rounded-xl bg-emerald-500 px-6 py-3 text-sm font-semibold text-white"
         >
-          Avans taleplerim
+          {strings.successLink}
         </Link>
       </div>
     );
@@ -95,8 +96,8 @@ function AvansOnayContent() {
           <FiArrowLeft />
         </Link>
         <div>
-          <p className="text-sm font-semibold">Nakit avans onayı</p>
-          <p className="text-xs text-white/60">Parayı aldıysanız QR okutun</p>
+          <p className="text-sm font-semibold">{strings.headerTitle}</p>
+          <p className="text-xs text-white/60">{strings.headerSubtitle}</p>
         </div>
       </div>
 
@@ -105,16 +106,16 @@ function AvansOnayContent() {
           onScan={handleScan}
           disabled={submitting}
           parseQr={parseAdvanceCashTokenFromQr}
-          invalidQrMessage="Geçerli bir avans QR kodu değil (AVN-)."
+          invalidQrMessage={strings.invalidQrMessage}
         />
       ) : (
         <form onSubmit={handleCodeSubmit} className="flex min-h-[100dvh] flex-col items-center justify-center px-6">
           <FiHash className="h-12 w-12 text-emerald-400" />
-          <h2 className="mt-4 text-xl font-bold">AVN- kodu girin</h2>
+          <h2 className="mt-4 text-xl font-bold">{strings.codeModeTitle}</h2>
           <input
             value={code}
             onChange={(e) => setCode(e.target.value.toUpperCase())}
-            placeholder="AVN-XXXXXXXXXXXX"
+            placeholder={strings.codePlaceholder}
             className="mt-6 w-full max-w-xs rounded-xl border border-white/20 bg-white/10 px-4 py-3 text-center font-mono text-lg tracking-wider"
             autoFocus
           />
@@ -123,7 +124,7 @@ function AvansOnayContent() {
             disabled={submitting}
             className="mt-4 rounded-xl bg-emerald-500 px-8 py-3 text-sm font-semibold disabled:opacity-60"
           >
-            {submitting ? 'Kaydediliyor…' : 'Onayla'}
+            {submitting ? strings.submitting : strings.confirmButton}
           </button>
         </form>
       )}
@@ -140,7 +141,7 @@ function AvansOnayContent() {
           onClick={() => setMode(mode === 'scan' ? 'code' : 'scan')}
           className="flex-1 rounded-xl bg-white/10 py-3 text-sm font-semibold backdrop-blur-md"
         >
-          {mode === 'scan' ? 'Kod gir' : 'QR okut'}
+          {mode === 'scan' ? strings.switchToCode : strings.switchToScan}
         </button>
       </div>
     </div>
@@ -152,7 +153,7 @@ export default function AvansOnayPage() {
     <Suspense
       fallback={
         <div className="flex min-h-[100dvh] items-center justify-center bg-[#060d14] text-white/70">
-          Yükleniyor…
+          {strings.loading}
         </div>
       }
     >

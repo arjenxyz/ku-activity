@@ -13,6 +13,8 @@ import {
   type RegistrationApprovalData,
 } from '@/components/registration/AdminBasvuruOnayModal';
 import { extractVerificationCode, registrationStatusMessage } from '@/lib/parse-registration-qr';
+import { formatString } from '@/lib/strings/format';
+import strings from '@json/src/components/registration/AdminBasvuruOnayPanel.json';
 
 const QrCameraScanner = dynamic(
   () => import('@/components/registration/QrCameraScanner').then((m) => m.QrCameraScanner),
@@ -21,7 +23,7 @@ const QrCameraScanner = dynamic(
     loading: () => (
       <div className="flex flex-col items-center justify-center py-12 gap-2">
         <div className="h-8 w-8 animate-spin rounded-full border-2 border-blue-600 border-t-transparent" />
-        <p className="text-sm text-slate-500">Kamera modülü yükleniyor…</p>
+        <p className="text-sm text-slate-500">{strings.cameraLoading}</p>
       </div>
     ),
   }
@@ -77,16 +79,14 @@ export function AdminBasvuruOnayPanel({ projectId }: Props) {
         const data = await res.json();
         if (!res.ok) {
           throw new Error(
-            res.status === 404
-              ? 'Bu kod geçersiz veya sistemde kayıtlı değil. Personelin ekranındaki ARJ- kodunu kontrol edin.'
-              : data.error || 'Bulunamadı'
+            res.status === 404 ? strings.errors.invalidCode : data.error || strings.errors.notFound
           );
         }
         openRegistration(data.registration);
       } catch (e) {
         setRegistration(null);
         setModalOpen(false);
-        setError(e instanceof Error ? e.message : 'Arama başarısız');
+        setError(e instanceof Error ? e.message : strings.errors.lookupFailed);
       } finally {
         setLoading(false);
       }
@@ -153,17 +153,21 @@ export function AdminBasvuruOnayPanel({ projectId }: Props) {
         }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Onay başarısız');
+      if (!res.ok) throw new Error(data.error || strings.errors.approveFailed);
       setModalOpen(false);
       setRegistration(null);
       setCodeInput('');
       lastAutoLookupRef.current = '';
       setSuccess(
-        `${registration.firstName} ${registration.lastName} onaylandı. ${data.email} adresi ile giriş yapabilir — PIN bilgisini personele iletin.`
+        formatString(strings.success.approved, {
+          firstName: registration.firstName,
+          lastName: registration.lastName,
+          email: data.email,
+        })
       );
       setTimeout(() => router.push(`/admin-panel/proje/${projectId}/list`), 1800);
     } catch (e) {
-      const message = e instanceof Error ? e.message : 'Onay başarısız';
+      const message = e instanceof Error ? e.message : strings.errors.approveFailed;
       setError(message);
       throw new Error(message);
     } finally {
@@ -172,12 +176,7 @@ export function AdminBasvuruOnayPanel({ projectId }: Props) {
   };
 
   const handleReject = async () => {
-    if (
-      !registration ||
-      !confirm(
-        'Başvuruyu reddetmek istediğinize emin misiniz? Kayıt, fotoğraf ve sözleşme onayları kalıcı olarak silinir; personel aynı bilgilerle yeniden başvurabilir.'
-      )
-    ) {
+    if (!registration || !confirm(strings.confirmReject)) {
       return;
     }
     setLoading(true);
@@ -194,9 +193,9 @@ export function AdminBasvuruOnayPanel({ projectId }: Props) {
       setRegistration(null);
       setCodeInput('');
       lastAutoLookupRef.current = '';
-      setSuccess('Başvuru reddedildi ve veritabanından silindi.');
+      setSuccess(strings.success.rejected);
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Red başarısız');
+      setError(e instanceof Error ? e.message : strings.errors.rejectFailed);
     } finally {
       setLoading(false);
     }
@@ -205,11 +204,11 @@ export function AdminBasvuruOnayPanel({ projectId }: Props) {
   return (
     <div className="space-y-5 sm:space-y-6 pb-8">
       <ProjectPageHeader
-        title="Başvuru Onayı"
+        title={strings.pageTitle}
         description={
           projectName
-            ? `${projectName} — QR okutun veya kod girin; başvuru bulununca onay penceresi açılır.`
-            : 'QR okutun veya kod girin; başvuru bulununca onay penceresi açılır.'
+            ? formatString(strings.pageDescriptionWithProject, { projectName })
+            : strings.pageDescription
         }
       />
 
@@ -223,11 +222,8 @@ export function AdminBasvuruOnayPanel({ projectId }: Props) {
               <FiZap className="w-5 h-5" />
             </span>
             <div>
-              <h2 className="text-base font-semibold text-slate-900">Hızlı tarama</h2>
-              <p className="text-sm text-slate-600 mt-0.5">
-                Personelin bekleme ekranındaki QR kodu okutun. Eşleşme bulunursa onay formu otomatik
-                açılır.
-              </p>
+              <h2 className="text-base font-semibold text-slate-900">{strings.scanSectionTitle}</h2>
+              <p className="text-sm text-slate-600 mt-0.5">{strings.scanSectionDescription}</p>
             </div>
           </div>
         </div>
@@ -250,14 +246,14 @@ export function AdminBasvuruOnayPanel({ projectId }: Props) {
             </div>
             <div className="relative flex justify-center">
               <span className="bg-white px-3 text-xs font-semibold uppercase tracking-wider text-slate-400">
-                veya kod ile
+                {strings.orCodeDivider}
               </span>
             </div>
           </div>
 
           <div>
             <label htmlFor="basvuru-kod" className={labelClass}>
-              Başvuru kodu
+              {strings.codeLabel}
             </label>
             <div className="mt-1.5 flex flex-col sm:flex-row gap-2">
               <input
@@ -266,7 +262,7 @@ export function AdminBasvuruOnayPanel({ projectId }: Props) {
                 value={codeInput}
                 onChange={(e) => handleCodeChange(e.target.value)}
                 onPaste={handleCodePaste}
-                placeholder="ARJ-XXXXXX"
+                placeholder={strings.codePlaceholder}
                 autoComplete="off"
                 spellCheck={false}
               />
@@ -281,13 +277,12 @@ export function AdminBasvuruOnayPanel({ projectId }: Props) {
                 className={`${btnPrimary} sm:min-w-[8rem] min-h-[48px] shrink-0 bg-blue-600 hover:bg-blue-700`}
               >
                 <FiSearch className="w-4 h-4" />
-                {loading ? 'Aranıyor…' : 'Bul'}
+                {loading ? strings.searching : strings.search}
               </button>
             </div>
             <p className="text-xs text-slate-500 mt-2 flex items-start gap-1.5">
               <FiCheckCircle className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" />
-              Kod tamamlanınca otomatik aranır. QR okunamazsa personelin ekranındaki{' '}
-              <strong className="font-mono text-slate-700">ARJ-</strong> kodunu yazın.
+              {strings.codeHint}
             </p>
           </div>
         </div>
@@ -296,7 +291,7 @@ export function AdminBasvuruOnayPanel({ projectId }: Props) {
       {loading && !modalOpen && (
         <div className="flex items-center justify-center gap-2 py-4 text-sm text-slate-500">
           <div className="h-5 w-5 animate-spin rounded-full border-2 border-blue-600 border-t-transparent" />
-          Başvuru aranıyor…
+          {strings.lookupLoading}
         </div>
       )}
 
@@ -312,7 +307,7 @@ export function AdminBasvuruOnayPanel({ projectId }: Props) {
 
       <p className="text-sm text-slate-500">
         <Link href={`/admin-panel/proje/${projectId}`} className="text-blue-700 hover:underline">
-          ← Proje özetine dön
+          {strings.backToProject}
         </Link>
       </p>
     </div>

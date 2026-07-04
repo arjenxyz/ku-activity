@@ -1,5 +1,6 @@
 'use client';
 
+import strings from '@json/src/app/personnel-panel/pin-sifirla/page.json';
 import { Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { PinResetPageContent } from '@/components/auth/PinResetPageContent';
@@ -14,7 +15,7 @@ export default function PersonnelPinResetPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-[100dvh] flex items-center justify-center text-white/60">Yükleniyor…</div>
+        <div className="min-h-[100dvh] flex items-center justify-center text-white/60">{strings.loading}</div>
       }
     >
       <PinResetRoute />

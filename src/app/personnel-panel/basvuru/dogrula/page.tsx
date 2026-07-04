@@ -1,5 +1,6 @@
 'use client';
 
+import strings from '@json/src/app/personnel-panel/basvuru/dogrula/page.json';
 import { Suspense, useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
@@ -22,7 +23,7 @@ function DogrulaContent() {
   useEffect(() => {
     if (!token) {
       setState('error');
-      setError('Geçersiz doğrulama bağlantısı.');
+      setError(strings.invalidLinkError);
       return;
     }
 
@@ -34,7 +35,7 @@ function DogrulaContent() {
           `/api/public/contract-otp/confirm-link?k=${encodeURIComponent(token)}`
         );
         const data = await res.json();
-        if (!res.ok) throw new Error(data.error || 'Doğrulama başarısız');
+        if (!res.ok) throw new Error(data.error || strings.verificationFailed);
 
         const saved: PendingRegistration = {
           verificationCode: data.verificationCode,
@@ -53,7 +54,7 @@ function DogrulaContent() {
       } catch (err) {
         if (!cancelled) {
           setState('error');
-          setError(err instanceof Error ? err.message : 'Doğrulama başarısız');
+          setError(err instanceof Error ? err.message : strings.verificationFailed);
         }
       }
     })();
@@ -65,10 +66,10 @@ function DogrulaContent() {
 
   if (state === 'loading') {
     return (
-      <PersonnelLoginLayout title="Doğrulanıyor…" subtitle="Başvurunuz gönderiliyor, lütfen bekleyin.">
+      <PersonnelLoginLayout title={strings.loadingTitle} subtitle={strings.loadingSubtitle}>
         <div className="flex flex-col items-center py-16 gap-4">
           <div className="w-12 h-12 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
-          <p className="text-sm text-slate-500">E-posta bağlantınız doğrulanıyor…</p>
+          <p className="text-sm text-slate-500">{strings.loadingMessage}</p>
         </div>
       </PersonnelLoginLayout>
     );
@@ -76,7 +77,7 @@ function DogrulaContent() {
 
   if (state === 'error') {
     return (
-      <PersonnelLoginLayout title="Doğrulama başarısız" subtitle="Bağlantı geçersiz veya süresi dolmuş olabilir.">
+      <PersonnelLoginLayout title={strings.errorTitle} subtitle={strings.errorSubtitle}>
         <div className="space-y-6 text-center max-w-md mx-auto">
           <FiXCircle className="w-14 h-14 text-red-500 mx-auto" />
           <p className="text-sm text-red-700 bg-red-50 border border-red-200 rounded-xl px-4 py-3">{error}</p>
@@ -84,7 +85,7 @@ function DogrulaContent() {
             href="/personnel-panel/basvuru"
             className="inline-flex w-full items-center justify-center rounded-xl bg-blue-600 py-3 text-sm font-semibold text-white hover:bg-blue-700"
           >
-            Başvuru sayfasına dön
+            {strings.backToApplication}
           </Link>
         </div>
       </PersonnelLoginLayout>
@@ -92,16 +93,16 @@ function DogrulaContent() {
   }
 
   return (
-    <PersonnelLoginLayout title="Başvuru gönderildi" subtitle="Yönetici onay ekranına yönlendiriliyorsunuz…">
+    <PersonnelLoginLayout title={strings.successTitle} subtitle={strings.successSubtitle}>
       <div className="space-y-6 text-center max-w-md mx-auto">
         <FiCheckCircle className="w-14 h-14 text-emerald-600 mx-auto" />
         <div className="rounded-xl bg-emerald-50 border border-emerald-200 px-4 py-3 text-sm text-emerald-800">
-          E-posta doğrulandı ve başvurunuz alındı.
+          {strings.successMessage}
           {pending?.verificationCode && (
             <p className="mt-2 font-mono font-bold tracking-widest">{pending.verificationCode}</p>
           )}
         </div>
-        <p className="text-xs text-slate-500">Birazdan onay bekleme ekranına geçeceksiniz…</p>
+        <p className="text-xs text-slate-500">{strings.redirectHint}</p>
       </div>
     </PersonnelLoginLayout>
   );
@@ -111,7 +112,7 @@ export default function BasvuruDogrulaPage() {
   return (
     <Suspense
       fallback={
-        <PersonnelLoginLayout title="Yükleniyor…" subtitle="">
+        <PersonnelLoginLayout title={strings.suspenseTitle} subtitle="">
           <div className="flex justify-center py-16">
             <div className="w-10 h-10 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
           </div>

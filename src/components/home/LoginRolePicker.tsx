@@ -8,41 +8,38 @@ import { FiArrowRight, FiBriefcase, FiSmartphone, FiX } from 'react-icons/fi';
 import { BrandMark } from '@/components/brand/BrandMark';
 import { APP_NAME } from '@/lib/brand';
 import { PLAY_STORE_ADMIN_ICON, PLAY_STORE_PERSONNEL_ICON } from '@/lib/play-store';
+import strings from '@json/src/components/home/LoginRolePicker.json';
 
-const loginPanels = [
-  {
-    id: 'personel',
+const panelStyles = {
+  personel: {
     href: '/personnel-panel/login',
-    title: 'Personel',
-    subtitle: 'Sahadayım',
-    description: 'Yoklama, yevmiye, avans ve bordro — kendi kayıtlarını gör.',
     icon: PLAY_STORE_PERSONNEL_ICON,
     Icon: FiSmartphone,
     accent: 'violet',
-    features: ['QR yoklama', 'Yevmiye', 'Avans'],
     gradient: 'from-violet-600/20 via-violet-500/5 to-transparent',
     ring: 'group-hover:ring-violet-400/40',
     badge: 'bg-violet-500/15 text-violet-700 dark:text-violet-300',
     arrow: 'text-violet-600 dark:text-violet-400',
     border: 'hover:border-violet-300 dark:hover:border-violet-600/50',
   },
-  {
-    id: 'admin',
+  admin: {
     href: '/admin-panel/login',
-    title: 'Yönetici',
-    subtitle: 'Yönetiyorum',
-    description: 'Proje, personel onayı, puantaj ve raporlar — tek panel.',
     icon: PLAY_STORE_ADMIN_ICON,
     Icon: FiBriefcase,
     accent: 'blue',
-    features: ['Projeler', 'Onay', 'Bordro'],
     gradient: 'from-blue-600/20 via-cyan-500/5 to-transparent',
     ring: 'group-hover:ring-blue-400/40',
     badge: 'bg-blue-500/15 text-blue-700 dark:text-blue-300',
     arrow: 'text-blue-600 dark:text-blue-400',
     border: 'hover:border-blue-300 dark:hover:border-blue-600/50',
   },
-] as const;
+} as const;
+
+const loginPanels = (['personel', 'admin'] as const).map((id) => ({
+  id,
+  ...panelStyles[id],
+  ...strings.panels[id],
+}));
 
 function LoginRoleCard({
   panel,
@@ -149,7 +146,7 @@ export function LoginRoleModal({ open, onClose }: { open: boolean; onClose: () =
           <button
             type="button"
             className="absolute inset-0 bg-[#0E1548]/70 backdrop-blur-md"
-            aria-label="Giriş menüsünü kapat"
+            aria-label={strings.closeOverlayAriaLabel}
             onClick={onClose}
           />
 
@@ -182,7 +179,7 @@ export function LoginRoleModal({ open, onClose }: { open: boolean; onClose: () =
                   <div>
                     <p className="text-xs font-medium uppercase tracking-widest text-blue-200/90">{APP_NAME}</p>
                     <h2 id="login-role-modal-title" className="text-lg font-bold text-white sm:text-xl">
-                      Giriş yap
+                      {strings.modalTitle}
                     </h2>
                   </div>
                 </div>
@@ -190,13 +187,13 @@ export function LoginRoleModal({ open, onClose }: { open: boolean; onClose: () =
                   type="button"
                   onClick={onClose}
                   className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white/10 text-white/90 transition-colors hover:bg-white/20"
-                  aria-label="Kapat"
+                  aria-label={strings.closeButtonAriaLabel}
                 >
                   <FiX className="h-5 w-5" />
                 </button>
               </div>
               <p className="relative mt-3 text-sm leading-relaxed text-blue-100/90">
-                Personel ve yönetici panelleri ayrıdır. Rolünüze uygun girişi seçin.
+                {strings.modalSubtitle}
               </p>
               <div className="relative mt-4 h-1 overflow-hidden rounded-full bg-white/10">
                 <motion.div
@@ -211,7 +208,7 @@ export function LoginRoleModal({ open, onClose }: { open: boolean; onClose: () =
             <LoginRolePickerPanel onNavigate={onClose} />
 
             <p className="border-t border-slate-200/80 px-5 py-3 text-center text-[11px] text-slate-400 dark:border-slate-800 dark:text-slate-500">
-              Hesabınız yok mu? Personel başvurusu yöneticiniz üzerinden yapılır.
+              {strings.footerNote}
             </p>
           </motion.div>
         </motion.div>
@@ -256,7 +253,7 @@ function LoginButtonShimmer() {
 export function LoginRoleButton({
   className,
   variant = 'hero',
-  children = 'Giriş Yap',
+  children = strings.buttonDefault,
   showIcon = true,
 }: {
   className?: string;
