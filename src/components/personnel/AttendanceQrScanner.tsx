@@ -31,7 +31,7 @@ function cameraPriority(cam: CameraDevice, desktop: boolean) {
   return 2;
 }
 
-async function waitForElement(id: string, attempts = 50): Promise<HTMLElement> {
+async function waitForElement(id: string, attempts = 80): Promise<HTMLElement> {
   for (let i = 0; i < attempts; i += 1) {
     const el = document.getElementById(id);
     if (el && el.clientWidth > 0 && el.clientHeight > 0) return el;
@@ -39,6 +39,9 @@ async function waitForElement(id: string, attempts = 50): Promise<HTMLElement> {
   }
   const el = document.getElementById(id);
   if (!el) throw new Error('Kamera alanı hazırlanamadı.');
+  if (el.clientWidth === 0 || el.clientHeight === 0) {
+    el.style.minHeight = `${Math.max(window.innerHeight * 0.5, 320)}px`;
+  }
   return el;
 }
 
@@ -140,10 +143,9 @@ export function AttendanceQrScanner({
   const scannerRef = useRef<Html5Qrcode | null>(null);
   const onScanRef = useRef(onScan);
   const parseQrRef = useRef(parseQr);
-  const bootingRef = useRef(false);
   const decodedRef = useRef(false);
   const [active, setActive] = useState(false);
-  const [starting, setStarting] = useState(true);
+  const [starting, setStarting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -185,11 +187,11 @@ export function AttendanceQrScanner({
   useEffect(() => {
     if (disabled || paused) {
       void releaseScanner();
+      setStarting(false);
       return;
     }
 
     let cancelled = false;
-    bootingRef.current = true;
     setStarting(true);
     setError(null);
 
@@ -212,7 +214,8 @@ export function AttendanceQrScanner({
 
         const scanner = new Html5Qrcode(regionId, {
           verbose: false,
-          useBarCodeDetectorIfSupported: !desktop,
+          // TWA / mobil WebView'da BarcodeDetector takılma yapabiliyor
+          useBarCodeDetectorIfSupported: false,
         });
         scannerRef.current = scanner;
 
@@ -267,13 +270,14 @@ export function AttendanceQrScanner({
           /* */
         }
 
-        setError(mapCameraError(lastError?.message ?? 'Kamera açılamadı'));
+        if (!cancelled) {
+          setError(mapCameraError(lastError?.message ?? 'Kamera açılamadı'));
+        }
       } catch (e) {
         if (cancelled) return;
         const msg = e instanceof Error ? e.message : 'Kamera açılamadı';
         setError(mapCameraError(msg));
       } finally {
-        bootingRef.current = false;
         if (!cancelled) setStarting(false);
       }
     };
@@ -282,28 +286,30 @@ export function AttendanceQrScanner({
 
     return () => {
       cancelled = true;
-      bootingRef.current = false;
+      setStarting(false);
     };
   }, [disabled, paused, regionId, invalidQrMessage, releaseScanner]);
 
+  const showLoading = starting && !active && !paused && !error;
+
   return (
     <div className={`relative h-full w-full overflow-hidden bg-black ${className}`}>
-      <div id={regionId} className="attendance-scanner absolute inset-0 h-full w-full" />
+      <div id={regionId} className="attendance-scanner absolute inset-0 h-full w-full min-h-[50dvh]" />
 
       {active && !paused && <ScanSpotlight />}
 
-      {paused && !starting && (
-        <div className="absolute inset-0 z-[3] bg-black/80 backdrop-blur-[2px]" aria-hidden />
+      {paused && !active && (
+        <div className="absolute inset-0 z-[3] bg-black" aria-hidden />
       )}
 
-      {starting && !active && !error && (
+      {showLoading && (
         <div className="absolute inset-0 z-[4] flex flex-col items-center justify-center gap-3 bg-black">
           <FiLoader className="h-8 w-8 animate-spin text-emerald-400" />
           <p className="text-sm text-white/75">Kamera açılıyor…</p>
         </div>
       )}
 
-      {error && (
+      {error && !paused && (
         <div className="absolute inset-x-4 top-4 z-[4] rounded-xl bg-red-950/90 px-4 py-2.5 text-center text-sm text-red-100 backdrop-blur-sm">
           {error}
         </div>

@@ -111,14 +111,21 @@ function YoklamaContent() {
     <>
       {/* Mobil — tam ekran kamera, alt bar yok */}
       <div className="fixed inset-0 z-0 h-[100dvh] bg-black sm:hidden">
-        <AttendanceQrScanner
-          className="absolute inset-0 h-full w-full"
-          onScan={(t) => void submitToken(t)}
-          disabled={scanPaused}
-          paused={scanPaused}
-          parseQr={parseAttendanceTokenFromQr}
-          invalidQrMessage="Geçerli bir yoklama QR kodu değil."
-        />
+        {!loadingStatus ? (
+          <AttendanceQrScanner
+            key={forceReplace ? 'rescan' : 'scan'}
+            className="absolute inset-0 h-full w-full"
+            onScan={(t) => void submitToken(t)}
+            disabled={scanPaused}
+            paused={scanPaused}
+            parseQr={parseAttendanceTokenFromQr}
+            invalidQrMessage="Geçerli bir yoklama QR kodu değil."
+          />
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center bg-black">
+            <div className="h-10 w-10 animate-spin rounded-full border-2 border-emerald-400 border-t-transparent" />
+          </div>
+        )}
 
         {/* Üst kontroller: iptal + kod gir */}
         <div className="pointer-events-none absolute inset-x-0 top-0 z-20 flex items-start justify-between gap-3 px-3 pb-2 safe-pt">
