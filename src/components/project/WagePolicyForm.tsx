@@ -13,6 +13,8 @@ import {
 import { getOfficialMonthlyMinimumWageGross } from '@/lib/minimum-wage';
 import { cardClass, labelClass, inputClass, btnPrimary } from '@/components/project/ui';
 import { formatMoney } from '@/lib/format';
+import { formatString } from '@/lib/strings/format';
+import strings from '@json/src/components/project/WagePolicyForm.json';
 
 type Props = {
   value: WagePolicy;
@@ -32,8 +34,8 @@ export function WagePolicyForm({
   loading,
   saving,
   showDekontSection = true,
-  title = 'Maaş ve asgari politikası',
-  subtitle = 'Ana yetkili bu ayarları bir kez doldurur; asgari ve yevmiye hesapları buna göre yapılır.',
+  title = strings.defaultTitle,
+  subtitle = strings.defaultSubtitle,
 }: Props) {
   const systemDefault = getOfficialMonthlyMinimumWageGross();
 
@@ -50,7 +52,7 @@ export function WagePolicyForm({
 
   if (loading) {
     return (
-      <div className={`${cardClass} p-8 text-center text-sm text-slate-500`}>Yükleniyor…</div>
+      <div className={`${cardClass} p-8 text-center text-sm text-slate-500`}>{strings.loading}</div>
     );
   }
 
@@ -62,11 +64,8 @@ export function WagePolicyForm({
       </div>
 
       <section className={`${cardClass} p-4 sm:p-6 space-y-4`}>
-        <h2 className="text-base font-semibold text-slate-900">Yevmiye ne zaman ödenir?</h2>
-        <p className="text-sm text-slate-600">
-          Birden fazla seçebilirsiniz. Sistem bu bilgiyi taşeron borcu ekranlarında hatırlatma olarak
-          gösterir; ödeme kaydı yine admin tarafından girilir.
-        </p>
+        <h2 className="text-base font-semibold text-slate-900">{strings.yevmiyeSectionTitle}</h2>
+        <p className="text-sm text-slate-600">{strings.yevmiyeSectionHint}</p>
         <div className="flex flex-col gap-2">
           {(Object.keys(YEVMIYE_TRIGGER_LABELS) as YevmiyePaymentTrigger[]).map((key) => (
             <label
@@ -84,35 +83,35 @@ export function WagePolicyForm({
           ))}
         </div>
         <div>
-          <label className={labelClass}>Ek not (isteğe bağlı)</label>
+          <label className={labelClass}>{strings.notesLabel}</label>
           <textarea
             className={`${inputClass} min-h-[72px]`}
             value={value.yevmiyePaymentNotes}
             onChange={(e) => onChange({ ...value, yevmiyePaymentNotes: e.target.value })}
-            placeholder="Örn: Çatı ödemesi genelde cumartesi elden yapılır."
+            placeholder={strings.notesPlaceholder}
           />
         </div>
       </section>
 
       <section className={`${cardClass} p-4 sm:p-6 space-y-4`}>
-        <h2 className="text-base font-semibold text-slate-900">Asgari ücret nasıl hesaplansın?</h2>
+        <h2 className="text-base font-semibold text-slate-900">{strings.minimumSectionTitle}</h2>
         <div className={`rounded-xl bg-indigo-50 border border-indigo-100 p-4 flex gap-3 text-sm text-indigo-950`}>
           <FiInfo className="w-5 h-5 shrink-0 mt-0.5" />
           <p>
-            Karmaşık &quot;brüt/net&quot; terimlerini kullanmıyoruz. Referans:{' '}
-            <strong>Devletin belirlediği aylık asgari</strong> (varsayılan {formatMoney(systemDefault)}).
-            Personelin yevmiye toplamı bunun altındaysa fark taşeron borcudur.
+            {formatString(strings.minimumInfo, { amount: formatMoney(systemDefault) })}
           </p>
         </div>
 
         <div>
-          <label className={labelClass}>Aylık asgari referans (₺)</label>
+          <label className={labelClass}>{strings.minimumReferenceLabel}</label>
           <input
             type="number"
             className={inputClass}
             step="0.01"
             min="0"
-            placeholder={`Boş bırak = ${formatMoney(systemDefault)} (sistem varsayılanı)`}
+            placeholder={formatString(strings.minimumReferencePlaceholder, {
+              amount: formatMoney(systemDefault),
+            })}
             value={value.officialMonthlyMinimum ?? ''}
             onChange={(e) =>
               onChange({
@@ -130,11 +129,11 @@ export function WagePolicyForm({
             onChange={(e) => onChange({ ...value, prorationFromHireDate: e.target.checked })}
             className="rounded border-slate-300"
           />
-          Ay ortasında işe girenler için oranlama uygula (işe giriş tarihine göre)
+          {strings.prorationCheckbox}
         </label>
 
         <div>
-          <label className={labelClass}>Oranlama yöntemi</label>
+          <label className={labelClass}>{strings.prorationModeLabel}</label>
           <select
             className={inputClass}
             value={value.prorationMode}
@@ -158,19 +157,15 @@ export function WagePolicyForm({
         <section className={`${cardClass} p-4 sm:p-6 space-y-4 opacity-90`}>
           <div className="flex items-center gap-2">
             <FiUpload className="w-5 h-5 text-slate-500" />
-            <h2 className="text-base font-semibold text-slate-900">Asgari dekontu (yakında)</h2>
+            <h2 className="text-base font-semibold text-slate-900">{strings.dekontSectionTitle}</h2>
           </div>
-          <p className="text-sm text-slate-600">
-            Banka dekontu veya SGK/BES belgesi yükleyerek ödenen tutarı otomatik okuma hedefleniyor.
-            BES, SGK işçi payı gibi kesintiler dekontta farklı satırlarda göründüğü için önce{' '}
-            <strong>manuel onay</strong> modu önerilir.
-          </p>
+          <p className="text-sm text-slate-600">{strings.dekontSectionHint}</p>
           <label className="flex items-center gap-3 text-sm text-slate-500">
             <input type="checkbox" disabled checked={false} className="rounded" />
-            Otomatik dekont okuma (henüz aktif değil)
+            {strings.dekontAutoCheckbox}
           </label>
           <div>
-            <label className={labelClass}>Dekont kesintileri (hazırlık ayarı)</label>
+            <label className={labelClass}>{strings.dekontDeductionsLabel}</label>
             <select
               className={inputClass}
               value={value.dekontDeductionMode}
@@ -189,19 +184,19 @@ export function WagePolicyForm({
             </select>
           </div>
           <div>
-            <label className={labelClass}>Dekont / muhasebe notu</label>
+            <label className={labelClass}>{strings.dekontNotesLabel}</label>
             <textarea
               className={`${inputClass} min-h-[72px]`}
               value={value.dekontNotes}
               onChange={(e) => onChange({ ...value, dekontNotes: e.target.value })}
-              placeholder="Örn: BES kesintisi ayrı satırda, taşeron net yatırıyor."
+              placeholder={strings.dekontNotesPlaceholder}
             />
           </div>
         </section>
       )}
 
       <button type="submit" className={btnPrimary} disabled={saving}>
-        {saving ? 'Kaydediliyor…' : 'Politikayı kaydet'}
+        {saving ? strings.submitSaving : strings.submit}
       </button>
     </form>
   );

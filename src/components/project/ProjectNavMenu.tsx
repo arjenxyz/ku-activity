@@ -16,6 +16,7 @@ import {
   getProjectMenuPrimary,
   isMenuPathActive,
 } from '@/config/projectMenu';
+import strings from '@json/src/components/project/ProjectNavMenu.json';
 
 type NavVariant = 'sidebar' | 'mobile';
 
@@ -61,7 +62,7 @@ export function ProjectNavLinks({
       <div>
         {!mobile && (
           <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5 px-1">
-            {isSimple ? 'Günlük işlemler' : 'Günlük'}
+            {isSimple ? strings.dailySimple : strings.daily}
           </p>
         )}
         <ul className="space-y-0.5">
@@ -100,7 +101,7 @@ export function ProjectNavLinks({
         <div className={mobile ? 'pt-2 mt-2 border-t border-slate-200/80' : ''}>
           {!mobile && (
             <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5 px-1">
-              Menü
+              {strings.menu}
             </p>
           )}
           <div className={mobile ? 'divide-y divide-slate-100' : 'space-y-1'}>
@@ -136,7 +137,7 @@ export function ProjectNavLinks({
                         {group.links.map((link) => {
                           const href = link.href(projectId);
                           const active =
-                            link.label === 'Kayıt geçmişi'
+                            link.label === strings.recordHistoryLabel
                               ? pathname.includes('/kayit-gecmisi') ||
                                 pathname.includes('/sorgulama')
                               : isMenuPathActive(projectId, pathname, href);
@@ -188,7 +189,7 @@ export function ProjectNavLinks({
                       {group.links.map((link) => {
                         const href = link.href(projectId);
                         const active =
-                          link.label === 'Kayıt geçmişi'
+                          link.label === strings.recordHistoryLabel
                             ? pathname.includes('/kayit-gecmisi') ||
                               pathname.includes('/sorgulama')
                             : isMenuPathActive(projectId, pathname, href);
@@ -220,12 +221,12 @@ export function ProjectNavLinks({
       {!mobile && (
         <div className="pt-1 border-t border-slate-100">
           <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-2 px-1">
-            Arayüz
+            {strings.uiSection}
           </p>
           <AdminUiModeToggle className="w-full flex" />
           {isSimple && (
             <p className="text-[10px] text-slate-500 mt-2 px-1 leading-relaxed">
-              Gelişmiş mod: taşeron kârı, bloklar, bordro ve arşiv.
+              {strings.simpleModeHint}
             </p>
           )}
         </div>

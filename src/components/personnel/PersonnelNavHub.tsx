@@ -21,6 +21,7 @@ import {
   NavIconSettings,
   NavIconWork,
 } from '@/components/personnel/PersonnelNavIcons';
+import strings from '@json/src/components/personnel/PersonnelNavHub.json';
 
 type Props = {
   open: boolean;
@@ -105,7 +106,7 @@ function HubInner({ open, onClose, activeTab, isYoklama }: Props) {
           className="fixed inset-0 z-[60] sm:hidden"
           role="dialog"
           aria-modal="true"
-          aria-label="Menü"
+          aria-label={strings.menuAriaLabel}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -114,7 +115,7 @@ function HubInner({ open, onClose, activeTab, isYoklama }: Props) {
           <motion.button
             type="button"
             className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"
-            aria-label="Kapat"
+            aria-label={strings.close}
             onClick={onClose}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -142,16 +143,16 @@ function HubInner({ open, onClose, activeTab, isYoklama }: Props) {
                   <BrandMark size="sm" />
                   <div>
                     <p className="text-xs font-bold tracking-wide text-blue-600 dark:text-blue-400">
-                      CREWLEDGER
+                      {strings.brand}
                     </p>
-                    <h2 className="text-lg font-bold text-slate-900 dark:text-white">Tüm bölümler</h2>
+                    <h2 className="text-lg font-bold text-slate-900 dark:text-white">{strings.title}</h2>
                   </div>
                 </div>
                 <button
                   type="button"
                   onClick={onClose}
                   className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300"
-                  aria-label="Kapat"
+                  aria-label={strings.close}
                 >
                   <FiX className="h-5 w-5" />
                 </button>

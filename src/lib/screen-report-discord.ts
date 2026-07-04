@@ -3,6 +3,8 @@
 import { APP_NAME } from '@/lib/brand';
 import type { ScreenReportInput } from '@/lib/screen-report-types';
 import { stripScreenshotDataUrl } from '@/lib/screen-report-types';
+import strings from '@json/src/lib/screen-report-discord.json';
+import { formatString } from '@/lib/strings/format';
 
 /** CrewLedger Discord sunucusu / rapor kanalı */
 export const DISCORD_REPORT_GUILD_ID = '1465698764453838882';
@@ -16,17 +18,17 @@ function truncate(value: string, max: number): string {
 
 function buildEmbed(input: ScreenReportInput) {
   const fields: Array<{ name: string; value: string; inline?: boolean }> = [
-    { name: 'Ekran', value: input.screenLabel ?? 'Auth', inline: true },
-    { name: 'Zaman', value: input.capturedAt, inline: true },
-    { name: 'Sayfa', value: truncate(input.pageUrl || '—', 1024) },
-    { name: 'Tarayıcı', value: truncate(input.userAgent || '—', 1024) },
+    { name: strings.embedScreen, value: input.screenLabel ?? strings.embedScreenDefault, inline: true },
+    { name: strings.embedTime, value: input.capturedAt, inline: true },
+    { name: strings.embedPage, value: truncate(input.pageUrl || '—', 1024) },
+    { name: strings.embedBrowser, value: truncate(input.userAgent || '—', 1024) },
   ];
 
   if (input.formError) {
-    fields.push({ name: 'Form hatası', value: truncate(input.formError, 1024) });
+    fields.push({ name: strings.embedFormError, value: truncate(input.formError, 1024) });
   }
   if (input.note) {
-    fields.push({ name: 'Kullanıcı notu', value: truncate(input.note, 1024) });
+    fields.push({ name: strings.embedUserNote, value: truncate(input.note, 1024) });
   }
 
   const diag =
@@ -34,10 +36,10 @@ function buildEmbed(input: ScreenReportInput) {
       ? input.diagnostics.map((d) => `• ${d}`).join('\n')
       : '—';
 
-  fields.push({ name: 'Tanılama', value: truncate(diag, 1024) });
+  fields.push({ name: strings.embedDiagnostics, value: truncate(diag, 1024) });
 
   return {
-    title: `${APP_NAME} — Ekran raporu`,
+    title: formatString(strings.reportTitle, { appName: APP_NAME }),
     color: 0x2563eb,
     fields,
     footer: { text: `Guild ${DISCORD_REPORT_GUILD_ID}` },
@@ -54,7 +56,7 @@ async function postDiscordMessage(url: string, headers: HeadersInit, input: Scre
   form.append(
     'payload_json',
     JSON.stringify({
-      content: '🚩 **Yeni ekran raporu**',
+      content: strings.newReportContent,
       embeds: [buildEmbed(input)],
     })
   );
@@ -69,7 +71,10 @@ async function postDiscordMessage(url: string, headers: HeadersInit, input: Scre
   if (!res.ok) {
     const detail = await res.text().catch(() => '');
     throw new Error(
-      `Discord raporu gönderilemedi (${res.status})${detail ? `: ${detail.slice(0, 200)}` : ''}`
+      formatString(strings.sendFailed, {
+        status: res.status,
+        detail: detail ? `: ${detail.slice(0, 200)}` : '',
+      })
     );
   }
 }
@@ -105,7 +110,5 @@ export async function sendScreenReportDiscord(input: ScreenReportInput): Promise
     return;
   }
 
-  throw new Error(
-    'Discord raporu yapılandırılmamış (DISCORD_REPORT_WEBHOOK_URL veya DISCORD_BOT_TOKEN)'
-  );
+  throw new Error(strings.notConfigured);
 }

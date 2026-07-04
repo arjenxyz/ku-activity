@@ -1,11 +1,12 @@
 import { createCipheriv, createDecipheriv, createHmac, randomBytes, scryptSync } from 'crypto';
+import strings from '@json/src/lib/field-encryption.json';
 
 const ALGO = 'aes-256-gcm';
 
 function getKey(): Buffer {
   const secret = process.env.FIELD_ENCRYPTION_KEY;
   if (!secret || secret.length < 16) {
-    throw new Error('FIELD_ENCRYPTION_KEY eksik veya çok kısa (.env)');
+    throw new Error(strings.encryptionKeyMissing);
   }
   return scryptSync(secret, 'arjendev-personel-v1', 32);
 }
@@ -34,11 +35,11 @@ export function decryptField(blob: string): string {
 export function hashTcKimlik(tc: string): string {
   const normalized = tc.replace(/\D/g, '');
   if (!/^\d{11}$/.test(normalized)) {
-    throw new Error('Geçersiz T.C. kimlik numarası');
+    throw new Error(strings.invalidTcKimlik);
   }
   const secret = process.env.FIELD_ENCRYPTION_KEY;
   if (!secret || secret.length < 16) {
-    throw new Error('FIELD_ENCRYPTION_KEY eksik veya çok kısa (.env)');
+    throw new Error(strings.encryptionKeyMissing);
   }
   return createHmac('sha256', secret).update(`tc-lookup-v1:${normalized}`).digest('hex');
 }
@@ -87,11 +88,11 @@ export function validateIdentityNumber(identityType: IdentityType, value: string
 export function hashIdentityLookup(identityType: IdentityType, identityNumber: string): string {
   const normalized = normalizeIdentityNumber(identityType, identityNumber);
   if (!validateIdentityNumber(identityType, normalized)) {
-    throw new Error('Geçersiz kimlik numarası');
+    throw new Error(strings.invalidIdentity);
   }
   const secret = process.env.FIELD_ENCRYPTION_KEY;
   if (!secret || secret.length < 16) {
-    throw new Error('FIELD_ENCRYPTION_KEY eksik veya çok kısa (.env)');
+    throw new Error(strings.encryptionKeyMissing);
   }
   return createHmac('sha256', secret)
     .update(`identity-lookup-v1:${identityType}:${normalized}`)
@@ -212,11 +213,11 @@ export function extractTurkishNationalDigits(phone: string): string {
 export function hashPhoneLookup(phone: string): string {
   const normalized = normalizePhoneDigits(phone);
   if (!normalized || !/^\d{8,15}$/.test(normalized)) {
-    throw new Error('Geçersiz telefon numarası');
+    throw new Error(strings.invalidPhone);
   }
   const secret = process.env.FIELD_ENCRYPTION_KEY;
   if (!secret || secret.length < 16) {
-    throw new Error('FIELD_ENCRYPTION_KEY eksik veya çok kısa (.env)');
+    throw new Error(strings.encryptionKeyMissing);
   }
   return createHmac('sha256', secret).update(`phone-lookup-v1:${normalized}`).digest('hex');
 }
@@ -233,11 +234,11 @@ export function computePhoneLookupHash(phone: string | null | undefined): string
 export function hashIbanLookup(iban: string): string {
   const normalized = normalizeIban(iban);
   if (!validateTurkishIban(normalized)) {
-    throw new Error('Geçersiz IBAN');
+    throw new Error(strings.invalidIban);
   }
   const secret = process.env.FIELD_ENCRYPTION_KEY;
   if (!secret || secret.length < 16) {
-    throw new Error('FIELD_ENCRYPTION_KEY eksik veya çok kısa (.env)');
+    throw new Error(strings.encryptionKeyMissing);
   }
   return createHmac('sha256', secret).update(`iban-lookup-v1:${normalized}`).digest('hex');
 }

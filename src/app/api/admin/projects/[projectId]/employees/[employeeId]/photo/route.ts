@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { requireAdminProjectAccess } from '@/lib/admin-auth';
 import { createAdminClient } from '@/utils/supabase/admin';
 import { apiErrorMessage } from '@/lib/project-queries';
+import strings from '@json/src/app/api/admin/projects/[projectId]/employees/[employeeId]/photo/route.json';
 import {
   EMPLOYEE_PHOTOS_BUCKET,
   employeePhotoObjectPath,
@@ -28,18 +29,18 @@ export async function POST(request: Request, ctx: Ctx) {
     const file = formData.get('file');
 
     if (!(file instanceof File)) {
-      return NextResponse.json({ error: 'Dosya gerekli' }, { status: 400 });
+      return NextResponse.json({ error: strings.dosyaGerekli }, { status: 400 });
     }
 
     if (!ALLOWED_TYPES.has(file.type)) {
       return NextResponse.json(
-        { error: 'Yalnızca JPEG, PNG, WebP veya GIF yükleyebilirsiniz' },
+        { error: strings.yalnızcaJpegPngWebpVeyaGif },
         { status: 400 }
       );
     }
 
     if (file.size > MAX_BYTES) {
-      return NextResponse.json({ error: 'Dosya en fazla 5 MB olabilir' }, { status: 400 });
+      return NextResponse.json({ error: strings.dosyaEnFazla5MbOlabilir }, { status: 400 });
     }
 
     const admin = createAdminClient();
@@ -52,7 +53,7 @@ export async function POST(request: Request, ctx: Ctx) {
       .maybeSingle();
 
     if (empError || !employee) {
-      return NextResponse.json({ error: 'Personel bulunamadı' }, { status: 404 });
+      return NextResponse.json({ error: strings.personelBulunamadı }, { status: 404 });
     }
 
     const ext = extForMime(file.type);
@@ -70,9 +71,7 @@ export async function POST(request: Request, ctx: Ctx) {
       return NextResponse.json(
         {
           error:
-            uploadError.message.includes('Bucket not found') || uploadError.message.includes('bucket')
-              ? '025_private_photo_storage.sql çalıştırın'
-              : 'Fotoğraf yüklenemedi',
+            uploadError.message.includes('Bucket not found') || uploadError.message.includes('bucket') ? strings.err025PrivatePhotoStorageSqlÇalıştırın : strings.fotoğrafYüklenemedi,
         },
         { status: 500 }
       );
@@ -84,9 +83,7 @@ export async function POST(request: Request, ctx: Ctx) {
       .eq('id', employeeId);
 
     if (updateError) {
-      const hint = updateError.message.includes('photo_path')
-        ? '025_private_photo_storage.sql çalıştırın (photo_path kolonu)'
-        : 'Kayıt güncellenemedi';
+      const hint = updateError.message.includes('photo_path') ? strings.err025PrivatePhotoStorageSqlÇalıştırın2 : strings.kayıtGüncellenemedi;
       return NextResponse.json({ error: hint }, { status: 500 });
     }
 
@@ -112,7 +109,7 @@ export async function DELETE(_request: Request, ctx: Ctx) {
       .maybeSingle();
 
     if (empError || !employee) {
-      return NextResponse.json({ error: 'Personel bulunamadı' }, { status: 404 });
+      return NextResponse.json({ error: strings.personelBulunamadı }, { status: 404 });
     }
 
     const exts = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
@@ -128,7 +125,7 @@ export async function DELETE(_request: Request, ctx: Ctx) {
       .eq('id', employeeId);
 
     if (clearError && !clearError.message.includes('photo')) {
-      return NextResponse.json({ error: 'Fotoğraf kaldırılamadı' }, { status: 500 });
+      return NextResponse.json({ error: strings.fotoğrafKaldırılamadı }, { status: 500 });
     }
 
     return NextResponse.json({ success: true });

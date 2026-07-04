@@ -3,6 +3,7 @@ import { deleteAppReleaseApk } from '@/lib/app-release-storage';
 import { requireDeveloperUser } from '@/lib/developer-auth';
 import { apiErrorMessage } from '@/lib/project-queries';
 import { createClient } from '@/utils/supabase/server';
+import strings from '@json/src/app/api/developer/releases/[id]/route.json';
 
 type Ctx = { params: Promise<{ id: string }> };
 
@@ -23,11 +24,11 @@ export async function DELETE(_request: Request, ctx: Ctx) {
     }
 
     if (!release) {
-      return NextResponse.json({ error: 'Sürüm bulunamadı' }, { status: 404 });
+      return NextResponse.json({ error: strings.sürümBulunamadı }, { status: 404 });
     }
 
     if (release.status !== 'pending') {
-      return NextResponse.json({ error: 'Yalnızca onay bekleyen sürümler silinebilir' }, { status: 400 });
+      return NextResponse.json({ error: strings.yalnızcaOnayBekleyenSürümlerSilinebilir }, { status: 400 });
     }
 
     await deleteAppReleaseApk(release.storage_path);

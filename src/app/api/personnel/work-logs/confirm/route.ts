@@ -1,8 +1,9 @@
 import { NextResponse } from 'next/server';
+import strings from '@json/src/app/api/personnel/work-logs/confirm/route.json';
 
 export async function POST() {
   return NextResponse.json(
-    { error: 'Çift onay kaldırıldı. Yoklama QR ile otomatik kaydedilir.' },
+    { error: strings.çiftOnayKaldırıldıYoklamaQrIle },
     { status: 410 }
   );
 }

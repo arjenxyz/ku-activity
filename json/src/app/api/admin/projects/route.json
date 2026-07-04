@@ -1,0 +1,9 @@
+{
+  "projeAdıGerekli": "Proje adı gerekli",
+  "projeOluşturmakIçinDoğrulamaKoduGerekli": "Proje oluşturmak için doğrulama kodu gerekli. Destek e-postasına başvurun.",
+  "geçersizDurum": "Geçersiz durum",
+  "oturumGerekli": "Oturum gerekli",
+  "geçersizSüresiDolmuşVeyaKullanılmışDoğrulama": "Geçersiz, süresi dolmuş veya kullanılmış doğrulama kodu",
+  "err007VerificationSystemSqlÇalıştırın": "007_verification_system.sql çalıştırın",
+  "buProjeKoduZatenKullanılıyor": "Bu proje kodu zaten kullanılıyor"
+}

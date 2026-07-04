@@ -1,6 +1,7 @@
 /** Görünür ekranın ekran görüntüsünü al (auth / hata raporu) */
 
 import { maskSensitiveFieldsInClone } from '@/lib/sensitive-capture';
+import strings from '@json/src/lib/capture-screen.json';
 
 export async function captureElementScreenshot(
   element: HTMLElement,
@@ -29,7 +30,7 @@ export async function captureElementScreenshot(
     resized.width = maxWidth;
     resized.height = Math.round(canvas.height * ratio);
     const ctx = resized.getContext('2d');
-    if (!ctx) throw new Error('Canvas oluşturulamadı');
+    if (!ctx) throw new Error(strings.canvasCreateFailed);
     ctx.drawImage(canvas, 0, 0, resized.width, resized.height);
     out = resized;
   }

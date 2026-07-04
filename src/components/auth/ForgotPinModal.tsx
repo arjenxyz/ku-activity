@@ -14,6 +14,8 @@ import {
   personnelAuthPrimaryBtnClass,
   personnelAuthSecondaryBtnClass,
 } from '@/lib/personnel-auth-ui';
+import { formatString } from '@/lib/strings/format';
+import strings from '@json/src/components/auth/ForgotPinModal.json';
 
 type View = 'form' | 'no-email' | 'link-sent';
 
@@ -95,12 +97,12 @@ export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
         error?: string;
         resetToken?: string;
       };
-      if (!res.ok) throw new Error(data.error || 'Doğrulama başarısız');
-      if (!data.resetToken) throw new Error('Oturum başlatılamadı');
+      if (!res.ok) throw new Error(data.error || strings.verifyFailed);
+      if (!data.resetToken) throw new Error(strings.sessionStartFailed);
       handleClose();
       window.location.assign(buildPersonnelPinResetUrl(data.resetToken));
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Doğrulama başarısız');
+      setError(err instanceof Error ? err.message : strings.verifyFailed);
     } finally {
       setVerifying(false);
     }
@@ -122,10 +124,10 @@ export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
         }),
       });
       const data = (await res.json()) as { error?: string };
-      if (!res.ok) throw new Error(data.error || 'Link gönderilemedi');
+      if (!res.ok) throw new Error(data.error || strings.linkSendFailed);
       setView('link-sent');
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Link gönderilemedi');
+      setError(err instanceof Error ? err.message : strings.linkSendFailed);
     } finally {
       setLinkSending(false);
     }
@@ -147,10 +149,10 @@ export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
         }),
       });
       const data = (await res.json()) as { error?: string; maskedEmail?: string };
-      if (!res.ok) throw new Error(data.error || 'Sorgu yapılamadı');
+      if (!res.ok) throw new Error(data.error || strings.queryFailed);
       setMaskedEmail(data.maskedEmail ?? null);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Sorgu yapılamadı');
+      setError(err instanceof Error ? err.message : strings.queryFailed);
     } finally {
       setHintLoading(false);
     }
@@ -158,10 +160,10 @@ export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
 
   const subtitle =
     view === 'no-email'
-      ? 'E-postanızı hatırlamıyorsanız aşağıdaki seçenekleri kullanın.'
+      ? strings.subtitleNoEmail
       : view === 'link-sent'
-        ? 'E-postanızı kontrol edin.'
-        : 'Kimliğinizi doğrulayın; yeni PIN\'i ayrı bir sayfada belirleyeceksiniz.';
+        ? strings.subtitleLinkSent
+        : strings.subtitleForm;
 
   if (!open) return null;
 
@@ -176,7 +178,7 @@ export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
         <div className="flex items-start justify-between gap-3 px-5 pt-5 pb-3 border-b border-slate-200 shrink-0">
           <div>
             <h2 id="forgot-pin-title" className="text-lg font-bold text-slate-900">
-              PIN sıfırlama
+              {strings.title}
             </h2>
             <p className="mt-1 text-sm text-slate-500 leading-relaxed">{subtitle}</p>
           </div>
@@ -185,7 +187,7 @@ export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
             onClick={handleClose}
             disabled={busy}
             className="shrink-0 rounded-lg p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-600"
-            aria-label="Kapat"
+            aria-label={strings.close}
           >
             <FiX className="h-5 w-5" />
           </button>
@@ -194,28 +196,20 @@ export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
         <div className="px-5 py-4 overflow-y-auto space-y-4">
           {view === 'link-sent' ? (
             <div className="space-y-4">
-              <AuthAlert
-                type="success"
-                tone="personnel"
-                message="Sıfırlama linki e-posta adresinize gönderildi. Bağlantı 30 dakika geçerlidir, yalnızca bir kez kullanılabilir. Yeni link için 6 saat beklemeniz gerekir."
-              />
+              <AuthAlert type="success" tone="personnel" message={strings.linkSentMessage} />
               <button type="button" onClick={handleClose} className={personnelAuthPrimaryBtnClass}>
-                Tamam
+                {strings.ok}
               </button>
             </div>
           ) : view === 'no-email' ? (
             <div className="space-y-4">
               <div className={personnelAuthMutedTextClass.replace('text-xs', 'text-sm')}>
-                <p className="mb-2">
-                  E-posta adresinizi hatırlamıyorsanız <strong>şantiye yöneticinize</strong> veya{' '}
-                  <strong>İK biriminize</strong> başvurun. T.C. kimlik ve telefon bilgilerinizle
-                  kayıtlı e-postanızı öğrenebilirsiniz.
-                </p>
+                <p className="mb-2">{strings.noEmailHint}</p>
               </div>
 
               <div>
                 <label className={labelClass} htmlFor="forgot-pin-tc-hint">
-                  T.C. Kimlik No
+                  {strings.tcLabel}
                 </label>
                 <input
                   id="forgot-pin-tc-hint"
@@ -223,7 +217,7 @@ export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
                   data-sensitive-capture
                   value={tcKimlik}
                   onChange={(e) => setTcKimlik(e.target.value.replace(/\D/g, '').slice(0, 11))}
-                  placeholder="11 haneli T.C. kimlik"
+                  placeholder={strings.tcPlaceholder}
                   maxLength={11}
                   inputMode="numeric"
                 />
@@ -231,21 +225,20 @@ export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
 
               <div>
                 <label className={labelClass} htmlFor="forgot-pin-phone-hint">
-                  Telefon
+                  {strings.phoneLabel}
                 </label>
                 <TurkishPhoneInput
                   id="forgot-pin-phone-hint"
                   value={phone}
                   onChange={setPhone}
                   allowCountryCodeSelect
-                  placeholder="5xx xxx xx xx"
+                  placeholder={strings.phonePlaceholder}
                 />
               </div>
 
               {maskedEmail ? (
                 <p className={personnelAuthInfoBannerClass}>
-                  Kayıtlı e-posta adresiniz <strong>{maskedEmail}</strong> şeklinde görünüyor.
-                  Hatırladıysanız tam adresi girerek devam edebilirsiniz.
+                  {formatString(strings.maskedEmailHint, { maskedEmail })}
                 </p>
               ) : null}
 
@@ -265,10 +258,10 @@ export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
                   {hintLoading ? (
                     <>
                       <FiLoader className="inline h-4 w-4 animate-spin mr-2" />
-                      Kontrol ediliyor…
+                      {strings.checking}
                     </>
                   ) : (
-                    'Kayıtlı e-postamı göster'
+                    strings.showRegisteredEmail
                   )}
                 </button>
                 <button
@@ -280,7 +273,7 @@ export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
                   }}
                   className={personnelAuthPrimaryBtnClass}
                 >
-                  E-postamı hatırladım
+                  {strings.rememberedEmail}
                 </button>
               </div>
             </div>
@@ -288,7 +281,7 @@ export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
             <div className="space-y-4">
               <div>
                 <label className={labelClass} htmlFor="forgot-pin-tc">
-                  T.C. Kimlik No *
+                  {strings.tcLabelRequired}
                 </label>
                 <input
                   id="forgot-pin-tc"
@@ -296,7 +289,7 @@ export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
                   data-sensitive-capture
                   value={tcKimlik}
                   onChange={(e) => setTcKimlik(e.target.value.replace(/\D/g, '').slice(0, 11))}
-                  placeholder="11 haneli T.C. kimlik"
+                  placeholder={strings.tcPlaceholder}
                   maxLength={11}
                   inputMode="numeric"
                 />
@@ -304,20 +297,20 @@ export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
 
               <div>
                 <label className={labelClass} htmlFor="forgot-pin-phone">
-                  Telefon *
+                  {strings.phoneLabelRequired}
                 </label>
                 <TurkishPhoneInput
                   id="forgot-pin-phone"
                   value={phone}
                   onChange={setPhone}
                   allowCountryCodeSelect
-                  placeholder="5xx xxx xx xx"
+                  placeholder={strings.phonePlaceholder}
                 />
               </div>
 
               <div>
                 <label className={labelClass} htmlFor="forgot-pin-email">
-                  E-posta *
+                  {strings.emailLabel}
                 </label>
                 <input
                   id="forgot-pin-email"
@@ -325,7 +318,7 @@ export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
                   className={inputClass}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="ornek@mail.com"
+                  placeholder={strings.emailPlaceholder}
                   autoComplete="email"
                 />
               </div>
@@ -341,10 +334,10 @@ export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
                 {verifying ? (
                   <>
                     <FiLoader className="h-4 w-4 animate-spin" />
-                    Doğrulanıyor…
+                    {strings.verifying}
                   </>
                 ) : (
-                  'Doğrula ve devam et'
+                  strings.verifyAndContinue
                 )}
               </button>
 
@@ -357,17 +350,14 @@ export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
                 {linkSending ? (
                   <>
                     <FiLoader className="h-4 w-4 animate-spin" />
-                    Link gönderiliyor…
+                    {strings.sendingLink}
                   </>
                 ) : (
-                  'E-postama sıfırlama linki gönder'
+                  strings.sendResetLink
                 )}
               </button>
 
-              <p className={`text-center ${personnelAuthMutedTextClass}`}>
-                E-posta linki <strong>6 saatte bir</strong> istenebilir; bağlantı{' '}
-                <strong>30 dakika</strong> geçerlidir ve <strong>yalnızca bir kez</strong> kullanılabilir.
-              </p>
+              <p className={`text-center ${personnelAuthMutedTextClass}`}>{strings.linkRateHint}</p>
 
               <p className={`text-center ${personnelAuthMutedTextClass}`}>
                 <button
@@ -379,7 +369,7 @@ export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
                   }}
                   className={`${personnelAuthLinkClass} bg-transparent border-0 p-0 cursor-pointer`}
                 >
-                  E-postamı hatırlamıyorum
+                  {strings.forgotEmail}
                 </button>
               </p>
             </div>

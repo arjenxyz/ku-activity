@@ -10,6 +10,7 @@ import {
 import { createClient } from '@/utils/supabase/server';
 import { createAdminClient } from '@/utils/supabase/admin';
 import { apiErrorMessage } from '@/lib/project-queries';
+import strings from '@json/src/app/api/admin/projects/[projectId]/employees/[employeeId]/route.json';
 
 type Ctx = { params: Promise<{ projectId: string; employeeId: string }> };
 
@@ -22,7 +23,7 @@ export async function GET(_request: Request, ctx: Ctx) {
 
     if (error) return NextResponse.json({ error }, { status: 500 });
     if (!data || data.project_id !== projectId) {
-      return NextResponse.json({ error: 'Personel bulunamadı' }, { status: 404 });
+      return NextResponse.json({ error: strings.personelBulunamadı }, { status: 404 });
     }
 
     const employee = await withSignedEmployeePhoto(data);
@@ -65,7 +66,7 @@ export async function PATCH(request: Request, ctx: Ctx) {
     if (firstName !== undefined || lastName !== undefined) {
       updates.name = formatFullName(firstName ?? '', lastName ?? '');
       if (!updates.name) {
-        return NextResponse.json({ error: 'Ad ve soyad zorunludur' }, { status: 400 });
+        return NextResponse.json({ error: strings.adVeSoyadZorunludur }, { status: 400 });
       }
     } else if (name !== undefined) {
       updates.name = name.trim();
@@ -87,7 +88,7 @@ export async function PATCH(request: Request, ctx: Ctx) {
           updates.phone_lookup_hash = contactUpdates.phoneLookupHash ?? null;
         }
       } catch (err) {
-        const message = err instanceof Error ? err.message : 'Güncelleme başarısız';
+        const message = err instanceof Error ? err.message: strings.güncellemeBaşarısız;
         return NextResponse.json({ error: message }, { status: 409 });
       }
     }
@@ -97,7 +98,7 @@ export async function PATCH(request: Request, ctx: Ctx) {
     if (isActive !== undefined) updates.is_active = isActive;
 
     if (Object.keys(updates).length === 1) {
-      return NextResponse.json({ error: 'Güncellenecek alan yok' }, { status: 400 });
+      return NextResponse.json({ error: strings.güncellenecekAlanYok }, { status: 400 });
     }
 
     const supabase = await createClient();
@@ -117,7 +118,7 @@ export async function PATCH(request: Request, ctx: Ctx) {
 
     const { data, error: readError } = await queryEmployeeById(supabase, employeeId);
     if (readError || !data) {
-      return NextResponse.json({ error: 'Personel bulunamadı' }, { status: 404 });
+      return NextResponse.json({ error: strings.personelBulunamadı }, { status: 404 });
     }
 
     return NextResponse.json({ employee: data });

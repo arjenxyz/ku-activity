@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { confirmContractOtpLink } from '@/lib/otp-service';
+import strings from '@json/src/app/api/public/contract-otp/confirm-link/route.json';
 
 export async function GET(request: Request) {
   try {
@@ -16,7 +17,7 @@ export async function GET(request: Request) {
       reused: result.reused,
     });
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'Doğrulama başarısız';
+    const message = err instanceof Error ? err.message: strings.doğrulamaBaşarısız;
     return NextResponse.json({ error: message }, { status: 400 });
   }
 }

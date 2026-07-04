@@ -1,0 +1,18 @@
+{
+  "invalidPhone": "Geçersiz telefon numarası",
+  "ibanRequired": "IBAN zorunludur",
+  "invalidIban": "Geçerli bir IBAN girin (TR ile 26 karakter, kontrol hanesi doğru olmalı).",
+  "conflictingPendingApplications": "Bu e-posta ve kimlik bilgisi farklı bekleyen başvurularla eşleşiyor. Lütfen destek ile iletişime geçin.",
+  "emailEmployeeExists": "Bu e-posta ile kayıtlı personel zaten var",
+  "emailPendingApplication": "Bu e-posta ile onay bekleyen bir başvuru var. Yönetici onaylayana kadar aynı bilgilerle tekrar gönderebilir veya QR kodunuzu görüntüleyebilirsiniz.",
+  "tcEmployeeExists": "Bu T.C. kimlik numarası ile kayıtlı personel zaten var",
+  "foreignEmployeeExists": "Bu kimlik numarası ile kayıtlı personel zaten var",
+  "tcPendingApplication": "Bu T.C. kimlik numarası ile onay bekleyen bir başvuru var. Yönetici onaylayana kadar aynı bilgilerle tekrar gönderebilirsiniz.",
+  "foreignPendingApplication": "Bu kimlik numarası ile onay bekleyen bir başvuru var. Yönetici onaylayana kadar aynı bilgilerle tekrar gönderebilirsiniz.",
+  "phoneEmployeeExists": "Bu telefon numarası ile kayıtlı personel zaten var",
+  "phonePendingApplication": "Bu telefon numarası ile bekleyen başvuru zaten var",
+  "ibanEmployeeExists": "Bu IBAN ile kayıtlı personel zaten var",
+  "ibanPendingApplication": "Bu IBAN ile bekleyen başvuru zaten var",
+  "invalidEmail": "Geçerli bir e-posta girin",
+  "emailPendingOnly": "Bu e-posta ile bekleyen başvuru zaten var"
+}

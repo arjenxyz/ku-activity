@@ -4,6 +4,7 @@ import { formatMoney } from '@/lib/format';
 import type { BlockProfitSummary } from '@/types/project-block';
 import { PROJECT_BLOCK_STATUS_LABELS } from '@/types/project-block';
 import { cardClass } from '@/components/project/ui';
+import strings from '@json/src/components/project/profit/BlockProfitCard.json';
 
 type Props = {
   summary: BlockProfitSummary;
@@ -43,11 +44,11 @@ export function BlockProfitCard({ summary, expanded, onToggle }: Props) {
         </div>
         <div className="flex flex-wrap gap-4 text-sm">
           <div>
-            <p className="text-xs text-slate-500">Yevmiye</p>
+            <p className="text-xs text-slate-500">{strings.stats.workLogs}</p>
             <p className="font-medium text-slate-800">{formatMoney(summary.laborCostApproved)}</p>
           </div>
           <div>
-            <p className="text-xs text-slate-500">Kâr</p>
+            <p className="text-xs text-slate-500">{strings.stats.profit}</p>
             <p
               className={`font-semibold ${
                 summary.profitApproved >= 0 ? 'text-emerald-700' : 'text-red-600'
@@ -62,15 +63,15 @@ export function BlockProfitCard({ summary, expanded, onToggle }: Props) {
       {expanded && (
         <div className="border-t border-slate-100 px-4 py-4 sm:px-5 space-y-4 bg-slate-50/50">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm">
-            <Stat label="Alacak" value={formatMoney(summary.contractTotal)} />
-            <Stat label="Yevmiye (onaylı)" value={formatMoney(summary.laborCostApproved)} />
-            <Stat label="Avans" value={formatMoney(summary.advancesCost)} />
-            <Stat label="Kesinti" value={formatMoney(summary.deductionsCost)} />
-            <Stat label="Malzeme" value={formatMoney(summary.materialCost)} />
-            <Stat label="Onaylı gün" value={String(summary.approvedWorkDays)} />
-            <Stat label="Bekleyen gün" value={String(summary.pendingWorkDays)} />
+            <Stat label={strings.stats.receivable} value={formatMoney(summary.contractTotal)} />
+            <Stat label={strings.stats.laborApproved} value={formatMoney(summary.laborCostApproved)} />
+            <Stat label={strings.stats.advance} value={formatMoney(summary.advancesCost)} />
+            <Stat label={strings.stats.deduction} value={formatMoney(summary.deductionsCost)} />
+            <Stat label={strings.stats.material} value={formatMoney(summary.materialCost)} />
+            <Stat label={strings.stats.approvedDays} value={String(summary.approvedWorkDays)} />
+            <Stat label={strings.stats.pendingDays} value={String(summary.pendingWorkDays)} />
             <Stat
-              label="Kişi başı kâr"
+              label={strings.stats.profitPerShare}
               value={formatMoney(summary.profitPerShare)}
               highlight={summary.profitApproved >= 0}
             />
@@ -78,7 +79,7 @@ export function BlockProfitCard({ summary, expanded, onToggle }: Props) {
 
           {summary.jobs.length > 0 && (
             <div>
-              <p className="text-xs font-medium text-slate-500 mb-2">İş kalemleri</p>
+              <p className="text-xs font-medium text-slate-500 mb-2">{strings.jobsTitle}</p>
               <ul className="space-y-1">
                 {summary.jobs.map((j) => (
                   <li

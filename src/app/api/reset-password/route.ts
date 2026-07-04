@@ -3,6 +3,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/app/lib/auth';
+import strings from '@json/src/app/api/reset-password/route.json';
 
 export async function POST(request: NextRequest) {
   try {
@@ -26,12 +27,12 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json(
-      { message: 'Şifre sıfırlama bağlantısı gönderildi' },
+      { message: strings.şifreSıfırlamaBağlantısıGönderildi },
       { status: 200 }
     );
   } catch (error) {
     return NextResponse.json(
-      { error: 'Bir hata oluştu' },
+      { error: strings.birHataOluştu },
       { status: 500 }
     );
   }

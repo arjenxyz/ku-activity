@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { requireAdminProjectAccess } from '@/lib/admin-auth';
 import { createClient } from '@/utils/supabase/server';
 import { apiErrorMessage } from '@/lib/project-queries';
+import strings from '@json/src/app/api/admin/projects/[projectId]/minimum-wages/route.json';
 
 type Ctx = { params: Promise<{ projectId: string }> };
 
@@ -41,7 +42,7 @@ export async function POST(request: Request, ctx: Ctx) {
     await requireAdminProjectAccess(projectId);
     const { employeeId, date, amount, description } = await request.json();
     if (!employeeId || !date || amount == null) {
-      return NextResponse.json({ error: 'Zorunlu alanlar eksik' }, { status: 400 });
+      return NextResponse.json({ error: strings.zorunluAlanlarEksik }, { status: 400 });
     }
     const supabase = await createClient();
     const { data, error } = await supabase

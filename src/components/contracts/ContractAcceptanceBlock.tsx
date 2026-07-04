@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { FiCheckCircle, FiChevronRight, FiFileText } from 'react-icons/fi';
+import strings from '@json/src/components/contracts/ContractAcceptanceBlock.json';
+import { formatString } from '@/lib/strings/format';
 import { ContractAcceptanceModal } from './ContractAcceptanceModal';
 import type { ContractItem } from './ContractScrollReader';
 
@@ -37,12 +39,12 @@ export function ContractAcceptanceBlock({
       .then((r) => r.json())
       .then((d) => {
         if (!d.contracts?.length) {
-          setError('Sözleşmeler yüklenemedi. Yöneticinize bildirin.');
+          setError(strings.loadFailedAdmin);
           return;
         }
         setContracts(d.contracts);
       })
-      .catch(() => setError('Sözleşmeler yüklenemedi.'))
+      .catch(() => setError(strings.loadFailed))
       .finally(() => setLoading(false));
   }, []);
 
@@ -90,7 +92,7 @@ export function ContractAcceptanceBlock({
   if (loading) {
     return (
       <div className="rounded-xl border border-slate-200 dark:border-slate-700 p-4 text-center text-sm text-slate-500">
-        Sözleşmeler yükleniyor…
+        {strings.loading}
       </div>
     );
   }
@@ -106,6 +108,7 @@ export function ContractAcceptanceBlock({
   const openContractIndex = openContract
     ? contracts.findIndex((c) => c.id === openContract.id)
     : -1;
+  const countVars = { accepted: acceptedCount, total: contracts.length };
 
   if (isGate) {
     return (
@@ -129,7 +132,7 @@ export function ContractAcceptanceBlock({
                 <FiFileText className={`w-4 h-4 shrink-0 ${isGlass ? 'text-sky-300' : 'text-blue-600'}`} />
               )}
               <p className={`text-sm font-semibold ${isGlass ? 'text-white' : 'text-slate-900 dark:text-white'}`}>
-                {allDone ? 'Sözleşmeler tamam' : 'Sözleşmeler'}
+                {allDone ? strings.gateComplete : strings.gateTitle}
               </p>
               <span className={`text-xs sm:hidden ${isGlass ? 'text-white/55' : 'text-slate-500'}`}>
                 {acceptedCount}/{contracts.length}
@@ -140,9 +143,7 @@ export function ContractAcceptanceBlock({
                 isGlass ? 'text-white/60' : 'text-slate-600 dark:text-slate-400'
               }`}
             >
-              {allDone
-                ? 'Başvuruyu gönderebilirsiniz.'
-                : 'Sırayla okuyup onaylayın.'}
+              {allDone ? strings.gateReadyHint : strings.gatePendingHint}
             </p>
             <div className="hidden sm:flex items-center gap-2 mt-2">
               <div className="flex items-center gap-1.5" aria-hidden>
@@ -164,7 +165,7 @@ export function ContractAcceptanceBlock({
                   isGlass ? 'text-white/75' : 'text-slate-700 dark:text-slate-300'
                 }`}
               >
-                {acceptedCount}/{contracts.length} onaylandı
+                {formatString(strings.acceptedCount, countVars)}
               </span>
             </div>
           </div>
@@ -182,10 +183,10 @@ export function ContractAcceptanceBlock({
             }`}
           >
             {allDone
-              ? 'Sözleşmeleri gözden geçir'
+              ? strings.reviewContracts
               : acceptedCount === 0
-                ? 'Sözleşmeleri aç'
-                : `Kaldığın yerden devam et (${acceptedCount}/${contracts.length})`}
+                ? strings.openContracts
+                : formatString(strings.resumeContracts, countVars)}
           </button>
         </div>
 
@@ -212,18 +213,17 @@ export function ContractAcceptanceBlock({
       <div className="space-y-3">
         {!isSidebar && (
           <div className="rounded-xl border border-blue-200 bg-blue-50 dark:bg-blue-950/30 dark:border-blue-900 px-4 py-3 text-sm text-blue-900 dark:text-blue-100">
-            <p className="font-medium">Zorunlu sözleşmeler</p>
+            <p className="font-medium">{strings.requiredTitle}</p>
             <p className="mt-1 text-xs text-blue-800 dark:text-blue-200/90">
-              Her sözleşmeyi açıp <strong>sonuna kadar</strong> okuyun ({acceptedCount}/
-              {contracts.length}).
+              {formatString(strings.requiredHint, countVars)}
             </p>
           </div>
         )}
         {isSidebar && (
           <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-            Her sözleşmeyi sonuna kadar okuyup onaylayın.{' '}
+            {strings.sidebarHint}{' '}
             <span className="font-medium text-slate-800 dark:text-slate-200">
-              {acceptedCount}/{contracts.length} tamam
+              {formatString(strings.sidebarComplete, countVars)}
             </span>
           </p>
         )}
@@ -261,8 +261,8 @@ export function ContractAcceptanceBlock({
                       </p>
                     )}
                     <p className="text-xs text-slate-500 mt-0.5">
-                      Sürüm {contract.version}
-                      {isAccepted ? ' · Onaylandı' : ' · Açıp okuyun ve onaylayın'}
+                      {formatString(strings.version, { version: contract.version })}
+                      {isAccepted ? strings.accepted : strings.openAndRead}
                     </p>
                   </div>
                   <FiChevronRight className="w-4 h-4 text-slate-400 shrink-0" />

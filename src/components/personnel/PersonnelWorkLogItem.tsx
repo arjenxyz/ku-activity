@@ -8,6 +8,7 @@ import {
 import type { WorkLog } from '@/lib/personnel-stats';
 import { PersonnelBadge, PersonnelRecordRow } from './PersonnelRecordCard';
 import { workDayLabel } from '@/lib/personnel-stats';
+import strings from '@json/src/components/personnel/PersonnelWorkLogItem.json';
 
 type Props = {
   log: WorkLog;
@@ -27,7 +28,9 @@ export function PersonnelWorkLogItem({ log }: Props) {
               {workDayLabel(Number(log.amount), log.mesai_type)}
             </PersonnelBadge>
             {status === 'confirmed' && (
-              <PersonnelBadge variant="success">{isQr ? 'QR yoklama' : 'Kayıtlı'}</PersonnelBadge>
+              <PersonnelBadge variant="success">
+                {isQr ? strings.qrAttendance : strings.recorded}
+              </PersonnelBadge>
             )}
           </div>
         }

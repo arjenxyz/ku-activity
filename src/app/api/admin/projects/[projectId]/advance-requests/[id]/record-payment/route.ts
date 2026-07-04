@@ -3,6 +3,7 @@ import { requireAdminProjectAccess } from '@/lib/admin-auth';
 import { createAdminClient } from '@/utils/supabase/admin';
 import { AdvanceRequestError, recordBankPayment } from '@/lib/advance-request-service';
 import { getStorageBackend } from '@/lib/advance-external-storage';
+import strings from '@json/src/app/api/admin/projects/[projectId]/advance-requests/[id]/record-payment/route.json';
 
 type Ctx = { params: Promise<{ projectId: string; id: string }> };
 
@@ -14,7 +15,7 @@ export async function POST(request: Request, ctx: Ctx) {
 
     const file = form.get('file');
     if (!(file instanceof File) || file.size === 0) {
-      return NextResponse.json({ error: 'Dekont dosyası zorunludur' }, { status: 400 });
+      return NextResponse.json({ error: strings.dekontDosyasıZorunludur }, { status: 400 });
     }
 
     const buffer = Buffer.from(await file.arrayBuffer());
@@ -39,6 +40,6 @@ export async function POST(request: Request, ctx: Ctx) {
     if (err instanceof AdvanceRequestError) {
       return NextResponse.json({ error: err.message, code: err.code }, { status: err.status });
     }
-    return NextResponse.json({ error: err instanceof Error ? err.message : 'Ödeme kaydı başarısız' }, { status: 500 });
+    return NextResponse.json({ error: err instanceof Error ? err.message: strings.ödemeKaydıBaşarısız }, { status: 500 });
   }
 }

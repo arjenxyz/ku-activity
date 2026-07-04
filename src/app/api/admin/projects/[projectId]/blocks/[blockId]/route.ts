@@ -3,6 +3,7 @@ import { requireAdminProjectAccess } from '@/lib/admin-auth';
 import { completeProjectBlock } from '@/lib/block-team-service';
 import { createAdminClient } from '@/utils/supabase/admin';
 import { apiErrorMessage } from '@/lib/project-queries';
+import strings from '@json/src/app/api/admin/projects/[projectId]/blocks/[blockId]/route.json';
 
 type Ctx = { params: Promise<{ projectId: string; blockId: string }> };
 
@@ -20,7 +21,7 @@ export async function PATCH(request: Request, ctx: Ctx) {
       return NextResponse.json({ block });
     }
 
-    return NextResponse.json({ error: 'Geçersiz işlem' }, { status: 400 });
+    return NextResponse.json({ error: strings.geçersizIşlem }, { status: 400 });
   } catch (err) {
     const { status, message } = apiErrorMessage(err);
     return NextResponse.json({ error: message }, { status });

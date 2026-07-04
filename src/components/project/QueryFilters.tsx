@@ -3,6 +3,7 @@
 import dayjs from 'dayjs';
 import { labelClass, inputClass } from './ui';
 import { EmployeeSelect } from './EmployeeSelect';
+import strings from '@json/src/components/project/QueryFilters.json';
 
 type Emp = { id: string; name: string; position?: string | null };
 
@@ -35,7 +36,7 @@ export function QueryFilters({
       )}
       {showMonth && (
         <div>
-          <label className={labelClass}>Ay</label>
+          <label className={labelClass}>{strings.monthLabel}</label>
           <input
             type="month"
             className={inputClass}

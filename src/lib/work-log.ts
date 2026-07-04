@@ -1,3 +1,6 @@
+import strings from '@json/src/lib/work-log.json';
+import { formatString } from '@/lib/strings/format';
+
 export type MesaiType = 'none' | 'ceyrek' | 'yarim' | 'tam';
 
 export type WorkLogApprovalStatus =
@@ -8,15 +11,15 @@ export type WorkLogApprovalStatus =
   | 'none';
 
 export const MESAI_OPTIONS: Array<{ value: MesaiType; label: string; hint: string }> = [
-  { value: 'none', label: 'Mesai yok', hint: 'Ek mesai ücreti yok' },
-  { value: 'ceyrek', label: 'Çeyrek mesai', hint: 'Günlük yevmiyenin %25’i ek' },
-  { value: 'yarim', label: 'Yarım mesai', hint: 'Günlük yevmiyenin yarısı ek' },
-  { value: 'tam', label: 'Tam mesai', hint: 'Tam günlük yevmiye ek' },
+  { value: 'none', label: strings.mesaiNoneLabel, hint: strings.mesaiNoneHint },
+  { value: 'ceyrek', label: strings.mesaiQuarterLabel, hint: strings.mesaiQuarterHint },
+  { value: 'yarim', label: strings.mesaiHalfLabel, hint: strings.mesaiHalfHint },
+  { value: 'tam', label: strings.mesaiFullLabel, hint: strings.mesaiFullHint },
 ];
 
 export const DAY_AMOUNT_OPTIONS = [
-  { value: 1, label: 'Tam gün' },
-  { value: 0.5, label: 'Yarım gün' },
+  { value: 1, label: strings.fullDay },
+  { value: 0.5, label: strings.halfDay },
 ];
 
 export function mesaiTypeToUnits(type: MesaiType): number {
@@ -50,25 +53,26 @@ export function getWorkLogApprovalStatus(log: {
 export function approvalStatusLabel(status: WorkLogApprovalStatus): string {
   switch (status) {
     case 'confirmed':
-      return 'Onaylı';
+      return strings.statusConfirmed;
     case 'pending_employee':
-      return 'Personel onayı bekliyor';
+      return strings.statusPendingEmployee;
     case 'pending_admin':
-      return 'Yönetici onayı bekliyor';
+      return strings.statusPendingAdmin;
     case 'disputed':
-      return 'İtiraz edildi';
+      return strings.statusDisputed;
     default:
-      return 'Kayıt yok';
+      return strings.statusNone;
   }
 }
 
 export function mesaiLabel(type: MesaiType | string | null | undefined): string {
   const found = MESAI_OPTIONS.find((o) => o.value === type);
-  return found?.label ?? 'Mesai yok';
+  return found?.label ?? strings.mesaiNoneLabel;
 }
 
 export function formatWorkLogSummary(amount: number, mesaiType: MesaiType | string | null): string {
-  const day = amount === 0.5 ? 'Yarım gün' : amount === 1 ? 'Tam gün' : `${amount} gün`;
+  const day =
+    amount === 0.5 ? strings.halfDay : amount === 1 ? strings.fullDay : formatString(strings.dayAmount, { amount });
   if (!mesaiType || mesaiType === 'none') return day;
-  return `${day} + ${mesaiLabel(mesaiType)}`;
+  return formatString(strings.summaryWithMesai, { day, mesai: mesaiLabel(mesaiType) });
 }

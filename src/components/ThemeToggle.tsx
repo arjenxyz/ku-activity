@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
+import strings from '@json/src/components/ThemeToggle.json';
 
 export default function ThemeToggle() {
   const [isDark, setIsDark] = useState(false);
@@ -44,8 +45,8 @@ export default function ThemeToggle() {
     <button
       onClick={toggleTheme}
       className="fixed top-[max(1rem,env(safe-area-inset-top))] right-[max(1rem,env(safe-area-inset-right))] z-50 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 p-2.5 min-h-touch min-w-touch rounded-full shadow-md hover:bg-gray-300 dark:hover:bg-gray-600 transition"
-      aria-label="Toggle Dark Mode"
-      title="Tema Değiştir"
+      aria-label={strings.ariaLabel}
+      title={strings.title}
     >
       {isDark ? (
         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

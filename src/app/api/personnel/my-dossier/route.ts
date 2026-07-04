@@ -3,6 +3,7 @@ import { requirePersonnelSession } from '@/lib/personnel-auth';
 import { buildLegalDossier, dossierZipFilename } from '@/lib/legal-dossier/build-legal-dossier';
 import { buildDossierZip } from '@/lib/legal-dossier/build-zip';
 import { createAdminClient } from '@/utils/supabase/admin';
+import strings from '@json/src/app/api/personnel/my-dossier/route.json';
 
 export async function GET() {
   try {
@@ -16,7 +17,7 @@ export async function GET() {
       .maybeSingle();
 
     if (!emp?.email) {
-      return NextResponse.json({ error: 'Personel bulunamadı' }, { status: 404 });
+      return NextResponse.json({ error: strings.personelBulunamadı }, { status: 404 });
     }
 
     const dossier = await buildLegalDossier({
@@ -42,7 +43,7 @@ export async function GET() {
       },
     });
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'İndirilemedi';
+    const message = err instanceof Error ? err.message: strings.i̇ndirilemedi;
     const status = message === 'UNAUTHORIZED' ? 401 : 400;
     return NextResponse.json({ error: message }, { status });
   }

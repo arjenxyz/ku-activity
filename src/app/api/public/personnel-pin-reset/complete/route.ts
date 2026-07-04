@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import strings from '@json/src/app/api/public/personnel-pin-reset/complete/route.json';
 import {
   completePersonnelPinReset,
   validatePinResetToken,
@@ -20,7 +21,7 @@ export async function GET(req: NextRequest) {
       expiresInMinutes: result.expiresInMinutes,
     });
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'Bağlantı doğrulanamadı';
+    const message = err instanceof Error ? err.message: strings.bağlantıDoğrulanamadı;
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
@@ -38,7 +39,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ ok: true });
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'PIN güncellenemedi';
+    const message = err instanceof Error ? err.message: strings.pinGüncellenemedi;
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }

@@ -3,6 +3,7 @@ import { requireAdminProjectAccess } from '@/lib/admin-auth';
 import { createAdminClient } from '@/utils/supabase/admin';
 import { decryptField, maskIban, maskTcKimlik } from '@/lib/field-encryption';
 import { apiErrorMessage } from '@/lib/project-queries';
+import strings from '@json/src/app/api/admin/projects/[projectId]/employees/[employeeId]/sensitive/route.json';
 
 type Ctx = { params: Promise<{ projectId: string; employeeId: string }> };
 
@@ -20,7 +21,7 @@ export async function GET(_request: Request, ctx: Ctx) {
       .maybeSingle();
 
     if (!emp) {
-      return NextResponse.json({ error: 'Personel bulunamadı' }, { status: 404 });
+      return NextResponse.json({ error: strings.personelBulunamadı }, { status: 404 });
     }
 
     const { data, error } = await admin
@@ -32,7 +33,7 @@ export async function GET(_request: Request, ctx: Ctx) {
     if (error) {
       if (error.message.includes('employee_sensitive_data')) {
         return NextResponse.json(
-          { error: '014_personnel_registration.sql çalıştırın' },
+          { error: strings.err014PersonnelRegistrationSqlÇalıştırın },
           { status: 503 }
         );
       }
@@ -44,7 +45,7 @@ export async function GET(_request: Request, ctx: Ctx) {
     }
 
     if (!process.env.FIELD_ENCRYPTION_KEY) {
-      return NextResponse.json({ error: 'FIELD_ENCRYPTION_KEY eksik' }, { status: 503 });
+      return NextResponse.json({ error: strings.fieldEncryptionKeyEksik }, { status: 503 });
     }
 
     const tc = decryptField(data.tc_kimlik_enc);

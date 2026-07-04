@@ -2,6 +2,7 @@
 
 import { AiOutlineLogout } from 'react-icons/ai';
 import { useRouter } from 'next/navigation';
+import strings from '@json/src/components/ui/Sidebar/LogoutButton.json';
 
 const LogoutButton = () => {
   const router = useRouter();
@@ -12,7 +13,7 @@ const LogoutButton = () => {
       router.push('/admin-panel/login');
       router.refresh();
     } catch (error) {
-      console.error('Çıkış hatası:', error);
+      console.error(strings.logoutError, error);
     }
   };
 
@@ -22,7 +23,7 @@ const LogoutButton = () => {
       className="flex items-center justify-center gap-2 w-full px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors shadow"
     >
       <AiOutlineLogout className="text-xl" />
-      <span>Çıkış Yap</span>
+      <span>{strings.logout}</span>
     </button>
   );
 };

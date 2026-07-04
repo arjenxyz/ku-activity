@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { inputClass, labelClass, btnPrimary, btnSecondary } from '@/components/project/ui';
 import { formatMoney } from '@/lib/format';
 import type { ProjectBlock } from '@/types/project-block';
+import strings from '@json/src/components/project/profit/AddJobModal.json';
 
 type JobForm = {
   name: string;
@@ -16,7 +17,7 @@ type JobForm = {
 
 const emptyForm: JobForm = {
   name: '',
-  unitLabel: 'm²',
+  unitLabel: strings.defaultUnit,
   unitPrice: '',
   quantity: '',
   notes: '',
@@ -68,32 +69,30 @@ export function AddJobModal({ open, onClose, onSubmit, saving, blocks = [] }: Pr
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4 bg-black/40">
       <div className="bg-white rounded-xl shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
         <div className="px-5 py-4 border-b border-slate-100">
-          <h2 className="text-lg font-semibold text-slate-900">Yeni iş kalemi</h2>
-          <p className="text-sm text-slate-500 mt-0.5">
-            Aynı bloğa birden fazla iş ekleyebilirsiniz (ör. çatı ahşap + çatı kiremit).
-          </p>
+          <h2 className="text-lg font-semibold text-slate-900">{strings.title}</h2>
+          <p className="text-sm text-slate-500 mt-0.5">{strings.subtitle}</p>
         </div>
         <form onSubmit={handleSubmit} className="p-5 space-y-4">
           <div>
-            <label className={labelClass}>İş adı *</label>
+            <label className={labelClass}>{strings.nameLabel}</label>
             <input
               className={inputClass}
               required
               autoFocus
-              placeholder="Örn. Çatı ahşap"
+              placeholder={strings.namePlaceholder}
               value={form.name}
               onChange={(e) => setForm((s) => ({ ...s, name: e.target.value }))}
             />
           </div>
           {activeBlocks.length > 0 && (
             <div>
-              <label className={labelClass}>Blok</label>
+              <label className={labelClass}>{strings.blockLabel}</label>
               <select
                 className={inputClass}
                 value={form.blockId}
                 onChange={(e) => setForm((s) => ({ ...s, blockId: e.target.value }))}
               >
-                <option value="">Blok seçilmedi</option>
+                <option value="">{strings.blockNotSelected}</option>
                 {activeBlocks.map((b) => (
                   <option key={b.id} value={b.id}>
                     {b.name}
@@ -104,34 +103,34 @@ export function AddJobModal({ open, onClose, onSubmit, saving, blocks = [] }: Pr
           )}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className={labelClass}>Birim fiyat (₺) *</label>
+              <label className={labelClass}>{strings.unitPriceLabel}</label>
               <input
                 className={inputClass}
                 type="number"
                 min="0"
                 step="0.01"
                 required
-                placeholder="100"
+                placeholder={strings.unitPricePlaceholder}
                 value={form.unitPrice}
                 onChange={(e) => setForm((s) => ({ ...s, unitPrice: e.target.value }))}
               />
             </div>
             <div>
-              <label className={labelClass}>Miktar *</label>
+              <label className={labelClass}>{strings.quantityLabel}</label>
               <input
                 className={inputClass}
                 type="number"
                 min="0.01"
                 step="0.01"
                 required
-                placeholder="890"
+                placeholder={strings.quantityPlaceholder}
                 value={form.quantity}
                 onChange={(e) => setForm((s) => ({ ...s, quantity: e.target.value }))}
               />
             </div>
           </div>
           <div>
-            <label className={labelClass}>Birim</label>
+            <label className={labelClass}>{strings.unitLabel}</label>
             <input
               className={inputClass}
               value={form.unitLabel}
@@ -140,25 +139,25 @@ export function AddJobModal({ open, onClose, onSubmit, saving, blocks = [] }: Pr
           </div>
           {preview != null && !Number.isNaN(preview) && (
             <div className="rounded-lg bg-emerald-50 border border-emerald-100 px-4 py-3">
-              <p className="text-xs text-emerald-700 font-medium">Toplam alacak</p>
+              <p className="text-xs text-emerald-700 font-medium">{strings.previewLabel}</p>
               <p className="text-xl font-bold text-emerald-900">{formatMoney(preview)}</p>
             </div>
           )}
           <div>
-            <label className={labelClass}>Not (isteğe bağlı)</label>
+            <label className={labelClass}>{strings.notesLabel}</label>
             <input
               className={inputClass}
-              placeholder="Kat, açıklama…"
+              placeholder={strings.notesPlaceholder}
               value={form.notes}
               onChange={(e) => setForm((s) => ({ ...s, notes: e.target.value }))}
             />
           </div>
           <div className="flex gap-2 pt-1">
             <button type="submit" className={btnPrimary} disabled={saving}>
-              {saving ? 'Kaydediliyor…' : 'Ekle'}
+              {saving ? strings.submitSaving : strings.submit}
             </button>
             <button type="button" className={btnSecondary} onClick={onClose} disabled={saving}>
-              İptal
+              {strings.cancel}
             </button>
           </div>
         </form>

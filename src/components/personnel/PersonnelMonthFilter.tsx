@@ -2,6 +2,7 @@
 
 import dayjs from 'dayjs';
 import { FiCalendar } from 'react-icons/fi';
+import strings from '@json/src/components/personnel/PersonnelMonthFilter.json';
 
 export function PersonnelMonthFilter({
   month,
@@ -17,7 +18,8 @@ export function PersonnelMonthFilter({
       <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
         <FiCalendar className="w-4 h-4 text-blue-600" />
         <span>
-          Dönem: <strong className="text-gray-900 dark:text-white capitalize">{label}</strong>
+          {strings.periodPrefix}{' '}
+          <strong className="text-gray-900 dark:text-white capitalize">{label}</strong>
         </span>
       </div>
       <input

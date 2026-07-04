@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { signedAppReleaseDownloadUrl } from '@/lib/app-release-storage';
 import { isValidAppReleaseType } from '@/lib/app-releases';
 import { createAdminClient } from '@/utils/supabase/admin';
+import strings from '@json/src/app/api/public/releases/[appType]/download/route.json';
 
 type Ctx = { params: Promise<{ appType: string }> };
 
@@ -10,7 +11,7 @@ export async function GET(_request: Request, ctx: Ctx) {
     const { appType } = await ctx.params;
 
     if (!isValidAppReleaseType(appType)) {
-      return NextResponse.json({ error: 'Geçersiz uygulama türü' }, { status: 400 });
+      return NextResponse.json({ error: strings.geçersizUygulamaTürü }, { status: 400 });
     }
 
     const admin = createAdminClient();
@@ -28,13 +29,13 @@ export async function GET(_request: Request, ctx: Ctx) {
     }
 
     if (!release) {
-      return NextResponse.json({ error: 'Yayınlanmış sürüm bulunamadı' }, { status: 404 });
+      return NextResponse.json({ error: strings.yayınlanmışSürümBulunamadı }, { status: 404 });
     }
 
     const signedUrl = await signedAppReleaseDownloadUrl(release.storage_path, 3600);
     return NextResponse.redirect(signedUrl, { status: 302 });
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'İndirme başarısız';
+    const message = err instanceof Error ? err.message: strings.i̇ndirmeBaşarısız;
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }

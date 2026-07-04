@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { requireAdminUser } from '@/lib/admin-auth';
 import { ingestDekontDraft, DekontImportError } from '@/lib/dekont-import-service';
+import strings from '@json/src/app/api/admin/dekont/share-ingest/route.json';
 
 export const runtime = 'nodejs';
 
@@ -21,7 +22,7 @@ export async function POST(request: Request) {
     const form = await request.formData();
     const file = pickSharedFile(form);
     if (!file) {
-      return NextResponse.json({ error: 'Paylaşılan dosya bulunamadı' }, { status: 400 });
+      return NextResponse.json({ error: strings.paylaşılanDosyaBulunamadı }, { status: 400 });
     }
 
     const buffer = Buffer.from(await file.arrayBuffer());
@@ -46,6 +47,6 @@ export async function POST(request: Request) {
       login.searchParams.set('next', '/admin-panel/dekont-paylas');
       return NextResponse.redirect(login, 303);
     }
-    return NextResponse.json({ error: 'Paylaşım işlenemedi' }, { status: 500 });
+    return NextResponse.json({ error: strings.paylaşımIşlenemedi }, { status: 500 });
   }
 }

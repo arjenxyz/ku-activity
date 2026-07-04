@@ -3,6 +3,7 @@
 import dayjs from 'dayjs';
 import 'dayjs/locale/tr';
 import { FiCalendar } from 'react-icons/fi';
+import strings from '@json/src/components/personnel/PersonnelMonthChip.json';
 
 dayjs.locale('tr');
 
@@ -24,7 +25,7 @@ export function PersonnelMonthChip({ month, onChange }: Props) {
         max={dayjs().format('YYYY-MM')}
         onChange={(e) => onChange(e.target.value)}
         className="sr-only"
-        aria-label="Dönem seçin"
+        aria-label={strings.periodAriaLabel}
       />
     </label>
   );

@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useRef, useState } from 'react';
+import strings from '@json/src/components/personnel/PersonnelPullToRefresh.json';
 
 type Props = {
   onRefresh: () => Promise<void>;
@@ -56,7 +57,13 @@ export function PersonnelPullToRefresh({ onRefresh, children }: Props) {
         style={{ height: offset > 0 ? offset : 0 }}
         aria-hidden={offset === 0}
       >
-        {refreshing ? 'Yenileniyor…' : offset >= 56 ? 'Bırakın' : offset > 12 ? 'Yenilemek için çekin' : ''}
+        {refreshing
+          ? strings.refreshing
+          : offset >= 56
+            ? strings.release
+            : offset > 12
+              ? strings.pull
+              : ''}
       </div>
       {children}
     </div>

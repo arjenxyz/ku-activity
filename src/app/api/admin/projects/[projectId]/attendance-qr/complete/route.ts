@@ -14,6 +14,8 @@ import {
   loadProjectAttendanceSchedule,
 } from '@/lib/attendance-window';
 import { apiErrorMessage } from '@/lib/project-queries';
+import strings from '@json/src/app/api/admin/projects/[projectId]/attendance-qr/complete/route.json';
+import { formatString } from '@/lib/strings/format';
 
 type Ctx = { params: Promise<{ projectId: string }> };
 
@@ -48,7 +50,7 @@ export async function POST(request: Request, ctx: Ctx) {
         : null,
       checkIns,
       count,
-      message: `${count} personel için tam gün yevmiye kaydedildi.`,
+      message: formatString(strings.xPersonelIçinTamGünYevmiye, { count: count }),
       isToday: workDate === calendarToday,
       canStart: window.isOpen,
       window,

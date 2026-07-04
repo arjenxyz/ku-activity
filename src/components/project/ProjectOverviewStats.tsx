@@ -1,5 +1,7 @@
 import { FiUsers, FiUserCheck, FiDollarSign, FiClipboard } from 'react-icons/fi';
 import type { AttendanceStats } from '@/types/adminTypes';
+import { formatString } from '@/lib/strings/format';
+import strings from '@json/src/components/project/ProjectOverviewStats.json';
 
 type Props = {
   employeeCount: number;
@@ -10,10 +12,10 @@ type Props = {
 };
 
 const items = [
-  { key: 'employees', label: 'Toplam Personel', icon: FiUsers, color: 'text-blue-600' },
-  { key: 'active', label: 'Aktif Personel', icon: FiUserCheck, color: 'text-emerald-600' },
-  { key: 'missing', label: 'Bugün Onaysız', icon: FiClipboard, color: 'text-amber-600' },
-  { key: 'payroll', label: 'Aylık Tahmini', icon: FiDollarSign, color: 'text-slate-700' },
+  { key: 'employees', label: strings.stats.employees, icon: FiUsers, color: 'text-blue-600' },
+  { key: 'active', label: strings.stats.active, icon: FiUserCheck, color: 'text-emerald-600' },
+  { key: 'missing', label: strings.stats.missing, icon: FiClipboard, color: 'text-amber-600' },
+  { key: 'payroll', label: strings.stats.payroll, icon: FiDollarSign, color: 'text-slate-700' },
 ] as const;
 
 export function ProjectOverviewStats({
@@ -46,7 +48,7 @@ export function ProjectOverviewStats({
           <p className="text-2xl font-semibold text-slate-900 tabular-nums">{values[key]}</p>
           {key === 'missing' && stats.present > 0 && (
             <p className="text-xs text-slate-500 mt-1">
-              Bu ay {stats.present} yevmiye kaydı
+              {formatString(strings.monthWorkLogs, { present: stats.present })}
             </p>
           )}
         </div>

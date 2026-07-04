@@ -3,6 +3,7 @@ import { requireAdminProjectAccess } from '@/lib/admin-auth';
 import { addTeamMember, listProjectTeams, removeTeamMember } from '@/lib/block-team-service';
 import { createAdminClient } from '@/utils/supabase/admin';
 import { apiErrorMessage } from '@/lib/project-queries';
+import strings from '@json/src/app/api/admin/projects/[projectId]/teams/[teamId]/members/route.json';
 
 type Ctx = { params: Promise<{ projectId: string; teamId: string }> };
 
@@ -14,7 +15,7 @@ export async function POST(request: Request, ctx: Ctx) {
     const { employeeId } = body as { employeeId?: string };
 
     if (!employeeId) {
-      return NextResponse.json({ error: 'Personel seçimi zorunlu' }, { status: 400 });
+      return NextResponse.json({ error: strings.personelSeçimiZorunlu }, { status: 400 });
     }
 
     const admin = createAdminClient();
@@ -35,7 +36,7 @@ export async function DELETE(request: Request, ctx: Ctx) {
     const memberId = searchParams.get('memberId');
 
     if (!memberId) {
-      return NextResponse.json({ error: 'memberId zorunlu' }, { status: 400 });
+      return NextResponse.json({ error: strings.memberidZorunlu }, { status: 400 });
     }
 
     const admin = createAdminClient();

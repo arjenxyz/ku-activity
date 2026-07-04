@@ -1,4 +1,6 @@
 import { normalizeVerificationCode } from '@/lib/registration-codes';
+import strings from '@json/src/lib/parse-registration-qr.json';
+import { formatString } from '@/lib/strings/format';
 
 const CODE_RE = /^ARJ-[A-Z0-9]{6}$/;
 
@@ -28,13 +30,13 @@ export function registrationStatusMessage(status: string): string | null {
     case 'pending':
       return null;
     case 'approved':
-      return 'Bu başvuru zaten onaylanmış. Bu kod tekrar kullanılamaz; personel sisteme alınmış.';
+      return strings.approved;
     case 'rejected':
-      return 'Bu başvuru reddedilmiş. Personel aynı bilgilerle yeniden başvurabilir.';
+      return strings.rejected;
     case 'expired':
-      return 'Başvuru süresi dolmuş. Personel yeni başvuru yapmalı.';
+      return strings.expired;
     default:
-      return `Bu başvuru durumu: ${status}`;
+      return formatString(strings.unknownStatus, { status });
   }
 }
 

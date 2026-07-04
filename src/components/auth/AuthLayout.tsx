@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { AuthScreenShell } from '@/components/auth/AuthScreenShell';
 import { personnelAuthCardClass } from '@/lib/personnel-auth-ui';
+import strings from '@json/src/components/auth/AuthLayout.json';
 
 type AuthLayoutProps = {
   variant: 'admin' | 'personnel';
@@ -11,8 +12,10 @@ type AuthLayoutProps = {
 };
 
 export function AuthLayout({ variant, children, alternateLogin }: AuthLayoutProps) {
-  const panelLabel = variant === 'admin' ? 'Yönetici Paneli' : 'Personel Paneli';
-  const screenLabel = variant === 'admin' ? 'Yönetici Giriş' : 'Personel Giriş';
+  const panelLabel =
+    variant === 'admin' ? strings.adminPanelLabel : strings.personnelPanelLabel;
+  const screenLabel =
+    variant === 'admin' ? strings.adminScreenLabel : strings.personnelScreenLabel;
 
   return (
     <AuthScreenShell screenLabel={screenLabel} panelLabel={panelLabel}>
@@ -22,7 +25,7 @@ export function AuthLayout({ variant, children, alternateLogin }: AuthLayoutProp
 
           {alternateLogin && (
             <p className="mt-5 text-center text-sm text-slate-300 px-2 drop-shadow-[0_1px_4px_rgba(0,0,0,0.6)]">
-              {variant === 'admin' ? 'Personel misiniz?' : 'Yönetici misiniz?'}{' '}
+              {variant === 'admin' ? strings.adminAlternatePrompt : strings.personnelAlternatePrompt}{' '}
               <Link
                 href={alternateLogin.href}
                 className="text-sky-400 font-semibold hover:text-sky-300 hover:underline touch-target inline-flex py-1"
@@ -37,7 +40,7 @@ export function AuthLayout({ variant, children, alternateLogin }: AuthLayoutProp
               href="/"
               className="text-xs text-slate-400 hover:text-white transition-colors drop-shadow-[0_1px_4px_rgba(0,0,0,0.6)]"
             >
-              ← Ana sayfa
+              {strings.homeLink}
             </Link>
           </p>
         </div>

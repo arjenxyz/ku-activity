@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import { createAdminClient } from '@/utils/supabase/admin';
 import { requirePersonnelSession } from '@/lib/personnel-auth';
 import { getWorkLogApprovalStatus } from '@/lib/work-log';
+import strings from '@json/src/app/api/personnel/work-logs/today/route.json';
 
 export async function GET() {
   try {
@@ -39,6 +40,6 @@ export async function GET() {
         : null,
     });
   } catch {
-    return NextResponse.json({ error: 'Oturum geçersiz' }, { status: 401 });
+    return NextResponse.json({ error: strings.oturumGeçersiz }, { status: 401 });
   }
 }

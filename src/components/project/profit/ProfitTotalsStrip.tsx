@@ -4,6 +4,8 @@ import { formatMoney } from '@/lib/format';
 import { profitMarginPercent } from '@/lib/profit-display';
 import type { ProjectProfitOverview } from '@/types/project-job';
 import { cardClass } from '@/components/project/ui';
+import { formatString } from '@/lib/strings/format';
+import strings from '@json/src/components/project/profit/ProfitTotalsStrip.json';
 
 type Props = {
   overview: ProjectProfitOverview;
@@ -17,28 +19,28 @@ export function ProfitTotalsStrip({ overview }: Props) {
 
   const cells = [
     {
-      label: 'Toplam alacak',
+      label: strings.cells.receivable,
       value: formatMoney(totals.contractTotal),
-      sub: `${jobCount} iş kalemi`,
+      sub: formatString(strings.jobCount, { count: jobCount }),
       accent: 'text-slate-900',
     },
     {
-      label: 'Toplam gider',
+      label: strings.cells.expense,
       value: formatMoney(totals.totalCostApproved),
-      sub: `Yevmiye ${formatMoney(totals.laborCostApproved)}`,
+      sub: formatString(strings.laborCost, { amount: formatMoney(totals.laborCostApproved) }),
       accent: 'text-amber-700',
     },
     {
-      label: 'Net kâr',
+      label: strings.cells.profit,
       value: formatMoney(totals.profitApproved),
-      sub: margin > 0 ? `%${margin} marj` : '—',
+      sub: margin > 0 ? formatString(strings.margin, { margin }) : strings.emptyValue,
       accent: totals.profitApproved >= 0 ? 'text-emerald-700' : 'text-red-600',
       highlight: true,
     },
     {
-      label: 'Ortak başı',
+      label: strings.cells.perShare,
       value: formatMoney(totals.profitPerShareApproved),
-      sub: `${totals.shareCount} kişi · ${activeCount} aktif iş`,
+      sub: formatString(strings.shareSummary, { shareCount: totals.shareCount, activeCount }),
       accent: 'text-slate-900',
     },
   ];

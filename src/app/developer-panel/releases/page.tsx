@@ -11,6 +11,8 @@ import {
   type AppReleaseRow,
   type AppReleaseType,
 } from '@/lib/app-releases';
+import strings from '@json/src/app/developer-panel/releases/page.json';
+import { formatString } from '@/lib/strings/format';
 
 function formatDate(value: string | null) {
   if (!value) return '—';
@@ -21,9 +23,9 @@ function formatDate(value: string | null) {
 }
 
 function statusBadge(status: AppReleaseRow['status']) {
-  if (status === 'pending') return { label: 'Onay bekliyor', className: 'bg-amber-900/40 text-amber-300' };
-  if (status === 'published') return { label: 'Yayında', className: 'bg-emerald-900/40 text-emerald-300' };
-  return { label: 'Arşiv', className: 'bg-slate-700 text-slate-300' };
+  if (status === 'pending') return { label: strings.statusPending, className: 'bg-amber-900/40 text-amber-300' };
+  if (status === 'published') return { label: strings.statusPublished, className: 'bg-emerald-900/40 text-emerald-300' };
+  return { label: strings.statusArchived, className: 'bg-slate-700 text-slate-300' };
 }
 
 export default function DeveloperReleasesPage() {
@@ -52,10 +54,10 @@ export default function DeveloperReleasesPage() {
         return;
       }
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Yüklenemedi');
+      if (!res.ok) throw new Error(data.error || strings.loadFailed);
       setReleases(data.releases ?? []);
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Hata');
+      setError(e instanceof Error ? e.message : strings.genericError);
     } finally {
       setLoading(false);
     }
@@ -73,7 +75,7 @@ export default function DeveloperReleasesPage() {
   const handleUpload = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.file) {
-      setError('APK dosyası seçin');
+      setError(strings.selectApkFile);
       return;
     }
 
@@ -91,20 +93,20 @@ export default function DeveloperReleasesPage() {
 
       const res = await fetch('/api/developer/releases', { method: 'POST', body });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Yüklenemedi');
+      if (!res.ok) throw new Error(data.error || strings.uploadFailed);
 
-      setSuccess(data.message || 'APK yüklendi. Yayınlamak için onaylayın.');
+      setSuccess(data.message || strings.uploadSuccessDefault);
       setForm({ appType: 'personnel', versionName: '', versionCode: '', releaseNotes: '', file: null });
       await load();
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Yükleme başarısız');
+      setError(e instanceof Error ? e.message : strings.uploadError);
     } finally {
       setUploading(false);
     }
   };
 
   const handlePublish = async (id: string) => {
-    if (!confirm('Bu sürümü yayınlamak istediğinize emin misiniz? Mevcut yayın arşivlenecek.')) return;
+    if (!confirm(strings.publishConfirm)) return;
 
     setPublishingId(id);
     setError(null);
@@ -113,23 +115,23 @@ export default function DeveloperReleasesPage() {
     try {
       const res = await fetch(`/api/developer/releases/${id}/publish`, { method: 'POST' });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Yayınlanamadı');
-      setSuccess('Sürüm yayınlandı. APK indirme sayfasında görünür.');
+      if (!res.ok) throw new Error(data.error || strings.publishFailed);
+      setSuccess(strings.publishSuccess);
       await load();
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Yayınlama başarısız');
+      setError(e instanceof Error ? e.message : strings.publishError);
     } finally {
       setPublishingId(null);
     }
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Bu bekleyen sürümü silmek istediğinize emin misiniz?')) return;
+    if (!confirm(strings.deleteConfirm)) return;
 
     const res = await fetch(`/api/developer/releases/${id}`, { method: 'DELETE' });
     const data = await res.json();
     if (!res.ok) {
-      setError(data.error || 'Silinemedi');
+      setError(data.error || strings.deleteFailed);
       return;
     }
     await load();
@@ -140,11 +142,8 @@ export default function DeveloperReleasesPage() {
 
   return (
     <DeveloperShell onLogout={handleLogout}>
-      <h1 className="text-2xl font-bold mb-2">APK Sürümleri</h1>
-      <p className="text-sm text-slate-400 mb-8">
-        Yeni APK yüklendiğinde önce onay bekler. Sürüm numarası ve değişiklik notlarını kontrol edip{' '}
-        <strong className="text-slate-300">Yayınla</strong> dediğinizde indirme sayfasında görünür.
-      </p>
+      <h1 className="text-2xl font-bold mb-2">{strings.title}</h1>
+      <p className="text-sm text-slate-400 mb-8">{strings.subtitle}</p>
 
       {error && (
         <div className="mb-4 p-3 rounded-lg bg-red-900/30 border border-red-800 text-red-200 text-sm">{error}</div>
@@ -157,7 +156,7 @@ export default function DeveloperReleasesPage() {
 
       {pending.length > 0 && (
         <section className="mb-8">
-          <h2 className="text-lg font-semibold mb-3 text-amber-200">Onay Bekleyen Sürümler</h2>
+          <h2 className="text-lg font-semibold mb-3 text-amber-200">{strings.pendingSectionTitle}</h2>
           <div className="space-y-4">
             {pending.map((row) => {
               const badge = statusBadge(row.status);
@@ -175,8 +174,11 @@ export default function DeveloperReleasesPage() {
                         <span className={`text-xs px-2 py-0.5 rounded-full ${badge.className}`}>{badge.label}</span>
                       </div>
                       <p className="text-xs text-slate-400 mt-1">
-                        Sürüm kodu {row.version_code} · {formatApkFileSize(row.file_size)} ·{' '}
-                        {formatDate(row.created_at)}
+                        {formatString(strings.versionMeta, {
+                          versionCode: row.version_code,
+                          fileSize: formatApkFileSize(row.file_size),
+                          date: formatDate(row.created_at),
+                        })}
                       </p>
                     </div>
                     <div className="flex flex-wrap gap-2">
@@ -187,7 +189,7 @@ export default function DeveloperReleasesPage() {
                         className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-sm font-medium disabled:opacity-50"
                       >
                         <FiCheck className="w-4 h-4" />
-                        {publishingId === row.id ? 'Yayınlanıyor…' : 'Yayınla'}
+                        {publishingId === row.id ? strings.publishing : strings.publish}
                       </button>
                       <button
                         type="button"
@@ -195,7 +197,7 @@ export default function DeveloperReleasesPage() {
                         className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border border-red-900/60 text-red-300 hover:bg-red-950/40 text-sm"
                       >
                         <FiTrash2 className="w-4 h-4" />
-                        Sil
+                        {strings.delete}
                       </button>
                     </div>
                   </div>
@@ -203,16 +205,16 @@ export default function DeveloperReleasesPage() {
                   {row.release_notes ? (
                     <div className="rounded-xl bg-slate-950/60 border border-slate-800 p-4">
                       <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 mb-2">
-                        Bu sürümde neler var?
+                        {strings.releaseNotesTitle}
                       </p>
                       <p className="text-sm text-slate-300 whitespace-pre-wrap leading-relaxed">{row.release_notes}</p>
                     </div>
                   ) : (
-                    <p className="text-sm text-slate-500 italic">Değişiklik notu girilmemiş.</p>
+                    <p className="text-sm text-slate-500 italic">{strings.noReleaseNotes}</p>
                   )}
 
                   {row.sha256 && (
-                    <p className="text-[11px] text-slate-500 font-mono break-all">SHA-256: {row.sha256}</p>
+                    <p className="text-[11px] text-slate-500 font-mono break-all">{strings.sha256Prefix} {row.sha256}</p>
                   )}
                 </article>
               );
@@ -227,11 +229,11 @@ export default function DeveloperReleasesPage() {
       >
         <h2 className="font-semibold flex items-center gap-2">
           <FiUpload className="w-4 h-4" />
-          Yeni APK Yükle
+          {strings.uploadSectionTitle}
         </h2>
         <div className="grid sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-xs text-slate-400 mb-1">Uygulama</label>
+            <label className="block text-xs text-slate-400 mb-1">{strings.appTypeField}</label>
             <select
               className="w-full rounded-lg bg-slate-950 border border-slate-700 px-3 py-2 text-sm"
               value={form.appType}
@@ -245,29 +247,29 @@ export default function DeveloperReleasesPage() {
             </select>
           </div>
           <div>
-            <label className="block text-xs text-slate-400 mb-1">Sürüm adı (versionName)</label>
+            <label className="block text-xs text-slate-400 mb-1">{strings.versionNameField}</label>
             <input
               className="w-full rounded-lg bg-slate-950 border border-slate-700 px-3 py-2 text-sm"
               value={form.versionName}
               onChange={(e) => setForm((f) => ({ ...f, versionName: e.target.value }))}
-              placeholder="1.2.0"
+              placeholder={strings.versionNamePlaceholder}
               required
             />
           </div>
           <div>
-            <label className="block text-xs text-slate-400 mb-1">Sürüm kodu (versionCode)</label>
+            <label className="block text-xs text-slate-400 mb-1">{strings.versionCodeField}</label>
             <input
               type="number"
               min={1}
               className="w-full rounded-lg bg-slate-950 border border-slate-700 px-3 py-2 text-sm"
               value={form.versionCode}
               onChange={(e) => setForm((f) => ({ ...f, versionCode: e.target.value }))}
-              placeholder="12"
+              placeholder={strings.versionCodePlaceholder}
               required
             />
           </div>
           <div>
-            <label className="block text-xs text-slate-400 mb-1">APK dosyası</label>
+            <label className="block text-xs text-slate-400 mb-1">{strings.apkFileField}</label>
             <input
               type="file"
               accept=".apk,application/vnd.android.package-archive"
@@ -278,13 +280,13 @@ export default function DeveloperReleasesPage() {
           </div>
         </div>
         <div>
-          <label className="block text-xs text-slate-400 mb-1">Değişiklik notları</label>
+          <label className="block text-xs text-slate-400 mb-1">{strings.releaseNotesField}</label>
           <textarea
             rows={4}
             className="w-full rounded-lg bg-slate-950 border border-slate-700 px-3 py-2 text-sm"
             value={form.releaseNotes}
             onChange={(e) => setForm((f) => ({ ...f, releaseNotes: e.target.value }))}
-            placeholder="- Yoklama ekranı iyileştirildi&#10;- Bordro görüntüleme hızlandırıldı"
+            placeholder={strings.releaseNotesPlaceholder}
           />
         </div>
         <button
@@ -292,25 +294,21 @@ export default function DeveloperReleasesPage() {
           disabled={uploading}
           className="px-4 py-2.5 rounded-lg bg-violet-600 hover:bg-violet-700 text-sm font-medium disabled:opacity-50"
         >
-          {uploading ? 'Yükleniyor…' : 'Yükle (onay bekler)'}
+          {uploading ? strings.uploading : strings.uploadPending}
         </button>
-        <p className="text-xs text-slate-500">
-          CI/CD: Bubblewrap build sonrası{' '}
-          <code className="text-violet-300">node scripts/upload-apk.mjs</code> ile otomatik yükleyebilirsiniz.
-          Yayın için yine bu panelden onay gerekir.
-        </p>
+        <p className="text-xs text-slate-500">{strings.cicdHint}</p>
       </form>
 
       <section className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
         <div className="px-5 py-4 border-b border-slate-800">
-          <h2 className="font-semibold">Sürüm geçmişi</h2>
+          <h2 className="font-semibold">{strings.historyTitle}</h2>
         </div>
         {loading ? (
-          <p className="p-8 text-center text-slate-500">Yükleniyor…</p>
+          <p className="p-8 text-center text-slate-500">{strings.loading}</p>
         ) : others.length === 0 && pending.length === 0 ? (
-          <p className="p-8 text-center text-slate-500">Henüz APK yüklenmedi.</p>
+          <p className="p-8 text-center text-slate-500">{strings.noApkUploaded}</p>
         ) : others.length === 0 ? (
-          <p className="p-8 text-center text-slate-500">Yayınlanmış veya arşivlenmiş sürüm yok.</p>
+          <p className="p-8 text-center text-slate-500">{strings.noPublishedOrArchived}</p>
         ) : (
           <div className="divide-y divide-slate-800">
             {others.map((row) => {
@@ -325,8 +323,11 @@ export default function DeveloperReleasesPage() {
                       <span className={`text-xs px-2 py-0.5 rounded-full ${badge.className}`}>{badge.label}</span>
                     </div>
                     <p className="text-xs text-slate-500 mt-1">
-                      Kod {row.version_code} · {formatApkFileSize(row.file_size)} · Yayın:{' '}
-                      {formatDate(row.published_at)}
+                      {formatString(strings.historyMeta, {
+                        versionCode: row.version_code,
+                        fileSize: formatApkFileSize(row.file_size),
+                        date: formatDate(row.published_at),
+                      })}
                     </p>
                   </div>
                   {row.status === 'published' && (
@@ -335,7 +336,7 @@ export default function DeveloperReleasesPage() {
                       className="inline-flex items-center gap-1.5 text-xs text-blue-300 hover:text-blue-200 px-2 py-1"
                     >
                       <FiDownload className="w-3.5 h-3.5" />
-                      İndir
+                      {strings.download}
                     </a>
                   )}
                 </div>

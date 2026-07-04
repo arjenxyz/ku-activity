@@ -1,6 +1,8 @@
 import { createAdminClient } from '@/utils/supabase/admin';
 import { applyContractPlaceholders, hashContractContent } from '@/lib/contract-templates';
 import { formatFullName } from '@/lib/format';
+import strings from '@json/src/lib/contract-service.json';
+import { formatString } from '@/lib/strings/format';
 
 export type PersonnelContract = {
   id: string;
@@ -136,7 +138,7 @@ export async function recordContractAcceptances(params: {
   const acceptedIds = new Set(params.acceptances.map((a) => a.contractId));
   for (const id of requiredIds) {
     if (!acceptedIds.has(id)) {
-      throw new Error('Tüm zorunlu sözleşmeleri okuyup onaylamanız gerekir');
+      throw new Error(strings.requiredContractsMissing);
     }
   }
 
@@ -144,12 +146,10 @@ export async function recordContractAcceptances(params: {
   for (const item of params.acceptances) {
     const contract = contractById.get(item.contractId);
     if (!contract) {
-      throw new Error('Geçersiz sözleşme onayı');
+      throw new Error(strings.invalidAcceptance);
     }
     if (contract.version !== item.version) {
-      throw new Error(
-        `"${contract.title}" güncellendi. Sayfayı yenileyip sözleşmeleri tekrar okuyun.`
-      );
+      throw new Error(formatString(strings.contractUpdated, { title: contract.title }));
     }
   }
 
@@ -176,7 +176,7 @@ export async function recordContractAcceptances(params: {
 
   const { error } = await admin.from('personnel_contract_acceptances').insert(rows);
 
-  if (error) throw new Error('Sözleşme onayları kaydedilemedi: ' + error.message);
+  if (error) throw new Error(formatString(strings.acceptancesSaveFailed, { message: error.message }));
 }
 
 export async function linkContractAcceptancesToEmployee(

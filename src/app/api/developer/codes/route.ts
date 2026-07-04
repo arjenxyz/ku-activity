@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { requireDeveloperUser } from '@/lib/developer-auth';
 import { createClient } from '@/utils/supabase/server';
 import { apiErrorMessage } from '@/lib/project-queries';
+import strings from '@json/src/app/api/developer/codes/route.json';
 
 type CodeRow = {
   id: string;
@@ -82,7 +83,7 @@ export async function POST(request: Request) {
 
     if (error) {
       if (error.message.includes('create_verification_code')) {
-        return NextResponse.json({ error: '007_verification_system.sql çalıştırın' }, { status: 503 });
+        return NextResponse.json({ error: strings.err007VerificationSystemSqlÇalıştırın }, { status: 503 });
       }
       return NextResponse.json({ error: error.message }, { status: 500 });
     }

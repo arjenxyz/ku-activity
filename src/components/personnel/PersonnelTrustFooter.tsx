@@ -2,6 +2,8 @@
 
 import { FaWhatsapp } from 'react-icons/fa';
 import { buildWhatsAppUrl } from '@/lib/whatsapp';
+import { formatString } from '@/lib/strings/format';
+import strings from '@json/src/components/personnel/PersonnelTrustFooter.json';
 
 const SUPPORT_WHATSAPP = process.env.NEXT_PUBLIC_SUPPORT_WHATSAPP?.trim() || '';
 
@@ -36,10 +38,12 @@ export function PersonnelTrustFooter({ managerPhone, managerName }: Props) {
               </div>
               <div className="min-w-0">
                 <p className="text-sm font-semibold text-slate-900 dark:text-white">
-                  {managerName ? `${managerName} · Yönetici` : 'Proje yöneticisi'}
+                  {managerName
+                    ? formatString(strings.managerWithName, { name: managerName })
+                    : strings.defaultManager}
                 </p>
                 <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                  Puantaj veya maaş hakkında sorularınız için WhatsApp
+                  {strings.hint}
                 </p>
               </div>
             </div>
@@ -52,15 +56,15 @@ export function PersonnelTrustFooter({ managerPhone, managerName }: Props) {
                 className="inline-flex items-center justify-center gap-2.5 w-full sm:w-auto shrink-0 px-5 py-3 rounded-xl bg-[#25D366] hover:bg-[#20BA5A] active:bg-[#1DA851] text-white text-sm font-semibold shadow-md shadow-[#25D366]/30 transition-colors min-h-[44px]"
               >
                 <FaWhatsapp className="w-5 h-5 shrink-0" aria-hidden />
-                WhatsApp&apos;ta yaz
+                {strings.whatsappCta}
               </a>
             ) : (
               <p className="text-xs text-slate-400 dark:text-slate-500 sm:text-right">
-                Yönetici numarası henüz tanımlı değil
+                {strings.noPhone}
               </p>
             )}
+          </div>
         </div>
       </div>
-    </div>
   );
 }

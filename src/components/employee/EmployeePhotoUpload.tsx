@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { FiCamera, FiTrash2, FiUpload } from 'react-icons/fi';
 import { EmployeeAvatar } from './EmployeeAvatar';
 import { deleteEmployeePhoto, uploadEmployeePhoto } from '@/lib/project-api';
+import strings from '@json/src/components/employee/EmployeePhotoUpload.json';
 
 type Props = {
   projectId: string;
@@ -41,7 +42,7 @@ export function EmployeePhotoUpload({
       setCurrentUrl(bust);
       onChange?.(url);
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Yükleme başarısız');
+      setError(e instanceof Error ? e.message : strings.uploadFailed);
     } finally {
       setLoading(false);
       if (inputRef.current) inputRef.current.value = '';
@@ -50,7 +51,7 @@ export function EmployeePhotoUpload({
 
   const handleRemove = async () => {
     if (!currentUrl) return;
-    if (!confirm('Fotoğrafı kaldırmak istediğinize emin misiniz?')) return;
+    if (!confirm(strings.removeConfirm)) return;
     setError(null);
     setLoading(true);
     try {
@@ -58,7 +59,7 @@ export function EmployeePhotoUpload({
       setCurrentUrl(null);
       onChange?.(null);
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Silinemedi');
+      setError(e instanceof Error ? e.message : strings.deleteFailed);
     } finally {
       setLoading(false);
     }
@@ -72,7 +73,7 @@ export function EmployeePhotoUpload({
           disabled={loading}
           onClick={() => inputRef.current?.click()}
           className="relative group rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-60"
-          title="Fotoğraf yükle"
+          title={strings.uploadTitle}
         >
           <EmployeeAvatar name={name} photoUrl={currentUrl} size={compact ? 'sm' : 'lg'} />
           <span className="absolute inset-0 rounded-full bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
@@ -83,7 +84,7 @@ export function EmployeePhotoUpload({
         {!compact && (
           <div className="min-w-0">
             <p className="text-sm font-medium text-slate-900">{name}</p>
-            <p className="text-xs text-slate-500">JPEG, PNG, WebP · max 5 MB</p>
+            <p className="text-xs text-slate-500">{strings.formatHint}</p>
           </div>
         )}
       </div>
@@ -106,7 +107,7 @@ export function EmployeePhotoUpload({
             className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-50 disabled:opacity-50"
           >
             <FiUpload className="w-3.5 h-3.5" />
-            {loading ? 'Yükleniyor…' : currentUrl ? 'Değiştir' : 'Yükle'}
+            {loading ? strings.uploading : currentUrl ? strings.change : strings.upload}
           </button>
           {currentUrl && (
             <button
@@ -116,7 +117,7 @@ export function EmployeePhotoUpload({
               className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg border border-red-200 text-red-700 hover:bg-red-50 disabled:opacity-50"
             >
               <FiTrash2 className="w-3.5 h-3.5" />
-              Kaldır
+              {strings.remove}
             </button>
           )}
         </div>

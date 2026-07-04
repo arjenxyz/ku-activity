@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { FiCamera, FiX } from 'react-icons/fi';
+import strings from '@json/src/components/employee/SelfieCameraModal.json';
 
 type Props = {
   open: boolean;
@@ -31,7 +32,7 @@ export function SelfieCameraModal({ open, onClose, onCapture, onUseNativeCamera 
     stopStream();
 
     if (!navigator.mediaDevices?.getUserMedia) {
-      setError('Tarayıcınız kamera erişimini desteklemiyor.');
+      setError(strings.browserUnsupported);
       return;
     }
 
@@ -61,11 +62,11 @@ export function SelfieCameraModal({ open, onClose, onCapture, onUseNativeCamera 
       stopStream();
       const msg = e instanceof Error ? e.message : '';
       if (msg.includes('NotAllowed') || msg.includes('Permission')) {
-        setError('Kamera izni verilmedi. Tarayıcı ayarlarından izin verin.');
+        setError(strings.permissionDenied);
       } else if (msg.includes('NotFound') || msg.includes('DevicesNotFound')) {
-        setError('Kamera bulunamadı.');
+        setError(strings.notFound);
       } else {
-        setError('Kamera açılamadı. Aşağıdaki alternatifi deneyin.');
+        setError(strings.openFailed);
       }
     }
   }, [stopStream]);
@@ -120,15 +121,15 @@ export function SelfieCameraModal({ open, onClose, onCapture, onUseNativeCamera 
       className="fixed inset-0 z-[100] flex flex-col bg-black touch-none"
       role="dialog"
       aria-modal="true"
-      aria-label="Selfie kamerası"
+      aria-label={strings.ariaLabel}
     >
       <div className="flex items-center justify-between px-4 py-3 text-white shrink-0 pt-[max(0.75rem,env(safe-area-inset-top))]">
-        <h3 className="text-base font-semibold">Selfie çek</h3>
+        <h3 className="text-base font-semibold">{strings.title}</h3>
         <button
           type="button"
           onClick={onClose}
           className="p-3 -mr-2 rounded-full text-white/90 active:bg-white/10"
-          aria-label="Kapat"
+          aria-label={strings.close}
         >
           <FiX className="w-6 h-6" />
         </button>
@@ -144,7 +145,7 @@ export function SelfieCameraModal({ open, onClose, onCapture, onUseNativeCamera 
         />
         {!ready && !error && (
           <div className="absolute inset-0 flex items-center justify-center text-sm text-white/80">
-            Kamera açılıyor…
+            {strings.opening}
           </div>
         )}
         {error && (
@@ -159,7 +160,7 @@ export function SelfieCameraModal({ open, onClose, onCapture, onUseNativeCamera 
                 }}
                 className="rounded-full bg-white px-5 py-3 text-sm font-semibold text-slate-900"
               >
-                Telefon kamerasını aç
+                {strings.openNativeCamera}
               </button>
             )}
           </div>
@@ -171,7 +172,7 @@ export function SelfieCameraModal({ open, onClose, onCapture, onUseNativeCamera 
         )}
         {ready && (
           <p className="pointer-events-none absolute bottom-4 left-0 right-0 text-center text-xs text-white/80 px-4">
-            Yüzünüz oval çerçeveye gelsin
+            {strings.faceHint}
           </p>
         )}
       </div>
@@ -183,13 +184,13 @@ export function SelfieCameraModal({ open, onClose, onCapture, onUseNativeCamera 
             onClick={onClose}
             className="min-h-12 min-w-[5.5rem] rounded-full border border-white/30 px-5 text-sm font-medium text-white active:bg-white/10"
           >
-            İptal
+            {strings.cancel}
           </button>
           <button
             type="button"
             onClick={handleCapture}
             disabled={!ready}
-            aria-label="Fotoğrafı al"
+            aria-label={strings.captureAriaLabel}
             className="flex h-[4.5rem] w-[4.5rem] items-center justify-center rounded-full border-4 border-white bg-white/15 text-white active:scale-95 disabled:opacity-40"
           >
             <FiCamera className="h-7 w-7" />
@@ -203,7 +204,7 @@ export function SelfieCameraModal({ open, onClose, onCapture, onUseNativeCamera 
               }}
               className="min-h-12 min-w-[5.5rem] text-center text-xs font-medium text-white/80 underline-offset-2 active:text-white"
             >
-              Telefon kamerası
+              {strings.nativeCamera}
             </button>
           ) : (
             <div className="min-w-[5.5rem]" aria-hidden />

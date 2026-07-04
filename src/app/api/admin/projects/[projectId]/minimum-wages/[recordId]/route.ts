@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { requireAdminProjectAccess } from '@/lib/admin-auth';
 import { createClient } from '@/utils/supabase/server';
 import { apiErrorMessage } from '@/lib/project-queries';
+import strings from '@json/src/app/api/admin/projects/[projectId]/minimum-wages/[recordId]/route.json';
 
 type Ctx = { params: Promise<{ projectId: string; recordId: string }> };
 
@@ -22,7 +23,7 @@ export async function PATCH(request: Request, ctx: Ctx) {
     if (description !== undefined) updates.description = description || null;
 
     if (!Object.keys(updates).length) {
-      return NextResponse.json({ error: 'Güncellenecek alan yok' }, { status: 400 });
+      return NextResponse.json({ error: strings.güncellenecekAlanYok }, { status: 400 });
     }
 
     const supabase = await createClient();
@@ -35,7 +36,7 @@ export async function PATCH(request: Request, ctx: Ctx) {
       .single();
 
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-    if (!data) return NextResponse.json({ error: 'Kayıt bulunamadı' }, { status: 404 });
+    if (!data) return NextResponse.json({ error: strings.kayıtBulunamadı }, { status: 404 });
 
     return NextResponse.json({ record: data });
   } catch (err) {

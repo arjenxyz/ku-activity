@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { requirePersonnelSession } from '@/lib/personnel-auth';
 import { createAdminClient } from '@/utils/supabase/admin';
+import strings from '@json/src/app/api/personnel/me/photo/route.json';
 import {
   EMPLOYEE_PHOTOS_BUCKET,
   employeePhotoObjectPath,
@@ -24,16 +25,16 @@ export async function POST(request: Request) {
     const file = formData.get('file');
 
     if (!(file instanceof File)) {
-      return NextResponse.json({ error: 'Dosya gerekli' }, { status: 400 });
+      return NextResponse.json({ error: strings.dosyaGerekli }, { status: 400 });
     }
     if (!ALLOWED_TYPES.has(file.type)) {
       return NextResponse.json(
-        { error: 'Yalnızca JPEG, PNG, WebP veya GIF yükleyebilirsiniz' },
+        { error: strings.yalnızcaJpegPngWebpVeyaGif },
         { status: 400 }
       );
     }
     if (file.size > MAX_BYTES) {
-      return NextResponse.json({ error: 'Dosya en fazla 5 MB olabilir' }, { status: 400 });
+      return NextResponse.json({ error: strings.dosyaEnFazla5MbOlabilir }, { status: 400 });
     }
 
     const admin = createAdminClient();
@@ -45,7 +46,7 @@ export async function POST(request: Request) {
       .maybeSingle();
 
     if (!employee) {
-      return NextResponse.json({ error: 'Personel bulunamadı' }, { status: 404 });
+      return NextResponse.json({ error: strings.personelBulunamadı }, { status: 404 });
     }
 
     const path = employeePhotoObjectPath(session.projectId, session.employeeId, extForMime(file.type));
@@ -56,7 +57,7 @@ export async function POST(request: Request) {
       cacheControl: '3600',
     });
     if (uploadError) {
-      return NextResponse.json({ error: 'Fotoğraf yüklenemedi' }, { status: 500 });
+      return NextResponse.json({ error: strings.fotoğrafYüklenemedi }, { status: 500 });
     }
 
     const { error: updateError } = await admin
@@ -64,12 +65,12 @@ export async function POST(request: Request) {
       .update({ photo_path: path, photo_url: null })
       .eq('id', session.employeeId);
     if (updateError) {
-      return NextResponse.json({ error: 'Fotoğraf kaydı güncellenemedi' }, { status: 500 });
+      return NextResponse.json({ error: strings.fotoğrafKaydıGüncellenemedi }, { status: 500 });
     }
 
     return NextResponse.json({ photoUrl: await signedEmployeePhotoUrl(path) });
   } catch {
-    return NextResponse.json({ error: 'Yetkisiz' }, { status: 401 });
+    return NextResponse.json({ error: strings.yetkisiz }, { status: 401 });
   }
 }
 
@@ -86,7 +87,7 @@ export async function DELETE() {
       .maybeSingle();
 
     if (!employee) {
-      return NextResponse.json({ error: 'Personel bulunamadı' }, { status: 404 });
+      return NextResponse.json({ error: strings.personelBulunamadı }, { status: 404 });
     }
 
     const exts = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
@@ -102,11 +103,11 @@ export async function DELETE() {
       .eq('id', session.employeeId);
 
     if (clearError && !clearError.message.includes('photo')) {
-      return NextResponse.json({ error: 'Fotoğraf kaldırılamadı' }, { status: 500 });
+      return NextResponse.json({ error: strings.fotoğrafKaldırılamadı }, { status: 500 });
     }
 
     return NextResponse.json({ success: true });
   } catch {
-    return NextResponse.json({ error: 'Yetkisiz' }, { status: 401 });
+    return NextResponse.json({ error: strings.yetkisiz }, { status: 401 });
   }
 }

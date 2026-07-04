@@ -1,15 +1,18 @@
+'use client';
+
 import { useEffect, useState } from 'react';
-import { FiX, FiList } from 'react-icons/fi';
 import type { Employee } from '@/types/adminTypes';
 import { createWorkLog } from '@/api/workLogs';
+import { FiX, FiList } from 'react-icons/fi';
+import strings from '@json/src/components/modals/AddWorkLogModal.json';
 
 type Props = {
-  employeeId?: string;  // opsiyonel olabilir
+  employeeId?: string;
   isOpen: boolean;
   onClose: () => void;
   onSubmit: () => void;
   employees: Employee[];
-  projectId: string;   // zorunlu
+  projectId: string;
 };
 
 export const AddWorkLogModal = ({
@@ -57,7 +60,7 @@ export const AddWorkLogModal = ({
         description: '',
       });
     } else {
-      alert('Kayıt sırasında bir hata oluştu.');
+      alert(strings.submitError);
     }
 
     setIsSubmitting(false);
@@ -76,12 +79,12 @@ export const AddWorkLogModal = ({
         </button>
 
         <h2 className="font-bold text-lg mb-4 flex items-center gap-2">
-          <FiList /> Yevmiye Kaydı Ekle
+          <FiList /> {strings.title}
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block font-medium mb-1">Çalışan</label>
+            <label className="block font-medium mb-1">{strings.employeeLabel}</label>
             <select
               className="border rounded-lg px-3 py-2 w-full"
               value={formData.employee_id}
@@ -90,7 +93,7 @@ export const AddWorkLogModal = ({
               }
               required
             >
-              <option value="">Seçiniz</option>
+              <option value="">{strings.selectPlaceholder}</option>
               {employees.map((emp) => (
                 <option key={emp.id} value={emp.id}>
                   {emp.name}
@@ -100,7 +103,7 @@ export const AddWorkLogModal = ({
           </div>
 
           <div>
-            <label className="block font-medium mb-1">Tarih</label>
+            <label className="block font-medium mb-1">{strings.dateLabel}</label>
             <input
               type="date"
               className="border rounded-lg px-3 py-2 w-full"
@@ -111,7 +114,7 @@ export const AddWorkLogModal = ({
           </div>
 
           <div>
-            <label className="block font-medium mb-1">Çalışma Tipi</label>
+            <label className="block font-medium mb-1">{strings.workTypeLabel}</label>
             <select
               className="border rounded-lg px-3 py-2 w-full"
               value={formData.amount}
@@ -119,13 +122,13 @@ export const AddWorkLogModal = ({
                 setFormData({ ...formData, amount: Number(e.target.value) })
               }
             >
-              <option value={1}>Tam Gün</option>
-              <option value={0.5}>Yarım Gün</option>
+              <option value={1}>{strings.fullDay}</option>
+              <option value={0.5}>{strings.halfDay}</option>
             </select>
           </div>
 
           <div>
-            <label className="block font-medium mb-1">Açıklama</label>
+            <label className="block font-medium mb-1">{strings.descriptionLabel}</label>
             <input
               type="text"
               className="border rounded-lg px-3 py-2 w-full"
@@ -142,7 +145,7 @@ export const AddWorkLogModal = ({
               disabled={isSubmitting}
               className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium flex-1"
             >
-              {isSubmitting ? 'Kaydediliyor...' : 'Kaydet'}
+              {isSubmitting ? strings.submitSaving : strings.submit}
             </button>
 
             <button
@@ -150,7 +153,7 @@ export const AddWorkLogModal = ({
               onClick={onClose}
               className="bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-lg flex-1"
             >
-              İptal
+              {strings.cancel}
             </button>
           </div>
         </form>

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { requireAdminUser } from '@/lib/admin-auth';
 import { analyzeDekontOnly, DekontImportError } from '@/lib/dekont-import-service';
+import strings from '@json/src/app/api/admin/dekont/analyze/route.json';
 
 export const runtime = 'nodejs';
 
@@ -10,7 +11,7 @@ export async function POST(request: Request) {
     const form = await request.formData();
     const file = form.get('file') ?? form.get('dekont');
     if (!(file instanceof File) || file.size === 0) {
-      return NextResponse.json({ error: 'Dekont dosyası zorunludur' }, { status: 400 });
+      return NextResponse.json({ error: strings.dekontDosyasıZorunludur }, { status: 400 });
     }
 
     const projectId = typeof form.get('projectId') === 'string' ? String(form.get('projectId')) : null;
@@ -30,10 +31,10 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: err.message }, { status: err.status });
     }
     if (err instanceof Error && err.message === 'UNAUTHORIZED') {
-      return NextResponse.json({ error: 'Oturum geçersiz' }, { status: 401 });
+      return NextResponse.json({ error: strings.oturumGeçersiz }, { status: 401 });
     }
     return NextResponse.json(
-      { error: err instanceof Error ? err.message : 'Analiz başarısız' },
+      { error: err instanceof Error ? err.message: strings.analizBaşarısız },
       { status: 500 }
     );
   }

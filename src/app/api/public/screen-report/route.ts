@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { sendScreenReport } from '@/lib/screen-report';
+import strings from '@json/src/app/api/public/screen-report/route.json';
 
 export const dynamic = 'force-dynamic';
 
@@ -21,10 +22,10 @@ export async function POST(req: NextRequest) {
 
     const screenshot = typeof body.screenshot === 'string' ? body.screenshot : '';
     if (!screenshot.startsWith('data:image/')) {
-      return NextResponse.json({ error: 'Geçersiz ekran görüntüsü' }, { status: 400 });
+      return NextResponse.json({ error: strings.geçersizEkranGörüntüsü }, { status: 400 });
     }
     if (screenshot.length > MAX_SCREENSHOT_CHARS) {
-      return NextResponse.json({ error: 'Ekran görüntüsü çok büyük' }, { status: 413 });
+      return NextResponse.json({ error: strings.ekranGörüntüsüÇokBüyük }, { status: 413 });
     }
 
     const note = typeof body.note === 'string' ? body.note.trim().slice(0, MAX_NOTE) : undefined;
@@ -45,7 +46,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ ok: true });
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'Rapor gönderilemedi';
+    const message = err instanceof Error ? err.message: strings.raporGönderilemedi;
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }

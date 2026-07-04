@@ -20,6 +20,8 @@ import {
   personnelAuthPrimaryBtnClass,
   personnelAuthSectionClass,
 } from '@/lib/personnel-auth-ui';
+import { formatString } from '@/lib/strings/format';
+import strings from '@json/src/components/auth/PinResetPageContent.json';
 
 const inputClass = personnelAuthInputClass;
 const labelClass = personnelAuthLabelClass;
@@ -52,7 +54,7 @@ export function PinResetPageContent({ token }: Props) {
   useEffect(() => {
     if (!token) {
       setChecking(false);
-      setError('Geçersiz sıfırlama bağlantısı.');
+      setError(strings.invalidLink);
       return;
     }
 
@@ -70,7 +72,7 @@ export function PinResetPageContent({ token }: Props) {
         };
         if (cancelled) return;
         if (!res.ok) {
-          setError(data.error || 'Bağlantı geçersiz veya süresi dolmuş.');
+          setError(data.error || strings.linkInvalidOrExpired);
           return;
         }
         setValid(true);
@@ -78,7 +80,7 @@ export function PinResetPageContent({ token }: Props) {
         setExpiresAt(data.expiresAt ?? null);
         setExpiresInMinutes(data.expiresInMinutes ?? 30);
       } catch {
-        if (!cancelled) setError('Bağlantı doğrulanamadı.');
+        if (!cancelled) setError(strings.linkVerifyFailed);
       } finally {
         if (!cancelled) setChecking(false);
       }
@@ -105,9 +107,7 @@ export function PinResetPageContent({ token }: Props) {
   useEffect(() => {
     if (expired) {
       setValid(false);
-      setError(
-        `Bağlantının süresi doldu (${expiresInMinutes} dakika). Giriş ekranından yeni bir sıfırlama linki isteyin.`
-      );
+      setError(formatString(strings.linkExpired, { minutes: expiresInMinutes }));
     }
   }, [expired, expiresInMinutes]);
 
@@ -131,11 +131,11 @@ export function PinResetPageContent({ token }: Props) {
         body: JSON.stringify({ token, newPin }),
       });
       const data = (await res.json()) as { error?: string };
-      if (!res.ok) throw new Error(data.error || 'PIN güncellenemedi');
+      if (!res.ok) throw new Error(data.error || strings.pinUpdateFailed);
       setDone(true);
       window.setTimeout(() => router.replace('/personnel-panel/login'), 3000);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'PIN güncellenemedi');
+      setError(err instanceof Error ? err.message : strings.pinUpdateFailed);
     } finally {
       setSubmitting(false);
     }
@@ -143,10 +143,10 @@ export function PinResetPageContent({ token }: Props) {
 
   if (checking) {
     return (
-      <PersonnelLoginLayout title="PIN sıfırlama" subtitle="" screenLabel="PIN Sıfırlama">
+      <PersonnelLoginLayout title={strings.checkingTitle} subtitle="" screenLabel={strings.screenLabel}>
         <div className="flex flex-col items-center justify-center py-12 gap-3 text-slate-500">
           <LoadingSpinner />
-          <p className="text-sm">Bağlantı doğrulanıyor…</p>
+          <p className="text-sm">{strings.checking}</p>
         </div>
       </PersonnelLoginLayout>
     );
@@ -154,15 +154,11 @@ export function PinResetPageContent({ token }: Props) {
 
   if (done) {
     return (
-      <PersonnelLoginLayout title="PIN güncellendi" subtitle="" screenLabel="PIN Sıfırlama">
+      <PersonnelLoginLayout title={strings.doneTitle} subtitle="" screenLabel={strings.screenLabel}>
         <div className="space-y-4">
-          <AuthAlert
-            type="success"
-            tone="personnel"
-            message="Yeni PIN'iniz kaydedildi. Bu sıfırlama bağlantısı artık kullanılamaz. Giriş ekranına yönlendiriliyorsunuz…"
-          />
+          <AuthAlert type="success" tone="personnel" message={strings.doneMessage} />
           <Link href="/personnel-panel/login" className={`block text-center ${personnelAuthPrimaryBtnClass}`}>
-            Giriş ekranına git
+            {strings.goToLogin}
           </Link>
         </div>
       </PersonnelLoginLayout>
@@ -171,12 +167,12 @@ export function PinResetPageContent({ token }: Props) {
 
   if (!valid) {
     return (
-      <PersonnelLoginLayout title="Bağlantı geçersiz" subtitle="" screenLabel="PIN Sıfırlama">
+      <PersonnelLoginLayout title={strings.invalidTitle} subtitle="" screenLabel={strings.screenLabel}>
         <div className="space-y-4">
           {error ? <AuthAlert type="error" tone="personnel" message={error} /> : null}
           <p className={`text-center ${personnelAuthFooterTextClass}`}>
             <Link href="/personnel-panel/login?forgot=1" className={personnelAuthLinkClass}>
-              Yeni sıfırlama linki iste
+              {strings.requestNewLink}
             </Link>
           </p>
         </div>
@@ -186,13 +182,13 @@ export function PinResetPageContent({ token }: Props) {
 
   return (
     <PersonnelLoginLayout
-      title="Yeni PIN belirle"
+      title={strings.newPinTitle}
       subtitle={
         employeeName
-          ? `Merhaba ${employeeName}, yeni giriş PIN'inizi oluşturun.`
-          : 'Yeni giriş PIN\'inizi oluşturun.'
+          ? formatString(strings.subtitleWithName, { name: employeeName })
+          : strings.subtitleDefault
       }
-      screenLabel="PIN Sıfırlama"
+      screenLabel={strings.screenLabel}
     >
       <div className="space-y-4">
         <div
@@ -204,9 +200,11 @@ export function PinResetPageContent({ token }: Props) {
         >
           <FiClock className="h-5 w-5 shrink-0" aria-hidden />
           <div className="min-w-0">
-            <p className="text-sm font-semibold">Kalan süre: {formatCountdown(remainingMs)}</p>
+            <p className="text-sm font-semibold">
+              {formatString(strings.remainingTime, { countdown: formatCountdown(remainingMs) })}
+            </p>
             <p className="text-xs opacity-80 mt-0.5">
-              Bağlantı {expiresInMinutes} dakika geçerlidir; süre dolunca otomatik iptal olur.
+              {formatString(strings.expiryHint, { minutes: expiresInMinutes })}
             </p>
           </div>
         </div>
@@ -214,7 +212,7 @@ export function PinResetPageContent({ token }: Props) {
         <form onSubmit={(e) => void handleSubmit(e)} className={personnelAuthSectionClass}>
           <div>
             <label className={labelClass} htmlFor="reset-new-pin">
-              Yeni PIN *
+              {strings.newPinLabel}
             </label>
             <input
               id="reset-new-pin"
@@ -232,7 +230,7 @@ export function PinResetPageContent({ token }: Props) {
 
           <div>
             <label className={labelClass} htmlFor="reset-confirm-pin">
-              Yeni PIN tekrar *
+              {strings.confirmPinLabel}
             </label>
             <input
               id="reset-confirm-pin"
@@ -247,7 +245,7 @@ export function PinResetPageContent({ token }: Props) {
               required
             />
             {confirmPin.length === PERSONNEL_PIN_LENGTH && !pinsMatch ? (
-              <p className={`${personnelAuthMutedTextClass} text-red-600`}>PIN tekrarı eşleşmiyor.</p>
+              <p className={`${personnelAuthMutedTextClass} text-red-600`}>{strings.pinMismatch}</p>
             ) : null}
           </div>
 
@@ -267,12 +265,12 @@ export function PinResetPageContent({ token }: Props) {
             {submitting ? (
               <>
                 <FiLoader className="h-4 w-4 animate-spin" />
-                Kaydediliyor…
+                {strings.saving}
               </>
             ) : (
               <>
                 <FiLock className="w-4 h-4 opacity-90" />
-                PIN&apos;i kaydet ve girişe dön
+                {strings.saveAndReturn}
               </>
             )}
           </button>

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { requireAdminUser } from '@/lib/admin-auth';
 import { confirmDekontDraft, DekontImportError, loadDekontDraft } from '@/lib/dekont-import-service';
 import { AdvanceRequestError } from '@/lib/advance-request-service';
+import strings from '@json/src/app/api/admin/dekont/drafts/[id]/route.json';
 
 type Ctx = { params: Promise<{ id: string }> };
 
@@ -15,7 +16,7 @@ export async function GET(_request: Request, ctx: Ctx) {
     if (err instanceof DekontImportError) {
       return NextResponse.json({ error: err.message }, { status: err.status });
     }
-    return NextResponse.json({ error: 'Taslak yüklenemedi' }, { status: 500 });
+    return NextResponse.json({ error: strings.taslakYüklenemedi }, { status: 500 });
   }
 }
 
@@ -39,6 +40,6 @@ export async function POST(request: Request, ctx: Ctx) {
     if (err instanceof DekontImportError || err instanceof AdvanceRequestError) {
       return NextResponse.json({ error: err.message }, { status: err instanceof AdvanceRequestError ? err.status : (err as DekontImportError).status });
     }
-    return NextResponse.json({ error: 'Kayıt başarısız' }, { status: 500 });
+    return NextResponse.json({ error: strings.kayıtBaşarısız }, { status: 500 });
   }
 }

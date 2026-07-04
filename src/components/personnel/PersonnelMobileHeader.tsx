@@ -5,6 +5,7 @@ import { Suspense } from 'react';
 import { PERSONNEL_MOBILE_TAB_TITLES } from '@/config/personnel-mobile-nav';
 import type { PersonnelTabId } from '@/hooks/usePersonnelTab';
 import { PERSONNEL_TABS } from '@/hooks/usePersonnelTab';
+import strings from '@json/src/components/personnel/PersonnelMobileHeader.json';
 
 function isValidTab(value: string | null): value is PersonnelTabId {
   return PERSONNEL_TABS.includes(value as PersonnelTabId);
@@ -24,7 +25,7 @@ function HeaderInner() {
   }
 
   const title =
-    pathname === '/personnel-panel' ? PERSONNEL_MOBILE_TAB_TITLES[tab] : 'Personel';
+    pathname === '/personnel-panel' ? PERSONNEL_MOBILE_TAB_TITLES[tab] : strings.fallbackTitle;
 
   return (
     <header className="fixed top-0 inset-x-0 z-50 sm:hidden border-b border-slate-200/70 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md safe-pt">

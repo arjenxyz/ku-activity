@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import { FiHash, FiLoader, FiX } from 'react-icons/fi';
+import strings from '@json/src/components/personnel/AttendanceCodeSheet.json';
 
 type Props = {
   open: boolean;
@@ -50,7 +51,7 @@ export function AttendanceCodeSheet({
       <button
         type="button"
         className="absolute inset-0 bg-[#060d14]/88 backdrop-blur-xl"
-        aria-label="Kapat"
+        aria-label={strings.close}
         onClick={onClose}
       />
 
@@ -71,7 +72,7 @@ export function AttendanceCodeSheet({
             type="button"
             onClick={onClose}
             className="flex h-11 w-11 items-center justify-center rounded-full bg-black/45 text-white shadow-lg backdrop-blur-md transition active:bg-black/60"
-            aria-label="Kapat"
+            aria-label={strings.close}
           >
             <FiX className="h-5 w-5" />
           </button>
@@ -80,7 +81,7 @@ export function AttendanceCodeSheet({
         <div className="attendance-result-pop flex flex-1 flex-col items-center justify-center px-6 pb-[calc(5.5rem+max(3rem,env(safe-area-inset-bottom,0px)))] text-center">
           <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-xs font-semibold text-white/90 backdrop-blur-sm">
             <FiHash className="h-3.5 w-3.5 text-emerald-400" />
-            Manuel kod
+            {strings.badge}
           </span>
 
           <div className="relative mt-8 flex h-24 w-24 items-center justify-center">
@@ -94,10 +95,10 @@ export function AttendanceCodeSheet({
             id="attendance-code-title"
             className="mt-6 text-2xl font-bold leading-tight tracking-tight text-white"
           >
-            Kod ile yoklama
+            {strings.title}
           </h2>
           <p className="mt-2 max-w-[18rem] text-sm leading-relaxed text-white/65">
-            Ustanızın verdiği yoklama kodunu aşağıya girin
+            {strings.description}
           </p>
 
           <div className="mt-8 w-full max-w-sm space-y-3">
@@ -108,7 +109,7 @@ export function AttendanceCodeSheet({
               inputMode="text"
               autoComplete="off"
               spellCheck={false}
-              placeholder="YOK-…"
+              placeholder={strings.placeholder}
               value={code}
               onChange={(e) => onCodeChange(e.target.value.toUpperCase())}
               disabled={submitting || disabled}
@@ -122,7 +123,7 @@ export function AttendanceCodeSheet({
             )}
 
             {disabled && (
-              <p className="text-xs text-amber-200/90">Yoklama saati dışında kod girişi kapalı.</p>
+              <p className="text-xs text-amber-200/90">{strings.outsideWindowHint}</p>
             )}
           </div>
         </div>
@@ -136,12 +137,12 @@ export function AttendanceCodeSheet({
             {submitting ? (
               <>
                 <FiLoader className="h-4 w-4 animate-spin" />
-                Gönderiliyor…
+                {strings.submitting}
               </>
             ) : isRescan ? (
-              'Yeniden kaydet'
+              strings.resubmit
             ) : (
-              'Yoklamaya katıl'
+              strings.join
             )}
           </button>
         </div>

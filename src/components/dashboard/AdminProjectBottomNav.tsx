@@ -6,6 +6,7 @@ import { FiAlertCircle, FiCreditCard, FiHome, FiMaximize2 } from 'react-icons/fi
 import { useAdminUiMode } from '@/hooks/useAdminUiMode';
 import { getSimpleMenuLinks } from '@/lib/admin-ui-mode';
 import { isMenuPathActive } from '@/config/projectMenu';
+import strings from '@json/src/components/dashboard/AdminProjectBottomNav.json';
 
 type Props = {
   projectId: string;
@@ -18,15 +19,15 @@ export function AdminProjectBottomNav({ projectId }: Props) {
   const links = isSimple
     ? getSimpleMenuLinks(projectId)
     : [
-        { label: 'Yoklama', href: () => `/admin-panel/proje/${projectId}/yevmiye` },
-        { label: 'Avans', href: () => `/admin-panel/proje/${projectId}/avans` },
-        { label: 'Özet', href: () => `/admin-panel/proje/${projectId}` },
+        { label: strings.attendance, href: () => `/admin-panel/proje/${projectId}/yevmiye` },
+        { label: strings.advance, href: () => `/admin-panel/proje/${projectId}/avans` },
+        { label: strings.summary, href: () => `/admin-panel/proje/${projectId}` },
       ];
 
   return (
     <nav
       className="fixed bottom-0 inset-x-0 z-40 sm:hidden border-t border-slate-200 bg-white/95 backdrop-blur-lg safe-pb"
-      aria-label="Proje mobil menü"
+      aria-label={strings.navAriaLabel}
     >
       <div className="flex items-end max-w-lg mx-auto">
         {links.map((link) => {
@@ -53,7 +54,7 @@ export function AdminProjectBottomNav({ projectId }: Props) {
                 <span
                   className={`mt-1 text-[10px] font-semibold ${active ? 'text-emerald-700' : 'text-slate-600'}`}
                 >
-                  Yoklama
+                  {strings.attendance}
                 </span>
               </Link>
             );
@@ -74,7 +75,7 @@ export function AdminProjectBottomNav({ projectId }: Props) {
               }`}
             >
               <Icon className="w-5 h-5" />
-              <span>{link.label.replace('Personel ', '').replace('Yoklama QR', 'Yoklama')}</span>
+              <span>{link.label.replace('Personel ', '').replace('Yoklama QR', strings.attendance)}</span>
             </Link>
           );
         })}

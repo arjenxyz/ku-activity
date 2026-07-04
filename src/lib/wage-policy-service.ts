@@ -8,6 +8,7 @@ import {
   mergeWagePolicies,
   type ResolvedWagePolicy,
 } from '@/lib/wage-policy-calc';
+import strings from '@json/src/lib/wage-policy-service.json';
 
 export type { ResolvedWagePolicy } from '@/lib/wage-policy-calc';
 export {
@@ -149,7 +150,7 @@ export async function upsertProjectWagePolicy(
 
 function migrationHint(error: { message: string }) {
   if (error.message.includes('wage_policies')) {
-    return new Error('036_wage_policies.sql migration çalıştırın');
+    return new Error(strings.runMigration);
   }
   return error;
 }

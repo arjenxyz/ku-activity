@@ -7,10 +7,12 @@ import { JobQuickLinks } from '@/components/project/profit/ProfitQuickActions';
 import { ProfitWaterfall } from '@/components/project/profit/ProfitWaterfall';
 import { cardClass, inputClass, labelClass, btnPrimary, btnSecondary } from '@/components/project/ui';
 import { formatMoney, formatDate } from '@/lib/format';
+import { formatString } from '@/lib/strings/format';
 import { profitMarginPercent } from '@/lib/profit-display';
 import { createJobExpense, deleteJobExpense } from '@/lib/project-api';
 import type { ExtendedProfitOverview, JobProfitSummary } from '@/types/project-job';
 import { PROJECT_JOB_STATUS_LABELS } from '@/types/project-job';
+import strings from '@json/src/components/project/profit/JobProfitCard.json';
 
 type Props = {
   projectId: string;
@@ -59,14 +61,14 @@ export function JobProfitCard({
       setExpenseForm({ date: dayjs().format('YYYY-MM-DD'), amount: '', description: '' });
       setShowExpenseForm(false);
     } catch (err) {
-      setExpenseError(err instanceof Error ? err.message : 'Eklenemedi');
+      setExpenseError(err instanceof Error ? err.message : strings.errors.addFailed);
     } finally {
       setExpenseLoading(false);
     }
   };
 
   const handleDeleteExpense = async (expenseId: string) => {
-    if (!confirm('Bu gideri silmek istiyor musunuz?')) return;
+    if (!confirm(strings.deleteExpenseConfirm)) return;
     setExpenseLoading(true);
     try {
       const { overview } = await deleteJobExpense(projectId, job.id, expenseId);
@@ -100,9 +102,9 @@ export function JobProfitCard({
             </span>
           </div>
           <p className="text-sm text-slate-500 mt-1">
-            Alacak {formatMoney(item.contractTotal)}
+            {strings.receivable} {formatMoney(item.contractTotal)}
             <span className="text-slate-300 mx-2">·</span>
-            Gider {formatMoney(item.totalCostApproved)}
+            {strings.expense} {formatMoney(item.totalCostApproved)}
           </p>
         </div>
         <div className="text-right shrink-0">
@@ -114,8 +116,9 @@ export function JobProfitCard({
             {formatMoney(item.profitApproved)}
           </p>
           <p className="text-xs text-slate-500">
-            {margin}% marj
-            {item.shareCount > 1 && ` · ${formatMoney(item.profitPerShareApproved)}/kişi`}
+            {formatString(strings.margin, { margin })}
+            {item.shareCount > 1 &&
+              ` · ${formatString(strings.perShare, { amount: formatMoney(item.profitPerShareApproved) })}`}
           </p>
         </div>
       </button>
@@ -125,12 +128,13 @@ export function JobProfitCard({
           <div className="p-4 sm:p-5 grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div>
               <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-3">
-                Hesap özeti
+                {strings.summaryTitle}
               </h4>
               <ProfitWaterfall item={item} />
               {item.pendingWorkDays > 0 && (
                 <p className="mt-3 text-xs text-amber-800 bg-amber-50 border border-amber-100 rounded-lg px-3 py-2">
-                  <strong>{item.pendingWorkDays} gün</strong> onay bekliyor. Onaylanırsa tahmini kâr{' '}
+                  <strong>{formatString(strings.pendingDays, { days: item.pendingWorkDays })}</strong>
+                  {strings.pendingHint}
                   <strong>{formatMoney(item.profitPending)}</strong> olabilir.
                 </p>
               )}
@@ -139,32 +143,30 @@ export function JobProfitCard({
             <div className="space-y-4">
               <div>
                 <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">
-                  Hızlı işlem
+                  {strings.quickActionsTitle}
                 </h4>
-                <p className="text-xs text-slate-500 mb-2">
-                  Kayıt girerken bu iş otomatik seçilir.
-                </p>
+                <p className="text-xs text-slate-500 mb-2">{strings.quickActionsHint}</p>
                 <JobQuickLinks projectId={projectId} jobId={job.id} />
               </div>
 
               <div>
                 <div className="flex items-center justify-between gap-2 mb-2">
                   <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wide">
-                    Malzeme ({formatMoney(item.materialCost)})
+                    {formatString(strings.materialTitle, { amount: formatMoney(item.materialCost) })}
                   </h4>
                   <button
                     type="button"
                     className="text-xs font-medium text-emerald-700 hover:underline"
                     onClick={() => setShowExpenseForm((v) => !v)}
                   >
-                    {showExpenseForm ? 'Kapat' : '+ Gider ekle'}
+                    {showExpenseForm ? strings.closeExpenseForm : strings.addExpense}
                   </button>
                 </div>
                 {showExpenseForm && (
                   <form onSubmit={handleAddExpense} className="space-y-2 mb-3 p-3 rounded-lg bg-slate-50 border border-slate-100">
                     <div className="grid grid-cols-2 gap-2">
                       <div>
-                        <label className={labelClass}>Tarih</label>
+                        <label className={labelClass}>{strings.dateLabel}</label>
                         <input
                           type="date"
                           className={inputClass}
@@ -176,7 +178,7 @@ export function JobProfitCard({
                         />
                       </div>
                       <div>
-                        <label className={labelClass}>Tutar</label>
+                        <label className={labelClass}>{strings.amountLabel}</label>
                         <input
                           type="number"
                           min="0.01"
@@ -192,7 +194,7 @@ export function JobProfitCard({
                     </div>
                     <input
                       className={inputClass}
-                      placeholder="Açıklama (kiremit, çimento…)"
+                      placeholder={strings.descriptionPlaceholder}
                       value={expenseForm.description}
                       onChange={(e) =>
                         setExpenseForm((s) => ({ ...s, description: e.target.value }))
@@ -204,7 +206,7 @@ export function JobProfitCard({
                       className={`${btnPrimary} w-full`}
                       disabled={expenseLoading || disabled}
                     >
-                      Kaydet
+                      {strings.submit}
                     </button>
                   </form>
                 )}
@@ -224,7 +226,7 @@ export function JobProfitCard({
                           className="text-slate-400 hover:text-red-600 p-1"
                           disabled={expenseLoading || disabled}
                           onClick={() => handleDeleteExpense(exp.id)}
-                          title="Sil"
+                          title={strings.deleteTitle}
                         >
                           <FiTrash2 className="w-3.5 h-3.5" />
                         </button>
@@ -232,7 +234,7 @@ export function JobProfitCard({
                     ))}
                   </ul>
                 ) : (
-                  <p className="text-xs text-slate-400">Malzeme gideri yok.</p>
+                  <p className="text-xs text-slate-400">{strings.noMaterialExpenses}</p>
                 )}
               </div>
 
@@ -243,7 +245,7 @@ export function JobProfitCard({
                   disabled={disabled}
                   onClick={onToggleStatus}
                 >
-                  {job.status === 'active' ? 'Tamamlandı' : 'Yeniden aç'}
+                  {job.status === 'active' ? strings.markCompleted : strings.reopen}
                 </button>
                 <button
                   type="button"
@@ -251,7 +253,7 @@ export function JobProfitCard({
                   disabled={disabled}
                   onClick={onDelete}
                 >
-                  İşi sil
+                  {strings.deleteJob}
                 </button>
               </div>
             </div>

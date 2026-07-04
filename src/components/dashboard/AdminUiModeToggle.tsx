@@ -1,7 +1,8 @@
 'use client';
 
 import { useAdminUiMode } from '@/hooks/useAdminUiMode';
-import { ADMIN_UI_MODE_LABELS, type AdminUiMode } from '@/lib/admin-ui-mode';
+import type { AdminUiMode } from '@/lib/admin-ui-mode';
+import strings from '@json/src/components/dashboard/AdminUiModeToggle.json';
 
 type Props = {
   compact?: boolean;
@@ -19,7 +20,7 @@ export function AdminUiModeToggle({ compact, className = '' }: Props) {
     <div
       className={`inline-flex rounded-lg border border-slate-200 bg-slate-50 p-0.5 ${className}`}
       role="group"
-      aria-label="Arayüz modu"
+      aria-label={strings.ariaLabel}
     >
       {options.map((id) => (
         <button
@@ -31,13 +32,13 @@ export function AdminUiModeToggle({ compact, className = '' }: Props) {
               ? 'bg-white text-slate-900 shadow-sm'
               : 'text-slate-500 hover:text-slate-700'
           }`}
-          title={
-            id === 'simple'
-              ? 'Yoklama, yevmiye, avans ve onaylar'
-              : 'Blok, kâr, raporlar ve tüm ayarlar'
-          }
+          title={id === 'simple' ? strings.simpleTitle : strings.advancedTitle}
         >
-          {compact ? (id === 'simple' ? 'Basit' : 'Gelişmiş') : ADMIN_UI_MODE_LABELS[id]}
+          {compact
+            ? id === 'simple'
+              ? strings.simpleCompact
+              : strings.advancedCompact
+            : strings[id]}
         </button>
       ))}
     </div>

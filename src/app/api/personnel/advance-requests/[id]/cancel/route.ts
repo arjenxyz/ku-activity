@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { createAdminClient } from '@/utils/supabase/admin';
 import { requirePersonnelSession } from '@/lib/personnel-auth';
 import { AdvanceRequestError, cancelAdvanceRequest } from '@/lib/advance-request-service';
+import strings from '@json/src/app/api/personnel/advance-requests/[id]/cancel/route.json';
 
 type Ctx = { params: Promise<{ id: string }> };
 
@@ -20,8 +21,8 @@ export async function POST(_request: Request, ctx: Ctx) {
       return NextResponse.json({ error: err.message, code: err.code }, { status: err.status });
     }
     if (err instanceof Error && err.message === 'UNAUTHORIZED') {
-      return NextResponse.json({ error: 'Oturum geçersiz' }, { status: 401 });
+      return NextResponse.json({ error: strings.oturumGeçersiz }, { status: 401 });
     }
-    return NextResponse.json({ error: 'İptal başarısız' }, { status: 500 });
+    return NextResponse.json({ error: strings.i̇ptalBaşarısız }, { status: 500 });
   }
 }

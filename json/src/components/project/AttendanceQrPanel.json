@@ -1,0 +1,61 @@
+{
+  "errors": {
+    "loadFailed": "Yüklenemedi",
+    "startFailed": "Oturum başlatılamadı",
+    "emptyList": "Listede kimse yok. Yoklamayı bitirmeden önce en az bir personel okutmalı.",
+    "completeFailed": "Yoklama bitirilemedi",
+    "cancelFailed": "İptal edilemedi",
+    "removeFailed": "Kaldırılamadı"
+  },
+  "confirm": {
+    "complete": "{count} personel için tam gün yevmiye yazılsın mı?",
+    "cancel": "Yoklama iptal edilecek. Listeye eklenenler için yevmiye yazılmayacak. Emin misiniz?",
+    "removeCheckIn": "{name} listeden kaldırılsın mı?"
+  },
+  "success": {
+    "completed": "Yoklama tamamlandı.",
+    "cancelled": "Yoklama iptal edildi."
+  },
+  "header": {
+    "eyebrow": "Günlük yoklama",
+    "title": "QR ile devam",
+    "description": "Başlatın, personel sırayla okutsun. Bitirince tam gün yevmiye yazılır — mesai ayrı eklenir.",
+    "refresh": "Yenile"
+  },
+  "stats": {
+    "date": "Tarih",
+    "status": "Durum",
+    "checkIns": "Okutan",
+    "checkInCount": "{count} kişi",
+    "loading": "…",
+    "active": "Devam ediyor",
+    "completed": "Tamamlandı",
+    "notStarted": "Başlamadı"
+  },
+  "dateLabel": "Yoklama tarihi",
+  "workHours": "İş saatleri: {start} – {end} ({timezone})",
+  "windowRange": "Yoklama penceresi: {start} → {end}",
+  "nextScan": "Sıradaki okutma",
+  "copyCodeTitle": "Kodu kopyala",
+  "copied": "Kopyalandı",
+  "qrHint": "Her okutma sonrası QR otomatik yenilenir — personel sırayla okutur.",
+  "checkInsTitle": "Okutanlar",
+  "emptyCheckInsTitle": "Henüz kimse okutmadı",
+  "emptyCheckInsHint": "Personel telefonundan yoklama sayfasını açıp QR okutmalı.",
+  "removeFromListTitle": "Listeden kaldır",
+  "removeAriaLabel": "{name} kaldır",
+  "completeSaving": "Kaydediliyor…",
+  "complete": "Yoklamayı bitir",
+  "cancelSession": "İptal et",
+  "cancelAriaLabel": "İptal et",
+  "completedTitle": "Yoklama tamamlandı",
+  "completedSummary": "{count} personel için tam gün yevmiye kaydedildi.",
+  "workLogWritten": "Yevmiye yazıldı",
+  "restart": "Yeniden başlat",
+  "noSessionTitle": "{date} için yoklama yok",
+  "noSessionOpenHint": "Başlattığınızda QR oluşur; personel okudukça listeye eklenir.",
+  "noSessionClosedHint": "Şu an yoklama penceresi kapalı. İş bitiş saatinden sonra tekrar deneyin.",
+  "startSaving": "Başlatılıyor…",
+  "start": "Yoklamayı başlat",
+  "finishMobile": "Bitir ({count})"
+}

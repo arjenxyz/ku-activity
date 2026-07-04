@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { createAdminClient } from '@/utils/supabase/admin';
 import { requirePersonnelSession } from '@/lib/personnel-auth';
+import strings from '@json/src/app/api/personnel/deductions/route.json';
 
 export async function GET(request: Request) {
   try {
@@ -24,11 +25,11 @@ export async function GET(request: Request) {
     const { data, error } = await q;
 
     if (error) {
-      return NextResponse.json({ error: 'Kayıtlar yüklenemedi' }, { status: 500 });
+      return NextResponse.json({ error: strings.kayıtlarYüklenemedi }, { status: 500 });
     }
 
     return NextResponse.json({ deductions: data ?? [] });
   } catch {
-    return NextResponse.json({ error: 'Oturum geçersiz' }, { status: 401 });
+    return NextResponse.json({ error: strings.oturumGeçersiz }, { status: 401 });
   }
 }

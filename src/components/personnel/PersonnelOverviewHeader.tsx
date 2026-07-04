@@ -2,6 +2,8 @@
 
 import { BrandLockup } from '@/components/brand/BrandLockup';
 import { EmployeeAvatar } from '@/components/employee/EmployeeAvatar';
+import { formatString } from '@/lib/strings/format';
+import strings from '@json/src/components/personnel/PersonnelOverviewHeader.json';
 
 type Props = {
   firstName?: string;
@@ -13,12 +15,12 @@ type Props = {
 export function PersonnelOverviewHeader({ firstName, fullName, position, photoUrl }: Props) {
   const greeting = (() => {
     const h = new Date().getHours();
-    if (h < 12) return 'Günaydın';
-    if (h < 18) return 'İyi günler';
-    return 'İyi akşamlar';
+    if (h < 12) return strings.greetingMorning;
+    if (h < 18) return strings.greetingAfternoon;
+    return strings.greetingEvening;
   })();
 
-  const displayName = fullName ?? 'Personel';
+  const displayName = fullName ?? strings.defaultName;
 
   return (
     <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl shadow-lg shadow-blue-900/15">
@@ -36,15 +38,16 @@ export function PersonnelOverviewHeader({ firstName, fullName, position, photoUr
           size="sm"
           className="items-start text-left mb-4"
           iconClassName="ring-2 ring-white/25 shadow-md"
-          subtitle="Personel paneli"
+          subtitle={strings.panelSubtitle}
           subtitleClassName="text-[11px] font-medium text-blue-100/90"
         />
 
         <div className="flex items-end justify-between gap-4">
           <div className="min-w-0 flex-1">
             <p className="text-sm font-medium text-blue-100">
-              {greeting}
-              {firstName ? `, ${firstName}` : ''}
+              {firstName
+                ? formatString(strings.greetingWithName, { greeting, firstName })
+                : greeting}
             </p>
             <h1 className="mt-1 text-2xl sm:text-[1.65rem] font-bold text-white leading-tight truncate">
               {displayName}

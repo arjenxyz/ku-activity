@@ -6,6 +6,7 @@ import {
   submitRegistrationApplication,
   type RegistrationApplyInput,
 } from '@/lib/registration-service';
+import strings from '@json/src/lib/otp-registration.json';
 
 export type OtpRegistrationDraft = RegistrationApplyInput & {
   contractAcceptances: ContractAcceptanceInput[];
@@ -35,7 +36,7 @@ export async function submitRegistrationFromOtpDraft(params: {
     .maybeSingle();
 
   if (lockError || !challenge) {
-    throw new Error('Bu başvuru zaten gönderildi veya süresi doldu.');
+    throw new Error(strings.alreadySubmittedOrExpired);
   }
 
   try {

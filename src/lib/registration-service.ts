@@ -39,6 +39,7 @@ import {
   transferRegistrationPhotoToEmployee,
   uploadRegistrationPhoto,
 } from '@/lib/registration-photo';
+import strings from '@json/src/lib/registration-service.json';
 
 export type RegistrationApplyInput = {
   firstName: string;
@@ -55,10 +56,10 @@ export type RegistrationApplyInput = {
 
 function assertEncryptionReady() {
   if (!process.env.FIELD_ENCRYPTION_KEY) {
-    throw new Error('FIELD_ENCRYPTION_KEY yapılandırılmamış');
+    throw new Error(strings.encryptionKeyMissing);
   }
   if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
-    throw new Error('SUPABASE_SERVICE_ROLE_KEY yapılandırılmamış');
+    throw new Error(strings.serviceRoleKeyMissing);
   }
 }
 
@@ -75,34 +76,30 @@ export async function submitRegistrationApplication(input: RegistrationApplyInpu
   const iban = normalizeIban(input.iban);
 
   if (!firstName || !lastName || !email) {
-    throw new Error('Ad, soyad ve e-posta zorunludur');
+    throw new Error(strings.nameEmailRequired);
   }
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    throw new Error('Geçerli bir e-posta girin');
+    throw new Error(strings.invalidEmail);
   }
   if (!validateIdentityNumber(identityType, identityNumber)) {
     throw new Error(
-      identityType === 'tc'
-        ? 'Geçersiz T.C. kimlik numarası'
-        : 'Geçersiz yabancı kimlik / pasaport numarası'
+      identityType === 'tc' ? strings.invalidTcKimlik : strings.invalidForeignIdentity
     );
   }
   if (!birthDate) {
-    throw new Error('Doğum tarihi zorunludur');
+    throw new Error(strings.birthDateRequired);
   }
   if (!isConstructionEligibleBirthDate(birthDate)) {
     throw new Error(constructionAgeErrorMessage());
   }
   if (!validateTurkishIban(iban)) {
-    throw new Error(
-      'Geçerli bir IBAN girin (TR ile 26 karakter, kontrol hanesi doğru olmalı).'
-    );
+    throw new Error(strings.invalidIban);
   }
   if (!phoneRaw) {
-    throw new Error('Telefon numarası zorunludur');
+    throw new Error(strings.phoneRequired);
   }
   if (!validateInternationalPhone(phoneRaw)) {
-    throw new Error('Geçersiz telefon numarası');
+    throw new Error(strings.invalidPhone);
   }
   const phone = toStoredPhone(phoneRaw);
   const pinError = validatePersonnelPin(input.pin);
@@ -214,10 +211,10 @@ export async function submitRegistrationApplication(input: RegistrationApplyInpu
       verificationCode = generateVerificationCode();
       continue;
     }
-    throw new Error(error?.message || 'Başvuru kaydedilemedi');
+    throw new Error(error?.message || strings.saveFailed);
   }
 
-  throw new Error('Başvuru kodu oluşturulamadı, tekrar deneyin');
+  throw new Error(strings.verificationCodeFailed);
 }
 
 export async function attachRegistrationPhoto(requestId: string, file: File) {
@@ -334,16 +331,16 @@ export async function approveRegistration(input: ApproveRegistrationInput) {
   const hireDate = input.hireDate?.trim();
 
   if (!projectId) {
-    throw new Error('Proje seçimi zorunludur');
+    throw new Error(strings.projectRequired);
   }
   if (!position) {
-    throw new Error('Pozisyon zorunludur');
+    throw new Error(strings.positionRequired);
   }
   if (!Number.isFinite(input.dailyWage) || input.dailyWage <= 0) {
-    throw new Error('Geçerli bir günlük yevmiye girin');
+    throw new Error(strings.invalidDailyWage);
   }
   if (!hireDate) {
-    throw new Error('İşe giriş tarihi zorunludur');
+    throw new Error(strings.hireDateRequired);
   }
 
   const admin = createAdminClient();
@@ -356,7 +353,7 @@ export async function approveRegistration(input: ApproveRegistrationInput) {
     .eq('id', projectId)
     .maybeSingle();
   if (!project) {
-    throw new Error('Seçilen proje bulunamadı');
+    throw new Error(strings.projectNotFound);
   }
   const { data: req, error: reqError } = await admin
     .from('employee_registration_requests')
@@ -366,7 +363,7 @@ export async function approveRegistration(input: ApproveRegistrationInput) {
     .maybeSingle();
 
   if (reqError || !req) {
-    throw new Error('Bekleyen başvuru bulunamadı');
+    throw new Error(strings.pendingNotFound);
   }
 
   if (new Date(req.expires_at) < new Date()) {
@@ -374,7 +371,7 @@ export async function approveRegistration(input: ApproveRegistrationInput) {
       .from('employee_registration_requests')
       .update({ status: 'expired' })
       .eq('id', req.id);
-    throw new Error('Başvuru süresi dolmuş');
+    throw new Error(strings.applicationExpired);
   }
 
   const birthDate = decryptField(req.birth_date_enc);
@@ -385,7 +382,7 @@ export async function approveRegistration(input: ApproveRegistrationInput) {
   const pinHash = req.pin_hash as string | null;
   const pinEncrypted = (req.pin_encrypted as string | null) ?? null;
   if (!pinHash) {
-    throw new Error('Başvuruda giriş şifresi (PIN) tanımlı değil. Personelin başvuruyu yenilemesi gerekir.');
+    throw new Error(strings.pinMissing);
   }
 
   const identityType = ((req.identity_type as IdentityType | null) ?? 'tc') as IdentityType;
@@ -429,7 +426,7 @@ export async function approveRegistration(input: ApproveRegistrationInput) {
 
   if (empError || !employee) {
     const mapped = mapIdentityUniqueViolation(empError?.message ?? '');
-    throw new Error(mapped ?? empError?.message ?? 'Personel oluşturulamadı');
+    throw new Error(mapped ?? empError?.message ?? strings.employeeCreateFailed);
   }
 
   const { error: sensError } = await admin.from('employee_sensitive_data').insert({
@@ -447,7 +444,7 @@ export async function approveRegistration(input: ApproveRegistrationInput) {
   if (sensError) {
     await admin.from('employees').delete().eq('id', employee.id);
     const mapped = mapIdentityUniqueViolation(sensError.message ?? '');
-    throw new Error(mapped ?? 'Hassas veriler kaydedilemedi');
+    throw new Error(mapped ?? strings.sensitiveDataSaveFailed);
   }
 
   await transferRegistrationPhotoToEmployee(req.photo_path ?? null, projectId, employee.id);
@@ -463,7 +460,7 @@ export async function approveRegistration(input: ApproveRegistrationInput) {
     .eq('id', req.id);
 
   if (updError) {
-    throw new Error('Başvuru durumu güncellenemedi');
+    throw new Error(strings.statusUpdateFailed);
   }
 
   const { linkContractAcceptancesToEmployee } = await import('@/lib/contract-service');
@@ -568,9 +565,9 @@ export async function rejectRegistration(id: string) {
     .maybeSingle();
 
   if (loadError) throw new Error(loadError.message);
-  if (!req) throw new Error('Başvuru bulunamadı');
+  if (!req) throw new Error(strings.registrationNotFound);
   if (req.status !== 'pending') {
-    throw new Error('Yalnızca bekleyen başvurular reddedilebilir');
+    throw new Error(strings.rejectPendingOnly);
   }
 
   await purgeRegistrationRequest(admin, req.id, req.email ?? null, req.photo_path ?? null);

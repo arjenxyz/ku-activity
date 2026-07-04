@@ -3,6 +3,7 @@ import { requireDeveloperUser } from '@/lib/developer-auth';
 import { apiErrorMessage } from '@/lib/project-queries';
 import { createAdminClient } from '@/utils/supabase/admin';
 import type { AppReleaseRow } from '@/lib/app-releases';
+import strings from '@json/src/app/api/developer/releases/[id]/publish/route.json';
 
 type Ctx = { params: Promise<{ id: string }> };
 
@@ -20,17 +21,17 @@ export async function POST(_request: Request, ctx: Ctx) {
 
     if (fetchError) {
       if (fetchError.message.includes('app_releases')) {
-        return NextResponse.json({ error: '054_app_releases.sql çalıştırın' }, { status: 503 });
+        return NextResponse.json({ error: strings.err054AppReleasesSqlÇalıştırın }, { status: 503 });
       }
       return NextResponse.json({ error: fetchError.message }, { status: 500 });
     }
 
     if (!release) {
-      return NextResponse.json({ error: 'Sürüm bulunamadı' }, { status: 404 });
+      return NextResponse.json({ error: strings.sürümBulunamadı }, { status: 404 });
     }
 
     if (release.status !== 'pending') {
-      return NextResponse.json({ error: 'Yalnızca onay bekleyen sürümler yayınlanabilir' }, { status: 400 });
+      return NextResponse.json({ error: strings.yalnızcaOnayBekleyenSürümlerYayınlanabilir }, { status: 400 });
     }
 
     const { error: archiveError } = await supabase

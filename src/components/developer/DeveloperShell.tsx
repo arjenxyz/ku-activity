@@ -3,12 +3,13 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { FiLogOut } from 'react-icons/fi';
+import strings from '@json/src/components/developer/DeveloperShell.json';
 
 const navItems = [
-  { href: '/developer-panel', label: 'Doğrulama Kodları', match: (path: string) => path === '/developer-panel' },
+  { href: '/developer-panel', label: strings.nav.codes, match: (path: string) => path === '/developer-panel' },
   {
     href: '/developer-panel/releases',
-    label: 'APK Sürümleri',
+    label: strings.nav.releases,
     match: (path: string) => path.startsWith('/developer-panel/releases'),
   },
 ];
@@ -21,8 +22,9 @@ export function DeveloperShell({
   onLogout: () => void;
 }) {
   const pathname = usePathname();
-  const subtitle =
-    pathname.startsWith('/developer-panel/releases') ? 'APK sürüm yönetimi' : 'Doğrulama kodları';
+  const subtitle = pathname.startsWith('/developer-panel/releases')
+    ? strings.subtitle.releases
+    : strings.subtitle.codes;
 
   return (
     <div className="min-h-[100dvh] bg-slate-950 text-slate-100">
@@ -33,7 +35,7 @@ export function DeveloperShell({
               D
             </div>
             <div className="min-w-0">
-              <p className="text-sm font-semibold truncate">Developer Panel</p>
+              <p className="text-sm font-semibold truncate">{strings.panelTitle}</p>
               <p className="text-[10px] text-slate-400 truncate">{subtitle}</p>
             </div>
           </div>
@@ -43,7 +45,7 @@ export function DeveloperShell({
             className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border border-slate-700 text-sm text-slate-300 hover:bg-slate-800 shrink-0"
           >
             <FiLogOut className="w-4 h-4" />
-            Çıkış
+            {strings.logout}
           </button>
         </div>
         <nav className="max-w-5xl mx-auto px-4 sm:px-6 pb-3 flex gap-2 overflow-x-auto">
@@ -68,7 +70,7 @@ export function DeveloperShell({
       <main className="max-w-5xl mx-auto px-4 sm:px-6 py-8">{children}</main>
       <footer className="max-w-5xl mx-auto px-4 pb-8 text-center text-xs text-slate-500">
         <Link href="/" className="hover:text-slate-300">
-          Ana sayfaya dön
+          {strings.backHome}
         </Link>
       </footer>
     </div>

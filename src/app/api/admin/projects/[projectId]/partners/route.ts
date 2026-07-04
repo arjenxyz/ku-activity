@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { requireAdminProjectAccess } from '@/lib/admin-auth';
 import { createAdminClient } from '@/utils/supabase/admin';
 import { apiErrorMessage } from '@/lib/project-queries';
+import strings from '@json/src/app/api/admin/projects/[projectId]/partners/route.json';
 
 type Ctx = { params: Promise<{ projectId: string }> };
 
@@ -32,7 +33,7 @@ export async function POST(request: Request, ctx: Ctx) {
     const { name } = body as { name?: string };
 
     if (!name?.trim()) {
-      return NextResponse.json({ error: 'Ortak adı zorunlu' }, { status: 400 });
+      return NextResponse.json({ error: strings.ortakAdıZorunlu }, { status: 400 });
     }
 
     const admin = createAdminClient();

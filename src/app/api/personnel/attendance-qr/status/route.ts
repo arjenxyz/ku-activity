@@ -9,6 +9,7 @@ import {
   loadProjectAttendanceSchedule,
 } from '@/lib/attendance-window';
 import { resolveAttendanceLocale } from '@/lib/i18n/attendance-messages';
+import strings from '@json/src/app/api/personnel/attendance-qr/status/route.json';
 
 export async function GET(request: Request) {
   try {
@@ -34,7 +35,7 @@ export async function GET(request: Request) {
 
     return NextResponse.json({ ...status, window });
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'Durum alınamadı';
+    const message = err instanceof Error ? err.message: strings.durumAlınamadı;
     return NextResponse.json({ error: message }, { status: 400 });
   }
 }

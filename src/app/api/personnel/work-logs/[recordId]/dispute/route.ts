@@ -1,8 +1,9 @@
 import { NextResponse } from 'next/server';
+import strings from '@json/src/app/api/personnel/work-logs/[recordId]/dispute/route.json';
 
 export async function POST() {
   return NextResponse.json(
-    { error: 'Yevmiye itirazı kaldırıldı. Sorun için yöneticinizle iletişime geçin.' },
+    { error: strings.yevmiyeItirazıKaldırıldıSorunIçinYöneticinizle },
     { status: 410 }
   );
 }

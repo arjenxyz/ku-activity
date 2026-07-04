@@ -11,6 +11,7 @@ import {
   DEFAULT_PROJECT_TIMEZONE,
   guessTimezoneFromLocation,
 } from '@/lib/attendance-window';
+import strings from '@json/src/components/modals/ProjectSettingsModal.json';
 
 type Props = {
   project: Project;
@@ -103,14 +104,14 @@ export const ProjectSettingsModal = ({
         <button
           onClick={onClose}
           className="absolute top-4 right-4 text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"
-          aria-label="Kapat"
+          aria-label={strings.closeAriaLabel}
         >
           <FiX className="w-5 h-5" />
         </button>
 
         <h2 className="font-bold text-lg mb-4 flex items-center gap-2">
           <FiSettings />
-          Proje Ayarları
+          {strings.title}
         </h2>
 
         {error && (
@@ -119,16 +120,16 @@ export const ProjectSettingsModal = ({
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium mb-1">Proje Adı *</label>
+            <label className="block text-sm font-medium mb-1">{strings.nameLabel}</label>
             <input type="text" className={inputClass} value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} required />
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-sm font-medium mb-1">Kod</label>
+              <label className="block text-sm font-medium mb-1">{strings.codeLabel}</label>
               <input type="text" className={inputClass} value={formData.code} onChange={(e) => setFormData({ ...formData, code: e.target.value })} />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1">Durum</label>
+              <label className="block text-sm font-medium mb-1">{strings.statusLabel}</label>
               <select className={inputClass} value={formData.status} onChange={(e) => setFormData({ ...formData, status: e.target.value as ProjectStatus })}>
                 {(Object.keys(PROJECT_STATUS_LABELS) as ProjectStatus[]).map((s) => (
                   <option key={s} value={s}>{PROJECT_STATUS_LABELS[s]}</option>
@@ -137,7 +138,7 @@ export const ProjectSettingsModal = ({
             </div>
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Konum</label>
+            <label className="block text-sm font-medium mb-1">{strings.locationLabel}</label>
             <input
               type="text"
               className={inputClass}
@@ -152,7 +153,7 @@ export const ProjectSettingsModal = ({
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Saat dilimi (yoklama)</label>
+            <label className="block text-sm font-medium mb-1">{strings.timezoneLabel}</label>
             <select
               className={inputClass}
               value={formData.timezone ?? DEFAULT_PROJECT_TIMEZONE}
@@ -165,22 +166,22 @@ export const ProjectSettingsModal = ({
               ))}
             </select>
             <p className="mt-1 text-xs text-slate-500">
-              Yoklama: iş bitişinden sonra başlar, ertesi iş başından 1 dk önce biter.
+              {strings.timezoneHint}
             </p>
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-sm font-medium mb-1">Başlangıç</label>
+              <label className="block text-sm font-medium mb-1">{strings.startLabel}</label>
               <input type="date" className={inputClass} value={formData.start_date} onChange={(e) => setFormData({ ...formData, start_date: e.target.value })} />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1">Bitiş</label>
+              <label className="block text-sm font-medium mb-1">{strings.endLabel}</label>
               <input type="date" className={inputClass} value={formData.end_date} onChange={(e) => setFormData({ ...formData, end_date: e.target.value })} />
             </div>
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-sm font-medium mb-1">İş başı saati</label>
+              <label className="block text-sm font-medium mb-1">{strings.workStartLabel}</label>
               <input
                 type="time"
                 className={inputClass}
@@ -189,7 +190,7 @@ export const ProjectSettingsModal = ({
               />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1">İş bitiş saati</label>
+              <label className="block text-sm font-medium mb-1">{strings.workEndLabel}</label>
               <input
                 type="time"
                 className={inputClass}
@@ -199,15 +200,15 @@ export const ProjectSettingsModal = ({
             </div>
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Açıklama</label>
+            <label className="block text-sm font-medium mb-1">{strings.descriptionLabel}</label>
             <textarea className={inputClass} value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })} rows={3} />
           </div>
           <div className="flex gap-2 pt-2">
             <button type="submit" disabled={isSubmitting} className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-xl text-sm font-medium disabled:opacity-50">
-              {isSubmitting ? 'Kaydediliyor...' : 'Kaydet'}
+              {isSubmitting ? strings.submitSaving : strings.submit}
             </button>
             <button type="button" onClick={onClose} className="flex-1 border border-slate-200 dark:border-slate-700 py-2.5 rounded-xl text-sm font-medium">
-              Vazgeç
+              {strings.cancel}
             </button>
           </div>
         </form>
@@ -215,19 +216,19 @@ export const ProjectSettingsModal = ({
         <div className="mt-6 border-t border-slate-200 dark:border-slate-800 pt-4">
           {!showDeleteConfirm ? (
             <button type="button" onClick={() => setShowDeleteConfirm(true)} className="w-full flex items-center justify-center gap-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30 py-2.5 rounded-xl text-sm font-medium">
-              <FiTrash2 /> Projeyi Sil
+              <FiTrash2 /> {strings.deleteProject}
             </button>
           ) : (
             <div className="space-y-3">
               <p className="flex items-center gap-2 text-sm text-red-600">
-                <FiAlertTriangle /> Bu işlem geri alınamaz. Tüm personel verileri silinir.
+                <FiAlertTriangle /> {strings.deleteWarning}
               </p>
               <div className="flex gap-2">
                 <button type="button" onClick={handleDelete} disabled={isSubmitting} className="flex-1 bg-red-600 text-white py-2.5 rounded-xl text-sm font-medium disabled:opacity-50">
-                  {isSubmitting ? 'Siliniyor...' : 'Evet, Sil'}
+                  {isSubmitting ? strings.deleteSaving : strings.deleteConfirm}
                 </button>
                 <button type="button" onClick={() => setShowDeleteConfirm(false)} className="flex-1 border py-2.5 rounded-xl text-sm font-medium">
-                  İptal
+                  {strings.deleteCancel}
                 </button>
               </div>
             </div>

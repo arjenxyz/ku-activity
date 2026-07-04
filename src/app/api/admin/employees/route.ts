@@ -11,6 +11,7 @@ import { validatePersonnelPin } from '@/lib/personnel-pin';
 import { buildEmployeePinFields } from '@/lib/personnel-pin-storage';
 import { createAdminClient } from '@/utils/supabase/admin';
 import { apiErrorMessage } from '@/lib/project-queries';
+import strings from '@json/src/app/api/admin/employees/route.json';
 
 export async function POST(request: Request) {
   try {
@@ -56,7 +57,7 @@ export async function POST(request: Request) {
 
     if (!projectId || !fullName || !email || !position || dailyWage == null || !pin || !tc) {
       return NextResponse.json(
-        { error: 'Zorunlu alanlar eksik (ad, soyad, e-posta, T.C. kimlik)' },
+        { error: strings.zorunluAlanlarEksikAdSoyadE },
         { status: 400 }
       );
     }
@@ -64,18 +65,18 @@ export async function POST(request: Request) {
     await requireAdminProjectAccess(projectId);
 
     if (!validateTcKimlik(tc)) {
-      return NextResponse.json({ error: 'Geçersiz T.C. kimlik numarası' }, { status: 400 });
+      return NextResponse.json({ error: strings.geçersizTCKimlikNumarası }, { status: 400 });
     }
 
     if (firstName != null || lastName != null) {
       if (!firstName?.trim() || !lastName?.trim()) {
-        return NextResponse.json({ error: 'Ad ve soyad zorunludur' }, { status: 400 });
+        return NextResponse.json({ error: strings.adVeSoyadZorunludur }, { status: 400 });
       }
     }
 
     const normalizedEmail = email.trim().toLowerCase();
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail)) {
-      return NextResponse.json({ error: 'Geçerli bir e-posta girin' }, { status: 400 });
+      return NextResponse.json({ error: strings.geçerliBirEPostaGirin }, { status: 400 });
     }
 
     const pinError = validatePersonnelPin(pin);

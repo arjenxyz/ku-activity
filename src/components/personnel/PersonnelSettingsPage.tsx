@@ -24,6 +24,7 @@ import { PersonnelProjectCard } from '@/components/personnel/PersonnelProjectCar
 import { formatDate, formatMoney } from '@/lib/format';
 import { formatTurkishPhoneNational } from '@/lib/field-encryption';
 import type { PersonnelEmployee } from '@/lib/personnel-api';
+import strings from '@json/src/components/personnel/PersonnelSettingsPage.json';
 
 type Props = {
   employee: PersonnelEmployee;
@@ -41,13 +42,13 @@ type SettingsSectionId =
   | 'app';
 
 function formatIbanDisplay(iban: string | null | undefined) {
-  if (!iban) return '—';
+  if (!iban) return strings.emptyValue;
   const clean = iban.replace(/\s/g, '').toUpperCase();
   return clean.replace(/(.{4})/g, '$1 ').trim();
 }
 
 function formatPhoneDisplay(phone: string | null | undefined) {
-  if (!phone) return '—';
+  if (!phone) return strings.emptyValue;
   const digits = phone.replace(/\D/g, '');
   const national = digits.startsWith('90') ? digits.slice(2) : digits;
   if (national.length === 10) return formatTurkishPhoneNational(national);
@@ -63,8 +64,8 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
   const cameraInputRef = useRef<HTMLInputElement>(null);
   const galleryInputRef = useRef<HTMLInputElement>(null);
 
-  const firstName = employee.first_name || employee.name.split(' ')[0] || '—';
-  const lastName = employee.last_name || employee.name.split(' ').slice(1).join(' ') || '—';
+  const firstName = employee.first_name || employee.name.split(' ')[0] || strings.emptyValue;
+  const lastName = employee.last_name || employee.name.split(' ').slice(1).join(' ') || strings.emptyValue;
 
   const uploadPhoto = async (file: File | null) => {
     if (!file) return;
@@ -79,10 +80,10 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
         body,
       });
       const data = (await res.json().catch(() => ({}))) as { photoUrl?: string; error?: string };
-      if (!res.ok) throw new Error(data.error || 'Fotoğraf yüklenemedi');
+      if (!res.ok) throw new Error(data.error || strings.photoUploadFailed);
       setPhotoUrl(data.photoUrl ?? null);
     } catch (err) {
-      setPhotoError(err instanceof Error ? err.message : 'Fotoğraf yüklenemedi');
+      setPhotoError(err instanceof Error ? err.message : strings.photoUploadFailed);
     } finally {
       setPhotoBusy(false);
       if (cameraInputRef.current) cameraInputRef.current.value = '';
@@ -90,19 +91,7 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
     }
   };
 
-  const sectionMeta = useMemo(
-    () => ({
-      home: { title: 'Ayarlar', subtitle: 'Hesabınızı ve uygulama tercihlerinizi yönetin.' },
-      personal: { title: 'Kişisel Ayarlar', subtitle: 'Kimlik ve kişisel bilgileriniz.' },
-      contact: { title: 'İletişim', subtitle: 'E-posta ve telefon bilgileriniz.' },
-      bank: { title: 'Banka Bilgileri', subtitle: 'IBAN bilgileriniz.' },
-      work: { title: 'İş Bilgileri', subtitle: 'Pozisyon, yevmiye ve şantiye bilgileriniz.' },
-      contracts: { title: 'Sözleşmeler', subtitle: 'Onayladığınız sözleşme kayıtları.' },
-      security: { title: 'Güvenlik', subtitle: 'PIN ve hesap güvenliği.' },
-      app: { title: 'Uygulama Ayarları', subtitle: 'Görünüm ve kullanım tercihleri.' },
-    }),
-    []
-  );
+  const sectionMeta = useMemo(() => strings.sections, []);
 
   const menuItems: Array<{
     id: Exclude<SettingsSectionId, 'home'>;
@@ -112,44 +101,44 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
   }> = [
     {
       id: 'personal',
-      title: 'Kişisel ayarlar',
-      subtitle: 'Ad, soyad, T.C. kimlik, doğum tarihi',
+      title: strings.menu.personal.title,
+      subtitle: strings.menu.personal.subtitle,
       icon: <FiUser className="w-4 h-4" />,
     },
     {
       id: 'contact',
-      title: 'İletişim',
-      subtitle: 'E-posta ve telefon numarası',
+      title: strings.menu.contact.title,
+      subtitle: strings.menu.contact.subtitle,
       icon: <FiPhone className="w-4 h-4" />,
     },
     {
       id: 'bank',
-      title: 'Banka',
-      subtitle: 'IBAN bilgisi',
+      title: strings.menu.bank.title,
+      subtitle: strings.menu.bank.subtitle,
       icon: <FiCreditCard className="w-4 h-4" />,
     },
     {
       id: 'work',
-      title: 'İş bilgileri',
-      subtitle: 'Pozisyon, yevmiye ve proje',
+      title: strings.menu.work.title,
+      subtitle: strings.menu.work.subtitle,
       icon: <FiBriefcase className="w-4 h-4" />,
     },
     {
       id: 'contracts',
-      title: 'Sözleşmeler',
-      subtitle: 'Onayladığınız sözleşmeler',
+      title: strings.menu.contracts.title,
+      subtitle: strings.menu.contracts.subtitle,
       icon: <FiShield className="w-4 h-4" />,
     },
     {
       id: 'security',
-      title: 'Güvenlik',
-      subtitle: 'PIN kodu ve hesap güvenliği',
+      title: strings.menu.security.title,
+      subtitle: strings.menu.security.subtitle,
       icon: <FiLock className="w-4 h-4" />,
     },
     {
       id: 'app',
-      title: 'Uygulama ayarları',
-      subtitle: 'Tema ve görünüm tercihleri',
+      title: strings.menu.app.title,
+      subtitle: strings.menu.app.subtitle,
       icon: <FiSettings className="w-4 h-4" />,
     },
   ];
@@ -158,22 +147,22 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
     switch (activeSection) {
       case 'personal':
         return (
-          <SettingsGroup title="Kişisel bilgiler" icon={<FiUser className="w-4 h-4" />}>
-            <InfoRow label="Ad" value={firstName} />
-            <InfoRow label="Soyad" value={lastName} />
-            <InfoRow label="T.C. kimlik no" value={employee.tc_kimlik || '—'} mono />
+          <SettingsGroup title={strings.groups.personalInfo} icon={<FiUser className="w-4 h-4" />}>
+            <InfoRow label={strings.fields.firstName} value={firstName} />
+            <InfoRow label={strings.fields.lastName} value={lastName} />
+            <InfoRow label={strings.fields.tcKimlik} value={employee.tc_kimlik || strings.emptyValue} mono />
             <InfoRow
-              label="Doğum tarihi"
-              value={employee.birth_date ? formatDate(employee.birth_date) : '—'}
+              label={strings.fields.birthDate}
+              value={employee.birth_date ? formatDate(employee.birth_date) : strings.emptyValue}
             />
           </SettingsGroup>
         );
       case 'contact':
         return (
-          <SettingsGroup title="İletişim" icon={<FiMail className="w-4 h-4" />}>
-            <InfoRow label="E-posta" value={employee.email || '—'} />
+          <SettingsGroup title={strings.groups.contact} icon={<FiMail className="w-4 h-4" />}>
+            <InfoRow label={strings.fields.email} value={employee.email || strings.emptyValue} />
             <InfoRow
-              label="Telefon"
+              label={strings.fields.phone}
               value={formatPhoneDisplay(employee.phone)}
               icon={<FiPhone className="w-3.5 h-3.5 text-slate-400" />}
             />
@@ -181,19 +170,19 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
         );
       case 'bank':
         return (
-          <SettingsGroup title="Banka" icon={<FiCreditCard className="w-4 h-4" />}>
-            <InfoRow label="IBAN" value={formatIbanDisplay(employee.iban)} mono />
+          <SettingsGroup title={strings.groups.bank} icon={<FiCreditCard className="w-4 h-4" />}>
+            <InfoRow label={strings.fields.iban} value={formatIbanDisplay(employee.iban)} mono />
           </SettingsGroup>
         );
       case 'work':
         return (
           <div className="space-y-4">
-            <SettingsGroup title="İş bilgileri" icon={<FiBriefcase className="w-4 h-4" />}>
-              <InfoRow label="Pozisyon" value={employee.position || '—'} />
-              <InfoRow label="Günlük yevmiye" value={formatMoney(Number(employee.daily_wage))} />
+            <SettingsGroup title={strings.groups.workInfo} icon={<FiBriefcase className="w-4 h-4" />}>
+              <InfoRow label={strings.fields.position} value={employee.position || strings.emptyValue} />
+              <InfoRow label={strings.fields.dailyWage} value={formatMoney(Number(employee.daily_wage))} />
               <InfoRow
-                label="İşe giriş"
-                value={employee.hire_date ? formatDate(employee.hire_date) : '—'}
+                label={strings.fields.hireDate}
+                value={employee.hire_date ? formatDate(employee.hire_date) : strings.emptyValue}
               />
             </SettingsGroup>
             {employee.project && <PersonnelProjectCard project={employee.project} />}
@@ -213,8 +202,8 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
                 <FiLock className="w-4 h-4" />
               </span>
               <div className="flex-1 min-w-0">
-                <p className="font-medium text-slate-900 dark:text-white">PIN kodu</p>
-                <p className="text-xs text-slate-500 mt-0.5">Giriş şifrenizi güncelleyin</p>
+                <p className="font-medium text-slate-900 dark:text-white">{strings.pinTitle}</p>
+                <p className="text-xs text-slate-500 mt-0.5">{strings.pinSubtitle}</p>
               </div>
               <FiChevronRight className="w-5 h-5 text-slate-400 shrink-0" />
             </button>
@@ -264,7 +253,7 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
             disabled={photoBusy}
             onClick={() => cameraInputRef.current?.click()}
             className="group shrink-0 text-left"
-            title="Profil fotoğrafını güncelle"
+            title={strings.updatePhotoTitle}
           >
             <span className="relative block">
               <EmployeeAvatar
@@ -292,7 +281,7 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
                 className="inline-flex items-center gap-1 rounded-full bg-white/15 hover:bg-white/20 px-3 py-1.5 transition-colors disabled:opacity-60"
               >
                 <FiCamera className="w-3.5 h-3.5" />
-                {photoBusy ? 'Yükleniyor…' : 'Fotoğraf çek'}
+                {photoBusy ? strings.uploading : strings.takePhoto}
               </button>
               <button
                 type="button"
@@ -301,7 +290,7 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
                 className="inline-flex items-center gap-1 rounded-full bg-white/15 hover:bg-white/20 px-3 py-1.5 transition-colors disabled:opacity-60"
               >
                 <FiImage className="w-3.5 h-3.5" />
-                Galeriden yükle
+                {strings.uploadFromGallery}
               </button>
             </div>
           </div>
@@ -334,7 +323,7 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
           className="inline-flex items-center gap-1 text-sm font-medium text-blue-700 dark:text-blue-400 hover:underline"
         >
           <FiChevronLeft className="w-4 h-4" />
-          Ayarlar listesine dön
+          {strings.backToList}
         </button>
       )}
 
@@ -347,7 +336,7 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
           className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl text-sm font-medium text-slate-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/20 transition-colors"
         >
           <FiLogOut className="w-4 h-4" />
-          Çıkış yap
+          {strings.logout}
         </button>
       )}
 

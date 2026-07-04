@@ -1,5 +1,6 @@
 import { FiX } from 'react-icons/fi';
 import { ActionButton, type ActionButtonProps } from './ActionButton';
+import strings from '@json/src/components/ui/MobileMenu.json';
 
 type MobileMenuProps = {
   open: boolean;
@@ -23,11 +24,11 @@ export const MobileMenu = ({ open, onClose, buttons }: MobileMenuProps) => {
       <aside className="relative bg-white w-4/5 max-w-xs h-full ml-auto rounded-l-3xl shadow-xl p-6 flex flex-col">
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
-          <h2 className="text-xl font-semibold text-gray-900">Menü</h2>
+          <h2 className="text-xl font-semibold text-gray-900">{strings.title}</h2>
           <button
             onClick={onClose}
             className="text-gray-600 hover:text-gray-900 transition-colors"
-            aria-label="Menüyü kapat"
+            aria-label={strings.closeAriaLabel}
           >
             <FiX size={28} />
           </button>

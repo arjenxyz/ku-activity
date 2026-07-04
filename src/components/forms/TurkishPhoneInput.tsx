@@ -7,6 +7,7 @@ import {
   normalizePhoneDigits,
   toStoredTurkishPhone,
 } from '@/lib/field-encryption';
+import strings from '@json/src/components/forms/TurkishPhoneInput.json';
 
 type Props = {
   value: string;
@@ -28,12 +29,12 @@ type CountryOption = {
 };
 
 const COUNTRY_OPTIONS: CountryOption[] = [
-  { code: '90', label: 'Türkiye', flag: '🇹🇷', sample: '5xx xxx xx xx', maxLocalDigits: 10 },
-  { code: '49', label: 'Almanya', flag: '🇩🇪', sample: '15x xxx xxxx', maxLocalDigits: 11 },
-  { code: '994', label: 'Azerbaycan', flag: '🇦🇿', sample: '50 xxx xx xx', maxLocalDigits: 9 },
-  { code: '998', label: 'Özbekistan', flag: '🇺🇿', sample: '90 xxx xx xx', maxLocalDigits: 9 },
-  { code: '963', label: 'Suriye', flag: '🇸🇾', sample: '9xx xxx xxx', maxLocalDigits: 9 },
-  { code: '995', label: 'Gürcistan', flag: '🇬🇪', sample: '5xx xxx xxx', maxLocalDigits: 9 },
+  { code: '90', label: strings.countries['90'], flag: '🇹🇷', sample: '5xx xxx xx xx', maxLocalDigits: 10 },
+  { code: '49', label: strings.countries['49'], flag: '🇩🇪', sample: '15x xxx xxxx', maxLocalDigits: 11 },
+  { code: '994', label: strings.countries['994'], flag: '🇦🇿', sample: '50 xxx xx xx', maxLocalDigits: 9 },
+  { code: '998', label: strings.countries['998'], flag: '🇺🇿', sample: '90 xxx xx xx', maxLocalDigits: 9 },
+  { code: '963', label: strings.countries['963'], flag: '🇸🇾', sample: '9xx xxx xxx', maxLocalDigits: 9 },
+  { code: '995', label: strings.countries['995'], flag: '🇬🇪', sample: '5xx xxx xxx', maxLocalDigits: 9 },
 ];
 
 function formatIntlLocalDigits(digits: string): string {
@@ -52,7 +53,6 @@ function detectCountryByNormalizedDigits(normalized: string): CountryOption | nu
   return sorted.find((country) => normalized.startsWith(country.code)) ?? null;
 }
 
-/** +90534 gibi kısmi girişlerde de yerel rakamları çıkarır */
 function parseStoredIntlPhone(
   value: string,
   fallbackCountry: string
@@ -66,7 +66,6 @@ function parseStoredIntlPhone(
   return { countryCode, localDigits };
 }
 
-/** Ulusal alan — kullanıcı 90 / 0 / +90 yazsa da sadece 10 haneli numara kalır */
 function parseInputDigits(raw: string): string {
   let digits = raw.replace(/\D/g, '');
   if (digits.startsWith('90')) {
@@ -84,7 +83,7 @@ export function TurkishPhoneInput({
   required,
   id,
   disabled,
-  placeholder = '5xx xxx xx xx',
+  placeholder = strings.defaultPlaceholder,
   allowCountryCodeSelect = false,
 }: Props) {
   const initialNormalized = normalizePhoneDigits(value) ?? '';
@@ -129,7 +128,7 @@ export function TurkishPhoneInput({
           }}
           className="w-[4.25rem] shrink-0 border-r border-gray-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-800/80 pl-1.5 pr-0.5 py-2.5 text-xs font-semibold text-slate-700 dark:text-slate-200 focus:outline-none appearance-none text-center"
           disabled={disabled}
-          aria-label="Ülke kodu"
+          aria-label={strings.countryCodeAriaLabel}
         >
           {countryOptions}
         </select>
@@ -147,7 +146,7 @@ export function TurkishPhoneInput({
             const digits = e.target.value.replace(/\D/g, '').slice(0, maxLocalDigits);
             onChange(digits ? `+${resolvedCountry}${digits}` : '');
           }}
-          aria-label="Telefon numarası"
+          aria-label={strings.phoneAriaLabel}
         />
       </div>
     );
@@ -162,7 +161,6 @@ export function TurkishPhoneInput({
       onChange('');
       return;
     }
-    // 905… yazımı 90 kırpıldıktan sonra 5 ile devam eder; geçersiz önekte sıfırla (mobilde silme)
     if (digits[0] !== '5') {
       onChange('');
       return;
@@ -178,7 +176,7 @@ export function TurkishPhoneInput({
         className="flex shrink-0 items-center gap-1.5 border-r border-gray-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-800/80 px-3 py-3"
         aria-hidden
       >
-        <span className="text-base leading-none" role="img" aria-label="Türkiye">
+        <span className="text-base leading-none" role="img" aria-label={strings.turkeyAriaLabel}>
           🇹🇷
         </span>
         <span className="text-sm font-semibold text-slate-700 dark:text-slate-200 tabular-nums">
@@ -196,7 +194,7 @@ export function TurkishPhoneInput({
         placeholder={placeholder}
         value={display}
         onChange={handleChange}
-        aria-label="Cep telefonu numarası"
+        aria-label={strings.mobileAriaLabel}
       />
     </div>
   );

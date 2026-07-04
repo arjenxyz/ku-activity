@@ -10,6 +10,8 @@ import {
   type OtpRegistrationDraft,
   type OtpSubmissionResult,
 } from '@/lib/otp-registration';
+import strings from '@json/src/lib/otp-service.json';
+import { formatString } from '@/lib/strings/format';
 
 export const OTP_LENGTH = 6;
 export const OTP_TTL_MINUTES = 10;
@@ -59,7 +61,7 @@ async function countDailySends(): Promise<number> {
 
   if (error) {
     if (error.message.includes('email_sent_at')) return 0;
-    throw new Error('OTP kotası kontrol edilemedi');
+    throw new Error(strings.quotaCheckFailed);
   }
   return count ?? 0;
 }
@@ -77,7 +79,7 @@ async function countRecentSendsForDestination(email: string): Promise<number> {
 
   if (error) {
     if (error.message.includes('email_sent_at')) return 0;
-    throw new Error('OTP sıklık kontrolü başarısız');
+    throw new Error(strings.rateLimitCheckFailed);
   }
   return count ?? 0;
 }
@@ -95,15 +97,15 @@ export async function prepareContractOtpRegistration(params: {
 }): Promise<{ maskedDestination: string; expiresInMinutes: number; resumingPending?: boolean }> {
   const email = normalizeEmail(params.draft.email);
   if (!email.includes('@')) {
-    throw new Error('Geçerli bir e-posta adresi girin');
+    throw new Error(strings.invalidEmail);
   }
 
   if (!isEmailOtpConfigured() && process.env.NODE_ENV !== 'development') {
-    throw new Error('E-posta doğrulama servisi yapılandırılmamış');
+    throw new Error(strings.emailNotConfigured);
   }
 
   if (!params.draft.contractAcceptances?.length) {
-    throw new Error('Sözleşme onayları eksik');
+    throw new Error(strings.contractsMissing);
   }
 
   const draftError = validateRegistrationDraft({
@@ -140,14 +142,12 @@ export async function prepareContractOtpRegistration(params: {
 
   const daily = await countDailySends();
   if (daily >= DAILY_OTP_SEND_LIMIT) {
-    throw new Error(
-      `Günlük doğrulama kodu limitine ulaşıldı (${DAILY_OTP_SEND_LIMIT}). Yarın tekrar deneyin.`
-    );
+    throw new Error(formatString(strings.dailyLimitReached, { limit: DAILY_OTP_SEND_LIMIT }));
   }
 
   const hourly = await countRecentSendsForDestination(email);
   if (hourly >= 3) {
-    throw new Error('Çok sık kod istendi. Lütfen bir saat sonra tekrar deneyin.');
+    throw new Error(strings.tooFrequent);
   }
 
   const code = generateCode();
@@ -184,7 +184,7 @@ export async function prepareContractOtpRegistration(params: {
   });
 
   if (insertError) {
-    throw new Error('Doğrulama kodu oluşturulamadı');
+    throw new Error(strings.createFailed);
   }
 
   try {
@@ -201,7 +201,7 @@ export async function prepareContractOtpRegistration(params: {
 
   if (sentError && !sentError.message.includes('email_sent_at')) {
     await rollbackOtpChallenge(challengeId, draftPhotoPath);
-    throw new Error('Doğrulama kaydı güncellenemedi');
+    throw new Error(strings.updateFailed);
   }
 
   return {
@@ -238,7 +238,7 @@ async function submitIfDraftReady(
 ): Promise<OtpSubmissionResult | null> {
   if (!row.draft_json) return null;
   if (row.submitted_at) {
-    throw new Error('Bu başvuru zaten gönderildi');
+    throw new Error(strings.alreadySubmitted);
   }
 
   const draft: OtpRegistrationDraft = {
@@ -263,26 +263,26 @@ export async function verifyContractOtpAndSubmit(params: {
   const email = normalizeEmail(params.email);
   const code = params.code.trim();
   if (!/^\d{6}$/.test(code)) {
-    throw new Error('6 haneli doğrulama kodunu girin');
+    throw new Error(strings.invalidCodeFormat);
   }
 
   const admin = createAdminClient();
   const row = await loadActiveChallenge(admin, email);
 
   if (!row) {
-    throw new Error('Geçerli bir doğrulama isteği bulunamadı. Önce kod gönderin.');
+    throw new Error(strings.noActiveChallenge);
   }
 
   if (row.submitted_at) {
-    throw new Error('Bu başvuru zaten gönderildi');
+    throw new Error(strings.alreadySubmitted);
   }
 
   if (new Date(row.expires_at).getTime() < Date.now()) {
-    throw new Error('Doğrulama kodunun süresi doldu. Yeni kod isteyin.');
+    throw new Error(strings.codeExpired);
   }
 
   if (row.attempts >= MAX_VERIFY_ATTEMPTS) {
-    throw new Error('Çok fazla hatalı deneme. Yeni kod isteyin.');
+    throw new Error(strings.tooManyAttempts);
   }
 
   const valid = await bcrypt.compare(code, row.code_hash);
@@ -291,7 +291,7 @@ export async function verifyContractOtpAndSubmit(params: {
       .from('contract_otp_challenges')
       .update({ attempts: row.attempts + 1 })
       .eq('id', row.id);
-    throw new Error('Doğrulama kodu hatalı');
+    throw new Error(strings.codeInvalid);
   }
 
   const verificationToken = generateToken();
@@ -308,7 +308,7 @@ export async function verifyContractOtpAndSubmit(params: {
 
   const result = await submitIfDraftReady(row, params.userAgent);
   if (!result) {
-    throw new Error('Başvuru taslağı bulunamadı. Lütfen yeniden başvurun.');
+    throw new Error(strings.draftNotFoundResubmit);
   }
 
   return result;
@@ -320,7 +320,7 @@ export async function confirmContractOtpLink(params: {
 }): Promise<OtpSubmissionResult> {
   const token = params.linkToken.trim();
   if (!token) {
-    throw new Error('Geçersiz doğrulama bağlantısı');
+    throw new Error(strings.invalidLink);
   }
 
   const admin = createAdminClient();
@@ -333,17 +333,17 @@ export async function confirmContractOtpLink(params: {
     .maybeSingle();
 
   if (error || !row) {
-    throw new Error('Doğrulama bağlantısı geçersiz veya süresi dolmuş');
+    throw new Error(strings.linkInvalidOrExpired);
   }
 
   const challenge = row as ChallengeRow;
 
   if (challenge.consumed_at || challenge.submitted_at) {
-    throw new Error('Bu bağlantı zaten kullanıldı');
+    throw new Error(strings.linkAlreadyUsed);
   }
 
   if (new Date(challenge.expires_at).getTime() < Date.now()) {
-    throw new Error('Doğrulama bağlantısının süresi doldu. Yeni kod isteyin.');
+    throw new Error(strings.linkExpiredResend);
   }
 
   if (!challenge.verified_at) {
@@ -361,7 +361,7 @@ export async function confirmContractOtpLink(params: {
 
   const result = await submitIfDraftReady(challenge, params.userAgent);
   if (!result) {
-    throw new Error('Başvuru taslağı bulunamadı');
+    throw new Error(strings.draftNotFound);
   }
 
   return result;
@@ -382,19 +382,19 @@ export async function consumeContractOtpToken(params: {
     .maybeSingle();
 
   if (error || !row) {
-    throw new Error('Sözleşme doğrulaması geçersiz. OTP adımını tekrarlayın.');
+    throw new Error(strings.verificationInvalid);
   }
   if (row.consumed_at) {
-    throw new Error('Bu doğrulama kodu zaten kullanıldı');
+    throw new Error(strings.codeAlreadyUsed);
   }
   if (!row.verified_at) {
-    throw new Error('Doğrulama tamamlanmamış');
+    throw new Error(strings.verificationIncomplete);
   }
   if (row.email !== email) {
-    throw new Error('Doğrulama e-postası başvuru ile eşleşmiyor');
+    throw new Error(strings.emailMismatch);
   }
   if (new Date(row.expires_at).getTime() < Date.now()) {
-    throw new Error('Doğrulama süresi doldu. Yeni kod alın.');
+    throw new Error(strings.verificationExpired);
   }
 
   const { error: consumeError } = await admin
@@ -403,6 +403,6 @@ export async function consumeContractOtpToken(params: {
     .eq('id', row.id);
 
   if (consumeError) {
-    throw new Error('Doğrulama kaydedilemedi');
+    throw new Error(strings.verificationSaveFailed);
   }
 }

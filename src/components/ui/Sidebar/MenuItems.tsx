@@ -9,6 +9,7 @@ import {
   FiSearch,
 } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
+import strings from '@json/src/components/ui/Sidebar/MenuItems.json';
 
 interface MenuItem {
   label: string;
@@ -31,99 +32,99 @@ const MenuItems = ({ pathname, projectId }: MenuItemsProps) => {
   const menuItems = useMemo<MenuItem[]>(
     () => [
       {
-        label: "Personel Yönetimi",
+        label: strings.personnelManagement,
         icon: <FiUsers className="text-lg text-blue-500 dark:text-blue-400" />,
         subItems: [
           {
-            label: "Yeni Personel Ekle",
+            label: strings.sub.addEmployee,
             href: `/admin-panel/proje/${projectId}/new`,
           },
           {
-            label: "Personel Listesi",
+            label: strings.sub.employeeList,
             href: `/admin-panel/proje/${projectId}/list`,
           },
           {
-            label: "Avans Ekle",
+            label: strings.sub.addAdvance,
             href: `/admin-panel/arjen/avans`,
           },
           {
-            label: "Yevmiye Ekle",
+            label: strings.sub.addWorkLog,
             href: `/admin-panel/arjen/yevmiye`,
           },
           {
-            label: "Asgari Ekle",
+            label: strings.sub.addMinimum,
             href: `/admin-panel/proje/${projectId}/add-minimum`,
           },
         ],
       },
       {
-        label: "Sorgulama Yönetimi",
+        label: strings.queryManagement,
         icon: (
           <FiSearch className="text-lg text-orange-500 dark:text-orange-400" />
         ),
         subItems: [
           {
-            label: "Personel Sorgulaması",
+            label: strings.sub.employeeQuery,
             href: `/admin-panel/arjen/sorgulama/${projectId}`,
           },
           {
-            label: "Admin Sorgulama",
+            label: strings.sub.adminQuery,
             href: `/admin-panel/sorgulama/admin/${projectId}`,
           },
           {
-            label: "Personel Şifreleri",
+            label: strings.sub.employeePasswords,
             href: `/admin-panel/sorgulama/personel-passwords/${projectId}`,
           },
           {
-            label: "Admin Şifreleri",
+            label: strings.sub.adminPasswords,
             href: `/admin-panel/sorgulama/admin-passwords/${projectId}`,
           },
           {
-            label: "Avans Sorgulama",
+            label: strings.sub.advanceQuery,
             href: `/admin-panel/sorgulama/advance/${projectId}`,
           },
           {
-            label: "Yevmiye Sorgulama",
+            label: strings.sub.workLogQuery,
             href: `/admin-panel/sorgulama/daily/${projectId}`,
           },
           {
-            label: "Asgari Sorgulama",
+            label: strings.sub.minimumQuery,
             href: `/admin-panel/sorgulama/minimum/${projectId}`,
           },
         ],
       },
       {
-        label: "Raporlar",
+        label: strings.reports,
         icon: (
           <FiFileText className="text-lg text-purple-500 dark:text-purple-400" />
         ),
         subItems: [
           {
-            label: "Admin Raporları",
+            label: strings.sub.adminReports,
             href: `/admin-panel/reports/admin/${projectId}`,
           },
           {
-            label: "Günlük Onaylananlar",
+            label: strings.sub.dailyApproved,
             href: `/admin-panel/reports/daily-approved/${projectId}`,
           },
           {
-            label: "Onaylanmayanlar",
+            label: strings.sub.notApproved,
             href: `/admin-panel/reports/not-approved/${projectId}`,
           },
         ],
       },
       {
-        label: "Finans İşlemleri",
+        label: strings.finance,
         icon: (
           <FiDollarSign className="text-lg text-green-500 dark:text-green-400" />
         ),
         subItems: [
           {
-            label: "Ne durumdayız?",
+            label: strings.sub.status,
             href: `/admin-panel/arjen/durum/${projectId}`,
           },
           {
-            label: "Maaş Bordroları",
+            label: strings.sub.payroll,
             href: `/admin-panel/arjen/bordro/${projectId}`,
           },
         ],

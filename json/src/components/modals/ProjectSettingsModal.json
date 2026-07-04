@@ -1,0 +1,23 @@
+{
+  "closeAriaLabel": "Kapat",
+  "title": "Proje Ayarları",
+  "nameLabel": "Proje Adı *",
+  "codeLabel": "Kod",
+  "statusLabel": "Durum",
+  "locationLabel": "Konum",
+  "timezoneLabel": "Saat dilimi (yoklama)",
+  "timezoneHint": "Yoklama: iş bitişinden sonra başlar, ertesi iş başından 1 dk önce biter.",
+  "startLabel": "Başlangıç",
+  "endLabel": "Bitiş",
+  "workStartLabel": "İş başı saati",
+  "workEndLabel": "İş bitiş saati",
+  "descriptionLabel": "Açıklama",
+  "submitSaving": "Kaydediliyor...",
+  "submit": "Kaydet",
+  "cancel": "Vazgeç",
+  "deleteProject": "Projeyi Sil",
+  "deleteWarning": "Bu işlem geri alınamaz. Tüm personel verileri silinir.",
+  "deleteSaving": "Siliniyor...",
+  "deleteConfirm": "Evet, Sil",
+  "deleteCancel": "İptal"
+}

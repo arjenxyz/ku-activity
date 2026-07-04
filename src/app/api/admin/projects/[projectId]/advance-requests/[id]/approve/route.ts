@@ -3,6 +3,7 @@ import { requireAdminProjectAccess } from '@/lib/admin-auth';
 import { createAdminClient } from '@/utils/supabase/admin';
 import { AdvanceRequestError, approveAdvanceRequest } from '@/lib/advance-request-service';
 import type { AdvancePaymentMethod } from '@/lib/advance-types';
+import strings from '@json/src/app/api/admin/projects/[projectId]/advance-requests/[id]/approve/route.json';
 
 type Ctx = { params: Promise<{ projectId: string; id: string }> };
 
@@ -15,7 +16,7 @@ export async function POST(request: Request, ctx: Ctx) {
     const approvedAmount = Number(body.approvedAmount ?? body.amount);
     const paymentMethod = body.paymentMethod as AdvancePaymentMethod;
     if (paymentMethod !== 'bank_transfer' && paymentMethod !== 'cash') {
-      return NextResponse.json({ error: 'Ödeme yöntemi seçin (havale veya nakit)' }, { status: 400 });
+      return NextResponse.json({ error: strings.ödemeYöntemiSeçinHavaleVeyaNakit }, { status: 400 });
     }
 
     const admin = createAdminClient();
@@ -34,6 +35,6 @@ export async function POST(request: Request, ctx: Ctx) {
     if (err instanceof AdvanceRequestError) {
       return NextResponse.json({ error: err.message, code: err.code }, { status: err.status });
     }
-    return NextResponse.json({ error: 'Onay başarısız' }, { status: 500 });
+    return NextResponse.json({ error: strings.onayBaşarısız }, { status: 500 });
   }
 }

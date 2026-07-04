@@ -4,6 +4,7 @@ import { queryProjectEmployees } from '@/lib/employee-db';
 import { withSignedEmployeePhotos } from '@/lib/photo-storage';
 import { createClient } from '@/utils/supabase/server';
 import { apiErrorMessage } from '@/lib/project-queries';
+import strings from '@json/src/app/api/admin/projects/[projectId]/employees/route.json';
 
 type Ctx = { params: Promise<{ projectId: string }> };
 
@@ -18,7 +19,7 @@ export async function GET(_req: Request, ctx: Ctx) {
       return NextResponse.json(
         {
           error: error.includes('does not exist')
-            ? 'Veritabanı güncel değil: supabase/migrations/013_schema_repair.sql çalıştırın'
+            ? strings.err013SchemaRepairSqlÇalıştırın
             : error,
         },
         { status: 500 }

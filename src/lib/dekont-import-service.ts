@@ -7,6 +7,7 @@ import {
   uploadAdvanceDekont,
 } from '@/lib/advance-external-storage';
 import { recordBankPayment, AdvanceRequestError } from '@/lib/advance-request-service';
+import strings from '@json/src/lib/dekont-import-service.json';
 import { createClient } from '@/utils/supabase/server';
 import { createAdminClient } from '@/utils/supabase/admin';
 
@@ -40,7 +41,7 @@ export async function ingestDekontDraft(params: {
   const admin = createAdminClient();
   const projectIds = await listAccessibleProjectIds();
   if (projectIds.length === 0) {
-    throw new DekontImportError('Erişilebilir proje bulunamadı', 403);
+    throw new DekontImportError(strings.noAccessibleProject, 403);
   }
 
   let ocr: DekontOcrResult;
@@ -113,7 +114,7 @@ export async function ingestDekontDraft(params: {
 
   if (error) {
     if (error.message.includes('dekont_import_drafts')) {
-      throw new DekontImportError('057_dekont_import_drafts.sql çalıştırın', 503);
+      throw new DekontImportError(strings.runMigration, 503);
     }
     throw new DekontImportError(error.message, 500);
   }
@@ -131,10 +132,10 @@ export async function loadDekontDraft(adminUserId: string, draftId: string) {
     .maybeSingle();
 
   if (error) throw new DekontImportError(error.message, 500);
-  if (!data) throw new DekontImportError('Taslak bulunamadı', 404);
-  if (data.consumed_at) throw new DekontImportError('Bu taslak zaten kullanıldı', 410);
+  if (!data) throw new DekontImportError(strings.draftNotFound, 404);
+  if (data.consumed_at) throw new DekontImportError(strings.draftAlreadyUsed, 410);
   if (new Date(data.expires_at).getTime() < Date.now()) {
-    throw new DekontImportError('Taslak süresi doldu — dekontu yeniden paylaşın', 410);
+    throw new DekontImportError(strings.draftExpired, 410);
   }
 
   return data as {
@@ -163,7 +164,7 @@ export async function confirmDekontDraft(params: {
     (draft.match_json ?? []).find((m) => m.requestId === params.requestId) ?? null;
   const matchCheck = validateMatchForConfirm(draft.ocr_json, selectedMatch);
   if (!matchCheck.ok) {
-    throw new DekontImportError(matchCheck.reason ?? 'Eşleşme doğrulanamadı', 422);
+    throw new DekontImportError(matchCheck.reason ?? strings.matchValidationFailed, 422);
   }
 
   const { data: draftRow } = await admin
@@ -173,7 +174,7 @@ export async function confirmDekontDraft(params: {
     .single();
 
   if (!draftRow?.proof_external_id || !draftRow.proof_storage_backend) {
-    throw new DekontImportError('Dekont dosyası bulunamadı', 500);
+    throw new DekontImportError(strings.proofFileNotFound, 500);
   }
 
   const record = await recordBankPayment(admin, {

@@ -1,5 +1,7 @@
 import { formatDateTime } from '@/lib/format';
+import { formatString } from '@/lib/strings/format';
 import type { KeepaliveStatus } from '@/lib/supabase-keepalive';
+import strings from '@json/src/components/supabase/SupabaseStatusPage.json';
 
 type Props = {
   status: KeepaliveStatus;
@@ -9,12 +11,12 @@ export function SupabaseStatusPage({ status }: Props) {
   const isOk = status.overall === 'ok';
 
   const title = isOk
-    ? 'Başarılı — devam ediyor'
+    ? strings.title.ok
     : status.overall === 'critical'
-      ? 'Sorun var'
+      ? strings.title.critical
       : status.overall === 'warning'
-        ? 'Ping gecikmiş'
-        : 'Henüz bilinmiyor';
+        ? strings.title.warning
+        : strings.title.unknown;
 
   const iconClass = isOk
     ? 'bg-emerald-500/15 text-emerald-400 ring-emerald-500/30'
@@ -40,7 +42,9 @@ export function SupabaseStatusPage({ status }: Props) {
         <h1 className={`mt-5 text-xl font-semibold sm:text-2xl ${titleClass}`}>{title}</h1>
         {isOk && status.lastSuccess ? (
           <p className="mt-2 text-sm text-slate-500">
-            Son ping: {formatDateTime(status.lastSuccess.createdAt)}
+            {formatString(strings.lastPing, {
+              date: formatDateTime(status.lastSuccess.createdAt),
+            })}
           </p>
         ) : !isOk ? (
           <p className="mt-2 max-w-xs text-sm text-slate-500">{status.detail}</p>

@@ -1,4 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
+import strings from '@json/src/lib/team-work-guard.json';
+import { formatString } from '@/lib/strings/format';
 
 export async function assertEmployeeTeamHasActiveBlock(
   admin: SupabaseClient,
@@ -23,9 +25,7 @@ export async function assertEmployeeTeamHasActiveBlock(
   if (!team) return;
 
   if (!team.block_id) {
-    throw new Error(
-      `"${team.name}" ekibine aktif blok atanmamış. Ekipler sayfasından blok atayın.`
-    );
+    throw new Error(formatString(strings.noActiveBlock, { teamName: team.name }));
   }
 
   const { data: block } = await admin
@@ -36,7 +36,10 @@ export async function assertEmployeeTeamHasActiveBlock(
 
   if (!block || block.status !== 'active') {
     throw new Error(
-      `"${team.name}" ekibinin bloğu (${block?.name ?? '—'}) tamamlanmış. Yeni blok oluşturup ekibe atayın.`
+      formatString(strings.blockCompleted, {
+        teamName: team.name,
+        blockName: block?.name ?? '—',
+      })
     );
   }
 }

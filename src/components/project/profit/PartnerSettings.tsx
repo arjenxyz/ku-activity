@@ -3,6 +3,8 @@
 import { inputClass, labelClass } from '@/components/project/ui';
 import type { ProjectPartner } from '@/types/project-job';
 import { cardClass } from '@/components/project/ui';
+import { formatString } from '@/lib/strings/format';
+import strings from '@json/src/components/project/profit/PartnerSettings.json';
 
 type Props = {
   shareCount: string;
@@ -30,16 +32,14 @@ export function PartnerSettings({
   return (
     <details className={`${cardClass} group`}>
       <summary className="cursor-pointer list-none px-4 py-3 flex items-center justify-between text-sm font-medium text-slate-700 hover:bg-slate-50">
-        <span>Ortak paylaşımı ({shareCount} kişi)</span>
+        <span>{formatString(strings.summaryTitle, { count: shareCount })}</span>
         <span className="text-slate-400 group-open:rotate-180 transition-transform text-xs">▼</span>
       </summary>
       <div className="px-4 pb-4 border-t border-slate-100 pt-4 space-y-4">
-        <p className="text-xs text-slate-500">
-          Siz dahil kaç kişi kârı eşit paylaşacak? Ortak adları yalnızca etiket içindir.
-        </p>
+        <p className="text-xs text-slate-500">{strings.hint}</p>
         <div className="flex flex-wrap items-end gap-3">
           <div className="w-32">
-            <label className={labelClass}>Kişi sayısı</label>
+            <label className={labelClass}>{strings.shareCountLabel}</label>
             <select
               className={inputClass}
               value={shareCount}
@@ -49,7 +49,7 @@ export function PartnerSettings({
             >
               {Array.from({ length: 10 }, (_, i) => i + 1).map((n) => (
                 <option key={n} value={n}>
-                  {n} kişi
+                  {formatString(strings.shareCountOption, { count: n })}
                 </option>
               ))}
             </select>
@@ -60,13 +60,13 @@ export function PartnerSettings({
             disabled={saving}
             className="px-4 py-2.5 rounded-lg bg-slate-800 text-white text-sm font-medium hover:bg-slate-900 disabled:opacity-50"
           >
-            Uygula
+            {strings.apply}
           </button>
         </div>
         <form onSubmit={onAddPartner} className="flex flex-wrap gap-2">
           <input
             className={`${inputClass} flex-1 min-w-[160px]`}
-            placeholder="Ortak adı (isteğe bağlı)"
+            placeholder={strings.partnerNamePlaceholder}
             value={partnerName}
             onChange={(e) => onPartnerNameChange(e.target.value)}
           />
@@ -75,7 +75,7 @@ export function PartnerSettings({
             disabled={saving || !partnerName.trim()}
             className="px-4 py-2.5 rounded-lg border border-slate-200 text-sm font-medium hover:bg-slate-50 disabled:opacity-50"
           >
-            Ekle
+            {strings.add}
           </button>
         </form>
         {partners.length > 0 && (

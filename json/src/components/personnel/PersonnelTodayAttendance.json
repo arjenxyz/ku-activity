@@ -1,0 +1,9 @@
+{
+  "badge": "Bugünkü yoklama",
+  "shiftHours": "Mesai {start}{end}",
+  "shiftEnd": " – {end}",
+  "confirmed": "Tam gün kayıtlısınız",
+  "notConfirmed": "Henüz yoklama yok",
+  "scanQr": "Usta QR okut",
+  "loadFailed": "Yüklenemedi"
+}

@@ -15,6 +15,7 @@ import {
 } from 'react-icons/fi';
 import { RegistrationQrCode } from '@/components/registration/RegistrationQrCode';
 import { formatDateTime } from '@/lib/format';
+import { formatString } from '@/lib/strings/format';
 import {
   cancelAttendanceSession,
   completeAttendanceSession,
@@ -24,6 +25,7 @@ import {
   type AttendanceQrPayload,
 } from '@/lib/project-api';
 import { btnPrimary, labelClass, inputClass } from '@/components/project/ui';
+import strings from '@json/src/components/project/AttendanceQrPanel.json';
 
 type Props = {
   projectId: string;
@@ -64,7 +66,7 @@ export function AttendanceQrPanel({ projectId }: Props) {
       }
       setData(payload);
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Yüklenemedi');
+      setError(e instanceof Error ? e.message : strings.errors.loadFailed);
       setData(null);
     } finally {
       setLoading(false);
@@ -99,7 +101,7 @@ export function AttendanceQrPanel({ projectId }: Props) {
       const payload = await startAttendanceSession(projectId, date);
       setData(payload);
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Oturum başlatılamadı');
+      setError(e instanceof Error ? e.message : strings.errors.startFailed);
     } finally {
       setActing(false);
     }
@@ -107,10 +109,10 @@ export function AttendanceQrPanel({ projectId }: Props) {
 
   const handleComplete = async () => {
     if (!data?.checkIns.length) {
-      setError('Listede kimse yok. Yoklamayı bitirmeden önce en az bir personel okutmalı.');
+      setError(strings.errors.emptyList);
       return;
     }
-    if (!window.confirm(`${data.checkIns.length} personel için tam gün yevmiye yazılsın mı?`)) {
+    if (!window.confirm(formatString(strings.confirm.complete, { count: data.checkIns.length }))) {
       return;
     }
     setActing(true);
@@ -119,20 +121,16 @@ export function AttendanceQrPanel({ projectId }: Props) {
     try {
       const payload = await completeAttendanceSession(projectId, date);
       setData(payload);
-      setSuccess(payload.message ?? 'Yoklama tamamlandı.');
+      setSuccess(payload.message ?? strings.success.completed);
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Yoklama bitirilemedi');
+      setError(e instanceof Error ? e.message : strings.errors.completeFailed);
     } finally {
       setActing(false);
     }
   };
 
   const handleCancel = async () => {
-    if (
-      !window.confirm(
-        'Yoklama iptal edilecek. Listeye eklenenler için yevmiye yazılmayacak. Emin misiniz?'
-      )
-    ) {
+    if (!window.confirm(strings.confirm.cancel)) {
       return;
     }
     setActing(true);
@@ -141,23 +139,23 @@ export function AttendanceQrPanel({ projectId }: Props) {
     try {
       const payload = await cancelAttendanceSession(projectId, date);
       setData(payload);
-      setSuccess(payload.message ?? 'Yoklama iptal edildi.');
+      setSuccess(payload.message ?? strings.success.cancelled);
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'İptal edilemedi');
+      setError(e instanceof Error ? e.message : strings.errors.cancelFailed);
     } finally {
       setActing(false);
     }
   };
 
   const handleRemoveCheckIn = async (checkInId: string, name: string) => {
-    if (!window.confirm(`${name} listeden kaldırılsın mı?`)) return;
+    if (!window.confirm(formatString(strings.confirm.removeCheckIn, { name }))) return;
     setRemovingId(checkInId);
     setError(null);
     try {
       await removeAttendanceCheckIn(projectId, checkInId);
       await load();
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Kaldırılamadı');
+      setError(e instanceof Error ? e.message : strings.errors.removeFailed);
     } finally {
       setRemovingId(null);
     }
@@ -172,18 +170,16 @@ export function AttendanceQrPanel({ projectId }: Props) {
 
   return (
     <section className="mb-6 overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-sm">
-      {/* Header */}
       <div className="relative bg-gradient-to-br from-emerald-600 via-emerald-700 to-teal-800 px-4 py-5 sm:px-6 sm:py-6 text-white">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.12),transparent_55%)]" />
         <div className="relative flex flex-wrap items-start justify-between gap-4">
           <div>
             <p className="text-emerald-100/90 text-xs font-medium uppercase tracking-wider">
-              Günlük yoklama
+              {strings.header.eyebrow}
             </p>
-            <h2 className="mt-1 text-xl sm:text-2xl font-bold tracking-tight">QR ile devam</h2>
+            <h2 className="mt-1 text-xl sm:text-2xl font-bold tracking-tight">{strings.header.title}</h2>
             <p className="mt-2 text-sm text-emerald-50/90 max-w-lg leading-relaxed">
-              Başlatın, personel sırayla okutsun. Bitirince tam gün yevmiye yazılır — mesai ayrı
-              eklenir.
+              {strings.header.description}
             </p>
           </div>
           <button
@@ -193,44 +189,45 @@ export function AttendanceQrPanel({ projectId }: Props) {
             className="inline-flex items-center gap-2 rounded-xl bg-white/10 px-3 py-2 text-sm font-medium backdrop-blur hover:bg-white/20 disabled:opacity-50 transition-colors"
           >
             <FiRefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
-            Yenile
+            {strings.header.refresh}
           </button>
         </div>
 
-        {/* Stats row */}
         <div className="relative mt-5 grid grid-cols-3 gap-2 sm:gap-3">
           <div className="rounded-xl bg-white/10 px-3 py-2.5 backdrop-blur">
             <p className="text-[10px] sm:text-xs text-emerald-100/80 uppercase tracking-wide">
-              Tarih
+              {strings.stats.date}
             </p>
             <p className="text-sm sm:text-base font-semibold truncate">{formattedDate}</p>
           </div>
           <div className="rounded-xl bg-white/10 px-3 py-2.5 backdrop-blur">
             <p className="text-[10px] sm:text-xs text-emerald-100/80 uppercase tracking-wide">
-              Durum
+              {strings.stats.status}
             </p>
             <p className="text-sm sm:text-base font-semibold">
               {loading && !data
-                ? '…'
+                ? strings.stats.loading
                 : isActive
-                  ? 'Devam ediyor'
+                  ? strings.stats.active
                   : isCompleted
-                    ? 'Tamamlandı'
-                    : 'Başlamadı'}
+                    ? strings.stats.completed
+                    : strings.stats.notStarted}
             </p>
           </div>
           <div className="rounded-xl bg-white/10 px-3 py-2.5 backdrop-blur">
             <p className="text-[10px] sm:text-xs text-emerald-100/80 uppercase tracking-wide">
-              Okutan
+              {strings.stats.checkIns}
             </p>
-            <p className="text-sm sm:text-base font-semibold">{checkInCount} kişi</p>
+            <p className="text-sm sm:text-base font-semibold">
+              {formatString(strings.stats.checkInCount, { count: checkInCount })}
+            </p>
           </div>
         </div>
       </div>
 
       <div className="p-4 sm:p-6 space-y-5">
         <div className="max-w-xs">
-          <label className={labelClass}>Yoklama tarihi</label>
+          <label className={labelClass}>{strings.dateLabel}</label>
           <input
             type="date"
             className={inputClass}
@@ -265,15 +262,21 @@ export function AttendanceQrPanel({ projectId }: Props) {
             <p className="flex items-start gap-2 font-medium">
               <FiClock className="mt-0.5 h-4 w-4 shrink-0" />
               <span>
-                İş saatleri: {windowInfo.workStartTime} – {windowInfo.workEndTime} (
-                {windowInfo.timezone})
+                {formatString(strings.workHours, {
+                  start: windowInfo.workStartTime,
+                  end: windowInfo.workEndTime,
+                  timezone: windowInfo.timezone,
+                })}
               </span>
             </p>
             <p className="mt-2 text-xs sm:text-sm leading-relaxed opacity-90">
               {windowInfo.message}
             </p>
             <p className="mt-1 text-xs opacity-80">
-              Yoklama penceresi: {windowInfo.windowStartLabel} → {windowInfo.windowEndLabel}
+              {formatString(strings.windowRange, {
+                start: windowInfo.windowStartLabel,
+                end: windowInfo.windowEndLabel,
+              })}
             </p>
           </div>
         )}
@@ -285,14 +288,13 @@ export function AttendanceQrPanel({ projectId }: Props) {
           </div>
         ) : isActive && data?.qr ? (
           <div className="grid gap-6 lg:grid-cols-[minmax(0,280px)_1fr]">
-            {/* QR column */}
             <div className="flex flex-col items-center">
               <div className="relative w-full max-w-[300px]">
                 <div className="absolute -inset-1 rounded-3xl bg-gradient-to-br from-emerald-400/30 to-teal-500/20 blur-sm" />
                 <div className="relative rounded-2xl border-2 border-emerald-200 bg-white p-4 shadow-md">
                   <span className="mb-3 flex items-center justify-center gap-2 text-xs font-semibold text-emerald-700">
                     <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-                    Sıradaki okutma
+                    {strings.nextScan}
                   </span>
                   <RegistrationQrCode value={data.qr.url} size={240} />
                 </div>
@@ -307,27 +309,24 @@ export function AttendanceQrPanel({ projectId }: Props) {
                     type="button"
                     onClick={handleCopyCode}
                     className="shrink-0 rounded-lg p-2 text-slate-500 hover:bg-white hover:text-emerald-600 transition-colors"
-                    title="Kodu kopyala"
+                    title={strings.copyCodeTitle}
                   >
                     <FiCopy className="w-4 h-4" />
                   </button>
                 </div>
                 {copied && (
-                  <p className="text-xs text-center text-emerald-600 font-medium">Kopyalandı</p>
+                  <p className="text-xs text-center text-emerald-600 font-medium">{strings.copied}</p>
                 )}
-                <p className="text-xs text-center text-slate-500 leading-relaxed">
-                  Her okutma sonrası QR otomatik yenilenir — personel sırayla okutur.
-                </p>
+                <p className="text-xs text-center text-slate-500 leading-relaxed">{strings.qrHint}</p>
               </div>
             </div>
 
-            {/* List column */}
             <div className="flex min-w-0 flex-col">
               <div className="mb-3 flex items-center justify-between gap-2">
                 <div className="flex items-center gap-2">
                   <FiUsers className="w-5 h-5 text-emerald-600" />
                   <h3 className="text-base font-semibold text-slate-900">
-                    Okutanlar
+                    {strings.checkInsTitle}
                     <span className="ml-2 inline-flex h-6 min-w-6 items-center justify-center rounded-full bg-emerald-100 px-2 text-xs font-bold text-emerald-800">
                       {checkInCount}
                     </span>
@@ -340,10 +339,8 @@ export function AttendanceQrPanel({ projectId }: Props) {
                   <div className="flex h-14 w-14 items-center justify-center rounded-full bg-slate-100 text-slate-400">
                     <FiUsers className="w-7 h-7" />
                   </div>
-                  <p className="mt-4 text-sm font-medium text-slate-700">Henüz kimse okutmadı</p>
-                  <p className="mt-1 text-xs text-slate-500">
-                    Personel telefonundan yoklama sayfasını açıp QR okutmalı.
-                  </p>
+                  <p className="mt-4 text-sm font-medium text-slate-700">{strings.emptyCheckInsTitle}</p>
+                  <p className="mt-1 text-xs text-slate-500">{strings.emptyCheckInsHint}</p>
                 </div>
               ) : (
                 <ul className="divide-y divide-slate-100 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm max-h-[min(420px,50vh)] overflow-y-auto">
@@ -366,8 +363,8 @@ export function AttendanceQrPanel({ projectId }: Props) {
                         onClick={() => void handleRemoveCheckIn(c.id, c.employee_name)}
                         disabled={removingId === c.id || acting}
                         className="shrink-0 rounded-lg p-2 text-slate-400 hover:bg-red-50 hover:text-red-600 disabled:opacity-40 transition-colors"
-                        title="Listeden kaldır"
-                        aria-label={`${c.employee_name} kaldır`}
+                        title={strings.removeFromListTitle}
+                        aria-label={formatString(strings.removeAriaLabel, { name: c.employee_name })}
                       >
                         <FiUserMinus className="w-4 h-4" />
                       </button>
@@ -384,7 +381,7 @@ export function AttendanceQrPanel({ projectId }: Props) {
                   className={`${btnPrimary} inline-flex items-center gap-2`}
                 >
                   <FiCheckCircle className="w-4 h-4" />
-                  {acting ? 'Kaydediliyor…' : 'Yoklamayı bitir'}
+                  {acting ? strings.completeSaving : strings.complete}
                 </button>
                 <button
                   type="button"
@@ -393,7 +390,7 @@ export function AttendanceQrPanel({ projectId }: Props) {
                   className="inline-flex items-center gap-2 rounded-xl border border-red-200 bg-white px-4 py-2.5 text-sm font-medium text-red-700 hover:bg-red-50 disabled:opacity-50 transition-colors"
                 >
                   <FiXCircle className="w-4 h-4" />
-                  İptal et
+                  {strings.cancelSession}
                 </button>
               </div>
             </div>
@@ -405,14 +402,14 @@ export function AttendanceQrPanel({ projectId }: Props) {
                 <FiCheckCircle className="w-6 h-6 text-emerald-600" />
               </div>
               <div>
-                <p className="text-base font-semibold text-emerald-900">Yoklama tamamlandı</p>
+                <p className="text-base font-semibold text-emerald-900">{strings.completedTitle}</p>
                 {data.session.completed_at && (
                   <p className="text-sm text-emerald-700 mt-0.5">
                     {formatDateTime(data.session.completed_at)}
                   </p>
                 )}
                 <p className="text-sm text-emerald-800 mt-2">
-                  {checkInCount} personel için tam gün yevmiye kaydedildi.
+                  {formatString(strings.completedSummary, { count: checkInCount })}
                 </p>
               </div>
             </div>
@@ -427,7 +424,7 @@ export function AttendanceQrPanel({ projectId }: Props) {
                     <span className="font-medium text-slate-800">{c.employee_name}</span>
                     <span className="inline-flex items-center gap-1 text-xs font-medium text-emerald-600">
                       <FiCheckCircle className="w-3.5 h-3.5" />
-                      Yevmiye yazıldı
+                      {strings.workLogWritten}
                     </span>
                   </li>
                 ))}
@@ -442,7 +439,7 @@ export function AttendanceQrPanel({ projectId }: Props) {
                 className="mt-5 inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-emerald-700 disabled:opacity-50 transition-colors"
               >
                 <FiPlay className="w-4 h-4" />
-                Yeniden başlat
+                {strings.restart}
               </button>
             )}
           </div>
@@ -452,12 +449,10 @@ export function AttendanceQrPanel({ projectId }: Props) {
               <FiPlay className="w-8 h-8 text-emerald-600" />
             </div>
             <p className="mt-5 text-base font-semibold text-slate-800">
-              {formattedDate} için yoklama yok
+              {formatString(strings.noSessionTitle, { date: formattedDate })}
             </p>
             <p className="mt-2 text-sm text-slate-500 max-w-sm mx-auto">
-              {windowOpen
-                ? 'Başlattığınızda QR oluşur; personel okudukça listeye eklenir.'
-                : 'Şu an yoklama penceresi kapalı. İş bitiş saatinden sonra tekrar deneyin.'}
+              {windowOpen ? strings.noSessionOpenHint : strings.noSessionClosedHint}
             </p>
             <button
               type="button"
@@ -466,13 +461,12 @@ export function AttendanceQrPanel({ projectId }: Props) {
               className={`${btnPrimary} mt-6 inline-flex items-center gap-2 px-6 py-3 text-base disabled:opacity-50`}
             >
               <FiPlay className="w-5 h-5" />
-              {acting ? 'Başlatılıyor…' : 'Yoklamayı başlat'}
+              {acting ? strings.startSaving : strings.start}
             </button>
           </div>
         )}
       </div>
 
-      {/* Mobile sticky actions */}
       {isActive && data?.qr && (
         <div className="fixed bottom-[calc(4.5rem+env(safe-area-inset-bottom))] inset-x-0 z-30 sm:hidden px-4 pb-2">
           <div className="flex gap-2 rounded-2xl bg-white/95 p-2 shadow-xl ring-1 ring-slate-200/80 backdrop-blur">
@@ -481,7 +475,7 @@ export function AttendanceQrPanel({ projectId }: Props) {
               onClick={() => void handleCancel()}
               disabled={acting}
               className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-red-200 text-red-600 disabled:opacity-50"
-              aria-label="İptal et"
+              aria-label={strings.cancelAriaLabel}
             >
               <FiTrash2 className="w-5 h-5" />
             </button>
@@ -492,7 +486,9 @@ export function AttendanceQrPanel({ projectId }: Props) {
               className={`${btnPrimary} flex-1 flex items-center justify-center gap-2 py-3 text-base`}
             >
               <FiCheckCircle className="w-5 h-5" />
-              {acting ? 'Kaydediliyor…' : `Bitir (${checkInCount})`}
+              {acting
+                ? strings.completeSaving
+                : formatString(strings.finishMobile, { count: checkInCount })}
             </button>
           </div>
         </div>

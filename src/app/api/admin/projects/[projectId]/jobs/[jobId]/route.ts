@@ -3,6 +3,7 @@ import { requireAdminProjectAccess } from '@/lib/admin-auth';
 import { createAdminClient } from '@/utils/supabase/admin';
 import { apiErrorMessage } from '@/lib/project-queries';
 import { loadProjectProfitOverview } from '@/lib/job-profit-service';
+import strings from '@json/src/app/api/admin/projects/[projectId]/jobs/[jobId]/route.json';
 
 type Ctx = { params: Promise<{ projectId: string; jobId: string }> };
 
@@ -32,7 +33,7 @@ export async function PATCH(request: Request, ctx: Ctx) {
     }
 
     if (!Object.keys(updates).length) {
-      return NextResponse.json({ error: 'Güncellenecek alan yok' }, { status: 400 });
+      return NextResponse.json({ error: strings.güncellenecekAlanYok }, { status: 400 });
     }
 
     const admin = createAdminClient();
@@ -45,7 +46,7 @@ export async function PATCH(request: Request, ctx: Ctx) {
       .single();
 
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-    if (!data) return NextResponse.json({ error: 'İş kalemi bulunamadı' }, { status: 404 });
+    if (!data) return NextResponse.json({ error: strings.i̇şKalemiBulunamadı }, { status: 404 });
 
     const overview = await loadProjectProfitOverview(admin, projectId);
     return NextResponse.json({ job: data, overview });

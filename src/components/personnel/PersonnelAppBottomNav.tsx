@@ -20,6 +20,7 @@ import {
 } from '@/config/personnel-mobile-nav';
 import type { PersonnelTabId } from '@/hooks/usePersonnelTab';
 import { PERSONNEL_TABS } from '@/hooks/usePersonnelTab';
+import strings from '@json/src/components/personnel/PersonnelAppBottomNav.json';
 
 function isValidTab(value: string | null): value is PersonnelTabId {
   return PERSONNEL_TABS.includes(value as PersonnelTabId);
@@ -123,17 +124,17 @@ function NavInner() {
     hubOpen || (pathname === '/personnel-panel' && PERSONNEL_HUB_TABS.includes(tab));
 
   const items: DockItem[] = [
-    { id: 'home', label: 'Özet', href: '/personnel-panel', Icon: NavIconHome },
-    { id: 'work', label: 'Yevmiye', href: '/personnel-panel?tab=work', Icon: NavIconWork },
+    { id: 'home', label: strings.home, href: '/personnel-panel', Icon: NavIconHome },
+    { id: 'work', label: strings.work, href: '/personnel-panel?tab=work', Icon: NavIconWork },
     {
       id: 'yoklama',
-      label: 'Yoklama',
+      label: strings.yoklama,
       href: '/personnel-panel/yoklama',
       Icon: NavIconQr,
       isCenter: true,
     },
-    { id: 'finance', label: 'Finans', href: '/personnel-panel?tab=finance', Icon: NavIconFinance },
-    { id: 'more', label: 'Menü', onClick: () => setHubOpen(true), Icon: NavIconMenu },
+    { id: 'finance', label: strings.finance, href: '/personnel-panel?tab=finance', Icon: NavIconFinance },
+    { id: 'more', label: strings.more, onClick: () => setHubOpen(true), Icon: NavIconMenu },
   ];
 
   const isActive = (id: string) => {
@@ -157,7 +158,7 @@ function NavInner() {
     <>
       <nav
         className="fixed bottom-0 inset-x-0 z-50 sm:hidden pointer-events-none"
-        aria-label="Personel navigasyon"
+        aria-label={strings.navAriaLabel}
       >
         <div className="mx-auto max-w-lg px-3 pb-[max(0.5rem,env(safe-area-inset-bottom))] pointer-events-auto">
           <motion.div

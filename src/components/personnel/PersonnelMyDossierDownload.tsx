@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import { FiDownload, FiShield } from 'react-icons/fi';
 import { PERSONNEL_SELF_EXPORT_DAILY_LIMIT } from '@/lib/legal-dossier/types';
+import { formatString } from '@/lib/strings/format';
+import strings from '@json/src/components/personnel/PersonnelMyDossierDownload.json';
 
 function parseFilename(contentDisposition: string | null, fallback: string) {
   if (!contentDisposition) return fallback;
@@ -21,19 +23,22 @@ export function PersonnelMyDossierDownload() {
       const res = await fetch('/api/personnel/my-dossier');
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
-        throw new Error((data as { error?: string }).error || 'İndirilemedi');
+        throw new Error((data as { error?: string }).error || strings.errors.downloadFailed);
       }
       const blob = await res.blob();
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = parseFilename(res.headers.get('Content-Disposition'), 'crewledger-kayitlarim.zip');
+      a.download = parseFilename(
+        res.headers.get('Content-Disposition'),
+        strings.fallbackFilename
+      );
       document.body.appendChild(a);
       a.click();
       a.remove();
       URL.revokeObjectURL(url);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'İndirme başarısız');
+      setError(err instanceof Error ? err.message : strings.errors.generic);
     } finally {
       setLoading(false);
     }
@@ -46,13 +51,12 @@ export function PersonnelMyDossierDownload() {
           <FiShield className="w-5 h-5" />
         </div>
         <div className="min-w-0 flex-1">
-          <p className="text-sm font-semibold text-slate-900 dark:text-white">Kayıtlarımı indir</p>
+          <p className="text-sm font-semibold text-slate-900 dark:text-white">{strings.title}</p>
           <p className="text-xs text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">
-            KVKK m.11 kapsamında yevmiye, ödeme, sözleşme ve profil verilerinizin tam kopyasını ZIP
-            olarak alın. Yöneticinizin gördüğü kayıtlarla aynı veri setidir — şeffaflık için.
+            {strings.description}
           </p>
           <p className="text-[11px] text-slate-500 mt-2">
-            Günde en fazla {PERSONNEL_SELF_EXPORT_DAILY_LIMIT} kez indirebilirsiniz.
+            {formatString(strings.dailyLimit, { limit: PERSONNEL_SELF_EXPORT_DAILY_LIMIT })}
           </p>
           <button
             type="button"
@@ -63,12 +67,12 @@ export function PersonnelMyDossierDownload() {
             {loading ? (
               <>
                 <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                Hazırlanıyor…
+                {strings.preparing}
               </>
             ) : (
               <>
                 <FiDownload className="w-4 h-4" />
-                Kayıtlarımı indir (ZIP)
+                {strings.downloadCta}
               </>
             )}
           </button>

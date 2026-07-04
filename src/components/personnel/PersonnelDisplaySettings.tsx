@@ -1,6 +1,7 @@
 'use client';
 
 import { usePersonnelDisplay } from '@/lib/personnel-display-preferences';
+import strings from '@json/src/components/personnel/PersonnelDisplaySettings.json';
 
 export function PersonnelDisplaySettings() {
   const { largeText, highContrast, setLargeText, setHighContrast } = usePersonnelDisplay();
@@ -9,19 +10,19 @@ export function PersonnelDisplaySettings() {
     <div className="rounded-2xl border border-slate-200/80 dark:border-slate-700 bg-white dark:bg-slate-800 overflow-hidden shadow-sm">
       <div className="px-4 py-3 border-b border-slate-100 dark:border-slate-700/80 bg-slate-50/80 dark:bg-slate-800/50">
         <p className="text-xs font-semibold text-slate-600 dark:text-slate-300 uppercase tracking-wide">
-          Görünüm
+          {strings.sectionTitle}
         </p>
       </div>
       <div className="divide-y divide-slate-100 dark:divide-slate-700/80">
         <ToggleRow
-          label="Büyük yazı"
-          hint="Metinleri büyütür"
+          label={strings.largeTextLabel}
+          hint={strings.largeTextHint}
           checked={largeText}
           onChange={setLargeText}
         />
         <ToggleRow
-          label="Yüksek kontrast"
-          hint="Sahada okumayı kolaylaştırır"
+          label={strings.highContrastLabel}
+          hint={strings.highContrastHint}
           checked={highContrast}
           onChange={setHighContrast}
         />

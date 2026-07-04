@@ -1,4 +1,5 @@
 import { ADMIN_APP_ICON, PERSONNEL_APP_ICON } from '@/lib/brand';
+import strings from '@json/src/lib/app-releases.json';
 
 export const APP_RELEASES_BUCKET = 'app-releases';
 
@@ -24,15 +25,16 @@ export type AppReleaseRow = {
   created_at: string;
 };
 
+export function getAppReleaseLabel(appType: AppReleaseType): { title: string; description: string } {
+  if (appType === 'personnel') {
+    return { title: strings.personnelTitle, description: strings.personnelDescription };
+  }
+  return { title: strings.adminTitle, description: strings.adminDescription };
+}
+
 export const APP_RELEASE_LABELS: Record<AppReleaseType, { title: string; description: string }> = {
-  personnel: {
-    title: 'Personel Uygulaması',
-    description: 'Yoklama, yevmiye, mesai ve bordro görüntüleme.',
-  },
-  admin: {
-    title: 'Yönetici Uygulaması',
-    description: 'Proje yönetimi, personel onayı, yevmiye ve raporlar.',
-  },
+  personnel: getAppReleaseLabel('personnel'),
+  admin: getAppReleaseLabel('admin'),
 };
 
 export const APP_RELEASE_ICONS: Record<AppReleaseType, string> = {

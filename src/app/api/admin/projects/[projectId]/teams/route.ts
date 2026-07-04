@@ -3,6 +3,7 @@ import { requireAdminProjectAccess } from '@/lib/admin-auth';
 import { createProjectTeam, listProjectTeams } from '@/lib/block-team-service';
 import { createAdminClient } from '@/utils/supabase/admin';
 import { apiErrorMessage } from '@/lib/project-queries';
+import strings from '@json/src/app/api/admin/projects/[projectId]/teams/route.json';
 
 type Ctx = { params: Promise<{ projectId: string }> };
 
@@ -31,7 +32,7 @@ export async function POST(request: Request, ctx: Ctx) {
     };
 
     if (!name?.trim()) {
-      return NextResponse.json({ error: 'Ekip adı zorunlu' }, { status: 400 });
+      return NextResponse.json({ error: strings.ekipAdıZorunlu }, { status: 400 });
     }
 
     const admin = createAdminClient();

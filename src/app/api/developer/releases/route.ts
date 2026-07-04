@@ -6,6 +6,7 @@ import { requireDeveloperUser } from '@/lib/developer-auth';
 import { apiErrorMessage } from '@/lib/project-queries';
 import { createClient } from '@/utils/supabase/server';
 import { createAdminClient } from '@/utils/supabase/admin';
+import strings from '@json/src/app/api/developer/releases/route.json';
 
 export async function GET() {
   try {
@@ -22,7 +23,7 @@ export async function GET() {
 
     if (error) {
       if (error.message.includes('app_releases')) {
-        return NextResponse.json({ error: '054_app_releases.sql çalıştırın' }, { status: 503 });
+        return NextResponse.json({ error: strings.err054AppReleasesSqlÇalıştırın }, { status: 503 });
       }
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
@@ -48,20 +49,20 @@ export async function POST(request: Request) {
     const file = formData.get('file');
 
     if (!isValidAppReleaseType(appTypeRaw)) {
-      return NextResponse.json({ error: 'appType personnel veya admin olmalı' }, { status: 400 });
+      return NextResponse.json({ error: strings.apptypePersonnelVeyaAdminOlmalı }, { status: 400 });
     }
 
     if (!versionName) {
-      return NextResponse.json({ error: 'versionName gerekli' }, { status: 400 });
+      return NextResponse.json({ error: strings.versionnameGerekli }, { status: 400 });
     }
 
     const versionCode = Number.parseInt(versionCodeRaw, 10);
     if (!Number.isFinite(versionCode) || versionCode <= 0) {
-      return NextResponse.json({ error: 'versionCode pozitif tam sayı olmalı' }, { status: 400 });
+      return NextResponse.json({ error: strings.versioncodePozitifTamSayıOlmalı }, { status: 400 });
     }
 
     if (!(file instanceof File)) {
-      return NextResponse.json({ error: 'APK dosyası gerekli' }, { status: 400 });
+      return NextResponse.json({ error: strings.apkDosyasıGerekli }, { status: 400 });
     }
 
     const uploaded = await uploadAppReleaseApk({
@@ -93,10 +94,10 @@ export async function POST(request: Request) {
 
     if (error) {
       if (error.code === '23505') {
-        return NextResponse.json({ error: 'Bu uygulama için aynı sürüm kodu zaten kayıtlı' }, { status: 409 });
+        return NextResponse.json({ error: strings.buUygulamaIçinAynıSürümKodu }, { status: 409 });
       }
       if (error.message.includes('app_releases')) {
-        return NextResponse.json({ error: '054_app_releases.sql çalıştırın' }, { status: 503 });
+        return NextResponse.json({ error: strings.err054AppReleasesSqlÇalıştırın }, { status: 503 });
       }
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
@@ -105,8 +106,8 @@ export async function POST(request: Request) {
       {
         release: data as AppReleaseRow,
         message: auth.viaCi
-          ? 'APK yüklendi. Developer panelden yayınlayın.'
-          : 'APK yüklendi. Yayınlamak için onaylayın.',
+          ? strings.apkYüklendiDeveloperPaneldenYayınlayın
+          : strings.apkYüklendiYayınlamakIçinOnaylayın,
       },
       { status: 201 }
     );

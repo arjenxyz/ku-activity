@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { listActiveContracts } from '@/lib/contract-service';
+import strings from '@json/src/app/api/public/contracts/route.json';
 
 export async function GET() {
   try {
@@ -17,7 +18,7 @@ export async function GET() {
         })),
     });
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'Sözleşmeler yüklenemedi';
+    const message = err instanceof Error ? err.message: strings.sözleşmelerYüklenemedi;
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }

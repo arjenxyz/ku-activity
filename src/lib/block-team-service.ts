@@ -1,5 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { ProjectBlock, ProjectTeam, TeamWithMembers } from '@/types/project-block';
+import strings from '@json/src/lib/block-team-service.json';
 
 export async function listProjectBlocks(
   admin: SupabaseClient,
@@ -169,7 +170,7 @@ export async function addTeamMember(
     .eq('id', teamId)
     .eq('project_id', projectId)
     .maybeSingle();
-  if (!team) throw new Error('Ekip bulunamadı');
+  if (!team) throw new Error(strings.teamNotFound);
 
   const { error } = await admin.from('team_members').insert({
     team_id: teamId,
@@ -177,7 +178,7 @@ export async function addTeamMember(
   });
   if (error) {
     if (error.code === '23505') {
-      throw new Error('Bu personel zaten başka bir ekipte.');
+      throw new Error(strings.employeeAlreadyInTeam);
     }
     throw new Error(error.message);
   }

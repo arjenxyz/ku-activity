@@ -4,8 +4,8 @@ import dayjs from 'dayjs';
 import { FiCalendar, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import type { CalendarDay } from '@/lib/personnel-stats';
 import type { WorkLogApprovalStatus } from '@/lib/work-log';
-
-const WEEKDAYS = ['Pt', 'Sa', 'Ça', 'Pe', 'Cu', 'Ct', 'Pz'];
+import { formatString } from '@/lib/strings/format';
+import strings from '@json/src/components/personnel/PersonnelCalendar.json';
 
 const STATUS_STYLES: Record<
   WorkLogApprovalStatus | 'empty',
@@ -14,32 +14,32 @@ const STATUS_STYLES: Record<
   confirmed: {
     cell: 'bg-emerald-50 dark:bg-emerald-900/35 text-emerald-900 dark:text-emerald-200 ring-1 ring-emerald-200/80 dark:ring-emerald-800',
     dot: 'bg-emerald-500',
-    label: 'Onaylı',
+    label: strings.status.confirmed,
   },
   pending_employee: {
     cell: 'bg-amber-50 dark:bg-amber-900/35 text-amber-900 dark:text-amber-200 ring-1 ring-amber-200/80 dark:ring-amber-800',
     dot: 'bg-amber-500',
-    label: 'Sizin onayınız',
+    label: strings.status.pending_employee,
   },
   pending_admin: {
     cell: 'bg-sky-50 dark:bg-sky-900/35 text-sky-900 dark:text-sky-200 ring-1 ring-sky-200/80 dark:ring-sky-800',
     dot: 'bg-sky-500',
-    label: 'Yönetici onayı',
+    label: strings.status.pending_admin,
   },
   disputed: {
     cell: 'bg-red-50 dark:bg-red-900/35 text-red-900 dark:text-red-200 ring-1 ring-red-200/80 dark:ring-red-800',
     dot: 'bg-red-500',
-    label: 'İtiraz',
+    label: strings.status.disputed,
   },
   none: {
     cell: 'bg-violet-50 dark:bg-violet-900/30 text-violet-900 dark:text-violet-200 ring-1 ring-violet-200/80 dark:ring-violet-800',
     dot: 'bg-violet-500',
-    label: 'İşlemde',
+    label: strings.status.none,
   },
   empty: {
     cell: 'bg-gray-50 dark:bg-slate-900/50 text-gray-400 dark:text-slate-500',
     dot: 'bg-gray-300 dark:bg-slate-600',
-    label: 'Kayıt yok',
+    label: strings.status.empty,
   },
 };
 
@@ -90,7 +90,7 @@ export function PersonnelCalendar({ month, onMonthChange, days }: Props) {
             type="button"
             onClick={() => shiftMonth(-1)}
             className="touch-target inline-flex items-center justify-center w-10 h-10 rounded-xl border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-900 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-slate-800 shrink-0"
-            aria-label="Önceki ay"
+            aria-label={strings.prevMonth}
           >
             <FiChevronLeft className="w-5 h-5" />
           </button>
@@ -101,12 +101,12 @@ export function PersonnelCalendar({ month, onMonthChange, days }: Props) {
               <h2 className="font-bold text-gray-900 dark:text-white capitalize">{monthLabel}</h2>
               {isCurrentMonth && (
                 <span className="shrink-0 text-[10px] font-semibold uppercase tracking-wide px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300">
-                  Bu ay
+                  {strings.thisMonth}
                 </span>
               )}
             </div>
             <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-              {recorded} kayıtlı gün · {confirmed} onaylı · {pending} bekleyen
+              {formatString(strings.summary, { recorded, confirmed, pending })}
             </p>
           </div>
 
@@ -115,14 +115,14 @@ export function PersonnelCalendar({ month, onMonthChange, days }: Props) {
             onClick={() => shiftMonth(1)}
             disabled={isCurrentMonth}
             className="touch-target inline-flex items-center justify-center w-10 h-10 rounded-xl border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-900 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-slate-800 disabled:opacity-35 disabled:pointer-events-none shrink-0"
-            aria-label="Sonraki ay"
+            aria-label={strings.nextMonth}
           >
             <FiChevronRight className="w-5 h-5" />
           </button>
         </div>
 
         <label className="mt-3 flex items-center justify-center gap-2 text-xs text-gray-500 dark:text-gray-400">
-          <span className="hidden sm:inline">Ay seç:</span>
+          <span className="hidden sm:inline">{strings.selectMonth}</span>
           <input
             type="month"
             value={month}
@@ -135,7 +135,7 @@ export function PersonnelCalendar({ month, onMonthChange, days }: Props) {
 
       <div className="p-4 sm:p-5">
         <div className="grid grid-cols-7 gap-1.5 mb-2">
-          {WEEKDAYS.map((d) => (
+          {strings.weekdays.map((d) => (
             <div
               key={d}
               className="text-center text-[11px] font-semibold text-gray-400 dark:text-slate-500 py-1"
@@ -155,6 +155,10 @@ export function PersonnelCalendar({ month, onMonthChange, days }: Props) {
             const todayRing = cell.isToday
               ? 'ring-2 ring-blue-500 dark:ring-blue-400 ring-offset-1 dark:ring-offset-slate-800'
               : '';
+            const amountLabel =
+              cell.workAmount % 1 === 0
+                ? `${cell.workAmount}g`
+                : `${cell.workAmount.toFixed(2)}g`;
 
             return (
               <div
@@ -162,7 +166,11 @@ export function PersonnelCalendar({ month, onMonthChange, days }: Props) {
                 className={`aspect-square min-h-[40px] rounded-xl flex flex-col items-center justify-center text-center p-0.5 transition-colors ${cellStyle(cell)} ${todayRing}`}
                 title={
                   hasWork
-                    ? `${cell.date} · ${cell.workAmount} gün · ${STATUS_STYLES[status].label}`
+                    ? formatString(strings.cellTitle, {
+                        date: cell.date,
+                        amount: amountLabel,
+                        status: STATUS_STYLES[status].label,
+                      })
                     : cell.date
                 }
               >
@@ -174,9 +182,7 @@ export function PersonnelCalendar({ month, onMonthChange, days }: Props) {
                 {hasWork && (
                   <>
                     <span className="text-[10px] font-semibold leading-tight mt-0.5 tabular-nums">
-                      {cell.workAmount % 1 === 0
-                        ? `${cell.workAmount}g`
-                        : `${cell.workAmount.toFixed(2)}g`}
+                      {amountLabel}
                     </span>
                     <span
                       className={`w-1.5 h-1.5 rounded-full mt-0.5 ${STATUS_STYLES[status].dot}`}

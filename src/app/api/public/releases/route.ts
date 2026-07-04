@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { APP_RELEASE_TYPES, type AppReleaseRow } from '@/lib/app-releases';
 import { createAdminClient } from '@/utils/supabase/admin';
+import strings from '@json/src/app/api/public/releases/route.json';
 
 export async function GET() {
   try {
@@ -39,7 +40,7 @@ export async function GET() {
 
     return NextResponse.json({ releases: latestByApp });
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'Sistem hatası';
+    const message = err instanceof Error ? err.message: strings.sistemHatası;
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }

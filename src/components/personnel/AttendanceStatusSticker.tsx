@@ -9,6 +9,7 @@ import {
   FiX,
 } from 'react-icons/fi';
 import type { PersonnelAttendanceStatusPayload } from '@/lib/personnel-api';
+import strings from '@json/src/components/personnel/AttendanceStatusSticker.json';
 
 type Variant = {
   glow: string;
@@ -36,17 +37,18 @@ function resolveVariant(
   onForceReplace: () => void
 ): Variant | null {
   if (status.state === 'waiting') {
+    const s = strings.states.waiting;
     return {
       glow: 'bg-emerald-400/25',
-      pill: 'Yoklamada',
+      pill: s.pill,
       pillDot: 'pulse',
       icon: FiCheck,
       iconRing: 'ring-emerald-400/30 bg-emerald-500/15',
       iconColor: 'text-emerald-400',
-      title: 'Listeye eklendiniz',
-      hint: 'Usta yoklamayı tamamlayana kadar bekleyin.',
+      title: s.title,
+      hint: s.hint,
       primaryAction: {
-        label: 'Sorun var — yeniden okut',
+        label: strings.rescanIssue,
         onClick: onForceReplace,
         style: 'ghost',
       },
@@ -54,17 +56,18 @@ function resolveVariant(
   }
 
   if (status.state === 'completed') {
+    const s = strings.states.completed;
     return {
       glow: 'bg-teal-400/25',
-      pill: 'Tamamlandı',
+      pill: s.pill,
       pillDot: 'static',
       icon: FiCheck,
       iconRing: 'ring-teal-400/30 bg-teal-500/15',
       iconColor: 'text-teal-400',
-      title: 'Bugün tamamlandı',
-      hint: status.message ?? 'Tam gün kaydınız oluştu.',
+      title: s.title,
+      hint: status.message ?? s.hintDefault,
       primaryAction: {
-        label: 'Sorun var — yeniden okut',
+        label: strings.rescanIssue,
         onClick: onForceReplace,
         style: 'ghost',
       },
@@ -72,16 +75,17 @@ function resolveVariant(
   }
 
   if (status.state === 'cancelled') {
+    const s = strings.states.cancelled;
     return {
       glow: 'bg-amber-400/20',
-      pill: 'İptal edildi',
+      pill: s.pill,
       icon: FiAlertCircle,
       iconRing: 'ring-amber-400/30 bg-amber-500/15',
       iconColor: 'text-amber-400',
-      title: 'Yoklama iptal edildi',
-      hint: 'Yöneticiniz bu yoklamayı iptal etti. Lütfen onunla iletişime geçiniz.',
+      title: s.title,
+      hint: s.hint,
       primaryAction: {
-        label: 'Yeniden okut',
+        label: strings.rescan,
         onClick: onForceReplace,
         style: 'solid',
       },
@@ -89,16 +93,17 @@ function resolveVariant(
   }
 
   if (status.state === 'removed') {
+    const s = strings.states.removed;
     return {
       glow: 'bg-rose-400/20',
-      pill: 'Listeden çıkarıldınız',
+      pill: s.pill,
       icon: FiUserMinus,
       iconRing: 'ring-rose-400/30 bg-rose-500/15',
       iconColor: 'text-rose-400',
-      title: 'Yoklamada değilsiniz',
-      hint: 'Yeni QR okutun veya ustanızla görüşün.',
+      title: s.title,
+      hint: s.hint,
       primaryAction: {
-        label: 'Yeniden okut',
+        label: strings.rescan,
         onClick: onForceReplace,
         style: 'solid',
       },
@@ -133,7 +138,7 @@ function StatusPill({
 function ResultContent({
   variant,
   onDismiss,
-  dismissLabel = 'Kapat',
+  dismissLabel = strings.close,
 }: {
   variant: Variant;
   onDismiss?: () => void;
@@ -252,18 +257,18 @@ export function AttendanceScanErrorOverlay({
 }) {
   const variant: Variant = {
     glow: 'bg-rose-400/25',
-    pill: 'Okutma başarısız',
+    pill: strings.scanError.pill,
     icon: FiAlertCircle,
     iconRing: 'ring-rose-400/30 bg-rose-500/15',
     iconColor: 'text-rose-400',
-    title: 'QR okunamadı',
+    title: strings.scanError.title,
     hint: message,
   };
 
   return (
     <div className="pointer-events-none fixed inset-0 z-[6] flex items-center justify-center px-5">
       <ResultBackdrop glowClass={variant.glow} />
-      <ResultContent variant={variant} onDismiss={onDismiss} dismissLabel="Hatayı kapat" />
+      <ResultContent variant={variant} onDismiss={onDismiss} dismissLabel={strings.dismissError} />
     </div>
   );
 }

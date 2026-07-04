@@ -15,6 +15,7 @@ import { APP_NAME } from '@/lib/brand';
 import { useAdminCurrentProject } from '@/hooks/useAdminCurrentProject';
 import { AdminProjectSettingsProvider } from '@/hooks/useAdminProjectSettings';
 import { AdminUiModeProvider, useAdminUiMode } from '@/hooks/useAdminUiMode';
+import strings from '@json/src/components/dashboard/DashboardShell.json';
 
 const PROJECT_ID_RE = /^\/admin-panel\/proje\/([a-f0-9-]{36})/;
 
@@ -86,8 +87,8 @@ function DashboardShellInner({ children }: { children: React.ReactNode }) {
                       type="button"
                       onClick={() => setSettingsOpen(true)}
                       className="hidden sm:flex shrink-0 items-center justify-center w-8 h-8 rounded-lg text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-colors"
-                      title="Proje ayarları"
-                      aria-label="Proje ayarları"
+                      title={strings.projectSettingsTitle}
+                      aria-label={strings.projectSettingsAriaLabel}
                     >
                       <FiSliders className="w-4 h-4" />
                     </button>
@@ -97,7 +98,7 @@ function DashboardShellInner({ children }: { children: React.ReactNode }) {
             )}
 
             {projectId && !project && (
-              <span className="hidden sm:inline text-sm text-slate-400 truncate">Yükleniyor…</span>
+              <span className="hidden sm:inline text-sm text-slate-400 truncate">{strings.loadingProject}</span>
             )}
           </div>
 
@@ -113,7 +114,7 @@ function DashboardShellInner({ children }: { children: React.ReactNode }) {
                 }`}
               >
                 <FiSettings className="w-4 h-4" />
-                Maaş Politikası
+                {strings.wagePolicy}
               </Link>
             )}
             <button
@@ -122,7 +123,7 @@ function DashboardShellInner({ children }: { children: React.ReactNode }) {
               className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-red-600 hover:bg-red-50 transition-colors"
             >
               <FiLogOut className="w-4 h-4" />
-              Çıkış
+              {strings.logout}
             </button>
           </div>
 
@@ -130,7 +131,7 @@ function DashboardShellInner({ children }: { children: React.ReactNode }) {
             type="button"
             className="sm:hidden flex flex-col justify-center items-center w-10 h-10 rounded-lg hover:bg-slate-100 transition-colors shrink-0"
             onClick={() => setMenuOpen((v) => !v)}
-            aria-label={menuOpen ? 'Menüyü kapat' : 'Menüyü aç'}
+            aria-label={menuOpen ? strings.closeMenuAriaLabel : strings.openMenuAriaLabel}
             aria-expanded={menuOpen}
           >
             <span
@@ -205,7 +206,7 @@ function DashboardShellInner({ children }: { children: React.ReactNode }) {
                 }`}
               >
                 <FiSettings className="w-4 h-4" />
-                Maaş Politikası
+                {strings.wagePolicy}
               </Link>
             )}
             <button
@@ -214,7 +215,7 @@ function DashboardShellInner({ children }: { children: React.ReactNode }) {
               className="w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-600 hover:text-red-600 hover:bg-white transition-colors"
             >
               <FiLogOut className="w-4 h-4" />
-              Çıkış
+              {strings.logout}
             </button>
           </div>
         </nav>

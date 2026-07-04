@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { verifyContractOtpAndSubmit } from '@/lib/otp-service';
+import strings from '@json/src/app/api/public/contract-otp/verify/route.json';
 
 export async function POST(request: Request) {
   try {
@@ -17,7 +18,7 @@ export async function POST(request: Request) {
       reused: result.reused,
     });
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'Doğrulama başarısız';
+    const message = err instanceof Error ? err.message: strings.doğrulamaBaşarısız;
     return NextResponse.json({ error: message }, { status: 400 });
   }
 }

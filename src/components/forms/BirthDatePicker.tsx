@@ -11,6 +11,8 @@ import {
   getMaxBirthDate,
   MIN_CONSTRUCTION_AGE,
 } from '@/lib/age-validation';
+import { formatString } from '@/lib/strings/format';
+import strings from '@json/src/components/forms/BirthDatePicker.json';
 
 type Props = {
   value: string;
@@ -124,7 +126,7 @@ export function BirthDatePicker({
   return (
     <div>
       <label className={labelClass}>
-        Doğum Tarihi {required ? '*' : ''}
+        {strings.label} {required ? '*' : ''}
       </label>
       <div className="grid grid-cols-3 gap-2">
         <select
@@ -132,9 +134,9 @@ export function BirthDatePicker({
           value={year}
           onChange={(e) => handleYearChange(e.target.value)}
           required={required}
-          aria-label="Doğum yılı"
+          aria-label={strings.yearAriaLabel}
         >
-          <option value="">Yıl</option>
+          <option value="">{strings.yearPlaceholder}</option>
           {years.map((y) => (
             <option key={y} value={y}>
               {y}
@@ -147,9 +149,9 @@ export function BirthDatePicker({
           onChange={(e) => handleMonthChange(e.target.value)}
           required={required}
           disabled={!year}
-          aria-label="Doğum ayı"
+          aria-label={strings.monthAriaLabel}
         >
-          <option value="">Ay</option>
+          <option value="">{strings.monthPlaceholder}</option>
           {monthOptions.map((m) => (
             <option key={m} value={m}>
               {formatBirthMonthLabel(m)}
@@ -162,9 +164,9 @@ export function BirthDatePicker({
           onChange={(e) => handleDayChange(e.target.value)}
           required={required}
           disabled={!year || !month}
-          aria-label="Doğum günü"
+          aria-label={strings.dayAriaLabel}
         >
-          <option value="">Gün</option>
+          <option value="">{strings.dayPlaceholder}</option>
           {dayOptions.map((d) => (
             <option key={d} value={d}>
               {d}
@@ -173,8 +175,7 @@ export function BirthDatePicker({
         </select>
       </div>
       <p className="text-xs text-slate-500 dark:text-slate-400 mt-1.5">
-        İnşaat sahasında çalışmak için en az {MIN_CONSTRUCTION_AGE} yaşında olmalısınız.{' '}
-        {maxBirthLabel} ve öncesi tarihler seçilebilir.
+        {formatString(strings.hint, { minAge: MIN_CONSTRUCTION_AGE, maxBirthDate: maxBirthLabel })}
       </p>
     </div>
   );

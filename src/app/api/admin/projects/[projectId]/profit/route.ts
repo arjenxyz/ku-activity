@@ -3,6 +3,7 @@ import { requireAdminProjectAccess } from '@/lib/admin-auth';
 import { createAdminClient } from '@/utils/supabase/admin';
 import { apiErrorMessage } from '@/lib/project-queries';
 import { loadProjectProfitOverview } from '@/lib/job-profit-service';
+import strings from '@json/src/app/api/admin/projects/[projectId]/profit/route.json';
 
 type Ctx = { params: Promise<{ projectId: string }> };
 
@@ -27,7 +28,7 @@ export async function PATCH(request: Request, ctx: Ctx) {
     const { shareCount } = body as { shareCount?: number };
 
     if (shareCount == null || !Number.isFinite(shareCount)) {
-      return NextResponse.json({ error: 'shareCount zorunlu' }, { status: 400 });
+      return NextResponse.json({ error: strings.sharecountZorunlu }, { status: 400 });
     }
 
     const admin = createAdminClient();

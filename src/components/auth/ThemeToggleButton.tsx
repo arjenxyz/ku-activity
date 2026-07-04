@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import strings from '@json/src/components/auth/ThemeToggleButton.json';
 
 export function ThemeToggleButton({ className = '' }: { className?: string }) {
   const [isDark, setIsDark] = useState(false);
@@ -20,7 +21,7 @@ export function ThemeToggleButton({ className = '' }: { className?: string }) {
     <button
       onClick={toggleTheme}
       className={`p-2.5 rounded-xl text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-slate-800 border border-transparent hover:border-gray-200 dark:hover:border-slate-700 transition-colors ${className}`}
-      aria-label="Tema değiştir"
+      aria-label={strings.ariaLabel}
     >
       {isDark ? (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

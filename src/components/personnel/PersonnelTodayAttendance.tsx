@@ -6,6 +6,8 @@ import { FiCheckCircle, FiClock } from 'react-icons/fi';
 import { TbQrcode } from 'react-icons/tb';
 import { formatWorkLogSummary } from '@/lib/work-log';
 import { fetchPersonnelTodayAttendance } from '@/lib/personnel-api';
+import { formatString } from '@/lib/strings/format';
+import strings from '@json/src/components/personnel/PersonnelTodayAttendance.json';
 
 export function PersonnelTodayAttendance() {
   const [loading, setLoading] = useState(true);
@@ -27,7 +29,7 @@ export function PersonnelTodayAttendance() {
       setWorkLog(data.workLog);
       setProject(data.project);
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Yüklenemedi');
+      setError(e instanceof Error ? e.message : strings.loadFailed);
     } finally {
       setLoading(false);
     }
@@ -69,7 +71,7 @@ export function PersonnelTodayAttendance() {
                   : 'text-amber-700 dark:text-amber-400'
               }`}
             >
-              Bugünkü yoklama
+              {strings.badge}
             </p>
             {project?.name && (
               <p className="mt-1 text-sm font-semibold text-slate-900 dark:text-white truncate">
@@ -78,8 +80,12 @@ export function PersonnelTodayAttendance() {
             )}
             {project && (
               <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                Mesai {formatTime(project.workStartTime)}
-                {project.workEndTime ? ` – ${formatTime(project.workEndTime)}` : ''}
+                {formatString(strings.shiftHours, {
+                  start: formatTime(project.workStartTime),
+                  end: project.workEndTime
+                    ? formatString(strings.shiftEnd, { end: formatTime(project.workEndTime) })
+                    : '',
+                })}
               </p>
             )}
           </div>
@@ -99,7 +105,7 @@ export function PersonnelTodayAttendance() {
         </div>
 
         <p className="mt-3 text-base font-semibold text-slate-900 dark:text-white">
-          {isConfirmed ? 'Tam gün kayıtlısınız' : 'Henüz yoklama yok'}
+          {isConfirmed ? strings.confirmed : strings.notConfirmed}
         </p>
 
         {workLog && (
@@ -116,7 +122,7 @@ export function PersonnelTodayAttendance() {
             className="mt-4 w-full flex items-center justify-center gap-2.5 py-3.5 rounded-2xl bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white text-sm font-semibold shadow-lg shadow-blue-600/20 touch-target transition-colors"
           >
             <TbQrcode className="w-5 h-5" />
-            Usta QR okut
+            {strings.scanQr}
           </Link>
         )}
       </div>

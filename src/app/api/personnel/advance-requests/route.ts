@@ -6,6 +6,7 @@ import {
   sanitizeOcrForPersonnel,
 } from '@/lib/advance-payment-details';
 import { AdvanceRequestError, createAdvanceRequest } from '@/lib/advance-request-service';
+import strings from '@json/src/app/api/personnel/advance-requests/route.json';
 
 export async function GET() {
   try {
@@ -25,7 +26,7 @@ export async function GET() {
       if (error.message.includes('advance_requests')) {
         return NextResponse.json({ requests: [], note: '056_advance_requests.sql çalıştırın' });
       }
-      return NextResponse.json({ error: 'Talepler yüklenemedi' }, { status: 500 });
+      return NextResponse.json({ error: strings.taleplerYüklenemedi }, { status: 500 });
     }
 
     const requests = (data ?? []).map((row) => {
@@ -57,7 +58,7 @@ export async function GET() {
 
     return NextResponse.json({ requests });
   } catch {
-    return NextResponse.json({ error: 'Oturum geçersiz' }, { status: 401 });
+    return NextResponse.json({ error: strings.oturumGeçersiz }, { status: 401 });
   }
 }
 
@@ -82,8 +83,8 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: err.message, code: err.code }, { status: err.status });
     }
     if (err instanceof Error && err.message === 'UNAUTHORIZED') {
-      return NextResponse.json({ error: 'Oturum geçersiz' }, { status: 401 });
+      return NextResponse.json({ error: strings.oturumGeçersiz }, { status: 401 });
     }
-    return NextResponse.json({ error: 'Talep oluşturulamadı' }, { status: 500 });
+    return NextResponse.json({ error: strings.talepOluşturulamadı }, { status: 500 });
   }
 }

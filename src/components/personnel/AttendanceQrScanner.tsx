@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { FiLoader } from 'react-icons/fi';
 import { Html5Qrcode, type CameraDevice } from 'html5-qrcode';
+import strings from '@json/src/components/personnel/AttendanceQrScanner.json';
 
 type Props = {
   onScan: (code: string) => void;
@@ -38,7 +39,7 @@ async function waitForElement(id: string, attempts = 80): Promise<HTMLElement> {
     await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
   }
   const el = document.getElementById(id);
-  if (!el) throw new Error('Kamera alanı hazırlanamadı.');
+  if (!el) throw new Error(strings.errors.regionNotReady);
   if (el.clientWidth === 0 || el.clientHeight === 0) {
     el.style.minHeight = `${Math.max(window.innerHeight * 0.5, 320)}px`;
   }
@@ -109,15 +110,15 @@ async function pickCameraConfigs(): Promise<Array<string | MediaTrackConstraints
 
 function mapCameraError(msg: string) {
   if (msg.includes('NotAllowed') || msg.includes('Permission')) {
-    return 'Kamera izni gerekli. Ayarlardan veya adres çubuğundan izin verin.';
+    return strings.errors.permissionDenied;
   }
   if (msg.includes('NotFound') || msg.includes('DevicesNotFound')) {
-    return 'Kamera bulunamadı.';
+    return strings.errors.notFound;
   }
   if (msg.includes('secure') || msg.includes('SecureContext')) {
-    return 'Kamera yalnızca güvenli bağlantıda (HTTPS) çalışır.';
+    return strings.errors.secureContext;
   }
-  return 'Kamera açılamadı. Kod gir ile deneyin.';
+  return strings.errors.openFailed;
 }
 
 function ScanSpotlight() {
@@ -136,7 +137,7 @@ export function AttendanceQrScanner({
   disabled,
   paused = false,
   parseQr,
-  invalidQrMessage = 'Geçerli bir yoklama QR kodu değil.',
+  invalidQrMessage = strings.invalidQrMessage,
   className = '',
 }: Props) {
   const regionId = useId().replace(/:/g, '');
@@ -200,10 +201,10 @@ export function AttendanceQrScanner({
 
       try {
         if (!navigator.mediaDevices?.getUserMedia) {
-          throw new Error('Tarayıcınız kamera erişimini desteklemiyor.');
+          throw new Error(strings.errors.unsupported);
         }
         if (!window.isSecureContext) {
-          throw new Error('Kamera yalnızca HTTPS üzerinde çalışır.');
+          throw new Error(strings.errors.httpsRequired);
         }
 
         await waitForElement(regionId);
@@ -254,7 +255,7 @@ export function AttendanceQrScanner({
             setActive(true);
             return;
           } catch (e) {
-            lastError = e instanceof Error ? e : new Error('Kamera açılamadı');
+            lastError = e instanceof Error ? e : new Error(strings.errors.cameraFailed);
             try {
               await scanner.stop();
             } catch {
@@ -271,11 +272,11 @@ export function AttendanceQrScanner({
         }
 
         if (!cancelled) {
-          setError(mapCameraError(lastError?.message ?? 'Kamera açılamadı'));
+          setError(mapCameraError(lastError?.message ?? strings.errors.cameraFailed));
         }
       } catch (e) {
         if (cancelled) return;
-        const msg = e instanceof Error ? e.message : 'Kamera açılamadı';
+        const msg = e instanceof Error ? e.message : strings.errors.cameraFailed;
         setError(mapCameraError(msg));
       } finally {
         if (!cancelled) setStarting(false);
@@ -305,7 +306,7 @@ export function AttendanceQrScanner({
       {showLoading && (
         <div className="absolute inset-0 z-[4] flex flex-col items-center justify-center gap-3 bg-black">
           <FiLoader className="h-8 w-8 animate-spin text-emerald-400" />
-          <p className="text-sm text-white/75">Kamera açılıyor…</p>
+          <p className="text-sm text-white/75">{strings.openingCamera}</p>
         </div>
       )}
 

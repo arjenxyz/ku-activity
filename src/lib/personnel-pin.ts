@@ -1,3 +1,6 @@
+import strings from '@json/src/lib/personnel-pin.json';
+import { formatString } from '@/lib/strings/format';
+
 /** Personel giriş PIN uzunluğu */
 export const PERSONNEL_PIN_LENGTH = 6;
 
@@ -5,10 +8,10 @@ export const PERSONNEL_PIN_LENGTH = 6;
 export function validatePersonnelPin(pin: string): string | null {
   const trimmed = pin.trim();
   if (trimmed.length !== PERSONNEL_PIN_LENGTH) {
-    return `Giriş şifresi (PIN) ${PERSONNEL_PIN_LENGTH} haneli olmalıdır`;
+    return formatString(strings.pinWrongLength, { length: PERSONNEL_PIN_LENGTH });
   }
   if (!/^\d+$/.test(trimmed)) {
-    return 'PIN yalnızca rakam içermelidir';
+    return strings.pinDigitsOnly;
   }
   return null;
 }
@@ -17,7 +20,7 @@ export function validatePersonnelPinMatch(pin: string, confirm: string): string 
   const pinError = validatePersonnelPin(pin);
   if (pinError) return pinError;
   if (pin !== confirm) {
-    return 'PIN tekrarı eşleşmiyor';
+    return strings.pinMismatch;
   }
   return null;
 }

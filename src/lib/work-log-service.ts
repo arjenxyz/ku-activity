@@ -1,6 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { mesaiTypeToUnits, type MesaiType } from '@/lib/work-log';
 import { assertEmployeeTeamHasActiveBlock } from '@/lib/team-work-guard';
+import strings from '@json/src/lib/work-log-service.json';
 
 export type WorkLogRow = {
   id: string;
@@ -89,7 +90,7 @@ export async function adminConfirmWorkLog(
 
   if (error) {
     if (error.code === '23505') {
-      throw new Error('Bu tarih için zaten yevmiye kaydı var');
+      throw new Error(strings.duplicateWorkLog);
     }
     throw new Error(error.message);
   }
@@ -111,7 +112,7 @@ export async function employeeConfirmWorkLog(
 
   if (existing) {
     if (existing.employee_confirmed_at) {
-      throw new Error('Bu gün için zaten onay verdiniz');
+      throw new Error(strings.alreadyConfirmed);
     }
     const { data, error } = await admin
       .from('work_logs')
@@ -144,7 +145,7 @@ export async function employeeConfirmWorkLog(
 
   if (error) {
     if (error.code === '23505') {
-      throw new Error('Bu tarih için zaten kayıt var');
+      throw new Error(strings.duplicateRecord);
     }
     throw new Error(error.message);
   }
@@ -161,7 +162,7 @@ export async function employeeDisputeWorkLog(
 ): Promise<WorkLogRow> {
   const note = params.note.trim();
   if (note.length < 5) {
-    throw new Error('İtiraz notu en az 5 karakter olmalı');
+    throw new Error(strings.disputeNoteTooShort);
   }
 
   const { data: existing, error: loadError } = await admin
@@ -172,15 +173,15 @@ export async function employeeDisputeWorkLog(
     .maybeSingle();
 
   if (loadError || !existing) {
-    throw new Error('Yevmiye kaydı bulunamadı');
+    throw new Error(strings.recordNotFound);
   }
 
   if (existing.approved) {
-    throw new Error('Onaylanmış kayda itiraz edilemez');
+    throw new Error(strings.cannotDisputeApproved);
   }
 
   if (existing.employee_confirmed_at) {
-    throw new Error('Zaten onayladığınız kayda itiraz edilemez');
+    throw new Error(strings.cannotDisputeConfirmed);
   }
 
   const { data, error } = await admin

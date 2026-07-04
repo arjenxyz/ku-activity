@@ -1,0 +1,8 @@
+{
+  "settingsButton": "Proje Ayarları",
+  "codeLabel": "Proje Kodu",
+  "locationLabel": "Konum",
+  "startLabel": "Başlangıç",
+  "endLabel": "Planlanan Bitiş",
+  "emptyValue": "—"
+}

@@ -5,6 +5,7 @@ import { FiCamera, FiImage, FiTrash2 } from 'react-icons/fi';
 import { EmployeeAvatar } from './EmployeeAvatar';
 import { SelfieCameraModal } from './SelfieCameraModal';
 import { prefersNativeCamera } from '@/lib/device-camera';
+import strings from '@json/src/components/employee/EmployeePhotoPicker.json';
 
 const MAX_BYTES = 5 * 1024 * 1024;
 const ALLOWED = new Set(['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif']);
@@ -14,9 +15,7 @@ type Props = {
   value: File | null;
   onChange: (file: File | null) => void;
   required?: boolean;
-  /** selfie = ön kamera, personel kendi çeker */
   variant?: 'admin' | 'selfie';
-  /** Dar sütun / başvuru paneli için dikey düzen */
   layout?: 'default' | 'stacked';
 };
 
@@ -52,11 +51,11 @@ export function EmployeePhotoPicker({
 
     const type = file.type || 'image/jpeg';
     if (!ALLOWED.has(type) && !type.startsWith('image/')) {
-      setError('JPEG, PNG, WebP veya GIF seçin');
+      setError(strings.invalidFormat);
       return;
     }
     if (file.size > MAX_BYTES) {
-      setError('Dosya en fazla 5 MB olabilir');
+      setError(strings.maxSize);
       return;
     }
 
@@ -86,7 +85,7 @@ export function EmployeePhotoPicker({
     openNativeCamera();
   };
 
-  const displayName = name.trim() || 'Personel';
+  const displayName = name.trim() || strings.defaultName;
 
   const photoClass = isStacked
     ? 'h-32 w-32'
@@ -129,13 +128,11 @@ export function EmployeePhotoPicker({
         </div>
         <div className={`min-w-0 flex-1 ${isStacked ? 'text-center' : 'text-center sm:text-left'}`}>
           <p className="text-sm font-semibold text-slate-900">
-            {isSelfie ? 'Kendi fotoğrafınız' : 'Personel fotoğrafı'}
+            {isSelfie ? strings.selfieTitle : strings.adminTitle}
             {required ? ' *' : ''}
           </p>
           <p className="text-xs text-slate-500 mt-1">
-            {isSelfie
-              ? 'Ön kamerayla yüzünüzün net göründüğü bir selfie çekin. Mobilde doğrudan telefon kamerası açılır.'
-              : 'Her personel için ayrı fotoğraf çekin veya yükleyin. Bu fotoğraf personel panelinde de görünür.'}
+            {isSelfie ? strings.selfieHint : strings.adminHint}
           </p>
         </div>
       </div>
@@ -153,7 +150,7 @@ export function EmployeePhotoPicker({
           }`}
         >
           <FiCamera className="h-5 w-5 shrink-0" />
-          {isSelfie ? 'Selfie Çek' : 'Fotoğraf Çek'}
+          {isSelfie ? strings.takeSelfie : strings.takePhoto}
         </button>
         {isSelfie && (
           <button
@@ -164,7 +161,7 @@ export function EmployeePhotoPicker({
             }`}
           >
             <FiImage className="h-5 w-5 shrink-0" />
-            Galeriden seç
+            {strings.pickFromGallery}
           </button>
         )}
         {!isSelfie && (
@@ -176,7 +173,7 @@ export function EmployeePhotoPicker({
             }`}
           >
             <FiImage className="h-5 w-5 shrink-0" />
-            Galeriden Seç
+            {strings.pickFromGalleryCapital}
           </button>
         )}
         {value && (
@@ -188,7 +185,7 @@ export function EmployeePhotoPicker({
             }`}
           >
             <FiTrash2 className="h-5 w-5 shrink-0" />
-            Kaldır
+            {strings.remove}
           </button>
         )}
       </div>
@@ -222,7 +219,7 @@ export function EmployeePhotoPicker({
 
       {error && <p className="text-xs text-red-600">{error}</p>}
       {required && !value && (
-        <p className="text-xs text-amber-700">Kayıt için personel fotoğrafı zorunludur.</p>
+        <p className="text-xs text-amber-700">{strings.requiredHint}</p>
       )}
 
       {isSelfie && (

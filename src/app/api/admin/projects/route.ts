@@ -3,6 +3,7 @@ import { requireAdminUser } from '@/lib/admin-auth';
 import { createClient } from '@/utils/supabase/server';
 import { queryProjectsList, apiErrorMessage } from '@/lib/project-queries';
 import type { ProjectFormData, ProjectStatus } from '@/types/project';
+import strings from '@json/src/app/api/admin/projects/route.json';
 
 const VALID_STATUSES: ProjectStatus[] = ['active', 'planned', 'paused', 'completed', 'archived'];
 
@@ -37,19 +38,18 @@ export async function POST(request: Request) {
 
     const body = (await request.json()) as ProjectFormData & { verificationCode?: string };
     if (!body.name?.trim()) {
-      return NextResponse.json({ error: 'Proje adı gerekli' }, { status: 400 });
+      return NextResponse.json({ error: strings.projeAdıGerekli }, { status: 400 });
     }
     if (!body.verificationCode?.trim()) {
       return NextResponse.json(
         {
-          error:
-            'Proje oluşturmak için doğrulama kodu gerekli. Destek e-postasına başvurun.',
+          error: strings.projeOluşturmakIçinDoğrulamaKoduGerekli,
         },
         { status: 400 }
       );
     }
     if (!VALID_STATUSES.includes(body.status)) {
-      return NextResponse.json({ error: 'Geçersiz durum' }, { status: 400 });
+      return NextResponse.json({ error: strings.geçersizDurum }, { status: 400 });
     }
 
     const supabase = await createClient();
@@ -57,7 +57,7 @@ export async function POST(request: Request) {
       data: { user },
     } = await supabase.auth.getUser();
     if (!user) {
-      return NextResponse.json({ error: 'Oturum gerekli' }, { status: 401 });
+      return NextResponse.json({ error: strings.oturumGerekli }, { status: 401 });
     }
 
     const { data, error } = await supabase.rpc('create_project_with_verification', {
@@ -76,18 +76,18 @@ export async function POST(request: Request) {
       console.error('Proje oluşturma hatası:', error);
       if (error.message.includes('INVALID_CODE') || error.message.includes('CODE_ALREADY_USED')) {
         return NextResponse.json(
-          { error: 'Geçersiz, süresi dolmuş veya kullanılmış doğrulama kodu' },
+          { error: strings.geçersizSüresiDolmuşVeyaKullanılmışDoğrulama },
           { status: 400 }
         );
       }
       if (error.message.includes('create_project_with_verification')) {
         return NextResponse.json(
-          { error: '007_verification_system.sql çalıştırın' },
+          { error: strings.err007VerificationSystemSqlÇalıştırın },
           { status: 503 }
         );
       }
       if (error.code === '23505') {
-        return NextResponse.json({ error: 'Bu proje kodu zaten kullanılıyor' }, { status: 409 });
+        return NextResponse.json({ error: strings.buProjeKoduZatenKullanılıyor }, { status: 409 });
       }
       return NextResponse.json({ error: error.message || 'Proje oluşturulamadı' }, { status: 500 });
     }

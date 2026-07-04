@@ -5,6 +5,7 @@ import { createAdminClient } from '@/utils/supabase/admin';
 import { AdvanceRequestError, getActiveCashToken, regenerateCashToken } from '@/lib/advance-request-service';
 import { buildAdvanceCashQrUrl } from '@/lib/advance-cash-token';
 import { getTwaOrigin } from '@/lib/twa-config';
+import strings from '@json/src/app/api/admin/projects/[projectId]/advance-requests/[id]/cash-qr/route.json';
 
 type Ctx = { params: Promise<{ projectId: string; id: string }> };
 
@@ -21,7 +22,7 @@ export async function GET(request: Request, ctx: Ctx) {
         (await regenerateCashToken(admin, id, projectId));
 
     if (!tokenRow?.token) {
-      return NextResponse.json({ error: 'Aktif nakit kodu bulunamadı' }, { status: 404 });
+      return NextResponse.json({ error: strings.aktifNakitKoduBulunamadı }, { status: 404 });
     }
 
     const qrUrl = buildAdvanceCashQrUrl(tokenRow.token, getTwaOrigin());
@@ -37,6 +38,6 @@ export async function GET(request: Request, ctx: Ctx) {
     if (err instanceof AdvanceRequestError) {
       return NextResponse.json({ error: err.message, code: err.code }, { status: err.status });
     }
-    return NextResponse.json({ error: 'QR oluşturulamadı' }, { status: 500 });
+    return NextResponse.json({ error: strings.qrOluşturulamadı }, { status: 500 });
   }
 }

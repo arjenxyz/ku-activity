@@ -15,6 +15,8 @@ import {
   type WorkLog,
 } from '@/lib/personnel-stats';
 import { approvalStatusLabel, getWorkLogApprovalStatus } from '@/lib/work-log';
+import { formatString } from '@/lib/strings/format';
+import strings from '@json/src/components/personnel/PersonnelPayrollPrint.json';
 
 type Props = {
   employee: PersonnelEmployee;
@@ -35,10 +37,10 @@ function monthTitle(month: string) {
 }
 
 function mesaiLabel(type: string | null | undefined) {
-  if (!type || type === 'none') return '—';
-  if (type === 'ceyrek') return 'Çeyrek';
-  if (type === 'yarim') return 'Yarım';
-  if (type === 'tam') return 'Tam';
+  if (!type || type === 'none') return strings.emptyValue;
+  if (type === 'ceyrek') return strings.mesaiTypes.ceyrek;
+  if (type === 'yarim') return strings.mesaiTypes.yarim;
+  if (type === 'tam') return strings.mesaiTypes.tam;
   return type;
 }
 
@@ -66,46 +68,46 @@ export function PersonnelPayrollPrint({
       <header className="payroll-print-header">
         <div>
           <p className="payroll-print-brand">{APP_NAME}</p>
-          <h1 className="payroll-print-title">Maaş Dökümü</h1>
+          <h1 className="payroll-print-title">{strings.title}</h1>
           <p className="payroll-print-sub">{period}</p>
         </div>
         <div className="payroll-print-meta">
           <p>
-            <strong>Yazdırma:</strong> {printedAt}
+            <strong>{strings.printedAt}</strong> {printedAt}
           </p>
           <p>
-            <strong>Belge no:</strong> {employee.id.slice(0, 8).toUpperCase()}-{month.replace('-', '')}
+            <strong>{strings.documentNo}</strong> {employee.id.slice(0, 8).toUpperCase()}-{month.replace('-', '')}
           </p>
         </div>
       </header>
 
       <section className="payroll-print-section">
-        <h2>Personel bilgileri</h2>
+        <h2>{strings.employeeInfo}</h2>
         <table className="payroll-print-info">
           <tbody>
             <tr>
-              <td>Ad soyad</td>
+              <td>{strings.fields.fullName}</td>
               <td>{employee.name}</td>
-              <td>Pozisyon</td>
-              <td>{employee.position || '—'}</td>
+              <td>{strings.fields.position}</td>
+              <td>{employee.position || strings.emptyValue}</td>
             </tr>
             <tr>
-              <td>Proje / şantiye</td>
-              <td>{employee.project?.name ?? employee.project_name ?? '—'}</td>
-              <td>Günlük yevmiye</td>
+              <td>{strings.fields.project}</td>
+              <td>{employee.project?.name ?? employee.project_name ?? strings.emptyValue}</td>
+              <td>{strings.fields.dailyWage}</td>
               <td>{formatMoney(dailyWage)}</td>
             </tr>
             {tcDisplay && (
               <tr>
-                <td>T.C. kimlik</td>
+                <td>{strings.fields.tcKimlik}</td>
                 <td>{tcDisplay}</td>
-                <td>İşe giriş</td>
-                <td>{employee.hire_date ? formatDate(employee.hire_date) : '—'}</td>
+                <td>{strings.fields.hireDate}</td>
+                <td>{employee.hire_date ? formatDate(employee.hire_date) : strings.emptyValue}</td>
               </tr>
             )}
             {!tcDisplay && employee.hire_date && (
               <tr>
-                <td>İşe giriş</td>
+                <td>{strings.fields.hireDate}</td>
                 <td colSpan={3}>{formatDate(employee.hire_date)}</td>
               </tr>
             )}
@@ -114,46 +116,46 @@ export function PersonnelPayrollPrint({
       </section>
 
       <section className="payroll-print-section">
-        <h2>Dönem özeti</h2>
+        <h2>{strings.periodSummary}</h2>
         <div className="payroll-print-summary-grid">
           <div>
-            <span>Çalışılan gün</span>
+            <span>{strings.summary.workDays}</span>
             <strong>{stats.workDays}</strong>
           </div>
           <div>
-            <span>Onaylı gün</span>
+            <span>{strings.summary.approvedDays}</span>
             <strong>{stats.approvedDays}</strong>
           </div>
           <div>
-            <span>Bekleyen gün</span>
+            <span>{strings.summary.pendingDays}</span>
             <strong>{stats.pendingDays}</strong>
           </div>
           <div>
-            <span>Mesai birimi</span>
+            <span>{strings.summary.mesaiUnits}</span>
             <strong>{stats.mesaiUnits.toFixed(2)}</strong>
           </div>
           <div className="payroll-print-net">
-            <span>Net tahmini</span>
+            <span>{strings.summary.netEstimate}</span>
             <strong>{formatMoney(stats.net)}</strong>
           </div>
         </div>
       </section>
 
       <section className="payroll-print-section">
-        <h2>Yevmiye kayıtları ({sortedLogs.length})</h2>
+        <h2>{formatString(strings.workLogsTitle, { count: sortedLogs.length })}</h2>
         {sortedLogs.length === 0 ? (
-          <p className="payroll-print-empty">Bu dönemde yevmiye kaydı yok.</p>
+          <p className="payroll-print-empty">{strings.empty.workLogs}</p>
         ) : (
           <table className="payroll-print-table">
             <thead>
               <tr>
-                <th>Tarih</th>
-                <th>Çalışma</th>
-                <th>Mesai</th>
-                <th className="num">Yevmiye</th>
-                <th className="num">Mesai ₺</th>
-                <th className="num">Satır toplam</th>
-                <th>Durum</th>
+                <th>{strings.table.date}</th>
+                <th>{strings.table.work}</th>
+                <th>{strings.table.mesai}</th>
+                <th className="num">{strings.table.wage}</th>
+                <th className="num">{strings.table.mesaiPay}</th>
+                <th className="num">{strings.table.rowTotal}</th>
+                <th>{strings.table.status}</th>
               </tr>
             </thead>
             <tbody>
@@ -167,7 +169,7 @@ export function PersonnelPayrollPrint({
                     <td>{workDayLabel(Number(log.amount), log.mesai_type)}</td>
                     <td>{mesaiLabel(String(log.mesai_type ?? ''))}</td>
                     <td className="num">{formatMoney(base)}</td>
-                    <td className="num">{mesai > 0 ? formatMoney(mesai) : '—'}</td>
+                    <td className="num">{mesai > 0 ? formatMoney(mesai) : strings.emptyValue}</td>
                     <td className="num">{formatMoney(base + mesai)}</td>
                     <td>{approvalStatusLabel(status)}</td>
                   </tr>
@@ -177,7 +179,7 @@ export function PersonnelPayrollPrint({
             <tfoot>
               <tr>
                 <td colSpan={3}>
-                  <strong>Toplam</strong>
+                  <strong>{strings.table.total}</strong>
                 </td>
                 <td className="num">{formatMoney(stats.basePay)}</td>
                 <td className="num">{formatMoney(stats.mesaiPay)}</td>
@@ -191,31 +193,31 @@ export function PersonnelPayrollPrint({
 
       {mesaiStats.recordCount > 0 && (
         <section className="payroll-print-section">
-          <h2>Mesai özeti</h2>
+          <h2>{strings.mesaiSummary}</h2>
           <table className="payroll-print-table">
             <thead>
               <tr>
-                <th>Tür</th>
-                <th className="num">Kayıt</th>
-                <th className="num">Birim</th>
-                <th className="num">Tutar</th>
+                <th>{strings.table.type}</th>
+                <th className="num">{strings.table.record}</th>
+                <th className="num">{strings.table.unit}</th>
+                <th className="num">{strings.table.amount}</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>Çeyrek mesai</td>
+                <td>{strings.mesaiTypes.ceyrek}</td>
                 <td className="num">{mesaiStats.byType.ceyrek.count}</td>
                 <td className="num">{mesaiStats.byType.ceyrek.units.toFixed(2)}</td>
                 <td className="num">{formatMoney(mesaiStats.byType.ceyrek.pay)}</td>
               </tr>
               <tr>
-                <td>Yarım mesai</td>
+                <td>{strings.mesaiTypes.yarim}</td>
                 <td className="num">{mesaiStats.byType.yarim.count}</td>
                 <td className="num">{mesaiStats.byType.yarim.units.toFixed(2)}</td>
                 <td className="num">{formatMoney(mesaiStats.byType.yarim.pay)}</td>
               </tr>
               <tr>
-                <td>Tam mesai</td>
+                <td>{strings.mesaiTypes.tam}</td>
                 <td className="num">{mesaiStats.byType.tam.count}</td>
                 <td className="num">{mesaiStats.byType.tam.units.toFixed(2)}</td>
                 <td className="num">{formatMoney(mesaiStats.byType.tam.pay)}</td>
@@ -224,7 +226,7 @@ export function PersonnelPayrollPrint({
             <tfoot>
               <tr>
                 <td>
-                  <strong>Genel toplam</strong>
+                  <strong>{strings.totals.grand}</strong>
                 </td>
                 <td className="num">{mesaiStats.recordCount}</td>
                 <td className="num">{mesaiStats.totalUnits.toFixed(2)}</td>
@@ -236,23 +238,23 @@ export function PersonnelPayrollPrint({
       )}
 
       <section className="payroll-print-section">
-        <h2>Avanslar ({advances.length})</h2>
+        <h2>{formatString(strings.advancesTitle, { count: advances.length })}</h2>
         {advances.length === 0 ? (
-          <p className="payroll-print-empty">Avans kaydı yok.</p>
+          <p className="payroll-print-empty">{strings.empty.advances}</p>
         ) : (
           <table className="payroll-print-table">
             <thead>
               <tr>
-                <th>Tarih</th>
-                <th>Açıklama</th>
-                <th className="num">Tutar</th>
+                <th>{strings.table.date}</th>
+                <th>{strings.table.description}</th>
+                <th className="num">{strings.table.amount}</th>
               </tr>
             </thead>
             <tbody>
               {advances.map((r) => (
                 <tr key={r.id}>
                   <td>{formatDate(r.date)}</td>
-                  <td>{r.description || 'Avans'}</td>
+                  <td>{r.description || strings.defaults.advance}</td>
                   <td className="num">{formatMoney(Number(r.amount))}</td>
                 </tr>
               ))}
@@ -260,7 +262,7 @@ export function PersonnelPayrollPrint({
             <tfoot>
               <tr>
                 <td colSpan={2}>
-                  <strong>Toplam avans</strong>
+                  <strong>{strings.totals.advances}</strong>
                 </td>
                 <td className="num">{formatMoney(stats.totalAdvance)}</td>
               </tr>
@@ -270,17 +272,17 @@ export function PersonnelPayrollPrint({
       </section>
 
       <section className="payroll-print-section">
-        <h2>Kesintiler ({otherDeductions.length})</h2>
+        <h2>{formatString(strings.deductionsTitle, { count: otherDeductions.length })}</h2>
         {otherDeductions.length === 0 ? (
-          <p className="payroll-print-empty">Kesinti kaydı yok.</p>
+          <p className="payroll-print-empty">{strings.empty.deductions}</p>
         ) : (
           <table className="payroll-print-table">
             <thead>
               <tr>
-                <th>Tarih</th>
-                <th>Tür</th>
-                <th>Açıklama</th>
-                <th className="num">Tutar</th>
+                <th>{strings.table.date}</th>
+                <th>{strings.table.deductionType}</th>
+                <th>{strings.table.description}</th>
+                <th className="num">{strings.table.amount}</th>
               </tr>
             </thead>
             <tbody>
@@ -288,7 +290,7 @@ export function PersonnelPayrollPrint({
                 <tr key={r.id}>
                   <td>{formatDate(r.date)}</td>
                   <td>{deductionTypeLabel(r.type)}</td>
-                  <td>{r.description || '—'}</td>
+                  <td>{r.description || strings.emptyValue}</td>
                   <td className="num">{formatMoney(Number(r.amount))}</td>
                 </tr>
               ))}
@@ -296,7 +298,7 @@ export function PersonnelPayrollPrint({
             <tfoot>
               <tr>
                 <td colSpan={3}>
-                  <strong>Toplam kesinti</strong>
+                  <strong>{strings.totals.deductions}</strong>
                 </td>
                 <td className="num">{formatMoney(stats.totalDeduct)}</td>
               </tr>
@@ -306,23 +308,23 @@ export function PersonnelPayrollPrint({
       </section>
 
       <section className="payroll-print-section">
-        <h2>Asgari ücret ödemeleri ({minimumWages.length})</h2>
+        <h2>{formatString(strings.minimumWagesTitle, { count: minimumWages.length })}</h2>
         {minimumWages.length === 0 ? (
-          <p className="payroll-print-empty">Asgari ücret tamamlama ödemesi yok.</p>
+          <p className="payroll-print-empty">{strings.empty.minimumWages}</p>
         ) : (
           <table className="payroll-print-table">
             <thead>
               <tr>
-                <th>Tarih</th>
-                <th>Açıklama</th>
-                <th className="num">Tutar</th>
+                <th>{strings.table.date}</th>
+                <th>{strings.table.description}</th>
+                <th className="num">{strings.table.amount}</th>
               </tr>
             </thead>
             <tbody>
               {minimumWages.map((r) => (
                 <tr key={r.id}>
                   <td>{formatDate(r.date)}</td>
-                  <td>{r.description || 'Asgari ücret tamamlama'}</td>
+                  <td>{r.description || strings.defaults.minimumWage}</td>
                   <td className="num">{formatMoney(Number(r.amount))}</td>
                 </tr>
               ))}
@@ -330,7 +332,7 @@ export function PersonnelPayrollPrint({
             <tfoot>
               <tr>
                 <td colSpan={2}>
-                  <strong>Toplam asgari ödeme</strong>
+                  <strong>{strings.totals.minimumWages}</strong>
                 </td>
                 <td className="num">{formatMoney(stats.totalMinimum)}</td>
               </tr>
@@ -340,46 +342,49 @@ export function PersonnelPayrollPrint({
       </section>
 
       <section className="payroll-print-section payroll-print-calc">
-        <h2>Hesaplama özeti</h2>
+        <h2>{strings.calcSummary}</h2>
         <table className="payroll-print-calc-table">
           <tbody>
             <tr>
               <td>
-                Yevmiye ({stats.workDays} gün × {formatMoney(dailyWage)})
+                {formatString(strings.calc.basePay, {
+                  days: stats.workDays,
+                  wage: formatMoney(dailyWage),
+                })}
               </td>
               <td className="num">{formatMoney(stats.basePay)}</td>
             </tr>
             {stats.mesaiPay > 0 && (
               <tr>
-                <td>Mesai kazancı (+)</td>
+                <td>{strings.calc.mesaiPay}</td>
                 <td className="num">{formatMoney(stats.mesaiPay)}</td>
               </tr>
             )}
             <tr className="subtotal">
               <td>
-                <strong>Brüt toplam</strong>
+                <strong>{strings.calc.gross}</strong>
               </td>
               <td className="num">
                 <strong>{formatMoney(stats.gross)}</strong>
               </td>
             </tr>
             <tr>
-              <td>Avanslar (−)</td>
+              <td>{strings.calc.advances}</td>
               <td className="num">− {formatMoney(stats.totalAdvance)}</td>
             </tr>
             <tr>
-              <td>Kesintiler (−)</td>
+              <td>{strings.calc.deductions}</td>
               <td className="num">− {formatMoney(stats.totalDeduct)}</td>
             </tr>
             {stats.totalMinimum > 0 && (
               <tr>
-                <td>Asgari ücret ödemeleri (+)</td>
+                <td>{strings.calc.minimumWages}</td>
                 <td className="num">{formatMoney(stats.totalMinimum)}</td>
               </tr>
             )}
             <tr className="total">
               <td>
-                <strong>Net tahmini ödeme</strong>
+                <strong>{strings.calc.netPayment}</strong>
               </td>
               <td className="num">
                 <strong>{formatMoney(stats.net)}</strong>
@@ -388,28 +393,33 @@ export function PersonnelPayrollPrint({
           </tbody>
         </table>
         <p className="payroll-print-note">
-          Net tutar: Brüt ({formatMoney(stats.gross)}) − Avans ({formatMoney(stats.totalAdvance)})
-          − Kesinti ({formatMoney(stats.totalDeduct)})
-          {stats.totalMinimum > 0 ? ` + Asgari (${formatMoney(stats.totalMinimum)})` : ''} ={' '}
-          {formatMoney(stats.net)}
+          {formatString(strings.calc.note, {
+            gross: formatMoney(stats.gross),
+            advances: formatMoney(stats.totalAdvance),
+            deductions: formatMoney(stats.totalDeduct),
+            minimumPart:
+              stats.totalMinimum > 0
+                ? formatString(strings.calc.minimumPart, { amount: formatMoney(stats.totalMinimum) })
+                : '',
+            net: formatMoney(stats.net),
+          })}
         </p>
       </section>
 
       <footer className="payroll-print-footer">
         <p>
-          Bu belge bilgilendirme amaçlıdır. Resmi bordro yerine geçmez. Kayıtlar {APP_NAME}{' '}
-          personel paneli ile yönetici panelinden aynı veritabanından üretilmiştir.
+          {formatString(strings.footer.disclaimer, { appName: APP_NAME })}
         </p>
         <div className="payroll-print-signatures">
           <div>
-            <span>Personel</span>
+            <span>{strings.footer.employee}</span>
             <div className="line" />
             <small>{employee.name}</small>
           </div>
           <div>
-            <span>Yönetici / İşveren</span>
+            <span>{strings.footer.employer}</span>
             <div className="line" />
-            <small>Ad soyad · Tarih · İmza</small>
+            <small>{strings.footer.signatureHint}</small>
           </div>
         </div>
       </footer>

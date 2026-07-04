@@ -9,11 +9,13 @@ import { HomeFooter } from '@/components/home/HomeFooter';
 import { GooglePlayBadge } from '@/components/home/GooglePlayBadge';
 import {
   APP_RELEASE_ICONS,
-  APP_RELEASE_LABELS,
   APP_RELEASE_TYPES,
   formatApkFileSize,
+  getAppReleaseLabel,
   type AppReleaseType,
 } from '@/lib/app-releases';
+import strings from '@json/src/app/apk/page.json';
+import { formatString } from '@/lib/strings/format';
 import {
   PLAY_STORE_ADMIN_URL,
   PLAY_STORE_PERSONNEL_URL,
@@ -62,19 +64,18 @@ export default function ApkDownloadPage() {
             transition={{ duration: 0.4 }}
             className="text-center mb-10"
           >
-            <p className="text-sm font-semibold text-blue-600 dark:text-blue-400 mb-2">Alternatif indirme</p>
+            <p className="text-sm font-semibold text-blue-600 dark:text-blue-400 mb-2">{strings.eyebrow}</p>
             <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-white">
-              APK ile indirin
+              {strings.title}
             </h1>
             <p className="mt-4 text-sm sm:text-base text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">
-              Google Play kullanamıyorsanız imzalı APK dosyasını doğrudan indirebilirsiniz. Mümkünse Play Store
-              üzerinden kurulum önerilir; güncellemeler otomatik gelir.
+              {strings.intro}
             </p>
           </motion.div>
 
           <div className="grid gap-6 sm:grid-cols-2">
             {APP_RELEASE_TYPES.map((appType, index) => {
-              const meta = APP_RELEASE_LABELS[appType];
+              const meta = getAppReleaseLabel(appType);
               const release = releases.find((row) => row.appType === appType);
               const hasApk = Boolean(release?.id);
               const playUrl = playUrls[appType];
@@ -98,7 +99,7 @@ export default function ApkDownloadPage() {
                       />
                     </div>
                     <div>
-                      <p className="text-xs text-slate-400">Android · APK</p>
+                      <p className="text-xs text-slate-400">{strings.platformLabel}</p>
                       <h2 className="text-lg font-bold text-slate-900 dark:text-white">{meta.title}</h2>
                     </div>
                   </div>
@@ -107,18 +108,24 @@ export default function ApkDownloadPage() {
 
                   <div className="mt-5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 p-4 flex-1">
                     {loading ? (
-                      <p className="text-sm text-slate-500">Sürüm bilgisi yükleniyor…</p>
+                      <p className="text-sm text-slate-500">{strings.loadingVersion}</p>
                     ) : hasApk ? (
                       <div className="space-y-2">
                         <p className="text-sm font-semibold text-slate-900 dark:text-white">
-                          Sürüm {release?.versionName}{' '}
-                          <span className="text-slate-400 font-normal">(kod {release?.versionCode})</span>
+                          {formatString(strings.versionLine, { versionName: release?.versionName ?? '' })}{' '}
+                          <span className="text-slate-400 font-normal">
+                            {formatString(strings.versionCodeSuffix, { versionCode: release?.versionCode ?? '' })}
+                          </span>
                         </p>
                         {release?.publishedAt && (
-                          <p className="text-xs text-slate-500">Yayın: {formatDate(release.publishedAt)}</p>
+                          <p className="text-xs text-slate-500">
+                            {formatString(strings.publishedAt, { date: formatDate(release.publishedAt) ?? '' })}
+                          </p>
                         )}
                         {release?.fileSize ? (
-                          <p className="text-xs text-slate-500">Boyut: {formatApkFileSize(release.fileSize)}</p>
+                          <p className="text-xs text-slate-500">
+                            {formatString(strings.fileSize, { size: formatApkFileSize(release.fileSize) })}
+                          </p>
                         ) : null}
                         {release?.releaseNotes ? (
                           <p className="text-sm text-slate-600 dark:text-slate-400 whitespace-pre-wrap mt-3 leading-relaxed">
@@ -127,7 +134,7 @@ export default function ApkDownloadPage() {
                         ) : null}
                       </div>
                     ) : (
-                      <p className="text-sm text-slate-500">Henüz yayınlanmış APK sürümü yok.</p>
+                      <p className="text-sm text-slate-500">{strings.noApkYet}</p>
                     )}
                   </div>
 
@@ -137,7 +144,7 @@ export default function ApkDownloadPage() {
                         href={`/api/public/releases/${appType}/download`}
                         className="touch-target inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-3.5 text-sm font-semibold text-white shadow-lg shadow-blue-500/20 hover:from-blue-700 hover:to-indigo-700"
                       >
-                        APK İndir
+                        {strings.downloadApk}
                         <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
                           <path
                             strokeLinecap="round"
@@ -149,7 +156,7 @@ export default function ApkDownloadPage() {
                       </a>
                     ) : (
                       <div className="rounded-xl border border-dashed border-slate-300 dark:border-slate-700 px-4 py-3 text-center text-sm text-slate-500">
-                        APK yakında
+                        {strings.apkComingSoon}
                       </div>
                     )}
                     <GooglePlayBadge href={playUrl} enabled={Boolean(playUrl)} fullWidth />
@@ -160,18 +167,18 @@ export default function ApkDownloadPage() {
           </div>
 
           <section className="mt-10 rounded-2xl border border-amber-200/80 bg-amber-50/80 p-5 dark:border-amber-900/40 dark:bg-amber-950/20">
-            <h2 className="text-sm font-bold text-amber-900 dark:text-amber-200">APK kurulum notu</h2>
+            <h2 className="text-sm font-bold text-amber-900 dark:text-amber-200">{strings.installNotesTitle}</h2>
             <ol className="mt-3 space-y-2 text-sm text-amber-900/80 dark:text-amber-100/80 list-decimal list-inside leading-relaxed">
-              <li>İndirilen dosyayı açın ve kuruluma izin verin.</li>
-              <li>Android “Bilinmeyen kaynak” uyarısı çıkarsa Ayarlar’dan bu tarayıcıya izin verin.</li>
-              <li>Kurulumdan sonra uygulamayı normal şekilde açabilirsiniz.</li>
-              <li>Güncellemeler için bu sayfayı veya Play Store’u kontrol edin.</li>
+              <li>{strings.installStep1}</li>
+              <li>{strings.installStep2}</li>
+              <li>{strings.installStep3}</li>
+              <li>{strings.installStep4}</li>
             </ol>
           </section>
 
           <p className="mt-8 text-center text-sm text-slate-500">
             <Link href="/#play-store" className="text-blue-600 hover:underline dark:text-blue-400">
-              Ana sayfadaki mobil bölüme dön
+              {strings.backToHome}
             </Link>
           </p>
         </div>

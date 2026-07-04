@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import strings from '@json/src/app/api/public/personnel-pin-reset/route.json';
 import {
   lookupPinResetEmailHint,
   sendPersonnelPinResetLink,
@@ -49,7 +50,7 @@ export async function POST(req: NextRequest) {
       employeeName: result.employeeName,
     });
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'Talep gönderilemedi';
+    const message = err instanceof Error ? err.message: strings.talepGönderilemedi;
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }

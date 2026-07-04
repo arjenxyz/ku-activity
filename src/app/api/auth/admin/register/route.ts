@@ -3,6 +3,7 @@ import { validateAdminRegister } from '@/lib/admin-register-validation';
 import { formatFullName } from '@/lib/format';
 import { toStoredTurkishPhone } from '@/lib/field-encryption';
 import { createAdminClient } from '@/utils/supabase/admin';
+import strings from '@json/src/app/api/auth/admin/register/route.json';
 
 function normalizeEmail(email: string) {
   return email.trim().toLowerCase();
@@ -26,7 +27,7 @@ export async function POST(request: Request) {
   try {
     if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
       return NextResponse.json(
-        { error: 'Sunucu yapılandırması eksik (SUPABASE_SERVICE_ROLE_KEY)' },
+        { error: strings.sunucuYapılandırmasıEksikSupabaseServiceRole },
         { status: 503 }
       );
     }
@@ -158,8 +159,7 @@ export async function POST(request: Request) {
         await admin.auth.admin.deleteUser(authData.user.id);
         return NextResponse.json(
           {
-            error:
-              'Profil oluşturulamadı. Supabase\'de 049_admin_onboarding_fields.sql migration dosyasını çalıştırın.',
+            error: strings.profilOluşturulamadıSupabaseDe049Admin,
             detail: profileError.message,
           },
           { status: 500 }
@@ -170,6 +170,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ success: true, userId: authData.user.id });
   } catch (err) {
     console.error('Admin kayıt hatası:', err);
-    return NextResponse.json({ error: 'Kayıt sırasında hata oluştu' }, { status: 500 });
+    return NextResponse.json({ error: strings.kayıtSırasındaHataOluştu }, { status: 500 });
   }
 }

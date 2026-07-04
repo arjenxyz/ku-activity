@@ -3,6 +3,7 @@ import { requireAdminProjectAccess } from '@/lib/admin-auth';
 import { createAdminClient } from '@/utils/supabase/admin';
 import { apiErrorMessage } from '@/lib/project-queries';
 import { loadProjectProfitOverview } from '@/lib/job-profit-service';
+import strings from '@json/src/app/api/admin/projects/[projectId]/jobs/route.json';
 
 type Ctx = { params: Promise<{ projectId: string }> };
 
@@ -41,13 +42,13 @@ export async function POST(request: Request, ctx: Ctx) {
     };
 
     if (!name?.trim()) {
-      return NextResponse.json({ error: 'İş kalemi adı zorunlu' }, { status: 400 });
+      return NextResponse.json({ error: strings.i̇şKalemiAdıZorunlu }, { status: 400 });
     }
     if (unitPrice == null || unitPrice < 0) {
-      return NextResponse.json({ error: 'Birim fiyat geçersiz' }, { status: 400 });
+      return NextResponse.json({ error: strings.birimFiyatGeçersiz }, { status: 400 });
     }
     if (quantity == null || quantity <= 0) {
-      return NextResponse.json({ error: 'Miktar 0\'dan büyük olmalı' }, { status: 400 });
+      return NextResponse.json({ error: strings.miktar0DanBüyükOlmalı }, { status: 400 });
     }
 
     const admin = createAdminClient();

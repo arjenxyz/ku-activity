@@ -3,6 +3,7 @@ import { requireAdminProjectAccess } from '@/lib/admin-auth';
 import { decryptEmployeePinForAdmin } from '@/lib/personnel-pin-storage';
 import { createAdminClient } from '@/utils/supabase/admin';
 import { apiErrorMessage } from '@/lib/project-queries';
+import strings from '@json/src/app/api/admin/projects/[projectId]/employees/pins/route.json';
 
 type Ctx = { params: Promise<{ projectId: string }> };
 
@@ -12,7 +13,7 @@ export async function GET(_request: Request, ctx: Ctx) {
     await requireAdminProjectAccess(projectId);
 
     if (!process.env.FIELD_ENCRYPTION_KEY) {
-      return NextResponse.json({ error: 'FIELD_ENCRYPTION_KEY eksik' }, { status: 503 });
+      return NextResponse.json({ error: strings.fieldEncryptionKeyEksik }, { status: 503 });
     }
 
     const admin = createAdminClient();
@@ -25,7 +26,7 @@ export async function GET(_request: Request, ctx: Ctx) {
     if (error) {
       if (error.message.includes('pin_encrypted')) {
         return NextResponse.json(
-          { error: '040_employee_pin_encrypted.sql migration çalıştırın' },
+          { error: strings.err040EmployeePinEncryptedSqlMigration },
           { status: 503 }
         );
       }

@@ -1,10 +1,11 @@
 import type { ReactNode } from 'react';
+import strings from '@json/src/components/personnel/PersonnelRecordCard.json';
 
 export function PersonnelSection({
   title,
   icon,
   children,
-  emptyMessage = 'Kayıt bulunamadı',
+  emptyMessage = strings.defaultEmptyMessage,
   isEmpty,
 }: {
   title: string;

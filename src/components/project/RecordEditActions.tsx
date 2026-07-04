@@ -9,6 +9,7 @@ import {
 } from '@/lib/project-api';
 import { JobSelectField } from '@/components/project/JobSelectField';
 import { inputClass, labelClass, btnPrimary, btnSecondary } from './ui';
+import strings from '@json/src/components/project/RecordEditActions.json';
 
 type JobOption = { id: string; name: string; status?: string };
 
@@ -79,21 +80,21 @@ export function RecordEditActions({
       setOpen(false);
       onChanged();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Güncellenemedi');
+      setError(err instanceof Error ? err.message : strings.errors.updateFailed);
     } finally {
       setLoading(false);
     }
   };
 
   const handleDelete = async () => {
-    if (!confirm('Bu kaydı silmek istediğinize emin misiniz?')) return;
+    if (!confirm(strings.deleteConfirm)) return;
     setLoading(true);
     setError(null);
     try {
       await deleteProjectRecord(projectId, recordType, record.id);
       onChanged();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Silinemedi');
+      setError(err instanceof Error ? err.message : strings.errors.deleteFailed);
     } finally {
       setLoading(false);
     }
@@ -107,7 +108,7 @@ export function RecordEditActions({
           onClick={openEdit}
           disabled={loading}
           className="p-1.5 rounded-md text-slate-500 hover:text-blue-700 hover:bg-blue-50 disabled:opacity-50"
-          title="Düzenle"
+          title={strings.editTitle}
         >
           <FiEdit2 className="w-4 h-4" />
         </button>
@@ -116,7 +117,7 @@ export function RecordEditActions({
           onClick={handleDelete}
           disabled={loading}
           className="p-1.5 rounded-md text-slate-500 hover:text-red-700 hover:bg-red-50 disabled:opacity-50"
-          title="Sil"
+          title={strings.deleteTitle}
         >
           <FiTrash2 className="w-4 h-4" />
         </button>
@@ -125,10 +126,10 @@ export function RecordEditActions({
       {open && (
         <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4 bg-black/40">
           <div className="bg-white rounded-xl shadow-xl w-full max-w-md p-5 space-y-4 max-h-[90vh] overflow-y-auto">
-            <h3 className="text-lg font-semibold text-slate-900">Kaydı Düzenle</h3>
+            <h3 className="text-lg font-semibold text-slate-900">{strings.modalTitle}</h3>
             <form onSubmit={handleSave} className="space-y-3">
               <div>
-                <label className={labelClass}>Tarih</label>
+                <label className={labelClass}>{strings.dateLabel}</label>
                 <input
                   type="date"
                   className={inputClass}
@@ -139,7 +140,7 @@ export function RecordEditActions({
               </div>
               <div>
                 <label className={labelClass}>
-                  {recordType === 'work-logs' ? 'Gün sayısı' : 'Tutar (₺)'}
+                  {recordType === 'work-logs' ? strings.daysLabel : strings.amountLabel}
                 </label>
                 <input
                   type="number"
@@ -161,7 +162,7 @@ export function RecordEditActions({
                     className="rounded border-slate-300"
                   />
                   <label htmlFor="approved" className="text-sm text-slate-700">
-                    Onaylı
+                    {strings.approvedLabel}
                   </label>
                 </div>
               )}
@@ -170,12 +171,12 @@ export function RecordEditActions({
                   jobs={jobs}
                   value={form.jobId}
                   onChange={(jobId) => setForm({ ...form, jobId })}
-                  label="İş kalemi"
-                  hint="Taşeron kâr hesabında bu işe yazılır."
+                  label={strings.jobLabel}
+                  hint={strings.jobHint}
                 />
               )}
               <div>
-                <label className={labelClass}>Açıklama</label>
+                <label className={labelClass}>{strings.descriptionLabel}</label>
                 <input
                   type="text"
                   className={inputClass}
@@ -186,7 +187,7 @@ export function RecordEditActions({
               {error && <p className="text-sm text-red-600">{error}</p>}
               <div className="flex gap-2 pt-1">
                 <button type="submit" className={btnPrimary} disabled={loading}>
-                  {loading ? 'Kaydediliyor…' : 'Kaydet'}
+                  {loading ? strings.submitSaving : strings.submit}
                 </button>
                 <button
                   type="button"
@@ -194,7 +195,7 @@ export function RecordEditActions({
                   onClick={() => setOpen(false)}
                   disabled={loading}
                 >
-                  İptal
+                  {strings.cancel}
                 </button>
               </div>
             </form>

@@ -5,6 +5,7 @@ import { requirePersonnelSession } from '@/lib/personnel-auth';
 import { decryptField, maskIban } from '@/lib/field-encryption';
 import { splitFullName } from '@/lib/format';
 import { signedEmployeePhotoUrl } from '@/lib/photo-storage';
+import strings from '@json/src/app/api/personnel/me/route.json';
 
 async function loadSensitivePersonal(
   admin: ReturnType<typeof createAdminClient>,
@@ -133,7 +134,7 @@ export async function GET() {
     const { data, error } = await queryEmployeeById(admin, session.employeeId);
 
     if (error || !data) {
-      return NextResponse.json({ error: 'Personel bulunamadı' }, { status: 404 });
+      return NextResponse.json({ error: strings.personelBulunamadı }, { status: 404 });
     }
 
     const project = data.project_id ? await loadProject(admin, data.project_id) : null;
@@ -172,6 +173,6 @@ export async function GET() {
       },
     });
   } catch {
-    return NextResponse.json({ error: 'Oturum geçersiz' }, { status: 401 });
+    return NextResponse.json({ error: strings.oturumGeçersiz }, { status: 401 });
   }
 }

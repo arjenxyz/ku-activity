@@ -9,6 +9,8 @@ import {
   pendingRegistrationCookieOptions,
 } from '@/lib/registration-pending-storage';
 import { validatePersonnelPin } from '@/lib/personnel-pin';
+import strings from '@json/src/app/api/auth/personnel/login/route.json';
+import { formatString } from '@/lib/strings/format';
 import {
   generateSessionToken,
   getSessionExpiry,
@@ -31,23 +33,22 @@ export async function POST(request: Request) {
     const loginIdentity = (identityNumber ?? tcKimlik ?? '').trim();
 
     if (!loginIdentity || !password || typeof password !== 'string') {
-      return NextResponse.json({ error: 'Kimlik numarası ve şifre gerekli' }, { status: 400 });
+      return NextResponse.json({ error: strings.kimlikNumarasıVeŞifreGerekli }, { status: 400 });
     }
 
     if (!validateIdentityNumber(normalizedType, loginIdentity)) {
-      return NextResponse.json({ error: 'Geçersiz kimlik numarası veya şifre' }, { status: 401 });
+      return NextResponse.json({ error: strings.geçersizKimlikNumarasıVeyaŞifre }, { status: 401 });
     }
 
     const pinError = validatePersonnelPin(password);
     if (pinError) {
-      return NextResponse.json({ error: 'Geçersiz kimlik numarası veya şifre' }, { status: 401 });
+      return NextResponse.json({ error: strings.geçersizKimlikNumarasıVeyaŞifre }, { status: 401 });
     }
 
     if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
       return NextResponse.json(
         {
-          error:
-            'Sunucu yapılandırması eksik: .env dosyasına SUPABASE_SERVICE_ROLE_KEY ekleyin (Supabase → Settings → API → service_role)',
+          error: strings.sunucuYapılandırmasıEksikEnvDosyasınaSupabase,
         },
         { status: 503 }
       );
@@ -55,7 +56,7 @@ export async function POST(request: Request) {
 
     if (!process.env.FIELD_ENCRYPTION_KEY) {
       return NextResponse.json(
-        { error: 'Sunucu yapılandırması eksik: FIELD_ENCRYPTION_KEY tanımlı değil' },
+        { error: strings.sunucuYapılandırmasıEksikFieldEncryptionKey },
         { status: 503 }
       );
     }
@@ -73,7 +74,7 @@ export async function POST(request: Request) {
 
       if (pendingAccess === 'expired') {
         return NextResponse.json(
-          { error: 'Başvuru süresi dolmuş. Yeni başvuru yapabilirsiniz.' },
+          { error: strings.başvuruSüresiDolmuşYeniBaşvuruYapabilirsiniz },
           { status: 410 }
         );
       }
@@ -95,19 +96,19 @@ export async function POST(request: Request) {
         return response;
       }
 
-      return NextResponse.json({ error: 'Geçersiz kimlik numarası veya şifre' }, { status: 401 });
+      return NextResponse.json({ error: strings.geçersizKimlikNumarasıVeyaŞifre }, { status: 401 });
     }
 
     if (!employee.is_active) {
       return NextResponse.json(
-        { error: 'Personel hesabınız pasif. Yöneticinizle iletişime geçin.' },
+        { error: strings.personelHesabınızPasifYöneticinizleIletişimeGeçin },
         { status: 403 }
       );
     }
 
     if (!employee.pin_hash) {
       return NextResponse.json(
-        { error: 'Personel şifresi tanımlı değil. Yöneticinizle iletişime geçin.' },
+        { error: strings.personelŞifresiTanımlıDeğilYöneticinizleIletişime },
         { status: 403 }
       );
     }
@@ -119,13 +120,13 @@ export async function POST(request: Request) {
       valid = await bcrypt.compare(pin, employee.pin_hash);
     } catch {
       return NextResponse.json(
-        { error: 'Personel şifre kaydı bozuk. Yönetici panelinden şifreyi yenileyin.' },
+        { error: strings.personelŞifreKaydıBozukYöneticiPanelinden },
         { status: 500 }
       );
     }
 
     if (!valid) {
-      return NextResponse.json({ error: 'Geçersiz kimlik numarası veya şifre' }, { status: 401 });
+      return NextResponse.json({ error: strings.geçersizKimlikNumarasıVeyaŞifre }, { status: 401 });
     }
 
     const token = generateSessionToken();
@@ -141,15 +142,10 @@ export async function POST(request: Request) {
       console.error('Oturum oluşturma hatası:', sessionError);
       const hint =
         sessionError.message.includes('personnel_sessions') ||
-        sessionError.code === '42P01'
-          ? '001_initial_schema.sql içindeki personnel_sessions tablosunu çalıştırın.'
-          : sessionError.message;
+        sessionError.code === '42P01' ? strings.err001InitialSchemaSqlIçindekiPersonnel : sessionError.message;
       return NextResponse.json(
         {
-          error:
-            process.env.NODE_ENV === 'development'
-              ? `Oturum oluşturulamadı: ${hint}`
-              : 'Oturum oluşturulamadı. Veritabanı kurulumunu kontrol edin.',
+          error: process.env.NODE_ENV === 'development' ? formatString(strings.oturumOluşturulamadıHint, { hint: hint }) : strings.oturumOluşturulamadıVeritabanıKurulumunuKontrolEdin,
         },
         { status: 500 }
       );
@@ -162,8 +158,8 @@ export async function POST(request: Request) {
     console.error('Personel giriş hatası:', err);
     const message =
       err instanceof Error && err.message.includes('SERVICE_ROLE')
-        ? 'SUPABASE_SERVICE_ROLE_KEY .env dosyasında tanımlı değil.'
-        : 'Beklenmeyen sunucu hatası. Konsol loglarını kontrol edin.';
+        ? strings.supabaseServiceRoleKeyEnvDosyasındaTanımlıDeğil
+        : strings.beklenmeyenSunucuHatasıKonsolLoglarınıKontrolEdin;
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }

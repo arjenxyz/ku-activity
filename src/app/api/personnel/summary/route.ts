@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { createAdminClient } from '@/utils/supabase/admin';
 import { requirePersonnelSession } from '@/lib/personnel-auth';
+import strings from '@json/src/app/api/personnel/summary/route.json';
 
 export async function GET(request: Request) {
   try {
@@ -17,15 +18,15 @@ export async function GET(request: Request) {
       if (error) {
         if (error.message.includes('get_personnel_month_stats')) {
           return NextResponse.json(
-            { error: '011_personnel_month_stats.sql çalıştırın', code: 'MIGRATION_REQUIRED' },
+            { error: strings.err011PersonnelMonthStatsSqlÇalıştırın, code: 'MIGRATION_REQUIRED' },
             { status: 503 }
           );
         }
-        return NextResponse.json({ error: 'Özet yüklenemedi' }, { status: 500 });
+        return NextResponse.json({ error: strings.özetYüklenemedi }, { status: 500 });
       }
 
       if (!data) {
-        return NextResponse.json({ error: 'Personel bulunamadı' }, { status: 404 });
+        return NextResponse.json({ error: strings.personelBulunamadı }, { status: 404 });
       }
 
       return NextResponse.json({ stats: data });
@@ -38,19 +39,19 @@ export async function GET(request: Request) {
     if (error) {
       if (error.message.includes('get_personnel_dashboard')) {
         return NextResponse.json(
-          { error: '005_personnel_panel.sql çalıştırın', code: 'MIGRATION_REQUIRED' },
+          { error: strings.err005PersonnelPanelSqlÇalıştırın, code: 'MIGRATION_REQUIRED' },
           { status: 503 }
         );
       }
-      return NextResponse.json({ error: 'Özet yüklenemedi' }, { status: 500 });
+      return NextResponse.json({ error: strings.özetYüklenemedi }, { status: 500 });
     }
 
     if (!data) {
-      return NextResponse.json({ error: 'Personel bulunamadı' }, { status: 404 });
+      return NextResponse.json({ error: strings.personelBulunamadı }, { status: 404 });
     }
 
     return NextResponse.json(data);
   } catch {
-    return NextResponse.json({ error: 'Oturum geçersiz' }, { status: 401 });
+    return NextResponse.json({ error: strings.oturumGeçersiz }, { status: 401 });
   }
 }

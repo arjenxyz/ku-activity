@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import strings from '@json/src/components/project/profit/ProfitQuickActions.json';
 import { FiPlus, FiRefreshCw } from 'react-icons/fi';
 
 type Props = {
@@ -13,11 +14,11 @@ type Props = {
 const links = (projectId: string, jobId?: string) => {
   const q = jobId ? `?job=${jobId}` : '';
   return [
-    { label: 'Bloklar', href: `/admin-panel/proje/${projectId}/bloklar` },
-    { label: 'Ekipler', href: `/admin-panel/proje/${projectId}/ekiplar` },
-    { label: 'Yevmiye', href: `/admin-panel/proje/${projectId}/yevmiye${q}` },
-    { label: 'Avans', href: `/admin-panel/proje/${projectId}/avans${q}` },
-    { label: 'Kesinti', href: `/admin-panel/proje/${projectId}/kesinti${q}` },
+    { label: strings.links.blocks, href: `/admin-panel/proje/${projectId}/bloklar` },
+    { label: strings.links.teams, href: `/admin-panel/proje/${projectId}/ekiplar` },
+    { label: strings.links.workLogs, href: `/admin-panel/proje/${projectId}/yevmiye${q}` },
+    { label: strings.links.advance, href: `/admin-panel/proje/${projectId}/avans${q}` },
+    { label: strings.links.deduction, href: `/admin-panel/proje/${projectId}/kesinti${q}` },
   ];
 };
 
@@ -30,7 +31,7 @@ export function ProfitQuickActions({ projectId, onAddJob, onRefresh, refreshing 
         className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-emerald-700 hover:bg-emerald-800 text-white text-sm font-medium transition-colors"
       >
         <FiPlus className="w-4 h-4" />
-        Yeni iş kalemi
+        {strings.addJob}
       </button>
       {links(projectId).map((l) => (
         <Link
@@ -46,10 +47,10 @@ export function ProfitQuickActions({ projectId, onAddJob, onRefresh, refreshing 
         onClick={onRefresh}
         disabled={refreshing}
         className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border border-slate-200 bg-white text-sm text-slate-600 hover:bg-slate-50 disabled:opacity-50 ml-auto"
-        title="Yenile"
+        title={strings.refreshTitle}
       >
         <FiRefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />
-        Yenile
+        {strings.refresh}
       </button>
     </div>
   );

@@ -2,6 +2,7 @@
 
 import { FiPrinter } from 'react-icons/fi';
 import { formatMoney } from '@/lib/format';
+import strings from '@json/src/components/personnel/PersonnelFinancePanel.json';
 
 type Stats = {
   gross: number;
@@ -20,15 +21,15 @@ type Props = {
 
 export function PersonnelFinancePanel({ stats, onPrint }: Props) {
   const rows = [
-    { label: 'Yevmiye (gün × ücret)', value: stats.basePay, tone: 'text-emerald-600' },
+    { label: strings.rows.basePay, value: stats.basePay, tone: 'text-emerald-600' },
     ...(stats.mesaiPay > 0
-      ? [{ label: 'Mesai kazancı (+)', value: stats.mesaiPay, tone: 'text-orange-600' }]
+      ? [{ label: strings.rows.mesaiPay, value: stats.mesaiPay, tone: 'text-orange-600' }]
       : []),
-    { label: 'Brüt toplam', value: stats.gross, tone: 'text-emerald-700 dark:text-emerald-400' },
-    { label: 'Avanslar (−)', value: -stats.totalAdvance, tone: 'text-amber-600' },
-    { label: 'Kesintiler (−)', value: -stats.totalDeduct, tone: 'text-red-500' },
+    { label: strings.rows.gross, value: stats.gross, tone: 'text-emerald-700 dark:text-emerald-400' },
+    { label: strings.rows.advances, value: -stats.totalAdvance, tone: 'text-amber-600' },
+    { label: strings.rows.deductions, value: -stats.totalDeduct, tone: 'text-red-500' },
     ...(stats.totalMinimum > 0
-      ? [{ label: 'Asgari ödemeler (+)', value: stats.totalMinimum, tone: 'text-indigo-600' }]
+      ? [{ label: strings.rows.minimum, value: stats.totalMinimum, tone: 'text-indigo-600' }]
       : []),
   ];
 
@@ -36,7 +37,7 @@ export function PersonnelFinancePanel({ stats, onPrint }: Props) {
     <div className="no-print">
       <div className="rounded-2xl border border-gray-100 dark:border-slate-700 bg-white dark:bg-slate-800 overflow-hidden">
         <div className="flex items-center justify-between gap-3 px-4 sm:px-6 py-3 border-b border-gray-100 dark:border-slate-700">
-          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Maaş dökümü</p>
+          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">{strings.sectionTitle}</p>
           {onPrint && (
             <button
               type="button"
@@ -45,9 +46,9 @@ export function PersonnelFinancePanel({ stats, onPrint }: Props) {
             >
               <FiPrinter className="w-4 h-4 shrink-0" />
               <span className="text-left leading-tight">
-                <span className="block">Detaylı döküm</span>
+                <span className="block">{strings.printTitle}</span>
                 <span className="block text-[10px] font-normal text-blue-500/80 dark:text-blue-400/70">
-                  Yazdır veya PDF kaydet
+                  {strings.printHint}
                 </span>
               </span>
             </button>
@@ -66,7 +67,7 @@ export function PersonnelFinancePanel({ stats, onPrint }: Props) {
             </li>
           ))}
           <li className="flex items-center justify-between px-4 sm:px-6 py-4 bg-slate-50 dark:bg-slate-900/50">
-            <span className="text-sm font-semibold text-gray-900 dark:text-white">Net</span>
+            <span className="text-sm font-semibold text-gray-900 dark:text-white">{strings.net}</span>
             <span className="text-lg font-bold text-indigo-600 dark:text-indigo-400 tabular-nums">
               {formatMoney(stats.net)}
             </span>

@@ -1,0 +1,48 @@
+{
+  "heroTitle": "Haklarınız",
+  "heroDescription": "İş kanunu ve KVKK kapsamındaki haklarınız. Sözleşmeleriniz ve kayıtlarınıza buradan ulaşın.",
+  "wageSectionTitle": "Ücret ve ödeme",
+  "workSectionTitle": "Çalışma kayıtları",
+  "kvkkTitle": "Kişisel veri hakları (KVKK m.11)",
+  "preparing": "Hazırlanıyor…",
+  "downloadCta": "Verilerimi indir (ZIP)",
+  "dailyLimit": "Günde en fazla {limit} kez",
+  "rightsRequestTitle": "Hak talebi ve başvuru",
+  "mailSubject": "Hak talebi - CrewLedger",
+  "wageRights": [
+    {
+      "title": "Yevmiye ve net hakediş",
+      "text": "Günlük yevmiyenizi, çalışılan günleri ve ay sonu net tutarınızı Finans sekmesinden görebilirsiniz."
+    },
+    {
+      "title": "Avans ve kesintiler",
+      "text": "Verilen avanslar ile yapılan kesintiler kayıt altındadır. Her kalemi ayrı ayrı inceleyebilirsiniz."
+    },
+    {
+      "title": "Asgari ücret",
+      "text": "Asgari ücret tamamlama durumunuzu Asgari sekmesinden takip edebilirsiniz."
+    }
+  ],
+  "workRights": [
+    {
+      "title": "Yoklama ve yevmiye",
+      "text": "Günlük yoklama QR ile alınır. Usta yoklamayı bitirdiğinde tam gün kaydınız otomatik oluşur."
+    },
+    {
+      "title": "Kayıtları görüntüleme",
+      "text": "Yevmiye sekmesinde tüm çalışma günlerinizi ve mesai kayıtlarınızı görebilirsiniz."
+    }
+  ],
+  "kvkkRights": [
+    "Verilerinizin işlenip işlenmediğini öğrenme",
+    "İşlenmiş veriler hakkında bilgi talep etme",
+    "Eksik veya yanlış verilerin düzeltilmesini isteme",
+    "Verilerin silinmesini veya yok edilmesini talep etme (yasal saklama süreleri saklı)",
+    "Verilerin aktarıldığı üçüncü kişileri bilme"
+  ],
+  "errors": {
+    "downloadFailed": "İndirilemedi",
+    "generic": "İndirme başarısız"
+  },
+  "fallbackFilename": "crewledger-kayitlarim.zip"
+}

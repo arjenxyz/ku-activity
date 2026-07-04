@@ -3,6 +3,7 @@ import { requireAdminProjectAccess } from '@/lib/admin-auth';
 import { createClient } from '@/utils/supabase/server';
 import { queryProjectById, apiErrorMessage } from '@/lib/project-queries';
 import type { ProjectFormData, ProjectStatus } from '@/types/project';
+import strings from '@json/src/app/api/admin/projects/[projectId]/route.json';
 
 const VALID_STATUSES: ProjectStatus[] = ['active', 'planned', 'paused', 'completed', 'archived'];
 
@@ -17,7 +18,7 @@ export async function GET(_request: Request, context: RouteContext) {
     const { data, error } = await queryProjectById(supabase, projectId);
 
     if (error || !data) {
-      return NextResponse.json({ error: 'Proje bulunamadı' }, { status: 404 });
+      return NextResponse.json({ error: strings.projeBulunamadı }, { status: 404 });
     }
 
     return NextResponse.json({ project: data });
@@ -34,7 +35,7 @@ export async function PATCH(request: Request, context: RouteContext) {
     const body = (await request.json()) as Partial<ProjectFormData>;
 
     if (body.status && !VALID_STATUSES.includes(body.status)) {
-      return NextResponse.json({ error: 'Geçersiz durum' }, { status: 400 });
+      return NextResponse.json({ error: strings.geçersizDurum }, { status: 400 });
     }
 
     const updates: Record<string, unknown> = { updated_at: new Date().toISOString() };
@@ -65,7 +66,7 @@ export async function PATCH(request: Request, context: RouteContext) {
 
     if (error) {
       if (error.code === '23505') {
-        return NextResponse.json({ error: 'Bu proje kodu zaten kullanılıyor' }, { status: 409 });
+        return NextResponse.json({ error: strings.buProjeKoduZatenKullanılıyor }, { status: 409 });
       }
       return NextResponse.json({ error: error.message || 'Proje güncellenemedi' }, { status: 500 });
     }

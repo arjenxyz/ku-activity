@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { verifyPendingRegistrationAccess } from '@/lib/registration-service';
+import strings from '@json/src/app/api/public/personnel-registration/access/route.json';
 
 export async function POST(request: Request) {
   try {
@@ -15,21 +16,21 @@ export async function POST(request: Request) {
     const pin = body.pin ?? '';
 
     if (!identityNumber || !pin) {
-      return NextResponse.json({ error: 'Kimlik numarası ve PIN gerekli' }, { status: 400 });
+      return NextResponse.json({ error: strings.kimlikNumarasıVePinGerekli }, { status: 400 });
     }
 
     const result = await verifyPendingRegistrationAccess({ identityType, identityNumber, pin });
 
     if (result === 'expired') {
       return NextResponse.json(
-        { error: 'Başvuru süresi dolmuş. Yeni başvuru yapabilirsiniz.' },
+        { error: strings.başvuruSüresiDolmuşYeniBaşvuruYapabilirsiniz },
         { status: 410 }
       );
     }
 
     if (!result) {
       return NextResponse.json(
-        { error: 'Geçersiz kimlik numarası veya PIN' },
+        { error: strings.geçersizKimlikNumarasıVeyaPin },
         { status: 401 }
       );
     }
@@ -42,7 +43,7 @@ export async function POST(request: Request) {
       tcKimlik: result.tcKimlik,
     });
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'Erişim başarısız';
+    const message = err instanceof Error ? err.message: strings.erişimBaşarısız;
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }

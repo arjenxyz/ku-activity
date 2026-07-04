@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { authorizeCronRequest } from '@/lib/cron-auth';
 import { recordKeepaliveRun } from '@/lib/supabase-keepalive';
 import { createAdminClient } from '@/utils/supabase/admin';
+import strings from '@json/src/app/api/cron/supabase-keepalive/route.json';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 30;
@@ -13,7 +14,7 @@ export const maxDuration = 30;
  */
 export async function GET(request: Request) {
   if (!authorizeCronRequest(request)) {
-    return NextResponse.json({ error: 'Yetkisiz' }, { status: 401 });
+    return NextResponse.json({ error: strings.yetkisiz }, { status: 401 });
   }
 
   const started = Date.now();
@@ -60,7 +61,7 @@ export async function GET(request: Request) {
       recorded: true,
     });
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'Keepalive başarısız';
+    const message = err instanceof Error ? err.message : strings.keepaliveBaşarısız;
     const durationMs = Date.now() - started;
 
     await recordKeepaliveRun({

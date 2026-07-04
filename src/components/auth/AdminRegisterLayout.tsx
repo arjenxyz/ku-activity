@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { BrandMark } from '@/components/brand/BrandMark';
+import strings from '@json/src/components/auth/AdminRegisterLayout.json';
 
 type Props = {
   children: React.ReactNode;
@@ -11,8 +12,8 @@ type Props = {
 
 export function AdminRegisterLayout({
   children,
-  title = 'Yönetici hesabı oluştur',
-  subtitle = 'Şantiye ve personel yönetimine başlamak için bilgilerinizi girin.',
+  title = strings.defaultTitle,
+  subtitle = strings.defaultSubtitle,
 }: Props) {
   return (
     <>
@@ -27,14 +28,14 @@ export function AdminRegisterLayout({
           <Link href="/" className="inline-flex items-center gap-2.5 group">
             <BrandMark size="sm" />
             <span className="text-sm font-semibold text-gray-700 dark:text-gray-200 group-hover:text-blue-600 transition-colors">
-              Ana sayfa
+              {strings.homeLink}
             </span>
           </Link>
           <Link
             href="/admin-panel/login"
             className="text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline"
           >
-            Giriş yap
+            {strings.loginLink}
           </Link>
         </div>
 
@@ -46,7 +47,7 @@ export function AdminRegisterLayout({
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500" />
                 </span>
-                Yönetici Paneli
+                {strings.badge}
               </div>
               <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">{title}</h1>
               <p className="mt-2 text-sm text-gray-500 dark:text-gray-400 xl:max-w-2xl">{subtitle}</p>
@@ -55,12 +56,12 @@ export function AdminRegisterLayout({
             {children}
 
             <p className="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
-              Personel misiniz?{' '}
+              {strings.personnelPrompt}{' '}
               <Link
                 href="/personnel-panel/login"
                 className="text-blue-600 dark:text-blue-400 font-semibold hover:underline"
               >
-                Personel girişi
+                {strings.personnelLoginLink}
               </Link>
             </p>
           </div>

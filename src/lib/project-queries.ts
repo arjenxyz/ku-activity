@@ -1,5 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { ProjectStatus } from '@/types/project';
+import strings from '@json/src/lib/project-queries.json';
 
 const VALID_STATUSES: ProjectStatus[] = ['active', 'planned', 'paused', 'completed', 'archived'];
 
@@ -76,12 +77,12 @@ export async function queryProjectById(supabase: SupabaseClient, projectId: stri
   return { data: withStatsDefaults(tableResult.data as Record<string, unknown>), error: null };
 }
 
-export function apiErrorMessage(err: unknown, fallback = 'Sistem hatası') {
+export function apiErrorMessage(err: unknown, fallback = strings.systemError) {
   if (err instanceof Error) {
-    if (err.message === 'UNAUTHORIZED') return { status: 401, message: 'Oturum yok veya yönetici yetkisi gerekli' };
-    if (err.message === 'FORBIDDEN') return { status: 403, message: 'Bu projeye erişim yetkiniz yok' };
+    if (err.message === 'UNAUTHORIZED') return { status: 401, message: strings.unauthorized };
+    if (err.message === 'FORBIDDEN') return { status: 403, message: strings.forbidden };
     if (err.message.includes('SUPABASE_SERVICE_ROLE_KEY')) {
-      return { status: 500, message: 'Sunucu yapılandırması eksik (SERVICE_ROLE_KEY)' };
+      return { status: 500, message: strings.missingServiceRoleKey };
     }
     return { status: 500, message: err.message };
   }

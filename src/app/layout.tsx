@@ -5,7 +5,9 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { PWARegister } from '@/components/pwa/PWARegister';
 import { InstallPrompt } from '@/components/pwa/InstallPrompt';
-import { CREWLEDGER_APP_ICON } from '@/lib/brand';
+import strings from '@json/src/app/layout.json';
+import { APP_NAME, CREWLEDGER_APP_ICON } from '@/lib/brand';
+import { formatString } from '@/lib/strings/format';
 import { PWA_ASSET_VERSION } from '@/lib/pwa-manifest';
 import {
   ADMIN_CRITICAL_CSS,
@@ -33,14 +35,13 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'CrewLedger | Construction Workforce Platform',
-  description:
-    'Attendance, daily wages, contracts, and crew management for construction sites. Built with Next.js and Supabase.',
-  applicationName: 'CrewLedger',
+  title: formatString(strings.title, { appName: APP_NAME }),
+  description: strings.description,
+  applicationName: formatString(strings.applicationName, { appName: APP_NAME }),
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
-    title: 'CrewLedger',
+    title: formatString(strings.appleWebAppTitle, { appName: APP_NAME }),
   },
   formatDetection: {
     telephone: false,

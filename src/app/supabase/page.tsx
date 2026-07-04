@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
+import strings from '@json/src/app/supabase/page.json';
 import { SupabaseStatusPage } from '@/components/supabase/SupabaseStatusPage';
 import { getKeepaliveStatus } from '@/lib/supabase-keepalive';
 
 export const metadata: Metadata = {
-  title: 'Durum',
+  title: strings.title,
   robots: { index: false, follow: false },
 };
 

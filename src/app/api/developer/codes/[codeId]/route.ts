@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { requireDeveloperUser } from '@/lib/developer-auth';
 import { createClient } from '@/utils/supabase/server';
 import { apiErrorMessage } from '@/lib/project-queries';
+import strings from '@json/src/app/api/developer/codes/[codeId]/route.json';
 
 type Ctx = { params: Promise<{ codeId: string }> };
 
@@ -20,7 +21,7 @@ export async function DELETE(_req: Request, ctx: Ctx) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
     if (!data) {
-      return NextResponse.json({ error: 'Kod bulunamadı veya zaten kullanılmış' }, { status: 404 });
+      return NextResponse.json({ error: strings.kodBulunamadıVeyaZatenKullanılmış }, { status: 404 });
     }
     return NextResponse.json({ success: true });
   } catch (err) {

@@ -19,6 +19,8 @@ import {
   PRORATION_MODE_LABELS,
   YEVMIYE_TRIGGER_LABELS,
 } from '@/types/wage-policy';
+import { formatString } from '@/lib/strings/format';
+import strings from '@json/src/components/personnel/PersonnelAsgariPanel.json';
 
 type Props = {
   month: string;
@@ -33,29 +35,29 @@ function statusMeta(status: PersonnelAsgariSummary['gap']['paymentStatus']) {
   switch (status) {
     case 'complete':
       return {
-        label: 'Tamamlandı',
-        sub: 'Bu dönem için asgari tamamlama hedefi karşılandı.',
+        label: strings.status.complete.label,
+        sub: strings.status.complete.sub,
         tone: 'from-emerald-600 to-teal-600',
         icon: <FiCheckCircle className="w-8 h-8 text-emerald-100" />,
       };
     case 'partial':
       return {
-        label: 'Kısmen ödendi',
-        sub: 'Bir kısmı yatırıldı; kalan tutar işveren tarafından tamamlanabilir.',
+        label: strings.status.partial.label,
+        sub: strings.status.partial.sub,
         tone: 'from-amber-500 to-orange-600',
         icon: <FiClock className="w-8 h-8 text-amber-100" />,
       };
     case 'open':
       return {
-        label: 'Bekleyen tamamlama',
-        sub: 'Onaylı yevmiyeniz dönem tavanının altında; fark henüz ödenmemiş olabilir.',
+        label: strings.status.open.label,
+        sub: strings.status.open.sub,
         tone: 'from-indigo-600 to-violet-600',
         icon: <FiAlertCircle className="w-8 h-8 text-indigo-100" />,
       };
     default:
       return {
-        label: 'Bilgi',
-        sub: 'Bu dönem için asgari hesaplaması henüz oluşmadı.',
+        label: strings.status.default.label,
+        sub: strings.status.default.sub,
         tone: 'from-slate-600 to-slate-700',
         icon: <FiInfo className="w-8 h-8 text-slate-200" />,
       };
@@ -74,7 +76,7 @@ export function PersonnelAsgariPanel({
     return (
       <div className="flex flex-col items-center justify-center py-24 gap-4">
         <div className="w-10 h-10 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin" />
-        <p className="text-sm text-gray-500 dark:text-gray-400">Asgari bilgileriniz yükleniyor…</p>
+        <p className="text-sm text-gray-500 dark:text-gray-400">{strings.loading}</p>
       </div>
     );
   }
@@ -89,7 +91,7 @@ export function PersonnelAsgariPanel({
             onClick={onRetry}
             className="text-sm font-medium text-red-800 dark:text-red-200 underline"
           >
-            Tekrar dene
+            {strings.retry}
           </button>
         )}
       </div>
@@ -113,7 +115,7 @@ export function PersonnelAsgariPanel({
       {!data.policyConfigured && (
         <div className="rounded-2xl border border-amber-200 dark:border-amber-900/50 bg-amber-50 dark:bg-amber-950/25 p-4 flex gap-3 text-sm text-amber-900 dark:text-amber-200">
           <FiInfo className="w-5 h-5 shrink-0" />
-          <p>İşveren henüz maaş politikasını tanımlamamış. Gösterilen tutarlar varsayılan kurallara göredir.</p>
+          <p>{strings.policyNotConfigured}</p>
         </div>
       )}
 
@@ -126,10 +128,10 @@ export function PersonnelAsgariPanel({
             {data.gap.paymentStatus === 'open' || data.gap.paymentStatus === 'partial' ? (
               <p className="text-3xl sm:text-4xl font-bold mt-4 tabular-nums">
                 {formatMoney(data.gap.remainingGap)}
-                <span className="text-base font-normal text-white/75 ml-2">tahmini kalan</span>
+                <span className="text-base font-normal text-white/75 ml-2">{strings.estimatedRemaining}</span>
               </p>
             ) : data.gap.paymentStatus === 'complete' ? (
-              <p className="text-lg font-semibold mt-4 text-emerald-100">Ek tamamlama gerekmiyor</p>
+              <p className="text-lg font-semibold mt-4 text-emerald-100">{strings.noExtraCompletion}</p>
             ) : null}
           </div>
           <div className="shrink-0 opacity-90">{meta.icon}</div>
@@ -138,7 +140,7 @@ export function PersonnelAsgariPanel({
         {data.gap.eligibleMinimum > 0 && (
           <div className="mt-5">
             <div className="flex justify-between text-xs text-white/75 mb-1.5">
-              <span>Yevmiye + ödenen asgari</span>
+              <span>{strings.progressLabel}</span>
               <span>{progressNum}%</span>
             </div>
             <div className="h-2.5 rounded-full bg-white/20 overflow-hidden">
@@ -148,7 +150,7 @@ export function PersonnelAsgariPanel({
               />
             </div>
             <p className="text-xs text-white/70 mt-2">
-              Hedef: {formatMoney(data.gap.eligibleMinimum)} (dönem tavanı)
+              {formatString(strings.targetLine, { amount: formatMoney(data.gap.eligibleMinimum) })}
             </p>
           </div>
         )}
@@ -157,25 +159,25 @@ export function PersonnelAsgariPanel({
       <PersonnelStatGrid
         items={[
           {
-            label: 'Onaylı yevmiye',
+            label: strings.stats.approvedGross,
             value: formatMoney(data.earnings.approvedGross),
             icon: <FiTrendingUp className="w-5 h-5 text-emerald-600" />,
             accent: 'bg-emerald-50 dark:bg-emerald-900/30',
           },
           {
-            label: 'Hak edilen asgari',
+            label: strings.stats.eligibleMinimum,
             value: formatMoney(data.gap.eligibleMinimum),
             icon: <FiShield className="w-5 h-5 text-indigo-600" />,
             accent: 'bg-indigo-50 dark:bg-indigo-900/30',
           },
           {
-            label: 'Ödenen asgari',
+            label: strings.stats.minimumPaid,
             value: formatMoney(data.earnings.minimumPaid),
             icon: <FiCheckCircle className="w-5 h-5 text-violet-600" />,
             accent: 'bg-violet-50 dark:bg-violet-900/30',
           },
           {
-            label: 'Kalan (tahmini)',
+            label: strings.stats.remainingGap,
             value: formatMoney(data.gap.remainingGap),
             icon: <FiAlertCircle className="w-5 h-5 text-amber-600" />,
             accent: 'bg-amber-50 dark:bg-amber-900/30',
@@ -185,28 +187,28 @@ export function PersonnelAsgariPanel({
 
       <div className="rounded-2xl border border-gray-100 dark:border-slate-700 bg-white dark:bg-slate-800 overflow-hidden shadow-sm">
         <p className="px-4 sm:px-6 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wider border-b border-gray-100 dark:border-slate-700">
-          Nasıl hesaplanır?
+          {strings.howCalculated}
         </p>
         <ul className="divide-y divide-gray-50 dark:divide-slate-700/80 text-sm">
           {[
             {
-              label: 'Onaylı yevmiye',
+              label: strings.calcRows.approvedGross,
               value: formatMoney(data.earnings.approvedGross),
-              hint: `${data.earnings.approvedDays} onaylı gün`,
+              hint: formatString(strings.approvedDaysHint, { days: data.earnings.approvedDays }),
             },
             {
-              label: 'Dönem asgari tavanı',
+              label: strings.calcRows.eligibleMinimum,
               value: formatMoney(data.gap.eligibleMinimum),
               hint: data.hireDate
                 ? PRORATION_MODE_LABELS[data.policy.prorationMode]
-                : 'Tam dönem',
+                : strings.fullPeriod,
             },
             {
-              label: 'Ödenen tamamlama',
+              label: strings.calcRows.minimumPaid,
               value: formatMoney(data.earnings.minimumPaid),
             },
             {
-              label: 'Tahmini kalan',
+              label: strings.calcRows.remainingGap,
               value: formatMoney(data.gap.remainingGap),
               bold: true,
             },
@@ -235,7 +237,7 @@ export function PersonnelAsgariPanel({
         <div className="flex gap-3">
           <FiClock className="w-5 h-5 text-slate-500 shrink-0 mt-0.5" />
           <div className="text-sm space-y-1">
-            <p className="font-medium text-gray-900 dark:text-white">Ödeme zamanı (işveren kuralı)</p>
+            <p className="font-medium text-gray-900 dark:text-white">{strings.paymentTimingTitle}</p>
             <p className="text-gray-600 dark:text-gray-300">
               {data.policy.yevmiyePaymentTriggers
                 .map((t) => YEVMIYE_TRIGGER_LABELS[t])
@@ -249,10 +251,10 @@ export function PersonnelAsgariPanel({
       </div>
 
       <PersonnelSection
-        title={`Asgari ödemeler · ${monthLabel}`}
+        title={formatString(strings.recordsTitle, { month: monthLabel })}
         icon={<FiShield className="w-5 h-5 text-indigo-600" />}
         isEmpty={data.records.length === 0}
-        emptyMessage="Bu dönemde henüz asgari ödeme kaydı yok"
+        emptyMessage={strings.emptyRecords}
       >
         <div>
           {data.records.map((r) => (
@@ -260,13 +262,13 @@ export function PersonnelAsgariPanel({
               key={r.id}
               left={formatDate(r.date)}
               right={formatMoney(Number(r.amount))}
-              sub={r.description || 'Asgari tamamlama'}
+              sub={r.description || strings.defaultRecordDescription}
             />
           ))}
         </div>
         {data.records.length > 0 && (
           <p className="px-4 py-3 text-sm text-right font-semibold text-gray-700 dark:text-gray-200 border-t border-gray-100 dark:border-slate-700">
-            Toplam: {formatMoney(data.earnings.minimumPaid)}
+            {formatString(strings.total, { amount: formatMoney(data.earnings.minimumPaid) })}
           </p>
         )}
       </PersonnelSection>
@@ -274,25 +276,24 @@ export function PersonnelAsgariPanel({
       <details className="rounded-2xl border border-gray-100 dark:border-slate-700 bg-white dark:bg-slate-800 group">
         <summary className="flex items-center gap-2 px-4 sm:px-6 py-4 cursor-pointer list-none text-sm font-medium text-gray-700 dark:text-gray-200">
           <FiHelpCircle className="w-4 h-4 text-indigo-600" />
-          Sık sorulanlar
+          {strings.faqTitle}
           <span className="ml-auto text-gray-400 group-open:rotate-180 transition-transform">▾</span>
         </summary>
         <div className="px-4 sm:px-6 pb-5 space-y-3 text-sm text-gray-600 dark:text-gray-300 border-t border-gray-50 dark:border-slate-700/80 pt-4">
           <p>
-            <strong className="text-gray-900 dark:text-white">Asgari tamamlama nedir?</strong>
+            <strong className="text-gray-900 dark:text-white">{strings.faq.whatIs.question}</strong>
             <br />
-            Onaylı yevmiye toplamınız, işverenin belirlediği dönem tavanının altındaysa aradaki fark
-            asgari tamamlama olarak ödenebilir.
+            {strings.faq.whatIs.answer}
           </p>
           <p>
-            <strong className="text-gray-900 dark:text-white">Kesin tutar ne zaman belli olur?</strong>
+            <strong className="text-gray-900 dark:text-white">{strings.faq.whenFinal.question}</strong>
             <br />
-            Buradaki kalan tutar tahminidir. Kesin ödeme işveren / taşeron kayıtlarına göre belirlenir.
+            {strings.faq.whenFinal.answer}
           </p>
           {data.hireDate && (
             <p>
-              <strong className="text-gray-900 dark:text-white">İşe giriş:</strong>{' '}
-              {formatDate(data.hireDate)} — dönem tavanı buna göre oranlanmış olabilir.
+              <strong className="text-gray-900 dark:text-white">{strings.faq.hireDate}</strong>{' '}
+              {formatString(strings.faq.hireDateNote, { date: formatDate(data.hireDate) })}
             </p>
           )}
         </div>

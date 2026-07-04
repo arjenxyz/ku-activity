@@ -6,6 +6,7 @@ import {
   detectTransferType,
   type TransferType,
 } from '@/lib/turkish-banks';
+import strings from '@json/src/lib/dekont-ocr.json';
 
 export type DekontOcrResult = {
   rawText: string;
@@ -202,7 +203,7 @@ async function extractImageTextWithVision(buffer: Buffer): Promise<string> {
   };
 
   if (!res.ok) {
-    throw new Error(data.error?.message || 'Vision OCR başarısız — Cloud Vision API etkin mi?');
+    throw new Error(data.error?.message || strings.visionFailed);
   }
 
   const text = data.responses?.[0]?.fullTextAnnotation?.text ?? '';

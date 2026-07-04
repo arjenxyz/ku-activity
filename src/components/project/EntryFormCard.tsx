@@ -3,6 +3,7 @@
 import { cardClass, btnPrimary, labelClass, inputClass } from './ui';
 import { EmployeeSelect } from './EmployeeSelect';
 import type { ProjectEmployee } from '@/lib/project-api';
+import strings from '@json/src/components/project/EntryFormCard.json';
 
 type Field = {
   name: string;
@@ -23,7 +24,7 @@ export function EntryFormCard({
   onEmployeeChange,
   onSubmit,
   loading,
-  submitLabel = 'Kaydet',
+  submitLabel = strings.defaultSubmitLabel,
 }: {
   title: string;
   employees: ProjectEmployee[];
@@ -45,7 +46,7 @@ export function EntryFormCard({
           <div key={f.name}>
             <label className={labelClass}>
               {f.label}
-              {f.required !== false ? ' *' : ''}
+              {f.required !== false ? strings.requiredSuffix : ''}
             </label>
             {f.type === 'textarea' ? (
               <textarea
@@ -69,7 +70,7 @@ export function EntryFormCard({
           </div>
         ))}
         <button type="submit" className={btnPrimary} disabled={loading}>
-          {loading ? 'Kaydediliyor…' : submitLabel}
+          {loading ? strings.submitSaving : submitLabel}
         </button>
       </div>
     </form>

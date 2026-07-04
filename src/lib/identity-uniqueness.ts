@@ -9,6 +9,7 @@ import {
   validateTurkishIban,
   validateInternationalPhone,
 } from '@/lib/field-encryption';
+import strings from '@json/src/lib/identity-uniqueness.json';
 
 export type IdentityInput = {
   email: string;
@@ -31,17 +32,15 @@ export type IdentityHashes = {
 export function buildIdentityHashes(input: IdentityInput): IdentityHashes {
   const phone = input.phone?.trim() || null;
   if (phone && !validateInternationalPhone(phone)) {
-    throw new Error('Geçersiz telefon numarası');
+    throw new Error(strings.invalidPhone);
   }
 
   const normalizedIban = normalizeIban(input.iban);
   if (!normalizedIban || normalizedIban === PLACEHOLDER_IBAN) {
-    throw new Error('IBAN zorunludur');
+    throw new Error(strings.ibanRequired);
   }
   if (!validateTurkishIban(normalizedIban)) {
-    throw new Error(
-      'Geçerli bir IBAN girin (TR ile 26 karakter, kontrol hanesi doğru olmalı).'
-    );
+    throw new Error(strings.invalidIban);
   }
   const ibanLookupHash = hashIbanLookup(normalizedIban);
 
@@ -109,9 +108,7 @@ export async function findPendingRegistrationIdForResubmit(
     .maybeSingle();
 
   if (byIdentity && byEmail && byIdentity.id !== byEmail.id) {
-    throw new Error(
-      'Bu e-posta ve kimlik bilgisi farklı bekleyen başvurularla eşleşiyor. Lütfen destek ile iletişime geçin.'
-    );
+    throw new Error(strings.conflictingPendingApplications);
   }
 
   return byIdentity?.id ?? byEmail?.id ?? null;
@@ -153,7 +150,7 @@ export async function assertIdentityUnique(
   }
   const { data: existingEmail } = await emailQuery.maybeSingle();
   if (existingEmail) {
-    throw new Error('Bu e-posta ile kayıtlı personel zaten var');
+    throw new Error(strings.emailEmployeeExists);
   }
 
   let pendingEmailQuery = admin
@@ -166,9 +163,7 @@ export async function assertIdentityUnique(
   }
   const { data: pendingEmail } = await pendingEmailQuery.maybeSingle();
   if (pendingEmail) {
-    throw new Error(
-      'Bu e-posta ile onay bekleyen bir başvuru var. Yönetici onaylayana kadar aynı bilgilerle tekrar gönderebilir veya QR kodunuzu görüntüleyebilirsiniz.'
-    );
+    throw new Error(strings.emailPendingApplication);
   }
 
   if (
@@ -181,9 +176,7 @@ export async function assertIdentityUnique(
     )
   ) {
     throw new Error(
-      input.identityType === 'tc'
-        ? 'Bu T.C. kimlik numarası ile kayıtlı personel zaten var'
-        : 'Bu kimlik numarası ile kayıtlı personel zaten var'
+      input.identityType === 'tc' ? strings.tcEmployeeExists : strings.foreignEmployeeExists
     );
   }
   if (
@@ -196,20 +189,18 @@ export async function assertIdentityUnique(
     )
   ) {
     throw new Error(
-      input.identityType === 'tc'
-        ? 'Bu T.C. kimlik numarası ile onay bekleyen bir başvuru var. Yönetici onaylayana kadar aynı bilgilerle tekrar gönderebilirsiniz.'
-        : 'Bu kimlik numarası ile onay bekleyen bir başvuru var. Yönetici onaylayana kadar aynı bilgilerle tekrar gönderebilirsiniz.'
+      input.identityType === 'tc' ? strings.tcPendingApplication : strings.foreignPendingApplication
     );
   }
 
   if (hashes.phoneLookupHash) {
     if (await employeeHasHash(admin, 'phone_lookup_hash', hashes.phoneLookupHash, input.excludeEmployeeId)) {
-      throw new Error('Bu telefon numarası ile kayıtlı personel zaten var');
+      throw new Error(strings.phoneEmployeeExists);
     }
     if (
       await pendingHasHash(admin, 'phone_lookup_hash', hashes.phoneLookupHash, input.excludeRegistrationId)
     ) {
-      throw new Error('Bu telefon numarası ile bekleyen başvuru zaten var');
+      throw new Error(strings.phonePendingApplication);
     }
   }
 
@@ -217,12 +208,12 @@ export async function assertIdentityUnique(
     if (
       await sensitiveHasHash(admin, 'iban_lookup_hash', hashes.ibanLookupHash, input.excludeEmployeeId)
     ) {
-      throw new Error('Bu IBAN ile kayıtlı personel zaten var');
+      throw new Error(strings.ibanEmployeeExists);
     }
     if (
       await pendingHasHash(admin, 'iban_lookup_hash', hashes.ibanLookupHash, input.excludeRegistrationId)
     ) {
-      throw new Error('Bu IBAN ile bekleyen başvuru zaten var');
+      throw new Error(strings.ibanPendingApplication);
     }
   }
 
@@ -242,7 +233,7 @@ export async function assertEmployeeContactUnique(
   if (input.email !== undefined) {
     const email = input.email.trim().toLowerCase();
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      throw new Error('Geçerli bir e-posta girin');
+      throw new Error(strings.invalidEmail);
     }
     const { data: existingEmail } = await admin
       .from('employees')
@@ -251,7 +242,7 @@ export async function assertEmployeeContactUnique(
       .neq('id', input.excludeEmployeeId)
       .maybeSingle();
     if (existingEmail) {
-      throw new Error('Bu e-posta ile kayıtlı personel zaten var');
+      throw new Error(strings.emailEmployeeExists);
     }
 
     const { data: pendingEmail } = await admin
@@ -261,7 +252,7 @@ export async function assertEmployeeContactUnique(
       .eq('status', 'pending')
       .maybeSingle();
     if (pendingEmail) {
-      throw new Error('Bu e-posta ile bekleyen başvuru zaten var');
+      throw new Error(strings.emailPendingOnly);
     }
     result.email = email;
   }
@@ -269,7 +260,7 @@ export async function assertEmployeeContactUnique(
   if (input.phone !== undefined) {
     const phone = input.phone?.trim() || null;
     if (phone && !validateInternationalPhone(phone)) {
-      throw new Error('Geçersiz telefon numarası');
+      throw new Error(strings.invalidPhone);
     }
     const phoneLookupHash = phone ? computePhoneLookupHash(phone) : null;
     if (phoneLookupHash) {
@@ -280,7 +271,7 @@ export async function assertEmployeeContactUnique(
         .neq('id', input.excludeEmployeeId)
         .maybeSingle();
       if (existingPhone) {
-        throw new Error('Bu telefon numarası ile kayıtlı personel zaten var');
+        throw new Error(strings.phoneEmployeeExists);
       }
 
       const { data: pendingPhone } = await admin
@@ -290,7 +281,7 @@ export async function assertEmployeeContactUnique(
         .eq('status', 'pending')
         .maybeSingle();
       if (pendingPhone) {
-        throw new Error('Bu telefon numarası ile bekleyen başvuru zaten var');
+        throw new Error(strings.phonePendingApplication);
       }
     }
     result.phoneLookupHash = phoneLookupHash;
@@ -302,34 +293,34 @@ export async function assertEmployeeContactUnique(
 export function mapIdentityUniqueViolation(message: string): string | null {
   const lower = message.toLowerCase();
   if (lower.includes('employees_email_unique')) {
-    return 'Bu e-posta ile kayıtlı personel zaten var';
+    return strings.emailEmployeeExists;
   }
   if (lower.includes('employees_phone_lookup_hash')) {
-    return 'Bu telefon numarası ile kayıtlı personel zaten var';
+    return strings.phoneEmployeeExists;
   }
   if (lower.includes('employee_sensitive_data_tc_lookup_hash')) {
-    return 'Bu T.C. kimlik numarası ile kayıtlı personel zaten var';
+    return strings.tcEmployeeExists;
   }
   if (lower.includes('employee_sensitive_data_identity_lookup_hash')) {
-    return 'Bu kimlik numarası ile kayıtlı personel zaten var';
+    return strings.foreignEmployeeExists;
   }
   if (lower.includes('employee_sensitive_data_iban_lookup_hash')) {
-    return 'Bu IBAN ile kayıtlı personel zaten var';
+    return strings.ibanEmployeeExists;
   }
   if (lower.includes('employee_registration_requests_email_pending')) {
-    return 'Bu e-posta ile bekleyen başvuru zaten var';
+    return strings.emailPendingOnly;
   }
   if (lower.includes('employee_registration_requests_tc_pending')) {
-    return 'Bu T.C. kimlik numarası ile bekleyen başvuru zaten var';
+    return strings.tcPendingApplication;
   }
   if (lower.includes('employee_registration_requests_identity_pending')) {
-    return 'Bu kimlik numarası ile bekleyen başvuru zaten var';
+    return strings.foreignPendingApplication;
   }
   if (lower.includes('employee_registration_requests_phone_pending')) {
-    return 'Bu telefon numarası ile bekleyen başvuru zaten var';
+    return strings.phonePendingApplication;
   }
   if (lower.includes('employee_registration_requests_iban_pending')) {
-    return 'Bu IBAN ile bekleyen başvuru zaten var';
+    return strings.ibanPendingApplication;
   }
   return null;
 }

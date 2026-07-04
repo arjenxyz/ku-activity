@@ -8,6 +8,8 @@ import {
   sanitizePersonnelPinInput,
   validatePersonnelPin,
 } from '@/lib/personnel-pin';
+import { formatString } from '@/lib/strings/format';
+import strings from '@json/src/components/personnel/PersonnelPasswordForm.json';
 
 export function PersonnelPasswordForm() {
   const [current, setCurrent] = useState('');
@@ -22,7 +24,7 @@ export function PersonnelPasswordForm() {
     setError(null);
     setSuccess(false);
     if (next !== confirm) {
-      setError('Yeni şifreler eşleşmiyor');
+      setError(strings.mismatchError);
       return;
     }
     const pinError = validatePersonnelPin(next);
@@ -38,7 +40,7 @@ export function PersonnelPasswordForm() {
       setNext('');
       setConfirm('');
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Güncelleme başarısız');
+      setError(err instanceof Error ? err.message : strings.updateFailed);
     } finally {
       setLoading(false);
     }
@@ -54,15 +56,15 @@ export function PersonnelPasswordForm() {
     >
       <div className="flex items-center gap-2 mb-2">
         <FiLock className="w-5 h-5 text-blue-600" />
-        <h2 className="font-semibold text-gray-900 dark:text-white">Şifre Değiştir</h2>
+        <h2 className="font-semibold text-gray-900 dark:text-white">{strings.title}</h2>
       </div>
       <p className="text-xs text-gray-500">
-        Personel paneli giriş şifrenizi güncelleyin ({PERSONNEL_PIN_LENGTH} haneli rakam).
+        {formatString(strings.pinHint, { length: PERSONNEL_PIN_LENGTH })}
       </p>
 
       <div>
         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-          Mevcut şifre
+          {strings.currentLabel}
         </label>
         <input
           type="password"
@@ -77,7 +79,7 @@ export function PersonnelPasswordForm() {
       </div>
       <div>
         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-          Yeni şifre
+          {strings.newLabel}
         </label>
         <input
           type="password"
@@ -92,7 +94,7 @@ export function PersonnelPasswordForm() {
       </div>
       <div>
         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-          Yeni şifre (tekrar)
+          {strings.confirmLabel}
         </label>
         <input
           type="password"
@@ -111,7 +113,7 @@ export function PersonnelPasswordForm() {
       )}
       {success && (
         <p className="text-sm text-emerald-700 bg-emerald-50 dark:bg-emerald-950/40 rounded-lg px-3 py-2">
-          Şifreniz güncellendi.
+          {strings.success}
         </p>
       )}
 
@@ -120,7 +122,7 @@ export function PersonnelPasswordForm() {
         disabled={loading}
         className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium disabled:opacity-50"
       >
-        {loading ? 'Kaydediliyor…' : 'Şifreyi Güncelle'}
+        {loading ? strings.saving : strings.submit}
       </button>
     </form>
   );

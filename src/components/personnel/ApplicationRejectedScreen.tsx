@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { FiRefreshCw, FiXCircle } from 'react-icons/fi';
 import { BrandLockup } from '@/components/brand/BrandLockup';
+import strings from '@json/src/components/personnel/ApplicationRejectedScreen.json';
 
 type Props = {
   onNewApplication: () => void;
@@ -31,29 +32,26 @@ export function ApplicationRejectedScreen({ onNewApplication }: Props) {
                 <FiXCircle className="w-8 h-8" />
               </div>
               <span className="mt-4 inline-flex items-center rounded-full bg-red-50 px-3 py-1 text-xs font-semibold text-red-800">
-                Başvuru reddedildi
+                {strings.badge}
               </span>
-              <h1 className="mt-3 text-xl font-bold text-slate-900">Başvurunuz kabul edilmedi</h1>
+              <h1 className="mt-3 text-xl font-bold text-slate-900">{strings.title}</h1>
             </div>
 
             <div className="px-6 pb-8 pt-4">
-              <p className="text-sm text-slate-600 leading-relaxed">
-                Kayıtlarınız silindi. Yöneticinizle görüşebilir veya bilgilerinizi güncelleyerek yeniden
-                başvurabilirsiniz.
-              </p>
+              <p className="text-sm text-slate-600 leading-relaxed">{strings.description}</p>
               <button
                 type="button"
                 onClick={onNewApplication}
                 className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-slate-900 py-3.5 text-sm font-semibold text-white hover:bg-slate-800 active:scale-[0.98] transition-all"
               >
                 <FiRefreshCw className="w-4 h-4" />
-                Yeni başvuru yap
+                {strings.newApplicationCta}
               </button>
               <Link
                 href="/personnel-panel/login"
                 className="mt-3 block py-2 text-xs font-medium text-slate-500 hover:text-slate-700"
               >
-                Giriş ekranına dön
+                {strings.backToLogin}
               </Link>
             </div>
           </div>

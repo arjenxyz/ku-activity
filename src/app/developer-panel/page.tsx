@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 import { FiAlertTriangle, FiCopy, FiPlus, FiTrash2 } from 'react-icons/fi';
 import { DeveloperShell } from '@/components/developer/DeveloperShell';
 import { WIPE_CONFIRM_PHRASE } from '@/lib/developer-wipe';
+import strings from '@json/src/app/developer-panel/page.json';
+import { formatString } from '@/lib/strings/format';
 
 type CodeRow = {
   id: string;
@@ -47,10 +49,10 @@ export default function DeveloperPanelPage() {
         return;
       }
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Yüklenemedi');
+      if (!res.ok) throw new Error(data.error || strings.loadFailed);
       setCodes(data.codes ?? []);
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Hata');
+      setError(e instanceof Error ? e.message : strings.genericError);
     } finally {
       setLoading(false);
     }
@@ -82,19 +84,19 @@ export default function DeveloperPanelPage() {
         }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Oluşturulamadı');
+      if (!res.ok) throw new Error(data.error || strings.createFailed);
       setLastCreated(data.code?.code as string);
       setForm({ label: '', requestEmail: '', notes: '', expiresDays: '90' });
       await load();
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Hata');
+      setError(e instanceof Error ? e.message : strings.genericError);
     } finally {
       setCreating(false);
     }
   };
 
   const handleRevoke = async (id: string) => {
-    if (!confirm('Bu kodu iptal etmek istediğinize emin misiniz?')) return;
+    if (!confirm(strings.revokeConfirm)) return;
     const res = await fetch(`/api/developer/codes/${id}`, { method: 'DELETE' });
     if (res.ok) load();
   };
@@ -105,14 +107,10 @@ export default function DeveloperPanelPage() {
 
   const handleWipeDatabase = async () => {
     if (wipePhrase.trim() !== WIPE_CONFIRM_PHRASE) {
-      setError(`Onay için kutucuğa tam olarak şunu yazın: ${WIPE_CONFIRM_PHRASE}`);
+      setError(formatString(strings.wipePhraseHint, { phrase: WIPE_CONFIRM_PHRASE }));
       return;
     }
-    if (
-      !confirm(
-        'Son uyarı: Tüm projeler, personel, başvurular, yevmiyeler ve fotoğraflar kalıcı olarak silinecek. Devam?'
-      )
-    ) {
+    if (!confirm(strings.wipeFinalConfirm)) {
       return;
     }
 
@@ -126,64 +124,62 @@ export default function DeveloperPanelPage() {
         body: JSON.stringify({ confirmPhrase: wipePhrase.trim() }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Silinemedi');
-      setWipeResult('Tüm uygulama verileri sıfırlandı. Developer hesabınız ve sözleşme şablonları korundu.');
+      if (!res.ok) throw new Error(data.error || strings.wipeFailed);
+      setWipeResult(strings.wipeSuccess);
       setWipeOpen(false);
       setWipePhrase('');
       await load();
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Silme başarısız');
+      setError(e instanceof Error ? e.message : strings.wipeDeleteFailed);
     } finally {
       setWiping(false);
     }
   };
 
   const statusOf = (row: CodeRow) => {
-    if (row.revoked_at) return { label: 'İptal', className: 'bg-red-900/40 text-red-300' };
-    if (row.redeemed_at) return { label: 'Kullanıldı', className: 'bg-slate-700 text-slate-300' };
+    if (row.revoked_at) return { label: strings.statusRevoked, className: 'bg-red-900/40 text-red-300' };
+    if (row.redeemed_at) return { label: strings.statusRedeemed, className: 'bg-slate-700 text-slate-300' };
     if (row.expires_at && new Date(row.expires_at) < new Date()) {
-      return { label: 'Süresi doldu', className: 'bg-amber-900/40 text-amber-300' };
+      return { label: strings.statusExpired, className: 'bg-amber-900/40 text-amber-300' };
     }
-    return { label: 'Aktif', className: 'bg-emerald-900/40 text-emerald-300' };
+    return { label: strings.statusActive, className: 'bg-emerald-900/40 text-emerald-300' };
   };
 
   return (
     <DeveloperShell onLogout={handleLogout}>
-      <h1 className="text-2xl font-bold mb-2">Doğrulama Kodları</h1>
-      <p className="text-sm text-slate-400 mb-8">
-        E-posta ile talep eden müşterilere proje başına bir kod üretin. Her kod tek projede kullanılır.
-      </p>
+      <h1 className="text-2xl font-bold mb-2">{strings.title}</h1>
+      <p className="text-sm text-slate-400 mb-8">{strings.subtitle}</p>
 
       <form onSubmit={handleCreate} className="bg-slate-900 border border-slate-800 rounded-2xl p-5 mb-8 space-y-4">
         <h2 className="font-semibold flex items-center gap-2">
           <FiPlus className="w-4 h-4" />
-          Yeni Kod Oluştur
+          {strings.newCodeTitle}
         </h2>
         <div className="grid sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-xs text-slate-400 mb-1">Etiket / Firma</label>
-            <input className="w-full rounded-lg bg-slate-950 border border-slate-700 px-3 py-2 text-sm" value={form.label} onChange={(e) => setForm((f) => ({ ...f, label: e.target.value }))} placeholder="Örn. ABC İnşaat" />
+            <label className="block text-xs text-slate-400 mb-1">{strings.labelField}</label>
+            <input className="w-full rounded-lg bg-slate-950 border border-slate-700 px-3 py-2 text-sm" value={form.label} onChange={(e) => setForm((f) => ({ ...f, label: e.target.value }))} placeholder={strings.labelPlaceholder} />
           </div>
           <div>
-            <label className="block text-xs text-slate-400 mb-1">Talep e-postası</label>
-            <input type="email" className="w-full rounded-lg bg-slate-950 border border-slate-700 px-3 py-2 text-sm" value={form.requestEmail} onChange={(e) => setForm((f) => ({ ...f, requestEmail: e.target.value }))} placeholder="musteri@firma.com" />
+            <label className="block text-xs text-slate-400 mb-1">{strings.requestEmailField}</label>
+            <input type="email" className="w-full rounded-lg bg-slate-950 border border-slate-700 px-3 py-2 text-sm" value={form.requestEmail} onChange={(e) => setForm((f) => ({ ...f, requestEmail: e.target.value }))} placeholder={strings.requestEmailPlaceholder} />
           </div>
           <div>
-            <label className="block text-xs text-slate-400 mb-1">Geçerlilik (gün)</label>
+            <label className="block text-xs text-slate-400 mb-1">{strings.expiresDaysField}</label>
             <input type="number" min={1} className="w-full rounded-lg bg-slate-950 border border-slate-700 px-3 py-2 text-sm" value={form.expiresDays} onChange={(e) => setForm((f) => ({ ...f, expiresDays: e.target.value }))} />
           </div>
           <div>
-            <label className="block text-xs text-slate-400 mb-1">Not</label>
+            <label className="block text-xs text-slate-400 mb-1">{strings.notesField}</label>
             <input className="w-full rounded-lg bg-slate-950 border border-slate-700 px-3 py-2 text-sm" value={form.notes} onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))} />
           </div>
         </div>
         <button type="submit" disabled={creating} className="px-4 py-2.5 rounded-lg bg-violet-600 hover:bg-violet-700 text-sm font-medium disabled:opacity-50">
-          {creating ? 'Oluşturuluyor…' : 'Kod Üret'}
+          {creating ? strings.creating : strings.createCode}
         </button>
         {lastCreated && (
           <div className="p-3 rounded-lg bg-emerald-900/30 border border-emerald-800 text-emerald-200 text-sm flex items-center justify-between gap-2">
             <span>
-              Yeni kod: <strong className="font-mono">{lastCreated}</strong>
+              {strings.newCodeCreated} <strong className="font-mono">{lastCreated}</strong>
             </span>
             <button type="button" onClick={() => copyCode(lastCreated)} className="p-1.5 rounded hover:bg-emerald-800/50">
               <FiCopy />
@@ -196,9 +192,9 @@ export default function DeveloperPanelPage() {
 
       <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
         {loading ? (
-          <p className="p-8 text-center text-slate-500">Yükleniyor…</p>
+          <p className="p-8 text-center text-slate-500">{strings.loading}</p>
         ) : codes.length === 0 ? (
-          <p className="p-8 text-center text-slate-500">Henüz kod yok.</p>
+          <p className="p-8 text-center text-slate-500">{strings.noCodes}</p>
         ) : (
           <div className="divide-y divide-slate-800">
             {codes.map((row) => {
@@ -213,13 +209,13 @@ export default function DeveloperPanelPage() {
                     <p className="text-xs text-slate-500 mt-1">
                       {row.label || '—'}
                       {row.request_email ? ` · ${row.request_email}` : ''}
-                      {row.projects?.name ? ` · Proje: ${row.projects.name}` : ''}
+                      {row.projects?.name ? ` · ${formatString(strings.projectPrefix, { name: row.projects.name })}` : ''}
                     </p>
                   </div>
                   {!row.redeemed_at && !row.revoked_at && (
                     <button type="button" onClick={() => handleRevoke(row.id)} className="shrink-0 inline-flex items-center gap-1 text-xs text-red-400 hover:text-red-300 px-2 py-1">
                       <FiTrash2 className="w-3.5 h-3.5" />
-                      İptal
+                      {strings.revoke}
                     </button>
                   )}
                 </div>
@@ -233,12 +229,9 @@ export default function DeveloperPanelPage() {
         <div className="bg-red-950/40 px-5 py-4 border-b border-red-900/50">
           <h2 className="font-semibold text-red-200 flex items-center gap-2">
             <FiAlertTriangle className="w-4 h-4" />
-            Tehlikeli Bölge
+            {strings.dangerZoneTitle}
           </h2>
-          <p className="text-xs text-red-300/80 mt-1">
-            Tüm projeler, personel, başvurular, OTP, yevmiye, bordro, doğrulama kodları ve storage
-            fotoğrafları silinir. Developer girişi ve sözleşme şablonları kalır.
-          </p>
+          <p className="text-xs text-red-300/80 mt-1">{strings.dangerZoneDescription}</p>
         </div>
         <div className="p-5 space-y-4">
           {wipeResult && (
@@ -256,16 +249,16 @@ export default function DeveloperPanelPage() {
               }}
               className="px-4 py-2.5 rounded-lg bg-red-700 hover:bg-red-600 text-sm font-medium text-white"
             >
-              Tüm Supabase Verilerini Sil
+              {strings.wipeAllData}
             </button>
           ) : (
             <div className="space-y-3 max-w-md">
               <p className="text-sm text-slate-300">
-                Onaylamak için{' '}
+                {strings.wipeConfirmPromptBefore}{' '}
                 <code className="text-red-300 font-mono text-xs bg-slate-950 px-1.5 py-0.5 rounded">
                   {WIPE_CONFIRM_PHRASE}
                 </code>{' '}
-                yazın:
+                {strings.wipeConfirmPromptAfter}
               </p>
               <input
                 className="w-full rounded-lg bg-slate-950 border border-red-900/60 px-3 py-2 text-sm font-mono"
@@ -281,7 +274,7 @@ export default function DeveloperPanelPage() {
                   onClick={() => void handleWipeDatabase()}
                   className="px-4 py-2 rounded-lg bg-red-700 hover:bg-red-600 text-sm font-medium disabled:opacity-50 text-white"
                 >
-                  {wiping ? 'Siliniyor…' : 'Kalıcı Olarak Sil'}
+                  {wiping ? strings.wiping : strings.wipePermanently}
                 </button>
                 <button
                   type="button"
@@ -292,7 +285,7 @@ export default function DeveloperPanelPage() {
                   }}
                   className="px-4 py-2 rounded-lg border border-slate-700 text-sm text-slate-300 hover:bg-slate-800"
                 >
-                  Vazgeç
+                  {strings.cancel}
                 </button>
               </div>
             </div>

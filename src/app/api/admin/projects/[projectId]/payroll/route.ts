@@ -3,6 +3,7 @@ import { requireAdminProjectAccess } from '@/lib/admin-auth';
 import { createClient } from '@/utils/supabase/server';
 import { apiErrorMessage } from '@/lib/project-queries';
 import { computeNetPay } from '@/lib/minimum-wage';
+import strings from '@json/src/app/api/admin/projects/[projectId]/payroll/route.json';
 
 type Ctx = { params: Promise<{ projectId: string }> };
 
@@ -49,7 +50,7 @@ export async function POST(request: Request, ctx: Ctx) {
     const { projectId } = await ctx.params;
     await requireAdminProjectAccess(projectId);
     const { month } = await request.json();
-    if (!month) return NextResponse.json({ error: 'Ay gerekli (YYYY-MM)' }, { status: 400 });
+    if (!month) return NextResponse.json({ error: strings.ayGerekliYyyyMm }, { status: 400 });
 
     const { start, end, periodMonth } = monthBounds(month);
     const supabase = await createClient();
@@ -130,7 +131,7 @@ export async function POST(request: Request, ctx: Ctx) {
 
     if (pErr) {
       if (pErr.message.includes('minimum_wages') || pErr.message.includes('payroll')) {
-        return NextResponse.json({ error: '004_menu_features.sql çalıştırın', lines }, { status: 500 });
+        return NextResponse.json({ error: strings.err004MenuFeaturesSqlÇalıştırın, lines }, { status: 500 });
       }
       return NextResponse.json({ error: pErr.message }, { status: 500 });
     }

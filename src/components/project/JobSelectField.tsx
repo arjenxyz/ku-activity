@@ -1,6 +1,7 @@
 'use client';
 
 import { inputClass, labelClass } from '@/components/project/ui';
+import strings from '@json/src/components/project/JobSelectField.json';
 
 type JobOption = { id: string; name: string; status?: string };
 
@@ -17,8 +18,8 @@ export function JobSelectField({
   jobs,
   value,
   onChange,
-  label = 'İş kalemi (taşeron kârı — isteğe bağlı)',
-  hint = 'Personelde görünmez; yalnızca kâr hesabında kullanılır.',
+  label = strings.defaultLabel,
+  hint = strings.defaultHint,
   className,
 }: Props) {
   if (jobs.length === 0) return null;
@@ -27,11 +28,11 @@ export function JobSelectField({
     <div className={className}>
       <label className={labelClass}>{label}</label>
       <select className={inputClass} value={value} onChange={(e) => onChange(e.target.value)}>
-        <option value="">Seçilmedi</option>
+        <option value="">{strings.notSelected}</option>
         {jobs.map((j) => (
           <option key={j.id} value={j.id}>
             {j.name}
-            {j.status === 'completed' ? ' (tamamlandı)' : ''}
+            {j.status === 'completed' ? strings.completedSuffix : ''}
           </option>
         ))}
       </select>

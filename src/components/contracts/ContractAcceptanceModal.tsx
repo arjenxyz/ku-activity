@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { FiCheck, FiChevronDown, FiX } from 'react-icons/fi';
+import strings from '@json/src/components/contracts/ContractAcceptanceModal.json';
+import { formatString } from '@/lib/strings/format';
 import type { ContractItem } from './ContractScrollReader';
 
 type Props = {
@@ -104,7 +106,7 @@ export function ContractAcceptanceModal({
           <div className="min-w-0 flex-1">
             {stepLabel && (
               <span className="inline-block mb-1.5 rounded-full bg-white dark:bg-slate-800 px-2 py-0.5 text-[11px] font-medium text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
-                Sözleşme {stepLabel}
+                {formatString(strings.stepLabel, { stepLabel })}
               </span>
             )}
             <h2
@@ -114,15 +116,19 @@ export function ContractAcceptanceModal({
               {contract.title}
             </h2>
             <p className="text-[11px] text-slate-500 mt-1">
-              Sürüm {contract.version}
-              {accepted ? ' · Onaylandı' : scrolledToEnd ? ' · Okuma tamam' : ' · Metni sonuna kadar kaydırın'}
+              {formatString(strings.version, { version: contract.version })}
+              {accepted
+                ? strings.accepted
+                : scrolledToEnd
+                  ? strings.readComplete
+                  : strings.scrollRequired}
             </p>
           </div>
           <button
             type="button"
             onClick={onClose}
             className="p-2 -mr-1 rounded-lg text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 shrink-0"
-            aria-label="Kapat"
+            aria-label={strings.close}
           >
             <FiX className="w-5 h-5" />
           </button>
@@ -137,7 +143,7 @@ export function ContractAcceptanceModal({
             {contract.summary && (
               <div className="mb-4 rounded-lg border border-blue-100 dark:border-blue-900/50 bg-blue-50/70 dark:bg-blue-950/30 px-3 py-2.5">
                 <p className="text-[11px] font-semibold uppercase tracking-wide text-blue-800 dark:text-blue-200 mb-1">
-                  Kısa özet
+                  {strings.summaryTitle}
                 </p>
                 <p className="text-sm text-blue-950/90 dark:text-blue-100/90 leading-relaxed">
                   {contract.summary}
@@ -157,7 +163,7 @@ export function ContractAcceptanceModal({
             >
               <span className="inline-flex items-center gap-1 text-[11px] text-slate-500 dark:text-slate-400 bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-700 rounded-full px-2 py-1">
                 <FiChevronDown className="w-3.5 h-3.5 sm:animate-pulse" />
-                Metnin sonuna kadar kaydırın
+                {strings.scrollHint}
               </span>
             </div>
           )}
@@ -168,14 +174,14 @@ export function ContractAcceptanceModal({
             <div className="flex items-center justify-between gap-3">
               <p className="text-sm text-emerald-700 dark:text-emerald-400 flex items-center gap-2">
                 <FiCheck className="w-4 h-4 shrink-0" />
-                Onaylandı
+                {strings.acceptedLabel}
               </p>
               <button
                 type="button"
                 onClick={onClose}
                 className="text-sm font-medium text-blue-600 hover:underline"
               >
-                Kapat
+                {strings.closeButton}
               </button>
             </div>
           ) : (
@@ -193,10 +199,8 @@ export function ContractAcceptanceModal({
                   className="mt-0.5 h-4 w-4 shrink-0 rounded border-slate-300 text-blue-600 focus:ring-blue-500 disabled:opacity-40"
                 />
                 <span>
-                  <span className="hidden sm:inline">
-                    Özeti ve sözleşme metninin tamamını okudum, anladım ve kurumsal onayımı veriyorum.
-                  </span>
-                  <span className="sm:hidden">Metni okudum ve kabul ediyorum.</span>
+                  <span className="hidden sm:inline">{strings.consentDesktop}</span>
+                  <span className="sm:hidden">{strings.consentMobile}</span>
                 </span>
               </label>
               <div className="mt-3 flex items-center gap-3">
@@ -209,14 +213,14 @@ export function ContractAcceptanceModal({
                   }}
                   className="flex-1 min-h-[44px] py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold disabled:opacity-40 disabled:cursor-not-allowed"
                 >
-                  Sözleşmeyi onayla
+                  {strings.approve}
                 </button>
                 <button
                   type="button"
                   onClick={onClose}
                   className="shrink-0 text-sm text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 px-1"
                 >
-                  Daha sonra
+                  {strings.later}
                 </button>
               </div>
             </>

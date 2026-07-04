@@ -6,6 +6,7 @@ import { BrandMark } from '@/components/brand/BrandMark';
 import { ProjectStatusBadge } from '@/components/project/ProjectStatusBadge';
 import { APP_NAME, APP_TAGLINE_TR } from '@/lib/brand';
 import type { Project } from '@/types/project';
+import strings from '@json/src/components/dashboard/AdminMenuChrome.json';
 
 type BrandProps = {
   onNavigate?: () => void;
@@ -34,7 +35,7 @@ export function AdminMenuBrandBar({ onNavigate, onClose, showClose }: BrandProps
           type="button"
           onClick={onClose}
           className="shrink-0 flex items-center justify-center w-9 h-9 rounded-lg text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-colors"
-          aria-label="Menüyü kapat"
+          aria-label={strings.closeMenuAriaLabel}
         >
           <FiX className="w-5 h-5" />
         </button>
@@ -77,7 +78,7 @@ export function AdminMobileDrawerHeader({
             </div>
           </>
         ) : (
-          <p className="font-semibold text-slate-900">Menü</p>
+          <p className="font-semibold text-slate-900">{strings.menuTitle}</p>
         )}
       </div>
       {onSettings && (
@@ -85,7 +86,7 @@ export function AdminMobileDrawerHeader({
           type="button"
           onClick={onSettings}
           className="shrink-0 flex items-center justify-center w-9 h-9 rounded-lg text-slate-500 hover:bg-slate-100"
-          aria-label="Proje ayarları"
+          aria-label={strings.projectSettingsAriaLabel}
         >
           <FiSliders className="w-4 h-4" />
         </button>
@@ -125,7 +126,7 @@ export function AdminProjectMenuCard({
         <div className="flex items-start justify-between gap-2">
           <div className="min-w-0 flex-1">
             <p className="text-[10px] font-bold uppercase tracking-wider text-blue-600">
-              Aktif proje
+              {strings.activeProjectLabel}
             </p>
             <Link
               href={`/admin-panel/proje/${projectId}`}
@@ -149,7 +150,7 @@ export function AdminProjectMenuCard({
             className="mt-3 w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold text-slate-700 bg-white/80 border border-slate-200/80 hover:border-blue-200 hover:bg-white hover:text-blue-800 transition-colors"
           >
             <FiSliders className="w-3.5 h-3.5" />
-            Proje ayarları
+            {strings.projectSettingsButton}
           </button>
         )}
       </div>

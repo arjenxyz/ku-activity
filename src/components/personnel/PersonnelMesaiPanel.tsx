@@ -10,9 +10,11 @@ import {
 import { formatDate, formatMoney } from '@/lib/format';
 import { approvalStatusLabel, mesaiLabel } from '@/lib/work-log';
 import { getWorkLogApprovalStatus } from '@/lib/work-log';
+import { formatString } from '@/lib/strings/format';
 import { PersonnelMesaiCalendar } from './PersonnelMesaiCalendar';
 import { PersonnelSection } from './PersonnelRecordCard';
 import { PersonnelStatGrid } from './PersonnelStatGrid';
+import strings from '@json/src/components/personnel/PersonnelMesaiPanel.json';
 
 type Props = {
   month: string;
@@ -24,16 +26,20 @@ type Props = {
 export function PersonnelMesaiPanel({ month, onMonthChange, workLogs, dailyWage }: Props) {
   const mesaiStats = computeMesaiStats(workLogs, dailyWage);
   const calendarDays = buildMesaiCalendar(month, workLogs, dailyWage);
+  const monthTitle = new Date(`${month}-01T12:00:00`).toLocaleDateString('tr-TR', {
+    month: 'long',
+    year: 'numeric',
+  });
 
   const statItems = [
     {
-      label: 'Toplam Mesai Kazancı',
+      label: strings.totalPayLabel,
       value: formatMoney(mesaiStats.totalPay),
       icon: <FiTrendingUp className="w-5 h-5 text-orange-600 dark:text-orange-400" />,
       accent: 'bg-orange-50 dark:bg-orange-900/30',
     },
     {
-      label: 'Mesai Kaydı',
+      label: strings.recordCountLabel,
       value: mesaiStats.recordCount.toString(),
       icon: <FiClock className="w-5 h-5 text-amber-600 dark:text-amber-400" />,
       accent: 'bg-amber-50 dark:bg-amber-900/30',
@@ -54,7 +60,7 @@ export function PersonnelMesaiPanel({ month, onMonthChange, workLogs, dailyWage 
       {mesaiStats.recordCount > 0 && (
         <div className="rounded-2xl border border-orange-100 dark:border-orange-900/40 bg-white dark:bg-slate-800 p-4 sm:p-5 shadow-sm">
           <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
-            Mesai türüne göre kazanç
+            {strings.byTypeTitle}
           </p>
           <ul className="space-y-2">
             {(['ceyrek', 'yarim', 'tam'] as const).map((type) => {
@@ -67,7 +73,9 @@ export function PersonnelMesaiPanel({ month, onMonthChange, workLogs, dailyWage 
                 >
                   <span>
                     {mesaiLabel(type)}{' '}
-                    <span className="text-gray-400">({row.count} kayıt)</span>
+                    <span className="text-gray-400">
+                      {formatString(strings.recordCountSuffix, { count: row.count })}
+                    </span>
                   </span>
                   <span className="font-semibold tabular-nums text-orange-700 dark:text-orange-300">
                     {formatMoney(row.pay)}
@@ -80,10 +88,10 @@ export function PersonnelMesaiPanel({ month, onMonthChange, workLogs, dailyWage 
       )}
 
       <PersonnelSection
-        title={`Mesai Kayıtları · ${new Date(`${month}-01T12:00:00`).toLocaleDateString('tr-TR', { month: 'long', year: 'numeric' })}`}
+        title={formatString(strings.recordsTitle, { month: monthTitle })}
         icon={<FiClock className="w-5 h-5 text-orange-600" />}
         isEmpty={mesaiStats.logs.length === 0}
-        emptyMessage="Bu dönemde mesai kaydı yok"
+        emptyMessage={strings.emptyRecords}
       >
         <div>
           {mesaiStats.logs.map((log) => {

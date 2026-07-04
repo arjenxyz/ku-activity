@@ -3,6 +3,8 @@ import { requireDeveloperUser } from '@/lib/developer-auth';
 import { WIPE_CONFIRM_PHRASE } from '@/lib/developer-wipe';
 import { wipeApplicationStorage } from '@/lib/developer-wipe-storage';
 import { createClient } from '@/utils/supabase/server';
+import strings from '@json/src/app/api/developer/wipe-database/route.json';
+import { formatString } from '@/lib/strings/format';
 
 export async function POST(request: Request) {
   try {
@@ -12,7 +14,7 @@ export async function POST(request: Request) {
     if (body.confirmPhrase?.trim() !== WIPE_CONFIRM_PHRASE) {
       return NextResponse.json(
         {
-          error: `Onay metni hatalı. Kutucuğa tam olarak şunu yazın: ${WIPE_CONFIRM_PHRASE}`,
+          error: formatString(strings.onayMetniHatalıKutucuğaTamOlarak, { WIPE_CONFIRM_PHRASE: WIPE_CONFIRM_PHRASE }),
         },
         { status: 400 }
       );
@@ -22,9 +24,7 @@ export async function POST(request: Request) {
     const { data, error } = await supabase.rpc('developer_wipe_application_data');
 
     if (error) {
-      const message = error.message.includes('UNAUTHORIZED')
-        ? 'Yetkisiz'
-        : error.message.includes('developer_wipe_application_data')
+      const message = error.message.includes('UNAUTHORIZED') ? strings.yetkisiz : error.message.includes('developer_wipe_application_data')
           ? '027_developer_wipe_data.sql migration çalıştırın'
           : error.message;
       const status = error.message.includes('UNAUTHORIZED') ? 401 : 500;
@@ -41,9 +41,9 @@ export async function POST(request: Request) {
     });
   } catch (err) {
     if (err instanceof Error && err.message === 'UNAUTHORIZED') {
-      return NextResponse.json({ error: 'Yetkisiz' }, { status: 401 });
+      return NextResponse.json({ error: strings.yetkisiz }, { status: 401 });
     }
     console.error('[developer/wipe-database]', err);
-    return NextResponse.json({ error: 'Veriler silinemedi' }, { status: 500 });
+    return NextResponse.json({ error: strings.verilerSilinemedi }, { status: 500 });
   }
 }

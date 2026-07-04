@@ -17,6 +17,7 @@ import {
   loadProjectAttendanceSchedule,
 } from '@/lib/attendance-window';
 import { apiErrorMessage } from '@/lib/project-queries';
+import strings from '@json/src/app/api/admin/projects/[projectId]/attendance-qr/route.json';
 
 type Ctx = { params: Promise<{ projectId: string }> };
 
@@ -139,7 +140,7 @@ export async function DELETE(request: Request, ctx: Ctx) {
       isToday: workDate === calendarToday,
       canStart: window.isOpen,
       window,
-      message: 'Yoklama iptal edildi.',
+      message: strings.yoklamaIptalEdildi,
     });
   } catch (err) {
     const { status, message } = apiErrorMessage(err);

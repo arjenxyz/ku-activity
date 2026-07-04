@@ -4,6 +4,7 @@ import { createAdminClient } from '@/utils/supabase/admin';
 import { apiErrorMessage } from '@/lib/project-queries';
 import { adminConfirmWorkLog } from '@/lib/work-log-service';
 import type { MesaiType } from '@/lib/work-log';
+import strings from '@json/src/app/api/admin/projects/[projectId]/work-logs/route.json';
 
 type Ctx = { params: Promise<{ projectId: string }> };
 
@@ -65,17 +66,17 @@ export async function POST(request: Request, ctx: Ctx) {
     };
 
     if (!employeeId || !date || amount == null) {
-      return NextResponse.json({ error: 'Zorunlu alanlar eksik' }, { status: 400 });
+      return NextResponse.json({ error: strings.zorunluAlanlarEksik }, { status: 400 });
     }
 
     if (amount !== 1 && amount !== 0.5) {
-      return NextResponse.json({ error: 'Gün miktarı tam (1) veya yarım (0.5) olmalı' }, { status: 400 });
+      return NextResponse.json({ error: strings.günMiktarıTam1VeyaYarım }, { status: 400 });
     }
 
     const mesai = mesaiType ?? 'none';
     if (mesai !== 'none' && amount < 1) {
       return NextResponse.json(
-        { error: 'Mesai yalnızca tam gün çalışmada tanımlanabilir' },
+        { error: strings.mesaiYalnızcaTamGünÇalışmadaTanımlanabilir },
         { status: 400 }
       );
     }
@@ -94,7 +95,7 @@ export async function POST(request: Request, ctx: Ctx) {
 
     return NextResponse.json({ record }, { status: 201 });
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'Kayıt oluşturulamadı';
+    const message = err instanceof Error ? err.message: strings.kayıtOluşturulamadı;
     const status = message.includes('zaten') ? 409 : 400;
     return NextResponse.json({ error: message }, { status });
   }

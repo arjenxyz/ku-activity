@@ -5,6 +5,7 @@ import {
 } from '@/lib/registration-service';
 import { recordContractAcceptances, type ContractAcceptanceInput } from '@/lib/contract-service';
 import { consumeContractOtpToken } from '@/lib/otp-service';
+import strings from '@json/src/app/api/public/personnel-registration/route.json';
 
 function parseAcceptances(raw: FormDataEntryValue | null): ContractAcceptanceInput[] {
   if (!raw || typeof raw !== 'string') return [];
@@ -36,7 +37,7 @@ export async function POST(request: Request) {
 
       if (!contractOtpToken) {
         return NextResponse.json(
-          { error: 'Sözleşme doğrulama kodu gerekli' },
+          { error: strings.sözleşmeDoğrulamaKoduGerekli },
           { status: 400 }
         );
       }
@@ -83,7 +84,7 @@ export async function POST(request: Request) {
       : [];
 
     if (!body.contractOtpToken) {
-      return NextResponse.json({ error: 'Sözleşme doğrulama kodu gerekli' }, { status: 400 });
+      return NextResponse.json({ error: strings.sözleşmeDoğrulamaKoduGerekli }, { status: 400 });
     }
 
     await consumeContractOtpToken({
@@ -120,13 +121,13 @@ export async function POST(request: Request) {
       photoRequired: false,
     });
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'Başvuru başarısız';
+    const message = err instanceof Error ? err.message : strings.başvuruBaşarısız;
     const isConfig =
       message.includes('FIELD_ENCRYPTION_KEY') || message.includes('SUPABASE_SERVICE_ROLE_KEY');
     if (isConfig) {
       console.error('[personnel-registration] Sunucu yapılandırması eksik:', message);
       return NextResponse.json(
-        { error: 'Başvuru şu an alınamıyor. Lütfen daha sonra tekrar deneyin veya yöneticinize bildirin.' },
+        { error: strings.başvuruŞuAnAlınamıyorLütfenDaha },
         { status: 503 }
       );
     }

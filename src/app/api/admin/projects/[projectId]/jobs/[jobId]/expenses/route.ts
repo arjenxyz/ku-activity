@@ -3,6 +3,7 @@ import { requireAdminProjectAccess } from '@/lib/admin-auth';
 import { createAdminClient } from '@/utils/supabase/admin';
 import { apiErrorMessage } from '@/lib/project-queries';
 import { loadProjectProfitOverview } from '@/lib/job-profit-service';
+import strings from '@json/src/app/api/admin/projects/[projectId]/jobs/[jobId]/expenses/route.json';
 
 type Ctx = { params: Promise<{ projectId: string; jobId: string }> };
 
@@ -38,7 +39,7 @@ export async function POST(request: Request, ctx: Ctx) {
     };
 
     if (amount == null || amount <= 0) {
-      return NextResponse.json({ error: 'Geçerli tutar girin' }, { status: 400 });
+      return NextResponse.json({ error: strings.geçerliTutarGirin }, { status: 400 });
     }
 
     const admin = createAdminClient();
@@ -50,7 +51,7 @@ export async function POST(request: Request, ctx: Ctx) {
       .maybeSingle();
 
     if (jobError || !job) {
-      return NextResponse.json({ error: 'İş kalemi bulunamadı' }, { status: 404 });
+      return NextResponse.json({ error: strings.i̇şKalemiBulunamadı }, { status: 404 });
     }
 
     const { data, error } = await admin

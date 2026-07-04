@@ -7,6 +7,8 @@ import { createClient } from '@/utils/supabase/client';
 import { AuthAlert, LoadingSpinner } from '@/components/auth/AuthAlerts';
 import { inputClass, labelClass } from '@/components/auth/authStyles';
 import { loginPasswordInputProps } from '@/components/auth/loginFormProps';
+import strings from '@json/src/app/auth/yeni-sifre/page.json';
+import { formatString } from '@/lib/strings/format';
 
 function NewPasswordForm() {
   const router = useRouter();
@@ -18,7 +20,7 @@ function NewPasswordForm() {
 
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
-  const [error, setError] = useState(linkError ? 'Sıfırlama bağlantısı geçersiz veya süresi dolmuş. Yeniden isteyin.' : '');
+  const [error, setError] = useState(linkError ? strings.linkInvalidOrExpired : '');
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const [sessionReady, setSessionReady] = useState(false);
@@ -29,24 +31,24 @@ function NewPasswordForm() {
       setSessionReady(Boolean(session));
       setChecking(false);
       if (!session && !linkError) {
-        setError('Oturum bulunamadı. E-postadaki sıfırlama linkine tekrar tıklayın.');
+        setError(strings.sessionNotFound);
       }
     });
   }, [supabase.auth, linkError]);
 
   const loginHref = panel === 'developer' ? '/developer-panel/login' : '/admin-panel/login';
-  const panelLabel = panel === 'developer' ? 'Developer paneli' : 'Yönetici paneli';
+  const panelLabel = panel === 'developer' ? strings.developerPanelLabel : strings.adminPanelLabel;
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError('');
 
     if (password.length < 6) {
-      setError('Şifre en az 6 karakter olmalı.');
+      setError(strings.passwordMinLength);
       return;
     }
     if (password !== confirm) {
-      setError('Şifreler eşleşmiyor.');
+      setError(strings.passwordMismatch);
       return;
     }
 
@@ -59,7 +61,7 @@ function NewPasswordForm() {
       setSuccess(true);
       window.setTimeout(() => router.replace(loginHref), 2000);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Şifre güncellenemedi');
+      setError(err instanceof Error ? err.message : strings.passwordUpdateFailed);
     } finally {
       setLoading(false);
     }
@@ -72,30 +74,27 @@ function NewPasswordForm() {
           <div className="inline-flex w-12 h-12 rounded-xl bg-gradient-to-br from-violet-600 to-indigo-600 items-center justify-center text-white font-bold text-lg mb-4">
             🔒
           </div>
-          <h1 className="text-2xl font-bold text-white">Yeni şifre belirle</h1>
-          <p className="text-sm text-slate-400 mt-2">{panelLabel} girişi için</p>
+          <h1 className="text-2xl font-bold text-white">{strings.title}</h1>
+          <p className="text-sm text-slate-400 mt-2">{formatString(strings.subtitleForPanel, { panelLabel })}</p>
         </div>
 
         <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4">
           {success ? (
             <AuthAlert
               type="success"
-              message={`Şifreniz güncellendi. ${panelLabel} giriş sayfasına yönlendiriliyorsunuz…`}
+              message={formatString(strings.passwordUpdatedRedirect, { panelLabel })}
             />
           ) : checking ? (
-            <p className="text-sm text-slate-400 text-center py-4">Oturum kontrol ediliyor…</p>
+            <p className="text-sm text-slate-400 text-center py-4">{strings.checkingSession}</p>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
               {error && <AuthAlert message={error} type="error" />}
               {!sessionReady && !error && (
-                <AuthAlert
-                  message="Sıfırlama linki geçersiz. Giriş sayfasından tekrar şifre sıfırlama isteyin."
-                  type="error"
-                />
+                <AuthAlert message={strings.invalidLinkRetry} type="error" />
               )}
               <div>
                 <label htmlFor="new-password" className={`${labelClass} text-slate-300`}>
-                  Yeni şifre
+                  {strings.newPasswordLabel}
                 </label>
                 <input
                   id="new-password"
@@ -110,7 +109,7 @@ function NewPasswordForm() {
               </div>
               <div>
                 <label htmlFor="confirm-password" className={`${labelClass} text-slate-300`}>
-                  Yeni şifre (tekrar)
+                  {strings.confirmPasswordLabel}
                 </label>
                 <input
                   id="confirm-password"
@@ -130,10 +129,10 @@ function NewPasswordForm() {
               >
                 {loading ? (
                   <>
-                    <LoadingSpinner /> Kaydediliyor…
+                    <LoadingSpinner /> {strings.saving}
                   </>
                 ) : (
-                  'Şifreyi kaydet'
+                  strings.savePassword
                 )}
               </button>
             </form>
@@ -142,7 +141,7 @@ function NewPasswordForm() {
 
         <p className="mt-4 text-center text-sm text-slate-500">
           <Link href={loginHref} className="hover:text-slate-300">
-            Giriş sayfasına dön
+            {strings.backToLogin}
           </Link>
         </p>
       </div>
@@ -152,7 +151,7 @@ function NewPasswordForm() {
 
 export default function NewPasswordPage() {
   return (
-    <Suspense fallback={<div className="min-h-[100dvh] flex items-center justify-center text-slate-500">Yükleniyor…</div>}>
+    <Suspense fallback={<div className="min-h-[100dvh] flex items-center justify-center text-slate-500">{strings.loading}</div>}>
       <NewPasswordForm />
     </Suspense>
   );

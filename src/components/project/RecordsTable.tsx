@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { cardClass } from './ui';
+import strings from '@json/src/components/project/RecordsTable.json';
 
 export type RecordColumn<T> = {
   key: string;
@@ -11,7 +12,7 @@ export type RecordColumn<T> = {
 export function RecordsTable<T extends { id: string }>({
   columns,
   rows,
-  emptyMessage = 'Kayıt bulunamadı',
+  emptyMessage = strings.defaultEmptyMessage,
   loading,
 }: {
   columns: RecordColumn<T>[];
@@ -21,7 +22,7 @@ export function RecordsTable<T extends { id: string }>({
 }) {
   if (loading) {
     return (
-      <div className={`${cardClass} p-8 text-center text-sm text-slate-500`}>Yükleniyor…</div>
+      <div className={`${cardClass} p-8 text-center text-sm text-slate-500`}>{strings.loading}</div>
     );
   }
 

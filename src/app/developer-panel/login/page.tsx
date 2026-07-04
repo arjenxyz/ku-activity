@@ -11,6 +11,7 @@ import {
   loginEmailInputProps,
   loginPasswordInputProps,
 } from '@/components/auth/loginFormProps';
+import strings from '@json/src/app/developer-panel/login/page.json';
 
 type Tab = 'login' | 'reset';
 
@@ -28,7 +29,7 @@ function DeveloperLoginContent() {
 
   useEffect(() => {
     if (searchParams.get('error') === 'yetkisiz') {
-      setError('Bu hesabın developer yetkisi yok. Yönetici (admin) hesabı developer paneline giremez; owner veya developer rolü gerekir.');
+      setError(strings.unauthorizedFromQuery);
     }
   }, [searchParams]);
 
@@ -44,15 +45,13 @@ function DeveloperLoginContent() {
       const { data: isDeveloper, error: rpcError } = await supabase.rpc('is_developer');
       if (rpcError || !isDeveloper) {
         await supabase.auth.signOut();
-        throw new Error(
-          'Bu e-posta ile giriş başarılı ama developer yetkisi yok. Muhtemelen yönetici (admin) hesabı kullanıyorsunuz — Supabase\'te role değerini owner yapın veya ayrı developer hesabının şifresini kullanın.'
-        );
+        throw new Error(strings.loginSuccessNoDeveloperRole);
       }
 
       router.replace('/developer-panel');
       router.refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Giriş başarısız');
+      setError(err instanceof Error ? err.message : strings.loginFailed);
     } finally {
       setLoading(false);
     }
@@ -68,9 +67,9 @@ function DeveloperLoginContent() {
         redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent('/auth/yeni-sifre?panel=developer')}`,
       });
       if (resetError) throw resetError;
-      setSuccess('Şifre sıfırlama bağlantısı e-posta adresinize gönderildi.');
+      setSuccess(strings.resetEmailSent);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'İşlem başarısız');
+      setError(err instanceof Error ? err.message : strings.operationFailed);
     } finally {
       setLoading(false);
     }
@@ -83,16 +82,16 @@ function DeveloperLoginContent() {
           <div className="inline-flex w-12 h-12 rounded-xl bg-gradient-to-br from-violet-600 to-indigo-600 items-center justify-center text-white font-bold text-lg mb-4">
             D
           </div>
-          <h1 className="text-2xl font-bold text-white">Developer Girişi</h1>
+          <h1 className="text-2xl font-bold text-white">{strings.title}</h1>
           <p className="text-sm text-slate-400 mt-2">
-            {activeTab === 'login' ? 'Doğrulama kodu ve APK yönetimi' : 'Developer hesabı şifre sıfırlama'}
+            {activeTab === 'login' ? strings.subtitleLogin : strings.subtitleReset}
           </p>
         </div>
 
         <div className="mb-4 rounded-xl border border-slate-800 bg-slate-900/60 px-4 py-3 text-xs leading-relaxed text-slate-400">
-          Yönetici paneli şifresi ile aynı olmak zorunda değil. <strong className="text-slate-300">admin</strong>{' '}
-          rolü developer paneline girmez; <strong className="text-slate-300">owner</strong> veya{' '}
-          <strong className="text-slate-300">developer</strong> rolü gerekir.
+          {strings.roleHintIntro} <strong className="text-slate-300">admin</strong> {strings.roleHintMid}{' '}
+          <strong className="text-slate-300">owner</strong> {strings.roleHintConjunction}{' '}
+          <strong className="text-slate-300">developer</strong> {strings.roleHintRequired}
         </div>
 
         <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4">
@@ -103,7 +102,7 @@ function DeveloperLoginContent() {
             <form onSubmit={handleLogin} className="space-y-4" {...credentialLoginFormProps}>
               <div>
                 <label htmlFor="dev-email" className={`${labelClass} text-slate-300`}>
-                  E-posta
+                  {strings.emailLabel}
                 </label>
                 <input
                   id="dev-email"
@@ -116,7 +115,7 @@ function DeveloperLoginContent() {
               </div>
               <div>
                 <label htmlFor="dev-password" className={`${labelClass} text-slate-300`}>
-                  Şifre
+                  {strings.passwordLabel}
                 </label>
                 <input
                   id="dev-password"
@@ -134,10 +133,10 @@ function DeveloperLoginContent() {
               >
                 {loading ? (
                   <>
-                    <LoadingSpinner /> Giriş…
+                    <LoadingSpinner /> {strings.loggingIn}
                   </>
                 ) : (
-                  'Giriş Yap'
+                  strings.loginButton
                 )}
               </button>
               <div className="text-center">
@@ -151,7 +150,7 @@ function DeveloperLoginContent() {
                   }}
                   className="text-sm text-violet-300 hover:text-violet-200"
                 >
-                  Şifremi unuttum
+                  {strings.forgotPassword}
                 </button>
               </div>
             </form>
@@ -159,7 +158,7 @@ function DeveloperLoginContent() {
             <form onSubmit={handleReset} className="space-y-4" {...credentialLoginFormProps}>
               <div>
                 <label htmlFor="dev-reset-email" className={`${labelClass} text-slate-300`}>
-                  Developer e-postası
+                  {strings.developerEmailLabel}
                 </label>
                 <input
                   id="dev-reset-email"
@@ -177,10 +176,10 @@ function DeveloperLoginContent() {
               >
                 {loading ? (
                   <>
-                    <LoadingSpinner /> Gönderiliyor…
+                    <LoadingSpinner /> {strings.sendingReset}
                   </>
                 ) : (
-                  'Sıfırlama Bağlantısı Gönder'
+                  strings.sendResetLink
                 )}
               </button>
               <div className="text-center">
@@ -193,7 +192,7 @@ function DeveloperLoginContent() {
                   }}
                   className="text-sm text-violet-300 hover:text-violet-200"
                 >
-                  Giriş sayfasına dön
+                  {strings.backToLogin}
                 </button>
               </div>
             </form>
@@ -202,11 +201,11 @@ function DeveloperLoginContent() {
 
         <p className="mt-4 text-center text-sm text-slate-500">
           <Link href="/" className="hover:text-slate-300">
-            Ana sayfa
+            {strings.homeLink}
           </Link>
           {' · '}
           <Link href="/admin-panel/login" className="hover:text-slate-300">
-            Yönetici girişi
+            {strings.adminLoginLink}
           </Link>
         </p>
       </div>
@@ -216,7 +215,7 @@ function DeveloperLoginContent() {
 
 export default function DeveloperLoginPage() {
   return (
-    <Suspense fallback={<div className="min-h-[100dvh] flex items-center justify-center text-slate-500">Yükleniyor…</div>}>
+    <Suspense fallback={<div className="min-h-[100dvh] flex items-center justify-center text-slate-500">{strings.loading}</div>}>
       <DeveloperLoginContent />
     </Suspense>
   );

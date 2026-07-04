@@ -3,6 +3,7 @@ import { requireAdminProjectAccess } from '@/lib/admin-auth';
 import { createAdminClient } from '@/utils/supabase/admin';
 import { apiErrorMessage } from '@/lib/project-queries';
 import { mesaiTypeToUnits, type MesaiType } from '@/lib/work-log';
+import strings from '@json/src/app/api/admin/projects/[projectId]/work-logs/[recordId]/route.json';
 
 type Ctx = { params: Promise<{ projectId: string; recordId: string }> };
 
@@ -43,7 +44,7 @@ export async function PATCH(request: Request, ctx: Ctx) {
     }
 
     if (!Object.keys(updates).length) {
-      return NextResponse.json({ error: 'Güncellenecek alan yok' }, { status: 400 });
+      return NextResponse.json({ error: strings.güncellenecekAlanYok }, { status: 400 });
     }
 
     const supabase = createAdminClient();
@@ -57,11 +58,11 @@ export async function PATCH(request: Request, ctx: Ctx) {
 
     if (error) {
       if (error.code === '23505') {
-        return NextResponse.json({ error: 'Bu tarih için zaten yevmiye kaydı var' }, { status: 409 });
+        return NextResponse.json({ error: strings.buTarihIçinZatenYevmiyeKaydı }, { status: 409 });
       }
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
-    if (!data) return NextResponse.json({ error: 'Kayıt bulunamadı' }, { status: 404 });
+    if (!data) return NextResponse.json({ error: strings.kayıtBulunamadı }, { status: 404 });
 
     return NextResponse.json({ record: data });
   } catch (err) {

@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { CREWLEDGER_APP_ICON } from '@/lib/brand';
+import strings from '@json/src/components/brand/BrandMark.json';
 
 type Props = {
   size?: 'sm' | 'md' | 'lg';
@@ -19,7 +20,7 @@ export function BrandMark({ size = 'md', className = '' }: Props) {
     >
       <Image
         src={CREWLEDGER_APP_ICON}
-        alt="CrewLedger"
+        alt={strings.alt}
         fill
         className="object-cover"
         sizes={size === 'lg' ? '48px' : size === 'sm' ? '36px' : '40px'}

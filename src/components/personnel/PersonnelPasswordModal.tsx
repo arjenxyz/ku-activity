@@ -8,6 +8,8 @@ import {
   sanitizePersonnelPinInput,
   validatePersonnelPin,
 } from '@/lib/personnel-pin';
+import { formatString } from '@/lib/strings/format';
+import strings from '@json/src/components/personnel/PersonnelPasswordModal.json';
 
 type Props = {
   open: boolean;
@@ -50,7 +52,7 @@ export function PersonnelPasswordModal({ open, onClose }: Props) {
     e.preventDefault();
     setError(null);
     if (next !== confirm) {
-      setError('Yeni şifreler eşleşmiyor');
+      setError(strings.mismatchError);
       return;
     }
     const pinError = validatePersonnelPin(next);
@@ -64,7 +66,7 @@ export function PersonnelPasswordModal({ open, onClose }: Props) {
       setSuccess(true);
       window.setTimeout(onClose, 1200);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Güncelleme başarısız');
+      setError(err instanceof Error ? err.message : strings.updateFailed);
     } finally {
       setLoading(false);
     }
@@ -79,7 +81,7 @@ export function PersonnelPasswordModal({ open, onClose }: Props) {
         type="button"
         className="absolute inset-0 bg-slate-900/50 backdrop-blur-sm"
         onClick={onClose}
-        aria-label="Kapat"
+        aria-label={strings.close}
       />
       <div
         role="dialog"
@@ -94,16 +96,18 @@ export function PersonnelPasswordModal({ open, onClose }: Props) {
             </span>
             <div>
               <h2 id="password-modal-title" className="font-semibold text-slate-900 dark:text-white">
-                Şifre değiştir
+                {strings.title}
               </h2>
-              <p className="text-xs text-slate-500">{PERSONNEL_PIN_LENGTH} haneli PIN</p>
+              <p className="text-xs text-slate-500">
+                {formatString(strings.pinLength, { length: PERSONNEL_PIN_LENGTH })}
+              </p>
             </div>
           </div>
           <button
             type="button"
             onClick={onClose}
             className="flex h-9 w-9 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800"
-            aria-label="Kapat"
+            aria-label={strings.close}
           >
             <FiX className="w-5 h-5" />
           </button>
@@ -114,11 +118,11 @@ export function PersonnelPasswordModal({ open, onClose }: Props) {
             <span className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 mb-3">
               <FiCheck className="w-7 h-7" />
             </span>
-            <p className="font-medium text-slate-900 dark:text-white">Şifreniz güncellendi</p>
+            <p className="font-medium text-slate-900 dark:text-white">{strings.success}</p>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="px-5 py-5 space-y-4">
-            <Field label="Mevcut şifre">
+            <Field label={strings.currentLabel}>
               <input
                 type="password"
                 className={inputClass}
@@ -131,7 +135,7 @@ export function PersonnelPasswordModal({ open, onClose }: Props) {
                 autoFocus
               />
             </Field>
-            <Field label="Yeni şifre">
+            <Field label={strings.newLabel}>
               <input
                 type="password"
                 className={inputClass}
@@ -143,7 +147,7 @@ export function PersonnelPasswordModal({ open, onClose }: Props) {
                 autoComplete="new-password"
               />
             </Field>
-            <Field label="Yeni şifre (tekrar)">
+            <Field label={strings.confirmLabel}>
               <input
                 type="password"
                 className={inputClass}
@@ -167,7 +171,7 @@ export function PersonnelPasswordModal({ open, onClose }: Props) {
               disabled={loading}
               className="w-full py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm disabled:opacity-50 transition-colors"
             >
-              {loading ? 'Kaydediliyor…' : 'Şifreyi güncelle'}
+              {loading ? strings.saving : strings.submit}
             </button>
           </form>
         )}

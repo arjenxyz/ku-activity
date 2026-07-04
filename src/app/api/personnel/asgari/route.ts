@@ -8,13 +8,14 @@ import {
 } from '@/lib/wage-policy-calc';
 import { computeGrossPay, type WorkLog } from '@/lib/personnel-stats';
 import { DEFAULT_WAGE_POLICY, normalizeWagePolicy } from '@/types/wage-policy';
+import strings from '@json/src/app/api/personnel/asgari/route.json';
 
 export async function GET(request: Request) {
   try {
     const session = await requirePersonnelSession();
     const month = new URL(request.url).searchParams.get('month');
     if (!month || !/^\d{4}-\d{2}$/.test(month)) {
-      return NextResponse.json({ error: 'Geçerli ay gerekli (YYYY-MM)' }, { status: 400 });
+      return NextResponse.json({ error: strings.geçerliAyGerekliYyyyMm }, { status: 400 });
     }
 
     const admin = createAdminClient();
@@ -29,7 +30,7 @@ export async function GET(request: Request) {
       .maybeSingle();
 
     if (empErr || !employee) {
-      return NextResponse.json({ error: 'Personel bulunamadı' }, { status: 404 });
+      return NextResponse.json({ error: strings.personelBulunamadı }, { status: 404 });
     }
 
     const { data: project } = await admin
@@ -146,6 +147,6 @@ export async function GET(request: Request) {
       records: minRows ?? [],
     });
   } catch {
-    return NextResponse.json({ error: 'Oturum geçersiz' }, { status: 401 });
+    return NextResponse.json({ error: strings.oturumGeçersiz }, { status: 401 });
   }
 }

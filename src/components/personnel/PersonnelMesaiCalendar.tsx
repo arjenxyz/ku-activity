@@ -6,8 +6,8 @@ import type { MesaiCalendarDay } from '@/lib/personnel-stats';
 import { formatMoney } from '@/lib/format';
 import { mesaiLabel } from '@/lib/work-log';
 import type { WorkLogApprovalStatus } from '@/lib/work-log';
-
-const WEEKDAYS = ['Pt', 'Sa', 'Ça', 'Pe', 'Cu', 'Ct', 'Pz'];
+import { formatString } from '@/lib/strings/format';
+import strings from '@json/src/components/personnel/PersonnelMesaiCalendar.json';
 
 const STATUS_DOT: Record<WorkLogApprovalStatus, string> = {
   confirmed: 'bg-emerald-500',
@@ -60,7 +60,7 @@ export function PersonnelMesaiCalendar({ month, onMonthChange, days, totalPay }:
             type="button"
             onClick={() => shiftMonth(-1)}
             className="touch-target inline-flex items-center justify-center w-10 h-10 rounded-xl border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-900 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-slate-800 shrink-0"
-            aria-label="Önceki ay"
+            aria-label={strings.prevMonth}
           >
             <FiChevronLeft className="w-5 h-5" />
           </button>
@@ -71,12 +71,15 @@ export function PersonnelMesaiCalendar({ month, onMonthChange, days, totalPay }:
               <h2 className="font-bold text-gray-900 dark:text-white capitalize">{monthLabel}</h2>
               {isCurrentMonth && (
                 <span className="shrink-0 text-[10px] font-semibold uppercase tracking-wide px-2 py-0.5 rounded-full bg-orange-100 dark:bg-orange-900/40 text-orange-700 dark:text-orange-300">
-                  Bu ay
+                  {strings.thisMonth}
                 </span>
               )}
             </div>
             <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-              {mesaiDays} mesai günü · {formatMoney(totalPay)} toplam kazanç
+              {formatString(strings.summary, {
+                mesaiDays,
+                totalPay: formatMoney(totalPay),
+              })}
             </p>
           </div>
 
@@ -85,14 +88,14 @@ export function PersonnelMesaiCalendar({ month, onMonthChange, days, totalPay }:
             onClick={() => shiftMonth(1)}
             disabled={isCurrentMonth}
             className="touch-target inline-flex items-center justify-center w-10 h-10 rounded-xl border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-900 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-slate-800 disabled:opacity-35 disabled:pointer-events-none shrink-0"
-            aria-label="Sonraki ay"
+            aria-label={strings.nextMonth}
           >
             <FiChevronRight className="w-5 h-5" />
           </button>
         </div>
 
         <label className="mt-3 flex items-center justify-center gap-2 text-xs text-gray-500 dark:text-gray-400">
-          <span className="hidden sm:inline">Ay seç:</span>
+          <span className="hidden sm:inline">{strings.selectMonth}</span>
           <input
             type="month"
             value={month}
@@ -105,7 +108,7 @@ export function PersonnelMesaiCalendar({ month, onMonthChange, days, totalPay }:
 
       <div className="p-4 sm:p-5">
         <div className="grid grid-cols-7 gap-1.5 mb-2">
-          {WEEKDAYS.map((d) => (
+          {strings.weekdays.map((d) => (
             <div
               key={d}
               className="text-center text-[11px] font-semibold text-gray-400 dark:text-slate-500 py-1"

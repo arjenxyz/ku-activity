@@ -1,0 +1,8 @@
+{
+  "prevMonth": "Önceki ay",
+  "nextMonth": "Sonraki ay",
+  "thisMonth": "Bu ay",
+  "summary": "{mesaiDays} mesai günü · {totalPay} toplam kazanç",
+  "selectMonth": "Ay seç:",
+  "weekdays": ["Pt", "Sa", "Ça", "Pe", "Cu", "Ct", "Pz"]
+}

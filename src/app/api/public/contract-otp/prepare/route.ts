@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { ContractAcceptanceInput } from '@/lib/contract-service';
 import { prepareContractOtpRegistration } from '@/lib/otp-service';
+import strings from '@json/src/app/api/public/contract-otp/prepare/route.json';
 
 function parseAcceptances(raw: FormDataEntryValue | null): ContractAcceptanceInput[] {
   if (!raw || typeof raw !== 'string') return [];
@@ -41,7 +42,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json(result);
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'Kod gönderilemedi';
+    const message = err instanceof Error ? err.message: strings.kodGönderilemedi;
     return NextResponse.json({ error: message }, { status: 400 });
   }
 }
