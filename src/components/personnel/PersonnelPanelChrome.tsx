@@ -25,7 +25,7 @@ function ChromeBody({ children }: { children: React.ReactNode }) {
       <div
         className={
           isYoklama
-            ? 'pt-[calc(3rem+env(safe-area-inset-top))]'
+            ? 'sm:pt-0 sm:pb-0'
             : `pb-[calc(5.25rem+env(safe-area-inset-bottom))] sm:pt-0 sm:pb-0 ${
                 isOverview
                   ? 'pt-[max(0.5rem,env(safe-area-inset-top))]'
@@ -35,7 +35,7 @@ function ChromeBody({ children }: { children: React.ReactNode }) {
       >
         {children}
       </div>
-      {!isYoklama ? <PersonnelAppBottomNav /> : null}
+      <PersonnelAppBottomNav />
     </>
   );
 }
