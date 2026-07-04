@@ -430,7 +430,7 @@ async function sendPinResetLinkEmail(employee: EmployeeContact, token: string): 
   const text = [
     `Merhaba ${employee.name},`,
     '',
-    'Kimlik bilgileriniz doğrulandı. Yeni PIN belirlemek için aşağıdaki bağlantıyı kullanın:',
+    'Girdiğiniz bilgiler sistemdeki kaydınızla uyuştu. Yeni PIN belirlemek için aşağıdaki bağlantıyı kullanın:',
     resetUrl,
     '',
     `Bağlantı ${PIN_RESET_LINK_MINUTES} dakika geçerlidir ve yalnızca bir kez kullanılabilir.`,
@@ -439,7 +439,7 @@ async function sendPinResetLinkEmail(employee: EmployeeContact, token: string): 
 
   const html = `<!DOCTYPE html><html lang="tr"><body style="font-family:system-ui,sans-serif;color:#334155;line-height:1.6;">
 <p>Merhaba <strong>${employee.name}</strong>,</p>
-<p>Kimlik bilgileriniz doğrulandı. Yeni PIN belirlemek için aşağıdaki düğmeye tıklayın:</p>
+<p>Girdiğiniz bilgiler sistemdeki kaydınızla uyuştu. Yeni PIN belirlemek için aşağıdaki düğmeye tıklayın:</p>
 <p style="margin:24px 0;text-align:center;">
   <a href="${resetUrl}" style="display:inline-block;padding:14px 28px;background:#2563eb;color:#ffffff;text-decoration:none;font-size:15px;font-weight:600;border-radius:12px;">Yeni PIN belirle</a>
 </p>

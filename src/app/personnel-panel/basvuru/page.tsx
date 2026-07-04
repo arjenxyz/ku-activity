@@ -469,6 +469,10 @@ export default function PersonnelApplicationPage() {
                   placeholder="11 haneli T.C. kimlik"
                   required
                 />
+                <p className="mt-1.5 text-xs text-slate-500 leading-relaxed">
+                  T.C. kimlik numarası yalnızca format kontrolünden geçer; resmi kimlik doğrulaması
+                  işveren onay sürecinde yapılır.
+                </p>
               </div>
               <div>
                 <label className={labelClass} htmlFor="basvuru-phone">

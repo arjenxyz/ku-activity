@@ -68,6 +68,23 @@ const defaultForm: ApprovalForm = {
   hire_date: dayjs().format('YYYY-MM-DD'),
 };
 
+const IDENTITY_CHECKLIST_ITEMS = [
+  {
+    id: 'photo',
+    label: 'Başvuru fotoğrafı kimlik kartı / yüz ile uyumlu',
+  },
+  {
+    id: 'nameIdentity',
+    label: 'Ad-soyad ile kimlik numarası birbiriyle uyumlu',
+  },
+  {
+    id: 'contact',
+    label: 'Telefon ve e-posta adresi başvuru sahibine ait görünüyor',
+  },
+] as const;
+
+type ChecklistId = (typeof IDENTITY_CHECKLIST_ITEMS)[number]['id'];
+
 function statusBadge(status: string) {
   switch (status) {
     case 'pending':
@@ -115,6 +132,11 @@ export function AdminBasvuruOnayModal({
   const [form, setForm] = useState<ApprovalForm>(defaultForm);
   const [showSensitive, setShowSensitive] = useState(false);
   const [localError, setLocalError] = useState<string | null>(null);
+  const [checklist, setChecklist] = useState<Record<ChecklistId, boolean>>({
+    photo: false,
+    nameIdentity: false,
+    contact: false,
+  });
 
   const isPending = registration?.status === 'pending';
   const statusMsg = registration ? registrationStatusMessage(registration.status) : null;
@@ -125,17 +147,21 @@ export function AdminBasvuruOnayModal({
     : true;
   const applicantAge = registration ? getAgeFromBirthDate(registration.sensitive.birthDate) : null;
 
+  const checklistComplete = IDENTITY_CHECKLIST_ITEMS.every((item) => checklist[item.id]);
+
   const adminFormValid =
     Boolean(form.position.trim()) &&
     Number(form.daily_wage) > 0 &&
     Boolean(form.hire_date) &&
-    birthDateEligible;
+    birthDateEligible &&
+    checklistComplete;
 
   useEffect(() => {
     if (!open) return;
     setForm(defaultForm);
     setShowSensitive(false);
     setLocalError(null);
+    setChecklist({ photo: false, nameIdentity: false, contact: false });
   }, [open, registration?.id]);
 
   useEffect(() => {
@@ -175,7 +201,11 @@ export function AdminBasvuruOnayModal({
       return;
     }
     if (!adminFormValid) {
-      setLocalError('Pozisyon, yevmiye ve işe giriş tarihini doldurun.');
+      setLocalError(
+        checklistComplete
+          ? 'Pozisyon, yevmiye ve işe giriş tarihini doldurun.'
+          : 'Onaylamadan önce kimlik teyit maddelerinin tamamını işaretleyin.'
+      );
       return;
     }
     setLocalError(null);
@@ -366,6 +396,34 @@ export function AdminBasvuruOnayModal({
                   </>
                 )}
               </button>
+
+              {isPending && (
+                <div className="rounded-xl border border-amber-200 bg-amber-50/80 p-4 space-y-3">
+                  <div>
+                    <h4 className="text-sm font-semibold text-amber-950">Kimlik teyit kontrol listesi</h4>
+                    <p className="mt-0.5 text-xs text-amber-900/80">
+                      Resmi NVI doğrulaması yapılmaz; onay öncesi aşağıdaki maddeleri manuel teyit edin.
+                    </p>
+                  </div>
+                  <ul className="space-y-2">
+                    {IDENTITY_CHECKLIST_ITEMS.map((item) => (
+                      <li key={item.id}>
+                        <label className="flex items-start gap-2.5 cursor-pointer text-sm text-amber-950">
+                          <input
+                            type="checkbox"
+                            checked={checklist[item.id]}
+                            onChange={(e) =>
+                              setChecklist((prev) => ({ ...prev, [item.id]: e.target.checked }))
+                            }
+                            className="mt-0.5 h-4 w-4 shrink-0 rounded border-amber-300 text-amber-700 focus:ring-amber-500"
+                          />
+                          <span>{item.label}</span>
+                        </label>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </section>
 
             {/* Sağ: onay formu */}
