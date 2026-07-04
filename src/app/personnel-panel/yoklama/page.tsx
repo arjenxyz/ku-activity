@@ -257,6 +257,7 @@ function YoklamaContent() {
         submitting={scanning}
         disabled={windowClosed}
         isRescan={forceReplace || status?.state === 'cancelled' || status?.state === 'removed'}
+        error={codeSheetOpen ? error : null}
       />
     </>
   );
