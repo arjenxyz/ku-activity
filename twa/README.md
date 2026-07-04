@@ -38,7 +38,7 @@ Parmak izi almak (Bubblewrap / Android Studio oluşturduktan sonra):
 keytool -list -v -keystore android.keystore -alias android
 ```
 
-**Önemli:** `assetlinks.json` parmak izi olmadan boş döner; Play yayını öncesi mutlaka doldurun.
+**Önemli:** `assetlinks.json` parmak izi APK imzasıyla eşleşmezse uygulama **Chrome gibi** açılır (üstte adres çubuğu, çarpı ile kapanma). Doğru parmak izi: `npm run twa:fingerprint` veya repo içindeki `twa-fingerprints.defaults.ts`.
 
 Doğrulama: [Google Digital Asset Links Tester](https://developers.google.com/digital-asset-links/tools/generator)
 
