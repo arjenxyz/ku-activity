@@ -310,7 +310,7 @@ export function AttendanceQrScanner({
       )}
 
       {error && !paused && (
-        <div className="absolute inset-x-4 bottom-0 z-[4] rounded-xl bg-red-950/90 px-4 py-2.5 text-center text-sm text-red-100 backdrop-blur-sm safe-pb-nav">
+        <div className="fixed inset-x-4 bottom-nav z-[8] rounded-xl bg-red-950/90 px-4 py-3 text-center text-sm text-red-100 shadow-lg backdrop-blur-sm">
           {error}
         </div>
       )}

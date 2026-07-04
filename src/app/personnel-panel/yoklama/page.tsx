@@ -209,7 +209,7 @@ function YoklamaContent() {
         )}
 
         {successMsg && status?.state === 'none' && (
-          <div className="absolute inset-x-4 bottom-6 z-[5] flex items-center justify-center gap-2 rounded-xl bg-emerald-600/95 px-4 py-3 text-sm font-medium text-white shadow-lg">
+          <div className="fixed inset-x-4 bottom-nav z-[5] flex items-center justify-center gap-2 rounded-xl bg-emerald-600/95 px-4 py-3 text-sm font-medium text-white shadow-lg">
             <FiCheckCircle className="h-4 w-4 shrink-0" />
             {successMsg}
           </div>
