@@ -130,23 +130,7 @@ export async function suggestAdvanceMatches(
 
   suggestions.sort((a, b) => b.score - a.score);
 
-  if (suggestions.length === 0 && requests.length === 1) {
-    const row = requests[0]!;
-    const employees = row.employees as { name?: string } | null;
-    const projects = row.projects as { name?: string } | null;
-    suggestions.push({
-      requestId: row.id,
-      projectId: row.project_id,
-      projectName: projects?.name ?? null,
-      employeeId: row.employee_id,
-      employeeName: employees?.name ?? 'Personel',
-      approvedAmount: Number(row.approved_amount ?? row.requested_amount),
-      score: 20,
-      reasons: ['Tek ödeme bekleyen havale talebi'],
-    });
-  }
-
-  return suggestions.slice(0, 5);
+  return suggestions.filter((s) => s.score >= 50).slice(0, 5);
 }
 
 export function formatOcrIban(iban: string | null) {

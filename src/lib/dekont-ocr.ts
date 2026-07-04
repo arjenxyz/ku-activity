@@ -10,7 +10,26 @@ export type DekontOcrResult = {
   paymentDate: string | null;
   confidence: 'high' | 'medium' | 'low';
   source: 'pdf' | 'vision' | 'none';
+  bankKeywords?: string[];
+  isLikelyTransfer?: boolean;
 };
+
+const BANK_KEYWORDS = [
+  'DEKONT', 'HAVALE', 'EFT', 'FAST', 'TRANSFER', 'İBAN', 'IBAN', 'TUTAR',
+  'GÖNDEREN', 'GONDEREN', 'ALICI', 'ALACAKLI', 'LEHTAR', 'İŞLEM', 'ISLEM',
+  'REFERANS', 'BANKA', 'GARANTİ', 'GARANTI', 'ZİRAAT', 'ZIRAAT', 'AKBANK',
+  'HALKBANK', 'VAKIF', 'QNB', 'ENPARA', 'TRY', 'TL',
+];
+
+export function findBankKeywords(text: string): string[] {
+  const upper = text
+    .toLocaleUpperCase('tr-TR')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '');
+  return BANK_KEYWORDS.filter((kw) =>
+    upper.includes(kw.normalize('NFD').replace(/[\u0300-\u036f]/g, ''))
+  );
+}
 
 function parseTurkishAmount(text: string): number | null {
   const patterns = [
@@ -70,8 +89,32 @@ function extractIbans(text: string): string[] {
   return [...found];
 }
 
-function pickRecipientIban(ibans: string[]): string | null {
+function pickRecipientIban(text: string, ibans: string[]): string | null {
   if (ibans.length === 0) return null;
+
+  const upper = text.toLocaleUpperCase('tr-TR');
+  const recipientMarkers = [
+    'ALICI IBAN',
+    'ALICI İBAN',
+    'ALICI:',
+    'ALACAKLI',
+    'LEHTAR',
+    'KARŞI HESAP',
+    'KARSI HESAP',
+    'ALICI HESAP',
+  ];
+
+  for (const marker of recipientMarkers) {
+    const idx = upper.indexOf(marker);
+    if (idx === -1) continue;
+    const slice = upper.slice(idx, idx + 120);
+    const match = slice.match(/TR\d{2}(?:\s?\d{4}){5}\s?\d{2}/);
+    if (match) {
+      const compact = match[0].replace(/\s/g, '');
+      if (validateTurkishIban(compact)) return normalizeIban(compact);
+    }
+  }
+
   if (ibans.length === 1) return ibans[0]!;
   return ibans[ibans.length - 1] ?? ibans[0]!;
 }
@@ -162,10 +205,12 @@ export async function analyzeDekont(params: {
   }
 
   const allIbans = extractIbans(rawText);
-  const recipientIban = pickRecipientIban(allIbans);
+  const recipientIban = pickRecipientIban(rawText, allIbans);
   const amount = parseTurkishAmount(rawText);
   const referenceNo = parseReferenceNo(rawText);
   const paymentDate = parsePaymentDate(rawText);
+  const bankKeywords = findBankKeywords(rawText);
+  const transferFields = [recipientIban, amount, paymentDate, referenceNo].filter(Boolean).length;
 
   const base = {
     rawText: rawText.slice(0, 12000),
@@ -175,6 +220,8 @@ export async function analyzeDekont(params: {
     referenceNo,
     paymentDate,
     source,
+    bankKeywords,
+    isLikelyTransfer: bankKeywords.length >= 2 && transferFields >= 2,
   };
 
   return { ...base, confidence: scoreConfidence(base) };

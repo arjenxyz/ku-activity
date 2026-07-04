@@ -1,3 +1,4 @@
+import { validateDekontDocument, validateMatchForConfirm } from '@/lib/dekont-validation';
 import { analyzeDekont, type DekontOcrResult } from '@/lib/dekont-ocr';
 import { suggestAdvanceMatches, type DekontMatchSuggestion } from '@/lib/advance-dekont-match';
 import {
@@ -61,6 +62,16 @@ export async function ingestDekontDraft(params: {
     }
   }
 
+  const validation = validateDekontDocument(ocr);
+  if (!validation.accepted) {
+    const failed = validation.checks.filter((c) => c.required && !c.passed);
+    const detail = failed.map((c) => c.label).join(', ');
+    throw new DekontImportError(
+      `${validation.summary}${detail ? ` (${detail})` : ''}`,
+      422
+    );
+  }
+
   const matches = await suggestAdvanceMatches(admin, { projectIds, ocr });
   const top = matches[0];
   const projectId =
@@ -103,7 +114,7 @@ export async function ingestDekontDraft(params: {
     throw new DekontImportError(error.message, 500);
   }
 
-  return { draftId: data.id as string, ocr, matches };
+  return { draftId: data.id as string, ocr, matches, validation };
 }
 
 export async function loadDekontDraft(adminUserId: string, draftId: string) {
@@ -143,6 +154,13 @@ export async function confirmDekontDraft(params: {
 }) {
   const draft = await loadDekontDraft(params.adminUserId, params.draftId);
   const admin = createAdminClient();
+
+  const selectedMatch =
+    (draft.match_json ?? []).find((m) => m.requestId === params.requestId) ?? null;
+  const matchCheck = validateMatchForConfirm(draft.ocr_json, selectedMatch);
+  if (!matchCheck.ok) {
+    throw new DekontImportError(matchCheck.reason ?? 'Eşleşme doğrulanamadı', 422);
+  }
 
   const { data: draftRow } = await admin
     .from('dekont_import_drafts')

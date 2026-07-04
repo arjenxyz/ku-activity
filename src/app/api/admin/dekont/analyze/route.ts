@@ -24,7 +24,7 @@ export async function POST(request: Request) {
       projectId,
     });
 
-    return NextResponse.json(result);
+    return NextResponse.json({ ...result, validation: result.validation });
   } catch (err) {
     if (err instanceof DekontImportError) {
       return NextResponse.json({ error: err.message }, { status: err.status });
