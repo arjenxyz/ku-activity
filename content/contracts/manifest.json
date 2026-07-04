@@ -1,0 +1,50 @@
+{
+  "retireSlugs": ["ekip-calismasi", "ucret-yevmiye"],
+  "contracts": [
+    {
+      "slug": "platform-kullanim",
+      "title": "Platform Kullanım Şartları",
+      "summary": "CrewLedger gönüllük projesidir; kullanım zorunlu değildir. Platformun resmi belge yerine geçmediğini kabul edersiniz.",
+      "version": 2,
+      "is_required": true,
+      "sort_order": 1,
+      "file": "platform-kullanim.html"
+    },
+    {
+      "slug": "kvkk-aydinlatma",
+      "title": "KVKK Aydınlatma Metni",
+      "summary": "Kişisel verilerinizin hangi amaçla işlendiği, kimlerin sorumlu olduğu ve haklarınız hakkında bilgilendirilirsiniz.",
+      "version": 5,
+      "is_required": true,
+      "sort_order": 2,
+      "file": "kvkk-aydinlatma.html"
+    },
+    {
+      "slug": "gizlilik-veri",
+      "title": "Açık Rıza ve Gizlilik Taahhüdü",
+      "summary": "Verilerinizin işlenmesine rıza verir; girdiğiniz bilgilerin doğruluğundan sorumlu olduğunuzu kabul edersiniz.",
+      "version": 5,
+      "is_required": true,
+      "sort_order": 3,
+      "file": "gizlilik-veri.html"
+    },
+    {
+      "slug": "finansal-seffaflik",
+      "title": "Finansal Kayıt ve Şeffaflık Bildirimi",
+      "summary": "Yevmiye, avans ve kesintilerin her iki tarafta da görülebileceğini; kayıtların resmi bordro yerine geçmediğini kabul edersiniz.",
+      "version": 2,
+      "is_required": true,
+      "sort_order": 4,
+      "file": "finansal-seffaflik.html"
+    },
+    {
+      "slug": "cihaz-izinleri",
+      "title": "Cihaz İzinleri Bildirimi",
+      "summary": "Kamera (QR yoklama), oturum çerezleri ve mobil uygulama kullanımına ilişkin bilgilendirme.",
+      "version": 2,
+      "is_required": true,
+      "sort_order": 5,
+      "file": "cihaz-izinleri.html"
+    }
+  ]
+}

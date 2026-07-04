@@ -1,4 +1,10 @@
-﻿UPDATE public.personnel_contracts
+-- =========================================================================================
+-- CREWLEDGER PERSONEL SÖZLEŞMELERİ (otomatik üretildi)
+-- Kaynak: content/contracts/*.html
+-- Üret: npm run contracts:build
+-- =========================================================================================
+
+UPDATE public.personnel_contracts
 SET is_required = false, updated_at = now()
 WHERE slug IN ('ekip-calismasi', 'ucret-yevmiye');
 
@@ -6,205 +12,187 @@ insert into public.personnel_contracts (slug, title, summary, content_html, vers
 values
 (
   'platform-kullanim',
-  'Platform KullanÄ±m ÅartlarÄ± ve GÃ¶nÃ¼llÃ¼lÃ¼k BeyanÄ±',
-  'CrewLedger''in gÃ¶nÃ¼llÃ¼lÃ¼k projesi olduÄŸunu, ÅŸirkete baÄŸlÄ± olmadÄ±ÄŸÄ±nÄ±, kullanÄ±mÄ±n zorunlu olmadÄ±ÄŸÄ±nÄ± ve mahkeme/resmi geÃ§erlilik sÄ±nÄ±rlarÄ±nÄ± kabul edersiniz.',
+  'Platform Kullanım Şartları',
+  'CrewLedger gönüllük projesidir; kullanım zorunlu değildir. Platformun resmi belge yerine geçmediğini kabul edersiniz.',
   $html$
 <div class="contract-parties">
-  <p><strong>Platform:</strong> {{PLATFORM_NAME}} â€” {{PLATFORM_URL}}</p>
-  <p><strong>Nitelik:</strong> {{PLATFORM_NATURE}} (tÃ¼zel kiÅŸilik yoktur)</p>
-  <p><strong>GeliÅŸtirici / OperatÃ¶r:</strong> {{DEVELOPER_NAME}} ({{DEVELOPER_ROLE}})</p>
-  <p><strong>Ä°letiÅŸim:</strong> {{PLATFORM_CONTACT}}</p>
+  <p><strong>Platform:</strong> {{PLATFORM_NAME}} — {{PLATFORM_URL}}</p>
+  <p><strong>Geliştirici:</strong> {{DEVELOPER_NAME}}</p>
+  <p><strong>İletişim:</strong> {{PLATFORM_CONTACT}}</p>
 </div>
 <div class="contract-meta">
-  <p><strong>Belge tÃ¼rÃ¼:</strong> Platform kullanÄ±m ÅŸartlarÄ± ve gÃ¶nÃ¼llÃ¼lÃ¼k beyanÄ±</p>
-  <p><strong>Ã–nemli:</strong> Bu metin herhangi bir anonim ÅŸirket, taÅŸeron firmasÄ± veya resmi iÅŸveren adÄ±na dÃ¼zenlenmemiÅŸtir.</p>
+  <p>Bu metin bir şirket veya resmi işveren adına düzenlenmemiştir. {{PLATFORM_NAME}}, {{DEVELOPER_NAME}} tarafından geliştirilen gönüllük esaslı bir dijital platformdur.</p>
 </div>
 
-<h2>1. PLATFORMUN TANIMI</h2>
-<p><strong>{{PLATFORM_NAME}}</strong>, {{DEVELOPER_NAME}} tarafÄ±ndan geliÅŸtirilen, inÅŸaat ve ÅŸantiye ortamlarÄ±nda personel finansal takibini dijitalleÅŸtirmeyi amaÃ§layan <strong>kar amacÄ± gÃ¼tmeyen gÃ¶nÃ¼llÃ¼lÃ¼k projesidir</strong>. Platform ticari bir iÅŸletme deÄŸildir; herhangi bir ÅŸirketin mÃ¼lkiyetinde veya resmi temsilinde deÄŸildir.</p>
-<p>Platform; e-Devlet, NVI/KPS/Mernis, SGK veya resmi bordro sistemleri ile entegre deÄŸildir. Resmi devlet kayÄ±tlarÄ±nÄ±n yerine geÃ§mez.</p>
+<h2>1. Platform nedir?</h2>
+<p>{{PLATFORM_NAME}}; şantiye ve inşaat ortamlarında yevmiye, avans, kesinti, yoklama ve puantaj takibini dijitalleştirmek için kurulmuş, <strong>kar amacı gütmeyen</strong> bir projedir. Tüzel kişiliği yoktur; e-Devlet, NVI, SGK veya resmi bordro sistemleriyle bağlantılı değildir.</p>
 
-<h2>2. GÃ–NÃœLLÃœ KULLANIM â€” ZORUNLULUK YOK</h2>
-<p>HiÃ§bir yÃ¶netici, ekip baÅŸÄ±, ÅŸantiye sorumlusu veya iÅŸveren, personeli bu platformu kullanmaya <strong>zorlayamaz</strong>. Personel kaydÄ± ve kullanÄ±m tamamen gÃ¶nÃ¼llÃ¼dÃ¼r.</p>
-<p>Platformu kullanmayÄ± reddeden personel ile taraflar arasÄ±ndaki Ã¼cret, Ã§alÄ±ÅŸma ve Ä°SG iliÅŸkisi ilgili mevzuat ve sahadaki fiili dÃ¼zenlemelere gÃ¶re ayrÄ±ca yÃ¼rÃ¼tÃ¼lÃ¼r.</p>
+<h2>2. Kullanım gönüllüdür</h2>
+<p>Hiç kimse — yönetici, ekip başı veya işveren — sizi bu platformu kullanmaya zorlayamaz. Kullanmak istemezseniz, ücret ve çalışma ilişkiniz sahadaki fiili düzen ve yürürlükteki mevzuata göre ayrıca yürütülür.</p>
 
-<h2>3. HÄ°ZMETÄ°N KAPSAMI VE ÅEFFAFLIK</h2>
-<p>Platform aÅŸaÄŸÄ±daki kayÄ±tlarÄ±n dijital ortamda tutulmasÄ±na ve <strong>hem yÃ¶netici hem personel tarafÄ±ndan gÃ¶rÃ¼ntÃ¼lenmesine</strong> aracÄ±lÄ±k eder:</p>
+<h2>3. Ne işe yarar?</h2>
+<p>Platform; aşağıdaki kayıtların tutulmasına ve <strong>hem yönetici hem personel tarafından görülmesine</strong> aracılık eder:</p>
 <ul>
-  <li>GÃ¼nlÃ¼k yevmiye ve puantaj</li>
-  <li>Avans talepleri ve Ã¶deme durumu</li>
+  <li>Günlük yevmiye ve puantaj</li>
+  <li>Avans talepleri</li>
   <li>Kesintiler</li>
-  <li>Asgari Ã¼cret / tam gÃ¼n takibi</li>
-  <li>QR yoklama kayÄ±tlarÄ±</li>
-  <li>Mesai (fazla Ã§alÄ±ÅŸma) onaylarÄ±</li>
+  <li>Asgari ücret / tam gün takibi</li>
+  <li>QR ile yoklama</li>
+  <li>Mesai onayları</li>
 </ul>
-<p>AmaÃ§, finansal takibin rahat, dijital ve karÅŸÄ±lÄ±klÄ± gÃ¶rÃ¼nÃ¼r olmasÄ±dÄ±r; taraflar arasÄ±nda bilgi asimetrisini azaltmaktÄ±r.</p>
+<p>Amaç, finansal takibi şeffaf ve dijital hale getirmektir.</p>
 
-<h2>4. YÃ–NETÄ°CÄ° VE PERSONEL ROLLERÄ°</h2>
-<p><strong>YÃ¶netici</strong> (platformu kullanan kiÅŸi): Proje oluÅŸturur, personel kaydÄ± onaylar, yevmiye/avans/kesinti girer. Sahadaki fiili yÃ¶netim ve Ã¶deme yÃ¼kÃ¼mlÃ¼lÃ¼kleri kendisine aittir; {{DEVELOPER_NAME}} bu yÃ¼kÃ¼mlÃ¼lÃ¼kleri devralmaz.</p>
-<p><strong>Personel</strong>: Kendi panelinden kayÄ±tlarÄ±nÄ± gÃ¶rÃ¼r, itiraz edebilir, avans talep edebilir, yoklama yapabilir. GirdiÄŸi kimlik bilgilerinin doÄŸruluÄŸundan sorumludur.</p>
+<h2>4. Roller</h2>
+<p><strong>Yönetici</strong> (platformu açan kişi): Kayıt onaylar, yevmiye ve avans girer. Sahadaki ödeme ve yönetim yükümlülüğü kendisindedir; {{DEVELOPER_NAME}} bu sorumlulukları üstlenmez.</p>
+<p><strong>Personel</strong>: Kendi kayıtlarını panelden görür, itiraz edebilir, avans talep edebilir. Girdiği kimlik bilgilerinin doğruluğundan sorumludur.</p>
 
-<h2>5. &quot;OLDUÄU GÄ°BÄ°&quot; SUNUM</h2>
-<p>Platform Ã¼cretsiz ve gÃ¶nÃ¼llÃ¼lÃ¼k esasÄ±na gÃ¶re sunulur. Kesintisiz Ã§alÄ±ÅŸma, veri kaybÄ± olmamasÄ±, belirli bir hukuki sonuÃ§ doÄŸurmasÄ± veya sÃ¼resiz hizmet verilmesi garanti edilmez. BakÄ±m, gÃ¼ncelleme veya projenin sonlandÄ±rÄ±lmasÄ± mÃ¼mkÃ¼ndÃ¼r.</p>
+<h2>5. Hizmet garantisi</h2>
+<p>Platform ücretsiz sunulur. Kesintisiz çalışacağı, veri kaybı olmayacağı veya süresiz hizmet verileceği garanti edilmez. Bakım, güncelleme veya projenin kapanması mümkündür.</p>
 
-<h2>6. RESMÄ° GEÃ‡ERLÄ°LÄ°K VE MAHKEME DELÄ°LÄ°</h2>
-<p><strong>6.1.</strong> Platform kayÄ±tlarÄ± resmi bordro, SGK bildirimi, vergi kaydÄ± veya e-Devlet belgesi deÄŸildir.</p>
-<p><strong>6.2.</strong> Ä°ÅŸ hukuku uyuÅŸmazlÄ±klarÄ±nda Ã¶ncelik; resmi iÅŸveren kayÄ±tlarÄ±, imzalÄ± bordro, banka dekontlarÄ±, tanÄ±k beyanlarÄ± ve mevzuata uygun belgelere aittir.</p>
-<p><strong>6.3.</strong> Elektronik sÃ¶zleÅŸme onayÄ±, OTP doÄŸrulama ve sistem loglarÄ± 6098 sayÄ±lÄ± TBK ve 6100 sayÄ±lÄ± HMK Ã§erÃ§evesinde <em>destekleyici delil</em> niteliÄŸinde olabilir; tek baÅŸÄ±na kesin ve baÄŸlayÄ±cÄ± delil olduÄŸu garanti edilmez.</p>
-<p><strong>6.4.</strong> Sistemdeki yevmiye, avans ve kesinti kayÄ±tlarÄ± taraflar arasÄ± ÅŸeffaflÄ±k ve mutabakat amacÄ± taÅŸÄ±r; mahkemede tek baÅŸÄ±na hakediÅŸ belgesi veya icra emrine dayanak olduÄŸu iddia edilmez.</p>
-<p><strong>6.5.</strong> T.C. kimlik numarasÄ± yalnÄ±zca algoritmik format kontrolÃ¼nden geÃ§er; NVI/KPS ile resmi kimlik doÄŸrulamasÄ± yapÄ±lmaz.</p>
+<h2>6. Resmi geçerlilik</h2>
+<p>Bu kayıtlar resmi bordro, SGK bildirimi veya e-Devlet belgesi değildir. İş uyuşmazlıklarında öncelik resmi işveren kayıtları, imzalı bordro, banka dekontları ve mevzuata uygun belgelere aittir.</p>
+<p>Elektronik onay ve sistem logları mahkemede <em>destekleyici delil</em> olabilir; tek başına kesin delil sayılacağı garanti edilmez. T.C. kimlik numarası yalnızca format kontrolünden geçer; NVI doğrulaması yapılmaz.</p>
 
-<h2>7. SORUMLULUK SINIRI</h2>
-<p>{{DEVELOPER_NAME}}, platform operatÃ¶rÃ¼ sÄ±fatÄ±yla; kullanÄ±cÄ±larÄ±n girdiÄŸi verilerin doÄŸruluÄŸu, yÃ¶neticiler ile personel arasÄ±ndaki Ã¶zel hukuk uyuÅŸmazlÄ±klarÄ±, Ã¶denmeyen Ã¼cret, yanlÄ±ÅŸ kesinti, iÅŸ kazasÄ± veya Ä°SG ihlallerinden doÄŸrudan sorumlu tutulamaz.</p>
+<h2>7. Sorumluluk</h2>
+<p>{{DEVELOPER_NAME}}, kullanıcıların girdiği yanlış verilerden, ödenmeyen ücretten, iş kazasından veya yönetici–personel arasındaki özel uyuşmazlıklardan doğrudan sorumlu tutulamaz.</p>
 
-<h2>8. FÄ°KRÄ° MÃœLKÄ°YET</h2>
-<p>YazÄ±lÄ±m, arayÃ¼z ve marka unsurlarÄ± {{DEVELOPER_NAME}}'a aittir. Ä°zinsiz ticari Ã§oÄŸaltma veya satÄ±ÅŸ yapÄ±lamaz.</p>
-
-<h2>9. ELEKTRONÄ°K ONAY</h2>
-<p>Personel; iÅŸbu metni okuduÄŸunu, platformun gÃ¶nÃ¼llÃ¼lÃ¼k niteliÄŸini ve resmi geÃ§erlilik sÄ±nÄ±rlarÄ±nÄ± anladÄ±ÄŸÄ±nÄ±, Ã¶zgÃ¼r iradesiyle kabul ettiÄŸini beyan eder. Onay anÄ±na iliÅŸkin tarih-saat, sÃ¼rÃ¼m numarasÄ± ve teknik kayÄ±tlar saklanÄ±r.</p>
+<h2>8. Onayınız</h2>
+<p>Bu metni okuduğunuzu, platformun gönüllülük niteliğini anladığınızı ve özgür iradenizle kabul ettiğinizi beyan edersiniz. Onay tarihi, sürüm numarası ve teknik kayıtlar saklanır.</p>
 $html$,
-  1,
+  2,
   true,
   1
 ),
 (
   'kvkk-aydinlatma',
-  'KVKK KiÅŸisel Verilerin Ä°ÅŸlenmesine Ä°liÅŸkin AydÄ±nlatma Metni',
-  'KiÅŸisel verilerinizin hangi amaÃ§larla iÅŸlendiÄŸini, veri sorumlusu/operatÃ¶r ayrÄ±mÄ±nÄ± ve KVKK m.11 haklarÄ±nÄ±zÄ± okuduÄŸunuzu onaylarsÄ±nÄ±z.',
+  'KVKK Aydınlatma Metni',
+  'Kişisel verilerinizin hangi amaçla işlendiği, kimlerin sorumlu olduğu ve haklarınız hakkında bilgilendirilirsiniz.',
   $html$
 <div class="contract-parties">
   <p><strong>Platform:</strong> {{PLATFORM_NAME}}</p>
-  <p><strong>Platform operatÃ¶rÃ¼ (teknik):</strong> {{DEVELOPER_NAME}} â€” {{PLATFORM_CONTACT}}</p>
-  <p><strong>Not:</strong> {{COMPANY_LEGAL_NAME}}</p>
-</div>
-<div class="contract-meta">
-  <p><strong>Belge tÃ¼rÃ¼:</strong> KVKK m.10 aydÄ±nlatma metni</p>
-  <p><strong>Yasal dayanak:</strong> 6698 sayÄ±lÄ± KVKK</p>
+  <p><strong>Teknik operatör:</strong> {{DEVELOPER_NAME}} — {{PLATFORM_CONTACT}}</p>
 </div>
 
-<h2>1. VERÄ° SORUMLUSU YAPISI</h2>
-<p>{{PLATFORM_NAME}} tÃ¼zel kiÅŸiliÄŸi yoktur. Personel kaydÄ±, pratikte <strong>platformu kullanan yÃ¶netici kiÅŸi</strong> (ÅŸantiye sorumlusu, ekip baÅŸÄ± vb.) tarafÄ±ndan oluÅŸturulur; iÅŸ iliÅŸkisinin tarafÄ± olan gerÃ§ek iÅŸveren/yÃ¼klenici mevzuat uyarÄ±nca ayrÄ± veri sorumlusu olabilir.</p>
-<p><strong>Platform operatÃ¶rÃ¼ / veri iÅŸleyen:</strong> {{DEVELOPER_NAME}} â€” altyapÄ±, barÄ±ndÄ±rma, ÅŸifreleme ve yazÄ±lÄ±m hizmeti sunar.</p>
+<h2>1. Kim veri sorumlusu?</h2>
+<p>{{PLATFORM_NAME}}'in tüzel kişiliği yoktur. Personel kaydını pratikte <strong>platformu kullanan yönetici</strong> (şantiye sorumlusu, ekip başı vb.) oluşturur. İş ilişkisinin asıl tarafı olan işveren/yüklenici, mevzuat gereği ayrı veri sorumlusu olabilir.</p>
+<p>{{DEVELOPER_NAME}}, altyapı, barındırma ve yazılım hizmeti sunan <strong>teknik operatör / veri işleyen</strong> konumundadır.</p>
 
-<h2>2. Ä°ÅLENEN VERÄ°LER</h2>
+<h2>2. Hangi veriler işlenir?</h2>
 <ul>
-  <li>Kimlik: ad-soyad, T.C. kimlik no (format kontrolÃ¼; NVI doÄŸrulamasÄ± yok), doÄŸum tarihi</li>
-  <li>Ä°letiÅŸim: telefon, e-posta</li>
-  <li>Finans: IBAN, yevmiye, avans, kesinti kayÄ±tlarÄ±</li>
-  <li>Operasyon: puantaj, yoklama, mesai, proje bilgisi</li>
-  <li>GÃ¶rsel: baÅŸvuru fotoÄŸrafÄ±</li>
-  <li>Ä°ÅŸlem gÃ¼venliÄŸi: oturum, onay loglarÄ±</li>
+  <li>Kimlik: ad-soyad, T.C. kimlik no, doğum tarihi</li>
+  <li>İletişim: telefon, e-posta</li>
+  <li>Finans: IBAN, yevmiye, avans, kesinti</li>
+  <li>Operasyon: puantaj, yoklama, mesai</li>
+  <li>Görsel: başvuru fotoğrafı</li>
+  <li>Güvenlik: oturum ve onay logları</li>
 </ul>
 
-<h2>3. AMAÃ‡LAR VE HUKUKÄ° SEBEPLER</h2>
-<p>Veriler; dijital personel takibi, ÅŸeffaf finansal kayÄ±t, yoklama, sÃ¶zleÅŸme onayÄ±, gÃ¼venlik ve teknik destek amacÄ±yla; aÃ§Ä±k rÄ±za, sÃ¶zleÅŸmenin ifasÄ± ve meÅŸru menfaat kapsamÄ±nda iÅŸlenir. Ticari pazarlama veya veri satÄ±ÅŸÄ± yapÄ±lmaz.</p>
+<h2>3. Neden işlenir?</h2>
+<p>Dijital personel takibi, şeffaf finansal kayıt, yoklama, sözleşme onayı ve platform güvenliği için. Veriler satılmaz veya reklam amacıyla profillenmez.</p>
 
-<h2>4. AKTARIM</h2>
-<p>BarÄ±ndÄ±rma (Vercel), veritabanÄ± (Supabase), e-posta (Brevo), isteÄŸe baÄŸlÄ± OCR (Google Cloud) hizmet saÄŸlayÄ±cÄ±larÄ±; yasal zorunluluk halinde resmi makamlar.</p>
+<h2>4. Kimlerle paylaşılır?</h2>
+<p>Yalnızca hizmet için gerekli teknik sağlayıcılar (barındırma, veritabanı, e-posta) ve yasal zorunluluk halinde resmi makamlar.</p>
 
-<h2>5. GÃœVENLÄ°K</h2>
-<p>T.C. kimlik, IBAN ve doÄŸum tarihi AES-256-GCM ile ÅŸifrelenir. HTTPS ve rol tabanlÄ± eriÅŸim uygulanÄ±r.</p>
+<h2>5. Nasıl korunur?</h2>
+<p>T.C. kimlik, IBAN ve doğum tarihi şifreli saklanır. Erişim HTTPS ve rol bazlı yetkilendirme ile sınırlıdır.</p>
 
-<h2>6. HAKLARINIZ (KVKK m.11)</h2>
-<p>Bilgi talebi, dÃ¼zeltme, silme, itiraz ve KVKK Kurulu'na ÅŸikÃ¢yet haklarÄ±nÄ±z vardÄ±r. BaÅŸvuru: Ã¶nce kaydÄ± oluÅŸturan yÃ¶netici; teknik konularda {{PLATFORM_CONTACT}}.</p>
+<h2>6. Haklarınız</h2>
+<p>6698 sayılı KVKK kapsamında bilgi talep etme, düzeltme, silme ve itiraz haklarınız vardır. Önce kaydı oluşturan yöneticinize; teknik konularda {{PLATFORM_CONTACT}} adresine yazabilirsiniz.</p>
 
-<h2>7. ONAY</h2>
-<p>Personel; aydÄ±nlatma metnini okuduÄŸunu ve anladÄ±ÄŸÄ±nÄ± elektronik ortamda onaylar.</p>
+<h2>7. Onay</h2>
+<p>Bu aydınlatma metnini okuduğunuzu ve anladığınızı onaylarsınız.</p>
 $html$,
-  4,
+  5,
   true,
   2
 ),
 (
   'gizlilik-veri',
-  'KiÅŸisel Veriler AÃ§Ä±k RÄ±za, Gizlilik ve Bilgi GÃ¼venliÄŸi TaahhÃ¼tnamesi',
-  'KiÅŸisel verilerinizin iÅŸlenmesine aÃ§Ä±k rÄ±za verir; platformun gÃ¶nÃ¼llÃ¼lÃ¼k niteliÄŸini ve gizlilik kurallarÄ±nÄ± kabul edersiniz.',
+  'Açık Rıza ve Gizlilik Taahhüdü',
+  'Verilerinizin işlenmesine rıza verir; girdiğiniz bilgilerin doğruluğundan sorumlu olduğunuzu kabul edersiniz.',
   $html$
 <div class="contract-parties">
   <p><strong>Platform:</strong> {{PLATFORM_NAME}}</p>
-  <p><strong>OperatÃ¶r:</strong> {{DEVELOPER_NAME}} â€” {{PLATFORM_CONTACT}}</p>
+  <p><strong>Operatör:</strong> {{DEVELOPER_NAME}} — {{PLATFORM_CONTACT}}</p>
 </div>
 
-<h2>1. AMAÃ‡</h2>
-<p>6698 sayÄ±lÄ± KVKK uyarÄ±nca kiÅŸisel verilerin gÃ¼venli iÅŸlenmesi, gizliliÄŸin korunmasÄ± ve hukuka aykÄ±rÄ± kullanÄ±mÄ±n Ã¶nlenmesi amacÄ±yla dÃ¼zenlenmiÅŸtir. Platform gÃ¶nÃ¼llÃ¼lÃ¼k esaslÄ±dÄ±r; tÃ¼zel kiÅŸiliÄŸi yoktur.</p>
+<h2>1. Açık rıza</h2>
+<p>KVKK Aydınlatma Metni'ni okuduğunuzu teyit ederek; kimlik, iletişim, IBAN, yevmiye/puantaj/avans/kesinti kayıtları ve başvuru fotoğrafınızın platformda işlenmesine, saklanmasına ve teknik altyapı sağlayıcılarına aktarılmasına <strong>açık rıza</strong> verirsiniz.</p>
 
-<h2>2. AÃ‡IK RIZA KAPSAMI</h2>
-<p>Personel; KVKK AydÄ±nlatma Metni'ni okuduÄŸunu teyit ederek kimlik, iletiÅŸim, finans (IBAN), Ã¶zlÃ¼k/saha (yevmiye, puantaj, avans, kesinti) ve baÅŸvuru fotoÄŸrafÄ±nÄ±n platformda iÅŸlenmesine, saklanmasÄ±na ve teknik altyapÄ± saÄŸlayÄ±cÄ±larÄ±na aktarÄ±lmasÄ±na <strong>aÃ§Ä±k rÄ±za</strong> verir.</p>
+<h2>2. Gizlilik</h2>
+<p>Sahada öğrendiğiniz diğer çalışanlara veya iş süreçlerine dair bilgileri izinsiz paylaşmazsınız. Yönetici de personel verilerini platform dışında kötüye kullanmamayı taahhüt eder.</p>
 
-<h2>3. GÄ°ZLÄ°LÄ°K</h2>
-<p>Personel, sahadaki diÄŸer Ã§alÄ±ÅŸanlara ve iÅŸ sÃ¼reÃ§lerine dair Ã¶ÄŸrendiÄŸi verileri izinsiz paylaÅŸmaz. YÃ¶netici de personel verilerini platform dÄ±ÅŸÄ±nda kÃ¶tÃ¼ye kullanmamayÄ± taahhÃ¼t eder.</p>
+<h2>3. Saklama ve silme</h2>
+<p>Veriler, işleme amacının gerektirdiği süre boyunca tutulur. KVKK kapsamında silme veya düzeltme talebinde bulunabilirsiniz.</p>
 
-<h2>4. SAKLAMA VE SÄ°LME</h2>
-<p>Veriler iÅŸleme amacÄ±nÄ±n gerektirdiÄŸi sÃ¼re boyunca saklanÄ±r. Personel, KVKK m.11 kapsamÄ±nda silme/dÃ¼zeltme talebinde bulunabilir.</p>
-
-<h2>5. BEYAN</h2>
-<p>Personel; girdiÄŸi T.C. kimlik ve IBAN bilgilerinin kendisine ait olduÄŸunu veya kullanÄ±m yetkisine sahip olduÄŸunu; sahte bilgi vermenin hukuki sonuÃ§larÄ±ndan sorumlu olduÄŸunu kabul eder.</p>
+<h2>4. Doğruluk beyanı</h2>
+<p>Girdiğiniz T.C. kimlik ve IBAN bilgilerinin size ait olduğunu veya kullanım yetkiniz bulunduğunu; sahte bilgi vermenin hukuki sonuçlarından sorumlu olduğunuzu kabul edersiniz.</p>
 $html$,
-  4,
+  5,
   true,
   3
 ),
 (
   'finansal-seffaflik',
-  'Finansal KayÄ±t, Yevmiye ve ÅeffaflÄ±k Bildirimi',
-  'Yevmiye, avans, kesinti ve puantaj kayÄ±tlarÄ±nÄ±n Ã§ift taraflÄ± gÃ¶rÃ¼nÃ¼rlÃ¼ÄŸÃ¼nÃ¼; resmi bordro yerine geÃ§mediÄŸini kabul edersiniz.',
+  'Finansal Kayıt ve Şeffaflık Bildirimi',
+  'Yevmiye, avans ve kesintilerin her iki tarafta da görülebileceğini; kayıtların resmi bordro yerine geçmediğini kabul edersiniz.',
   $html$
 <div class="contract-parties">
   <p><strong>Platform:</strong> {{PLATFORM_NAME}}</p>
-  <p><strong>GeliÅŸtirici:</strong> {{DEVELOPER_NAME}}</p>
+  <p><strong>Geliştirici:</strong> {{DEVELOPER_NAME}}</p>
 </div>
 
-<h2>1. ÅEFFAFLIK Ä°LKESÄ°</h2>
-<p>{{PLATFORM_NAME}}'de iÅŸlenen finansal kayÄ±tlar â€” yevmiye, avans, kesinti, asgari Ã¼cret takibi, mesai â€” <strong>hem yÃ¶netici hem personel panelinde</strong> gÃ¶rÃ¼ntÃ¼lenebilir. AmaÃ§, taraflar arasÄ±nda adil ve dijital bir finansal takip saÄŸlamaktÄ±r.</p>
+<h2>1. Şeffaflık</h2>
+<p>Yevmiye, avans, kesinti, asgari ücret takibi ve mesai kayıtları <strong>hem yönetici hem personel panelinde</strong> görülebilir. Amaç, taraflar arasında adil ve açık bir finansal takip sağlamaktır.</p>
 
-<h2>2. YEVMÄ°YE VE PUANTAJ</h2>
-<p>Ã‡alÄ±ÅŸÄ±lan gÃ¼nler, mesai ve eksik gÃ¼nler dijital puantaj ile kaydedilir. GÃ¼nlÃ¼k yevmiye tutarÄ± yÃ¶netici onayÄ± ile sisteme iÅŸlenir; personel panelinden takip edilebilir.</p>
+<h2>2. Yevmiye ve puantaj</h2>
+<p>Çalışılan günler dijital puantajla kaydedilir. Günlük yevmiye tutarı yönetici onayıyla sisteme işlenir; personel panelinden takip edebilirsiniz.</p>
 
-<h2>3. AVANS VE KESÄ°NTÄ°</h2>
-<p>Avans talepleri, onay durumu ve kesintiler kayÄ±t altÄ±ndadÄ±r. Personel, kendi kayÄ±tlarÄ±nÄ± gÃ¶rÃ¼ntÃ¼leyebilir ve itiraz mekanizmalarÄ±nÄ± kullanabilir.</p>
+<h2>3. Avans ve kesinti</h2>
+<p>Avans talepleri, onay durumu ve kesintiler kayıt altındadır. Kendi kayıtlarınızı görüntüleyebilir, itiraz mekanizmalarını kullanabilirsiniz.</p>
 
-<h2>4. RESMÄ° BELGE OLMAYIÅI</h2>
-<p><strong>Ã–nemli:</strong> Bu kayÄ±tlar resmi bordro, SGK bildirimi veya vergi belgesi deÄŸildir. Ä°ÅŸ hukuku uyuÅŸmazlÄ±klarÄ±nda resmi kayÄ±tlar Ã¶nceliklidir. Platform kayÄ±tlarÄ± destekleyici nitelikte olabilir; kesin delil olduÄŸu garanti edilmez.</p>
+<h2>4. Resmi belge değildir</h2>
+<p>Bu kayıtlar resmi bordro, SGK bildirimi veya vergi belgesi yerine geçmez. İş uyuşmazlıklarında resmi kayıtlar önceliklidir. Platform kayıtları yalnızca bilgilendirme ve karşılıklı mutabakat amacı taşır.</p>
 
-<h2>5. IBAN VE Ã–DEME</h2>
-<p>Ã–demeler personelin beyan ettiÄŸi IBAN Ã¼zerinden yÃ¶netici tarafÄ±ndan fiilen yapÄ±lÄ±r. Platform Ã¶deme aracÄ±sÄ± deÄŸildir; banka dekontu resmi Ã¶deme kanÄ±tÄ±dÄ±r.</p>
+<h2>5. Ödeme</h2>
+<p>Ödemeler yöneticiniz tarafından, beyan ettiğiniz IBAN'a fiilen yapılır. Platform ödeme aracısı değildir; banka dekontu resmi ödeme kanıtıdır.</p>
 
-<h2>6. ONAY</h2>
-<p>Personel; finansal kayÄ±tlarÄ±n ÅŸeffaf iÅŸlendiÄŸini, platformun resmi bordro yerine geÃ§mediÄŸini ve kayÄ±tlarÄ±n bilgilendirme/mutabakat amaÃ§lÄ± olduÄŸunu okuyup kabul eder.</p>
+<h2>6. Onay</h2>
+<p>Finansal kayıtların bu şekilde işlendiğini ve platformun resmi bordro yerine geçmediğini okuyup kabul edersiniz.</p>
 $html$,
-  1,
+  2,
   true,
   4
 ),
 (
   'cihaz-izinleri',
-  'Cihaz Ä°zinleri, Kamera ve Mobil Uygulama KullanÄ±m Bildirimi',
-  'Kamera (QR yoklama), bildirim ve PWA/TWA izinlerinin kullanÄ±m amacÄ±nÄ±; gizli kayÄ±t yapÄ±lmadÄ±ÄŸÄ±nÄ± kabul edersiniz.',
+  'Cihaz İzinleri Bildirimi',
+  'Kamera (QR yoklama), oturum çerezleri ve mobil uygulama kullanımına ilişkin bilgilendirme.',
   $html$
 <div class="contract-parties">
-  <p><strong>Platform:</strong> {{PLATFORM_NAME}} Â· {{PLATFORM_URL}}</p>
-  <p><strong>OperatÃ¶r:</strong> {{DEVELOPER_NAME}}</p>
+  <p><strong>Platform:</strong> {{PLATFORM_NAME}} — {{PLATFORM_URL}}</p>
+  <p><strong>Operatör:</strong> {{DEVELOPER_NAME}}</p>
 </div>
 
-<h2>1. MOBÄ°L UYGULAMA (PWA / TWA)</h2>
-<p>Android uygulamalarÄ± (Trusted Web Activity), aynÄ± web platformunu tam ekran gÃ¶sterir. Ek veri toplama yapÄ±lmaz; aynÄ± gizlilik kurallarÄ± geÃ§erlidir.</p>
+<h2>1. Mobil uygulama</h2>
+<p>Android uygulamaları (TWA), aynı web sitesini tam ekran gösterir. Ek veri toplama yapılmaz.</p>
 
-<h2>2. KAMERA Ä°ZNÄ°</h2>
-<p>Kamera yalnÄ±zca <strong>QR kod yoklama</strong> gibi aÃ§Ä±k kullanÄ±cÄ± eylemlerinde, cihaz izniyle kullanÄ±lÄ±r. Arka planda gizli fotoÄŸraf/video kaydÄ± yapÄ±lmaz. Kamera gÃ¶rÃ¼ntÃ¼sÃ¼ sunucuda saklanmaz (QR okuma anlÄ±k iÅŸlenir).</p>
+<h2>2. Kamera</h2>
+<p>Kamera yalnızca <strong>QR yoklama</strong> gibi sizin başlattığınız işlemlerde, cihaz izniyle kullanılır. Arka planda gizli kayıt yapılmaz; görüntü sunucuda saklanmaz.</p>
 
-<h2>3. PROFÄ°L FOTOÄRAFI</h2>
-<p>BaÅŸvuru sÄ±rasÄ±nda yÃ¼klenen fotoÄŸraf kimlik teyidi amacÄ±yla yÃ¶netici tarafÄ±ndan manuel incelenir; NVI otomatik doÄŸrulamasÄ± yapÄ±lmaz.</p>
+<h2>3. Profil fotoğrafı</h2>
+<p>Başvuruda yüklediğiniz fotoğraf yönetici tarafından manuel incelenir. Otomatik kimlik doğrulaması yapılmaz.</p>
 
-<h2>4. BÄ°LDÄ°RÄ°M VE Ã‡EREZLER</h2>
-<p>Oturum Ã§erezleri (HttpOnly) kimlik doÄŸrulama iÃ§in kullanÄ±lÄ±r. Push bildirim kullanÄ±lÄ±yorsa yalnÄ±zca iÅŸlem hatÄ±rlatmalarÄ± iÃ§indir.</p>
+<h2>4. Çerezler ve bildirimler</h2>
+<p>Oturum çerezleri (HttpOnly) giriş güvenliği içindir. Bildirim varsa yalnızca işlem hatırlatmaları içerir.</p>
 
-<h2>5. PAYLAÅIM HEDEFÄ° (DEKONT)</h2>
-<p>YÃ¶netici uygulamasÄ±nda banka dekontu paylaÅŸÄ±mÄ± isteÄŸe baÄŸlÄ±dÄ±r; yalnÄ±zca kullanÄ±cÄ± paylaÅŸtÄ±ÄŸÄ± dosya OCR ile analiz edilir.</p>
+<h2>5. Dekont paylaşımı (yönetici)</h2>
+<p>Yönetici uygulamasında banka dekontu paylaşımı isteğe bağlıdır; yalnızca sizin paylaştığınız dosya analiz edilir.</p>
 
-<h2>6. ONAY</h2>
-<p>Personel; cihaz izinlerinin yukarÄ±daki amaÃ§larla sÄ±nÄ±rlÄ± olduÄŸunu okuduÄŸunu ve kabul ettiÄŸini beyan eder.</p>
+<h2>6. Onay</h2>
+<p>Cihaz izinlerinin yalnızca yukarıdaki amaçlarla kullanıldığını okuyup kabul edersiniz.</p>
 $html$,
-  1,
+  2,
   true,
   5
 )
