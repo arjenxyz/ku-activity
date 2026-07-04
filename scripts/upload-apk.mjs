@@ -36,6 +36,16 @@ function parseArgs(argv) {
   return args;
 }
 
+function buildUploadAuthHeaders(rawSecret) {
+  if (/[^\u0000-\u00ff]/.test(rawSecret)) {
+    return {
+      'X-Apk-Upload-Secret': Buffer.from(rawSecret, 'utf8').toString('base64'),
+      'X-Apk-Upload-Secret-Encoding': 'base64',
+    };
+  }
+  return { Authorization: `Bearer ${rawSecret}` };
+}
+
 const args = parseArgs(process.argv);
 const appType = String(args.app ?? args.appType ?? '').trim();
 const filePath = String(args.file ?? '').trim();
@@ -71,11 +81,12 @@ form.set('versionCode', versionCode);
 form.set('releaseNotes', releaseNotes);
 form.set('file', new Blob([buffer], { type: 'application/vnd.android.package-archive' }), basename(filePath));
 
+/** HTTP Authorization header yalnızca Latin-1; Türkçe karakter için base64 header kullan */
+const uploadHeaders = { ...buildUploadAuthHeaders(secret) };
+
 const res = await fetch(`${baseUrl}/api/developer/releases`, {
   method: 'POST',
-  headers: {
-    Authorization: `Bearer ${secret}`,
-  },
+  headers: uploadHeaders,
   body: form,
 });
 
