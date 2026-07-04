@@ -11,6 +11,7 @@ import {
 } from 'react-icons/fi';
 import { AttendanceCodeSheet } from '@/components/personnel/AttendanceCodeSheet';
 import { AttendanceQrScanner } from '@/components/personnel/AttendanceQrScanner';
+import { PersonnelAppBottomNav } from '@/components/personnel/PersonnelAppBottomNav';
 import { formatDateTime } from '@/lib/format';
 import { parseAttendanceTokenFromQr } from '@/lib/attendance-qr-service';
 import {
@@ -140,31 +141,39 @@ function YoklamaContent() {
   if (showScanner) {
     return (
       <>
-        <div className="fixed inset-x-0 top-[calc(3rem+env(safe-area-inset-top))] bottom-[calc(5.25rem+env(safe-area-inset-bottom))] z-0 flex flex-col sm:hidden">
-          {view === 'rescan' && (
-            <div className="relative z-30 shrink-0 border-b border-amber-400/30 bg-amber-950/90 px-4 py-2.5 text-xs text-amber-100">
-              Önceki kaydınız silinip yeni okutma ile listeye ekleneceksiniz.{' '}
-              <button type="button" onClick={cancelRescan} className="font-semibold underline">
-                Vazgeç
-              </button>
-            </div>
-          )}
+        <div className="fixed inset-x-0 top-[calc(3rem+env(safe-area-inset-top))] bottom-0 z-0 flex flex-col bg-black sm:hidden">
+          <div className="relative min-h-0 flex-1">
+            <AttendanceQrScanner
+              onScan={(t) => void submitToken(t, view === 'rescan')}
+              disabled={scannerDisabled}
+              parseQr={parseAttendanceTokenFromQr}
+              invalidQrMessage="Geçerli bir yoklama QR kodu değil."
+            />
 
-          {windowClosed && (
-            <div className="relative z-30 shrink-0 border-b border-amber-400/30 bg-amber-950/95 px-4 py-3 text-sm text-amber-50">
-              <p className="font-semibold">Yoklama saati dışında</p>
-              <p className="mt-1 text-xs leading-relaxed opacity-90">{status?.window?.message}</p>
-            </div>
-          )}
+            {view === 'rescan' && (
+              <div className="absolute inset-x-3 top-3 z-[5] rounded-xl border border-amber-400/25 bg-amber-950/90 px-3 py-2.5 text-xs leading-snug text-amber-50 shadow-lg backdrop-blur-sm">
+                Yeniden okutma: önceki kayıt silinir.{' '}
+                <button type="button" onClick={cancelRescan} className="font-semibold text-amber-200 underline">
+                  Vazgeç
+                </button>
+              </div>
+            )}
 
-          <AttendanceQrScanner
-            onScan={(t) => void submitToken(t, view === 'rescan')}
-            disabled={scannerDisabled}
-            parseQr={parseAttendanceTokenFromQr}
-            invalidQrMessage="Geçerli bir yoklama QR kodu değil."
-          />
+            {windowClosed && (
+              <div className="absolute inset-x-3 top-3 z-[5] rounded-xl border border-amber-400/25 bg-amber-950/90 px-3 py-2.5 text-xs text-amber-50 shadow-lg">
+                <p className="font-semibold">Yoklama saati dışında</p>
+                <p className="mt-1 opacity-90">{status?.window?.message}</p>
+              </div>
+            )}
 
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 z-30 flex justify-center px-4 pb-4">
+            {error && !codeSheetOpen && (
+              <div className="absolute inset-x-3 bottom-[5.5rem] z-[5] rounded-xl bg-red-950/90 px-4 py-2.5 text-center text-sm text-red-100">
+                {error}
+              </div>
+            )}
+          </div>
+
+          <div className="shrink-0 border-t border-white/10 bg-slate-950/95 px-4 py-3 safe-pb backdrop-blur-md">
             <button
               type="button"
               disabled={scannerDisabled}
@@ -172,18 +181,12 @@ function YoklamaContent() {
                 setError(null);
                 setCodeSheetOpen(true);
               }}
-              className="pointer-events-auto inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/45 px-5 py-3 text-sm font-semibold text-white shadow-lg backdrop-blur-md transition hover:bg-black/55 disabled:opacity-50"
+              className="flex w-full items-center justify-center gap-2.5 rounded-xl border border-white/15 bg-white/10 py-3.5 text-sm font-semibold text-white transition active:bg-white/15 disabled:opacity-40"
             >
               <FiHash className="h-4 w-4" />
-              Kod gir
+              Kod ile yoklama
             </button>
           </div>
-
-          {error && !codeSheetOpen && (
-            <div className="absolute inset-x-4 bottom-[4.5rem] z-30 rounded-xl border border-red-400/40 bg-red-950/90 px-4 py-3 text-center text-sm text-red-100">
-              {error}
-            </div>
-          )}
         </div>
 
         {/* Masaüstü / geniş ekran */}
@@ -217,8 +220,9 @@ function YoklamaContent() {
   }
 
   return (
-    <div className="mx-auto max-w-lg px-1 sm:px-0">
-      {view === 'waiting' && (
+    <>
+      <div className="mx-auto max-w-lg px-1 pb-[calc(5.5rem+env(safe-area-inset-bottom))] sm:px-0 sm:pb-0">
+        {view === 'waiting' && (
         <StatusCard
           tone="waiting"
           icon={<FiClock className="h-7 w-7 text-emerald-500 animate-pulse" />}
@@ -270,7 +274,11 @@ function YoklamaContent() {
           primaryAction={{ label: 'Yeni kod ile tekrar okut', onClick: startRescan }}
         />
       )}
-    </div>
+      </div>
+      <div className="sm:hidden">
+        <PersonnelAppBottomNav />
+      </div>
+    </>
   );
 }
 

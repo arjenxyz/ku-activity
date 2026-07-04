@@ -28,7 +28,7 @@ function cameraPriority(cam: CameraDevice, desktop: boolean) {
   return 2;
 }
 
-async function waitForElement(id: string, attempts = 30): Promise<HTMLElement> {
+async function waitForElement(id: string, attempts = 40): Promise<HTMLElement> {
   for (let i = 0; i < attempts; i += 1) {
     const el = document.getElementById(id);
     if (el && el.clientWidth > 0 && el.clientHeight > 0) return el;
@@ -39,24 +39,11 @@ async function waitForElement(id: string, attempts = 30): Promise<HTMLElement> {
   return el;
 }
 
-function buildScanConfig(desktop: boolean) {
-  if (desktop) {
-    return {
-      fps: 15,
-      qrbox: (viewfinderWidth: number, viewfinderHeight: number) => ({
-        width: Math.floor(viewfinderWidth * 0.88),
-        height: Math.floor(viewfinderHeight * 0.88),
-      }),
-      disableFlip: false,
-    };
-  }
+/** Tam kare tarama — kütüphanenin kendi çerçevesi gizlenir */
+function buildScanConfig(viewfinderWidth: number, viewfinderHeight: number) {
   return {
     fps: 12,
-    qrbox: (viewfinderWidth: number, viewfinderHeight: number) => {
-      const edge = Math.min(viewfinderWidth, viewfinderHeight);
-      const size = Math.max(180, Math.floor(edge * 0.72));
-      return { width: size, height: size };
-    },
+    qrbox: { width: viewfinderWidth, height: viewfinderHeight },
     disableFlip: false,
   };
 }
@@ -111,18 +98,18 @@ function mapCameraError(msg: string) {
   if (msg.includes('secure') || msg.includes('SecureContext')) {
     return 'Kamera yalnızca güvenli bağlantıda (HTTPS) çalışır.';
   }
-  return 'Kamera açılamadı. Kod gir seçeneğini kullanabilirsiniz.';
+  return 'Kamera açılamadı. Alttan kod girebilirsiniz.';
 }
 
-function ScanFrameOverlay() {
+/** Tek çerçeve — box-shadow vignette, çift köşe yok */
+function ScanSpotlight() {
   return (
-    <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center p-8">
-      <div className="relative aspect-square w-[min(72vw,280px)] max-h-[min(52vh,320px)]">
-        <span className="absolute left-0 top-0 h-8 w-8 rounded-tl-2xl border-l-[3px] border-t-[3px] border-emerald-400/90 shadow-[0_0_12px_rgba(52,211,153,0.35)]" />
-        <span className="absolute right-0 top-0 h-8 w-8 rounded-tr-2xl border-r-[3px] border-t-[3px] border-emerald-400/90 shadow-[0_0_12px_rgba(52,211,153,0.35)]" />
-        <span className="absolute bottom-0 left-0 h-8 w-8 rounded-bl-2xl border-b-[3px] border-l-[3px] border-emerald-400/90 shadow-[0_0_12px_rgba(52,211,153,0.35)]" />
-        <span className="absolute bottom-0 right-0 h-8 w-8 rounded-br-2xl border-b-[3px] border-r-[3px] border-emerald-400/90 shadow-[0_0_12px_rgba(52,211,153,0.35)]" />
-        <div className="absolute inset-x-4 top-1/2 h-0.5 -translate-y-1/2 animate-pulse bg-gradient-to-r from-transparent via-emerald-400/70 to-transparent" />
+    <div className="pointer-events-none absolute inset-0 z-[2] flex items-center justify-center">
+      <div
+        className="relative h-[min(58vw,240px)] w-[min(58vw,240px)] rounded-2xl border-2 border-emerald-400/75"
+        style={{ boxShadow: '0 0 0 9999px rgba(0,0,0,0.52)' }}
+      >
+        <div className="absolute inset-x-3 top-1/2 h-px -translate-y-1/2 bg-gradient-to-r from-transparent via-emerald-400/80 to-transparent" />
       </div>
     </div>
   );
@@ -194,7 +181,7 @@ export function AttendanceQrScanner({
           throw new Error('Kamera yalnızca HTTPS üzerinde çalışır.');
         }
 
-        await waitForElement(regionId);
+        const mount = await waitForElement(regionId);
         if (cancelled) return;
 
         if (scannerRef.current) await releaseScanner();
@@ -206,7 +193,10 @@ export function AttendanceQrScanner({
         });
         scannerRef.current = scanner;
 
-        const scanConfig = buildScanConfig(desktop);
+        const w = mount.clientWidth;
+        const h = mount.clientHeight;
+        const scanConfig = buildScanConfig(w, h);
+
         const onDecode = (decoded: string) => {
           const code = parseQrRef.current(decoded);
           if (!code) {
@@ -274,34 +264,29 @@ export function AttendanceQrScanner({
   }, [disabled, regionId, invalidQrMessage, releaseScanner]);
 
   return (
-    <div className="relative flex min-h-0 flex-1 flex-col bg-slate-950">
-      <div className="pointer-events-none absolute inset-x-0 top-0 z-20 bg-gradient-to-b from-black/55 via-black/20 to-transparent px-4 pb-10 pt-3">
-        <p className="text-center text-sm font-medium text-white/95">
-          Ustanın ekranındaki QR kodu çerçeveye hizalayın
+    <div className="relative min-h-0 flex-1 overflow-hidden bg-black">
+      <div id={regionId} className="attendance-scanner absolute inset-0" />
+
+      {active && <ScanSpotlight />}
+
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-[3] bg-gradient-to-b from-black/60 to-transparent px-4 pb-8 pt-3">
+        <p className="text-center text-sm font-medium text-white/95 drop-shadow-sm">
+          QR kodu yeşil çerçevenin içine getirin
         </p>
       </div>
 
-      <div className="relative min-h-0 flex-1">
-        <div
-          id={regionId}
-          className="qr-scanner-view attendance-scanner absolute inset-0 overflow-hidden bg-slate-950"
-        />
-        {(starting || active) && <ScanFrameOverlay />}
-        {starting && !active && !error && (
-          <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 bg-slate-950/90">
-            <FiLoader className="h-8 w-8 animate-spin text-emerald-400" />
-            <p className="text-sm text-white/80">Kamera açılıyor…</p>
-          </div>
-        )}
-      </div>
-
-      {error && (
-        <div className="absolute inset-x-4 bottom-4 z-20 rounded-xl border border-red-400/30 bg-red-950/90 px-4 py-3 text-center text-sm text-red-100 backdrop-blur-sm">
-          {error}
+      {starting && !active && !error && (
+        <div className="absolute inset-0 z-[4] flex flex-col items-center justify-center gap-3 bg-black">
+          <FiLoader className="h-8 w-8 animate-spin text-emerald-400" />
+          <p className="text-sm text-white/75">Kamera açılıyor…</p>
         </div>
       )}
 
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-24 bg-gradient-to-t from-black/50 to-transparent" />
+      {error && (
+        <div className="absolute inset-x-4 top-14 z-[4] rounded-xl bg-red-950/90 px-4 py-2.5 text-center text-sm text-red-100 backdrop-blur-sm">
+          {error}
+        </div>
+      )}
     </div>
   );
 }

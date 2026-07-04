@@ -17,20 +17,25 @@ function ChromeBody({ children }: { children: React.ReactNode }) {
   const tabParam = searchParams.get('tab');
   const tab = isValidTab(tabParam) ? tabParam : 'overview';
   const isOverview = pathname === '/personnel-panel' && tab === 'overview';
+  const isYoklama = pathname.startsWith('/personnel-panel/yoklama');
 
   return (
     <>
       <PersonnelMobileHeader />
       <div
-        className={`pb-[calc(5.25rem+env(safe-area-inset-bottom))] sm:pt-0 sm:pb-0 ${
-          isOverview
-            ? 'pt-[max(0.5rem,env(safe-area-inset-top))]'
-            : 'pt-[calc(3rem+env(safe-area-inset-top))]'
-        }`}
+        className={
+          isYoklama
+            ? 'pt-[calc(3rem+env(safe-area-inset-top))]'
+            : `pb-[calc(5.25rem+env(safe-area-inset-bottom))] sm:pt-0 sm:pb-0 ${
+                isOverview
+                  ? 'pt-[max(0.5rem,env(safe-area-inset-top))]'
+                  : 'pt-[calc(3rem+env(safe-area-inset-top))]'
+              }`
+        }
       >
         {children}
       </div>
-      <PersonnelAppBottomNav />
+      {!isYoklama ? <PersonnelAppBottomNav /> : null}
     </>
   );
 }
