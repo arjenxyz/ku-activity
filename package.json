@@ -13,6 +13,7 @@
     "apk:build-upload:admin": "node scripts/bubblewrap-build-upload.mjs --app admin",
     "twa:fingerprint": "node scripts/twa-keystore-fingerprint.mjs",
     "twa:setup-admin": "node scripts/twa-setup-admin.mjs",
+    "twa:share-target:admin": "node scripts/twa-share-target.mjs twa-build/admin",
     "twa:minimal-splash": "node scripts/twa-minimal-splash.mjs twa-build/personel",
     "twa:minimal-splash:admin": "node scripts/twa-minimal-splash.mjs twa-build/admin --variant admin"
   },

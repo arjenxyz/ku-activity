@@ -104,6 +104,11 @@ function applyPlainTwaSplash(buildDir, appType) {
   );
 }
 
+function applyAdminShareTarget(buildDir, appType) {
+  if (appType !== 'admin') return;
+  run(process.execPath, [join(ROOT, 'scripts/twa-share-target.mjs'), buildDir], ROOT);
+}
+
 const args = parseArgs(process.argv);
 const appType = String(args.app ?? args.appType ?? '').trim();
 const skipBuild = Boolean(args['skip-build']);
@@ -131,6 +136,7 @@ if (!skipUpdate) {
 
 ensureGradleWindowsFixes(buildDir);
 applyPlainTwaSplash(buildDir, appType);
+applyAdminShareTarget(buildDir, appType);
 
 if (!skipBuild) {
   const keystorePassword = process.env.TWA_KEYSTORE_PASSWORD?.trim();
