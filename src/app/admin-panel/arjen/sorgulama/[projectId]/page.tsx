@@ -1,7 +1,8 @@
 'use client';
 
-import strings from '@json/src/app/admin-panel/arjen/sorgulama/[projectId]/page.json';
+
 import { useState, useEffect } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useParams, useRouter } from 'next/navigation';
 import { supabase } from '../../../../lib/supabaseClient';
 import {
@@ -46,6 +47,8 @@ const FILTER_CONFIG = [
 type FilterValue = (typeof FILTER_CONFIG)[number]['value'];
 
 export default function KisiselSorgulama() {
+
+  const strings = useRegistryStrings('app/admin-panel/arjen/sorgulama/[projectId]/page');
   const { projectId } = useParams();
   const router = useRouter();
   const [employees, setEmployees] = useState<Employee[]>([]);
@@ -130,6 +133,7 @@ export default function KisiselSorgulama() {
         icon={<FiBriefcase className="text-green-600" />}
         records={workLogs}
         columns={workLogColumns}
+        emptyLabel={strings.noRecords}
       />;
     }
 
@@ -139,6 +143,7 @@ export default function KisiselSorgulama() {
         icon={<FiCreditCard className="text-amber-600" />}
         records={deductions.filter(d => d.type === 'advance')}
         columns={advanceColumns}
+        emptyLabel={strings.noRecords}
       />;
     }
 
@@ -148,6 +153,7 @@ export default function KisiselSorgulama() {
         icon={<FiXCircle className="text-red-600" />}
         records={deductions.filter(d => d.type !== 'advance')}
         columns={deductionColumns}
+        emptyLabel={strings.noRecords}
       />;
     }
 
@@ -189,6 +195,7 @@ export default function KisiselSorgulama() {
           icon={<FiBriefcase className="text-green-600" />}
           records={workLogs}
           columns={workLogColumns}
+          emptyLabel={strings.noRecords}
         />
 
         <RecordTable<Deduction>
@@ -196,6 +203,7 @@ export default function KisiselSorgulama() {
           icon={<FiCreditCard className="text-amber-600" />}
           records={deductions.filter(d => d.type === 'advance')}
           columns={advanceColumns}
+          emptyLabel={strings.noRecords}
         />
 
         <RecordTable<Deduction>
@@ -203,6 +211,7 @@ export default function KisiselSorgulama() {
           icon={<FiXCircle className="text-red-600" />}
           records={deductions.filter(d => d.type !== 'advance')}
           columns={deductionColumns}
+          emptyLabel={strings.noRecords}
         />
       </div>
     );
@@ -306,11 +315,12 @@ function SummaryCard({ title, value, icon, color }: { title: string; value: stri
   );
 }
 
-const RecordTable = <T,>({ title, icon, records, columns }: {
+const RecordTable = <T,>({ title, icon, records, columns, emptyLabel }: {
   title: string;
   icon: React.ReactNode;
   records: T[];
   columns: { label: string; render: (row: T) => React.ReactNode }[];
+  emptyLabel: string;
 }) => {
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
@@ -320,7 +330,7 @@ const RecordTable = <T,>({ title, icon, records, columns }: {
       </div>
 
       {records.length === 0 ? (
-        <div className="p-6 text-center text-gray-400">{strings.noRecords}</div>
+        <div className="p-6 text-center text-gray-400">{emptyLabel}</div>
       ) : (
         <div className="overflow-x-auto">
           <table className="w-full">

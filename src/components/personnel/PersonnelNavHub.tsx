@@ -1,6 +1,7 @@
 'use client';
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { Suspense, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { FiX } from 'react-icons/fi';
@@ -21,7 +22,6 @@ import {
   NavIconSettings,
   NavIconWork,
 } from '@/components/personnel/PersonnelNavIcons';
-import strings from '@json/src/components/personnel/PersonnelNavHub.json';
 
 type Props = {
   open: boolean;
@@ -73,6 +73,7 @@ const tileVariants = {
 };
 
 function HubInner({ open, onClose, activeTab, isYoklama }: Props) {
+  const strings = useRegistryStrings('components/personnel/PersonnelNavHub');
   const router = useRouter();
 
   useEffect(() => {

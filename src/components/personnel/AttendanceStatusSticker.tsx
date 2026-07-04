@@ -1,6 +1,7 @@
 'use client';
 
 import type { IconType } from 'react-icons';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import {
   FiAlertCircle,
   FiCheck,
@@ -9,7 +10,11 @@ import {
   FiX,
 } from 'react-icons/fi';
 import type { PersonnelAttendanceStatusPayload } from '@/lib/personnel-api';
-import strings from '@json/src/components/personnel/AttendanceStatusSticker.json';
+import type { getRegistryStrings } from '@/lib/i18n/strings-registry';
+
+type AttendanceStrings = ReturnType<
+  typeof getRegistryStrings<'components/personnel/AttendanceStatusSticker'>
+>;
 
 type Variant = {
   glow: string;
@@ -34,7 +39,8 @@ const FAILURE_STATES = new Set(['cancelled', 'removed']);
 
 function resolveVariant(
   status: PersonnelAttendanceStatusPayload,
-  onForceReplace: () => void
+  onForceReplace: () => void,
+  strings: AttendanceStrings
 ): Variant | null {
   if (status.state === 'waiting') {
     const s = strings.states.waiting;
@@ -138,11 +144,11 @@ function StatusPill({
 function ResultContent({
   variant,
   onDismiss,
-  dismissLabel = strings.close,
+  dismissLabel,
 }: {
   variant: Variant;
   onDismiss?: () => void;
-  dismissLabel?: string;
+  dismissLabel: string;
 }) {
   const Icon = variant.icon;
   const bottomAction = variant.primaryAction?.style === 'solid';
@@ -227,13 +233,15 @@ export function AttendanceStatusSticker({
   forceReplace,
   onForceReplace,
 }: Props) {
+
+  const strings = useRegistryStrings('components/personnel/AttendanceStatusSticker');
   if (forceReplace || status.state === 'none') return null;
 
   const isKnown =
     SUCCESS_STATES.has(status.state) || FAILURE_STATES.has(status.state);
   if (!isKnown) return null;
 
-  const variant = resolveVariant(status, onForceReplace);
+  const variant = resolveVariant(status, onForceReplace, strings);
   if (!variant) return null;
 
   return (
@@ -243,7 +251,7 @@ export function AttendanceStatusSticker({
       aria-live="polite"
     >
       <ResultBackdrop glowClass={variant.glow} />
-      <ResultContent variant={variant} />
+      <ResultContent variant={variant} dismissLabel={strings.close} />
     </div>
   );
 }
@@ -255,6 +263,7 @@ export function AttendanceScanErrorOverlay({
   message: string;
   onDismiss: () => void;
 }) {
+  const strings = useRegistryStrings('components/personnel/AttendanceStatusSticker');
   const variant: Variant = {
     glow: 'bg-rose-400/25',
     pill: strings.scanError.pill,

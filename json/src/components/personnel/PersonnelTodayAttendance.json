@@ -5,5 +5,20 @@
   "confirmed": "Tam gün kayıtlısınız",
   "notConfirmed": "Henüz yoklama yok",
   "scanQr": "Usta QR okut",
-  "loadFailed": "Yüklenemedi"
+  "rescanQr": "Yeniden QR okut",
+  "loadFailed": "Yüklenemedi",
+  "states": {
+    "waiting": {
+      "title": "Yoklama listesindesiniz",
+      "hint": "Usta yoklamayı tamamlayana kadar bekleyin."
+    },
+    "cancelled": {
+      "title": "Yoklama iptal edildi",
+      "hint": "Yöneticiniz bu yoklamayı iptal etti. Lütfen ustanızla iletişime geçin."
+    },
+    "removed": {
+      "title": "Listeden çıkarıldınız",
+      "hint": "Yeni QR okutun veya ustanızla görüşün."
+    }
+  }
 }

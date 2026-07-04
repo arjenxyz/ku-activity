@@ -1,12 +1,15 @@
 'use client';
 
-import strings from '@json/src/app/personnel-panel/sifremi-unuttum/page.json';
+
 import { useEffect } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useRouter } from 'next/navigation';
 import { LoadingSpinner } from '@/components/auth/AuthAlerts';
 
 /** Eski URL — giriş ekranında PIN sıfırlama modalına yönlendir */
 export default function PersonnelForgotPasswordRedirectPage() {
+
+  const strings = useRegistryStrings('app/personnel-panel/sifremi-unuttum/page');
   const router = useRouter();
 
   useEffect(() => {

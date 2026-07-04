@@ -1,7 +1,8 @@
 'use client';
 
-import strings from '@json/src/app/admin-panel/proje/[projectId]/page.json';
+
 import { useEffect, useState, useCallback } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useParams, useRouter } from 'next/navigation';
 import dayjs from 'dayjs';
 import { FiRefreshCw } from 'react-icons/fi';
@@ -16,6 +17,8 @@ import type { Project } from '@/types/project';
 import { useAdminUiMode } from '@/hooks/useAdminUiMode';
 
 export default function ProjectDetailPage() {
+
+  const strings = useRegistryStrings('app/admin-panel/proje/[projectId]/page');
   const params = useParams();
   const router = useRouter();
   const projectId = Array.isArray(params.projectId) ? params.projectId[0] : params.projectId;

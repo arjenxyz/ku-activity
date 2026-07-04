@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { FiClock, FiLoader, FiLock } from 'react-icons/fi';
@@ -21,7 +22,6 @@ import {
   personnelAuthSectionClass,
 } from '@/lib/personnel-auth-ui';
 import { formatString } from '@/lib/strings/format';
-import strings from '@json/src/components/auth/PinResetPageContent.json';
 
 const inputClass = personnelAuthInputClass;
 const labelClass = personnelAuthLabelClass;
@@ -38,6 +38,8 @@ type Props = {
 };
 
 export function PinResetPageContent({ token }: Props) {
+
+  const strings = useRegistryStrings('components/auth/PinResetPageContent');
   const router = useRouter();
   const [checking, setChecking] = useState(true);
   const [valid, setValid] = useState(false);

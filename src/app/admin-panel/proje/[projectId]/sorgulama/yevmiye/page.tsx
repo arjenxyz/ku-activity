@@ -1,7 +1,8 @@
 'use client';
 
-import strings from '@json/src/app/admin-panel/proje/[projectId]/sorgulama/yevmiye/page.json';
+
 import { useCallback, useEffect, useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useParams } from 'next/navigation';
 import dayjs from 'dayjs';
 import { ProjectPageHeader } from '@/components/project/ProjectPageHeader';
@@ -33,6 +34,8 @@ type Record = {
 };
 
 export default function YevmiyeSorgulamaPage() {
+
+  const strings = useRegistryStrings('app/admin-panel/proje/[projectId]/sorgulama/yevmiye/page');
   const { projectId } = useParams() as { projectId: string };
   const { employees, error: empError } = useProjectEmployees(projectId);
   const { jobs } = useProjectJobs(projectId);

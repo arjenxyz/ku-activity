@@ -1,0 +1,9 @@
+{
+  "greetingMorning": "Good morning",
+  "greetingAfternoon": "Good afternoon",
+  "greetingEvening": "Good evening",
+  "defaultName": "Personnel",
+  "panelSubtitle": "Personnel panel",
+  "greetingWithName": "{greeting}, {firstName}",
+  "sectionAriaLabel": "Profile overview"
+}

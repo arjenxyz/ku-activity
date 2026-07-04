@@ -1,6 +1,7 @@
 'use client';
 
 import { Suspense, useCallback, useEffect, useMemo, useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import dayjs from 'dayjs';
@@ -37,7 +38,6 @@ import {
   type DekontValidationResult,
 } from '@/lib/dekont-validation';
 import { formatString } from '@/lib/strings/format';
-import strings from '@json/src/components/admin/DekontSharePanel.json';
 
 type DraftPayload = {
   id: string;
@@ -48,13 +48,8 @@ type DraftPayload = {
 
 type Step = 'upload' | 'analyze' | 'review' | 'done';
 
-const STEPS: { id: Step; label: string }[] = [
-  { id: 'upload', label: strings.steps.upload },
-  { id: 'analyze', label: strings.steps.analyze },
-  { id: 'review', label: strings.steps.review },
-];
-
 function TrustRing({ score, accepted }: { score: number; accepted: boolean }) {
+  const strings = useRegistryStrings('components/admin/DekontSharePanel');
   const radius = 44;
   const circumference = 2 * Math.PI * radius;
   const offset = circumference - (score / 100) * circumference;
@@ -87,10 +82,16 @@ function TrustRing({ score, accepted }: { score: number; accepted: boolean }) {
 }
 
 function StepIndicator({ step }: { step: Step }) {
+  const strings = useRegistryStrings('components/admin/DekontSharePanel');
+  const steps: { id: Step; label: string }[] = [
+    { id: 'upload', label: strings.steps.upload },
+    { id: 'analyze', label: strings.steps.analyze },
+    { id: 'review', label: strings.steps.review },
+  ];
   const idx = step === 'upload' ? 0 : step === 'analyze' ? 1 : step === 'review' ? 2 : 3;
   return (
     <ol className="flex flex-wrap items-center gap-2 text-xs font-medium">
-      {STEPS.map((s, i) => {
+      {steps.map((s, i) => {
         const active = i === idx;
         const done = i < idx || step === 'done';
         return (
@@ -116,6 +117,8 @@ function StepIndicator({ step }: { step: Step }) {
 }
 
 function CheckRow({ check, compact }: { check: DekontValidationCheck; compact?: boolean }) {
+  const strings = useRegistryStrings('components/admin/DekontSharePanel');
+
   return (
     <li
       className={`flex items-start gap-3 rounded-xl border px-3 py-2.5 text-sm ${
@@ -159,6 +162,8 @@ function ValidationDetailsPanel({
   checks: DekontValidationCheck[];
   defaultExpanded?: boolean;
 }) {
+  const strings = useRegistryStrings('components/admin/DekontSharePanel');
+
   const [expanded, setExpanded] = useState(defaultExpanded);
   const { passed, failedRequired, failedOptional } = splitValidationChecks(checks);
   const failed = [...failedRequired, ...failedOptional];
@@ -274,10 +279,13 @@ function ValidationDetailsPanel({
 }
 
 function ValidationChecklist({ validation }: { validation: DekontValidationResult }) {
+  const strings = useRegistryStrings('components/admin/DekontSharePanel');
+
   return <ValidationDetailsPanel title={strings.validation.documentTitle} checks={validation.checks} />;
 }
 
 function DekontShareContent() {
+  const strings = useRegistryStrings('components/admin/DekontSharePanel');
   const searchParams = useSearchParams();
   const router = useRouter();
   const draftId = searchParams.get('draft');
@@ -340,6 +348,7 @@ function DekontShareContent() {
   );
 
   const processFile = async (file: File) => {
+
     setUploading(true);
     setError(null);
     setSuccess(null);
@@ -373,6 +382,7 @@ function DekontShareContent() {
   };
 
   const handleConfirm = async () => {
+
     if (!draft || !selectedRequestId || !selectedProjectId || !confirmReady.ok) return;
     setConfirming(true);
     setError(null);
@@ -716,6 +726,8 @@ function DekontShareContent() {
 }
 
 export function DekontSharePanel() {
+
+  const strings = useRegistryStrings('components/admin/DekontSharePanel');
   return (
     <Suspense
       fallback={

@@ -1,0 +1,21 @@
+{
+  "migrationHint": "056_advance_requests.sql çalıştırın",
+  "deductionDescriptionBank": "Avans (talep {requestIdPrefix})",
+  "deductionDescriptionCash": "Nakit avans (talep {requestIdPrefix})",
+  "notFound": "Talep bulunamadı",
+  "invalidAmount": "Geçerli bir tutar girin",
+  "forbidden": "Bu talebe erişiminiz yok",
+  "cancelPendingOnly": "Yalnızca bekleyen talepler iptal edilebilir",
+  "approvePendingOnly": "Yalnızca bekleyen talepler onaylanabilir",
+  "invalidApprovedAmount": "Geçerli onay tutarı girin",
+  "cannotReject": "Bu talep reddedilemez",
+  "bankPaymentApprovedOnly": "Havale ödemesi yalnızca onaylanmış taleplerde kaydedilebilir",
+  "notBankTransfer": "Bu talep havale ile onaylanmadı",
+  "missingFile": "Dekont dosyası gerekli",
+  "invalidToken": "Geçersiz avans kodu",
+  "tokenInvalidOrUsed": "Kod geçersiz veya kullanılmış",
+  "tokenExpired": "Kodun süresi dolmuş",
+  "tokenNotYours": "Bu kod size ait değil",
+  "cashNotAwaiting": "Bu talep nakit onayı beklemiyor",
+  "cashQrAwaitingOnly": "Nakit QR yalnızca teslim bekleyen taleplerde oluşturulur"
+}

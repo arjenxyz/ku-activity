@@ -1,6 +1,8 @@
 'use client';
 
 import Image from 'next/image';
+import { useMemo } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { GooglePlayBadge, GooglePlayIcon } from '@/components/home/GooglePlayBadge';
@@ -11,24 +13,14 @@ import {
   PLAY_STORE_PERSONNEL_ICON,
   PLAY_STORE_PERSONNEL_URL,
 } from '@/lib/play-store';
-import strings from '@json/src/components/home/PlayStoreSection.json';
 
-const apps = [
-  {
-    id: 'personel' as const,
-    title: strings.apps.personel.title,
-    description: strings.apps.personel.description,
-    playUrl: PLAY_STORE_PERSONNEL_URL,
-    iconSrc: PLAY_STORE_PERSONNEL_ICON,
-  },
-  {
-    id: 'admin' as const,
-    title: strings.apps.admin.title,
-    description: strings.apps.admin.description,
-    playUrl: PLAY_STORE_ADMIN_URL,
-    iconSrc: PLAY_STORE_ADMIN_ICON,
-  },
-];
+type PlayStoreApp = {
+  id: 'personel' | 'admin';
+  title: string;
+  description: string;
+  playUrl: string;
+  iconSrc: string;
+};
 
 function CardsConnector({ layout }: { layout: 'row' | 'column' }) {
   if (layout === 'column') {
@@ -49,9 +41,13 @@ function CardsConnector({ layout }: { layout: 'row' | 'column' }) {
 function AppCard({
   app,
   index,
+  platformLabel,
+  apkDownload,
 }: {
-  app: (typeof apps)[number];
+  app: PlayStoreApp;
   index: number;
+  platformLabel: string;
+  apkDownload: string;
 }) {
   const hasPlayLink = Boolean(app.playUrl);
 
@@ -68,7 +64,7 @@ function AppCard({
           <Image src={app.iconSrc} alt="" width={56} height={56} className="h-full w-full object-cover" />
         </div>
         <div className="min-w-0">
-          <p className="text-xs text-slate-400">{strings.platformLabel}</p>
+          <p className="text-xs text-slate-400">{platformLabel}</p>
           <h3 className="mt-1 text-lg font-bold tracking-tight text-slate-900 dark:text-white">{app.title}</h3>
         </div>
       </div>
@@ -81,7 +77,7 @@ function AppCard({
           href="/apk"
           className="flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-medium text-slate-600 transition-colors hover:border-slate-300 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800/60"
         >
-          {strings.apkDownload}
+          {apkDownload}
         </Link>
       </div>
     </motion.article>
@@ -89,6 +85,28 @@ function AppCard({
 }
 
 export function PlayStoreSection() {
+  const strings = useRegistryStrings('components/home/PlayStoreSection');
+
+  const apps = useMemo<PlayStoreApp[]>(
+    () => [
+      {
+        id: 'personel',
+        title: strings.apps.personel.title,
+        description: strings.apps.personel.description,
+        playUrl: PLAY_STORE_PERSONNEL_URL,
+        iconSrc: PLAY_STORE_PERSONNEL_ICON,
+      },
+      {
+        id: 'admin',
+        title: strings.apps.admin.title,
+        description: strings.apps.admin.description,
+        playUrl: PLAY_STORE_ADMIN_URL,
+        iconSrc: PLAY_STORE_ADMIN_ICON,
+      },
+    ],
+    [strings]
+  );
+
   return (
     <section id="play-store" className="relative overflow-hidden py-20 lg:py-24">
       <BrandIconRain />
@@ -118,15 +136,35 @@ export function PlayStoreSection() {
 
         <div className="mx-auto max-w-4xl">
           <div className="hidden sm:grid sm:grid-cols-[1fr_auto_1fr] sm:items-stretch sm:gap-0">
-            <AppCard app={apps[0]} index={0} />
+            <AppCard
+              app={apps[0]}
+              index={0}
+              platformLabel={strings.platformLabel}
+              apkDownload={strings.apkDownload}
+            />
             <CardsConnector layout="row" />
-            <AppCard app={apps[1]} index={1} />
+            <AppCard
+              app={apps[1]}
+              index={1}
+              platformLabel={strings.platformLabel}
+              apkDownload={strings.apkDownload}
+            />
           </div>
 
           <div className="space-y-4 sm:hidden">
-            <AppCard app={apps[0]} index={0} />
+            <AppCard
+              app={apps[0]}
+              index={0}
+              platformLabel={strings.platformLabel}
+              apkDownload={strings.apkDownload}
+            />
             <CardsConnector layout="column" />
-            <AppCard app={apps[1]} index={1} />
+            <AppCard
+              app={apps[1]}
+              index={1}
+              platformLabel={strings.platformLabel}
+              apkDownload={strings.apkDownload}
+            />
           </div>
         </div>
       </div>

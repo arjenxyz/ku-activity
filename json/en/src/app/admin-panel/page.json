@@ -1,0 +1,13 @@
+{
+  "title": "Projeler",
+  "subtitle": "Şantiyelerinizi oluşturun, düzenleyin ve yönetin",
+  "newProject": "Yeni Proje",
+  "loadFailed": "Projeler yüklenemedi",
+  "adminHint": "Giriş yaptığınızdan ve profiles tablosunda admin kaydınızın olduğundan emin olun.",
+  "deleteFailed": "Proje silinemedi",
+  "deleteTitle": "Projeyi sil?",
+  "deleteBody": " ve bağlı tüm personel, yevmiye ve kesinti kayıtları kalıcı olarak silinir.",
+  "cancel": "Vazgeç",
+  "deleting": "Siliniyor...",
+  "confirmDelete": "Evet, Sil"
+}

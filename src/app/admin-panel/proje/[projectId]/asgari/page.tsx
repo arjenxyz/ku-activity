@@ -1,7 +1,8 @@
 'use client';
 
-import strings from '@json/src/app/admin-panel/proje/[projectId]/asgari/page.json';
+
 import { formatString } from '@/lib/strings/format';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
@@ -27,6 +28,8 @@ type MinimumRecord = {
 };
 
 export default function AsgariPage() {
+
+  const strings = useRegistryStrings('app/admin-panel/proje/[projectId]/asgari/page');
   const { projectId } = useParams() as { projectId: string };
   const { employees, loading: empLoading, error: empError } = useProjectEmployees(projectId);
   const [employeeId, setEmployeeId] = useState('');

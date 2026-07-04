@@ -1,0 +1,49 @@
+{
+  "photoUploadFailed": "Fotoğraf yüklenemedi",
+  "updatePhotoTitle": "Profil fotoğrafını güncelle",
+  "uploading": "Yükleniyor…",
+  "takePhoto": "Fotoğraf çek",
+  "uploadFromGallery": "Galeriden yükle",
+  "backToList": "Ayarlar listesine dön",
+  "logout": "Çıkış yap",
+  "emptyValue": "—",
+  "pinTitle": "PIN kodu",
+  "pinSubtitle": "Giriş şifrenizi güncelleyin",
+  "sections": {
+    "home": { "title": "Ayarlar", "subtitle": "Hesabınızı ve uygulama tercihlerinizi yönetin." },
+    "personal": { "title": "Kişisel Ayarlar", "subtitle": "Kimlik ve kişisel bilgileriniz." },
+    "contact": { "title": "İletişim", "subtitle": "E-posta ve telefon bilgileriniz." },
+    "bank": { "title": "Banka Bilgileri", "subtitle": "IBAN bilgileriniz." },
+    "work": { "title": "İş Bilgileri", "subtitle": "Pozisyon, yevmiye ve şantiye bilgileriniz." },
+    "contracts": { "title": "Sözleşmeler", "subtitle": "Onayladığınız sözleşme kayıtları." },
+    "security": { "title": "Güvenlik", "subtitle": "PIN ve hesap güvenliği." },
+    "app": { "title": "Uygulama Ayarları", "subtitle": "Görünüm ve kullanım tercihleri." }
+  },
+  "menu": {
+    "personal": { "title": "Kişisel ayarlar", "subtitle": "Ad, soyad, T.C. kimlik, doğum tarihi" },
+    "contact": { "title": "İletişim", "subtitle": "E-posta ve telefon numarası" },
+    "bank": { "title": "Banka", "subtitle": "IBAN bilgisi" },
+    "work": { "title": "İş bilgileri", "subtitle": "Pozisyon, yevmiye ve proje" },
+    "contracts": { "title": "Sözleşmeler", "subtitle": "Onayladığınız sözleşmeler" },
+    "security": { "title": "Güvenlik", "subtitle": "PIN kodu ve hesap güvenliği" },
+    "app": { "title": "Uygulama ayarları", "subtitle": "Tema ve görünüm tercihleri" }
+  },
+  "groups": {
+    "personalInfo": "Kişisel bilgiler",
+    "contact": "İletişim",
+    "bank": "Banka",
+    "workInfo": "İş bilgileri"
+  },
+  "fields": {
+    "firstName": "Ad",
+    "lastName": "Soyad",
+    "tcKimlik": "T.C. kimlik no",
+    "birthDate": "Doğum tarihi",
+    "email": "E-posta",
+    "phone": "Telefon",
+    "iban": "IBAN",
+    "position": "Pozisyon",
+    "dailyWage": "Günlük yevmiye",
+    "hireDate": "İşe giriş"
+  }
+}

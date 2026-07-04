@@ -1,9 +1,10 @@
 'use client';
 
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { FiLoader } from 'react-icons/fi';
 import { Html5Qrcode, type CameraDevice } from 'html5-qrcode';
-import strings from '@json/src/components/personnel/AttendanceQrScanner.json';
+import { getRegistryStrings } from '@/lib/i18n/strings-registry';
 
 type Props = {
   onScan: (code: string) => void;
@@ -32,14 +33,14 @@ function cameraPriority(cam: CameraDevice, desktop: boolean) {
   return 2;
 }
 
-async function waitForElement(id: string, attempts = 80): Promise<HTMLElement> {
+async function waitForElement(id: string, regionNotReady: string, attempts = 80): Promise<HTMLElement> {
   for (let i = 0; i < attempts; i += 1) {
     const el = document.getElementById(id);
     if (el && el.clientWidth > 0 && el.clientHeight > 0) return el;
     await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
   }
   const el = document.getElementById(id);
-  if (!el) throw new Error(strings.errors.regionNotReady);
+  if (!el) throw new Error(regionNotReady);
   if (el.clientWidth === 0 || el.clientHeight === 0) {
     el.style.minHeight = `${Math.max(window.innerHeight * 0.5, 320)}px`;
   }
@@ -108,7 +109,8 @@ async function pickCameraConfigs(): Promise<Array<string | MediaTrackConstraints
   });
 }
 
-function mapCameraError(msg: string) {
+function mapCameraError(msg: string, strings: ReturnType<typeof getRegistryStrings<'components/personnel/AttendanceQrScanner'>>) {
+
   if (msg.includes('NotAllowed') || msg.includes('Permission')) {
     return strings.errors.permissionDenied;
   }
@@ -137,9 +139,11 @@ export function AttendanceQrScanner({
   disabled,
   paused = false,
   parseQr,
-  invalidQrMessage = strings.invalidQrMessage,
+  invalidQrMessage,
   className = '',
 }: Props) {
+  const strings = useRegistryStrings('components/personnel/AttendanceQrScanner');
+  const resolvedInvalidMessage = invalidQrMessage ?? strings.invalidQrMessage;
   const regionId = useId().replace(/:/g, '');
   const scannerRef = useRef<Html5Qrcode | null>(null);
   const onScanRef = useRef(onScan);
@@ -197,6 +201,7 @@ export function AttendanceQrScanner({
     setError(null);
 
     const boot = async () => {
+
       const desktop = isLikelyDesktop();
 
       try {
@@ -207,7 +212,7 @@ export function AttendanceQrScanner({
           throw new Error(strings.errors.httpsRequired);
         }
 
-        await waitForElement(regionId);
+        await waitForElement(regionId, strings.errors.regionNotReady);
         if (cancelled) return;
 
         if (scannerRef.current) await releaseScanner();
@@ -225,7 +230,7 @@ export function AttendanceQrScanner({
           if (decodedRef.current) return;
           const code = parseQrRef.current(decoded);
           if (!code) {
-            setError(invalidQrMessage);
+            setError(resolvedInvalidMessage);
             return;
           }
           decodedRef.current = true;
@@ -272,12 +277,12 @@ export function AttendanceQrScanner({
         }
 
         if (!cancelled) {
-          setError(mapCameraError(lastError?.message ?? strings.errors.cameraFailed));
+          setError(mapCameraError(lastError?.message ?? strings.errors.cameraFailed, strings));
         }
       } catch (e) {
         if (cancelled) return;
         const msg = e instanceof Error ? e.message : strings.errors.cameraFailed;
-        setError(mapCameraError(msg));
+        setError(mapCameraError(msg, strings));
       } finally {
         if (!cancelled) setStarting(false);
       }
@@ -289,7 +294,7 @@ export function AttendanceQrScanner({
       cancelled = true;
       setStarting(false);
     };
-  }, [disabled, paused, regionId, invalidQrMessage, releaseScanner]);
+  }, [disabled, paused, regionId, resolvedInvalidMessage, releaseScanner, strings]);
 
   const showLoading = starting && !active && !paused && !error;
 

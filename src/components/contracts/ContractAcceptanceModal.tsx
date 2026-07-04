@@ -1,8 +1,9 @@
 'use client';
 
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { FiCheck, FiChevronDown, FiX } from 'react-icons/fi';
-import strings from '@json/src/components/contracts/ContractAcceptanceModal.json';
+
 import { formatString } from '@/lib/strings/format';
 import type { ContractItem } from './ContractScrollReader';
 
@@ -23,6 +24,8 @@ export function ContractAcceptanceModal({
   closeOnAccept = true,
   stepLabel,
 }: Props) {
+
+  const strings = useRegistryStrings('components/contracts/ContractAcceptanceModal');
   const scrollRef = useRef<HTMLDivElement>(null);
   const [scrolledToEnd, setScrolledToEnd] = useState(accepted);
   const [scrollProgress, setScrollProgress] = useState(accepted ? 100 : 0);

@@ -1,0 +1,83 @@
+{
+  "title": "Maaş Dökümü",
+  "printedAt": "Yazdırma:",
+  "documentNo": "Belge no:",
+  "employeeInfo": "Personel bilgileri",
+  "periodSummary": "Dönem özeti",
+  "workLogsTitle": "Yevmiye kayıtları ({count})",
+  "mesaiSummary": "Mesai özeti",
+  "advancesTitle": "Avanslar ({count})",
+  "deductionsTitle": "Kesintiler ({count})",
+  "minimumWagesTitle": "Asgari ücret ödemeleri ({count})",
+  "calcSummary": "Hesaplama özeti",
+  "emptyValue": "—",
+  "fields": {
+    "fullName": "Ad soyad",
+    "position": "Pozisyon",
+    "project": "Proje / şantiye",
+    "dailyWage": "Günlük yevmiye",
+    "tcKimlik": "T.C. kimlik",
+    "hireDate": "İşe giriş"
+  },
+  "summary": {
+    "workDays": "Çalışılan gün",
+    "approvedDays": "Onaylı gün",
+    "pendingDays": "Bekleyen gün",
+    "mesaiUnits": "Mesai birimi",
+    "netEstimate": "Net tahmini"
+  },
+  "table": {
+    "date": "Tarih",
+    "work": "Çalışma",
+    "mesai": "Mesai",
+    "wage": "Yevmiye",
+    "mesaiPay": "Mesai ₺",
+    "rowTotal": "Satır toplam",
+    "status": "Durum",
+    "total": "Toplam",
+    "type": "Tür",
+    "record": "Kayıt",
+    "unit": "Birim",
+    "amount": "Tutar",
+    "description": "Açıklama",
+    "deductionType": "Tür"
+  },
+  "mesaiTypes": {
+    "ceyrek": "Çeyrek mesai",
+    "yarim": "Yarım mesai",
+    "tam": "Tam mesai"
+  },
+  "empty": {
+    "workLogs": "Bu dönemde yevmiye kaydı yok.",
+    "advances": "Avans kaydı yok.",
+    "deductions": "Kesinti kaydı yok.",
+    "minimumWages": "Asgari ücret tamamlama ödemesi yok."
+  },
+  "defaults": {
+    "advance": "Avans",
+    "minimumWage": "Asgari ücret tamamlama"
+  },
+  "totals": {
+    "grand": "Genel toplam",
+    "advances": "Toplam avans",
+    "deductions": "Toplam kesinti",
+    "minimumWages": "Toplam asgari ödeme"
+  },
+  "calc": {
+    "basePay": "Yevmiye ({days} gün × {wage})",
+    "mesaiPay": "Mesai kazancı (+)",
+    "gross": "Brüt toplam",
+    "advances": "Avanslar (−)",
+    "deductions": "Kesintiler (−)",
+    "minimumWages": "Asgari ücret ödemeleri (+)",
+    "netPayment": "Net tahmini ödeme",
+    "note": "Net tutar: Brüt ({gross}) − Avans ({advances}) − Kesinti ({deductions}){minimumPart} = {net}",
+    "minimumPart": " + Asgari ({amount})"
+  },
+  "footer": {
+    "disclaimer": "Bu belge bilgilendirme amaçlıdır. Resmi bordro yerine geçmez. Kayıtlar {appName} personel paneli ile yönetici panelinden aynı veritabanından üretilmiştir.",
+    "employee": "Personel",
+    "employer": "Yönetici / İşveren",
+    "signatureHint": "Ad soyad · Tarih · İmza"
+  }
+}

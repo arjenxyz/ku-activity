@@ -1,13 +1,13 @@
 'use client';
 
 import dayjs from 'dayjs';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { FiClock, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import type { MesaiCalendarDay } from '@/lib/personnel-stats';
 import { formatMoney } from '@/lib/format';
 import { mesaiLabel } from '@/lib/work-log';
 import type { WorkLogApprovalStatus } from '@/lib/work-log';
 import { formatString } from '@/lib/strings/format';
-import strings from '@json/src/components/personnel/PersonnelMesaiCalendar.json';
 
 const STATUS_DOT: Record<WorkLogApprovalStatus, string> = {
   confirmed: 'bg-emerald-500',
@@ -36,9 +36,12 @@ type Props = {
   onMonthChange: (month: string) => void;
   days: MesaiCalendarDay[];
   totalPay: number;
+  onDaySelect?: (date: string) => void;
 };
 
-export function PersonnelMesaiCalendar({ month, onMonthChange, days, totalPay }: Props) {
+export function PersonnelMesaiCalendar({ month, onMonthChange, days, totalPay, onDaySelect }: Props) {
+
+  const strings = useRegistryStrings('components/personnel/PersonnelMesaiCalendar');
   const maxMonth = dayjs().format('YYYY-MM');
   const isCurrentMonth = month === maxMonth;
   const monthLabel = formatMonthLabel(month);
@@ -129,20 +132,46 @@ export function PersonnelMesaiCalendar({ month, onMonthChange, days, totalPay }:
               ? 'ring-2 ring-orange-500 dark:ring-orange-400 ring-offset-1 dark:ring-offset-slate-800'
               : '';
 
+            const clickable = hasMesai && Boolean(onDaySelect);
+            const cellClassName = `aspect-square min-h-[44px] rounded-xl flex flex-col items-center justify-center text-center p-0.5 transition-colors ${todayRing} ${
+              hasMesai
+                ? 'bg-orange-50 dark:bg-orange-900/30 text-orange-900 dark:text-orange-200 ring-1 ring-orange-200/80 dark:ring-orange-800'
+                : 'bg-gray-50 dark:bg-slate-900/50 text-gray-400 dark:text-slate-500'
+            } ${clickable ? 'cursor-pointer hover:brightness-[0.97] active:scale-[0.97] focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500' : ''}`;
+            const cellTitle = hasMesai
+              ? `${cell.date} · ${mesaiLabel(cell.mesaiType)} · ${formatMoney(cell.mesaiPay)}`
+              : cell.date;
+
+            if (clickable) {
+              return (
+                <button
+                  key={cell.date}
+                  type="button"
+                  onClick={() => onDaySelect?.(cell.date)}
+                  className={cellClassName}
+                  title={cellTitle}
+                  aria-label={cellTitle}
+                >
+                  <span
+                    className={`text-xs font-bold ${cell.isToday ? 'text-orange-700 dark:text-orange-300' : ''}`}
+                  >
+                    {cell.day}
+                  </span>
+                  <span className="text-[9px] sm:text-[10px] font-semibold leading-tight mt-0.5 tabular-nums">
+                    {formatCompactMoney(cell.mesaiPay)}₺
+                  </span>
+                  {status ? (
+                    <span
+                      className={`w-1.5 h-1.5 rounded-full mt-0.5 ${STATUS_DOT[status]}`}
+                      aria-hidden
+                    />
+                  ) : null}
+                </button>
+              );
+            }
+
             return (
-              <div
-                key={cell.date}
-                className={`aspect-square min-h-[44px] rounded-xl flex flex-col items-center justify-center text-center p-0.5 transition-colors ${todayRing} ${
-                  hasMesai
-                    ? 'bg-orange-50 dark:bg-orange-900/30 text-orange-900 dark:text-orange-200 ring-1 ring-orange-200/80 dark:ring-orange-800'
-                    : 'bg-gray-50 dark:bg-slate-900/50 text-gray-400 dark:text-slate-500'
-                }`}
-                title={
-                  hasMesai
-                    ? `${cell.date} · ${mesaiLabel(cell.mesaiType)} · ${formatMoney(cell.mesaiPay)}`
-                    : cell.date
-                }
-              >
+              <div key={cell.date} className={cellClassName} title={cellTitle}>
                 <span
                   className={`text-xs font-bold ${cell.isToday ? 'text-orange-700 dark:text-orange-300' : ''}`}
                 >
@@ -165,6 +194,11 @@ export function PersonnelMesaiCalendar({ month, onMonthChange, days, totalPay }:
             );
           })}
         </div>
+        {onDaySelect ? (
+          <p className="mt-4 pt-3 border-t border-gray-100 dark:border-slate-700 text-[11px] text-slate-500 dark:text-slate-400">
+            {strings.tapForDetail}
+          </p>
+        ) : null}
       </div>
     </div>
   );

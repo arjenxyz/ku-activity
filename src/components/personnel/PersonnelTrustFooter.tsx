@@ -1,9 +1,9 @@
 'use client';
 
 import { FaWhatsapp } from 'react-icons/fa';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { buildWhatsAppUrl } from '@/lib/whatsapp';
 import { formatString } from '@/lib/strings/format';
-import strings from '@json/src/components/personnel/PersonnelTrustFooter.json';
 
 const SUPPORT_WHATSAPP = process.env.NEXT_PUBLIC_SUPPORT_WHATSAPP?.trim() || '';
 
@@ -13,6 +13,8 @@ type Props = {
 };
 
 export function PersonnelTrustFooter({ managerPhone, managerName }: Props) {
+
+  const strings = useRegistryStrings('components/personnel/PersonnelTrustFooter');
   const phone = managerPhone?.trim() || SUPPORT_WHATSAPP;
   const whatsappUrl = phone ? buildWhatsAppUrl(phone) : null;
 

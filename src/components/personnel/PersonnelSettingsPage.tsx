@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo, useRef, useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import {
   FiBriefcase,
   FiCamera,
@@ -24,7 +25,9 @@ import { PersonnelProjectCard } from '@/components/personnel/PersonnelProjectCar
 import { formatDate, formatMoney } from '@/lib/format';
 import { formatTurkishPhoneNational } from '@/lib/field-encryption';
 import type { PersonnelEmployee } from '@/lib/personnel-api';
-import strings from '@json/src/components/personnel/PersonnelSettingsPage.json';
+import { getRegistryStrings } from '@/lib/i18n/strings-registry';
+
+type SettingsStrings = ReturnType<typeof getRegistryStrings<'components/personnel/PersonnelSettingsPage'>>;
 
 type Props = {
   employee: PersonnelEmployee;
@@ -41,13 +44,13 @@ type SettingsSectionId =
   | 'security'
   | 'app';
 
-function formatIbanDisplay(iban: string | null | undefined) {
+function formatIbanDisplay(iban: string | null | undefined, strings: SettingsStrings) {
   if (!iban) return strings.emptyValue;
   const clean = iban.replace(/\s/g, '').toUpperCase();
   return clean.replace(/(.{4})/g, '$1 ').trim();
 }
 
-function formatPhoneDisplay(phone: string | null | undefined) {
+function formatPhoneDisplay(phone: string | null | undefined, strings: SettingsStrings) {
   if (!phone) return strings.emptyValue;
   const digits = phone.replace(/\D/g, '');
   const national = digits.startsWith('90') ? digits.slice(2) : digits;
@@ -56,6 +59,8 @@ function formatPhoneDisplay(phone: string | null | undefined) {
 }
 
 export function PersonnelSettingsPage({ employee, onLogout }: Props) {
+
+  const strings = useRegistryStrings('components/personnel/PersonnelSettingsPage');
   const [passwordOpen, setPasswordOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<SettingsSectionId>('home');
   const [photoUrl, setPhotoUrl] = useState(employee.photo_url ?? null);
@@ -68,6 +73,7 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
   const lastName = employee.last_name || employee.name.split(' ').slice(1).join(' ') || strings.emptyValue;
 
   const uploadPhoto = async (file: File | null) => {
+
     if (!file) return;
     setPhotoError(null);
     setPhotoBusy(true);
@@ -144,6 +150,7 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
   ];
 
   const renderSection = () => {
+
     switch (activeSection) {
       case 'personal':
         return (
@@ -163,7 +170,7 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
             <InfoRow label={strings.fields.email} value={employee.email || strings.emptyValue} />
             <InfoRow
               label={strings.fields.phone}
-              value={formatPhoneDisplay(employee.phone)}
+              value={formatPhoneDisplay(employee.phone, strings)}
               icon={<FiPhone className="w-3.5 h-3.5 text-slate-400" />}
             />
           </SettingsGroup>
@@ -171,7 +178,7 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
       case 'bank':
         return (
           <SettingsGroup title={strings.groups.bank} icon={<FiCreditCard className="w-4 h-4" />}>
-            <InfoRow label={strings.fields.iban} value={formatIbanDisplay(employee.iban)} mono />
+            <InfoRow label={strings.fields.iban} value={formatIbanDisplay(employee.iban, strings)} mono />
           </SettingsGroup>
         );
       case 'work':

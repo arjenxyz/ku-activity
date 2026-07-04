@@ -1,9 +1,9 @@
 'use client';
 
 import { useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { FiDownload, FiFileText } from 'react-icons/fi';
 import { formatString } from '@/lib/strings/format';
-import strings from '@json/src/components/admin/LegalDossierDownloadButton.json';
 
 type Props = {
   projectId: string;
@@ -26,6 +26,8 @@ export function LegalDossierDownloadButton({
   variant = 'secondary',
   className = '',
 }: Props) {
+
+  const strings = useRegistryStrings('components/admin/LegalDossierDownloadButton');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 

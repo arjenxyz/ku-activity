@@ -1,10 +1,13 @@
 'use client';
 
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { FiCamera, FiImage, FiX } from 'react-icons/fi';
 import { Html5Qrcode, type CameraDevice } from 'html5-qrcode';
 import { parseRegistrationCodeFromQr, extractVerificationCode } from '@/lib/parse-registration-qr';
-import strings from '@json/src/components/registration/QrCameraScanner.json';
+import { getRegistryStrings } from '@/lib/i18n/strings-registry';
+
+type QrScannerStrings = ReturnType<typeof getRegistryStrings<'components/registration/QrCameraScanner'>>;
 
 type Props = {
   onScan: (code: string) => void;
@@ -31,7 +34,7 @@ function cameraPriority(cam: CameraDevice, desktop: boolean) {
   return 2;
 }
 
-async function waitForElement(id: string, attempts = 20): Promise<HTMLElement> {
+async function waitForElement(id: string, strings: QrScannerStrings, attempts = 20): Promise<HTMLElement> {
   for (let i = 0; i < attempts; i += 1) {
     const el = document.getElementById(id);
     if (el && el.clientWidth > 0 && el.clientHeight > 0) return el;
@@ -42,7 +45,7 @@ async function waitForElement(id: string, attempts = 20): Promise<HTMLElement> {
   return el;
 }
 
-async function ensureCameraPermission() {
+async function ensureCameraPermission(strings: QrScannerStrings) {
   if (!navigator.mediaDevices?.getUserMedia) {
     throw new Error(strings.errors.cameraNotSupported);
   }
@@ -122,7 +125,7 @@ async function pickCameraConfigs(): Promise<Array<string | MediaTrackConstraints
   });
 }
 
-function mapCameraError(msg: string) {
+function mapCameraError(msg: string, strings: QrScannerStrings) {
   if (msg.includes('NotAllowed') || msg.includes('Permission')) {
     return strings.errors.permissionDenied;
   }
@@ -139,8 +142,10 @@ export function QrCameraScanner({
   onScan,
   disabled,
   parseQr,
-  invalidQrMessage = strings.invalidQrDefault,
+  invalidQrMessage,
 }: Props) {
+  const strings = useRegistryStrings('components/registration/QrCameraScanner');
+  const resolvedInvalidMessage = invalidQrMessage ?? strings.invalidQrDefault;
   const regionId = useId().replace(/:/g, '');
   const scannerRef = useRef<Html5Qrcode | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -218,14 +223,15 @@ export function QrCameraScanner({
     bootingRef.current = true;
 
     const boot = async () => {
+
       setError(null);
       setLastRawScan(null);
       setStarting(true);
       const desktop = isLikelyDesktop();
 
       try {
-        ensureCameraPermission();
-        await waitForElement(regionId);
+        await ensureCameraPermission(strings);
+        await waitForElement(regionId, strings);
         if (cancelled) return;
 
         if (scannerRef.current) {
@@ -286,12 +292,12 @@ export function QrCameraScanner({
         setViewfinderOpen(false);
 
         const msg = lastError?.message ?? strings.errors.cameraOpenFailed;
-        setError(mapCameraError(msg));
+        setError(mapCameraError(msg, strings));
       } catch (e) {
         if (cancelled) return;
         setViewfinderOpen(false);
         const msg = e instanceof Error ? e.message : strings.errors.cameraOpenFailed;
-        setError(mapCameraError(msg));
+        setError(mapCameraError(msg, strings));
       } finally {
         bootingRef.current = false;
         if (!cancelled) setStarting(false);
@@ -313,6 +319,7 @@ export function QrCameraScanner({
   };
 
   const scanFromFile = async (file: File | null) => {
+
     if (!file || disabled) return;
     setError(null);
     setScanningFile(true);
@@ -327,7 +334,7 @@ export function QrCameraScanner({
     try {
       const decoded = await scanner.scanFile(file, false);
       if (!handleDecoded(decoded)) {
-        setError(invalidQrMessage);
+        setError(resolvedInvalidMessage);
       }
     } catch (e) {
       const msg = e instanceof Error ? e.message : strings.errors.imageScanFailed;

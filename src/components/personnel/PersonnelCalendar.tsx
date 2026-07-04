@@ -1,47 +1,63 @@
 'use client';
 
 import dayjs from 'dayjs';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { FiCalendar, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import type { CalendarDay } from '@/lib/personnel-stats';
 import type { WorkLogApprovalStatus } from '@/lib/work-log';
 import { formatString } from '@/lib/strings/format';
-import strings from '@json/src/components/personnel/PersonnelCalendar.json';
 
-const STATUS_STYLES: Record<
+import { getRegistryStrings } from '@/lib/i18n/strings-registry';
+
+type CalendarStrings = ReturnType<typeof getRegistryStrings<'components/personnel/PersonnelCalendar'>>;
+
+type StatusStyleEntry = { cell: string; dot: string; label: string };
+
+function buildStatusStyles(strings: CalendarStrings): Record<
   WorkLogApprovalStatus | 'empty',
-  { cell: string; dot: string; label: string }
-> = {
-  confirmed: {
-    cell: 'bg-emerald-50 dark:bg-emerald-900/35 text-emerald-900 dark:text-emerald-200 ring-1 ring-emerald-200/80 dark:ring-emerald-800',
-    dot: 'bg-emerald-500',
-    label: strings.status.confirmed,
-  },
-  pending_employee: {
-    cell: 'bg-amber-50 dark:bg-amber-900/35 text-amber-900 dark:text-amber-200 ring-1 ring-amber-200/80 dark:ring-amber-800',
-    dot: 'bg-amber-500',
-    label: strings.status.pending_employee,
-  },
-  pending_admin: {
-    cell: 'bg-sky-50 dark:bg-sky-900/35 text-sky-900 dark:text-sky-200 ring-1 ring-sky-200/80 dark:ring-sky-800',
-    dot: 'bg-sky-500',
-    label: strings.status.pending_admin,
-  },
-  disputed: {
-    cell: 'bg-red-50 dark:bg-red-900/35 text-red-900 dark:text-red-200 ring-1 ring-red-200/80 dark:ring-red-800',
-    dot: 'bg-red-500',
-    label: strings.status.disputed,
-  },
-  none: {
-    cell: 'bg-violet-50 dark:bg-violet-900/30 text-violet-900 dark:text-violet-200 ring-1 ring-violet-200/80 dark:ring-violet-800',
-    dot: 'bg-violet-500',
-    label: strings.status.none,
-  },
-  empty: {
-    cell: 'bg-gray-50 dark:bg-slate-900/50 text-gray-400 dark:text-slate-500',
-    dot: 'bg-gray-300 dark:bg-slate-600',
-    label: strings.status.empty,
-  },
-};
+  StatusStyleEntry
+> {
+  return {
+    confirmed: {
+      cell: 'bg-emerald-50 dark:bg-emerald-900/35 text-emerald-900 dark:text-emerald-200 ring-1 ring-emerald-200/80 dark:ring-emerald-800',
+      dot: 'bg-emerald-500',
+      label: strings.status.confirmed,
+    },
+    pending_employee: {
+      cell: 'bg-amber-50 dark:bg-amber-900/35 text-amber-900 dark:text-amber-200 ring-1 ring-amber-200/80 dark:ring-amber-800',
+      dot: 'bg-amber-500',
+      label: strings.status.pending_employee,
+    },
+    pending_admin: {
+      cell: 'bg-sky-50 dark:bg-sky-900/35 text-sky-900 dark:text-sky-200 ring-1 ring-sky-200/80 dark:ring-sky-800',
+      dot: 'bg-sky-500',
+      label: strings.status.pending_admin,
+    },
+    disputed: {
+      cell: 'bg-red-50 dark:bg-red-900/35 text-red-900 dark:text-red-200 ring-1 ring-red-200/80 dark:ring-red-800',
+      dot: 'bg-red-500',
+      label: strings.status.disputed,
+    },
+    none: {
+      cell: 'bg-violet-50 dark:bg-violet-900/30 text-violet-900 dark:text-violet-200 ring-1 ring-violet-200/80 dark:ring-violet-800',
+      dot: 'bg-violet-500',
+      label: strings.status.none,
+    },
+    empty: {
+      cell: 'bg-gray-50 dark:bg-slate-900/50 text-gray-400 dark:text-slate-500',
+      dot: 'bg-gray-300 dark:bg-slate-600',
+      label: strings.status.empty,
+    },
+  };
+}
+
+function cellStyle(cell: CalendarDay, statusStyles: ReturnType<typeof buildStatusStyles>) {
+  if (!cell.inMonth || cell.workAmount <= 0) {
+    return statusStyles.empty.cell;
+  }
+  const status = cell.approvalStatus ?? 'none';
+  return statusStyles[status].cell;
+}
 
 function formatMonthLabel(month: string) {
   return new Date(`${month}-01T12:00:00`).toLocaleDateString('tr-TR', {
@@ -50,21 +66,17 @@ function formatMonthLabel(month: string) {
   });
 }
 
-function cellStyle(cell: CalendarDay) {
-  if (!cell.inMonth || cell.workAmount <= 0) {
-    return STATUS_STYLES.empty.cell;
-  }
-  const status = cell.approvalStatus ?? 'none';
-  return STATUS_STYLES[status].cell;
-}
-
 type Props = {
   month: string;
   onMonthChange: (month: string) => void;
   days: CalendarDay[];
+  onDaySelect?: (date: string) => void;
 };
 
-export function PersonnelCalendar({ month, onMonthChange, days }: Props) {
+export function PersonnelCalendar({ month, onMonthChange, days, onDaySelect }: Props) {
+
+  const strings = useRegistryStrings('components/personnel/PersonnelCalendar');
+  const statusStyles = buildStatusStyles(strings);
   const maxMonth = dayjs().format('YYYY-MM');
   const isCurrentMonth = month === maxMonth;
   const monthLabel = formatMonthLabel(month);
@@ -160,19 +172,49 @@ export function PersonnelCalendar({ month, onMonthChange, days }: Props) {
                 ? `${cell.workAmount}g`
                 : `${cell.workAmount.toFixed(2)}g`;
 
+            const clickable = hasWork && Boolean(onDaySelect);
+            const cellClassName = `aspect-square min-h-[40px] rounded-xl flex flex-col items-center justify-center text-center p-0.5 transition-colors ${cellStyle(cell, statusStyles)} ${todayRing} ${
+              clickable ? 'cursor-pointer hover:brightness-[0.97] active:scale-[0.97] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500' : ''
+            }`;
+            const cellTitle = hasWork
+              ? formatString(strings.cellTitle, {
+                  date: cell.date,
+                  amount: amountLabel,
+                  status: statusStyles[status].label,
+                })
+              : cell.date;
+
+            if (clickable) {
+              return (
+                <button
+                  key={cell.date}
+                  type="button"
+                  onClick={() => onDaySelect?.(cell.date)}
+                  className={cellClassName}
+                  title={cellTitle}
+                  aria-label={cellTitle}
+                >
+                  <span
+                    className={`text-xs font-bold ${cell.isToday ? 'text-blue-700 dark:text-blue-300' : ''}`}
+                  >
+                    {cell.day}
+                  </span>
+                  <span className="text-[10px] font-semibold leading-tight mt-0.5 tabular-nums">
+                    {amountLabel}
+                  </span>
+                  <span
+                    className={`w-1.5 h-1.5 rounded-full mt-0.5 ${statusStyles[status].dot}`}
+                    aria-hidden
+                  />
+                </button>
+              );
+            }
+
             return (
               <div
                 key={cell.date}
-                className={`aspect-square min-h-[40px] rounded-xl flex flex-col items-center justify-center text-center p-0.5 transition-colors ${cellStyle(cell)} ${todayRing}`}
-                title={
-                  hasWork
-                    ? formatString(strings.cellTitle, {
-                        date: cell.date,
-                        amount: amountLabel,
-                        status: STATUS_STYLES[status].label,
-                      })
-                    : cell.date
-                }
+                className={cellClassName}
+                title={cellTitle}
               >
                 <span
                   className={`text-xs font-bold ${cell.isToday ? 'text-blue-700 dark:text-blue-300' : ''}`}
@@ -185,7 +227,7 @@ export function PersonnelCalendar({ month, onMonthChange, days }: Props) {
                       {amountLabel}
                     </span>
                     <span
-                      className={`w-1.5 h-1.5 rounded-full mt-0.5 ${STATUS_STYLES[status].dot}`}
+                      className={`w-1.5 h-1.5 rounded-full mt-0.5 ${statusStyles[status].dot}`}
                       aria-hidden
                     />
                   </>
@@ -195,11 +237,15 @@ export function PersonnelCalendar({ month, onMonthChange, days }: Props) {
           })}
         </div>
 
-        <div className="mt-4 pt-3 border-t border-gray-100 dark:border-slate-700 flex flex-wrap gap-x-4 gap-y-2">
+        <div className="mt-4 pt-3 border-t border-gray-100 dark:border-slate-700 space-y-2">
+          {onDaySelect ? (
+            <p className="text-[11px] text-slate-500 dark:text-slate-400">{strings.tapForDetail}</p>
+          ) : null}
+          <div className="flex flex-wrap gap-x-4 gap-y-2">
           {(
-            Object.entries(STATUS_STYLES) as [
-              keyof typeof STATUS_STYLES,
-              (typeof STATUS_STYLES)['empty'],
+            Object.entries(statusStyles) as [
+              keyof typeof statusStyles,
+              StatusStyleEntry,
             ][]
           )
             .filter(([key]) => key !== 'none')
@@ -212,6 +258,7 @@ export function PersonnelCalendar({ month, onMonthChange, days }: Props) {
                 {style.label}
               </span>
             ))}
+          </div>
         </div>
       </div>
     </div>

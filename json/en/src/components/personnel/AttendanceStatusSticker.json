@@ -1,0 +1,32 @@
+{
+  "close": "Kapat",
+  "dismissError": "Hatayı kapat",
+  "rescanIssue": "Sorun var — yeniden okut",
+  "rescan": "Yeniden okut",
+  "states": {
+    "waiting": {
+      "pill": "Yoklamada",
+      "title": "Listeye eklendiniz",
+      "hint": "Usta yoklamayı tamamlayana kadar bekleyin."
+    },
+    "completed": {
+      "pill": "Tamamlandı",
+      "title": "Bugün tamamlandı",
+      "hintDefault": "Tam gün kaydınız oluştu."
+    },
+    "cancelled": {
+      "pill": "İptal edildi",
+      "title": "Yoklama iptal edildi",
+      "hint": "Yöneticiniz bu yoklamayı iptal etti. Lütfen onunla iletişime geçiniz."
+    },
+    "removed": {
+      "pill": "Listeden çıkarıldınız",
+      "title": "Yoklamada değilsiniz",
+      "hint": "Yeni QR okutun veya ustanızla görüşün."
+    }
+  },
+  "scanError": {
+    "pill": "Okutma başarısız",
+    "title": "QR okunamadı"
+  }
+}

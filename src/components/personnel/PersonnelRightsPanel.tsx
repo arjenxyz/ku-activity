@@ -1,20 +1,19 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import {
-  FiAlertCircle,
-  FiBookOpen,
-  FiChevronRight,
+  FiBriefcase,
+  FiChevronDown,
+  FiClock,
   FiDollarSign,
   FiDownload,
   FiMail,
   FiShield,
 } from 'react-icons/fi';
 import { DEFAULT_SUPPORT_EMAIL } from '@/lib/brand';
-import { PERSONNEL_SELF_EXPORT_DAILY_LIMIT } from '@/lib/legal-dossier/types';
-import { formatString } from '@/lib/strings/format';
 import { PersonnelContractsSection } from './PersonnelContractsSection';
-import strings from '@json/src/components/personnel/PersonnelRightsPanel.json';
 
 function parseFilename(contentDisposition: string | null, fallback: string) {
   if (!contentDisposition) return fallback;
@@ -22,7 +21,24 @@ function parseFilename(contentDisposition: string | null, fallback: string) {
   return match?.[1] ?? fallback;
 }
 
+type QuickLinkId = 'finance' | 'work' | 'mesai' | 'asgari';
+
+type QuickLink = {
+  id: QuickLinkId;
+  tab: string;
+  icon: typeof FiDollarSign;
+  accent: string;
+};
+
+const QUICK_LINKS: QuickLink[] = [
+  { id: 'finance', tab: 'finance', icon: FiDollarSign, accent: 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400' },
+  { id: 'work', tab: 'work', icon: FiBriefcase, accent: 'bg-blue-500/15 text-blue-600 dark:text-blue-400' },
+  { id: 'mesai', tab: 'mesai', icon: FiClock, accent: 'bg-orange-500/15 text-orange-600 dark:text-orange-400' },
+  { id: 'asgari', tab: 'asgari', icon: FiShield, accent: 'bg-violet-500/15 text-violet-600 dark:text-violet-400' },
+];
+
 export function PersonnelRightsPanel() {
+  const strings = useRegistryStrings('components/personnel/PersonnelRightsPanel');
   const supportEmail = process.env.NEXT_PUBLIC_SUPPORT_EMAIL || DEFAULT_SUPPORT_EMAIL;
   const [downloading, setDownloading] = useState(false);
   const [downloadError, setDownloadError] = useState<string | null>(null);
@@ -40,10 +56,7 @@ export function PersonnelRightsPanel() {
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = parseFilename(
-        res.headers.get('Content-Disposition'),
-        strings.fallbackFilename
-      );
+      a.download = parseFilename(res.headers.get('Content-Disposition'), strings.fallbackFilename);
       document.body.appendChild(a);
       a.click();
       a.remove();
@@ -56,131 +69,109 @@ export function PersonnelRightsPanel() {
   };
 
   return (
-    <div className="space-y-5 max-w-lg mx-auto">
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-600 via-blue-700 to-blue-800 text-white shadow-lg shadow-blue-600/20">
+    <div className="mx-auto max-w-lg space-y-4">
+      <section className="relative overflow-hidden rounded-2xl sm:rounded-3xl shadow-xl shadow-[#0E1548]/20 ring-1 ring-white/10">
+        <div className="absolute inset-0 bg-gradient-to-br from-[#0E1548] via-[#152060] to-indigo-900" />
         <div
-          className="absolute inset-0 opacity-20"
+          className="absolute inset-0 opacity-25 pointer-events-none"
           style={{
-            backgroundImage: 'radial-gradient(circle at 20% 80%, white 0%, transparent 45%)',
+            backgroundImage:
+              'radial-gradient(circle at 90% 10%, rgba(96,165,250,0.45) 0%, transparent 42%)',
           }}
         />
-        <div className="relative px-5 py-6">
-          <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-white/15 backdrop-blur">
-            <FiBookOpen className="w-5 h-5" />
-          </span>
-          <h2 className="mt-3 text-xl font-bold">{strings.heroTitle}</h2>
-          <p className="mt-1.5 text-sm text-blue-100 leading-relaxed">{strings.heroDescription}</p>
+        <div className="relative px-5 py-5 sm:px-6 sm:py-6">
+          <div className="flex items-start gap-4">
+            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white/10 ring-1 ring-white/20 backdrop-blur-sm">
+              <FiShield className="h-6 w-6 text-white" aria-hidden />
+            </span>
+            <div className="min-w-0 flex-1 pt-0.5">
+              <h2 className="text-xl font-bold text-white tracking-tight">{strings.heroTitle}</h2>
+              <p className="mt-1 text-sm text-blue-100/90">{strings.heroSubtitle}</p>
+            </div>
+          </div>
+
+          <div className="mt-5 grid grid-cols-2 gap-2.5">
+            <button
+              type="button"
+              onClick={() => void handleDownload()}
+              disabled={downloading}
+              className="flex items-center justify-center gap-2 rounded-xl bg-white px-3 py-3 text-sm font-semibold text-[#0E1548] shadow-sm transition hover:bg-blue-50 disabled:opacity-60"
+            >
+              {downloading ? (
+                <span className="h-4 w-4 animate-spin rounded-full border-2 border-[#0E1548]/30 border-t-[#0E1548]" />
+              ) : (
+                <FiDownload className="h-4 w-4 shrink-0" aria-hidden />
+              )}
+              <span className="truncate">{downloading ? strings.preparing : strings.downloadCta}</span>
+            </button>
+            <a
+              href={`mailto:${supportEmail}?subject=${encodeURIComponent(strings.mailSubject)}`}
+              className="flex items-center justify-center gap-2 rounded-xl border border-white/25 bg-white/10 px-3 py-3 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-white/15"
+            >
+              <FiMail className="h-4 w-4 shrink-0" aria-hidden />
+              <span className="truncate">{strings.contactCta}</span>
+            </a>
+          </div>
+          {downloadError ? (
+            <p className="mt-2 text-center text-xs text-red-200">{downloadError}</p>
+          ) : null}
         </div>
-      </div>
+      </section>
 
-      <RightsSection
-        icon={<FiDollarSign className="w-4 h-4" />}
-        title={strings.wageSectionTitle}
-        items={strings.wageRights}
-      />
+      <section aria-labelledby="rights-quick-links">
+        <p
+          id="rights-quick-links"
+          className="mb-2.5 px-1 text-[11px] font-semibold uppercase tracking-wider text-slate-400"
+        >
+          {strings.quickLinksTitle}
+        </p>
+        <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4">
+          {QUICK_LINKS.map(({ id, tab, icon: Icon, accent }) => (
+            <Link
+              key={id}
+              href={`/personnel-panel?tab=${tab}`}
+              className="group flex flex-col items-center gap-2.5 rounded-2xl border border-slate-200/80 bg-white px-3 py-4 shadow-sm transition hover:border-blue-200 hover:shadow-md dark:border-slate-700 dark:bg-slate-800 dark:hover:border-blue-800"
+            >
+              <span
+                className={`flex h-10 w-10 items-center justify-center rounded-xl transition group-hover:scale-105 ${accent}`}
+              >
+                <Icon className="h-5 w-5" aria-hidden />
+              </span>
+              <span className="text-center text-xs font-semibold text-slate-800 dark:text-slate-100">
+                {strings.quickLinks[id]}
+              </span>
+            </Link>
+          ))}
+        </div>
+      </section>
 
-      <RightsSection
-        icon={<FiAlertCircle className="w-4 h-4" />}
-        title={strings.workSectionTitle}
-        items={strings.workRights}
-      />
+      <PersonnelContractsSection variant="compact" />
 
-      <PersonnelContractsSection />
-
-      <div className="rounded-2xl border border-slate-200/80 dark:border-slate-700 bg-white dark:bg-slate-800 overflow-hidden shadow-sm">
-        <div className="flex items-center gap-2 px-4 py-3 border-b border-slate-100 dark:border-slate-700/80 bg-slate-50/80 dark:bg-slate-800/50">
-          <span className="text-blue-600 dark:text-blue-400">
-            <FiShield className="w-4 h-4" />
-          </span>
-          <p className="text-xs font-semibold text-slate-600 dark:text-slate-300 uppercase tracking-wide">
+      <details className="group rounded-2xl border border-slate-200/80 bg-white shadow-sm open:shadow-md dark:border-slate-700 dark:bg-slate-800">
+        <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3.5 sm:px-5 [&::-webkit-details-marker]:hidden">
+          <span className="flex items-center gap-2.5 text-sm font-semibold text-slate-900 dark:text-white">
+            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-500/10 text-blue-600 dark:text-blue-400">
+              <FiShield className="h-4 w-4" aria-hidden />
+            </span>
             {strings.kvkkTitle}
-          </p>
-        </div>
-        <ul className="px-4 py-3 space-y-2.5">
+          </span>
+          <FiChevronDown
+            className="h-5 w-5 shrink-0 text-slate-400 transition group-open:rotate-180"
+            aria-hidden
+          />
+        </summary>
+        <ul className="space-y-2 border-t border-slate-100 px-4 py-3 sm:px-5 dark:border-slate-700">
           {strings.kvkkRights.map((right) => (
             <li
               key={right}
-              className="flex gap-2.5 text-sm text-slate-700 dark:text-slate-300 leading-snug"
+              className="flex items-start gap-2.5 text-sm text-slate-600 dark:text-slate-300"
             >
-              <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-blue-500" />
+              <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-blue-500" aria-hidden />
               {right}
             </li>
           ))}
         </ul>
-        <div className="px-4 pb-4 pt-1">
-          <button
-            type="button"
-            onClick={() => void handleDownload()}
-            disabled={downloading}
-            className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold disabled:opacity-50 transition-colors"
-          >
-            {downloading ? (
-              <>
-                <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                {strings.preparing}
-              </>
-            ) : (
-              <>
-                <FiDownload className="w-4 h-4" />
-                {strings.downloadCta}
-              </>
-            )}
-          </button>
-          <p className="text-[11px] text-slate-500 text-center mt-2">
-            {formatString(strings.dailyLimit, { limit: PERSONNEL_SELF_EXPORT_DAILY_LIMIT })}
-          </p>
-          {downloadError && (
-            <p className="text-xs text-red-600 text-center mt-2">{downloadError}</p>
-          )}
-        </div>
-      </div>
-
-      <div className="rounded-2xl border border-slate-200/80 dark:border-slate-700 bg-white dark:bg-slate-800 overflow-hidden shadow-sm">
-        <a
-          href={`mailto:${supportEmail}?subject=${encodeURIComponent(strings.mailSubject)}`}
-          className="flex items-center gap-3 px-4 py-4 hover:bg-slate-50 dark:hover:bg-slate-800/80 transition-colors"
-        >
-          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">
-            <FiMail className="w-4 h-4" />
-          </span>
-          <div className="flex-1 min-w-0">
-            <p className="font-medium text-slate-900 dark:text-white">{strings.rightsRequestTitle}</p>
-            <p className="text-xs text-slate-500 mt-0.5 truncate">{supportEmail}</p>
-          </div>
-          <FiChevronRight className="w-5 h-5 text-slate-400 shrink-0" />
-        </a>
-      </div>
-    </div>
-  );
-}
-
-function RightsSection({
-  icon,
-  title,
-  items,
-}: {
-  icon: React.ReactNode;
-  title: string;
-  items: { title: string; text: string }[];
-}) {
-  return (
-    <div className="rounded-2xl border border-slate-200/80 dark:border-slate-700 bg-white dark:bg-slate-800 overflow-hidden shadow-sm">
-      <div className="flex items-center gap-2 px-4 py-3 border-b border-slate-100 dark:border-slate-700/80 bg-slate-50/80 dark:bg-slate-800/50">
-        <span className="text-blue-600 dark:text-blue-400">{icon}</span>
-        <p className="text-xs font-semibold text-slate-600 dark:text-slate-300 uppercase tracking-wide">
-          {title}
-        </p>
-      </div>
-      <ul className="divide-y divide-slate-100 dark:divide-slate-700/80">
-        {items.map((item) => (
-          <li key={item.title} className="px-4 py-3.5">
-            <p className="text-sm font-medium text-slate-900 dark:text-white">{item.title}</p>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
-              {item.text}
-            </p>
-          </li>
-        ))}
-      </ul>
+      </details>
     </div>
   );
 }

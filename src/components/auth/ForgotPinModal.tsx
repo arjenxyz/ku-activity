@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { FiLoader, FiX } from 'react-icons/fi';
 import { AuthAlert } from '@/components/auth/AuthAlerts';
 import { TurkishPhoneInput } from '@/components/forms/TurkishPhoneInput';
@@ -15,7 +16,6 @@ import {
   personnelAuthSecondaryBtnClass,
 } from '@/lib/personnel-auth-ui';
 import { formatString } from '@/lib/strings/format';
-import strings from '@json/src/components/auth/ForgotPinModal.json';
 
 type View = 'form' | 'no-email' | 'link-sent';
 
@@ -29,6 +29,8 @@ const inputClass = personnelAuthInputClass;
 const labelClass = personnelAuthLabelClass;
 
 export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
+
+  const strings = useRegistryStrings('components/auth/ForgotPinModal');
   const [view, setView] = useState<View>('form');
   const [tcKimlik, setTcKimlik] = useState(initialTc);
   const [phone, setPhone] = useState('');

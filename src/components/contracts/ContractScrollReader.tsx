@@ -1,9 +1,9 @@
 'use client';
 
 import { useCallback, useRef, useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { FiCheck } from 'react-icons/fi';
 import { formatString } from '@/lib/strings/format';
-import strings from '@json/src/components/contracts/ContractScrollReader.json';
 
 export type ContractItem = {
   id: string;
@@ -21,6 +21,8 @@ type Props = {
 };
 
 export function ContractScrollReader({ contract, accepted, onAcceptChange }: Props) {
+
+  const strings = useRegistryStrings('components/contracts/ContractScrollReader');
   const scrollRef = useRef<HTMLDivElement>(null);
   const [scrolledToEnd, setScrolledToEnd] = useState(false);
 

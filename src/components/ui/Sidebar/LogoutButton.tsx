@@ -1,10 +1,11 @@
 'use client';
 
 import { AiOutlineLogout } from 'react-icons/ai';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useRouter } from 'next/navigation';
-import strings from '@json/src/components/ui/Sidebar/LogoutButton.json';
 
 const LogoutButton = () => {
+  const strings = useRegistryStrings('components/ui/Sidebar/LogoutButton');
   const router = useRouter();
 
   const handleLogout = async () => {

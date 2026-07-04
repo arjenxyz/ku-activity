@@ -1,7 +1,8 @@
 'use client';
 
-import strings from '@json/src/app/admin-panel/proje/[projectId]/bloklar/page.json';
+
 import { formatString } from '@/lib/strings/format';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
@@ -17,6 +18,8 @@ import type { ProjectBlock } from '@/types/project-block';
 import { PROJECT_BLOCK_STATUS_LABELS } from '@/types/project-block';
 
 export default function BloklarPage() {
+
+  const strings = useRegistryStrings('app/admin-panel/proje/[projectId]/bloklar/page');
   const { projectId } = useParams() as { projectId: string };
   const [blocks, setBlocks] = useState<ProjectBlock[]>([]);
   const [loading, setLoading] = useState(true);
@@ -43,6 +46,7 @@ export default function BloklarPage() {
   }, [load]);
 
   const handleCreate = async (e: React.FormEvent) => {
+
     e.preventDefault();
     if (!name.trim()) return;
     setSaving(true);
@@ -59,6 +63,7 @@ export default function BloklarPage() {
   };
 
   const handleComplete = async (block: ProjectBlock) => {
+
     if (!confirm(formatString(strings.completeConfirm, { name: block.name }))) {
       return;
     }
@@ -145,6 +150,7 @@ function BlockList({
   saving?: boolean;
   readOnly?: boolean;
 }) {
+  const strings = useRegistryStrings('app/admin-panel/proje/[projectId]/bloklar/page');
   return (
     <section className="space-y-2">
       <h2 className="text-base font-semibold text-slate-900">{title}</h2>

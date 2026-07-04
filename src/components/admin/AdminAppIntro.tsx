@@ -1,10 +1,10 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { createPortal } from 'react-dom';
 import { motion } from 'framer-motion';
 import { ADMIN_INTRO_IMAGE, ADMIN_PWA_SPLASH_BG } from '@/lib/admin-pwa-brand';
-import strings from '@json/src/components/admin/AdminAppIntro.json';
 
 const DISPLAY_MS = 3200;
 const EXIT_MS = 480;
@@ -15,6 +15,8 @@ type Props = {
 };
 
 function IntroLoadingFooter() {
+  const strings = useRegistryStrings('components/admin/AdminAppIntro');
+
   return (
     <motion.div
       className="absolute inset-x-0 bottom-0 z-10 flex flex-col items-center px-6 pt-20"
@@ -67,6 +69,8 @@ function IntroLoadingFooter() {
 }
 
 export function AdminAppIntro({ onComplete }: Props) {
+
+  const strings = useRegistryStrings('components/admin/AdminAppIntro');
   const [fading, setFading] = useState(false);
   const [mounted, setMounted] = useState(false);
 

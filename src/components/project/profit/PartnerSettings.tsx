@@ -1,10 +1,10 @@
 'use client';
 
 import { inputClass, labelClass } from '@/components/project/ui';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import type { ProjectPartner } from '@/types/project-job';
 import { cardClass } from '@/components/project/ui';
 import { formatString } from '@/lib/strings/format';
-import strings from '@json/src/components/project/profit/PartnerSettings.json';
 
 type Props = {
   shareCount: string;
@@ -29,6 +29,8 @@ export function PartnerSettings({
   partners,
   onRemovePartner,
 }: Props) {
+
+  const strings = useRegistryStrings('components/project/profit/PartnerSettings');
   return (
     <details className={`${cardClass} group`}>
       <summary className="cursor-pointer list-none px-4 py-3 flex items-center justify-between text-sm font-medium text-slate-700 hover:bg-slate-50">

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { FiCheck, FiLock, FiX } from 'react-icons/fi';
 import { changePersonnelPassword } from '@/lib/personnel-api';
 import {
@@ -9,7 +10,6 @@ import {
   validatePersonnelPin,
 } from '@/lib/personnel-pin';
 import { formatString } from '@/lib/strings/format';
-import strings from '@json/src/components/personnel/PersonnelPasswordModal.json';
 
 type Props = {
   open: boolean;
@@ -17,6 +17,8 @@ type Props = {
 };
 
 export function PersonnelPasswordModal({ open, onClose }: Props) {
+
+  const strings = useRegistryStrings('components/personnel/PersonnelPasswordModal');
   const [current, setCurrent] = useState('');
   const [next, setNext] = useState('');
   const [confirm, setConfirm] = useState('');

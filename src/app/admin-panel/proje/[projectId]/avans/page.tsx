@@ -1,7 +1,8 @@
 'use client';
 
-import strings from '@json/src/app/admin-panel/proje/[projectId]/avans/page.json';
+
 import { useState, useEffect } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useParams, useSearchParams } from 'next/navigation';
 import dayjs from 'dayjs';
 import { ProjectPageHeader } from '@/components/project/ProjectPageHeader';
@@ -14,6 +15,8 @@ import { postDeduction } from '@/lib/project-api';
 import { cardClass } from '@/components/project/ui';
 
 export default function AvansPage() {
+
+  const strings = useRegistryStrings('app/admin-panel/proje/[projectId]/avans/page');
   const { projectId } = useParams() as { projectId: string };
   const searchParams = useSearchParams();
   const { employees, loading: empLoading, error: empError } = useProjectEmployees(projectId);

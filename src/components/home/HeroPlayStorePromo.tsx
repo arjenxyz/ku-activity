@@ -1,10 +1,10 @@
 'use client';
 
 import Image from 'next/image';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { motion } from 'framer-motion';
 import { PLAY_STORE_ADMIN_ICON, PLAY_STORE_PERSONNEL_ICON } from '@/lib/play-store';
 import { GooglePlayIcon } from '@/components/home/GooglePlayBadge';
-import strings from '@json/src/components/home/HeroPlayStorePromo.json';
 
 const heroApps = [
   { id: 'personel', iconSrc: PLAY_STORE_PERSONNEL_ICON },
@@ -12,6 +12,8 @@ const heroApps = [
 ] as const;
 
 export function HeroPlayStorePromo() {
+
+  const strings = useRegistryStrings('components/home/HeroPlayStorePromo');
   return (
     <motion.div
       className="relative hidden lg:block"

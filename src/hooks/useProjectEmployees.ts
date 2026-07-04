@@ -1,10 +1,12 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { fetchProjectEmployees, type ProjectEmployee } from '@/lib/project-api';
-import strings from '@json/src/hooks/useProjectEmployees.json';
 
 export function useProjectEmployees(projectId: string | undefined) {
+
+  const strings = useRegistryStrings('hooks/useProjectEmployees');
   const [employees, setEmployees] = useState<ProjectEmployee[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

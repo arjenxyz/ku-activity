@@ -1,7 +1,8 @@
 'use client';
 
-import strings from '@json/src/app/admin-panel/page.json';
+
 import { useState, useEffect, useCallback } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { FiPlus } from 'react-icons/fi';
 import ProjectList from './proje/ProjectList';
 import ProjectForm from './proje/ProjectForm';
@@ -10,6 +11,8 @@ import { fetchProjects, deleteProject } from '../lib/proje/projectService';
 import type { Project } from '@/types/project';
 
 export default function ProjectPage() {
+
+  const strings = useRegistryStrings('app/admin-panel/page');
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState<string | null>(null);

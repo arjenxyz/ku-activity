@@ -1,8 +1,8 @@
 'use client';
 
 import dayjs from 'dayjs';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { FiCalendar } from 'react-icons/fi';
-import strings from '@json/src/components/personnel/PersonnelMonthFilter.json';
 
 export function PersonnelMonthFilter({
   month,
@@ -11,6 +11,7 @@ export function PersonnelMonthFilter({
   month: string;
   onChange: (m: string) => void;
 }) {
+  const strings = useRegistryStrings('components/personnel/PersonnelMonthFilter');
   const label = dayjs(`${month}-01`).format('MMMM YYYY');
 
   return (

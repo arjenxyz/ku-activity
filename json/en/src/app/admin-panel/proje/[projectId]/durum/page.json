@@ -1,0 +1,14 @@
+{
+  "pageTitle": "Ne durumdayız?",
+  "pageDescription": "Projenin güncel finansal durumu.",
+  "loading": "Yükleniyor…",
+  "estimatedNetTitle": "Tahmini Net Durum",
+  "estimatedNetHint": "Brüt yevmiye − avans − kesintiler + asgari tamamlama (yaklaşık)",
+  "totalWorkPay": "Toplam Yevmiye Ödemesi",
+  "totalWorkDays": "Toplam Çalışılan Gün",
+  "totalAdvances": "Toplam Avans",
+  "totalDeductions": "Toplam Kesinti",
+  "totalMinimum": "Toplam Asgari Ödeme",
+  "employeeCount": "Personel Sayısı",
+  "activeEmployeeCount": "Aktif Personel"
+}

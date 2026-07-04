@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import dayjs from 'dayjs';
 import {
   FiCheckCircle,
@@ -25,7 +26,6 @@ import {
   type AttendanceQrPayload,
 } from '@/lib/project-api';
 import { btnPrimary, labelClass, inputClass } from '@/components/project/ui';
-import strings from '@json/src/components/project/AttendanceQrPanel.json';
 
 type Props = {
   projectId: string;
@@ -45,6 +45,8 @@ function copyText(text: string) {
 }
 
 export function AttendanceQrPanel({ projectId }: Props) {
+
+  const strings = useRegistryStrings('components/project/AttendanceQrPanel');
   const [date, setDate] = useState('');
   const [data, setData] = useState<AttendanceQrPayload | null>(null);
   const [loading, setLoading] = useState(true);

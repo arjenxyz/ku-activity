@@ -1,13 +1,17 @@
 import type { Metadata, Viewport } from 'next';
-import { headers } from 'next/headers';
+import { cookies, headers } from 'next/headers';
 import Script from 'next/script';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { PWARegister } from '@/components/pwa/PWARegister';
 import { InstallPrompt } from '@/components/pwa/InstallPrompt';
-import strings from '@json/src/app/layout.json';
+import { LocaleShell } from '@/components/i18n/LocaleShell';
+import trLayoutStrings from '@json/src/app/layout.json';
+import enLayoutStrings from '@json/en/src/app/layout.json';
 import { APP_NAME, CREWLEDGER_APP_ICON } from '@/lib/brand';
 import { formatString } from '@/lib/strings/format';
+import { pickStrings } from '@/lib/i18n/pickStrings';
+import { LOCALE_COOKIE, resolveRequestLocale } from '@/lib/i18n/locale';
 import { PWA_ASSET_VERSION } from '@/lib/pwa-manifest';
 import {
   ADMIN_CRITICAL_CSS,
@@ -34,23 +38,33 @@ const geistMono = Geist_Mono({
   subsets: ['latin'],
 });
 
-export const metadata: Metadata = {
-  title: formatString(strings.title, { appName: APP_NAME }),
-  description: strings.description,
-  applicationName: formatString(strings.applicationName, { appName: APP_NAME }),
-  appleWebApp: {
-    capable: true,
-    statusBarStyle: 'default',
-    title: formatString(strings.appleWebAppTitle, { appName: APP_NAME }),
-  },
-  formatDetection: {
-    telephone: false,
-  },
-  icons: {
-    icon: [{ url: `${CREWLEDGER_APP_ICON}?v=${PWA_ASSET_VERSION}`, sizes: '512x512', type: 'image/png' }],
-    apple: [{ url: `${CREWLEDGER_APP_ICON}?v=${PWA_ASSET_VERSION}`, sizes: '512x512', type: 'image/png' }],
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const cookieStore = await cookies();
+  const headerList = await headers();
+  const locale = resolveRequestLocale(
+    cookieStore.get(LOCALE_COOKIE)?.value,
+    headerList.get('accept-language')
+  );
+  const strings = pickStrings(locale, trLayoutStrings, enLayoutStrings);
+
+  return {
+    title: formatString(strings.title, { appName: APP_NAME }),
+    description: strings.description,
+    applicationName: formatString(strings.applicationName, { appName: APP_NAME }),
+    appleWebApp: {
+      capable: true,
+      statusBarStyle: 'default',
+      title: formatString(strings.appleWebAppTitle, { appName: APP_NAME }),
+    },
+    formatDetection: {
+      telephone: false,
+    },
+    icons: {
+      icon: [{ url: `${CREWLEDGER_APP_ICON}?v=${PWA_ASSET_VERSION}`, sizes: '512x512', type: 'image/png' }],
+      apple: [{ url: `${CREWLEDGER_APP_ICON}?v=${PWA_ASSET_VERSION}`, sizes: '512x512', type: 'image/png' }],
+    },
+  };
+}
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -69,6 +83,11 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const headerList = await headers();
+  const cookieStore = await cookies();
+  const locale = resolveRequestLocale(
+    cookieStore.get(LOCALE_COOKIE)?.value,
+    headerList.get('accept-language')
+  );
   const isPersonnelRoute = headerList.get(PERSONNEL_ROUTE_HEADER) === '1';
   const isAdminRoute = headerList.get(ADMIN_ROUTE_HEADER) === '1';
   const isPwaIntroRoute = isPersonnelRoute || isAdminRoute;
@@ -78,7 +97,7 @@ export default async function RootLayout({
     : undefined;
 
   return (
-    <html lang="tr" style={pwaSurfaceStyle} suppressHydrationWarning>
+    <html lang={locale} style={pwaSurfaceStyle} suppressHydrationWarning>
       <head>
         {isPersonnelRoute ? (
           <>
@@ -117,7 +136,7 @@ export default async function RootLayout({
           </Script>
         ) : null}
         <PWARegister />
-        {children}
+        <LocaleShell initialLocale={locale}>{children}</LocaleShell>
         <InstallPrompt />
       </body>
     </html>

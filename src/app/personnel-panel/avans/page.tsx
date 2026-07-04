@@ -1,7 +1,8 @@
 'use client';
 
-import strings from '@json/src/app/personnel-panel/avans/page.json';
+
 import { useCallback, useEffect, useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import Link from 'next/link';
 import dayjs from 'dayjs';
 import { FiArrowLeft, FiPlus, FiXCircle } from 'react-icons/fi';
@@ -30,6 +31,8 @@ type RequestRow = {
 };
 
 export default function PersonnelAvansPage() {
+
+  const strings = useRegistryStrings('app/personnel-panel/avans/page');
   const [requests, setRequests] = useState<RequestRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

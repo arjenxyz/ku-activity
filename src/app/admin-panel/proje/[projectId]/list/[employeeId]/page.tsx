@@ -1,7 +1,8 @@
 'use client';
 
-import strings from '@json/src/app/admin-panel/proje/[projectId]/list/[employeeId]/page.json';
+
 import { formatString } from '@/lib/strings/format';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -19,6 +20,8 @@ import { LegalDossierDownloadButton } from '@/components/admin/LegalDossierDownl
 import { formatDate, formatFullName, splitFullName } from '@/lib/format';
 
 export default function EditEmployeePage() {
+
+  const strings = useRegistryStrings('app/admin-panel/proje/[projectId]/list/[employeeId]/page');
   const router = useRouter();
   const { projectId, employeeId } = useParams() as { projectId: string; employeeId: string };
   const [form, setForm] = useState({

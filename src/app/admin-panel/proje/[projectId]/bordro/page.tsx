@@ -1,7 +1,8 @@
 'use client';
 
-import strings from '@json/src/app/admin-panel/proje/[projectId]/bordro/page.json';
+
 import { formatString } from '@/lib/strings/format';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import dayjs from 'dayjs';
@@ -24,6 +25,8 @@ type PayrollLine = {
 };
 
 export default function BordroPage() {
+
+  const strings = useRegistryStrings('app/admin-panel/proje/[projectId]/bordro/page');
   const { projectId } = useParams() as { projectId: string };
   const [month, setMonth] = useState(dayjs().format('YYYY-MM'));
   const [lines, setLines] = useState<PayrollLine[]>([]);

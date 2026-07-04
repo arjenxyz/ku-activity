@@ -1,8 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import QRCode from 'qrcode';
-import strings from '@json/src/components/registration/RegistrationQrCode.json';
 
 export function RegistrationQrCode({
   value,
@@ -13,6 +13,8 @@ export function RegistrationQrCode({
   size?: number;
   className?: string;
 }) {
+
+  const strings = useRegistryStrings('components/registration/RegistrationQrCode');
   const [dataUrl, setDataUrl] = useState<string | null>(null);
 
   useEffect(() => {

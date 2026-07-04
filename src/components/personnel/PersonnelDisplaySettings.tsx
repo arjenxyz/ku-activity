@@ -1,9 +1,11 @@
 'use client';
 
 import { usePersonnelDisplay } from '@/lib/personnel-display-preferences';
-import strings from '@json/src/components/personnel/PersonnelDisplaySettings.json';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 
 export function PersonnelDisplaySettings() {
+
+  const strings = useRegistryStrings('components/personnel/PersonnelDisplaySettings');
   const { largeText, highContrast, setLargeText, setHighContrast } = usePersonnelDisplay();
 
   return (

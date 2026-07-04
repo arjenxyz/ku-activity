@@ -1,9 +1,11 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import strings from '@json/src/components/auth/ThemeToggleButton.json';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 
 export function ThemeToggleButton({ className = '' }: { className?: string }) {
+
+  const strings = useRegistryStrings('components/auth/ThemeToggleButton');
   const [isDark, setIsDark] = useState(false);
 
   useEffect(() => {

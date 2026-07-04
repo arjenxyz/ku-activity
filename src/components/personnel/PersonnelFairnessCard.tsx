@@ -1,17 +1,19 @@
 'use client';
 
 import { FiCheckCircle, FiClock, FiUsers } from 'react-icons/fi';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { getWorkLogApprovalStatus } from '@/lib/work-log';
 import type { WorkLog } from '@/lib/personnel-stats';
 import { formatString } from '@/lib/strings/format';
 
-import strings from '@json/src/components/personnel/PersonnelFairnessCard.json';
 
 type Props = {
   workLogs: WorkLog[];
 };
 
 export function PersonnelFairnessCard({ workLogs }: Props) {
+
+  const strings = useRegistryStrings('components/personnel/PersonnelFairnessCard');
   let confirmed = 0;
   let pendingEmployee = 0;
   let pendingAdmin = 0;

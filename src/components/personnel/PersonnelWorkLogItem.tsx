@@ -1,6 +1,7 @@
 'use client';
 
 import { formatDate } from '@/lib/format';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import {
   formatWorkLogSummary,
   getWorkLogApprovalStatus,
@@ -8,13 +9,14 @@ import {
 import type { WorkLog } from '@/lib/personnel-stats';
 import { PersonnelBadge, PersonnelRecordRow } from './PersonnelRecordCard';
 import { workDayLabel } from '@/lib/personnel-stats';
-import strings from '@json/src/components/personnel/PersonnelWorkLogItem.json';
 
 type Props = {
   log: WorkLog;
 };
 
 export function PersonnelWorkLogItem({ log }: Props) {
+
+  const strings = useRegistryStrings('components/personnel/PersonnelWorkLogItem');
   const status = getWorkLogApprovalStatus(log);
   const isQr = log.description?.toLowerCase().includes('qr');
 

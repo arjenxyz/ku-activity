@@ -1,0 +1,20 @@
+{
+  "modeLabels": {
+    "simple": "Basit",
+    "advanced": "Gelişmiş"
+  },
+  "simpleMenu": {
+    "attendance": {
+      "label": "Yoklama",
+      "hint": "QR ile günlük yoklama"
+    },
+    "advance": {
+      "label": "Avans",
+      "hint": "Avans ekleme"
+    },
+    "deduction": {
+      "label": "Kesinti",
+      "hint": "Kesinti ekleme"
+    }
+  }
+}

@@ -13,7 +13,7 @@ import {
   readAdminUiMode,
   writeAdminUiMode,
 } from '@/lib/admin-ui-mode';
-import strings from '@json/src/hooks/useAdminUiMode.json';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 
 type AdminUiModeContextValue = {
   mode: AdminUiMode;
@@ -55,6 +55,7 @@ export function AdminUiModeProvider({ children }: { children: ReactNode }) {
 }
 
 export function useAdminUiMode() {
+  const strings = useRegistryStrings('hooks/useAdminUiMode');
   const ctx = useContext(AdminUiModeContext);
   if (!ctx) {
     throw new Error(strings.providerError);

@@ -4,5 +4,6 @@
   "thisMonth": "Bu ay",
   "summary": "{mesaiDays} mesai günü · {totalPay} toplam kazanç",
   "selectMonth": "Ay seç:",
-  "weekdays": ["Pt", "Sa", "Ça", "Pe", "Cu", "Ct", "Pz"]
+  "weekdays": ["Pt", "Sa", "Ça", "Pe", "Cu", "Ct", "Pz"],
+  "tapForDetail": "Detay için turuncu günlere dokunun"
 }

@@ -1,9 +1,9 @@
 'use client';
 
 import type { ReactNode } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import strings from '@json/src/components/home/FeaturesSection.json';
 
 const MARQUEE_DURATION_S = 52;
 
@@ -64,12 +64,22 @@ const FEATURE_ICONS: ReactNode[] = [
   ),
 ];
 
-const features = strings.features.map((feature, index) => ({
-  ...feature,
-  icon: FEATURE_ICONS[index],
-}));
+type FeatureItem = {
+  title: string;
+  tag: string;
+  description: string;
+  icon: ReactNode;
+};
 
-type Feature = (typeof features)[number];
+function useFeatureList(): FeatureItem[] {
+  const strings = useRegistryStrings('components/home/FeaturesSection');
+  return strings.features.map((feature, index) => ({
+    ...feature,
+    icon: FEATURE_ICONS[index],
+  }));
+}
+
+type Feature = FeatureItem;
 
 function FeaturesIcon({ className }: { className?: string }) {
   return (
@@ -99,14 +109,16 @@ function FeatureCard({
   index,
   selected,
   onSelect,
+  featureCount,
 }: {
   feature: Feature;
   index: number;
   selected: boolean;
   onSelect: (index: number) => void;
+  featureCount: number;
 }) {
-  const indexLabel = String((index % features.length) + 1).padStart(2, '0');
-  const totalLabel = String(features.length).padStart(2, '0');
+  const indexLabel = String((index % featureCount) + 1).padStart(2, '0');
+  const totalLabel = String(featureCount).padStart(2, '0');
 
   return (
     <article
@@ -114,11 +126,11 @@ function FeatureCard({
       role="button"
       tabIndex={0}
       aria-pressed={selected}
-      onClick={() => onSelect(index % features.length)}
+      onClick={() => onSelect(index % featureCount)}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
-          onSelect(index % features.length);
+          onSelect(index % featureCount);
         }
       }}
       className={`flex h-full min-h-[300px] w-[min(82vw,320px)] shrink-0 cursor-grab select-none active:cursor-grabbing flex-col rounded-2xl border bg-white p-5 shadow-sm transition-[border-color,box-shadow] sm:w-[320px] sm:p-6 dark:bg-slate-900 ${
@@ -142,9 +154,17 @@ function FeatureCard({
   );
 }
 
-function StaticFeatureCard({ feature, index }: { feature: Feature; index: number }) {
+function StaticFeatureCard({
+  feature,
+  index,
+  featureCount,
+}: {
+  feature: Feature;
+  index: number;
+  featureCount: number;
+}) {
   const indexLabel = String(index + 1).padStart(2, '0');
-  const totalLabel = String(features.length).padStart(2, '0');
+  const totalLabel = String(featureCount).padStart(2, '0');
 
   return (
     <article className="flex min-h-[300px] flex-col rounded-2xl border border-slate-200/90 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-900 sm:p-6">
@@ -163,11 +183,16 @@ function StaticFeatureCard({ feature, index }: { feature: Feature; index: number
   );
 }
 
-function FeatureCardGrid() {
+function FeatureCardGrid({ features }: { features: Feature[] }) {
   return (
     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {features.map((feature, index) => (
-        <StaticFeatureCard key={feature.title} feature={feature} index={index} />
+        <StaticFeatureCard
+          key={feature.title}
+          feature={feature}
+          index={index}
+          featureCount={features.length}
+        />
       ))}
     </div>
   );
@@ -176,6 +201,8 @@ function FeatureCardGrid() {
 type GestureAxis = 'none' | 'horizontal' | 'vertical';
 
 function InfiniteFeatureMarquee() {
+  const strings = useRegistryStrings('components/home/FeaturesSection');
+  const features = useFeatureList();
   const scrollRef = useRef<HTMLDivElement>(null);
   const dragMovedRef = useRef(false);
   const dragStateRef = useRef({
@@ -446,7 +473,7 @@ function InfiniteFeatureMarquee() {
   const loopItems = [...features, ...features];
 
   if (reducedMotion) {
-    return <FeatureCardGrid />;
+    return <FeatureCardGrid features={features} />;
   }
 
   return (
@@ -476,6 +503,7 @@ function InfiniteFeatureMarquee() {
               key={`${feature.title}-${index}`}
               feature={feature}
               index={index}
+              featureCount={features.length}
               selected={selectedIndex === index % features.length && clickPaused}
               onSelect={handleCardSelect}
             />
@@ -498,6 +526,7 @@ function InfiniteFeatureMarquee() {
 }
 
 export function FeaturesSection() {
+  const strings = useRegistryStrings('components/home/FeaturesSection');
   return (
     <section id="features" className="overflow-x-hidden bg-slate-50/80 py-12 dark:bg-slate-950/50 sm:py-16 lg:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

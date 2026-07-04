@@ -1,10 +1,10 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import type { Employee } from '@/types/adminTypes';
 import { createWorkLog } from '@/api/workLogs';
 import { FiX, FiList } from 'react-icons/fi';
-import strings from '@json/src/components/modals/AddWorkLogModal.json';
 
 type Props = {
   employeeId?: string;
@@ -23,6 +23,7 @@ export const AddWorkLogModal = ({
   employeeId,
   projectId,
 }: Props) => {
+  const strings = useRegistryStrings('components/modals/AddWorkLogModal');
   const [formData, setFormData] = useState({
     employee_id: '',
     date: new Date().toISOString().split('T')[0],

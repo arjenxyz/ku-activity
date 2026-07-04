@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import dayjs from 'dayjs';
 import {
   FiCalendar,
@@ -24,7 +25,9 @@ import {
 import { formatDate } from '@/lib/format';
 import { registrationStatusMessage } from '@/lib/parse-registration-qr';
 import { formatString } from '@/lib/strings/format';
-import strings from '@json/src/components/registration/AdminBasvuruOnayModal.json';
+import { getRegistryStrings } from '@/lib/i18n/strings-registry';
+
+type BasvuruModalStrings = ReturnType<typeof getRegistryStrings<'components/registration/AdminBasvuruOnayModal'>>;
 
 export type RegistrationApprovalData = {
   id: string;
@@ -70,14 +73,6 @@ const defaultForm: ApprovalForm = {
   hire_date: dayjs().format('YYYY-MM-DD'),
 };
 
-const IDENTITY_CHECKLIST_ITEMS = [
-  { id: 'photo' as const, label: strings.checklist.photo },
-  { id: 'nameIdentity' as const, label: strings.checklist.nameIdentity },
-  { id: 'contact' as const, label: strings.checklist.contact },
-];
-
-type ChecklistId = (typeof IDENTITY_CHECKLIST_ITEMS)[number]['id'];
-
 const STATUS_BADGE_STYLES: Record<string, { className: string; dot: string }> = {
   pending: { className: 'bg-amber-100 text-amber-900 ring-amber-200', dot: 'bg-amber-500' },
   approved: { className: 'bg-emerald-100 text-emerald-900 ring-emerald-200', dot: 'bg-emerald-500' },
@@ -85,7 +80,7 @@ const STATUS_BADGE_STYLES: Record<string, { className: string; dot: string }> = 
   expired: { className: 'bg-slate-100 text-slate-700 ring-slate-200', dot: 'bg-slate-400' },
 };
 
-function statusBadge(status: string) {
+function statusBadge(status: string, strings: BasvuruModalStrings) {
   const styles = STATUS_BADGE_STYLES[status] ?? {
     className: 'bg-slate-100 text-slate-700 ring-slate-200',
     dot: 'bg-slate-400',
@@ -97,6 +92,8 @@ function statusBadge(status: string) {
   return { label, ...styles };
 }
 
+type ChecklistId = 'photo' | 'nameIdentity' | 'contact';
+
 export function AdminBasvuruOnayModal({
   open,
   registration,
@@ -106,6 +103,16 @@ export function AdminBasvuruOnayModal({
   onApprove,
   onReject,
 }: Props) {
+
+  const strings = useRegistryStrings('components/registration/AdminBasvuruOnayModal');
+  const identityChecklistItems = useMemo(
+    () => [
+      { id: 'photo' as const, label: strings.checklist.photo },
+      { id: 'nameIdentity' as const, label: strings.checklist.nameIdentity },
+      { id: 'contact' as const, label: strings.checklist.contact },
+    ],
+    [strings.checklist]
+  );
   const [form, setForm] = useState<ApprovalForm>(defaultForm);
   const [showSensitive, setShowSensitive] = useState(false);
   const [localError, setLocalError] = useState<string | null>(null);
@@ -117,14 +124,14 @@ export function AdminBasvuruOnayModal({
 
   const isPending = registration?.status === 'pending';
   const statusMsg = registration ? registrationStatusMessage(registration.status) : null;
-  const badge = registration ? statusBadge(registration.status) : null;
+  const badge = registration ? statusBadge(registration.status, strings) : null;
 
   const birthDateEligible = registration
     ? isConstructionEligibleBirthDate(registration.sensitive.birthDate)
     : true;
   const applicantAge = registration ? getAgeFromBirthDate(registration.sensitive.birthDate) : null;
 
-  const checklistComplete = IDENTITY_CHECKLIST_ITEMS.every((item) => checklist[item.id]);
+  const checklistComplete = identityChecklistItems.every((item) => checklist[item.id]);
 
   const adminFormValid =
     Boolean(form.position.trim()) &&
@@ -172,6 +179,7 @@ export function AdminBasvuruOnayModal({
         : registration.sensitive.tcKimlikMasked;
 
   const handleApprove = async (e: React.FormEvent) => {
+
     e.preventDefault();
     if (!birthDateEligible) {
       setLocalError(constructionAgeErrorMessage());
@@ -378,7 +386,7 @@ export function AdminBasvuruOnayModal({
                     <p className="mt-0.5 text-xs text-amber-900/80">{strings.checklistHint}</p>
                   </div>
                   <ul className="space-y-2">
-                    {IDENTITY_CHECKLIST_ITEMS.map((item) => (
+                    {identityChecklistItems.map((item) => (
                       <li key={item.id}>
                         <label className="flex items-start gap-2.5 cursor-pointer text-sm text-amber-950">
                           <input

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useRouter } from 'next/navigation';
 import type { Project, ProjectFormData, ProjectStatus } from '@/types/project';
 import { PROJECT_STATUS_LABELS } from '@/types/project';
@@ -11,7 +12,6 @@ import {
   DEFAULT_PROJECT_TIMEZONE,
   guessTimezoneFromLocation,
 } from '@/lib/attendance-window';
-import strings from '@json/src/components/modals/ProjectSettingsModal.json';
 
 type Props = {
   project: Project;
@@ -28,6 +28,7 @@ export const ProjectSettingsModal = ({
   onUpdate,
   onDelete,
 }: Props) => {
+  const strings = useRegistryStrings('components/modals/ProjectSettingsModal');
   const router = useRouter();
   const [formData, setFormData] = useState<ProjectFormData>({
     name: project.name,

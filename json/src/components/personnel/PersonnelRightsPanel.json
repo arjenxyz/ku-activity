@@ -1,45 +1,25 @@
 {
-  "heroTitle": "Haklarınız",
-  "heroDescription": "İş kanunu ve KVKK kapsamındaki haklarınız. Sözleşmeleriniz ve kayıtlarınıza buradan ulaşın.",
-  "wageSectionTitle": "Ücret ve ödeme",
-  "workSectionTitle": "Çalışma kayıtları",
-  "kvkkTitle": "Kişisel veri hakları (KVKK m.11)",
+  "heroTitle": "Haklarım",
+  "heroSubtitle": "KVKK · sözleşmeler · kayıtlar",
+  "downloadCta": "Verilerimi indir",
   "preparing": "Hazırlanıyor…",
-  "downloadCta": "Verilerimi indir (ZIP)",
-  "dailyLimit": "Günde en fazla {limit} kez",
-  "rightsRequestTitle": "Hak talebi ve başvuru",
-  "mailSubject": "Hak talebi - CrewLedger",
-  "wageRights": [
-    {
-      "title": "Yevmiye ve net hakediş",
-      "text": "Günlük yevmiyenizi, çalışılan günleri ve ay sonu net tutarınızı Finans sekmesinden görebilirsiniz."
-    },
-    {
-      "title": "Avans ve kesintiler",
-      "text": "Verilen avanslar ile yapılan kesintiler kayıt altındadır. Her kalemi ayrı ayrı inceleyebilirsiniz."
-    },
-    {
-      "title": "Asgari ücret",
-      "text": "Asgari ücret tamamlama durumunuzu Asgari sekmesinden takip edebilirsiniz."
-    }
-  ],
-  "workRights": [
-    {
-      "title": "Yoklama ve yevmiye",
-      "text": "Günlük yoklama QR ile alınır. Usta yoklamayı bitirdiğinde tam gün kaydınız otomatik oluşur."
-    },
-    {
-      "title": "Kayıtları görüntüleme",
-      "text": "Yevmiye sekmesinde tüm çalışma günlerinizi ve mesai kayıtlarınızı görebilirsiniz."
-    }
-  ],
+  "contactCta": "Hak talebi",
+  "quickLinksTitle": "Kayıtlarınız",
+  "quickLinks": {
+    "finance": "Bordro",
+    "work": "Yevmiye",
+    "mesai": "Mesai",
+    "asgari": "Asgari"
+  },
+  "kvkkTitle": "KVKK hakları",
   "kvkkRights": [
-    "Verilerinizin işlenip işlenmediğini öğrenme",
-    "İşlenmiş veriler hakkında bilgi talep etme",
-    "Eksik veya yanlış verilerin düzeltilmesini isteme",
-    "Verilerin silinmesini veya yok edilmesini talep etme (yasal saklama süreleri saklı)",
-    "Verilerin aktarıldığı üçüncü kişileri bilme"
+    "İşlenip işlenmediğini öğrenme",
+    "Bilgi talep etme",
+    "Düzeltme isteme",
+    "Silme veya yok etme talebi",
+    "Aktarılan üçüncü kişileri bilme"
   ],
+  "mailSubject": "Hak talebi - CrewLedger",
   "errors": {
     "downloadFailed": "İndirilemedi",
     "generic": "İndirme başarısız"

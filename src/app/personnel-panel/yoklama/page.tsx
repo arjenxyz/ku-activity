@@ -1,7 +1,8 @@
 'use client';
 
-import strings from '@json/src/app/personnel-panel/yoklama/page.json';
+
 import Link from 'next/link';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { Suspense, useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { FiCheckCircle, FiHash, FiInfo, FiMonitor, FiX } from 'react-icons/fi';
@@ -19,6 +20,7 @@ import {
 } from '@/lib/personnel-api';
 
 function YoklamaContent() {
+  const strings = useRegistryStrings('app/personnel-panel/yoklama/page');
   const searchParams = useSearchParams();
   const tokenFromUrl = searchParams.get('t') ?? searchParams.get('token') ?? '';
 
@@ -291,6 +293,7 @@ function DesktopManualPanel({
   onCancelReplace: () => void;
   onManualSubmit: (e: React.FormEvent) => void;
 }) {
+  const strings = useRegistryStrings('app/personnel-panel/yoklama/page');
   const formDisabled = scanning || windowClosed || loading;
 
   return (

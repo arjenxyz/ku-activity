@@ -1,7 +1,8 @@
 'use client';
 
-import strings from '@json/src/app/admin-panel/proje/[projectId]/list/page.json';
+
 import { useEffect, useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { FiEdit2, FiUserPlus } from 'react-icons/fi';
@@ -14,6 +15,8 @@ import { fetchProjectEmployees, type ProjectEmployee } from '@/lib/project-api';
 import { formatMoney, formatDate } from '@/lib/format';
 
 export default function EmployeeListPage() {
+
+  const strings = useRegistryStrings('app/admin-panel/proje/[projectId]/list/page');
   const { projectId } = useParams() as { projectId: string };
   const [employees, setEmployees] = useState<ProjectEmployee[]>([]);
   const [loading, setLoading] = useState(true);

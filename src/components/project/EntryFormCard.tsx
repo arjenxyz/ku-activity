@@ -1,9 +1,9 @@
 'use client';
 
 import { cardClass, btnPrimary, labelClass, inputClass } from './ui';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { EmployeeSelect } from './EmployeeSelect';
 import type { ProjectEmployee } from '@/lib/project-api';
-import strings from '@json/src/components/project/EntryFormCard.json';
 
 type Field = {
   name: string;
@@ -24,7 +24,7 @@ export function EntryFormCard({
   onEmployeeChange,
   onSubmit,
   loading,
-  submitLabel = strings.defaultSubmitLabel,
+  submitLabel,
 }: {
   title: string;
   employees: ProjectEmployee[];
@@ -37,6 +37,8 @@ export function EntryFormCard({
   loading?: boolean;
   submitLabel?: string;
 }) {
+  const strings = useRegistryStrings('components/project/EntryFormCard');
+  const resolvedSubmitLabel = submitLabel ?? strings.defaultSubmitLabel;
   return (
     <form onSubmit={onSubmit} className={`${cardClass} p-4 sm:p-6 mb-6`}>
       <h2 className="text-base font-semibold text-slate-900 mb-4">{title}</h2>
@@ -70,7 +72,7 @@ export function EntryFormCard({
           </div>
         ))}
         <button type="submit" className={btnPrimary} disabled={loading}>
-          {loading ? strings.submitSaving : submitLabel}
+          {loading ? strings.submitSaving : resolvedSubmitLabel}
         </button>
       </div>
     </form>

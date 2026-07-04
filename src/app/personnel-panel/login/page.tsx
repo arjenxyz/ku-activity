@@ -1,7 +1,8 @@
 'use client';
 
-import strings from '@json/src/app/personnel-panel/login/page.json';
+
 import { Suspense, useEffect, useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import {
@@ -41,6 +42,8 @@ const inputClass = personnelAuthInputClass;
 const labelClass = personnelAuthLabelClass;
 
 function LoginForm() {
+  const strings = useRegistryStrings('app/personnel-panel/login/page');
+
   const searchParams = useSearchParams();
   const { setFormError } = useAuthReport();
   const [identityNumber, setIdentityNumber] = useState('');
@@ -74,6 +77,7 @@ function LoginForm() {
   }, [error, setFormError]);
 
   const handleLogin = async (e: React.FormEvent) => {
+
     e.preventDefault();
     setError('');
     setIsLoading(true);
@@ -215,6 +219,8 @@ function LoginForm() {
 }
 
 function PersonnelLoginContent() {
+  const strings = useRegistryStrings('app/personnel-panel/login/page');
+
   const [checkingSession, setCheckingSession] = useState(true);
 
   useEffect(() => {
@@ -274,6 +280,8 @@ function PersonnelLoginContent() {
 }
 
 export default function PersonnelLogin() {
+
+  const strings = useRegistryStrings('app/personnel-panel/login/page');
   return (
     <Suspense fallback={<div className="min-h-[100dvh] flex items-center justify-center text-white/60">{strings.loading}</div>}>
       <PersonnelLoginContent />

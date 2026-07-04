@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import dayjs from 'dayjs';
 import { FiChevronDown, FiTrash2 } from 'react-icons/fi';
 import { JobQuickLinks } from '@/components/project/profit/ProfitQuickActions';
@@ -12,7 +13,6 @@ import { profitMarginPercent } from '@/lib/profit-display';
 import { createJobExpense, deleteJobExpense } from '@/lib/project-api';
 import type { ExtendedProfitOverview, JobProfitSummary } from '@/types/project-job';
 import { PROJECT_JOB_STATUS_LABELS } from '@/types/project-job';
-import strings from '@json/src/components/project/profit/JobProfitCard.json';
 
 type Props = {
   projectId: string;
@@ -35,6 +35,8 @@ export function JobProfitCard({
   onToggleStatus,
   onDelete,
 }: Props) {
+
+  const strings = useRegistryStrings('components/project/profit/JobProfitCard');
   const { job } = item;
   const margin = profitMarginPercent(item.profitApproved, item.contractTotal);
   const [showExpenseForm, setShowExpenseForm] = useState(false);

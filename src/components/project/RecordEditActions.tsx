@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { FiEdit2, FiTrash2 } from 'react-icons/fi';
 import {
   deleteProjectRecord,
@@ -9,7 +10,6 @@ import {
 } from '@/lib/project-api';
 import { JobSelectField } from '@/components/project/JobSelectField';
 import { inputClass, labelClass, btnPrimary, btnSecondary } from './ui';
-import strings from '@json/src/components/project/RecordEditActions.json';
 
 type JobOption = { id: string; name: string; status?: string };
 
@@ -39,6 +39,8 @@ export function RecordEditActions({
   showApproved,
   jobs = [],
 }: Props) {
+
+  const strings = useRegistryStrings('components/project/RecordEditActions');
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);

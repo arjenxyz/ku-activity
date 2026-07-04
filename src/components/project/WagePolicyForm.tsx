@@ -1,6 +1,7 @@
 'use client';
 
 import { FiInfo, FiUpload } from 'react-icons/fi';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import {
   DEKONT_DEDUCTION_LABELS,
   DEFAULT_WAGE_POLICY,
@@ -14,7 +15,6 @@ import { getOfficialMonthlyMinimumWageGross } from '@/lib/minimum-wage';
 import { cardClass, labelClass, inputClass, btnPrimary } from '@/components/project/ui';
 import { formatMoney } from '@/lib/format';
 import { formatString } from '@/lib/strings/format';
-import strings from '@json/src/components/project/WagePolicyForm.json';
 
 type Props = {
   value: WagePolicy;
@@ -34,9 +34,13 @@ export function WagePolicyForm({
   loading,
   saving,
   showDekontSection = true,
-  title = strings.defaultTitle,
-  subtitle = strings.defaultSubtitle,
+  title,
+  subtitle,
 }: Props) {
+
+  const strings = useRegistryStrings('components/project/WagePolicyForm');
+  const resolvedTitle = title ?? strings.defaultTitle;
+  const resolvedSubtitle = subtitle ?? strings.defaultSubtitle;
   const systemDefault = getOfficialMonthlyMinimumWageGross();
 
   const toggleTrigger = (trigger: YevmiyePaymentTrigger) => {
@@ -59,8 +63,8 @@ export function WagePolicyForm({
   return (
     <form onSubmit={onSubmit} className="space-y-6">
       <div>
-        <h1 className="text-xl sm:text-2xl font-semibold text-slate-900">{title}</h1>
-        <p className="mt-1 text-sm text-slate-600">{subtitle}</p>
+        <h1 className="text-xl sm:text-2xl font-semibold text-slate-900">{resolvedTitle}</h1>
+        <p className="mt-1 text-sm text-slate-600">{resolvedSubtitle}</p>
       </div>
 
       <section className={`${cardClass} p-4 sm:p-6 space-y-4`}>

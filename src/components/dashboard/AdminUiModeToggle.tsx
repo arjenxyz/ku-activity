@@ -1,8 +1,8 @@
 'use client';
 
 import { useAdminUiMode } from '@/hooks/useAdminUiMode';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import type { AdminUiMode } from '@/lib/admin-ui-mode';
-import strings from '@json/src/components/dashboard/AdminUiModeToggle.json';
 
 type Props = {
   compact?: boolean;
@@ -10,6 +10,8 @@ type Props = {
 };
 
 export function AdminUiModeToggle({ compact, className = '' }: Props) {
+
+  const strings = useRegistryStrings('components/dashboard/AdminUiModeToggle');
   const { mode, setMode, ready } = useAdminUiMode();
 
   if (!ready) return null;

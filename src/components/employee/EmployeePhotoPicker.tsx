@@ -1,11 +1,11 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { FiCamera, FiImage, FiTrash2 } from 'react-icons/fi';
 import { EmployeeAvatar } from './EmployeeAvatar';
 import { SelfieCameraModal } from './SelfieCameraModal';
 import { prefersNativeCamera } from '@/lib/device-camera';
-import strings from '@json/src/components/employee/EmployeePhotoPicker.json';
 
 const MAX_BYTES = 5 * 1024 * 1024;
 const ALLOWED = new Set(['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif']);
@@ -27,6 +27,8 @@ export function EmployeePhotoPicker({
   variant = 'admin',
   layout = 'default',
 }: Props) {
+
+  const strings = useRegistryStrings('components/employee/EmployeePhotoPicker');
   const isStacked = layout === 'stacked';
   const isSelfie = variant === 'selfie';
   const cameraRef = useRef<HTMLInputElement>(null);

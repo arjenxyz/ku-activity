@@ -1,7 +1,8 @@
 'use client';
 
-import strings from '@json/src/app/personnel-panel/basvuru/page.json';
+
 import { useCallback, useEffect, useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import Link from 'next/link';
 import { ContractAcceptanceBlock } from '@/components/contracts/ContractAcceptanceBlock';
 import { ContractEmailVerificationModal } from '@/components/contracts/ContractEmailVerificationModal';
@@ -74,6 +75,8 @@ async function fetchRegistrationStatus(code: string): Promise<StatusPayload | nu
 }
 
 export default function PersonnelApplicationPage() {
+
+  const strings = useRegistryStrings('app/personnel-panel/basvuru/page');
   const [bootstrapping, setBootstrapping] = useState(true);
   const [form, setForm] = useState({
     first_name: '',

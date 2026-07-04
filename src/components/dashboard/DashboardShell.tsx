@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState, useEffect, useMemo } from 'react';
 import { FiLogOut, FiSettings, FiSliders } from 'react-icons/fi';
@@ -15,11 +16,11 @@ import { APP_NAME } from '@/lib/brand';
 import { useAdminCurrentProject } from '@/hooks/useAdminCurrentProject';
 import { AdminProjectSettingsProvider } from '@/hooks/useAdminProjectSettings';
 import { AdminUiModeProvider, useAdminUiMode } from '@/hooks/useAdminUiMode';
-import strings from '@json/src/components/dashboard/DashboardShell.json';
 
 const PROJECT_ID_RE = /^\/admin-panel\/proje\/([a-f0-9-]{36})/;
 
 function DashboardShellInner({ children }: { children: React.ReactNode }) {
+  const strings = useRegistryStrings('components/dashboard/DashboardShell');
   const pathname = usePathname();
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);

@@ -1,10 +1,10 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { inputClass, labelClass, btnPrimary, btnSecondary } from '@/components/project/ui';
 import { formatMoney } from '@/lib/format';
 import type { ProjectBlock } from '@/types/project-block';
-import strings from '@json/src/components/project/profit/AddJobModal.json';
 
 type JobForm = {
   name: string;
@@ -15,14 +15,14 @@ type JobForm = {
   blockId: string;
 };
 
-const emptyForm: JobForm = {
+const emptyForm = (): JobForm => ({
   name: '',
-  unitLabel: strings.defaultUnit,
+  unitLabel: '',
   unitPrice: '',
   quantity: '',
   notes: '',
   blockId: '',
-};
+});
 
 type Props = {
   open: boolean;
@@ -40,12 +40,16 @@ type Props = {
 };
 
 export function AddJobModal({ open, onClose, onSubmit, saving, blocks = [] }: Props) {
-  const [form, setForm] = useState<JobForm>(emptyForm);
+
+  const strings = useRegistryStrings('components/project/profit/AddJobModal');
+  const [form, setForm] = useState<JobForm>(() => emptyForm());
   const activeBlocks = blocks.filter((b) => b.status === 'active');
 
   useEffect(() => {
-    if (!open) setForm(emptyForm);
-  }, [open]);
+    if (!open) {
+      setForm({ ...emptyForm(), unitLabel: strings.defaultUnit });
+    }
+  }, [open, strings.defaultUnit]);
 
   if (!open) return null;
 

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { FiLock } from 'react-icons/fi';
 import { changePersonnelPassword } from '@/lib/personnel-api';
 import {
@@ -9,9 +10,10 @@ import {
   validatePersonnelPin,
 } from '@/lib/personnel-pin';
 import { formatString } from '@/lib/strings/format';
-import strings from '@json/src/components/personnel/PersonnelPasswordForm.json';
 
 export function PersonnelPasswordForm() {
+
+  const strings = useRegistryStrings('components/personnel/PersonnelPasswordForm');
   const [current, setCurrent] = useState('');
   const [next, setNext] = useState('');
   const [confirm, setConfirm] = useState('');

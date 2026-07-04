@@ -1,7 +1,8 @@
 'use client';
 
-import strings from '@json/src/app/admin-panel/proje/[projectId]/durum/page.json';
+
 import { useEffect, useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useParams } from 'next/navigation';
 import { ProjectPageHeader } from '@/components/project/ProjectPageHeader';
 import { AlertBanner } from '@/components/project/AlertBanner';
@@ -10,6 +11,8 @@ import { fetchProjectSummary } from '@/lib/project-api';
 import { formatMoney } from '@/lib/format';
 
 export default function DurumPage() {
+
+  const strings = useRegistryStrings('app/admin-panel/proje/[projectId]/durum/page');
   const { projectId } = useParams() as { projectId: string };
   const [summary, setSummary] = useState<Record<string, number> | null>(null);
   const [note, setNote] = useState<string | null>(null);

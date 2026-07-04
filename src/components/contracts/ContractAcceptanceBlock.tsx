@@ -1,8 +1,9 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { FiCheckCircle, FiChevronRight, FiFileText } from 'react-icons/fi';
-import strings from '@json/src/components/contracts/ContractAcceptanceBlock.json';
+
 import { formatString } from '@/lib/strings/format';
 import { ContractAcceptanceModal } from './ContractAcceptanceModal';
 import type { ContractItem } from './ContractScrollReader';
@@ -25,6 +26,8 @@ export function ContractAcceptanceBlock({
   appearance = 'default',
   initialAcceptances,
 }: Props) {
+
+  const strings = useRegistryStrings('components/contracts/ContractAcceptanceBlock');
   const isSidebar = layout === 'sidebar';
   const isGate = layout === 'gate';
   const isGlass = appearance === 'glass';

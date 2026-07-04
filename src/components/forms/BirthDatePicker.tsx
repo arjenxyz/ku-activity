@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import dayjs from 'dayjs';
 import {
   composeBirthDate,
@@ -12,7 +13,6 @@ import {
   MIN_CONSTRUCTION_AGE,
 } from '@/lib/age-validation';
 import { formatString } from '@/lib/strings/format';
-import strings from '@json/src/components/forms/BirthDatePicker.json';
 
 type Props = {
   value: string;
@@ -41,6 +41,8 @@ export function BirthDatePicker({
   labelClass = '',
   required,
 }: Props) {
+
+  const strings = useRegistryStrings('components/forms/BirthDatePicker');
   const [year, setYear] = useState('');
   const [month, setMonth] = useState('');
   const [day, setDay] = useState('');

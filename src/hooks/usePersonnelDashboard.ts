@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useRouter } from 'next/navigation';
 import { loadPendingRegistration } from '@/lib/registration-pending-storage';
 import {
@@ -14,13 +15,14 @@ import {
 } from '@/lib/personnel-api';
 import { computePersonnelStats, type Deduction, type MinimumWage, type WorkLog } from '@/lib/personnel-stats';
 import { computeNetPay } from '@/lib/minimum-wage';
-import strings from '@json/src/hooks/usePersonnelDashboard.json';
 
 type Options = {
   loadFinance?: boolean;
 };
 
 export function usePersonnelDashboard(month: string, options: Options = {}) {
+
+  const strings = useRegistryStrings('hooks/usePersonnelDashboard');
   const { loadFinance = true } = options;
   const router = useRouter();
   const [employee, setEmployee] = useState<PersonnelEmployee | null>(null);

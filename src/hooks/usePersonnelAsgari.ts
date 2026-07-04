@@ -1,9 +1,9 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import type { MinimumWage } from '@/lib/personnel-stats';
 import type { AsgariProrationMode, YevmiyePaymentTrigger } from '@/types/wage-policy';
-import strings from '@json/src/hooks/usePersonnelAsgari.json';
 
 export type PersonnelAsgariSummary = {
   month: string;
@@ -32,6 +32,8 @@ export type PersonnelAsgariSummary = {
 };
 
 export function usePersonnelAsgari(month: string, enabled = true) {
+
+  const strings = useRegistryStrings('hooks/usePersonnelAsgari');
   const [data, setData] = useState<PersonnelAsgariSummary | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);

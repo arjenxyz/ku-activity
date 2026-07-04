@@ -1,7 +1,8 @@
 'use client';
 
-import strings from '@json/src/app/admin-panel/proje/ProjectForm.json';
+
 import { useState, useEffect } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { FiCheck, FiKey, FiX } from 'react-icons/fi';
 import { verificationCodeMailto } from '@/lib/support-email';
 import { createProject, updateProject, fetchProjectById } from '../../lib/proje/projectService';
@@ -28,6 +29,7 @@ export default function ProjectForm({
   onSuccess: () => void;
   onCancel: () => void;
 }) {
+  const strings = useRegistryStrings('app/admin-panel/proje/ProjectForm');
   const [formData, setFormData] = useState<ProjectFormData>(defaultForm);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);

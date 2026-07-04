@@ -1,7 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import strings from '@json/src/components/project/profit/ProfitQuickActions.json';
+import { useMemo } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { FiPlus, FiRefreshCw } from 'react-icons/fi';
 
 type Props = {
@@ -11,18 +12,24 @@ type Props = {
   refreshing?: boolean;
 };
 
-const links = (projectId: string, jobId?: string) => {
-  const q = jobId ? `?job=${jobId}` : '';
-  return [
-    { label: strings.links.blocks, href: `/admin-panel/proje/${projectId}/bloklar` },
-    { label: strings.links.teams, href: `/admin-panel/proje/${projectId}/ekiplar` },
-    { label: strings.links.workLogs, href: `/admin-panel/proje/${projectId}/yevmiye${q}` },
-    { label: strings.links.advance, href: `/admin-panel/proje/${projectId}/avans${q}` },
-    { label: strings.links.deduction, href: `/admin-panel/proje/${projectId}/kesinti${q}` },
-  ];
-};
+function useProfitQuickLinks(projectId: string, jobId?: string) {
+  const strings = useRegistryStrings('components/project/profit/ProfitQuickActions');
+  return useMemo(() => {
+    const q = jobId ? `?job=${jobId}` : '';
+    return [
+      { label: strings.links.blocks, href: `/admin-panel/proje/${projectId}/bloklar` },
+      { label: strings.links.teams, href: `/admin-panel/proje/${projectId}/ekiplar` },
+      { label: strings.links.workLogs, href: `/admin-panel/proje/${projectId}/yevmiye${q}` },
+      { label: strings.links.advance, href: `/admin-panel/proje/${projectId}/avans${q}` },
+      { label: strings.links.deduction, href: `/admin-panel/proje/${projectId}/kesinti${q}` },
+    ];
+  }, [jobId, projectId, strings.links]);
+}
 
 export function ProfitQuickActions({ projectId, onAddJob, onRefresh, refreshing }: Props) {
+  const strings = useRegistryStrings('components/project/profit/ProfitQuickActions');
+  const quickLinks = useProfitQuickLinks(projectId);
+
   return (
     <div className="flex flex-wrap items-center gap-2">
       <button
@@ -33,7 +40,7 @@ export function ProfitQuickActions({ projectId, onAddJob, onRefresh, refreshing 
         <FiPlus className="w-4 h-4" />
         {strings.addJob}
       </button>
-      {links(projectId).map((l) => (
+      {quickLinks.map((l) => (
         <Link
           key={l.href}
           href={l.href}
@@ -57,9 +64,10 @@ export function ProfitQuickActions({ projectId, onAddJob, onRefresh, refreshing 
 }
 
 export function JobQuickLinks({ projectId, jobId }: { projectId: string; jobId: string }) {
+  const quickLinks = useProfitQuickLinks(projectId, jobId);
   return (
     <div className="flex flex-wrap gap-2">
-      {links(projectId, jobId).slice(2).map((l) => (
+      {quickLinks.slice(2).map((l) => (
         <Link
           key={l.href}
           href={l.href}

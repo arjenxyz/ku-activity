@@ -1,7 +1,8 @@
 'use client';
 
-import strings from '@json/src/app/admin-panel/proje/[projectId]/sorgulama/page.json';
+
 import { formatString } from '@/lib/strings/format';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import dayjs from 'dayjs';
@@ -16,6 +17,8 @@ import { formatMoney, formatDate } from '@/lib/format';
 type Row = { id: string; date: string; amount: number; description?: string | null };
 
 export default function PersonelSorgulamaPage() {
+
+  const strings = useRegistryStrings('app/admin-panel/proje/[projectId]/sorgulama/page');
   const { projectId } = useParams() as { projectId: string };
   const { employees, error: empError } = useProjectEmployees(projectId);
   const [employeeId, setEmployeeId] = useState('');

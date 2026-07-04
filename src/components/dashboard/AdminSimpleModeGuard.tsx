@@ -1,13 +1,13 @@
 'use client';
 
 import Link from 'next/link';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { usePathname } from 'next/navigation';
 import { AlertBanner } from '@/components/project/AlertBanner';
 import { cardClass } from '@/components/project/ui';
 import { AdminUiModeToggle } from '@/components/dashboard/AdminUiModeToggle';
 import { useAdminUiMode } from '@/hooks/useAdminUiMode';
 import { isPathAllowedInSimpleMode } from '@/lib/admin-ui-mode';
-import strings from '@json/src/components/dashboard/AdminSimpleModeGuard.json';
 
 export function AdminSimpleModeGuard({
   projectId,
@@ -16,6 +16,8 @@ export function AdminSimpleModeGuard({
   projectId: string | null;
   children: React.ReactNode;
 }) {
+
+  const strings = useRegistryStrings('components/dashboard/AdminSimpleModeGuard');
   const pathname = usePathname();
   const { isSimple, ready } = useAdminUiMode();
 

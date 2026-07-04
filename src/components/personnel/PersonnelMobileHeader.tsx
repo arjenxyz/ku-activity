@@ -2,16 +2,18 @@
 
 import { usePathname, useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
+import { LanguageSwitch } from '@/components/i18n/LanguageSwitch';
 import { PERSONNEL_MOBILE_TAB_TITLES } from '@/config/personnel-mobile-nav';
 import type { PersonnelTabId } from '@/hooks/usePersonnelTab';
 import { PERSONNEL_TABS } from '@/hooks/usePersonnelTab';
-import strings from '@json/src/components/personnel/PersonnelMobileHeader.json';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 
 function isValidTab(value: string | null): value is PersonnelTabId {
   return PERSONNEL_TABS.includes(value as PersonnelTabId);
 }
 
 function HeaderInner() {
+  const strings = useRegistryStrings('components/personnel/PersonnelMobileHeader');
   const pathname = usePathname() ?? '';
   const searchParams = useSearchParams();
   const tabParam = searchParams.get('tab');
@@ -33,6 +35,7 @@ function HeaderInner() {
         <h1 className="min-w-0 flex-1 truncate text-base font-semibold text-slate-900 dark:text-white">
           {title}
         </h1>
+        <LanguageSwitch variant="compact" />
       </div>
     </header>
   );

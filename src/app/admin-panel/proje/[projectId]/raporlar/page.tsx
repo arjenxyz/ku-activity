@@ -1,7 +1,8 @@
 'use client';
 
-import strings from '@json/src/app/admin-panel/proje/[projectId]/raporlar/page.json';
+
 import { useEffect, useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import dayjs from 'dayjs';
@@ -12,6 +13,8 @@ import { fetchProjectSummary, fetchRecords } from '@/lib/project-api';
 import { formatMoney } from '@/lib/format';
 
 export default function RaporlarPage() {
+
+  const strings = useRegistryStrings('app/admin-panel/proje/[projectId]/raporlar/page');
   const { projectId } = useParams() as { projectId: string };
   const [month, setMonth] = useState(dayjs().format('YYYY-MM'));
   const [summary, setSummary] = useState<Record<string, number> | null>(null);

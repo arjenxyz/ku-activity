@@ -1,8 +1,8 @@
 'use client';
 
 import Link from 'next/link';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { BrandMark } from '@/components/brand/BrandMark';
-import strings from '@json/src/components/auth/AdminRegisterLayout.json';
 
 type Props = {
   children: React.ReactNode;
@@ -12,9 +12,12 @@ type Props = {
 
 export function AdminRegisterLayout({
   children,
-  title = strings.defaultTitle,
-  subtitle = strings.defaultSubtitle,
+  title,
+  subtitle,
 }: Props) {
+  const strings = useRegistryStrings('components/auth/AdminRegisterLayout');
+  const resolvedTitle = title ?? strings.defaultTitle;
+  const resolvedSubtitle = subtitle ?? strings.defaultSubtitle;
   return (
     <>
       <div className="fixed inset-0 -z-10 pointer-events-none overflow-hidden" aria-hidden>
@@ -49,8 +52,8 @@ export function AdminRegisterLayout({
                 </span>
                 {strings.badge}
               </div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">{title}</h1>
-              <p className="mt-2 text-sm text-gray-500 dark:text-gray-400 xl:max-w-2xl">{subtitle}</p>
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">{resolvedTitle}</h1>
+              <p className="mt-2 text-sm text-gray-500 dark:text-gray-400 xl:max-w-2xl">{resolvedSubtitle}</p>
             </div>
 
             {children}

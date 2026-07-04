@@ -1,10 +1,10 @@
 'use client';
 
 import { formatMoney } from '@/lib/format';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import type { BlockProfitSummary } from '@/types/project-block';
 import { PROJECT_BLOCK_STATUS_LABELS } from '@/types/project-block';
 import { cardClass } from '@/components/project/ui';
-import strings from '@json/src/components/project/profit/BlockProfitCard.json';
 
 type Props = {
   summary: BlockProfitSummary;
@@ -13,6 +13,8 @@ type Props = {
 };
 
 export function BlockProfitCard({ summary, expanded, onToggle }: Props) {
+
+  const strings = useRegistryStrings('components/project/profit/BlockProfitCard');
   const { block } = summary;
   const isActive = block.status === 'active';
 

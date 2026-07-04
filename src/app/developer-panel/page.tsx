@@ -1,11 +1,12 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useRouter } from 'next/navigation';
 import { FiAlertTriangle, FiCopy, FiPlus, FiTrash2 } from 'react-icons/fi';
 import { DeveloperShell } from '@/components/developer/DeveloperShell';
 import { WIPE_CONFIRM_PHRASE } from '@/lib/developer-wipe';
-import strings from '@json/src/app/developer-panel/page.json';
+
 import { formatString } from '@/lib/strings/format';
 
 type CodeRow = {
@@ -22,6 +23,8 @@ type CodeRow = {
 };
 
 export default function DeveloperPanelPage() {
+
+  const strings = useRegistryStrings('app/developer-panel/page');
   const router = useRouter();
   const [codes, setCodes] = useState<CodeRow[]>([]);
   const [loading, setLoading] = useState(true);

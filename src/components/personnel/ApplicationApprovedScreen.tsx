@@ -1,9 +1,9 @@
 'use client';
 
 import Link from 'next/link';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { FiArrowRight, FiCheck } from 'react-icons/fi';
 import { BrandLockup } from '@/components/brand/BrandLockup';
-import strings from '@json/src/components/personnel/ApplicationApprovedScreen.json';
 
 type Props = {
   loginHref: string;
@@ -11,6 +11,8 @@ type Props = {
 };
 
 export function ApplicationApprovedScreen({ loginHref, position }: Props) {
+
+  const strings = useRegistryStrings('components/personnel/ApplicationApprovedScreen');
   return (
     <div className="relative flex min-h-[100dvh] flex-col overflow-x-hidden">
       <div className="fixed inset-0 -z-10 pointer-events-none overflow-hidden" aria-hidden>

@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { FiAlertTriangle, FiLoader, FiX } from 'react-icons/fi';
 import { captureElementScreenshot } from '@/lib/capture-screen';
 import {
@@ -9,7 +10,6 @@ import {
   personnelAuthSecondaryBtnClass,
 } from '@/lib/personnel-auth-ui';
 import { useAuthReport } from '@/components/auth/AuthReportContext';
-import strings from '@json/src/components/auth/ScreenReportButton.json';
 
 type Props = {
   captureRootRef: React.RefObject<HTMLElement | null>;
@@ -17,6 +17,8 @@ type Props = {
 };
 
 export function ScreenReportButton({ captureRootRef, screenLabel }: Props) {
+
+  const strings = useRegistryStrings('components/auth/ScreenReportButton');
   const { getReportPayload } = useAuthReport();
   const [open, setOpen] = useState(false);
   const [capturing, setCapturing] = useState(false);

@@ -1,13 +1,13 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import {
   extractTurkishNationalDigits,
   formatTurkishPhoneNational,
   normalizePhoneDigits,
   toStoredTurkishPhone,
 } from '@/lib/field-encryption';
-import strings from '@json/src/components/forms/TurkishPhoneInput.json';
 
 type Props = {
   value: string;
@@ -28,14 +28,25 @@ type CountryOption = {
   maxLocalDigits: number;
 };
 
-const COUNTRY_OPTIONS: CountryOption[] = [
-  { code: '90', label: strings.countries['90'], flag: '🇹🇷', sample: '5xx xxx xx xx', maxLocalDigits: 10 },
-  { code: '49', label: strings.countries['49'], flag: '🇩🇪', sample: '15x xxx xxxx', maxLocalDigits: 11 },
-  { code: '994', label: strings.countries['994'], flag: '🇦🇿', sample: '50 xxx xx xx', maxLocalDigits: 9 },
-  { code: '998', label: strings.countries['998'], flag: '🇺🇿', sample: '90 xxx xx xx', maxLocalDigits: 9 },
-  { code: '963', label: strings.countries['963'], flag: '🇸🇾', sample: '9xx xxx xxx', maxLocalDigits: 9 },
-  { code: '995', label: strings.countries['995'], flag: '🇬🇪', sample: '5xx xxx xxx', maxLocalDigits: 9 },
-];
+import { getRegistryStrings } from '@/lib/i18n/strings-registry';
+
+type PhoneStrings = ReturnType<typeof getRegistryStrings<'components/forms/TurkishPhoneInput'>>;
+
+const COUNTRY_META = [
+  { code: '90', flag: '🇹🇷', sample: '5xx xxx xx xx', maxLocalDigits: 10 },
+  { code: '49', flag: '🇩🇪', sample: '15x xxx xxxx', maxLocalDigits: 11 },
+  { code: '994', flag: '🇦🇿', sample: '50 xxx xx xx', maxLocalDigits: 9 },
+  { code: '998', flag: '🇺🇿', sample: '90 xxx xx xx', maxLocalDigits: 9 },
+  { code: '963', flag: '🇸🇾', sample: '9xx xxx xxx', maxLocalDigits: 9 },
+  { code: '995', flag: '🇬🇪', sample: '5xx xxx xxx', maxLocalDigits: 9 },
+] as const;
+
+function buildCountryOptions(strings: PhoneStrings): CountryOption[] {
+  return COUNTRY_META.map((meta) => ({
+    ...meta,
+    label: strings.countries[meta.code as keyof typeof strings.countries],
+  }));
+}
 
 function formatIntlLocalDigits(digits: string): string {
   const d = digits.replace(/\D/g, '').slice(0, 15);
@@ -47,20 +58,24 @@ function formatIntlLocalDigits(digits: string): string {
   return parts.join(' ');
 }
 
-function detectCountryByNormalizedDigits(normalized: string): CountryOption | null {
+function detectCountryByNormalizedDigits(
+  normalized: string,
+  countryOptions: CountryOption[]
+): CountryOption | null {
   if (!normalized) return null;
-  const sorted = [...COUNTRY_OPTIONS].sort((a, b) => b.code.length - a.code.length);
+  const sorted = [...countryOptions].sort((a, b) => b.code.length - a.code.length);
   return sorted.find((country) => normalized.startsWith(country.code)) ?? null;
 }
 
 function parseStoredIntlPhone(
   value: string,
-  fallbackCountry: string
+  fallbackCountry: string,
+  countryOptions: CountryOption[]
 ): { countryCode: string; localDigits: string } {
   const digits = value.replace(/\D/g, '');
   if (!digits) return { countryCode: fallbackCountry, localDigits: '' };
 
-  const detected = detectCountryByNormalizedDigits(digits);
+  const detected = detectCountryByNormalizedDigits(digits, countryOptions);
   const countryCode = detected?.code ?? fallbackCountry;
   const localDigits = digits.startsWith(countryCode) ? digits.slice(countryCode.length) : digits;
   return { countryCode, localDigits };
@@ -83,26 +98,31 @@ export function TurkishPhoneInput({
   required,
   id,
   disabled,
-  placeholder = strings.defaultPlaceholder,
+  placeholder,
   allowCountryCodeSelect = false,
 }: Props) {
+  const strings = useRegistryStrings('components/forms/TurkishPhoneInput');
+  const countryOptions = useMemo(() => buildCountryOptions(strings), [strings]);
+  const resolvedPlaceholder = placeholder ?? strings.defaultPlaceholder;
+
   const initialNormalized = normalizePhoneDigits(value) ?? '';
-  const initialCountry = detectCountryByNormalizedDigits(initialNormalized)?.code ?? COUNTRY_OPTIONS[0].code;
+  const initialCountry =
+    detectCountryByNormalizedDigits(initialNormalized, countryOptions)?.code ?? countryOptions[0].code;
   const [countryCode, setCountryCode] = useState(initialCountry);
-  const parsedIntl = parseStoredIntlPhone(value, countryCode);
+  const parsedIntl = parseStoredIntlPhone(value, countryCode, countryOptions);
   const resolvedCountry = parsedIntl.countryCode;
   const localDigits = parsedIntl.localDigits;
-  const currentCountry = COUNTRY_OPTIONS.find((c) => c.code === resolvedCountry) ?? COUNTRY_OPTIONS[0];
+  const currentCountry = countryOptions.find((c) => c.code === resolvedCountry) ?? countryOptions[0];
   const maxLocalDigits = currentCountry.maxLocalDigits;
   const dynamicPlaceholder = currentCountry.sample;
-  const countryOptions = useMemo(
+  const countrySelectOptions = useMemo(
     () =>
-      COUNTRY_OPTIONS.map((country) => (
+      countryOptions.map((country) => (
         <option key={country.code} value={country.code} title={country.label}>
           {country.flag} +{country.code}
         </option>
       )),
-    []
+    [countryOptions]
   );
 
   useEffect(() => {
@@ -122,7 +142,7 @@ export function TurkishPhoneInput({
           onChange={(e) => {
             const nextCode = e.target.value;
             setCountryCode(nextCode);
-            const nextMax = COUNTRY_OPTIONS.find((c) => c.code === nextCode)?.maxLocalDigits ?? 12;
+            const nextMax = countryOptions.find((c) => c.code === nextCode)?.maxLocalDigits ?? 12;
             const nextLocal = localDigits.replace(/\D/g, '').slice(0, nextMax);
             onChange(nextLocal ? `+${nextCode}${nextLocal}` : '');
           }}
@@ -130,7 +150,7 @@ export function TurkishPhoneInput({
           disabled={disabled}
           aria-label={strings.countryCodeAriaLabel}
         >
-          {countryOptions}
+          {countrySelectOptions}
         </select>
         <input
           id={id}
@@ -191,7 +211,7 @@ export function TurkishPhoneInput({
         disabled={disabled}
         required={required}
         className="min-w-0 flex-1 border-0 bg-transparent px-4 py-3 text-sm tabular-nums tracking-wide focus:outline-none focus:ring-0"
-        placeholder={placeholder}
+        placeholder={resolvedPlaceholder}
         value={display}
         onChange={handleChange}
         aria-label={strings.mobileAriaLabel}

@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { FiChevronDown } from 'react-icons/fi';
@@ -16,7 +17,6 @@ import {
   getProjectMenuPrimary,
   isMenuPathActive,
 } from '@/config/projectMenu';
-import strings from '@json/src/components/project/ProjectNavMenu.json';
 
 type NavVariant = 'sidebar' | 'mobile';
 
@@ -40,6 +40,7 @@ export function ProjectNavLinks({
   onNavigate?: () => void;
   variant?: NavVariant;
 }) {
+  const strings = useRegistryStrings('components/project/ProjectNavMenu');
   const pathname = usePathname();
   const mobile = variant === 'mobile';
   const { isSimple } = useAdminUiMode();

@@ -1,15 +1,17 @@
 'use client';
 
 import { FiClock, FiMapPin, FiBriefcase } from 'react-icons/fi';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import type { PersonnelProject } from '@/lib/personnel-api';
 import { formatString } from '@/lib/strings/format';
-import strings from '@json/src/components/personnel/PersonnelProjectCard.json';
 
 type Props = {
   project: PersonnelProject | null | undefined;
 };
 
 export function PersonnelProjectCard({ project }: Props) {
+
+  const strings = useRegistryStrings('components/personnel/PersonnelProjectCard');
   if (!project) return null;
 
   const formatTime = (t: string | null | undefined) => (t ? t.slice(0, 5) : null);

@@ -1,10 +1,10 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { createPortal } from 'react-dom';
 import { motion } from 'framer-motion';
 import { PERSONNEL_INTRO_IMAGE, PERSONNEL_PWA_SPLASH_BG } from '@/lib/personnel-pwa-brand';
-import strings from '@json/src/components/personnel/PersonnelAppIntro.json';
 
 const DISPLAY_MS = 3200;
 const EXIT_MS = 480;
@@ -15,6 +15,8 @@ type Props = {
 };
 
 function IntroLoadingFooter() {
+  const strings = useRegistryStrings('components/personnel/PersonnelAppIntro');
+
   return (
     <motion.div
       className="absolute inset-x-0 bottom-0 z-10 flex flex-col items-center px-6 pt-20"
@@ -67,6 +69,8 @@ function IntroLoadingFooter() {
 }
 
 export function PersonnelAppIntro({ onComplete }: Props) {
+
+  const strings = useRegistryStrings('components/personnel/PersonnelAppIntro');
   const [fading, setFading] = useState(false);
   const [mounted, setMounted] = useState(false);
 

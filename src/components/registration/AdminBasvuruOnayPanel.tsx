@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
@@ -14,18 +15,22 @@ import {
 } from '@/components/registration/AdminBasvuruOnayModal';
 import { extractVerificationCode, registrationStatusMessage } from '@/lib/parse-registration-qr';
 import { formatString } from '@/lib/strings/format';
-import strings from '@json/src/components/registration/AdminBasvuruOnayPanel.json';
+
+function CameraLoadingFallback() {
+  const strings = useRegistryStrings('components/registration/AdminBasvuruOnayPanel');
+  return (
+    <div className="flex flex-col items-center justify-center py-12 gap-2">
+      <div className="h-8 w-8 animate-spin rounded-full border-2 border-blue-600 border-t-transparent" />
+      <p className="text-sm text-slate-500">{strings.cameraLoading}</p>
+    </div>
+  );
+}
 
 const QrCameraScanner = dynamic(
   () => import('@/components/registration/QrCameraScanner').then((m) => m.QrCameraScanner),
   {
     ssr: false,
-    loading: () => (
-      <div className="flex flex-col items-center justify-center py-12 gap-2">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-blue-600 border-t-transparent" />
-        <p className="text-sm text-slate-500">{strings.cameraLoading}</p>
-      </div>
-    ),
+    loading: () => <CameraLoadingFallback />,
   }
 );
 
@@ -34,6 +39,8 @@ type Props = {
 };
 
 export function AdminBasvuruOnayPanel({ projectId }: Props) {
+
+  const strings = useRegistryStrings('components/registration/AdminBasvuruOnayPanel');
   const searchParams = useSearchParams();
   const router = useRouter();
   const initialKod = searchParams.get('kod') ?? '';
@@ -176,6 +183,7 @@ export function AdminBasvuruOnayPanel({ projectId }: Props) {
   };
 
   const handleReject = async () => {
+
     if (!registration || !confirm(strings.confirmReject)) {
       return;
     }

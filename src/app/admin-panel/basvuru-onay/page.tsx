@@ -1,7 +1,8 @@
 'use client';
 
-import strings from '@json/src/app/admin-panel/basvuru-onay/page.json';
+
 import { Suspense, useEffect, useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { FiArrowRight, FiGrid } from 'react-icons/fi';
@@ -10,6 +11,8 @@ import { cardClass } from '@/components/project/ui';
 type Project = { id: string; name: string };
 
 function BasvuruOnayProjectPicker() {
+  const strings = useRegistryStrings('app/admin-panel/basvuru-onay/page');
+
   const router = useRouter();
   const searchParams = useSearchParams();
   const kod = searchParams.get('kod')?.trim() ?? '';
@@ -112,6 +115,8 @@ function BasvuruOnayProjectPicker() {
 
 /** Eski QR linkleri — proje seçimine yönlendirir */
 export default function BasvuruOnayRedirectPage() {
+
+  const strings = useRegistryStrings('app/admin-panel/basvuru-onay/page');
   return (
     <Suspense fallback={<div className="p-8 text-center text-slate-500">{strings.loading}</div>}>
       <BasvuruOnayProjectPicker />

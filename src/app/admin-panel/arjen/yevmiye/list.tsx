@@ -1,7 +1,8 @@
 'use client';
 
-import strings from '@json/src/app/admin-panel/arjen/yevmiye/list.json';
+
 import { useEffect, useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { supabase } from '../../../lib/supabaseClient';
 import { formatString } from '@/lib/strings/format';
 import { FiTrash2 } from 'react-icons/fi';
@@ -51,6 +52,8 @@ function extractEmployee(employeeField: RawEmployee | RawEmployee[]): Employee |
 }
 
 export default function WorkLogsList() {
+
+  const strings = useRegistryStrings('app/admin-panel/arjen/yevmiye/list');
   const [logs, setLogs] = useState<WorkLog[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

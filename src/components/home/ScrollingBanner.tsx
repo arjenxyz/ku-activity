@@ -1,11 +1,11 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import strings from '@json/src/components/home/ScrollingBanner.json';
-
-const texts = strings.texts;
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 
 export function ScrollingBanner() {
+  const strings = useRegistryStrings('components/home/ScrollingBanner');
+  const texts = strings.texts;
   const bannerRef = useRef<HTMLDivElement>(null);
   const speed = 120;
 

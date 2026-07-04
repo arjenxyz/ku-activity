@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useRouter } from 'next/navigation';
 import { FiCheck, FiDownload, FiTrash2, FiUpload } from 'react-icons/fi';
 import { DeveloperShell } from '@/components/developer/DeveloperShell';
@@ -11,7 +12,7 @@ import {
   type AppReleaseRow,
   type AppReleaseType,
 } from '@/lib/app-releases';
-import strings from '@json/src/app/developer-panel/releases/page.json';
+
 import { formatString } from '@/lib/strings/format';
 
 function formatDate(value: string | null) {
@@ -22,13 +23,19 @@ function formatDate(value: string | null) {
   }).format(new Date(value));
 }
 
-function statusBadge(status: AppReleaseRow['status']) {
+import { getRegistryStrings } from '@/lib/i18n/strings-registry';
+
+type ReleaseStrings = ReturnType<typeof getRegistryStrings<'app/developer-panel/releases/page'>>;
+
+function statusBadge(status: AppReleaseRow['status'], strings: ReleaseStrings) {
   if (status === 'pending') return { label: strings.statusPending, className: 'bg-amber-900/40 text-amber-300' };
   if (status === 'published') return { label: strings.statusPublished, className: 'bg-emerald-900/40 text-emerald-300' };
   return { label: strings.statusArchived, className: 'bg-slate-700 text-slate-300' };
 }
 
 export default function DeveloperReleasesPage() {
+
+  const strings = useRegistryStrings('app/developer-panel/releases/page');
   const router = useRouter();
   const [releases, setReleases] = useState<AppReleaseRow[]>([]);
   const [loading, setLoading] = useState(true);
@@ -73,6 +80,7 @@ export default function DeveloperReleasesPage() {
   };
 
   const handleUpload = async (e: React.FormEvent) => {
+
     e.preventDefault();
     if (!form.file) {
       setError(strings.selectApkFile);
@@ -106,6 +114,7 @@ export default function DeveloperReleasesPage() {
   };
 
   const handlePublish = async (id: string) => {
+
     if (!confirm(strings.publishConfirm)) return;
 
     setPublishingId(id);
@@ -126,6 +135,7 @@ export default function DeveloperReleasesPage() {
   };
 
   const handleDelete = async (id: string) => {
+
     if (!confirm(strings.deleteConfirm)) return;
 
     const res = await fetch(`/api/developer/releases/${id}`, { method: 'DELETE' });
@@ -159,7 +169,7 @@ export default function DeveloperReleasesPage() {
           <h2 className="text-lg font-semibold mb-3 text-amber-200">{strings.pendingSectionTitle}</h2>
           <div className="space-y-4">
             {pending.map((row) => {
-              const badge = statusBadge(row.status);
+              const badge = statusBadge(row.status, strings);
               return (
                 <article
                   key={row.id}
@@ -312,7 +322,7 @@ export default function DeveloperReleasesPage() {
         ) : (
           <div className="divide-y divide-slate-800">
             {others.map((row) => {
-              const badge = statusBadge(row.status);
+              const badge = statusBadge(row.status, strings);
               return (
                 <div key={row.id} className="p-4 flex flex-col sm:flex-row sm:items-center gap-3 justify-between">
                   <div className="min-w-0">

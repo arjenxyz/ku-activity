@@ -1,6 +1,7 @@
 'use client';
 
 import { Suspense, useState, useEffect, type FormEvent } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { createClient } from '@/utils/supabase/client';
@@ -11,11 +12,12 @@ import {
   loginEmailInputProps,
   loginPasswordInputProps,
 } from '@/components/auth/loginFormProps';
-import strings from '@json/src/app/developer-panel/login/page.json';
 
 type Tab = 'login' | 'reset';
 
 function DeveloperLoginContent() {
+  const strings = useRegistryStrings('app/developer-panel/login/page');
+
   const router = useRouter();
   const searchParams = useSearchParams();
   const supabase = createClient();
@@ -34,6 +36,7 @@ function DeveloperLoginContent() {
   }, [searchParams]);
 
   const handleLogin = async (e: FormEvent) => {
+
     e.preventDefault();
     setError('');
     setSuccess('');
@@ -58,6 +61,7 @@ function DeveloperLoginContent() {
   };
 
   const handleReset = async (e: FormEvent) => {
+
     e.preventDefault();
     setError('');
     setSuccess('');
@@ -214,6 +218,8 @@ function DeveloperLoginContent() {
 }
 
 export default function DeveloperLoginPage() {
+
+  const strings = useRegistryStrings('app/developer-panel/login/page');
   return (
     <Suspense fallback={<div className="min-h-[100dvh] flex items-center justify-center text-slate-500">{strings.loading}</div>}>
       <DeveloperLoginContent />

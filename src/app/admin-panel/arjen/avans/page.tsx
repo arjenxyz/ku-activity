@@ -1,7 +1,8 @@
 'use client';
 
-import strings from '@json/src/app/admin-panel/arjen/avans/page.json';
+
 import { useState, useEffect } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { supabase } from '../../../lib/supabaseClient';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
@@ -13,6 +14,8 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 
 export default function DeductionForm() {
+
+  const strings = useRegistryStrings('app/admin-panel/arjen/avans/page');
   const [employees, setEmployees] = useState<{id: string, name: string}[]>([]);
   const [form, setForm] = useState({
     employee_id: '',

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
@@ -14,7 +15,7 @@ import {
   getAppReleaseLabel,
   type AppReleaseType,
 } from '@/lib/app-releases';
-import strings from '@json/src/app/apk/page.json';
+
 import { formatString } from '@/lib/strings/format';
 import {
   PLAY_STORE_ADMIN_URL,
@@ -38,6 +39,8 @@ function formatDate(value: string | null | undefined) {
 }
 
 export default function ApkDownloadPage() {
+
+  const strings = useRegistryStrings('app/apk/page');
   const [releases, setReleases] = useState<PublicRelease[]>([]);
   const [loading, setLoading] = useState(true);
 

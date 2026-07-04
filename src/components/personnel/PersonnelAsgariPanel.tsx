@@ -1,6 +1,7 @@
 'use client';
 
 import dayjs from 'dayjs';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import {
   FiAlertCircle,
   FiCheckCircle,
@@ -20,7 +21,7 @@ import {
   YEVMIYE_TRIGGER_LABELS,
 } from '@/types/wage-policy';
 import { formatString } from '@/lib/strings/format';
-import strings from '@json/src/components/personnel/PersonnelAsgariPanel.json';
+import { getRegistryStrings } from '@/lib/i18n/strings-registry';
 
 type Props = {
   month: string;
@@ -31,7 +32,11 @@ type Props = {
   onRetry?: () => void;
 };
 
-function statusMeta(status: PersonnelAsgariSummary['gap']['paymentStatus']) {
+function statusMeta(
+  status: PersonnelAsgariSummary['gap']['paymentStatus'],
+  strings: ReturnType<typeof getRegistryStrings<'components/personnel/PersonnelAsgariPanel'>>
+) {
+
   switch (status) {
     case 'complete':
       return {
@@ -72,6 +77,8 @@ export function PersonnelAsgariPanel({
   error,
   onRetry,
 }: Props) {
+
+  const strings = useRegistryStrings('components/personnel/PersonnelAsgariPanel');
   if (loading && !data) {
     return (
       <div className="flex flex-col items-center justify-center py-24 gap-4">
@@ -100,7 +107,7 @@ export function PersonnelAsgariPanel({
 
   if (!data) return null;
 
-  const meta = statusMeta(data.gap.paymentStatus);
+  const meta = statusMeta(data.gap.paymentStatus, strings);
   const progressDen = data.gap.eligibleMinimum || 1;
   const progressNum = Math.min(
     100,

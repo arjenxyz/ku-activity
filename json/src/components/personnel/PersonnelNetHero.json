@@ -1,8 +1,8 @@
 {
   "estimatedNet": "Tahmini net maaş",
-  "netRatio": "Net oran",
   "gross": "Brüt",
   "deduction": "Kesinti",
   "net": "Net",
-  "financeDetail": "Bordro ve finans detayı"
+  "financeDetail": "Bordro ve finans detayı",
+  "sectionAriaLabel": "Aylık maaş özeti"
 }

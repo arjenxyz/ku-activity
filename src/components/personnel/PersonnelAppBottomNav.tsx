@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { Suspense, useState } from 'react';
 import { motion } from 'framer-motion';
@@ -20,7 +21,6 @@ import {
 } from '@/config/personnel-mobile-nav';
 import type { PersonnelTabId } from '@/hooks/usePersonnelTab';
 import { PERSONNEL_TABS } from '@/hooks/usePersonnelTab';
-import strings from '@json/src/components/personnel/PersonnelAppBottomNav.json';
 
 function isValidTab(value: string | null): value is PersonnelTabId {
   return PERSONNEL_TABS.includes(value as PersonnelTabId);
@@ -110,6 +110,7 @@ function DockSideItem({
 }
 
 function NavInner() {
+  const strings = useRegistryStrings('components/personnel/PersonnelAppBottomNav');
   const pathname = usePathname() ?? '';
   const searchParams = useSearchParams();
   const tabParam = searchParams.get('tab');

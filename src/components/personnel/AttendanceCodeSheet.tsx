@@ -1,8 +1,8 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { FiHash, FiLoader, FiX } from 'react-icons/fi';
-import strings from '@json/src/components/personnel/AttendanceCodeSheet.json';
 
 type Props = {
   open: boolean;
@@ -27,6 +27,8 @@ export function AttendanceCodeSheet({
   isRescan,
   error,
 }: Props) {
+
+  const strings = useRegistryStrings('components/personnel/AttendanceCodeSheet');
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {

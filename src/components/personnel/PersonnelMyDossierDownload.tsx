@@ -1,10 +1,10 @@
 'use client';
 
 import { useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { FiDownload, FiShield } from 'react-icons/fi';
 import { PERSONNEL_SELF_EXPORT_DAILY_LIMIT } from '@/lib/legal-dossier/types';
 import { formatString } from '@/lib/strings/format';
-import strings from '@json/src/components/personnel/PersonnelMyDossierDownload.json';
 
 function parseFilename(contentDisposition: string | null, fallback: string) {
   if (!contentDisposition) return fallback;
@@ -13,6 +13,8 @@ function parseFilename(contentDisposition: string | null, fallback: string) {
 }
 
 export function PersonnelMyDossierDownload() {
+
+  const strings = useRegistryStrings('components/personnel/PersonnelMyDossierDownload');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 

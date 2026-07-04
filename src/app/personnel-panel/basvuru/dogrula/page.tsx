@@ -1,7 +1,8 @@
 'use client';
 
-import strings from '@json/src/app/personnel-panel/basvuru/dogrula/page.json';
+
 import { Suspense, useEffect, useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { FiCheckCircle, FiXCircle } from 'react-icons/fi';
@@ -12,6 +13,8 @@ import {
 } from '@/lib/registration-pending-storage';
 
 function DogrulaContent() {
+  const strings = useRegistryStrings('app/personnel-panel/basvuru/dogrula/page');
+
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get('k') ?? '';
@@ -109,6 +112,8 @@ function DogrulaContent() {
 }
 
 export default function BasvuruDogrulaPage() {
+
+  const strings = useRegistryStrings('app/personnel-panel/basvuru/dogrula/page');
   return (
     <Suspense
       fallback={

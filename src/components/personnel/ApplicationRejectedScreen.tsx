@@ -1,15 +1,17 @@
 'use client';
 
 import Link from 'next/link';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { FiRefreshCw, FiXCircle } from 'react-icons/fi';
 import { BrandLockup } from '@/components/brand/BrandLockup';
-import strings from '@json/src/components/personnel/ApplicationRejectedScreen.json';
 
 type Props = {
   onNewApplication: () => void;
 };
 
 export function ApplicationRejectedScreen({ onNewApplication }: Props) {
+
+  const strings = useRegistryStrings('components/personnel/ApplicationRejectedScreen');
   return (
     <div className="relative flex min-h-[100dvh] flex-col overflow-x-hidden">
       <div className="fixed inset-0 -z-10 pointer-events-none overflow-hidden" aria-hidden>

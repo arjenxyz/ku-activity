@@ -1,9 +1,9 @@
 'use client';
 
 import { useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { FiX } from 'react-icons/fi';
 import { DAY_AMOUNT_OPTIONS, MESAI_OPTIONS, type MesaiType } from '@/lib/work-log';
-import strings from '@json/src/components/admin/AdminAttendanceModal.json';
 
 type Props = {
   employeeName: string;
@@ -20,6 +20,8 @@ export function AdminAttendanceModal({
   onClose,
   onSubmit,
 }: Props) {
+
+  const strings = useRegistryStrings('components/admin/AdminAttendanceModal');
   const [amount, setAmount] = useState(1);
   const [mesaiType, setMesaiType] = useState<MesaiType>('none');
   const [description, setDescription] = useState('');

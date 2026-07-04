@@ -1,7 +1,8 @@
 'use client';
 
-import strings from '@json/src/app/admin-panel/login/page.json';
+
 import { Suspense, useState, FormEvent, ChangeEvent, useEffect, type Dispatch, type SetStateAction } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { createClient } from '@/utils/supabase/client';
 import { AuthLayout } from '@/components/auth/AuthLayout';
@@ -24,6 +25,8 @@ import {
 type Tab = 'login' | 'reset';
 
 function AdminAuthContent() {
+  const strings = useRegistryStrings('app/admin-panel/login/page');
+
   const router = useRouter();
   const searchParams = useSearchParams();
   const supabase = createClient();
@@ -54,6 +57,7 @@ function AdminAuthContent() {
   };
 
   const handleLogin = async (e: FormEvent) => {
+
     e.preventDefault();
     setIsLoading(true);
     setErrorMessage('');
@@ -82,6 +86,7 @@ function AdminAuthContent() {
   };
 
   const handleReset = async (e: FormEvent) => {
+
     e.preventDefault();
     setIsLoading(true);
     setErrorMessage('');
@@ -214,6 +219,8 @@ function AdminAuthContent() {
 }
 
 export default function AdminAuthPage() {
+
+  const strings = useRegistryStrings('app/admin-panel/login/page');
   return (
     <Suspense fallback={<div className="min-h-[100dvh] flex items-center justify-center text-slate-500">{strings.loading}</div>}>
       <AdminAuthContent />

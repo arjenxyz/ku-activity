@@ -1,9 +1,11 @@
 'use client';
 
 import { cardClass } from '@/components/project/ui';
-import strings from '@json/src/components/project/profit/ProfitFormulaHelp.json';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 
 export function ProfitFormulaHelp() {
+
+  const strings = useRegistryStrings('components/project/profit/ProfitFormulaHelp');
   return (
     <details className={`${cardClass} group`}>
       <summary className="cursor-pointer list-none px-4 py-3 flex items-center justify-between text-sm font-medium text-slate-700 hover:bg-slate-50">

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { FiAlertTriangle, FiCheckCircle, FiTrash2 } from 'react-icons/fi';
 import {
   deleteProjectRecord,
@@ -10,7 +11,6 @@ import { formatDateTime } from '@/lib/format';
 import { formatWorkLogSummary, type MesaiType } from '@/lib/work-log';
 import { MESAI_OPTIONS } from '@/lib/work-log';
 import { btnPrimary, btnSecondary, inputClass, labelClass } from '@/components/project/ui';
-import strings from '@json/src/components/admin/AdminWorkLogDisputeActions.json';
 
 export type DisputedWorkLog = {
   id: string;
@@ -31,6 +31,8 @@ type Props = {
 };
 
 export function AdminWorkLogDisputeActions({ projectId, record, onChanged }: Props) {
+
+  const strings = useRegistryStrings('components/admin/AdminWorkLogDisputeActions');
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -53,6 +55,7 @@ export function AdminWorkLogDisputeActions({ projectId, record, onChanged }: Pro
   };
 
   const handleResolve = async (e: React.FormEvent) => {
+
     e.preventDefault();
     const amount = Number(form.amount);
     if (amount !== 1 && amount !== 0.5) {
@@ -79,6 +82,7 @@ export function AdminWorkLogDisputeActions({ projectId, record, onChanged }: Pro
   };
 
   const handleDelete = async () => {
+
     if (
       !confirm(strings.deleteConfirm)
     ) {
@@ -210,6 +214,8 @@ export function AdminWorkLogDisputeActions({ projectId, record, onChanged }: Pro
 }
 
 export function AdminDisputeNote({ record }: { record: DisputedWorkLog }) {
+  const strings = useRegistryStrings('components/admin/AdminWorkLogDisputeActions');
+
   return (
     <div className="rounded-lg bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/50 px-3 py-2 text-sm">
       <p className="font-medium text-amber-950 dark:text-amber-100 flex items-start gap-1.5">

@@ -1,18 +1,20 @@
 'use client';
 
 import Link from 'next/link';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { usePathname } from 'next/navigation';
 import { FiAlertCircle, FiCreditCard, FiHome, FiMaximize2 } from 'react-icons/fi';
 import { useAdminUiMode } from '@/hooks/useAdminUiMode';
 import { getSimpleMenuLinks } from '@/lib/admin-ui-mode';
 import { isMenuPathActive } from '@/config/projectMenu';
-import strings from '@json/src/components/dashboard/AdminProjectBottomNav.json';
 
 type Props = {
   projectId: string;
 };
 
 export function AdminProjectBottomNav({ projectId }: Props) {
+
+  const strings = useRegistryStrings('components/dashboard/AdminProjectBottomNav');
   const pathname = usePathname();
   const { isSimple } = useAdminUiMode();
 

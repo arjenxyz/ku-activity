@@ -1,7 +1,8 @@
 'use client';
 
-import strings from '@json/src/app/admin-panel/proje/[projectId]/itirazlar/page.json';
+
 import { useCallback, useEffect, useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useParams } from 'next/navigation';
 import dayjs from 'dayjs';
 import Link from 'next/link';
@@ -20,6 +21,8 @@ import {
 } from '@/components/admin/AdminWorkLogDisputeActions';
 
 export default function PersonelItirazlariPage() {
+
+  const strings = useRegistryStrings('app/admin-panel/proje/[projectId]/itirazlar/page');
   const { projectId } = useParams() as { projectId: string };
   const { employees, error: empError } = useProjectEmployees(projectId);
   const [employeeId, setEmployeeId] = useState('');

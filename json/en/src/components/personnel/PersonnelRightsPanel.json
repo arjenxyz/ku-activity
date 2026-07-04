@@ -1,0 +1,28 @@
+{
+  "heroTitle": "My rights",
+  "heroSubtitle": "GDPR · contracts · records",
+  "downloadCta": "Download my data",
+  "preparing": "Preparing…",
+  "contactCta": "Rights request",
+  "quickLinksTitle": "Your records",
+  "quickLinks": {
+    "finance": "Payroll",
+    "work": "Daily wage",
+    "mesai": "Overtime",
+    "asgari": "Minimum wage"
+  },
+  "kvkkTitle": "Data protection rights",
+  "kvkkRights": [
+    "Know whether data is processed",
+    "Request information",
+    "Request correction",
+    "Request deletion",
+    "Know third-party recipients"
+  ],
+  "mailSubject": "Rights request - CrewLedger",
+  "errors": {
+    "downloadFailed": "Download failed",
+    "generic": "Download failed"
+  },
+  "fallbackFilename": "crewledger-my-records.zip"
+}

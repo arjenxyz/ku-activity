@@ -1,0 +1,23 @@
+{
+  "close": "Close",
+  "noRecordTitle": "No record for this day",
+  "noRecordHint": "There is no work log entry on the selected date.",
+  "workSection": "Daily wage",
+  "mesaiSection": "Overtime",
+  "statusLabel": "Status",
+  "amountLabel": "Day",
+  "mesaiTypeLabel": "Overtime type",
+  "mesaiPayLabel": "Overtime pay",
+  "descriptionLabel": "Description",
+  "disputeLabel": "Dispute note",
+  "deductionsSection": "Deductions and advances",
+  "minimumSection": "Minimum wage",
+  "qrAttendance": "QR attendance",
+  "status": {
+    "confirmed": "Confirmed",
+    "pending_employee": "Awaiting your approval",
+    "pending_admin": "Awaiting manager approval",
+    "disputed": "Disputed",
+    "none": "In progress"
+  }
+}

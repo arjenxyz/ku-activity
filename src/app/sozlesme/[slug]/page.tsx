@@ -1,11 +1,11 @@
 'use client';
 
 import { Suspense, useEffect, useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import Link from 'next/link';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { FiArrowLeft, FiPrinter } from 'react-icons/fi';
 import { formatString } from '@/lib/strings/format';
-import strings from '@json/src/app/sozlesme/[slug]/page.json';
 
 type ContractView = {
   title: string;
@@ -17,6 +17,8 @@ type ContractView = {
 };
 
 function ContractViewContent() {
+  const strings = useRegistryStrings('app/sozlesme/[slug]/page');
+
   const params = useParams();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -117,6 +119,8 @@ function ContractViewContent() {
 }
 
 export default function ContractPublicPage() {
+
+  const strings = useRegistryStrings('app/sozlesme/[slug]/page');
   return (
     <Suspense fallback={<div className="min-h-screen flex items-center justify-center">{strings.loading}</div>}>
       <ContractViewContent />

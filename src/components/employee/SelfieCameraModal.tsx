@@ -1,8 +1,8 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { FiCamera, FiX } from 'react-icons/fi';
-import strings from '@json/src/components/employee/SelfieCameraModal.json';
 
 type Props = {
   open: boolean;
@@ -12,6 +12,8 @@ type Props = {
 };
 
 export function SelfieCameraModal({ open, onClose, onCapture, onUseNativeCamera }: Props) {
+
+  const strings = useRegistryStrings('components/employee/SelfieCameraModal');
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const [ready, setReady] = useState(false);

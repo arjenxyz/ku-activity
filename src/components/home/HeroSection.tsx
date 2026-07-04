@@ -1,11 +1,13 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { HeroPlayStorePromo } from '@/components/home/HeroPlayStorePromo';
 import { LoginRoleButton } from '@/components/home/LoginRolePicker';
-import strings from '@json/src/components/home/HeroSection.json';
 
 export function HeroSection() {
+
+  const strings = useRegistryStrings('components/home/HeroSection');
   return (
     <section id="hero" className="relative pt-[max(6.5rem,calc(env(safe-area-inset-top)+5rem))] pb-12 sm:pb-16 lg:pt-36 lg:pb-24 overflow-hidden">
       <div className="absolute inset-0 -z-10">

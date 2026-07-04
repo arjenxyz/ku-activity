@@ -1,7 +1,8 @@
 'use client';
 
-import strings from '@json/src/app/admin-panel/register/page.json';
+
 import { useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { FiBriefcase, FiCheckCircle, FiMail, FiUserPlus } from 'react-icons/fi';
@@ -32,6 +33,8 @@ const panelClass =
   'rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/70 dark:bg-slate-900/40 p-4 sm:p-5';
 
 export default function AdminRegisterPage() {
+
+  const strings = useRegistryStrings('app/admin-panel/register/page');
   const router = useRouter();
   const supabase = createClient();
   const [form, setForm] = useState({

@@ -1,11 +1,12 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import dayjs from 'dayjs';
 import QRCode from 'qrcode';
 import Link from 'next/link';
 import { FiCheck, FiCreditCard, FiRefreshCw, FiShare2, FiUpload, FiX } from 'react-icons/fi';
-import strings from '@json/src/components/advance/AdminAdvanceRequestsPanel.json';
+
 import { AlertBanner } from '@/components/project/AlertBanner';
 import { ProjectPageHeader } from '@/components/project/ProjectPageHeader';
 import { JobSelectField } from '@/components/project/JobSelectField';
@@ -22,6 +23,9 @@ import {
   type AdvancePaymentMethod,
   type AdvanceRequestRow,
 } from '@/lib/advance-types';
+import { getRegistryStrings } from '@/lib/i18n/strings-registry';
+
+type AdvanceStrings = ReturnType<typeof getRegistryStrings<'components/advance/AdminAdvanceRequestsPanel'>>;
 
 type Props = { projectId: string };
 
@@ -36,12 +40,14 @@ const STATUS_FILTER_VALUES = [
 
 type StatusFilterValue = (typeof STATUS_FILTER_VALUES)[number];
 
-function statusFilterLabel(value: StatusFilterValue): string {
+function statusFilterLabel(value: StatusFilterValue, strings: AdvanceStrings): string {
   if (value === '') return strings.filters.all;
   return strings.filters[value];
 }
 
 export function AdminAdvanceRequestsPanel({ projectId }: Props) {
+
+  const strings = useRegistryStrings('components/advance/AdminAdvanceRequestsPanel');
   const { jobs } = useProjectJobs(projectId);
   const [requests, setRequests] = useState<AdvanceRequestRow[]>([]);
   const [filter, setFilter] = useState<StatusFilterValue>('');
@@ -95,6 +101,7 @@ export function AdminAdvanceRequestsPanel({ projectId }: Props) {
   };
 
   const submitApprove = async (e: React.FormEvent) => {
+
     e.preventDefault();
     if (!approveTarget) return;
     setActionLoading(true);
@@ -129,6 +136,7 @@ export function AdminAdvanceRequestsPanel({ projectId }: Props) {
   };
 
   const submitReject = async (row: AdvanceRequestRow) => {
+
     const reason = window.prompt(strings.rejectPrompt) ?? '';
     setActionLoading(true);
     setError(null);
@@ -153,6 +161,7 @@ export function AdminAdvanceRequestsPanel({ projectId }: Props) {
   };
 
   const submitPayment = async (e: React.FormEvent) => {
+
     e.preventDefault();
     if (!paymentTarget || !paymentFile) return;
     setActionLoading(true);
@@ -180,6 +189,7 @@ export function AdminAdvanceRequestsPanel({ projectId }: Props) {
   };
 
   const loadCashQr = async (row: AdvanceRequestRow, regenerate = false) => {
+
     setCashTarget(row);
     setCashQr(null);
     setActionLoading(true);
@@ -231,7 +241,7 @@ export function AdminAdvanceRequestsPanel({ projectId }: Props) {
                   : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300'
               }`}
             >
-              {statusFilterLabel(value)}
+              {statusFilterLabel(value, strings)}
             </button>
           ))}
           <button

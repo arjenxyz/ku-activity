@@ -1,8 +1,8 @@
 'use client';
 
 import { FiPrinter } from 'react-icons/fi';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { formatMoney } from '@/lib/format';
-import strings from '@json/src/components/personnel/PersonnelFinancePanel.json';
 
 type Stats = {
   gross: number;
@@ -20,6 +20,8 @@ type Props = {
 };
 
 export function PersonnelFinancePanel({ stats, onPrint }: Props) {
+
+  const strings = useRegistryStrings('components/personnel/PersonnelFinancePanel');
   const rows = [
     { label: strings.rows.basePay, value: stats.basePay, tone: 'text-emerald-600' },
     ...(stats.mesaiPay > 0

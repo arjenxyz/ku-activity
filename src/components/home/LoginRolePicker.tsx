@@ -1,6 +1,7 @@
 'use client';
 
-import { useCallback, useEffect, useState, type ReactNode } from 'react';
+import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import Image from 'next/image';
 import Link from 'next/link';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -8,7 +9,6 @@ import { FiArrowRight, FiBriefcase, FiSmartphone, FiX } from 'react-icons/fi';
 import { BrandMark } from '@/components/brand/BrandMark';
 import { APP_NAME } from '@/lib/brand';
 import { PLAY_STORE_ADMIN_ICON, PLAY_STORE_PERSONNEL_ICON } from '@/lib/play-store';
-import strings from '@json/src/components/home/LoginRolePicker.json';
 
 const panelStyles = {
   personel: {
@@ -35,18 +35,25 @@ const panelStyles = {
   },
 } as const;
 
-const loginPanels = (['personel', 'admin'] as const).map((id) => ({
-  id,
-  ...panelStyles[id],
-  ...strings.panels[id],
-}));
+function useLoginPanels() {
+  const strings = useRegistryStrings('components/home/LoginRolePicker');
+  return useMemo(
+    () =>
+      (['personel', 'admin'] as const).map((id) => ({
+        id,
+        ...panelStyles[id],
+        ...strings.panels[id],
+      })),
+    [strings]
+  );
+}
 
 function LoginRoleCard({
   panel,
   index,
   onNavigate,
 }: {
-  panel: (typeof loginPanels)[number];
+  panel: ReturnType<typeof useLoginPanels>[number];
   index: number;
   onNavigate?: () => void;
 }) {
@@ -109,6 +116,7 @@ function LoginRoleCard({
 }
 
 export function LoginRolePickerPanel({ onNavigate }: { onNavigate?: () => void; compact?: boolean }) {
+  const loginPanels = useLoginPanels();
   return (
     <div className="space-y-3 px-5 pb-5 sm:px-6 sm:pb-6">
       {loginPanels.map((panel, i) => (
@@ -119,6 +127,7 @@ export function LoginRolePickerPanel({ onNavigate }: { onNavigate?: () => void; 
 }
 
 export function LoginRoleModal({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const strings = useRegistryStrings('components/home/LoginRolePicker');
   useEffect(() => {
     if (!open) return;
     const prevOverflow = document.body.style.overflow;
@@ -253,7 +262,7 @@ function LoginButtonShimmer() {
 export function LoginRoleButton({
   className,
   variant = 'hero',
-  children = strings.buttonDefault,
+  children,
   showIcon = true,
 }: {
   className?: string;
@@ -261,6 +270,8 @@ export function LoginRoleButton({
   children?: ReactNode;
   showIcon?: boolean;
 }) {
+  const strings = useRegistryStrings('components/home/LoginRolePicker');
+  const label = children ?? strings.buttonDefault;
   const [open, setOpen] = useState(false);
   const close = useCallback(() => setOpen(false), []);
   const style = variant === 'hero' && className ? className : buttonStyles[variant];
@@ -270,7 +281,7 @@ export function LoginRoleButton({
       <button type="button" onClick={() => setOpen(true)} className={style}>
         <LoginButtonShimmer />
         <span className="relative flex items-center gap-2">
-          {children}
+          {label}
           {showIcon && (
             <svg className="h-4 w-4 opacity-90" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
               <path

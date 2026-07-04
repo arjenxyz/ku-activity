@@ -1,18 +1,10 @@
 'use client';
 
 import Link from 'next/link';
+import { useMemo } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { usePathname } from 'next/navigation';
 import { FiLogOut } from 'react-icons/fi';
-import strings from '@json/src/components/developer/DeveloperShell.json';
-
-const navItems = [
-  { href: '/developer-panel', label: strings.nav.codes, match: (path: string) => path === '/developer-panel' },
-  {
-    href: '/developer-panel/releases',
-    label: strings.nav.releases,
-    match: (path: string) => path.startsWith('/developer-panel/releases'),
-  },
-];
 
 export function DeveloperShell({
   children,
@@ -21,7 +13,19 @@ export function DeveloperShell({
   children: React.ReactNode;
   onLogout: () => void;
 }) {
+  const strings = useRegistryStrings('components/developer/DeveloperShell');
   const pathname = usePathname();
+  const navItems = useMemo(
+    () => [
+      { href: '/developer-panel', label: strings.nav.codes, match: (path: string) => path === '/developer-panel' },
+      {
+        href: '/developer-panel/releases',
+        label: strings.nav.releases,
+        match: (path: string) => path.startsWith('/developer-panel/releases'),
+      },
+    ],
+    [strings]
+  );
   const subtitle = pathname.startsWith('/developer-panel/releases')
     ? strings.subtitle.releases
     : strings.subtitle.codes;

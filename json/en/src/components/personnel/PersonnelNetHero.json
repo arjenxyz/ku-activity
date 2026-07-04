@@ -1,0 +1,8 @@
+{
+  "estimatedNet": "Estimated net salary",
+  "gross": "Gross",
+  "deduction": "Deductions",
+  "net": "Net",
+  "financeDetail": "Payroll and finance details",
+  "sectionAriaLabel": "Monthly salary summary"
+}

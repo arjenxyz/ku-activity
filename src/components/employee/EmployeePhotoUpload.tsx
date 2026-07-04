@@ -1,10 +1,10 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { FiCamera, FiTrash2, FiUpload } from 'react-icons/fi';
 import { EmployeeAvatar } from './EmployeeAvatar';
 import { deleteEmployeePhoto, uploadEmployeePhoto } from '@/lib/project-api';
-import strings from '@json/src/components/employee/EmployeePhotoUpload.json';
 
 type Props = {
   projectId: string;
@@ -23,6 +23,8 @@ export function EmployeePhotoUpload({
   onChange,
   compact = false,
 }: Props) {
+
+  const strings = useRegistryStrings('components/employee/EmployeePhotoUpload');
   const inputRef = useRef<HTMLInputElement>(null);
   const [currentUrl, setCurrentUrl] = useState<string | null>(photoUrl ?? null);
   const [loading, setLoading] = useState(false);

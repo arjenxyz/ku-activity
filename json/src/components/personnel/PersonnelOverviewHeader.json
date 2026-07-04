@@ -4,5 +4,6 @@
   "greetingEvening": "İyi akşamlar",
   "defaultName": "Personel",
   "panelSubtitle": "Personel paneli",
-  "greetingWithName": "{greeting}, {firstName}"
+  "greetingWithName": "{greeting}, {firstName}",
+  "sectionAriaLabel": "Profil özeti"
 }

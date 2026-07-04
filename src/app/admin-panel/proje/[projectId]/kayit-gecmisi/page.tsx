@@ -1,13 +1,16 @@
 'use client';
 
-import strings from '@json/src/app/admin-panel/proje/[projectId]/kayit-gecmisi/page.json';
+
 import Link from 'next/link';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useParams } from 'next/navigation';
 import { ProjectPageHeader } from '@/components/project/ProjectPageHeader';
 import { cardClass } from '@/components/project/ui';
 import { getRecordArchiveLinks } from '@/config/projectMenu';
 
 export default function KayitGecmisiPage() {
+
+  const strings = useRegistryStrings('app/admin-panel/proje/[projectId]/kayit-gecmisi/page');
   const { projectId } = useParams() as { projectId: string };
   const links = getRecordArchiveLinks(projectId);
 

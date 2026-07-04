@@ -1,7 +1,8 @@
 'use client';
 
-import strings from '@json/src/app/personnel-panel/pin-sifirla/page.json';
+
 import { Suspense } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useSearchParams } from 'next/navigation';
 import { PinResetPageContent } from '@/components/auth/PinResetPageContent';
 
@@ -12,6 +13,8 @@ function PinResetRoute() {
 }
 
 export default function PersonnelPinResetPage() {
+
+  const strings = useRegistryStrings('app/personnel-panel/pin-sifirla/page');
   return (
     <Suspense
       fallback={

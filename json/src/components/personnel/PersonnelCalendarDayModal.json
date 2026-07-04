@@ -1,0 +1,23 @@
+{
+  "close": "Kapat",
+  "noRecordTitle": "Bu gün için kayıt yok",
+  "noRecordHint": "Seçilen tarihte yevmiye kaydı bulunmuyor.",
+  "workSection": "Yevmiye",
+  "mesaiSection": "Mesai",
+  "statusLabel": "Durum",
+  "amountLabel": "Gün",
+  "mesaiTypeLabel": "Mesai türü",
+  "mesaiPayLabel": "Mesai tutarı",
+  "descriptionLabel": "Açıklama",
+  "disputeLabel": "İtiraz notu",
+  "deductionsSection": "Kesinti ve avans",
+  "minimumSection": "Asgari ücret",
+  "qrAttendance": "QR yoklama",
+  "status": {
+    "confirmed": "Onaylı",
+    "pending_employee": "Sizin onayınız bekleniyor",
+    "pending_admin": "Yönetici onayı bekleniyor",
+    "disputed": "İtirazlı",
+    "none": "İşlemde"
+  }
+}

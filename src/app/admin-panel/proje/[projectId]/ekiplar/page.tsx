@@ -1,7 +1,8 @@
 'use client';
 
-import strings from '@json/src/app/admin-panel/proje/[projectId]/ekiplar/page.json';
+
 import { formatString } from '@/lib/strings/format';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
@@ -22,6 +23,8 @@ import type { ProjectBlock } from '@/types/project-block';
 import type { TeamWithMembers } from '@/types/project-block';
 
 export default function EkiplerPage() {
+
+  const strings = useRegistryStrings('app/admin-panel/proje/[projectId]/ekiplar/page');
   const { projectId } = useParams() as { projectId: string };
   const { employees } = useProjectEmployees(projectId);
   const [teams, setTeams] = useState<TeamWithMembers[]>([]);

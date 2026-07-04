@@ -1,0 +1,9 @@
+{
+  "duplicateWorkLog": "Bu tarih için zaten yevmiye kaydı var",
+  "alreadyConfirmed": "Bu gün için zaten onay verdiniz",
+  "duplicateRecord": "Bu tarih için zaten kayıt var",
+  "disputeNoteTooShort": "İtiraz notu en az 5 karakter olmalı",
+  "recordNotFound": "Yevmiye kaydı bulunamadı",
+  "cannotDisputeApproved": "Onaylanmış kayda itiraz edilemez",
+  "cannotDisputeConfirmed": "Zaten onayladığınız kayda itiraz edilemez"
+}

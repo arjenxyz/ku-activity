@@ -1,6 +1,7 @@
 'use client';
 
 import { APP_NAME } from '@/lib/brand';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { formatDate, formatDateTime, formatMoney } from '@/lib/format';
 import { maskTcKimlik } from '@/lib/field-encryption';
 import type { PersonnelEmployee } from '@/lib/personnel-api';
@@ -16,7 +17,7 @@ import {
 } from '@/lib/personnel-stats';
 import { approvalStatusLabel, getWorkLogApprovalStatus } from '@/lib/work-log';
 import { formatString } from '@/lib/strings/format';
-import strings from '@json/src/components/personnel/PersonnelPayrollPrint.json';
+import { getRegistryStrings } from '@/lib/i18n/strings-registry';
 
 type Props = {
   employee: PersonnelEmployee;
@@ -36,7 +37,10 @@ function monthTitle(month: string) {
   });
 }
 
-function mesaiLabel(type: string | null | undefined) {
+function mesaiLabel(
+  type: string | null | undefined,
+  strings: ReturnType<typeof getRegistryStrings<'components/personnel/PersonnelPayrollPrint'>>
+) {
   if (!type || type === 'none') return strings.emptyValue;
   if (type === 'ceyrek') return strings.mesaiTypes.ceyrek;
   if (type === 'yarim') return strings.mesaiTypes.yarim;
@@ -53,6 +57,8 @@ export function PersonnelPayrollPrint({
   otherDeductions,
   minimumWages,
 }: Props) {
+
+  const strings = useRegistryStrings('components/personnel/PersonnelPayrollPrint');
   const dailyWage = Number(employee.daily_wage);
   const sortedLogs = [...workLogs].sort((a, b) => a.date.localeCompare(b.date));
   const mesaiStats = computeMesaiStats(workLogs, dailyWage);
@@ -167,7 +173,7 @@ export function PersonnelPayrollPrint({
                   <tr key={log.id}>
                     <td>{formatDate(log.date)}</td>
                     <td>{workDayLabel(Number(log.amount), log.mesai_type)}</td>
-                    <td>{mesaiLabel(String(log.mesai_type ?? ''))}</td>
+                    <td>{mesaiLabel(String(log.mesai_type ?? ''), strings)}</td>
                     <td className="num">{formatMoney(base)}</td>
                     <td className="num">{mesai > 0 ? formatMoney(mesai) : strings.emptyValue}</td>
                     <td className="num">{formatMoney(base + mesai)}</td>

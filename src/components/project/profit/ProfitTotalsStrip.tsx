@@ -1,17 +1,19 @@
 'use client';
 
 import { formatMoney } from '@/lib/format';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { profitMarginPercent } from '@/lib/profit-display';
 import type { ProjectProfitOverview } from '@/types/project-job';
 import { cardClass } from '@/components/project/ui';
 import { formatString } from '@/lib/strings/format';
-import strings from '@json/src/components/project/profit/ProfitTotalsStrip.json';
 
 type Props = {
   overview: ProjectProfitOverview;
 };
 
 export function ProfitTotalsStrip({ overview }: Props) {
+
+  const strings = useRegistryStrings('components/project/profit/ProfitTotalsStrip');
   const { totals } = overview;
   const margin = profitMarginPercent(totals.profitApproved, totals.contractTotal);
   const jobCount = overview.jobs.length;

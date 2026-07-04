@@ -1,7 +1,8 @@
 'use client';
 
-import strings from '@json/src/app/admin-panel/proje/[projectId]/new/page.json';
+
 import { formatString } from '@/lib/strings/format';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import dayjs from 'dayjs';
@@ -26,6 +27,8 @@ const initialForm = {
 };
 
 export default function NewEmployeePage() {
+
+  const strings = useRegistryStrings('app/admin-panel/proje/[projectId]/new/page');
   const router = useRouter();
   const { projectId } = useParams() as { projectId?: string };
   const [form, setForm] = useState({ ...initialForm });

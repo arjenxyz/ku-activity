@@ -1,11 +1,11 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { usePathname } from 'next/navigation';
 import { FiShare, FiSmartphone, FiX } from 'react-icons/fi';
 import { BrandMark } from '@/components/brand/BrandMark';
 import { PERSONNEL_PWA_THEME } from '@/lib/personnel-pwa-brand';
-import strings from '@json/src/components/pwa/InstallPrompt.json';
 
 type BeforeInstallPromptEvent = Event & {
   prompt: () => Promise<void>;
@@ -50,6 +50,8 @@ function isDismissedRecently(): boolean {
 }
 
 export function InstallPrompt() {
+
+  const strings = useRegistryStrings('components/pwa/InstallPrompt');
   const pathname = usePathname() ?? '';
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [showIOSHint, setShowIOSHint] = useState(false);

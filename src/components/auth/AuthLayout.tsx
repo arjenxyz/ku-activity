@@ -1,9 +1,9 @@
 'use client';
 
 import Link from 'next/link';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { AuthScreenShell } from '@/components/auth/AuthScreenShell';
 import { personnelAuthCardClass } from '@/lib/personnel-auth-ui';
-import strings from '@json/src/components/auth/AuthLayout.json';
 
 type AuthLayoutProps = {
   variant: 'admin' | 'personnel';
@@ -12,6 +12,8 @@ type AuthLayoutProps = {
 };
 
 export function AuthLayout({ variant, children, alternateLogin }: AuthLayoutProps) {
+
+  const strings = useRegistryStrings('components/auth/AuthLayout');
   const panelLabel =
     variant === 'admin' ? strings.adminPanelLabel : strings.personnelPanelLabel;
   const screenLabel =

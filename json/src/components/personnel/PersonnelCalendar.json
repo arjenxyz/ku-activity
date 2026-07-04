@@ -6,6 +6,7 @@
   "selectMonth": "Ay seç:",
   "weekdays": ["Pt", "Sa", "Ça", "Pe", "Cu", "Ct", "Pz"],
   "cellTitle": "{date} · {amount} · {status}",
+  "tapForDetail": "Detay için renkli günlere dokunun",
   "status": {
     "confirmed": "Onaylı",
     "pending_employee": "Sizin onayınız",

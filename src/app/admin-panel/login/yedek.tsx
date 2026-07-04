@@ -1,12 +1,15 @@
 "use client";
 
-import strings from '@json/src/app/admin-panel/login/yedek.json';
+
 import { useState } from "react";
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useRouter } from "next/navigation";
 import { supabase } from "../../lib/supabaseClient";
 import bcrypt from "bcryptjs";
 
 export default function AdminLogin() {
+
+  const strings = useRegistryStrings('app/admin-panel/login/yedek');
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

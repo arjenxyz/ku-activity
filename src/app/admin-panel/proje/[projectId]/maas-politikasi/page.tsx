@@ -1,7 +1,8 @@
 'use client';
 
-import strings from '@json/src/app/admin-panel/proje/[projectId]/maas-politikasi/page.json';
+
 import { useEffect, useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { AlertBanner } from '@/components/project/AlertBanner';
@@ -16,6 +17,8 @@ import {
 import type { ResolvedWagePolicy } from '@/lib/wage-policy-calc';
 
 export default function ProjectWagePolicyPage() {
+
+  const strings = useRegistryStrings('app/admin-panel/proje/[projectId]/maas-politikasi/page');
   const { projectId } = useParams() as { projectId: string };
   const [useCompanyDefault, setUseCompanyDefault] = useState(true);
   const [policy, setPolicy] = useState<WagePolicy>(emptyWagePolicy());

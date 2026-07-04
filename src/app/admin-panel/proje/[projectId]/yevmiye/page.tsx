@@ -1,7 +1,8 @@
 'use client';
 
-import strings from '@json/src/app/admin-panel/proje/[projectId]/yevmiye/page.json';
+
 import { useParams } from 'next/navigation';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useState, useEffect, useCallback } from 'react';
 import dayjs from 'dayjs';
 import { ProjectPageHeader } from '@/components/project/ProjectPageHeader';
@@ -16,6 +17,8 @@ import { MESAI_OPTIONS } from '@/lib/work-log';
 import { btnPrimary, labelClass, inputClass, cardClass } from '@/components/project/ui';
 
 export default function YevmiyePage() {
+
+  const strings = useRegistryStrings('app/admin-panel/proje/[projectId]/yevmiye/page');
   const { projectId } = useParams() as { projectId: string };
   const { employees, loading: empLoading, error: empError } = useProjectEmployees(projectId);
   const { jobs } = useProjectJobs(projectId);

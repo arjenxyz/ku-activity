@@ -1,10 +1,12 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { usePathname } from 'next/navigation';
-import strings from '@json/src/components/ThemeToggle.json';
 
 export default function ThemeToggle() {
+
+  const strings = useRegistryStrings('components/ThemeToggle');
   const [isDark, setIsDark] = useState(false);
   const pathname = usePathname();
 

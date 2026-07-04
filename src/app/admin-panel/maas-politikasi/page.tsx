@@ -1,13 +1,16 @@
 'use client';
 
-import strings from '@json/src/app/admin-panel/maas-politikasi/page.json';
+
 import { useEffect, useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import Link from 'next/link';
 import { AlertBanner } from '@/components/project/AlertBanner';
 import { WagePolicyForm, emptyWagePolicy } from '@/components/project/WagePolicyForm';
 import { normalizeWagePolicy, type WagePolicy } from '@/types/wage-policy';
 
 export default function CompanyWagePolicyPage() {
+
+  const strings = useRegistryStrings('app/admin-panel/maas-politikasi/page');
   const [policy, setPolicy] = useState<WagePolicy>(emptyWagePolicy());
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);

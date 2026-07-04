@@ -1,14 +1,16 @@
 'use client';
 
 import Image from 'next/image';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import Link from 'next/link';
 import { BrandMark } from '@/components/brand/BrandMark';
 import { SkyTwinkleStars } from '@/components/home/SkyTwinkleStars';
 import { APP_NAME, APP_TAGLINE_TR } from '@/lib/brand';
 import { SUPPORT_EMAIL, verificationCodeMailto } from '@/lib/support-email';
-import strings from '@json/src/components/home/HomeFooter.json';
 
 export function HomeFooter() {
+
+  const strings = useRegistryStrings('components/home/HomeFooter');
   return (
     <footer id="contact" className="bg-[#0E1548] text-white">
       <div className="relative w-full overflow-hidden">

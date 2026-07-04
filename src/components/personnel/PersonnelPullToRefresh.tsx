@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useRef, useState } from 'react';
-import strings from '@json/src/components/personnel/PersonnelPullToRefresh.json';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 
 type Props = {
   onRefresh: () => Promise<void>;
@@ -9,6 +9,8 @@ type Props = {
 };
 
 export function PersonnelPullToRefresh({ onRefresh, children }: Props) {
+
+  const strings = useRegistryStrings('components/personnel/PersonnelPullToRefresh');
   const startY = useRef(0);
   const pulling = useRef(false);
   const [offset, setOffset] = useState(0);

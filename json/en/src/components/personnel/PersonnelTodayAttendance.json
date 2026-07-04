@@ -1,0 +1,24 @@
+{
+  "badge": "Today's attendance",
+  "shiftHours": "Shift {start}{end}",
+  "shiftEnd": " – {end}",
+  "confirmed": "You are registered for the full day",
+  "notConfirmed": "No attendance yet",
+  "scanQr": "Scan supervisor QR",
+  "rescanQr": "Scan QR again",
+  "loadFailed": "Could not load",
+  "states": {
+    "waiting": {
+      "title": "You are on the attendance list",
+      "hint": "Wait until your supervisor completes attendance."
+    },
+    "cancelled": {
+      "title": "Attendance cancelled",
+      "hint": "Your supervisor cancelled this session. Please contact them."
+    },
+    "removed": {
+      "title": "Removed from the list",
+      "hint": "Scan a new QR code or speak with your supervisor."
+    }
+  }
+}

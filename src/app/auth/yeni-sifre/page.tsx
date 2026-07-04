@@ -1,16 +1,19 @@
 'use client';
 
 import { Suspense, useEffect, useState, type FormEvent } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { createClient } from '@/utils/supabase/client';
 import { AuthAlert, LoadingSpinner } from '@/components/auth/AuthAlerts';
 import { inputClass, labelClass } from '@/components/auth/authStyles';
 import { loginPasswordInputProps } from '@/components/auth/loginFormProps';
-import strings from '@json/src/app/auth/yeni-sifre/page.json';
+
 import { formatString } from '@/lib/strings/format';
 
 function NewPasswordForm() {
+  const strings = useRegistryStrings('app/auth/yeni-sifre/page');
+
   const router = useRouter();
   const searchParams = useSearchParams();
   const supabase = createClient();
@@ -40,6 +43,7 @@ function NewPasswordForm() {
   const panelLabel = panel === 'developer' ? strings.developerPanelLabel : strings.adminPanelLabel;
 
   const handleSubmit = async (e: FormEvent) => {
+
     e.preventDefault();
     setError('');
 
@@ -150,6 +154,8 @@ function NewPasswordForm() {
 }
 
 export default function NewPasswordPage() {
+
+  const strings = useRegistryStrings('app/auth/yeni-sifre/page');
   return (
     <Suspense fallback={<div className="min-h-[100dvh] flex items-center justify-center text-slate-500">{strings.loading}</div>}>
       <NewPasswordForm />

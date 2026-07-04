@@ -1,8 +1,8 @@
 'use client';
 
 import Image from 'next/image';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { PLAY_STORE_BADGE_TR } from '@/lib/play-store';
-import strings from '@json/src/components/home/GooglePlayBadge.json';
 
 export const GOOGLE_PLAY_ICON_SRC = '/Google_Play_icon.svg';
 
@@ -28,6 +28,7 @@ type GooglePlayBadgeProps = {
 };
 
 export function GooglePlayBadge({ href, enabled, size = 'md', fullWidth = false }: GooglePlayBadgeProps) {
+  const strings = useRegistryStrings('components/home/GooglePlayBadge');
   const badgeHeight = size === 'sm' ? 'h-[44px]' : 'h-[56px]';
   const widthClass = fullWidth ? 'flex w-full' : 'inline-flex';
 

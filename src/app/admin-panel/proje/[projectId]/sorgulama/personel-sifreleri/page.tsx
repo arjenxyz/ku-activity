@@ -1,7 +1,8 @@
 'use client';
 
-import strings from '@json/src/app/admin-panel/proje/[projectId]/sorgulama/personel-sifreleri/page.json';
+
 import { formatString } from '@/lib/strings/format';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { FiEye, FiEyeOff, FiRefreshCw } from 'react-icons/fi';
@@ -22,6 +23,8 @@ import {
 } from '@/lib/personnel-pin';
 
 export default function PersonelSifreleriPage() {
+
+  const strings = useRegistryStrings('app/admin-panel/proje/[projectId]/sorgulama/personel-sifreleri/page');
   const { projectId } = useParams() as { projectId: string };
   const { employees, loading: empLoading, error: empError } = useProjectEmployees(projectId);
   const [pinRows, setPinRows] = useState<EmployeePinRow[]>([]);

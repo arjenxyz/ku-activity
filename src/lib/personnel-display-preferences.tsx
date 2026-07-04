@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import strings from '@json/src/lib/personnel-display-preferences.json';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 
 const STORAGE_KEY = 'crewledger-personnel-display';
 
@@ -70,6 +70,7 @@ export function PersonnelDisplayProvider({ children }: { children: React.ReactNo
 }
 
 export function usePersonnelDisplay() {
+  const strings = useRegistryStrings('lib/personnel-display-preferences');
   const ctx = useContext(PersonnelDisplayContext);
   if (!ctx) {
     throw new Error(strings.providerError);

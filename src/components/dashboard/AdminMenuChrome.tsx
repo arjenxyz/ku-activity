@@ -1,12 +1,14 @@
 'use client';
 
 import Link from 'next/link';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { FiSliders, FiX } from 'react-icons/fi';
 import { BrandMark } from '@/components/brand/BrandMark';
 import { ProjectStatusBadge } from '@/components/project/ProjectStatusBadge';
-import { APP_NAME, APP_TAGLINE_TR } from '@/lib/brand';
+import { LanguageSwitch } from '@/components/i18n/LanguageSwitch';
+import { useLocale } from '@/lib/i18n/LocaleProvider';
+import { APP_NAME, APP_TAGLINE, APP_TAGLINE_TR } from '@/lib/brand';
 import type { Project } from '@/types/project';
-import strings from '@json/src/components/dashboard/AdminMenuChrome.json';
 
 type BrandProps = {
   onNavigate?: () => void;
@@ -15,21 +17,26 @@ type BrandProps = {
 };
 
 export function AdminMenuBrandBar({ onNavigate, onClose, showClose }: BrandProps) {
+  const strings = useRegistryStrings('components/dashboard/AdminMenuChrome');
+  const { locale } = useLocale();
+  const tagline = locale === 'en' ? APP_TAGLINE : APP_TAGLINE_TR;
+
   return (
     <div className="shrink-0 flex items-center justify-between gap-3 px-4 py-3.5 border-b border-slate-100 bg-white">
       <Link
         href="/admin-panel"
         onClick={onNavigate}
-        className="flex items-center gap-2.5 min-w-0 group"
+        className="flex items-center gap-2.5 min-w-0 group flex-1"
       >
         <BrandMark size="sm" className="shadow-md shadow-blue-500/20" />
         <div className="min-w-0">
           <p className="font-bold text-slate-900 tracking-tight leading-tight group-hover:text-blue-700 transition-colors">
             {APP_NAME}
           </p>
-          <p className="text-[10px] text-slate-500 truncate leading-snug">{APP_TAGLINE_TR}</p>
+          <p className="text-[10px] text-slate-500 truncate leading-snug">{tagline}</p>
         </div>
       </Link>
+      <LanguageSwitch variant="compact" />
       {showClose && onClose && (
         <button
           type="button"
@@ -58,6 +65,8 @@ export function AdminMobileDrawerHeader({
   onClose,
   onSettings,
 }: MobileHeaderProps) {
+  const strings = useRegistryStrings('components/dashboard/AdminMenuChrome');
+
   return (
     <div className="shrink-0 flex items-center gap-2 px-3 h-14 border-b border-slate-200 bg-white">
       <div className="min-w-0 flex-1">
@@ -116,6 +125,8 @@ export function AdminProjectMenuCard({
   onSettings,
   onNavigate,
 }: ProjectCardProps) {
+  const strings = useRegistryStrings('components/dashboard/AdminMenuChrome');
+
   return (
     <div className="relative overflow-hidden rounded-xl border border-blue-100/80 bg-gradient-to-br from-blue-50/90 via-white to-indigo-50/50 shadow-sm">
       <div

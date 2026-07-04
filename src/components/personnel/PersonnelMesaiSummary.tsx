@@ -1,16 +1,18 @@
 'use client';
 
 import { FiClock } from 'react-icons/fi';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { mesaiLabel } from '@/lib/work-log';
 import type { WorkLog } from '@/lib/personnel-stats';
 import { formatString } from '@/lib/strings/format';
-import strings from '@json/src/components/personnel/PersonnelMesaiSummary.json';
 
 type Props = {
   workLogs: WorkLog[];
 };
 
 export function PersonnelMesaiSummary({ workLogs }: Props) {
+
+  const strings = useRegistryStrings('components/personnel/PersonnelMesaiSummary');
   const withMesai = workLogs.filter((w) => w.mesai_type && w.mesai_type !== 'none');
   const counts: Record<string, number> = { ceyrek: 0, yarim: 0, tam: 0 };
 

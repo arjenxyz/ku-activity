@@ -1,7 +1,8 @@
 'use client';
 
-import strings from '@json/src/app/admin-panel/proje/[projectId]/sorgulama/asgari/page.json';
+
 import { formatString } from '@/lib/strings/format';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import dayjs from 'dayjs';
@@ -23,6 +24,8 @@ type Record = {
 };
 
 export default function AsgariSorgulamaPage() {
+
+  const strings = useRegistryStrings('app/admin-panel/proje/[projectId]/sorgulama/asgari/page');
   const { projectId } = useParams() as { projectId: string };
   const { employees, error: empError } = useProjectEmployees(projectId);
   const [employeeId, setEmployeeId] = useState('');

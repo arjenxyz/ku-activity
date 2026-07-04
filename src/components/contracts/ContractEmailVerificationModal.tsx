@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import {
   FiAlertCircle,
   FiCheck,
@@ -9,7 +10,7 @@ import {
   FiRefreshCw,
   FiX,
 } from 'react-icons/fi';
-import strings from '@json/src/components/contracts/ContractEmailVerificationModal.json';
+
 import { BrandMark } from '@/components/brand/BrandMark';
 import { APP_NAME } from '@/lib/brand';
 import type { PendingRegistration } from '@/lib/registration-pending-storage';
@@ -31,10 +32,12 @@ function OtpInput({
   value,
   onChange,
   disabled,
+  otpDigitAriaLabel,
 }: {
   value: string;
   onChange: (next: string) => void;
   disabled?: boolean;
+  otpDigitAriaLabel: string;
 }) {
   const refs = useRef<(HTMLInputElement | null)[]>([]);
   const digits = Array.from({ length: OTP_LENGTH }, (_, i) => value[i] ?? '');
@@ -105,7 +108,7 @@ function OtpInput({
           maxLength={1}
           value={digit}
           disabled={disabled}
-          aria-label={formatString(strings.otpDigitAriaLabel, { index: index + 1 })}
+          aria-label={formatString(otpDigitAriaLabel, { index: index + 1 })}
           onChange={(e) => handleChange(index, e.target.value)}
           onKeyDown={(e) => handleKeyDown(index, e)}
           onFocus={(e) => e.target.select()}
@@ -129,6 +132,8 @@ export function ContractEmailVerificationModal({
   onSuccess,
   onFormFieldError,
 }: Props) {
+
+  const strings = useRegistryStrings('components/contracts/ContractEmailVerificationModal');
   const [code, setCode] = useState('');
   const [sending, setSending] = useState(false);
   const [verifying, setVerifying] = useState(false);
@@ -376,7 +381,12 @@ export function ContractEmailVerificationModal({
                 <p className="text-xs font-semibold text-slate-700 dark:text-slate-300 text-center mb-3">
                   {strings.orEnterCode}
                 </p>
-                <OtpInput value={code} onChange={setCode} disabled={verifying} />
+                <OtpInput
+                  value={code}
+                  onChange={setCode}
+                  disabled={verifying}
+                  otpDigitAriaLabel={strings.otpDigitAriaLabel}
+                />
               </div>
 
               <button

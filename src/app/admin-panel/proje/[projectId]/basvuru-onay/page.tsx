@@ -1,11 +1,14 @@
 'use client';
 
-import strings from '@json/src/app/admin-panel/proje/[projectId]/basvuru-onay/page.json';
+
 import { Suspense } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useParams } from 'next/navigation';
 import { AdminBasvuruOnayPanel } from '@/components/registration/AdminBasvuruOnayPanel';
 
 function BasvuruOnayContent() {
+  const strings = useRegistryStrings('app/admin-panel/proje/[projectId]/basvuru-onay/page');
+
   const params = useParams();
   const projectId = Array.isArray(params.projectId) ? params.projectId[0] : params.projectId;
 
@@ -17,6 +20,8 @@ function BasvuruOnayContent() {
 }
 
 export default function ProjectBasvuruOnayPage() {
+
+  const strings = useRegistryStrings('app/admin-panel/proje/[projectId]/basvuru-onay/page');
   return (
     <Suspense
       fallback={

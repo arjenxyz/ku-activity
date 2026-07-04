@@ -3,20 +3,26 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ThemeToggleButton } from '@/components/auth/ThemeToggleButton';
+import { LanguageSwitch } from '@/components/i18n/LanguageSwitch';
 import { BrandMark } from '@/components/brand/BrandMark';
 import { LoginRoleButton } from '@/components/home/LoginRolePicker';
-import { APP_NAME, APP_TAGLINE_TR } from '@/lib/brand';
-import strings from '@json/src/components/home/HomeHeader.json';
-
-const navLinks = [
-  { href: '#hero', label: strings.navLinks.hero },
-  { href: '#features', label: strings.navLinks.features },
-  { href: '#play-store', label: strings.navLinks.playStore },
-  { href: '/apk', label: strings.navLinks.apk },
-  { href: '#contact', label: strings.navLinks.contact },
-];
+import { APP_NAME, APP_TAGLINE, APP_TAGLINE_TR } from '@/lib/brand';
+import { useLocale } from '@/lib/i18n/LocaleProvider';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 
 export function HomeHeader() {
+  const strings = useRegistryStrings('components/home/HomeHeader');
+  const { locale } = useLocale();
+  const tagline = locale === 'en' ? APP_TAGLINE : APP_TAGLINE_TR;
+
+  const navLinks = [
+    { href: '#hero', label: strings.navLinks.hero },
+    { href: '#features', label: strings.navLinks.features },
+    { href: '#play-store', label: strings.navLinks.playStore },
+    { href: '/apk', label: strings.navLinks.apk },
+    { href: '#contact', label: strings.navLinks.contact },
+  ];
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -49,7 +55,7 @@ export function HomeHeader() {
               <div className="min-w-0">
                 <p className="text-base sm:text-xl font-bold text-gray-900 dark:text-white truncate">{APP_NAME}</p>
                 <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 truncate hidden sm:block">
-                  {APP_TAGLINE_TR}
+                  {tagline}
                 </p>
               </div>
             </Link>
@@ -67,11 +73,13 @@ export function HomeHeader() {
             </nav>
 
             <div className="hidden md:flex items-center gap-2">
+              <LanguageSwitch variant="compact" />
               <ThemeToggleButton />
               <LoginRoleButton variant="header" showIcon={false} />
             </div>
 
             <div className="flex items-center gap-1 md:hidden">
+              <LanguageSwitch variant="compact" />
               <ThemeToggleButton />
               <button
                 className="touch-target flex flex-col justify-center items-center w-11 h-11 rounded-xl hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors"
@@ -127,7 +135,10 @@ export function HomeHeader() {
                 {link.label}
               </a>
             ))}
-            <div className="mt-auto pt-4 border-t border-gray-200 dark:border-slate-700">
+            <div className="mt-auto pt-4 border-t border-gray-200 dark:border-slate-700 space-y-3">
+              <div className="px-2">
+                <LanguageSwitch className="w-full justify-center" />
+              </div>
               <LoginRoleButton variant="mobile" showIcon={false} />
             </div>
           </div>

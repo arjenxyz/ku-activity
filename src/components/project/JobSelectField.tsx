@@ -1,7 +1,7 @@
 'use client';
 
 import { inputClass, labelClass } from '@/components/project/ui';
-import strings from '@json/src/components/project/JobSelectField.json';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 
 type JobOption = { id: string; name: string; status?: string };
 
@@ -18,15 +18,19 @@ export function JobSelectField({
   jobs,
   value,
   onChange,
-  label = strings.defaultLabel,
-  hint = strings.defaultHint,
+  label,
+  hint,
   className,
 }: Props) {
+  const strings = useRegistryStrings('components/project/JobSelectField');
+  const resolvedLabel = label ?? strings.defaultLabel;
+  const resolvedHint = hint ?? strings.defaultHint;
+
   if (jobs.length === 0) return null;
 
   return (
     <div className={className}>
-      <label className={labelClass}>{label}</label>
+      <label className={labelClass}>{resolvedLabel}</label>
       <select className={inputClass} value={value} onChange={(e) => onChange(e.target.value)}>
         <option value="">{strings.notSelected}</option>
         {jobs.map((j) => (
@@ -36,7 +40,7 @@ export function JobSelectField({
           </option>
         ))}
       </select>
-      {hint ? <p className="text-xs text-slate-500 mt-2">{hint}</p> : null}
+      {resolvedHint ? <p className="text-xs text-slate-500 mt-2">{resolvedHint}</p> : null}
     </div>
   );
 }

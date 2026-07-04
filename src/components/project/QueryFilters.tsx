@@ -1,9 +1,9 @@
 'use client';
 
 import dayjs from 'dayjs';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { labelClass, inputClass } from './ui';
 import { EmployeeSelect } from './EmployeeSelect';
-import strings from '@json/src/components/project/QueryFilters.json';
 
 type Emp = { id: string; name: string; position?: string | null };
 
@@ -24,6 +24,7 @@ export function QueryFilters({
   showEmployee?: boolean;
   showMonth?: boolean;
 }) {
+  const strings = useRegistryStrings('components/project/QueryFilters');
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
       {showEmployee && (

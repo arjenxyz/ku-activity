@@ -1,27 +1,35 @@
 'use client';
 
-import strings from '@json/src/app/personnel-panel/avans-onay/page.json';
+
 import { Suspense, useCallback, useEffect, useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import { FiArrowLeft, FiCheckCircle, FiHash, FiLoader } from 'react-icons/fi';
 import { normalizeAdvanceCashToken, parseAdvanceCashTokenFromQr } from '@/lib/advance-cash-token';
 
+function CameraLoading() {
+  const strings = useRegistryStrings('app/personnel-panel/avans-onay/page');
+  return (
+    <div className="flex flex-col items-center justify-center py-24 gap-2 text-white/70">
+      <FiLoader className="h-8 w-8 animate-spin" />
+      <p className="text-sm">{strings.cameraLoading}</p>
+    </div>
+  );
+}
+
 const AttendanceQrScanner = dynamic(
   () => import('@/components/personnel/AttendanceQrScanner').then((m) => m.AttendanceQrScanner),
   {
     ssr: false,
-    loading: () => (
-      <div className="flex flex-col items-center justify-center py-24 gap-2 text-white/70">
-        <FiLoader className="h-8 w-8 animate-spin" />
-        <p className="text-sm">{strings.cameraLoading}</p>
-      </div>
-    ),
+    loading: () => <CameraLoading />,
   }
 );
 
 function AvansOnayContent() {
+  const strings = useRegistryStrings('app/personnel-panel/avans-onay/page');
+
   const searchParams = useSearchParams();
   const initialToken = searchParams.get('t') ?? '';
   const [mode, setMode] = useState<'scan' | 'code'>('scan');
@@ -149,6 +157,8 @@ function AvansOnayContent() {
 }
 
 export default function AvansOnayPage() {
+
+  const strings = useRegistryStrings('app/personnel-panel/avans-onay/page');
   return (
     <Suspense
       fallback={

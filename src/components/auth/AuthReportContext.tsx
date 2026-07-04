@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useCallback, useContext, useMemo, useState } from 'react';
-import strings from '@json/src/components/auth/AuthReportContext.json';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 
 type AuthReportContextValue = {
   formError?: string;
@@ -55,6 +55,7 @@ export function AuthReportProvider({ children }: { children: React.ReactNode }) 
 }
 
 export function useAuthReport() {
+  const strings = useRegistryStrings('components/auth/AuthReportContext');
   const ctx = useContext(AuthReportContext);
   if (!ctx) {
     throw new Error(strings.providerError);

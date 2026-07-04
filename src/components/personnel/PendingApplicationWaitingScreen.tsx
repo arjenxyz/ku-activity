@@ -1,9 +1,9 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { BrandLockup } from '@/components/brand/BrandLockup';
 import { RegistrationQrCode } from '@/components/registration/RegistrationQrCode';
-import strings from '@json/src/components/personnel/PendingApplicationWaitingScreen.json';
 
 type Props = {
   approvalUrl: string;
@@ -32,6 +32,8 @@ export function PendingApplicationWaitingScreen({
   verificationCode,
   onSignOut,
 }: Props) {
+
+  const strings = useRegistryStrings('components/personnel/PendingApplicationWaitingScreen');
   const qrSize = useQrSize();
   const [copied, setCopied] = useState(false);
 
