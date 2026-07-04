@@ -1,13 +1,10 @@
 'use client';
 
-import Link from 'next/link';
 import { FiHeart, FiShield, FiEye, FiInfo } from 'react-icons/fi';
 import { getVolunteerProjectSummary } from '@/lib/platform-legal-content';
-import { getPlatformInfo } from '@/lib/platform-config';
 
 export function VolunteerProjectSection() {
   const summary = getVolunteerProjectSummary();
-  const platform = getPlatformInfo();
 
   return (
     <section id="proje-hakkinda" className="py-16 sm:py-20 bg-slate-50 dark:bg-slate-900/50 border-y border-slate-200/80 dark:border-slate-800">
@@ -41,30 +38,6 @@ export function VolunteerProjectSection() {
             <h3 className="font-semibold text-slate-900 dark:text-white">Resmiyet sınırı</h3>
             <p className="mt-2 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">{summary.legalLine}</p>
           </div>
-        </div>
-
-        <div className="mt-10 max-w-3xl mx-auto rounded-2xl border border-blue-200/80 bg-blue-50/60 dark:border-blue-900/40 dark:bg-blue-950/20 px-5 py-4 text-sm text-blue-950 dark:text-blue-100">
-          <p>
-            <strong>Geliştirici:</strong> {platform.developerName} ·{' '}
-            <a href={`mailto:${platform.contactEmail}`} className="underline hover:no-underline">
-              {platform.contactEmail}
-            </a>
-          </p>
-          <p className="mt-2 text-blue-900/80 dark:text-blue-200/80">
-            Detaylı metinler için{' '}
-            <Link href="/kullanim-sartlari" className="font-semibold underline hover:no-underline">
-              Kullanım Şartları
-            </Link>
-            ,{' '}
-            <Link href="/kvkk" className="font-semibold underline hover:no-underline">
-              KVKK
-            </Link>{' '}
-            ve{' '}
-            <Link href="/gizlilik" className="font-semibold underline hover:no-underline">
-              Gizlilik
-            </Link>{' '}
-            sayfalarını okuyun.
-          </p>
         </div>
       </div>
     </section>
