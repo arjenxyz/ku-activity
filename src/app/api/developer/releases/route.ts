@@ -5,6 +5,7 @@ import { isValidAppReleaseType, type AppReleaseRow } from '@/lib/app-releases';
 import { requireDeveloperUser } from '@/lib/developer-auth';
 import { apiErrorMessage } from '@/lib/project-queries';
 import { createClient } from '@/utils/supabase/server';
+import { createAdminClient } from '@/utils/supabase/admin';
 
 export async function GET() {
   try {
@@ -71,7 +72,7 @@ export async function POST(request: Request) {
     });
     storagePath = uploaded.storagePath;
 
-    const supabase = await createClient();
+    const supabase = auth.viaCi ? createAdminClient() : await createClient();
     const { data, error } = await supabase
       .from('app_releases')
       .insert({
