@@ -3,7 +3,6 @@
 import { motion } from 'framer-motion';
 import { HeroPlayStorePromo } from '@/components/home/HeroPlayStorePromo';
 import { LoginRoleButton } from '@/components/home/LoginRolePicker';
-import { DEFAULT_DEVELOPER_NAME } from '@/lib/brand';
 
 export function HeroSection() {
   return (

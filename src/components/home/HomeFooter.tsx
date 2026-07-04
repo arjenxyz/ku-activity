@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { BrandMark } from '@/components/brand/BrandMark';
 import { SkyTwinkleStars } from '@/components/home/SkyTwinkleStars';
-import { APP_NAME, APP_TAGLINE_TR, DEFAULT_DEVELOPER_NAME } from '@/lib/brand';
+import { APP_NAME, APP_TAGLINE_TR } from '@/lib/brand';
 import { SUPPORT_EMAIL, verificationCodeMailto } from '@/lib/support-email';
 
 export function HomeFooter() {
