@@ -386,6 +386,8 @@ import m_components_personnel_AttendanceStatusSticker_tr from '@json/src/compone
 import m_components_personnel_AttendanceStatusSticker_en from '@json/en/src/components/personnel/AttendanceStatusSticker.json';
 import m_components_personnel_PendingApplicationWaitingScreen_tr from '@json/src/components/personnel/PendingApplicationWaitingScreen.json';
 import m_components_personnel_PendingApplicationWaitingScreen_en from '@json/en/src/components/personnel/PendingApplicationWaitingScreen.json';
+import m_components_personnel_PersonnelActiveDevices_tr from '@json/src/components/personnel/PersonnelActiveDevices.json';
+import m_components_personnel_PersonnelActiveDevices_en from '@json/en/src/components/personnel/PersonnelActiveDevices.json';
 import m_components_personnel_PersonnelAppBottomNav_tr from '@json/src/components/personnel/PersonnelAppBottomNav.json';
 import m_components_personnel_PersonnelAppBottomNav_en from '@json/en/src/components/personnel/PersonnelAppBottomNav.json';
 import m_components_personnel_PersonnelAppIntro_tr from '@json/src/components/personnel/PersonnelAppIntro.json';
@@ -813,6 +815,7 @@ export const STRINGS_REGISTRY = {
   'components/personnel/AttendanceQrScanner': { tr: m_components_personnel_AttendanceQrScanner_tr, en: m_components_personnel_AttendanceQrScanner_en },
   'components/personnel/AttendanceStatusSticker': { tr: m_components_personnel_AttendanceStatusSticker_tr, en: m_components_personnel_AttendanceStatusSticker_en },
   'components/personnel/PendingApplicationWaitingScreen': { tr: m_components_personnel_PendingApplicationWaitingScreen_tr, en: m_components_personnel_PendingApplicationWaitingScreen_en },
+  'components/personnel/PersonnelActiveDevices': { tr: m_components_personnel_PersonnelActiveDevices_tr, en: m_components_personnel_PersonnelActiveDevices_en },
   'components/personnel/PersonnelAppBottomNav': { tr: m_components_personnel_PersonnelAppBottomNav_tr, en: m_components_personnel_PersonnelAppBottomNav_en },
   'components/personnel/PersonnelAppIntro': { tr: m_components_personnel_PersonnelAppIntro_tr, en: m_components_personnel_PersonnelAppIntro_en },
   'components/personnel/PersonnelAsgariPanel': { tr: m_components_personnel_PersonnelAsgariPanel_tr, en: m_components_personnel_PersonnelAsgariPanel_en },

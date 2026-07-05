@@ -3,6 +3,7 @@ import { createAdminClient } from '@/utils/supabase/admin';
 import { queryEmployeeById, queryPersonnelProfile } from '@/lib/employee-db';
 import { requirePersonnelSession } from '@/lib/personnel-auth';
 import { touchPushSubscriptionLastSeen } from '@/lib/personnel-push-service';
+import { touchPersonnelSessionActivity } from '@/lib/personnel-session-service';
 import { decryptField, maskIban } from '@/lib/field-encryption';
 import { splitFullName } from '@/lib/format';
 import { signedEmployeePhotoUrl } from '@/lib/photo-storage';
@@ -79,11 +80,13 @@ async function loadProjectManager(
   };
 }
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
     const session = await requirePersonnelSession();
     const admin = createAdminClient();
+    const userAgent = request.headers.get('user-agent') ?? undefined;
 
+    void touchPersonnelSessionActivity(admin, session.sessionId, userAgent).catch(() => undefined);
     void touchPushSubscriptionLastSeen(admin, session.sessionId).catch(() => undefined);
 
     const { data: viewData, error: viewError } = await queryPersonnelProfile(

@@ -1,0 +1,23 @@
+{
+  "sectionTitle": "Aktif cihazlar",
+  "sectionHint": "Hesabınıza giriş yapılmış cihazlar. Tanımadığınız bir cihaz görürseniz kaldırın.",
+  "loading": "Cihazlar yükleniyor…",
+  "loadFailed": "Cihazlar yüklenemedi",
+  "empty": "Aktif cihaz bulunamadı",
+  "unknownDevice": "Bilinmeyen cihaz",
+  "thisDevice": "Bu cihaz",
+  "remove": "Kaldır",
+  "removing": "Kaldırılıyor…",
+  "removeFailed": "Cihaz kaldırılamadı",
+  "retry": "Tekrar dene",
+  "signedInAt": "Giriş: {date}",
+  "lastActive": "Son aktif: {time}",
+  "timeJustNow": "Az önce",
+  "timeMinutesAgo": "{count} dk önce",
+  "timeHoursAgo": "{count} sa önce",
+  "timeDaysAgo": "{count} gün önce",
+  "confirmRemoveTitle": "Cihazı kaldır",
+  "confirmRemoveBody": "Bu cihazdaki oturum sonlandırılacak ve tekrar giriş yapması gerekecek.",
+  "confirmRemoveAction": "Kaldır",
+  "cancel": "İptal"
+}
