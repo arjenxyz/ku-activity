@@ -33,7 +33,7 @@ import { getRegistryStrings } from '@/lib/i18n/strings-registry';
 type PhoneStrings = ReturnType<typeof getRegistryStrings<'components/forms/TurkishPhoneInput'>>;
 
 const COUNTRY_META = [
-  { code: '90', flag: '🇹🇷', sample: '5xx xxx xx xx', maxLocalDigits: 10 },
+  { code: '90', flag: '🇹🇷', sample: '5xx xxx xxxx', maxLocalDigits: 10 },
   { code: '49', flag: '🇩🇪', sample: '15x xxx xxxx', maxLocalDigits: 11 },
   { code: '994', flag: '🇦🇿', sample: '50 xxx xx xx', maxLocalDigits: 9 },
   { code: '998', flag: '🇺🇿', sample: '90 xxx xx xx', maxLocalDigits: 9 },
@@ -48,7 +48,10 @@ function buildCountryOptions(strings: PhoneStrings): CountryOption[] {
   }));
 }
 
-function formatIntlLocalDigits(digits: string): string {
+function formatIntlLocalDigits(digits: string, countryCode?: string): string {
+  if (countryCode === '90') {
+    return formatTurkishPhoneNational(digits);
+  }
   const d = digits.replace(/\D/g, '').slice(0, 15);
   if (!d) return '';
   const parts: string[] = [];
@@ -57,6 +60,12 @@ function formatIntlLocalDigits(digits: string): string {
   }
   return parts.join(' ');
 }
+
+const phoneFieldClass =
+  'personnel-auth-input min-w-0 flex-1 border-0 bg-slate-50 px-2.5 py-2.5 text-base text-slate-900 placeholder:text-slate-400 tabular-nums tracking-wide focus:outline-none focus:ring-0 focus:bg-white';
+
+const phoneWrapClass =
+  'flex overflow-hidden rounded-xl border border-slate-200 bg-slate-50 focus-within:ring-2 focus-within:ring-blue-500/30 focus-within:border-blue-500 focus-within:bg-white [color-scheme:light]';
 
 function detectCountryByNormalizedDigits(
   normalized: string,
@@ -134,9 +143,7 @@ export function TurkishPhoneInput({
 
   if (allowCountryCodeSelect) {
     return (
-      <div
-        className={`flex overflow-hidden rounded-xl border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-900 focus-within:ring-2 focus-within:ring-blue-500 ${className}`}
-      >
+      <div className={`${phoneWrapClass} ${className}`}>
         <select
           value={resolvedCountry}
           onChange={(e) => {
@@ -146,7 +153,7 @@ export function TurkishPhoneInput({
             const nextLocal = localDigits.replace(/\D/g, '').slice(0, nextMax);
             onChange(nextLocal ? `+${nextCode}${nextLocal}` : '');
           }}
-          className="w-[4.25rem] shrink-0 border-r border-gray-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-800/80 pl-1.5 pr-0.5 py-2.5 text-xs font-semibold text-slate-700 dark:text-slate-200 focus:outline-none appearance-none text-center"
+          className="personnel-auth-input w-[4.25rem] shrink-0 border-r border-slate-200 bg-slate-100 pl-1.5 pr-0.5 py-2.5 text-xs font-semibold text-slate-900 appearance-none text-center [color-scheme:light]"
           disabled={disabled}
           aria-label={strings.countryCodeAriaLabel}
         >
@@ -159,9 +166,9 @@ export function TurkishPhoneInput({
           autoComplete="tel-national"
           disabled={disabled}
           required={required}
-          className="min-w-0 flex-1 border-0 bg-transparent px-2.5 py-2.5 text-sm tabular-nums focus:outline-none focus:ring-0"
+          className={phoneFieldClass}
           placeholder={dynamicPlaceholder}
-          value={formatIntlLocalDigits(localDigits)}
+          value={formatIntlLocalDigits(localDigits, resolvedCountry)}
           onChange={(e) => {
             const digits = e.target.value.replace(/\D/g, '').slice(0, maxLocalDigits);
             onChange(digits ? `+${resolvedCountry}${digits}` : '');
@@ -189,19 +196,15 @@ export function TurkishPhoneInput({
   };
 
   return (
-    <div
-      className={`flex overflow-hidden rounded-xl border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-900 focus-within:ring-2 focus-within:ring-blue-500 ${className}`}
-    >
+    <div className={`${phoneWrapClass} ${className}`}>
       <div
-        className="flex shrink-0 items-center gap-1.5 border-r border-gray-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-800/80 px-3 py-3"
+        className="flex shrink-0 items-center gap-1.5 border-r border-slate-200 bg-slate-100 px-3 py-3"
         aria-hidden
       >
         <span className="text-base leading-none" role="img" aria-label={strings.turkeyAriaLabel}>
           🇹🇷
         </span>
-        <span className="text-sm font-semibold text-slate-700 dark:text-slate-200 tabular-nums">
-          +90
-        </span>
+        <span className="text-sm font-semibold text-slate-900 tabular-nums">+90</span>
       </div>
       <input
         id={id}
@@ -210,7 +213,7 @@ export function TurkishPhoneInput({
         autoComplete="off"
         disabled={disabled}
         required={required}
-        className="min-w-0 flex-1 border-0 bg-transparent px-4 py-3 text-sm tabular-nums tracking-wide focus:outline-none focus:ring-0"
+        className={`${phoneFieldClass} px-4 py-3`}
         placeholder={resolvedPlaceholder}
         value={display}
         onChange={handleChange}
