@@ -94,7 +94,25 @@ Her uygulama için ayrı listing:
 4. **Ekran görüntüleri** — telefon + (isteğe bağlı) 7" tablet
 5. **AAB yükle** — Internal testing → Production
 
-### 5. Kamera izni (QR yoklama)
+### 5. Bildirim izni (Android 13+ / API 33)
+
+Push bildirimleri için APK **targetSdkVersion 33+** olmalı. Bubblewrap `update` sonrası `AndroidManifest.xml` içine ekleyin:
+
+```xml
+<uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+
+<application ...>
+  <activity
+      android:name="com.google.androidbrowserhelper.trusted.NotificationPermissionRequestActivity" />
+  ...
+</application>
+```
+
+Web tarafı uygulama açılışında bir kez `Notification.requestPermission()` çağırır; TWA doğru yapılandırıldığında **Android sistem izni** gösterilir (Chrome web izni değil).
+
+Parmak izi / asset links doğru değilse uygulama Chrome gibi açılır ve bildirim akışı bozulur.
+
+### 6. Kamera izni (QR yoklama)
 
 Bubblewrap `init` sırasında kamera kullanımını sorar; personel uygulamasında **evet**.
 Manifest'te `permissions` yoksa `twa-manifest.json` içinde:

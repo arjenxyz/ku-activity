@@ -1,8 +1,8 @@
 'use client';
 
-const VAPID_KEY_STORAGE = 'crewledger-vapid-public-key';
+import { markNotificationsUnlocked } from '@/lib/personnel-notification-storage';
 
-function urlBase64ToUint8Array(base64String: string) {
+const VAPID_KEY_STORAGE = 'crewledger-vapid-public-key';(base64String: string) {
   const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
   const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
   const raw = atob(base64);
@@ -57,7 +57,10 @@ export async function hasLocalPushSubscription(): Promise<boolean> {
   }
 }
 
-export async function subscribePersonnelPush(options?: { force?: boolean }): Promise<boolean> {
+export async function subscribePersonnelPush(options?: {
+  force?: boolean;
+  skipPermissionRequest?: boolean;
+}): Promise<boolean> {
   if (typeof window === 'undefined') return false;
   if (!('serviceWorker' in navigator) || !('PushManager' in window)) return false;
   if (Notification.permission === 'denied') return false;
@@ -65,11 +68,11 @@ export async function subscribePersonnelPush(options?: { force?: boolean }): Pro
   const publicKey = await fetchVapidPublicKey();
   if (!publicKey) return false;
 
-  const permission = Notification.permission === 'granted'
-    ? 'granted'
-    : await Notification.requestPermission();
-
-  if (permission !== 'granted') return false;
+  if (Notification.permission !== 'granted') {
+    if (options?.skipPermissionRequest) return false;
+    const permission = await Notification.requestPermission();
+    if (permission !== 'granted') return false;
+  }
 
   const registration = await navigator.serviceWorker.ready;
   const applicationServerKey = urlBase64ToUint8Array(publicKey);
@@ -110,6 +113,7 @@ export async function subscribePersonnelPush(options?: { force?: boolean }): Pro
 
   if (res.ok) {
     localStorage.setItem(VAPID_KEY_STORAGE, publicKey);
+    markNotificationsUnlocked();
   }
 
   return res.ok;

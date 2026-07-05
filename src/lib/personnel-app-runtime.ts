@@ -69,14 +69,33 @@ export function openPersonnelAppNotificationSettings() {
   if (typeof window === 'undefined') return;
 
   const pkg = PERSONNEL_TWA_PACKAGE_ID;
-  const notificationIntent = `intent:#Intent;action=android.settings.APP_NOTIFICATION_SETTINGS;S.android.provider.extra.APP_PACKAGE=${pkg};end`;
-  const appDetailsIntent = `intent:#Intent;action=android.settings.APPLICATION_DETAILS_SETTINGS;scheme=package;package=${pkg};end`;
+  const intents = [
+    `intent:#Intent;action=android.settings.APP_NOTIFICATION_SETTINGS;S:android.provider.extra.APP_PACKAGE=${pkg};end`,
+    `intent:#Intent;action=android.settings.APP_NOTIFICATION_SETTINGS;S.android.provider.extra.APP_PACKAGE=${pkg};end`,
+    `intent:#Intent;action=android.settings.APPLICATION_DETAILS_SETTINGS;data=package:${pkg};end`,
+    `intent:#Intent;action=android.settings.APPLICATION_DETAILS_SETTINGS;scheme=package;package=${pkg};end`,
+  ];
 
-  window.location.href = notificationIntent;
+  let index = 0;
 
-  window.setTimeout(() => {
-    if (document.visibilityState === 'visible') {
-      window.location.href = appDetailsIntent;
+  const tryNext = () => {
+    if (index >= intents.length) return;
+    const intent = intents[index];
+    index += 1;
+
+    const link = document.createElement('a');
+    link.href = intent;
+    link.style.display = 'none';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    if (index < intents.length) {
+      window.setTimeout(() => {
+        if (document.visibilityState === 'visible') tryNext();
+      }, 450);
     }
-  }, 700);
+  };
+
+  tryNext();
 }

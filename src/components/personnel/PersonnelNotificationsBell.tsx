@@ -9,18 +9,16 @@ import { formatString } from '@/lib/strings/format';
 import { usePersonnelNotificationsContext } from '@/contexts/PersonnelNotificationsContext';
 import trStrings from '@json/src/components/personnel/PersonnelNotificationsBell.json';
 import enStrings from '@json/en/src/components/personnel/PersonnelNotificationsBell.json';
+import { isPersonnelTwaRuntime, openPersonnelAppNotificationSettings } from '@/lib/personnel-app-runtime';
 import {
-  getNotificationPermission,
-  hasLocalPushSubscription,
+  markNotificationsUnlocked,
+  resolvePersonnelNotificationAccess,
+  type NotificationAccess,
+} from '@/lib/personnel-notification-access';
+import {
   requestNotificationPermission,
   subscribePersonnelPush,
 } from '@/lib/personnel-push-client';
-import {
-  isPersonnelTwaRuntime,
-  openPersonnelAppNotificationSettings,
-} from '@/lib/personnel-app-runtime';
-
-type NotificationAccess = 'granted' | 'default' | 'denied' | 'unsupported';
 
 type Props = {
   tone?: 'light' | 'onDark';
@@ -64,33 +62,21 @@ export function PersonnelNotificationsBell({ tone = 'light', className = '' }: P
   const strings = useLocalizedStrings(trStrings, enStrings);
   const { items, unreadCount, loading, markRead, markAllRead, refresh, panelOpen, openPanel, closePanel } =
     usePersonnelNotificationsContext();
-  const [notificationAccess, setNotificationAccess] = useState<NotificationAccess>(() => {
-    const permission = getNotificationPermission();
-    return permission === 'unsupported' ? 'unsupported' : permission;
-  });
+  const [notificationAccess, setNotificationAccess] = useState<NotificationAccess>('default');
   const [requestingPermission, setRequestingPermission] = useState(false);
   const [isTwaApp, setIsTwaApp] = useState(false);
+  const [accessReady, setAccessReady] = useState(false);
 
   useEffect(() => {
     setIsTwaApp(isPersonnelTwaRuntime());
+    void resolvePersonnelNotificationAccess().then((access) => {
+      setNotificationAccess(access);
+      setAccessReady(true);
+    });
   }, []);
 
-  const resolveNotificationAccess = async (): Promise<NotificationAccess> => {
-    const permission = getNotificationPermission();
-    if (permission === 'granted') return 'granted';
-    if (permission === 'unsupported') return 'unsupported';
-    if (permission === 'denied') return 'denied';
-
-    if (isPersonnelTwaRuntime()) {
-      const localSubscribed = await hasLocalPushSubscription();
-      if (localSubscribed) return 'granted';
-    }
-
-    return permission;
-  };
-
   const syncNotificationAccess = async () => {
-    const access = await resolveNotificationAccess();
+    const access = await resolvePersonnelNotificationAccess();
     setNotificationAccess(access);
     return access;
   };
@@ -115,17 +101,13 @@ export function PersonnelNotificationsBell({ tone = 'light', className = '' }: P
 
   useEffect(() => {
     if (notificationAccess !== 'granted') return;
-    void subscribePersonnelPush();
+    void subscribePersonnelPush({ skipPermissionRequest: true });
   }, [notificationAccess]);
 
   const bellClass =
     tone === 'onDark'
       ? 'text-white/90 hover:bg-white/10 border-white/15'
       : 'text-[#0E1548] hover:bg-[#E8EBF8] border-slate-200';
-
-  const handleOpen = () => {
-    openPanel();
-  };
 
   const handleItemClick = async (id: string, href: string | null, readAt: string | null) => {
     if (!readAt) await markRead(id);
@@ -139,26 +121,25 @@ export function PersonnelNotificationsBell({ tone = 'light', className = '' }: P
       const permission = await requestNotificationPermission();
       const access: NotificationAccess =
         permission === 'unsupported' ? 'unsupported' : permission;
-      setNotificationAccess(access);
       if (access === 'granted') {
+        markNotificationsUnlocked();
+        setNotificationAccess('granted');
+        await subscribePersonnelPush({ skipPermissionRequest: true });
         void refresh();
-        void subscribePersonnelPush();
+      } else {
+        setNotificationAccess(access);
       }
     } finally {
       setRequestingPermission(false);
     }
   };
 
-  const confirmTwaNotificationAccess = async () => {
+  const recheckTwaNotificationAccess = async () => {
     setRequestingPermission(true);
     try {
-      if (getNotificationPermission() === 'default') {
-        await requestNotificationPermission();
-      }
-      const subscribed = await subscribePersonnelPush();
-      const access = await resolveNotificationAccess();
-      setNotificationAccess(subscribed ? 'granted' : access);
-      if (subscribed || access === 'granted') void refresh();
+      await subscribePersonnelPush({ skipPermissionRequest: true });
+      const access = await syncNotificationAccess();
+      if (access === 'granted') void refresh();
     } finally {
       setRequestingPermission(false);
     }
@@ -173,13 +154,13 @@ export function PersonnelNotificationsBell({ tone = 'light', className = '' }: P
   };
 
   const canViewNotifications = notificationAccess === 'granted';
-  const showUnreadBadge = canViewNotifications && unreadCount > 0;
+  const showUnreadBadge = accessReady && canViewNotifications && unreadCount > 0;
 
   return (
     <>
       <button
         type="button"
-        onClick={handleOpen}
+        onClick={() => openPanel()}
         className={`relative inline-flex h-9 w-9 items-center justify-center rounded-xl border transition-colors ${bellClass} ${className}`}
         aria-label={strings.bellAriaLabel}
       >
@@ -252,18 +233,17 @@ export function PersonnelNotificationsBell({ tone = 'light', className = '' }: P
                         >
                           {strings.permissionOpenAppSettingsButton}
                         </button>
-                        {notificationAccess !== 'denied' && (
-                          <button
-                            type="button"
-                            disabled={requestingPermission}
-                            onClick={() => void confirmTwaNotificationAccess()}
-                            className="inline-flex min-h-11 items-center justify-center rounded-xl border border-slate-200 px-5 py-2.5 text-sm font-semibold text-[#0E1548] disabled:opacity-60"
-                          >
-                            {requestingPermission
-                              ? strings.permissionRequesting
-                              : strings.permissionTwaConfirmButton}
-                          </button>
-                        )}
+                        <p className="text-xs leading-relaxed text-slate-400">{strings.permissionTwaSettingsHint}</p>
+                        <button
+                          type="button"
+                          disabled={requestingPermission}
+                          onClick={() => void recheckTwaNotificationAccess()}
+                          className="inline-flex min-h-11 items-center justify-center rounded-xl border border-slate-200 px-5 py-2.5 text-sm font-semibold text-[#0E1548] disabled:opacity-60"
+                        >
+                          {requestingPermission
+                            ? strings.permissionRequesting
+                            : strings.permissionTwaConfirmButton}
+                        </button>
                       </div>
                     )}
                     {!isTwaApp && notificationAccess === 'default' && (
