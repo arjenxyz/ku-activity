@@ -67,6 +67,11 @@ export async function POST(request: Request) {
     const employee = await findEmployeeForIdentityLogin(admin, normalizedType, loginIdentity);
 
     if (!employee) {
+      console.warn('Personel giriş: kimlik ile kayıt bulunamadı', {
+        identityType: normalizedType,
+        identityTail: loginIdentity.slice(-4),
+      });
+
       const pendingAccess = await verifyPendingRegistrationAccess({
         identityType: normalizedType,
         identityNumber: loginIdentity,
@@ -127,6 +132,10 @@ export async function POST(request: Request) {
     }
 
     if (!valid) {
+      console.warn('Personel giriş: PIN eşleşmedi', {
+        employeeId: employee.id,
+        isActive: employee.is_active,
+      });
       return NextResponse.json({ error: strings.geçersizKimlikNumarasıVeyaŞifre }, { status: 401 });
     }
 

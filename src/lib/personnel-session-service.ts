@@ -107,6 +107,25 @@ export async function touchPersonnelSessionActivity(
   }
 }
 
+export async function revokeAllPersonnelSessionsForEmployee(
+  admin: SupabaseClient,
+  employeeId: string
+) {
+  const now = new Date().toISOString();
+  const { data, error } = await admin
+    .from('personnel_sessions')
+    .update({ revoked_at: now })
+    .eq('employee_id', employeeId)
+    .is('revoked_at', null)
+    .select('id');
+
+  if (error) throw new Error(error.message);
+
+  await Promise.all(
+    (data ?? []).map((row) => removePushSubscriptionsForSession(admin, row.id as string))
+  );
+}
+
 export async function revokePersonnelSessionById(
   admin: SupabaseClient,
   params: { employeeId: string; sessionId: string }

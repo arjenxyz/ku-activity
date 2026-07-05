@@ -32,30 +32,47 @@ async function loadEmployee(
   return data as LoginEmployee;
 }
 
-/** tc_lookup_hash eksik eski kayıtlar — şifreli T.C. ile eşleştirip hash'i tamamlar */
-async function findEmployeeByDecryptedTc(
+/** Hash eşleşmezse veya eksikse — şifreli kimlik ile eşleştirip hash'leri tamamlar */
+async function findEmployeeByDecryptedIdentity(
   admin: SupabaseClient,
-  tc: string,
-  tcLookupHash: string
+  identityType: IdentityType,
+  normalized: string,
+  identityLookupHash: string,
+  tcLookupHash: string | null
 ): Promise<LoginEmployee | null> {
-  const { data: rows, error } = await admin
+  let query = admin
     .from('employee_sensitive_data')
-    .select('employee_id, tc_kimlik_enc')
-    .is('tc_lookup_hash', null);
+    .select('employee_id, tc_kimlik_enc, identity_number_enc, identity_type');
 
+  if (identityType === 'tc') {
+    query = query.or('identity_type.eq.tc,identity_type.is.null');
+  } else {
+    query = query.eq('identity_type', identityType);
+  }
+
+  const { data: rows, error } = await query;
   if (error || !rows?.length) return null;
 
   for (const row of rows) {
     try {
-      const plain = decryptField(row.tc_kimlik_enc).replace(/\D/g, '');
-      if (plain !== tc) continue;
+      const enc =
+        (row.identity_number_enc as string | null) ?? (row.tc_kimlik_enc as string | null);
+      if (!enc) continue;
 
-      await admin
-        .from('employee_sensitive_data')
-        .update({ tc_lookup_hash: tcLookupHash })
-        .eq('employee_id', row.employee_id);
+      const plain = normalizeIdentityNumber(identityType, decryptField(enc));
+      if (plain !== normalized) continue;
 
-      return loadEmployee(admin, row.employee_id);
+      const patch: Record<string, string> = {
+        identity_type: identityType,
+        identity_lookup_hash: identityLookupHash,
+      };
+      if (tcLookupHash) {
+        patch.tc_lookup_hash = tcLookupHash;
+      }
+
+      await admin.from('employee_sensitive_data').update(patch).eq('employee_id', row.employee_id);
+
+      return loadEmployee(admin, row.employee_id as string);
     } catch {
       continue;
     }
@@ -97,22 +114,42 @@ export async function findEmployeeForIdentityLogin(
     } else {
       console.warn('get_employee_for_login_by_tc RPC:', rpcError.message);
     }
+
+    const { data: byTcHash } = await admin
+      .from('employee_sensitive_data')
+      .select('employee_id')
+      .eq('tc_lookup_hash', tcLookupHash)
+      .maybeSingle();
+
+    if (byTcHash?.employee_id) {
+      const employee = await loadEmployee(admin, byTcHash.employee_id);
+      if (employee) return employee;
+    }
   }
 
-  const { data: sensitive } = await admin
+  let sensitiveQuery = admin
     .from('employee_sensitive_data')
     .select('employee_id')
-    .eq('identity_type', identityType)
-    .eq('identity_lookup_hash', identityLookupHash)
-    .maybeSingle();
+    .eq('identity_lookup_hash', identityLookupHash);
+
+  if (identityType === 'tc') {
+    sensitiveQuery = sensitiveQuery.or('identity_type.eq.tc,identity_type.is.null');
+  } else {
+    sensitiveQuery = sensitiveQuery.eq('identity_type', identityType);
+  }
+
+  const { data: sensitive } = await sensitiveQuery.maybeSingle();
 
   if (sensitive?.employee_id) {
     const employee = await loadEmployee(admin, sensitive.employee_id);
     if (employee) return employee;
   }
 
-  if (tcLookupHash) {
-    return findEmployeeByDecryptedTc(admin, normalized, tcLookupHash);
-  }
-  return null;
+  return findEmployeeByDecryptedIdentity(
+    admin,
+    identityType,
+    normalized,
+    identityLookupHash,
+    tcLookupHash
+  );
 }

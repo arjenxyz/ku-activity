@@ -9,6 +9,7 @@ import {
 } from '@/lib/identity-uniqueness';
 import { createClient } from '@/utils/supabase/server';
 import { createAdminClient } from '@/utils/supabase/admin';
+import { revokeAllPersonnelSessionsForEmployee } from '@/lib/personnel-session-service';
 import { apiErrorMessage } from '@/lib/project-queries';
 import strings from '@json/src/app/api/admin/projects/[projectId]/employees/[employeeId]/route.json';
 
@@ -114,6 +115,13 @@ export async function PATCH(request: Request, ctx: Ctx) {
         { error: mapped ?? error.message },
         { status: mapped ? 409 : 500 }
       );
+    }
+
+    if (isActive === false) {
+      const admin = createAdminClient();
+      await revokeAllPersonnelSessionsForEmployee(admin, employeeId).catch((err) => {
+        console.error('Pasif personel oturumları kapatılamadı:', err);
+      });
     }
 
     const { data, error: readError } = await queryEmployeeById(supabase, employeeId);
