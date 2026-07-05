@@ -1,17 +1,21 @@
 -- Personel bildirimleri (uygulama içi + web push)
 
-create type public.personnel_notification_type as enum (
-  'attendance_reminder',
-  'attendance_session_cancelled',
-  'attendance_removed_from_list',
-  'advance_approved',
-  'advance_cash_ready',
-  'advance_rejected',
-  'advance_paid',
-  'minimum_wage_paid',
-  'salary_paid',
-  'general'
-);
+do $$ begin
+  create type public.personnel_notification_type as enum (
+    'attendance_reminder',
+    'attendance_session_cancelled',
+    'attendance_removed_from_list',
+    'advance_approved',
+    'advance_cash_ready',
+    'advance_rejected',
+    'advance_paid',
+    'minimum_wage_paid',
+    'salary_paid',
+    'general'
+  );
+exception
+  when duplicate_object then null;
+end $$;
 
 create table if not exists public.personnel_notifications (
   id uuid primary key default gen_random_uuid(),
