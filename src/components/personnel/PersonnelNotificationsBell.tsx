@@ -55,6 +55,10 @@ export function PersonnelNotificationsBell({ tone = 'light', className = '' }: P
   useEffect(() => {
     if (typeof window === 'undefined') return;
     if (!pushSupported()) return;
+    if (Notification.permission === 'granted') {
+      void subscribePersonnelPush();
+      return;
+    }
     if (Notification.permission !== 'default') return;
     if (localStorage.getItem('crewledger-push-prompt-dismissed') === '1') return;
     const t = window.setTimeout(() => setPushPrompt(true), 2500);

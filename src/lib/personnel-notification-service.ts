@@ -75,19 +75,18 @@ export async function notifyPersonnel(
   const row = data as PersonnelNotificationRow;
 
   if (params.sendPush !== false && typeof window === 'undefined') {
-    void import('@/lib/personnel-push-service')
-      .then(({ dispatchPersonnelPush }) =>
-        dispatchPersonnelPush(admin, {
-          employeeId: params.employeeId,
-          notificationId: row.id,
-          title: row.title,
-          body: row.body,
-          href: row.href ?? '/personnel-panel',
-        })
-      )
-      .catch(() => {
-        /* push optional */
+    try {
+      const { dispatchPersonnelPush } = await import('@/lib/personnel-push-service');
+      await dispatchPersonnelPush(admin, {
+        employeeId: params.employeeId,
+        notificationId: row.id,
+        title: row.title,
+        body: row.body,
+        href: row.href ?? '/personnel-panel',
       });
+    } catch {
+      /* push optional */
+    }
   }
 
   return row;

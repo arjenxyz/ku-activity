@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 export type PersonnelNotificationItem = {
   id: string;
@@ -12,15 +12,22 @@ export type PersonnelNotificationItem = {
   created_at: string;
 };
 
-export function usePersonnelNotifications(pollMs = 60_000) {
+const VISIBLE_POLL_MS = 12_000;
+const HIDDEN_POLL_MS = 60_000;
+
+export function usePersonnelNotifications() {
   const [items, setItems] = useState<PersonnelNotificationItem[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const pollMsRef = useRef(VISIBLE_POLL_MS);
 
   const refresh = useCallback(async () => {
     try {
-      const res = await fetch('/api/personnel/notifications', { credentials: 'include' });
+      const res = await fetch('/api/personnel/notifications', {
+        credentials: 'include',
+        cache: 'no-store',
+      });
       if (!res.ok) throw new Error('load_failed');
       const data = (await res.json()) as {
         items: PersonnelNotificationItem[];
@@ -38,9 +45,49 @@ export function usePersonnelNotifications(pollMs = 60_000) {
 
   useEffect(() => {
     void refresh();
-    const id = window.setInterval(() => void refresh(), pollMs);
-    return () => window.clearInterval(id);
-  }, [pollMs, refresh]);
+
+    const syncPollInterval = () => {
+      pollMsRef.current = document.visibilityState === 'visible' ? VISIBLE_POLL_MS : HIDDEN_POLL_MS;
+    };
+
+    syncPollInterval();
+
+    let intervalId = window.setInterval(() => void refresh(), pollMsRef.current);
+
+    const resetInterval = () => {
+      window.clearInterval(intervalId);
+      intervalId = window.setInterval(() => void refresh(), pollMsRef.current);
+    };
+
+    const onVisibility = () => {
+      syncPollInterval();
+      resetInterval();
+      if (document.visibilityState === 'visible') void refresh();
+    };
+
+    const onFocus = () => void refresh();
+
+    const onSwMessage = (event: MessageEvent) => {
+      if (
+        event.data &&
+        typeof event.data === 'object' &&
+        (event.data as { type?: string }).type === 'crewledger-notifications-refresh'
+      ) {
+        void refresh();
+      }
+    };
+
+    document.addEventListener('visibilitychange', onVisibility);
+    window.addEventListener('focus', onFocus);
+    navigator.serviceWorker?.addEventListener('message', onSwMessage);
+
+    return () => {
+      window.clearInterval(intervalId);
+      document.removeEventListener('visibilitychange', onVisibility);
+      window.removeEventListener('focus', onFocus);
+      navigator.serviceWorker?.removeEventListener('message', onSwMessage);
+    };
+  }, [refresh]);
 
   const markRead = useCallback(async (id: string) => {
     const res = await fetch('/api/personnel/notifications', {

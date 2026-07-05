@@ -1,4 +1,4 @@
-const CACHE_NAME = 'crewledger-v11';
+const CACHE_NAME = 'crewledger-v12';
 
 /** Oturum / panel sayfaları asla önbellekten sunulmaz — her açılışta sunucu cookie kontrol eder */
 const NETWORK_ONLY_PREFIXES = [
@@ -72,14 +72,21 @@ self.addEventListener('push', (event) => {
   }
 
   event.waitUntil(
-    self.registration.showNotification(payload.title, {
-      body: payload.body,
-      icon: '/icons/personnel/192',
-      badge: '/icons/personnel/192',
-      tag: payload.notificationId || 'crewledger-notification',
-      data: { href: payload.href || '/personnel-panel', notificationId: payload.notificationId },
-      vibrate: [120, 60, 120],
-    })
+    (async () => {
+      await self.registration.showNotification(payload.title, {
+        body: payload.body,
+        icon: '/icons/personnel/192',
+        badge: '/icons/personnel/192',
+        tag: payload.notificationId || 'crewledger-notification',
+        data: { href: payload.href || '/personnel-panel', notificationId: payload.notificationId },
+        vibrate: [120, 60, 120],
+      });
+
+      const clients = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
+      for (const client of clients) {
+        client.postMessage({ type: 'crewledger-notifications-refresh' });
+      }
+    })()
   );
 });
 
