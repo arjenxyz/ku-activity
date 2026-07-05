@@ -9,8 +9,6 @@ import {
   FiAlertTriangle,
   FiCheck,
   FiCheckCircle,
-  FiChevronDown,
-  FiChevronUp,
   FiFileText,
   FiRefreshCw,
   FiUpload,
@@ -32,6 +30,7 @@ import {
   validateMatchForConfirm,
   type DekontValidationCheck,
 } from '@/lib/dekont-validation';
+import { decodeScanReport, type DekontScanReport } from '@/lib/dekont-scan-report';
 
 type DraftPayload = {
   id: string;
@@ -137,47 +136,76 @@ function CheckRow({ check }: { check: DekontValidationCheck }) {
   );
 }
 
-function ValidationSummary({ checks }: { checks: DekontValidationCheck[] }) {
+function ValidationReport({ checks }: { checks: DekontValidationCheck[] }) {
   const strings = useRegistryStrings('components/admin/DekontSharePanel');
-  const [expanded, setExpanded] = useState(false);
   const { passed, failedRequired, failedOptional } = splitValidationChecks(checks);
-  const issues = [...failedRequired, ...failedOptional];
-
-  if (!issues.length) {
-    return (
-      <p className="flex items-center gap-2 text-sm text-emerald-700 dark:text-emerald-300">
-        <FiCheckCircle className="h-4 w-4 shrink-0" />
-        {strings.validation.allPassed}
-      </p>
-    );
-  }
 
   return (
-    <div className="space-y-2">
-      <ul className="space-y-1.5">
-        {issues.map((check) => (
-          <CheckRow key={check.id} check={check} />
-        ))}
-      </ul>
-      {passed.length > 0 && (
-        <>
-          <button
-            type="button"
-            onClick={() => setExpanded((v) => !v)}
-            className="inline-flex items-center gap-1 text-xs font-medium text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
-          >
-            {expanded ? <FiChevronUp className="h-3.5 w-3.5" /> : <FiChevronDown className="h-3.5 w-3.5" />}
-            {expanded ? strings.validation.hideAll : strings.validation.showAll}
-          </button>
-          {expanded && (
-            <ul className="space-y-1.5">
-              {passed.map((check) => (
-                <CheckRow key={check.id} check={check} />
-              ))}
-            </ul>
-          )}
-        </>
+    <div className="space-y-4">
+      <div>
+        <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-emerald-700 dark:text-emerald-400">
+          {strings.validation.passedHeader}
+        </p>
+        {passed.length === 0 ? (
+          <p className="text-sm text-slate-500">—</p>
+        ) : (
+          <ul className="space-y-1.5">
+            {passed.map((check) => (
+              <CheckRow key={check.id} check={check} />
+            ))}
+          </ul>
+        )}
+      </div>
+
+      <div>
+        <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-red-700 dark:text-red-400">
+          {strings.validation.failedHeader}
+        </p>
+        {failedRequired.length === 0 ? (
+          <p className="flex items-center gap-2 text-sm text-emerald-700 dark:text-emerald-300">
+            <FiCheckCircle className="h-4 w-4 shrink-0" />
+            {strings.validation.allPassed}
+          </p>
+        ) : (
+          <ul className="space-y-1.5">
+            {failedRequired.map((check) => (
+              <CheckRow key={check.id} check={check} />
+            ))}
+          </ul>
+        )}
+      </div>
+
+      {failedOptional.length > 0 && (
+        <div>
+          <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-amber-700 dark:text-amber-400">
+            {strings.validation.optionalHeader}
+          </p>
+          <ul className="space-y-1.5">
+            {failedOptional.map((check) => (
+              <CheckRow key={check.id} check={check} />
+            ))}
+          </ul>
+        </div>
       )}
+    </div>
+  );
+}
+
+function ScanRejectedCard({ report }: { report: DekontScanReport }) {
+  const strings = useRegistryStrings('components/admin/DekontSharePanel');
+
+  return (
+    <div className="rounded-2xl border border-red-200 bg-white p-5 dark:border-red-900/40 dark:bg-slate-900">
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <h3 className="font-semibold text-slate-900 dark:text-white">{strings.validation.scanRejectedTitle}</h3>
+          <p className="mt-1 text-sm text-red-700 dark:text-red-300">{report.summary}</p>
+        </div>
+        <ScoreBadge score={report.score} accepted={report.accepted} />
+      </div>
+      <div className="mt-4">
+        <ValidationReport checks={report.checks} />
+      </div>
     </div>
   );
 }
@@ -188,11 +216,13 @@ function DekontShareContent() {
   const router = useRouter();
   const draftId = searchParams.get('draft');
   const errorParam = searchParams.get('error');
+  const scanParam = searchParams.get('scan');
 
   const [draft, setDraft] = useState<DraftPayload | null>(null);
   const [loading, setLoading] = useState(!!draftId);
   const [step, setStep] = useState<Step>(draftId ? 'analyze' : 'upload');
   const [error, setError] = useState<string | null>(errorParam);
+  const [scanReport, setScanReport] = useState<DekontScanReport | null>(() => decodeScanReport(scanParam));
   const [success, setSuccess] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
   const [confirming, setConfirming] = useState(false);
@@ -204,12 +234,13 @@ function DekontShareContent() {
   const [paymentDate, setPaymentDate] = useState(dayjs().format('YYYY-MM-DD'));
 
   useEffect(() => {
-    if (errorParam) {
-      setError(errorParam);
+    if (errorParam || scanParam) {
+      if (errorParam) setError(errorParam);
+      if (scanParam) setScanReport(decodeScanReport(scanParam));
       setStep('upload');
       router.replace('/admin-panel/dekont-paylas');
     }
-  }, [errorParam, router]);
+  }, [errorParam, scanParam, router]);
 
   const loadDraft = useCallback(
     async (id: string) => {
@@ -260,13 +291,22 @@ function DekontShareContent() {
     setUploading(true);
     setError(null);
     setSuccess(null);
+    setScanReport(null);
     setStep('analyze');
     try {
       const form = new FormData();
       form.append('file', file);
       const res = await fetch('/api/admin/dekont/analyze', { method: 'POST', body: form });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || strings.errors.analyzeFailed);
+      const data = (await res.json().catch(() => ({}))) as {
+        draftId?: string;
+        error?: string;
+        report?: DekontScanReport | null;
+      };
+      if (!res.ok) {
+        if (data.report) setScanReport(data.report);
+        throw new Error(data.error || strings.errors.analyzeFailed);
+      }
+      if (!data.draftId) throw new Error(strings.errors.analyzeFailed);
       router.replace(`/admin-panel/dekont-paylas?draft=${data.draftId}`);
       await loadDraft(data.draftId);
     } catch (e) {
@@ -295,6 +335,7 @@ function DekontShareContent() {
     setStep('upload');
     setSuccess(null);
     setError(null);
+    setScanReport(null);
     setSelectedRequestId('');
     setSelectedProjectId('');
     router.replace('/admin-panel/dekont-paylas');
@@ -347,6 +388,7 @@ function DekontShareContent() {
       <StepIndicator step={step} />
 
       {error && <AlertBanner type="error" message={error} />}
+      {scanReport && step === 'upload' && <ScanRejectedCard report={scanReport} />}
       {success && step !== 'done' && <AlertBanner type="success" message={success} />}
 
       {step === 'upload' && !loading && (
@@ -424,7 +466,7 @@ function DekontShareContent() {
               <ScoreBadge score={validation.score} accepted={validation.accepted} />
             </div>
             <div className="mt-4">
-              <ValidationSummary checks={validation.checks} />
+              <ValidationReport checks={validation.checks} />
             </div>
           </div>
 
@@ -502,9 +544,7 @@ function DekontShareContent() {
 
             {matches.length > 0 && (
               <div className="mt-5 space-y-4 border-t border-slate-100 pt-5 dark:border-slate-800">
-                {!confirmReady.ok && (
-                  <ValidationSummary checks={matchChecks} />
-                )}
+                {!confirmReady.ok && <ValidationReport checks={matchChecks} />}
 
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div>

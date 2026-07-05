@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { requireAdminUser } from '@/lib/admin-auth';
 import { ingestDekontDraft, DekontImportError } from '@/lib/dekont-import-service';
+import { encodeScanReport } from '@/lib/dekont-scan-report';
 import strings from '@json/src/app/api/admin/dekont/share-ingest/route.json';
 
 export const runtime = 'nodejs';
@@ -39,7 +40,10 @@ export async function POST(request: Request) {
   } catch (err) {
     if (err instanceof DekontImportError) {
       const url = new URL('/admin-panel/dekont-paylas', request.url);
-      url.searchParams.set('error', err.message);
+      url.searchParams.set('error', err.report?.summary ?? err.message.slice(0, 240));
+      if (err.report) {
+        url.searchParams.set('scan', encodeScanReport(err.report));
+      }
       return NextResponse.redirect(url, 303);
     }
     if (err instanceof Error && err.message === 'UNAUTHORIZED') {

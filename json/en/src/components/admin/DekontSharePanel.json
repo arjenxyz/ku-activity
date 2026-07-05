@@ -7,9 +7,11 @@
   "trustLabel": "Güven skoru",
   "optionalBadge": "opsiyonel",
   "validation": {
-    "showAll": "Tüm kontrolleri göster",
-    "hideAll": "Kontrolleri gizle",
-    "allPassed": "Belge kontrolleri geçti"
+    "passedHeader": "Kabul edilen kontroller",
+    "failedHeader": "Reddedilen kontroller",
+    "optionalHeader": "Eksik (opsiyonel)",
+    "scanRejectedTitle": "Tarama sonucu",
+    "allPassed": "Tüm kontroller geçti"
   },
   "errors": {
     "draftLoadFailed": "Taslak yüklenemedi",

@@ -1,5 +1,6 @@
 import { formatOcrIban, type DekontMatchSuggestion } from '@/lib/advance-dekont-match';
 import type { DekontOcrResult } from '@/lib/dekont-ocr';
+import type { DekontScanReport } from '@/lib/dekont-scan-report';
 import { findBankKeywords } from '@/lib/dekont-ocr';
 import { validateTurkishIban } from '@/lib/field-encryption';
 import { formatString } from '@/lib/strings/format';
@@ -134,13 +135,41 @@ export function validateDekontDocument(ocr: DekontOcrResult): DekontValidationRe
   return { accepted, score: Math.min(100, score), checks, summary };
 }
 
+/** Tarama raporu — API ve paylaşım yönlendirmesi için */
+export function buildDekontScanReport(
+  result: DekontValidationResult,
+  ocr?: Pick<DekontOcrResult, 'rawText' | 'source' | 'recipientIban' | 'amount'>
+): DekontScanReport {
+  return {
+    summary: result.summary,
+    score: result.score,
+    accepted: result.accepted,
+    checks: result.checks,
+    ocrPreview: ocr
+      ? {
+          charCount: ocr.rawText?.trim().length ?? 0,
+          iban: ocr.recipientIban ?? null,
+          amount: ocr.amount ?? null,
+          source: ocr.source ?? null,
+        }
+      : undefined,
+  };
+}
+
 /** Başarısız doğrulama için kullanıcıya yönelik açıklama */
 export function formatDekontValidationFailure(
   result: DekontValidationResult,
   ocr?: Pick<DekontOcrResult, 'rawText' | 'source' | 'recipientIban' | 'amount'>
 ): string {
-  const { failedRequired } = splitValidationChecks(result.checks);
-  const lines: string[] = [result.summary];
+  const { passed, failedRequired, failedOptional } = splitValidationChecks(result.checks);
+  const lines: string[] = [
+    result.summary,
+    '',
+    formatString(strings.rejection.scoreLine, {
+      score: String(result.score),
+      minScore: String(MIN_TRUST_SCORE),
+    }),
+  ];
 
   const charCount = ocr?.rawText?.trim().length ?? 0;
   const found: string[] = [];
@@ -156,13 +185,39 @@ export function formatDekontValidationFailure(
     found.push(formatString(strings.rejection.foundAmount, { amount: ocr.amount.toLocaleString('tr-TR') }));
   }
 
-  if (found.length > 0) {
-    lines.push('', strings.rejection.foundHeader, ...found.map((f) => `• ${f}`));
+  lines.push('', strings.rejection.foundHeader, ...found.map((f) => `• ${f}`));
+
+  lines.push('', strings.rejection.passedHeader);
+  if (passed.length === 0) {
+    lines.push(`• ${strings.rejection.noPassed}`);
+  } else {
+    for (const check of passed) {
+      lines.push(
+        formatString(strings.rejection.bullet, {
+          label: check.label,
+          detail: check.detail ?? strings.rejection.statusPassed,
+        })
+      );
+    }
   }
 
-  if (failedRequired.length > 0) {
-    lines.push('', strings.rejection.issuesHeader);
+  lines.push('', strings.rejection.failedHeader);
+  if (failedRequired.length === 0) {
+    lines.push(`• ${strings.rejection.noFailed}`);
+  } else {
     for (const check of failedRequired) {
+      lines.push(
+        formatString(strings.rejection.bullet, {
+          label: check.label,
+          detail: check.detail ?? '—',
+        })
+      );
+    }
+  }
+
+  if (failedOptional.length > 0) {
+    lines.push('', strings.rejection.optionalHeader);
+    for (const check of failedOptional) {
       lines.push(
         formatString(strings.rejection.bullet, {
           label: check.label,

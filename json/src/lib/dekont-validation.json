@@ -41,6 +41,8 @@
   },
   "rejection": {
     "issuesHeader": "Tespit edilemeyen veya eksik bilgiler:",
+    "scoreLine": "Güven skoru: {score} / 100 (minimum {minScore})",
+    "statusPassed": "Geçti",
     "foundHeader": "Okunan bilgiler:",
     "foundIban": "IBAN: {iban}",
     "foundAmount": "Tutar: {amount} ₺",
@@ -49,7 +51,12 @@
     "tipUnreadable": "Banka uygulamasında işlem onay ekranı yerine «Dekont», «İşlem belgesi» veya «PDF paylaş» seçeneğini kullanın. Mümkünse ekran görüntüsü değil PDF gönderin.",
     "tipPartialRead": "Dekont paylaşıldı ancak IBAN veya tutar net okunamadı. PDF dekontu tercih edin veya daha yüksek çözünürlüklü bir görsel deneyin.",
     "tipLowScore": "Bazı alanlar okundu ancak güven skoru yetersiz ({score}/{minScore}). Eksik alanları kontrol edin veya daha net bir belge yükleyin.",
-    "bullet": "• {label}: {detail}"
+    "bullet": "• {label}: {detail}",
+    "passedHeader": "Kabul edilen kontroller",
+    "failedHeader": "Reddedilen kontroller",
+    "optionalHeader": "Eksik (opsiyonel — zorunlu değil)",
+    "noPassed": "Hiçbir kontrol geçmedi",
+    "noFailed": "Zorunlu kontrollerde sorun yok"
   },
   "match": {
     "docAccepted": {

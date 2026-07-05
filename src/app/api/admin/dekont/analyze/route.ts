@@ -28,7 +28,10 @@ export async function POST(request: Request) {
     return NextResponse.json({ ...result, validation: result.validation });
   } catch (err) {
     if (err instanceof DekontImportError) {
-      return NextResponse.json({ error: err.message }, { status: err.status });
+      return NextResponse.json(
+        { error: err.message, report: err.report ?? null },
+        { status: err.status }
+      );
     }
     if (err instanceof Error && err.message === 'UNAUTHORIZED') {
       return NextResponse.json({ error: strings.oturumGeçersiz }, { status: 401 });

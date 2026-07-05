@@ -1,4 +1,5 @@
-import { validateDekontDocument, validateMatchForConfirm, formatDekontValidationFailure } from '@/lib/dekont-validation';
+import { validateDekontDocument, validateMatchForConfirm, formatDekontValidationFailure, buildDekontScanReport } from '@/lib/dekont-validation';
+import type { DekontScanReport } from '@/lib/dekont-scan-report';
 import { analyzeDekont, type DekontOcrResult } from '@/lib/dekont-ocr';
 import { suggestAdvanceMatches, type DekontMatchSuggestion } from '@/lib/advance-dekont-match';
 import {
@@ -16,7 +17,8 @@ const DRAFT_TTL_MINUTES = 30;
 export class DekontImportError extends Error {
   constructor(
     message: string,
-    public status = 400
+    public status = 400,
+    public report?: DekontScanReport
   ) {
     super(message);
   }
@@ -69,7 +71,8 @@ export async function ingestDekontDraft(params: {
 
   const validation = validateDekontDocument(ocr);
   if (!validation.accepted) {
-    throw new DekontImportError(formatDekontValidationFailure(validation, ocr), 422);
+    const report = buildDekontScanReport(validation, ocr);
+    throw new DekontImportError(formatDekontValidationFailure(validation, ocr), 422, report);
   }
 
   const matches = await suggestAdvanceMatches(admin, { projectIds, ocr });
