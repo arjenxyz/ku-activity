@@ -1,26 +1,15 @@
 {
   "steps": {
-    "upload": "Dekont al",
+    "upload": "Yükle",
     "analyze": "Analiz",
-    "review": "Eşleştir & onayla"
+    "review": "Onayla"
   },
-  "trustLabel": "Güven",
+  "trustLabel": "Güven skoru",
   "optionalBadge": "opsiyonel",
   "validation": {
-    "matchedCount": "{count} uyumlu",
-    "requiredIssuesCount": "{count} zorunlu sorun",
-    "optionalMissingCount": "{count} eksik (opsiyonel)",
-    "fixRequiredTitle": "Düzeltilmesi gerekenler",
-    "moreMatchedChecks": "+{count} uyumlu kontrol daha…",
-    "hideDetails": "Detayları gizle",
-    "showDetails": "Detayları göster",
-    "matchedSection": "Uyumlu ({count})",
-    "noPassedChecks": "Henüz geçen kontrol yok",
-    "failedSection": "Sorunlu / eksik ({count})",
-    "allPassed": "Tüm kontroller geçti",
-    "expandHint": "{title} — tüm maddeleri görmek için detayları açın",
-    "documentTitle": "Belge doğrulama",
-    "confirmTitle": "Onay koşulları"
+    "showAll": "Tüm kontrolleri göster",
+    "hideAll": "Kontrolleri gizle",
+    "allPassed": "Belge kontrolleri geçti"
   },
   "errors": {
     "draftLoadFailed": "Taslak yüklenemedi",
@@ -28,63 +17,49 @@
     "saveFailed": "Kayıt başarısız"
   },
   "success": {
-    "paymentSaved": "Ödeme kaydedildi — avans maaştan düşüldü."
+    "paymentSaved": "Ödeme kaydedildi.",
+    "doneTitle": "İşlem tamam",
+    "doneDescription": "Avans ödemesi sisteme işlendi.",
+    "uploadAnother": "Yeni dekont yükle"
   },
   "header": {
     "title": "Dekont paylaş",
-    "description": "Bankadan gelen havale dekontunu güvenli OCR ile analiz edin. Rastgele PDF veya geçersiz belgeler otomatik reddedilir."
+    "description": "Havale dekontunu yükleyin, avans talebiyle eşleştirip ödemeyi kaydedin."
   },
   "upload": {
     "title": "Dekont yükle",
-    "description": "PDF veya net bir ekran görüntüsü sürükleyin. Yalnızca banka havale dekontları kabul edilir.",
+    "description": "PDF veya ekran görüntüsünü sürükleyin ya da dosya seçin.",
     "selectFile": "Dosya seç",
-    "fileHint": "Maks. 10 MB · PDF, JPG, PNG, WEBP"
-  },
-  "shareFromBank": {
-    "title": "Bankadan paylaş",
-    "descriptionPrefix": "Garanti, Ziraat, İş Bankası, Akbank… → Dekont → Paylaş → ",
-    "appName": "CrewLedger Yönetici"
-  },
-  "security": {
-    "title": "Güvenlik kontrolleri",
-    "ibanRequired": "· Geçerli TR IBAN ve transfer tutarı zorunlu",
-    "keywords": "· Banka / havale anahtar kelimeleri aranır",
-    "matchRequired": "· Personel IBAN + tutar eşleşmesi olmadan ödeme kaydı yapılamaz",
-    "minScores": "· Minimum güven skoru: {minTrust} · Eşleşme: {minMatch}+"
+    "fileHint": "PDF, JPG, PNG · en fazla 10 MB",
+    "shareTip": "Banka uygulamasından Paylaş → CrewLedger Yönetici ile de gönderebilirsiniz."
   },
   "analyze": {
-    "title": "Dekont analiz ediliyor…",
-    "subtitle": "OCR · IBAN doğrulama · tutar çıkarma · güvenlik taraması"
+    "title": "Dekont analiz ediliyor…"
   },
   "review": {
-    "documentValidation": "Belge doğrulama",
-    "ocrDataTitle": "Okunan veriler",
-    "ocrDataSubtitle": "OCR çıktısı — doğrulama maddeleriyle karşılaştırın",
-    "matchTitle": "Avans talebi eşleştirmesi",
-    "matchSubtitle": "IBAN + tutar uyumu zorunlu · Skor {minMatch}+ olmayan eşleşmeler onaylanamaz",
-    "noMatchTitle": "Uygun avans talebi bulunamadı",
-    "noMatchDescription": "Onaylı havale bekleyen talep yok veya IBAN/tutar eşleşmedi. Önce avans talebini onaylayın ve personel IBAN bilgisinin kayıtlı olduğundan emin olun.",
+    "documentValidation": "Belge",
+    "ocrDataTitle": "Okunan bilgiler",
+    "matchTitle": "Avans eşleştirmesi",
+    "noMatchTitle": "Eşleşen avans bulunamadı",
+    "noMatchDescription": "Onaylı havale bekleyen talep yok veya IBAN/tutar uyuşmuyor.",
     "goToProjects": "Projelere git",
     "referenceLabel": "Referans no",
     "paymentDateLabel": "Ödeme tarihi",
-    "confirmNotReady": "Onay koşulları sağlanmadı",
+    "confirmNotReady": "Kayıt için gerekli koşullar sağlanmadı",
     "saveSaving": "Kaydediliyor…",
     "savePayment": "Ödemeyi kaydet",
     "advanceRequests": "Avans talepleri",
     "anotherDekont": "Başka dekont"
   },
   "ocrFields": {
-    "senderBank": "Gönderen banka",
+    "senderBank": "Gönderen",
     "recipientBank": "Alıcı banka",
-    "transferType": "Transfer tipi",
-    "recipientIban": "Alıcı IBAN",
+    "transferType": "Transfer",
+    "recipientIban": "IBAN",
     "amount": "Tutar",
     "reference": "Referans",
     "date": "Tarih",
-    "source": "Kaynak",
-    "empty": "—",
-    "sourcePdf": "PDF metni",
-    "sourceVision": "Görsel OCR"
+    "empty": "—"
   },
   "loading": "Yükleniyor…"
 }
