@@ -1,5 +1,7 @@
 'use client';
 
+const VAPID_KEY_STORAGE = 'crewledger-vapid-public-key';
+
 function urlBase64ToUint8Array(base64String: string) {
   const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
   const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
@@ -29,7 +31,18 @@ export async function fetchVapidPublicKey(): Promise<string | null> {
   return data.publicKey;
 }
 
-export async function subscribePersonnelPush(): Promise<boolean> {
+async function serverHasPushSubscription(): Promise<boolean | null> {
+  try {
+    const res = await fetch('/api/personnel/push/status', { credentials: 'include' });
+    if (!res.ok) return null;
+    const data = (await res.json()) as { subscribed?: boolean };
+    return data.subscribed === true;
+  } catch {
+    return null;
+  }
+}
+
+export async function subscribePersonnelPush(options?: { force?: boolean }): Promise<boolean> {
   if (typeof window === 'undefined') return false;
   if (!('serviceWorker' in navigator) || !('PushManager' in window)) return false;
   if (Notification.permission === 'denied') return false;
@@ -45,11 +58,17 @@ export async function subscribePersonnelPush(): Promise<boolean> {
 
   const registration = await navigator.serviceWorker.ready;
   const applicationServerKey = urlBase64ToUint8Array(publicKey);
+  const storedVapidKey = localStorage.getItem(VAPID_KEY_STORAGE);
+  const vapidRotated = storedVapidKey !== null && storedVapidKey !== publicKey;
+  const serverSubscribed = options?.force ? false : await serverHasPushSubscription();
+  const forceRefresh =
+    options?.force === true || vapidRotated || serverSubscribed === false;
 
   let subscription = await registration.pushManager.getSubscription();
   if (subscription) {
     const existingKey = subscription.options?.applicationServerKey ?? null;
-    if (!keyBuffersMatch(existingKey, applicationServerKey)) {
+    const keyMismatch = !keyBuffersMatch(existingKey, applicationServerKey);
+    if (forceRefresh || keyMismatch) {
       await subscription.unsubscribe();
       subscription = null;
     }
@@ -73,6 +92,10 @@ export async function subscribePersonnelPush(): Promise<boolean> {
       auth: json.keys?.auth,
     }),
   });
+
+  if (res.ok) {
+    localStorage.setItem(VAPID_KEY_STORAGE, publicKey);
+  }
 
   return res.ok;
 }

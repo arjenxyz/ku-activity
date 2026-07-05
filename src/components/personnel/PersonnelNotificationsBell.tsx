@@ -83,7 +83,7 @@ export function PersonnelNotificationsBell({ tone = 'light', className = '' }: P
   };
 
   const enablePush = async () => {
-    const ok = await subscribePersonnelPush();
+    const ok = await subscribePersonnelPush({ force: true });
     localStorage.setItem('crewledger-push-prompt-dismissed', '1');
     setPushPrompt(false);
     if (!ok) localStorage.removeItem('crewledger-push-prompt-dismissed');
