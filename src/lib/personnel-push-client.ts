@@ -121,6 +121,23 @@ export async function subscribePersonnelPush(options?: {
   return res.ok;
 }
 
+/** Oturum açıkken push aboneliğini sunucuya kaydet — login öncesi 401 önlenir */
+export async function registerPersonnelPushIfAuthed(): Promise<boolean> {
+  if (typeof window === 'undefined') return false;
+  if (!pushSupported()) return false;
+  if (getNotificationPermission() === 'denied') return false;
+
+  try {
+    const me = await fetch('/api/personnel/me', { credentials: 'include', cache: 'no-store' });
+    if (!me.ok) return false;
+  } catch {
+    return false;
+  }
+
+  const skipPermissionRequest = getNotificationPermission() === 'granted';
+  return subscribePersonnelPush({ skipPermissionRequest });
+}
+
 export function pushSupported() {
   return typeof window !== 'undefined' && 'serviceWorker' in navigator && 'PushManager' in window;
 }

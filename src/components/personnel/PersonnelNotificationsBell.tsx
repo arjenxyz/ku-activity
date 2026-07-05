@@ -16,8 +16,8 @@ import {
   type NotificationAccess,
 } from '@/lib/personnel-notification-access';
 import {
+  registerPersonnelPushIfAuthed,
   requestNotificationPermission,
-  subscribePersonnelPush,
 } from '@/lib/personnel-push-client';
 
 type Props = {
@@ -101,7 +101,7 @@ export function PersonnelNotificationsBell({ tone = 'light', className = '' }: P
 
   useEffect(() => {
     if (notificationAccess !== 'granted') return;
-    void subscribePersonnelPush({ skipPermissionRequest: true });
+    void registerPersonnelPushIfAuthed();
   }, [notificationAccess]);
 
   const bellClass =
@@ -124,7 +124,7 @@ export function PersonnelNotificationsBell({ tone = 'light', className = '' }: P
       if (access === 'granted') {
         markNotificationsUnlocked();
         setNotificationAccess('granted');
-        await subscribePersonnelPush({ skipPermissionRequest: true });
+        await registerPersonnelPushIfAuthed();
         void refresh();
       } else {
         setNotificationAccess(access);
@@ -137,7 +137,7 @@ export function PersonnelNotificationsBell({ tone = 'light', className = '' }: P
   const recheckTwaNotificationAccess = async () => {
     setRequestingPermission(true);
     try {
-      await subscribePersonnelPush({ skipPermissionRequest: true });
+      await registerPersonnelPushIfAuthed();
       const access = await syncNotificationAccess();
       if (access === 'granted') void refresh();
     } finally {
