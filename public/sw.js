@@ -1,5 +1,7 @@
-const CACHE_NAME = 'crewledger-v15';
-const PUSH_ICON_PATH = '/personel-icon.png';
+const CACHE_NAME = 'crewledger-v16';
+/** Manifest ile aynı 192px ikon — büyük PNG Android’de varsayılan zile düşer */
+const PUSH_ICON_PATH = '/icons/personnel/192';
+const PUSH_ICON_VERSION = '11';
 
 function isInAppPersonnelClient(client) {
   try {
@@ -38,7 +40,12 @@ function isNetworkOnly(url) {
 }
 
 self.addEventListener('install', (event) => {
-  event.waitUntil(self.skipWaiting());
+  const pushIconUrl = new URL(`${PUSH_ICON_PATH}?v=${PUSH_ICON_VERSION}`, self.location.origin).href;
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then((cache) => cache.add(pushIconUrl).catch(() => undefined))
+      .then(() => self.skipWaiting())
+  );
 });
 
 self.addEventListener('activate', (event) => {
@@ -88,7 +95,7 @@ self.addEventListener('push', (event) => {
 
   event.waitUntil(
     (async () => {
-      const iconUrl = new URL(PUSH_ICON_PATH, self.location.origin).href;
+      const iconUrl = new URL(`${PUSH_ICON_PATH}?v=${PUSH_ICON_VERSION}`, self.location.origin).href;
       const clients = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
       const inAppClients = clients.filter(isInAppPersonnelClient);
 
@@ -113,6 +120,7 @@ self.addEventListener('push', (event) => {
           renotify: true,
           data: { href: payload.href || '/personnel-panel', notificationId: payload.notificationId },
           vibrate: [100, 50, 100],
+          // badge bilinçli yok — Android’de ikinci küçük ikon / zil oluşturur
         });
       }
 
