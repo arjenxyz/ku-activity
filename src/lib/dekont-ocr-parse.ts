@@ -6,27 +6,97 @@ import {
   detectTransferType,
 } from '@/lib/turkish-banks';
 
+const AMOUNT_TOKEN = String.raw`(\d{1,3}(?:\.\d{3})+|\d+),\d{2}`;
+
+type AmountCandidate = { value: number; priority: number };
+
+function parseAmountToken(raw: string): number | null {
+  const normalized = raw.trim().replace(/\s/g, '').replace(/\./g, '').replace(',', '.');
+  const num = Number(normalized);
+  if (!Number.isFinite(num) || num <= 0 || num >= 10_000_000) return null;
+  return num;
+}
+
+function collectAmountMatches(
+  text: string,
+  pattern: RegExp,
+  priority: number,
+  candidates: AmountCandidate[]
+) {
+  const flags = pattern.flags.includes('g') ? pattern.flags : `${pattern.flags}g`;
+  const re = new RegExp(pattern.source, flags);
+  let match: RegExpExecArray | null;
+  while ((match = re.exec(text)) !== null) {
+    const raw = match[1];
+    if (!raw) continue;
+    const num = parseAmountToken(raw);
+    if (num != null) candidates.push({ value: num, priority });
+  }
+}
+
+function pickBestAmount(candidates: AmountCandidate[]): number | null {
+  if (candidates.length === 0) return null;
+
+  const bestPriority = Math.min(...candidates.map((c) => c.priority));
+  const tier = candidates.filter((c) => c.priority === bestPriority);
+  const values = [...new Set(tier.map((c) => c.value))];
+
+  if (values.length === 1) return values[0]!;
+  // Aynı öncelikte birden fazla tutar: havale genelde tek; bakiye gibi aykırı değeri ele
+  if (values.length === 2) return Math.min(...values);
+  const sorted = [...values].sort((a, b) => a - b);
+  return sorted[Math.floor(sorted.length / 2)] ?? sorted[0]!;
+}
+
 function parseTurkishAmount(text: string): number | null {
-  const patterns = [
-    /(?:TUTAR|Amount|Miktar|Transfer)[:\s]*(?:TRY|TL)?\s*([\d.]+,\d{2})/gi,
-    /([\d]{1,3}(?:\.\d{3})+,\d{2})\s*(?:TRY|TL)/gi,
-    /([\d]+,\d{2})\s*(?:TRY|TL)/gi,
+  const normalized = text
+    .replace(/\u00a0/g, ' ')
+    .replace(/[₺]/g, '')
+    .replace(/\r\n/g, '\n');
+
+  const candidates: AmountCandidate[] = [];
+
+  const labeledHigh = [
+    new RegExp(
+      String.raw`(?:İşlem|Islem|Işlem|ISLEM)\s*Tutar[ıiİI]?\s*[:\-]?\s*(?:TRY|TL)?\s*${AMOUNT_TOKEN}`,
+      'gi'
+    ),
+    new RegExp(
+      String.raw`(?:Transfer)\s*Tutar[ıiİI]?\s*[:\-]?\s*(?:TRY|TL)?\s*${AMOUNT_TOKEN}`,
+      'gi'
+    ),
+    new RegExp(
+      String.raw`(?:Gönderilen|Gonderilen|Havale|EFT|FAST)\s*Tutar[ıiİI]?\s*[:\-]?\s*(?:TRY|TL)?\s*${AMOUNT_TOKEN}`,
+      'gi'
+    ),
+    new RegExp(
+      String.raw`(?:İşlem|Islem|Transfer)\s*Tutar[ıiİI]?\s*[:\-]?\s*\n\s*(?:TRY|TL)?\s*${AMOUNT_TOKEN}`,
+      'gi'
+    ),
   ];
 
-  const candidates: number[] = [];
-  for (const pattern of patterns) {
-    let match: RegExpExecArray | null;
-    while ((match = pattern.exec(text)) !== null) {
-      const raw = match[1]?.replace(/\./g, '').replace(',', '.');
-      const num = Number(raw);
-      if (Number.isFinite(num) && num > 0 && num < 10_000_000) {
-        candidates.push(num);
-      }
-    }
-  }
+  const labeledMid = [
+    new RegExp(String.raw`(?:TUTAR|Tutar[ıiİI]?|Miktar|Amount)\s*[:\-]\s*(?:TRY|TL)?\s*${AMOUNT_TOKEN}`, 'gi'),
+    new RegExp(String.raw`(?:TUTAR|Amount|Miktar|Transfer)\s*[:\-]?\s*(?:TRY|TL)?\s*${AMOUNT_TOKEN}`, 'gi'),
+  ];
 
-  if (candidates.length === 0) return null;
-  return Math.max(...candidates);
+  const withCurrency = [
+    new RegExp(String.raw`${AMOUNT_TOKEN}\s*(?:TRY|TL)\b`, 'gi'),
+    new RegExp(String.raw`(?:TRY|TL)\s*${AMOUNT_TOKEN}`, 'gi'),
+  ];
+
+  for (const pattern of labeledHigh) collectAmountMatches(normalized, pattern, 1, candidates);
+  for (const pattern of labeledMid) collectAmountMatches(normalized, pattern, 2, candidates);
+  for (const pattern of withCurrency) collectAmountMatches(normalized, pattern, 3, candidates);
+
+  const picked = pickBestAmount(candidates);
+  if (picked != null) return picked;
+
+  // Son çare: metindeki biçimlendirilmiş tutarlar (TL etiketi olmasa bile)
+  const bare = new RegExp(AMOUNT_TOKEN, 'g');
+  const bareCandidates: AmountCandidate[] = [];
+  collectAmountMatches(normalized, bare, 4, bareCandidates);
+  return pickBestAmount(bareCandidates);
 }
 
 function parseReferenceNo(text: string): string | null {

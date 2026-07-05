@@ -15,8 +15,8 @@
       "detailFailed": "Geçerli alıcı IBAN okunamadı"
     },
     "amount": {
-      "label": "Transfer tutarı",
-      "detailFailed": "Tutar tespit edilemedi",
+      "label": "İşlem / transfer tutarı",
+      "detailFailed": "Tutar tespit edilemedi (İşlem Tutarı veya TL satırı okunamadı)",
       "detailAmount": "{amount} ₺"
     },
     "transferShape": {
