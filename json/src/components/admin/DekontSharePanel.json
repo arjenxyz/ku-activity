@@ -5,6 +5,7 @@
     "review": "Onayla"
   },
   "trustLabel": "Güven skoru",
+  "matchScoreLabel": "Eşleşme",
   "optionalBadge": "opsiyonel",
   "validation": {
     "passedHeader": "Kabul edilen kontroller",
@@ -29,7 +30,7 @@
   },
   "header": {
     "title": "Dekont paylaş",
-    "description": "Havale dekontunu yükleyin, avans talebiyle eşleştirip ödemeyi kaydedin."
+    "description": "Havale dekontunu yükleyin, personel profiliyle eşleştirip ödemeyi kaydedin."
   },
   "upload": {
     "title": "Dekont yükle",
@@ -43,9 +44,22 @@
     "shareHint": "Dekont cihazınızda okunuyor (ücretsiz OCR). Bu işlem bir dakika sürebilir."
   },
   "review": {
-    "documentValidation": "Belge",
-    "ocrDataTitle": "Okunan bilgiler",
-    "matchTitle": "Avans eşleştirmesi",
+    "documentValidation": "Belge doğrulama",
+    "ocrDataTitle": "Dekonttan okunan",
+    "matchTitle": "Personel eşleştirmesi",
+    "matchSubtitle": "Ödemenin hangi personel avansına işleneceğini seçin.",
+    "selectedPersonnel": "Seçilen personel",
+    "selectedHint": "Bu dekont aşağıdaki personelin onaylı havale avansına kaydedilecek.",
+    "viewProfile": "Profili aç",
+    "profileIban": "Kayıtlı IBAN",
+    "approvedOn": "Onay tarihi",
+    "ocrAmount": "Dekont tutarı",
+    "approvedAmount": "Onaylı avans",
+    "matchReasons": "Eşleşme gerekçeleri",
+    "ibanMatch": "IBAN eşleşti",
+    "ibanMismatch": "IBAN uyuşmuyor",
+    "amountMatch": "Tutar eşleşti",
+    "amountMismatch": "Tutar farklı",
     "noMatchTitle": "Eşleşen avans bulunamadı",
     "noMatchDescription": "Onaylı havale bekleyen talep yok veya IBAN/tutar uyuşmuyor.",
     "goToProjects": "Projelere git",
@@ -55,7 +69,8 @@
     "saveSaving": "Kaydediliyor…",
     "savePayment": "Ödemeyi kaydet",
     "advanceRequests": "Avans talepleri",
-    "anotherDekont": "Başka dekont"
+    "anotherDekont": "Başka dekont",
+    "otherCandidates": "Diğer adaylar"
   },
   "ocrFields": {
     "senderBank": "Gönderen",

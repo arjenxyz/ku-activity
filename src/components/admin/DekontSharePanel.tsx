@@ -9,15 +9,18 @@ import {
   FiAlertTriangle,
   FiCheck,
   FiCheckCircle,
+  FiExternalLink,
   FiFileText,
   FiRefreshCw,
   FiUpload,
+  FiUser,
   FiXCircle,
 } from 'react-icons/fi';
 import { AlertBanner } from '@/components/project/AlertBanner';
 import { ProjectPageHeader } from '@/components/project/ProjectPageHeader';
+import { EmployeeAvatar } from '@/components/employee/EmployeeAvatar';
 import { btnPrimary, btnSecondary, labelClass, inputClass } from '@/components/project/ui';
-import { formatMoney } from '@/lib/format';
+import { formatDate, formatMoney } from '@/lib/format';
 import { formatString } from '@/lib/strings/format';
 import { getRegistryStrings } from '@/lib/i18n/strings-registry';
 import { formatOcrIban } from '@/lib/advance-dekont-match';
@@ -84,6 +87,199 @@ function StepIndicator({ step }: { step: Step }) {
           </div>
         );
       })}
+    </div>
+  );
+}
+
+function MatchScoreBadge({ score }: { score: number }) {
+  const strings = useRegistryStrings('components/admin/DekontSharePanel');
+  const ok = score >= MIN_MATCH_SCORE;
+  return (
+    <div
+      className={`shrink-0 rounded-xl px-2.5 py-1.5 text-center ${
+        ok
+          ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-300'
+          : 'bg-amber-100 text-amber-900 dark:bg-amber-950/40 dark:text-amber-200'
+      }`}
+    >
+      <p className="text-lg font-bold tabular-nums leading-none">{score}</p>
+      <p className="mt-0.5 text-[9px] font-medium uppercase tracking-wide opacity-75">{strings.matchScoreLabel}</p>
+    </div>
+  );
+}
+
+function MatchReasonChips({ reasons }: { reasons: string[] }) {
+  if (!reasons.length) return null;
+  return (
+    <ul className="mt-2 flex flex-wrap gap-1.5">
+      {reasons.map((reason) => (
+        <li
+          key={reason}
+          className="rounded-full bg-slate-100 px-2.5 py-0.5 text-[11px] font-medium text-slate-600 dark:bg-slate-800 dark:text-slate-300"
+        >
+          {reason}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function PersonnelMatchCard({
+  match,
+  selected,
+  ocr,
+  onSelect,
+}: {
+  match: DekontMatchSuggestion;
+  selected: boolean;
+  ocr: DekontOcrResult;
+  onSelect: () => void;
+}) {
+  const strings = useRegistryStrings('components/admin/DekontSharePanel');
+  const matchOk = validateMatchForConfirm(ocr, match).ok;
+  const profileHref = `/admin-panel/proje/${match.projectId}/list/${match.employeeId}`;
+
+  return (
+    <label
+      className={`block cursor-pointer rounded-2xl border p-4 transition-all ${
+        selected
+          ? 'border-slate-900 bg-slate-50 ring-2 ring-slate-900/10 dark:border-white dark:bg-slate-800 dark:ring-white/10'
+          : 'border-slate-200 hover:border-slate-300 dark:border-slate-700 dark:hover:border-slate-600'
+      } ${!matchOk ? 'opacity-80' : ''}`}
+    >
+      <input type="radio" name="match" className="sr-only" checked={selected} onChange={onSelect} />
+      <div className="flex items-start gap-3">
+        <EmployeeAvatar
+          name={match.employeeName}
+          photoUrl={match.employeePhotoUrl}
+          size="lg"
+          className="ring-2 ring-white dark:ring-slate-900"
+        />
+        <div className="min-w-0 flex-1">
+          <div className="flex items-start justify-between gap-2">
+            <div className="min-w-0">
+              <p className="truncate font-semibold text-slate-900 dark:text-white">{match.employeeName}</p>
+              {match.employeePosition && (
+                <p className="truncate text-sm text-slate-500">{match.employeePosition}</p>
+              )}
+              <p className="mt-0.5 truncate text-xs text-slate-400">{match.projectName}</p>
+            </div>
+            <MatchScoreBadge score={match.score} />
+          </div>
+
+          <div className="mt-3 grid gap-1.5 text-xs sm:grid-cols-2">
+            <div className="rounded-lg bg-white/80 px-2.5 py-1.5 dark:bg-slate-900/50">
+              <p className="text-slate-400">{strings.review.approvedAmount}</p>
+              <p className="font-semibold tabular-nums text-slate-900 dark:text-white">
+                {formatMoney(match.approvedAmount)}
+              </p>
+            </div>
+            {match.employeeIbanMasked && (
+              <div className="rounded-lg bg-white/80 px-2.5 py-1.5 dark:bg-slate-900/50">
+                <p className="text-slate-400">{strings.review.profileIban}</p>
+                <p className="font-mono text-[11px] font-medium text-slate-800 dark:text-slate-200">
+                  {match.employeeIbanMasked}
+                </p>
+              </div>
+            )}
+          </div>
+
+          <div className="mt-2 flex flex-wrap gap-2 text-[11px]">
+            <span
+              className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 font-medium ${
+                match.ibanMatched
+                  ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-300'
+                  : 'bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400'
+              }`}
+            >
+              {match.ibanMatched ? <FiCheck className="h-3 w-3" /> : <FiXCircle className="h-3 w-3" />}
+              {match.ibanMatched ? strings.review.ibanMatch : strings.review.ibanMismatch}
+            </span>
+            <span
+              className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 font-medium ${
+                match.amountMatched
+                  ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-300'
+                  : 'bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400'
+              }`}
+            >
+              {match.amountMatched ? <FiCheck className="h-3 w-3" /> : <FiXCircle className="h-3 w-3" />}
+              {match.amountMatched ? strings.review.amountMatch : strings.review.amountMismatch}
+            </span>
+          </div>
+
+          <MatchReasonChips reasons={match.reasons} />
+
+          <Link
+            href={profileHref}
+            onClick={(e) => e.stopPropagation()}
+            className="mt-3 inline-flex items-center gap-1 text-xs font-medium text-blue-600 hover:underline dark:text-blue-400"
+          >
+            <FiExternalLink className="h-3.5 w-3.5" />
+            {strings.review.viewProfile}
+          </Link>
+        </div>
+      </div>
+    </label>
+  );
+}
+
+function SelectedPersonnelHero({
+  match,
+  ocr,
+}: {
+  match: DekontMatchSuggestion;
+  ocr: DekontOcrResult;
+}) {
+  const strings = useRegistryStrings('components/admin/DekontSharePanel');
+  const profileHref = `/admin-panel/proje/${match.projectId}/list/${match.employeeId}`;
+
+  return (
+    <div className="rounded-2xl border border-emerald-200 bg-gradient-to-br from-emerald-50 via-white to-white p-5 dark:border-emerald-900/40 dark:from-emerald-950/30 dark:via-slate-900 dark:to-slate-900">
+      <p className="text-xs font-semibold uppercase tracking-wide text-emerald-700 dark:text-emerald-400">
+        {strings.review.selectedPersonnel}
+      </p>
+      <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">{strings.review.selectedHint}</p>
+
+      <div className="mt-4 flex flex-col gap-4 sm:flex-row sm:items-center">
+        <EmployeeAvatar name={match.employeeName} photoUrl={match.employeePhotoUrl} size="xl" />
+        <div className="min-w-0 flex-1">
+          <h3 className="text-xl font-bold text-slate-900 dark:text-white">{match.employeeName}</h3>
+          {match.employeePosition && (
+            <p className="text-sm text-slate-500">{match.employeePosition}</p>
+          )}
+          <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">{match.projectName}</p>
+          {match.approvedAt && (
+            <p className="mt-1 text-xs text-slate-400">
+              {strings.review.approvedOn}: {formatDate(match.approvedAt)}
+            </p>
+          )}
+        </div>
+        <Link href={profileHref} className={`${btnSecondary} inline-flex shrink-0 items-center gap-2`}>
+          <FiUser className="h-4 w-4" />
+          {strings.review.viewProfile}
+        </Link>
+      </div>
+
+      <div className="mt-4 grid gap-3 sm:grid-cols-3">
+        <div className="rounded-xl bg-white/90 px-3 py-2.5 dark:bg-slate-800/80">
+          <p className="text-xs text-slate-500">{strings.review.ocrAmount}</p>
+          <p className="mt-0.5 font-semibold tabular-nums text-slate-900 dark:text-white">
+            {ocr.amount != null ? formatMoney(ocr.amount) : strings.ocrFields.empty}
+          </p>
+        </div>
+        <div className="rounded-xl bg-white/90 px-3 py-2.5 dark:bg-slate-800/80">
+          <p className="text-xs text-slate-500">{strings.review.approvedAmount}</p>
+          <p className="mt-0.5 font-semibold tabular-nums text-slate-900 dark:text-white">
+            {formatMoney(match.approvedAmount)}
+          </p>
+        </div>
+        <div className="rounded-xl bg-white/90 px-3 py-2.5 dark:bg-slate-800/80">
+          <p className="text-xs text-slate-500">{strings.review.profileIban}</p>
+          <p className="mt-0.5 font-mono text-sm font-medium text-slate-900 dark:text-white">
+            {match.employeeIbanMasked ?? formatOcrIban(ocr.recipientIban)}
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
@@ -600,151 +796,133 @@ function DekontShareContent() {
 
       {step === 'review' && draft && ocr && validation && (
         <div className="space-y-4">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
-            <div className="flex items-start justify-between gap-4">
-              <div className="min-w-0">
-                <h3 className="font-semibold text-slate-900 dark:text-white">{strings.review.documentValidation}</h3>
-                <p className="mt-0.5 truncate text-xs text-slate-500">{draft.proof_file_name}</p>
-                <p
-                  className={`mt-3 text-sm ${
-                    validation.accepted ? 'text-emerald-700 dark:text-emerald-300' : 'text-red-700 dark:text-red-300'
-                  }`}
-                >
-                  {validation.summary}
-                </p>
-              </div>
-              <ScoreBadge score={validation.score} accepted={validation.accepted} />
-            </div>
-            <div className="mt-4">
-              <ValidationReport checks={validation.checks} />
-            </div>
-          </div>
+          {selectedMatch && <SelectedPersonnelHero match={selectedMatch} ocr={ocr} />}
 
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
-            <h3 className="font-semibold text-slate-900 dark:text-white">{strings.review.ocrDataTitle}</h3>
-            <dl className="mt-4 grid gap-2 sm:grid-cols-2 text-sm">
-              {ocrRows.map(([label, value]) => (
-                <div
-                  key={label}
-                  className="flex justify-between gap-3 rounded-lg bg-slate-50 px-3 py-2 dark:bg-slate-800/50"
-                >
-                  <dt className="text-slate-500">{label}</dt>
-                  <dd className="text-right font-medium tabular-nums text-slate-900 dark:text-white">{value}</dd>
-                </div>
-              ))}
-            </dl>
-          </div>
-
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
-            <h3 className="font-semibold text-slate-900 dark:text-white">{strings.review.matchTitle}</h3>
-
-            {matches.length === 0 ? (
-              <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900 dark:border-amber-900/50 dark:bg-amber-950/30 dark:text-amber-200">
-                <p className="font-medium">{strings.review.noMatchTitle}</p>
-                <p className="mt-1 opacity-90">{strings.review.noMatchDescription}</p>
-                <Link href="/admin-panel" className={`${btnSecondary} mt-3 inline-flex`}>
-                  {strings.review.goToProjects}
-                </Link>
-              </div>
-            ) : (
-              <ul className="mt-4 space-y-2">
-                {matches.map((m) => {
-                  const selected = selectedRequestId === m.requestId;
-                  const matchOk = validateMatchForConfirm(ocr, m).ok;
-                  return (
-                    <li key={m.requestId}>
-                      <label
-                        className={`flex cursor-pointer items-center justify-between gap-3 rounded-xl border px-4 py-3 transition-colors ${
-                          selected
-                            ? 'border-slate-900 bg-slate-50 dark:border-white dark:bg-slate-800'
-                            : 'border-slate-200 hover:border-slate-300 dark:border-slate-700 dark:hover:border-slate-600'
-                        } ${!matchOk ? 'opacity-70' : ''}`}
-                      >
-                        <input
-                          type="radio"
-                          name="match"
-                          className="sr-only"
-                          checked={selected}
-                          onChange={() => {
-                            setSelectedRequestId(m.requestId);
-                            setSelectedProjectId(m.projectId);
-                          }}
-                        />
-                        <div className="min-w-0">
-                          <p className="font-semibold text-slate-900 dark:text-white">{m.employeeName}</p>
-                          <p className="text-sm text-slate-500">
-                            {m.projectName} · {formatMoney(m.approvedAmount)}
-                          </p>
-                        </div>
-                        <span
-                          className={`shrink-0 rounded-lg px-2 py-1 text-xs font-bold tabular-nums ${
-                            m.score >= MIN_MATCH_SCORE
-                              ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-300'
-                              : 'bg-red-100 text-red-700 dark:bg-red-950/50 dark:text-red-300'
-                          }`}
-                        >
-                          {m.score}
-                        </span>
-                      </label>
-                    </li>
-                  );
-                })}
-              </ul>
-            )}
-
-            {matches.length > 0 && (
-              <div className="mt-5 space-y-4 border-t border-slate-100 pt-5 dark:border-slate-800">
-                {!confirmReady.ok && <ValidationReport checks={matchChecks} />}
-
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <div>
-                    <label className={labelClass}>{strings.review.referenceLabel}</label>
-                    <input className={inputClass} value={referenceNo} onChange={(e) => setReferenceNo(e.target.value)} />
+          <div className="grid gap-4 lg:grid-cols-2">
+            <div className="space-y-4">
+              <div className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="min-w-0">
+                    <h3 className="font-semibold text-slate-900 dark:text-white">
+                      {strings.review.documentValidation}
+                    </h3>
+                    <p className="mt-0.5 truncate text-xs text-slate-500">{draft.proof_file_name}</p>
                   </div>
-                  <div>
-                    <label className={labelClass}>{strings.review.paymentDateLabel}</label>
-                    <input
-                      type="date"
-                      className={inputClass}
-                      value={paymentDate}
-                      onChange={(e) => setPaymentDate(e.target.value)}
-                    />
-                  </div>
+                  <ScoreBadge score={validation.score} accepted={validation.accepted} />
                 </div>
+                <div className="mt-4">
+                  <ValidationReport checks={validation.checks} />
+                </div>
+              </div>
 
-                {!confirmReady.ok && confirmReady.reason && (
-                  <p className="flex items-start gap-2 text-sm text-red-700 dark:text-red-300">
-                    <FiAlertTriangle className="mt-0.5 shrink-0" />
-                    {confirmReady.reason}
-                  </p>
-                )}
-
-                <div className="flex flex-wrap gap-2">
-                  <button
-                    type="button"
-                    className={btnPrimary}
-                    disabled={confirming || !confirmReady.ok}
-                    onClick={() => void handleConfirm()}
-                  >
-                    {confirming ? strings.review.saveSaving : strings.review.savePayment}
-                  </button>
-                  {selectedProjectId && (
-                    <Link
-                      href={`/admin-panel/proje/${selectedProjectId}/avans-talepleri`}
-                      className={btnSecondary}
+              <div className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
+                <h3 className="font-semibold text-slate-900 dark:text-white">{strings.review.ocrDataTitle}</h3>
+                <dl className="mt-4 grid gap-2 text-sm">
+                  {ocrRows.map(([label, value]) => (
+                    <div
+                      key={label}
+                      className="flex justify-between gap-3 rounded-lg bg-slate-50 px-3 py-2 dark:bg-slate-800/50"
                     >
-                      {strings.review.advanceRequests}
-                    </Link>
-                  )}
-                  <label className={`${btnSecondary} inline-flex cursor-pointer items-center gap-1`}>
-                    <FiRefreshCw className="h-4 w-4" />
-                    {strings.review.anotherDekont}
-                    <input type="file" accept="application/pdf,image/*" className="hidden" onChange={handleFileUpload} />
-                  </label>
+                      <dt className="text-slate-500">{label}</dt>
+                      <dd className="text-right font-medium tabular-nums text-slate-900 dark:text-white">{value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
+              <h3 className="font-semibold text-slate-900 dark:text-white">{strings.review.matchTitle}</h3>
+              <p className="mt-1 text-sm text-slate-500">{strings.review.matchSubtitle}</p>
+
+              {matches.length === 0 ? (
+                <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900 dark:border-amber-900/50 dark:bg-amber-950/30 dark:text-amber-200">
+                  <p className="font-medium">{strings.review.noMatchTitle}</p>
+                  <p className="mt-1 opacity-90">{strings.review.noMatchDescription}</p>
+                  <Link href="/admin-panel" className={`${btnSecondary} mt-3 inline-flex`}>
+                    {strings.review.goToProjects}
+                  </Link>
+                </div>
+              ) : (
+                <ul className="mt-4 space-y-3">
+                  {matches.map((m) => (
+                    <li key={m.requestId}>
+                      <PersonnelMatchCard
+                        match={m}
+                        selected={selectedRequestId === m.requestId}
+                        ocr={ocr}
+                        onSelect={() => {
+                          setSelectedRequestId(m.requestId);
+                          setSelectedProjectId(m.projectId);
+                        }}
+                      />
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </div>
+
+          {matches.length > 0 && (
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
+              {!confirmReady.ok && <ValidationReport checks={matchChecks} />}
+
+              <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                <div>
+                  <label className={labelClass}>{strings.review.referenceLabel}</label>
+                  <input className={inputClass} value={referenceNo} onChange={(e) => setReferenceNo(e.target.value)} />
+                </div>
+                <div>
+                  <label className={labelClass}>{strings.review.paymentDateLabel}</label>
+                  <input
+                    type="date"
+                    className={inputClass}
+                    value={paymentDate}
+                    onChange={(e) => setPaymentDate(e.target.value)}
+                  />
                 </div>
               </div>
-            )}
-          </div>
+
+              {!confirmReady.ok && confirmReady.reason && (
+                <p className="mt-4 flex items-start gap-2 text-sm text-red-700 dark:text-red-300">
+                  <FiAlertTriangle className="mt-0.5 shrink-0" />
+                  {confirmReady.reason}
+                </p>
+              )}
+
+              <div className="mt-5 flex flex-wrap gap-2 border-t border-slate-100 pt-5 dark:border-slate-800">
+                <button
+                  type="button"
+                  className={btnPrimary}
+                  disabled={confirming || !confirmReady.ok}
+                  onClick={() => void handleConfirm()}
+                >
+                  {confirming ? strings.review.saveSaving : strings.review.savePayment}
+                </button>
+                {selectedProjectId && selectedMatch && (
+                  <Link
+                    href={`/admin-panel/proje/${selectedProjectId}/list/${selectedMatch.employeeId}`}
+                    className={btnSecondary}
+                  >
+                    {strings.review.viewProfile}
+                  </Link>
+                )}
+                {selectedProjectId && (
+                  <Link
+                    href={`/admin-panel/proje/${selectedProjectId}/avans-talepleri`}
+                    className={btnSecondary}
+                  >
+                    {strings.review.advanceRequests}
+                  </Link>
+                )}
+                <label className={`${btnSecondary} inline-flex cursor-pointer items-center gap-1`}>
+                  <FiRefreshCw className="h-4 w-4" />
+                  {strings.review.anotherDekont}
+                  <input type="file" accept="application/pdf,image/*" className="hidden" onChange={handleFileUpload} />
+                </label>
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>
