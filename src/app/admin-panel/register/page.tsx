@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { FiBriefcase, FiCheckCircle, FiMail, FiUserPlus } from 'react-icons/fi';
+import { FiBriefcase, FiCheckCircle, FiInfo, FiUserPlus } from 'react-icons/fi';
 import { AdminRegisterLayout } from '@/components/auth/AdminRegisterLayout';
 import { AuthAlert, LoadingSpinner } from '@/components/auth/AuthAlerts';
 import { TurkishPhoneInput } from '@/components/forms/TurkishPhoneInput';
@@ -16,7 +16,6 @@ import {
   ADMIN_TEAM_SIZES,
 } from '@/config/admin-register';
 import { validateAdminRegister } from '@/lib/admin-register-validation';
-import { verificationCodeMailto } from '@/lib/support-email';
 import { createClient } from '@/utils/supabase/client';
 import {
   credentialLoginFormProps,
@@ -147,18 +146,12 @@ export default function AdminRegisterPage() {
 
           <div className="rounded-xl border border-blue-100 dark:border-blue-900/50 bg-blue-50/80 dark:bg-blue-950/30 p-4 sm:p-5">
             <div className="flex items-start gap-3">
-              <FiMail className="h-5 w-5 shrink-0 text-blue-600 dark:text-blue-400 mt-0.5" />
+              <FiInfo className="h-5 w-5 shrink-0 text-blue-600 dark:text-blue-400 mt-0.5" />
               <div>
-                <p className="text-sm font-semibold text-blue-900 dark:text-blue-100">{strings.verificationCodeTitle}</p>
+                <p className="text-sm font-semibold text-blue-900 dark:text-blue-100">{strings.projectLimitTitle}</p>
                 <p className="mt-1.5 text-xs text-blue-800/90 dark:text-blue-200/80 leading-relaxed">
-                  {strings.verificationCodeDesc}
+                  {strings.projectLimitDesc}
                 </p>
-                <a
-                  href={verificationCodeMailto()}
-                  className="mt-3 inline-flex text-xs font-semibold text-blue-700 dark:text-blue-300 hover:underline"
-                >
-                  {strings.requestCodeLink}
-                </a>
               </div>
             </div>
           </div>

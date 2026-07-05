@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { requireAdminUser } from '@/lib/admin-auth';
 import { createClient } from '@/utils/supabase/server';
 import { queryProjectsList, apiErrorMessage } from '@/lib/project-queries';
+import { getAdminProjectQuota } from '@/lib/project-admin-quota';
 import type { ProjectFormData, ProjectStatus } from '@/types/project';
 import strings from '@json/src/app/api/admin/projects/route.json';
 
@@ -9,7 +10,7 @@ const VALID_STATUSES: ProjectStatus[] = ['active', 'planned', 'paused', 'complet
 
 export async function GET(request: Request) {
   try {
-    await requireAdminUser();
+    const user = await requireAdminUser();
     const { searchParams } = new URL(request.url);
     const filter = searchParams.get('filter') || 'all';
     const search = searchParams.get('search')?.trim() || '';
@@ -25,7 +26,9 @@ export async function GET(request: Request) {
       );
     }
 
-    return NextResponse.json({ projects: data ?? [] });
+    const quota = await getAdminProjectQuota(user.id);
+
+    return NextResponse.json({ projects: data ?? [], quota });
   } catch (err) {
     const { status, message } = apiErrorMessage(err);
     return NextResponse.json({ error: message }, { status });
@@ -36,17 +39,9 @@ export async function POST(request: Request) {
   try {
     await requireAdminUser();
 
-    const body = (await request.json()) as ProjectFormData & { verificationCode?: string };
+    const body = (await request.json()) as ProjectFormData;
     if (!body.name?.trim()) {
       return NextResponse.json({ error: strings.projeAdıGerekli }, { status: 400 });
-    }
-    if (!body.verificationCode?.trim()) {
-      return NextResponse.json(
-        {
-          error: strings.projeOluşturmakIçinDoğrulamaKoduGerekli,
-        },
-        { status: 400 }
-      );
     }
     if (!VALID_STATUSES.includes(body.status)) {
       return NextResponse.json({ error: strings.geçersizDurum }, { status: 400 });
@@ -60,9 +55,13 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: strings.oturumGerekli }, { status: 401 });
     }
 
-    const { data, error } = await supabase.rpc('create_project_with_verification', {
+    const quota = await getAdminProjectQuota(user.id);
+    if (!quota.canCreate) {
+      return NextResponse.json({ error: strings.activeProjectLimit }, { status: 409 });
+    }
+
+    const { data, error } = await supabase.rpc('create_project_for_admin', {
       p_user_id: user.id,
-      p_verification_code: body.verificationCode.trim(),
       p_name: body.name.trim(),
       p_project_code: body.code?.trim() || null,
       p_location: body.location?.trim() || null,
@@ -74,15 +73,12 @@ export async function POST(request: Request) {
 
     if (error) {
       console.error('Proje oluşturma hatası:', error);
-      if (error.message.includes('INVALID_CODE') || error.message.includes('CODE_ALREADY_USED')) {
-        return NextResponse.json(
-          { error: strings.geçersizSüresiDolmuşVeyaKullanılmışDoğrulama },
-          { status: 400 }
-        );
+      if (error.message.includes('ACTIVE_PROJECT_LIMIT')) {
+        return NextResponse.json({ error: strings.activeProjectLimit }, { status: 409 });
       }
-      if (error.message.includes('create_project_with_verification')) {
+      if (error.message.includes('create_project_for_admin')) {
         return NextResponse.json(
-          { error: strings.err007VerificationSystemSqlÇalıştırın },
+          { error: strings.migrationRequired },
           { status: 503 }
         );
       }

@@ -14,6 +14,7 @@ export default function ProjectPage() {
 
   const strings = useRegistryStrings('app/admin-panel/page');
   const [projects, setProjects] = useState<Project[]>([]);
+  const [projectQuota, setProjectQuota] = useState<{ canCreate: boolean } | null>(null);
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [isFormVisible, setIsFormVisible] = useState(false);
@@ -27,8 +28,9 @@ export default function ProjectPage() {
     setLoading(true);
     setLoadError(null);
     try {
-      const data = await fetchProjects(filter, searchTerm);
+      const { projects: data, quota } = await fetchProjects(filter, searchTerm);
       setProjects(data);
+      setProjectQuota(quota);
     } catch (error) {
       const msg = error instanceof Error ? error.message : strings.loadFailed;
       setLoadError(msg);
@@ -71,11 +73,13 @@ export default function ProjectPage() {
         <div className="flex flex-wrap gap-2">
           <button
             type="button"
+            disabled={projectQuota != null && !projectQuota.canCreate}
             onClick={() => {
               setEditingId(null);
               setIsFormVisible(true);
             }}
-            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium shadow-sm"
+            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+            title={projectQuota != null && !projectQuota.canCreate ? strings.newProjectLimitTitle : undefined}
           >
             <FiPlus className="w-4 h-4" />
             {strings.newProject}

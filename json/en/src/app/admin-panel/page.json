@@ -2,6 +2,7 @@
   "title": "Projects",
   "subtitle": "Create, edit, and manage your job sites",
   "newProject": "New project",
+  "newProjectLimitTitle": "You can create at most 2 active projects (closure projects excluded)",
   "loadFailed": "Could not load projects",
   "adminHint": "Make sure you are signed in and have an admin profile record.",
   "closureFailed": "Could not start closure",

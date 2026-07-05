@@ -1,4 +1,5 @@
 import type { Project, ProjectFormData, ProjectStatus } from '@/types/project';
+import type { AdminProjectQuota } from '@/lib/project-admin-quota';
 
 type ListFilter = 'all' | ProjectStatus;
 
@@ -10,7 +11,7 @@ async function parseError(res: Response) {
 export const fetchProjects = async (
   filter: ListFilter = 'all',
   searchTerm: string = ''
-): Promise<Project[]> => {
+): Promise<{ projects: Project[]; quota: AdminProjectQuota | null }> => {
   const params = new URLSearchParams();
   if (filter !== 'all') params.set('filter', filter);
   if (searchTerm) params.set('search', searchTerm);
@@ -18,7 +19,18 @@ export const fetchProjects = async (
   const res = await fetch(`/api/admin/projects?${params}`);
   if (!res.ok) throw new Error(await parseError(res));
   const data = await res.json();
-  return data.projects ?? [];
+  return {
+    projects: data.projects ?? [],
+    quota: (data.quota as AdminProjectQuota | undefined) ?? null,
+  };
+};
+
+export const fetchProjectQuota = async (): Promise<AdminProjectQuota> => {
+  const { quota } = await fetchProjects();
+  if (!quota) {
+    return { operationalCount: 0, limit: 2, canCreate: true };
+  }
+  return quota;
 };
 
 export const fetchProjectById = async (id: string): Promise<Project | null> => {

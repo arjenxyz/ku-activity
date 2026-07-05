@@ -1,13 +1,13 @@
 'use client';
 
-
 import { useState, useEffect } from 'react';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
-import { FiCheck, FiKey, FiX } from 'react-icons/fi';
-import { verificationCodeMailto } from '@/lib/support-email';
-import { createProject, updateProject, fetchProjectById } from '../../lib/proje/projectService';
+import { FiCheck, FiX } from 'react-icons/fi';
+import { createProject, updateProject, fetchProjectById, fetchProjectQuota } from '../../lib/proje/projectService';
 import type { ProjectFormData, ProjectStatus } from '@/types/project';
 import { PROJECT_STATUS_LABELS } from '@/types/project';
+import { formatString } from '@/lib/strings/format';
+import type { AdminProjectQuota } from '@/lib/project-admin-quota';
 
 const defaultForm: ProjectFormData = {
   name: '',
@@ -17,7 +17,6 @@ const defaultForm: ProjectFormData = {
   end_date: '',
   description: '',
   status: 'active',
-  verificationCode: '',
 };
 
 export default function ProjectForm({
@@ -31,8 +30,16 @@ export default function ProjectForm({
 }) {
   const strings = useRegistryStrings('app/admin-panel/proje/ProjectForm');
   const [formData, setFormData] = useState<ProjectFormData>(defaultForm);
+  const [quota, setQuota] = useState<AdminProjectQuota | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (editingId) return;
+    fetchProjectQuota()
+      .then(setQuota)
+      .catch(() => setQuota(null));
+  }, [editingId]);
 
   useEffect(() => {
     if (!editingId) {
@@ -56,11 +63,15 @@ export default function ProjectForm({
         });
       })
       .catch(() => setError(strings.loadFailed));
-  }, [editingId]);
+  }, [editingId, strings.loadFailed, strings.notFound]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+    if (!editingId && quota && !quota.canCreate) {
+      setError(strings.activeProjectLimit);
+      return;
+    }
     setIsSubmitting(true);
     try {
       if (editingId) {
@@ -86,6 +97,8 @@ export default function ProjectForm({
   const inputClass =
     'block w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent';
 
+  const limitReached = !editingId && quota != null && !quota.canCreate;
+
   return (
     <div className="bg-white dark:bg-slate-900 shadow-sm rounded-2xl overflow-hidden mb-6 border border-slate-200/80 dark:border-slate-800">
       <div className="px-6 py-4 border-b border-slate-200 dark:border-slate-800">
@@ -101,49 +114,33 @@ export default function ProjectForm({
           </div>
         )}
 
-        {!editingId && (
-          <div className="p-4 rounded-xl bg-blue-50 dark:bg-blue-950/30 border border-blue-100 dark:border-blue-900/50 space-y-3">
-            <div className="flex items-start gap-2">
-              <FiKey className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
-              <div>
-                <label htmlFor="verificationCode" className="block text-sm font-semibold text-blue-900 dark:text-blue-100">
-                  {strings.verificationCodeLabel}
-                </label>
-                <p className="text-xs text-blue-700/80 dark:text-blue-300/80 mt-1">
-                  {strings.verificationCodeIntro}{' '}
-                  <a href={verificationCodeMailto()} className="font-semibold underline hover:no-underline">
-                    {strings.verificationCodeLink}
-                  </a>
-                  .
-                </p>
-              </div>
-            </div>
-            <input
-              type="text"
-              name="verificationCode"
-              id="verificationCode"
-              value={formData.verificationCode || ''}
-              onChange={handleChange}
-              required
-              className={inputClass}
-              placeholder={strings.verificationCodePlaceholder}
-              autoComplete="off"
-            />
+        {!editingId && quota?.limit != null && (
+          <p className="text-sm text-slate-600 dark:text-slate-400">
+            {formatString(strings.quotaHint, {
+              count: quota.operationalCount,
+              limit: quota.limit,
+            })}
+          </p>
+        )}
+
+        {limitReached && (
+          <div className="p-3 rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/50 text-sm text-amber-900 dark:text-amber-100">
+            {strings.activeProjectLimit}
           </div>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div className={`grid grid-cols-1 md:grid-cols-2 gap-5 ${limitReached ? 'opacity-60 pointer-events-none' : ''}`}>
           <div className="md:col-span-2">
             <label htmlFor="name" className="block text-sm font-medium mb-1.5">{strings.nameLabel}</label>
-            <input type="text" name="name" id="name" value={formData.name} onChange={handleChange} required className={inputClass} placeholder={strings.namePlaceholder} />
+            <input type="text" name="name" id="name" value={formData.name} onChange={handleChange} required className={inputClass} placeholder={strings.namePlaceholder} disabled={limitReached} />
           </div>
           <div>
             <label htmlFor="code" className="block text-sm font-medium mb-1.5">{strings.codeLabel}</label>
-            <input type="text" name="code" id="code" value={formData.code} onChange={handleChange} className={inputClass} placeholder={strings.codePlaceholder} />
+            <input type="text" name="code" id="code" value={formData.code} onChange={handleChange} className={inputClass} placeholder={strings.codePlaceholder} disabled={limitReached} />
           </div>
           <div>
             <label htmlFor="status" className="block text-sm font-medium mb-1.5">{strings.statusLabel}</label>
-            <select name="status" id="status" value={formData.status} onChange={handleChange} required className={inputClass}>
+            <select name="status" id="status" value={formData.status} onChange={handleChange} required className={inputClass} disabled={limitReached}>
               {(Object.keys(PROJECT_STATUS_LABELS) as ProjectStatus[]).map((s) => (
                 <option key={s} value={s}>{PROJECT_STATUS_LABELS[s]}</option>
               ))}
@@ -151,19 +148,19 @@ export default function ProjectForm({
           </div>
           <div>
             <label htmlFor="location" className="block text-sm font-medium mb-1.5">{strings.locationLabel}</label>
-            <input type="text" name="location" id="location" value={formData.location} onChange={handleChange} className={inputClass} placeholder={strings.locationPlaceholder} />
+            <input type="text" name="location" id="location" value={formData.location} onChange={handleChange} className={inputClass} placeholder={strings.locationPlaceholder} disabled={limitReached} />
           </div>
           <div>
             <label htmlFor="start_date" className="block text-sm font-medium mb-1.5">{strings.startDateLabel}</label>
-            <input type="date" name="start_date" id="start_date" value={formData.start_date} onChange={handleChange} className={inputClass} />
+            <input type="date" name="start_date" id="start_date" value={formData.start_date} onChange={handleChange} className={inputClass} disabled={limitReached} />
           </div>
           <div>
             <label htmlFor="end_date" className="block text-sm font-medium mb-1.5">{strings.endDateLabel}</label>
-            <input type="date" name="end_date" id="end_date" value={formData.end_date} onChange={handleChange} className={inputClass} />
+            <input type="date" name="end_date" id="end_date" value={formData.end_date} onChange={handleChange} className={inputClass} disabled={limitReached} />
           </div>
           <div className="md:col-span-2">
             <label htmlFor="description" className="block text-sm font-medium mb-1.5">{strings.descriptionLabel}</label>
-            <textarea name="description" id="description" value={formData.description} onChange={handleChange} rows={3} className={inputClass} placeholder={strings.descriptionPlaceholder} />
+            <textarea name="description" id="description" value={formData.description} onChange={handleChange} rows={3} className={inputClass} placeholder={strings.descriptionPlaceholder} disabled={limitReached} />
           </div>
         </div>
 
@@ -172,7 +169,7 @@ export default function ProjectForm({
             <FiX className="w-4 h-4" />
             {strings.cancel}
           </button>
-          <button type="submit" disabled={isSubmitting} className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium disabled:opacity-50">
+          <button type="submit" disabled={isSubmitting || limitReached} className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium disabled:opacity-50">
             <FiCheck className="w-4 h-4" />
             {isSubmitting ? strings.saving : editingId ? strings.update : strings.create}
           </button>

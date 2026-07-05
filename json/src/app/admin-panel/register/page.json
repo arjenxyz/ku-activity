@@ -1,13 +1,12 @@
 {
   "steps": [
     { "title": "Hesap oluştur", "desc": "Kişisel ve firma bilgilerinizi girin" },
-    { "title": "Doğrulama kodu", "desc": "Proje açmak için kod talep edin" },
-    { "title": "Şantiye ekleyin", "desc": "Personel ve puantaj yönetimine başlayın" }
+    { "title": "Şantiye ekleyin", "desc": "Doğrudan yönetici panelinden proje oluşturun" },
+    { "title": "Yönetime başlayın", "desc": "Personel ve puantaj takibine geçin" }
   ],
   "howItWorks": "Nasıl çalışır?",
-  "verificationCodeTitle": "Doğrulama kodu",
-  "verificationCodeDesc": "İlk projenizi oluşturmak için doğrulama kodu gerekir. Kayıt sonrası e-posta ile talep edebilirsiniz.",
-  "requestCodeLink": "Kod için bize yazın →",
+  "projectLimitTitle": "Proje limiti",
+  "projectLimitDesc": "Her yönetici en fazla 2 aktif şantiye oluşturabilir. Kapanış sürecindeki projeler bu limite dahil değildir.",
   "productBlurb": "CrewLedger; yevmiye, mesai, avans ve asgari ücret takibini şantiye operasyonlarına özel olarak sunar.",
   "personalInfo": "Kişisel bilgiler",
   "firstNameLabel": "Ad *",
@@ -29,7 +28,7 @@
   "passwordLabel": "Şifre *",
   "passwordHint": "En az 6 karakter",
   "passwordConfirmLabel": "Şifre tekrar *",
-  "freeNotice": "Kayıt ücretsizdir. Hesabınız oluşturulduktan sonra yönetici paneline yönlendirilirsiniz; ilk şantiyenizi eklemek için doğrulama kodu talep etmeniz yeterlidir.",
+  "freeNotice": "Kayıt ücretsizdir. Hesabınız oluşturulduktan sonra yönetici paneline yönlendirilir ve doğrudan şantiye ekleyebilirsiniz.",
   "creatingAccount": "Hesap oluşturuluyor…",
   "submitButton": "Yönetici hesabı oluştur",
   "hasAccount": "Zaten hesabınız var mı?",

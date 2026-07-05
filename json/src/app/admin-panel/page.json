@@ -2,6 +2,7 @@
   "title": "Projeler",
   "subtitle": "Şantiyelerinizi oluşturun, düzenleyin ve yönetin",
   "newProject": "Yeni Proje",
+  "newProjectLimitTitle": "En fazla 2 aktif proje oluşturabilirsiniz (kapanıştakiler hariç)",
   "loadFailed": "Projeler yüklenemedi",
   "adminHint": "Giriş yaptığınızdan ve profiles tablosunda admin kaydınızın olduğundan emin olun.",
   "closureFailed": "Kapanış başlatılamadı",
