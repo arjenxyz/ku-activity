@@ -9,6 +9,7 @@ type Props = {
   projectName?: string;
   className?: string;
   compact?: boolean;
+  premium?: boolean;
 };
 
 function parseFilename(contentDisposition: string | null, fallback: string) {
@@ -22,6 +23,7 @@ export function ProjectLegalDossierDownloadButton({
   projectName,
   className = '',
   compact = false,
+  premium = false,
 }: Props) {
   const strings = useRegistryStrings('components/admin/ProjectLegalDossierDownloadButton');
   const [loading, setLoading] = useState(false);
@@ -66,9 +68,11 @@ export function ProjectLegalDossierDownloadButton({
         onClick={() => void handleDownload()}
         disabled={loading}
         title={projectName ? `${projectName} — ${strings.button}` : strings.button}
-        className={`inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg disabled:opacity-50 ${
-          compact ? 'w-full' : ''
-        }`}
+        className={`inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-50 ${
+          premium
+            ? 'w-full rounded-2xl bg-indigo-600 hover:bg-indigo-700 shadow-lg shadow-indigo-600/20 py-3 transition-colors'
+            : 'bg-indigo-600 hover:bg-indigo-700 rounded-lg'
+        } ${compact && !premium ? 'w-full' : ''}`}
       >
         {loading ? (
           <>
