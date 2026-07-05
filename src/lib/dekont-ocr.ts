@@ -184,17 +184,6 @@ function sniffContentKind(buffer: Buffer, mimeType: string): 'pdf' | 'image' | '
   return 'unknown';
 }
 
-async function extractPdfText(buffer: Buffer): Promise<string> {
-  const { PDFParse } = await import('pdf-parse');
-  const parser = new PDFParse({ data: buffer });
-  try {
-    const textResult = await parser.getText();
-    return textResult.text ?? '';
-  } finally {
-    await parser.destroy();
-  }
-}
-
 async function extractImageTextWithVision(buffer: Buffer): Promise<string> {
   const token = await getGoogleVisionToken();
   const res = await fetch('https://vision.googleapis.com/v1/images:annotate', {
@@ -298,15 +287,12 @@ export async function analyzeDekont(params: {
 
   try {
     if (kind === 'pdf') {
-      rawText = await extractPdfText(params.buffer);
-      source = 'pdf';
-      if (rawText.trim().length < 40) {
-        try {
-          rawText = await extractPdfTextWithVision(params.buffer);
-          source = 'vision';
-        } catch (err) {
-          ocrError = err instanceof Error ? err.message : strings.visionFailed;
-        }
+      // pdf-parse (pdfjs) Vercel'de DOMMatrix ister — doğrudan Vision PDF OCR kullan
+      try {
+        rawText = await extractPdfTextWithVision(params.buffer);
+        source = 'vision';
+      } catch (err) {
+        ocrError = err instanceof Error ? err.message : strings.visionFailed;
       }
     } else if (kind === 'image') {
       rawText = await extractImageTextWithVision(params.buffer);
