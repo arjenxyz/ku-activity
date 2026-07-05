@@ -14,9 +14,16 @@
     "minimumWages": { "title": "Asgari ücret kayıtları" },
     "payroll": { "title": "Bordro dönemleri ve satırlar" },
     "contracts": { "title": "Sözleşme onayları ve metinleri" },
-    "registration": { "title": "Başvuru ve onay geçmişi" },
-    "company": { "title": "İşletme / veri sorumlusu bilgisi" },
-    "extensionsPlaceholder": { "title": "Genişletilebilir modül alanı" }
+    "registration": { "title": "Application and approval history" },
+    "advanceRequests": { "title": "Advance requests (approval, payment, receipt)" },
+    "attendance": { "title": "Attendance check-ins and session notices" },
+    "notifications": { "title": "In-app notification history" },
+    "closureConsent": {
+      "title": "Project closure consent",
+      "notInClosure": "Project is not in closure or no consent record yet"
+    },
+    "company": { "title": "Business / data controller info" },
+    "extensionsPlaceholder": { "title": "Extensible module placeholder" }
   },
   "contractHtml": {
     "approvedLabel": "Onay:",

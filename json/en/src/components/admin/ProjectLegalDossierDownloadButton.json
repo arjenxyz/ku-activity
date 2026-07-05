@@ -1,0 +1,10 @@
+{
+  "errors": {
+    "downloadFailed": "Project archive download failed",
+    "genericFailed": "Download failed"
+  },
+  "loading": "Preparing…",
+  "button": "Download full project archive",
+  "hint": "All personnel folders, closure summary, team/block assignments, and wage policy in one ZIP.",
+  "fallbackFilename": "project-closure-archive.zip"
+}

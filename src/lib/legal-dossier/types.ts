@@ -1,9 +1,11 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 
 /** ZIP içeriği şema sürümü — yeni modül eklenince artırın */
-export const LEGAL_DOSSIER_SCHEMA_VERSION = '1.1.0';
+export const LEGAL_DOSSIER_SCHEMA_VERSION = '1.2.0';
 
-export type DossierExportType = 'admin' | 'personnel_self';
+export const PROJECT_CLOSURE_CONSENT_VERSION = '2026-07-closure-v1';
+
+export type DossierExportType = 'admin' | 'personnel_self' | 'admin_project';
 
 export const PERSONNEL_SELF_EXPORT_DAILY_LIMIT = 5;
 

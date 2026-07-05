@@ -69,10 +69,12 @@ export async function buildLegalDossier(params: {
   exportedByEmail: string;
   exportedById?: string | null;
   exportType?: DossierExportType;
+  skipExportLog?: boolean;
+  skipQuotaCheck?: boolean;
 }): Promise<LegalDossierResult> {
   const exportType = params.exportType ?? 'admin';
 
-  if (exportType === 'personnel_self') {
+  if (exportType === 'personnel_self' && !params.skipQuotaCheck) {
     await assertPersonnelExportQuota(params.employeeId);
   }
 
@@ -193,14 +195,16 @@ export async function buildLegalDossier(params: {
     files.push({ path: `01-profil/foto.${ext}`, content: photoBytes });
   }
 
-  await logExport({
-    projectId: params.projectId,
-    employeeId: params.employeeId,
-    exportedBy: params.exportedById ?? null,
-    exportedByEmail: params.exportedByEmail,
-    sectionIds,
-    exportType,
-  });
+  if (!params.skipExportLog) {
+    await logExport({
+      projectId: params.projectId,
+      employeeId: params.employeeId,
+      exportedBy: params.exportedById ?? null,
+      exportedByEmail: params.exportedByEmail,
+      sectionIds,
+      exportType,
+    });
+  }
 
   return {
     employeeName: emp.name,

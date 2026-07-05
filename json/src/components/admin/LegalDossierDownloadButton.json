@@ -6,6 +6,6 @@
   "title": "{employeeName} için hukuki personel dosyası (ZIP)",
   "loading": "Hazırlanıyor…",
   "button": "Hukuki dosya indir",
-  "hint": "Profil, hassas veriler, yevmiye, ödemeler, sözleşmeler ve başvuru geçmişi tek ZIP.",
+  "hint": "Profil, hassas veriler, yevmiye, avans talepleri, yoklama, ödemeler, sözleşmeler ve kapanış onayı tek ZIP.",
   "fallbackFilename": "crewledger-hukuki-dosya.zip"
 }

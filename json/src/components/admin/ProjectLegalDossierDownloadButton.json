@@ -1,0 +1,10 @@
+{
+  "errors": {
+    "downloadFailed": "Proje dosyası indirilemedi",
+    "genericFailed": "İndirme başarısız"
+  },
+  "loading": "Hazırlanıyor…",
+  "button": "Tüm proje arşivini indir",
+  "hint": "Tüm personel dosyaları, kapanış özeti, ekip/blok atamaları ve maaş politikası tek ZIP.",
+  "fallbackFilename": "proje-kapanis-arsivi.zip"
+}

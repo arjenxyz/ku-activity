@@ -1,0 +1,16 @@
+{
+  "title": "Download my records",
+  "description": "Under GDPR/KVKK Art. 11, download a full copy of your work logs, payments, contracts, and profile as ZIP. Same dataset your manager can see — for transparency.",
+  "closureTitle": "Download your data",
+  "closureDescription": "This project is closing. Download and keep a copy of all records listed below.",
+  "checklistTitle": "Sections included in the ZIP",
+  "checklistLoading": "Loading content list…",
+  "dailyLimit": "You can download up to {limit} times per day.",
+  "preparing": "Preparing…",
+  "downloadCta": "Download my records (ZIP)",
+  "errors": {
+    "downloadFailed": "Download failed",
+    "generic": "Download failed"
+  },
+  "fallbackFilename": "crewledger-my-records.zip"
+}

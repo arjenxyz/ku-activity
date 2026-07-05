@@ -10,6 +10,7 @@ import { FiRefreshCw } from 'react-icons/fi';
 import { fetchProject } from '@/api/projects';
 import { fetchEmployees } from '@/api/employees';
 import { ProjectPageHeader } from '@/components/project/ProjectPageHeader';
+import { ProjectLegalDossierDownloadButton } from '@/components/admin/ProjectLegalDossierDownloadButton';
 import { ProjectOverviewStats } from '@/components/project/ProjectOverviewStats';
 import { ProjectEmployeeTable } from '@/components/project/ProjectEmployeeTable';
 import type { Employee, AttendanceStats } from '@/types/adminTypes';
@@ -123,14 +124,17 @@ export default function ProjectDetailPage() {
           title={isSimple ? strings.titleSimple : strings.titleFull}
           description={isSimple ? strings.descriptionSimple : strings.descriptionFull}
         />
-        <button
-          type="button"
-          onClick={() => loadAll()}
-          className="inline-flex items-center gap-2 text-sm text-slate-600 hover:text-slate-900 shrink-0"
-        >
-          <FiRefreshCw className="w-4 h-4" />
-          {strings.refresh}
-        </button>
+        <div className="flex flex-wrap items-center gap-3 shrink-0">
+          <ProjectLegalDossierDownloadButton projectId={projectId} projectName={project.name} />
+          <button
+            type="button"
+            onClick={() => loadAll()}
+            className="inline-flex items-center gap-2 text-sm text-slate-600 hover:text-slate-900"
+          >
+            <FiRefreshCw className="w-4 h-4" />
+            {strings.refresh}
+          </button>
+        </div>
       </div>
 
       <ProjectOverviewStats

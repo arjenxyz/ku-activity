@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import {
@@ -8,18 +7,12 @@ import {
   FiChevronDown,
   FiClock,
   FiDollarSign,
-  FiDownload,
   FiMail,
   FiShield,
 } from 'react-icons/fi';
 import { DEFAULT_SUPPORT_EMAIL } from '@/lib/brand';
+import { PersonnelClosureDossierPanel } from './PersonnelClosureDossierPanel';
 import { PersonnelContractsSection } from './PersonnelContractsSection';
-
-function parseFilename(contentDisposition: string | null, fallback: string) {
-  if (!contentDisposition) return fallback;
-  const match = /filename="([^"]+)"/i.exec(contentDisposition);
-  return match?.[1] ?? fallback;
-}
 
 type QuickLinkId = 'finance' | 'work' | 'mesai' | 'asgari';
 
@@ -40,33 +33,6 @@ const QUICK_LINKS: QuickLink[] = [
 export function PersonnelRightsPanel() {
   const strings = useRegistryStrings('components/personnel/PersonnelRightsPanel');
   const supportEmail = process.env.NEXT_PUBLIC_SUPPORT_EMAIL || DEFAULT_SUPPORT_EMAIL;
-  const [downloading, setDownloading] = useState(false);
-  const [downloadError, setDownloadError] = useState<string | null>(null);
-
-  const handleDownload = async () => {
-    setDownloading(true);
-    setDownloadError(null);
-    try {
-      const res = await fetch('/api/personnel/my-dossier');
-      if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        throw new Error((data as { error?: string }).error || strings.errors.downloadFailed);
-      }
-      const blob = await res.blob();
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = parseFilename(res.headers.get('Content-Disposition'), strings.fallbackFilename);
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      URL.revokeObjectURL(url);
-    } catch (err) {
-      setDownloadError(err instanceof Error ? err.message : strings.errors.generic);
-    } finally {
-      setDownloading(false);
-    }
-  };
 
   return (
     <div className="mx-auto max-w-lg space-y-4">
@@ -90,33 +56,19 @@ export function PersonnelRightsPanel() {
             </div>
           </div>
 
-          <div className="mt-5 grid grid-cols-2 gap-2.5">
-            <button
-              type="button"
-              onClick={() => void handleDownload()}
-              disabled={downloading}
-              className="flex items-center justify-center gap-2 rounded-xl bg-white px-3 py-3 text-sm font-semibold text-[#0E1548] shadow-sm transition hover:bg-blue-50 disabled:opacity-60"
-            >
-              {downloading ? (
-                <span className="h-4 w-4 animate-spin rounded-full border-2 border-[#0E1548]/30 border-t-[#0E1548]" />
-              ) : (
-                <FiDownload className="h-4 w-4 shrink-0" aria-hidden />
-              )}
-              <span className="truncate">{downloading ? strings.preparing : strings.downloadCta}</span>
-            </button>
+          <div className="mt-5">
             <a
               href={`mailto:${supportEmail}?subject=${encodeURIComponent(strings.mailSubject)}`}
-              className="flex items-center justify-center gap-2 rounded-xl border border-white/25 bg-white/10 px-3 py-3 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-white/15"
+              className="flex w-full items-center justify-center gap-2 rounded-xl border border-white/25 bg-white/10 px-3 py-3 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-white/15"
             >
               <FiMail className="h-4 w-4 shrink-0" aria-hidden />
               <span className="truncate">{strings.contactCta}</span>
             </a>
           </div>
-          {downloadError ? (
-            <p className="mt-2 text-center text-xs text-red-200">{downloadError}</p>
-          ) : null}
         </div>
       </section>
+
+      <PersonnelClosureDossierPanel variant="card" showDailyLimit />
 
       <section aria-labelledby="rights-quick-links">
         <p

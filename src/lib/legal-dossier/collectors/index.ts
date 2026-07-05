@@ -5,7 +5,11 @@ import { approvalStatusLabel, formatWorkLogSummary, getWorkLogApprovalStatus } f
 import strings from '@json/src/lib/legal-dossier/collectors/index.json';
 import { registerDossierCollector } from '../registry';
 import { jsonFile, toCsv } from '../utils';
-import type { DossierFile } from '../types';
+import {
+  LEGAL_DOSSIER_SCHEMA_VERSION,
+  PROJECT_CLOSURE_CONSENT_VERSION,
+  type DossierFile,
+} from '../types';
 
 function formatTime(t: string | null | undefined) {
   return t ? String(t).slice(0, 5) : '';
@@ -97,7 +101,7 @@ registerDossierCollector({
     const { data: logs } = await ctx.admin
       .from('work_logs')
       .select(
-        'id, date, amount, mesai_type, mesai_units, description, hours_worked, approved, admin_confirmed_at, employee_confirmed_at, created_at'
+        'id, date, amount, mesai_type, mesai_units, description, hours_worked, approved, admin_confirmed_at, employee_confirmed_at, employee_dispute_note, employee_disputed_at, created_at'
       )
       .eq('employee_id', ctx.employeeId)
       .order('date', { ascending: false });
@@ -123,6 +127,8 @@ registerDossierCollector({
         'approved',
         'admin_confirmed_at',
         'employee_confirmed_at',
+        'employee_dispute_note',
+        'employee_disputed_at',
         'description',
       ],
       rows.map((r) => [
@@ -135,6 +141,8 @@ registerDossierCollector({
         r.approved,
         r.admin_confirmed_at,
         r.employee_confirmed_at,
+        r.employee_dispute_note,
+        r.employee_disputed_at,
         r.description,
       ])
     );
@@ -166,6 +174,74 @@ registerDossierCollector({
     return [
       jsonFile('05-avans-kesinti/kayitlar.json', rows),
       { path: '05-avans-kesinti/kayitlar.csv', content: csv },
+    ];
+  },
+});
+
+registerDossierCollector({
+  id: 'advance_requests',
+  title: strings.collectors.advanceRequests.title,
+  order: 52,
+  async collect(ctx) {
+    const { data } = await ctx.admin
+      .from('advance_requests')
+      .select(
+        `
+        id,
+        requested_amount,
+        approved_amount,
+        employee_note,
+        admin_note,
+        status,
+        payment_method,
+        requested_at,
+        approved_at,
+        paid_at,
+        rejected_at,
+        cancelled_at,
+        rejection_reason,
+        proof_storage_backend,
+        proof_external_id,
+        proof_file_name,
+        proof_mime_type,
+        proof_reference_no,
+        proof_ocr_json,
+        deduction_id,
+        created_at,
+        updated_at
+      `
+      )
+      .eq('employee_id', ctx.employeeId)
+      .eq('project_id', ctx.projectId)
+      .order('requested_at', { ascending: false });
+
+    const rows = data ?? [];
+    const csv = toCsv(
+      [
+        'requested_at',
+        'status',
+        'requested_amount',
+        'approved_amount',
+        'payment_method',
+        'paid_at',
+        'proof_reference_no',
+        'deduction_id',
+      ],
+      rows.map((r) => [
+        r.requested_at,
+        r.status,
+        r.requested_amount,
+        r.approved_amount,
+        r.payment_method,
+        r.paid_at,
+        r.proof_reference_no,
+        r.deduction_id,
+      ])
+    );
+
+    return [
+      jsonFile('10-avans-talepleri/kayitlar.json', rows),
+      { path: '10-avans-talepleri/kayitlar.csv', content: csv },
     ];
   },
 });
@@ -349,6 +425,167 @@ registerDossierCollector({
         registrations: merged,
       }),
     ];
+  },
+});
+
+registerDossierCollector({
+  id: 'attendance',
+  title: strings.collectors.attendance.title,
+  order: 91,
+  async collect(ctx) {
+    const { data: sessions } = await ctx.admin
+      .from('attendance_sessions')
+      .select('id, work_date, status, started_at, completed_at')
+      .eq('project_id', ctx.projectId)
+      .order('work_date', { ascending: false });
+
+    const sessionMap = new Map(
+      (sessions ?? []).map((s) => [s.id as string, s])
+    );
+    const sessionIds = [...sessionMap.keys()];
+
+    let checkins: Array<{
+      id: string;
+      scanned_at: string;
+      work_log_id: string | null;
+      session_id: string;
+    }> = [];
+
+    if (sessionIds.length > 0) {
+      const { data } = await ctx.admin
+        .from('attendance_session_checkins')
+        .select('id, scanned_at, work_log_id, session_id')
+        .eq('employee_id', ctx.employeeId)
+        .in('session_id', sessionIds)
+        .order('scanned_at', { ascending: false });
+      checkins = data ?? [];
+    }
+
+    const sessionRows = checkins.map((row) => {
+      const session = sessionMap.get(row.session_id);
+      return {
+        checkin_id: row.id,
+        scanned_at: row.scanned_at,
+        work_log_id: row.work_log_id,
+        session_id: row.session_id,
+        work_date: session?.work_date ?? null,
+        session_status: session?.status ?? null,
+        session_started_at: session?.started_at ?? null,
+        session_completed_at: session?.completed_at ?? null,
+      };
+    });
+
+    const { data: notices } = await ctx.admin
+      .from('attendance_employee_notices')
+      .select('id, work_date, notice_type, created_at')
+      .eq('employee_id', ctx.employeeId)
+      .eq('project_id', ctx.projectId)
+      .order('created_at', { ascending: false });
+
+    const checkinCsv = toCsv(
+      ['work_date', 'scanned_at', 'session_status', 'work_log_id'],
+      sessionRows.map((r) => [r.work_date, r.scanned_at, r.session_status, r.work_log_id])
+    );
+
+    return [
+      jsonFile('11-yoklama/checkin-kayitlari.json', sessionRows),
+      { path: '11-yoklama/checkin-kayitlari.csv', content: checkinCsv },
+      jsonFile('11-yoklama/oturum-bildirimleri.json', notices ?? []),
+    ];
+  },
+});
+
+registerDossierCollector({
+  id: 'notifications',
+  title: strings.collectors.notifications.title,
+  order: 92,
+  async collect(ctx) {
+    const { data } = await ctx.admin
+      .from('personnel_notifications')
+      .select('id, type, title, body, href, data, read_at, push_sent_at, created_at')
+      .eq('employee_id', ctx.employeeId)
+      .eq('project_id', ctx.projectId)
+      .order('created_at', { ascending: false });
+
+    const rows = data ?? [];
+    const csv = toCsv(
+      ['created_at', 'type', 'title', 'read_at'],
+      rows.map((r) => [r.created_at, r.type, r.title, r.read_at])
+    );
+
+    return [
+      jsonFile('12-bildirimler/kayitlar.json', rows),
+      { path: '12-bildirimler/kayitlar.csv', content: csv },
+    ];
+  },
+});
+
+registerDossierCollector({
+  id: 'closure_consent',
+  title: strings.collectors.closureConsent.title,
+  order: 15,
+  async collect(ctx) {
+    const { data: project } = await ctx.admin
+      .from('projects')
+      .select(
+        'closure_phase, closure_started_at, closure_deadline_at, closure_fast_path_deadline_at'
+      )
+      .eq('id', ctx.projectId)
+      .maybeSingle();
+
+    const { data: consent } = await ctx.admin
+      .from('project_closure_consents')
+      .select(
+        'consent_version, consented_at, data_exported_at, data_export_acknowledged_at, user_agent'
+      )
+      .eq('project_id', ctx.projectId)
+      .eq('employee_id', ctx.employeeId)
+      .maybeSingle();
+
+    const { data: lastExport } = await ctx.admin
+      .from('legal_dossier_exports')
+      .select('created_at, export_type, schema_version')
+      .eq('employee_id', ctx.employeeId)
+      .eq('project_id', ctx.projectId)
+      .in('export_type', ['personnel_self', 'admin'])
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    const inClosure =
+      project?.closure_phase && project.closure_phase !== 'none' && project.closure_phase !== 'purged';
+
+    const payload = {
+      schemaVersion: LEGAL_DOSSIER_SCHEMA_VERSION,
+      currentConsentVersion: PROJECT_CLOSURE_CONSENT_VERSION,
+      projectClosure: inClosure
+        ? {
+            phase: project?.closure_phase,
+            startedAt: project?.closure_started_at,
+            deadlineAt: project?.closure_deadline_at,
+            fastPathDeadlineAt: project?.closure_fast_path_deadline_at,
+          }
+        : null,
+      consent: consent
+        ? {
+            version: consent.consent_version,
+            consentedAt: consent.consented_at,
+            dataExportedAt: consent.data_exported_at,
+            dataExportAcknowledgedAt: consent.data_export_acknowledged_at,
+            userAgent: consent.user_agent,
+          }
+        : null,
+      lastDossierDownload: lastExport
+        ? {
+            at: lastExport.created_at,
+            exportType: lastExport.export_type,
+            schemaVersion: lastExport.schema_version,
+          }
+        : null,
+      note: inClosure || consent ? null : strings.collectors.closureConsent.notInClosure,
+    };
+
+    return [jsonFile('00-meta/kapanis-onayi.json', payload)];
   },
 });
 

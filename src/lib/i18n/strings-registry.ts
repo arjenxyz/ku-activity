@@ -310,6 +310,8 @@ import m_components_admin_DekontSharePanel_tr from '@json/src/components/admin/D
 import m_components_admin_DekontSharePanel_en from '@json/en/src/components/admin/DekontSharePanel.json';
 import m_components_admin_LegalDossierDownloadButton_tr from '@json/src/components/admin/LegalDossierDownloadButton.json';
 import m_components_admin_LegalDossierDownloadButton_en from '@json/en/src/components/admin/LegalDossierDownloadButton.json';
+import m_components_admin_ProjectLegalDossierDownloadButton_tr from '@json/src/components/admin/ProjectLegalDossierDownloadButton.json';
+import m_components_admin_ProjectLegalDossierDownloadButton_en from '@json/en/src/components/admin/ProjectLegalDossierDownloadButton.json';
 import m_components_advance_AdminAdvanceRequestsPanel_tr from '@json/src/components/advance/AdminAdvanceRequestsPanel.json';
 import m_components_advance_AdminAdvanceRequestsPanel_en from '@json/en/src/components/advance/AdminAdvanceRequestsPanel.json';
 import m_components_auth_AdminRegisterLayout_tr from '@json/src/components/auth/AdminRegisterLayout.json';
@@ -428,6 +430,8 @@ import m_components_personnel_PersonnelMonthFilter_tr from '@json/src/components
 import m_components_personnel_PersonnelMonthFilter_en from '@json/en/src/components/personnel/PersonnelMonthFilter.json';
 import m_components_personnel_PersonnelMyDossierDownload_tr from '@json/src/components/personnel/PersonnelMyDossierDownload.json';
 import m_components_personnel_PersonnelMyDossierDownload_en from '@json/en/src/components/personnel/PersonnelMyDossierDownload.json';
+import m_components_personnel_PersonnelClosureDossierPanel_tr from '@json/src/components/personnel/PersonnelClosureDossierPanel.json';
+import m_components_personnel_PersonnelClosureDossierPanel_en from '@json/en/src/components/personnel/PersonnelClosureDossierPanel.json';
 import m_components_personnel_PersonnelNavHub_tr from '@json/src/components/personnel/PersonnelNavHub.json';
 import m_components_personnel_PersonnelNavHub_en from '@json/en/src/components/personnel/PersonnelNavHub.json';
 import m_components_personnel_PersonnelNetHero_tr from '@json/src/components/personnel/PersonnelNetHero.json';
@@ -783,6 +787,7 @@ export const STRINGS_REGISTRY = {
   'components/admin/AdminWorkLogDisputeActions': { tr: m_components_admin_AdminWorkLogDisputeActions_tr, en: m_components_admin_AdminWorkLogDisputeActions_en },
   'components/admin/DekontSharePanel': { tr: m_components_admin_DekontSharePanel_tr, en: m_components_admin_DekontSharePanel_en },
   'components/admin/LegalDossierDownloadButton': { tr: m_components_admin_LegalDossierDownloadButton_tr, en: m_components_admin_LegalDossierDownloadButton_en },
+  'components/admin/ProjectLegalDossierDownloadButton': { tr: m_components_admin_ProjectLegalDossierDownloadButton_tr, en: m_components_admin_ProjectLegalDossierDownloadButton_en },
   'components/advance/AdminAdvanceRequestsPanel': { tr: m_components_advance_AdminAdvanceRequestsPanel_tr, en: m_components_advance_AdminAdvanceRequestsPanel_en },
   'components/auth/AdminRegisterLayout': { tr: m_components_auth_AdminRegisterLayout_tr, en: m_components_auth_AdminRegisterLayout_en },
   'components/auth/AuthLayout': { tr: m_components_auth_AuthLayout_tr, en: m_components_auth_AuthLayout_en },
@@ -842,6 +847,7 @@ export const STRINGS_REGISTRY = {
   'components/personnel/PersonnelMonthChip': { tr: m_components_personnel_PersonnelMonthChip_tr, en: m_components_personnel_PersonnelMonthChip_en },
   'components/personnel/PersonnelMonthFilter': { tr: m_components_personnel_PersonnelMonthFilter_tr, en: m_components_personnel_PersonnelMonthFilter_en },
   'components/personnel/PersonnelMyDossierDownload': { tr: m_components_personnel_PersonnelMyDossierDownload_tr, en: m_components_personnel_PersonnelMyDossierDownload_en },
+  'components/personnel/PersonnelClosureDossierPanel': { tr: m_components_personnel_PersonnelClosureDossierPanel_tr, en: m_components_personnel_PersonnelClosureDossierPanel_en },
   'components/personnel/PersonnelNavHub': { tr: m_components_personnel_PersonnelNavHub_tr, en: m_components_personnel_PersonnelNavHub_en },
   'components/personnel/PersonnelNetHero': { tr: m_components_personnel_PersonnelNetHero_tr, en: m_components_personnel_PersonnelNetHero_en },
   'components/personnel/PersonnelOverviewHeader': { tr: m_components_personnel_PersonnelOverviewHeader_tr, en: m_components_personnel_PersonnelOverviewHeader_en },

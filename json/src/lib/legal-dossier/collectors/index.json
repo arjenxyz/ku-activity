@@ -15,6 +15,13 @@
     "payroll": { "title": "Bordro dönemleri ve satırlar" },
     "contracts": { "title": "Sözleşme onayları ve metinleri" },
     "registration": { "title": "Başvuru ve onay geçmişi" },
+    "advanceRequests": { "title": "Avans talepleri (onay, ödeme, dekont)" },
+    "attendance": { "title": "Yoklama kayıtları ve oturum bildirimleri" },
+    "notifications": { "title": "Uygulama içi bildirim geçmişi" },
+    "closureConsent": {
+      "title": "Proje kapanış onayı",
+      "notInClosure": "Proje kapanış sürecinde değil veya henüz onay kaydı yok"
+    },
     "company": { "title": "İşletme / veri sorumlusu bilgisi" },
     "extensionsPlaceholder": { "title": "Genişletilebilir modül alanı" }
   },
