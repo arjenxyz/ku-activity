@@ -9,15 +9,13 @@ import { formatString } from '@/lib/strings/format';
 import { usePersonnelNotificationsContext } from '@/contexts/PersonnelNotificationsContext';
 import trStrings from '@json/src/components/personnel/PersonnelNotificationsBell.json';
 import enStrings from '@json/en/src/components/personnel/PersonnelNotificationsBell.json';
-import { pushSupported, subscribePersonnelPush } from '@/lib/personnel-push-client';
+import {
+  getNotificationPermission,
+  requestNotificationPermission,
+  subscribePersonnelPush,
+} from '@/lib/personnel-push-client';
 
 type NotificationAccess = 'granted' | 'default' | 'denied' | 'unsupported';
-
-function readNotificationAccess(): NotificationAccess {
-  if (typeof window === 'undefined') return 'default';
-  if (!pushSupported() || !('Notification' in window)) return 'unsupported';
-  return Notification.permission;
-}
 
 type Props = {
   tone?: 'light' | 'onDark';
@@ -61,14 +59,34 @@ export function PersonnelNotificationsBell({ tone = 'light', className = '' }: P
   const strings = useLocalizedStrings(trStrings, enStrings);
   const { items, unreadCount, loading, markRead, markAllRead, refresh, panelOpen, openPanel, closePanel } =
     usePersonnelNotificationsContext();
-  const [notificationAccess, setNotificationAccess] = useState<NotificationAccess>('default');
+  const [notificationAccess, setNotificationAccess] = useState<NotificationAccess>(() => {
+    const permission = getNotificationPermission();
+    return permission === 'unsupported' ? 'unsupported' : permission;
+  });
   const [requestingPermission, setRequestingPermission] = useState(false);
+
+  const syncNotificationAccess = () => {
+    const permission = getNotificationPermission();
+    const access: NotificationAccess =
+      permission === 'unsupported' ? 'unsupported' : permission;
+    setNotificationAccess(access);
+    return access;
+  };
 
   useEffect(() => {
     if (!panelOpen) return;
-    const access = readNotificationAccess();
-    setNotificationAccess(access);
+
+    const access = syncNotificationAccess();
     if (access === 'granted') void refresh();
+
+    const onVisible = () => {
+      if (document.visibilityState !== 'visible') return;
+      const next = syncNotificationAccess();
+      if (next === 'granted') void refresh();
+    };
+
+    document.addEventListener('visibilitychange', onVisible);
+    return () => document.removeEventListener('visibilitychange', onVisible);
   }, [panelOpen, refresh]);
 
   useEffect(() => {
@@ -94,10 +112,14 @@ export function PersonnelNotificationsBell({ tone = 'light', className = '' }: P
     if (notificationAccess === 'unsupported' || notificationAccess === 'denied') return;
     setRequestingPermission(true);
     try {
-      const ok = await subscribePersonnelPush({ force: true });
-      const access = readNotificationAccess();
+      const permission = await requestNotificationPermission();
+      const access: NotificationAccess =
+        permission === 'unsupported' ? 'unsupported' : permission;
       setNotificationAccess(access);
-      if (ok || access === 'granted') void refresh();
+      if (access === 'granted') {
+        void refresh();
+        void subscribePersonnelPush();
+      }
     } finally {
       setRequestingPermission(false);
     }

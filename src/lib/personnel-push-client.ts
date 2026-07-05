@@ -103,3 +103,16 @@ export async function subscribePersonnelPush(options?: { force?: boolean }): Pro
 export function pushSupported() {
   return typeof window !== 'undefined' && 'serviceWorker' in navigator && 'PushManager' in window;
 }
+
+export function getNotificationPermission(): NotificationPermission | 'unsupported' {
+  if (typeof window === 'undefined') return 'unsupported';
+  if (!('Notification' in window)) return 'unsupported';
+  return Notification.permission;
+}
+
+/** Tarayıcı bildirim izni — panel erişimi buna bağlı; push aboneliği ayrı adım */
+export async function requestNotificationPermission(): Promise<NotificationPermission | 'unsupported'> {
+  const current = getNotificationPermission();
+  if (current === 'unsupported' || current !== 'default') return current;
+  return Notification.requestPermission();
+}
