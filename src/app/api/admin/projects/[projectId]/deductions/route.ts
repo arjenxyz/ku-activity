@@ -71,17 +71,19 @@ export async function POST(request: Request, ctx: Ctx) {
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
     const admin = createAdminClient();
-    void notifyDeductionRecorded(admin, {
-      employeeId,
-      projectId,
-      deductionId: data.id as string,
-      type,
-      amount: Number(amount),
-      date,
-      description: description || null,
-    }).catch(() => {
-      /* */
-    });
+    try {
+      await notifyDeductionRecorded(admin, {
+        employeeId,
+        projectId,
+        deductionId: data.id as string,
+        type,
+        amount: Number(amount),
+        date,
+        description: description || null,
+      });
+    } catch {
+      /* bildirim isteğe bağlı */
+    }
 
     return NextResponse.json({ record: data }, { status: 201 });
   } catch (err) {

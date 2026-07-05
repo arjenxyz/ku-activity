@@ -27,14 +27,16 @@ export async function recordAttendanceNotice(
     throw new Error(error.message);
   }
 
-  void notifyAttendanceNotice(admin, {
-    employeeId: params.employeeId,
-    projectId: params.projectId,
-    workDate: params.workDate,
-    noticeType: params.noticeType,
-  }).catch(() => {
+  try {
+    await notifyAttendanceNotice(admin, {
+      employeeId: params.employeeId,
+      projectId: params.projectId,
+      workDate: params.workDate,
+      noticeType: params.noticeType,
+    });
+  } catch {
     /* bildirim isteğe bağlı */
-  });
+  }
 }
 
 export async function clearAttendanceNotices(

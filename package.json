@@ -16,7 +16,8 @@
     "twa:share-target:admin": "node scripts/twa-share-target.mjs twa-build/admin",
     "twa:minimal-splash": "node scripts/twa-minimal-splash.mjs twa-build/personel",
     "twa:minimal-splash:admin": "node scripts/twa-minimal-splash.mjs twa-build/admin --variant admin",
-    "contracts:build": "node scripts/build-contract-seed.mjs"
+    "contracts:build": "node scripts/build-contract-seed.mjs",
+    "verify:vapid": "node scripts/verify-vapid.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1079.0",

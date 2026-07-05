@@ -24,6 +24,33 @@ export function getPublicVapidKey() {
   return process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY?.trim() ?? null;
 }
 
+export function isVapidEnabled() {
+  return getVapidConfig() !== null;
+}
+
+export function maskPushEndpoint(endpoint: string) {
+  if (endpoint.length <= 24) return endpoint;
+  return `${endpoint.slice(0, 20)}…${endpoint.slice(-8)}`;
+}
+
+export async function listEmployeePushSubscriptions(
+  admin: SupabaseClient,
+  employeeId: string
+) {
+  const { data, error } = await admin
+    .from('personnel_push_subscriptions')
+    .select('id, endpoint, created_at, updated_at, user_agent')
+    .eq('employee_id', employeeId)
+    .order('updated_at', { ascending: false });
+
+  if (error) {
+    if (error.message.includes('personnel_push_subscriptions')) return [];
+    throw new Error(error.message);
+  }
+
+  return data ?? [];
+}
+
 export async function upsertPushSubscription(
   admin: SupabaseClient,
   params: {

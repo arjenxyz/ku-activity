@@ -49,16 +49,16 @@ export async function PATCH(request: Request, ctx: Ctx) {
     if (updateError) return NextResponse.json({ error: updateError.message }, { status: 500 });
 
     const admin = createAdminClient();
-    for (const line of lines ?? []) {
-      void notifySalaryPaid(admin, {
-        employeeId: line.employee_id as string,
-        projectId,
-        periodMonth: period.period_month as string,
-        amount: Number(line.net_pay),
-      }).catch(() => {
-        /* */
-      });
-    }
+    await Promise.allSettled(
+      (lines ?? []).map((line) =>
+        notifySalaryPaid(admin, {
+          employeeId: line.employee_id as string,
+          projectId,
+          periodMonth: period.period_month as string,
+          amount: Number(line.net_pay),
+        })
+      )
+    );
 
     return NextResponse.json({ ok: true, notified: lines?.length ?? 0 });
   } catch (err) {

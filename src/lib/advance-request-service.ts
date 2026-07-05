@@ -196,15 +196,17 @@ export async function approveAdvanceRequest(
     if (tokenError) throw new AdvanceRequestError(tokenError.message, 'TOKEN', 500);
   }
 
-  void notifyAdvanceApproved(admin, {
-    employeeId: row.employee_id,
-    projectId: row.project_id,
-    requestId: params.requestId,
-    amount: params.approvedAmount,
-    paymentMethod: params.paymentMethod,
-  }).catch(() => {
-    /* */
-  });
+  try {
+    await notifyAdvanceApproved(admin, {
+      employeeId: row.employee_id,
+      projectId: row.project_id,
+      requestId: params.requestId,
+      amount: params.approvedAmount,
+      paymentMethod: params.paymentMethod,
+    });
+  } catch {
+    /* bildirim isteğe bağlı */
+  }
 
   return data;
 }
@@ -242,14 +244,16 @@ export async function rejectAdvanceRequest(
     .eq('advance_request_id', params.requestId)
     .eq('is_active', true);
 
-  void notifyAdvanceRejected(admin, {
-    employeeId: row.employee_id,
-    projectId: row.project_id,
-    requestId: params.requestId,
-    reason: params.reason,
-  }).catch(() => {
-    /* */
-  });
+  try {
+    await notifyAdvanceRejected(admin, {
+      employeeId: row.employee_id,
+      projectId: row.project_id,
+      requestId: params.requestId,
+      reason: params.reason,
+    });
+  } catch {
+    /* bildirim isteğe bağlı */
+  }
 
   return data;
 }
@@ -331,14 +335,16 @@ export async function recordBankPayment(
 
   if (error) throw new AdvanceRequestError(error.message, 'DB', 500);
 
-  void notifyAdvancePaid(admin, {
-    employeeId: row.employee_id,
-    projectId: row.project_id,
-    requestId: params.requestId,
-    amount,
-  }).catch(() => {
-    /* */
-  });
+  try {
+    await notifyAdvancePaid(admin, {
+      employeeId: row.employee_id,
+      projectId: row.project_id,
+      requestId: params.requestId,
+      amount,
+    });
+  } catch {
+    /* bildirim isteğe bağlı */
+  }
 
   return data;
 }
@@ -427,14 +433,16 @@ export async function confirmCashAdvance(
 
   if (error) throw new AdvanceRequestError(error.message, 'DB', 500);
 
-  void notifyAdvancePaid(admin, {
-    employeeId: request.employee_id,
-    projectId: request.project_id,
-    requestId: request.id,
-    amount,
-  }).catch(() => {
-    /* */
-  });
+  try {
+    await notifyAdvancePaid(admin, {
+      employeeId: request.employee_id,
+      projectId: request.project_id,
+      requestId: request.id,
+      amount,
+    });
+  } catch {
+    /* bildirim isteğe bağlı */
+  }
 
   return data;
 }
