@@ -11,9 +11,14 @@ import trStrings from '@json/src/components/personnel/PersonnelNotificationsBell
 import enStrings from '@json/en/src/components/personnel/PersonnelNotificationsBell.json';
 import {
   getNotificationPermission,
+  hasLocalPushSubscription,
   requestNotificationPermission,
   subscribePersonnelPush,
 } from '@/lib/personnel-push-client';
+import {
+  isPersonnelTwaRuntime,
+  openPersonnelAppNotificationSettings,
+} from '@/lib/personnel-app-runtime';
 
 type NotificationAccess = 'granted' | 'default' | 'denied' | 'unsupported';
 
@@ -64,11 +69,28 @@ export function PersonnelNotificationsBell({ tone = 'light', className = '' }: P
     return permission === 'unsupported' ? 'unsupported' : permission;
   });
   const [requestingPermission, setRequestingPermission] = useState(false);
+  const [isTwaApp, setIsTwaApp] = useState(false);
 
-  const syncNotificationAccess = () => {
+  useEffect(() => {
+    setIsTwaApp(isPersonnelTwaRuntime());
+  }, []);
+
+  const resolveNotificationAccess = async (): Promise<NotificationAccess> => {
     const permission = getNotificationPermission();
-    const access: NotificationAccess =
-      permission === 'unsupported' ? 'unsupported' : permission;
+    if (permission === 'granted') return 'granted';
+    if (permission === 'unsupported') return 'unsupported';
+    if (permission === 'denied') return 'denied';
+
+    if (isPersonnelTwaRuntime()) {
+      const localSubscribed = await hasLocalPushSubscription();
+      if (localSubscribed) return 'granted';
+    }
+
+    return permission;
+  };
+
+  const syncNotificationAccess = async () => {
+    const access = await resolveNotificationAccess();
     setNotificationAccess(access);
     return access;
   };
@@ -76,13 +98,15 @@ export function PersonnelNotificationsBell({ tone = 'light', className = '' }: P
   useEffect(() => {
     if (!panelOpen) return;
 
-    const access = syncNotificationAccess();
-    if (access === 'granted') void refresh();
+    void syncNotificationAccess().then((access) => {
+      if (access === 'granted') void refresh();
+    });
 
     const onVisible = () => {
       if (document.visibilityState !== 'visible') return;
-      const next = syncNotificationAccess();
-      if (next === 'granted') void refresh();
+      void syncNotificationAccess().then((access) => {
+        if (access === 'granted') void refresh();
+      });
     };
 
     document.addEventListener('visibilitychange', onVisible);
@@ -108,7 +132,7 @@ export function PersonnelNotificationsBell({ tone = 'light', className = '' }: P
     if (href) closePanel();
   };
 
-  const requestNotificationAccess = async () => {
+  const requestBrowserNotificationAccess = async () => {
     if (notificationAccess === 'unsupported' || notificationAccess === 'denied') return;
     setRequestingPermission(true);
     try {
@@ -123,6 +147,29 @@ export function PersonnelNotificationsBell({ tone = 'light', className = '' }: P
     } finally {
       setRequestingPermission(false);
     }
+  };
+
+  const confirmTwaNotificationAccess = async () => {
+    setRequestingPermission(true);
+    try {
+      if (getNotificationPermission() === 'default') {
+        await requestNotificationPermission();
+      }
+      const subscribed = await subscribePersonnelPush();
+      const access = await resolveNotificationAccess();
+      setNotificationAccess(subscribed ? 'granted' : access);
+      if (subscribed || access === 'granted') void refresh();
+    } finally {
+      setRequestingPermission(false);
+    }
+  };
+
+  const permissionBody = () => {
+    if (notificationAccess === 'unsupported') return strings.permissionUnsupportedBody;
+    if (notificationAccess === 'denied') {
+      return isTwaApp ? strings.permissionDeniedTwaBody : strings.permissionDeniedBody;
+    }
+    return isTwaApp ? strings.permissionRequiredTwaBody : strings.permissionRequiredBody;
   };
 
   const canViewNotifications = notificationAccess === 'granted';
@@ -195,21 +242,47 @@ export function PersonnelNotificationsBell({ tone = 'light', className = '' }: P
                       🔔
                     </div>
                     <p className="text-sm font-semibold text-[#0E1548]">{strings.permissionRequiredTitle}</p>
-                    <p className="mt-2 text-sm leading-relaxed text-slate-500">
-                      {notificationAccess === 'unsupported'
-                        ? strings.permissionUnsupportedBody
-                        : notificationAccess === 'denied'
-                          ? strings.permissionDeniedBody
-                          : strings.permissionRequiredBody}
-                    </p>
-                    {notificationAccess === 'default' && (
+                    <p className="mt-2 text-sm leading-relaxed text-slate-500">{permissionBody()}</p>
+                    {isTwaApp && notificationAccess !== 'unsupported' && (
+                      <div className="mt-5 flex flex-col gap-2">
+                        <button
+                          type="button"
+                          onClick={openPersonnelAppNotificationSettings}
+                          className="inline-flex min-h-11 items-center justify-center rounded-xl bg-[#0E1548] px-5 py-2.5 text-sm font-semibold text-white"
+                        >
+                          {strings.permissionOpenAppSettingsButton}
+                        </button>
+                        {notificationAccess !== 'denied' && (
+                          <button
+                            type="button"
+                            disabled={requestingPermission}
+                            onClick={() => void confirmTwaNotificationAccess()}
+                            className="inline-flex min-h-11 items-center justify-center rounded-xl border border-slate-200 px-5 py-2.5 text-sm font-semibold text-[#0E1548] disabled:opacity-60"
+                          >
+                            {requestingPermission
+                              ? strings.permissionRequesting
+                              : strings.permissionTwaConfirmButton}
+                          </button>
+                        )}
+                      </div>
+                    )}
+                    {!isTwaApp && notificationAccess === 'default' && (
                       <button
                         type="button"
                         disabled={requestingPermission}
-                        onClick={() => void requestNotificationAccess()}
+                        onClick={() => void requestBrowserNotificationAccess()}
                         className="mt-5 inline-flex min-h-11 items-center justify-center rounded-xl bg-[#0E1548] px-5 py-2.5 text-sm font-semibold text-white disabled:opacity-60"
                       >
                         {requestingPermission ? strings.permissionRequesting : strings.permissionRequestButton}
+                      </button>
+                    )}
+                    {!isTwaApp && notificationAccess === 'denied' && (
+                      <button
+                        type="button"
+                        onClick={() => void syncNotificationAccess()}
+                        className="mt-5 inline-flex min-h-11 items-center justify-center rounded-xl border border-slate-200 px-5 py-2.5 text-sm font-semibold text-[#0E1548]"
+                      >
+                        {strings.permissionTwaConfirmButton}
                       </button>
                     )}
                   </div>

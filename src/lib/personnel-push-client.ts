@@ -42,6 +42,21 @@ async function serverHasPushSubscription(): Promise<boolean | null> {
   }
 }
 
+export async function fetchPushSubscriptionStatus(): Promise<boolean | null> {
+  return serverHasPushSubscription();
+}
+
+export async function hasLocalPushSubscription(): Promise<boolean> {
+  if (!pushSupported()) return false;
+  try {
+    const registration = await navigator.serviceWorker.ready;
+    const subscription = await registration.pushManager.getSubscription();
+    return subscription !== null;
+  } catch {
+    return false;
+  }
+}
+
 export async function subscribePersonnelPush(options?: { force?: boolean }): Promise<boolean> {
   if (typeof window === 'undefined') return false;
   if (!('serviceWorker' in navigator) || !('PushManager' in window)) return false;
