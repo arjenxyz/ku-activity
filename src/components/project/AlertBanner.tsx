@@ -21,7 +21,7 @@ export function AlertBanner({
       ) : (
         <FiAlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
       )}
-      <span>{message}</span>
+      <span className="whitespace-pre-line leading-relaxed">{message}</span>
     </div>
   );
 }

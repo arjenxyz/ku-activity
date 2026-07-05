@@ -1,4 +1,4 @@
-import { validateDekontDocument, validateMatchForConfirm } from '@/lib/dekont-validation';
+import { validateDekontDocument, validateMatchForConfirm, formatDekontValidationFailure } from '@/lib/dekont-validation';
 import { analyzeDekont, type DekontOcrResult } from '@/lib/dekont-ocr';
 import { suggestAdvanceMatches, type DekontMatchSuggestion } from '@/lib/advance-dekont-match';
 import {
@@ -69,12 +69,7 @@ export async function ingestDekontDraft(params: {
 
   const validation = validateDekontDocument(ocr);
   if (!validation.accepted) {
-    const failed = validation.checks.filter((c) => c.required && !c.passed);
-    const detail = failed.map((c) => c.label).join(', ');
-    throw new DekontImportError(
-      `${validation.summary}${detail ? ` (${detail})` : ''}`,
-      422
-    );
+    throw new DekontImportError(formatDekontValidationFailure(validation, ocr), 422);
   }
 
   const matches = await suggestAdvanceMatches(admin, { projectIds, ocr });

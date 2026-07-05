@@ -203,6 +203,14 @@ function DekontShareContent() {
   const [referenceNo, setReferenceNo] = useState('');
   const [paymentDate, setPaymentDate] = useState(dayjs().format('YYYY-MM-DD'));
 
+  useEffect(() => {
+    if (errorParam) {
+      setError(errorParam);
+      setStep('upload');
+      router.replace('/admin-panel/dekont-paylas');
+    }
+  }, [errorParam, router]);
+
   const loadDraft = useCallback(
     async (id: string) => {
       setLoading(true);

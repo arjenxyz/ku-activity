@@ -22,7 +22,8 @@
     "transferShape": {
       "label": "Dekont yapısı (IBAN + tutar + tarih/referans)",
       "detailPassed": "{count}/4 alan eşleşti",
-      "detailFailed": "Eksik alanlar var — rastgele PDF kabul edilmez"
+      "detailFailed": "Eksik alanlar var — rastgele PDF kabul edilmez",
+      "detailMissing": "Eksik: {fields}"
     },
     "reference": {
       "label": "Referans / işlem no",
@@ -36,7 +37,19 @@
   "summary": {
     "accepted": "Dekont doğrulandı — avans eşleştirmesine geçilebilir",
     "lowScore": "Güven skoru düşük — daha net bir dekont yükleyin",
-    "rejected": "Bu dosya banka dekontu olarak kabul edilemedi"
+    "rejected": "Dekont doğrulanamadı"
+  },
+  "rejection": {
+    "issuesHeader": "Tespit edilemeyen veya eksik bilgiler:",
+    "foundHeader": "Okunan bilgiler:",
+    "foundIban": "IBAN: {iban}",
+    "foundAmount": "Tutar: {amount} ₺",
+    "foundChars": "Metin: {count} karakter",
+    "foundNothing": "Dosyadan anlamlı metin çıkarılamadı",
+    "tipUnreadable": "Banka uygulamasında işlem onay ekranı yerine «Dekont», «İşlem belgesi» veya «PDF paylaş» seçeneğini kullanın. Mümkünse ekran görüntüsü değil PDF gönderin.",
+    "tipPartialRead": "Dekont paylaşıldı ancak IBAN veya tutar net okunamadı. PDF dekontu tercih edin veya daha yüksek çözünürlüklü bir görsel deneyin.",
+    "tipLowScore": "Bazı alanlar okundu ancak güven skoru yetersiz ({score}/{minScore}). Eksik alanları kontrol edin veya daha net bir belge yükleyin.",
+    "bullet": "• {label}: {detail}"
   },
   "match": {
     "docAccepted": {

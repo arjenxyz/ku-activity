@@ -81,7 +81,18 @@ export function validateDekontDocument(ocr: DekontOcrResult): DekontValidationRe
       detail:
         transferSignals >= 3
           ? formatString(strings.checks.transferShape.detailPassed, { count: transferSignals })
-          : strings.checks.transferShape.detailFailed,
+          : transferSignals > 0
+            ? formatString(strings.checks.transferShape.detailMissing, {
+                fields: [
+                  !hasIban ? 'IBAN' : null,
+                  !hasAmount ? 'tutar' : null,
+                  !hasDate ? 'tarih' : null,
+                  !hasReference ? 'referans' : null,
+                ]
+                  .filter(Boolean)
+                  .join(', '),
+              })
+            : strings.checks.transferShape.detailFailed,
       required: true,
     },
     {
@@ -121,6 +132,66 @@ export function validateDekontDocument(ocr: DekontOcrResult): DekontValidationRe
       : strings.summary.rejected;
 
   return { accepted, score: Math.min(100, score), checks, summary };
+}
+
+/** Başarısız doğrulama için kullanıcıya yönelik açıklama */
+export function formatDekontValidationFailure(
+  result: DekontValidationResult,
+  ocr?: Pick<DekontOcrResult, 'rawText' | 'source' | 'recipientIban' | 'amount'>
+): string {
+  const { failedRequired } = splitValidationChecks(result.checks);
+  const lines: string[] = [result.summary];
+
+  const charCount = ocr?.rawText?.trim().length ?? 0;
+  const found: string[] = [];
+  if (charCount > 0) {
+    found.push(formatString(strings.rejection.foundChars, { count: String(charCount) }));
+  } else {
+    found.push(strings.rejection.foundNothing);
+  }
+  if (ocr?.recipientIban) {
+    found.push(formatString(strings.rejection.foundIban, { iban: formatOcrIban(ocr.recipientIban) }));
+  }
+  if (ocr?.amount != null && ocr.amount > 0) {
+    found.push(formatString(strings.rejection.foundAmount, { amount: ocr.amount.toLocaleString('tr-TR') }));
+  }
+
+  if (found.length > 0) {
+    lines.push('', strings.rejection.foundHeader, ...found.map((f) => `• ${f}`));
+  }
+
+  if (failedRequired.length > 0) {
+    lines.push('', strings.rejection.issuesHeader);
+    for (const check of failedRequired) {
+      lines.push(
+        formatString(strings.rejection.bullet, {
+          label: check.label,
+          detail: check.detail ?? '—',
+        })
+      );
+    }
+  }
+
+  const unreadable = failedRequired.some((c) => c.id === 'readable');
+  const partialRead =
+    !unreadable &&
+    failedRequired.some((c) => c.id === 'iban' || c.id === 'amount' || c.id === 'bank_context');
+
+  if (unreadable || charCount < MIN_TEXT_LENGTH || ocr?.source === 'none') {
+    lines.push('', strings.rejection.tipUnreadable);
+  } else if (partialRead) {
+    lines.push('', strings.rejection.tipPartialRead);
+  } else if (!result.accepted && failedRequired.length === 0) {
+    lines.push(
+      '',
+      formatString(strings.rejection.tipLowScore, {
+        score: String(result.score),
+        minScore: String(MIN_TRUST_SCORE),
+      })
+    );
+  }
+
+  return lines.join('\n');
 }
 
 export function splitValidationChecks(checks: DekontValidationCheck[]) {
@@ -238,7 +309,7 @@ export function validateMatchForConfirm(
 ): { ok: boolean; reason?: string } {
   const doc = validateDekontDocument(ocr);
   if (!doc.accepted) {
-    return { ok: false, reason: doc.summary };
+    return { ok: false, reason: formatDekontValidationFailure(doc, ocr) };
   }
   if (!match) {
     return { ok: false, reason: strings.confirm.noMatchSelected };

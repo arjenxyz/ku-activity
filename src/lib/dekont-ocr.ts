@@ -29,7 +29,8 @@ const BANK_KEYWORDS = [
   'DEKONT', 'HAVALE', 'EFT', 'FAST', 'TRANSFER', 'İBAN', 'IBAN', 'TUTAR',
   'GÖNDEREN', 'GONDEREN', 'ALICI', 'ALACAKLI', 'LEHTAR', 'İŞLEM', 'ISLEM',
   'REFERANS', 'BANKA', 'GARANTİ', 'GARANTI', 'ZİRAAT', 'ZIRAAT', 'AKBANK',
-  'HALKBANK', 'VAKIF', 'QNB', 'ENPARA', 'TRY', 'TL',
+  'HALKBANK', 'HALK', 'HALK BANKASI',
+  'VAKIF', 'QNB', 'ENPARA', 'TRY', 'TL',
 ];
 
 export function findBankKeywords(text: string): string[] {
