@@ -10,10 +10,11 @@ export type DekontScanReport = {
     iban: string | null;
     amount: number | null;
     source: string | null;
+    ocrError?: string | null;
   };
 };
 
-function toBase64Url(bytes: Uint8Array): string {
+function utf8BytesToBase64(bytes: Uint8Array): string {
   let binary = '';
   for (const byte of bytes) binary += String.fromCharCode(byte);
   const base64 =
@@ -23,24 +24,28 @@ function toBase64Url(bytes: Uint8Array): string {
   return base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/g, '');
 }
 
-function fromBase64Url(encoded: string): string {
+function base64ToUtf8String(encoded: string): string {
   const base64 = encoded.replace(/-/g, '+').replace(/_/g, '/');
   const padded = base64 + '='.repeat((4 - (base64.length % 4)) % 4);
-  if (typeof atob !== 'undefined') {
-    return atob(padded);
+
+  if (typeof Buffer !== 'undefined') {
+    return Buffer.from(padded, 'base64').toString('utf8');
   }
-  return Buffer.from(padded, 'base64').toString('utf8');
+
+  const binary = atob(padded);
+  const bytes = Uint8Array.from(binary, (char) => char.charCodeAt(0));
+  return new TextDecoder('utf-8').decode(bytes);
 }
 
 export function encodeScanReport(report: DekontScanReport): string {
   const json = JSON.stringify(report);
-  return toBase64Url(new TextEncoder().encode(json));
+  return utf8BytesToBase64(new TextEncoder().encode(json));
 }
 
 export function decodeScanReport(encoded: string | null | undefined): DekontScanReport | null {
   if (!encoded) return null;
   try {
-    const json = fromBase64Url(encoded);
+    const json = base64ToUtf8String(encoded);
     const data = JSON.parse(json) as DekontScanReport;
     if (!data || !Array.isArray(data.checks)) return null;
     return data;

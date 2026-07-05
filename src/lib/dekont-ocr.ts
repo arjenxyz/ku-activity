@@ -23,13 +23,14 @@ export type DekontOcrResult = {
   source: 'pdf' | 'vision' | 'none';
   bankKeywords?: string[];
   isLikelyTransfer?: boolean;
+  ocrError?: string | null;
 };
 
 const BANK_KEYWORDS = [
   'DEKONT', 'HAVALE', 'EFT', 'FAST', 'TRANSFER', 'İBAN', 'IBAN', 'TUTAR',
   'GÖNDEREN', 'GONDEREN', 'ALICI', 'ALACAKLI', 'LEHTAR', 'İŞLEM', 'ISLEM',
   'REFERANS', 'BANKA', 'GARANTİ', 'GARANTI', 'ZİRAAT', 'ZIRAAT', 'AKBANK',
-  'HALKBANK', 'HALK', 'HALK BANKASI',
+  'HALKBANK', 'HALK', 'HALK BANKASI', 'TÜRKİYE HALK', 'TURKIYE HALK',
   'VAKIF', 'QNB', 'ENPARA', 'TRY', 'TL',
 ];
 
@@ -165,6 +166,24 @@ function scoreConfidence(result: Omit<DekontOcrResult, 'confidence'>): 'high' | 
   return 'low';
 }
 
+function sniffContentKind(buffer: Buffer, mimeType: string): 'pdf' | 'image' | 'unknown' {
+  if (buffer.length >= 4 && buffer.slice(0, 4).toString() === '%PDF') return 'pdf';
+  if (buffer.length >= 2 && buffer[0] === 0xff && buffer[1] === 0xd8) return 'image';
+  if (
+    buffer.length >= 8 &&
+    buffer[0] === 0x89 &&
+    buffer[1] === 0x50 &&
+    buffer[2] === 0x4e &&
+    buffer[3] === 0x47
+  ) {
+    return 'image';
+  }
+  const mime = mimeType.toLowerCase();
+  if (mime === 'application/pdf') return 'pdf';
+  if (mime.startsWith('image/')) return 'image';
+  return 'unknown';
+}
+
 async function extractPdfText(buffer: Buffer): Promise<string> {
   const { PDFParse } = await import('pdf-parse');
   const parser = new PDFParse({ data: buffer });
@@ -214,29 +233,90 @@ async function extractImageTextWithVision(buffer: Buffer): Promise<string> {
   return text;
 }
 
+/** Görsel tabanlı PDF dekontlar — files:annotate (PDF destekli) */
+async function extractPdfTextWithVision(buffer: Buffer): Promise<string> {
+  const token = await getGoogleVisionToken();
+  const res = await fetch('https://vision.googleapis.com/v1/files:annotate', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      requests: [
+        {
+          inputConfig: {
+            mimeType: 'application/pdf',
+            content: buffer.toString('base64'),
+          },
+          features: [{ type: 'DOCUMENT_TEXT_DETECTION' }],
+          pages: [1, 2, 3],
+        },
+      ],
+    }),
+  });
+
+  const data = (await res.json()) as {
+    responses?: Array<{
+      responses?: Array<{
+        fullTextAnnotation?: { text?: string };
+        error?: { message?: string };
+      }>;
+      error?: { message?: string };
+    }>;
+    error?: { message?: string };
+  };
+
+  if (!res.ok) {
+    throw new Error(data.error?.message || strings.visionFailed);
+  }
+
+  const batchError = data.responses?.[0]?.error?.message;
+  if (batchError) throw new Error(batchError);
+
+  const pages = data.responses?.[0]?.responses ?? [];
+  const texts = pages
+    .map((page) => page.fullTextAnnotation?.text?.trim())
+    .filter((text): text is string => Boolean(text));
+
+  if (!texts.length) {
+    const pageError = pages.find((page) => page.error?.message)?.error?.message;
+    throw new Error(pageError || strings.visionPdfEmpty);
+  }
+
+  return texts.join('\n\n');
+}
+
 export async function analyzeDekont(params: {
   buffer: Buffer;
   mimeType: string;
 }): Promise<DekontOcrResult> {
-  const mime = params.mimeType.toLowerCase();
+  const kind = sniffContentKind(params.buffer, params.mimeType);
   let rawText = '';
   let source: DekontOcrResult['source'] = 'none';
+  let ocrError: string | null = null;
 
   try {
-    if (mime === 'application/pdf' || params.buffer.slice(0, 4).toString() === '%PDF') {
+    if (kind === 'pdf') {
       rawText = await extractPdfText(params.buffer);
       source = 'pdf';
       if (rawText.trim().length < 40) {
-        rawText = await extractImageTextWithVision(params.buffer);
-        source = 'vision';
+        try {
+          rawText = await extractPdfTextWithVision(params.buffer);
+          source = 'vision';
+        } catch (err) {
+          ocrError = err instanceof Error ? err.message : strings.visionFailed;
+        }
       }
-    } else if (mime.startsWith('image/')) {
+    } else if (kind === 'image') {
       rawText = await extractImageTextWithVision(params.buffer);
       source = 'vision';
+    } else {
+      ocrError = strings.unsupportedFileType;
     }
   } catch (err) {
-    if (mime.startsWith('image/')) throw err;
-    rawText = '';
+    ocrError = err instanceof Error ? err.message : strings.visionFailed;
+    if (kind === 'image') throw err;
   }
 
   const allIbans = extractIbans(rawText);
@@ -266,6 +346,7 @@ export async function analyzeDekont(params: {
     source,
     bankKeywords,
     isLikelyTransfer: bankKeywords.length >= 2 && transferFields >= 2,
+    ocrError,
   };
 
   return { ...base, confidence: scoreConfidence(base) };

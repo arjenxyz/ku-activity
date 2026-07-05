@@ -138,7 +138,7 @@ export function validateDekontDocument(ocr: DekontOcrResult): DekontValidationRe
 /** Tarama raporu — API ve paylaşım yönlendirmesi için */
 export function buildDekontScanReport(
   result: DekontValidationResult,
-  ocr?: Pick<DekontOcrResult, 'rawText' | 'source' | 'recipientIban' | 'amount'>
+  ocr?: Pick<DekontOcrResult, 'rawText' | 'source' | 'recipientIban' | 'amount' | 'ocrError'>
 ): DekontScanReport {
   return {
     summary: result.summary,
@@ -151,6 +151,7 @@ export function buildDekontScanReport(
           iban: ocr.recipientIban ?? null,
           amount: ocr.amount ?? null,
           source: ocr.source ?? null,
+          ocrError: ocr.ocrError ?? null,
         }
       : undefined,
   };
@@ -159,7 +160,7 @@ export function buildDekontScanReport(
 /** Başarısız doğrulama için kullanıcıya yönelik açıklama */
 export function formatDekontValidationFailure(
   result: DekontValidationResult,
-  ocr?: Pick<DekontOcrResult, 'rawText' | 'source' | 'recipientIban' | 'amount'>
+  ocr?: Pick<DekontOcrResult, 'rawText' | 'source' | 'recipientIban' | 'amount' | 'ocrError'>
 ): string {
   const { passed, failedRequired, failedOptional } = splitValidationChecks(result.checks);
   const lines: string[] = [
@@ -225,6 +226,10 @@ export function formatDekontValidationFailure(
         })
       );
     }
+  }
+
+  if (ocr?.ocrError) {
+    lines.push('', formatString(strings.rejection.ocrErrorLine, { message: ocr.ocrError }));
   }
 
   const unreadable = failedRequired.some((c) => c.id === 'readable');

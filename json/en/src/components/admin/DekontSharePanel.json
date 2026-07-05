@@ -11,7 +11,10 @@
     "failedHeader": "Reddedilen kontroller",
     "optionalHeader": "Eksik (opsiyonel)",
     "scanRejectedTitle": "Tarama sonucu",
-    "allPassed": "Tüm kontroller geçti"
+    "allPassed": "Tüm kontroller geçti",
+    "ocrSource": "Okuma yöntemi: {source}",
+    "ocrChars": "Okunan metin: {count} karakter",
+    "ocrError": "OCR hatası: {message}"
   },
   "errors": {
     "draftLoadFailed": "Taslak yüklenemedi",

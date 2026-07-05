@@ -56,7 +56,8 @@
     "failedHeader": "Reddedilen kontroller",
     "optionalHeader": "Eksik (opsiyonel — zorunlu değil)",
     "noPassed": "Hiçbir kontrol geçmedi",
-    "noFailed": "Zorunlu kontrollerde sorun yok"
+    "noFailed": "Zorunlu kontrollerde sorun yok",
+    "ocrErrorLine": "OCR hatası: {message}"
   },
   "match": {
     "docAccepted": {

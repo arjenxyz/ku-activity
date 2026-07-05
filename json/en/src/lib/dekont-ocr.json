@@ -1,3 +1,5 @@
 {
-  "visionFailed": "Vision OCR başarısız — Cloud Vision API etkin mi?"
+  "visionFailed": "Vision OCR başarısız — Cloud Vision API etkin mi?",
+  "visionPdfEmpty": "PDF dekonttan metin çıkarılamadı",
+  "unsupportedFileType": "Dosya türü tanınamadı — PDF veya görsel (JPG/PNG) gönderin"
 }

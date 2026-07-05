@@ -18,6 +18,8 @@ import { AlertBanner } from '@/components/project/AlertBanner';
 import { ProjectPageHeader } from '@/components/project/ProjectPageHeader';
 import { btnPrimary, btnSecondary, labelClass, inputClass } from '@/components/project/ui';
 import { formatMoney } from '@/lib/format';
+import { formatString } from '@/lib/strings/format';
+import { getRegistryStrings } from '@/lib/i18n/strings-registry';
 import { formatOcrIban } from '@/lib/advance-dekont-match';
 import type { DekontMatchSuggestion } from '@/lib/advance-dekont-match';
 import type { DekontOcrResult } from '@/lib/dekont-ocr';
@@ -103,6 +105,50 @@ function ScoreBadge({ score, accepted }: { score: number; accepted: boolean }) {
   );
 }
 
+type ValidationLibStrings = ReturnType<typeof getRegistryStrings<'lib/dekont-validation'>>;
+
+const CHECK_ID_TO_KEY: Record<string, keyof ValidationLibStrings['checks']> = {
+  readable: 'readable',
+  bank_context: 'bankContext',
+  iban: 'iban',
+  amount: 'amount',
+  transfer_shape: 'transferShape',
+  reference: 'reference',
+  date: 'date',
+};
+
+function localizeValidationCheck(
+  check: DekontValidationCheck,
+  validationStrings: ValidationLibStrings
+): DekontValidationCheck {
+  const key = CHECK_ID_TO_KEY[check.id];
+  if (!key) return check;
+
+  const defs = validationStrings.checks[key];
+  const label = defs.label;
+
+  if (check.passed) {
+    if (check.id === 'iban' && 'detailPassed' in defs) {
+      return { ...check, label, detail: defs.detailPassed ?? check.detail };
+    }
+    return { ...check, label };
+  }
+
+  if (check.id === 'transfer_shape' && check.detail?.includes(':')) {
+    return { ...check, label };
+  }
+
+  const detailFailed = 'detailFailed' in defs ? defs.detailFailed : check.detail;
+  return { ...check, label, detail: detailFailed ?? check.detail };
+}
+
+function localizeValidationChecks(
+  checks: DekontValidationCheck[],
+  validationStrings: ValidationLibStrings
+) {
+  return checks.map((check) => localizeValidationCheck(check, validationStrings));
+}
+
 function CheckRow({ check }: { check: DekontValidationCheck }) {
   const strings = useRegistryStrings('components/admin/DekontSharePanel');
 
@@ -138,7 +184,9 @@ function CheckRow({ check }: { check: DekontValidationCheck }) {
 
 function ValidationReport({ checks }: { checks: DekontValidationCheck[] }) {
   const strings = useRegistryStrings('components/admin/DekontSharePanel');
-  const { passed, failedRequired, failedOptional } = splitValidationChecks(checks);
+  const validationStrings = useRegistryStrings('lib/dekont-validation');
+  const localized = localizeValidationChecks(checks, validationStrings);
+  const { passed, failedRequired, failedOptional } = splitValidationChecks(localized);
 
   return (
     <div className="space-y-4">
@@ -193,13 +241,43 @@ function ValidationReport({ checks }: { checks: DekontValidationCheck[] }) {
 
 function ScanRejectedCard({ report }: { report: DekontScanReport }) {
   const strings = useRegistryStrings('components/admin/DekontSharePanel');
+  const validationStrings = useRegistryStrings('lib/dekont-validation');
+  const summary = report.accepted
+    ? validationStrings.summary.accepted
+    : report.score >= 40 && report.checks.every((c) => !c.required || c.passed)
+      ? validationStrings.summary.lowScore
+      : validationStrings.summary.rejected;
+
+  const sourceLabel =
+    report.ocrPreview?.source === 'pdf'
+      ? 'PDF'
+      : report.ocrPreview?.source === 'vision'
+        ? 'OCR (Vision)'
+        : report.ocrPreview?.source === 'none'
+          ? '—'
+          : (report.ocrPreview?.source ?? '—');
 
   return (
     <div className="rounded-2xl border border-red-200 bg-white p-5 dark:border-red-900/40 dark:bg-slate-900">
       <div className="flex items-start justify-between gap-4">
         <div>
           <h3 className="font-semibold text-slate-900 dark:text-white">{strings.validation.scanRejectedTitle}</h3>
-          <p className="mt-1 text-sm text-red-700 dark:text-red-300">{report.summary}</p>
+          <p className="mt-1 text-sm text-red-700 dark:text-red-300">{summary}</p>
+          {report.ocrPreview && (
+            <div className="mt-2 space-y-0.5 text-xs text-slate-500">
+              <p>
+                {formatString(strings.validation.ocrChars, {
+                  count: String(report.ocrPreview.charCount),
+                })}
+              </p>
+              <p>{formatString(strings.validation.ocrSource, { source: sourceLabel })}</p>
+              {report.ocrPreview.ocrError && (
+                <p className="text-red-600 dark:text-red-400">
+                  {formatString(strings.validation.ocrError, { message: report.ocrPreview.ocrError })}
+                </p>
+              )}
+            </div>
+          )}
         </div>
         <ScoreBadge score={report.score} accepted={report.accepted} />
       </div>
