@@ -1,5 +1,19 @@
-const CACHE_NAME = 'crewledger-v14';
+const CACHE_NAME = 'crewledger-v15';
 const PUSH_ICON_PATH = '/personel-icon.png';
+
+function isInAppPersonnelClient(client) {
+  try {
+    const path = new URL(client.url).pathname;
+    if (!path.startsWith('/personnel-panel')) return false;
+    if (path.startsWith('/personnel-panel/login')) return false;
+    if (path.startsWith('/personnel-panel/basvuru')) return false;
+    if (path.startsWith('/personnel-panel/pin-sifirla')) return false;
+    if (path.startsWith('/personnel-panel/sifremi-unuttum')) return false;
+    return client.visibilityState === 'visible' && client.focused;
+  } catch {
+    return false;
+  }
+}
 
 /** Oturum / panel sayfaları asla önbellekten sunulmaz — her açılışta sunucu cookie kontrol eder */
 const NETWORK_ONLY_PREFIXES = [
@@ -76,11 +90,10 @@ self.addEventListener('push', (event) => {
     (async () => {
       const iconUrl = new URL(PUSH_ICON_PATH, self.location.origin).href;
       const clients = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
-      const personnelClients = clients.filter((client) => client.url.includes('/personnel-panel'));
-      const inForeground = personnelClients.some((client) => client.visibilityState === 'visible');
+      const inAppClients = clients.filter(isInAppPersonnelClient);
 
-      if (inForeground) {
-        for (const client of personnelClients) {
+      if (inAppClients.length > 0) {
+        for (const client of inAppClients) {
           client.postMessage({
             type: 'crewledger-in-app-notification',
             notification: {
@@ -92,20 +105,21 @@ self.addEventListener('push', (event) => {
           });
           client.postMessage({ type: 'crewledger-notifications-refresh' });
         }
-        return;
+      } else {
+        await self.registration.showNotification(payload.title, {
+          body: payload.body,
+          icon: iconUrl,
+          tag: payload.notificationId || 'crewledger-notification',
+          renotify: true,
+          data: { href: payload.href || '/personnel-panel', notificationId: payload.notificationId },
+          vibrate: [100, 50, 100],
+        });
       }
 
-      await self.registration.showNotification(payload.title, {
-        body: payload.body,
-        icon: iconUrl,
-        tag: payload.notificationId || 'crewledger-notification',
-        renotify: true,
-        data: { href: payload.href || '/personnel-panel', notificationId: payload.notificationId },
-        vibrate: [100, 50, 100],
-      });
-
       for (const client of clients) {
-        client.postMessage({ type: 'crewledger-notifications-refresh' });
+        if (client.url.includes('/personnel-panel')) {
+          client.postMessage({ type: 'crewledger-notifications-refresh' });
+        }
       }
     })()
   );

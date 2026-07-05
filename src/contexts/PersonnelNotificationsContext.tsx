@@ -95,6 +95,7 @@ export function PersonnelNotificationsProvider({ children }: { children: ReactNo
       const data = event.data as { type?: string; notification?: InAppToast };
 
       if (data.type === 'crewledger-in-app-notification' && data.notification) {
+        if (document.visibilityState !== 'visible') return;
         const n = data.notification;
         showToast({
           id: n.id || `push-${Date.now()}`,
