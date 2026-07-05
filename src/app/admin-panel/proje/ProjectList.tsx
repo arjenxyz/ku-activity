@@ -1,3 +1,5 @@
+'use client';
+
 import strings from '@json/src/app/admin-panel/proje/ProjectList.json';
 import {
   FiMapPin,

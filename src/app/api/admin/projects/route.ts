@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { requireAdminUser } from '@/lib/admin-auth';
 import { createClient } from '@/utils/supabase/server';
 import { queryProjectsList, apiErrorMessage } from '@/lib/project-queries';
+import { mergeProjectClosureFields } from '@/lib/project-closure-merge';
 import { getAdminProjectQuota } from '@/lib/project-admin-quota';
 import type { ProjectFormData, ProjectStatus } from '@/types/project';
 import strings from '@json/src/app/api/admin/projects/route.json';
@@ -26,9 +27,13 @@ export async function GET(request: Request) {
       );
     }
 
+    const projects = await mergeProjectClosureFields(
+      (data ?? []) as Record<string, unknown>[]
+    );
+
     const quota = await getAdminProjectQuota(user.id);
 
-    return NextResponse.json({ projects: data ?? [], quota });
+    return NextResponse.json({ projects, quota });
   } catch (err) {
     const { status, message } = apiErrorMessage(err);
     return NextResponse.json({ error: message }, { status });

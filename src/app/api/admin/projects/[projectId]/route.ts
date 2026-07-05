@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { requireAdminProjectAccess } from '@/lib/admin-auth';
 import { createClient } from '@/utils/supabase/server';
 import { queryProjectById, apiErrorMessage } from '@/lib/project-queries';
+import { mergeProjectClosureFields } from '@/lib/project-closure-merge';
 import { assertProjectWritable, ProjectClosureWriteBlockedError } from '@/lib/project-closure-guard';
 import strings from '@json/src/lib/project-closure-service.json';
 import closureRouteStrings from '@json/src/app/api/admin/projects/[projectId]/route.json';
@@ -23,7 +24,8 @@ export async function GET(_request: Request, context: RouteContext) {
       return NextResponse.json({ error: closureRouteStrings.projeBulunamadı }, { status: 404 });
     }
 
-    return NextResponse.json({ project: data });
+    const [project] = await mergeProjectClosureFields([data as Record<string, unknown>]);
+    return NextResponse.json({ project });
   } catch (err) {
     const { status, message } = apiErrorMessage(err);
     return NextResponse.json({ error: message }, { status });
