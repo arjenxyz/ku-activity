@@ -2,7 +2,9 @@
 
 import { markNotificationsUnlocked } from '@/lib/personnel-notification-storage';
 
-const VAPID_KEY_STORAGE = 'crewledger-vapid-public-key';(base64String: string) {
+const VAPID_KEY_STORAGE = 'crewledger-vapid-public-key';
+
+function urlBase64ToUint8Array(base64String: string) {
   const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
   const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
   const raw = atob(base64);
