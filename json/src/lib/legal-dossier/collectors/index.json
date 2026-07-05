@@ -15,7 +15,10 @@
     "payroll": { "title": "Bordro dönemleri ve satırlar" },
     "contracts": { "title": "Sözleşme onayları ve metinleri" },
     "registration": { "title": "Başvuru ve onay geçmişi" },
-    "advanceRequests": { "title": "Avans talepleri (onay, ödeme, dekont)" },
+    "advanceRequests": {
+      "title": "Avans talepleri (onay, ödeme, dekont)",
+      "proofNote": "Ödeme dekontları ZIP içinde ham dosya olarak yer almaz; proof_* alanları referans ve OCR metadata içerir."
+    },
     "attendance": { "title": "Yoklama kayıtları ve oturum bildirimleri" },
     "notifications": { "title": "Uygulama içi bildirim geçmişi" },
     "closureConsent": {

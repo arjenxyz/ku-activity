@@ -8,8 +8,15 @@
   "dailyLimit": "Günde en fazla {limit} kez indirebilirsiniz.",
   "preparing": "Hazırlanıyor…",
   "downloadCta": "Kayıtlarımı indir (ZIP)",
+  "consentCta": "Kapanış onayını veriyorum",
+  "consentText": "Bu proje CrewLedger üzerinde kapanmaktadır. Platformdaki kayıtlarımın belirtilen süre sonunda silineceğini, hak ve alacaklarımın kendi arşivimde saklamakla yükümlü olduğumu kabul ediyorum.",
+  "ackCta": "Verilerimi indirdim ve sakladım",
+  "ackDone": "İndirme onayınız kaydedildi.",
+  "deadlineNote": "Son indirme tarihi: {date}",
   "errors": {
     "downloadFailed": "İndirilemedi",
+    "consentFailed": "Onay kaydedilemedi",
+    "ackFailed": "Onay kaydedilemedi",
     "generic": "İndirme başarısız"
   },
   "fallbackFilename": "crewledger-kayitlarim.zip"

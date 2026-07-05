@@ -3,6 +3,7 @@ import { requirePersonnelSession } from '@/lib/personnel-auth';
 import { buildLegalDossier, dossierZipFilename } from '@/lib/legal-dossier/build-legal-dossier';
 import { buildDossierZip } from '@/lib/legal-dossier/build-zip';
 import { createAdminClient } from '@/utils/supabase/admin';
+import { recordPersonnelDossierExported } from '@/lib/project-closure-dossier';
 import strings from '@json/src/app/api/personnel/my-dossier/route.json';
 
 export async function GET() {
@@ -34,6 +35,11 @@ export async function GET() {
       String(dossier.manifest.exportedAt),
       'personnel_self'
     );
+
+    await recordPersonnelDossierExported({
+      projectId: session.projectId,
+      employeeId: session.employeeId,
+    }).catch(() => undefined);
 
     return new NextResponse(new Uint8Array(zip), {
       headers: {

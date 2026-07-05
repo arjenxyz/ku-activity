@@ -240,6 +240,18 @@ registerDossierCollector({
     );
 
     return [
+      jsonFile('10-avans-talepleri/README.json', {
+        note: strings.collectors.advanceRequests.proofNote,
+        includedFields: [
+          'proof_storage_backend',
+          'proof_external_id',
+          'proof_file_name',
+          'proof_mime_type',
+          'proof_reference_no',
+          'proof_ocr_json',
+        ],
+        excluded: 'Ham dekont dosyası ZIP içine kopyalanmaz; yalnızca metadata arşivlenir.',
+      }),
       jsonFile('10-avans-talepleri/kayitlar.json', rows),
       { path: '10-avans-talepleri/kayitlar.csv', content: csv },
     ];
@@ -509,8 +521,8 @@ registerDossierCollector({
 
     const rows = data ?? [];
     const csv = toCsv(
-      ['created_at', 'type', 'title', 'read_at'],
-      rows.map((r) => [r.created_at, r.type, r.title, r.read_at])
+      ['created_at', 'type', 'title', 'body', 'read_at'],
+      rows.map((r) => [r.created_at, r.type, r.title, r.body, r.read_at])
     );
 
     return [
@@ -552,6 +564,14 @@ registerDossierCollector({
       .limit(1)
       .maybeSingle();
 
+    const { data: exportHistory } = await ctx.admin
+      .from('legal_dossier_exports')
+      .select('created_at, export_type, schema_version, exported_by_email')
+      .eq('employee_id', ctx.employeeId)
+      .eq('project_id', ctx.projectId)
+      .order('created_at', { ascending: false })
+      .limit(20);
+
     const inClosure =
       project?.closure_phase && project.closure_phase !== 'none' && project.closure_phase !== 'purged';
 
@@ -572,9 +592,11 @@ registerDossierCollector({
             consentedAt: consent.consented_at,
             dataExportedAt: consent.data_exported_at,
             dataExportAcknowledgedAt: consent.data_export_acknowledged_at,
+            dataDownloadAcknowledged: Boolean(consent.data_export_acknowledged_at),
             userAgent: consent.user_agent,
           }
         : null,
+      dossierExportHistory: exportHistory ?? [],
       lastDossierDownload: lastExport
         ? {
             at: lastExport.created_at,

@@ -15,7 +15,10 @@
     "payroll": { "title": "Bordro dönemleri ve satırlar" },
     "contracts": { "title": "Sözleşme onayları ve metinleri" },
     "registration": { "title": "Application and approval history" },
-    "advanceRequests": { "title": "Advance requests (approval, payment, receipt)" },
+    "advanceRequests": {
+      "title": "Advance requests (approval, payment, receipt)",
+      "proofNote": "Receipt files are not copied into the ZIP; proof_* fields contain reference and OCR metadata only."
+    },
     "attendance": { "title": "Attendance check-ins and session notices" },
     "notifications": { "title": "In-app notification history" },
     "closureConsent": {

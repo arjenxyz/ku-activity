@@ -8,8 +8,15 @@
   "dailyLimit": "You can download up to {limit} times per day.",
   "preparing": "Preparing…",
   "downloadCta": "Download my records (ZIP)",
+  "consentCta": "I accept closure consent",
+  "consentText": "This project is closing on CrewLedger. I understand operational records will be deleted after the deadline and I am responsible for keeping my own archive.",
+  "ackCta": "I have downloaded and saved my data",
+  "ackDone": "Your download acknowledgment has been recorded.",
+  "deadlineNote": "Final download date: {date}",
   "errors": {
     "downloadFailed": "Download failed",
+    "consentFailed": "Consent could not be saved",
+    "ackFailed": "Acknowledgment could not be saved",
     "generic": "Download failed"
   },
   "fallbackFilename": "crewledger-my-records.zip"
