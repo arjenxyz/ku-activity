@@ -2,8 +2,6 @@
   "title": "Kayıtlarımı indir",
   "description": "KVKK m.11 kapsamında yevmiye, ödeme, sözleşme ve profil verilerinizin tam kopyasını ZIP olarak alın. Yöneticinizin gördüğü kayıtlarla aynı veri setidir — şeffaflık için.",
   "closureTitle": "Verilerinizi indirin",
-  "closureScreenTitle": "Proje kapanıyor",
-  "closureScreenSubtitle": "Süre dolmadan kayıtlarınızı indirip cihazınızda saklayın.",
   "closureDescription": "Aşağıdaki tüm kayıtlarınızın bir kopyasını ZIP olarak indirin ve güvenle saklayın.",
   "checklistTitle": "ZIP dosyasında yer alan bölümler",
   "checklistLoading": "İçerik listesi yükleniyor…",
