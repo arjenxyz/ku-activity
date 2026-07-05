@@ -31,6 +31,7 @@ async function runPushTest() {
   }
 
   const vapidDiagnostics = getVapidDiagnostics();
+  const subscriptionsBefore = await listEmployeePushSubscriptions(admin, session.employeeId);
   const pushResult = vapidDiagnostics.keyPairValid
     ? await dispatchPersonnelPush(admin, {
         employeeId: session.employeeId,
@@ -64,6 +65,7 @@ async function runPushTest() {
     push: pushResult,
     vapidEnabled: isVapidEnabled(),
     vapidDiagnostics,
+    subscriptionCount: subscriptionsBefore.length,
     hint: (() => {
       if (pushResult.sent > 0) {
         return 'Telefonda bildirim gelmeli. push_sent_at doluysa sunucu tarafı çalışıyor.';
@@ -74,7 +76,10 @@ async function runPushTest() {
       if (pushResult.errors?.length) {
         return `Push hatası: ${pushResult.errors[0].message}. Bildirim iznini kapat-aç deneyin.`;
       }
-      return 'push_sent_at boş — abonelik yok veya cihaz push reddetti.';
+      if (subscriptionsBefore.length === 0) {
+        return 'Kayıtlı cihaz yok — önce personel paneli açıp “Bildirimleri aç” deyin, sonra bu sayfayı yenileyin.';
+      }
+      return 'push_sent_at boş — cihaz push reddetti; bildirim iznini kapat-aç deneyin.';
     })(),
   });
 }
