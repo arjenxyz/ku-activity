@@ -5,6 +5,6 @@
   "employeeCount": "{active} aktif / {total} personel",
   "open": "Aç",
   "editAriaLabel": "Düzenle",
-  "deleteAriaLabel": "Sil",
+  "deleteAriaLabel": "Kapanış başlat",
   "emptyDate": "—"
 }

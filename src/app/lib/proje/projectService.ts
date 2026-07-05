@@ -58,3 +58,15 @@ export const deleteProject = async (id: string): Promise<void> => {
   const res = await fetch(`/api/admin/projects/${id}`, { method: 'DELETE' });
   if (!res.ok) throw new Error(await parseError(res));
 };
+
+export const startProjectClosure = async (
+  id: string
+): Promise<{ deadlineAt: string; notifiedCount: number }> => {
+  const res = await fetch(`/api/admin/projects/${id}/closure/start`, { method: 'POST' });
+  if (!res.ok) throw new Error(await parseError(res));
+  const data = await res.json();
+  return {
+    deadlineAt: String(data.deadlineAt ?? ''),
+    notifiedCount: Number(data.notifiedCount ?? 0),
+  };
+};

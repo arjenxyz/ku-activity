@@ -2,7 +2,7 @@ import type { Project, ProjectFormData } from '@/types/project';
 import {
   fetchProjectById,
   updateProject as updateProjectApi,
-  deleteProject as deleteProjectApi,
+  startProjectClosure as startProjectClosureApi,
 } from '@/app/lib/proje/projectService';
 import strings from '@json/src/api/projects.json';
 
@@ -20,14 +20,14 @@ export const updateProject = async (
   }
 };
 
-export const deleteProject = async (
+export const startProjectClosure = async (
   projectId: string
-): Promise<{ error: Error | null }> => {
+): Promise<{ error: Error | null; deadlineAt?: string }> => {
   try {
-    await deleteProjectApi(projectId);
-    return { error: null };
+    const result = await startProjectClosureApi(projectId);
+    return { error: null, deadlineAt: result.deadlineAt };
   } catch (err) {
-    return { error: err instanceof Error ? err : new Error(strings.deleteFailed) };
+    return { error: err instanceof Error ? err : new Error(strings.closureFailed) };
   }
 };
 

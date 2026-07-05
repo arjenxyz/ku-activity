@@ -7,7 +7,7 @@ import { FiPlus } from 'react-icons/fi';
 import ProjectList from './proje/ProjectList';
 import ProjectForm from './proje/ProjectForm';
 import ProjectFilters, { type ProjectFilter } from './proje/ProjectFilters';
-import { fetchProjects, deleteProject } from '../lib/proje/projectService';
+import { fetchProjects, startProjectClosure } from '../lib/proje/projectService';
 import type { Project } from '@/types/project';
 
 export default function ProjectPage() {
@@ -19,8 +19,8 @@ export default function ProjectPage() {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [filter, setFilter] = useState<ProjectFilter>('all');
   const [searchTerm, setSearchTerm] = useState('');
-  const [deleteTarget, setDeleteTarget] = useState<Project | null>(null);
-  const [deleting, setDeleting] = useState(false);
+  const [closureTarget, setClosureTarget] = useState<Project | null>(null);
+  const [closing, setClosing] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);
 
   const loadProjects = useCallback(async () => {
@@ -42,22 +42,22 @@ export default function ProjectPage() {
     loadProjects();
   }, [loadProjects]);
 
-  const handleDeleteProject = async (id: string) => {
+  const handleStartClosure = async (id: string) => {
     const target = projects.find((p) => p.id === id);
-    if (target) setDeleteTarget(target);
+    if (target) setClosureTarget(target);
   };
 
-  const confirmDelete = async () => {
-    if (!deleteTarget) return;
-    setDeleting(true);
+  const confirmClosure = async () => {
+    if (!closureTarget) return;
+    setClosing(true);
     try {
-      await deleteProject(deleteTarget.id);
-      setDeleteTarget(null);
+      await startProjectClosure(closureTarget.id);
+      setClosureTarget(null);
       await loadProjects();
     } catch (error) {
-      alert(error instanceof Error ? error.message : strings.deleteFailed);
+      alert(error instanceof Error ? error.message : strings.closureFailed);
     } finally {
-      setDeleting(false);
+      setClosing(false);
     }
   };
 
@@ -121,33 +121,33 @@ export default function ProjectPage() {
           setEditingId(id);
           setIsFormVisible(true);
         }}
-        onDelete={handleDeleteProject}
+        onDelete={handleStartClosure}
       />
 
-      {deleteTarget && (
+      {closureTarget && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
           <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-xl max-w-md w-full p-6 border border-slate-200 dark:border-slate-800">
-            <h3 className="text-lg font-semibold text-slate-900 dark:text-white">{strings.deleteTitle}</h3>
+            <h3 className="text-lg font-semibold text-slate-900 dark:text-white">{strings.closureTitle}</h3>
             <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
-              <strong>{deleteTarget.name}</strong>
-              {strings.deleteBody}
+              <strong>{closureTarget.name}</strong>
+              {strings.closureBody}
             </p>
             <div className="mt-6 flex gap-3">
               <button
                 type="button"
-                disabled={deleting}
-                onClick={() => setDeleteTarget(null)}
+                disabled={closing}
+                onClick={() => setClosureTarget(null)}
                 className="flex-1 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-sm font-medium"
               >
                 {strings.cancel}
               </button>
               <button
                 type="button"
-                disabled={deleting}
-                onClick={confirmDelete}
-                className="flex-1 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-sm font-medium disabled:opacity-50"
+                disabled={closing}
+                onClick={confirmClosure}
+                className="flex-1 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-sm font-medium disabled:opacity-50"
               >
-                {deleting ? strings.deleting : strings.confirmDelete}
+                {closing ? strings.closing : strings.confirmClosure}
               </button>
             </div>
           </div>

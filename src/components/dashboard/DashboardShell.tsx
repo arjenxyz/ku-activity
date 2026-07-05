@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { useState, useEffect, useMemo } from 'react';
 import { FiLogOut, FiSettings, FiSliders } from 'react-icons/fi';
 import { ProjectNavLinks } from '@/components/project/ProjectNavMenu';
@@ -22,7 +22,6 @@ const PROJECT_ID_RE = /^\/admin-panel\/proje\/([a-f0-9-]{36})/;
 function DashboardShellInner({ children }: { children: React.ReactNode }) {
   const strings = useRegistryStrings('components/dashboard/DashboardShell');
   const pathname = usePathname();
-  const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
 
@@ -228,10 +227,6 @@ function DashboardShellInner({ children }: { children: React.ReactNode }) {
           isOpen={settingsOpen}
           onClose={() => setSettingsOpen(false)}
           onUpdate={(updated) => setProject(updated)}
-          onDelete={() => {
-            setSettingsOpen(false);
-            router.replace('/admin-panel');
-          }}
         />
       )}
 

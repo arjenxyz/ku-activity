@@ -2,8 +2,9 @@ import { NextResponse } from 'next/server';
 import { requireAdminProjectAccess } from '@/lib/admin-auth';
 import { createClient } from '@/utils/supabase/server';
 import { queryProjectById, apiErrorMessage } from '@/lib/project-queries';
+import strings from '@json/src/lib/project-closure-service.json';
+import closureRouteStrings from '@json/src/app/api/admin/projects/[projectId]/route.json';
 import type { ProjectFormData, ProjectStatus } from '@/types/project';
-import strings from '@json/src/app/api/admin/projects/[projectId]/route.json';
 
 const VALID_STATUSES: ProjectStatus[] = ['active', 'planned', 'paused', 'completed', 'archived'];
 
@@ -18,7 +19,7 @@ export async function GET(_request: Request, context: RouteContext) {
     const { data, error } = await queryProjectById(supabase, projectId);
 
     if (error || !data) {
-      return NextResponse.json({ error: strings.projeBulunamadı }, { status: 404 });
+      return NextResponse.json({ error: closureRouteStrings.projeBulunamadı }, { status: 404 });
     }
 
     return NextResponse.json({ project: data });
@@ -35,7 +36,7 @@ export async function PATCH(request: Request, context: RouteContext) {
     const body = (await request.json()) as Partial<ProjectFormData>;
 
     if (body.status && !VALID_STATUSES.includes(body.status)) {
-      return NextResponse.json({ error: strings.geçersizDurum }, { status: 400 });
+      return NextResponse.json({ error: closureRouteStrings.geçersizDurum }, { status: 400 });
     }
 
     const updates: Record<string, unknown> = { updated_at: new Date().toISOString() };
@@ -66,7 +67,7 @@ export async function PATCH(request: Request, context: RouteContext) {
 
     if (error) {
       if (error.code === '23505') {
-        return NextResponse.json({ error: strings.buProjeKoduZatenKullanılıyor }, { status: 409 });
+        return NextResponse.json({ error: closureRouteStrings.buProjeKoduZatenKullanılıyor }, { status: 409 });
       }
       return NextResponse.json({ error: error.message || 'Proje güncellenemedi' }, { status: 500 });
     }
@@ -83,15 +84,13 @@ export async function DELETE(_request: Request, context: RouteContext) {
     const { projectId } = await context.params;
     await requireAdminProjectAccess(projectId);
 
-    const supabase = await createClient();
-    const { error } = await supabase.from('projects').delete().eq('id', projectId);
-
-    if (error) {
-      console.error('Proje silme hatası:', error);
-      return NextResponse.json({ error: error.message || 'Proje silinemedi' }, { status: 500 });
-    }
-
-    return NextResponse.json({ success: true });
+    return NextResponse.json(
+      {
+        error: strings.errors.instantDeleteDisabled,
+        code: 'USE_CLOSURE_FLOW',
+      },
+      { status: 409 }
+    );
   } catch (err) {
     const { status, message } = apiErrorMessage(err);
     return NextResponse.json({ error: message }, { status });

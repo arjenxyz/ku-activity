@@ -15,9 +15,9 @@
   "submitSaving": "Kaydediliyor...",
   "submit": "Kaydet",
   "cancel": "Vazgeç",
-  "deleteProject": "Projeyi Sil",
-  "deleteWarning": "Bu işlem geri alınamaz. Tüm personel verileri silinir.",
-  "deleteSaving": "Siliniyor...",
-  "deleteConfirm": "Evet, Sil",
-  "deleteCancel": "İptal"
+  "startClosure": "Projeyi kapat (kapanış süreci)",
+  "closureWarning": "Veriler hemen silinmez. 30 gün içinde personel onay verip kayıtlarını indirir; süre sonunda proje silinir. Önce tüm proje arşivini indirmeniz önerilir.",
+  "closureSaving": "Başlatılıyor...",
+  "closureConfirm": "Kapanışı başlat",
+  "closureCancel": "İptal"
 }

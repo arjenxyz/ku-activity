@@ -113,6 +113,9 @@ export async function recordClosureConsent(params: {
       consentVersion: PROJECT_CLOSURE_CONSENT_VERSION,
     },
   });
+
+  const { maybeAdvanceClosureAfterConsent } = await import('@/lib/project-closure-service');
+  await maybeAdvanceClosureAfterConsent(params.projectId).catch(() => undefined);
 }
 
 export async function recordPersonnelDossierExported(params: {

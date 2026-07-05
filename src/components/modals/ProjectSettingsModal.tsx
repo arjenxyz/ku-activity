@@ -5,8 +5,8 @@ import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useRouter } from 'next/navigation';
 import type { Project, ProjectFormData, ProjectStatus } from '@/types/project';
 import { PROJECT_STATUS_LABELS } from '@/types/project';
-import { FiX, FiTrash2, FiSettings, FiAlertTriangle } from 'react-icons/fi';
-import { updateProject, deleteProject } from '@/api/projects';
+import { FiX, FiSettings, FiAlertTriangle } from 'react-icons/fi';
+import { updateProject, startProjectClosure } from '@/api/projects';
 import {
   COMMON_PROJECT_TIMEZONES,
   DEFAULT_PROJECT_TIMEZONE,
@@ -18,7 +18,6 @@ type Props = {
   isOpen: boolean;
   onClose: () => void;
   onUpdate: (updatedProject: Project) => void;
-  onDelete: () => void;
 };
 
 export const ProjectSettingsModal = ({
@@ -26,7 +25,6 @@ export const ProjectSettingsModal = ({
   isOpen,
   onClose,
   onUpdate,
-  onDelete,
 }: Props) => {
   const strings = useRegistryStrings('components/modals/ProjectSettingsModal');
   const router = useRouter();
@@ -42,7 +40,7 @@ export const ProjectSettingsModal = ({
     work_end_time: project.work_end_time?.slice(0, 5) ?? '17:00',
     timezone: project.timezone ?? DEFAULT_PROJECT_TIMEZONE,
   });
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [showClosureConfirm, setShowClosureConfirm] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -77,16 +75,16 @@ export const ProjectSettingsModal = ({
     }
   };
 
-  const handleDelete = async () => {
+  const handleStartClosure = async () => {
     setIsSubmitting(true);
     setError(null);
     try {
-      const { error: deleteError } = await deleteProject(project.id);
-      if (deleteError) {
-        setError(deleteError.message);
+      const { error: closureError } = await startProjectClosure(project.id);
+      if (closureError) {
+        setError(closureError.message);
         return;
       }
-      onDelete();
+      onUpdate({ ...project, status: 'archived' });
       onClose();
       router.replace('/admin-panel');
     } finally {
@@ -215,21 +213,21 @@ export const ProjectSettingsModal = ({
         </form>
 
         <div className="mt-6 border-t border-slate-200 dark:border-slate-800 pt-4">
-          {!showDeleteConfirm ? (
-            <button type="button" onClick={() => setShowDeleteConfirm(true)} className="w-full flex items-center justify-center gap-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30 py-2.5 rounded-xl text-sm font-medium">
-              <FiTrash2 /> {strings.deleteProject}
+          {!showClosureConfirm ? (
+            <button type="button" onClick={() => setShowClosureConfirm(true)} className="w-full flex items-center justify-center gap-2 text-amber-700 hover:bg-amber-50 dark:hover:bg-amber-950/30 py-2.5 rounded-xl text-sm font-medium">
+              <FiAlertTriangle /> {strings.startClosure}
             </button>
           ) : (
             <div className="space-y-3">
-              <p className="flex items-center gap-2 text-sm text-red-600">
-                <FiAlertTriangle /> {strings.deleteWarning}
+              <p className="flex items-start gap-2 text-sm text-amber-800 dark:text-amber-200">
+                <FiAlertTriangle className="shrink-0 mt-0.5" /> {strings.closureWarning}
               </p>
               <div className="flex gap-2">
-                <button type="button" onClick={handleDelete} disabled={isSubmitting} className="flex-1 bg-red-600 text-white py-2.5 rounded-xl text-sm font-medium disabled:opacity-50">
-                  {isSubmitting ? strings.deleteSaving : strings.deleteConfirm}
+                <button type="button" onClick={handleStartClosure} disabled={isSubmitting} className="flex-1 bg-amber-600 text-white py-2.5 rounded-xl text-sm font-medium disabled:opacity-50">
+                  {isSubmitting ? strings.closureSaving : strings.closureConfirm}
                 </button>
-                <button type="button" onClick={() => setShowDeleteConfirm(false)} className="flex-1 border py-2.5 rounded-xl text-sm font-medium">
-                  {strings.deleteCancel}
+                <button type="button" onClick={() => setShowClosureConfirm(false)} className="flex-1 border py-2.5 rounded-xl text-sm font-medium">
+                  {strings.closureCancel}
                 </button>
               </div>
             </div>

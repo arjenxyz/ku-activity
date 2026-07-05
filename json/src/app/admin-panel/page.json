@@ -4,10 +4,10 @@
   "newProject": "Yeni Proje",
   "loadFailed": "Projeler yüklenemedi",
   "adminHint": "Giriş yaptığınızdan ve profiles tablosunda admin kaydınızın olduğundan emin olun.",
-  "deleteFailed": "Proje silinemedi",
-  "deleteTitle": "Projeyi sil?",
-  "deleteBody": " ve bağlı tüm personel, yevmiye ve kesinti kayıtları kalıcı olarak silinir.",
+  "closureFailed": "Kapanış başlatılamadı",
+  "closureTitle": "Projeyi kapat?",
+  "closureBody": " için kapanış süreci başlatılır. Veriler hemen silinmez; personel 30 gün içinde onay verip kayıtlarını indirir.",
   "cancel": "Vazgeç",
-  "deleting": "Siliniyor...",
-  "confirmDelete": "Evet, Sil"
+  "closing": "Başlatılıyor...",
+  "confirmClosure": "Kapanışı başlat"
 }

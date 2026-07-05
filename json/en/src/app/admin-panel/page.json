@@ -1,13 +1,13 @@
 {
-  "title": "Projeler",
-  "subtitle": "Şantiyelerinizi oluşturun, düzenleyin ve yönetin",
-  "newProject": "Yeni Proje",
-  "loadFailed": "Projeler yüklenemedi",
-  "adminHint": "Giriş yaptığınızdan ve profiles tablosunda admin kaydınızın olduğundan emin olun.",
-  "deleteFailed": "Proje silinemedi",
-  "deleteTitle": "Projeyi sil?",
-  "deleteBody": " ve bağlı tüm personel, yevmiye ve kesinti kayıtları kalıcı olarak silinir.",
-  "cancel": "Vazgeç",
-  "deleting": "Siliniyor...",
-  "confirmDelete": "Evet, Sil"
+  "title": "Projects",
+  "subtitle": "Create, edit, and manage your job sites",
+  "newProject": "New project",
+  "loadFailed": "Could not load projects",
+  "adminHint": "Make sure you are signed in and have an admin profile record.",
+  "closureFailed": "Could not start closure",
+  "closureTitle": "Close project?",
+  "closureBody": " will enter the closure process. Data is not deleted immediately; personnel have 30 days to consent and download records.",
+  "cancel": "Cancel",
+  "closing": "Starting...",
+  "confirmClosure": "Start closure"
 }

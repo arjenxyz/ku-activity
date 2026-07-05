@@ -1,4 +1,4 @@
 {
-  "updateFailed": "Güncelleme başarısız",
-  "deleteFailed": "Silme başarısız"
+  "updateFailed": "Update failed",
+  "closureFailed": "Could not start closure"
 }
