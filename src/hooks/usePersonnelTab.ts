@@ -19,19 +19,25 @@ export function usePersonnelTab(defaultTab: PersonnelTabId = 'overview') {
   );
 
   useEffect(() => {
-    if (isValidTab(param) && param !== activeTab) {
-      setActiveTabState(param);
+    const nextTab = isValidTab(param) ? param : defaultTab;
+    if (nextTab !== activeTab) {
+      setActiveTabState(nextTab);
     }
-  }, [param, activeTab]);
+  }, [param, defaultTab, activeTab]);
 
   const setActiveTab = useCallback(
     (tab: PersonnelTabId) => {
       setActiveTabState(tab);
       const url = new URL(window.location.href);
-      url.searchParams.set('tab', tab);
-      router.replace(url.pathname + url.search, { scroll: false });
+      if (tab === defaultTab) {
+        url.searchParams.delete('tab');
+      } else {
+        url.searchParams.set('tab', tab);
+      }
+      const next = url.search ? `${url.pathname}${url.search}` : url.pathname;
+      router.replace(next, { scroll: false });
     },
-    [router]
+    [router, defaultTab]
   );
 
   return { activeTab, setActiveTab };
