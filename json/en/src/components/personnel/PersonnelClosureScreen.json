@@ -1,3 +1,5 @@
 {
-  "accountDeletionNote": "Your account will be deleted on {date}"
+  "accountDeletionNote": "Your account will be deleted on {date}",
+  "countdownLabel": "Time remaining until your account is deleted",
+  "downloadHint": "Download and keep a ZIP copy of your work logs, payments, and contracts."
 }

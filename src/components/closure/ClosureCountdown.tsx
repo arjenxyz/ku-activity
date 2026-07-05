@@ -11,6 +11,7 @@ type Props = {
   size?: 'sm' | 'md' | 'lg';
   variant?: 'default' | 'premium';
   showTitle?: boolean;
+  showPhase?: boolean;
   className?: string;
 };
 
@@ -63,6 +64,7 @@ export function ClosureCountdown({
   size = 'md',
   variant = 'premium',
   showTitle = true,
+  showPhase = true,
   className = '',
 }: Props) {
   const strings = useRegistryStrings('components/closure/ClosureCountdown');
@@ -87,7 +89,7 @@ export function ClosureCountdown({
   if (parts.expired) {
     return (
       <div className={`text-center ${className}`}>
-        {phaseLabel && (
+        {phaseLabel && showPhase && (
           <span className="inline-flex mb-3 px-3 py-1 rounded-full bg-red-100 dark:bg-red-950/50 text-red-700 dark:text-red-300 text-xs font-semibold">
             {phaseLabel}
           </span>
@@ -110,7 +112,7 @@ export function ClosureCountdown({
 
   return (
     <div className={className}>
-      {phaseLabel && (
+      {phaseLabel && showPhase && (
         <div className="flex justify-center mb-4">
           <span className="inline-flex items-center px-3.5 py-1.5 rounded-full bg-amber-100/90 dark:bg-amber-900/40 text-amber-800 dark:text-amber-200 text-xs font-semibold tracking-wide border border-amber-200/60 dark:border-amber-700/50">
             {phaseLabel}
