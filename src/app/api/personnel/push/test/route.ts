@@ -2,7 +2,12 @@ import { NextResponse } from 'next/server';
 import { createAdminClient } from '@/utils/supabase/admin';
 import { requirePersonnelSession } from '@/lib/personnel-auth';
 import { notifyPersonnel } from '@/lib/personnel-notification-service';
-import { dispatchPersonnelPush, getVapidDiagnostics, isVapidEnabled } from '@/lib/personnel-push-service';
+import {
+  dispatchPersonnelPush,
+  getVapidDiagnostics,
+  isVapidEnabled,
+  listEmployeePushSubscriptions,
+} from '@/lib/personnel-push-service';
 
 async function runPushTest() {
   const session = await requirePersonnelSession();
