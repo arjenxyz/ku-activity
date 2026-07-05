@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { createAdminClient } from '@/utils/supabase/admin';
 import { queryEmployeeById, queryPersonnelProfile } from '@/lib/employee-db';
 import { requirePersonnelSession } from '@/lib/personnel-auth';
+import { touchPushSubscriptionLastSeen } from '@/lib/personnel-push-service';
 import { decryptField, maskIban } from '@/lib/field-encryption';
 import { splitFullName } from '@/lib/format';
 import { signedEmployeePhotoUrl } from '@/lib/photo-storage';
@@ -82,6 +83,8 @@ export async function GET() {
   try {
     const session = await requirePersonnelSession();
     const admin = createAdminClient();
+
+    void touchPushSubscriptionLastSeen(admin, session.sessionId).catch(() => undefined);
 
     const { data: viewData, error: viewError } = await queryPersonnelProfile(
       admin,

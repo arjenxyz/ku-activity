@@ -20,6 +20,7 @@ export type PushDispatchResult = {
   sent: number;
   skipped: boolean;
   keyPairValid?: boolean;
+  targetCount?: number;
   errors?: PushDispatchError[];
 };
 
@@ -62,47 +63,147 @@ export function maskPushEndpoint(endpoint: string) {
   return `${endpoint.slice(0, 20)}…${endpoint.slice(-8)}`;
 }
 
+function isMissingPushTable(message: string) {
+  return message.includes('personnel_push_subscriptions');
+}
+
+async function loadActiveSessionIds(admin: SupabaseClient, sessionIds: string[]) {
+  if (!sessionIds.length) return new Set<string>();
+
+  const now = new Date().toISOString();
+  const { data, error } = await admin
+    .from('personnel_sessions')
+    .select('id')
+    .in('id', sessionIds)
+    .is('revoked_at', null)
+    .gt('expires_at', now);
+
+  if (error) throw new Error(error.message);
+  return new Set((data ?? []).map((row) => row.id as string));
+}
+
 export async function listEmployeePushSubscriptions(
   admin: SupabaseClient,
   employeeId: string
 ) {
   const { data, error } = await admin
     .from('personnel_push_subscriptions')
-    .select('id, endpoint, created_at, updated_at, user_agent')
+    .select('id, endpoint, created_at, updated_at, user_agent, session_id, last_seen_at')
     .eq('employee_id', employeeId)
     .order('updated_at', { ascending: false });
 
   if (error) {
-    if (error.message.includes('personnel_push_subscriptions')) return [];
+    if (isMissingPushTable(error.message)) return [];
     throw new Error(error.message);
   }
 
   return data ?? [];
 }
 
+export async function listActiveEmployeePushSubscriptions(
+  admin: SupabaseClient,
+  employeeId: string
+) {
+  const { data, error } = await admin
+    .from('personnel_push_subscriptions')
+    .select('id, endpoint, p256dh, auth, session_id, last_seen_at, created_at, updated_at, user_agent')
+    .eq('employee_id', employeeId)
+    .order('updated_at', { ascending: false });
+
+  if (error) {
+    if (isMissingPushTable(error.message)) return [];
+    throw new Error(error.message);
+  }
+
+  const subs = data ?? [];
+  if (!subs.length) return [];
+
+  const sessionIds = subs
+    .map((sub) => sub.session_id as string | null)
+    .filter((id): id is string => Boolean(id));
+
+  const activeSessionIds = await loadActiveSessionIds(admin, sessionIds);
+
+  return subs.filter(
+    (sub) => sub.session_id && activeSessionIds.has(sub.session_id as string)
+  );
+}
+
+/** Oturumu sona ermiş veya bağsız (legacy) abonelikleri temizle */
+export async function pruneInactivePushSubscriptions(
+  admin: SupabaseClient,
+  employeeId: string
+) {
+  const subs = await listEmployeePushSubscriptions(admin, employeeId);
+  if (!subs.length) return;
+
+  const sessionIds = subs
+    .map((sub) => sub.session_id as string | null)
+    .filter((id): id is string => Boolean(id));
+
+  const activeSessionIds = await loadActiveSessionIds(admin, sessionIds);
+  const staleIds = subs
+    .filter((sub) => !sub.session_id || !activeSessionIds.has(sub.session_id as string))
+    .map((sub) => sub.id as string);
+
+  if (!staleIds.length) return;
+
+  const { error } = await admin.from('personnel_push_subscriptions').delete().in('id', staleIds);
+  if (error && !isMissingPushTable(error.message)) throw new Error(error.message);
+}
+
 export async function upsertPushSubscription(
   admin: SupabaseClient,
   params: {
     employeeId: string;
+    sessionId: string;
     endpoint: string;
     p256dh: string;
     auth: string;
     userAgent?: string;
   }
 ) {
+  const now = new Date().toISOString();
+
+  const { error: clearSessionError } = await admin
+    .from('personnel_push_subscriptions')
+    .delete()
+    .eq('session_id', params.sessionId);
+
+  if (clearSessionError && !isMissingPushTable(clearSessionError.message)) {
+    throw new Error(clearSessionError.message);
+  }
+
   const { error } = await admin.from('personnel_push_subscriptions').upsert(
     {
       employee_id: params.employeeId,
+      session_id: params.sessionId,
       endpoint: params.endpoint,
       p256dh: params.p256dh,
       auth: params.auth,
       user_agent: params.userAgent ?? null,
-      updated_at: new Date().toISOString(),
+      last_seen_at: now,
+      updated_at: now,
     },
     { onConflict: 'employee_id,endpoint' }
   );
 
   if (error) throw new Error(error.message);
+
+  await pruneInactivePushSubscriptions(admin, params.employeeId);
+}
+
+export async function touchPushSubscriptionLastSeen(
+  admin: SupabaseClient,
+  sessionId: string
+) {
+  const now = new Date().toISOString();
+  const { error } = await admin
+    .from('personnel_push_subscriptions')
+    .update({ last_seen_at: now, updated_at: now })
+    .eq('session_id', sessionId);
+
+  if (error && !isMissingPushTable(error.message)) throw new Error(error.message);
 }
 
 export async function removePushSubscription(
@@ -117,6 +218,18 @@ export async function removePushSubscription(
     .eq('endpoint', endpoint);
 
   if (error) throw new Error(error.message);
+}
+
+export async function removePushSubscriptionsForSession(
+  admin: SupabaseClient,
+  sessionId: string
+) {
+  const { error } = await admin
+    .from('personnel_push_subscriptions')
+    .delete()
+    .eq('session_id', sessionId);
+
+  if (error && !isMissingPushTable(error.message)) throw new Error(error.message);
 }
 
 export async function dispatchPersonnelPush(
@@ -142,19 +255,9 @@ export async function dispatchPersonnelPush(
 
   webpush.setVapidDetails(vapid.subject, vapid.publicKey, vapid.privateKey);
 
-  const { data: subs, error } = await admin
-    .from('personnel_push_subscriptions')
-    .select('id, endpoint, p256dh, auth')
-    .eq('employee_id', payload.employeeId);
+  const subs = await listActiveEmployeePushSubscriptions(admin, payload.employeeId);
 
-  if (error) {
-    if (error.message.includes('personnel_push_subscriptions')) {
-      return { sent: 0, skipped: true, keyPairValid: true };
-    }
-    throw new Error(error.message);
-  }
-
-  if (!subs?.length) return { sent: 0, skipped: false, keyPairValid: true };
+  if (!subs.length) return { sent: 0, skipped: false, keyPairValid: true, targetCount: 0 };
 
   const pushBody = JSON.stringify({
     title: payload.title,
@@ -204,5 +307,11 @@ export async function dispatchPersonnelPush(
       .eq('id', payload.notificationId);
   }
 
-  return { sent, skipped: false, keyPairValid: true, errors: errors.length ? errors : undefined };
+  return {
+    sent,
+    skipped: false,
+    keyPairValid: true,
+    targetCount: subs.length,
+    errors: errors.length ? errors : undefined,
+  };
 }

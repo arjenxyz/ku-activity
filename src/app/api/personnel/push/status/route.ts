@@ -3,9 +3,11 @@ import { createAdminClient } from '@/utils/supabase/admin';
 import { requirePersonnelSession } from '@/lib/personnel-auth';
 import {
   isVapidEnabled,
+  listActiveEmployeePushSubscriptions,
   listEmployeePushSubscriptions,
   maskPushEndpoint,
   getVapidDiagnostics,
+  touchPushSubscriptionLastSeen,
 } from '@/lib/personnel-push-service';
 
 export async function GET() {
@@ -13,8 +15,11 @@ export async function GET() {
     const session = await requirePersonnelSession();
     const admin = createAdminClient();
 
-    const [subscriptions, notificationsResult] = await Promise.all([
+    await touchPushSubscriptionLastSeen(admin, session.sessionId).catch(() => undefined);
+
+    const [allSubscriptions, activeSubscriptions, notificationsResult] = await Promise.all([
       listEmployeePushSubscriptions(admin, session.employeeId),
+      listActiveEmployeePushSubscriptions(admin, session.employeeId),
       admin
         .from('personnel_notifications')
         .select('id, type, title, push_sent_at, created_at')
@@ -22,6 +27,10 @@ export async function GET() {
         .order('created_at', { ascending: false })
         .limit(5),
     ]);
+
+    const currentSessionSubscribed = activeSubscriptions.some(
+      (sub) => sub.session_id === session.sessionId
+    );
 
     const recentNotifications =
       notificationsResult.error?.message.includes('personnel_notifications')
@@ -31,11 +40,17 @@ export async function GET() {
     return NextResponse.json({
       vapidEnabled: isVapidEnabled(),
       vapidDiagnostics: getVapidDiagnostics(),
-      subscriptionCount: subscriptions.length,
-      subscribed: subscriptions.length > 0,
-      subscriptions: subscriptions.map((sub) => ({
+      sessionId: session.sessionId,
+      subscriptionCount: activeSubscriptions.length,
+      subscribed: activeSubscriptions.length > 0,
+      currentSessionSubscribed,
+      subscriptions: allSubscriptions.map((sub) => ({
         id: sub.id,
         endpoint: maskPushEndpoint(sub.endpoint as string),
+        sessionId: sub.session_id ?? null,
+        isCurrentSession: sub.session_id === session.sessionId,
+        isActiveSession: activeSubscriptions.some((active) => active.id === sub.id),
+        lastSeenAt: sub.last_seen_at ?? null,
         createdAt: sub.created_at,
         updatedAt: sub.updated_at,
         userAgent: sub.user_agent ?? null,
@@ -49,7 +64,8 @@ export async function GET() {
       })),
       checklist: {
         vapidConfigured: isVapidEnabled(),
-        deviceRegistered: subscriptions.length > 0,
+        deviceRegistered: currentSessionSubscribed,
+        activeDeviceCount: activeSubscriptions.length,
         pushDeliveredRecently: recentNotifications.some((row) => row.push_sent_at != null),
       },
     });

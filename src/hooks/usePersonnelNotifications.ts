@@ -12,8 +12,23 @@ export type PersonnelNotificationItem = {
   created_at: string;
 };
 
-const VISIBLE_POLL_MS = 12_000;
+const VISIBLE_POLL_MS = 30_000;
 const HIDDEN_POLL_MS = 60_000;
+const STREAM_RECONNECT_MS = 1_500;
+
+function mergeNotificationItems(
+  prev: PersonnelNotificationItem[],
+  incoming: PersonnelNotificationItem[]
+): PersonnelNotificationItem[] {
+  if (!incoming.length) return prev;
+  const map = new Map(prev.map((item) => [item.id, item]));
+  for (const item of incoming) {
+    map.set(item.id, { ...map.get(item.id), ...item });
+  }
+  return Array.from(map.values()).sort(
+    (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+  );
+}
 
 export function usePersonnelNotifications() {
   const [items, setItems] = useState<PersonnelNotificationItem[]>([]);
@@ -21,6 +36,14 @@ export function usePersonnelNotifications() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const pollMsRef = useRef(VISIBLE_POLL_MS);
+  const streamRef = useRef<EventSource | null>(null);
+  const reconnectTimerRef = useRef<number | undefined>(undefined);
+
+  const applyPayload = useCallback((data: { items: PersonnelNotificationItem[]; unreadCount: number }) => {
+    setItems(data.items ?? []);
+    setUnreadCount(data.unreadCount ?? 0);
+    setError(null);
+  }, []);
 
   const refresh = useCallback(async () => {
     try {
@@ -33,14 +56,22 @@ export function usePersonnelNotifications() {
         items: PersonnelNotificationItem[];
         unreadCount: number;
       };
-      setItems(data.items ?? []);
-      setUnreadCount(data.unreadCount ?? 0);
-      setError(null);
+      applyPayload(data);
     } catch {
       setError('load_failed');
     } finally {
       setLoading(false);
     }
+  }, [applyPayload]);
+
+  const mergeIncoming = useCallback((incoming: PersonnelNotificationItem[]) => {
+    setItems((prev) => {
+      const merged = mergeNotificationItems(prev, incoming);
+      setUnreadCount(merged.filter((item) => !item.read_at).length);
+      return merged;
+    });
+    setError(null);
+    setLoading(false);
   }, []);
 
   useEffect(() => {
@@ -59,10 +90,54 @@ export function usePersonnelNotifications() {
       intervalId = window.setInterval(() => void refresh(), pollMsRef.current);
     };
 
+    const closeStream = () => {
+      if (reconnectTimerRef.current) {
+        window.clearTimeout(reconnectTimerRef.current);
+        reconnectTimerRef.current = undefined;
+      }
+      streamRef.current?.close();
+      streamRef.current = null;
+    };
+
+    const openStream = () => {
+      if (typeof EventSource === 'undefined') return;
+      if (document.visibilityState !== 'visible') return;
+      if (streamRef.current) return;
+
+      const es = new EventSource('/api/personnel/notifications/stream');
+      streamRef.current = es;
+
+      es.addEventListener('notifications', (event) => {
+        try {
+          const payload = JSON.parse((event as MessageEvent).data) as {
+            items?: PersonnelNotificationItem[];
+          };
+          if (payload.items?.length) mergeIncoming(payload.items);
+        } catch {
+          void refresh();
+        }
+      });
+
+      es.addEventListener('reconnect', () => {
+        closeStream();
+        reconnectTimerRef.current = window.setTimeout(openStream, STREAM_RECONNECT_MS);
+      });
+
+      es.onerror = () => {
+        closeStream();
+        reconnectTimerRef.current = window.setTimeout(openStream, STREAM_RECONNECT_MS);
+      };
+    };
+
     const onVisibility = () => {
       syncPollInterval();
       resetInterval();
-      if (document.visibilityState === 'visible') void refresh();
+      if (document.visibilityState === 'visible') {
+        void refresh();
+        openStream();
+      } else {
+        closeStream();
+      }
     };
 
     const onFocus = () => void refresh();
@@ -80,14 +155,16 @@ export function usePersonnelNotifications() {
     document.addEventListener('visibilitychange', onVisibility);
     window.addEventListener('focus', onFocus);
     navigator.serviceWorker?.addEventListener('message', onSwMessage);
+    openStream();
 
     return () => {
       window.clearInterval(intervalId);
+      closeStream();
       document.removeEventListener('visibilitychange', onVisibility);
       window.removeEventListener('focus', onFocus);
       navigator.serviceWorker?.removeEventListener('message', onSwMessage);
     };
-  }, [refresh]);
+  }, [refresh, mergeIncoming]);
 
   const markRead = useCallback(async (id: string) => {
     const res = await fetch('/api/personnel/notifications', {
@@ -113,4 +190,4 @@ export function usePersonnelNotifications() {
   }, []);
 
   return { items, unreadCount, loading, error, refresh, markRead, markAllRead };
-}
+};

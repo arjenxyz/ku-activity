@@ -7,6 +7,7 @@ import {
   dispatchPersonnelPush,
   getVapidDiagnostics,
   isVapidEnabled,
+  listActiveEmployeePushSubscriptions,
   listEmployeePushSubscriptions,
 } from '@/lib/personnel-push-service';
 
@@ -33,6 +34,10 @@ async function runPushTest() {
 
   const vapidDiagnostics = getVapidDiagnostics();
   const subscriptionsBefore = await listEmployeePushSubscriptions(admin, session.employeeId);
+  const activeSubscriptions = await listActiveEmployeePushSubscriptions(admin, session.employeeId);
+  const currentSessionSubscribed = activeSubscriptions.some(
+    (sub) => sub.session_id === session.sessionId
+  );
   const pushResult = vapidDiagnostics.keyPairValid
     ? await dispatchPersonnelPush(admin, {
         employeeId: session.employeeId,
@@ -66,10 +71,19 @@ async function runPushTest() {
     push: pushResult,
     vapidEnabled: isVapidEnabled(),
     vapidDiagnostics,
-    subscriptionCount: subscriptionsBefore.length,
+    subscriptionCount: activeSubscriptions.length,
+    totalSubscriptionCount: subscriptionsBefore.length,
+    currentSessionSubscribed,
+    sessionId: session.sessionId,
     hint: (() => {
       if (pushResult.sent > 0) {
-        return 'Push sunucuya ulaştı (sent:1). Bildirim gelmezse uygulamayı kapat-aç veya bir kez yenile — yeni service worker (v17) gerekli.';
+        return `Push ${pushResult.targetCount ?? pushResult.sent} aktif cihaza gönderildi. Bildirim gelmezse uygulamayı yenileyin.`;
+      }
+      if ((pushResult.targetCount ?? 0) === 0 && subscriptionsBefore.length > 0) {
+        return 'Kayıtlı abonelik var ama aktif oturum yok — çıkış yapıp tekrar giriş yapın, bildirim iznini verin.';
+      }
+      if ((pushResult.targetCount ?? 0) === 0 && !currentSessionSubscribed) {
+        return 'Bu cihaz/oturum push için kayıtlı değil — bildirim iznini verin veya zilden “Bildirimleri aç” deyin.';
       }
       if (pushResult.keyPairValid === false) {
         return 'VAPID public/private key uyumsuz — Vercel env düzeltin, redeploy, personel panelde bildirim iznini yenileyin.';
@@ -77,8 +91,8 @@ async function runPushTest() {
       if (pushResult.errors?.length) {
         return `Push hatası: ${pushResult.errors[0].message}. Bildirim iznini kapat-aç deneyin.`;
       }
-      if (subscriptionsBefore.length === 0) {
-        return 'Kayıtlı cihaz yok — önce personel paneli açıp “Bildirimleri aç” deyin, sonra bu sayfayı yenileyin.';
+      if (activeSubscriptions.length === 0) {
+        return 'Aktif oturumlu cihaz yok — personel panelde giriş yapıp bildirim iznini verin.';
       }
       return 'push_sent_at boş — cihaz push reddetti; bildirim iznini kapat-aç deneyin.';
     })(),
