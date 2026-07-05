@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createAdminClient } from '@/utils/supabase/admin';
-import { requirePersonnelSession } from '@/lib/personnel-auth';
+import { requirePersonnelWritableSession, PersonnelClosureWriteBlockedError } from '@/lib/personnel-auth';
 import { scanAttendanceQr, getPersonnelAttendanceStatus } from '@/lib/attendance-qr-service';
 import {
   ATTENDANCE_MESSAGE_CODES,
@@ -13,7 +13,7 @@ export async function POST(request: Request) {
   const locale = resolveAttendanceLocale(request.headers.get('accept-language'));
 
   try {
-    const session = await requirePersonnelSession();
+    const session = await requirePersonnelWritableSession();
     const body = await request.json().catch(() => ({}));
     const token = typeof body.token === 'string' ? body.token.trim() : '';
     const replacePrevious = body.replace === true;
@@ -68,6 +68,18 @@ export async function POST(request: Request) {
       status,
     });
   } catch (err) {
+    if (err instanceof PersonnelClosureWriteBlockedError) {
+      return NextResponse.json(
+        {
+          error:
+            locale === 'en'
+              ? 'Project is closing; this action is disabled.'
+              : 'Proje kapanış sürecinde; bu işlem yapılamaz.',
+          errorCode: 'PROJECT_IN_CLOSURE',
+        },
+        { status: 423 }
+      );
+    }
     if (isAttendanceScanError(err)) {
       return NextResponse.json(
         { error: err.message, errorCode: err.code },

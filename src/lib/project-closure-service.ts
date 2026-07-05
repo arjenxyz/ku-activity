@@ -172,6 +172,4 @@ export async function maybeAdvanceClosureAfterConsent(projectId: string) {
   return true;
 }
 
-export function isProjectInClosure(phase: string | null | undefined) {
-  return ACTIVE_CLOSURE_PHASES.has((phase ?? 'none') as ClosurePhase);
-}
+export { isProjectInClosure } from '@/lib/closure-phase';

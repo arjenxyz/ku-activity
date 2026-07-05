@@ -13,6 +13,8 @@ import { useRouter } from 'next/navigation';
 import { formatString } from '@/lib/strings/format';
 import type { Project, ProjectStatus } from '@/types/project';
 import { PROJECT_STATUS_LABELS } from '@/types/project';
+import { isProjectInClosure } from '@/lib/closure-phase';
+import { ProjectClosureListCard } from '@/components/admin/ProjectClosureListCard';
 
 const statusStyles: Record<ProjectStatus, string> = {
   active: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300',
@@ -62,7 +64,12 @@ export default function ProjectList({
 
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-      {projects.map((project) => (
+      {projects.map((project) => {
+        if (isProjectInClosure(project.closure_phase)) {
+          return <ProjectClosureListCard key={project.id} project={project} />;
+        }
+
+        return (
         <article
           key={project.id}
           className="group bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-5 shadow-sm hover:shadow-md hover:border-blue-200 dark:hover:border-blue-900 transition-all flex flex-col"
@@ -132,7 +139,8 @@ export default function ProjectList({
             )}
           </div>
         </article>
-      ))}
+        );
+      })}
     </div>
   );
 }

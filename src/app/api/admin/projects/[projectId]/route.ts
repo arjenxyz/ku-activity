@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { requireAdminProjectAccess } from '@/lib/admin-auth';
 import { createClient } from '@/utils/supabase/server';
 import { queryProjectById, apiErrorMessage } from '@/lib/project-queries';
+import { assertProjectWritable, ProjectClosureWriteBlockedError } from '@/lib/project-closure-guard';
 import strings from '@json/src/lib/project-closure-service.json';
 import closureRouteStrings from '@json/src/app/api/admin/projects/[projectId]/route.json';
 import type { ProjectFormData, ProjectStatus } from '@/types/project';
@@ -33,6 +34,7 @@ export async function PATCH(request: Request, context: RouteContext) {
   try {
     const { projectId } = await context.params;
     await requireAdminProjectAccess(projectId);
+    await assertProjectWritable(projectId);
     const body = (await request.json()) as Partial<ProjectFormData>;
 
     if (body.status && !VALID_STATUSES.includes(body.status)) {
@@ -74,6 +76,9 @@ export async function PATCH(request: Request, context: RouteContext) {
 
     return NextResponse.json({ project: data });
   } catch (err) {
+    if (err instanceof ProjectClosureWriteBlockedError) {
+      return NextResponse.json({ error: closureRouteStrings.projeKapanışta }, { status: 423 });
+    }
     const { status, message } = apiErrorMessage(err);
     return NextResponse.json({ error: message }, { status });
   }

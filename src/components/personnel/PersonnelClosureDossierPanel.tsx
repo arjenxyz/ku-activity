@@ -5,6 +5,7 @@ import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { FiCheck, FiDownload, FiShield } from 'react-icons/fi';
 import { PERSONNEL_SELF_EXPORT_DAILY_LIMIT } from '@/lib/legal-dossier/types';
 import { formatString } from '@/lib/strings/format';
+import { ClosureCountdown } from '@/components/closure/ClosureCountdown';
 import type { PersonnelClosureStatus } from '@/lib/project-closure-dossier';
 
 type DossierSection = { id: string; title: string };
@@ -18,11 +19,13 @@ function parseFilename(contentDisposition: string | null, fallback: string) {
 type Props = {
   variant?: 'card' | 'closure';
   showDailyLimit?: boolean;
+  showCountdown?: boolean;
 };
 
 export function PersonnelClosureDossierPanel({
   variant = 'card',
   showDailyLimit = true,
+  showCountdown = true,
 }: Props) {
   const strings = useRegistryStrings('components/personnel/PersonnelClosureDossierPanel');
   const [sections, setSections] = useState<DossierSection[]>([]);
@@ -221,12 +224,14 @@ export function PersonnelClosureDossierPanel({
   ) : null;
 
   const deadlineNote =
-    inClosure && closureStatus?.deadlineAt ? (
-      <p className="text-[11px] text-amber-800 dark:text-amber-200/90 mt-2">
-        {formatString(strings.deadlineNote, {
-          date: new Date(closureStatus.deadlineAt).toLocaleDateString('tr-TR'),
-        })}
-      </p>
+    inClosure && closureStatus?.deadlineAt && showCountdown ? (
+      <div className="mt-4">
+        <ClosureCountdown
+          deadlineAt={closureStatus.deadlineAt}
+          phase={closureStatus.phase}
+          size="md"
+        />
+      </div>
     ) : null;
 
   if (effectiveVariant === 'closure') {

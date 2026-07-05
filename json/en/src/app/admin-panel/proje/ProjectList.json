@@ -1,10 +1,11 @@
 {
-  "emptyTitle": "Henüz proje yok",
-  "emptySubtitle": "Yeni Proje ile ilk şantiyenizi ekleyin.",
-  "startDate": "Başlangıç: {date}",
-  "employeeCount": "{active} aktif / {total} personel",
-  "open": "Aç",
-  "editAriaLabel": "Düzenle",
-  "deleteAriaLabel": "Sil",
+  "emptyTitle": "No projects yet",
+  "emptySubtitle": "Use New project to add your first job site.",
+  "startDate": "Start: {date}",
+  "employeeCount": "{active} active / {total} personnel",
+  "open": "Open",
+  "editAriaLabel": "Edit",
+  "deleteAriaLabel": "Start closure",
+  "closureBadge": "In closure",
   "emptyDate": "—"
 }

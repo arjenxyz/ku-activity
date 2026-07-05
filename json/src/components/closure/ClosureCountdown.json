@@ -1,0 +1,10 @@
+{
+  "title": "Kalan süre",
+  "expired": "Süre doldu",
+  "days": "gün",
+  "hours": "sa",
+  "minutes": "dk",
+  "seconds": "sn",
+  "phasePending": "Personel onayları bekleniyor",
+  "phaseExport": "Veri indirme penceresi"
+}

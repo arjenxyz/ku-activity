@@ -1,5 +1,7 @@
 import strings from '@json/src/types/project.json';
 
+import type { ClosurePhase } from '@/lib/closure-phase';
+
 export type ProjectStatus = 'active' | 'planned' | 'paused' | 'completed' | 'archived';
 
 export type Project = {
@@ -19,6 +21,10 @@ export type Project = {
   work_start_time?: string | null;
   work_end_time?: string | null;
   timezone?: string | null;
+  closure_phase?: ClosurePhase | string | null;
+  closure_started_at?: string | null;
+  closure_deadline_at?: string | null;
+  closure_fast_path_deadline_at?: string | null;
 };
 
 export type ProjectFormData = {

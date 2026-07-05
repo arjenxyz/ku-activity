@@ -312,6 +312,10 @@ import m_components_admin_LegalDossierDownloadButton_tr from '@json/src/componen
 import m_components_admin_LegalDossierDownloadButton_en from '@json/en/src/components/admin/LegalDossierDownloadButton.json';
 import m_components_admin_ProjectLegalDossierDownloadButton_tr from '@json/src/components/admin/ProjectLegalDossierDownloadButton.json';
 import m_components_admin_ProjectLegalDossierDownloadButton_en from '@json/en/src/components/admin/ProjectLegalDossierDownloadButton.json';
+import m_components_admin_AdminProjectClosureScreen_tr from '@json/src/components/admin/AdminProjectClosureScreen.json';
+import m_components_admin_AdminProjectClosureScreen_en from '@json/en/src/components/admin/AdminProjectClosureScreen.json';
+import m_components_closure_ClosureCountdown_tr from '@json/src/components/closure/ClosureCountdown.json';
+import m_components_closure_ClosureCountdown_en from '@json/en/src/components/closure/ClosureCountdown.json';
 import m_components_advance_AdminAdvanceRequestsPanel_tr from '@json/src/components/advance/AdminAdvanceRequestsPanel.json';
 import m_components_advance_AdminAdvanceRequestsPanel_en from '@json/en/src/components/advance/AdminAdvanceRequestsPanel.json';
 import m_components_auth_AdminRegisterLayout_tr from '@json/src/components/auth/AdminRegisterLayout.json';
@@ -788,6 +792,8 @@ export const STRINGS_REGISTRY = {
   'components/admin/DekontSharePanel': { tr: m_components_admin_DekontSharePanel_tr, en: m_components_admin_DekontSharePanel_en },
   'components/admin/LegalDossierDownloadButton': { tr: m_components_admin_LegalDossierDownloadButton_tr, en: m_components_admin_LegalDossierDownloadButton_en },
   'components/admin/ProjectLegalDossierDownloadButton': { tr: m_components_admin_ProjectLegalDossierDownloadButton_tr, en: m_components_admin_ProjectLegalDossierDownloadButton_en },
+  'components/admin/AdminProjectClosureScreen': { tr: m_components_admin_AdminProjectClosureScreen_tr, en: m_components_admin_AdminProjectClosureScreen_en },
+  'components/closure/ClosureCountdown': { tr: m_components_closure_ClosureCountdown_tr, en: m_components_closure_ClosureCountdown_en },
   'components/advance/AdminAdvanceRequestsPanel': { tr: m_components_advance_AdminAdvanceRequestsPanel_tr, en: m_components_advance_AdminAdvanceRequestsPanel_en },
   'components/auth/AdminRegisterLayout': { tr: m_components_auth_AdminRegisterLayout_tr, en: m_components_auth_AdminRegisterLayout_en },
   'components/auth/AuthLayout': { tr: m_components_auth_AuthLayout_tr, en: m_components_auth_AuthLayout_en },

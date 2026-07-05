@@ -8,6 +8,7 @@ type Props = {
   projectId: string;
   projectName?: string;
   className?: string;
+  compact?: boolean;
 };
 
 function parseFilename(contentDisposition: string | null, fallback: string) {
@@ -20,6 +21,7 @@ export function ProjectLegalDossierDownloadButton({
   projectId,
   projectName,
   className = '',
+  compact = false,
 }: Props) {
   const strings = useRegistryStrings('components/admin/ProjectLegalDossierDownloadButton');
   const [loading, setLoading] = useState(false);
@@ -64,7 +66,9 @@ export function ProjectLegalDossierDownloadButton({
         onClick={() => void handleDownload()}
         disabled={loading}
         title={projectName ? `${projectName} — ${strings.button}` : strings.button}
-        className="inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg disabled:opacity-50"
+        className={`inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg disabled:opacity-50 ${
+          compact ? 'w-full' : ''
+        }`}
       >
         {loading ? (
           <>
@@ -78,10 +82,12 @@ export function ProjectLegalDossierDownloadButton({
           </>
         )}
       </button>
-      <p className="mt-1.5 text-[11px] text-slate-500 flex items-start gap-1 max-w-md">
-        <FiFileText className="w-3.5 h-3.5 shrink-0 mt-0.5" />
-        {strings.hint}
-      </p>
+      {!compact && (
+        <p className="mt-1.5 text-[11px] text-slate-500 flex items-start gap-1 max-w-md">
+          <FiFileText className="w-3.5 h-3.5 shrink-0 mt-0.5" />
+          {strings.hint}
+        </p>
+      )}
       {error && <p className="mt-1 text-xs text-red-600">{error}</p>}
     </div>
   );

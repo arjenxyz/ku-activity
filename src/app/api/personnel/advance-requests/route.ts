@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createAdminClient } from '@/utils/supabase/admin';
-import { requirePersonnelSession } from '@/lib/personnel-auth';
+import { requirePersonnelSession, requirePersonnelWritableSession, PersonnelClosureWriteBlockedError } from '@/lib/personnel-auth';
 import {
   buildPaymentDetailsFromOcr,
   sanitizeOcrForPersonnel,
@@ -64,7 +64,7 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    const session = await requirePersonnelSession();
+    const session = await requirePersonnelWritableSession();
     const body = await request.json();
     const amount = Number(body.amount);
     const note = typeof body.note === 'string' ? body.note : undefined;
@@ -79,6 +79,9 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ request: record }, { status: 201 });
   } catch (err) {
+    if (err instanceof PersonnelClosureWriteBlockedError) {
+      return NextResponse.json({ error: strings.projeKapanışta }, { status: 423 });
+    }
     if (err instanceof AdvanceRequestError) {
       return NextResponse.json({ error: err.message, code: err.code }, { status: err.status });
     }

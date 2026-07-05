@@ -5,6 +5,8 @@ import { Suspense } from 'react';
 import { PersonnelNotificationsProvider } from '@/contexts/PersonnelNotificationsContext';
 import { PersonnelAppBottomNav } from '@/components/personnel/PersonnelAppBottomNav';
 import { PersonnelMobileHeader } from '@/components/personnel/PersonnelMobileHeader';
+import { PersonnelClosureGate } from '@/components/personnel/PersonnelClosureGate';
+import { usePersonnelClosure } from '@/hooks/usePersonnelClosure';
 import type { PersonnelTabId } from '@/hooks/usePersonnelTab';
 import { PERSONNEL_TABS } from '@/hooks/usePersonnelTab';
 
@@ -20,11 +22,12 @@ function ChromeBody({ children }: { children: React.ReactNode }) {
   const isOverview = pathname === '/personnel-panel' && tab === 'overview';
   const isYoklama = pathname.startsWith('/personnel-panel/yoklama');
   const isAvansOnay = pathname.startsWith('/personnel-panel/avans-onay');
-  const hideBottomNav = isYoklama || isAvansOnay;
+  const { inClosure } = usePersonnelClosure();
+  const hideBottomNav = isYoklama || isAvansOnay || inClosure;
 
   return (
     <>
-      <PersonnelMobileHeader />
+      {!inClosure ? <PersonnelMobileHeader /> : null}
       <div
         className={
           hideBottomNav
@@ -36,7 +39,7 @@ function ChromeBody({ children }: { children: React.ReactNode }) {
               }`
         }
       >
-        {children}
+        <PersonnelClosureGate>{children}</PersonnelClosureGate>
       </div>
       {!hideBottomNav ? <PersonnelAppBottomNav /> : null}
     </>
