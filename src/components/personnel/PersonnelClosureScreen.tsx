@@ -15,10 +15,10 @@ export function PersonnelClosureScreen() {
   const deletionDate = status?.deadlineAt ? formatDate(status.deadlineAt) : null;
 
   return (
-    <div className="mx-auto flex min-h-[100dvh] w-full max-w-md flex-col px-4 pb-8">
+    <div className="mx-auto w-full max-w-md flex-col px-4 pb-8 pt-[max(0.5rem,env(safe-area-inset-top))]">
       <PersonnelClosureBrandBar />
 
-      <div className="mt-2 flex flex-1 flex-col overflow-hidden rounded-3xl border border-slate-200/90 bg-white shadow-[0_16px_48px_rgba(14,21,72,0.1)] dark:border-slate-700/80 dark:bg-slate-900 dark:shadow-black/30">
+      <div className="mt-2 overflow-hidden rounded-3xl border border-slate-200/90 bg-white shadow-[0_16px_48px_rgba(14,21,72,0.1)] dark:border-slate-700/80 dark:bg-slate-900 dark:shadow-black/30">
         <div className="bg-gradient-to-b from-amber-50/90 via-orange-50/30 to-white px-4 py-6 sm:px-6 sm:py-7 dark:from-amber-950/25 dark:via-slate-900 dark:to-slate-900">
           {deletionDate ? (
             <p className="mb-4 text-center text-sm font-semibold leading-snug text-slate-700 dark:text-slate-200">
@@ -36,7 +36,7 @@ export function PersonnelClosureScreen() {
 
         <div className="h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent dark:via-slate-700" />
 
-        <div className="flex flex-1 flex-col px-4 py-5 sm:px-6 sm:py-6">
+        <div className="px-4 py-5 sm:px-6 sm:py-6">
           <PersonnelClosureDossierPanel variant="closure" embedded showCountdown={false} showDailyLimit={false} />
         </div>
       </div>

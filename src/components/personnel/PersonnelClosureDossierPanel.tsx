@@ -275,7 +275,7 @@ export function PersonnelClosureDossierPanel({
         </p>
       )}
       {hasConsent ? (
-        <div className={embedded ? 'mt-auto space-y-2.5 pt-4' : 'mt-4 space-y-2.5'}>
+        <div className="mt-4 space-y-2.5">
           {downloadButton}
           {ackButton}
         </div>
@@ -295,7 +295,7 @@ export function PersonnelClosureDossierPanel({
   );
 
   if (effectiveVariant === 'closure' && embedded) {
-    return <div className="flex min-h-0 flex-1 flex-col">{closureBody}</div>;
+    return <div>{closureBody}</div>;
   }
 
   if (effectiveVariant === 'closure') {
