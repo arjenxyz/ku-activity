@@ -98,6 +98,10 @@ import m_app_api_admin_dekont_drafts__id__route_tr from '@json/src/app/api/admin
 import m_app_api_admin_dekont_drafts__id__route_en from '@json/en/src/app/api/admin/dekont/drafts/[id]/route.json';
 import m_app_api_admin_dekont_drafts__id__process_route_tr from '@json/src/app/api/admin/dekont/drafts/[id]/process/route.json';
 import m_app_api_admin_dekont_drafts__id__process_route_en from '@json/en/src/app/api/admin/dekont/drafts/[id]/process/route.json';
+import m_app_api_admin_dekont_drafts__id__file_route_tr from '@json/src/app/api/admin/dekont/drafts/[id]/file/route.json';
+import m_app_api_admin_dekont_drafts__id__file_route_en from '@json/en/src/app/api/admin/dekont/drafts/[id]/file/route.json';
+import m_app_api_admin_dekont_drafts__id__apply_ocr_route_tr from '@json/src/app/api/admin/dekont/drafts/[id]/apply-ocr/route.json';
+import m_app_api_admin_dekont_drafts__id__apply_ocr_route_en from '@json/en/src/app/api/admin/dekont/drafts/[id]/apply-ocr/route.json';
 import m_app_api_admin_dekont_share_ingest_route_tr from '@json/src/app/api/admin/dekont/share-ingest/route.json';
 import m_app_api_admin_dekont_share_ingest_route_en from '@json/en/src/app/api/admin/dekont/share-ingest/route.json';
 import m_app_api_admin_employees_route_tr from '@json/src/app/api/admin/employees/route.json';
@@ -673,6 +677,8 @@ export const STRINGS_REGISTRY = {
   'app/api/admin/dekont/analyze/route': { tr: m_app_api_admin_dekont_analyze_route_tr, en: m_app_api_admin_dekont_analyze_route_en },
   'app/api/admin/dekont/drafts/[id]/route': { tr: m_app_api_admin_dekont_drafts__id__route_tr, en: m_app_api_admin_dekont_drafts__id__route_en },
   'app/api/admin/dekont/drafts/[id]/process/route': { tr: m_app_api_admin_dekont_drafts__id__process_route_tr, en: m_app_api_admin_dekont_drafts__id__process_route_en },
+  'app/api/admin/dekont/drafts/[id]/file/route': { tr: m_app_api_admin_dekont_drafts__id__file_route_tr, en: m_app_api_admin_dekont_drafts__id__file_route_en },
+  'app/api/admin/dekont/drafts/[id]/apply-ocr/route': { tr: m_app_api_admin_dekont_drafts__id__apply_ocr_route_tr, en: m_app_api_admin_dekont_drafts__id__apply_ocr_route_en },
   'app/api/admin/dekont/share-ingest/route': { tr: m_app_api_admin_dekont_share_ingest_route_tr, en: m_app_api_admin_dekont_share_ingest_route_en },
   'app/api/admin/employees/route': { tr: m_app_api_admin_employees_route_tr, en: m_app_api_admin_employees_route_en },
   'app/api/admin/projects/[projectId]/advance-requests/[id]/approve/route': { tr: m_app_api_admin_projects__projectId__advance_requests__id__approve_route_tr, en: m_app_api_admin_projects__projectId__advance_requests__id__approve_route_en },

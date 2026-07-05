@@ -348,7 +348,21 @@ function DekontShareContent() {
       setError(null);
       setScanReport(null);
       try {
-        const res = await fetch(`/api/admin/dekont/drafts/${id}/process`, { method: 'POST' });
+        const fileRes = await fetch(`/api/admin/dekont/drafts/${id}/file`);
+        if (!fileRes.ok) {
+          const errData = (await fileRes.json().catch(() => ({}))) as { error?: string };
+          throw new Error(errData.error || strings.errors.draftLoadFailed);
+        }
+        const blob = await fileRes.blob();
+        const mimeType =
+          fileRes.headers.get('Content-Type') || blob.type || 'application/octet-stream';
+        const { ocrDekontBlob } = await import('@/lib/dekont-ocr-client');
+        const rawText = await ocrDekontBlob(blob, mimeType);
+        const res = await fetch(`/api/admin/dekont/drafts/${id}/apply-ocr`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ rawText, source: 'tesseract' }),
+        });
         const data = (await res.json()) as {
           error?: string;
           report?: DekontScanReport | null;
