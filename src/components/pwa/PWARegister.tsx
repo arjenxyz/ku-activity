@@ -19,10 +19,11 @@ export function PWARegister() {
           return;
         }
 
-        await navigator.serviceWorker.register('/sw.js', {
+        const registration = await navigator.serviceWorker.register('/sw.js', {
           scope: '/',
           updateViaCache: 'none',
         });
+        await registration.update().catch(() => undefined);
       } catch (error) {
         console.error('Service worker işlemi başarısız:', error);
       }

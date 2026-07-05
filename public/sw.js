@@ -1,9 +1,9 @@
-const CACHE_NAME = 'crewledger-v16';
+const CACHE_NAME = 'crewledger-v17';
 /** Manifest ile aynı 192px ikon — büyük PNG Android’de varsayılan zile düşer */
 const PUSH_ICON_PATH = '/icons/personnel/192';
 const PUSH_ICON_VERSION = '11';
 
-function isInAppPersonnelClient(client) {
+function isFocusedPersonnelClient(client) {
   try {
     const path = new URL(client.url).pathname;
     if (!path.startsWith('/personnel-panel')) return false;
@@ -11,9 +11,31 @@ function isInAppPersonnelClient(client) {
     if (path.startsWith('/personnel-panel/basvuru')) return false;
     if (path.startsWith('/personnel-panel/pin-sifirla')) return false;
     if (path.startsWith('/personnel-panel/sifremi-unuttum')) return false;
-    return client.visibilityState === 'visible' && client.focused;
+    return client.visibilityState === 'visible';
   } catch {
     return false;
+  }
+}
+
+async function showPushNotification(payload, iconUrl) {
+  const options = {
+    body: payload.body,
+    icon: iconUrl,
+    tag: payload.notificationId || 'crewledger-notification',
+    renotify: true,
+    data: { href: payload.href || '/personnel-panel', notificationId: payload.notificationId },
+    vibrate: [100, 50, 100],
+  };
+  try {
+    await self.registration.showNotification(payload.title, options);
+  } catch {
+    await self.registration.showNotification(payload.title, {
+      body: payload.body,
+      tag: options.tag,
+      renotify: true,
+      data: options.data,
+      vibrate: options.vibrate,
+    });
   }
 }
 
@@ -97,30 +119,20 @@ self.addEventListener('push', (event) => {
     (async () => {
       const iconUrl = new URL(`${PUSH_ICON_PATH}?v=${PUSH_ICON_VERSION}`, self.location.origin).href;
       const clients = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
-      const inAppClients = clients.filter(isInAppPersonnelClient);
 
-      if (inAppClients.length > 0) {
-        for (const client of inAppClients) {
-          client.postMessage({
-            type: 'crewledger-in-app-notification',
-            notification: {
-              id: payload.notificationId,
-              title: payload.title,
-              body: payload.body,
-              href: payload.href || '/personnel-panel',
-            },
-          });
-          client.postMessage({ type: 'crewledger-notifications-refresh' });
-        }
-      } else {
-        await self.registration.showNotification(payload.title, {
-          body: payload.body,
-          icon: iconUrl,
-          tag: payload.notificationId || 'crewledger-notification',
-          renotify: true,
-          data: { href: payload.href || '/personnel-panel', notificationId: payload.notificationId },
-          vibrate: [100, 50, 100],
-          // badge bilinçli yok — Android’de ikinci küçük ikon / zil oluşturur
+      // Her zaman sistem bildirimi — TWA/APK ön planda iken eski kod showNotification atlıyordu
+      await showPushNotification(payload, iconUrl);
+
+      const focusedClients = clients.filter(isFocusedPersonnelClient);
+      for (const client of focusedClients) {
+        client.postMessage({
+          type: 'crewledger-in-app-notification',
+          notification: {
+            id: payload.notificationId,
+            title: payload.title,
+            body: payload.body,
+            href: payload.href || '/personnel-panel',
+          },
         });
       }
 

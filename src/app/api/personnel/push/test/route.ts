@@ -69,7 +69,7 @@ async function runPushTest() {
     subscriptionCount: subscriptionsBefore.length,
     hint: (() => {
       if (pushResult.sent > 0) {
-        return 'Telefonda bildirim gelmeli. push_sent_at doluysa sunucu tarafı çalışıyor.';
+        return 'Push sunucuya ulaştı (sent:1). Bildirim gelmezse uygulamayı kapat-aç veya bir kez yenile — yeni service worker (v17) gerekli.';
       }
       if (pushResult.keyPairValid === false) {
         return 'VAPID public/private key uyumsuz — Vercel env düzeltin, redeploy, personel panelde bildirim iznini yenileyin.';
