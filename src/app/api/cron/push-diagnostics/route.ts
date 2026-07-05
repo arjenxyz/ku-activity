@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { authorizeCronRequest } from '@/lib/cron-auth';
 import { createAdminClient } from '@/utils/supabase/admin';
-import { dispatchPersonnelPush, isVapidEnabled } from '@/lib/personnel-push-service';
+import { dispatchPersonnelPush, getVapidDiagnostics, isVapidEnabled } from '@/lib/personnel-push-service';
 import { notifyPersonnel } from '@/lib/personnel-notification-service';
 
 export const dynamic = 'force-dynamic';
@@ -29,6 +29,7 @@ async function loadDiagnostics(admin: ReturnType<typeof createAdminClient>) {
 
   return {
     vapidEnabled: isVapidEnabled(),
+    vapidDiagnostics: getVapidDiagnostics(),
     subscriptions: {
       tableReady: !subscriptionsMissing,
       total: subscriptionsMissing ? 0 : (subsResult.count ?? 0),
@@ -51,7 +52,8 @@ async function loadDiagnostics(admin: ReturnType<typeof createAdminClient>) {
       recentWithoutPushSent: withoutPush.length,
     },
     checklist: {
-      vapidConfigured: isVapidEnabled(),
+      vapidConfigured: getVapidDiagnostics().configured,
+      vapidKeyPairValid: getVapidDiagnostics().keyPairValid,
       hasSubscriptions: !subscriptionsMissing && (subsResult.count ?? 0) > 0,
       pushSentRecently: withPush.length > 0,
     },

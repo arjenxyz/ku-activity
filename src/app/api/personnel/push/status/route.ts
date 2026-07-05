@@ -5,6 +5,7 @@ import {
   isVapidEnabled,
   listEmployeePushSubscriptions,
   maskPushEndpoint,
+  getVapidDiagnostics,
 } from '@/lib/personnel-push-service';
 
 export async function GET() {
@@ -29,6 +30,7 @@ export async function GET() {
 
     return NextResponse.json({
       vapidEnabled: isVapidEnabled(),
+      vapidDiagnostics: getVapidDiagnostics(),
       subscriptionCount: subscriptions.length,
       subscribed: subscriptions.length > 0,
       subscriptions: subscriptions.map((sub) => ({

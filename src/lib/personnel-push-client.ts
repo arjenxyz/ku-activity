@@ -9,11 +9,24 @@ function urlBase64ToUint8Array(base64String: string) {
   return output;
 }
 
+function keyBuffersMatch(existing: ArrayBuffer | null, desired: Uint8Array): boolean {
+  if (!existing || existing.byteLength !== desired.byteLength) return false;
+  const view = new Uint8Array(existing);
+  for (let i = 0; i < view.length; i += 1) {
+    if (view[i] !== desired[i]) return false;
+  }
+  return true;
+}
+
 export async function fetchVapidPublicKey(): Promise<string | null> {
   const res = await fetch('/api/personnel/push/vapid-public-key', { credentials: 'include' });
   if (!res.ok) return null;
-  const data = (await res.json()) as { enabled?: boolean; publicKey?: string | null };
-  return data.enabled && data.publicKey ? data.publicKey : null;
+  const data = (await res.json()) as { enabled?: boolean; publicKey?: string | null; keyPairValid?: boolean };
+  if (!data.enabled || !data.publicKey) return null;
+  if (data.keyPairValid === false) {
+    console.warn('[push] VAPID key pair invalid on server — contact admin');
+  }
+  return data.publicKey;
 }
 
 export async function subscribePersonnelPush(): Promise<boolean> {
@@ -31,12 +44,22 @@ export async function subscribePersonnelPush(): Promise<boolean> {
   if (permission !== 'granted') return false;
 
   const registration = await navigator.serviceWorker.ready;
-  const existing = await registration.pushManager.getSubscription();
-  const subscription =
-    existing ??
+  const applicationServerKey = urlBase64ToUint8Array(publicKey);
+
+  let subscription = await registration.pushManager.getSubscription();
+  if (subscription) {
+    const existingKey = subscription.options?.applicationServerKey ?? null;
+    if (!keyBuffersMatch(existingKey, applicationServerKey)) {
+      await subscription.unsubscribe();
+      subscription = null;
+    }
+  }
+
+  subscription =
+    subscription ??
     (await registration.pushManager.subscribe({
       userVisibleOnly: true,
-      applicationServerKey: urlBase64ToUint8Array(publicKey),
+      applicationServerKey,
     }));
 
   const json = subscription.toJSON();

@@ -47,10 +47,18 @@ async function runPushTest() {
     pushSentAt: updated?.push_sent_at ?? null,
     push: pushResult,
     vapidEnabled: isVapidEnabled(),
-    hint:
-      pushResult.sent > 0
-        ? 'Telefonda bildirim gelmeli. push_sent_at doluysa sunucu tarafı çalışıyor.'
-        : 'push_sent_at boş — bildirim iznini yenileyin veya VAPID anahtarlarını kontrol edin.',
+    hint: (() => {
+      if (pushResult.sent > 0) {
+        return 'Telefonda bildirim gelmeli. push_sent_at doluysa sunucu tarafı çalışıyor.';
+      }
+      if (pushResult.keyPairValid === false) {
+        return 'VAPID public/private key uyumsuz — Vercel env düzeltin, redeploy, personel panelde bildirim iznini yenileyin.';
+      }
+      if (pushResult.errors?.length) {
+        return `Push hatası: ${pushResult.errors[0].message}. Bildirim iznini kapat-aç deneyin.`;
+      }
+      return 'push_sent_at boş — abonelik yok veya cihaz push reddetti.';
+    })(),
   });
 }
 
