@@ -6,6 +6,7 @@ type BrandLockupLayout = 'inline' | 'stacked';
 type Props = {
   size?: BrandLockupSize;
   layout?: BrandLockupLayout;
+  align?: 'start' | 'center';
   className?: string;
   iconClassName?: string;
   wordmarkClassName?: string;
@@ -38,6 +39,7 @@ const sizeConfig = {
 export function BrandLockup({
   size = 'md',
   layout = 'inline',
+  align = 'center',
   className = '',
   iconClassName = '',
   wordmarkClassName = '',
@@ -45,6 +47,7 @@ export function BrandLockup({
   subtitleClassName = '',
 }: Props) {
   const cfg = sizeConfig[size];
+  const alignClass = align === 'start' ? 'items-start text-left' : 'items-center text-center';
   const wordmarkEl = (
     <span
       className={`inline-flex items-center font-semibold text-white whitespace-nowrap ${cfg.wordmark} ${wordmarkClassName}`}
@@ -55,7 +58,7 @@ export function BrandLockup({
 
   if (layout === 'stacked') {
     return (
-      <div className={`flex flex-col items-center text-center ${className}`}>
+      <div className={`flex flex-col ${alignClass} ${className}`}>
         <BrandMark size={cfg.icon} className={iconClassName} />
         <div className={cfg.stackedGap}>{wordmarkEl}</div>
         {subtitle ? (
@@ -66,7 +69,7 @@ export function BrandLockup({
   }
 
   return (
-    <div className={`flex flex-col items-center text-center ${className}`}>
+    <div className={`flex flex-col ${alignClass} ${className}`}>
       <div className={`flex items-center flex-nowrap ${cfg.gap}`}>
         <BrandMark size={cfg.icon} className={iconClassName} />
         {wordmarkEl}
