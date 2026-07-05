@@ -3,9 +3,18 @@
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { FiCamera, FiImage, FiX } from 'react-icons/fi';
-import { Html5Qrcode, type CameraDevice } from 'html5-qrcode';
+import type { Html5Qrcode } from 'html5-qrcode';
 import { parseRegistrationCodeFromQr, extractVerificationCode } from '@/lib/parse-registration-qr';
 import { getRegistryStrings } from '@/lib/i18n/strings-registry';
+import {
+  buildCameraConstraint,
+  buildScanConfig,
+  createQrScanner,
+  enhanceRunningCamera,
+  isLikelyDesktop,
+  pickCameraConfigs,
+  scanQrFromFile,
+} from '@/lib/qr-scanner';
 
 type QrScannerStrings = ReturnType<typeof getRegistryStrings<'components/registration/QrCameraScanner'>>;
 
@@ -16,23 +25,6 @@ type Props = {
   parseQr?: (raw: string) => string | null;
   invalidQrMessage?: string;
 };
-
-function isLikelyDesktop() {
-  if (typeof window === 'undefined') return false;
-  return window.matchMedia('(pointer: fine)').matches || navigator.maxTouchPoints === 0;
-}
-
-function cameraPriority(cam: CameraDevice, desktop: boolean) {
-  const label = cam.label.toLowerCase();
-  if (desktop) {
-    if (/front|user|face|ön|integrated|built-in|webcam|hd pro/i.test(label)) return 0;
-    if (/back|rear|environment|arka|wide/i.test(label)) return 2;
-    return 1;
-  }
-  if (/back|rear|environment|arka|wide/i.test(label)) return 0;
-  if (/front|user|face|ön|integrated|built-in|webcam/i.test(label)) return 1;
-  return 2;
-}
 
 async function waitForElement(id: string, strings: QrScannerStrings, attempts = 20): Promise<HTMLElement> {
   for (let i = 0; i < attempts; i += 1) {
@@ -52,77 +44,6 @@ async function ensureCameraPermission(strings: QrScannerStrings) {
   if (!window.isSecureContext) {
     throw new Error(strings.errors.secureContextRequired);
   }
-}
-
-function buildScanConfig(desktop: boolean) {
-  if (desktop) {
-    return {
-      fps: 15,
-      qrbox: (viewfinderWidth: number, viewfinderHeight: number) => ({
-        width: Math.floor(viewfinderWidth * 0.92),
-        height: Math.floor(viewfinderHeight * 0.92),
-      }),
-      disableFlip: false,
-    };
-  }
-
-  return {
-    fps: 10,
-    qrbox: (viewfinderWidth: number, viewfinderHeight: number) => {
-      const edge = Math.min(viewfinderWidth, viewfinderHeight);
-      const size = Math.max(160, Math.floor(edge * 0.7));
-      return { width: size, height: size };
-    },
-    disableFlip: false,
-  };
-}
-
-function buildCameraConstraint(
-  camera: string | MediaTrackConstraints,
-  desktop: boolean
-): string | MediaTrackConstraints {
-  if (typeof camera === 'string') return camera;
-  if (!desktop) return camera;
-  return {
-    ...camera,
-    width: { ideal: 1280 },
-    height: { ideal: 720 },
-  };
-}
-
-async function pickCameraConfigs(): Promise<Array<string | MediaTrackConstraints>> {
-  const desktop = isLikelyDesktop();
-  const configs: Array<string | MediaTrackConstraints> = [];
-
-  try {
-    const cameras = await Html5Qrcode.getCameras();
-    if (cameras.length > 0) {
-      const sorted = [...cameras].sort(
-        (a, b) => cameraPriority(a, desktop) - cameraPriority(b, desktop)
-      );
-      for (const cam of sorted) {
-        configs.push(cam.id);
-      }
-    }
-  } catch {
-    /* getCameras desteklenmiyorsa facingMode dene */
-  }
-
-  if (desktop) {
-    configs.push({ facingMode: 'user' });
-    configs.push({ facingMode: 'environment' });
-  } else {
-    configs.push({ facingMode: 'environment' });
-    configs.push({ facingMode: 'user' });
-  }
-
-  const seen = new Set<string>();
-  return configs.filter((c) => {
-    const key = typeof c === 'string' ? c : JSON.stringify(c);
-    if (seen.has(key)) return false;
-    seen.add(key);
-    return true;
-  });
 }
 
 function mapCameraError(msg: string, strings: QrScannerStrings) {
@@ -168,19 +89,22 @@ export function QrCameraScanner({
     parseQrRef.current = parseQr;
   }, [parseQr]);
 
-  const handleDecoded = useCallback((decoded: string) => {
-    const parser = parseQrRef.current ?? parseRegistrationCodeFromQr;
-    const code = parser(decoded) ?? extractVerificationCode(decoded);
-    if (!code) {
-      setLastRawScan(decoded.slice(0, 120));
-      setError(strings.errors.qrReadNoCode);
-      return false;
-    }
-    setError(null);
-    setLastRawScan(null);
-    onScanRef.current(code);
-    return true;
-  }, []);
+  const handleDecoded = useCallback(
+    (decoded: string) => {
+      const parser = parseQrRef.current ?? parseRegistrationCodeFromQr;
+      const code = parser(decoded) ?? extractVerificationCode(decoded);
+      if (!code) {
+        setLastRawScan(decoded.slice(0, 120));
+        setError(strings.errors.qrReadNoCode);
+        return false;
+      }
+      setError(null);
+      setLastRawScan(null);
+      onScanRef.current(code);
+      return true;
+    },
+    [strings.errors.qrReadNoCode]
+  );
 
   const releaseScanner = useCallback(async () => {
     const scanner = scannerRef.current;
@@ -223,7 +147,6 @@ export function QrCameraScanner({
     bootingRef.current = true;
 
     const boot = async () => {
-
       setError(null);
       setLastRawScan(null);
       setStarting(true);
@@ -239,13 +162,10 @@ export function QrCameraScanner({
         }
         if (cancelled) return;
 
-        const scanner = new Html5Qrcode(regionId, {
-          verbose: false,
-          useBarCodeDetectorIfSupported: !desktop,
-        });
+        const scanner = createQrScanner(regionId);
         scannerRef.current = scanner;
 
-        const scanConfig = buildScanConfig(desktop);
+        const scanConfig = buildScanConfig(desktop, 'embedded');
 
         const onDecode = (decoded: string) => {
           if (handleDecoded(decoded)) {
@@ -271,6 +191,7 @@ export function QrCameraScanner({
               await scanner.stop().catch(() => {});
               return;
             }
+            await enhanceRunningCamera(scanner);
             setActive(true);
             return;
           } catch (e) {
@@ -310,7 +231,7 @@ export function QrCameraScanner({
       cancelled = true;
       bootingRef.current = false;
     };
-  }, [viewfinderOpen, active, regionId, handleDecoded, releaseScanner]);
+  }, [viewfinderOpen, active, regionId, handleDecoded, releaseScanner, strings]);
 
   const start = () => {
     if (disabled || starting || active) return;
@@ -319,20 +240,16 @@ export function QrCameraScanner({
   };
 
   const scanFromFile = async (file: File | null) => {
-
     if (!file || disabled) return;
     setError(null);
     setScanningFile(true);
     await releaseScanner();
     setViewfinderOpen(false);
 
-    const scanner = new Html5Qrcode(regionId, {
-      verbose: false,
-      useBarCodeDetectorIfSupported: !isLikelyDesktop(),
-    });
+    const scanner = createQrScanner(regionId);
 
     try {
-      const decoded = await scanner.scanFile(file, false);
+      const decoded = await scanQrFromFile(scanner, file);
       if (!handleDecoded(decoded)) {
         setError(resolvedInvalidMessage);
       }

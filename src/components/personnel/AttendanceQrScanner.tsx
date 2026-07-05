@@ -3,8 +3,16 @@
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { FiLoader } from 'react-icons/fi';
-import { Html5Qrcode, type CameraDevice } from 'html5-qrcode';
+import type { Html5Qrcode } from 'html5-qrcode';
 import { getRegistryStrings } from '@/lib/i18n/strings-registry';
+import {
+  buildCameraConstraint,
+  buildScanConfig,
+  createQrScanner,
+  enhanceRunningCamera,
+  isLikelyDesktop,
+  pickCameraConfigs,
+} from '@/lib/qr-scanner';
 
 type Props = {
   onScan: (code: string) => void;
@@ -15,23 +23,6 @@ type Props = {
   invalidQrMessage?: string;
   className?: string;
 };
-
-function isLikelyDesktop() {
-  if (typeof window === 'undefined') return false;
-  return window.matchMedia('(pointer: fine)').matches || navigator.maxTouchPoints === 0;
-}
-
-function cameraPriority(cam: CameraDevice, desktop: boolean) {
-  const label = cam.label.toLowerCase();
-  if (desktop) {
-    if (/front|user|face|ön|integrated|built-in|webcam|hd pro/i.test(label)) return 0;
-    if (/back|rear|environment|arka|wide/i.test(label)) return 2;
-    return 1;
-  }
-  if (/back|rear|environment|arka|wide/i.test(label)) return 0;
-  if (/front|user|face|ön|integrated|built-in|webcam/i.test(label)) return 1;
-  return 2;
-}
 
 async function waitForElement(id: string, regionNotReady: string, attempts = 80): Promise<HTMLElement> {
   for (let i = 0; i < attempts; i += 1) {
@@ -47,70 +38,7 @@ async function waitForElement(id: string, regionNotReady: string, attempts = 80)
   return el;
 }
 
-function buildScanConfig(desktop: boolean) {
-  if (desktop) {
-    return {
-      fps: 12,
-      qrbox: (viewfinderWidth: number, viewfinderHeight: number) => ({
-        width: Math.floor(viewfinderWidth * 0.85),
-        height: Math.floor(viewfinderHeight * 0.85),
-      }),
-      disableFlip: false,
-    };
-  }
-  return {
-    fps: 10,
-    qrbox: (viewfinderWidth: number, viewfinderHeight: number) => {
-      const edge = Math.min(viewfinderWidth, viewfinderHeight);
-      const size = Math.max(200, Math.floor(edge * 0.68));
-      return { width: size, height: size };
-    },
-    disableFlip: false,
-  };
-}
-
-function buildCameraConstraint(
-  camera: string | MediaTrackConstraints,
-  desktop: boolean
-): string | MediaTrackConstraints {
-  if (typeof camera === 'string') return camera;
-  if (!desktop) return camera;
-  return { ...camera, width: { ideal: 1280 }, height: { ideal: 720 } };
-}
-
-async function pickCameraConfigs(): Promise<Array<string | MediaTrackConstraints>> {
-  const desktop = isLikelyDesktop();
-  const configs: Array<string | MediaTrackConstraints> = [];
-
-  try {
-    const cameras = await Html5Qrcode.getCameras();
-    if (cameras.length > 0) {
-      const sorted = [...cameras].sort(
-        (a, b) => cameraPriority(a, desktop) - cameraPriority(b, desktop)
-      );
-      for (const cam of sorted) configs.push(cam.id);
-    }
-  } catch {
-    /* facingMode fallback */
-  }
-
-  if (desktop) {
-    configs.push({ facingMode: 'user' }, { facingMode: 'environment' });
-  } else {
-    configs.push({ facingMode: 'environment' }, { facingMode: 'user' });
-  }
-
-  const seen = new Set<string>();
-  return configs.filter((c) => {
-    const key = typeof c === 'string' ? c : JSON.stringify(c);
-    if (seen.has(key)) return false;
-    seen.add(key);
-    return true;
-  });
-}
-
 function mapCameraError(msg: string, strings: ReturnType<typeof getRegistryStrings<'components/personnel/AttendanceQrScanner'>>) {
-
   if (msg.includes('NotAllowed') || msg.includes('Permission')) {
     return strings.errors.permissionDenied;
   }
@@ -201,7 +129,6 @@ export function AttendanceQrScanner({
     setError(null);
 
     const boot = async () => {
-
       const desktop = isLikelyDesktop();
 
       try {
@@ -218,14 +145,10 @@ export function AttendanceQrScanner({
         if (scannerRef.current) await releaseScanner();
         if (cancelled) return;
 
-        const scanner = new Html5Qrcode(regionId, {
-          verbose: false,
-          // TWA / mobil WebView'da BarcodeDetector takılma yapabiliyor
-          useBarCodeDetectorIfSupported: false,
-        });
+        const scanner = createQrScanner(regionId);
         scannerRef.current = scanner;
 
-        const scanConfig = buildScanConfig(desktop);
+        const scanConfig = buildScanConfig(desktop, 'fullscreen');
         const onDecode = (decoded: string) => {
           if (decodedRef.current) return;
           const code = parseQrRef.current(decoded);
@@ -257,6 +180,7 @@ export function AttendanceQrScanner({
               await scanner.stop().catch(() => {});
               return;
             }
+            await enhanceRunningCamera(scanner);
             setActive(true);
             return;
           } catch (e) {
