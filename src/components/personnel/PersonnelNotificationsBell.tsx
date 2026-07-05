@@ -11,6 +11,14 @@ import trStrings from '@json/src/components/personnel/PersonnelNotificationsBell
 import enStrings from '@json/en/src/components/personnel/PersonnelNotificationsBell.json';
 import { pushSupported, subscribePersonnelPush } from '@/lib/personnel-push-client';
 
+type NotificationAccess = 'granted' | 'default' | 'denied' | 'unsupported';
+
+function readNotificationAccess(): NotificationAccess {
+  if (typeof window === 'undefined') return 'default';
+  if (!pushSupported() || !('Notification' in window)) return 'unsupported';
+  return Notification.permission;
+}
+
 type Props = {
   tone?: 'light' | 'onDark';
   className?: string;
@@ -53,20 +61,20 @@ export function PersonnelNotificationsBell({ tone = 'light', className = '' }: P
   const strings = useLocalizedStrings(trStrings, enStrings);
   const { items, unreadCount, loading, markRead, markAllRead, refresh, panelOpen, openPanel, closePanel } =
     usePersonnelNotificationsContext();
-  const [pushPrompt, setPushPrompt] = useState(false);
+  const [notificationAccess, setNotificationAccess] = useState<NotificationAccess>('default');
+  const [requestingPermission, setRequestingPermission] = useState(false);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
-    if (!pushSupported()) return;
-    if (Notification.permission === 'granted') {
-      void subscribePersonnelPush();
-      return;
-    }
-    if (Notification.permission !== 'default') return;
-    if (localStorage.getItem('crewledger-push-prompt-dismissed') === '1') return;
-    const t = window.setTimeout(() => setPushPrompt(true), 2500);
-    return () => window.clearTimeout(t);
-  }, []);
+    if (!panelOpen) return;
+    const access = readNotificationAccess();
+    setNotificationAccess(access);
+    if (access === 'granted') void refresh();
+  }, [panelOpen, refresh]);
+
+  useEffect(() => {
+    if (notificationAccess !== 'granted') return;
+    void subscribePersonnelPush();
+  }, [notificationAccess]);
 
   const bellClass =
     tone === 'onDark'
@@ -75,7 +83,6 @@ export function PersonnelNotificationsBell({ tone = 'light', className = '' }: P
 
   const handleOpen = () => {
     openPanel();
-    void refresh();
   };
 
   const handleItemClick = async (id: string, href: string | null, readAt: string | null) => {
@@ -83,12 +90,21 @@ export function PersonnelNotificationsBell({ tone = 'light', className = '' }: P
     if (href) closePanel();
   };
 
-  const enablePush = async () => {
-    const ok = await subscribePersonnelPush({ force: true });
-    localStorage.setItem('crewledger-push-prompt-dismissed', '1');
-    setPushPrompt(false);
-    if (!ok) localStorage.removeItem('crewledger-push-prompt-dismissed');
+  const requestNotificationAccess = async () => {
+    if (notificationAccess === 'unsupported' || notificationAccess === 'denied') return;
+    setRequestingPermission(true);
+    try {
+      const ok = await subscribePersonnelPush({ force: true });
+      const access = readNotificationAccess();
+      setNotificationAccess(access);
+      if (ok || access === 'granted') void refresh();
+    } finally {
+      setRequestingPermission(false);
+    }
   };
+
+  const canViewNotifications = notificationAccess === 'granted';
+  const showUnreadBadge = canViewNotifications && unreadCount > 0;
 
   return (
     <>
@@ -99,45 +115,12 @@ export function PersonnelNotificationsBell({ tone = 'light', className = '' }: P
         aria-label={strings.bellAriaLabel}
       >
         <FiBell className="h-[1.05rem] w-[1.05rem]" />
-        {unreadCount > 0 && (
+        {showUnreadBadge && (
           <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-rose-500 px-1 text-[10px] font-bold text-white">
             {unreadCount > 9 ? '9+' : unreadCount}
           </span>
         )}
       </button>
-
-      <AnimatePresence>
-        {pushPrompt && !panelOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 8 }}
-            className="fixed inset-x-4 top-[calc(env(safe-area-inset-top)+3.5rem)] z-[70] mx-auto max-w-lg rounded-2xl border border-slate-200 bg-white p-4 shadow-xl sm:hidden"
-          >
-            <p className="text-sm font-semibold text-[#0E1548]">{strings.pushEnableTitle}</p>
-            <p className="mt-1 text-xs text-slate-500">{strings.pushEnableBody}</p>
-            <div className="mt-3 flex gap-2">
-              <button
-                type="button"
-                onClick={() => void enablePush()}
-                className="flex-1 rounded-xl bg-[#0E1548] px-3 py-2 text-xs font-semibold text-white"
-              >
-                {strings.pushEnableButton}
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  localStorage.setItem('crewledger-push-prompt-dismissed', '1');
-                  setPushPrompt(false);
-                }}
-                className="rounded-xl border border-slate-200 px-3 py-2 text-xs font-medium text-slate-600"
-              >
-                {strings.pushLater}
-              </button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       <AnimatePresence>
         {panelOpen && (
@@ -163,7 +146,7 @@ export function PersonnelNotificationsBell({ tone = 'light', className = '' }: P
               <div className="flex items-center justify-between border-b border-slate-100 px-4 py-3">
                 <h2 className="text-base font-bold text-[#0E1548]">{strings.panelTitle}</h2>
                 <div className="flex items-center gap-2">
-                  {unreadCount > 0 && (
+                  {canViewNotifications && unreadCount > 0 && (
                     <button
                       type="button"
                       onClick={() => void markAllRead()}
@@ -184,7 +167,31 @@ export function PersonnelNotificationsBell({ tone = 'light', className = '' }: P
               </div>
 
               <div className="overflow-y-auto max-h-[calc(min(78vh,32rem)-3.5rem)] pb-[max(1rem,env(safe-area-inset-bottom))]">
-                {loading && items.length === 0 ? (
+                {!canViewNotifications ? (
+                  <div className="px-4 py-10 text-center">
+                    <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#E8EBF8] text-2xl">
+                      🔔
+                    </div>
+                    <p className="text-sm font-semibold text-[#0E1548]">{strings.permissionRequiredTitle}</p>
+                    <p className="mt-2 text-sm leading-relaxed text-slate-500">
+                      {notificationAccess === 'unsupported'
+                        ? strings.permissionUnsupportedBody
+                        : notificationAccess === 'denied'
+                          ? strings.permissionDeniedBody
+                          : strings.permissionRequiredBody}
+                    </p>
+                    {notificationAccess === 'default' && (
+                      <button
+                        type="button"
+                        disabled={requestingPermission}
+                        onClick={() => void requestNotificationAccess()}
+                        className="mt-5 inline-flex min-h-11 items-center justify-center rounded-xl bg-[#0E1548] px-5 py-2.5 text-sm font-semibold text-white disabled:opacity-60"
+                      >
+                        {requestingPermission ? strings.permissionRequesting : strings.permissionRequestButton}
+                      </button>
+                    )}
+                  </div>
+                ) : loading && items.length === 0 ? (
                   <p className="px-4 py-8 text-center text-sm text-slate-500">{strings.loading}</p>
                 ) : items.length === 0 ? (
                   <p className="px-4 py-10 text-center text-sm text-slate-500">{strings.empty}</p>
