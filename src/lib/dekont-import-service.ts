@@ -1,9 +1,11 @@
 import { validateDekontDocument, validateMatchForConfirm, formatDekontValidationFailure, buildDekontScanReport } from '@/lib/dekont-validation';
 import type { DekontScanReport } from '@/lib/dekont-scan-report';
 import { analyzeDekont, type DekontOcrResult } from '@/lib/dekont-ocr';
+import { isDraftPendingOcr } from '@/lib/dekont-ocr-shared';
 import { suggestAdvanceMatches, type DekontMatchSuggestion } from '@/lib/advance-dekont-match';
 import {
   assertDekontFile,
+  downloadAdvanceDekont,
   getStorageBackend,
   uploadAdvanceDekont,
 } from '@/lib/advance-external-storage';
@@ -13,6 +15,24 @@ import { createClient } from '@/utils/supabase/server';
 import { createAdminClient } from '@/utils/supabase/admin';
 
 const DRAFT_TTL_MINUTES = 30;
+
+function pendingOcrPlaceholder(): DekontOcrResult {
+  return {
+    rawText: '',
+    recipientIban: null,
+    senderIban: null,
+    allIbans: [],
+    amount: null,
+    referenceNo: null,
+    paymentDate: null,
+    senderBank: null,
+    recipientBank: null,
+    transferType: null,
+    confidence: 'low',
+    source: 'none',
+    processing: true,
+  };
+}
 
 export class DekontImportError extends Error {
   constructor(
@@ -29,6 +49,162 @@ async function listAccessibleProjectIds(): Promise<string[]> {
   const { data, error } = await supabase.from('projects').select('id').order('name');
   if (error) throw new DekontImportError(error.message, 500);
   return (data ?? []).map((p) => p.id);
+}
+
+/** Banka paylaşımı — dosyayı hızlı kaydet, OCR'ı sonraya bırak (TWA beyaz ekran önleme). */
+export async function stageDekontShare(params: {
+  adminUserId: string;
+  buffer: Buffer;
+  fileName: string;
+  mimeType: string;
+}) {
+  assertDekontFile(params.mimeType, params.buffer.length);
+
+  const admin = createAdminClient();
+  const projectIds = await listAccessibleProjectIds();
+  if (projectIds.length === 0) {
+    throw new DekontImportError(strings.noAccessibleProject, 403);
+  }
+
+  const projectId = projectIds[0]!;
+  const tempRequestId = crypto.randomUUID();
+  const proof = await uploadAdvanceDekont({
+    buffer: params.buffer,
+    fileName: params.fileName,
+    mimeType: params.mimeType,
+    projectId,
+    requestId: `share-${tempRequestId.slice(0, 8)}`,
+    backend: getStorageBackend(),
+  });
+
+  const expiresAt = new Date(Date.now() + DRAFT_TTL_MINUTES * 60 * 1000).toISOString();
+  const { data, error } = await admin
+    .from('dekont_import_drafts')
+    .insert({
+      admin_user_id: params.adminUserId,
+      project_id: projectId,
+      proof_storage_backend: proof.backend,
+      proof_external_id: proof.externalId,
+      proof_file_name: params.fileName,
+      proof_mime_type: params.mimeType,
+      ocr_json: pendingOcrPlaceholder(),
+      match_json: [],
+      expires_at: expiresAt,
+    })
+    .select('id')
+    .single();
+
+  if (error) {
+    if (error.message.includes('dekont_import_drafts')) {
+      throw new DekontImportError(strings.runMigration, 503);
+    }
+    throw new DekontImportError(error.message, 500);
+  }
+
+  return { draftId: data.id as string };
+}
+
+export async function processDekontDraft(adminUserId: string, draftId: string) {
+  const admin = createAdminClient();
+  const { data: row, error: loadError } = await admin
+    .from('dekont_import_drafts')
+    .select('*')
+    .eq('id', draftId)
+    .eq('admin_user_id', adminUserId)
+    .maybeSingle();
+
+  if (loadError) throw new DekontImportError(loadError.message, 500);
+  if (!row) throw new DekontImportError(strings.draftNotFound, 404);
+  if (row.consumed_at) throw new DekontImportError(strings.draftAlreadyUsed, 410);
+  if (new Date(row.expires_at).getTime() < Date.now()) {
+    throw new DekontImportError(strings.draftExpired, 410);
+  }
+
+  const existingOcr = row.ocr_json as DekontOcrResult;
+  if (!isDraftPendingOcr(existingOcr)) {
+    return {
+      draft: {
+        id: row.id as string,
+        ocr_json: existingOcr,
+        match_json: (row.match_json ?? []) as DekontMatchSuggestion[],
+        proof_file_name: row.proof_file_name as string,
+      },
+      ocr: existingOcr,
+      matches: (row.match_json ?? []) as DekontMatchSuggestion[],
+      validation: validateDekontDocument(existingOcr),
+    };
+  }
+
+  if (!row.proof_external_id || !row.proof_storage_backend) {
+    throw new DekontImportError(strings.proofFileNotFound, 500);
+  }
+
+  const buffer = await downloadAdvanceDekont({
+    backend: row.proof_storage_backend as 'google_drive' | 'r2',
+    externalId: row.proof_external_id as string,
+  });
+
+  let ocr: DekontOcrResult;
+  try {
+    ocr = await analyzeDekont({
+      buffer,
+      mimeType: row.proof_mime_type as string,
+    });
+  } catch (err) {
+    ocr = {
+      rawText: '',
+      recipientIban: null,
+      senderIban: null,
+      allIbans: [],
+      amount: null,
+      referenceNo: null,
+      paymentDate: null,
+      senderBank: null,
+      recipientBank: null,
+      transferType: null,
+      confidence: 'low',
+      source: 'none',
+      ocrError: err instanceof Error ? err.message : null,
+    };
+    if (err instanceof Error && err.message.includes('Vision')) {
+      throw new DekontImportError(err.message, 503);
+    }
+  }
+
+  const validation = validateDekontDocument(ocr);
+  if (!validation.accepted) {
+    const report = buildDekontScanReport(validation, ocr);
+    throw new DekontImportError(formatDekontValidationFailure(validation, ocr), 422, report);
+  }
+
+  const projectIds = await listAccessibleProjectIds();
+  const matches = await suggestAdvanceMatches(admin, { projectIds, ocr });
+  const top = matches[0];
+  const projectId = top?.projectId ?? (row.project_id as string | null);
+
+  const { error: updateError } = await admin
+    .from('dekont_import_drafts')
+    .update({
+      ocr_json: ocr,
+      match_json: matches,
+      project_id: projectId,
+      advance_request_id: top?.requestId ?? null,
+    })
+    .eq('id', draftId);
+
+  if (updateError) throw new DekontImportError(updateError.message, 500);
+
+  return {
+    draft: {
+      id: draftId,
+      ocr_json: ocr,
+      match_json: matches,
+      proof_file_name: row.proof_file_name as string,
+    },
+    ocr,
+    matches,
+    validation,
+  };
 }
 
 export async function ingestDekontDraft(params: {

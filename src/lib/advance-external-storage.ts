@@ -134,6 +134,28 @@ export async function uploadAdvanceDekont(params: {
   return { backend: 'google_drive' as const, externalId };
 }
 
+export async function downloadAdvanceDekont(params: {
+  backend: StorageBackend;
+  externalId: string;
+}): Promise<Buffer> {
+  if (params.backend === 'r2') {
+    const bucket = process.env.R2_BUCKET_NAME?.trim();
+    if (!bucket) throw new Error('R2_BUCKET_NAME tanımlı değil');
+    const client = r2Client();
+    const res = await client.send(
+      new GetObjectCommand({ Bucket: bucket, Key: params.externalId })
+    );
+    const bytes = await res.Body?.transformToByteArray();
+    if (!bytes?.length) throw new Error('Dekont dosyası boş veya bulunamadı');
+    return Buffer.from(bytes);
+  }
+
+  const url = await signedGoogleDriveUrl(params.externalId);
+  const res = await fetch(url);
+  if (!res.ok) throw new Error('Dekont Google Drive\'dan indirilemedi');
+  return Buffer.from(await res.arrayBuffer());
+}
+
 export async function getAdvanceDekontUrl(params: {
   backend: StorageBackend;
   externalId: string;

@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense, useCallback, useEffect, useMemo, useState } from 'react';
+import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
@@ -23,6 +23,7 @@ import { getRegistryStrings } from '@/lib/i18n/strings-registry';
 import { formatOcrIban } from '@/lib/advance-dekont-match';
 import type { DekontMatchSuggestion } from '@/lib/advance-dekont-match';
 import type { DekontOcrResult } from '@/lib/dekont-ocr-shared';
+import { isDraftPendingOcr } from '@/lib/dekont-ocr-shared';
 import { transferTypeLabel } from '@/lib/turkish-banks';
 import {
   MIN_MATCH_SCORE,
@@ -295,6 +296,7 @@ function DekontShareContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const draftId = searchParams.get('draft');
+  const processParam = searchParams.get('process');
   const errorParam = searchParams.get('error');
   const scanParam = searchParams.get('scan');
 
@@ -312,6 +314,11 @@ function DekontShareContent() {
   const [selectedProjectId, setSelectedProjectId] = useState('');
   const [referenceNo, setReferenceNo] = useState('');
   const [paymentDate, setPaymentDate] = useState(dayjs().format('YYYY-MM-DD'));
+  const processStartedRef = useRef(false);
+
+  useEffect(() => {
+    processStartedRef.current = false;
+  }, [draftId]);
 
   useEffect(() => {
     if (errorParam || scanParam) {
@@ -322,6 +329,49 @@ function DekontShareContent() {
     }
   }, [errorParam, scanParam, router]);
 
+  const applyDraftPayload = useCallback((d: DraftPayload) => {
+    setDraft(d);
+    setStep('review');
+    const top = (d.match_json ?? [])[0];
+    if (top) {
+      setSelectedRequestId(top.requestId);
+      setSelectedProjectId(top.projectId);
+    }
+    if (d.ocr_json.referenceNo) setReferenceNo(d.ocr_json.referenceNo);
+    if (d.ocr_json.paymentDate) setPaymentDate(d.ocr_json.paymentDate);
+  }, []);
+
+  const processDraft = useCallback(
+    async (id: string) => {
+      setLoading(true);
+      setStep('analyze');
+      setError(null);
+      setScanReport(null);
+      try {
+        const res = await fetch(`/api/admin/dekont/drafts/${id}/process`, { method: 'POST' });
+        const data = (await res.json()) as {
+          error?: string;
+          report?: DekontScanReport | null;
+          draft?: DraftPayload;
+        };
+        if (!res.ok) {
+          if (data.report) setScanReport(data.report);
+          throw new Error(data.error || strings.errors.analyzeFailed);
+        }
+        if (!data.draft) throw new Error(strings.errors.draftLoadFailed);
+        applyDraftPayload(data.draft);
+        router.replace(`/admin-panel/dekont-paylas?draft=${id}`);
+      } catch (e) {
+        setError(e instanceof Error ? e.message : strings.errors.analyzeFailed);
+        setStep('upload');
+        router.replace('/admin-panel/dekont-paylas');
+      } finally {
+        setLoading(false);
+      }
+    },
+    [applyDraftPayload, router, strings.errors.analyzeFailed, strings.errors.draftLoadFailed]
+  );
+
   const loadDraft = useCallback(
     async (id: string) => {
       setLoading(true);
@@ -331,15 +381,11 @@ function DekontShareContent() {
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || strings.errors.draftLoadFailed);
         const d = data.draft as DraftPayload;
-        setDraft(d);
-        setStep('review');
-        const top = (d.match_json ?? [])[0];
-        if (top) {
-          setSelectedRequestId(top.requestId);
-          setSelectedProjectId(top.projectId);
+        if (isDraftPendingOcr(d.ocr_json)) {
+          await processDraft(id);
+          return;
         }
-        if (d.ocr_json.referenceNo) setReferenceNo(d.ocr_json.referenceNo);
-        if (d.ocr_json.paymentDate) setPaymentDate(d.ocr_json.paymentDate);
+        applyDraftPayload(d);
       } catch (e) {
         setError(e instanceof Error ? e.message : strings.errors.draftLoadFailed);
         setStep('upload');
@@ -347,12 +393,19 @@ function DekontShareContent() {
         setLoading(false);
       }
     },
-    [strings.errors.draftLoadFailed]
+    [applyDraftPayload, processDraft, strings.errors.draftLoadFailed]
   );
 
   useEffect(() => {
-    if (draftId) void loadDraft(draftId);
-  }, [draftId, loadDraft]);
+    if (!draftId) return;
+    if (processParam === '1') {
+      if (processStartedRef.current) return;
+      processStartedRef.current = true;
+      void processDraft(draftId);
+      return;
+    }
+    void loadDraft(draftId);
+  }, [draftId, processParam, loadDraft, processDraft]);
 
   const ocr = draft?.ocr_json;
   const validation = useMemo(() => (ocr ? validateDekontDocument(ocr) : null), [ocr]);
@@ -512,6 +565,9 @@ function DekontShareContent() {
         <div className="flex flex-col items-center justify-center rounded-2xl border border-slate-200 bg-white py-16 dark:border-slate-800 dark:bg-slate-900">
           <div className="h-10 w-10 animate-spin rounded-full border-2 border-slate-900 border-t-transparent dark:border-white" />
           <p className="mt-4 text-sm font-medium text-slate-700 dark:text-slate-200">{strings.analyze.title}</p>
+          {step === 'analyze' && draftId && (
+            <p className="mt-2 max-w-sm text-center text-xs text-slate-500">{strings.analyze.shareHint}</p>
+          )}
         </div>
       )}
 

@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server';
 import { requireAdminUser } from '@/lib/admin-auth';
-import { ingestDekontDraft, DekontImportError } from '@/lib/dekont-import-service';
+import { stageDekontShare, DekontImportError } from '@/lib/dekont-import-service';
 import { encodeScanReport } from '@/lib/dekont-scan-report';
 import strings from '@json/src/app/api/admin/dekont/share-ingest/route.json';
 
 export const runtime = 'nodejs';
-export const maxDuration = 60;
+export const maxDuration = 30;
 
 function pickSharedFile(form: FormData): File | null {
   for (const key of ['dekont', 'files', 'file']) {
@@ -18,40 +18,53 @@ function pickSharedFile(form: FormData): File | null {
   return null;
 }
 
+function redirectToDekontPage(request: Request, params: Record<string, string>) {
+  const url = new URL('/admin-panel/dekont-paylas', request.url);
+  for (const [key, value] of Object.entries(params)) {
+    url.searchParams.set(key, value);
+  }
+  return NextResponse.redirect(url, 303);
+}
+
 export async function POST(request: Request) {
   try {
     const user = await requireAdminUser();
     const form = await request.formData();
     const file = pickSharedFile(form);
     if (!file) {
-      return NextResponse.json({ error: strings.paylaşılanDosyaBulunamadı }, { status: 400 });
+      return redirectToDekontPage(request, {
+        error: strings.paylaşılanDosyaBulunamadı,
+      });
     }
 
     const buffer = Buffer.from(await file.arrayBuffer());
-    const { draftId } = await ingestDekontDraft({
+    const { draftId } = await stageDekontShare({
       adminUserId: user.id,
       buffer,
       fileName: file.name || 'dekont.pdf',
       mimeType: file.type || 'application/octet-stream',
     });
 
-    const url = new URL('/admin-panel/dekont-paylas', request.url);
-    url.searchParams.set('draft', draftId);
-    return NextResponse.redirect(url, 303);
+    return redirectToDekontPage(request, {
+      draft: draftId,
+      process: '1',
+    });
   } catch (err) {
     if (err instanceof DekontImportError) {
-      const url = new URL('/admin-panel/dekont-paylas', request.url);
-      url.searchParams.set('error', err.report?.summary ?? err.message.slice(0, 240));
+      const params: Record<string, string> = {
+        error: err.report?.summary ?? err.message.slice(0, 240),
+      };
       if (err.report) {
-        url.searchParams.set('scan', encodeScanReport(err.report));
+        params.scan = encodeScanReport(err.report);
       }
-      return NextResponse.redirect(url, 303);
+      return redirectToDekontPage(request, params);
     }
     if (err instanceof Error && err.message === 'UNAUTHORIZED') {
       const login = new URL('/admin-panel/login', request.url);
       login.searchParams.set('next', '/admin-panel/dekont-paylas');
       return NextResponse.redirect(login, 303);
     }
-    return NextResponse.json({ error: strings.paylaşımIşlenemedi }, { status: 500 });
+    const message = err instanceof Error ? err.message : strings.paylaşımIşlenemedi;
+    return redirectToDekontPage(request, { error: message.slice(0, 240) });
   }
 }

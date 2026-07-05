@@ -16,6 +16,8 @@ export type DekontOcrResult = {
   bankKeywords?: string[];
   isLikelyTransfer?: boolean;
   ocrError?: string | null;
+  /** Paylaşım akışında OCR henüz tamamlanmadıysa true */
+  processing?: boolean;
 };
 
 const BANK_KEYWORDS = [
@@ -34,4 +36,9 @@ export function findBankKeywords(text: string): string[] {
   return BANK_KEYWORDS.filter((kw) =>
     upper.includes(kw.normalize('NFD').replace(/[\u0300-\u036f]/g, ''))
   );
+}
+
+export function isDraftPendingOcr(ocr: unknown): boolean {
+  if (!ocr || typeof ocr !== 'object') return false;
+  return (ocr as { processing?: boolean }).processing === true;
 }

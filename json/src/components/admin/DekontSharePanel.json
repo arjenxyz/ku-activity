@@ -39,7 +39,8 @@
     "shareTip": "Banka uygulamasından Paylaş → CrewLedger Yönetici ile de gönderebilirsiniz."
   },
   "analyze": {
-    "title": "Dekont analiz ediliyor…"
+    "title": "Dekont analiz ediliyor…",
+    "shareHint": "Bankadan gelen dekont okunuyor. Bu işlem bir dakika sürebilir."
   },
   "review": {
     "documentValidation": "Belge",
