@@ -3,6 +3,7 @@ import { authorizeCronRequest } from '@/lib/cron-auth';
 import { createAdminClient } from '@/utils/supabase/admin';
 import { dispatchPersonnelPush, getVapidDiagnostics, isVapidEnabled } from '@/lib/personnel-push-service';
 import { notifyPersonnel } from '@/lib/personnel-notification-service';
+import strings from '@json/src/lib/personnel-notifications.json';
 
 export const dynamic = 'force-dynamic';
 
@@ -118,8 +119,8 @@ export async function POST(request: Request) {
     employeeId: sub.employee_id as string,
     projectId: employee.project_id as string,
     type: 'general',
-    title: 'CrewLedger push testi',
-    body: 'Operatör test bildirimi — push_sent_at dolu olmalı.',
+    title: strings.pushTest.title,
+    body: strings.pushTest.body,
     href: '/personnel-panel',
     sendPush: false,
   });

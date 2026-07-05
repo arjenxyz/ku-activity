@@ -1,53 +1,57 @@
 {
   "attendanceReminder": {
     "title": "Attendance reminder",
-    "body": "Today's attendance window is open. Don't forget to scan the QR code."
+    "body": "Please scan the QR code to record today's attendance."
   },
   "attendanceSessionCancelled": {
     "title": "Attendance session cancelled",
-    "body": "The attendance session for {workDate} was cancelled."
+    "body": "The attendance session for {workDate} has been cancelled."
   },
   "attendanceRemovedFromList": {
-    "title": "Removed from attendance list",
-    "body": "Your attendance record for {workDate} was removed from the list."
+    "title": "Attendance record updated",
+    "body": "Your attendance record for {workDate} has been removed from the list."
   },
   "advanceApproved": {
     "title": "Advance request approved",
-    "body": "Your {amount} TL advance request was approved. Bank transfer pending."
+    "body": "Your advance request for {amount} TL has been approved. Payment processing has started."
   },
   "advanceCashReady": {
     "title": "Cash advance ready",
-    "body": "Your {amount} TL cash advance is ready. Scan the QR code to confirm receipt."
+    "body": "Your cash advance of {amount} TL is ready. Scan the QR code to confirm receipt."
   },
   "advanceRejected": {
-    "title": "Advance request rejected",
+    "title": "Advance request declined",
     "body": "{reason}"
   },
   "advanceRejectedNoReason": {
-    "title": "Advance request rejected",
-    "body": "Your request was rejected by the administrator."
+    "title": "Advance request declined",
+    "body": "Your request has been declined by the administrator."
   },
   "advancePaid": {
     "title": "Advance payment recorded",
-    "body": "Your {amount} TL advance payment was recorded on your payroll."
+    "body": "An advance payment of {amount} TL has been recorded on your payroll."
   },
   "minimumWagePaid": {
-    "title": "Minimum wage payment recorded",
-    "body": "A {amount} TL minimum wage payment was recorded."
+    "title": "Minimum wage payment",
+    "body": "A minimum wage payment of {amount} TL has been recorded."
   },
   "salaryPaid": {
     "title": "Salary payment completed",
-    "body": "Your net salary for {month} ({amount} TL) was marked as paid."
+    "body": "Your net salary for {month} ({amount} TL) has been marked as paid."
   },
   "deductionAdded": {
-    "title": "{typeLabel} recorded",
-    "body": "{amount} TL {typeLabel} was added to your payroll.{descriptionSuffix}"
+    "title": "Payroll update",
+    "body": "A {typeLabel} of {amount} TL has been applied to your payroll.{descriptionSuffix}"
   },
   "deductionTypeLabels": {
-    "advance": "Advance",
-    "deduction": "Deduction",
-    "subcontractor_cut": "Subcontractor cut",
-    "other": "Other"
+    "advance": "advance",
+    "deduction": "deduction",
+    "subcontractor_cut": "subcontractor deduction",
+    "other": "deduction"
+  },
+  "pushTest": {
+    "title": "Notifications enabled",
+    "body": "CrewLedger personnel notifications are set up successfully."
   },
   "migrationHint": "Run 059_personnel_notifications.sql migration",
   "errors": {

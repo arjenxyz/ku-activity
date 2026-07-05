@@ -1,4 +1,5 @@
-const CACHE_NAME = 'crewledger-v12';
+const CACHE_NAME = 'crewledger-v13';
+const PUSH_ICON_PATH = '/personel-icon.png';
 
 /** Oturum / panel sayfaları asla önbellekten sunulmaz — her açılışta sunucu cookie kontrol eder */
 const NETWORK_ONLY_PREFIXES = [
@@ -64,22 +65,24 @@ self.addEventListener('fetch', (event) => {
 });
 
 self.addEventListener('push', (event) => {
-  let payload = { title: 'CrewLedger', body: 'Yeni bildiriminiz var', href: '/personnel-panel', notificationId: null };
+  let payload = { title: 'CrewLedger Personel', body: 'Yeni bir bildiriminiz var.', href: '/personnel-panel', notificationId: null };
   try {
     if (event.data) payload = { ...payload, ...event.data.json() };
   } catch {
     /* */
   }
 
+  const iconUrl = new URL(PUSH_ICON_PATH, self.location.origin).href;
+
   event.waitUntil(
     (async () => {
       await self.registration.showNotification(payload.title, {
         body: payload.body,
-        icon: '/icons/personnel/192',
-        badge: '/icons/personnel/192',
+        icon: iconUrl,
         tag: payload.notificationId || 'crewledger-notification',
+        renotify: true,
         data: { href: payload.href || '/personnel-panel', notificationId: payload.notificationId },
-        vibrate: [120, 60, 120],
+        vibrate: [100, 50, 100],
       });
 
       const clients = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });

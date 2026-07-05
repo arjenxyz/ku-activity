@@ -1,53 +1,57 @@
 {
   "attendanceReminder": {
     "title": "Yoklama hatırlatması",
-    "body": "Bugünkü yoklama penceresi açık. QR kodunuzu okutmayı unutmayın."
+    "body": "Bugünkü yoklama için QR kodunuzu okutmanız bekleniyor."
   },
   "attendanceSessionCancelled": {
     "title": "Yoklama oturumu iptal edildi",
-    "body": "{workDate} tarihli yoklama oturumu iptal edildi."
+    "body": "{workDate} tarihli yoklama oturumu iptal edilmiştir."
   },
   "attendanceRemovedFromList": {
-    "title": "Yoklama listesinden çıkarıldınız",
-    "body": "{workDate} tarihli yoklama kaydınız listeden kaldırıldı."
+    "title": "Yoklama kaydı güncellendi",
+    "body": "{workDate} tarihli yoklama kaydınız listeden çıkarılmıştır."
   },
   "advanceApproved": {
-    "title": "Avans talebiniz onaylandı",
-    "body": "{amount} TL avans talebiniz onaylandı. Banka transferi bekleniyor."
+    "title": "Avans talebi onaylandı",
+    "body": "{amount} TL avans talebiniz onaylanmıştır. Ödeme süreci başlatıldı."
   },
   "advanceCashReady": {
-    "title": "Nakit avansınız hazır",
-    "body": "{amount} TL nakit avansınızı teslim almak için QR kodu okutun."
+    "title": "Nakit avans teslimi",
+    "body": "{amount} TL nakit avansınız hazırdır. Teslim için QR kodu okutunuz."
   },
   "advanceRejected": {
-    "title": "Avans talebiniz reddedildi",
+    "title": "Avans talebi reddedildi",
     "body": "{reason}"
   },
   "advanceRejectedNoReason": {
-    "title": "Avans talebiniz reddedildi",
-    "body": "Talebiniz yönetici tarafından reddedildi."
+    "title": "Avans talebi reddedildi",
+    "body": "Talebiniz yönetici tarafından reddedilmiştir."
   },
   "advancePaid": {
-    "title": "Avans ödemeniz kaydedildi",
-    "body": "{amount} TL avans ödemeniz bordronuza işlendi."
+    "title": "Avans ödemesi kaydedildi",
+    "body": "{amount} TL avans ödemeniz bordronuza işlenmiştir."
   },
   "minimumWagePaid": {
-    "title": "Asgari ödemesi kaydedildi",
-    "body": "{amount} TL asgari ücret ödemeniz kaydedildi."
+    "title": "Asgari ücret ödemesi",
+    "body": "{amount} TL asgari ücret ödemeniz kaydedilmiştir."
   },
   "salaryPaid": {
-    "title": "Maaş ödemeniz tamamlandı",
-    "body": "{month} dönemi net maaşınız ({amount} TL) ödendi olarak işaretlendi."
+    "title": "Maaş ödemesi tamamlandı",
+    "body": "{month} dönemi net maaşınız ({amount} TL) ödenmiştir."
   },
   "deductionAdded": {
-    "title": "{typeLabel} kaydı",
-    "body": "{amount} TL {typeLabel} bordronuza işlendi.{descriptionSuffix}"
+    "title": "Bordro kaydı",
+    "body": "{amount} TL {typeLabel} işlemi bordronuza yansıtılmıştır.{descriptionSuffix}"
   },
   "deductionTypeLabels": {
-    "advance": "Avans",
-    "deduction": "Kesinti",
-    "subcontractor_cut": "Taşeron kesintisi",
-    "other": "Diğer"
+    "advance": "avans",
+    "deduction": "kesinti",
+    "subcontractor_cut": "taşeron kesintisi",
+    "other": "kesinti"
+  },
+  "pushTest": {
+    "title": "Bildirimler etkin",
+    "body": "CrewLedger Personel bildirimleri başarıyla kurulmuştur."
   },
   "migrationHint": "059_personnel_notifications.sql migration çalıştırın",
   "errors": {

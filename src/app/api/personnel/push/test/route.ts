@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { createAdminClient } from '@/utils/supabase/admin';
 import { requirePersonnelSession } from '@/lib/personnel-auth';
 import { notifyPersonnel } from '@/lib/personnel-notification-service';
+import strings from '@json/src/lib/personnel-notifications.json';
 import {
   dispatchPersonnelPush,
   getVapidDiagnostics,
@@ -17,8 +18,8 @@ async function runPushTest() {
     employeeId: session.employeeId,
     projectId: session.projectId,
     type: 'general',
-    title: 'CrewLedger test bildirimi',
-    body: 'Push bildirimleri çalışıyor. Bu mesajı görüyorsanız VAPID zinciri doğru kurulmuş.',
+    title: strings.pushTest.title,
+    body: strings.pushTest.body,
     href: '/personnel-panel',
     sendPush: false,
   });
