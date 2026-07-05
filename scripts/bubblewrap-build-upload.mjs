@@ -95,6 +95,12 @@ function ensureGradleWindowsFixes(buildDir) {
   writeFileSync(buildGradle, gradle);
 }
 
+function applyNotificationPermissions(buildDir, appType, bumpVersion = false) {
+  const args = [join(ROOT, 'scripts/twa-notification-permissions.mjs'), buildDir];
+  if (bumpVersion) args.push('--bump');
+  run(process.execPath, args, ROOT);
+}
+
 function applyPlainTwaSplash(buildDir, appType) {
   const variant = appType === 'admin' ? 'admin' : 'personnel';
   run(
@@ -113,6 +119,7 @@ const args = parseArgs(process.argv);
 const appType = String(args.app ?? args.appType ?? '').trim();
 const skipBuild = Boolean(args['skip-build']);
 const skipUpdate = Boolean(args['skip-update']);
+const bumpVersion = !args['no-bump'];
 
 if (appType !== 'personnel' && appType !== 'admin') {
   console.error(
@@ -135,6 +142,7 @@ if (!skipUpdate) {
 }
 
 ensureGradleWindowsFixes(buildDir);
+applyNotificationPermissions(buildDir, appType, bumpVersion);
 applyPlainTwaSplash(buildDir, appType);
 applyAdminShareTarget(buildDir, appType);
 

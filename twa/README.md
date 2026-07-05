@@ -96,19 +96,19 @@ Her uygulama için ayrı listing:
 
 ### 5. Bildirim izni (Android 13+ / API 33)
 
-Push bildirimleri için APK **targetSdkVersion 33+** olmalı. Bubblewrap `update` sonrası `AndroidManifest.xml` içine ekleyin:
+Push bildirimleri için her build öncesi otomatik yama:
 
-```xml
-<uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
-
-<application ...>
-  <activity
-      android:name="com.google.androidbrowserhelper.trusted.NotificationPermissionRequestActivity" />
-  ...
-</application>
+```bash
+node scripts/twa-notification-permissions.mjs twa-build/personel --bump
 ```
 
-Web tarafı uygulama açılışında bir kez `Notification.requestPermission()` çağırır; TWA doğru yapılandırıldığında **Android sistem izni** gösterilir (Chrome web izni değil).
+`npm run apk:build-upload:personnel` bu adımı otomatik çalıştırır. Yama:
+
+- `POST_NOTIFICATIONS` + `NotificationPermissionRequestActivity` (AndroidManifest)
+- `targetSdkVersion 35`
+- `LauncherActivity` — uygulama açılışında **sistem bildirim izni** diyaloğu
+
+Web tarafı (`PersonnelPushBootstrap`) yedek olarak bir kez `Notification.requestPermission()` çağırır.
 
 Parmak izi / asset links doğru değilse uygulama Chrome gibi açılır ve bildirim akışı bozulur.
 

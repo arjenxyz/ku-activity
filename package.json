@@ -11,6 +11,7 @@
     "apk:upload:admin": "node scripts/upload-apk-from-twa.mjs --app admin",
     "apk:build-upload:personnel": "node scripts/bubblewrap-build-upload.mjs --app personnel",
     "apk:build-upload:admin": "node scripts/bubblewrap-build-upload.mjs --app admin",
+    "twa:notification-permissions": "node scripts/twa-notification-permissions.mjs twa-build/personel --bump",
     "twa:fingerprint": "node scripts/twa-keystore-fingerprint.mjs",
     "twa:setup-admin": "node scripts/twa-setup-admin.mjs",
     "twa:share-target:admin": "node scripts/twa-share-target.mjs twa-build/admin",
