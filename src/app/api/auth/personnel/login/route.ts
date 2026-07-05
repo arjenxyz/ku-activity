@@ -18,6 +18,7 @@ import {
   personnelCookieOptions,
   PERSONNEL_COOKIE,
 } from '@/lib/personnel-session';
+import { createPersonnelSession } from '@/lib/personnel-session-service';
 
 export async function POST(request: Request) {
   try {
@@ -133,12 +134,11 @@ export async function POST(request: Request) {
     const expiresAt = getSessionExpiry();
 
     const userAgent = request.headers.get('user-agent')?.slice(0, 500) ?? null;
-    const { error: sessionError } = await admin.from('personnel_sessions').insert({
-      employee_id: employee.id,
-      token_hash: hashToken(token),
-      expires_at: expiresAt.toISOString(),
-      user_agent: userAgent,
-      last_seen_at: new Date().toISOString(),
+    const { error: sessionError } = await createPersonnelSession(admin, {
+      employeeId: employee.id,
+      tokenHash: hashToken(token),
+      expiresAt: expiresAt.toISOString(),
+      userAgent,
     });
 
     if (sessionError) {

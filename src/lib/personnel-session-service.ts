@@ -13,6 +13,37 @@ function isMissingSessionColumn(message: string) {
   return message.includes('user_agent') || message.includes('last_seen_at');
 }
 
+export async function createPersonnelSession(
+  admin: SupabaseClient,
+  params: {
+    employeeId: string;
+    tokenHash: string;
+    expiresAt: string;
+    userAgent?: string | null;
+  }
+) {
+  const base = {
+    employee_id: params.employeeId,
+    token_hash: params.tokenHash,
+    expires_at: params.expiresAt,
+  };
+
+  const { error: fullError } = await admin.from('personnel_sessions').insert({
+    ...base,
+    user_agent: params.userAgent ?? null,
+    last_seen_at: new Date().toISOString(),
+  });
+
+  if (!fullError) return { error: null };
+
+  if (isMissingSessionColumn(fullError.message)) {
+    const { error: basicError } = await admin.from('personnel_sessions').insert(base);
+    return { error: basicError };
+  }
+
+  return { error: fullError };
+}
+
 export async function listActivePersonnelSessions(
   admin: SupabaseClient,
   employeeId: string
