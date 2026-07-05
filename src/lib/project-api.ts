@@ -255,6 +255,16 @@ export async function fetchPayroll(projectId: string, month?: string) {
   return res.json();
 }
 
+export async function finalizePayroll(projectId: string, month: string) {
+  const res = await fetch(`/api/admin/projects/${projectId}/payroll/finalize`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ month, action: 'finalize' }),
+  });
+  if (!res.ok) throw new Error(await parseError(res));
+  return res.json();
+}
+
 export type ProjectRecordType = 'work-logs' | 'deductions' | 'minimum-wages';
 
 export async function updateProjectRecord(

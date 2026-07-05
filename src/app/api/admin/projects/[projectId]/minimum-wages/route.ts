@@ -3,6 +3,8 @@ import { requireAdminProjectAccess } from '@/lib/admin-auth';
 import { createClient } from '@/utils/supabase/server';
 import { apiErrorMessage } from '@/lib/project-queries';
 import strings from '@json/src/app/api/admin/projects/[projectId]/minimum-wages/route.json';
+import { createAdminClient } from '@/utils/supabase/admin';
+import { notifyMinimumWagePaid } from '@/lib/personnel-notification-service';
 
 type Ctx = { params: Promise<{ projectId: string }> };
 
@@ -57,6 +59,17 @@ export async function POST(request: Request, ctx: Ctx) {
       .select('*')
       .single();
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+
+    const admin = createAdminClient();
+    void notifyMinimumWagePaid(admin, {
+      employeeId,
+      projectId,
+      amount: Number(amount),
+      date,
+    }).catch(() => {
+      /* */
+    });
+
     return NextResponse.json({ record: data }, { status: 201 });
   } catch (err) {
     const { status, message } = apiErrorMessage(err);

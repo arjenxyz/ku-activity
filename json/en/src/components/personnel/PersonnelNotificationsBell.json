@@ -1,0 +1,16 @@
+{
+  "bellAriaLabel": "Notifications",
+  "panelTitle": "Notifications",
+  "markAllRead": "Mark all read",
+  "empty": "No notifications yet",
+  "loading": "Loading…",
+  "loadFailed": "Could not load notifications",
+  "pushEnableTitle": "Push notifications",
+  "pushEnableBody": "Allow notifications for attendance reminders, advance updates, and salary alerts.",
+  "pushEnableButton": "Enable notifications",
+  "pushLater": "Later",
+  "timeJustNow": "Just now",
+  "timeMinutesAgo": "{count} min ago",
+  "timeHoursAgo": "{count} hr ago",
+  "timeDaysAgo": "{count} d ago"
+}

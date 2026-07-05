@@ -1,4 +1,4 @@
-const CACHE_NAME = 'crewledger-v10';
+const CACHE_NAME = 'crewledger-v11';
 
 /** Oturum / panel sayfaları asla önbellekten sunulmaz — her açılışta sunucu cookie kontrol eder */
 const NETWORK_ONLY_PREFIXES = [
@@ -60,5 +60,43 @@ self.addEventListener('fetch', (event) => {
         const cached = await caches.match(event.request);
         return cached || Response.error();
       })
+  );
+});
+
+self.addEventListener('push', (event) => {
+  let payload = { title: 'CrewLedger', body: 'Yeni bildiriminiz var', href: '/personnel-panel', notificationId: null };
+  try {
+    if (event.data) payload = { ...payload, ...event.data.json() };
+  } catch {
+    /* */
+  }
+
+  event.waitUntil(
+    self.registration.showNotification(payload.title, {
+      body: payload.body,
+      icon: '/icons/personnel/192',
+      badge: '/icons/personnel/192',
+      tag: payload.notificationId || 'crewledger-notification',
+      data: { href: payload.href || '/personnel-panel', notificationId: payload.notificationId },
+      vibrate: [120, 60, 120],
+    })
+  );
+});
+
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  const href = event.notification.data?.href || '/personnel-panel';
+  const url = new URL(href, self.location.origin).href;
+
+  event.waitUntil(
+    self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clients) => {
+      for (const client of clients) {
+        if ('focus' in client && client.url.startsWith(self.location.origin)) {
+          client.navigate(url);
+          return client.focus();
+        }
+      }
+      if (self.clients.openWindow) return self.clients.openWindow(url);
+    })
   );
 });

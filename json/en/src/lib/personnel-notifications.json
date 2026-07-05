@@ -1,0 +1,46 @@
+{
+  "attendanceReminder": {
+    "title": "Attendance reminder",
+    "body": "Today's attendance window is open. Don't forget to scan the QR code."
+  },
+  "attendanceSessionCancelled": {
+    "title": "Attendance session cancelled",
+    "body": "The attendance session for {workDate} was cancelled."
+  },
+  "attendanceRemovedFromList": {
+    "title": "Removed from attendance list",
+    "body": "Your attendance record for {workDate} was removed from the list."
+  },
+  "advanceApproved": {
+    "title": "Advance request approved",
+    "body": "Your {amount} TL advance request was approved. Bank transfer pending."
+  },
+  "advanceCashReady": {
+    "title": "Cash advance ready",
+    "body": "Your {amount} TL cash advance is ready. Scan the QR code to confirm receipt."
+  },
+  "advanceRejected": {
+    "title": "Advance request rejected",
+    "body": "{reason}"
+  },
+  "advanceRejectedNoReason": {
+    "title": "Advance request rejected",
+    "body": "Your request was rejected by the administrator."
+  },
+  "advancePaid": {
+    "title": "Advance payment recorded",
+    "body": "Your {amount} TL advance payment was recorded on your payroll."
+  },
+  "minimumWagePaid": {
+    "title": "Minimum wage payment recorded",
+    "body": "A {amount} TL minimum wage payment was recorded."
+  },
+  "salaryPaid": {
+    "title": "Salary payment completed",
+    "body": "Your net salary for {month} ({amount} TL) was marked as paid."
+  },
+  "migrationHint": "Run 059_personnel_notifications.sql migration",
+  "errors": {
+    "notFound": "Notification not found"
+  }
+}

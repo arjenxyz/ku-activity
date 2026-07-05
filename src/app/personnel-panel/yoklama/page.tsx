@@ -12,7 +12,7 @@ import {
   AttendanceScanErrorOverlay,
   AttendanceStatusSticker,
 } from '@/components/personnel/AttendanceStatusSticker';
-import { parseAttendanceTokenFromQr } from '@/lib/attendance-qr-service';
+import { parseAttendanceTokenFromQr } from '@/lib/parse-attendance-qr';
 import {
   fetchPersonnelAttendanceStatus,
   scanAttendanceQr,

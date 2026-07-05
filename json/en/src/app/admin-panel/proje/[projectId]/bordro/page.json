@@ -19,5 +19,10 @@
   "colDeduction": "Kesinti",
   "colMinimum": "Asgari",
   "colNet": "Net",
-  "emptyCell": "—"
+  "emptyCell": "—",
+  "finalizeButton": "Mark paid and notify staff",
+  "finalizing": "Finalizing…",
+  "successFinalized": "Payroll for {month} marked as paid; staff were notified.",
+  "finalizeFailed": "Could not finalize payroll",
+  "statusFinalized": "This period is marked as paid."
 }

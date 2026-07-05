@@ -3,6 +3,7 @@ import {
   ATTENDANCE_MESSAGE_CODES,
   type AttendanceMessageCode,
 } from '@/lib/i18n/attendance-messages';
+import { notifyAttendanceNotice } from '@/lib/personnel-notification-service';
 
 export type AttendanceNoticeType = 'removed_from_list' | 'session_cancelled';
 
@@ -25,6 +26,15 @@ export async function recordAttendanceNotice(
   if (error && !error.message.includes('attendance_employee_notices')) {
     throw new Error(error.message);
   }
+
+  void notifyAttendanceNotice(admin, {
+    employeeId: params.employeeId,
+    projectId: params.projectId,
+    workDate: params.workDate,
+    noticeType: params.noticeType,
+  }).catch(() => {
+    /* bildirim isteğe bağlı */
+  });
 }
 
 export async function clearAttendanceNotices(

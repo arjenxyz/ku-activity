@@ -1,0 +1,16 @@
+{
+  "bellAriaLabel": "Bildirimler",
+  "panelTitle": "Bildirimler",
+  "markAllRead": "Tümünü okundu işaretle",
+  "empty": "Henüz bildiriminiz yok",
+  "loading": "Yükleniyor…",
+  "loadFailed": "Bildirimler yüklenemedi",
+  "pushEnableTitle": "Anlık bildirimler",
+  "pushEnableBody": "Yoklama hatırlatması, avans onayı ve maaş bildirimleri için izin verin.",
+  "pushEnableButton": "Bildirimleri aç",
+  "pushLater": "Sonra",
+  "timeJustNow": "Az önce",
+  "timeMinutesAgo": "{count} dk önce",
+  "timeHoursAgo": "{count} sa önce",
+  "timeDaysAgo": "{count} gün önce"
+}

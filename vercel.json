@@ -1,8 +1,8 @@
 {
   "crons": [
     {
-      "path": "/api/cron/personnel-pending-reminders",
-      "schedule": "0 8 * * *"
+      "path": "/api/cron/personnel-notifications",
+      "schedule": "0 14,16,18,20 * * *"
     }
   ]
 }

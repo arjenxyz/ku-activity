@@ -10,7 +10,7 @@ import { ProjectPageHeader } from '@/components/project/ProjectPageHeader';
 import { RecordsTable } from '@/components/project/RecordsTable';
 import { AlertBanner } from '@/components/project/AlertBanner';
 import { btnPrimary, labelClass, inputClass, cardClass } from '@/components/project/ui';
-import { fetchPayroll, generatePayroll } from '@/lib/project-api';
+import { fetchPayroll, finalizePayroll, generatePayroll } from '@/lib/project-api';
 import { formatMoney } from '@/lib/format';
 
 type PayrollLine = {
@@ -32,6 +32,8 @@ export default function BordroPage() {
   const [lines, setLines] = useState<PayrollLine[]>([]);
   const [loading, setLoading] = useState(false);
   const [generating, setGenerating] = useState(false);
+  const [finalizing, setFinalizing] = useState(false);
+  const [periodStatus, setPeriodStatus] = useState<'draft' | 'finalized' | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
@@ -47,6 +49,7 @@ export default function BordroPage() {
           id: l.id ?? l.employee_id ?? `line-${i}`,
         }))
       );
+      setPeriodStatus((data.period?.status as 'draft' | 'finalized') ?? null);
     } catch (e) {
       setError(e instanceof Error ? e.message : strings.loadFailed);
       setLines([]);
@@ -80,6 +83,21 @@ export default function BordroPage() {
     }
   };
 
+  const handleFinalize = async () => {
+    setFinalizing(true);
+    setError(null);
+    setSuccess(null);
+    try {
+      await finalizePayroll(projectId, month);
+      setPeriodStatus('finalized');
+      setSuccess(formatString(strings.successFinalized, { month }));
+    } catch (e) {
+      setError(e instanceof Error ? e.message : strings.finalizeFailed);
+    } finally {
+      setFinalizing(false);
+    }
+  };
+
   const totals = lines.reduce(
     (acc, l) => ({
       gross: acc.gross + Number(l.gross_pay),
@@ -109,7 +127,21 @@ export default function BordroPage() {
         <button type="button" className={btnPrimary} onClick={handleGenerate} disabled={generating}>
           {generating ? strings.generating : strings.generateButton}
         </button>
+        {lines.length > 0 && periodStatus !== 'finalized' && (
+          <button
+            type="button"
+            className="inline-flex items-center justify-center rounded-xl border border-emerald-600 px-4 py-2.5 text-sm font-semibold text-emerald-700 hover:bg-emerald-50 disabled:opacity-50"
+            onClick={handleFinalize}
+            disabled={finalizing}
+          >
+            {finalizing ? strings.finalizing : strings.finalizeButton}
+          </button>
+        )}
       </div>
+
+      {periodStatus === 'finalized' && (
+        <p className="mb-4 text-sm font-medium text-emerald-700">{strings.statusFinalized}</p>
+      )}
 
       {lines.length > 0 && (
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">

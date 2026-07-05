@@ -19,5 +19,10 @@
   "colDeduction": "Kesinti",
   "colMinimum": "Asgari",
   "colNet": "Net",
-  "emptyCell": "—"
+  "emptyCell": "—",
+  "finalizeButton": "Ödemeyi tamamla ve bildir",
+  "finalizing": "Tamamlanıyor…",
+  "successFinalized": "{month} bordrosu ödendi olarak işaretlendi; personellere bildirim gönderildi.",
+  "finalizeFailed": "Bordro tamamlanamadı",
+  "statusFinalized": "Bu dönem ödendi olarak işaretlendi."
 }

@@ -9,6 +9,11 @@ import { uploadAdvanceDekont, type StorageBackend } from '@/lib/advance-external
 import type { AdvancePaymentMethod, AdvanceRequestStatus } from '@/lib/advance-types';
 import { formatString } from '@/lib/strings/format';
 import strings from '@json/src/lib/advance-request-service.json';
+import {
+  notifyAdvanceApproved,
+  notifyAdvancePaid,
+  notifyAdvanceRejected,
+} from '@/lib/personnel-notification-service';
 
 export class AdvanceRequestError extends Error {
   constructor(
@@ -191,6 +196,16 @@ export async function approveAdvanceRequest(
     if (tokenError) throw new AdvanceRequestError(tokenError.message, 'TOKEN', 500);
   }
 
+  void notifyAdvanceApproved(admin, {
+    employeeId: row.employee_id,
+    projectId: row.project_id,
+    requestId: params.requestId,
+    amount: params.approvedAmount,
+    paymentMethod: params.paymentMethod,
+  }).catch(() => {
+    /* */
+  });
+
   return data;
 }
 
@@ -226,6 +241,15 @@ export async function rejectAdvanceRequest(
     .update({ is_active: false })
     .eq('advance_request_id', params.requestId)
     .eq('is_active', true);
+
+  void notifyAdvanceRejected(admin, {
+    employeeId: row.employee_id,
+    projectId: row.project_id,
+    requestId: params.requestId,
+    reason: params.reason,
+  }).catch(() => {
+    /* */
+  });
 
   return data;
 }
@@ -306,6 +330,16 @@ export async function recordBankPayment(
     .single();
 
   if (error) throw new AdvanceRequestError(error.message, 'DB', 500);
+
+  void notifyAdvancePaid(admin, {
+    employeeId: row.employee_id,
+    projectId: row.project_id,
+    requestId: params.requestId,
+    amount,
+  }).catch(() => {
+    /* */
+  });
+
   return data;
 }
 
@@ -392,6 +426,16 @@ export async function confirmCashAdvance(
     .single();
 
   if (error) throw new AdvanceRequestError(error.message, 'DB', 500);
+
+  void notifyAdvancePaid(admin, {
+    employeeId: request.employee_id,
+    projectId: request.project_id,
+    requestId: request.id,
+    amount,
+  }).catch(() => {
+    /* */
+  });
+
   return data;
 }
 

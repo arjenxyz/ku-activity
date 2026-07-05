@@ -1,0 +1,46 @@
+{
+  "attendanceReminder": {
+    "title": "Yoklama hatırlatması",
+    "body": "Bugünkü yoklama penceresi açık. QR kodunuzu okutmayı unutmayın."
+  },
+  "attendanceSessionCancelled": {
+    "title": "Yoklama oturumu iptal edildi",
+    "body": "{workDate} tarihli yoklama oturumu iptal edildi."
+  },
+  "attendanceRemovedFromList": {
+    "title": "Yoklama listesinden çıkarıldınız",
+    "body": "{workDate} tarihli yoklama kaydınız listeden kaldırıldı."
+  },
+  "advanceApproved": {
+    "title": "Avans talebiniz onaylandı",
+    "body": "{amount} TL avans talebiniz onaylandı. Banka transferi bekleniyor."
+  },
+  "advanceCashReady": {
+    "title": "Nakit avansınız hazır",
+    "body": "{amount} TL nakit avansınızı teslim almak için QR kodu okutun."
+  },
+  "advanceRejected": {
+    "title": "Avans talebiniz reddedildi",
+    "body": "{reason}"
+  },
+  "advanceRejectedNoReason": {
+    "title": "Avans talebiniz reddedildi",
+    "body": "Talebiniz yönetici tarafından reddedildi."
+  },
+  "advancePaid": {
+    "title": "Avans ödemeniz kaydedildi",
+    "body": "{amount} TL avans ödemeniz bordronuza işlendi."
+  },
+  "minimumWagePaid": {
+    "title": "Asgari ödemesi kaydedildi",
+    "body": "{amount} TL asgari ücret ödemeniz kaydedildi."
+  },
+  "salaryPaid": {
+    "title": "Maaş ödemeniz tamamlandı",
+    "body": "{month} dönemi net maaşınız ({amount} TL) ödendi olarak işaretlendi."
+  },
+  "migrationHint": "059_personnel_notifications.sql migration çalıştırın",
+  "errors": {
+    "notFound": "Bildirim bulunamadı"
+  }
+}

@@ -3,6 +3,7 @@
 import { FiBriefcase } from 'react-icons/fi';
 import { BrandLockup } from '@/components/brand/BrandLockup';
 import { LanguageSwitch } from '@/components/i18n/LanguageSwitch';
+import { PersonnelNotificationsBell } from '@/components/personnel/PersonnelNotificationsBell';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { EmployeeAvatar } from '@/components/employee/EmployeeAvatar';
 import { formatString } from '@/lib/strings/format';
@@ -65,7 +66,10 @@ export function PersonnelOverviewHeader({ firstName, fullName, position, photoUr
               subtitleClassName="text-[11px] font-medium tracking-wide text-blue-100/90 uppercase"
             />
           </div>
-          <LanguageSwitch variant="compact" tone="onDark" className="shrink-0 mt-0.5" />
+          <div className="flex shrink-0 items-center gap-2 mt-0.5">
+            <LanguageSwitch variant="compact" tone="onDark" />
+            <PersonnelNotificationsBell tone="onDark" />
+          </div>
         </div>
 
         <div className="my-4 sm:my-5 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
