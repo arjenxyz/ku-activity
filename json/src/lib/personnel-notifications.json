@@ -39,6 +39,16 @@
     "title": "Maaş ödemeniz tamamlandı",
     "body": "{month} dönemi net maaşınız ({amount} TL) ödendi olarak işaretlendi."
   },
+  "deductionAdded": {
+    "title": "{typeLabel} kaydı",
+    "body": "{amount} TL {typeLabel} bordronuza işlendi.{descriptionSuffix}"
+  },
+  "deductionTypeLabels": {
+    "advance": "Avans",
+    "deduction": "Kesinti",
+    "subcontractor_cut": "Taşeron kesintisi",
+    "other": "Diğer"
+  },
   "migrationHint": "059_personnel_notifications.sql migration çalıştırın",
   "errors": {
     "notFound": "Bildirim bulunamadı"

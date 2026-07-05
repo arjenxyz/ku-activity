@@ -3,6 +3,8 @@ import { requireAdminProjectAccess } from '@/lib/admin-auth';
 import { createClient } from '@/utils/supabase/server';
 import { apiErrorMessage } from '@/lib/project-queries';
 import strings from '@json/src/app/api/admin/projects/[projectId]/deductions/route.json';
+import { createAdminClient } from '@/utils/supabase/admin';
+import { notifyDeductionRecorded } from '@/lib/personnel-notification-service';
 
 type Ctx = { params: Promise<{ projectId: string }> };
 
@@ -67,6 +69,20 @@ export async function POST(request: Request, ctx: Ctx) {
       .single();
 
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+
+    const admin = createAdminClient();
+    void notifyDeductionRecorded(admin, {
+      employeeId,
+      projectId,
+      deductionId: data.id as string,
+      type,
+      amount: Number(amount),
+      date,
+      description: description || null,
+    }).catch(() => {
+      /* */
+    });
+
     return NextResponse.json({ record: data }, { status: 201 });
   } catch (err) {
     const { status, message } = apiErrorMessage(err);

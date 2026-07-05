@@ -41,6 +41,8 @@ function iconForType(type: string) {
     case 'salary_paid':
     case 'minimum_wage_paid':
       return '💰';
+    case 'deduction_added':
+      return '📉';
     default:
       return '🔔';
   }

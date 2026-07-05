@@ -12,6 +12,7 @@ export type PersonnelNotificationType =
   | 'advance_paid'
   | 'minimum_wage_paid'
   | 'salary_paid'
+  | 'deduction_added'
   | 'general';
 
 export type PersonnelNotificationRow = {
@@ -298,5 +299,47 @@ export async function notifySalaryPaid(
     href: '/personnel-panel?tab=finance',
     dedupeKey: `salary_paid:${monthLabel}`,
     data: { periodMonth: monthLabel, amount: params.amount },
+  });
+}
+
+function deductionTypeLabel(type: string) {
+  const labels = strings.deductionTypeLabels as Record<string, string>;
+  return labels[type] ?? labels.deduction ?? 'Kesinti';
+}
+
+export async function notifyDeductionRecorded(
+  admin: SupabaseClient,
+  params: {
+    employeeId: string;
+    projectId: string;
+    deductionId: string;
+    type: string;
+    amount: number;
+    date: string;
+    description?: string | null;
+  }
+) {
+  const typeLabel = deductionTypeLabel(params.type);
+  const descriptionSuffix = params.description?.trim()
+    ? ` Açıklama: ${params.description.trim()}`
+    : '';
+
+  return notifyPersonnel(admin, {
+    employeeId: params.employeeId,
+    projectId: params.projectId,
+    type: 'deduction_added',
+    title: formatString(strings.deductionAdded.title, { typeLabel }),
+    body: formatString(strings.deductionAdded.body, {
+      amount: formatAmount(params.amount),
+      typeLabel: typeLabel.toLowerCase(),
+      descriptionSuffix,
+    }),
+    href: '/personnel-panel?tab=finance',
+    data: {
+      deductionId: params.deductionId,
+      type: params.type,
+      amount: params.amount,
+      date: params.date,
+    },
   });
 }

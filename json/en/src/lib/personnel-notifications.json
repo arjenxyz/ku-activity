@@ -39,6 +39,16 @@
     "title": "Salary payment completed",
     "body": "Your net salary for {month} ({amount} TL) was marked as paid."
   },
+  "deductionAdded": {
+    "title": "{typeLabel} recorded",
+    "body": "{amount} TL {typeLabel} was added to your payroll.{descriptionSuffix}"
+  },
+  "deductionTypeLabels": {
+    "advance": "Advance",
+    "deduction": "Deduction",
+    "subcontractor_cut": "Subcontractor cut",
+    "other": "Other"
+  },
   "migrationHint": "Run 059_personnel_notifications.sql migration",
   "errors": {
     "notFound": "Notification not found"
