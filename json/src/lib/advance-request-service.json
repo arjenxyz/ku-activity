@@ -17,5 +17,6 @@
   "tokenExpired": "Kodun süresi dolmuş",
   "tokenNotYours": "Bu kod size ait değil",
   "cashNotAwaiting": "Bu talep nakit onayı beklemiyor",
-  "cashQrAwaitingOnly": "Nakit QR yalnızca teslim bekleyen taleplerde oluşturulur"
+  "cashQrAwaitingOnly": "Nakit QR yalnızca teslim bekleyen taleplerde oluşturulur",
+  "openAdvanceBlocksNewRequest": "Ödemesi veya teslimi bekleyen açık avansınız varken yeni talep oluşturamazsınız."
 }

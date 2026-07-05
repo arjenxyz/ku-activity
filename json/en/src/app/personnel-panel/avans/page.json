@@ -9,6 +9,7 @@
   "pageSubtitle": "Onay sonrası ödeme ayrı adımda yapılır",
   "awaitingCashTitle": "Nakit avans teslimi bekleniyor",
   "awaitingCashSubtitle": "Parayı aldıysanız QR okutun veya kodu girin →",
+  "paymentPendingNotice": "Ödemesi veya teslimi bekleyen avansınız var. Yeni talep, mevcut avans ödenene kadar açılamaz.",
   "newRequestButton": "Yeni avans talebi",
   "amountLabel": "Tutar (TL)",
   "noteLabel": "Not (isteğe bağlı)",

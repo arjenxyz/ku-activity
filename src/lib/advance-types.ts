@@ -62,3 +62,8 @@ export function canRecordPayment(status: AdvanceRequestStatus) {
 export function canRejectAdvance(status: AdvanceRequestStatus) {
   return status === 'pending' || status === 'approved' || status === 'awaiting_receipt';
 }
+
+/** Ödeme veya nakit teslimi tamamlanmadan yeni talep açılamaz */
+export function hasAdvanceAwaitingPayment(status: AdvanceRequestStatus) {
+  return status === 'approved' || status === 'awaiting_receipt';
+}

@@ -12,6 +12,7 @@ import type { AdvancePaymentDetails } from '@/lib/advance-payment-details';
 import {
   ADVANCE_STATUS_LABELS,
   canCancelAdvance,
+  hasAdvanceAwaitingPayment,
   type AdvanceRequestStatus,
 } from '@/lib/advance-types';
 
@@ -104,6 +105,7 @@ export default function PersonnelAvansPage() {
   };
 
   const awaitingCash = requests.some((r) => r.status === 'awaiting_receipt');
+  const awaitingPayment = requests.some((r) => hasAdvanceAwaitingPayment(r.status));
 
   return (
     <div className="mx-auto max-w-lg px-4 py-4 pb-28">
@@ -141,7 +143,13 @@ export default function PersonnelAvansPage() {
         </Link>
       )}
 
-      {!showForm ? (
+      {awaitingPayment && !showForm && (
+        <div className="mb-4 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900 dark:border-amber-900/50 dark:bg-amber-950/30 dark:text-amber-200">
+          {strings.paymentPendingNotice}
+        </div>
+      )}
+
+      {!showForm && !awaitingPayment ? (
         <button
           type="button"
           onClick={() => setShowForm(true)}
@@ -149,7 +157,7 @@ export default function PersonnelAvansPage() {
         >
           <FiPlus /> {strings.newRequestButton}
         </button>
-      ) : (
+      ) : showForm && !awaitingPayment ? (
         <form onSubmit={submitRequest} className="mb-6 rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-800">
           <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">{strings.amountLabel}</label>
           <input
@@ -185,7 +193,7 @@ export default function PersonnelAvansPage() {
             </button>
           </div>
         </form>
-      )}
+      ) : null}
 
       {loading ? (
         <p className="py-12 text-center text-sm text-slate-500">{strings.loading}</p>

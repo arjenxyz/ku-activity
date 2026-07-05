@@ -82,6 +82,26 @@ async function insertDeduction(
   return data.id as string;
 }
 
+async function assertCanCreateAdvanceRequest(admin: SupabaseClient, employeeId: string) {
+  const { data, error } = await admin
+    .from('advance_requests')
+    .select('id, status')
+    .eq('employee_id', employeeId)
+    .in('status', ['approved', 'awaiting_receipt'])
+    .limit(1);
+
+  if (error) {
+    if (error.message.includes('advance_requests')) {
+      throw new AdvanceRequestError(strings.migrationHint, 'MIGRATION', 503);
+    }
+    throw new AdvanceRequestError(error.message, 'DB', 500);
+  }
+
+  if (data?.length) {
+    throw new AdvanceRequestError(strings.openAdvanceBlocksNewRequest, 'OPEN_ADVANCE', 409);
+  }
+}
+
 export async function createAdvanceRequest(
   admin: SupabaseClient,
   params: {
@@ -94,6 +114,8 @@ export async function createAdvanceRequest(
   if (!Number.isFinite(params.amount) || params.amount <= 0) {
     throw new AdvanceRequestError(strings.invalidAmount, 'INVALID_AMOUNT');
   }
+
+  await assertCanCreateAdvanceRequest(admin, params.employeeId);
 
   const { data, error } = await admin
     .from('advance_requests')
