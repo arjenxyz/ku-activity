@@ -13,12 +13,7 @@ import {
   NavIconWork,
 } from '@/components/personnel/PersonnelNavIcons';
 import { PersonnelNavHub } from '@/components/personnel/PersonnelNavHub';
-import {
-  PERSONNEL_DOCK_ACCENTS,
-  PERSONNEL_HUB_TABS,
-  PERSONNEL_NAV_TILE_ACCENTS,
-  type PersonnelMoreAccent,
-} from '@/config/personnel-mobile-nav';
+import { PERSONNEL_HUB_TABS } from '@/config/personnel-mobile-nav';
 import type { PersonnelTabId } from '@/hooks/usePersonnelTab';
 import { PERSONNEL_TABS } from '@/hooks/usePersonnelTab';
 
@@ -38,47 +33,44 @@ type DockItem = {
 function DockSideItem({
   item,
   active,
-  accentKey,
   onClick,
   href,
   hubOpen,
 }: {
   item: DockItem;
   active: boolean;
-  accentKey: PersonnelMoreAccent;
   onClick?: () => void;
   href?: string;
   hubOpen?: boolean;
 }) {
-  const accent = PERSONNEL_NAV_TILE_ACCENTS[accentKey];
   const { Icon } = item;
 
   const content = (
     <motion.span
-      className="flex flex-col items-center gap-1.5 py-1"
-      whileTap={{ scale: 0.94 }}
-      animate={active ? { y: -1 } : { y: 0 }}
-      transition={{ type: 'spring', stiffness: 420, damping: 28 }}
+      className="group flex flex-col items-center gap-1 py-0.5"
+      whileTap={{ scale: 0.92 }}
+      animate={active ? { y: -2 } : { y: 0 }}
+      transition={{ type: 'spring', stiffness: 460, damping: 30 }}
     >
-      <motion.span
-        layout
-        className={`relative flex h-10 w-10 items-center justify-center rounded-xl shadow-sm ${
-          active ? `${accent.icon} shadow-md ring-2 ring-white/80 dark:ring-slate-900/80` : accent.muted
+      <span
+        className={`relative flex h-11 w-11 items-center justify-center rounded-2xl transition-all duration-200 ${
+          active
+            ? 'bg-[#0E1548] text-white shadow-lg shadow-[#0E1548]/30'
+            : 'text-slate-400 group-active:text-slate-600'
         }`}
-        transition={{ type: 'spring', stiffness: 400, damping: 28 }}
       >
-        <Icon className="h-[1.15rem] w-[1.15rem]" />
+        <Icon className={`h-[1.2rem] w-[1.2rem] ${active ? 'text-white' : ''}`} />
         {active && (
           <motion.span
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 0.45, scale: 1 }}
-            className={`absolute -inset-0.5 -z-10 rounded-[0.85rem] blur-sm ${accent.icon.split(' ')[0]}`}
+            layoutId="personnel-dock-active-glow"
+            className="absolute -inset-1 -z-10 rounded-[1.1rem] bg-[#0E1548]/20 blur-md"
+            transition={{ type: 'spring', stiffness: 380, damping: 28 }}
           />
         )}
-      </motion.span>
+      </span>
       <span
-        className={`text-[10px] font-bold leading-none tracking-tight ${
-          active ? accent.label : 'text-slate-400 dark:text-slate-500'
+        className={`max-w-[4.5rem] truncate text-[10px] font-semibold leading-none tracking-tight ${
+          active ? 'text-[#0E1548] dark:text-blue-200' : 'text-slate-400 dark:text-slate-500'
         }`}
       >
         {item.label}
@@ -86,7 +78,8 @@ function DockSideItem({
     </motion.span>
   );
 
-  const className = 'relative flex flex-1 flex-col items-center justify-end min-h-[58px] touch-target';
+  const className =
+    'relative flex flex-1 flex-col items-center justify-end min-h-[56px] touch-target focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0E1548]/40 focus-visible:ring-offset-2 rounded-2xl';
 
   if (href) {
     return (
@@ -158,19 +151,22 @@ function NavInner() {
   return (
     <>
       <nav
-        className="fixed bottom-0 inset-x-0 z-50 sm:hidden pointer-events-none"
+        className="personnel-dock fixed bottom-0 inset-x-0 z-50 sm:hidden pointer-events-none"
         aria-label={strings.navAriaLabel}
       >
-        <div className="mx-auto max-w-lg px-3 pb-[max(0.5rem,env(safe-area-inset-bottom))] pointer-events-auto">
+        <div className="mx-auto max-w-lg px-3 pb-[max(0.45rem,env(safe-area-inset-bottom))] pointer-events-auto">
           <motion.div
-            initial={{ y: 24, opacity: 0 }}
+            initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ type: 'spring', stiffness: 380, damping: 28 }}
-            className="relative rounded-[1.75rem] border border-slate-200/80 bg-white/95 shadow-[0_8px_40px_rgba(15,23,42,0.12)] backdrop-blur-xl dark:border-slate-700/70 dark:bg-slate-900/95"
+            transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+            className="relative overflow-visible rounded-[1.65rem] border border-slate-200/70 bg-white/92 shadow-[0_12px_40px_rgba(14,21,72,0.14),0_2px_8px_rgba(15,23,42,0.06)] backdrop-blur-2xl dark:border-slate-700/60 dark:bg-slate-900/92"
           >
-            <div className="pointer-events-none absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-slate-300/60 to-transparent dark:via-slate-600/40" />
+            <div
+              className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-slate-300/50 to-transparent dark:via-slate-600/40"
+              aria-hidden
+            />
 
-            <div className="flex items-end justify-between px-2 pt-2.5 pb-2">
+            <div className="flex items-end justify-between px-1.5 pt-2 pb-1.5">
               {items.map((item) => {
                 const active = isActive(item.id);
 
@@ -179,39 +175,28 @@ function NavInner() {
                     <Link
                       key={item.id}
                       href={item.href!}
-                      className="relative flex flex-1 flex-col items-center -mt-7 touch-target"
+                      className="relative z-10 flex flex-1 flex-col items-center -mt-6 touch-target focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/50 focus-visible:ring-offset-2 rounded-2xl"
                       aria-current={active ? 'page' : undefined}
                     >
                       <motion.span
-                        whileTap={{ scale: 0.92 }}
-                        animate={
+                        whileTap={{ scale: 0.9 }}
+                        animate={active ? { y: -3, scale: 1.02 } : { y: 0, scale: 1 }}
+                        transition={{ type: 'spring', stiffness: 420, damping: 24 }}
+                        className={`relative flex h-[3.35rem] w-[3.35rem] items-center justify-center rounded-[1.15rem] text-white ring-[3px] ring-white dark:ring-slate-900 ${
                           active
-                            ? { scale: 1, y: -2 }
-                            : { scale: [1, 1.03, 1], y: 0 }
-                        }
-                        transition={
-                          active
-                            ? { type: 'spring', stiffness: 400, damping: 22 }
-                            : { duration: 2.8, repeat: Infinity, ease: 'easeInOut' }
-                        }
-                        className={`relative flex h-[3.25rem] w-[3.25rem] items-center justify-center rounded-[1.1rem] text-white shadow-lg ${
-                          active
-                            ? 'bg-gradient-to-br from-teal-500 to-emerald-600 ring-[3px] ring-emerald-100 dark:ring-emerald-900/60'
-                            : 'bg-gradient-to-br from-teal-400 to-emerald-500 shadow-teal-500/25'
+                            ? 'bg-gradient-to-br from-emerald-500 via-teal-500 to-emerald-600 shadow-[0_10px_28px_rgba(16,185,129,0.45)]'
+                            : 'bg-gradient-to-br from-emerald-400 to-teal-500 shadow-[0_8px_24px_rgba(20,184,166,0.35)]'
                         }`}
                       >
-                        {!active && (
-                          <motion.span
-                            className="absolute inset-0 rounded-[1.1rem] border-2 border-emerald-300/50"
-                            animate={{ scale: [1, 1.15, 1], opacity: [0.5, 0, 0.5] }}
-                            transition={{ duration: 2.2, repeat: Infinity, ease: 'easeOut' }}
-                          />
-                        )}
-                        <NavIconQr className="h-[1.35rem] w-[1.35rem]" />
+                        <span
+                          className="pointer-events-none absolute inset-0 rounded-[1.15rem] bg-gradient-to-t from-black/10 to-white/15"
+                          aria-hidden
+                        />
+                        <NavIconQr className="relative h-[1.3rem] w-[1.3rem]" />
                       </motion.span>
                       <span
-                        className={`mt-1.5 text-[10px] font-bold leading-none ${
-                          active ? 'text-teal-600 dark:text-teal-400' : 'text-slate-400 dark:text-slate-500'
+                        className={`mt-1.5 max-w-[4.5rem] truncate text-[10px] font-bold leading-none ${
+                          active ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-500 dark:text-slate-400'
                         }`}
                       >
                         {item.label}
@@ -220,14 +205,11 @@ function NavInner() {
                   );
                 }
 
-                const accentKey = PERSONNEL_DOCK_ACCENTS[item.id] ?? 'slate';
-
                 return (
                   <DockSideItem
                     key={item.id}
                     item={item}
                     active={active}
-                    accentKey={accentKey}
                     href={item.href}
                     onClick={item.onClick}
                     hubOpen={item.id === 'more' ? hubOpen : undefined}
