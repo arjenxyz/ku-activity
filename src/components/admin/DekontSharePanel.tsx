@@ -22,7 +22,7 @@ import { formatString } from '@/lib/strings/format';
 import { getRegistryStrings } from '@/lib/i18n/strings-registry';
 import { formatOcrIban } from '@/lib/advance-dekont-match';
 import type { DekontMatchSuggestion } from '@/lib/advance-dekont-match';
-import type { DekontOcrResult } from '@/lib/dekont-ocr';
+import type { DekontOcrResult } from '@/lib/dekont-ocr-shared';
 import { transferTypeLabel } from '@/lib/turkish-banks';
 import {
   MIN_MATCH_SCORE,
@@ -253,9 +253,11 @@ function ScanRejectedCard({ report }: { report: DekontScanReport }) {
       ? 'PDF'
       : report.ocrPreview?.source === 'vision'
         ? 'OCR (Vision)'
-        : report.ocrPreview?.source === 'none'
-          ? '—'
-          : (report.ocrPreview?.source ?? '—');
+        : report.ocrPreview?.source === 'tesseract'
+          ? 'OCR (Tesseract)'
+          : report.ocrPreview?.source === 'none'
+            ? '—'
+            : (report.ocrPreview?.source ?? '—');
 
   return (
     <div className="rounded-2xl border border-red-200 bg-white p-5 dark:border-red-900/40 dark:bg-slate-900">

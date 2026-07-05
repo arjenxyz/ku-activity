@@ -1,7 +1,7 @@
 import { formatOcrIban, type DekontMatchSuggestion } from '@/lib/advance-dekont-match';
-import type { DekontOcrResult } from '@/lib/dekont-ocr';
+import type { DekontOcrResult } from '@/lib/dekont-ocr-shared';
 import type { DekontScanReport } from '@/lib/dekont-scan-report';
-import { findBankKeywords } from '@/lib/dekont-ocr';
+import { findBankKeywords } from '@/lib/dekont-ocr-shared';
 import { validateTurkishIban } from '@/lib/field-encryption';
 import { formatString } from '@/lib/strings/format';
 import strings from '@json/src/lib/dekont-validation.json';

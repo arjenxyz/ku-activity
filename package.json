@@ -36,12 +36,14 @@
     "bcryptjs": "^3.0.2",
     "date-fns": "^4.1.0",
     "dayjs": "^1.11.13",
+    "dommatrix": "^0.1.1",
     "framer-motion": "^12.12.2",
     "html2canvas": "^1.4.1",
     "html5-qrcode": "^2.3.8",
     "jose": "^6.0.11",
     "jsonwebtoken": "^9.0.2",
     "jszip": "^3.10.1",
+    "mupdf": "^1.28.0",
     "next": "^15.1.11",
     "pdf-parse": "^2.4.5",
     "qrcode": "^1.5.4",
@@ -51,6 +53,7 @@
     "recharts": "^2.15.3",
     "redis": "^5.1.0",
     "server-only": "^0.0.1",
+    "tesseract.js": "^7.0.0",
     "web-push": "^3.6.7"
   },
   "devDependencies": {

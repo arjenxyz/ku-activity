@@ -1,48 +1,17 @@
+import 'server-only';
+
 import { parseIbanFromText, validateTurkishIban, normalizeIban } from '@/lib/field-encryption';
-import { getGoogleVisionToken } from '@/lib/google-service-account';
+import { findBankKeywords, type DekontOcrResult } from '@/lib/dekont-ocr-shared';
+import { getGoogleVisionToken, isGoogleServiceAccountConfigured } from '@/lib/google-service-account';
 import {
   bankNameFromIban,
   detectBankFromText,
   detectTransferType,
-  type TransferType,
 } from '@/lib/turkish-banks';
 import strings from '@json/src/lib/dekont-ocr.json';
 
-export type DekontOcrResult = {
-  rawText: string;
-  recipientIban: string | null;
-  senderIban: string | null;
-  allIbans: string[];
-  amount: number | null;
-  referenceNo: string | null;
-  paymentDate: string | null;
-  senderBank: string | null;
-  recipientBank: string | null;
-  transferType: TransferType | null;
-  confidence: 'high' | 'medium' | 'low';
-  source: 'pdf' | 'vision' | 'none';
-  bankKeywords?: string[];
-  isLikelyTransfer?: boolean;
-  ocrError?: string | null;
-};
-
-const BANK_KEYWORDS = [
-  'DEKONT', 'HAVALE', 'EFT', 'FAST', 'TRANSFER', 'İBAN', 'IBAN', 'TUTAR',
-  'GÖNDEREN', 'GONDEREN', 'ALICI', 'ALACAKLI', 'LEHTAR', 'İŞLEM', 'ISLEM',
-  'REFERANS', 'BANKA', 'GARANTİ', 'GARANTI', 'ZİRAAT', 'ZIRAAT', 'AKBANK',
-  'HALKBANK', 'HALK', 'HALK BANKASI', 'TÜRKİYE HALK', 'TURKIYE HALK',
-  'VAKIF', 'QNB', 'ENPARA', 'TRY', 'TL',
-];
-
-export function findBankKeywords(text: string): string[] {
-  const upper = text
-    .toLocaleUpperCase('tr-TR')
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '');
-  return BANK_KEYWORDS.filter((kw) =>
-    upper.includes(kw.normalize('NFD').replace(/[\u0300-\u036f]/g, ''))
-  );
-}
+export type { DekontOcrResult } from '@/lib/dekont-ocr-shared';
+export { findBankKeywords } from '@/lib/dekont-ocr-shared';
 
 function parseTurkishAmount(text: string): number | null {
   const patterns = [
@@ -276,6 +245,34 @@ async function extractPdfTextWithVision(buffer: Buffer): Promise<string> {
   return texts.join('\n\n');
 }
 
+type OcrProvider = 'auto' | 'tesseract' | 'vision';
+
+function getOcrProvider(): OcrProvider {
+  const value = process.env.DEKONT_OCR_PROVIDER?.trim().toLowerCase();
+  if (value === 'tesseract' || value === 'vision') return value;
+  return 'auto';
+}
+
+async function extractTextWithTesseract(buffer: Buffer, kind: 'pdf' | 'image'): Promise<string> {
+  const { ocrImagesWithTesseract, rasterizePdfPages } = await import('@/lib/dekont-ocr-tesseract');
+  const images =
+    kind === 'pdf' ? await rasterizePdfPages(buffer) : [buffer];
+  if (!images.length) {
+    throw new Error(strings.tesseractPdfEmpty);
+  }
+  const text = await ocrImagesWithTesseract(images);
+  if (!text.trim()) {
+    throw new Error(strings.tesseractFailed);
+  }
+  return text;
+}
+
+async function extractTextWithVision(buffer: Buffer, kind: 'pdf' | 'image'): Promise<string> {
+  return kind === 'pdf'
+    ? extractPdfTextWithVision(buffer)
+    : extractImageTextWithVision(buffer);
+}
+
 export async function analyzeDekont(params: {
   buffer: Buffer;
   mimeType: string;
@@ -285,24 +282,70 @@ export async function analyzeDekont(params: {
   let source: DekontOcrResult['source'] = 'none';
   let ocrError: string | null = null;
 
-  try {
-    if (kind === 'pdf') {
-      // pdf-parse (pdfjs) Vercel'de DOMMatrix ister — doğrudan Vision PDF OCR kullan
-      try {
-        rawText = await extractPdfTextWithVision(params.buffer);
-        source = 'vision';
-      } catch (err) {
-        ocrError = err instanceof Error ? err.message : strings.visionFailed;
-      }
-    } else if (kind === 'image') {
-      rawText = await extractImageTextWithVision(params.buffer);
+  const provider = getOcrProvider();
+  const visionAvailable = isGoogleServiceAccountConfigured();
+
+  if (kind === 'unknown') {
+    ocrError = strings.unsupportedFileType;
+  } else {
+    const runTesseract = async () => {
+      rawText = await extractTextWithTesseract(params.buffer, kind);
+      source = 'tesseract';
+      ocrError = null;
+    };
+
+    const runVision = async () => {
+      rawText = await extractTextWithVision(params.buffer, kind);
       source = 'vision';
-    } else {
-      ocrError = strings.unsupportedFileType;
+      ocrError = null;
+    };
+
+    try {
+      if (provider === 'tesseract') {
+        await runTesseract();
+      } else if (provider === 'vision') {
+        await runVision();
+      } else {
+        // auto: ücretsiz Tesseract önce, Vision yedek (yapılandırılmışsa)
+        let usedTesseract = false;
+        try {
+          await runTesseract();
+          usedTesseract = true;
+        } catch (tessErr) {
+          const tessMessage = tessErr instanceof Error ? tessErr.message : strings.tesseractFailed;
+          if (!visionAvailable) {
+            ocrError = tessMessage;
+          } else {
+            try {
+              await runVision();
+            } catch (visionErr) {
+              ocrError =
+                visionErr instanceof Error ? visionErr.message : strings.visionFailed;
+            }
+          }
+        }
+
+        if (
+          usedTesseract &&
+          rawText.trim().length < 40 &&
+          visionAvailable
+        ) {
+          try {
+            const visionText = await extractTextWithVision(params.buffer, kind);
+            if (visionText.trim().length > rawText.trim().length) {
+              rawText = visionText;
+              source = 'vision';
+              ocrError = null;
+            }
+          } catch {
+            // Tesseract sonucunu koru
+          }
+        }
+      }
+    } catch (err) {
+      ocrError = err instanceof Error ? err.message : strings.tesseractFailed;
+      if (provider === 'vision' && kind === 'image') throw err;
     }
-  } catch (err) {
-    ocrError = err instanceof Error ? err.message : strings.visionFailed;
-    if (kind === 'image') throw err;
   }
 
   const allIbans = extractIbans(rawText);

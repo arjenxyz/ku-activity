@@ -1,4 +1,4 @@
-import type { DekontOcrResult } from '@/lib/dekont-ocr';
+import type { DekontOcrResult } from '@/lib/dekont-ocr-shared';
 import {
   bankNameFromIban,
   detectBankFromText,

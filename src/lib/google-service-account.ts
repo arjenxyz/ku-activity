@@ -5,6 +5,10 @@ type ServiceAccount = {
   private_key: string;
 };
 
+export function isGoogleServiceAccountConfigured(): boolean {
+  return Boolean(process.env.GOOGLE_DRIVE_SERVICE_ACCOUNT_JSON?.trim());
+}
+
 export function parseGoogleServiceAccountJson() {
   const raw = process.env.GOOGLE_DRIVE_SERVICE_ACCOUNT_JSON?.trim();
   if (!raw) {

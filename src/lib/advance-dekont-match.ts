@@ -4,7 +4,7 @@ import {
   decryptField,
   normalizeIban,
 } from '@/lib/field-encryption';
-import type { DekontOcrResult } from '@/lib/dekont-ocr';
+import type { DekontOcrResult } from '@/lib/dekont-ocr-shared';
 import { formatString } from '@/lib/strings/format';
 import strings from '@json/src/lib/advance-dekont-match.json';
 

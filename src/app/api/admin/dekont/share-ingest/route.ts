@@ -5,6 +5,7 @@ import { encodeScanReport } from '@/lib/dekont-scan-report';
 import strings from '@json/src/app/api/admin/dekont/share-ingest/route.json';
 
 export const runtime = 'nodejs';
+export const maxDuration = 60;
 
 function pickSharedFile(form: FormData): File | null {
   for (const key of ['dekont', 'files', 'file']) {

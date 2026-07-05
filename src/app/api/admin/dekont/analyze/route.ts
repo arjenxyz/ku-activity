@@ -4,6 +4,7 @@ import { analyzeDekontOnly, DekontImportError } from '@/lib/dekont-import-servic
 import strings from '@json/src/app/api/admin/dekont/analyze/route.json';
 
 export const runtime = 'nodejs';
+export const maxDuration = 60;
 
 export async function POST(request: Request) {
   try {
