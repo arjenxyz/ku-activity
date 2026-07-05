@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { createAdminClient } from '@/utils/supabase/admin';
 import { requirePersonnelSession } from '@/lib/personnel-auth';
 import { notifyPersonnel } from '@/lib/personnel-notification-service';
-import { dispatchPersonnelPush, isVapidEnabled } from '@/lib/personnel-push-service';
+import { dispatchPersonnelPush, getVapidDiagnostics, isVapidEnabled } from '@/lib/personnel-push-service';
 
 async function runPushTest() {
   const session = await requirePersonnelSession();
@@ -25,7 +25,8 @@ async function runPushTest() {
     );
   }
 
-  const pushResult = isVapidEnabled()
+  const vapidDiagnostics = getVapidDiagnostics();
+  const pushResult = vapidDiagnostics.keyPairValid
     ? await dispatchPersonnelPush(admin, {
         employeeId: session.employeeId,
         notificationId: row.id,
@@ -33,7 +34,17 @@ async function runPushTest() {
         body: row.body,
         href: row.href ?? '/personnel-panel',
       })
-    : { sent: 0, skipped: true };
+    : {
+        sent: 0,
+        skipped: true,
+        keyPairValid: false,
+        errors: [
+          {
+            message:
+              'VAPID public/private key uyumsuz — Vercel env’de aynı generate-vapid-keys çiftini kullanın',
+          },
+        ],
+      };
 
   const { data: updated } = await admin
     .from('personnel_notifications')
@@ -47,6 +58,7 @@ async function runPushTest() {
     pushSentAt: updated?.push_sent_at ?? null,
     push: pushResult,
     vapidEnabled: isVapidEnabled(),
+    vapidDiagnostics,
     hint: (() => {
       if (pushResult.sent > 0) {
         return 'Telefonda bildirim gelmeli. push_sent_at doluysa sunucu tarafı çalışıyor.';
