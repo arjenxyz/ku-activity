@@ -5,7 +5,6 @@ import { Suspense } from 'react';
 import { PersonnelNotificationsProvider } from '@/contexts/PersonnelNotificationsContext';
 import { PersonnelAppBottomNav } from '@/components/personnel/PersonnelAppBottomNav';
 import { PersonnelMobileHeader } from '@/components/personnel/PersonnelMobileHeader';
-import { PersonnelClosureBrandBar } from '@/components/personnel/PersonnelClosureBrandBar';
 import { PersonnelClosureGate } from '@/components/personnel/PersonnelClosureGate';
 import { usePersonnelClosure } from '@/hooks/usePersonnelClosure';
 import type { PersonnelTabId } from '@/hooks/usePersonnelTab';
@@ -28,11 +27,11 @@ function ChromeBody({ children }: { children: React.ReactNode }) {
 
   return (
     <>
-      {inClosure ? <PersonnelClosureBrandBar /> : <PersonnelMobileHeader />}
+      {!inClosure ? <PersonnelMobileHeader /> : null}
       <div
         className={
           inClosure
-            ? 'pt-[calc(3.25rem+env(safe-area-inset-top))] sm:pt-2 sm:pb-0'
+            ? 'pb-0'
             : hideBottomNav
               ? 'sm:pt-0 sm:pb-0'
               : `pb-[calc(5.25rem+env(safe-area-inset-bottom))] sm:pt-0 sm:pb-0 ${

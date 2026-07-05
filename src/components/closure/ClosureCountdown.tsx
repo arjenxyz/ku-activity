@@ -10,6 +10,7 @@ type Props = {
   phase?: ClosurePhase | string | null;
   size?: 'sm' | 'md' | 'lg';
   variant?: 'default' | 'premium';
+  showTitle?: boolean;
   className?: string;
 };
 
@@ -61,6 +62,7 @@ export function ClosureCountdown({
   phase,
   size = 'md',
   variant = 'premium',
+  showTitle = true,
   className = '',
 }: Props) {
   const strings = useRegistryStrings('components/closure/ClosureCountdown');
@@ -116,15 +118,17 @@ export function ClosureCountdown({
         </div>
       )}
 
-      <p
-        className={
-          premium
-            ? 'text-sm font-semibold text-slate-600 dark:text-slate-300 text-center mb-4 tracking-wide'
-            : 'text-xs font-semibold text-slate-600 dark:text-slate-400 text-center mb-3'
-        }
-      >
-        {strings.title}
-      </p>
+      {showTitle ? (
+        <p
+          className={
+            premium
+              ? 'text-sm font-semibold text-slate-600 dark:text-slate-300 text-center mb-4 tracking-wide'
+              : 'text-xs font-semibold text-slate-600 dark:text-slate-400 text-center mb-3'
+          }
+        >
+          {strings.title}
+        </p>
+      ) : null}
 
       <div className="flex items-center justify-center gap-1.5 sm:gap-2">
         {segments.map((seg, i) => (

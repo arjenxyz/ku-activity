@@ -20,12 +20,14 @@ type Props = {
   variant?: 'card' | 'closure';
   showDailyLimit?: boolean;
   showCountdown?: boolean;
+  embedded?: boolean;
 };
 
 export function PersonnelClosureDossierPanel({
   variant = 'card',
   showDailyLimit = true,
   showCountdown = true,
+  embedded = false,
 }: Props) {
   const strings = useRegistryStrings('components/personnel/PersonnelClosureDossierPanel');
   const [sections, setSections] = useState<DossierSection[]>([]);
@@ -161,34 +163,43 @@ export function PersonnelClosureDossierPanel({
 
   const consentBlock =
     inClosure && !hasConsent ? (
-      <div className="mt-5 rounded-2xl border border-amber-200/80 dark:border-amber-800/50 bg-amber-50/80 dark:bg-amber-950/20 p-4">
-        <p className="text-sm text-slate-700 dark:text-slate-200 leading-relaxed whitespace-pre-line">
+      <div className="space-y-4">
+        <p className="text-xs leading-relaxed text-slate-600 dark:text-slate-400 max-h-28 overflow-y-auto">
           {strings.consentText}
         </p>
         <button
           type="button"
           onClick={() => void handleConsent()}
           disabled={consentLoading}
-          className="mt-4 w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-amber-600 hover:bg-amber-700 text-white text-sm font-semibold shadow-md shadow-amber-600/20 disabled:opacity-50 transition-colors"
+          className="w-full inline-flex items-center justify-center gap-2 rounded-2xl bg-amber-600 px-5 py-3.5 text-sm font-semibold text-white shadow-md shadow-amber-600/20 transition-colors hover:bg-amber-700 disabled:opacity-50"
         >
           {consentLoading ? strings.preparing : strings.consentCta}
         </button>
       </div>
     ) : null;
 
-  const deadlineNote =
-    inClosure && closureStatus?.deadlineAt && showCountdown ? (
-      <div className="mt-5">
-        <ClosureCountdown
-          deadlineAt={closureStatus.deadlineAt}
-          phase={closureStatus.phase}
-          size="md"
-          variant="premium"
-        />
-      </div>
-    ) : null;
-
-  const checklist = (
+  const checklist = embedded ? (
+    <div className="mb-4">
+      {sectionsLoading ? (
+        <div className="flex items-center gap-2 text-xs text-slate-400">
+          <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-slate-300 border-t-transparent" />
+          {strings.checklistLoading}
+        </div>
+      ) : (
+        <div className="flex flex-wrap gap-1.5 max-h-24 overflow-y-auto">
+          {sections.map((section) => (
+            <span
+              key={section.id}
+              className="inline-flex items-center gap-1 rounded-lg bg-slate-100 px-2 py-1 text-[11px] font-medium text-slate-600 dark:bg-slate-800 dark:text-slate-300"
+            >
+              <FiCheck className="h-3 w-3 shrink-0 text-emerald-600" aria-hidden />
+              {section.title}
+            </span>
+          ))}
+        </div>
+      )}
+    </div>
+  ) : (
     <div className="mt-5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-700/60 p-4">
       <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
         {strings.checklistTitle}
@@ -216,6 +227,18 @@ export function PersonnelClosureDossierPanel({
     </div>
   );
 
+  const deadlineNote =
+    inClosure && closureStatus?.deadlineAt && showCountdown ? (
+      <div className="mt-5">
+        <ClosureCountdown
+          deadlineAt={closureStatus.deadlineAt}
+          phase={closureStatus.phase}
+          size="md"
+          variant="premium"
+        />
+      </div>
+    ) : null;
+
   const downloadButton = (
     <button
       type="button"
@@ -223,70 +246,62 @@ export function PersonnelClosureDossierPanel({
       disabled={loading || !canDownload}
       className={
         effectiveVariant === 'closure'
-          ? 'w-full inline-flex items-center justify-center gap-2.5 px-5 py-3.5 rounded-2xl bg-[#0E1548] hover:bg-[#152060] text-white text-sm font-semibold shadow-lg shadow-[#0E1548]/20 disabled:opacity-50 transition-colors active:scale-[0.99]'
-          : 'mt-3 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold disabled:opacity-50'
+          ? 'w-full inline-flex items-center justify-center gap-2.5 rounded-2xl bg-[#0E1548] px-5 py-3.5 text-sm font-semibold text-white shadow-lg shadow-[#0E1548]/20 transition-colors hover:bg-[#152060] disabled:opacity-50 active:scale-[0.99]'
+          : 'mt-3 inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 disabled:opacity-50'
       }
     >
       {loading ? (
         <>
-          <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+          <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
           {strings.preparing}
         </>
       ) : (
         <>
-          <FiDownload className="w-4 h-4" strokeWidth={2.5} />
-          {strings.downloadCta}
+          <FiDownload className="h-4 w-4" strokeWidth={2.5} />
+          {embedded ? strings.closureDownloadCta : strings.downloadCta}
         </>
       )}
     </button>
   );
 
+  const closureBody = (
+    <>
+      {deadlineNote}
+      {consentBlock}
+      {hasConsent ? checklist : null}
+      {showDailyLimit && hasConsent && !embedded && (
+        <p className="mt-3 text-center text-xs text-slate-400 dark:text-slate-500">
+          {formatString(strings.dailyLimit, { limit: PERSONNEL_SELF_EXPORT_DAILY_LIMIT })}
+        </p>
+      )}
+      {hasConsent ? (
+        <div className={embedded ? 'mt-auto space-y-2.5 pt-4' : 'mt-4 space-y-2.5'}>
+          {downloadButton}
+          {ackButton}
+        </div>
+      ) : null}
+      {hasAcknowledged ? (
+        <div className="mt-3 flex items-center justify-center gap-2 rounded-xl border border-emerald-200/60 bg-emerald-50 px-3 py-2.5 dark:border-emerald-800/40 dark:bg-emerald-950/30">
+          <FiCheck className="h-4 w-4 text-emerald-600" />
+          <p className="text-xs font-medium text-emerald-700 dark:text-emerald-400">{strings.ackDone}</p>
+        </div>
+      ) : null}
+      {error && (
+        <p className="mt-3 rounded-xl bg-red-50 px-3 py-2 text-center text-xs text-red-600 dark:bg-red-950/30 dark:text-red-400">
+          {error}
+        </p>
+      )}
+    </>
+  );
+
+  if (effectiveVariant === 'closure' && embedded) {
+    return <div className="flex min-h-0 flex-1 flex-col">{closureBody}</div>;
+  }
+
   if (effectiveVariant === 'closure') {
     return (
-      <div className="rounded-3xl border border-slate-200/80 dark:border-slate-700/80 bg-white dark:bg-slate-900 p-5 sm:p-6 shadow-[0_12px_40px_rgba(14,21,72,0.08)]">
-        <div className="flex items-start gap-3.5">
-          <div className="shrink-0 w-11 h-11 rounded-2xl bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400 flex items-center justify-center">
-            <FiDownload className="w-5 h-5" strokeWidth={2} />
-          </div>
-          <div className="min-w-0 flex-1">
-            <p className="text-base font-bold text-slate-900 dark:text-white tracking-tight">
-              {strings.closureTitle}
-            </p>
-            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
-              {strings.closureDescription}
-            </p>
-          </div>
-        </div>
-
-        {deadlineNote}
-        {consentBlock}
-        {hasConsent ? checklist : null}
-
-        {showDailyLimit && hasConsent && (
-          <p className="mt-3 text-xs text-slate-400 dark:text-slate-500 text-center">
-            {formatString(strings.dailyLimit, { limit: PERSONNEL_SELF_EXPORT_DAILY_LIMIT })}
-          </p>
-        )}
-
-        {hasConsent ? (
-          <div className="mt-4 space-y-2.5">
-            {downloadButton}
-            {ackButton}
-          </div>
-        ) : null}
-
-        {hasAcknowledged ? (
-          <div className="mt-4 flex items-center justify-center gap-2 rounded-xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200/60 dark:border-emerald-800/40 px-4 py-3">
-            <FiCheck className="w-4 h-4 text-emerald-600" />
-            <p className="text-xs font-medium text-emerald-700 dark:text-emerald-400">{strings.ackDone}</p>
-          </div>
-        ) : null}
-
-        {error && (
-          <p className="mt-3 text-xs text-red-600 dark:text-red-400 text-center bg-red-50 dark:bg-red-950/30 rounded-xl py-2 px-3">
-            {error}
-          </p>
-        )}
+      <div className="rounded-3xl border border-slate-200/80 bg-white p-5 shadow-[0_12px_40px_rgba(14,21,72,0.08)] dark:border-slate-700/80 dark:bg-slate-900 sm:p-6">
+        {closureBody}
       </div>
     );
   }
