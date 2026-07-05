@@ -6,6 +6,18 @@ export function isProjectInClosure(phase: string | null | undefined): boolean {
   return ACTIVE_CLOSURE_PHASES.has((phase ?? 'none') as ClosurePhase);
 }
 
+/** Liste/API'de closure_phase eksik gelse bile kapanış kartını göster */
+export function shouldShowProjectClosureCard(project: {
+  closure_phase?: string | null;
+  closure_started_at?: string | null;
+  closure_deadline_at?: string | null;
+}): boolean {
+  if (isProjectInClosure(project.closure_phase)) return true;
+  const phase = (project.closure_phase ?? 'none') as ClosurePhase;
+  if (phase === 'purged') return false;
+  return Boolean(project.closure_started_at && project.closure_deadline_at);
+}
+
 export type ClosureCountdownParts = {
   totalMs: number;
   days: number;

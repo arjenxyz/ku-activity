@@ -13,10 +13,11 @@ export function ProjectClosureListCard({ project }: Props) {
   const strings = useRegistryStrings('app/admin-panel/proje/ProjectList');
 
   return (
-    <article className="bg-gradient-to-b from-amber-50 to-white dark:from-amber-950/30 dark:to-slate-900 border border-amber-200/80 dark:border-amber-900/50 rounded-2xl p-5 shadow-sm flex flex-col items-center text-center gap-4">
-      <div className="w-full min-w-0">
+    <article className="bg-gradient-to-b from-amber-50 to-white dark:from-amber-950/30 dark:to-slate-900 border border-amber-200/80 dark:border-amber-900/50 rounded-2xl p-5 shadow-sm flex flex-col gap-4">
+      <div className="w-full min-w-0 text-center">
         <h3 className="font-semibold text-slate-900 dark:text-white truncate">{project.name}</h3>
-        <p className="text-xs text-amber-700 dark:text-amber-300 mt-1">{strings.closureBadge}</p>
+        {project.code && <p className="text-xs text-slate-500 mt-0.5">#{project.code}</p>}
+        <p className="text-xs font-medium text-amber-700 dark:text-amber-300 mt-1">{strings.closureBadge}</p>
       </div>
 
       <ClosureCountdown

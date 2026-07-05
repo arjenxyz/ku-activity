@@ -13,7 +13,7 @@ import { useRouter } from 'next/navigation';
 import { formatString } from '@/lib/strings/format';
 import type { Project, ProjectStatus } from '@/types/project';
 import { PROJECT_STATUS_LABELS } from '@/types/project';
-import { isProjectInClosure } from '@/lib/closure-phase';
+import { shouldShowProjectClosureCard } from '@/lib/closure-phase';
 import { ProjectClosureListCard } from '@/components/admin/ProjectClosureListCard';
 
 const statusStyles: Record<ProjectStatus, string> = {
@@ -65,7 +65,7 @@ export default function ProjectList({
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
       {projects.map((project) => {
-        if (isProjectInClosure(project.closure_phase)) {
+        if (shouldShowProjectClosureCard(project)) {
           return <ProjectClosureListCard key={project.id} project={project} />;
         }
 
