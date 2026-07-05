@@ -436,6 +436,8 @@ import m_components_personnel_PersonnelMyDossierDownload_tr from '@json/src/comp
 import m_components_personnel_PersonnelMyDossierDownload_en from '@json/en/src/components/personnel/PersonnelMyDossierDownload.json';
 import m_components_personnel_PersonnelClosureDossierPanel_tr from '@json/src/components/personnel/PersonnelClosureDossierPanel.json';
 import m_components_personnel_PersonnelClosureDossierPanel_en from '@json/en/src/components/personnel/PersonnelClosureDossierPanel.json';
+import m_components_personnel_PersonnelClosureScreen_tr from '@json/src/components/personnel/PersonnelClosureScreen.json';
+import m_components_personnel_PersonnelClosureScreen_en from '@json/en/src/components/personnel/PersonnelClosureScreen.json';
 import m_components_personnel_PersonnelNavHub_tr from '@json/src/components/personnel/PersonnelNavHub.json';
 import m_components_personnel_PersonnelNavHub_en from '@json/en/src/components/personnel/PersonnelNavHub.json';
 import m_components_personnel_PersonnelNetHero_tr from '@json/src/components/personnel/PersonnelNetHero.json';
@@ -854,6 +856,7 @@ export const STRINGS_REGISTRY = {
   'components/personnel/PersonnelMonthFilter': { tr: m_components_personnel_PersonnelMonthFilter_tr, en: m_components_personnel_PersonnelMonthFilter_en },
   'components/personnel/PersonnelMyDossierDownload': { tr: m_components_personnel_PersonnelMyDossierDownload_tr, en: m_components_personnel_PersonnelMyDossierDownload_en },
   'components/personnel/PersonnelClosureDossierPanel': { tr: m_components_personnel_PersonnelClosureDossierPanel_tr, en: m_components_personnel_PersonnelClosureDossierPanel_en },
+  'components/personnel/PersonnelClosureScreen': { tr: m_components_personnel_PersonnelClosureScreen_tr, en: m_components_personnel_PersonnelClosureScreen_en },
   'components/personnel/PersonnelNavHub': { tr: m_components_personnel_PersonnelNavHub_tr, en: m_components_personnel_PersonnelNavHub_en },
   'components/personnel/PersonnelNetHero': { tr: m_components_personnel_PersonnelNetHero_tr, en: m_components_personnel_PersonnelNetHero_en },
   'components/personnel/PersonnelOverviewHeader': { tr: m_components_personnel_PersonnelOverviewHeader_tr, en: m_components_personnel_PersonnelOverviewHeader_en },

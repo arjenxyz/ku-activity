@@ -3,9 +3,11 @@
 import { usePathname, useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
 import { PersonnelNotificationsProvider } from '@/contexts/PersonnelNotificationsContext';
+import { PersonnelClosureProvider } from '@/contexts/PersonnelClosureContext';
 import { PersonnelAppBottomNav } from '@/components/personnel/PersonnelAppBottomNav';
 import { PersonnelMobileHeader } from '@/components/personnel/PersonnelMobileHeader';
 import { PersonnelClosureGate } from '@/components/personnel/PersonnelClosureGate';
+import { PersonnelClosureLoading } from '@/components/personnel/PersonnelClosureLoading';
 import { usePersonnelClosure } from '@/hooks/usePersonnelClosure';
 import type { PersonnelTabId } from '@/hooks/usePersonnelTab';
 import { PERSONNEL_TABS } from '@/hooks/usePersonnelTab';
@@ -22,15 +24,16 @@ function ChromeBody({ children }: { children: React.ReactNode }) {
   const isOverview = pathname === '/personnel-panel' && tab === 'overview';
   const isYoklama = pathname.startsWith('/personnel-panel/yoklama');
   const isAvansOnay = pathname.startsWith('/personnel-panel/avans-onay');
-  const { inClosure } = usePersonnelClosure();
-  const hideBottomNav = isYoklama || isAvansOnay || inClosure;
+  const { inClosure, loading: closureLoading } = usePersonnelClosure();
+  const closureLocked = closureLoading || inClosure;
+  const hideBottomNav = isYoklama || isAvansOnay || closureLocked;
 
   return (
     <>
-      {!inClosure ? <PersonnelMobileHeader /> : null}
+      {!closureLocked ? <PersonnelMobileHeader /> : null}
       <div
         className={
-          inClosure
+          closureLocked
             ? 'pb-0'
             : hideBottomNav
               ? 'sm:pt-0 sm:pb-0'
@@ -66,11 +69,13 @@ export function PersonnelPanelChrome({ children }: { children: React.ReactNode }
 
   return (
     <PersonnelNotificationsProvider>
-      <div className="min-h-[100dvh] bg-slate-50 dark:bg-slate-950 sm:bg-transparent">
-        <Suspense fallback={<div className="min-h-[100dvh]">{children}</div>}>
-          <ChromeBody>{children}</ChromeBody>
-        </Suspense>
-      </div>
+      <PersonnelClosureProvider>
+        <div className="min-h-[100dvh] bg-slate-50 dark:bg-slate-950 sm:bg-transparent">
+          <Suspense fallback={<PersonnelClosureLoading />}>
+            <ChromeBody>{children}</ChromeBody>
+          </Suspense>
+        </div>
+      </PersonnelClosureProvider>
     </PersonnelNotificationsProvider>
   );
 }
