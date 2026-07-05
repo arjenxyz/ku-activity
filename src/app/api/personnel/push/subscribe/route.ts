@@ -28,6 +28,13 @@ export async function POST(request: Request) {
       userAgent: request.headers.get('user-agent') ?? undefined,
     });
 
+    // Eski FCM endpoint'leri (yeniden kurulum / VAPID rotasyonu) — gönderimde 410 ile de silinir
+    await admin
+      .from('personnel_push_subscriptions')
+      .delete()
+      .eq('employee_id', session.employeeId)
+      .neq('endpoint', endpoint);
+
     return NextResponse.json({ ok: true });
   } catch (e) {
     const message = e instanceof Error ? e.message : 'Abonelik kaydedilemedi';

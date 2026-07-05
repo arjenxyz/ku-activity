@@ -30,21 +30,28 @@ export function PersonnelPushBootstrap() {
       if (wasPushBootstrapAttempted()) return;
 
       window.setTimeout(() => {
-        markPushBootstrapAttempted();
-
         void (async () => {
           const current = getNotificationPermission();
           if (current === 'granted') {
-            markNotificationsUnlocked();
-            await subscribePersonnelPush({ skipPermissionRequest: true });
+            const ok = await subscribePersonnelPush({ skipPermissionRequest: true });
+            if (ok) {
+              markNotificationsUnlocked();
+              markPushBootstrapAttempted();
+            }
             return;
           }
-          if (current === 'denied' || current === 'unsupported') return;
+          if (current === 'denied' || current === 'unsupported') {
+            markPushBootstrapAttempted();
+            return;
+          }
 
           const permission = await requestNotificationPermission();
           if (permission === 'granted') {
-            markNotificationsUnlocked();
-            await subscribePersonnelPush({ skipPermissionRequest: true });
+            const ok = await subscribePersonnelPush({ skipPermissionRequest: true });
+            if (ok) markNotificationsUnlocked();
+          }
+          if (permission !== 'default') {
+            markPushBootstrapAttempted();
           }
         })();
       }, PERMISSION_DELAY_MS);
