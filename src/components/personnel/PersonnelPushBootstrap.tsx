@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import { whenPersonnelUiReady } from '@/lib/personnel-app-ready';
 import { isPersonnelTwaRuntime } from '@/lib/personnel-app-runtime';
 import {
   markNotificationsUnlocked,
@@ -13,9 +14,11 @@ import {
   subscribePersonnelPush,
 } from '@/lib/personnel-push-client';
 
+const PERMISSION_DELAY_MS = 600;
+
 /**
- * APK/TWA: oturum açıldıktan sonra bir kez sistem bildirim izni iste.
- * Chrome sekmesinde otomatik istemez — zile tıklanınca sorulur.
+ * APK/TWA: intro / boot overlay bittikten sonra bir kez sistem bildirim izni iste.
+ * Erken istek splash geçişinde diyaloğun kaybolmasına yol açar.
  */
 export function PersonnelPushBootstrap() {
   useEffect(() => {
@@ -23,27 +26,40 @@ export function PersonnelPushBootstrap() {
     if (!isPersonnelTwaRuntime()) return;
     if (wasPushBootstrapAttempted()) return;
 
-    const timer = window.setTimeout(() => {
-      markPushBootstrapAttempted();
+    const requestPushAccess = () => {
+      if (wasPushBootstrapAttempted()) return;
 
-      void (async () => {
-        const current = getNotificationPermission();
-        if (current === 'granted') {
-          markNotificationsUnlocked();
-          await subscribePersonnelPush({ skipPermissionRequest: true });
-          return;
-        }
-        if (current === 'denied' || current === 'unsupported') return;
+      window.setTimeout(() => {
+        markPushBootstrapAttempted();
 
-        const permission = await requestNotificationPermission();
-        if (permission === 'granted') {
-          markNotificationsUnlocked();
-          await subscribePersonnelPush({ skipPermissionRequest: true });
-        }
-      })();
-    }, 900);
+        void (async () => {
+          const current = getNotificationPermission();
+          if (current === 'granted') {
+            markNotificationsUnlocked();
+            await subscribePersonnelPush({ skipPermissionRequest: true });
+            return;
+          }
+          if (current === 'denied' || current === 'unsupported') return;
 
-    return () => window.clearTimeout(timer);
+          const permission = await requestNotificationPermission();
+          if (permission === 'granted') {
+            markNotificationsUnlocked();
+            await subscribePersonnelPush({ skipPermissionRequest: true });
+          }
+        })();
+      }, PERMISSION_DELAY_MS);
+    };
+
+    const cleanup = whenPersonnelUiReady(requestPushAccess);
+
+    const fallback = window.setTimeout(() => {
+      if (!wasPushBootstrapAttempted()) requestPushAccess();
+    }, 12000);
+
+    return () => {
+      cleanup();
+      window.clearTimeout(fallback);
+    };
   }, []);
 
   return null;

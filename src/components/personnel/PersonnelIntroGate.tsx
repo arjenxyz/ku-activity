@@ -3,6 +3,8 @@
 import { usePathname } from 'next/navigation';
 import { useLayoutEffect, useState } from 'react';
 import { PersonnelAppIntro } from '@/components/personnel/PersonnelAppIntro';
+import { PersonnelPushBootstrap } from '@/components/personnel/PersonnelPushBootstrap';
+import { markPersonnelUiReady } from '@/lib/personnel-app-ready';
 import { hasSeenPersonnelIntro, markPersonnelIntroSeen } from '@/lib/personnel-intro';
 import { PERSONNEL_PWA_SPLASH_BG } from '@/lib/personnel-pwa-brand';
 
@@ -27,6 +29,15 @@ function isPersonnelAuthPath(pathname: string) {
   );
 }
 
+/** Intro / boot overlay kapandıktan sonra bildirim izni için sinyal */
+function scheduleUiReady() {
+  window.requestAnimationFrame(() => {
+    window.requestAnimationFrame(() => {
+      window.setTimeout(() => markPersonnelUiReady(), 400);
+    });
+  });
+}
+
 /** Intro karar verilene kadar boot overlay kalsın */
 export function PersonnelIntroGate({ children }: { children: React.ReactNode }) {
   const pathname = usePathname() ?? '';
@@ -37,6 +48,7 @@ export function PersonnelIntroGate({ children }: { children: React.ReactNode }) 
     setShowIntro(shouldShow);
     if (!shouldShow) {
       document.getElementById('cl-intro-boot')?.remove();
+      scheduleUiReady();
     }
   }, [pathname]);
 
@@ -64,12 +76,18 @@ export function PersonnelIntroGate({ children }: { children: React.ReactNode }) 
     markPersonnelIntroSeen();
     document.getElementById('cl-intro-boot')?.remove();
     setShowIntro(false);
+    scheduleUiReady();
   };
 
   return (
     <>
       {showIntro === true && <PersonnelAppIntro onComplete={handleComplete} />}
-      {showIntro === false && children}
+      {showIntro === false && (
+        <>
+          <PersonnelPushBootstrap />
+          {children}
+        </>
+      )}
     </>
   );
 }

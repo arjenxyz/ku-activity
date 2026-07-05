@@ -3,7 +3,6 @@
 import { usePathname, useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
 import { PersonnelNotificationsProvider } from '@/contexts/PersonnelNotificationsContext';
-import { PersonnelPushBootstrap } from '@/components/personnel/PersonnelPushBootstrap';
 import { PersonnelAppBottomNav } from '@/components/personnel/PersonnelAppBottomNav';
 import { PersonnelMobileHeader } from '@/components/personnel/PersonnelMobileHeader';
 import type { PersonnelTabId } from '@/hooks/usePersonnelTab';
@@ -62,7 +61,6 @@ export function PersonnelPanelChrome({ children }: { children: React.ReactNode }
 
   return (
     <PersonnelNotificationsProvider>
-      <PersonnelPushBootstrap />
       <div className="min-h-[100dvh] bg-slate-50 dark:bg-slate-950 sm:bg-transparent">
         <Suspense fallback={<div className="min-h-[100dvh]">{children}</div>}>
           <ChromeBody>{children}</ChromeBody>
