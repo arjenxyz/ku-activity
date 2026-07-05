@@ -11,6 +11,10 @@
     "title": "Yoklama kaydı güncellendi",
     "body": "{workDate} tarihli yoklama kaydınız listeden çıkarılmıştır."
   },
+  "attendanceSessionCompleted": {
+    "title": "Yoklama tamamlandı",
+    "body": "{workDate} tarihli yoklamanız onaylanmış ve yevmiyeniz kaydedilmiştir."
+  },
   "advanceApproved": {
     "title": "Avans talebi onaylandı",
     "body": "{amount} TL avans talebiniz onaylanmıştır. Ödeme süreci başlatıldı."

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'crewledger-v13';
+const CACHE_NAME = 'crewledger-v14';
 const PUSH_ICON_PATH = '/personel-icon.png';
 
 /** Oturum / panel sayfaları asla önbellekten sunulmaz — her açılışta sunucu cookie kontrol eder */
@@ -72,10 +72,29 @@ self.addEventListener('push', (event) => {
     /* */
   }
 
-  const iconUrl = new URL(PUSH_ICON_PATH, self.location.origin).href;
-
   event.waitUntil(
     (async () => {
+      const iconUrl = new URL(PUSH_ICON_PATH, self.location.origin).href;
+      const clients = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
+      const personnelClients = clients.filter((client) => client.url.includes('/personnel-panel'));
+      const inForeground = personnelClients.some((client) => client.visibilityState === 'visible');
+
+      if (inForeground) {
+        for (const client of personnelClients) {
+          client.postMessage({
+            type: 'crewledger-in-app-notification',
+            notification: {
+              id: payload.notificationId,
+              title: payload.title,
+              body: payload.body,
+              href: payload.href || '/personnel-panel',
+            },
+          });
+          client.postMessage({ type: 'crewledger-notifications-refresh' });
+        }
+        return;
+      }
+
       await self.registration.showNotification(payload.title, {
         body: payload.body,
         icon: iconUrl,
@@ -85,7 +104,6 @@ self.addEventListener('push', (event) => {
         vibrate: [100, 50, 100],
       });
 
-      const clients = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
       for (const client of clients) {
         client.postMessage({ type: 'crewledger-notifications-refresh' });
       }

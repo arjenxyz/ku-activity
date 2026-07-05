@@ -6,7 +6,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { FiBell, FiCheck, FiX } from 'react-icons/fi';
 import { useLocalizedStrings } from '@/lib/i18n/useLocalizedStrings';
 import { formatString } from '@/lib/strings/format';
-import { usePersonnelNotifications } from '@/hooks/usePersonnelNotifications';
+import { usePersonnelNotificationsContext } from '@/contexts/PersonnelNotificationsContext';
 import trStrings from '@json/src/components/personnel/PersonnelNotificationsBell.json';
 import enStrings from '@json/en/src/components/personnel/PersonnelNotificationsBell.json';
 import { pushSupported, subscribePersonnelPush } from '@/lib/personnel-push-client';
@@ -32,6 +32,7 @@ function iconForType(type: string) {
     case 'attendance_reminder':
     case 'attendance_session_cancelled':
     case 'attendance_removed_from_list':
+    case 'attendance_session_completed':
       return '📋';
     case 'advance_approved':
     case 'advance_cash_ready':
@@ -50,8 +51,8 @@ function iconForType(type: string) {
 
 export function PersonnelNotificationsBell({ tone = 'light', className = '' }: Props) {
   const strings = useLocalizedStrings(trStrings, enStrings);
-  const { items, unreadCount, loading, markRead, markAllRead, refresh } = usePersonnelNotifications();
-  const [open, setOpen] = useState(false);
+  const { items, unreadCount, loading, markRead, markAllRead, refresh, panelOpen, openPanel, closePanel } =
+    usePersonnelNotificationsContext();
   const [pushPrompt, setPushPrompt] = useState(false);
 
   useEffect(() => {
@@ -73,13 +74,13 @@ export function PersonnelNotificationsBell({ tone = 'light', className = '' }: P
       : 'text-[#0E1548] hover:bg-[#E8EBF8] border-slate-200';
 
   const handleOpen = () => {
-    setOpen(true);
+    openPanel();
     void refresh();
   };
 
   const handleItemClick = async (id: string, href: string | null, readAt: string | null) => {
     if (!readAt) await markRead(id);
-    if (href) setOpen(false);
+    if (href) closePanel();
   };
 
   const enablePush = async () => {
@@ -106,7 +107,7 @@ export function PersonnelNotificationsBell({ tone = 'light', className = '' }: P
       </button>
 
       <AnimatePresence>
-        {pushPrompt && !open && (
+        {pushPrompt && !panelOpen && (
           <motion.div
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
@@ -139,9 +140,9 @@ export function PersonnelNotificationsBell({ tone = 'light', className = '' }: P
       </AnimatePresence>
 
       <AnimatePresence>
-        {open && (
+        {panelOpen && (
           <motion.div
-            className="fixed inset-0 z-[80] sm:hidden"
+            className="fixed inset-0 z-[90]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -150,14 +151,14 @@ export function PersonnelNotificationsBell({ tone = 'light', className = '' }: P
               type="button"
               className="absolute inset-0 bg-slate-900/40 backdrop-blur-[2px]"
               aria-label={strings.pushLater}
-              onClick={() => setOpen(false)}
+              onClick={closePanel}
             />
             <motion.div
               initial={{ y: '100%' }}
               animate={{ y: 0 }}
               exit={{ y: '100%' }}
               transition={{ type: 'spring', stiffness: 360, damping: 32 }}
-              className="absolute inset-x-0 bottom-0 max-h-[min(78vh,32rem)] overflow-hidden rounded-t-[1.5rem] bg-white shadow-2xl"
+              className="absolute inset-x-0 bottom-0 max-h-[min(78vh,32rem)] overflow-hidden rounded-t-[1.5rem] bg-white shadow-2xl sm:bottom-auto sm:left-1/2 sm:top-1/2 sm:w-full sm:max-w-md sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-2xl"
             >
               <div className="flex items-center justify-between border-b border-slate-100 px-4 py-3">
                 <h2 className="text-base font-bold text-[#0E1548]">{strings.panelTitle}</h2>
@@ -174,7 +175,7 @@ export function PersonnelNotificationsBell({ tone = 'light', className = '' }: P
                   )}
                   <button
                     type="button"
-                    onClick={() => setOpen(false)}
+                    onClick={closePanel}
                     className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100"
                   >
                     <FiX className="h-4 w-4" />

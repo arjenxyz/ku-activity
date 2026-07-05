@@ -6,6 +6,7 @@ export type PersonnelNotificationType =
   | 'attendance_reminder'
   | 'attendance_session_cancelled'
   | 'attendance_removed_from_list'
+  | 'attendance_session_completed'
   | 'advance_approved'
   | 'advance_cash_ready'
   | 'advance_rejected'
@@ -191,6 +192,23 @@ export async function notifyAttendanceNotice(
     body: formatString(template.body, { workDate: params.workDate.slice(0, 10) }),
     href: '/personnel-panel/yoklama',
     data: { workDate: params.workDate.slice(0, 10), noticeType: params.noticeType },
+  });
+}
+
+export async function notifyAttendanceSessionCompleted(
+  admin: SupabaseClient,
+  params: { employeeId: string; projectId: string; workDate: string; sessionId: string }
+) {
+  const workDate = params.workDate.slice(0, 10);
+  return notifyPersonnel(admin, {
+    employeeId: params.employeeId,
+    projectId: params.projectId,
+    type: 'attendance_session_completed',
+    title: strings.attendanceSessionCompleted.title,
+    body: formatString(strings.attendanceSessionCompleted.body, { workDate }),
+    href: '/personnel-panel?tab=work',
+    dedupeKey: `attendance_completed:${params.sessionId}`,
+    data: { workDate, sessionId: params.sessionId },
   });
 }
 

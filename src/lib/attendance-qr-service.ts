@@ -794,6 +794,20 @@ export async function completeAttendanceSession(
     count += 1;
   }
 
+  const { notifyAttendanceSessionCompleted } = await import('@/lib/personnel-notification-service');
+  for (const checkIn of checkIns) {
+    try {
+      await notifyAttendanceSessionCompleted(admin, {
+        employeeId: checkIn.employee_id,
+        projectId: params.projectId,
+        workDate,
+        sessionId: session.id,
+      });
+    } catch {
+      /* bildirim isteğe bağlı */
+    }
+  }
+
   await revokeSessionQrs(admin, session.id);
 
   const { data: completed, error } = await admin
