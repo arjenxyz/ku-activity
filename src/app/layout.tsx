@@ -136,8 +136,10 @@ export default async function RootLayout({
           </Script>
         ) : null}
         <PWARegister />
-        <LocaleShell initialLocale={locale}>{children}</LocaleShell>
-        <InstallPrompt />
+        <LocaleShell initialLocale={locale}>
+          {children}
+          <InstallPrompt />
+        </LocaleShell>
       </body>
     </html>
   );
