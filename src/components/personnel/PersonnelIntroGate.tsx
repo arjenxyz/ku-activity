@@ -10,6 +10,8 @@ import { PERSONNEL_PWA_SPLASH_BG } from '@/lib/personnel-pwa-brand';
 
 function shouldSkipIntro(pathname: string) {
   if (pathname.startsWith('/personnel-panel/basvuru')) return true;
+  if (pathname.startsWith('/personnel-panel/login')) return true;
+  if (pathname.startsWith('/personnel-panel/unlock')) return true;
   return false;
 }
 
@@ -23,6 +25,7 @@ function computeShowIntro(pathname: string): boolean {
 function isPersonnelAuthPath(pathname: string) {
   return (
     pathname.startsWith('/personnel-panel/login') ||
+    pathname.startsWith('/personnel-panel/unlock') ||
     pathname.startsWith('/personnel-panel/sifremi-unuttum') ||
     pathname.startsWith('/personnel-panel/pin-sifirla') ||
     pathname.startsWith('/personnel-panel/basvuru')

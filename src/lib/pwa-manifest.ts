@@ -9,7 +9,7 @@ import type { AppIconVariant } from '@/lib/brand';
 export type PwaAppVariant = AppIconVariant;
 
 /** PWA ikon/manifest önbelleğini kırmak için — değişince artır */
-export const PWA_ASSET_VERSION = '11';
+export const PWA_ASSET_VERSION = '12';
 
 function iconUrl(variant: PwaAppVariant, size: 192 | 512, purpose: 'any' | 'maskable' = 'any') {
   if (purpose === 'maskable') {
@@ -39,7 +39,7 @@ export function buildPersonnelManifest(): MetadataRoute.Manifest {
     short_name: 'CrewLedger',
     description:
       'Şantiye personeli için yoklama, yevmiye, mesai ve maaş özeti. Construction crew self-service app.',
-    start_url: '/personnel-panel/login',
+    start_url: '/personnel-panel',
     scope: '/',
     display: 'standalone',
     display_override: ['standalone', 'minimal-ui'],

@@ -11,12 +11,7 @@ import {
   savePendingRegistration,
   type PendingRegistration,
 } from '@/lib/registration-pending-storage';
-import {
-  fetchPersonnelUnlockContext,
-  redirectToPendingApplication,
-  redirectToPersonnelPanel,
-  redirectToPersonnelUnlock,
-} from '@/lib/personnel-session-check';
+import { redirectToPendingApplication } from '@/lib/personnel-session-check';
 import { FiLock } from 'react-icons/fi';
 import { PersonnelLoginLayout } from '@/components/personnel/PersonnelLoginLayout';
 import { useAuthReport } from '@/components/auth/AuthReportContext';
@@ -222,64 +217,39 @@ function LoginForm() {
 function PersonnelLoginContent() {
   const strings = useRegistryStrings('app/personnel-panel/login/page');
 
-  const [checkingSession, setCheckingSession] = useState(true);
-
   useEffect(() => {
     let cancelled = false;
+    const pending = loadPendingRegistration();
+    if (!pending) return;
+
     void (async () => {
-      const ctx = await fetchPersonnelUnlockContext();
-      if (cancelled) return;
-      if (ctx?.unlocked) {
-        redirectToPersonnelPanel();
-        return;
-      }
-      if (ctx && !ctx.unlocked) {
-        redirectToPersonnelUnlock();
-        return;
-      }
-
-      const pending = loadPendingRegistration();
-      if (pending) {
-        try {
-          const res = await fetch(
-            `/api/public/personnel-registration/status?kod=${encodeURIComponent(pending.verificationCode)}`
-          );
-          if (cancelled) return;
-          if (res.ok) {
-            const data = (await res.json()) as { status?: string };
-            if (data.status === 'pending' || data.status === 'approved' || data.status === 'rejected') {
-              savePendingRegistration(pending);
-              redirectToPendingApplication();
-              return;
-            }
+      try {
+        const res = await fetch(
+          `/api/public/personnel-registration/status?kod=${encodeURIComponent(pending.verificationCode)}`
+        );
+        if (cancelled) return;
+        if (res.ok) {
+          const data = (await res.json()) as { status?: string };
+          if (data.status === 'pending' || data.status === 'approved' || data.status === 'rejected') {
+            savePendingRegistration(pending);
+            redirectToPendingApplication();
+            return;
           }
-          clearPendingRegistration();
-        } catch {
-          /* giriş formuna devam */
         }
+        clearPendingRegistration();
+      } catch {
+        /* giriş formuna devam */
       }
-
-      setCheckingSession(false);
     })();
+
     return () => {
       cancelled = true;
     };
   }, []);
 
   return (
-    <PersonnelLoginLayout
-      dense
-      screenLabel={strings.screenLabel}
-      subtitle={strings.subtitle}
-    >
-      {checkingSession ? (
-        <div className="flex flex-col items-center justify-center py-12 gap-3 text-slate-500">
-          <LoadingSpinner />
-          <p className="text-sm">{strings.checkingSession}</p>
-        </div>
-      ) : (
-        <LoginForm />
-      )}
+    <PersonnelLoginLayout dense screenLabel={strings.screenLabel} subtitle={strings.subtitle}>
+      <LoginForm />
     </PersonnelLoginLayout>
   );
 }

@@ -486,6 +486,8 @@ import m_components_personnel_PersonnelTodayAttendance_tr from '@json/src/compon
 import m_components_personnel_PersonnelTodayAttendance_en from '@json/en/src/components/personnel/PersonnelTodayAttendance.json';
 import m_components_personnel_PersonnelTrustFooter_tr from '@json/src/components/personnel/PersonnelTrustFooter.json';
 import m_components_personnel_PersonnelTrustFooter_en from '@json/en/src/components/personnel/PersonnelTrustFooter.json';
+import m_components_personnel_PersonnelUnlockLayout_tr from '@json/src/components/personnel/PersonnelUnlockLayout.json';
+import m_components_personnel_PersonnelUnlockLayout_en from '@json/en/src/components/personnel/PersonnelUnlockLayout.json';
 import m_components_personnel_PersonnelWorkLogItem_tr from '@json/src/components/personnel/PersonnelWorkLogItem.json';
 import m_components_personnel_PersonnelWorkLogItem_en from '@json/en/src/components/personnel/PersonnelWorkLogItem.json';
 import m_components_project_AttendanceQrPanel_tr from '@json/src/components/project/AttendanceQrPanel.json';
@@ -909,6 +911,7 @@ export const STRINGS_REGISTRY = {
   'components/personnel/PersonnelSettingsPage': { tr: m_components_personnel_PersonnelSettingsPage_tr, en: m_components_personnel_PersonnelSettingsPage_en },
   'components/personnel/PersonnelTodayAttendance': { tr: m_components_personnel_PersonnelTodayAttendance_tr, en: m_components_personnel_PersonnelTodayAttendance_en },
   'components/personnel/PersonnelTrustFooter': { tr: m_components_personnel_PersonnelTrustFooter_tr, en: m_components_personnel_PersonnelTrustFooter_en },
+  'components/personnel/PersonnelUnlockLayout': { tr: m_components_personnel_PersonnelUnlockLayout_tr, en: m_components_personnel_PersonnelUnlockLayout_en },
   'components/personnel/PersonnelWorkLogItem': { tr: m_components_personnel_PersonnelWorkLogItem_tr, en: m_components_personnel_PersonnelWorkLogItem_en },
   'components/project/AttendanceQrPanel': { tr: m_components_project_AttendanceQrPanel_tr, en: m_components_project_AttendanceQrPanel_en },
   'components/project/EmployeeSelect': { tr: m_components_project_EmployeeSelect_tr, en: m_components_project_EmployeeSelect_en },
