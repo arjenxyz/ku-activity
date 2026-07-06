@@ -366,10 +366,8 @@ const GLYPHS: Record<HonorIconName, ReactNode> = {
       <path
         d="M4.8 12h14.4M12 4.8c2.2 2.6 2.2 10.8 0 14.4M12 4.8c-2.2 2.6-2.2 10.8 0 14.4"
         fill="none"
-        stroke="white"
+        stroke="currentColor"
         strokeWidth="1.6"
-        strokeLinecap="round"
-        opacity="0.9"
       />
     </>
   ),

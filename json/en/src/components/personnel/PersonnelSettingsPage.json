@@ -23,7 +23,9 @@
     "work": { "title": "İş Bilgileri", "subtitle": "Pozisyon, yevmiye ve şantiye bilgileriniz." },
     "contracts": { "title": "Sözleşmeler", "subtitle": "Onayladığınız sözleşme kayıtları." },
     "security": { "title": "Güvenlik", "subtitle": "PIN, aktif cihazlar ve hesap güvenliği." },
-    "app": { "title": "App Settings", "subtitle": "Language and display preferences." }
+    "language": { "title": "Language", "subtitle": "Choose the app language." },
+    "app": { "title": "App Settings", "subtitle": "Display and readability preferences." },
+    "releases": { "title": "Release Notes", "subtitle": "What changed in the latest version." }
   },
   "menu": {
     "personal": { "title": "Personal settings", "subtitle": "Profile photo, name, and identity" },
@@ -32,7 +34,9 @@
     "work": { "title": "İş bilgileri", "subtitle": "Pozisyon, yevmiye ve proje" },
     "contracts": { "title": "Sözleşmeler", "subtitle": "Onayladığınız sözleşmeler" },
     "security": { "title": "Güvenlik", "subtitle": "PIN kodu, aktif cihazlar ve hesap güvenliği" },
-    "app": { "title": "App settings", "subtitle": "Language and display preferences" }
+    "language": { "title": "Language", "subtitle": "App language" },
+    "app": { "title": "App settings", "subtitle": "Large text and contrast" },
+    "releases": { "title": "Release notes", "subtitle": "What's new in the latest version" }
   },
   "groups": {
     "personalInfo": "Kişisel bilgiler",
@@ -51,5 +55,21 @@
     "position": "Pozisyon",
     "dailyWage": "Günlük yevmiye",
     "hireDate": "İşe giriş"
+  },
+  "language": {
+    "label": "App language",
+    "hint": "Choose Turkish or English."
+  },
+  "releases": {
+    "loading": "Loading release notes…",
+    "loadFailed": "Could not load release notes",
+    "emptyTitle": "No published release yet",
+    "emptyHint": "When a new APK is published, it will appear here.",
+    "currentVersion": "Current version",
+    "publishedAt": "Published",
+    "notesTitle": "In this release",
+    "noNotes": "No notes for this release.",
+    "apkHint": "To download the APK, visit the",
+    "apkLink": "download page"
   }
 }

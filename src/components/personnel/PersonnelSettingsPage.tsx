@@ -14,6 +14,8 @@ import { HonorIconTile, type HonorIconName, type HonorIconTheme } from '@/compon
 import { EmployeeAvatar } from '@/components/employee/EmployeeAvatar';
 import { PersonnelContractsSection } from '@/components/personnel/PersonnelContractsSection';
 import { PersonnelDisplaySettings } from '@/components/personnel/PersonnelDisplaySettings';
+import { PersonnelLanguageSettings } from '@/components/personnel/PersonnelLanguageSettings';
+import { PersonnelReleaseNotesPanel } from '@/components/personnel/PersonnelReleaseNotesPanel';
 import { PersonnelActiveDevices } from '@/components/personnel/PersonnelActiveDevices';
 import { PersonnelPasswordModal } from '@/components/personnel/PersonnelPasswordModal';
 import { PersonnelProjectCard } from '@/components/personnel/PersonnelProjectCard';
@@ -38,7 +40,9 @@ type SettingsSectionId =
   | 'work'
   | 'contracts'
   | 'security'
-  | 'app';
+  | 'language'
+  | 'app'
+  | 'releases';
 
 type MenuItemId = Exclude<SettingsSectionId, 'home' | 'profile'>;
 
@@ -51,7 +55,9 @@ const MENU_ICON_DEFS: Record<MenuItemId, { name: HonorIconName; theme: HonorIcon
   work: { name: 'briefcase', theme: 'amber' },
   contracts: { name: 'shield', theme: 'indigo' },
   security: { name: 'lock', theme: 'rose' },
+  language: { name: 'globe', theme: 'teal' },
   app: { name: 'settings', theme: 'slate' },
+  releases: { name: 'document', theme: 'sky' },
 };
 
 function formatIbanDisplay(iban: string | null | undefined, strings: SettingsStrings) {
@@ -127,6 +133,8 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
     { id: 'work', title: strings.menu.work.title },
     { id: 'contracts', title: strings.menu.contracts.title },
     { id: 'security', title: strings.menu.security.title },
+    { id: 'language', title: strings.menu.language.title },
+    { id: 'releases', title: strings.menu.releases.title },
     { id: 'app', title: strings.menu.app.title },
   ];
 
@@ -134,7 +142,9 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
     (ACCOUNT_SECTION_IDS as readonly string[]).includes(item.id)
   );
   const workItems = menuItems.filter((item) => ['work', 'contracts'].includes(item.id));
-  const systemItems = menuItems.filter((item) => ['security', 'app'].includes(item.id));
+  const systemItems = menuItems.filter((item) =>
+    ['security', 'language', 'releases', 'app'].includes(item.id)
+  );
 
   const backTarget: SettingsSectionId =
     (ACCOUNT_SECTION_IDS as readonly string[]).includes(activeSection)
@@ -248,6 +258,10 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
         );
       case 'app':
         return <PersonnelDisplaySettings />;
+      case 'language':
+        return <PersonnelLanguageSettings />;
+      case 'releases':
+        return <PersonnelReleaseNotesPanel />;
       default:
         return (
           <div className="space-y-3">
