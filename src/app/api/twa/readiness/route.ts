@@ -28,6 +28,7 @@ export async function GET() {
       packageId: TWA_ADMIN_PACKAGE_ID,
       manifestUrl: `${origin}/manifest-admin.webmanifest`,
       iconUrl: `${origin}${ADMIN_APP_ICON}`,
+      monochromeIconUrl: `${origin}${notificationMonochromeIconPath('admin', 96)}?v=${PWA_ASSET_VERSION}`,
       startUrl: buildAdminManifest().start_url,
       sha256Configured: TWA_ADMIN_SHA256.length > 0,
     },
