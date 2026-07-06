@@ -1,9 +1,7 @@
-const CACHE_NAME = 'crewledger-v19';
-/** Renkli büyük ikon (tarayıcı) */
+const CACHE_NAME = 'crewledger-v20';
+/** Renkli bildirim ikonu */
 const PUSH_ICON_PATH = '/personel-icon.png';
-/** Android küçük ikon — beyaz silüet (TWA monochromeIconUrl ile aynı) */
-const PUSH_BADGE_PATH = '/icons/personnel/notification/96';
-const PUSH_ICON_VERSION = '14';
+const PUSH_ICON_VERSION = '15';
 
 function isFocusedPersonnelClient(client) {
   try {
@@ -23,7 +21,7 @@ async function showPushNotification(payload, iconUrl) {
   const origin = self.location.origin;
   const resolvedIcon =
     iconUrl || new URL(`${PUSH_ICON_PATH}?v=${PUSH_ICON_VERSION}`, origin).href;
-  const resolvedBadge = new URL(`${PUSH_BADGE_PATH}?v=${PUSH_ICON_VERSION}`, origin).href;
+  const resolvedBadge = new URL(`${PUSH_ICON_PATH}?v=${PUSH_ICON_VERSION}`, origin).href;
   const options = {
     body: payload.body,
     icon: resolvedIcon,
@@ -60,7 +58,7 @@ function isNetworkOnly(url) {
 
 self.addEventListener('install', (event) => {
   const pushIconUrl = new URL(`${PUSH_ICON_PATH}?v=${PUSH_ICON_VERSION}`, self.location.origin).href;
-  const pushBadgeUrl = new URL(`${PUSH_BADGE_PATH}?v=${PUSH_ICON_VERSION}`, self.location.origin).href;
+  const pushBadgeUrl = new URL(`${PUSH_ICON_PATH}?v=${PUSH_ICON_VERSION}`, self.location.origin).href;
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) =>
