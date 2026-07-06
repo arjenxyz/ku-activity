@@ -66,10 +66,18 @@ function patchBuildGradle(buildGradlePath) {
   console.log('build.gradle: targetSdk 35, enableNotifications');
 }
 
-function patchTwaManifest(manifestPath, bump) {
+function patchTwaManifest(manifestPath, bump, packageId) {
   if (!existsSync(manifestPath)) return;
   const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
   manifest.enableNotifications = true;
+
+  const appUrl = (
+    process.env.NEXT_PUBLIC_APP_URL ||
+    process.env.APP_URL ||
+    'https://crewledger.vercel.app'
+  ).replace(/\/$/, '');
+  const variant = String(packageId).includes('admin') ? 'admin' : 'personnel';
+  manifest.monochromeIconUrl = `${appUrl}/icons/${variant}/notification/96?v=14`;
 
   if (bump) {
     const code = Number(manifest.appVersionCode ?? manifest.versionCode ?? 0) + 1;
@@ -92,7 +100,7 @@ function patchTwaManifest(manifestPath, bump) {
     }
   }
 
-  console.log('twa-manifest.json: enableNotifications=true');
+  console.log('twa-manifest.json: enableNotifications=true, monochromeIconUrl ayarlandı');
 }
 
 function patchLauncherActivity(buildDir, packageId) {
@@ -167,7 +175,7 @@ if (!existsSync(join(buildDir, 'twa-manifest.json'))) {
 const twaManifest = JSON.parse(readFileSync(join(buildDir, 'twa-manifest.json'), 'utf8'));
 const packageId = String(twaManifest.packageId ?? 'app.crewledger.personel');
 
-patchTwaManifest(join(buildDir, 'twa-manifest.json'), args.bump);
+patchTwaManifest(join(buildDir, 'twa-manifest.json'), args.bump, packageId);
 patchManifest(join(buildDir, 'app', 'src', 'main', 'AndroidManifest.xml'));
 patchBuildGradle(join(buildDir, 'app', 'build.gradle'));
 patchLauncherActivity(buildDir, packageId);

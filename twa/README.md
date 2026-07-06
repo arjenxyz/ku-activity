@@ -94,7 +94,7 @@ Her uygulama için ayrı listing:
 4. **Ekran görüntüleri** — telefon + (isteğe bağlı) 7" tablet
 5. **AAB yükle** — Internal testing → Production
 
-### 5. Bildirim izni (Android 13+ / API 33)
+### 5. Bildirim izni ve ikonu (Android 13+ / API 33)
 
 Push bildirimleri için her build öncesi otomatik yama:
 
@@ -105,8 +105,11 @@ node scripts/twa-notification-permissions.mjs twa-build/personel --bump
 `npm run apk:build-upload:personnel` bu adımı otomatik çalıştırır. Yama:
 
 - `POST_NOTIFICATIONS` + `NotificationPermissionRequestActivity` (AndroidManifest)
+- `monochromeIconUrl` — soldaki küçük bildirim ikonu (beyaz silüet, `/icons/personnel/notification/96`)
 - `targetSdkVersion 35`
 - `LauncherActivity` — uygulama açılışında **sistem bildirim izni** diyaloğu
+
+**Beyaz kare ikon görüyorsanız:** Eski APK'da `monochromeIconUrl` yoktur. Deploy sonrası yeni APK build edip yükleyin (`npm run apk:build-upload:personnel`).
 
 Web tarafı (`PersonnelPushBootstrap`) yedek olarak bir kez `Notification.requestPermission()` çağırır.
 

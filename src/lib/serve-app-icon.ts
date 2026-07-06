@@ -48,6 +48,34 @@ export async function serveAppIcon(
   return iconResponse(buffer);
 }
 
+/** Android bildirim küçük ikonu — beyaz silüet, şeffaf arka plan (TWA monochromeIconUrl) */
+export async function serveNotificationMonochromeIcon(variant: AppIconVariant, size: number) {
+  const iconFile = path.join(process.cwd(), 'public', appIconFileName(variant));
+  const source = await readFile(iconFile);
+  const { data, info } = await sharp(source)
+    .resize(size, size, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } })
+    .ensureAlpha()
+    .raw()
+    .toBuffer({ resolveWithObject: true });
+
+  const out = Buffer.alloc(data.length);
+  for (let i = 0; i < data.length; i += 4) {
+    const alpha = data[i + 3];
+    out[i] = 255;
+    out[i + 1] = 255;
+    out[i + 2] = 255;
+    out[i + 3] = alpha > 24 ? alpha : 0;
+  }
+
+  const buffer = await sharp(out, {
+    raw: { width: info.width, height: info.height, channels: 4 },
+  })
+    .png()
+    .toBuffer();
+
+  return iconResponse(buffer);
+}
+
 /** @deprecated personel-icon.png kullanın */
 export async function serveCrewledgerAppIcon(size = 512) {
   return serveAppIcon('personnel', size, 'any');

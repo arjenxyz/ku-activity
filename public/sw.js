@@ -1,7 +1,9 @@
-const CACHE_NAME = 'crewledger-v18';
-/** Statik personel ikonu — dinamik /icons/… route TWA arka planda bazen 404/boş döner */
+const CACHE_NAME = 'crewledger-v19';
+/** Renkli büyük ikon (tarayıcı) */
 const PUSH_ICON_PATH = '/personel-icon.png';
-const PUSH_ICON_VERSION = '13';
+/** Android küçük ikon — beyaz silüet (TWA monochromeIconUrl ile aynı) */
+const PUSH_BADGE_PATH = '/icons/personnel/notification/96';
+const PUSH_ICON_VERSION = '14';
 
 function isFocusedPersonnelClient(client) {
   try {
@@ -21,10 +23,11 @@ async function showPushNotification(payload, iconUrl) {
   const origin = self.location.origin;
   const resolvedIcon =
     iconUrl || new URL(`${PUSH_ICON_PATH}?v=${PUSH_ICON_VERSION}`, origin).href;
+  const resolvedBadge = new URL(`${PUSH_BADGE_PATH}?v=${PUSH_ICON_VERSION}`, origin).href;
   const options = {
     body: payload.body,
     icon: resolvedIcon,
-    badge: resolvedIcon,
+    badge: resolvedBadge,
     tag: payload.notificationId || 'crewledger-notification',
     renotify: true,
     data: { href: payload.href || '/personnel-panel', notificationId: payload.notificationId },
@@ -57,9 +60,15 @@ function isNetworkOnly(url) {
 
 self.addEventListener('install', (event) => {
   const pushIconUrl = new URL(`${PUSH_ICON_PATH}?v=${PUSH_ICON_VERSION}`, self.location.origin).href;
+  const pushBadgeUrl = new URL(`${PUSH_BADGE_PATH}?v=${PUSH_ICON_VERSION}`, self.location.origin).href;
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then((cache) => cache.add(pushIconUrl).catch(() => undefined))
+      .then((cache) =>
+        Promise.all([
+          cache.add(pushIconUrl).catch(() => undefined),
+          cache.add(pushBadgeUrl).catch(() => undefined),
+        ])
+      )
       .then(() => self.skipWaiting())
   );
 });

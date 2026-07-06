@@ -26,6 +26,6 @@ export function appIconForVariant(variant: AppIconVariant) {
   return APP_ICON_BY_VARIANT[variant];
 }
 
-export function appIconFileName(variant: AppIconVariant) {
-  return APP_ICON_BY_VARIANT[variant].replace(/^\//, '');
+export function notificationMonochromeIconPath(variant: AppIconVariant, size: 96 | 192 = 96) {
+  return `/icons/${variant}/notification/${size}`;
 }
