@@ -8,12 +8,14 @@
   "profilePhotoHint": "Use a clear photo of your face for attendance and your profile.",
   "profileAccountLabel": "Personnel account",
   "backToList": "Back",
+  "backToSecurity": "Security",
   "exitHint": "Tap to return to the panel",
   "exitAriaLabel": "Return to panel",
   "logout": "Sign out",
   "emptyValue": "—",
   "pinTitle": "PIN kodu",
   "pinSubtitle": "Giriş şifrenizi güncelleyin",
+  "devicesTitle": "My devices",
   "sections": {
     "home": { "title": "Ayarlar", "subtitle": "Hesabınızı ve uygulama tercihlerinizi yönetin." },
     "personal": { "title": "Kişisel Ayarlar", "subtitle": "Kimlik ve kişisel bilgileriniz." },
@@ -22,6 +24,7 @@
     "work": { "title": "İş Bilgileri", "subtitle": "Pozisyon, yevmiye ve şantiye bilgileriniz." },
     "contracts": { "title": "Sözleşmeler", "subtitle": "Onayladığınız sözleşme kayıtları." },
     "security": { "title": "Güvenlik", "subtitle": "PIN, aktif cihazlar ve hesap güvenliği." },
+    "devices": { "title": "My devices", "subtitle": "Devices signed in to your account. Remove any you do not recognize." },
     "app": { "title": "App Settings", "subtitle": "Language and display preferences." },
     "releases": { "title": "Release notes", "subtitle": "What changed in the latest version." }
   },

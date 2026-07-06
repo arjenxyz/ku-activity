@@ -38,18 +38,20 @@ type SettingsSectionId =
   | 'work'
   | 'contracts'
   | 'security'
+  | 'devices'
   | 'app'
   | 'releases';
 
-type MenuItemId = Exclude<SettingsSectionId, 'home'>;
+type MenuItemId = Exclude<SettingsSectionId, 'home' | 'devices'>;
 
-const MENU_ICON_DEFS: Record<MenuItemId, { name: HonorIconName; theme: HonorIconTheme }> = {
+const MENU_ICON_DEFS: Record<MenuItemId | 'devices', { name: HonorIconName; theme: HonorIconTheme }> = {
   personal: { name: 'user', theme: 'blue' },
   contact: { name: 'phone', theme: 'emerald' },
   bank: { name: 'card', theme: 'violet' },
   work: { name: 'briefcase', theme: 'amber' },
   contracts: { name: 'shield', theme: 'indigo' },
   security: { name: 'lock', theme: 'rose' },
+  devices: { name: 'phone', theme: 'indigo' },
   app: { name: 'settings', theme: 'slate' },
   releases: { name: 'document', theme: 'sky' },
 };
@@ -199,17 +201,24 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
         return <PersonnelContractsSection />;
       case 'security':
         return (
-          <div className="space-y-3">
-            <PersonnelActiveDevices onCurrentDeviceRemoved={onLogout} />
-            <SettingsCard>
-              <MenuRow
-                title={strings.pinTitle}
-                iconDef={MENU_ICON_DEFS.security}
-                onClick={() => setPasswordOpen(true)}
-              />
-            </SettingsCard>
-          </div>
+          <SettingsCard>
+            <MenuRow
+              title={strings.pinTitle}
+              iconDef={MENU_ICON_DEFS.security}
+              onClick={() => setPasswordOpen(true)}
+              showDivider
+              insetDivider
+            />
+            <MenuRow
+              title={strings.devicesTitle}
+              iconDef={MENU_ICON_DEFS.devices}
+              onClick={() => setActiveSection('devices')}
+              showDivider={false}
+            />
+          </SettingsCard>
         );
+      case 'devices':
+        return <PersonnelActiveDevices onCurrentDeviceRemoved={onLogout} hideHeader />;
       case 'app':
         return <PersonnelDisplaySettings />;
       case 'releases':
@@ -288,17 +297,24 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
 
   const pageTitle = strings.sections[activeSection].title;
 
+  const handleBack = () => {
+    if (activeSection === 'devices') setActiveSection('security');
+    else setActiveSection('home');
+  };
+
+  const backLabel = activeSection === 'devices' ? strings.backToSecurity : strings.backToList;
+
   return (
     <div className="-mx-3 sm:-mx-6 -mt-3 min-h-full bg-[#f0f2f5] px-3 py-4 pb-[max(1rem,env(safe-area-inset-bottom))] dark:bg-slate-950 sm:min-h-[60vh] sm:px-4 sm:py-5">
       <div className="mx-auto max-w-lg space-y-4">
         {activeSection !== 'home' ? (
           <button
             type="button"
-            onClick={() => setActiveSection('home')}
+            onClick={handleBack}
             className="inline-flex items-center gap-1 text-sm font-medium text-[#0E1548] dark:text-blue-300"
           >
             <FiChevronLeft className="h-5 w-5" />
-            {strings.backToList}
+            {backLabel}
           </button>
         ) : null}
 

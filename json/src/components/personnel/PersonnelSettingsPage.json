@@ -8,12 +8,14 @@
   "profilePhotoHint": "Yüzünüz net görünsün; yoklama ve profil için kullanılır.",
   "profileAccountLabel": "Personel hesabı",
   "backToList": "Geri",
+  "backToSecurity": "Güvenlik",
   "exitHint": "Panele dönmek için dokunun",
   "exitAriaLabel": "Panele dön",
   "logout": "Çıkış yap",
   "emptyValue": "—",
   "pinTitle": "PIN kodu",
   "pinSubtitle": "Giriş şifrenizi güncelleyin",
+  "devicesTitle": "Cihazlarım",
   "sections": {
     "home": { "title": "Ayarlar", "subtitle": "Hesabınızı ve uygulama tercihlerinizi yönetin." },
     "personal": { "title": "Kişisel Ayarlar", "subtitle": "Kimlik ve kişisel bilgileriniz." },
@@ -22,6 +24,7 @@
     "work": { "title": "İş Bilgileri", "subtitle": "Pozisyon, yevmiye ve şantiye bilgileriniz." },
     "contracts": { "title": "Sözleşmeler", "subtitle": "Onayladığınız sözleşme kayıtları." },
     "security": { "title": "Güvenlik", "subtitle": "PIN, aktif cihazlar ve hesap güvenliği." },
+    "devices": { "title": "Cihazlarım", "subtitle": "Hesabınıza giriş yapılmış cihazlar. Tanımadığınız bir cihaz görürseniz kaldırın." },
     "app": { "title": "Uygulama Ayarları", "subtitle": "Dil ve görünüm tercihleri." },
     "releases": { "title": "Güncelleme Notları", "subtitle": "Son sürümde neler değişti." }
   },

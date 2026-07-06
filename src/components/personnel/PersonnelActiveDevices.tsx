@@ -104,14 +104,16 @@ export function PersonnelActiveDevices({ onCurrentDeviceRemoved }: Props) {
 
   return (
     <div className="rounded-2xl border border-slate-200/80 dark:border-slate-700 bg-white dark:bg-slate-800 overflow-hidden shadow-sm">
-      <div className="px-4 py-3 border-b border-slate-100 dark:border-slate-700/80 bg-slate-50/80 dark:bg-slate-800/50">
-        <p className="text-xs font-semibold text-slate-600 dark:text-slate-300 uppercase tracking-wide">
-          {strings.sectionTitle}
-        </p>
-        <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
-          {strings.sectionHint}
-        </p>
-      </div>
+      {!hideHeader && (
+        <div className="px-4 py-3 border-b border-slate-100 dark:border-slate-700/80 bg-slate-50/80 dark:bg-slate-800/50">
+          <p className="text-xs font-semibold text-slate-600 dark:text-slate-300 uppercase tracking-wide">
+            {strings.sectionTitle}
+          </p>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
+            {strings.sectionHint}
+          </p>
+        </div>
+      )}
 
       {loading && (
         <p className="px-4 py-6 text-sm text-slate-500 text-center">{strings.loading}</p>
