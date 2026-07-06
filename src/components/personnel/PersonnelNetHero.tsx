@@ -1,6 +1,6 @@
 'use client';
 
-import { FiArrowRight, FiBriefcase, FiTrendingDown, FiTrendingUp } from 'react-icons/fi';
+import { FiArrowRight, FiBriefcase, FiCreditCard, FiTrendingDown, FiTrendingUp } from 'react-icons/fi';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { formatMoney } from '@/lib/format';
 import { EmployeeAvatar } from '@/components/employee/EmployeeAvatar';
@@ -33,7 +33,6 @@ export function PersonnelNetHero({
 }: Props) {
   const strings = useRegistryStrings('components/personnel/PersonnelNetHero');
   const displayName = fullName ?? strings.defaultName;
-  const deductions = totalAdvance + totalDeduct;
   const netTone = net < 0 ? 'text-red-300' : 'text-emerald-300';
 
   return (
@@ -117,13 +116,14 @@ export function PersonnelNetHero({
               <FiTrendingDown className="h-3 w-3 text-amber-400" aria-hidden />
               {strings.deduction}
             </p>
-            <p className="mt-1 text-sm font-semibold tabular-nums">{formatMoney(deductions)}</p>
+            <p className="mt-1 text-sm font-semibold tabular-nums">{formatMoney(totalDeduct)}</p>
           </div>
           <div className="rounded-xl border border-white/10 bg-white/8 px-3 py-2.5">
-            <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">
-              {strings.net}
+            <p className="flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wider text-slate-400">
+              <FiCreditCard className="h-3 w-3 text-indigo-300" aria-hidden />
+              {strings.advance}
             </p>
-            <p className={`mt-1 text-sm font-semibold tabular-nums ${netTone}`}>{formatMoney(net)}</p>
+            <p className="mt-1 text-sm font-semibold tabular-nums">{formatMoney(totalAdvance)}</p>
           </div>
         </div>
 

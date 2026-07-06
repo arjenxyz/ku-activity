@@ -2,7 +2,7 @@
   "estimatedNet": "Estimated net salary",
   "gross": "Gross",
   "deduction": "Deductions",
-  "net": "Net",
+  "advance": "Advances",
   "financeDetail": "Payroll and finance details",
   "sectionAriaLabel": "Profile and monthly salary summary",
   "defaultName": "Personnel"
