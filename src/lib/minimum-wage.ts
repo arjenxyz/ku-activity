@@ -35,7 +35,7 @@ export type MinimumWageGapSummary = {
   remainingGap: number;
 };
 
-/** Brüt yevmiye + mesai kazancı resmi asgari brütün altındaysa tamamlama tutarını hesaplar. */
+/** Şirketin ödemesi gereken asgari taahhüdünde kalan tutarı hesaplar. */
 export function computeMinimumWageGap(params: {
   grossEarned: number;
   minimumPaid?: number;
@@ -44,24 +44,33 @@ export function computeMinimumWageGap(params: {
   const officialGross = params.officialGross ?? getOfficialMonthlyMinimumWageGross();
   const minimumPaid = params.minimumPaid ?? 0;
   const grossEarned = params.grossEarned;
-  const totalWithMinimum = grossEarned + minimumPaid;
-  const remainingGap = Math.max(0, officialGross - totalWithMinimum);
+  const remainingGap = Math.max(0, officialGross - minimumPaid);
 
   return {
     officialGross,
     grossEarned,
     minimumPaid,
     suggestedTopUp: remainingGap,
-    isBelowMinimum: totalWithMinimum < officialGross,
+    isBelowMinimum: minimumPaid < officialGross,
     remainingGap,
   };
 }
 
+/** Brüt hak − avans − kesinti (asgari hariç toplam ele geçen). */
+export function computeTotalReceived(
+  gross: number,
+  advances: number,
+  deductions: number
+): number {
+  return gross - advances - deductions;
+}
+
+/** Ustadan / elden kalan ödeme: brüt − avans − kesinti − ödenen asgari. */
 export function computeNetPay(
   gross: number,
   advances: number,
   deductions: number,
   minimum: number
 ): number {
-  return gross - advances - deductions + minimum;
+  return gross - advances - deductions - minimum;
 }

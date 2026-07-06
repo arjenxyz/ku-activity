@@ -69,10 +69,10 @@
     "gross": "Brüt toplam",
     "advances": "Avanslar (−)",
     "deductions": "Kesintiler (−)",
-    "minimumWages": "Asgari ücret ödemeleri (+)",
-    "netPayment": "Net tahmini ödeme",
-    "note": "Net tutar: Brüt ({gross}) − Avans ({advances}) − Kesinti ({deductions}){minimumPart} = {net}",
-    "minimumPart": " + Asgari ({amount})"
+    "minimumWages": "Asgari ücret ödemeleri (−)",
+    "netPayment": "Ustadan tahmini ödeme",
+    "note": "Ustadan net: Brüt ({gross}) − Avans ({advances}) − Kesinti ({deductions}){minimumPart} = {net}",
+    "minimumPart": " − Asgari ({amount})"
   },
   "footer": {
     "disclaimer": "Bu belge bilgilendirme amaçlıdır. Resmi bordro yerine geçmez. Kayıtlar {appName} personel paneli ile yönetici panelinden aynı veritabanından üretilmiştir.",

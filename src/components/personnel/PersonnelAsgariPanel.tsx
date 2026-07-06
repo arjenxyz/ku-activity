@@ -111,7 +111,7 @@ export function PersonnelAsgariPanel({
   const progressDen = data.gap.eligibleMinimum || 1;
   const progressNum = Math.min(
     100,
-    Math.round(((data.earnings.approvedGross + data.earnings.minimumPaid) / progressDen) * 100)
+    Math.round((data.earnings.minimumPaid / progressDen) * 100)
   );
   const monthLabel = dayjs(`${month}-01`).format('MMMM YYYY');
 

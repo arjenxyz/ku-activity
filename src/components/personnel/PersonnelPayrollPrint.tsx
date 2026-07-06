@@ -385,7 +385,7 @@ export function PersonnelPayrollPrint({
             {stats.totalMinimum > 0 && (
               <tr>
                 <td>{strings.calc.minimumWages}</td>
-                <td className="num">{formatMoney(stats.totalMinimum)}</td>
+                <td className="num">− {formatMoney(stats.totalMinimum)}</td>
               </tr>
             )}
             <tr className="total">

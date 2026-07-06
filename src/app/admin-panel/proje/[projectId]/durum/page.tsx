@@ -45,7 +45,7 @@ export default function DurumPage() {
     summary != null
       ? Number(summary.total_work_pay ?? 0) -
         Number(summary.total_advances ?? 0) -
-        Number(summary.total_deductions ?? 0) +
+        Number(summary.total_deductions ?? 0) -
         Number(summary.total_minimum ?? 0)
       : 0;
 
