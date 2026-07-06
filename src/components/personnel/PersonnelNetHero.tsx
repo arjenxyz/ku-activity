@@ -72,10 +72,7 @@ export function PersonnelNetHero({
           </div>
 
           <div className="min-w-0 flex-1">
-            <p className="text-[10px] font-semibold tracking-[0.14em] text-blue-100/85 uppercase leading-none">
-              {strings.panelSubtitle}
-            </p>
-            <h1 className="mt-1.5 text-xl sm:text-2xl font-bold text-white leading-tight tracking-tight break-words">
+            <h1 className="text-xl sm:text-2xl font-bold text-white leading-tight tracking-tight break-words">
               {displayName}
             </h1>
             {position ? (
