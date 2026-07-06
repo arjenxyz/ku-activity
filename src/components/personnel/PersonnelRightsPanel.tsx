@@ -5,7 +5,6 @@ import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import {
   FiBriefcase,
   FiChevronDown,
-  FiClock,
   FiDollarSign,
   FiMail,
   FiShield,
@@ -14,7 +13,7 @@ import { DEFAULT_SUPPORT_EMAIL } from '@/lib/brand';
 import { PersonnelClosureDossierPanel } from './PersonnelClosureDossierPanel';
 import { PersonnelContractsSection } from './PersonnelContractsSection';
 
-type QuickLinkId = 'finance' | 'work' | 'mesai' | 'asgari';
+type QuickLinkId = 'finance' | 'work' | 'asgari';
 
 type QuickLink = {
   id: QuickLinkId;
@@ -26,7 +25,6 @@ type QuickLink = {
 const QUICK_LINKS: QuickLink[] = [
   { id: 'finance', tab: 'finance', icon: FiDollarSign, accent: 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400' },
   { id: 'work', tab: 'work', icon: FiBriefcase, accent: 'bg-blue-500/15 text-blue-600 dark:text-blue-400' },
-  { id: 'mesai', tab: 'mesai', icon: FiClock, accent: 'bg-orange-500/15 text-orange-600 dark:text-orange-400' },
   { id: 'asgari', tab: 'asgari', icon: FiShield, accent: 'bg-violet-500/15 text-violet-600 dark:text-violet-400' },
 ];
 

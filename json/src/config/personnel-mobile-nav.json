@@ -1,8 +1,7 @@
 {
   "tabTitles": {
     "overview": "Ana Sayfa",
-    "work": "Yevmiye",
-    "mesai": "Mesai",
+    "work": "Takvim",
     "asgari": "Asgari Ücret",
     "finance": "Finans",
     "rights": "Haklarım",
@@ -16,14 +15,8 @@
         {
           "id": "work",
           "tab": "work",
-          "label": "Yevmiye",
-          "description": "Çalışılan günler"
-        },
-        {
-          "id": "mesai",
-          "tab": "mesai",
-          "label": "Mesai",
-          "description": "Fazla mesai"
+          "label": "Takvim",
+          "description": "Yevmiye, mesai ve ödemeler"
         },
         {
           "id": "yoklama",

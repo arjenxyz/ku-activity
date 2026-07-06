@@ -432,6 +432,8 @@ import m_components_personnel_PersonnelAsgariPanel_tr from '@json/src/components
 import m_components_personnel_PersonnelAsgariPanel_en from '@json/en/src/components/personnel/PersonnelAsgariPanel.json';
 import m_components_personnel_PersonnelCalendar_tr from '@json/src/components/personnel/PersonnelCalendar.json';
 import m_components_personnel_PersonnelCalendar_en from '@json/en/src/components/personnel/PersonnelCalendar.json';
+import m_components_personnel_PersonnelUnifiedCalendar_tr from '@json/src/components/personnel/PersonnelUnifiedCalendar.json';
+import m_components_personnel_PersonnelUnifiedCalendar_en from '@json/en/src/components/personnel/PersonnelUnifiedCalendar.json';
 import m_components_personnel_PersonnelCalendarDayModal_tr from '@json/src/components/personnel/PersonnelCalendarDayModal.json';
 import m_components_personnel_PersonnelCalendarDayModal_en from '@json/en/src/components/personnel/PersonnelCalendarDayModal.json';
 import m_components_personnel_PersonnelClosureAcceleration_tr from '@json/src/components/personnel/PersonnelClosureAcceleration.json';
@@ -890,6 +892,7 @@ export const STRINGS_REGISTRY = {
   'components/personnel/PersonnelAppIntro': { tr: m_components_personnel_PersonnelAppIntro_tr, en: m_components_personnel_PersonnelAppIntro_en },
   'components/personnel/PersonnelAsgariPanel': { tr: m_components_personnel_PersonnelAsgariPanel_tr, en: m_components_personnel_PersonnelAsgariPanel_en },
   'components/personnel/PersonnelCalendar': { tr: m_components_personnel_PersonnelCalendar_tr, en: m_components_personnel_PersonnelCalendar_en },
+  'components/personnel/PersonnelUnifiedCalendar': { tr: m_components_personnel_PersonnelUnifiedCalendar_tr, en: m_components_personnel_PersonnelUnifiedCalendar_en },
   'components/personnel/PersonnelCalendarDayModal': { tr: m_components_personnel_PersonnelCalendarDayModal_tr, en: m_components_personnel_PersonnelCalendarDayModal_en },
   'components/personnel/PersonnelClosureAcceleration': { tr: m_components_personnel_PersonnelClosureAcceleration_tr, en: m_components_personnel_PersonnelClosureAcceleration_en },
   'components/personnel/PersonnelClosureDossierPanel': { tr: m_components_personnel_PersonnelClosureDossierPanel_tr, en: m_components_personnel_PersonnelClosureDossierPanel_en },

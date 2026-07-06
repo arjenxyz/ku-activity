@@ -1,33 +1,32 @@
 {
   "tabs": {
-    "overview": "Özet",
-    "work": "Yevmiye",
-    "mesai": "Mesai",
-    "asgari": "Asgari",
-    "finance": "Finans",
-    "rights": "Haklarım",
-    "settings": "Ayarlar"
+    "overview": "Overview",
+    "work": "Calendar",
+    "asgari": "Minimum wage",
+    "finance": "Finance",
+    "rights": "My rights",
+    "settings": "Settings"
   },
   "mesaiFallbackLabels": {
-    "full": "Tam mesai",
-    "quarter": "Çeyrek mesai",
-    "half": "Yarım mesai"
+    "full": "Full overtime",
+    "quarter": "Quarter overtime",
+    "half": "Half overtime"
   },
   "stats": {
-    "gross": "Brüt Kazanç",
-    "totalAdvance": "Toplam Avans",
-    "deduction": "Kesinti",
-    "netSalary": "Net Maaş"
+    "gross": "Gross pay",
+    "totalAdvance": "Total advances",
+    "deduction": "Deductions",
+    "netSalary": "Net pay"
   },
-  "loadingData": "Verileriniz yükleniyor…",
-  "workLogSectionTitle": "Yevmiye Kayıtları · {monthLabel}",
-  "advanceRequestTitle": "Avans talebi",
-  "advanceRequestSubtitle": "Talep oluşturun veya durumunu görün →",
-  "loading": "Yükleniyor…",
-  "loadingFinance": "Finans verileri yükleniyor…",
-  "periodSummary": "Dönem özeti",
-  "workDaysTitle": "Çalışılan gün",
-  "mesaiDistributionTitle": "Mesai dağılımı",
-  "mesaiSuffix": " mesai",
-  "headerSubtitle": "Puantaj, yoklama ve maaş özeti"
+  "loadingData": "Loading your data…",
+  "workLogSectionTitle": "Work logs · {monthLabel}",
+  "advanceRequestTitle": "Advance request",
+  "advanceRequestSubtitle": "Create a request or check status →",
+  "loading": "Loading…",
+  "loadingFinance": "Loading finance data…",
+  "periodSummary": "Period summary",
+  "workDaysTitle": "Work days",
+  "mesaiDistributionTitle": "Overtime total",
+  "mesaiSuffix": " overtime",
+  "headerSubtitle": "Attendance and pay summary"
 }

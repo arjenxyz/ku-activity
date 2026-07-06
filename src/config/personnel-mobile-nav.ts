@@ -48,7 +48,6 @@ export const PERSONNEL_HUB_SECTIONS: PersonnelHubSection[] = strings.hubSections
 
 export const PERSONNEL_HUB_TABS: PersonnelTabId[] = [
   'work',
-  'mesai',
   'finance',
   'asgari',
   'rights',

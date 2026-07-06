@@ -1,77 +1,70 @@
 {
   "tabTitles": {
-    "overview": "Ana Sayfa",
-    "work": "Yevmiye",
-    "mesai": "Mesai",
-    "asgari": "Asgari Ücret",
-    "finance": "Finans",
-    "rights": "Haklarım",
-    "settings": "Ayarlar"
+    "overview": "Home",
+    "work": "Calendar",
+    "asgari": "Minimum wage",
+    "finance": "Finance",
+    "rights": "My rights",
+    "settings": "Settings"
   },
   "hubSections": [
     {
-      "title": "Sahada",
-      "subtitle": "Günlük çalışma kayıtları",
+      "title": "On site",
+      "subtitle": "Daily work records",
       "items": [
         {
           "id": "work",
           "tab": "work",
-          "label": "Yevmiye",
-          "description": "Çalışılan günler"
-        },
-        {
-          "id": "mesai",
-          "tab": "mesai",
-          "label": "Mesai",
-          "description": "Fazla mesai"
+          "label": "Calendar",
+          "description": "Work days, overtime, and payments"
         },
         {
           "id": "yoklama",
           "href": "/personnel-panel/yoklama",
-          "label": "Yoklama",
-          "description": "QR ile giriş"
+          "label": "Attendance",
+          "description": "QR check-in"
         }
       ]
     },
     {
-      "title": "Finans",
-      "subtitle": "Maaş ve ödemeler",
+      "title": "Finance",
+      "subtitle": "Pay and payments",
       "items": [
         {
           "id": "finance",
           "tab": "finance",
-          "label": "Bordro",
-          "description": "Net maaş özeti"
+          "label": "Payroll",
+          "description": "Net pay summary"
         },
         {
           "id": "avans",
           "href": "/personnel-panel/avans",
-          "label": "Avans talebi",
-          "description": "Talep oluştur ve takip et"
+          "label": "Advance request",
+          "description": "Create and track requests"
         },
         {
           "id": "asgari",
           "tab": "asgari",
-          "label": "Asgari",
-          "description": "Tamamlama durumu"
+          "label": "Minimum wage",
+          "description": "Top-up status"
         }
       ]
     },
     {
-      "title": "Hesabım",
-      "subtitle": "Profil ve belgeler",
+      "title": "Account",
+      "subtitle": "Profile and documents",
       "items": [
         {
           "id": "rights",
           "tab": "rights",
-          "label": "Haklarım",
-          "description": "Sözleşmeler"
+          "label": "My rights",
+          "description": "Contracts"
         },
         {
           "id": "settings",
           "tab": "settings",
-          "label": "Ayarlar",
-          "description": "PIN ve profil"
+          "label": "Settings",
+          "description": "PIN and profile"
         }
       ]
     }

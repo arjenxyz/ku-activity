@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import strings from '@json/src/lib/personnel-stats.json';
+import type { CalendarEventMarker } from '@/lib/calendar-event-colors';
 import { computeNetPay } from '@/lib/minimum-wage';
 import { formatString } from '@/lib/strings/format';
 import { getWorkLogApprovalStatus, type MesaiType } from '@/lib/work-log';
@@ -308,6 +309,99 @@ export function buildMesaiCalendar(
       mesaiType: log?.mesai_type ?? null,
       approvalStatus: log ? getWorkLogApprovalStatus(log) : null,
       isToday: date === dayjs().format('YYYY-MM-DD'),
+    });
+  }
+
+  return cells;
+}
+
+export type UnifiedCalendarDay = {
+  date: string;
+  day: number;
+  inMonth: boolean;
+  isToday?: boolean;
+  workAmount: number;
+  approvalStatus: ReturnType<typeof getWorkLogApprovalStatus> | null;
+  basePay: number;
+  mesaiPay: number;
+  mesaiType: MesaiType | string | null;
+  advanceTotal: number;
+  deductionTotal: number;
+  minimumTotal: number;
+  hasAnyRecord: boolean;
+  markers: CalendarEventMarker[];
+};
+
+export function buildUnifiedCalendar(
+  month: string,
+  workLogs: WorkLog[],
+  deductions: Deduction[],
+  minimumWages: MinimumWage[],
+  dailyWage: number
+): UnifiedCalendarDay[] {
+  const start = dayjs(`${month}-01`);
+  const daysInMonth = start.daysInMonth();
+  const firstDow = start.day();
+  const mondayFirstOffset = (firstDow + 6) % 7;
+  const cells: UnifiedCalendarDay[] = [];
+
+  for (let i = 0; i < mondayFirstOffset; i++) {
+    cells.push({
+      date: '',
+      day: 0,
+      inMonth: false,
+      workAmount: 0,
+      approvalStatus: null,
+      basePay: 0,
+      mesaiPay: 0,
+      mesaiType: null,
+      advanceTotal: 0,
+      deductionTotal: 0,
+      minimumTotal: 0,
+      hasAnyRecord: false,
+      markers: [],
+    });
+  }
+
+  for (let d = 1; d <= daysInMonth; d++) {
+    const date = start.date(d).format('YYYY-MM-DD');
+    const log = workLogs.find((w) => w.date === date);
+    const dayDeductions = deductions.filter((item) => item.date === date);
+    const dayMinimum = minimumWages.filter((item) => item.date === date);
+
+    const workAmount = log ? workDayUnitsForLog(log) : 0;
+    const basePay = log ? workAmount * dailyWage : 0;
+    const mesaiPay = log ? mesaiPayForLog(log, dailyWage) : 0;
+    const advanceTotal = dayDeductions
+      .filter((item) => item.type === 'advance')
+      .reduce((s, item) => s + Number(item.amount), 0);
+    const deductionTotal = dayDeductions
+      .filter((item) => item.type !== 'advance')
+      .reduce((s, item) => s + Number(item.amount), 0);
+    const minimumTotal = dayMinimum.reduce((s, item) => s + Number(item.amount), 0);
+
+    const markers: UnifiedCalendarDay['markers'] = [];
+    if (workAmount > 0) markers.push('work');
+    if (mesaiPay > 0) markers.push('mesai');
+    if (advanceTotal > 0) markers.push('advance');
+    if (deductionTotal > 0) markers.push('deduction');
+    if (minimumTotal > 0) markers.push('minimum');
+
+    cells.push({
+      date,
+      day: d,
+      inMonth: true,
+      isToday: date === dayjs().format('YYYY-MM-DD'),
+      workAmount,
+      approvalStatus: log ? getWorkLogApprovalStatus(log) : null,
+      basePay,
+      mesaiPay,
+      mesaiType: log?.mesai_type ?? null,
+      advanceTotal,
+      deductionTotal,
+      minimumTotal,
+      hasAnyRecord: markers.length > 0,
+      markers,
     });
   }
 

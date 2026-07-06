@@ -8,7 +8,6 @@ import {
   FiBookOpen,
   FiBriefcase,
   FiCalendar,
-  FiClock,
   FiDollarSign,
   FiList,
   FiSettings,
@@ -16,7 +15,7 @@ import {
 } from 'react-icons/fi';
 import { PersonnelOverviewHeader } from '@/components/personnel/PersonnelOverviewHeader';
 import { PersonnelNetHero } from '@/components/personnel/PersonnelNetHero';
-import { PersonnelMesaiPanel } from '@/components/personnel/PersonnelMesaiPanel';
+import { PersonnelUnifiedCalendarPanel } from '@/components/personnel/PersonnelUnifiedCalendarPanel';
 import { PersonnelTodayAttendance } from '@/components/personnel/PersonnelTodayAttendance';
 import { PersonnelPayrollPrint } from '@/components/personnel/PersonnelPayrollPrint';
 import { PersonnelSettingsPage } from '@/components/personnel/PersonnelSettingsPage';
@@ -24,7 +23,6 @@ import { PersonnelRightsPanel } from '@/components/personnel/PersonnelRightsPane
 import { PersonnelShell } from '@/components/personnel/PersonnelShell';
 import { PersonnelOverviewStrip } from '@/components/personnel/PersonnelOverviewStrip';
 import { PersonnelTabNav } from '@/components/personnel/PersonnelTabNav';
-import { PersonnelWorkPanel } from '@/components/personnel/PersonnelWorkPanel';
 import { PersonnelFinancePanel } from '@/components/personnel/PersonnelFinancePanel';
 import { PersonnelAsgariPanel } from '@/components/personnel/PersonnelAsgariPanel';
 import { PersonnelPullToRefresh } from '@/components/personnel/PersonnelPullToRefresh';
@@ -32,14 +30,14 @@ import { PersonnelTrustFooter } from '@/components/personnel/PersonnelTrustFoote
 import { usePersonnelDashboard } from '@/hooks/usePersonnelDashboard';
 import { usePersonnelAsgari } from '@/hooks/usePersonnelAsgari';
 import { usePersonnelTab, type PersonnelTabId } from '@/hooks/usePersonnelTab';
-import { computeMesaiStats, currentMonth, getMesaiCountLines, getWorkDayCountLines } from '@/lib/personnel-stats';
+import { computeMesaiStats, currentMonth, getWorkDayCountLines } from '@/lib/personnel-stats';
+import { formatMoney } from '@/lib/format';
 
 function PersonelPanelContent() {
   const strings = useRegistryStrings('app/personnel-panel/page');
   const DESKTOP_TABS = [
     { id: 'overview', label: strings.tabs.overview, icon: <FiList className="w-4 h-4" /> },
     { id: 'work', label: strings.tabs.work, icon: <FiBriefcase className="w-4 h-4" /> },
-    { id: 'mesai', label: strings.tabs.mesai, icon: <FiClock className="w-4 h-4" /> },
     { id: 'asgari', label: strings.tabs.asgari, icon: <FiShield className="w-4 h-4" /> },
     { id: 'finance', label: strings.tabs.finance, icon: <FiDollarSign className="w-4 h-4" /> },
     { id: 'rights', label: strings.tabs.rights, icon: <FiBookOpen className="w-4 h-4" /> },
@@ -70,13 +68,16 @@ function PersonelPanelContent() {
   const mesaiStats = employee ? computeMesaiStats(workLogs, Number(employee.daily_wage)) : null;
 
   const workDayLines = getWorkDayCountLines(workLogs);
-  const mesaiLines = mesaiStats
-    ? getMesaiCountLines(mesaiStats)
-    : [
-        { count: 0, label: strings.mesaiFallbackLabels.full },
-        { count: 0, label: strings.mesaiFallbackLabels.quarter },
-        { count: 0, label: strings.mesaiFallbackLabels.half },
-      ];
+  const calendarSummaryLines = mesaiStats
+    ? [
+        ...workDayLines,
+        {
+          count: mesaiStats.recordCount,
+          label: strings.mesaiDistributionTitle,
+          display: formatMoney(mesaiStats.totalPay),
+        },
+      ]
+    : workDayLines;
 
   const tabsWithBadges = DESKTOP_TABS.map((tab) => ({
     ...tab,
@@ -114,23 +115,12 @@ function PersonelPanelContent() {
 
     if (activeTab === 'work' && employee) {
       return (
-        <PersonnelWorkPanel
+        <PersonnelUnifiedCalendarPanel
           month={month}
           onMonthChange={setMonth}
           workLogs={workLogs}
           deductions={deductions}
           minimumWages={minimumWages}
-          dailyWage={Number(employee.daily_wage)}
-        />
-      );
-    }
-
-    if (activeTab === 'mesai' && employee) {
-      return (
-        <PersonnelMesaiPanel
-          month={month}
-          onMonthChange={setMonth}
-          workLogs={workLogs}
           dailyWage={Number(employee.daily_wage)}
         />
       );
@@ -216,16 +206,8 @@ function PersonelPanelContent() {
               title={strings.workDaysTitle}
               icon={<FiCalendar className="w-4 h-4" />}
               iconClassName="bg-blue-100 text-blue-600 dark:bg-blue-900/40 dark:text-blue-400"
-              lines={workDayLines}
+              lines={calendarSummaryLines}
               onOpen={() => goTab('work')}
-            />
-            <PersonnelOverviewStrip
-              title={strings.mesaiDistributionTitle}
-              icon={<FiClock className="w-4 h-4" />}
-              iconClassName="bg-violet-100 text-violet-600 dark:bg-violet-900/40 dark:text-violet-400"
-              lines={mesaiLines}
-              formatLineLabel={(label) => label.replace(strings.mesaiSuffix, '')}
-              onOpen={() => goTab('mesai')}
             />
           </div>
         )}
