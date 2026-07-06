@@ -196,7 +196,7 @@ export function PersonnelNotificationsBell({ tone = 'light', className = '' }: P
     <AnimatePresence>
       {panelOpen && (
         <motion.div
-          className="fixed inset-0 z-[200]"
+          className="fixed inset-x-0 bottom-0 top-[var(--personnel-topbar-h)] z-[200]"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -204,42 +204,37 @@ export function PersonnelNotificationsBell({ tone = 'light', className = '' }: P
         >
           <button
             type="button"
-            className="absolute inset-0 bg-[#0E1548]/40 backdrop-blur-xl backdrop-saturate-150"
+            className="absolute inset-0 bg-[#0E1548]/45 backdrop-blur-xl backdrop-saturate-150"
             aria-label={strings.closeOverlay}
             onClick={closePanel}
           />
 
-          <motion.div
+          <motion.aside
             role="dialog"
             aria-modal="true"
             aria-label={strings.panelTitle}
-            initial={{ opacity: 0, y: -16, scale: 0.97 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -12, scale: 0.98 }}
-            transition={{ type: 'spring', stiffness: 380, damping: 32 }}
-            className="absolute inset-x-3 top-[calc(var(--personnel-topbar-h)+0.5rem)] z-[201] mx-auto flex max-h-[min(78vh,34rem)] w-full max-w-md flex-col overflow-hidden rounded-[1.35rem] border border-white/20 bg-white shadow-[0_24px_64px_rgba(14,21,72,0.28)] dark:border-slate-700/80 dark:bg-slate-900 sm:inset-x-auto sm:right-4 sm:top-[calc(var(--personnel-topbar-h)+0.75rem)] sm:w-[min(calc(100vw-2rem),24rem)]"
+            initial={{ x: '100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '100%' }}
+            transition={{ type: 'spring', stiffness: 340, damping: 34 }}
+            className="absolute right-0 top-0 bottom-0 z-[201] flex w-[min(100vw,21.5rem)] flex-col border-l border-slate-200/90 bg-white shadow-[-12px_0_40px_rgba(14,21,72,0.18)] dark:border-slate-700 dark:bg-slate-900"
           >
-            <div className="relative shrink-0 border-b border-slate-100/90 bg-gradient-to-br from-[#E8EBF8] via-white to-white px-4 py-3.5 dark:border-slate-700/80 dark:from-slate-800 dark:via-slate-900 dark:to-slate-900">
+            <div className="shrink-0 border-b border-slate-100 bg-gradient-to-r from-[#E8EBF8]/80 to-white px-4 py-3.5 dark:border-slate-800 dark:from-slate-800 dark:to-slate-900">
               <div className="flex items-center justify-between gap-3">
-                <div className="flex min-w-0 items-center gap-3">
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#0E1548] text-white shadow-md shadow-[#0E1548]/25">
-                    <FiBell className="h-[1.1rem] w-[1.1rem]" />
-                  </span>
-                  <div className="min-w-0">
-                    <h2 className="text-base font-bold text-[#0E1548] dark:text-white">{strings.panelTitle}</h2>
-                    {canViewNotifications && unreadCount > 0 ? (
-                      <p className="text-xs font-medium text-slate-500 dark:text-slate-400">
-                        {formatString(strings.unreadSummary, { count: String(unreadCount) })}
-                      </p>
-                    ) : null}
-                  </div>
+                <div className="min-w-0">
+                  <h2 className="text-base font-bold text-[#0E1548] dark:text-white">{strings.panelTitle}</h2>
+                  {canViewNotifications && unreadCount > 0 ? (
+                    <p className="text-xs font-medium text-slate-500 dark:text-slate-400">
+                      {formatString(strings.unreadSummary, { count: String(unreadCount) })}
+                    </p>
+                  ) : null}
                 </div>
                 <div className="flex shrink-0 items-center gap-1.5">
                   {canViewNotifications && unreadCount > 0 && (
                     <button
                       type="button"
                       onClick={() => void markAllRead()}
-                      className="inline-flex items-center gap-1 rounded-xl bg-white/80 px-2.5 py-1.5 text-[11px] font-semibold text-[#0E1548] shadow-sm ring-1 ring-slate-200/80 transition hover:bg-white dark:bg-slate-800 dark:text-white dark:ring-slate-600"
+                      className="inline-flex items-center gap-1 rounded-xl bg-white px-2.5 py-1.5 text-[11px] font-semibold text-[#0E1548] shadow-sm ring-1 ring-slate-200/80 transition hover:bg-slate-50 dark:bg-slate-800 dark:text-white dark:ring-slate-600"
                     >
                       <FiCheck className="h-3.5 w-3.5" />
                       {strings.markAllRead}
@@ -248,7 +243,7 @@ export function PersonnelNotificationsBell({ tone = 'light', className = '' }: P
                   <button
                     type="button"
                     onClick={closePanel}
-                    className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-white/80 text-slate-500 shadow-sm ring-1 ring-slate-200/80 transition hover:bg-white hover:text-slate-800 dark:bg-slate-800 dark:ring-slate-600 dark:hover:text-white"
+                    className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-white text-slate-500 shadow-sm ring-1 ring-slate-200/80 transition hover:bg-slate-50 hover:text-slate-800 dark:bg-slate-800 dark:ring-slate-600 dark:hover:text-white"
                     aria-label={strings.closeOverlay}
                   >
                     <FiX className="h-4 w-4" />
@@ -257,7 +252,7 @@ export function PersonnelNotificationsBell({ tone = 'light', className = '' }: P
               </div>
             </div>
 
-            <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain bg-white dark:bg-slate-900">
+            <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain bg-white pb-[max(1rem,env(safe-area-inset-bottom))] dark:bg-slate-900">
               {!canViewNotifications ? (
                 <div className="px-5 py-10 text-center">
                   <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#E8EBF8] text-2xl dark:bg-slate-800">
@@ -390,19 +385,26 @@ export function PersonnelNotificationsBell({ tone = 'light', className = '' }: P
                 </ul>
               )}
             </div>
-          </motion.div>
+          </motion.aside>
         </motion.div>
       )}
     </AnimatePresence>
   );
 
+  const bellActiveClass = panelOpen
+    ? tone === 'onDark'
+      ? 'bg-white text-[#0E1548] shadow-md'
+      : 'bg-[#0E1548] text-white border-[#0E1548] shadow-md shadow-[#0E1548]/20'
+    : '';
+
   return (
     <>
       <button
         type="button"
-        onClick={() => openPanel()}
-        className={`relative inline-flex h-9 w-9 items-center justify-center rounded-xl border transition-colors ${bellClass} ${className}`}
+        onClick={() => (panelOpen ? closePanel() : openPanel())}
+        className={`relative inline-flex h-9 w-9 items-center justify-center rounded-xl border transition-colors ${bellClass} ${bellActiveClass} ${className}`}
         aria-label={strings.bellAriaLabel}
+        aria-expanded={panelOpen}
       >
         <FiBell className="h-[1.05rem] w-[1.05rem]" />
         {showUnreadBadge && (

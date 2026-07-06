@@ -21,8 +21,8 @@ export function PersonnelTopBar({ immersive = false }: Props) {
     pathname.startsWith('/personnel-panel/avans-onay');
 
   const shellClass = immersivePath
-    ? 'fixed top-0 inset-x-0 z-[60]'
-    : 'sticky top-0 z-[60]';
+    ? 'fixed top-0 inset-x-0 z-[250]'
+    : 'sticky top-0 z-[250]';
 
   const cardClass = immersivePath
     ? 'border-white/15 bg-black/60 shadow-lg shadow-black/30'
