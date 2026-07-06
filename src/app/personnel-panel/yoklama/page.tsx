@@ -125,19 +125,40 @@ function YoklamaContent() {
     setCodeSheetOpen(true);
   }, []);
 
+  const closeCodeSheet = useCallback(() => {
+    setCodeSheetOpen(false);
+    setError(null);
+  }, []);
+
   const enterCodeDisabled =
+    !codeSheetOpen &&
     scanPaused &&
     !forceReplace &&
     status?.state !== 'cancelled' &&
     status?.state !== 'removed';
 
   const topBarEnterCode = useMemo(
-    () => ({
-      label: strings.enterCodeButton,
-      disabled: enterCodeDisabled,
-      onClick: openCodeSheet,
-    }),
-    [strings.enterCodeButton, enterCodeDisabled, openCodeSheet]
+    () =>
+      codeSheetOpen
+        ? {
+            label: strings.cancelCodeButton,
+            variant: 'cancel' as const,
+            onClick: closeCodeSheet,
+          }
+        : {
+            label: strings.enterCodeButton,
+            variant: 'enter' as const,
+            disabled: enterCodeDisabled,
+            onClick: openCodeSheet,
+          },
+    [
+      codeSheetOpen,
+      strings.cancelCodeButton,
+      strings.enterCodeButton,
+      enterCodeDisabled,
+      closeCodeSheet,
+      openCodeSheet,
+    ]
   );
 
   useRegisterPersonnelTopBarEnterCode(topBarEnterCode);

@@ -14,6 +14,7 @@ export type PersonnelTopBarEnterCodeAction = {
   label: string;
   disabled?: boolean;
   onClick: () => void;
+  variant?: 'enter' | 'cancel';
 };
 
 type PersonnelTopBarActionsContextValue = {

@@ -84,9 +84,12 @@ export function PersonnelTopBar({ immersive = false }: Props) {
                 type="button"
                 disabled={enterCode.disabled}
                 onClick={enterCode.onClick}
+                aria-label={
+                  enterCode.variant === 'cancel' ? yoklamaStrings.cancelCodeAriaLabel : undefined
+                }
                 className="inline-flex h-10 shrink-0 items-center gap-1.5 rounded-xl bg-white/10 px-3 text-sm font-semibold text-white transition active:bg-white/20 disabled:opacity-40"
               >
-                <FiHash className="h-4 w-4" />
+                {enterCode.variant !== 'cancel' ? <FiHash className="h-4 w-4" /> : null}
                 {enterCode.label}
               </button>
             ) : (

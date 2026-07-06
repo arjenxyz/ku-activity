@@ -6,6 +6,8 @@
   "exitHint": "Panele dönmek için dokunun",
   "exitAriaLabel": "Panele dön",
   "enterCodeButton": "Kod gir",
+  "cancelCodeButton": "İptal",
+  "cancelCodeAriaLabel": "Kod girişini kapat",
   "rescanModeNewQr": "Yeniden okutma modu — yeni QR okutabilirsiniz.",
   "rescanModeReplace": "Yeniden okutma modu — önceki kayıt silinir.",
   "cancelRescanAriaLabel": "Yeniden okutmayı iptal",
