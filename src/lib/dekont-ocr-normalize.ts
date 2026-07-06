@@ -35,8 +35,17 @@ export function normalizeOcrText(text: string): string {
   // Satır kırılımı: "12\n.375,00" → "12.375,00"
   out = out.replace(/(\d{1,3})\s*\n\s*\.(\d{3},\d{2})/g, '$1.$2');
 
+  // Satır kırılımı: "12\n375,00" → "12.375,00"
+  out = out.replace(/(\d{1,3})\s*\n\s*(\d{3},\d{2})/g, '$1.$2');
+
   // Boşluklu binlik: "12 375,00" → "12.375,00"
   out = out.replace(/\b(\d{1,3})\s+(\d{3},\d{2})\b/g, '$1.$2');
+
+  // OCR binlik virgülü: "12,375,00" → "12.375,00"
+  out = out.replace(/\b(\d{1,3}),(\d{3}),(\d{2})\b/g, '$1.$2,$3');
+
+  // Rakam etrafındaki gereksiz boşluk: "12 . 375 , 00" → "12.375,00"
+  out = out.replace(/(\d)\s+([.,])\s*(\d)/g, '$1$2$3');
 
   return out;
 }
