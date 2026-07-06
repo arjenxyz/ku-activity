@@ -1,6 +1,6 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
 import { PersonnelNotificationsProvider } from '@/contexts/PersonnelNotificationsContext';
 import { PersonnelTopBarActionsProvider } from '@/contexts/PersonnelTopBarActionsContext';
@@ -13,12 +13,14 @@ import { usePersonnelClosure } from '@/hooks/usePersonnelClosure';
 
 function ChromeBody({ children }: { children: React.ReactNode }) {
   const pathname = usePathname() ?? '';
+  const searchParams = useSearchParams();
   const isYoklama = pathname.startsWith('/personnel-panel/yoklama');
   const isAvansOnay = pathname.startsWith('/personnel-panel/avans-onay');
+  const isSettingsTab = pathname === '/personnel-panel' && searchParams.get('tab') === 'settings';
   const isImmersive = isYoklama || isAvansOnay;
   const { inClosure, loading: closureLoading } = usePersonnelClosure();
   const closureLocked = closureLoading || inClosure;
-  const hideBottomNav = isImmersive || closureLocked;
+  const hideBottomNav = isImmersive || closureLocked || isSettingsTab;
 
   return (
     <>
@@ -30,7 +32,9 @@ function ChromeBody({ children }: { children: React.ReactNode }) {
             : hideBottomNav
               ? isYoklama
                 ? 'pb-0'
-                : 'pb-0 personnel-topbar-offset'
+                : isSettingsTab
+                  ? 'pb-[max(1rem,env(safe-area-inset-bottom))]'
+                  : 'pb-0 personnel-topbar-offset'
               : 'pb-[calc(5.25rem+env(safe-area-inset-bottom))]'
         }
       >

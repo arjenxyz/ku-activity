@@ -8,6 +8,8 @@
   "profilePhotoHint": "Yüzünüz net görünsün; yoklama ve profil için kullanılır.",
   "profileAccountLabel": "Personel hesabı",
   "backToList": "Geri",
+  "exitHint": "Panele dönmek için dokunun",
+  "exitAriaLabel": "Panele dön",
   "logout": "Çıkış yap",
   "emptyValue": "—",
   "pinTitle": "PIN kodu",

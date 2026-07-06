@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { FiHash } from 'react-icons/fi';
+import { FiHash, FiLogOut } from 'react-icons/fi';
 import { BrandMark } from '@/components/brand/BrandMark';
 import { PersonnelNotificationsBell } from '@/components/personnel/PersonnelNotificationsBell';
 import { usePersonnelNotificationsContext } from '@/contexts/PersonnelNotificationsContext';
@@ -20,16 +20,23 @@ export function PersonnelTopBar({ immersive = false }: Props) {
   const { locale } = useLocale();
   const defaultTagline = locale === 'en' ? APP_TAGLINE : APP_TAGLINE_TR;
   const yoklamaStrings = useRegistryStrings('app/personnel-panel/yoklama/page');
+  const settingsStrings = useRegistryStrings('components/personnel/PersonnelSettingsPage');
   const { panelOpen } = usePersonnelNotificationsContext();
   const topBarActions = usePersonnelTopBarEnterCodeAction();
   const isYoklama = pathname.startsWith('/personnel-panel/yoklama');
+  const isSettings = Boolean(topBarActions?.logout);
   const immersivePath =
     immersive ||
     isYoklama ||
     pathname.startsWith('/personnel-panel/avans-onay');
 
-  const tagline = isYoklama ? yoklamaStrings.exitHint : defaultTagline;
+  const tagline = isYoklama
+    ? yoklamaStrings.exitHint
+    : isSettings
+      ? settingsStrings.exitHint
+      : defaultTagline;
   const enterCode = isYoklama ? topBarActions?.enterCode : null;
+  const logout = isSettings ? topBarActions?.logout : null;
 
   const shellClass = immersivePath
     ? 'fixed top-0 inset-x-0 z-[250] bg-black'
@@ -57,7 +64,13 @@ export function PersonnelTopBar({ immersive = false }: Props) {
             <Link
               href="/personnel-panel"
               className="flex min-w-0 flex-1 items-center gap-2.5 transition-opacity hover:opacity-90 active:opacity-80"
-              aria-label={isYoklama ? yoklamaStrings.exitAriaLabel : undefined}
+              aria-label={
+                isYoklama
+                  ? yoklamaStrings.exitAriaLabel
+                  : isSettings
+                    ? settingsStrings.exitAriaLabel
+                    : undefined
+              }
             >
               <BrandMark
                 size="sm"
@@ -91,6 +104,15 @@ export function PersonnelTopBar({ immersive = false }: Props) {
               >
                 {enterCode.variant !== 'cancel' ? <FiHash className="h-4 w-4" /> : null}
                 {enterCode.label}
+              </button>
+            ) : logout ? (
+              <button
+                type="button"
+                onClick={logout.onClick}
+                className="inline-flex h-10 shrink-0 items-center gap-1.5 rounded-xl bg-slate-100/90 px-3 text-sm font-semibold text-[#0E1548] transition hover:bg-red-50 hover:text-red-600 active:bg-red-100 dark:bg-slate-800/90 dark:text-white dark:hover:bg-red-950/40 dark:hover:text-red-300"
+              >
+                <FiLogOut className="h-4 w-4" />
+                {logout.label}
               </button>
             ) : (
               <div
