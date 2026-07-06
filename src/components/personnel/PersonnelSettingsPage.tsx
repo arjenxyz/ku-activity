@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import {
   FiBriefcase,
@@ -11,7 +11,6 @@ import {
   FiImage,
   FiLock,
   FiLogOut,
-  FiMail,
   FiPhone,
   FiSettings,
   FiShield,
@@ -45,6 +44,18 @@ type SettingsSectionId =
   | 'security'
   | 'app';
 
+type MenuItemId = Exclude<SettingsSectionId, 'home'>;
+
+const MENU_ICON_STYLES: Record<MenuItemId, string> = {
+  personal: 'bg-blue-100 text-blue-600 dark:bg-blue-950/60 dark:text-blue-300',
+  contact: 'bg-emerald-100 text-emerald-600 dark:bg-emerald-950/50 dark:text-emerald-300',
+  bank: 'bg-violet-100 text-violet-600 dark:bg-violet-950/50 dark:text-violet-300',
+  work: 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300',
+  contracts: 'bg-indigo-100 text-indigo-600 dark:bg-indigo-950/50 dark:text-indigo-300',
+  security: 'bg-rose-100 text-rose-600 dark:bg-rose-950/50 dark:text-rose-300',
+  app: 'bg-slate-200 text-slate-600 dark:bg-slate-700 dark:text-slate-200',
+};
+
 function formatIbanDisplay(iban: string | null | undefined, strings: SettingsStrings) {
   if (!iban) return strings.emptyValue;
   const clean = iban.replace(/\s/g, '').toUpperCase();
@@ -59,6 +70,14 @@ function formatPhoneDisplay(phone: string | null | undefined, strings: SettingsS
   return phone;
 }
 
+function maskPhoneForProfile(phone: string | null | undefined): string | null {
+  if (!phone) return null;
+  const digits = phone.replace(/\D/g, '');
+  const national = digits.startsWith('90') ? digits.slice(2) : digits;
+  if (national.length !== 10) return null;
+  return `+90 ${national.slice(0, 3)}*****${national.slice(8)}`;
+}
+
 export function PersonnelSettingsPage({ employee, onLogout }: Props) {
   const strings = useRegistryStrings('components/personnel/PersonnelSettingsPage');
   const [passwordOpen, setPasswordOpen] = useState(false);
@@ -71,6 +90,10 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
 
   const firstName = employee.first_name || employee.name.split(' ')[0] || strings.emptyValue;
   const lastName = employee.last_name || employee.name.split(' ').slice(1).join(' ') || strings.emptyValue;
+  const profileSubtitle =
+    employee.position?.trim() ||
+    maskPhoneForProfile(employee.phone) ||
+    strings.profileAccountLabel;
 
   const uploadPhoto = async (file: File | null) => {
     if (!file) return;
@@ -96,63 +119,29 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
     }
   };
 
-  const sectionMeta = useMemo(() => strings.sections, []);
-
   const menuItems: Array<{
-    id: Exclude<SettingsSectionId, 'home'>;
+    id: MenuItemId;
     title: string;
-    subtitle: string;
     icon: React.ReactNode;
   }> = [
-    {
-      id: 'personal',
-      title: strings.menu.personal.title,
-      subtitle: strings.menu.personal.subtitle,
-      icon: <FiUser className="w-4 h-4" />,
-    },
-    {
-      id: 'contact',
-      title: strings.menu.contact.title,
-      subtitle: strings.menu.contact.subtitle,
-      icon: <FiPhone className="w-4 h-4" />,
-    },
-    {
-      id: 'bank',
-      title: strings.menu.bank.title,
-      subtitle: strings.menu.bank.subtitle,
-      icon: <FiCreditCard className="w-4 h-4" />,
-    },
-    {
-      id: 'work',
-      title: strings.menu.work.title,
-      subtitle: strings.menu.work.subtitle,
-      icon: <FiBriefcase className="w-4 h-4" />,
-    },
-    {
-      id: 'contracts',
-      title: strings.menu.contracts.title,
-      subtitle: strings.menu.contracts.subtitle,
-      icon: <FiShield className="w-4 h-4" />,
-    },
-    {
-      id: 'security',
-      title: strings.menu.security.title,
-      subtitle: strings.menu.security.subtitle,
-      icon: <FiLock className="w-4 h-4" />,
-    },
-    {
-      id: 'app',
-      title: strings.menu.app.title,
-      subtitle: strings.menu.app.subtitle,
-      icon: <FiSettings className="w-4 h-4" />,
-    },
+    { id: 'personal', title: strings.menu.personal.title, icon: <FiUser className="h-[1.05rem] w-[1.05rem]" /> },
+    { id: 'contact', title: strings.menu.contact.title, icon: <FiPhone className="h-[1.05rem] w-[1.05rem]" /> },
+    { id: 'bank', title: strings.menu.bank.title, icon: <FiCreditCard className="h-[1.05rem] w-[1.05rem]" /> },
+    { id: 'work', title: strings.menu.work.title, icon: <FiBriefcase className="h-[1.05rem] w-[1.05rem]" /> },
+    { id: 'contracts', title: strings.menu.contracts.title, icon: <FiShield className="h-[1.05rem] w-[1.05rem]" /> },
+    { id: 'security', title: strings.menu.security.title, icon: <FiLock className="h-[1.05rem] w-[1.05rem]" /> },
+    { id: 'app', title: strings.menu.app.title, icon: <FiSettings className="h-[1.05rem] w-[1.05rem]" /> },
   ];
+
+  const accountItems = menuItems.filter((item) => ['personal', 'contact', 'bank'].includes(item.id));
+  const workItems = menuItems.filter((item) => ['work', 'contracts'].includes(item.id));
+  const systemItems = menuItems.filter((item) => ['security', 'app'].includes(item.id));
 
   const renderSection = () => {
     switch (activeSection) {
       case 'personal':
         return (
-          <SettingsGroup title={strings.groups.personalInfo} icon={<FiUser className="w-4 h-4" />}>
+          <SettingsCard>
             <ProfilePhotoBlock
               name={employee.name}
               photoUrl={photoUrl}
@@ -162,43 +151,49 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
               onCamera={() => cameraInputRef.current?.click()}
               onGallery={() => galleryInputRef.current?.click()}
             />
-            <InfoRow label={strings.fields.firstName} value={firstName} />
-            <InfoRow label={strings.fields.lastName} value={lastName} />
-            <InfoRow label={strings.fields.tcKimlik} value={employee.tc_kimlik || strings.emptyValue} mono />
-            <InfoRow
-              label={strings.fields.birthDate}
-              value={employee.birth_date ? formatDate(employee.birth_date) : strings.emptyValue}
-            />
-          </SettingsGroup>
+            <div className="divide-y divide-slate-100 dark:divide-slate-800">
+              <InfoRow label={strings.fields.firstName} value={firstName} />
+              <InfoRow label={strings.fields.lastName} value={lastName} />
+              <InfoRow label={strings.fields.tcKimlik} value={employee.tc_kimlik || strings.emptyValue} mono />
+              <InfoRow
+                label={strings.fields.birthDate}
+                value={employee.birth_date ? formatDate(employee.birth_date) : strings.emptyValue}
+              />
+            </div>
+          </SettingsCard>
         );
       case 'contact':
         return (
-          <SettingsGroup title={strings.groups.contact} icon={<FiMail className="w-4 h-4" />}>
-            <InfoRow label={strings.fields.email} value={employee.email || strings.emptyValue} />
-            <InfoRow
-              label={strings.fields.phone}
-              value={formatPhoneDisplay(employee.phone, strings)}
-              icon={<FiPhone className="w-3.5 h-3.5 text-slate-400" />}
-            />
-          </SettingsGroup>
+          <SettingsCard>
+            <div className="divide-y divide-slate-100 dark:divide-slate-800">
+              <InfoRow label={strings.fields.email} value={employee.email || strings.emptyValue} />
+              <InfoRow
+                label={strings.fields.phone}
+                value={formatPhoneDisplay(employee.phone, strings)}
+                icon={<FiPhone className="w-3.5 h-3.5 text-slate-400" />}
+              />
+            </div>
+          </SettingsCard>
         );
       case 'bank':
         return (
-          <SettingsGroup title={strings.groups.bank} icon={<FiCreditCard className="w-4 h-4" />}>
+          <SettingsCard>
             <InfoRow label={strings.fields.iban} value={formatIbanDisplay(employee.iban, strings)} mono />
-          </SettingsGroup>
+          </SettingsCard>
         );
       case 'work':
         return (
-          <div className="space-y-4">
-            <SettingsGroup title={strings.groups.workInfo} icon={<FiBriefcase className="w-4 h-4" />}>
-              <InfoRow label={strings.fields.position} value={employee.position || strings.emptyValue} />
-              <InfoRow label={strings.fields.dailyWage} value={formatMoney(Number(employee.daily_wage))} />
-              <InfoRow
-                label={strings.fields.hireDate}
-                value={employee.hire_date ? formatDate(employee.hire_date) : strings.emptyValue}
-              />
-            </SettingsGroup>
+          <div className="space-y-3">
+            <SettingsCard>
+              <div className="divide-y divide-slate-100 dark:divide-slate-800">
+                <InfoRow label={strings.fields.position} value={employee.position || strings.emptyValue} />
+                <InfoRow label={strings.fields.dailyWage} value={formatMoney(Number(employee.daily_wage))} />
+                <InfoRow
+                  label={strings.fields.hireDate}
+                  value={employee.hire_date ? formatDate(employee.hire_date) : strings.emptyValue}
+                />
+              </div>
+            </SettingsCard>
             {employee.project && <PersonnelProjectCard project={employee.project} />}
           </div>
         );
@@ -206,110 +201,188 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
         return <PersonnelContractsSection />;
       case 'security':
         return (
-          <div className="space-y-4">
+          <div className="space-y-3">
             <PersonnelActiveDevices onCurrentDeviceRemoved={onLogout} />
-            <div className="rounded-2xl border border-slate-200/80 dark:border-slate-700 bg-white dark:bg-slate-800 overflow-hidden shadow-sm">
-              <button
-                type="button"
+            <SettingsCard>
+              <MenuRow
+                title={strings.pinTitle}
+                icon={<FiLock className="h-[1.05rem] w-[1.05rem]" />}
+                iconClassName={MENU_ICON_STYLES.security}
                 onClick={() => setPasswordOpen(true)}
-                className="w-full flex items-center gap-3 px-4 py-4 text-left hover:bg-slate-50 dark:hover:bg-slate-800/80 active:bg-slate-100 transition-colors"
-              >
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">
-                  <FiLock className="w-4 h-4" />
-                </span>
-                <div className="flex-1 min-w-0">
-                  <p className="font-medium text-slate-900 dark:text-white">{strings.pinTitle}</p>
-                  <p className="text-xs text-slate-500 mt-0.5">{strings.pinSubtitle}</p>
-                </div>
-                <FiChevronRight className="w-5 h-5 text-slate-400 shrink-0" />
-              </button>
-            </div>
+              />
+            </SettingsCard>
           </div>
         );
       case 'app':
         return <PersonnelDisplaySettings />;
       default:
         return (
-          <div className="rounded-2xl border border-slate-200/80 dark:border-slate-700 bg-white dark:bg-slate-800 overflow-hidden shadow-sm">
-            {menuItems.map((item) => (
+          <div className="space-y-3">
+            <SettingsCard>
               <button
-                key={item.id}
                 type="button"
-                onClick={() => setActiveSection(item.id)}
-                className="w-full flex items-center gap-3 px-4 py-3.5 text-left border-b border-slate-100 dark:border-slate-700/80 last:border-b-0 hover:bg-slate-50 dark:hover:bg-slate-800/80 transition-colors"
+                onClick={() => setActiveSection('personal')}
+                className="flex w-full items-center gap-3 px-4 py-3.5 text-left transition-colors hover:bg-slate-50 active:bg-slate-100 dark:hover:bg-slate-800/60"
               >
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">
-                  {item.icon}
-                </span>
+                <EmployeeAvatar
+                  name={employee.name}
+                  photoUrl={photoUrl}
+                  size="md"
+                  className="!h-12 !w-12 shrink-0 !rounded-full ring-1 ring-slate-200 dark:ring-slate-600"
+                />
                 <span className="min-w-0 flex-1">
-                  <span className="block text-sm font-semibold text-slate-900 dark:text-white">
-                    {item.title}
+                  <span className="block truncate text-base font-semibold text-slate-900 dark:text-white">
+                    {employee.name}
                   </span>
-                  <span className="block text-xs text-slate-500 dark:text-slate-400 truncate">
-                    {item.subtitle}
+                  <span className="mt-0.5 block truncate text-sm text-slate-500 dark:text-slate-400">
+                    {profileSubtitle}
                   </span>
                 </span>
-                <FiChevronRight className="w-4 h-4 text-slate-400" />
+                <FiChevronRight className="h-5 w-5 shrink-0 text-slate-300 dark:text-slate-500" />
               </button>
-            ))}
+            </SettingsCard>
+
+            <SettingsCard>
+              {accountItems.map((item, index) => (
+                <MenuRow
+                  key={item.id}
+                  title={item.title}
+                  icon={item.icon}
+                  iconClassName={MENU_ICON_STYLES[item.id]}
+                  onClick={() => setActiveSection(item.id)}
+                  showDivider={index < accountItems.length - 1}
+                />
+              ))}
+            </SettingsCard>
+
+            <SettingsCard>
+              {workItems.map((item, index) => (
+                <MenuRow
+                  key={item.id}
+                  title={item.title}
+                  icon={item.icon}
+                  iconClassName={MENU_ICON_STYLES[item.id]}
+                  onClick={() => setActiveSection(item.id)}
+                  showDivider={index < workItems.length - 1}
+                />
+              ))}
+            </SettingsCard>
+
+            <SettingsCard>
+              {systemItems.map((item, index) => (
+                <MenuRow
+                  key={item.id}
+                  title={item.title}
+                  icon={item.icon}
+                  iconClassName={MENU_ICON_STYLES[item.id]}
+                  onClick={() => setActiveSection(item.id)}
+                  showDivider={index < systemItems.length - 1}
+                />
+              ))}
+            </SettingsCard>
+
+            <button
+              type="button"
+              onClick={onLogout}
+              className="flex w-full items-center justify-center gap-2 rounded-2xl bg-white py-3.5 text-sm font-medium text-slate-500 shadow-sm transition hover:bg-red-50 hover:text-red-600 dark:bg-slate-800 dark:hover:bg-red-950/30"
+            >
+              <FiLogOut className="h-4 w-4" />
+              {strings.logout}
+            </button>
           </div>
         );
     }
   };
 
+  const pageTitle = strings.sections[activeSection].title;
+
   return (
-    <div className="space-y-5 max-w-lg mx-auto">
-      <div className="rounded-2xl border border-slate-200/80 bg-white px-4 py-4 shadow-sm dark:border-slate-700 dark:bg-slate-800">
-        <h2 className="text-lg font-bold text-slate-900 dark:text-white">
-          {sectionMeta[activeSection].title}
-        </h2>
-        <p className="mt-1 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
-          {sectionMeta[activeSection].subtitle}
-        </p>
+    <div className="-mx-3 sm:-mx-6 -mt-3 min-h-[60vh] bg-[#f0f2f5] px-3 py-4 pb-8 dark:bg-slate-950 sm:px-4 sm:py-5">
+      <div className="mx-auto max-w-lg space-y-4">
+        {activeSection !== 'home' ? (
+          <button
+            type="button"
+            onClick={() => setActiveSection('home')}
+            className="inline-flex items-center gap-1 text-sm font-medium text-[#0E1548] dark:text-blue-300"
+          >
+            <FiChevronLeft className="h-5 w-5" />
+            {strings.backToList}
+          </button>
+        ) : null}
+
+        <div>
+          <h1 className="text-[1.75rem] font-bold leading-tight tracking-tight text-slate-900 dark:text-white">
+            {pageTitle}
+          </h1>
+          {activeSection !== 'home' ? (
+            <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+              {strings.sections[activeSection].subtitle}
+            </p>
+          ) : null}
+        </div>
+
+        <input
+          ref={cameraInputRef}
+          type="file"
+          accept="image/*"
+          capture="user"
+          className="sr-only"
+          onChange={(e) => void uploadPhoto(e.target.files?.[0] ?? null)}
+        />
+        <input
+          ref={galleryInputRef}
+          type="file"
+          accept="image/jpeg,image/png,image/webp,image/gif"
+          className="sr-only"
+          onChange={(e) => void uploadPhoto(e.target.files?.[0] ?? null)}
+        />
+
+        {renderSection()}
       </div>
-
-      <input
-        ref={cameraInputRef}
-        type="file"
-        accept="image/*"
-        capture="user"
-        className="sr-only"
-        onChange={(e) => void uploadPhoto(e.target.files?.[0] ?? null)}
-      />
-      <input
-        ref={galleryInputRef}
-        type="file"
-        accept="image/jpeg,image/png,image/webp,image/gif"
-        className="sr-only"
-        onChange={(e) => void uploadPhoto(e.target.files?.[0] ?? null)}
-      />
-
-      {activeSection !== 'home' && (
-        <button
-          type="button"
-          onClick={() => setActiveSection('home')}
-          className="inline-flex items-center gap-1 text-sm font-medium text-blue-700 dark:text-blue-400 hover:underline"
-        >
-          <FiChevronLeft className="w-4 h-4" />
-          {strings.backToList}
-        </button>
-      )}
-
-      {renderSection()}
-
-      {activeSection === 'home' && (
-        <button
-          type="button"
-          onClick={onLogout}
-          className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl text-sm font-medium text-slate-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/20 transition-colors"
-        >
-          <FiLogOut className="w-4 h-4" />
-          {strings.logout}
-        </button>
-      )}
 
       <PersonnelPasswordModal open={passwordOpen} onClose={() => setPasswordOpen(false)} />
     </div>
+  );
+}
+
+function SettingsCard({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-black/[0.04] dark:bg-slate-900 dark:ring-white/10">
+      {children}
+    </div>
+  );
+}
+
+function MenuRow({
+  title,
+  icon,
+  iconClassName,
+  onClick,
+  showDivider = true,
+}: {
+  title: string;
+  icon: React.ReactNode;
+  iconClassName: string;
+  onClick: () => void;
+  showDivider?: boolean;
+}) {
+  return (
+    <>
+      <button
+        type="button"
+        onClick={onClick}
+        className="flex w-full items-center gap-3 px-4 py-3.5 text-left transition-colors hover:bg-slate-50 active:bg-slate-100 dark:hover:bg-slate-800/60"
+      >
+        <span
+          className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-[0.65rem] ${iconClassName}`}
+        >
+          {icon}
+        </span>
+        <span className="min-w-0 flex-1 text-[15px] font-medium text-slate-900 dark:text-white">{title}</span>
+        <FiChevronRight className="h-5 w-5 shrink-0 text-slate-300 dark:text-slate-500" />
+      </button>
+      {showDivider ? <div className="ml-[3.25rem] h-px bg-slate-100 dark:bg-slate-800" /> : null}
+    </>
   );
 }
 
@@ -331,11 +404,9 @@ function ProfilePhotoBlock({
   onGallery: () => void;
 }) {
   return (
-    <div className="border-b border-slate-100 bg-gradient-to-b from-slate-50/90 to-white px-4 py-5 dark:border-slate-700/80 dark:from-slate-800/50 dark:to-slate-800">
-      <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
-        {strings.profilePhoto}
-      </p>
-      <p className="mt-1 text-xs leading-relaxed text-slate-400 dark:text-slate-500">
+    <div className="border-b border-slate-100 px-4 py-5 dark:border-slate-800">
+      <p className="text-sm font-semibold text-slate-900 dark:text-white">{strings.profilePhoto}</p>
+      <p className="mt-1 text-xs leading-relaxed text-slate-500 dark:text-slate-400">
         {strings.profilePhotoHint}
       </p>
 
@@ -351,9 +422,9 @@ function ProfilePhotoBlock({
             name={name}
             photoUrl={photoUrl}
             size="xl"
-            className="!h-[5.5rem] !w-[5.5rem] !rounded-2xl ring-2 ring-slate-200 shadow-md transition group-hover:ring-blue-300 dark:ring-slate-600"
+            className="!h-[5.5rem] !w-[5.5rem] !rounded-full ring-2 ring-slate-200 shadow-sm transition group-hover:ring-blue-300 dark:ring-slate-600"
           />
-          <span className="absolute -bottom-1 -right-1 flex h-8 w-8 items-center justify-center rounded-full bg-[#0E1548] text-white shadow-lg ring-2 ring-white dark:ring-slate-800">
+          <span className="absolute bottom-0 right-0 flex h-8 w-8 items-center justify-center rounded-full bg-[#0E1548] text-white shadow-md ring-2 ring-white dark:ring-slate-900">
             <FiCamera className="h-4 w-4" />
           </span>
         </button>
@@ -363,7 +434,7 @@ function ProfilePhotoBlock({
             type="button"
             disabled={photoBusy}
             onClick={onCamera}
-            className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-[#0E1548] px-3 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#152060] disabled:opacity-60"
+            className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-[#0E1548] px-3 py-2.5 text-sm font-semibold text-white transition hover:bg-[#152060] disabled:opacity-60"
           >
             <FiCamera className="h-4 w-4 shrink-0" />
             <span className="truncate">{photoBusy ? strings.uploading : strings.takePhoto}</span>
@@ -372,7 +443,7 @@ function ProfilePhotoBlock({
             type="button"
             disabled={photoBusy}
             onClick={onGallery}
-            className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 disabled:opacity-60 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
+            className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-white disabled:opacity-60 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200"
           >
             <FiImage className="h-4 w-4 shrink-0" />
             <span className="truncate">{strings.uploadFromGallery}</span>
@@ -380,33 +451,11 @@ function ProfilePhotoBlock({
         </div>
 
         {photoError ? (
-          <p className="mt-3 w-full rounded-lg bg-red-50 px-3 py-2 text-center text-xs text-red-600 dark:bg-red-950/40 dark:text-red-300">
+          <p className="mt-3 w-full rounded-xl bg-red-50 px-3 py-2 text-center text-xs text-red-600 dark:bg-red-950/40 dark:text-red-300">
             {photoError}
           </p>
         ) : null}
       </div>
-    </div>
-  );
-}
-
-function SettingsGroup({
-  title,
-  icon,
-  children,
-}: {
-  title: string;
-  icon: React.ReactNode;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="rounded-2xl border border-slate-200/80 dark:border-slate-700 bg-white dark:bg-slate-800 overflow-hidden shadow-sm">
-      <div className="flex items-center gap-2 px-4 py-3 border-b border-slate-100 dark:border-slate-700/80 bg-slate-50/80 dark:bg-slate-800/50">
-        <span className="text-blue-600 dark:text-blue-400">{icon}</span>
-        <p className="text-xs font-semibold text-slate-600 dark:text-slate-300 uppercase tracking-wide">
-          {title}
-        </p>
-      </div>
-      <dl className="divide-y divide-slate-100 dark:divide-slate-700/80">{children}</dl>
     </div>
   );
 }
@@ -424,15 +473,15 @@ function InfoRow({
 }) {
   return (
     <div className="flex items-start justify-between gap-4 px-4 py-3.5">
-      <dt className="text-sm text-slate-500 shrink-0">{label}</dt>
-      <dd
-        className={`text-sm font-medium text-slate-900 dark:text-white text-right break-all flex items-center gap-1.5 justify-end ${
+      <span className="shrink-0 text-sm text-slate-500 dark:text-slate-400">{label}</span>
+      <span
+        className={`flex items-center justify-end gap-1.5 break-all text-right text-sm font-medium text-slate-900 dark:text-white ${
           mono ? 'font-mono text-[13px]' : ''
         }`}
       >
         {icon}
         {value}
-      </dd>
+      </span>
     </div>
   );
 }
