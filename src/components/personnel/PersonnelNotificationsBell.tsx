@@ -187,11 +187,11 @@ export function PersonnelNotificationsBell({ tone = 'light', className = '' }: P
               onClick={closePanel}
             />
             <motion.div
-              initial={{ y: '100%' }}
-              animate={{ y: 0 }}
-              exit={{ y: '100%' }}
-              transition={{ type: 'spring', stiffness: 360, damping: 32 }}
-              className="absolute inset-x-0 bottom-0 max-h-[min(78vh,32rem)] overflow-hidden rounded-t-[1.5rem] bg-white shadow-2xl sm:bottom-auto sm:left-1/2 sm:top-1/2 sm:w-full sm:max-w-md sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-2xl"
+              initial={{ opacity: 0, y: -10, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -10, scale: 0.98 }}
+              transition={{ type: 'spring', stiffness: 420, damping: 34 }}
+              className="absolute right-3 top-[var(--personnel-topbar-h)] z-[91] flex w-[min(calc(100vw-1.5rem),22rem)] max-h-[min(70vh,28rem)] flex-col overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-2xl shadow-slate-900/15 dark:border-slate-700 dark:bg-slate-900 sm:right-4"
             >
               <div className="flex items-center justify-between border-b border-slate-100 px-4 py-3">
                 <h2 className="text-base font-bold text-[#0E1548]">{strings.panelTitle}</h2>
@@ -216,7 +216,7 @@ export function PersonnelNotificationsBell({ tone = 'light', className = '' }: P
                 </div>
               </div>
 
-              <div className="overflow-y-auto max-h-[calc(min(78vh,32rem)-3.5rem)] pb-[max(1rem,env(safe-area-inset-bottom))]">
+              <div className="overflow-y-auto max-h-[calc(min(70vh,28rem)-3.5rem)] pb-2">
                 {!canViewNotifications ? (
                   <div className="px-4 py-10 text-center">
                     <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#E8EBF8] text-2xl">
