@@ -1,5 +1,7 @@
 import { createAdminClient } from '@/utils/supabase/admin';
 import { PROJECT_CLOSURE_CONSENT_VERSION } from '@/lib/legal-dossier/types';
+import { getEffectivePersonnelDeletionDeadline } from '@/lib/closure-deletion-acceleration';
+import { maskEmail } from '@/lib/otp-delivery';
 
 export type ClosurePhase = 'none' | 'pending_consents' | 'export_window' | 'purged';
 
@@ -9,6 +11,11 @@ export type PersonnelClosureStatus = {
   startedAt: string | null;
   deadlineAt: string | null;
   fastPathDeadlineAt: string | null;
+  effectiveDeletionDeadline: string | null;
+  acceleratedDeletionAt: string | null;
+  isAccelerated: boolean;
+  canAccelerate: boolean;
+  maskedEmail: string | null;
   consentVersion: string;
   consent: {
     consentedAt: string;
@@ -39,10 +46,35 @@ export async function getPersonnelClosureStatus(
 
   const { data: consent } = await admin
     .from('project_closure_consents')
-    .select('consented_at, data_exported_at, data_export_acknowledged_at, consent_version')
+    .select(
+      'consented_at, data_exported_at, data_export_acknowledged_at, consent_version, accelerated_deletion_at, acceleration_verified_at'
+    )
     .eq('project_id', projectId)
     .eq('employee_id', employeeId)
     .maybeSingle();
+
+  const { data: employee } = await admin
+    .from('employees')
+    .select('email')
+    .eq('id', employeeId)
+    .eq('project_id', projectId)
+    .maybeSingle();
+
+  const acceleratedDeletionAt = consent?.accelerated_deletion_at ?? null;
+  const projectDeadlineAt = project?.closure_deadline_at ?? null;
+  const effectiveDeletionDeadline = getEffectivePersonnelDeletionDeadline({
+    projectDeadlineAt,
+    acceleratedDeletionAt,
+  });
+
+  const canAccelerate =
+    inClosure &&
+    Boolean(consent?.consented_at) &&
+    Boolean(consent?.data_exported_at) &&
+    Boolean(consent?.data_export_acknowledged_at) &&
+    !acceleratedDeletionAt;
+
+  const employeeEmail = employee?.email?.trim().toLowerCase() ?? null;
 
   const { data: lastExport } = await admin
     .from('legal_dossier_exports')
@@ -58,8 +90,14 @@ export async function getPersonnelClosureStatus(
     inClosure,
     phase,
     startedAt: project?.closure_started_at ?? null,
-    deadlineAt: project?.closure_deadline_at ?? null,
+    deadlineAt: projectDeadlineAt,
     fastPathDeadlineAt: project?.closure_fast_path_deadline_at ?? null,
+    effectiveDeletionDeadline,
+    acceleratedDeletionAt,
+    isAccelerated: Boolean(acceleratedDeletionAt),
+    canAccelerate,
+    maskedEmail:
+      canAccelerate && employeeEmail?.includes('@') ? maskEmail(employeeEmail) : null,
     consentVersion: consent?.consent_version ?? PROJECT_CLOSURE_CONSENT_VERSION,
     consent: consent
       ? {

@@ -1,0 +1,18 @@
+{
+  "unauthorized": "Yetkisiz",
+  "closureNotActive": "Kapanış süreci aktif değil.",
+  "consentRequired": "Önce kapanış onayını vermelisiniz.",
+  "downloadRequired": "Önce kayıtlarınızı indirmelisiniz.",
+  "ackRequired": "Önce indirme onayını tamamlamalısınız.",
+  "alreadyAccelerated": "Hesap silme zaten hızlandırıldı.",
+  "invalidEmail": "Kayıtlı e-posta adresi bulunamadı.",
+  "emailNotConfigured": "E-posta doğrulaması şu an kullanılamıyor.",
+  "rateLimited": "Çok fazla kod isteği. Lütfen bekleyin.",
+  "invalidCode": "Geçersiz veya süresi dolmuş kod.",
+  "challengeExpired": "Kodun süresi doldu. Yeni kod isteyin.",
+  "tooManyAttempts": "Çok fazla hatalı deneme.",
+  "codeRequired": "Doğrulama kodu gerekli.",
+  "linkRequired": "Bağlantı geçersiz.",
+  "invalidLink": "Bağlantı geçersiz veya süresi dolmuş.",
+  "generic": "İşlem başarısız"
+}

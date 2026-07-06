@@ -624,3 +624,16 @@ a {
     color: #64748b;
   }
 }
+
+@keyframes closureAccelShake {
+  0%,
+  100% {
+    transform: scale(1.02) translateX(0);
+  }
+  25% {
+    transform: scale(1.03) translateX(-2px);
+  }
+  75% {
+    transform: scale(1.03) translateX(2px);
+  }
+}

@@ -1,5 +1,6 @@
 {
   "accountDeletionNote": "Hesabınız {date} tarihinde silinecek",
+  "accountDeletionNoteAccelerated": "Hesabınız 3 dakika içinde silinecek",
   "countdownLabel": "Hesabınızın silinmesine kalan süre",
   "downloadHint": "Yevmiye, ödeme ve sözleşme kayıtlarınızı ZIP olarak indirip saklayın."
 }

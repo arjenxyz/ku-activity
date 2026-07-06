@@ -94,14 +94,14 @@ import m_app_admin_panel_register_page_tr from '@json/src/app/admin-panel/regist
 import m_app_admin_panel_register_page_en from '@json/en/src/app/admin-panel/register/page.json';
 import m_app_api_admin_dekont_analyze_route_tr from '@json/src/app/api/admin/dekont/analyze/route.json';
 import m_app_api_admin_dekont_analyze_route_en from '@json/en/src/app/api/admin/dekont/analyze/route.json';
-import m_app_api_admin_dekont_drafts__id__route_tr from '@json/src/app/api/admin/dekont/drafts/[id]/route.json';
-import m_app_api_admin_dekont_drafts__id__route_en from '@json/en/src/app/api/admin/dekont/drafts/[id]/route.json';
-import m_app_api_admin_dekont_drafts__id__process_route_tr from '@json/src/app/api/admin/dekont/drafts/[id]/process/route.json';
-import m_app_api_admin_dekont_drafts__id__process_route_en from '@json/en/src/app/api/admin/dekont/drafts/[id]/process/route.json';
-import m_app_api_admin_dekont_drafts__id__file_route_tr from '@json/src/app/api/admin/dekont/drafts/[id]/file/route.json';
-import m_app_api_admin_dekont_drafts__id__file_route_en from '@json/en/src/app/api/admin/dekont/drafts/[id]/file/route.json';
 import m_app_api_admin_dekont_drafts__id__apply_ocr_route_tr from '@json/src/app/api/admin/dekont/drafts/[id]/apply-ocr/route.json';
 import m_app_api_admin_dekont_drafts__id__apply_ocr_route_en from '@json/en/src/app/api/admin/dekont/drafts/[id]/apply-ocr/route.json';
+import m_app_api_admin_dekont_drafts__id__file_route_tr from '@json/src/app/api/admin/dekont/drafts/[id]/file/route.json';
+import m_app_api_admin_dekont_drafts__id__file_route_en from '@json/en/src/app/api/admin/dekont/drafts/[id]/file/route.json';
+import m_app_api_admin_dekont_drafts__id__process_route_tr from '@json/src/app/api/admin/dekont/drafts/[id]/process/route.json';
+import m_app_api_admin_dekont_drafts__id__process_route_en from '@json/en/src/app/api/admin/dekont/drafts/[id]/process/route.json';
+import m_app_api_admin_dekont_drafts__id__route_tr from '@json/src/app/api/admin/dekont/drafts/[id]/route.json';
+import m_app_api_admin_dekont_drafts__id__route_en from '@json/en/src/app/api/admin/dekont/drafts/[id]/route.json';
 import m_app_api_admin_dekont_share_ingest_route_tr from '@json/src/app/api/admin/dekont/share-ingest/route.json';
 import m_app_api_admin_dekont_share_ingest_route_en from '@json/en/src/app/api/admin/dekont/share-ingest/route.json';
 import m_app_api_admin_employees_route_tr from '@json/src/app/api/admin/employees/route.json';
@@ -122,6 +122,8 @@ import m_app_api_admin_projects__projectId__blocks__blockId__route_tr from '@jso
 import m_app_api_admin_projects__projectId__blocks__blockId__route_en from '@json/en/src/app/api/admin/projects/[projectId]/blocks/[blockId]/route.json';
 import m_app_api_admin_projects__projectId__blocks_route_tr from '@json/src/app/api/admin/projects/[projectId]/blocks/route.json';
 import m_app_api_admin_projects__projectId__blocks_route_en from '@json/en/src/app/api/admin/projects/[projectId]/blocks/route.json';
+import m_app_api_admin_projects__projectId__closure_start_route_tr from '@json/src/app/api/admin/projects/[projectId]/closure/start/route.json';
+import m_app_api_admin_projects__projectId__closure_start_route_en from '@json/en/src/app/api/admin/projects/[projectId]/closure/start/route.json';
 import m_app_api_admin_projects__projectId__deductions__recordId__route_tr from '@json/src/app/api/admin/projects/[projectId]/deductions/[recordId]/route.json';
 import m_app_api_admin_projects__projectId__deductions__recordId__route_en from '@json/en/src/app/api/admin/projects/[projectId]/deductions/[recordId]/route.json';
 import m_app_api_admin_projects__projectId__deductions_route_tr from '@json/src/app/api/admin/projects/[projectId]/deductions/route.json';
@@ -176,6 +178,8 @@ import m_app_api_auth_personnel_login_route_tr from '@json/src/app/api/auth/pers
 import m_app_api_auth_personnel_login_route_en from '@json/en/src/app/api/auth/personnel/login/route.json';
 import m_app_api_auth_personnel_projects_route_tr from '@json/src/app/api/auth/personnel/projects/route.json';
 import m_app_api_auth_personnel_projects_route_en from '@json/en/src/app/api/auth/personnel/projects/route.json';
+import m_app_api_cron_personnel_closure_purge_route_tr from '@json/src/app/api/cron/personnel-closure-purge/route.json';
+import m_app_api_cron_personnel_closure_purge_route_en from '@json/en/src/app/api/cron/personnel-closure-purge/route.json';
 import m_app_api_cron_personnel_pending_reminders_route_tr from '@json/src/app/api/cron/personnel-pending-reminders/route.json';
 import m_app_api_cron_personnel_pending_reminders_route_en from '@json/en/src/app/api/cron/personnel-pending-reminders/route.json';
 import m_app_api_cron_supabase_keepalive_route_tr from '@json/src/app/api/cron/supabase-keepalive/route.json';
@@ -204,6 +208,14 @@ import m_app_api_personnel_attendance_qr_status_route_tr from '@json/src/app/api
 import m_app_api_personnel_attendance_qr_status_route_en from '@json/en/src/app/api/personnel/attendance-qr/status/route.json';
 import m_app_api_personnel_change_password_route_tr from '@json/src/app/api/personnel/change-password/route.json';
 import m_app_api_personnel_change_password_route_en from '@json/en/src/app/api/personnel/change-password/route.json';
+import m_app_api_personnel_closure_accelerate_deletion_route_tr from '@json/src/app/api/personnel/closure/accelerate-deletion/route.json';
+import m_app_api_personnel_closure_accelerate_deletion_route_en from '@json/en/src/app/api/personnel/closure/accelerate-deletion/route.json';
+import m_app_api_personnel_closure_acknowledge_export_route_tr from '@json/src/app/api/personnel/closure/acknowledge-export/route.json';
+import m_app_api_personnel_closure_acknowledge_export_route_en from '@json/en/src/app/api/personnel/closure/acknowledge-export/route.json';
+import m_app_api_personnel_closure_consent_route_tr from '@json/src/app/api/personnel/closure/consent/route.json';
+import m_app_api_personnel_closure_consent_route_en from '@json/en/src/app/api/personnel/closure/consent/route.json';
+import m_app_api_personnel_closure_status_route_tr from '@json/src/app/api/personnel/closure/status/route.json';
+import m_app_api_personnel_closure_status_route_en from '@json/en/src/app/api/personnel/closure/status/route.json';
 import m_app_api_personnel_contracts_route_tr from '@json/src/app/api/personnel/contracts/route.json';
 import m_app_api_personnel_contracts_route_en from '@json/en/src/app/api/personnel/contracts/route.json';
 import m_app_api_personnel_deductions_route_tr from '@json/src/app/api/personnel/deductions/route.json';
@@ -216,6 +228,8 @@ import m_app_api_personnel_minimum_wages_route_tr from '@json/src/app/api/person
 import m_app_api_personnel_minimum_wages_route_en from '@json/en/src/app/api/personnel/minimum-wages/route.json';
 import m_app_api_personnel_my_dossier_route_tr from '@json/src/app/api/personnel/my-dossier/route.json';
 import m_app_api_personnel_my_dossier_route_en from '@json/en/src/app/api/personnel/my-dossier/route.json';
+import m_app_api_personnel_my_dossier_sections_route_tr from '@json/src/app/api/personnel/my-dossier/sections/route.json';
+import m_app_api_personnel_my_dossier_sections_route_en from '@json/en/src/app/api/personnel/my-dossier/sections/route.json';
 import m_app_api_personnel_summary_route_tr from '@json/src/app/api/personnel/summary/route.json';
 import m_app_api_personnel_summary_route_en from '@json/en/src/app/api/personnel/summary/route.json';
 import m_app_api_personnel_work_logs__recordId__dispute_route_tr from '@json/src/app/api/personnel/work-logs/[recordId]/dispute/route.json';
@@ -304,6 +318,8 @@ import m_components_admin_AdminAppIntro_tr from '@json/src/components/admin/Admi
 import m_components_admin_AdminAppIntro_en from '@json/en/src/components/admin/AdminAppIntro.json';
 import m_components_admin_AdminAttendanceModal_tr from '@json/src/components/admin/AdminAttendanceModal.json';
 import m_components_admin_AdminAttendanceModal_en from '@json/en/src/components/admin/AdminAttendanceModal.json';
+import m_components_admin_AdminProjectClosureScreen_tr from '@json/src/components/admin/AdminProjectClosureScreen.json';
+import m_components_admin_AdminProjectClosureScreen_en from '@json/en/src/components/admin/AdminProjectClosureScreen.json';
 import m_components_admin_AdminWorkLogDisputeActions_tr from '@json/src/components/admin/AdminWorkLogDisputeActions.json';
 import m_components_admin_AdminWorkLogDisputeActions_en from '@json/en/src/components/admin/AdminWorkLogDisputeActions.json';
 import m_components_admin_DekontSharePanel_tr from '@json/src/components/admin/DekontSharePanel.json';
@@ -312,10 +328,6 @@ import m_components_admin_LegalDossierDownloadButton_tr from '@json/src/componen
 import m_components_admin_LegalDossierDownloadButton_en from '@json/en/src/components/admin/LegalDossierDownloadButton.json';
 import m_components_admin_ProjectLegalDossierDownloadButton_tr from '@json/src/components/admin/ProjectLegalDossierDownloadButton.json';
 import m_components_admin_ProjectLegalDossierDownloadButton_en from '@json/en/src/components/admin/ProjectLegalDossierDownloadButton.json';
-import m_components_admin_AdminProjectClosureScreen_tr from '@json/src/components/admin/AdminProjectClosureScreen.json';
-import m_components_admin_AdminProjectClosureScreen_en from '@json/en/src/components/admin/AdminProjectClosureScreen.json';
-import m_components_closure_ClosureCountdown_tr from '@json/src/components/closure/ClosureCountdown.json';
-import m_components_closure_ClosureCountdown_en from '@json/en/src/components/closure/ClosureCountdown.json';
 import m_components_advance_AdminAdvanceRequestsPanel_tr from '@json/src/components/advance/AdminAdvanceRequestsPanel.json';
 import m_components_advance_AdminAdvanceRequestsPanel_en from '@json/en/src/components/advance/AdminAdvanceRequestsPanel.json';
 import m_components_auth_AdminRegisterLayout_tr from '@json/src/components/auth/AdminRegisterLayout.json';
@@ -334,6 +346,8 @@ import m_components_auth_ThemeToggleButton_tr from '@json/src/components/auth/Th
 import m_components_auth_ThemeToggleButton_en from '@json/en/src/components/auth/ThemeToggleButton.json';
 import m_components_brand_BrandMark_tr from '@json/src/components/brand/BrandMark.json';
 import m_components_brand_BrandMark_en from '@json/en/src/components/brand/BrandMark.json';
+import m_components_closure_ClosureCountdown_tr from '@json/src/components/closure/ClosureCountdown.json';
+import m_components_closure_ClosureCountdown_en from '@json/en/src/components/closure/ClosureCountdown.json';
 import m_components_contracts_ContractAcceptanceBlock_tr from '@json/src/components/contracts/ContractAcceptanceBlock.json';
 import m_components_contracts_ContractAcceptanceBlock_en from '@json/en/src/components/contracts/ContractAcceptanceBlock.json';
 import m_components_contracts_ContractAcceptanceModal_tr from '@json/src/components/contracts/ContractAcceptanceModal.json';
@@ -410,6 +424,12 @@ import m_components_personnel_PersonnelCalendar_tr from '@json/src/components/pe
 import m_components_personnel_PersonnelCalendar_en from '@json/en/src/components/personnel/PersonnelCalendar.json';
 import m_components_personnel_PersonnelCalendarDayModal_tr from '@json/src/components/personnel/PersonnelCalendarDayModal.json';
 import m_components_personnel_PersonnelCalendarDayModal_en from '@json/en/src/components/personnel/PersonnelCalendarDayModal.json';
+import m_components_personnel_PersonnelClosureAcceleration_tr from '@json/src/components/personnel/PersonnelClosureAcceleration.json';
+import m_components_personnel_PersonnelClosureAcceleration_en from '@json/en/src/components/personnel/PersonnelClosureAcceleration.json';
+import m_components_personnel_PersonnelClosureDossierPanel_tr from '@json/src/components/personnel/PersonnelClosureDossierPanel.json';
+import m_components_personnel_PersonnelClosureDossierPanel_en from '@json/en/src/components/personnel/PersonnelClosureDossierPanel.json';
+import m_components_personnel_PersonnelClosureScreen_tr from '@json/src/components/personnel/PersonnelClosureScreen.json';
+import m_components_personnel_PersonnelClosureScreen_en from '@json/en/src/components/personnel/PersonnelClosureScreen.json';
 import m_components_personnel_PersonnelContractsSection_tr from '@json/src/components/personnel/PersonnelContractsSection.json';
 import m_components_personnel_PersonnelContractsSection_en from '@json/en/src/components/personnel/PersonnelContractsSection.json';
 import m_components_personnel_PersonnelDisplaySettings_tr from '@json/src/components/personnel/PersonnelDisplaySettings.json';
@@ -434,14 +454,12 @@ import m_components_personnel_PersonnelMonthFilter_tr from '@json/src/components
 import m_components_personnel_PersonnelMonthFilter_en from '@json/en/src/components/personnel/PersonnelMonthFilter.json';
 import m_components_personnel_PersonnelMyDossierDownload_tr from '@json/src/components/personnel/PersonnelMyDossierDownload.json';
 import m_components_personnel_PersonnelMyDossierDownload_en from '@json/en/src/components/personnel/PersonnelMyDossierDownload.json';
-import m_components_personnel_PersonnelClosureDossierPanel_tr from '@json/src/components/personnel/PersonnelClosureDossierPanel.json';
-import m_components_personnel_PersonnelClosureDossierPanel_en from '@json/en/src/components/personnel/PersonnelClosureDossierPanel.json';
-import m_components_personnel_PersonnelClosureScreen_tr from '@json/src/components/personnel/PersonnelClosureScreen.json';
-import m_components_personnel_PersonnelClosureScreen_en from '@json/en/src/components/personnel/PersonnelClosureScreen.json';
 import m_components_personnel_PersonnelNavHub_tr from '@json/src/components/personnel/PersonnelNavHub.json';
 import m_components_personnel_PersonnelNavHub_en from '@json/en/src/components/personnel/PersonnelNavHub.json';
 import m_components_personnel_PersonnelNetHero_tr from '@json/src/components/personnel/PersonnelNetHero.json';
 import m_components_personnel_PersonnelNetHero_en from '@json/en/src/components/personnel/PersonnelNetHero.json';
+import m_components_personnel_PersonnelNotificationsBell_tr from '@json/src/components/personnel/PersonnelNotificationsBell.json';
+import m_components_personnel_PersonnelNotificationsBell_en from '@json/en/src/components/personnel/PersonnelNotificationsBell.json';
 import m_components_personnel_PersonnelOverviewHeader_tr from '@json/src/components/personnel/PersonnelOverviewHeader.json';
 import m_components_personnel_PersonnelOverviewHeader_en from '@json/en/src/components/personnel/PersonnelOverviewHeader.json';
 import m_components_personnel_PersonnelPasswordForm_tr from '@json/src/components/personnel/PersonnelPasswordForm.json';
@@ -564,6 +582,8 @@ import m_lib_block_team_service_tr from '@json/src/lib/block-team-service.json';
 import m_lib_block_team_service_en from '@json/en/src/lib/block-team-service.json';
 import m_lib_capture_screen_tr from '@json/src/lib/capture-screen.json';
 import m_lib_capture_screen_en from '@json/en/src/lib/capture-screen.json';
+import m_lib_closure_deletion_acceleration_tr from '@json/src/lib/closure-deletion-acceleration.json';
+import m_lib_closure_deletion_acceleration_en from '@json/en/src/lib/closure-deletion-acceleration.json';
 import m_lib_contract_service_tr from '@json/src/lib/contract-service.json';
 import m_lib_contract_service_en from '@json/en/src/lib/contract-service.json';
 import m_lib_dekont_import_service_tr from '@json/src/lib/dekont-import-service.json';
@@ -598,6 +618,8 @@ import m_lib_personnel_display_preferences_tr from '@json/src/lib/personnel-disp
 import m_lib_personnel_display_preferences_en from '@json/en/src/lib/personnel-display-preferences.json';
 import m_lib_personnel_intro_boot_script_tr from '@json/src/lib/personnel-intro-boot-script.json';
 import m_lib_personnel_intro_boot_script_en from '@json/en/src/lib/personnel-intro-boot-script.json';
+import m_lib_personnel_notifications_tr from '@json/src/lib/personnel-notifications.json';
+import m_lib_personnel_notifications_en from '@json/en/src/lib/personnel-notifications.json';
 import m_lib_personnel_pin_tr from '@json/src/lib/personnel-pin.json';
 import m_lib_personnel_pin_en from '@json/en/src/lib/personnel-pin.json';
 import m_lib_personnel_pin_reset_tr from '@json/src/lib/personnel-pin-reset.json';
@@ -610,6 +632,8 @@ import m_lib_platform_legal_content_tr from '@json/src/lib/platform-legal-conten
 import m_lib_platform_legal_content_en from '@json/en/src/lib/platform-legal-content.json';
 import m_lib_profit_display_tr from '@json/src/lib/profit-display.json';
 import m_lib_profit_display_en from '@json/en/src/lib/profit-display.json';
+import m_lib_project_closure_service_tr from '@json/src/lib/project-closure-service.json';
+import m_lib_project_closure_service_en from '@json/en/src/lib/project-closure-service.json';
 import m_lib_project_queries_tr from '@json/src/lib/project-queries.json';
 import m_lib_project_queries_en from '@json/en/src/lib/project-queries.json';
 import m_lib_registration_draft_validation_tr from '@json/src/lib/registration-draft-validation.json';
@@ -685,10 +709,10 @@ export const STRINGS_REGISTRY = {
   'app/admin-panel/proje/[projectId]/yevmiye/page': { tr: m_app_admin_panel_proje__projectId__yevmiye_page_tr, en: m_app_admin_panel_proje__projectId__yevmiye_page_en },
   'app/admin-panel/register/page': { tr: m_app_admin_panel_register_page_tr, en: m_app_admin_panel_register_page_en },
   'app/api/admin/dekont/analyze/route': { tr: m_app_api_admin_dekont_analyze_route_tr, en: m_app_api_admin_dekont_analyze_route_en },
-  'app/api/admin/dekont/drafts/[id]/route': { tr: m_app_api_admin_dekont_drafts__id__route_tr, en: m_app_api_admin_dekont_drafts__id__route_en },
-  'app/api/admin/dekont/drafts/[id]/process/route': { tr: m_app_api_admin_dekont_drafts__id__process_route_tr, en: m_app_api_admin_dekont_drafts__id__process_route_en },
-  'app/api/admin/dekont/drafts/[id]/file/route': { tr: m_app_api_admin_dekont_drafts__id__file_route_tr, en: m_app_api_admin_dekont_drafts__id__file_route_en },
   'app/api/admin/dekont/drafts/[id]/apply-ocr/route': { tr: m_app_api_admin_dekont_drafts__id__apply_ocr_route_tr, en: m_app_api_admin_dekont_drafts__id__apply_ocr_route_en },
+  'app/api/admin/dekont/drafts/[id]/file/route': { tr: m_app_api_admin_dekont_drafts__id__file_route_tr, en: m_app_api_admin_dekont_drafts__id__file_route_en },
+  'app/api/admin/dekont/drafts/[id]/process/route': { tr: m_app_api_admin_dekont_drafts__id__process_route_tr, en: m_app_api_admin_dekont_drafts__id__process_route_en },
+  'app/api/admin/dekont/drafts/[id]/route': { tr: m_app_api_admin_dekont_drafts__id__route_tr, en: m_app_api_admin_dekont_drafts__id__route_en },
   'app/api/admin/dekont/share-ingest/route': { tr: m_app_api_admin_dekont_share_ingest_route_tr, en: m_app_api_admin_dekont_share_ingest_route_en },
   'app/api/admin/employees/route': { tr: m_app_api_admin_employees_route_tr, en: m_app_api_admin_employees_route_en },
   'app/api/admin/projects/[projectId]/advance-requests/[id]/approve/route': { tr: m_app_api_admin_projects__projectId__advance_requests__id__approve_route_tr, en: m_app_api_admin_projects__projectId__advance_requests__id__approve_route_en },
@@ -699,6 +723,7 @@ export const STRINGS_REGISTRY = {
   'app/api/admin/projects/[projectId]/attendance-qr/route': { tr: m_app_api_admin_projects__projectId__attendance_qr_route_tr, en: m_app_api_admin_projects__projectId__attendance_qr_route_en },
   'app/api/admin/projects/[projectId]/blocks/[blockId]/route': { tr: m_app_api_admin_projects__projectId__blocks__blockId__route_tr, en: m_app_api_admin_projects__projectId__blocks__blockId__route_en },
   'app/api/admin/projects/[projectId]/blocks/route': { tr: m_app_api_admin_projects__projectId__blocks_route_tr, en: m_app_api_admin_projects__projectId__blocks_route_en },
+  'app/api/admin/projects/[projectId]/closure/start/route': { tr: m_app_api_admin_projects__projectId__closure_start_route_tr, en: m_app_api_admin_projects__projectId__closure_start_route_en },
   'app/api/admin/projects/[projectId]/deductions/[recordId]/route': { tr: m_app_api_admin_projects__projectId__deductions__recordId__route_tr, en: m_app_api_admin_projects__projectId__deductions__recordId__route_en },
   'app/api/admin/projects/[projectId]/deductions/route': { tr: m_app_api_admin_projects__projectId__deductions_route_tr, en: m_app_api_admin_projects__projectId__deductions_route_en },
   'app/api/admin/projects/[projectId]/employees/[employeeId]/photo/route': { tr: m_app_api_admin_projects__projectId__employees__employeeId__photo_route_tr, en: m_app_api_admin_projects__projectId__employees__employeeId__photo_route_en },
@@ -726,6 +751,7 @@ export const STRINGS_REGISTRY = {
   'app/api/auth/personnel/employees/route': { tr: m_app_api_auth_personnel_employees_route_tr, en: m_app_api_auth_personnel_employees_route_en },
   'app/api/auth/personnel/login/route': { tr: m_app_api_auth_personnel_login_route_tr, en: m_app_api_auth_personnel_login_route_en },
   'app/api/auth/personnel/projects/route': { tr: m_app_api_auth_personnel_projects_route_tr, en: m_app_api_auth_personnel_projects_route_en },
+  'app/api/cron/personnel-closure-purge/route': { tr: m_app_api_cron_personnel_closure_purge_route_tr, en: m_app_api_cron_personnel_closure_purge_route_en },
   'app/api/cron/personnel-pending-reminders/route': { tr: m_app_api_cron_personnel_pending_reminders_route_tr, en: m_app_api_cron_personnel_pending_reminders_route_en },
   'app/api/cron/supabase-keepalive/route': { tr: m_app_api_cron_supabase_keepalive_route_tr, en: m_app_api_cron_supabase_keepalive_route_en },
   'app/api/developer/codes/[codeId]/route': { tr: m_app_api_developer_codes__codeId__route_tr, en: m_app_api_developer_codes__codeId__route_en },
@@ -740,12 +766,17 @@ export const STRINGS_REGISTRY = {
   'app/api/personnel/asgari/route': { tr: m_app_api_personnel_asgari_route_tr, en: m_app_api_personnel_asgari_route_en },
   'app/api/personnel/attendance-qr/status/route': { tr: m_app_api_personnel_attendance_qr_status_route_tr, en: m_app_api_personnel_attendance_qr_status_route_en },
   'app/api/personnel/change-password/route': { tr: m_app_api_personnel_change_password_route_tr, en: m_app_api_personnel_change_password_route_en },
+  'app/api/personnel/closure/accelerate-deletion/route': { tr: m_app_api_personnel_closure_accelerate_deletion_route_tr, en: m_app_api_personnel_closure_accelerate_deletion_route_en },
+  'app/api/personnel/closure/acknowledge-export/route': { tr: m_app_api_personnel_closure_acknowledge_export_route_tr, en: m_app_api_personnel_closure_acknowledge_export_route_en },
+  'app/api/personnel/closure/consent/route': { tr: m_app_api_personnel_closure_consent_route_tr, en: m_app_api_personnel_closure_consent_route_en },
+  'app/api/personnel/closure/status/route': { tr: m_app_api_personnel_closure_status_route_tr, en: m_app_api_personnel_closure_status_route_en },
   'app/api/personnel/contracts/route': { tr: m_app_api_personnel_contracts_route_tr, en: m_app_api_personnel_contracts_route_en },
   'app/api/personnel/deductions/route': { tr: m_app_api_personnel_deductions_route_tr, en: m_app_api_personnel_deductions_route_en },
   'app/api/personnel/me/photo/route': { tr: m_app_api_personnel_me_photo_route_tr, en: m_app_api_personnel_me_photo_route_en },
   'app/api/personnel/me/route': { tr: m_app_api_personnel_me_route_tr, en: m_app_api_personnel_me_route_en },
   'app/api/personnel/minimum-wages/route': { tr: m_app_api_personnel_minimum_wages_route_tr, en: m_app_api_personnel_minimum_wages_route_en },
   'app/api/personnel/my-dossier/route': { tr: m_app_api_personnel_my_dossier_route_tr, en: m_app_api_personnel_my_dossier_route_en },
+  'app/api/personnel/my-dossier/sections/route': { tr: m_app_api_personnel_my_dossier_sections_route_tr, en: m_app_api_personnel_my_dossier_sections_route_en },
   'app/api/personnel/summary/route': { tr: m_app_api_personnel_summary_route_tr, en: m_app_api_personnel_summary_route_en },
   'app/api/personnel/work-logs/[recordId]/dispute/route': { tr: m_app_api_personnel_work_logs__recordId__dispute_route_tr, en: m_app_api_personnel_work_logs__recordId__dispute_route_en },
   'app/api/personnel/work-logs/confirm/route': { tr: m_app_api_personnel_work_logs_confirm_route_tr, en: m_app_api_personnel_work_logs_confirm_route_en },
@@ -790,12 +821,11 @@ export const STRINGS_REGISTRY = {
   'components/ThemeToggle': { tr: m_components_ThemeToggle_tr, en: m_components_ThemeToggle_en },
   'components/admin/AdminAppIntro': { tr: m_components_admin_AdminAppIntro_tr, en: m_components_admin_AdminAppIntro_en },
   'components/admin/AdminAttendanceModal': { tr: m_components_admin_AdminAttendanceModal_tr, en: m_components_admin_AdminAttendanceModal_en },
+  'components/admin/AdminProjectClosureScreen': { tr: m_components_admin_AdminProjectClosureScreen_tr, en: m_components_admin_AdminProjectClosureScreen_en },
   'components/admin/AdminWorkLogDisputeActions': { tr: m_components_admin_AdminWorkLogDisputeActions_tr, en: m_components_admin_AdminWorkLogDisputeActions_en },
   'components/admin/DekontSharePanel': { tr: m_components_admin_DekontSharePanel_tr, en: m_components_admin_DekontSharePanel_en },
   'components/admin/LegalDossierDownloadButton': { tr: m_components_admin_LegalDossierDownloadButton_tr, en: m_components_admin_LegalDossierDownloadButton_en },
   'components/admin/ProjectLegalDossierDownloadButton': { tr: m_components_admin_ProjectLegalDossierDownloadButton_tr, en: m_components_admin_ProjectLegalDossierDownloadButton_en },
-  'components/admin/AdminProjectClosureScreen': { tr: m_components_admin_AdminProjectClosureScreen_tr, en: m_components_admin_AdminProjectClosureScreen_en },
-  'components/closure/ClosureCountdown': { tr: m_components_closure_ClosureCountdown_tr, en: m_components_closure_ClosureCountdown_en },
   'components/advance/AdminAdvanceRequestsPanel': { tr: m_components_advance_AdminAdvanceRequestsPanel_tr, en: m_components_advance_AdminAdvanceRequestsPanel_en },
   'components/auth/AdminRegisterLayout': { tr: m_components_auth_AdminRegisterLayout_tr, en: m_components_auth_AdminRegisterLayout_en },
   'components/auth/AuthLayout': { tr: m_components_auth_AuthLayout_tr, en: m_components_auth_AuthLayout_en },
@@ -805,6 +835,7 @@ export const STRINGS_REGISTRY = {
   'components/auth/ScreenReportButton': { tr: m_components_auth_ScreenReportButton_tr, en: m_components_auth_ScreenReportButton_en },
   'components/auth/ThemeToggleButton': { tr: m_components_auth_ThemeToggleButton_tr, en: m_components_auth_ThemeToggleButton_en },
   'components/brand/BrandMark': { tr: m_components_brand_BrandMark_tr, en: m_components_brand_BrandMark_en },
+  'components/closure/ClosureCountdown': { tr: m_components_closure_ClosureCountdown_tr, en: m_components_closure_ClosureCountdown_en },
   'components/contracts/ContractAcceptanceBlock': { tr: m_components_contracts_ContractAcceptanceBlock_tr, en: m_components_contracts_ContractAcceptanceBlock_en },
   'components/contracts/ContractAcceptanceModal': { tr: m_components_contracts_ContractAcceptanceModal_tr, en: m_components_contracts_ContractAcceptanceModal_en },
   'components/contracts/ContractEmailVerificationModal': { tr: m_components_contracts_ContractEmailVerificationModal_tr, en: m_components_contracts_ContractEmailVerificationModal_en },
@@ -843,6 +874,9 @@ export const STRINGS_REGISTRY = {
   'components/personnel/PersonnelAsgariPanel': { tr: m_components_personnel_PersonnelAsgariPanel_tr, en: m_components_personnel_PersonnelAsgariPanel_en },
   'components/personnel/PersonnelCalendar': { tr: m_components_personnel_PersonnelCalendar_tr, en: m_components_personnel_PersonnelCalendar_en },
   'components/personnel/PersonnelCalendarDayModal': { tr: m_components_personnel_PersonnelCalendarDayModal_tr, en: m_components_personnel_PersonnelCalendarDayModal_en },
+  'components/personnel/PersonnelClosureAcceleration': { tr: m_components_personnel_PersonnelClosureAcceleration_tr, en: m_components_personnel_PersonnelClosureAcceleration_en },
+  'components/personnel/PersonnelClosureDossierPanel': { tr: m_components_personnel_PersonnelClosureDossierPanel_tr, en: m_components_personnel_PersonnelClosureDossierPanel_en },
+  'components/personnel/PersonnelClosureScreen': { tr: m_components_personnel_PersonnelClosureScreen_tr, en: m_components_personnel_PersonnelClosureScreen_en },
   'components/personnel/PersonnelContractsSection': { tr: m_components_personnel_PersonnelContractsSection_tr, en: m_components_personnel_PersonnelContractsSection_en },
   'components/personnel/PersonnelDisplaySettings': { tr: m_components_personnel_PersonnelDisplaySettings_tr, en: m_components_personnel_PersonnelDisplaySettings_en },
   'components/personnel/PersonnelFairnessCard': { tr: m_components_personnel_PersonnelFairnessCard_tr, en: m_components_personnel_PersonnelFairnessCard_en },
@@ -855,10 +889,9 @@ export const STRINGS_REGISTRY = {
   'components/personnel/PersonnelMonthChip': { tr: m_components_personnel_PersonnelMonthChip_tr, en: m_components_personnel_PersonnelMonthChip_en },
   'components/personnel/PersonnelMonthFilter': { tr: m_components_personnel_PersonnelMonthFilter_tr, en: m_components_personnel_PersonnelMonthFilter_en },
   'components/personnel/PersonnelMyDossierDownload': { tr: m_components_personnel_PersonnelMyDossierDownload_tr, en: m_components_personnel_PersonnelMyDossierDownload_en },
-  'components/personnel/PersonnelClosureDossierPanel': { tr: m_components_personnel_PersonnelClosureDossierPanel_tr, en: m_components_personnel_PersonnelClosureDossierPanel_en },
-  'components/personnel/PersonnelClosureScreen': { tr: m_components_personnel_PersonnelClosureScreen_tr, en: m_components_personnel_PersonnelClosureScreen_en },
   'components/personnel/PersonnelNavHub': { tr: m_components_personnel_PersonnelNavHub_tr, en: m_components_personnel_PersonnelNavHub_en },
   'components/personnel/PersonnelNetHero': { tr: m_components_personnel_PersonnelNetHero_tr, en: m_components_personnel_PersonnelNetHero_en },
+  'components/personnel/PersonnelNotificationsBell': { tr: m_components_personnel_PersonnelNotificationsBell_tr, en: m_components_personnel_PersonnelNotificationsBell_en },
   'components/personnel/PersonnelOverviewHeader': { tr: m_components_personnel_PersonnelOverviewHeader_tr, en: m_components_personnel_PersonnelOverviewHeader_en },
   'components/personnel/PersonnelPasswordForm': { tr: m_components_personnel_PersonnelPasswordForm_tr, en: m_components_personnel_PersonnelPasswordForm_en },
   'components/personnel/PersonnelPasswordModal': { tr: m_components_personnel_PersonnelPasswordModal_tr, en: m_components_personnel_PersonnelPasswordModal_en },
@@ -920,6 +953,7 @@ export const STRINGS_REGISTRY = {
   'lib/attendance-window': { tr: m_lib_attendance_window_tr, en: m_lib_attendance_window_en },
   'lib/block-team-service': { tr: m_lib_block_team_service_tr, en: m_lib_block_team_service_en },
   'lib/capture-screen': { tr: m_lib_capture_screen_tr, en: m_lib_capture_screen_en },
+  'lib/closure-deletion-acceleration': { tr: m_lib_closure_deletion_acceleration_tr, en: m_lib_closure_deletion_acceleration_en },
   'lib/contract-service': { tr: m_lib_contract_service_tr, en: m_lib_contract_service_en },
   'lib/dekont-import-service': { tr: m_lib_dekont_import_service_tr, en: m_lib_dekont_import_service_en },
   'lib/dekont-ocr': { tr: m_lib_dekont_ocr_tr, en: m_lib_dekont_ocr_en },
@@ -937,12 +971,14 @@ export const STRINGS_REGISTRY = {
   'lib/parse-registration-qr': { tr: m_lib_parse_registration_qr_tr, en: m_lib_parse_registration_qr_en },
   'lib/personnel-display-preferences': { tr: m_lib_personnel_display_preferences_tr, en: m_lib_personnel_display_preferences_en },
   'lib/personnel-intro-boot-script': { tr: m_lib_personnel_intro_boot_script_tr, en: m_lib_personnel_intro_boot_script_en },
+  'lib/personnel-notifications': { tr: m_lib_personnel_notifications_tr, en: m_lib_personnel_notifications_en },
   'lib/personnel-pin': { tr: m_lib_personnel_pin_tr, en: m_lib_personnel_pin_en },
   'lib/personnel-pin-reset': { tr: m_lib_personnel_pin_reset_tr, en: m_lib_personnel_pin_reset_en },
   'lib/personnel-reminder-email': { tr: m_lib_personnel_reminder_email_tr, en: m_lib_personnel_reminder_email_en },
   'lib/personnel-stats': { tr: m_lib_personnel_stats_tr, en: m_lib_personnel_stats_en },
   'lib/platform-legal-content': { tr: m_lib_platform_legal_content_tr, en: m_lib_platform_legal_content_en },
   'lib/profit-display': { tr: m_lib_profit_display_tr, en: m_lib_profit_display_en },
+  'lib/project-closure-service': { tr: m_lib_project_closure_service_tr, en: m_lib_project_closure_service_en },
   'lib/project-queries': { tr: m_lib_project_queries_tr, en: m_lib_project_queries_en },
   'lib/registration-draft-validation': { tr: m_lib_registration_draft_validation_tr, en: m_lib_registration_draft_validation_en },
   'lib/registration-photo': { tr: m_lib_registration_photo_tr, en: m_lib_registration_photo_en },

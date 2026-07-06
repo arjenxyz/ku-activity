@@ -1,0 +1,23 @@
+{
+  "accelerateCta": "Delete my account in 3 minutes",
+  "accelerateHint": "Confirm via email to speed up deletion and join a new project.",
+  "acceleratedBadge": "Accelerated — deleting in 3 min",
+  "modalTitle": "Email confirmation",
+  "modalSubtitle": "A code was sent to {email}.",
+  "otpPlaceholder": "6-digit code",
+  "resend": "Send new code",
+  "verify": "Confirm",
+  "cancel": "Cancel",
+  "preparing": "Sending…",
+  "verifying": "Verifying…",
+  "successTitle": "Deletion accelerated",
+  "successBody": "Your account will be deleted in 3 minutes. You can apply to a new project.",
+  "acceleratingLabel": "Speeding up countdown…",
+  "linkConfirmTitle": "Confirming…",
+  "linkConfirmSuccess": "Account deletion accelerated.",
+  "linkConfirmError": "Invalid or expired link.",
+  "errors": {
+    "generic": "Operation failed",
+    "invalidCode": "Invalid code"
+  }
+}
