@@ -1,6 +1,8 @@
 {
   "bellAriaLabel": "Bildirimler",
   "panelTitle": "Bildirimler",
+  "unreadSummary": "{count} okunmamış",
+  "closeOverlay": "Bildirimleri kapat",
   "markAllRead": "Tümünü okundu işaretle",
   "empty": "Henüz bildiriminiz yok",
   "loading": "Yükleniyor…",

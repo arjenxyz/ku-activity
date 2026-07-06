@@ -1,6 +1,8 @@
 {
   "bellAriaLabel": "Notifications",
   "panelTitle": "Notifications",
+  "unreadSummary": "{count} unread",
+  "closeOverlay": "Close notifications",
   "markAllRead": "Mark all read",
   "empty": "No notifications yet",
   "loading": "Loading…",
