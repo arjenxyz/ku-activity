@@ -1,9 +1,8 @@
 'use client';
 
 
-import Link from 'next/link';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
-import { Suspense, useCallback, useEffect, useState } from 'react';
+import { Suspense, useCallback, useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { FiCheckCircle, FiHash, FiInfo, FiMonitor, FiX } from 'react-icons/fi';
 import { AttendanceCodeSheet } from '@/components/personnel/AttendanceCodeSheet';
@@ -12,6 +11,7 @@ import {
   AttendanceScanErrorOverlay,
   AttendanceStatusSticker,
 } from '@/components/personnel/AttendanceStatusSticker';
+import { useRegisterPersonnelTopBarEnterCode } from '@/contexts/PersonnelTopBarActionsContext';
 import { parseAttendanceTokenFromQr } from '@/lib/parse-attendance-qr';
 import {
   fetchPersonnelAttendanceStatus,
@@ -120,6 +120,28 @@ function YoklamaContent() {
         status?.state === 'cancelled' ||
         status?.state === 'removed'));
 
+  const openCodeSheet = useCallback(() => {
+    setError(null);
+    setCodeSheetOpen(true);
+  }, []);
+
+  const enterCodeDisabled =
+    scanPaused &&
+    !forceReplace &&
+    status?.state !== 'cancelled' &&
+    status?.state !== 'removed';
+
+  const topBarEnterCode = useMemo(
+    () => ({
+      label: strings.enterCodeButton,
+      disabled: enterCodeDisabled,
+      onClick: openCodeSheet,
+    }),
+    [strings.enterCodeButton, enterCodeDisabled, openCodeSheet]
+  );
+
+  useRegisterPersonnelTopBarEnterCode(topBarEnterCode);
+
   return (
     <>
       {/* Mobil — tam ekran kamera, alt bar yok */}
@@ -143,29 +165,6 @@ function YoklamaContent() {
             <div className="h-10 w-10 animate-spin rounded-full border-2 border-emerald-400 border-t-transparent" />
           </div>
         ) : null}
-
-        {/* Üst kontroller: iptal + kod gir */}
-        <div className="pointer-events-none absolute inset-x-0 top-3 z-20 flex items-start justify-between gap-3 px-3 pb-2">
-          <Link
-            href="/personnel-panel"
-            className="pointer-events-auto flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-black/45 text-white shadow-lg backdrop-blur-md transition active:bg-black/60"
-            aria-label={strings.cancelAriaLabel}
-          >
-            <FiX className="h-5 w-5" />
-          </Link>
-          <button
-            type="button"
-            disabled={scanPaused && !forceReplace && status?.state !== 'cancelled' && status?.state !== 'removed'}
-            onClick={() => {
-              setError(null);
-              setCodeSheetOpen(true);
-            }}
-            className="pointer-events-auto inline-flex h-11 items-center gap-2 rounded-full bg-black/45 px-4 text-sm font-semibold text-white shadow-lg backdrop-blur-md transition active:bg-black/60 disabled:opacity-40"
-          >
-            <FiHash className="h-4 w-4" />
-            {strings.enterCodeButton}
-          </button>
-        </div>
 
         {status && (
           <AttendanceStatusSticker

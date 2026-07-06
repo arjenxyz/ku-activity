@@ -3,6 +3,7 @@
 import { usePathname } from 'next/navigation';
 import { Suspense } from 'react';
 import { PersonnelNotificationsProvider } from '@/contexts/PersonnelNotificationsContext';
+import { PersonnelTopBarActionsProvider } from '@/contexts/PersonnelTopBarActionsContext';
 import { PersonnelClosureProvider } from '@/contexts/PersonnelClosureContext';
 import { PersonnelAppBottomNav } from '@/components/personnel/PersonnelAppBottomNav';
 import { PersonnelTopBar } from '@/components/personnel/PersonnelTopBar';
@@ -27,9 +28,9 @@ function ChromeBody({ children }: { children: React.ReactNode }) {
           closureLocked
             ? 'pb-0'
             : hideBottomNav
-              ? isImmersive
-                ? 'pb-0 personnel-topbar-offset'
-                : 'pb-0'
+              ? isYoklama
+                ? 'pb-0'
+                : 'pb-0 personnel-topbar-offset'
               : 'pb-[calc(5.25rem+env(safe-area-inset-bottom))]'
         }
       >
@@ -52,6 +53,7 @@ function showPersonnelChrome(pathname: string) {
 export function PersonnelPanelChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname() ?? '';
   const withChrome = showPersonnelChrome(pathname);
+  const isYoklama = pathname.startsWith('/personnel-panel/yoklama');
 
   if (!withChrome) {
     return <>{children}</>;
@@ -59,13 +61,21 @@ export function PersonnelPanelChrome({ children }: { children: React.ReactNode }
 
   return (
     <PersonnelNotificationsProvider>
-      <PersonnelClosureProvider>
-        <div className="min-h-[100dvh] bg-slate-50 dark:bg-slate-950 sm:bg-transparent">
-          <Suspense fallback={<PersonnelClosureLoading />}>
-            <ChromeBody>{children}</ChromeBody>
-          </Suspense>
-        </div>
-      </PersonnelClosureProvider>
+      <PersonnelTopBarActionsProvider>
+        <PersonnelClosureProvider>
+          <div
+            className={
+              isYoklama
+                ? 'min-h-[100dvh] bg-black sm:bg-transparent'
+                : 'min-h-[100dvh] bg-slate-50 dark:bg-slate-950 sm:bg-transparent'
+            }
+          >
+            <Suspense fallback={<PersonnelClosureLoading />}>
+              <ChromeBody>{children}</ChromeBody>
+            </Suspense>
+          </div>
+        </PersonnelClosureProvider>
+      </PersonnelTopBarActionsProvider>
     </PersonnelNotificationsProvider>
   );
 }

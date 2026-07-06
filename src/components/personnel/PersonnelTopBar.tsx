@@ -2,10 +2,13 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { FiHash } from 'react-icons/fi';
 import { BrandMark } from '@/components/brand/BrandMark';
 import { PersonnelNotificationsBell } from '@/components/personnel/PersonnelNotificationsBell';
 import { usePersonnelNotificationsContext } from '@/contexts/PersonnelNotificationsContext';
+import { usePersonnelTopBarEnterCodeAction } from '@/contexts/PersonnelTopBarActionsContext';
 import { useLocale } from '@/lib/i18n/LocaleProvider';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { APP_TAGLINE, APP_TAGLINE_TR } from '@/lib/brand';
 
 type Props = {
@@ -15,15 +18,21 @@ type Props = {
 export function PersonnelTopBar({ immersive = false }: Props) {
   const pathname = usePathname() ?? '';
   const { locale } = useLocale();
-  const tagline = locale === 'en' ? APP_TAGLINE : APP_TAGLINE_TR;
+  const defaultTagline = locale === 'en' ? APP_TAGLINE : APP_TAGLINE_TR;
+  const yoklamaStrings = useRegistryStrings('app/personnel-panel/yoklama/page');
   const { panelOpen } = usePersonnelNotificationsContext();
+  const topBarActions = usePersonnelTopBarEnterCodeAction();
+  const isYoklama = pathname.startsWith('/personnel-panel/yoklama');
   const immersivePath =
     immersive ||
-    pathname.startsWith('/personnel-panel/yoklama') ||
+    isYoklama ||
     pathname.startsWith('/personnel-panel/avans-onay');
 
+  const tagline = isYoklama ? yoklamaStrings.exitHint : defaultTagline;
+  const enterCode = isYoklama ? topBarActions?.enterCode : null;
+
   const shellClass = immersivePath
-    ? 'fixed top-0 inset-x-0 z-[250]'
+    ? 'fixed top-0 inset-x-0 z-[250] bg-black'
     : 'sticky top-0 z-[250]';
 
   const cardClass = immersivePath
@@ -48,6 +57,7 @@ export function PersonnelTopBar({ immersive = false }: Props) {
             <Link
               href="/personnel-panel"
               className="flex min-w-0 flex-1 items-center gap-2.5 transition-opacity hover:opacity-90 active:opacity-80"
+              aria-label={isYoklama ? yoklamaStrings.exitAriaLabel : undefined}
             >
               <BrandMark
                 size="sm"
@@ -69,23 +79,35 @@ export function PersonnelTopBar({ immersive = false }: Props) {
               </div>
             </Link>
 
-            <div
-              className={`shrink-0 rounded-xl p-0.5 transition-colors ${
-                panelOpen
-                  ? immersivePath
-                    ? 'bg-white shadow-md'
-                    : 'bg-[#0E1548] shadow-md shadow-[#0E1548]/25'
-                  : immersivePath
-                    ? 'bg-white/10'
-                    : 'bg-slate-100/80 dark:bg-slate-800/80'
-              }`}
-            >
-              <PersonnelNotificationsBell
-                tone={immersivePath ? 'onDark' : 'light'}
-                panelOpen={panelOpen}
-                className="!h-10 !w-10 !border-0 !bg-transparent"
-              />
-            </div>
+            {enterCode ? (
+              <button
+                type="button"
+                disabled={enterCode.disabled}
+                onClick={enterCode.onClick}
+                className="inline-flex h-10 shrink-0 items-center gap-1.5 rounded-xl bg-white/10 px-3 text-sm font-semibold text-white transition active:bg-white/20 disabled:opacity-40"
+              >
+                <FiHash className="h-4 w-4" />
+                {enterCode.label}
+              </button>
+            ) : (
+              <div
+                className={`shrink-0 rounded-xl p-0.5 transition-colors ${
+                  panelOpen
+                    ? immersivePath
+                      ? 'bg-white shadow-md'
+                      : 'bg-[#0E1548] shadow-md shadow-[#0E1548]/25'
+                    : immersivePath
+                      ? 'bg-white/10'
+                      : 'bg-slate-100/80 dark:bg-slate-800/80'
+                }`}
+              >
+                <PersonnelNotificationsBell
+                  tone={immersivePath ? 'onDark' : 'light'}
+                  panelOpen={panelOpen}
+                  className="!h-10 !w-10 !border-0 !bg-transparent"
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>
