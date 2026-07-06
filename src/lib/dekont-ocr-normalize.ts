@@ -7,14 +7,18 @@ export function normalizeOcrText(text: string): string {
     .replace(/[₺]/g, '')
     .replace(/[|]/g, '1');
 
-  // "5.000 00" veya "5.000.00" → Türkçe ondalık
-  out = out.replace(
-    /(\d{1,3}(?:[.\s]\d{3})+|\d+)\s*[.,]\s*(\d{2})\b/g,
-    (_, intPart: string, dec: string) => {
-      const clean = intPart.replace(/[\s.]/g, '');
-      const formatted = clean.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-      return `${formatted},${dec}`;
-    }
+  // Yanlış ondalık: 12.375.00 veya 12.375 00 → 12.375,00 (Türkçe binlik noktaya dokunma!)
+  const fixWrongDecimal = (intPart: string, dec: string) => {
+    const clean = intPart.replace(/\./g, '');
+    const formatted = clean.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    return `${formatted},${dec}`;
+  };
+
+  out = out.replace(/(\d{1,3}(?:\.\d{3})+)\.(\d{2})\b/g, (_, intPart, dec) =>
+    fixWrongDecimal(intPart, dec)
+  );
+  out = out.replace(/(\d{1,3}(?:\.\d{3})+)\s+(\d{2})\b/g, (_, intPart, dec) =>
+    fixWrongDecimal(intPart, dec)
   );
 
   // IBAN: TR00 0000 ... boşlukları koru ama O→0
@@ -30,6 +34,9 @@ export function normalizeOcrText(text: string): string {
 
   // Satır kırılımı: "12\n.375,00" → "12.375,00"
   out = out.replace(/(\d{1,3})\s*\n\s*\.(\d{3},\d{2})/g, '$1.$2');
+
+  // Boşluklu binlik: "12 375,00" → "12.375,00"
+  out = out.replace(/\b(\d{1,3})\s+(\d{3},\d{2})\b/g, '$1.$2');
 
   return out;
 }

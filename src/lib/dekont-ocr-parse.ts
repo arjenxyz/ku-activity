@@ -59,22 +59,21 @@ function pickBestAmount(candidates: AmountCandidate[]): number | null {
   const min = sorted[0]!;
   const max = sorted[sorted.length - 1]!;
 
-  // Havale tutarı genelde büyük; masraf/bakiye veya OCR parçası (12 + 12.375,00) küçük kalır
-  if (max >= 500 && min < 500 && max / Math.max(min, 1) >= 5) {
-    return max;
-  }
-  if (values.length === 2 && max / Math.max(min, 1) >= 10) {
-    return max;
-  }
+  // Havale tutarı genelde büyük; masraf veya OCR gürültüsü (6,00 vb.) küçük kalır
+  if (max >= 100 && min < 100) return max;
+  if (max >= 500 && min < 500 && max / Math.max(min, 1) >= 3) return max;
+  if (values.length === 2 && max / Math.max(min, 1) >= 5) return max;
+  if (values.length >= 2 && max / Math.max(min, 1) >= 3) return max;
 
-  return sorted[Math.floor(sorted.length / 2)] ?? sorted[0]!;
+  return max;
 }
 
 const AMOUNT_LABEL =
   String.raw`(?:İşlem|Islem|Işlem|ISLEM|Transfer|Gönderilen|Gonderilen|Gönderim|Gonderim|Havale|EFT|FAST|Ödenen|Odenen|Ödeme|Odeme|Net|Brüt|Brut|Para|Miktar|Amount|TUTAR|Tutar[ıiİI]?)`;
 
-/** Türkçe binlik noktalı: 12.375,00 */
+/** Türkçe binlik noktalı: 12.375,00 — veya noktasız 12375,00 */
 const AMOUNT_TR_THOUSANDS = String.raw`(\d{1,3}(?:\.\d{3})+,\d{2})`;
+const AMOUNT_TR_COMPACT = String.raw`(\d{4,7},\d{2})`;
 
 function parseTurkishAmount(text: string): number | null {
   const normalized = normalizeOcrText(text);
@@ -89,6 +88,14 @@ function parseTurkishAmount(text: string): number | null {
     ),
     new RegExp(
       String.raw`(?:TOPLAM|Toplam)\s*\(?\s*TL\s*\)?\s*[:\s]*${AMOUNT_TR_THOUSANDS}`,
+      'gi'
+    ),
+    new RegExp(
+      String.raw`(?:İŞLEM|ISLEM|İşlem|Islem)\s*TUTARI?\s*\(?\s*TL\s*\)?\s*[:\s]*${AMOUNT_TR_COMPACT}`,
+      'gi'
+    ),
+    new RegExp(
+      String.raw`(?:TOPLAM|Toplam)\s*\(?\s*TL\s*\)?\s*[:\s]*${AMOUNT_TR_COMPACT}`,
       'gi'
     ),
     new RegExp(String.raw`${AMOUNT_LABEL}\s*Tutar[ıiİI]?\s*[:\-]?\s*(?:TRY|TL)?\s*${AMOUNT_TOKEN}`, 'gi'),
@@ -112,7 +119,7 @@ function parseTurkishAmount(text: string): number | null {
   ];
 
   for (const pattern of labeledHigh) {
-    if (pattern.source.includes(AMOUNT_TR_THOUSANDS)) {
+    if (pattern.source.includes(AMOUNT_TR_THOUSANDS) || pattern.source.includes(AMOUNT_TR_COMPACT)) {
       collectAmountMatches(normalized, pattern, 1, candidates, (raw) => parseAmountToken(raw));
     } else {
       collectAmountMatches(normalized, pattern, 1, candidates);
@@ -134,7 +141,10 @@ function parseTurkishAmount(text: string): number | null {
   const bare = new RegExp(AMOUNT_TOKEN, 'g');
   const bareCandidates: AmountCandidate[] = [];
   collectAmountMatches(normalized, bare, 4, bareCandidates);
-  const barePicked = pickBestAmount(bareCandidates);
+  const filteredBare = bareCandidates.filter(
+    (c) => c.value >= 100 || bareCandidates.every((o) => o.value < 100)
+  );
+  const barePicked = pickBestAmount(filteredBare.length ? filteredBare : bareCandidates);
   if (barePicked != null) return barePicked;
 
   // ABD formatı — metinde Türkçe tutar (12.375,00) yoksa dene; aksi halde 12.375,00 → 12.00 hatası
