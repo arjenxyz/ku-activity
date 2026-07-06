@@ -212,11 +212,7 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
         return (
           <div className="space-y-3">
             <SettingsCard>
-              <button
-                type="button"
-                onClick={() => setActiveSection('personal')}
-                className="flex w-full items-center gap-3 px-4 py-3.5 text-left transition-colors hover:bg-slate-50 active:bg-slate-100 dark:hover:bg-slate-800/60"
-              >
+              <div className="flex items-center gap-3 px-4 py-4">
                 <EmployeeAvatar
                   name={employee.name}
                   photoUrl={photoUrl}
@@ -231,20 +227,20 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
                     {profileSubtitle}
                   </span>
                 </span>
-                <FiChevronRight className="h-5 w-5 shrink-0 text-slate-300 dark:text-slate-500" />
-              </button>
-            </SettingsCard>
+              </div>
 
-            <SettingsCard>
-              {accountItems.map((item, index) => (
-                <MenuRow
-                  key={item.id}
-                  title={item.title}
-                  iconDef={MENU_ICON_DEFS[item.id]}
-                  onClick={() => setActiveSection(item.id)}
-                  showDivider={index < accountItems.length - 1}
-                />
-              ))}
+              <div className="border-t border-slate-100 dark:border-slate-800">
+                {accountItems.map((item, index) => (
+                  <MenuRow
+                    key={item.id}
+                    title={item.title}
+                    iconDef={MENU_ICON_DEFS[item.id]}
+                    onClick={() => setActiveSection(item.id)}
+                    showDivider={index < accountItems.length - 1}
+                    insetDivider
+                  />
+                ))}
+              </div>
             </SettingsCard>
 
             <SettingsCard>
@@ -348,11 +344,13 @@ function MenuRow({
   iconDef,
   onClick,
   showDivider = true,
+  insetDivider = false,
 }: {
   title: string;
   iconDef: { name: HonorIconName; theme: HonorIconTheme };
   onClick: () => void;
   showDivider?: boolean;
+  insetDivider?: boolean;
 }) {
   return (
     <>
@@ -365,7 +363,11 @@ function MenuRow({
         <span className="min-w-0 flex-1 text-[15px] font-medium text-slate-900 dark:text-white">{title}</span>
         <FiChevronRight className="h-5 w-5 shrink-0 text-slate-300 dark:text-slate-500" />
       </button>
-      {showDivider ? <div className="ml-[3.25rem] h-px bg-slate-100 dark:bg-slate-800" /> : null}
+      {showDivider ? (
+        <div
+          className={`h-px bg-slate-100 dark:bg-slate-800 ${insetDivider ? 'ml-[3.25rem]' : ''}`}
+        />
+      ) : null}
     </>
   );
 }
