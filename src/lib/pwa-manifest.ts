@@ -5,7 +5,7 @@ import {
   PERSONNEL_PWA_THEME,
 } from '@/lib/personnel-pwa-brand';
 import type { AppIconVariant } from '@/lib/brand';
-import { appIconForVariant, CREWLEDGER_APP_ICON } from '@/lib/brand';
+import { CREWLEDGER_APP_ICON } from '@/lib/brand';
 
 export type PwaAppVariant = AppIconVariant;
 
