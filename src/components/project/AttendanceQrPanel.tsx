@@ -15,14 +15,17 @@ import {
   FiXCircle,
 } from 'react-icons/fi';
 import { RegistrationQrCode } from '@/components/registration/RegistrationQrCode';
+import { AdminAttendanceModal } from '@/components/admin/AdminAttendanceModal';
 import { formatDateTime } from '@/lib/format';
 import { formatString } from '@/lib/strings/format';
+import { formatWorkLogSummary, type MesaiType } from '@/lib/work-log';
 import {
   cancelAttendanceSession,
   completeAttendanceSession,
   fetchAttendanceQr,
   removeAttendanceCheckIn,
   startAttendanceSession,
+  updateAttendanceCheckInPlan,
   type AttendanceQrPayload,
 } from '@/lib/project-api';
 import { btnPrimary, labelClass, inputClass } from '@/components/project/ui';
@@ -55,6 +58,10 @@ export function AttendanceQrPanel({ projectId }: Props) {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const [editingCheckIn, setEditingCheckIn] = useState<AttendanceQrPayload['checkIns'][number] | null>(
+    null
+  );
+  const [savingPlan, setSavingPlan] = useState(false);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -163,6 +170,29 @@ export function AttendanceQrPanel({ projectId }: Props) {
     }
   };
 
+  const handleSaveCheckInPlan = async (payload: {
+    amount: number;
+    mesaiType: MesaiType;
+    description: string;
+  }) => {
+    if (!editingCheckIn) return;
+    setSavingPlan(true);
+    setError(null);
+    try {
+      await updateAttendanceCheckInPlan(projectId, editingCheckIn.id, {
+        amount: payload.amount,
+        mesaiType: payload.mesaiType,
+        description: payload.description,
+      });
+      setEditingCheckIn(null);
+      await load();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : strings.errors.planSaveFailed);
+    } finally {
+      setSavingPlan(false);
+    }
+  };
+
   const handleCopyCode = () => {
     if (!data?.qr?.token) return;
     copyText(data.qr.token);
@@ -171,6 +201,7 @@ export function AttendanceQrPanel({ projectId }: Props) {
   };
 
   return (
+    <>
     <section className="mb-6 overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-sm">
       <div className="relative bg-gradient-to-br from-emerald-600 via-emerald-700 to-teal-800 px-4 py-5 sm:px-6 sm:py-6 text-white">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.12),transparent_55%)]" />
@@ -347,29 +378,43 @@ export function AttendanceQrPanel({ projectId }: Props) {
               ) : (
                 <ul className="divide-y divide-slate-100 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm max-h-[min(420px,50vh)] overflow-y-auto">
                   {data.checkIns.map((c, i) => (
-                    <li
-                      key={c.id}
-                      className="flex items-center gap-3 px-3 py-3 sm:px-4 hover:bg-slate-50/80 transition-colors"
-                    >
-                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-xs font-bold text-emerald-800">
-                        {initials(c.employee_name) || String(i + 1)}
-                      </span>
-                      <div className="min-w-0 flex-1">
-                        <p className="truncate text-sm font-semibold text-slate-900">
-                          {c.employee_name}
-                        </p>
-                        <p className="text-xs text-slate-500">{formatDateTime(c.created_at)}</p>
+                    <li key={c.id}>
+                      <div className="flex items-center gap-2 px-3 py-3 sm:px-4 hover:bg-slate-50/80 transition-colors">
+                        <button
+                          type="button"
+                          onClick={() => setEditingCheckIn(c)}
+                          className="flex min-w-0 flex-1 items-center gap-3 text-left"
+                        >
+                          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-xs font-bold text-emerald-800">
+                            {initials(c.employee_name) || String(i + 1)}
+                          </span>
+                          <span className="min-w-0 flex-1">
+                            <p className="truncate text-sm font-semibold text-slate-900">
+                              {c.employee_name}
+                            </p>
+                            <p className="text-xs text-slate-500">{formatDateTime(c.created_at)}</p>
+                            <p className="mt-1 text-xs font-medium text-emerald-700">
+                              {formatWorkLogSummary(
+                                Number(c.planned_amount ?? 1),
+                                (c.planned_mesai_type ?? 'none') as MesaiType
+                              )}
+                            </p>
+                          </span>
+                          <span className="shrink-0 text-[11px] font-semibold text-slate-400">
+                            {strings.editPlan}
+                          </span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => void handleRemoveCheckIn(c.id, c.employee_name)}
+                          disabled={removingId === c.id || acting}
+                          className="shrink-0 rounded-lg p-2 text-slate-400 hover:bg-red-50 hover:text-red-600 disabled:opacity-40 transition-colors"
+                          title={strings.removeFromListTitle}
+                          aria-label={formatString(strings.removeAriaLabel, { name: c.employee_name })}
+                        >
+                          <FiUserMinus className="w-4 h-4" />
+                        </button>
                       </div>
-                      <button
-                        type="button"
-                        onClick={() => void handleRemoveCheckIn(c.id, c.employee_name)}
-                        disabled={removingId === c.id || acting}
-                        className="shrink-0 rounded-lg p-2 text-slate-400 hover:bg-red-50 hover:text-red-600 disabled:opacity-40 transition-colors"
-                        title={strings.removeFromListTitle}
-                        aria-label={formatString(strings.removeAriaLabel, { name: c.employee_name })}
-                      >
-                        <FiUserMinus className="w-4 h-4" />
-                      </button>
                     </li>
                   ))}
                 </ul>
@@ -423,8 +468,16 @@ export function AttendanceQrPanel({ projectId }: Props) {
                     key={c.id}
                     className="flex items-center justify-between gap-3 px-4 py-3 text-sm"
                   >
-                    <span className="font-medium text-slate-800">{c.employee_name}</span>
-                    <span className="inline-flex items-center gap-1 text-xs font-medium text-emerald-600">
+                    <div className="min-w-0">
+                      <span className="font-medium text-slate-800">{c.employee_name}</span>
+                      <p className="text-xs text-emerald-700 mt-0.5">
+                        {formatWorkLogSummary(
+                          Number(c.planned_amount ?? 1),
+                          (c.planned_mesai_type ?? 'none') as MesaiType
+                        )}
+                      </p>
+                    </div>
+                    <span className="inline-flex items-center gap-1 text-xs font-medium text-emerald-600 shrink-0">
                       <FiCheckCircle className="w-3.5 h-3.5" />
                       {strings.workLogWritten}
                     </span>
@@ -496,5 +549,19 @@ export function AttendanceQrPanel({ projectId }: Props) {
         </div>
       )}
     </section>
+
+      <AdminAttendanceModal
+        employeeName={editingCheckIn?.employee_name ?? ''}
+        isOpen={Boolean(editingCheckIn)}
+        loading={savingPlan}
+        initialAmount={Number(editingCheckIn?.planned_amount ?? 1)}
+        initialMesaiType={(editingCheckIn?.planned_mesai_type ?? 'none') as MesaiType}
+        initialDescription={editingCheckIn?.planned_description ?? ''}
+        hint={strings.checkInPlanHint}
+        submitLabel={strings.checkInPlanSave}
+        onClose={() => setEditingCheckIn(null)}
+        onSubmit={(payload) => void handleSaveCheckInPlan(payload)}
+      />
+    </>
   );
 }

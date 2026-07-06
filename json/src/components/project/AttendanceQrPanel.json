@@ -5,10 +5,11 @@
     "emptyList": "Listede kimse yok. Yoklamayı bitirmeden önce en az bir personel okutmalı.",
     "completeFailed": "Yoklama bitirilemedi",
     "cancelFailed": "İptal edilemedi",
-    "removeFailed": "Kaldırılamadı"
+    "removeFailed": "Kaldırılamadı",
+    "planSaveFailed": "Kaydedilemedi"
   },
   "confirm": {
-    "complete": "{count} personel için tam gün yevmiye yazılsın mı?",
+    "complete": "{count} personel için planlanan gün ve mesai ile yevmiye yazılsın mı?",
     "cancel": "Yoklama iptal edilecek. Listeye eklenenler için yevmiye yazılmayacak. Emin misiniz?",
     "removeCheckIn": "{name} listeden kaldırılsın mı?"
   },
@@ -19,7 +20,7 @@
   "header": {
     "eyebrow": "Günlük yoklama",
     "title": "QR ile devam",
-    "description": "Başlatın, personel sırayla okutsun. Bitirince tam gün yevmiye yazılır — mesai ayrı eklenir.",
+    "description": "Başlatın, personel okutsun. Listeden kişiye tıklayıp tam/yarım gün ve mesai seçin; bitirince yevmiye yazılır.",
     "refresh": "Yenile"
   },
   "stats": {
@@ -42,6 +43,9 @@
   "checkInsTitle": "Okutanlar",
   "emptyCheckInsTitle": "Henüz kimse okutmadı",
   "emptyCheckInsHint": "Personel telefonundan yoklama sayfasını açıp QR okutmalı.",
+  "editPlan": "Düzenle",
+  "checkInPlanHint": "Yoklamayı bitirdiğinizde bu değerlerle yevmiye yazılır.",
+  "checkInPlanSave": "Kaydet",
   "removeFromListTitle": "Listeden kaldır",
   "removeAriaLabel": "{name} kaldır",
   "completeSaving": "Kaydediliyor…",
@@ -49,7 +53,7 @@
   "cancelSession": "İptal et",
   "cancelAriaLabel": "İptal et",
   "completedTitle": "Yoklama tamamlandı",
-  "completedSummary": "{count} personel için tam gün yevmiye kaydedildi.",
+  "completedSummary": "{count} personel için yevmiye kaydedildi.",
   "workLogWritten": "Yevmiye yazıldı",
   "restart": "Yeniden başlat",
   "noSessionTitle": "{date} için yoklama yok",

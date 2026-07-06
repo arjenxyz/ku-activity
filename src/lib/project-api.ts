@@ -75,6 +75,9 @@ export type AttendanceQrPayload = {
     work_log_id: string | null;
     created_at: string;
     yevmiye_kayitli: boolean;
+    planned_amount: number;
+    planned_mesai_type: 'none' | 'ceyrek' | 'yarim' | 'tam';
+    planned_description: string | null;
   }>;
   isToday: boolean;
   canStart: boolean;
@@ -140,6 +143,27 @@ export async function removeAttendanceCheckIn(projectId: string, checkInId: stri
     { method: 'DELETE' }
   );
   if (!res.ok) throw new Error(await parseError(res));
+}
+
+export async function updateAttendanceCheckInPlan(
+  projectId: string,
+  checkInId: string,
+  body: {
+    amount: number;
+    mesaiType: 'none' | 'ceyrek' | 'yarim' | 'tam';
+    description?: string;
+  }
+) {
+  const res = await fetch(
+    `/api/admin/projects/${projectId}/attendance-qr/checkins/${checkInId}`,
+    {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    }
+  );
+  if (!res.ok) throw new Error(await parseError(res));
+  return (await res.json()) as { checkIn: AttendanceQrPayload['checkIns'][number] };
 }
 
 export async function postWorkLog(

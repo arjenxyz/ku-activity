@@ -19,6 +19,7 @@ import {
 } from '@/lib/i18n/attendance-messages';
 import { assertEmployeeTeamHasActiveBlock } from '@/lib/team-work-guard';
 import type { WorkLogRow } from '@/lib/work-log-service';
+import { mesaiTypeToUnits, type MesaiType } from '@/lib/work-log';
 import strings from '@json/src/lib/attendance-qr-service.json';
 
 const TOKEN_PREFIX = 'YOK-';
@@ -93,6 +94,9 @@ export type AttendanceCheckInRow = {
   created_at: string;
   work_log_id: string | null;
   yevmiye_kayitli: boolean;
+  planned_amount: number;
+  planned_mesai_type: MesaiType;
+  planned_description: string | null;
 };
 
 const SESSION_SELECT = 'id, project_id, work_date, status, started_at, completed_at';
@@ -451,6 +455,9 @@ export async function listSessionCheckIns(
       employee_id,
       scanned_at,
       work_log_id,
+      planned_amount,
+      planned_mesai_type,
+      planned_description,
       employees!inner(name)
     `
     )
@@ -472,6 +479,9 @@ export async function listSessionCheckIns(
       work_log_id: (row.work_log_id as string | null) ?? null,
       created_at: row.scanned_at as string,
       yevmiye_kayitli: Boolean(row.work_log_id),
+      planned_amount: Number(row.planned_amount ?? 1),
+      planned_mesai_type: (row.planned_mesai_type as MesaiType) ?? 'none',
+      planned_description: (row.planned_description as string | null) ?? null,
     };
   });
 }
@@ -496,9 +506,18 @@ async function createApprovedWorkLog(
     projectId: string;
     employeeId: string;
     workDate: string;
+    amount?: number;
+    mesaiType?: MesaiType;
+    description?: string | null;
   }
 ): Promise<WorkLogRow> {
   const now = new Date().toISOString();
+  const amount = params.amount === 0.5 ? 0.5 : 1;
+  const mesaiType: MesaiType =
+    amount < 1 ? 'none' : params.mesaiType && params.mesaiType !== 'none' ? params.mesaiType : 'none';
+  const mesaiUnits = mesaiTypeToUnits(mesaiType);
+  const description =
+    params.description?.trim() || strings.workLogDescription;
   const existing = await findWorkLog(admin, params.employeeId, params.workDate);
 
   if (existing?.approved) {
@@ -509,12 +528,14 @@ async function createApprovedWorkLog(
     const { data, error } = await admin
       .from('work_logs')
       .update({
-        amount: 1,
+        amount,
+        mesai_type: mesaiType,
+        mesai_units: mesaiUnits,
         admin_confirmed_at: existing.admin_confirmed_at ?? now,
         employee_confirmed_at: now,
         employee_dispute_note: null,
         employee_disputed_at: null,
-        description: strings.workLogDescription,
+        description,
       })
       .eq('id', existing.id)
       .select('*')
@@ -529,10 +550,10 @@ async function createApprovedWorkLog(
       project_id: params.projectId,
       employee_id: params.employeeId,
       date: params.workDate,
-      amount: 1,
-      mesai_type: 'none',
-      mesai_units: 0,
-      description: strings.workLogDescription,
+      amount,
+      mesai_type: mesaiType,
+      mesai_units: mesaiUnits,
+      description,
       admin_confirmed_at: now,
       employee_confirmed_at: now,
       approved_by: null,
@@ -784,6 +805,9 @@ export async function completeAttendanceSession(
       projectId: params.projectId,
       employeeId: checkIn.employee_id,
       workDate,
+      amount: checkIn.planned_amount,
+      mesaiType: checkIn.planned_mesai_type,
+      description: checkIn.planned_description,
     });
 
     await admin
@@ -863,6 +887,78 @@ export async function cancelAttendanceSession(
     .eq('id', session.id);
 
   if (error) throw new Error(error.message);
+}
+
+function normalizePlannedAmount(value: unknown): 0.5 | 1 {
+  const num = Number(value);
+  return num === 0.5 ? 0.5 : 1;
+}
+
+function normalizePlannedMesaiType(value: unknown, amount: number): MesaiType {
+  if (amount < 1) return 'none';
+  const allowed: MesaiType[] = ['none', 'ceyrek', 'yarim', 'tam'];
+  return allowed.includes(value as MesaiType) ? (value as MesaiType) : 'none';
+}
+
+/** Aktif yoklamada personel için gün / mesai planını güncelle */
+export async function updateSessionCheckInPlan(
+  admin: SupabaseClient,
+  params: {
+    projectId: string;
+    checkInId: string;
+    amount: number;
+    mesaiType: MesaiType;
+    description?: string | null;
+  }
+): Promise<AttendanceCheckInRow> {
+  const amount = normalizePlannedAmount(params.amount);
+  const mesaiType = normalizePlannedMesaiType(params.mesaiType, amount);
+  const description = params.description?.trim() || null;
+
+  const { data: checkIn } = await admin
+    .from('attendance_session_checkins')
+    .select(
+      'id, session_id, employee_id, work_log_id, attendance_sessions!inner(project_id, status, work_date)'
+    )
+    .eq('id', params.checkInId)
+    .maybeSingle();
+
+  if (!checkIn) {
+    throw new Error(strings.recordNotFound);
+  }
+
+  const sessionRaw = checkIn.attendance_sessions as
+    | { project_id: string; status: string; work_date: string }
+    | { project_id: string; status: string; work_date: string }[];
+  const session = Array.isArray(sessionRaw) ? sessionRaw[0] : sessionRaw;
+
+  if (!session || session.project_id !== params.projectId) {
+    throw new Error(strings.recordNotFound);
+  }
+
+  if (session.status !== 'active') {
+    throw new Error(strings.planActiveOnly);
+  }
+
+  if (checkIn.work_log_id) {
+    throw new Error(strings.cannotPlanWithWorkLog);
+  }
+
+  const { error } = await admin
+    .from('attendance_session_checkins')
+    .update({
+      planned_amount: amount,
+      planned_mesai_type: mesaiType,
+      planned_description: description,
+    })
+    .eq('id', params.checkInId);
+
+  if (error) throw new Error(error.message);
+
+  const rows = await listSessionCheckIns(admin, checkIn.session_id as string);
+  const updated = rows.find((row) => row.id === params.checkInId);
+  if (!updated) throw new Error(strings.recordNotFound);
+  return updated;
 }
 
 /** Listeden personel kaldır (yalnızca aktif oturum, yevmiye yazılmadan önce) */

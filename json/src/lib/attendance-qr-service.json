@@ -6,5 +6,7 @@
   "noSessionToCancel": "İptal edilecek aktif yoklama yok",
   "recordNotFound": "Kayıt bulunamadı",
   "removeActiveOnly": "Yalnızca devam eden yoklamadan kaldırılabilir",
-  "cannotRemoveWithWorkLog": "Yevmiyesi yazılmış kayıt kaldırılamaz"
+  "cannotRemoveWithWorkLog": "Yevmiyesi yazılmış kayıt kaldırılamaz",
+  "planActiveOnly": "Yalnızca devam eden yoklamada düzenlenebilir",
+  "cannotPlanWithWorkLog": "Yevmiyesi yazılmış kayıt düzenlenemez"
 }

@@ -7,6 +7,8 @@
   "noteLabel": "Not (isteğe bağlı)",
   "notePlaceholder": "Örn. gece mesaisi, kalıntı iş",
   "approvalHint": "Yönetici onayından sonra personelin de aynı günü onaylaması gerekir. İki taraf onaylayınca yevmiye kesinleşir.",
+  "checkInPlanHint": "Yoklamayı bitirdiğinizde bu değerlerle yevmiye yazılır.",
+  "checkInPlanSubmit": "Kaydet",
   "submitSaving": "Kaydediliyor…",
   "submit": "Onayla ve personele gönder",
   "cancel": "Vazgeç"
