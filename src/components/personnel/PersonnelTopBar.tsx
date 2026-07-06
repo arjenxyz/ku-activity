@@ -33,13 +33,11 @@ export function PersonnelTopBar({ immersive = false }: Props) {
 
   const shellClass = immersivePath
     ? 'fixed top-0 inset-x-0 z-[250] bg-black'
-    : `sticky top-0 z-[250] bg-slate-50 dark:bg-slate-950${panelOpen ? ' shadow-sm shadow-slate-900/5' : ''}`;
+    : 'sticky top-0 z-[250]';
 
   const cardClass = immersivePath
     ? 'border-white/15 bg-black/60 shadow-lg shadow-black/30'
-    : panelOpen
-      ? 'border-slate-200 bg-white shadow-md shadow-slate-900/[0.06] dark:border-slate-700 dark:bg-slate-900 dark:shadow-black/25'
-      : 'border-slate-200/90 bg-white/95 shadow-md shadow-slate-900/[0.06] backdrop-blur-xl dark:border-slate-700/80 dark:bg-slate-900/95 dark:shadow-black/25';
+    : 'border-slate-200/90 bg-white/95 shadow-md shadow-slate-900/[0.06] dark:border-slate-700/80 dark:bg-slate-900/95 dark:shadow-black/25';
 
   const wordmarkClass = immersivePath
     ? 'text-white'
