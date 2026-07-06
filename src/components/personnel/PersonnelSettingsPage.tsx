@@ -14,6 +14,7 @@ import { HonorIconTile, type HonorIconName, type HonorIconTheme } from '@/compon
 import { EmployeeAvatar } from '@/components/employee/EmployeeAvatar';
 import { PersonnelContractsSection } from '@/components/personnel/PersonnelContractsSection';
 import { PersonnelDisplaySettings } from '@/components/personnel/PersonnelDisplaySettings';
+import { PersonnelLanguageSettings } from '@/components/personnel/PersonnelLanguageSettings';
 import { PersonnelReleaseNotesPanel } from '@/components/personnel/PersonnelReleaseNotesPanel';
 import { PersonnelActiveDevices } from '@/components/personnel/PersonnelActiveDevices';
 import { PersonnelPasswordModal } from '@/components/personnel/PersonnelPasswordModal';
@@ -39,6 +40,7 @@ type SettingsSectionId =
   | 'contracts'
   | 'security'
   | 'devices'
+  | 'language'
   | 'app'
   | 'releases';
 
@@ -52,6 +54,7 @@ const MENU_ICON_DEFS: Record<MenuItemId | 'devices', { name: HonorIconName; them
   contracts: { name: 'shield', theme: 'indigo' },
   security: { name: 'lock', theme: 'rose' },
   devices: { name: 'phone', theme: 'indigo' },
+  language: { name: 'globe', theme: 'teal' },
   app: { name: 'settings', theme: 'slate' },
   releases: { name: 'document', theme: 'sky' },
 };
@@ -129,13 +132,16 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
     { id: 'work', title: strings.menu.work.title },
     { id: 'contracts', title: strings.menu.contracts.title },
     { id: 'security', title: strings.menu.security.title },
+    { id: 'language', title: strings.menu.language.title },
     { id: 'releases', title: strings.menu.releases.title },
     { id: 'app', title: strings.menu.app.title },
   ];
 
   const accountItems = menuItems.filter((item) => ['personal', 'contact', 'bank'].includes(item.id));
   const workItems = menuItems.filter((item) => ['work', 'contracts'].includes(item.id));
-  const systemItems = menuItems.filter((item) => ['security', 'releases', 'app'].includes(item.id));
+  const systemItems = menuItems.filter((item) =>
+    ['security', 'language', 'releases', 'app'].includes(item.id)
+  );
 
   const renderSection = () => {
     switch (activeSection) {
@@ -221,6 +227,8 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
         return <PersonnelActiveDevices onCurrentDeviceRemoved={onLogout} hideHeader />;
       case 'app':
         return <PersonnelDisplaySettings />;
+      case 'language':
+        return <PersonnelLanguageSettings />;
       case 'releases':
         return <PersonnelReleaseNotesPanel />;
       default:

@@ -25,7 +25,8 @@
     "contracts": { "title": "Sözleşmeler", "subtitle": "Onayladığınız sözleşme kayıtları." },
     "security": { "title": "Güvenlik", "subtitle": "PIN, aktif cihazlar ve hesap güvenliği." },
     "devices": { "title": "Cihazlarım", "subtitle": "Hesabınıza giriş yapılmış cihazlar. Tanımadığınız bir cihaz görürseniz kaldırın." },
-    "app": { "title": "Uygulama Ayarları", "subtitle": "Dil ve görünüm tercihleri." },
+    "language": { "title": "Dil", "subtitle": "Uygulama dilini seçin." },
+    "app": { "title": "Uygulama Ayarları", "subtitle": "Görünüm ve okunabilirlik tercihleri." },
     "releases": { "title": "Güncelleme Notları", "subtitle": "Son sürümde neler değişti." }
   },
   "menu": {
@@ -35,7 +36,8 @@
     "work": { "title": "İş bilgileri", "subtitle": "Pozisyon, yevmiye ve proje" },
     "contracts": { "title": "Sözleşmeler", "subtitle": "Onayladığınız sözleşmeler" },
     "security": { "title": "Güvenlik", "subtitle": "PIN kodu, aktif cihazlar ve hesap güvenliği" },
-    "app": { "title": "Uygulama ayarları", "subtitle": "Dil ve görünüm tercihleri" },
+    "language": { "title": "Dil", "subtitle": "Uygulama dili" },
+    "app": { "title": "Uygulama ayarları", "subtitle": "Büyük yazı ve kontrast" },
     "releases": { "title": "Güncelleme notları", "subtitle": "Son sürümdeki yenilikler" }
   },
   "groups": {
@@ -55,6 +57,10 @@
     "position": "Pozisyon",
     "dailyWage": "Günlük yevmiye",
     "hireDate": "İşe giriş"
+  },
+  "language": {
+    "label": "Uygulama dili",
+    "hint": "Türkçe veya İngilizce seçebilirsiniz."
   },
   "releases": {
     "loading": "Güncelleme notları yükleniyor…",

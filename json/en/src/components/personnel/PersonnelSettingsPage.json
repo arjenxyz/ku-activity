@@ -25,7 +25,8 @@
     "contracts": { "title": "Sözleşmeler", "subtitle": "Onayladığınız sözleşme kayıtları." },
     "security": { "title": "Güvenlik", "subtitle": "PIN, aktif cihazlar ve hesap güvenliği." },
     "devices": { "title": "My devices", "subtitle": "Devices signed in to your account. Remove any you do not recognize." },
-    "app": { "title": "App Settings", "subtitle": "Language and display preferences." },
+    "language": { "title": "Language", "subtitle": "Choose the app language." },
+    "app": { "title": "App Settings", "subtitle": "Display and readability preferences." },
     "releases": { "title": "Release notes", "subtitle": "What changed in the latest version." }
   },
   "menu": {
@@ -35,7 +36,8 @@
     "work": { "title": "İş bilgileri", "subtitle": "Pozisyon, yevmiye ve proje" },
     "contracts": { "title": "Sözleşmeler", "subtitle": "Onayladığınız sözleşmeler" },
     "security": { "title": "Güvenlik", "subtitle": "PIN kodu, aktif cihazlar ve hesap güvenliği" },
-    "app": { "title": "App settings", "subtitle": "Language and display preferences" },
+    "language": { "title": "Language", "subtitle": "App language" },
+    "app": { "title": "App settings", "subtitle": "Large text and contrast" },
     "releases": { "title": "Release notes", "subtitle": "Latest version changes" }
   },
   "groups": {
@@ -55,6 +57,10 @@
     "position": "Pozisyon",
     "dailyWage": "Günlük yevmiye",
     "hireDate": "İşe giriş"
+  },
+  "language": {
+    "label": "App language",
+    "hint": "Choose Turkish or English."
   },
   "releases": {
     "loading": "Loading release notes…",

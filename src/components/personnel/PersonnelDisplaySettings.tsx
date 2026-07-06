@@ -1,6 +1,5 @@
 'use client';
 
-import { LanguageSwitch } from '@/components/i18n/LanguageSwitch';
 import { usePersonnelDisplay } from '@/lib/personnel-display-preferences';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 
@@ -9,42 +8,25 @@ export function PersonnelDisplaySettings() {
   const { largeText, highContrast, setLargeText, setHighContrast } = usePersonnelDisplay();
 
   return (
-    <div className="space-y-4">
-      <div className="rounded-2xl border border-slate-200/80 dark:border-slate-700 bg-white dark:bg-slate-800 overflow-hidden shadow-sm">
-        <div className="px-4 py-3 border-b border-slate-100 dark:border-slate-700/80 bg-slate-50/80 dark:bg-slate-800/50">
-          <p className="text-xs font-semibold text-slate-600 dark:text-slate-300 uppercase tracking-wide">
-            {strings.languageSectionTitle}
-          </p>
-        </div>
-        <div className="flex items-center justify-between gap-4 px-4 py-3.5">
-          <div>
-            <p className="text-sm font-medium text-slate-900 dark:text-white">{strings.languageLabel}</p>
-            <p className="text-xs text-slate-500 mt-0.5">{strings.languageHint}</p>
-          </div>
-          <LanguageSwitch variant="compact" />
-        </div>
+    <div className="rounded-2xl border border-slate-200/80 dark:border-slate-700 bg-white dark:bg-slate-800 overflow-hidden shadow-sm">
+      <div className="px-4 py-3 border-b border-slate-100 dark:border-slate-700/80 bg-slate-50/80 dark:bg-slate-800/50">
+        <p className="text-xs font-semibold text-slate-600 dark:text-slate-300 uppercase tracking-wide">
+          {strings.sectionTitle}
+        </p>
       </div>
-
-      <div className="rounded-2xl border border-slate-200/80 dark:border-slate-700 bg-white dark:bg-slate-800 overflow-hidden shadow-sm">
-        <div className="px-4 py-3 border-b border-slate-100 dark:border-slate-700/80 bg-slate-50/80 dark:bg-slate-800/50">
-          <p className="text-xs font-semibold text-slate-600 dark:text-slate-300 uppercase tracking-wide">
-            {strings.sectionTitle}
-          </p>
-        </div>
-        <div className="divide-y divide-slate-100 dark:divide-slate-700/80">
-          <ToggleRow
-            label={strings.largeTextLabel}
-            hint={strings.largeTextHint}
-            checked={largeText}
-            onChange={setLargeText}
-          />
-          <ToggleRow
-            label={strings.highContrastLabel}
-            hint={strings.highContrastHint}
-            checked={highContrast}
-            onChange={setHighContrast}
-          />
-        </div>
+      <div className="divide-y divide-slate-100 dark:divide-slate-700/80">
+        <ToggleRow
+          label={strings.largeTextLabel}
+          hint={strings.largeTextHint}
+          checked={largeText}
+          onChange={setLargeText}
+        />
+        <ToggleRow
+          label={strings.highContrastLabel}
+          hint={strings.highContrastHint}
+          checked={highContrast}
+          onChange={setHighContrast}
+        />
       </div>
     </div>
   );
