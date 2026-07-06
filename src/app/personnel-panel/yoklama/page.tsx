@@ -123,7 +123,7 @@ function YoklamaContent() {
   return (
     <>
       {/* Mobil — tam ekran kamera, alt bar yok */}
-      <div className="fixed inset-0 z-0 h-[100dvh] bg-black sm:hidden">
+      <div className="fixed inset-x-0 bottom-0 personnel-topbar-top z-0 bg-black sm:hidden">
         {!loadingStatus && !showScanner && failureBlocked && (
           <div className="absolute inset-0 bg-[#060d14]" aria-hidden />
         )}
@@ -145,7 +145,7 @@ function YoklamaContent() {
         ) : null}
 
         {/* Üst kontroller: iptal + kod gir */}
-        <div className="pointer-events-none absolute inset-x-0 top-[calc(3rem+env(safe-area-inset-top))] z-20 flex items-start justify-between gap-3 px-3 pb-2">
+        <div className="pointer-events-none absolute inset-x-0 top-3 z-20 flex items-start justify-between gap-3 px-3 pb-2">
           <Link
             href="/personnel-panel"
             className="pointer-events-auto flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-black/45 text-white shadow-lg backdrop-blur-md transition active:bg-black/60"
@@ -183,7 +183,7 @@ function YoklamaContent() {
             status?.state === 'completed' ||
             status?.state === 'cancelled' ||
             status?.state === 'removed') && (
-          <div className="absolute inset-x-4 top-[calc(3.75rem+env(safe-area-inset-top))] z-[7] flex items-center gap-3 rounded-2xl border border-amber-200/20 bg-[#0f1a28]/95 px-3.5 py-2.5 text-xs text-amber-50 shadow-lg backdrop-blur-md">
+          <div className="absolute inset-x-4 top-4 z-[7] flex items-center gap-3 rounded-2xl border border-amber-200/20 bg-[#0f1a28]/95 px-3.5 py-2.5 text-xs text-amber-50 shadow-lg backdrop-blur-md">
             <span className="relative flex h-2 w-2 shrink-0">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-400 opacity-60" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-400" />
@@ -205,7 +205,7 @@ function YoklamaContent() {
         )}
 
         {windowClosed && (
-          <div className="absolute inset-x-3 top-[calc(3.5rem+env(safe-area-inset-top))] z-[5] rounded-xl border border-amber-400/25 bg-amber-950/90 px-3 py-2.5 text-xs text-amber-50 shadow-lg">
+          <div className="absolute inset-x-3 top-3 z-[5] rounded-xl border border-amber-400/25 bg-amber-950/90 px-3 py-2.5 text-xs text-amber-50 shadow-lg">
             <p className="font-semibold">{strings.outsideWindowTitle}</p>
             <p className="mt-1 opacity-90">{status?.window?.message}</p>
           </div>

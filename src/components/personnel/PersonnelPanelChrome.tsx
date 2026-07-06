@@ -18,18 +18,19 @@ function ChromeBody({ children }: { children: React.ReactNode }) {
   const { inClosure, loading: closureLoading } = usePersonnelClosure();
   const closureLocked = closureLoading || inClosure;
   const hideBottomNav = isImmersive || closureLocked;
-  const topPad = isImmersive ? 'pt-0' : 'pt-[calc(3rem+env(safe-area-inset-top))]';
 
   return (
     <>
-      {!closureLocked ? <PersonnelTopBar /> : null}
+      {!closureLocked ? <PersonnelTopBar immersive={isImmersive} /> : null}
       <div
         className={
           closureLocked
             ? 'pb-0'
             : hideBottomNav
-              ? `pb-0 ${topPad}`
-              : `pb-[calc(5.25rem+env(safe-area-inset-bottom))] ${topPad}`
+              ? isImmersive
+                ? 'pb-0 personnel-topbar-offset'
+                : 'pb-0'
+              : 'pb-[calc(5.25rem+env(safe-area-inset-bottom))]'
         }
       >
         <PersonnelClosureGate>{children}</PersonnelClosureGate>

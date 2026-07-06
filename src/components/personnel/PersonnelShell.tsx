@@ -12,7 +12,7 @@ export function PersonnelShell({ children }: PersonnelShellProps) {
         <div className="absolute bottom-0 left-0 w-[360px] h-[360px] bg-indigo-400/10 dark:bg-indigo-500/5 rounded-full blur-3xl translate-y-1/3 -translate-x-1/4" />
       </div>
 
-      <main className="max-w-5xl mx-auto px-3 sm:px-6 py-3 sm:py-8 sm:safe-pt sm:safe-pb">{children}</main>
+      <main className="max-w-5xl mx-auto px-3 sm:px-6 py-3 sm:py-6 sm:safe-pb">{children}</main>
     </div>
   );
 }

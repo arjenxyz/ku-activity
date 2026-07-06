@@ -95,8 +95,8 @@ function AvansOnayContent() {
   }
 
   return (
-    <div className="relative min-h-[100dvh] bg-[#060d14] text-white">
-      <div className="absolute inset-x-0 top-[calc(3rem+env(safe-area-inset-top))] z-20 flex items-center gap-3 px-4">
+    <div className="relative min-h-[calc(100dvh-var(--personnel-topbar-h))] bg-[#060d14] text-white">
+      <div className="absolute inset-x-0 top-0 z-20 flex items-center gap-3 px-4 pt-3">
         <Link
           href="/personnel-panel/avans"
           className="flex h-10 w-10 items-center justify-center rounded-full bg-black/45 backdrop-blur-md"
