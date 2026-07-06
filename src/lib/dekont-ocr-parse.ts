@@ -244,7 +244,7 @@ function parseReferenceNo(text: string): string | null {
   ]);
 
   const cleanCandidate = (raw: string): string | null => {
-    let candidate = raw.trim().replace(/\s+/g, ' ');
+    const candidate = raw.trim().replace(/\s+/g, ' ');
     if (!candidate || candidate.startsWith('HVL-')) return null;
     const compact = candidate.replace(/\s/g, '');
     if (/^TR\d{20,}/i.test(compact)) return null;
