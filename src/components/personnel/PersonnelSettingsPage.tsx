@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState, useMemo } from 'react';
+import { useRef, useState } from 'react';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import {
   FiBriefcase,
@@ -10,6 +10,7 @@ import {
   FiCreditCard,
   FiImage,
   FiLock,
+  FiLogOut,
   FiPhone,
   FiSettings,
   FiShield,
@@ -25,7 +26,6 @@ import { formatDate, formatMoney } from '@/lib/format';
 import { formatTurkishPhoneNational } from '@/lib/field-encryption';
 import type { PersonnelEmployee } from '@/lib/personnel-api';
 import { getRegistryStrings } from '@/lib/i18n/strings-registry';
-import { useRegisterPersonnelTopBarLogout } from '@/contexts/PersonnelTopBarActionsContext';
 
 type SettingsStrings = ReturnType<typeof getRegistryStrings<'components/personnel/PersonnelSettingsPage'>>;
 
@@ -94,16 +94,6 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
     employee.position?.trim() ||
     maskPhoneForProfile(employee.phone) ||
     strings.profileAccountLabel;
-
-  const topBarLogout = useMemo(
-    () => ({
-      label: strings.logout,
-      onClick: onLogout,
-    }),
-    [strings.logout, onLogout]
-  );
-
-  useRegisterPersonnelTopBarLogout(topBarLogout);
 
   const uploadPhoto = async (file: File | null) => {
     if (!file) return;
@@ -290,6 +280,15 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
                 />
               ))}
             </SettingsCard>
+
+            <button
+              type="button"
+              onClick={onLogout}
+              className="flex w-full items-center justify-center gap-2 rounded-2xl bg-white py-3.5 text-sm font-medium text-slate-500 shadow-sm transition hover:bg-red-50 hover:text-red-600 dark:bg-slate-800 dark:hover:bg-red-950/30"
+            >
+              <FiLogOut className="h-4 w-4" />
+              {strings.logout}
+            </button>
           </div>
         );
     }

@@ -1,8 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { FiHash, FiLogOut } from 'react-icons/fi';
+import { usePathname, useSearchParams } from 'next/navigation';
+import { FiHash } from 'react-icons/fi';
 import { BrandMark } from '@/components/brand/BrandMark';
 import { PersonnelNotificationsBell } from '@/components/personnel/PersonnelNotificationsBell';
 import { usePersonnelNotificationsContext } from '@/contexts/PersonnelNotificationsContext';
@@ -17,6 +17,7 @@ type Props = {
 
 export function PersonnelTopBar({ immersive = false }: Props) {
   const pathname = usePathname() ?? '';
+  const searchParams = useSearchParams();
   const { locale } = useLocale();
   const defaultTagline = locale === 'en' ? APP_TAGLINE : APP_TAGLINE_TR;
   const yoklamaStrings = useRegistryStrings('app/personnel-panel/yoklama/page');
@@ -24,7 +25,7 @@ export function PersonnelTopBar({ immersive = false }: Props) {
   const { panelOpen } = usePersonnelNotificationsContext();
   const topBarActions = usePersonnelTopBarEnterCodeAction();
   const isYoklama = pathname.startsWith('/personnel-panel/yoklama');
-  const isSettings = Boolean(topBarActions?.logout);
+  const isSettings = pathname === '/personnel-panel' && searchParams.get('tab') === 'settings';
   const immersivePath =
     immersive ||
     isYoklama ||
@@ -36,7 +37,6 @@ export function PersonnelTopBar({ immersive = false }: Props) {
       ? settingsStrings.exitHint
       : defaultTagline;
   const enterCode = isYoklama ? topBarActions?.enterCode : null;
-  const logout = isSettings ? topBarActions?.logout : null;
 
   const shellClass = immersivePath
     ? 'fixed top-0 inset-x-0 z-[250] bg-black'
@@ -104,15 +104,6 @@ export function PersonnelTopBar({ immersive = false }: Props) {
               >
                 {enterCode.variant !== 'cancel' ? <FiHash className="h-4 w-4" /> : null}
                 {enterCode.label}
-              </button>
-            ) : logout ? (
-              <button
-                type="button"
-                onClick={logout.onClick}
-                className="inline-flex h-10 shrink-0 items-center gap-1.5 rounded-xl bg-slate-100/90 px-3 text-sm font-semibold text-[#0E1548] transition hover:bg-red-50 hover:text-red-600 active:bg-red-100 dark:bg-slate-800/90 dark:text-white dark:hover:bg-red-950/40 dark:hover:text-red-300"
-              >
-                <FiLogOut className="h-4 w-4" />
-                {logout.label}
               </button>
             ) : (
               <div
