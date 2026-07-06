@@ -1,9 +1,56 @@
-const CACHE_NAME = 'crewledger-v23';
+const CACHE_NAME = 'crewledger-v24';
 /** Sağdaki büyük bildirim ikonu */
 const PUSH_ICON_PATH = '/personel-icon.png';
 /** Soldaki küçük ikon — crewledger silüeti (beyaz, şeffaf) */
 const PUSH_BADGE_PATH = '/icons/personnel/notification/96';
-const PUSH_ICON_VERSION = '18';
+const PUSH_ICON_VERSION = '19';
+
+function urlBase64ToUint8Array(base64String) {
+  const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
+  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+  const raw = atob(base64);
+  const output = new Uint8Array(raw.length);
+  for (let i = 0; i < raw.length; i += 1) output[i] = raw.charCodeAt(i);
+  return output;
+}
+
+async function resubscribeAfterPushSubscriptionChange() {
+  try {
+    const keyRes = await fetch('/api/personnel/push/vapid-public-key', { credentials: 'include' });
+    if (!keyRes.ok) return;
+    const keyData = await keyRes.json();
+    if (!keyData.enabled || !keyData.publicKey) return;
+
+    const applicationServerKey = urlBase64ToUint8Array(keyData.publicKey);
+    const registration = self.registration;
+    const existing = await registration.pushManager.getSubscription();
+    if (existing) {
+      try {
+        await existing.unsubscribe();
+      } catch {
+        /* */
+      }
+    }
+
+    const subscription = await registration.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey,
+    });
+    const json = subscription.toJSON();
+    await fetch('/api/personnel/push/subscribe', {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        endpoint: json.endpoint,
+        p256dh: json.keys?.p256dh,
+        auth: json.keys?.auth,
+      }),
+    });
+  } catch {
+    /* FCM abonelik yenilemesi — oturum yoksa bir sonraki uygulama açılışında bootstrap tamamlar */
+  }
+}
 
 function isFocusedPersonnelClient(client) {
   try {
@@ -81,6 +128,12 @@ self.addEventListener('activate', (event) => {
   );
 });
 
+self.addEventListener('message', (event) => {
+  if (event.data?.type === 'SKIP_WAITING') {
+    void self.skipWaiting();
+  }
+});
+
 self.addEventListener('fetch', (event) => {
   if (shouldSkip(event.request)) return;
   if (event.request.mode !== 'navigate') return;
@@ -146,6 +199,10 @@ self.addEventListener('push', (event) => {
       }
     })()
   );
+});
+
+self.addEventListener('pushsubscriptionchange', (event) => {
+  event.waitUntil(resubscribeAfterPushSubscriptionChange());
 });
 
 self.addEventListener('notificationclick', (event) => {

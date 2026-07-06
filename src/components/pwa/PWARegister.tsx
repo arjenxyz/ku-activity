@@ -22,7 +22,11 @@ export function PWARegister() {
         const registration = await navigator.serviceWorker.register('/sw.js', {
           scope: '/',
           updateViaCache: 'none',
+          type: 'classic',
         });
+        if (registration.waiting) {
+          registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+        }
         await registration.update().catch(() => undefined);
       } catch (error) {
         console.error('Service worker işlemi başarısız:', error);

@@ -124,9 +124,19 @@ export async function listActiveEmployeePushSubscriptions(
 
   const activeSessionIds = await loadActiveSessionIds(admin, sessionIds);
 
-  return subs.filter(
+  const active = subs.filter(
     (sub) => sub.session_id && activeSessionIds.has(sub.session_id as string)
   );
+  if (active.length) return active;
+
+  // Oturum eşleşmesi yoksa bile son 30 gün içinde güncellenen aboneliklere gönder
+  // (FCM endpoint geçerliyken kapalı uygulama teslimatı için)
+  const cutoff = Date.now() - 30 * 24 * 60 * 60 * 1000;
+  return subs.filter((sub) => {
+    const seen = sub.last_seen_at ?? sub.updated_at ?? sub.created_at;
+    if (!seen) return false;
+    return new Date(seen as string).getTime() >= cutoff;
+  });
 }
 
 /** Oturumu sona ermiş veya bağsız (legacy) abonelikleri temizle */
@@ -280,7 +290,11 @@ export async function dispatchPersonnelPush(
             auth: sub.auth as string,
           },
         },
-        pushBody
+        pushBody,
+        {
+          TTL: 60 * 60 * 24,
+          urgency: 'high',
+        }
       );
       sent += 1;
     } catch (e) {

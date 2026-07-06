@@ -10,7 +10,10 @@ import { notificationMonochromeIconPath } from '@/lib/brand';
 export type PwaAppVariant = AppIconVariant;
 
 /** PWA ikon/manifest önbelleğini kırmak için — değişince artır */
-export const PWA_ASSET_VERSION = '17';
+export const PWA_ASSET_VERSION = '18';
+
+/** Google'ın sabit Web Push sender ID'si — Android'de uygulama kapalıyken FCM teslimatı için zorunlu */
+export const WEB_PUSH_GCM_SENDER_ID = '103953799541';
 
 function iconUrl(variant: PwaAppVariant, size: 192 | 512, purpose: 'any' | 'maskable' = 'any') {
   if (purpose === 'maskable') {
@@ -34,7 +37,7 @@ function iconsForVariant(variant: PwaAppVariant): MetadataRoute.Manifest['icons'
   ];
 }
 
-export function buildPersonnelManifest(): MetadataRoute.Manifest {
+export function buildPersonnelManifest(): MetadataRoute.Manifest & { gcm_sender_id: string } {
   const icon = iconUrl('personnel', 192);
   return {
     id: `/personnel-panel?v=${PWA_ASSET_VERSION}`,
@@ -53,6 +56,8 @@ export function buildPersonnelManifest(): MetadataRoute.Manifest {
     dir: 'ltr',
     categories: ['business', 'productivity'],
     prefer_related_applications: false,
+    // Android: uygulama kapalıyken FCM → service worker push için gerekli (Chrome Web Push)
+    gcm_sender_id: WEB_PUSH_GCM_SENDER_ID,
     icons: iconsForVariant('personnel'),
     shortcuts: [
       {
