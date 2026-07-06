@@ -9,7 +9,6 @@ import {
   FiAlertTriangle,
   FiCheck,
   FiCheckCircle,
-  FiExternalLink,
   FiFileText,
   FiRefreshCw,
   FiUpload,
@@ -17,7 +16,7 @@ import {
   FiXCircle,
 } from 'react-icons/fi';
 import { AlertBanner } from '@/components/project/AlertBanner';
-import { ProjectPageHeader } from '@/components/project/ProjectPageHeader';
+import { DekontScanShell } from '@/components/admin/DekontScanShell';
 import { EmployeeAvatar } from '@/components/employee/EmployeeAvatar';
 import { btnPrimary, btnSecondary, labelClass, inputClass } from '@/components/project/ui';
 import { formatDate, formatMoney } from '@/lib/format';
@@ -27,7 +26,6 @@ import { formatOcrIban } from '@/lib/advance-dekont-match';
 import type { DekontMatchSuggestion } from '@/lib/advance-dekont-match';
 import type { DekontOcrResult } from '@/lib/dekont-ocr-shared';
 import { isDraftPendingOcr } from '@/lib/dekont-ocr-shared';
-import { transferTypeLabel } from '@/lib/turkish-banks';
 import {
   MIN_MATCH_SCORE,
   buildMatchValidationChecks,
@@ -57,32 +55,30 @@ function StepIndicator({ step }: { step: Step }) {
   const idx = step === 'upload' ? 0 : step === 'analyze' ? 1 : step === 'review' ? 2 : 3;
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-1.5 sm:gap-2">
       {steps.map((s, i) => {
         const active = i === idx;
         const done = i < idx || step === 'done';
         return (
-          <div key={s.id} className="flex items-center gap-2 flex-1 min-w-0">
+          <div key={s.id} className="flex flex-1 min-w-0 items-center gap-1.5 sm:gap-2">
             {i > 0 && (
               <div
-                className={`h-0.5 w-4 sm:w-8 shrink-0 rounded-full ${
-                  done ? 'bg-emerald-400' : 'bg-slate-200 dark:bg-slate-700'
-                }`}
+                className={`h-px w-3 shrink-0 sm:w-6 ${done ? 'bg-emerald-400' : 'bg-slate-200 dark:bg-slate-700'}`}
               />
             )}
             <div
-              className={`flex items-center gap-2 min-w-0 rounded-xl px-3 py-2 text-xs font-medium flex-1 ${
+              className={`flex min-w-0 flex-1 items-center justify-center gap-1.5 rounded-full px-2 py-1.5 text-[11px] font-medium sm:px-3 sm:text-xs ${
                 done
                   ? 'bg-emerald-50 text-emerald-800 dark:bg-emerald-950/30 dark:text-emerald-300'
                   : active
                     ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900'
-                    : 'bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400'
+                    : 'bg-slate-100 text-slate-400 dark:bg-slate-800 dark:text-slate-500'
               }`}
             >
               <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-black/10 text-[10px] font-bold">
                 {done ? <FiCheck className="h-3 w-3" /> : i + 1}
               </span>
-              <span className="truncate">{s.label}</span>
+              <span className="hidden truncate sm:inline">{s.label}</span>
             </div>
           </div>
         );
@@ -91,36 +87,36 @@ function StepIndicator({ step }: { step: Step }) {
   );
 }
 
-function MatchScoreBadge({ score }: { score: number }) {
+function ScorePill({ score, ok }: { score: number; ok: boolean }) {
   const strings = useRegistryStrings('components/admin/DekontSharePanel');
-  const ok = score >= MIN_MATCH_SCORE;
   return (
     <div
-      className={`shrink-0 rounded-xl px-2.5 py-1.5 text-center ${
+      className={`shrink-0 rounded-full px-3 py-1 text-center text-xs font-semibold tabular-nums ${
+        ok
+          ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-300'
+          : score >= 40
+            ? 'bg-amber-100 text-amber-900 dark:bg-amber-950/40 dark:text-amber-200'
+            : 'bg-red-100 text-red-800 dark:bg-red-950/40 dark:text-red-200'
+      }`}
+    >
+      {score}
+      <span className="ml-1 font-normal opacity-70">{strings.trustLabel}</span>
+    </div>
+  );
+}
+
+function MatchScoreBadge({ score }: { score: number }) {
+  const ok = score >= MIN_MATCH_SCORE;
+  return (
+    <span
+      className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-bold tabular-nums ${
         ok
           ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-300'
           : 'bg-amber-100 text-amber-900 dark:bg-amber-950/40 dark:text-amber-200'
       }`}
     >
-      <p className="text-lg font-bold tabular-nums leading-none">{score}</p>
-      <p className="mt-0.5 text-[9px] font-medium uppercase tracking-wide opacity-75">{strings.matchScoreLabel}</p>
-    </div>
-  );
-}
-
-function MatchReasonChips({ reasons }: { reasons: string[] }) {
-  if (!reasons.length) return null;
-  return (
-    <ul className="mt-2 flex flex-wrap gap-1.5">
-      {reasons.map((reason) => (
-        <li
-          key={reason}
-          className="rounded-full bg-slate-100 px-2.5 py-0.5 text-[11px] font-medium text-slate-600 dark:bg-slate-800 dark:text-slate-300"
-        >
-          {reason}
-        </li>
-      ))}
-    </ul>
+      {score}
+    </span>
   );
 }
 
@@ -136,169 +132,63 @@ function PersonnelMatchCard({
   onSelect: () => void;
 }) {
   const strings = useRegistryStrings('components/admin/DekontSharePanel');
-  const matchOk = validateMatchForConfirm(ocr, match).ok;
-  const profileHref = `/admin-panel/proje/${match.projectId}/list/${match.employeeId}`;
 
   return (
     <label
-      className={`block cursor-pointer rounded-2xl border p-4 transition-all ${
+      className={`block cursor-pointer rounded-xl border p-3.5 transition-all sm:p-4 ${
         selected
           ? 'border-slate-900 bg-slate-50 ring-2 ring-slate-900/10 dark:border-white dark:bg-slate-800 dark:ring-white/10'
           : 'border-slate-200 hover:border-slate-300 dark:border-slate-700 dark:hover:border-slate-600'
-      } ${!matchOk ? 'opacity-80' : ''}`}
+      }`}
     >
       <input type="radio" name="match" className="sr-only" checked={selected} onChange={onSelect} />
-      <div className="flex items-start gap-3">
+      <div className="flex items-center gap-3">
         <EmployeeAvatar
           name={match.employeeName}
           photoUrl={match.employeePhotoUrl}
-          size="lg"
+          size="md"
           className="ring-2 ring-white dark:ring-slate-900"
         />
         <div className="min-w-0 flex-1">
           <div className="flex items-start justify-between gap-2">
             <div className="min-w-0">
               <p className="truncate font-semibold text-slate-900 dark:text-white">{match.employeeName}</p>
-              {match.employeePosition && (
-                <p className="truncate text-sm text-slate-500">{match.employeePosition}</p>
-              )}
-              <p className="mt-0.5 truncate text-xs text-slate-400">{match.projectName}</p>
+              <p className="truncate text-xs text-slate-500">
+                {match.projectName} · {formatMoney(match.approvedAmount)}
+              </p>
             </div>
             <MatchScoreBadge score={match.score} />
           </div>
-
-          <div className="mt-3 grid gap-1.5 text-xs sm:grid-cols-2">
-            <div className="rounded-lg bg-white/80 px-2.5 py-1.5 dark:bg-slate-900/50">
-              <p className="text-slate-400">{strings.review.approvedAmount}</p>
-              <p className="font-semibold tabular-nums text-slate-900 dark:text-white">
-                {formatMoney(match.approvedAmount)}
-              </p>
-            </div>
-            {match.employeeIbanMasked && (
-              <div className="rounded-lg bg-white/80 px-2.5 py-1.5 dark:bg-slate-900/50">
-                <p className="text-slate-400">{strings.review.profileIban}</p>
-                <p className="font-mono text-[11px] font-medium text-slate-800 dark:text-slate-200">
-                  {match.employeeIbanMasked}
-                </p>
-              </div>
-            )}
-          </div>
-
-          <div className="mt-2 flex flex-wrap gap-2 text-[11px]">
+          <div className="mt-2 flex flex-wrap gap-1.5 text-[10px] font-medium">
             <span
-              className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 font-medium ${
+              className={`inline-flex items-center gap-0.5 rounded-full px-2 py-0.5 ${
                 match.ibanMatched
                   ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-300'
-                  : 'bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400'
+                  : 'bg-slate-100 text-slate-500 dark:bg-slate-800'
               }`}
             >
               {match.ibanMatched ? <FiCheck className="h-3 w-3" /> : <FiXCircle className="h-3 w-3" />}
-              {match.ibanMatched ? strings.review.ibanMatch : strings.review.ibanMismatch}
+              IBAN
             </span>
             <span
-              className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 font-medium ${
+              className={`inline-flex items-center gap-0.5 rounded-full px-2 py-0.5 ${
                 match.amountMatched
                   ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-300'
-                  : 'bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400'
+                  : 'bg-slate-100 text-slate-500 dark:bg-slate-800'
               }`}
             >
               {match.amountMatched ? <FiCheck className="h-3 w-3" /> : <FiXCircle className="h-3 w-3" />}
-              {match.amountMatched ? strings.review.amountMatch : strings.review.amountMismatch}
+              {strings.review.amountMatch}
             </span>
+            {ocr.amount != null && !match.amountMatched && (
+              <span className="rounded-full bg-slate-100 px-2 py-0.5 text-slate-600 dark:bg-slate-800 dark:text-slate-300">
+                OCR {formatMoney(ocr.amount)}
+              </span>
+            )}
           </div>
-
-          <MatchReasonChips reasons={match.reasons} />
-
-          <Link
-            href={profileHref}
-            onClick={(e) => e.stopPropagation()}
-            className="mt-3 inline-flex items-center gap-1 text-xs font-medium text-blue-600 hover:underline dark:text-blue-400"
-          >
-            <FiExternalLink className="h-3.5 w-3.5" />
-            {strings.review.viewProfile}
-          </Link>
         </div>
       </div>
     </label>
-  );
-}
-
-function SelectedPersonnelHero({
-  match,
-  ocr,
-}: {
-  match: DekontMatchSuggestion;
-  ocr: DekontOcrResult;
-}) {
-  const strings = useRegistryStrings('components/admin/DekontSharePanel');
-  const profileHref = `/admin-panel/proje/${match.projectId}/list/${match.employeeId}`;
-
-  return (
-    <div className="rounded-2xl border border-emerald-200 bg-gradient-to-br from-emerald-50 via-white to-white p-5 dark:border-emerald-900/40 dark:from-emerald-950/30 dark:via-slate-900 dark:to-slate-900">
-      <p className="text-xs font-semibold uppercase tracking-wide text-emerald-700 dark:text-emerald-400">
-        {strings.review.selectedPersonnel}
-      </p>
-      <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">{strings.review.selectedHint}</p>
-
-      <div className="mt-4 flex flex-col gap-4 sm:flex-row sm:items-center">
-        <EmployeeAvatar name={match.employeeName} photoUrl={match.employeePhotoUrl} size="xl" />
-        <div className="min-w-0 flex-1">
-          <h3 className="text-xl font-bold text-slate-900 dark:text-white">{match.employeeName}</h3>
-          {match.employeePosition && (
-            <p className="text-sm text-slate-500">{match.employeePosition}</p>
-          )}
-          <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">{match.projectName}</p>
-          {match.approvedAt && (
-            <p className="mt-1 text-xs text-slate-400">
-              {strings.review.approvedOn}: {formatDate(match.approvedAt)}
-            </p>
-          )}
-        </div>
-        <Link href={profileHref} className={`${btnSecondary} inline-flex shrink-0 items-center gap-2`}>
-          <FiUser className="h-4 w-4" />
-          {strings.review.viewProfile}
-        </Link>
-      </div>
-
-      <div className="mt-4 grid gap-3 sm:grid-cols-3">
-        <div className="rounded-xl bg-white/90 px-3 py-2.5 dark:bg-slate-800/80">
-          <p className="text-xs text-slate-500">{strings.review.ocrAmount}</p>
-          <p className="mt-0.5 font-semibold tabular-nums text-slate-900 dark:text-white">
-            {ocr.amount != null ? formatMoney(ocr.amount) : strings.ocrFields.empty}
-          </p>
-        </div>
-        <div className="rounded-xl bg-white/90 px-3 py-2.5 dark:bg-slate-800/80">
-          <p className="text-xs text-slate-500">{strings.review.approvedAmount}</p>
-          <p className="mt-0.5 font-semibold tabular-nums text-slate-900 dark:text-white">
-            {formatMoney(match.approvedAmount)}
-          </p>
-        </div>
-        <div className="rounded-xl bg-white/90 px-3 py-2.5 dark:bg-slate-800/80">
-          <p className="text-xs text-slate-500">{strings.review.profileIban}</p>
-          <p className="mt-0.5 font-mono text-sm font-medium text-slate-900 dark:text-white">
-            {match.employeeIbanMasked ?? formatOcrIban(ocr.recipientIban)}
-          </p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function ScoreBadge({ score, accepted }: { score: number; accepted: boolean }) {
-  const strings = useRegistryStrings('components/admin/DekontSharePanel');
-  return (
-    <div
-      className={`shrink-0 rounded-xl px-3 py-2 text-center ${
-        accepted
-          ? 'bg-emerald-50 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-200'
-          : score >= 40
-            ? 'bg-amber-50 text-amber-900 dark:bg-amber-950/30 dark:text-amber-200'
-            : 'bg-red-50 text-red-800 dark:bg-red-950/40 dark:text-red-200'
-      }`}
-    >
-      <p className="text-xl font-bold tabular-nums leading-none">{score}</p>
-      <p className="mt-1 text-[10px] font-medium uppercase tracking-wide opacity-80">{strings.trustLabel}</p>
-    </div>
   );
 }
 
@@ -346,143 +236,55 @@ function localizeValidationChecks(
   return checks.map((check) => localizeValidationCheck(check, validationStrings));
 }
 
-function CheckRow({ check }: { check: DekontValidationCheck }) {
-  const strings = useRegistryStrings('components/admin/DekontSharePanel');
-
-  return (
-    <li
-      className={`flex items-start gap-2.5 rounded-lg px-3 py-2 text-sm ${
-        check.passed
-          ? 'bg-emerald-50/80 text-emerald-900 dark:bg-emerald-950/20 dark:text-emerald-200'
-          : check.required
-            ? 'bg-red-50/80 text-red-900 dark:bg-red-950/20 dark:text-red-200'
-            : 'bg-amber-50/60 text-amber-900 dark:bg-amber-950/15 dark:text-amber-200'
-      }`}
-    >
-      {check.passed ? (
-        <FiCheckCircle className="mt-0.5 h-4 w-4 shrink-0" />
-      ) : check.required ? (
-        <FiXCircle className="mt-0.5 h-4 w-4 shrink-0" />
-      ) : (
-        <FiAlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
-      )}
-      <div className="min-w-0">
-        <p className="font-medium">
-          {check.label}
-          {!check.required && (
-            <span className="ml-1.5 text-[10px] font-normal opacity-60">{strings.optionalBadge}</span>
-          )}
-        </p>
-        {check.detail && <p className="mt-0.5 text-xs opacity-75">{check.detail}</p>}
-      </div>
-    </li>
-  );
-}
-
-function ValidationReport({ checks }: { checks: DekontValidationCheck[] }) {
-  const strings = useRegistryStrings('components/admin/DekontSharePanel');
+function CompactValidationIssues({ checks }: { checks: DekontValidationCheck[] }) {
   const validationStrings = useRegistryStrings('lib/dekont-validation');
   const localized = localizeValidationChecks(checks, validationStrings);
-  const { passed, failedRequired, failedOptional } = splitValidationChecks(localized);
+  const { failedRequired, failedOptional } = splitValidationChecks(localized);
+  const issues = [...failedRequired, ...failedOptional];
+
+  if (issues.length === 0) return null;
 
   return (
-    <div className="space-y-4">
-      <div>
-        <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-emerald-700 dark:text-emerald-400">
-          {strings.validation.passedHeader}
-        </p>
-        {passed.length === 0 ? (
-          <p className="text-sm text-slate-500">—</p>
-        ) : (
-          <ul className="space-y-1.5">
-            {passed.map((check) => (
-              <CheckRow key={check.id} check={check} />
-            ))}
-          </ul>
-        )}
-      </div>
-
-      <div>
-        <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-red-700 dark:text-red-400">
-          {strings.validation.failedHeader}
-        </p>
-        {failedRequired.length === 0 ? (
-          <p className="flex items-center gap-2 text-sm text-emerald-700 dark:text-emerald-300">
-            <FiCheckCircle className="h-4 w-4 shrink-0" />
-            {strings.validation.allPassed}
-          </p>
-        ) : (
-          <ul className="space-y-1.5">
-            {failedRequired.map((check) => (
-              <CheckRow key={check.id} check={check} />
-            ))}
-          </ul>
-        )}
-      </div>
-
-      {failedOptional.length > 0 && (
-        <div>
-          <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-amber-700 dark:text-amber-400">
-            {strings.validation.optionalHeader}
-          </p>
-          <ul className="space-y-1.5">
-            {failedOptional.map((check) => (
-              <CheckRow key={check.id} check={check} />
-            ))}
-          </ul>
-        </div>
-      )}
-    </div>
+    <ul className="mt-3 space-y-1.5">
+      {issues.map((check) => (
+        <li
+          key={check.id}
+          className={`flex items-start gap-2 rounded-lg px-3 py-2 text-sm ${
+            check.required
+              ? 'bg-red-50 text-red-900 dark:bg-red-950/20 dark:text-red-200'
+              : 'bg-amber-50/80 text-amber-900 dark:bg-amber-950/15 dark:text-amber-200'
+          }`}
+        >
+          {check.required ? (
+            <FiXCircle className="mt-0.5 h-4 w-4 shrink-0" />
+          ) : (
+            <FiAlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
+          )}
+          <div className="min-w-0">
+            <p className="font-medium">{check.label}</p>
+            {check.detail && <p className="mt-0.5 text-xs opacity-80">{check.detail}</p>}
+          </div>
+        </li>
+      ))}
+    </ul>
   );
 }
 
 function ScanRejectedCard({ report }: { report: DekontScanReport }) {
   const strings = useRegistryStrings('components/admin/DekontSharePanel');
-  const validationStrings = useRegistryStrings('lib/dekont-validation');
-  const summary = report.accepted
-    ? validationStrings.summary.accepted
-    : report.score >= 40 && report.checks.every((c) => !c.required || c.passed)
-      ? validationStrings.summary.lowScore
-      : validationStrings.summary.rejected;
-
-  const sourceLabel =
-    report.ocrPreview?.source === 'pdf'
-      ? 'PDF'
-      : report.ocrPreview?.source === 'vision'
-        ? 'OCR (Vision)'
-        : report.ocrPreview?.source === 'tesseract'
-          ? 'OCR (Tesseract)'
-          : report.ocrPreview?.source === 'none'
-            ? '—'
-            : (report.ocrPreview?.source ?? '—');
 
   return (
     <div className="rounded-2xl border border-red-200 bg-white p-5 dark:border-red-900/40 dark:bg-slate-900">
       <div className="flex items-start justify-between gap-4">
         <div>
           <h3 className="font-semibold text-slate-900 dark:text-white">{strings.validation.scanRejectedTitle}</h3>
-          <p className="mt-1 text-sm text-red-700 dark:text-red-300">{summary}</p>
-          {report.ocrPreview && (
-            <div className="mt-2 space-y-0.5 text-xs text-slate-500">
-              <p>
-                {formatString(strings.validation.ocrChars, {
-                  count: String(report.ocrPreview.charCount),
-                })}
-              </p>
-              <p>{formatString(strings.validation.ocrSource, { source: sourceLabel })}</p>
-              {report.ocrPreview.ocrError && (
-                <p className="text-red-600 dark:text-red-400">
-                  {formatString(strings.validation.ocrError, { message: report.ocrPreview.ocrError })}
-                </p>
-              )}
-            </div>
+          {report.ocrPreview?.ocrError && (
+            <p className="mt-1 text-sm text-red-600 dark:text-red-400">{report.ocrPreview.ocrError}</p>
           )}
         </div>
-        <ScoreBadge score={report.score} accepted={report.accepted} />
+        <ScorePill score={report.score} ok={report.accepted} />
       </div>
-      <div className="mt-4">
-        <ValidationReport checks={report.checks} />
-      </div>
+      <CompactValidationIssues checks={report.checks} />
     </div>
   );
 }
@@ -747,21 +549,16 @@ function DekontShareContent() {
     }
   };
 
-  const ocrRows = effectiveOcr
-    ? [
-        [strings.ocrFields.amount, effectiveOcr.amount != null ? formatMoney(effectiveOcr.amount) : strings.ocrFields.empty],
-        [strings.ocrFields.recipientIban, formatOcrIban(effectiveOcr.recipientIban)],
-        [strings.ocrFields.senderBank, effectiveOcr.senderBank ?? strings.ocrFields.empty],
-        [strings.ocrFields.recipientBank, effectiveOcr.recipientBank ?? strings.ocrFields.empty],
-        [strings.ocrFields.transferType, transferTypeLabel(effectiveOcr.transferType)],
-        [strings.ocrFields.reference, effectiveOcr.referenceNo ?? strings.ocrFields.empty],
-        [strings.ocrFields.date, effectiveOcr.paymentDate ?? strings.ocrFields.empty],
-      ]
-    : [];
-
   return (
-    <div className="mx-auto max-w-4xl space-y-5">
-      <ProjectPageHeader title={strings.header.title} description={strings.header.description} />
+    <div className="space-y-5">
+      <div>
+        <h1 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-2xl">
+          {strings.header.title}
+        </h1>
+        {strings.header.description ? (
+          <p className="mt-1 text-sm text-slate-500">{strings.header.description}</p>
+        ) : null}
+      </div>
 
       <StepIndicator step={step} />
 
@@ -770,59 +567,52 @@ function DekontShareContent() {
       {success && step !== 'done' && <AlertBanner type="success" message={success} />}
 
       {step === 'upload' && !loading && (
-        <div className="space-y-4">
-          <div
-            onDragOver={(e) => {
-              e.preventDefault();
-              setDragOver(true);
-            }}
-            onDragLeave={() => setDragOver(false)}
-            onDrop={handleDrop}
-            className={`rounded-2xl border-2 border-dashed p-8 sm:p-12 text-center transition-colors ${
-              dragOver
-                ? 'border-blue-500 bg-blue-50/50 dark:bg-blue-950/20'
-                : 'border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-900'
-            }`}
-          >
-            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-100 dark:bg-slate-800">
-              <FiUpload className="h-6 w-6 text-slate-600 dark:text-slate-300" />
-            </div>
-            <h3 className="mt-4 text-lg font-semibold text-slate-900 dark:text-white">{strings.upload.title}</h3>
-            <p className="mx-auto mt-2 max-w-md text-sm text-slate-500">{strings.upload.description}</p>
-            <label className={`${btnPrimary} mt-6 inline-flex cursor-pointer items-center gap-2`}>
-              <FiFileText />
-              {strings.upload.selectFile}
-              <input
-                type="file"
-                accept="application/pdf,image/jpeg,image/png,image/webp,image/heic"
-                className="hidden"
-                disabled={uploading}
-                onChange={handleFileUpload}
-              />
-            </label>
-            <p className="mt-3 text-xs text-slate-400">{strings.upload.fileHint}</p>
+        <div
+          onDragOver={(e) => {
+            e.preventDefault();
+            setDragOver(true);
+          }}
+          onDragLeave={() => setDragOver(false)}
+          onDrop={handleDrop}
+          className={`rounded-2xl border-2 border-dashed p-10 text-center transition-colors sm:p-14 ${
+            dragOver
+              ? 'border-blue-500 bg-blue-50/50 dark:bg-blue-950/20'
+              : 'border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-900'
+          }`}
+        >
+          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100 dark:bg-slate-800">
+            <FiUpload className="h-5 w-5 text-slate-600 dark:text-slate-300" />
           </div>
-          <p className="text-center text-xs text-slate-500">{strings.upload.shareTip}</p>
+          <p className="mt-4 text-base font-semibold text-slate-900 dark:text-white">{strings.upload.title}</p>
+          <p className="mx-auto mt-1.5 max-w-sm text-sm text-slate-500">{strings.upload.description}</p>
+          <label className={`${btnPrimary} mt-6 inline-flex cursor-pointer items-center gap-2`}>
+            <FiFileText />
+            {strings.upload.selectFile}
+            <input
+              type="file"
+              accept="application/pdf,image/jpeg,image/png,image/webp,image/heic"
+              className="hidden"
+              disabled={uploading}
+              onChange={handleFileUpload}
+            />
+          </label>
+          <p className="mt-3 text-xs text-slate-400">{strings.upload.fileHint}</p>
         </div>
       )}
 
       {(step === 'analyze' || loading) && (
-        <div className="flex flex-col items-center justify-center rounded-2xl border border-slate-200 bg-white py-16 dark:border-slate-800 dark:bg-slate-900">
-          <div className="h-10 w-10 animate-spin rounded-full border-2 border-slate-900 border-t-transparent dark:border-white" />
+        <div className="flex flex-col items-center justify-center rounded-2xl border border-slate-200 bg-white py-20 dark:border-slate-800 dark:bg-slate-900">
+          <div className="h-9 w-9 animate-spin rounded-full border-2 border-slate-900 border-t-transparent dark:border-white" />
           <p className="mt-4 text-sm font-medium text-slate-700 dark:text-slate-200">{strings.analyze.title}</p>
-          {step === 'analyze' && draftId && (
-            <p className="mt-2 max-w-sm text-center text-xs text-slate-500">{strings.analyze.shareHint}</p>
-          )}
         </div>
       )}
 
       {step === 'done' && (
-        <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-8 text-center dark:border-emerald-900/50 dark:bg-emerald-950/20">
+        <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-10 text-center dark:border-emerald-900/50 dark:bg-emerald-950/20">
           <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-900/40">
             <FiCheckCircle className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
           </div>
           <h3 className="mt-4 text-lg font-semibold text-slate-900 dark:text-white">{strings.success.doneTitle}</h3>
-          <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">{strings.success.doneDescription}</p>
           <button type="button" className={`${btnPrimary} mt-6`} onClick={resetToUpload}>
             {strings.success.uploadAnother}
           </button>
@@ -831,78 +621,63 @@ function DekontShareContent() {
 
       {step === 'review' && draft && effectiveOcr && validation && (
         <div className="space-y-4">
-          {selectedMatch && <SelectedPersonnelHero match={selectedMatch} ocr={effectiveOcr} />}
-
-          <div className="grid gap-4 lg:grid-cols-2">
-            <div className="space-y-4">
-              <div className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
-                <div className="flex items-start justify-between gap-4">
-                  <div className="min-w-0">
-                    <h3 className="font-semibold text-slate-900 dark:text-white">
-                      {strings.review.documentValidation}
-                    </h3>
-                    <p className="mt-0.5 truncate text-xs text-slate-500">{draft.proof_file_name}</p>
-                  </div>
-                  <ScoreBadge score={validation.score} accepted={validation.accepted} />
-                </div>
-                <div className="mt-4">
-                  <ValidationReport checks={validation.checks} />
-                </div>
-              </div>
-
-              <div className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
-                <h3 className="font-semibold text-slate-900 dark:text-white">{strings.review.ocrDataTitle}</h3>
-                <dl className="mt-4 grid gap-2 text-sm">
-                  {ocrRows.map(([label, value]) => (
-                    <div
-                      key={label}
-                      className="flex justify-between gap-3 rounded-lg bg-slate-50 px-3 py-2 dark:bg-slate-800/50"
-                    >
-                      <dt className="text-slate-500">{label}</dt>
-                      <dd className="text-right font-medium tabular-nums text-slate-900 dark:text-white">{value}</dd>
-                    </div>
-                  ))}
-                </dl>
-              </div>
-            </div>
-
-            <div className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
-              <h3 className="font-semibold text-slate-900 dark:text-white">{strings.review.matchTitle}</h3>
-              <p className="mt-1 text-sm text-slate-500">{strings.review.matchSubtitle}</p>
-
-              {matches.length === 0 ? (
-                <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900 dark:border-amber-900/50 dark:bg-amber-950/30 dark:text-amber-200">
-                  <p className="font-medium">{strings.review.noMatchTitle}</p>
-                  <p className="mt-1 opacity-90">{strings.review.noMatchDescription}</p>
-                  <Link href="/admin-panel" className={`${btnSecondary} mt-3 inline-flex`}>
-                    {strings.review.goToProjects}
-                  </Link>
-                </div>
-              ) : (
-                <ul className="mt-4 space-y-3">
-                  {matches.map((m) => (
-                    <li key={m.requestId}>
-                      <PersonnelMatchCard
-                        match={m}
-                        selected={selectedRequestId === m.requestId}
-                        ocr={effectiveOcr}
-                        onSelect={() => {
-                          setSelectedRequestId(m.requestId);
-                          setSelectedProjectId(m.projectId);
-                        }}
-                      />
-                    </li>
-                  ))}
-                </ul>
+          <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 dark:border-slate-800 dark:bg-slate-900">
+            <div className="min-w-0">
+              <p className="truncate text-sm font-medium text-slate-900 dark:text-white">{draft.proof_file_name}</p>
+              {selectedMatch && (
+                <p className="truncate text-xs text-slate-500">
+                  {selectedMatch.employeeName}
+                  {selectedMatch.approvedAt
+                    ? ` · ${formatString(strings.review.approvedOn, { date: formatDate(selectedMatch.approvedAt) })}`
+                    : ''}
+                </p>
               )}
             </div>
+            <ScorePill score={validation.score} ok={validation.accepted} />
+          </div>
+
+          <CompactValidationIssues checks={validation.checks} />
+
+          <div className="rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900 sm:p-5">
+            <h3 className="text-sm font-semibold text-slate-900 dark:text-white">{strings.review.matchTitle}</h3>
+
+            {matches.length === 0 ? (
+              <div className="mt-3 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900 dark:border-amber-900/50 dark:bg-amber-950/30 dark:text-amber-200">
+                <p className="font-medium">{strings.review.noMatchTitle}</p>
+                <Link href="/admin-panel" className={`${btnSecondary} mt-3 inline-flex`}>
+                  {strings.review.goToProjects}
+                </Link>
+              </div>
+            ) : (
+              <ul className="mt-3 space-y-2">
+                {matches.map((m) => (
+                  <li key={m.requestId}>
+                    <PersonnelMatchCard
+                      match={m}
+                      selected={selectedRequestId === m.requestId}
+                      ocr={effectiveOcr}
+                      onSelect={() => {
+                        setSelectedRequestId(m.requestId);
+                        setSelectedProjectId(m.projectId);
+                      }}
+                    />
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
 
           {matches.length > 0 && (
-            <div className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
-              {!confirmReady.ok && <ValidationReport checks={matchChecks} />}
+            <div className="rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900 sm:p-5">
+              {!confirmReady.ok && <CompactValidationIssues checks={matchChecks} />}
 
-              <div className="mt-4 grid gap-4 sm:grid-cols-2">
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="sm:col-span-2">
+                  <label className={labelClass}>{strings.review.ibanLabel}</label>
+                  <p className="mt-1 rounded-lg bg-slate-50 px-3 py-2 font-mono text-sm text-slate-800 dark:bg-slate-800/50 dark:text-slate-200">
+                    {formatOcrIban(effectiveOcr.recipientIban)}
+                  </p>
+                </div>
                 <div>
                   <label className={labelClass}>{strings.review.amountLabel}</label>
                   <input
@@ -917,10 +692,6 @@ function DekontShareContent() {
                   )}
                 </div>
                 <div>
-                  <label className={labelClass}>{strings.review.referenceLabel}</label>
-                  <input className={inputClass} value={referenceNo} onChange={(e) => setReferenceNo(e.target.value)} />
-                </div>
-                <div>
                   <label className={labelClass}>{strings.review.paymentDateLabel}</label>
                   <input
                     type="date"
@@ -928,6 +699,10 @@ function DekontShareContent() {
                     value={paymentDate}
                     onChange={(e) => setPaymentDate(e.target.value)}
                   />
+                </div>
+                <div className="sm:col-span-2">
+                  <label className={labelClass}>{strings.review.referenceLabel}</label>
+                  <input className={inputClass} value={referenceNo} onChange={(e) => setReferenceNo(e.target.value)} />
                 </div>
               </div>
 
@@ -950,20 +725,13 @@ function DekontShareContent() {
                 {selectedProjectId && selectedMatch && (
                   <Link
                     href={`/admin-panel/proje/${selectedProjectId}/list/${selectedMatch.employeeId}`}
-                    className={btnSecondary}
+                    className={`${btnSecondary} inline-flex items-center gap-1.5`}
                   >
+                    <FiUser className="h-4 w-4" />
                     {strings.review.viewProfile}
                   </Link>
                 )}
-                {selectedProjectId && (
-                  <Link
-                    href={`/admin-panel/proje/${selectedProjectId}/avans-talepleri`}
-                    className={btnSecondary}
-                  >
-                    {strings.review.advanceRequests}
-                  </Link>
-                )}
-                <label className={`${btnSecondary} inline-flex cursor-pointer items-center gap-1`}>
+                <label className={`${btnSecondary} inline-flex cursor-pointer items-center gap-1.5`}>
                   <FiRefreshCw className="h-4 w-4" />
                   {strings.review.anotherDekont}
                   <input type="file" accept="application/pdf,image/*" className="hidden" onChange={handleFileUpload} />
@@ -980,15 +748,17 @@ function DekontShareContent() {
 export function DekontSharePanel() {
   const strings = useRegistryStrings('components/admin/DekontSharePanel');
   return (
-    <Suspense
-      fallback={
-        <div className="flex flex-col items-center py-20">
-          <div className="h-10 w-10 animate-spin rounded-full border-2 border-slate-900 border-t-transparent dark:border-white" />
-          <p className="mt-3 text-sm text-slate-500">{strings.loading}</p>
-        </div>
-      }
-    >
-      <DekontShareContent />
-    </Suspense>
+    <DekontScanShell>
+      <Suspense
+        fallback={
+          <div className="flex flex-col items-center py-20">
+            <div className="h-9 w-9 animate-spin rounded-full border-2 border-slate-900 border-t-transparent dark:border-white" />
+            <p className="mt-3 text-sm text-slate-500">{strings.loading}</p>
+          </div>
+        }
+      >
+        <DekontShareContent />
+      </Suspense>
+    </DekontScanShell>
   );
 }

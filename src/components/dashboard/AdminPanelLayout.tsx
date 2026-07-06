@@ -13,7 +13,11 @@ export function AdminPanelLayout({ children }: { children: React.ReactNode }) {
     document.documentElement.classList.remove('dark');
   }, [isAdminArea]);
 
-  if (pathname === '/admin-panel/login' || pathname === '/admin-panel/register') {
+  if (
+    pathname === '/admin-panel/login' ||
+    pathname === '/admin-panel/register' ||
+    pathname === '/admin-panel/dekont-paylas'
+  ) {
     return <>{children}</>;
   }
   return <DashboardShell>{children}</DashboardShell>;

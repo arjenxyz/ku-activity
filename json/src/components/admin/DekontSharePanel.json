@@ -1,21 +1,15 @@
 {
+  "shell": {
+    "backToPanel": "Panele dön"
+  },
   "steps": {
     "upload": "Yükle",
-    "analyze": "Analiz",
+    "analyze": "Oku",
     "review": "Onayla"
   },
-  "trustLabel": "Güven skoru",
-  "matchScoreLabel": "Eşleşme",
-  "optionalBadge": "opsiyonel",
+  "trustLabel": "skor",
   "validation": {
-    "passedHeader": "Kabul edilen kontroller",
-    "failedHeader": "Reddedilen kontroller",
-    "optionalHeader": "Eksik (opsiyonel)",
-    "scanRejectedTitle": "Tarama sonucu",
-    "allPassed": "Tüm kontroller geçti",
-    "ocrSource": "Okuma yöntemi: {source}",
-    "ocrChars": "Okunan metin: {count} karakter",
-    "ocrError": "OCR hatası: {message}"
+    "scanRejectedTitle": "Dekont okunamadı"
   },
   "errors": {
     "draftLoadFailed": "Taslak yüklenemedi",
@@ -24,65 +18,37 @@
   },
   "success": {
     "paymentSaved": "Ödeme kaydedildi.",
-    "doneTitle": "İşlem tamam",
-    "doneDescription": "Avans ödemesi sisteme işlendi.",
-    "uploadAnother": "Yeni dekont yükle"
+    "doneTitle": "Tamamlandı",
+    "uploadAnother": "Yeni dekont"
   },
   "header": {
-    "title": "Dekont paylaş",
-    "description": "Havale dekontunu yükleyin, personel profiliyle eşleştirip ödemeyi kaydedin."
+    "title": "Dekont tarama",
+    "description": ""
   },
   "upload": {
-    "title": "Dekont yükle",
-    "description": "PDF veya ekran görüntüsünü sürükleyin ya da dosya seçin.",
+    "title": "Dosyayı buraya bırakın",
+    "description": "PDF veya görsel — bankadan Paylaş ile de gönderebilirsiniz",
     "selectFile": "Dosya seç",
-    "fileHint": "PDF, JPG, PNG · en fazla 10 MB",
-    "shareTip": "Banka uygulamasından Paylaş → CrewLedger Yönetici ile de gönderebilirsiniz."
+    "fileHint": "PDF, JPG, PNG · en fazla 10 MB"
   },
   "analyze": {
-    "title": "Dekont analiz ediliyor…",
-    "shareHint": "Dekont cihazınızda okunuyor. Gerekirse sunucuda tekrar denenir."
+    "title": "Dekont okunuyor…"
   },
   "review": {
-    "documentValidation": "Belge doğrulama",
-    "ocrDataTitle": "Dekonttan okunan",
-    "matchTitle": "Personel eşleştirmesi",
-    "matchSubtitle": "Ödemenin hangi personel avansına işleneceğini seçin.",
-    "selectedPersonnel": "Seçilen personel",
-    "selectedHint": "Bu dekont aşağıdaki personelin onaylı havale avansına kaydedilecek.",
-    "viewProfile": "Profili aç",
-    "profileIban": "Kayıtlı IBAN",
-    "approvedOn": "Onay tarihi",
-    "ocrAmount": "Dekont tutarı",
-    "approvedAmount": "Onaylı avans",
-    "matchReasons": "Eşleşme gerekçeleri",
-    "ibanMatch": "IBAN eşleşti",
-    "ibanMismatch": "IBAN uyuşmuyor",
-    "amountMatch": "Tutar eşleşti",
-    "amountMismatch": "Tutar farklı",
+    "matchTitle": "Avans eşleştirmesi",
+    "viewProfile": "Profil",
+    "approvedOn": "Onay {date}",
+    "amountMatch": "Tutar",
     "noMatchTitle": "Eşleşen avans bulunamadı",
-    "noMatchDescription": "Onaylı havale bekleyen talep yok veya IBAN/tutar uyuşmuyor.",
-    "goToProjects": "Projelere git",
-    "referenceLabel": "Referans no",
+    "goToProjects": "Panele git",
+    "referenceLabel": "Referans",
     "paymentDateLabel": "Ödeme tarihi",
     "amountLabel": "Tutar (₺)",
-    "amountHint": "OCR okuyamadıysa dekonttaki tutarı elle girin",
-    "confirmNotReady": "Kayıt için gerekli koşullar sağlanmadı",
+    "ibanLabel": "Alıcı IBAN",
+    "amountHint": "Dekonttaki tutarı elle girin",
     "saveSaving": "Kaydediliyor…",
     "savePayment": "Ödemeyi kaydet",
-    "advanceRequests": "Avans talepleri",
-    "anotherDekont": "Başka dekont",
-    "otherCandidates": "Diğer adaylar"
-  },
-  "ocrFields": {
-    "senderBank": "Gönderen",
-    "recipientBank": "Alıcı banka",
-    "transferType": "Transfer",
-    "recipientIban": "IBAN",
-    "amount": "Tutar",
-    "reference": "Referans",
-    "date": "Tarih",
-    "empty": "—"
+    "anotherDekont": "Başka dekont"
   },
   "loading": "Yükleniyor…"
 }
