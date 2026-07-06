@@ -29,11 +29,7 @@ export function PWARegister() {
       }
     };
 
-    if (document.readyState === 'complete') {
-      setup();
-    } else {
-      window.addEventListener('load', setup, { once: true });
-    }
+    void setup();
   }, []);
 
   return null;

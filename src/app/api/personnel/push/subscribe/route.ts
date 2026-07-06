@@ -1,10 +1,16 @@
 import { NextResponse } from 'next/server';
 import { createAdminClient } from '@/utils/supabase/admin';
-import { requirePersonnelSession } from '@/lib/personnel-auth';
+import { PersonnelUnlockRequiredError, requirePersonnelSession } from '@/lib/personnel-auth';
 import {
   removePushSubscription,
   upsertPushSubscription,
 } from '@/lib/personnel-push-service';
+
+function authErrorStatus(message: string) {
+  if (message === 'UNAUTHORIZED') return 401;
+  if (message === 'UNLOCK_REQUIRED') return 423;
+  return 500;
+}
 
 export async function POST(request: Request) {
   try {
@@ -31,9 +37,11 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ ok: true, sessionId: session.sessionId });
   } catch (e) {
+    if (e instanceof PersonnelUnlockRequiredError) {
+      return NextResponse.json({ error: 'UNLOCK_REQUIRED' }, { status: 423 });
+    }
     const message = e instanceof Error ? e.message : 'Abonelik kaydedilemedi';
-    const status = message.includes('Unauthorized') ? 401 : 500;
-    return NextResponse.json({ error: message }, { status });
+    return NextResponse.json({ error: message }, { status: authErrorStatus(message) });
   }
 }
 
@@ -51,8 +59,10 @@ export async function DELETE(request: Request) {
     await removePushSubscription(admin, session.employeeId, endpoint);
     return NextResponse.json({ ok: true });
   } catch (e) {
+    if (e instanceof PersonnelUnlockRequiredError) {
+      return NextResponse.json({ error: 'UNLOCK_REQUIRED' }, { status: 423 });
+    }
     const message = e instanceof Error ? e.message : 'Abonelik silinemedi';
-    const status = message.includes('Unauthorized') ? 401 : 500;
-    return NextResponse.json({ error: message }, { status });
+    return NextResponse.json({ error: message }, { status: authErrorStatus(message) });
   }
 }

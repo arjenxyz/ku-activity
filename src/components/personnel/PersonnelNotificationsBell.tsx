@@ -139,8 +139,8 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
 
   useEffect(() => {
     if (notificationAccess !== 'granted') return;
-    void registerPersonnelPushIfAuthed();
-  }, [notificationAccess]);
+    void registerPersonnelPushIfAuthed({ twaBypassPermission: isTwaApp });
+  }, [notificationAccess, isTwaApp]);
 
   const bellClass =
     tone === 'onDark'
@@ -162,7 +162,7 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
       if (access === 'granted') {
         markNotificationsUnlocked();
         setNotificationAccess('granted');
-        await registerPersonnelPushIfAuthed();
+        await registerPersonnelPushIfAuthed({ twaBypassPermission: isTwaApp });
         void refresh();
       } else {
         setNotificationAccess(access);
@@ -175,7 +175,7 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
   const recheckTwaNotificationAccess = async () => {
     setRequestingPermission(true);
     try {
-      await registerPersonnelPushIfAuthed();
+      await registerPersonnelPushIfAuthed({ force: true, twaBypassPermission: true });
       const access = await syncNotificationAccess();
       if (access === 'granted') void refresh();
     } finally {

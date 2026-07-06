@@ -1,8 +1,16 @@
 'use client';
 
+import { isPersonnelTwaRuntime } from '@/lib/personnel-app-runtime';
 import { markNotificationsUnlocked } from '@/lib/personnel-notification-storage';
 
 const VAPID_KEY_STORAGE = 'crewledger-vapid-public-key';
+const SW_READY_MAX_ATTEMPTS = 12;
+const SW_READY_DELAY_MS = 500;
+
+export type PushSubscriptionStatus = {
+  subscribed: boolean;
+  currentSessionSubscribed: boolean;
+};
 
 function urlBase64ToUint8Array(base64String: string) {
   const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
@@ -22,6 +30,30 @@ function keyBuffersMatch(existing: ArrayBuffer | null, desired: Uint8Array): boo
   return true;
 }
 
+async function delay(ms: number) {
+  await new Promise((resolve) => window.setTimeout(resolve, ms));
+}
+
+/** Service worker kaydı tamamlanana kadar bekle */
+async function ensureServiceWorkerReady() {
+  if (!('serviceWorker' in navigator)) return null;
+
+  const existing = await navigator.serviceWorker.getRegistration('/');
+  if (existing?.active) return existing;
+
+  for (let attempt = 0; attempt < SW_READY_MAX_ATTEMPTS; attempt += 1) {
+    try {
+      const registration = await navigator.serviceWorker.ready;
+      if (registration) return registration;
+    } catch {
+      /* retry */
+    }
+    await delay(SW_READY_DELAY_MS);
+  }
+
+  return navigator.serviceWorker.getRegistration('/').catch(() => null);
+}
+
 export async function fetchVapidPublicKey(): Promise<string | null> {
   const res = await fetch('/api/personnel/push/vapid-public-key', { credentials: 'include' });
   if (!res.ok) return null;
@@ -33,25 +65,28 @@ export async function fetchVapidPublicKey(): Promise<string | null> {
   return data.publicKey;
 }
 
-async function serverHasPushSubscription(): Promise<boolean | null> {
+export async function fetchPushSubscriptionStatus(): Promise<PushSubscriptionStatus | null> {
   try {
-    const res = await fetch('/api/personnel/push/status', { credentials: 'include' });
+    const res = await fetch('/api/personnel/push/status', { credentials: 'include', cache: 'no-store' });
     if (!res.ok) return null;
-    const data = (await res.json()) as { subscribed?: boolean };
-    return data.subscribed === true;
+    const data = (await res.json()) as {
+      subscribed?: boolean;
+      currentSessionSubscribed?: boolean;
+    };
+    return {
+      subscribed: data.subscribed === true,
+      currentSessionSubscribed: data.currentSessionSubscribed === true,
+    };
   } catch {
     return null;
   }
 }
 
-export async function fetchPushSubscriptionStatus(): Promise<boolean | null> {
-  return serverHasPushSubscription();
-}
-
 export async function hasLocalPushSubscription(): Promise<boolean> {
   if (!pushSupported()) return false;
   try {
-    const registration = await navigator.serviceWorker.ready;
+    const registration = await ensureServiceWorkerReady();
+    if (!registration) return false;
     const subscription = await registration.pushManager.getSubscription();
     return subscription !== null;
   } catch {
@@ -59,30 +94,52 @@ export async function hasLocalPushSubscription(): Promise<boolean> {
   }
 }
 
+/** TWA: Android ayarlarından izin verilse bile Notification.permission gecikebilir */
+export function canAttemptPushSubscribe(options?: { twaBypassPermission?: boolean }) {
+  const permission = getNotificationPermission();
+  if (permission === 'granted') return true;
+  if (permission === 'denied' || permission === 'unsupported') return false;
+  return Boolean(options?.twaBypassPermission && isPersonnelTwaRuntime());
+}
+
 export async function subscribePersonnelPush(options?: {
   force?: boolean;
   skipPermissionRequest?: boolean;
+  twaBypassPermission?: boolean;
 }): Promise<boolean> {
   if (typeof window === 'undefined') return false;
-  if (!('serviceWorker' in navigator) || !('PushManager' in window)) return false;
-  if (Notification.permission === 'denied') return false;
+  if (!pushSupported()) return false;
+  if (getNotificationPermission() === 'denied') return false;
 
   const publicKey = await fetchVapidPublicKey();
-  if (!publicKey) return false;
+  if (!publicKey) {
+    console.warn('[push] VAPID not configured');
+    return false;
+  }
 
-  if (Notification.permission !== 'granted') {
+  const twaBypass = Boolean(options?.twaBypassPermission && isPersonnelTwaRuntime());
+
+  if (!canAttemptPushSubscribe({ twaBypassPermission: twaBypass })) {
     if (options?.skipPermissionRequest) return false;
     const permission = await Notification.requestPermission();
     if (permission !== 'granted') return false;
   }
 
-  const registration = await navigator.serviceWorker.ready;
+  const registration = await ensureServiceWorkerReady();
+  if (!registration) {
+    console.warn('[push] Service worker not ready');
+    return false;
+  }
+
   const applicationServerKey = urlBase64ToUint8Array(publicKey);
   const storedVapidKey = localStorage.getItem(VAPID_KEY_STORAGE);
   const vapidRotated = storedVapidKey !== null && storedVapidKey !== publicKey;
-  const serverSubscribed = options?.force ? false : await serverHasPushSubscription();
+  const serverStatus = options?.force ? null : await fetchPushSubscriptionStatus();
   const forceRefresh =
-    options?.force === true || vapidRotated || serverSubscribed === false;
+    options?.force === true ||
+    vapidRotated ||
+    serverStatus?.currentSessionSubscribed === false ||
+    serverStatus === null;
 
   let subscription = await registration.pushManager.getSubscription();
   if (subscription) {
@@ -94,12 +151,17 @@ export async function subscribePersonnelPush(options?: {
     }
   }
 
-  subscription =
-    subscription ??
-    (await registration.pushManager.subscribe({
-      userVisibleOnly: true,
-      applicationServerKey,
-    }));
+  try {
+    subscription =
+      subscription ??
+      (await registration.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey,
+      }));
+  } catch (error) {
+    console.warn('[push] pushManager.subscribe failed', error);
+    return false;
+  }
 
   const json = subscription.toJSON();
   const res = await fetch('/api/personnel/push/subscribe', {
@@ -113,16 +175,22 @@ export async function subscribePersonnelPush(options?: {
     }),
   });
 
-  if (res.ok) {
-    localStorage.setItem(VAPID_KEY_STORAGE, publicKey);
-    markNotificationsUnlocked();
+  if (!res.ok) {
+    const data = (await res.json().catch(() => ({}))) as { error?: string };
+    console.warn('[push] subscribe API failed', res.status, data.error ?? res.statusText);
+    return false;
   }
 
-  return res.ok;
+  localStorage.setItem(VAPID_KEY_STORAGE, publicKey);
+  markNotificationsUnlocked();
+  return true;
 }
 
-/** Oturum açıkken push aboneliğini sunucuya kaydet — login öncesi 401 önlenir */
-export async function registerPersonnelPushIfAuthed(): Promise<boolean> {
+/** Oturum + PIN kilidi açıkken push aboneliğini sunucuya kaydet */
+export async function registerPersonnelPushIfAuthed(options?: {
+  force?: boolean;
+  twaBypassPermission?: boolean;
+}): Promise<boolean> {
   if (typeof window === 'undefined') return false;
   if (!pushSupported()) return false;
   if (getNotificationPermission() === 'denied') return false;
@@ -134,8 +202,15 @@ export async function registerPersonnelPushIfAuthed(): Promise<boolean> {
     return false;
   }
 
-  const skipPermissionRequest = getNotificationPermission() === 'granted';
-  return subscribePersonnelPush({ skipPermissionRequest });
+  const twaBypass = Boolean(options?.twaBypassPermission || isPersonnelTwaRuntime());
+  const skipPermissionRequest =
+    getNotificationPermission() === 'granted' || (twaBypass && isPersonnelTwaRuntime());
+
+  return subscribePersonnelPush({
+    force: options?.force,
+    skipPermissionRequest,
+    twaBypassPermission: twaBypass,
+  });
 }
 
 export function pushSupported() {
@@ -148,7 +223,7 @@ export function getNotificationPermission(): NotificationPermission | 'unsupport
   return Notification.permission;
 }
 
-/** Tarayıcı bildirim izni — panel erişimi buna bağlı; push aboneliği ayrı adım */
+/** Tarayıcı bildirim izni */
 export async function requestNotificationPermission(): Promise<NotificationPermission | 'unsupported'> {
   const current = getNotificationPermission();
   if (current === 'unsupported' || current !== 'default') return current;

@@ -56,10 +56,10 @@ export function PersonnelNotificationPermissionPrompt() {
       if (isNotificationsUnlockPersisted()) return;
 
       const permission = getNotificationPermission();
-      if (permission === 'granted') {
-        const ok = await registerPersonnelPushIfAuthed();
+      if (permission === 'granted' || isTwaApp) {
+        const ok = await registerPersonnelPushIfAuthed({ twaBypassPermission: isTwaApp });
         if (ok) markNotificationsUnlocked();
-        return;
+        if (ok || permission === 'granted') return;
       }
       if (permission === 'unsupported') return;
 
@@ -84,12 +84,11 @@ export function PersonnelNotificationPermissionPrompt() {
   }, [pathname]);
 
   useEffect(() => {
-    if (!open || !isTwaApp) return;
+    if (!isTwaApp) return;
 
     const onVisible = () => {
       if (document.visibilityState !== 'visible') return;
-      if (getNotificationPermission() !== 'granted') return;
-      void registerPersonnelPushIfAuthed().then((ok) => {
+      void registerPersonnelPushIfAuthed({ twaBypassPermission: true }).then((ok) => {
         if (ok) {
           markNotificationsUnlocked();
           setOpen(false);
@@ -99,7 +98,7 @@ export function PersonnelNotificationPermissionPrompt() {
 
     document.addEventListener('visibilitychange', onVisible);
     return () => document.removeEventListener('visibilitychange', onVisible);
-  }, [open, isTwaApp]);
+  }, [isTwaApp]);
 
   const dismiss = () => {
     markNotificationPromptDismissed();
@@ -111,7 +110,7 @@ export function PersonnelNotificationPermissionPrompt() {
     try {
       const permission = await requestNotificationPermission();
       if (permission === 'granted') {
-        const ok = await registerPersonnelPushIfAuthed();
+        const ok = await registerPersonnelPushIfAuthed({ twaBypassPermission: isTwaApp });
         if (ok) markNotificationsUnlocked();
       }
       markNotificationPromptDismissed();
