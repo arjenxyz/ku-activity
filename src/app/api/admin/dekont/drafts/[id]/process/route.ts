@@ -12,7 +12,7 @@ export async function POST(_request: Request, ctx: Ctx) {
   try {
     const user = await requireAdminUser();
     const { id } = await ctx.params;
-    const result = await processDekontDraft(user.id, id);
+    const result = await processDekontDraft(user.id, id, { allowReviewable: true });
     return NextResponse.json(result);
   } catch (err) {
     if (err instanceof DekontImportError) {

@@ -1,4 +1,5 @@
 import { parseIbanFromText, validateTurkishIban, normalizeIban } from '@/lib/field-encryption';
+import { normalizeOcrText } from '@/lib/dekont-ocr-normalize';
 import { findBankKeywords, type DekontOcrResult } from '@/lib/dekont-ocr-shared';
 import {
   bankNameFromIban,
@@ -6,7 +7,10 @@ import {
   detectTransferType,
 } from '@/lib/turkish-banks';
 
-const AMOUNT_TOKEN = String.raw`(\d{1,3}(?:\.\d{3})+|\d+),\d{2}`;
+/** Türkçe: 1.234,56 veya 1234,56 */
+const AMOUNT_TOKEN = String.raw`(\d{1,3}(?:[.\s]\d{3})*|\d+),\d{2}`;
+/** Kuruşsuz: 5.000 veya 5000 */
+const AMOUNT_WHOLE_TOKEN = String.raw`(\d{1,3}(?:[.\s]\d{3})+|\d{2,7})\b`;
 
 type AmountCandidate = { value: number; priority: number };
 
@@ -17,11 +21,19 @@ function parseAmountToken(raw: string): number | null {
   return num;
 }
 
+function parseWholeAmountToken(raw: string): number | null {
+  const normalized = raw.trim().replace(/\s/g, '').replace(/\./g, '');
+  const num = Number(normalized);
+  if (!Number.isFinite(num) || num < 100 || num >= 10_000_000) return null;
+  return num;
+}
+
 function collectAmountMatches(
   text: string,
   pattern: RegExp,
   priority: number,
-  candidates: AmountCandidate[]
+  candidates: AmountCandidate[],
+  parser: (raw: string) => number | null = parseAmountToken
 ) {
   const flags = pattern.flags.includes('g') ? pattern.flags : `${pattern.flags}g`;
   const re = new RegExp(pattern.source, flags);
@@ -29,7 +41,7 @@ function collectAmountMatches(
   while ((match = re.exec(text)) !== null) {
     const raw = match[1];
     if (!raw) continue;
-    const num = parseAmountToken(raw);
+    const num = parser(raw);
     if (num != null) candidates.push({ value: num, priority });
   }
 }
@@ -48,36 +60,28 @@ function pickBestAmount(candidates: AmountCandidate[]): number | null {
   return sorted[Math.floor(sorted.length / 2)] ?? sorted[0]!;
 }
 
+const AMOUNT_LABEL =
+  String.raw`(?:İşlem|Islem|Işlem|ISLEM|Transfer|Gönderilen|Gonderilen|Gönderim|Gonderim|Havale|EFT|FAST|Ödenen|Odenen|Ödeme|Odeme|Net|Brüt|Brut|Para|Miktar|Amount|TUTAR|Tutar[ıiİI]?)`;
+
 function parseTurkishAmount(text: string): number | null {
-  const normalized = text
-    .replace(/\u00a0/g, ' ')
-    .replace(/[₺]/g, '')
-    .replace(/\r\n/g, '\n');
+  const normalized = normalizeOcrText(text);
 
   const candidates: AmountCandidate[] = [];
 
   const labeledHigh = [
-    new RegExp(
-      String.raw`(?:İşlem|Islem|Işlem|ISLEM)\s*Tutar[ıiİI]?\s*[:\-]?\s*(?:TRY|TL)?\s*${AMOUNT_TOKEN}`,
-      'gi'
-    ),
-    new RegExp(
-      String.raw`(?:Transfer)\s*Tutar[ıiİI]?\s*[:\-]?\s*(?:TRY|TL)?\s*${AMOUNT_TOKEN}`,
-      'gi'
-    ),
-    new RegExp(
-      String.raw`(?:Gönderilen|Gonderilen|Havale|EFT|FAST)\s*Tutar[ıiİI]?\s*[:\-]?\s*(?:TRY|TL)?\s*${AMOUNT_TOKEN}`,
-      'gi'
-    ),
+    new RegExp(String.raw`${AMOUNT_LABEL}\s*Tutar[ıiİI]?\s*[:\-]?\s*(?:TRY|TL)?\s*${AMOUNT_TOKEN}`, 'gi'),
     new RegExp(
       String.raw`(?:İşlem|Islem|Transfer)\s*Tutar[ıiİI]?\s*[:\-]?\s*\n\s*(?:TRY|TL)?\s*${AMOUNT_TOKEN}`,
       'gi'
     ),
+    new RegExp(String.raw`${AMOUNT_LABEL}\s*[:\-]\s*(?:TRY|TL)?\s*${AMOUNT_TOKEN}`, 'gi'),
+    new RegExp(String.raw`${AMOUNT_LABEL}\s*[:\-]?\s*\n\s*(?:TRY|TL)?\s*${AMOUNT_TOKEN}`, 'gi'),
   ];
 
   const labeledMid = [
     new RegExp(String.raw`(?:TUTAR|Tutar[ıiİI]?|Miktar|Amount)\s*[:\-]\s*(?:TRY|TL)?\s*${AMOUNT_TOKEN}`, 'gi'),
     new RegExp(String.raw`(?:TUTAR|Amount|Miktar|Transfer)\s*[:\-]?\s*(?:TRY|TL)?\s*${AMOUNT_TOKEN}`, 'gi'),
+    new RegExp(String.raw`${AMOUNT_LABEL}\s*[:\-]?\s*(?:TRY|TL)?\s*${AMOUNT_WHOLE_TOKEN}(?!\s*,)`, 'gi'),
   ];
 
   const withCurrency = [
@@ -86,7 +90,13 @@ function parseTurkishAmount(text: string): number | null {
   ];
 
   for (const pattern of labeledHigh) collectAmountMatches(normalized, pattern, 1, candidates);
-  for (const pattern of labeledMid) collectAmountMatches(normalized, pattern, 2, candidates);
+  for (const pattern of labeledMid) {
+    if (pattern.source.includes(AMOUNT_WHOLE_TOKEN)) {
+      collectAmountMatches(normalized, pattern, 2, candidates, parseWholeAmountToken);
+    } else {
+      collectAmountMatches(normalized, pattern, 2, candidates);
+    }
+  }
   for (const pattern of withCurrency) collectAmountMatches(normalized, pattern, 3, candidates);
 
   const picked = pickBestAmount(candidates);
@@ -96,7 +106,19 @@ function parseTurkishAmount(text: string): number | null {
   const bare = new RegExp(AMOUNT_TOKEN, 'g');
   const bareCandidates: AmountCandidate[] = [];
   collectAmountMatches(normalized, bare, 4, bareCandidates);
-  return pickBestAmount(bareCandidates);
+  const barePicked = pickBestAmount(bareCandidates);
+  if (barePicked != null) return barePicked;
+
+  // ABD formatı: 5,000.00
+  const usFormat = /(\d{1,3}(?:,\d{3})+|\d+)\.(\d{2})\b/g;
+  let usMatch: RegExpExecArray | null;
+  const usCandidates: AmountCandidate[] = [];
+  while ((usMatch = usFormat.exec(normalized)) !== null) {
+    const raw = `${usMatch[1]}.${usMatch[2]}`;
+    const num = parseAmountToken(raw.replace(/,/g, ''));
+    if (num != null) usCandidates.push({ value: num, priority: 5 });
+  }
+  return pickBestAmount(usCandidates);
 }
 
 function parseReferenceNo(text: string): string | null {

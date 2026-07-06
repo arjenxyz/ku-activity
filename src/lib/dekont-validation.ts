@@ -26,6 +26,16 @@ const MIN_BANK_KEYWORDS = 2;
 export const MIN_TRUST_SCORE = 65;
 export const MIN_MATCH_SCORE = 50;
 
+/** IBAN + banka bağlamı okundu — tutar manuel düzeltilebilir */
+export function isDekontReviewable(ocr: DekontOcrResult): boolean {
+  const keywords = findBankKeywords(ocr.rawText);
+  const hasIban = Boolean(ocr.recipientIban && validateTurkishIban(ocr.recipientIban));
+  const hasText = ocr.rawText.trim().length >= MIN_TEXT_LENGTH;
+  const bankContext = keywords.length >= MIN_BANK_KEYWORDS;
+  const hasOcrSource = ocr.source !== 'none';
+  return hasText && hasIban && bankContext && hasOcrSource;
+}
+
 export function validateDekontDocument(ocr: DekontOcrResult): DekontValidationResult {
   const keywords = findBankKeywords(ocr.rawText);
   const hasIban = Boolean(ocr.recipientIban && validateTurkishIban(ocr.recipientIban));

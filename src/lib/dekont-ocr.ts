@@ -1,6 +1,7 @@
 import 'server-only';
 
-import { buildOcrResultFromRawText, sniffDekontContentKind } from '@/lib/dekont-ocr-parse';
+import { buildEnrichedOcrResult } from '@/lib/dekont-ocr-enrich';
+import { sniffDekontContentKind } from '@/lib/dekont-ocr-parse';
 import type { DekontOcrResult } from '@/lib/dekont-ocr-shared';
 import { getGoogleVisionToken, isGoogleServiceAccountConfigured } from '@/lib/google-service-account';
 import strings from '@json/src/lib/dekont-ocr.json';
@@ -186,6 +187,24 @@ export async function analyzeDekont(params: {
             // Tesseract sonucunu koru
           }
         }
+
+        const preliminary = await buildEnrichedOcrResult(rawText, source, ocrError);
+        if (
+          !preliminary.amount &&
+          visionAvailable &&
+          preliminary.source === 'tesseract' &&
+          rawText.trim().length >= 30
+        ) {
+          try {
+            const visionText = await extractTextWithVision(params.buffer, kind);
+            if (visionText.trim().length >= rawText.trim().length) {
+              return buildEnrichedOcrResult(visionText, 'vision', null);
+            }
+          } catch {
+            /* mevcut sonuç */
+          }
+        }
+        return preliminary;
       }
     } catch (err) {
       ocrError = err instanceof Error ? err.message : strings.tesseractFailed;
@@ -193,5 +212,5 @@ export async function analyzeDekont(params: {
     }
   }
 
-  return buildOcrResultFromRawText(rawText, source, ocrError);
+  return buildEnrichedOcrResult(rawText, source, ocrError);
 }

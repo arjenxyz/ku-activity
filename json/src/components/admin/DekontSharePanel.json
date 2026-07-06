@@ -41,7 +41,7 @@
   },
   "analyze": {
     "title": "Dekont analiz ediliyor…",
-    "shareHint": "Dekont cihazınızda okunuyor (ücretsiz OCR). Bu işlem bir dakika sürebilir."
+    "shareHint": "Dekont cihazınızda okunuyor. Gerekirse sunucuda gelişmiş OCR denenir."
   },
   "review": {
     "documentValidation": "Belge doğrulama",
@@ -65,6 +65,8 @@
     "goToProjects": "Projelere git",
     "referenceLabel": "Referans no",
     "paymentDateLabel": "Ödeme tarihi",
+    "amountLabel": "Tutar (₺)",
+    "amountHint": "OCR okuyamadıysa dekonttaki tutarı elle girin",
     "confirmNotReady": "Kayıt için gerekli koşullar sağlanmadı",
     "saveSaving": "Kaydediliyor…",
     "savePayment": "Ödemeyi kaydet",

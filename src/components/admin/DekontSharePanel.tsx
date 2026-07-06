@@ -510,6 +510,7 @@ function DekontShareContent() {
   const [selectedProjectId, setSelectedProjectId] = useState('');
   const [referenceNo, setReferenceNo] = useState('');
   const [paymentDate, setPaymentDate] = useState(dayjs().format('YYYY-MM-DD'));
+  const [manualAmount, setManualAmount] = useState('');
   const processStartedRef = useRef(false);
 
   useEffect(() => {
@@ -535,6 +536,8 @@ function DekontShareContent() {
     }
     if (d.ocr_json.referenceNo) setReferenceNo(d.ocr_json.referenceNo);
     if (d.ocr_json.paymentDate) setPaymentDate(d.ocr_json.paymentDate);
+    if (d.ocr_json.amount != null) setManualAmount(String(d.ocr_json.amount));
+    else setManualAmount('');
   }, []);
 
   const processDraft = useCallback(
@@ -565,8 +568,20 @@ function DekontShareContent() {
           draft?: DraftPayload;
         };
         if (!res.ok) {
+          const serverRes = await fetch(`/api/admin/dekont/drafts/${id}/process`, { method: 'POST' });
+          const serverData = (await serverRes.json()) as {
+            error?: string;
+            report?: DekontScanReport | null;
+            draft?: DraftPayload;
+          };
+          if (serverRes.ok && serverData.draft) {
+            applyDraftPayload(serverData.draft);
+            router.replace(`/admin-panel/dekont-paylas?draft=${id}`);
+            return;
+          }
           if (data.report) setScanReport(data.report);
-          throw new Error(data.error || strings.errors.analyzeFailed);
+          if (serverData.report) setScanReport(serverData.report);
+          throw new Error(serverData.error || data.error || strings.errors.analyzeFailed);
         }
         if (!data.draft) throw new Error(strings.errors.draftLoadFailed);
         applyDraftPayload(data.draft);
@@ -618,16 +633,35 @@ function DekontShareContent() {
   }, [draftId, processParam, loadDraft, processDraft]);
 
   const ocr = draft?.ocr_json;
-  const validation = useMemo(() => (ocr ? validateDekontDocument(ocr) : null), [ocr]);
+  const parsedManualAmount = useMemo(() => {
+    const raw = manualAmount.trim().replace(/\s/g, '').replace(/\./g, '').replace(',', '.');
+    const n = Number(raw);
+    return Number.isFinite(n) && n > 0 ? n : null;
+  }, [manualAmount]);
+  const effectiveOcr = useMemo(
+    () =>
+      ocr
+        ? {
+            ...ocr,
+            amount: parsedManualAmount ?? ocr.amount,
+          }
+        : null,
+    [ocr, parsedManualAmount]
+  );
+  const validation = useMemo(
+    () => (effectiveOcr ? validateDekontDocument(effectiveOcr) : null),
+    [effectiveOcr]
+  );
   const matches = draft?.match_json ?? [];
   const selectedMatch = matches.find((m) => m.requestId === selectedRequestId) ?? null;
   const confirmReady = useMemo(
-    () => (ocr && selectedMatch ? validateMatchForConfirm(ocr, selectedMatch) : { ok: false }),
-    [ocr, selectedMatch]
+    () =>
+      effectiveOcr && selectedMatch ? validateMatchForConfirm(effectiveOcr, selectedMatch) : { ok: false },
+    [effectiveOcr, selectedMatch]
   );
   const matchChecks = useMemo(
-    () => (ocr ? buildMatchValidationChecks(ocr, selectedMatch) : []),
-    [ocr, selectedMatch]
+    () => (effectiveOcr ? buildMatchValidationChecks(effectiveOcr, selectedMatch) : []),
+    [effectiveOcr, selectedMatch]
   );
 
   const processFile = async (file: File) => {
@@ -697,6 +731,7 @@ function DekontShareContent() {
           projectId: selectedProjectId,
           referenceNo,
           paymentDate,
+          amount: parsedManualAmount ?? undefined,
         }),
       });
       const data = await res.json();
@@ -712,15 +747,15 @@ function DekontShareContent() {
     }
   };
 
-  const ocrRows = ocr
+  const ocrRows = effectiveOcr
     ? [
-        [strings.ocrFields.amount, ocr.amount != null ? formatMoney(ocr.amount) : strings.ocrFields.empty],
-        [strings.ocrFields.recipientIban, formatOcrIban(ocr.recipientIban)],
-        [strings.ocrFields.senderBank, ocr.senderBank ?? strings.ocrFields.empty],
-        [strings.ocrFields.recipientBank, ocr.recipientBank ?? strings.ocrFields.empty],
-        [strings.ocrFields.transferType, transferTypeLabel(ocr.transferType)],
-        [strings.ocrFields.reference, ocr.referenceNo ?? strings.ocrFields.empty],
-        [strings.ocrFields.date, ocr.paymentDate ?? strings.ocrFields.empty],
+        [strings.ocrFields.amount, effectiveOcr.amount != null ? formatMoney(effectiveOcr.amount) : strings.ocrFields.empty],
+        [strings.ocrFields.recipientIban, formatOcrIban(effectiveOcr.recipientIban)],
+        [strings.ocrFields.senderBank, effectiveOcr.senderBank ?? strings.ocrFields.empty],
+        [strings.ocrFields.recipientBank, effectiveOcr.recipientBank ?? strings.ocrFields.empty],
+        [strings.ocrFields.transferType, transferTypeLabel(effectiveOcr.transferType)],
+        [strings.ocrFields.reference, effectiveOcr.referenceNo ?? strings.ocrFields.empty],
+        [strings.ocrFields.date, effectiveOcr.paymentDate ?? strings.ocrFields.empty],
       ]
     : [];
 
@@ -794,9 +829,9 @@ function DekontShareContent() {
         </div>
       )}
 
-      {step === 'review' && draft && ocr && validation && (
+      {step === 'review' && draft && effectiveOcr && validation && (
         <div className="space-y-4">
-          {selectedMatch && <SelectedPersonnelHero match={selectedMatch} ocr={ocr} />}
+          {selectedMatch && <SelectedPersonnelHero match={selectedMatch} ocr={effectiveOcr} />}
 
           <div className="grid gap-4 lg:grid-cols-2">
             <div className="space-y-4">
@@ -850,7 +885,7 @@ function DekontShareContent() {
                       <PersonnelMatchCard
                         match={m}
                         selected={selectedRequestId === m.requestId}
-                        ocr={ocr}
+                        ocr={effectiveOcr}
                         onSelect={() => {
                           setSelectedRequestId(m.requestId);
                           setSelectedProjectId(m.projectId);
@@ -868,6 +903,19 @@ function DekontShareContent() {
               {!confirmReady.ok && <ValidationReport checks={matchChecks} />}
 
               <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                <div>
+                  <label className={labelClass}>{strings.review.amountLabel}</label>
+                  <input
+                    className={inputClass}
+                    inputMode="decimal"
+                    placeholder="0,00"
+                    value={manualAmount}
+                    onChange={(e) => setManualAmount(e.target.value)}
+                  />
+                  {!ocr?.amount && (
+                    <p className="mt-1 text-xs text-amber-700 dark:text-amber-400">{strings.review.amountHint}</p>
+                  )}
+                </div>
                 <div>
                   <label className={labelClass}>{strings.review.referenceLabel}</label>
                   <input className={inputClass} value={referenceNo} onChange={(e) => setReferenceNo(e.target.value)} />

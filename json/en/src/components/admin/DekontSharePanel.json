@@ -65,6 +65,8 @@
     "goToProjects": "Projelere git",
     "referenceLabel": "Referans no",
     "paymentDateLabel": "Ödeme tarihi",
+    "amountLabel": "Tutar (₺)",
+    "amountHint": "OCR okuyamadıysa dekonttaki tutarı elle girin",
     "confirmNotReady": "Kayıt için gerekli koşullar sağlanmadı",
     "saveSaving": "Kaydediliyor…",
     "savePayment": "Ödemeyi kaydet",

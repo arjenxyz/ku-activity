@@ -1,7 +1,7 @@
-import { validateDekontDocument, validateMatchForConfirm, formatDekontValidationFailure, buildDekontScanReport } from '@/lib/dekont-validation';
+import { validateDekontDocument, validateMatchForConfirm, formatDekontValidationFailure, buildDekontScanReport, isDekontReviewable } from '@/lib/dekont-validation';
 import type { DekontScanReport } from '@/lib/dekont-scan-report';
 import { analyzeDekont, type DekontOcrResult } from '@/lib/dekont-ocr';
-import { buildOcrResultFromRawText } from '@/lib/dekont-ocr-parse';
+import { buildEnrichedOcrResult } from '@/lib/dekont-ocr-enrich';
 import { isDraftPendingOcr } from '@/lib/dekont-ocr-shared';
 import { suggestAdvanceMatches, type DekontMatchSuggestion } from '@/lib/advance-dekont-match';
 import {
@@ -113,7 +113,7 @@ async function finalizeDraftOcr(
 ) {
   const admin = createAdminClient();
   const validation = validateDekontDocument(ocr);
-  if (!validation.accepted) {
+  if (!validation.accepted && !isDekontReviewable(ocr)) {
     const report = buildDekontScanReport(validation, ocr);
     throw new DekontImportError(formatDekontValidationFailure(validation, ocr), 422, report);
   }
@@ -191,8 +191,13 @@ export async function applyOcrToDraft(
     throw new DekontImportError(strings.ocrTextEmpty, 422);
   }
 
-  const ocr = buildOcrResultFromRawText(trimmed, source);
+  const ocr = await buildEnrichedOcrResult(trimmed, source);
   return finalizeDraftOcr(adminUserId, draftId, row, ocr);
+}
+
+/** İstemci OCR yetersizse sunucuda Vision + LLM ile yeniden işle */
+export async function reprocessDekontDraftWithServerOcr(adminUserId: string, draftId: string) {
+  return processDekontDraft(adminUserId, draftId, { allowReviewable: true });
 }
 
 export async function getDraftProofFile(adminUserId: string, draftId: string) {
@@ -226,7 +231,11 @@ export async function getDraftProofFile(adminUserId: string, draftId: string) {
   };
 }
 
-export async function processDekontDraft(adminUserId: string, draftId: string) {
+export async function processDekontDraft(
+  adminUserId: string,
+  draftId: string,
+  options?: { allowReviewable?: boolean }
+) {
   const admin = createAdminClient();
   const { data: row, error: loadError } = await admin
     .from('dekont_import_drafts')
@@ -294,7 +303,8 @@ export async function processDekontDraft(adminUserId: string, draftId: string) {
   }
 
   const validation = validateDekontDocument(ocr);
-  if (!validation.accepted) {
+  const reviewable = isDekontReviewable(ocr);
+  if (!validation.accepted && !(options?.allowReviewable && reviewable)) {
     const report = buildDekontScanReport(validation, ocr);
     throw new DekontImportError(formatDekontValidationFailure(validation, ocr), 422, report);
   }
@@ -341,7 +351,7 @@ export async function ingestDekontDraft(params: {
   }
 
   const validation = validateDekontDocument(ocr);
-  if (!validation.accepted) {
+  if (!validation.accepted && !isDekontReviewable(ocr)) {
     const report = buildDekontScanReport(validation, ocr);
     throw new DekontImportError(formatDekontValidationFailure(validation, ocr), 422, report);
   }
@@ -425,13 +435,19 @@ export async function confirmDekontDraft(params: {
   projectId: string;
   referenceNo?: string;
   paymentDate?: string;
+  amount?: number;
 }) {
   const draft = await loadDekontDraft(params.adminUserId, params.draftId);
   const admin = createAdminClient();
 
+  const ocrForConfirm: DekontOcrResult =
+    params.amount != null && params.amount > 0
+      ? { ...draft.ocr_json, amount: params.amount }
+      : draft.ocr_json;
+
   const selectedMatch =
     (draft.match_json ?? []).find((m) => m.requestId === params.requestId) ?? null;
-  const matchCheck = validateMatchForConfirm(draft.ocr_json, selectedMatch);
+  const matchCheck = validateMatchForConfirm(ocrForConfirm, selectedMatch);
   if (!matchCheck.ok) {
     throw new DekontImportError(matchCheck.reason ?? strings.matchValidationFailed, 422);
   }
@@ -458,7 +474,10 @@ export async function confirmDekontDraft(params: {
       backend: draftRow.proof_storage_backend as 'google_drive' | 'r2',
       externalId: draftRow.proof_external_id,
     },
-    proofOcrJson: draftRow.ocr_json as Record<string, unknown>,
+    proofOcrJson: {
+      ...(draftRow.ocr_json as Record<string, unknown>),
+      ...(params.amount != null ? { amount: params.amount, amountManual: true } : {}),
+    },
   });
 
   await admin
