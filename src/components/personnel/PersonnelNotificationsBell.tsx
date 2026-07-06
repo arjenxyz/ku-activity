@@ -223,7 +223,7 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', stiffness: 340, damping: 34 }}
-            className="absolute right-0 top-0 bottom-0 z-[201] flex w-[min(86vw,21.5rem)] max-w-[21.5rem] flex-col border-l border-slate-200/90 bg-white shadow-[-12px_0_40px_rgba(14,21,72,0.18)] dark:border-slate-700 dark:bg-slate-900"
+            className="absolute right-0 top-0 bottom-0 z-[201] flex w-[min(86vw,21.5rem)] max-w-[21.5rem] flex-col border-l border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-900"
           >
             <div className="shrink-0 border-b border-slate-100 bg-gradient-to-r from-[#E8EBF8]/80 to-white px-4 py-3.5 dark:border-slate-800 dark:from-slate-800 dark:to-slate-900">
               <div className="flex items-center justify-between gap-3">

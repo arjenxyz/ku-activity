@@ -87,9 +87,9 @@ html.dark body {
   }
 
   .personnel-notify-scrim {
-    background-color: rgba(14, 21, 72, 0.55);
-    -webkit-backdrop-filter: blur(24px) saturate(1.15);
-    backdrop-filter: blur(24px) saturate(1.15);
+    background-color: rgba(15, 23, 42, 0.52);
+    -webkit-backdrop-filter: blur(16px) saturate(1.05);
+    backdrop-filter: blur(16px) saturate(1.05);
   }
 
   .scrollbar-hide {
