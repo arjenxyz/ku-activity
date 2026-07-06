@@ -14,8 +14,6 @@ import { HonorIconTile, type HonorIconName, type HonorIconTheme } from '@/compon
 import { EmployeeAvatar } from '@/components/employee/EmployeeAvatar';
 import { PersonnelContractsSection } from '@/components/personnel/PersonnelContractsSection';
 import { PersonnelDisplaySettings } from '@/components/personnel/PersonnelDisplaySettings';
-import { PersonnelLanguageSettings } from '@/components/personnel/PersonnelLanguageSettings';
-import { PersonnelReleaseNotesPanel } from '@/components/personnel/PersonnelReleaseNotesPanel';
 import { PersonnelActiveDevices } from '@/components/personnel/PersonnelActiveDevices';
 import { PersonnelPasswordModal } from '@/components/personnel/PersonnelPasswordModal';
 import { PersonnelProjectCard } from '@/components/personnel/PersonnelProjectCard';
@@ -33,30 +31,27 @@ type Props = {
 
 type SettingsSectionId =
   | 'home'
+  | 'profile'
   | 'personal'
   | 'contact'
   | 'bank'
   | 'work'
   | 'contracts'
   | 'security'
-  | 'devices'
-  | 'language'
-  | 'app'
-  | 'releases';
+  | 'app';
 
-type MenuItemId = Exclude<SettingsSectionId, 'home' | 'devices'>;
+type MenuItemId = Exclude<SettingsSectionId, 'home' | 'profile'>;
 
-const MENU_ICON_DEFS: Record<MenuItemId | 'devices', { name: HonorIconName; theme: HonorIconTheme }> = {
+const ACCOUNT_SECTION_IDS = ['personal', 'contact', 'bank'] as const satisfies readonly MenuItemId[];
+
+const MENU_ICON_DEFS: Record<MenuItemId, { name: HonorIconName; theme: HonorIconTheme }> = {
   personal: { name: 'user', theme: 'blue' },
   contact: { name: 'phone', theme: 'emerald' },
   bank: { name: 'card', theme: 'violet' },
   work: { name: 'briefcase', theme: 'amber' },
   contracts: { name: 'shield', theme: 'indigo' },
   security: { name: 'lock', theme: 'rose' },
-  devices: { name: 'phone', theme: 'indigo' },
-  language: { name: 'globe', theme: 'teal' },
   app: { name: 'settings', theme: 'slate' },
-  releases: { name: 'document', theme: 'sky' },
 };
 
 function formatIbanDisplay(iban: string | null | undefined, strings: SettingsStrings) {
@@ -132,19 +127,52 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
     { id: 'work', title: strings.menu.work.title },
     { id: 'contracts', title: strings.menu.contracts.title },
     { id: 'security', title: strings.menu.security.title },
-    { id: 'language', title: strings.menu.language.title },
-    { id: 'releases', title: strings.menu.releases.title },
     { id: 'app', title: strings.menu.app.title },
   ];
 
-  const accountItems = menuItems.filter((item) => ['personal', 'contact', 'bank'].includes(item.id));
-  const workItems = menuItems.filter((item) => ['work', 'contracts'].includes(item.id));
-  const systemItems = menuItems.filter((item) =>
-    ['security', 'language', 'releases', 'app'].includes(item.id)
+  const accountItems = menuItems.filter((item) =>
+    (ACCOUNT_SECTION_IDS as readonly string[]).includes(item.id)
   );
+  const workItems = menuItems.filter((item) => ['work', 'contracts'].includes(item.id));
+  const systemItems = menuItems.filter((item) => ['security', 'app'].includes(item.id));
+
+  const backTarget: SettingsSectionId =
+    (ACCOUNT_SECTION_IDS as readonly string[]).includes(activeSection)
+      ? 'profile'
+      : activeSection === 'profile'
+        ? 'home'
+        : 'home';
+
+  const pageTitle =
+    activeSection === 'profile'
+      ? employee.name
+      : strings.sections[activeSection].title;
 
   const renderSection = () => {
     switch (activeSection) {
+      case 'profile':
+        return (
+          <SettingsCard>
+            <ProfileHeader
+              name={employee.name}
+              photoUrl={photoUrl}
+              subtitle={profileSubtitle}
+            />
+            <div className="border-t border-slate-100 dark:border-slate-800">
+              {accountItems.map((item, index) => (
+                <MenuRow
+                  key={item.id}
+                  title={item.title}
+                  subtitle={strings.menu[item.id].subtitle}
+                  iconDef={MENU_ICON_DEFS[item.id]}
+                  onClick={() => setActiveSection(item.id)}
+                  showDivider={index < accountItems.length - 1}
+                  inset
+                />
+              ))}
+            </div>
+          </SettingsCard>
+        );
       case 'personal':
         return (
           <SettingsCard>
@@ -207,35 +235,28 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
         return <PersonnelContractsSection />;
       case 'security':
         return (
-          <SettingsCard>
-            <MenuRow
-              title={strings.pinTitle}
-              iconDef={MENU_ICON_DEFS.security}
-              onClick={() => setPasswordOpen(true)}
-              showDivider
-              insetDivider
-            />
-            <MenuRow
-              title={strings.devicesTitle}
-              iconDef={MENU_ICON_DEFS.devices}
-              onClick={() => setActiveSection('devices')}
-              showDivider={false}
-            />
-          </SettingsCard>
+          <div className="space-y-3">
+            <PersonnelActiveDevices onCurrentDeviceRemoved={onLogout} />
+            <SettingsCard>
+              <MenuRow
+                title={strings.pinTitle}
+                iconDef={MENU_ICON_DEFS.security}
+                onClick={() => setPasswordOpen(true)}
+              />
+            </SettingsCard>
+          </div>
         );
-      case 'devices':
-        return <PersonnelActiveDevices onCurrentDeviceRemoved={onLogout} hideHeader />;
       case 'app':
         return <PersonnelDisplaySettings />;
-      case 'language':
-        return <PersonnelLanguageSettings />;
-      case 'releases':
-        return <PersonnelReleaseNotesPanel />;
       default:
         return (
           <div className="space-y-3">
             <SettingsCard>
-              <div className="flex items-center gap-3 px-4 py-4">
+              <button
+                type="button"
+                onClick={() => setActiveSection('profile')}
+                className="flex w-full items-center gap-3 px-4 py-3.5 text-left transition-colors hover:bg-slate-50 active:bg-slate-100 dark:hover:bg-slate-800/60"
+              >
                 <EmployeeAvatar
                   name={employee.name}
                   photoUrl={photoUrl}
@@ -250,20 +271,8 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
                     {profileSubtitle}
                   </span>
                 </span>
-              </div>
-
-              <div className="border-t border-slate-100 dark:border-slate-800">
-                {accountItems.map((item, index) => (
-                  <MenuRow
-                    key={item.id}
-                    title={item.title}
-                    iconDef={MENU_ICON_DEFS[item.id]}
-                    onClick={() => setActiveSection(item.id)}
-                    showDivider={index < accountItems.length - 1}
-                    insetDivider
-                  />
-                ))}
-              </div>
+                <FiChevronRight className="h-5 w-5 shrink-0 text-slate-300 dark:text-slate-500" />
+              </button>
             </SettingsCard>
 
             <SettingsCard>
@@ -303,14 +312,12 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
     }
   };
 
-  const pageTitle = strings.sections[activeSection].title;
-
-  const handleBack = () => {
-    if (activeSection === 'devices') setActiveSection('security');
-    else setActiveSection('home');
-  };
-
-  const backLabel = activeSection === 'devices' ? strings.backToSecurity : strings.backToList;
+  const pageSubtitle =
+    activeSection === 'profile'
+      ? strings.sections.profile.subtitle
+      : activeSection !== 'home'
+        ? strings.sections[activeSection].subtitle
+        : null;
 
   return (
     <div className="-mx-3 sm:-mx-6 -mt-3 min-h-full bg-[#f0f2f5] px-3 py-4 pb-[max(1rem,env(safe-area-inset-bottom))] dark:bg-slate-950 sm:min-h-[60vh] sm:px-4 sm:py-5">
@@ -318,11 +325,11 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
         {activeSection !== 'home' ? (
           <button
             type="button"
-            onClick={handleBack}
+            onClick={() => setActiveSection(backTarget)}
             className="inline-flex items-center gap-1 text-sm font-medium text-[#0E1548] dark:text-blue-300"
           >
             <FiChevronLeft className="h-5 w-5" />
-            {backLabel}
+            {strings.backToList}
           </button>
         ) : null}
 
@@ -330,10 +337,8 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
           <h1 className="text-[1.75rem] font-bold leading-tight tracking-tight text-slate-900 dark:text-white">
             {pageTitle}
           </h1>
-          {activeSection !== 'home' ? (
-            <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-              {strings.sections[activeSection].subtitle}
-            </p>
+          {pageSubtitle ? (
+            <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{pageSubtitle}</p>
           ) : null}
         </div>
 
@@ -369,34 +374,66 @@ function SettingsCard({ children }: { children: React.ReactNode }) {
   );
 }
 
+function ProfileHeader({
+  name,
+  photoUrl,
+  subtitle,
+}: {
+  name: string;
+  photoUrl: string | null;
+  subtitle: string;
+}) {
+  return (
+    <div className="flex items-center gap-3 px-4 py-4">
+      <EmployeeAvatar
+        name={name}
+        photoUrl={photoUrl}
+        size="md"
+        className="!h-12 !w-12 shrink-0 !rounded-full ring-1 ring-slate-200 dark:ring-slate-600"
+      />
+      <span className="min-w-0 flex-1">
+        <span className="block truncate text-base font-semibold text-slate-900 dark:text-white">{name}</span>
+        <span className="mt-0.5 block truncate text-sm text-slate-500 dark:text-slate-400">{subtitle}</span>
+      </span>
+    </div>
+  );
+}
+
 function MenuRow({
   title,
+  subtitle,
   iconDef,
   onClick,
   showDivider = true,
-  insetDivider = false,
+  inset = false,
 }: {
   title: string;
+  subtitle?: string;
   iconDef: { name: HonorIconName; theme: HonorIconTheme };
   onClick: () => void;
   showDivider?: boolean;
-  insetDivider?: boolean;
+  inset?: boolean;
 }) {
   return (
     <>
       <button
         type="button"
         onClick={onClick}
-        className="flex w-full items-center gap-3 px-4 py-3.5 text-left transition-colors hover:bg-slate-50 active:bg-slate-100 dark:hover:bg-slate-800/60"
+        className={`flex w-full items-center gap-3 py-3.5 text-left transition-colors hover:bg-slate-50 active:bg-slate-100 dark:hover:bg-slate-800/60 ${
+          inset ? 'pl-4 pr-4' : 'px-4'
+        }`}
       >
         <HonorIconTile name={iconDef.name} theme={iconDef.theme} size="sm" muted />
-        <span className="min-w-0 flex-1 text-[15px] font-medium text-slate-900 dark:text-white">{title}</span>
+        <span className="min-w-0 flex-1">
+          <span className="block text-[15px] font-medium text-slate-900 dark:text-white">{title}</span>
+          {subtitle ? (
+            <span className="mt-0.5 block truncate text-xs text-slate-500 dark:text-slate-400">{subtitle}</span>
+          ) : null}
+        </span>
         <FiChevronRight className="h-5 w-5 shrink-0 text-slate-300 dark:text-slate-500" />
       </button>
       {showDivider ? (
-        <div
-          className={`h-px bg-slate-100 dark:bg-slate-800 ${insetDivider ? 'ml-[3.25rem]' : ''}`}
-        />
+        <div className={`h-px bg-slate-100 dark:bg-slate-800 ${inset ? 'ml-[3.25rem]' : 'mx-4'}`} />
       ) : null}
     </>
   );

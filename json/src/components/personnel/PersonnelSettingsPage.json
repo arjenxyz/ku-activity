@@ -8,26 +8,22 @@
   "profilePhotoHint": "Yüzünüz net görünsün; yoklama ve profil için kullanılır.",
   "profileAccountLabel": "Personel hesabı",
   "backToList": "Geri",
-  "backToSecurity": "Güvenlik",
   "exitHint": "Panele dönmek için dokunun",
   "exitAriaLabel": "Panele dön",
   "logout": "Çıkış yap",
   "emptyValue": "—",
   "pinTitle": "PIN kodu",
   "pinSubtitle": "Giriş şifrenizi güncelleyin",
-  "devicesTitle": "Cihazlarım",
   "sections": {
     "home": { "title": "Ayarlar", "subtitle": "Hesabınızı ve uygulama tercihlerinizi yönetin." },
+    "profile": { "title": "Profil", "subtitle": "Kişisel bilgiler, iletişim ve banka kayıtlarınız." },
     "personal": { "title": "Kişisel Ayarlar", "subtitle": "Kimlik ve kişisel bilgileriniz." },
     "contact": { "title": "İletişim", "subtitle": "E-posta ve telefon bilgileriniz." },
     "bank": { "title": "Banka Bilgileri", "subtitle": "IBAN bilgileriniz." },
     "work": { "title": "İş Bilgileri", "subtitle": "Pozisyon, yevmiye ve şantiye bilgileriniz." },
     "contracts": { "title": "Sözleşmeler", "subtitle": "Onayladığınız sözleşme kayıtları." },
     "security": { "title": "Güvenlik", "subtitle": "PIN, aktif cihazlar ve hesap güvenliği." },
-    "devices": { "title": "Cihazlarım", "subtitle": "Hesabınıza giriş yapılmış cihazlar. Tanımadığınız bir cihaz görürseniz kaldırın." },
-    "language": { "title": "Dil", "subtitle": "Uygulama dilini seçin." },
-    "app": { "title": "Uygulama Ayarları", "subtitle": "Görünüm ve okunabilirlik tercihleri." },
-    "releases": { "title": "Güncelleme Notları", "subtitle": "Son sürümde neler değişti." }
+    "app": { "title": "Uygulama Ayarları", "subtitle": "Dil ve görünüm tercihleri." }
   },
   "menu": {
     "personal": { "title": "Kişisel ayarlar", "subtitle": "Profil fotoğrafı, ad, soyad ve kimlik" },
@@ -36,9 +32,7 @@
     "work": { "title": "İş bilgileri", "subtitle": "Pozisyon, yevmiye ve proje" },
     "contracts": { "title": "Sözleşmeler", "subtitle": "Onayladığınız sözleşmeler" },
     "security": { "title": "Güvenlik", "subtitle": "PIN kodu, aktif cihazlar ve hesap güvenliği" },
-    "language": { "title": "Dil", "subtitle": "Uygulama dili" },
-    "app": { "title": "Uygulama ayarları", "subtitle": "Büyük yazı ve kontrast" },
-    "releases": { "title": "Güncelleme notları", "subtitle": "Son sürümdeki yenilikler" }
+    "app": { "title": "Uygulama ayarları", "subtitle": "Dil ve görünüm tercihleri" }
   },
   "groups": {
     "personalInfo": "Kişisel bilgiler",
@@ -57,21 +51,5 @@
     "position": "Pozisyon",
     "dailyWage": "Günlük yevmiye",
     "hireDate": "İşe giriş"
-  },
-  "language": {
-    "label": "Uygulama dili",
-    "hint": "Türkçe veya İngilizce seçebilirsiniz."
-  },
-  "releases": {
-    "loading": "Güncelleme notları yükleniyor…",
-    "loadFailed": "Güncelleme notları alınamadı",
-    "emptyTitle": "Henüz yayınlanmış sürüm yok",
-    "emptyHint": "Yeni bir APK yayınlandığında burada görünecek.",
-    "currentVersion": "Güncel sürüm",
-    "publishedAt": "Yayın",
-    "notesTitle": "Bu sürümde",
-    "noNotes": "Bu sürüm için not eklenmemiş.",
-    "apkHint": "APK indirmek için",
-    "apkLink": "indirme sayfası"
   }
 }

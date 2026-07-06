@@ -8,26 +8,22 @@
   "profilePhotoHint": "Use a clear photo of your face for attendance and your profile.",
   "profileAccountLabel": "Personnel account",
   "backToList": "Back",
-  "backToSecurity": "Security",
   "exitHint": "Tap to return to the panel",
   "exitAriaLabel": "Return to panel",
   "logout": "Sign out",
   "emptyValue": "—",
   "pinTitle": "PIN kodu",
   "pinSubtitle": "Giriş şifrenizi güncelleyin",
-  "devicesTitle": "My devices",
   "sections": {
     "home": { "title": "Ayarlar", "subtitle": "Hesabınızı ve uygulama tercihlerinizi yönetin." },
+    "profile": { "title": "Profil", "subtitle": "Kişisel bilgiler, iletişim ve banka kayıtlarınız." },
     "personal": { "title": "Kişisel Ayarlar", "subtitle": "Kimlik ve kişisel bilgileriniz." },
     "contact": { "title": "İletişim", "subtitle": "E-posta ve telefon bilgileriniz." },
     "bank": { "title": "Banka Bilgileri", "subtitle": "IBAN bilgileriniz." },
     "work": { "title": "İş Bilgileri", "subtitle": "Pozisyon, yevmiye ve şantiye bilgileriniz." },
     "contracts": { "title": "Sözleşmeler", "subtitle": "Onayladığınız sözleşme kayıtları." },
     "security": { "title": "Güvenlik", "subtitle": "PIN, aktif cihazlar ve hesap güvenliği." },
-    "devices": { "title": "My devices", "subtitle": "Devices signed in to your account. Remove any you do not recognize." },
-    "language": { "title": "Language", "subtitle": "Choose the app language." },
-    "app": { "title": "App Settings", "subtitle": "Display and readability preferences." },
-    "releases": { "title": "Release notes", "subtitle": "What changed in the latest version." }
+    "app": { "title": "App Settings", "subtitle": "Language and display preferences." }
   },
   "menu": {
     "personal": { "title": "Personal settings", "subtitle": "Profile photo, name, and identity" },
@@ -36,9 +32,7 @@
     "work": { "title": "İş bilgileri", "subtitle": "Pozisyon, yevmiye ve proje" },
     "contracts": { "title": "Sözleşmeler", "subtitle": "Onayladığınız sözleşmeler" },
     "security": { "title": "Güvenlik", "subtitle": "PIN kodu, aktif cihazlar ve hesap güvenliği" },
-    "language": { "title": "Language", "subtitle": "App language" },
-    "app": { "title": "App settings", "subtitle": "Large text and contrast" },
-    "releases": { "title": "Release notes", "subtitle": "Latest version changes" }
+    "app": { "title": "App settings", "subtitle": "Language and display preferences" }
   },
   "groups": {
     "personalInfo": "Kişisel bilgiler",
@@ -57,21 +51,5 @@
     "position": "Pozisyon",
     "dailyWage": "Günlük yevmiye",
     "hireDate": "İşe giriş"
-  },
-  "language": {
-    "label": "App language",
-    "hint": "Choose Turkish or English."
-  },
-  "releases": {
-    "loading": "Loading release notes…",
-    "loadFailed": "Could not load release notes",
-    "emptyTitle": "No published release yet",
-    "emptyHint": "Notes will appear here when a new APK is published.",
-    "currentVersion": "Current version",
-    "publishedAt": "Published",
-    "notesTitle": "In this release",
-    "noNotes": "No notes were added for this version.",
-    "apkHint": "To download the APK, visit the",
-    "apkLink": "download page"
   }
 }
