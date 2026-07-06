@@ -25,5 +25,12 @@
   "timeJustNow": "Just now",
   "timeMinutesAgo": "{count} min ago",
   "timeHoursAgo": "{count} hr ago",
-  "timeDaysAgo": "{count} d ago"
+  "timeDaysAgo": "{count} d ago",
+  "deleteAriaLabel": "Delete notification",
+  "clearAll": "Delete all",
+  "clearAllConfirm": "Permanently delete all notifications?",
+  "clearAllConfirmButton": "Yes, delete",
+  "clearAllCancel": "Cancel",
+  "back": "Back",
+  "totalSummary": "{count} notifications"
 }

@@ -25,5 +25,12 @@
   "timeJustNow": "Az önce",
   "timeMinutesAgo": "{count} dk önce",
   "timeHoursAgo": "{count} sa önce",
-  "timeDaysAgo": "{count} gün önce"
+  "timeDaysAgo": "{count} gün önce",
+  "deleteAriaLabel": "Bildirimi sil",
+  "clearAll": "Tümünü sil",
+  "clearAllConfirm": "Tüm bildirimler kalıcı olarak silinsin mi?",
+  "clearAllConfirmButton": "Evet, sil",
+  "clearAllCancel": "Vazgeç",
+  "back": "Geri",
+  "totalSummary": "{count} bildirim"
 }

@@ -189,5 +189,40 @@ export function usePersonnelNotifications() {
     setUnreadCount(0);
   }, []);
 
-  return { items, unreadCount, loading, error, refresh, markRead, markAllRead };
+  const deleteNotification = useCallback(async (id: string) => {
+    const res = await fetch('/api/personnel/notifications', {
+      method: 'DELETE',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id }),
+    });
+    if (!res.ok) return false;
+    const data = (await res.json()) as { unreadCount: number };
+    setItems((prev) => prev.filter((n) => n.id !== id));
+    setUnreadCount(data.unreadCount ?? 0);
+    return true;
+  }, []);
+
+  const clearAllNotifications = useCallback(async () => {
+    const res = await fetch('/api/personnel/notifications/clear', {
+      method: 'POST',
+      credentials: 'include',
+    });
+    if (!res.ok) return false;
+    setItems([]);
+    setUnreadCount(0);
+    return true;
+  }, []);
+
+  return {
+    items,
+    unreadCount,
+    loading,
+    error,
+    refresh,
+    markRead,
+    markAllRead,
+    deleteNotification,
+    clearAllNotifications,
+  };
 };

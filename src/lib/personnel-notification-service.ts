@@ -154,6 +154,29 @@ export async function markAllPersonnelNotificationsRead(admin: SupabaseClient, e
   if (error && !isMissingTableError(error.message)) throw new Error(error.message);
 }
 
+export async function deletePersonnelNotification(
+  admin: SupabaseClient,
+  employeeId: string,
+  notificationId: string
+) {
+  const { error } = await admin
+    .from('personnel_notifications')
+    .delete()
+    .eq('id', notificationId)
+    .eq('employee_id', employeeId);
+
+  if (error && !isMissingTableError(error.message)) throw new Error(error.message);
+}
+
+export async function deleteAllPersonnelNotifications(admin: SupabaseClient, employeeId: string) {
+  const { error } = await admin
+    .from('personnel_notifications')
+    .delete()
+    .eq('employee_id', employeeId);
+
+  if (error && !isMissingTableError(error.message)) throw new Error(error.message);
+}
+
 export async function notifyAttendanceReminder(
   admin: SupabaseClient,
   params: { employeeId: string; projectId: string; workDate: string }
