@@ -23,6 +23,7 @@ import {
 
 type Props = {
   tone?: 'light' | 'onDark';
+  panelOpen?: boolean;
   className?: string;
 };
 
@@ -83,10 +84,11 @@ function iconShellClass(type: string) {
   }
 }
 
-export function PersonnelNotificationsBell({ tone = 'light', className = '' }: Props) {
+export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpenProp, className = '' }: Props) {
   const strings = useLocalizedStrings(trStrings, enStrings);
-  const { items, unreadCount, loading, markRead, markAllRead, refresh, panelOpen, openPanel, closePanel } =
+  const { items, unreadCount, loading, markRead, markAllRead, refresh, panelOpen: panelOpenCtx, openPanel, closePanel } =
     usePersonnelNotificationsContext();
+  const panelOpen = panelOpenProp ?? panelOpenCtx;
   const [notificationAccess, setNotificationAccess] = useState<NotificationAccess>('default');
   const [requestingPermission, setRequestingPermission] = useState(false);
   const [isTwaApp, setIsTwaApp] = useState(false);
@@ -202,9 +204,13 @@ export function PersonnelNotificationsBell({ tone = 'light', className = '' }: P
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
         >
+          <div
+            className="personnel-notify-scrim pointer-events-none absolute inset-0"
+            aria-hidden
+          />
           <button
             type="button"
-            className="absolute inset-0 bg-[#0E1548]/45 backdrop-blur-xl backdrop-saturate-150"
+            className="absolute inset-0 bg-transparent"
             aria-label={strings.closeOverlay}
             onClick={closePanel}
           />
@@ -217,7 +223,7 @@ export function PersonnelNotificationsBell({ tone = 'light', className = '' }: P
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', stiffness: 340, damping: 34 }}
-            className="absolute right-0 top-0 bottom-0 z-[201] flex w-[min(100vw,21.5rem)] flex-col border-l border-slate-200/90 bg-white shadow-[-12px_0_40px_rgba(14,21,72,0.18)] dark:border-slate-700 dark:bg-slate-900"
+            className="absolute right-0 top-0 bottom-0 z-[201] flex w-[min(86vw,21.5rem)] max-w-[21.5rem] flex-col border-l border-slate-200/90 bg-white shadow-[-12px_0_40px_rgba(14,21,72,0.18)] dark:border-slate-700 dark:bg-slate-900"
           >
             <div className="shrink-0 border-b border-slate-100 bg-gradient-to-r from-[#E8EBF8]/80 to-white px-4 py-3.5 dark:border-slate-800 dark:from-slate-800 dark:to-slate-900">
               <div className="flex items-center justify-between gap-3">
@@ -393,8 +399,8 @@ export function PersonnelNotificationsBell({ tone = 'light', className = '' }: P
 
   const bellActiveClass = panelOpen
     ? tone === 'onDark'
-      ? 'bg-white text-[#0E1548] shadow-md'
-      : 'bg-[#0E1548] text-white border-[#0E1548] shadow-md shadow-[#0E1548]/20'
+      ? '!text-[#0E1548]'
+      : '!text-white !border-transparent'
     : '';
 
   return (
@@ -402,7 +408,7 @@ export function PersonnelNotificationsBell({ tone = 'light', className = '' }: P
       <button
         type="button"
         onClick={() => (panelOpen ? closePanel() : openPanel())}
-        className={`relative inline-flex h-9 w-9 items-center justify-center rounded-xl border transition-colors ${bellClass} ${bellActiveClass} ${className}`}
+        className={`relative inline-flex h-9 w-9 items-center justify-center rounded-xl border transition-colors ${bellClass} ${className} ${bellActiveClass}`}
         aria-label={strings.bellAriaLabel}
         aria-expanded={panelOpen}
       >

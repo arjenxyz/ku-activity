@@ -86,6 +86,12 @@ html.dark body {
     top: var(--personnel-topbar-h);
   }
 
+  .personnel-notify-scrim {
+    background-color: rgba(14, 21, 72, 0.55);
+    -webkit-backdrop-filter: blur(24px) saturate(1.15);
+    backdrop-filter: blur(24px) saturate(1.15);
+  }
+
   .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;

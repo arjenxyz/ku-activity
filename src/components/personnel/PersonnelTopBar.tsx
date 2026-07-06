@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { BrandMark } from '@/components/brand/BrandMark';
 import { PersonnelNotificationsBell } from '@/components/personnel/PersonnelNotificationsBell';
+import { usePersonnelNotificationsContext } from '@/contexts/PersonnelNotificationsContext';
 import { useLocale } from '@/lib/i18n/LocaleProvider';
 import { APP_TAGLINE, APP_TAGLINE_TR } from '@/lib/brand';
 
@@ -15,6 +16,7 @@ export function PersonnelTopBar({ immersive = false }: Props) {
   const pathname = usePathname() ?? '';
   const { locale } = useLocale();
   const tagline = locale === 'en' ? APP_TAGLINE : APP_TAGLINE_TR;
+  const { panelOpen } = usePersonnelNotificationsContext();
   const immersivePath =
     immersive ||
     pathname.startsWith('/personnel-panel/yoklama') ||
@@ -68,12 +70,19 @@ export function PersonnelTopBar({ immersive = false }: Props) {
             </Link>
 
             <div
-              className={`shrink-0 rounded-xl p-0.5 ${
-                immersivePath ? 'bg-white/10' : 'bg-slate-100/80 dark:bg-slate-800/80'
+              className={`shrink-0 rounded-xl p-0.5 transition-colors ${
+                panelOpen
+                  ? immersivePath
+                    ? 'bg-white shadow-md'
+                    : 'bg-[#0E1548] shadow-md shadow-[#0E1548]/25'
+                  : immersivePath
+                    ? 'bg-white/10'
+                    : 'bg-slate-100/80 dark:bg-slate-800/80'
               }`}
             >
               <PersonnelNotificationsBell
                 tone={immersivePath ? 'onDark' : 'light'}
+                panelOpen={panelOpen}
                 className="!h-10 !w-10 !border-0 !bg-transparent"
               />
             </div>
