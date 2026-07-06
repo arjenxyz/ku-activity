@@ -145,7 +145,7 @@ function YoklamaContent() {
         ) : null}
 
         {/* Üst kontroller: iptal + kod gir */}
-        <div className="pointer-events-none absolute inset-x-0 top-0 z-20 flex items-start justify-between gap-3 px-3 pb-2 safe-pt">
+        <div className="pointer-events-none absolute inset-x-0 top-[calc(3rem+env(safe-area-inset-top))] z-20 flex items-start justify-between gap-3 px-3 pb-2">
           <Link
             href="/personnel-panel"
             className="pointer-events-auto flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-black/45 text-white shadow-lg backdrop-blur-md transition active:bg-black/60"

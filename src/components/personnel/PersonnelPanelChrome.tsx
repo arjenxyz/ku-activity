@@ -1,47 +1,35 @@
 'use client';
 
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { Suspense } from 'react';
 import { PersonnelNotificationsProvider } from '@/contexts/PersonnelNotificationsContext';
 import { PersonnelClosureProvider } from '@/contexts/PersonnelClosureContext';
 import { PersonnelAppBottomNav } from '@/components/personnel/PersonnelAppBottomNav';
-import { PersonnelMobileHeader } from '@/components/personnel/PersonnelMobileHeader';
+import { PersonnelTopBar } from '@/components/personnel/PersonnelTopBar';
 import { PersonnelClosureGate } from '@/components/personnel/PersonnelClosureGate';
 import { PersonnelClosureLoading } from '@/components/personnel/PersonnelClosureLoading';
 import { usePersonnelClosure } from '@/hooks/usePersonnelClosure';
-import type { PersonnelTabId } from '@/hooks/usePersonnelTab';
-import { PERSONNEL_TABS } from '@/hooks/usePersonnelTab';
-
-function isValidTab(value: string | null): value is PersonnelTabId {
-  return PERSONNEL_TABS.includes(value as PersonnelTabId);
-}
 
 function ChromeBody({ children }: { children: React.ReactNode }) {
   const pathname = usePathname() ?? '';
-  const searchParams = useSearchParams();
-  const tabParam = searchParams.get('tab');
-  const tab = isValidTab(tabParam) ? tabParam : 'overview';
-  const isOverview = pathname === '/personnel-panel' && tab === 'overview';
   const isYoklama = pathname.startsWith('/personnel-panel/yoklama');
   const isAvansOnay = pathname.startsWith('/personnel-panel/avans-onay');
+  const isImmersive = isYoklama || isAvansOnay;
   const { inClosure, loading: closureLoading } = usePersonnelClosure();
   const closureLocked = closureLoading || inClosure;
-  const hideBottomNav = isYoklama || isAvansOnay || closureLocked;
+  const hideBottomNav = isImmersive || closureLocked;
+  const topPad = isImmersive ? 'pt-0' : 'pt-[calc(3rem+env(safe-area-inset-top))]';
 
   return (
     <>
-      {!closureLocked ? <PersonnelMobileHeader /> : null}
+      {!closureLocked ? <PersonnelTopBar /> : null}
       <div
         className={
           closureLocked
             ? 'pb-0'
             : hideBottomNav
-              ? 'sm:pt-0 sm:pb-0'
-              : `pb-[calc(5.25rem+env(safe-area-inset-bottom))] sm:pt-0 sm:pb-0 ${
-                  isOverview
-                    ? 'pt-[max(0.5rem,env(safe-area-inset-top))]'
-                    : 'pt-[calc(3rem+env(safe-area-inset-top))]'
-                }`
+              ? `pb-0 ${topPad}`
+              : `pb-[calc(5.25rem+env(safe-area-inset-bottom))] ${topPad}`
         }
       >
         <PersonnelClosureGate>{children}</PersonnelClosureGate>

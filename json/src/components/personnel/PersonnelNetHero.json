@@ -4,5 +4,7 @@
   "deduction": "Kesinti",
   "net": "Net",
   "financeDetail": "Bordro ve finans detayı",
-  "sectionAriaLabel": "Aylık maaş özeti"
+  "sectionAriaLabel": "Profil ve aylık maaş özeti",
+  "panelSubtitle": "Personel paneli",
+  "defaultName": "Personel"
 }

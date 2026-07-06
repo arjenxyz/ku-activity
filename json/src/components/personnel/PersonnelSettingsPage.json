@@ -17,7 +17,7 @@
     "work": { "title": "İş Bilgileri", "subtitle": "Pozisyon, yevmiye ve şantiye bilgileriniz." },
     "contracts": { "title": "Sözleşmeler", "subtitle": "Onayladığınız sözleşme kayıtları." },
     "security": { "title": "Güvenlik", "subtitle": "PIN, aktif cihazlar ve hesap güvenliği." },
-    "app": { "title": "Uygulama Ayarları", "subtitle": "Görünüm ve kullanım tercihleri." }
+    "app": { "title": "Uygulama Ayarları", "subtitle": "Dil ve görünüm tercihleri." }
   },
   "menu": {
     "personal": { "title": "Kişisel ayarlar", "subtitle": "Ad, soyad, T.C. kimlik, doğum tarihi" },
@@ -26,7 +26,7 @@
     "work": { "title": "İş bilgileri", "subtitle": "Pozisyon, yevmiye ve proje" },
     "contracts": { "title": "Sözleşmeler", "subtitle": "Onayladığınız sözleşmeler" },
     "security": { "title": "Güvenlik", "subtitle": "PIN kodu, aktif cihazlar ve hesap güvenliği" },
-    "app": { "title": "Uygulama ayarları", "subtitle": "Tema ve görünüm tercihleri" }
+    "app": { "title": "Uygulama ayarları", "subtitle": "Dil ve görünüm tercihleri" }
   },
   "groups": {
     "personalInfo": "Kişisel bilgiler",

@@ -1,11 +1,15 @@
 'use client';
 
-import { FiArrowRight, FiTrendingDown, FiTrendingUp } from 'react-icons/fi';
+import { FiArrowRight, FiBriefcase, FiTrendingDown, FiTrendingUp } from 'react-icons/fi';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { formatMoney } from '@/lib/format';
+import { EmployeeAvatar } from '@/components/employee/EmployeeAvatar';
 import { PersonnelMonthChip } from '@/components/personnel/PersonnelMonthChip';
 
 type Props = {
+  fullName?: string;
+  position?: string;
+  photoUrl?: string | null;
   net: number;
   gross: number;
   totalAdvance?: number;
@@ -16,6 +20,9 @@ type Props = {
 };
 
 export function PersonnelNetHero({
+  fullName,
+  position,
+  photoUrl,
   net,
   gross,
   totalAdvance = 0,
@@ -25,6 +32,7 @@ export function PersonnelNetHero({
   onOpenFinance,
 }: Props) {
   const strings = useRegistryStrings('components/personnel/PersonnelNetHero');
+  const displayName = fullName ?? strings.defaultName;
   const deductions = totalAdvance + totalDeduct;
   const netTone = net < 0 ? 'text-red-300' : 'text-emerald-300';
 
@@ -46,8 +54,44 @@ export function PersonnelNetHero({
           backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='1' fill-rule='evenodd'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E")`,
         }}
       />
+      <div className="absolute -left-10 -bottom-10 h-40 w-40 rounded-full bg-blue-400/15 blur-3xl pointer-events-none" />
 
-      <div className="relative px-4 py-5 sm:px-6 sm:py-6">
+      <div className="relative px-4 py-4 sm:px-6 sm:py-5">
+        <div className="flex items-center gap-3.5 sm:gap-4">
+          <div className="relative shrink-0">
+            <div
+              className="absolute -inset-0.5 rounded-2xl bg-gradient-to-br from-white/30 via-white/10 to-transparent blur-[1px]"
+              aria-hidden
+            />
+            <EmployeeAvatar
+              name={displayName}
+              photoUrl={photoUrl}
+              size="lg"
+              className="!rounded-2xl relative h-[4.25rem] w-[4.25rem] sm:h-[4.75rem] sm:w-[4.75rem] ring-2 ring-white/30 shadow-lg shadow-black/25"
+            />
+          </div>
+
+          <div className="min-w-0 flex-1">
+            <p className="text-[10px] font-semibold tracking-[0.14em] text-blue-100/85 uppercase leading-none">
+              {strings.panelSubtitle}
+            </p>
+            <h1 className="mt-1.5 text-xl sm:text-2xl font-bold text-white leading-tight tracking-tight break-words">
+              {displayName}
+            </h1>
+            {position ? (
+              <p className="mt-1.5 inline-flex max-w-full items-center gap-1.5 text-sm text-blue-100/90">
+                <FiBriefcase className="h-3.5 w-3.5 shrink-0 opacity-80" aria-hidden />
+                <span className="truncate">{position}</span>
+              </p>
+            ) : null}
+          </div>
+        </div>
+
+        <div
+          className="my-4 sm:my-5 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"
+          aria-hidden
+        />
+
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0 flex-1">
             <p className="text-xs font-medium text-slate-400">{strings.estimatedNet}</p>

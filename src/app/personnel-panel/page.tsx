@@ -13,7 +13,6 @@ import {
   FiSettings,
   FiShield,
 } from 'react-icons/fi';
-import { PersonnelOverviewHeader } from '@/components/personnel/PersonnelOverviewHeader';
 import { PersonnelNetHero } from '@/components/personnel/PersonnelNetHero';
 import { PersonnelUnifiedCalendarPanel } from '@/components/personnel/PersonnelUnifiedCalendarPanel';
 import { PersonnelTodayAttendance } from '@/components/personnel/PersonnelTodayAttendance';
@@ -177,19 +176,11 @@ function PersonelPanelContent() {
 
     return (
       <div className="space-y-4 sm:space-y-5">
-        {employee && (
-          <PersonnelOverviewHeader
-            firstName={employee.name.split(' ')[0]}
+        {employee && stats && (
+          <PersonnelNetHero
             fullName={employee.name}
             position={employee.position}
             photoUrl={employee.photo_url}
-          />
-        )}
-
-        <PersonnelTodayAttendance />
-
-        {stats && (
-          <PersonnelNetHero
             net={stats.net}
             gross={stats.gross}
             totalAdvance={stats.totalAdvance}
@@ -199,6 +190,8 @@ function PersonelPanelContent() {
             onOpenFinance={() => goTab('finance')}
           />
         )}
+
+        <PersonnelTodayAttendance />
 
         {stats && (
           <div className="grid sm:grid-cols-2 gap-3">
@@ -230,12 +223,6 @@ function PersonelPanelContent() {
           }}
         >
           <div className="no-print">
-            <div className="mb-4 sm:mb-5 no-print hidden sm:block">
-              <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
-                {strings.headerSubtitle}
-              </p>
-            </div>
-
             <div className="mb-4 sm:mb-6 no-print hidden sm:block">
               <PersonnelTabNav tabs={tabsWithBadges} active={activeTab} onChange={goTab} />
             </div>

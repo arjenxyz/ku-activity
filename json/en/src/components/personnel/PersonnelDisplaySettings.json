@@ -1,7 +1,10 @@
 {
-  "sectionTitle": "Görünüm",
-  "largeTextLabel": "Büyük yazı",
-  "largeTextHint": "Metinleri büyütür",
-  "highContrastLabel": "Yüksek kontrast",
-  "highContrastHint": "Sahada okumayı kolaylaştırır"
+  "languageSectionTitle": "Language",
+  "languageLabel": "Language",
+  "languageHint": "Choose the app language",
+  "sectionTitle": "Display",
+  "largeTextLabel": "Large text",
+  "largeTextHint": "Increases text size",
+  "highContrastLabel": "High contrast",
+  "highContrastHint": "Easier to read on site"
 }

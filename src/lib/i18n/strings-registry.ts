@@ -458,8 +458,6 @@ import m_components_personnel_PersonnelMesaiPanel_tr from '@json/src/components/
 import m_components_personnel_PersonnelMesaiPanel_en from '@json/en/src/components/personnel/PersonnelMesaiPanel.json';
 import m_components_personnel_PersonnelMesaiSummary_tr from '@json/src/components/personnel/PersonnelMesaiSummary.json';
 import m_components_personnel_PersonnelMesaiSummary_en from '@json/en/src/components/personnel/PersonnelMesaiSummary.json';
-import m_components_personnel_PersonnelMobileHeader_tr from '@json/src/components/personnel/PersonnelMobileHeader.json';
-import m_components_personnel_PersonnelMobileHeader_en from '@json/en/src/components/personnel/PersonnelMobileHeader.json';
 import m_components_personnel_PersonnelMonthChip_tr from '@json/src/components/personnel/PersonnelMonthChip.json';
 import m_components_personnel_PersonnelMonthChip_en from '@json/en/src/components/personnel/PersonnelMonthChip.json';
 import m_components_personnel_PersonnelMonthFilter_tr from '@json/src/components/personnel/PersonnelMonthFilter.json';
@@ -472,8 +470,6 @@ import m_components_personnel_PersonnelNetHero_tr from '@json/src/components/per
 import m_components_personnel_PersonnelNetHero_en from '@json/en/src/components/personnel/PersonnelNetHero.json';
 import m_components_personnel_PersonnelNotificationsBell_tr from '@json/src/components/personnel/PersonnelNotificationsBell.json';
 import m_components_personnel_PersonnelNotificationsBell_en from '@json/en/src/components/personnel/PersonnelNotificationsBell.json';
-import m_components_personnel_PersonnelOverviewHeader_tr from '@json/src/components/personnel/PersonnelOverviewHeader.json';
-import m_components_personnel_PersonnelOverviewHeader_en from '@json/en/src/components/personnel/PersonnelOverviewHeader.json';
 import m_components_personnel_PersonnelPasswordForm_tr from '@json/src/components/personnel/PersonnelPasswordForm.json';
 import m_components_personnel_PersonnelPasswordForm_en from '@json/en/src/components/personnel/PersonnelPasswordForm.json';
 import m_components_personnel_PersonnelPasswordModal_tr from '@json/src/components/personnel/PersonnelPasswordModal.json';
@@ -905,14 +901,12 @@ export const STRINGS_REGISTRY = {
   'components/personnel/PersonnelMesaiCalendar': { tr: m_components_personnel_PersonnelMesaiCalendar_tr, en: m_components_personnel_PersonnelMesaiCalendar_en },
   'components/personnel/PersonnelMesaiPanel': { tr: m_components_personnel_PersonnelMesaiPanel_tr, en: m_components_personnel_PersonnelMesaiPanel_en },
   'components/personnel/PersonnelMesaiSummary': { tr: m_components_personnel_PersonnelMesaiSummary_tr, en: m_components_personnel_PersonnelMesaiSummary_en },
-  'components/personnel/PersonnelMobileHeader': { tr: m_components_personnel_PersonnelMobileHeader_tr, en: m_components_personnel_PersonnelMobileHeader_en },
   'components/personnel/PersonnelMonthChip': { tr: m_components_personnel_PersonnelMonthChip_tr, en: m_components_personnel_PersonnelMonthChip_en },
   'components/personnel/PersonnelMonthFilter': { tr: m_components_personnel_PersonnelMonthFilter_tr, en: m_components_personnel_PersonnelMonthFilter_en },
   'components/personnel/PersonnelMyDossierDownload': { tr: m_components_personnel_PersonnelMyDossierDownload_tr, en: m_components_personnel_PersonnelMyDossierDownload_en },
   'components/personnel/PersonnelNavHub': { tr: m_components_personnel_PersonnelNavHub_tr, en: m_components_personnel_PersonnelNavHub_en },
   'components/personnel/PersonnelNetHero': { tr: m_components_personnel_PersonnelNetHero_tr, en: m_components_personnel_PersonnelNetHero_en },
   'components/personnel/PersonnelNotificationsBell': { tr: m_components_personnel_PersonnelNotificationsBell_tr, en: m_components_personnel_PersonnelNotificationsBell_en },
-  'components/personnel/PersonnelOverviewHeader': { tr: m_components_personnel_PersonnelOverviewHeader_tr, en: m_components_personnel_PersonnelOverviewHeader_en },
   'components/personnel/PersonnelPasswordForm': { tr: m_components_personnel_PersonnelPasswordForm_tr, en: m_components_personnel_PersonnelPasswordForm_en },
   'components/personnel/PersonnelPasswordModal': { tr: m_components_personnel_PersonnelPasswordModal_tr, en: m_components_personnel_PersonnelPasswordModal_en },
   'components/personnel/PersonnelPayrollPrint': { tr: m_components_personnel_PersonnelPayrollPrint_tr, en: m_components_personnel_PersonnelPayrollPrint_en },
