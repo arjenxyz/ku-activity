@@ -10,6 +10,7 @@ import { usePersonnelTopBarEnterCodeAction } from '@/contexts/PersonnelTopBarAct
 import { useLocale } from '@/lib/i18n/LocaleProvider';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { APP_TAGLINE, APP_TAGLINE_TR } from '@/lib/brand';
+import { personnelChromeSurfaceClass } from '@/lib/personnel-chrome-surface';
 
 type Props = {
   immersive?: boolean;
@@ -37,10 +38,11 @@ export function PersonnelTopBar({ immersive = false }: Props) {
       ? settingsStrings.exitHint
       : defaultTagline;
   const enterCode = isYoklama ? topBarActions?.enterCode : null;
+  const surfaceClass = personnelChromeSurfaceClass(pathname, searchParams.get('tab'));
 
   const shellClass = immersivePath
-    ? 'fixed top-0 inset-x-0 z-[var(--personnel-topbar-z)] bg-black'
-    : 'sticky top-0 z-[var(--personnel-topbar-z)]';
+    ? `fixed top-0 inset-x-0 z-[var(--personnel-topbar-z)] ${surfaceClass}`
+    : `sticky top-0 z-[var(--personnel-topbar-z)] ${surfaceClass}`;
 
   const cardClass = immersivePath
     ? 'border-white/15 bg-black/60 shadow-lg shadow-black/30'

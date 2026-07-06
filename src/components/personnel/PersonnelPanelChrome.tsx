@@ -10,20 +10,23 @@ import { PersonnelTopBar } from '@/components/personnel/PersonnelTopBar';
 import { PersonnelClosureGate } from '@/components/personnel/PersonnelClosureGate';
 import { PersonnelClosureLoading } from '@/components/personnel/PersonnelClosureLoading';
 import { usePersonnelClosure } from '@/hooks/usePersonnelClosure';
+import { personnelChromeSurfaceClass } from '@/lib/personnel-chrome-surface';
 
 function ChromeBody({ children }: { children: React.ReactNode }) {
   const pathname = usePathname() ?? '';
   const searchParams = useSearchParams();
+  const tab = searchParams.get('tab');
+  const surfaceClass = personnelChromeSurfaceClass(pathname, tab);
   const isYoklama = pathname.startsWith('/personnel-panel/yoklama');
   const isAvansOnay = pathname.startsWith('/personnel-panel/avans-onay');
-  const isSettingsTab = pathname === '/personnel-panel' && searchParams.get('tab') === 'settings';
+  const isSettingsTab = pathname === '/personnel-panel' && tab === 'settings';
   const isImmersive = isYoklama || isAvansOnay;
   const { inClosure, loading: closureLoading } = usePersonnelClosure();
   const closureLocked = closureLoading || inClosure;
   const hideBottomNav = isImmersive || closureLocked || isSettingsTab;
 
   return (
-    <>
+    <div className={`min-h-[100dvh] ${surfaceClass} sm:bg-transparent`}>
       {!closureLocked ? <PersonnelTopBar immersive={isImmersive} /> : null}
       <div
         className={
@@ -41,7 +44,7 @@ function ChromeBody({ children }: { children: React.ReactNode }) {
         <PersonnelClosureGate>{children}</PersonnelClosureGate>
       </div>
       {!hideBottomNav ? <PersonnelAppBottomNav /> : null}
-    </>
+    </div>
   );
 }
 
@@ -57,7 +60,6 @@ function showPersonnelChrome(pathname: string) {
 export function PersonnelPanelChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname() ?? '';
   const withChrome = showPersonnelChrome(pathname);
-  const isYoklama = pathname.startsWith('/personnel-panel/yoklama');
 
   if (!withChrome) {
     return <>{children}</>;
@@ -67,17 +69,9 @@ export function PersonnelPanelChrome({ children }: { children: React.ReactNode }
     <PersonnelNotificationsProvider>
       <PersonnelTopBarActionsProvider>
         <PersonnelClosureProvider>
-          <div
-            className={
-              isYoklama
-                ? 'min-h-[100dvh] bg-black sm:bg-transparent'
-                : 'min-h-[100dvh] bg-slate-50 dark:bg-slate-950 sm:bg-transparent'
-            }
-          >
-            <Suspense fallback={<PersonnelClosureLoading />}>
-              <ChromeBody>{children}</ChromeBody>
-            </Suspense>
-          </div>
+          <Suspense fallback={<PersonnelClosureLoading />}>
+            <ChromeBody>{children}</ChromeBody>
+          </Suspense>
         </PersonnelClosureProvider>
       </PersonnelTopBarActionsProvider>
     </PersonnelNotificationsProvider>
