@@ -22,7 +22,8 @@
     "work": { "title": "İş Bilgileri", "subtitle": "Pozisyon, yevmiye ve şantiye bilgileriniz." },
     "contracts": { "title": "Sözleşmeler", "subtitle": "Onayladığınız sözleşme kayıtları." },
     "security": { "title": "Güvenlik", "subtitle": "PIN, aktif cihazlar ve hesap güvenliği." },
-    "app": { "title": "Uygulama Ayarları", "subtitle": "Dil ve görünüm tercihleri." }
+    "app": { "title": "Uygulama Ayarları", "subtitle": "Dil ve görünüm tercihleri." },
+    "releases": { "title": "Güncelleme Notları", "subtitle": "Son sürümde neler değişti." }
   },
   "menu": {
     "personal": { "title": "Kişisel ayarlar", "subtitle": "Profil fotoğrafı, ad, soyad ve kimlik" },
@@ -31,7 +32,8 @@
     "work": { "title": "İş bilgileri", "subtitle": "Pozisyon, yevmiye ve proje" },
     "contracts": { "title": "Sözleşmeler", "subtitle": "Onayladığınız sözleşmeler" },
     "security": { "title": "Güvenlik", "subtitle": "PIN kodu, aktif cihazlar ve hesap güvenliği" },
-    "app": { "title": "Uygulama ayarları", "subtitle": "Dil ve görünüm tercihleri" }
+    "app": { "title": "Uygulama ayarları", "subtitle": "Dil ve görünüm tercihleri" },
+    "releases": { "title": "Güncelleme notları", "subtitle": "Son sürümdeki yenilikler" }
   },
   "groups": {
     "personalInfo": "Kişisel bilgiler",
@@ -50,5 +52,17 @@
     "position": "Pozisyon",
     "dailyWage": "Günlük yevmiye",
     "hireDate": "İşe giriş"
+  },
+  "releases": {
+    "loading": "Güncelleme notları yükleniyor…",
+    "loadFailed": "Güncelleme notları alınamadı",
+    "emptyTitle": "Henüz yayınlanmış sürüm yok",
+    "emptyHint": "Yeni bir APK yayınlandığında burada görünecek.",
+    "currentVersion": "Güncel sürüm",
+    "publishedAt": "Yayın",
+    "notesTitle": "Bu sürümde",
+    "noNotes": "Bu sürüm için not eklenmemiş.",
+    "apkHint": "APK indirmek için",
+    "apkLink": "indirme sayfası"
   }
 }

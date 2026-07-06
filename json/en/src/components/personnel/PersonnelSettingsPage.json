@@ -22,7 +22,8 @@
     "work": { "title": "İş Bilgileri", "subtitle": "Pozisyon, yevmiye ve şantiye bilgileriniz." },
     "contracts": { "title": "Sözleşmeler", "subtitle": "Onayladığınız sözleşme kayıtları." },
     "security": { "title": "Güvenlik", "subtitle": "PIN, aktif cihazlar ve hesap güvenliği." },
-    "app": { "title": "App Settings", "subtitle": "Language and display preferences." }
+    "app": { "title": "App Settings", "subtitle": "Language and display preferences." },
+    "releases": { "title": "Release notes", "subtitle": "What changed in the latest version." }
   },
   "menu": {
     "personal": { "title": "Personal settings", "subtitle": "Profile photo, name, and identity" },
@@ -31,7 +32,8 @@
     "work": { "title": "İş bilgileri", "subtitle": "Pozisyon, yevmiye ve proje" },
     "contracts": { "title": "Sözleşmeler", "subtitle": "Onayladığınız sözleşmeler" },
     "security": { "title": "Güvenlik", "subtitle": "PIN kodu, aktif cihazlar ve hesap güvenliği" },
-    "app": { "title": "App settings", "subtitle": "Language and display preferences" }
+    "app": { "title": "App settings", "subtitle": "Language and display preferences" },
+    "releases": { "title": "Release notes", "subtitle": "Latest version changes" }
   },
   "groups": {
     "personalInfo": "Kişisel bilgiler",
@@ -50,5 +52,17 @@
     "position": "Pozisyon",
     "dailyWage": "Günlük yevmiye",
     "hireDate": "İşe giriş"
+  },
+  "releases": {
+    "loading": "Loading release notes…",
+    "loadFailed": "Could not load release notes",
+    "emptyTitle": "No published release yet",
+    "emptyHint": "Notes will appear here when a new APK is published.",
+    "currentVersion": "Current version",
+    "publishedAt": "Published",
+    "notesTitle": "In this release",
+    "noNotes": "No notes were added for this version.",
+    "apkHint": "To download the APK, visit the",
+    "apkLink": "download page"
   }
 }
