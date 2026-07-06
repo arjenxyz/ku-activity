@@ -7,6 +7,7 @@ import {
   transferTypeLabel,
   type TransferType,
 } from '@/lib/turkish-banks';
+import { formatPayrollMonthLabel } from '@/lib/advance-payroll-date';
 import { formatMoney, formatDate } from '@/lib/format';
 
 export type AdvancePaymentDetails = {
@@ -20,6 +21,7 @@ export type AdvancePaymentDetails = {
   recipientBank: string | null;
   recipientIbanMasked: string | null;
   senderIbanMasked: string | null;
+  payrollMonthLabel: string | null;
 };
 
 export function buildPaymentDetailsFromOcr(
@@ -48,6 +50,23 @@ export function buildPaymentDetailsFromOcr(
 
   const transferType = ocr?.transferType ?? detectTransferType(rawText);
 
+  const proofPaymentDate = ocr?.paymentDate ?? null;
+  const payrollMonth =
+    typeof (ocr as { payrollMonth?: string })?.payrollMonth === 'string'
+      ? (ocr as { payrollMonth: string }).payrollMonth
+      : null;
+  const payrollDeductionDate =
+    typeof (ocr as { payrollDeductionDate?: string })?.payrollDeductionDate === 'string'
+      ? (ocr as { payrollDeductionDate: string }).payrollDeductionDate
+      : null;
+  const payrollMonthLabel =
+    payrollMonth &&
+    proofPaymentDate &&
+    payrollDeductionDate &&
+    payrollDeductionDate !== proofPaymentDate
+      ? formatPayrollMonthLabel(payrollMonth)
+      : null;
+
   return {
     paidAt: row.paid_at ?? null,
     paymentDate: ocr?.paymentDate ?? (row.paid_at ? row.paid_at.slice(0, 10) : null),
@@ -59,6 +78,7 @@ export function buildPaymentDetailsFromOcr(
     recipientBank,
     recipientIbanMasked: maskIbanForDisplay(recipientIban),
     senderIbanMasked: maskIbanForDisplay(senderIban),
+    payrollMonthLabel,
   };
 }
 
@@ -106,7 +126,10 @@ export function formatPaymentDetailLines(details: AdvancePaymentDetails): Array<
     lines.push({ label: 'Yatırılan tutar', value: formatMoney(details.amount) });
   }
   if (details.paymentDate) {
-    lines.push({ label: 'İşlem tarihi', value: formatDate(details.paymentDate) });
+    lines.push({ label: 'Ödeme tarihi', value: formatDate(details.paymentDate) });
+  }
+  if (details.payrollMonthLabel) {
+    lines.push({ label: 'Bordro ayı', value: details.payrollMonthLabel });
   }
   if (details.paidAt) {
     lines.push({ label: 'Kayıt tarihi', value: formatDate(details.paidAt.slice(0, 10)) });

@@ -22,6 +22,7 @@ import {
   notifyAdvancePaid,
   notifyAdvanceRejected,
 } from '@/lib/personnel-notification-service';
+import { resolvePayrollDeductionDate } from '@/lib/advance-payroll-date';
 import { FORCE_PAYMENT_MAX_AGE_DAYS } from '@/lib/dekont-validation';
 import dayjs from 'dayjs';
 import type { SupabaseClient } from '@supabase/supabase-js';
@@ -572,18 +573,24 @@ export async function recordBankPayment(
     throw new AdvanceRequestError(strings.missingFile, 'MISSING_FILE');
   }
 
+  const now = new Date().toISOString();
+  const payroll = resolvePayrollDeductionDate({
+    paymentDate: payDate,
+    approvedAt: row.approved_at,
+    recordedAt: now,
+  });
+
   const deductionId = await insertDeduction(admin, {
     projectId: row.project_id,
     employeeId: row.employee_id,
     amount,
-    date: payDate,
+    date: payroll.deductionDate,
     description: formatString(strings.deductionDescriptionBank, {
       requestIdPrefix: params.requestId.slice(0, 8),
     }),
     jobId: row.job_id,
   });
 
-  const now = new Date().toISOString();
   const { data, error } = await admin
     .from('advance_requests')
     .update({
@@ -598,6 +605,9 @@ export async function recordBankPayment(
       proof_reference_no: params.referenceNo?.trim() || null,
       proof_ocr_json: {
         ...ocrJson,
+        paymentDate: payroll.proofPaymentDate,
+        payrollDeductionDate: payroll.deductionDate,
+        payrollMonth: payroll.payrollMonth,
         ...(params.transferCodeOverride ? { transferCodeOverride: true } : {}),
         ...(isRetroactive || forcePayment ? { retroactive: true } : {}),
         ...(forcePayment ? { forcePayment: true } : {}),
@@ -689,19 +699,25 @@ export async function recordRetroactiveBankPayment(
     throw new AdvanceRequestError(strings.missingFile, 'MISSING_FILE');
   }
 
+  const now = new Date().toISOString();
+  const payroll = resolvePayrollDeductionDate({
+    paymentDate: payDate,
+    approvedAt: null,
+    recordedAt: now,
+  });
+
   const deductionId = await insertDeduction(admin, {
     projectId: params.projectId,
     employeeId: params.employeeId,
     amount: params.amount,
-    date: payDate,
+    date: payroll.deductionDate,
     description: formatString(strings.deductionDescriptionRetroactive, {
       requestIdPrefix: requestId.slice(0, 8),
     }),
     jobId: params.jobId ?? null,
   });
 
-  const approvedAt = dayjs(payDate).startOf('day').toISOString();
-  const now = new Date().toISOString();
+  const approvedAt = now;
 
   const { data, error } = await admin
     .from('advance_requests')
@@ -731,6 +747,9 @@ export async function recordRetroactiveBankPayment(
       proof_reference_no: params.referenceNo?.trim() || null,
       proof_ocr_json: {
         ...ocrJson,
+        paymentDate: payroll.proofPaymentDate,
+        payrollDeductionDate: payroll.deductionDate,
+        payrollMonth: payroll.payrollMonth,
         retroactive: true,
         initiatedBy: 'admin',
       },

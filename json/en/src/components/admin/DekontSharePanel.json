@@ -58,7 +58,8 @@
     "retroactiveTitle": "Retroactive payment (no request)",
     "retroactiveHint": "Select employee matching IBAN — payment was made earlier",
     "retroactiveSave": "Save as retroactive payment",
-    "retroactiveNoEmployee": "No employee found with this IBAN"
+    "retroactiveNoEmployee": "No employee found with this IBAN",
+    "payrollMonthNotice": "Payment was made on {paymentDate}. This advance will be posted to the {payrollMonth} payroll."
   },
   "loading": "Loading…"
 }

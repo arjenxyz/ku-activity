@@ -58,7 +58,8 @@
     "retroactiveTitle": "Geçmiş ödeme (talep yok)",
     "retroactiveHint": "IBAN eşleşen personeli seçin — ödeme daha önce yapılmıştı",
     "retroactiveSave": "Geçmiş ödeme olarak kaydet",
-    "retroactiveNoEmployee": "Bu IBAN ile kayıtlı personel bulunamadı"
+    "retroactiveNoEmployee": "Bu IBAN ile kayıtlı personel bulunamadı",
+    "payrollMonthNotice": "Ödeme {paymentDate} tarihinde yapılmıştır. Avans {payrollMonth} bordrosuna işlenecektir."
   },
   "loading": "Yükleniyor…"
 }

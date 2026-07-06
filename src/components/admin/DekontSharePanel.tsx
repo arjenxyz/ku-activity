@@ -3,7 +3,6 @@
 import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useRouter, useSearchParams } from 'next/navigation';
-import Link from 'next/link';
 import dayjs from 'dayjs';
 import {
   FiAlertTriangle,
@@ -12,14 +11,17 @@ import {
   FiFileText,
   FiRefreshCw,
   FiUpload,
-  FiUser,
   FiXCircle,
 } from 'react-icons/fi';
 import { AlertBanner } from '@/components/project/AlertBanner';
 import { DekontScanShell } from '@/components/admin/DekontScanShell';
 import { EmployeeAvatar } from '@/components/employee/EmployeeAvatar';
-import { btnPrimary, btnSecondary, labelClass, inputClass } from '@/components/project/ui';
+import { btnPrimary, labelClass, inputClass } from '@/components/project/ui';
 import { formatDate, formatMoney } from '@/lib/format';
+import {
+  formatPayrollMonthLabel,
+  resolvePayrollDeductionDate,
+} from '@/lib/advance-payroll-date';
 import { formatString } from '@/lib/strings/format';
 import { getRegistryStrings } from '@/lib/i18n/strings-registry';
 import { formatOcrIban } from '@/lib/advance-dekont-match';
@@ -205,6 +207,107 @@ function PersonnelMatchCard({
         </div>
       </div>
     </label>
+  );
+}
+
+function PayrollMonthNotice({
+  paymentDate,
+  approvedAt,
+}: {
+  paymentDate: string;
+  approvedAt?: string | null;
+}) {
+  const strings = useRegistryStrings('components/admin/DekontSharePanel');
+
+  const notice = useMemo(() => {
+    if (!paymentDate?.trim()) return null;
+    const payroll = resolvePayrollDeductionDate({
+      paymentDate,
+      approvedAt: approvedAt ?? null,
+    });
+    if (!payroll.differsFromPaymentDate) return null;
+    return formatString(strings.review.payrollMonthNotice, {
+      paymentDate: formatDate(payroll.proofPaymentDate),
+      payrollMonth: formatPayrollMonthLabel(payroll.payrollMonth),
+    });
+  }, [paymentDate, approvedAt, strings.review.payrollMonthNotice]);
+
+  if (!notice) return null;
+
+  return (
+    <p className="mt-3 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm leading-relaxed text-slate-600 dark:border-slate-700 dark:bg-slate-800/50 dark:text-slate-300">
+      {notice}
+    </p>
+  );
+}
+
+function ReviewActionFooter({
+  confirming,
+  canSave,
+  isForceSave,
+  statusMessage,
+  saveLabelOverride,
+  onSave,
+  onAnotherFile,
+}: {
+  confirming: boolean;
+  canSave: boolean;
+  isForceSave: boolean;
+  statusMessage: string | null;
+  saveLabelOverride?: string;
+  onSave: () => void;
+  onAnotherFile: (file: File) => void;
+}) {
+  const strings = useRegistryStrings('components/admin/DekontSharePanel');
+
+  const saveLabel = confirming
+    ? isForceSave
+      ? strings.review.forcePaymentSaving
+      : strings.review.saveSaving
+    : (saveLabelOverride ??
+      (isForceSave ? strings.review.forcePayment : strings.review.savePayment));
+
+  return (
+    <div className="mt-5 border-t border-slate-100 pt-4 dark:border-slate-800">
+      {statusMessage && (
+        <p
+          className={`mb-3 flex items-start gap-2 text-sm ${
+            isForceSave
+              ? 'text-amber-800 dark:text-amber-200'
+              : 'text-red-700 dark:text-red-300'
+          }`}
+        >
+          {!isForceSave && <FiAlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />}
+          <span>{statusMessage}</span>
+        </p>
+      )}
+      <button
+        type="button"
+        disabled={confirming || !canSave}
+        onClick={onSave}
+        className={
+          isForceSave
+            ? 'w-full rounded-xl bg-amber-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-amber-700 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-amber-700 dark:hover:bg-amber-600'
+            : `${btnPrimary} w-full py-3`
+        }
+      >
+        {saveLabel}
+      </button>
+      <label className="mt-3 flex cursor-pointer items-center justify-center gap-1.5 text-sm text-slate-500 transition hover:text-slate-800 dark:hover:text-slate-200">
+        <FiRefreshCw className="h-3.5 w-3.5" />
+        {strings.review.anotherDekont}
+        <input
+          type="file"
+          accept="application/pdf,image/*"
+          className="hidden"
+          onChange={(e) => {
+            const file = e.target.files?.[0];
+            if (file) onAnotherFile(file);
+            e.target.value = '';
+          }}
+        />
+      </label>
+    </div>
   );
 }
 
@@ -874,27 +977,16 @@ function DekontShareContent() {
                   <input className={inputClass} value={referenceNo} onChange={(e) => setReferenceNo(e.target.value)} />
                 </div>
               </div>
-              {!retroactiveReady.ok && retroactiveReady.reason && (
-                <p className="mt-4 flex items-start gap-2 text-sm text-red-700 dark:text-red-300">
-                  <FiAlertTriangle className="mt-0.5 shrink-0" />
-                  {retroactiveReady.reason}
-                </p>
-              )}
-              <div className="mt-5 flex flex-wrap gap-2 border-t border-slate-100 pt-5 dark:border-slate-800">
-                <button
-                  type="button"
-                  className={btnPrimary}
-                  disabled={confirming || !retroactiveReady.ok}
-                  onClick={() => void handleRetroactiveConfirm()}
-                >
-                  {confirming ? strings.review.saveSaving : strings.review.retroactiveSave}
-                </button>
-                <label className={`${btnSecondary} inline-flex cursor-pointer items-center gap-1.5`}>
-                  <FiRefreshCw className="h-4 w-4" />
-                  {strings.review.anotherDekont}
-                  <input type="file" accept="application/pdf,image/*" className="hidden" onChange={handleFileUpload} />
-                </label>
-              </div>
+              <PayrollMonthNotice paymentDate={paymentDate} />
+              <ReviewActionFooter
+                confirming={confirming}
+                canSave={retroactiveReady.ok}
+                isForceSave={false}
+                saveLabelOverride={strings.review.retroactiveSave}
+                statusMessage={retroactiveReady.ok ? null : (retroactiveReady.reason ?? null)}
+                onSave={() => void handleRetroactiveConfirm()}
+                onAnotherFile={(file) => void processFile(file)}
+              />
             </div>
           )}
 
@@ -957,59 +1049,31 @@ function DekontShareContent() {
                 </div>
               </div>
 
-              {!confirmReady.ok && confirmReady.reason && (
-                <p className="mt-4 flex items-start gap-2 text-sm text-red-700 dark:text-red-300">
-                  <FiAlertTriangle className="mt-0.5 shrink-0" />
-                  {confirmReady.reason}
-                </p>
-              )}
+              <PayrollMonthNotice
+                paymentDate={paymentDate}
+                approvedAt={selectedMatch?.approvedAt}
+              />
 
-              {forcePaymentReady.ok && (
-                <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-4 dark:border-amber-900/50 dark:bg-amber-950/30">
-                  <p className="text-sm text-amber-900 dark:text-amber-200">
-                    {formatString(strings.review.forcePaymentHint, {
-                      maxDays: FORCE_PAYMENT_MAX_AGE_DAYS,
-                    })}
-                  </p>
-                  <button
-                    type="button"
-                    className={`${btnSecondary} mt-3 border-amber-300 text-amber-900 hover:bg-amber-100 dark:border-amber-800 dark:text-amber-200 dark:hover:bg-amber-950/50`}
-                    disabled={confirming}
-                    onClick={() => void handleForceConfirm()}
-                  >
-                    {confirming ? strings.review.forcePaymentSaving : strings.review.forcePayment}
-                  </button>
-                </div>
-              )}
-
-              {!forcePaymentReady.ok && forcePaymentReady.reason && !confirmReady.ok && selectedMatch && (
-                <p className="mt-3 text-xs text-slate-500">{forcePaymentReady.reason}</p>
-              )}
-
-              <div className="mt-5 flex flex-wrap gap-2 border-t border-slate-100 pt-5 dark:border-slate-800">
-                <button
-                  type="button"
-                  className={btnPrimary}
-                  disabled={confirming || !confirmReady.ok}
-                  onClick={() => void handleConfirm()}
-                >
-                  {confirming ? strings.review.saveSaving : strings.review.savePayment}
-                </button>
-                {selectedProjectId && selectedMatch && (
-                  <Link
-                    href={`/admin-panel/proje/${selectedProjectId}/list/${selectedMatch.employeeId}`}
-                    className={`${btnSecondary} inline-flex items-center gap-1.5`}
-                  >
-                    <FiUser className="h-4 w-4" />
-                    {strings.review.viewProfile}
-                  </Link>
-                )}
-                <label className={`${btnSecondary} inline-flex cursor-pointer items-center gap-1.5`}>
-                  <FiRefreshCw className="h-4 w-4" />
-                  {strings.review.anotherDekont}
-                  <input type="file" accept="application/pdf,image/*" className="hidden" onChange={handleFileUpload} />
-                </label>
-              </div>
+              <ReviewActionFooter
+                confirming={confirming}
+                canSave={confirmReady.ok || forcePaymentReady.ok}
+                isForceSave={!confirmReady.ok && forcePaymentReady.ok}
+                statusMessage={
+                  confirmReady.ok
+                    ? null
+                    : forcePaymentReady.ok
+                      ? formatString(strings.review.forcePaymentHint, {
+                          maxDays: FORCE_PAYMENT_MAX_AGE_DAYS,
+                        })
+                      : (confirmReady.reason ?? forcePaymentReady.reason ?? null)
+                }
+                onSave={() =>
+                  void (!confirmReady.ok && forcePaymentReady.ok
+                    ? handleForceConfirm()
+                    : handleConfirm())
+                }
+                onAnotherFile={(file) => void processFile(file)}
+              />
             </div>
           )}
         </div>
