@@ -1,5 +1,5 @@
 import { buildAssetLinksJson } from '@/lib/twa-asset-links';
-import { ADMIN_APP_ICON, CREWLEDGER_APP_ICON, PERSONNEL_APP_ICON } from '@/lib/brand';
+import { ADMIN_APP_ICON, PERSONNEL_APP_ICON, notificationMonochromeIconPath } from '@/lib/brand';
 import { buildAdminManifest, buildPersonnelManifest, PWA_ASSET_VERSION } from '@/lib/pwa-manifest';
 import {
   TWA_ADMIN_PACKAGE_ID,
@@ -20,7 +20,7 @@ export async function GET() {
       packageId: TWA_PERSONNEL_PACKAGE_ID,
       manifestUrl: `${origin}/manifest-personnel.webmanifest`,
       iconUrl: `${origin}${PERSONNEL_APP_ICON}`,
-      monochromeIconUrl: `${origin}${CREWLEDGER_APP_ICON}?v=${PWA_ASSET_VERSION}`,
+      monochromeIconUrl: `${origin}${notificationMonochromeIconPath('personnel', 96)}?v=${PWA_ASSET_VERSION}`,
       startUrl: buildPersonnelManifest().start_url,
       sha256Configured: TWA_PERSONNEL_SHA256.length > 0,
     },
@@ -28,7 +28,7 @@ export async function GET() {
       packageId: TWA_ADMIN_PACKAGE_ID,
       manifestUrl: `${origin}/manifest-admin.webmanifest`,
       iconUrl: `${origin}${ADMIN_APP_ICON}`,
-      monochromeIconUrl: `${origin}${CREWLEDGER_APP_ICON}?v=${PWA_ASSET_VERSION}`,
+      monochromeIconUrl: `${origin}${notificationMonochromeIconPath('admin', 96)}?v=${PWA_ASSET_VERSION}`,
       startUrl: buildAdminManifest().start_url,
       sha256Configured: TWA_ADMIN_SHA256.length > 0,
     },

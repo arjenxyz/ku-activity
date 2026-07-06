@@ -48,11 +48,55 @@ export async function serveAppIcon(
   return iconResponse(buffer);
 }
 
-/** Soldaki küçük bildirim ikonu — genel CrewLedger markası */
+function luminance(r: number, g: number, b: number) {
+  return 0.299 * r + 0.587 * g + 0.114 * b;
+}
+
+/**
+ * Soldaki küçük bildirim ikonu — crewledger markasından beyaz silüet (şeffaf arka plan).
+ * Android/TWA renkli PNG'yi beyaz kareye çevirir; yalnızca silüet çalışır.
+ */
 export async function serveNotificationMonochromeIcon(_variant: AppIconVariant, size: number) {
   const iconFile = path.join(process.cwd(), 'public', 'crewledger.png');
   const source = await readFile(iconFile);
-  const buffer = await sharp(source).resize(size, size, { fit: 'cover' }).png().toBuffer();
+  const { data, info } = await sharp(source)
+    .resize(size, size, { fit: 'cover' })
+    .ensureAlpha()
+    .raw()
+    .toBuffer({ resolveWithObject: true });
+
+  const pixelCount = data.length / 4;
+  let transparentPixels = 0;
+  for (let i = 3; i < data.length; i += 4) {
+    if (data[i] < 24) transparentPixels += 1;
+  }
+
+  const useAlphaMask = transparentPixels > pixelCount * 0.05;
+  const logoLuminanceThreshold = 90;
+
+  const out = Buffer.alloc(data.length);
+  for (let i = 0; i < data.length; i += 4) {
+    const r = data[i];
+    const g = data[i + 1];
+    const b = data[i + 2];
+    const isLogo = useAlphaMask
+      ? data[i + 3] > 24
+      : luminance(r, g, b) > logoLuminanceThreshold;
+
+    if (isLogo) {
+      out[i] = 255;
+      out[i + 1] = 255;
+      out[i + 2] = 255;
+      out[i + 3] = useAlphaMask ? data[i + 3] : 255;
+    }
+  }
+
+  const buffer = await sharp(out, {
+    raw: { width: info.width, height: info.height, channels: 4 },
+  })
+    .png()
+    .toBuffer();
+
   return iconResponse(buffer);
 }
 

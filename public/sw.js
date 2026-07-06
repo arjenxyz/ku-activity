@@ -1,9 +1,9 @@
-const CACHE_NAME = 'crewledger-v21';
+const CACHE_NAME = 'crewledger-v22';
 /** Sağdaki büyük bildirim ikonu */
 const PUSH_ICON_PATH = '/personel-icon.png';
-/** Soldaki küçük bildirim ikonu */
-const PUSH_BADGE_PATH = '/crewledger.png';
-const PUSH_ICON_VERSION = '16';
+/** Soldaki küçük ikon — crewledger silüeti (beyaz, şeffaf) */
+const PUSH_BADGE_PATH = '/icons/personnel/notification/96';
+const PUSH_ICON_VERSION = '17';
 
 function isFocusedPersonnelClient(client) {
   try {
