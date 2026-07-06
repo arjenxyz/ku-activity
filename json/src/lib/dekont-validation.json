@@ -102,5 +102,11 @@
     "amountMismatch": "Dekont tutarı ({ocrAmount} ₺) onaylı avans ({approvedAmount} ₺) ile uyuşmuyor",
     "transferCodeMismatch": "Havale referans kodu dekontta bulunamadı (beklenen: {expectedCode})",
     "paymentBeforeApproval": "Dekont tarihi avans onayından önce görünüyor"
+  },
+  "retroactive": {
+    "ibanRequired": "Geçmiş ödeme için dekonttan IBAN okunmalı",
+    "amountRequired": "Geçmiş ödeme için dekont tutarı okunmalı",
+    "amountMismatch": "Dekont tutarı ({ocrAmount} ₺) girilen tutar ({amount} ₺) ile uyuşmuyor",
+    "employeeRequired": "Personel seçin"
   }
 }

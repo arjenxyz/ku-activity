@@ -51,7 +51,11 @@
     "anotherDekont": "Another receipt",
     "transferCodeLabel": "Expected transfer code",
     "transferCodeHint": "This code should appear on the receipt if you added it to the transfer description",
-    "transferCodeOverride": "Code not readable on receipt — save anyway"
+    "transferCodeOverride": "Code not readable on receipt — save anyway",
+    "retroactiveTitle": "Retroactive payment (no request)",
+    "retroactiveHint": "Select employee matching IBAN — payment was made earlier",
+    "retroactiveSave": "Save as retroactive payment",
+    "retroactiveNoEmployee": "No employee found with this IBAN"
   },
   "loading": "Loading…"
 }

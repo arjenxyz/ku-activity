@@ -23,7 +23,7 @@ import { formatDate, formatMoney } from '@/lib/format';
 import { formatString } from '@/lib/strings/format';
 import { getRegistryStrings } from '@/lib/i18n/strings-registry';
 import { formatOcrIban } from '@/lib/advance-dekont-match';
-import type { DekontMatchSuggestion } from '@/lib/advance-dekont-match';
+import type { DekontMatchSuggestion, IbanEmployeeSuggestion } from '@/lib/advance-dekont-match';
 import type { DekontOcrResult } from '@/lib/dekont-ocr-shared';
 import { isDraftPendingOcr } from '@/lib/dekont-ocr-shared';
 import {
@@ -32,6 +32,7 @@ import {
   splitValidationChecks,
   validateDekontDocument,
   validateMatchForConfirm,
+  validateRetroactivePayment,
   type DekontValidationCheck,
 } from '@/lib/dekont-validation';
 import { decodeScanReport, type DekontScanReport } from '@/lib/dekont-scan-report';
@@ -41,6 +42,7 @@ type DraftPayload = {
   ocr_json: DekontOcrResult;
   match_json: DekontMatchSuggestion[];
   proof_file_name: string;
+  ibanEmployeeSuggestions?: IbanEmployeeSuggestion[];
 };
 
 type Step = 'upload' | 'analyze' | 'review' | 'done';
@@ -326,6 +328,8 @@ function DekontShareContent() {
   const [paymentDate, setPaymentDate] = useState(dayjs().format('YYYY-MM-DD'));
   const [manualAmount, setManualAmount] = useState('');
   const [transferCodeOverride, setTransferCodeOverride] = useState(false);
+  const [ibanSuggestions, setIbanSuggestions] = useState<IbanEmployeeSuggestion[]>([]);
+  const [selectedEmployeeId, setSelectedEmployeeId] = useState('');
   const processStartedRef = useRef(false);
 
   useEffect(() => {
@@ -344,16 +348,44 @@ function DekontShareContent() {
   const applyDraftPayload = useCallback((d: DraftPayload) => {
     setDraft(d);
     setStep('review');
+    const suggestions = d.ibanEmployeeSuggestions ?? [];
+    setIbanSuggestions(suggestions);
     const top = (d.match_json ?? [])[0];
     if (top) {
       setSelectedRequestId(top.requestId);
       setSelectedProjectId(top.projectId);
+      setSelectedEmployeeId('');
+    } else if (suggestions.length === 1) {
+      setSelectedEmployeeId(suggestions[0]!.employeeId);
+      setSelectedProjectId(suggestions[0]!.projectId);
+      setSelectedRequestId('');
+    } else {
+      setSelectedEmployeeId('');
+      setSelectedRequestId('');
+      setSelectedProjectId('');
     }
     if (d.ocr_json.referenceNo) setReferenceNo(d.ocr_json.referenceNo);
     if (d.ocr_json.paymentDate) setPaymentDate(d.ocr_json.paymentDate);
     if (d.ocr_json.amount != null) setManualAmount(String(d.ocr_json.amount));
     else setManualAmount('');
   }, []);
+
+  const enrichAndApplyDraft = useCallback(
+    async (id: string, fallback?: DraftPayload) => {
+      const enrichRes = await fetch(`/api/admin/dekont/drafts/${id}`);
+      const enrichData = await enrichRes.json();
+      if (enrichRes.ok && enrichData.draft) {
+        const d = enrichData.draft as DraftPayload;
+        d.ibanEmployeeSuggestions = enrichData.ibanEmployeeSuggestions as
+          | IbanEmployeeSuggestion[]
+          | undefined;
+        applyDraftPayload(d);
+        return;
+      }
+      if (fallback) applyDraftPayload(fallback);
+    },
+    [applyDraftPayload]
+  );
 
   const processDraft = useCallback(
     async (id: string) => {
@@ -390,7 +422,7 @@ function DekontShareContent() {
             draft?: DraftPayload;
           };
           if (serverRes.ok && serverData.draft) {
-            applyDraftPayload(serverData.draft);
+            await enrichAndApplyDraft(id, serverData.draft);
             router.replace(`/admin-panel/dekont-paylas?draft=${id}`);
             return;
           }
@@ -399,7 +431,7 @@ function DekontShareContent() {
           throw new Error(serverData.error || data.error || strings.errors.analyzeFailed);
         }
         if (!data.draft) throw new Error(strings.errors.draftLoadFailed);
-        applyDraftPayload(data.draft);
+        await enrichAndApplyDraft(id, data.draft);
         router.replace(`/admin-panel/dekont-paylas?draft=${id}`);
       } catch (e) {
         setError(e instanceof Error ? e.message : strings.errors.analyzeFailed);
@@ -409,7 +441,7 @@ function DekontShareContent() {
         setLoading(false);
       }
     },
-    [applyDraftPayload, router, strings.errors.analyzeFailed, strings.errors.draftLoadFailed]
+    [enrichAndApplyDraft, router, strings.errors.analyzeFailed, strings.errors.draftLoadFailed]
   );
 
   const loadDraft = useCallback(
@@ -421,6 +453,9 @@ function DekontShareContent() {
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || strings.errors.draftLoadFailed);
         const d = data.draft as DraftPayload;
+        if (data.ibanEmployeeSuggestions) {
+          d.ibanEmployeeSuggestions = data.ibanEmployeeSuggestions as IbanEmployeeSuggestion[];
+        }
         if (isDraftPendingOcr(d.ocr_json)) {
           await processDraft(id);
           return;
@@ -476,6 +511,14 @@ function DekontShareContent() {
         : { ok: false },
     [effectiveOcr, selectedMatch, transferCodeOverride]
   );
+  const selectedIbanEmployee =
+    ibanSuggestions.find((e) => e.employeeId === selectedEmployeeId) ?? null;
+  const retroactiveReady = useMemo(() => {
+    if (!effectiveOcr || !selectedIbanEmployee) return { ok: false as const };
+    const amount = parsedManualAmount ?? effectiveOcr.amount;
+    if (amount == null || amount <= 0) return { ok: false as const };
+    return validateRetroactivePayment(effectiveOcr, amount);
+  }, [effectiveOcr, selectedIbanEmployee, parsedManualAmount]);
   const matchChecks = useMemo(
     () =>
       effectiveOcr
@@ -536,7 +579,39 @@ function DekontShareContent() {
     setSelectedRequestId('');
     setSelectedProjectId('');
     setTransferCodeOverride(false);
+    setIbanSuggestions([]);
+    setSelectedEmployeeId('');
     router.replace('/admin-panel/dekont-paylas');
+  };
+
+  const handleRetroactiveConfirm = async () => {
+    if (!draft || !selectedIbanEmployee || !retroactiveReady.ok) return;
+    setConfirming(true);
+    setError(null);
+    try {
+      const res = await fetch(`/api/admin/dekont/drafts/${draft.id}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          retroactive: true,
+          employeeId: selectedIbanEmployee.employeeId,
+          projectId: selectedIbanEmployee.projectId,
+          referenceNo,
+          paymentDate,
+          amount: parsedManualAmount ?? undefined,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || strings.errors.saveFailed);
+      setSuccess(strings.success.paymentSaved);
+      setDraft(null);
+      setStep('done');
+      router.replace('/admin-panel/dekont-paylas');
+    } catch (e) {
+      setError(e instanceof Error ? e.message : strings.errors.saveFailed);
+    } finally {
+      setConfirming(false);
+    }
   };
 
   const handleConfirm = async () => {
@@ -662,11 +737,54 @@ function DekontShareContent() {
             <h3 className="text-sm font-semibold text-slate-900 dark:text-white">{strings.review.matchTitle}</h3>
 
             {matches.length === 0 ? (
-              <div className="mt-3 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900 dark:border-amber-900/50 dark:bg-amber-950/30 dark:text-amber-200">
-                <p className="font-medium">{strings.review.noMatchTitle}</p>
-                <Link href="/admin-panel" className={`${btnSecondary} mt-3 inline-flex`}>
-                  {strings.review.goToProjects}
-                </Link>
+              <div className="mt-3 space-y-4">
+                <div className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900 dark:border-amber-900/50 dark:bg-amber-950/30 dark:text-amber-200">
+                  <p className="font-medium">{strings.review.noMatchTitle}</p>
+                </div>
+                {ibanSuggestions.length > 0 ? (
+                  <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-800/50">
+                    <h4 className="text-sm font-semibold text-slate-900 dark:text-white">
+                      {strings.review.retroactiveTitle}
+                    </h4>
+                    <p className="mt-1 text-xs text-slate-500">{strings.review.retroactiveHint}</p>
+                    <ul className="mt-3 space-y-2">
+                      {ibanSuggestions.map((emp) => (
+                        <li key={emp.employeeId}>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setSelectedEmployeeId(emp.employeeId);
+                              setSelectedProjectId(emp.projectId);
+                              setSelectedRequestId('');
+                            }}
+                            className={`flex w-full items-center gap-3 rounded-xl border p-3 text-left transition-colors ${
+                              selectedEmployeeId === emp.employeeId
+                                ? 'border-emerald-500 bg-emerald-50 dark:border-emerald-600 dark:bg-emerald-950/30'
+                                : 'border-slate-200 bg-white hover:border-slate-300 dark:border-slate-700 dark:bg-slate-900'
+                            }`}
+                          >
+                            <EmployeeAvatar
+                              name={emp.employeeName}
+                              photoUrl={emp.employeePhotoUrl}
+                              size="sm"
+                            />
+                            <div className="min-w-0 flex-1">
+                              <p className="truncate font-medium text-slate-900 dark:text-white">
+                                {emp.employeeName}
+                              </p>
+                              <p className="truncate text-xs text-slate-500">
+                                {emp.projectName}
+                                {emp.ibanMasked ? ` · ${emp.ibanMasked}` : ''}
+                              </p>
+                            </div>
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : (
+                  <p className="text-sm text-slate-500">{strings.review.retroactiveNoEmployee}</p>
+                )}
               </div>
             ) : (
               <ul className="mt-3 space-y-2">
@@ -686,6 +804,63 @@ function DekontShareContent() {
               </ul>
             )}
           </div>
+
+          {matches.length === 0 && ibanSuggestions.length > 0 && (
+            <div className="rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900 sm:p-5">
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="sm:col-span-2">
+                  <label className={labelClass}>{strings.review.ibanLabel}</label>
+                  <p className="mt-1 rounded-lg bg-slate-50 px-3 py-2 font-mono text-sm text-slate-800 dark:bg-slate-800/50 dark:text-slate-200">
+                    {formatOcrIban(effectiveOcr.recipientIban)}
+                  </p>
+                </div>
+                <div>
+                  <label className={labelClass}>{strings.review.amountLabel}</label>
+                  <input
+                    className={inputClass}
+                    inputMode="decimal"
+                    placeholder="0,00"
+                    value={manualAmount}
+                    onChange={(e) => setManualAmount(e.target.value)}
+                  />
+                </div>
+                <div>
+                  <label className={labelClass}>{strings.review.paymentDateLabel}</label>
+                  <input
+                    type="date"
+                    className={inputClass}
+                    value={paymentDate}
+                    onChange={(e) => setPaymentDate(e.target.value)}
+                  />
+                </div>
+                <div className="sm:col-span-2">
+                  <label className={labelClass}>{strings.review.referenceLabel}</label>
+                  <input className={inputClass} value={referenceNo} onChange={(e) => setReferenceNo(e.target.value)} />
+                </div>
+              </div>
+              {!retroactiveReady.ok && retroactiveReady.reason && (
+                <p className="mt-4 flex items-start gap-2 text-sm text-red-700 dark:text-red-300">
+                  <FiAlertTriangle className="mt-0.5 shrink-0" />
+                  {retroactiveReady.reason}
+                </p>
+              )}
+              <div className="mt-5 flex flex-wrap gap-2 border-t border-slate-100 pt-5 dark:border-slate-800">
+                <button
+                  type="button"
+                  className={btnPrimary}
+                  disabled={confirming || !retroactiveReady.ok}
+                  onClick={() => void handleRetroactiveConfirm()}
+                >
+                  {confirming ? strings.review.saveSaving : strings.review.retroactiveSave}
+                </button>
+                <label className={`${btnSecondary} inline-flex cursor-pointer items-center gap-1.5`}>
+                  <FiRefreshCw className="h-4 w-4" />
+                  {strings.review.anotherDekont}
+                  <input type="file" accept="application/pdf,image/*" className="hidden" onChange={handleFileUpload} />
+                </label>
+              </div>
+            </div>
+          )}
 
           {matches.length > 0 && (
             <div className="rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900 sm:p-5">

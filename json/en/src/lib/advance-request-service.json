@@ -22,5 +22,10 @@
   "transferCodeRequired": "Transfer reference code (HVL-) not found on the receipt. Make sure you added it to the transfer description, or mark the exception on the confirmation screen.",
   "paymentBeforeApproval": "Receipt date is before advance approval — this receipt may not belong to this request",
   "duplicateReference": "This reference number was already used for another payment",
-  "transferRegenerateApprovedOnly": "Transfer code can only be generated for approved bank transfer requests"
+  "transferRegenerateApprovedOnly": "Transfer code can only be generated for approved bank transfer requests",
+  "employeeNotInProject": "Employee not found in this project",
+  "ibanMismatch": "Receipt IBAN does not match the selected employee's registered IBAN",
+  "retroactivePaymentDateRequired": "Payment date is required for retroactive payment",
+  "retroactiveBankOnly": "Retroactive payment recording is only available for bank transfers",
+  "deductionDescriptionRetroactive": "Retroactive advance (request {requestIdPrefix})"
 }

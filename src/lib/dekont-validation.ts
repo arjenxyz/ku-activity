@@ -409,10 +409,41 @@ export function buildMatchValidationChecks(
   return checks;
 }
 
+export function validateRetroactivePayment(
+  ocr: DekontOcrResult,
+  approvedAmount: number
+): { ok: boolean; reason?: string } {
+  const doc = validateDekontDocument(ocr);
+  if (!doc.accepted) {
+    return { ok: false, reason: formatDekontValidationFailure(doc, ocr) };
+  }
+
+  if (!ocr.recipientIban) {
+    return { ok: false, reason: strings.retroactive.ibanRequired };
+  }
+
+  if (ocr.amount == null || ocr.amount <= 0) {
+    return { ok: false, reason: strings.retroactive.amountRequired };
+  }
+
+  const diff = Math.abs(ocr.amount - approvedAmount);
+  if (diff > 1) {
+    return {
+      ok: false,
+      reason: formatString(strings.retroactive.amountMismatch, {
+        ocrAmount: ocr.amount,
+        amount: approvedAmount,
+      }),
+    };
+  }
+
+  return { ok: true };
+}
+
 export function validateMatchForConfirm(
   ocr: DekontOcrResult,
   match: DekontMatchSuggestion | null,
-  options?: { transferCodeOverride?: boolean }
+  options?: { transferCodeOverride?: boolean; retroactivePayment?: boolean }
 ): { ok: boolean; reason?: string } {
   const doc = validateDekontDocument(ocr);
   if (!doc.accepted) {
@@ -460,6 +491,7 @@ export function validateMatchForConfirm(
   }
 
   if (
+    !options?.retroactivePayment &&
     match.approvedAt &&
     ocr.paymentDate &&
     dayjs(ocr.paymentDate).isBefore(dayjs(match.approvedAt).startOf('day').subtract(1, 'day'))

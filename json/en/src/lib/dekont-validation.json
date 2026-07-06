@@ -102,5 +102,11 @@
     "amountMismatch": "Receipt amount ({ocrAmount} ₺) does not match approved advance ({approvedAmount} ₺)",
     "transferCodeMismatch": "Transfer reference code not found on receipt (expected: {expectedCode})",
     "paymentBeforeApproval": "Receipt date appears to be before advance approval"
+  },
+  "retroactive": {
+    "ibanRequired": "Recipient IBAN must be read from the receipt for retroactive payment",
+    "amountRequired": "Amount must be read from the receipt for retroactive payment",
+    "amountMismatch": "Receipt amount ({ocrAmount} ₺) does not match entered amount ({amount} ₺)",
+    "employeeRequired": "Select an employee"
   }
 }

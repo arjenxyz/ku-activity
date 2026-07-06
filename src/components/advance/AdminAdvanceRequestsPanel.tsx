@@ -5,12 +5,13 @@ import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import dayjs from 'dayjs';
 import QRCode from 'qrcode';
 import Link from 'next/link';
-import { FiCheck, FiCopy, FiCreditCard, FiRefreshCw, FiShare2, FiUpload, FiX } from 'react-icons/fi';
+import { FiCheck, FiCopy, FiCreditCard, FiPlus, FiRefreshCw, FiShare2, FiUpload, FiX } from 'react-icons/fi';
 
 import { AlertBanner } from '@/components/project/AlertBanner';
 import { ProjectPageHeader } from '@/components/project/ProjectPageHeader';
 import { JobSelectField } from '@/components/project/JobSelectField';
 import { useProjectJobs } from '@/hooks/useProjectJobs';
+import { useProjectEmployees } from '@/hooks/useProjectEmployees';
 import { cardClass, btnPrimary, btnSecondary, labelClass, inputClass } from '@/components/project/ui';
 import { formatMoney } from '@/lib/format';
 import { formatString } from '@/lib/strings/format';
@@ -49,6 +50,7 @@ export function AdminAdvanceRequestsPanel({ projectId }: Props) {
 
   const strings = useRegistryStrings('components/advance/AdminAdvanceRequestsPanel');
   const { jobs } = useProjectJobs(projectId);
+  const { employees } = useProjectEmployees(projectId);
   const [requests, setRequests] = useState<AdvanceRequestRow[]>([]);
   const [filter, setFilter] = useState<StatusFilterValue>('');
   const [loading, setLoading] = useState(true);
@@ -72,6 +74,15 @@ export function AdminAdvanceRequestsPanel({ projectId }: Props) {
 
   const [transferCodeTarget, setTransferCodeTarget] = useState<AdvanceRequestRow | null>(null);
   const [transferCode, setTransferCode] = useState<{ token: string; expiresAt: string } | null>(null);
+
+  const [createOpen, setCreateOpen] = useState(false);
+  const [createEmployeeId, setCreateEmployeeId] = useState('');
+  const [createAmount, setCreateAmount] = useState('');
+  const [createNote, setCreateNote] = useState('');
+  const [createAdminNote, setCreateAdminNote] = useState('');
+
+  const [approveRetroactive, setApproveRetroactive] = useState(false);
+  const [approvePaymentDate, setApprovePaymentDate] = useState(dayjs().format('YYYY-MM-DD'));
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -99,6 +110,8 @@ export function AdminAdvanceRequestsPanel({ projectId }: Props) {
     setApproveMethod('bank_transfer');
     setApproveNote('');
     setApproveJobId('');
+    setApproveRetroactive(false);
+    setApprovePaymentDate(dayjs().format('YYYY-MM-DD'));
     setSuccess(null);
     setError(null);
   };
@@ -121,6 +134,11 @@ export function AdminAdvanceRequestsPanel({ projectId }: Props) {
             paymentMethod: approveMethod,
             adminNote: approveNote || undefined,
             jobId: approveJobId || null,
+            retroactive: approveRetroactive && approveMethod === 'bank_transfer',
+            paymentDate:
+              approveRetroactive && approveMethod === 'bank_transfer'
+                ? approvePaymentDate
+                : undefined,
           }),
         }
       );
@@ -130,6 +148,8 @@ export function AdminAdvanceRequestsPanel({ projectId }: Props) {
       setApproveTarget(null);
       if (approveMethod === 'cash') {
         setSuccess(strings.approveSuccessCash);
+      } else if (approveRetroactive) {
+        setSuccess(strings.retroactiveApproveSuccess);
       } else if (data.transferToken) {
         setSuccess(
           formatString(strings.approveSuccessTransferCode, { code: data.transferToken as string })
@@ -147,6 +167,38 @@ export function AdminAdvanceRequestsPanel({ projectId }: Props) {
       await load();
     } catch (e) {
       setError(e instanceof Error ? e.message : strings.approveFailed);
+    } finally {
+      setActionLoading(false);
+    }
+  };
+
+  const submitCreate = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setActionLoading(true);
+    setError(null);
+    setSuccess(null);
+    try {
+      const res = await fetch(`/api/admin/projects/${projectId}/advance-requests`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          employeeId: createEmployeeId,
+          amount: Number(createAmount),
+          note: createNote || undefined,
+          adminNote: createAdminNote || undefined,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || strings.createFailed);
+      setCreateOpen(false);
+      setCreateEmployeeId('');
+      setCreateAmount('');
+      setCreateNote('');
+      setCreateAdminNote('');
+      setSuccess(strings.createSuccess);
+      await load();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : strings.createFailed);
     } finally {
       setActionLoading(false);
     }
@@ -274,28 +326,35 @@ export function AdminAdvanceRequestsPanel({ projectId }: Props) {
       </Link>
 
       <div className={`${cardClass} mb-6`}>
-        <div className="flex flex-wrap gap-2">
-          {STATUS_FILTER_VALUES.map((value) => (
-            <button
-              key={value || 'all'}
-              type="button"
-              onClick={() => setFilter(value)}
-              className={`rounded-lg px-3 py-1.5 text-sm font-medium transition ${
-                filter === value
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300'
-              }`}
-            >
-              {statusFilterLabel(value, strings)}
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
+          <div className="flex flex-wrap gap-2">
+            {STATUS_FILTER_VALUES.map((value) => (
+              <button
+                key={value || 'all'}
+                type="button"
+                onClick={() => setFilter(value)}
+                className={`rounded-lg px-3 py-1.5 text-sm font-medium transition ${
+                  filter === value
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300'
+                }`}
+              >
+                {statusFilterLabel(value, strings)}
+              </button>
+            ))}
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <button type="button" className={btnSecondary} onClick={() => setCreateOpen(true)}>
+              <FiPlus className="mr-1 inline" /> {strings.createOnBehalf}
             </button>
-          ))}
-          <button
-            type="button"
-            onClick={() => void load()}
-            className="ml-auto inline-flex items-center gap-1 rounded-lg px-3 py-1.5 text-sm text-slate-500 hover:text-slate-700"
-          >
-            <FiRefreshCw className={loading ? 'animate-spin' : ''} /> {strings.refresh}
-          </button>
+            <button
+              type="button"
+              onClick={() => void load()}
+              className="inline-flex items-center gap-1 rounded-lg px-3 py-1.5 text-sm text-slate-500 hover:text-slate-700"
+            >
+              <FiRefreshCw className={loading ? 'animate-spin' : ''} /> {strings.refresh}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -428,12 +487,44 @@ export function AdminAdvanceRequestsPanel({ projectId }: Props) {
                 <select
                   className={inputClass}
                   value={approveMethod}
-                  onChange={(e) => setApproveMethod(e.target.value as AdvancePaymentMethod)}
+                  onChange={(e) => {
+                    const method = e.target.value as AdvancePaymentMethod;
+                    setApproveMethod(method);
+                    if (method !== 'bank_transfer') setApproveRetroactive(false);
+                  }}
                 >
                   <option value="bank_transfer">{strings.bankTransfer}</option>
                   <option value="cash">{strings.cash}</option>
                 </select>
               </div>
+              {approveMethod === 'bank_transfer' && (
+                <>
+                  <label className="flex cursor-pointer items-start gap-2 text-sm text-slate-700 dark:text-slate-300">
+                    <input
+                      type="checkbox"
+                      className="mt-1"
+                      checked={approveRetroactive}
+                      onChange={(e) => setApproveRetroactive(e.target.checked)}
+                    />
+                    <span>
+                      <span className="font-medium">{strings.retroactiveApprove}</span>
+                      <span className="mt-0.5 block text-xs text-slate-500">{strings.retroactiveApproveHint}</span>
+                    </span>
+                  </label>
+                  {approveRetroactive && (
+                    <div>
+                      <label className={labelClass}>{strings.retroactivePaymentDateLabel}</label>
+                      <input
+                        type="date"
+                        className={inputClass}
+                        required
+                        value={approvePaymentDate}
+                        onChange={(e) => setApprovePaymentDate(e.target.value)}
+                      />
+                    </div>
+                  )}
+                </>
+              )}
               <JobSelectField jobs={jobs} value={approveJobId} onChange={setApproveJobId} />
               <div>
                 <label className={labelClass}>{strings.adminNoteLabel}</label>
@@ -611,6 +702,70 @@ export function AdminAdvanceRequestsPanel({ projectId }: Props) {
               </button>
             </div>
           </div>
+        </div>
+      )}
+
+      {createOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+          <form onSubmit={submitCreate} className={`${cardClass} w-full max-w-md`}>
+            <h3 className="text-lg font-semibold">{strings.createModalTitle}</h3>
+            <div className="mt-4 space-y-3">
+              <div>
+                <label className={labelClass}>{strings.createEmployeeLabel}</label>
+                <select
+                  className={inputClass}
+                  required
+                  value={createEmployeeId}
+                  onChange={(e) => setCreateEmployeeId(e.target.value)}
+                >
+                  <option value="">{strings.createEmployeeLabel}</option>
+                  {employees.map((emp) => (
+                    <option key={emp.id} value={emp.id}>
+                      {emp.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className={labelClass}>{strings.createAmountLabel}</label>
+                <input
+                  className={inputClass}
+                  type="number"
+                  min="1"
+                  step="0.01"
+                  required
+                  value={createAmount}
+                  onChange={(e) => setCreateAmount(e.target.value)}
+                />
+              </div>
+              <div>
+                <label className={labelClass}>{strings.createNoteLabel}</label>
+                <textarea
+                  className={inputClass}
+                  rows={2}
+                  value={createNote}
+                  onChange={(e) => setCreateNote(e.target.value)}
+                />
+              </div>
+              <div>
+                <label className={labelClass}>{strings.createAdminNoteLabel}</label>
+                <textarea
+                  className={inputClass}
+                  rows={2}
+                  value={createAdminNote}
+                  onChange={(e) => setCreateAdminNote(e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="mt-6 flex gap-2">
+              <button type="submit" className={btnPrimary} disabled={actionLoading}>
+                {strings.createSubmit}
+              </button>
+              <button type="button" className={btnSecondary} onClick={() => setCreateOpen(false)}>
+                {strings.cancel}
+              </button>
+            </div>
+          </form>
         </div>
       )}
     </div>

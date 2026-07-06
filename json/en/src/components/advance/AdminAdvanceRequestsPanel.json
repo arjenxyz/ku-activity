@@ -63,6 +63,19 @@
   "cashQrAlt": "Nakit avans QR",
   "validUntil": "Geçerlilik: {date}",
   "qrGenerating": "QR oluşturuluyor…",
-  "newCode": "Yeni kod",
-  "close": "Kapat"
+  "newCode": "New code",
+  "close": "Close",
+  "createOnBehalf": "Create request for employee",
+  "createModalTitle": "Create advance request on behalf",
+  "createEmployeeLabel": "Employee",
+  "createAmountLabel": "Amount (TRY)",
+  "createNoteLabel": "Note (on behalf)",
+  "createAdminNoteLabel": "Admin note",
+  "createSubmit": "Create request",
+  "createSuccess": "Request created — you can approve it now.",
+  "createFailed": "Could not create request",
+  "retroactiveApprove": "Payment already made (retroactive transfer)",
+  "retroactiveApproveHint": "No transfer code generated. Approval date becomes payment date; then upload receipt.",
+  "retroactiveApproveSuccess": "Retroactive transfer approved. Record payment from receipt scan page.",
+  "retroactivePaymentDateLabel": "Payment date (from receipt)"
 }

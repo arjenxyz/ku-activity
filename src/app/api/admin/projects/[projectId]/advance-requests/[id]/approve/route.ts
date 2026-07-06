@@ -28,6 +28,8 @@ export async function POST(request: Request, ctx: Ctx) {
       adminNote: typeof body.adminNote === 'string' ? body.adminNote : undefined,
       jobId: typeof body.jobId === 'string' ? body.jobId : null,
       actor,
+      retroactive: body.retroactive === true,
+      paymentDate: typeof body.paymentDate === 'string' ? body.paymentDate : undefined,
     });
 
     let transferToken: string | null = null;

@@ -1,5 +1,7 @@
-import dayjs from 'dayjs';
-import type { SupabaseClient } from '@supabase/supabase-js';
+import {
+  computeIbanLookupHash,
+  normalizeIban,
+} from '@/lib/field-encryption';
 import {
   advanceCashTokenExpiresAt,
   generateAdvanceCashToken,
@@ -20,6 +22,8 @@ import {
   notifyAdvancePaid,
   notifyAdvanceRejected,
 } from '@/lib/personnel-notification-service';
+import dayjs from 'dayjs';
+import type { SupabaseClient } from '@supabase/supabase-js';
 
 export class AdvanceRequestError extends Error {
   constructor(
@@ -57,7 +61,64 @@ async function loadRequest(admin: SupabaseClient, requestId: string, projectId?:
     employee_note: string | null;
     deduction_id: string | null;
     approved_at: string | null;
+    is_retroactive: boolean;
   };
+}
+
+async function assertEmployeeInProject(
+  admin: SupabaseClient,
+  employeeId: string,
+  projectId: string
+) {
+  const { data, error } = await admin
+    .from('employees')
+    .select('id')
+    .eq('id', employeeId)
+    .eq('project_id', projectId)
+    .maybeSingle();
+
+  if (error) throw new AdvanceRequestError(error.message, 'DB', 500);
+  if (!data) throw new AdvanceRequestError(strings.employeeNotInProject, 'NOT_FOUND', 404);
+}
+
+async function assertEmployeeIbanMatches(
+  admin: SupabaseClient,
+  employeeId: string,
+  recipientIban: string
+) {
+  const hash = computeIbanLookupHash(normalizeIban(recipientIban));
+  const { data, error } = await admin
+    .from('employee_sensitive_data')
+    .select('iban_lookup_hash')
+    .eq('employee_id', employeeId)
+    .maybeSingle();
+
+  if (error) throw new AdvanceRequestError(error.message, 'DB', 500);
+  if (!data?.iban_lookup_hash || data.iban_lookup_hash !== hash) {
+    throw new AdvanceRequestError(strings.ibanMismatch, 'IBAN_MISMATCH', 422);
+  }
+}
+
+async function assertDuplicateReference(
+  admin: SupabaseClient,
+  refNo: string | undefined,
+  excludeRequestId?: string
+) {
+  const trimmed = refNo?.trim();
+  if (!trimmed) return;
+
+  let q = admin
+    .from('advance_requests')
+    .select('id')
+    .eq('proof_reference_no', trimmed)
+    .eq('status', 'paid');
+  if (excludeRequestId) q = q.neq('id', excludeRequestId);
+
+  const { data, error } = await q.limit(1);
+  if (error) throw new AdvanceRequestError(error.message, 'DB', 500);
+  if (data?.length) {
+    throw new AdvanceRequestError(strings.duplicateReference, 'DUPLICATE_PROOF', 409);
+  }
 }
 
 async function insertDeduction(
@@ -145,6 +206,46 @@ export async function createAdvanceRequest(
   return data;
 }
 
+export async function createAdvanceRequestOnBehalf(
+  admin: SupabaseClient,
+  params: {
+    projectId: string;
+    employeeId: string;
+    amount: number;
+    note?: string;
+    adminNote?: string;
+    actor: AdminActor;
+  }
+) {
+  if (!Number.isFinite(params.amount) || params.amount <= 0) {
+    throw new AdvanceRequestError(strings.invalidAmount, 'INVALID_AMOUNT');
+  }
+
+  await assertEmployeeInProject(admin, params.employeeId, params.projectId);
+
+  const { data, error } = await admin
+    .from('advance_requests')
+    .insert({
+      project_id: params.projectId,
+      employee_id: params.employeeId,
+      requested_amount: params.amount,
+      employee_note: params.note?.trim() || null,
+      admin_note: params.adminNote?.trim() || null,
+      status: 'pending',
+      initiated_by: 'admin',
+    })
+    .select('*')
+    .single();
+
+  if (error) {
+    if (error.message.includes('advance_requests')) {
+      throw new AdvanceRequestError(strings.migrationHint, 'MIGRATION', 503);
+    }
+    throw new AdvanceRequestError(error.message, 'DB', 500);
+  }
+  return data;
+}
+
 export async function cancelAdvanceRequest(
   admin: SupabaseClient,
   params: { requestId: string; employeeId: string }
@@ -178,6 +279,8 @@ export async function approveAdvanceRequest(
     adminNote?: string;
     jobId?: string | null;
     actor: AdminActor;
+    retroactive?: boolean;
+    paymentDate?: string;
   }
 ) {
   const row = await loadRequest(admin, params.requestId, params.projectId);
@@ -188,7 +291,17 @@ export async function approveAdvanceRequest(
     throw new AdvanceRequestError(strings.invalidApprovedAmount, 'INVALID_AMOUNT');
   }
 
-  const now = new Date().toISOString();
+  const isRetroactive = params.retroactive === true;
+  if (isRetroactive && params.paymentMethod !== 'bank_transfer') {
+    throw new AdvanceRequestError(strings.retroactiveBankOnly, 'INVALID_METHOD');
+  }
+  if (isRetroactive && !params.paymentDate?.trim()) {
+    throw new AdvanceRequestError(strings.retroactivePaymentDateRequired, 'INVALID_DATE');
+  }
+
+  const approvedAt = isRetroactive
+    ? dayjs(params.paymentDate).startOf('day').toISOString()
+    : new Date().toISOString();
   const nextStatus: AdvanceRequestStatus =
     params.paymentMethod === 'cash' ? 'awaiting_receipt' : 'approved';
 
@@ -200,8 +313,9 @@ export async function approveAdvanceRequest(
       payment_method: params.paymentMethod,
       admin_note: params.adminNote?.trim() || null,
       job_id: params.jobId ?? null,
-      approved_at: now,
+      approved_at: approvedAt,
       approved_by: params.actor.id,
+      is_retroactive: isRetroactive,
     })
     .eq('id', params.requestId)
     .select('*')
@@ -225,7 +339,7 @@ export async function approveAdvanceRequest(
     if (tokenError) throw new AdvanceRequestError(tokenError.message, 'TOKEN', 500);
   }
 
-  if (params.paymentMethod === 'bank_transfer') {
+  if (params.paymentMethod === 'bank_transfer' && !isRetroactive) {
     await admin
       .from('advance_transfer_tokens')
       .update({ is_active: false })
@@ -247,22 +361,24 @@ export async function approveAdvanceRequest(
   }
 
   let activeTransferToken: string | null = null;
-  if (params.paymentMethod === 'bank_transfer') {
+  if (params.paymentMethod === 'bank_transfer' && !isRetroactive) {
     const tokenRow = await getActiveTransferToken(admin, params.requestId, params.projectId);
     activeTransferToken = tokenRow?.token ?? null;
   }
 
-  try {
-    await notifyAdvanceApproved(admin, {
-      employeeId: row.employee_id,
-      projectId: row.project_id,
-      requestId: params.requestId,
-      amount: params.approvedAmount,
-      paymentMethod: params.paymentMethod,
-      transferToken: activeTransferToken,
-    });
-  } catch {
-    /* bildirim isteğe bağlı */
+  if (!isRetroactive) {
+    try {
+      await notifyAdvanceApproved(admin, {
+        employeeId: row.employee_id,
+        projectId: row.project_id,
+        requestId: params.requestId,
+        amount: params.approvedAmount,
+        paymentMethod: params.paymentMethod,
+        transferToken: activeTransferToken,
+      });
+    } catch {
+      /* bildirim isteğe bağlı */
+    }
   }
 
   return data;
@@ -351,15 +467,18 @@ export async function recordBankPayment(
 
   const amount = row.approved_amount ?? row.requested_amount;
   const payDate = params.paymentDate ?? dayjs().format('YYYY-MM-DD');
+  const isRetroactive = row.is_retroactive === true;
 
-  const activeToken = await getActiveTransferToken(admin, params.requestId, params.projectId);
+  const activeToken = isRetroactive
+    ? null
+    : await getActiveTransferToken(admin, params.requestId, params.projectId);
   const ocrJson = params.proofOcrJson ?? {};
   const rawText = typeof ocrJson.rawText === 'string' ? ocrJson.rawText : '';
   const ocrToken =
     (typeof ocrJson.transferToken === 'string' ? ocrJson.transferToken : null) ??
     parseAdvanceTransferTokenFromText(rawText);
 
-  if (activeToken?.token) {
+  if (!isRetroactive && activeToken?.token) {
     const normalizedExpected = normalizeAdvanceTransferToken(activeToken.token);
     const normalizedOcr = ocrToken ? normalizeAdvanceTransferToken(ocrToken) : null;
     const tokenOk = normalizedExpected && normalizedOcr && normalizedExpected === normalizedOcr;
@@ -368,7 +487,7 @@ export async function recordBankPayment(
     }
   }
 
-  if (row.approved_at && payDate) {
+  if (!isRetroactive && row.approved_at && payDate) {
     const approvedDay = dayjs(row.approved_at).startOf('day');
     const paymentDay = dayjs(payDate).startOf('day');
     if (paymentDay.isBefore(approvedDay.subtract(1, 'day'))) {
@@ -376,19 +495,7 @@ export async function recordBankPayment(
     }
   }
 
-  const refNo = params.referenceNo?.trim();
-  if (refNo) {
-    const { data: dupRef } = await admin
-      .from('advance_requests')
-      .select('id')
-      .eq('proof_reference_no', refNo)
-      .eq('status', 'paid')
-      .neq('id', params.requestId)
-      .limit(1);
-    if (dupRef?.length) {
-      throw new AdvanceRequestError(strings.duplicateReference, 'DUPLICATE_PROOF', 409);
-    }
-  }
+  await assertDuplicateReference(admin, params.referenceNo, params.requestId);
 
   const proof = params.existingProof
     ? { backend: params.existingProof.backend, externalId: params.existingProof.externalId }
@@ -432,6 +539,7 @@ export async function recordBankPayment(
       proof_ocr_json: {
         ...ocrJson,
         ...(params.transferCodeOverride ? { transferCodeOverride: true } : {}),
+        ...(isRetroactive ? { retroactive: true } : {}),
       },
     })
     .eq('id', params.requestId)
@@ -453,6 +561,134 @@ export async function recordBankPayment(
       projectId: row.project_id,
       requestId: params.requestId,
       amount,
+    });
+  } catch {
+    /* bildirim isteğe bağlı */
+  }
+
+  return data;
+}
+
+export async function recordRetroactiveBankPayment(
+  admin: SupabaseClient,
+  params: {
+    projectId: string;
+    employeeId: string;
+    amount: number;
+    paymentDate: string;
+    referenceNo?: string;
+    fileBuffer?: Buffer;
+    fileName: string;
+    mimeType: string;
+    actor: AdminActor;
+    backend?: StorageBackend;
+    existingProof?: {
+      backend: StorageBackend;
+      externalId: string;
+    };
+    proofOcrJson?: Record<string, unknown> | null;
+    adminNote?: string;
+    jobId?: string | null;
+  }
+) {
+  if (!Number.isFinite(params.amount) || params.amount <= 0) {
+    throw new AdvanceRequestError(strings.invalidAmount, 'INVALID_AMOUNT');
+  }
+  if (!params.paymentDate?.trim()) {
+    throw new AdvanceRequestError(strings.retroactivePaymentDateRequired, 'INVALID_DATE');
+  }
+
+  await assertEmployeeInProject(admin, params.employeeId, params.projectId);
+
+  const ocrJson = params.proofOcrJson ?? {};
+  const recipientIban =
+    typeof ocrJson.recipientIban === 'string' ? ocrJson.recipientIban : null;
+  if (!recipientIban) {
+    throw new AdvanceRequestError(strings.ibanMismatch, 'IBAN_MISMATCH', 422);
+  }
+  await assertEmployeeIbanMatches(admin, params.employeeId, recipientIban);
+  await assertDuplicateReference(admin, params.referenceNo);
+
+  const requestId = crypto.randomUUID();
+  const payDate = params.paymentDate;
+
+  const proof = params.existingProof
+    ? { backend: params.existingProof.backend, externalId: params.existingProof.externalId }
+    : await uploadAdvanceDekont({
+        buffer: params.fileBuffer!,
+        fileName: params.fileName,
+        mimeType: params.mimeType,
+        projectId: params.projectId,
+        requestId,
+        backend: params.backend,
+      });
+
+  if (!params.existingProof && !params.fileBuffer) {
+    throw new AdvanceRequestError(strings.missingFile, 'MISSING_FILE');
+  }
+
+  const deductionId = await insertDeduction(admin, {
+    projectId: params.projectId,
+    employeeId: params.employeeId,
+    amount: params.amount,
+    date: payDate,
+    description: formatString(strings.deductionDescriptionRetroactive, {
+      requestIdPrefix: requestId.slice(0, 8),
+    }),
+    jobId: params.jobId ?? null,
+  });
+
+  const approvedAt = dayjs(payDate).startOf('day').toISOString();
+  const now = new Date().toISOString();
+
+  const { data, error } = await admin
+    .from('advance_requests')
+    .insert({
+      id: requestId,
+      project_id: params.projectId,
+      employee_id: params.employeeId,
+      requested_amount: params.amount,
+      approved_amount: params.amount,
+      employee_note: null,
+      admin_note: params.adminNote?.trim() || null,
+      status: 'paid',
+      payment_method: 'bank_transfer',
+      job_id: params.jobId ?? null,
+      requested_at: approvedAt,
+      approved_at: approvedAt,
+      paid_at: now,
+      approved_by: params.actor.id,
+      paid_by: params.actor.id,
+      initiated_by: 'admin',
+      is_retroactive: true,
+      deduction_id: deductionId,
+      proof_storage_backend: proof.backend,
+      proof_external_id: proof.externalId,
+      proof_file_name: params.fileName,
+      proof_mime_type: params.mimeType,
+      proof_reference_no: params.referenceNo?.trim() || null,
+      proof_ocr_json: {
+        ...ocrJson,
+        retroactive: true,
+        initiatedBy: 'admin',
+      },
+    })
+    .select('*')
+    .single();
+
+  if (error) {
+    if (error.message.includes('advance_requests')) {
+      throw new AdvanceRequestError(strings.migrationHint, 'MIGRATION', 503);
+    }
+    throw new AdvanceRequestError(error.message, 'DB', 500);
+  }
+
+  try {
+    await notifyAdvancePaid(admin, {
+      employeeId: params.employeeId,
+      projectId: params.projectId,
+      requestId,
+      amount: params.amount,
     });
   } catch {
     /* bildirim isteğe bağlı */

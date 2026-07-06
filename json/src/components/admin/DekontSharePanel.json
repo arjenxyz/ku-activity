@@ -51,7 +51,11 @@
     "anotherDekont": "Başka dekont",
     "transferCodeLabel": "Beklenen havale kodu",
     "transferCodeHint": "Bu kodu havale açıklamasına yazdıysanız dekontta görünmeli",
-    "transferCodeOverride": "Kod dekontta okunamadı — yine de kaydet"
+    "transferCodeOverride": "Kod dekontta okunamadı — yine de kaydet",
+    "retroactiveTitle": "Geçmiş ödeme (talep yok)",
+    "retroactiveHint": "IBAN eşleşen personeli seçin — ödeme daha önce yapılmıştı",
+    "retroactiveSave": "Geçmiş ödeme olarak kaydet",
+    "retroactiveNoEmployee": "Bu IBAN ile kayıtlı personel bulunamadı"
   },
   "loading": "Yükleniyor…"
 }

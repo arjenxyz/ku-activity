@@ -108,6 +108,10 @@ import m_app_api_admin_employees_route_tr from '@json/src/app/api/admin/employee
 import m_app_api_admin_employees_route_en from '@json/en/src/app/api/admin/employees/route.json';
 import m_app_api_admin_projects__projectId__advance_requests__id__approve_route_tr from '@json/src/app/api/admin/projects/[projectId]/advance-requests/[id]/approve/route.json';
 import m_app_api_admin_projects__projectId__advance_requests__id__approve_route_en from '@json/en/src/app/api/admin/projects/[projectId]/advance-requests/[id]/approve/route.json';
+import m_app_api_admin_projects__projectId__advance_requests_route_tr from '@json/src/app/api/admin/projects/[projectId]/advance-requests/route.json';
+import m_app_api_admin_projects__projectId__advance_requests_route_en from '@json/en/src/app/api/admin/projects/[projectId]/advance-requests/route.json';
+import m_app_api_admin_projects__projectId__advance_requests_retroactive_route_tr from '@json/src/app/api/admin/projects/[projectId]/advance-requests/retroactive/route.json';
+import m_app_api_admin_projects__projectId__advance_requests_retroactive_route_en from '@json/en/src/app/api/admin/projects/[projectId]/advance-requests/retroactive/route.json';
 import m_app_api_admin_projects__projectId__advance_requests__id__cash_qr_route_tr from '@json/src/app/api/admin/projects/[projectId]/advance-requests/[id]/cash-qr/route.json';
 import m_app_api_admin_projects__projectId__advance_requests__id__cash_qr_route_en from '@json/en/src/app/api/admin/projects/[projectId]/advance-requests/[id]/cash-qr/route.json';
 import m_app_api_admin_projects__projectId__advance_requests__id__transfer_code_route_tr from '@json/src/app/api/admin/projects/[projectId]/advance-requests/[id]/transfer-code/route.json';
@@ -724,6 +728,8 @@ export const STRINGS_REGISTRY = {
   'app/api/admin/dekont/share-ingest/route': { tr: m_app_api_admin_dekont_share_ingest_route_tr, en: m_app_api_admin_dekont_share_ingest_route_en },
   'app/api/admin/employees/route': { tr: m_app_api_admin_employees_route_tr, en: m_app_api_admin_employees_route_en },
   'app/api/admin/projects/[projectId]/advance-requests/[id]/approve/route': { tr: m_app_api_admin_projects__projectId__advance_requests__id__approve_route_tr, en: m_app_api_admin_projects__projectId__advance_requests__id__approve_route_en },
+  'app/api/admin/projects/[projectId]/advance-requests/route': { tr: m_app_api_admin_projects__projectId__advance_requests_route_tr, en: m_app_api_admin_projects__projectId__advance_requests_route_en },
+  'app/api/admin/projects/[projectId]/advance-requests/retroactive/route': { tr: m_app_api_admin_projects__projectId__advance_requests_retroactive_route_tr, en: m_app_api_admin_projects__projectId__advance_requests_retroactive_route_en },
   'app/api/admin/projects/[projectId]/advance-requests/[id]/cash-qr/route': { tr: m_app_api_admin_projects__projectId__advance_requests__id__cash_qr_route_tr, en: m_app_api_admin_projects__projectId__advance_requests__id__cash_qr_route_en },
   'app/api/admin/projects/[projectId]/advance-requests/[id]/transfer-code/route': { tr: m_app_api_admin_projects__projectId__advance_requests__id__transfer_code_route_tr, en: m_app_api_admin_projects__projectId__advance_requests__id__transfer_code_route_en },
   'app/api/admin/projects/[projectId]/advance-requests/[id]/record-payment/route': { tr: m_app_api_admin_projects__projectId__advance_requests__id__record_payment_route_tr, en: m_app_api_admin_projects__projectId__advance_requests__id__record_payment_route_en },

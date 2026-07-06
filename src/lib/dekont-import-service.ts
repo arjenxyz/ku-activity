@@ -3,15 +3,21 @@ import type { DekontScanReport } from '@/lib/dekont-scan-report';
 import { analyzeDekont, type DekontOcrResult } from '@/lib/dekont-ocr';
 import { buildEnrichedOcrResult } from '@/lib/dekont-ocr-enrich';
 import { isDraftPendingOcr } from '@/lib/dekont-ocr-shared';
-import { suggestAdvanceMatches, type DekontMatchSuggestion } from '@/lib/advance-dekont-match';
+import { suggestAdvanceMatches, suggestEmployeesByIban, type DekontMatchSuggestion, type IbanEmployeeSuggestion } from '@/lib/advance-dekont-match';
 import {
   assertDekontFile,
   downloadAdvanceDekont,
   getStorageBackend,
   uploadAdvanceDekont,
 } from '@/lib/advance-external-storage';
-import { recordBankPayment, AdvanceRequestError } from '@/lib/advance-request-service';
+import {
+  recordBankPayment,
+  recordRetroactiveBankPayment,
+  AdvanceRequestError,
+} from '@/lib/advance-request-service';
+import { validateRetroactivePayment } from '@/lib/dekont-validation';
 import strings from '@json/src/lib/dekont-import-service.json';
+import dayjs from 'dayjs';
 import { createClient } from '@/utils/supabase/server';
 import { createAdminClient } from '@/utils/supabase/admin';
 
@@ -375,14 +381,27 @@ export async function loadDekontDraft(adminUserId: string, draftId: string) {
     throw new DekontImportError(strings.draftExpired, 410);
   }
 
-  return data as {
-    id: string;
-    project_id: string | null;
-    advance_request_id: string | null;
-    proof_file_name: string;
-    proof_mime_type: string;
-    ocr_json: DekontOcrResult;
-    match_json: DekontMatchSuggestion[];
+  const ocr = data.ocr_json as DekontOcrResult;
+  const projectIds = await listAccessibleProjectIds();
+  let ibanEmployeeSuggestions: IbanEmployeeSuggestion[] = [];
+  if (ocr.recipientIban && projectIds.length > 0) {
+    ibanEmployeeSuggestions = await suggestEmployeesByIban(admin, {
+      projectIds,
+      iban: ocr.recipientIban,
+    });
+  }
+
+  return {
+    ...(data as {
+      id: string;
+      project_id: string | null;
+      advance_request_id: string | null;
+      proof_file_name: string;
+      proof_mime_type: string;
+      ocr_json: DekontOcrResult;
+      match_json: DekontMatchSuggestion[];
+    }),
+    ibanEmployeeSuggestions,
   };
 }
 
@@ -445,6 +464,70 @@ export async function confirmDekontDraft(params: {
   await admin
     .from('dekont_import_drafts')
     .update({ consumed_at: new Date().toISOString(), advance_request_id: params.requestId })
+    .eq('id', params.draftId);
+
+  return record;
+}
+
+export async function confirmRetroactiveDekontDraft(params: {
+  adminUserId: string;
+  draftId: string;
+  employeeId: string;
+  projectId: string;
+  referenceNo?: string;
+  paymentDate?: string;
+  amount?: number;
+}) {
+  const draft = await loadDekontDraft(params.adminUserId, params.draftId);
+  const admin = createAdminClient();
+
+  const ocrForConfirm: DekontOcrResult =
+    params.amount != null && params.amount > 0
+      ? { ...draft.ocr_json, amount: params.amount }
+      : draft.ocr_json;
+
+  const amount = params.amount ?? ocrForConfirm.amount;
+  if (amount == null || amount <= 0) {
+    throw new DekontImportError(strings.retroactiveAmountRequired, 422);
+  }
+
+  const retroCheck = validateRetroactivePayment(ocrForConfirm, amount);
+  if (!retroCheck.ok) {
+    throw new DekontImportError(retroCheck.reason ?? strings.matchValidationFailed, 422);
+  }
+
+  const { data: draftRow } = await admin
+    .from('dekont_import_drafts')
+    .select('proof_storage_backend, proof_external_id, proof_file_name, proof_mime_type, ocr_json')
+    .eq('id', params.draftId)
+    .single();
+
+  if (!draftRow?.proof_external_id || !draftRow.proof_storage_backend) {
+    throw new DekontImportError(strings.proofFileNotFound, 500);
+  }
+
+  const record = await recordRetroactiveBankPayment(admin, {
+    projectId: params.projectId,
+    employeeId: params.employeeId,
+    amount,
+    paymentDate: params.paymentDate ?? ocrForConfirm.paymentDate ?? dayjs().format('YYYY-MM-DD'),
+    referenceNo: params.referenceNo ?? ocrForConfirm.referenceNo ?? undefined,
+    fileName: draftRow.proof_file_name,
+    mimeType: draftRow.proof_mime_type,
+    actor: { id: params.adminUserId },
+    existingProof: {
+      backend: draftRow.proof_storage_backend as 'google_drive' | 'r2',
+      externalId: draftRow.proof_external_id,
+    },
+    proofOcrJson: {
+      ...(draftRow.ocr_json as Record<string, unknown>),
+      ...(params.amount != null ? { amount: params.amount, amountManual: true } : {}),
+    },
+  });
+
+  await admin
+    .from('dekont_import_drafts')
+    .update({ consumed_at: new Date().toISOString(), advance_request_id: record.id as string })
     .eq('id', params.draftId);
 
   return record;

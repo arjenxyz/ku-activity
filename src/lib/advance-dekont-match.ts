@@ -292,3 +292,82 @@ export function formatOcrIban(iban: string | null) {
   if (!iban) return strings.ibanEmpty;
   return normalizeIban(iban).replace(/(.{4})/g, '$1 ').trim();
 }
+
+export type IbanEmployeeSuggestion = {
+  employeeId: string;
+  employeeName: string;
+  employeePhotoUrl: string | null;
+  employeePosition: string | null;
+  projectId: string;
+  projectName: string | null;
+  ibanMasked: string | null;
+};
+
+export async function suggestEmployeesByIban(
+  admin: SupabaseClient,
+  params: { projectIds: string[]; iban: string }
+): Promise<IbanEmployeeSuggestion[]> {
+  const normalized = normalizeIban(params.iban);
+  if (!normalized) return [];
+
+  const hash = computeIbanLookupHash(normalized);
+  const { data, error } = await admin
+    .from('employee_sensitive_data')
+    .select(
+      'employee_id, employees!inner(id, name, photo_url, position, project_id, projects(name))'
+    )
+    .eq('iban_lookup_hash', hash);
+
+  if (error) throw new Error(error.message);
+
+  const suggestions: IbanEmployeeSuggestion[] = [];
+  for (const row of data ?? []) {
+    const emp = row.employees as {
+      id: string;
+      name?: string;
+      photo_url?: string | null;
+      position?: string | null;
+      project_id: string;
+      projects?: { name?: string } | { name?: string }[] | null;
+    } | {
+      id: string;
+      name?: string;
+      photo_url?: string | null;
+      position?: string | null;
+      project_id: string;
+      projects?: { name?: string } | { name?: string }[] | null;
+    }[] | null;
+
+    const employee = Array.isArray(emp) ? emp[0] : emp;
+    if (!employee || !params.projectIds.includes(employee.project_id)) continue;
+
+    const projects = employee.projects;
+    const project = Array.isArray(projects) ? projects[0] : projects;
+
+    let ibanMasked: string | null = null;
+    try {
+      const { data: sens } = await admin
+        .from('employee_sensitive_data')
+        .select('iban_enc')
+        .eq('employee_id', employee.id)
+        .maybeSingle();
+      if (sens?.iban_enc) {
+        ibanMasked = maskIban(decryptField(sens.iban_enc));
+      }
+    } catch {
+      ibanMasked = null;
+    }
+
+    suggestions.push({
+      employeeId: employee.id,
+      employeeName: employee.name ?? strings.employeeFallback,
+      employeePhotoUrl: employee.photo_url ?? null,
+      employeePosition: employee.position ?? null,
+      projectId: employee.project_id,
+      projectName: project?.name ?? null,
+      ibanMasked,
+    });
+  }
+
+  return suggestions;
+}

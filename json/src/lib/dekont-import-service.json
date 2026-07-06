@@ -6,5 +6,6 @@
   "draftExpired": "Taslak süresi doldu — dekontu yeniden paylaşın",
   "matchValidationFailed": "Eşleşme doğrulanamadı",
   "proofFileNotFound": "Dekont dosyası bulunamadı",
-  "ocrTextEmpty": "Dekonttan metin okunamadı"
+  "ocrTextEmpty": "Dekonttan metin okunamadı",
+  "retroactiveAmountRequired": "Geçmiş ödeme için tutar gerekli"
 }

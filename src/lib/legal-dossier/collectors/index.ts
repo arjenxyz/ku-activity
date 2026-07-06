@@ -207,6 +207,8 @@ registerDossierCollector({
         proof_reference_no,
         proof_ocr_json,
         deduction_id,
+        initiated_by,
+        is_retroactive,
         created_at,
         updated_at
       `
@@ -226,6 +228,8 @@ registerDossierCollector({
         'paid_at',
         'proof_reference_no',
         'deduction_id',
+        'initiated_by',
+        'is_retroactive',
       ],
       rows.map((r) => [
         r.requested_at,
@@ -236,6 +240,8 @@ registerDossierCollector({
         r.paid_at,
         r.proof_reference_no,
         r.deduction_id,
+        r.initiated_by,
+        r.is_retroactive,
       ])
     );
 

@@ -64,5 +64,18 @@
   "validUntil": "Geçerlilik: {date}",
   "qrGenerating": "QR oluşturuluyor…",
   "newCode": "Yeni kod",
-  "close": "Kapat"
+  "close": "Kapat",
+  "createOnBehalf": "Personel adına talep",
+  "createModalTitle": "Personel adına avans talebi",
+  "createEmployeeLabel": "Personel",
+  "createAmountLabel": "Tutar (TL)",
+  "createNoteLabel": "Not (personel adına)",
+  "createAdminNoteLabel": "Admin notu",
+  "createSubmit": "Talep oluştur",
+  "createSuccess": "Talep oluşturuldu — onaylayabilirsiniz.",
+  "createFailed": "Talep oluşturulamadı",
+  "retroactiveApprove": "Ödeme zaten yapıldı (geçmiş havale)",
+  "retroactiveApproveHint": "Havale kodu üretilmez. Onay tarihi ödeme tarihi olur; ardından dekont yükleyin.",
+  "retroactiveApproveSuccess": "Geçmiş havale onaylandı. Dekont tarama sayfasından ödemeyi kaydedin.",
+  "retroactivePaymentDateLabel": "Ödeme tarihi (dekont)"
 }
