@@ -195,7 +195,7 @@ export async function applyOcrToDraft(
   return finalizeDraftOcr(adminUserId, draftId, row, ocr);
 }
 
-/** İstemci OCR yetersizse sunucuda Vision + LLM ile yeniden işle */
+/** İstemci OCR yetersizse sunucuda Tesseract + LLM ile yeniden işle */
 export async function reprocessDekontDraftWithServerOcr(adminUserId: string, draftId: string) {
   return processDekontDraft(adminUserId, draftId, { allowReviewable: true });
 }
@@ -275,32 +275,10 @@ export async function processDekontDraft(
     externalId: row.proof_external_id as string,
   });
 
-  let ocr: DekontOcrResult;
-  try {
-    ocr = await analyzeDekont({
-      buffer,
-      mimeType: row.proof_mime_type as string,
-    });
-  } catch (err) {
-    ocr = {
-      rawText: '',
-      recipientIban: null,
-      senderIban: null,
-      allIbans: [],
-      amount: null,
-      referenceNo: null,
-      paymentDate: null,
-      senderBank: null,
-      recipientBank: null,
-      transferType: null,
-      confidence: 'low',
-      source: 'none',
-      ocrError: err instanceof Error ? err.message : null,
-    };
-    if (err instanceof Error && err.message.includes('Vision')) {
-      throw new DekontImportError(err.message, 503);
-    }
-  }
+  const ocr = await analyzeDekont({
+    buffer,
+    mimeType: row.proof_mime_type as string,
+  });
 
   const validation = validateDekontDocument(ocr);
   const reviewable = isDekontReviewable(ocr);
@@ -327,28 +305,7 @@ export async function ingestDekontDraft(params: {
     throw new DekontImportError(strings.noAccessibleProject, 403);
   }
 
-  let ocr: DekontOcrResult;
-  try {
-    ocr = await analyzeDekont({ buffer: params.buffer, mimeType: params.mimeType });
-  } catch (err) {
-    ocr = {
-      rawText: '',
-      recipientIban: null,
-      senderIban: null,
-      allIbans: [],
-      amount: null,
-      referenceNo: null,
-      paymentDate: null,
-      senderBank: null,
-      recipientBank: null,
-      transferType: null,
-      confidence: 'low',
-      source: 'none',
-    };
-    if (err instanceof Error && err.message.includes('Vision')) {
-      throw new DekontImportError(err.message, 503);
-    }
-  }
+  const ocr = await analyzeDekont({ buffer: params.buffer, mimeType: params.mimeType });
 
   const validation = validateDekontDocument(ocr);
   if (!validation.accepted && !isDekontReviewable(ocr)) {

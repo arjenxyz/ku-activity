@@ -32,7 +32,7 @@
     },
     "thirdParties": {
       "heading": "6. Üçüncü taraflar",
-      "body": "Vercel (barındırma), Supabase (veritabanı), Brevo (e-posta), Google Cloud Vision (isteğe bağlı dekont OCR). Yalnızca hizmet sunumu için gerekli verilere erişirler."
+      "body": "Vercel (barındırma), Supabase (veritabanı), Brevo (e-posta). Yalnızca hizmet sunumu için gerekli verilere erişirler."
     },
     "devicePermissions": {
       "heading": "7. Cihaz izinleri",

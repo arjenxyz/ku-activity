@@ -41,7 +41,7 @@
   },
   "analyze": {
     "title": "Dekont analiz ediliyor…",
-    "shareHint": "Dekont cihazınızda okunuyor. Gerekirse sunucuda gelişmiş OCR denenir."
+    "shareHint": "Dekont cihazınızda okunuyor. Gerekirse sunucuda tekrar denenir."
   },
   "review": {
     "documentValidation": "Belge doğrulama",

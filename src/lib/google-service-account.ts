@@ -49,7 +49,3 @@ export async function getGoogleServiceAccountToken(scopes: string[]) {
 export async function getGoogleDriveToken() {
   return getGoogleServiceAccountToken(['https://www.googleapis.com/auth/drive.file']);
 }
-
-export async function getGoogleVisionToken() {
-  return getGoogleServiceAccountToken(['https://www.googleapis.com/auth/cloud-vision']);
-}

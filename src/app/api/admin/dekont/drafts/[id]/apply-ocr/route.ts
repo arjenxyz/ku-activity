@@ -13,7 +13,7 @@ export async function POST(request: Request, ctx: Ctx) {
     const { id } = await ctx.params;
     const body = (await request.json()) as { rawText?: string; source?: string };
     const rawText = typeof body.rawText === 'string' ? body.rawText : '';
-    const source = body.source === 'vision' ? 'vision' : 'tesseract';
+    const source = 'tesseract' as const;
 
     const result = await applyOcrToDraft(user.id, id, rawText, source);
     return NextResponse.json(result);
