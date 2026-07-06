@@ -8,6 +8,8 @@ export type DekontOcrResult = {
   amount: number | null;
   referenceNo: string | null;
   paymentDate: string | null;
+  /** Havale açıklamasındaki HVL- referans kodu */
+  transferToken: string | null;
   senderBank: string | null;
   recipientBank: string | null;
   transferType: TransferType | null;

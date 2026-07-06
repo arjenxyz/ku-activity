@@ -180,6 +180,18 @@ function PersonnelMatchCard({
               {match.amountMatched ? <FiCheck className="h-3 w-3" /> : <FiXCircle className="h-3 w-3" />}
               {strings.review.amountMatch}
             </span>
+            {match.expectedTransferToken && (
+              <span
+                className={`inline-flex items-center gap-0.5 rounded-full px-2 py-0.5 ${
+                  match.transferTokenMatched
+                    ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-300'
+                    : 'bg-slate-100 text-slate-500 dark:bg-slate-800'
+                }`}
+              >
+                {match.transferTokenMatched ? <FiCheck className="h-3 w-3" /> : <FiXCircle className="h-3 w-3" />}
+                HVL
+              </span>
+            )}
             {ocr.amount != null && !match.amountMatched && (
               <span className="rounded-full bg-slate-100 px-2 py-0.5 text-slate-600 dark:bg-slate-800 dark:text-slate-300">
                 OCR {formatMoney(ocr.amount)}
@@ -313,6 +325,7 @@ function DekontShareContent() {
   const [referenceNo, setReferenceNo] = useState('');
   const [paymentDate, setPaymentDate] = useState(dayjs().format('YYYY-MM-DD'));
   const [manualAmount, setManualAmount] = useState('');
+  const [transferCodeOverride, setTransferCodeOverride] = useState(false);
   const processStartedRef = useRef(false);
 
   useEffect(() => {
@@ -458,12 +471,17 @@ function DekontShareContent() {
   const selectedMatch = matches.find((m) => m.requestId === selectedRequestId) ?? null;
   const confirmReady = useMemo(
     () =>
-      effectiveOcr && selectedMatch ? validateMatchForConfirm(effectiveOcr, selectedMatch) : { ok: false },
-    [effectiveOcr, selectedMatch]
+      effectiveOcr && selectedMatch
+        ? validateMatchForConfirm(effectiveOcr, selectedMatch, { transferCodeOverride })
+        : { ok: false },
+    [effectiveOcr, selectedMatch, transferCodeOverride]
   );
   const matchChecks = useMemo(
-    () => (effectiveOcr ? buildMatchValidationChecks(effectiveOcr, selectedMatch) : []),
-    [effectiveOcr, selectedMatch]
+    () =>
+      effectiveOcr
+        ? buildMatchValidationChecks(effectiveOcr, selectedMatch, { transferCodeOverride })
+        : [],
+    [effectiveOcr, selectedMatch, transferCodeOverride]
   );
 
   const processFile = async (file: File) => {
@@ -517,6 +535,7 @@ function DekontShareContent() {
     setScanReport(null);
     setSelectedRequestId('');
     setSelectedProjectId('');
+    setTransferCodeOverride(false);
     router.replace('/admin-panel/dekont-paylas');
   };
 
@@ -534,6 +553,7 @@ function DekontShareContent() {
           referenceNo,
           paymentDate,
           amount: parsedManualAmount ?? undefined,
+          transferCodeOverride: transferCodeOverride || undefined,
         }),
       });
       const data = await res.json();
@@ -678,6 +698,26 @@ function DekontShareContent() {
                     {formatOcrIban(effectiveOcr.recipientIban)}
                   </p>
                 </div>
+                {selectedMatch?.expectedTransferToken && (
+                  <div className="sm:col-span-2">
+                    <label className={labelClass}>{strings.review.transferCodeLabel}</label>
+                    <p className="mt-1 rounded-lg bg-slate-50 px-3 py-2 font-mono text-sm text-slate-800 dark:bg-slate-800/50 dark:text-slate-200">
+                      {selectedMatch.expectedTransferToken}
+                    </p>
+                    <p className="mt-1 text-xs text-slate-500">{strings.review.transferCodeHint}</p>
+                    {!selectedMatch.transferTokenMatched && (
+                      <label className="mt-3 flex cursor-pointer items-start gap-2 text-sm text-slate-700 dark:text-slate-300">
+                        <input
+                          type="checkbox"
+                          className="mt-1"
+                          checked={transferCodeOverride}
+                          onChange={(e) => setTransferCodeOverride(e.target.checked)}
+                        />
+                        <span>{strings.review.transferCodeOverride}</span>
+                      </label>
+                    )}
+                  </div>
+                )}
                 <div>
                   <label className={labelClass}>{strings.review.amountLabel}</label>
                   <input

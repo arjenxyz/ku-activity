@@ -5,6 +5,12 @@ import {
   generateAdvanceCashToken,
   normalizeAdvanceCashToken,
 } from '@/lib/advance-cash-token';
+import {
+  advanceTransferTokenExpiresAt,
+  generateAdvanceTransferToken,
+  normalizeAdvanceTransferToken,
+  parseAdvanceTransferTokenFromText,
+} from '@/lib/advance-transfer-token';
 import { uploadAdvanceDekont, type StorageBackend } from '@/lib/advance-external-storage';
 import type { AdvancePaymentMethod, AdvanceRequestStatus } from '@/lib/advance-types';
 import { formatString } from '@/lib/strings/format';
@@ -50,6 +56,7 @@ async function loadRequest(admin: SupabaseClient, requestId: string, projectId?:
     job_id: string | null;
     employee_note: string | null;
     deduction_id: string | null;
+    approved_at: string | null;
   };
 }
 
@@ -218,6 +225,33 @@ export async function approveAdvanceRequest(
     if (tokenError) throw new AdvanceRequestError(tokenError.message, 'TOKEN', 500);
   }
 
+  if (params.paymentMethod === 'bank_transfer') {
+    await admin
+      .from('advance_transfer_tokens')
+      .update({ is_active: false })
+      .eq('advance_request_id', params.requestId)
+      .eq('is_active', true);
+
+    const transferToken = generateAdvanceTransferToken();
+    const { error: transferError } = await admin.from('advance_transfer_tokens').insert({
+      advance_request_id: params.requestId,
+      token: transferToken,
+      expires_at: advanceTransferTokenExpiresAt().toISOString(),
+    });
+    if (transferError) {
+      if (transferError.message.includes('advance_transfer_tokens')) {
+        throw new AdvanceRequestError(strings.migrationHint, 'MIGRATION', 503);
+      }
+      throw new AdvanceRequestError(transferError.message, 'TOKEN', 500);
+    }
+  }
+
+  let activeTransferToken: string | null = null;
+  if (params.paymentMethod === 'bank_transfer') {
+    const tokenRow = await getActiveTransferToken(admin, params.requestId, params.projectId);
+    activeTransferToken = tokenRow?.token ?? null;
+  }
+
   try {
     await notifyAdvanceApproved(admin, {
       employeeId: row.employee_id,
@@ -225,6 +259,7 @@ export async function approveAdvanceRequest(
       requestId: params.requestId,
       amount: params.approvedAmount,
       paymentMethod: params.paymentMethod,
+      transferToken: activeTransferToken,
     });
   } catch {
     /* bildirim isteğe bağlı */
@@ -266,6 +301,12 @@ export async function rejectAdvanceRequest(
     .eq('advance_request_id', params.requestId)
     .eq('is_active', true);
 
+  await admin
+    .from('advance_transfer_tokens')
+    .update({ is_active: false })
+    .eq('advance_request_id', params.requestId)
+    .eq('is_active', true);
+
   try {
     await notifyAdvanceRejected(admin, {
       employeeId: row.employee_id,
@@ -297,6 +338,7 @@ export async function recordBankPayment(
       externalId: string;
     };
     proofOcrJson?: Record<string, unknown> | null;
+    transferCodeOverride?: boolean;
   }
 ) {
   const row = await loadRequest(admin, params.requestId, params.projectId);
@@ -309,6 +351,44 @@ export async function recordBankPayment(
 
   const amount = row.approved_amount ?? row.requested_amount;
   const payDate = params.paymentDate ?? dayjs().format('YYYY-MM-DD');
+
+  const activeToken = await getActiveTransferToken(admin, params.requestId, params.projectId);
+  const ocrJson = params.proofOcrJson ?? {};
+  const rawText = typeof ocrJson.rawText === 'string' ? ocrJson.rawText : '';
+  const ocrToken =
+    (typeof ocrJson.transferToken === 'string' ? ocrJson.transferToken : null) ??
+    parseAdvanceTransferTokenFromText(rawText);
+
+  if (activeToken?.token) {
+    const normalizedExpected = normalizeAdvanceTransferToken(activeToken.token);
+    const normalizedOcr = ocrToken ? normalizeAdvanceTransferToken(ocrToken) : null;
+    const tokenOk = normalizedExpected && normalizedOcr && normalizedExpected === normalizedOcr;
+    if (!tokenOk && !params.transferCodeOverride) {
+      throw new AdvanceRequestError(strings.transferCodeRequired, 'TRANSFER_CODE', 422);
+    }
+  }
+
+  if (row.approved_at && payDate) {
+    const approvedDay = dayjs(row.approved_at).startOf('day');
+    const paymentDay = dayjs(payDate).startOf('day');
+    if (paymentDay.isBefore(approvedDay.subtract(1, 'day'))) {
+      throw new AdvanceRequestError(strings.paymentBeforeApproval, 'PAYMENT_DATE', 422);
+    }
+  }
+
+  const refNo = params.referenceNo?.trim();
+  if (refNo) {
+    const { data: dupRef } = await admin
+      .from('advance_requests')
+      .select('id')
+      .eq('proof_reference_no', refNo)
+      .eq('status', 'paid')
+      .neq('id', params.requestId)
+      .limit(1);
+    if (dupRef?.length) {
+      throw new AdvanceRequestError(strings.duplicateReference, 'DUPLICATE_PROOF', 409);
+    }
+  }
 
   const proof = params.existingProof
     ? { backend: params.existingProof.backend, externalId: params.existingProof.externalId }
@@ -349,13 +429,23 @@ export async function recordBankPayment(
       proof_file_name: params.fileName,
       proof_mime_type: params.mimeType,
       proof_reference_no: params.referenceNo?.trim() || null,
-      proof_ocr_json: params.proofOcrJson ?? null,
+      proof_ocr_json: {
+        ...ocrJson,
+        ...(params.transferCodeOverride ? { transferCodeOverride: true } : {}),
+      },
     })
     .eq('id', params.requestId)
     .select('*')
     .single();
 
   if (error) throw new AdvanceRequestError(error.message, 'DB', 500);
+
+  if (activeToken?.id) {
+    await admin
+      .from('advance_transfer_tokens')
+      .update({ is_active: false, matched_at: now })
+      .eq('id', activeToken.id);
+  }
 
   try {
     await notifyAdvancePaid(admin, {
@@ -369,6 +459,72 @@ export async function recordBankPayment(
   }
 
   return data;
+}
+
+export async function getActiveTransferToken(
+  admin: SupabaseClient,
+  requestId: string,
+  projectId: string
+) {
+  await loadRequest(admin, requestId, projectId);
+
+  const { data, error } = await admin
+    .from('advance_transfer_tokens')
+    .select('id, token, expires_at')
+    .eq('advance_request_id', requestId)
+    .eq('is_active', true)
+    .order('created_at', { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  if (error) {
+    if (error.message.includes('advance_transfer_tokens')) {
+      throw new AdvanceRequestError(strings.migrationHint, 'MIGRATION', 503);
+    }
+    throw new AdvanceRequestError(error.message, 'DB', 500);
+  }
+  return data;
+}
+
+export async function regenerateTransferToken(
+  admin: SupabaseClient,
+  requestId: string,
+  projectId: string
+) {
+  const row = await loadRequest(admin, requestId, projectId);
+  if (row.status !== 'approved' || row.payment_method !== 'bank_transfer') {
+    throw new AdvanceRequestError(strings.transferRegenerateApprovedOnly, 'INVALID_STATUS');
+  }
+
+  await admin
+    .from('advance_transfer_tokens')
+    .update({ is_active: false })
+    .eq('advance_request_id', requestId)
+    .eq('is_active', true);
+
+  const token = generateAdvanceTransferToken();
+  const { data, error } = await admin
+    .from('advance_transfer_tokens')
+    .insert({
+      advance_request_id: requestId,
+      token,
+      expires_at: advanceTransferTokenExpiresAt().toISOString(),
+    })
+    .select('token, expires_at')
+    .single();
+
+  if (error) throw new AdvanceRequestError(error.message, 'DB', 500);
+  return data;
+}
+
+export async function ensureTransferTokenForApprovedRequest(
+  admin: SupabaseClient,
+  requestId: string,
+  projectId: string
+) {
+  const existing = await getActiveTransferToken(admin, requestId, projectId);
+  if (existing) return existing;
+  return regenerateTransferToken(admin, requestId, projectId);
 }
 
 export async function confirmCashAdvance(

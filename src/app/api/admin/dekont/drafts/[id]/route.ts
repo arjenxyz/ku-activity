@@ -34,6 +34,7 @@ export async function POST(request: Request, ctx: Ctx) {
       referenceNo: typeof body.referenceNo === 'string' ? body.referenceNo : undefined,
       paymentDate: typeof body.paymentDate === 'string' ? body.paymentDate : undefined,
       amount: typeof body.amount === 'number' && body.amount > 0 ? body.amount : undefined,
+      transferCodeOverride: body.transferCodeOverride === true,
     });
 
     return NextResponse.json({ request: record });

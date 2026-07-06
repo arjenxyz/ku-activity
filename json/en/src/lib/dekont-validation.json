@@ -79,16 +79,28 @@
       "detailFailed": "Dekont tutarı okunamadı"
     },
     "matchScore": {
-      "label": "Eşleşme skoru (minimum {minScore})",
-      "detailPassed": "Skor: {score} — yeterli",
-      "detailFailed": "Skor: {score} — en az {minScore} gerekli"
+      "label": "Match score (minimum {minScore})",
+      "detailPassed": "Score: {score} — sufficient",
+      "detailFailed": "Score: {score} — at least {minScore} required"
     },
-    "bonusDetail": "Ek eşleşme sinyali"
+    "transferCode": {
+      "label": "Transfer reference code (HVL-)",
+      "detailPassed": "{code}",
+      "detailFailed": "Expected: {expectedCode}",
+      "detailMissing": "No code defined for this request"
+    },
+    "paymentDate": {
+      "label": "Payment after advance approval",
+      "detailFailed": "Receipt date is before approval"
+    },
+    "bonusDetail": "Additional match signal"
   },
   "confirm": {
-    "noMatchSelected": "Onaylanacak avans talebi seçilmedi",
-    "scoreInsufficient": "Eşleşme skoru yetersiz ({score}/{minScore}). IBAN ve tutar uyumu şart.",
-    "ibanMismatch": "Alıcı IBAN personel kaydıyla eşleşmedi — ödeme kaydedilemez",
-    "amountMismatch": "Dekont tutarı ({ocrAmount} ₺) onaylı avans ({approvedAmount} ₺) ile uyuşmuyor"
+    "noMatchSelected": "No advance request selected for confirmation",
+    "scoreInsufficient": "Match score too low ({score}/{minScore}). IBAN and amount must match.",
+    "ibanMismatch": "Recipient IBAN does not match employee record — payment cannot be recorded",
+    "amountMismatch": "Receipt amount ({ocrAmount} ₺) does not match approved advance ({approvedAmount} ₺)",
+    "transferCodeMismatch": "Transfer reference code not found on receipt (expected: {expectedCode})",
+    "paymentBeforeApproval": "Receipt date appears to be before advance approval"
   }
 }

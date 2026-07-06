@@ -17,6 +17,10 @@
   },
   "advanceApproved": {
     "title": "Avans talebi onaylandı",
+    "body": "{amount} TL avans talebiniz onaylanmıştır. Havale açıklamasına şu kodu yazın: {transferCode}"
+  },
+  "advanceApprovedNoCode": {
+    "title": "Avans talebi onaylandı",
     "body": "{amount} TL avans talebiniz onaylanmıştır. Ödeme süreci başlatıldı."
   },
   "advanceCashReady": {

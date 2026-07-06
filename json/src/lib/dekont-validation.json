@@ -83,12 +83,24 @@
       "detailPassed": "Skor: {score} — yeterli",
       "detailFailed": "Skor: {score} — en az {minScore} gerekli"
     },
+    "transferCode": {
+      "label": "Havale referans kodu (HVL-)",
+      "detailPassed": "{code}",
+      "detailFailed": "Beklenen: {expectedCode}",
+      "detailMissing": "Bu talep için kod tanımlı değil"
+    },
+    "paymentDate": {
+      "label": "Ödeme avans onayından sonra",
+      "detailFailed": "Dekont tarihi onaydan önce"
+    },
     "bonusDetail": "Ek eşleşme sinyali"
   },
   "confirm": {
     "noMatchSelected": "Onaylanacak avans talebi seçilmedi",
     "scoreInsufficient": "Eşleşme skoru yetersiz ({score}/{minScore}). IBAN ve tutar uyumu şart.",
     "ibanMismatch": "Alıcı IBAN personel kaydıyla eşleşmedi — ödeme kaydedilemez",
-    "amountMismatch": "Dekont tutarı ({ocrAmount} ₺) onaylı avans ({approvedAmount} ₺) ile uyuşmuyor"
+    "amountMismatch": "Dekont tutarı ({ocrAmount} ₺) onaylı avans ({approvedAmount} ₺) ile uyuşmuyor",
+    "transferCodeMismatch": "Havale referans kodu dekontta bulunamadı (beklenen: {expectedCode})",
+    "paymentBeforeApproval": "Dekont tarihi avans onayından önce görünüyor"
   }
 }

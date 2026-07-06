@@ -17,6 +17,10 @@
   },
   "advanceApproved": {
     "title": "Advance request approved",
+    "body": "Your advance request for {amount} TL has been approved. Add this code to the transfer description: {transferCode}"
+  },
+  "advanceApprovedNoCode": {
+    "title": "Advance request approved",
     "body": "Your advance request for {amount} TL has been approved. Payment processing has started."
   },
   "advanceCashReady": {

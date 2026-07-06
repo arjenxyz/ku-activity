@@ -48,7 +48,10 @@
     "amountHint": "Dekonttaki tutarı elle girin",
     "saveSaving": "Kaydediliyor…",
     "savePayment": "Ödemeyi kaydet",
-    "anotherDekont": "Başka dekont"
+    "anotherDekont": "Başka dekont",
+    "transferCodeLabel": "Beklenen havale kodu",
+    "transferCodeHint": "Bu kodu havale açıklamasına yazdıysanız dekontta görünmeli",
+    "transferCodeOverride": "Kod dekontta okunamadı — yine de kaydet"
   },
   "loading": "Yükleniyor…"
 }

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { requireAdminProjectAccess } from '@/lib/admin-auth';
 import { createAdminClient } from '@/utils/supabase/admin';
-import { AdvanceRequestError, approveAdvanceRequest } from '@/lib/advance-request-service';
+import { AdvanceRequestError, approveAdvanceRequest, getActiveTransferToken } from '@/lib/advance-request-service';
 import type { AdvancePaymentMethod } from '@/lib/advance-types';
 import strings from '@json/src/app/api/admin/projects/[projectId]/advance-requests/[id]/approve/route.json';
 
@@ -30,7 +30,15 @@ export async function POST(request: Request, ctx: Ctx) {
       actor,
     });
 
-    return NextResponse.json({ request: record });
+    let transferToken: string | null = null;
+    let transferTokenExpiresAt: string | null = null;
+    if (paymentMethod === 'bank_transfer') {
+      const tokenRow = await getActiveTransferToken(admin, id, projectId);
+      transferToken = tokenRow?.token ?? null;
+      transferTokenExpiresAt = tokenRow?.expires_at ?? null;
+    }
+
+    return NextResponse.json({ request: record, transferToken, transferTokenExpiresAt });
   } catch (err) {
     if (err instanceof AdvanceRequestError) {
       return NextResponse.json({ error: err.message, code: err.code }, { status: err.status });

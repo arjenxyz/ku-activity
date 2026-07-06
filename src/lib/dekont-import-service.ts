@@ -26,6 +26,7 @@ function pendingOcrPlaceholder(): DekontOcrResult {
     amount: null,
     referenceNo: null,
     paymentDate: null,
+    transferToken: null,
     senderBank: null,
     recipientBank: null,
     transferType: null,
@@ -393,6 +394,7 @@ export async function confirmDekontDraft(params: {
   referenceNo?: string;
   paymentDate?: string;
   amount?: number;
+  transferCodeOverride?: boolean;
 }) {
   const draft = await loadDekontDraft(params.adminUserId, params.draftId);
   const admin = createAdminClient();
@@ -404,7 +406,9 @@ export async function confirmDekontDraft(params: {
 
   const selectedMatch =
     (draft.match_json ?? []).find((m) => m.requestId === params.requestId) ?? null;
-  const matchCheck = validateMatchForConfirm(ocrForConfirm, selectedMatch);
+  const matchCheck = validateMatchForConfirm(ocrForConfirm, selectedMatch, {
+    transferCodeOverride: params.transferCodeOverride,
+  });
   if (!matchCheck.ok) {
     throw new DekontImportError(matchCheck.reason ?? strings.matchValidationFailed, 422);
   }
@@ -435,6 +439,7 @@ export async function confirmDekontDraft(params: {
       ...(draftRow.ocr_json as Record<string, unknown>),
       ...(params.amount != null ? { amount: params.amount, amountManual: true } : {}),
     },
+    transferCodeOverride: params.transferCodeOverride,
   });
 
   await admin

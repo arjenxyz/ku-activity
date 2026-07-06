@@ -220,6 +220,7 @@ export async function notifyAdvanceApproved(
     requestId: string;
     amount: number;
     paymentMethod: 'bank_transfer' | 'cash';
+    transferToken?: string | null;
   }
 ) {
   const amount = formatAmount(params.amount);
@@ -235,14 +236,22 @@ export async function notifyAdvanceApproved(
     });
   }
 
+  const body =
+    params.transferToken?.trim()
+      ? formatString(strings.advanceApproved.body, {
+          amount,
+          transferCode: params.transferToken.trim(),
+        })
+      : formatString(strings.advanceApprovedNoCode.body, { amount });
+
   return notifyPersonnel(admin, {
     employeeId: params.employeeId,
     projectId: params.projectId,
     type: 'advance_approved',
     title: strings.advanceApproved.title,
-    body: formatString(strings.advanceApproved.body, { amount }),
+    body,
     href: '/personnel-panel/avans',
-    data: { requestId: params.requestId, amount: params.amount },
+    data: { requestId: params.requestId, amount: params.amount, transferToken: params.transferToken },
   });
 }
 

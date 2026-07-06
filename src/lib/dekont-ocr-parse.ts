@@ -1,3 +1,4 @@
+import { parseAdvanceTransferTokenFromText } from '@/lib/advance-transfer-token';
 import { parseIbanFromText, validateTurkishIban, normalizeIban } from '@/lib/field-encryption';
 import { normalizeOcrText } from '@/lib/dekont-ocr-normalize';
 import { findBankKeywords, type DekontOcrResult } from '@/lib/dekont-ocr-shared';
@@ -346,6 +347,7 @@ export function buildOcrResultFromRawText(
   const amount = parseTurkishAmount(rawText);
   const referenceNo = parseReferenceNo(rawText);
   const paymentDate = parsePaymentDate(rawText);
+  const transferToken = parseAdvanceTransferTokenFromText(rawText);
   const bankKeywords = findBankKeywords(rawText);
   const transferType = detectTransferType(rawText);
   const senderBank =
@@ -361,6 +363,7 @@ export function buildOcrResultFromRawText(
     amount,
     referenceNo,
     paymentDate,
+    transferToken,
     senderBank,
     recipientBank,
     transferType,

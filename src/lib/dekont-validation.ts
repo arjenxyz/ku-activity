@@ -5,6 +5,7 @@ import { findBankKeywords } from '@/lib/dekont-ocr-shared';
 import { validateTurkishIban } from '@/lib/field-encryption';
 import { formatString } from '@/lib/strings/format';
 import strings from '@json/src/lib/dekont-validation.json';
+import dayjs from 'dayjs';
 
 export type DekontValidationCheck = {
   id: string;
@@ -275,7 +276,8 @@ export function splitValidationChecks(checks: DekontValidationCheck[]) {
 /** Avans eşleştirmesi + onay koşulları — belge kontrollerinden ayrı detay listesi */
 export function buildMatchValidationChecks(
   ocr: DekontOcrResult,
-  match: DekontMatchSuggestion | null
+  match: DekontMatchSuggestion | null,
+  options?: { transferCodeOverride?: boolean }
 ): DekontValidationCheck[] {
   const doc = validateDekontDocument(ocr);
   const checks: DekontValidationCheck[] = [
@@ -305,6 +307,14 @@ export function buildMatchValidationChecks(
     amountMatched ||
     (ocr.amount != null && Math.abs(ocr.amount - match.approvedAmount) <= 1);
   const scoreOk = match.score >= MIN_MATCH_SCORE;
+  const transferCodeOk =
+    !match.expectedTransferToken ||
+    match.transferTokenMatched ||
+    options?.transferCodeOverride === true;
+  const paymentDateOk =
+    !match.approvedAt ||
+    !ocr.paymentDate ||
+    !dayjs(ocr.paymentDate).isBefore(dayjs(match.approvedAt).startOf('day').subtract(1, 'day'));
 
   checks.push(
     {
@@ -354,11 +364,37 @@ export function buildMatchValidationChecks(
             minScore: MIN_MATCH_SCORE,
           }),
       required: true,
+    },
+    {
+      id: 'transfer_code',
+      label: strings.match.transferCode.label,
+      passed: transferCodeOk,
+      detail: match.expectedTransferToken
+        ? transferCodeOk
+          ? formatString(strings.match.transferCode.detailPassed, {
+              code: match.expectedTransferToken,
+            })
+          : formatString(strings.match.transferCode.detailFailed, {
+              expectedCode: match.expectedTransferToken,
+            })
+        : strings.match.transferCode.detailMissing,
+      required: Boolean(match.expectedTransferToken),
+    },
+    {
+      id: 'payment_after_approval',
+      label: strings.match.paymentDate.label,
+      passed: paymentDateOk,
+      detail: paymentDateOk ? ocr.paymentDate ?? undefined : strings.match.paymentDate.detailFailed,
+      required: Boolean(match.approvedAt && ocr.paymentDate),
     }
   );
 
   const optionalReasons = match.reasons.filter(
-    (r) => !r.includes('IBAN') && !r.includes('Tutar uyumlu')
+    (r) =>
+      !r.includes('IBAN') &&
+      !r.includes('Tutar uyumlu') &&
+      !r.includes('referans kodu') &&
+      !r.toLowerCase().includes('hvl')
   );
   for (const reason of optionalReasons) {
     checks.push({
@@ -375,7 +411,8 @@ export function buildMatchValidationChecks(
 
 export function validateMatchForConfirm(
   ocr: DekontOcrResult,
-  match: DekontMatchSuggestion | null
+  match: DekontMatchSuggestion | null,
+  options?: { transferCodeOverride?: boolean }
 ): { ok: boolean; reason?: string } {
   const doc = validateDekontDocument(ocr);
   if (!doc.accepted) {
@@ -411,6 +448,23 @@ export function validateMatchForConfirm(
         }),
       };
     }
+  }
+
+  if (match.expectedTransferToken && !match.transferTokenMatched && !options?.transferCodeOverride) {
+    return {
+      ok: false,
+      reason: formatString(strings.confirm.transferCodeMismatch, {
+        expectedCode: match.expectedTransferToken,
+      }),
+    };
+  }
+
+  if (
+    match.approvedAt &&
+    ocr.paymentDate &&
+    dayjs(ocr.paymentDate).isBefore(dayjs(match.approvedAt).startOf('day').subtract(1, 'day'))
+  ) {
+    return { ok: false, reason: strings.confirm.paymentBeforeApproval };
   }
 
   return { ok: true };

@@ -18,5 +18,9 @@
   "tokenNotYours": "Bu kod size ait değil",
   "cashNotAwaiting": "Bu talep nakit onayı beklemiyor",
   "cashQrAwaitingOnly": "Nakit QR yalnızca teslim bekleyen taleplerde oluşturulur",
-  "openAdvanceBlocksNewRequest": "Ödemesi veya teslimi bekleyen açık avansınız varken yeni talep oluşturamazsınız."
+  "openAdvanceBlocksNewRequest": "Ödemesi veya teslimi bekleyen açık avansınız varken yeni talep oluşturamazsınız.",
+  "transferCodeRequired": "Dekontta havale referans kodu (HVL-) bulunamadı. Havale açıklamasına kodu yazdığınızdan emin olun veya onay ekranında istisna işaretleyin.",
+  "paymentBeforeApproval": "Dekont tarihi avans onayından önce — bu dekont bu talebe ait olmayabilir",
+  "duplicateReference": "Bu referans numarası başka bir ödemede kullanılmış",
+  "transferRegenerateApprovedOnly": "Havale kodu yalnızca onaylı havale taleplerinde oluşturulur"
 }

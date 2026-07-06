@@ -110,6 +110,8 @@ import m_app_api_admin_projects__projectId__advance_requests__id__approve_route_
 import m_app_api_admin_projects__projectId__advance_requests__id__approve_route_en from '@json/en/src/app/api/admin/projects/[projectId]/advance-requests/[id]/approve/route.json';
 import m_app_api_admin_projects__projectId__advance_requests__id__cash_qr_route_tr from '@json/src/app/api/admin/projects/[projectId]/advance-requests/[id]/cash-qr/route.json';
 import m_app_api_admin_projects__projectId__advance_requests__id__cash_qr_route_en from '@json/en/src/app/api/admin/projects/[projectId]/advance-requests/[id]/cash-qr/route.json';
+import m_app_api_admin_projects__projectId__advance_requests__id__transfer_code_route_tr from '@json/src/app/api/admin/projects/[projectId]/advance-requests/[id]/transfer-code/route.json';
+import m_app_api_admin_projects__projectId__advance_requests__id__transfer_code_route_en from '@json/en/src/app/api/admin/projects/[projectId]/advance-requests/[id]/transfer-code/route.json';
 import m_app_api_admin_projects__projectId__advance_requests__id__record_payment_route_tr from '@json/src/app/api/admin/projects/[projectId]/advance-requests/[id]/record-payment/route.json';
 import m_app_api_admin_projects__projectId__advance_requests__id__record_payment_route_en from '@json/en/src/app/api/admin/projects/[projectId]/advance-requests/[id]/record-payment/route.json';
 import m_app_api_admin_projects__projectId__advance_requests__id__reject_route_tr from '@json/src/app/api/admin/projects/[projectId]/advance-requests/[id]/reject/route.json';
@@ -723,6 +725,7 @@ export const STRINGS_REGISTRY = {
   'app/api/admin/employees/route': { tr: m_app_api_admin_employees_route_tr, en: m_app_api_admin_employees_route_en },
   'app/api/admin/projects/[projectId]/advance-requests/[id]/approve/route': { tr: m_app_api_admin_projects__projectId__advance_requests__id__approve_route_tr, en: m_app_api_admin_projects__projectId__advance_requests__id__approve_route_en },
   'app/api/admin/projects/[projectId]/advance-requests/[id]/cash-qr/route': { tr: m_app_api_admin_projects__projectId__advance_requests__id__cash_qr_route_tr, en: m_app_api_admin_projects__projectId__advance_requests__id__cash_qr_route_en },
+  'app/api/admin/projects/[projectId]/advance-requests/[id]/transfer-code/route': { tr: m_app_api_admin_projects__projectId__advance_requests__id__transfer_code_route_tr, en: m_app_api_admin_projects__projectId__advance_requests__id__transfer_code_route_en },
   'app/api/admin/projects/[projectId]/advance-requests/[id]/record-payment/route': { tr: m_app_api_admin_projects__projectId__advance_requests__id__record_payment_route_tr, en: m_app_api_admin_projects__projectId__advance_requests__id__record_payment_route_en },
   'app/api/admin/projects/[projectId]/advance-requests/[id]/reject/route': { tr: m_app_api_admin_projects__projectId__advance_requests__id__reject_route_tr, en: m_app_api_admin_projects__projectId__advance_requests__id__reject_route_en },
   'app/api/admin/projects/[projectId]/attendance-qr/complete/route': { tr: m_app_api_admin_projects__projectId__attendance_qr_complete_route_tr, en: m_app_api_admin_projects__projectId__attendance_qr_complete_route_en },

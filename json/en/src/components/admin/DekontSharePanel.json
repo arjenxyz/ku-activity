@@ -48,7 +48,10 @@
     "amountHint": "Enter amount from receipt manually",
     "saveSaving": "Saving…",
     "savePayment": "Save payment",
-    "anotherDekont": "Another receipt"
+    "anotherDekont": "Another receipt",
+    "transferCodeLabel": "Expected transfer code",
+    "transferCodeHint": "This code should appear on the receipt if you added it to the transfer description",
+    "transferCodeOverride": "Code not readable on receipt — save anyway"
   },
   "loading": "Loading…"
 }

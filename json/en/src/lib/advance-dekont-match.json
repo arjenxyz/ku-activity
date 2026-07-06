@@ -6,6 +6,7 @@
     "amountMatch": "Tutar uyumlu ({ocrAmount} ≈ {approvedAmount})",
     "amountClose": "Tutar yakın",
     "referenceRead": "Referans no okundu",
-    "singleCandidate": "Tek aday personel"
+    "singleCandidate": "Tek aday personel",
+    "transferTokenMatch": "Transfer reference code matched"
   }
 }

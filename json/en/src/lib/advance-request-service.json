@@ -18,5 +18,9 @@
   "tokenNotYours": "Bu kod size ait değil",
   "cashNotAwaiting": "Bu talep nakit onayı beklemiyor",
   "cashQrAwaitingOnly": "Nakit QR yalnızca teslim bekleyen taleplerde oluşturulur",
-  "openAdvanceBlocksNewRequest": "Ödemesi veya teslimi bekleyen açık avansınız varken yeni talep oluşturamazsınız."
+  "openAdvanceBlocksNewRequest": "You cannot submit a new request while you have an open advance awaiting payment or delivery.",
+  "transferCodeRequired": "Transfer reference code (HVL-) not found on the receipt. Make sure you added it to the transfer description, or mark the exception on the confirmation screen.",
+  "paymentBeforeApproval": "Receipt date is before advance approval — this receipt may not belong to this request",
+  "duplicateReference": "This reference number was already used for another payment",
+  "transferRegenerateApprovedOnly": "Transfer code can only be generated for approved bank transfer requests"
 }

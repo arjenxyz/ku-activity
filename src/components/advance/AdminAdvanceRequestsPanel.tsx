@@ -5,7 +5,7 @@ import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import dayjs from 'dayjs';
 import QRCode from 'qrcode';
 import Link from 'next/link';
-import { FiCheck, FiCreditCard, FiRefreshCw, FiShare2, FiUpload, FiX } from 'react-icons/fi';
+import { FiCheck, FiCopy, FiCreditCard, FiRefreshCw, FiShare2, FiUpload, FiX } from 'react-icons/fi';
 
 import { AlertBanner } from '@/components/project/AlertBanner';
 import { ProjectPageHeader } from '@/components/project/ProjectPageHeader';
@@ -70,6 +70,9 @@ export function AdminAdvanceRequestsPanel({ projectId }: Props) {
   const [cashTarget, setCashTarget] = useState<AdvanceRequestRow | null>(null);
   const [cashQr, setCashQr] = useState<{ token: string; qrDataUrl: string; expiresAt: string } | null>(null);
 
+  const [transferCodeTarget, setTransferCodeTarget] = useState<AdvanceRequestRow | null>(null);
+  const [transferCode, setTransferCode] = useState<{ token: string; expiresAt: string } | null>(null);
+
   const load = useCallback(async () => {
     setLoading(true);
     setError(null);
@@ -123,10 +126,24 @@ export function AdminAdvanceRequestsPanel({ projectId }: Props) {
       );
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || strings.approveFailed);
+      const approvedRow = approveTarget;
       setApproveTarget(null);
-      setSuccess(
-        approveMethod === 'cash' ? strings.approveSuccessCash : strings.approveSuccessTransfer
-      );
+      if (approveMethod === 'cash') {
+        setSuccess(strings.approveSuccessCash);
+      } else if (data.transferToken) {
+        setSuccess(
+          formatString(strings.approveSuccessTransferCode, { code: data.transferToken as string })
+        );
+        if (approvedRow) {
+          setTransferCodeTarget(approvedRow);
+          setTransferCode({
+            token: data.transferToken as string,
+            expiresAt: (data.transferTokenExpiresAt as string) ?? '',
+          });
+        }
+      } else {
+        setSuccess(strings.approveSuccessTransfer);
+      }
       await load();
     } catch (e) {
       setError(e instanceof Error ? e.message : strings.approveFailed);
@@ -207,6 +224,34 @@ export function AdminAdvanceRequestsPanel({ projectId }: Props) {
       setError(e instanceof Error ? e.message : strings.qrLoadFailed);
     } finally {
       setActionLoading(false);
+    }
+  };
+
+  const loadTransferCode = async (row: AdvanceRequestRow, regenerate = false) => {
+    setTransferCodeTarget(row);
+    setTransferCode(null);
+    setActionLoading(true);
+    setError(null);
+    try {
+      const res = await fetch(
+        `/api/admin/projects/${projectId}/advance-requests/${row.id}/transfer-code${regenerate ? '?regenerate=1' : ''}`
+      );
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || strings.transferCodeLoadFailed);
+      setTransferCode({ token: data.token, expiresAt: data.expiresAt });
+    } catch (e) {
+      setError(e instanceof Error ? e.message : strings.transferCodeLoadFailed);
+    } finally {
+      setActionLoading(false);
+    }
+  };
+
+  const copyTransferCode = async (token: string) => {
+    try {
+      await navigator.clipboard.writeText(token);
+      setSuccess(strings.codeCopied);
+    } catch {
+      setError(strings.codeCopyFailed);
     }
   };
 
@@ -312,18 +357,27 @@ export function AdminAdvanceRequestsPanel({ projectId }: Props) {
                   </button>
                 )}
                 {row.status === 'approved' && row.payment_method === 'bank_transfer' && (
-                  <button
-                    type="button"
-                    className={btnPrimary}
-                    onClick={() => {
-                      setPaymentTarget(row);
-                      setPaymentFile(null);
-                      setPaymentRef('');
-                      setPaymentDate(dayjs().format('YYYY-MM-DD'));
-                    }}
-                  >
-                    <FiUpload className="mr-1 inline" /> {strings.recordPayment}
-                  </button>
+                  <>
+                    <button
+                      type="button"
+                      className={btnSecondary}
+                      onClick={() => void loadTransferCode(row)}
+                    >
+                      <FiCopy className="mr-1 inline" /> {strings.showTransferCode}
+                    </button>
+                    <button
+                      type="button"
+                      className={btnPrimary}
+                      onClick={() => {
+                        setPaymentTarget(row);
+                        setPaymentFile(null);
+                        setPaymentRef('');
+                        setPaymentDate(dayjs().format('YYYY-MM-DD'));
+                      }}
+                    >
+                      <FiUpload className="mr-1 inline" /> {strings.recordPayment}
+                    </button>
+                  </>
                 )}
                 {row.status === 'awaiting_receipt' && row.payment_method === 'cash' && (
                   <button type="button" className={btnPrimary} onClick={() => void loadCashQr(row)}>
@@ -489,6 +543,70 @@ export function AdminAdvanceRequestsPanel({ projectId }: Props) {
                 {strings.newCode}
               </button>
               <button type="button" className={btnPrimary} onClick={() => setCashTarget(null)}>
+                {strings.close}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {(transferCodeTarget || transferCode) && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+          <div className={`${cardClass} w-full max-w-sm`}>
+            <h3 className="text-lg font-semibold">{strings.transferCodeTitle}</h3>
+            {transferCodeTarget && (
+              <p className="mt-1 text-sm text-slate-500">
+                {formatString(strings.transferCodeSubtitle, {
+                  name: transferCodeTarget.employees?.name ?? strings.defaultEmployeeName,
+                  amount: formatMoney(advanceDisplayAmount(transferCodeTarget)),
+                })}
+              </p>
+            )}
+            <p className="mt-3 text-sm text-slate-600 dark:text-slate-300">{strings.transferCodeInstruction}</p>
+            {transferCode ? (
+              <>
+                <p className="mt-4 rounded-xl bg-slate-100 px-4 py-3 text-center font-mono text-lg font-bold tracking-wider text-slate-900 dark:bg-slate-800 dark:text-white">
+                  {transferCode.token}
+                </p>
+                {transferCode.expiresAt && (
+                  <p className="mt-2 text-center text-xs text-slate-500">
+                    {formatString(strings.validUntil, {
+                      date: dayjs(transferCode.expiresAt).format('DD MMM YYYY HH:mm'),
+                    })}
+                  </p>
+                )}
+              </>
+            ) : (
+              <p className="py-8 text-center text-sm text-slate-500">{strings.transferCodeLoading}</p>
+            )}
+            <div className="mt-6 flex flex-wrap justify-center gap-2">
+              {transferCode && (
+                <button
+                  type="button"
+                  className={btnPrimary}
+                  onClick={() => void copyTransferCode(transferCode.token)}
+                >
+                  <FiCopy className="mr-1 inline" /> {strings.copyCode}
+                </button>
+              )}
+              {transferCodeTarget && (
+                <button
+                  type="button"
+                  className={btnSecondary}
+                  onClick={() => void loadTransferCode(transferCodeTarget, true)}
+                  disabled={actionLoading}
+                >
+                  {strings.newCode}
+                </button>
+              )}
+              <button
+                type="button"
+                className={btnSecondary}
+                onClick={() => {
+                  setTransferCodeTarget(null);
+                  setTransferCode(null);
+                }}
+              >
                 {strings.close}
               </button>
             </div>
