@@ -6,5 +6,6 @@
   "draftExpired": "Taslak süresi doldu — dekontu yeniden paylaşın",
   "matchValidationFailed": "Eşleşme doğrulanamadı",
   "proofFileNotFound": "Receipt file not found",
+  "ocrTextEmpty": "Could not read text from the receipt",
   "retroactiveAmountRequired": "Amount is required for retroactive payment"
 }
