@@ -215,7 +215,7 @@ function PersonelPanelContent() {
 
   return (
     <>
-      <PersonnelShell>
+      <PersonnelShell settingsMode={activeTab === 'settings'}>
         <PersonnelPullToRefresh
           onRefresh={async () => {
             await reload();

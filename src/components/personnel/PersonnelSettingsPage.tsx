@@ -297,7 +297,7 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
   const pageTitle = strings.sections[activeSection].title;
 
   return (
-    <div className="-mx-3 sm:-mx-6 -mt-3 min-h-[60vh] bg-[#f0f2f5] px-3 py-4 pb-8 dark:bg-slate-950 sm:px-4 sm:py-5">
+    <div className="-mx-3 sm:-mx-6 -mt-3 min-h-full bg-[#f0f2f5] px-3 py-4 pb-[max(1rem,env(safe-area-inset-bottom))] dark:bg-slate-950 sm:min-h-[60vh] sm:px-4 sm:py-5">
       <div className="mx-auto max-w-lg space-y-4">
         {activeSection !== 'home' ? (
           <button

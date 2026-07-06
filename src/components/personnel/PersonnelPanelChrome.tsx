@@ -36,7 +36,7 @@ function ChromeBody({ children }: { children: React.ReactNode }) {
               ? isYoklama
                 ? 'pb-0'
                 : isSettingsTab
-                  ? 'pb-[max(1rem,env(safe-area-inset-bottom))]'
+                  ? 'pb-0'
                   : 'pb-0 personnel-topbar-offset'
               : 'pb-[calc(5.25rem+env(safe-area-inset-bottom))]'
         }
