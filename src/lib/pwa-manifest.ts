@@ -5,12 +5,12 @@ import {
   PERSONNEL_PWA_THEME,
 } from '@/lib/personnel-pwa-brand';
 import type { AppIconVariant } from '@/lib/brand';
-import { appIconForVariant } from '@/lib/brand';
+import { appIconForVariant, CREWLEDGER_APP_ICON } from '@/lib/brand';
 
 export type PwaAppVariant = AppIconVariant;
 
 /** PWA ikon/manifest önbelleğini kırmak için — değişince artır */
-export const PWA_ASSET_VERSION = '15';
+export const PWA_ASSET_VERSION = '16';
 
 function iconUrl(variant: PwaAppVariant, size: 192 | 512, purpose: 'any' | 'maskable' = 'any') {
   if (purpose === 'maskable') {
@@ -24,7 +24,7 @@ function iconsForVariant(variant: PwaAppVariant): MetadataRoute.Manifest['icons'
   const icon512 = iconUrl(variant, 512, 'any');
   const mask192 = iconUrl(variant, 192, 'maskable');
   const mask512 = iconUrl(variant, 512, 'maskable');
-  const mono96 = `${appIconForVariant(variant)}?v=${PWA_ASSET_VERSION}`;
+  const mono96 = `${CREWLEDGER_APP_ICON}?v=${PWA_ASSET_VERSION}`;
   return [
     { src: icon192, sizes: '192x192', type: 'image/png', purpose: 'any' },
     { src: icon512, sizes: '512x512', type: 'image/png', purpose: 'any' },

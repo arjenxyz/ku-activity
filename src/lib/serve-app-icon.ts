@@ -48,9 +48,12 @@ export async function serveAppIcon(
   return iconResponse(buffer);
 }
 
-/** Bildirim ikonu — normal renkli uygulama ikonu (personel-icon / yönetici) */
-export async function serveNotificationMonochromeIcon(variant: AppIconVariant, size: number) {
-  return serveAppIcon(variant, size, 'any');
+/** Soldaki küçük bildirim ikonu — genel CrewLedger markası */
+export async function serveNotificationMonochromeIcon(_variant: AppIconVariant, size: number) {
+  const iconFile = path.join(process.cwd(), 'public', 'crewledger.png');
+  const source = await readFile(iconFile);
+  const buffer = await sharp(source).resize(size, size, { fit: 'cover' }).png().toBuffer();
+  return iconResponse(buffer);
 }
 
 /** @deprecated personel-icon.png kullanın */
