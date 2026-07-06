@@ -3,7 +3,9 @@
   "updatePhotoTitle": "Profil fotoğrafını güncelle",
   "uploading": "Yükleniyor…",
   "takePhoto": "Fotoğraf çek",
-  "uploadFromGallery": "Galeriden yükle",
+  "uploadFromGallery": "Choose from gallery",
+  "profilePhoto": "Profile photo",
+  "profilePhotoHint": "Use a clear photo of your face for attendance and your profile.",
   "backToList": "Ayarlar listesine dön",
   "logout": "Çıkış yap",
   "emptyValue": "—",
@@ -20,7 +22,7 @@
     "app": { "title": "App Settings", "subtitle": "Language and display preferences." }
   },
   "menu": {
-    "personal": { "title": "Kişisel ayarlar", "subtitle": "Ad, soyad, T.C. kimlik, doğum tarihi" },
+    "personal": { "title": "Personal settings", "subtitle": "Profile photo, name, and identity" },
     "contact": { "title": "İletişim", "subtitle": "E-posta ve telefon numarası" },
     "bank": { "title": "Banka", "subtitle": "IBAN bilgisi" },
     "work": { "title": "İş bilgileri", "subtitle": "Pozisyon, yevmiye ve proje" },

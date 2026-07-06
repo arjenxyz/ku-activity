@@ -4,6 +4,8 @@
   "uploading": "Yükleniyor…",
   "takePhoto": "Fotoğraf çek",
   "uploadFromGallery": "Galeriden yükle",
+  "profilePhoto": "Profil fotoğrafı",
+  "profilePhotoHint": "Yüzünüz net görünsün; yoklama ve profil için kullanılır.",
   "backToList": "Ayarlar listesine dön",
   "logout": "Çıkış yap",
   "emptyValue": "—",
@@ -20,7 +22,7 @@
     "app": { "title": "Uygulama Ayarları", "subtitle": "Dil ve görünüm tercihleri." }
   },
   "menu": {
-    "personal": { "title": "Kişisel ayarlar", "subtitle": "Ad, soyad, T.C. kimlik, doğum tarihi" },
+    "personal": { "title": "Kişisel ayarlar", "subtitle": "Profil fotoğrafı, ad, soyad ve kimlik" },
     "contact": { "title": "İletişim", "subtitle": "E-posta ve telefon numarası" },
     "bank": { "title": "Banka", "subtitle": "IBAN bilgisi" },
     "work": { "title": "İş bilgileri", "subtitle": "Pozisyon, yevmiye ve proje" },

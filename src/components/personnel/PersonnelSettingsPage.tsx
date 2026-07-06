@@ -60,7 +60,6 @@ function formatPhoneDisplay(phone: string | null | undefined, strings: SettingsS
 }
 
 export function PersonnelSettingsPage({ employee, onLogout }: Props) {
-
   const strings = useRegistryStrings('components/personnel/PersonnelSettingsPage');
   const [passwordOpen, setPasswordOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<SettingsSectionId>('home');
@@ -74,7 +73,6 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
   const lastName = employee.last_name || employee.name.split(' ').slice(1).join(' ') || strings.emptyValue;
 
   const uploadPhoto = async (file: File | null) => {
-
     if (!file) return;
     setPhotoError(null);
     setPhotoBusy(true);
@@ -151,11 +149,19 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
   ];
 
   const renderSection = () => {
-
     switch (activeSection) {
       case 'personal':
         return (
           <SettingsGroup title={strings.groups.personalInfo} icon={<FiUser className="w-4 h-4" />}>
+            <ProfilePhotoBlock
+              name={employee.name}
+              photoUrl={photoUrl}
+              photoBusy={photoBusy}
+              photoError={photoError}
+              strings={strings}
+              onCamera={() => cameraInputRef.current?.click()}
+              onGallery={() => galleryInputRef.current?.click()}
+            />
             <InfoRow label={strings.fields.firstName} value={firstName} />
             <InfoRow label={strings.fields.lastName} value={lastName} />
             <InfoRow label={strings.fields.tcKimlik} value={employee.tc_kimlik || strings.emptyValue} mono />
@@ -253,63 +259,14 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
 
   return (
     <div className="space-y-5 max-w-lg mx-auto">
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 text-white shadow-lg shadow-blue-600/20">
-        <div
-          className="absolute inset-0 opacity-20"
-          style={{ backgroundImage: 'radial-gradient(circle at 80% 20%, white 0%, transparent 50%)' }}
-        />
-        <div className="relative px-5 py-6 flex items-center gap-4">
-          <button
-            type="button"
-            disabled={photoBusy}
-            onClick={() => cameraInputRef.current?.click()}
-            className="group shrink-0 text-left"
-            title={strings.updatePhotoTitle}
-          >
-            <span className="relative block">
-              <EmployeeAvatar
-                name={employee.name}
-                photoUrl={photoUrl}
-                size="xl"
-                className="!rounded-2xl ring-2 ring-white/30 shadow-lg"
-              />
-              <span className="absolute -bottom-1 -right-1 flex h-7 w-7 items-center justify-center rounded-full bg-white text-blue-700 shadow-md">
-                <FiCamera className="w-3.5 h-3.5" />
-              </span>
-            </span>
-          </button>
-          <div className="min-w-0 flex-1">
-            <h2 className="text-xl font-bold truncate">{employee.name}</h2>
-            <p className="text-blue-100 text-sm mt-0.5 truncate">{sectionMeta[activeSection].title}</p>
-            <p className="text-blue-100/80 text-xs mt-1 leading-relaxed">
-              {sectionMeta[activeSection].subtitle}
-            </p>
-            <div className="mt-2 flex flex-wrap items-center gap-2 text-xs">
-              <button
-                type="button"
-                disabled={photoBusy}
-                onClick={() => cameraInputRef.current?.click()}
-                className="inline-flex items-center gap-1 rounded-full bg-white/15 hover:bg-white/20 px-3 py-1.5 transition-colors disabled:opacity-60"
-              >
-                <FiCamera className="w-3.5 h-3.5" />
-                {photoBusy ? strings.uploading : strings.takePhoto}
-              </button>
-              <button
-                type="button"
-                disabled={photoBusy}
-                onClick={() => galleryInputRef.current?.click()}
-                className="inline-flex items-center gap-1 rounded-full bg-white/15 hover:bg-white/20 px-3 py-1.5 transition-colors disabled:opacity-60"
-              >
-                <FiImage className="w-3.5 h-3.5" />
-                {strings.uploadFromGallery}
-              </button>
-            </div>
-          </div>
-        </div>
+      <div className="rounded-2xl border border-slate-200/80 bg-white px-4 py-4 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+        <h2 className="text-lg font-bold text-slate-900 dark:text-white">
+          {sectionMeta[activeSection].title}
+        </h2>
+        <p className="mt-1 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
+          {sectionMeta[activeSection].subtitle}
+        </p>
       </div>
-      {photoError && (
-        <p className="text-xs text-red-600 -mt-2">{photoError}</p>
-      )}
 
       <input
         ref={cameraInputRef}
@@ -352,6 +309,82 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
       )}
 
       <PersonnelPasswordModal open={passwordOpen} onClose={() => setPasswordOpen(false)} />
+    </div>
+  );
+}
+
+function ProfilePhotoBlock({
+  name,
+  photoUrl,
+  photoBusy,
+  photoError,
+  strings,
+  onCamera,
+  onGallery,
+}: {
+  name: string;
+  photoUrl: string | null;
+  photoBusy: boolean;
+  photoError: string | null;
+  strings: SettingsStrings;
+  onCamera: () => void;
+  onGallery: () => void;
+}) {
+  return (
+    <div className="border-b border-slate-100 bg-gradient-to-b from-slate-50/90 to-white px-4 py-5 dark:border-slate-700/80 dark:from-slate-800/50 dark:to-slate-800">
+      <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+        {strings.profilePhoto}
+      </p>
+      <p className="mt-1 text-xs leading-relaxed text-slate-400 dark:text-slate-500">
+        {strings.profilePhotoHint}
+      </p>
+
+      <div className="mt-4 flex flex-col items-center">
+        <button
+          type="button"
+          disabled={photoBusy}
+          onClick={onCamera}
+          className="group relative shrink-0"
+          title={strings.updatePhotoTitle}
+        >
+          <EmployeeAvatar
+            name={name}
+            photoUrl={photoUrl}
+            size="xl"
+            className="!h-[5.5rem] !w-[5.5rem] !rounded-2xl ring-2 ring-slate-200 shadow-md transition group-hover:ring-blue-300 dark:ring-slate-600"
+          />
+          <span className="absolute -bottom-1 -right-1 flex h-8 w-8 items-center justify-center rounded-full bg-[#0E1548] text-white shadow-lg ring-2 ring-white dark:ring-slate-800">
+            <FiCamera className="h-4 w-4" />
+          </span>
+        </button>
+
+        <div className="mt-4 grid w-full grid-cols-2 gap-2">
+          <button
+            type="button"
+            disabled={photoBusy}
+            onClick={onCamera}
+            className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-[#0E1548] px-3 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#152060] disabled:opacity-60"
+          >
+            <FiCamera className="h-4 w-4 shrink-0" />
+            <span className="truncate">{photoBusy ? strings.uploading : strings.takePhoto}</span>
+          </button>
+          <button
+            type="button"
+            disabled={photoBusy}
+            onClick={onGallery}
+            className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 disabled:opacity-60 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
+          >
+            <FiImage className="h-4 w-4 shrink-0" />
+            <span className="truncate">{strings.uploadFromGallery}</span>
+          </button>
+        </div>
+
+        {photoError ? (
+          <p className="mt-3 w-full rounded-lg bg-red-50 px-3 py-2 text-center text-xs text-red-600 dark:bg-red-950/40 dark:text-red-300">
+            {photoError}
+          </p>
+        ) : null}
+      </div>
     </div>
   );
 }
