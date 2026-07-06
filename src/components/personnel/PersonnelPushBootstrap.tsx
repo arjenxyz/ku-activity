@@ -11,10 +11,9 @@ import {
 } from '@/lib/personnel-notification-access';
 import { fetchPersonnelUnlockContext } from '@/lib/personnel-session-check';
 import {
-  canAttemptPushSubscribe,
   fetchPushSubscriptionStatus,
-  getNotificationPermission,
   registerPersonnelPushIfAuthed,
+  syncNotificationPermissionForPush,
 } from '@/lib/personnel-push-client';
 
 const RETRY_MS = 2500;
@@ -29,7 +28,7 @@ function isPersonnelAuthPath(pathname: string) {
   );
 }
 
-async function tryRegisterPush(options?: { twaBypassPermission?: boolean }): Promise<boolean> {
+async function tryRegisterPush(options?: { twaAfterSettings?: boolean }): Promise<boolean> {
   if (wasPushBootstrapAttempted()) {
     const status = await fetchPushSubscriptionStatus();
     if (status?.currentSessionSubscribed) return true;
@@ -38,12 +37,14 @@ async function tryRegisterPush(options?: { twaBypassPermission?: boolean }): Pro
   const ctx = await fetchPersonnelUnlockContext();
   if (!ctx?.unlocked) return false;
 
-  if (!canAttemptPushSubscribe({ twaBypassPermission: options?.twaBypassPermission })) {
-    return false;
+  const twa = isPersonnelTwaRuntime();
+  if (twa || options?.twaAfterSettings) {
+    await syncNotificationPermissionForPush({ twaAfterSettings: true });
   }
 
   const ok = await registerPersonnelPushIfAuthed({
-    twaBypassPermission: options?.twaBypassPermission,
+    force: Boolean(options?.twaAfterSettings),
+    twaBypassPermission: twa || Boolean(options?.twaAfterSettings),
   });
   if (!ok) return false;
 
@@ -54,7 +55,7 @@ async function tryRegisterPush(options?: { twaBypassPermission?: boolean }): Pro
 
 /**
  * Oturum + izin hazır olunca push aboneliğini sessizce kaydet.
- * TWA: Android ayarlarından dönünce Notification.permission gecikse bile dener.
+ * TWA: ayarlardan dönünce requestPermission ile WebView iznini senkronize eder.
  */
 export function PersonnelPushBootstrap() {
   const pathname = usePathname() ?? '';
@@ -69,12 +70,11 @@ export function PersonnelPushBootstrap() {
     const run = () => {
       if (cancelled) return;
 
-      const twaBypass = isPersonnelTwaRuntime();
-      void tryRegisterPush({ twaBypassPermission: twaBypass }).then((ok) => {
+      void tryRegisterPush().then((ok) => {
         if (cancelled || ok) return;
         if (retryTimer) window.clearInterval(retryTimer);
         retryTimer = window.setInterval(() => {
-          void tryRegisterPush({ twaBypassPermission: twaBypass }).then((registered) => {
+          void tryRegisterPush().then((registered) => {
             if (registered && retryTimer) {
               window.clearInterval(retryTimer);
               retryTimer = undefined;
@@ -100,17 +100,11 @@ export function PersonnelPushBootstrap() {
 
     const onVisible = () => {
       if (document.visibilityState !== 'visible') return;
-      void tryRegisterPush({ twaBypassPermission: isPersonnelTwaRuntime() });
+      void tryRegisterPush({ twaAfterSettings: isPersonnelTwaRuntime() });
     };
 
     document.addEventListener('visibilitychange', onVisible);
     return () => document.removeEventListener('visibilitychange', onVisible);
-  }, [pathname]);
-
-  useEffect(() => {
-    if (isPersonnelAuthPath(pathname)) return;
-    if (getNotificationPermission() !== 'granted') return;
-    void tryRegisterPush();
   }, [pathname]);
 
   return null;

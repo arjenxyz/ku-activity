@@ -94,35 +94,56 @@ export async function hasLocalPushSubscription(): Promise<boolean> {
   }
 }
 
-/** TWA: Android ayarlarından izin verilse bile Notification.permission gecikebilir */
+/**
+ * TWA: Android uygulama ayarlarından bildirim açılsa bile WebView izni ayrı kalır.
+ * requestPermission() OS izniyle senkronize eder; ayarlardan dönünce mutlaka çağrılmalı.
+ */
+export async function syncNotificationPermissionForPush(options?: {
+  twaAfterSettings?: boolean;
+}): Promise<NotificationPermission | 'unsupported'> {
+  const current = getNotificationPermission();
+  if (current === 'granted' || current === 'unsupported') return current;
+
+  const retryFromSettings = Boolean(options?.twaAfterSettings && isPersonnelTwaRuntime());
+  if (current === 'denied' && !retryFromSettings) return current;
+
+  try {
+    return await Notification.requestPermission();
+  } catch (error) {
+    console.warn('[push] Notification.requestPermission failed', error);
+    return getNotificationPermission();
+  }
+}
+
+/** @deprecated syncNotificationPermissionForPush kullanın */
 export function canAttemptPushSubscribe(options?: { twaBypassPermission?: boolean }) {
   const permission = getNotificationPermission();
   if (permission === 'granted') return true;
-  if (permission === 'denied' || permission === 'unsupported') return false;
+  if (permission === 'unsupported') return false;
+  if (permission === 'denied') {
+    return Boolean(options?.twaBypassPermission && isPersonnelTwaRuntime());
+  }
   return Boolean(options?.twaBypassPermission && isPersonnelTwaRuntime());
 }
 
 export async function subscribePersonnelPush(options?: {
   force?: boolean;
-  skipPermissionRequest?: boolean;
   twaBypassPermission?: boolean;
 }): Promise<boolean> {
   if (typeof window === 'undefined') return false;
   if (!pushSupported()) return false;
-  if (getNotificationPermission() === 'denied') return false;
+
+  const twaBypass = Boolean(options?.twaBypassPermission && isPersonnelTwaRuntime());
+  const permission = await syncNotificationPermissionForPush({ twaAfterSettings: twaBypass });
+  if (permission !== 'granted') {
+    console.warn('[push] notification permission not granted:', permission);
+    return false;
+  }
 
   const publicKey = await fetchVapidPublicKey();
   if (!publicKey) {
     console.warn('[push] VAPID not configured');
     return false;
-  }
-
-  const twaBypass = Boolean(options?.twaBypassPermission && isPersonnelTwaRuntime());
-
-  if (!canAttemptPushSubscribe({ twaBypassPermission: twaBypass })) {
-    if (options?.skipPermissionRequest) return false;
-    const permission = await Notification.requestPermission();
-    if (permission !== 'granted') return false;
   }
 
   const registration = await ensureServiceWorkerReady();
@@ -193,7 +214,6 @@ export async function registerPersonnelPushIfAuthed(options?: {
 }): Promise<boolean> {
   if (typeof window === 'undefined') return false;
   if (!pushSupported()) return false;
-  if (getNotificationPermission() === 'denied') return false;
 
   try {
     const me = await fetch('/api/personnel/me', { credentials: 'include', cache: 'no-store' });
@@ -203,12 +223,9 @@ export async function registerPersonnelPushIfAuthed(options?: {
   }
 
   const twaBypass = Boolean(options?.twaBypassPermission || isPersonnelTwaRuntime());
-  const skipPermissionRequest =
-    getNotificationPermission() === 'granted' || (twaBypass && isPersonnelTwaRuntime());
 
   return subscribePersonnelPush({
     force: options?.force,
-    skipPermissionRequest,
     twaBypassPermission: twaBypass,
   });
 }
@@ -224,8 +241,8 @@ export function getNotificationPermission(): NotificationPermission | 'unsupport
 }
 
 /** Tarayıcı bildirim izni */
-export async function requestNotificationPermission(): Promise<NotificationPermission | 'unsupported'> {
-  const current = getNotificationPermission();
-  if (current === 'unsupported' || current !== 'default') return current;
-  return Notification.requestPermission();
+export async function requestNotificationPermission(options?: {
+  twaAfterSettings?: boolean;
+}): Promise<NotificationPermission | 'unsupported'> {
+  return syncNotificationPermissionForPush(options);
 }

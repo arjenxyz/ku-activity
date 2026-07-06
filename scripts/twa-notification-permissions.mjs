@@ -136,6 +136,8 @@ function patchLauncherActivity(buildDir, packageId) {
 package ${packageId};
 
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.Manifest;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -151,6 +153,12 @@ public class LauncherActivity
         } else {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1001);
+            }
+        }
     }
 
     @Override
@@ -161,7 +169,7 @@ public class LauncherActivity
 `;
 
   writeFileSync(javaPath, source);
-  console.log('LauncherActivity: bildirim izni web/intro sonrasına bırakıldı');
+  console.log('LauncherActivity: Android 13+ POST_NOTIFICATIONS isteği eklendi');
 }
 
 const args = parseArgs(process.argv);

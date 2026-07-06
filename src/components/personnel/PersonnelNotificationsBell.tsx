@@ -215,6 +215,7 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
   const recheckTwaNotificationAccess = async () => {
     setRequestingPermission(true);
     try {
+      await requestNotificationPermission({ twaAfterSettings: true });
       await registerPersonnelPushIfAuthed({ force: true, twaBypassPermission: true });
       const access = await syncNotificationAccess();
       if (access === 'granted') void refresh();

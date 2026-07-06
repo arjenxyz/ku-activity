@@ -5,6 +5,8 @@
   "twaHint": "Ayarlar → Uygulamalar → CrewLedger → Bildirimler",
   "enableButton": "Bildirimleri aç",
   "openSettingsButton": "Uygulama ayarlarını aç",
+  "confirmSettingsButton": "Açtım, devam et",
+  "twaAwaitingSettings": "Ayarlardan döndükten sonra «Açtım, devam et»e basın.",
   "laterButton": "Şimdi değil",
   "requesting": "İzin isteniyor…"
 }
