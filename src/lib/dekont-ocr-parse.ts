@@ -54,14 +54,27 @@ function pickBestAmount(candidates: AmountCandidate[]): number | null {
   const values = [...new Set(tier.map((c) => c.value))];
 
   if (values.length === 1) return values[0]!;
-  // Aynı öncelikte birden fazla tutar: havale genelde tek; bakiye gibi aykırı değeri ele
-  if (values.length === 2) return Math.min(...values);
+
   const sorted = [...values].sort((a, b) => a - b);
+  const min = sorted[0]!;
+  const max = sorted[sorted.length - 1]!;
+
+  // Havale tutarı genelde büyük; masraf/bakiye veya OCR parçası (12 + 12.375,00) küçük kalır
+  if (max >= 500 && min < 500 && max / Math.max(min, 1) >= 5) {
+    return max;
+  }
+  if (values.length === 2 && max / Math.max(min, 1) >= 10) {
+    return max;
+  }
+
   return sorted[Math.floor(sorted.length / 2)] ?? sorted[0]!;
 }
 
 const AMOUNT_LABEL =
   String.raw`(?:İşlem|Islem|Işlem|ISLEM|Transfer|Gönderilen|Gonderilen|Gönderim|Gonderim|Havale|EFT|FAST|Ödenen|Odenen|Ödeme|Odeme|Net|Brüt|Brut|Para|Miktar|Amount|TUTAR|Tutar[ıiİI]?)`;
+
+/** Türkçe binlik noktalı: 12.375,00 */
+const AMOUNT_TR_THOUSANDS = String.raw`(\d{1,3}(?:\.\d{3})+,\d{2})`;
 
 function parseTurkishAmount(text: string): number | null {
   const normalized = normalizeOcrText(text);
@@ -69,6 +82,15 @@ function parseTurkishAmount(text: string): number | null {
   const candidates: AmountCandidate[] = [];
 
   const labeledHigh = [
+    // Halkbank / Ziraat: İŞLEM TUTARI (TL) 12.375,00
+    new RegExp(
+      String.raw`(?:İŞLEM|ISLEM|İşlem|Islem)\s*TUTARI?\s*\(?\s*TL\s*\)?\s*[:\s]*${AMOUNT_TR_THOUSANDS}`,
+      'gi'
+    ),
+    new RegExp(
+      String.raw`(?:TOPLAM|Toplam)\s*\(?\s*TL\s*\)?\s*[:\s]*${AMOUNT_TR_THOUSANDS}`,
+      'gi'
+    ),
     new RegExp(String.raw`${AMOUNT_LABEL}\s*Tutar[ıiİI]?\s*[:\-]?\s*(?:TRY|TL)?\s*${AMOUNT_TOKEN}`, 'gi'),
     new RegExp(
       String.raw`(?:İşlem|Islem|Transfer)\s*Tutar[ıiİI]?\s*[:\-]?\s*\n\s*(?:TRY|TL)?\s*${AMOUNT_TOKEN}`,
@@ -89,7 +111,13 @@ function parseTurkishAmount(text: string): number | null {
     new RegExp(String.raw`(?:TRY|TL)\s*${AMOUNT_TOKEN}`, 'gi'),
   ];
 
-  for (const pattern of labeledHigh) collectAmountMatches(normalized, pattern, 1, candidates);
+  for (const pattern of labeledHigh) {
+    if (pattern.source.includes(AMOUNT_TR_THOUSANDS)) {
+      collectAmountMatches(normalized, pattern, 1, candidates, (raw) => parseAmountToken(raw));
+    } else {
+      collectAmountMatches(normalized, pattern, 1, candidates);
+    }
+  }
   for (const pattern of labeledMid) {
     if (pattern.source.includes(AMOUNT_WHOLE_TOKEN)) {
       collectAmountMatches(normalized, pattern, 2, candidates, parseWholeAmountToken);
@@ -109,7 +137,10 @@ function parseTurkishAmount(text: string): number | null {
   const barePicked = pickBestAmount(bareCandidates);
   if (barePicked != null) return barePicked;
 
-  // ABD formatı: 5,000.00
+  // ABD formatı — metinde Türkçe tutar (12.375,00) yoksa dene; aksi halde 12.375,00 → 12.00 hatası
+  const hasTurkishAmount = /\d{1,3}(?:\.\d{3})+,\d{2}/.test(normalized);
+  if (hasTurkishAmount) return null;
+
   const usFormat = /(\d{1,3}(?:,\d{3})+|\d+)\.(\d{2})\b/g;
   let usMatch: RegExpExecArray | null;
   const usCandidates: AmountCandidate[] = [];
@@ -123,13 +154,22 @@ function parseTurkishAmount(text: string): number | null {
 
 function parseReferenceNo(text: string): string | null {
   const patterns = [
-    /(?:REF(?:ERANS)?|İşlem|Islem|Dekont|Fis|Fiş|Referans\s*No)[:\s#-]*([A-Z0-9-]{6,24})/gi,
+    /(?:REF(?:ERANS)?|Dekont|Fis|Fiş|Referans\s*No|ARŞİV\s*REFERANS)[:\s#-]*([A-Z0-9][A-Z0-9\s-]{5,28})/gi,
+    /(?:İşlem|Islem)\s*(?:No|Numarası|Numarasi)[:\s#-]*([A-Z0-9-]{6,24})/gi,
+    /\b([A-Z]{1,2}-\d{4}\s+\d{2}\s+\d{2}-\d{2}\.\d{2}\.\d{2}\.\d+)/g,
     /\b([A-Z]{2,4}\d{8,16})\b/g,
   ];
 
+  const stopWords = new Set(['KANALI', 'MOBIL', 'MOBİL', 'INTERNET', 'İNTERNET', 'SUBE', 'ŞUBE']);
+
   for (const pattern of patterns) {
-    const match = pattern.exec(text);
-    if (match?.[1]) return match[1].trim();
+    const re = new RegExp(pattern.source, pattern.flags.includes('g') ? pattern.flags : `${pattern.flags}g`);
+    let match: RegExpExecArray | null;
+    while ((match = re.exec(text)) !== null) {
+      const candidate = match[1]?.trim().replace(/\s+/g, ' ');
+      if (!candidate || stopWords.has(candidate.toUpperCase())) continue;
+      if (candidate.length >= 6) return candidate;
+    }
   }
   return null;
 }

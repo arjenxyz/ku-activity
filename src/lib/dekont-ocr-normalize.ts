@@ -28,5 +28,8 @@ export function normalizeOcrText(text: string): string {
     (line) => line.replace(/(\d)[Oo](\d)/g, '$10$2').replace(/(\d)[lI](\d)/g, '$11$2')
   );
 
+  // Satır kırılımı: "12\n.375,00" → "12.375,00"
+  out = out.replace(/(\d{1,3})\s*\n\s*\.(\d{3},\d{2})/g, '$1.$2');
+
   return out;
 }
