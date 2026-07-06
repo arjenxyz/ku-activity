@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { FiLock } from 'react-icons/fi';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
@@ -29,6 +29,7 @@ export function UnlockFormClient({ fullName, firstName }: Props) {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [forgotOpen, setForgotOpen] = useState(false);
+  const unlockInFlightRef = useRef(false);
 
   useEffect(() => {
     if (searchParams.get('forgot') === '1') setForgotOpen(true);
@@ -36,32 +37,47 @@ export function UnlockFormClient({ fullName, firstName }: Props) {
 
   const displayName = (fullName || firstName).trim();
 
+  const submitUnlock = useCallback(
+    async (pinValue: string) => {
+      if (pinValue.length !== PERSONNEL_PIN_LENGTH || unlockInFlightRef.current) return;
+      unlockInFlightRef.current = true;
+      setLoading(true);
+      setError('');
+      try {
+        const res = await fetch('/api/auth/personnel/unlock', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          credentials: 'same-origin',
+          body: JSON.stringify({ pin: pinValue }),
+        });
+        const data = (await res.json()) as { error?: string };
+        if (!res.ok) {
+          setError(data.error || strings.invalidPin);
+          setPin('');
+          return;
+        }
+        const next = searchParams.get('next');
+        router.replace(next && next.startsWith('/personnel-panel') ? next : '/personnel-panel');
+        router.refresh();
+      } catch {
+        setError(strings.systemError);
+      } finally {
+        setLoading(false);
+        unlockInFlightRef.current = false;
+      }
+    },
+    [router, searchParams, strings.invalidPin, strings.systemError]
+  );
+
+  useEffect(() => {
+    if (pin.length === PERSONNEL_PIN_LENGTH && !loading) {
+      void submitUnlock(pin);
+    }
+  }, [pin, loading, submitUnlock]);
+
   const handleUnlock = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (pin.length !== PERSONNEL_PIN_LENGTH) return;
-    setLoading(true);
-    setError('');
-    try {
-      const res = await fetch('/api/auth/personnel/unlock', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        credentials: 'same-origin',
-        body: JSON.stringify({ pin }),
-      });
-      const data = (await res.json()) as { error?: string };
-      if (!res.ok) {
-        setError(data.error || strings.invalidPin);
-        setPin('');
-        return;
-      }
-      const next = searchParams.get('next');
-      router.replace(next && next.startsWith('/personnel-panel') ? next : '/personnel-panel');
-      router.refresh();
-    } catch {
-      setError(strings.systemError);
-    } finally {
-      setLoading(false);
-    }
+    await submitUnlock(pin);
   };
 
   const handleForgetMe = async () => {
