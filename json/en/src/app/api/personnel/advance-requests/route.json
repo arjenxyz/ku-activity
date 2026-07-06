@@ -1,5 +1,6 @@
 {
-  "taleplerYüklenemedi": "Talepler yüklenemedi",
-  "oturumGeçersiz": "Oturum geçersiz",
-  "talepOluşturulamadı": "Talep oluşturulamadı"
+  "taleplerYüklenemedi": "Could not load requests",
+  "oturumGeçersiz": "Invalid session",
+  "talepOluşturulamadı": "Could not create request",
+  "projeKapanışta": "The project is in closure; advance requests cannot be created."
 }
