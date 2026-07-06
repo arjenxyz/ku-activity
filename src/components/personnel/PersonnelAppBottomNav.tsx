@@ -5,13 +5,7 @@ import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { Suspense, useState } from 'react';
 import { motion } from 'framer-motion';
-import {
-  NavIconFinance,
-  NavIconHome,
-  NavIconMenu,
-  NavIconQr,
-  NavIconWork,
-} from '@/components/personnel/PersonnelNavIcons';
+import { HonorIconGlyph, HonorIconTile } from '@/components/icons/HonorIcons';
 import { PersonnelNavHub } from '@/components/personnel/PersonnelNavHub';
 import { PERSONNEL_HUB_TABS } from '@/config/personnel-mobile-nav';
 import type { PersonnelTabId } from '@/hooks/usePersonnelTab';
@@ -26,7 +20,8 @@ type DockItem = {
   label: string;
   href?: string;
   onClick?: () => void;
-  Icon: typeof NavIconHome;
+  iconName: 'home' | 'work' | 'qr' | 'finance' | 'menu';
+  iconTheme: 'blue' | 'emerald' | 'indigo' | 'slate' | 'teal';
   isCenter?: boolean;
 };
 
@@ -43,22 +38,20 @@ function DockSideItem({
   href?: string;
   hubOpen?: boolean;
 }) {
-  const { Icon } = item;
-
   const content = (
     <motion.span
       className="group flex min-w-0 flex-col items-center gap-1"
       whileTap={{ scale: 0.93 }}
       transition={{ type: 'spring', stiffness: 500, damping: 32 }}
     >
-      <span
-        className={`relative flex h-10 w-10 items-center justify-center rounded-[0.9rem] transition-colors duration-200 ${
-          active ? 'bg-[#E8EBF8] text-[#0E1548]' : 'text-[#94A3B8] group-active:text-[#64748B]'
-        }`}
-      >
-        <Icon className="h-[1.35rem] w-[1.35rem]" filled={active} />
-        {active && (
-          <span className="absolute -bottom-0.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-[#0E1548]" />
+      <span className="relative flex h-10 w-10 items-center justify-center">
+        {active ? (
+          <HonorIconTile name={item.iconName} theme={item.iconTheme} size="sm" />
+        ) : (
+          <HonorIconGlyph
+            name={item.iconName}
+            className="h-[1.35rem] w-[1.35rem] text-[#94A3B8] group-active:text-[#64748B]"
+          />
         )}
       </span>
       <span
@@ -111,17 +104,18 @@ function NavInner() {
     hubOpen || (pathname === '/personnel-panel' && PERSONNEL_HUB_TABS.includes(tab));
 
   const items: DockItem[] = [
-    { id: 'home', label: strings.home, href: '/personnel-panel', Icon: NavIconHome },
-    { id: 'work', label: strings.work, href: '/personnel-panel?tab=work', Icon: NavIconWork },
+    { id: 'home', label: strings.home, href: '/personnel-panel', iconName: 'home', iconTheme: 'blue' },
+    { id: 'work', label: strings.work, href: '/personnel-panel?tab=work', iconName: 'work', iconTheme: 'emerald' },
     {
       id: 'yoklama',
       label: strings.yoklama,
       href: '/personnel-panel/yoklama',
-      Icon: NavIconQr,
+      iconName: 'qr',
+      iconTheme: 'teal',
       isCenter: true,
     },
-    { id: 'finance', label: strings.finance, href: '/personnel-panel?tab=finance', Icon: NavIconFinance },
-    { id: 'more', label: strings.more, onClick: () => setHubOpen(true), Icon: NavIconMenu },
+    { id: 'finance', label: strings.finance, href: '/personnel-panel?tab=finance', iconName: 'finance', iconTheme: 'indigo' },
+    { id: 'more', label: strings.more, onClick: () => setHubOpen(true), iconName: 'menu', iconTheme: 'slate' },
   ];
 
   const isActive = (id: string) => {
@@ -175,7 +169,7 @@ function NavInner() {
                           className="pointer-events-none absolute inset-x-2 top-1 h-4 rounded-full bg-white/15 blur-[2px]"
                           aria-hidden
                         />
-                        <NavIconQr className="relative h-[1.45rem] w-[1.45rem]" filled />
+                        <HonorIconGlyph name="qr" className="relative h-[1.45rem] w-[1.45rem] text-white" />
                         <span
                           className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full border-2 border-white bg-emerald-400"
                           aria-hidden

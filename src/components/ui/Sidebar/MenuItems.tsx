@@ -1,14 +1,8 @@
 import Link from "next/link";
 import { useState, useCallback, useMemo } from "react";
-import {
-  FiPlus,
-  FiFileText,
-  FiUsers,
-  FiDollarSign,
-  FiChevronRight,
-  FiSearch,
-} from "react-icons/fi";
+import { FiChevronRight } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
+import { HonorIconTile, type HonorIconName, type HonorIconTheme } from "@/components/icons/HonorIcons";
 import strings from '@json/src/components/ui/Sidebar/MenuItems.json';
 
 interface MenuItem {
@@ -26,6 +20,10 @@ interface MenuItemsProps {
   projectId: string;
 }
 
+function categoryIcon(name: HonorIconName, theme: HonorIconTheme) {
+  return <HonorIconTile name={name} theme={theme} size="sm" />;
+}
+
 const MenuItems = ({ pathname, projectId }: MenuItemsProps) => {
   const [openMenu, setOpenMenu] = useState<string | null>(null);
 
@@ -33,7 +31,7 @@ const MenuItems = ({ pathname, projectId }: MenuItemsProps) => {
     () => [
       {
         label: strings.personnelManagement,
-        icon: <FiUsers className="text-lg text-blue-500 dark:text-blue-400" />,
+        icon: categoryIcon('users', 'blue'),
         subItems: [
           {
             label: strings.sub.addEmployee,
@@ -59,9 +57,7 @@ const MenuItems = ({ pathname, projectId }: MenuItemsProps) => {
       },
       {
         label: strings.queryManagement,
-        icon: (
-          <FiSearch className="text-lg text-orange-500 dark:text-orange-400" />
-        ),
+        icon: categoryIcon('search', 'orange'),
         subItems: [
           {
             label: strings.sub.employeeQuery,
@@ -95,9 +91,7 @@ const MenuItems = ({ pathname, projectId }: MenuItemsProps) => {
       },
       {
         label: strings.reports,
-        icon: (
-          <FiFileText className="text-lg text-purple-500 dark:text-purple-400" />
-        ),
+        icon: categoryIcon('report', 'violet'),
         subItems: [
           {
             label: strings.sub.adminReports,
@@ -115,9 +109,7 @@ const MenuItems = ({ pathname, projectId }: MenuItemsProps) => {
       },
       {
         label: strings.finance,
-        icon: (
-          <FiDollarSign className="text-lg text-green-500 dark:text-green-400" />
-        ),
+        icon: categoryIcon('finance', 'emerald'),
         subItems: [
           {
             label: strings.sub.status,
@@ -167,9 +159,7 @@ const MenuItems = ({ pathname, projectId }: MenuItemsProps) => {
                   aria-expanded={isOpen}
                 >
                   <div className="flex items-center gap-3">
-                    <span className="p-2 bg-white dark:bg-gray-900 rounded-lg shadow-sm">
-                      {icon}
-                    </span>
+                    {icon}
                     <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
                       {label}
                     </span>
@@ -189,20 +179,20 @@ const MenuItems = ({ pathname, projectId }: MenuItemsProps) => {
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
-                      className="ml-10 mt-1 space-y-1"
+                      className="ml-4 mt-1 space-y-1"
                     >
                       {subItems.map(({ label: subLabel, href: subHref }) => (
                         <Link
                           href={subHref}
                           key={subHref}
-                          className={`flex items-center px-4 py-2.5 text-sm rounded-lg transition-colors
+                          className={`flex items-center gap-2.5 px-3 py-2.5 text-sm rounded-lg transition-colors
                             ${
                               pathname?.startsWith(subHref)
                                 ? "bg-blue-50 dark:bg-blue-900 text-blue-600 dark:text-blue-300 font-semibold"
                                 : "hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-300"
                             }`}
                         >
-                          <FiPlus className="mr-2 text-blue-400 dark:text-blue-300" />
+                          <HonorIconTile name="plus" theme="blue" size="xs" muted />
                           {subLabel}
                         </Link>
                       ))}
@@ -220,9 +210,7 @@ const MenuItems = ({ pathname, projectId }: MenuItemsProps) => {
                       : "hover:bg-gray-50 dark:hover:bg-gray-800"
                   }`}
               >
-                <span className="p-2 bg-white dark:bg-gray-900 rounded-lg shadow-sm">
-                  {icon}
-                </span>
+                {icon}
                 <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
                   {label}
                 </span>

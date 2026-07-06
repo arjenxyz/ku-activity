@@ -3,19 +3,14 @@
 import { useRef, useState } from 'react';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import {
-  FiBriefcase,
   FiCamera,
   FiChevronLeft,
   FiChevronRight,
-  FiCreditCard,
   FiImage,
-  FiLock,
   FiLogOut,
   FiPhone,
-  FiSettings,
-  FiShield,
-  FiUser,
 } from 'react-icons/fi';
+import { HonorIconTile, type HonorIconName, type HonorIconTheme } from '@/components/icons/HonorIcons';
 import { EmployeeAvatar } from '@/components/employee/EmployeeAvatar';
 import { PersonnelContractsSection } from '@/components/personnel/PersonnelContractsSection';
 import { PersonnelDisplaySettings } from '@/components/personnel/PersonnelDisplaySettings';
@@ -46,14 +41,14 @@ type SettingsSectionId =
 
 type MenuItemId = Exclude<SettingsSectionId, 'home'>;
 
-const MENU_ICON_STYLES: Record<MenuItemId, string> = {
-  personal: 'bg-blue-100 text-blue-600 dark:bg-blue-950/60 dark:text-blue-300',
-  contact: 'bg-emerald-100 text-emerald-600 dark:bg-emerald-950/50 dark:text-emerald-300',
-  bank: 'bg-violet-100 text-violet-600 dark:bg-violet-950/50 dark:text-violet-300',
-  work: 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300',
-  contracts: 'bg-indigo-100 text-indigo-600 dark:bg-indigo-950/50 dark:text-indigo-300',
-  security: 'bg-rose-100 text-rose-600 dark:bg-rose-950/50 dark:text-rose-300',
-  app: 'bg-slate-200 text-slate-600 dark:bg-slate-700 dark:text-slate-200',
+const MENU_ICON_DEFS: Record<MenuItemId, { name: HonorIconName; theme: HonorIconTheme }> = {
+  personal: { name: 'user', theme: 'blue' },
+  contact: { name: 'phone', theme: 'emerald' },
+  bank: { name: 'card', theme: 'violet' },
+  work: { name: 'briefcase', theme: 'amber' },
+  contracts: { name: 'shield', theme: 'indigo' },
+  security: { name: 'lock', theme: 'rose' },
+  app: { name: 'settings', theme: 'slate' },
 };
 
 function formatIbanDisplay(iban: string | null | undefined, strings: SettingsStrings) {
@@ -122,15 +117,14 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
   const menuItems: Array<{
     id: MenuItemId;
     title: string;
-    icon: React.ReactNode;
   }> = [
-    { id: 'personal', title: strings.menu.personal.title, icon: <FiUser className="h-[1.05rem] w-[1.05rem]" /> },
-    { id: 'contact', title: strings.menu.contact.title, icon: <FiPhone className="h-[1.05rem] w-[1.05rem]" /> },
-    { id: 'bank', title: strings.menu.bank.title, icon: <FiCreditCard className="h-[1.05rem] w-[1.05rem]" /> },
-    { id: 'work', title: strings.menu.work.title, icon: <FiBriefcase className="h-[1.05rem] w-[1.05rem]" /> },
-    { id: 'contracts', title: strings.menu.contracts.title, icon: <FiShield className="h-[1.05rem] w-[1.05rem]" /> },
-    { id: 'security', title: strings.menu.security.title, icon: <FiLock className="h-[1.05rem] w-[1.05rem]" /> },
-    { id: 'app', title: strings.menu.app.title, icon: <FiSettings className="h-[1.05rem] w-[1.05rem]" /> },
+    { id: 'personal', title: strings.menu.personal.title },
+    { id: 'contact', title: strings.menu.contact.title },
+    { id: 'bank', title: strings.menu.bank.title },
+    { id: 'work', title: strings.menu.work.title },
+    { id: 'contracts', title: strings.menu.contracts.title },
+    { id: 'security', title: strings.menu.security.title },
+    { id: 'app', title: strings.menu.app.title },
   ];
 
   const accountItems = menuItems.filter((item) => ['personal', 'contact', 'bank'].includes(item.id));
@@ -206,8 +200,7 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
             <SettingsCard>
               <MenuRow
                 title={strings.pinTitle}
-                icon={<FiLock className="h-[1.05rem] w-[1.05rem]" />}
-                iconClassName={MENU_ICON_STYLES.security}
+                iconDef={MENU_ICON_DEFS.security}
                 onClick={() => setPasswordOpen(true)}
               />
             </SettingsCard>
@@ -247,8 +240,7 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
                 <MenuRow
                   key={item.id}
                   title={item.title}
-                  icon={item.icon}
-                  iconClassName={MENU_ICON_STYLES[item.id]}
+                  iconDef={MENU_ICON_DEFS[item.id]}
                   onClick={() => setActiveSection(item.id)}
                   showDivider={index < accountItems.length - 1}
                 />
@@ -260,8 +252,7 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
                 <MenuRow
                   key={item.id}
                   title={item.title}
-                  icon={item.icon}
-                  iconClassName={MENU_ICON_STYLES[item.id]}
+                  iconDef={MENU_ICON_DEFS[item.id]}
                   onClick={() => setActiveSection(item.id)}
                   showDivider={index < workItems.length - 1}
                 />
@@ -273,8 +264,7 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
                 <MenuRow
                   key={item.id}
                   title={item.title}
-                  icon={item.icon}
-                  iconClassName={MENU_ICON_STYLES[item.id]}
+                  iconDef={MENU_ICON_DEFS[item.id]}
                   onClick={() => setActiveSection(item.id)}
                   showDivider={index < systemItems.length - 1}
                 />
@@ -355,14 +345,12 @@ function SettingsCard({ children }: { children: React.ReactNode }) {
 
 function MenuRow({
   title,
-  icon,
-  iconClassName,
+  iconDef,
   onClick,
   showDivider = true,
 }: {
   title: string;
-  icon: React.ReactNode;
-  iconClassName: string;
+  iconDef: { name: HonorIconName; theme: HonorIconTheme };
   onClick: () => void;
   showDivider?: boolean;
 }) {
@@ -373,11 +361,7 @@ function MenuRow({
         onClick={onClick}
         className="flex w-full items-center gap-3 px-4 py-3.5 text-left transition-colors hover:bg-slate-50 active:bg-slate-100 dark:hover:bg-slate-800/60"
       >
-        <span
-          className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-[0.65rem] ${iconClassName}`}
-        >
-          {icon}
-        </span>
+        <HonorIconTile name={iconDef.name} theme={iconDef.theme} size="sm" muted />
         <span className="min-w-0 flex-1 text-[15px] font-medium text-slate-900 dark:text-white">{title}</span>
         <FiChevronRight className="h-5 w-5 shrink-0 text-slate-300 dark:text-slate-500" />
       </button>

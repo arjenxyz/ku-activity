@@ -6,22 +6,11 @@ import { Suspense, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { FiX } from 'react-icons/fi';
 import { BrandMark } from '@/components/brand/BrandMark';
+import { HonorIconTile, type HonorIconName, type HonorIconTheme } from '@/components/icons/HonorIcons';
 import {
   PERSONNEL_HUB_SECTIONS,
-  PERSONNEL_NAV_TILE_ACCENTS,
   type PersonnelHubItem,
 } from '@/config/personnel-mobile-nav';
-import type { PersonnelTabId } from '@/hooks/usePersonnelTab';
-import { PERSONNEL_TABS } from '@/hooks/usePersonnelTab';
-import {
-  NavIconAsgari,
-  NavIconFinance,
-  NavIconMesai,
-  NavIconQr,
-  NavIconRights,
-  NavIconSettings,
-  NavIconWork,
-} from '@/components/personnel/PersonnelNavIcons';
 
 type Props = {
   open: boolean;
@@ -30,25 +19,21 @@ type Props = {
   isYoklama: boolean;
 };
 
+import type { PersonnelTabId } from '@/hooks/usePersonnelTab';
+import { PERSONNEL_TABS } from '@/hooks/usePersonnelTab';
+
+const HUB_ICON_MAP: Record<string, { name: HonorIconName; theme: HonorIconTheme }> = {
+  work: { name: 'work', theme: 'emerald' },
+  mesai: { name: 'mesai', theme: 'violet' },
+  yoklama: { name: 'qr', theme: 'teal' },
+  finance: { name: 'finance', theme: 'indigo' },
+  asgari: { name: 'shield', theme: 'blue' },
+  rights: { name: 'rights', theme: 'sky' },
+  settings: { name: 'settings', theme: 'slate' },
+};
+
 function hubItemIcon(item: PersonnelHubItem) {
-  switch (item.id) {
-    case 'work':
-      return NavIconWork;
-    case 'mesai':
-      return NavIconMesai;
-    case 'yoklama':
-      return NavIconQr;
-    case 'finance':
-      return NavIconFinance;
-    case 'asgari':
-      return NavIconAsgari;
-    case 'rights':
-      return NavIconRights;
-    case 'settings':
-      return NavIconSettings;
-    default:
-      return NavIconWork;
-  }
+  return HUB_ICON_MAP[item.id] ?? { name: 'menu' as HonorIconName, theme: 'slate' as HonorIconTheme };
 }
 
 function isItemActive(item: PersonnelHubItem, tab: PersonnelTabId, isYoklama: boolean) {
@@ -178,9 +163,8 @@ function HubInner({ open, onClose, activeTab, isYoklama }: Props) {
                     className={`grid gap-2.5 ${section.items.length > 2 ? 'grid-cols-3' : 'grid-cols-2'}`}
                   >
                     {section.items.map((item) => {
-                      const Icon = hubItemIcon(item);
+                      const iconDef = hubItemIcon(item);
                       const active = isItemActive(item, activeTab, isYoklama);
-                      const accent = PERSONNEL_NAV_TILE_ACCENTS[item.accent];
                       const i = tileIndex++;
                       return (
                         <li key={item.id}>
@@ -198,12 +182,12 @@ function HubInner({ open, onClose, activeTab, isYoklama }: Props) {
                                 : 'border-slate-200/80 dark:border-slate-700'
                             }`}
                           >
-                            <motion.span
-                              className={`flex h-11 w-11 items-center justify-center rounded-xl shadow-md ${accent.icon}`}
-                              whileHover={{ rotate: [0, -6, 6, 0] }}
-                              transition={{ duration: 0.4 }}
-                            >
-                              <Icon />
+                            <motion.span whileHover={{ scale: 1.04 }} transition={{ duration: 0.2 }}>
+                              <HonorIconTile
+                                name={iconDef.name}
+                                theme={iconDef.theme}
+                                size="lg"
+                              />
                             </motion.span>
                             <span>
                               <span className="block text-xs font-bold text-slate-900 dark:text-white">

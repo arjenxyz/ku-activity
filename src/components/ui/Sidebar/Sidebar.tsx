@@ -3,7 +3,8 @@
 
 import { Dispatch, SetStateAction, useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { FiChevronRight, FiLayout, FiSettings } from "react-icons/fi";
+import { FiChevronRight } from "react-icons/fi";
+import { HonorIconTile } from "@/components/icons/HonorIcons";
 import { motion, AnimatePresence } from "framer-motion";
 import MenuItems from "./MenuItems";
 import LogoutButton from "./LogoutButton";
@@ -99,7 +100,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setSettingsOpen }) => {
                 <div className="p-6 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
                   <div className="flex items-center gap-3">
                     <div className="p-2 bg-blue-100 dark:bg-blue-900 rounded-lg">
-                      <FiLayout className="w-6 h-6 text-blue-600 dark:text-blue-300" />
+                      <HonorIconTile name="grid" theme="blue" size="md" />
                     </div>
                     <div>
                       <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
@@ -123,7 +124,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setSettingsOpen }) => {
                     onClick={() => setSettingsOpen(true)}
                     className="flex items-center justify-center gap-2 w-full px-4 py-2 bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors shadow"
                   >
-                    <FiSettings className="text-xl" />
+                    <HonorIconTile name="settings" theme="slate" size="sm" muted />
                     <span>Ayarları Aç</span>
                   </button>
                   <div className="mt-4">

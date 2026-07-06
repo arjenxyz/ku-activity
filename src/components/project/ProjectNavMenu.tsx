@@ -5,6 +5,8 @@ import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { FiChevronDown } from 'react-icons/fi';
+import { HonorIconTile } from '@/components/icons/HonorIcons';
+import { getProjectMenuIconFromHref } from '@/lib/project-menu-icons';
 import { AdminMenuBrandBar, AdminProjectMenuCard } from '@/components/dashboard/AdminMenuChrome';
 import { AdminUiModeToggle } from '@/components/dashboard/AdminUiModeToggle';
 import { useAdminCurrentProject } from '@/hooks/useAdminCurrentProject';
@@ -19,6 +21,35 @@ import {
 } from '@/config/projectMenu';
 
 type NavVariant = 'sidebar' | 'mobile';
+
+function MenuLinkContent({
+  href,
+  label,
+  hint,
+  active,
+  mobile,
+}: {
+  href: string;
+  label: string;
+  hint?: string;
+  active: boolean;
+  mobile: boolean;
+}) {
+  const icon = getProjectMenuIconFromHref(href);
+  return (
+    <span className="flex items-center gap-3 min-w-0">
+      <HonorIconTile name={icon.name} theme={icon.theme} size="sm" muted />
+      <span className="min-w-0 flex-1">
+        <span className={mobile ? 'font-medium block' : 'text-sm font-semibold block'}>{label}</span>
+        {!mobile && hint && (
+          <span className={`block text-[11px] mt-0.5 ${active ? 'text-blue-100' : 'text-slate-400'}`}>
+            {hint}
+          </span>
+        )}
+      </span>
+    </span>
+  );
+}
 
 function linkClass(active: boolean, mobile: boolean) {
   if (mobile) {
@@ -79,18 +110,13 @@ export function ProjectNavLinks({
                   mobile ? 'px-3 py-2.5 text-[15px]' : 'px-3 py-2.5'
                 } ${linkClass(active, mobile)}`}
               >
-                <span className={mobile ? 'font-medium' : 'text-sm font-semibold'}>
-                  {link.label}
-                </span>
-                {!mobile && link.hint && (
-                  <span
-                    className={`block text-[11px] mt-0.5 ${
-                      active ? 'text-blue-100' : 'text-slate-400'
-                    }`}
-                  >
-                    {link.hint}
-                  </span>
-                )}
+                <MenuLinkContent
+                  href={href}
+                  label={link.label}
+                  hint={link.hint}
+                  active={active}
+                  mobile={mobile}
+                />
               </Link>
             </li>
           );
@@ -147,13 +173,18 @@ export function ProjectNavLinks({
                               <Link
                                 href={href}
                                 onClick={onNavigate}
-                                className={`block pl-5 pr-3 py-2 text-sm rounded-lg mx-1 ${
+                                className={`flex items-center gap-2.5 pl-3 pr-3 py-2 text-sm rounded-lg mx-1 ${
                                   active
                                     ? 'bg-blue-50 text-blue-800 font-medium'
                                     : 'text-slate-600 active:bg-slate-50'
                                 }`}
                               >
-                                {link.label}
+                                <HonorIconTile
+                                  {...getProjectMenuIconFromHref(href)}
+                                  size="xs"
+                                  muted
+                                />
+                                <span>{link.label}</span>
                               </Link>
                             </li>
                           );
@@ -199,13 +230,18 @@ export function ProjectNavLinks({
                             <Link
                               href={href}
                               onClick={onNavigate}
-                              className={`block px-3 py-2 text-sm transition-colors ${
+                              className={`flex items-center gap-2.5 px-3 py-2 text-sm transition-colors ${
                                 active
                                   ? 'bg-blue-50 text-blue-800 font-medium border-l-2 border-blue-600'
                                   : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
                               }`}
                             >
-                              {link.label}
+                              <HonorIconTile
+                                {...getProjectMenuIconFromHref(href)}
+                                size="xs"
+                                muted
+                              />
+                              <span>{link.label}</span>
                             </Link>
                           </li>
                         );
