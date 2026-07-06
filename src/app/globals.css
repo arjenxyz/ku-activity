@@ -11,6 +11,8 @@
   --safe-right: env(safe-area-inset-right, 0px);
   /* Personel üst bar: safe-pt + h-14 kart + alt boşluk (pb-2) */
   --personnel-topbar-h: calc(max(1rem, env(safe-area-inset-top, 0px)) + 3.5rem + 0.5rem);
+  --personnel-topbar-z: 250;
+  --personnel-notify-z: 400;
 }
 
 @media (prefers-color-scheme: dark) {

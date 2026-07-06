@@ -27,7 +27,7 @@ export function PersonnelInAppNotificationBanner() {
   };
 
   return (
-    <div className="pointer-events-none fixed inset-x-0 top-0 z-[100] flex justify-center px-3 pt-[max(0.5rem,env(safe-area-inset-top))]">
+    <div className="pointer-events-none fixed inset-x-0 top-0 z-[var(--personnel-notify-z)] flex justify-center px-3 pt-[max(0.5rem,env(safe-area-inset-top))]">
       <motion.button
         type="button"
         drag="y"

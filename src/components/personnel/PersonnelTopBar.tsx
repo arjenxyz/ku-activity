@@ -39,8 +39,8 @@ export function PersonnelTopBar({ immersive = false }: Props) {
   const enterCode = isYoklama ? topBarActions?.enterCode : null;
 
   const shellClass = immersivePath
-    ? 'fixed top-0 inset-x-0 z-[250] bg-black'
-    : 'sticky top-0 z-[250]';
+    ? 'fixed top-0 inset-x-0 z-[var(--personnel-topbar-z)] bg-black'
+    : 'sticky top-0 z-[var(--personnel-topbar-z)]';
 
   const cardClass = immersivePath
     ? 'border-white/15 bg-black/60 shadow-lg shadow-black/30'
