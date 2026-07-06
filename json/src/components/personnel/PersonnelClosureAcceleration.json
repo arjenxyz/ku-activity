@@ -13,6 +13,7 @@
   "successTitle": "Silme hızlandırıldı",
   "successBody": "Hesabınız 3 dakika içinde silinecek. Yeni projeye başvurabilirsiniz.",
   "acceleratingLabel": "Süre hızlandırılıyor…",
+  "purgingLabel": "Hesabınız siliniyor…",
   "linkConfirmTitle": "Onaylanıyor…",
   "linkConfirmSuccess": "Hesap silme hızlandırıldı.",
   "linkConfirmError": "Bağlantı geçersiz veya süresi dolmuş.",

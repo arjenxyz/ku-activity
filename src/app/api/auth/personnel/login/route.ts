@@ -64,7 +64,13 @@ export async function POST(request: Request) {
 
     const admin = createAdminClient();
 
-    const employee = await findEmployeeForIdentityLogin(admin, normalizedType, loginIdentity);
+    let employee = await findEmployeeForIdentityLogin(admin, normalizedType, loginIdentity);
+
+    if (employee) {
+      const { maybePurgeAcceleratedEmployee } = await import('@/lib/employee-closure-purge');
+      const purged = await maybePurgeAcceleratedEmployee(employee.project_id, employee.id);
+      if (purged) employee = null;
+    }
 
     if (!employee) {
       console.warn('Personel giriş: kimlik ile kayıt bulunamadı', {

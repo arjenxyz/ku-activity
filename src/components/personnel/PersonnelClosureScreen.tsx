@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { PersonnelClosureBrandBar } from './PersonnelClosureBrandBar';
 import { PersonnelClosureDossierPanel } from './PersonnelClosureDossierPanel';
 import { AcceleratedClosureCountdown } from './AcceleratedClosureCountdown';
@@ -12,6 +13,7 @@ import { formatString } from '@/lib/strings/format';
 
 /** Proje kapanış modunda veri indirme ekranı */
 export function PersonnelClosureScreen() {
+  const router = useRouter();
   const { status, reload } = usePersonnelClosure();
   const strings = useRegistryStrings('components/personnel/PersonnelClosureScreen');
   const accelStrings = useRegistryStrings('components/personnel/PersonnelClosureAcceleration');
@@ -30,6 +32,22 @@ export function PersonnelClosureScreen() {
       date: formatDate(effectiveDeadline),
     });
   }, [effectiveDeadline, isAccelerated, strings]);
+
+  const [purging, setPurging] = useState(false);
+
+  const handleDeletionDue = useCallback(async () => {
+    if (purging || !status?.isAccelerated) return;
+    setPurging(true);
+    try {
+      const res = await fetch('/api/personnel/closure/execute-deletion', { method: 'POST' });
+      if (res.ok) {
+        router.replace('/personnel-panel/login');
+        router.refresh();
+      }
+    } finally {
+      setPurging(false);
+    }
+  }, [purging, router, status?.isAccelerated]);
 
   const handleAccelerated = useCallback(
     async (result: { acceleratedDeletionAt: string }) => {
@@ -69,7 +87,13 @@ export function PersonnelClosureScreen() {
             phase={status?.phase}
             accelerateFromDeadline={preAccelDeadline ?? status?.deadlineAt ?? null}
             accelerationNonce={accelerationNonce}
+            onExpired={status?.isAccelerated ? () => void handleDeletionDue() : undefined}
           />
+          {purging ? (
+            <p className="mt-3 text-center text-xs font-medium text-slate-500">
+              {accelStrings.purgingLabel}
+            </p>
+          ) : null}
         </div>
 
         <div className="h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent dark:via-slate-700" />

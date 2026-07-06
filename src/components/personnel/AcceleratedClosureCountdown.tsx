@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { ClosureCountdown } from '@/components/closure/ClosureCountdown';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
+import { getClosureCountdown } from '@/lib/closure-phase';
 import type { ClosurePhase } from '@/lib/closure-phase';
 
 type Props = {
@@ -10,6 +11,7 @@ type Props = {
   phase?: ClosurePhase | string | null;
   accelerateFromDeadline?: string | null;
   accelerationNonce?: number;
+  onExpired?: () => void;
 };
 
 const ACCEL_DURATION_MS = 2800;
@@ -19,11 +21,13 @@ export function AcceleratedClosureCountdown({
   phase,
   accelerateFromDeadline,
   accelerationNonce = 0,
+  onExpired,
 }: Props) {
   const strings = useRegistryStrings('components/personnel/PersonnelClosureAcceleration');
   const [displayDeadline, setDisplayDeadline] = useState(deadlineAt);
   const [isAccelerating, setIsAccelerating] = useState(false);
   const rafRef = useRef<number | null>(null);
+  const expiredFiredRef = useRef(false);
 
   useEffect(() => {
     setDisplayDeadline(deadlineAt);
@@ -59,6 +63,26 @@ export function AcceleratedClosureCountdown({
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
     };
   }, [accelerationNonce, deadlineAt, accelerateFromDeadline]);
+
+  useEffect(() => {
+    expiredFiredRef.current = false;
+  }, [deadlineAt, accelerationNonce]);
+
+  useEffect(() => {
+    if (!onExpired || !displayDeadline || isAccelerating) return;
+
+    const tick = () => {
+      const parts = getClosureCountdown(displayDeadline);
+      if (parts?.expired && !expiredFiredRef.current) {
+        expiredFiredRef.current = true;
+        onExpired();
+      }
+    };
+
+    tick();
+    const id = window.setInterval(tick, 500);
+    return () => window.clearInterval(id);
+  }, [displayDeadline, isAccelerating, onExpired]);
 
   return (
     <div className="relative">

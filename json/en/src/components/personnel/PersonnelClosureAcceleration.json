@@ -13,6 +13,7 @@
   "successTitle": "Deletion accelerated",
   "successBody": "Your account will be deleted in 3 minutes. You can apply to a new project.",
   "acceleratingLabel": "Speeding up countdown…",
+  "purgingLabel": "Deleting your account…",
   "linkConfirmTitle": "Confirming…",
   "linkConfirmSuccess": "Account deletion accelerated.",
   "linkConfirmError": "Invalid or expired link.",

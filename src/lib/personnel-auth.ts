@@ -72,6 +72,12 @@ export async function requirePersonnelSession(): Promise<PersonnelSession> {
     throw new Error('UNAUTHORIZED');
   }
 
+  const { maybePurgeAcceleratedEmployee } = await import('@/lib/employee-closure-purge');
+  const purged = await maybePurgeAcceleratedEmployee(session.projectId, session.employeeId);
+  if (purged) {
+    throw new Error('UNAUTHORIZED');
+  }
+
   const msLeft = new Date(session.expiresAt).getTime() - Date.now();
   if (msLeft < SLIDE_REFRESH_WITHIN_MS) {
     await slidePersonnelSession(session.sessionId, token);

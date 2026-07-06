@@ -178,8 +178,6 @@ import m_app_api_auth_personnel_login_route_tr from '@json/src/app/api/auth/pers
 import m_app_api_auth_personnel_login_route_en from '@json/en/src/app/api/auth/personnel/login/route.json';
 import m_app_api_auth_personnel_projects_route_tr from '@json/src/app/api/auth/personnel/projects/route.json';
 import m_app_api_auth_personnel_projects_route_en from '@json/en/src/app/api/auth/personnel/projects/route.json';
-import m_app_api_cron_personnel_closure_purge_route_tr from '@json/src/app/api/cron/personnel-closure-purge/route.json';
-import m_app_api_cron_personnel_closure_purge_route_en from '@json/en/src/app/api/cron/personnel-closure-purge/route.json';
 import m_app_api_cron_personnel_pending_reminders_route_tr from '@json/src/app/api/cron/personnel-pending-reminders/route.json';
 import m_app_api_cron_personnel_pending_reminders_route_en from '@json/en/src/app/api/cron/personnel-pending-reminders/route.json';
 import m_app_api_cron_supabase_keepalive_route_tr from '@json/src/app/api/cron/supabase-keepalive/route.json';
@@ -214,6 +212,8 @@ import m_app_api_personnel_closure_acknowledge_export_route_tr from '@json/src/a
 import m_app_api_personnel_closure_acknowledge_export_route_en from '@json/en/src/app/api/personnel/closure/acknowledge-export/route.json';
 import m_app_api_personnel_closure_consent_route_tr from '@json/src/app/api/personnel/closure/consent/route.json';
 import m_app_api_personnel_closure_consent_route_en from '@json/en/src/app/api/personnel/closure/consent/route.json';
+import m_app_api_personnel_closure_execute_deletion_route_tr from '@json/src/app/api/personnel/closure/execute-deletion/route.json';
+import m_app_api_personnel_closure_execute_deletion_route_en from '@json/en/src/app/api/personnel/closure/execute-deletion/route.json';
 import m_app_api_personnel_closure_status_route_tr from '@json/src/app/api/personnel/closure/status/route.json';
 import m_app_api_personnel_closure_status_route_en from '@json/en/src/app/api/personnel/closure/status/route.json';
 import m_app_api_personnel_contracts_route_tr from '@json/src/app/api/personnel/contracts/route.json';
@@ -751,7 +751,6 @@ export const STRINGS_REGISTRY = {
   'app/api/auth/personnel/employees/route': { tr: m_app_api_auth_personnel_employees_route_tr, en: m_app_api_auth_personnel_employees_route_en },
   'app/api/auth/personnel/login/route': { tr: m_app_api_auth_personnel_login_route_tr, en: m_app_api_auth_personnel_login_route_en },
   'app/api/auth/personnel/projects/route': { tr: m_app_api_auth_personnel_projects_route_tr, en: m_app_api_auth_personnel_projects_route_en },
-  'app/api/cron/personnel-closure-purge/route': { tr: m_app_api_cron_personnel_closure_purge_route_tr, en: m_app_api_cron_personnel_closure_purge_route_en },
   'app/api/cron/personnel-pending-reminders/route': { tr: m_app_api_cron_personnel_pending_reminders_route_tr, en: m_app_api_cron_personnel_pending_reminders_route_en },
   'app/api/cron/supabase-keepalive/route': { tr: m_app_api_cron_supabase_keepalive_route_tr, en: m_app_api_cron_supabase_keepalive_route_en },
   'app/api/developer/codes/[codeId]/route': { tr: m_app_api_developer_codes__codeId__route_tr, en: m_app_api_developer_codes__codeId__route_en },
@@ -769,6 +768,7 @@ export const STRINGS_REGISTRY = {
   'app/api/personnel/closure/accelerate-deletion/route': { tr: m_app_api_personnel_closure_accelerate_deletion_route_tr, en: m_app_api_personnel_closure_accelerate_deletion_route_en },
   'app/api/personnel/closure/acknowledge-export/route': { tr: m_app_api_personnel_closure_acknowledge_export_route_tr, en: m_app_api_personnel_closure_acknowledge_export_route_en },
   'app/api/personnel/closure/consent/route': { tr: m_app_api_personnel_closure_consent_route_tr, en: m_app_api_personnel_closure_consent_route_en },
+  'app/api/personnel/closure/execute-deletion/route': { tr: m_app_api_personnel_closure_execute_deletion_route_tr, en: m_app_api_personnel_closure_execute_deletion_route_en },
   'app/api/personnel/closure/status/route': { tr: m_app_api_personnel_closure_status_route_tr, en: m_app_api_personnel_closure_status_route_en },
   'app/api/personnel/contracts/route': { tr: m_app_api_personnel_contracts_route_tr, en: m_app_api_personnel_contracts_route_en },
   'app/api/personnel/deductions/route': { tr: m_app_api_personnel_deductions_route_tr, en: m_app_api_personnel_deductions_route_en },

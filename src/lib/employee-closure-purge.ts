@@ -46,35 +46,24 @@ export async function purgeEmployeeAfterClosure(params: {
   return true;
 }
 
-export async function purgeDueAcceleratedEmployees(): Promise<{ purged: number; errors: string[] }> {
+/** Hızlandırılmış silme süresi dolduysa personeli temizler (cron gerekmez). */
+export async function maybePurgeAcceleratedEmployee(
+  projectId: string,
+  employeeId: string
+): Promise<boolean> {
   const admin = createAdminClient();
-  const now = new Date().toISOString();
-  const errors: string[] = [];
-  let purged = 0;
 
-  const { data: dueRows, error } = await admin
+  const { data: consent } = await admin
     .from('project_closure_consents')
-    .select('project_id, employee_id')
-    .not('accelerated_deletion_at', 'is', null)
-    .lte('accelerated_deletion_at', now);
+    .select('accelerated_deletion_at')
+    .eq('project_id', projectId)
+    .eq('employee_id', employeeId)
+    .maybeSingle();
 
-  if (error) {
-    throw new Error(error.message);
+  const dueAt = consent?.accelerated_deletion_at;
+  if (!dueAt || new Date(dueAt).getTime() > Date.now()) {
+    return false;
   }
 
-  for (const row of dueRows ?? []) {
-    try {
-      const didPurge = await purgeEmployeeAfterClosure({
-        projectId: row.project_id as string,
-        employeeId: row.employee_id as string,
-      });
-      if (didPurge) purged += 1;
-    } catch (err) {
-      errors.push(
-        `${row.employee_id}: ${err instanceof Error ? err.message : 'purge failed'}`
-      );
-    }
-  }
-
-  return { purged, errors };
+  return purgeEmployeeAfterClosure({ projectId, employeeId });
 }

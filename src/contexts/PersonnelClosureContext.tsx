@@ -33,7 +33,7 @@ export function PersonnelClosureProvider({ children }: { children: React.ReactNo
 
   useEffect(() => {
     void reload();
-    const intervalMs = status?.isAccelerated ? 5_000 : 60_000;
+    const intervalMs = status?.isAccelerated ? 1_000 : 60_000;
     const id = window.setInterval(() => void reload(), intervalMs);
     return () => window.clearInterval(id);
   }, [reload, status?.isAccelerated]);
