@@ -10,7 +10,7 @@ import { notificationMonochromeIconPath } from '@/lib/brand';
 export type PwaAppVariant = AppIconVariant;
 
 /** PWA ikon/manifest önbelleğini kırmak için — değişince artır */
-export const PWA_ASSET_VERSION = '13';
+export const PWA_ASSET_VERSION = '14';
 
 function iconUrl(variant: PwaAppVariant, size: 192 | 512, purpose: 'any' | 'maskable' = 'any') {
   if (purpose === 'maskable') {

@@ -77,7 +77,7 @@ function patchTwaManifest(manifestPath, bump, packageId) {
     'https://crewledger.vercel.app'
   ).replace(/\/$/, '');
   const variant = String(packageId).includes('admin') ? 'admin' : 'personnel';
-  manifest.monochromeIconUrl = `${appUrl}/icons/${variant}/notification/96?v=14`;
+  manifest.monochromeIconUrl = `${appUrl}/icons/${variant}/notification/96?v=15`;
 
   if (bump) {
     const code = Number(manifest.appVersionCode ?? manifest.versionCode ?? 0) + 1;
