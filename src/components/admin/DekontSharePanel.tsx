@@ -33,6 +33,8 @@ import {
   validateDekontDocument,
   validateMatchForConfirm,
   validateRetroactivePayment,
+  validateForcePayment,
+  FORCE_PAYMENT_MAX_AGE_DAYS,
   type DekontValidationCheck,
 } from '@/lib/dekont-validation';
 import { decodeScanReport, type DekontScanReport } from '@/lib/dekont-scan-report';
@@ -511,6 +513,10 @@ function DekontShareContent() {
         : { ok: false },
     [effectiveOcr, selectedMatch, transferCodeOverride]
   );
+  const forcePaymentReady = useMemo(() => {
+    if (!effectiveOcr || !selectedMatch || confirmReady.ok) return { ok: false as const };
+    return validateForcePayment(effectiveOcr, selectedMatch, paymentDate);
+  }, [effectiveOcr, selectedMatch, paymentDate, confirmReady.ok]);
   const selectedIbanEmployee =
     ibanSuggestions.find((e) => e.employeeId === selectedEmployeeId) ?? null;
   const retroactiveReady = useMemo(() => {
@@ -629,6 +635,36 @@ function DekontShareContent() {
           paymentDate,
           amount: parsedManualAmount ?? undefined,
           transferCodeOverride: transferCodeOverride || undefined,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || strings.errors.saveFailed);
+      setSuccess(strings.success.paymentSaved);
+      setDraft(null);
+      setStep('done');
+      router.replace('/admin-panel/dekont-paylas');
+    } catch (e) {
+      setError(e instanceof Error ? e.message : strings.errors.saveFailed);
+    } finally {
+      setConfirming(false);
+    }
+  };
+
+  const handleForceConfirm = async () => {
+    if (!draft || !selectedRequestId || !selectedProjectId || !forcePaymentReady.ok) return;
+    setConfirming(true);
+    setError(null);
+    try {
+      const res = await fetch(`/api/admin/dekont/drafts/${draft.id}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          requestId: selectedRequestId,
+          projectId: selectedProjectId,
+          referenceNo,
+          paymentDate,
+          amount: parsedManualAmount ?? undefined,
+          forcePaymentOverride: true,
         }),
       });
       const data = await res.json();
@@ -926,6 +962,28 @@ function DekontShareContent() {
                   <FiAlertTriangle className="mt-0.5 shrink-0" />
                   {confirmReady.reason}
                 </p>
+              )}
+
+              {forcePaymentReady.ok && (
+                <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-4 dark:border-amber-900/50 dark:bg-amber-950/30">
+                  <p className="text-sm text-amber-900 dark:text-amber-200">
+                    {formatString(strings.review.forcePaymentHint, {
+                      maxDays: FORCE_PAYMENT_MAX_AGE_DAYS,
+                    })}
+                  </p>
+                  <button
+                    type="button"
+                    className={`${btnSecondary} mt-3 border-amber-300 text-amber-900 hover:bg-amber-100 dark:border-amber-800 dark:text-amber-200 dark:hover:bg-amber-950/50`}
+                    disabled={confirming}
+                    onClick={() => void handleForceConfirm()}
+                  >
+                    {confirming ? strings.review.forcePaymentSaving : strings.review.forcePayment}
+                  </button>
+                </div>
+              )}
+
+              {!forcePaymentReady.ok && forcePaymentReady.reason && !confirmReady.ok && selectedMatch && (
+                <p className="mt-3 text-xs text-slate-500">{forcePaymentReady.reason}</p>
               )}
 
               <div className="mt-5 flex flex-wrap gap-2 border-t border-slate-100 pt-5 dark:border-slate-800">

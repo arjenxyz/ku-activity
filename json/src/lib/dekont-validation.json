@@ -108,5 +108,11 @@
     "amountRequired": "Geçmiş ödeme için dekont tutarı okunmalı",
     "amountMismatch": "Dekont tutarı ({ocrAmount} ₺) girilen tutar ({amount} ₺) ile uyuşmuyor",
     "employeeRequired": "Personel seçin"
+  },
+  "forcePayment": {
+    "dateRequired": "Zorla kayıt için ödeme tarihi gerekli",
+    "noApprovalDate": "Avans onay tarihi bulunamadı",
+    "notBeforeApproval": "Zorla kayıt yalnızca ödeme avans onayından önce yapıldıysa kullanılabilir",
+    "tooOld": "Ödeme tarihi {maxDays} günden eski — zorla kayıt yapılamaz"
   }
 }

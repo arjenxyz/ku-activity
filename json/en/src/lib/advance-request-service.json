@@ -27,5 +27,11 @@
   "ibanMismatch": "Receipt IBAN does not match the selected employee's registered IBAN",
   "retroactivePaymentDateRequired": "Payment date is required for retroactive payment",
   "retroactiveBankOnly": "Retroactive payment recording is only available for bank transfers",
-  "deductionDescriptionRetroactive": "Retroactive advance (request {requestIdPrefix})"
+  "deductionDescriptionRetroactive": "Retroactive advance (request {requestIdPrefix})",
+  "forcePaymentIbanRequired": "Recipient IBAN must be read from receipt for force save",
+  "forcePaymentAmountRequired": "Amount must be read from receipt for force save",
+  "forcePaymentAmountMismatch": "Receipt amount does not match approved advance",
+  "forcePaymentNoApprovalDate": "Advance approval date not found",
+  "forcePaymentNotBeforeApproval": "Force save only allowed when payment was made before approval",
+  "forcePaymentTooOld": "Payment is older than {maxDays} days — force save not allowed"
 }

@@ -27,5 +27,11 @@
   "ibanMismatch": "Dekont IBAN'ı seçilen personelin kayıtlı IBAN'ı ile eşleşmiyor",
   "retroactivePaymentDateRequired": "Geçmiş ödeme için ödeme tarihi gerekli",
   "retroactiveBankOnly": "Geçmiş ödeme kaydı yalnızca havale için kullanılabilir",
-  "deductionDescriptionRetroactive": "Geçmiş avans (talep {requestIdPrefix})"
+  "deductionDescriptionRetroactive": "Geçmiş avans (talep {requestIdPrefix})",
+  "forcePaymentIbanRequired": "Zorla kayıt için dekontta alıcı IBAN okunmalı",
+  "forcePaymentAmountRequired": "Zorla kayıt için dekont tutarı okunmalı",
+  "forcePaymentAmountMismatch": "Dekont tutarı onaylı avansla uyuşmuyor",
+  "forcePaymentNoApprovalDate": "Avans onay tarihi bulunamadı",
+  "forcePaymentNotBeforeApproval": "Zorla kayıt yalnızca ödeme onaydan önce yapıldıysa kullanılabilir",
+  "forcePaymentTooOld": "Ödeme {maxDays} günden eski — zorla kayıt yapılamaz"
 }

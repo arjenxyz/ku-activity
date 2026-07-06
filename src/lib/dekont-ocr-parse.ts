@@ -229,24 +229,68 @@ function parseTurkishAmount(text: string): number | null {
 }
 
 function parseReferenceNo(text: string): string | null {
-  const patterns = [
-    /(?:REF(?:ERANS)?|Dekont|Fis|Fiş|Referans\s*No|ARŞİV\s*REFERANS)[:\s#-]*([A-Z0-9][A-Z0-9\s-]{5,28})/gi,
-    /(?:İşlem|Islem)\s*(?:No|Numarası|Numarasi)[:\s#-]*([A-Z0-9-]{6,24})/gi,
-    /\b([A-Z]{1,2}-\d{4}\s+\d{2}\s+\d{2}-\d{2}\.\d{2}\.\d{2}\.\d+)/g,
+  const stopWords = new Set([
+    'KANALI',
+    'MOBIL',
+    'MOBİL',
+    'INTERNET',
+    'İNTERNET',
+    'SUBE',
+    'ŞUBE',
+    'GONDEREN',
+    'GÖNDEREN',
+    'ALICI',
+    'HESAP',
+  ]);
+
+  const cleanCandidate = (raw: string): string | null => {
+    let candidate = raw.trim().replace(/\s+/g, ' ');
+    if (!candidate || candidate.startsWith('HVL-')) return null;
+    const compact = candidate.replace(/\s/g, '');
+    if (/^TR\d{20,}/i.test(compact)) return null;
+    if (/^\d{2}[./]\d{2}[./]\d{4}$/.test(candidate)) return null;
+    const upper = candidate.toUpperCase();
+    if (stopWords.has(upper)) return null;
+    if (candidate.length < 6 || candidate.length > 32) return null;
+    return candidate;
+  };
+
+  const labeledPatterns = [
+    /(?:İşlem|Islem)\s*(?:Referans\s*)?(?:No|Numarası|Numarasi|Nosu)?[:\s#*-]+([A-Z0-9][A-Z0-9\s.\-/]{4,30})/gi,
+    /(?:Referans|REF|Arşiv|Arsiv)\s*(?:No|Numarası|Numarasi)?[:\s#*-]+([A-Z0-9][A-Z0-9\s.\-/]{4,30})/gi,
+    /(?:Dekont|DEKONT)\s*(?:No|Numarası|Numarasi)?[:\s#*-]+([A-Z0-9][A-Z0-9\s.\-/]{4,30})/gi,
+    /(?:Sorgu|FAST|EFT|Transfer|Havale)\s*(?:No|Numarası|Numarasi|Referans)?[:\s#*-]+([A-Z0-9][A-Z0-9\s.\-/]{4,30})/gi,
+    /(?:REF(?:ERANS)?)[:\s#*-]+([A-Z0-9][A-Z0-9\s.\-/]{4,30})/gi,
+    /\b(FT-\d{4,}\s*\d{2}\s*\d{2}-\d{2}\.\d{2}\.\d{2}\.\d+)/gi,
+    /\b([A-Z]{1,3}-\d{4}\s+\d{2}\s+\d{2}-\d{2}\.\d{2}\.\d{2}\.\d+)/g,
     /\b([A-Z]{2,4}\d{8,16})\b/g,
   ];
 
-  const stopWords = new Set(['KANALI', 'MOBIL', 'MOBİL', 'INTERNET', 'İNTERNET', 'SUBE', 'ŞUBE']);
-
-  for (const pattern of patterns) {
+  for (const pattern of labeledPatterns) {
     const re = new RegExp(pattern.source, pattern.flags.includes('g') ? pattern.flags : `${pattern.flags}g`);
     let match: RegExpExecArray | null;
     while ((match = re.exec(text)) !== null) {
-      const candidate = match[1]?.trim().replace(/\s+/g, ' ');
-      if (!candidate || stopWords.has(candidate.toUpperCase())) continue;
-      if (candidate.length >= 6) return candidate;
+      const cleaned = cleanCandidate(match[1] ?? '');
+      if (cleaned) return cleaned;
     }
   }
+
+  const numericNearLabel =
+    /(?:İşlem|Islem|Referans|REF|Dekont|DEKONT|Sorgu|Arşiv|Arsiv|FAST|EFT|Transfer|Havale)[^\d\n]{0,48}(\d{8,20})/gi;
+  let numMatch: RegExpExecArray | null;
+  while ((numMatch = numericNearLabel.exec(text)) !== null) {
+    const cleaned = cleanCandidate(numMatch[1] ?? '');
+    if (cleaned) return cleaned.replace(/\s/g, '');
+  }
+
+  const lineAfterLabel =
+    /(?:İşlem|Islem|Referans|Dekont)\s*(?:No|Numarası|Numarasi)?\s*[\n\r]+[\s#*-]*([A-Z0-9][A-Z0-9\s.\-/]{5,28})/gi;
+  let lineMatch: RegExpExecArray | null;
+  while ((lineMatch = lineAfterLabel.exec(text)) !== null) {
+    const cleaned = cleanCandidate(lineMatch[1] ?? '');
+    if (cleaned) return cleaned;
+  }
+
   return null;
 }
 

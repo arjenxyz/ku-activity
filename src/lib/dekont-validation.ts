@@ -26,6 +26,8 @@ const MIN_TEXT_LENGTH = 55;
 const MIN_BANK_KEYWORDS = 2;
 export const MIN_TRUST_SCORE = 65;
 export const MIN_MATCH_SCORE = 50;
+/** Ödeme avans onayından önce yapıldıysa zorla kayıt için üst süre (gün) */
+export const FORCE_PAYMENT_MAX_AGE_DAYS = 15;
 
 /** IBAN + banka bağlamı okundu — tutar manuel düzeltilebilir */
 export function isDekontReviewable(ocr: DekontOcrResult): boolean {
@@ -434,6 +436,72 @@ export function validateRetroactivePayment(
         ocrAmount: ocr.amount,
         amount: approvedAmount,
       }),
+    };
+  }
+
+  return { ok: true };
+}
+
+function matchIbanOk(match: DekontMatchSuggestion) {
+  return match.reasons.some((r) => r.includes('IBAN'));
+}
+
+function matchAmountOk(ocr: DekontOcrResult, approvedAmount: number, match: DekontMatchSuggestion) {
+  if (match.reasons.some((r) => r.includes('Tutar uyumlu') || r.includes('Tutar yakın'))) {
+    return true;
+  }
+  if (ocr.amount == null) return false;
+  return Math.abs(ocr.amount - approvedAmount) <= 1;
+}
+
+export function validateForcePayment(
+  ocr: DekontOcrResult,
+  match: DekontMatchSuggestion | null,
+  paymentDate?: string
+): { ok: boolean; reason?: string } {
+  if (!match) {
+    return { ok: false, reason: strings.confirm.noMatchSelected };
+  }
+
+  const doc = validateDekontDocument(ocr);
+  if (!doc.accepted) {
+    return { ok: false, reason: formatDekontValidationFailure(doc, ocr) };
+  }
+
+  if (!matchIbanOk(match)) {
+    return { ok: false, reason: strings.confirm.ibanMismatch };
+  }
+
+  if (!matchAmountOk(ocr, match.approvedAmount, match)) {
+    return {
+      ok: false,
+      reason: formatString(strings.confirm.amountMismatch, {
+        ocrAmount: ocr.amount ?? 0,
+        approvedAmount: match.approvedAmount,
+      }),
+    };
+  }
+
+  const payDate = paymentDate ?? ocr.paymentDate;
+  if (!payDate) {
+    return { ok: false, reason: strings.forcePayment.dateRequired };
+  }
+  if (!match.approvedAt) {
+    return { ok: false, reason: strings.forcePayment.noApprovalDate };
+  }
+
+  const approvedDay = dayjs(match.approvedAt).startOf('day');
+  const paymentDay = dayjs(payDate).startOf('day');
+
+  if (!paymentDay.isBefore(approvedDay)) {
+    return { ok: false, reason: strings.forcePayment.notBeforeApproval };
+  }
+
+  const daysSincePayment = dayjs().startOf('day').diff(paymentDay, 'day');
+  if (daysSincePayment > FORCE_PAYMENT_MAX_AGE_DAYS) {
+    return {
+      ok: false,
+      reason: formatString(strings.forcePayment.tooOld, { maxDays: FORCE_PAYMENT_MAX_AGE_DAYS }),
     };
   }
 

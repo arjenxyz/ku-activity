@@ -49,6 +49,7 @@ export async function POST(request: Request, ctx: Ctx) {
       paymentDate: typeof body.paymentDate === 'string' ? body.paymentDate : undefined,
       amount: typeof body.amount === 'number' && body.amount > 0 ? body.amount : undefined,
       transferCodeOverride: body.transferCodeOverride === true,
+      forcePaymentOverride: body.forcePaymentOverride === true,
     });
 
     return NextResponse.json({ request: record });

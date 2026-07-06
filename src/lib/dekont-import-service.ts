@@ -1,4 +1,4 @@
-import { validateDekontDocument, validateMatchForConfirm, formatDekontValidationFailure, buildDekontScanReport, isDekontReviewable } from '@/lib/dekont-validation';
+import { validateDekontDocument, validateMatchForConfirm, validateForcePayment, formatDekontValidationFailure, buildDekontScanReport, isDekontReviewable } from '@/lib/dekont-validation';
 import type { DekontScanReport } from '@/lib/dekont-scan-report';
 import { analyzeDekont, type DekontOcrResult } from '@/lib/dekont-ocr';
 import { buildEnrichedOcrResult } from '@/lib/dekont-ocr-enrich';
@@ -414,6 +414,7 @@ export async function confirmDekontDraft(params: {
   paymentDate?: string;
   amount?: number;
   transferCodeOverride?: boolean;
+  forcePaymentOverride?: boolean;
 }) {
   const draft = await loadDekontDraft(params.adminUserId, params.draftId);
   const admin = createAdminClient();
@@ -425,11 +426,23 @@ export async function confirmDekontDraft(params: {
 
   const selectedMatch =
     (draft.match_json ?? []).find((m) => m.requestId === params.requestId) ?? null;
-  const matchCheck = validateMatchForConfirm(ocrForConfirm, selectedMatch, {
-    transferCodeOverride: params.transferCodeOverride,
-  });
-  if (!matchCheck.ok) {
-    throw new DekontImportError(matchCheck.reason ?? strings.matchValidationFailed, 422);
+
+  if (params.forcePaymentOverride) {
+    const forceCheck = validateForcePayment(
+      ocrForConfirm,
+      selectedMatch,
+      params.paymentDate ?? ocrForConfirm.paymentDate ?? undefined
+    );
+    if (!forceCheck.ok) {
+      throw new DekontImportError(forceCheck.reason ?? strings.matchValidationFailed, 422);
+    }
+  } else {
+    const matchCheck = validateMatchForConfirm(ocrForConfirm, selectedMatch, {
+      transferCodeOverride: params.transferCodeOverride,
+    });
+    if (!matchCheck.ok) {
+      throw new DekontImportError(matchCheck.reason ?? strings.matchValidationFailed, 422);
+    }
   }
 
   const { data: draftRow } = await admin
@@ -459,6 +472,7 @@ export async function confirmDekontDraft(params: {
       ...(params.amount != null ? { amount: params.amount, amountManual: true } : {}),
     },
     transferCodeOverride: params.transferCodeOverride,
+    forcePaymentOverride: params.forcePaymentOverride,
   });
 
   await admin

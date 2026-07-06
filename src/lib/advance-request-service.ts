@@ -22,6 +22,7 @@ import {
   notifyAdvancePaid,
   notifyAdvanceRejected,
 } from '@/lib/personnel-notification-service';
+import { FORCE_PAYMENT_MAX_AGE_DAYS } from '@/lib/dekont-validation';
 import dayjs from 'dayjs';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
@@ -118,6 +119,52 @@ async function assertDuplicateReference(
   if (error) throw new AdvanceRequestError(error.message, 'DB', 500);
   if (data?.length) {
     throw new AdvanceRequestError(strings.duplicateReference, 'DUPLICATE_PROOF', 409);
+  }
+}
+
+async function assertForcePaymentAllowed(
+  admin: SupabaseClient,
+  params: {
+    employeeId: string;
+    approvedAmount: number;
+    approvedAt: string | null;
+    paymentDate: string;
+    ocrJson: Record<string, unknown>;
+  }
+) {
+  const recipientIban =
+    typeof params.ocrJson.recipientIban === 'string' ? params.ocrJson.recipientIban : null;
+  if (!recipientIban) {
+    throw new AdvanceRequestError(strings.forcePaymentIbanRequired, 'IBAN_MISMATCH', 422);
+  }
+  await assertEmployeeIbanMatches(admin, params.employeeId, recipientIban);
+
+  const ocrAmount =
+    typeof params.ocrJson.amount === 'number' ? params.ocrJson.amount : null;
+  if (ocrAmount == null || ocrAmount <= 0) {
+    throw new AdvanceRequestError(strings.forcePaymentAmountRequired, 'INVALID_AMOUNT', 422);
+  }
+  if (Math.abs(ocrAmount - params.approvedAmount) > 1) {
+    throw new AdvanceRequestError(strings.forcePaymentAmountMismatch, 'AMOUNT_MISMATCH', 422);
+  }
+
+  if (!params.approvedAt) {
+    throw new AdvanceRequestError(strings.forcePaymentNoApprovalDate, 'INVALID_STATUS', 422);
+  }
+
+  const approvedDay = dayjs(params.approvedAt).startOf('day');
+  const paymentDay = dayjs(params.paymentDate).startOf('day');
+  if (!paymentDay.isBefore(approvedDay)) {
+    throw new AdvanceRequestError(strings.forcePaymentNotBeforeApproval, 'PAYMENT_DATE', 422);
+  }
+
+  const daysSincePayment = dayjs().startOf('day').diff(paymentDay, 'day');
+  if (daysSincePayment > FORCE_PAYMENT_MAX_AGE_DAYS) {
+    throw new AdvanceRequestError(
+      formatString(strings.forcePaymentTooOld, { maxDays: FORCE_PAYMENT_MAX_AGE_DAYS }),
+      'PAYMENT_DATE',
+      422
+    );
   }
 }
 
@@ -455,6 +502,7 @@ export async function recordBankPayment(
     };
     proofOcrJson?: Record<string, unknown> | null;
     transferCodeOverride?: boolean;
+    forcePaymentOverride?: boolean;
   }
 ) {
   const row = await loadRequest(admin, params.requestId, params.projectId);
@@ -468,17 +516,29 @@ export async function recordBankPayment(
   const amount = row.approved_amount ?? row.requested_amount;
   const payDate = params.paymentDate ?? dayjs().format('YYYY-MM-DD');
   const isRetroactive = row.is_retroactive === true;
-
-  const activeToken = isRetroactive
-    ? null
-    : await getActiveTransferToken(admin, params.requestId, params.projectId);
+  const forcePayment = params.forcePaymentOverride === true;
   const ocrJson = params.proofOcrJson ?? {};
+
+  if (forcePayment) {
+    await assertForcePaymentAllowed(admin, {
+      employeeId: row.employee_id,
+      approvedAmount: amount,
+      approvedAt: row.approved_at,
+      paymentDate: payDate,
+      ocrJson,
+    });
+  }
+
+  const activeToken =
+    isRetroactive || forcePayment
+      ? null
+      : await getActiveTransferToken(admin, params.requestId, params.projectId);
   const rawText = typeof ocrJson.rawText === 'string' ? ocrJson.rawText : '';
   const ocrToken =
     (typeof ocrJson.transferToken === 'string' ? ocrJson.transferToken : null) ??
     parseAdvanceTransferTokenFromText(rawText);
 
-  if (!isRetroactive && activeToken?.token) {
+  if (!isRetroactive && !forcePayment && activeToken?.token) {
     const normalizedExpected = normalizeAdvanceTransferToken(activeToken.token);
     const normalizedOcr = ocrToken ? normalizeAdvanceTransferToken(ocrToken) : null;
     const tokenOk = normalizedExpected && normalizedOcr && normalizedExpected === normalizedOcr;
@@ -487,7 +547,7 @@ export async function recordBankPayment(
     }
   }
 
-  if (!isRetroactive && row.approved_at && payDate) {
+  if (!isRetroactive && !forcePayment && row.approved_at && payDate) {
     const approvedDay = dayjs(row.approved_at).startOf('day');
     const paymentDay = dayjs(payDate).startOf('day');
     if (paymentDay.isBefore(approvedDay.subtract(1, 'day'))) {
@@ -539,8 +599,10 @@ export async function recordBankPayment(
       proof_ocr_json: {
         ...ocrJson,
         ...(params.transferCodeOverride ? { transferCodeOverride: true } : {}),
-        ...(isRetroactive ? { retroactive: true } : {}),
+        ...(isRetroactive || forcePayment ? { retroactive: true } : {}),
+        ...(forcePayment ? { forcePayment: true } : {}),
       },
+      ...(forcePayment ? { is_retroactive: true } : {}),
     })
     .eq('id', params.requestId)
     .select('*')
