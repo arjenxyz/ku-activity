@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import strings from '@json/src/app/personnel-panel/layout.json';
 import { PersonnelDisplayProvider } from '@/lib/personnel-display-preferences';
+import { PersonnelSessionGate } from '@/components/personnel/PersonnelSessionGate';
 import { PersonnelIntroGate } from '@/components/personnel/PersonnelIntroGate';
 import { PersonnelPanelChrome } from '@/components/personnel/PersonnelPanelChrome';
 import { APP_NAME, PERSONNEL_APP_ICON } from '@/lib/brand';
@@ -48,9 +49,11 @@ export default function PersonnelPanelLayout({ children }: { children: React.Rea
         />
       ))}
       <PersonnelDisplayProvider>
-        <PersonnelIntroGate>
-          <PersonnelPanelChrome>{children}</PersonnelPanelChrome>
-        </PersonnelIntroGate>
+        <PersonnelSessionGate>
+          <PersonnelIntroGate>
+            <PersonnelPanelChrome>{children}</PersonnelPanelChrome>
+          </PersonnelIntroGate>
+        </PersonnelSessionGate>
       </PersonnelDisplayProvider>
     </>
   );

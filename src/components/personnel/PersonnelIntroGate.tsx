@@ -3,6 +3,7 @@
 import { usePathname } from 'next/navigation';
 import { useLayoutEffect, useState } from 'react';
 import { PersonnelAppIntro } from '@/components/personnel/PersonnelAppIntro';
+import { usePersonnelSessionGate } from '@/components/personnel/PersonnelSessionGate';
 import { PersonnelPushBootstrap } from '@/components/personnel/PersonnelPushBootstrap';
 import { markPersonnelUiReady } from '@/lib/personnel-app-ready';
 import { hasSeenPersonnelIntro, markPersonnelIntroSeen } from '@/lib/personnel-intro';
@@ -44,16 +45,21 @@ function scheduleUiReady() {
 /** Intro karar verilene kadar boot overlay kalsın */
 export function PersonnelIntroGate({ children }: { children: React.ReactNode }) {
   const pathname = usePathname() ?? '';
+  const sessionGate = usePersonnelSessionGate();
   const [showIntro, setShowIntro] = useState<boolean | null>(null);
+  const [holdForRedirect, setHoldForRedirect] = useState(false);
 
   useLayoutEffect(() => {
+    setHoldForRedirect(false);
     const shouldShow = computeShowIntro(pathname);
     setShowIntro(shouldShow);
     if (!shouldShow) {
       document.getElementById('cl-intro-boot')?.remove();
-      scheduleUiReady();
+      const hold = sessionGate?.onIntroComplete() ?? false;
+      setHoldForRedirect(hold);
+      if (!hold) scheduleUiReady();
     }
-  }, [pathname]);
+  }, [pathname, sessionGate]);
 
   useLayoutEffect(() => {
     if (showIntro !== true) return;
@@ -78,14 +84,16 @@ export function PersonnelIntroGate({ children }: { children: React.ReactNode }) 
   const handleComplete = () => {
     markPersonnelIntroSeen();
     document.getElementById('cl-intro-boot')?.remove();
+    const hold = sessionGate?.onIntroComplete() ?? false;
+    setHoldForRedirect(hold);
     setShowIntro(false);
-    scheduleUiReady();
+    if (!hold) scheduleUiReady();
   };
 
   return (
     <>
       {showIntro === true && <PersonnelAppIntro onComplete={handleComplete} />}
-      {showIntro === false && (
+      {showIntro === false && !holdForRedirect && (
         <>
           <PersonnelPushBootstrap />
           {children}

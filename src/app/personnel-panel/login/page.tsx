@@ -6,7 +6,6 @@ import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import {
-  clearPendingRegistration,
   loadPendingRegistration,
   savePendingRegistration,
   type PendingRegistration,
@@ -216,36 +215,6 @@ function LoginForm() {
 
 function PersonnelLoginContent() {
   const strings = useRegistryStrings('app/personnel-panel/login/page');
-
-  useEffect(() => {
-    let cancelled = false;
-    const pending = loadPendingRegistration();
-    if (!pending) return;
-
-    void (async () => {
-      try {
-        const res = await fetch(
-          `/api/public/personnel-registration/status?kod=${encodeURIComponent(pending.verificationCode)}`
-        );
-        if (cancelled) return;
-        if (res.ok) {
-          const data = (await res.json()) as { status?: string };
-          if (data.status === 'pending' || data.status === 'approved' || data.status === 'rejected') {
-            savePendingRegistration(pending);
-            redirectToPendingApplication();
-            return;
-          }
-        }
-        clearPendingRegistration();
-      } catch {
-        /* giriş formuna devam */
-      }
-    })();
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
 
   return (
     <PersonnelLoginLayout dense screenLabel={strings.screenLabel} subtitle={strings.subtitle}>
