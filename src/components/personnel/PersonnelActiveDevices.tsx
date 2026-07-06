@@ -22,6 +22,7 @@ type DeviceRow = {
 
 type Props = {
   onCurrentDeviceRemoved?: () => void;
+  hideHeader?: boolean;
 };
 
 function formatRelativeTime(iso: string, strings: DeviceStrings) {
@@ -48,7 +49,7 @@ function iconForKind(kind: DeviceKind): IconType {
   }
 }
 
-export function PersonnelActiveDevices({ onCurrentDeviceRemoved }: Props) {
+export function PersonnelActiveDevices({ onCurrentDeviceRemoved, hideHeader = false }: Props) {
   const strings = useRegistryStrings('components/personnel/PersonnelActiveDevices');
   const [devices, setDevices] = useState<DeviceRow[]>([]);
   const [loading, setLoading] = useState(true);
