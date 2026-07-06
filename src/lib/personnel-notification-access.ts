@@ -41,6 +41,8 @@ export async function resolvePersonnelNotificationAccess(): Promise<Notification
 export {
   isNotificationsUnlockPersisted,
   markNotificationsUnlocked,
+  markNotificationPromptDismissed,
   markPushBootstrapAttempted,
+  wasNotificationPromptDismissed,
   wasPushBootstrapAttempted,
 } from '@/lib/personnel-notification-storage';

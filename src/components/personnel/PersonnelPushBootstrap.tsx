@@ -2,21 +2,15 @@
 
 import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
-import { whenPersonnelUiReady } from '@/lib/personnel-app-ready';
 import { isPersonnelTwaRuntime } from '@/lib/personnel-app-runtime';
-import { hasActivePersonnelSession } from '@/lib/personnel-session-check';
 import {
   markNotificationsUnlocked,
   markPushBootstrapAttempted,
   wasPushBootstrapAttempted,
 } from '@/lib/personnel-notification-access';
-import {
-  getNotificationPermission,
-  registerPersonnelPushIfAuthed,
-  requestNotificationPermission,
-} from '@/lib/personnel-push-client';
+import { fetchPersonnelUnlockContext } from '@/lib/personnel-session-check';
+import { getNotificationPermission, registerPersonnelPushIfAuthed } from '@/lib/personnel-push-client';
 
-const PERMISSION_DELAY_MS = 600;
 const SESSION_RETRY_MS = 2500;
 
 function isPersonnelAuthPath(pathname: string) {
@@ -28,9 +22,7 @@ function isPersonnelAuthPath(pathname: string) {
   );
 }
 
-/**
- * APK/TWA: intro sonrası izin iste; abonelik yalnızca personel oturumu açıkken kaydedilir.
- */
+/** İzin verildiyse push aboneliğini sessizce kaydet (soru PersonnelNotificationPermissionPrompt’ta). */
 export function PersonnelPushBootstrap() {
   const pathname = usePathname() ?? '';
 
@@ -44,7 +36,8 @@ export function PersonnelPushBootstrap() {
     const tryRegister = async (): Promise<boolean> => {
       if (cancelled || wasPushBootstrapAttempted()) return false;
       if (getNotificationPermission() !== 'granted') return false;
-      if (!(await hasActivePersonnelSession())) return false;
+      const ctx = await fetchPersonnelUnlockContext();
+      if (!ctx?.unlocked) return false;
 
       const ok = await registerPersonnelPushIfAuthed();
       if (!ok) return false;
@@ -66,44 +59,12 @@ export function PersonnelPushBootstrap() {
       }, SESSION_RETRY_MS);
     };
 
-    const run = () => {
-      if (cancelled || wasPushBootstrapAttempted()) return;
-
-      window.setTimeout(() => {
-        void (async () => {
-          if (cancelled || wasPushBootstrapAttempted()) return;
-
-          let permission = getNotificationPermission();
-          if (permission === 'granted') {
-            if (await tryRegister()) return;
-            scheduleSessionRetry();
-            return;
-          }
-          if (permission === 'denied' || permission === 'unsupported') {
-            markPushBootstrapAttempted();
-            return;
-          }
-
-          permission = await requestNotificationPermission();
-          if (permission === 'granted') {
-            if (await tryRegister()) return;
-            scheduleSessionRetry();
-            return;
-          }
-          if (permission !== 'default') {
-            markPushBootstrapAttempted();
-          }
-        })();
-      }, PERMISSION_DELAY_MS);
-    };
-
-    const cleanupReady = whenPersonnelUiReady(run);
-    const fallback = window.setTimeout(run, 12000);
+    void tryRegister().then((ok) => {
+      if (!ok) scheduleSessionRetry();
+    });
 
     return () => {
       cancelled = true;
-      cleanupReady();
-      window.clearTimeout(fallback);
       if (retryTimer) window.clearInterval(retryTimer);
     };
   }, []);

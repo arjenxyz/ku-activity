@@ -1,0 +1,10 @@
+{
+  "title": "Bildirimleri açmak ister misiniz?",
+  "bodyBrowser": "Yoklama hatırlatması, avans onayı ve maaş bildirimleri için izin verin.",
+  "bodyTwa": "Yoklama, avans ve maaş bildirimleri için uygulama ayarlarından bildirimleri açın.",
+  "twaHint": "Ayarlar → Uygulamalar → CrewLedger → Bildirimler",
+  "enableButton": "Bildirimleri aç",
+  "openSettingsButton": "Uygulama ayarlarını aç",
+  "laterButton": "Şimdi değil",
+  "requesting": "İzin isteniyor…"
+}

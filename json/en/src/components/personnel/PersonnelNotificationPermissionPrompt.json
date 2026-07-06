@@ -1,0 +1,10 @@
+{
+  "title": "Enable notifications?",
+  "bodyBrowser": "Allow alerts for attendance reminders, advance approvals, and payroll updates.",
+  "bodyTwa": "Turn on notifications in app settings for attendance, advance, and payroll alerts.",
+  "twaHint": "Settings → Apps → CrewLedger → Notifications",
+  "enableButton": "Enable notifications",
+  "openSettingsButton": "Open app settings",
+  "laterButton": "Not now",
+  "requesting": "Requesting permission…"
+}

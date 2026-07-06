@@ -5,6 +5,7 @@ import { useLayoutEffect, useState } from 'react';
 import { PersonnelAppIntro } from '@/components/personnel/PersonnelAppIntro';
 import { usePersonnelSessionGate } from '@/components/personnel/PersonnelSessionGate';
 import { PersonnelPushBootstrap } from '@/components/personnel/PersonnelPushBootstrap';
+import { PersonnelNotificationPermissionPrompt } from '@/components/personnel/PersonnelNotificationPermissionPrompt';
 import { markPersonnelUiReady } from '@/lib/personnel-app-ready';
 import { hasSeenPersonnelIntro, markPersonnelIntroSeen } from '@/lib/personnel-intro';
 import { PERSONNEL_PWA_SPLASH_BG } from '@/lib/personnel-pwa-brand';
@@ -96,6 +97,7 @@ export function PersonnelIntroGate({ children }: { children: React.ReactNode }) 
       {showIntro === false && !holdForRedirect && (
         <>
           <PersonnelPushBootstrap />
+          <PersonnelNotificationPermissionPrompt />
           {children}
         </>
       )}
