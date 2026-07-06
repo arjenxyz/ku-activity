@@ -5,34 +5,28 @@ import {
   removePushSubscription,
   upsertPushSubscription,
 } from '@/lib/personnel-push-service';
-
-function authErrorStatus(message: string) {
-  if (message === 'UNAUTHORIZED') return 401;
-  if (message === 'UNLOCK_REQUIRED') return 423;
-  return 500;
-}
+import { parsePushEndpoint, parsePushSubscription } from '@/lib/api-validation';
+import { logServerError, resolveApiError } from '@/lib/safe-api-error';
+import strings from '@json/src/app/api/personnel/push/subscribe/route.json';
 
 export async function POST(request: Request) {
   try {
     const session = await requirePersonnelSession();
-    const body = await request.json().catch(() => ({}));
+    const body = await request.json().catch(() => null);
+    const subscription = parsePushSubscription(body);
 
-    const endpoint = typeof body.endpoint === 'string' ? body.endpoint : '';
-    const p256dh = typeof body.p256dh === 'string' ? body.p256dh : '';
-    const auth = typeof body.auth === 'string' ? body.auth : '';
-
-    if (!endpoint || !p256dh || !auth) {
-      return NextResponse.json({ error: 'Geçersiz abonelik' }, { status: 400 });
+    if (!subscription) {
+      return NextResponse.json({ error: strings.invalidSubscription }, { status: 400 });
     }
 
     const admin = createAdminClient();
     await upsertPushSubscription(admin, {
       employeeId: session.employeeId,
       sessionId: session.sessionId,
-      endpoint,
-      p256dh,
-      auth,
-      userAgent: request.headers.get('user-agent') ?? undefined,
+      endpoint: subscription.endpoint,
+      p256dh: subscription.p256dh,
+      auth: subscription.auth,
+      userAgent: request.headers.get('user-agent')?.slice(0, 512) ?? undefined,
     });
 
     return NextResponse.json({ ok: true, sessionId: session.sessionId });
@@ -40,19 +34,20 @@ export async function POST(request: Request) {
     if (e instanceof PersonnelUnlockRequiredError) {
       return NextResponse.json({ error: 'UNLOCK_REQUIRED' }, { status: 423 });
     }
-    const message = e instanceof Error ? e.message : 'Abonelik kaydedilemedi';
-    return NextResponse.json({ error: message }, { status: authErrorStatus(message) });
+    logServerError('push-subscribe', e);
+    const { status, message } = resolveApiError(e, strings.saveFailed);
+    return NextResponse.json({ error: message }, { status });
   }
 }
 
 export async function DELETE(request: Request) {
   try {
     const session = await requirePersonnelSession();
-    const body = await request.json().catch(() => ({}));
-    const endpoint = typeof body.endpoint === 'string' ? body.endpoint : '';
+    const body = await request.json().catch(() => null);
+    const endpoint = parsePushEndpoint(body);
 
     if (!endpoint) {
-      return NextResponse.json({ error: 'endpoint gerekli' }, { status: 400 });
+      return NextResponse.json({ error: strings.endpointRequired }, { status: 400 });
     }
 
     const admin = createAdminClient();
@@ -62,7 +57,8 @@ export async function DELETE(request: Request) {
     if (e instanceof PersonnelUnlockRequiredError) {
       return NextResponse.json({ error: 'UNLOCK_REQUIRED' }, { status: 423 });
     }
-    const message = e instanceof Error ? e.message : 'Abonelik silinemedi';
-    return NextResponse.json({ error: message }, { status: authErrorStatus(message) });
+    logServerError('push-unsubscribe', e);
+    const { status, message } = resolveApiError(e, strings.deleteFailed);
+    return NextResponse.json({ error: message }, { status });
   }
 }

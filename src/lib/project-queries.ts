@@ -1,6 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { ProjectStatus } from '@/types/project';
 import strings from '@json/src/lib/project-queries.json';
+import { resolveApiError } from '@/lib/safe-api-error';
 
 const VALID_STATUSES: ProjectStatus[] = ['active', 'planned', 'paused', 'completed', 'archived'];
 
@@ -138,13 +139,5 @@ export async function queryProjectById(supabase: SupabaseClient, projectId: stri
 }
 
 export function apiErrorMessage(err: unknown, fallback = strings.systemError) {
-  if (err instanceof Error) {
-    if (err.message === 'UNAUTHORIZED') return { status: 401, message: strings.unauthorized };
-    if (err.message === 'FORBIDDEN') return { status: 403, message: strings.forbidden };
-    if (err.message.includes('SUPABASE_SERVICE_ROLE_KEY')) {
-      return { status: 500, message: strings.missingServiceRoleKey };
-    }
-    return { status: 500, message: err.message };
-  }
-  return { status: 500, message: fallback };
+  return resolveApiError(err, fallback);
 }

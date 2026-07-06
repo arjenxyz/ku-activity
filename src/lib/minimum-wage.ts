@@ -72,5 +72,9 @@ export function computeNetPay(
   deductions: number,
   minimum: number
 ): number {
-  return gross - advances - deductions - minimum;
+  const g = Number.isFinite(gross) ? gross : 0;
+  const a = Number.isFinite(advances) ? advances : 0;
+  const d = Number.isFinite(deductions) ? deductions : 0;
+  const m = Number.isFinite(minimum) ? minimum : 0;
+  return g - a - d - m;
 }

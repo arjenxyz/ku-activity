@@ -17,6 +17,7 @@ import { uploadAdvanceDekont, type StorageBackend } from '@/lib/advance-external
 import type { AdvancePaymentMethod, AdvanceRequestStatus } from '@/lib/advance-types';
 import { formatString } from '@/lib/strings/format';
 import strings from '@json/src/lib/advance-request-service.json';
+import { LIMITS, sanitizeOptionalText } from '@/lib/api-validation';
 import {
   notifyAdvanceApproved,
   notifyAdvancePaid,
@@ -227,7 +228,7 @@ export async function createAdvanceRequest(
     note?: string;
   }
 ) {
-  if (!Number.isFinite(params.amount) || params.amount <= 0) {
+  if (!Number.isFinite(params.amount) || params.amount <= 0 || params.amount > LIMITS.maxAdvanceAmount) {
     throw new AdvanceRequestError(strings.invalidAmount, 'INVALID_AMOUNT');
   }
 
@@ -239,7 +240,7 @@ export async function createAdvanceRequest(
       project_id: params.projectId,
       employee_id: params.employeeId,
       requested_amount: params.amount,
-      employee_note: params.note?.trim() || null,
+      employee_note: sanitizeOptionalText(params.note, LIMITS.note),
       status: 'pending',
     })
     .select('*')
@@ -249,7 +250,7 @@ export async function createAdvanceRequest(
     if (error.message.includes('advance_requests')) {
       throw new AdvanceRequestError(strings.migrationHint, 'MIGRATION', 503);
     }
-    throw new AdvanceRequestError(error.message, 'DB', 500);
+    throw new AdvanceRequestError(strings.createFailed, 'DB', 500);
   }
   return data;
 }

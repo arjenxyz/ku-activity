@@ -4,6 +4,7 @@ import { createClient } from '@/utils/supabase/server';
 import { queryProjectById, apiErrorMessage } from '@/lib/project-queries';
 import { mergeProjectClosureFields } from '@/lib/project-closure-merge';
 import { assertProjectWritable, ProjectClosureWriteBlockedError } from '@/lib/project-closure-guard';
+import { LIMITS, sanitizeOptionalText } from '@/lib/api-validation';
 import strings from '@json/src/lib/project-closure-service.json';
 import closureRouteStrings from '@json/src/app/api/admin/projects/[projectId]/route.json';
 import type { ProjectFormData, ProjectStatus } from '@/types/project';
@@ -44,12 +45,22 @@ export async function PATCH(request: Request, context: RouteContext) {
     }
 
     const updates: Record<string, unknown> = { updated_at: new Date().toISOString() };
-    if (body.name !== undefined) updates.name = body.name.trim();
-    if (body.code !== undefined) updates.code = body.code.trim() || null;
-    if (body.location !== undefined) updates.location = body.location.trim() || null;
+    if (body.name !== undefined) {
+      const name = sanitizeOptionalText(body.name, LIMITS.projectName);
+      if (!name) return NextResponse.json({ error: closureRouteStrings.geçersizDurum }, { status: 400 });
+      updates.name = name;
+    }
+    if (body.code !== undefined) {
+      updates.code = sanitizeOptionalText(body.code, LIMITS.projectCode);
+    }
+    if (body.location !== undefined) {
+      updates.location = sanitizeOptionalText(body.location, LIMITS.projectLocation);
+    }
     if (body.start_date !== undefined) updates.start_date = body.start_date || null;
     if (body.end_date !== undefined) updates.end_date = body.end_date || null;
-    if (body.description !== undefined) updates.description = body.description.trim() || null;
+    if (body.description !== undefined) {
+      updates.description = sanitizeOptionalText(body.description, LIMITS.projectDescription);
+    }
     if (body.status !== undefined) updates.status = body.status;
     if (body.work_start_time !== undefined) {
       updates.work_start_time = body.work_start_time || '08:00';
@@ -58,7 +69,8 @@ export async function PATCH(request: Request, context: RouteContext) {
       updates.work_end_time = body.work_end_time || null;
     }
     if (body.timezone !== undefined) {
-      updates.timezone = body.timezone?.trim() || 'Europe/Istanbul';
+      const tz = sanitizeOptionalText(body.timezone, 64);
+      updates.timezone = tz || 'Europe/Istanbul';
     }
 
     const supabase = await createClient();
@@ -73,7 +85,8 @@ export async function PATCH(request: Request, context: RouteContext) {
       if (error.code === '23505') {
         return NextResponse.json({ error: closureRouteStrings.buProjeKoduZatenKullanılıyor }, { status: 409 });
       }
-      return NextResponse.json({ error: error.message || 'Proje güncellenemedi' }, { status: 500 });
+      const { message } = apiErrorMessage(error);
+      return NextResponse.json({ error: message }, { status: 500 });
     }
 
     return NextResponse.json({ project: data });

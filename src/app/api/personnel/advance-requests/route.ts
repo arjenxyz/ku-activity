@@ -7,6 +7,7 @@ import {
 } from '@/lib/advance-payment-details';
 import { AdvanceRequestError, createAdvanceRequest } from '@/lib/advance-request-service';
 import strings from '@json/src/app/api/personnel/advance-requests/route.json';
+import { LIMITS, parsePositiveAmount, sanitizeOptionalText } from '@/lib/api-validation';
 
 export async function GET() {
   try {
@@ -65,9 +66,17 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const session = await requirePersonnelWritableSession();
-    const body = await request.json();
-    const amount = Number(body.amount);
-    const note = typeof body.note === 'string' ? body.note : undefined;
+    const body = await request.json().catch(() => null);
+    if (!body || typeof body !== 'object') {
+      return NextResponse.json({ error: strings.talepOluşturulamadı }, { status: 400 });
+    }
+
+    const amount = parsePositiveAmount((body as { amount?: unknown }).amount);
+    const note = sanitizeOptionalText((body as { note?: unknown }).note, LIMITS.note) ?? undefined;
+
+    if (amount === null) {
+      return NextResponse.json({ error: strings.geçersizTutar }, { status: 400 });
+    }
 
     const admin = createAdminClient();
     const record = await createAdvanceRequest(admin, {

@@ -2,5 +2,6 @@
   "taleplerYüklenemedi": "Talepler yüklenemedi",
   "oturumGeçersiz": "Oturum geçersiz",
   "talepOluşturulamadı": "Talep oluşturulamadı",
-  "projeKapanışta": "Proje kapanış sürecinde; avans talebi oluşturulamaz."
+  "projeKapanışta": "Proje kapanış sürecinde; avans talebi oluşturulamaz.",
+  "geçersizTutar": "Geçersiz tutar"
 }

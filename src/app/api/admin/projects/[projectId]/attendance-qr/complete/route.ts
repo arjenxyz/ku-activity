@@ -16,6 +16,9 @@ import {
 import { apiErrorMessage } from '@/lib/project-queries';
 import strings from '@json/src/app/api/admin/projects/[projectId]/attendance-qr/complete/route.json';
 import { formatString } from '@/lib/strings/format';
+import { parseDateParam } from '@/lib/api-validation';
+import { assertProjectWritable, ProjectClosureWriteBlockedError } from '@/lib/project-closure-guard';
+import closureRouteStrings from '@json/src/app/api/admin/projects/[projectId]/route.json';
 
 type Ctx = { params: Promise<{ projectId: string }> };
 
@@ -23,11 +26,13 @@ export async function POST(request: Request, ctx: Ctx) {
   try {
     const { projectId } = await ctx.params;
     const user = await requireAdminProjectAccess(projectId);
+    await assertProjectWritable(projectId);
     const body = await request.json().catch(() => ({}));
     const admin = createAdminClient();
     const schedule = await loadProjectAttendanceSchedule(admin, projectId);
+    const bodyDate = typeof body.date === 'string' ? parseDateParam(body.date) : null;
     const workDate =
-      (typeof body.date === 'string' ? body.date.slice(0, 10) : null) ??
+      bodyDate ??
       getCurrentOpenWorkDate(schedule) ??
       getProjectCalendarDate(schedule);
 
@@ -56,6 +61,9 @@ export async function POST(request: Request, ctx: Ctx) {
       window,
     });
   } catch (err) {
+    if (err instanceof ProjectClosureWriteBlockedError) {
+      return NextResponse.json({ error: closureRouteStrings.projeKapanışta }, { status: 423 });
+    }
     const { status, message } = apiErrorMessage(err);
     return NextResponse.json({ error: message }, { status });
   }

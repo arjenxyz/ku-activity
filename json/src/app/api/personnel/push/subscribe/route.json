@@ -1,0 +1,6 @@
+{
+  "invalidSubscription": "Geçersiz abonelik verisi",
+  "endpointRequired": "Geçerli endpoint gerekli",
+  "saveFailed": "Abonelik kaydedilemedi",
+  "deleteFailed": "Abonelik silinemedi"
+}

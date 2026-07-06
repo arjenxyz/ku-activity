@@ -4,6 +4,7 @@
   "deductionDescriptionCash": "Nakit avans (talep {requestIdPrefix})",
   "notFound": "Talep bulunamadı",
   "invalidAmount": "Geçerli bir tutar girin",
+  "createFailed": "Talep oluşturulamadı",
   "forbidden": "Bu talebe erişiminiz yok",
   "cancelPendingOnly": "Yalnızca bekleyen talepler iptal edilebilir",
   "approvePendingOnly": "Yalnızca bekleyen talepler onaylanabilir",

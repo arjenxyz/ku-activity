@@ -20,6 +20,7 @@ import {
 import { assertEmployeeTeamHasActiveBlock } from '@/lib/team-work-guard';
 import type { WorkLogRow } from '@/lib/work-log-service';
 import { mesaiTypeToUnits, type MesaiType } from '@/lib/work-log';
+import { LIMITS, sanitizeOptionalText } from '@/lib/api-validation';
 import strings from '@json/src/lib/attendance-qr-service.json';
 
 const TOKEN_PREFIX = 'YOK-';
@@ -810,12 +811,16 @@ export async function completeAttendanceSession(
       description: checkIn.planned_description,
     });
 
-    await admin
+    const { data: linked } = await admin
       .from('attendance_session_checkins')
       .update({ work_log_id: workLog.id })
-      .eq('id', checkIn.id);
+      .eq('id', checkIn.id)
+      .is('work_log_id', null)
+      .select('id')
+      .maybeSingle();
 
-    count += 1;
+    if (linked) count += 1;
+    else if (checkIn.work_log_id) count += 1;
   }
 
   const { notifyAttendanceSessionCompleted } = await import('@/lib/personnel-notification-service');
@@ -842,10 +847,21 @@ export async function completeAttendanceSession(
       completed_by: params.completedBy ?? null,
     })
     .eq('id', session.id)
+    .eq('status', 'active')
     .select(SESSION_SELECT)
-    .single();
+    .maybeSingle();
 
-  if (error) throw new Error(error.message);
+  if (error) throw new Error(strings.completeFailed);
+
+  if (!completed) {
+    const { data: existing } = await admin
+      .from('attendance_sessions')
+      .select(SESSION_SELECT)
+      .eq('id', session.id)
+      .maybeSingle();
+    if (!existing) throw new Error(strings.noActiveSession);
+    return { count, session: existing as AttendanceSessionRow };
+  }
 
   return { count, session: completed as AttendanceSessionRow };
 }
@@ -913,7 +929,7 @@ export async function updateSessionCheckInPlan(
 ): Promise<AttendanceCheckInRow> {
   const amount = normalizePlannedAmount(params.amount);
   const mesaiType = normalizePlannedMesaiType(params.mesaiType, amount);
-  const description = params.description?.trim() || null;
+  const description = sanitizeOptionalText(params.description, LIMITS.description);
 
   const { data: checkIn } = await admin
     .from('attendance_session_checkins')
