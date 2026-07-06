@@ -1,0 +1,6 @@
+{
+  "unauthorized": "Oturum geçersiz",
+  "invalidPin": "PIN hatalı",
+  "unlockRequired": "Kilit açılmadı",
+  "failed": "İşlem başarısız"
+}

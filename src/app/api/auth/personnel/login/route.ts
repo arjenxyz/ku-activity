@@ -19,6 +19,7 @@ import {
   PERSONNEL_COOKIE,
 } from '@/lib/personnel-session';
 import { createPersonnelSession } from '@/lib/personnel-session-service';
+import { setPersonnelUnlockCookieOnResponse } from '@/lib/personnel-unlock-server';
 
 export async function POST(request: Request) {
   try {
@@ -171,6 +172,7 @@ export async function POST(request: Request) {
 
     const response = NextResponse.json({ success: true });
     response.cookies.set(PERSONNEL_COOKIE, token, personnelCookieOptions(expiresAt));
+    await setPersonnelUnlockCookieOnResponse(response, token);
     return response;
   } catch (err) {
     console.error('Personel giriş hatası:', err);

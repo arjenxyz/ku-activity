@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { updateSession, getSupabaseMiddlewareClient } from '@/utils/supabase/middleware';
-import { PERSONNEL_COOKIE } from '@/lib/personnel-cookie';
+import { PERSONNEL_COOKIE, PERSONNEL_UNLOCK_COOKIE } from '@/lib/personnel-cookie';
+import { verifyPersonnelUnlockCookieValue } from '@/lib/personnel-unlock-cookie';
 import { PENDING_REGISTRATION_COOKIE } from '@/lib/registration-pending-storage';
 import { ADMIN_ROUTE_HEADER } from '@/lib/admin-intro-boot-script';
 import { PERSONNEL_ROUTE_HEADER } from '@/lib/personnel-intro-boot-script';
@@ -9,13 +10,19 @@ import { PERSONNEL_ROUTE_HEADER } from '@/lib/personnel-intro-boot-script';
 const ADMIN_LOGIN = '/admin-panel/login';
 const ADMIN_REGISTER = '/admin-panel/register';
 const PERSONNEL_LOGIN = '/personnel-panel/login';
+const PERSONNEL_UNLOCK = '/personnel-panel/unlock';
 const PERSONNEL_BASVURU = '/personnel-panel/basvuru';
 const PERSONNEL_SIFREMI_UNUTTUM = '/personnel-panel/sifremi-unuttum';
 const PERSONNEL_PIN_SIFIRLA = '/personnel-panel/pin-sifirla';
 const DEVELOPER_LOGIN = '/developer-panel/login';
 
+function isPersonnelUnlockBypassPath(pathname: string) {
+  return pathname.startsWith('/personnel-panel/kapanis/hizlandirma');
+}
+
 function isPersonnelPublicPath(pathname: string): boolean {
   if (pathname === PERSONNEL_LOGIN) return true;
+  if (pathname === PERSONNEL_UNLOCK) return true;
   if (pathname === PERSONNEL_SIFREMI_UNUTTUM) return true;
   if (pathname === PERSONNEL_PIN_SIFIRLA) return true;
   if (pathname === PERSONNEL_BASVURU || pathname.startsWith(`${PERSONNEL_BASVURU}/`)) {
@@ -132,11 +139,31 @@ export async function middleware(request: NextRequest) {
     return finish(NextResponse.redirect(new URL(PERSONNEL_BASVURU, request.url)));
   }
 
-  if (isPersonnelRoute || pathname === PERSONNEL_LOGIN) {
+  if (isPersonnelRoute || pathname === PERSONNEL_LOGIN || pathname === PERSONNEL_UNLOCK) {
+    const sessionToken = request.cookies.get(PERSONNEL_COOKIE)?.value;
+    const unlockValue = request.cookies.get(PERSONNEL_UNLOCK_COOKIE)?.value;
+    const unlocked = sessionToken
+      ? await verifyPersonnelUnlockCookieValue(sessionToken, unlockValue)
+      : false;
+
     if (hasPersonnelCookie && pathname === PERSONNEL_LOGIN) {
+      const target = unlocked ? '/personnel-panel' : PERSONNEL_UNLOCK;
+      return finish(NextResponse.redirect(new URL(target, request.url)));
+    }
+
+    if (hasPersonnelCookie && pathname === PERSONNEL_UNLOCK && unlocked) {
       return finish(NextResponse.redirect(new URL('/personnel-panel', request.url)));
     }
+
+    if (hasPersonnelCookie && isPersonnelRoute && !unlocked && !isPersonnelUnlockBypassPath(pathname)) {
+      return finish(NextResponse.redirect(new URL(PERSONNEL_UNLOCK, request.url)));
+    }
+
     if (!hasPersonnelCookie && isPersonnelRoute) {
+      return finish(NextResponse.redirect(new URL(PERSONNEL_LOGIN, request.url)));
+    }
+
+    if (!hasPersonnelCookie && pathname === PERSONNEL_UNLOCK) {
       return finish(NextResponse.redirect(new URL(PERSONNEL_LOGIN, request.url)));
     }
   }

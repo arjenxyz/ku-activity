@@ -60,7 +60,9 @@ export async function getPersonnelSession(): Promise<PersonnelSession | null> {
   return loadSessionFromToken(token);
 }
 
-export async function requirePersonnelSession(): Promise<PersonnelSession> {
+export async function requirePersonnelSession(options?: {
+  skipUnlockCheck?: boolean;
+}): Promise<PersonnelSession> {
   const cookieStore = await cookies();
   const token = cookieStore.get(PERSONNEL_COOKIE)?.value;
   if (!token) {
@@ -84,7 +86,25 @@ export async function requirePersonnelSession(): Promise<PersonnelSession> {
     session.expiresAt = getSessionExpiry().toISOString();
   }
 
+  if (!options?.skipUnlockCheck) {
+    const { isPersonnelUnlocked, slidePersonnelUnlockCookie } = await import(
+      '@/lib/personnel-unlock-server'
+    );
+    const unlocked = await isPersonnelUnlocked(token);
+    if (!unlocked) {
+      throw new PersonnelUnlockRequiredError();
+    }
+    await slidePersonnelUnlockCookie(token);
+  }
+
   return session;
+}
+
+export class PersonnelUnlockRequiredError extends Error {
+  constructor() {
+    super('UNLOCK_REQUIRED');
+    this.name = 'PersonnelUnlockRequiredError';
+  }
 }
 
 export class PersonnelClosureWriteBlockedError extends Error {

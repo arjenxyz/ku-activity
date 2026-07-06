@@ -4,6 +4,7 @@ import { createAdminClient } from '@/utils/supabase/admin';
 import { getPersonnelSession } from '@/lib/personnel-auth';
 import { removePushSubscriptionsForSession } from '@/lib/personnel-push-service';
 import { PERSONNEL_COOKIE, hashToken, personnelCookieOptions } from '@/lib/personnel-session';
+import { clearPersonnelUnlockCookieOnResponse } from '@/lib/personnel-unlock-server';
 
 export async function POST() {
   const cookieStore = await cookies();
@@ -33,5 +34,6 @@ export async function POST() {
 
   const response = NextResponse.json({ success: true });
   response.cookies.set(PERSONNEL_COOKIE, '', { ...personnelCookieOptions(new Date(0)), maxAge: 0 });
+  await clearPersonnelUnlockCookieOnResponse(response);
   return response;
 }

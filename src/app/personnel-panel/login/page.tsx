@@ -12,9 +12,10 @@ import {
   type PendingRegistration,
 } from '@/lib/registration-pending-storage';
 import {
-  hasActivePersonnelSession,
+  fetchPersonnelUnlockContext,
   redirectToPendingApplication,
   redirectToPersonnelPanel,
+  redirectToPersonnelUnlock,
 } from '@/lib/personnel-session-check';
 import { FiLock } from 'react-icons/fi';
 import { PersonnelLoginLayout } from '@/components/personnel/PersonnelLoginLayout';
@@ -226,10 +227,14 @@ function PersonnelLoginContent() {
   useEffect(() => {
     let cancelled = false;
     void (async () => {
-      const active = await hasActivePersonnelSession();
+      const ctx = await fetchPersonnelUnlockContext();
       if (cancelled) return;
-      if (active) {
+      if (ctx?.unlocked) {
         redirectToPersonnelPanel();
+        return;
+      }
+      if (ctx && !ctx.unlocked) {
+        redirectToPersonnelUnlock();
         return;
       }
 

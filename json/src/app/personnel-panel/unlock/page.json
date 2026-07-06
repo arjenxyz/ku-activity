@@ -1,0 +1,15 @@
+{
+  "greeting": "Merhaba {name}",
+  "pinLabel": "PIN",
+  "unlockButton": "Giriş Yap",
+  "unlocking": "Doğrulanıyor…",
+  "forgotPin": "Şifremi unuttum",
+  "forgetMe": "Beni unut",
+  "forgetMeConfirm": "Bu cihazdaki oturumunuz kapatılacak. Devam?",
+  "screenLabel": "Kilit ekranı",
+  "subtitle": "Devam etmek için PIN girin.",
+  "checking": "Yükleniyor…",
+  "invalidPin": "PIN hatalı",
+  "systemError": "Bir hata oluştu",
+  "pinDigitAria": "PIN hanesi"
+}

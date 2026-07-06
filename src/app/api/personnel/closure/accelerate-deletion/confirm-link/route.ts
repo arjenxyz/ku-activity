@@ -16,7 +16,7 @@ function mapError(message: string) {
 
 export async function POST(request: Request) {
   try {
-    const session = await requirePersonnelSession();
+    const session = await requirePersonnelSession({ skipUnlockCheck: true });
     const body = (await request.json()) as { linkToken?: string };
     const linkToken = body.linkToken?.trim();
     if (!linkToken) {

@@ -178,6 +178,8 @@ import m_app_api_auth_personnel_login_route_tr from '@json/src/app/api/auth/pers
 import m_app_api_auth_personnel_login_route_en from '@json/en/src/app/api/auth/personnel/login/route.json';
 import m_app_api_auth_personnel_projects_route_tr from '@json/src/app/api/auth/personnel/projects/route.json';
 import m_app_api_auth_personnel_projects_route_en from '@json/en/src/app/api/auth/personnel/projects/route.json';
+import m_app_api_auth_personnel_unlock_route_tr from '@json/src/app/api/auth/personnel/unlock/route.json';
+import m_app_api_auth_personnel_unlock_route_en from '@json/en/src/app/api/auth/personnel/unlock/route.json';
 import m_app_api_cron_personnel_pending_reminders_route_tr from '@json/src/app/api/cron/personnel-pending-reminders/route.json';
 import m_app_api_cron_personnel_pending_reminders_route_en from '@json/en/src/app/api/cron/personnel-pending-reminders/route.json';
 import m_app_api_cron_supabase_keepalive_route_tr from '@json/src/app/api/cron/supabase-keepalive/route.json';
@@ -306,6 +308,8 @@ import m_app_personnel_panel_pin_sifirla_page_tr from '@json/src/app/personnel-p
 import m_app_personnel_panel_pin_sifirla_page_en from '@json/en/src/app/personnel-panel/pin-sifirla/page.json';
 import m_app_personnel_panel_sifremi_unuttum_page_tr from '@json/src/app/personnel-panel/sifremi-unuttum/page.json';
 import m_app_personnel_panel_sifremi_unuttum_page_en from '@json/en/src/app/personnel-panel/sifremi-unuttum/page.json';
+import m_app_personnel_panel_unlock_page_tr from '@json/src/app/personnel-panel/unlock/page.json';
+import m_app_personnel_panel_unlock_page_en from '@json/en/src/app/personnel-panel/unlock/page.json';
 import m_app_personnel_panel_yoklama_page_tr from '@json/src/app/personnel-panel/yoklama/page.json';
 import m_app_personnel_panel_yoklama_page_en from '@json/en/src/app/personnel-panel/yoklama/page.json';
 import m_app_sozlesme__slug__page_tr from '@json/src/app/sozlesme/[slug]/page.json';
@@ -751,6 +755,7 @@ export const STRINGS_REGISTRY = {
   'app/api/auth/personnel/employees/route': { tr: m_app_api_auth_personnel_employees_route_tr, en: m_app_api_auth_personnel_employees_route_en },
   'app/api/auth/personnel/login/route': { tr: m_app_api_auth_personnel_login_route_tr, en: m_app_api_auth_personnel_login_route_en },
   'app/api/auth/personnel/projects/route': { tr: m_app_api_auth_personnel_projects_route_tr, en: m_app_api_auth_personnel_projects_route_en },
+  'app/api/auth/personnel/unlock/route': { tr: m_app_api_auth_personnel_unlock_route_tr, en: m_app_api_auth_personnel_unlock_route_en },
   'app/api/cron/personnel-pending-reminders/route': { tr: m_app_api_cron_personnel_pending_reminders_route_tr, en: m_app_api_cron_personnel_pending_reminders_route_en },
   'app/api/cron/supabase-keepalive/route': { tr: m_app_api_cron_supabase_keepalive_route_tr, en: m_app_api_cron_supabase_keepalive_route_en },
   'app/api/developer/codes/[codeId]/route': { tr: m_app_api_developer_codes__codeId__route_tr, en: m_app_api_developer_codes__codeId__route_en },
@@ -815,6 +820,7 @@ export const STRINGS_REGISTRY = {
   'app/personnel-panel/page': { tr: m_app_personnel_panel_page_tr, en: m_app_personnel_panel_page_en },
   'app/personnel-panel/pin-sifirla/page': { tr: m_app_personnel_panel_pin_sifirla_page_tr, en: m_app_personnel_panel_pin_sifirla_page_en },
   'app/personnel-panel/sifremi-unuttum/page': { tr: m_app_personnel_panel_sifremi_unuttum_page_tr, en: m_app_personnel_panel_sifremi_unuttum_page_en },
+  'app/personnel-panel/unlock/page': { tr: m_app_personnel_panel_unlock_page_tr, en: m_app_personnel_panel_unlock_page_en },
   'app/personnel-panel/yoklama/page': { tr: m_app_personnel_panel_yoklama_page_tr, en: m_app_personnel_panel_yoklama_page_en },
   'app/sozlesme/[slug]/page': { tr: m_app_sozlesme__slug__page_tr, en: m_app_sozlesme__slug__page_en },
   'app/supabase/page': { tr: m_app_supabase_page_tr, en: m_app_supabase_page_en },
