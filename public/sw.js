@@ -1,7 +1,7 @@
-const CACHE_NAME = 'crewledger-v17';
-/** Manifest ile aynı 192px ikon — büyük PNG Android’de varsayılan zile düşer */
-const PUSH_ICON_PATH = '/icons/personnel/192';
-const PUSH_ICON_VERSION = '11';
+const CACHE_NAME = 'crewledger-v18';
+/** Statik personel ikonu — dinamik /icons/… route TWA arka planda bazen 404/boş döner */
+const PUSH_ICON_PATH = '/personel-icon.png';
+const PUSH_ICON_VERSION = '13';
 
 function isFocusedPersonnelClient(client) {
   try {
@@ -18,25 +18,19 @@ function isFocusedPersonnelClient(client) {
 }
 
 async function showPushNotification(payload, iconUrl) {
+  const origin = self.location.origin;
+  const resolvedIcon =
+    iconUrl || new URL(`${PUSH_ICON_PATH}?v=${PUSH_ICON_VERSION}`, origin).href;
   const options = {
     body: payload.body,
-    icon: iconUrl,
+    icon: resolvedIcon,
+    badge: resolvedIcon,
     tag: payload.notificationId || 'crewledger-notification',
     renotify: true,
     data: { href: payload.href || '/personnel-panel', notificationId: payload.notificationId },
     vibrate: [100, 50, 100],
   };
-  try {
-    await self.registration.showNotification(payload.title, options);
-  } catch {
-    await self.registration.showNotification(payload.title, {
-      body: payload.body,
-      tag: options.tag,
-      renotify: true,
-      data: options.data,
-      vibrate: options.vibrate,
-    });
-  }
+  await self.registration.showNotification(payload.title, options);
 }
 
 /** Oturum / panel sayfaları asla önbellekten sunulmaz — her açılışta sunucu cookie kontrol eder */

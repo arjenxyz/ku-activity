@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { motion, useMotionValue, useTransform, type PanInfo } from 'framer-motion';
 import { usePersonnelNotificationsContext } from '@/contexts/PersonnelNotificationsContext';
 import { PERSONNEL_APP_ICON } from '@/lib/brand';
+import { PWA_ASSET_VERSION } from '@/lib/pwa-manifest';
 
 const AUTO_DISMISS_MS = 5000;
 
@@ -42,7 +43,7 @@ export function PersonnelInAppNotificationBanner() {
         className="pointer-events-auto flex w-full max-w-lg items-start gap-3 rounded-2xl border border-slate-200/80 bg-white/95 p-3 text-left shadow-lg backdrop-blur-md dark:border-slate-700/80 dark:bg-slate-900/95"
       >
         <img
-          src={PERSONNEL_APP_ICON}
+          src={`${PERSONNEL_APP_ICON}?v=${PWA_ASSET_VERSION}`}
           alt=""
           className="h-10 w-10 shrink-0 rounded-xl object-cover"
           draggable={false}
