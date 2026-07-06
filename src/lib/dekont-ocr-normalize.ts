@@ -44,6 +44,13 @@ export function normalizeOcrText(text: string): string {
   // OCR binlik virgülü: "12,375,00" → "12.375,00"
   out = out.replace(/\b(\d{1,3}),(\d{3}),(\d{2})\b/g, '$1.$2,$3');
 
+  // ABD binlik formatı: "12,375.00" → "12.375,00" (Halkbank OCR sık verir)
+  out = out.replace(/\b(\d{1,3}(?:,\d{3})+)\.(\d{2})\b/g, (_, intPart, dec) => {
+    const digits = intPart.replace(/,/g, '');
+    const formatted = digits.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    return `${formatted},${dec}`;
+  });
+
   // Rakam etrafındaki gereksiz boşluk: "12 . 375 , 00" → "12.375,00"
   out = out.replace(/(\d)\s+([.,])\s*(\d)/g, '$1$2$3');
 
