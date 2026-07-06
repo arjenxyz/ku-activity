@@ -11,10 +11,7 @@ type Props = {
 };
 
 /** @deprecated Use PersonnelUnifiedCalendarPanel */
-export function PersonnelMesaiPanel({ deductions: _d, minimumWages: _m, ...props }: Props & {
-  deductions?: never;
-  minimumWages?: never;
-}) {
+export function PersonnelMesaiPanel(props: Props) {
   return (
     <PersonnelUnifiedCalendarPanel
       {...props}
