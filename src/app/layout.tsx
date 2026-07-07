@@ -97,8 +97,10 @@ export default async function RootLayout({
     : undefined;
 
   return (
-    <html lang={locale} style={pwaSurfaceStyle} suppressHydrationWarning>
+    <html lang={locale} translate="no" style={pwaSurfaceStyle} suppressHydrationWarning>
       <head>
+        {/* Uygulamanın kendi dil seçimi var — Chrome'un otomatik "Sayfayı çevir?" önerisini kapat */}
+        <meta name="google" content="notranslate" />
         {isPersonnelRoute ? (
           <>
             <style dangerouslySetInnerHTML={{ __html: PERSONNEL_CRITICAL_CSS }} />
