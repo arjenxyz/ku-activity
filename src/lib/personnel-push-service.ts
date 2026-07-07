@@ -67,21 +67,6 @@ function isMissingPushTable(message: string) {
   return message.includes('personnel_push_subscriptions');
 }
 
-async function loadActiveSessionIds(admin: SupabaseClient, sessionIds: string[]) {
-  if (!sessionIds.length) return new Set<string>();
-
-  const now = new Date().toISOString();
-  const { data, error } = await admin
-    .from('personnel_sessions')
-    .select('id')
-    .in('id', sessionIds)
-    .is('revoked_at', null)
-    .gt('expires_at', now);
-
-  if (error) throw new Error(error.message);
-  return new Set((data ?? []).map((row) => row.id as string));
-}
-
 export async function listEmployeePushSubscriptions(
   admin: SupabaseClient,
   employeeId: string
@@ -100,6 +85,10 @@ export async function listEmployeePushSubscriptions(
   return data ?? [];
 }
 
+/**
+ * Personelin tüm push abonelikleri. Abonelik kalıcıdır; oturum süresi dolsa bile
+ * silinmez. Yalnızca (a) çıkış yapıldığında veya (b) FCM 410/404 döndürdüğünde temizlenir.
+ */
 export async function listActiveEmployeePushSubscriptions(
   admin: SupabaseClient,
   employeeId: string
@@ -115,51 +104,7 @@ export async function listActiveEmployeePushSubscriptions(
     throw new Error(error.message);
   }
 
-  const subs = data ?? [];
-  if (!subs.length) return [];
-
-  const sessionIds = subs
-    .map((sub) => sub.session_id as string | null)
-    .filter((id): id is string => Boolean(id));
-
-  const activeSessionIds = await loadActiveSessionIds(admin, sessionIds);
-
-  const active = subs.filter(
-    (sub) => sub.session_id && activeSessionIds.has(sub.session_id as string)
-  );
-  if (active.length) return active;
-
-  // Oturum eşleşmesi yoksa bile son 30 gün içinde güncellenen aboneliklere gönder
-  // (FCM endpoint geçerliyken kapalı uygulama teslimatı için)
-  const cutoff = Date.now() - 30 * 24 * 60 * 60 * 1000;
-  return subs.filter((sub) => {
-    const seen = sub.last_seen_at ?? sub.updated_at ?? sub.created_at;
-    if (!seen) return false;
-    return new Date(seen as string).getTime() >= cutoff;
-  });
-}
-
-/** Oturumu sona ermiş veya bağsız (legacy) abonelikleri temizle */
-export async function pruneInactivePushSubscriptions(
-  admin: SupabaseClient,
-  employeeId: string
-) {
-  const subs = await listEmployeePushSubscriptions(admin, employeeId);
-  if (!subs.length) return;
-
-  const sessionIds = subs
-    .map((sub) => sub.session_id as string | null)
-    .filter((id): id is string => Boolean(id));
-
-  const activeSessionIds = await loadActiveSessionIds(admin, sessionIds);
-  const staleIds = subs
-    .filter((sub) => !sub.session_id || !activeSessionIds.has(sub.session_id as string))
-    .map((sub) => sub.id as string);
-
-  if (!staleIds.length) return;
-
-  const { error } = await admin.from('personnel_push_subscriptions').delete().in('id', staleIds);
-  if (error && !isMissingPushTable(error.message)) throw new Error(error.message);
+  return data ?? [];
 }
 
 export async function upsertPushSubscription(
@@ -175,10 +120,12 @@ export async function upsertPushSubscription(
 ) {
   const now = new Date().toISOString();
 
+  // Aynı oturumun eski (endpoint'i değişmiş) kaydını temizle — çürük kayıt bırakma.
   const { error: clearSessionError } = await admin
     .from('personnel_push_subscriptions')
     .delete()
-    .eq('session_id', params.sessionId);
+    .eq('session_id', params.sessionId)
+    .neq('endpoint', params.endpoint);
 
   if (clearSessionError && !isMissingPushTable(clearSessionError.message)) {
     throw new Error(clearSessionError.message);
@@ -199,8 +146,8 @@ export async function upsertPushSubscription(
   );
 
   if (error) throw new Error(error.message);
-
-  await pruneInactivePushSubscriptions(admin, params.employeeId);
+  // Not: Abonelik kalıcıdır — oturum aktifliğine göre silme yapılmaz.
+  // Temizlik yalnızca çıkışta (removePushSubscriptionsForSession) ve FCM 410/404 ile olur.
 }
 
 export async function touchPushSubscriptionLastSeen(
