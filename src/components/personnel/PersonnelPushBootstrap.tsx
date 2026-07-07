@@ -12,11 +12,12 @@ import {
 import { fetchPersonnelUnlockContext } from '@/lib/personnel-session-check';
 import {
   fetchPushSubscriptionStatus,
+  getNotificationPermission,
   registerPersonnelPushIfAuthed,
-  syncNotificationPermissionForPush,
 } from '@/lib/personnel-push-client';
 
 const RETRY_MS = 2500;
+const MAX_RETRIES = 5;
 
 function isPersonnelAuthPath(pathname: string) {
   return (
@@ -29,7 +30,11 @@ function isPersonnelAuthPath(pathname: string) {
   );
 }
 
-async function tryRegisterPush(options?: { twaAfterSettings?: boolean }): Promise<boolean> {
+/**
+ * Arka planda push aboneliğini SESSİZCE kaydeder — izin sorusu ASLA açmaz.
+ * İzin isteme akışı yalnızca PersonnelNotificationPermissionPrompt (kullanıcı butonu) ile yürür.
+ */
+async function tryRegisterPush(): Promise<boolean> {
   if (wasPushBootstrapAttempted()) {
     const status = await fetchPushSubscriptionStatus();
     if (status?.currentSessionSubscribed) return true;
@@ -38,14 +43,9 @@ async function tryRegisterPush(options?: { twaAfterSettings?: boolean }): Promis
   const ctx = await fetchPersonnelUnlockContext();
   if (!ctx?.unlocked) return false;
 
-  const twa = isPersonnelTwaRuntime();
-  if (twa || options?.twaAfterSettings) {
-    await syncNotificationPermissionForPush({ twaAfterSettings: true });
-  }
-
   const ok = await registerPersonnelPushIfAuthed({
-    force: Boolean(options?.twaAfterSettings),
-    twaBypassPermission: twa || Boolean(options?.twaAfterSettings),
+    twaBypassPermission: isPersonnelTwaRuntime(),
+    allowPrompt: false,
   });
   if (!ok) return false;
 
@@ -73,10 +73,15 @@ export function PersonnelPushBootstrap() {
 
       void tryRegisterPush().then((ok) => {
         if (cancelled || ok) return;
+        // İzin verilmemişse yeniden denemek anlamsız (prompt bileşeni izni isteyecek).
+        // Retry yalnızca izin verilmiş ama abonelik teknik nedenle (SW hazır değil vb.) başarısızsa.
+        if (getNotificationPermission() !== 'granted') return;
         if (retryTimer) window.clearInterval(retryTimer);
+        let attempts = 0;
         retryTimer = window.setInterval(() => {
+          attempts += 1;
           void tryRegisterPush().then((registered) => {
-            if (registered && retryTimer) {
+            if ((registered || attempts >= MAX_RETRIES) && retryTimer) {
               window.clearInterval(retryTimer);
               retryTimer = undefined;
             }
@@ -101,7 +106,8 @@ export function PersonnelPushBootstrap() {
 
     const onVisible = () => {
       if (document.visibilityState !== 'visible') return;
-      void tryRegisterPush({ twaAfterSettings: isPersonnelTwaRuntime() });
+      // Sessiz yeniden deneme; izin zaten verilmişse abone olur, prompt açmaz.
+      void tryRegisterPush();
     };
 
     document.addEventListener('visibilitychange', onVisible);

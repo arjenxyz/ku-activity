@@ -46,10 +46,12 @@ export function PersonnelNotificationPermissionPrompt() {
     setIsTwaApp(isPersonnelTwaRuntime());
   }, []);
 
-  const tryRegisterAndClose = async (twaAfterSettings = false) => {
+  const tryRegisterAndClose = async (opts?: { allowPrompt?: boolean }) => {
+    const allowPrompt = Boolean(opts?.allowPrompt);
     const ok = await registerPersonnelPushIfAuthed({
-      force: twaAfterSettings,
-      twaBypassPermission: isTwaApp || twaAfterSettings,
+      force: allowPrompt,
+      twaBypassPermission: isTwaApp,
+      allowPrompt,
     });
     if (ok) {
       markNotificationsUnlocked();
@@ -78,12 +80,8 @@ export function PersonnelNotificationPermissionPrompt() {
 
       const permission = getNotificationPermission();
       if (permission === 'granted') {
+        // İzin zaten var — sessizce abone ol, prompt açma.
         const ok = await tryRegisterAndClose();
-        if (ok) return;
-      }
-
-      if (isTwaApp) {
-        const ok = await tryRegisterAndClose(true);
         if (ok) return;
       }
 
@@ -92,6 +90,7 @@ export function PersonnelNotificationPermissionPrompt() {
       const ctx = await fetchPersonnelUnlockContext();
       if (!ctx?.unlocked) return;
 
+      // İzin verilmemiş: kullanıcıya bir kez soralım (buton ile). Otomatik requestPermission YOK.
       setOpen(true);
     };
 
@@ -114,9 +113,11 @@ export function PersonnelNotificationPermissionPrompt() {
 
     const onVisible = () => {
       if (document.visibilityState !== 'visible') return;
+      // Yalnızca kullanıcı "Ayarları aç"a bastıysa senkronize et; aksi halde izin isteme.
+      if (!awaitingSettings) return;
       void (async () => {
         await requestNotificationPermission({ twaAfterSettings: true });
-        const ok = await tryRegisterAndClose(true);
+        const ok = await tryRegisterAndClose({ allowPrompt: true });
         if (ok) setAwaitingSettings(false);
       })();
     };
@@ -136,7 +137,7 @@ export function PersonnelNotificationPermissionPrompt() {
     try {
       const permission = await requestNotificationPermission();
       if (permission === 'granted') {
-        await tryRegisterAndClose();
+        await tryRegisterAndClose({ allowPrompt: true });
       }
       markNotificationPromptDismissed();
       setOpen(false);
@@ -154,7 +155,7 @@ export function PersonnelNotificationPermissionPrompt() {
     setBusy(true);
     try {
       await requestNotificationPermission({ twaAfterSettings: true });
-      const ok = await tryRegisterAndClose(true);
+      const ok = await tryRegisterAndClose({ allowPrompt: true });
       if (ok) {
         markNotificationPromptDismissed();
       }

@@ -129,12 +129,22 @@ export function canAttemptPushSubscribe(options?: { twaBypassPermission?: boolea
 export async function subscribePersonnelPush(options?: {
   force?: boolean;
   twaBypassPermission?: boolean;
+  /** Yalnızca kullanıcı etkileşiminde true olmalı; arka planda izin sorusu çıkarmaz. */
+  allowPrompt?: boolean;
 }): Promise<boolean> {
   if (typeof window === 'undefined') return false;
   if (!pushSupported()) return false;
 
-  const twaBypass = Boolean(options?.twaBypassPermission && isPersonnelTwaRuntime());
-  const permission = await syncNotificationPermissionForPush({ twaAfterSettings: twaBypass });
+  const current = getNotificationPermission();
+  if (current === 'unsupported') return false;
+
+  let permission: NotificationPermission | 'unsupported' = current;
+  if (current !== 'granted') {
+    // Arka plan (allowPrompt=false): izin verilmemişse ASLA prompt açma, sessizce çık.
+    if (!options?.allowPrompt) return false;
+    const twaBypass = Boolean(options?.twaBypassPermission && isPersonnelTwaRuntime());
+    permission = await syncNotificationPermissionForPush({ twaAfterSettings: twaBypass });
+  }
   if (permission !== 'granted') {
     console.warn('[push] notification permission not granted:', permission);
     return false;
@@ -211,6 +221,8 @@ export async function subscribePersonnelPush(options?: {
 export async function registerPersonnelPushIfAuthed(options?: {
   force?: boolean;
   twaBypassPermission?: boolean;
+  /** Yalnızca kullanıcı etkileşiminde true olmalı; arka planda izin sorusu çıkarmaz. */
+  allowPrompt?: boolean;
 }): Promise<boolean> {
   if (typeof window === 'undefined') return false;
   if (!pushSupported()) return false;
@@ -227,6 +239,7 @@ export async function registerPersonnelPushIfAuthed(options?: {
   return subscribePersonnelPush({
     force: options?.force,
     twaBypassPermission: twaBypass,
+    allowPrompt: options?.allowPrompt,
   });
 }
 
