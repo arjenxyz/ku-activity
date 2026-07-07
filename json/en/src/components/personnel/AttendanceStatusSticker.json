@@ -1,32 +1,32 @@
 {
-  "close": "Kapat",
-  "dismissError": "Hatayı kapat",
-  "rescanIssue": "Sorun var — yeniden okut",
-  "rescan": "Yeniden okut",
+  "close": "Close",
+  "dismissError": "Dismiss error",
+  "rescanIssue": "Something's wrong — re-scan",
+  "rescan": "Re-scan",
   "states": {
     "waiting": {
-      "pill": "Yoklamada",
-      "title": "Listeye eklendiniz",
-      "hint": "Usta yoklamayı tamamlayana kadar bekleyin."
+      "pill": "In attendance",
+      "title": "You've been added to the list",
+      "hint": "Wait until your supervisor completes attendance."
     },
     "completed": {
-      "pill": "Tamamlandı",
-      "title": "Bugün tamamlandı",
-      "hintDefault": "Tam gün kaydınız oluştu."
+      "pill": "Completed",
+      "title": "Completed today",
+      "hintDefault": "Your full-day record has been created."
     },
     "cancelled": {
-      "pill": "İptal edildi",
-      "title": "Yoklama iptal edildi",
-      "hint": "Yöneticiniz bu yoklamayı iptal etti. Lütfen onunla iletişime geçiniz."
+      "pill": "Cancelled",
+      "title": "Attendance cancelled",
+      "hint": "Your manager cancelled this attendance. Please contact them."
     },
     "removed": {
-      "pill": "Listeden çıkarıldınız",
-      "title": "Yoklamada değilsiniz",
-      "hint": "Yeni QR okutun veya ustanızla görüşün."
+      "pill": "Removed from list",
+      "title": "You're not in attendance",
+      "hint": "Scan a new QR or talk to your supervisor."
     }
   },
   "scanError": {
-    "pill": "Okutma başarısız",
-    "title": "QR okunamadı"
+    "pill": "Scan failed",
+    "title": "Couldn't read the QR"
   }
 }

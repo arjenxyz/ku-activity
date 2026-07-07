@@ -5,12 +5,12 @@ import { scanAttendanceQr, getPersonnelAttendanceStatus } from '@/lib/attendance
 import {
   ATTENDANCE_MESSAGE_CODES,
   isAttendanceScanError,
-  resolveAttendanceLocale,
+  resolveAttendanceLocaleFromRequest,
   tAttendance,
 } from '@/lib/i18n/attendance-messages';
 
 export async function POST(request: Request) {
-  const locale = resolveAttendanceLocale(request.headers.get('accept-language'));
+  const locale = resolveAttendanceLocaleFromRequest(request);
 
   try {
     const session = await requirePersonnelWritableSession();

@@ -4,6 +4,7 @@
  */
 
 import messages from '@json/src/lib/i18n/attendance-messages.json';
+import { LOCALE_COOKIE } from '@/lib/i18n/locale';
 
 export type AttendanceLocale = 'tr' | 'en';
 
@@ -44,6 +45,20 @@ export function resolveAttendanceLocale(acceptLanguage?: string | null): Attenda
   const primary = acceptLanguage.split(',')[0]?.trim().toLowerCase() ?? '';
   if (primary.startsWith('en')) return 'en';
   return 'tr';
+}
+
+/**
+ * İstekten dili çöz. Kullanıcının uygulamada seçtiği dil çerezi (crewledger_locale)
+ * tarayıcının Accept-Language başlığından önceliklidir; böylece EN seçili bir kullanıcı
+ * TR tarayıcıda bile İngilizce mesaj alır.
+ */
+export function resolveAttendanceLocaleFromRequest(request: Request): AttendanceLocale {
+  const cookieHeader = request.headers.get('cookie');
+  if (cookieHeader) {
+    const match = cookieHeader.match(new RegExp(`(?:^|;\\s*)${LOCALE_COOKIE}=(tr|en)`));
+    if (match) return match[1] as AttendanceLocale;
+  }
+  return resolveAttendanceLocale(request.headers.get('accept-language'));
 }
 
 export class AttendanceScanError extends Error {

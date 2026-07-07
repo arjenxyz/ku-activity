@@ -1,11 +1,11 @@
 {
-  "close": "Kapat",
-  "badge": "Manuel kod",
-  "title": "Kod ile yoklama",
-  "description": "Ustanızın verdiği yoklama kodunu aşağıya girin",
+  "close": "Close",
+  "badge": "Manual code",
+  "title": "Attendance by code",
+  "description": "Enter the attendance code your supervisor gave you below",
   "placeholder": "YOK-…",
-  "outsideWindowHint": "Yoklama saati dışında kod girişi kapalı.",
-  "submitting": "Gönderiliyor…",
-  "resubmit": "Yeniden kaydet",
-  "join": "Yoklamaya katıl"
+  "outsideWindowHint": "Code entry is closed outside attendance hours.",
+  "submitting": "Submitting…",
+  "resubmit": "Re-record",
+  "join": "Join attendance"
 }

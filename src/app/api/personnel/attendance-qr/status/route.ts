@@ -8,12 +8,12 @@ import {
   getProjectCalendarDate,
   loadProjectAttendanceSchedule,
 } from '@/lib/attendance-window';
-import { resolveAttendanceLocale } from '@/lib/i18n/attendance-messages';
+import { resolveAttendanceLocaleFromRequest } from '@/lib/i18n/attendance-messages';
 import strings from '@json/src/app/api/personnel/attendance-qr/status/route.json';
 
 export async function GET(request: Request) {
   try {
-    const locale = resolveAttendanceLocale(request.headers.get('accept-language'));
+    const locale = resolveAttendanceLocaleFromRequest(request);
     const session = await requirePersonnelSession();
     const { searchParams } = new URL(request.url);
 
