@@ -20,6 +20,7 @@ const RETRY_MS = 2500;
 
 function isPersonnelAuthPath(pathname: string) {
   return (
+    pathname.startsWith('/personnel-panel/basla') ||
     pathname.startsWith('/personnel-panel/login') ||
     pathname.startsWith('/personnel-panel/unlock') ||
     pathname.startsWith('/personnel-panel/sifremi-unuttum') ||

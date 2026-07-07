@@ -45,7 +45,7 @@ export function buildPersonnelManifest(): MetadataRoute.Manifest & { gcm_sender_
     short_name: 'CrewLedger',
     description:
       'Şantiye personeli için yoklama, yevmiye, mesai ve maaş özeti. Construction crew self-service app.',
-    start_url: '/personnel-panel',
+    start_url: '/personnel-panel/basla',
     scope: '/',
     display: 'standalone',
     display_override: ['standalone', 'minimal-ui'],

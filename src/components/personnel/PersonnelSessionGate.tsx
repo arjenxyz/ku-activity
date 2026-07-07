@@ -22,6 +22,7 @@ export function usePersonnelSessionGate() {
 
 function isPersonnelPublicPath(pathname: string) {
   return (
+    pathname.startsWith('/personnel-panel/basla') ||
     pathname.startsWith('/personnel-panel/login') ||
     pathname.startsWith('/personnel-panel/unlock') ||
     pathname.startsWith('/personnel-panel/basvuru') ||
@@ -37,6 +38,7 @@ function isProtectedPersonnelRoute(pathname: string) {
 
 function shouldSkipIntro(pathname: string) {
   return (
+    pathname.startsWith('/personnel-panel/basla') ||
     pathname.startsWith('/personnel-panel/basvuru') ||
     pathname.startsWith('/personnel-panel/login') ||
     pathname.startsWith('/personnel-panel/unlock')
@@ -138,10 +140,16 @@ export function PersonnelSessionGate({ children }: { children: React.ReactNode }
     return Boolean(pendingRedirect);
   }, [pendingRedirect]);
 
+  const isLaunchPath = pathname.startsWith('/personnel-panel/basla');
   const holdAuthWhileChecking = isAuthPath && !sessionReady;
   const holdAuthRedirect = isAuthPath && sessionReady && Boolean(pendingRedirect);
 
-  const showChildren = isAuthPath ? !holdAuthWhileChecking && !holdAuthRedirect : true;
+  // Launch (boot/router) sayfası kendi yönlendirmesini yapar; splash'ı anında göster.
+  const showChildren = isLaunchPath
+    ? true
+    : isAuthPath
+      ? !holdAuthWhileChecking && !holdAuthRedirect
+      : true;
 
   return (
     <SessionGateContext.Provider value={{ onIntroComplete }}>
