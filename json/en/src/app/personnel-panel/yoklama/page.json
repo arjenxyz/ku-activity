@@ -12,6 +12,11 @@
   "rescanModeReplace": "Yeniden okutma modu — önceki kayıt silinir.",
   "cancelRescanAriaLabel": "Yeniden okutmayı iptal",
   "outsideWindowTitle": "Yoklama saati dışında",
+  "countdown": {
+    "opensLabel": "Opens in",
+    "closesLabel": "Closes in",
+    "dayShort": "d"
+  },
   "desktop": {
     "eyebrow": "Günlük yoklama",
     "title": "Kod ile yoklama",

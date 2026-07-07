@@ -7,6 +7,7 @@ import { useSearchParams } from 'next/navigation';
 import { FiCheckCircle, FiHash, FiInfo, FiMonitor, FiX } from 'react-icons/fi';
 import { AttendanceCodeSheet } from '@/components/personnel/AttendanceCodeSheet';
 import { AttendanceQrScanner } from '@/components/personnel/AttendanceQrScanner';
+import { AttendanceWindowCountdown } from '@/components/personnel/AttendanceWindowCountdown';
 import {
   AttendanceScanErrorOverlay,
   AttendanceStatusSticker,
@@ -108,6 +109,13 @@ function YoklamaContent() {
   };
 
   const windowClosed = Boolean(status?.window && !status.window.isOpen && status.state === 'none');
+  const attendanceWindow = status?.window ?? null;
+  const showWindowCountdown = Boolean(attendanceWindow) && status?.state === 'none';
+  const windowCountdownTarget = attendanceWindow
+    ? attendanceWindow.isOpen
+      ? attendanceWindow.windowEnd
+      : attendanceWindow.windowStart
+    : null;
   const failureBlocked =
     !forceReplace && (status?.state === 'cancelled' || status?.state === 'removed');
   const showScanner = !loadingStatus && !failureBlocked;
@@ -224,11 +232,13 @@ function YoklamaContent() {
           </div>
         )}
 
-        {windowClosed && (
-          <div className="absolute inset-x-3 top-3 z-[5] rounded-xl border border-amber-400/25 bg-amber-950/90 px-3 py-2.5 text-xs text-amber-50 shadow-lg">
-            <p className="font-semibold">{strings.outsideWindowTitle}</p>
-            <p className="mt-1 opacity-90">{status?.window?.message}</p>
-          </div>
+        {showWindowCountdown && windowCountdownTarget && (
+          <AttendanceWindowCountdown
+            targetIso={windowCountdownTarget}
+            isOpen={Boolean(attendanceWindow?.isOpen)}
+            variant="overlay"
+            onElapsed={() => void refreshStatus()}
+          />
         )}
 
         {successMsg && status?.state === 'none' && (
@@ -268,6 +278,7 @@ function YoklamaContent() {
           }}
           onCancelReplace={() => setForceReplace(false)}
           onManualSubmit={handleManualSubmit}
+          onWindowElapsed={() => void refreshStatus()}
         />
       </div>
 
@@ -299,6 +310,7 @@ function DesktopManualPanel({
   onForceReplace,
   onCancelReplace,
   onManualSubmit,
+  onWindowElapsed,
 }: {
   status: PersonnelAttendanceStatusPayload | null;
   loading: boolean;
@@ -312,6 +324,7 @@ function DesktopManualPanel({
   onForceReplace: () => void;
   onCancelReplace: () => void;
   onManualSubmit: (e: React.FormEvent) => void;
+  onWindowElapsed: () => void;
 }) {
   const strings = useRegistryStrings('app/personnel-panel/yoklama/page');
   const formDisabled = scanning || windowClosed || loading;
@@ -358,11 +371,13 @@ function DesktopManualPanel({
         </div>
       )}
 
-      {windowClosed && (
-        <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
-          <p className="font-semibold">{strings.outsideWindowTitle}</p>
-          <p className="mt-1">{status?.window?.message}</p>
-        </div>
+      {status?.window && status.state === 'none' && (
+        <AttendanceWindowCountdown
+          targetIso={status.window.isOpen ? status.window.windowEnd : status.window.windowStart}
+          isOpen={status.window.isOpen}
+          variant="panel"
+          onElapsed={onWindowElapsed}
+        />
       )}
 
       <form

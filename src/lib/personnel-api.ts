@@ -179,6 +179,8 @@ export type PersonnelAttendanceStatusPayload = {
     timezone: string;
     workStartTime: string;
     workEndTime: string;
+    windowStart: string;
+    windowEnd: string;
     windowStartLabel: string;
     windowEndLabel: string;
     isOpen: boolean;
