@@ -1,26 +1,18 @@
 'use client';
 
 import Link from 'next/link';
-import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { usePathname } from 'next/navigation';
 import { Suspense } from 'react';
 import { motion } from 'framer-motion';
 import { HonorIconGlyph, HonorIconTile } from '@/components/icons/HonorIcons';
-import { useAdminUiMode } from '@/hooks/useAdminUiMode';
-import { getSimpleMenuLinks } from '@/lib/admin-ui-mode';
-import { getProjectMenuIconFromHref } from '@/lib/project-menu-icons';
-import { isMenuPathActive } from '@/config/projectMenu';
-
-type Props = {
-  projectId: string;
-};
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 
 type DockItem = {
   id: string;
   label: string;
   href: string;
-  iconName: 'home' | 'qr' | 'wallet' | 'chart';
-  iconTheme: 'blue' | 'emerald' | 'indigo' | 'teal';
+  iconName: 'home' | 'inbox' | 'finance' | 'settings' | 'chart';
+  iconTheme: 'blue' | 'emerald' | 'indigo' | 'slate' | 'violet';
   isCenter?: boolean;
 };
 
@@ -58,33 +50,47 @@ function DockSideItem({ item, active }: { item: DockItem; active: boolean }) {
   );
 }
 
-function NavInner({ projectId }: Props) {
-  const strings = useRegistryStrings('components/dashboard/AdminProjectBottomNav');
+function NavInner() {
+  const strings = useRegistryStrings('components/dashboard/AdminAppBottomNav');
   const pathname = usePathname() ?? '';
-  const { isSimple } = useAdminUiMode();
 
-  const rawLinks = isSimple
-    ? getSimpleMenuLinks(projectId)
-    : [
-        { label: strings.summary, href: () => `/admin-panel/proje/${projectId}` },
-        { label: strings.advance, href: () => `/admin-panel/proje/${projectId}/avans` },
-        { label: strings.attendance, href: () => `/admin-panel/proje/${projectId}/yevmiye` },
-      ];
+  const isProjects = pathname === '/admin-panel' || pathname.startsWith('/admin-panel/proje');
+  const isApplications = pathname.startsWith('/admin-panel/basvuru-onay');
+  const isPolicy = pathname.startsWith('/admin-panel/maas-politikasi');
+  const isArjen = pathname.startsWith('/admin-panel/arjen');
+  const isSettings = pathname.startsWith('/admin-panel/ayarlar');
 
-  const items: DockItem[] = rawLinks.map((link, index) => {
-    const href = link.href(projectId);
-    const icon = getProjectMenuIconFromHref(href);
-    return {
-      id: `link-${index}`,
-      label: link.label.replace('Personel ', '').replace('Yoklama QR', strings.attendance),
-      href,
-      iconName: href.includes('/yevmiye') ? 'qr' : icon.name === 'qr' ? 'qr' : (icon.name as DockItem['iconName']),
-      iconTheme: href.includes('/yevmiye') ? 'teal' : (icon.theme as DockItem['iconTheme']),
-      isCenter: href.includes('/yevmiye'),
-    };
-  });
+  const items: DockItem[] = [
+    { id: 'projects', label: strings.projects, href: '/admin-panel', iconName: 'home', iconTheme: 'blue' },
+    { id: 'arjen', label: strings.arjen, href: '/admin-panel/arjen/avans', iconName: 'chart', iconTheme: 'violet' },
+    {
+      id: 'applications',
+      label: strings.applications,
+      href: '/admin-panel/basvuru-onay',
+      iconName: 'inbox',
+      iconTheme: 'emerald',
+      isCenter: true,
+    },
+    { id: 'policy', label: strings.policy, href: '/admin-panel/maas-politikasi', iconName: 'finance', iconTheme: 'indigo' },
+    { id: 'settings', label: strings.settings, href: '/admin-panel/ayarlar', iconName: 'settings', iconTheme: 'slate' },
+  ];
 
-  const isActive = (href: string) => isMenuPathActive(projectId, pathname, href);
+  const isActive = (id: string) => {
+    switch (id) {
+      case 'projects':
+        return isProjects && !isApplications && !isPolicy && !isArjen && !isSettings;
+      case 'arjen':
+        return isArjen;
+      case 'applications':
+        return isApplications;
+      case 'policy':
+        return isPolicy;
+      case 'settings':
+        return isSettings;
+      default:
+        return false;
+    }
+  };
 
   return (
     <nav
@@ -98,7 +104,7 @@ function NavInner({ projectId }: Props) {
         >
           <div className="flex items-end justify-between gap-0.5 px-1 pt-1.5 pb-1">
             {items.map((item) => {
-              const active = isActive(item.href);
+              const active = isActive(item.id);
 
               if (item.isCenter) {
                 return (
@@ -114,7 +120,11 @@ function NavInner({ projectId }: Props) {
                         active ? 'bg-[#0E1548]' : 'bg-gradient-to-b from-[#152060] to-[#0E1548]'
                       }`}
                     >
-                      <HonorIconGlyph name="qr" className="relative h-[1.45rem] w-[1.45rem] text-white" />
+                      <span
+                        className="pointer-events-none absolute inset-x-2 top-1 h-4 rounded-full bg-white/15 blur-[2px]"
+                        aria-hidden
+                      />
+                      <HonorIconGlyph name="inbox" className="relative h-[1.45rem] w-[1.45rem] text-white" />
                     </motion.span>
                     <span
                       className={`mt-1 max-w-[4.25rem] truncate text-[10px] font-bold leading-none ${
@@ -136,10 +146,10 @@ function NavInner({ projectId }: Props) {
   );
 }
 
-export function AdminProjectBottomNav({ projectId }: Props) {
+export function AdminAppBottomNav() {
   return (
     <Suspense fallback={null}>
-      <NavInner projectId={projectId} />
+      <NavInner />
     </Suspense>
   );
 }

@@ -18,6 +18,8 @@ import m_app_admin_panel_arjen_yevmiye_page_tr from '@json/src/app/admin-panel/a
 import m_app_admin_panel_arjen_yevmiye_page_en from '@json/en/src/app/admin-panel/arjen/yevmiye/page.json';
 import m_app_admin_panel_basvuru_onay_page_tr from '@json/src/app/admin-panel/basvuru-onay/page.json';
 import m_app_admin_panel_basvuru_onay_page_en from '@json/en/src/app/admin-panel/basvuru-onay/page.json';
+import m_app_admin_panel_ayarlar_page_tr from '@json/src/app/admin-panel/ayarlar/page.json';
+import m_app_admin_panel_ayarlar_page_en from '@json/en/src/app/admin-panel/ayarlar/page.json';
 import m_app_admin_panel_layout_tr from '@json/src/app/admin-panel/layout.json';
 import m_app_admin_panel_layout_en from '@json/en/src/app/admin-panel/layout.json';
 import m_app_admin_panel_login_page_tr from '@json/src/app/admin-panel/login/page.json';
@@ -326,6 +328,8 @@ import m_components_ThemeToggle_tr from '@json/src/components/ThemeToggle.json';
 import m_components_ThemeToggle_en from '@json/en/src/components/ThemeToggle.json';
 import m_components_admin_AdminAppIntro_tr from '@json/src/components/admin/AdminAppIntro.json';
 import m_components_admin_AdminAppIntro_en from '@json/en/src/components/admin/AdminAppIntro.json';
+import m_components_admin_AdminAppSettings_tr from '@json/src/components/admin/AdminAppSettings.json';
+import m_components_admin_AdminAppSettings_en from '@json/en/src/components/admin/AdminAppSettings.json';
 import m_components_admin_AdminAttendanceModal_tr from '@json/src/components/admin/AdminAttendanceModal.json';
 import m_components_admin_AdminAttendanceModal_en from '@json/en/src/components/admin/AdminAttendanceModal.json';
 import m_components_admin_AdminProjectClosureScreen_tr from '@json/src/components/admin/AdminProjectClosureScreen.json';
@@ -368,6 +372,10 @@ import m_components_contracts_ContractScrollReader_tr from '@json/src/components
 import m_components_contracts_ContractScrollReader_en from '@json/en/src/components/contracts/ContractScrollReader.json';
 import m_components_dashboard_AdminMenuChrome_tr from '@json/src/components/dashboard/AdminMenuChrome.json';
 import m_components_dashboard_AdminMenuChrome_en from '@json/en/src/components/dashboard/AdminMenuChrome.json';
+import m_components_dashboard_AdminAppBottomNav_tr from '@json/src/components/dashboard/AdminAppBottomNav.json';
+import m_components_dashboard_AdminAppBottomNav_en from '@json/en/src/components/dashboard/AdminAppBottomNav.json';
+import m_components_dashboard_AdminTopBar_tr from '@json/src/components/dashboard/AdminTopBar.json';
+import m_components_dashboard_AdminTopBar_en from '@json/en/src/components/dashboard/AdminTopBar.json';
 import m_components_dashboard_AdminProjectBottomNav_tr from '@json/src/components/dashboard/AdminProjectBottomNav.json';
 import m_components_dashboard_AdminProjectBottomNav_en from '@json/en/src/components/dashboard/AdminProjectBottomNav.json';
 import m_components_dashboard_AdminSimpleModeGuard_tr from '@json/src/components/dashboard/AdminSimpleModeGuard.json';
@@ -687,6 +695,7 @@ export const STRINGS_REGISTRY = {
   'app/admin-panel/arjen/yevmiye/list': { tr: m_app_admin_panel_arjen_yevmiye_list_tr, en: m_app_admin_panel_arjen_yevmiye_list_en },
   'app/admin-panel/arjen/yevmiye/page': { tr: m_app_admin_panel_arjen_yevmiye_page_tr, en: m_app_admin_panel_arjen_yevmiye_page_en },
   'app/admin-panel/basvuru-onay/page': { tr: m_app_admin_panel_basvuru_onay_page_tr, en: m_app_admin_panel_basvuru_onay_page_en },
+  'app/admin-panel/ayarlar/page': { tr: m_app_admin_panel_ayarlar_page_tr, en: m_app_admin_panel_ayarlar_page_en },
   'app/admin-panel/layout': { tr: m_app_admin_panel_layout_tr, en: m_app_admin_panel_layout_en },
   'app/admin-panel/login/page': { tr: m_app_admin_panel_login_page_tr, en: m_app_admin_panel_login_page_en },
   'app/admin-panel/login/yedek': { tr: m_app_admin_panel_login_yedek_tr, en: m_app_admin_panel_login_yedek_en },
@@ -841,6 +850,7 @@ export const STRINGS_REGISTRY = {
   'app/supabase/page': { tr: m_app_supabase_page_tr, en: m_app_supabase_page_en },
   'components/ThemeToggle': { tr: m_components_ThemeToggle_tr, en: m_components_ThemeToggle_en },
   'components/admin/AdminAppIntro': { tr: m_components_admin_AdminAppIntro_tr, en: m_components_admin_AdminAppIntro_en },
+  'components/admin/AdminAppSettings': { tr: m_components_admin_AdminAppSettings_tr, en: m_components_admin_AdminAppSettings_en },
   'components/admin/AdminAttendanceModal': { tr: m_components_admin_AdminAttendanceModal_tr, en: m_components_admin_AdminAttendanceModal_en },
   'components/admin/AdminProjectClosureScreen': { tr: m_components_admin_AdminProjectClosureScreen_tr, en: m_components_admin_AdminProjectClosureScreen_en },
   'components/admin/AdminWorkLogDisputeActions': { tr: m_components_admin_AdminWorkLogDisputeActions_tr, en: m_components_admin_AdminWorkLogDisputeActions_en },
@@ -862,6 +872,8 @@ export const STRINGS_REGISTRY = {
   'components/contracts/ContractEmailVerificationModal': { tr: m_components_contracts_ContractEmailVerificationModal_tr, en: m_components_contracts_ContractEmailVerificationModal_en },
   'components/contracts/ContractScrollReader': { tr: m_components_contracts_ContractScrollReader_tr, en: m_components_contracts_ContractScrollReader_en },
   'components/dashboard/AdminMenuChrome': { tr: m_components_dashboard_AdminMenuChrome_tr, en: m_components_dashboard_AdminMenuChrome_en },
+  'components/dashboard/AdminAppBottomNav': { tr: m_components_dashboard_AdminAppBottomNav_tr, en: m_components_dashboard_AdminAppBottomNav_en },
+  'components/dashboard/AdminTopBar': { tr: m_components_dashboard_AdminTopBar_tr, en: m_components_dashboard_AdminTopBar_en },
   'components/dashboard/AdminProjectBottomNav': { tr: m_components_dashboard_AdminProjectBottomNav_tr, en: m_components_dashboard_AdminProjectBottomNav_en },
   'components/dashboard/AdminSimpleModeGuard': { tr: m_components_dashboard_AdminSimpleModeGuard_tr, en: m_components_dashboard_AdminSimpleModeGuard_en },
   'components/dashboard/AdminUiModeToggle': { tr: m_components_dashboard_AdminUiModeToggle_tr, en: m_components_dashboard_AdminUiModeToggle_en },

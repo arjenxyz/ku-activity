@@ -1,14 +1,14 @@
-/** Yönetici intro / PWA splash görseli ve renkleri */
+/** Yönetici intro / PWA splash görseli ve renkleri — personel paleti ile hizalı */
 export const ADMIN_INTRO_IMAGE = '/banner.png';
 
 export const ADMIN_AUTH_BG_IMAGE = '/crewledger-desktop.png';
 
 /** Intro / TWA splash arka planı */
-export const ADMIN_PWA_SPLASH_BG = '#0f172a';
-export const ADMIN_PWA_THEME = '#0f172a';
+export const ADMIN_PWA_SPLASH_BG = '#0b1624';
+export const ADMIN_PWA_THEME = '#163a5c';
 
 export const ADMIN_PWA_GRADIENT =
-  'linear-gradient(180deg, #1e293b 0%, #0f172a 55%, #020617 100%)';
+  'linear-gradient(180deg, #1a3a52 0%, #0b1624 55%, #060d14 100%)';
 
 export const ADMIN_PWA_STARTUP_IMAGES = [
   {

@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
-import { DashboardShell } from './DashboardShell';
+import { AdminPanelChrome } from './AdminPanelChrome';
 
 export function AdminPanelLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -20,5 +20,5 @@ export function AdminPanelLayout({ children }: { children: React.ReactNode }) {
   ) {
     return <>{children}</>;
   }
-  return <DashboardShell>{children}</DashboardShell>;
+  return <AdminPanelChrome>{children}</AdminPanelChrome>;
 }

@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import strings from '@json/src/app/admin-panel/layout.json';
+import { PersonnelDisplayProvider } from '@/lib/personnel-display-preferences';
 import { AdminIntroGate } from '@/components/admin/AdminIntroGate';
 import { AdminPanelLayout } from '@/components/dashboard/AdminPanelLayout';
 import { ADMIN_APP_ICON, APP_NAME } from '@/lib/brand';
@@ -31,7 +32,7 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: ADMIN_PWA_THEME,
-  colorScheme: 'dark',
+  colorScheme: 'light',
 };
 
 export default function AdminPanelRootLayout({ children }: { children: React.ReactNode }) {
@@ -45,9 +46,11 @@ export default function AdminPanelRootLayout({ children }: { children: React.Rea
           media={media}
         />
       ))}
-      <AdminIntroGate>
-        <AdminPanelLayout>{children}</AdminPanelLayout>
-      </AdminIntroGate>
+      <PersonnelDisplayProvider>
+        <AdminIntroGate>
+          <AdminPanelLayout>{children}</AdminPanelLayout>
+        </AdminIntroGate>
+      </PersonnelDisplayProvider>
     </>
   );
 }

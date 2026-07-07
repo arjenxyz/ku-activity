@@ -1,0 +1,48 @@
+{
+  "pageSubtitle": "Görünüm, dil, bildirimler ve uygulama tercihlerinizi yönetin.",
+  "sections": {
+    "display": "Görünüm",
+    "language": "Dil",
+    "interface": "Arayüz",
+    "notifications": "Bildirimler",
+    "about": "Uygulama",
+    "data": "Veri ve gizlilik"
+  },
+  "largeTextLabel": "Büyük yazı",
+  "largeTextHint": "Metinleri büyütür; sahada okumayı kolaylaştırır",
+  "highContrastLabel": "Yüksek kontrast",
+  "highContrastHint": "Renkleri belirginleştirir",
+  "languageLabel": "Uygulama dili",
+  "languageHint": "Türkçe veya İngilizce",
+  "interfaceLabel": "Görünüm modu",
+  "interfaceHint": "Basit veya gelişmiş yönetici arayüzü",
+  "notifications": {
+    "statusLabel": "Bildirim izni",
+    "granted": "Açık",
+    "denied": "Kapalı",
+    "default": "Henüz sorulmadı",
+    "unsupported": "Desteklenmiyor",
+    "enableButton": "Bildirimleri aç",
+    "openSettingsButton": "Sistem ayarlarını aç",
+    "refreshButton": "Durumu yenile",
+    "enabling": "Açılıyor…",
+    "hintGranted": "Önemli yönetici bildirimleri bu cihaza gönderilebilir.",
+    "hintDenied": "Bildirimler kapalı. Sistem ayarlarından veya aşağıdaki düğmeden açabilirsiniz.",
+    "hintDefault": "Başvuru ve proje bildirimleri için izin verin."
+  },
+  "about": {
+    "versionLabel": "Sürüm",
+    "publishedLabel": "Yayın tarihi",
+    "unknownVersion": "—",
+    "loading": "Sürüm bilgisi yükleniyor…",
+    "loadFailed": "Sürüm bilgisi alınamadı",
+    "checkUpdates": "Güncelleme notlarını gör",
+    "apkHint": "Yeni sürüm varsa APK indirme sayfasından yükleyebilirsiniz."
+  },
+  "data": {
+    "clearLabel": "Uygulama verilerini temizle",
+    "clearHint": "Önbellek, oturum ve yerel veriler silinir; yeniden giriş gerekir.",
+    "clearing": "Temizleniyor…",
+    "confirm": "CrewLedger'ın bu cihazdaki tüm önbelleği, oturumu ve yerel verileri silinecek ve çıkış yapılacak. Devam edilsin mi?"
+  }
+}

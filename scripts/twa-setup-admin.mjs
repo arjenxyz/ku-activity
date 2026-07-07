@@ -32,9 +32,9 @@ const APP_URL = process.env.NEXT_PUBLIC_APP_URL?.trim() || 'https://crewledger.v
 const HOST = new URL(APP_URL).host;
 
 const ADMIN_COLORS = {
-  splashBg: '#0f172a',
-  navBg: '#0f172a',
-  statusBg: '#0f172a',
+  splashBg: '#0b1624',
+  navBg: '#163a5c',
+  statusBg: '#163a5c',
 };
 
 const ADMIN_TWA_MANIFEST = {
@@ -161,6 +161,28 @@ function run(cmd, args, cwd) {
   }
 }
 
+function ensureNotificationSettingsManifest() {
+  const manifestPath = join(DEST, 'app', 'src', 'main', 'AndroidManifest.xml');
+  if (!existsSync(manifestPath)) return;
+  let xml = readFileSync(manifestPath, 'utf8');
+  if (xml.includes('NotificationSettingsActivity')) return;
+  const activityBlock = `
+        <activity
+            android:name=".NotificationSettingsActivity"
+            android:exported="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="crewledger" android:host="notification-settings" />
+            </intent-filter>
+        </activity>`;
+  xml = xml.replace('</application>', `${activityBlock}\n    </application>`);
+  writeFileSync(manifestPath, xml);
+  console.log('NotificationSettingsActivity manifest yaması eklendi.');
+}
+
 function main() {
   if (!existsSync(join(SRC, 'twa-manifest.json'))) {
     console.error(`Personel TWA bulunamadı: ${SRC}`);
@@ -194,6 +216,7 @@ function main() {
     ['/personnel-panel', '/admin-panel'],
     ['#0B1624', ADMIN_COLORS.splashBg],
     ['#163A5C', ADMIN_COLORS.statusBg],
+    ['#0f172a', ADMIN_COLORS.splashBg],
     ['QR Yoklama', 'Projeler'],
     ['Yoklama', 'Projeler'],
     ['Özet', 'Başvurular'],
@@ -207,6 +230,7 @@ function main() {
   patchJavaPackage();
 
   run('npx', ['@bubblewrap/cli', 'update'], DEST);
+  ensureNotificationSettingsManifest();
   run(process.execPath, [join(ROOT, 'scripts/twa-minimal-splash.mjs'), DEST, '--variant', 'admin'], ROOT);
 
   console.log('\nYönetici TWA hazır:', DEST);

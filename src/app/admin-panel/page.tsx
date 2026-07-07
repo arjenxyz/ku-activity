@@ -64,13 +64,13 @@ export default function ProjectPage() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
-        <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">{strings.title}</h1>
-          <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">{strings.subtitle}</p>
-        </div>
-        <div className="flex flex-wrap gap-2">
+    <div className="space-y-4">
+      <div className="rounded-2xl bg-white px-4 py-5 shadow-sm ring-1 ring-black/[0.04] sm:px-5">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <h1 className="text-xl font-bold text-[#0E1548] sm:text-2xl">{strings.title}</h1>
+            <p className="mt-1 text-sm text-slate-500">{strings.subtitle}</p>
+          </div>
           <button
             type="button"
             disabled={projectQuota != null && !projectQuota.canCreate}
@@ -78,10 +78,10 @@ export default function ProjectPage() {
               setEditingId(null);
               setIsFormVisible(true);
             }}
-            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+            className="inline-flex items-center justify-center gap-2 rounded-2xl bg-[#0E1548] px-5 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-[#152060] disabled:cursor-not-allowed disabled:opacity-50"
             title={projectQuota != null && !projectQuota.canCreate ? strings.newProjectLimitTitle : undefined}
           >
-            <FiPlus className="w-4 h-4" />
+            <FiPlus className="h-4 w-4" />
             {strings.newProject}
           </button>
         </div>
@@ -95,7 +95,7 @@ export default function ProjectPage() {
       />
 
       {loadError && (
-        <div className="mb-6 p-4 rounded-xl bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 text-red-700 dark:text-red-300 text-sm">
+        <div className="mb-6 rounded-2xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
           {loadError}
           {loadError.includes('yönetici') && (
             <span className="block mt-1 text-red-600/80">{strings.adminHint}</span>
@@ -130,9 +130,9 @@ export default function ProjectPage() {
 
       {closureTarget && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
-          <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-xl max-w-md w-full p-6 border border-slate-200 dark:border-slate-800">
-            <h3 className="text-lg font-semibold text-slate-900 dark:text-white">{strings.closureTitle}</h3>
-            <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
+          <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-6 shadow-xl">
+            <h3 className="text-lg font-semibold text-[#0E1548]">{strings.closureTitle}</h3>
+            <p className="mt-2 text-sm text-slate-600">
               <strong>{closureTarget.name}</strong>
               {strings.closureBody}
             </p>
@@ -141,7 +141,7 @@ export default function ProjectPage() {
                 type="button"
                 disabled={closing}
                 onClick={() => setClosureTarget(null)}
-                className="flex-1 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-sm font-medium"
+                className="flex-1 rounded-2xl border border-slate-200 py-2.5 text-sm font-medium"
               >
                 {strings.cancel}
               </button>
@@ -149,7 +149,7 @@ export default function ProjectPage() {
                 type="button"
                 disabled={closing}
                 onClick={confirmClosure}
-                className="flex-1 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-sm font-medium disabled:opacity-50"
+                className="flex-1 rounded-2xl bg-amber-600 py-2.5 text-sm font-medium text-white hover:bg-amber-700 disabled:opacity-50"
               >
                 {closing ? strings.closing : strings.confirmClosure}
               </button>

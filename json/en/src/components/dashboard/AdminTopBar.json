@@ -1,0 +1,8 @@
+{
+  "tagline": "Admin panel",
+  "projectSettingsTitle": "Project settings",
+  "projectSettingsAriaLabel": "Project settings",
+  "loadingProject": "Loading…",
+  "logout": "Sign out",
+  "exitAriaLabel": "Back to home"
+}

@@ -74,7 +74,7 @@ export default function ProjectList({
         return (
         <article
           key={project.id}
-          className="group bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-5 shadow-sm hover:shadow-md hover:border-blue-200 dark:hover:border-blue-900 transition-all flex flex-col"
+          className="group flex flex-col rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm ring-1 ring-black/[0.04] transition-all hover:border-[#0E1548]/20 hover:shadow-md"
         >
           <div className="flex items-start justify-between gap-2 mb-3">
             <div className="min-w-0 flex-1">
