@@ -9,7 +9,9 @@ import {
   FiImage,
   FiLogOut,
   FiPhone,
+  FiTrash2,
 } from 'react-icons/fi';
+import { clearPersonnelClientData } from '@/lib/personnel-data-reset';
 import { HonorIconTile, type HonorIconName, type HonorIconTheme } from '@/components/icons/HonorIcons';
 import { EmployeeAvatar } from '@/components/employee/EmployeeAvatar';
 import { PersonnelContractsSection } from '@/components/personnel/PersonnelContractsSection';
@@ -89,8 +91,21 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
   const [photoUrl, setPhotoUrl] = useState(employee.photo_url ?? null);
   const [photoBusy, setPhotoBusy] = useState(false);
   const [photoError, setPhotoError] = useState<string | null>(null);
+  const [resetting, setResetting] = useState(false);
   const cameraInputRef = useRef<HTMLInputElement>(null);
   const galleryInputRef = useRef<HTMLInputElement>(null);
+
+  const handleResetData = async () => {
+    if (resetting) return;
+    if (typeof window !== 'undefined' && !window.confirm(strings.resetDataConfirm)) return;
+    setResetting(true);
+    try {
+      await fetch('/api/auth/personnel/logout', { method: 'POST' }).catch(() => {});
+      await clearPersonnelClientData();
+    } finally {
+      window.location.replace('/personnel-panel/basla');
+    }
+  };
 
   const firstName = employee.first_name || employee.name.split(' ')[0] || strings.emptyValue;
   const lastName = employee.last_name || employee.name.split(' ').slice(1).join(' ') || strings.emptyValue;
@@ -321,6 +336,19 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
               <FiLogOut className="h-4 w-4" />
               {strings.logout}
             </button>
+
+            <button
+              type="button"
+              onClick={() => void handleResetData()}
+              disabled={resetting}
+              className="flex w-full items-center justify-center gap-2 rounded-2xl py-3 text-xs font-medium text-slate-400 transition hover:text-red-600 disabled:opacity-60 dark:text-slate-500 dark:hover:text-red-400"
+            >
+              <FiTrash2 className="h-3.5 w-3.5" />
+              {resetting ? strings.resetting : strings.resetData}
+            </button>
+            <p className="px-2 text-center text-[11px] leading-relaxed text-slate-400 dark:text-slate-600">
+              {strings.resetDataHint}
+            </p>
           </div>
         );
     }
