@@ -64,38 +64,24 @@ export function isPersonnelTwaRuntime() {
   return detectPersonnelAppRuntime() === 'twa';
 }
 
-/** Android uygulama bildirim ayarlarını aç (TWA / sideload APK) */
+/**
+ * Android uygulama bildirim ayarlarını aç (TWA / APK).
+ *
+ * Android'in ayarlar ekranı BROWSABLE olmadığı için web'den doğrudan açılamaz.
+ * Bunun yerine APK içindeki `NotificationSettingsActivity` trampoline'ini
+ * (BROWSABLE `crewledger://notification-settings`) tetikleriz; o da sistem
+ * bildirim ayarlarını açıp kapanır. v28+ APK gerektirir.
+ */
 export function openPersonnelAppNotificationSettings() {
   if (typeof window === 'undefined') return;
 
   const pkg = PERSONNEL_TWA_PACKAGE_ID;
-  const intents = [
-    `intent:#Intent;action=android.settings.APP_NOTIFICATION_SETTINGS;S:android.provider.extra.APP_PACKAGE=${pkg};end`,
-    `intent:#Intent;action=android.settings.APP_NOTIFICATION_SETTINGS;S.android.provider.extra.APP_PACKAGE=${pkg};end`,
-    `intent:#Intent;action=android.settings.APPLICATION_DETAILS_SETTINGS;data=package:${pkg};end`,
-    `intent:#Intent;action=android.settings.APPLICATION_DETAILS_SETTINGS;scheme=package;package=${pkg};end`,
-  ];
+  // Paketi açıkça hedefleyen intent — yalnızca kendi trampoline activity'mizi açar.
+  const trampoline = `intent://notification-settings/#Intent;scheme=crewledger;package=${pkg};end`;
 
-  let index = 0;
-
-  const tryNext = () => {
-    if (index >= intents.length) return;
-    const intent = intents[index];
-    index += 1;
-
-    const link = document.createElement('a');
-    link.href = intent;
-    link.style.display = 'none';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-
-    if (index < intents.length) {
-      window.setTimeout(() => {
-        if (document.visibilityState === 'visible') tryNext();
-      }, 450);
-    }
-  };
-
-  tryNext();
+  try {
+    window.location.href = trampoline;
+  } catch {
+    /* trampoline açılamadıysa (eski APK) sessizce geç */
+  }
 }
