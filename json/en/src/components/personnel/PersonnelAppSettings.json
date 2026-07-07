@@ -1,0 +1,55 @@
+{
+  "pageSubtitle": "Manage appearance, language, notifications, and app preferences.",
+  "sections": {
+    "appearance": "Appearance",
+    "language": "Language",
+    "notifications": "Notifications",
+    "about": "App",
+    "data": "Data & privacy"
+  },
+  "theme": {
+    "label": "Theme",
+    "hint": "Use light, dark, or follow your device",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "largeTextLabel": "Large text",
+  "largeTextHint": "Increases text size for easier reading on site",
+  "highContrastLabel": "High contrast",
+  "highContrastHint": "Makes colors more distinct",
+  "languageLabel": "App language",
+  "languageHint": "Turkish or English",
+  "notifications": {
+    "statusLabel": "Notification permission",
+    "subscriptionLabel": "Push subscription",
+    "granted": "On",
+    "denied": "Off",
+    "default": "Not asked yet",
+    "unsupported": "Not supported",
+    "subscribed": "Active",
+    "notSubscribed": "Not registered",
+    "enableButton": "Enable notifications",
+    "openSettingsButton": "Open system settings",
+    "refreshButton": "Refresh status",
+    "enabling": "Enabling…",
+    "hintGranted": "Deductions, advances, and attendance alerts are sent to this device.",
+    "hintDenied": "Notifications are off. Enable them in system settings or with the button below.",
+    "hintDefault": "Allow notifications to stay informed about important updates."
+  },
+  "about": {
+    "versionLabel": "Version",
+    "publishedLabel": "Published",
+    "unknownVersion": "—",
+    "loading": "Loading version info…",
+    "loadFailed": "Could not load version info",
+    "checkUpdates": "View release notes",
+    "apkHint": "If a new version is available, install it from the APK download page."
+  },
+  "data": {
+    "clearLabel": "Clear app data",
+    "clearHint": "Clears cache, session, and local data; you will need to sign in again.",
+    "clearing": "Clearing…",
+    "confirm": "All of CrewLedger's cache, session and local data on this device will be cleared and you will be signed out. Your other apps are not affected. Continue?"
+  }
+}

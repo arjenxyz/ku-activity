@@ -424,6 +424,8 @@ import m_components_personnel_PendingApplicationWaitingScreen_tr from '@json/src
 import m_components_personnel_PendingApplicationWaitingScreen_en from '@json/en/src/components/personnel/PendingApplicationWaitingScreen.json';
 import m_components_personnel_PersonnelActiveDevices_tr from '@json/src/components/personnel/PersonnelActiveDevices.json';
 import m_components_personnel_PersonnelActiveDevices_en from '@json/en/src/components/personnel/PersonnelActiveDevices.json';
+import m_components_personnel_PersonnelAppSettings_tr from '@json/src/components/personnel/PersonnelAppSettings.json';
+import m_components_personnel_PersonnelAppSettings_en from '@json/en/src/components/personnel/PersonnelAppSettings.json';
 import m_components_personnel_PersonnelAppBottomNav_tr from '@json/src/components/personnel/PersonnelAppBottomNav.json';
 import m_components_personnel_PersonnelAppBottomNav_en from '@json/en/src/components/personnel/PersonnelAppBottomNav.json';
 import m_components_personnel_PersonnelAppIntro_tr from '@json/src/components/personnel/PersonnelAppIntro.json';
@@ -628,6 +630,8 @@ import m_lib_parse_registration_qr_tr from '@json/src/lib/parse-registration-qr.
 import m_lib_parse_registration_qr_en from '@json/en/src/lib/parse-registration-qr.json';
 import m_lib_personnel_display_preferences_tr from '@json/src/lib/personnel-display-preferences.json';
 import m_lib_personnel_display_preferences_en from '@json/en/src/lib/personnel-display-preferences.json';
+import m_lib_personnel_theme_tr from '@json/src/lib/personnel-theme.json';
+import m_lib_personnel_theme_en from '@json/en/src/lib/personnel-theme.json';
 import m_lib_personnel_intro_boot_script_tr from '@json/src/lib/personnel-intro-boot-script.json';
 import m_lib_personnel_intro_boot_script_en from '@json/en/src/lib/personnel-intro-boot-script.json';
 import m_lib_personnel_notifications_tr from '@json/src/lib/personnel-notifications.json';
@@ -886,6 +890,7 @@ export const STRINGS_REGISTRY = {
   'components/personnel/AttendanceStatusSticker': { tr: m_components_personnel_AttendanceStatusSticker_tr, en: m_components_personnel_AttendanceStatusSticker_en },
   'components/personnel/PendingApplicationWaitingScreen': { tr: m_components_personnel_PendingApplicationWaitingScreen_tr, en: m_components_personnel_PendingApplicationWaitingScreen_en },
   'components/personnel/PersonnelActiveDevices': { tr: m_components_personnel_PersonnelActiveDevices_tr, en: m_components_personnel_PersonnelActiveDevices_en },
+  'components/personnel/PersonnelAppSettings': { tr: m_components_personnel_PersonnelAppSettings_tr, en: m_components_personnel_PersonnelAppSettings_en },
   'components/personnel/PersonnelAppBottomNav': { tr: m_components_personnel_PersonnelAppBottomNav_tr, en: m_components_personnel_PersonnelAppBottomNav_en },
   'components/personnel/PersonnelAppIntro': { tr: m_components_personnel_PersonnelAppIntro_tr, en: m_components_personnel_PersonnelAppIntro_en },
   'components/personnel/PersonnelAsgariPanel': { tr: m_components_personnel_PersonnelAsgariPanel_tr, en: m_components_personnel_PersonnelAsgariPanel_en },
@@ -988,6 +993,7 @@ export const STRINGS_REGISTRY = {
   'lib/otp-service': { tr: m_lib_otp_service_tr, en: m_lib_otp_service_en },
   'lib/parse-registration-qr': { tr: m_lib_parse_registration_qr_tr, en: m_lib_parse_registration_qr_en },
   'lib/personnel-display-preferences': { tr: m_lib_personnel_display_preferences_tr, en: m_lib_personnel_display_preferences_en },
+  'lib/personnel-theme': { tr: m_lib_personnel_theme_tr, en: m_lib_personnel_theme_en },
   'lib/personnel-intro-boot-script': { tr: m_lib_personnel_intro_boot_script_tr, en: m_lib_personnel_intro_boot_script_en },
   'lib/personnel-notifications': { tr: m_lib_personnel_notifications_tr, en: m_lib_personnel_notifications_en },
   'lib/personnel-pin': { tr: m_lib_personnel_pin_tr, en: m_lib_personnel_pin_en },

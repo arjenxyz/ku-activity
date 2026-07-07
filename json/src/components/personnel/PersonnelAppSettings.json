@@ -1,0 +1,55 @@
+{
+  "pageSubtitle": "Görünüm, dil, bildirimler ve uygulama tercihlerinizi yönetin.",
+  "sections": {
+    "appearance": "Görünüm",
+    "language": "Dil",
+    "notifications": "Bildirimler",
+    "about": "Uygulama",
+    "data": "Veri ve gizlilik"
+  },
+  "theme": {
+    "label": "Tema",
+    "hint": "Açık, koyu veya cihaz ayarını kullanın",
+    "light": "Açık",
+    "dark": "Koyu",
+    "system": "Sistem"
+  },
+  "largeTextLabel": "Büyük yazı",
+  "largeTextHint": "Metinleri büyütür; sahada okumayı kolaylaştırır",
+  "highContrastLabel": "Yüksek kontrast",
+  "highContrastHint": "Renkleri belirginleştirir",
+  "languageLabel": "Uygulama dili",
+  "languageHint": "Türkçe veya İngilizce",
+  "notifications": {
+    "statusLabel": "Bildirim izni",
+    "subscriptionLabel": "Push aboneliği",
+    "granted": "Açık",
+    "denied": "Kapalı",
+    "default": "Henüz sorulmadı",
+    "unsupported": "Desteklenmiyor",
+    "subscribed": "Aktif",
+    "notSubscribed": "Kayıtlı değil",
+    "enableButton": "Bildirimleri aç",
+    "openSettingsButton": "Sistem ayarlarını aç",
+    "refreshButton": "Durumu yenile",
+    "enabling": "Açılıyor…",
+    "hintGranted": "Kesinti, avans ve yoklama bildirimleri bu cihaza gönderilir.",
+    "hintDenied": "Bildirimler kapalı. Sistem ayarlarından veya aşağıdaki düğmeden açabilirsiniz.",
+    "hintDefault": "Önemli işlemler için bildirim almak üzere izin verin."
+  },
+  "about": {
+    "versionLabel": "Sürüm",
+    "publishedLabel": "Yayın tarihi",
+    "unknownVersion": "—",
+    "loading": "Sürüm bilgisi yükleniyor…",
+    "loadFailed": "Sürüm bilgisi alınamadı",
+    "checkUpdates": "Güncelleme notlarını gör",
+    "apkHint": "Yeni sürüm varsa APK indirme sayfasından yükleyebilirsiniz."
+  },
+  "data": {
+    "clearLabel": "Uygulama verilerini temizle",
+    "clearHint": "Önbellek, oturum ve yerel veriler silinir; yeniden giriş gerekir.",
+    "clearing": "Temizleniyor…",
+    "confirm": "CrewLedger'ın bu cihazdaki tüm önbelleği, oturumu ve yerel verileri silinecek ve çıkış yapılacak. Diğer uygulamalarınız etkilenmez. Devam edilsin mi?"
+  }
+}

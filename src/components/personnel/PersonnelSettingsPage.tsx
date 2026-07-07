@@ -9,14 +9,11 @@ import {
   FiImage,
   FiLogOut,
   FiPhone,
-  FiTrash2,
 } from 'react-icons/fi';
-import { clearPersonnelClientData } from '@/lib/personnel-data-reset';
 import { HonorIconTile, type HonorIconName, type HonorIconTheme } from '@/components/icons/HonorIcons';
 import { EmployeeAvatar } from '@/components/employee/EmployeeAvatar';
 import { PersonnelContractsSection } from '@/components/personnel/PersonnelContractsSection';
-import { PersonnelDisplaySettings } from '@/components/personnel/PersonnelDisplaySettings';
-import { PersonnelLanguageSettings } from '@/components/personnel/PersonnelLanguageSettings';
+import { PersonnelAppSettings } from '@/components/personnel/PersonnelAppSettings';
 import { PersonnelReleaseNotesPanel } from '@/components/personnel/PersonnelReleaseNotesPanel';
 import { PersonnelActiveDevices } from '@/components/personnel/PersonnelActiveDevices';
 import { PersonnelPasswordModal } from '@/components/personnel/PersonnelPasswordModal';
@@ -42,7 +39,6 @@ type SettingsSectionId =
   | 'work'
   | 'contracts'
   | 'security'
-  | 'language'
   | 'app'
   | 'releases';
 
@@ -57,7 +53,6 @@ const MENU_ICON_DEFS: Record<MenuItemId, { name: HonorIconName; theme: HonorIcon
   work: { name: 'briefcase', theme: 'amber' },
   contracts: { name: 'shield', theme: 'indigo' },
   security: { name: 'lock', theme: 'rose' },
-  language: { name: 'globe', theme: 'teal' },
   app: { name: 'settings', theme: 'slate' },
   releases: { name: 'document', theme: 'sky' },
 };
@@ -91,21 +86,8 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
   const [photoUrl, setPhotoUrl] = useState(employee.photo_url ?? null);
   const [photoBusy, setPhotoBusy] = useState(false);
   const [photoError, setPhotoError] = useState<string | null>(null);
-  const [resetting, setResetting] = useState(false);
   const cameraInputRef = useRef<HTMLInputElement>(null);
   const galleryInputRef = useRef<HTMLInputElement>(null);
-
-  const handleResetData = async () => {
-    if (resetting) return;
-    if (typeof window !== 'undefined' && !window.confirm(strings.resetDataConfirm)) return;
-    setResetting(true);
-    try {
-      await fetch('/api/auth/personnel/logout', { method: 'POST' }).catch(() => {});
-      await clearPersonnelClientData();
-    } finally {
-      window.location.replace('/personnel-panel/basla');
-    }
-  };
 
   const firstName = employee.first_name || employee.name.split(' ')[0] || strings.emptyValue;
   const lastName = employee.last_name || employee.name.split(' ').slice(1).join(' ') || strings.emptyValue;
@@ -148,7 +130,6 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
     { id: 'work', title: strings.menu.work.title },
     { id: 'contracts', title: strings.menu.contracts.title },
     { id: 'security', title: strings.menu.security.title },
-    { id: 'language', title: strings.menu.language.title },
     { id: 'releases', title: strings.menu.releases.title },
     { id: 'app', title: strings.menu.app.title },
   ];
@@ -158,7 +139,7 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
   );
   const workItems = menuItems.filter((item) => ['work', 'contracts'].includes(item.id));
   const systemItems = menuItems.filter((item) =>
-    ['security', 'language', 'releases', 'app'].includes(item.id)
+    ['security', 'releases', 'app'].includes(item.id)
   );
 
   const backTarget: SettingsSectionId =
@@ -272,9 +253,9 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
           </div>
         );
       case 'app':
-        return <PersonnelDisplaySettings />;
-      case 'language':
-        return <PersonnelLanguageSettings />;
+        return (
+          <PersonnelAppSettings onOpenReleases={() => setActiveSection('releases')} />
+        );
       case 'releases':
         return <PersonnelReleaseNotesPanel />;
       default:
@@ -336,19 +317,6 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
               <FiLogOut className="h-4 w-4" />
               {strings.logout}
             </button>
-
-            <button
-              type="button"
-              onClick={() => void handleResetData()}
-              disabled={resetting}
-              className="flex w-full items-center justify-center gap-2 rounded-2xl py-3 text-xs font-medium text-slate-400 transition hover:text-red-600 disabled:opacity-60 dark:text-slate-500 dark:hover:text-red-400"
-            >
-              <FiTrash2 className="h-3.5 w-3.5" />
-              {resetting ? strings.resetting : strings.resetData}
-            </button>
-            <p className="px-2 text-center text-[11px] leading-relaxed text-slate-400 dark:text-slate-600">
-              {strings.resetDataHint}
-            </p>
           </div>
         );
     }

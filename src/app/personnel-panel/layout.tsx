@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import strings from '@json/src/app/personnel-panel/layout.json';
 import { PersonnelDisplayProvider } from '@/lib/personnel-display-preferences';
+import { PersonnelThemeProvider } from '@/lib/personnel-theme';
 import { PersonnelSessionGate } from '@/components/personnel/PersonnelSessionGate';
 import { PersonnelIntroGate } from '@/components/personnel/PersonnelIntroGate';
 import { PersonnelPanelChrome } from '@/components/personnel/PersonnelPanelChrome';
@@ -48,13 +49,20 @@ export default function PersonnelPanelLayout({ children }: { children: React.Rea
           media={media}
         />
       ))}
-      <PersonnelDisplayProvider>
-        <PersonnelSessionGate>
-          <PersonnelIntroGate>
-            <PersonnelPanelChrome>{children}</PersonnelPanelChrome>
-          </PersonnelIntroGate>
-        </PersonnelSessionGate>
-      </PersonnelDisplayProvider>
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `(function(){try{var m=localStorage.getItem('crewledger-personnel-theme')||'light';var d=m==='dark'||(m==='system'&&window.matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.classList.toggle('dark',d);}catch(e){}})();`,
+        }}
+      />
+      <PersonnelThemeProvider>
+        <PersonnelDisplayProvider>
+          <PersonnelSessionGate>
+            <PersonnelIntroGate>
+              <PersonnelPanelChrome>{children}</PersonnelPanelChrome>
+            </PersonnelIntroGate>
+          </PersonnelSessionGate>
+        </PersonnelDisplayProvider>
+      </PersonnelThemeProvider>
     </>
   );
 }

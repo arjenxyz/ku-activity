@@ -28,7 +28,7 @@
     "contracts": { "title": "Sözleşmeler", "subtitle": "Onayladığınız sözleşme kayıtları." },
     "security": { "title": "Güvenlik", "subtitle": "PIN, aktif cihazlar ve hesap güvenliği." },
     "language": { "title": "Dil", "subtitle": "Uygulama dilini seçin." },
-    "app": { "title": "Uygulama Ayarları", "subtitle": "Görünüm ve okunabilirlik tercihleri." },
+    "app": { "title": "Uygulama Ayarları", "subtitle": "Tema, dil, bildirimler ve uygulama tercihleri." },
     "releases": { "title": "Güncelleme Notları", "subtitle": "Son sürümde neler değişti." }
   },
   "menu": {
@@ -39,7 +39,7 @@
     "contracts": { "title": "Sözleşmeler", "subtitle": "Onayladığınız sözleşmeler" },
     "security": { "title": "Güvenlik", "subtitle": "PIN kodu, aktif cihazlar ve hesap güvenliği" },
     "language": { "title": "Dil", "subtitle": "Uygulama dili" },
-    "app": { "title": "Uygulama ayarları", "subtitle": "Büyük yazı ve kontrast" },
+    "app": { "title": "Uygulama ayarları", "subtitle": "Tema, dil, bildirimler ve uygulama tercihleri" },
     "releases": { "title": "Güncelleme notları", "subtitle": "Son sürümdeki yenilikler" }
   },
   "groups": {
