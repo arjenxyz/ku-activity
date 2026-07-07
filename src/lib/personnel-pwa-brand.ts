@@ -14,6 +14,16 @@ export const PERSONNEL_PWA_THEME = '#163a5c';
 export const PERSONNEL_PWA_GRADIENT =
   'linear-gradient(180deg, #1a3a52 0%, #0b1624 55%, #060d14 100%)';
 
+/**
+ * Açılış intro'su — personel ikonunun moru (violet) ile uyumlu koyu tema.
+ * İkon: beyaz "C" + mor çubuklar → koyu violet zeminde profesyonel durur.
+ */
+export const PERSONNEL_INTRO_BG = '#160d2e';
+export const PERSONNEL_INTRO_GRADIENT =
+  'radial-gradient(125% 120% at 50% 0%, #33205f 0%, #1c1140 48%, #0c0718 100%)';
+export const PERSONNEL_INTRO_ACCENT = '#a78bfa';
+export const PERSONNEL_INTRO_GLOW = 'rgba(139, 92, 246, 0.45)';
+
 /** iOS apple-touch-startup-image */
 export const PERSONNEL_PWA_STARTUP_IMAGES = [
   {
