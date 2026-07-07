@@ -10,13 +10,20 @@ const MASKABLE_BG: Record<AppIconVariant, { r: number; g: number; b: number }> =
   admin: { r: 232, g: 236, b: 240 },
 };
 
+const ICON_HEADERS = {
+  'Content-Type': 'image/png',
+  'Cache-Control': 'public, max-age=86400, immutable',
+} as const;
+
 function iconResponse(buffer: Buffer) {
   return new Response(new Uint8Array(buffer), {
-    headers: {
-      'Content-Type': 'image/png',
-      'Cache-Control': 'public, max-age=86400, immutable',
-    },
+    headers: ICON_HEADERS,
   });
+}
+
+/** HEAD — sharp çalıştırmadan izleme / health check */
+export function iconHeadResponse() {
+  return new Response(null, { status: 200, headers: ICON_HEADERS });
 }
 
 /** Personel / yönetici PNG — PWA, TWA, maskable */
