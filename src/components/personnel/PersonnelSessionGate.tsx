@@ -129,20 +129,25 @@ export function PersonnelSessionGate({ children }: { children: React.ReactNode }
     };
   }, [pathname, skipIntro]);
 
+  // Hedef zaten bulunduğumuz yol ise yönlendirme yapma; aksi halde
+  // window.location.replace aynı sayfayı sonsuz döngüde yeniden yükler
+  // (ör. bekleyen başvuru varken /personnel-panel/basvuru -> basvuru).
+  const effectiveRedirect = pendingRedirect && pendingRedirect !== pathname ? pendingRedirect : null;
+
   useLayoutEffect(() => {
-    if (!sessionReady || !pendingRedirect) return;
+    if (!sessionReady || !effectiveRedirect) return;
     if (!skipIntro && !introComplete) return;
-    window.location.replace(pendingRedirect);
-  }, [sessionReady, pendingRedirect, skipIntro, introComplete]);
+    window.location.replace(effectiveRedirect);
+  }, [sessionReady, effectiveRedirect, skipIntro, introComplete]);
 
   const onIntroComplete = useCallback(() => {
     setIntroComplete(true);
-    return Boolean(pendingRedirect);
-  }, [pendingRedirect]);
+    return Boolean(effectiveRedirect);
+  }, [effectiveRedirect]);
 
   const isLaunchPath = pathname.startsWith('/personnel-panel/basla');
   const holdAuthWhileChecking = isAuthPath && !sessionReady;
-  const holdAuthRedirect = isAuthPath && sessionReady && Boolean(pendingRedirect);
+  const holdAuthRedirect = isAuthPath && sessionReady && Boolean(effectiveRedirect);
 
   // Launch (boot/router) sayfası kendi yönlendirmesini yapar; splash'ı anında göster.
   const showChildren = isLaunchPath
