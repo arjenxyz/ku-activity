@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { fetchPersonnelUnlockContext } from '@/lib/personnel-session-check';
 import { loadPendingRegistration } from '@/lib/registration-pending-storage';
@@ -21,8 +22,11 @@ const MIN_INTRO_MS = 1500;
  * doğru ekrana yönlendirir; bu sırada profesyonel bir açılış animasyonu gösterir.
  */
 export default function PersonnelLaunchPage() {
+  const router = useRouter();
+
   useEffect(() => {
     let cancelled = false;
+    let timer: number | undefined;
     const startedAt = Date.now();
 
     const resolveTarget = async (): Promise<string> => {
@@ -40,15 +44,17 @@ export default function PersonnelLaunchPage() {
     void resolveTarget().then((target) => {
       if (cancelled) return;
       const wait = Math.max(0, MIN_INTRO_MS - (Date.now() - startedAt));
-      window.setTimeout(() => {
-        if (!cancelled) window.location.replace(target);
+      // SPA yönlendirmesi: tam sayfa reload yapmaz → TWA'da "web ekranı açılıp kapandı" flash'ı olmaz.
+      timer = window.setTimeout(() => {
+        if (!cancelled) router.replace(target);
       }, wait);
     });
 
     return () => {
       cancelled = true;
+      if (timer) window.clearTimeout(timer);
     };
-  }, []);
+  }, [router]);
 
   return (
     <div

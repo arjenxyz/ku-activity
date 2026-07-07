@@ -49,6 +49,7 @@ function ChromeBody({ children }: { children: React.ReactNode }) {
 }
 
 function showPersonnelChrome(pathname: string) {
+  if (pathname.startsWith('/personnel-panel/basla')) return false;
   if (pathname.startsWith('/personnel-panel/login')) return false;
   if (pathname.startsWith('/personnel-panel/unlock')) return false;
   if (pathname.startsWith('/personnel-panel/basvuru')) return false;
