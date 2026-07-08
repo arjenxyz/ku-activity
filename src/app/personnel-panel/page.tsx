@@ -6,7 +6,6 @@ import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useRouter } from 'next/navigation';
 import {
   FiBriefcase,
-  FiCalendar,
   FiDollarSign,
   FiList,
   FiSettings,
