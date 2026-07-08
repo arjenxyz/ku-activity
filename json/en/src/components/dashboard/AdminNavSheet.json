@@ -1,0 +1,18 @@
+{
+  "brand": "CREWLEDGER",
+  "title": "Menu",
+  "close": "Close",
+  "menuAriaLabel": "Admin menu",
+  "dailyTitle": "Daily",
+  "projectSubtitle": "Pages in this project",
+  "generalTitle": "General",
+  "generalSubtitle": "All projects and account",
+  "general": {
+    "projects": "Projects",
+    "arjenAdvance": "Arjen advance",
+    "arjenAttendance": "Arjen timesheet",
+    "applications": "Applications",
+    "policy": "Salary policy",
+    "settings": "Settings"
+  }
+}

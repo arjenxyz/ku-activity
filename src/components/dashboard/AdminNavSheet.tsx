@@ -1,0 +1,251 @@
+'use client';
+
+import { usePathname, useRouter } from 'next/navigation';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
+import { useEffect, useMemo } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { FiX } from 'react-icons/fi';
+import { BrandMark } from '@/components/brand/BrandMark';
+import { HonorIconTile, type HonorIconName, type HonorIconTheme } from '@/components/icons/HonorIcons';
+import { AdminUiModeToggle } from '@/components/dashboard/AdminUiModeToggle';
+import { useAdminUiMode } from '@/hooks/useAdminUiMode';
+import { getSimpleMenuLinks } from '@/lib/admin-ui-mode';
+import { getProjectMenuIconFromHref } from '@/lib/project-menu-icons';
+import {
+  getProjectMenuGroups,
+  getProjectMenuPrimary,
+  isMenuPathActive,
+} from '@/config/projectMenu';
+
+type Props = {
+  open: boolean;
+  onClose: () => void;
+  projectId: string | null;
+};
+
+type SheetItem = {
+  key: string;
+  label: string;
+  hint?: string;
+  href: string;
+  icon: { name: HonorIconName; theme: HonorIconTheme };
+};
+
+type SheetSection = {
+  title: string;
+  subtitle?: string;
+  items: SheetItem[];
+};
+
+const sheetVariants = {
+  hidden: { y: '100%' },
+  visible: { y: 0, transition: { type: 'spring' as const, stiffness: 340, damping: 32 } },
+  exit: { y: '100%', transition: { duration: 0.22 } },
+};
+
+const tileVariants = {
+  hidden: { opacity: 0, y: 16, scale: 0.94 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { delay: i * 0.03, type: 'spring' as const, stiffness: 400, damping: 26 },
+  }),
+};
+
+export function AdminNavSheet({ open, onClose, projectId }: Props) {
+  const strings = useRegistryStrings('components/dashboard/AdminNavSheet');
+  const router = useRouter();
+  const pathname = usePathname() ?? '';
+  const { isSimple } = useAdminUiMode();
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', onKey);
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', onKey);
+    };
+  }, [open, onClose]);
+
+  const generalItems: SheetItem[] = useMemo(
+    () => [
+      { key: 'projects', label: strings.general.projects, href: '/admin-panel', icon: { name: 'home', theme: 'blue' } },
+      { key: 'arjen-avans', label: strings.general.arjenAdvance, href: '/admin-panel/arjen/avans', icon: { name: 'chart', theme: 'violet' } },
+      { key: 'arjen-yevmiye', label: strings.general.arjenAttendance, href: '/admin-panel/arjen/yevmiye', icon: { name: 'calendar', theme: 'emerald' } },
+      { key: 'applications', label: strings.general.applications, href: '/admin-panel/basvuru-onay', icon: { name: 'clipboard', theme: 'amber' } },
+      { key: 'policy', label: strings.general.policy, href: '/admin-panel/maas-politikasi', icon: { name: 'sliders', theme: 'indigo' } },
+      { key: 'settings', label: strings.general.settings, href: '/admin-panel/ayarlar', icon: { name: 'settings', theme: 'slate' } },
+    ],
+    [strings.general]
+  );
+
+  const sections: SheetSection[] = useMemo(() => {
+    const result: SheetSection[] = [];
+
+    if (projectId) {
+      if (isSimple) {
+        result.push({
+          title: strings.dailyTitle,
+          subtitle: strings.projectSubtitle,
+          items: getSimpleMenuLinks(projectId).map((link, i) => {
+            const href = link.href(projectId);
+            return { key: `s-${i}`, label: link.label, hint: link.hint, href, icon: getProjectMenuIconFromHref(href) };
+          }),
+        });
+      } else {
+        const primary = getProjectMenuPrimary(projectId);
+        result.push({
+          title: strings.dailyTitle,
+          subtitle: strings.projectSubtitle,
+          items: primary.map((link, i) => {
+            const href = link.href(projectId);
+            return { key: `p-${i}`, label: link.label, hint: link.hint, href, icon: getProjectMenuIconFromHref(href) };
+          }),
+        });
+        for (const group of getProjectMenuGroups(projectId)) {
+          result.push({
+            title: group.label,
+            items: group.links.map((link, i) => {
+              const href = link.href(projectId);
+              return { key: `${group.id}-${i}`, label: link.label, hint: link.hint, href, icon: getProjectMenuIconFromHref(href) };
+            }),
+          });
+        }
+      }
+    }
+
+    result.push({ title: strings.generalTitle, subtitle: strings.generalSubtitle, items: generalItems });
+    return result;
+  }, [projectId, isSimple, strings, generalItems]);
+
+  const isActive = (href: string) => {
+    if (projectId && href.includes(`/admin-panel/proje/${projectId}`)) {
+      return isMenuPathActive(projectId, pathname, href);
+    }
+    if (href === '/admin-panel') return pathname === '/admin-panel';
+    return pathname === href || pathname.startsWith(`${href}/`);
+  };
+
+  const navigate = (href: string) => {
+    router.push(href);
+    onClose();
+  };
+
+  let tileIndex = 0;
+
+  return (
+    <AnimatePresence>
+      {open && (
+        <motion.div
+          className="fixed inset-0 z-[60]"
+          role="dialog"
+          aria-modal="true"
+          aria-label={strings.menuAriaLabel}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+        >
+          <motion.button
+            type="button"
+            className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"
+            aria-label={strings.close}
+            onClick={onClose}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          />
+
+          <motion.div
+            className="absolute inset-x-0 bottom-0 mx-auto flex max-h-[min(85vh,40rem)] max-w-lg flex-col overflow-hidden rounded-t-[1.75rem] bg-white shadow-2xl safe-pb"
+            style={{ colorScheme: 'light' }}
+            variants={sheetVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+          >
+            <div className="shrink-0 border-b border-slate-100 px-5 pb-3 pt-3">
+              <div className="mb-3 flex justify-center">
+                <span className="h-1 w-12 rounded-full bg-slate-200" />
+              </div>
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex min-w-0 items-center gap-3">
+                  <BrandMark size="sm" />
+                  <div className="min-w-0">
+                    <p className="text-[11px] font-bold tracking-[0.08em] text-[#0E1548]">{strings.brand}</p>
+                    <h2 className="text-lg font-bold text-slate-900">{strings.title}</h2>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <AdminUiModeToggle compact />
+                  <button
+                    type="button"
+                    onClick={onClose}
+                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-600 transition hover:bg-slate-200"
+                    aria-label={strings.close}
+                  >
+                    <FiX className="h-5 w-5" />
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex-1 space-y-5 overflow-y-auto p-4">
+              {sections.map((section, sectionIdx) => (
+                <motion.section
+                  key={`${section.title}-${sectionIdx}`}
+                  initial={{ opacity: 0, x: -12 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: sectionIdx * 0.05 + 0.06 }}
+                >
+                  <div className="mb-2.5 px-0.5">
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500">{section.title}</h3>
+                    {section.subtitle ? <p className="text-[11px] text-slate-400">{section.subtitle}</p> : null}
+                  </div>
+                  <ul className={`grid gap-2.5 ${section.items.length > 2 ? 'grid-cols-3' : 'grid-cols-2'}`}>
+                    {section.items.map((item) => {
+                      const active = isActive(item.href);
+                      const i = tileIndex++;
+                      return (
+                        <li key={item.key}>
+                          <motion.button
+                            type="button"
+                            onClick={() => navigate(item.href)}
+                            custom={i}
+                            variants={tileVariants}
+                            initial="hidden"
+                            animate="visible"
+                            whileTap={{ scale: 0.95 }}
+                            className={`relative flex w-full flex-col items-center gap-2 rounded-2xl border bg-white p-3.5 text-center shadow-sm ${
+                              active ? 'border-[#0E1548]/30 ring-2 ring-[#0E1548]/20' : 'border-slate-200/80'
+                            }`}
+                          >
+                            <HonorIconTile name={item.icon.name} theme={item.icon.theme} size="lg" />
+                            <span>
+                              <span className="block text-xs font-bold text-slate-900">{item.label}</span>
+                              {item.hint ? (
+                                <span className="mt-0.5 block text-[10px] leading-tight text-slate-500">{item.hint}</span>
+                              ) : null}
+                            </span>
+                            {active && (
+                              <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-[#0E1548]" />
+                            )}
+                          </motion.button>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </motion.section>
+              ))}
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}

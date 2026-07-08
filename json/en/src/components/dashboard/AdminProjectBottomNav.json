@@ -1,6 +1,9 @@
 {
-  "navAriaLabel": "Proje mobil menü",
-  "attendance": "Yoklama",
-  "advance": "Avans",
-  "summary": "Özet"
+  "navAriaLabel": "Project mobile menu",
+  "summary": "Overview",
+  "personnel": "Personnel",
+  "attendance": "Timesheet",
+  "advance": "Advance",
+  "deduction": "Deduction",
+  "menu": "Menu"
 }

@@ -4,5 +4,7 @@
   "projectSettingsAriaLabel": "Proje ayarları",
   "loadingProject": "Yükleniyor…",
   "logout": "Çıkış",
-  "exitAriaLabel": "Ana sayfaya dön"
+  "exitAriaLabel": "Ana sayfaya dön",
+  "menu": "Menü",
+  "menuAriaLabel": "Menüyü aç"
 }

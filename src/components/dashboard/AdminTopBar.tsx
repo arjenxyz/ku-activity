@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { FiLogOut, FiSliders } from 'react-icons/fi';
+import { FiLogOut, FiMenu, FiSliders } from 'react-icons/fi';
 import { BrandMark } from '@/components/brand/BrandMark';
 import { ProjectStatusBadge } from '@/components/project/ProjectStatusBadge';
 import { AdminUiModeToggle } from '@/components/dashboard/AdminUiModeToggle';
@@ -14,10 +14,11 @@ const PROJECT_ID_RE = /^\/admin-panel\/proje\/([a-f0-9-]{36})/;
 
 type Props = {
   onLogout: () => void;
+  onOpenMenu?: () => void;
   onProjectSettings?: () => void;
 };
 
-export function AdminTopBar({ onLogout, onProjectSettings }: Props) {
+export function AdminTopBar({ onLogout, onOpenMenu, onProjectSettings }: Props) {
   const strings = useRegistryStrings('components/dashboard/AdminTopBar');
   const pathname = usePathname() ?? '';
   const projectId = pathname.match(PROJECT_ID_RE)?.[1] ?? null;
@@ -73,6 +74,18 @@ export function AdminTopBar({ onLogout, onProjectSettings }: Props) {
               <div className="hidden sm:block">
                 <AdminUiModeToggle compact />
               </div>
+              {onOpenMenu ? (
+                <button
+                  type="button"
+                  onClick={onOpenMenu}
+                  className="inline-flex h-10 items-center gap-1.5 rounded-xl px-2.5 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-[#0E1548] sm:px-3"
+                  aria-label={strings.menuAriaLabel}
+                  aria-haspopup="dialog"
+                >
+                  <FiMenu className="h-4 w-4" />
+                  <span className="hidden sm:inline">{strings.menu}</span>
+                </button>
+              ) : null}
               <button
                 type="button"
                 onClick={onLogout}

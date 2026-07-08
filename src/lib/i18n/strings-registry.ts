@@ -378,6 +378,8 @@ import m_components_dashboard_AdminTopBar_tr from '@json/src/components/dashboar
 import m_components_dashboard_AdminTopBar_en from '@json/en/src/components/dashboard/AdminTopBar.json';
 import m_components_dashboard_AdminProjectBottomNav_tr from '@json/src/components/dashboard/AdminProjectBottomNav.json';
 import m_components_dashboard_AdminProjectBottomNav_en from '@json/en/src/components/dashboard/AdminProjectBottomNav.json';
+import m_components_dashboard_AdminNavSheet_tr from '@json/src/components/dashboard/AdminNavSheet.json';
+import m_components_dashboard_AdminNavSheet_en from '@json/en/src/components/dashboard/AdminNavSheet.json';
 import m_components_dashboard_AdminSimpleModeGuard_tr from '@json/src/components/dashboard/AdminSimpleModeGuard.json';
 import m_components_dashboard_AdminSimpleModeGuard_en from '@json/en/src/components/dashboard/AdminSimpleModeGuard.json';
 import m_components_dashboard_AdminUiModeToggle_tr from '@json/src/components/dashboard/AdminUiModeToggle.json';
@@ -875,6 +877,7 @@ export const STRINGS_REGISTRY = {
   'components/dashboard/AdminAppBottomNav': { tr: m_components_dashboard_AdminAppBottomNav_tr, en: m_components_dashboard_AdminAppBottomNav_en },
   'components/dashboard/AdminTopBar': { tr: m_components_dashboard_AdminTopBar_tr, en: m_components_dashboard_AdminTopBar_en },
   'components/dashboard/AdminProjectBottomNav': { tr: m_components_dashboard_AdminProjectBottomNav_tr, en: m_components_dashboard_AdminProjectBottomNav_en },
+  'components/dashboard/AdminNavSheet': { tr: m_components_dashboard_AdminNavSheet_tr, en: m_components_dashboard_AdminNavSheet_en },
   'components/dashboard/AdminSimpleModeGuard': { tr: m_components_dashboard_AdminSimpleModeGuard_tr, en: m_components_dashboard_AdminSimpleModeGuard_en },
   'components/dashboard/AdminUiModeToggle': { tr: m_components_dashboard_AdminUiModeToggle_tr, en: m_components_dashboard_AdminUiModeToggle_en },
   'components/dashboard/DashboardShell': { tr: m_components_dashboard_DashboardShell_tr, en: m_components_dashboard_DashboardShell_en },

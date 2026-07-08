@@ -4,5 +4,7 @@
   "projectSettingsAriaLabel": "Project settings",
   "loadingProject": "Loading…",
   "logout": "Sign out",
-  "exitAriaLabel": "Back to home"
+  "exitAriaLabel": "Back to home",
+  "menu": "Menu",
+  "menuAriaLabel": "Open menu"
 }
