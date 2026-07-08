@@ -93,6 +93,25 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: error.message || 'Proje oluşturulamadı' }, { status: 500 });
     }
 
+    // İş saatleri / saat dilimi RPC ile ayarlanmadığı için oluşturma sonrası kaydet.
+    const scheduleUpdates: Record<string, unknown> = {};
+    if (body.work_start_time) scheduleUpdates.work_start_time = body.work_start_time;
+    if (body.work_end_time) scheduleUpdates.work_end_time = body.work_end_time;
+    if (body.timezone?.trim()) scheduleUpdates.timezone = body.timezone.trim();
+
+    const createdId = (data as { id?: string } | null)?.id;
+    if (createdId && Object.keys(scheduleUpdates).length > 0) {
+      const { data: updated, error: scheduleError } = await supabase
+        .from('projects')
+        .update(scheduleUpdates)
+        .eq('id', createdId)
+        .select('*')
+        .single();
+      if (!scheduleError && updated) {
+        return NextResponse.json({ project: updated }, { status: 201 });
+      }
+    }
+
     return NextResponse.json({ project: data }, { status: 201 });
   } catch (err) {
     const { status, message } = apiErrorMessage(err);
