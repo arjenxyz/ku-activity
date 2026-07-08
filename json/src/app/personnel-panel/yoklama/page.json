@@ -23,6 +23,7 @@
     "subtitle": "Ustanızın verdiği yoklama kodunu aşağıya girin.",
     "qrNotSupportedTitle": "QR okutma bu cihazda desteklenmiyor",
     "qrNotSupportedBody": "QR olarak okutmak için lütfen mobil uygulama üzerinden deneyiniz. Bu cihazda yalnızca manuel kod girişi desteklenmektedir.",
+    "qrNotSupportedShort": "Kamerayla okutmak için mobil uygulamayı kullanın.",
     "rescanButton": "Yeniden kaydet",
     "cancelRescanButton": "Yeniden kaydı iptal",
     "codeLabel": "Yoklama kodu",

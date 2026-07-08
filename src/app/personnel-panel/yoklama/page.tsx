@@ -4,7 +4,7 @@
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { Suspense, useCallback, useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { FiCheckCircle, FiHash, FiInfo, FiMonitor, FiX } from 'react-icons/fi';
+import { FiCheckCircle, FiHash, FiMonitor, FiX } from 'react-icons/fi';
 import { AttendanceCodeSheet } from '@/components/personnel/AttendanceCodeSheet';
 import { AttendanceQrScanner } from '@/components/personnel/AttendanceQrScanner';
 import { AttendanceWindowCountdown } from '@/components/personnel/AttendanceWindowCountdown';
@@ -331,24 +331,20 @@ function DesktopManualPanel({
 
   return (
     <div className="mt-4 space-y-4">
-      <div className="overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-600 to-teal-800 px-5 py-5 text-white shadow-lg">
-        <p className="text-xs font-medium uppercase tracking-wider text-emerald-100/90">{strings.desktop.eyebrow}</p>
-        <h1 className="mt-1 text-2xl font-bold">{strings.desktop.title}</h1>
-        <p className="mt-2 text-sm text-emerald-50/90">{strings.desktop.subtitle}</p>
-      </div>
-
-      <div className="flex gap-3 rounded-2xl border border-sky-200 bg-sky-50 px-4 py-3.5 text-sm text-sky-950 dark:border-sky-900 dark:bg-sky-950/40 dark:text-sky-100">
-        <FiMonitor className="mt-0.5 h-5 w-5 shrink-0 text-sky-600 dark:text-sky-400" />
-        <div className="space-y-1 leading-relaxed">
-          <p className="font-medium">{strings.desktop.qrNotSupportedTitle}</p>
-          <p className="text-sky-800/90 dark:text-sky-200/90">
-            {strings.desktop.qrNotSupportedBody}
-          </p>
+      <div className="overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-600 to-teal-700 p-5 text-white shadow-lg">
+        <div className="flex items-center gap-3">
+          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white/15 ring-1 ring-white/25">
+            <FiHash className="h-5 w-5" />
+          </span>
+          <div className="min-w-0">
+            <h1 className="text-xl font-bold leading-tight">{strings.desktop.title}</h1>
+            <p className="mt-0.5 text-sm text-emerald-50/90">{strings.desktop.subtitle}</p>
+          </div>
         </div>
       </div>
 
       {status && status.state !== 'none' && (
-        <div className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm dark:border-slate-700 dark:bg-slate-900">
+        <div className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm dark:border-slate-700 dark:bg-slate-900">
           <p className="font-medium text-slate-900 dark:text-white">{status.message}</p>
           {(status.state === 'waiting' || status.state === 'completed') && !forceReplace && (
             <button
@@ -384,26 +380,18 @@ function DesktopManualPanel({
         onSubmit={onManualSubmit}
         className="space-y-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-900"
       >
-        <div>
-          <label
-            htmlFor="desktop-attendance-code"
-            className="mb-2 flex items-center gap-2 text-sm font-medium text-slate-700 dark:text-slate-300"
-          >
-            <FiHash className="h-4 w-4 text-emerald-600" />
-            {strings.desktop.codeLabel}
-          </label>
-          <input
-            id="desktop-attendance-code"
-            type="text"
-            value={manualCode}
-            onChange={(e) => setManualCode(e.target.value.toUpperCase())}
-            placeholder={strings.desktop.codePlaceholder}
-            disabled={formDisabled}
-            autoComplete="off"
-            spellCheck={false}
-            className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-center font-mono text-lg uppercase tracking-[0.15em] text-slate-900 outline-none ring-emerald-500/30 placeholder:text-slate-400 focus:border-emerald-500 focus:ring-2 disabled:opacity-50 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
-          />
-        </div>
+        <input
+          id="desktop-attendance-code"
+          type="text"
+          value={manualCode}
+          onChange={(e) => setManualCode(e.target.value.toUpperCase())}
+          placeholder={strings.desktop.codePlaceholder}
+          disabled={formDisabled}
+          autoComplete="off"
+          spellCheck={false}
+          aria-label={strings.desktop.codeLabel}
+          className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-center font-mono text-lg uppercase tracking-[0.15em] text-slate-900 outline-none ring-emerald-500/30 placeholder:text-slate-400 focus:border-emerald-500 focus:ring-2 disabled:opacity-50 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+        />
         <button
           type="submit"
           disabled={formDisabled || !manualCode.trim()}
@@ -411,20 +399,20 @@ function DesktopManualPanel({
         >
           {scanning ? strings.desktop.submitScanning : forceReplace ? strings.desktop.submitRescan : strings.desktop.submitJoin}
         </button>
-        <p className="flex items-start gap-2 text-xs leading-relaxed text-slate-500 dark:text-slate-400">
-          <FiInfo className="mt-0.5 h-3.5 w-3.5 shrink-0" />
-          {strings.desktop.codeHint}
+        <p className="flex items-center justify-center gap-1.5 text-xs text-slate-400 dark:text-slate-500">
+          <FiMonitor className="h-3.5 w-3.5 shrink-0" />
+          {strings.desktop.qrNotSupportedShort}
         </p>
       </form>
 
       {successMsg && (
-        <p className="flex items-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800 dark:border-emerald-900 dark:bg-emerald-950/40 dark:text-emerald-200">
+        <p className="flex items-center gap-2 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800 dark:border-emerald-900 dark:bg-emerald-950/40 dark:text-emerald-200">
           <FiCheckCircle className="h-4 w-4 shrink-0" />
           {successMsg}
         </p>
       )}
       {error && (
-        <p className="rounded-xl border border-red-100 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-900 dark:bg-red-950/40 dark:text-red-200">
+        <p className="rounded-2xl border border-red-100 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-900 dark:bg-red-950/40 dark:text-red-200">
           {error}
         </p>
       )}

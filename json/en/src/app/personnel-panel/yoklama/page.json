@@ -23,6 +23,7 @@
     "subtitle": "Enter the attendance code your supervisor gave you below.",
     "qrNotSupportedTitle": "QR scanning is not supported on this device",
     "qrNotSupportedBody": "To scan a QR code, please use the mobile app. This device only supports manual code entry.",
+    "qrNotSupportedShort": "Use the mobile app to scan with the camera.",
     "rescanButton": "Re-record",
     "cancelRescanButton": "Cancel re-record",
     "codeLabel": "Attendance code",
