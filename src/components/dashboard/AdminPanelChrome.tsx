@@ -40,7 +40,7 @@ function AdminPanelChromeInner({ children }: { children: React.ReactNode }) {
     <div className="min-h-[100dvh] overflow-x-hidden bg-slate-50">
       <AdminTopBar
         onLogout={() => void handleLogout()}
-        onOpenMenu={() => setNavSheetOpen(true)}
+        onOpenMenu={projectId ? undefined : () => setNavSheetOpen(true)}
         onProjectSettings={projectId ? () => setSettingsOpen(true) : undefined}
       />
       <div className="pb-0">
