@@ -1,6 +1,6 @@
 {
   "badge": "Today's attendance",
-  "shiftHours": "Shift {start}{end}",
+  "shiftHours": "Work hours {start}{end}",
   "shiftEnd": " – {end}",
   "confirmed": "You are registered for the full day",
   "notConfirmed": "No attendance yet",

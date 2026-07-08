@@ -1,6 +1,6 @@
 {
   "badge": "Today's attendance",
-  "shiftHours": "Shift {start}{end}",
+  "shiftHours": "Work hours {start}{end}",
   "shiftEnd": " – {end}",
   "allPresent": "Everyone checked in",
   "partial": "Attendance underway",

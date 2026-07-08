@@ -1,6 +1,6 @@
 {
   "badge": "Bugünkü yoklama",
-  "shiftHours": "Mesai {start}{end}",
+  "shiftHours": "Çalışma saatleri {start}{end}",
   "shiftEnd": " – {end}",
   "confirmed": "Tam gün kayıtlısınız",
   "notConfirmed": "Henüz yoklama yok",
