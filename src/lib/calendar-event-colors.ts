@@ -4,7 +4,7 @@ export type CalendarEventMarker = 'work' | 'mesai' | 'advance' | 'deduction' | '
 
 export const CALENDAR_MARKER_DOT: Record<CalendarEventMarker, string> = {
   work: 'bg-emerald-500',
-  mesai: 'bg-orange-500',
+  mesai: 'bg-sky-500',
   advance: 'bg-amber-500',
   deduction: 'bg-rose-500',
   minimum: 'bg-violet-500',

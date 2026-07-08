@@ -5,7 +5,6 @@ import { PersonnelUnifiedCalendar } from '@/components/personnel/PersonnelUnifie
 import { PersonnelCalendarDayModal } from '@/components/personnel/PersonnelCalendarDayModal';
 import {
   buildUnifiedCalendar,
-  computeMesaiStats,
   type Deduction,
   type MinimumWage,
   type WorkLog,
@@ -35,8 +34,6 @@ export function PersonnelUnifiedCalendarPanel({
     [month, workLogs, deductions, minimumWages, dailyWage]
   );
 
-  const mesaiStats = useMemo(() => computeMesaiStats(workLogs, dailyWage), [workLogs, dailyWage]);
-
   const selectedLog = selectedDate ? workLogs.find((log) => log.date === selectedDate) ?? null : null;
   const selectedAdvances = selectedDate
     ? deductions.filter((item) => item.date === selectedDate && item.type === 'advance')
@@ -54,7 +51,6 @@ export function PersonnelUnifiedCalendarPanel({
         month={month}
         onMonthChange={onMonthChange}
         days={calendarDays}
-        totalMesaiPay={mesaiStats.totalPay}
         onDaySelect={setSelectedDate}
       />
       <PersonnelCalendarDayModal

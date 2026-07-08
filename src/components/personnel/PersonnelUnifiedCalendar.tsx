@@ -1,6 +1,7 @@
 'use client';
 
 import dayjs from 'dayjs';
+import { useRef } from 'react';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { FiCalendar, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import {
@@ -9,7 +10,6 @@ import {
   type CalendarEventMarker,
 } from '@/lib/calendar-event-colors';
 import type { UnifiedCalendarDay } from '@/lib/personnel-stats';
-import { formatMoney } from '@/lib/format';
 import { formatString } from '@/lib/strings/format';
 import type { WorkLogApprovalStatus } from '@/lib/work-log';
 
@@ -52,7 +52,6 @@ type Props = {
   month: string;
   onMonthChange: (month: string) => void;
   days: UnifiedCalendarDay[];
-  totalMesaiPay: number;
   onDaySelect?: (date: string) => void;
 };
 
@@ -60,22 +59,30 @@ export function PersonnelUnifiedCalendar({
   month,
   onMonthChange,
   days,
-  totalMesaiPay,
   onDaySelect,
 }: Props) {
   const strings = useRegistryStrings('components/personnel/PersonnelUnifiedCalendar');
+  const monthInputRef = useRef<HTMLInputElement>(null);
   const maxMonth = dayjs().format('YYYY-MM');
   const isCurrentMonth = month === maxMonth;
   const monthLabel = formatMonthLabel(month);
-
-  const monthDays = days.filter((d) => d.inMonth);
-  const recorded = monthDays.filter((d) => d.hasAnyRecord).length;
-  const confirmed = monthDays.filter((d) => d.approvalStatus === 'confirmed').length;
 
   const shiftMonth = (delta: number) => {
     const next = dayjs(`${month}-01`).add(delta, 'month').format('YYYY-MM');
     if (next > maxMonth) return;
     onMonthChange(next);
+  };
+
+  const openMonthPicker = () => {
+    const input = monthInputRef.current;
+    if (!input) return;
+    const picker = (input as HTMLInputElement & { showPicker?: () => void }).showPicker;
+    if (typeof picker === 'function') {
+      picker.call(input);
+      return;
+    }
+    (input as HTMLInputElement).focus();
+    (input as HTMLInputElement).click();
   };
 
   return (
@@ -94,20 +101,19 @@ export function PersonnelUnifiedCalendar({
           <div className="min-w-0 flex-1 text-center">
             <div className="flex flex-wrap items-center justify-center gap-2">
               <FiCalendar className="h-4 w-4 shrink-0 text-blue-600 dark:text-blue-400" />
-              <h2 className="font-bold capitalize text-gray-900 dark:text-white">{monthLabel}</h2>
+              <button
+                type="button"
+                onClick={openMonthPicker}
+                className="min-h-[36px] rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm font-bold capitalize text-gray-900 transition hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 dark:border-slate-600 dark:bg-slate-900 dark:text-white dark:hover:bg-slate-800"
+              >
+                {monthLabel}
+              </button>
               {isCurrentMonth && (
                 <span className="shrink-0 rounded-full bg-blue-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-blue-700 dark:bg-blue-900/40 dark:text-blue-300">
                   {strings.thisMonth}
                 </span>
               )}
             </div>
-            <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-              {formatString(strings.summary, {
-                recorded,
-                confirmed,
-                mesaiPay: formatMoney(totalMesaiPay),
-              })}
-            </p>
           </div>
 
           <button
@@ -120,17 +126,16 @@ export function PersonnelUnifiedCalendar({
             <FiChevronRight className="h-5 w-5" />
           </button>
         </div>
-
-        <label className="mt-3 flex items-center justify-center gap-2 text-xs text-gray-500 dark:text-gray-400">
-          <span className="hidden sm:inline">{strings.selectMonth}</span>
-          <input
-            type="month"
-            value={month}
-            max={maxMonth}
-            onChange={(e) => onMonthChange(e.target.value)}
-            className="min-h-[36px] rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm text-gray-900 focus:ring-2 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-900 dark:text-white"
-          />
-        </label>
+        <input
+          ref={monthInputRef}
+          type="month"
+          value={month}
+          max={maxMonth}
+          onChange={(e) => onMonthChange(e.target.value)}
+          className="sr-only"
+          tabIndex={-1}
+          aria-hidden
+        />
       </div>
 
       <div className="p-4 sm:p-5">
