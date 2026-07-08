@@ -1,36 +1,34 @@
 'use client';
 
-
 import { useEffect, useState, useCallback } from 'react';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useParams, useRouter } from 'next/navigation';
 import dayjs from 'dayjs';
-import { FiRefreshCw } from 'react-icons/fi';
 
 import { fetchProject } from '@/api/projects';
 import { fetchEmployees } from '@/api/employees';
-import { ProjectPageHeader } from '@/components/project/ProjectPageHeader';
 import { ProjectLegalDossierDownloadButton } from '@/components/admin/ProjectLegalDossierDownloadButton';
-import { ProjectOverviewStats } from '@/components/project/ProjectOverviewStats';
+import { ProjectSummaryHero } from '@/components/project/ProjectSummaryHero';
+import { ProjectTodayAttendanceCard } from '@/components/project/ProjectTodayAttendanceCard';
 import { ProjectEmployeeTable } from '@/components/project/ProjectEmployeeTable';
-import type { Employee, AttendanceStats } from '@/types/adminTypes';
+import { PersonnelOverviewStrip } from '@/components/personnel/PersonnelOverviewStrip';
+import { FiUsers } from 'react-icons/fi';
+import type { Employee } from '@/types/adminTypes';
 import type { Project } from '@/types/project';
-import { useAdminUiMode } from '@/hooks/useAdminUiMode';
+import { formatMoney } from '@/lib/format';
 
 export default function ProjectDetailPage() {
-
   const strings = useRegistryStrings('app/admin-panel/proje/[projectId]/page');
+  const statsStrings = useRegistryStrings('components/project/ProjectOverviewStats');
   const params = useParams();
   const router = useRouter();
   const projectId = Array.isArray(params.projectId) ? params.projectId[0] : params.projectId;
 
   const [project, setProject] = useState<Project | null>(null);
   const [employees, setEmployees] = useState<Employee[]>([]);
-  const [stats, setStats] = useState<AttendanceStats>({ present: 0, absent: 0, late: 0 });
   const [loading, setLoading] = useState(true);
   const [employeesLoading, setEmployeesLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const { isSimple } = useAdminUiMode();
 
   const loadEmployees = useCallback(async () => {
     if (!projectId) return;
@@ -39,7 +37,6 @@ export default function ProjectDetailPage() {
       const month = dayjs().format('YYYY-MM');
       const data = await fetchEmployees(projectId, month);
       setEmployees(data.employees);
-      setStats(data.attendanceStats);
     } catch (e) {
       console.error(e);
     } finally {
@@ -65,15 +62,15 @@ export default function ProjectDetailPage() {
     } finally {
       setLoading(false);
     }
-  }, [projectId, loadEmployees]);
+  }, [projectId, loadEmployees, strings.projectNotFound, strings.loadError]);
 
   useEffect(() => {
-    loadAll();
+    void loadAll();
   }, [loadAll]);
 
   if (!projectId) {
     return (
-      <div className="max-w-5xl mx-auto px-4 py-16 text-center text-red-600">
+      <div className="mx-auto max-w-5xl px-4 py-16 text-center text-red-600">
         {strings.invalidProjectUrl}
       </div>
     );
@@ -81,24 +78,19 @@ export default function ProjectDetailPage() {
 
   if (loading) {
     return (
-      <div className="space-y-4">
-        <div className="animate-pulse space-y-4">
-          <div className="h-10 bg-slate-200 rounded-lg w-48" />
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="h-24 bg-slate-200 rounded-lg" />
-            ))}
-          </div>
-          <div className="h-64 bg-slate-200 rounded-lg" />
-        </div>
+      <div className="space-y-4 sm:space-y-5">
+        <div className="h-52 animate-pulse rounded-2xl bg-slate-200 sm:rounded-3xl" />
+        <div className="h-40 animate-pulse rounded-2xl bg-slate-200" />
+        <div className="h-28 animate-pulse rounded-2xl bg-slate-200" />
+        <div className="h-64 animate-pulse rounded-2xl bg-slate-200" />
       </div>
     );
   }
 
   if (error || !project) {
     return (
-      <div className="max-w-5xl mx-auto px-4 py-16 text-center">
-        <p className="text-slate-700 font-medium">{error || strings.projectNotFound}</p>
+      <div className="mx-auto max-w-5xl px-4 py-16 text-center">
+        <p className="font-medium text-slate-700">{error || strings.projectNotFound}</p>
         <button
           type="button"
           onClick={() => router.push('/admin-panel')}
@@ -111,6 +103,7 @@ export default function ProjectDetailPage() {
   }
 
   const todayMissing = employees.filter((e) => !e.today_verified).length;
+  const presentToday = employees.filter((e) => e.today_verified).length;
   const totalPayroll = employees.reduce(
     (sum, emp) => sum + emp.daily_wage * (emp.monthly_attendance?.filter((d) => d > 0).length ?? 0),
     0
@@ -118,35 +111,46 @@ export default function ProjectDetailPage() {
   const activeCount = project.active_employee_count ?? employees.length;
 
   return (
-    <div className="space-y-4 overflow-x-hidden sm:space-y-6">
-      <div className="space-y-3">
-        <ProjectPageHeader
-          title={isSimple ? strings.titleSimple : strings.titleFull}
-          description={isSimple ? strings.descriptionSimple : strings.descriptionFull}
-        />
-        <div className="flex flex-wrap items-center gap-2">
+    <div className="mx-auto max-w-lg space-y-4 overflow-x-hidden sm:max-w-2xl sm:space-y-5">
+      <ProjectSummaryHero
+        project={project}
+        presentToday={presentToday}
+        activeCount={activeCount}
+        todayMissing={todayMissing}
+        totalPayroll={totalPayroll}
+        projectId={projectId}
+        onRefresh={() => void loadAll()}
+        dossierSlot={
           <ProjectLegalDossierDownloadButton
             projectId={projectId}
             projectName={project.name}
             compact
+            className="[&_button]:!rounded-xl [&_button]:!bg-white/15 [&_button]:!px-3.5 [&_button]:!py-2 [&_button]:!text-xs [&_button]:!font-semibold [&_button]:!ring-1 [&_button]:!ring-white/20 [&_button]:hover:!bg-white/25"
           />
-          <button
-            type="button"
-            onClick={() => loadAll()}
-            className="inline-flex items-center gap-2 rounded-xl px-2 py-2 text-sm text-slate-600 transition hover:bg-slate-100 hover:text-slate-900"
-          >
-            <FiRefreshCw className="h-4 w-4" />
-            {strings.refresh}
-          </button>
-        </div>
-      </div>
+        }
+      />
 
-      <ProjectOverviewStats
-        employeeCount={employees.length}
-        activeCount={activeCount}
-        todayMissing={todayMissing}
-        totalPayroll={totalPayroll}
-        stats={stats}
+      <ProjectTodayAttendanceCard
+        projectId={projectId}
+        presentCount={presentToday}
+        missingCount={todayMissing}
+        totalCount={employees.length}
+      />
+
+      <PersonnelOverviewStrip
+        title={strings.stripTitle}
+        icon={<FiUsers className="h-5 w-5" />}
+        iconClassName="bg-blue-100 text-blue-600"
+        lines={[
+          { count: employees.length, label: statsStrings.stats.employees },
+          { count: activeCount, label: statsStrings.stats.active },
+          { count: todayMissing, label: statsStrings.stats.missing },
+          {
+            count: totalPayroll,
+            label: statsStrings.stats.payroll,
+            display: formatMoney(totalPayroll),
+          },
+        ]}
       />
 
       <ProjectEmployeeTable

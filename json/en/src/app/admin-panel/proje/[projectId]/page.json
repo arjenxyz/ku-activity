@@ -3,9 +3,5 @@
   "projectNotFound": "Project not found",
   "loadError": "Failed to load data",
   "backToProjectList": "Back to project list",
-  "titleSimple": "Daily attendance",
-  "titleFull": "Project overview",
-  "descriptionSimple": "Personnel attendance and daily status.",
-  "descriptionFull": "QR attendance, personnel status and monthly summary.",
-  "refresh": "Refresh"
+  "stripTitle": "Project summary"
 }

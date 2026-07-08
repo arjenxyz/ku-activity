@@ -1,0 +1,11 @@
+{
+  "sectionAriaLabel": "Project overview",
+  "presentToday": "Present today",
+  "ofActive": "of {count} active",
+  "active": "Active",
+  "missing": "Pending",
+  "payroll": "Est. monthly",
+  "qrAttendance": "QR attendance",
+  "refresh": "Refresh",
+  "locationFallback": "No location"
+}

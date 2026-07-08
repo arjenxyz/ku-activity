@@ -524,6 +524,10 @@ import m_components_project_ProjectNavMenu_tr from '@json/src/components/project
 import m_components_project_ProjectNavMenu_en from '@json/en/src/components/project/ProjectNavMenu.json';
 import m_components_project_ProjectOverviewStats_tr from '@json/src/components/project/ProjectOverviewStats.json';
 import m_components_project_ProjectOverviewStats_en from '@json/en/src/components/project/ProjectOverviewStats.json';
+import m_components_project_ProjectSummaryHero_tr from '@json/src/components/project/ProjectSummaryHero.json';
+import m_components_project_ProjectSummaryHero_en from '@json/en/src/components/project/ProjectSummaryHero.json';
+import m_components_project_ProjectTodayAttendanceCard_tr from '@json/src/components/project/ProjectTodayAttendanceCard.json';
+import m_components_project_ProjectTodayAttendanceCard_en from '@json/en/src/components/project/ProjectTodayAttendanceCard.json';
 import m_components_project_QueryFilters_tr from '@json/src/components/project/QueryFilters.json';
 import m_components_project_QueryFilters_en from '@json/en/src/components/project/QueryFilters.json';
 import m_components_project_RecordEditActions_tr from '@json/src/components/project/RecordEditActions.json';
@@ -952,6 +956,8 @@ export const STRINGS_REGISTRY = {
   'components/project/ProjectEmployeeTable': { tr: m_components_project_ProjectEmployeeTable_tr, en: m_components_project_ProjectEmployeeTable_en },
   'components/project/ProjectNavMenu': { tr: m_components_project_ProjectNavMenu_tr, en: m_components_project_ProjectNavMenu_en },
   'components/project/ProjectOverviewStats': { tr: m_components_project_ProjectOverviewStats_tr, en: m_components_project_ProjectOverviewStats_en },
+  'components/project/ProjectSummaryHero': { tr: m_components_project_ProjectSummaryHero_tr, en: m_components_project_ProjectSummaryHero_en },
+  'components/project/ProjectTodayAttendanceCard': { tr: m_components_project_ProjectTodayAttendanceCard_tr, en: m_components_project_ProjectTodayAttendanceCard_en },
   'components/project/QueryFilters': { tr: m_components_project_QueryFilters_tr, en: m_components_project_QueryFilters_en },
   'components/project/RecordEditActions': { tr: m_components_project_RecordEditActions_tr, en: m_components_project_RecordEditActions_en },
   'components/project/RecordsTable': { tr: m_components_project_RecordsTable_tr, en: m_components_project_RecordsTable_en },

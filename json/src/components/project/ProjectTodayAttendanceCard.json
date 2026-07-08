@@ -1,0 +1,15 @@
+{
+  "sectionAriaLabel": "Bugünkü yoklama",
+  "badge": "Bugün",
+  "confirmedTitle": "Yoklama yolunda",
+  "confirmedHint": "{present} personel kayıtlı · {missing} bekliyor",
+  "allPresentTitle": "Herkes yoklamada",
+  "allPresentHint": "{present} personelin tamamı bugün kayıtlı.",
+  "pendingTitle": "Yoklama bekleniyor",
+  "pendingHint": "Henüz kimse yoklama yapmadı. QR ile başlatın.",
+  "emptyTitle": "Personel yok",
+  "emptyHint": "Bu projede henüz personel bulunmuyor.",
+  "qrCta": "QR yoklamaya git",
+  "presentLabel": "Kayıtlı",
+  "missingLabel": "Bekleyen"
+}

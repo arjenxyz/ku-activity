@@ -49,7 +49,11 @@ export function PersonnelOverviewStrip({
 
       <ul
         className={`grid gap-2 ${
-          cols === 2 ? 'grid-cols-2' : cols === 4 ? 'grid-cols-4' : 'grid-cols-3'
+          cols === 2
+            ? 'grid-cols-2'
+            : cols === 4
+              ? 'grid-cols-2 sm:grid-cols-4'
+              : 'grid-cols-3'
         }`}
       >
         {lines.map((line) => (

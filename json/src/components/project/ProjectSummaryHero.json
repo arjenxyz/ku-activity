@@ -1,0 +1,11 @@
+{
+  "sectionAriaLabel": "Proje özeti",
+  "presentToday": "Bugün yoklamalı",
+  "ofActive": "{count} aktif personelden",
+  "active": "Aktif",
+  "missing": "Bekleyen",
+  "payroll": "Aylık tahmini",
+  "qrAttendance": "QR yoklama",
+  "refresh": "Yenile",
+  "locationFallback": "Konum yok"
+}
