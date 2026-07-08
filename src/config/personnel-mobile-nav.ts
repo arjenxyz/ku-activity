@@ -35,21 +35,22 @@ export const PERSONNEL_HUB_SECTIONS: PersonnelHubSection[] = strings.hubSections
   (section) => ({
     title: section.title,
     subtitle: section.subtitle,
-    items: section.items.map((item) => ({
-      id: item.id,
-      label: item.label,
-      description: item.description,
-      accent: HUB_ITEM_ACCENTS[item.id] ?? 'slate',
-      ...(item.tab ? { tab: item.tab as PersonnelTabId } : {}),
-      ...(item.href ? { href: item.href } : {}),
-    })),
+    items: section.items
+      .filter((item) => item.id !== 'asgari')
+      .map((item) => ({
+        id: item.id,
+        label: item.label,
+        description: item.description,
+        accent: HUB_ITEM_ACCENTS[item.id] ?? 'slate',
+        ...(item.tab ? { tab: item.tab as PersonnelTabId } : {}),
+        ...(item.href ? { href: item.href } : {}),
+      })),
   })
 );
 
 export const PERSONNEL_HUB_TABS: PersonnelTabId[] = [
   'work',
   'finance',
-  'asgari',
   'rights',
   'settings',
 ];

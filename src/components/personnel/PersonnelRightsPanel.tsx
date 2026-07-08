@@ -13,7 +13,7 @@ import { DEFAULT_SUPPORT_EMAIL } from '@/lib/brand';
 import { PersonnelClosureDossierPanel } from './PersonnelClosureDossierPanel';
 import { PersonnelContractsSection } from './PersonnelContractsSection';
 
-type QuickLinkId = 'finance' | 'work' | 'asgari';
+type QuickLinkId = 'finance' | 'work';
 
 type QuickLink = {
   id: QuickLinkId;
@@ -25,7 +25,6 @@ type QuickLink = {
 const QUICK_LINKS: QuickLink[] = [
   { id: 'finance', tab: 'finance', icon: FiDollarSign, accent: 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400' },
   { id: 'work', tab: 'work', icon: FiBriefcase, accent: 'bg-blue-500/15 text-blue-600 dark:text-blue-400' },
-  { id: 'asgari', tab: 'asgari', icon: FiShield, accent: 'bg-violet-500/15 text-violet-600 dark:text-violet-400' },
 ];
 
 export function PersonnelRightsPanel() {
@@ -75,7 +74,7 @@ export function PersonnelRightsPanel() {
         >
           {strings.quickLinksTitle}
         </p>
-        <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4">
+        <div className="grid grid-cols-2 gap-2.5">
           {QUICK_LINKS.map(({ id, tab, icon: Icon, accent }) => (
             <Link
               key={id}

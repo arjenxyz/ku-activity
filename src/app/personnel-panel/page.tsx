@@ -11,7 +11,6 @@ import {
   FiDollarSign,
   FiList,
   FiSettings,
-  FiShield,
 } from 'react-icons/fi';
 import { PersonnelNetHero } from '@/components/personnel/PersonnelNetHero';
 import { PersonnelUnifiedCalendarPanel } from '@/components/personnel/PersonnelUnifiedCalendarPanel';
@@ -23,11 +22,9 @@ import { PersonnelShell } from '@/components/personnel/PersonnelShell';
 import { PersonnelOverviewStrip } from '@/components/personnel/PersonnelOverviewStrip';
 import { PersonnelTabNav } from '@/components/personnel/PersonnelTabNav';
 import { PersonnelFinancePanel } from '@/components/personnel/PersonnelFinancePanel';
-import { PersonnelAsgariPanel } from '@/components/personnel/PersonnelAsgariPanel';
 import { PersonnelPullToRefresh } from '@/components/personnel/PersonnelPullToRefresh';
 import { PersonnelTrustFooter } from '@/components/personnel/PersonnelTrustFooter';
 import { usePersonnelDashboard } from '@/hooks/usePersonnelDashboard';
-import { usePersonnelAsgari } from '@/hooks/usePersonnelAsgari';
 import { usePersonnelTab, type PersonnelTabId } from '@/hooks/usePersonnelTab';
 import { computeMesaiStats, currentMonth, getWorkDayCountLines } from '@/lib/personnel-stats';
 import { formatMoney } from '@/lib/format';
@@ -37,7 +34,6 @@ function PersonelPanelContent() {
   const DESKTOP_TABS = [
     { id: 'overview', label: strings.tabs.overview, icon: <FiList className="w-4 h-4" /> },
     { id: 'work', label: strings.tabs.work, icon: <FiBriefcase className="w-4 h-4" /> },
-    { id: 'asgari', label: strings.tabs.asgari, icon: <FiShield className="w-4 h-4" /> },
     { id: 'finance', label: strings.tabs.finance, icon: <FiDollarSign className="w-4 h-4" /> },
     { id: 'rights', label: strings.tabs.rights, icon: <FiBookOpen className="w-4 h-4" /> },
     { id: 'settings', label: strings.tabs.settings, icon: <FiSettings className="w-4 h-4" /> },
@@ -46,15 +42,8 @@ function PersonelPanelContent() {
   const [month, setMonth] = useState(currentMonth);
   const { activeTab, setActiveTab } = usePersonnelTab('overview');
   const loadFinance = activeTab === 'overview' || activeTab === 'finance' || activeTab === 'work';
-  const loadAsgari = activeTab === 'asgari';
   const { employee, workLogs, deductions, minimumWages, stats, loading, error, reload } =
     usePersonnelDashboard(month, { loadFinance });
-  const {
-    data: asgariData,
-    loading: asgariLoading,
-    error: asgariError,
-    reload: reloadAsgari,
-  } = usePersonnelAsgari(month, loadAsgari);
 
   const handleLogout = async () => {
     await fetch('/api/auth/personnel/logout', { method: 'POST' });
@@ -78,15 +67,7 @@ function PersonelPanelContent() {
       ]
     : workDayLines;
 
-  const tabsWithBadges = DESKTOP_TABS.map((tab) => ({
-    ...tab,
-    badge:
-      tab.id === 'asgari' &&
-      asgariData?.gap.paymentStatus &&
-      (asgariData.gap.paymentStatus === 'open' || asgariData.gap.paymentStatus === 'partial')
-        ? 1
-        : undefined,
-  }));
+  const tabsWithBadges = DESKTOP_TABS.map((tab) => ({ ...tab }));
 
   const handlePrint = () => {
     window.print();
@@ -95,7 +76,7 @@ function PersonelPanelContent() {
   const goTab = (id: string) => setActiveTab(id as PersonnelTabId);
 
   const renderContent = () => {
-    if (loading && activeTab !== 'asgari') {
+    if (loading) {
       return (
         <div className="flex flex-col items-center justify-center py-24 gap-4">
           <div className="w-10 h-10 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
@@ -104,7 +85,7 @@ function PersonelPanelContent() {
       );
     }
 
-    if (error && activeTab !== 'asgari') {
+    if (error) {
       return (
         <div className="rounded-2xl border border-red-200 bg-red-50 dark:bg-red-950/30 dark:border-red-800 p-6 text-center">
           <p className="text-sm text-red-700 dark:text-red-300">{error}</p>
@@ -121,19 +102,6 @@ function PersonelPanelContent() {
           deductions={deductions}
           minimumWages={minimumWages}
           dailyWage={Number(employee.daily_wage)}
-        />
-      );
-    }
-
-    if (activeTab === 'asgari') {
-      return (
-        <PersonnelAsgariPanel
-          month={month}
-          onMonthChange={setMonth}
-          data={asgariData}
-          loading={asgariLoading}
-          error={asgariError}
-          onRetry={() => void reloadAsgari()}
         />
       );
     }
@@ -219,7 +187,6 @@ function PersonelPanelContent() {
         <PersonnelPullToRefresh
           onRefresh={async () => {
             await reload();
-            if (loadAsgari) await reloadAsgari();
           }}
         >
           <div className="no-print">
