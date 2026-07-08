@@ -36,7 +36,7 @@ export const PERSONNEL_HUB_SECTIONS: PersonnelHubSection[] = strings.hubSections
     title: section.title,
     subtitle: section.subtitle,
     items: section.items
-      .filter((item) => item.id !== 'asgari')
+      .filter((item) => item.id !== 'asgari' && item.id !== 'rights')
       .map((item) => ({
         id: item.id,
         label: item.label,
@@ -51,7 +51,6 @@ export const PERSONNEL_HUB_SECTIONS: PersonnelHubSection[] = strings.hubSections
 export const PERSONNEL_HUB_TABS: PersonnelTabId[] = [
   'work',
   'finance',
-  'rights',
   'settings',
 ];
 

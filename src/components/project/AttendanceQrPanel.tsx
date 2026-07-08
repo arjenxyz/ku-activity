@@ -195,7 +195,8 @@ export function AttendanceQrPanel({ projectId }: Props) {
     }
   };
 
-  const cardClass = 'rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5';
+  const cardClass =
+    'rounded-2xl border border-slate-200/80 bg-white/95 p-4 shadow-sm backdrop-blur sm:p-5 dark:border-slate-700 dark:bg-slate-900/90';
   const primaryBtn =
     'inline-flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-50';
   const secondaryBtn =
@@ -204,22 +205,31 @@ export function AttendanceQrPanel({ projectId }: Props) {
   return (
     <>
       <div className="space-y-4 pb-24 sm:pb-4">
-        <div className="overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-600 to-teal-700 p-5 text-white shadow-lg">
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#0b1324] via-[#0f1f34] to-[#102941] p-5 text-white shadow-[0_20px_50px_rgba(6,17,33,0.35)]">
+          <div
+            className="pointer-events-none absolute inset-0 opacity-40"
+            style={{
+              backgroundImage:
+                'radial-gradient(circle at 15% 20%, rgba(16,185,129,0.35) 0%, transparent 35%), radial-gradient(circle at 82% 10%, rgba(59,130,246,0.28) 0%, transparent 40%)',
+            }}
+          />
           <div className="flex items-center gap-3">
-            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white/15 ring-1 ring-white/25">
+            <span className="relative z-[1] flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white/10 ring-1 ring-white/20 backdrop-blur">
               <FiUsers className="h-5 w-5" />
             </span>
-            <div className="min-w-0 flex-1">
+            <div className="relative z-[1] min-w-0 flex-1">
               <h1 className="text-xl font-bold leading-tight">{strings.header.title}</h1>
-              <p className="mt-0.5 text-sm text-emerald-50/90">{strings.header.subtitle}</p>
+              <p className="mt-0.5 text-sm text-white/75">{strings.header.subtitle}</p>
             </div>
           </div>
-          <div className="mt-4 flex flex-wrap gap-2 text-xs font-medium">
-            <span className="rounded-full bg-white/15 px-3 py-1">{formattedDate}</span>
-            <span className="rounded-full bg-white/15 px-3 py-1">
+          <div className="relative z-[1] mt-4 flex flex-wrap gap-2 text-xs font-medium">
+            <span className="rounded-full border border-white/15 bg-white/10 px-3 py-1 backdrop-blur">
+              {formattedDate}
+            </span>
+            <span className="rounded-full border border-white/15 bg-white/10 px-3 py-1 backdrop-blur">
               {statusLabel(strings, loading, data)}
             </span>
-            <span className="rounded-full bg-white/15 px-3 py-1">
+            <span className="rounded-full border border-white/15 bg-white/10 px-3 py-1 backdrop-blur">
               {formatString(strings.stats.checkInCount, { count: checkInCount })}
             </span>
           </div>
@@ -229,7 +239,7 @@ export function AttendanceQrPanel({ projectId }: Props) {
           <label className="mb-1.5 block text-sm font-medium text-slate-700">{strings.dateLabel}</label>
           <input
             type="date"
-            className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none ring-emerald-500/30 focus:border-emerald-500 focus:ring-2 disabled:opacity-50"
+            className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none ring-emerald-500/30 focus:border-emerald-500 focus:ring-2 disabled:opacity-50 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
             value={date}
             onChange={(e) => {
               setDate(e.target.value);
@@ -262,10 +272,23 @@ export function AttendanceQrPanel({ projectId }: Props) {
           </div>
         ) : isActive && data?.qr ? (
           <>
-            <div className={`${cardClass} flex flex-col items-center`}>
-              <p className="mb-3 text-xs font-semibold text-emerald-700">{strings.nextScan}</p>
-              <RegistrationQrCode value={data.qr.url} size={220} />
-              <p className="mt-3 text-center text-xs text-slate-500">{strings.qrHint}</p>
+            <div className={`${cardClass} overflow-hidden !p-0`}>
+              <div className="bg-[#0b1626] px-4 py-3 text-xs font-semibold uppercase tracking-wide text-emerald-300">
+                {strings.nextScan}
+              </div>
+              <div className="relative flex flex-col items-center px-4 py-5">
+                <div
+                  className="pointer-events-none absolute inset-0 opacity-30"
+                  style={{
+                    backgroundImage:
+                      'radial-gradient(circle at 50% 10%, rgba(16,185,129,0.2) 0%, transparent 45%)',
+                  }}
+                />
+                <div className="relative rounded-2xl border border-emerald-100 bg-white p-3 shadow-sm">
+                  <RegistrationQrCode value={data.qr.url} size={220} />
+                </div>
+                <p className="relative mt-3 text-center text-xs text-slate-500">{strings.qrHint}</p>
+              </div>
             </div>
 
             <div className={cardClass}>
@@ -405,7 +428,7 @@ export function AttendanceQrPanel({ projectId }: Props) {
 
       {isActive && data?.qr && (
         <div className="fixed inset-x-0 bottom-[calc(4.5rem+env(safe-area-inset-bottom))] z-30 px-4 pb-2 sm:hidden">
-          <div className="flex gap-2 rounded-2xl border border-slate-200 bg-white p-2 shadow-lg">
+          <div className="flex gap-2 rounded-2xl border border-slate-200/80 bg-white/95 p-2 shadow-lg backdrop-blur dark:border-slate-700 dark:bg-slate-900/95">
             <button
               type="button"
               onClick={() => void handleCancel()}

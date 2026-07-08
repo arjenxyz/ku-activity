@@ -7,7 +7,7 @@ export const PROJECT_CLOSURE_CONSENT_VERSION = '2026-07-closure-v1';
 
 export type DossierExportType = 'admin' | 'personnel_self' | 'admin_project';
 
-export const PERSONNEL_SELF_EXPORT_DAILY_LIMIT = 5;
+export const PERSONNEL_SELF_EXPORT_DAILY_LIMIT = 2;
 
 export type DossierFile = {
   path: string;

@@ -13,11 +13,11 @@ import {
 import { HonorIconTile, type HonorIconName, type HonorIconTheme } from '@/components/icons/HonorIcons';
 import { EmployeeAvatar } from '@/components/employee/EmployeeAvatar';
 import { PersonnelContractsSection } from '@/components/personnel/PersonnelContractsSection';
+import { PersonnelClosureDossierPanel } from '@/components/personnel/PersonnelClosureDossierPanel';
 import { PersonnelAppSettings } from '@/components/personnel/PersonnelAppSettings';
 import { PersonnelReleaseNotesPanel } from '@/components/personnel/PersonnelReleaseNotesPanel';
 import { PersonnelActiveDevices } from '@/components/personnel/PersonnelActiveDevices';
 import { PersonnelPasswordModal } from '@/components/personnel/PersonnelPasswordModal';
-import { PersonnelProjectCard } from '@/components/personnel/PersonnelProjectCard';
 import { formatDate, formatMoney } from '@/lib/format';
 import { formatTurkishPhoneNational } from '@/lib/field-encryption';
 import type { PersonnelEmployee } from '@/lib/personnel-api';
@@ -223,22 +223,47 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
         );
       case 'work':
         return (
-          <div className="space-y-3">
-            <SettingsCard>
-              <div className="divide-y divide-slate-100 dark:divide-slate-800">
-                <InfoRow label={strings.fields.position} value={employee.position || strings.emptyValue} />
-                <InfoRow label={strings.fields.dailyWage} value={formatMoney(Number(employee.daily_wage))} />
-                <InfoRow
-                  label={strings.fields.hireDate}
-                  value={employee.hire_date ? formatDate(employee.hire_date) : strings.emptyValue}
-                />
+          <SettingsCard>
+            <div className="p-4">
+              <div className="rounded-2xl border border-indigo-100 bg-gradient-to-br from-indigo-50/90 to-white p-4 dark:border-indigo-900/50 dark:from-slate-800 dark:to-slate-900">
+                <p className="text-xs font-semibold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
+                  {strings.fields.project}
+                </p>
+                <p className="mt-1 text-lg font-bold leading-snug text-slate-900 dark:text-white">
+                  {employee.project?.name || employee.project_name || strings.emptyValue}
+                </p>
+                <div className="mt-2 rounded-xl border border-slate-200/80 bg-white/80 px-3 py-2 dark:border-slate-700 dark:bg-slate-900/70">
+                  <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+                    {strings.fields.site}
+                  </p>
+                  <p className="mt-1 text-sm font-medium text-slate-800 dark:text-slate-100">
+                    {employee.project?.location || strings.emptyValue}
+                  </p>
+                </div>
+
+                <div className="mt-4 divide-y divide-slate-200/80 rounded-xl border border-slate-200/80 bg-white dark:divide-slate-700 dark:border-slate-700 dark:bg-slate-900/80">
+                  <InfoRow label={strings.fields.position} value={employee.position || strings.emptyValue} />
+                  <InfoRow label={strings.fields.dailyWage} value={formatMoney(Number(employee.daily_wage))} />
+                  <InfoRow
+                    label={strings.fields.hireDate}
+                    value={employee.hire_date ? formatDate(employee.hire_date) : strings.emptyValue}
+                  />
+                </div>
               </div>
-            </SettingsCard>
-            {employee.project && <PersonnelProjectCard project={employee.project} />}
-          </div>
+            </div>
+          </SettingsCard>
         );
       case 'contracts':
-        return <PersonnelContractsSection />;
+        return (
+          <div className="space-y-3">
+            <PersonnelContractsSection />
+            <SettingsCard>
+              <div className="px-4 py-4">
+                <PersonnelClosureDossierPanel variant="card" showDailyLimit />
+              </div>
+            </SettingsCard>
+          </div>
+        );
       case 'security':
         return (
           <div className="space-y-3">

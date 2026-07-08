@@ -49,6 +49,8 @@
     "workInfo": "İş bilgileri"
   },
   "fields": {
+    "project": "Project",
+    "site": "Site",
     "firstName": "Ad",
     "lastName": "Soyad",
     "tcKimlik": "T.C. kimlik no",
