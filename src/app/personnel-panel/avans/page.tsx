@@ -5,7 +5,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import Link from 'next/link';
 import dayjs from 'dayjs';
-import { FiArrowLeft, FiPlus, FiXCircle } from 'react-icons/fi';
+import { FiPlus, FiXCircle } from 'react-icons/fi';
 import { AdvancePaymentDetailsExpand } from '@/components/advance/AdvancePaymentDetailsExpand';
 import { formatMoney } from '@/lib/format';
 import type { AdvancePaymentDetails } from '@/lib/advance-payment-details';
@@ -109,17 +109,9 @@ export default function PersonnelAvansPage() {
 
   return (
     <div className="mx-auto max-w-lg px-4 py-4 pb-28">
-      <div className="mb-4 flex items-center gap-3">
-        <Link
-          href="/personnel-panel?tab=finance"
-          className="flex h-10 w-10 items-center justify-center rounded-xl bg-white text-slate-600 shadow-sm dark:bg-slate-800 dark:text-slate-300"
-        >
-          <FiArrowLeft />
-        </Link>
-        <div>
-          <h1 className="text-lg font-bold text-slate-900 dark:text-white">{strings.pageTitle}</h1>
-          <p className="text-xs text-slate-500">{strings.pageSubtitle}</p>
-        </div>
+      <div className="mb-4">
+        <h1 className="text-lg font-bold text-slate-900 dark:text-white">{strings.pageTitle}</h1>
+        <p className="text-xs text-slate-500">{strings.pageSubtitle}</p>
       </div>
 
       {error && (

@@ -18,12 +18,13 @@ function ChromeBody({ children }: { children: React.ReactNode }) {
   const tab = searchParams.get('tab');
   const surfaceClass = personnelChromeSurfaceClass(pathname, tab);
   const isYoklama = pathname.startsWith('/personnel-panel/yoklama');
+  const isAvansTalebi = pathname.startsWith('/personnel-panel/avans');
   const isAvansOnay = pathname.startsWith('/personnel-panel/avans-onay');
   const isSettingsTab = pathname === '/personnel-panel' && tab === 'settings';
   const isImmersive = isYoklama || isAvansOnay;
   const { inClosure, loading: closureLoading } = usePersonnelClosure();
   const closureLocked = closureLoading || inClosure;
-  const hideBottomNav = isImmersive || closureLocked || isSettingsTab;
+  const hideBottomNav = isImmersive || closureLocked || isSettingsTab || isAvansTalebi;
 
   return (
     <div className={`min-h-[100dvh] ${surfaceClass} sm:bg-transparent`}>

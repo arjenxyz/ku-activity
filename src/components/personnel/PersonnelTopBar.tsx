@@ -22,10 +22,12 @@ export function PersonnelTopBar({ immersive = false }: Props) {
   const { locale } = useLocale();
   const defaultTagline = locale === 'en' ? APP_TAGLINE : APP_TAGLINE_TR;
   const yoklamaStrings = useRegistryStrings('app/personnel-panel/yoklama/page');
+  const advanceStrings = useRegistryStrings('app/personnel-panel/avans/page');
   const settingsStrings = useRegistryStrings('components/personnel/PersonnelSettingsPage');
   const { panelOpen } = usePersonnelNotificationsContext();
   const topBarActions = usePersonnelTopBarEnterCodeAction();
   const isYoklama = pathname.startsWith('/personnel-panel/yoklama');
+  const isAdvancePage = pathname.startsWith('/personnel-panel/avans');
   const isSettings = pathname === '/personnel-panel' && searchParams.get('tab') === 'settings';
   const immersivePath =
     immersive ||
@@ -34,6 +36,8 @@ export function PersonnelTopBar({ immersive = false }: Props) {
 
   const tagline = isYoklama
     ? yoklamaStrings.exitHint
+    : isAdvancePage
+      ? advanceStrings.panelReturnHint
     : isSettings
       ? settingsStrings.exitHint
       : defaultTagline;

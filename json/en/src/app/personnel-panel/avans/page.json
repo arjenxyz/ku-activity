@@ -6,6 +6,7 @@
   "cancelFailed": "İptal başarısız",
   "cancelSuccess": "Talep iptal edildi.",
   "pageTitle": "Avans talebi",
+  "panelReturnHint": "Tap to return panel",
   "pageSubtitle": "Onay sonrası ödeme ayrı adımda yapılır",
   "awaitingCashTitle": "Nakit avans teslimi bekleniyor",
   "awaitingCashSubtitle": "Parayı aldıysanız QR okutun veya kodu girin →",
