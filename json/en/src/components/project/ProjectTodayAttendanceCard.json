@@ -1,15 +1,14 @@
 {
-  "sectionAriaLabel": "Today's attendance",
-  "badge": "Today",
-  "confirmedTitle": "Attendance underway",
-  "confirmedHint": "{present} recorded · {missing} pending",
-  "allPresentTitle": "Everyone checked in",
-  "allPresentHint": "All {present} personnel are recorded today.",
-  "pendingTitle": "Attendance pending",
-  "pendingHint": "Nobody has checked in yet. Start with QR.",
-  "emptyTitle": "No personnel",
-  "emptyHint": "This project has no personnel yet.",
-  "qrCta": "Go to QR attendance",
-  "presentLabel": "Present",
-  "missingLabel": "Pending"
+  "badge": "Today's attendance",
+  "shiftHours": "Shift {start}{end}",
+  "shiftEnd": " – {end}",
+  "allPresent": "Everyone checked in",
+  "partial": "Attendance underway",
+  "pending": "No attendance yet",
+  "empty": "No personnel on this project",
+  "hintAll": "All {present} personnel are recorded today.",
+  "hintPartial": "{present} present · {missing} pending",
+  "hintPending": "Start QR attendance; people appear as they scan.",
+  "hintEmpty": "Add personnel first.",
+  "scanQr": "Open QR attendance"
 }

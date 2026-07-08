@@ -1,24 +1,22 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
-import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
+import { useCallback, useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import dayjs from 'dayjs';
-
+import { FiCalendar } from 'react-icons/fi';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { fetchProject } from '@/api/projects';
 import { fetchEmployees } from '@/api/employees';
 import { ProjectSummaryHero } from '@/components/project/ProjectSummaryHero';
 import { ProjectTodayAttendanceCard } from '@/components/project/ProjectTodayAttendanceCard';
 import { ProjectEmployeeTable } from '@/components/project/ProjectEmployeeTable';
 import { PersonnelOverviewStrip } from '@/components/personnel/PersonnelOverviewStrip';
-import { FiUsers } from 'react-icons/fi';
+import { formatMoney } from '@/lib/format';
 import type { Employee } from '@/types/adminTypes';
 import type { Project } from '@/types/project';
-import { formatMoney } from '@/lib/format';
 
 export default function ProjectDetailPage() {
   const strings = useRegistryStrings('app/admin-panel/proje/[projectId]/page');
-  const statsStrings = useRegistryStrings('components/project/ProjectOverviewStats');
   const params = useParams();
   const router = useRouter();
   const projectId = Array.isArray(params.projectId) ? params.projectId[0] : params.projectId;
@@ -69,27 +67,23 @@ export default function ProjectDetailPage() {
 
   if (!projectId) {
     return (
-      <div className="mx-auto max-w-5xl px-4 py-16 text-center text-red-600">
-        {strings.invalidProjectUrl}
-      </div>
+      <div className="px-4 py-16 text-center text-red-600">{strings.invalidProjectUrl}</div>
     );
   }
 
   if (loading) {
     return (
-      <div className="space-y-4 sm:space-y-5">
-        <div className="h-52 animate-pulse rounded-2xl bg-slate-200 sm:rounded-3xl" />
-        <div className="h-40 animate-pulse rounded-2xl bg-slate-200" />
-        <div className="h-28 animate-pulse rounded-2xl bg-slate-200" />
-        <div className="h-64 animate-pulse rounded-2xl bg-slate-200" />
+      <div className="flex flex-col items-center justify-center gap-4 py-24">
+        <div className="h-10 w-10 animate-spin rounded-full border-2 border-blue-600 border-t-transparent" />
+        <p className="text-sm text-slate-500">{strings.loadingData}</p>
       </div>
     );
   }
 
   if (error || !project) {
     return (
-      <div className="mx-auto max-w-5xl px-4 py-16 text-center">
-        <p className="font-medium text-slate-700">{error || strings.projectNotFound}</p>
+      <div className="rounded-2xl border border-red-200 bg-red-50 p-6 text-center">
+        <p className="text-sm text-red-700">{error || strings.projectNotFound}</p>
         <button
           type="button"
           onClick={() => router.push('/admin-panel')}
@@ -109,45 +103,53 @@ export default function ProjectDetailPage() {
   );
   const activeCount = project.active_employee_count ?? employees.length;
 
+  const goAttendance = () => {
+    router.push(`/admin-panel/proje/${projectId}/yevmiye`);
+  };
+
   return (
-    <div className="mx-auto max-w-lg space-y-4 overflow-x-hidden sm:max-w-2xl sm:space-y-5">
+    <div className="space-y-4 overflow-x-hidden sm:space-y-5">
       <ProjectSummaryHero
         project={project}
         presentToday={presentToday}
         activeCount={activeCount}
         todayMissing={todayMissing}
         totalPayroll={totalPayroll}
-        projectId={projectId}
-        onRefresh={() => void loadAll()}
+        onOpenAttendance={goAttendance}
       />
 
       <ProjectTodayAttendanceCard
+        project={project}
         projectId={projectId}
         presentCount={presentToday}
         missingCount={todayMissing}
         totalCount={employees.length}
       />
 
-      <PersonnelOverviewStrip
-        title={strings.stripTitle}
-        icon={<FiUsers className="h-5 w-5" />}
-        iconClassName="bg-blue-100 text-blue-600"
-        lines={[
-          { count: employees.length, label: statsStrings.stats.employees },
-          { count: activeCount, label: statsStrings.stats.active },
-          { count: todayMissing, label: statsStrings.stats.missing },
-          {
-            count: totalPayroll,
-            label: statsStrings.stats.payroll,
-            display: formatMoney(totalPayroll),
-          },
-        ]}
-      />
+      <div className="grid gap-3 sm:grid-cols-2">
+        <PersonnelOverviewStrip
+          title={strings.stripTitle}
+          icon={<FiCalendar className="h-4 w-4" />}
+          iconClassName="bg-blue-100 text-blue-600"
+          lines={[
+            { count: presentToday, label: strings.stripPresent },
+            { count: todayMissing, label: strings.stripMissing },
+            { count: activeCount, label: strings.stripActive },
+            {
+              count: totalPayroll,
+              label: strings.stripPayroll,
+              display: formatMoney(totalPayroll),
+            },
+          ]}
+          onOpen={goAttendance}
+        />
+      </div>
 
       <ProjectEmployeeTable
         employees={employees}
         loading={employeesLoading}
         projectId={projectId}
+        previewLimit={6}
         onPhotoChange={(employeeId, photoUrl) =>
           setEmployees((prev) =>
             prev.map((e) => (e.id === employeeId ? { ...e, photo_url: photoUrl } : e))

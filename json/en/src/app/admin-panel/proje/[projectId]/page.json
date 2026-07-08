@@ -3,5 +3,10 @@
   "projectNotFound": "Project not found",
   "loadError": "Failed to load data",
   "backToProjectList": "Back to project list",
-  "stripTitle": "Project summary"
+  "loadingData": "Loading…",
+  "stripTitle": "This month",
+  "stripPresent": "Today",
+  "stripMissing": "Pending",
+  "stripActive": "Active",
+  "stripPayroll": "Estimate"
 }

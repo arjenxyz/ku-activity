@@ -1,20 +1,11 @@
 {
-  "status": {
-    "confirmed": "Yoklama kayıtlı",
-    "none": "Henüz yoklama yok"
-  },
-  "title": "Personel Listesi",
-  "subtitle": "Günlük yoklama QR ile alınır; tam gün kayıt otomatik kesinleşir",
-  "qrAttendance": "QR yoklama",
-  "addEmployee": "Personel Ekle",
-  "photoHeader": "Foto",
-  "nameHeader": "Ad Soyad",
-  "positionHeader": "Pozisyon",
-  "dailyWageHeader": "Günlük Ücret",
-  "monthHeader": "Bu Ay",
-  "todayHeader": "Bugün",
-  "loading": "Yükleniyor…",
+  "title": "Personel",
+  "subtitle": "Bugünkü durum",
   "empty": "Bu projede henüz personel yok.",
-  "emptyValue": "—",
-  "daysSuffix": " gün"
+  "loading": "Yükleniyor…",
+  "confirmed": "Kayıtlı",
+  "none": "Bekliyor",
+  "daysSuffix": " gün",
+  "seeAll": "Tümünü gör",
+  "emptyValue": "—"
 }

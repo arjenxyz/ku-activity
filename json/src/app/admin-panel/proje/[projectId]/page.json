@@ -3,5 +3,10 @@
   "projectNotFound": "Proje bulunamadı",
   "loadError": "Veriler yüklenirken hata oluştu",
   "backToProjectList": "Proje listesine dön",
-  "stripTitle": "Proje özeti"
+  "loadingData": "Yükleniyor…",
+  "stripTitle": "Bu ay özeti",
+  "stripPresent": "Bugün",
+  "stripMissing": "Bekleyen",
+  "stripActive": "Aktif",
+  "stripPayroll": "Tahmini"
 }
