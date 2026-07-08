@@ -1,0 +1,64 @@
+{
+  "dock": {
+    "summary": "Overview",
+    "approval": "Approve",
+    "attendance": "Attendance",
+    "profit": "Profit",
+    "advance": "Advance",
+    "deduction": "Deduction",
+    "menu": "Menu"
+  },
+  "hub": {
+    "dailyTitle": "Daily operations",
+    "dailySubtitle": "Records and approvals used every day",
+    "personnelTitle": "Personnel",
+    "siteTitle": "Site",
+    "financeTitle": "Finance",
+    "controlTitle": "Control & reports",
+    "generalTitle": "General",
+    "generalSubtitle": "All projects and account",
+    "general": {
+      "projects": "Projects",
+      "arjenAdvance": "Arjen advance",
+      "arjenAttendance": "Arjen timesheet",
+      "applications": "Applications",
+      "policy": "Salary policy",
+      "settings": "Settings"
+    }
+  },
+  "dailyItems": [
+    { "label": "Timesheet / QR", "path": "yevmiye", "hint": "Daily QR attendance" },
+    { "label": "Application approval", "path": "basvuru-onay", "hint": "New personnel applications" },
+    { "label": "Subcontractor profit", "path": "kar", "hint": "Blocks, jobs and profit" },
+    { "label": "Advance", "path": "avans", "hint": "Advance records" },
+    { "label": "Deduction", "path": "kesinti", "hint": "Deduction records" },
+    { "label": "Advance requests", "path": "avans-talepleri", "hint": "Personnel requests" },
+    { "label": "Share receipt", "absolutePath": "/admin-panel/dekont-paylas", "hint": "OCR matching" }
+  ],
+  "simpleDailyItems": [
+    { "label": "Timesheet / QR", "path": "yevmiye", "hint": "Daily QR attendance" },
+    { "label": "Advance", "path": "avans", "hint": "Advance records" },
+    { "label": "Deduction", "path": "kesinti", "hint": "Deduction records" }
+  ],
+  "personnelItems": [
+    { "label": "Project overview", "path": "", "hint": "Personnel and daily status" },
+    { "label": "Personnel list", "path": "list" },
+    { "label": "New personnel", "path": "new" },
+    { "label": "Personnel passwords", "path": "sorgulama/personel-sifreleri" }
+  ],
+  "siteItems": [
+    { "label": "Blocks", "path": "bloklar" },
+    { "label": "Teams", "path": "ekiplar" }
+  ],
+  "financeItems": [
+    { "label": "Where we stand", "path": "durum" },
+    { "label": "Payroll", "path": "bordro" },
+    { "label": "Salary policy", "path": "maas-politikasi" }
+  ],
+  "controlItems": [
+    { "label": "Reports", "path": "raporlar" },
+    { "label": "Approved", "path": "raporlar/onaylanan" },
+    { "label": "Pending records", "path": "raporlar/onaysiz" },
+    { "label": "Record history", "path": "kayit-gecmisi", "hint": "Query and archive" }
+  ]
+}

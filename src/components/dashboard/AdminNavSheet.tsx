@@ -6,35 +6,16 @@ import { useEffect, useMemo } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { FiX } from 'react-icons/fi';
 import { BrandMark } from '@/components/brand/BrandMark';
-import { HonorIconTile, type HonorIconName, type HonorIconTheme } from '@/components/icons/HonorIcons';
+import { HonorIconTile } from '@/components/icons/HonorIcons';
 import { AdminUiModeToggle } from '@/components/dashboard/AdminUiModeToggle';
 import { useAdminUiMode } from '@/hooks/useAdminUiMode';
-import { getSimpleMenuLinks } from '@/lib/admin-ui-mode';
-import { getProjectMenuIconFromHref } from '@/lib/project-menu-icons';
-import {
-  getProjectMenuGroups,
-  getProjectMenuPrimary,
-  isMenuPathActive,
-} from '@/config/projectMenu';
+import { getAdminHubSections } from '@/config/admin-mobile-nav';
+import { isMenuPathActive } from '@/config/projectMenu';
 
 type Props = {
   open: boolean;
   onClose: () => void;
   projectId: string | null;
-};
-
-type SheetItem = {
-  key: string;
-  label: string;
-  hint?: string;
-  href: string;
-  icon: { name: HonorIconName; theme: HonorIconTheme };
-};
-
-type SheetSection = {
-  title: string;
-  subtitle?: string;
-  items: SheetItem[];
 };
 
 const sheetVariants = {
@@ -54,7 +35,8 @@ const tileVariants = {
 };
 
 export function AdminNavSheet({ open, onClose, projectId }: Props) {
-  const strings = useRegistryStrings('components/dashboard/AdminNavSheet');
+  const ui = useRegistryStrings('components/dashboard/AdminNavSheet');
+  const navCopy = useRegistryStrings('config/admin-mobile-nav');
   const router = useRouter();
   const pathname = usePathname() ?? '';
   const { isSimple } = useAdminUiMode();
@@ -72,56 +54,10 @@ export function AdminNavSheet({ open, onClose, projectId }: Props) {
     };
   }, [open, onClose]);
 
-  const generalItems: SheetItem[] = useMemo(
-    () => [
-      { key: 'projects', label: strings.general.projects, href: '/admin-panel', icon: { name: 'home', theme: 'blue' } },
-      { key: 'arjen-avans', label: strings.general.arjenAdvance, href: '/admin-panel/arjen/avans', icon: { name: 'chart', theme: 'violet' } },
-      { key: 'arjen-yevmiye', label: strings.general.arjenAttendance, href: '/admin-panel/arjen/yevmiye', icon: { name: 'calendar', theme: 'emerald' } },
-      { key: 'applications', label: strings.general.applications, href: '/admin-panel/basvuru-onay', icon: { name: 'clipboard', theme: 'amber' } },
-      { key: 'policy', label: strings.general.policy, href: '/admin-panel/maas-politikasi', icon: { name: 'sliders', theme: 'indigo' } },
-      { key: 'settings', label: strings.general.settings, href: '/admin-panel/ayarlar', icon: { name: 'settings', theme: 'slate' } },
-    ],
-    [strings.general]
+  const sections = useMemo(
+    () => getAdminHubSections(projectId, isSimple ? 'simple' : 'advanced', navCopy),
+    [projectId, isSimple, navCopy]
   );
-
-  const sections: SheetSection[] = useMemo(() => {
-    const result: SheetSection[] = [];
-
-    if (projectId) {
-      if (isSimple) {
-        result.push({
-          title: strings.dailyTitle,
-          subtitle: strings.projectSubtitle,
-          items: getSimpleMenuLinks(projectId).map((link, i) => {
-            const href = link.href(projectId);
-            return { key: `s-${i}`, label: link.label, hint: link.hint, href, icon: getProjectMenuIconFromHref(href) };
-          }),
-        });
-      } else {
-        const primary = getProjectMenuPrimary(projectId);
-        result.push({
-          title: strings.dailyTitle,
-          subtitle: strings.projectSubtitle,
-          items: primary.map((link, i) => {
-            const href = link.href(projectId);
-            return { key: `p-${i}`, label: link.label, hint: link.hint, href, icon: getProjectMenuIconFromHref(href) };
-          }),
-        });
-        for (const group of getProjectMenuGroups(projectId)) {
-          result.push({
-            title: group.label,
-            items: group.links.map((link, i) => {
-              const href = link.href(projectId);
-              return { key: `${group.id}-${i}`, label: link.label, hint: link.hint, href, icon: getProjectMenuIconFromHref(href) };
-            }),
-          });
-        }
-      }
-    }
-
-    result.push({ title: strings.generalTitle, subtitle: strings.generalSubtitle, items: generalItems });
-    return result;
-  }, [projectId, isSimple, strings, generalItems]);
 
   const isActive = (href: string) => {
     if (projectId && href.includes(`/admin-panel/proje/${projectId}`)) {
@@ -145,7 +81,7 @@ export function AdminNavSheet({ open, onClose, projectId }: Props) {
           className="fixed inset-0 z-[60]"
           role="dialog"
           aria-modal="true"
-          aria-label={strings.menuAriaLabel}
+          aria-label={ui.menuAriaLabel}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -154,7 +90,7 @@ export function AdminNavSheet({ open, onClose, projectId }: Props) {
           <motion.button
             type="button"
             className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"
-            aria-label={strings.close}
+            aria-label={ui.close}
             onClick={onClose}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -177,8 +113,8 @@ export function AdminNavSheet({ open, onClose, projectId }: Props) {
                 <div className="flex min-w-0 items-center gap-3">
                   <BrandMark size="sm" />
                   <div className="min-w-0">
-                    <p className="text-[11px] font-bold tracking-[0.08em] text-[#0E1548]">{strings.brand}</p>
-                    <h2 className="text-lg font-bold text-slate-900">{strings.title}</h2>
+                    <p className="text-[11px] font-bold tracking-[0.08em] text-[#0E1548]">{ui.brand}</p>
+                    <h2 className="text-lg font-bold text-slate-900">{ui.title}</h2>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
@@ -187,7 +123,7 @@ export function AdminNavSheet({ open, onClose, projectId }: Props) {
                     type="button"
                     onClick={onClose}
                     className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-600 transition hover:bg-slate-200"
-                    aria-label={strings.close}
+                    aria-label={ui.close}
                   >
                     <FiX className="h-5 w-5" />
                   </button>
@@ -198,14 +134,16 @@ export function AdminNavSheet({ open, onClose, projectId }: Props) {
             <div className="flex-1 space-y-5 overflow-y-auto p-4">
               {sections.map((section, sectionIdx) => (
                 <motion.section
-                  key={`${section.title}-${sectionIdx}`}
+                  key={section.id}
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: sectionIdx * 0.05 + 0.06 }}
                 >
                   <div className="mb-2.5 px-0.5">
                     <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500">{section.title}</h3>
-                    {section.subtitle ? <p className="text-[11px] text-slate-400">{section.subtitle}</p> : null}
+                    {section.subtitle ? (
+                      <p className="text-[11px] text-slate-400">{section.subtitle}</p>
+                    ) : null}
                   </div>
                   <ul className={`grid gap-2.5 ${section.items.length > 2 ? 'grid-cols-3' : 'grid-cols-2'}`}>
                     {section.items.map((item) => {
@@ -229,7 +167,9 @@ export function AdminNavSheet({ open, onClose, projectId }: Props) {
                             <span>
                               <span className="block text-xs font-bold text-slate-900">{item.label}</span>
                               {item.hint ? (
-                                <span className="mt-0.5 block text-[10px] leading-tight text-slate-500">{item.hint}</span>
+                                <span className="mt-0.5 block text-[10px] leading-tight text-slate-500">
+                                  {item.hint}
+                                </span>
                               ) : null}
                             </span>
                             {active && (

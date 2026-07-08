@@ -572,6 +572,8 @@ import m_config_admin_register_tr from '@json/src/config/admin-register.json';
 import m_config_admin_register_en from '@json/en/src/config/admin-register.json';
 import m_config_personnel_mobile_nav_tr from '@json/src/config/personnel-mobile-nav.json';
 import m_config_personnel_mobile_nav_en from '@json/en/src/config/personnel-mobile-nav.json';
+import m_config_admin_mobile_nav_tr from '@json/src/config/admin-mobile-nav.json';
+import m_config_admin_mobile_nav_en from '@json/en/src/config/admin-mobile-nav.json';
 import m_config_projectMenu_tr from '@json/src/config/projectMenu.json';
 import m_config_projectMenu_en from '@json/en/src/config/projectMenu.json';
 import m_hooks_useAdminUiMode_tr from '@json/src/hooks/useAdminUiMode.json';
@@ -974,6 +976,7 @@ export const STRINGS_REGISTRY = {
   'components/ui/Sidebar/MenuItems': { tr: m_components_ui_Sidebar_MenuItems_tr, en: m_components_ui_Sidebar_MenuItems_en },
   'config/admin-register': { tr: m_config_admin_register_tr, en: m_config_admin_register_en },
   'config/personnel-mobile-nav': { tr: m_config_personnel_mobile_nav_tr, en: m_config_personnel_mobile_nav_en },
+  'config/admin-mobile-nav': { tr: m_config_admin_mobile_nav_tr, en: m_config_admin_mobile_nav_en },
   'config/projectMenu': { tr: m_config_projectMenu_tr, en: m_config_projectMenu_en },
   'hooks/useAdminUiMode': { tr: m_hooks_useAdminUiMode_tr, en: m_hooks_useAdminUiMode_en },
   'hooks/usePersonnelAsgari': { tr: m_hooks_usePersonnelAsgari_tr, en: m_hooks_usePersonnelAsgari_en },

@@ -1,0 +1,64 @@
+{
+  "dock": {
+    "summary": "Özet",
+    "approval": "Onay",
+    "attendance": "Yoklama",
+    "profit": "Taşeron",
+    "advance": "Avans",
+    "deduction": "Kesinti",
+    "menu": "Menü"
+  },
+  "hub": {
+    "dailyTitle": "Günlük işlemler",
+    "dailySubtitle": "Her gün kullanılan kayıt ve onaylar",
+    "personnelTitle": "Personel",
+    "siteTitle": "Şantiye",
+    "financeTitle": "Finans",
+    "controlTitle": "Kontrol & rapor",
+    "generalTitle": "Genel",
+    "generalSubtitle": "Tüm projeler ve hesap",
+    "general": {
+      "projects": "Projeler",
+      "arjenAdvance": "Arjen avans",
+      "arjenAttendance": "Arjen yevmiye",
+      "applications": "Başvurular",
+      "policy": "Maaş politikası",
+      "settings": "Ayarlar"
+    }
+  },
+  "dailyItems": [
+    { "label": "Yevmiye / QR", "path": "yevmiye", "hint": "QR ile günlük yoklama" },
+    { "label": "Başvuru onayı", "path": "basvuru-onay", "hint": "Yeni personel başvuruları" },
+    { "label": "Taşeron karı", "path": "kar", "hint": "Blok, iş kalemi ve kâr" },
+    { "label": "Avans", "path": "avans", "hint": "Avans kaydı" },
+    { "label": "Kesinti", "path": "kesinti", "hint": "Kesinti kaydı" },
+    { "label": "Avans talepleri", "path": "avans-talepleri", "hint": "Personel talepleri" },
+    { "label": "Dekont paylaş", "absolutePath": "/admin-panel/dekont-paylas", "hint": "OCR ile eşleştirme" }
+  ],
+  "simpleDailyItems": [
+    { "label": "Yevmiye / QR", "path": "yevmiye", "hint": "QR ile günlük yoklama" },
+    { "label": "Avans", "path": "avans", "hint": "Avans kaydı" },
+    { "label": "Kesinti", "path": "kesinti", "hint": "Kesinti kaydı" }
+  ],
+  "personnelItems": [
+    { "label": "Proje özeti", "path": "", "hint": "Personel ve günlük durum" },
+    { "label": "Personel listesi", "path": "list" },
+    { "label": "Yeni personel", "path": "new" },
+    { "label": "Personel şifreleri", "path": "sorgulama/personel-sifreleri" }
+  ],
+  "siteItems": [
+    { "label": "Bloklar", "path": "bloklar" },
+    { "label": "Ekipler", "path": "ekiplar" }
+  ],
+  "financeItems": [
+    { "label": "Ne durumdayız?", "path": "durum" },
+    { "label": "Maaş bordrosu", "path": "bordro" },
+    { "label": "Maaş politikası", "path": "maas-politikasi" }
+  ],
+  "controlItems": [
+    { "label": "Raporlar", "path": "raporlar" },
+    { "label": "Onaylananlar", "path": "raporlar/onaylanan" },
+    { "label": "Bekleyen kayıtlar", "path": "raporlar/onaysiz" },
+    { "label": "Kayıt geçmişi", "path": "kayit-gecmisi", "hint": "Sorgulama ve arşiv" }
+  ]
+}

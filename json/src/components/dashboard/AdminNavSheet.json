@@ -2,17 +2,5 @@
   "brand": "CREWLEDGER",
   "title": "Menü",
   "close": "Kapat",
-  "menuAriaLabel": "Yönetici menüsü",
-  "dailyTitle": "Günlük",
-  "projectSubtitle": "Bu projedeki sayfalar",
-  "generalTitle": "Genel",
-  "generalSubtitle": "Tüm projeler ve hesap",
-  "general": {
-    "projects": "Projeler",
-    "arjenAdvance": "Arjen avans",
-    "arjenAttendance": "Arjen yevmiye",
-    "applications": "Başvurular",
-    "policy": "Maaş politikası",
-    "settings": "Ayarlar"
-  }
+  "menuAriaLabel": "Yönetici menüsü"
 }

@@ -3,35 +3,19 @@
 import Link from 'next/link';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { usePathname } from 'next/navigation';
-import { Suspense } from 'react';
+import { Suspense, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { HonorIconGlyph, HonorIconTile, type HonorIconName, type HonorIconTheme } from '@/components/icons/HonorIcons';
+import { HonorIconGlyph, HonorIconTile } from '@/components/icons/HonorIcons';
 import { useAdminUiMode } from '@/hooks/useAdminUiMode';
 import { useAdminNavSheet } from '@/hooks/useAdminNavSheet';
+import { getAdminDockItems, type AdminDockItem } from '@/config/admin-mobile-nav';
 import { isMenuPathActive } from '@/config/projectMenu';
 
 type Props = {
   projectId: string;
 };
 
-type DockItem = {
-  id: string;
-  label: string;
-  href?: string;
-  onClick?: () => void;
-  iconName: HonorIconName;
-  iconTheme: HonorIconTheme;
-  isCenter?: boolean;
-  matchHref?: string;
-};
-
-function DockSideItem({
-  item,
-  active,
-}: {
-  item: DockItem;
-  active: boolean;
-}) {
+function DockSideItem({ item, active }: { item: AdminDockItem; active: boolean }) {
   const content = (
     <motion.span
       className="group flex min-w-0 flex-col items-center gap-1"
@@ -77,39 +61,33 @@ function DockSideItem({
 }
 
 function NavInner({ projectId }: Props) {
-  const strings = useRegistryStrings('components/dashboard/AdminProjectBottomNav');
+  const sheetStrings = useRegistryStrings('components/dashboard/AdminProjectBottomNav');
+  const navCopy = useRegistryStrings('config/admin-mobile-nav');
   const pathname = usePathname() ?? '';
   const { isSimple } = useAdminUiMode();
   const navSheet = useAdminNavSheet();
 
-  const base = `/admin-panel/proje/${projectId}`;
+  const items = useMemo(() => {
+    const dock = getAdminDockItems(projectId, isSimple ? 'simple' : 'advanced', navCopy);
+    return dock.map((item) =>
+      item.isMenu ? { ...item, onClick: () => navSheet?.open() } : item
+    );
+  }, [projectId, isSimple, navCopy, navSheet]);
 
-  const secondItem: DockItem = isSimple
-    ? { id: 'kesinti', label: strings.deduction, href: `${base}/kesinti`, iconName: 'minus', iconTheme: 'orange', matchHref: `${base}/kesinti` }
-    : { id: 'personnel', label: strings.personnel, href: `${base}/list`, iconName: 'users', iconTheme: 'emerald', matchHref: `${base}/list` };
-
-  const items: DockItem[] = [
-    { id: 'summary', label: strings.summary, href: base, iconName: 'home', iconTheme: 'blue', matchHref: base },
-    secondItem,
-    { id: 'attendance', label: strings.attendance, href: `${base}/yevmiye`, iconName: 'calendar', iconTheme: 'teal', isCenter: true, matchHref: `${base}/yevmiye` },
-    { id: 'advance', label: strings.advance, href: `${base}/avans`, iconName: 'wallet', iconTheme: 'indigo', matchHref: `${base}/avans` },
-    { id: 'menu', label: strings.menu, onClick: () => navSheet?.open(), iconName: 'menu', iconTheme: 'slate' },
-  ];
-
-  const isActive = (item: DockItem) =>
+  const isActive = (item: AdminDockItem) =>
     item.matchHref ? isMenuPathActive(projectId, pathname, item.matchHref) : false;
 
   return (
     <nav
-      className="personnel-dock fixed bottom-0 inset-x-0 z-50 sm:hidden pointer-events-none"
-      aria-label={strings.navAriaLabel}
+      className="personnel-dock pointer-events-none fixed inset-x-0 bottom-0 z-50 sm:hidden"
+      aria-label={sheetStrings.navAriaLabel}
     >
-      <div className="mx-auto max-w-lg px-4 pb-[max(0.5rem,env(safe-area-inset-bottom))] pointer-events-auto">
+      <div className="pointer-events-auto mx-auto max-w-lg px-4 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
         <div
           className="relative rounded-[1.35rem] border border-[#E2E8F0] bg-white shadow-[0_-2px_20px_rgba(14,21,72,0.08),0_8px_32px_rgba(14,21,72,0.12)]"
           style={{ colorScheme: 'light' }}
         >
-          <div className="flex items-end justify-between gap-0.5 px-1 pt-1.5 pb-1">
+          <div className="flex items-end justify-between gap-0.5 px-1 pb-1 pt-1.5">
             {items.map((item) => {
               const active = isActive(item);
 
@@ -118,7 +96,7 @@ function NavInner({ projectId }: Props) {
                   <Link
                     key={item.id}
                     href={item.href!}
-                    className="relative z-10 -mt-5 flex flex-1 flex-col items-center touch-target"
+                    className="relative z-10 -mt-5 flex flex-1 touch-target flex-col items-center"
                     aria-current={active ? 'page' : undefined}
                   >
                     <motion.span
