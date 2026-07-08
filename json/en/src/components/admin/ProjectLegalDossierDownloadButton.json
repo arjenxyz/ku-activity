@@ -5,6 +5,7 @@
   },
   "loading": "Preparing…",
   "button": "Download full project archive",
+  "buttonCompact": "Download archive",
   "hint": "All personnel folders, closure summary, team/block assignments, and wage policy in one ZIP.",
   "fallbackFilename": "project-closure-archive.zip"
 }

@@ -199,8 +199,8 @@ export function AdminNavSheet({ open, onClose, projectId }: Props) {
               {sections.map((section, sectionIdx) => (
                 <motion.section
                   key={`${section.title}-${sectionIdx}`}
-                  initial={{ opacity: 0, x: -12 }}
-                  animate={{ opacity: 1, x: 0 }}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: sectionIdx * 0.05 + 0.06 }}
                 >
                   <div className="mb-2.5 px-0.5">

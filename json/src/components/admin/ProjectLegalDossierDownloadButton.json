@@ -5,6 +5,7 @@
   },
   "loading": "Hazırlanıyor…",
   "button": "Tüm proje arşivini indir",
+  "buttonCompact": "Arşivi indir",
   "hint": "Tüm personel dosyaları, kapanış özeti, ekip/blok atamaları ve maaş politikası tek ZIP.",
   "fallbackFilename": "proje-kapanis-arsivi.zip"
 }

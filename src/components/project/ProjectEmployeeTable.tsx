@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { FiCheckCircle, FiClock } from 'react-icons/fi';
 import { EmployeeAvatar } from '@/components/employee/EmployeeAvatar';
 import { EmployeePhotoUpload } from '@/components/employee/EmployeePhotoUpload';
@@ -36,10 +37,16 @@ export function ProjectEmployeeTable({
 }: Props) {
   return (
     <div className="overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-black/[0.04]">
-      <div className="border-b border-slate-100 px-4 py-4 sm:px-6">
+      <div className="flex items-center justify-between gap-3 border-b border-slate-100 px-4 py-4 sm:px-6">
         <h2 className="text-sm font-semibold uppercase tracking-wide text-[#0E1548]">
           {strings.title}
         </h2>
+        <Link
+          href={`/admin-panel/proje/${projectId}/yevmiye`}
+          className="inline-flex shrink-0 items-center justify-center rounded-xl bg-[#0E1548] px-3 py-2 text-xs font-semibold text-white transition hover:bg-[#152060]"
+        >
+          {strings.qrAttendance}
+        </Link>
       </div>
 
       <div className="overflow-x-auto">
@@ -47,11 +54,11 @@ export function ProjectEmployeeTable({
           <thead>
             <tr className="bg-slate-50 border-b border-slate-200">
               <th className="text-left font-semibold text-slate-600 px-4 py-3 w-14">{strings.photoHeader}</th>
-              <th className="text-left font-semibold text-slate-600 px-6 py-3">{strings.nameHeader}</th>
-              <th className="text-left font-semibold text-slate-600 px-6 py-3 hidden md:table-cell">{strings.positionHeader}</th>
-              <th className="text-left font-semibold text-slate-600 px-6 py-3 hidden sm:table-cell">{strings.dailyWageHeader}</th>
-              <th className="text-left font-semibold text-slate-600 px-6 py-3 hidden lg:table-cell">{strings.monthHeader}</th>
-              <th className="text-left font-semibold text-slate-600 px-6 py-3">{strings.todayHeader}</th>
+              <th className="px-3 py-3 text-left font-semibold text-slate-600 sm:px-6">{strings.nameHeader}</th>
+              <th className="hidden px-3 py-3 text-left font-semibold text-slate-600 md:table-cell sm:px-6">{strings.positionHeader}</th>
+              <th className="hidden px-3 py-3 text-left font-semibold text-slate-600 sm:table-cell sm:px-6">{strings.dailyWageHeader}</th>
+              <th className="hidden px-3 py-3 text-left font-semibold text-slate-600 lg:table-cell sm:px-6">{strings.monthHeader}</th>
+              <th className="px-3 py-3 text-left font-semibold text-slate-600 sm:px-6">{strings.todayHeader}</th>
             </tr>
           </thead>
           <tbody>
@@ -88,20 +95,20 @@ export function ProjectEmployeeTable({
                         <EmployeeAvatar name={emp.name} photoUrl={emp.photo_url} size="sm" />
                       )}
                     </td>
-                    <td className="px-6 py-3.5 font-medium text-slate-900">
+                    <td className="px-3 py-3.5 font-medium text-slate-900 sm:px-6">
                       {emp.name}
                       <span className="block md:hidden text-xs text-slate-500">{emp.position}</span>
                     </td>
-                    <td className="px-6 py-3.5 text-slate-600 hidden md:table-cell">
+                    <td className="hidden px-3 py-3.5 text-slate-600 md:table-cell sm:px-6">
                       {emp.position || strings.emptyValue}
                     </td>
-                    <td className="px-6 py-3.5 text-slate-900 hidden sm:table-cell tabular-nums">
+                    <td className="hidden px-3 py-3.5 text-slate-900 sm:table-cell sm:px-6 tabular-nums">
                       ₺{emp.daily_wage.toLocaleString('tr-TR')}
                     </td>
-                    <td className="px-6 py-3.5 text-slate-600 hidden lg:table-cell">
+                    <td className="hidden px-3 py-3.5 text-slate-600 lg:table-cell sm:px-6">
                       {monthDays}{strings.daysSuffix}
                     </td>
-                    <td className="px-6 py-3.5">
+                    <td className="px-3 py-3.5 sm:px-6">
                       <StatusBadge status={status} />
                     </td>
                   </tr>

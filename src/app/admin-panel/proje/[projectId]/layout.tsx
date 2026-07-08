@@ -12,8 +12,8 @@ export default function ProjectLayout({ children }: { children: React.ReactNode 
 
   return (
     <AdminProjectClosureGate projectId={projectId}>
-      <div className="pb-[calc(5.25rem+env(safe-area-inset-bottom))] sm:pb-4">
-        <div className="min-w-0">{children}</div>
+      <div className="overflow-x-hidden pb-[calc(5.25rem+env(safe-area-inset-bottom))] sm:pb-4">
+        <div className="min-w-0 max-w-full">{children}</div>
       </div>
       <AdminProjectBottomNav projectId={projectId} />
     </AdminProjectClosureGate>

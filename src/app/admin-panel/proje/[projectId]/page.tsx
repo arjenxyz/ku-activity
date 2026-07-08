@@ -118,13 +118,13 @@ export default function ProjectDetailPage() {
   const activeCount = project.active_employee_count ?? employees.length;
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-wrap items-start justify-between gap-3">
+    <div className="space-y-4 overflow-x-hidden sm:space-y-6">
+      <div className="space-y-3">
         <ProjectPageHeader
           title={isSimple ? strings.titleSimple : strings.titleFull}
           description={isSimple ? strings.descriptionSimple : strings.descriptionFull}
         />
-        <div className="flex shrink-0 flex-wrap items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <ProjectLegalDossierDownloadButton
             projectId={projectId}
             projectName={project.name}
@@ -133,9 +133,9 @@ export default function ProjectDetailPage() {
           <button
             type="button"
             onClick={() => loadAll()}
-            className="inline-flex items-center gap-2 text-sm text-slate-600 hover:text-slate-900"
+            className="inline-flex items-center gap-2 rounded-xl px-2 py-2 text-sm text-slate-600 transition hover:bg-slate-100 hover:text-slate-900"
           >
-            <FiRefreshCw className="w-4 h-4" />
+            <FiRefreshCw className="h-4 w-4" />
             {strings.refresh}
           </button>
         </div>

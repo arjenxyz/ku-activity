@@ -1,11 +1,11 @@
 {
-  "invalidProjectUrl": "Geçersiz proje adresi",
-  "projectNotFound": "Proje bulunamadı",
-  "loadError": "Veriler yüklenirken hata oluştu",
-  "backToProjectList": "Proje listesine dön",
-  "titleSimple": "Günlük yoklama",
-  "titleFull": "Proje özeti",
-  "descriptionSimple": "Personel yoklaması ve günlük durum.",
-  "descriptionFull": "Personnel status and monthly summary.",
-  "refresh": "Yenile"
+  "invalidProjectUrl": "Invalid project URL",
+  "projectNotFound": "Project not found",
+  "loadError": "Failed to load data",
+  "backToProjectList": "Back to project list",
+  "titleSimple": "Daily attendance",
+  "titleFull": "Project overview",
+  "descriptionSimple": "Personnel attendance and daily status.",
+  "descriptionFull": "QR attendance, personnel status and monthly summary.",
+  "refresh": "Refresh"
 }

@@ -68,11 +68,11 @@ export function ProjectLegalDossierDownloadButton({
         onClick={() => void handleDownload()}
         disabled={loading}
         title={projectName ? `${projectName} — ${strings.button}` : strings.button}
-        className={`inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-50 ${
+        className={`inline-flex max-w-full items-center justify-center gap-2 px-3 py-2 text-xs font-semibold text-white disabled:opacity-50 sm:px-4 sm:py-2.5 sm:text-sm ${
           premium
-            ? 'w-full rounded-2xl bg-indigo-600 hover:bg-indigo-700 shadow-lg shadow-indigo-600/20 py-3 transition-colors'
-            : 'bg-indigo-600 hover:bg-indigo-700 rounded-lg'
-        } ${compact && !premium ? 'w-full' : ''}`}
+            ? 'w-full rounded-2xl bg-indigo-600 py-3 shadow-lg shadow-indigo-600/20 transition-colors hover:bg-indigo-700'
+            : 'rounded-xl bg-indigo-600 hover:bg-indigo-700'
+        }`}
       >
         {loading ? (
           <>
@@ -82,7 +82,7 @@ export function ProjectLegalDossierDownloadButton({
         ) : (
           <>
             <FiDownload className="w-4 h-4 shrink-0" />
-            {strings.button}
+            {compact ? strings.buttonCompact : strings.button}
           </>
         )}
       </button>
