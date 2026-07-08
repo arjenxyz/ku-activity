@@ -1,6 +1,7 @@
 {
-  "searchLabel": "Proje Ara",
-  "searchPlaceholder": "Ad, kod veya konum...",
-  "statusLabel": "Durum",
-  "allProjects": "Tüm Projeler"
+  "searchLabel": "Search projects",
+  "searchPlaceholder": "Search by name, code or location...",
+  "statusLabel": "Status",
+  "allProjects": "All",
+  "clearSearch": "Clear search"
 }

@@ -3,11 +3,12 @@
 import strings from '@json/src/app/admin-panel/proje/ProjectList.json';
 import {
   FiMapPin,
-  FiArrowUpRight,
+  FiArrowRight,
   FiUsers,
   FiEdit2,
-  FiTrash2,
+  FiArchive,
   FiHash,
+  FiCalendar,
 } from 'react-icons/fi';
 import { format, parseISO, isValid } from 'date-fns';
 import { tr } from 'date-fns/locale';
@@ -17,13 +18,30 @@ import type { Project, ProjectStatus } from '@/types/project';
 import { PROJECT_STATUS_LABELS } from '@/types/project';
 import { shouldShowProjectClosureCard } from '@/lib/closure-phase';
 import { ProjectClosureListCard } from '@/components/admin/ProjectClosureListCard';
+import { HonorIconTile, type HonorIconTheme } from '@/components/icons/HonorIcons';
 
-const statusStyles: Record<ProjectStatus, string> = {
-  active: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300',
-  planned: 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300',
-  paused: 'bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300',
-  completed: 'bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300',
-  archived: 'bg-slate-100 text-slate-600 dark:bg-slate-900 dark:text-slate-400',
+const statusBadge: Record<ProjectStatus, string> = {
+  active: 'bg-emerald-50 text-emerald-700 ring-emerald-600/20',
+  planned: 'bg-amber-50 text-amber-700 ring-amber-600/20',
+  paused: 'bg-slate-100 text-slate-600 ring-slate-500/20',
+  completed: 'bg-blue-50 text-blue-700 ring-blue-600/20',
+  archived: 'bg-slate-50 text-slate-500 ring-slate-400/20',
+};
+
+const statusDot: Record<ProjectStatus, string> = {
+  active: 'bg-emerald-500',
+  planned: 'bg-amber-500',
+  paused: 'bg-slate-400',
+  completed: 'bg-blue-500',
+  archived: 'bg-slate-300',
+};
+
+const statusTile: Record<ProjectStatus, HonorIconTheme> = {
+  active: 'emerald',
+  planned: 'amber',
+  paused: 'slate',
+  completed: 'blue',
+  archived: 'slate',
 };
 
 function formatDateSafe(value: string | null) {
@@ -47,9 +65,9 @@ export default function ProjectList({
 
   if (loading) {
     return (
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
         {[...Array(6)].map((_, i) => (
-          <div key={i} className="h-44 rounded-2xl bg-slate-200/60 dark:bg-slate-800 animate-pulse" />
+          <div key={i} className="h-52 animate-pulse rounded-2xl bg-slate-200/60" />
         ))}
       </div>
     );
@@ -57,92 +75,106 @@ export default function ProjectList({
 
   if (projects.length === 0) {
     return (
-      <div className="text-center py-16 px-6 bg-white dark:bg-slate-900 rounded-2xl border border-dashed border-slate-300 dark:border-slate-700">
-        <p className="text-lg font-medium text-slate-800 dark:text-slate-200">{strings.emptyTitle}</p>
-        <p className="text-sm text-slate-500 mt-1">{strings.emptySubtitle}</p>
+      <div className="flex flex-col items-center rounded-2xl border border-dashed border-slate-300 bg-white px-6 py-16 text-center">
+        <HonorIconTile name="briefcase" theme="indigo" size="xl" />
+        <p className="mt-4 text-lg font-semibold text-[#0E1548]">{strings.emptyTitle}</p>
+        <p className="mt-1 text-sm text-slate-500">{strings.emptySubtitle}</p>
       </div>
     );
   }
 
   return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+    <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
       {projects.map((project) => {
         if (shouldShowProjectClosureCard(project)) {
           return <ProjectClosureListCard key={project.id} project={project} />;
         }
 
         return (
-        <article
-          key={project.id}
-          className="group flex flex-col rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm ring-1 ring-black/[0.04] transition-all hover:border-[#0E1548]/20 hover:shadow-md"
-        >
-          <div className="flex items-start justify-between gap-2 mb-3">
-            <div className="min-w-0 flex-1">
-              <h3 className="font-semibold text-slate-900 dark:text-white truncate">{project.name}</h3>
-              {project.code && (
-                <p className="text-xs text-slate-500 mt-0.5 flex items-center gap-1">
-                  <FiHash className="w-3 h-3" />
-                  {project.code}
-                </p>
+          <article
+            key={project.id}
+            className="group flex flex-col overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-black/[0.04] transition-all hover:-translate-y-0.5 hover:shadow-lg hover:ring-[#0E1548]/15"
+          >
+            <div className="flex items-start gap-3 p-4 sm:p-5">
+              <HonorIconTile name="briefcase" theme={statusTile[project.status]} size="lg" />
+              <div className="min-w-0 flex-1">
+                <div className="flex items-start justify-between gap-2">
+                  <h3 className="truncate text-[15px] font-bold leading-tight text-[#0E1548]">
+                    {project.name}
+                  </h3>
+                  <span
+                    className={`inline-flex shrink-0 items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-semibold ring-1 ring-inset ${statusBadge[project.status]}`}
+                  >
+                    <span className={`h-1.5 w-1.5 rounded-full ${statusDot[project.status]}`} />
+                    {PROJECT_STATUS_LABELS[project.status]}
+                  </span>
+                </div>
+                {project.code && (
+                  <p className="mt-1 flex items-center gap-1 text-xs text-slate-400">
+                    <FiHash className="h-3 w-3" />
+                    {project.code}
+                  </p>
+                )}
+              </div>
+            </div>
+
+            <div className="flex-1 space-y-2 px-4 pb-1 sm:px-5">
+              <InfoRow icon={<FiMapPin className="h-4 w-4" />}>
+                {project.location || <span className="text-slate-400">{strings.emptyDate}</span>}
+              </InfoRow>
+              <InfoRow icon={<FiCalendar className="h-4 w-4" />}>
+                {formatString(strings.startDate, { date: formatDateSafe(project.start_date) })}
+              </InfoRow>
+              <InfoRow icon={<FiUsers className="h-4 w-4" />}>
+                {formatString(strings.employeeCount, {
+                  active: project.active_employee_count ?? 0,
+                  total: project.employee_count ?? 0,
+                })}
+              </InfoRow>
+            </div>
+
+            <div className="mt-4 flex items-center gap-2 border-t border-slate-100 p-3 sm:px-4">
+              <button
+                type="button"
+                onClick={() => router.push(`/admin-panel/proje/${project.id}`)}
+                className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-[#0E1548] px-3 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#152060]"
+              >
+                {strings.open}
+                <FiArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+              </button>
+              {onEdit && (
+                <button
+                  type="button"
+                  onClick={() => onEdit(project.id)}
+                  className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 text-slate-500 transition hover:bg-slate-50 hover:text-[#0E1548]"
+                  aria-label={strings.editAriaLabel}
+                >
+                  <FiEdit2 className="h-4 w-4" />
+                </button>
+              )}
+              {onDelete && (
+                <button
+                  type="button"
+                  onClick={() => onDelete(project.id)}
+                  className="flex h-10 w-10 items-center justify-center rounded-xl border border-amber-200 text-amber-600 transition hover:bg-amber-50"
+                  aria-label={strings.deleteAriaLabel}
+                >
+                  <FiArchive className="h-4 w-4" />
+                </button>
               )}
             </div>
-            <span className={`shrink-0 text-xs font-medium px-2.5 py-1 rounded-full ${statusStyles[project.status]}`}>
-              {PROJECT_STATUS_LABELS[project.status]}
-            </span>
-          </div>
-
-          <div className="space-y-1.5 text-sm text-slate-600 dark:text-slate-400 flex-1">
-            {project.location && (
-              <p className="flex items-center gap-2 truncate">
-                <FiMapPin className="w-4 h-4 shrink-0" />
-                {project.location}
-              </p>
-            )}
-            <p className="text-xs text-slate-500">
-              {formatString(strings.startDate, { date: formatDateSafe(project.start_date) })}
-            </p>
-            <p className="flex items-center gap-2">
-              <FiUsers className="w-4 h-4" />
-              {formatString(strings.employeeCount, {
-                active: project.active_employee_count ?? 0,
-                total: project.employee_count ?? 0,
-              })}
-            </p>
-          </div>
-
-          <div className="flex items-center gap-2 mt-4 pt-4 border-t border-slate-100 dark:border-slate-800">
-            <button
-              type="button"
-              onClick={() => router.push(`/admin-panel/proje/${project.id}`)}
-              className="flex-1 inline-flex items-center justify-center gap-2 px-3 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium transition-colors"
-            >
-              {strings.open}
-              <FiArrowUpRight className="w-4 h-4" />
-            </button>
-            {onEdit && (
-              <button
-                type="button"
-                onClick={() => onEdit(project.id)}
-                className="p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800"
-                aria-label={strings.editAriaLabel}
-              >
-                <FiEdit2 className="w-4 h-4" />
-              </button>
-            )}
-            {onDelete && (
-              <button
-                type="button"
-                onClick={() => onDelete(project.id)}
-                className="p-2.5 rounded-xl border border-red-200 dark:border-red-900 text-red-600 hover:bg-red-50 dark:hover:bg-red-950/40"
-                aria-label={strings.deleteAriaLabel}
-              >
-                <FiTrash2 className="w-4 h-4" />
-              </button>
-            )}
-          </div>
-        </article>
+          </article>
         );
       })}
     </div>
+  );
+}
+
+function InfoRow({ icon, children }: { icon: React.ReactNode; children: React.ReactNode }) {
+  return (
+    <p className="flex items-center gap-2 truncate text-sm text-slate-600">
+      <span className="shrink-0 text-slate-400">{icon}</span>
+      <span className="truncate">{children}</span>
+    </p>
   );
 }
