@@ -7,7 +7,6 @@ import dayjs from 'dayjs';
 
 import { fetchProject } from '@/api/projects';
 import { fetchEmployees } from '@/api/employees';
-import { ProjectLegalDossierDownloadButton } from '@/components/admin/ProjectLegalDossierDownloadButton';
 import { ProjectSummaryHero } from '@/components/project/ProjectSummaryHero';
 import { ProjectTodayAttendanceCard } from '@/components/project/ProjectTodayAttendanceCard';
 import { ProjectEmployeeTable } from '@/components/project/ProjectEmployeeTable';
@@ -120,14 +119,6 @@ export default function ProjectDetailPage() {
         totalPayroll={totalPayroll}
         projectId={projectId}
         onRefresh={() => void loadAll()}
-        dossierSlot={
-          <ProjectLegalDossierDownloadButton
-            projectId={projectId}
-            projectName={project.name}
-            compact
-            className="[&_button]:!rounded-xl [&_button]:!bg-white/15 [&_button]:!px-3.5 [&_button]:!py-2 [&_button]:!text-xs [&_button]:!font-semibold [&_button]:!ring-1 [&_button]:!ring-white/20 [&_button]:hover:!bg-white/25"
-          />
-        }
       />
 
       <ProjectTodayAttendanceCard

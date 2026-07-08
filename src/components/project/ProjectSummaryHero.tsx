@@ -17,7 +17,6 @@ type Props = {
   totalPayroll: number;
   projectId: string;
   onRefresh?: () => void;
-  dossierSlot?: React.ReactNode;
 };
 
 export function ProjectSummaryHero({
@@ -28,7 +27,6 @@ export function ProjectSummaryHero({
   totalPayroll,
   projectId,
   onRefresh,
-  dossierSlot,
 }: Props) {
   const strings = useRegistryStrings('components/project/ProjectSummaryHero');
 
@@ -136,7 +134,6 @@ export function ProjectSummaryHero({
             <TbQrcode className="h-4 w-4" aria-hidden />
             {strings.qrAttendance}
           </Link>
-          {dossierSlot}
         </div>
       </div>
     </section>
