@@ -1,4 +1,4 @@
-{
+﻿{
   "loadFailed": "Bordro yüklenemedi",
   "successGenerated": "{month} bordrosu hesaplandı.",
   "generateFailed": "Hesaplama başarısız",
@@ -9,6 +9,7 @@
   "generateButton": "Bordro Hesapla",
   "totalGross": "Toplam Brüt",
   "totalAdvances": "Toplam Avans",
+  "totalDeductions": "Toplam Kesinti",
   "totalMinimum": "Toplam Asgari",
   "totalNet": "Toplam Net",
   "emptyMessage": "Bu dönem için bordro yok. Hesapla butonuna tıklayın.",

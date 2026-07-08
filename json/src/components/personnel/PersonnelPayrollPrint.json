@@ -1,83 +1,83 @@
 {
-  "title": "Maaş Dökümü",
-  "printedAt": "Yazdırma:",
+  "title": "Maa\u015f D\u00f6k\u00fcm\u00fc",
+  "printedAt": "Yazd\u0131rma:",
   "documentNo": "Belge no:",
   "employeeInfo": "Personel bilgileri",
-  "periodSummary": "Dönem özeti",
-  "workLogsTitle": "Yevmiye kayıtları ({count})",
-  "mesaiSummary": "Mesai özeti",
+  "periodSummary": "D\u00f6nem \u00f6zeti",
+  "workLogsTitle": "Yevmiye kay\u0131tlar\u0131 ({count})",
+  "mesaiSummary": "Mesai \u00f6zeti",
   "advancesTitle": "Avanslar ({count})",
   "deductionsTitle": "Kesintiler ({count})",
-  "minimumWagesTitle": "Asgari ücret ödemeleri ({count})",
-  "calcSummary": "Hesaplama özeti",
-  "emptyValue": "—",
+  "minimumWagesTitle": "Asgari \u00fccret \u00f6demeleri ({count})",
+  "calcSummary": "Hesaplama \u00f6zeti",
+  "emptyValue": "\u2014",
   "fields": {
     "fullName": "Ad soyad",
     "position": "Pozisyon",
-    "project": "Proje / şantiye",
-    "dailyWage": "Günlük yevmiye",
+    "project": "Proje / \u015fantiye",
+    "dailyWage": "G\u00fcnl\u00fck yevmiye",
     "tcKimlik": "T.C. kimlik",
-    "hireDate": "İşe giriş"
+    "hireDate": "\u0130\u015fe giri\u015f"
   },
   "summary": {
-    "workDays": "Çalışılan gün",
-    "approvedDays": "Onaylı gün",
-    "pendingDays": "Bekleyen gün",
+    "workDays": "\u00c7al\u0131\u015f\u0131lan g\u00fcn",
+    "approvedDays": "Onayl\u0131 g\u00fcn",
+    "pendingDays": "Bekleyen g\u00fcn",
     "mesaiUnits": "Mesai birimi",
-    "netEstimate": "Net tahmini"
+    "netEstimate": "Tahmini Net Maa\u015f"
   },
   "table": {
     "date": "Tarih",
-    "work": "Çalışma",
+    "work": "\u00c7al\u0131\u015fma",
     "mesai": "Mesai",
     "wage": "Yevmiye",
-    "mesaiPay": "Mesai ₺",
-    "rowTotal": "Satır toplam",
+    "mesaiPay": "Mesai \u20ba",
+    "rowTotal": "Sat\u0131r toplam",
     "status": "Durum",
     "total": "Toplam",
-    "type": "Tür",
-    "record": "Kayıt",
+    "type": "T\u00fcr",
+    "record": "Kay\u0131t",
     "unit": "Birim",
     "amount": "Tutar",
-    "description": "Açıklama",
-    "deductionType": "Tür"
+    "description": "A\u00e7\u0131klama",
+    "deductionType": "T\u00fcr"
   },
   "mesaiTypes": {
-    "ceyrek": "Çeyrek mesai",
-    "yarim": "Yarım mesai",
+    "ceyrek": "\u00c7eyrek mesai",
+    "yarim": "Yar\u0131m mesai",
     "tam": "Tam mesai"
   },
   "empty": {
-    "workLogs": "Bu dönemde yevmiye kaydı yok.",
-    "advances": "Avans kaydı yok.",
-    "deductions": "Kesinti kaydı yok.",
-    "minimumWages": "Asgari ücret tamamlama ödemesi yok."
+    "workLogs": "Bu d\u00f6nemde yevmiye kayd\u0131 yok.",
+    "advances": "Avans kayd\u0131 yok.",
+    "deductions": "Kesinti kayd\u0131 yok.",
+    "minimumWages": "Asgari \u00fccret tamamlama \u00f6demesi yok."
   },
   "defaults": {
     "advance": "Avans",
-    "minimumWage": "Asgari ücret tamamlama"
+    "minimumWage": "Asgari \u00fccret tamamlama"
   },
   "totals": {
     "grand": "Genel toplam",
     "advances": "Toplam avans",
     "deductions": "Toplam kesinti",
-    "minimumWages": "Toplam asgari ödeme"
+    "minimumWages": "Toplam asgari \u00f6deme"
   },
   "calc": {
-    "basePay": "Yevmiye ({days} gün × {wage})",
-    "mesaiPay": "Mesai kazancı (+)",
-    "gross": "Brüt toplam",
-    "advances": "Avanslar (−)",
-    "deductions": "Kesintiler (−)",
-    "minimumWages": "Asgari ücret ödemeleri (−)",
-    "netPayment": "Ustadan tahmini ödeme",
-    "note": "Ustadan net: Brüt ({gross}) − Avans ({advances}) − Kesinti ({deductions}){minimumPart} = {net}",
-    "minimumPart": " − Asgari ({amount})"
+    "basePay": "Yevmiye ({days} g\u00fcn x {wage})",
+    "mesaiPay": "Mesai kazanc\u0131 (+)",
+    "gross": "Br\u00fct toplam",
+    "advances": "Avanslar (-)",
+    "deductions": "Kesintiler (-)",
+    "minimumWages": "Asgari \u00fccret \u00f6demeleri (-)",
+    "netPayment": "Tahmini Net Maa\u015f",
+    "note": "Net hesap: Br\u00fct ({gross}) - Avans ({advances}) - Kesinti ({deductions}){minimumPart} = {net}",
+    "minimumPart": " - Asgari ({amount})"
   },
   "footer": {
-    "disclaimer": "Bu belge bilgilendirme amaçlıdır. Resmi bordro yerine geçmez. Kayıtlar {appName} personel paneli ile yönetici panelinden aynı veritabanından üretilmiştir.",
+    "disclaimer": "Bu belge bilgilendirme ama\u00e7l\u0131d\u0131r. Resmi bordro yerine ge\u00e7mez. Kay\u0131tlar {appName} personel paneli ile y\u00f6netici panelinden ayn\u0131 veritaban\u0131ndan \u00fcretilmi\u015ftir.",
     "employee": "Personel",
-    "employer": "Yönetici / İşveren",
-    "signatureHint": "Ad soyad · Tarih · İmza"
+    "employer": "Y\u00f6netici / \u0130\u015fveren",
+    "signatureHint": "Ad soyad - Tarih - \u0130mza"
   }
 }

@@ -1,83 +1,83 @@
 {
-  "title": "Maaş Dökümü",
-  "printedAt": "Yazdırma:",
-  "documentNo": "Belge no:",
-  "employeeInfo": "Personel bilgileri",
-  "periodSummary": "Dönem özeti",
-  "workLogsTitle": "Yevmiye kayıtları ({count})",
-  "mesaiSummary": "Mesai özeti",
-  "advancesTitle": "Avanslar ({count})",
-  "deductionsTitle": "Kesintiler ({count})",
-  "minimumWagesTitle": "Asgari ücret ödemeleri ({count})",
-  "calcSummary": "Hesaplama özeti",
-  "emptyValue": "—",
+  "title": "Payroll Statement",
+  "printedAt": "Printed:",
+  "documentNo": "Document no:",
+  "employeeInfo": "Employee information",
+  "periodSummary": "Period summary",
+  "workLogsTitle": "Work log records ({count})",
+  "mesaiSummary": "Overtime summary",
+  "advancesTitle": "Advances ({count})",
+  "deductionsTitle": "Deductions ({count})",
+  "minimumWagesTitle": "Minimum wage payments ({count})",
+  "calcSummary": "Calculation summary",
+  "emptyValue": "\u2014",
   "fields": {
-    "fullName": "Ad soyad",
-    "position": "Pozisyon",
-    "project": "Proje / şantiye",
-    "dailyWage": "Günlük yevmiye",
-    "tcKimlik": "T.C. kimlik",
-    "hireDate": "İşe giriş"
+    "fullName": "Full name",
+    "position": "Position",
+    "project": "Project / site",
+    "dailyWage": "Daily wage",
+    "tcKimlik": "National ID",
+    "hireDate": "Hire date"
   },
   "summary": {
-    "workDays": "Çalışılan gün",
-    "approvedDays": "Onaylı gün",
-    "pendingDays": "Bekleyen gün",
-    "mesaiUnits": "Mesai birimi",
-    "netEstimate": "Net tahmini"
+    "workDays": "Worked days",
+    "approvedDays": "Approved days",
+    "pendingDays": "Pending days",
+    "mesaiUnits": "Overtime units",
+    "netEstimate": "Estimated Net Salary"
   },
   "table": {
-    "date": "Tarih",
-    "work": "Çalışma",
-    "mesai": "Mesai",
-    "wage": "Yevmiye",
-    "mesaiPay": "Mesai ₺",
-    "rowTotal": "Satır toplam",
-    "status": "Durum",
-    "total": "Toplam",
-    "type": "Tür",
-    "record": "Kayıt",
-    "unit": "Birim",
-    "amount": "Tutar",
-    "description": "Açıklama",
-    "deductionType": "Tür"
+    "date": "Date",
+    "work": "Work",
+    "mesai": "Overtime",
+    "wage": "Wage",
+    "mesaiPay": "Overtime \u20ba",
+    "rowTotal": "Row total",
+    "status": "Status",
+    "total": "Total",
+    "type": "Type",
+    "record": "Record",
+    "unit": "Unit",
+    "amount": "Amount",
+    "description": "Description",
+    "deductionType": "Type"
   },
   "mesaiTypes": {
-    "ceyrek": "Çeyrek mesai",
-    "yarim": "Yarım mesai",
-    "tam": "Tam mesai"
+    "ceyrek": "Quarter overtime",
+    "yarim": "Half overtime",
+    "tam": "Full overtime"
   },
   "empty": {
-    "workLogs": "Bu dönemde yevmiye kaydı yok.",
-    "advances": "Avans kaydı yok.",
-    "deductions": "Kesinti kaydı yok.",
-    "minimumWages": "Asgari ücret tamamlama ödemesi yok."
+    "workLogs": "No work log records for this period.",
+    "advances": "No advance records.",
+    "deductions": "No deduction records.",
+    "minimumWages": "No minimum wage top-up payment."
   },
   "defaults": {
-    "advance": "Avans",
-    "minimumWage": "Asgari ücret tamamlama"
+    "advance": "Advance",
+    "minimumWage": "Minimum wage top-up"
   },
   "totals": {
-    "grand": "Genel toplam",
-    "advances": "Toplam avans",
-    "deductions": "Toplam kesinti",
-    "minimumWages": "Toplam asgari ödeme"
+    "grand": "Grand total",
+    "advances": "Total advances",
+    "deductions": "Total deductions",
+    "minimumWages": "Total minimum wage"
   },
   "calc": {
-    "basePay": "Yevmiye ({days} gün × {wage})",
-    "mesaiPay": "Mesai kazancı (+)",
-    "gross": "Brüt toplam",
-    "advances": "Avanslar (−)",
-    "deductions": "Kesintiler (−)",
-    "minimumWages": "Asgari ücret ödemeleri (−)",
-    "netPayment": "Ustadan tahmini ödeme",
-    "note": "Ustadan net: Brüt ({gross}) − Avans ({advances}) − Kesinti ({deductions}){minimumPart} = {net}",
-    "minimumPart": " − Asgari ({amount})"
+    "basePay": "Wage ({days} days x {wage})",
+    "mesaiPay": "Overtime earnings (+)",
+    "gross": "Gross total",
+    "advances": "Advances (-)",
+    "deductions": "Deductions (-)",
+    "minimumWages": "Minimum wage payments (-)",
+    "netPayment": "Estimated Net Salary",
+    "note": "Net formula: Gross ({gross}) - Advance ({advances}) - Deduction ({deductions}){minimumPart} = {net}",
+    "minimumPart": " - Minimum ({amount})"
   },
   "footer": {
-    "disclaimer": "Bu belge bilgilendirme amaçlıdır. Resmi bordro yerine geçmez. Kayıtlar {appName} personel paneli ile yönetici panelinden aynı veritabanından üretilmiştir.",
-    "employee": "Personel",
-    "employer": "Yönetici / İşveren",
-    "signatureHint": "Ad soyad · Tarih · İmza"
+    "disclaimer": "This document is for informational purposes and is not an official payroll document. Records are generated from the same database in the {appName} personnel and admin panels.",
+    "employee": "Employee",
+    "employer": "Manager / Employer",
+    "signatureHint": "Full name - Date - Signature"
   }
 }

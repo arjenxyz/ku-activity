@@ -75,6 +75,7 @@ export default function BordroPage() {
           id: l.id ?? l.employee_id ?? `line-${i}`,
         }))
       );
+      setPeriodStatus('draft');
       setSuccess(formatString(strings.successGenerated, { month }));
     } catch (e) {
       setError(e instanceof Error ? e.message : strings.generateFailed);
@@ -89,6 +90,7 @@ export default function BordroPage() {
     setSuccess(null);
     try {
       await finalizePayroll(projectId, month);
+      await loadPayroll();
       setPeriodStatus('finalized');
       setSuccess(formatString(strings.successFinalized, { month }));
     } catch (e) {
@@ -103,9 +105,10 @@ export default function BordroPage() {
       gross: acc.gross + Number(l.gross_pay),
       net: acc.net + Number(l.net_pay),
       advances: acc.advances + Number(l.advances),
+      deductions: acc.deductions + Number(l.other_deductions),
       minimum: acc.minimum + Number(l.minimum_paid),
     }),
-    { gross: 0, net: 0, advances: 0, minimum: 0 }
+    { gross: 0, net: 0, advances: 0, deductions: 0, minimum: 0 }
   );
 
   return (
@@ -144,10 +147,11 @@ export default function BordroPage() {
       )}
 
       {lines.length > 0 && (
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+        <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-6">
           {[
             { label: strings.totalGross, value: formatMoney(totals.gross) },
             { label: strings.totalAdvances, value: formatMoney(totals.advances) },
+            { label: strings.totalDeductions, value: formatMoney(totals.deductions) },
             { label: strings.totalMinimum, value: formatMoney(totals.minimum) },
             { label: strings.totalNet, value: formatMoney(totals.net) },
           ].map((s) => (
