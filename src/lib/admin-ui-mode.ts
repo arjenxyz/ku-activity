@@ -17,32 +17,32 @@ export function writeAdminUiMode(mode: AdminUiMode) {
   localStorage.setItem(ADMIN_UI_MODE_STORAGE_KEY, mode);
 }
 
-/** Basit modda günlük işlem menüsü */
+/** Basit modda günlük ihtiyaç menüsü */
 export function getSimpleMenuLinks(projectId: string): ProjectMenuLink[] {
   const id = projectId;
   return [
+    {
+      label: strings.simpleMenu.summary.label,
+      href: () => `/admin-panel/proje/${id}`,
+      hint: strings.simpleMenu.summary.hint,
+    },
+    {
+      label: strings.simpleMenu.approval.label,
+      href: () => `/admin-panel/proje/${id}/basvuru-onay`,
+      hint: strings.simpleMenu.approval.hint,
+    },
     {
       label: strings.simpleMenu.attendance.label,
       href: () => `/admin-panel/proje/${id}/yevmiye`,
       hint: strings.simpleMenu.attendance.hint,
     },
-    {
-      label: strings.simpleMenu.advance.label,
-      href: () => `/admin-panel/proje/${id}/avans`,
-      hint: strings.simpleMenu.advance.hint,
-    },
-    {
-      label: strings.simpleMenu.deduction.label,
-      href: () => `/admin-panel/proje/${id}/kesinti`,
-      hint: strings.simpleMenu.deduction.hint,
-    },
   ];
 }
 
 const SIMPLE_PROJECT_SUFFIXES = [
+  '',
   '/yevmiye',
-  '/avans',
-  '/kesinti',
+  '/basvuru-onay',
 ] as const;
 
 /** Basit modda erişilebilir proje sayfaları */

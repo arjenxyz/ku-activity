@@ -1,20 +1,20 @@
 {
   "modeLabels": {
-    "simple": "Basit",
-    "advanced": "Gelişmiş"
+    "simple": "Simple",
+    "advanced": "Advanced"
   },
   "simpleMenu": {
+    "summary": {
+      "label": "Project overview",
+      "hint": "Personnel list and daily status"
+    },
+    "approval": {
+      "label": "Application approval",
+      "hint": "New personnel applications"
+    },
     "attendance": {
-      "label": "Yoklama",
-      "hint": "QR ile günlük yoklama"
-    },
-    "advance": {
-      "label": "Avans",
-      "hint": "Avans ekleme"
-    },
-    "deduction": {
-      "label": "Kesinti",
-      "hint": "Kesinti ekleme"
+      "label": "Attendance / QR",
+      "hint": "Day, overtime and timesheet are planned here"
     }
   }
 }

@@ -16,17 +16,19 @@ export type AdminNavCopy = {
     approval: string;
     attendance: string;
     profit: string;
-    advance: string;
-    deduction: string;
+    payroll: string;
+    status: string;
     menu: string;
   };
   hub: {
-    dailyTitle: string;
-    dailySubtitle: string;
+    essentialsTitle: string;
+    essentialsSubtitle: string;
+    periodicTitle: string;
+    periodicSubtitle: string;
     personnelTitle: string;
     siteTitle: string;
-    financeTitle: string;
-    controlTitle: string;
+    recordsTitle: string;
+    recordsSubtitle: string;
     generalTitle: string;
     generalSubtitle: string;
     general: {
@@ -38,12 +40,11 @@ export type AdminNavCopy = {
       settings: string;
     };
   };
-  dailyItems: MenuPathDef[];
-  simpleDailyItems: MenuPathDef[];
+  simpleEssentialItems: MenuPathDef[];
+  periodicItems: MenuPathDef[];
   personnelItems: MenuPathDef[];
   siteItems: MenuPathDef[];
-  financeItems: MenuPathDef[];
-  controlItems: MenuPathDef[];
+  recordsItems: MenuPathDef[];
 };
 
 export type AdminDockItem = {
@@ -85,7 +86,7 @@ function toHubItem(projectId: string, def: MenuPathDef, key: string): AdminHubIt
   return { key, label: def.label, hint: def.hint, href, icon };
 }
 
-/** Alt dock — yönetici günlük iş akışı */
+/** Alt dock — basit: günlük ihtiyaçlar; gelişmiş: haftalık / nadir işlemler */
 export function getAdminDockItems(
   projectId: string,
   mode: AdminNavMode,
@@ -97,7 +98,14 @@ export function getAdminDockItems(
   if (mode === 'simple') {
     return [
       { id: 'summary', label: d.summary, href: base, iconName: 'home', iconTheme: 'blue', matchHref: base },
-      { id: 'advance', label: d.advance, href: `${base}/avans`, iconName: 'wallet', iconTheme: 'indigo', matchHref: `${base}/avans` },
+      {
+        id: 'approval',
+        label: d.approval,
+        href: `${base}/basvuru-onay`,
+        iconName: 'clipboard',
+        iconTheme: 'amber',
+        matchHref: `${base}/basvuru-onay`,
+      },
       {
         id: 'attendance',
         label: d.attendance,
@@ -107,7 +115,6 @@ export function getAdminDockItems(
         isCenter: true,
         matchHref: `${base}/yevmiye`,
       },
-      { id: 'deduction', label: d.deduction, href: `${base}/kesinti`, iconName: 'minus', iconTheme: 'orange', matchHref: `${base}/kesinti` },
       { id: 'menu', label: d.menu, iconName: 'menu', iconTheme: 'slate', isMenu: true },
     ];
   }
@@ -115,29 +122,29 @@ export function getAdminDockItems(
   return [
     { id: 'summary', label: d.summary, href: base, iconName: 'home', iconTheme: 'blue', matchHref: base },
     {
-      id: 'approval',
-      label: d.approval,
-      href: `${base}/basvuru-onay`,
-      iconName: 'clipboard',
-      iconTheme: 'amber',
-      matchHref: `${base}/basvuru-onay`,
-    },
-    {
-      id: 'attendance',
-      label: d.attendance,
-      href: `${base}/yevmiye`,
-      iconName: 'qr',
-      iconTheme: 'teal',
-      isCenter: true,
-      matchHref: `${base}/yevmiye`,
-    },
-    {
       id: 'profit',
       label: d.profit,
       href: `${base}/kar`,
       iconName: 'chart',
       iconTheme: 'violet',
       matchHref: `${base}/kar`,
+    },
+    {
+      id: 'payroll',
+      label: d.payroll,
+      href: `${base}/bordro`,
+      iconName: 'document',
+      iconTheme: 'indigo',
+      isCenter: true,
+      matchHref: `${base}/bordro`,
+    },
+    {
+      id: 'status',
+      label: d.status,
+      href: `${base}/durum`,
+      iconName: 'wallet',
+      iconTheme: 'emerald',
+      matchHref: `${base}/durum`,
     },
     { id: 'menu', label: d.menu, iconName: 'menu', iconTheme: 'slate', isMenu: true },
   ];
@@ -168,15 +175,16 @@ export function getAdminHubSections(
   const sections: AdminHubSection[] = [];
 
   if (projectId) {
-    const daily = mode === 'simple' ? copy.simpleDailyItems : copy.dailyItems;
-    sections.push(mapSection(projectId, 'daily', h.dailyTitle, h.dailySubtitle, daily));
-
-    if (mode === 'advanced') {
+    if (mode === 'simple') {
       sections.push(
+        mapSection(projectId, 'essentials', h.essentialsTitle, h.essentialsSubtitle, copy.simpleEssentialItems)
+      );
+    } else {
+      sections.push(
+        mapSection(projectId, 'periodic', h.periodicTitle, h.periodicSubtitle, copy.periodicItems),
         mapSection(projectId, 'personnel', h.personnelTitle, undefined, copy.personnelItems),
         mapSection(projectId, 'site', h.siteTitle, undefined, copy.siteItems),
-        mapSection(projectId, 'finance', h.financeTitle, undefined, copy.financeItems),
-        mapSection(projectId, 'control', h.controlTitle, undefined, copy.controlItems)
+        mapSection(projectId, 'records', h.recordsTitle, h.recordsSubtitle, copy.recordsItems)
       );
     }
   }
