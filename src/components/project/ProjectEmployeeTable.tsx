@@ -1,5 +1,4 @@
-import Link from 'next/link';
-import { FiCheckCircle, FiClock, FiUserPlus } from 'react-icons/fi';
+import { FiCheckCircle, FiClock } from 'react-icons/fi';
 import { EmployeeAvatar } from '@/components/employee/EmployeeAvatar';
 import { EmployeePhotoUpload } from '@/components/employee/EmployeePhotoUpload';
 import type { Employee } from '@/types/adminTypes';
@@ -36,29 +35,11 @@ export function ProjectEmployeeTable({
   onPhotoChange,
 }: Props) {
   return (
-    <div className="bg-white border border-slate-200 rounded-lg shadow-sm overflow-hidden">
-      <div className="px-6 py-4 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-        <div>
-          <h2 className="text-sm font-semibold text-slate-900 uppercase tracking-wide">
-            {strings.title}
-          </h2>
-          <p className="text-xs text-slate-500 mt-0.5">{strings.subtitle}</p>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          <Link
-            href={`/admin-panel/proje/${projectId}/yevmiye`}
-            className="inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-blue-700 bg-blue-50 hover:bg-blue-100 rounded-md transition-colors"
-          >
-            {strings.qrAttendance}
-          </Link>
-          <Link
-            href={`/admin-panel/proje/${projectId}/new`}
-            className="inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-white bg-slate-800 hover:bg-slate-900 rounded-md transition-colors"
-          >
-            <FiUserPlus className="w-4 h-4" />
-            {strings.addEmployee}
-          </Link>
-        </div>
+    <div className="overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-black/[0.04]">
+      <div className="border-b border-slate-100 px-4 py-4 sm:px-6">
+        <h2 className="text-sm font-semibold uppercase tracking-wide text-[#0E1548]">
+          {strings.title}
+        </h2>
       </div>
 
       <div className="overflow-x-auto">

@@ -124,8 +124,12 @@ export default function ProjectDetailPage() {
           title={isSimple ? strings.titleSimple : strings.titleFull}
           description={isSimple ? strings.descriptionSimple : strings.descriptionFull}
         />
-        <div className="flex flex-wrap items-center gap-3 shrink-0">
-          <ProjectLegalDossierDownloadButton projectId={projectId} projectName={project.name} />
+        <div className="flex shrink-0 flex-wrap items-center gap-2">
+          <ProjectLegalDossierDownloadButton
+            projectId={projectId}
+            projectName={project.name}
+            compact
+          />
           <button
             type="button"
             onClick={() => loadAll()}

@@ -37,7 +37,7 @@ export function ProjectOverviewStats({
       {items.map(({ key, label, icon: Icon, color }) => (
         <div
           key={key}
-          className="bg-white border border-slate-200 rounded-lg px-5 py-4 shadow-sm"
+          className="rounded-2xl bg-white px-4 py-4 shadow-sm ring-1 ring-black/[0.04] sm:px-5"
         >
           <div className="flex items-center justify-between mb-2">
             <span className="text-xs font-medium text-slate-500 uppercase tracking-wide">
