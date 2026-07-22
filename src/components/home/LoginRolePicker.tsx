@@ -74,7 +74,6 @@ export function LoginRolePickerPanel({ onNavigate }: { onNavigate?: () => void; 
 
 export function LoginRoleModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   const strings = useRegistryStrings('components/home/LoginRolePicker');
-  const loginPanels = useLoginPanels();
 
   useEffect(() => {
     if (!open) return;
@@ -129,34 +128,14 @@ export function LoginRoleModal({ open, onClose }: { open: boolean; onClose: () =
                   {strings.modalTitle}
                 </h2>
               </div>
-              <div className="flex shrink-0 items-center gap-1.5">
-                {loginPanels.map((panel) => (
-                  <Link
-                    key={panel.id}
-                    href={panel.href}
-                    onClick={onClose}
-                    title={panel.title}
-                    aria-label={panel.title}
-                    className="relative h-8 w-8 overflow-hidden rounded-lg shadow-sm ring-1 ring-slate-200/80 transition-transform hover:scale-105 dark:ring-slate-700"
-                  >
-                    <Image
-                      src={panel.icon}
-                      alt=""
-                      width={32}
-                      height={32}
-                      className="h-full w-full object-cover"
-                    />
-                  </Link>
-                ))}
-                <button
-                  type="button"
-                  onClick={onClose}
-                  className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-slate-800 dark:hover:text-slate-200"
-                  aria-label={strings.closeButtonAriaLabel}
-                >
-                  <FiX className="h-4 w-4" />
-                </button>
-              </div>
+              <button
+                type="button"
+                onClick={onClose}
+                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-slate-800 dark:hover:text-slate-200"
+                aria-label={strings.closeButtonAriaLabel}
+              >
+                <FiX className="h-4 w-4" />
+              </button>
             </div>
 
             <LoginRolePickerPanel onNavigate={onClose} />
