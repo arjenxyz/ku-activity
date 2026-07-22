@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
-import { FiAlertTriangle, FiLoader, FiX } from 'react-icons/fi';
+import { FiBell, FiLoader, FiX } from 'react-icons/fi';
 import { captureElementScreenshot } from '@/lib/capture-screen';
 import {
   personnelAuthInputClass,
@@ -100,12 +100,12 @@ export function ScreenReportButton({ captureRootRef, screenLabel }: Props) {
         disabled={capturing}
         aria-label={strings.reportAriaLabel}
         title={strings.reportTitle}
-        className="screen-report-ignore inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full bg-black/20 pl-2 pr-3 text-red-400/90 ring-1 ring-white/10 shadow-lg shadow-black/40 backdrop-blur-sm transition-colors hover:bg-black/35 hover:text-red-300 disabled:opacity-60"
+        className="screen-report-ignore inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full bg-black/20 pl-2 pr-3 text-violet-200/90 ring-1 ring-white/10 shadow-lg shadow-black/40 backdrop-blur-sm transition-colors hover:bg-black/35 hover:text-violet-100 disabled:opacity-60"
       >
         {capturing ? (
           <FiLoader className="h-4 w-4 animate-spin text-white/80" aria-hidden />
         ) : (
-          <FiAlertTriangle className="h-4 w-4 shrink-0" strokeWidth={2.25} aria-hidden />
+          <FiBell className="h-4 w-4 shrink-0" strokeWidth={2.25} aria-hidden />
         )}
         <span className="text-xs font-semibold tracking-wide text-white/90 drop-shadow-[0_1px_3px_rgba(0,0,0,0.6)]">
           {strings.reportButton}
