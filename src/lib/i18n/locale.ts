@@ -71,8 +71,14 @@ export const LOCALE_OPTIONS: LocaleOption[] = [
   { id: 'hu', short: 'HU', countryCode: 'hu', nativeLabel: 'Magyar', englishName: 'Hungarian' },
 ];
 
+/** flagcdn yalnızca bu genişlikleri sunar (w28 vb. 404 verir). */
+const FLAGCDN_WIDTHS = [20, 40, 80, 160, 320] as const;
+
 export function flagImageUrl(countryCode: string, width = 40) {
-  return `https://flagcdn.com/w${width}/${countryCode.toLowerCase()}.png`;
+  const w = FLAGCDN_WIDTHS.reduce((best, n) =>
+    Math.abs(n - width) < Math.abs(best - width) ? n : best
+  );
+  return `https://flagcdn.com/w${w}/${countryCode.toLowerCase()}.png`;
 }
 
 const LOCALE_SET = new Set<string>(LOCALES);

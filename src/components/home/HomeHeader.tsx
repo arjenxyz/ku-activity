@@ -123,24 +123,28 @@ export function HomeHeader() {
           }`}
         >
           <div className="flex h-full flex-col p-5 pt-16">
-            <div className="mb-3 flex items-center justify-between gap-3 px-2">
-              <p className="text-xs font-semibold uppercase tracking-wider text-gray-400">
-                {strings.mobileMenuTitle}
-              </p>
-              <LanguageSwitch variant="compact" />
-            </div>
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                onClick={() => setIsMenuOpen(false)}
-                className="touch-target flex items-center rounded-xl px-3 py-3.5 font-medium text-gray-700 hover:bg-gray-50 active:bg-blue-50 dark:text-gray-200 dark:hover:bg-slate-800 dark:active:bg-blue-900/20"
-              >
-                {link.label}
-              </a>
-            ))}
+            <p className="mb-2 shrink-0 px-2 text-xs font-semibold uppercase tracking-wider text-gray-400">
+              {strings.mobileMenuTitle}
+            </p>
 
-            <div className="mt-auto border-t border-gray-200 pt-4 dark:border-slate-700">
+            <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
+              {navLinks.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setIsMenuOpen(false)}
+                  className="touch-target flex items-center rounded-xl px-3 py-3.5 font-medium text-gray-700 hover:bg-gray-50 active:bg-blue-50 dark:text-gray-200 dark:hover:bg-slate-800 dark:active:bg-blue-900/20"
+                >
+                  {link.label}
+                </a>
+              ))}
+
+              <div className="mt-3 border-t border-gray-200 pt-3 dark:border-slate-700">
+                <LanguageSwitch variant="nav" />
+              </div>
+            </div>
+
+            <div className="mt-3 shrink-0 border-t border-gray-200 pt-4 dark:border-slate-700">
               <LoginRoleButton variant="mobile" showIcon={false} />
             </div>
           </div>

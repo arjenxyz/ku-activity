@@ -29,11 +29,9 @@ function FlagBadge({
   short: string;
   size?: 'sm' | 'md';
 }) {
-  const box =
-    size === 'sm'
-      ? 'h-5 w-7 rounded-md'
-      : 'h-7 w-9 rounded-lg';
-  const imgW = size === 'sm' ? 28 : 40;
+  const box = size === 'sm' ? 'h-5 w-7 rounded-md' : 'h-7 w-9 rounded-lg';
+  // flagcdn: yalnızca 20 / 40 / 80… — sm için 20, md için 40
+  const imgW = size === 'sm' ? 20 : 40;
 
   return (
     <span
@@ -129,7 +127,7 @@ export function LanguageSwitch({
 
   if (variant === 'nav') {
     return (
-      <div ref={rootRef} className={`${className}`}>
+      <div ref={rootRef} className={`w-full ${className}`}>
         <button
           type="button"
           aria-expanded={open}
@@ -154,7 +152,7 @@ export function LanguageSwitch({
             id={menuId}
             role="listbox"
             aria-label={strings.switchAriaLabel}
-            className="mb-1 max-h-56 space-y-0.5 overflow-y-auto pl-2"
+            className="mt-1 grid max-h-[min(42vh,16rem)] grid-cols-2 gap-1 overflow-y-auto overscroll-contain px-1 pb-1 [scrollbar-width:thin]"
           >
             {LOCALE_OPTIONS.map((option) => {
               const active = locale === option.id;
@@ -165,15 +163,17 @@ export function LanguageSwitch({
                   role="option"
                   aria-selected={active}
                   onClick={() => select(option.id)}
-                  className={`flex w-full items-center gap-2 rounded-lg px-3 py-2.5 text-left text-sm transition-colors ${
+                  className={`flex min-w-0 items-center gap-2 rounded-xl px-2.5 py-2.5 text-left text-sm transition-colors ${
                     active
-                      ? 'font-semibold text-[#0E1548] dark:text-blue-200'
+                      ? 'bg-[#0E1548]/[0.08] font-semibold text-[#0E1548] dark:bg-blue-500/15 dark:text-blue-200'
                       : 'text-slate-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800/80'
                   }`}
                 >
                   <FlagBadge countryCode={option.countryCode} short={option.short} size="sm" />
-                  <span className="flex-1">{option.nativeLabel}</span>
-                  {active ? <FiCheck className="h-3.5 w-3.5 text-[#0E1548] dark:text-blue-300" /> : null}
+                  <span className="min-w-0 flex-1 truncate">{option.nativeLabel}</span>
+                  {active ? (
+                    <FiCheck className="h-3.5 w-3.5 shrink-0 text-[#0E1548] dark:text-blue-300" />
+                  ) : null}
                 </button>
               );
             })}
@@ -224,7 +224,7 @@ export function LanguageSwitch({
               {strings.menuTitle}
             </p>
           </div>
-          <ul className="max-h-72 overflow-y-auto p-1.5">
+          <ul className="max-h-72 overflow-y-auto p-1.5 [scrollbar-width:thin]">
             {LOCALE_OPTIONS.map((option) => {
               const active = locale === option.id;
               return (
