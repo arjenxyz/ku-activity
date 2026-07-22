@@ -322,14 +322,6 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
                   <button
                     type="button"
                     onClick={closePanel}
-                    className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-100/80 text-[#0E1548] transition hover:bg-[#E8EBF8] dark:bg-slate-800/80 dark:text-white dark:hover:bg-slate-700"
-                    aria-label={strings.back}
-                  >
-                    <FiArrowLeft className="h-[1.05rem] w-[1.05rem]" />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={closePanel}
                     className="flex min-w-0 flex-1 items-center gap-2.5 text-left transition-opacity hover:opacity-90 active:opacity-80"
                     aria-label={strings.exitAriaLabel}
                   >
