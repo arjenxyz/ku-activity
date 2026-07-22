@@ -2,21 +2,16 @@
   "buttonDefault": "Sign In",
   "closeOverlayAriaLabel": "Close sign-in menu",
   "closeButtonAriaLabel": "Close",
-  "modalTitle": "Sign in",
-  "modalSubtitle": "Personnel and admin panels are separate. Choose the sign-in that matches your role.",
-  "footerNote": "Don't have an account? Personnel applications are submitted through your manager.",
+  "modalTitle": "Choose sign-in",
+  "footerNote": "Personnel applications go through your manager.",
   "panels": {
     "personel": {
       "title": "Personnel",
-      "subtitle": "I'm on site",
-      "description": "Attendance, daily wages, advances, and payroll — view your own records.",
-      "features": ["QR attendance", "Daily wages", "Advances"]
+      "description": "Attendance, wages, and payroll"
     },
     "admin": {
       "title": "Admin",
-      "subtitle": "I manage",
-      "description": "Projects, personnel approval, timesheets, and reports — one panel.",
-      "features": ["Projects", "Approval", "Payroll"]
+      "description": "Projects, approvals, and reports"
     }
   }
 }
