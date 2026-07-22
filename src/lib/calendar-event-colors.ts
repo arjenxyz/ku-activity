@@ -18,14 +18,14 @@ export const CALENDAR_APPROVAL_RING: Record<WorkLogApprovalStatus, string> = {
   none: 'border-violet-600 dark:border-violet-400',
 };
 
-/** Yoklama durumu — hücre arka planı */
+/** Yoklama durumu — hücre arka planı (rakam her zaman koyu / okunaklı) */
 export const CALENDAR_PRESENCE_CELL = {
   worked:
-    'border-emerald-500 bg-emerald-50 text-emerald-900 dark:border-emerald-400 dark:bg-emerald-950/45 dark:text-emerald-100',
+    'border-emerald-500 bg-emerald-50 dark:border-emerald-400 dark:bg-emerald-950/45',
   absent:
-    'border-rose-500 bg-rose-50 text-rose-900 dark:border-rose-400 dark:bg-rose-950/45 dark:text-rose-100',
+    'border-rose-500 bg-rose-50 dark:border-rose-400 dark:bg-rose-950/45',
   leave:
-    'border-amber-400 bg-amber-50 text-amber-950 dark:border-amber-300 dark:bg-amber-950/45 dark:text-amber-100',
+    'border-amber-400 bg-amber-50 dark:border-amber-300 dark:bg-amber-950/40',
 } as const;
 
 export const CALENDAR_PRESENCE_DOT = {

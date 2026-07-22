@@ -28,8 +28,8 @@ function presenceCellClass(presence: UnifiedCalendarPresence, hasAnyRecord: bool
     return CALENDAR_PRESENCE_CELL[presence];
   }
   return hasAnyRecord
-    ? 'border-[#0E1548] bg-[#0E1548]/[0.04] text-[#0E1548] dark:border-blue-300 dark:bg-[#0E1548]/35 dark:text-white'
-    : 'border-slate-200 bg-slate-50/60 text-slate-500 dark:border-slate-700 dark:bg-slate-800/40 dark:text-slate-400';
+    ? 'border-[#0E1548] bg-[#0E1548]/[0.04] dark:border-blue-300 dark:bg-[#0E1548]/35'
+    : 'border-slate-200 bg-slate-50/60 dark:border-slate-700 dark:bg-slate-800/40';
 }
 
 function formatMonthLabel(month: string) {
@@ -164,7 +164,7 @@ export function PersonnelUnifiedCalendar({
 
             const detail = cellDetail(cell);
             const clickable = cell.hasAnyRecord && Boolean(onDaySelect);
-            const cellClassName = `aspect-square min-h-[44px] rounded-xl border-2 flex flex-col items-center justify-between py-1 px-0.5 text-center transition-colors ${presenceCellClass(
+            const cellClassName = `aspect-square min-h-[44px] rounded-xl border-2 flex flex-col items-center justify-start gap-0.5 py-1 px-0.5 text-center transition-colors ${presenceCellClass(
               cell.presence,
               cell.hasAnyRecord
             )} ${
@@ -186,31 +186,33 @@ export function PersonnelUnifiedCalendar({
 
             const inner = (
               <>
-                <span className="relative flex w-full items-start justify-center">
-                  <span className="text-xs font-bold">{cell.day}</span>
+                <span className="relative flex min-h-[1.1rem] w-full shrink-0 items-center justify-center">
+                  <span className="text-xs font-bold tabular-nums text-slate-900 dark:text-slate-100">
+                    {cell.day}
+                  </span>
                   {cell.presence ? (
                     <span
-                      className={`absolute right-0 top-0 h-2 w-2 rounded-[3px] ${CALENDAR_PRESENCE_DOT[cell.presence]}`}
+                      className={`absolute right-0.5 top-0.5 h-2 w-2 rounded-[3px] ring-1 ring-white/80 dark:ring-slate-900/80 ${CALENDAR_PRESENCE_DOT[cell.presence]}`}
                       aria-hidden
                     />
                   ) : null}
                 </span>
                 {detail ? (
-                  <span className="text-[9px] font-semibold leading-tight tabular-nums opacity-90">
+                  <span className="text-[9px] font-semibold leading-tight tabular-nums text-slate-700 dark:text-slate-200">
                     {detail}
                   </span>
-                ) : (
-                  <span className="h-[11px]" />
-                )}
-                <div className="flex h-2 items-center justify-center gap-1">
-                  {markerKeys.map((m) => (
-                    <span
-                      key={m}
-                      className={`h-1.5 w-1.5 shrink-0 rounded-full ${CALENDAR_MARKER_DOT[m]}`}
-                      aria-hidden
-                    />
-                  ))}
-                </div>
+                ) : null}
+                {markerKeys.length > 0 ? (
+                  <div className="mt-auto flex h-2 items-center justify-center gap-1">
+                    {markerKeys.map((m) => (
+                      <span
+                        key={m}
+                        className={`h-1.5 w-1.5 shrink-0 rounded-full ${CALENDAR_MARKER_DOT[m]}`}
+                        aria-hidden
+                      />
+                    ))}
+                  </div>
+                ) : null}
               </>
             );
 
