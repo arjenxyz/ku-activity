@@ -164,11 +164,7 @@ export function PersonnelUnifiedCalendar({
 
             const detail = cellDetail(cell);
             const clickable = cell.hasAnyRecord && Boolean(onDaySelect);
-            const markerKeys = MARKER_ORDER.filter((m) => {
-              if (!cell.markers.includes(m)) return false;
-              if (m === 'work' && cell.presence === 'worked') return false;
-              return true;
-            });
+            const markerKeys = MARKER_ORDER.filter((m) => cell.markers.includes(m));
             const sparse = markerKeys.length === 0;
             const cellClassName = `aspect-square min-h-[44px] rounded-xl border-2 flex flex-col items-center px-0.5 text-center transition-colors ${
               sparse ? 'justify-center py-1' : 'justify-between py-1'
