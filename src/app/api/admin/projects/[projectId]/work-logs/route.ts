@@ -3,6 +3,7 @@ import { requireAdminProjectAccess } from '@/lib/admin-auth';
 import { createAdminClient } from '@/utils/supabase/admin';
 import { apiErrorMessage } from '@/lib/project-queries';
 import { adminConfirmWorkLog } from '@/lib/work-log-service';
+import { notifyWorkLogRecorded } from '@/lib/personnel-notification-service';
 import type { MesaiType } from '@/lib/work-log';
 import strings from '@json/src/app/api/admin/projects/[projectId]/work-logs/route.json';
 
@@ -93,6 +94,18 @@ export async function POST(request: Request, ctx: Ctx) {
       jobId: jobId ?? null,
       allowOverwrite: Boolean((body as { allowOverwrite?: unknown }).allowOverwrite),
     });
+
+    try {
+      await notifyWorkLogRecorded(supabase, {
+        employeeId: record.employee_id,
+        projectId,
+        workLogId: record.id,
+        date: record.date,
+        amount: Number(record.amount),
+      });
+    } catch {
+      /* bildirim isteğe bağlı */
+    }
 
     return NextResponse.json({ record }, { status: 201 });
   } catch (err) {

@@ -1,7 +1,11 @@
 import { NextResponse } from 'next/server';
 import { requireAdminProjectAccess } from '@/lib/admin-auth';
-import { createClient } from '@/utils/supabase/server';
+import { createAdminClient } from '@/utils/supabase/admin';
 import { apiErrorMessage } from '@/lib/project-queries';
+import {
+  notifyDeductionRemoved,
+  notifyDeductionUpdated,
+} from '@/lib/personnel-notification-service';
 import strings from '@json/src/app/api/admin/projects/[projectId]/deductions/[recordId]/route.json';
 
 type Ctx = { params: Promise<{ projectId: string; recordId: string }> };
@@ -30,7 +34,7 @@ export async function PATCH(request: Request, ctx: Ctx) {
       return NextResponse.json({ error: strings.güncellenecekAlanYok }, { status: 400 });
     }
 
-    const supabase = await createClient();
+    const supabase = createAdminClient();
     const { data, error } = await supabase
       .from('deductions')
       .update(updates)
@@ -41,6 +45,19 @@ export async function PATCH(request: Request, ctx: Ctx) {
 
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
     if (!data) return NextResponse.json({ error: strings.kayıtBulunamadı }, { status: 404 });
+
+    try {
+      await notifyDeductionUpdated(supabase, {
+        employeeId: data.employee_id as string,
+        projectId,
+        deductionId: data.id as string,
+        type: String(data.type),
+        amount: Number(data.amount),
+        date: data.date as string,
+      });
+    } catch {
+      /* bildirim isteğe bağlı */
+    }
 
     return NextResponse.json({ record: data });
   } catch (err) {
@@ -53,7 +70,18 @@ export async function DELETE(_request: Request, ctx: Ctx) {
   try {
     const { projectId, recordId } = await ctx.params;
     await requireAdminProjectAccess(projectId);
-    const supabase = await createClient();
+    const supabase = createAdminClient();
+
+    const { data: existing, error: fetchError } = await supabase
+      .from('deductions')
+      .select('id, employee_id, type, amount, date')
+      .eq('id', recordId)
+      .eq('project_id', projectId)
+      .maybeSingle();
+
+    if (fetchError) return NextResponse.json({ error: fetchError.message }, { status: 500 });
+    if (!existing) return NextResponse.json({ error: strings.kayıtBulunamadı }, { status: 404 });
+
     const { error } = await supabase
       .from('deductions')
       .delete()
@@ -61,6 +89,20 @@ export async function DELETE(_request: Request, ctx: Ctx) {
       .eq('project_id', projectId);
 
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+
+    try {
+      await notifyDeductionRemoved(supabase, {
+        employeeId: existing.employee_id as string,
+        projectId,
+        deductionId: existing.id as string,
+        type: String(existing.type),
+        amount: Number(existing.amount),
+        date: existing.date as string,
+      });
+    } catch {
+      /* bildirim isteğe bağlı */
+    }
+
     return NextResponse.json({ success: true });
   } catch (err) {
     const { status, message } = apiErrorMessage(err);

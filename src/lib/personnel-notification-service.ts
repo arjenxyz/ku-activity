@@ -6,14 +6,22 @@ export type PersonnelNotificationType =
   | 'attendance_reminder'
   | 'attendance_session_cancelled'
   | 'attendance_removed_from_list'
+  | 'attendance_did_not_work'
   | 'attendance_session_completed'
   | 'advance_approved'
   | 'advance_cash_ready'
   | 'advance_rejected'
   | 'advance_paid'
   | 'minimum_wage_paid'
+  | 'minimum_wage_updated'
+  | 'minimum_wage_removed'
   | 'salary_paid'
   | 'deduction_added'
+  | 'deduction_updated'
+  | 'deduction_removed'
+  | 'work_log_recorded'
+  | 'work_log_updated'
+  | 'work_log_deleted'
   | 'general';
 
 export type PersonnelNotificationRow = {
@@ -199,9 +207,22 @@ export async function notifyAttendanceNotice(
     employeeId: string;
     projectId: string;
     workDate: string;
-    noticeType: 'removed_from_list' | 'session_cancelled';
+    noticeType: 'removed_from_list' | 'session_cancelled' | 'did_not_work';
   }
 ) {
+  const workDate = params.workDate.slice(0, 10);
+  if (params.noticeType === 'did_not_work') {
+    return notifyPersonnel(admin, {
+      employeeId: params.employeeId,
+      projectId: params.projectId,
+      type: 'attendance_did_not_work',
+      title: strings.attendanceDidNotWork.title,
+      body: formatString(strings.attendanceDidNotWork.body, { workDate }),
+      href: '/personnel-panel?tab=work',
+      data: { workDate, noticeType: params.noticeType },
+    });
+  }
+
   const isCancelled = params.noticeType === 'session_cancelled';
   const template = isCancelled
     ? strings.attendanceSessionCancelled
@@ -212,9 +233,9 @@ export async function notifyAttendanceNotice(
     projectId: params.projectId,
     type: isCancelled ? 'attendance_session_cancelled' : 'attendance_removed_from_list',
     title: template.title,
-    body: formatString(template.body, { workDate: params.workDate.slice(0, 10) }),
+    body: formatString(template.body, { workDate }),
     href: '/personnel-panel/yoklama',
-    data: { workDate: params.workDate.slice(0, 10), noticeType: params.noticeType },
+    data: { workDate, noticeType: params.noticeType },
   });
 }
 
@@ -391,5 +412,172 @@ export async function notifyDeductionRecorded(
       amount: params.amount,
       date: params.date,
     },
+  });
+}
+
+export async function notifyWorkLogRecorded(
+  admin: SupabaseClient,
+  params: {
+    employeeId: string;
+    projectId: string;
+    workLogId: string;
+    date: string;
+    amount: number;
+  }
+) {
+  const workDate = params.date.slice(0, 10);
+  return notifyPersonnel(admin, {
+    employeeId: params.employeeId,
+    projectId: params.projectId,
+    type: 'work_log_recorded',
+    title: strings.workLogRecorded.title,
+    body: formatString(strings.workLogRecorded.body, {
+      workDate,
+      amount: String(params.amount),
+    }),
+    href: '/personnel-panel?tab=work',
+    data: { workLogId: params.workLogId, workDate, amount: params.amount },
+  });
+}
+
+export async function notifyWorkLogUpdated(
+  admin: SupabaseClient,
+  params: {
+    employeeId: string;
+    projectId: string;
+    workLogId: string;
+    date: string;
+  }
+) {
+  const workDate = params.date.slice(0, 10);
+  return notifyPersonnel(admin, {
+    employeeId: params.employeeId,
+    projectId: params.projectId,
+    type: 'work_log_updated',
+    title: strings.workLogUpdated.title,
+    body: formatString(strings.workLogUpdated.body, { workDate }),
+    href: '/personnel-panel?tab=work',
+    data: { workLogId: params.workLogId, workDate },
+  });
+}
+
+export async function notifyWorkLogDeleted(
+  admin: SupabaseClient,
+  params: {
+    employeeId: string;
+    projectId: string;
+    workLogId: string;
+    date: string;
+  }
+) {
+  const workDate = params.date.slice(0, 10);
+  return notifyPersonnel(admin, {
+    employeeId: params.employeeId,
+    projectId: params.projectId,
+    type: 'work_log_deleted',
+    title: strings.workLogDeleted.title,
+    body: formatString(strings.workLogDeleted.body, { workDate }),
+    href: '/personnel-panel?tab=work',
+    data: { workLogId: params.workLogId, workDate },
+  });
+}
+
+export async function notifyDeductionUpdated(
+  admin: SupabaseClient,
+  params: {
+    employeeId: string;
+    projectId: string;
+    deductionId: string;
+    type: string;
+    amount: number;
+    date: string;
+  }
+) {
+  const typeLabel = deductionTypeLabel(params.type);
+  return notifyPersonnel(admin, {
+    employeeId: params.employeeId,
+    projectId: params.projectId,
+    type: 'deduction_updated',
+    title: formatString(strings.deductionUpdated.title, { typeLabel }),
+    body: formatString(strings.deductionUpdated.body, {
+      amount: formatAmount(params.amount),
+      typeLabel,
+      date: params.date.slice(0, 10),
+    }),
+    href: '/personnel-panel?tab=finance',
+    data: {
+      deductionId: params.deductionId,
+      type: params.type,
+      amount: params.amount,
+      date: params.date,
+    },
+  });
+}
+
+export async function notifyDeductionRemoved(
+  admin: SupabaseClient,
+  params: {
+    employeeId: string;
+    projectId: string;
+    deductionId: string;
+    type: string;
+    amount: number;
+    date: string;
+  }
+) {
+  const typeLabel = deductionTypeLabel(params.type);
+  return notifyPersonnel(admin, {
+    employeeId: params.employeeId,
+    projectId: params.projectId,
+    type: 'deduction_removed',
+    title: formatString(strings.deductionRemoved.title, { typeLabel }),
+    body: formatString(strings.deductionRemoved.body, {
+      amount: formatAmount(params.amount),
+      typeLabel,
+      date: params.date.slice(0, 10),
+    }),
+    href: '/personnel-panel?tab=finance',
+    data: {
+      deductionId: params.deductionId,
+      type: params.type,
+      amount: params.amount,
+      date: params.date,
+    },
+  });
+}
+
+export async function notifyMinimumWageUpdated(
+  admin: SupabaseClient,
+  params: { employeeId: string; projectId: string; amount: number; date: string; recordId: string }
+) {
+  return notifyPersonnel(admin, {
+    employeeId: params.employeeId,
+    projectId: params.projectId,
+    type: 'minimum_wage_updated',
+    title: strings.minimumWageUpdated.title,
+    body: formatString(strings.minimumWageUpdated.body, {
+      amount: formatAmount(params.amount),
+      date: params.date.slice(0, 10),
+    }),
+    href: '/personnel-panel?tab=asgari',
+    data: { recordId: params.recordId, amount: params.amount, date: params.date },
+  });
+}
+
+export async function notifyMinimumWageRemoved(
+  admin: SupabaseClient,
+  params: { employeeId: string; projectId: string; amount: number; date: string; recordId: string }
+) {
+  return notifyPersonnel(admin, {
+    employeeId: params.employeeId,
+    projectId: params.projectId,
+    type: 'minimum_wage_removed',
+    title: strings.minimumWageRemoved.title,
+    body: formatString(strings.minimumWageRemoved.body, {
+      amount: formatAmount(params.amount),
+      date: params.date.slice(0, 10),
+    }),
+    href: '/personnel-panel?tab=asgari',
+    data: { recordId: params.recordId, amount: params.amount, date: params.date },
   });
 }

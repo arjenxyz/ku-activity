@@ -27,17 +27,15 @@ export async function recordAttendanceNotice(
     throw new Error(error.message);
   }
 
-  if (params.noticeType !== 'did_not_work') {
-    try {
-      await notifyAttendanceNotice(admin, {
-        employeeId: params.employeeId,
-        projectId: params.projectId,
-        workDate: params.workDate,
-        noticeType: params.noticeType,
-      });
-    } catch {
-      /* bildirim isteğe bağlı */
-    }
+  try {
+    await notifyAttendanceNotice(admin, {
+      employeeId: params.employeeId,
+      projectId: params.projectId,
+      workDate: params.workDate,
+      noticeType: params.noticeType,
+    });
+  } catch {
+    /* bildirim isteğe bağlı */
   }
 }
 

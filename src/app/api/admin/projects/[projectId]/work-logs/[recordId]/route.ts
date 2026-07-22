@@ -3,6 +3,10 @@ import { requireAdminProjectAccess } from '@/lib/admin-auth';
 import { createAdminClient } from '@/utils/supabase/admin';
 import { apiErrorMessage } from '@/lib/project-queries';
 import { mesaiTypeToUnits, type MesaiType } from '@/lib/work-log';
+import {
+  notifyWorkLogDeleted,
+  notifyWorkLogUpdated,
+} from '@/lib/personnel-notification-service';
 import strings from '@json/src/app/api/admin/projects/[projectId]/work-logs/[recordId]/route.json';
 
 type Ctx = { params: Promise<{ projectId: string; recordId: string }> };
@@ -64,6 +68,17 @@ export async function PATCH(request: Request, ctx: Ctx) {
     }
     if (!data) return NextResponse.json({ error: strings.kayıtBulunamadı }, { status: 404 });
 
+    try {
+      await notifyWorkLogUpdated(supabase, {
+        employeeId: data.employee_id as string,
+        projectId,
+        workLogId: data.id as string,
+        date: data.date as string,
+      });
+    } catch {
+      /* bildirim isteğe bağlı */
+    }
+
     return NextResponse.json({ record: data });
   } catch (err) {
     const { status, message } = apiErrorMessage(err);
@@ -76,6 +91,17 @@ export async function DELETE(_request: Request, ctx: Ctx) {
     const { projectId, recordId } = await ctx.params;
     await requireAdminProjectAccess(projectId);
     const supabase = createAdminClient();
+
+    const { data: existing, error: fetchError } = await supabase
+      .from('work_logs')
+      .select('id, employee_id, date')
+      .eq('id', recordId)
+      .eq('project_id', projectId)
+      .maybeSingle();
+
+    if (fetchError) return NextResponse.json({ error: fetchError.message }, { status: 500 });
+    if (!existing) return NextResponse.json({ error: strings.kayıtBulunamadı }, { status: 404 });
+
     const { error } = await supabase
       .from('work_logs')
       .delete()
@@ -83,6 +109,18 @@ export async function DELETE(_request: Request, ctx: Ctx) {
       .eq('project_id', projectId);
 
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+
+    try {
+      await notifyWorkLogDeleted(supabase, {
+        employeeId: existing.employee_id as string,
+        projectId,
+        workLogId: existing.id as string,
+        date: existing.date as string,
+      });
+    } catch {
+      /* bildirim isteğe bağlı */
+    }
+
     return NextResponse.json({ success: true });
   } catch (err) {
     const { status, message } = apiErrorMessage(err);
