@@ -308,86 +308,97 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
     <AnimatePresence>
       {panelOpen && (
         <motion.div
-          className="fixed inset-0 z-[var(--personnel-notify-z)] flex flex-col bg-[#F4F6FC] dark:bg-slate-950"
+          className="fixed inset-0 z-[var(--personnel-notify-z)] flex flex-col bg-slate-50 dark:bg-slate-950"
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 24 }}
           transition={{ type: 'spring', stiffness: 380, damping: 36 }}
         >
-          <header className="safe-pt shrink-0 px-3 pb-3 pt-2">
-            <div className="mx-auto flex h-14 max-w-2xl items-center gap-2.5 rounded-2xl border border-slate-200/90 bg-white/95 px-3 shadow-md shadow-slate-900/[0.06] backdrop-blur-xl dark:border-slate-700/80 dark:bg-slate-900/95 dark:shadow-black/25 sm:px-4">
-              <button
-                type="button"
-                onClick={closePanel}
-                className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-slate-200/80 bg-white text-[#0E1548] transition hover:bg-[#E8EBF8] dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
-                aria-label={strings.back}
-              >
-                <FiArrowLeft className="h-[1.05rem] w-[1.05rem]" />
-              </button>
-              <BrandMark
-                size="sm"
-                variant="personnel"
-                className="shrink-0 shadow-md ring-2 ring-[#0E1548]/10 dark:ring-white/15"
-              />
-              <div className="min-w-0 flex-1">
-                <p className="truncate text-[13px] font-bold leading-tight tracking-[0.08em] text-[#0E1548] dark:text-white">
-                  CREWLEDGER
-                </p>
-                <p className="truncate text-[10px] font-medium leading-tight text-slate-500 dark:text-slate-400">
-                  {canViewNotifications && items.length > 0
-                    ? unreadCount > 0
-                      ? formatString(strings.unreadSummary, { count: String(unreadCount) })
-                      : formatString(strings.totalSummary, { count: String(items.length) })
-                    : strings.panelTitle}
-                </p>
-              </div>
-              {canViewNotifications && items.length > 0 ? (
-                <div className="flex shrink-0 items-center gap-1">
-                  {unreadCount > 0 ? (
-                    <button
-                      type="button"
-                      onClick={() => void markAllRead()}
-                      className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-[#E8EBF8] text-[#0E1548] transition hover:bg-[#DDE2F5] dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
-                      aria-label={strings.markAllRead}
-                      title={strings.markAllRead}
-                    >
-                      <FiCheck className="h-4 w-4" />
-                    </button>
-                  ) : null}
+          <header className="safe-pt shrink-0 bg-transparent px-3 pb-2">
+            <div className="mx-auto max-w-5xl">
+              <div className="flex h-14 items-center justify-between gap-3 rounded-2xl border border-slate-200/90 bg-white/95 px-3 shadow-md shadow-slate-900/[0.06] backdrop-blur-xl dark:border-slate-700/80 dark:bg-slate-900/95 dark:shadow-black/25 sm:px-4">
+                <div className="flex min-w-0 flex-1 items-center gap-2.5">
                   <button
                     type="button"
-                    onClick={() => setClearConfirmOpen(true)}
-                    className="inline-flex h-9 w-9 items-center justify-center rounded-xl text-rose-600 transition hover:bg-rose-50 dark:text-rose-400 dark:hover:bg-rose-950/40"
-                    aria-label={strings.clearAll}
-                    title={strings.clearAll}
+                    onClick={closePanel}
+                    className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-100/80 text-[#0E1548] transition hover:bg-[#E8EBF8] dark:bg-slate-800/80 dark:text-white dark:hover:bg-slate-700"
+                    aria-label={strings.back}
                   >
-                    <FiTrash2 className="h-4 w-4" />
+                    <FiArrowLeft className="h-[1.05rem] w-[1.05rem]" />
                   </button>
+                  <BrandMark
+                    size="sm"
+                    variant="personnel"
+                    className="shrink-0 shadow-md ring-2 ring-[#0E1548]/10 dark:ring-white/15"
+                  />
+                  <div className="min-w-0">
+                    <p className="truncate text-[13px] font-bold leading-tight tracking-[0.08em] text-[#0E1548] dark:text-white">
+                      CREWLEDGER
+                    </p>
+                    <p className="truncate text-[10px] font-medium leading-tight text-slate-500 dark:text-slate-400">
+                      {canViewNotifications && items.length > 0
+                        ? unreadCount > 0
+                          ? formatString(strings.unreadSummary, { count: String(unreadCount) })
+                          : formatString(strings.totalSummary, { count: String(items.length) })
+                        : strings.panelTitle}
+                    </p>
+                  </div>
                 </div>
-              ) : null}
+
+                {canViewNotifications && items.length > 0 ? (
+                  <div className="flex shrink-0 items-center gap-1 rounded-xl bg-slate-100/80 p-0.5 dark:bg-slate-800/80">
+                    {unreadCount > 0 ? (
+                      <button
+                        type="button"
+                        onClick={() => void markAllRead()}
+                        className="inline-flex h-10 w-10 items-center justify-center rounded-xl text-[#0E1548] transition hover:bg-white dark:text-white dark:hover:bg-slate-700"
+                        aria-label={strings.markAllRead}
+                        title={strings.markAllRead}
+                      >
+                        <FiCheck className="h-[1.05rem] w-[1.05rem]" />
+                      </button>
+                    ) : null}
+                    <button
+                      type="button"
+                      onClick={() => setClearConfirmOpen(true)}
+                      className="inline-flex h-10 w-10 items-center justify-center rounded-xl text-rose-600 transition hover:bg-white dark:text-rose-400 dark:hover:bg-slate-700"
+                      aria-label={strings.clearAll}
+                      title={strings.clearAll}
+                    >
+                      <FiTrash2 className="h-[1.05rem] w-[1.05rem]" />
+                    </button>
+                  </div>
+                ) : (
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#0E1548] shadow-md shadow-[#0E1548]/25">
+                    <FiBell className="h-[1.05rem] w-[1.05rem] text-white" aria-hidden />
+                  </div>
+                )}
+              </div>
             </div>
           </header>
 
           {clearConfirmOpen && (
-            <div className="shrink-0 border-b border-rose-100 bg-rose-50 px-4 py-3 dark:border-rose-900/50 dark:bg-rose-950/30">
-              <p className="text-sm font-medium text-rose-800 dark:text-rose-200">{strings.clearAllConfirm}</p>
-              <div className="mt-2.5 flex gap-2">
-                <button
-                  type="button"
-                  disabled={clearingAll}
-                  onClick={() => void handleClearAll()}
-                  className="inline-flex min-h-9 flex-1 items-center justify-center rounded-xl bg-rose-600 px-4 text-sm font-semibold text-white disabled:opacity-60"
-                >
-                  {strings.clearAllConfirmButton}
-                </button>
-                <button
-                  type="button"
-                  disabled={clearingAll}
-                  onClick={() => setClearConfirmOpen(false)}
-                  className="inline-flex min-h-9 items-center justify-center rounded-xl border border-rose-200 bg-white px-4 text-sm font-semibold text-rose-700 dark:border-rose-800 dark:bg-slate-900 dark:text-rose-300"
-                >
-                  {strings.clearAllCancel}
-                </button>
+            <div className="shrink-0 px-3 pb-2">
+              <div className="mx-auto max-w-5xl rounded-2xl border border-rose-200/80 bg-rose-50 px-4 py-3 shadow-sm dark:border-rose-900/50 dark:bg-rose-950/30">
+                <p className="text-sm font-medium text-rose-800 dark:text-rose-200">{strings.clearAllConfirm}</p>
+                <div className="mt-2.5 flex gap-2">
+                  <button
+                    type="button"
+                    disabled={clearingAll}
+                    onClick={() => void handleClearAll()}
+                    className="inline-flex min-h-10 flex-1 items-center justify-center rounded-xl bg-rose-600 px-4 text-sm font-semibold text-white disabled:opacity-60"
+                  >
+                    {strings.clearAllConfirmButton}
+                  </button>
+                  <button
+                    type="button"
+                    disabled={clearingAll}
+                    onClick={() => setClearConfirmOpen(false)}
+                    className="inline-flex min-h-10 items-center justify-center rounded-xl border border-rose-200 bg-white px-4 text-sm font-semibold text-rose-700 dark:border-rose-800 dark:bg-slate-900 dark:text-rose-300"
+                  >
+                    {strings.clearAllCancel}
+                  </button>
+                </div>
               </div>
             </div>
           )}
@@ -474,7 +485,7 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
                 <p className="text-sm text-slate-500">{strings.empty}</p>
               </div>
             ) : (
-              <ul className="mx-auto flex w-full max-w-2xl flex-col gap-2.5 px-3 py-3 sm:px-4">
+              <ul className="mx-auto flex w-full max-w-5xl flex-col gap-2.5 px-3 py-2 sm:px-4">
                 {items.map(renderNotificationRow)}
               </ul>
             )}
