@@ -1,7 +1,4 @@
 {
   "switchAriaLabel": "Select language",
-  "trShort": "TR",
-  "enShort": "EN",
-  "trLabel": "Turkish",
-  "enLabel": "English"
+  "menuTitle": "Language"
 }

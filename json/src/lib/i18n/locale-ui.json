@@ -1,7 +1,4 @@
 {
   "switchAriaLabel": "Dil seçin",
-  "trShort": "TR",
-  "enShort": "EN",
-  "trLabel": "Türkçe",
-  "enLabel": "English"
+  "menuTitle": "Dil"
 }

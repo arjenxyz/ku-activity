@@ -180,12 +180,12 @@ export function PersonnelAppSettings({ onOpenReleases }: Props) {
       </SettingsSection>
 
       <SettingsSection title={strings.sections.language} icon="globe" theme="teal">
-        <div className="flex items-center justify-between gap-4 px-4 py-3.5">
-          <div>
+        <div className="px-4 py-3.5">
+          <div className="mb-3">
             <p className="text-sm font-medium text-slate-900 dark:text-white">{strings.languageLabel}</p>
             <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">{strings.languageHint}</p>
           </div>
-          <LanguageSwitch variant="compact" />
+          <LanguageSwitch variant="list" />
         </div>
       </SettingsSection>
 

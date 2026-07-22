@@ -5,6 +5,21 @@ export const DEFAULT_LOCALE: Locale = 'tr';
 export const LOCALE_COOKIE = 'crewledger_locale';
 export const LOCALE_STORAGE_KEY = 'crewledger_locale';
 
+/** Dil seçici menüsü — yeni dil eklerken buraya ekleyin (çeviri dosyaları ayrı). */
+export type LocaleOption = {
+  id: Locale;
+  short: string;
+  /** Dilin kendi adıyla yazımı (Türkçe, English, Deutsch…) */
+  nativeLabel: string;
+  /** Menüde ikincil satır — her zaman İngilizce ad */
+  englishName: string;
+};
+
+export const LOCALE_OPTIONS: LocaleOption[] = [
+  { id: 'tr', short: 'TR', nativeLabel: 'Türkçe', englishName: 'Turkish' },
+  { id: 'en', short: 'EN', nativeLabel: 'English', englishName: 'English' },
+];
+
 export function parseLocale(value: string | null | undefined): Locale {
   if (value === 'en') return 'en';
   return 'tr';

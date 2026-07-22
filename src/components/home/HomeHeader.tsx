@@ -137,7 +137,7 @@ export function HomeHeader() {
             ))}
             <div className="mt-auto pt-4 border-t border-gray-200 dark:border-slate-700 space-y-3">
               <div className="px-2">
-                <LanguageSwitch className="w-full justify-center" />
+                <LanguageSwitch variant="list" className="w-full" />
               </div>
               <LoginRoleButton variant="mobile" showIcon={false} />
             </div>
