@@ -5,13 +5,11 @@ import { useRef } from 'react';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { FiCalendar, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import {
-  CALENDAR_APPROVAL_RING,
   CALENDAR_MARKER_DOT,
   type CalendarEventMarker,
 } from '@/lib/calendar-event-colors';
 import type { UnifiedCalendarDay } from '@/lib/personnel-stats';
 import { formatString } from '@/lib/strings/format';
-import type { WorkLogApprovalStatus } from '@/lib/work-log';
 
 const MARKER_ORDER: CalendarEventMarker[] = [
   'work',
@@ -152,22 +150,17 @@ export function PersonnelUnifiedCalendar({
             }
 
             const detail = cellDetail(cell);
-            const status = cell.approvalStatus;
-            const approvalBorder =
-              cell.workAmount > 0 && status
-                ? CALENDAR_APPROVAL_RING[status as WorkLogApprovalStatus]
-                : '';
             const todayRing = cell.isToday
-              ? 'ring-2 ring-blue-500 ring-offset-2 ring-offset-white dark:ring-blue-400 dark:ring-offset-slate-800'
+              ? 'ring-2 ring-[#0E1548] ring-offset-2 ring-offset-white dark:ring-blue-300 dark:ring-offset-slate-800'
               : '';
             const clickable = cell.hasAnyRecord && Boolean(onDaySelect);
             const cellClassName = `aspect-square min-h-[44px] rounded-xl border-2 flex flex-col items-center justify-between py-1 px-0.5 text-center transition-colors ${
               cell.hasAnyRecord
-                ? 'border-slate-300 bg-slate-50 text-slate-900 dark:border-slate-500 dark:bg-slate-900/60 dark:text-slate-100'
+                ? 'border-[#0E1548] bg-[#0E1548]/[0.05] text-slate-900 dark:border-[#7B9CFF] dark:bg-[#0E1548]/40 dark:text-slate-100'
                 : 'border-slate-200 bg-slate-50/90 text-slate-500 dark:border-slate-600 dark:bg-slate-900/30 dark:text-slate-400'
-            } ${approvalBorder} ${todayRing} ${
+            } ${todayRing} ${
               clickable
-                ? 'cursor-pointer hover:brightness-[0.97] active:scale-[0.97] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500'
+                ? 'cursor-pointer hover:brightness-[0.97] active:scale-[0.97] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0E1548]'
                 : ''
             }`;
             const cellTitle = formatString(strings.cellTitle, {
