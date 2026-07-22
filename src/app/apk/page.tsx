@@ -7,7 +7,6 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { HomeHeader } from '@/components/home/HomeHeader';
 import { HomeFooter } from '@/components/home/HomeFooter';
-import { GooglePlayBadge } from '@/components/home/GooglePlayBadge';
 import {
   APP_RELEASE_ICONS,
   APP_RELEASE_TYPES,
@@ -17,10 +16,6 @@ import {
 } from '@/lib/app-releases';
 
 import { formatString } from '@/lib/strings/format';
-import {
-  PLAY_STORE_ADMIN_URL,
-  PLAY_STORE_PERSONNEL_URL,
-} from '@/lib/play-store';
 
 type PublicRelease = {
   appType: AppReleaseType;
@@ -51,11 +46,6 @@ export default function ApkDownloadPage() {
       .finally(() => setLoading(false));
   }, []);
 
-  const playUrls: Record<AppReleaseType, string> = {
-    personnel: PLAY_STORE_PERSONNEL_URL,
-    admin: PLAY_STORE_ADMIN_URL,
-  };
-
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
       <HomeHeader />
@@ -81,7 +71,6 @@ export default function ApkDownloadPage() {
               const meta = getAppReleaseLabel(appType);
               const release = releases.find((row) => row.appType === appType);
               const hasApk = Boolean(release?.id);
-              const playUrl = playUrls[appType];
 
               return (
                 <motion.article
@@ -141,7 +130,7 @@ export default function ApkDownloadPage() {
                     )}
                   </div>
 
-                  <div className="mt-6 space-y-3 border-t border-slate-100 pt-5 dark:border-slate-800">
+                  <div className="mt-6 border-t border-slate-100 pt-5 dark:border-slate-800">
                     {hasApk ? (
                       <a
                         href={`/api/public/releases/${appType}/download`}
@@ -162,7 +151,6 @@ export default function ApkDownloadPage() {
                         {strings.apkComingSoon}
                       </div>
                     )}
-                    <GooglePlayBadge href={playUrl} enabled={Boolean(playUrl)} fullWidth />
                   </div>
                 </motion.article>
               );
