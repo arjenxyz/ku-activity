@@ -42,12 +42,10 @@ function AppCard({
   app,
   index,
   platformLabel,
-  apkDownload,
 }: {
   app: PlayStoreApp;
   index: number;
   platformLabel: string;
-  apkDownload: string;
 }) {
   const hasPlayLink = Boolean(app.playUrl);
 
@@ -71,14 +69,8 @@ function AppCard({
 
       <p className="mt-5 flex-1 text-sm leading-relaxed text-slate-600 dark:text-slate-400">{app.description}</p>
 
-      <div className="mt-6 border-t border-slate-100 pt-5 dark:border-slate-800 space-y-3">
+      <div className="mt-6 border-t border-slate-100 pt-5 dark:border-slate-800">
         <GooglePlayBadge href={app.playUrl} enabled={hasPlayLink} fullWidth />
-        <Link
-          href="/apk"
-          className="flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-medium text-slate-600 transition-colors hover:border-slate-300 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800/60"
-        >
-          {apkDownload}
-        </Link>
       </div>
     </motion.article>
   );
@@ -140,14 +132,12 @@ export function PlayStoreSection() {
               app={apps[0]}
               index={0}
               platformLabel={strings.platformLabel}
-              apkDownload={strings.apkDownload}
             />
             <CardsConnector layout="row" />
             <AppCard
               app={apps[1]}
               index={1}
               platformLabel={strings.platformLabel}
-              apkDownload={strings.apkDownload}
             />
           </div>
 
@@ -156,14 +146,12 @@ export function PlayStoreSection() {
               app={apps[0]}
               index={0}
               platformLabel={strings.platformLabel}
-              apkDownload={strings.apkDownload}
             />
             <CardsConnector layout="column" />
             <AppCard
               app={apps[1]}
               index={1}
               platformLabel={strings.platformLabel}
-              apkDownload={strings.apkDownload}
             />
           </div>
         </div>
