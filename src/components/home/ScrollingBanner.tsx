@@ -27,17 +27,17 @@ export function ScrollingBanner() {
   }, []);
 
   return (
-    <div className="overflow-hidden bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 py-3 sm:py-5 dark:from-[#13203a] dark:via-[#162748] dark:to-[#13203a]">
+    <div className="py-3 sm:py-5 bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 overflow-hidden">
       <div className="flex whitespace-nowrap" ref={bannerRef}>
         {[...texts, ...texts].map((text, i) => (
           <span
             key={i}
-            className={`mx-5 inline-block text-sm font-bold tracking-wider sm:mx-8 sm:text-lg md:text-xl ${
-              i % 2 === 0 ? 'text-white' : 'text-blue-200 dark:text-slate-400'
+            className={`text-sm sm:text-lg md:text-xl font-bold inline-block mx-5 sm:mx-8 tracking-wider ${
+              i % 2 === 0 ? 'text-white' : 'text-blue-200'
             }`}
           >
             {text}
-            <span className="mx-8 text-blue-300/50 dark:text-slate-600">•</span>
+            <span className="mx-8 text-blue-300/50">•</span>
           </span>
         ))}
       </div>

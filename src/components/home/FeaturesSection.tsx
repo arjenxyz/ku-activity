@@ -528,7 +528,7 @@ function InfiniteFeatureMarquee() {
 export function FeaturesSection() {
   const strings = useRegistryStrings('components/home/FeaturesSection');
   return (
-    <section id="features" className="overflow-x-hidden bg-slate-50/80 py-12 dark:bg-[#0e1628] sm:py-16 lg:py-24">
+    <section id="features" className="overflow-x-hidden bg-slate-50/80 py-12 dark:bg-slate-950/50 sm:py-16 lg:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           className="max-w-2xl"
