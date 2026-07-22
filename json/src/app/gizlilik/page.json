@@ -2,7 +2,6 @@
   "metadataTitle": "Gizlilik Politikası",
   "metadataDescription": "CrewLedger gönüllülük platformu gizlilik politikası.",
   "headerSubtitle": "Gizlilik politikası",
-  "backLabel": "Geri",
   "title": "Gizlilik Politikası",
   "lastUpdatedPrefix": "Son güncelleme:",
   "sections": {
@@ -50,7 +49,7 @@
     }
   },
   "footer": {
-    "home": "Ana sayfa",
+    "home": "← Ana sayfa",
     "kvkk": "KVKK Aydınlatma",
     "terms": "Kullanım Şartları"
   }
