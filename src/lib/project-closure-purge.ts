@@ -114,12 +114,57 @@ export type ProjectClosurePurgeCronResult = {
   errors: string[];
 };
 
+async function purgeProjectIds(
+  projectIds: string[]
+): Promise<{ projectsPurged: number; purgedIds: string[]; errors: string[] }> {
+  const errors: string[] = [];
+  const purgedIds: string[] = [];
+
+  for (const projectId of projectIds) {
+    try {
+      const ok = await purgeProjectAfterClosureDeadline(projectId);
+      if (ok) purgedIds.push(projectId);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      errors.push(`${projectId}: ${message}`);
+      console.error('[project-closure-purge] project', projectId, err);
+    }
+  }
+
+  return { projectsPurged: purgedIds.length, purgedIds, errors };
+}
+
+/** Yönetici: erişebildiği süresi dolmuş kapanış projelerini siler. */
+export async function purgeDueProjectsForAdmin(
+  accessibleClient: SupabaseClient
+): Promise<{ projectsScanned: number; projectsPurged: number; purgedIds: string[]; errors: string[] }> {
+  const nowIso = new Date().toISOString();
+
+  const { data: dueProjects, error } = await accessibleClient
+    .from('projects')
+    .select('id')
+    .in('closure_phase', ['pending_consents', 'export_window'])
+    .not('closure_deadline_at', 'is', null)
+    .lte('closure_deadline_at', nowIso);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  const ids = (dueProjects ?? []).map((row) => row.id as string);
+  const result = await purgeProjectIds(ids);
+
+  return {
+    projectsScanned: ids.length,
+    ...result,
+  };
+}
+
 /** Cron: süresi dolan kapanış projelerini ve hızlandırılmış personelleri temizler. */
 export async function runProjectClosurePurgeCron(
   admin: SupabaseClient = createAdminClient()
 ): Promise<ProjectClosurePurgeCronResult> {
   const nowIso = new Date().toISOString();
-  const errors: string[] = [];
 
   const acceleratedEmployeesPurged = await purgeDueAcceleratedEmployees(admin);
 
@@ -134,20 +179,11 @@ export async function runProjectClosurePurgeCron(
     throw new Error(error.message);
   }
 
-  let projectsPurged = 0;
-  for (const row of dueProjects ?? []) {
-    try {
-      const ok = await purgeProjectAfterClosureDeadline(row.id);
-      if (ok) projectsPurged += 1;
-    } catch (err) {
-      const message = err instanceof Error ? err.message : String(err);
-      errors.push(`${row.id}: ${message}`);
-      console.error('[project-closure-purge] cron project', row.id, err);
-    }
-  }
+  const ids = (dueProjects ?? []).map((row) => row.id as string);
+  const { projectsPurged, errors } = await purgeProjectIds(ids);
 
   return {
-    projectsScanned: dueProjects?.length ?? 0,
+    projectsScanned: ids.length,
     projectsPurged,
     acceleratedEmployeesPurged,
     errors,

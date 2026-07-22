@@ -7,7 +7,11 @@ import { FiPlus } from 'react-icons/fi';
 import ProjectList from './proje/ProjectList';
 import ProjectForm from './proje/ProjectForm';
 import ProjectFilters, { type ProjectFilter } from './proje/ProjectFilters';
-import { fetchProjects, startProjectClosure } from '../lib/proje/projectService';
+import {
+  fetchProjects,
+  purgeExpiredProjectsInBackground,
+  startProjectClosure,
+} from '../lib/proje/projectService';
 import type { Project } from '@/types/project';
 
 export default function ProjectPage() {
@@ -43,6 +47,28 @@ export default function ProjectPage() {
   useEffect(() => {
     loadProjects();
   }, [loadProjects]);
+
+  // Sayfa açılınca bir kez: süresi dolmuş kapanışları arka planda temizle
+  useEffect(() => {
+    let cancelled = false;
+    void (async () => {
+      const { projectsPurged } = await purgeExpiredProjectsInBackground();
+      if (cancelled || projectsPurged <= 0) return;
+      try {
+        const { projects: data, quota } = await fetchProjects(filter, searchTerm);
+        if (cancelled) return;
+        setProjects(data);
+        setProjectQuota(quota);
+      } catch {
+        /* liste zaten yüklü; sessiz geç */
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+    // Yalnızca mount — filtre değişiminde tekrar purge etme
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleStartClosure = async (id: string) => {
     const target = projects.find((p) => p.id === id);

@@ -82,3 +82,18 @@ export const startProjectClosure = async (
     notifiedCount: Number(data.notifiedCount ?? 0),
   };
 };
+
+/** Arka plan: süresi dolmuş kapanış projelerini siler. UI'yı bloklamaz. */
+export const purgeExpiredProjectsInBackground = async (): Promise<{
+  projectsPurged: number;
+}> => {
+  const res = await fetch('/api/admin/projects/purge-expired', {
+    method: 'POST',
+    cache: 'no-store',
+  });
+  if (!res.ok) {
+    return { projectsPurged: 0 };
+  }
+  const data = (await res.json().catch(() => ({}))) as { projectsPurged?: number };
+  return { projectsPurged: Number(data.projectsPurged ?? 0) };
+};

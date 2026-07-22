@@ -55,6 +55,7 @@ Kapanış süresi (`closure_deadline_at`) dolunca proje + personel + ilişkili k
 
 - Cron: `/api/cron/project-closure-purge` (Bearer `CRON_SECRET`, saatte 1 önerilir)
 - Ayrıca personel oturumu / admin kapanış durumu isteklerinde süre dolmuşsa lazy silme çalışır
+- Admin proje listesi açılınca `POST /api/admin/projects/purge-expired` arka planda çalışır
 - Hızlandırılmış personel silmeleri de aynı cron’da işlenir
 
 ## Bildirimler
