@@ -248,13 +248,6 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
         : 'border-white/40 bg-white/30 shadow-sm shadow-slate-900/[0.02] dark:border-white/5 dark:bg-white/[0.06]'
     } hover:border-white/60 hover:bg-white/50 dark:hover:bg-white/15`;
 
-    const accent = unread ? (
-      <span
-        className="absolute inset-y-2 left-0 w-0.5 rounded-r-full bg-[#0E1548] dark:bg-blue-400"
-        aria-hidden
-      />
-    ) : null;
-
     if (item.href) {
       return (
         <li key={item.id}>
@@ -263,7 +256,6 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
             className={rowClass}
             onClick={() => void handleItemClick(item.id, item.href, item.read_at)}
           >
-            {accent}
             {content}
           </Link>
         </li>
@@ -277,7 +269,6 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
           className={rowClass}
           onClick={() => void handleItemClick(item.id, null, item.read_at)}
         >
-          {accent}
           {content}
         </button>
       </li>
