@@ -5,6 +5,7 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { PWARegister } from '@/components/pwa/PWARegister';
 import { InstallPrompt } from '@/components/pwa/InstallPrompt';
+import { ContentProtection } from '@/components/ContentProtection';
 import { LocaleShell } from '@/components/i18n/LocaleShell';
 import trLayoutStrings from '@json/src/app/layout.json';
 import enLayoutStrings from '@json/en/src/app/layout.json';
@@ -138,6 +139,7 @@ export default async function RootLayout({
           </Script>
         ) : null}
         <PWARegister />
+        <ContentProtection />
         <LocaleShell initialLocale={locale}>
           {children}
           <InstallPrompt />
