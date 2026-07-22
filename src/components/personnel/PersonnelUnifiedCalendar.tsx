@@ -164,10 +164,15 @@ export function PersonnelUnifiedCalendar({
 
             const detail = cellDetail(cell);
             const clickable = cell.hasAnyRecord && Boolean(onDaySelect);
-            const cellClassName = `aspect-square min-h-[44px] rounded-xl border-2 flex flex-col items-center justify-start gap-0.5 py-1 px-0.5 text-center transition-colors ${presenceCellClass(
-              cell.presence,
-              cell.hasAnyRecord
-            )} ${
+            const markerKeys = MARKER_ORDER.filter((m) => {
+              if (!cell.markers.includes(m)) return false;
+              if (m === 'work' && cell.presence === 'worked') return false;
+              return true;
+            });
+            const sparse = !detail && markerKeys.length === 0;
+            const cellClassName = `aspect-square min-h-[44px] rounded-xl border-2 flex flex-col items-center px-0.5 text-center transition-colors ${
+              sparse ? 'justify-center py-1' : 'justify-start gap-0.5 py-1'
+            } ${presenceCellClass(cell.presence, cell.hasAnyRecord)} ${
               clickable
                 ? 'cursor-pointer hover:brightness-[0.97] active:scale-[0.97] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0E1548] dark:hover:brightness-110'
                 : ''
@@ -177,25 +182,10 @@ export function PersonnelUnifiedCalendar({
               detail: detail || '—',
             });
 
-            const markerKeys = MARKER_ORDER.filter((m) => {
-              if (!cell.markers.includes(m)) return false;
-              // Yoklama karesi zaten “işe gitti”yi gösterir — yeşil yuvarlak tekrar etmesin
-              if (m === 'work' && cell.presence === 'worked') return false;
-              return true;
-            });
-
             const inner = (
               <>
-                <span className="relative flex min-h-[1.1rem] w-full shrink-0 items-center justify-center">
-                  <span className="text-xs font-bold tabular-nums text-slate-900 dark:text-slate-100">
-                    {cell.day}
-                  </span>
-                  {cell.presence ? (
-                    <span
-                      className={`absolute right-0.5 top-0.5 h-2 w-2 rounded-[3px] ring-1 ring-white/80 dark:ring-slate-900/80 ${CALENDAR_PRESENCE_DOT[cell.presence]}`}
-                      aria-hidden
-                    />
-                  ) : null}
+                <span className="!text-xs font-bold leading-none tabular-nums !text-slate-900 dark:!text-white">
+                  {cell.day}
                 </span>
                 {detail ? (
                   <span className="text-[9px] font-semibold leading-tight tabular-nums text-slate-700 dark:text-slate-200">
