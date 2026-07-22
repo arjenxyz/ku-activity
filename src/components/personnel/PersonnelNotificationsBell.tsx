@@ -231,7 +231,7 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
             onClick={(event) => void handleDelete(item.id, event)}
             disabled={deletingId === item.id}
             aria-label={strings.deleteAriaLabel}
-            className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition hover:bg-rose-50/80 hover:text-rose-600 disabled:opacity-50 dark:hover:bg-rose-950/40 dark:hover:text-rose-400"
+            className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-rose-600 transition hover:bg-rose-50/80 hover:text-rose-700 disabled:opacity-50 dark:text-rose-400 dark:hover:bg-rose-950/40 dark:hover:text-rose-300"
           >
             <FiTrash2 className="h-3.5 w-3.5" />
           </button>
