@@ -344,13 +344,13 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
               {strings.logout}
             </button>
 
-            <div className="flex flex-col items-center px-2 pt-5 pb-1">
+            <div className="flex w-full flex-col items-center px-1 pt-5 pb-1">
               <Image
                 src="/dijital-onay.png"
                 alt={strings.digitalApprovalMarkAlt}
-                width={480}
-                height={160}
-                className="h-auto w-[min(100%,240px)] object-contain"
+                width={720}
+                height={240}
+                className="h-auto w-full max-w-md object-contain"
                 priority={false}
               />
               <p className="mt-2.5 text-center text-[11px] font-medium tracking-wide text-slate-500 dark:text-slate-400">
