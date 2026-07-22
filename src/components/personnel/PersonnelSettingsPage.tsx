@@ -35,9 +35,6 @@ type Props = {
 type SettingsSectionId =
   | 'home'
   | 'profile'
-  | 'personal'
-  | 'contact'
-  | 'bank'
   | 'work'
   | 'contracts'
   | 'security'
@@ -46,12 +43,7 @@ type SettingsSectionId =
 
 type MenuItemId = Exclude<SettingsSectionId, 'home' | 'profile'>;
 
-const ACCOUNT_SECTION_IDS = ['personal', 'contact', 'bank'] as const satisfies readonly MenuItemId[];
-
 const MENU_ICON_DEFS: Record<MenuItemId, { name: HonorIconName; theme: HonorIconTheme }> = {
-  personal: { name: 'user', theme: 'blue' },
-  contact: { name: 'phone', theme: 'emerald' },
-  bank: { name: 'card', theme: 'violet' },
   work: { name: 'briefcase', theme: 'amber' },
   contracts: { name: 'shield', theme: 'indigo' },
   security: { name: 'lock', theme: 'rose' },
@@ -144,9 +136,6 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
     id: MenuItemId;
     title: string;
   }> = [
-    { id: 'personal', title: strings.menu.personal.title },
-    { id: 'contact', title: strings.menu.contact.title },
-    { id: 'bank', title: strings.menu.bank.title },
     { id: 'work', title: strings.menu.work.title },
     { id: 'contracts', title: strings.menu.contracts.title },
     { id: 'security', title: strings.menu.security.title },
@@ -154,20 +143,10 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
     { id: 'app', title: strings.menu.app.title },
   ];
 
-  const accountItems = menuItems.filter((item) =>
-    (ACCOUNT_SECTION_IDS as readonly string[]).includes(item.id)
-  );
   const workItems = menuItems.filter((item) => ['work', 'contracts'].includes(item.id));
   const systemItems = menuItems.filter((item) =>
     ['security', 'releases', 'app'].includes(item.id)
   );
-
-  const backTarget: SettingsSectionId =
-    (ACCOUNT_SECTION_IDS as readonly string[]).includes(activeSection)
-      ? 'profile'
-      : activeSection === 'profile'
-        ? 'home'
-        : 'home';
 
   const pageTitle =
     activeSection === 'profile'
@@ -190,75 +169,57 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
       setAppSettingsView('menu');
       return;
     }
-    setActiveSection(backTarget);
+    setActiveSection('home');
   };
 
   const renderSection = () => {
     switch (activeSection) {
       case 'profile':
         return (
-          <SettingsCard>
-            <ProfileHeader
-              name={employee.name}
-              photoUrl={photoUrl}
-              subtitle={profileSubtitle}
-            />
-            <div className="border-t border-slate-100 dark:border-slate-800">
-              {accountItems.map((item, index) => (
-                <MenuRow
-                  key={item.id}
-                  title={item.title}
-                  subtitle={strings.menu[item.id].subtitle}
-                  iconDef={MENU_ICON_DEFS[item.id]}
-                  onClick={() => setActiveSection(item.id)}
-                  showDivider={index < accountItems.length - 1}
-                  inset
+          <div className="space-y-3">
+            <SettingsCard>
+              <ProfilePhotoBlock
+                name={employee.name}
+                photoUrl={photoUrl}
+                photoBusy={photoBusy}
+                photoError={photoError}
+                strings={strings}
+                onCamera={() => cameraInputRef.current?.click()}
+                onGallery={() => galleryInputRef.current?.click()}
+              />
+              <GroupLabel>{strings.groups.personalInfo}</GroupLabel>
+              <div className="divide-y divide-slate-100 dark:divide-slate-800">
+                <InfoRow label={strings.fields.firstName} value={firstName} />
+                <InfoRow label={strings.fields.lastName} value={lastName} />
+                <InfoRow
+                  label={strings.fields.tcKimlik}
+                  value={employee.tc_kimlik || strings.emptyValue}
+                  mono
                 />
-              ))}
-            </div>
-          </SettingsCard>
-        );
-      case 'personal':
-        return (
-          <SettingsCard>
-            <ProfilePhotoBlock
-              name={employee.name}
-              photoUrl={photoUrl}
-              photoBusy={photoBusy}
-              photoError={photoError}
-              strings={strings}
-              onCamera={() => cameraInputRef.current?.click()}
-              onGallery={() => galleryInputRef.current?.click()}
-            />
-            <div className="divide-y divide-slate-100 dark:divide-slate-800">
-              <InfoRow label={strings.fields.firstName} value={firstName} />
-              <InfoRow label={strings.fields.lastName} value={lastName} />
-              <InfoRow label={strings.fields.tcKimlik} value={employee.tc_kimlik || strings.emptyValue} mono />
-              <InfoRow
-                label={strings.fields.birthDate}
-                value={employee.birth_date ? formatDate(employee.birth_date) : strings.emptyValue}
-              />
-            </div>
-          </SettingsCard>
-        );
-      case 'contact':
-        return (
-          <SettingsCard>
-            <div className="divide-y divide-slate-100 dark:divide-slate-800">
-              <InfoRow label={strings.fields.email} value={employee.email || strings.emptyValue} />
-              <InfoRow
-                label={strings.fields.phone}
-                value={formatPhoneDisplay(employee.phone, strings)}
-                icon={<FiPhone className="w-3.5 h-3.5 text-slate-400" />}
-              />
-            </div>
-          </SettingsCard>
-        );
-      case 'bank':
-        return (
-          <SettingsCard>
-            <InfoRow label={strings.fields.iban} value={formatIbanDisplay(employee.iban, strings)} mono />
-          </SettingsCard>
+                <InfoRow
+                  label={strings.fields.birthDate}
+                  value={employee.birth_date ? formatDate(employee.birth_date) : strings.emptyValue}
+                />
+              </div>
+            </SettingsCard>
+
+            <SettingsCard>
+              <GroupLabel>{strings.groups.contact}</GroupLabel>
+              <div className="divide-y divide-slate-100 dark:divide-slate-800">
+                <InfoRow label={strings.fields.email} value={employee.email || strings.emptyValue} />
+                <InfoRow
+                  label={strings.fields.phone}
+                  value={formatPhoneDisplay(employee.phone, strings)}
+                  icon={<FiPhone className="w-3.5 h-3.5 text-slate-400" />}
+                />
+              </div>
+            </SettingsCard>
+
+            <SettingsCard>
+              <GroupLabel>{strings.groups.bank}</GroupLabel>
+              <InfoRow label={strings.fields.iban} value={formatIbanDisplay(employee.iban, strings)} mono />
+            </SettingsCard>
+          </div>
         );
       case 'work':
         return (
@@ -507,28 +468,11 @@ function SettingsCard({ children }: { children: React.ReactNode }) {
   );
 }
 
-function ProfileHeader({
-  name,
-  photoUrl,
-  subtitle,
-}: {
-  name: string;
-  photoUrl: string | null;
-  subtitle: string;
-}) {
+function GroupLabel({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex items-center gap-3 px-4 py-4">
-      <EmployeeAvatar
-        name={name}
-        photoUrl={photoUrl}
-        size="md"
-        className="!h-12 !w-12 shrink-0 !rounded-full ring-1 ring-slate-200 dark:ring-slate-600"
-      />
-      <span className="min-w-0 flex-1">
-        <span className="block truncate text-base font-semibold text-slate-900 dark:text-white">{name}</span>
-        <span className="mt-0.5 block truncate text-sm text-slate-500 dark:text-slate-400">{subtitle}</span>
-      </span>
-    </div>
+    <p className="border-b border-slate-100 px-4 pb-2 pt-3.5 text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:border-slate-800 dark:text-slate-400">
+      {children}
+    </p>
   );
 }
 
@@ -538,23 +482,19 @@ function MenuRow({
   iconDef,
   onClick,
   showDivider = true,
-  inset = false,
 }: {
   title: string;
   subtitle?: string;
   iconDef: { name: HonorIconName; theme: HonorIconTheme };
   onClick: () => void;
   showDivider?: boolean;
-  inset?: boolean;
 }) {
   return (
     <>
       <button
         type="button"
         onClick={onClick}
-        className={`flex w-full items-center gap-3 py-3.5 text-left transition-colors hover:bg-slate-50 active:bg-slate-100 dark:hover:bg-slate-800/60 ${
-          inset ? 'pl-4 pr-4' : 'px-4'
-        }`}
+        className="flex w-full items-center gap-3 px-4 py-3.5 text-left transition-colors hover:bg-slate-50 active:bg-slate-100 dark:hover:bg-slate-800/60"
       >
         <HonorIconTile name={iconDef.name} theme={iconDef.theme} size="sm" muted />
         <span className="min-w-0 flex-1">
@@ -565,9 +505,7 @@ function MenuRow({
         </span>
         <FiChevronRight className="h-5 w-5 shrink-0 text-slate-300 dark:text-slate-500" />
       </button>
-      {showDivider ? (
-        <div className={`h-px bg-slate-100 dark:bg-slate-800 ${inset ? 'ml-[3.25rem]' : 'mx-4'}`} />
-      ) : null}
+      {showDivider ? <div className="mx-4 h-px bg-slate-100 dark:bg-slate-800" /> : null}
     </>
   );
 }
