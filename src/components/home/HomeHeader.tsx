@@ -123,9 +123,12 @@ export function HomeHeader() {
           }`}
         >
           <div className="flex h-full flex-col p-5 pt-16">
-            <p className="mb-3 px-2 text-xs font-semibold uppercase tracking-wider text-gray-400">
-              {strings.mobileMenuTitle}
-            </p>
+            <div className="mb-3 flex items-center justify-between gap-3 px-2">
+              <p className="text-xs font-semibold uppercase tracking-wider text-gray-400">
+                {strings.mobileMenuTitle}
+              </p>
+              <LanguageSwitch variant="compact" />
+            </div>
             {navLinks.map((link) => (
               <a
                 key={link.href}
@@ -136,10 +139,6 @@ export function HomeHeader() {
                 {link.label}
               </a>
             ))}
-
-            <div className="mt-1 border-t border-gray-100 pt-1 dark:border-slate-800">
-              <LanguageSwitch variant="nav" />
-            </div>
 
             <div className="mt-auto border-t border-gray-200 pt-4 dark:border-slate-700">
               <LoginRoleButton variant="mobile" showIcon={false} />
