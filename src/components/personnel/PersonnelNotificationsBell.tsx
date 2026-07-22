@@ -5,7 +5,12 @@ import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { FiArrowLeft, FiBell, FiCheck, FiTrash2 } from 'react-icons/fi';
-import { HonorIconTile } from '@/components/icons/HonorIcons';
+import { BrandMark } from '@/components/brand/BrandMark';
+import {
+  HonorIconTile,
+  type HonorIconName,
+  type HonorIconTheme,
+} from '@/components/icons/HonorIcons';
 import { useLocalizedStrings } from '@/lib/i18n/useLocalizedStrings';
 import { formatString } from '@/lib/strings/format';
 import { usePersonnelNotificationsContext } from '@/contexts/PersonnelNotificationsContext';
@@ -40,49 +45,27 @@ function formatRelativeTime(iso: string, strings: typeof trStrings) {
   return formatString(strings.timeDaysAgo, { count: String(days) });
 }
 
-function iconForType(type: string) {
+function honorIconForType(type: string): { name: HonorIconName; theme: HonorIconTheme } {
   switch (type) {
     case 'attendance_reminder':
+    case 'attendance_session_completed':
+      return { name: 'qr', theme: 'emerald' };
     case 'attendance_session_cancelled':
     case 'attendance_removed_from_list':
-    case 'attendance_session_completed':
-      return '📋';
-    case 'advance_approved':
-    case 'advance_cash_ready':
-    case 'advance_rejected':
-    case 'advance_paid':
-      return '💳';
-    case 'salary_paid':
-    case 'minimum_wage_paid':
-      return '💰';
-    case 'deduction_added':
-      return '📉';
-    default:
-      return '🔔';
-  }
-}
-
-function iconShellClass(type: string) {
-  switch (type) {
+      return { name: 'clipboard', theme: 'amber' };
     case 'advance_approved':
     case 'advance_cash_ready':
     case 'advance_paid':
-      return 'bg-indigo-50 text-indigo-700 ring-indigo-100';
+      return { name: 'finance', theme: 'indigo' };
     case 'advance_rejected':
-      return 'bg-rose-50 text-rose-700 ring-rose-100';
-    case 'attendance_reminder':
-    case 'attendance_session_completed':
-      return 'bg-emerald-50 text-emerald-700 ring-emerald-100';
-    case 'attendance_session_cancelled':
-    case 'attendance_removed_from_list':
-      return 'bg-amber-50 text-amber-800 ring-amber-100';
+      return { name: 'wallet', theme: 'rose' };
     case 'salary_paid':
     case 'minimum_wage_paid':
-      return 'bg-sky-50 text-sky-700 ring-sky-100';
+      return { name: 'finance', theme: 'sky' };
     case 'deduction_added':
-      return 'bg-orange-50 text-orange-700 ring-orange-100';
+      return { name: 'minus', theme: 'orange' };
     default:
-      return 'bg-slate-100 text-slate-700 ring-slate-200/80';
+      return { name: 'bell', theme: 'violet' };
   }
 }
 
@@ -237,14 +220,10 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
 
   const renderNotificationRow = (item: (typeof items)[number]) => {
     const unread = !item.read_at;
+    const icon = honorIconForType(item.type);
     const content = (
       <>
-        <span
-          className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl text-lg ring-1 ${iconShellClass(item.type)}`}
-          aria-hidden
-        >
-          {iconForType(item.type)}
-        </span>
+        <HonorIconTile name={icon.name} theme={icon.theme} size="md" className="shrink-0" />
         <span className="min-w-0 flex-1">
           <span className="flex items-start justify-between gap-2">
             <span
@@ -254,12 +233,14 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
             >
               {item.title}
             </span>
-            {unread && <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-blue-500" />}
+            {unread ? (
+              <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-[#3B7FED] ring-2 ring-[#3B7FED]/20" />
+            ) : null}
           </span>
           <span className="mt-1 block text-sm leading-relaxed text-slate-500 dark:text-slate-400">
             {item.body}
           </span>
-          <span className="mt-2 block text-[11px] font-medium text-slate-400">
+          <span className="mt-2 block text-[11px] font-medium tracking-wide text-slate-400">
             {formatRelativeTime(item.created_at, strings)}
           </span>
         </span>
@@ -275,15 +256,15 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
       </>
     );
 
-    const rowClass = `flex w-full gap-3 px-4 py-4 text-left transition-colors ${
+    const rowClass = `flex w-full gap-3 rounded-2xl border px-3.5 py-3.5 text-left shadow-sm transition-colors ${
       unread
-        ? 'bg-blue-50/50 hover:bg-blue-50 active:bg-blue-100/70 dark:bg-blue-950/15 dark:hover:bg-blue-950/25'
-        : 'hover:bg-slate-50 active:bg-slate-100 dark:hover:bg-slate-800/50'
-    }`;
+        ? 'border-[#0E1548]/12 bg-white shadow-[#0E1548]/[0.04] dark:border-blue-400/20 dark:bg-slate-900'
+        : 'border-slate-200/80 bg-white/80 dark:border-slate-800 dark:bg-slate-900/70'
+    } hover:border-[#0E1548]/20 hover:bg-white dark:hover:bg-slate-900`;
 
     if (item.href) {
       return (
-        <li key={item.id} className="border-b border-slate-100 last:border-b-0 dark:border-slate-800">
+        <li key={item.id}>
           <Link
             href={item.href}
             className={rowClass}
@@ -296,7 +277,7 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
     }
 
     return (
-      <li key={item.id} className="border-b border-slate-100 last:border-b-0 dark:border-slate-800">
+      <li key={item.id}>
         <button
           type="button"
           className={rowClass}
@@ -318,59 +299,57 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
           exit={{ opacity: 0, y: 24 }}
           transition={{ type: 'spring', stiffness: 380, damping: 36 }}
         >
-          <header className="safe-pt relative shrink-0 overflow-hidden border-b border-[#0E1548]/8 bg-gradient-to-b from-white via-white to-[#F4F6FC] px-3 pb-3.5 pt-1 dark:border-slate-800 dark:from-slate-900 dark:via-slate-900 dark:to-slate-950">
-            <div
-              className="pointer-events-none absolute -right-8 -top-10 h-28 w-28 rounded-full bg-violet-400/15 blur-2xl dark:bg-violet-500/10"
-              aria-hidden
-            />
-            <div
-              className="pointer-events-none absolute -left-6 top-0 h-20 w-20 rounded-full bg-sky-400/10 blur-2xl"
-              aria-hidden
-            />
-            <div className="relative flex items-center gap-2.5">
+          <header className="safe-pt shrink-0 px-3 pb-3 pt-2">
+            <div className="mx-auto flex h-14 max-w-2xl items-center gap-2.5 rounded-2xl border border-slate-200/90 bg-white/95 px-3 shadow-md shadow-slate-900/[0.06] backdrop-blur-xl dark:border-slate-700/80 dark:bg-slate-900/95 dark:shadow-black/25 sm:px-4">
               <button
                 type="button"
                 onClick={closePanel}
-                className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-slate-200/80 bg-white text-[#0E1548] shadow-sm shadow-slate-900/5 transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
+                className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-slate-200/80 bg-white text-[#0E1548] transition hover:bg-[#E8EBF8] dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
                 aria-label={strings.back}
               >
-                <FiArrowLeft className="h-5 w-5" />
+                <FiArrowLeft className="h-[1.05rem] w-[1.05rem]" />
               </button>
-              <HonorIconTile name="bell" theme="violet" size="sm" className="shrink-0 shadow-md shadow-violet-500/20" />
+              <BrandMark
+                size="sm"
+                variant="personnel"
+                className="shrink-0 shadow-md ring-2 ring-[#0E1548]/10 dark:ring-white/15"
+              />
               <div className="min-w-0 flex-1">
-                <h1 className="text-lg font-bold tracking-tight text-[#0E1548] dark:text-white">
-                  {strings.panelTitle}
-                </h1>
-                {canViewNotifications && items.length > 0 ? (
-                  <p className="text-xs font-medium text-slate-500 dark:text-slate-400">
-                    {unreadCount > 0
+                <p className="truncate text-[13px] font-bold leading-tight tracking-[0.08em] text-[#0E1548] dark:text-white">
+                  CREWLEDGER
+                </p>
+                <p className="truncate text-[10px] font-medium leading-tight text-slate-500 dark:text-slate-400">
+                  {canViewNotifications && items.length > 0
+                    ? unreadCount > 0
                       ? formatString(strings.unreadSummary, { count: String(unreadCount) })
-                      : formatString(strings.totalSummary, { count: String(items.length) })}
-                  </p>
-                ) : null}
+                      : formatString(strings.totalSummary, { count: String(items.length) })
+                    : strings.panelTitle}
+                </p>
               </div>
-              {canViewNotifications && items.length > 0 && (
-                <div className="flex shrink-0 items-center gap-1.5">
-                  {unreadCount > 0 && (
+              {canViewNotifications && items.length > 0 ? (
+                <div className="flex shrink-0 items-center gap-1">
+                  {unreadCount > 0 ? (
                     <button
                       type="button"
                       onClick={() => void markAllRead()}
-                      className="inline-flex h-9 items-center gap-1 rounded-xl bg-[#E8EBF8] px-2.5 text-[11px] font-semibold text-[#0E1548] transition hover:bg-[#DDE2F5] dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
+                      className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-[#E8EBF8] text-[#0E1548] transition hover:bg-[#DDE2F5] dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
+                      aria-label={strings.markAllRead}
+                      title={strings.markAllRead}
                     >
-                      <FiCheck className="h-3.5 w-3.5" />
-                      <span className="hidden sm:inline">{strings.markAllRead}</span>
+                      <FiCheck className="h-4 w-4" />
                     </button>
-                  )}
+                  ) : null}
                   <button
                     type="button"
                     onClick={() => setClearConfirmOpen(true)}
-                    className="inline-flex h-9 items-center gap-1 rounded-xl px-2.5 text-[11px] font-semibold text-rose-600 transition hover:bg-rose-50 dark:text-rose-400 dark:hover:bg-rose-950/40"
+                    className="inline-flex h-9 w-9 items-center justify-center rounded-xl text-rose-600 transition hover:bg-rose-50 dark:text-rose-400 dark:hover:bg-rose-950/40"
+                    aria-label={strings.clearAll}
+                    title={strings.clearAll}
                   >
-                    <FiTrash2 className="h-3.5 w-3.5" />
-                    <span className="hidden sm:inline">{strings.clearAll}</span>
+                    <FiTrash2 className="h-4 w-4" />
                   </button>
                 </div>
-              )}
+              ) : null}
             </div>
           </header>
 
@@ -480,7 +459,9 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
                 <p className="text-sm text-slate-500">{strings.empty}</p>
               </div>
             ) : (
-              <ul className="mx-auto w-full max-w-2xl py-2">{items.map(renderNotificationRow)}</ul>
+              <ul className="mx-auto flex w-full max-w-2xl flex-col gap-2.5 px-3 py-3 sm:px-4">
+                {items.map(renderNotificationRow)}
+              </ul>
             )}
           </div>
         </motion.div>
