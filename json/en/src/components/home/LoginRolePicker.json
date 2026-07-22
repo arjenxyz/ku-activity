@@ -3,7 +3,7 @@
   "closeOverlayAriaLabel": "Close sign-in menu",
   "closeButtonAriaLabel": "Close",
   "modalTitle": "Choose sign-in",
-  "footerNote": "Personnel applications go through your manager.",
+  "footerNote": "Choose the panel that matches your role to sign in.",
   "panels": {
     "personel": {
       "title": "Personnel",

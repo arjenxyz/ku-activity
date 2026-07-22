@@ -3,7 +3,7 @@
   "closeOverlayAriaLabel": "Giriş menüsünü kapat",
   "closeButtonAriaLabel": "Kapat",
   "modalTitle": "Giriş seçin",
-  "footerNote": "Personel başvurusu yöneticiniz üzerinden yapılır.",
+  "footerNote": "Rolünüze uygun paneli seçerek giriş yapın.",
   "panels": {
     "personel": {
       "title": "Personel",
