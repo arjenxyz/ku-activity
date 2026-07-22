@@ -316,31 +316,29 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
         >
           <header className="safe-pt shrink-0 bg-transparent px-3 pb-2">
             <div className="mx-auto max-w-5xl">
-              <div className="flex h-14 items-center justify-between gap-3 bg-transparent px-0 sm:px-1">
-                <div className="flex min-w-0 flex-1 items-center gap-2.5">
-                  <button
-                    type="button"
-                    onClick={closePanel}
-                    className="flex min-w-0 flex-1 items-center gap-2.5 text-left transition-opacity hover:opacity-90 active:opacity-80"
-                    aria-label={strings.exitAriaLabel}
-                  >
-                    <BrandMark
-                      size="sm"
-                      className="shrink-0 shadow-md ring-2 ring-[#0E1548]/10 dark:ring-white/15"
-                    />
-                    <div className="min-w-0">
-                      <p className="truncate text-[13px] font-bold leading-tight tracking-[0.08em] text-[#0E1548] dark:text-white">
-                        CREWLEDGER
-                      </p>
-                      <p className="truncate text-[10px] font-medium leading-tight text-slate-500 dark:text-slate-400">
-                        {strings.exitHint}
-                      </p>
-                    </div>
-                  </button>
-                </div>
+              <div className="flex h-14 items-center justify-between gap-3 rounded-2xl border border-slate-200/90 bg-white/95 px-3 shadow-md shadow-slate-900/[0.06] backdrop-blur-xl dark:border-slate-700/80 dark:bg-slate-900/95 dark:shadow-black/25 sm:px-4">
+                <button
+                  type="button"
+                  onClick={closePanel}
+                  className="flex min-w-0 flex-1 items-center gap-2.5 text-left transition-opacity hover:opacity-90 active:opacity-80"
+                  aria-label={strings.exitAriaLabel}
+                >
+                  <BrandMark
+                    size="sm"
+                    className="shrink-0 shadow-md ring-2 ring-[#0E1548]/10 dark:ring-white/15"
+                  />
+                  <div className="min-w-0">
+                    <p className="truncate text-[13px] font-bold leading-tight tracking-[0.08em] text-[#0E1548] dark:text-white">
+                      CREWLEDGER
+                    </p>
+                    <p className="truncate text-[10px] font-medium leading-tight text-slate-500 dark:text-slate-400">
+                      {strings.exitHint}
+                    </p>
+                  </div>
+                </button>
 
                 {canViewNotifications && items.length > 0 ? (
-                  <div className="flex shrink-0 items-center gap-1 rounded-xl bg-slate-100/80 p-0.5 dark:bg-slate-800/80">
+                  <div className="flex shrink-0 items-center gap-0.5 rounded-xl bg-slate-100/80 p-0.5 dark:bg-slate-800/80">
                     {unreadCount > 0 ? (
                       <button
                         type="button"
@@ -363,8 +361,10 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
                     </button>
                   </div>
                 ) : (
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#0E1548] shadow-md shadow-[#0E1548]/25">
-                    <FiBell className="h-[1.05rem] w-[1.05rem] text-white" aria-hidden />
+                  <div className="flex shrink-0 rounded-xl bg-slate-100/80 p-0.5 dark:bg-slate-800/80">
+                    <div className="inline-flex h-10 w-10 items-center justify-center rounded-xl text-[#0E1548] dark:text-white">
+                      <FiBell className="h-[1.05rem] w-[1.05rem]" aria-hidden />
+                    </div>
                   </div>
                 )}
               </div>
