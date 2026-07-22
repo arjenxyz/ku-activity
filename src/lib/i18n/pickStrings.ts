@@ -1,5 +1,6 @@
 import type { Locale } from './locale';
+import { contentLocale } from './locale';
 
 export function pickStrings<T>(locale: Locale, tr: T, en: T): T {
-  return locale === 'en' ? en : tr;
+  return contentLocale(locale) === 'en' ? en : tr;
 }

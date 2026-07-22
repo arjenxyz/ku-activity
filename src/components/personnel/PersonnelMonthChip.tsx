@@ -5,6 +5,7 @@ import 'dayjs/locale/en';
 import 'dayjs/locale/tr';
 import { FiCalendar } from 'react-icons/fi';
 import { useLocale } from '@/lib/i18n/LocaleProvider';
+import { contentLocale } from '@/lib/i18n/locale';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 
 type Props = {
@@ -18,7 +19,7 @@ export function PersonnelMonthChip({ month, onChange, tone = 'default', classNam
   const strings = useRegistryStrings('components/personnel/PersonnelMonthChip');
   const { locale } = useLocale();
   const label = dayjs(`${month}-01`)
-    .locale(locale === 'en' ? 'en' : 'tr')
+    .locale(contentLocale(locale))
     .format('MMMM YYYY');
 
   const shellClass =

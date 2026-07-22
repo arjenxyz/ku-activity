@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useId, useRef, useState } from 'react';
-import { FiCheck, FiChevronDown, FiGlobe } from 'react-icons/fi';
+import { FiCheck, FiChevronDown } from 'react-icons/fi';
 import { useLocalizedStrings } from '@/lib/i18n/useLocalizedStrings';
 import { useLocale } from '@/lib/i18n/LocaleProvider';
 import { LOCALE_OPTIONS, type Locale } from '@/lib/i18n/locale';
@@ -18,6 +18,18 @@ type LanguageSwitchProps = {
 
 function localeMeta(id: Locale) {
   return LOCALE_OPTIONS.find((o) => o.id === id) ?? LOCALE_OPTIONS[0];
+}
+
+function FlagBadge({ flag, short }: { flag: string; short: string }) {
+  return (
+    <span
+      className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-base leading-none dark:bg-slate-800"
+      title={short}
+      aria-hidden
+    >
+      {flag}
+    </span>
+  );
 }
 
 export function LanguageSwitch({
@@ -77,9 +89,7 @@ export function LanguageSwitch({
                   : 'text-slate-700 hover:bg-slate-50 dark:text-slate-200 dark:hover:bg-slate-800/80'
               }`}
             >
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-[11px] font-bold tracking-wide text-slate-600 dark:bg-slate-800 dark:text-slate-300">
-                {option.short}
-              </span>
+              <FlagBadge flag={option.flag} short={option.short} />
               <span className="min-w-0 flex-1">
                 <span className="block text-sm font-semibold leading-tight">{option.nativeLabel}</span>
                 <span className="block text-[11px] text-slate-500 dark:text-slate-400">
@@ -104,7 +114,9 @@ export function LanguageSwitch({
           onClick={() => setOpen((v) => !v)}
           className="flex w-full items-center gap-3 rounded-xl px-3 py-3.5 text-left text-gray-700 transition-colors hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-slate-800"
         >
-          <FiGlobe className="h-4 w-4 shrink-0 text-slate-400" aria-hidden />
+          <span className="text-lg leading-none" aria-hidden>
+            {current.flag}
+          </span>
           <span className="min-w-0 flex-1">
             <span className="block text-[11px] font-medium uppercase tracking-wider text-slate-400">
               {strings.menuTitle}
@@ -117,7 +129,7 @@ export function LanguageSwitch({
           />
         </button>
         {open ? (
-          <div id={menuId} role="listbox" aria-label={strings.switchAriaLabel} className="mb-1 space-y-0.5 pl-2">
+          <div id={menuId} role="listbox" aria-label={strings.switchAriaLabel} className="mb-1 max-h-56 space-y-0.5 overflow-y-auto pl-2">
             {LOCALE_OPTIONS.map((option) => {
               const active = locale === option.id;
               return (
@@ -133,7 +145,9 @@ export function LanguageSwitch({
                       : 'text-slate-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800/80'
                   }`}
                 >
-                  <span className="w-7 text-[11px] font-bold tracking-wide text-slate-400">{option.short}</span>
+                  <span className="text-base leading-none" aria-hidden>
+                    {option.flag}
+                  </span>
                   <span className="flex-1">{option.nativeLabel}</span>
                   {active ? <FiCheck className="h-3.5 w-3.5 text-[#0E1548] dark:text-blue-300" /> : null}
                 </button>
@@ -166,7 +180,9 @@ export function LanguageSwitch({
         onClick={() => setOpen((v) => !v)}
         className={`inline-flex items-center font-semibold transition-colors ${triggerClass}`}
       >
-        <FiGlobe className="h-3.5 w-3.5 shrink-0 opacity-70" aria-hidden />
+        <span className="text-sm leading-none" aria-hidden>
+          {current.flag}
+        </span>
         <span className="tracking-wide">{current.short}</span>
         <FiChevronDown
           className={`h-3.5 w-3.5 shrink-0 opacity-60 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
@@ -179,14 +195,14 @@ export function LanguageSwitch({
           id={menuId}
           role="listbox"
           aria-label={strings.menuTitle}
-          className="absolute right-0 top-[calc(100%+0.4rem)] z-[80] min-w-[13.5rem] overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-[0_12px_40px_rgba(14,21,72,0.12)] dark:border-slate-700 dark:bg-slate-900 dark:shadow-black/40"
+          className="absolute right-0 top-[calc(100%+0.4rem)] z-[80] min-w-[15rem] overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-[0_12px_40px_rgba(14,21,72,0.12)] dark:border-slate-700 dark:bg-slate-900 dark:shadow-black/40"
         >
           <div className="border-b border-slate-100 px-3.5 py-2.5 dark:border-slate-800">
             <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-400 dark:text-slate-500">
               {strings.menuTitle}
             </p>
           </div>
-          <ul className="max-h-64 overflow-y-auto p-1.5">
+          <ul className="max-h-72 overflow-y-auto p-1.5">
             {LOCALE_OPTIONS.map((option) => {
               const active = locale === option.id;
               return (
@@ -202,9 +218,7 @@ export function LanguageSwitch({
                         : 'text-slate-700 hover:bg-slate-50 dark:text-slate-200 dark:hover:bg-slate-800/80'
                     }`}
                   >
-                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-[10px] font-bold tracking-wide text-slate-600 dark:bg-slate-800 dark:text-slate-300">
-                      {option.short}
-                    </span>
+                    <FlagBadge flag={option.flag} short={option.short} />
                     <span className="min-w-0 flex-1">
                       <span className="block text-sm font-semibold leading-tight">{option.nativeLabel}</span>
                       <span className="block text-[10px] text-slate-500 dark:text-slate-400">

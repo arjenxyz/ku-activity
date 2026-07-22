@@ -13,7 +13,7 @@ import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 export function HomeHeader() {
   const strings = useRegistryStrings('components/home/HomeHeader');
   const { locale } = useLocale();
-  const tagline = locale === 'en' ? APP_TAGLINE : APP_TAGLINE_TR;
+  const tagline = locale === 'tr' ? APP_TAGLINE_TR : APP_TAGLINE;
 
   const navLinks = [
     { href: '#hero', label: strings.navLinks.hero },

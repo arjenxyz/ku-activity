@@ -20,7 +20,7 @@ export function PersonnelTopBar({ immersive = false }: Props) {
   const pathname = usePathname() ?? '';
   const searchParams = useSearchParams();
   const { locale } = useLocale();
-  const defaultTagline = locale === 'en' ? APP_TAGLINE : APP_TAGLINE_TR;
+  const defaultTagline = locale === 'tr' ? APP_TAGLINE_TR : APP_TAGLINE;
   const yoklamaStrings = useRegistryStrings('app/personnel-panel/yoklama/page');
   const advanceStrings = useRegistryStrings('app/personnel-panel/avans/page');
   const settingsStrings = useRegistryStrings('components/personnel/PersonnelSettingsPage');

@@ -19,7 +19,7 @@ type BrandProps = {
 export function AdminMenuBrandBar({ onNavigate, onClose, showClose }: BrandProps) {
   const strings = useRegistryStrings('components/dashboard/AdminMenuChrome');
   const { locale } = useLocale();
-  const tagline = locale === 'en' ? APP_TAGLINE : APP_TAGLINE_TR;
+  const tagline = locale === 'tr' ? APP_TAGLINE_TR : APP_TAGLINE;
 
   return (
     <div className="shrink-0 flex items-center justify-between gap-3 px-4 py-3.5 border-b border-slate-100 bg-white">
