@@ -4,6 +4,7 @@ import { useEffect, useId, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { FiCheck, FiChevronDown, FiChevronRight, FiX } from 'react-icons/fi';
+import { APP_NAME } from '@/lib/brand';
 import { useLocalizedStrings } from '@/lib/i18n/useLocalizedStrings';
 import { useLocale } from '@/lib/i18n/LocaleProvider';
 import { flagImageUrl, LOCALE_OPTIONS, type Locale } from '@/lib/i18n/locale';
@@ -62,7 +63,10 @@ function LocaleOptionsList({
   onSelect: (id: Locale) => void;
 }) {
   return (
-    <ul className="max-h-[min(60vh,22rem)] space-y-0.5 overflow-y-auto p-2 [scrollbar-width:thin]">
+    <ul
+      className="max-h-[min(55vh,18rem)] space-y-0.5 overflow-y-auto p-1.5 [scrollbar-width:thin]"
+      role="listbox"
+    >
       {LOCALE_OPTIONS.map((option) => {
         const active = locale === option.id;
         return (
@@ -72,23 +76,23 @@ function LocaleOptionsList({
               role="option"
               aria-selected={active}
               onClick={() => onSelect(option.id)}
-              className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left transition-colors ${
+              className={`flex w-full items-center gap-2.5 rounded-xl px-2.5 py-2 text-left transition-colors ${
                 active
-                  ? 'bg-[#0E1548]/[0.06] text-[#0E1548] ring-1 ring-[#0E1548]/15 dark:bg-blue-500/15 dark:text-blue-100 dark:ring-blue-400/25'
+                  ? 'bg-[#0E1548]/[0.06] text-[#0E1548] dark:bg-blue-500/15 dark:text-blue-100'
                   : 'text-slate-700 hover:bg-slate-50 dark:text-slate-200 dark:hover:bg-slate-800/80'
               }`}
             >
               <FlagBadge countryCode={option.countryCode} short={option.short} />
               <span className="min-w-0 flex-1">
                 <span className="block text-sm font-semibold leading-tight">{option.nativeLabel}</span>
-                <span className="block text-[11px] text-slate-500 dark:text-slate-400">
+                <span className="block text-[10px] text-slate-500 dark:text-slate-400">
                   {option.englishName}
                 </span>
               </span>
               {active ? (
-                <FiCheck className="h-4 w-4 shrink-0 text-[#0E1548] dark:text-blue-300" />
+                <FiCheck className="h-3.5 w-3.5 shrink-0 text-[#0E1548] dark:text-blue-300" />
               ) : (
-                <span className="h-4 w-4 shrink-0" aria-hidden />
+                <span className="h-3.5 w-3.5 shrink-0" aria-hidden />
               )}
             </button>
           </li>
@@ -104,6 +108,7 @@ function LanguageModal({
   locale,
   onSelect,
   title,
+  footerNote,
   closeButtonAriaLabel,
   closeOverlayAriaLabel,
   titleId,
@@ -113,6 +118,7 @@ function LanguageModal({
   locale: Locale;
   onSelect: (id: Locale) => void;
   title: string;
+  footerNote: string;
   closeButtonAriaLabel: string;
   closeOverlayAriaLabel: string;
   titleId: string;
@@ -136,7 +142,7 @@ function LanguageModal({
     <AnimatePresence>
       {open ? (
         <motion.div
-          className="fixed inset-0 z-[110] flex items-end justify-center p-0 sm:items-center sm:p-4"
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -153,19 +159,24 @@ function LanguageModal({
             role="dialog"
             aria-modal="true"
             aria-labelledby={titleId}
-            initial={{ opacity: 0, y: 16, scale: 0.98 }}
+            initial={{ opacity: 0, y: 8, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 10, scale: 0.98 }}
+            exit={{ opacity: 0, y: 6, scale: 0.98 }}
             transition={{ duration: 0.16, ease: 'easeOut' }}
-            className="relative z-10 flex max-h-[min(85vh,32rem)] w-full max-w-md flex-col overflow-hidden rounded-t-2xl border border-slate-200/90 bg-white shadow-xl shadow-slate-900/10 sm:rounded-2xl dark:border-slate-700 dark:bg-slate-900 dark:shadow-black/40"
+            className="relative z-10 w-full max-w-[20rem] overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-xl shadow-slate-900/10 dark:border-slate-700 dark:bg-slate-900 dark:shadow-black/40"
           >
-            <div className="flex shrink-0 items-center justify-between gap-2 border-b border-slate-100 px-4 py-3 dark:border-slate-800">
-              <h2
-                id={titleId}
-                className="text-sm font-semibold text-slate-900 dark:text-white"
-              >
-                {title}
-              </h2>
+            <div className="flex items-center justify-between gap-2 border-b border-slate-100 px-3.5 py-2.5 dark:border-slate-800">
+              <div className="min-w-0">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400 dark:text-slate-500">
+                  {APP_NAME}
+                </p>
+                <h2
+                  id={titleId}
+                  className="text-sm font-semibold text-slate-900 dark:text-white"
+                >
+                  {title}
+                </h2>
+              </div>
               <button
                 type="button"
                 onClick={onClose}
@@ -176,9 +187,11 @@ function LanguageModal({
               </button>
             </div>
 
-            <div className="min-h-0 flex-1 overflow-hidden" role="listbox" aria-label={title}>
-              <LocaleOptionsList locale={locale} onSelect={onSelect} />
-            </div>
+            <LocaleOptionsList locale={locale} onSelect={onSelect} />
+
+            <p className="border-t border-slate-100 px-3.5 py-2 text-center text-[10px] leading-snug text-slate-400 dark:border-slate-800 dark:text-slate-500">
+              {footerNote}
+            </p>
           </motion.div>
         </motion.div>
       ) : null}
@@ -210,6 +223,7 @@ export function LanguageSwitch({
       locale={locale}
       onSelect={select}
       title={strings.modalTitle}
+      footerNote={strings.footerNote}
       closeButtonAriaLabel={strings.closeButtonAriaLabel}
       closeOverlayAriaLabel={strings.closeOverlayAriaLabel}
       titleId={titleId}

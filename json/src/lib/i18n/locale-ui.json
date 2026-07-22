@@ -3,5 +3,6 @@
   "menuTitle": "Dil",
   "modalTitle": "Dil seçin",
   "closeButtonAriaLabel": "Kapat",
-  "closeOverlayAriaLabel": "Kapat"
+  "closeOverlayAriaLabel": "Kapat",
+  "footerNote": "Seçim cihazınıza kaydedilir."
 }

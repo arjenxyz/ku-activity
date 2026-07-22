@@ -123,9 +123,12 @@ export function HomeHeader() {
           }`}
         >
           <div className="flex h-full flex-col p-5 pt-16">
-            <p className="mb-2 shrink-0 px-2 text-xs font-semibold uppercase tracking-wider text-gray-400">
-              {strings.mobileMenuTitle}
-            </p>
+            <div className="mb-3 flex shrink-0 items-center justify-between gap-3 px-2">
+              <p className="text-xs font-semibold uppercase tracking-wider text-gray-400">
+                {strings.mobileMenuTitle}
+              </p>
+              <LanguageSwitch variant="compact" />
+            </div>
 
             <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
               {navLinks.map((link) => (
@@ -140,8 +143,7 @@ export function HomeHeader() {
               ))}
             </div>
 
-            <div className="mt-3 shrink-0 space-y-3 border-t border-gray-200 pt-4 dark:border-slate-700">
-              <LanguageSwitch variant="nav" />
+            <div className="mt-3 shrink-0 border-t border-gray-200 pt-4 dark:border-slate-700">
               <LoginRoleButton variant="mobile" showIcon={false} />
             </div>
           </div>
