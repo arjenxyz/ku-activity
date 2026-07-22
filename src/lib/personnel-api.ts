@@ -169,7 +169,7 @@ export async function scanAttendanceQr(token: string, options?: { replace?: bool
 
 export type PersonnelAttendanceStatusPayload = {
   workDate: string;
-  state: 'none' | 'waiting' | 'completed' | 'cancelled' | 'removed';
+  state: 'none' | 'waiting' | 'completed' | 'cancelled' | 'removed' | 'did_not_work';
   listedAt: string | null;
   completedAt: string | null;
   message: string;
@@ -194,6 +194,25 @@ export async function fetchPersonnelAttendanceStatus(date?: string) {
   const res = await personnelFetch(`/api/personnel/attendance-qr/status${q}`);
   if (!res.ok) throw new Error(await parseError(res));
   return res.json() as Promise<PersonnelAttendanceStatusPayload>;
+}
+
+export async function reportPersonnelDidNotWork(date?: string) {
+  const res = await personnelFetch('/api/personnel/attendance/absent', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(date ? { date } : {}),
+  });
+  if (!res.ok) throw new Error(await parseError(res));
+  return res.json() as Promise<{ ok: boolean; workDate: string; didNotWork: boolean }>;
+}
+
+export async function clearPersonnelDidNotWork(date?: string) {
+  const q = date ? `?date=${encodeURIComponent(date)}` : '';
+  const res = await personnelFetch(`/api/personnel/attendance/absent${q}`, {
+    method: 'DELETE',
+  });
+  if (!res.ok) throw new Error(await parseError(res));
+  return res.json() as Promise<{ ok: boolean; workDate: string; didNotWork: boolean }>;
 }
 
 export async function changePersonnelPassword(currentPassword: string, newPassword: string) {

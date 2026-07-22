@@ -72,6 +72,9 @@ export async function PATCH(request: Request, context: RouteContext) {
       const tz = sanitizeOptionalText(body.timezone, 64);
       updates.timezone = tz || 'Europe/Istanbul';
     }
+    if (body.auto_attendance_enabled !== undefined) {
+      updates.auto_attendance_enabled = Boolean(body.auto_attendance_enabled);
+    }
 
     const supabase = await createClient();
     const { data, error } = await supabase

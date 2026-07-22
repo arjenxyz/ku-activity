@@ -57,6 +57,7 @@ export type AttendanceQrPayload = {
     project_id: string;
     work_date: string;
     status: 'active' | 'completed' | 'cancelled';
+    source?: 'manual' | 'auto';
     started_at: string;
     completed_at: string | null;
   } | null;
@@ -75,6 +76,7 @@ export type AttendanceQrPayload = {
     work_log_id: string | null;
     created_at: string;
     yevmiye_kayitli: boolean;
+    did_not_work?: boolean;
     planned_amount: number;
     planned_mesai_type: 'none' | 'ceyrek' | 'yarim' | 'tam';
     planned_description: string | null;

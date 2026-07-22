@@ -33,6 +33,15 @@ Politika admin panelinden (`wage_policies`).
 3. Listeye düşer
 4. Oturum bitince yevmiye yazılır
 
+### Otomatik yoklama (opsiyonel)
+
+Proje ayarlarından açılır. Her gün **21:00** (proje saat dilimi, genelde TR) aktif personele yoklama alınır.
+
+- Personel “Bugün işe çıkmadım” derse → yevmiye **yazılmaz**
+- Yanlış eklenen kişi → tamamlanmış listeden çıkarılır → **işe çıkmadı** işaretlenir
+
+Cron: `/api/cron/auto-attendance` (Bearer `CRON_SECRET`, her 15 dk önerilir)
+
 ## Bildirimler
 
 - Uygulama içi: `personnel_notifications` tablosu

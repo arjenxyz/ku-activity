@@ -11,7 +11,8 @@
   "confirm": {
     "complete": "{count} personel için planlanan gün ve mesai ile yevmiye yazılsın mı?",
     "cancel": "Yoklama iptal edilecek. Listeye eklenenler için yevmiye yazılmayacak. Emin misiniz?",
-    "removeCheckIn": "{name} listeden kaldırılsın mı?"
+    "removeCheckIn": "{name} listeden kaldırılsın mı?",
+    "markDidNotWork": "{name} için yevmiye silinsin ve işe çıkmadı olarak işaretlensin mi?"
   },
   "success": {
     "completed": "Yoklama tamamlandı.",
@@ -45,6 +46,9 @@
   "completedTitle": "Yoklama tamamlandı",
   "completedSummary": "{count} personel için yevmiye kaydedildi.",
   "workLogWritten": "Yazıldı",
+  "didNotWorkLabel": "İşe çıkmadı",
+  "markDidNotWorkTitle": "Yevmiyeyi sil, işe çıkmadı işaretle",
+  "autoSourceBadge": "Otomatik",
   "restart": "Yeniden başlat",
   "noSessionTitle": "{date} için yoklama yok",
   "noSessionOpenHint": "Başlatın; personel okudukça listeye eklenir.",

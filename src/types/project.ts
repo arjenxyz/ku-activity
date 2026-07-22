@@ -21,6 +21,7 @@ export type Project = {
   work_start_time?: string | null;
   work_end_time?: string | null;
   timezone?: string | null;
+  auto_attendance_enabled?: boolean;
   closure_phase?: ClosurePhase | string | null;
   closure_started_at?: string | null;
   closure_deadline_at?: string | null;
@@ -39,6 +40,7 @@ export type ProjectFormData = {
   work_start_time?: string;
   work_end_time?: string;
   timezone?: string;
+  auto_attendance_enabled?: boolean;
 };
 
 export const PROJECT_STATUS_LABELS: Record<ProjectStatus, string> =

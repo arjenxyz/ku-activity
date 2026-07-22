@@ -16,6 +16,8 @@ import { useRegisterPersonnelTopBarEnterCode } from '@/contexts/PersonnelTopBarA
 import { parseAttendanceTokenFromQr } from '@/lib/parse-attendance-qr';
 import {
   fetchPersonnelAttendanceStatus,
+  reportPersonnelDidNotWork,
+  clearPersonnelDidNotWork,
   scanAttendanceQr,
   type PersonnelAttendanceStatusPayload,
 } from '@/lib/personnel-api';
@@ -34,6 +36,7 @@ function YoklamaContent() {
   const [codeSheetOpen, setCodeSheetOpen] = useState(false);
   const [autoScanned, setAutoScanned] = useState(false);
   const [forceReplace, setForceReplace] = useState(false);
+  const [absentActing, setAbsentActing] = useState(false);
 
   const refreshStatus = useCallback(async () => {
     try {
@@ -65,6 +68,23 @@ function YoklamaContent() {
     [forceReplace]
   );
 
+  const handleDidNotWork = useCallback(async () => {
+    setAbsentActing(true);
+    setError(null);
+    try {
+      if (status?.state === 'did_not_work') {
+        await clearPersonnelDidNotWork(status.workDate);
+      } else {
+        await reportPersonnelDidNotWork(status?.workDate);
+      }
+      await refreshStatus();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : strings.scanFailed);
+    } finally {
+      setAbsentActing(false);
+    }
+  }, [status, refreshStatus, strings.scanFailed]);
+
   const submitToken = useCallback(
     async (raw: string) => {
       const token = parseAttendanceTokenFromQr(raw);
@@ -93,7 +113,7 @@ function YoklamaContent() {
         setScanning(false);
       }
     },
-    [status, shouldReplace, refreshStatus]
+    [status, shouldReplace, refreshStatus, strings]
   );
 
   useEffect(() => {
@@ -125,6 +145,7 @@ function YoklamaContent() {
     (!forceReplace &&
       (status?.state === 'waiting' ||
         status?.state === 'completed' ||
+        status?.state === 'did_not_work' ||
         status?.state === 'cancelled' ||
         status?.state === 'removed'));
 
@@ -248,12 +269,36 @@ function YoklamaContent() {
           </div>
         )}
 
+        {!loadingStatus &&
+          attendanceWindow?.isOpen &&
+          (status?.state === 'none' || status?.state === 'did_not_work') &&
+          !forceReplace && (
+            <div className="absolute inset-x-4 bottom-24 z-[6] sm:hidden">
+              <button
+                type="button"
+                onClick={() => void handleDidNotWork()}
+                disabled={absentActing}
+                className="w-full rounded-2xl border border-white/15 bg-[#0f1a28]/92 px-4 py-3 text-sm font-semibold text-white shadow-lg backdrop-blur-md disabled:opacity-50"
+              >
+                {absentActing
+                  ? strings.didNotWorkSaving
+                  : status?.state === 'did_not_work'
+                    ? strings.didNotWorkUndo
+                    : strings.didNotWorkButton}
+              </button>
+              {status?.state === 'none' && (
+                <p className="mt-1.5 text-center text-[11px] text-white/60">{strings.didNotWorkHint}</p>
+              )}
+            </div>
+          )}
+
         {error &&
           !codeSheetOpen &&
           !successMsg &&
           (forceReplace ||
             !status ||
             status.state === 'none' ||
+            status.state === 'did_not_work' ||
             status.state === 'cancelled' ||
             status.state === 'removed') && (
             <AttendanceScanErrorOverlay message={error} onDismiss={() => setError(null)} />
@@ -280,6 +325,27 @@ function YoklamaContent() {
           onManualSubmit={handleManualSubmit}
           onWindowElapsed={() => void refreshStatus()}
         />
+        {attendanceWindow?.isOpen &&
+          (status?.state === 'none' || status?.state === 'did_not_work') &&
+          !forceReplace && (
+            <div className="mt-4">
+              <button
+                type="button"
+                onClick={() => void handleDidNotWork()}
+                disabled={absentActing}
+                className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-800 shadow-sm disabled:opacity-50"
+              >
+                {absentActing
+                  ? strings.didNotWorkSaving
+                  : status?.state === 'did_not_work'
+                    ? strings.didNotWorkUndo
+                    : strings.didNotWorkButton}
+              </button>
+              {status?.state === 'none' && (
+                <p className="mt-1.5 text-center text-xs text-slate-500">{strings.didNotWorkHint}</p>
+              )}
+            </div>
+          )}
       </div>
 
       <AttendanceCodeSheet

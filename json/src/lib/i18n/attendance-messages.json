@@ -15,6 +15,7 @@
     "attendance.completed": "Bugünün yoklaması tamamlandı. Tam gün yevmiyeniz kaydedildi.",
     "attendance.none": "Bu tarih için yoklama kaydınız yok.",
     "attendance.removed_from_list": "Yöneticiniz sizi yoklamadan çıkardı. Yanlış olduğunu düşünüyorsanız lütfen yöneticinizle iletişime geçin.",
+    "attendance.did_not_work": "Bugün işe çıkmadınız olarak işaretlendiniz. Yevmiye yazılmaz.",
     "attendance.token_required": "QR kodu gerekli.",
     "attendance.scan_failed": "Yoklama kaydedilemedi."
   },
@@ -34,6 +35,7 @@
     "attendance.completed": "Today's attendance is complete. Your full-day wage has been recorded.",
     "attendance.none": "No attendance record for this date.",
     "attendance.removed_from_list": "Your supervisor removed you from attendance. If you believe this is a mistake, contact them.",
+    "attendance.did_not_work": "You are marked as not working today. No daily wage is recorded.",
     "attendance.token_required": "QR code is required.",
     "attendance.scan_failed": "Attendance could not be recorded."
   }

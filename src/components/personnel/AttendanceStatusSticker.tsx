@@ -34,7 +34,7 @@ type Props = {
   onForceReplace: () => void;
 };
 
-const SUCCESS_STATES = new Set(['waiting', 'completed']);
+const SUCCESS_STATES = new Set(['waiting', 'completed', 'did_not_work']);
 const FAILURE_STATES = new Set(['cancelled', 'removed']);
 
 function resolveVariant(
@@ -113,6 +113,19 @@ function resolveVariant(
         onClick: onForceReplace,
         style: 'solid',
       },
+    };
+  }
+
+  if (status.state === 'did_not_work') {
+    const s = strings.states.didNotWork;
+    return {
+      glow: 'bg-amber-400/20',
+      pill: s.pill,
+      icon: FiUserMinus,
+      iconRing: 'ring-amber-400/30 bg-amber-500/15',
+      iconColor: 'text-amber-400',
+      title: s.title,
+      hint: status.message ?? s.hint,
     };
   }
 

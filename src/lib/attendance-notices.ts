@@ -5,7 +5,7 @@ import {
 } from '@/lib/i18n/attendance-messages';
 import { notifyAttendanceNotice } from '@/lib/personnel-notification-service';
 
-export type AttendanceNoticeType = 'removed_from_list' | 'session_cancelled';
+export type AttendanceNoticeType = 'removed_from_list' | 'session_cancelled' | 'did_not_work';
 
 export async function recordAttendanceNotice(
   admin: SupabaseClient,
@@ -27,15 +27,17 @@ export async function recordAttendanceNotice(
     throw new Error(error.message);
   }
 
-  try {
-    await notifyAttendanceNotice(admin, {
-      employeeId: params.employeeId,
-      projectId: params.projectId,
-      workDate: params.workDate,
-      noticeType: params.noticeType,
-    });
-  } catch {
-    /* bildirim isteğe bağlı */
+  if (params.noticeType !== 'did_not_work') {
+    try {
+      await notifyAttendanceNotice(admin, {
+        employeeId: params.employeeId,
+        projectId: params.projectId,
+        workDate: params.workDate,
+        noticeType: params.noticeType,
+      });
+    } catch {
+      /* bildirim isteğe bağlı */
+    }
   }
 }
 
@@ -82,7 +84,7 @@ export async function getLatestAttendanceNotice(
 }
 
 export function noticeToMessageCode(noticeType: AttendanceNoticeType): AttendanceMessageCode {
-  return noticeType === 'session_cancelled'
-    ? ATTENDANCE_MESSAGE_CODES.SESSION_CANCELLED
-    : ATTENDANCE_MESSAGE_CODES.REMOVED_FROM_LIST;
+  if (noticeType === 'session_cancelled') return ATTENDANCE_MESSAGE_CODES.SESSION_CANCELLED;
+  if (noticeType === 'did_not_work') return ATTENDANCE_MESSAGE_CODES.DID_NOT_WORK;
+  return ATTENDANCE_MESSAGE_CODES.REMOVED_FROM_LIST;
 }

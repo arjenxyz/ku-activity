@@ -158,8 +158,11 @@ export function AttendanceQrPanel({ projectId }: Props) {
     }
   };
 
-  const handleRemoveCheckIn = async (checkInId: string, name: string) => {
-    if (!window.confirm(formatString(strings.confirm.removeCheckIn, { name }))) return;
+  const handleRemoveCheckIn = async (checkInId: string, name: string, completed = false) => {
+    const confirmMsg = completed
+      ? formatString(strings.confirm.markDidNotWork, { name })
+      : formatString(strings.confirm.removeCheckIn, { name });
+    if (!window.confirm(confirmMsg)) return;
     setRemovingId(checkInId);
     setError(null);
     try {
@@ -312,10 +315,12 @@ export function AttendanceQrPanel({ projectId }: Props) {
                           <p className="truncate text-sm font-medium text-slate-900">{c.employee_name}</p>
                           <p className="text-xs text-slate-500">{formatDateTime(c.created_at)}</p>
                           <p className="mt-0.5 text-xs font-medium text-emerald-700">
-                            {formatWorkLogSummary(
-                              Number(c.planned_amount ?? 1),
-                              (c.planned_mesai_type ?? 'none') as MesaiType
-                            )}
+                            {c.did_not_work
+                              ? strings.didNotWorkLabel
+                              : formatWorkLogSummary(
+                                  Number(c.planned_amount ?? 1),
+                                  (c.planned_mesai_type ?? 'none') as MesaiType
+                                )}
                           </p>
                         </span>
                         <span className="shrink-0 text-xs font-semibold text-emerald-600">
@@ -364,12 +369,21 @@ export function AttendanceQrPanel({ projectId }: Props) {
             <div className="flex items-start gap-3">
               <FiCheckCircle className="mt-0.5 h-5 w-5 shrink-0 text-emerald-600" />
               <div>
-                <p className="font-semibold text-slate-900">{strings.completedTitle}</p>
+                <p className="font-semibold text-slate-900">
+                  {strings.completedTitle}
+                  {data.session.source === 'auto' && (
+                    <span className="ml-2 rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-600">
+                      {strings.autoSourceBadge}
+                    </span>
+                  )}
+                </p>
                 {data.session.completed_at && (
                   <p className="mt-0.5 text-sm text-slate-500">{formatDateTime(data.session.completed_at)}</p>
                 )}
                 <p className="mt-1 text-sm text-slate-600">
-                  {formatString(strings.completedSummary, { count: checkInCount })}
+                  {formatString(strings.completedSummary, {
+                    count: data.checkIns.filter((c) => !c.did_not_work && c.yevmiye_kayitli).length,
+                  })}
                 </p>
               </div>
             </div>
@@ -380,14 +394,36 @@ export function AttendanceQrPanel({ projectId }: Props) {
                   <li key={c.id} className="flex items-center justify-between gap-3 py-2.5 text-sm">
                     <div className="min-w-0">
                       <span className="font-medium text-slate-800">{c.employee_name}</span>
-                      <p className="text-xs text-emerald-700">
-                        {formatWorkLogSummary(
-                          Number(c.planned_amount ?? 1),
-                          (c.planned_mesai_type ?? 'none') as MesaiType
-                        )}
-                      </p>
+                      {c.did_not_work ? (
+                        <p className="text-xs text-amber-700">{strings.didNotWorkLabel}</p>
+                      ) : (
+                        <p className="text-xs text-emerald-700">
+                          {formatWorkLogSummary(
+                            Number(c.planned_amount ?? 1),
+                            (c.planned_mesai_type ?? 'none') as MesaiType
+                          )}
+                        </p>
+                      )}
                     </div>
-                    <span className="shrink-0 text-xs text-emerald-600">{strings.workLogWritten}</span>
+                    <div className="flex shrink-0 items-center gap-2">
+                      <span
+                        className={`text-xs ${c.did_not_work ? 'text-amber-600' : 'text-emerald-600'}`}
+                      >
+                        {c.did_not_work ? strings.didNotWorkLabel : strings.workLogWritten}
+                      </span>
+                      {!c.did_not_work && (
+                        <button
+                          type="button"
+                          onClick={() => void handleRemoveCheckIn(c.id, c.employee_name, true)}
+                          disabled={removingId === c.id || acting}
+                          className="rounded-lg p-2 text-slate-400 hover:bg-amber-50 hover:text-amber-700 disabled:opacity-40"
+                          title={strings.markDidNotWorkTitle}
+                          aria-label={formatString(strings.removeAriaLabel, { name: c.employee_name })}
+                        >
+                          <FiUserMinus className="h-4 w-4" />
+                        </button>
+                      )}
+                    </div>
                   </li>
                 ))}
               </ul>

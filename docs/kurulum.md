@@ -61,3 +61,13 @@ Push → Vercel otomatik build alır.
 npm run verify:vapid          # push anahtarları
 npm run apk:build-upload:personnel
 ```
+
+## Cron (cron-job.org)
+
+Header: `Authorization: Bearer <CRON_SECRET>`
+
+| Job | URL | Sıklık |
+|-----|-----|--------|
+| Otomatik yoklama | `/api/cron/auto-attendance` | her 15 dk (21:00’de işler) |
+| Yoklama hatırlatma | `/api/cron/personnel-notifications` | günde birkaç kez |
+| Keepalive | `/api/cron/supabase-keepalive` | 6–12 saatte bir |

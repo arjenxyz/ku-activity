@@ -74,6 +74,7 @@ export type AttendanceSessionRow = {
   project_id: string;
   work_date: string;
   status: 'active' | 'completed' | 'cancelled';
+  source: 'manual' | 'auto';
   started_at: string;
   completed_at: string | null;
 };
@@ -95,12 +96,13 @@ export type AttendanceCheckInRow = {
   created_at: string;
   work_log_id: string | null;
   yevmiye_kayitli: boolean;
+  did_not_work: boolean;
   planned_amount: number;
   planned_mesai_type: MesaiType;
   planned_description: string | null;
 };
 
-const SESSION_SELECT = 'id, project_id, work_date, status, started_at, completed_at';
+const SESSION_SELECT = 'id, project_id, work_date, status, source, started_at, completed_at';
 const QR_SELECT =
   'id, project_id, work_date, token, is_active, session_id, created_at';
 
@@ -155,7 +157,8 @@ export type PersonnelAttendanceState =
   | 'waiting'
   | 'completed'
   | 'cancelled'
-  | 'removed';
+  | 'removed'
+  | 'did_not_work';
 
 export type PersonnelAttendanceStatus = {
   workDate: string;
@@ -186,6 +189,7 @@ export async function getPersonnelAttendanceStatus(
       id,
       scanned_at,
       work_log_id,
+      did_not_work,
       attendance_sessions!inner(id, project_id, work_date, status, completed_at)
     `
     )
@@ -227,6 +231,31 @@ export async function getPersonnelAttendanceStatus(
       };
     }
 
+    if (notice?.notice_type === 'did_not_work') {
+      const code = ATTENDANCE_MESSAGE_CODES.DID_NOT_WORK;
+      return {
+        workDate,
+        state: 'did_not_work',
+        listedAt: null,
+        completedAt: notice.created_at,
+        message: tAttendance(code, locale),
+        messageCode: code,
+      };
+    }
+
+    const { hasDayAbsence } = await import('@/lib/attendance-day-absence');
+    if (await hasDayAbsence(admin, { employeeId: params.employeeId, projectId: params.projectId, workDate })) {
+      const code = ATTENDANCE_MESSAGE_CODES.DID_NOT_WORK;
+      return {
+        workDate,
+        state: 'did_not_work',
+        listedAt: null,
+        completedAt: null,
+        message: tAttendance(code, locale),
+        messageCode: code,
+      };
+    }
+
     const code = ATTENDANCE_MESSAGE_CODES.NONE;
     return {
       workDate,
@@ -244,6 +273,7 @@ export async function getPersonnelAttendanceStatus(
   const session = Array.isArray(sessionRaw) ? sessionRaw[0] : sessionRaw;
   const listedAt = row.scanned_at as string;
   const workLogId = row.work_log_id as string | null;
+  const didNotWork = Boolean((row as { did_not_work?: boolean }).did_not_work);
 
   if (session?.status === 'cancelled') {
     const code = ATTENDANCE_MESSAGE_CODES.SESSION_CANCELLED;
@@ -252,6 +282,18 @@ export async function getPersonnelAttendanceStatus(
       state: 'cancelled',
       listedAt,
       completedAt: session.completed_at,
+      message: tAttendance(code, locale),
+      messageCode: code,
+    };
+  }
+
+  if (didNotWork || (session?.status === 'completed' && !workLogId)) {
+    const code = ATTENDANCE_MESSAGE_CODES.DID_NOT_WORK;
+    return {
+      workDate,
+      state: 'did_not_work',
+      listedAt,
+      completedAt: session?.completed_at ?? null,
       message: tAttendance(code, locale),
       messageCode: code,
     };
@@ -398,15 +440,22 @@ async function insertSessionQr(
   throw new Error(strings.qrCreateFailed);
 }
 
-/** Usta: yoklama oturumunu başlat */
 export async function startAttendanceSession(
   admin: SupabaseClient,
-  params: { projectId: string; workDate: string; startedBy?: string | null }
+  params: {
+    projectId: string;
+    workDate: string;
+    startedBy?: string | null;
+    source?: 'manual' | 'auto';
+  }
 ): Promise<{ session: AttendanceSessionRow; qr: AttendanceQrRow }> {
   const workDate = params.workDate.slice(0, 10);
+  const source = params.source ?? 'manual';
 
-  const schedule = await loadProjectAttendanceSchedule(admin, params.projectId);
-  assertAttendanceWindowOpen(workDate, schedule);
+  if (source === 'manual') {
+    const schedule = await loadProjectAttendanceSchedule(admin, params.projectId);
+    assertAttendanceWindowOpen(workDate, schedule);
+  }
 
   const existing = await getActiveSession(admin, params.projectId, workDate);
   if (existing) {
@@ -427,6 +476,7 @@ export async function startAttendanceSession(
       project_id: params.projectId,
       work_date: workDate,
       status: 'active',
+      source,
       started_by: params.startedBy ?? null,
     })
     .select(SESSION_SELECT)
@@ -456,6 +506,7 @@ export async function listSessionCheckIns(
       employee_id,
       scanned_at,
       work_log_id,
+      did_not_work,
       planned_amount,
       planned_mesai_type,
       planned_description,
@@ -480,6 +531,7 @@ export async function listSessionCheckIns(
       work_log_id: (row.work_log_id as string | null) ?? null,
       created_at: row.scanned_at as string,
       yevmiye_kayitli: Boolean(row.work_log_id),
+      did_not_work: Boolean(row.did_not_work),
       planned_amount: Number(row.planned_amount ?? 1),
       planned_mesai_type: (row.planned_mesai_type as MesaiType) ?? 'none',
       planned_description: (row.planned_description as string | null) ?? null,
@@ -777,10 +829,15 @@ async function rotateSessionQr(admin: SupabaseClient, usedQr: AttendanceQrRow) {
   });
 }
 
-/** Usta: yoklamayı bitir — listedekilerin yevmiyesini yazar */
+/** Usta: yoklamayı bitir — listedekilerin yevmiyesini yazar (işe çıkmayanlar hariç) */
 export async function completeAttendanceSession(
   admin: SupabaseClient,
-  params: { projectId: string; workDate: string; completedBy?: string | null }
+  params: {
+    projectId: string;
+    workDate: string;
+    completedBy?: string | null;
+    skipWindowCheck?: boolean;
+  }
 ): Promise<{ count: number; session: AttendanceSessionRow }> {
   const workDate = params.workDate.slice(0, 10);
   const session = await getActiveSession(admin, params.projectId, workDate);
@@ -789,14 +846,20 @@ export async function completeAttendanceSession(
     throw new Error(strings.noActiveSession);
   }
 
-  const schedule = await loadProjectAttendanceSchedule(admin, params.projectId);
-  assertAttendanceWindowOpen(workDate, schedule);
+  if (!params.skipWindowCheck) {
+    const schedule = await loadProjectAttendanceSchedule(admin, params.projectId);
+    assertAttendanceWindowOpen(workDate, schedule);
+  }
 
   const checkIns = await listSessionCheckIns(admin, session.id);
   const now = new Date().toISOString();
   let count = 0;
 
   for (const checkIn of checkIns) {
+    if (checkIn.did_not_work) {
+      continue;
+    }
+
     if (checkIn.work_log_id) {
       count += 1;
       continue;
@@ -825,6 +888,7 @@ export async function completeAttendanceSession(
 
   const { notifyAttendanceSessionCompleted } = await import('@/lib/personnel-notification-service');
   for (const checkIn of checkIns) {
+    if (checkIn.did_not_work) continue;
     try {
       await notifyAttendanceSessionCompleted(admin, {
         employeeId: checkIn.employee_id,
@@ -977,14 +1041,16 @@ export async function updateSessionCheckInPlan(
   return updated;
 }
 
-/** Listeden personel kaldır (yalnızca aktif oturum, yevmiye yazılmadan önce) */
+/** Listeden personel kaldır — aktif oturumda siler; tamamlanmış (oto) günde yevmiyeyi silip işe çıkmadı işaretler */
 export async function removeSessionCheckIn(
   admin: SupabaseClient,
   params: { projectId: string; checkInId: string }
 ): Promise<void> {
   const { data: checkIn } = await admin
     .from('attendance_session_checkins')
-    .select('id, session_id, employee_id, work_log_id, attendance_sessions!inner(project_id, status, work_date)')
+    .select(
+      'id, session_id, employee_id, work_log_id, did_not_work, attendance_sessions!inner(project_id, status, work_date, source)'
+    )
     .eq('id', params.checkInId)
     .maybeSingle();
 
@@ -993,35 +1059,65 @@ export async function removeSessionCheckIn(
   }
 
   const sessionRaw = checkIn.attendance_sessions as
-    | { project_id: string; status: string; work_date: string }
-    | { project_id: string; status: string; work_date: string }[];
+    | { project_id: string; status: string; work_date: string; source?: string }
+    | { project_id: string; status: string; work_date: string; source?: string }[];
   const session = Array.isArray(sessionRaw) ? sessionRaw[0] : sessionRaw;
 
   if (!session || session.project_id !== params.projectId) {
     throw new Error(strings.recordNotFound);
   }
 
-  if (session.status !== 'active') {
+  if (session.status === 'active') {
+    if (checkIn.work_log_id) {
+      throw new Error(strings.cannotRemoveWithWorkLog);
+    }
+
+    await recordAttendanceNotice(admin, {
+      employeeId: checkIn.employee_id as string,
+      projectId: params.projectId,
+      workDate: session.work_date,
+      noticeType: 'removed_from_list',
+    });
+
+    const { error } = await admin
+      .from('attendance_session_checkins')
+      .delete()
+      .eq('id', params.checkInId);
+
+    if (error) throw new Error(error.message);
+    return;
+  }
+
+  if (session.status !== 'completed') {
     throw new Error(strings.removeActiveOnly);
   }
 
   if (checkIn.work_log_id) {
-    throw new Error(strings.cannotRemoveWithWorkLog);
+    const { error: wlError } = await admin
+      .from('work_logs')
+      .delete()
+      .eq('id', checkIn.work_log_id as string);
+    if (wlError) throw new Error(wlError.message);
   }
+
+  const { error } = await admin
+    .from('attendance_session_checkins')
+    .update({
+      did_not_work: true,
+      work_log_id: null,
+      planned_amount: 1,
+      planned_mesai_type: 'none',
+    })
+    .eq('id', params.checkInId);
+
+  if (error) throw new Error(error.message);
 
   await recordAttendanceNotice(admin, {
     employeeId: checkIn.employee_id as string,
     projectId: params.projectId,
     workDate: session.work_date,
-    noticeType: 'removed_from_list',
+    noticeType: 'did_not_work',
   });
-
-  const { error } = await admin
-    .from('attendance_session_checkins')
-    .delete()
-    .eq('id', params.checkInId);
-
-  if (error) throw new Error(error.message);
 }
 
 // Geriye dönük export

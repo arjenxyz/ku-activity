@@ -23,6 +23,11 @@
       "pill": "Listeden çıkarıldınız",
       "title": "Yoklamada değilsiniz",
       "hint": "Yeni QR okutun veya ustanızla görüşün."
+    },
+    "didNotWork": {
+      "pill": "İşe çıkmadı",
+      "title": "Bugün işe çıkmadınız",
+      "hint": "Yevmiye yazılmaz."
     }
   },
   "scanError": {

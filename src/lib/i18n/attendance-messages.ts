@@ -24,6 +24,7 @@ export const ATTENDANCE_MESSAGE_CODES = {
   COMPLETED: 'attendance.completed',
   NONE: 'attendance.none',
   REMOVED_FROM_LIST: 'attendance.removed_from_list',
+  DID_NOT_WORK: 'attendance.did_not_work',
   TOKEN_REQUIRED: 'attendance.token_required',
   SCAN_FAILED: 'attendance.scan_failed',
 } as const;
