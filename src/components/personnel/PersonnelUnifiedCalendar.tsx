@@ -86,13 +86,13 @@ export function PersonnelUnifiedCalendar({
   };
 
   return (
-    <div className="w-full overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800">
-      <div className="border-b border-gray-100 bg-gradient-to-r from-blue-50/80 to-indigo-50/50 px-3 py-3 dark:border-slate-700 dark:from-slate-800 dark:to-slate-800/80 sm:px-5 sm:py-4">
+    <div className="w-full overflow-hidden rounded-2xl border-2 border-slate-300 bg-white shadow-sm dark:border-slate-500 dark:bg-slate-800">
+      <div className="border-b-2 border-slate-300 bg-gradient-to-r from-blue-50/80 to-indigo-50/50 px-3 py-3 dark:border-slate-500 dark:from-slate-800 dark:to-slate-800/80 sm:px-5 sm:py-4">
         <div className="flex items-center justify-between gap-3">
           <button
             type="button"
             onClick={() => shiftMonth(-1)}
-            className="touch-target inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-gray-200 bg-white text-gray-700 hover:bg-gray-50 dark:border-slate-600 dark:bg-slate-900 dark:text-gray-200 dark:hover:bg-slate-800"
+            className="touch-target inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border-2 border-slate-300 bg-white text-slate-800 hover:bg-gray-50 dark:border-slate-500 dark:bg-slate-900 dark:text-gray-200 dark:hover:bg-slate-800"
             aria-label={strings.prevMonth}
           >
             <FiChevronLeft className="h-5 w-5" />
@@ -100,11 +100,11 @@ export function PersonnelUnifiedCalendar({
 
           <div className="min-w-0 flex-1 text-center">
             <div className="inline-flex items-center justify-center gap-2">
-              <FiCalendar className="h-4 w-4 shrink-0 text-blue-600 dark:text-blue-400" />
+              <FiCalendar className="h-4 w-4 shrink-0 text-blue-700 dark:text-blue-400" />
               <button
                 type="button"
                 onClick={openMonthPicker}
-                className="min-h-[36px] rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm font-bold capitalize text-gray-900 transition hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 dark:border-slate-600 dark:bg-slate-900 dark:text-white dark:hover:bg-slate-800"
+                className="min-h-[36px] rounded-lg border-2 border-slate-300 bg-white px-3 py-1.5 text-sm font-bold capitalize text-slate-900 transition hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 dark:border-slate-500 dark:bg-slate-900 dark:text-white dark:hover:bg-slate-800"
               >
                 {monthLabel}
               </button>
@@ -115,7 +115,7 @@ export function PersonnelUnifiedCalendar({
             type="button"
             onClick={() => shiftMonth(1)}
             disabled={isCurrentMonth}
-            className="touch-target inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-gray-200 bg-white text-gray-700 hover:bg-gray-50 disabled:pointer-events-none disabled:opacity-35 dark:border-slate-600 dark:bg-slate-900 dark:text-gray-200 dark:hover:bg-slate-800"
+            className="touch-target inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border-2 border-slate-300 bg-white text-slate-800 hover:bg-gray-50 disabled:pointer-events-none disabled:opacity-35 dark:border-slate-500 dark:bg-slate-900 dark:text-gray-200 dark:hover:bg-slate-800"
             aria-label={strings.nextMonth}
           >
             <FiChevronRight className="h-5 w-5" />
@@ -138,7 +138,7 @@ export function PersonnelUnifiedCalendar({
           {strings.weekdays.map((d) => (
             <div
               key={d}
-              className="py-0.5 text-center text-[11px] font-semibold text-gray-400 dark:text-slate-500"
+              className="py-0.5 text-center text-[11px] font-bold text-slate-600 dark:text-slate-300"
             >
               {d}
             </div>
@@ -156,15 +156,15 @@ export function PersonnelUnifiedCalendar({
             const approvalBorder =
               cell.workAmount > 0 && status
                 ? CALENDAR_APPROVAL_RING[status as WorkLogApprovalStatus]
-                : 'border-transparent';
+                : '';
             const todayRing = cell.isToday
               ? 'ring-2 ring-blue-500 ring-offset-2 ring-offset-white dark:ring-blue-400 dark:ring-offset-slate-800'
               : '';
             const clickable = cell.hasAnyRecord && Boolean(onDaySelect);
             const cellClassName = `aspect-square min-h-[44px] rounded-xl border-2 flex flex-col items-center justify-between py-1 px-0.5 text-center transition-colors ${
               cell.hasAnyRecord
-                ? 'bg-slate-50 text-slate-800 dark:bg-slate-900/60 dark:text-slate-200'
-                : 'bg-gray-50/80 text-gray-400 dark:bg-slate-900/30 dark:text-slate-500'
+                ? 'border-slate-300 bg-slate-50 text-slate-900 dark:border-slate-500 dark:bg-slate-900/60 dark:text-slate-100'
+                : 'border-slate-200 bg-slate-50/90 text-slate-500 dark:border-slate-600 dark:bg-slate-900/30 dark:text-slate-400'
             } ${approvalBorder} ${todayRing} ${
               clickable
                 ? 'cursor-pointer hover:brightness-[0.97] active:scale-[0.97] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500'
@@ -222,17 +222,17 @@ export function PersonnelUnifiedCalendar({
           })}
         </div>
 
-        <div className="mt-4 space-y-2 border-t border-gray-100 pt-3 dark:border-slate-700">
+        <div className="mt-3 space-y-2.5 border-t-2 border-slate-300 pt-3 dark:border-slate-500">
           {onDaySelect ? (
-            <p className="text-[11px] text-slate-500 dark:text-slate-400">{strings.tapForDetail}</p>
+            <p className="text-xs font-medium text-slate-700 dark:text-slate-300">{strings.tapForDetail}</p>
           ) : null}
           <div className="flex flex-wrap gap-x-3 gap-y-2">
             {MARKER_ORDER.map((key) => (
               <span
                 key={key}
-                className="inline-flex items-center gap-1.5 text-[11px] text-gray-600 dark:text-gray-400"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-800 dark:text-slate-200"
               >
-                <span className={`h-2 w-2 rounded-full ${CALENDAR_MARKER_DOT[key]}`} />
+                <span className={`h-2.5 w-2.5 rounded-full ring-1 ring-slate-400/40 ${CALENDAR_MARKER_DOT[key]}`} />
                 {strings.legend[key]}
               </span>
             ))}
