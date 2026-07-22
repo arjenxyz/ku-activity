@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useRef, useState } from 'react';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import {
@@ -342,6 +343,22 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
               <FiLogOut className="h-4 w-4" />
               {strings.logout}
             </button>
+
+            <div className="flex flex-col items-center px-2 pt-5 pb-1">
+              <div className="rounded-2xl bg-black px-5 py-4 shadow-md shadow-black/20 ring-1 ring-black/10 dark:ring-white/10">
+                <Image
+                  src="/dijital-onay.png"
+                  alt={strings.digitalApprovalMarkAlt}
+                  width={480}
+                  height={160}
+                  className="h-auto w-[min(100%,220px)] object-contain"
+                  priority={false}
+                />
+              </div>
+              <p className="mt-2.5 text-center text-[11px] font-medium tracking-wide text-slate-500 dark:text-slate-400">
+                {strings.digitalApprovalMark}
+              </p>
+            </div>
           </div>
         );
     }

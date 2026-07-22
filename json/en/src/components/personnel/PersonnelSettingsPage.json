@@ -11,6 +11,8 @@
   "exitHint": "Tap to return to the panel",
   "exitAriaLabel": "Return to panel",
   "logout": "Sign out",
+  "digitalApprovalMark": "Digital approval mark",
+  "digitalApprovalMarkAlt": "CrewLedger digital approval mark",
   "resetData": "Clear app data",
   "resetting": "Clearing…",
   "resetDataConfirm": "All of CrewLedger's cache, session and local data on this device will be cleared and you will be signed out. Your other apps and browser data are not affected. Continue?",
