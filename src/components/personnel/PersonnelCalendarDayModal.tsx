@@ -145,7 +145,14 @@ export function PersonnelCalendarDayModal({
   const hasMesai = workLog ? Number(workLog.mesai_units ?? 0) > 0 : false;
   const mesaiPay = workLog ? mesaiPayForLog(workLog, dailyWage) : 0;
   const basePay = workLog ? workDayUnitsForLog(workLog) * dailyWage : 0;
-  const dayTotal = basePay + mesaiPay;
+  const earningsTotal = basePay + mesaiPay;
+  const advanceTotal = advances.reduce((sum, item) => sum + Number(item.amount || 0), 0);
+  const deductionTotal = otherDeductions.reduce((sum, item) => sum + Number(item.amount || 0), 0);
+  const minimumTotal = minimumWages.reduce((sum, item) => sum + Number(item.amount || 0), 0);
+  const outgoingTotal = advanceTotal + deductionTotal;
+  const dayBalance = earningsTotal + minimumTotal - outgoingTotal;
+  const showDaySummary =
+    earningsTotal > 0 || outgoingTotal > 0 || minimumTotal > 0;
   const isQr = workLog ? isQrWorkLog(workLog) : false;
   const showDescription = workLog ? shouldShowDescription(workLog) : false;
   const hasContent =
@@ -243,17 +250,6 @@ export function PersonnelCalendarDayModal({
             </SectionCard>
           ) : null}
 
-          {workLog && status && (basePay > 0 || mesaiPay > 0) ? (
-            <div className="flex items-center justify-between gap-4 rounded-xl border border-[#0E1548]/15 bg-white px-4 py-3.5 dark:border-white/10 dark:bg-slate-900">
-              <p className="text-[13px] font-medium text-slate-500 dark:text-slate-400">
-                {strings.dayTotalLabel}
-              </p>
-              <p className="text-base font-bold tabular-nums text-[#0E1548] dark:text-white">
-                {formatMoney(dayTotal)}
-              </p>
-            </div>
-          ) : null}
-
           <FinanceList
             title={strings.advanceSection}
             items={advances}
@@ -269,6 +265,45 @@ export function PersonnelCalendarDayModal({
             items={minimumWages}
             amountClassName="text-violet-800 dark:text-violet-300"
           />
+
+          {showDaySummary ? (
+            <section className="overflow-hidden rounded-xl border border-[#0E1548]/15 bg-white dark:border-white/10 dark:bg-slate-900">
+              <div className="border-b border-slate-100 bg-slate-50/80 px-4 py-2.5 dark:border-slate-800 dark:bg-slate-800/40">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400">
+                  {strings.summarySection}
+                </p>
+              </div>
+              <div className="px-4">
+                {earningsTotal > 0 ? (
+                  <DetailRow label={strings.earningsTotalLabel} value={formatMoney(earningsTotal)} />
+                ) : null}
+                {minimumTotal > 0 ? (
+                  <DetailRow label={strings.minimumSection} value={formatMoney(minimumTotal)} />
+                ) : null}
+                {outgoingTotal > 0 ? (
+                  <DetailRow
+                    label={strings.outgoingTotalLabel}
+                    value={`−${formatMoney(outgoingTotal)}`}
+                    valueClassName="text-rose-800 dark:text-rose-300"
+                  />
+                ) : null}
+                <div className="flex items-center justify-between gap-4 py-3.5">
+                  <p className="text-[13px] font-semibold text-slate-600 dark:text-slate-300">
+                    {strings.dayTotalLabel}
+                  </p>
+                  <p
+                    className={`text-base font-bold tabular-nums ${
+                      dayBalance < 0
+                        ? 'text-rose-800 dark:text-rose-300'
+                        : 'text-[#0E1548] dark:text-white'
+                    }`}
+                  >
+                    {formatMoney(dayBalance)}
+                  </p>
+                </div>
+              </div>
+            </section>
+          ) : null}
         </div>
       </div>
     </div>
