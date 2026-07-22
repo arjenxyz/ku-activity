@@ -180,14 +180,29 @@ export function PersonnelUnifiedCalendar({
               detail: detail || '—',
             });
 
+            const markerKeys = MARKER_ORDER.filter((m) => {
+              if (!cell.markers.includes(m)) return false;
+              // Yoklama karesi zaten “işe gitti”yi gösterir — yeşil yuvarlak tekrar etmesin
+              if (m === 'work' && cell.presence === 'worked') return false;
+              return true;
+            });
+
             const inner = (
               <>
-                <span
-                  className={`text-xs font-bold ${
-                    cell.isToday && !cell.presence ? 'text-[#0E1548] dark:text-blue-200' : ''
-                  }`}
-                >
-                  {cell.day}
+                <span className="relative flex w-full items-start justify-center">
+                  <span
+                    className={`text-xs font-bold ${
+                      cell.isToday && !cell.presence ? 'text-[#0E1548] dark:text-blue-200' : ''
+                    }`}
+                  >
+                    {cell.day}
+                  </span>
+                  {cell.presence ? (
+                    <span
+                      className={`absolute right-0 top-0 h-2 w-2 rounded-[3px] ${CALENDAR_PRESENCE_DOT[cell.presence]}`}
+                      aria-hidden
+                    />
+                  ) : null}
                 </span>
                 {detail ? (
                   <span className="text-[9px] font-semibold leading-tight tabular-nums opacity-90">
@@ -196,11 +211,11 @@ export function PersonnelUnifiedCalendar({
                 ) : (
                   <span className="h-[11px]" />
                 )}
-                <div className="flex h-2 items-center justify-center gap-0.5">
-                  {MARKER_ORDER.filter((m) => cell.markers.includes(m)).map((m) => (
+                <div className="flex h-2 items-center justify-center gap-1">
+                  {markerKeys.map((m) => (
                     <span
                       key={m}
-                      className={`h-1.5 w-1.5 rounded-full ${CALENDAR_MARKER_DOT[m]}`}
+                      className={`h-1.5 w-1.5 shrink-0 rounded-full ${CALENDAR_MARKER_DOT[m]}`}
                       aria-hidden
                     />
                   ))}
@@ -243,7 +258,7 @@ export function PersonnelUnifiedCalendar({
                 key={key}
                 className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-700 dark:text-slate-200"
               >
-                <span className={`h-2.5 w-2.5 rounded-full ${CALENDAR_PRESENCE_DOT[key]}`} />
+                <span className={`h-2.5 w-2.5 shrink-0 rounded-[3px] ${CALENDAR_PRESENCE_DOT[key]}`} />
                 {strings.presence[key]}
               </span>
             ))}
@@ -254,7 +269,7 @@ export function PersonnelUnifiedCalendar({
                 key={key}
                 className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-700 dark:text-slate-200"
               >
-                <span className={`h-2.5 w-2.5 rounded-full ${CALENDAR_MARKER_DOT[key]}`} />
+                <span className={`h-2.5 w-2.5 shrink-0 rounded-full ${CALENDAR_MARKER_DOT[key]}`} />
                 {strings.legend[key]}
               </span>
             ))}
