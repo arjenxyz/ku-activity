@@ -145,7 +145,7 @@ export function PersonnelUnifiedCalendar({
           ))}
         </div>
 
-        <div className="grid grid-cols-7 gap-1.5">
+        <div className="grid grid-cols-7 gap-2">
           {days.map((cell, i) => {
             if (!cell.inMonth) {
               return <div key={`e-${i}`} className="aspect-square min-h-[44px]" />;
@@ -153,19 +153,19 @@ export function PersonnelUnifiedCalendar({
 
             const detail = cellDetail(cell);
             const status = cell.approvalStatus;
-            const approvalRing =
+            const approvalBorder =
               cell.workAmount > 0 && status
                 ? CALENDAR_APPROVAL_RING[status as WorkLogApprovalStatus]
-                : '';
+                : 'border-transparent';
             const todayRing = cell.isToday
-              ? 'ring-2 ring-blue-500 ring-offset-1 dark:ring-blue-400 dark:ring-offset-slate-800'
+              ? 'ring-2 ring-blue-500 ring-offset-2 ring-offset-white dark:ring-blue-400 dark:ring-offset-slate-800'
               : '';
             const clickable = cell.hasAnyRecord && Boolean(onDaySelect);
-            const cellClassName = `aspect-square min-h-[44px] rounded-xl flex flex-col items-center justify-between py-1 px-0.5 text-center transition-colors ${
+            const cellClassName = `aspect-square min-h-[44px] rounded-xl border-2 flex flex-col items-center justify-between py-1 px-0.5 text-center transition-colors ${
               cell.hasAnyRecord
                 ? 'bg-slate-50 text-slate-800 dark:bg-slate-900/60 dark:text-slate-200'
                 : 'bg-gray-50/80 text-gray-400 dark:bg-slate-900/30 dark:text-slate-500'
-            } ${approvalRing} ${todayRing} ${
+            } ${approvalBorder} ${todayRing} ${
               clickable
                 ? 'cursor-pointer hover:brightness-[0.97] active:scale-[0.97] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500'
                 : ''

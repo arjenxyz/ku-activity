@@ -11,9 +11,9 @@ export const CALENDAR_MARKER_DOT: Record<CalendarEventMarker, string> = {
 };
 
 export const CALENDAR_APPROVAL_RING: Record<WorkLogApprovalStatus, string> = {
-  confirmed: 'ring-2 ring-emerald-400/80 dark:ring-emerald-600',
-  pending_employee: 'ring-2 ring-amber-400/80 dark:ring-amber-600',
-  pending_admin: 'ring-2 ring-sky-400/80 dark:ring-sky-600',
-  disputed: 'ring-2 ring-red-400/80 dark:ring-red-600',
-  none: 'ring-2 ring-violet-400/60 dark:ring-violet-600',
+  confirmed: 'border-emerald-400/90 dark:border-emerald-500',
+  pending_employee: 'border-amber-400/90 dark:border-amber-500',
+  pending_admin: 'border-sky-400/90 dark:border-sky-500',
+  disputed: 'border-red-400/90 dark:border-red-500',
+  none: 'border-violet-400/70 dark:border-violet-500',
 };
