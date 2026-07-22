@@ -176,25 +176,25 @@ export function PersonnelCalendarDayModal({
         className="safe-pb relative max-h-[min(88dvh,640px)] w-full overflow-y-auto overscroll-none rounded-t-2xl border border-slate-200/80 bg-slate-50 shadow-2xl shadow-slate-900/20 dark:border-slate-700 dark:bg-slate-950 sm:max-w-md sm:rounded-2xl"
         data-allow-scroll
       >
-        <div className="sticky top-0 z-10 flex items-center justify-between gap-3 border-b border-slate-200/80 bg-white/95 px-5 py-4 backdrop-blur-md dark:border-slate-800 dark:bg-slate-900/95">
+        <div className="sticky top-0 z-10 flex items-center justify-between gap-3 border-b border-slate-200/80 bg-white/95 px-4 py-2.5 backdrop-blur-md dark:border-slate-800 dark:bg-slate-900/95">
           <div className="min-w-0">
             <h2
               id="calendar-day-modal-title"
-              className="text-base font-bold tracking-tight text-[#0E1548] dark:text-white"
+              className="text-[15px] font-bold leading-tight tracking-tight text-[#0E1548] dark:text-white"
             >
               {formatDate(date)}
             </h2>
-            <p className="mt-0.5 text-[11px] font-medium uppercase tracking-[0.14em] text-slate-400">
+            <p className="mt-0.5 text-[10px] font-medium uppercase tracking-[0.14em] text-slate-400">
               {strings.modalTitle}
             </p>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-slate-500 transition hover:bg-slate-100 hover:text-slate-800 dark:hover:bg-slate-800 dark:hover:text-white"
+            className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-slate-500 transition hover:bg-slate-100 hover:text-slate-800 dark:hover:bg-slate-800 dark:hover:text-white"
             aria-label={strings.close}
           >
-            <FiX className="h-5 w-5" />
+            <FiX className="h-4 w-4" />
           </button>
         </div>
 
