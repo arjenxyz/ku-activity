@@ -308,8 +308,8 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
                     className="shrink-0 shadow-md ring-2 ring-[#0E1548]/10 dark:ring-white/15"
                   />
                   <div className="min-w-0">
-                    <p className="truncate text-[13px] font-bold leading-tight tracking-[0.08em] text-[#0E1548] dark:text-white">
-                      CREWLEDGER
+                    <p className="truncate text-[13px] font-bold leading-tight text-[#0E1548] dark:text-white">
+                      {strings.panelTitle}
                     </p>
                     <p className="truncate text-[10px] font-medium leading-tight text-slate-500 dark:text-slate-400">
                       {strings.exitHint}
