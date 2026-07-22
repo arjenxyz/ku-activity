@@ -13,7 +13,7 @@ export function PersonnelShell({
   centeredViewport = false,
 }: PersonnelShellProps) {
   const homeSurface =
-    'bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-slate-950 dark:via-slate-900 dark:to-blue-950 no-print';
+    'bg-slate-50 dark:bg-slate-950 no-print';
 
   const shellClass = settingsMode
     ? 'relative min-h-[calc(100dvh-var(--personnel-topbar-h))] bg-[#f0f2f5] dark:bg-slate-950 sm:min-h-[100dvh] sm:bg-gradient-to-br sm:from-blue-50 sm:via-white sm:to-indigo-50 dark:sm:from-slate-950 dark:sm:via-slate-900 dark:sm:to-blue-950 no-print'
@@ -29,9 +29,9 @@ export function PersonnelShell({
 
   return (
     <div className={shellClass}>
-      <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute right-0 top-0 h-[420px] w-[420px] translate-x-1/4 -translate-y-1/3 rounded-full bg-blue-400/15 blur-3xl dark:bg-blue-500/10" />
-        <div className="absolute bottom-0 left-0 h-[360px] w-[360px] -translate-x-1/4 translate-y-1/3 rounded-full bg-indigo-400/15 blur-3xl dark:bg-indigo-500/10" />
+      <div className="pointer-events-none absolute inset-0 -z-10 hidden overflow-hidden sm:block">
+        <div className="absolute right-0 top-0 h-[420px] w-[420px] translate-x-1/4 -translate-y-1/3 rounded-full bg-blue-400/10 blur-3xl dark:bg-blue-500/5" />
+        <div className="absolute bottom-0 left-0 h-[360px] w-[360px] -translate-x-1/4 translate-y-1/3 rounded-full bg-indigo-400/10 blur-3xl dark:bg-indigo-500/5" />
       </div>
 
       <main className={mainClass}>{children}</main>

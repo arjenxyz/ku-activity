@@ -9,8 +9,5 @@ export function personnelChromeSurfaceClass(pathname: string, tab: string | null
   if (pathname === '/personnel-panel' && tab === 'settings') {
     return 'bg-[#f0f2f5] dark:bg-slate-950';
   }
-  if (pathname === '/personnel-panel' && tab === 'work') {
-    return 'bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-slate-950 dark:via-slate-900 dark:to-blue-950';
-  }
-  return 'bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-slate-950 dark:via-slate-900 dark:to-blue-950';
+  return 'bg-slate-50 dark:bg-slate-950';
 }
