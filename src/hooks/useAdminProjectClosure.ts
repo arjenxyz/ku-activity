@@ -7,6 +7,7 @@ import { isProjectInClosure } from '@/lib/closure-phase';
 export type AdminProjectClosureStatus = ProjectClosureSummary & {
   inClosure: boolean;
   projectName?: string;
+  purged?: boolean;
 };
 
 export function useAdminProjectClosure(projectId: string | null) {
@@ -21,7 +22,19 @@ export function useAdminProjectClosure(projectId: string | null) {
     }
     try {
       const res = await fetch(`/api/admin/projects/${projectId}/closure/status`, { cache: 'no-store' });
-      if (res.ok) {
+      if (res.status === 410) {
+        setStatus({
+          phase: 'purged',
+          startedAt: null,
+          deadlineAt: null,
+          fastPathDeadlineAt: null,
+          activeEmployeeCount: 0,
+          consentCount: 0,
+          allConsented: false,
+          inClosure: false,
+          purged: true,
+        } as AdminProjectClosureStatus);
+      } else if (res.ok) {
         setStatus((await res.json()) as AdminProjectClosureStatus);
       } else {
         setStatus(null);

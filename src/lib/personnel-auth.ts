@@ -80,6 +80,12 @@ export async function requirePersonnelSession(options?: {
     throw new Error('UNAUTHORIZED');
   }
 
+  const { maybePurgeProjectIfDeadlinePassed } = await import('@/lib/project-closure-purge');
+  const projectPurged = await maybePurgeProjectIfDeadlinePassed(session.projectId);
+  if (projectPurged) {
+    throw new Error('UNAUTHORIZED');
+  }
+
   const msLeft = new Date(session.expiresAt).getTime() - Date.now();
   if (msLeft < SLIDE_REFRESH_WITHIN_MS) {
     await slidePersonnelSession(session.sessionId, token);

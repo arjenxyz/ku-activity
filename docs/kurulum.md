@@ -70,4 +70,5 @@ Header: `Authorization: Bearer <CRON_SECRET>`
 |-----|-----|--------|
 | Otomatik yoklama | `/api/cron/auto-attendance` | her 15 dk (21:00’de işler) |
 | Yoklama hatırlatma | `/api/cron/personnel-notifications` | günde birkaç kez |
+| Kapanış silme | `/api/cron/project-closure-purge` | saatte 1 (süresi dolan projeler) |
 | Keepalive | `/api/cron/supabase-keepalive` | 6–12 saatte bir |

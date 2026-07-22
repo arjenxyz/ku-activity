@@ -49,6 +49,14 @@ Yanlış eklenen → tamamlanmış listeden çıkarılır.
 
 Cron: `/api/cron/auto-attendance` (Bearer `CRON_SECRET`, her 15 dk)
 
+## Proje kapanış silme
+
+Kapanış süresi (`closure_deadline_at`) dolunca proje + personel + ilişkili kayıtlar silinir.
+
+- Cron: `/api/cron/project-closure-purge` (Bearer `CRON_SECRET`, saatte 1 önerilir)
+- Ayrıca personel oturumu / admin kapanış durumu isteklerinde süre dolmuşsa lazy silme çalışır
+- Hızlandırılmış personel silmeleri de aynı cron’da işlenir
+
 ## Bildirimler
 
 - Uygulama içi: `personnel_notifications` tablosu

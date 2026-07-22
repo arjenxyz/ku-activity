@@ -73,6 +73,12 @@ export async function POST(request: Request) {
       if (purged) employee = null;
     }
 
+    if (employee) {
+      const { maybePurgeProjectIfDeadlinePassed } = await import('@/lib/project-closure-purge');
+      const projectPurged = await maybePurgeProjectIfDeadlinePassed(employee.project_id);
+      if (projectPurged) employee = null;
+    }
+
     if (!employee) {
       console.warn('Personel giriş: kimlik ile kayıt bulunamadı', {
         identityType: normalizedType,
