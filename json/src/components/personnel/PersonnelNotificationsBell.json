@@ -32,5 +32,7 @@
   "clearAllConfirmButton": "Evet, sil",
   "clearAllCancel": "Vazgeç",
   "back": "Geri",
+  "exitHint": "Çıkmak için dokunun",
+  "exitAriaLabel": "Bildirimleri kapat",
   "totalSummary": "{count} bildirim"
 }

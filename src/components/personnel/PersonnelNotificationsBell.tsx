@@ -326,23 +326,26 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
                   >
                     <FiArrowLeft className="h-[1.05rem] w-[1.05rem]" />
                   </button>
-                  <BrandMark
-                    size="sm"
-                    variant="personnel"
-                    className="shrink-0 shadow-md ring-2 ring-[#0E1548]/10 dark:ring-white/15"
-                  />
-                  <div className="min-w-0">
-                    <p className="truncate text-[13px] font-bold leading-tight tracking-[0.08em] text-[#0E1548] dark:text-white">
-                      CREWLEDGER
-                    </p>
-                    <p className="truncate text-[10px] font-medium leading-tight text-slate-500 dark:text-slate-400">
-                      {canViewNotifications && items.length > 0
-                        ? unreadCount > 0
-                          ? formatString(strings.unreadSummary, { count: String(unreadCount) })
-                          : formatString(strings.totalSummary, { count: String(items.length) })
-                        : strings.panelTitle}
-                    </p>
-                  </div>
+                  <button
+                    type="button"
+                    onClick={closePanel}
+                    className="flex min-w-0 flex-1 items-center gap-2.5 text-left transition-opacity hover:opacity-90 active:opacity-80"
+                    aria-label={strings.exitAriaLabel}
+                  >
+                    <BrandMark
+                      size="sm"
+                      variant="personnel"
+                      className="shrink-0 shadow-md ring-2 ring-[#0E1548]/10 dark:ring-white/15"
+                    />
+                    <div className="min-w-0">
+                      <p className="truncate text-[13px] font-bold leading-tight tracking-[0.08em] text-[#0E1548] dark:text-white">
+                        CREWLEDGER
+                      </p>
+                      <p className="truncate text-[10px] font-medium leading-tight text-slate-500 dark:text-slate-400">
+                        {strings.exitHint}
+                      </p>
+                    </div>
+                  </button>
                 </div>
 
                 {canViewNotifications && items.length > 0 ? (
