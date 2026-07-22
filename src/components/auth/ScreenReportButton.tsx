@@ -100,7 +100,7 @@ export function ScreenReportButton({ captureRootRef, screenLabel }: Props) {
         disabled={capturing}
         aria-label={strings.reportAriaLabel}
         title={strings.reportTitle}
-        className="screen-report-ignore inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full bg-black/20 pl-2 pr-3 text-violet-200/90 ring-1 ring-white/10 shadow-lg shadow-black/40 backdrop-blur-sm transition-colors hover:bg-black/35 hover:text-violet-100 disabled:opacity-60"
+        className="screen-report-ignore inline-flex h-9 shrink-0 items-center gap-1.5 px-1 text-violet-200/90 transition-colors hover:text-violet-100 disabled:opacity-60"
       >
         {capturing ? (
           <FiLoader className="h-4 w-4 animate-spin text-white/80" aria-hidden />
