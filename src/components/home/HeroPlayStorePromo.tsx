@@ -21,14 +21,14 @@ export function HeroPlayStorePromo() {
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.7, delay: 0.15 }}
     >
-      <div className="absolute -inset-6 rounded-[2.5rem] bg-gradient-to-br from-violet-400/15 via-blue-500/10 to-teal-400/15 blur-2xl" />
+      <div className="absolute -inset-6 rounded-[2.5rem] bg-gradient-to-br from-blue-400/15 via-blue-500/10 to-teal-400/15 blur-2xl dark:from-blue-500/10 dark:via-slate-500/5 dark:to-transparent" />
 
       <a
         href="#play-store"
-        className="group relative block w-full overflow-hidden rounded-2xl border border-slate-200/80 bg-white text-left shadow-xl shadow-[#0E1548]/5 transition-all hover:-translate-y-0.5 hover:shadow-2xl hover:shadow-blue-900/10 dark:border-slate-700/80 dark:bg-slate-900 dark:shadow-black/30"
+        className="group relative block w-full overflow-hidden rounded-2xl border border-slate-200/80 bg-white text-left shadow-xl shadow-[#0E1548]/5 transition-all hover:-translate-y-0.5 hover:shadow-2xl hover:shadow-blue-900/10 dark:border-white/10 dark:bg-white/[0.04] dark:shadow-black/40 dark:backdrop-blur-sm"
       >
         <div
-          className="h-1 bg-gradient-to-r from-[#0E1548] via-blue-600 to-indigo-500"
+          className="h-1 bg-gradient-to-r from-[#0E1548] via-blue-600 to-indigo-500 dark:from-slate-400 dark:via-blue-400/70 dark:to-slate-500"
           aria-hidden
         />
 
@@ -37,13 +37,13 @@ export function HeroPlayStorePromo() {
           alt={strings.bannerAlt}
           width={749}
           height={208}
-          className="block h-auto w-full"
+          className="block h-auto w-full dark:opacity-90"
           sizes="(min-width: 1024px) 50vw"
           priority
         />
 
         <div className="p-6 xl:p-7">
-          <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+          <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-300/90">
             {strings.description}
           </p>
 
@@ -53,7 +53,7 @@ export function HeroPlayStorePromo() {
                 {heroApps.map((app) => (
                   <div
                     key={app.id}
-                    className="h-10 w-10 overflow-hidden rounded-xl ring-2 ring-white dark:ring-slate-900"
+                    className="h-10 w-10 overflow-hidden rounded-xl ring-2 ring-white dark:ring-[#0e1628]"
                   >
                     <Image
                       src={app.iconSrc}
@@ -68,7 +68,7 @@ export function HeroPlayStorePromo() {
               <span className="text-xs font-medium text-slate-500 dark:text-slate-400">{strings.appsCount}</span>
             </div>
 
-            <span className="inline-flex items-center gap-2 rounded-xl bg-[#0E1548] px-5 py-3 text-sm font-semibold text-white shadow-lg transition-all group-hover:bg-[#151d5c] group-hover:shadow-xl">
+            <span className="inline-flex items-center gap-2 rounded-xl bg-[#0E1548] px-5 py-3 text-sm font-semibold text-white shadow-lg transition-all group-hover:bg-[#151d5c] group-hover:shadow-xl dark:bg-white dark:text-slate-900 dark:group-hover:bg-slate-100">
               <GooglePlayIcon className="h-5 w-5" />
               {strings.cta}
               <svg
