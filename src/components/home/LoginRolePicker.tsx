@@ -154,23 +154,23 @@ const buttonStyles = {
   hero: [
     'touch-target relative inline-flex items-center justify-center gap-2.5 overflow-hidden',
     'rounded-2xl px-8 py-4 text-base font-semibold text-white',
-    'bg-[#0E1548]',
-    'shadow-lg shadow-[#0E1548]/20',
+    'bg-[#0E1548] dark:bg-blue-500 dark:hover:bg-blue-400',
+    'shadow-lg shadow-[#0E1548]/20 dark:shadow-blue-500/30',
     'transition-colors duration-200 hover:bg-[#152060]',
     'active:scale-[0.98] w-full sm:w-auto',
   ].join(' '),
   header: [
     'inline-flex items-center gap-2 overflow-hidden rounded-xl',
-    'bg-[#0E1548] px-4 py-2.5',
+    'bg-[#0E1548] dark:bg-blue-500 dark:hover:bg-blue-400 px-4 py-2.5',
     'text-sm font-semibold text-white',
-    'shadow-sm',
+    'shadow-sm dark:shadow-blue-500/25',
     'transition-colors duration-200 hover:bg-[#152060]',
   ].join(' '),
   mobile: [
     'touch-target flex w-full items-center justify-center gap-2 overflow-hidden',
     'rounded-xl px-4 py-3 text-sm font-semibold text-white',
-    'bg-[#0E1548]',
-    'shadow-sm',
+    'bg-[#0E1548] dark:bg-blue-500 dark:hover:bg-blue-400',
+    'shadow-sm dark:shadow-blue-500/25',
   ].join(' '),
 } as const;
 

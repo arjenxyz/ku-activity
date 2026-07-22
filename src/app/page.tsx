@@ -9,7 +9,7 @@ import { HomeFooter } from '@/components/home/HomeFooter';
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-950 scroll-smooth">
+    <div className="min-h-screen bg-white dark:bg-slate-900 scroll-smooth">
       <HomeHeader />
       <main>
         <HeroSection />
