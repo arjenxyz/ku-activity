@@ -49,23 +49,22 @@ function honorIconForType(type: string): { name: HonorIconName; theme: HonorIcon
   switch (type) {
     case 'attendance_reminder':
     case 'attendance_session_completed':
-      return { name: 'qr', theme: 'emerald' };
     case 'attendance_session_cancelled':
     case 'attendance_removed_from_list':
-      return { name: 'clipboard', theme: 'amber' };
+      return { name: 'bell', theme: 'emerald' };
     case 'advance_approved':
     case 'advance_cash_ready':
     case 'advance_paid':
-      return { name: 'finance', theme: 'indigo' };
+      return { name: 'bell', theme: 'indigo' };
     case 'advance_rejected':
-      return { name: 'wallet', theme: 'rose' };
+      return { name: 'bell', theme: 'rose' };
     case 'salary_paid':
     case 'minimum_wage_paid':
-      return { name: 'finance', theme: 'sky' };
+      return { name: 'bell', theme: 'sky' };
     case 'deduction_added':
-      return { name: 'minus', theme: 'orange' };
+      return { name: 'bell', theme: 'orange' };
     default:
-      return { name: 'bell', theme: 'violet' };
+      return { name: 'bell', theme: 'blue' };
   }
 }
 
