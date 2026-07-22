@@ -3,9 +3,14 @@
 import Link from 'next/link';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { Suspense, useState } from 'react';
+import { Suspense, useState, type ReactNode } from 'react';
 import { motion } from 'framer-motion';
-import { HonorIconGlyph, HonorIconTile } from '@/components/icons/HonorIcons';
+import {
+  FiBriefcase,
+  FiCreditCard,
+  FiGrid,
+  FiHome,
+} from 'react-icons/fi';
 import { PersonnelNavHub } from '@/components/personnel/PersonnelNavHub';
 import { PERSONNEL_HUB_TABS } from '@/config/personnel-mobile-nav';
 import type { PersonnelTabId } from '@/hooks/usePersonnelTab';
@@ -15,15 +20,33 @@ function isValidTab(value: string | null): value is PersonnelTabId {
   return PERSONNEL_TABS.includes(value as PersonnelTabId);
 }
 
+/** Resmi yoklama / QR tarama çerçevesi */
+function DockQrIcon({ className = 'h-[1.35rem] w-[1.35rem]' }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden>
+      <path
+        d="M4 8V5.5A1.5 1.5 0 0 1 5.5 4H8M16 4h2.5A1.5 1.5 0 0 1 20 5.5V8M20 16v2.5a1.5 1.5 0 0 1-1.5 1.5H16M8 20H5.5A1.5 1.5 0 0 1 4 18.5V16"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+      />
+      <rect x="8" y="8" width="8" height="8" rx="1.25" stroke="currentColor" strokeWidth="1.75" />
+    </svg>
+  );
+}
+
+type DockItemId = 'home' | 'work' | 'yoklama' | 'finance' | 'more';
+
 type DockItem = {
-  id: string;
+  id: DockItemId;
   label: string;
   href?: string;
   onClick?: () => void;
-  iconName: 'home' | 'work' | 'qr' | 'finance' | 'menu';
-  iconTheme: 'blue' | 'emerald' | 'indigo' | 'slate' | 'teal';
+  icon: ReactNode;
   isCenter?: boolean;
 };
+
+const ICON_CLASS = 'h-[1.2rem] w-[1.2rem] stroke-[1.75]';
 
 function DockSideItem({
   item,
@@ -40,23 +63,22 @@ function DockSideItem({
 }) {
   const content = (
     <motion.span
-      className="group flex min-w-0 flex-col items-center gap-1"
-      whileTap={{ scale: 0.93 }}
-      transition={{ type: 'spring', stiffness: 500, damping: 32 }}
+      className="flex min-w-0 flex-col items-center gap-1"
+      whileTap={{ scale: 0.94 }}
+      transition={{ type: 'spring', stiffness: 520, damping: 34 }}
     >
-      <span className="relative flex h-10 w-10 items-center justify-center">
-        {active ? (
-          <HonorIconTile name={item.iconName} theme={item.iconTheme} size="sm" />
-        ) : (
-          <HonorIconGlyph
-            name={item.iconName}
-            className="h-[1.35rem] w-[1.35rem] text-[#94A3B8] group-active:text-[#64748B]"
-          />
-        )}
+      <span
+        className={`flex h-9 w-9 items-center justify-center rounded-xl transition-colors ${
+          active
+            ? 'bg-[#0E1548]/[0.08] text-[#0E1548]'
+            : 'bg-transparent text-slate-400'
+        }`}
+      >
+        {item.icon}
       </span>
       <span
-        className={`max-w-[4.25rem] truncate text-[10px] font-semibold leading-none ${
-          active ? 'text-[#0E1548]' : 'text-[#94A3B8]'
+        className={`max-w-[4.5rem] truncate text-[10px] leading-none tracking-wide ${
+          active ? 'font-semibold text-[#0E1548]' : 'font-medium text-slate-400'
         }`}
       >
         {item.label}
@@ -65,7 +87,7 @@ function DockSideItem({
   );
 
   const className =
-    'relative flex flex-1 flex-col items-center justify-end min-h-[52px] touch-target focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0E1548]/30 rounded-xl';
+    'relative flex flex-1 flex-col items-center justify-end min-h-[52px] touch-target focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0E1548]/25 rounded-xl';
 
   if (href) {
     return (
@@ -104,21 +126,40 @@ function NavInner() {
     hubOpen || (pathname === '/personnel-panel' && PERSONNEL_HUB_TABS.includes(tab));
 
   const items: DockItem[] = [
-    { id: 'home', label: strings.home, href: '/personnel-panel', iconName: 'home', iconTheme: 'blue' },
-    { id: 'work', label: strings.work, href: '/personnel-panel?tab=work', iconName: 'work', iconTheme: 'emerald' },
+    {
+      id: 'home',
+      label: strings.home,
+      href: '/personnel-panel',
+      icon: <FiHome className={ICON_CLASS} aria-hidden />,
+    },
+    {
+      id: 'work',
+      label: strings.work,
+      href: '/personnel-panel?tab=work',
+      icon: <FiBriefcase className={ICON_CLASS} aria-hidden />,
+    },
     {
       id: 'yoklama',
       label: strings.yoklama,
       href: '/personnel-panel/yoklama',
-      iconName: 'qr',
-      iconTheme: 'teal',
+      icon: <DockQrIcon />,
       isCenter: true,
     },
-    { id: 'finance', label: strings.finance, href: '/personnel-panel?tab=finance', iconName: 'finance', iconTheme: 'indigo' },
-    { id: 'more', label: strings.more, onClick: () => setHubOpen(true), iconName: 'menu', iconTheme: 'slate' },
+    {
+      id: 'finance',
+      label: strings.finance,
+      href: '/personnel-panel?tab=finance',
+      icon: <FiCreditCard className={ICON_CLASS} aria-hidden />,
+    },
+    {
+      id: 'more',
+      label: strings.more,
+      onClick: () => setHubOpen(true),
+      icon: <FiGrid className={ICON_CLASS} aria-hidden />,
+    },
   ];
 
-  const isActive = (id: string) => {
+  const isActive = (id: DockItemId) => {
     switch (id) {
       case 'home':
         return isHome;
@@ -141,12 +182,12 @@ function NavInner() {
         className="personnel-dock fixed bottom-0 inset-x-0 z-50 sm:hidden pointer-events-none"
         aria-label={strings.navAriaLabel}
       >
-        <div className="mx-auto max-w-lg px-4 pb-[max(0.5rem,env(safe-area-inset-bottom))] pointer-events-auto">
+        <div className="mx-auto max-w-lg px-3 pb-[max(0.45rem,env(safe-area-inset-bottom))] pointer-events-auto">
           <div
-            className="relative rounded-[1.35rem] border border-[#E2E8F0] bg-white shadow-[0_-2px_20px_rgba(14,21,72,0.08),0_8px_32px_rgba(14,21,72,0.12)]"
+            className="relative rounded-2xl border border-slate-200/90 bg-white/95 shadow-[0_4px_24px_rgba(14,21,72,0.08)] backdrop-blur-md"
             style={{ colorScheme: 'light' }}
           >
-            <div className="flex items-end justify-between gap-0.5 px-1 pt-1.5 pb-1">
+            <div className="flex items-end justify-between gap-0.5 px-1.5 pt-1.5 pb-1.5">
               {items.map((item) => {
                 const active = isActive(item.id);
 
@@ -156,28 +197,20 @@ function NavInner() {
                       key={item.id}
                       href={item.href!}
                       scroll={false}
-                      className="relative z-10 -mt-5 flex flex-1 flex-col items-center touch-target"
+                      className="relative z-10 -mt-4 flex flex-1 flex-col items-center touch-target focus-visible:outline-none"
                       aria-current={active ? 'page' : undefined}
                     >
                       <motion.span
-                        whileTap={{ scale: 0.9 }}
-                        className={`relative flex h-[3.15rem] w-[3.15rem] items-center justify-center rounded-[1rem] text-white shadow-[0_8px_24px_rgba(14,21,72,0.35)] ring-[3px] ring-white ${
-                          active ? 'bg-[#0E1548]' : 'bg-gradient-to-b from-[#152060] to-[#0E1548]'
+                        whileTap={{ scale: 0.94 }}
+                        className={`flex h-12 w-12 items-center justify-center rounded-2xl text-white shadow-[0_6px_18px_rgba(14,21,72,0.28)] ring-[3px] ring-white ${
+                          active ? 'bg-[#0E1548]' : 'bg-[#152060]'
                         }`}
                       >
-                        <span
-                          className="pointer-events-none absolute inset-x-2 top-1 h-4 rounded-full bg-white/15 blur-[2px]"
-                          aria-hidden
-                        />
-                        <HonorIconGlyph name="qr" className="relative h-[1.45rem] w-[1.45rem] text-white" />
-                        <span
-                          className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full border-2 border-white bg-emerald-400"
-                          aria-hidden
-                        />
+                        {item.icon}
                       </motion.span>
                       <span
-                        className={`mt-1 max-w-[4.25rem] truncate text-[10px] font-bold leading-none ${
-                          active ? 'text-[#0E1548]' : 'text-[#64748B]'
+                        className={`mt-1 max-w-[4.5rem] truncate text-[10px] leading-none tracking-wide ${
+                          active ? 'font-semibold text-[#0E1548]' : 'font-medium text-slate-500'
                         }`}
                       >
                         {item.label}
