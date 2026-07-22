@@ -226,7 +226,7 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
         <span className="relative shrink-0">
           <HonorIconTile name={icon.name} theme={icon.theme} size="md" />
           {unread ? (
-            <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full bg-[#3B7FED] ring-2 ring-white dark:ring-slate-900" />
+            <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full bg-[#3B7FED] ring-2 ring-white/50 dark:ring-slate-950/60" />
           ) : null}
         </span>
         <span className="min-w-0 flex-1">
@@ -262,11 +262,11 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
       </>
     );
 
-    const rowClass = `relative flex w-full gap-3.5 overflow-hidden rounded-2xl border px-3.5 py-3.5 text-left transition-all active:scale-[0.99] ${
+    const rowClass = `relative flex w-full gap-3.5 rounded-2xl border px-3.5 py-3.5 text-left transition-all active:scale-[0.99] backdrop-blur-xl ${
       unread
-        ? 'border-[#0E1548]/15 bg-white shadow-md shadow-[#0E1548]/[0.07] dark:border-blue-400/25 dark:bg-slate-900'
-        : 'border-slate-200/80 bg-white/90 shadow-sm shadow-slate-900/[0.03] dark:border-slate-800 dark:bg-slate-900/80'
-    } hover:border-[#0E1548]/25 hover:shadow-md hover:shadow-[#0E1548]/[0.06]`;
+        ? 'border-white/50 bg-white/40 shadow-md shadow-[#0E1548]/[0.06] dark:border-white/10 dark:bg-white/10'
+        : 'border-white/40 bg-white/30 shadow-sm shadow-slate-900/[0.03] dark:border-white/5 dark:bg-white/[0.06]'
+    } hover:border-white/60 hover:bg-white/50 hover:shadow-md dark:hover:bg-white/15`;
 
     const accent = unread ? (
       <span
