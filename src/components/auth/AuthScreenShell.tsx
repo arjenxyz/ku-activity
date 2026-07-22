@@ -2,17 +2,17 @@
 
 import Image from 'next/image';
 import { useEffect, useRef } from 'react';
+import { BrandMark } from '@/components/brand/BrandMark';
 import { AuthReportProvider, pushAuthDiagnostic } from '@/components/auth/AuthReportContext';
 import { ScreenReportButton } from '@/components/auth/ScreenReportButton';
 import { usePersonnelAuthPageBackground } from '@/hooks/usePersonnelAuthPageBackground';
-import { APP_NAME, PERSONNEL_APP_ICON } from '@/lib/brand';
+import { APP_NAME } from '@/lib/brand';
 import {
   PERSONNEL_AUTH_BG_IMAGE,
   PERSONNEL_AUTH_BG_IMAGE_DESKTOP,
   PERSONNEL_INTRO_ACCENT,
   PERSONNEL_PWA_SPLASH_BG,
 } from '@/lib/personnel-pwa-brand';
-import brandMarkStrings from '@json/src/components/brand/BrandMark.json';
 
 type AuthScreenShellProps = {
   children: React.ReactNode;
@@ -70,16 +70,11 @@ export function AuthScreenShell({ children, screenLabel, panelLabel }: AuthScree
 
         <header className="relative z-20 flex items-center justify-between gap-3 px-4 sm:px-6 pt-4 pb-2 safe-pt safe-px shrink-0">
           <div className="flex items-center gap-2.5 min-w-0">
-            <div className="relative h-9 w-9 shrink-0 overflow-hidden rounded-[22%] shadow-lg shadow-black/40 ring-1 ring-white/10">
-              <Image
-                src={PERSONNEL_APP_ICON}
-                alt={brandMarkStrings.alt}
-                fill
-                className="object-cover"
-                sizes="36px"
-                priority
-              />
-            </div>
+            <BrandMark
+              size="sm"
+              variant="personnel"
+              className="shrink-0 shadow-lg shadow-black/40 ring-1 ring-white/10"
+            />
             <div className="min-w-0">
               <p className="font-semibold text-white text-sm tracking-wide drop-shadow-[0_1px_4px_rgba(0,0,0,0.7)]">
                 {APP_NAME.toUpperCase()}
