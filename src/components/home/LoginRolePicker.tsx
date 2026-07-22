@@ -2,20 +2,21 @@
 
 import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
+import Image from 'next/image';
 import Link from 'next/link';
 import { AnimatePresence, motion } from 'framer-motion';
-import { FiArrowRight, FiBriefcase, FiSmartphone, FiX } from 'react-icons/fi';
-import { LanguageSwitch } from '@/components/i18n/LanguageSwitch';
+import { FiArrowRight, FiX } from 'react-icons/fi';
 import { APP_NAME } from '@/lib/brand';
+import { PLAY_STORE_ADMIN_ICON, PLAY_STORE_PERSONNEL_ICON } from '@/lib/play-store';
 
 const panelMeta = {
   personel: {
     href: '/personnel-panel/login',
-    Icon: FiSmartphone,
+    icon: PLAY_STORE_PERSONNEL_ICON,
   },
   admin: {
     href: '/admin-panel/login',
-    Icon: FiBriefcase,
+    icon: PLAY_STORE_ADMIN_ICON,
   },
 } as const;
 
@@ -39,16 +40,14 @@ function LoginRoleRow({
   panel: ReturnType<typeof useLoginPanels>[number];
   onNavigate?: () => void;
 }) {
-  const Icon = panel.Icon;
-
   return (
     <Link
       href={panel.href}
       onClick={onNavigate}
       className="group flex items-center gap-3 rounded-xl px-3 py-2.5 transition-colors hover:bg-slate-50 active:bg-slate-100 dark:hover:bg-slate-800/80 dark:active:bg-slate-800"
     >
-      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#0E1548]/[0.06] text-[#0E1548] dark:bg-blue-500/15 dark:text-blue-200">
-        <Icon className="h-4 w-4" aria-hidden />
+      <span className="relative h-9 w-9 shrink-0 overflow-hidden rounded-lg shadow-sm ring-1 ring-slate-200/80 dark:ring-slate-700">
+        <Image src={panel.icon} alt="" width={36} height={36} className="h-full w-full object-cover" />
       </span>
       <span className="min-w-0 flex-1">
         <span className="block text-sm font-semibold text-slate-900 dark:text-white">{panel.title}</span>
@@ -75,6 +74,7 @@ export function LoginRolePickerPanel({ onNavigate }: { onNavigate?: () => void; 
 
 export function LoginRoleModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   const strings = useRegistryStrings('components/home/LoginRolePicker');
+  const loginPanels = useLoginPanels();
 
   useEffect(() => {
     if (!open) return;
@@ -129,8 +129,25 @@ export function LoginRoleModal({ open, onClose }: { open: boolean; onClose: () =
                   {strings.modalTitle}
                 </h2>
               </div>
-              <div className="flex shrink-0 items-center gap-1">
-                <LanguageSwitch variant="compact" />
+              <div className="flex shrink-0 items-center gap-1.5">
+                {loginPanels.map((panel) => (
+                  <Link
+                    key={panel.id}
+                    href={panel.href}
+                    onClick={onClose}
+                    title={panel.title}
+                    aria-label={panel.title}
+                    className="relative h-8 w-8 overflow-hidden rounded-lg shadow-sm ring-1 ring-slate-200/80 transition-transform hover:scale-105 dark:ring-slate-700"
+                  >
+                    <Image
+                      src={panel.icon}
+                      alt=""
+                      width={32}
+                      height={32}
+                      className="h-full w-full object-cover"
+                    />
+                  </Link>
+                ))}
                 <button
                   type="button"
                   onClick={onClose}
