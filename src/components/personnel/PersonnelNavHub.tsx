@@ -21,6 +21,7 @@ type Props = {
 
 import type { PersonnelTabId } from '@/hooks/usePersonnelTab';
 import { PERSONNEL_TABS } from '@/hooks/usePersonnelTab';
+import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 
 const HUB_ICON_MAP: Record<string, { name: HonorIconName; theme: HonorIconTheme }> = {
   work: { name: 'work', theme: 'emerald' },
@@ -61,17 +62,15 @@ function HubInner({ open, onClose, activeTab, isYoklama }: Props) {
   const strings = useRegistryStrings('components/personnel/PersonnelNavHub');
   const router = useRouter();
 
+  useBodyScrollLock(open);
+
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
     };
-    document.body.style.overflow = 'hidden';
     window.addEventListener('keydown', onKey);
-    return () => {
-      document.body.style.overflow = '';
-      window.removeEventListener('keydown', onKey);
-    };
+    return () => window.removeEventListener('keydown', onKey);
   }, [open, onClose]);
 
   const navigate = (item: PersonnelHubItem) => {
@@ -145,7 +144,7 @@ function HubInner({ open, onClose, activeTab, isYoklama }: Props) {
               </div>
             </div>
 
-            <div className="flex-1 overflow-y-auto p-4 space-y-5">
+            <div className="flex-1 overflow-y-auto overscroll-none p-4 space-y-5" data-allow-scroll>
               {PERSONNEL_HUB_SECTIONS.map((section, sectionIdx) => (
                 <motion.section
                   key={section.title}

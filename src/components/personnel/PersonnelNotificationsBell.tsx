@@ -20,6 +20,7 @@ import {
   registerPersonnelPushIfAuthed,
   requestNotificationPermission,
 } from '@/lib/personnel-push-client';
+import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 
 type Props = {
   tone?: 'light' | 'onDark';
@@ -127,14 +128,13 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
     return access;
   };
 
+  useBodyScrollLock(panelOpen);
+
   useEffect(() => {
     if (!panelOpen) {
       setClearConfirmOpen(false);
       return;
     }
-
-    const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
 
     void syncNotificationAccess().then((access) => {
       if (access === 'granted') void refresh();
@@ -149,7 +149,6 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
 
     document.addEventListener('visibilitychange', onVisible);
     return () => {
-      document.body.style.overflow = prevOverflow;
       document.removeEventListener('visibilitychange', onVisible);
     };
   }, [panelOpen, refresh]);
@@ -387,7 +386,7 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
             </div>
           )}
 
-          <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain safe-pb">
+          <div className="min-h-0 flex-1 overflow-y-auto overscroll-none safe-pb" data-allow-scroll>
             {!canViewNotifications ? (
               <div className="flex min-h-full flex-col items-center justify-center px-6 py-12 text-center">
                 <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-3xl bg-white text-3xl shadow-sm ring-1 ring-slate-200/80 dark:bg-slate-900 dark:ring-slate-700">

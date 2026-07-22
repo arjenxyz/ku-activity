@@ -11,6 +11,7 @@ import { AdminUiModeToggle } from '@/components/dashboard/AdminUiModeToggle';
 import { useAdminUiMode } from '@/hooks/useAdminUiMode';
 import { getAdminHubSections } from '@/config/admin-mobile-nav';
 import { isMenuPathActive } from '@/config/projectMenu';
+import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 
 type Props = {
   open: boolean;
@@ -41,17 +42,15 @@ export function AdminNavSheet({ open, onClose, projectId }: Props) {
   const pathname = usePathname() ?? '';
   const { isSimple } = useAdminUiMode();
 
+  useBodyScrollLock(open);
+
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
     };
-    document.body.style.overflow = 'hidden';
     window.addEventListener('keydown', onKey);
-    return () => {
-      document.body.style.overflow = '';
-      window.removeEventListener('keydown', onKey);
-    };
+    return () => window.removeEventListener('keydown', onKey);
   }, [open, onClose]);
 
   const sections = useMemo(
@@ -131,7 +130,7 @@ export function AdminNavSheet({ open, onClose, projectId }: Props) {
               </div>
             </div>
 
-            <div className="flex-1 space-y-5 overflow-y-auto p-4">
+            <div className="flex-1 space-y-5 overflow-y-auto overscroll-none p-4" data-allow-scroll>
               {sections.map((section, sectionIdx) => (
                 <motion.section
                   key={section.id}

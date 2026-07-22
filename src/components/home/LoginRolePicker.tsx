@@ -8,6 +8,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { FiArrowRight, FiX } from 'react-icons/fi';
 import { APP_NAME } from '@/lib/brand';
 import { PLAY_STORE_ADMIN_ICON, PLAY_STORE_PERSONNEL_ICON } from '@/lib/play-store';
+import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 
 const panelMeta = {
   personel: {
@@ -74,19 +75,15 @@ export function LoginRolePickerPanel({ onNavigate }: { onNavigate?: () => void; 
 
 export function LoginRoleModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   const strings = useRegistryStrings('components/home/LoginRolePicker');
+  useBodyScrollLock(open);
 
   useEffect(() => {
     if (!open) return;
-    const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
     };
     document.addEventListener('keydown', onKey);
-    return () => {
-      document.body.style.overflow = prevOverflow;
-      document.removeEventListener('keydown', onKey);
-    };
+    return () => document.removeEventListener('keydown', onKey);
   }, [open, onClose]);
 
   return (

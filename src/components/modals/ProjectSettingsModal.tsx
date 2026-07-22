@@ -12,6 +12,7 @@ import {
   DEFAULT_PROJECT_TIMEZONE,
   guessTimezoneFromLocation,
 } from '@/lib/attendance-window';
+import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 
 type Props = {
   project: Project;
@@ -28,6 +29,7 @@ export const ProjectSettingsModal = ({
 }: Props) => {
   const strings = useRegistryStrings('components/modals/ProjectSettingsModal');
   const router = useRouter();
+  useBodyScrollLock(isOpen);
   const [formData, setFormData] = useState<ProjectFormData>({
     name: project.name,
     code: project.code || '',
@@ -100,7 +102,10 @@ export const ProjectSettingsModal = ({
 
   return (
     <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-xl max-w-lg w-full p-6 relative border border-slate-200 dark:border-slate-800 max-h-[90vh] overflow-y-auto">
+      <div
+        className="bg-white dark:bg-slate-900 rounded-2xl shadow-xl max-w-lg w-full p-6 relative border border-slate-200 dark:border-slate-800 max-h-[90vh] overflow-y-auto overscroll-none"
+        data-allow-scroll
+      >
         <button
           onClick={onClose}
           className="absolute top-4 right-4 text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"

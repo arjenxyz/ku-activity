@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { FiX } from 'react-icons/fi';
 import { DAY_AMOUNT_OPTIONS, MESAI_OPTIONS, type MesaiType } from '@/lib/work-log';
+import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 
 type Props = {
   employeeName: string;
@@ -31,6 +32,7 @@ export function AdminAttendanceModal({
   onSubmit,
 }: Props) {
   const strings = useRegistryStrings('components/admin/AdminAttendanceModal');
+  useBodyScrollLock(isOpen);
   const [amount, setAmount] = useState(initialAmount);
   const [mesaiType, setMesaiType] = useState<MesaiType>(initialMesaiType);
   const [description, setDescription] = useState(initialDescription);

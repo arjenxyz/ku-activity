@@ -16,6 +16,7 @@ import { APP_NAME } from '@/lib/brand';
 import { useAdminCurrentProject } from '@/hooks/useAdminCurrentProject';
 import { AdminProjectSettingsProvider } from '@/hooks/useAdminProjectSettings';
 import { AdminUiModeProvider, useAdminUiMode } from '@/hooks/useAdminUiMode';
+import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 
 const PROJECT_ID_RE = /^\/admin-panel\/proje\/([a-f0-9-]{36})/;
 
@@ -34,12 +35,7 @@ function DashboardShellInner({ children }: { children: React.ReactNode }) {
     setMenuOpen(false);
   }, [pathname]);
 
-  useEffect(() => {
-    document.body.style.overflow = menuOpen ? 'hidden' : '';
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [menuOpen]);
+  useBodyScrollLock(menuOpen);
 
   const handleLogout = async () => {
     await fetch('/api/auth/admin/logout', { method: 'POST' });
@@ -182,7 +178,7 @@ function DashboardShellInner({ children }: { children: React.ReactNode }) {
             }
           />
 
-          <div className="flex-1 overflow-y-auto overscroll-contain px-2 py-2">
+          <div className="flex-1 overflow-y-auto overscroll-none px-2 py-2" data-allow-scroll>
             {projectId && (
               <ProjectNavLinks projectId={projectId} variant="mobile" onNavigate={closeMenu} />
             )}

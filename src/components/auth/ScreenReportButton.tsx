@@ -10,6 +10,7 @@ import {
   personnelAuthSecondaryBtnClass,
 } from '@/lib/personnel-auth-ui';
 import { useAuthReport } from '@/components/auth/AuthReportContext';
+import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 
 type Props = {
   captureRootRef: React.RefObject<HTMLElement | null>;
@@ -27,6 +28,7 @@ export function ScreenReportButton({ captureRootRef, screenLabel }: Props) {
   const [note, setNote] = useState('');
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState('');
+  useBodyScrollLock(open && Boolean(screenshot));
 
   const handleOpen = useCallback(async () => {
     const root = captureRootRef.current;

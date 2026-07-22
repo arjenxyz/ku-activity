@@ -6,6 +6,7 @@ import { FiCheck, FiChevronDown, FiX } from 'react-icons/fi';
 
 import { formatString } from '@/lib/strings/format';
 import type { ContractItem } from './ContractScrollReader';
+import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 
 type Props = {
   contract: ContractItem;
@@ -31,16 +32,14 @@ export function ContractAcceptanceModal({
   const [scrollProgress, setScrollProgress] = useState(accepted ? 100 : 0);
   const [consentChecked, setConsentChecked] = useState(accepted);
 
+  useBodyScrollLock(true);
+
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
     };
     document.addEventListener('keydown', onKey);
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.removeEventListener('keydown', onKey);
-      document.body.style.overflow = '';
-    };
+    return () => document.removeEventListener('keydown', onKey);
   }, [onClose]);
 
   const checkScroll = useCallback(() => {
@@ -141,7 +140,8 @@ export function ContractAcceptanceModal({
           <div
             ref={scrollRef}
             onScroll={checkScroll}
-            className="h-full overflow-y-auto overscroll-contain px-4 py-4 text-sm leading-relaxed text-slate-700 dark:text-slate-300 [-webkit-overflow-scrolling:touch]"
+            className="h-full overflow-y-auto overscroll-none px-4 py-4 text-sm leading-relaxed text-slate-700 dark:text-slate-300 [-webkit-overflow-scrolling:touch]"
+            data-allow-scroll
           >
             {contract.summary && (
               <div className="mb-4 rounded-lg border border-blue-100 dark:border-blue-900/50 bg-blue-50/70 dark:bg-blue-950/30 px-3 py-2.5">

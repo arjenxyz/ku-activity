@@ -5,6 +5,7 @@ import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import type { Employee } from '@/types/adminTypes';
 import { createWorkLog } from '@/api/workLogs';
 import { FiX, FiList } from 'react-icons/fi';
+import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 
 type Props = {
   employeeId?: string;
@@ -32,6 +33,7 @@ export const AddWorkLogModal = ({
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  useBodyScrollLock(isOpen);
 
   useEffect(() => {
     if (employeeId) {

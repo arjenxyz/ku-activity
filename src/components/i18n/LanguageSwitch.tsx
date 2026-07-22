@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useId, useRef, useState } from 'react';
+import { useEffect, useId, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { FiCheck, FiChevronDown, FiChevronRight, FiX } from 'react-icons/fi';
@@ -8,6 +8,7 @@ import { APP_NAME } from '@/lib/brand';
 import { useLocalizedStrings } from '@/lib/i18n/useLocalizedStrings';
 import { useLocale } from '@/lib/i18n/LocaleProvider';
 import { flagImageUrl, LOCALE_OPTIONS, type Locale } from '@/lib/i18n/locale';
+import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 import trLocaleUi from '@json/src/lib/i18n/locale-ui.json';
 import enLocaleUi from '@json/en/src/lib/i18n/locale-ui.json';
 
@@ -66,6 +67,7 @@ function LocaleOptionsList({
     <ul
       className="max-h-[min(55vh,18rem)] space-y-0.5 overflow-y-auto overscroll-none p-1.5 [scrollbar-width:thin] [-webkit-overflow-scrolling:touch]"
       role="listbox"
+      data-allow-scroll
     >
       {LOCALE_OPTIONS.map((option) => {
         const active = locale === option.id;
@@ -124,50 +126,17 @@ function LanguageModal({
   titleId: string;
 }) {
   const [mounted, setMounted] = useState(false);
-  const scrollRef = useRef<HTMLDivElement>(null);
+  useBodyScrollLock(open);
 
   useEffect(() => setMounted(true), []);
 
   useEffect(() => {
     if (!open) return;
-
-    const prevBodyOverflow = document.body.style.overflow;
-    const prevHtmlOverflow = document.documentElement.style.overflow;
-    document.body.style.overflow = 'hidden';
-    document.documentElement.style.overflow = 'hidden';
-
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
     };
-
-    const isInsideScroll = (target: EventTarget | null) => {
-      const el = scrollRef.current;
-      return el != null && target instanceof Node && el.contains(target);
-    };
-
-    const onWheel = (e: WheelEvent) => {
-      if (!isInsideScroll(e.target)) {
-        e.preventDefault();
-      }
-    };
-
-    const onTouchMove = (e: TouchEvent) => {
-      if (!isInsideScroll(e.target)) {
-        e.preventDefault();
-      }
-    };
-
     document.addEventListener('keydown', onKey);
-    document.addEventListener('wheel', onWheel, { passive: false });
-    document.addEventListener('touchmove', onTouchMove, { passive: false });
-
-    return () => {
-      document.body.style.overflow = prevBodyOverflow;
-      document.documentElement.style.overflow = prevHtmlOverflow;
-      document.removeEventListener('keydown', onKey);
-      document.removeEventListener('wheel', onWheel);
-      document.removeEventListener('touchmove', onTouchMove);
-    };
+    return () => document.removeEventListener('keydown', onKey);
   }, [open, onClose]);
 
   if (!mounted) return null;
@@ -197,7 +166,7 @@ function LanguageModal({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 6, scale: 0.98 }}
             transition={{ duration: 0.16, ease: 'easeOut' }}
-            className="relative z-10 w-full max-w-[20rem] overflow-hidden overscroll-contain rounded-2xl border border-slate-200/90 bg-white shadow-xl shadow-slate-900/10 dark:border-slate-700 dark:bg-slate-900 dark:shadow-black/40"
+            className="relative z-10 w-full max-w-[20rem] overflow-hidden overscroll-none rounded-2xl border border-slate-200/90 bg-white shadow-xl shadow-slate-900/10 dark:border-slate-700 dark:bg-slate-900 dark:shadow-black/40"
           >
             <div className="flex items-center justify-between gap-2 border-b border-slate-100 px-3.5 py-2.5 dark:border-slate-800">
               <div className="min-w-0">
@@ -221,9 +190,7 @@ function LanguageModal({
               </button>
             </div>
 
-            <div ref={scrollRef}>
-              <LocaleOptionsList locale={locale} onSelect={onSelect} />
-            </div>
+            <LocaleOptionsList locale={locale} onSelect={onSelect} />
 
             <p className="border-t border-slate-100 px-3.5 py-2 text-center text-[10px] leading-snug text-slate-400 dark:border-slate-800 dark:text-slate-500">
               {footerNote}

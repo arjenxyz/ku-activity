@@ -19,6 +19,7 @@ import {
   registerPersonnelPushIfAuthed,
   requestNotificationPermission,
 } from '@/lib/personnel-push-client';
+import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 
 function isPersonnelAuthPath(pathname: string) {
   return (
@@ -38,6 +39,7 @@ export function PersonnelNotificationPermissionPrompt() {
   const strings = useRegistryStrings('components/personnel/PersonnelNotificationPermissionPrompt');
   const pathname = usePathname() ?? '';
   const [open, setOpen] = useState(false);
+  useBodyScrollLock(open);
   const [isTwaApp, setIsTwaApp] = useState(false);
   const [busy, setBusy] = useState(false);
   const [awaitingSettings, setAwaitingSettings] = useState(false);

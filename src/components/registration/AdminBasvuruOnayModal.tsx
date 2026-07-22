@@ -26,6 +26,7 @@ import { formatDate } from '@/lib/format';
 import { registrationStatusMessage } from '@/lib/parse-registration-qr';
 import { formatString } from '@/lib/strings/format';
 import { getRegistryStrings } from '@/lib/i18n/strings-registry';
+import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 
 type BasvuruModalStrings = ReturnType<typeof getRegistryStrings<'components/registration/AdminBasvuruOnayModal'>>;
 
@@ -148,18 +149,15 @@ export function AdminBasvuruOnayModal({
     setChecklist({ photo: false, nameIdentity: false, contact: false });
   }, [open, registration?.id]);
 
+  useBodyScrollLock(open);
+
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && !loading) onClose();
     };
     document.addEventListener('keydown', onKey);
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.removeEventListener('keydown', onKey);
-      document.body.style.overflow = prev;
-    };
+    return () => document.removeEventListener('keydown', onKey);
   }, [open, loading, onClose]);
 
   if (!open || !registration || !badge) return null;
@@ -296,7 +294,7 @@ export function AdminBasvuruOnayModal({
           </div>
         </div>
 
-        <div className="flex-1 overflow-y-auto overscroll-contain">
+        <div className="flex-1 overflow-y-auto overscroll-none" data-allow-scroll>
           {statusMsg && (
             <div className="mx-4 sm:mx-6 mt-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
               {statusMsg}

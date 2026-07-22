@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { FiCamera, FiX } from 'react-icons/fi';
+import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 
 type Props = {
   open: boolean;
@@ -73,6 +74,8 @@ export function SelfieCameraModal({ open, onClose, onCapture, onUseNativeCamera 
     }
   }, [stopStream]);
 
+  useBodyScrollLock(open);
+
   useEffect(() => {
     if (!open) {
       stopStream();
@@ -80,11 +83,9 @@ export function SelfieCameraModal({ open, onClose, onCapture, onUseNativeCamera 
       return;
     }
 
-    document.body.style.overflow = 'hidden';
     void startStream();
 
     return () => {
-      document.body.style.overflow = '';
       stopStream();
     };
   }, [open, startStream, stopStream]);

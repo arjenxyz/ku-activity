@@ -5,6 +5,7 @@ import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { inputClass, labelClass, btnPrimary, btnSecondary } from '@/components/project/ui';
 import { formatMoney } from '@/lib/format';
 import type { ProjectBlock } from '@/types/project-block';
+import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 
 type JobForm = {
   name: string;
@@ -44,6 +45,7 @@ export function AddJobModal({ open, onClose, onSubmit, saving, blocks = [] }: Pr
   const strings = useRegistryStrings('components/project/profit/AddJobModal');
   const [form, setForm] = useState<JobForm>(() => emptyForm());
   const activeBlocks = blocks.filter((b) => b.status === 'active');
+  useBodyScrollLock(open);
 
   useEffect(() => {
     if (!open) {
@@ -71,7 +73,7 @@ export function AddJobModal({ open, onClose, onSubmit, saving, blocks = [] }: Pr
 
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4 bg-black/40">
-      <div className="bg-white rounded-xl shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
+      <div className="bg-white rounded-xl shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto overscroll-none" data-allow-scroll>
         <div className="px-5 py-4 border-b border-slate-100">
           <h2 className="text-lg font-semibold text-slate-900">{strings.title}</h2>
           <p className="text-sm text-slate-500 mt-0.5">{strings.subtitle}</p>

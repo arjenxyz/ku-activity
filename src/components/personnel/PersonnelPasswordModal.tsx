@@ -10,6 +10,7 @@ import {
   validatePersonnelPin,
 } from '@/lib/personnel-pin';
 import { formatString } from '@/lib/strings/format';
+import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 
 type Props = {
   open: boolean;
@@ -35,17 +36,15 @@ export function PersonnelPasswordModal({ open, onClose }: Props) {
     setSuccess(false);
   }, [open]);
 
+  useBodyScrollLock(open);
+
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
     };
     document.addEventListener('keydown', onKey);
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.removeEventListener('keydown', onKey);
-      document.body.style.overflow = '';
-    };
+    return () => document.removeEventListener('keydown', onKey);
   }, [open, onClose]);
 
   if (!open) return null;

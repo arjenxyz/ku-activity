@@ -16,6 +16,7 @@ import {
   personnelAuthSecondaryBtnClass,
 } from '@/lib/personnel-auth-ui';
 import { formatString } from '@/lib/strings/format';
+import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 
 type View = 'form' | 'no-email' | 'link-sent';
 
@@ -31,6 +32,7 @@ const labelClass = personnelAuthLabelClass;
 export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
 
   const strings = useRegistryStrings('components/auth/ForgotPinModal');
+  useBodyScrollLock(open);
   const [view, setView] = useState<View>('form');
   const [tcKimlik, setTcKimlik] = useState(initialTc);
   const [phone, setPhone] = useState('');
@@ -195,7 +197,7 @@ export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
           </button>
         </div>
 
-        <div className="px-5 py-4 overflow-y-auto space-y-4">
+        <div className="px-5 py-4 overflow-y-auto overscroll-none space-y-4" data-allow-scroll>
           {view === 'link-sent' ? (
             <div className="space-y-4">
               <AuthAlert type="success" tone="personnel" message={strings.linkSentMessage} />

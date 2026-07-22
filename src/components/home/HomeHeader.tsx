@@ -9,6 +9,7 @@ import { LoginRoleButton } from '@/components/home/LoginRolePicker';
 import { APP_NAME, APP_TAGLINE, APP_TAGLINE_TR } from '@/lib/brand';
 import { useLocale } from '@/lib/i18n/LocaleProvider';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
+import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 
 export function HomeHeader() {
   const strings = useRegistryStrings('components/home/HomeHeader');
@@ -32,12 +33,7 @@ export function HomeHeader() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  useEffect(() => {
-    document.body.style.overflow = isMenuOpen ? 'hidden' : '';
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [isMenuOpen]);
+  useBodyScrollLock(isMenuOpen);
 
   return (
     <>
@@ -130,7 +126,10 @@ export function HomeHeader() {
               <LanguageSwitch variant="compact" />
             </div>
 
-            <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
+            <div
+              className="min-h-0 flex-1 overflow-y-auto overscroll-none"
+              data-allow-scroll
+            >
               {navLinks.map((link) => (
                 <a
                   key={link.href}

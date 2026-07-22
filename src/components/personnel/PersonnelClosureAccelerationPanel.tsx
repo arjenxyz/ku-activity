@@ -6,6 +6,7 @@ import { FiMail, FiX, FiZap } from 'react-icons/fi';
 import { formatString } from '@/lib/strings/format';
 import { BrandMark } from '@/components/brand/BrandMark';
 import { APP_NAME } from '@/lib/brand';
+import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 
 const OTP_LENGTH = 6;
 
@@ -22,6 +23,7 @@ export function PersonnelClosureAccelerationPanel({ maskedEmail, onAccelerated }
   const [preparing, setPreparing] = useState(false);
   const [verifying, setVerifying] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  useBodyScrollLock(open);
 
   const sendCode = useCallback(async () => {
     setPreparing(true);

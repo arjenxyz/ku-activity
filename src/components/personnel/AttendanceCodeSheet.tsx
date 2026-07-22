@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { FiHash, FiLoader, FiX } from 'react-icons/fi';
+import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 
 type Props = {
   open: boolean;
@@ -30,6 +31,7 @@ export function AttendanceCodeSheet({
 
   const strings = useRegistryStrings('components/personnel/AttendanceCodeSheet');
   const inputRef = useRef<HTMLInputElement>(null);
+  useBodyScrollLock(open);
 
   useEffect(() => {
     if (!open) return;

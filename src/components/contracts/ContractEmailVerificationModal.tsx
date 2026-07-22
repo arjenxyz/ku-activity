@@ -16,6 +16,7 @@ import { APP_NAME } from '@/lib/brand';
 import type { PendingRegistration } from '@/lib/registration-pending-storage';
 import { isRegistrationFormFieldError } from '@/lib/registration-draft-validation';
 import { formatString } from '@/lib/strings/format';
+import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 
 const OTP_LENGTH = 6;
 
@@ -152,6 +153,8 @@ export function ContractEmailVerificationModal({
     autoVerifyLock.current = false;
   }, []);
 
+  useBodyScrollLock(open);
+
   useEffect(() => {
     if (!open) {
       resetState();
@@ -162,11 +165,7 @@ export function ContractEmailVerificationModal({
       if (e.key === 'Escape' && !verifying && !sending) onClose();
     };
     document.addEventListener('keydown', onKey);
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.removeEventListener('keydown', onKey);
-      document.body.style.overflow = '';
-    };
+    return () => document.removeEventListener('keydown', onKey);
   }, [open, onClose, verifying, sending, resetState]);
 
   const sendCode = useCallback(async () => {

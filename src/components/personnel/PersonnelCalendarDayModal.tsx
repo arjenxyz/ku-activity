@@ -14,6 +14,7 @@ import {
 } from '@/lib/personnel-stats';
 import { getWorkLogApprovalStatus, mesaiLabel, type WorkLogApprovalStatus } from '@/lib/work-log';
 import { PersonnelBadge } from '@/components/personnel/PersonnelRecordCard';
+import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 
 type Props = {
   open: boolean;
@@ -88,6 +89,7 @@ export function PersonnelCalendarDayModal({
   onClose,
 }: Props) {
   const strings = useRegistryStrings('components/personnel/PersonnelCalendarDayModal');
+  useBodyScrollLock(open);
 
   useEffect(() => {
     if (!open) return;
@@ -95,11 +97,7 @@ export function PersonnelCalendarDayModal({
       if (e.key === 'Escape') onClose();
     };
     document.addEventListener('keydown', onKey);
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.removeEventListener('keydown', onKey);
-      document.body.style.overflow = '';
-    };
+    return () => document.removeEventListener('keydown', onKey);
   }, [open, onClose]);
 
   if (!open || !date) return null;
@@ -127,7 +125,8 @@ export function PersonnelCalendarDayModal({
         role="dialog"
         aria-modal="true"
         aria-labelledby="calendar-day-modal-title"
-        className="safe-pb relative max-h-[min(88dvh,640px)] w-full overflow-y-auto rounded-t-3xl bg-white shadow-2xl dark:bg-slate-900 sm:max-w-md sm:rounded-2xl"
+        className="safe-pb relative max-h-[min(88dvh,640px)] w-full overflow-y-auto overscroll-none rounded-t-3xl bg-white shadow-2xl dark:bg-slate-900 sm:max-w-md sm:rounded-2xl"
+        data-allow-scroll
       >
         <div className="sticky top-0 z-10 flex items-start justify-between gap-3 border-b border-slate-100 bg-white/95 px-5 pb-3 pt-5 backdrop-blur-sm dark:border-slate-800 dark:bg-slate-900/95">
           <div className="flex min-w-0 items-start gap-3">
