@@ -17,6 +17,7 @@ export type WorkLog = {
   employee_confirmed_at?: string | null;
   employee_dispute_note?: string | null;
   employee_disputed_at?: string | null;
+  created_at?: string | null;
 };
 
 export type Deduction = {
@@ -25,6 +26,7 @@ export type Deduction = {
   type: string;
   amount: number;
   description: string | null;
+  created_at?: string | null;
 };
 
 export type MinimumWage = {
@@ -32,6 +34,7 @@ export type MinimumWage = {
   date: string;
   amount: number;
   description: string | null;
+  created_at?: string | null;
 };
 
 export type PersonnelStats = {

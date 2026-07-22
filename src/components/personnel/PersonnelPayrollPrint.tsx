@@ -2,7 +2,7 @@
 
 import { APP_NAME, CREWLEDGER_APP_ICON } from '@/lib/brand';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
-import { formatDate, formatDateTime, formatMoney } from '@/lib/format';
+import { formatDate, formatDateTime, formatDateWithTime, formatMoney } from '@/lib/format';
 import { maskTcKimlik } from '@/lib/field-encryption';
 import type { PersonnelEmployee } from '@/lib/personnel-api';
 import {
@@ -35,6 +35,10 @@ function monthTitle(month: string) {
     year: 'numeric',
     timeZone: 'Europe/Istanbul',
   });
+}
+
+function recordAt(row: { created_at?: string | null; admin_confirmed_at?: string | null }) {
+  return row.created_at || row.admin_confirmed_at || null;
 }
 
 function mesaiLabel(
@@ -173,7 +177,7 @@ export function PersonnelPayrollPrint({
           <table className="payroll-print-table">
             <thead>
               <tr>
-                <th>{strings.table.date}</th>
+                <th>{strings.table.dateTime}</th>
                 <th>{strings.table.work}</th>
                 <th>{strings.table.mesai}</th>
                 <th className="num">{strings.table.wage}</th>
@@ -189,7 +193,7 @@ export function PersonnelPayrollPrint({
                 const status = getWorkLogApprovalStatus(log);
                 return (
                   <tr key={log.id}>
-                    <td>{formatDate(log.date)}</td>
+                    <td>{formatDateWithTime(log.date, recordAt(log))}</td>
                     <td>{workDayLabel(Number(log.amount), log.mesai_type)}</td>
                     <td>{mesaiLabel(String(log.mesai_type ?? ''), strings)}</td>
                     <td className="num">{formatMoney(base)}</td>
@@ -269,7 +273,7 @@ export function PersonnelPayrollPrint({
           <table className="payroll-print-table">
             <thead>
               <tr>
-                <th>{strings.table.date}</th>
+                <th>{strings.table.dateTime}</th>
                 <th>{strings.table.description}</th>
                 <th className="num">{strings.table.amount}</th>
               </tr>
@@ -277,7 +281,7 @@ export function PersonnelPayrollPrint({
             <tbody>
               {advances.map((r) => (
                 <tr key={r.id}>
-                  <td>{formatDate(r.date)}</td>
+                  <td>{formatDateWithTime(r.date, r.created_at)}</td>
                   <td>{r.description || strings.defaults.advance}</td>
                   <td className="num">{formatMoney(Number(r.amount))}</td>
                 </tr>
@@ -303,7 +307,7 @@ export function PersonnelPayrollPrint({
           <table className="payroll-print-table">
             <thead>
               <tr>
-                <th>{strings.table.date}</th>
+                <th>{strings.table.dateTime}</th>
                 <th>{strings.table.deductionType}</th>
                 <th>{strings.table.description}</th>
                 <th className="num">{strings.table.amount}</th>
@@ -312,7 +316,7 @@ export function PersonnelPayrollPrint({
             <tbody>
               {otherDeductions.map((r) => (
                 <tr key={r.id}>
-                  <td>{formatDate(r.date)}</td>
+                  <td>{formatDateWithTime(r.date, r.created_at)}</td>
                   <td>{deductionTypeLabel(r.type)}</td>
                   <td>{r.description || strings.emptyValue}</td>
                   <td className="num">{formatMoney(Number(r.amount))}</td>
@@ -339,7 +343,7 @@ export function PersonnelPayrollPrint({
           <table className="payroll-print-table">
             <thead>
               <tr>
-                <th>{strings.table.date}</th>
+                <th>{strings.table.dateTime}</th>
                 <th>{strings.table.description}</th>
                 <th className="num">{strings.table.amount}</th>
               </tr>
@@ -347,7 +351,7 @@ export function PersonnelPayrollPrint({
             <tbody>
               {minimumWages.map((r) => (
                 <tr key={r.id}>
-                  <td>{formatDate(r.date)}</td>
+                  <td>{formatDateWithTime(r.date, r.created_at)}</td>
                   <td>{r.description || strings.defaults.minimumWage}</td>
                   <td className="num">{formatMoney(Number(r.amount))}</td>
                 </tr>

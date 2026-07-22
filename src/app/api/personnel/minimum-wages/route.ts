@@ -11,7 +11,7 @@ export async function GET(request: Request) {
 
     let q = admin
       .from('minimum_wages')
-      .select('id, date, amount, description')
+      .select('id, date, amount, description, created_at')
       .eq('employee_id', session.employeeId)
       .order('date', { ascending: false })
       .limit(200);

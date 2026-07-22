@@ -28,6 +28,7 @@
   },
   "table": {
     "date": "Date",
+    "dateTime": "Date / Time",
     "work": "Work",
     "mesai": "Overtime",
     "wage": "Wage",

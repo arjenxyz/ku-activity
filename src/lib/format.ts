@@ -22,6 +22,25 @@ export function formatDateTime(value: string) {
   });
 }
 
+/** Saat dilimi: Europe/Istanbul — yalnızca saat:dakika */
+export function formatTime(value: string | null | undefined) {
+  if (!value) return null;
+  const d = new Date(value);
+  if (Number.isNaN(d.getTime())) return null;
+  return d.toLocaleTimeString('tr-TR', {
+    hour: '2-digit',
+    minute: '2-digit',
+    timeZone: 'Europe/Istanbul',
+  });
+}
+
+/** PDF / liste: tarih + işlem saati (varsa) */
+export function formatDateWithTime(date: string, at?: string | null) {
+  const day = formatDate(date);
+  const time = formatTime(at);
+  return time ? `${day} ${time}` : day;
+}
+
 export function formatFullName(firstName: string, lastName: string) {
   return `${firstName.trim()} ${lastName.trim()}`.trim();
 }

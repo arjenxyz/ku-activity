@@ -28,6 +28,7 @@
   },
   "table": {
     "date": "Tarih",
+    "dateTime": "Tarih / Saat",
     "work": "\u00c7al\u0131\u015fma",
     "mesai": "Mesai",
     "wage": "Yevmiye",

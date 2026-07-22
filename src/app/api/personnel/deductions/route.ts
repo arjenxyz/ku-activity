@@ -11,7 +11,7 @@ export async function GET(request: Request) {
 
     let q = admin
       .from('deductions')
-      .select('id, date, type, amount, description')
+      .select('id, date, type, amount, description, created_at')
       .eq('employee_id', session.employeeId)
       .order('date', { ascending: false })
       .limit(366);
