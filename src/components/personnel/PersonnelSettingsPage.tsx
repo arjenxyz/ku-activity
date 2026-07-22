@@ -350,10 +350,10 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
                 alt={strings.digitalApprovalMarkAlt}
                 width={720}
                 height={240}
-                className="h-14 w-auto max-w-full object-contain sm:h-16"
+                className="h-auto w-full max-w-md object-contain"
                 priority={false}
               />
-              <p className="mt-2 text-center text-[11px] font-medium tracking-wide text-slate-500 dark:text-slate-400">
+              <p className="mt-2.5 text-center text-[11px] font-medium tracking-wide text-slate-500 dark:text-slate-400">
                 {strings.digitalApprovalMark}
               </p>
             </div>
