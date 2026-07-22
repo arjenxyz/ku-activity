@@ -316,7 +316,7 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
         >
           <header className="safe-pt shrink-0 bg-transparent px-3 pb-2">
             <div className="mx-auto max-w-5xl">
-              <div className="flex h-14 items-center justify-between gap-3 rounded-2xl border border-slate-200/90 bg-white/95 px-3 shadow-md shadow-slate-900/[0.06] backdrop-blur-xl dark:border-slate-700/80 dark:bg-slate-900/95 dark:shadow-black/25 sm:px-4">
+              <div className="flex h-14 items-center justify-between gap-3 bg-transparent px-0 sm:px-1">
                 <div className="flex min-w-0 flex-1 items-center gap-2.5">
                   <button
                     type="button"
