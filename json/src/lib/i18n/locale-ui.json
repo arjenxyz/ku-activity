@@ -1,4 +1,7 @@
 {
   "switchAriaLabel": "Dil seçin",
-  "menuTitle": "Dil"
+  "menuTitle": "Dil",
+  "modalTitle": "Dil seçin",
+  "closeButtonAriaLabel": "Kapat",
+  "closeOverlayAriaLabel": "Kapat"
 }

@@ -1,4 +1,7 @@
 {
   "switchAriaLabel": "Select language",
-  "menuTitle": "Language"
+  "menuTitle": "Language",
+  "modalTitle": "Select language",
+  "closeButtonAriaLabel": "Close",
+  "closeOverlayAriaLabel": "Close"
 }
