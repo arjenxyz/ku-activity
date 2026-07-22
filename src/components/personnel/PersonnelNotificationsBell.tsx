@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { FiArrowLeft, FiBell, FiCheck, FiTrash2 } from 'react-icons/fi';
+import { HonorIconTile } from '@/components/icons/HonorIcons';
 import { useLocalizedStrings } from '@/lib/i18n/useLocalizedStrings';
 import { formatString } from '@/lib/strings/format';
 import { usePersonnelNotificationsContext } from '@/contexts/PersonnelNotificationsContext';
@@ -317,18 +318,29 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
           exit={{ opacity: 0, y: 24 }}
           transition={{ type: 'spring', stiffness: 380, damping: 36 }}
         >
-          <header className="safe-pt shrink-0 border-b border-slate-200/80 bg-white px-3 pb-3 dark:border-slate-800 dark:bg-slate-900">
-            <div className="flex items-center gap-2">
+          <header className="safe-pt relative shrink-0 overflow-hidden border-b border-[#0E1548]/8 bg-gradient-to-b from-white via-white to-[#F4F6FC] px-3 pb-3.5 pt-1 dark:border-slate-800 dark:from-slate-900 dark:via-slate-900 dark:to-slate-950">
+            <div
+              className="pointer-events-none absolute -right-8 -top-10 h-28 w-28 rounded-full bg-violet-400/15 blur-2xl dark:bg-violet-500/10"
+              aria-hidden
+            />
+            <div
+              className="pointer-events-none absolute -left-6 top-0 h-20 w-20 rounded-full bg-sky-400/10 blur-2xl"
+              aria-hidden
+            />
+            <div className="relative flex items-center gap-2.5">
               <button
                 type="button"
                 onClick={closePanel}
-                className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-[#0E1548] transition hover:bg-slate-100 dark:text-white dark:hover:bg-slate-800"
+                className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-slate-200/80 bg-white text-[#0E1548] shadow-sm shadow-slate-900/5 transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
                 aria-label={strings.back}
               >
                 <FiArrowLeft className="h-5 w-5" />
               </button>
+              <HonorIconTile name="bell" theme="violet" size="sm" className="shrink-0 shadow-md shadow-violet-500/20" />
               <div className="min-w-0 flex-1">
-                <h1 className="text-lg font-bold text-[#0E1548] dark:text-white">{strings.panelTitle}</h1>
+                <h1 className="text-lg font-bold tracking-tight text-[#0E1548] dark:text-white">
+                  {strings.panelTitle}
+                </h1>
                 {canViewNotifications && items.length > 0 ? (
                   <p className="text-xs font-medium text-slate-500 dark:text-slate-400">
                     {unreadCount > 0
@@ -389,8 +401,17 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
           <div className="min-h-0 flex-1 overflow-y-auto overscroll-none safe-pb" data-allow-scroll>
             {!canViewNotifications ? (
               <div className="flex min-h-full flex-col items-center justify-center px-6 py-12 text-center">
-                <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-3xl bg-white text-3xl shadow-sm ring-1 ring-slate-200/80 dark:bg-slate-900 dark:ring-slate-700">
-                  🔔
+                <div className="relative mb-6">
+                  <div
+                    className="absolute inset-0 scale-150 rounded-full bg-violet-400/20 blur-2xl"
+                    aria-hidden
+                  />
+                  <HonorIconTile
+                    name="bell"
+                    theme="violet"
+                    size="xl"
+                    className="relative shadow-lg shadow-violet-500/25"
+                  />
                 </div>
                 <p className="text-base font-semibold text-[#0E1548] dark:text-white">
                   {strings.permissionRequiredTitle}
@@ -425,7 +446,7 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
                     type="button"
                     disabled={requestingPermission}
                     onClick={() => void requestBrowserNotificationAccess()}
-                    className="mt-6 inline-flex min-h-12 items-center justify-center rounded-2xl bg-[#0E1548] px-6 text-sm font-semibold text-white disabled:opacity-60"
+                    className="mt-6 inline-flex min-h-12 items-center justify-center rounded-2xl bg-[#0E1548] px-6 text-sm font-semibold text-white shadow-md shadow-[#0E1548]/20 disabled:opacity-60"
                   >
                     {requestingPermission ? strings.permissionRequesting : strings.permissionRequestButton}
                   </button>
@@ -444,8 +465,17 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
               <p className="px-4 py-16 text-center text-sm text-slate-500">{strings.loading}</p>
             ) : items.length === 0 ? (
               <div className="flex min-h-full flex-col items-center justify-center px-6 py-16 text-center">
-                <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-3xl bg-white text-2xl shadow-sm ring-1 ring-slate-200/80 dark:bg-slate-900 dark:ring-slate-700">
-                  🔔
+                <div className="relative mb-5">
+                  <div
+                    className="absolute inset-0 scale-150 rounded-full bg-violet-400/15 blur-xl"
+                    aria-hidden
+                  />
+                  <HonorIconTile
+                    name="bell"
+                    theme="violet"
+                    size="lg"
+                    className="relative shadow-md shadow-violet-500/20"
+                  />
                 </div>
                 <p className="text-sm text-slate-500">{strings.empty}</p>
               </div>

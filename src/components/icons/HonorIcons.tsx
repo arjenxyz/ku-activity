@@ -39,7 +39,8 @@ export type HonorIconName =
   | 'briefcase'
   | 'menu'
   | 'user'
-  | 'globe';
+  | 'globe'
+  | 'bell';
 
 export type HonorIconTheme =
   | 'blue'
@@ -369,6 +370,13 @@ const GLYPHS: Record<HonorIconName, ReactNode> = {
         stroke="currentColor"
         strokeWidth="1.6"
       />
+    </>
+  ),
+  bell: (
+    <>
+      <path d="M12 3.2a5.2 5.2 0 0 0-5.2 5.2v2.1c0 .9-.3 1.8-.9 2.5l-.7.8c-.7.8-.1 2.1 1 2.1h11.6c1.1 0 1.7-1.3 1-2.1l-.7-.8a4 4 0 0 1-.9-2.5V8.4A5.2 5.2 0 0 0 12 3.2z" />
+      <path d="M9.4 18.1a2.6 2.6 0 0 0 5.2 0" opacity="0.9" />
+      <circle cx="17.4" cy="6.2" r="2.1" fill="white" fillOpacity="0.95" />
     </>
   ),
 };
