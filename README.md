@@ -1,90 +1,81 @@
 # CrewLedger
 
-**İnşaat Personel Yönetim Platformu** — puantaj, mesai, finans, asgari ücret ve dijital işe alım.
+Şantiye personeli için yevmiye, mesai, avans ve işe alım uygulaması.
 
-[![Next.js](https://img.shields.io/badge/Next.js-15-black)](https://nextjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)](https://www.typescriptlang.org/)
-[![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-green)](https://supabase.com/)
+Canlı: [crewledger.vercel.app](https://crewledger.vercel.app)
 
-🌐 **https://crewledger.vercel.app**
+## Ne işe yarar?
 
----
+Yönetici yoklama girer, personel telefonda görür ve onaylar.  
+Kağıt / Excel / WhatsApp yerine **tek ortak kayıt**.
 
-## Nedir?
+| Kim | Ne yapar |
+|-----|----------|
+| Yönetici | Proje, personel, yoklama, avans, kesinti |
+| Personel | Kendi günlerini görür, onaylar, QR okutur |
+| Developer | Platform araçları, APK yayınlama |
 
-CrewLedger, şantiye ve taşeron firmalarının personel yevmiyesini, mesaisini, avans/kesintilerini ve asgari ücret tamamlamasını **tek platformda** yönetmesini sağlar. Personel, mobil PWA üzerinden kendi kayıtlarını görür ve **çift onay** ile puantajı doğrular.
+## Tech stack
 
-### Temel özellikler
+Next.js 15 · TypeScript · Tailwind · Supabase · Vercel  
+Android tarafı: TWA (Bubblewrap) — web’i APK gibi paketler
 
-- ✅ **Çift onaylı yoklama** — veritabanı trigger ile zorunlu
-- ✅ **Personel şeffaflığı** — yönetici ile aynı veri kaynağı
-- ✅ **Mesai ayrımı** — çalışılan günden bağımsız kazanç
-- ✅ **Asgari ücret modülü** — politika + taşeron farkı + personel sekmesi
-- ✅ **Dijital işe alım** — QR, OTP sözleşme, selfie
-- ✅ **KVKK odaklı** — T.C./IBAN şifreleme (AES-256-GCM)
-- ✅ **PWA** — telefona kurulabilir personel uygulaması
-- ✅ **Hukuki dosya** — denetim için ZIP/CSV export
-
----
-
-## Paneller
-
-| Panel | URL | Kullanıcı |
-|-------|-----|-----------|
-| Ana site | `/` | Tanıtım |
-| Yönetici | `/admin-panel` | Şantiye sorumlusu |
-| Personel | `/personnel-panel` | Saha işçisi |
-| Geliştirici | `/developer-panel` | Platform operatörü |
-
----
-
-## Dokümantasyon
-
-**Tüm teknik belgeler `docs/` klasöründedir.**
-
-| Belge | İçerik |
-|-------|--------|
-| [**docs/README.md**](./docs/README.md) | Dokümantasyon indeksi |
-| [Genel Bakış](./docs/01-GENEL-BAKIS.md) | Vizyon ve kapsam |
-| [Problem ve Çözüm](./docs/02-PROBLEM-VE-COZUM.md) | Sektörel analiz |
-| [Mimari](./docs/03-MIMARI.md) | Sistem tasarımı |
-| [Teknoloji Yığını](./docs/04-TEKNOLOJI-YIGINI.md) | Stack detayı |
-| [Veritabanı](./docs/05-VERITABANI.md) | Şema ve migration |
-| [Güvenlik ve KVKK](./docs/06-GUVENLIK-VE-KVKK.md) | Şifreleme, RLS |
-| [Yönetici Paneli](./docs/07-ADMIN-PANEL.md) | Admin özellikleri |
-| [Personel Paneli](./docs/08-PERSONEL-PANEL.md) | PWA ve sekmeler |
-| [İş Kuralları](./docs/09-IS-KURALLARI.md) | Formüller |
-| [API Referansı](./docs/10-API-REFERANSI.md) | REST endpoint'ler |
-| [Kurulum](./docs/11-KURULUM-VE-DEPLOY.md) | Yerel + Vercel |
-| [Proje Tanıtımı](./docs/CREWLEDGER_PROFESOR_TANITIM.md) | Ürün özeti |
-
----
-
-## Hızlı başlangıç
+## Çalıştır
 
 ```bash
 git clone https://github.com/arjenxyz/personel.git
 cd personel
 npm install
-cp .env.example .env.local   # veya docs/11-KURULUM-VE-DEPLOY.md şablonunu kullan
-# Supabase migration'ları sırayla çalıştır (supabase/migrations/)
+cp .env.example .env.local
+```
+
+`.env.local` içine en az şunları yaz:
+
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- `SUPABASE_SERVICE_ROLE_KEY`
+- `FIELD_ENCRYPTION_KEY` (64 hex karakter)
+
+Sonra:
+
+```bash
+# Supabase’de supabase/migrations/ dosyalarını sırayla çalıştır
 npm run dev
 ```
 
-Detaylı kurulum: [docs/11-KURULUM-VE-DEPLOY.md](./docs/11-KURULUM-VE-DEPLOY.md)
+→ [localhost:3000](http://localhost:3000)
 
----
+Detay: [docs/kurulum.md](./docs/kurulum.md)
 
-## Teknoloji
+## Klasörler (kısa)
 
-Next.js 15 · React 18 · TypeScript · Tailwind CSS · Supabase (PostgreSQL) · Vercel
+```
+src/app/admin-panel/       → yönetici UI
+src/app/personnel-panel/   → personel UI
+src/app/api/               → API route’lar
+src/lib/                   → iş mantığı
+supabase/migrations/       → veritabanı
+twa/ + twa-build/          → Android APK
+docs/                      → kısa dokümanlar
+```
 
----
+Daha fazla: [docs/kod-haritasi.md](./docs/kod-haritasi.md)
 
-## Sürüm
+## Önemli kural
 
-**v0.1.0** — Haziran 2026
+Bir çalışma günü, **yönetici + personel** ikisi de onaylamadan kesin sayılmaz.  
+Bu veritabanı seviyesinde zorunlu.
 
----
+## Dokümanlar
 
-*CrewLedger — Construction Workforce Platform*
+| Dosya | Ne anlatır |
+|-------|------------|
+| [docs/nedir.md](./docs/nedir.md) | Ürün özeti |
+| [docs/kurulum.md](./docs/kurulum.md) | Env + deploy |
+| [docs/kod-haritasi.md](./docs/kod-haritasi.md) | Nerede ne var |
+| [docs/is-kurallari.md](./docs/is-kurallari.md) | Yoklama, mesai, asgari |
+| [docs/apk.md](./docs/apk.md) | APK / TWA |
+
+## Lisans
+
+Proje sahibi — özel kullanım.
