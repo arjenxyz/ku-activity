@@ -83,6 +83,7 @@ function maskPhoneForProfile(phone: string | null | undefined): string | null {
 export function PersonnelSettingsPage({ employee, onLogout }: Props) {
   const strings = useRegistryStrings('components/personnel/PersonnelSettingsPage');
   const [passwordOpen, setPasswordOpen] = useState(false);
+  const [logoutConfirmOpen, setLogoutConfirmOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<SettingsSectionId>('home');
   const [photoUrl, setPhotoUrl] = useState(employee.photo_url ?? null);
   const [photoBusy, setPhotoBusy] = useState(false);
@@ -335,14 +336,38 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
               ))}
             </SettingsCard>
 
-            <button
-              type="button"
-              onClick={onLogout}
-              className="flex w-full items-center justify-center gap-2 rounded-2xl bg-red-50 py-3.5 text-sm font-medium text-red-600 shadow-sm transition hover:bg-red-100 active:bg-red-100 dark:bg-red-950/30 dark:text-red-400 dark:hover:bg-red-950/50"
-            >
-              <FiLogOut className="h-4 w-4" />
-              {strings.logout}
-            </button>
+            {logoutConfirmOpen ? (
+              <div className="rounded-2xl border border-rose-200/80 bg-rose-50 px-4 py-3.5 shadow-sm dark:border-rose-900/50 dark:bg-rose-950/30">
+                <p className="text-center text-sm font-medium text-rose-800 dark:text-rose-200">
+                  {strings.logoutConfirm}
+                </p>
+                <div className="mt-3 flex gap-2">
+                  <button
+                    type="button"
+                    onClick={onLogout}
+                    className="inline-flex min-h-11 flex-1 items-center justify-center rounded-xl bg-rose-600 px-4 text-sm font-semibold text-white transition hover:bg-rose-700"
+                  >
+                    {strings.logoutConfirmButton}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setLogoutConfirmOpen(false)}
+                    className="inline-flex min-h-11 items-center justify-center rounded-xl border border-rose-200 bg-white px-4 text-sm font-semibold text-rose-700 transition hover:bg-rose-50 dark:border-rose-800 dark:bg-slate-900 dark:text-rose-300"
+                  >
+                    {strings.logoutCancel}
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={() => setLogoutConfirmOpen(true)}
+                className="flex w-full items-center justify-center gap-2 rounded-2xl bg-red-50 py-3.5 text-sm font-medium text-red-600 shadow-sm transition hover:bg-red-100 active:bg-red-100 dark:bg-red-950/30 dark:text-red-400 dark:hover:bg-red-950/50"
+              >
+                <FiLogOut className="h-4 w-4" />
+                {strings.logout}
+              </button>
+            )}
 
             <div className="flex w-full flex-col items-center px-1 pt-5 pb-1">
               <Image
