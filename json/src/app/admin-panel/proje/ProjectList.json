@@ -7,5 +7,7 @@
   "editAriaLabel": "Düzenle",
   "deleteAriaLabel": "Kapanış başlat",
   "closureBadge": "Kapanış sürecinde",
-  "emptyDate": "—"
+  "emptyDate": "—",
+  "ownerBadge": "Sahip",
+  "collaboratorBadge": "Ortak"
 }

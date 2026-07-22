@@ -10,5 +10,15 @@
   "closureBody": " will enter the closure process. Data is not deleted immediately; personnel have 30 days to consent and download records.",
   "cancel": "Cancel",
   "closing": "Starting...",
-  "confirmClosure": "Start closure"
+  "confirmClosure": "Start closure",
+  "joinCollab": {
+    "title": "Become project collaborator",
+    "hint": "Enter the ORTAK- code from the project owner to join with operations access.",
+    "open": "Join with code",
+    "placeholder": "ORTAK-…",
+    "submit": "Join",
+    "saving": "Joining…",
+    "failed": "Could not join",
+    "success": "You joined {name} as a collaborator."
+  }
 }

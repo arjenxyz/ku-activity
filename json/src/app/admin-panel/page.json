@@ -10,5 +10,15 @@
   "closureBody": " için kapanış süreci başlatılır. Veriler hemen silinmez; personel 30 gün içinde onay verip kayıtlarını indirir.",
   "cancel": "Vazgeç",
   "closing": "Başlatılıyor...",
-  "confirmClosure": "Kapanışı başlat"
+  "confirmClosure": "Kapanışı başlat",
+  "joinCollab": {
+    "title": "Proje ortak ol",
+    "hint": "Proje sahibinin verdiği ORTAK- kodunu girerek operasyon ortaklığına katılın.",
+    "open": "Kod ile katıl",
+    "placeholder": "ORTAK-…",
+    "submit": "Katıl",
+    "saving": "Katılıyor…",
+    "failed": "Katılınamadı",
+    "success": "{name} projesine ortak oldunuz."
+  }
 }

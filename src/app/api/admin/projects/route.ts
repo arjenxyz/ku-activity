@@ -4,6 +4,7 @@ import { createClient } from '@/utils/supabase/server';
 import { queryProjectsList, apiErrorMessage } from '@/lib/project-queries';
 import { mergeProjectClosureFields } from '@/lib/project-closure-merge';
 import { getAdminProjectQuota } from '@/lib/project-admin-quota';
+import { attachMembershipToProjects } from '@/lib/project-collaborators';
 import type { ProjectFormData, ProjectStatus } from '@/types/project';
 import strings from '@json/src/app/api/admin/projects/route.json';
 
@@ -31,9 +32,14 @@ export async function GET(request: Request) {
       (data ?? []) as Record<string, unknown>[]
     );
 
+    const withMembership = await attachMembershipToProjects(
+      projects as Array<Record<string, unknown> & { id: string; created_by?: string | null }>,
+      user.id
+    );
+
     const quota = await getAdminProjectQuota(user.id);
 
-    return NextResponse.json({ projects, quota });
+    return NextResponse.json({ projects: withMembership, quota });
   } catch (err) {
     const { status, message } = apiErrorMessage(err);
     return NextResponse.json({ error: message }, { status });

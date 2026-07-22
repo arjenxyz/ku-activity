@@ -4,6 +4,7 @@ import { createAdminClient } from '@/utils/supabase/admin';
 import { apiErrorMessage } from '@/lib/project-queries';
 import { adminConfirmWorkLog } from '@/lib/work-log-service';
 import { notifyWorkLogRecorded } from '@/lib/personnel-notification-service';
+import { resolveAdminDisplayName } from '@/lib/admin-display-name';
 import type { MesaiType } from '@/lib/work-log';
 import strings from '@json/src/app/api/admin/projects/[projectId]/work-logs/route.json';
 
@@ -96,12 +97,14 @@ export async function POST(request: Request, ctx: Ctx) {
     });
 
     try {
+      const actorName = await resolveAdminDisplayName(supabase, user.id, user.email);
       await notifyWorkLogRecorded(supabase, {
         employeeId: record.employee_id,
         projectId,
         workLogId: record.id,
         date: record.date,
         amount: Number(record.amount),
+        actorName,
       });
     } catch {
       /* bildirim isteğe bağlı */

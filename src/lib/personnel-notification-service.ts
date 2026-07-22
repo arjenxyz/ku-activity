@@ -208,18 +208,20 @@ export async function notifyAttendanceNotice(
     projectId: string;
     workDate: string;
     noticeType: 'removed_from_list' | 'session_cancelled' | 'did_not_work';
+    actorName?: string;
   }
 ) {
   const workDate = params.workDate.slice(0, 10);
+  const actorName = params.actorName?.trim() || 'Yönetici';
   if (params.noticeType === 'did_not_work') {
     return notifyPersonnel(admin, {
       employeeId: params.employeeId,
       projectId: params.projectId,
       type: 'attendance_did_not_work',
       title: strings.attendanceDidNotWork.title,
-      body: formatString(strings.attendanceDidNotWork.body, { workDate }),
+      body: formatString(strings.attendanceDidNotWork.body, { workDate, actorName }),
       href: '/personnel-panel?tab=work',
-      data: { workDate, noticeType: params.noticeType },
+      data: { workDate, noticeType: params.noticeType, actorName },
     });
   }
 
@@ -233,9 +235,9 @@ export async function notifyAttendanceNotice(
     projectId: params.projectId,
     type: isCancelled ? 'attendance_session_cancelled' : 'attendance_removed_from_list',
     title: template.title,
-    body: formatString(template.body, { workDate }),
+    body: formatString(template.body, { workDate, actorName }),
     href: '/personnel-panel/yoklama',
-    data: { workDate, noticeType: params.noticeType },
+    data: { workDate, noticeType: params.noticeType, actorName },
   });
 }
 
@@ -335,16 +337,20 @@ export async function notifyAdvancePaid(
 
 export async function notifyMinimumWagePaid(
   admin: SupabaseClient,
-  params: { employeeId: string; projectId: string; amount: number; date: string }
+  params: { employeeId: string; projectId: string; amount: number; date: string; actorName?: string }
 ) {
+  const actorName = params.actorName?.trim() || 'Yönetici';
   return notifyPersonnel(admin, {
     employeeId: params.employeeId,
     projectId: params.projectId,
     type: 'minimum_wage_paid',
     title: strings.minimumWagePaid.title,
-    body: formatString(strings.minimumWagePaid.body, { amount: formatAmount(params.amount) }),
+    body: formatString(strings.minimumWagePaid.body, {
+      amount: formatAmount(params.amount),
+      actorName,
+    }),
     href: '/personnel-panel?tab=asgari',
-    data: { amount: params.amount, date: params.date },
+    data: { amount: params.amount, date: params.date, actorName },
   });
 }
 
@@ -388,9 +394,11 @@ export async function notifyDeductionRecorded(
     amount: number;
     date: string;
     description?: string | null;
+    actorName?: string;
   }
 ) {
   const typeLabel = deductionTypeLabel(params.type);
+  const actorName = params.actorName?.trim() || 'Yönetici';
   const descriptionSuffix = params.description?.trim()
     ? ` Detay: ${params.description.trim()}`
     : '';
@@ -404,6 +412,7 @@ export async function notifyDeductionRecorded(
       amount: formatAmount(params.amount),
       typeLabel,
       descriptionSuffix,
+      actorName,
     }),
     href: '/personnel-panel?tab=finance',
     data: {
@@ -411,6 +420,7 @@ export async function notifyDeductionRecorded(
       type: params.type,
       amount: params.amount,
       date: params.date,
+      actorName,
     },
   });
 }
@@ -423,9 +433,11 @@ export async function notifyWorkLogRecorded(
     workLogId: string;
     date: string;
     amount: number;
+    actorName?: string;
   }
 ) {
   const workDate = params.date.slice(0, 10);
+  const actorName = params.actorName?.trim() || 'Yönetici';
   return notifyPersonnel(admin, {
     employeeId: params.employeeId,
     projectId: params.projectId,
@@ -434,9 +446,10 @@ export async function notifyWorkLogRecorded(
     body: formatString(strings.workLogRecorded.body, {
       workDate,
       amount: String(params.amount),
+      actorName,
     }),
     href: '/personnel-panel?tab=work',
-    data: { workLogId: params.workLogId, workDate, amount: params.amount },
+    data: { workLogId: params.workLogId, workDate, amount: params.amount, actorName },
   });
 }
 
@@ -447,17 +460,19 @@ export async function notifyWorkLogUpdated(
     projectId: string;
     workLogId: string;
     date: string;
+    actorName?: string;
   }
 ) {
   const workDate = params.date.slice(0, 10);
+  const actorName = params.actorName?.trim() || 'Yönetici';
   return notifyPersonnel(admin, {
     employeeId: params.employeeId,
     projectId: params.projectId,
     type: 'work_log_updated',
     title: strings.workLogUpdated.title,
-    body: formatString(strings.workLogUpdated.body, { workDate }),
+    body: formatString(strings.workLogUpdated.body, { workDate, actorName }),
     href: '/personnel-panel?tab=work',
-    data: { workLogId: params.workLogId, workDate },
+    data: { workLogId: params.workLogId, workDate, actorName },
   });
 }
 
@@ -468,17 +483,19 @@ export async function notifyWorkLogDeleted(
     projectId: string;
     workLogId: string;
     date: string;
+    actorName?: string;
   }
 ) {
   const workDate = params.date.slice(0, 10);
+  const actorName = params.actorName?.trim() || 'Yönetici';
   return notifyPersonnel(admin, {
     employeeId: params.employeeId,
     projectId: params.projectId,
     type: 'work_log_deleted',
     title: strings.workLogDeleted.title,
-    body: formatString(strings.workLogDeleted.body, { workDate }),
+    body: formatString(strings.workLogDeleted.body, { workDate, actorName }),
     href: '/personnel-panel?tab=work',
-    data: { workLogId: params.workLogId, workDate },
+    data: { workLogId: params.workLogId, workDate, actorName },
   });
 }
 
@@ -491,9 +508,11 @@ export async function notifyDeductionUpdated(
     type: string;
     amount: number;
     date: string;
+    actorName?: string;
   }
 ) {
   const typeLabel = deductionTypeLabel(params.type);
+  const actorName = params.actorName?.trim() || 'Yönetici';
   return notifyPersonnel(admin, {
     employeeId: params.employeeId,
     projectId: params.projectId,
@@ -503,6 +522,7 @@ export async function notifyDeductionUpdated(
       amount: formatAmount(params.amount),
       typeLabel,
       date: params.date.slice(0, 10),
+      actorName,
     }),
     href: '/personnel-panel?tab=finance',
     data: {
@@ -510,6 +530,7 @@ export async function notifyDeductionUpdated(
       type: params.type,
       amount: params.amount,
       date: params.date,
+      actorName,
     },
   });
 }
@@ -523,9 +544,11 @@ export async function notifyDeductionRemoved(
     type: string;
     amount: number;
     date: string;
+    actorName?: string;
   }
 ) {
   const typeLabel = deductionTypeLabel(params.type);
+  const actorName = params.actorName?.trim() || 'Yönetici';
   return notifyPersonnel(admin, {
     employeeId: params.employeeId,
     projectId: params.projectId,
@@ -535,6 +558,7 @@ export async function notifyDeductionRemoved(
       amount: formatAmount(params.amount),
       typeLabel,
       date: params.date.slice(0, 10),
+      actorName,
     }),
     href: '/personnel-panel?tab=finance',
     data: {
@@ -542,14 +566,23 @@ export async function notifyDeductionRemoved(
       type: params.type,
       amount: params.amount,
       date: params.date,
+      actorName,
     },
   });
 }
 
 export async function notifyMinimumWageUpdated(
   admin: SupabaseClient,
-  params: { employeeId: string; projectId: string; amount: number; date: string; recordId: string }
+  params: {
+    employeeId: string;
+    projectId: string;
+    amount: number;
+    date: string;
+    recordId: string;
+    actorName?: string;
+  }
 ) {
+  const actorName = params.actorName?.trim() || 'Yönetici';
   return notifyPersonnel(admin, {
     employeeId: params.employeeId,
     projectId: params.projectId,
@@ -558,16 +591,25 @@ export async function notifyMinimumWageUpdated(
     body: formatString(strings.minimumWageUpdated.body, {
       amount: formatAmount(params.amount),
       date: params.date.slice(0, 10),
+      actorName,
     }),
     href: '/personnel-panel?tab=asgari',
-    data: { recordId: params.recordId, amount: params.amount, date: params.date },
+    data: { recordId: params.recordId, amount: params.amount, date: params.date, actorName },
   });
 }
 
 export async function notifyMinimumWageRemoved(
   admin: SupabaseClient,
-  params: { employeeId: string; projectId: string; amount: number; date: string; recordId: string }
+  params: {
+    employeeId: string;
+    projectId: string;
+    amount: number;
+    date: string;
+    recordId: string;
+    actorName?: string;
+  }
 ) {
+  const actorName = params.actorName?.trim() || 'Yönetici';
   return notifyPersonnel(admin, {
     employeeId: params.employeeId,
     projectId: params.projectId,
@@ -576,8 +618,9 @@ export async function notifyMinimumWageRemoved(
     body: formatString(strings.minimumWageRemoved.body, {
       amount: formatAmount(params.amount),
       date: params.date.slice(0, 10),
+      actorName,
     }),
     href: '/personnel-panel?tab=asgari',
-    data: { recordId: params.recordId, amount: params.amount, date: params.date },
+    data: { recordId: params.recordId, amount: params.amount, date: params.date, actorName },
   });
 }

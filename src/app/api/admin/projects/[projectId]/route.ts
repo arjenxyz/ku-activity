@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { requireAdminProjectAccess } from '@/lib/admin-auth';
+import { requireProjectOwner } from '@/lib/project-collaborators';
 import { createClient } from '@/utils/supabase/server';
 import { queryProjectById, apiErrorMessage } from '@/lib/project-queries';
 import { mergeProjectClosureFields } from '@/lib/project-closure-merge';
@@ -36,7 +37,7 @@ export async function GET(_request: Request, context: RouteContext) {
 export async function PATCH(request: Request, context: RouteContext) {
   try {
     const { projectId } = await context.params;
-    await requireAdminProjectAccess(projectId);
+    await requireProjectOwner(projectId);
     await assertProjectWritable(projectId);
     const body = (await request.json()) as Partial<ProjectFormData>;
 
@@ -97,8 +98,15 @@ export async function PATCH(request: Request, context: RouteContext) {
     if (err instanceof ProjectClosureWriteBlockedError) {
       return NextResponse.json({ error: closureRouteStrings.projeKapanışta }, { status: 423 });
     }
-    const { status, message } = apiErrorMessage(err);
-    return NextResponse.json({ error: message }, { status });
+    const message = err instanceof Error ? err.message : '';
+    if (message === 'OWNER_REQUIRED') {
+      return NextResponse.json(
+        { error: 'Proje ayarlarını yalnızca sahip düzenleyebilir' },
+        { status: 403 }
+      );
+    }
+    const { status, message: apiMsg } = apiErrorMessage(err);
+    return NextResponse.json({ error: apiMsg }, { status });
   }
 }
 

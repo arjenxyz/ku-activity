@@ -45,9 +45,18 @@ Politika admin panelinden (`wage_policies`).
 | Gelmeyen (usta) | Listeden “Gelmedi” / “Çıkar” → yevmiye yok veya silinir |
 
 Gelmeyenleri personel değil usta/yönetici listeden çıkarır.  
-Yanlış eklenen → tamamlanmış listeden “Gelmedi” ile düzeltilir.
+Yanlış eklenen → tamamlanmış listeden “Gelmedi” ile düzeltilir.  
+Personel bildiriminde **kim yaptı** (`profiles.full_name` / e-posta) yazılır.
 
 Cron: `/api/cron/auto-attendance` (Bearer `CRON_SECRET`, her 15 dk)
+
+## Yönetici ortak (operasyon)
+
+- Sahip proje ayarlarından **ORTAK-** kodu üretir / yeniler
+- Diğer admin **Projeler → Proje ortak ol** ile kodu girer
+- Ortak: yevmiye, yoklama, avans, kesinti, asgari, sorgulama
+- Sahip: ayarlar, ortak kodu, ortak çıkarma, proje kapanışı
+- Kar payı “ortak” (`project_partners`) ile karıştırma — bu erişim ortaklığıdır
 
 ## Proje kapanış silme
 

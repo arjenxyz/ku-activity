@@ -952,12 +952,18 @@ export async function cancelAttendanceSession(
   await revokeSessionQrs(admin, session.id);
 
   const checkIns = await listSessionCheckIns(admin, session.id);
+  let actorName: string | undefined;
+  if (params.cancelledBy) {
+    const { resolveAdminDisplayName } = await import('@/lib/admin-display-name');
+    actorName = await resolveAdminDisplayName(admin, params.cancelledBy);
+  }
   for (const checkIn of checkIns) {
     await recordAttendanceNotice(admin, {
       employeeId: checkIn.employee_id,
       projectId: params.projectId,
       workDate,
       noticeType: 'session_cancelled',
+      actorName,
     });
   }
 
@@ -1050,7 +1056,7 @@ export async function updateSessionCheckInPlan(
 /** Listeden personel kaldır — aktif oturumda siler; tamamlanmış (oto) günde yevmiyeyi silip işe çıkmadı işaretler */
 export async function removeSessionCheckIn(
   admin: SupabaseClient,
-  params: { projectId: string; checkInId: string }
+  params: { projectId: string; checkInId: string; removedBy?: string | null; actorName?: string }
 ): Promise<void> {
   const { data: checkIn } = await admin
     .from('attendance_session_checkins')
@@ -1073,6 +1079,12 @@ export async function removeSessionCheckIn(
     throw new Error(strings.recordNotFound);
   }
 
+  let actorName = params.actorName?.trim();
+  if (!actorName && params.removedBy) {
+    const { resolveAdminDisplayName } = await import('@/lib/admin-display-name');
+    actorName = await resolveAdminDisplayName(admin, params.removedBy);
+  }
+
   if (session.status === 'active') {
     if (checkIn.work_log_id) {
       throw new Error(strings.cannotRemoveWithWorkLog);
@@ -1083,6 +1095,7 @@ export async function removeSessionCheckIn(
       projectId: params.projectId,
       workDate: session.work_date,
       noticeType: 'removed_from_list',
+      actorName,
     });
 
     const { error } = await admin
@@ -1123,6 +1136,7 @@ export async function removeSessionCheckIn(
     projectId: params.projectId,
     workDate: session.work_date,
     noticeType: 'did_not_work',
+    actorName,
   });
 }
 

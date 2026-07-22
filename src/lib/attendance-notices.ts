@@ -14,6 +14,7 @@ export async function recordAttendanceNotice(
     projectId: string;
     workDate: string;
     noticeType: AttendanceNoticeType;
+    actorName?: string;
   }
 ): Promise<void> {
   const { error } = await admin.from('attendance_employee_notices').insert({
@@ -33,6 +34,7 @@ export async function recordAttendanceNotice(
       projectId: params.projectId,
       workDate: params.workDate,
       noticeType: params.noticeType,
+      actorName: params.actorName,
     });
   } catch {
     /* bildirim isteğe bağlı */

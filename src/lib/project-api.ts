@@ -584,3 +584,47 @@ export async function removeTeamMember(projectId: string, teamId: string, member
   if (!res.ok) throw new Error(await parseError(res));
   return res.json() as Promise<{ teams: TeamWithMembers[] }>;
 }
+
+export type ProjectCollaboratorRow = {
+  id: string;
+  userId: string;
+  role: string;
+  joinedAt: string;
+  fullName: string | null;
+  email: string | null;
+};
+
+export async function fetchProjectCollaborators(projectId: string) {
+  const res = await fetch(`/api/admin/projects/${projectId}/collaborators`);
+  if (!res.ok) throw new Error(await parseError(res));
+  return res.json() as Promise<{
+    collaborators: ProjectCollaboratorRow[];
+    code: string;
+    rotatedAt: string;
+  }>;
+}
+
+export async function rotateProjectCollabCode(projectId: string) {
+  const res = await fetch(`/api/admin/projects/${projectId}/collaborators`, {
+    method: 'POST',
+  });
+  if (!res.ok) throw new Error(await parseError(res));
+  return res.json() as Promise<{ code: string; rotatedAt: string }>;
+}
+
+export async function removeProjectCollaboratorApi(projectId: string, userId: string) {
+  const res = await fetch(`/api/admin/projects/${projectId}/collaborators/${userId}`, {
+    method: 'DELETE',
+  });
+  if (!res.ok) throw new Error(await parseError(res));
+}
+
+export async function joinProjectCollab(code: string) {
+  const res = await fetch('/api/admin/projects/join-collab', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ code }),
+  });
+  if (!res.ok) throw new Error(await parseError(res));
+  return res.json() as Promise<{ ok: boolean; projectId: string; projectName: string }>;
+}

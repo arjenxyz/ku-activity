@@ -7,5 +7,7 @@
   "editAriaLabel": "Edit",
   "deleteAriaLabel": "Start closure",
   "closureBadge": "In closure",
-  "emptyDate": "—"
+  "emptyDate": "—",
+  "ownerBadge": "Owner",
+  "collaboratorBadge": "Collaborator"
 }

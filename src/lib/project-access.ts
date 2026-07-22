@@ -80,7 +80,7 @@ export async function assertAdminProjectAccess(projectId: string): Promise<Admin
   return { id: user.id, email: user.email ?? null };
 }
 
-/** Service role — service_role RLS bypass ettiği için sahiplik kontrolü */
+/** Service role — service_role RLS bypass ettiği için sahiplik / ortak kontrolü */
 export async function assertAdminOwnsProject(
   admin: SupabaseClient,
   projectId: string,
@@ -98,6 +98,15 @@ export async function assertAdminOwnsProject(
 
   const owned = await claimOrphanProjectWithServiceRole(admin, projectId, userId);
   if (owned) return;
+
+  const { data: collab } = await admin
+    .from('project_collaborators')
+    .select('id')
+    .eq('project_id', projectId)
+    .eq('user_id', userId)
+    .maybeSingle();
+
+  if (collab) return;
 
   throw new Error('FORBIDDEN');
 }

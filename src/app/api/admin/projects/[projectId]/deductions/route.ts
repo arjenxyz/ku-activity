@@ -5,6 +5,7 @@ import { apiErrorMessage } from '@/lib/project-queries';
 import strings from '@json/src/app/api/admin/projects/[projectId]/deductions/route.json';
 import { createAdminClient } from '@/utils/supabase/admin';
 import { notifyDeductionRecorded } from '@/lib/personnel-notification-service';
+import { resolveAdminDisplayName } from '@/lib/admin-display-name';
 
 type Ctx = { params: Promise<{ projectId: string }> };
 
@@ -46,7 +47,7 @@ export async function GET(request: Request, ctx: Ctx) {
 export async function POST(request: Request, ctx: Ctx) {
   try {
     const { projectId } = await ctx.params;
-    await requireAdminProjectAccess(projectId);
+    const user = await requireAdminProjectAccess(projectId);
     const { employeeId, date, type, amount, description, jobId } = await request.json();
 
     if (!employeeId || !date || !type || amount == null) {
@@ -72,6 +73,7 @@ export async function POST(request: Request, ctx: Ctx) {
 
     const admin = createAdminClient();
     try {
+      const actorName = await resolveAdminDisplayName(admin, user.id, user.email);
       await notifyDeductionRecorded(admin, {
         employeeId,
         projectId,
@@ -80,6 +82,7 @@ export async function POST(request: Request, ctx: Ctx) {
         amount: Number(amount),
         date,
         description: description || null,
+        actorName,
       });
     } catch {
       /* bildirim isteğe bağlı */

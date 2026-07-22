@@ -102,12 +102,23 @@ export default function ProjectList({
                   <h3 className="truncate text-[15px] font-bold leading-tight text-[#0E1548]">
                     {project.name}
                   </h3>
-                  <span
-                    className={`inline-flex shrink-0 items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-semibold ring-1 ring-inset ${statusBadge[project.status]}`}
-                  >
-                    <span className={`h-1.5 w-1.5 rounded-full ${statusDot[project.status]}`} />
-                    {PROJECT_STATUS_LABELS[project.status]}
-                  </span>
+                  <div className="flex shrink-0 flex-col items-end gap-1">
+                    {project.membership === 'collaborator' ? (
+                      <span className="rounded-full bg-sky-50 px-2 py-0.5 text-[10px] font-semibold text-sky-700 ring-1 ring-inset ring-sky-600/20">
+                        {strings.collaboratorBadge}
+                      </span>
+                    ) : (
+                      <span className="rounded-full bg-slate-50 px-2 py-0.5 text-[10px] font-semibold text-slate-600 ring-1 ring-inset ring-slate-400/20">
+                        {strings.ownerBadge}
+                      </span>
+                    )}
+                    <span
+                      className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-semibold ring-1 ring-inset ${statusBadge[project.status]}`}
+                    >
+                      <span className={`h-1.5 w-1.5 rounded-full ${statusDot[project.status]}`} />
+                      {PROJECT_STATUS_LABELS[project.status]}
+                    </span>
+                  </div>
                 </div>
                 {project.code && (
                   <p className="mt-1 flex items-center gap-1 text-xs text-slate-400">
@@ -142,7 +153,7 @@ export default function ProjectList({
                 {strings.open}
                 <FiArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
               </button>
-              {onEdit && (
+              {onEdit && project.membership !== 'collaborator' && (
                 <button
                   type="button"
                   onClick={() => onEdit(project.id)}
@@ -152,7 +163,7 @@ export default function ProjectList({
                   <FiEdit2 className="h-4 w-4" />
                 </button>
               )}
-              {onDelete && (
+              {onDelete && project.membership !== 'collaborator' && (
                 <button
                   type="button"
                   onClick={() => onDelete(project.id)}

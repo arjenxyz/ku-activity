@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { requireAdminProjectAccess } from '@/lib/admin-auth';
+import { requireProjectOwner } from '@/lib/project-collaborators';
 import {
   getProjectClosureSummary,
   startProjectClosure,
@@ -25,7 +26,7 @@ export async function GET(_request: Request, ctx: Ctx) {
 export async function POST(_request: Request, ctx: Ctx) {
   try {
     const { projectId } = await ctx.params;
-    const user = await requireAdminProjectAccess(projectId);
+    const user = await requireProjectOwner(projectId);
 
     const result = await startProjectClosure({
       projectId,
@@ -39,6 +40,9 @@ export async function POST(_request: Request, ctx: Ctx) {
     });
   } catch (err) {
     const message = err instanceof Error ? err.message : strings.failed;
+    if (message === 'OWNER_REQUIRED') {
+      return NextResponse.json({ error: 'Bu işlem yalnızca proje sahibine açıktır' }, { status: 403 });
+    }
     if (message === 'PROJECT_NOT_FOUND') {
       return NextResponse.json({ error: serviceStrings.errors.projectNotFound }, { status: 404 });
     }

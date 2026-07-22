@@ -5,6 +5,7 @@ import { apiErrorMessage } from '@/lib/project-queries';
 import strings from '@json/src/app/api/admin/projects/[projectId]/minimum-wages/route.json';
 import { createAdminClient } from '@/utils/supabase/admin';
 import { notifyMinimumWagePaid } from '@/lib/personnel-notification-service';
+import { resolveAdminDisplayName } from '@/lib/admin-display-name';
 
 type Ctx = { params: Promise<{ projectId: string }> };
 
@@ -41,7 +42,7 @@ export async function GET(request: Request, ctx: Ctx) {
 export async function POST(request: Request, ctx: Ctx) {
   try {
     const { projectId } = await ctx.params;
-    await requireAdminProjectAccess(projectId);
+    const user = await requireAdminProjectAccess(projectId);
     const { employeeId, date, amount, description } = await request.json();
     if (!employeeId || !date || amount == null) {
       return NextResponse.json({ error: strings.zorunluAlanlarEksik }, { status: 400 });
@@ -62,11 +63,13 @@ export async function POST(request: Request, ctx: Ctx) {
 
     const admin = createAdminClient();
     try {
+      const actorName = await resolveAdminDisplayName(admin, user.id, user.email);
       await notifyMinimumWagePaid(admin, {
         employeeId,
         projectId,
         amount: Number(amount),
         date,
+        actorName,
       });
     } catch {
       /* bildirim isteğe bağlı */

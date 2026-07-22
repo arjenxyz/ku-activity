@@ -6,6 +6,7 @@ import {
   notifyDeductionRemoved,
   notifyDeductionUpdated,
 } from '@/lib/personnel-notification-service';
+import { resolveAdminDisplayName } from '@/lib/admin-display-name';
 import strings from '@json/src/app/api/admin/projects/[projectId]/deductions/[recordId]/route.json';
 
 type Ctx = { params: Promise<{ projectId: string; recordId: string }> };
@@ -13,7 +14,7 @@ type Ctx = { params: Promise<{ projectId: string; recordId: string }> };
 export async function PATCH(request: Request, ctx: Ctx) {
   try {
     const { projectId, recordId } = await ctx.params;
-    await requireAdminProjectAccess(projectId);
+    const user = await requireAdminProjectAccess(projectId);
     const body = await request.json();
     const { date, amount, description, type, jobId } = body as {
       date?: string;
@@ -47,6 +48,7 @@ export async function PATCH(request: Request, ctx: Ctx) {
     if (!data) return NextResponse.json({ error: strings.kayıtBulunamadı }, { status: 404 });
 
     try {
+      const actorName = await resolveAdminDisplayName(supabase, user.id, user.email);
       await notifyDeductionUpdated(supabase, {
         employeeId: data.employee_id as string,
         projectId,
@@ -54,6 +56,7 @@ export async function PATCH(request: Request, ctx: Ctx) {
         type: String(data.type),
         amount: Number(data.amount),
         date: data.date as string,
+        actorName,
       });
     } catch {
       /* bildirim isteğe bağlı */
@@ -69,7 +72,7 @@ export async function PATCH(request: Request, ctx: Ctx) {
 export async function DELETE(_request: Request, ctx: Ctx) {
   try {
     const { projectId, recordId } = await ctx.params;
-    await requireAdminProjectAccess(projectId);
+    const user = await requireAdminProjectAccess(projectId);
     const supabase = createAdminClient();
 
     const { data: existing, error: fetchError } = await supabase
@@ -91,6 +94,7 @@ export async function DELETE(_request: Request, ctx: Ctx) {
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
     try {
+      const actorName = await resolveAdminDisplayName(supabase, user.id, user.email);
       await notifyDeductionRemoved(supabase, {
         employeeId: existing.employee_id as string,
         projectId,
@@ -98,6 +102,7 @@ export async function DELETE(_request: Request, ctx: Ctx) {
         type: String(existing.type),
         amount: Number(existing.amount),
         date: existing.date as string,
+        actorName,
       });
     } catch {
       /* bildirim isteğe bağlı */

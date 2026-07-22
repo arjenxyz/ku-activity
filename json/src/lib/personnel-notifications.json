@@ -5,15 +5,15 @@
   },
   "attendanceSessionCancelled": {
     "title": "Yoklama oturumu iptal edildi",
-    "body": "{workDate} tarihli yoklama oturumu iptal edilmiştir."
+    "body": "{workDate} tarihli yoklama oturumu {actorName} tarafından iptal edilmiştir."
   },
   "attendanceRemovedFromList": {
     "title": "Yoklama kaydı güncellendi",
-    "body": "{workDate} tarihli yoklama kaydınız listeden çıkarılmıştır."
+    "body": "{workDate} tarihli yoklama kaydınız {actorName} tarafından listeden çıkarılmıştır."
   },
   "attendanceDidNotWork": {
     "title": "Yevmiye kaldırıldı",
-    "body": "{workDate} tarihi için yevmiyeniz silindi; işe çıkmadınız olarak işaretlendiniz."
+    "body": "{workDate} tarihi için yevmiyeniz {actorName} tarafından silindi; işe çıkmadınız olarak işaretlendiniz."
   },
   "attendanceSessionCompleted": {
     "title": "Yoklama tamamlandı",
@@ -21,15 +21,15 @@
   },
   "workLogRecorded": {
     "title": "Yevmiye kaydı",
-    "body": "{workDate} için {amount} gün yevmiye kaydınız oluşturuldu."
+    "body": "{workDate} için {amount} gün yevmiye kaydınız {actorName} tarafından oluşturuldu."
   },
   "workLogUpdated": {
     "title": "Yevmiye güncellendi",
-    "body": "{workDate} tarihli yevmiye kaydınız yönetici tarafından güncellendi."
+    "body": "{workDate} tarihli yevmiye kaydınız {actorName} tarafından güncellendi."
   },
   "workLogDeleted": {
     "title": "Yevmiye silindi",
-    "body": "{workDate} tarihli yevmiye kaydınız yönetici tarafından silindi."
+    "body": "{workDate} tarihli yevmiye kaydınız {actorName} tarafından silindi."
   },
   "advanceApproved": {
     "title": "Avans talebi onaylandı",
@@ -57,15 +57,15 @@
   },
   "minimumWagePaid": {
     "title": "Asgari ücret ödemesi",
-    "body": "{amount} TL asgari ücret ödemeniz kaydedilmiştir."
+    "body": "{amount} TL asgari ücret ödemeniz {actorName} tarafından kaydedilmiştir."
   },
   "minimumWageUpdated": {
     "title": "Asgari ücret güncellendi",
-    "body": "{date} tarihli asgari ücret kaydınız {amount} TL olarak güncellendi."
+    "body": "{date} tarihli asgari ücret kaydınız {actorName} tarafından {amount} TL olarak güncellendi."
   },
   "minimumWageRemoved": {
     "title": "Asgari ücret silindi",
-    "body": "{date} tarihli {amount} TL asgari ücret kaydınız silindi."
+    "body": "{date} tarihli {amount} TL asgari ücret kaydınız {actorName} tarafından silindi."
   },
   "salaryPaid": {
     "title": "Maaş ödemesi tamamlandı",
@@ -73,15 +73,15 @@
   },
   "deductionAdded": {
     "title": "Bordro kaydı",
-    "body": "{amount} TL {typeLabel} işlemi bordronuza yansıtılmıştır.{descriptionSuffix}"
+    "body": "{amount} TL {typeLabel} işlemi {actorName} tarafından bordronuza yansıtılmıştır.{descriptionSuffix}"
   },
   "deductionUpdated": {
     "title": "Bordro kaydı güncellendi",
-    "body": "{date} tarihli {typeLabel} kaydınız {amount} TL olarak güncellendi."
+    "body": "{date} tarihli {typeLabel} kaydınız {actorName} tarafından {amount} TL olarak güncellendi."
   },
   "deductionRemoved": {
     "title": "Bordro kaydı silindi",
-    "body": "{date} tarihli {amount} TL {typeLabel} kaydınız silindi."
+    "body": "{date} tarihli {amount} TL {typeLabel} kaydınız {actorName} tarafından silindi."
   },
   "deductionTypeLabels": {
     "advance": "avans",

@@ -21,5 +21,23 @@
   "closureWarning": "Veriler hemen silinmez. 30 gün içinde personel onay verip kayıtlarını indirir; süre sonunda proje silinir. Önce tüm proje arşivini indirmeniz önerilir.",
   "closureSaving": "Başlatılıyor...",
   "closureConfirm": "Kapanışı başlat",
-  "closureCancel": "İptal"
+  "closureCancel": "İptal",
+  "collab": {
+    "title": "Yönetici ortaklar",
+    "hint": "Bu kodu diğer yöneticiye verin; projeler sayfasından “Proje ortak ol” ile katılır. Ortak yalnızca operasyon (yevmiye, yoklama, avans…) yapabilir.",
+    "opsOnlyHint": "Ortak olarak operasyon yetkiniz var. Ayarlar, ortak kodu ve kapanış yalnızca proje sahibine aittir.",
+    "loading": "Ortaklar yükleniyor…",
+    "loadFailed": "Ortaklar yüklenemedi",
+    "codeLabel": "Ortak kodu",
+    "copy": "Kopyala",
+    "copied": "Kopyalandı",
+    "copyFailed": "Kopyalanamadı",
+    "rotate": "Kodu yenile",
+    "rotateFailed": "Kod yenilenemedi",
+    "listTitle": "Ekli ortaklar",
+    "empty": "Henüz ortak yok.",
+    "remove": "Çıkar",
+    "removeConfirm": "Bu yönetici ortaklıktan çıkarılsın mı?",
+    "removeFailed": "Çıkarılamadı"
+  }
 }

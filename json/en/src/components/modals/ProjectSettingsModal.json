@@ -21,5 +21,23 @@
   "closureWarning": "Data is not deleted immediately. Personnel have 30 days to consent and download records; the project is removed after the deadline. Download the full project archive first.",
   "closureSaving": "Starting...",
   "closureConfirm": "Start closure",
-  "closureCancel": "Cancel"
+  "closureCancel": "Cancel",
+  "collab": {
+    "title": "Admin collaborators",
+    "hint": "Share this code with another admin; they join via “Become collaborator” on the projects page. Collaborators can only run operations (timesheets, attendance, advances…).",
+    "opsOnlyHint": "As a collaborator you have operations access. Settings, invite code, and closure are owner-only.",
+    "loading": "Loading collaborators…",
+    "loadFailed": "Could not load collaborators",
+    "codeLabel": "Collaborator code",
+    "copy": "Copy",
+    "copied": "Copied",
+    "copyFailed": "Could not copy",
+    "rotate": "Rotate code",
+    "rotateFailed": "Could not rotate code",
+    "listTitle": "Collaborators",
+    "empty": "No collaborators yet.",
+    "remove": "Remove",
+    "removeConfirm": "Remove this admin as collaborator?",
+    "removeFailed": "Could not remove"
+  }
 }

@@ -69,11 +69,15 @@ export async function DELETE(_request: Request, ctx: Ctx) {
       return NextResponse.json({ error: strings.invalidId }, { status: 400 });
     }
 
-    await requireAdminProjectAccess(projectId);
+    const user = await requireAdminProjectAccess(projectId);
     await assertProjectWritable(projectId);
 
     const admin = createAdminClient();
-    await removeSessionCheckIn(admin, { projectId, checkInId });
+    await removeSessionCheckIn(admin, {
+      projectId,
+      checkInId,
+      removedBy: user.id,
+    });
 
     return NextResponse.json({ ok: true });
   } catch (err) {

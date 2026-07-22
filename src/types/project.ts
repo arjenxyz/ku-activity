@@ -26,6 +26,7 @@ export type Project = {
   closure_started_at?: string | null;
   closure_deadline_at?: string | null;
   closure_fast_path_deadline_at?: string | null;
+  membership?: 'owner' | 'collaborator';
 };
 
 export type ProjectFormData = {

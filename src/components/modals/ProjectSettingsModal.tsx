@@ -13,6 +13,7 @@ import {
   guessTimezoneFromLocation,
 } from '@/lib/attendance-window';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
+import { ProjectCollaboratorsPanel } from '@/components/project/ProjectCollaboratorsPanel';
 
 type Props = {
   project: Project;
@@ -45,6 +46,7 @@ export const ProjectSettingsModal = ({
   const [showClosureConfirm, setShowClosureConfirm] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isOwner, setIsOwner] = useState(project.membership !== 'collaborator');
 
   useEffect(() => {
     setFormData({
@@ -59,10 +61,12 @@ export const ProjectSettingsModal = ({
       work_end_time: project.work_end_time?.slice(0, 5) ?? '17:00',
       timezone: project.timezone ?? DEFAULT_PROJECT_TIMEZONE,
     });
+    setIsOwner(project.membership !== 'collaborator');
   }, [project]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!isOwner) return;
     setIsSubmitting(true);
     setError(null);
     try {
@@ -98,7 +102,7 @@ export const ProjectSettingsModal = ({
   if (!isOpen) return null;
 
   const inputClass =
-    'border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 w-full bg-white dark:bg-slate-950 text-sm';
+    'border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 w-full bg-white dark:bg-slate-950 text-sm disabled:opacity-60';
 
   return (
     <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
@@ -124,6 +128,7 @@ export const ProjectSettingsModal = ({
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
+          <fieldset disabled={!isOwner} className="space-y-4">
           <div>
             <label className="block text-sm font-medium mb-1">{strings.nameLabel}</label>
             <input type="text" className={inputClass} value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} required />
@@ -208,16 +213,28 @@ export const ProjectSettingsModal = ({
             <label className="block text-sm font-medium mb-1">{strings.descriptionLabel}</label>
             <textarea className={inputClass} value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })} rows={3} />
           </div>
-          <div className="flex gap-2 pt-2">
-            <button type="submit" disabled={isSubmitting} className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-xl text-sm font-medium disabled:opacity-50">
-              {isSubmitting ? strings.submitSaving : strings.submit}
-            </button>
-            <button type="button" onClick={onClose} className="flex-1 border border-slate-200 dark:border-slate-700 py-2.5 rounded-xl text-sm font-medium">
+          </fieldset>
+          {isOwner ? (
+            <div className="flex gap-2 pt-2">
+              <button type="submit" disabled={isSubmitting} className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-xl text-sm font-medium disabled:opacity-50">
+                {isSubmitting ? strings.submitSaving : strings.submit}
+              </button>
+              <button type="button" onClick={onClose} className="flex-1 border border-slate-200 dark:border-slate-700 py-2.5 rounded-xl text-sm font-medium">
+                {strings.cancel}
+              </button>
+            </div>
+          ) : (
+            <button type="button" onClick={onClose} className="w-full border border-slate-200 dark:border-slate-700 py-2.5 rounded-xl text-sm font-medium">
               {strings.cancel}
             </button>
-          </div>
+          )}
         </form>
 
+        <div className="mt-6 border-t border-slate-200 dark:border-slate-800 pt-4">
+          <ProjectCollaboratorsPanel projectId={project.id} onOwnerResolved={setIsOwner} />
+        </div>
+
+        {isOwner && (
         <div className="mt-6 border-t border-slate-200 dark:border-slate-800 pt-4">
           {!showClosureConfirm ? (
             <button type="button" onClick={() => setShowClosureConfirm(true)} className="w-full flex items-center justify-center gap-2 text-amber-700 hover:bg-amber-50 dark:hover:bg-amber-950/30 py-2.5 rounded-xl text-sm font-medium">
@@ -239,6 +256,7 @@ export const ProjectSettingsModal = ({
             </div>
           )}
         </div>
+        )}
       </div>
     </div>
   );

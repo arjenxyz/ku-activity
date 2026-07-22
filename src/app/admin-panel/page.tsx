@@ -7,6 +7,7 @@ import { FiPlus } from 'react-icons/fi';
 import ProjectList from './proje/ProjectList';
 import ProjectForm from './proje/ProjectForm';
 import ProjectFilters, { type ProjectFilter } from './proje/ProjectFilters';
+import { JoinProjectCollabCard } from '@/components/project/JoinProjectCollabCard';
 import {
   fetchProjects,
   purgeExpiredProjectsInBackground,
@@ -120,6 +121,8 @@ export default function ProjectPage() {
         onFilterChange={setFilter}
       />
 
+      <JoinProjectCollabCard onJoined={() => void loadProjects()} />
+
       {loadError && (
         <div className="mb-6 rounded-2xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
           {loadError}
@@ -148,10 +151,16 @@ export default function ProjectPage() {
         projects={projects}
         loading={loading}
         onEdit={(id) => {
+          const p = projects.find((x) => x.id === id);
+          if (p?.membership === 'collaborator') return;
           setEditingId(id);
           setIsFormVisible(true);
         }}
-        onDelete={handleStartClosure}
+        onDelete={async (id) => {
+          const p = projects.find((x) => x.id === id);
+          if (p?.membership === 'collaborator') return;
+          await handleStartClosure(id);
+        }}
       />
 
       {closureTarget && (
