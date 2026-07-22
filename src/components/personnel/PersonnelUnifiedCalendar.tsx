@@ -169,9 +169,9 @@ export function PersonnelUnifiedCalendar({
               if (m === 'work' && cell.presence === 'worked') return false;
               return true;
             });
-            const sparse = !detail && markerKeys.length === 0;
+            const sparse = markerKeys.length === 0;
             const cellClassName = `aspect-square min-h-[44px] rounded-xl border-2 flex flex-col items-center px-0.5 text-center transition-colors ${
-              sparse ? 'justify-center py-1' : 'justify-start gap-0.5 py-1'
+              sparse ? 'justify-center py-1' : 'justify-between py-1'
             } ${presenceCellClass(cell.presence, cell.hasAnyRecord)} ${
               clickable
                 ? 'cursor-pointer hover:brightness-[0.97] active:scale-[0.97] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0E1548] dark:hover:brightness-110'
@@ -187,13 +187,8 @@ export function PersonnelUnifiedCalendar({
                 <span className="!text-xs font-bold leading-none tabular-nums !text-slate-900 dark:!text-white">
                   {cell.day}
                 </span>
-                {detail ? (
-                  <span className="text-[9px] font-semibold leading-tight tabular-nums text-slate-700 dark:text-slate-200">
-                    {detail}
-                  </span>
-                ) : null}
                 {markerKeys.length > 0 ? (
-                  <div className="mt-auto flex h-2 items-center justify-center gap-1">
+                  <div className="flex h-2 items-center justify-center gap-1">
                     {markerKeys.map((m) => (
                       <span
                         key={m}
