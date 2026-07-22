@@ -338,7 +338,7 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
             <button
               type="button"
               onClick={onLogout}
-              className="flex w-full items-center justify-center gap-2 rounded-2xl bg-white py-3.5 text-sm font-medium text-slate-500 shadow-sm transition hover:bg-red-50 hover:text-red-600 dark:bg-slate-800 dark:hover:bg-red-950/30"
+              className="flex w-full items-center justify-center gap-2 rounded-2xl bg-red-50 py-3.5 text-sm font-medium text-red-600 shadow-sm transition hover:bg-red-100 active:bg-red-100 dark:bg-red-950/30 dark:text-red-400 dark:hover:bg-red-950/50"
             >
               <FiLogOut className="h-4 w-4" />
               {strings.logout}
