@@ -69,9 +69,8 @@ export async function GET(request: Request, ctx: Ctx) {
       qr: qr ? serializeQr(qr, origin) : null,
       checkIns,
       isToday: workDate === calendarToday,
-      canStart:
-        (!session || session.status === 'completed' || session.status === 'cancelled') &&
-        window.isOpen,
+      canStart: (!session || session.status === 'cancelled') && window.isOpen,
+      dayLocked: session?.status === 'completed',
       window,
       autoAttendanceEnabled: Boolean(projectRow?.auto_attendance_enabled),
     });

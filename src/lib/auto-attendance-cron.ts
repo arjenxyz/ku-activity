@@ -26,6 +26,7 @@ async function ensureCheckIn(
   admin: SupabaseClient,
   sessionId: string,
   employeeId: string,
+  workDate: string,
   didNotWork: boolean
 ) {
   const { data: existing } = await admin
@@ -36,13 +37,35 @@ async function ensureCheckIn(
     .maybeSingle();
 
   if (existing) {
-    if (didNotWork && !existing.did_not_work && !existing.work_log_id) {
+    if (didNotWork && !existing.did_not_work) {
+      if (existing.work_log_id) {
+        await admin.from('work_logs').delete().eq('id', existing.work_log_id);
+      }
+      // Orphan work_log (manuel) varsa da temizle
+      await admin
+        .from('work_logs')
+        .delete()
+        .eq('employee_id', employeeId)
+        .eq('date', workDate);
       await admin
         .from('attendance_session_checkins')
-        .update({ did_not_work: true, planned_amount: 1, planned_mesai_type: 'none' })
+        .update({
+          did_not_work: true,
+          work_log_id: null,
+          planned_amount: 1,
+          planned_mesai_type: 'none',
+        })
         .eq('id', existing.id);
     }
     return;
+  }
+
+  if (didNotWork) {
+    await admin
+      .from('work_logs')
+      .delete()
+      .eq('employee_id', employeeId)
+      .eq('date', workDate);
   }
 
   await admin.from('attendance_session_checkins').insert({
@@ -72,13 +95,24 @@ async function runAutoAttendanceForProject(
   }
 
   const existing = await getSessionForDate(admin, project.id, workDate);
-  if (existing?.status === 'completed' || existing?.status === 'cancelled') {
+  // Sadece tamamlanmış gün kilitli. İptal edilmiş QR → otomatik hâlâ çalışabilir.
+  if (existing?.status === 'completed') {
     return { projectId: project.id, workDate, status: 'already_done', count: 0 };
   }
 
-  // QR / manuel oturum devam ediyorsa otomatik dokunma — usta bitirsin
+  // QR oturumu açıksa: listedekileri bitir (yeni isim uydurma) — gün kilitlenir
   if (existing?.status === 'active' && existing.source !== 'auto') {
-    return { projectId: project.id, workDate, status: 'skipped_manual_active', count: 0 };
+    const result = await completeAttendanceSession(admin, {
+      projectId: project.id,
+      workDate,
+      skipWindowCheck: true,
+    });
+    return {
+      projectId: project.id,
+      workDate,
+      status: 'completed_stuck_manual',
+      count: result.count,
+    };
   }
 
   const { data: employees, error: empError } = await admin
@@ -103,17 +137,14 @@ async function runAutoAttendanceForProject(
   }
 
   for (const employeeId of employeeIds) {
-    await ensureCheckIn(admin, session.id, employeeId, absences.has(employeeId));
+    await ensureCheckIn(admin, session.id, employeeId, workDate, absences.has(employeeId));
   }
 
   // Listedeki ama absences'ta olanları da işaretle
   const checkIns = await listSessionCheckIns(admin, session.id);
   for (const checkIn of checkIns) {
-    if (absences.has(checkIn.employee_id) && !checkIn.did_not_work && !checkIn.work_log_id) {
-      await admin
-        .from('attendance_session_checkins')
-        .update({ did_not_work: true })
-        .eq('id', checkIn.id);
+    if (absences.has(checkIn.employee_id) && !checkIn.did_not_work) {
+      await ensureCheckIn(admin, session.id, checkIn.employee_id, workDate, true);
     }
   }
 

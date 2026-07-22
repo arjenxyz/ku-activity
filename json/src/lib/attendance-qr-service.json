@@ -9,5 +9,6 @@
   "cannotRemoveWithWorkLog": "Yevmiyesi yazılmış kayıt kaldırılamaz",
   "planActiveOnly": "Yalnızca devam eden yoklamada düzenlenebilir",
   "cannotPlanWithWorkLog": "Yevmiyesi yazılmış kayıt düzenlenemez",
-  "completeFailed": "Yoklama tamamlanamadı"
+  "completeFailed": "Yoklama tamamlanamadı",
+  "dayAlreadyCompleted": "Bu gün için yoklama zaten tamamlandı. Aynı güne ikinci yoklama açılamaz — çift yevmiye riski."
 }

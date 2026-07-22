@@ -470,6 +470,12 @@ export async function startAttendanceSession(
     return { session: existing, qr: newQr };
   }
 
+  // Tamamlanmış günü yeniden başlatma = çift kayıt / yanıltma riski (QR ve otomatik)
+  const prior = await getSessionForDate(admin, params.projectId, workDate);
+  if (prior?.status === 'completed') {
+    throw new Error(strings.dayAlreadyCompleted);
+  }
+
   const { data: session, error } = await admin
     .from('attendance_sessions')
     .insert({

@@ -28,11 +28,21 @@ Politika admin panelinden (`wage_policies`).
 
 ## Yoklama
 
-Üç yol, hepsi çalışır:
+Üç yol, hepsi çalışır — **aynı kişiye aynı gün çift yevmiye yazılmaz**:
 
 1. **Otomatik** — yoklama sayfasından aç/kapat; her gün 21:00
-2. **QR** — usta başlatır, personel okutur (aktif QR varken otomatik dokunmaz)
+2. **QR** — usta başlatır, personel okutur
 3. **Manuel** — aynı sayfada “Manuel yevmiye ekle”
+
+### Çakışma kuralları (kilit)
+
+| Durum | Ne olur |
+|--------|---------|
+| Gün `completed` | QR yeniden açılamaz; otomatik atlanır |
+| Aktif QR varken 21:00 | Otomatik yeni liste uydurmaz; listedekileri bitirir |
+| DB | `work_logs` → `UNIQUE (employee_id, date)` — ikinci satır imkânsız |
+| Manuel + mevcut onaylı | 409; yönetici onaylarsa üzerine yazar |
+| “İşe çıkmadım” | Otomatikte yevmiye yok; varsa satır silinir |
 
 Personel “Bugün işe çıkmadım” derse otomatikte yevmiye yazılmaz.  
 Yanlış eklenen → tamamlanmış listeden çıkarılır.

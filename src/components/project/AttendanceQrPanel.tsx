@@ -469,7 +469,11 @@ export function AttendanceQrPanel({ projectId }: Props) {
               </ul>
             )}
 
-            {data.canStart && (
+            {data.dayLocked ? (
+              <p className="mt-4 rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-left text-sm text-amber-900">
+                {strings.dayLockedHint}
+              </p>
+            ) : data.canStart ? (
               <button
                 type="button"
                 onClick={() => void handleStart()}
@@ -479,7 +483,7 @@ export function AttendanceQrPanel({ projectId }: Props) {
                 <FiPlay className="h-4 w-4" />
                 {strings.restart}
               </button>
-            )}
+            ) : null}
           </div>
         ) : (
           <div className={`${cardClass} text-center`}>

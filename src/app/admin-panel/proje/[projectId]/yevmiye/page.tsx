@@ -11,7 +11,7 @@ import { EmployeeSelect } from '@/components/project/EmployeeSelect';
 import { JobSelectField } from '@/components/project/JobSelectField';
 import { useProjectEmployees } from '@/hooks/useProjectEmployees';
 import { useProjectJobs } from '@/hooks/useProjectJobs';
-import { postWorkLog } from '@/lib/project-api';
+import { ApiHttpError, postWorkLog } from '@/lib/project-api';
 import { MESAI_OPTIONS, type MesaiType } from '@/lib/work-log';
 import { btnPrimary, labelClass, inputClass, cardClass } from '@/components/project/ui';
 
@@ -40,20 +40,34 @@ export default function YevmiyePage() {
       return;
     }
     setLoading(true);
+    const payload = {
+      employeeId,
+      date,
+      amount,
+      mesaiType: (amount < 1 ? 'none' : mesaiType) as typeof mesaiType,
+      description: description || undefined,
+      jobId: jobId || null,
+    };
     try {
-      await postWorkLog(projectId, {
-        employeeId,
-        date,
-        amount,
-        mesaiType: amount < 1 ? 'none' : mesaiType,
-        description: description || undefined,
-        jobId: jobId || null,
-      });
+      await postWorkLog(projectId, payload);
       setSuccess(strings.successSaved);
       setDescription('');
       setMesaiType('none');
     } catch (err) {
-      setError(err instanceof Error ? err.message : strings.saveFailed);
+      if (err instanceof ApiHttpError && err.status === 409) {
+        if (window.confirm(strings.overwriteConfirm)) {
+          try {
+            await postWorkLog(projectId, { ...payload, allowOverwrite: true });
+            setSuccess(strings.successSaved);
+            setDescription('');
+            setMesaiType('none');
+          } catch (retryErr) {
+            setError(retryErr instanceof Error ? retryErr.message : strings.saveFailed);
+          }
+        }
+      } else {
+        setError(err instanceof Error ? err.message : strings.saveFailed);
+      }
     } finally {
       setLoading(false);
     }

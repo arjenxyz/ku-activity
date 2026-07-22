@@ -51,6 +51,7 @@
   "cancelAriaLabel": "Cancel",
   "completedTitle": "Attendance completed",
   "completedSummary": "Timesheets saved for {count} people.",
+  "dayLockedHint": "This day is locked. A second QR session cannot be opened (duplicate pay guard). To fix: remove from list or overwrite via manual timesheet.",
   "workLogWritten": "Saved",
   "didNotWorkLabel": "Did not work",
   "markDidNotWorkTitle": "Delete wage, mark did not work",

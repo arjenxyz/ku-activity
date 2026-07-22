@@ -44,6 +44,8 @@ export async function adminConfirmWorkLog(
     description?: string | null;
     approvedBy?: string | null;
     jobId?: string | null;
+    /** true ise mevcut onaylı yevmiyenin üstüne yazar */
+    allowOverwrite?: boolean;
   }
 ): Promise<WorkLogRow> {
   await assertEmployeeTeamHasActiveBlock(admin, params.employeeId, params.projectId);
@@ -51,6 +53,10 @@ export async function adminConfirmWorkLog(
   const existing = await findWorkLog(admin, params.employeeId, params.date);
   const now = new Date().toISOString();
   const mesai_units = mesaiTypeToUnits(params.mesaiType);
+
+  if (existing?.approved && !params.allowOverwrite) {
+    throw new Error(strings.alreadyPaidNeedOverwrite);
+  }
 
   const payload = {
     project_id: params.projectId,

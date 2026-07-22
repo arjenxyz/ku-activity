@@ -83,6 +83,7 @@ export type AttendanceQrPayload = {
   }>;
   isToday: boolean;
   canStart: boolean;
+  dayLocked?: boolean;
   count?: number;
   message?: string;
   window?: AttendanceWindowPayload;
@@ -179,6 +180,15 @@ export async function setAutoAttendanceEnabled(projectId: string, enabled: boole
   return (await res.json()) as { ok: boolean; autoAttendanceEnabled: boolean };
 }
 
+export class ApiHttpError extends Error {
+  status: number;
+  constructor(message: string, status: number) {
+    super(message);
+    this.name = 'ApiHttpError';
+    this.status = status;
+  }
+}
+
 export async function postWorkLog(
   projectId: string,
   body: {
@@ -188,6 +198,7 @@ export async function postWorkLog(
     description?: string;
     mesaiType?: 'none' | 'ceyrek' | 'yarim' | 'tam';
     jobId?: string | null;
+    allowOverwrite?: boolean;
   }
 ) {
   const res = await fetch(`/api/admin/projects/${projectId}/work-logs`, {
@@ -195,7 +206,7 @@ export async function postWorkLog(
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
   });
-  if (!res.ok) throw new Error(await parseError(res));
+  if (!res.ok) throw new ApiHttpError(await parseError(res), res.status);
   return res.json();
 }
 

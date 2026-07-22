@@ -91,12 +91,16 @@ export async function POST(request: Request, ctx: Ctx) {
       description: description ?? null,
       approvedBy: user.id,
       jobId: jobId ?? null,
+      allowOverwrite: Boolean((body as { allowOverwrite?: unknown }).allowOverwrite),
     });
 
     return NextResponse.json({ record }, { status: 201 });
   } catch (err) {
     const message = err instanceof Error ? err.message: strings.kayıtOluşturulamadı;
-    const status = message.includes('zaten') ? 409 : 400;
+    const status =
+      message.includes('zaten') || message.includes('already') || message.includes('üzerine')
+        ? 409
+        : 400;
     return NextResponse.json({ error: message }, { status });
   }
 }

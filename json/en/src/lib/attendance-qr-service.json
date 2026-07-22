@@ -1,13 +1,14 @@
 {
-  "qrCreateFailed": "Yoklama QR kodu oluşturulamadı",
-  "employeeFallback": "Personel",
-  "workLogDescription": "QR yoklama",
-  "noActiveSession": "Aktif yoklama oturumu yok",
-  "noSessionToCancel": "İptal edilecek aktif yoklama yok",
-  "recordNotFound": "Kayıt bulunamadı",
-  "removeActiveOnly": "Yalnızca devam eden yoklamadan kaldırılabilir",
-  "cannotRemoveWithWorkLog": "Yevmiyesi yazılmış kayıt kaldırılamaz",
-  "planActiveOnly": "Yalnızca devam eden yoklamada düzenlenebilir",
-  "cannotPlanWithWorkLog": "Yevmiyesi yazılmış kayıt düzenlenemez",
-  "completeFailed": "Attendance session could not be completed"
+  "qrCreateFailed": "Could not create attendance QR",
+  "employeeFallback": "Personnel",
+  "workLogDescription": "QR attendance",
+  "noActiveSession": "No active attendance session",
+  "noSessionToCancel": "No active session to cancel",
+  "recordNotFound": "Record not found",
+  "removeActiveOnly": "Can only remove from an active session",
+  "cannotRemoveWithWorkLog": "Cannot remove a record that already has a timesheet",
+  "planActiveOnly": "Can only edit during an active session",
+  "cannotPlanWithWorkLog": "Cannot edit a record that already has a timesheet",
+  "completeFailed": "Attendance session could not be completed",
+  "dayAlreadyCompleted": "Attendance for this day is already completed. A second session cannot be opened — duplicate pay risk."
 }

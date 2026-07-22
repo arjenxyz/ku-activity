@@ -1,9 +1,10 @@
 {
-  "duplicateWorkLog": "Bu tarih için zaten yevmiye kaydı var",
-  "alreadyConfirmed": "Bu gün için zaten onay verdiniz",
-  "duplicateRecord": "Bu tarih için zaten kayıt var",
-  "disputeNoteTooShort": "İtiraz notu en az 5 karakter olmalı",
-  "recordNotFound": "Yevmiye kaydı bulunamadı",
-  "cannotDisputeApproved": "Onaylanmış kayda itiraz edilemez",
-  "cannotDisputeConfirmed": "Zaten onayladığınız kayda itiraz edilemez"
+  "duplicateWorkLog": "A timesheet already exists for this date",
+  "alreadyConfirmed": "You already confirmed this day",
+  "duplicateRecord": "A record already exists for this date",
+  "disputeNoteTooShort": "Dispute note must be at least 5 characters",
+  "recordNotFound": "Timesheet not found",
+  "cannotDisputeApproved": "Cannot dispute an approved record",
+  "cannotDisputeConfirmed": "Cannot dispute a record you already confirmed",
+  "alreadyPaidNeedOverwrite": "This person already has a timesheet for this date. Confirm to overwrite."
 }

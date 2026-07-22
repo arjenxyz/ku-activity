@@ -51,6 +51,7 @@
   "cancelAriaLabel": "İptal et",
   "completedTitle": "Yoklama tamamlandı",
   "completedSummary": "{count} personel için yevmiye kaydedildi.",
+  "dayLockedHint": "Bu gün kilitli. Aynı güne ikinci QR yoklaması açılamaz (çift yevmiye engeli). Düzeltme için listeden çıkar veya manuel yevmiye ile üzerine yaz.",
   "workLogWritten": "Yazıldı",
   "didNotWorkLabel": "İşe çıkmadı",
   "markDidNotWorkTitle": "Yevmiyeyi sil, işe çıkmadı işaretle",

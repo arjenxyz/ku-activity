@@ -14,5 +14,6 @@
   "mesaiHint": "Çeyrek = %25 · Yarım = %50 · Tam = bir günlük yevmiye ek",
   "labelNote": "Not (isteğe bağlı)",
   "saving": "Kaydediliyor…",
-  "saveButton": "Yevmiye kaydet"
+  "saveButton": "Yevmiye kaydet",
+  "overwriteConfirm": "Bu kişi için bu tarihte yevmiye zaten var. Üzerine yazılsın mı?"
 }
