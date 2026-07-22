@@ -52,23 +52,23 @@ export type LocaleOption = {
   englishName: string;
 };
 
-/** En çok konuşulan diller + Macarca (görünüm listesi). */
+/** Dil seçici — İngilizce ada göre A–Z. */
 export const LOCALE_OPTIONS: LocaleOption[] = [
-  { id: 'tr', short: 'TR', countryCode: 'tr', nativeLabel: 'Türkçe', englishName: 'Turkish' },
-  { id: 'en', short: 'EN', countryCode: 'gb', nativeLabel: 'English', englishName: 'English' },
-  { id: 'zh', short: 'ZH', countryCode: 'cn', nativeLabel: '中文', englishName: 'Chinese' },
-  { id: 'hi', short: 'HI', countryCode: 'in', nativeLabel: 'हिन्दी', englishName: 'Hindi' },
-  { id: 'es', short: 'ES', countryCode: 'es', nativeLabel: 'Español', englishName: 'Spanish' },
-  { id: 'fr', short: 'FR', countryCode: 'fr', nativeLabel: 'Français', englishName: 'French' },
   { id: 'ar', short: 'AR', countryCode: 'sa', nativeLabel: 'العربية', englishName: 'Arabic' },
   { id: 'bn', short: 'BN', countryCode: 'bd', nativeLabel: 'বাংলা', englishName: 'Bengali' },
+  { id: 'zh', short: 'ZH', countryCode: 'cn', nativeLabel: '中文', englishName: 'Chinese' },
+  { id: 'en', short: 'EN', countryCode: 'gb', nativeLabel: 'English', englishName: 'English' },
+  { id: 'fr', short: 'FR', countryCode: 'fr', nativeLabel: 'Français', englishName: 'French' },
+  { id: 'de', short: 'DE', countryCode: 'de', nativeLabel: 'Deutsch', englishName: 'German' },
+  { id: 'hi', short: 'HI', countryCode: 'in', nativeLabel: 'हिन्दी', englishName: 'Hindi' },
+  { id: 'hu', short: 'HU', countryCode: 'hu', nativeLabel: 'Magyar', englishName: 'Hungarian' },
+  { id: 'id', short: 'ID', countryCode: 'id', nativeLabel: 'Bahasa Indonesia', englishName: 'Indonesian' },
+  { id: 'ja', short: 'JA', countryCode: 'jp', nativeLabel: '日本語', englishName: 'Japanese' },
   { id: 'pt', short: 'PT', countryCode: 'br', nativeLabel: 'Português', englishName: 'Portuguese' },
   { id: 'ru', short: 'RU', countryCode: 'ru', nativeLabel: 'Русский', englishName: 'Russian' },
+  { id: 'es', short: 'ES', countryCode: 'es', nativeLabel: 'Español', englishName: 'Spanish' },
+  { id: 'tr', short: 'TR', countryCode: 'tr', nativeLabel: 'Türkçe', englishName: 'Turkish' },
   { id: 'ur', short: 'UR', countryCode: 'pk', nativeLabel: 'اردو', englishName: 'Urdu' },
-  { id: 'id', short: 'ID', countryCode: 'id', nativeLabel: 'Bahasa Indonesia', englishName: 'Indonesian' },
-  { id: 'de', short: 'DE', countryCode: 'de', nativeLabel: 'Deutsch', englishName: 'German' },
-  { id: 'ja', short: 'JA', countryCode: 'jp', nativeLabel: '日本語', englishName: 'Japanese' },
-  { id: 'hu', short: 'HU', countryCode: 'hu', nativeLabel: 'Magyar', englishName: 'Hungarian' },
 ];
 
 /** flagcdn yalnızca bu genişlikleri sunar (w28 vb. 404 verir). */
