@@ -1,6 +1,6 @@
 'use client';
 
-import { APP_NAME } from '@/lib/brand';
+import { APP_NAME, CREWLEDGER_APP_ICON } from '@/lib/brand';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { formatDate, formatDateTime, formatMoney } from '@/lib/format';
 import { maskTcKimlik } from '@/lib/field-encryption';
@@ -57,32 +57,50 @@ export function PersonnelPayrollPrint({
   otherDeductions,
   minimumWages,
 }: Props) {
-
   const strings = useRegistryStrings('components/personnel/PersonnelPayrollPrint');
   const dailyWage = Number(employee.daily_wage);
   const sortedLogs = [...workLogs].sort((a, b) => a.date.localeCompare(b.date));
   const mesaiStats = computeMesaiStats(workLogs, dailyWage);
   const printedAt = formatDateTime(new Date().toISOString());
+  const signedDate = formatDate(new Date().toISOString().slice(0, 10));
   const period = monthTitle(month);
-
-  const tcDisplay = employee.tc_kimlik
-    ? maskTcKimlik(employee.tc_kimlik)
-    : null;
+  const managerName =
+    employee.manager?.name?.trim() ||
+    employee.project?.name ||
+    employee.project_name ||
+    strings.emptyValue;
+  const projectLabel = employee.project?.name ?? employee.project_name ?? strings.emptyValue;
+  const tcDisplay = employee.tc_kimlik ? maskTcKimlik(employee.tc_kimlik) : null;
 
   return (
     <div id="personnel-payroll-print" className="print-only personnel-payroll-print">
       <header className="payroll-print-header">
-        <div>
-          <p className="payroll-print-brand">{APP_NAME}</p>
-          <h1 className="payroll-print-title">{strings.title}</h1>
-          <p className="payroll-print-sub">{period}</p>
+        <div className="payroll-print-brand-block">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={CREWLEDGER_APP_ICON}
+            alt=""
+            width={48}
+            height={48}
+            className="payroll-print-logo"
+          />
+          <div>
+            <p className="payroll-print-brand">{APP_NAME}</p>
+            <p className="payroll-print-brand-tagline">{strings.footer.brandTagline}</p>
+            <h1 className="payroll-print-title">{strings.title}</h1>
+            <p className="payroll-print-sub">{period}</p>
+          </div>
         </div>
         <div className="payroll-print-meta">
           <p>
             <strong>{strings.printedAt}</strong> {printedAt}
           </p>
           <p>
-            <strong>{strings.documentNo}</strong> {employee.id.slice(0, 8).toUpperCase()}-{month.replace('-', '')}
+            <strong>{strings.documentNo}</strong>{' '}
+            {employee.id.slice(0, 8).toUpperCase()}-{month.replace('-', '')}
+          </p>
+          <p>
+            <strong>{strings.fields.project}</strong> {projectLabel}
           </p>
         </div>
       </header>
@@ -99,24 +117,24 @@ export function PersonnelPayrollPrint({
             </tr>
             <tr>
               <td>{strings.fields.project}</td>
-              <td>{employee.project?.name ?? employee.project_name ?? strings.emptyValue}</td>
+              <td>{projectLabel}</td>
               <td>{strings.fields.dailyWage}</td>
               <td>{formatMoney(dailyWage)}</td>
             </tr>
-            {tcDisplay && (
+            {tcDisplay ? (
               <tr>
                 <td>{strings.fields.tcKimlik}</td>
                 <td>{tcDisplay}</td>
                 <td>{strings.fields.hireDate}</td>
                 <td>{employee.hire_date ? formatDate(employee.hire_date) : strings.emptyValue}</td>
               </tr>
-            )}
-            {!tcDisplay && employee.hire_date && (
+            ) : null}
+            {!tcDisplay && employee.hire_date ? (
               <tr>
                 <td>{strings.fields.hireDate}</td>
                 <td colSpan={3}>{formatDate(employee.hire_date)}</td>
               </tr>
-            )}
+            ) : null}
           </tbody>
         </table>
       </section>
@@ -197,7 +215,7 @@ export function PersonnelPayrollPrint({
         )}
       </section>
 
-      {mesaiStats.recordCount > 0 && (
+      {mesaiStats.recordCount > 0 ? (
         <section className="payroll-print-section">
           <h2>{strings.mesaiSummary}</h2>
           <table className="payroll-print-table">
@@ -241,7 +259,7 @@ export function PersonnelPayrollPrint({
             </tfoot>
           </table>
         </section>
-      )}
+      ) : null}
 
       <section className="payroll-print-section">
         <h2>{formatString(strings.advancesTitle, { count: advances.length })}</h2>
@@ -360,12 +378,12 @@ export function PersonnelPayrollPrint({
               </td>
               <td className="num">{formatMoney(stats.basePay)}</td>
             </tr>
-            {stats.mesaiPay > 0 && (
+            {stats.mesaiPay > 0 ? (
               <tr>
                 <td>{strings.calc.mesaiPay}</td>
                 <td className="num">{formatMoney(stats.mesaiPay)}</td>
               </tr>
-            )}
+            ) : null}
             <tr className="subtotal">
               <td>
                 <strong>{strings.calc.gross}</strong>
@@ -382,12 +400,12 @@ export function PersonnelPayrollPrint({
               <td>{strings.calc.deductions}</td>
               <td className="num">− {formatMoney(stats.totalDeduct)}</td>
             </tr>
-            {stats.totalMinimum > 0 && (
+            {stats.totalMinimum > 0 ? (
               <tr>
                 <td>{strings.calc.minimumWages}</td>
                 <td className="num">− {formatMoney(stats.totalMinimum)}</td>
               </tr>
-            )}
+            ) : null}
             <tr className="total">
               <td>
                 <strong>{strings.calc.netPayment}</strong>
@@ -413,21 +431,40 @@ export function PersonnelPayrollPrint({
       </section>
 
       <footer className="payroll-print-footer">
-        <p>
-          {formatString(strings.footer.disclaimer, { appName: APP_NAME })}
-        </p>
-        <div className="payroll-print-signatures">
-          <div>
-            <span>{strings.footer.employee}</span>
-            <div className="line" />
-            <small>{employee.name}</small>
+        <div className="payroll-print-sign-row">
+          <div className="payroll-print-sign-card">
+            <span className="payroll-print-sign-label">{strings.footer.employee}</span>
+            <div className="payroll-print-sign-line" />
+            <strong className="payroll-print-sign-name">{employee.name}</strong>
+            <small>
+              {strings.footer.signedAt}: {signedDate}
+            </small>
           </div>
-          <div>
-            <span>{strings.footer.employer}</span>
-            <div className="line" />
-            <small>{strings.footer.signatureHint}</small>
+
+          <div className="payroll-print-seal">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/dijital-onay.png"
+              alt={strings.footer.digitalSeal}
+              className="payroll-print-seal-img"
+            />
+            <p className="payroll-print-seal-title">{strings.footer.digitalSeal}</p>
+            <p className="payroll-print-seal-hint">{strings.footer.digitalSealHint}</p>
+          </div>
+
+          <div className="payroll-print-sign-card">
+            <span className="payroll-print-sign-label">{strings.footer.employer}</span>
+            <div className="payroll-print-sign-line" />
+            <strong className="payroll-print-sign-name">{managerName}</strong>
+            <small>
+              {strings.footer.signedAt}: {signedDate}
+            </small>
           </div>
         </div>
+
+        <p className="payroll-print-disclaimer">
+          {formatString(strings.footer.disclaimer, { appName: APP_NAME })}
+        </p>
       </footer>
     </div>
   );

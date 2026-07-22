@@ -78,6 +78,10 @@
     "disclaimer": "This document is for informational purposes and is not an official payroll document. Records are generated from the same database in the {appName} personnel and admin panels.",
     "employee": "Employee",
     "employer": "Manager / Employer",
-    "signatureHint": "Full name - Date - Signature"
+    "signatureHint": "Full name - Date - Signature",
+    "digitalSeal": "Digital approval",
+    "digitalSealHint": "Verified by CrewLedger system records",
+    "signedAt": "Document date",
+    "brandTagline": "Construction Workforce Platform"
   }
 }

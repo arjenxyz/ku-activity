@@ -78,6 +78,10 @@
     "disclaimer": "Bu belge bilgilendirme ama\u00e7l\u0131d\u0131r. Resmi bordro yerine ge\u00e7mez. Kay\u0131tlar {appName} personel paneli ile y\u00f6netici panelinden ayn\u0131 veritaban\u0131ndan \u00fcretilmi\u015ftir.",
     "employee": "Personel",
     "employer": "Y\u00f6netici / \u0130\u015fveren",
-    "signatureHint": "Ad soyad - Tarih - \u0130mza"
+    "signatureHint": "Ad soyad - Tarih - \u0130mza",
+    "digitalSeal": "Dijital onay",
+    "digitalSealHint": "CrewLedger sistem kayd\u0131 ile do\u011frulanm\u0131\u015ft\u0131r",
+    "signedAt": "Belge tarihi",
+    "brandTagline": "\u0130n\u015faat Personel Y\u00f6netimi"
   }
 }
