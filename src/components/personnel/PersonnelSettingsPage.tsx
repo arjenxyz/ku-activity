@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import {
   FiCamera,
@@ -19,6 +19,7 @@ import { PersonnelAppSettings } from '@/components/personnel/PersonnelAppSetting
 import { PersonnelReleaseNotesPanel } from '@/components/personnel/PersonnelReleaseNotesPanel';
 import { PersonnelActiveDevices } from '@/components/personnel/PersonnelActiveDevices';
 import { PersonnelPasswordModal } from '@/components/personnel/PersonnelPasswordModal';
+import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 import { formatDate, formatMoney } from '@/lib/format';
 import { formatTurkishPhoneNational } from '@/lib/field-encryption';
 import type { PersonnelEmployee } from '@/lib/personnel-api';
@@ -90,6 +91,17 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
   const [photoError, setPhotoError] = useState<string | null>(null);
   const cameraInputRef = useRef<HTMLInputElement>(null);
   const galleryInputRef = useRef<HTMLInputElement>(null);
+
+  useBodyScrollLock(logoutConfirmOpen);
+
+  useEffect(() => {
+    if (!logoutConfirmOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setLogoutConfirmOpen(false);
+    };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [logoutConfirmOpen]);
 
   const firstName = employee.first_name || employee.name.split(' ')[0] || strings.emptyValue;
   const lastName = employee.last_name || employee.name.split(' ').slice(1).join(' ') || strings.emptyValue;
@@ -336,38 +348,14 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
               ))}
             </SettingsCard>
 
-            {logoutConfirmOpen ? (
-              <div className="rounded-2xl border border-rose-200/80 bg-rose-50 px-4 py-3.5 shadow-sm dark:border-rose-900/50 dark:bg-rose-950/30">
-                <p className="text-center text-sm font-medium text-rose-800 dark:text-rose-200">
-                  {strings.logoutConfirm}
-                </p>
-                <div className="mt-3 flex gap-2">
-                  <button
-                    type="button"
-                    onClick={onLogout}
-                    className="inline-flex min-h-11 flex-1 items-center justify-center rounded-xl bg-rose-600 px-4 text-sm font-semibold text-white transition hover:bg-rose-700"
-                  >
-                    {strings.logoutConfirmButton}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setLogoutConfirmOpen(false)}
-                    className="inline-flex min-h-11 items-center justify-center rounded-xl border border-rose-200 bg-white px-4 text-sm font-semibold text-rose-700 transition hover:bg-rose-50 dark:border-rose-800 dark:bg-slate-900 dark:text-rose-300"
-                  >
-                    {strings.logoutCancel}
-                  </button>
-                </div>
-              </div>
-            ) : (
-              <button
-                type="button"
-                onClick={() => setLogoutConfirmOpen(true)}
-                className="flex w-full items-center justify-center gap-2 rounded-2xl bg-red-50 py-3.5 text-sm font-medium text-red-600 shadow-sm transition hover:bg-red-100 active:bg-red-100 dark:bg-red-950/30 dark:text-red-400 dark:hover:bg-red-950/50"
-              >
-                <FiLogOut className="h-4 w-4" />
-                {strings.logout}
-              </button>
-            )}
+            <button
+              type="button"
+              onClick={() => setLogoutConfirmOpen(true)}
+              className="flex w-full items-center justify-center gap-2 rounded-2xl bg-red-50 py-3.5 text-sm font-medium text-red-600 shadow-sm transition hover:bg-red-100 active:bg-red-100 dark:bg-red-950/30 dark:text-red-400 dark:hover:bg-red-950/50"
+            >
+              <FiLogOut className="h-4 w-4" />
+              {strings.logout}
+            </button>
 
             <div className="flex w-full flex-col items-center px-1 pt-5 pb-1">
               <Image
@@ -437,6 +425,54 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
       </div>
 
       <PersonnelPasswordModal open={passwordOpen} onClose={() => setPasswordOpen(false)} />
+
+      {logoutConfirmOpen ? (
+        <div className="fixed inset-0 z-[70] flex items-center justify-center p-4">
+          <button
+            type="button"
+            className="absolute inset-0 bg-slate-900/55 backdrop-blur-md"
+            onClick={() => setLogoutConfirmOpen(false)}
+            aria-label={strings.logoutCancel}
+          />
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="logout-confirm-title"
+            className="relative w-full max-w-sm overflow-hidden rounded-2xl bg-white shadow-2xl shadow-slate-900/25 dark:bg-slate-900"
+          >
+            <div className="px-5 pt-5 pb-4 text-center">
+              <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-rose-100 text-rose-600 dark:bg-rose-950/50 dark:text-rose-300">
+                <FiLogOut className="h-5 w-5" />
+              </span>
+              <h2
+                id="logout-confirm-title"
+                className="mt-3 text-base font-semibold text-slate-900 dark:text-white"
+              >
+                {strings.logout}
+              </h2>
+              <p className="mt-1.5 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+                {strings.logoutConfirm}
+              </p>
+            </div>
+            <div className="flex gap-2 border-t border-slate-100 px-4 py-3 dark:border-slate-800">
+              <button
+                type="button"
+                onClick={() => setLogoutConfirmOpen(false)}
+                className="inline-flex min-h-11 flex-1 items-center justify-center rounded-xl border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
+              >
+                {strings.logoutCancel}
+              </button>
+              <button
+                type="button"
+                onClick={onLogout}
+                className="inline-flex min-h-11 flex-1 items-center justify-center rounded-xl bg-rose-600 px-4 text-sm font-semibold text-white transition hover:bg-rose-700"
+              >
+                {strings.logoutConfirmButton}
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }
