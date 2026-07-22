@@ -63,6 +63,8 @@
     "email": "E-posta",
     "phone": "Telefon",
     "iban": "IBAN",
+    "bankName": "Bank",
+    "unknownBank": "Bank could not be detected",
     "position": "Pozisyon",
     "dailyWage": "Günlük yevmiye",
     "hireDate": "İşe giriş"

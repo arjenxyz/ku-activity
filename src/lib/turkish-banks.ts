@@ -78,6 +78,67 @@ export function bankNameFromIban(iban: string | null | undefined): string | null
   return TR_BANK_CODES[code] ?? `Banka (${code})`;
 }
 
+/** IBAN satırında gösterim: kısa ad + renkli ikon */
+type BankBrand = { initials: string; color: string; textColor?: string };
+
+const TR_BANK_BRANDS: Record<string, BankBrand> = {
+  '00010': { initials: 'ZB', color: '#E30613' },
+  '00012': { initials: 'HB', color: '#1B4F9C' },
+  '00015': { initials: 'VB', color: '#F7A800', textColor: '#1a1a1a' },
+  '00032': { initials: 'TEB', color: '#6C1D5F' },
+  '00046': { initials: 'AK', color: '#E30613' },
+  '00059': { initials: 'ŞB', color: '#00843D' },
+  '00062': { initials: 'GA', color: '#00A3E0' },
+  '00064': { initials: 'İŞ', color: '#0033A0' },
+  '00067': { initials: 'YK', color: '#004B93' },
+  '00099': { initials: 'ING', color: '#FF6200' },
+  '00103': { initials: 'FB', color: '#7B2D8E' },
+  '00111': { initials: 'QNB', color: '#7A1FA2' },
+  '00123': { initials: 'HS', color: '#DB0011' },
+  '00134': { initials: 'DB', color: '#E30613' },
+  '00146': { initials: 'OB', color: '#00A651' },
+  '00203': { initials: 'AT', color: '#006633' },
+  '00205': { initials: 'KT', color: '#003366' },
+  '00206': { initials: 'TF', color: '#003087' },
+  '00209': { initials: 'ZK', color: '#E30613' },
+  '00210': { initials: 'VK', color: '#F7A800', textColor: '#1a1a1a' },
+  '00211': { initials: 'EK', color: '#0B3D91' },
+  '00670': { initials: 'EN', color: '#7C3AED' },
+  '00829': { initials: 'PA', color: '#9450E9' },
+  '00832': { initials: 'PT', color: '#1D4ED8' },
+};
+
+export type TurkishBankDisplay = {
+  code: string;
+  name: string;
+  initials: string;
+  color: string;
+  textColor: string;
+};
+
+export function bankDisplayFromIban(iban: string | null | undefined): TurkishBankDisplay | null {
+  const code = extractTurkishBankCode(iban);
+  if (!code) return null;
+  const name = TR_BANK_CODES[code] ?? `Banka (${code})`;
+  const brand = TR_BANK_BRANDS[code];
+  if (brand) {
+    return {
+      code,
+      name,
+      initials: brand.initials,
+      color: brand.color,
+      textColor: brand.textColor ?? '#ffffff',
+    };
+  }
+  return {
+    code,
+    name,
+    initials: code.slice(-2),
+    color: '#334155',
+    textColor: '#ffffff',
+  };
+}
+
 function normalizeSearchText(text: string) {
   return text
     .toLocaleUpperCase('tr-TR')

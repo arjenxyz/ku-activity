@@ -63,6 +63,8 @@
     "email": "E-posta",
     "phone": "Telefon",
     "iban": "IBAN",
+    "bankName": "Banka",
+    "unknownBank": "Banka tespit edilemedi",
     "position": "Pozisyon",
     "dailyWage": "Günlük yevmiye",
     "hireDate": "İşe giriş"

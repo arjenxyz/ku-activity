@@ -7,6 +7,7 @@ import {
   FiCamera,
   FiChevronLeft,
   FiChevronRight,
+  FiCreditCard,
   FiImage,
   FiLogOut,
   FiPhone,
@@ -22,6 +23,7 @@ import { PersonnelPasswordModal } from '@/components/personnel/PersonnelPassword
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 import { formatDate, formatMoney } from '@/lib/format';
 import { formatTurkishPhoneNational } from '@/lib/field-encryption';
+import { bankDisplayFromIban } from '@/lib/turkish-banks';
 import type { PersonnelEmployee } from '@/lib/personnel-api';
 import { getRegistryStrings } from '@/lib/i18n/strings-registry';
 
@@ -217,7 +219,14 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
 
             <SettingsCard>
               <GroupLabel>{strings.groups.bank}</GroupLabel>
-              <InfoRow label={strings.fields.iban} value={formatIbanDisplay(employee.iban, strings)} mono />
+              <BankFromIbanRow iban={employee.iban} strings={strings} />
+              <div className="border-t border-slate-100 dark:border-slate-800">
+                <InfoRow
+                  label={strings.fields.iban}
+                  value={formatIbanDisplay(employee.iban, strings)}
+                  mono
+                />
+              </div>
             </SettingsCard>
           </div>
         );
@@ -473,6 +482,43 @@ function GroupLabel({ children }: { children: React.ReactNode }) {
     <p className="border-b border-slate-100 px-4 pb-2 pt-3.5 text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:border-slate-800 dark:text-slate-400">
       {children}
     </p>
+  );
+}
+
+function BankFromIbanRow({
+  iban,
+  strings,
+}: {
+  iban: string | null | undefined;
+  strings: SettingsStrings;
+}) {
+  const bank = bankDisplayFromIban(iban);
+  const name = bank?.name ?? (iban ? strings.fields.unknownBank : strings.emptyValue);
+
+  return (
+    <div className="flex items-center gap-3 px-4 py-3.5">
+      {bank ? (
+        <span
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-[11px] font-bold tracking-tight shadow-sm ring-1 ring-black/5 dark:ring-white/10"
+          style={{ backgroundColor: bank.color, color: bank.textColor }}
+          aria-hidden
+        >
+          {bank.initials}
+        </span>
+      ) : (
+        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-violet-50 text-violet-600 ring-1 ring-violet-100 dark:bg-violet-950/40 dark:text-violet-300 dark:ring-violet-900/50">
+          <FiCreditCard className="h-5 w-5" aria-hidden />
+        </span>
+      )}
+      <span className="min-w-0 flex-1">
+        <span className="block text-[11px] font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+          {strings.fields.bankName}
+        </span>
+        <span className="mt-0.5 block truncate text-sm font-semibold text-slate-900 dark:text-white">
+          {name}
+        </span>
+      </span>
+    </div>
   );
 }
 
