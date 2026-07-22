@@ -77,10 +77,14 @@ export function AttendanceQrPanel({ projectId }: Props) {
     setError(null);
     try {
       const payload = await fetchAttendanceQr(projectId, date || undefined);
-      const resolvedDate =
-        payload.window?.currentOpenWorkDate ?? payload.window?.workDate ?? date;
-      if (resolvedDate && resolvedDate !== date) {
-        setDate(resolvedDate);
+      // İlk açılışta bugünkü (açık) iş gününü seç; kullanıcı tarih değiştirdiyse üzerine yazma.
+      if (!date) {
+        const seed =
+          payload.window?.currentOpenWorkDate ??
+          payload.window?.workDate ??
+          payload.session?.work_date ??
+          null;
+        if (seed) setDate(seed);
       }
       setData(payload);
       setAutoEnabled(Boolean(payload.autoAttendanceEnabled));
