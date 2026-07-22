@@ -78,7 +78,7 @@ export function bankNameFromIban(iban: string | null | undefined): string | null
   return TR_BANK_CODES[code] ?? `Banka (${code})`;
 }
 
-/** IBAN satırında gösterim: kısa ad + renkli ikon */
+/** IBAN satırında gösterim: kısa ad + renkli ikon / logo */
 type BankBrand = { initials: string; color: string; textColor?: string };
 
 const TR_BANK_BRANDS: Record<string, BankBrand> = {
@@ -91,12 +91,20 @@ const TR_BANK_BRANDS: Record<string, BankBrand> = {
   '00062': { initials: 'GA', color: '#00A3E0' },
   '00064': { initials: 'İŞ', color: '#0033A0' },
   '00067': { initials: 'YK', color: '#004B93' },
+  '00096': { initials: 'TB', color: '#1E3A5F' },
   '00099': { initials: 'ING', color: '#FF6200' },
   '00103': { initials: 'FB', color: '#7B2D8E' },
+  '00108': { initials: 'TL', color: '#0F766E' },
   '00111': { initials: 'QNB', color: '#7A1FA2' },
+  '00115': { initials: 'DB', color: '#0018A8' },
   '00123': { initials: 'HS', color: '#DB0011' },
+  '00124': { initials: 'AB', color: '#E30613' },
+  '00125': { initials: 'BB', color: '#00A3E0' },
   '00134': { initials: 'DB', color: '#E30613' },
+  '00135': { initials: 'AN', color: '#003087' },
   '00146': { initials: 'OB', color: '#00A651' },
+  '00147': { initials: 'BM', color: '#C8102E' },
+  '00148': { initials: 'IS', color: '#003366' },
   '00203': { initials: 'AT', color: '#006633' },
   '00205': { initials: 'KT', color: '#003366' },
   '00206': { initials: 'TF', color: '#003087' },
@@ -108,19 +116,63 @@ const TR_BANK_BRANDS: Record<string, BankBrand> = {
   '00832': { initials: 'PT', color: '#1D4ED8' },
 };
 
+/** Yerel logo dosyaları — `public/banks/{code}.{ext}` */
+const TR_BANK_LOGO_FILES: Record<string, string> = {
+  '00010': '00010.png',
+  '00012': '00012.png',
+  '00015': '00015.png',
+  '00032': '00032.png',
+  '00046': '00046.jpg',
+  '00059': '00059.png',
+  '00062': '00062.png',
+  '00064': '00064.jpg',
+  '00067': '00067.png',
+  '00096': '00096.png',
+  '00099': '00099.png',
+  '00103': '00103.png',
+  '00108': '00108.png',
+  '00111': '00111.png',
+  '00115': '00115.png',
+  '00123': '00123.png',
+  '00124': '00124.png',
+  '00125': '00125.png',
+  '00134': '00134.png',
+  '00135': '00135.png',
+  '00146': '00146.png',
+  '00147': '00147.png',
+  '00148': '00148.png',
+  '00203': '00203.png',
+  '00205': '00205.png',
+  '00206': '00206.png',
+  '00209': '00209.png',
+  '00210': '00210.png',
+  '00211': '00211.png',
+  '00670': '00670.png',
+  '00829': '00829.png',
+  '00832': '00832.png',
+};
+
 export type TurkishBankDisplay = {
   code: string;
   name: string;
   initials: string;
   color: string;
   textColor: string;
+  logoSrc: string | null;
 };
+
+export function bankLogoSrc(code: string | null | undefined): string | null {
+  if (!code) return null;
+  const file = TR_BANK_LOGO_FILES[code];
+  return file ? `/banks/${file}` : null;
+}
 
 export function bankDisplayFromIban(iban: string | null | undefined): TurkishBankDisplay | null {
   const code = extractTurkishBankCode(iban);
   if (!code) return null;
   const name = TR_BANK_CODES[code] ?? `Banka (${code})`;
   const brand = TR_BANK_BRANDS[code];
+  const logoSrc = bankLogoSrc(code);
   if (brand) {
     return {
       code,
@@ -128,6 +180,7 @@ export function bankDisplayFromIban(iban: string | null | undefined): TurkishBan
       initials: brand.initials,
       color: brand.color,
       textColor: brand.textColor ?? '#ffffff',
+      logoSrc,
     };
   }
   return {
@@ -136,6 +189,7 @@ export function bankDisplayFromIban(iban: string | null | undefined): TurkishBan
     initials: code.slice(-2),
     color: '#334155',
     textColor: '#ffffff',
+    logoSrc,
   };
 }
 

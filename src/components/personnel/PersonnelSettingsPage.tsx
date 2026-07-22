@@ -23,7 +23,7 @@ import { PersonnelPasswordModal } from '@/components/personnel/PersonnelPassword
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 import { formatDate, formatMoney } from '@/lib/format';
 import { formatTurkishPhoneNational } from '@/lib/field-encryption';
-import { bankDisplayFromIban } from '@/lib/turkish-banks';
+import { bankDisplayFromIban, type TurkishBankDisplay } from '@/lib/turkish-banks';
 import type { PersonnelEmployee } from '@/lib/personnel-api';
 import { getRegistryStrings } from '@/lib/i18n/strings-registry';
 
@@ -485,6 +485,38 @@ function GroupLabel({ children }: { children: React.ReactNode }) {
   );
 }
 
+function BankLogoMark({ bank }: { bank: TurkishBankDisplay }) {
+  const [logoFailed, setLogoFailed] = useState(false);
+  const showLogo = Boolean(bank.logoSrc) && !logoFailed;
+
+  if (showLogo && bank.logoSrc) {
+    return (
+      <span className="relative flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-black/5 dark:bg-slate-800 dark:ring-white/10">
+        <Image
+          src={bank.logoSrc}
+          alt=""
+          width={40}
+          height={40}
+          className="h-full w-full object-contain p-1.5"
+          draggable={false}
+          unoptimized
+          onError={() => setLogoFailed(true)}
+        />
+      </span>
+    );
+  }
+
+  return (
+    <span
+      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-[11px] font-bold tracking-tight shadow-sm ring-1 ring-black/5 dark:ring-white/10"
+      style={{ backgroundColor: bank.color, color: bank.textColor }}
+      aria-hidden
+    >
+      {bank.initials}
+    </span>
+  );
+}
+
 function BankFromIbanRow({
   iban,
   strings,
@@ -498,13 +530,7 @@ function BankFromIbanRow({
   return (
     <div className="flex items-center gap-3 px-4 py-3.5">
       {bank ? (
-        <span
-          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-[11px] font-bold tracking-tight shadow-sm ring-1 ring-black/5 dark:ring-white/10"
-          style={{ backgroundColor: bank.color, color: bank.textColor }}
-          aria-hidden
-        >
-          {bank.initials}
-        </span>
+        <BankLogoMark bank={bank} />
       ) : (
         <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-violet-50 text-violet-600 ring-1 ring-violet-100 dark:bg-violet-950/40 dark:text-violet-300 dark:ring-violet-900/50">
           <FiCreditCard className="h-5 w-5" aria-hidden />
