@@ -14,6 +14,11 @@
     "deduction": "Kesinti",
     "minimum": "Asgari"
   },
+  "presence": {
+    "worked": "İşe gitti",
+    "absent": "İşe gitmedi",
+    "leave": "İzin"
+  },
   "status": {
     "confirmed": "Onaylı",
     "pending_employee": "Sizin onayınız",

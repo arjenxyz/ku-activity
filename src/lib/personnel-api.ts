@@ -81,6 +81,13 @@ export async function fetchPersonnelWorkLogs(month?: string) {
   return (data.workLogs ?? []) as WorkLog[];
 }
 
+export async function fetchPersonnelAbsenceDates(month?: string) {
+  const res = await personnelFetch(`/api/personnel/attendance/absences${monthQuery(month)}`);
+  if (!res.ok) throw new Error(await parseError(res));
+  const data = await res.json();
+  return (data.dates ?? []) as string[];
+}
+
 export async function fetchPersonnelDeductions(month?: string) {
   const res = await personnelFetch(`/api/personnel/deductions${monthQuery(month)}`);
   if (!res.ok) throw new Error(await parseError(res));

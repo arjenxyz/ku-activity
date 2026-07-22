@@ -35,7 +35,7 @@ function PersonelPanelContent() {
   const [month, setMonth] = useState(currentMonth);
   const { activeTab, setActiveTab } = usePersonnelTab('overview');
   const loadFinance = activeTab === 'overview' || activeTab === 'finance' || activeTab === 'work';
-  const { employee, workLogs, deductions, minimumWages, stats, loading, error, reload } =
+  const { employee, workLogs, absenceDates, deductions, minimumWages, stats, loading, error, reload } =
     usePersonnelDashboard(month, { loadFinance });
 
   const handleLogout = async () => {
@@ -92,6 +92,8 @@ function PersonelPanelContent() {
             deductions={deductions}
             minimumWages={minimumWages}
             dailyWage={Number(employee.daily_wage)}
+            hireDate={employee.hire_date}
+            absenceDates={absenceDates}
           />
         </div>
       );

@@ -17,6 +17,8 @@ type Props = {
   deductions: Deduction[];
   minimumWages: MinimumWage[];
   dailyWage: number;
+  hireDate?: string | null;
+  absenceDates?: string[];
 };
 
 export function PersonnelUnifiedCalendarPanel({
@@ -26,12 +28,18 @@ export function PersonnelUnifiedCalendarPanel({
   deductions,
   minimumWages,
   dailyWage,
+  hireDate = null,
+  absenceDates = [],
 }: Props) {
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
 
   const calendarDays = useMemo(
-    () => buildUnifiedCalendar(month, workLogs, deductions, minimumWages, dailyWage),
-    [month, workLogs, deductions, minimumWages, dailyWage]
+    () =>
+      buildUnifiedCalendar(month, workLogs, deductions, minimumWages, dailyWage, {
+        hireDate,
+        absenceDates,
+      }),
+    [month, workLogs, deductions, minimumWages, dailyWage, hireDate, absenceDates]
   );
 
   const selectedLog = selectedDate ? workLogs.find((log) => log.date === selectedDate) ?? null : null;

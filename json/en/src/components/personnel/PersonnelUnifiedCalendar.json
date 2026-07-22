@@ -14,6 +14,11 @@
     "deduction": "Deduction",
     "minimum": "Minimum wage"
   },
+  "presence": {
+    "worked": "At work",
+    "absent": "Absent",
+    "leave": "Leave"
+  },
   "status": {
     "confirmed": "Confirmed",
     "pending_employee": "Your approval",

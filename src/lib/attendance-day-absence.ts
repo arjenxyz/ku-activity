@@ -73,3 +73,30 @@ export async function listDayAbsenceEmployeeIds(
 
   return new Set((data ?? []).map((row) => row.employee_id as string));
 }
+
+/** Personelin ay içindeki işe çıkmama / izin bildirim tarihleri */
+export async function listEmployeeAbsenceDatesInMonth(
+  admin: SupabaseClient,
+  params: { employeeId: string; projectId: string; month: string }
+): Promise<string[]> {
+  const month = params.month.slice(0, 7);
+  const start = `${month}-01`;
+  const [y, m] = month.split('-').map(Number);
+  const lastDay = new Date(y, m, 0).getDate();
+  const end = `${month}-${String(lastDay).padStart(2, '0')}`;
+
+  const { data, error } = await admin
+    .from('attendance_day_absences')
+    .select('work_date')
+    .eq('employee_id', params.employeeId)
+    .eq('project_id', params.projectId)
+    .gte('work_date', start)
+    .lte('work_date', end);
+
+  if (error) {
+    if (error.message.includes('attendance_day_absences')) return [];
+    throw new Error(error.message);
+  }
+
+  return (data ?? []).map((row) => String(row.work_date).slice(0, 10));
+}

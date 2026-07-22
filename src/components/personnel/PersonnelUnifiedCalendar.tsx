@@ -6,9 +6,11 @@ import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { FiCalendar, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import {
   CALENDAR_MARKER_DOT,
+  CALENDAR_PRESENCE_CELL,
+  CALENDAR_PRESENCE_DOT,
   type CalendarEventMarker,
 } from '@/lib/calendar-event-colors';
-import type { UnifiedCalendarDay } from '@/lib/personnel-stats';
+import type { UnifiedCalendarDay, UnifiedCalendarPresence } from '@/lib/personnel-stats';
 import { formatString } from '@/lib/strings/format';
 
 const MARKER_ORDER: CalendarEventMarker[] = [
@@ -18,6 +20,17 @@ const MARKER_ORDER: CalendarEventMarker[] = [
   'deduction',
   'minimum',
 ];
+
+const PRESENCE_ORDER: Exclude<UnifiedCalendarPresence, null>[] = ['worked', 'absent', 'leave'];
+
+function presenceCellClass(presence: UnifiedCalendarPresence, hasAnyRecord: boolean): string {
+  if (presence && presence in CALENDAR_PRESENCE_CELL) {
+    return CALENDAR_PRESENCE_CELL[presence];
+  }
+  return hasAnyRecord
+    ? 'border-[#0E1548] bg-[#0E1548]/[0.04] text-[#0E1548] dark:border-blue-300 dark:bg-[#0E1548]/35 dark:text-white'
+    : 'border-slate-200 bg-slate-50/60 text-slate-500 dark:border-slate-700 dark:bg-slate-800/40 dark:text-slate-400';
+}
 
 function formatMonthLabel(month: string) {
   return new Date(`${month}-01T12:00:00`).toLocaleDateString('tr-TR', {
@@ -154,13 +167,12 @@ export function PersonnelUnifiedCalendar({
               ? 'ring-2 ring-[#0E1548] ring-offset-2 ring-offset-white dark:ring-blue-300 dark:ring-offset-slate-900'
               : '';
             const clickable = cell.hasAnyRecord && Boolean(onDaySelect);
-            const cellClassName = `aspect-square min-h-[44px] rounded-xl border-2 flex flex-col items-center justify-between py-1 px-0.5 text-center transition-colors ${
+            const cellClassName = `aspect-square min-h-[44px] rounded-xl border-2 flex flex-col items-center justify-between py-1 px-0.5 text-center transition-colors ${presenceCellClass(
+              cell.presence,
               cell.hasAnyRecord
-                ? 'border-[#0E1548] bg-[#0E1548]/[0.04] text-[#0E1548] dark:border-blue-300 dark:bg-[#0E1548]/35 dark:text-white'
-                : 'border-slate-200 bg-slate-50/60 text-slate-500 dark:border-slate-700 dark:bg-slate-800/40 dark:text-slate-400'
-            } ${todayRing} ${
+            )} ${todayRing} ${
               clickable
-                ? 'cursor-pointer hover:bg-[#0E1548]/[0.08] active:scale-[0.97] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0E1548] dark:hover:bg-[#0E1548]/50'
+                ? 'cursor-pointer hover:brightness-[0.97] active:scale-[0.97] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0E1548] dark:hover:brightness-110'
                 : ''
             }`;
             const cellTitle = formatString(strings.cellTitle, {
@@ -172,13 +184,13 @@ export function PersonnelUnifiedCalendar({
               <>
                 <span
                   className={`text-xs font-bold ${
-                    cell.isToday ? 'text-[#0E1548] dark:text-blue-200' : ''
+                    cell.isToday && !cell.presence ? 'text-[#0E1548] dark:text-blue-200' : ''
                   }`}
                 >
                   {cell.day}
                 </span>
                 {detail ? (
-                  <span className="text-[9px] font-semibold leading-tight tabular-nums text-slate-700 dark:text-slate-200">
+                  <span className="text-[9px] font-semibold leading-tight tabular-nums opacity-90">
                     {detail}
                   </span>
                 ) : (
@@ -225,6 +237,17 @@ export function PersonnelUnifiedCalendar({
               {strings.tapForDetail}
             </p>
           ) : null}
+          <div className="flex flex-wrap gap-x-3 gap-y-2">
+            {PRESENCE_ORDER.map((key) => (
+              <span
+                key={key}
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-700 dark:text-slate-200"
+              >
+                <span className={`h-2.5 w-2.5 rounded-full ${CALENDAR_PRESENCE_DOT[key]}`} />
+                {strings.presence[key]}
+              </span>
+            ))}
+          </div>
           <div className="flex flex-wrap gap-x-3 gap-y-2">
             {MARKER_ORDER.map((key) => (
               <span

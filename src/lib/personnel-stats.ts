@@ -315,6 +315,8 @@ export function buildMesaiCalendar(
   return cells;
 }
 
+export type UnifiedCalendarPresence = 'worked' | 'absent' | 'leave' | null;
+
 export type UnifiedCalendarDay = {
   date: string;
   day: number;
@@ -330,20 +332,49 @@ export type UnifiedCalendarDay = {
   minimumTotal: number;
   hasAnyRecord: boolean;
   markers: CalendarEventMarker[];
+  /** Yoklama görünümü: yeşil / kırmızı / sarı; kayıt öncesi veya gelecek günlerde null */
+  presence: UnifiedCalendarPresence;
 };
+
+export function resolveCalendarPresence(params: {
+  date: string;
+  hireDate: string | null | undefined;
+  workAmount: number;
+  hasLeave: boolean;
+  today?: string;
+}): UnifiedCalendarPresence {
+  const today = params.today ?? dayjs().format('YYYY-MM-DD');
+  const hire = params.hireDate?.slice(0, 10) || null;
+
+  if (hire && params.date < hire) return null;
+  if (params.workAmount > 0) return 'worked';
+  if (params.hasLeave) return 'leave';
+  if (params.date < today) return 'absent';
+  return null;
+}
 
 export function buildUnifiedCalendar(
   month: string,
   workLogs: WorkLog[],
   deductions: Deduction[],
   minimumWages: MinimumWage[],
-  dailyWage: number
+  dailyWage: number,
+  options?: {
+    hireDate?: string | null;
+    absenceDates?: Iterable<string>;
+    today?: string;
+  }
 ): UnifiedCalendarDay[] {
   const start = dayjs(`${month}-01`);
   const daysInMonth = start.daysInMonth();
   const firstDow = start.day();
   const mondayFirstOffset = (firstDow + 6) % 7;
   const cells: UnifiedCalendarDay[] = [];
+  const absenceSet = new Set(
+    [...(options?.absenceDates ?? [])].map((d) => String(d).slice(0, 10))
+  );
+  const hireDate = options?.hireDate ?? null;
+  const today = options?.today ?? dayjs().format('YYYY-MM-DD');
 
   for (let i = 0; i < mondayFirstOffset; i++) {
     cells.push({
@@ -360,6 +391,7 @@ export function buildUnifiedCalendar(
       minimumTotal: 0,
       hasAnyRecord: false,
       markers: [],
+      presence: null,
     });
   }
 
@@ -387,11 +419,19 @@ export function buildUnifiedCalendar(
     if (deductionTotal > 0) markers.push('deduction');
     if (minimumTotal > 0) markers.push('minimum');
 
+    const presence = resolveCalendarPresence({
+      date,
+      hireDate,
+      workAmount,
+      hasLeave: absenceSet.has(date),
+      today,
+    });
+
     cells.push({
       date,
       day: d,
       inMonth: true,
-      isToday: date === dayjs().format('YYYY-MM-DD'),
+      isToday: date === today,
       workAmount,
       approvalStatus: log ? getWorkLogApprovalStatus(log) : null,
       basePay,
@@ -402,6 +442,7 @@ export function buildUnifiedCalendar(
       minimumTotal,
       hasAnyRecord: markers.length > 0,
       markers,
+      presence,
     });
   }
 

@@ -5,6 +5,7 @@ import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useRouter } from 'next/navigation';
 import { loadPendingRegistration } from '@/lib/registration-pending-storage';
 import {
+  fetchPersonnelAbsenceDates,
   fetchPersonnelDeductions,
   fetchPersonnelMe,
   fetchPersonnelMinimumWages,
@@ -27,6 +28,7 @@ export function usePersonnelDashboard(month: string, options: Options = {}) {
   const router = useRouter();
   const [employee, setEmployee] = useState<PersonnelEmployee | null>(null);
   const [workLogs, setWorkLogs] = useState<WorkLog[]>([]);
+  const [absenceDates, setAbsenceDates] = useState<string[]>([]);
   const [deductions, setDeductions] = useState<Deduction[]>([]);
   const [minimumWages, setMinimumWages] = useState<MinimumWage[]>([]);
   const [monthStats, setMonthStats] = useState<MonthStats | null>(null);
@@ -57,8 +59,12 @@ export function usePersonnelDashboard(month: string, options: Options = {}) {
       }
       if (!me) throw lastErr ?? new Error(strings.sessionInvalid);
       setEmployee(me);
-      const wl = await fetchPersonnelWorkLogs(month);
+      const [wl, absences] = await Promise.all([
+        fetchPersonnelWorkLogs(month),
+        fetchPersonnelAbsenceDates(month).catch(() => [] as string[]),
+      ]);
       setWorkLogs(wl);
+      setAbsenceDates(absences);
     } catch (e) {
       const msg = e instanceof Error ? e.message : strings.loadFailed;
       if (msg.includes('Oturum') || msg.includes('401') || msg.includes('geçersiz')) {
@@ -73,7 +79,7 @@ export function usePersonnelDashboard(month: string, options: Options = {}) {
     } finally {
       setLoading(false);
     }
-  }, [month, router]);
+  }, [month, router, strings.loadFailed, strings.sessionInvalid]);
 
   const reloadFinance = useCallback(async () => {
     if (!loadFinance) return;
@@ -138,6 +144,7 @@ export function usePersonnelDashboard(month: string, options: Options = {}) {
   return {
     employee,
     workLogs,
+    absenceDates,
     deductions,
     minimumWages,
     stats,
