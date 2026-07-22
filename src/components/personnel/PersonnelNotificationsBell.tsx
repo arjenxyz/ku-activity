@@ -327,7 +327,6 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
                   >
                     <BrandMark
                       size="sm"
-                      variant="personnel"
                       className="shrink-0 shadow-md ring-2 ring-[#0E1548]/10 dark:ring-white/15"
                     />
                     <div className="min-w-0">
