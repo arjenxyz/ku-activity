@@ -6,9 +6,10 @@ import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 type Props = {
   onRefresh: () => Promise<void>;
   children: React.ReactNode;
+  className?: string;
 };
 
-export function PersonnelPullToRefresh({ onRefresh, children }: Props) {
+export function PersonnelPullToRefresh({ onRefresh, children, className = '' }: Props) {
 
   const strings = useRegistryStrings('components/personnel/PersonnelPullToRefresh');
   const startY = useRef(0);
@@ -50,6 +51,7 @@ export function PersonnelPullToRefresh({ onRefresh, children }: Props) {
 
   return (
     <div
+      className={className}
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
       onTouchEnd={() => void onTouchEnd()}

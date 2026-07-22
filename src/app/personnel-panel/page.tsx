@@ -1,7 +1,7 @@
 'use client';
 
 
-import { Suspense, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useRouter } from 'next/navigation';
 import {
@@ -53,6 +53,16 @@ function PersonelPanelContent() {
   };
 
   const goTab = (id: string) => setActiveTab(id as PersonnelTabId);
+  const isWorkTab = activeTab === 'work';
+
+  useEffect(() => {
+    if (!isWorkTab) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isWorkTab]);
 
   const renderContent = () => {
     if (loading) {
@@ -74,14 +84,16 @@ function PersonelPanelContent() {
 
     if (activeTab === 'work' && employee) {
       return (
-        <PersonnelUnifiedCalendarPanel
-          month={month}
-          onMonthChange={setMonth}
-          workLogs={workLogs}
-          deductions={deductions}
-          minimumWages={minimumWages}
-          dailyWage={Number(employee.daily_wage)}
-        />
+        <div className="w-full max-h-full overflow-hidden">
+          <PersonnelUnifiedCalendarPanel
+            month={month}
+            onMonthChange={setMonth}
+            workLogs={workLogs}
+            deductions={deductions}
+            minimumWages={minimumWages}
+            dailyWage={Number(employee.daily_wage)}
+          />
+        </div>
       );
     }
 
@@ -142,13 +154,14 @@ function PersonelPanelContent() {
 
   return (
     <>
-      <PersonnelShell settingsMode={activeTab === 'settings'}>
+      <PersonnelShell settingsMode={activeTab === 'settings'} centeredViewport={isWorkTab}>
         <PersonnelPullToRefresh
+          className={isWorkTab ? 'flex h-full w-full flex-col justify-center' : undefined}
           onRefresh={async () => {
             await reload();
           }}
         >
-          <div className="no-print">
+          <div className={`no-print ${isWorkTab ? 'w-full' : ''}`}>
             <div className="mb-4 sm:mb-6 no-print hidden sm:block">
               <PersonnelTabNav tabs={tabsWithBadges} active={activeTab} onChange={goTab} />
             </div>

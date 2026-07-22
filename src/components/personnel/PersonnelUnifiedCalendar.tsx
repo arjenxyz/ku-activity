@@ -86,8 +86,8 @@ export function PersonnelUnifiedCalendar({
   };
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800">
-      <div className="border-b border-gray-100 bg-gradient-to-r from-blue-50/80 to-indigo-50/50 px-4 py-4 dark:border-slate-700 dark:from-slate-800 dark:to-slate-800/80 sm:px-5">
+    <div className="w-full overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800">
+      <div className="border-b border-gray-100 bg-gradient-to-r from-blue-50/80 to-indigo-50/50 px-3 py-3 dark:border-slate-700 dark:from-slate-800 dark:to-slate-800/80 sm:px-5 sm:py-4">
         <div className="flex items-center justify-between gap-3">
           <button
             type="button"
@@ -133,12 +133,12 @@ export function PersonnelUnifiedCalendar({
         />
       </div>
 
-      <div className="p-4 sm:p-5">
-        <div className="mb-2 grid grid-cols-7 gap-1.5">
+      <div className="p-3 sm:p-5">
+        <div className="mb-1.5 grid grid-cols-7 gap-1.5">
           {strings.weekdays.map((d) => (
             <div
               key={d}
-              className="py-1 text-center text-[11px] font-semibold text-gray-400 dark:text-slate-500"
+              className="py-0.5 text-center text-[11px] font-semibold text-gray-400 dark:text-slate-500"
             >
               {d}
             </div>
