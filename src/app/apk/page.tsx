@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import Image from 'next/image';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { FiArrowRight, FiSmartphone } from 'react-icons/fi';
+import { AnimatePresence, motion } from 'framer-motion';
+import { FiArrowRight, FiCheckCircle, FiDownload, FiSmartphone, FiX } from 'react-icons/fi';
 import { HomeHeader } from '@/components/home/HomeHeader';
 import { HomeFooter } from '@/components/home/HomeFooter';
 import {
@@ -35,10 +35,10 @@ function formatDate(value: string | null | undefined) {
 }
 
 export default function ApkDownloadPage() {
-
   const strings = useRegistryStrings('app/apk/page');
   const [releases, setReleases] = useState<PublicRelease[]>([]);
   const [loading, setLoading] = useState(true);
+  const [downloadToast, setDownloadToast] = useState<string | null>(null);
 
   useEffect(() => {
     fetch('/api/public/releases')
@@ -46,6 +46,16 @@ export default function ApkDownloadPage() {
       .then((data) => setReleases(data.releases ?? []))
       .finally(() => setLoading(false));
   }, []);
+
+  useEffect(() => {
+    if (!downloadToast) return;
+    const timer = window.setTimeout(() => setDownloadToast(null), 4500);
+    return () => window.clearTimeout(timer);
+  }, [downloadToast]);
+
+  const notifyDownload = (appTitle: string) => {
+    setDownloadToast(appTitle);
+  };
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
@@ -135,17 +145,11 @@ export default function ApkDownloadPage() {
                     {hasApk ? (
                       <a
                         href={`/api/public/releases/${appType}/download`}
+                        onClick={() => notifyDownload(meta.title)}
                         className="touch-target inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-3.5 text-sm font-semibold text-white shadow-lg shadow-blue-500/20 hover:from-blue-700 hover:to-indigo-700"
                       >
                         {strings.downloadApk}
-                        <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-                          />
-                        </svg>
+                        <FiDownload className="h-4 w-4" aria-hidden />
                       </a>
                     ) : (
                       <div className="rounded-xl border border-dashed border-slate-300 dark:border-slate-700 px-4 py-3 text-center text-sm text-slate-500">
@@ -191,6 +195,40 @@ export default function ApkDownloadPage() {
         </div>
       </main>
       <HomeFooter />
+
+      <AnimatePresence>
+        {downloadToast ? (
+          <motion.div
+            role="status"
+            aria-live="polite"
+            initial={{ opacity: 0, y: 16, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 10, scale: 0.98 }}
+            transition={{ duration: 0.2 }}
+            className="pointer-events-none fixed inset-x-0 bottom-0 z-[120] flex justify-center px-4 pb-[max(1rem,env(safe-area-inset-bottom))]"
+          >
+            <div className="pointer-events-auto flex w-full max-w-md items-start gap-3 rounded-2xl border border-emerald-200/80 bg-white p-3.5 shadow-xl shadow-slate-900/15 dark:border-emerald-900/50 dark:bg-slate-900">
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600 dark:bg-emerald-950/50 dark:text-emerald-400">
+                <FiCheckCircle className="h-5 w-5" aria-hidden />
+              </span>
+              <div className="min-w-0 flex-1 pt-0.5">
+                <p className="text-sm font-semibold text-slate-900 dark:text-white">{strings.downloadStarted}</p>
+                <p className="mt-0.5 text-xs leading-relaxed text-slate-500 dark:text-slate-400">
+                  {formatString(strings.downloadStartedHint, { app: downloadToast })}
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setDownloadToast(null)}
+                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-100 hover:text-slate-600 dark:hover:bg-slate-800"
+                aria-label="Kapat"
+              >
+                <FiX className="h-4 w-4" />
+              </button>
+            </div>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
     </div>
   );
 }
