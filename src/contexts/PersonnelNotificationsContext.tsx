@@ -15,6 +15,7 @@ import {
   type PersonnelNotificationItem,
 } from '@/hooks/usePersonnelNotifications';
 import { PersonnelInAppNotificationBanner } from '@/components/personnel/PersonnelInAppNotificationBanner';
+import { playInAppNotificationSound } from '@/lib/in-app-notification-sound';
 
 export type InAppToast = {
   id: string;
@@ -59,7 +60,11 @@ export function PersonnelNotificationsProvider({ children }: { children: ReactNo
   const closePanel = useCallback(() => setPanelOpen(false), []);
 
   const showToast = useCallback((next: InAppToast) => {
-    setToast((current) => (current?.id === next.id ? current : next));
+    setToast((current) => {
+      if (current?.id === next.id) return current;
+      playInAppNotificationSound();
+      return next;
+    });
   }, []);
 
   useEffect(() => {
