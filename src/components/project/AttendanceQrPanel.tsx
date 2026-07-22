@@ -169,9 +169,15 @@ export function AttendanceQrPanel({ projectId }: Props) {
     if (!window.confirm(confirmMsg)) return;
     setRemovingId(checkInId);
     setError(null);
+    setSuccess(null);
     try {
       await removeAttendanceCheckIn(projectId, checkInId);
       await load();
+      setSuccess(
+        completed
+          ? formatString(strings.success.markedDidNotWork, { name })
+          : formatString(strings.success.removedCheckIn, { name })
+      );
     } catch (e) {
       setError(e instanceof Error ? e.message : strings.errors.removeFailed);
     } finally {
@@ -335,7 +341,8 @@ export function AttendanceQrPanel({ projectId }: Props) {
             </div>
 
             <div className={cardClass}>
-              <h2 className="mb-3 text-sm font-semibold text-slate-900">{strings.checkInsTitle}</h2>
+              <h2 className="mb-1 text-sm font-semibold text-slate-900">{strings.checkInsTitle}</h2>
+              <p className="mb-3 text-xs text-slate-500">{strings.checkInsRemoveHint}</p>
 
               {checkInCount === 0 ? (
                 <p className="py-6 text-center text-sm text-slate-500">{strings.emptyCheckInsHint}</p>
@@ -371,11 +378,12 @@ export function AttendanceQrPanel({ projectId }: Props) {
                         type="button"
                         onClick={() => void handleRemoveCheckIn(c.id, c.employee_name)}
                         disabled={removingId === c.id || acting}
-                        className="shrink-0 rounded-lg p-2 text-slate-400 hover:bg-red-50 hover:text-red-600 disabled:opacity-40"
+                        className="inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-rose-200 bg-rose-50 px-2.5 py-1.5 text-xs font-semibold text-rose-700 transition hover:bg-rose-100 disabled:opacity-40"
                         title={strings.removeFromListTitle}
                         aria-label={formatString(strings.removeAriaLabel, { name: c.employee_name })}
                       >
-                        <FiUserMinus className="h-4 w-4" />
+                        <FiUserMinus className="h-3.5 w-3.5" />
+                        {removingId === c.id ? strings.removingLabel : strings.removeFromListButton}
                       </button>
                     </li>
                   ))}
@@ -429,44 +437,60 @@ export function AttendanceQrPanel({ projectId }: Props) {
             </div>
 
             {checkInCount > 0 && (
-              <ul className="mt-4 divide-y divide-slate-100 border-t border-slate-100 pt-2">
-                {data.checkIns.map((c) => (
-                  <li key={c.id} className="flex items-center justify-between gap-3 py-2.5 text-sm">
-                    <div className="min-w-0">
-                      <span className="font-medium text-slate-800">{c.employee_name}</span>
-                      {c.did_not_work ? (
-                        <p className="text-xs text-amber-700">{strings.didNotWorkLabel}</p>
-                      ) : (
-                        <p className="text-xs text-emerald-700">
-                          {formatWorkLogSummary(
-                            Number(c.planned_amount ?? 1),
-                            (c.planned_mesai_type ?? 'none') as MesaiType
-                          )}
-                        </p>
-                      )}
-                    </div>
-                    <div className="flex shrink-0 items-center gap-2">
-                      <span
-                        className={`text-xs ${c.did_not_work ? 'text-amber-600' : 'text-emerald-600'}`}
+              <>
+                <p className="mt-4 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-left text-xs text-slate-600">
+                  {strings.completedRemoveHint}
+                </p>
+                <ul className="mt-3 divide-y divide-slate-100 border-t border-slate-100 pt-2">
+                  {[...data.checkIns]
+                    .sort((a, b) => Number(a.did_not_work) - Number(b.did_not_work))
+                    .map((c) => (
+                      <li
+                        key={c.id}
+                        className={`flex items-center justify-between gap-3 py-2.5 text-sm ${
+                          c.did_not_work ? 'opacity-70' : ''
+                        }`}
                       >
-                        {c.did_not_work ? strings.didNotWorkLabel : strings.workLogWritten}
-                      </span>
-                      {!c.did_not_work && (
-                        <button
-                          type="button"
-                          onClick={() => void handleRemoveCheckIn(c.id, c.employee_name, true)}
-                          disabled={removingId === c.id || acting}
-                          className="rounded-lg p-2 text-slate-400 hover:bg-amber-50 hover:text-amber-700 disabled:opacity-40"
-                          title={strings.markDidNotWorkTitle}
-                          aria-label={formatString(strings.removeAriaLabel, { name: c.employee_name })}
-                        >
-                          <FiUserMinus className="h-4 w-4" />
-                        </button>
-                      )}
-                    </div>
-                  </li>
-                ))}
-              </ul>
+                        <div className="min-w-0">
+                          <span className="font-medium text-slate-800">{c.employee_name}</span>
+                          {c.did_not_work ? (
+                            <p className="text-xs text-amber-700">{strings.didNotWorkLabel}</p>
+                          ) : (
+                            <p className="text-xs text-emerald-700">
+                              {formatWorkLogSummary(
+                                Number(c.planned_amount ?? 1),
+                                (c.planned_mesai_type ?? 'none') as MesaiType
+                              )}
+                            </p>
+                          )}
+                        </div>
+                        <div className="flex shrink-0 items-center gap-2">
+                          {c.did_not_work ? (
+                            <span className="rounded-full bg-amber-50 px-2.5 py-1 text-xs font-semibold text-amber-700">
+                              {strings.didNotWorkLabel}
+                            </span>
+                          ) : (
+                            <button
+                              type="button"
+                              onClick={() => void handleRemoveCheckIn(c.id, c.employee_name, true)}
+                              disabled={removingId === c.id || acting}
+                              className="inline-flex items-center gap-1.5 rounded-lg border border-amber-300 bg-amber-50 px-2.5 py-1.5 text-xs font-semibold text-amber-900 transition hover:bg-amber-100 disabled:opacity-40"
+                              title={strings.markDidNotWorkTitle}
+                              aria-label={formatString(strings.removeAriaLabel, {
+                                name: c.employee_name,
+                              })}
+                            >
+                              <FiUserMinus className="h-3.5 w-3.5" />
+                              {removingId === c.id
+                                ? strings.removingLabel
+                                : strings.markDidNotWorkButton}
+                            </button>
+                          )}
+                        </div>
+                      </li>
+                    ))}
+                </ul>
+              </>
             )}
 
             {data.dayLocked ? (

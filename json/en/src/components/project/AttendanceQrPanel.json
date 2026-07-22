@@ -16,7 +16,9 @@
   },
   "success": {
     "completed": "Attendance completed.",
-    "cancelled": "Attendance cancelled."
+    "cancelled": "Attendance cancelled.",
+    "removedCheckIn": "{name} removed from the list.",
+    "markedDidNotWork": "{name} marked as did not work; wage removed."
   },
   "header": {
     "title": "Attendance",
@@ -24,7 +26,7 @@
   },
   "autoToggle": {
     "label": "Auto attendance (21:00)",
-    "hintOn": "On: attendance is written daily at 21:00 for active workers. QR and manual still work.",
+    "hintOn": "On: attendance is written daily at 21:00 for active workers. Remove no-shows with “Didn’t come”.",
     "hintOff": "Off: you take attendance with QR or manual timesheet.",
     "saving": "Saving…"
   },
@@ -39,11 +41,14 @@
   "nextScan": "Personnel scan this code",
   "qrHint": "The code refreshes after each scan.",
   "checkInsTitle": "Scanned",
+  "checkInsRemoveHint": "Remove no-shows with “Remove”; no wage is written for them.",
   "emptyCheckInsHint": "No scans yet. Personnel should scan from the attendance page.",
   "editPlan": "Plan",
   "checkInPlanHint": "These values are used when you finish attendance.",
   "checkInPlanSave": "Save",
   "removeFromListTitle": "Remove from list",
+  "removeFromListButton": "Remove",
+  "removingLabel": "…",
   "removeAriaLabel": "Remove {name}",
   "completeSaving": "Saving…",
   "complete": "Finish attendance",
@@ -51,10 +56,12 @@
   "cancelAriaLabel": "Cancel",
   "completedTitle": "Attendance completed",
   "completedSummary": "Timesheets saved for {count} people.",
-  "dayLockedHint": "This day is locked. A second QR session cannot be opened (duplicate pay guard). To fix: remove from list or overwrite via manual timesheet.",
+  "completedRemoveHint": "Tap “Didn’t come” for no-shows — wage is deleted and the calendar shows absent.",
+  "dayLockedHint": "This day is locked. A second QR session cannot be opened (duplicate pay guard). To fix: use “Didn’t come” or overwrite via manual timesheet.",
   "workLogWritten": "Saved",
   "didNotWorkLabel": "Did not work",
   "markDidNotWorkTitle": "Delete wage, mark did not work",
+  "markDidNotWorkButton": "Didn’t come",
   "autoSourceBadge": "Auto",
   "restart": "Start again",
   "noSessionTitle": "No attendance for {date}",

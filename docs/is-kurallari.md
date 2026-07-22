@@ -42,10 +42,10 @@ Politika admin panelinden (`wage_policies`).
 | Aktif QR varken 21:00 | Otomatik yeni liste uydurmaz; listedekileri bitirir |
 | DB | `work_logs` → `UNIQUE (employee_id, date)` — ikinci satır imkânsız |
 | Manuel + mevcut onaylı | 409; yönetici onaylarsa üzerine yazar |
-| “İşe çıkmadım” | Otomatikte yevmiye yok; varsa satır silinir |
+| Gelmeyen (usta) | Listeden “Gelmedi” / “Çıkar” → yevmiye yok veya silinir |
 
-Personel “Bugün işe çıkmadım” derse otomatikte yevmiye yazılmaz.  
-Yanlış eklenen → tamamlanmış listeden çıkarılır.
+Gelmeyenleri personel değil usta/yönetici listeden çıkarır.  
+Yanlış eklenen → tamamlanmış listeden “Gelmedi” ile düzeltilir.
 
 Cron: `/api/cron/auto-attendance` (Bearer `CRON_SECRET`, her 15 dk)
 

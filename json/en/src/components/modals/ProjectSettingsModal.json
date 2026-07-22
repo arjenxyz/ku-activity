@@ -8,7 +8,7 @@
   "timezoneLabel": "Timezone (attendance)",
   "timezoneHint": "Attendance window starts after work end and ends 1 min before next work start.",
   "autoAttendanceLabel": "Auto attendance (21:00)",
-  "autoAttendanceHint": "When on, attendance is taken daily at 21:00 in the project timezone for active workers. Those who reported “did not work” get no wage.",
+  "autoAttendanceHint": "When on, attendance is taken daily at 21:00 in the project timezone for active workers. Supervisors remove no-shows from the attendance list with “Didn’t come”.",
   "startLabel": "Start",
   "endLabel": "End",
   "workStartLabel": "Work start",

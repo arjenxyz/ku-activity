@@ -8,7 +8,7 @@
   "timezoneLabel": "Saat dilimi (yoklama)",
   "timezoneHint": "Yoklama: iş bitişinden sonra başlar, ertesi iş başından 1 dk önce biter.",
   "autoAttendanceLabel": "Otomatik yoklama (21:00)",
-  "autoAttendanceHint": "Açıksa her gün proje saat diliminde 21:00’de aktif personel için yoklama alınır. “İşe çıkmadım” bildirenlere yevmiye yazılmaz.",
+  "autoAttendanceHint": "Açıksa her gün proje saat diliminde 21:00’de aktif personel için yoklama alınır. Gelmeyenleri usta yoklama listesinden “Gelmedi” ile çıkarır.",
   "startLabel": "Başlangıç",
   "endLabel": "Bitiş",
   "workStartLabel": "İş başı saati",

@@ -16,7 +16,9 @@
   },
   "success": {
     "completed": "Yoklama tamamlandı.",
-    "cancelled": "Yoklama iptal edildi."
+    "cancelled": "Yoklama iptal edildi.",
+    "removedCheckIn": "{name} listeden çıkarıldı.",
+    "markedDidNotWork": "{name} işe çıkmadı olarak işaretlendi; yevmiye silindi."
   },
   "header": {
     "title": "Yoklama",
@@ -24,7 +26,7 @@
   },
   "autoToggle": {
     "label": "Otomatik yoklama (21:00)",
-    "hintOn": "Açık: her gün 21:00’de aktif personele yoklama yazılır. QR ve manuel yevmiye yine çalışır.",
+    "hintOn": "Açık: her gün 21:00’de aktif personele yoklama yazılır. Gelmeyenleri listeden “Gelmedi” ile çıkarın.",
     "hintOff": "Kapalı: yoklamayı QR ile veya manuel yevmiye ile siz alırsınız.",
     "saving": "Kaydediliyor…"
   },
@@ -39,11 +41,14 @@
   "nextScan": "Personel bu kodu okutsun",
   "qrHint": "Her okutma sonrası kod yenilenir.",
   "checkInsTitle": "Okutanlar",
+  "checkInsRemoveHint": "Gelmeyenleri “Çıkar” ile listeden alın; yevmiye yazılmaz.",
   "emptyCheckInsHint": "Henüz kimse okutmadı. Personel yoklama sayfasından QR okutmalı.",
   "editPlan": "Planla",
   "checkInPlanHint": "Yoklamayı bitirdiğinizde bu değerlerle yevmiye yazılır.",
   "checkInPlanSave": "Kaydet",
   "removeFromListTitle": "Listeden kaldır",
+  "removeFromListButton": "Çıkar",
+  "removingLabel": "…",
   "removeAriaLabel": "{name} kaldır",
   "completeSaving": "Kaydediliyor…",
   "complete": "Yoklamayı bitir",
@@ -51,10 +56,12 @@
   "cancelAriaLabel": "İptal et",
   "completedTitle": "Yoklama tamamlandı",
   "completedSummary": "{count} personel için yevmiye kaydedildi.",
-  "dayLockedHint": "Bu gün kilitli. Aynı güne ikinci QR yoklaması açılamaz (çift yevmiye engeli). Düzeltme için listeden çıkar veya manuel yevmiye ile üzerine yaz.",
+  "completedRemoveHint": "Gelmeyenler için “Gelmedi”ye basın — yevmiye silinir, takvimde işe gitmedi görünür.",
+  "dayLockedHint": "Bu gün kilitli. Aynı güne ikinci QR yoklaması açılamaz (çift yevmiye engeli). Düzeltme için “Gelmedi” veya manuel yevmiye ile üzerine yaz.",
   "workLogWritten": "Yazıldı",
   "didNotWorkLabel": "İşe çıkmadı",
   "markDidNotWorkTitle": "Yevmiyeyi sil, işe çıkmadı işaretle",
+  "markDidNotWorkButton": "Gelmedi",
   "autoSourceBadge": "Otomatik",
   "restart": "Yeniden başlat",
   "noSessionTitle": "{date} için yoklama yok",
