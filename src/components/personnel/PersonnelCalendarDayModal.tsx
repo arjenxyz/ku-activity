@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect } from 'react';
-import { FiCalendar, FiX } from 'react-icons/fi';
+import { useEffect, type ReactNode } from 'react';
+import { FiX } from 'react-icons/fi';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { formatDate, formatMoney } from '@/lib/format';
 import {
@@ -13,7 +13,6 @@ import {
   type WorkLog,
 } from '@/lib/personnel-stats';
 import { getWorkLogApprovalStatus, mesaiLabel, type WorkLogApprovalStatus } from '@/lib/work-log';
-import { PersonnelBadge } from '@/components/personnel/PersonnelRecordCard';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 
 type Props = {
@@ -27,18 +26,70 @@ type Props = {
   onClose: () => void;
 };
 
-function statusLabel(
-  status: WorkLogApprovalStatus,
-  strings: ReturnType<typeof useRegistryStrings<'components/personnel/PersonnelCalendarDayModal'>>
-) {
+type Strings = ReturnType<typeof useRegistryStrings<'components/personnel/PersonnelCalendarDayModal'>>;
+
+function statusLabel(status: WorkLogApprovalStatus, strings: Strings) {
   if (status === 'none') return strings.status.none;
   return strings.status[status as keyof typeof strings.status] ?? strings.status.none;
 }
 
-function statusTone(status: WorkLogApprovalStatus): 'success' | 'warning' | 'default' {
-  if (status === 'confirmed') return 'success';
-  if (status === 'disputed') return 'warning';
-  return 'default';
+function statusClass(status: WorkLogApprovalStatus) {
+  if (status === 'confirmed') return 'text-emerald-700 dark:text-emerald-300';
+  if (status === 'disputed') return 'text-amber-700 dark:text-amber-300';
+  if (status === 'pending_employee' || status === 'pending_admin') {
+    return 'text-sky-700 dark:text-sky-300';
+  }
+  return 'text-slate-600 dark:text-slate-300';
+}
+
+function isQrWorkLog(workLog: WorkLog) {
+  return workLog.description?.toLowerCase().includes('qr') ?? false;
+}
+
+/** Skip description when it only repeats the QR attendance source. */
+function shouldShowDescription(workLog: WorkLog) {
+  const description = workLog.description?.trim();
+  if (!description) return false;
+  if (isQrWorkLog(workLog) && /qr/i.test(description)) return false;
+  return true;
+}
+
+function DetailRow({
+  label,
+  value,
+  valueClassName = 'text-[#0E1548] dark:text-white',
+}: {
+  label: string;
+  value: string;
+  valueClassName?: string;
+}) {
+  return (
+    <div className="flex items-start justify-between gap-4 border-b border-slate-100 py-3 last:border-0 dark:border-slate-800">
+      <p className="shrink-0 text-[13px] text-slate-500 dark:text-slate-400">{label}</p>
+      <p className={`min-w-0 text-right text-[13px] font-semibold tabular-nums ${valueClassName}`}>
+        {value}
+      </p>
+    </div>
+  );
+}
+
+function SectionCard({
+  title,
+  children,
+}: {
+  title: string;
+  children: ReactNode;
+}) {
+  return (
+    <section className="overflow-hidden rounded-xl border border-slate-200/90 bg-white dark:border-slate-700 dark:bg-slate-900">
+      <div className="border-b border-slate-100 bg-slate-50/80 px-4 py-2.5 dark:border-slate-800 dark:bg-slate-800/40">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400">
+          {title}
+        </p>
+      </div>
+      <div className="px-4">{children}</div>
+    </section>
+  );
 }
 
 function FinanceList({
@@ -53,28 +104,16 @@ function FinanceList({
   if (items.length === 0) return null;
 
   return (
-    <section className="overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-700">
-      <p className="border-b border-slate-100 px-4 py-3 text-xs font-semibold uppercase tracking-wider text-slate-400 dark:border-slate-800">
-        {title}
-      </p>
-      <ul>
-        {items.map((item) => (
-          <li
-            key={item.id}
-            className="flex items-center justify-between gap-3 border-b border-slate-100 px-4 py-3 last:border-0 dark:border-slate-800"
-          >
-            <p className="min-w-0 truncate text-sm text-slate-700 dark:text-slate-300">
-              {item.description || title}
-            </p>
-            <p
-              className={`shrink-0 text-sm font-semibold tabular-nums ${amountClassName ?? 'text-slate-900 dark:text-white'}`}
-            >
-              {formatMoney(item.amount)}
-            </p>
-          </li>
-        ))}
-      </ul>
-    </section>
+    <SectionCard title={title}>
+      {items.map((item) => (
+        <DetailRow
+          key={item.id}
+          label={item.description?.trim() || title}
+          value={formatMoney(item.amount)}
+          valueClassName={amountClassName ?? 'text-[#0E1548] dark:text-white'}
+        />
+      ))}
+    </SectionCard>
   );
 }
 
@@ -106,7 +145,9 @@ export function PersonnelCalendarDayModal({
   const hasMesai = workLog ? Number(workLog.mesai_units ?? 0) > 0 : false;
   const mesaiPay = workLog ? mesaiPayForLog(workLog, dailyWage) : 0;
   const basePay = workLog ? workDayUnitsForLog(workLog) * dailyWage : 0;
-  const isQr = workLog?.description?.toLowerCase().includes('qr') ?? false;
+  const dayTotal = basePay + mesaiPay;
+  const isQr = workLog ? isQrWorkLog(workLog) : false;
+  const showDescription = workLog ? shouldShowDescription(workLog) : false;
   const hasContent =
     Boolean(workLog) ||
     advances.length > 0 ||
@@ -117,7 +158,7 @@ export function PersonnelCalendarDayModal({
     <div className="fixed inset-0 z-[60] flex items-end justify-center p-0 sm:items-center sm:p-4">
       <button
         type="button"
-        className="absolute inset-0 bg-slate-900/50 backdrop-blur-sm"
+        className="absolute inset-0 bg-slate-900/55 backdrop-blur-[2px]"
         onClick={onClose}
         aria-label={strings.close}
       />
@@ -125,119 +166,108 @@ export function PersonnelCalendarDayModal({
         role="dialog"
         aria-modal="true"
         aria-labelledby="calendar-day-modal-title"
-        className="safe-pb relative max-h-[min(88dvh,640px)] w-full overflow-y-auto overscroll-none rounded-t-3xl bg-white shadow-2xl dark:bg-slate-900 sm:max-w-md sm:rounded-2xl"
+        className="safe-pb relative max-h-[min(88dvh,640px)] w-full overflow-y-auto overscroll-none rounded-t-2xl border border-slate-200/80 bg-slate-50 shadow-2xl shadow-slate-900/20 dark:border-slate-700 dark:bg-slate-950 sm:max-w-md sm:rounded-2xl"
         data-allow-scroll
       >
-        <div className="sticky top-0 z-10 flex items-start justify-between gap-3 border-b border-slate-100 bg-white/95 px-5 pb-3 pt-5 backdrop-blur-sm dark:border-slate-800 dark:bg-slate-900/95">
-          <div className="flex min-w-0 items-start gap-3">
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-100 text-blue-600 dark:bg-blue-900/40">
-              <FiCalendar className="h-5 w-5" />
-            </span>
-            <div className="min-w-0">
-              <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-                {strings.modalTitle}
-              </p>
-              <h2 id="calendar-day-modal-title" className="font-semibold text-slate-900 dark:text-white">
-                {formatDate(date)}
-              </h2>
-            </div>
+        <div className="sticky top-0 z-10 flex items-center justify-between gap-3 border-b border-slate-200/80 bg-white/95 px-5 py-4 backdrop-blur-md dark:border-slate-800 dark:bg-slate-900/95">
+          <div className="min-w-0">
+            <h2
+              id="calendar-day-modal-title"
+              className="text-base font-bold tracking-tight text-[#0E1548] dark:text-white"
+            >
+              {formatDate(date)}
+            </h2>
+            <p className="mt-0.5 text-[11px] font-medium uppercase tracking-[0.14em] text-slate-400">
+              {strings.modalTitle}
+            </p>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800"
+            className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-slate-500 transition hover:bg-slate-100 hover:text-slate-800 dark:hover:bg-slate-800 dark:hover:text-white"
             aria-label={strings.close}
           >
             <FiX className="h-5 w-5" />
           </button>
         </div>
 
-        <div className="space-y-4 px-5 py-4">
+        <div className="space-y-3 px-4 py-4 sm:px-5">
           {!hasContent ? (
-            <div className="py-8 text-center">
-              <p className="font-medium text-slate-900 dark:text-white">{strings.noRecordTitle}</p>
-              <p className="mt-1 text-sm text-slate-500">{strings.noRecordHint}</p>
+            <div className="rounded-xl border border-dashed border-slate-200 bg-white px-4 py-10 text-center dark:border-slate-700 dark:bg-slate-900">
+              <p className="text-sm font-semibold text-[#0E1548] dark:text-white">{strings.noRecordTitle}</p>
+              <p className="mt-1.5 text-sm leading-relaxed text-slate-500">{strings.noRecordHint}</p>
             </div>
           ) : null}
 
           {workLog && status ? (
-            <section className="space-y-3 rounded-2xl border border-slate-200 p-4 dark:border-slate-700">
-              <div className="flex items-center justify-between gap-3">
-                <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">
-                  {strings.workSection}
-                </p>
-                <PersonnelBadge variant={statusTone(status)}>{statusLabel(status, strings)}</PersonnelBadge>
-              </div>
-              <div className="grid grid-cols-2 gap-3 text-sm">
-                <div>
-                  <p className="text-xs text-slate-500">{strings.amountLabel}</p>
-                  <p className="mt-0.5 font-semibold text-slate-900 dark:text-white">
-                    {workDayLabel(Number(workLog.amount), workLog.mesai_type)}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-xs text-slate-500">{strings.workPayLabel}</p>
-                  <p className="mt-0.5 font-semibold tabular-nums text-emerald-700 dark:text-emerald-300">
-                    {formatMoney(basePay)}
-                  </p>
-                </div>
-                {status === 'confirmed' && isQr ? (
-                  <div className="col-span-2 flex justify-end">
-                    <PersonnelBadge variant="success">{strings.qrAttendance}</PersonnelBadge>
-                  </div>
-                ) : null}
-              </div>
-              {workLog.description ? (
-                <div>
-                  <p className="text-xs text-slate-500">{strings.descriptionLabel}</p>
-                  <p className="mt-0.5 text-sm text-slate-700 dark:text-slate-300">{workLog.description}</p>
-                </div>
+            <SectionCard title={strings.workSection}>
+              <DetailRow
+                label={strings.statusLabel}
+                value={statusLabel(status, strings)}
+                valueClassName={statusClass(status)}
+              />
+              <DetailRow
+                label={strings.amountLabel}
+                value={workDayLabel(Number(workLog.amount), null)}
+              />
+              <DetailRow
+                label={strings.workPayLabel}
+                value={formatMoney(basePay)}
+                valueClassName="text-[#0E1548] dark:text-white"
+              />
+              {status === 'confirmed' && isQr ? (
+                <DetailRow label={strings.sourceLabel} value={strings.qrAttendance} />
+              ) : null}
+              {showDescription ? (
+                <DetailRow label={strings.descriptionLabel} value={workLog.description!.trim()} />
               ) : null}
               {workLog.employee_dispute_note ? (
-                <div className="rounded-xl border border-red-200 bg-red-50 px-3 py-2.5 dark:border-red-900/50 dark:bg-red-950/30">
-                  <p className="text-xs font-semibold text-red-700 dark:text-red-300">{strings.disputeLabel}</p>
-                  <p className="mt-1 text-sm text-red-800 dark:text-red-200">{workLog.employee_dispute_note}</p>
+                <div className="border-b border-slate-100 py-3 last:border-0 dark:border-slate-800">
+                  <p className="text-[13px] text-slate-500 dark:text-slate-400">{strings.disputeLabel}</p>
+                  <p className="mt-1 text-[13px] font-medium leading-relaxed text-rose-700 dark:text-rose-300">
+                    {workLog.employee_dispute_note}
+                  </p>
                 </div>
               ) : null}
-            </section>
+            </SectionCard>
           ) : null}
 
           {workLog && hasMesai && status ? (
-            <section className="space-y-3 rounded-2xl border border-orange-200 bg-orange-50/50 p-4 dark:border-orange-900/40 dark:bg-orange-950/20">
-              <p className="text-xs font-semibold uppercase tracking-wider text-orange-700/80 dark:text-orange-300/80">
-                {strings.mesaiSection}
+            <SectionCard title={strings.mesaiSection}>
+              <DetailRow label={strings.mesaiTypeLabel} value={mesaiLabel(workLog.mesai_type)} />
+              <DetailRow
+                label={strings.mesaiPayLabel}
+                value={formatMoney(mesaiPay)}
+                valueClassName="text-[#0E1548] dark:text-white"
+              />
+            </SectionCard>
+          ) : null}
+
+          {workLog && status && (basePay > 0 || mesaiPay > 0) ? (
+            <div className="flex items-center justify-between gap-4 rounded-xl border border-[#0E1548]/15 bg-white px-4 py-3.5 dark:border-white/10 dark:bg-slate-900">
+              <p className="text-[13px] font-medium text-slate-500 dark:text-slate-400">
+                {strings.dayTotalLabel}
               </p>
-              <div className="grid grid-cols-2 gap-3 text-sm">
-                <div>
-                  <p className="text-xs text-slate-500">{strings.mesaiTypeLabel}</p>
-                  <p className="mt-0.5 font-semibold text-slate-900 dark:text-white">
-                    {mesaiLabel(workLog.mesai_type)}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-xs text-slate-500">{strings.mesaiPayLabel}</p>
-                  <p className="mt-0.5 font-semibold tabular-nums text-orange-700 dark:text-orange-300">
-                    {formatMoney(mesaiPay)}
-                  </p>
-                </div>
-              </div>
-            </section>
+              <p className="text-base font-bold tabular-nums text-[#0E1548] dark:text-white">
+                {formatMoney(dayTotal)}
+              </p>
+            </div>
           ) : null}
 
           <FinanceList
             title={strings.advanceSection}
             items={advances}
-            amountClassName="text-amber-700 dark:text-amber-300"
+            amountClassName="text-amber-800 dark:text-amber-300"
           />
           <FinanceList
             title={strings.deductionSection}
             items={otherDeductions}
-            amountClassName="text-rose-700 dark:text-rose-300"
+            amountClassName="text-rose-800 dark:text-rose-300"
           />
           <FinanceList
             title={strings.minimumSection}
             items={minimumWages}
-            amountClassName="text-violet-700 dark:text-violet-300"
+            amountClassName="text-violet-800 dark:text-violet-300"
           />
         </div>
       </div>
