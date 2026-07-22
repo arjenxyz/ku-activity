@@ -1,9 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { FiHash, FiLogOut } from 'react-icons/fi';
+import { usePathname, useSearchParams } from 'next/navigation';
+import { FiHash } from 'react-icons/fi';
 import { BrandMark } from '@/components/brand/BrandMark';
+import { PersonnelNotificationsBell } from '@/components/personnel/PersonnelNotificationsBell';
+import { usePersonnelNotificationsContext } from '@/contexts/PersonnelNotificationsContext';
 import { usePersonnelTopBarEnterCodeAction } from '@/contexts/PersonnelTopBarActionsContext';
 import { useLocale } from '@/lib/i18n/LocaleProvider';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
@@ -17,12 +19,12 @@ type Props = {
 export function PersonnelTopBar({ immersive = false }: Props) {
   const pathname = usePathname() ?? '';
   const searchParams = useSearchParams();
-  const router = useRouter();
   const { locale } = useLocale();
   const defaultTagline = locale === 'tr' ? APP_TAGLINE_TR : APP_TAGLINE;
   const yoklamaStrings = useRegistryStrings('app/personnel-panel/yoklama/page');
   const advanceStrings = useRegistryStrings('app/personnel-panel/avans/page');
   const settingsStrings = useRegistryStrings('components/personnel/PersonnelSettingsPage');
+  const { panelOpen } = usePersonnelNotificationsContext();
   const topBarActions = usePersonnelTopBarEnterCodeAction();
   const isYoklama = pathname.startsWith('/personnel-panel/yoklama');
   const isAdvancePage = pathname.startsWith('/personnel-panel/avans');
@@ -57,12 +59,6 @@ export function PersonnelTopBar({ immersive = false }: Props) {
   const taglineClass = immersivePath
     ? 'text-white/55'
     : 'text-slate-500 dark:text-slate-400';
-
-  const handleLogout = async () => {
-    await fetch('/api/auth/personnel/logout', { method: 'POST' });
-    router.replace('/personnel-panel/login');
-    router.refresh();
-  };
 
   return (
     <header className={shellClass}>
@@ -116,19 +112,23 @@ export function PersonnelTopBar({ immersive = false }: Props) {
                 {enterCode.label}
               </button>
             ) : (
-              <button
-                type="button"
-                onClick={() => void handleLogout()}
-                aria-label={settingsStrings.logout}
-                title={settingsStrings.logout}
-                className={`inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl transition ${
-                  immersivePath
-                    ? 'bg-white/10 text-white hover:bg-white/20'
-                    : 'bg-slate-100/80 text-[#0E1548] hover:bg-rose-50 hover:text-rose-600 dark:bg-slate-800/80 dark:text-white dark:hover:bg-rose-950/40 dark:hover:text-rose-300'
+              <div
+                className={`shrink-0 rounded-xl p-0.5 transition-colors ${
+                  panelOpen
+                    ? immersivePath
+                      ? 'bg-white shadow-md'
+                      : 'bg-[#0E1548] shadow-md shadow-[#0E1548]/25'
+                    : immersivePath
+                      ? 'bg-white/10'
+                      : 'bg-slate-100/80 dark:bg-slate-800/80'
                 }`}
               >
-                <FiLogOut className="h-[1.05rem] w-[1.05rem]" />
-              </button>
+                <PersonnelNotificationsBell
+                  tone={immersivePath ? 'onDark' : 'light'}
+                  panelOpen={panelOpen}
+                  className="!h-10 !w-10 !border-0 !bg-transparent"
+                />
+              </div>
             )}
           </div>
         </div>
