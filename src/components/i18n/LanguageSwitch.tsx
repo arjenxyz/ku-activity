@@ -33,8 +33,8 @@ function FlagBadge({
   short: string;
   size?: 'sm' | 'md';
 }) {
+  // CSS kutusu küçük; retina için yüksek çözünürlüklü PNG (w20 bulanık kalır)
   const box = size === 'sm' ? 'h-5 w-7 rounded-md' : 'h-7 w-9 rounded-lg';
-  const imgW = size === 'sm' ? 20 : 40;
 
   return (
     <span
@@ -44,10 +44,11 @@ function FlagBadge({
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src={flagImageUrl(countryCode, imgW)}
+        src={flagImageUrl(countryCode, 80)}
+        srcSet={`${flagImageUrl(countryCode, 40)} 1x, ${flagImageUrl(countryCode, 80)} 2x`}
         alt=""
-        width={imgW}
-        height={Math.round(imgW * 0.75)}
+        width={40}
+        height={30}
         className="h-full w-full object-cover"
         loading="lazy"
         decoding="async"
