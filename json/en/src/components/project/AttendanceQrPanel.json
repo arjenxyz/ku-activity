@@ -6,7 +6,8 @@
     "completeFailed": "Could not complete attendance",
     "cancelFailed": "Could not cancel",
     "removeFailed": "Could not remove",
-    "planSaveFailed": "Could not save"
+    "planSaveFailed": "Could not save",
+    "copyFailed": "Could not copy code"
   },
   "confirm": {
     "complete": "Write timesheets for {count} people with planned day and overtime?",
@@ -40,6 +41,10 @@
   "dateLabel": "Date",
   "nextScan": "Personnel scan this code",
   "qrHint": "The code refreshes after each scan.",
+  "manualCodeLabel": "Manual code",
+  "manualCodeHint": "Workers without a camera enter this via “Enter code” on the attendance page.",
+  "manualCodeCopy": "Copy code",
+  "manualCodeCopied": "Copied",
   "checkInsTitle": "Scanned",
   "checkInsRemoveHint": "Remove no-shows with “Remove”; no wage is written for them.",
   "emptyCheckInsHint": "No scans yet. Personnel should scan from the attendance page.",

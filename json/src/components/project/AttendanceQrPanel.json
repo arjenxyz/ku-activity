@@ -6,7 +6,8 @@
     "completeFailed": "Yoklama bitirilemedi",
     "cancelFailed": "İptal edilemedi",
     "removeFailed": "Kaldırılamadı",
-    "planSaveFailed": "Kaydedilemedi"
+    "planSaveFailed": "Kaydedilemedi",
+    "copyFailed": "Kod kopyalanamadı"
   },
   "confirm": {
     "complete": "{count} personel için planlanan gün ve mesai ile yevmiye yazılsın mı?",
@@ -40,6 +41,10 @@
   "dateLabel": "Tarih",
   "nextScan": "Personel bu kodu okutsun",
   "qrHint": "Her okutma sonrası kod yenilenir.",
+  "manualCodeLabel": "Manuel kod",
+  "manualCodeHint": "Kamerası olmayan personel yoklama sayfasından “Kod gir” ile bunu yazar.",
+  "manualCodeCopy": "Kodu kopyala",
+  "manualCodeCopied": "Kopyalandı",
   "checkInsTitle": "Okutanlar",
   "checkInsRemoveHint": "Gelmeyenleri “Çıkar” ile listeden alın; yevmiye yazılmaz.",
   "emptyCheckInsHint": "Henüz kimse okutmadı. Personel yoklama sayfasından QR okutmalı.",
