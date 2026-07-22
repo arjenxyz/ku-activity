@@ -8,8 +8,6 @@ import { FiArrowLeft, FiBell, FiCheck, FiTrash2 } from 'react-icons/fi';
 import { BrandMark } from '@/components/brand/BrandMark';
 import {
   HonorIconTile,
-  type HonorIconName,
-  type HonorIconTheme,
 } from '@/components/icons/HonorIcons';
 import { useLocalizedStrings } from '@/lib/i18n/useLocalizedStrings';
 import { formatString } from '@/lib/strings/format';
@@ -43,29 +41,6 @@ function formatRelativeTime(iso: string, strings: typeof trStrings) {
   if (hours < 24) return formatString(strings.timeHoursAgo, { count: String(hours) });
   const days = Math.floor(hours / 24);
   return formatString(strings.timeDaysAgo, { count: String(days) });
-}
-
-function honorIconForType(type: string): { name: HonorIconName; theme: HonorIconTheme } {
-  switch (type) {
-    case 'attendance_reminder':
-    case 'attendance_session_completed':
-    case 'attendance_session_cancelled':
-    case 'attendance_removed_from_list':
-      return { name: 'bell', theme: 'emerald' };
-    case 'advance_approved':
-    case 'advance_cash_ready':
-    case 'advance_paid':
-      return { name: 'bell', theme: 'indigo' };
-    case 'advance_rejected':
-      return { name: 'bell', theme: 'rose' };
-    case 'salary_paid':
-    case 'minimum_wage_paid':
-      return { name: 'bell', theme: 'sky' };
-    case 'deduction_added':
-      return { name: 'bell', theme: 'orange' };
-    default:
-      return { name: 'bell', theme: 'blue' };
-  }
 }
 
 export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpenProp, className = '' }: Props) {
@@ -219,13 +194,18 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
 
   const renderNotificationRow = (item: (typeof items)[number]) => {
     const unread = !item.read_at;
-    const icon = honorIconForType(item.type);
     const content = (
       <>
-        <span className="relative shrink-0 self-center">
-          <HonorIconTile name={icon.name} theme={icon.theme} size="sm" />
+        <span
+          className={`relative inline-flex h-8 w-8 shrink-0 items-center justify-center self-center rounded-xl ${
+            unread
+              ? 'bg-[#0E1548]/[0.08] text-[#0E1548] dark:bg-white/10 dark:text-white'
+              : 'bg-slate-100/90 text-slate-500 dark:bg-slate-800/80 dark:text-slate-400'
+          }`}
+        >
+          <FiBell className="h-4 w-4" strokeWidth={2} aria-hidden />
           {unread ? (
-            <span className="absolute -right-0.5 -top-0.5 h-2 w-2 rounded-full bg-[#3B7FED] ring-2 ring-white/60 dark:ring-slate-950/60" />
+            <span className="absolute -right-0.5 -top-0.5 h-2 w-2 rounded-full bg-[#3B7FED] ring-2 ring-white dark:ring-slate-950" />
           ) : null}
         </span>
         <span className="min-w-0 flex-1">
