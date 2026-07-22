@@ -244,9 +244,9 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
 
     const rowClass = `relative flex w-full items-start gap-2.5 rounded-xl border px-2.5 py-2 text-left transition-all active:scale-[0.99] backdrop-blur-xl ${
       unread
-        ? 'border-white/50 bg-white/40 shadow-sm shadow-[#0E1548]/[0.05] dark:border-white/10 dark:bg-white/10'
-        : 'border-white/40 bg-white/30 shadow-sm shadow-slate-900/[0.02] dark:border-white/5 dark:bg-white/[0.06]'
-    } hover:border-white/60 hover:bg-white/50 dark:hover:bg-white/15`;
+        ? 'border-slate-200/95 bg-white/80 shadow-sm shadow-slate-900/[0.06] dark:border-slate-600/70 dark:bg-white/10'
+        : 'border-slate-200/80 bg-white/60 shadow-sm shadow-slate-900/[0.04] dark:border-slate-700/60 dark:bg-white/[0.06]'
+    } hover:border-slate-300 hover:bg-white/90 dark:hover:border-slate-500 dark:hover:bg-white/15`;
 
     if (item.href) {
       return (
