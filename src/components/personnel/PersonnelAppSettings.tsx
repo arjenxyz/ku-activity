@@ -13,7 +13,7 @@ import {
   FiTrash2,
 } from 'react-icons/fi';
 import { LanguageSwitch } from '@/components/i18n/LanguageSwitch';
-import { HonorIconTile } from '@/components/icons/HonorIcons';
+import { HonorIconTile, type HonorIconName, type HonorIconTheme } from '@/components/icons/HonorIcons';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { clearPersonnelClientData } from '@/lib/personnel-data-reset';
 import { usePersonnelDisplay } from '@/lib/personnel-display-preferences';
@@ -29,6 +29,14 @@ import { formatDate } from '@/lib/format';
 import { formatApkFileSize } from '@/lib/app-releases';
 import { APP_NAME } from '@/lib/brand';
 
+export type AppSettingsView =
+  | 'menu'
+  | 'appearance'
+  | 'language'
+  | 'notifications'
+  | 'about'
+  | 'data';
+
 type PersonnelRelease = {
   appType: string;
   id: string | null;
@@ -40,12 +48,37 @@ type PersonnelRelease = {
 
 type Props = {
   onOpenReleases?: () => void;
+  view?: AppSettingsView;
+  onViewChange?: (view: AppSettingsView) => void;
 };
 
-export function PersonnelAppSettings({ onOpenReleases }: Props) {
+const MENU_ITEMS: Array<{
+  id: Exclude<AppSettingsView, 'menu'>;
+  icon: HonorIconName;
+  theme: HonorIconTheme;
+}> = [
+  { id: 'appearance', icon: 'settings', theme: 'slate' },
+  { id: 'language', icon: 'globe', theme: 'teal' },
+  { id: 'notifications', icon: 'inbox', theme: 'violet' },
+  { id: 'about', icon: 'document', theme: 'sky' },
+  { id: 'data', icon: 'shield', theme: 'rose' },
+];
+
+export function PersonnelAppSettings({
+  onOpenReleases,
+  view: viewProp,
+  onViewChange,
+}: Props) {
   const strings = useRegistryStrings('components/personnel/PersonnelAppSettings');
   const { mode, setMode } = usePersonnelTheme();
   const { largeText, highContrast, setLargeText, setHighContrast } = usePersonnelDisplay();
+
+  const [internalView, setInternalView] = useState<AppSettingsView>('menu');
+  const view = viewProp ?? internalView;
+  const setView = (next: AppSettingsView) => {
+    onViewChange?.(next);
+    if (viewProp === undefined) setInternalView(next);
+  };
 
   const [permission, setPermission] = useState<NotificationPermission | 'unsupported'>('default');
   const [subscribed, setSubscribed] = useState<boolean | null>(null);
@@ -70,6 +103,7 @@ export function PersonnelAppSettings({ onOpenReleases }: Props) {
   }, [refreshNotificationState]);
 
   useEffect(() => {
+    if (view !== 'about' && view !== 'menu') return;
     let cancelled = false;
     setReleaseLoading(true);
     setReleaseError(null);
@@ -92,7 +126,7 @@ export function PersonnelAppSettings({ onOpenReleases }: Props) {
     return () => {
       cancelled = true;
     };
-  }, [strings.about.loadFailed]);
+  }, [strings.about.loadFailed, view]);
 
   const permissionLabel = (() => {
     switch (permission) {
@@ -152,13 +186,50 @@ export function PersonnelAppSettings({ onOpenReleases }: Props) {
       : `v${release.versionName}`
     : strings.about.unknownVersion;
 
-  return (
-    <div className="space-y-4">
-      <p className="text-center text-xs leading-relaxed text-slate-500 dark:text-slate-400">
-        {strings.pageSubtitle}
-      </p>
+  const menuHints: Record<Exclude<AppSettingsView, 'menu'>, string> = {
+    appearance: strings.menuHints.appearance,
+    language: strings.menuHints.language,
+    notifications: strings.menuHints.notifications,
+    about: strings.menuHints.about,
+    data: strings.menuHints.data,
+  };
 
-      <SettingsSection title={strings.sections.appearance} icon="settings" theme="slate">
+  if (view === 'menu') {
+    return (
+      <div className="space-y-3">
+        <p className="px-1 text-center text-xs leading-relaxed text-slate-500 dark:text-slate-400">
+          {strings.pageSubtitle}
+        </p>
+        <div className="overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-black/[0.04] dark:bg-slate-900 dark:ring-white/10">
+          {MENU_ITEMS.map((item, index) => (
+            <button
+              key={item.id}
+              type="button"
+              onClick={() => setView(item.id)}
+              className={`flex w-full items-center gap-3 px-4 py-3.5 text-left transition hover:bg-slate-50 active:bg-slate-100 dark:hover:bg-slate-800/80 dark:active:bg-slate-800 ${
+                index < MENU_ITEMS.length - 1 ? 'border-b border-slate-100 dark:border-slate-800' : ''
+              }`}
+            >
+              <HonorIconTile name={item.icon} theme={item.theme} size="sm" muted />
+              <span className="min-w-0 flex-1">
+                <span className="block text-[15px] font-medium text-slate-900 dark:text-white">
+                  {strings.sections[item.id]}
+                </span>
+                <span className="mt-0.5 block truncate text-xs text-slate-500 dark:text-slate-400">
+                  {menuHints[item.id]}
+                </span>
+              </span>
+              <FiChevronRight className="h-5 w-5 shrink-0 text-slate-300 dark:text-slate-500" />
+            </button>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (view === 'appearance') {
+    return (
+      <SettingsCard>
         <div className="px-4 py-3.5 border-b border-slate-100 dark:border-slate-800">
           <p className="text-sm font-medium text-slate-900 dark:text-white">{strings.theme.label}</p>
           <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">{strings.theme.hint}</p>
@@ -177,9 +248,13 @@ export function PersonnelAppSettings({ onOpenReleases }: Props) {
           onChange={setHighContrast}
           showDivider={false}
         />
-      </SettingsSection>
+      </SettingsCard>
+    );
+  }
 
-      <SettingsSection title={strings.sections.language} icon="globe" theme="teal">
+  if (view === 'language') {
+    return (
+      <SettingsCard>
         <div className="px-4 py-3.5">
           <div className="mb-3">
             <p className="text-sm font-medium text-slate-900 dark:text-white">{strings.languageLabel}</p>
@@ -187,9 +262,13 @@ export function PersonnelAppSettings({ onOpenReleases }: Props) {
           </div>
           <LanguageSwitch variant="list" />
         </div>
-      </SettingsSection>
+      </SettingsCard>
+    );
+  }
 
-      <SettingsSection title={strings.sections.notifications} icon="inbox" theme="violet">
+  if (view === 'notifications') {
+    return (
+      <SettingsCard>
         <InfoRow label={strings.notifications.statusLabel} value={permissionLabel} />
         {permission !== 'unsupported' && subscribed !== null ? (
           <InfoRow
@@ -222,9 +301,13 @@ export function PersonnelAppSettings({ onOpenReleases }: Props) {
             </ActionChip>
           </div>
         </div>
-      </SettingsSection>
+      </SettingsCard>
+    );
+  }
 
-      <SettingsSection title={strings.sections.about} icon="document" theme="sky">
+  if (view === 'about') {
+    return (
+      <SettingsCard>
         {releaseLoading ? (
           <p className="px-4 py-4 text-sm text-slate-500">{strings.about.loading}</p>
         ) : releaseError ? (
@@ -269,52 +352,38 @@ export function PersonnelAppSettings({ onOpenReleases }: Props) {
             {strings.about.apkHint}
           </p>
         </div>
-      </SettingsSection>
+      </SettingsCard>
+    );
+  }
 
-      <SettingsSection title={strings.sections.data} icon="shield" theme="rose">
-        <button
-          type="button"
-          onClick={() => void handleResetData()}
-          disabled={resetting}
-          className="flex w-full items-center gap-3 px-4 py-3.5 text-left transition hover:bg-red-50/80 disabled:opacity-60 dark:hover:bg-red-950/20"
-        >
-          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-red-50 text-red-600 dark:bg-red-950/40 dark:text-red-400">
-            <FiTrash2 className="h-4 w-4" />
+  return (
+    <SettingsCard>
+      <button
+        type="button"
+        onClick={() => void handleResetData()}
+        disabled={resetting}
+        className="flex w-full items-center gap-3 px-4 py-3.5 text-left transition hover:bg-red-50/80 disabled:opacity-60 dark:hover:bg-red-950/20"
+      >
+        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-red-50 text-red-600 dark:bg-red-950/40 dark:text-red-400">
+          <FiTrash2 className="h-4 w-4" />
+        </span>
+        <span className="min-w-0 flex-1">
+          <span className="block text-sm font-medium text-slate-900 dark:text-white">
+            {resetting ? strings.data.clearing : strings.data.clearLabel}
           </span>
-          <span className="min-w-0 flex-1">
-            <span className="block text-sm font-medium text-slate-900 dark:text-white">
-              {resetting ? strings.data.clearing : strings.data.clearLabel}
-            </span>
-            <span className="mt-0.5 block text-xs leading-relaxed text-slate-500 dark:text-slate-400">
-              {strings.data.clearHint}
-            </span>
+          <span className="mt-0.5 block text-xs leading-relaxed text-slate-500 dark:text-slate-400">
+            {strings.data.clearHint}
           </span>
-        </button>
-      </SettingsSection>
-    </div>
+        </span>
+      </button>
+    </SettingsCard>
   );
 }
 
-function SettingsSection({
-  title,
-  icon,
-  theme,
-  children,
-}: {
-  title: string;
-  icon: 'settings' | 'globe' | 'inbox' | 'document' | 'shield';
-  theme: 'slate' | 'teal' | 'violet' | 'sky' | 'rose';
-  children: React.ReactNode;
-}) {
+function SettingsCard({ children }: { children: React.ReactNode }) {
   return (
     <div className="overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-black/[0.04] dark:bg-slate-900 dark:ring-white/10">
-      <div className="flex items-center gap-2.5 border-b border-slate-100 px-4 py-3 dark:border-slate-800">
-        <HonorIconTile name={icon} theme={theme} size="sm" muted />
-        <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
-          {title}
-        </p>
-      </div>
-      <div className="divide-y divide-slate-100 dark:divide-slate-800">{children}</div>
+      {children}
     </div>
   );
 }
@@ -378,7 +447,11 @@ function ToggleRow({
   showDivider?: boolean;
 }) {
   return (
-    <div className={`flex items-center justify-between gap-4 px-4 py-3.5 ${showDivider ? '' : ''}`}>
+    <div
+      className={`flex items-center justify-between gap-4 px-4 py-3.5 ${
+        showDivider ? 'border-b border-slate-100 dark:border-slate-800' : ''
+      }`}
+    >
       <div className="min-w-0">
         <p className="text-sm font-medium text-slate-900 dark:text-white">{label}</p>
         <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">{hint}</p>

@@ -7,6 +7,13 @@
     "about": "Uygulama",
     "data": "Veri ve gizlilik"
   },
+  "menuHints": {
+    "appearance": "Tema, büyük yazı ve kontrast",
+    "language": "Türkçe veya İngilizce",
+    "notifications": "İzin ve push aboneliği",
+    "about": "Sürüm ve güncelleme notları",
+    "data": "Önbellek ve yerel veri temizliği"
+  },
   "theme": {
     "label": "Tema",
     "hint": "Açık, koyu veya cihaz ayarını kullanın",

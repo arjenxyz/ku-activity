@@ -7,6 +7,13 @@
     "about": "App",
     "data": "Data & privacy"
   },
+  "menuHints": {
+    "appearance": "Theme, large text, and contrast",
+    "language": "Turkish or English",
+    "notifications": "Permission and push subscription",
+    "about": "Version and update notes",
+    "data": "Clear cache and local data"
+  },
   "theme": {
     "label": "Theme",
     "hint": "Use light, dark, or follow your device",

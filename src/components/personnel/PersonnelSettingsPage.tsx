@@ -15,7 +15,7 @@ import { HonorIconTile, type HonorIconName, type HonorIconTheme } from '@/compon
 import { EmployeeAvatar } from '@/components/employee/EmployeeAvatar';
 import { PersonnelContractsSection } from '@/components/personnel/PersonnelContractsSection';
 import { PersonnelClosureDossierPanel } from '@/components/personnel/PersonnelClosureDossierPanel';
-import { PersonnelAppSettings } from '@/components/personnel/PersonnelAppSettings';
+import { PersonnelAppSettings, type AppSettingsView } from '@/components/personnel/PersonnelAppSettings';
 import { PersonnelReleaseNotesPanel } from '@/components/personnel/PersonnelReleaseNotesPanel';
 import { PersonnelActiveDevices } from '@/components/personnel/PersonnelActiveDevices';
 import { PersonnelPasswordModal } from '@/components/personnel/PersonnelPasswordModal';
@@ -83,9 +83,11 @@ function maskPhoneForProfile(phone: string | null | undefined): string | null {
 
 export function PersonnelSettingsPage({ employee, onLogout }: Props) {
   const strings = useRegistryStrings('components/personnel/PersonnelSettingsPage');
+  const appSettingsStrings = useRegistryStrings('components/personnel/PersonnelAppSettings');
   const [passwordOpen, setPasswordOpen] = useState(false);
   const [logoutConfirmOpen, setLogoutConfirmOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<SettingsSectionId>('home');
+  const [appSettingsView, setAppSettingsView] = useState<AppSettingsView>('menu');
   const [photoUrl, setPhotoUrl] = useState(employee.photo_url ?? null);
   const [photoBusy, setPhotoBusy] = useState(false);
   const [photoError, setPhotoError] = useState<string | null>(null);
@@ -93,6 +95,10 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
   const galleryInputRef = useRef<HTMLInputElement>(null);
 
   useBodyScrollLock(logoutConfirmOpen);
+
+  useEffect(() => {
+    if (activeSection !== 'app') setAppSettingsView('menu');
+  }, [activeSection]);
 
   useEffect(() => {
     if (!logoutConfirmOpen) return;
@@ -166,7 +172,26 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
   const pageTitle =
     activeSection === 'profile'
       ? employee.name
-      : strings.sections[activeSection].title;
+      : activeSection === 'app' && appSettingsView !== 'menu'
+        ? appSettingsStrings.sections[appSettingsView]
+        : strings.sections[activeSection].title;
+
+  const pageSubtitle =
+    activeSection === 'profile'
+      ? strings.sections.profile.subtitle
+      : activeSection === 'app' && appSettingsView !== 'menu'
+        ? null
+        : activeSection !== 'home'
+          ? strings.sections[activeSection].subtitle
+          : null;
+
+  const handleBack = () => {
+    if (activeSection === 'app' && appSettingsView !== 'menu') {
+      setAppSettingsView('menu');
+      return;
+    }
+    setActiveSection(backTarget);
+  };
 
   const renderSection = () => {
     switch (activeSection) {
@@ -293,7 +318,11 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
         );
       case 'app':
         return (
-          <PersonnelAppSettings onOpenReleases={() => setActiveSection('releases')} />
+          <PersonnelAppSettings
+            view={appSettingsView}
+            onViewChange={setAppSettingsView}
+            onOpenReleases={() => setActiveSection('releases')}
+          />
         );
       case 'releases':
         return <PersonnelReleaseNotesPanel />;
@@ -375,20 +404,13 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
     }
   };
 
-  const pageSubtitle =
-    activeSection === 'profile'
-      ? strings.sections.profile.subtitle
-      : activeSection !== 'home'
-        ? strings.sections[activeSection].subtitle
-        : null;
-
   return (
     <div className="-mx-3 sm:-mx-6 -mt-3 min-h-full bg-[#f0f2f5] px-3 py-4 pb-[max(1rem,env(safe-area-inset-bottom))] dark:bg-slate-950 sm:min-h-[60vh] sm:px-4 sm:py-5">
       <div className="mx-auto max-w-lg space-y-4">
         {activeSection !== 'home' ? (
           <button
             type="button"
-            onClick={() => setActiveSection(backTarget)}
+            onClick={handleBack}
             className="inline-flex items-center gap-1 text-sm font-medium text-[#0E1548] dark:text-blue-300"
           >
             <FiChevronLeft className="h-5 w-5" />
