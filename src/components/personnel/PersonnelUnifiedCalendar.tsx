@@ -84,13 +84,13 @@ export function PersonnelUnifiedCalendar({
   };
 
   return (
-    <div className="w-full overflow-hidden rounded-2xl border-2 border-slate-300 bg-white shadow-sm dark:border-slate-500 dark:bg-slate-800">
-      <div className="border-b-2 border-slate-300 bg-gradient-to-r from-blue-50/80 to-indigo-50/50 px-3 py-3 dark:border-slate-500 dark:from-slate-800 dark:to-slate-800/80 sm:px-5 sm:py-4">
+    <div className="w-full overflow-hidden rounded-2xl border-2 border-[#0E1548]/25 bg-gradient-to-b from-[#EEF2FF] via-white to-white shadow-md shadow-[#0E1548]/[0.06] dark:border-[#7B9CFF]/35 dark:from-slate-900 dark:via-slate-800 dark:to-slate-800 dark:shadow-black/20">
+      <div className="border-b-2 border-[#0E1548]/20 bg-gradient-to-r from-[#0E1548]/[0.08] via-[#3B7FED]/10 to-[#5B9FFF]/10 px-3 py-3 dark:border-[#7B9CFF]/25 dark:from-[#0E1548]/60 dark:via-slate-800 dark:to-slate-800/80 sm:px-5 sm:py-4">
         <div className="flex items-center justify-between gap-3">
           <button
             type="button"
             onClick={() => shiftMonth(-1)}
-            className="touch-target inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border-2 border-slate-300 bg-white text-slate-800 hover:bg-gray-50 dark:border-slate-500 dark:bg-slate-900 dark:text-gray-200 dark:hover:bg-slate-800"
+            className="touch-target inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border-2 border-[#0E1548]/25 bg-white text-[#0E1548] hover:bg-[#E8EBF8] dark:border-[#7B9CFF]/40 dark:bg-slate-900 dark:text-[#B8C7FF] dark:hover:bg-slate-800"
             aria-label={strings.prevMonth}
           >
             <FiChevronLeft className="h-5 w-5" />
@@ -98,11 +98,11 @@ export function PersonnelUnifiedCalendar({
 
           <div className="min-w-0 flex-1 text-center">
             <div className="inline-flex items-center justify-center gap-2">
-              <FiCalendar className="h-4 w-4 shrink-0 text-blue-700 dark:text-blue-400" />
+              <FiCalendar className="h-4 w-4 shrink-0 text-[#0E1548] dark:text-[#9EB6FF]" />
               <button
                 type="button"
                 onClick={openMonthPicker}
-                className="min-h-[36px] rounded-lg border-2 border-slate-300 bg-white px-3 py-1.5 text-sm font-bold capitalize text-slate-900 transition hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 dark:border-slate-500 dark:bg-slate-900 dark:text-white dark:hover:bg-slate-800"
+                className="min-h-[36px] rounded-lg border-2 border-[#0E1548]/25 bg-white px-3 py-1.5 text-sm font-bold capitalize text-[#0E1548] transition hover:bg-[#E8EBF8] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0E1548] dark:border-[#7B9CFF]/40 dark:bg-slate-900 dark:text-white dark:hover:bg-slate-800"
               >
                 {monthLabel}
               </button>
@@ -113,7 +113,7 @@ export function PersonnelUnifiedCalendar({
             type="button"
             onClick={() => shiftMonth(1)}
             disabled={isCurrentMonth}
-            className="touch-target inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border-2 border-slate-300 bg-white text-slate-800 hover:bg-gray-50 disabled:pointer-events-none disabled:opacity-35 dark:border-slate-500 dark:bg-slate-900 dark:text-gray-200 dark:hover:bg-slate-800"
+            className="touch-target inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border-2 border-[#0E1548]/25 bg-white text-[#0E1548] hover:bg-[#E8EBF8] disabled:pointer-events-none disabled:opacity-35 dark:border-[#7B9CFF]/40 dark:bg-slate-900 dark:text-[#B8C7FF] dark:hover:bg-slate-800"
             aria-label={strings.nextMonth}
           >
             <FiChevronRight className="h-5 w-5" />
@@ -131,12 +131,12 @@ export function PersonnelUnifiedCalendar({
         />
       </div>
 
-      <div className="p-3 sm:p-5">
+      <div className="bg-[#F7F9FF]/80 p-3 dark:bg-transparent sm:p-5">
         <div className="mb-1.5 grid grid-cols-7 gap-1.5">
           {strings.weekdays.map((d) => (
             <div
               key={d}
-              className="py-0.5 text-center text-[11px] font-bold text-slate-600 dark:text-slate-300"
+              className="py-0.5 text-center text-[11px] font-bold text-[#0E1548]/70 dark:text-[#9EB6FF]"
             >
               {d}
             </div>
@@ -151,16 +151,16 @@ export function PersonnelUnifiedCalendar({
 
             const detail = cellDetail(cell);
             const todayRing = cell.isToday
-              ? 'ring-2 ring-[#0E1548] ring-offset-2 ring-offset-white dark:ring-blue-300 dark:ring-offset-slate-800'
+              ? 'ring-2 ring-[#3B7FED] ring-offset-2 ring-offset-[#F7F9FF] dark:ring-[#7B9CFF] dark:ring-offset-slate-800'
               : '';
             const clickable = cell.hasAnyRecord && Boolean(onDaySelect);
             const cellClassName = `aspect-square min-h-[44px] rounded-xl border-2 flex flex-col items-center justify-between py-1 px-0.5 text-center transition-colors ${
               cell.hasAnyRecord
-                ? 'border-[#0E1548] bg-[#0E1548]/[0.05] text-slate-900 dark:border-[#7B9CFF] dark:bg-[#0E1548]/40 dark:text-slate-100'
-                : 'border-slate-200 bg-slate-50/90 text-slate-500 dark:border-slate-600 dark:bg-slate-900/30 dark:text-slate-400'
+                ? 'border-[#0E1548] bg-white text-[#0E1548] shadow-sm shadow-[#0E1548]/10 dark:border-[#7B9CFF] dark:bg-[#0E1548]/45 dark:text-[#E8EEFF]'
+                : 'border-[#0E1548]/15 bg-white/70 text-[#0E1548]/55 dark:border-slate-600 dark:bg-slate-900/40 dark:text-slate-400'
             } ${todayRing} ${
               clickable
-                ? 'cursor-pointer hover:brightness-[0.97] active:scale-[0.97] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0E1548]'
+                ? 'cursor-pointer hover:bg-[#E8EBF8] active:scale-[0.97] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0E1548] dark:hover:bg-[#0E1548]/55'
                 : ''
             }`;
             const cellTitle = formatString(strings.cellTitle, {
@@ -171,12 +171,14 @@ export function PersonnelUnifiedCalendar({
             const inner = (
               <>
                 <span
-                  className={`text-xs font-bold ${cell.isToday ? 'text-blue-700 dark:text-blue-300' : ''}`}
+                  className={`text-xs font-bold ${cell.isToday ? 'text-[#3B7FED] dark:text-[#9EB6FF]' : ''}`}
                 >
                   {cell.day}
                 </span>
                 {detail ? (
-                  <span className="text-[9px] font-semibold leading-tight tabular-nums">{detail}</span>
+                  <span className="text-[9px] font-semibold leading-tight tabular-nums text-[#0E1548]/80 dark:text-[#C5D2FF]">
+                    {detail}
+                  </span>
                 ) : (
                   <span className="h-[11px]" />
                 )}
@@ -215,17 +217,19 @@ export function PersonnelUnifiedCalendar({
           })}
         </div>
 
-        <div className="mt-3 space-y-2.5 border-t-2 border-slate-300 pt-3 dark:border-slate-500">
+        <div className="mt-3 space-y-2.5 border-t-2 border-[#0E1548]/20 pt-3 dark:border-[#7B9CFF]/25">
           {onDaySelect ? (
-            <p className="text-xs font-medium text-slate-700 dark:text-slate-300">{strings.tapForDetail}</p>
+            <p className="text-xs font-medium text-[#0E1548]/75 dark:text-[#B8C7FF]">{strings.tapForDetail}</p>
           ) : null}
           <div className="flex flex-wrap gap-x-3 gap-y-2">
             {MARKER_ORDER.map((key) => (
               <span
                 key={key}
-                className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-800 dark:text-slate-200"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#0E1548] dark:text-[#E8EEFF]"
               >
-                <span className={`h-2.5 w-2.5 rounded-full ring-1 ring-slate-400/40 ${CALENDAR_MARKER_DOT[key]}`} />
+                <span
+                  className={`h-2.5 w-2.5 rounded-full ring-1 ring-[#0E1548]/20 ${CALENDAR_MARKER_DOT[key]}`}
+                />
                 {strings.legend[key]}
               </span>
             ))}
