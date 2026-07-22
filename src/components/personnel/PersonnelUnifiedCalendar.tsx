@@ -163,14 +163,11 @@ export function PersonnelUnifiedCalendar({
             }
 
             const detail = cellDetail(cell);
-            const todayRing = cell.isToday
-              ? 'ring-2 ring-[#0E1548] ring-offset-2 ring-offset-white dark:ring-blue-300 dark:ring-offset-slate-900'
-              : '';
             const clickable = cell.hasAnyRecord && Boolean(onDaySelect);
             const cellClassName = `aspect-square min-h-[44px] rounded-xl border-2 flex flex-col items-center justify-between py-1 px-0.5 text-center transition-colors ${presenceCellClass(
               cell.presence,
               cell.hasAnyRecord
-            )} ${todayRing} ${
+            )} ${
               clickable
                 ? 'cursor-pointer hover:brightness-[0.97] active:scale-[0.97] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0E1548] dark:hover:brightness-110'
                 : ''
@@ -190,13 +187,7 @@ export function PersonnelUnifiedCalendar({
             const inner = (
               <>
                 <span className="relative flex w-full items-start justify-center">
-                  <span
-                    className={`text-xs font-bold ${
-                      cell.isToday && !cell.presence ? 'text-[#0E1548] dark:text-blue-200' : ''
-                    }`}
-                  >
-                    {cell.day}
-                  </span>
+                  <span className="text-xs font-bold">{cell.day}</span>
                   {cell.presence ? (
                     <span
                       className={`absolute right-0 top-0 h-2 w-2 rounded-[3px] ${CALENDAR_PRESENCE_DOT[cell.presence]}`}
