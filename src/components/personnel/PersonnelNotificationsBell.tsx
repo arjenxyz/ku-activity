@@ -223,44 +223,57 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
     const icon = honorIconForType(item.type);
     const content = (
       <>
-        <HonorIconTile name={icon.name} theme={icon.theme} size="md" className="shrink-0" />
+        <span className="relative shrink-0">
+          <HonorIconTile name={icon.name} theme={icon.theme} size="md" />
+          {unread ? (
+            <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full bg-[#3B7FED] ring-2 ring-white dark:ring-slate-900" />
+          ) : null}
+        </span>
         <span className="min-w-0 flex-1">
-          <span className="flex items-start justify-between gap-2">
-            <span
-              className={`text-[15px] font-semibold leading-snug ${
-                unread ? 'text-[#0E1548] dark:text-white' : 'text-slate-700 dark:text-slate-300'
-              }`}
-            >
-              {item.title}
-            </span>
-            {unread ? (
-              <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-[#3B7FED] ring-2 ring-[#3B7FED]/20" />
-            ) : null}
+          <span
+            className={`block text-[15px] font-semibold leading-snug tracking-tight ${
+              unread ? 'text-[#0E1548] dark:text-white' : 'text-slate-700 dark:text-slate-300'
+            }`}
+          >
+            {item.title}
           </span>
           <span className="mt-1 block text-sm leading-relaxed text-slate-500 dark:text-slate-400">
             {item.body}
           </span>
-          <span className="mt-2 block text-[11px] font-medium tracking-wide text-slate-400">
+          <span className="mt-2.5 inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-slate-400">
+            <span className="h-1 w-1 rounded-full bg-slate-300 dark:bg-slate-600" aria-hidden />
             {formatRelativeTime(item.created_at, strings)}
           </span>
         </span>
-        <button
-          type="button"
-          onClick={(event) => void handleDelete(item.id, event)}
-          disabled={deletingId === item.id}
-          aria-label={strings.deleteAriaLabel}
-          className="mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl text-slate-400 transition hover:bg-rose-50 hover:text-rose-600 disabled:opacity-50 dark:hover:bg-rose-950/40 dark:hover:text-rose-400"
-        >
-          <FiTrash2 className="h-4 w-4" />
-        </button>
+        <span className="flex shrink-0 flex-col items-center gap-1 self-start">
+          <button
+            type="button"
+            onClick={(event) => void handleDelete(item.id, event)}
+            disabled={deletingId === item.id}
+            aria-label={strings.deleteAriaLabel}
+            className="inline-flex h-9 w-9 items-center justify-center rounded-xl text-slate-400 transition hover:bg-rose-50 hover:text-rose-600 disabled:opacity-50 dark:hover:bg-rose-950/40 dark:hover:text-rose-400"
+          >
+            <FiTrash2 className="h-4 w-4" />
+          </button>
+          {item.href ? (
+            <FiArrowLeft className="h-3.5 w-3.5 rotate-180 text-slate-300 dark:text-slate-600" aria-hidden />
+          ) : null}
+        </span>
       </>
     );
 
-    const rowClass = `flex w-full gap-3 rounded-2xl border px-3.5 py-3.5 text-left shadow-sm transition-colors ${
+    const rowClass = `relative flex w-full gap-3.5 overflow-hidden rounded-2xl border px-3.5 py-3.5 text-left transition-all active:scale-[0.99] ${
       unread
-        ? 'border-[#0E1548]/12 bg-white shadow-[#0E1548]/[0.04] dark:border-blue-400/20 dark:bg-slate-900'
-        : 'border-slate-200/80 bg-white/80 dark:border-slate-800 dark:bg-slate-900/70'
-    } hover:border-[#0E1548]/20 hover:bg-white dark:hover:bg-slate-900`;
+        ? 'border-[#0E1548]/15 bg-white shadow-md shadow-[#0E1548]/[0.07] dark:border-blue-400/25 dark:bg-slate-900'
+        : 'border-slate-200/80 bg-white/90 shadow-sm shadow-slate-900/[0.03] dark:border-slate-800 dark:bg-slate-900/80'
+    } hover:border-[#0E1548]/25 hover:shadow-md hover:shadow-[#0E1548]/[0.06]`;
+
+    const accent = unread ? (
+      <span
+        className="absolute inset-y-3 left-0 w-1 rounded-r-full bg-gradient-to-b from-[#5B9FFF] to-[#0E1548]"
+        aria-hidden
+      />
+    ) : null;
 
     if (item.href) {
       return (
@@ -270,6 +283,7 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
             className={rowClass}
             onClick={() => void handleItemClick(item.id, item.href, item.read_at)}
           >
+            {accent}
             {content}
           </Link>
         </li>
@@ -283,6 +297,7 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
           className={rowClass}
           onClick={() => void handleItemClick(item.id, null, item.read_at)}
         >
+          {accent}
           {content}
         </button>
       </li>
