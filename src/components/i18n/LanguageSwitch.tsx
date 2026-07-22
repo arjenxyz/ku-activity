@@ -4,7 +4,7 @@ import { useEffect, useId, useRef, useState } from 'react';
 import { FiCheck, FiChevronDown } from 'react-icons/fi';
 import { useLocalizedStrings } from '@/lib/i18n/useLocalizedStrings';
 import { useLocale } from '@/lib/i18n/LocaleProvider';
-import { LOCALE_OPTIONS, type Locale } from '@/lib/i18n/locale';
+import { flagImageUrl, LOCALE_OPTIONS, type Locale } from '@/lib/i18n/locale';
 import trLocaleUi from '@json/src/lib/i18n/locale-ui.json';
 import enLocaleUi from '@json/en/src/lib/i18n/locale-ui.json';
 
@@ -20,14 +20,37 @@ function localeMeta(id: Locale) {
   return LOCALE_OPTIONS.find((o) => o.id === id) ?? LOCALE_OPTIONS[0];
 }
 
-function FlagBadge({ flag, short }: { flag: string; short: string }) {
+function FlagBadge({
+  countryCode,
+  short,
+  size = 'md',
+}: {
+  countryCode: string;
+  short: string;
+  size?: 'sm' | 'md';
+}) {
+  const box =
+    size === 'sm'
+      ? 'h-5 w-7 rounded-md'
+      : 'h-7 w-9 rounded-lg';
+  const imgW = size === 'sm' ? 28 : 40;
+
   return (
     <span
-      className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-base leading-none dark:bg-slate-800"
+      className={`relative inline-flex shrink-0 overflow-hidden ${box} bg-slate-100 ring-1 ring-slate-200/80 dark:bg-slate-800 dark:ring-slate-700`}
       title={short}
       aria-hidden
     >
-      {flag}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={flagImageUrl(countryCode, imgW)}
+        alt=""
+        width={imgW}
+        height={Math.round(imgW * 0.75)}
+        className="h-full w-full object-cover"
+        loading="lazy"
+        decoding="async"
+      />
     </span>
   );
 }
@@ -89,7 +112,7 @@ export function LanguageSwitch({
                   : 'text-slate-700 hover:bg-slate-50 dark:text-slate-200 dark:hover:bg-slate-800/80'
               }`}
             >
-              <FlagBadge flag={option.flag} short={option.short} />
+              <FlagBadge countryCode={option.countryCode} short={option.short} />
               <span className="min-w-0 flex-1">
                 <span className="block text-sm font-semibold leading-tight">{option.nativeLabel}</span>
                 <span className="block text-[11px] text-slate-500 dark:text-slate-400">
@@ -114,9 +137,7 @@ export function LanguageSwitch({
           onClick={() => setOpen((v) => !v)}
           className="flex w-full items-center gap-3 rounded-xl px-3 py-3.5 text-left text-gray-700 transition-colors hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-slate-800"
         >
-          <span className="text-lg leading-none" aria-hidden>
-            {current.flag}
-          </span>
+          <FlagBadge countryCode={current.countryCode} short={current.short} />
           <span className="min-w-0 flex-1">
             <span className="block text-[11px] font-medium uppercase tracking-wider text-slate-400">
               {strings.menuTitle}
@@ -129,7 +150,12 @@ export function LanguageSwitch({
           />
         </button>
         {open ? (
-          <div id={menuId} role="listbox" aria-label={strings.switchAriaLabel} className="mb-1 max-h-56 space-y-0.5 overflow-y-auto pl-2">
+          <div
+            id={menuId}
+            role="listbox"
+            aria-label={strings.switchAriaLabel}
+            className="mb-1 max-h-56 space-y-0.5 overflow-y-auto pl-2"
+          >
             {LOCALE_OPTIONS.map((option) => {
               const active = locale === option.id;
               return (
@@ -145,9 +171,7 @@ export function LanguageSwitch({
                       : 'text-slate-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800/80'
                   }`}
                 >
-                  <span className="text-base leading-none" aria-hidden>
-                    {option.flag}
-                  </span>
+                  <FlagBadge countryCode={option.countryCode} short={option.short} size="sm" />
                   <span className="flex-1">{option.nativeLabel}</span>
                   {active ? <FiCheck className="h-3.5 w-3.5 text-[#0E1548] dark:text-blue-300" /> : null}
                 </button>
@@ -180,9 +204,7 @@ export function LanguageSwitch({
         onClick={() => setOpen((v) => !v)}
         className={`inline-flex items-center font-semibold transition-colors ${triggerClass}`}
       >
-        <span className="text-sm leading-none" aria-hidden>
-          {current.flag}
-        </span>
+        <FlagBadge countryCode={current.countryCode} short={current.short} size="sm" />
         <span className="tracking-wide">{current.short}</span>
         <FiChevronDown
           className={`h-3.5 w-3.5 shrink-0 opacity-60 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
@@ -218,7 +240,7 @@ export function LanguageSwitch({
                         : 'text-slate-700 hover:bg-slate-50 dark:text-slate-200 dark:hover:bg-slate-800/80'
                     }`}
                   >
-                    <FlagBadge flag={option.flag} short={option.short} />
+                    <FlagBadge countryCode={option.countryCode} short={option.short} />
                     <span className="min-w-0 flex-1">
                       <span className="block text-sm font-semibold leading-tight">{option.nativeLabel}</span>
                       <span className="block text-[10px] text-slate-500 dark:text-slate-400">

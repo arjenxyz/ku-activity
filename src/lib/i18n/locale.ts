@@ -44,7 +44,8 @@ export const LOCALE_STORAGE_KEY = 'crewledger_locale';
 export type LocaleOption = {
   id: Locale;
   short: string;
-  flag: string;
+  /** ISO 3166-1 alpha-2 — bayrak görseli için */
+  countryCode: string;
   /** Dilin kendi adıyla yazımı */
   nativeLabel: string;
   /** Menüde ikincil satır — İngilizce ad */
@@ -53,22 +54,26 @@ export type LocaleOption = {
 
 /** En çok konuşulan diller + Macarca (görünüm listesi). */
 export const LOCALE_OPTIONS: LocaleOption[] = [
-  { id: 'tr', short: 'TR', flag: '🇹🇷', nativeLabel: 'Türkçe', englishName: 'Turkish' },
-  { id: 'en', short: 'EN', flag: '🇬🇧', nativeLabel: 'English', englishName: 'English' },
-  { id: 'zh', short: 'ZH', flag: '🇨🇳', nativeLabel: '中文', englishName: 'Chinese' },
-  { id: 'hi', short: 'HI', flag: '🇮🇳', nativeLabel: 'हिन्दी', englishName: 'Hindi' },
-  { id: 'es', short: 'ES', flag: '🇪🇸', nativeLabel: 'Español', englishName: 'Spanish' },
-  { id: 'fr', short: 'FR', flag: '🇫🇷', nativeLabel: 'Français', englishName: 'French' },
-  { id: 'ar', short: 'AR', flag: '🇸🇦', nativeLabel: 'العربية', englishName: 'Arabic' },
-  { id: 'bn', short: 'BN', flag: '🇧🇩', nativeLabel: 'বাংলা', englishName: 'Bengali' },
-  { id: 'pt', short: 'PT', flag: '🇧🇷', nativeLabel: 'Português', englishName: 'Portuguese' },
-  { id: 'ru', short: 'RU', flag: '🇷🇺', nativeLabel: 'Русский', englishName: 'Russian' },
-  { id: 'ur', short: 'UR', flag: '🇵🇰', nativeLabel: 'اردو', englishName: 'Urdu' },
-  { id: 'id', short: 'ID', flag: '🇮🇩', nativeLabel: 'Bahasa Indonesia', englishName: 'Indonesian' },
-  { id: 'de', short: 'DE', flag: '🇩🇪', nativeLabel: 'Deutsch', englishName: 'German' },
-  { id: 'ja', short: 'JA', flag: '🇯🇵', nativeLabel: '日本語', englishName: 'Japanese' },
-  { id: 'hu', short: 'HU', flag: '🇭🇺', nativeLabel: 'Magyar', englishName: 'Hungarian' },
+  { id: 'tr', short: 'TR', countryCode: 'tr', nativeLabel: 'Türkçe', englishName: 'Turkish' },
+  { id: 'en', short: 'EN', countryCode: 'gb', nativeLabel: 'English', englishName: 'English' },
+  { id: 'zh', short: 'ZH', countryCode: 'cn', nativeLabel: '中文', englishName: 'Chinese' },
+  { id: 'hi', short: 'HI', countryCode: 'in', nativeLabel: 'हिन्दी', englishName: 'Hindi' },
+  { id: 'es', short: 'ES', countryCode: 'es', nativeLabel: 'Español', englishName: 'Spanish' },
+  { id: 'fr', short: 'FR', countryCode: 'fr', nativeLabel: 'Français', englishName: 'French' },
+  { id: 'ar', short: 'AR', countryCode: 'sa', nativeLabel: 'العربية', englishName: 'Arabic' },
+  { id: 'bn', short: 'BN', countryCode: 'bd', nativeLabel: 'বাংলা', englishName: 'Bengali' },
+  { id: 'pt', short: 'PT', countryCode: 'br', nativeLabel: 'Português', englishName: 'Portuguese' },
+  { id: 'ru', short: 'RU', countryCode: 'ru', nativeLabel: 'Русский', englishName: 'Russian' },
+  { id: 'ur', short: 'UR', countryCode: 'pk', nativeLabel: 'اردو', englishName: 'Urdu' },
+  { id: 'id', short: 'ID', countryCode: 'id', nativeLabel: 'Bahasa Indonesia', englishName: 'Indonesian' },
+  { id: 'de', short: 'DE', countryCode: 'de', nativeLabel: 'Deutsch', englishName: 'German' },
+  { id: 'ja', short: 'JA', countryCode: 'jp', nativeLabel: '日本語', englishName: 'Japanese' },
+  { id: 'hu', short: 'HU', countryCode: 'hu', nativeLabel: 'Magyar', englishName: 'Hungarian' },
 ];
+
+export function flagImageUrl(countryCode: string, width = 40) {
+  return `https://flagcdn.com/w${width}/${countryCode.toLowerCase()}.png`;
+}
 
 const LOCALE_SET = new Set<string>(LOCALES);
 
