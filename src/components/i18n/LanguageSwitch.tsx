@@ -152,7 +152,7 @@ export function LanguageSwitch({
             id={menuId}
             role="listbox"
             aria-label={strings.switchAriaLabel}
-            className="mt-1 grid max-h-[min(42vh,16rem)] grid-cols-2 gap-1 overflow-y-auto overscroll-contain px-1 pb-1 [scrollbar-width:thin]"
+            className="mt-1 max-h-[min(36vh,14rem)] space-y-0.5 overflow-y-auto overscroll-contain px-0.5 [scrollbar-width:thin]"
           >
             {LOCALE_OPTIONS.map((option) => {
               const active = locale === option.id;
@@ -163,7 +163,7 @@ export function LanguageSwitch({
                   role="option"
                   aria-selected={active}
                   onClick={() => select(option.id)}
-                  className={`flex min-w-0 items-center gap-2 rounded-xl px-2.5 py-2.5 text-left text-sm transition-colors ${
+                  className={`flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-left text-sm transition-colors ${
                     active
                       ? 'bg-[#0E1548]/[0.08] font-semibold text-[#0E1548] dark:bg-blue-500/15 dark:text-blue-200'
                       : 'text-slate-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800/80'

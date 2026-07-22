@@ -138,13 +138,10 @@ export function HomeHeader() {
                   {link.label}
                 </a>
               ))}
-
-              <div className="mt-3 border-t border-gray-200 pt-3 dark:border-slate-700">
-                <LanguageSwitch variant="nav" />
-              </div>
             </div>
 
-            <div className="mt-3 shrink-0 border-t border-gray-200 pt-4 dark:border-slate-700">
+            <div className="mt-3 shrink-0 space-y-3 border-t border-gray-200 pt-4 dark:border-slate-700">
+              <LanguageSwitch variant="nav" />
               <LoginRoleButton variant="mobile" showIcon={false} />
             </div>
           </div>
