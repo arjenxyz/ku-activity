@@ -140,10 +140,10 @@ export function HomeHeader() {
                   {link.label}
                 </a>
               ))}
-            </div>
 
-            <div className="mt-3 shrink-0 border-t border-gray-200 pt-4 dark:border-slate-700">
-              <LoginRoleButton variant="mobile" showIcon={false} />
+              <div className="mt-2 border-t border-gray-200 px-0.5 pb-1 pt-3 dark:border-slate-700">
+                <LoginRoleButton variant="mobile" />
+              </div>
             </div>
           </div>
         </nav>

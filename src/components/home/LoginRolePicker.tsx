@@ -164,10 +164,11 @@ const buttonStyles = {
     'transition-colors duration-200 hover:bg-[#152060]',
   ].join(' '),
   mobile: [
-    'touch-target flex w-full items-center justify-center gap-2 overflow-hidden',
-    'rounded-xl px-4 py-3 text-sm font-semibold text-white',
+    'touch-target flex w-full items-center justify-center gap-2.5 overflow-hidden',
+    'rounded-xl px-4 py-3.5 text-sm font-semibold text-white',
     'bg-[#0E1548]',
-    'shadow-sm',
+    'shadow-sm shadow-[#0E1548]/15',
+    'transition-colors duration-200 hover:bg-[#152060]',
   ].join(' '),
 } as const;
 
@@ -187,14 +188,14 @@ export function LoginRoleButton({
   const [open, setOpen] = useState(false);
   const close = useCallback(() => setOpen(false), []);
   const style = variant === 'hero' && className ? className : buttonStyles[variant];
+  const iconFirst = variant === 'mobile';
 
   return (
     <>
       <button type="button" onClick={() => setOpen(true)} className={style}>
         <span className="relative flex items-center gap-2">
-          {label}
-          {showIcon && (
-            <svg className="h-4 w-4 opacity-90" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+          {showIcon && iconFirst ? (
+            <svg className="h-4 w-4 shrink-0 opacity-90" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -202,7 +203,18 @@ export function LoginRoleButton({
                 d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
               />
             </svg>
-          )}
+          ) : null}
+          {label}
+          {showIcon && !iconFirst ? (
+            <svg className="h-4 w-4 shrink-0 opacity-90" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
+              />
+            </svg>
+          ) : null}
         </span>
       </button>
       <LoginRoleModal open={open} onClose={close} />
