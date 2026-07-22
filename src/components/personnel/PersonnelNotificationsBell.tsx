@@ -223,37 +223,38 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
     const icon = honorIconForType(item.type);
     const content = (
       <>
-        <span className="relative shrink-0">
-          <HonorIconTile name={icon.name} theme={icon.theme} size="md" />
+        <span className="relative shrink-0 self-center">
+          <HonorIconTile name={icon.name} theme={icon.theme} size="sm" />
           {unread ? (
-            <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full bg-[#3B7FED] ring-2 ring-white/50 dark:ring-slate-950/60" />
+            <span className="absolute -right-0.5 -top-0.5 h-2 w-2 rounded-full bg-[#3B7FED] ring-2 ring-white/60 dark:ring-slate-950/60" />
           ) : null}
         </span>
         <span className="min-w-0 flex-1">
-          <span
-            className={`block text-[15px] font-semibold leading-snug tracking-tight ${
-              unread ? 'text-[#0E1548] dark:text-white' : 'text-slate-700 dark:text-slate-300'
-            }`}
-          >
-            {item.title}
+          <span className="flex items-baseline gap-2">
+            <span
+              className={`min-w-0 truncate text-sm font-semibold leading-tight tracking-tight ${
+                unread ? 'text-[#0E1548] dark:text-white' : 'text-slate-700 dark:text-slate-300'
+              }`}
+            >
+              {item.title}
+            </span>
+            <span className="shrink-0 text-[10px] font-medium uppercase tracking-wide text-slate-400">
+              {formatRelativeTime(item.created_at, strings)}
+            </span>
           </span>
-          <span className="mt-1 block text-sm leading-relaxed text-slate-500 dark:text-slate-400">
+          <span className="mt-0.5 line-clamp-2 text-xs leading-snug text-slate-500 dark:text-slate-400">
             {item.body}
           </span>
-          <span className="mt-2.5 inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-slate-400">
-            <span className="h-1 w-1 rounded-full bg-slate-300 dark:bg-slate-600" aria-hidden />
-            {formatRelativeTime(item.created_at, strings)}
-          </span>
         </span>
-        <span className="flex shrink-0 flex-col items-center gap-1 self-start">
+        <span className="flex shrink-0 items-center gap-0.5 self-center">
           <button
             type="button"
             onClick={(event) => void handleDelete(item.id, event)}
             disabled={deletingId === item.id}
             aria-label={strings.deleteAriaLabel}
-            className="inline-flex h-9 w-9 items-center justify-center rounded-xl text-slate-400 transition hover:bg-rose-50 hover:text-rose-600 disabled:opacity-50 dark:hover:bg-rose-950/40 dark:hover:text-rose-400"
+            className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition hover:bg-rose-50/80 hover:text-rose-600 disabled:opacity-50 dark:hover:bg-rose-950/40 dark:hover:text-rose-400"
           >
-            <FiTrash2 className="h-4 w-4" />
+            <FiTrash2 className="h-3.5 w-3.5" />
           </button>
           {item.href ? (
             <FiArrowLeft className="h-3.5 w-3.5 rotate-180 text-slate-300 dark:text-slate-600" aria-hidden />
@@ -262,15 +263,15 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
       </>
     );
 
-    const rowClass = `relative flex w-full gap-3.5 rounded-2xl border px-3.5 py-3.5 text-left transition-all active:scale-[0.99] backdrop-blur-xl ${
+    const rowClass = `relative flex w-full items-start gap-2.5 rounded-xl border px-2.5 py-2 text-left transition-all active:scale-[0.99] backdrop-blur-xl ${
       unread
-        ? 'border-white/50 bg-white/40 shadow-md shadow-[#0E1548]/[0.06] dark:border-white/10 dark:bg-white/10'
-        : 'border-white/40 bg-white/30 shadow-sm shadow-slate-900/[0.03] dark:border-white/5 dark:bg-white/[0.06]'
-    } hover:border-white/60 hover:bg-white/50 hover:shadow-md dark:hover:bg-white/15`;
+        ? 'border-white/50 bg-white/40 shadow-sm shadow-[#0E1548]/[0.05] dark:border-white/10 dark:bg-white/10'
+        : 'border-white/40 bg-white/30 shadow-sm shadow-slate-900/[0.02] dark:border-white/5 dark:bg-white/[0.06]'
+    } hover:border-white/60 hover:bg-white/50 dark:hover:bg-white/15`;
 
     const accent = unread ? (
       <span
-        className="absolute inset-y-3 left-0 w-1 rounded-r-full bg-gradient-to-b from-[#5B9FFF] to-[#0E1548]"
+        className="absolute inset-y-2 left-0 w-0.5 rounded-r-full bg-[#0E1548] dark:bg-blue-400"
         aria-hidden
       />
     ) : null;
@@ -488,7 +489,7 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
                 <p className="text-sm text-slate-500">{strings.empty}</p>
               </div>
             ) : (
-              <ul className="mx-auto flex w-full max-w-5xl flex-col gap-2.5 px-3 py-2 sm:px-4">
+              <ul className="mx-auto flex w-full max-w-5xl flex-col gap-1.5 px-3 py-1.5 sm:px-4">
                 {items.map(renderNotificationRow)}
               </ul>
             )}
