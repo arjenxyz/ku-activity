@@ -1,4 +1,4 @@
-const CACHE_NAME = 'crewledger-v24';
+const CACHE_NAME = 'crewledger-v25';
 /** Sağdaki büyük bildirim ikonu */
 const PUSH_ICON_PATH = '/personel-icon.png';
 /** Soldaki küçük ikon — crewledger silüeti (beyaz, şeffaf) */
@@ -77,6 +77,8 @@ async function showPushNotification(payload, iconUrl) {
     badge: resolvedBadge,
     tag: payload.notificationId || 'crewledger-notification',
     renotify: true,
+    // Tarayıcılar şu an yok sayıyor; ileride destek gelirse bip kullanılır
+    sound: new URL('/bip.mp3', origin).href,
     data: { href: payload.href || '/personnel-panel', notificationId: payload.notificationId },
     vibrate: [100, 50, 100],
   };
@@ -190,6 +192,14 @@ self.addEventListener('push', (event) => {
             href: payload.href || '/personnel-panel',
           },
         });
+      }
+
+      // Özel ses: SW Audio çalamaz; arka planda açık sekme varsa bip oradan çalınır.
+      // Ön plandaki istemciler toast ile zaten ses çıkarır — çift bip olmasın.
+      for (const client of clients) {
+        if (!client.url.includes('/personnel-panel')) continue;
+        if (isFocusedPersonnelClient(client)) continue;
+        client.postMessage({ type: 'crewledger-play-notification-sound' });
       }
 
       for (const client of clients) {

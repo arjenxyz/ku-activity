@@ -97,7 +97,15 @@ export function PersonnelNotificationsProvider({ children }: { children: ReactNo
   useEffect(() => {
     const onSwMessage = (event: MessageEvent) => {
       if (!event.data || typeof event.data !== 'object') return;
-      const data = event.data as { type?: string; notification?: InAppToast };
+      const data = event.data as {
+        type?: string;
+        notification?: InAppToast;
+      };
+
+      if (data.type === 'crewledger-play-notification-sound') {
+        playInAppNotificationSound();
+        return;
+      }
 
       if (data.type === 'crewledger-in-app-notification' && data.notification) {
         if (document.visibilityState !== 'visible') return;
