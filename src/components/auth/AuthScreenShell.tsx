@@ -10,7 +10,6 @@ import { APP_NAME } from '@/lib/brand';
 import {
   PERSONNEL_AUTH_BG_IMAGE,
   PERSONNEL_AUTH_BG_IMAGE_DESKTOP,
-  PERSONNEL_INTRO_ACCENT,
   PERSONNEL_PWA_SPLASH_BG,
 } from '@/lib/personnel-pwa-brand';
 
@@ -80,10 +79,7 @@ export function AuthScreenShell({ children, screenLabel, panelLabel }: AuthScree
                 {APP_NAME.toUpperCase()}
               </p>
               {panelLabel ? (
-                <p
-                  className="truncate text-[10px] font-medium uppercase tracking-[0.2em]"
-                  style={{ color: PERSONNEL_INTRO_ACCENT }}
-                >
+                <p className="truncate text-[10px] font-medium uppercase tracking-[0.2em] text-sky-200/80">
                   {panelLabel}
                 </p>
               ) : null}
