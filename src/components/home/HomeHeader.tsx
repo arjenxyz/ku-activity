@@ -79,7 +79,6 @@ export function HomeHeader() {
             </div>
 
             <div className="flex items-center gap-1 md:hidden">
-              <LanguageSwitch variant="compact" />
               <ThemeToggleButton />
               <button
                 className="touch-target flex flex-col justify-center items-center w-11 h-11 rounded-xl hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors"
@@ -123,22 +122,26 @@ export function HomeHeader() {
             isMenuOpen ? 'translate-x-0' : 'translate-x-full'
           }`}
         >
-          <div className="flex flex-col h-full p-5 pt-16">
-            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 px-2">{strings.mobileMenuTitle}</p>
+          <div className="flex h-full flex-col p-5 pt-16">
+            <p className="mb-3 px-2 text-xs font-semibold uppercase tracking-wider text-gray-400">
+              {strings.mobileMenuTitle}
+            </p>
             {navLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
                 onClick={() => setIsMenuOpen(false)}
-                className="touch-target flex items-center text-gray-700 dark:text-gray-200 font-medium py-3.5 px-3 rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800 active:bg-blue-50 dark:active:bg-blue-900/20"
+                className="touch-target flex items-center rounded-xl px-3 py-3.5 font-medium text-gray-700 hover:bg-gray-50 active:bg-blue-50 dark:text-gray-200 dark:hover:bg-slate-800 dark:active:bg-blue-900/20"
               >
                 {link.label}
               </a>
             ))}
-            <div className="mt-auto pt-4 border-t border-gray-200 dark:border-slate-700 space-y-3">
-              <div className="px-2">
-                <LanguageSwitch variant="list" className="w-full" />
-              </div>
+
+            <div className="mt-1 border-t border-gray-100 pt-1 dark:border-slate-800">
+              <LanguageSwitch variant="nav" />
+            </div>
+
+            <div className="mt-auto border-t border-gray-200 pt-4 dark:border-slate-700">
               <LoginRoleButton variant="mobile" showIcon={false} />
             </div>
           </div>

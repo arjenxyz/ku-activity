@@ -10,8 +10,8 @@ import enLocaleUi from '@json/en/src/lib/i18n/locale-ui.json';
 
 type LanguageSwitchProps = {
   className?: string;
-  /** compact: header; list: ayarlar satırı; pill: eski mobil menü (dropdown) */
-  variant?: 'pill' | 'compact' | 'list';
+  /** compact/pill: dropdown; list: ayarlar; nav: mobil menü satırı */
+  variant?: 'pill' | 'compact' | 'list' | 'nav';
   /** Koyu arka plan üzerinde (hero kart vb.) */
   tone?: 'default' | 'onDark';
 };
@@ -90,6 +90,57 @@ export function LanguageSwitch({
             </button>
           );
         })}
+      </div>
+    );
+  }
+
+  if (variant === 'nav') {
+    return (
+      <div ref={rootRef} className={`${className}`}>
+        <button
+          type="button"
+          aria-expanded={open}
+          aria-controls={menuId}
+          onClick={() => setOpen((v) => !v)}
+          className="flex w-full items-center gap-3 rounded-xl px-3 py-3.5 text-left text-gray-700 transition-colors hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-slate-800"
+        >
+          <FiGlobe className="h-4 w-4 shrink-0 text-slate-400" aria-hidden />
+          <span className="min-w-0 flex-1">
+            <span className="block text-[11px] font-medium uppercase tracking-wider text-slate-400">
+              {strings.menuTitle}
+            </span>
+            <span className="block text-sm font-medium">{current.nativeLabel}</span>
+          </span>
+          <FiChevronDown
+            className={`h-4 w-4 shrink-0 text-slate-400 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
+            aria-hidden
+          />
+        </button>
+        {open ? (
+          <div id={menuId} role="listbox" aria-label={strings.switchAriaLabel} className="mb-1 space-y-0.5 pl-2">
+            {LOCALE_OPTIONS.map((option) => {
+              const active = locale === option.id;
+              return (
+                <button
+                  key={option.id}
+                  type="button"
+                  role="option"
+                  aria-selected={active}
+                  onClick={() => select(option.id)}
+                  className={`flex w-full items-center gap-2 rounded-lg px-3 py-2.5 text-left text-sm transition-colors ${
+                    active
+                      ? 'font-semibold text-[#0E1548] dark:text-blue-200'
+                      : 'text-slate-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800/80'
+                  }`}
+                >
+                  <span className="w-7 text-[11px] font-bold tracking-wide text-slate-400">{option.short}</span>
+                  <span className="flex-1">{option.nativeLabel}</span>
+                  {active ? <FiCheck className="h-3.5 w-3.5 text-[#0E1548] dark:text-blue-300" /> : null}
+                </button>
+              );
+            })}
+          </div>
+        ) : null}
       </div>
     );
   }
