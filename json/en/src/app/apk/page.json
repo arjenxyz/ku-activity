@@ -16,5 +16,7 @@
   "installStep2": "Android \"Bilinmeyen kaynak\" uyarısı çıkarsa Ayarlar'dan bu tarayıcıya izin verin.",
   "installStep3": "Kurulumdan sonra uygulamayı normal şekilde açabilirsiniz.",
   "installStep4": "Güncellemeler için bu sayfayı veya Play Store'u kontrol edin.",
-  "backToHome": "Ana sayfadaki mobil bölüme dön"
+  "backToHome": "Return to the mobile apps section",
+  "backToHomeTitle": "Go to Google Play section",
+  "backToHomeHint": "Browse the personnel and admin apps from the Play Store cards on the home page."
 }

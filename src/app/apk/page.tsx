@@ -5,6 +5,7 @@ import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { FiArrowRight, FiSmartphone } from 'react-icons/fi';
 import { HomeHeader } from '@/components/home/HomeHeader';
 import { HomeFooter } from '@/components/home/HomeFooter';
 import {
@@ -167,11 +168,26 @@ export default function ApkDownloadPage() {
             </ol>
           </section>
 
-          <p className="mt-8 text-center text-sm text-slate-500">
-            <Link href="/#play-store" className="text-blue-600 hover:underline dark:text-blue-400">
-              {strings.backToHome}
-            </Link>
-          </p>
+          <Link
+            href="/#play-store"
+            className="group mt-10 flex items-center gap-4 rounded-2xl border border-[#0E1548]/10 bg-gradient-to-r from-[#0E1548] to-indigo-700 p-4 text-left shadow-lg shadow-[#0E1548]/15 transition-transform hover:-translate-y-0.5 hover:shadow-xl hover:shadow-[#0E1548]/20 sm:p-5"
+          >
+            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white/15 text-white ring-1 ring-white/20">
+              <FiSmartphone className="h-5 w-5" aria-hidden />
+            </span>
+            <span className="min-w-0 flex-1">
+              <span className="block text-sm font-semibold text-white sm:text-base">
+                {strings.backToHomeTitle}
+              </span>
+              <span className="mt-0.5 block text-xs leading-relaxed text-white/75 sm:text-sm">
+                {strings.backToHomeHint}
+              </span>
+            </span>
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/15 text-white transition-transform group-hover:translate-x-0.5">
+              <FiArrowRight className="h-4 w-4" aria-hidden />
+              <span className="sr-only">{strings.backToHome}</span>
+            </span>
+          </Link>
         </div>
       </main>
       <HomeFooter />
