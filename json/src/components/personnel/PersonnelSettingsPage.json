@@ -34,7 +34,7 @@
     "security": { "title": "Güvenlik", "subtitle": "PIN, aktif cihazlar ve hesap güvenliği." },
     "language": { "title": "Dil", "subtitle": "Uygulama dilini seçin." },
     "app": { "title": "Uygulama Ayarları", "subtitle": "Tema, dil, bildirimler ve uygulama tercihleri." },
-    "releases": { "title": "Güncelleme Notları", "subtitle": "Son sürümde neler değişti." }
+    "releases": { "title": "Güncelleme Notları", "subtitle": "Web uygulamasındaki son değişiklikler." }
   },
   "menu": {
     "personal": { "title": "Kişisel ayarlar", "subtitle": "Profil fotoğrafı, ad, soyad ve kimlik" },
@@ -45,7 +45,7 @@
     "security": { "title": "Güvenlik", "subtitle": "PIN kodu, aktif cihazlar ve hesap güvenliği" },
     "language": { "title": "Dil", "subtitle": "Uygulama dili" },
     "app": { "title": "Uygulama ayarları", "subtitle": "Tema, dil, bildirimler ve uygulama tercihleri" },
-    "releases": { "title": "Güncelleme notları", "subtitle": "Son sürümdeki yenilikler" }
+    "releases": { "title": "Güncelleme notları", "subtitle": "Web uygulamasındaki son değişiklikler" }
   },
   "groups": {
     "personalInfo": "Kişisel bilgiler",
@@ -74,13 +74,12 @@
   "releases": {
     "loading": "Güncelleme notları yükleniyor…",
     "loadFailed": "Güncelleme notları alınamadı",
-    "emptyTitle": "Henüz yayınlanmış sürüm yok",
-    "emptyHint": "Yeni bir APK yayınlandığında burada görünecek.",
-    "currentVersion": "Güncel sürüm",
-    "publishedAt": "Yayın",
+    "emptyTitle": "Henüz güncelleme notu yok",
+    "emptyHint": "Yeni bir web güncellemesi yayınlandığında burada görünecek.",
+    "currentVersion": "Web güncellemeleri",
+    "webUpdatesTitle": "Son değişiklikler",
+    "publishedAt": "Son güncelleme",
     "notesTitle": "Bu sürümde",
-    "noNotes": "Bu sürüm için not eklenmemiş.",
-    "apkHint": "APK indirmek için",
-    "apkLink": "indirme sayfası"
+    "noNotes": "Bu dönem için not eklenmemiş."
   }
 }

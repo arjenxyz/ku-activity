@@ -4,9 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "prebuild": "node scripts/generate-web-changelog.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "changelog:web": "node scripts/generate-web-changelog.mjs",
     "apk:upload:personnel": "node scripts/upload-apk-from-twa.mjs --app personnel",
     "apk:upload:admin": "node scripts/upload-apk-from-twa.mjs --app admin",
     "apk:build-upload:personnel": "node scripts/bubblewrap-build-upload.mjs --app personnel",

@@ -1,32 +1,20 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { formatDate } from '@/lib/format';
-import { formatApkFileSize } from '@/lib/app-releases';
 
-type PersonnelRelease = {
-  appType: string;
-  id: string | null;
-  versionName?: string;
-  versionCode?: number;
-  fileSize?: number;
-  releaseNotes?: string | null;
-  publishedAt?: string | null;
+type WebUpdateItem = {
+  sha: string;
+  shortSha: string;
+  message: string;
+  date: string;
 };
-
-function parseReleaseNotes(text: string): string[] {
-  return text
-    .split(/\r?\n/)
-    .map((line) => line.trim())
-    .filter(Boolean)
-    .map((line) => line.replace(/^[-*•]\s*/, ''));
-}
 
 export function PersonnelReleaseNotesPanel() {
   const strings = useRegistryStrings('components/personnel/PersonnelSettingsPage');
-  const [release, setRelease] = useState<PersonnelRelease | null>(null);
+  const [updates, setUpdates] = useState<WebUpdateItem[]>([]);
+  const [latestAt, setLatestAt] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -35,19 +23,23 @@ export function PersonnelReleaseNotesPanel() {
     setLoading(true);
     setError(null);
 
-    fetch('/api/public/releases')
+    fetch('/api/public/web-updates')
       .then(async (res) => {
         const data = (await res.json()) as {
-          releases?: PersonnelRelease[];
+          updates?: WebUpdateItem[];
+          latestAt?: string | null;
           error?: string;
         };
         if (!res.ok) throw new Error(data.error || strings.releases.loadFailed);
-        const personnel = (data.releases ?? []).find((row) => row.appType === 'personnel');
-        if (!cancelled) setRelease(personnel ?? null);
+        if (!cancelled) {
+          setUpdates(data.updates ?? []);
+          setLatestAt(data.latestAt ?? data.updates?.[0]?.date ?? null);
+        }
       })
       .catch((err) => {
         if (!cancelled) {
-          setRelease(null);
+          setUpdates([]);
+          setLatestAt(null);
           setError(err instanceof Error ? err.message : strings.releases.loadFailed);
         }
       })
@@ -76,7 +68,7 @@ export function PersonnelReleaseNotesPanel() {
     );
   }
 
-  if (!release?.id) {
+  if (updates.length === 0) {
     return (
       <div className="rounded-2xl bg-white px-4 py-8 text-center shadow-sm ring-1 ring-black/[0.04] dark:bg-slate-900 dark:ring-white/10">
         <p className="text-sm font-medium text-slate-900 dark:text-white">{strings.releases.emptyTitle}</p>
@@ -85,59 +77,40 @@ export function PersonnelReleaseNotesPanel() {
     );
   }
 
-  const notes = release.releaseNotes?.trim();
-  const noteLines = notes ? parseReleaseNotes(notes) : [];
-
   return (
-    <div className="space-y-3">
-      <div className="overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-black/[0.04] dark:bg-slate-900 dark:ring-white/10">
-        <div className="border-b border-slate-100 bg-gradient-to-br from-blue-50/80 via-white to-indigo-50/50 px-4 py-4 dark:border-slate-800 dark:from-blue-950/30 dark:via-slate-900 dark:to-indigo-950/20">
-          <p className="text-[10px] font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">
-            {strings.releases.currentVersion}
+    <div className="overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-black/[0.04] dark:bg-slate-900 dark:ring-white/10">
+      <div className="border-b border-slate-100 px-4 py-4 dark:border-slate-800">
+        <p className="text-[10px] font-bold uppercase tracking-wider text-[#0E1548]/70 dark:text-blue-300">
+          {strings.releases.currentVersion}
+        </p>
+        <p className="mt-1 text-lg font-bold text-slate-900 dark:text-white">
+          {strings.releases.webUpdatesTitle}
+        </p>
+        {latestAt ? (
+          <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+            {strings.releases.publishedAt}: {formatDate(latestAt)}
           </p>
-          <p className="mt-1 text-2xl font-bold text-slate-900 dark:text-white">
-            {release.versionName ?? '—'}
-          </p>
-          <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-xs text-slate-500 dark:text-slate-400">
-            {release.publishedAt ? (
-              <span>
-                {strings.releases.publishedAt}: {formatDate(release.publishedAt)}
-              </span>
-            ) : null}
-            {typeof release.fileSize === 'number' ? (
-              <span>{formatApkFileSize(release.fileSize)}</span>
-            ) : null}
-          </div>
-        </div>
-
-        <div className="px-4 py-4">
-          <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
-            {strings.releases.notesTitle}
-          </p>
-          {noteLines.length > 0 ? (
-            <ul className="mt-3 space-y-2">
-              {noteLines.map((line, index) => (
-                <li
-                  key={`${index}-${line.slice(0, 24)}`}
-                  className="flex gap-2.5 text-sm leading-relaxed text-slate-700 dark:text-slate-200"
-                >
-                  <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-blue-500" aria-hidden />
-                  <span>{line}</span>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">{strings.releases.noNotes}</p>
-          )}
-        </div>
+        ) : null}
       </div>
 
-      <p className="px-1 text-center text-xs text-slate-500 dark:text-slate-400">
-        {strings.releases.apkHint}{' '}
-        <Link href="/apk" className="font-medium text-blue-600 hover:underline dark:text-blue-400">
-          {strings.releases.apkLink}
-        </Link>
-      </p>
+      <div className="px-4 py-4">
+        <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+          {strings.releases.notesTitle}
+        </p>
+        <ul className="mt-3 space-y-3">
+          {updates.map((item) => (
+            <li key={item.sha} className="flex gap-3 text-sm leading-relaxed">
+              <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#0E1548] dark:bg-blue-400" aria-hidden />
+              <span className="min-w-0 flex-1">
+                <span className="block text-slate-800 dark:text-slate-100">{item.message}</span>
+                <span className="mt-0.5 block text-[11px] tabular-nums text-slate-400 dark:text-slate-500">
+                  {formatDate(item.date)} · {item.shortSha}
+                </span>
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }

@@ -1,0 +1,247 @@
+{
+  "generatedAt": "2026-07-22T18:29:23.319Z",
+  "updates": [
+    {
+      "sha": "d7cbe451825014d1ea4f81af959a72e8079e0352",
+      "shortSha": "d7cbe45",
+      "message": "Show logout confirmation as a blurred modal overlay.",
+      "date": "2026-07-22T21:25:04+03:00"
+    },
+    {
+      "sha": "59744edb9f672088721face54cac141c328f374d",
+      "shortSha": "59744ed",
+      "message": "Confirm before signing out from personnel settings.",
+      "date": "2026-07-22T21:21:04+03:00"
+    },
+    {
+      "sha": "b1a4a974b8afea81c8bb98c4e99f828f5b9d1817",
+      "shortSha": "b1a4a97",
+      "message": "Make the settings logout button permanently red.",
+      "date": "2026-07-22T21:13:45+03:00"
+    },
+    {
+      "sha": "5f22337d880eb7fdd47188d3a3e4e66c4f602de0",
+      "shortSha": "5f22337",
+      "message": "Replace digital approval mark with the cropped asset.",
+      "date": "2026-07-22T21:09:58+03:00"
+    },
+    {
+      "sha": "96d7f1fda7a896304e0af15f299a72e55e9355eb",
+      "shortSha": "96d7f1f",
+      "message": "Restore full-size digital approval mark display.",
+      "date": "2026-07-22T21:08:22+03:00"
+    },
+    {
+      "sha": "431fe5e5cfb8719f5b330b5b563fbda9c0127733",
+      "shortSha": "431fe5e",
+      "message": "Limit digital approval mark height in settings.",
+      "date": "2026-07-22T21:04:40+03:00"
+    },
+    {
+      "sha": "67d2ea0c64b900b28399c2aa8877ac37366a2ee4",
+      "shortSha": "67d2ea0",
+      "message": "Restore the notifications bell on the personnel top bar.",
+      "date": "2026-07-22T21:01:43+03:00"
+    },
+    {
+      "sha": "97f2b03d4097d66bad2ddae7d541cd6e70df563b",
+      "shortSha": "97f2b03",
+      "message": "Swap top-bar notifications for logout and calm the calendar palette.",
+      "date": "2026-07-22T21:00:33+03:00"
+    },
+    {
+      "sha": "8030df23291f860aae93dead06141aa3715b9780",
+      "shortSha": "8030df2",
+      "message": "Make the digital approval mark larger in settings.",
+      "date": "2026-07-22T20:53:52+03:00"
+    },
+    {
+      "sha": "ca2cd21b48b9359be6ff2d596f8b89f4193178c8",
+      "shortSha": "ca2cd21",
+      "message": "Remove the black frame around the digital approval mark.",
+      "date": "2026-07-22T20:50:46+03:00"
+    },
+    {
+      "sha": "7f9e9adc1e572f69a9d0114f3798f2de9c45e04c",
+      "shortSha": "7f9e9ad",
+      "message": "Show the digital approval mark under settings logout.",
+      "date": "2026-07-22T20:46:04+03:00"
+    },
+    {
+      "sha": "1ceb847e32e9c916bb4b9b05af4d69269d970187",
+      "shortSha": "1ceb847",
+      "message": "Align calendar colors with the homepage navy and blue palette.",
+      "date": "2026-07-22T20:30:51+03:00"
+    },
+    {
+      "sha": "0e7c08ba00ca347563b80ae4aea59a9479e72b99",
+      "shortSha": "0e7c08b",
+      "message": "Soften the calendar chrome with CrewLedger blue tones.",
+      "date": "2026-07-22T20:16:16+03:00"
+    },
+    {
+      "sha": "fd645dec2235fc0db9d9968f3d2815b69eeddbee",
+      "shortSha": "fd645de",
+      "message": "Use CrewLedger navy borders on calendar days with records.",
+      "date": "2026-07-22T20:06:27+03:00"
+    },
+    {
+      "sha": "203a7258baac29539860a2ce2f236894ef96eba0",
+      "shortSha": "203a725",
+      "message": "Increase calendar border and legend contrast for field readability.",
+      "date": "2026-07-22T19:59:20+03:00"
+    },
+    {
+      "sha": "be648cde36e44c8078ed031069451986bcf9dd65",
+      "shortSha": "be648cd",
+      "message": "Center the work-tab calendar in the viewport and lock page scroll.",
+      "date": "2026-07-22T19:49:40+03:00"
+    },
+    {
+      "sha": "7df8123efcdc080b7b8a19b0064816374b452ee4",
+      "shortSha": "7df8123",
+      "message": "Separate adjacent calendar day highlights with border and gap.",
+      "date": "2026-07-22T19:47:03+03:00"
+    },
+    {
+      "sha": "c59d22f511a974f02af49b054c813e4d351f6746",
+      "shortSha": "c59d22f",
+      "message": "Remove the this-month badge from the unified calendar header.",
+      "date": "2026-07-22T19:44:41+03:00"
+    },
+    {
+      "sha": "c01cab667719b70ad39ad4d2e7bc4c0ae17a71a4",
+      "shortSha": "c01cab6",
+      "message": "Slim the day summary modal sticky header.",
+      "date": "2026-07-22T19:43:54+03:00"
+    },
+    {
+      "sha": "614b70dc9686d07d1524bf344f0ca4dced2b5d31",
+      "shortSha": "614b70d",
+      "message": "Include deductions in the day summary balance.",
+      "date": "2026-07-22T19:43:19+03:00"
+    },
+    {
+      "sha": "c43808f5374a73db4eb693c8d7c842ebd5790730",
+      "shortSha": "c43808f",
+      "message": "Redesign day summary modal into a formal detail sheet.",
+      "date": "2026-07-22T19:38:56+03:00"
+    },
+    {
+      "sha": "2bc69cecf336ffb871ea21d8df6c0fd52cee4250",
+      "shortSha": "2bc69ce",
+      "message": "Show panel title instead of CrewLedger wordmark in notifications header.",
+      "date": "2026-07-22T19:12:01+03:00"
+    },
+    {
+      "sha": "d39aa8c8290740d60a18a5501a98ff159ef73039",
+      "shortSha": "d39aa8c",
+      "message": "Tone down notification row icons to match panel chrome.",
+      "date": "2026-07-22T19:11:18+03:00"
+    },
+    {
+      "sha": "376810c3f06d97c0adaac4e99429d5b6ee89e712",
+      "shortSha": "376810c",
+      "message": "Match notifications panel header to the personnel top bar card.",
+      "date": "2026-07-22T19:06:08+03:00"
+    },
+    {
+      "sha": "1249e3441e5b3c4f9d4945a86f0867d2343c7bb6",
+      "shortSha": "1249e34",
+      "message": "Use a refined bell SVG on all notification cards.",
+      "date": "2026-07-22T19:04:52+03:00"
+    },
+    {
+      "sha": "d63e53d9d5216a03c0888ed4ca93c8acc63e4096",
+      "shortSha": "d63e53d",
+      "message": "Use the main CrewLedger mark in the notifications header.",
+      "date": "2026-07-22T19:03:07+03:00"
+    },
+    {
+      "sha": "3149cd396ebd006cf5d7de317dcc129b2d7ebb81",
+      "shortSha": "3149cd3",
+      "message": "Remove the redundant back button from notifications header.",
+      "date": "2026-07-22T19:02:07+03:00"
+    },
+    {
+      "sha": "7cd5a10f5864117e88c2d8d15322df563a0b8274",
+      "shortSha": "7cd5a10",
+      "message": "Slim notification cards into a compact list row layout.",
+      "date": "2026-07-22T18:51:14+03:00"
+    },
+    {
+      "sha": "66a1639ac5b573464ded9a80225c972171c058b3",
+      "shortSha": "66a1639",
+      "message": "Give notification cards a frosted glass background.",
+      "date": "2026-07-22T18:50:14+03:00"
+    },
+    {
+      "sha": "c129d8adaa0f046578764ad33d65cb2505477f85",
+      "shortSha": "c129d8a",
+      "message": "Make notifications panel header bar background transparent.",
+      "date": "2026-07-22T18:49:25+03:00"
+    },
+    {
+      "sha": "5ce285411870cb2ddfd4d6bc0c4d51ed0fabd402",
+      "shortSha": "5ce2854",
+      "message": "Show tap-to-close hint under notifications brand mark.",
+      "date": "2026-07-22T18:48:50+03:00"
+    },
+    {
+      "sha": "0bcb23a168a115f5d0784d196bf14114032e24bf",
+      "shortSha": "0bcb23a",
+      "message": "Match notifications panel chrome to the personnel top bar.",
+      "date": "2026-07-22T18:41:36+03:00"
+    },
+    {
+      "sha": "62c380bc681e189e4bf6545cc746315f1f0c53e2",
+      "shortSha": "62c380b",
+      "message": "Refine notification cards with CrewLedger accent and Honor tiles.",
+      "date": "2026-07-22T18:39:23+03:00"
+    },
+    {
+      "sha": "7897bc40a78d8d47ff62c9464bed599230d2428e",
+      "shortSha": "7897bc4",
+      "message": "Align notifications panel with CrewLedger personnel chrome.",
+      "date": "2026-07-22T18:37:49+03:00"
+    },
+    {
+      "sha": "3171118e32df5784a950d1eed1b6a58446680fd7",
+      "shortSha": "3171118",
+      "message": "Polish notifications panel header and replace emoji bells with Honor icons.",
+      "date": "2026-07-22T18:35:48+03:00"
+    },
+    {
+      "sha": "1f58c358deaf8924ef329776149144c50b375cf1",
+      "shortSha": "1f58c35",
+      "message": "Use a filled amber warning triangle on the screen report control.",
+      "date": "2026-07-22T18:24:28+03:00"
+    },
+    {
+      "sha": "88ccdfd90f8434c27cc26237b89f073bcee5f565",
+      "shortSha": "88ccdfd",
+      "message": "Restore sky-blue panel label on personnel auth header.",
+      "date": "2026-07-22T18:23:42+03:00"
+    },
+    {
+      "sha": "b07944559edd7ef2e163f83478c9cd2e30fa88c6",
+      "shortSha": "b079445",
+      "message": "Strip the pill chrome from the screen report header control.",
+      "date": "2026-07-22T18:21:58+03:00"
+    },
+    {
+      "sha": "778b38cac996a0ebdecfb1af478bf8911d7204c4",
+      "shortSha": "778b38c",
+      "message": "Replace screen report alert icon with a notification bell.",
+      "date": "2026-07-22T18:21:27+03:00"
+    },
+    {
+      "sha": "abca7a76443c464b94fdca4cf83600fcee456d7c",
+      "shortSha": "abca7a7",
+      "message": "Use personnel BrandMark variant on personnel auth screens.",
+      "date": "2026-07-22T18:20:49+03:00"
+    }
+  ],
+  "latestAt": "2026-07-22T21:25:04+03:00",
+  "source": "git"
+}
