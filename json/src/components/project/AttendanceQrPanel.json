@@ -20,7 +20,13 @@
   },
   "header": {
     "title": "Yoklama",
-    "subtitle": "Personel QR okutsun; listeden gün ve mesai planlayın."
+    "subtitle": "Otomatik, QR veya manuel — üçünü de kullanabilirsiniz."
+  },
+  "autoToggle": {
+    "label": "Otomatik yoklama (21:00)",
+    "hintOn": "Açık: her gün 21:00’de aktif personele yoklama yazılır. QR ve manuel yevmiye yine çalışır.",
+    "hintOff": "Kapalı: yoklamayı QR ile veya manuel yevmiye ile siz alırsınız.",
+    "saving": "Kaydediliyor…"
   },
   "stats": {
     "checkInCount": "{count} kişi",

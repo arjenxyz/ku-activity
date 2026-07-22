@@ -22,6 +22,7 @@ import {
   completeAttendanceSession,
   fetchAttendanceQr,
   removeAttendanceCheckIn,
+  setAutoAttendanceEnabled,
   startAttendanceSession,
   updateAttendanceCheckInPlan,
   type AttendanceQrPayload,
@@ -66,6 +67,8 @@ export function AttendanceQrPanel({ projectId }: Props) {
     null
   );
   const [savingPlan, setSavingPlan] = useState(false);
+  const [autoEnabled, setAutoEnabled] = useState(false);
+  const [autoSaving, setAutoSaving] = useState(false);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -78,6 +81,7 @@ export function AttendanceQrPanel({ projectId }: Props) {
         setDate(resolvedDate);
       }
       setData(payload);
+      setAutoEnabled(Boolean(payload.autoAttendanceEnabled));
     } catch (e) {
       setError(e instanceof Error ? e.message : strings.errors.loadFailed);
       setData(null);
@@ -198,6 +202,19 @@ export function AttendanceQrPanel({ projectId }: Props) {
     }
   };
 
+  const handleAutoToggle = async (next: boolean) => {
+    setAutoSaving(true);
+    setError(null);
+    try {
+      const result = await setAutoAttendanceEnabled(projectId, next);
+      setAutoEnabled(result.autoAttendanceEnabled);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : strings.errors.loadFailed);
+    } finally {
+      setAutoSaving(false);
+    }
+  };
+
   const cardClass =
     'rounded-2xl border border-slate-200/80 bg-white/95 p-4 shadow-sm backdrop-blur sm:p-5 dark:border-slate-700 dark:bg-slate-900/90';
   const primaryBtn =
@@ -235,8 +252,31 @@ export function AttendanceQrPanel({ projectId }: Props) {
             <span className="rounded-full border border-white/15 bg-white/10 px-3 py-1 backdrop-blur">
               {formatString(strings.stats.checkInCount, { count: checkInCount })}
             </span>
+            {autoEnabled && (
+              <span className="rounded-full border border-emerald-300/30 bg-emerald-400/20 px-3 py-1 text-emerald-100 backdrop-blur">
+                {strings.autoSourceBadge}
+              </span>
+            )}
           </div>
         </div>
+
+        <label className={`${cardClass} flex cursor-pointer items-start gap-3`}>
+          <input
+            type="checkbox"
+            className="mt-1 h-4 w-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500"
+            checked={autoEnabled}
+            disabled={autoSaving || loading}
+            onChange={(e) => void handleAutoToggle(e.target.checked)}
+          />
+          <span className="min-w-0 flex-1">
+            <span className="block text-sm font-semibold text-slate-900">
+              {autoSaving ? strings.autoToggle.saving : strings.autoToggle.label}
+            </span>
+            <span className="mt-0.5 block text-xs leading-relaxed text-slate-500">
+              {autoEnabled ? strings.autoToggle.hintOn : strings.autoToggle.hintOff}
+            </span>
+          </span>
+        </label>
 
         <div className={cardClass}>
           <label className="mb-1.5 block text-sm font-medium text-slate-700">{strings.dateLabel}</label>

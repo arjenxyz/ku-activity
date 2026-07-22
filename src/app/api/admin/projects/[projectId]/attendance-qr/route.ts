@@ -58,6 +58,12 @@ export async function GET(request: Request, ctx: Ctx) {
     const origin = new URL(request.url).origin;
     const window = getAttendanceWindowStatus(workDate, schedule);
 
+    const { data: projectRow } = await admin
+      .from('projects')
+      .select('auto_attendance_enabled')
+      .eq('id', projectId)
+      .maybeSingle();
+
     return NextResponse.json({
       session,
       qr: qr ? serializeQr(qr, origin) : null,
@@ -67,6 +73,7 @@ export async function GET(request: Request, ctx: Ctx) {
         (!session || session.status === 'completed' || session.status === 'cancelled') &&
         window.isOpen,
       window,
+      autoAttendanceEnabled: Boolean(projectRow?.auto_attendance_enabled),
     });
   } catch (err) {
     const { status, message } = apiErrorMessage(err);
@@ -104,6 +111,45 @@ export async function POST(request: Request, ctx: Ctx) {
       isToday: workDate === calendarToday,
       canStart: false,
       window,
+    });
+  } catch (err) {
+    const { status, message } = apiErrorMessage(err);
+    return NextResponse.json({ error: message }, { status });
+  }
+}
+
+/** Otomatik yoklama ayarını güncelle */
+export async function PATCH(request: Request, ctx: Ctx) {
+  try {
+    const { projectId } = await ctx.params;
+    await requireAdminProjectAccess(projectId);
+    const body = await request.json().catch(() => ({}));
+    const enabled = Boolean((body as { autoAttendanceEnabled?: unknown }).autoAttendanceEnabled);
+
+    const admin = createAdminClient();
+    const { data, error } = await admin
+      .from('projects')
+      .update({
+        auto_attendance_enabled: enabled,
+        updated_at: new Date().toISOString(),
+      })
+      .eq('id', projectId)
+      .select('auto_attendance_enabled')
+      .single();
+
+    if (error) {
+      if (error.message.includes('auto_attendance_enabled')) {
+        return NextResponse.json(
+          { error: 'Migration 073 gerekli — auto_attendance_enabled kolonu yok' },
+          { status: 503 }
+        );
+      }
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    return NextResponse.json({
+      ok: true,
+      autoAttendanceEnabled: Boolean(data?.auto_attendance_enabled),
     });
   } catch (err) {
     const { status, message } = apiErrorMessage(err);

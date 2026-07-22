@@ -86,6 +86,7 @@ export type AttendanceQrPayload = {
   count?: number;
   message?: string;
   window?: AttendanceWindowPayload;
+  autoAttendanceEnabled?: boolean;
 };
 
 export type AttendanceWindowPayload = {
@@ -166,6 +167,16 @@ export async function updateAttendanceCheckInPlan(
   );
   if (!res.ok) throw new Error(await parseError(res));
   return (await res.json()) as { checkIn: AttendanceQrPayload['checkIns'][number] };
+}
+
+export async function setAutoAttendanceEnabled(projectId: string, enabled: boolean) {
+  const res = await fetch(`/api/admin/projects/${projectId}/attendance-qr`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ autoAttendanceEnabled: enabled }),
+  });
+  if (!res.ok) throw new Error(await parseError(res));
+  return (await res.json()) as { ok: boolean; autoAttendanceEnabled: boolean };
 }
 
 export async function postWorkLog(

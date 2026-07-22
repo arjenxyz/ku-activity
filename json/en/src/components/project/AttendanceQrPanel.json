@@ -11,7 +11,8 @@
   "confirm": {
     "complete": "Write timesheets for {count} people with planned day and overtime?",
     "cancel": "Attendance will be cancelled. No timesheets will be written for listed people. Are you sure?",
-    "removeCheckIn": "Remove {name} from the list?"
+    "removeCheckIn": "Remove {name} from the list?",
+    "markDidNotWork": "Delete wage for {name} and mark as did not work?"
   },
   "success": {
     "completed": "Attendance completed.",
@@ -19,7 +20,13 @@
   },
   "header": {
     "title": "Attendance",
-    "subtitle": "Personnel scan the QR; plan day and overtime from the list."
+    "subtitle": "Auto, QR, or manual — all three work together."
+  },
+  "autoToggle": {
+    "label": "Auto attendance (21:00)",
+    "hintOn": "On: attendance is written daily at 21:00 for active workers. QR and manual still work.",
+    "hintOff": "Off: you take attendance with QR or manual timesheet.",
+    "saving": "Saving…"
   },
   "stats": {
     "checkInCount": "{count} people",
@@ -45,6 +52,9 @@
   "completedTitle": "Attendance completed",
   "completedSummary": "Timesheets saved for {count} people.",
   "workLogWritten": "Saved",
+  "didNotWorkLabel": "Did not work",
+  "markDidNotWorkTitle": "Delete wage, mark did not work",
+  "autoSourceBadge": "Auto",
   "restart": "Start again",
   "noSessionTitle": "No attendance for {date}",
   "noSessionOpenHint": "Start attendance; people are added as they scan.",

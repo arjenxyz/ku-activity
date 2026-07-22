@@ -26,21 +26,18 @@ Politika admin panelinden (`wage_policies`).
 - Avans: personel ister → admin onaylar / öder
 - Kesinti: admin ekler → personel bildiriminde görünür
 
-## Yoklama (QR)
+## Yoklama
 
-1. Admin oturum açar, QR gösterir
-2. Personel kamerayla okutur
-3. Listeye düşer
-4. Oturum bitince yevmiye yazılır
+Üç yol, hepsi çalışır:
 
-### Otomatik yoklama (opsiyonel)
+1. **Otomatik** — yoklama sayfasından aç/kapat; her gün 21:00
+2. **QR** — usta başlatır, personel okutur (aktif QR varken otomatik dokunmaz)
+3. **Manuel** — aynı sayfada “Manuel yevmiye ekle”
 
-Proje ayarlarından açılır. Her gün **21:00** (proje saat dilimi, genelde TR) aktif personele yoklama alınır.
+Personel “Bugün işe çıkmadım” derse otomatikte yevmiye yazılmaz.  
+Yanlış eklenen → tamamlanmış listeden çıkarılır.
 
-- Personel “Bugün işe çıkmadım” derse → yevmiye **yazılmaz**
-- Yanlış eklenen kişi → tamamlanmış listeden çıkarılır → **işe çıkmadı** işaretlenir
-
-Cron: `/api/cron/auto-attendance` (Bearer `CRON_SECRET`, her 15 dk önerilir)
+Cron: `/api/cron/auto-attendance` (Bearer `CRON_SECRET`, her 15 dk)
 
 ## Bildirimler
 

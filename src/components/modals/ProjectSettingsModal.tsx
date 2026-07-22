@@ -39,7 +39,6 @@ export const ProjectSettingsModal = ({
     work_start_time: project.work_start_time?.slice(0, 5) ?? '08:00',
     work_end_time: project.work_end_time?.slice(0, 5) ?? '17:00',
     timezone: project.timezone ?? DEFAULT_PROJECT_TIMEZONE,
-    auto_attendance_enabled: project.auto_attendance_enabled ?? false,
   });
   const [showClosureConfirm, setShowClosureConfirm] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -57,7 +56,6 @@ export const ProjectSettingsModal = ({
       work_start_time: project.work_start_time?.slice(0, 5) ?? '08:00',
       work_end_time: project.work_end_time?.slice(0, 5) ?? '17:00',
       timezone: project.timezone ?? DEFAULT_PROJECT_TIMEZONE,
-      auto_attendance_enabled: project.auto_attendance_enabled ?? false,
     });
   }, [project]);
 
@@ -171,20 +169,6 @@ export const ProjectSettingsModal = ({
               {strings.timezoneHint}
             </p>
           </div>
-          <label className="flex items-start gap-3 rounded-xl border border-slate-200 dark:border-slate-700 p-3 cursor-pointer">
-            <input
-              type="checkbox"
-              className="mt-1"
-              checked={Boolean(formData.auto_attendance_enabled)}
-              onChange={(e) =>
-                setFormData({ ...formData, auto_attendance_enabled: e.target.checked })
-              }
-            />
-            <span>
-              <span className="block text-sm font-medium">{strings.autoAttendanceLabel}</span>
-              <span className="mt-0.5 block text-xs text-slate-500">{strings.autoAttendanceHint}</span>
-            </span>
-          </label>
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="block text-sm font-medium mb-1">{strings.startLabel}</label>

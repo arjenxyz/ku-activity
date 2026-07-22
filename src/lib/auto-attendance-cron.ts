@@ -76,6 +76,11 @@ async function runAutoAttendanceForProject(
     return { projectId: project.id, workDate, status: 'already_done', count: 0 };
   }
 
+  // QR / manuel oturum devam ediyorsa otomatik dokunma — usta bitirsin
+  if (existing?.status === 'active' && existing.source !== 'auto') {
+    return { projectId: project.id, workDate, status: 'skipped_manual_active', count: 0 };
+  }
+
   const { data: employees, error: empError } = await admin
     .from('employees')
     .select('id')

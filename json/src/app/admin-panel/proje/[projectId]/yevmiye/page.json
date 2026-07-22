@@ -1,16 +1,18 @@
 {
   "selectEmployeeError": "Personel seçin.",
-  "noAttendanceError": "Seçilen personelin bu tarihte yoklama kaydı yok. Önce QR ile yoklama yapılmalı.",
-  "successSaved": "Mesai kaydedildi.",
+  "successSaved": "Yevmiye kaydedildi.",
   "saveFailed": "Kayıt başarısız",
   "pageTitle": "Yoklama & Yevmiye",
-  "pageDescription": "Günlük QR ile tam gün yoklama. Mesaiyi buradan manuel ekleyin.",
-  "formTitle": "Mesai ekle",
+  "pageDescription": "Otomatik (21:00), QR veya manuel — hepsi çalışır.",
+  "formTitle": "Manuel yevmiye ekle",
   "labelDate": "Tarih *",
-  "noQrWarning": "Bu personel seçili günde henüz QR ile yoklama yapmadı.",
-  "labelMesaiType": "Mesai türü *",
-  "mesaiHint": "Çeyrek = günlük yevmiyenin %25'i · Yarım = %50 · Tam = bir günlük yevmiye ek",
+  "labelAmount": "Gün *",
+  "amountFull": "Tam gün",
+  "amountHalf": "Yarım gün",
+  "labelMesaiType": "Mesai (isteğe bağlı)",
+  "mesaiNone": "Mesai yok",
+  "mesaiHint": "Çeyrek = %25 · Yarım = %50 · Tam = bir günlük yevmiye ek",
   "labelNote": "Not (isteğe bağlı)",
   "saving": "Kaydediliyor…",
-  "saveButton": "Mesai kaydet"
+  "saveButton": "Yevmiye kaydet"
 }
