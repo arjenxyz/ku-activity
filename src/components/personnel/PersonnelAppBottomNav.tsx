@@ -125,7 +125,7 @@ function NavInner() {
       id: 'finance',
       label: strings.finance,
       href: '/personnel-panel?tab=finance',
-      icon: <PersonnelAssetIcon name="finance" className="h-7 w-7" />,
+      icon: <PersonnelAssetIcon name="finance" className="h-9 w-9 scale-[1.35]" />,
     },
     {
       id: 'more',
