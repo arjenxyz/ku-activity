@@ -5,7 +5,7 @@ import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { Suspense, useState } from 'react';
 import { motion } from 'framer-motion';
-import { PersonnelAssetIcon, PersonnelIconBadge } from '@/components/personnel/PersonnelAssetIcon';
+import { PersonnelAssetIcon } from '@/components/personnel/PersonnelAssetIcon';
 import { PersonnelNavHub } from '@/components/personnel/PersonnelNavHub';
 import { PERSONNEL_HUB_TABS } from '@/config/personnel-mobile-nav';
 import type { PersonnelTabId } from '@/hooks/usePersonnelTab';
@@ -26,6 +26,12 @@ type DockItem = {
   isCenter?: boolean;
 };
 
+function dockIconClass(name: DockItem['iconName']) {
+  if (name === 'finance') return 'h-9 w-9 scale-[1.35]';
+  if (name === 'yoklama') return 'h-9 w-9';
+  return 'h-8 w-8';
+}
+
 function DockSideItem({
   item,
   active,
@@ -41,11 +47,13 @@ function DockSideItem({
 }) {
   const content = (
     <motion.span
-      className="flex min-w-0 flex-col items-center gap-1"
+      className="flex min-w-0 flex-col items-center gap-0.5"
       whileTap={{ scale: 0.94 }}
       transition={{ type: 'spring', stiffness: 520, damping: 34 }}
     >
-      <PersonnelIconBadge name={item.iconName} size="sm" active={active} />
+      <span className={`flex h-9 w-9 items-center justify-center ${active ? 'opacity-100' : 'opacity-90'}`}>
+        <PersonnelAssetIcon name={item.iconName} className={dockIconClass(item.iconName)} />
+      </span>
       <span
         className={`max-w-[4.5rem] truncate text-[10px] leading-none tracking-wide ${
           active ? 'font-semibold text-[#0E1548]' : 'font-medium text-slate-400'
@@ -172,11 +180,9 @@ function NavInner() {
                     >
                       <motion.span
                         whileTap={{ scale: 0.94 }}
-                        className={`flex h-12 w-12 items-center justify-center overflow-hidden rounded-2xl bg-white shadow-[0_6px_18px_rgba(14,21,72,0.16)] ring-[3px] ${
-                          active ? 'ring-[#0E1548]/25' : 'ring-white'
-                        }`}
+                        className="relative z-10 -mt-3 flex h-12 w-12 items-center justify-center"
                       >
-                        <PersonnelAssetIcon name={item.iconName} className="h-9 w-9" />
+                        <PersonnelAssetIcon name={item.iconName} className="h-11 w-11" />
                       </motion.span>
                       <span
                         className={`mt-1 max-w-[4.5rem] truncate text-[10px] leading-none tracking-wide ${
