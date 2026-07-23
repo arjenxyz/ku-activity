@@ -6,7 +6,7 @@ import { usePathname, useSearchParams } from 'next/navigation';
 import { Suspense, useState, type ReactNode } from 'react';
 import { motion } from 'framer-motion';
 import {
-  FiBriefcase,
+  FiCalendar,
   FiCreditCard,
   FiGrid,
   FiHome,
@@ -136,7 +136,7 @@ function NavInner() {
       id: 'work',
       label: strings.work,
       href: '/personnel-panel?tab=work',
-      icon: <FiBriefcase className={ICON_CLASS} aria-hidden />,
+      icon: <FiCalendar className={ICON_CLASS} aria-hidden />,
     },
     {
       id: 'yoklama',

@@ -1,8 +1,8 @@
 {
-  "navAriaLabel": "Personel navigasyon",
-  "home": "Özet",
-  "work": "Yevmiye",
-  "yoklama": "Yoklama",
-  "finance": "Finans",
-  "more": "Menü"
+  "navAriaLabel": "Personnel navigation",
+  "home": "Overview",
+  "work": "Calendar",
+  "yoklama": "Attendance",
+  "finance": "Finance",
+  "more": "Menu"
 }
