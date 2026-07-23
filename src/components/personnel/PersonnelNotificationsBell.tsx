@@ -279,7 +279,7 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
     <AnimatePresence>
       {panelOpen && (
         <motion.div
-          className="fixed inset-0 z-[var(--personnel-notify-z)] flex flex-col bg-slate-50 dark:bg-slate-950"
+          className="fixed inset-0 z-[var(--personnel-notify-z)] flex flex-col bg-slate-900/25 backdrop-blur-xl dark:bg-black/40"
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 24 }}
