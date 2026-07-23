@@ -53,7 +53,7 @@ const MENU_ICON_DEFS: Record<
   { name: HonorIconName; theme: HonorIconTheme } | { asset: PersonnelIconName }
 > = {
   work: { asset: 'briefcase' },
-  contracts: { name: 'shield', theme: 'indigo' },
+  contracts: { asset: 'rights' },
   security: { name: 'lock', theme: 'rose' },
   app: { name: 'settings', theme: 'slate' },
   releases: { name: 'document', theme: 'sky' },
