@@ -18,9 +18,14 @@ function getBipAudio(): HTMLAudioElement | null {
   return sharedAudio;
 }
 
+type PlayOptions = {
+  /** Ayarlar ekranından test için mute/ses tercihini yok say */
+  force?: boolean;
+};
+
 /** Yeni uygulama içi bildirimde kısa bip çalar (autoplay engeli sessizce yutulur). */
-export function playInAppNotificationSound(): void {
-  if (isNotificationsMuted() || !isNotificationSoundEnabled()) return;
+export function playInAppNotificationSound(options?: PlayOptions): void {
+  if (!options?.force && (isNotificationsMuted() || !isNotificationSoundEnabled())) return;
 
   const audio = getBipAudio();
   if (!audio) return;

@@ -37,9 +37,14 @@
   "totalSummary": "{count} notifications",
   "settingsAriaLabel": "Notification settings",
   "settingsTitle": "Notification settings",
+  "settingsSubtitle": "Sound and mute preferences are saved on this device.",
   "settingsMuteLabel": "Mute notifications",
-  "settingsMuteHint": "When on, toasts and sound are off; the list still updates.",
+  "settingsMuteHint": "When on, in-app alerts and sound are off; the list still updates.",
   "settingsSoundLabel": "Notification sound",
   "settingsSoundHint": "Play a short bip on new notifications.",
+  "settingsTestSound": "Test sound",
+  "settingsStatusMuted": "Currently muted",
+  "settingsStatusSoundOn": "Sound on",
+  "settingsStatusSoundOff": "Sound off",
   "settingsClose": "Close"
 }

@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import { FiArrowLeft, FiBell, FiEye, FiSettings, FiTrash2 } from 'react-icons/fi';
+import { FiArrowLeft, FiBell, FiEye, FiSettings, FiTrash2, FiVolume2, FiX } from 'react-icons/fi';
 import { BrandMark } from '@/components/brand/BrandMark';
 import {
   HonorIconTile,
@@ -26,6 +26,7 @@ import {
   setNotificationSoundEnabled,
   setNotificationsMuted,
 } from '@/lib/personnel-notification-storage';
+import { playInAppNotificationSound } from '@/lib/in-app-notification-sound';
 import {
   registerPersonnelPushIfAuthed,
   requestNotificationPermission,
@@ -37,6 +38,38 @@ type Props = {
   panelOpen?: boolean;
   className?: string;
 };
+
+function SettingsToggle({
+  checked,
+  disabled,
+  onChange,
+  label,
+}: {
+  checked: boolean;
+  disabled?: boolean;
+  onChange: (next: boolean) => void;
+  label: string;
+}) {
+  return (
+    <button
+      type="button"
+      role="switch"
+      aria-checked={checked}
+      aria-label={label}
+      disabled={disabled}
+      onClick={() => onChange(!checked)}
+      className={`relative h-7 w-12 shrink-0 rounded-full transition ${
+        checked ? 'bg-[#3B7FED]' : 'bg-slate-300 dark:bg-slate-600'
+      } ${disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3B7FED]/40`}
+    >
+      <span
+        className={`absolute top-0.5 h-6 w-6 rounded-full bg-white shadow transition ${
+          checked ? 'left-[1.375rem]' : 'left-0.5'
+        }`}
+      />
+    </button>
+  );
+}
 
 function formatRelativeTime(iso: string, strings: typeof trStrings) {
   const diffMs = Date.now() - new Date(iso).getTime();
@@ -82,6 +115,15 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
     setMuted(isNotificationsMuted());
     setSoundEnabled(isNotificationSoundEnabled());
   }, []);
+
+  useEffect(() => {
+    if (!panelOpen || !settingsOpen) return;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setSettingsOpen(false);
+    };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [panelOpen, settingsOpen]);
 
   useEffect(() => {
     setIsTwaApp(isPersonnelTwaRuntime());
@@ -348,71 +390,125 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
             </div>
           </header>
 
-          {settingsOpen && canViewNotifications && (
-            <div className="shrink-0 px-3 pb-2">
-              <div className="mx-auto max-w-5xl rounded-2xl border border-white/40 bg-white/70 px-4 py-3 shadow-sm backdrop-blur-xl dark:border-white/10 dark:bg-white/10">
-                <div className="mb-3 flex items-center justify-between gap-2">
-                  <p className="text-sm font-semibold text-[#0E1548] dark:text-white">
-                    {strings.settingsTitle}
-                  </p>
+          {settingsOpen && canViewNotifications ? (
+            <div className="absolute inset-0 z-30 flex items-end justify-center p-3 sm:items-center sm:p-6">
+              <button
+                type="button"
+                className="absolute inset-0 bg-slate-900/45 backdrop-blur-sm"
+                aria-label={strings.settingsClose}
+                onClick={() => setSettingsOpen(false)}
+              />
+              <motion.div
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="personnel-notification-settings-title"
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 16 }}
+                transition={{ type: 'spring', stiffness: 420, damping: 34 }}
+                className="relative w-full max-w-md overflow-hidden rounded-3xl border border-slate-200/90 bg-white shadow-2xl shadow-slate-900/20 dark:border-slate-700 dark:bg-slate-900"
+              >
+                <div className="flex items-start justify-between gap-3 border-b border-slate-100 px-5 pb-3 pt-5 dark:border-slate-800">
+                  <div className="flex min-w-0 items-start gap-3">
+                    <span className="mt-0.5 inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#E8EBF8] text-[#0E1548] dark:bg-white/10 dark:text-white">
+                      <FiSettings className="h-5 w-5" />
+                    </span>
+                    <div className="min-w-0">
+                      <h2
+                        id="personnel-notification-settings-title"
+                        className="text-base font-semibold text-[#0E1548] dark:text-white"
+                      >
+                        {strings.settingsTitle}
+                      </h2>
+                      <p className="mt-0.5 text-xs leading-snug text-slate-500 dark:text-slate-400">
+                        {strings.settingsSubtitle}
+                      </p>
+                      <p className="mt-2 inline-flex rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-medium text-slate-600 dark:bg-slate-800 dark:text-slate-300">
+                        {muted
+                          ? strings.settingsStatusMuted
+                          : soundEnabled
+                            ? strings.settingsStatusSoundOn
+                            : strings.settingsStatusSoundOff}
+                      </p>
+                    </div>
+                  </div>
                   <button
                     type="button"
                     onClick={() => setSettingsOpen(false)}
-                    className="text-xs font-semibold text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200"
+                    className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl text-slate-500 transition hover:bg-slate-100 hover:text-slate-800 dark:hover:bg-slate-800 dark:hover:text-white"
+                    aria-label={strings.settingsClose}
                   >
-                    {strings.settingsClose}
+                    <FiX className="h-5 w-5" />
                   </button>
                 </div>
-                <div className="flex flex-col gap-3">
-                  <label className="flex cursor-pointer items-start justify-between gap-3">
-                    <span className="min-w-0">
-                      <span className="block text-sm font-medium text-[#0E1548] dark:text-white">
+
+                <div className="flex flex-col gap-1 px-3 py-3">
+                  <div className="flex items-center justify-between gap-3 rounded-2xl px-3 py-3">
+                    <div className="min-w-0">
+                      <p className="text-sm font-medium text-[#0E1548] dark:text-white">
                         {strings.settingsMuteLabel}
-                      </span>
-                      <span className="mt-0.5 block text-xs leading-snug text-slate-500 dark:text-slate-400">
+                      </p>
+                      <p className="mt-0.5 text-xs leading-snug text-slate-500 dark:text-slate-400">
                         {strings.settingsMuteHint}
-                      </span>
-                    </span>
-                    <input
-                      type="checkbox"
-                      className="mt-0.5 h-5 w-5 shrink-0 rounded border-slate-300 text-[#0E1548] focus:ring-[#3B7FED]"
+                      </p>
+                    </div>
+                    <SettingsToggle
+                      label={strings.settingsMuteLabel}
                       checked={muted}
-                      onChange={(event) => {
-                        const next = event.target.checked;
+                      onChange={(next) => {
                         setMuted(next);
                         setNotificationsMuted(next);
                       }}
                     />
-                  </label>
-                  <label
-                    className={`flex items-start justify-between gap-3 ${
-                      muted ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
+                  </div>
+
+                  <div
+                    className={`flex items-center justify-between gap-3 rounded-2xl px-3 py-3 ${
+                      muted ? 'opacity-50' : ''
                     }`}
                   >
-                    <span className="min-w-0">
-                      <span className="block text-sm font-medium text-[#0E1548] dark:text-white">
+                    <div className="min-w-0">
+                      <p className="text-sm font-medium text-[#0E1548] dark:text-white">
                         {strings.settingsSoundLabel}
-                      </span>
-                      <span className="mt-0.5 block text-xs leading-snug text-slate-500 dark:text-slate-400">
+                      </p>
+                      <p className="mt-0.5 text-xs leading-snug text-slate-500 dark:text-slate-400">
                         {strings.settingsSoundHint}
-                      </span>
-                    </span>
-                    <input
-                      type="checkbox"
-                      className="mt-0.5 h-5 w-5 shrink-0 rounded border-slate-300 text-[#0E1548] focus:ring-[#3B7FED]"
+                      </p>
+                    </div>
+                    <SettingsToggle
+                      label={strings.settingsSoundLabel}
                       checked={soundEnabled && !muted}
                       disabled={muted}
-                      onChange={(event) => {
-                        const next = event.target.checked;
+                      onChange={(next) => {
                         setSoundEnabled(next);
                         setNotificationSoundEnabled(next);
                       }}
                     />
-                  </label>
+                  </div>
                 </div>
-              </div>
+
+                <div className="safe-pb flex flex-col gap-2 border-t border-slate-100 px-5 py-4 dark:border-slate-800">
+                  <button
+                    type="button"
+                    onClick={() => playInAppNotificationSound({ force: true })}
+                    className="inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-slate-50 px-4 text-sm font-semibold text-[#0E1548] transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800/80 dark:text-white dark:hover:bg-slate-800"
+                  >
+                    <FiVolume2 className="h-4 w-4" />
+                    {strings.settingsTestSound}
+                  </button>
+                  {isTwaApp ? (
+                    <button
+                      type="button"
+                      onClick={openPersonnelAppNotificationSettings}
+                      className="inline-flex min-h-11 items-center justify-center rounded-2xl bg-[#0E1548] px-4 text-sm font-semibold text-white"
+                    >
+                      {strings.permissionOpenAppSettingsButton}
+                    </button>
+                  ) : null}
+                </div>
+              </motion.div>
             </div>
-          )}
+          ) : null}
 
           {clearConfirmOpen && (
             <div className="shrink-0 px-3 pb-2">

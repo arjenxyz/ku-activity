@@ -37,9 +37,14 @@
   "totalSummary": "{count} bildirim",
   "settingsAriaLabel": "Bildirim ayarları",
   "settingsTitle": "Bildirim ayarları",
+  "settingsSubtitle": "Ses ve sessiz tercihleri bu cihazda saklanır.",
   "settingsMuteLabel": "Bildirimleri sessize al",
-  "settingsMuteHint": "Açıkken toast ve ses gelmez; liste yine güncellenir.",
+  "settingsMuteHint": "Açıkken uygulama içi uyarı ve ses gelmez; bildirim listesi yine güncellenir.",
   "settingsSoundLabel": "Bildirim sesi",
   "settingsSoundHint": "Yeni bildirimde kısa bip çalsın.",
+  "settingsTestSound": "Sesi dene",
+  "settingsStatusMuted": "Şu an sessizde",
+  "settingsStatusSoundOn": "Ses açık",
+  "settingsStatusSoundOff": "Ses kapalı",
   "settingsClose": "Kapat"
 }
