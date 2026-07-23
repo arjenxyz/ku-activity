@@ -28,8 +28,8 @@ type IconProps = {
 };
 
 /**
- * PNG’ler siyah zeminli. Beyaz dock’ta mix-blend-lighten ikonları siler
- * (beyaz zemin üzerinde lighten ≈ görünmez). Koyu kutu içinde siyah zemin kaybolur.
+ * PNG ikonlar (siyah zemin flood-fill ile şeffaflaştırıldı).
+ * Beyaz badge üzerinde net görünür.
  */
 export function PersonnelAssetIcon({ name, className = 'h-8 w-8' }: IconProps) {
   return (
@@ -60,7 +60,7 @@ const BADGE_BOX = {
 } as const;
 
 const BADGE_IMG = {
-  sm: 'h-[1.65rem] w-[1.65rem]',
+  sm: 'h-[1.7rem] w-[1.7rem]',
   md: 'h-9 w-9',
   lg: 'h-10 w-10',
 } as const;
@@ -73,8 +73,8 @@ export function PersonnelIconBadge({
 }: BadgeProps) {
   return (
     <span
-      className={`inline-flex items-center justify-center overflow-hidden bg-[#0E1548] shadow-sm ring-1 ring-black/10 ${BADGE_BOX[size]} ${
-        active ? 'ring-2 ring-[#0E1548]/40' : ''
+      className={`inline-flex items-center justify-center overflow-hidden bg-white shadow-sm ring-1 ring-slate-200/90 ${BADGE_BOX[size]} ${
+        active ? 'ring-2 ring-[#0E1548]/35' : ''
       } ${className}`}
     >
       <PersonnelAssetIcon name={name} className={BADGE_IMG[size]} />

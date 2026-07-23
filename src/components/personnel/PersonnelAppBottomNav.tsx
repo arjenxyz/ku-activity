@@ -172,8 +172,8 @@ function NavInner() {
                     >
                       <motion.span
                         whileTap={{ scale: 0.94 }}
-                        className={`flex h-12 w-12 items-center justify-center overflow-hidden rounded-2xl shadow-[0_6px_18px_rgba(14,21,72,0.28)] ring-[3px] ring-white ${
-                          active ? 'bg-[#0E1548]' : 'bg-[#152060]'
+                        className={`flex h-12 w-12 items-center justify-center overflow-hidden rounded-2xl bg-white shadow-[0_6px_18px_rgba(14,21,72,0.16)] ring-[3px] ${
+                          active ? 'ring-[#0E1548]/25' : 'ring-white'
                         }`}
                       >
                         <PersonnelAssetIcon name={item.iconName} className="h-9 w-9" />
