@@ -529,30 +529,27 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
           </div>
 
           {canViewNotifications && items.length > 0 ? (
-            <footer className="safe-pb shrink-0 px-3 pt-2">
-              <div className="mx-auto flex max-w-5xl justify-center">
-                <div className="flex items-center gap-0.5 rounded-2xl border border-white/40 bg-white/70 p-1 shadow-md shadow-slate-900/[0.08] backdrop-blur-2xl dark:border-white/10 dark:bg-white/10 dark:shadow-black/25">
-                  {unreadCount > 0 ? (
-                    <button
-                      type="button"
-                      onClick={() => void markAllRead()}
-                      className="inline-flex h-11 w-11 items-center justify-center rounded-xl text-[#0E1548] transition hover:bg-white/90 dark:text-white dark:hover:bg-white/15"
-                      aria-label={strings.markAllRead}
-                      title={strings.markAllRead}
-                    >
-                      <FiEye className="h-5 w-5" />
-                    </button>
-                  ) : null}
-                  <button
-                    type="button"
-                    onClick={() => setClearConfirmOpen(true)}
-                    className="inline-flex h-11 w-11 items-center justify-center rounded-xl text-rose-600 transition hover:bg-white/90 dark:text-rose-400 dark:hover:bg-white/15"
-                    aria-label={strings.clearAll}
-                    title={strings.clearAll}
-                  >
-                    <FiTrash2 className="h-5 w-5" />
-                  </button>
-                </div>
+            <footer className="safe-pb shrink-0 px-3 pb-3 pt-2">
+              <div className="mx-auto flex max-w-5xl items-center justify-center gap-4">
+                <button
+                  type="button"
+                  onClick={() => void markAllRead()}
+                  disabled={unreadCount === 0}
+                  className="inline-flex h-14 w-14 items-center justify-center rounded-full border border-white/50 bg-white/80 text-[#0E1548] shadow-lg shadow-slate-900/15 backdrop-blur-xl transition hover:bg-white active:scale-95 disabled:pointer-events-none disabled:opacity-40 dark:border-white/15 dark:bg-white/15 dark:text-white dark:hover:bg-white/25"
+                  aria-label={strings.markAllRead}
+                  title={strings.markAllRead}
+                >
+                  <FiEye className="h-6 w-6" strokeWidth={2} />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setClearConfirmOpen(true)}
+                  className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-[#3B7FED] text-white shadow-lg shadow-[#3B7FED]/40 transition hover:bg-[#2f6fd6] active:scale-95"
+                  aria-label={strings.clearAll}
+                  title={strings.clearAll}
+                >
+                  <FiTrash2 className="h-6 w-6" strokeWidth={2} />
+                </button>
               </div>
             </footer>
           ) : null}
