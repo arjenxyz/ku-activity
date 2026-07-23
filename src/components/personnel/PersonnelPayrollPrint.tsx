@@ -438,6 +438,8 @@ export function PersonnelPayrollPrint({
         <div className="payroll-print-sign-row">
           <div className="payroll-print-sign-card">
             <span className="payroll-print-sign-label">{strings.footer.employee}</span>
+            <span className="payroll-print-sign-role">{strings.footer.employeeRole}</span>
+            <div className="payroll-print-sign-pad" aria-hidden />
             <div className="payroll-print-sign-line" />
             <strong className="payroll-print-sign-name">{employee.name}</strong>
             <small>
@@ -445,19 +447,10 @@ export function PersonnelPayrollPrint({
             </small>
           </div>
 
-          <div className="payroll-print-seal">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/dijital-onay.png"
-              alt={strings.footer.digitalSeal}
-              className="payroll-print-seal-img"
-            />
-            <p className="payroll-print-seal-title">{strings.footer.digitalSeal}</p>
-            <p className="payroll-print-seal-hint">{strings.footer.digitalSealHint}</p>
-          </div>
-
           <div className="payroll-print-sign-card">
             <span className="payroll-print-sign-label">{strings.footer.employer}</span>
+            <span className="payroll-print-sign-role">{strings.footer.employerRole}</span>
+            <div className="payroll-print-sign-pad" aria-hidden />
             <div className="payroll-print-sign-line" />
             <strong className="payroll-print-sign-name">{managerName}</strong>
             <small>
@@ -466,9 +459,25 @@ export function PersonnelPayrollPrint({
           </div>
         </div>
 
-        <p className="payroll-print-disclaimer">
-          {formatString(strings.footer.disclaimer, { appName: APP_NAME })}
-        </p>
+        <div className="payroll-print-clauses">
+          <p className="payroll-print-clauses-title">{strings.footer.clausesTitle}</p>
+          <ol className="payroll-print-clauses-list">
+            {strings.footer.clauses.map((clause, index) => (
+              <li key={index}>{formatString(clause, { appName: APP_NAME })}</li>
+            ))}
+          </ol>
+        </div>
+
+        <div className="payroll-print-seal">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/dijital-onay.png"
+            alt={strings.footer.digitalSeal}
+            className="payroll-print-seal-img"
+          />
+          <p className="payroll-print-seal-title">{strings.footer.digitalSeal}</p>
+          <p className="payroll-print-seal-hint">{strings.footer.digitalSealHint}</p>
+        </div>
       </footer>
     </div>
   );

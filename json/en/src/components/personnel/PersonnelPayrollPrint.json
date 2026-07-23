@@ -76,13 +76,21 @@
     "minimumPart": " - Minimum ({amount})"
   },
   "footer": {
-    "disclaimer": "This document is for informational purposes and is not an official payroll document. Records are generated from the same database in the {appName} personnel and admin panels.",
     "employee": "Employee",
-    "employer": "Manager / Employer",
-    "signatureHint": "Full name - Date - Signature",
-    "digitalSeal": "Digital approval",
-    "digitalSealHint": "Verified by CrewLedger system records",
+    "employer": "Employer / Manager",
+    "employeeRole": "Personnel reviewing this document",
+    "employerRole": "Manager / employer approving this document",
     "signedAt": "Document date",
+    "signatureHint": "Full name - Date - Signature",
+    "clausesTitle": "Document notices",
+    "clauses": [
+      "This document is for informational purposes only and is not an official payroll, social-security filing, or tax document.",
+      "Records are generated from the same database in the {appName} personnel and admin panels.",
+      "In employment disputes, signed official payrolls, bank receipts, and legally required documents take precedence.",
+      "This document was created electronically and is verified by digital system records; a wet-ink signature is not required."
+    ],
+    "digitalSeal": "Digital Approval Mark",
+    "digitalSealHint": "Verified by CrewLedger system records",
     "brandTagline": "Construction Workforce Platform"
   }
 }
