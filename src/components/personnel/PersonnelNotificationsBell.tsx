@@ -676,6 +676,7 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
                 exit={{ opacity: 0, y: 16 }}
                 transition={{ type: 'spring', stiffness: 420, damping: 34 }}
                 className="relative max-h-[min(88vh,640px)] w-full max-w-md overflow-y-auto overscroll-contain rounded-3xl border border-slate-200/90 bg-white shadow-2xl shadow-slate-900/20 dark:border-slate-700 dark:bg-slate-900"
+                data-allow-scroll
               >
                 <div className="flex items-start justify-between gap-3 border-b border-slate-100 px-5 pb-3 pt-5 dark:border-slate-800">
                   <div className="flex min-w-0 items-start gap-3">
