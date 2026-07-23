@@ -4,9 +4,8 @@ import Link from 'next/link';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { AnimatePresence, motion, useMotionValue, useTransform, type PanInfo } from 'framer-motion';
-import { FiArrowLeft, FiChevronRight, FiEye, FiSettings, FiTrash2, FiVolume2, FiX } from 'react-icons/fi';
+import { FiArrowLeft, FiBell, FiChevronRight, FiEye, FiSettings, FiTrash2, FiVolume2, FiX } from 'react-icons/fi';
 import { BrandMark } from '@/components/brand/BrandMark';
-import { PersonnelAssetIcon } from '@/components/personnel/PersonnelAssetIcon';
 import {
   HonorIconTile,
 } from '@/components/icons/HonorIcons';
@@ -123,7 +122,7 @@ function NotificationRowContent({
             : 'bg-slate-100/90 text-slate-500 dark:bg-slate-800/80 dark:text-slate-400'
         }`}
       >
-        <PersonnelAssetIcon name="bell" className="h-5 w-5" />
+        <FiBell className="h-4 w-4" strokeWidth={2} aria-hidden />
         {unread ? (
           <span className="absolute -right-0.5 -top-0.5 h-2 w-2 rounded-full bg-[#3B7FED] ring-2 ring-white dark:ring-slate-950" />
         ) : null}
@@ -649,7 +648,7 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
                 ) : (
                   <div className="flex shrink-0 rounded-xl bg-slate-100/80 p-0.5 dark:bg-slate-800/80">
                     <div className="inline-flex h-10 w-10 items-center justify-center rounded-xl text-[#0E1548] dark:text-white">
-                      <PersonnelAssetIcon name="bell" className="h-6 w-6" />
+                      <FiBell className="h-[1.05rem] w-[1.05rem]" aria-hidden />
                     </div>
                   </div>
                 )}
@@ -1051,7 +1050,7 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
         aria-label={strings.bellAriaLabel}
         aria-expanded={panelOpen}
       >
-        <PersonnelAssetIcon name="bell" className="h-6 w-6" />
+        <FiBell className="h-[1.05rem] w-[1.05rem]" />
         {showUnreadBadge && (
           <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-rose-500 px-1 text-[10px] font-bold text-white">
             {unreadCount > 9 ? '9+' : unreadCount}
