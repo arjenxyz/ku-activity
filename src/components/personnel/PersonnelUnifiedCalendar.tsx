@@ -21,6 +21,15 @@ const MARKER_ORDER: CalendarEventMarker[] = [
   'minimum',
 ];
 
+/** Noktalar köşelerde — rakamla ve birbirleriyle çakışmaz */
+const MARKER_EDGE_POS: Record<CalendarEventMarker, string> = {
+  work: 'left-1 bottom-1',
+  mesai: 'right-1 bottom-1',
+  advance: 'left-1 top-1',
+  deduction: 'right-1 top-1',
+  minimum: 'left-1/2 bottom-1 -translate-x-1/2',
+};
+
 const PRESENCE_ORDER: Exclude<UnifiedCalendarPresence, null>[] = ['worked', 'absent', 'leave'];
 
 function presenceCellClass(presence: UnifiedCalendarPresence, hasAnyRecord: boolean): string {
@@ -165,10 +174,10 @@ export function PersonnelUnifiedCalendar({
             const detail = cellDetail(cell);
             const clickable = cell.hasAnyRecord && Boolean(onDaySelect);
             const markerKeys = MARKER_ORDER.filter((m) => cell.markers.includes(m));
-            const sparse = markerKeys.length === 0;
-            const cellClassName = `aspect-square min-h-[44px] rounded-xl border-2 flex flex-col items-center px-0.5 text-center transition-colors ${
-              sparse ? 'justify-center py-1' : 'justify-between py-1'
-            } ${presenceCellClass(cell.presence, cell.hasAnyRecord)} ${
+            const cellClassName = `relative aspect-square min-h-[44px] overflow-hidden rounded-xl border-2 transition-colors ${presenceCellClass(
+              cell.presence,
+              cell.hasAnyRecord
+            )} ${
               clickable
                 ? 'cursor-pointer hover:brightness-[0.97] active:scale-[0.97] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0E1548] dark:hover:brightness-110'
                 : ''
@@ -180,20 +189,16 @@ export function PersonnelUnifiedCalendar({
 
             const inner = (
               <>
-                <span className="!text-xs font-bold leading-none tabular-nums !text-slate-900 dark:!text-white">
+                <span className="pointer-events-none absolute inset-0 flex items-center justify-center px-2 text-xs font-bold leading-none tabular-nums text-slate-900 dark:text-white">
                   {cell.day}
                 </span>
-                {markerKeys.length > 0 ? (
-                  <div className="flex h-2 items-center justify-center gap-1">
-                    {markerKeys.map((m) => (
-                      <span
-                        key={m}
-                        className={`h-1.5 w-1.5 shrink-0 rounded-full ${CALENDAR_MARKER_DOT[m]}`}
-                        aria-hidden
-                      />
-                    ))}
-                  </div>
-                ) : null}
+                {markerKeys.map((m) => (
+                  <span
+                    key={m}
+                    className={`pointer-events-none absolute h-1.5 w-1.5 rounded-full ${CALENDAR_MARKER_DOT[m]} ${MARKER_EDGE_POS[m]}`}
+                    aria-hidden
+                  />
+                ))}
               </>
             );
 
