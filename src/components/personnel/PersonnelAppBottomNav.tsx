@@ -5,12 +5,7 @@ import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { Suspense, useState, type ReactNode } from 'react';
 import { motion } from 'framer-motion';
-import {
-  FiCalendar,
-  FiGrid,
-  FiHome,
-} from 'react-icons/fi';
-import { BordroIcon } from '@/components/personnel/BordroIcon';
+import { PersonnelAssetIcon } from '@/components/personnel/PersonnelAssetIcon';
 import { PersonnelNavHub } from '@/components/personnel/PersonnelNavHub';
 import { PERSONNEL_HUB_TABS } from '@/config/personnel-mobile-nav';
 import type { PersonnelTabId } from '@/hooks/usePersonnelTab';
@@ -18,21 +13,6 @@ import { PERSONNEL_TABS } from '@/hooks/usePersonnelTab';
 
 function isValidTab(value: string | null): value is PersonnelTabId {
   return PERSONNEL_TABS.includes(value as PersonnelTabId);
-}
-
-/** Resmi yoklama / QR tarama çerçevesi */
-function DockQrIcon({ className = 'h-[1.35rem] w-[1.35rem]' }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden>
-      <path
-        d="M4 8V5.5A1.5 1.5 0 0 1 5.5 4H8M16 4h2.5A1.5 1.5 0 0 1 20 5.5V8M20 16v2.5a1.5 1.5 0 0 1-1.5 1.5H16M8 20H5.5A1.5 1.5 0 0 1 4 18.5V16"
-        stroke="currentColor"
-        strokeWidth="1.75"
-        strokeLinecap="round"
-      />
-      <rect x="8" y="8" width="8" height="8" rx="1.25" stroke="currentColor" strokeWidth="1.75" />
-    </svg>
-  );
 }
 
 type DockItemId = 'home' | 'work' | 'yoklama' | 'finance' | 'more';
@@ -45,8 +25,6 @@ type DockItem = {
   icon: ReactNode;
   isCenter?: boolean;
 };
-
-const ICON_CLASS = 'h-[1.2rem] w-[1.2rem] stroke-[1.75]';
 
 function DockSideItem({
   item,
@@ -69,9 +47,7 @@ function DockSideItem({
     >
       <span
         className={`flex h-9 w-9 items-center justify-center rounded-xl transition-colors ${
-          active
-            ? 'bg-[#0E1548]/[0.08] text-[#0E1548]'
-            : 'bg-transparent text-slate-400'
+          active ? 'bg-[#0E1548]/[0.08]' : 'bg-transparent'
         }`}
       >
         {item.icon}
@@ -130,32 +106,32 @@ function NavInner() {
       id: 'home',
       label: strings.home,
       href: '/personnel-panel',
-      icon: <FiHome className={ICON_CLASS} aria-hidden />,
+      icon: <PersonnelAssetIcon name="home" className="h-7 w-7" />,
     },
     {
       id: 'work',
       label: strings.work,
       href: '/personnel-panel?tab=work',
-      icon: <FiCalendar className={ICON_CLASS} aria-hidden />,
+      icon: <PersonnelAssetIcon name="work" className="h-7 w-7" />,
     },
     {
       id: 'yoklama',
       label: strings.yoklama,
       href: '/personnel-panel/yoklama',
-      icon: <DockQrIcon />,
+      icon: <PersonnelAssetIcon name="yoklama" className="h-8 w-8" />,
       isCenter: true,
     },
     {
       id: 'finance',
       label: strings.finance,
       href: '/personnel-panel?tab=finance',
-      icon: <BordroIcon className="h-6 w-6 object-contain" />,
+      icon: <PersonnelAssetIcon name="finance" className="h-7 w-7" />,
     },
     {
       id: 'more',
       label: strings.more,
       onClick: () => setHubOpen(true),
-      icon: <FiGrid className={ICON_CLASS} aria-hidden />,
+      icon: <PersonnelAssetIcon name="more" className="h-7 w-7" />,
     },
   ];
 

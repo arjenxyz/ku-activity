@@ -2,18 +2,14 @@
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
-import { Suspense, useEffect, type ComponentType } from 'react';
+import { Suspense, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import {
-  FiCalendar,
-  FiDollarSign,
-  FiFileText,
-  FiSettings,
-  FiShield,
-  FiX,
-} from 'react-icons/fi';
+import { FiX } from 'react-icons/fi';
 import { BrandMark } from '@/components/brand/BrandMark';
-import { BordroIcon } from '@/components/personnel/BordroIcon';
+import {
+  PersonnelAssetIcon,
+  type PersonnelIconName,
+} from '@/components/personnel/PersonnelAssetIcon';
 import {
   PERSONNEL_HUB_SECTIONS,
   type PersonnelHubItem,
@@ -29,60 +25,21 @@ type Props = {
   isYoklama: boolean;
 };
 
-type HubIconTone = 'emerald' | 'teal' | 'indigo' | 'amber' | 'blue' | 'sky' | 'slate';
-
-const TONE_CLASS: Record<HubIconTone, string> = {
-  emerald: 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-100 dark:bg-emerald-950/45 dark:text-emerald-300 dark:ring-emerald-900/60',
-  teal: 'bg-sky-50 text-sky-700 ring-1 ring-sky-100 dark:bg-sky-950/45 dark:text-sky-300 dark:ring-sky-900/60',
-  indigo: 'bg-indigo-50 text-indigo-700 ring-1 ring-indigo-100 dark:bg-indigo-950/45 dark:text-indigo-300 dark:ring-indigo-900/60',
-  amber: 'bg-amber-50 text-amber-700 ring-1 ring-amber-100 dark:bg-amber-950/45 dark:text-amber-300 dark:ring-amber-900/60',
-  blue: 'bg-blue-50 text-blue-700 ring-1 ring-blue-100 dark:bg-blue-950/45 dark:text-blue-300 dark:ring-blue-900/60',
-  sky: 'bg-cyan-50 text-cyan-700 ring-1 ring-cyan-100 dark:bg-cyan-950/45 dark:text-cyan-300 dark:ring-cyan-900/60',
-  slate: 'bg-slate-100 text-slate-700 ring-1 ring-slate-200 dark:bg-slate-800 dark:text-slate-200 dark:ring-slate-700',
-};
-
-function HubQrIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden>
-      <path
-        d="M4 8V5.5A1.5 1.5 0 0 1 5.5 4H8M16 4h2.5A1.5 1.5 0 0 1 20 5.5V8M20 16v2.5a1.5 1.5 0 0 1-1.5 1.5H16M8 20H5.5A1.5 1.5 0 0 1 4 18.5V16"
-        stroke="currentColor"
-        strokeWidth="1.75"
-        strokeLinecap="round"
-      />
-      <rect x="8" y="8" width="8" height="8" rx="1.25" stroke="currentColor" strokeWidth="1.75" />
-    </svg>
-  );
-}
-
-const HUB_ICON_MAP: Record<
-  string,
-  { Icon: ComponentType<{ className?: string }>; tone: HubIconTone }
-> = {
-  work: { Icon: FiCalendar, tone: 'emerald' },
-  yoklama: { Icon: HubQrIcon, tone: 'teal' },
-  avans: { Icon: FiDollarSign, tone: 'amber' },
-  asgari: { Icon: FiShield, tone: 'blue' },
-  rights: { Icon: FiFileText, tone: 'sky' },
-  settings: { Icon: FiSettings, tone: 'slate' },
+const HUB_ICON_NAME: Record<string, PersonnelIconName> = {
+  work: 'work',
+  yoklama: 'yoklama',
+  finance: 'finance',
+  avans: 'avans',
+  asgari: 'asgari',
+  rights: 'rights',
+  settings: 'settings',
 };
 
 function HubIconTile({ itemId }: { itemId: string }) {
-  if (itemId === 'finance') {
-    return (
-      <span className="inline-flex h-11 w-11 items-center justify-center overflow-hidden rounded-2xl bg-slate-50 ring-1 ring-slate-100 dark:bg-slate-800/80 dark:ring-slate-700">
-        <BordroIcon className="h-9 w-9 object-contain" />
-      </span>
-    );
-  }
-
-  const def = HUB_ICON_MAP[itemId] ?? { Icon: FiSettings, tone: 'slate' as HubIconTone };
-  const { Icon, tone } = def;
+  const name = HUB_ICON_NAME[itemId] ?? 'settings';
   return (
-    <span
-      className={`inline-flex h-11 w-11 items-center justify-center rounded-2xl ${TONE_CLASS[tone]}`}
-    >
-      <Icon className="h-[1.35rem] w-[1.35rem] stroke-[1.75]" />
+    <span className="inline-flex h-12 w-12 items-center justify-center">
+      <PersonnelAssetIcon name={name} className="h-11 w-11" />
     </span>
   );
 }
