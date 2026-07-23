@@ -287,7 +287,7 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
         >
           <header className="safe-pt shrink-0 bg-transparent px-3 pb-2">
             <div className="mx-auto max-w-5xl">
-              <div className="flex h-14 items-center justify-between gap-3 rounded-2xl border border-slate-200/90 bg-white/95 px-3 shadow-md shadow-slate-900/[0.06] backdrop-blur-xl dark:border-slate-700/80 dark:bg-slate-900/95 dark:shadow-black/25 sm:px-4">
+              <div className="flex h-14 items-center justify-between gap-3 rounded-2xl border border-white/40 bg-white/55 px-3 shadow-md shadow-slate-900/[0.08] backdrop-blur-2xl dark:border-white/10 dark:bg-white/10 dark:shadow-black/25 sm:px-4">
                 <button
                   type="button"
                   onClick={closePanel}
@@ -309,7 +309,7 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
                 </button>
 
                 {canViewNotifications && items.length > 0 ? (
-                  <div className="flex shrink-0 items-center gap-0.5 rounded-xl bg-slate-100/80 p-0.5 dark:bg-slate-800/80">
+                  <div className="flex shrink-0 items-center gap-0.5 rounded-xl bg-white/40 p-0.5 backdrop-blur-md dark:bg-white/10">
                     {unreadCount > 0 ? (
                       <button
                         type="button"
