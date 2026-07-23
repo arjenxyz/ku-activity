@@ -160,19 +160,63 @@ function SwipeNotificationRow({
   onMarkRead,
   canMarkRead = false,
   disabled,
+  hints,
 }: {
   children: ReactNode;
   onDelete: () => void;
   onMarkRead?: () => void;
   canMarkRead?: boolean;
   disabled?: boolean;
+  hints: {
+    cancel: string;
+    almost: string;
+    deleteReady: string;
+    readReady: string;
+  };
 }) {
   const draggedRef = useRef(false);
   const [leaving, setLeaving] = useState(false);
+  const [hint, setHint] = useState<string | null>(null);
+  const [activeSide, setActiveSide] = useState<'delete' | 'read' | null>(null);
   const deleteStartedRef = useRef(false);
   const x = useMotionValue(0);
-  const deleteReveal = useTransform(x, [-24, -SWIPE_PEEK], [0, 1]);
-  const readReveal = useTransform(x, [24, SWIPE_PEEK], [0, 1]);
+  const deleteReveal = useTransform(x, [-4, -20], [0, 1]);
+  const readReveal = useTransform(x, [4, 20], [0, 1]);
+
+  const updateHintFromX = (value: number) => {
+    if (value <= -SWIPE_COMMIT_OFFSET) {
+      setActiveSide('delete');
+      setHint(hints.deleteReady);
+      return;
+    }
+    if (value <= -SWIPE_PEEK) {
+      setActiveSide('delete');
+      setHint(hints.almost);
+      return;
+    }
+    if (value < -16) {
+      setActiveSide('delete');
+      setHint(hints.cancel);
+      return;
+    }
+    if (canMarkRead && value >= SWIPE_COMMIT_OFFSET) {
+      setActiveSide('read');
+      setHint(hints.readReady);
+      return;
+    }
+    if (canMarkRead && value >= SWIPE_PEEK) {
+      setActiveSide('read');
+      setHint(hints.almost);
+      return;
+    }
+    if (canMarkRead && value > 16) {
+      setActiveSide('read');
+      setHint(hints.cancel);
+      return;
+    }
+    setActiveSide(null);
+    setHint(null);
+  };
 
   const shouldCommit = (offset: number, velocity: number, direction: 'left' | 'right') => {
     const signed = direction === 'left' ? -offset : offset;
@@ -186,6 +230,10 @@ function SwipeNotificationRow({
     draggedRef.current = true;
   };
 
+  const handleDrag = () => {
+    updateHintFromX(x.get());
+  };
+
   const handleDragEnd = (_: unknown, info: PanInfo) => {
     if (disabled || leaving) return;
 
@@ -193,6 +241,8 @@ function SwipeNotificationRow({
       if (deleteStartedRef.current) return;
       deleteStartedRef.current = true;
       setLeaving(true);
+      setHint(null);
+      setActiveSide(null);
       window.setTimeout(() => {
         onDelete();
       }, 220);
@@ -203,6 +253,9 @@ function SwipeNotificationRow({
       onMarkRead();
     }
 
+    // Eşik altındaysa bırakmak = iptal (kart yerine döner)
+    setHint(null);
+    setActiveSide(null);
     window.setTimeout(() => {
       draggedRef.current = false;
     }, 40);
@@ -224,28 +277,35 @@ function SwipeNotificationRow({
       {!leaving ? (
         <>
           <motion.div
-            className="pointer-events-none absolute inset-y-0 left-0 flex w-20 items-center justify-start bg-[#3B7FED] px-3.5"
+            className="pointer-events-none absolute inset-0 flex items-center justify-start gap-2 bg-[#3B7FED] px-5"
             style={{ opacity: readReveal }}
             aria-hidden
           >
-            <FiEye className="h-5 w-5 text-white" />
+            <FiEye className="h-5 w-5 shrink-0 text-white" />
+            {activeSide === 'read' && hint ? (
+              <span className="text-xs font-semibold text-white">{hint}</span>
+            ) : null}
           </motion.div>
           <motion.div
-            className="pointer-events-none absolute inset-y-0 right-0 flex w-20 items-center justify-end bg-rose-500 px-3.5"
+            className="pointer-events-none absolute inset-0 flex items-center justify-end gap-2 bg-rose-500 px-5"
             style={{ opacity: deleteReveal }}
             aria-hidden
           >
-            <FiTrash2 className="h-5 w-5 text-white" />
+            {activeSide === 'delete' && hint ? (
+              <span className="text-xs font-semibold text-white">{hint}</span>
+            ) : null}
+            <FiTrash2 className="h-5 w-5 shrink-0 text-white" />
           </motion.div>
         </>
       ) : null}
       <motion.div
         style={{ x }}
         drag={disabled || leaving ? false : 'x'}
-        dragConstraints={canMarkRead ? { left: -150, right: 150 } : { left: -150, right: 0 }}
+        dragConstraints={canMarkRead ? { left: -180, right: 180 } : { left: -180, right: 0 }}
         dragElastic={0.04}
         dragSnapToOrigin={!leaving}
         onDragStart={handleDragStart}
+        onDrag={handleDrag}
         onDragEnd={handleDragEnd}
         className="relative touch-pan-y"
         onPointerDownCapture={() => {
