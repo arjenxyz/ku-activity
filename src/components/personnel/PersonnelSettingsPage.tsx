@@ -56,7 +56,7 @@ const MENU_ICON_DEFS: Record<
   contracts: { asset: 'rights' },
   security: { asset: 'asgari' },
   app: { name: 'settings', theme: 'slate' },
-  releases: { name: 'document', theme: 'sky' },
+  releases: { asset: 'updated' },
 };
 
 function formatIbanDisplay(iban: string | null | undefined, strings: SettingsStrings) {
