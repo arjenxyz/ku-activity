@@ -541,6 +541,12 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
         canMarkRead={unread}
         onDelete={() => void handleDelete(item.id)}
         onMarkRead={() => void markRead(item.id)}
+        hints={{
+          cancel: strings.swipeHintCancel,
+          almost: strings.swipeHintAlmost,
+          deleteReady: strings.swipeHintDelete,
+          readReady: strings.swipeHintRead,
+        }}
       >
         {item.href ? (
           <Link
