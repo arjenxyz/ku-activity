@@ -37,13 +37,9 @@ const HUB_ICON_NAME: Record<string, PersonnelIconName> = {
 
 function HubIconTile({ itemId }: { itemId: string }) {
   const name = HUB_ICON_NAME[itemId] ?? 'settings';
-  const isFinance = itemId === 'finance';
   return (
     <span className="inline-flex h-12 w-12 items-center justify-center overflow-visible">
-      <PersonnelAssetIcon
-        name={name}
-        className={isFinance ? 'h-12 w-12 scale-[1.35]' : 'h-11 w-11'}
-      />
+      <PersonnelAssetIcon name={name} className="h-11 w-11" />
     </span>
   );
 }
