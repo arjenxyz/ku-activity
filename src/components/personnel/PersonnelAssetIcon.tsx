@@ -3,7 +3,7 @@
 export const PERSONNEL_ICON_SRC = {
   home: '/icons/home.png',
   work: '/icons/takvim.png',
-  yoklama: '/icons/qr.png',
+  yoklama: '/icons/qr-code.png',
   finance: '/icons/docs-check.svg',
   avans: '/icons/avans.png',
   asgari: '/icons/security.png',
@@ -32,7 +32,7 @@ type IconProps = {
  * Beyaz badge üzerinde net görünür.
  */
 export function PersonnelAssetIcon({ name, className = 'h-8 w-8' }: IconProps) {
-  const src = `${PERSONNEL_ICON_SRC[name]}?v=2`;
+  const src = `${PERSONNEL_ICON_SRC[name]}?v=3`;
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
