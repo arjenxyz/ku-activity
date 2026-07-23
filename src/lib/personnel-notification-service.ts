@@ -399,9 +399,6 @@ export async function notifyDeductionRecorded(
 ) {
   const typeLabel = deductionTypeLabel(params.type);
   const actorName = params.actorName?.trim() || 'Yönetici';
-  const descriptionSuffix = params.description?.trim()
-    ? ` Detay: ${params.description.trim()}`
-    : '';
 
   return notifyPersonnel(admin, {
     employeeId: params.employeeId,
@@ -411,7 +408,6 @@ export async function notifyDeductionRecorded(
     body: formatString(strings.deductionAdded.body, {
       amount: formatAmount(params.amount),
       typeLabel,
-      descriptionSuffix,
       actorName,
     }),
     href: '/personnel-panel?tab=finance',

@@ -91,6 +91,11 @@ function formatRelativeTime(iso: string, strings: typeof trStrings) {
   return formatString(strings.timeDaysAgo, { count: String(days) });
 }
 
+/** Eski bildirimlerdeki "Detay: …" ekini gizle */
+function sanitizeNotificationBody(body: string) {
+  return body.replace(/\s*Detay:\s*.+$/i, '').replace(/\s*Detail:\s*.+$/i, '').trim();
+}
+
 function NotificationRowContent({
   unread,
   title,
@@ -465,7 +470,7 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
             <NotificationRowContent
               unread={unread}
               title={item.title}
-              body={item.body}
+              body={sanitizeNotificationBody(item.body)}
               timeLabel={formatRelativeTime(item.created_at, strings)}
               showChevron
             />
@@ -486,7 +491,7 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
             <NotificationRowContent
               unread={unread}
               title={item.title}
-              body={item.body}
+              body={sanitizeNotificationBody(item.body)}
               timeLabel={formatRelativeTime(item.created_at, strings)}
             />
           </button>

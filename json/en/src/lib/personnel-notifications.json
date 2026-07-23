@@ -73,7 +73,7 @@
   },
   "deductionAdded": {
     "title": "Payroll update",
-    "body": "A {typeLabel} of {amount} TL was applied to your payroll by {actorName}.{descriptionSuffix}"
+    "body": "A {typeLabel} of {amount} TL was applied to your payroll by {actorName}."
   },
   "deductionUpdated": {
     "title": "Payroll record updated",

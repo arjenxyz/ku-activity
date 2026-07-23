@@ -73,7 +73,7 @@
   },
   "deductionAdded": {
     "title": "Bordro kaydı",
-    "body": "{amount} TL {typeLabel} işlemi {actorName} tarafından bordronuza yansıtılmıştır.{descriptionSuffix}"
+    "body": "{amount} TL {typeLabel} işlemi {actorName} tarafından bordronuza yansıtılmıştır."
   },
   "deductionUpdated": {
     "title": "Bordro kaydı güncellendi",
