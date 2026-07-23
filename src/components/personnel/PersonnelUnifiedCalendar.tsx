@@ -28,7 +28,7 @@ function presenceCellClass(presence: UnifiedCalendarPresence, hasAnyRecord: bool
     return CALENDAR_PRESENCE_CELL[presence];
   }
   return hasAnyRecord
-    ? 'border-[#0E1548] bg-[#0E1548]/[0.04] dark:border-blue-300 dark:bg-[#0E1548]/35'
+    ? 'border-slate-300 bg-slate-50 dark:border-slate-500 dark:bg-slate-800/50'
     : 'border-slate-200 bg-slate-50/60 dark:border-slate-700 dark:bg-slate-800/40';
 }
 
