@@ -45,8 +45,12 @@ type Props = {
   className?: string;
 };
 
-const SWIPE_DELETE_OFFSET = 88;
-const SWIPE_DELETE_VELOCITY = 650;
+const SWIPE_PEEK = 72;
+/** Sil / okundu için bırakma eşiği — yanlışlıkla tetiklenmesin */
+const SWIPE_COMMIT_OFFSET = 132;
+/** Hızlı fırlatmada da en az bu kadar kaydırılmış olmalı */
+const SWIPE_COMMIT_MIN_OFFSET = 96;
+const SWIPE_COMMIT_VELOCITY = 1100;
 
 function SettingsToggle({
   checked,
@@ -164,28 +168,38 @@ function SwipeNotificationRow({
   disabled?: boolean;
 }) {
   const draggedRef = useRef(false);
-  const [exitX, setExitX] = useState<number | null>(null);
+  const [leaving, setLeaving] = useState(false);
+  const deleteStartedRef = useRef(false);
   const x = useMotionValue(0);
-  const deleteReveal = useTransform(x, [-12, -72], [0, 1]);
-  const readReveal = useTransform(x, [12, 72], [0, 1]);
+  const deleteReveal = useTransform(x, [-24, -SWIPE_PEEK], [0, 1]);
+  const readReveal = useTransform(x, [24, SWIPE_PEEK], [0, 1]);
+
+  const shouldCommit = (offset: number, velocity: number, direction: 'left' | 'right') => {
+    const signed = direction === 'left' ? -offset : offset;
+    const speed = direction === 'left' ? -velocity : velocity;
+    if (signed >= SWIPE_COMMIT_OFFSET) return true;
+    if (signed >= SWIPE_COMMIT_MIN_OFFSET && speed >= SWIPE_COMMIT_VELOCITY) return true;
+    return false;
+  };
 
   const handleDragStart = () => {
     draggedRef.current = true;
   };
 
   const handleDragEnd = (_: unknown, info: PanInfo) => {
-    const leftEnough =
-      info.offset.x <= -SWIPE_DELETE_OFFSET || info.velocity.x <= -SWIPE_DELETE_VELOCITY;
-    const rightEnough =
-      info.offset.x >= SWIPE_DELETE_OFFSET || info.velocity.x >= SWIPE_DELETE_VELOCITY;
+    if (disabled || leaving) return;
 
-    if (!disabled && leftEnough) {
-      setExitX(-420);
-      window.setTimeout(() => onDelete(), 160);
+    if (shouldCommit(info.offset.x, info.velocity.x, 'left')) {
+      if (deleteStartedRef.current) return;
+      deleteStartedRef.current = true;
+      setLeaving(true);
+      window.setTimeout(() => {
+        onDelete();
+      }, 220);
       return;
     }
 
-    if (!disabled && canMarkRead && rightEnough && onMarkRead) {
+    if (canMarkRead && onMarkRead && shouldCommit(info.offset.x, info.velocity.x, 'right')) {
       onMarkRead();
     }
 
@@ -195,31 +209,44 @@ function SwipeNotificationRow({
   };
 
   return (
-    <li className="relative overflow-hidden rounded-xl bg-transparent">
-      <motion.div
-        className="pointer-events-none absolute inset-y-0 left-0 flex w-24 items-center justify-start bg-[#3B7FED] px-4"
-        style={{ opacity: readReveal }}
-        aria-hidden
-      >
-        <FiEye className="h-5 w-5 text-white" />
-      </motion.div>
-      <motion.div
-        className="pointer-events-none absolute inset-y-0 right-0 flex w-24 items-center justify-end bg-rose-500 px-4"
-        style={{ opacity: deleteReveal }}
-        aria-hidden
-      >
-        <FiTrash2 className="h-5 w-5 text-white" />
-      </motion.div>
+    <motion.li
+      layout
+      initial={false}
+      animate={
+        leaving
+          ? { opacity: 0, height: 0, marginTop: 0, marginBottom: 0, scale: 0.98 }
+          : { opacity: 1, height: 'auto', scale: 1 }
+      }
+      transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+      className="relative overflow-hidden rounded-xl"
+      style={{ pointerEvents: leaving ? 'none' : undefined }}
+    >
+      {!leaving ? (
+        <>
+          <motion.div
+            className="pointer-events-none absolute inset-y-0 left-0 flex w-20 items-center justify-start bg-[#3B7FED] px-3.5"
+            style={{ opacity: readReveal }}
+            aria-hidden
+          >
+            <FiEye className="h-5 w-5 text-white" />
+          </motion.div>
+          <motion.div
+            className="pointer-events-none absolute inset-y-0 right-0 flex w-20 items-center justify-end bg-rose-500 px-3.5"
+            style={{ opacity: deleteReveal }}
+            aria-hidden
+          >
+            <FiTrash2 className="h-5 w-5 text-white" />
+          </motion.div>
+        </>
+      ) : null}
       <motion.div
         style={{ x }}
-        drag={disabled || exitX !== null ? false : 'x'}
-        dragConstraints={canMarkRead ? { left: -120, right: 120 } : { left: -120, right: 0 }}
-        dragElastic={0.08}
-        dragSnapToOrigin={exitX === null}
+        drag={disabled || leaving ? false : 'x'}
+        dragConstraints={canMarkRead ? { left: -150, right: 150 } : { left: -150, right: 0 }}
+        dragElastic={0.04}
+        dragSnapToOrigin={!leaving}
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
-        animate={exitX !== null ? { x: exitX, opacity: 0 } : undefined}
-        transition={{ type: 'spring', stiffness: 460, damping: 38 }}
         className="relative touch-pan-y"
         onPointerDownCapture={() => {
           draggedRef.current = false;
@@ -235,7 +262,7 @@ function SwipeNotificationRow({
       >
         {children}
       </motion.div>
-    </li>
+    </motion.li>
   );
 }
 
