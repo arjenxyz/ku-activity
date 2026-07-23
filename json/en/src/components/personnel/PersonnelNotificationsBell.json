@@ -27,6 +27,7 @@
   "timeHoursAgo": "{count} hr ago",
   "timeDaysAgo": "{count} d ago",
   "deleteAriaLabel": "Delete notification",
+  "swipeToDeleteHint": "Swipe to delete",
   "clearAll": "Delete all",
   "clearAllConfirm": "Permanently delete all notifications?",
   "clearAllConfirmButton": "Yes, delete",

@@ -27,6 +27,7 @@
   "timeHoursAgo": "{count} sa önce",
   "timeDaysAgo": "{count} gün önce",
   "deleteAriaLabel": "Bildirimi sil",
+  "swipeToDeleteHint": "Silmek için kaydırın",
   "clearAll": "Tümünü sil",
   "clearAllConfirm": "Tüm bildirimler kalıcı olarak silinsin mi?",
   "clearAllConfirmButton": "Evet, sil",

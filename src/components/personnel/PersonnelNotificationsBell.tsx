@@ -1,9 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion, type PanInfo } from 'framer-motion';
 import { FiArrowLeft, FiBell, FiChevronRight, FiEye, FiSettings, FiTrash2, FiVolume2, FiX } from 'react-icons/fi';
 import { BrandMark } from '@/components/brand/BrandMark';
 import {
@@ -44,6 +44,9 @@ type Props = {
   panelOpen?: boolean;
   className?: string;
 };
+
+const SWIPE_DELETE_OFFSET = 88;
+const SWIPE_DELETE_VELOCITY = 650;
 
 function SettingsToggle({
   checked,
@@ -86,6 +89,128 @@ function formatRelativeTime(iso: string, strings: typeof trStrings) {
   if (hours < 24) return formatString(strings.timeHoursAgo, { count: String(hours) });
   const days = Math.floor(hours / 24);
   return formatString(strings.timeDaysAgo, { count: String(days) });
+}
+
+function NotificationRowContent({
+  unread,
+  title,
+  body,
+  timeLabel,
+  showChevron = false,
+}: {
+  unread: boolean;
+  title: string;
+  body: string;
+  timeLabel: string;
+  showChevron?: boolean;
+}) {
+  return (
+    <>
+      <span
+        className={`relative inline-flex h-8 w-8 shrink-0 items-center justify-center self-center rounded-xl ${
+          unread
+            ? 'bg-[#0E1548]/[0.08] text-[#0E1548] dark:bg-white/10 dark:text-white'
+            : 'bg-slate-100/90 text-slate-500 dark:bg-slate-800/80 dark:text-slate-400'
+        }`}
+      >
+        <FiBell className="h-4 w-4" strokeWidth={2} aria-hidden />
+        {unread ? (
+          <span className="absolute -right-0.5 -top-0.5 h-2 w-2 rounded-full bg-[#3B7FED] ring-2 ring-white dark:ring-slate-950" />
+        ) : null}
+      </span>
+      <span className="min-w-0 flex-1">
+        <span className="flex items-baseline gap-2">
+          <span
+            className={`min-w-0 truncate text-sm font-semibold leading-tight tracking-tight ${
+              unread ? 'text-[#0E1548] dark:text-white' : 'text-slate-700 dark:text-slate-300'
+            }`}
+          >
+            {title}
+          </span>
+          <span className="shrink-0 text-[10px] font-medium uppercase tracking-wide text-slate-400">
+            {timeLabel}
+          </span>
+        </span>
+        <span className="mt-0.5 line-clamp-2 text-xs leading-snug text-slate-500 dark:text-slate-400">
+          {body}
+        </span>
+      </span>
+      {showChevron ? (
+        <FiArrowLeft
+          className="h-3.5 w-3.5 shrink-0 rotate-180 self-center text-slate-300 dark:text-slate-600"
+          aria-hidden
+        />
+      ) : null}
+    </>
+  );
+}
+
+function SwipeNotificationRow({
+  children,
+  onDelete,
+  disabled,
+}: {
+  children: ReactNode;
+  onDelete: () => void;
+  disabled?: boolean;
+}) {
+  const draggedRef = useRef(false);
+  const [exitX, setExitX] = useState<number | null>(null);
+
+  const handleDragStart = () => {
+    draggedRef.current = true;
+  };
+
+  const handleDragEnd = (_: unknown, info: PanInfo) => {
+    const shouldDelete =
+      Math.abs(info.offset.x) >= SWIPE_DELETE_OFFSET ||
+      Math.abs(info.velocity.x) >= SWIPE_DELETE_VELOCITY;
+
+    if (shouldDelete && !disabled) {
+      setExitX(info.offset.x >= 0 ? 420 : -420);
+      window.setTimeout(() => onDelete(), 160);
+      return;
+    }
+
+    window.setTimeout(() => {
+      draggedRef.current = false;
+    }, 40);
+  };
+
+  return (
+    <li className="relative overflow-hidden rounded-xl">
+      <div
+        className="absolute inset-0 flex items-center justify-between bg-rose-500 px-4"
+        aria-hidden
+      >
+        <FiTrash2 className="h-5 w-5 text-white" />
+        <FiTrash2 className="h-5 w-5 text-white" />
+      </div>
+      <motion.div
+        drag={disabled || exitX !== null ? false : 'x'}
+        dragConstraints={{ left: 0, right: 0 }}
+        dragElastic={0.85}
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
+        animate={exitX !== null ? { x: exitX, opacity: 0 } : { x: 0, opacity: 1 }}
+        transition={{ type: 'spring', stiffness: 420, damping: 36 }}
+        className="relative touch-pan-y"
+        onPointerDownCapture={() => {
+          draggedRef.current = false;
+        }}
+        onClickCapture={(event) => {
+          if (!draggedRef.current) return;
+          event.preventDefault();
+          event.stopPropagation();
+          const target = event.currentTarget.querySelector<HTMLElement>('a, button');
+          if (target) target.dataset.swiped = '1';
+          draggedRef.current = false;
+        }}
+      >
+        {children}
+      </motion.div>
+    </li>
+  );
 }
 
 export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpenProp, className = '' }: Props) {
@@ -195,9 +320,7 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
     if (href) closePanel();
   };
 
-  const handleDelete = async (id: string, event: React.MouseEvent) => {
-    event.preventDefault();
-    event.stopPropagation();
+  const handleDelete = async (id: string) => {
     if (deletingId) return;
     setDeletingId(id);
     try {
@@ -292,84 +415,62 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
 
   const renderNotificationRow = (item: (typeof items)[number]) => {
     const unread = !item.read_at;
-    const content = (
-      <>
-        <span
-          className={`relative inline-flex h-8 w-8 shrink-0 items-center justify-center self-center rounded-xl ${
-            unread
-              ? 'bg-[#0E1548]/[0.08] text-[#0E1548] dark:bg-white/10 dark:text-white'
-              : 'bg-slate-100/90 text-slate-500 dark:bg-slate-800/80 dark:text-slate-400'
-          }`}
-        >
-          <FiBell className="h-4 w-4" strokeWidth={2} aria-hidden />
-          {unread ? (
-            <span className="absolute -right-0.5 -top-0.5 h-2 w-2 rounded-full bg-[#3B7FED] ring-2 ring-white dark:ring-slate-950" />
-          ) : null}
-        </span>
-        <span className="min-w-0 flex-1">
-          <span className="flex items-baseline gap-2">
-            <span
-              className={`min-w-0 truncate text-sm font-semibold leading-tight tracking-tight ${
-                unread ? 'text-[#0E1548] dark:text-white' : 'text-slate-700 dark:text-slate-300'
-              }`}
-            >
-              {item.title}
-            </span>
-            <span className="shrink-0 text-[10px] font-medium uppercase tracking-wide text-slate-400">
-              {formatRelativeTime(item.created_at, strings)}
-            </span>
-          </span>
-          <span className="mt-0.5 line-clamp-2 text-xs leading-snug text-slate-500 dark:text-slate-400">
-            {item.body}
-          </span>
-        </span>
-        <span className="flex shrink-0 items-center gap-0.5 self-center">
-          <button
-            type="button"
-            onClick={(event) => void handleDelete(item.id, event)}
-            disabled={deletingId === item.id}
-            aria-label={strings.deleteAriaLabel}
-            className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-rose-600 transition hover:bg-rose-50/80 hover:text-rose-700 disabled:opacity-50 dark:text-rose-400 dark:hover:bg-rose-950/40 dark:hover:text-rose-300"
-          >
-            <FiTrash2 className="h-3.5 w-3.5" />
-          </button>
-          {item.href ? (
-            <FiArrowLeft className="h-3.5 w-3.5 rotate-180 text-slate-300 dark:text-slate-600" aria-hidden />
-          ) : null}
-        </span>
-      </>
-    );
-
-    const rowClass = `relative flex w-full items-start gap-2.5 rounded-xl border px-2.5 py-2 text-left transition-all active:scale-[0.99] backdrop-blur-xl ${
+    const rowClass = `relative z-[1] flex w-full items-start gap-2.5 rounded-xl border px-2.5 py-2.5 text-left backdrop-blur-xl ${
       unread
-        ? 'border-slate-200/95 bg-white/80 shadow-sm shadow-slate-900/[0.06] dark:border-slate-600/70 dark:bg-white/10'
-        : 'border-slate-200/80 bg-white/60 shadow-sm shadow-slate-900/[0.04] dark:border-slate-700/60 dark:bg-white/[0.06]'
-    } hover:border-slate-300 hover:bg-white/90 dark:hover:border-slate-500 dark:hover:bg-white/15`;
+        ? 'border-slate-200/95 bg-white/90 shadow-sm shadow-slate-900/[0.06] dark:border-slate-600/70 dark:bg-white/10'
+        : 'border-slate-200/80 bg-white/70 shadow-sm shadow-slate-900/[0.04] dark:border-slate-700/60 dark:bg-white/[0.06]'
+    }`;
 
-    if (item.href) {
-      return (
-        <li key={item.id}>
+    return (
+      <SwipeNotificationRow
+        key={item.id}
+        disabled={deletingId === item.id}
+        onDelete={() => void handleDelete(item.id)}
+      >
+        {item.href ? (
           <Link
             href={item.href}
             className={rowClass}
-            onClick={() => void handleItemClick(item.id, item.href, item.read_at)}
+            onClick={(event) => {
+              const target = event.currentTarget;
+              if (target.dataset.swiped === '1') {
+                event.preventDefault();
+                delete target.dataset.swiped;
+                return;
+              }
+              void handleItemClick(item.id, item.href, item.read_at);
+            }}
           >
-            {content}
+            <NotificationRowContent
+              unread={unread}
+              title={item.title}
+              body={item.body}
+              timeLabel={formatRelativeTime(item.created_at, strings)}
+              showChevron
+            />
           </Link>
-        </li>
-      );
-    }
-
-    return (
-      <li key={item.id}>
-        <button
-          type="button"
-          className={rowClass}
-          onClick={() => void handleItemClick(item.id, null, item.read_at)}
-        >
-          {content}
-        </button>
-      </li>
+        ) : (
+          <button
+            type="button"
+            className={rowClass}
+            onClick={(event) => {
+              const target = event.currentTarget;
+              if (target.dataset.swiped === '1') {
+                delete target.dataset.swiped;
+                return;
+              }
+              void handleItemClick(item.id, null, item.read_at);
+            }}
+          >
+            <NotificationRowContent
+              unread={unread}
+              title={item.title}
+              body={item.body}
+              timeLabel={formatRelativeTime(item.created_at, strings)}
+            />
+          </button>
+        )}
+      </SwipeNotificationRow>
     );
   };
 
@@ -540,7 +641,7 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
                     type="button"
                     disabled={muted || !soundEnabled}
                     onClick={() => setSoundPickerOpen(true)}
-                    className={`flex w-full items-center justify-between gap-3 rounded-2xl px-3 py-3 text-left transition hover:bg-slate-50 active:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-50 dark:hover:bg-white/5 dark:active:bg-white/10`}
+                    className="flex w-full items-center justify-between gap-3 rounded-2xl px-3 py-3 text-left transition hover:bg-slate-50 active:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-50 dark:hover:bg-white/5 dark:active:bg-white/10"
                   >
                     <span className="min-w-0">
                       <span className="block text-sm font-medium text-[#0E1548] dark:text-white">
@@ -552,6 +653,38 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
                     </span>
                     <FiChevronRight className="h-5 w-5 shrink-0 text-slate-400" aria-hidden />
                   </button>
+
+                  {items.length > 0 ? (
+                    <>
+                      <button
+                        type="button"
+                        disabled={unreadCount === 0}
+                        onClick={() => {
+                          void markAllRead();
+                          setSettingsOpen(false);
+                        }}
+                        className="flex w-full items-center justify-between gap-3 rounded-2xl px-3 py-3 text-left transition hover:bg-slate-50 active:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-45 dark:hover:bg-white/5"
+                      >
+                        <span className="text-sm font-medium text-[#0E1548] dark:text-white">
+                          {strings.markAllRead}
+                        </span>
+                        <FiEye className="h-4 w-4 shrink-0 text-slate-400" aria-hidden />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setSettingsOpen(false);
+                          setClearConfirmOpen(true);
+                        }}
+                        className="flex w-full items-center justify-between gap-3 rounded-2xl px-3 py-3 text-left transition hover:bg-rose-50 active:bg-rose-100 dark:hover:bg-rose-950/40"
+                      >
+                        <span className="text-sm font-medium text-rose-600 dark:text-rose-400">
+                          {strings.clearAll}
+                        </span>
+                        <FiTrash2 className="h-4 w-4 shrink-0 text-rose-500" aria-hidden />
+                      </button>
+                    </>
+                  ) : null}
                 </div>
 
                 <div className="safe-pb flex flex-col gap-2 border-t border-slate-100 px-5 py-4 dark:border-slate-800">
@@ -681,7 +814,7 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
           )}
 
           <div
-            className="min-h-0 flex-1 overflow-y-auto overscroll-none scrollbar-thin-glass"
+            className="safe-pb min-h-0 flex-1 overflow-y-auto overscroll-none scrollbar-thin-glass"
             data-allow-scroll
           >
             {!canViewNotifications ? (
@@ -766,39 +899,12 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
               </div>
             ) : (
               <ul className="mx-auto flex w-full max-w-5xl flex-col gap-1.5 px-3 py-1.5 sm:px-4">
-                {items.map(renderNotificationRow)}
+                <AnimatePresence initial={false}>
+                  {items.map(renderNotificationRow)}
+                </AnimatePresence>
               </ul>
             )}
           </div>
-
-          {canViewNotifications && items.length > 0 ? (
-            <footer className="safe-pb pointer-events-none shrink-0 px-3 pb-3 pt-1">
-              <div className="mx-auto flex max-w-5xl justify-center">
-                <div className="pointer-events-auto inline-flex items-center gap-0.5 rounded-2xl border border-slate-200/90 bg-white/95 p-1 shadow-md shadow-slate-900/[0.08] backdrop-blur-xl dark:border-slate-700/80 dark:bg-slate-900/95 dark:shadow-black/30">
-                  <button
-                    type="button"
-                    onClick={() => void markAllRead()}
-                    disabled={unreadCount === 0}
-                    className="inline-flex h-9 w-9 items-center justify-center rounded-xl text-[#0E1548] transition hover:bg-slate-100 active:scale-95 disabled:pointer-events-none disabled:opacity-35 dark:text-white dark:hover:bg-slate-800"
-                    aria-label={strings.markAllRead}
-                    title={strings.markAllRead}
-                  >
-                    <FiEye className="h-4 w-4" strokeWidth={2} />
-                  </button>
-                  <span className="h-4 w-px shrink-0 bg-slate-200 dark:bg-slate-700" aria-hidden />
-                  <button
-                    type="button"
-                    onClick={() => setClearConfirmOpen(true)}
-                    className="inline-flex h-9 w-9 items-center justify-center rounded-xl text-rose-600 transition hover:bg-rose-50 active:scale-95 dark:text-rose-400 dark:hover:bg-rose-950/50"
-                    aria-label={strings.clearAll}
-                    title={strings.clearAll}
-                  >
-                    <FiTrash2 className="h-4 w-4" strokeWidth={2} />
-                  </button>
-                </div>
-              </div>
-            </footer>
-          ) : null}
         </motion.div>
       )}
     </AnimatePresence>
