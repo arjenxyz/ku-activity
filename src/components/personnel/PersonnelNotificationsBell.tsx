@@ -868,7 +868,10 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
                         <FiX className="h-5 w-5" />
                       </button>
                     </div>
-                    <div className="max-h-[min(55vh,420px)] overflow-y-auto overscroll-contain p-3">
+                    <div
+                      className="max-h-[min(55vh,420px)] overflow-y-auto overscroll-contain p-3"
+                      data-allow-scroll
+                    >
                       <div className="flex flex-col gap-1">
                         {NOTIFICATION_SOUND_OPTIONS.map((option) => {
                           const selected = soundId === option.id;
