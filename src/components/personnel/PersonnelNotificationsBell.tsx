@@ -680,7 +680,10 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
             </div>
           )}
 
-          <div className="min-h-0 flex-1 overflow-y-auto overscroll-none" data-allow-scroll>
+          <div
+            className="min-h-0 flex-1 overflow-y-auto overscroll-none scrollbar-thin-glass"
+            data-allow-scroll
+          >
             {!canViewNotifications ? (
               <div className="flex min-h-full flex-col items-center justify-center px-6 py-12 text-center">
                 <div className="relative mb-6">
