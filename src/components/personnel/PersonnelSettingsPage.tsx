@@ -54,7 +54,7 @@ const MENU_ICON_DEFS: Record<
 > = {
   work: { asset: 'briefcase' },
   contracts: { asset: 'rights' },
-  security: { name: 'lock', theme: 'rose' },
+  security: { asset: 'asgari' },
   app: { name: 'settings', theme: 'slate' },
   releases: { name: 'document', theme: 'sky' },
 };
