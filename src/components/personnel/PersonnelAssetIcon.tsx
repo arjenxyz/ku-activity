@@ -8,7 +8,7 @@ export const PERSONNEL_ICON_SRC = {
   avans: '/icons/avans.png',
   asgari: '/icons/security.png',
   rights: '/icons/agreement.png',
-  settings: '/icons/settings.png',
+  settings: '/icons/settings.svg',
   more: '/icons/menu.png',
   bell: '/icons/bell.png',
   camera: '/icons/photo-camera.png',
@@ -18,6 +18,7 @@ export const PERSONNEL_ICON_SRC = {
   appSettings: '/icons/app-settings.png',
   docsCheck: '/icons/docs-check.svg',
   bordroPng: '/icons/bordro.png',
+  avatar: '/icons/Avatar.svg',
 } as const;
 
 export type PersonnelIconName = keyof typeof PERSONNEL_ICON_SRC;

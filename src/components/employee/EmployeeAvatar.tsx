@@ -11,6 +11,8 @@ const sizeClass: Record<Size, string> = {
   xl: 'w-20 h-20 sm:w-24 sm:h-24 text-2xl',
 };
 
+export const DEFAULT_AVATAR_SRC = '/icons/Avatar.svg';
+
 export function EmployeeAvatar({
   name,
   photoUrl,
@@ -23,28 +25,19 @@ export function EmployeeAvatar({
   className?: string;
 }) {
   const [broken, setBroken] = useState(false);
-  const initial = name.trim().charAt(0).toUpperCase() || '?';
   const base = `rounded-full object-cover shrink-0 ${sizeClass[size]} ${className}`;
-  const showImage = photoUrl && !broken;
-
-  if (showImage) {
-    return (
-      // eslint-disable-next-line @next/next/no-img-element
-      <img
-        src={photoUrl}
-        alt={name}
-        className={`${base} bg-slate-100`}
-        onError={() => setBroken(true)}
-      />
-    );
-  }
+  const showPhoto = Boolean(photoUrl) && !broken;
+  const src = showPhoto ? photoUrl! : DEFAULT_AVATAR_SRC;
 
   return (
-    <div
-      className={`${base} bg-gradient-to-br from-slate-700 to-slate-900 text-white font-semibold flex items-center justify-center`}
-      aria-hidden
-    >
-      {initial}
-    </div>
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={src}
+      alt={name}
+      className={`${base} bg-slate-100`}
+      onError={() => {
+        if (showPhoto) setBroken(true);
+      }}
+    />
   );
 }
