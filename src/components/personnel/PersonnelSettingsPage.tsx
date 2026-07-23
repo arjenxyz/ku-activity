@@ -55,7 +55,7 @@ const MENU_ICON_DEFS: Record<
   work: { asset: 'briefcase' },
   contracts: { asset: 'rights' },
   security: { asset: 'asgari' },
-  app: { name: 'settings', theme: 'slate' },
+  app: { asset: 'appSettings' },
   releases: { asset: 'updated' },
 };
 
