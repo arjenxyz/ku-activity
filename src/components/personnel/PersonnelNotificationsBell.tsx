@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
-import { AnimatePresence, motion, type PanInfo } from 'framer-motion';
+import { AnimatePresence, motion, useMotionValue, useTransform, type PanInfo } from 'framer-motion';
 import { FiArrowLeft, FiBell, FiChevronRight, FiEye, FiSettings, FiTrash2, FiVolume2, FiX } from 'react-icons/fi';
 import { BrandMark } from '@/components/brand/BrandMark';
 import {
@@ -146,28 +146,40 @@ function NotificationRowContent({
 function SwipeNotificationRow({
   children,
   onDelete,
+  onMarkRead,
+  canMarkRead = false,
   disabled,
 }: {
   children: ReactNode;
   onDelete: () => void;
+  onMarkRead?: () => void;
+  canMarkRead?: boolean;
   disabled?: boolean;
 }) {
   const draggedRef = useRef(false);
   const [exitX, setExitX] = useState<number | null>(null);
+  const x = useMotionValue(0);
+  const deleteReveal = useTransform(x, [-12, -72], [0, 1]);
+  const readReveal = useTransform(x, [12, 72], [0, 1]);
 
   const handleDragStart = () => {
     draggedRef.current = true;
   };
 
   const handleDragEnd = (_: unknown, info: PanInfo) => {
-    const shouldDelete =
-      Math.abs(info.offset.x) >= SWIPE_DELETE_OFFSET ||
-      Math.abs(info.velocity.x) >= SWIPE_DELETE_VELOCITY;
+    const leftEnough =
+      info.offset.x <= -SWIPE_DELETE_OFFSET || info.velocity.x <= -SWIPE_DELETE_VELOCITY;
+    const rightEnough =
+      info.offset.x >= SWIPE_DELETE_OFFSET || info.velocity.x >= SWIPE_DELETE_VELOCITY;
 
-    if (shouldDelete && !disabled) {
-      setExitX(info.offset.x >= 0 ? 420 : -420);
+    if (!disabled && leftEnough) {
+      setExitX(-420);
       window.setTimeout(() => onDelete(), 160);
       return;
+    }
+
+    if (!disabled && canMarkRead && rightEnough && onMarkRead) {
+      onMarkRead();
     }
 
     window.setTimeout(() => {
@@ -176,22 +188,31 @@ function SwipeNotificationRow({
   };
 
   return (
-    <li className="relative overflow-hidden rounded-xl">
-      <div
-        className="absolute inset-0 flex items-center justify-between bg-rose-500 px-4"
+    <li className="relative overflow-hidden rounded-xl bg-transparent">
+      <motion.div
+        className="pointer-events-none absolute inset-y-0 left-0 flex w-24 items-center justify-start bg-[#3B7FED] px-4"
+        style={{ opacity: readReveal }}
+        aria-hidden
+      >
+        <FiEye className="h-5 w-5 text-white" />
+      </motion.div>
+      <motion.div
+        className="pointer-events-none absolute inset-y-0 right-0 flex w-24 items-center justify-end bg-rose-500 px-4"
+        style={{ opacity: deleteReveal }}
         aria-hidden
       >
         <FiTrash2 className="h-5 w-5 text-white" />
-        <FiTrash2 className="h-5 w-5 text-white" />
-      </div>
+      </motion.div>
       <motion.div
+        style={{ x }}
         drag={disabled || exitX !== null ? false : 'x'}
-        dragConstraints={{ left: 0, right: 0 }}
-        dragElastic={0.85}
+        dragConstraints={canMarkRead ? { left: -120, right: 120 } : { left: -120, right: 0 }}
+        dragElastic={0.08}
+        dragSnapToOrigin={exitX === null}
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
-        animate={exitX !== null ? { x: exitX, opacity: 0 } : { x: 0, opacity: 1 }}
-        transition={{ type: 'spring', stiffness: 420, damping: 36 }}
+        animate={exitX !== null ? { x: exitX, opacity: 0 } : undefined}
+        transition={{ type: 'spring', stiffness: 460, damping: 38 }}
         className="relative touch-pan-y"
         onPointerDownCapture={() => {
           draggedRef.current = false;
@@ -413,17 +434,19 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
 
   const renderNotificationRow = (item: (typeof items)[number]) => {
     const unread = !item.read_at;
-    const rowClass = `relative z-[1] flex w-full items-start gap-2.5 rounded-xl border px-2.5 py-2.5 text-left backdrop-blur-xl ${
+    const rowClass = `relative z-[1] flex w-full items-start gap-2.5 rounded-xl border px-2.5 py-2.5 text-left ${
       unread
-        ? 'border-slate-200/95 bg-white/90 shadow-sm shadow-slate-900/[0.06] dark:border-slate-600/70 dark:bg-white/10'
-        : 'border-slate-200/80 bg-white/70 shadow-sm shadow-slate-900/[0.04] dark:border-slate-700/60 dark:bg-white/[0.06]'
+        ? 'border-slate-200 bg-white shadow-sm shadow-slate-900/[0.05] dark:border-slate-600 dark:bg-slate-900'
+        : 'border-slate-200/90 bg-white shadow-sm shadow-slate-900/[0.04] dark:border-slate-700 dark:bg-slate-900'
     }`;
 
     return (
       <SwipeNotificationRow
         key={item.id}
         disabled={deletingId === item.id}
+        canMarkRead={unread}
         onDelete={() => void handleDelete(item.id)}
+        onMarkRead={() => void markRead(item.id)}
       >
         {item.href ? (
           <Link
