@@ -16,10 +16,10 @@ import m_app_admin_panel_arjen_yevmiye_list_tr from '@json/src/app/admin-panel/a
 import m_app_admin_panel_arjen_yevmiye_list_en from '@json/en/src/app/admin-panel/arjen/yevmiye/list.json';
 import m_app_admin_panel_arjen_yevmiye_page_tr from '@json/src/app/admin-panel/arjen/yevmiye/page.json';
 import m_app_admin_panel_arjen_yevmiye_page_en from '@json/en/src/app/admin-panel/arjen/yevmiye/page.json';
-import m_app_admin_panel_basvuru_onay_page_tr from '@json/src/app/admin-panel/basvuru-onay/page.json';
-import m_app_admin_panel_basvuru_onay_page_en from '@json/en/src/app/admin-panel/basvuru-onay/page.json';
 import m_app_admin_panel_ayarlar_page_tr from '@json/src/app/admin-panel/ayarlar/page.json';
 import m_app_admin_panel_ayarlar_page_en from '@json/en/src/app/admin-panel/ayarlar/page.json';
+import m_app_admin_panel_basvuru_onay_page_tr from '@json/src/app/admin-panel/basvuru-onay/page.json';
+import m_app_admin_panel_basvuru_onay_page_en from '@json/en/src/app/admin-panel/basvuru-onay/page.json';
 import m_app_admin_panel_layout_tr from '@json/src/app/admin-panel/layout.json';
 import m_app_admin_panel_layout_en from '@json/en/src/app/admin-panel/layout.json';
 import m_app_admin_panel_login_page_tr from '@json/src/app/admin-panel/login/page.json';
@@ -110,18 +110,20 @@ import m_app_api_admin_employees_route_tr from '@json/src/app/api/admin/employee
 import m_app_api_admin_employees_route_en from '@json/en/src/app/api/admin/employees/route.json';
 import m_app_api_admin_projects__projectId__advance_requests__id__approve_route_tr from '@json/src/app/api/admin/projects/[projectId]/advance-requests/[id]/approve/route.json';
 import m_app_api_admin_projects__projectId__advance_requests__id__approve_route_en from '@json/en/src/app/api/admin/projects/[projectId]/advance-requests/[id]/approve/route.json';
-import m_app_api_admin_projects__projectId__advance_requests_route_tr from '@json/src/app/api/admin/projects/[projectId]/advance-requests/route.json';
-import m_app_api_admin_projects__projectId__advance_requests_route_en from '@json/en/src/app/api/admin/projects/[projectId]/advance-requests/route.json';
-import m_app_api_admin_projects__projectId__advance_requests_retroactive_route_tr from '@json/src/app/api/admin/projects/[projectId]/advance-requests/retroactive/route.json';
-import m_app_api_admin_projects__projectId__advance_requests_retroactive_route_en from '@json/en/src/app/api/admin/projects/[projectId]/advance-requests/retroactive/route.json';
 import m_app_api_admin_projects__projectId__advance_requests__id__cash_qr_route_tr from '@json/src/app/api/admin/projects/[projectId]/advance-requests/[id]/cash-qr/route.json';
 import m_app_api_admin_projects__projectId__advance_requests__id__cash_qr_route_en from '@json/en/src/app/api/admin/projects/[projectId]/advance-requests/[id]/cash-qr/route.json';
-import m_app_api_admin_projects__projectId__advance_requests__id__transfer_code_route_tr from '@json/src/app/api/admin/projects/[projectId]/advance-requests/[id]/transfer-code/route.json';
-import m_app_api_admin_projects__projectId__advance_requests__id__transfer_code_route_en from '@json/en/src/app/api/admin/projects/[projectId]/advance-requests/[id]/transfer-code/route.json';
 import m_app_api_admin_projects__projectId__advance_requests__id__record_payment_route_tr from '@json/src/app/api/admin/projects/[projectId]/advance-requests/[id]/record-payment/route.json';
 import m_app_api_admin_projects__projectId__advance_requests__id__record_payment_route_en from '@json/en/src/app/api/admin/projects/[projectId]/advance-requests/[id]/record-payment/route.json';
 import m_app_api_admin_projects__projectId__advance_requests__id__reject_route_tr from '@json/src/app/api/admin/projects/[projectId]/advance-requests/[id]/reject/route.json';
 import m_app_api_admin_projects__projectId__advance_requests__id__reject_route_en from '@json/en/src/app/api/admin/projects/[projectId]/advance-requests/[id]/reject/route.json';
+import m_app_api_admin_projects__projectId__advance_requests__id__transfer_code_route_tr from '@json/src/app/api/admin/projects/[projectId]/advance-requests/[id]/transfer-code/route.json';
+import m_app_api_admin_projects__projectId__advance_requests__id__transfer_code_route_en from '@json/en/src/app/api/admin/projects/[projectId]/advance-requests/[id]/transfer-code/route.json';
+import m_app_api_admin_projects__projectId__advance_requests_retroactive_route_tr from '@json/src/app/api/admin/projects/[projectId]/advance-requests/retroactive/route.json';
+import m_app_api_admin_projects__projectId__advance_requests_retroactive_route_en from '@json/en/src/app/api/admin/projects/[projectId]/advance-requests/retroactive/route.json';
+import m_app_api_admin_projects__projectId__advance_requests_route_tr from '@json/src/app/api/admin/projects/[projectId]/advance-requests/route.json';
+import m_app_api_admin_projects__projectId__advance_requests_route_en from '@json/en/src/app/api/admin/projects/[projectId]/advance-requests/route.json';
+import m_app_api_admin_projects__projectId__attendance_qr_checkins__checkInId__route_tr from '@json/src/app/api/admin/projects/[projectId]/attendance-qr/checkins/[checkInId]/route.json';
+import m_app_api_admin_projects__projectId__attendance_qr_checkins__checkInId__route_en from '@json/en/src/app/api/admin/projects/[projectId]/attendance-qr/checkins/[checkInId]/route.json';
 import m_app_api_admin_projects__projectId__attendance_qr_complete_route_tr from '@json/src/app/api/admin/projects/[projectId]/attendance-qr/complete/route.json';
 import m_app_api_admin_projects__projectId__attendance_qr_complete_route_en from '@json/en/src/app/api/admin/projects/[projectId]/attendance-qr/complete/route.json';
 import m_app_api_admin_projects__projectId__attendance_qr_route_tr from '@json/src/app/api/admin/projects/[projectId]/attendance-qr/route.json';
@@ -132,6 +134,14 @@ import m_app_api_admin_projects__projectId__blocks_route_tr from '@json/src/app/
 import m_app_api_admin_projects__projectId__blocks_route_en from '@json/en/src/app/api/admin/projects/[projectId]/blocks/route.json';
 import m_app_api_admin_projects__projectId__closure_start_route_tr from '@json/src/app/api/admin/projects/[projectId]/closure/start/route.json';
 import m_app_api_admin_projects__projectId__closure_start_route_en from '@json/en/src/app/api/admin/projects/[projectId]/closure/start/route.json';
+import m_app_api_admin_projects__projectId__collaborators__userId__route_tr from '@json/src/app/api/admin/projects/[projectId]/collaborators/[userId]/route.json';
+import m_app_api_admin_projects__projectId__collaborators__userId__route_en from '@json/en/src/app/api/admin/projects/[projectId]/collaborators/[userId]/route.json';
+import m_app_api_admin_projects__projectId__collaborators_route_tr from '@json/src/app/api/admin/projects/[projectId]/collaborators/route.json';
+import m_app_api_admin_projects__projectId__collaborators_route_en from '@json/en/src/app/api/admin/projects/[projectId]/collaborators/route.json';
+import m_app_api_admin_projects__projectId__day_reports__id__route_tr from '@json/src/app/api/admin/projects/[projectId]/day-reports/[id]/route.json';
+import m_app_api_admin_projects__projectId__day_reports__id__route_en from '@json/en/src/app/api/admin/projects/[projectId]/day-reports/[id]/route.json';
+import m_app_api_admin_projects__projectId__day_reports_route_tr from '@json/src/app/api/admin/projects/[projectId]/day-reports/route.json';
+import m_app_api_admin_projects__projectId__day_reports_route_en from '@json/en/src/app/api/admin/projects/[projectId]/day-reports/route.json';
 import m_app_api_admin_projects__projectId__deductions__recordId__route_tr from '@json/src/app/api/admin/projects/[projectId]/deductions/[recordId]/route.json';
 import m_app_api_admin_projects__projectId__deductions__recordId__route_en from '@json/en/src/app/api/admin/projects/[projectId]/deductions/[recordId]/route.json';
 import m_app_api_admin_projects__projectId__deductions_route_tr from '@json/src/app/api/admin/projects/[projectId]/deductions/route.json';
@@ -174,6 +184,8 @@ import m_app_api_admin_projects__projectId__work_logs__recordId__route_tr from '
 import m_app_api_admin_projects__projectId__work_logs__recordId__route_en from '@json/en/src/app/api/admin/projects/[projectId]/work-logs/[recordId]/route.json';
 import m_app_api_admin_projects__projectId__work_logs_route_tr from '@json/src/app/api/admin/projects/[projectId]/work-logs/route.json';
 import m_app_api_admin_projects__projectId__work_logs_route_en from '@json/en/src/app/api/admin/projects/[projectId]/work-logs/route.json';
+import m_app_api_admin_projects_join_collab_route_tr from '@json/src/app/api/admin/projects/join-collab/route.json';
+import m_app_api_admin_projects_join_collab_route_en from '@json/en/src/app/api/admin/projects/join-collab/route.json';
 import m_app_api_admin_projects_route_tr from '@json/src/app/api/admin/projects/route.json';
 import m_app_api_admin_projects_route_en from '@json/en/src/app/api/admin/projects/route.json';
 import m_app_api_admin_registrations_lookup_route_tr from '@json/src/app/api/admin/registrations/lookup/route.json';
@@ -228,6 +240,8 @@ import m_app_api_personnel_closure_status_route_tr from '@json/src/app/api/perso
 import m_app_api_personnel_closure_status_route_en from '@json/en/src/app/api/personnel/closure/status/route.json';
 import m_app_api_personnel_contracts_route_tr from '@json/src/app/api/personnel/contracts/route.json';
 import m_app_api_personnel_contracts_route_en from '@json/en/src/app/api/personnel/contracts/route.json';
+import m_app_api_personnel_day_reports_route_tr from '@json/src/app/api/personnel/day-reports/route.json';
+import m_app_api_personnel_day_reports_route_en from '@json/en/src/app/api/personnel/day-reports/route.json';
 import m_app_api_personnel_deductions_route_tr from '@json/src/app/api/personnel/deductions/route.json';
 import m_app_api_personnel_deductions_route_en from '@json/en/src/app/api/personnel/deductions/route.json';
 import m_app_api_personnel_me_photo_route_tr from '@json/src/app/api/personnel/me/photo/route.json';
@@ -240,6 +254,8 @@ import m_app_api_personnel_my_dossier_route_tr from '@json/src/app/api/personnel
 import m_app_api_personnel_my_dossier_route_en from '@json/en/src/app/api/personnel/my-dossier/route.json';
 import m_app_api_personnel_my_dossier_sections_route_tr from '@json/src/app/api/personnel/my-dossier/sections/route.json';
 import m_app_api_personnel_my_dossier_sections_route_en from '@json/en/src/app/api/personnel/my-dossier/sections/route.json';
+import m_app_api_personnel_push_subscribe_route_tr from '@json/src/app/api/personnel/push/subscribe/route.json';
+import m_app_api_personnel_push_subscribe_route_en from '@json/en/src/app/api/personnel/push/subscribe/route.json';
 import m_app_api_personnel_summary_route_tr from '@json/src/app/api/personnel/summary/route.json';
 import m_app_api_personnel_summary_route_en from '@json/en/src/app/api/personnel/summary/route.json';
 import m_app_api_personnel_work_logs__recordId__dispute_route_tr from '@json/src/app/api/personnel/work-logs/[recordId]/dispute/route.json';
@@ -370,18 +386,18 @@ import m_components_contracts_ContractEmailVerificationModal_tr from '@json/src/
 import m_components_contracts_ContractEmailVerificationModal_en from '@json/en/src/components/contracts/ContractEmailVerificationModal.json';
 import m_components_contracts_ContractScrollReader_tr from '@json/src/components/contracts/ContractScrollReader.json';
 import m_components_contracts_ContractScrollReader_en from '@json/en/src/components/contracts/ContractScrollReader.json';
-import m_components_dashboard_AdminMenuChrome_tr from '@json/src/components/dashboard/AdminMenuChrome.json';
-import m_components_dashboard_AdminMenuChrome_en from '@json/en/src/components/dashboard/AdminMenuChrome.json';
 import m_components_dashboard_AdminAppBottomNav_tr from '@json/src/components/dashboard/AdminAppBottomNav.json';
 import m_components_dashboard_AdminAppBottomNav_en from '@json/en/src/components/dashboard/AdminAppBottomNav.json';
-import m_components_dashboard_AdminTopBar_tr from '@json/src/components/dashboard/AdminTopBar.json';
-import m_components_dashboard_AdminTopBar_en from '@json/en/src/components/dashboard/AdminTopBar.json';
-import m_components_dashboard_AdminProjectBottomNav_tr from '@json/src/components/dashboard/AdminProjectBottomNav.json';
-import m_components_dashboard_AdminProjectBottomNav_en from '@json/en/src/components/dashboard/AdminProjectBottomNav.json';
+import m_components_dashboard_AdminMenuChrome_tr from '@json/src/components/dashboard/AdminMenuChrome.json';
+import m_components_dashboard_AdminMenuChrome_en from '@json/en/src/components/dashboard/AdminMenuChrome.json';
 import m_components_dashboard_AdminNavSheet_tr from '@json/src/components/dashboard/AdminNavSheet.json';
 import m_components_dashboard_AdminNavSheet_en from '@json/en/src/components/dashboard/AdminNavSheet.json';
+import m_components_dashboard_AdminProjectBottomNav_tr from '@json/src/components/dashboard/AdminProjectBottomNav.json';
+import m_components_dashboard_AdminProjectBottomNav_en from '@json/en/src/components/dashboard/AdminProjectBottomNav.json';
 import m_components_dashboard_AdminSimpleModeGuard_tr from '@json/src/components/dashboard/AdminSimpleModeGuard.json';
 import m_components_dashboard_AdminSimpleModeGuard_en from '@json/en/src/components/dashboard/AdminSimpleModeGuard.json';
+import m_components_dashboard_AdminTopBar_tr from '@json/src/components/dashboard/AdminTopBar.json';
+import m_components_dashboard_AdminTopBar_en from '@json/en/src/components/dashboard/AdminTopBar.json';
 import m_components_dashboard_AdminUiModeToggle_tr from '@json/src/components/dashboard/AdminUiModeToggle.json';
 import m_components_dashboard_AdminUiModeToggle_en from '@json/en/src/components/dashboard/AdminUiModeToggle.json';
 import m_components_dashboard_DashboardShell_tr from '@json/src/components/dashboard/DashboardShell.json';
@@ -434,18 +450,16 @@ import m_components_personnel_PendingApplicationWaitingScreen_tr from '@json/src
 import m_components_personnel_PendingApplicationWaitingScreen_en from '@json/en/src/components/personnel/PendingApplicationWaitingScreen.json';
 import m_components_personnel_PersonnelActiveDevices_tr from '@json/src/components/personnel/PersonnelActiveDevices.json';
 import m_components_personnel_PersonnelActiveDevices_en from '@json/en/src/components/personnel/PersonnelActiveDevices.json';
-import m_components_personnel_PersonnelAppSettings_tr from '@json/src/components/personnel/PersonnelAppSettings.json';
-import m_components_personnel_PersonnelAppSettings_en from '@json/en/src/components/personnel/PersonnelAppSettings.json';
 import m_components_personnel_PersonnelAppBottomNav_tr from '@json/src/components/personnel/PersonnelAppBottomNav.json';
 import m_components_personnel_PersonnelAppBottomNav_en from '@json/en/src/components/personnel/PersonnelAppBottomNav.json';
 import m_components_personnel_PersonnelAppIntro_tr from '@json/src/components/personnel/PersonnelAppIntro.json';
 import m_components_personnel_PersonnelAppIntro_en from '@json/en/src/components/personnel/PersonnelAppIntro.json';
+import m_components_personnel_PersonnelAppSettings_tr from '@json/src/components/personnel/PersonnelAppSettings.json';
+import m_components_personnel_PersonnelAppSettings_en from '@json/en/src/components/personnel/PersonnelAppSettings.json';
 import m_components_personnel_PersonnelAsgariPanel_tr from '@json/src/components/personnel/PersonnelAsgariPanel.json';
 import m_components_personnel_PersonnelAsgariPanel_en from '@json/en/src/components/personnel/PersonnelAsgariPanel.json';
 import m_components_personnel_PersonnelCalendar_tr from '@json/src/components/personnel/PersonnelCalendar.json';
 import m_components_personnel_PersonnelCalendar_en from '@json/en/src/components/personnel/PersonnelCalendar.json';
-import m_components_personnel_PersonnelUnifiedCalendar_tr from '@json/src/components/personnel/PersonnelUnifiedCalendar.json';
-import m_components_personnel_PersonnelUnifiedCalendar_en from '@json/en/src/components/personnel/PersonnelUnifiedCalendar.json';
 import m_components_personnel_PersonnelCalendarDayModal_tr from '@json/src/components/personnel/PersonnelCalendarDayModal.json';
 import m_components_personnel_PersonnelCalendarDayModal_en from '@json/en/src/components/personnel/PersonnelCalendarDayModal.json';
 import m_components_personnel_PersonnelClosureAcceleration_tr from '@json/src/components/personnel/PersonnelClosureAcceleration.json';
@@ -504,6 +518,8 @@ import m_components_personnel_PersonnelTodayAttendance_tr from '@json/src/compon
 import m_components_personnel_PersonnelTodayAttendance_en from '@json/en/src/components/personnel/PersonnelTodayAttendance.json';
 import m_components_personnel_PersonnelTrustFooter_tr from '@json/src/components/personnel/PersonnelTrustFooter.json';
 import m_components_personnel_PersonnelTrustFooter_en from '@json/en/src/components/personnel/PersonnelTrustFooter.json';
+import m_components_personnel_PersonnelUnifiedCalendar_tr from '@json/src/components/personnel/PersonnelUnifiedCalendar.json';
+import m_components_personnel_PersonnelUnifiedCalendar_en from '@json/en/src/components/personnel/PersonnelUnifiedCalendar.json';
 import m_components_personnel_PersonnelUnlockLayout_tr from '@json/src/components/personnel/PersonnelUnlockLayout.json';
 import m_components_personnel_PersonnelUnlockLayout_en from '@json/en/src/components/personnel/PersonnelUnlockLayout.json';
 import m_components_personnel_PersonnelWorkLogItem_tr from '@json/src/components/personnel/PersonnelWorkLogItem.json';
@@ -572,12 +588,12 @@ import m_components_ui_Sidebar_LogoutButton_tr from '@json/src/components/ui/Sid
 import m_components_ui_Sidebar_LogoutButton_en from '@json/en/src/components/ui/Sidebar/LogoutButton.json';
 import m_components_ui_Sidebar_MenuItems_tr from '@json/src/components/ui/Sidebar/MenuItems.json';
 import m_components_ui_Sidebar_MenuItems_en from '@json/en/src/components/ui/Sidebar/MenuItems.json';
+import m_config_admin_mobile_nav_tr from '@json/src/config/admin-mobile-nav.json';
+import m_config_admin_mobile_nav_en from '@json/en/src/config/admin-mobile-nav.json';
 import m_config_admin_register_tr from '@json/src/config/admin-register.json';
 import m_config_admin_register_en from '@json/en/src/config/admin-register.json';
 import m_config_personnel_mobile_nav_tr from '@json/src/config/personnel-mobile-nav.json';
 import m_config_personnel_mobile_nav_en from '@json/en/src/config/personnel-mobile-nav.json';
-import m_config_admin_mobile_nav_tr from '@json/src/config/admin-mobile-nav.json';
-import m_config_admin_mobile_nav_en from '@json/en/src/config/admin-mobile-nav.json';
 import m_config_projectMenu_tr from '@json/src/config/projectMenu.json';
 import m_config_projectMenu_en from '@json/en/src/config/projectMenu.json';
 import m_hooks_useAdminUiMode_tr from '@json/src/hooks/useAdminUiMode.json';
@@ -646,8 +662,6 @@ import m_lib_parse_registration_qr_tr from '@json/src/lib/parse-registration-qr.
 import m_lib_parse_registration_qr_en from '@json/en/src/lib/parse-registration-qr.json';
 import m_lib_personnel_display_preferences_tr from '@json/src/lib/personnel-display-preferences.json';
 import m_lib_personnel_display_preferences_en from '@json/en/src/lib/personnel-display-preferences.json';
-import m_lib_personnel_theme_tr from '@json/src/lib/personnel-theme.json';
-import m_lib_personnel_theme_en from '@json/en/src/lib/personnel-theme.json';
 import m_lib_personnel_intro_boot_script_tr from '@json/src/lib/personnel-intro-boot-script.json';
 import m_lib_personnel_intro_boot_script_en from '@json/en/src/lib/personnel-intro-boot-script.json';
 import m_lib_personnel_notifications_tr from '@json/src/lib/personnel-notifications.json';
@@ -660,6 +674,8 @@ import m_lib_personnel_reminder_email_tr from '@json/src/lib/personnel-reminder-
 import m_lib_personnel_reminder_email_en from '@json/en/src/lib/personnel-reminder-email.json';
 import m_lib_personnel_stats_tr from '@json/src/lib/personnel-stats.json';
 import m_lib_personnel_stats_en from '@json/en/src/lib/personnel-stats.json';
+import m_lib_personnel_theme_tr from '@json/src/lib/personnel-theme.json';
+import m_lib_personnel_theme_en from '@json/en/src/lib/personnel-theme.json';
 import m_lib_platform_legal_content_tr from '@json/src/lib/platform-legal-content.json';
 import m_lib_platform_legal_content_en from '@json/en/src/lib/platform-legal-content.json';
 import m_lib_profit_display_tr from '@json/src/lib/profit-display.json';
@@ -682,6 +698,8 @@ import m_lib_team_work_guard_tr from '@json/src/lib/team-work-guard.json';
 import m_lib_team_work_guard_en from '@json/en/src/lib/team-work-guard.json';
 import m_lib_wage_policy_service_tr from '@json/src/lib/wage-policy-service.json';
 import m_lib_wage_policy_service_en from '@json/en/src/lib/wage-policy-service.json';
+import m_lib_web_updates_tr from '@json/src/lib/web-updates.json';
+import m_lib_web_updates_en from '@json/en/src/lib/web-updates.json';
 import m_lib_work_log_tr from '@json/src/lib/work-log.json';
 import m_lib_work_log_en from '@json/en/src/lib/work-log.json';
 import m_lib_work_log_service_tr from '@json/src/lib/work-log-service.json';
@@ -702,8 +720,8 @@ export const STRINGS_REGISTRY = {
   'app/admin-panel/arjen/sorgulama/[projectId]/page': { tr: m_app_admin_panel_arjen_sorgulama__projectId__page_tr, en: m_app_admin_panel_arjen_sorgulama__projectId__page_en },
   'app/admin-panel/arjen/yevmiye/list': { tr: m_app_admin_panel_arjen_yevmiye_list_tr, en: m_app_admin_panel_arjen_yevmiye_list_en },
   'app/admin-panel/arjen/yevmiye/page': { tr: m_app_admin_panel_arjen_yevmiye_page_tr, en: m_app_admin_panel_arjen_yevmiye_page_en },
-  'app/admin-panel/basvuru-onay/page': { tr: m_app_admin_panel_basvuru_onay_page_tr, en: m_app_admin_panel_basvuru_onay_page_en },
   'app/admin-panel/ayarlar/page': { tr: m_app_admin_panel_ayarlar_page_tr, en: m_app_admin_panel_ayarlar_page_en },
+  'app/admin-panel/basvuru-onay/page': { tr: m_app_admin_panel_basvuru_onay_page_tr, en: m_app_admin_panel_basvuru_onay_page_en },
   'app/admin-panel/layout': { tr: m_app_admin_panel_layout_tr, en: m_app_admin_panel_layout_en },
   'app/admin-panel/login/page': { tr: m_app_admin_panel_login_page_tr, en: m_app_admin_panel_login_page_en },
   'app/admin-panel/login/yedek': { tr: m_app_admin_panel_login_yedek_tr, en: m_app_admin_panel_login_yedek_en },
@@ -749,17 +767,22 @@ export const STRINGS_REGISTRY = {
   'app/api/admin/dekont/share-ingest/route': { tr: m_app_api_admin_dekont_share_ingest_route_tr, en: m_app_api_admin_dekont_share_ingest_route_en },
   'app/api/admin/employees/route': { tr: m_app_api_admin_employees_route_tr, en: m_app_api_admin_employees_route_en },
   'app/api/admin/projects/[projectId]/advance-requests/[id]/approve/route': { tr: m_app_api_admin_projects__projectId__advance_requests__id__approve_route_tr, en: m_app_api_admin_projects__projectId__advance_requests__id__approve_route_en },
-  'app/api/admin/projects/[projectId]/advance-requests/route': { tr: m_app_api_admin_projects__projectId__advance_requests_route_tr, en: m_app_api_admin_projects__projectId__advance_requests_route_en },
-  'app/api/admin/projects/[projectId]/advance-requests/retroactive/route': { tr: m_app_api_admin_projects__projectId__advance_requests_retroactive_route_tr, en: m_app_api_admin_projects__projectId__advance_requests_retroactive_route_en },
   'app/api/admin/projects/[projectId]/advance-requests/[id]/cash-qr/route': { tr: m_app_api_admin_projects__projectId__advance_requests__id__cash_qr_route_tr, en: m_app_api_admin_projects__projectId__advance_requests__id__cash_qr_route_en },
-  'app/api/admin/projects/[projectId]/advance-requests/[id]/transfer-code/route': { tr: m_app_api_admin_projects__projectId__advance_requests__id__transfer_code_route_tr, en: m_app_api_admin_projects__projectId__advance_requests__id__transfer_code_route_en },
   'app/api/admin/projects/[projectId]/advance-requests/[id]/record-payment/route': { tr: m_app_api_admin_projects__projectId__advance_requests__id__record_payment_route_tr, en: m_app_api_admin_projects__projectId__advance_requests__id__record_payment_route_en },
   'app/api/admin/projects/[projectId]/advance-requests/[id]/reject/route': { tr: m_app_api_admin_projects__projectId__advance_requests__id__reject_route_tr, en: m_app_api_admin_projects__projectId__advance_requests__id__reject_route_en },
+  'app/api/admin/projects/[projectId]/advance-requests/[id]/transfer-code/route': { tr: m_app_api_admin_projects__projectId__advance_requests__id__transfer_code_route_tr, en: m_app_api_admin_projects__projectId__advance_requests__id__transfer_code_route_en },
+  'app/api/admin/projects/[projectId]/advance-requests/retroactive/route': { tr: m_app_api_admin_projects__projectId__advance_requests_retroactive_route_tr, en: m_app_api_admin_projects__projectId__advance_requests_retroactive_route_en },
+  'app/api/admin/projects/[projectId]/advance-requests/route': { tr: m_app_api_admin_projects__projectId__advance_requests_route_tr, en: m_app_api_admin_projects__projectId__advance_requests_route_en },
+  'app/api/admin/projects/[projectId]/attendance-qr/checkins/[checkInId]/route': { tr: m_app_api_admin_projects__projectId__attendance_qr_checkins__checkInId__route_tr, en: m_app_api_admin_projects__projectId__attendance_qr_checkins__checkInId__route_en },
   'app/api/admin/projects/[projectId]/attendance-qr/complete/route': { tr: m_app_api_admin_projects__projectId__attendance_qr_complete_route_tr, en: m_app_api_admin_projects__projectId__attendance_qr_complete_route_en },
   'app/api/admin/projects/[projectId]/attendance-qr/route': { tr: m_app_api_admin_projects__projectId__attendance_qr_route_tr, en: m_app_api_admin_projects__projectId__attendance_qr_route_en },
   'app/api/admin/projects/[projectId]/blocks/[blockId]/route': { tr: m_app_api_admin_projects__projectId__blocks__blockId__route_tr, en: m_app_api_admin_projects__projectId__blocks__blockId__route_en },
   'app/api/admin/projects/[projectId]/blocks/route': { tr: m_app_api_admin_projects__projectId__blocks_route_tr, en: m_app_api_admin_projects__projectId__blocks_route_en },
   'app/api/admin/projects/[projectId]/closure/start/route': { tr: m_app_api_admin_projects__projectId__closure_start_route_tr, en: m_app_api_admin_projects__projectId__closure_start_route_en },
+  'app/api/admin/projects/[projectId]/collaborators/[userId]/route': { tr: m_app_api_admin_projects__projectId__collaborators__userId__route_tr, en: m_app_api_admin_projects__projectId__collaborators__userId__route_en },
+  'app/api/admin/projects/[projectId]/collaborators/route': { tr: m_app_api_admin_projects__projectId__collaborators_route_tr, en: m_app_api_admin_projects__projectId__collaborators_route_en },
+  'app/api/admin/projects/[projectId]/day-reports/[id]/route': { tr: m_app_api_admin_projects__projectId__day_reports__id__route_tr, en: m_app_api_admin_projects__projectId__day_reports__id__route_en },
+  'app/api/admin/projects/[projectId]/day-reports/route': { tr: m_app_api_admin_projects__projectId__day_reports_route_tr, en: m_app_api_admin_projects__projectId__day_reports_route_en },
   'app/api/admin/projects/[projectId]/deductions/[recordId]/route': { tr: m_app_api_admin_projects__projectId__deductions__recordId__route_tr, en: m_app_api_admin_projects__projectId__deductions__recordId__route_en },
   'app/api/admin/projects/[projectId]/deductions/route': { tr: m_app_api_admin_projects__projectId__deductions_route_tr, en: m_app_api_admin_projects__projectId__deductions_route_en },
   'app/api/admin/projects/[projectId]/employees/[employeeId]/photo/route': { tr: m_app_api_admin_projects__projectId__employees__employeeId__photo_route_tr, en: m_app_api_admin_projects__projectId__employees__employeeId__photo_route_en },
@@ -781,6 +804,7 @@ export const STRINGS_REGISTRY = {
   'app/api/admin/projects/[projectId]/teams/route': { tr: m_app_api_admin_projects__projectId__teams_route_tr, en: m_app_api_admin_projects__projectId__teams_route_en },
   'app/api/admin/projects/[projectId]/work-logs/[recordId]/route': { tr: m_app_api_admin_projects__projectId__work_logs__recordId__route_tr, en: m_app_api_admin_projects__projectId__work_logs__recordId__route_en },
   'app/api/admin/projects/[projectId]/work-logs/route': { tr: m_app_api_admin_projects__projectId__work_logs_route_tr, en: m_app_api_admin_projects__projectId__work_logs_route_en },
+  'app/api/admin/projects/join-collab/route': { tr: m_app_api_admin_projects_join_collab_route_tr, en: m_app_api_admin_projects_join_collab_route_en },
   'app/api/admin/projects/route': { tr: m_app_api_admin_projects_route_tr, en: m_app_api_admin_projects_route_en },
   'app/api/admin/registrations/lookup/route': { tr: m_app_api_admin_registrations_lookup_route_tr, en: m_app_api_admin_registrations_lookup_route_en },
   'app/api/auth/admin/register/route': { tr: m_app_api_auth_admin_register_route_tr, en: m_app_api_auth_admin_register_route_en },
@@ -808,12 +832,14 @@ export const STRINGS_REGISTRY = {
   'app/api/personnel/closure/execute-deletion/route': { tr: m_app_api_personnel_closure_execute_deletion_route_tr, en: m_app_api_personnel_closure_execute_deletion_route_en },
   'app/api/personnel/closure/status/route': { tr: m_app_api_personnel_closure_status_route_tr, en: m_app_api_personnel_closure_status_route_en },
   'app/api/personnel/contracts/route': { tr: m_app_api_personnel_contracts_route_tr, en: m_app_api_personnel_contracts_route_en },
+  'app/api/personnel/day-reports/route': { tr: m_app_api_personnel_day_reports_route_tr, en: m_app_api_personnel_day_reports_route_en },
   'app/api/personnel/deductions/route': { tr: m_app_api_personnel_deductions_route_tr, en: m_app_api_personnel_deductions_route_en },
   'app/api/personnel/me/photo/route': { tr: m_app_api_personnel_me_photo_route_tr, en: m_app_api_personnel_me_photo_route_en },
   'app/api/personnel/me/route': { tr: m_app_api_personnel_me_route_tr, en: m_app_api_personnel_me_route_en },
   'app/api/personnel/minimum-wages/route': { tr: m_app_api_personnel_minimum_wages_route_tr, en: m_app_api_personnel_minimum_wages_route_en },
   'app/api/personnel/my-dossier/route': { tr: m_app_api_personnel_my_dossier_route_tr, en: m_app_api_personnel_my_dossier_route_en },
   'app/api/personnel/my-dossier/sections/route': { tr: m_app_api_personnel_my_dossier_sections_route_tr, en: m_app_api_personnel_my_dossier_sections_route_en },
+  'app/api/personnel/push/subscribe/route': { tr: m_app_api_personnel_push_subscribe_route_tr, en: m_app_api_personnel_push_subscribe_route_en },
   'app/api/personnel/summary/route': { tr: m_app_api_personnel_summary_route_tr, en: m_app_api_personnel_summary_route_en },
   'app/api/personnel/work-logs/[recordId]/dispute/route': { tr: m_app_api_personnel_work_logs__recordId__dispute_route_tr, en: m_app_api_personnel_work_logs__recordId__dispute_route_en },
   'app/api/personnel/work-logs/confirm/route': { tr: m_app_api_personnel_work_logs_confirm_route_tr, en: m_app_api_personnel_work_logs_confirm_route_en },
@@ -879,12 +905,12 @@ export const STRINGS_REGISTRY = {
   'components/contracts/ContractAcceptanceModal': { tr: m_components_contracts_ContractAcceptanceModal_tr, en: m_components_contracts_ContractAcceptanceModal_en },
   'components/contracts/ContractEmailVerificationModal': { tr: m_components_contracts_ContractEmailVerificationModal_tr, en: m_components_contracts_ContractEmailVerificationModal_en },
   'components/contracts/ContractScrollReader': { tr: m_components_contracts_ContractScrollReader_tr, en: m_components_contracts_ContractScrollReader_en },
-  'components/dashboard/AdminMenuChrome': { tr: m_components_dashboard_AdminMenuChrome_tr, en: m_components_dashboard_AdminMenuChrome_en },
   'components/dashboard/AdminAppBottomNav': { tr: m_components_dashboard_AdminAppBottomNav_tr, en: m_components_dashboard_AdminAppBottomNav_en },
-  'components/dashboard/AdminTopBar': { tr: m_components_dashboard_AdminTopBar_tr, en: m_components_dashboard_AdminTopBar_en },
-  'components/dashboard/AdminProjectBottomNav': { tr: m_components_dashboard_AdminProjectBottomNav_tr, en: m_components_dashboard_AdminProjectBottomNav_en },
+  'components/dashboard/AdminMenuChrome': { tr: m_components_dashboard_AdminMenuChrome_tr, en: m_components_dashboard_AdminMenuChrome_en },
   'components/dashboard/AdminNavSheet': { tr: m_components_dashboard_AdminNavSheet_tr, en: m_components_dashboard_AdminNavSheet_en },
+  'components/dashboard/AdminProjectBottomNav': { tr: m_components_dashboard_AdminProjectBottomNav_tr, en: m_components_dashboard_AdminProjectBottomNav_en },
   'components/dashboard/AdminSimpleModeGuard': { tr: m_components_dashboard_AdminSimpleModeGuard_tr, en: m_components_dashboard_AdminSimpleModeGuard_en },
+  'components/dashboard/AdminTopBar': { tr: m_components_dashboard_AdminTopBar_tr, en: m_components_dashboard_AdminTopBar_en },
   'components/dashboard/AdminUiModeToggle': { tr: m_components_dashboard_AdminUiModeToggle_tr, en: m_components_dashboard_AdminUiModeToggle_en },
   'components/dashboard/DashboardShell': { tr: m_components_dashboard_DashboardShell_tr, en: m_components_dashboard_DashboardShell_en },
   'components/developer/DeveloperShell': { tr: m_components_developer_DeveloperShell_tr, en: m_components_developer_DeveloperShell_en },
@@ -911,12 +937,11 @@ export const STRINGS_REGISTRY = {
   'components/personnel/AttendanceStatusSticker': { tr: m_components_personnel_AttendanceStatusSticker_tr, en: m_components_personnel_AttendanceStatusSticker_en },
   'components/personnel/PendingApplicationWaitingScreen': { tr: m_components_personnel_PendingApplicationWaitingScreen_tr, en: m_components_personnel_PendingApplicationWaitingScreen_en },
   'components/personnel/PersonnelActiveDevices': { tr: m_components_personnel_PersonnelActiveDevices_tr, en: m_components_personnel_PersonnelActiveDevices_en },
-  'components/personnel/PersonnelAppSettings': { tr: m_components_personnel_PersonnelAppSettings_tr, en: m_components_personnel_PersonnelAppSettings_en },
   'components/personnel/PersonnelAppBottomNav': { tr: m_components_personnel_PersonnelAppBottomNav_tr, en: m_components_personnel_PersonnelAppBottomNav_en },
   'components/personnel/PersonnelAppIntro': { tr: m_components_personnel_PersonnelAppIntro_tr, en: m_components_personnel_PersonnelAppIntro_en },
+  'components/personnel/PersonnelAppSettings': { tr: m_components_personnel_PersonnelAppSettings_tr, en: m_components_personnel_PersonnelAppSettings_en },
   'components/personnel/PersonnelAsgariPanel': { tr: m_components_personnel_PersonnelAsgariPanel_tr, en: m_components_personnel_PersonnelAsgariPanel_en },
   'components/personnel/PersonnelCalendar': { tr: m_components_personnel_PersonnelCalendar_tr, en: m_components_personnel_PersonnelCalendar_en },
-  'components/personnel/PersonnelUnifiedCalendar': { tr: m_components_personnel_PersonnelUnifiedCalendar_tr, en: m_components_personnel_PersonnelUnifiedCalendar_en },
   'components/personnel/PersonnelCalendarDayModal': { tr: m_components_personnel_PersonnelCalendarDayModal_tr, en: m_components_personnel_PersonnelCalendarDayModal_en },
   'components/personnel/PersonnelClosureAcceleration': { tr: m_components_personnel_PersonnelClosureAcceleration_tr, en: m_components_personnel_PersonnelClosureAcceleration_en },
   'components/personnel/PersonnelClosureDossierPanel': { tr: m_components_personnel_PersonnelClosureDossierPanel_tr, en: m_components_personnel_PersonnelClosureDossierPanel_en },
@@ -946,6 +971,7 @@ export const STRINGS_REGISTRY = {
   'components/personnel/PersonnelSettingsPage': { tr: m_components_personnel_PersonnelSettingsPage_tr, en: m_components_personnel_PersonnelSettingsPage_en },
   'components/personnel/PersonnelTodayAttendance': { tr: m_components_personnel_PersonnelTodayAttendance_tr, en: m_components_personnel_PersonnelTodayAttendance_en },
   'components/personnel/PersonnelTrustFooter': { tr: m_components_personnel_PersonnelTrustFooter_tr, en: m_components_personnel_PersonnelTrustFooter_en },
+  'components/personnel/PersonnelUnifiedCalendar': { tr: m_components_personnel_PersonnelUnifiedCalendar_tr, en: m_components_personnel_PersonnelUnifiedCalendar_en },
   'components/personnel/PersonnelUnlockLayout': { tr: m_components_personnel_PersonnelUnlockLayout_tr, en: m_components_personnel_PersonnelUnlockLayout_en },
   'components/personnel/PersonnelWorkLogItem': { tr: m_components_personnel_PersonnelWorkLogItem_tr, en: m_components_personnel_PersonnelWorkLogItem_en },
   'components/project/AttendanceQrPanel': { tr: m_components_project_AttendanceQrPanel_tr, en: m_components_project_AttendanceQrPanel_en },
@@ -980,9 +1006,9 @@ export const STRINGS_REGISTRY = {
   'components/ui/MobileMenu': { tr: m_components_ui_MobileMenu_tr, en: m_components_ui_MobileMenu_en },
   'components/ui/Sidebar/LogoutButton': { tr: m_components_ui_Sidebar_LogoutButton_tr, en: m_components_ui_Sidebar_LogoutButton_en },
   'components/ui/Sidebar/MenuItems': { tr: m_components_ui_Sidebar_MenuItems_tr, en: m_components_ui_Sidebar_MenuItems_en },
+  'config/admin-mobile-nav': { tr: m_config_admin_mobile_nav_tr, en: m_config_admin_mobile_nav_en },
   'config/admin-register': { tr: m_config_admin_register_tr, en: m_config_admin_register_en },
   'config/personnel-mobile-nav': { tr: m_config_personnel_mobile_nav_tr, en: m_config_personnel_mobile_nav_en },
-  'config/admin-mobile-nav': { tr: m_config_admin_mobile_nav_tr, en: m_config_admin_mobile_nav_en },
   'config/projectMenu': { tr: m_config_projectMenu_tr, en: m_config_projectMenu_en },
   'hooks/useAdminUiMode': { tr: m_hooks_useAdminUiMode_tr, en: m_hooks_useAdminUiMode_en },
   'hooks/usePersonnelAsgari': { tr: m_hooks_usePersonnelAsgari_tr, en: m_hooks_usePersonnelAsgari_en },
@@ -1017,13 +1043,13 @@ export const STRINGS_REGISTRY = {
   'lib/otp-service': { tr: m_lib_otp_service_tr, en: m_lib_otp_service_en },
   'lib/parse-registration-qr': { tr: m_lib_parse_registration_qr_tr, en: m_lib_parse_registration_qr_en },
   'lib/personnel-display-preferences': { tr: m_lib_personnel_display_preferences_tr, en: m_lib_personnel_display_preferences_en },
-  'lib/personnel-theme': { tr: m_lib_personnel_theme_tr, en: m_lib_personnel_theme_en },
   'lib/personnel-intro-boot-script': { tr: m_lib_personnel_intro_boot_script_tr, en: m_lib_personnel_intro_boot_script_en },
   'lib/personnel-notifications': { tr: m_lib_personnel_notifications_tr, en: m_lib_personnel_notifications_en },
   'lib/personnel-pin': { tr: m_lib_personnel_pin_tr, en: m_lib_personnel_pin_en },
   'lib/personnel-pin-reset': { tr: m_lib_personnel_pin_reset_tr, en: m_lib_personnel_pin_reset_en },
   'lib/personnel-reminder-email': { tr: m_lib_personnel_reminder_email_tr, en: m_lib_personnel_reminder_email_en },
   'lib/personnel-stats': { tr: m_lib_personnel_stats_tr, en: m_lib_personnel_stats_en },
+  'lib/personnel-theme': { tr: m_lib_personnel_theme_tr, en: m_lib_personnel_theme_en },
   'lib/platform-legal-content': { tr: m_lib_platform_legal_content_tr, en: m_lib_platform_legal_content_en },
   'lib/profit-display': { tr: m_lib_profit_display_tr, en: m_lib_profit_display_en },
   'lib/project-closure-service': { tr: m_lib_project_closure_service_tr, en: m_lib_project_closure_service_en },
@@ -1035,6 +1061,7 @@ export const STRINGS_REGISTRY = {
   'lib/screen-report-email': { tr: m_lib_screen_report_email_tr, en: m_lib_screen_report_email_en },
   'lib/team-work-guard': { tr: m_lib_team_work_guard_tr, en: m_lib_team_work_guard_en },
   'lib/wage-policy-service': { tr: m_lib_wage_policy_service_tr, en: m_lib_wage_policy_service_en },
+  'lib/web-updates': { tr: m_lib_web_updates_tr, en: m_lib_web_updates_en },
   'lib/work-log': { tr: m_lib_work_log_tr, en: m_lib_work_log_en },
   'lib/work-log-service': { tr: m_lib_work_log_service_tr, en: m_lib_work_log_service_en },
   'types/project': { tr: m_types_project_tr, en: m_types_project_en },

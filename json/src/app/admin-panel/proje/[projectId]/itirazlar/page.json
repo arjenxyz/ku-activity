@@ -1,14 +1,32 @@
 {
   "loadFailed": "Yüklenemedi",
-  "pageTitle": "Personel İtirazları",
-  "pageDescription": "Personelin reddettiği yoklama / yevmiye kayıtları. Düzeltip yeniden gönderebilir veya silebilirsiniz.",
-  "warningBanner": "Personel bir kaydı reddettiğinde burada görünür. Düzelt ve yeniden gönder dediğinizde kayıt personelin onayına tekrar düşer.",
+  "pageTitle": "İtirazlar",
+  "pageDescription": "Takvim gün bildirileri ve personelin reddettiği yoklama / yevmiye kayıtları.",
+  "warningBanner": "Gün bildirimleri personelin takvim özetinden gelir. Yevmiye itirazlarında düzeltip yeniden gönderebilirsiniz.",
   "loading": "İtirazlar yükleniyor…",
-  "emptyTitle": "Bu dönemde açık personel itirazı yok.",
+  "emptyTitle": "Bu dönemde açık yevmiye itirazı yok.",
   "emptyHintPrefix": "Farklı ay seçin veya",
   "emptyHintLink": "yevmiye sorgulama",
   "emptyHintSuffix": "sayfasından kayıtları inceleyin.",
   "defaultEmployeeName": "Personel",
   "disputeOpenBadge": "İtiraz açık",
-  "adminNotePrefix": "Yönetici notu:"
+  "adminNotePrefix": "Yönetici notu:",
+  "daySectionTitle": "Gün bildirimleri",
+  "daySectionHint": "Personelin takvim gün özetinden bildirdiği hatalar.",
+  "dayLoading": "Gün bildirimleri yükleniyor…",
+  "dayEmpty": "Açık gün bildirimi yok.",
+  "dayOpenBadge": "Açık",
+  "dayResolve": "Çözüldü",
+  "dayResolving": "İşleniyor…",
+  "dayLoadFailed": "Gün bildirimleri yüklenemedi",
+  "dayResolveFailed": "Bildirim çözülemedi",
+  "workSectionTitle": "Yevmiye itirazları",
+  "workSectionHint": "Personelin reddettiği yoklama / yevmiye kayıtları.",
+  "dayCategories": {
+    "work": "Yevmiye",
+    "mesai": "Mesai",
+    "advance": "Avans",
+    "deduction": "Kesinti",
+    "minimum": "Asgari"
+  }
 }

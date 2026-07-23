@@ -148,6 +148,39 @@ export async function disputePersonnelWorkLog(recordId: string, note: string) {
   return res.json();
 }
 
+export type DayErrorCategory = 'work' | 'mesai' | 'advance' | 'deduction' | 'minimum';
+
+export type PersonnelDayErrorReport = {
+  id: string;
+  work_date: string;
+  categories: string[];
+  note: string;
+  status: 'open' | 'resolved';
+  created_at: string;
+  resolved_at?: string | null;
+};
+
+export async function fetchPersonnelDayReports(date?: string) {
+  const q = date ? `?date=${encodeURIComponent(date)}` : '';
+  const res = await personnelFetch(`/api/personnel/day-reports${q}`);
+  if (!res.ok) throw new Error(await parseError(res));
+  return res.json() as Promise<{ reports: PersonnelDayErrorReport[] }>;
+}
+
+export async function submitPersonnelDayReport(input: {
+  date: string;
+  categories: DayErrorCategory[];
+  note: string;
+}) {
+  const res = await personnelFetch('/api/personnel/day-reports', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(input),
+  });
+  if (!res.ok) throw new Error(await parseError(res));
+  return res.json() as Promise<{ report: PersonnelDayErrorReport }>;
+}
+
 export async function scanAttendanceQr(token: string, options?: { replace?: boolean }) {
   const res = await personnelFetch('/api/personnel/attendance-qr/scan', {
     method: 'POST',

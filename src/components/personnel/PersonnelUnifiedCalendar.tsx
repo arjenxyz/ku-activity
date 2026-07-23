@@ -172,7 +172,7 @@ export function PersonnelUnifiedCalendar({
             }
 
             const detail = cellDetail(cell);
-            const clickable = cell.hasAnyRecord && Boolean(onDaySelect);
+            const clickable = Boolean(onDaySelect);
             const markerKeys = MARKER_ORDER.filter((m) => cell.markers.includes(m));
             const cellClassName = `relative aspect-square min-h-[44px] overflow-hidden rounded-xl border-2 transition-colors ${presenceCellClass(
               cell.presence,

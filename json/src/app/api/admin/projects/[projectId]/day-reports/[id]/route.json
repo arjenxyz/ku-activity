@@ -1,0 +1,6 @@
+{
+  "invalidStatus": "Geçersiz durum",
+  "resolveFailed": "Bildirim çözülemedi",
+  "notFound": "Bildirim bulunamadı veya zaten çözülmüş",
+  "migrationRequired": "077_day_error_reports.sql migration’ını çalıştırın"
+}

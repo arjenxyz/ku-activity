@@ -72,3 +72,4 @@ Kapanış süresi (`closure_deadline_at`) dolunca proje + personel + ilişkili k
 - Uygulama içi: `personnel_notifications` tablosu
 - Telefon push: aktif oturumlu cihazlara (web push)
 - Mail / SMS yok
+- Takvim gün hatası: personel gün özetinden **Bildir** ile `day_error_reports` kaydı açar; admin **İtirazlar** sayfasından çözer

@@ -1,0 +1,11 @@
+{
+  "unauthorized": "Oturum geçersiz",
+  "loadFailed": "Bildirimler yüklenemedi",
+  "invalidBody": "Geçersiz istek",
+  "invalidDate": "Geçersiz tarih",
+  "categoriesRequired": "En az bir hata kategorisi seçin",
+  "noteTooShort": "Açıklama en az 5 karakter olmalı",
+  "createFailed": "Bildirim gönderilemedi",
+  "migrationRequired": "077_day_error_reports.sql migration’ını çalıştırın",
+  "projectClosed": "Proje kapanış sürecinde; bildirim gönderilemez"
+}
