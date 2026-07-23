@@ -1,5 +1,10 @@
 /** Uygulama içi bildirim bip sesi — `/public/bip.mp3` */
 
+import {
+  isNotificationSoundEnabled,
+  isNotificationsMuted,
+} from '@/lib/personnel-notification-storage';
+
 const BIP_SRC = '/bip.mp3';
 
 let sharedAudio: HTMLAudioElement | null = null;
@@ -15,6 +20,8 @@ function getBipAudio(): HTMLAudioElement | null {
 
 /** Yeni uygulama içi bildirimde kısa bip çalar (autoplay engeli sessizce yutulur). */
 export function playInAppNotificationSound(): void {
+  if (isNotificationsMuted() || !isNotificationSoundEnabled()) return;
+
   const audio = getBipAudio();
   if (!audio) return;
   try {

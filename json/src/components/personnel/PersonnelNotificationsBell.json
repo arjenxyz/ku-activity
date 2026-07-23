@@ -34,5 +34,12 @@
   "back": "Geri",
   "exitHint": "Çıkmak için dokunun",
   "exitAriaLabel": "Bildirimleri kapat",
-  "totalSummary": "{count} bildirim"
+  "totalSummary": "{count} bildirim",
+  "settingsAriaLabel": "Bildirim ayarları",
+  "settingsTitle": "Bildirim ayarları",
+  "settingsMuteLabel": "Bildirimleri sessize al",
+  "settingsMuteHint": "Açıkken toast ve ses gelmez; liste yine güncellenir.",
+  "settingsSoundLabel": "Bildirim sesi",
+  "settingsSoundHint": "Yeni bildirimde kısa bip çalsın.",
+  "settingsClose": "Kapat"
 }

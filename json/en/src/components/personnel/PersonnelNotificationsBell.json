@@ -34,5 +34,12 @@
   "back": "Back",
   "exitHint": "Tap to close",
   "exitAriaLabel": "Close notifications",
-  "totalSummary": "{count} notifications"
+  "totalSummary": "{count} notifications",
+  "settingsAriaLabel": "Notification settings",
+  "settingsTitle": "Notification settings",
+  "settingsMuteLabel": "Mute notifications",
+  "settingsMuteHint": "When on, toasts and sound are off; the list still updates.",
+  "settingsSoundLabel": "Notification sound",
+  "settingsSoundHint": "Play a short bip on new notifications.",
+  "settingsClose": "Close"
 }

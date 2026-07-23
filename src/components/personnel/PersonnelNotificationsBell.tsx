@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import { FiArrowLeft, FiBell, FiCheck, FiTrash2 } from 'react-icons/fi';
+import { FiArrowLeft, FiBell, FiEye, FiSettings, FiTrash2 } from 'react-icons/fi';
 import { BrandMark } from '@/components/brand/BrandMark';
 import {
   HonorIconTile,
@@ -20,6 +20,12 @@ import {
   resolvePersonnelNotificationAccess,
   type NotificationAccess,
 } from '@/lib/personnel-notification-access';
+import {
+  isNotificationSoundEnabled,
+  isNotificationsMuted,
+  setNotificationSoundEnabled,
+  setNotificationsMuted,
+} from '@/lib/personnel-notification-storage';
 import {
   registerPersonnelPushIfAuthed,
   requestNotificationPermission,
@@ -67,9 +73,14 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [clearConfirmOpen, setClearConfirmOpen] = useState(false);
   const [clearingAll, setClearingAll] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [muted, setMuted] = useState(false);
+  const [soundEnabled, setSoundEnabled] = useState(true);
 
   useEffect(() => {
     setMounted(true);
+    setMuted(isNotificationsMuted());
+    setSoundEnabled(isNotificationSoundEnabled());
   }, []);
 
   useEffect(() => {
@@ -91,6 +102,7 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
   useEffect(() => {
     if (!panelOpen) {
       setClearConfirmOpen(false);
+      setSettingsOpen(false);
       return;
     }
 
@@ -308,27 +320,21 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
                   </div>
                 </button>
 
-                {canViewNotifications && items.length > 0 ? (
+                {canViewNotifications ? (
                   <div className="flex shrink-0 items-center gap-0.5 rounded-xl bg-white/40 p-0.5 backdrop-blur-md dark:bg-white/10">
-                    {unreadCount > 0 ? (
-                      <button
-                        type="button"
-                        onClick={() => void markAllRead()}
-                        className="inline-flex h-10 w-10 items-center justify-center rounded-xl text-[#0E1548] transition hover:bg-white dark:text-white dark:hover:bg-slate-700"
-                        aria-label={strings.markAllRead}
-                        title={strings.markAllRead}
-                      >
-                        <FiCheck className="h-[1.05rem] w-[1.05rem]" />
-                      </button>
-                    ) : null}
                     <button
                       type="button"
-                      onClick={() => setClearConfirmOpen(true)}
-                      className="inline-flex h-10 w-10 items-center justify-center rounded-xl text-rose-600 transition hover:bg-white dark:text-rose-400 dark:hover:bg-slate-700"
-                      aria-label={strings.clearAll}
-                      title={strings.clearAll}
+                      onClick={() => setSettingsOpen((open) => !open)}
+                      className={`inline-flex h-10 w-10 items-center justify-center rounded-xl transition hover:bg-white dark:hover:bg-slate-700 ${
+                        settingsOpen || muted
+                          ? 'text-[#3B7FED] dark:text-sky-300'
+                          : 'text-[#0E1548] dark:text-white'
+                      }`}
+                      aria-label={strings.settingsAriaLabel}
+                      title={strings.settingsAriaLabel}
+                      aria-expanded={settingsOpen}
                     >
-                      <FiTrash2 className="h-[1.05rem] w-[1.05rem]" />
+                      <FiSettings className="h-[1.05rem] w-[1.05rem]" />
                     </button>
                   </div>
                 ) : (
@@ -341,6 +347,72 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
               </div>
             </div>
           </header>
+
+          {settingsOpen && canViewNotifications && (
+            <div className="shrink-0 px-3 pb-2">
+              <div className="mx-auto max-w-5xl rounded-2xl border border-white/40 bg-white/70 px-4 py-3 shadow-sm backdrop-blur-xl dark:border-white/10 dark:bg-white/10">
+                <div className="mb-3 flex items-center justify-between gap-2">
+                  <p className="text-sm font-semibold text-[#0E1548] dark:text-white">
+                    {strings.settingsTitle}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => setSettingsOpen(false)}
+                    className="text-xs font-semibold text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200"
+                  >
+                    {strings.settingsClose}
+                  </button>
+                </div>
+                <div className="flex flex-col gap-3">
+                  <label className="flex cursor-pointer items-start justify-between gap-3">
+                    <span className="min-w-0">
+                      <span className="block text-sm font-medium text-[#0E1548] dark:text-white">
+                        {strings.settingsMuteLabel}
+                      </span>
+                      <span className="mt-0.5 block text-xs leading-snug text-slate-500 dark:text-slate-400">
+                        {strings.settingsMuteHint}
+                      </span>
+                    </span>
+                    <input
+                      type="checkbox"
+                      className="mt-0.5 h-5 w-5 shrink-0 rounded border-slate-300 text-[#0E1548] focus:ring-[#3B7FED]"
+                      checked={muted}
+                      onChange={(event) => {
+                        const next = event.target.checked;
+                        setMuted(next);
+                        setNotificationsMuted(next);
+                      }}
+                    />
+                  </label>
+                  <label
+                    className={`flex items-start justify-between gap-3 ${
+                      muted ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
+                    }`}
+                  >
+                    <span className="min-w-0">
+                      <span className="block text-sm font-medium text-[#0E1548] dark:text-white">
+                        {strings.settingsSoundLabel}
+                      </span>
+                      <span className="mt-0.5 block text-xs leading-snug text-slate-500 dark:text-slate-400">
+                        {strings.settingsSoundHint}
+                      </span>
+                    </span>
+                    <input
+                      type="checkbox"
+                      className="mt-0.5 h-5 w-5 shrink-0 rounded border-slate-300 text-[#0E1548] focus:ring-[#3B7FED]"
+                      checked={soundEnabled && !muted}
+                      disabled={muted}
+                      onChange={(event) => {
+                        const next = event.target.checked;
+                        setSoundEnabled(next);
+                        setNotificationSoundEnabled(next);
+                      }}
+                    />
+                  </label>
+                </div>
+              </div>
+            </div>
+          )}
 
           {clearConfirmOpen && (
             <div className="shrink-0 px-3 pb-2">
@@ -368,7 +440,7 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
             </div>
           )}
 
-          <div className="min-h-0 flex-1 overflow-y-auto overscroll-none safe-pb" data-allow-scroll>
+          <div className="min-h-0 flex-1 overflow-y-auto overscroll-none" data-allow-scroll>
             {!canViewNotifications ? (
               <div className="flex min-h-full flex-col items-center justify-center px-6 py-12 text-center">
                 <div className="relative mb-6">
@@ -455,6 +527,35 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
               </ul>
             )}
           </div>
+
+          {canViewNotifications && items.length > 0 ? (
+            <footer className="safe-pb shrink-0 px-3 pt-2">
+              <div className="mx-auto flex max-w-5xl justify-center">
+                <div className="flex items-center gap-0.5 rounded-2xl border border-white/40 bg-white/70 p-1 shadow-md shadow-slate-900/[0.08] backdrop-blur-2xl dark:border-white/10 dark:bg-white/10 dark:shadow-black/25">
+                  {unreadCount > 0 ? (
+                    <button
+                      type="button"
+                      onClick={() => void markAllRead()}
+                      className="inline-flex h-11 w-11 items-center justify-center rounded-xl text-[#0E1548] transition hover:bg-white/90 dark:text-white dark:hover:bg-white/15"
+                      aria-label={strings.markAllRead}
+                      title={strings.markAllRead}
+                    >
+                      <FiEye className="h-5 w-5" />
+                    </button>
+                  ) : null}
+                  <button
+                    type="button"
+                    onClick={() => setClearConfirmOpen(true)}
+                    className="inline-flex h-11 w-11 items-center justify-center rounded-xl text-rose-600 transition hover:bg-white/90 dark:text-rose-400 dark:hover:bg-white/15"
+                    aria-label={strings.clearAll}
+                    title={strings.clearAll}
+                  >
+                    <FiTrash2 className="h-5 w-5" />
+                  </button>
+                </div>
+              </div>
+            </footer>
+          ) : null}
         </motion.div>
       )}
     </AnimatePresence>

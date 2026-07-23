@@ -16,6 +16,7 @@ import {
 } from '@/hooks/usePersonnelNotifications';
 import { PersonnelInAppNotificationBanner } from '@/components/personnel/PersonnelInAppNotificationBanner';
 import { playInAppNotificationSound } from '@/lib/in-app-notification-sound';
+import { isNotificationsMuted } from '@/lib/personnel-notification-storage';
 
 export type InAppToast = {
   id: string;
@@ -60,6 +61,7 @@ export function PersonnelNotificationsProvider({ children }: { children: ReactNo
   const closePanel = useCallback(() => setPanelOpen(false), []);
 
   const showToast = useCallback((next: InAppToast) => {
+    if (isNotificationsMuted()) return;
     setToast((current) => {
       if (current?.id === next.id) return current;
       playInAppNotificationSound();
