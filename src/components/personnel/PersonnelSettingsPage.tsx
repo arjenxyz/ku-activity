@@ -16,7 +16,7 @@ import {
 } from 'react-icons/fi';
 import { HonorIconTile, type HonorIconName, type HonorIconTheme } from '@/components/icons/HonorIcons';
 import { EmployeeAvatar } from '@/components/employee/EmployeeAvatar';
-import { PersonnelAssetIcon } from '@/components/personnel/PersonnelAssetIcon';
+import { PersonnelAssetIcon, type PersonnelIconName } from '@/components/personnel/PersonnelAssetIcon';
 import { PersonnelContractsSection } from '@/components/personnel/PersonnelContractsSection';
 import { PersonnelClosureDossierPanel } from '@/components/personnel/PersonnelClosureDossierPanel';
 import { PersonnelAppSettings, type AppSettingsView } from '@/components/personnel/PersonnelAppSettings';
@@ -48,8 +48,11 @@ type SettingsSectionId =
 
 type MenuItemId = Exclude<SettingsSectionId, 'home' | 'profile'>;
 
-const MENU_ICON_DEFS: Record<MenuItemId, { name: HonorIconName; theme: HonorIconTheme }> = {
-  work: { name: 'briefcase', theme: 'amber' },
+const MENU_ICON_DEFS: Record<
+  MenuItemId,
+  { name: HonorIconName; theme: HonorIconTheme } | { asset: PersonnelIconName }
+> = {
+  work: { asset: 'briefcase' },
   contracts: { name: 'shield', theme: 'indigo' },
   security: { name: 'lock', theme: 'rose' },
   app: { name: 'settings', theme: 'slate' },
@@ -581,7 +584,7 @@ function MenuRow({
 }: {
   title: string;
   subtitle?: string;
-  iconDef: { name: HonorIconName; theme: HonorIconTheme };
+  iconDef: { name: HonorIconName; theme: HonorIconTheme } | { asset: PersonnelIconName };
   onClick: () => void;
   showDivider?: boolean;
 }) {
@@ -592,7 +595,13 @@ function MenuRow({
         onClick={onClick}
         className="flex w-full items-center gap-3 px-4 py-3.5 text-left transition-colors hover:bg-slate-50 active:bg-slate-100 dark:hover:bg-slate-800/60"
       >
-        <HonorIconTile name={iconDef.name} theme={iconDef.theme} size="sm" muted />
+        {'asset' in iconDef ? (
+          <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center">
+            <PersonnelAssetIcon name={iconDef.asset} className="h-9 w-9" />
+          </span>
+        ) : (
+          <HonorIconTile name={iconDef.name} theme={iconDef.theme} size="sm" muted />
+        )}
         <span className="min-w-0 flex-1">
           <span className="block text-[15px] font-medium text-slate-900 dark:text-white">{title}</span>
           {subtitle ? (
