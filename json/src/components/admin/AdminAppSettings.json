@@ -6,7 +6,7 @@
     "interface": "Arayüz",
     "notifications": "Bildirimler",
     "about": "Uygulama",
-    "data": "Veri ve gizlilik"
+    "data": "Bu cihazdaki veriler"
   },
   "largeTextLabel": "Büyük yazı",
   "largeTextHint": "Metinleri büyütür; sahada okumayı kolaylaştırır",
@@ -40,9 +40,9 @@
     "apkHint": "Yeni sürüm varsa APK indirme sayfasından yükleyebilirsiniz."
   },
   "data": {
-    "clearLabel": "Uygulama verilerini temizle",
-    "clearHint": "Önbellek, oturum ve yerel veriler silinir; yeniden giriş gerekir.",
+    "clearLabel": "Bu telefonun önbelleğini temizle",
+    "clearHint": "Çerez ve geçici dosyalar silinir. Hesabınız ve sunucu kayıtlarınız silinmez; yeniden giriş gerekir.",
     "clearing": "Temizleniyor…",
-    "confirm": "CrewLedger'ın bu cihazdaki tüm önbelleği, oturumu ve yerel verileri silinecek ve çıkış yapılacak. Devam edilsin mi?"
+    "confirm": "Yalnızca bu cihazdaki CrewLedger çerezleri, oturum ve önbellek silinir; çıkış yapılır. Hesabınız ve sunucudaki kayıtlarınız silinmez. Devam edilsin mi?"
   }
 }

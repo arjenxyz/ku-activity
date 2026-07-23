@@ -5,14 +5,14 @@
     "language": "Dil",
     "notifications": "Bildirimler",
     "about": "Uygulama",
-    "data": "Veri ve gizlilik"
+    "data": "Bu cihazdaki veriler"
   },
   "menuHints": {
     "appearance": "Tema, büyük yazı ve kontrast",
     "language": "Türkçe veya İngilizce",
     "notifications": "İzin ve push aboneliği",
     "about": "Sürüm ve güncelleme notları",
-    "data": "Önbellek ve yerel veri temizliği"
+    "data": "Çerez ve önbellek — hesap kayıtlarınız silinmez"
   },
   "theme": {
     "label": "Tema",
@@ -54,9 +54,9 @@
     "apkHint": "Yeni sürüm varsa APK indirme sayfasından yükleyebilirsiniz."
   },
   "data": {
-    "clearLabel": "Uygulama verilerini temizle",
-    "clearHint": "Önbellek, oturum ve yerel veriler silinir; yeniden giriş gerekir.",
+    "clearLabel": "Bu telefonun önbelleğini temizle",
+    "clearHint": "Çerez ve geçici dosyalar silinir. Hesabınız, maaş ve avans kayıtlarınız silinmez; yeniden giriş gerekir.",
     "clearing": "Temizleniyor…",
-    "confirm": "CrewLedger'ın bu cihazdaki tüm önbelleği, oturumu ve yerel verileri silinecek ve çıkış yapılacak. Diğer uygulamalarınız etkilenmez. Devam edilsin mi?"
+    "confirm": "Yalnızca bu cihazdaki CrewLedger çerezleri, oturum ve önbellek silinir; çıkış yapılır. Hesabınız ve sunucudaki kayıtlarınız silinmez. Diğer uygulamalar etkilenmez. Devam edilsin mi?"
   }
 }
