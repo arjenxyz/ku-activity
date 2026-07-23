@@ -33,7 +33,7 @@ type IconProps = {
  * Beyaz badge üzerinde net görünür.
  */
 export function PersonnelAssetIcon({ name, className = 'h-8 w-8' }: IconProps) {
-  const src = `${PERSONNEL_ICON_SRC[name]}?v=3`;
+  const src = `${PERSONNEL_ICON_SRC[name]}?v=5`;
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
