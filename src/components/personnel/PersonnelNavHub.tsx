@@ -24,12 +24,13 @@ import { PERSONNEL_TABS } from '@/hooks/usePersonnelTab';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 
 const HUB_ICON_MAP: Record<string, { name: HonorIconName; theme: HonorIconTheme }> = {
-  work: { name: 'work', theme: 'emerald' },
+  work: { name: 'calendar', theme: 'emerald' },
   mesai: { name: 'mesai', theme: 'violet' },
   yoklama: { name: 'qr', theme: 'teal' },
-  finance: { name: 'finance', theme: 'indigo' },
+  finance: { name: 'wallet', theme: 'indigo' },
+  avans: { name: 'card', theme: 'amber' },
   asgari: { name: 'shield', theme: 'blue' },
-  rights: { name: 'rights', theme: 'sky' },
+  rights: { name: 'document', theme: 'sky' },
   settings: { name: 'settings', theme: 'slate' },
 };
 
