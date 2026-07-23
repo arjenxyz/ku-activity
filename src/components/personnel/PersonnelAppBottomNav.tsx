@@ -3,9 +3,9 @@
 import Link from 'next/link';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { Suspense, useState, type ReactNode } from 'react';
+import { Suspense, useState } from 'react';
 import { motion } from 'framer-motion';
-import { PersonnelAssetIcon } from '@/components/personnel/PersonnelAssetIcon';
+import { PersonnelAssetIcon, PersonnelIconBadge } from '@/components/personnel/PersonnelAssetIcon';
 import { PersonnelNavHub } from '@/components/personnel/PersonnelNavHub';
 import { PERSONNEL_HUB_TABS } from '@/config/personnel-mobile-nav';
 import type { PersonnelTabId } from '@/hooks/usePersonnelTab';
@@ -22,7 +22,7 @@ type DockItem = {
   label: string;
   href?: string;
   onClick?: () => void;
-  icon: ReactNode;
+  iconName: 'home' | 'work' | 'yoklama' | 'finance' | 'more';
   isCenter?: boolean;
 };
 
@@ -45,13 +45,7 @@ function DockSideItem({
       whileTap={{ scale: 0.94 }}
       transition={{ type: 'spring', stiffness: 520, damping: 34 }}
     >
-      <span
-        className={`flex h-9 w-9 items-center justify-center rounded-xl transition-colors ${
-          active ? 'bg-[#0E1548]/[0.08]' : 'bg-transparent'
-        }`}
-      >
-        {item.icon}
-      </span>
+      <PersonnelIconBadge name={item.iconName} size="sm" active={active} />
       <span
         className={`max-w-[4.5rem] truncate text-[10px] leading-none tracking-wide ${
           active ? 'font-semibold text-[#0E1548]' : 'font-medium text-slate-400'
@@ -106,32 +100,32 @@ function NavInner() {
       id: 'home',
       label: strings.home,
       href: '/personnel-panel',
-      icon: <PersonnelAssetIcon name="home" className="h-7 w-7" />,
+      iconName: 'home',
     },
     {
       id: 'work',
       label: strings.work,
       href: '/personnel-panel?tab=work',
-      icon: <PersonnelAssetIcon name="work" className="h-7 w-7" />,
+      iconName: 'work',
     },
     {
       id: 'yoklama',
       label: strings.yoklama,
       href: '/personnel-panel/yoklama',
-      icon: <PersonnelAssetIcon name="yoklama" className="h-8 w-8" />,
+      iconName: 'yoklama',
       isCenter: true,
     },
     {
       id: 'finance',
       label: strings.finance,
       href: '/personnel-panel?tab=finance',
-      icon: <PersonnelAssetIcon name="finance" className="h-8 w-8" />,
+      iconName: 'finance',
     },
     {
       id: 'more',
       label: strings.more,
       onClick: () => setHubOpen(true),
-      icon: <PersonnelAssetIcon name="more" className="h-7 w-7" />,
+      iconName: 'more',
     },
   ];
 
@@ -178,11 +172,11 @@ function NavInner() {
                     >
                       <motion.span
                         whileTap={{ scale: 0.94 }}
-                        className={`flex h-12 w-12 items-center justify-center rounded-2xl text-white shadow-[0_6px_18px_rgba(14,21,72,0.28)] ring-[3px] ring-white ${
+                        className={`flex h-12 w-12 items-center justify-center overflow-hidden rounded-2xl shadow-[0_6px_18px_rgba(14,21,72,0.28)] ring-[3px] ring-white ${
                           active ? 'bg-[#0E1548]' : 'bg-[#152060]'
                         }`}
                       >
-                        {item.icon}
+                        <PersonnelAssetIcon name={item.iconName} className="h-9 w-9" />
                       </motion.span>
                       <span
                         className={`mt-1 max-w-[4.5rem] truncate text-[10px] leading-none tracking-wide ${

@@ -22,25 +22,62 @@ export const PERSONNEL_ICON_SRC = {
 
 export type PersonnelIconName = keyof typeof PERSONNEL_ICON_SRC;
 
-type Props = {
+type IconProps = {
   name: PersonnelIconName;
   className?: string;
 };
 
-/** Siyah zeminli illüstrasyonlar — lighten ile arka plan erir. SVG’lerde blend gerekmez. */
-export function PersonnelAssetIcon({ name, className = 'h-7 w-7' }: Props) {
-  const src = PERSONNEL_ICON_SRC[name];
-  const isSvg = src.endsWith('.svg');
+/**
+ * PNG’ler siyah zeminli. Beyaz dock’ta mix-blend-lighten ikonları siler
+ * (beyaz zemin üzerinde lighten ≈ görünmez). Koyu kutu içinde siyah zemin kaybolur.
+ */
+export function PersonnelAssetIcon({ name, className = 'h-8 w-8' }: IconProps) {
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src={src}
+      src={PERSONNEL_ICON_SRC[name]}
       alt=""
-      className={`object-contain ${isSvg ? '' : 'mix-blend-lighten'} ${className}`}
+      className={`object-contain ${className}`}
       width={64}
       height={64}
       draggable={false}
       aria-hidden
     />
+  );
+}
+
+type BadgeProps = {
+  name: PersonnelIconName;
+  size?: 'sm' | 'md' | 'lg';
+  active?: boolean;
+  className?: string;
+};
+
+const BADGE_BOX = {
+  sm: 'h-9 w-9 rounded-xl',
+  md: 'h-11 w-11 rounded-2xl',
+  lg: 'h-12 w-12 rounded-2xl',
+} as const;
+
+const BADGE_IMG = {
+  sm: 'h-[1.65rem] w-[1.65rem]',
+  md: 'h-9 w-9',
+  lg: 'h-10 w-10',
+} as const;
+
+export function PersonnelIconBadge({
+  name,
+  size = 'sm',
+  active = false,
+  className = '',
+}: BadgeProps) {
+  return (
+    <span
+      className={`inline-flex items-center justify-center overflow-hidden bg-[#0E1548] shadow-sm ring-1 ring-black/10 ${BADGE_BOX[size]} ${
+        active ? 'ring-2 ring-[#0E1548]/40' : ''
+      } ${className}`}
+    >
+      <PersonnelAssetIcon name={name} className={BADGE_IMG[size]} />
+    </span>
   );
 }

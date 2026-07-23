@@ -7,7 +7,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { FiX } from 'react-icons/fi';
 import { BrandMark } from '@/components/brand/BrandMark';
 import {
-  PersonnelAssetIcon,
+  PersonnelIconBadge,
   type PersonnelIconName,
 } from '@/components/personnel/PersonnelAssetIcon';
 import {
@@ -37,11 +37,7 @@ const HUB_ICON_NAME: Record<string, PersonnelIconName> = {
 
 function HubIconTile({ itemId }: { itemId: string }) {
   const name = HUB_ICON_NAME[itemId] ?? 'settings';
-  return (
-    <span className="inline-flex h-12 w-12 items-center justify-center overflow-visible">
-      <PersonnelAssetIcon name={name} className="h-11 w-11" />
-    </span>
-  );
+  return <PersonnelIconBadge name={name} size="lg" />;
 }
 
 function isItemActive(item: PersonnelHubItem, tab: PersonnelTabId, isYoklama: boolean) {
