@@ -6,7 +6,6 @@ import { Suspense, useEffect, type ComponentType } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
   FiCalendar,
-  FiCreditCard,
   FiDollarSign,
   FiFileText,
   FiSettings,
@@ -14,6 +13,7 @@ import {
   FiX,
 } from 'react-icons/fi';
 import { BrandMark } from '@/components/brand/BrandMark';
+import { BordroIcon } from '@/components/personnel/BordroIcon';
 import {
   PERSONNEL_HUB_SECTIONS,
   type PersonnelHubItem,
@@ -61,7 +61,6 @@ const HUB_ICON_MAP: Record<
 > = {
   work: { Icon: FiCalendar, tone: 'emerald' },
   yoklama: { Icon: HubQrIcon, tone: 'teal' },
-  finance: { Icon: FiCreditCard, tone: 'indigo' },
   avans: { Icon: FiDollarSign, tone: 'amber' },
   asgari: { Icon: FiShield, tone: 'blue' },
   rights: { Icon: FiFileText, tone: 'sky' },
@@ -69,6 +68,14 @@ const HUB_ICON_MAP: Record<
 };
 
 function HubIconTile({ itemId }: { itemId: string }) {
+  if (itemId === 'finance') {
+    return (
+      <span className="inline-flex h-11 w-11 items-center justify-center overflow-hidden rounded-2xl bg-slate-50 ring-1 ring-slate-100 dark:bg-slate-800/80 dark:ring-slate-700">
+        <BordroIcon className="h-9 w-9 object-contain" />
+      </span>
+    );
+  }
+
   const def = HUB_ICON_MAP[itemId] ?? { Icon: FiSettings, tone: 'slate' as HubIconTone };
   const { Icon, tone } = def;
   return (

@@ -7,10 +7,10 @@ import { Suspense, useState, type ReactNode } from 'react';
 import { motion } from 'framer-motion';
 import {
   FiCalendar,
-  FiCreditCard,
   FiGrid,
   FiHome,
 } from 'react-icons/fi';
+import { BordroIcon } from '@/components/personnel/BordroIcon';
 import { PersonnelNavHub } from '@/components/personnel/PersonnelNavHub';
 import { PERSONNEL_HUB_TABS } from '@/config/personnel-mobile-nav';
 import type { PersonnelTabId } from '@/hooks/usePersonnelTab';
@@ -149,7 +149,7 @@ function NavInner() {
       id: 'finance',
       label: strings.finance,
       href: '/personnel-panel?tab=finance',
-      icon: <FiCreditCard className={ICON_CLASS} aria-hidden />,
+      icon: <BordroIcon className="h-6 w-6 object-contain" />,
     },
     {
       id: 'more',
