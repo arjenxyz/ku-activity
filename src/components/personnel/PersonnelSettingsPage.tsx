@@ -11,6 +11,8 @@ import {
   FiImage,
   FiLogOut,
   FiPhone,
+  FiTrash2,
+  FiX,
 } from 'react-icons/fi';
 import { HonorIconTile, type HonorIconName, type HonorIconTheme } from '@/components/icons/HonorIcons';
 import { EmployeeAvatar } from '@/components/employee/EmployeeAvatar';
@@ -134,6 +136,26 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
     }
   };
 
+  const removePhoto = async () => {
+    setPhotoError(null);
+    setPhotoBusy(true);
+    try {
+      const res = await fetch('/api/personnel/me/photo', {
+        method: 'DELETE',
+        credentials: 'same-origin',
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error((data as { error?: string }).error || strings.photoRemoveFailed);
+      }
+      setPhotoUrl(null);
+    } catch (err) {
+      setPhotoError(err instanceof Error ? err.message : strings.photoRemoveFailed);
+    } finally {
+      setPhotoBusy(false);
+    }
+  };
+
   const menuItems: Array<{
     id: MenuItemId;
     title: string;
@@ -188,6 +210,7 @@ export function PersonnelSettingsPage({ employee, onLogout }: Props) {
                 strings={strings}
                 onCamera={() => cameraInputRef.current?.click()}
                 onGallery={() => galleryInputRef.current?.click()}
+                onRemove={() => void removePhoto()}
               />
               <GroupLabel>{strings.groups.personalInfo}</GroupLabel>
               <div className="divide-y divide-slate-100 dark:divide-slate-800">
@@ -590,6 +613,7 @@ function ProfilePhotoBlock({
   strings,
   onCamera,
   onGallery,
+  onRemove,
 }: {
   name: string;
   photoUrl: string | null;
@@ -598,7 +622,30 @@ function ProfilePhotoBlock({
   strings: SettingsStrings;
   onCamera: () => void;
   onGallery: () => void;
+  onRemove: () => void;
 }) {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const hasPhoto = Boolean(photoUrl);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMenuOpen(false);
+    };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [menuOpen]);
+
+  const openMenu = () => {
+    if (photoBusy) return;
+    setMenuOpen(true);
+  };
+
+  const runAndClose = (action: () => void) => {
+    setMenuOpen(false);
+    action();
+  };
+
   return (
     <div className="border-b border-slate-100 px-4 py-5 dark:border-slate-800">
       <p className="text-sm font-semibold text-slate-900 dark:text-white">{strings.profilePhoto}</p>
@@ -610,9 +657,11 @@ function ProfilePhotoBlock({
         <button
           type="button"
           disabled={photoBusy}
-          onClick={onCamera}
-          className="group relative shrink-0"
+          onClick={openMenu}
+          className="group relative shrink-0 disabled:opacity-60"
           title={strings.updatePhotoTitle}
+          aria-haspopup="dialog"
+          aria-expanded={menuOpen}
         >
           <EmployeeAvatar
             name={name}
@@ -621,30 +670,13 @@ function ProfilePhotoBlock({
             className="!h-[5.5rem] !w-[5.5rem] !rounded-full ring-2 ring-slate-200 shadow-sm transition group-hover:ring-blue-300 dark:ring-slate-600"
           />
           <span className="absolute bottom-0 right-0 flex h-8 w-8 items-center justify-center rounded-full bg-[#0E1548] text-white shadow-md ring-2 ring-white dark:ring-slate-900">
-            <FiCamera className="h-4 w-4" />
+            {photoBusy ? (
+              <span className="h-3.5 w-3.5 animate-pulse rounded-full bg-white/80" />
+            ) : (
+              <FiCamera className="h-4 w-4" />
+            )}
           </span>
         </button>
-
-        <div className="mt-4 grid w-full grid-cols-2 gap-2">
-          <button
-            type="button"
-            disabled={photoBusy}
-            onClick={onCamera}
-            className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-[#0E1548] px-3 py-2.5 text-sm font-semibold text-white transition hover:bg-[#152060] disabled:opacity-60"
-          >
-            <FiCamera className="h-4 w-4 shrink-0" />
-            <span className="truncate">{photoBusy ? strings.uploading : strings.takePhoto}</span>
-          </button>
-          <button
-            type="button"
-            disabled={photoBusy}
-            onClick={onGallery}
-            className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-white disabled:opacity-60 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200"
-          >
-            <FiImage className="h-4 w-4 shrink-0" />
-            <span className="truncate">{strings.uploadFromGallery}</span>
-          </button>
-        </div>
 
         {photoError ? (
           <p className="mt-3 w-full rounded-xl bg-red-50 px-3 py-2 text-center text-xs text-red-600 dark:bg-red-950/40 dark:text-red-300">
@@ -652,6 +684,74 @@ function ProfilePhotoBlock({
           </p>
         ) : null}
       </div>
+
+      {menuOpen ? (
+        <div className="fixed inset-0 z-[70] flex items-end justify-center sm:items-center sm:p-4">
+          <button
+            type="button"
+            className="absolute inset-0 bg-slate-900/50 backdrop-blur-sm"
+            onClick={() => setMenuOpen(false)}
+            aria-label={strings.photoMenuCancel}
+          />
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="photo-menu-title"
+            className="safe-pb relative w-full max-w-md overflow-hidden rounded-t-2xl bg-white shadow-2xl dark:bg-slate-900 sm:rounded-2xl"
+          >
+            <div className="flex items-center justify-between border-b border-slate-100 px-4 py-3 dark:border-slate-800">
+              <p
+                id="photo-menu-title"
+                className="text-sm font-semibold text-slate-900 dark:text-white"
+              >
+                {strings.photoMenuTitle}
+              </p>
+              <button
+                type="button"
+                onClick={() => setMenuOpen(false)}
+                className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800"
+                aria-label={strings.photoMenuCancel}
+              >
+                <FiX className="h-4 w-4" />
+              </button>
+            </div>
+            <div className="p-2">
+              <button
+                type="button"
+                onClick={() => runAndClose(onCamera)}
+                className="flex w-full items-center gap-3 rounded-xl px-3 py-3.5 text-left text-sm font-medium text-slate-900 transition hover:bg-slate-50 dark:text-white dark:hover:bg-slate-800"
+              >
+                <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#0E1548]/[0.08] text-[#0E1548] dark:bg-white/10 dark:text-white">
+                  <FiCamera className="h-4 w-4" />
+                </span>
+                {photoBusy ? strings.uploading : strings.takePhoto}
+              </button>
+              <button
+                type="button"
+                onClick={() => runAndClose(onGallery)}
+                className="flex w-full items-center gap-3 rounded-xl px-3 py-3.5 text-left text-sm font-medium text-slate-900 transition hover:bg-slate-50 dark:text-white dark:hover:bg-slate-800"
+              >
+                <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-200">
+                  <FiImage className="h-4 w-4" />
+                </span>
+                {strings.uploadFromGallery}
+              </button>
+              {hasPhoto ? (
+                <button
+                  type="button"
+                  onClick={() => runAndClose(onRemove)}
+                  className="flex w-full items-center gap-3 rounded-xl px-3 py-3.5 text-left text-sm font-medium text-rose-600 transition hover:bg-rose-50 dark:text-rose-400 dark:hover:bg-rose-950/40"
+                >
+                  <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-rose-50 text-rose-600 dark:bg-rose-950/50 dark:text-rose-400">
+                    <FiTrash2 className="h-4 w-4" />
+                  </span>
+                  {strings.removePhoto}
+                </button>
+              ) : null}
+            </div>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }
