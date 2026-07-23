@@ -32,10 +32,11 @@ type IconProps = {
  * Beyaz badge üzerinde net görünür.
  */
 export function PersonnelAssetIcon({ name, className = 'h-8 w-8' }: IconProps) {
+  const src = `${PERSONNEL_ICON_SRC[name]}?v=2`;
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src={PERSONNEL_ICON_SRC[name]}
+      src={src}
       alt=""
       className={`object-contain ${className}`}
       width={64}
@@ -60,10 +61,13 @@ const BADGE_BOX = {
 } as const;
 
 const BADGE_IMG = {
-  sm: 'h-[1.7rem] w-[1.7rem]',
-  md: 'h-9 w-9',
-  lg: 'h-10 w-10',
+  sm: 'h-8 w-8',
+  md: 'h-10 w-10',
+  lg: 'h-11 w-11',
 } as const;
+
+/** Docs check SVG’de fazla boşluk var — dock/menüde büyüt. */
+const LARGE_FILL_ICONS = new Set<PersonnelIconName>(['finance', 'docsCheck']);
 
 export function PersonnelIconBadge({
   name,
@@ -71,13 +75,17 @@ export function PersonnelIconBadge({
   active = false,
   className = '',
 }: BadgeProps) {
+  const fillLarge = LARGE_FILL_ICONS.has(name);
   return (
     <span
       className={`inline-flex items-center justify-center overflow-hidden bg-white shadow-sm ring-1 ring-slate-200/90 ${BADGE_BOX[size]} ${
         active ? 'ring-2 ring-[#0E1548]/35' : ''
       } ${className}`}
     >
-      <PersonnelAssetIcon name={name} className={BADGE_IMG[size]} />
+      <PersonnelAssetIcon
+        name={name}
+        className={`${BADGE_IMG[size]} ${fillLarge ? 'scale-[1.55]' : ''}`}
+      />
     </span>
   );
 }
