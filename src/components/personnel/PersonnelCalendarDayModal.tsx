@@ -155,8 +155,12 @@ export function PersonnelCalendarDayModal({
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        if (reportOpen) setReportOpen(false);
-        else onClose();
+        if (reportOpen) {
+          setReportOpen(false);
+          setFormError(null);
+        } else {
+          onClose();
+        }
       }
     };
     document.addEventListener('keydown', onKey);
@@ -186,6 +190,18 @@ export function PersonnelCalendarDayModal({
       cancelled = true;
     };
   }, [open, date]);
+
+  function openReportModal() {
+    setSelected([]);
+    setNote('');
+    setFormError(null);
+    setReportOpen(true);
+  }
+
+  function closeReportModal() {
+    setReportOpen(false);
+    setFormError(null);
+  }
 
   if (!open || !date) return null;
 
@@ -269,11 +285,7 @@ export function PersonnelCalendarDayModal({
           <div className="flex shrink-0 items-center gap-1.5">
             <button
               type="button"
-              onClick={() => {
-                setReportOpen((v) => !v);
-                setFormError(null);
-                setSuccessMsg(null);
-              }}
+              onClick={openReportModal}
               className="inline-flex h-8 items-center rounded-lg bg-[#0E1548] px-3 text-[12px] font-semibold text-white transition hover:bg-[#16206a] dark:bg-sky-600 dark:hover:bg-sky-500"
             >
               {strings.report.button}
@@ -300,67 +312,6 @@ export function PersonnelCalendarDayModal({
             <div className="rounded-xl border border-amber-200 bg-amber-50 px-3 py-2.5 text-sm text-amber-900 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-200">
               {strings.report.openExists}
             </div>
-          ) : null}
-
-          {reportOpen ? (
-            <section className="overflow-hidden rounded-xl border border-[#0E1548]/20 bg-white dark:border-white/10 dark:bg-slate-900">
-              <div className="border-b border-slate-100 bg-slate-50/80 px-4 py-2.5 dark:border-slate-800 dark:bg-slate-800/40">
-                <p className="text-[13px] font-semibold text-[#0E1548] dark:text-white">
-                  {strings.report.title}
-                </p>
-                <p className="mt-0.5 text-[12px] text-slate-500 dark:text-slate-400">
-                  {strings.report.hint}
-                </p>
-              </div>
-              <div className="space-y-3 px-4 py-3">
-                <div className="space-y-2">
-                  {CATEGORY_OPTIONS.map((opt) => {
-                    const checked = selected.includes(opt.id);
-                    return (
-                      <label
-                        key={opt.id}
-                        className="flex cursor-pointer items-center gap-2.5 rounded-lg px-1 py-1 text-[13px] text-slate-700 dark:text-slate-200"
-                      >
-                        <input
-                          type="checkbox"
-                          checked={checked}
-                          onChange={() => toggleCategory(opt.id)}
-                          className="h-4 w-4 rounded border-slate-300 text-[#0E1548] focus:ring-[#0E1548]"
-                        />
-                        {strings.categories[opt.labelKey]}
-                      </label>
-                    );
-                  })}
-                </div>
-                <div>
-                  <label
-                    htmlFor="day-error-note"
-                    className="mb-1.5 block text-[12px] font-medium text-slate-600 dark:text-slate-300"
-                  >
-                    {strings.report.noteLabel}
-                  </label>
-                  <textarea
-                    id="day-error-note"
-                    value={note}
-                    onChange={(e) => setNote(e.target.value)}
-                    rows={3}
-                    placeholder={strings.report.notePlaceholder}
-                    className="w-full resize-none rounded-lg border border-slate-200 bg-white px-3 py-2 text-[13px] text-slate-800 outline-none ring-[#0E1548] placeholder:text-slate-400 focus:ring-2 dark:border-slate-700 dark:bg-slate-950 dark:text-white"
-                  />
-                </div>
-                {formError ? (
-                  <p className="text-[12px] font-medium text-rose-600 dark:text-rose-400">{formError}</p>
-                ) : null}
-                <button
-                  type="button"
-                  disabled={submitting}
-                  onClick={() => void handleSubmit()}
-                  className="inline-flex h-10 w-full items-center justify-center rounded-lg bg-[#0E1548] text-[13px] font-semibold text-white transition hover:bg-[#16206a] disabled:opacity-60 dark:bg-sky-600 dark:hover:bg-sky-500"
-                >
-                  {submitting ? strings.report.submitting : strings.report.submit}
-                </button>
-              </div>
-            </section>
           ) : null}
 
           {!hasContent ? (
@@ -470,6 +421,94 @@ export function PersonnelCalendarDayModal({
           ) : null}
         </div>
       </div>
+
+      {reportOpen ? (
+        <div className="fixed inset-0 z-[70] flex items-end justify-center p-0 sm:items-center sm:p-4">
+          <button
+            type="button"
+            className="absolute inset-0 bg-slate-900/60 backdrop-blur-[2px]"
+            onClick={closeReportModal}
+            aria-label={strings.close}
+          />
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="day-error-report-title"
+            className="safe-pb relative max-h-[min(88dvh,560px)] w-full overflow-y-auto overscroll-none rounded-t-2xl border border-slate-200/80 bg-white shadow-2xl shadow-slate-900/30 dark:border-slate-700 dark:bg-slate-900 sm:max-w-md sm:rounded-2xl"
+            data-allow-scroll
+          >
+            <div className="sticky top-0 z-10 flex items-center justify-between gap-3 border-b border-slate-200/80 bg-white px-4 py-3 dark:border-slate-800 dark:bg-slate-900">
+              <div className="min-w-0">
+                <h3
+                  id="day-error-report-title"
+                  className="text-[15px] font-bold text-[#0E1548] dark:text-white"
+                >
+                  {strings.report.title}
+                </h3>
+                <p className="mt-0.5 text-[12px] text-slate-500 dark:text-slate-400">
+                  {strings.report.hint}
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={closeReportModal}
+                className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-slate-500 transition hover:bg-slate-100 hover:text-slate-800 dark:hover:bg-slate-800 dark:hover:text-white"
+                aria-label={strings.close}
+              >
+                <FiX className="h-4 w-4" />
+              </button>
+            </div>
+            <div className="space-y-3 px-4 py-4">
+              <div className="space-y-2">
+                {CATEGORY_OPTIONS.map((opt) => {
+                  const checked = selected.includes(opt.id);
+                  return (
+                    <label
+                      key={opt.id}
+                      className="flex cursor-pointer items-center gap-2.5 rounded-lg px-1 py-1 text-[13px] text-slate-700 dark:text-slate-200"
+                    >
+                      <input
+                        type="checkbox"
+                        checked={checked}
+                        onChange={() => toggleCategory(opt.id)}
+                        className="h-4 w-4 rounded border-slate-300 text-[#0E1548] focus:ring-[#0E1548]"
+                      />
+                      {strings.categories[opt.labelKey]}
+                    </label>
+                  );
+                })}
+              </div>
+              <div>
+                <label
+                  htmlFor="day-error-note"
+                  className="mb-1.5 block text-[12px] font-medium text-slate-600 dark:text-slate-300"
+                >
+                  {strings.report.noteLabel}
+                </label>
+                <textarea
+                  id="day-error-note"
+                  value={note}
+                  onChange={(e) => setNote(e.target.value)}
+                  rows={3}
+                  placeholder={strings.report.notePlaceholder}
+                  className="w-full resize-none rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-[13px] text-slate-800 outline-none ring-[#0E1548] placeholder:text-slate-400 focus:ring-2 dark:border-slate-700 dark:bg-slate-950 dark:text-white"
+                />
+              </div>
+              {formError ? (
+                <p className="text-[12px] font-medium text-rose-600 dark:text-rose-400">{formError}</p>
+              ) : null}
+              <button
+                type="button"
+                disabled={submitting}
+                onClick={() => void handleSubmit()}
+                className="inline-flex h-10 w-full items-center justify-center rounded-lg bg-[#0E1548] text-[13px] font-semibold text-white transition hover:bg-[#16206a] disabled:opacity-60 dark:bg-sky-600 dark:hover:bg-sky-500"
+              >
+                {submitting ? strings.report.submitting : strings.report.submit}
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }
