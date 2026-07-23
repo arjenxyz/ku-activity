@@ -772,27 +772,30 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
           </div>
 
           {canViewNotifications && items.length > 0 ? (
-            <footer className="safe-pb shrink-0 px-3 pb-3 pt-2">
-              <div className="mx-auto flex max-w-5xl items-center justify-center gap-3">
-                <button
-                  type="button"
-                  onClick={() => void markAllRead()}
-                  disabled={unreadCount === 0}
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/40 bg-white/25 text-[#0E1548] backdrop-blur-md transition hover:bg-white/40 active:scale-95 disabled:pointer-events-none disabled:opacity-40 dark:border-white/20 dark:bg-white/10 dark:text-white dark:hover:bg-white/20"
-                  aria-label={strings.markAllRead}
-                  title={strings.markAllRead}
-                >
-                  <FiEye className="h-4 w-4" strokeWidth={2} />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setClearConfirmOpen(true)}
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-rose-400/35 bg-white/25 text-rose-600 backdrop-blur-md transition hover:bg-rose-500/15 active:scale-95 dark:border-rose-400/30 dark:bg-white/10 dark:text-rose-400 dark:hover:bg-rose-500/20"
-                  aria-label={strings.clearAll}
-                  title={strings.clearAll}
-                >
-                  <FiTrash2 className="h-4 w-4" strokeWidth={2} />
-                </button>
+            <footer className="safe-pb pointer-events-none shrink-0 px-3 pb-3 pt-1">
+              <div className="mx-auto flex max-w-5xl justify-center">
+                <div className="pointer-events-auto inline-flex items-center gap-0.5 rounded-2xl border border-slate-200/90 bg-white/95 p-1 shadow-md shadow-slate-900/[0.08] backdrop-blur-xl dark:border-slate-700/80 dark:bg-slate-900/95 dark:shadow-black/30">
+                  <button
+                    type="button"
+                    onClick={() => void markAllRead()}
+                    disabled={unreadCount === 0}
+                    className="inline-flex h-9 w-9 items-center justify-center rounded-xl text-[#0E1548] transition hover:bg-slate-100 active:scale-95 disabled:pointer-events-none disabled:opacity-35 dark:text-white dark:hover:bg-slate-800"
+                    aria-label={strings.markAllRead}
+                    title={strings.markAllRead}
+                  >
+                    <FiEye className="h-4 w-4" strokeWidth={2} />
+                  </button>
+                  <span className="h-4 w-px shrink-0 bg-slate-200 dark:bg-slate-700" aria-hidden />
+                  <button
+                    type="button"
+                    onClick={() => setClearConfirmOpen(true)}
+                    className="inline-flex h-9 w-9 items-center justify-center rounded-xl text-rose-600 transition hover:bg-rose-50 active:scale-95 dark:text-rose-400 dark:hover:bg-rose-950/50"
+                    aria-label={strings.clearAll}
+                    title={strings.clearAll}
+                  >
+                    <FiTrash2 className="h-4 w-4" strokeWidth={2} />
+                  </button>
+                </div>
               </div>
             </footer>
           ) : null}
