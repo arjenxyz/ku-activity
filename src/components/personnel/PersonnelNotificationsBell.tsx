@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import { FiArrowLeft, FiBell, FiEye, FiSettings, FiTrash2, FiVolume2, FiX } from 'react-icons/fi';
+import { FiArrowLeft, FiBell, FiChevronRight, FiEye, FiSettings, FiTrash2, FiVolume2, FiX } from 'react-icons/fi';
 import { BrandMark } from '@/components/brand/BrandMark';
 import {
   HonorIconTile,
@@ -113,9 +113,10 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
   const [clearConfirmOpen, setClearConfirmOpen] = useState(false);
   const [clearingAll, setClearingAll] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [soundPickerOpen, setSoundPickerOpen] = useState(false);
   const [muted, setMuted] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(true);
-  const [soundId, setSoundId] = useState<NotificationSoundId>('classic');
+  const [soundId, setSoundId] = useState<NotificationSoundId>('default');
 
   useEffect(() => {
     setMounted(true);
@@ -127,11 +128,16 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
   useEffect(() => {
     if (!panelOpen || !settingsOpen) return;
     const onKey = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setSettingsOpen(false);
+      if (event.key !== 'Escape') return;
+      if (soundPickerOpen) {
+        setSoundPickerOpen(false);
+        return;
+      }
+      setSettingsOpen(false);
     };
     document.addEventListener('keydown', onKey);
     return () => document.removeEventListener('keydown', onKey);
-  }, [panelOpen, settingsOpen]);
+  }, [panelOpen, settingsOpen, soundPickerOpen]);
 
   useEffect(() => {
     setIsTwaApp(isPersonnelTwaRuntime());
@@ -153,6 +159,7 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
     if (!panelOpen) {
       setClearConfirmOpen(false);
       setSettingsOpen(false);
+      setSoundPickerOpen(false);
       return;
     }
 
@@ -256,6 +263,8 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
 
   const soundLabel = (id: NotificationSoundId) => {
     switch (id) {
+      case 'default':
+        return strings.settingsSoundDefault;
       case 'classic':
         return strings.settingsSoundClassic;
       case 'ping':
@@ -431,7 +440,10 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
                 type="button"
                 className="absolute inset-0 bg-slate-900/45 backdrop-blur-sm"
                 aria-label={strings.settingsClose}
-                onClick={() => setSettingsOpen(false)}
+                onClick={() => {
+                  setSoundPickerOpen(false);
+                  setSettingsOpen(false);
+                }}
               />
               <motion.div
                 role="dialog"
@@ -469,7 +481,10 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
                   </div>
                   <button
                     type="button"
-                    onClick={() => setSettingsOpen(false)}
+                    onClick={() => {
+                      setSoundPickerOpen(false);
+                      setSettingsOpen(false);
+                    }}
                     className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl text-slate-500 transition hover:bg-slate-100 hover:text-slate-800 dark:hover:bg-slate-800 dark:hover:text-white"
                     aria-label={strings.settingsClose}
                   >
@@ -521,35 +536,22 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
                     />
                   </div>
 
-                  <div className={`rounded-2xl px-3 py-3 ${muted || !soundEnabled ? 'opacity-50' : ''}`}>
-                    <p className="text-sm font-medium text-[#0E1548] dark:text-white">
-                      {strings.settingsChangeSoundLabel}
-                    </p>
-                    <p className="mt-0.5 text-xs leading-snug text-slate-500 dark:text-slate-400">
-                      {strings.settingsChangeSoundHint}
-                    </p>
-                    <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3">
-                      {NOTIFICATION_SOUND_OPTIONS.map((option) => {
-                        const selected = soundId === option.id;
-                        return (
-                          <button
-                            key={option.id}
-                            type="button"
-                            disabled={muted || !soundEnabled}
-                            onClick={() => selectSound(option.id)}
-                            className={`inline-flex min-h-11 items-center justify-center gap-1.5 rounded-xl border px-2.5 text-xs font-semibold transition active:scale-[0.98] disabled:cursor-not-allowed ${
-                              selected
-                                ? 'border-[#3B7FED] bg-[#3B7FED]/10 text-[#0E1548] dark:border-sky-400 dark:bg-sky-400/15 dark:text-white'
-                                : 'border-slate-200 bg-slate-50 text-slate-700 hover:border-slate-300 hover:bg-white dark:border-slate-700 dark:bg-slate-800/70 dark:text-slate-200 dark:hover:bg-slate-800'
-                            }`}
-                          >
-                            <FiVolume2 className="h-3.5 w-3.5 shrink-0 opacity-70" />
-                            {soundLabel(option.id)}
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
+                  <button
+                    type="button"
+                    disabled={muted || !soundEnabled}
+                    onClick={() => setSoundPickerOpen(true)}
+                    className={`flex w-full items-center justify-between gap-3 rounded-2xl px-3 py-3 text-left transition hover:bg-slate-50 active:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-50 dark:hover:bg-white/5 dark:active:bg-white/10`}
+                  >
+                    <span className="min-w-0">
+                      <span className="block text-sm font-medium text-[#0E1548] dark:text-white">
+                        {strings.settingsChangeSoundLabel}
+                      </span>
+                      <span className="mt-0.5 block truncate text-xs leading-snug text-slate-500 dark:text-slate-400">
+                        {soundLabel(soundId)}
+                      </span>
+                    </span>
+                    <FiChevronRight className="h-5 w-5 shrink-0 text-slate-400" aria-hidden />
+                  </button>
                 </div>
 
                 <div className="safe-pb flex flex-col gap-2 border-t border-slate-100 px-5 py-4 dark:border-slate-800">
@@ -572,6 +574,83 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
                   ) : null}
                 </div>
               </motion.div>
+
+              {soundPickerOpen ? (
+                <div className="absolute inset-0 z-10 flex items-center justify-center p-5">
+                  <button
+                    type="button"
+                    className="absolute inset-0 bg-slate-900/50"
+                    aria-label={strings.settingsClose}
+                    onClick={() => setSoundPickerOpen(false)}
+                  />
+                  <motion.div
+                    role="dialog"
+                    aria-modal="true"
+                    aria-labelledby="personnel-notification-sound-picker-title"
+                    initial={{ opacity: 0, scale: 0.94 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ type: 'spring', stiffness: 420, damping: 32 }}
+                    className="relative w-full max-w-sm overflow-hidden rounded-3xl border border-slate-200/90 bg-white shadow-2xl dark:border-slate-700 dark:bg-slate-900"
+                  >
+                    <div className="flex items-center justify-between gap-3 border-b border-slate-100 px-5 py-4 dark:border-slate-800">
+                      <div className="min-w-0">
+                        <h3
+                          id="personnel-notification-sound-picker-title"
+                          className="text-base font-semibold text-[#0E1548] dark:text-white"
+                        >
+                          {strings.settingsSoundPickerTitle}
+                        </h3>
+                        <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">
+                          {strings.settingsChangeSoundHint}
+                        </p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setSoundPickerOpen(false)}
+                        className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl text-slate-500 transition hover:bg-slate-100 dark:hover:bg-slate-800"
+                        aria-label={strings.settingsClose}
+                      >
+                        <FiX className="h-5 w-5" />
+                      </button>
+                    </div>
+                    <div className="max-h-[min(55vh,420px)] overflow-y-auto overscroll-contain p-3">
+                      <div className="flex flex-col gap-1">
+                        {NOTIFICATION_SOUND_OPTIONS.map((option) => {
+                          const selected = soundId === option.id;
+                          return (
+                            <button
+                              key={option.id}
+                              type="button"
+                              onClick={() => selectSound(option.id)}
+                              className={`flex min-h-12 items-center gap-3 rounded-2xl px-3.5 text-left transition active:scale-[0.99] ${
+                                selected
+                                  ? 'bg-[#3B7FED]/12 text-[#0E1548] dark:bg-sky-400/15 dark:text-white'
+                                  : 'text-slate-700 hover:bg-slate-50 dark:text-slate-200 dark:hover:bg-white/5'
+                              }`}
+                            >
+                              <span
+                                className={`inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${
+                                  selected
+                                    ? 'bg-[#3B7FED] text-white'
+                                    : 'bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-300'
+                                }`}
+                              >
+                                <FiVolume2 className="h-4 w-4" />
+                              </span>
+                              <span className="min-w-0 flex-1 text-sm font-semibold">
+                                {soundLabel(option.id)}
+                              </span>
+                              {selected ? (
+                                <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-[#3B7FED]" aria-hidden />
+                              ) : null}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </motion.div>
+                </div>
+              ) : null}
             </div>
           ) : null}
 

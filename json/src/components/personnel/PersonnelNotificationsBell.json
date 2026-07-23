@@ -44,6 +44,8 @@
   "settingsSoundHint": "Yeni bildirimde kısa bip çalsın.",
   "settingsChangeSoundLabel": "Bildirim sesini değiştir",
   "settingsChangeSoundHint": "Bir sese dokunarak dinleyin ve seçin.",
+  "settingsSoundPickerTitle": "Bildirim sesi",
+  "settingsSoundDefault": "Varsayılan",
   "settingsSoundClassic": "Klasik",
   "settingsSoundPing": "Ping",
   "settingsSoundChime": "Chime",

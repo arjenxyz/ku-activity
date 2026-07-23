@@ -44,6 +44,8 @@
   "settingsSoundHint": "Play a short bip on new notifications.",
   "settingsChangeSoundLabel": "Change notification sound",
   "settingsChangeSoundHint": "Tap a sound to preview and select it.",
+  "settingsSoundPickerTitle": "Notification sound",
+  "settingsSoundDefault": "Default",
   "settingsSoundClassic": "Classic",
   "settingsSoundPing": "Ping",
   "settingsSoundChime": "Chime",

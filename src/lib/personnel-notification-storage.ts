@@ -8,6 +8,7 @@ export const NOTIFICATION_SOUND_ENABLED_KEY = 'crewledger-notification-sound-ena
 export const NOTIFICATION_SOUND_ID_KEY = 'crewledger-notification-sound-id';
 
 export const NOTIFICATION_SOUND_IDS = [
+  'default',
   'classic',
   'ping',
   'chime',
@@ -117,7 +118,7 @@ export function getNotificationSoundId(): NotificationSoundId {
   } catch {
     /* ignore */
   }
-  return 'classic';
+  return 'default';
 }
 
 export function setNotificationSoundId(id: NotificationSoundId) {

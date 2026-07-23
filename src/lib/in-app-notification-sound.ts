@@ -1,4 +1,4 @@
-/** Uygulama içi bildirim sesleri — `/public/sounds/notify-*.wav` */
+/** Uygulama içi bildirim sesleri — `/bip.mp3` + `/public/sounds/notify-*.wav` */
 
 import {
   getNotificationSoundId,
@@ -11,6 +11,7 @@ export const NOTIFICATION_SOUND_OPTIONS: {
   id: NotificationSoundId;
   src: string;
 }[] = [
+  { id: 'default', src: '/bip.mp3' },
   { id: 'classic', src: '/sounds/notify-classic.wav' },
   { id: 'ping', src: '/sounds/notify-ping.wav' },
   { id: 'chime', src: '/sounds/notify-chime.wav' },
@@ -24,8 +25,10 @@ const audioById = new Map<string, HTMLAudioElement>();
 
 function resolveSrc(soundId?: NotificationSoundId): string {
   const id = soundId ?? getNotificationSoundId();
-  return NOTIFICATION_SOUND_OPTIONS.find((o) => o.id === id)?.src
-    ?? NOTIFICATION_SOUND_OPTIONS[0].src;
+  return (
+    NOTIFICATION_SOUND_OPTIONS.find((o) => o.id === id)?.src ??
+    NOTIFICATION_SOUND_OPTIONS[0].src
+  );
 }
 
 function getAudio(soundId?: NotificationSoundId): HTMLAudioElement | null {
