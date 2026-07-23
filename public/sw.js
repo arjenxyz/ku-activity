@@ -1,4 +1,4 @@
-const CACHE_NAME = 'crewledger-v25';
+const CACHE_NAME = 'crewledger-v26';
 /** Sağdaki büyük bildirim ikonu */
 const PUSH_ICON_PATH = '/personel-icon.png';
 /** Soldaki küçük ikon — crewledger silüeti (beyaz, şeffaf) */
