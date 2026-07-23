@@ -4,7 +4,7 @@ export const PERSONNEL_ICON_SRC = {
   home: '/icons/home.png',
   work: '/icons/takvim.png',
   yoklama: '/icons/qr.png',
-  finance: '/icons/bordro.png',
+  finance: '/icons/docs-check.svg',
   avans: '/icons/avans.png',
   asgari: '/icons/security.png',
   rights: '/icons/agreement.png',
@@ -16,6 +16,8 @@ export const PERSONNEL_ICON_SRC = {
   briefcase: '/icons/is.png',
   updated: '/icons/updated.png',
   appSettings: '/icons/app-settings.png',
+  docsCheck: '/icons/docs-check.svg',
+  bordroPng: '/icons/bordro.png',
 } as const;
 
 export type PersonnelIconName = keyof typeof PERSONNEL_ICON_SRC;
@@ -25,14 +27,16 @@ type Props = {
   className?: string;
 };
 
-/** Siyah zeminli illüstrasyonlar — lighten ile arka plan erir. */
+/** Siyah zeminli illüstrasyonlar — lighten ile arka plan erir. SVG’lerde blend gerekmez. */
 export function PersonnelAssetIcon({ name, className = 'h-7 w-7' }: Props) {
+  const src = PERSONNEL_ICON_SRC[name];
+  const isSvg = src.endsWith('.svg');
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src={PERSONNEL_ICON_SRC[name]}
+      src={src}
       alt=""
-      className={`object-contain mix-blend-lighten ${className}`}
+      className={`object-contain ${isSvg ? '' : 'mix-blend-lighten'} ${className}`}
       width={64}
       height={64}
       draggable={false}
