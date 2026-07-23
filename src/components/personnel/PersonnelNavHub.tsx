@@ -144,7 +144,7 @@ function HubInner({ open, onClose, activeTab, isYoklama }: Props) {
               </div>
             </div>
 
-            <div className="flex-1 overflow-y-auto overscroll-none p-4 space-y-5" data-allow-scroll>
+            <div className="flex-1 overflow-y-auto overscroll-none p-4 space-y-5 scrollbar-thin-glass" data-allow-scroll>
               {PERSONNEL_HUB_SECTIONS.map((section, sectionIdx) => (
                 <motion.section
                   key={section.title}
