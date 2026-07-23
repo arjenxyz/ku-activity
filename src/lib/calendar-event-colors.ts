@@ -21,7 +21,7 @@ export const CALENDAR_APPROVAL_RING: Record<WorkLogApprovalStatus, string> = {
 /** Yoklama durumu — hücre arka planı (rakam her zaman koyu / okunaklı) */
 export const CALENDAR_PRESENCE_CELL = {
   worked:
-    'border-emerald-500 bg-emerald-50 dark:border-emerald-400 dark:bg-emerald-950/45',
+    'border-slate-300 bg-emerald-50 dark:border-slate-500 dark:bg-emerald-950/45',
   absent:
     'border-rose-500 bg-rose-50 dark:border-rose-400 dark:bg-rose-950/45',
   leave:
