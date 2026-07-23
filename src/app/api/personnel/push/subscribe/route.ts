@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server';
 import { createAdminClient } from '@/utils/supabase/admin';
-import { PersonnelUnlockRequiredError, requirePersonnelSession } from '@/lib/personnel-auth';
+import { requirePersonnelSession } from '@/lib/personnel-auth';
 import {
   removePushSubscription,
   upsertPushSubscription,
 } from '@/lib/personnel-push-service';
 import { parsePushEndpoint, parsePushSubscription } from '@/lib/api-validation';
-import { logServerError, resolveApiError } from '@/lib/safe-api-error';
+import { personnelApiErrorResponse } from '@/lib/safe-api-error';
 import strings from '@json/src/app/api/personnel/push/subscribe/route.json';
 
 export async function POST(request: Request) {
@@ -31,12 +31,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ ok: true, sessionId: session.sessionId });
   } catch (e) {
-    if (e instanceof PersonnelUnlockRequiredError) {
-      return NextResponse.json({ error: 'UNLOCK_REQUIRED' }, { status: 423 });
-    }
-    logServerError('push-subscribe', e);
-    const { status, message } = resolveApiError(e, strings.saveFailed);
-    return NextResponse.json({ error: message }, { status });
+    return personnelApiErrorResponse(e, strings.saveFailed);
   }
 }
 
@@ -54,11 +49,6 @@ export async function DELETE(request: Request) {
     await removePushSubscription(admin, session.employeeId, endpoint);
     return NextResponse.json({ ok: true });
   } catch (e) {
-    if (e instanceof PersonnelUnlockRequiredError) {
-      return NextResponse.json({ error: 'UNLOCK_REQUIRED' }, { status: 423 });
-    }
-    logServerError('push-unsubscribe', e);
-    const { status, message } = resolveApiError(e, strings.deleteFailed);
-    return NextResponse.json({ error: message }, { status });
+    return personnelApiErrorResponse(e, strings.deleteFailed);
   }
 }

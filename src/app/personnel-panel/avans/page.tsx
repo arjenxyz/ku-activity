@@ -10,11 +10,12 @@ import { AdvancePaymentDetailsExpand } from '@/components/advance/AdvancePayment
 import { formatMoney } from '@/lib/format';
 import type { AdvancePaymentDetails } from '@/lib/advance-payment-details';
 import {
-  ADVANCE_STATUS_LABELS,
+  getAdvanceStatusLabels,
   canCancelAdvance,
   hasAdvanceAwaitingPayment,
   type AdvanceRequestStatus,
 } from '@/lib/advance-types';
+import { useLocale } from '@/lib/i18n/LocaleProvider';
 
 type RequestRow = {
   id: string;
@@ -34,6 +35,8 @@ type RequestRow = {
 export default function PersonnelAvansPage() {
 
   const strings = useRegistryStrings('app/personnel-panel/avans/page');
+  const { locale } = useLocale();
+  const statusLabels = getAdvanceStatusLabels(locale);
   const [requests, setRequests] = useState<RequestRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -208,7 +211,7 @@ export default function PersonnelAvansPage() {
                   </p>
                 </div>
                 <span className="rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-semibold text-slate-600 dark:bg-slate-700 dark:text-slate-200">
-                  {ADVANCE_STATUS_LABELS[row.status]}
+                  {statusLabels[row.status]}
                 </span>
               </div>
               {row.employee_note && (

@@ -1,9 +1,14 @@
 import dayjs from 'dayjs';
-import strings from '@json/src/lib/personnel-stats.json';
 import type { CalendarEventMarker } from '@/lib/calendar-event-colors';
 import { computeNetPay } from '@/lib/minimum-wage';
 import { formatString } from '@/lib/strings/format';
+import { getRegistryStrings } from '@/lib/i18n/strings-registry';
+import { DEFAULT_LOCALE, type Locale } from '@/lib/i18n/locale';
 import { getWorkLogApprovalStatus, type MesaiType } from '@/lib/work-log';
+
+function statsStrings(locale: Locale = DEFAULT_LOCALE) {
+  return getRegistryStrings('lib/personnel-stats', locale);
+}
 
 export type WorkLog = {
   id: string;
@@ -65,7 +70,12 @@ export type MesaiStats = {
   logs: WorkLog[];
 };
 
-export function workDayLabel(amount: number, mesaiType?: MesaiType | string | null) {
+export function workDayLabel(
+  amount: number,
+  mesaiType?: MesaiType | string | null,
+  locale: Locale = DEFAULT_LOCALE
+) {
+  const strings = statsStrings(locale);
   const base =
     amount === 1
       ? strings.workDay.fullDay
@@ -79,8 +89,8 @@ export function workDayLabel(amount: number, mesaiType?: MesaiType | string | nu
   return base;
 }
 
-export function deductionTypeLabel(type: string) {
-  const map = strings.deductionTypes as Record<string, string>;
+export function deductionTypeLabel(type: string, locale: Locale = DEFAULT_LOCALE) {
+  const map = statsStrings(locale).deductionTypes as Record<string, string>;
   return map[type] ?? type;
 }
 
@@ -135,8 +145,10 @@ export function computeMesaiStats(workLogs: WorkLog[], dailyWage: number): Mesai
 
 /** Özet şeridi için mesai adet satırları */
 export function getMesaiCountLines(
-  stats: Pick<MesaiStats, 'byType'>
+  stats: Pick<MesaiStats, 'byType'>,
+  locale: Locale = DEFAULT_LOCALE
 ): Array<{ count: number; label: string }> {
+  const strings = statsStrings(locale);
   return [
     { count: stats.byType.tam.count, label: strings.mesaiCountLines.tam },
     { count: stats.byType.ceyrek.count, label: strings.mesaiCountLines.ceyrek },
@@ -146,8 +158,10 @@ export function getMesaiCountLines(
 
 /** Özet şeridi için çalışılan gün satırları */
 export function getWorkDayCountLines(
-  workLogs: WorkLog[]
+  workLogs: WorkLog[],
+  locale: Locale = DEFAULT_LOCALE
 ): Array<{ count: number; label: string; display?: string }> {
+  const strings = statsStrings(locale);
   let full = 0;
   let half = 0;
 

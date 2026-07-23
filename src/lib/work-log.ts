@@ -1,5 +1,6 @@
-import strings from '@json/src/lib/work-log.json';
 import { formatString } from '@/lib/strings/format';
+import { getRegistryStrings } from '@/lib/i18n/strings-registry';
+import { DEFAULT_LOCALE, type Locale } from '@/lib/i18n/locale';
 
 export type MesaiType = 'none' | 'ceyrek' | 'yarim' | 'tam';
 
@@ -10,17 +11,33 @@ export type WorkLogApprovalStatus =
   | 'disputed'
   | 'none';
 
-export const MESAI_OPTIONS: Array<{ value: MesaiType; label: string; hint: string }> = [
-  { value: 'none', label: strings.mesaiNoneLabel, hint: strings.mesaiNoneHint },
-  { value: 'ceyrek', label: strings.mesaiQuarterLabel, hint: strings.mesaiQuarterHint },
-  { value: 'yarim', label: strings.mesaiHalfLabel, hint: strings.mesaiHalfHint },
-  { value: 'tam', label: strings.mesaiFullLabel, hint: strings.mesaiFullHint },
-];
+function workLogStrings(locale: Locale = DEFAULT_LOCALE) {
+  return getRegistryStrings('lib/work-log', locale);
+}
 
-export const DAY_AMOUNT_OPTIONS = [
-  { value: 1, label: strings.fullDay },
-  { value: 0.5, label: strings.halfDay },
-];
+export function getMesaiOptions(locale: Locale = DEFAULT_LOCALE) {
+  const strings = workLogStrings(locale);
+  return [
+    { value: 'none' as const, label: strings.mesaiNoneLabel, hint: strings.mesaiNoneHint },
+    { value: 'ceyrek' as const, label: strings.mesaiQuarterLabel, hint: strings.mesaiQuarterHint },
+    { value: 'yarim' as const, label: strings.mesaiHalfLabel, hint: strings.mesaiHalfHint },
+    { value: 'tam' as const, label: strings.mesaiFullLabel, hint: strings.mesaiFullHint },
+  ];
+}
+
+export function getDayAmountOptions(locale: Locale = DEFAULT_LOCALE) {
+  const strings = workLogStrings(locale);
+  return [
+    { value: 1, label: strings.fullDay },
+    { value: 0.5, label: strings.halfDay },
+  ];
+}
+
+/** Varsayılan dil (TR) — tercihen getMesaiOptions(locale) kullanın. */
+export const MESAI_OPTIONS = getMesaiOptions();
+
+/** Varsayılan dil (TR) — tercihen getDayAmountOptions(locale) kullanın. */
+export const DAY_AMOUNT_OPTIONS = getDayAmountOptions();
 
 export function mesaiTypeToUnits(type: MesaiType): number {
   switch (type) {
@@ -50,7 +67,11 @@ export function getWorkLogApprovalStatus(log: {
   return 'none';
 }
 
-export function approvalStatusLabel(status: WorkLogApprovalStatus): string {
+export function approvalStatusLabel(
+  status: WorkLogApprovalStatus,
+  locale: Locale = DEFAULT_LOCALE
+): string {
+  const strings = workLogStrings(locale);
   switch (status) {
     case 'confirmed':
       return strings.statusConfirmed;
@@ -65,14 +86,27 @@ export function approvalStatusLabel(status: WorkLogApprovalStatus): string {
   }
 }
 
-export function mesaiLabel(type: MesaiType | string | null | undefined): string {
-  const found = MESAI_OPTIONS.find((o) => o.value === type);
+export function mesaiLabel(
+  type: MesaiType | string | null | undefined,
+  locale: Locale = DEFAULT_LOCALE
+): string {
+  const strings = workLogStrings(locale);
+  const found = getMesaiOptions(locale).find((o) => o.value === type);
   return found?.label ?? strings.mesaiNoneLabel;
 }
 
-export function formatWorkLogSummary(amount: number, mesaiType: MesaiType | string | null): string {
+export function formatWorkLogSummary(
+  amount: number,
+  mesaiType: MesaiType | string | null,
+  locale: Locale = DEFAULT_LOCALE
+): string {
+  const strings = workLogStrings(locale);
   const day =
-    amount === 0.5 ? strings.halfDay : amount === 1 ? strings.fullDay : formatString(strings.dayAmount, { amount });
+    amount === 0.5
+      ? strings.halfDay
+      : amount === 1
+        ? strings.fullDay
+        : formatString(strings.dayAmount, { amount });
   if (!mesaiType || mesaiType === 'none') return day;
-  return formatString(strings.summaryWithMesai, { day, mesai: mesaiLabel(mesaiType) });
+  return formatString(strings.summaryWithMesai, { day, mesai: mesaiLabel(mesaiType, locale) });
 }

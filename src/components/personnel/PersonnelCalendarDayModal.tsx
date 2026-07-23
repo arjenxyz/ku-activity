@@ -2,6 +2,7 @@
 
 import { useEffect, useState, type ReactNode } from 'react';
 import { FiX } from 'react-icons/fi';
+import { useLocale } from '@/lib/i18n/LocaleProvider';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { formatDate, formatMoney } from '@/lib/format';
 import {
@@ -141,6 +142,7 @@ export function PersonnelCalendarDayModal({
   onClose,
 }: Props) {
   const strings = useRegistryStrings('components/personnel/PersonnelCalendarDayModal');
+  const { locale } = useLocale();
   useBodyScrollLock(open);
 
   const [reportOpen, setReportOpen] = useState(false);
@@ -150,6 +152,7 @@ export function PersonnelCalendarDayModal({
   const [formError, setFormError] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
   const [hasOpenReport, setHasOpenReport] = useState(false);
+  const [reportStatusError, setReportStatusError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!open) return;
@@ -175,6 +178,7 @@ export function PersonnelCalendarDayModal({
     setFormError(null);
     setSuccessMsg(null);
     setHasOpenReport(false);
+    setReportStatusError(null);
 
     let cancelled = false;
     fetchPersonnelDayReports(date)
@@ -183,13 +187,14 @@ export function PersonnelCalendarDayModal({
         setHasOpenReport((res.reports ?? []).some((r) => r.status === 'open'));
       })
       .catch(() => {
-        /* ignore */
+        if (cancelled) return;
+        setReportStatusError(strings.report.loadFailed);
       });
 
     return () => {
       cancelled = true;
     };
-  }, [open, date]);
+  }, [open, date, strings.report.loadFailed]);
 
   function openReportModal() {
     setSelected([]);
@@ -314,6 +319,12 @@ export function PersonnelCalendarDayModal({
             </div>
           ) : null}
 
+          {reportStatusError && !successMsg ? (
+            <div className="rounded-xl border border-rose-200 bg-rose-50 px-3 py-2.5 text-sm text-rose-800 dark:border-rose-800 dark:bg-rose-950/40 dark:text-rose-200">
+              {reportStatusError}
+            </div>
+          ) : null}
+
           {!hasContent ? (
             <div className="rounded-xl border border-dashed border-slate-200 bg-white px-4 py-10 text-center dark:border-slate-700 dark:bg-slate-900">
               <p className="text-sm font-semibold text-[#0E1548] dark:text-white">{strings.noRecordTitle}</p>
@@ -330,7 +341,7 @@ export function PersonnelCalendarDayModal({
               />
               <DetailRow
                 label={strings.amountLabel}
-                value={workDayLabel(Number(workLog.amount), null)}
+                value={workDayLabel(Number(workLog.amount), null, locale)}
               />
               <DetailRow
                 label={strings.workPayLabel}
@@ -356,7 +367,7 @@ export function PersonnelCalendarDayModal({
 
           {workLog && hasMesai && status ? (
             <SectionCard title={strings.mesaiSection}>
-              <DetailRow label={strings.mesaiTypeLabel} value={mesaiLabel(workLog.mesai_type)} />
+              <DetailRow label={strings.mesaiTypeLabel} value={mesaiLabel(workLog.mesai_type, locale)} />
               <DetailRow
                 label={strings.mesaiPayLabel}
                 value={formatMoney(mesaiPay)}

@@ -47,6 +47,7 @@
     "openExists": "Bu gün için açık bir bildiriminiz var.",
     "categoriesRequired": "En az bir kategori seçin",
     "noteTooShort": "Açıklama en az 5 karakter olmalı",
-    "submitFailed": "Bildirim gönderilemedi"
+    "submitFailed": "Bildirim gönderilemedi",
+    "loadFailed": "Bildirim durumu yüklenemedi"
   }
 }

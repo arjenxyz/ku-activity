@@ -1,11 +1,9 @@
 'use client';
 
 import { formatDate } from '@/lib/format';
+import { useLocale } from '@/lib/i18n/LocaleProvider';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
-import {
-  formatWorkLogSummary,
-  getWorkLogApprovalStatus,
-} from '@/lib/work-log';
+import { formatWorkLogSummary, getWorkLogApprovalStatus } from '@/lib/work-log';
 import type { WorkLog } from '@/lib/personnel-stats';
 import { PersonnelBadge, PersonnelRecordRow } from './PersonnelRecordCard';
 import { workDayLabel } from '@/lib/personnel-stats';
@@ -15,8 +13,8 @@ type Props = {
 };
 
 export function PersonnelWorkLogItem({ log }: Props) {
-
   const strings = useRegistryStrings('components/personnel/PersonnelWorkLogItem');
+  const { locale } = useLocale();
   const status = getWorkLogApprovalStatus(log);
   const isQr = log.description?.toLowerCase().includes('qr');
 
@@ -27,7 +25,7 @@ export function PersonnelWorkLogItem({ log }: Props) {
         right={
           <div className="flex flex-col items-end gap-1">
             <PersonnelBadge variant={log.amount === 1 ? 'success' : 'warning'}>
-              {workDayLabel(Number(log.amount), log.mesai_type)}
+              {workDayLabel(Number(log.amount), log.mesai_type, locale)}
             </PersonnelBadge>
             {status === 'confirmed' && (
               <PersonnelBadge variant="success">
@@ -38,7 +36,7 @@ export function PersonnelWorkLogItem({ log }: Props) {
         }
         sub={
           log.description ||
-          formatWorkLogSummary(Number(log.amount), log.mesai_type ?? null)
+          formatWorkLogSummary(Number(log.amount), log.mesai_type ?? null, locale)
         }
       />
     </div>

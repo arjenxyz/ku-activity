@@ -47,6 +47,7 @@
     "openExists": "You already have an open report for this day.",
     "categoriesRequired": "Select at least one category",
     "noteTooShort": "Description must be at least 5 characters",
-    "submitFailed": "Could not submit report"
+    "submitFailed": "Could not submit report",
+    "loadFailed": "Could not load report status"
   }
 }

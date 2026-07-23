@@ -56,7 +56,7 @@ function DockSideItem({
       </span>
       <span
         className={`max-w-[4.5rem] truncate text-[10px] leading-none tracking-wide ${
-          active ? 'font-semibold text-[#0E1548]' : 'font-medium text-slate-400'
+          active ? 'font-semibold text-[#0E1548] dark:text-white' : 'font-medium text-slate-400 dark:text-slate-500'
         }`}
       >
         {item.label}
@@ -162,8 +162,7 @@ function NavInner() {
       >
         <div className="mx-auto max-w-lg px-3 pb-[max(0.45rem,env(safe-area-inset-bottom))] pointer-events-auto">
           <div
-            className="relative rounded-2xl border border-slate-200/90 bg-white/95 shadow-[0_4px_24px_rgba(14,21,72,0.08)] backdrop-blur-md"
-            style={{ colorScheme: 'light' }}
+            className="relative rounded-2xl border border-slate-200/90 bg-white/95 shadow-[0_4px_24px_rgba(14,21,72,0.08)] backdrop-blur-md dark:border-slate-700/80 dark:bg-slate-900/95 dark:shadow-[0_4px_24px_rgba(0,0,0,0.35)]"
           >
             <div className="flex items-end justify-between gap-0.5 px-1.5 pt-1.5 pb-1.5">
               {items.map((item) => {
@@ -186,7 +185,7 @@ function NavInner() {
                       </motion.span>
                       <span
                         className={`mt-1 max-w-[4.5rem] truncate text-[10px] leading-none tracking-wide ${
-                          active ? 'font-semibold text-[#0E1548]' : 'font-medium text-slate-500'
+                          active ? 'font-semibold text-[#0E1548] dark:text-white' : 'font-medium text-slate-500 dark:text-slate-400'
                         }`}
                       >
                         {item.label}

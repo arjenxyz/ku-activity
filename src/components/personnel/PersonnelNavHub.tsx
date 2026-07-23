@@ -11,9 +11,10 @@ import {
   type PersonnelIconName,
 } from '@/components/personnel/PersonnelAssetIcon';
 import {
-  PERSONNEL_HUB_SECTIONS,
+  getPersonnelHubSections,
   type PersonnelHubItem,
 } from '@/config/personnel-mobile-nav';
+import { useLocale } from '@/lib/i18n/LocaleProvider';
 import type { PersonnelTabId } from '@/hooks/usePersonnelTab';
 import { PERSONNEL_TABS } from '@/hooks/usePersonnelTab';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
@@ -69,6 +70,8 @@ const tileVariants = {
 
 function HubInner({ open, onClose, activeTab, isYoklama }: Props) {
   const strings = useRegistryStrings('components/personnel/PersonnelNavHub');
+  const { locale } = useLocale();
+  const hubSections = getPersonnelHubSections(locale);
   const router = useRouter();
   const pathname = usePathname() ?? '';
 
@@ -157,7 +160,7 @@ function HubInner({ open, onClose, activeTab, isYoklama }: Props) {
             </div>
 
             <div className="flex-1 overflow-y-auto overscroll-none p-4 space-y-5 scrollbar-thin-glass" data-allow-scroll>
-              {PERSONNEL_HUB_SECTIONS.map((section, sectionIdx) => (
+              {hubSections.map((section, sectionIdx) => (
                 <motion.section
                   key={section.title}
                   initial={{ opacity: 0, x: -12 }}

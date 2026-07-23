@@ -1,4 +1,5 @@
 {
+  "statusLoadFailed": "Yoklama durumu alınamadı. Yeniden deneyin.",
   "invalidQrMessage": "Geçerli bir yoklama QR kodu değil.",
   "rescanSuccess": "Yeniden kaydedildi.",
   "scanSuccess": "Okutma başarılı.",

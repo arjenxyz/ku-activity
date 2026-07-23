@@ -7,6 +7,7 @@ import {
   listPersonnelNotifications,
   markPersonnelNotificationRead,
 } from '@/lib/personnel-notification-service';
+import { personnelApiErrorResponse } from '@/lib/safe-api-error';
 
 export async function GET() {
   try {
@@ -20,9 +21,7 @@ export async function GET() {
 
     return NextResponse.json({ items, unreadCount });
   } catch (e) {
-    const message = e instanceof Error ? e.message : 'Bildirimler yüklenemedi';
-    const status = message.includes('Unauthorized') ? 401 : 500;
-    return NextResponse.json({ error: message }, { status });
+    return personnelApiErrorResponse(e, 'Bildirimler yüklenemedi');
   }
 }
 
@@ -42,9 +41,7 @@ export async function PATCH(request: Request) {
 
     return NextResponse.json({ ok: true, unreadCount });
   } catch (e) {
-    const message = e instanceof Error ? e.message : 'Güncellenemedi';
-    const status = message.includes('Unauthorized') ? 401 : 500;
-    return NextResponse.json({ error: message }, { status });
+    return personnelApiErrorResponse(e, 'Güncellenemedi');
   }
 }
 
@@ -64,8 +61,6 @@ export async function DELETE(request: Request) {
 
     return NextResponse.json({ ok: true, unreadCount });
   } catch (e) {
-    const message = e instanceof Error ? e.message : 'Silinemedi';
-    const status = message.includes('Unauthorized') ? 401 : 500;
-    return NextResponse.json({ error: message }, { status });
+    return personnelApiErrorResponse(e, 'Silinemedi');
   }
 }

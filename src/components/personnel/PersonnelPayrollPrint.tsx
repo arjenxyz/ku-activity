@@ -1,6 +1,8 @@
 'use client';
 
 import { APP_NAME, CREWLEDGER_APP_ICON } from '@/lib/brand';
+import { useLocale } from '@/lib/i18n/LocaleProvider';
+import { contentLocale, type Locale } from '@/lib/i18n/locale';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { formatDate, formatDateTime, formatDateWithTime, formatMoney } from '@/lib/format';
 import { maskTcKimlik } from '@/lib/field-encryption';
@@ -29,8 +31,9 @@ type Props = {
   minimumWages: MinimumWage[];
 };
 
-function monthTitle(month: string) {
-  return new Date(`${month}-01T12:00:00`).toLocaleDateString('tr-TR', {
+function monthTitle(month: string, locale: Locale) {
+  const tag = contentLocale(locale) === 'en' ? 'en-GB' : 'tr-TR';
+  return new Date(`${month}-01T12:00:00`).toLocaleDateString(tag, {
     month: 'long',
     year: 'numeric',
     timeZone: 'Europe/Istanbul',
@@ -62,12 +65,13 @@ export function PersonnelPayrollPrint({
   minimumWages,
 }: Props) {
   const strings = useRegistryStrings('components/personnel/PersonnelPayrollPrint');
+  const { locale } = useLocale();
   const dailyWage = Number(employee.daily_wage);
   const sortedLogs = [...workLogs].sort((a, b) => a.date.localeCompare(b.date));
   const mesaiStats = computeMesaiStats(workLogs, dailyWage);
   const printedAt = formatDateTime(new Date().toISOString());
   const signedDate = formatDate(new Date().toISOString().slice(0, 10));
-  const period = monthTitle(month);
+  const period = monthTitle(month, locale);
   const managerName =
     employee.manager?.name?.trim() ||
     employee.project?.name ||
@@ -194,12 +198,12 @@ export function PersonnelPayrollPrint({
                 return (
                   <tr key={log.id}>
                     <td>{formatDateWithTime(log.date, recordAt(log))}</td>
-                    <td>{workDayLabel(Number(log.amount), log.mesai_type)}</td>
+                    <td>{workDayLabel(Number(log.amount), log.mesai_type, locale)}</td>
                     <td>{mesaiLabel(String(log.mesai_type ?? ''), strings)}</td>
                     <td className="num">{formatMoney(base)}</td>
                     <td className="num">{mesai > 0 ? formatMoney(mesai) : strings.emptyValue}</td>
                     <td className="num">{formatMoney(base + mesai)}</td>
-                    <td>{approvalStatusLabel(status)}</td>
+                    <td>{approvalStatusLabel(status, locale)}</td>
                   </tr>
                 );
               })}
@@ -317,7 +321,7 @@ export function PersonnelPayrollPrint({
               {otherDeductions.map((r) => (
                 <tr key={r.id}>
                   <td>{formatDateWithTime(r.date, r.created_at)}</td>
-                  <td>{deductionTypeLabel(r.type)}</td>
+                  <td>{deductionTypeLabel(r.type, locale)}</td>
                   <td>{r.description || strings.emptyValue}</td>
                   <td className="num">{formatMoney(Number(r.amount))}</td>
                 </tr>

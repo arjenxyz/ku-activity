@@ -1,8 +1,17 @@
-import strings from '@json/src/config/personnel-mobile-nav.json';
+import { getRegistryStrings } from '@/lib/i18n/strings-registry';
+import { DEFAULT_LOCALE, type Locale } from '@/lib/i18n/locale';
 import type { PersonnelTabId } from '@/hooks/usePersonnelTab';
 
+export function getPersonnelMobileTabTitles(locale: Locale = DEFAULT_LOCALE) {
+  return getRegistryStrings('config/personnel-mobile-nav', locale).tabTitles as Record<
+    PersonnelTabId,
+    string
+  >;
+}
+
+/** Varsayılan dil (TR) — tercihen getPersonnelMobileTabTitles(locale) kullanın. */
 export const PERSONNEL_MOBILE_TAB_TITLES: Record<PersonnelTabId, string> =
-  strings.tabTitles as Record<PersonnelTabId, string>;
+  getPersonnelMobileTabTitles();
 
 export type PersonnelHubItem = {
   id: string;
@@ -30,9 +39,9 @@ const HUB_ITEM_ACCENTS: Record<string, PersonnelMoreAccent> = {
   settings: 'slate',
 };
 
-/** Panel hub — tüm bölümler kategorilere ayrılmış */
-export const PERSONNEL_HUB_SECTIONS: PersonnelHubSection[] = strings.hubSections.map(
-  (section) => ({
+export function getPersonnelHubSections(locale: Locale = DEFAULT_LOCALE): PersonnelHubSection[] {
+  const strings = getRegistryStrings('config/personnel-mobile-nav', locale);
+  return strings.hubSections.map((section) => ({
     title: section.title,
     subtitle: section.subtitle,
     items: section.items
@@ -45,8 +54,11 @@ export const PERSONNEL_HUB_SECTIONS: PersonnelHubSection[] = strings.hubSections
         ...(item.tab ? { tab: item.tab as PersonnelTabId } : {}),
         ...(item.href ? { href: item.href } : {}),
       })),
-  })
-);
+  }));
+}
+
+/** Varsayılan dil (TR) — tercihen getPersonnelHubSections(locale) kullanın. */
+export const PERSONNEL_HUB_SECTIONS: PersonnelHubSection[] = getPersonnelHubSections();
 
 export const PERSONNEL_HUB_TABS: PersonnelTabId[] = [
   'work',

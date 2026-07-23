@@ -1,4 +1,5 @@
-import strings from '@json/src/lib/advance-types.json';
+import { getRegistryStrings } from '@/lib/i18n/strings-registry';
+import { DEFAULT_LOCALE, type Locale } from '@/lib/i18n/locale';
 
 export type AdvanceRequestStatus =
   | 'pending'
@@ -11,11 +12,25 @@ export type AdvanceRequestStatus =
 
 export type AdvancePaymentMethod = 'bank_transfer' | 'cash';
 
-export const ADVANCE_STATUS_LABELS: Record<AdvanceRequestStatus, string> =
-  strings.statusLabels as Record<AdvanceRequestStatus, string>;
+export function getAdvanceStatusLabels(locale: Locale = DEFAULT_LOCALE) {
+  return getRegistryStrings('lib/advance-types', locale).statusLabels as Record<
+    AdvanceRequestStatus,
+    string
+  >;
+}
 
-export const ADVANCE_PAYMENT_METHOD_LABELS: Record<AdvancePaymentMethod, string> =
-  strings.paymentMethodLabels as Record<AdvancePaymentMethod, string>;
+export function getAdvancePaymentMethodLabels(locale: Locale = DEFAULT_LOCALE) {
+  return getRegistryStrings('lib/advance-types', locale).paymentMethodLabels as Record<
+    AdvancePaymentMethod,
+    string
+  >;
+}
+
+/** Varsayılan dil (TR) — tercihen getAdvanceStatusLabels(locale) kullanın. */
+export const ADVANCE_STATUS_LABELS = getAdvanceStatusLabels();
+
+/** Varsayılan dil (TR) — tercihen getAdvancePaymentMethodLabels(locale) kullanın. */
+export const ADVANCE_PAYMENT_METHOD_LABELS = getAdvancePaymentMethodLabels();
 
 export type AdvanceRequestRow = {
   id: string;

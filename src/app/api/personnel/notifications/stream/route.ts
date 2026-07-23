@@ -1,6 +1,7 @@
 import { createAdminClient } from '@/utils/supabase/admin';
 import { requirePersonnelSession } from '@/lib/personnel-auth';
 import { touchPushSubscriptionLastSeen } from '@/lib/personnel-push-service';
+import { resolveApiError } from '@/lib/safe-api-error';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -85,8 +86,7 @@ export async function GET() {
       },
     });
   } catch (e) {
-    const message = e instanceof Error ? e.message : 'Stream başlatılamadı';
-    const status = message === 'UNAUTHORIZED' ? 401 : 500;
+    const { status, message } = resolveApiError(e, 'Stream başlatılamadı');
     return new Response(JSON.stringify({ error: message }), {
       status,
       headers: { 'Content-Type': 'application/json' },

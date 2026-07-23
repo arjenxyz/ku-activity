@@ -1,8 +1,12 @@
 import strings from '@json/src/lib/project-queries.json';
 import { AdvanceRequestError } from '@/lib/advance-request-service';
 import { AttendanceScanError } from '@/lib/i18n/attendance-messages';
-import { PersonnelUnlockRequiredError } from '@/lib/personnel-auth';
+import {
+  PersonnelClosureWriteBlockedError,
+  PersonnelUnlockRequiredError,
+} from '@/lib/personnel-auth';
 import { ProjectClosureWriteBlockedError } from '@/lib/project-closure-guard';
+import { NextResponse } from 'next/server';
 
 const INTERNAL_ERROR_PATTERNS = [
   /relation .+ does not exist/i,
@@ -48,13 +52,16 @@ export function resolveApiError(
     return { status: 423, message: 'UNLOCK_REQUIRED' };
   }
 
-  if (err instanceof ProjectClosureWriteBlockedError) {
+  if (
+    err instanceof ProjectClosureWriteBlockedError ||
+    err instanceof PersonnelClosureWriteBlockedError
+  ) {
     return { status: 423, message: 'PROJECT_IN_CLOSURE' };
   }
 
   if (err instanceof Error) {
-    if (err.message === 'UNAUTHORIZED') {
-      return { status: 401, message: strings.unauthorized };
+    if (err.message === 'UNAUTHORIZED' || err.message === 'Unauthorized') {
+      return { status: 401, message: 'UNAUTHORIZED' };
     }
     if (err.message === 'FORBIDDEN') {
       return { status: 403, message: strings.forbidden };
@@ -75,4 +82,10 @@ export function resolveApiError(
 
   logServerError('api', err);
   return { status: 500, message: fallback };
+}
+
+/** Personel API catch blokları için tek tip JSON hata yanıtı. */
+export function personnelApiErrorResponse(err: unknown, fallback: string) {
+  const { status, message } = resolveApiError(err, fallback);
+  return NextResponse.json({ error: message }, { status });
 }

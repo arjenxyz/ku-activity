@@ -902,8 +902,8 @@ export async function completeAttendanceSession(
         workDate,
         sessionId: session.id,
       });
-    } catch {
-      /* bildirim isteğe bağlı */
+    } catch (err) {
+      console.error('[attendance] notifyAttendanceSessionCompleted failed', err);
     }
   }
 

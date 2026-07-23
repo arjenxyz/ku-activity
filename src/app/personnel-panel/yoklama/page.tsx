@@ -39,11 +39,13 @@ function YoklamaContent() {
     try {
       const s = await fetchPersonnelAttendanceStatus();
       setStatus(s);
+      setError((prev) => (prev === strings.statusLoadFailed ? null : prev));
       return s;
     } catch {
+      setError(strings.statusLoadFailed);
       return null;
     }
-  }, []);
+  }, [strings.statusLoadFailed]);
 
   useEffect(() => {
     void (async () => {

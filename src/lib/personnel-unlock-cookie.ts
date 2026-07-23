@@ -5,11 +5,15 @@ import { PERSONNEL_UNLOCK_COOKIE } from '@/lib/personnel-cookie';
 export const PERSONNEL_UNLOCK_IDLE_MS = 15 * 60 * 1000;
 
 function unlockSecret(): string {
-  return (
-    process.env.PERSONNEL_UNLOCK_SECRET ||
-    process.env.FIELD_ENCRYPTION_KEY ||
-    'crewledger-dev-unlock-secret'
-  );
+  const secret =
+    process.env.PERSONNEL_UNLOCK_SECRET || process.env.FIELD_ENCRYPTION_KEY || '';
+  if (secret) return secret;
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error(
+      'PERSONNEL_UNLOCK_SECRET or FIELD_ENCRYPTION_KEY must be set in production'
+    );
+  }
+  return 'crewledger-dev-unlock-secret';
 }
 
 async function hashSessionToken(token: string): Promise<string> {
