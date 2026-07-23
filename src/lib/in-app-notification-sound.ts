@@ -1,33 +1,60 @@
-/** Uygulama içi bildirim bip sesi — `/public/bip.mp3` */
+/** Uygulama içi bildirim sesleri — `/public/sounds/notify-*.wav` */
 
 import {
+  getNotificationSoundId,
   isNotificationSoundEnabled,
   isNotificationsMuted,
+  type NotificationSoundId,
 } from '@/lib/personnel-notification-storage';
 
-const BIP_SRC = '/bip.mp3';
+export const NOTIFICATION_SOUND_OPTIONS: {
+  id: NotificationSoundId;
+  src: string;
+}[] = [
+  { id: 'classic', src: '/sounds/notify-classic.wav' },
+  { id: 'ping', src: '/sounds/notify-ping.wav' },
+  { id: 'chime', src: '/sounds/notify-chime.wav' },
+  { id: 'soft', src: '/sounds/notify-soft.wav' },
+  { id: 'alert', src: '/sounds/notify-alert.wav' },
+  { id: 'pop', src: '/sounds/notify-pop.wav' },
+  { id: 'bell', src: '/sounds/notify-bell.wav' },
+];
 
-let sharedAudio: HTMLAudioElement | null = null;
+const audioById = new Map<string, HTMLAudioElement>();
 
-function getBipAudio(): HTMLAudioElement | null {
+function resolveSrc(soundId?: NotificationSoundId): string {
+  const id = soundId ?? getNotificationSoundId();
+  return NOTIFICATION_SOUND_OPTIONS.find((o) => o.id === id)?.src
+    ?? NOTIFICATION_SOUND_OPTIONS[0].src;
+}
+
+function getAudio(soundId?: NotificationSoundId): HTMLAudioElement | null {
   if (typeof window === 'undefined') return null;
-  if (!sharedAudio) {
-    sharedAudio = new Audio(BIP_SRC);
-    sharedAudio.preload = 'auto';
+  const id = soundId ?? getNotificationSoundId();
+  const src = resolveSrc(id);
+  let audio = audioById.get(id);
+  if (!audio) {
+    audio = new Audio(src);
+    audio.preload = 'auto';
+    audioById.set(id, audio);
+  } else if (!audio.src.endsWith(src)) {
+    audio.src = src;
   }
-  return sharedAudio;
+  return audio;
 }
 
 type PlayOptions = {
   /** Ayarlar ekranından test için mute/ses tercihini yok say */
   force?: boolean;
+  /** Önizleme için belirli bir ses id’si */
+  soundId?: NotificationSoundId;
 };
 
-/** Yeni uygulama içi bildirimde kısa bip çalar (autoplay engeli sessizce yutulur). */
+/** Yeni uygulama içi bildirimde seçili sesi çalar (autoplay engeli sessizce yutulur). */
 export function playInAppNotificationSound(options?: PlayOptions): void {
   if (!options?.force && (isNotificationsMuted() || !isNotificationSoundEnabled())) return;
 
-  const audio = getBipAudio();
+  const audio = getAudio(options?.soundId);
   if (!audio) return;
   try {
     audio.pause();

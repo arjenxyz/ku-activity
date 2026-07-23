@@ -21,12 +21,18 @@ import {
   type NotificationAccess,
 } from '@/lib/personnel-notification-access';
 import {
+  getNotificationSoundId,
   isNotificationSoundEnabled,
   isNotificationsMuted,
   setNotificationSoundEnabled,
+  setNotificationSoundId,
   setNotificationsMuted,
+  type NotificationSoundId,
 } from '@/lib/personnel-notification-storage';
-import { playInAppNotificationSound } from '@/lib/in-app-notification-sound';
+import {
+  NOTIFICATION_SOUND_OPTIONS,
+  playInAppNotificationSound,
+} from '@/lib/in-app-notification-sound';
 import {
   registerPersonnelPushIfAuthed,
   requestNotificationPermission,
@@ -109,11 +115,13 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [muted, setMuted] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(true);
+  const [soundId, setSoundId] = useState<NotificationSoundId>('classic');
 
   useEffect(() => {
     setMounted(true);
     setMuted(isNotificationsMuted());
     setSoundEnabled(isNotificationSoundEnabled());
+    setSoundId(getNotificationSoundId());
   }, []);
 
   useEffect(() => {
@@ -245,6 +253,33 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
 
   const canViewNotifications = notificationAccess === 'granted';
   const showUnreadBadge = accessReady && canViewNotifications && unreadCount > 0;
+
+  const soundLabel = (id: NotificationSoundId) => {
+    switch (id) {
+      case 'classic':
+        return strings.settingsSoundClassic;
+      case 'ping':
+        return strings.settingsSoundPing;
+      case 'chime':
+        return strings.settingsSoundChime;
+      case 'soft':
+        return strings.settingsSoundSoft;
+      case 'alert':
+        return strings.settingsSoundAlert;
+      case 'pop':
+        return strings.settingsSoundPop;
+      case 'bell':
+        return strings.settingsSoundBell;
+      default:
+        return id;
+    }
+  };
+
+  const selectSound = (id: NotificationSoundId) => {
+    setSoundId(id);
+    setNotificationSoundId(id);
+    playInAppNotificationSound({ force: true, soundId: id });
+  };
 
   const renderNotificationRow = (item: (typeof items)[number]) => {
     const unread = !item.read_at;
@@ -406,7 +441,7 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 16 }}
                 transition={{ type: 'spring', stiffness: 420, damping: 34 }}
-                className="relative w-full max-w-md overflow-hidden rounded-3xl border border-slate-200/90 bg-white shadow-2xl shadow-slate-900/20 dark:border-slate-700 dark:bg-slate-900"
+                className="relative max-h-[min(88vh,640px)] w-full max-w-md overflow-y-auto overscroll-contain rounded-3xl border border-slate-200/90 bg-white shadow-2xl shadow-slate-900/20 dark:border-slate-700 dark:bg-slate-900"
               >
                 <div className="flex items-start justify-between gap-3 border-b border-slate-100 px-5 pb-3 pt-5 dark:border-slate-800">
                   <div className="flex min-w-0 items-start gap-3">
@@ -485,12 +520,42 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
                       }}
                     />
                   </div>
+
+                  <div className={`rounded-2xl px-3 py-3 ${muted || !soundEnabled ? 'opacity-50' : ''}`}>
+                    <p className="text-sm font-medium text-[#0E1548] dark:text-white">
+                      {strings.settingsChangeSoundLabel}
+                    </p>
+                    <p className="mt-0.5 text-xs leading-snug text-slate-500 dark:text-slate-400">
+                      {strings.settingsChangeSoundHint}
+                    </p>
+                    <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3">
+                      {NOTIFICATION_SOUND_OPTIONS.map((option) => {
+                        const selected = soundId === option.id;
+                        return (
+                          <button
+                            key={option.id}
+                            type="button"
+                            disabled={muted || !soundEnabled}
+                            onClick={() => selectSound(option.id)}
+                            className={`inline-flex min-h-11 items-center justify-center gap-1.5 rounded-xl border px-2.5 text-xs font-semibold transition active:scale-[0.98] disabled:cursor-not-allowed ${
+                              selected
+                                ? 'border-[#3B7FED] bg-[#3B7FED]/10 text-[#0E1548] dark:border-sky-400 dark:bg-sky-400/15 dark:text-white'
+                                : 'border-slate-200 bg-slate-50 text-slate-700 hover:border-slate-300 hover:bg-white dark:border-slate-700 dark:bg-slate-800/70 dark:text-slate-200 dark:hover:bg-slate-800'
+                            }`}
+                          >
+                            <FiVolume2 className="h-3.5 w-3.5 shrink-0 opacity-70" />
+                            {soundLabel(option.id)}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
                 </div>
 
                 <div className="safe-pb flex flex-col gap-2 border-t border-slate-100 px-5 py-4 dark:border-slate-800">
                   <button
                     type="button"
-                    onClick={() => playInAppNotificationSound({ force: true })}
+                    onClick={() => playInAppNotificationSound({ force: true, soundId })}
                     className="inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-slate-50 px-4 text-sm font-semibold text-[#0E1548] transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800/80 dark:text-white dark:hover:bg-slate-800"
                   >
                     <FiVolume2 className="h-4 w-4" />

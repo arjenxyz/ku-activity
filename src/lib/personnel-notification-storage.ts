@@ -5,6 +5,19 @@ export const PUSH_BOOTSTRAP_KEY = 'crewledger-push-bootstrap-v1';
 export const NOTIFICATION_PROMPT_DISMISS_KEY = 'crewledger-notification-prompt-dismiss';
 export const NOTIFICATIONS_MUTED_KEY = 'crewledger-notifications-muted';
 export const NOTIFICATION_SOUND_ENABLED_KEY = 'crewledger-notification-sound-enabled';
+export const NOTIFICATION_SOUND_ID_KEY = 'crewledger-notification-sound-id';
+
+export const NOTIFICATION_SOUND_IDS = [
+  'classic',
+  'ping',
+  'chime',
+  'soft',
+  'alert',
+  'pop',
+  'bell',
+] as const;
+
+export type NotificationSoundId = (typeof NOTIFICATION_SOUND_IDS)[number];
 
 const NOTIFICATION_PROMPT_DISMISS_DAYS = 14;
 
@@ -90,6 +103,26 @@ export function isNotificationSoundEnabled(): boolean {
 export function setNotificationSoundEnabled(enabled: boolean) {
   try {
     localStorage.setItem(NOTIFICATION_SOUND_ENABLED_KEY, enabled ? '1' : '0');
+  } catch {
+    /* ignore */
+  }
+}
+
+export function getNotificationSoundId(): NotificationSoundId {
+  try {
+    const raw = localStorage.getItem(NOTIFICATION_SOUND_ID_KEY);
+    if (raw && (NOTIFICATION_SOUND_IDS as readonly string[]).includes(raw)) {
+      return raw as NotificationSoundId;
+    }
+  } catch {
+    /* ignore */
+  }
+  return 'classic';
+}
+
+export function setNotificationSoundId(id: NotificationSoundId) {
+  try {
+    localStorage.setItem(NOTIFICATION_SOUND_ID_KEY, id);
   } catch {
     /* ignore */
   }
