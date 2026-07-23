@@ -2,15 +2,25 @@
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
-import { Suspense, useEffect } from 'react';
+import { Suspense, useEffect, type ComponentType } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { FiX } from 'react-icons/fi';
+import {
+  FiCalendar,
+  FiCreditCard,
+  FiDollarSign,
+  FiFileText,
+  FiSettings,
+  FiShield,
+  FiX,
+} from 'react-icons/fi';
 import { BrandMark } from '@/components/brand/BrandMark';
-import { HonorIconTile, type HonorIconName, type HonorIconTheme } from '@/components/icons/HonorIcons';
 import {
   PERSONNEL_HUB_SECTIONS,
   type PersonnelHubItem,
 } from '@/config/personnel-mobile-nav';
+import type { PersonnelTabId } from '@/hooks/usePersonnelTab';
+import { PERSONNEL_TABS } from '@/hooks/usePersonnelTab';
+import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 
 type Props = {
   open: boolean;
@@ -19,27 +29,60 @@ type Props = {
   isYoklama: boolean;
 };
 
-import type { PersonnelTabId } from '@/hooks/usePersonnelTab';
-import { PERSONNEL_TABS } from '@/hooks/usePersonnelTab';
-import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
+type HubIconTone = 'emerald' | 'teal' | 'indigo' | 'amber' | 'blue' | 'sky' | 'slate';
 
-const HUB_ICON_MAP: Record<string, { name: HonorIconName; theme: HonorIconTheme }> = {
-  work: { name: 'calendar', theme: 'emerald' },
-  mesai: { name: 'mesai', theme: 'violet' },
-  yoklama: { name: 'qr', theme: 'teal' },
-  finance: { name: 'wallet', theme: 'indigo' },
-  avans: { name: 'card', theme: 'amber' },
-  asgari: { name: 'shield', theme: 'blue' },
-  rights: { name: 'document', theme: 'sky' },
-  settings: { name: 'settings', theme: 'slate' },
+const TONE_CLASS: Record<HubIconTone, string> = {
+  emerald: 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-100 dark:bg-emerald-950/45 dark:text-emerald-300 dark:ring-emerald-900/60',
+  teal: 'bg-sky-50 text-sky-700 ring-1 ring-sky-100 dark:bg-sky-950/45 dark:text-sky-300 dark:ring-sky-900/60',
+  indigo: 'bg-indigo-50 text-indigo-700 ring-1 ring-indigo-100 dark:bg-indigo-950/45 dark:text-indigo-300 dark:ring-indigo-900/60',
+  amber: 'bg-amber-50 text-amber-700 ring-1 ring-amber-100 dark:bg-amber-950/45 dark:text-amber-300 dark:ring-amber-900/60',
+  blue: 'bg-blue-50 text-blue-700 ring-1 ring-blue-100 dark:bg-blue-950/45 dark:text-blue-300 dark:ring-blue-900/60',
+  sky: 'bg-cyan-50 text-cyan-700 ring-1 ring-cyan-100 dark:bg-cyan-950/45 dark:text-cyan-300 dark:ring-cyan-900/60',
+  slate: 'bg-slate-100 text-slate-700 ring-1 ring-slate-200 dark:bg-slate-800 dark:text-slate-200 dark:ring-slate-700',
 };
 
-function hubItemIcon(item: PersonnelHubItem) {
-  return HUB_ICON_MAP[item.id] ?? { name: 'menu' as HonorIconName, theme: 'slate' as HonorIconTheme };
+function HubQrIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden>
+      <path
+        d="M4 8V5.5A1.5 1.5 0 0 1 5.5 4H8M16 4h2.5A1.5 1.5 0 0 1 20 5.5V8M20 16v2.5a1.5 1.5 0 0 1-1.5 1.5H16M8 20H5.5A1.5 1.5 0 0 1 4 18.5V16"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+      />
+      <rect x="8" y="8" width="8" height="8" rx="1.25" stroke="currentColor" strokeWidth="1.75" />
+    </svg>
+  );
+}
+
+const HUB_ICON_MAP: Record<
+  string,
+  { Icon: ComponentType<{ className?: string }>; tone: HubIconTone }
+> = {
+  work: { Icon: FiCalendar, tone: 'emerald' },
+  yoklama: { Icon: HubQrIcon, tone: 'teal' },
+  finance: { Icon: FiCreditCard, tone: 'indigo' },
+  avans: { Icon: FiDollarSign, tone: 'amber' },
+  asgari: { Icon: FiShield, tone: 'blue' },
+  rights: { Icon: FiFileText, tone: 'sky' },
+  settings: { Icon: FiSettings, tone: 'slate' },
+};
+
+function HubIconTile({ itemId }: { itemId: string }) {
+  const def = HUB_ICON_MAP[itemId] ?? { Icon: FiSettings, tone: 'slate' as HubIconTone };
+  const { Icon, tone } = def;
+  return (
+    <span
+      className={`inline-flex h-11 w-11 items-center justify-center rounded-2xl ${TONE_CLASS[tone]}`}
+    >
+      <Icon className="h-[1.35rem] w-[1.35rem] stroke-[1.75]" />
+    </span>
+  );
 }
 
 function isItemActive(item: PersonnelHubItem, tab: PersonnelTabId, isYoklama: boolean) {
-  if (item.href) return isYoklama;
+  if (item.href?.includes('/yoklama')) return isYoklama;
+  if (item.href) return false;
   return item.tab === tab;
 }
 
@@ -62,6 +105,7 @@ const tileVariants = {
 function HubInner({ open, onClose, activeTab, isYoklama }: Props) {
   const strings = useRegistryStrings('components/personnel/PersonnelNavHub');
   const router = useRouter();
+  const pathname = usePathname() ?? '';
 
   useBodyScrollLock(open);
 
@@ -82,6 +126,8 @@ function HubInner({ open, onClose, activeTab, isYoklama }: Props) {
     }
     onClose();
   };
+
+  const isHrefActive = (href: string) => pathname.startsWith(href);
 
   let tileIndex = 0;
 
@@ -163,8 +209,9 @@ function HubInner({ open, onClose, activeTab, isYoklama }: Props) {
                     className={`grid gap-2.5 ${section.items.length > 2 ? 'grid-cols-3' : 'grid-cols-2'}`}
                   >
                     {section.items.map((item) => {
-                      const iconDef = hubItemIcon(item);
-                      const active = isItemActive(item, activeTab, isYoklama);
+                      const active = item.href
+                        ? isHrefActive(item.href)
+                        : isItemActive(item, activeTab, isYoklama);
                       const i = tileIndex++;
                       return (
                         <li key={item.id}>
@@ -183,11 +230,7 @@ function HubInner({ open, onClose, activeTab, isYoklama }: Props) {
                             }`}
                           >
                             <motion.span whileHover={{ scale: 1.04 }} transition={{ duration: 0.2 }}>
-                              <HonorIconTile
-                                name={iconDef.name}
-                                theme={iconDef.theme}
-                                size="lg"
-                              />
+                              <HubIconTile itemId={item.id} />
                             </motion.span>
                             <span>
                               <span className="block text-xs font-bold text-slate-900 dark:text-white">
