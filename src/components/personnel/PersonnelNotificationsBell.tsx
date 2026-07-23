@@ -119,19 +119,17 @@ function NotificationRowContent({
         ) : null}
       </span>
       <span className="min-w-0 flex-1">
-        <span className="flex items-baseline gap-2">
-          <span
-            className={`min-w-0 truncate text-sm font-semibold leading-tight tracking-tight ${
-              unread ? 'text-[#0E1548] dark:text-white' : 'text-slate-700 dark:text-slate-300'
-            }`}
-          >
-            {title}
-          </span>
-          <span className="shrink-0 text-[10px] font-medium uppercase tracking-wide text-slate-400">
-            {timeLabel}
-          </span>
+        <span
+          className={`block truncate text-sm font-semibold leading-snug tracking-tight ${
+            unread ? 'text-[#0E1548] dark:text-white' : 'text-slate-700 dark:text-slate-300'
+          }`}
+        >
+          {title}
         </span>
-        <span className="mt-0.5 line-clamp-2 text-xs leading-snug text-slate-500 dark:text-slate-400">
+        <span className="mt-0.5 block text-[12px] font-medium leading-snug text-slate-600 dark:text-slate-300">
+          {timeLabel}
+        </span>
+        <span className="mt-1 line-clamp-2 text-xs leading-snug text-slate-500 dark:text-slate-400">
           {body}
         </span>
       </span>
