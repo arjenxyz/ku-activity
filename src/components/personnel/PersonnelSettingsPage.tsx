@@ -16,6 +16,7 @@ import {
 } from 'react-icons/fi';
 import { HonorIconTile, type HonorIconName, type HonorIconTheme } from '@/components/icons/HonorIcons';
 import { EmployeeAvatar } from '@/components/employee/EmployeeAvatar';
+import { PersonnelAssetIcon } from '@/components/personnel/PersonnelAssetIcon';
 import { PersonnelContractsSection } from '@/components/personnel/PersonnelContractsSection';
 import { PersonnelClosureDossierPanel } from '@/components/personnel/PersonnelClosureDossierPanel';
 import { PersonnelAppSettings, type AppSettingsView } from '@/components/personnel/PersonnelAppSettings';
@@ -669,11 +670,11 @@ function ProfilePhotoBlock({
             size="xl"
             className="!h-[5.5rem] !w-[5.5rem] !rounded-full ring-2 ring-slate-200 shadow-sm transition group-hover:ring-blue-300 dark:ring-slate-600"
           />
-          <span className="absolute bottom-0 right-0 flex h-8 w-8 items-center justify-center rounded-full bg-[#0E1548] text-white shadow-md ring-2 ring-white dark:ring-slate-900">
+          <span className="absolute -bottom-0.5 -right-0.5 flex h-9 w-9 items-center justify-center rounded-full bg-white shadow-md ring-2 ring-white dark:ring-slate-900">
             {photoBusy ? (
-              <span className="h-3.5 w-3.5 animate-pulse rounded-full bg-white/80" />
+              <span className="h-3.5 w-3.5 animate-pulse rounded-full bg-slate-300" />
             ) : (
-              <FiCamera className="h-4 w-4" />
+              <PersonnelAssetIcon name="camera" className="h-7 w-7" />
             )}
           </span>
         </button>
