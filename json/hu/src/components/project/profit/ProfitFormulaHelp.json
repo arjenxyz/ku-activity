@@ -1,0 +1,24 @@
+{
+  "title": "Hogyan számítják ki?",
+  "formulaProfit": "Nyereség = Követelés − Napló − Előleg − Levonás − Anyag",
+  "formulaShare": "Partner vezetője = Profit ÷ emberek száma",
+  "steps": [
+    {
+      "title": "Munkaelem hozzáadása",
+      "body": "egységár × mennyiség, amelyet a felső alvállalkozótól kap (pl. 100 ₺/m² × 890)"
+    },
+    {
+      "title": "Kösse össze a költségeket",
+      "body": "napló, előleg és levonás beírásakor válassza ki a munkatételt"
+    },
+    {
+      "title": "Add hozzá az összetevőket",
+      "body": "iş kartındaki malzeme bölümünden (personeli etkilemez)"
+    },
+    {
+      "title": "Partnerek száma",
+      "body": "ayarlayın — kâr eşit bölünür"
+    }
+  ],
+  "footer": "A személyzeti panel és a bérszámfejtés normálisan működik; A munkaelem csak az alsó sorra vonatkozik."
+}

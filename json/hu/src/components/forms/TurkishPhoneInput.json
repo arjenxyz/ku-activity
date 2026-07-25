@@ -1,0 +1,15 @@
+{
+  "defaultPlaceholder": "5xx xxx xxxx",
+  "countryCodeAriaLabel": "Ülke kodu",
+  "phoneAriaLabel": "telefonszám",
+  "mobileAriaLabel": "mobiltelefonszám",
+  "turkeyAriaLabel": "Türkiye",
+  "countries": {
+    "49": "Németország",
+    "90": "Türkiye",
+    "963": "Szíria",
+    "994": "Azerbajdzsán",
+    "995": "Gürcistan",
+    "998": "Özbekistan"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "mesaiNoneLabel": "nincs túlóra",
+  "mesaiNoneHint": "Ek mesai ücreti yok",
+  "mesaiQuarterLabel": "negyedéves műszak",
+  "mesaiQuarterHint": "Günlük yevmiyenin %25'i ek",
+  "mesaiHalfLabel": "félidő",
+  "mesaiHalfHint": "Günlük yevmiyenin yarısı ek",
+  "mesaiFullLabel": "teljes munkaidőben",
+  "mesaiFullHint": "Tam günlük yevmiye ek",
+  "fullDay": "Tam gün",
+  "halfDay": "Yarım gün",
+  "statusConfirmed": "Jóváhagyott",
+  "statusPendingEmployee": "Várakozás a személyzet jóváhagyására",
+  "statusPendingAdmin": "Várakozás az admin jóváhagyására",
+  "statusDisputed": "tiltakozott",
+  "statusNone": "Nincs rekord",
+  "dayAmount": "{amount} gün",
+  "summaryWithMesai": "{day} + {mesai}"
+}

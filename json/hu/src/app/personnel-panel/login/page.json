@@ -1,0 +1,17 @@
+{
+  "loginFailedWithStatus": "Sikertelen bejelentkezés ({status})",
+  "systemError": "Rendszerhiba – próbálja újra",
+  "tcKimlikLabel": "T.C. Kimlik Nem",
+  "tcKimlikPlaceholder": "11 számjegyű T.R. azonosító szám",
+  "pinLabel": "Bejelentkezési PIN-kód",
+  "pinPlaceholder": "{pinLength} száz PIN",
+  "loggingIn": "Bejelentkezés…",
+  "loginButton": "Bejelentkezés",
+  "noAccountPrompt": "Nincs fiókja?",
+  "applyLink": "Alkalmazni",
+  "forgotPin": "Şifremi unutum",
+  "screenLabel": "Személyzeti bejelentkezés",
+  "subtitle": "T.R. Jelentkezzen be azonosítószámával és PIN-kódjával.",
+  "checkingSession": "A munkamenet ellenőrzése…",
+  "loading": "Yükleniyor…"
+}

@@ -11,6 +11,7 @@ import { flagImageUrl, LOCALE_OPTIONS, type Locale } from '@/lib/i18n/locale';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 import trLocaleUi from '@json/src/lib/i18n/locale-ui.json';
 import enLocaleUi from '@json/en/src/lib/i18n/locale-ui.json';
+import huLocaleUi from '@json/hu/src/lib/i18n/locale-ui.json';
 
 type LanguageSwitchProps = {
   className?: string;
@@ -210,7 +211,7 @@ export function LanguageSwitch({
   tone = 'default',
 }: LanguageSwitchProps) {
   const { locale, setLocale } = useLocale();
-  const strings = useLocalizedStrings(trLocaleUi, enLocaleUi);
+  const strings = useLocalizedStrings(trLocaleUi, enLocaleUi, huLocaleUi);
   const [open, setOpen] = useState(false);
   const titleId = useId();
   const current = localeMeta(locale);

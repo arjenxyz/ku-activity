@@ -6,1068 +6,1422 @@ import { pickStrings } from './pickStrings';
 
 import m_api_projects_tr from '@json/src/api/projects.json';
 import m_api_projects_en from '@json/en/src/api/projects.json';
+import m_api_projects_hu from '@json/hu/src/api/projects.json';
 import m_app_admin_panel_arjen_avans_list_tr from '@json/src/app/admin-panel/arjen/avans/list.json';
 import m_app_admin_panel_arjen_avans_list_en from '@json/en/src/app/admin-panel/arjen/avans/list.json';
+import m_app_admin_panel_arjen_avans_list_hu from '@json/hu/src/app/admin-panel/arjen/avans/list.json';
 import m_app_admin_panel_arjen_avans_page_tr from '@json/src/app/admin-panel/arjen/avans/page.json';
 import m_app_admin_panel_arjen_avans_page_en from '@json/en/src/app/admin-panel/arjen/avans/page.json';
+import m_app_admin_panel_arjen_avans_page_hu from '@json/hu/src/app/admin-panel/arjen/avans/page.json';
 import m_app_admin_panel_arjen_sorgulama__projectId__page_tr from '@json/src/app/admin-panel/arjen/sorgulama/[projectId]/page.json';
 import m_app_admin_panel_arjen_sorgulama__projectId__page_en from '@json/en/src/app/admin-panel/arjen/sorgulama/[projectId]/page.json';
+import m_app_admin_panel_arjen_sorgulama__projectId__page_hu from '@json/hu/src/app/admin-panel/arjen/sorgulama/[projectId]/page.json';
 import m_app_admin_panel_arjen_yevmiye_list_tr from '@json/src/app/admin-panel/arjen/yevmiye/list.json';
 import m_app_admin_panel_arjen_yevmiye_list_en from '@json/en/src/app/admin-panel/arjen/yevmiye/list.json';
+import m_app_admin_panel_arjen_yevmiye_list_hu from '@json/hu/src/app/admin-panel/arjen/yevmiye/list.json';
 import m_app_admin_panel_arjen_yevmiye_page_tr from '@json/src/app/admin-panel/arjen/yevmiye/page.json';
 import m_app_admin_panel_arjen_yevmiye_page_en from '@json/en/src/app/admin-panel/arjen/yevmiye/page.json';
+import m_app_admin_panel_arjen_yevmiye_page_hu from '@json/hu/src/app/admin-panel/arjen/yevmiye/page.json';
 import m_app_admin_panel_ayarlar_page_tr from '@json/src/app/admin-panel/ayarlar/page.json';
 import m_app_admin_panel_ayarlar_page_en from '@json/en/src/app/admin-panel/ayarlar/page.json';
+import m_app_admin_panel_ayarlar_page_hu from '@json/hu/src/app/admin-panel/ayarlar/page.json';
 import m_app_admin_panel_basvuru_onay_page_tr from '@json/src/app/admin-panel/basvuru-onay/page.json';
 import m_app_admin_panel_basvuru_onay_page_en from '@json/en/src/app/admin-panel/basvuru-onay/page.json';
+import m_app_admin_panel_basvuru_onay_page_hu from '@json/hu/src/app/admin-panel/basvuru-onay/page.json';
 import m_app_admin_panel_layout_tr from '@json/src/app/admin-panel/layout.json';
 import m_app_admin_panel_layout_en from '@json/en/src/app/admin-panel/layout.json';
+import m_app_admin_panel_layout_hu from '@json/hu/src/app/admin-panel/layout.json';
 import m_app_admin_panel_login_page_tr from '@json/src/app/admin-panel/login/page.json';
 import m_app_admin_panel_login_page_en from '@json/en/src/app/admin-panel/login/page.json';
+import m_app_admin_panel_login_page_hu from '@json/hu/src/app/admin-panel/login/page.json';
 import m_app_admin_panel_login_yedek_tr from '@json/src/app/admin-panel/login/yedek.json';
 import m_app_admin_panel_login_yedek_en from '@json/en/src/app/admin-panel/login/yedek.json';
+import m_app_admin_panel_login_yedek_hu from '@json/hu/src/app/admin-panel/login/yedek.json';
 import m_app_admin_panel_maas_politikasi_page_tr from '@json/src/app/admin-panel/maas-politikasi/page.json';
 import m_app_admin_panel_maas_politikasi_page_en from '@json/en/src/app/admin-panel/maas-politikasi/page.json';
+import m_app_admin_panel_maas_politikasi_page_hu from '@json/hu/src/app/admin-panel/maas-politikasi/page.json';
 import m_app_admin_panel_page_tr from '@json/src/app/admin-panel/page.json';
 import m_app_admin_panel_page_en from '@json/en/src/app/admin-panel/page.json';
+import m_app_admin_panel_page_hu from '@json/hu/src/app/admin-panel/page.json';
 import m_app_admin_panel_proje_ProjectFilters_tr from '@json/src/app/admin-panel/proje/ProjectFilters.json';
 import m_app_admin_panel_proje_ProjectFilters_en from '@json/en/src/app/admin-panel/proje/ProjectFilters.json';
+import m_app_admin_panel_proje_ProjectFilters_hu from '@json/hu/src/app/admin-panel/proje/ProjectFilters.json';
 import m_app_admin_panel_proje_ProjectForm_tr from '@json/src/app/admin-panel/proje/ProjectForm.json';
 import m_app_admin_panel_proje_ProjectForm_en from '@json/en/src/app/admin-panel/proje/ProjectForm.json';
+import m_app_admin_panel_proje_ProjectForm_hu from '@json/hu/src/app/admin-panel/proje/ProjectForm.json';
 import m_app_admin_panel_proje_ProjectList_tr from '@json/src/app/admin-panel/proje/ProjectList.json';
 import m_app_admin_panel_proje_ProjectList_en from '@json/en/src/app/admin-panel/proje/ProjectList.json';
+import m_app_admin_panel_proje_ProjectList_hu from '@json/hu/src/app/admin-panel/proje/ProjectList.json';
 import m_app_admin_panel_proje__projectId__asgari_page_tr from '@json/src/app/admin-panel/proje/[projectId]/asgari/page.json';
 import m_app_admin_panel_proje__projectId__asgari_page_en from '@json/en/src/app/admin-panel/proje/[projectId]/asgari/page.json';
+import m_app_admin_panel_proje__projectId__asgari_page_hu from '@json/hu/src/app/admin-panel/proje/[projectId]/asgari/page.json';
 import m_app_admin_panel_proje__projectId__avans_talepleri_page_tr from '@json/src/app/admin-panel/proje/[projectId]/avans-talepleri/page.json';
 import m_app_admin_panel_proje__projectId__avans_talepleri_page_en from '@json/en/src/app/admin-panel/proje/[projectId]/avans-talepleri/page.json';
+import m_app_admin_panel_proje__projectId__avans_talepleri_page_hu from '@json/hu/src/app/admin-panel/proje/[projectId]/avans-talepleri/page.json';
 import m_app_admin_panel_proje__projectId__avans_page_tr from '@json/src/app/admin-panel/proje/[projectId]/avans/page.json';
 import m_app_admin_panel_proje__projectId__avans_page_en from '@json/en/src/app/admin-panel/proje/[projectId]/avans/page.json';
+import m_app_admin_panel_proje__projectId__avans_page_hu from '@json/hu/src/app/admin-panel/proje/[projectId]/avans/page.json';
 import m_app_admin_panel_proje__projectId__basvuru_onay_page_tr from '@json/src/app/admin-panel/proje/[projectId]/basvuru-onay/page.json';
 import m_app_admin_panel_proje__projectId__basvuru_onay_page_en from '@json/en/src/app/admin-panel/proje/[projectId]/basvuru-onay/page.json';
+import m_app_admin_panel_proje__projectId__basvuru_onay_page_hu from '@json/hu/src/app/admin-panel/proje/[projectId]/basvuru-onay/page.json';
 import m_app_admin_panel_proje__projectId__bloklar_page_tr from '@json/src/app/admin-panel/proje/[projectId]/bloklar/page.json';
 import m_app_admin_panel_proje__projectId__bloklar_page_en from '@json/en/src/app/admin-panel/proje/[projectId]/bloklar/page.json';
+import m_app_admin_panel_proje__projectId__bloklar_page_hu from '@json/hu/src/app/admin-panel/proje/[projectId]/bloklar/page.json';
 import m_app_admin_panel_proje__projectId__bordro_page_tr from '@json/src/app/admin-panel/proje/[projectId]/bordro/page.json';
 import m_app_admin_panel_proje__projectId__bordro_page_en from '@json/en/src/app/admin-panel/proje/[projectId]/bordro/page.json';
+import m_app_admin_panel_proje__projectId__bordro_page_hu from '@json/hu/src/app/admin-panel/proje/[projectId]/bordro/page.json';
 import m_app_admin_panel_proje__projectId__durum_page_tr from '@json/src/app/admin-panel/proje/[projectId]/durum/page.json';
 import m_app_admin_panel_proje__projectId__durum_page_en from '@json/en/src/app/admin-panel/proje/[projectId]/durum/page.json';
+import m_app_admin_panel_proje__projectId__durum_page_hu from '@json/hu/src/app/admin-panel/proje/[projectId]/durum/page.json';
 import m_app_admin_panel_proje__projectId__ekiplar_page_tr from '@json/src/app/admin-panel/proje/[projectId]/ekiplar/page.json';
 import m_app_admin_panel_proje__projectId__ekiplar_page_en from '@json/en/src/app/admin-panel/proje/[projectId]/ekiplar/page.json';
+import m_app_admin_panel_proje__projectId__ekiplar_page_hu from '@json/hu/src/app/admin-panel/proje/[projectId]/ekiplar/page.json';
 import m_app_admin_panel_proje__projectId__itirazlar_page_tr from '@json/src/app/admin-panel/proje/[projectId]/itirazlar/page.json';
 import m_app_admin_panel_proje__projectId__itirazlar_page_en from '@json/en/src/app/admin-panel/proje/[projectId]/itirazlar/page.json';
+import m_app_admin_panel_proje__projectId__itirazlar_page_hu from '@json/hu/src/app/admin-panel/proje/[projectId]/itirazlar/page.json';
 import m_app_admin_panel_proje__projectId__kar_page_tr from '@json/src/app/admin-panel/proje/[projectId]/kar/page.json';
 import m_app_admin_panel_proje__projectId__kar_page_en from '@json/en/src/app/admin-panel/proje/[projectId]/kar/page.json';
+import m_app_admin_panel_proje__projectId__kar_page_hu from '@json/hu/src/app/admin-panel/proje/[projectId]/kar/page.json';
 import m_app_admin_panel_proje__projectId__kayit_gecmisi_page_tr from '@json/src/app/admin-panel/proje/[projectId]/kayit-gecmisi/page.json';
 import m_app_admin_panel_proje__projectId__kayit_gecmisi_page_en from '@json/en/src/app/admin-panel/proje/[projectId]/kayit-gecmisi/page.json';
+import m_app_admin_panel_proje__projectId__kayit_gecmisi_page_hu from '@json/hu/src/app/admin-panel/proje/[projectId]/kayit-gecmisi/page.json';
 import m_app_admin_panel_proje__projectId__kesinti_page_tr from '@json/src/app/admin-panel/proje/[projectId]/kesinti/page.json';
 import m_app_admin_panel_proje__projectId__kesinti_page_en from '@json/en/src/app/admin-panel/proje/[projectId]/kesinti/page.json';
+import m_app_admin_panel_proje__projectId__kesinti_page_hu from '@json/hu/src/app/admin-panel/proje/[projectId]/kesinti/page.json';
 import m_app_admin_panel_proje__projectId__list__employeeId__page_tr from '@json/src/app/admin-panel/proje/[projectId]/list/[employeeId]/page.json';
 import m_app_admin_panel_proje__projectId__list__employeeId__page_en from '@json/en/src/app/admin-panel/proje/[projectId]/list/[employeeId]/page.json';
+import m_app_admin_panel_proje__projectId__list__employeeId__page_hu from '@json/hu/src/app/admin-panel/proje/[projectId]/list/[employeeId]/page.json';
 import m_app_admin_panel_proje__projectId__list_page_tr from '@json/src/app/admin-panel/proje/[projectId]/list/page.json';
 import m_app_admin_panel_proje__projectId__list_page_en from '@json/en/src/app/admin-panel/proje/[projectId]/list/page.json';
+import m_app_admin_panel_proje__projectId__list_page_hu from '@json/hu/src/app/admin-panel/proje/[projectId]/list/page.json';
 import m_app_admin_panel_proje__projectId__maas_politikasi_page_tr from '@json/src/app/admin-panel/proje/[projectId]/maas-politikasi/page.json';
 import m_app_admin_panel_proje__projectId__maas_politikasi_page_en from '@json/en/src/app/admin-panel/proje/[projectId]/maas-politikasi/page.json';
+import m_app_admin_panel_proje__projectId__maas_politikasi_page_hu from '@json/hu/src/app/admin-panel/proje/[projectId]/maas-politikasi/page.json';
 import m_app_admin_panel_proje__projectId__new_page_tr from '@json/src/app/admin-panel/proje/[projectId]/new/page.json';
 import m_app_admin_panel_proje__projectId__new_page_en from '@json/en/src/app/admin-panel/proje/[projectId]/new/page.json';
+import m_app_admin_panel_proje__projectId__new_page_hu from '@json/hu/src/app/admin-panel/proje/[projectId]/new/page.json';
 import m_app_admin_panel_proje__projectId__page_tr from '@json/src/app/admin-panel/proje/[projectId]/page.json';
 import m_app_admin_panel_proje__projectId__page_en from '@json/en/src/app/admin-panel/proje/[projectId]/page.json';
+import m_app_admin_panel_proje__projectId__page_hu from '@json/hu/src/app/admin-panel/proje/[projectId]/page.json';
 import m_app_admin_panel_proje__projectId__raporlar_onaylanan_page_tr from '@json/src/app/admin-panel/proje/[projectId]/raporlar/onaylanan/page.json';
 import m_app_admin_panel_proje__projectId__raporlar_onaylanan_page_en from '@json/en/src/app/admin-panel/proje/[projectId]/raporlar/onaylanan/page.json';
+import m_app_admin_panel_proje__projectId__raporlar_onaylanan_page_hu from '@json/hu/src/app/admin-panel/proje/[projectId]/raporlar/onaylanan/page.json';
 import m_app_admin_panel_proje__projectId__raporlar_onaysiz_page_tr from '@json/src/app/admin-panel/proje/[projectId]/raporlar/onaysiz/page.json';
 import m_app_admin_panel_proje__projectId__raporlar_onaysiz_page_en from '@json/en/src/app/admin-panel/proje/[projectId]/raporlar/onaysiz/page.json';
+import m_app_admin_panel_proje__projectId__raporlar_onaysiz_page_hu from '@json/hu/src/app/admin-panel/proje/[projectId]/raporlar/onaysiz/page.json';
 import m_app_admin_panel_proje__projectId__raporlar_page_tr from '@json/src/app/admin-panel/proje/[projectId]/raporlar/page.json';
 import m_app_admin_panel_proje__projectId__raporlar_page_en from '@json/en/src/app/admin-panel/proje/[projectId]/raporlar/page.json';
+import m_app_admin_panel_proje__projectId__raporlar_page_hu from '@json/hu/src/app/admin-panel/proje/[projectId]/raporlar/page.json';
 import m_app_admin_panel_proje__projectId__sorgulama_admin_page_tr from '@json/src/app/admin-panel/proje/[projectId]/sorgulama/admin/page.json';
 import m_app_admin_panel_proje__projectId__sorgulama_admin_page_en from '@json/en/src/app/admin-panel/proje/[projectId]/sorgulama/admin/page.json';
+import m_app_admin_panel_proje__projectId__sorgulama_admin_page_hu from '@json/hu/src/app/admin-panel/proje/[projectId]/sorgulama/admin/page.json';
 import m_app_admin_panel_proje__projectId__sorgulama_asgari_page_tr from '@json/src/app/admin-panel/proje/[projectId]/sorgulama/asgari/page.json';
 import m_app_admin_panel_proje__projectId__sorgulama_asgari_page_en from '@json/en/src/app/admin-panel/proje/[projectId]/sorgulama/asgari/page.json';
+import m_app_admin_panel_proje__projectId__sorgulama_asgari_page_hu from '@json/hu/src/app/admin-panel/proje/[projectId]/sorgulama/asgari/page.json';
 import m_app_admin_panel_proje__projectId__sorgulama_avans_page_tr from '@json/src/app/admin-panel/proje/[projectId]/sorgulama/avans/page.json';
 import m_app_admin_panel_proje__projectId__sorgulama_avans_page_en from '@json/en/src/app/admin-panel/proje/[projectId]/sorgulama/avans/page.json';
+import m_app_admin_panel_proje__projectId__sorgulama_avans_page_hu from '@json/hu/src/app/admin-panel/proje/[projectId]/sorgulama/avans/page.json';
 import m_app_admin_panel_proje__projectId__sorgulama_kesinti_page_tr from '@json/src/app/admin-panel/proje/[projectId]/sorgulama/kesinti/page.json';
 import m_app_admin_panel_proje__projectId__sorgulama_kesinti_page_en from '@json/en/src/app/admin-panel/proje/[projectId]/sorgulama/kesinti/page.json';
+import m_app_admin_panel_proje__projectId__sorgulama_kesinti_page_hu from '@json/hu/src/app/admin-panel/proje/[projectId]/sorgulama/kesinti/page.json';
 import m_app_admin_panel_proje__projectId__sorgulama_page_tr from '@json/src/app/admin-panel/proje/[projectId]/sorgulama/page.json';
 import m_app_admin_panel_proje__projectId__sorgulama_page_en from '@json/en/src/app/admin-panel/proje/[projectId]/sorgulama/page.json';
+import m_app_admin_panel_proje__projectId__sorgulama_page_hu from '@json/hu/src/app/admin-panel/proje/[projectId]/sorgulama/page.json';
 import m_app_admin_panel_proje__projectId__sorgulama_personel_sifreleri_page_tr from '@json/src/app/admin-panel/proje/[projectId]/sorgulama/personel-sifreleri/page.json';
 import m_app_admin_panel_proje__projectId__sorgulama_personel_sifreleri_page_en from '@json/en/src/app/admin-panel/proje/[projectId]/sorgulama/personel-sifreleri/page.json';
+import m_app_admin_panel_proje__projectId__sorgulama_personel_sifreleri_page_hu from '@json/hu/src/app/admin-panel/proje/[projectId]/sorgulama/personel-sifreleri/page.json';
 import m_app_admin_panel_proje__projectId__sorgulama_yevmiye_page_tr from '@json/src/app/admin-panel/proje/[projectId]/sorgulama/yevmiye/page.json';
 import m_app_admin_panel_proje__projectId__sorgulama_yevmiye_page_en from '@json/en/src/app/admin-panel/proje/[projectId]/sorgulama/yevmiye/page.json';
+import m_app_admin_panel_proje__projectId__sorgulama_yevmiye_page_hu from '@json/hu/src/app/admin-panel/proje/[projectId]/sorgulama/yevmiye/page.json';
 import m_app_admin_panel_proje__projectId__yevmiye_page_tr from '@json/src/app/admin-panel/proje/[projectId]/yevmiye/page.json';
 import m_app_admin_panel_proje__projectId__yevmiye_page_en from '@json/en/src/app/admin-panel/proje/[projectId]/yevmiye/page.json';
+import m_app_admin_panel_proje__projectId__yevmiye_page_hu from '@json/hu/src/app/admin-panel/proje/[projectId]/yevmiye/page.json';
 import m_app_admin_panel_register_page_tr from '@json/src/app/admin-panel/register/page.json';
 import m_app_admin_panel_register_page_en from '@json/en/src/app/admin-panel/register/page.json';
+import m_app_admin_panel_register_page_hu from '@json/hu/src/app/admin-panel/register/page.json';
 import m_app_api_admin_dekont_analyze_route_tr from '@json/src/app/api/admin/dekont/analyze/route.json';
 import m_app_api_admin_dekont_analyze_route_en from '@json/en/src/app/api/admin/dekont/analyze/route.json';
+import m_app_api_admin_dekont_analyze_route_hu from '@json/hu/src/app/api/admin/dekont/analyze/route.json';
 import m_app_api_admin_dekont_drafts__id__apply_ocr_route_tr from '@json/src/app/api/admin/dekont/drafts/[id]/apply-ocr/route.json';
 import m_app_api_admin_dekont_drafts__id__apply_ocr_route_en from '@json/en/src/app/api/admin/dekont/drafts/[id]/apply-ocr/route.json';
+import m_app_api_admin_dekont_drafts__id__apply_ocr_route_hu from '@json/hu/src/app/api/admin/dekont/drafts/[id]/apply-ocr/route.json';
 import m_app_api_admin_dekont_drafts__id__file_route_tr from '@json/src/app/api/admin/dekont/drafts/[id]/file/route.json';
 import m_app_api_admin_dekont_drafts__id__file_route_en from '@json/en/src/app/api/admin/dekont/drafts/[id]/file/route.json';
+import m_app_api_admin_dekont_drafts__id__file_route_hu from '@json/hu/src/app/api/admin/dekont/drafts/[id]/file/route.json';
 import m_app_api_admin_dekont_drafts__id__process_route_tr from '@json/src/app/api/admin/dekont/drafts/[id]/process/route.json';
 import m_app_api_admin_dekont_drafts__id__process_route_en from '@json/en/src/app/api/admin/dekont/drafts/[id]/process/route.json';
+import m_app_api_admin_dekont_drafts__id__process_route_hu from '@json/hu/src/app/api/admin/dekont/drafts/[id]/process/route.json';
 import m_app_api_admin_dekont_drafts__id__route_tr from '@json/src/app/api/admin/dekont/drafts/[id]/route.json';
 import m_app_api_admin_dekont_drafts__id__route_en from '@json/en/src/app/api/admin/dekont/drafts/[id]/route.json';
+import m_app_api_admin_dekont_drafts__id__route_hu from '@json/hu/src/app/api/admin/dekont/drafts/[id]/route.json';
 import m_app_api_admin_dekont_share_ingest_route_tr from '@json/src/app/api/admin/dekont/share-ingest/route.json';
 import m_app_api_admin_dekont_share_ingest_route_en from '@json/en/src/app/api/admin/dekont/share-ingest/route.json';
+import m_app_api_admin_dekont_share_ingest_route_hu from '@json/hu/src/app/api/admin/dekont/share-ingest/route.json';
 import m_app_api_admin_employees_route_tr from '@json/src/app/api/admin/employees/route.json';
 import m_app_api_admin_employees_route_en from '@json/en/src/app/api/admin/employees/route.json';
+import m_app_api_admin_employees_route_hu from '@json/hu/src/app/api/admin/employees/route.json';
 import m_app_api_admin_projects__projectId__advance_requests__id__approve_route_tr from '@json/src/app/api/admin/projects/[projectId]/advance-requests/[id]/approve/route.json';
 import m_app_api_admin_projects__projectId__advance_requests__id__approve_route_en from '@json/en/src/app/api/admin/projects/[projectId]/advance-requests/[id]/approve/route.json';
+import m_app_api_admin_projects__projectId__advance_requests__id__approve_route_hu from '@json/hu/src/app/api/admin/projects/[projectId]/advance-requests/[id]/approve/route.json';
 import m_app_api_admin_projects__projectId__advance_requests__id__cash_qr_route_tr from '@json/src/app/api/admin/projects/[projectId]/advance-requests/[id]/cash-qr/route.json';
 import m_app_api_admin_projects__projectId__advance_requests__id__cash_qr_route_en from '@json/en/src/app/api/admin/projects/[projectId]/advance-requests/[id]/cash-qr/route.json';
+import m_app_api_admin_projects__projectId__advance_requests__id__cash_qr_route_hu from '@json/hu/src/app/api/admin/projects/[projectId]/advance-requests/[id]/cash-qr/route.json';
 import m_app_api_admin_projects__projectId__advance_requests__id__record_payment_route_tr from '@json/src/app/api/admin/projects/[projectId]/advance-requests/[id]/record-payment/route.json';
 import m_app_api_admin_projects__projectId__advance_requests__id__record_payment_route_en from '@json/en/src/app/api/admin/projects/[projectId]/advance-requests/[id]/record-payment/route.json';
+import m_app_api_admin_projects__projectId__advance_requests__id__record_payment_route_hu from '@json/hu/src/app/api/admin/projects/[projectId]/advance-requests/[id]/record-payment/route.json';
 import m_app_api_admin_projects__projectId__advance_requests__id__reject_route_tr from '@json/src/app/api/admin/projects/[projectId]/advance-requests/[id]/reject/route.json';
 import m_app_api_admin_projects__projectId__advance_requests__id__reject_route_en from '@json/en/src/app/api/admin/projects/[projectId]/advance-requests/[id]/reject/route.json';
+import m_app_api_admin_projects__projectId__advance_requests__id__reject_route_hu from '@json/hu/src/app/api/admin/projects/[projectId]/advance-requests/[id]/reject/route.json';
 import m_app_api_admin_projects__projectId__advance_requests__id__transfer_code_route_tr from '@json/src/app/api/admin/projects/[projectId]/advance-requests/[id]/transfer-code/route.json';
 import m_app_api_admin_projects__projectId__advance_requests__id__transfer_code_route_en from '@json/en/src/app/api/admin/projects/[projectId]/advance-requests/[id]/transfer-code/route.json';
+import m_app_api_admin_projects__projectId__advance_requests__id__transfer_code_route_hu from '@json/hu/src/app/api/admin/projects/[projectId]/advance-requests/[id]/transfer-code/route.json';
 import m_app_api_admin_projects__projectId__advance_requests_retroactive_route_tr from '@json/src/app/api/admin/projects/[projectId]/advance-requests/retroactive/route.json';
 import m_app_api_admin_projects__projectId__advance_requests_retroactive_route_en from '@json/en/src/app/api/admin/projects/[projectId]/advance-requests/retroactive/route.json';
+import m_app_api_admin_projects__projectId__advance_requests_retroactive_route_hu from '@json/hu/src/app/api/admin/projects/[projectId]/advance-requests/retroactive/route.json';
 import m_app_api_admin_projects__projectId__advance_requests_route_tr from '@json/src/app/api/admin/projects/[projectId]/advance-requests/route.json';
 import m_app_api_admin_projects__projectId__advance_requests_route_en from '@json/en/src/app/api/admin/projects/[projectId]/advance-requests/route.json';
+import m_app_api_admin_projects__projectId__advance_requests_route_hu from '@json/hu/src/app/api/admin/projects/[projectId]/advance-requests/route.json';
 import m_app_api_admin_projects__projectId__attendance_qr_checkins__checkInId__route_tr from '@json/src/app/api/admin/projects/[projectId]/attendance-qr/checkins/[checkInId]/route.json';
 import m_app_api_admin_projects__projectId__attendance_qr_checkins__checkInId__route_en from '@json/en/src/app/api/admin/projects/[projectId]/attendance-qr/checkins/[checkInId]/route.json';
+import m_app_api_admin_projects__projectId__attendance_qr_checkins__checkInId__route_hu from '@json/hu/src/app/api/admin/projects/[projectId]/attendance-qr/checkins/[checkInId]/route.json';
 import m_app_api_admin_projects__projectId__attendance_qr_complete_route_tr from '@json/src/app/api/admin/projects/[projectId]/attendance-qr/complete/route.json';
 import m_app_api_admin_projects__projectId__attendance_qr_complete_route_en from '@json/en/src/app/api/admin/projects/[projectId]/attendance-qr/complete/route.json';
+import m_app_api_admin_projects__projectId__attendance_qr_complete_route_hu from '@json/hu/src/app/api/admin/projects/[projectId]/attendance-qr/complete/route.json';
 import m_app_api_admin_projects__projectId__attendance_qr_route_tr from '@json/src/app/api/admin/projects/[projectId]/attendance-qr/route.json';
 import m_app_api_admin_projects__projectId__attendance_qr_route_en from '@json/en/src/app/api/admin/projects/[projectId]/attendance-qr/route.json';
+import m_app_api_admin_projects__projectId__attendance_qr_route_hu from '@json/hu/src/app/api/admin/projects/[projectId]/attendance-qr/route.json';
 import m_app_api_admin_projects__projectId__blocks__blockId__route_tr from '@json/src/app/api/admin/projects/[projectId]/blocks/[blockId]/route.json';
 import m_app_api_admin_projects__projectId__blocks__blockId__route_en from '@json/en/src/app/api/admin/projects/[projectId]/blocks/[blockId]/route.json';
+import m_app_api_admin_projects__projectId__blocks__blockId__route_hu from '@json/hu/src/app/api/admin/projects/[projectId]/blocks/[blockId]/route.json';
 import m_app_api_admin_projects__projectId__blocks_route_tr from '@json/src/app/api/admin/projects/[projectId]/blocks/route.json';
 import m_app_api_admin_projects__projectId__blocks_route_en from '@json/en/src/app/api/admin/projects/[projectId]/blocks/route.json';
+import m_app_api_admin_projects__projectId__blocks_route_hu from '@json/hu/src/app/api/admin/projects/[projectId]/blocks/route.json';
 import m_app_api_admin_projects__projectId__closure_start_route_tr from '@json/src/app/api/admin/projects/[projectId]/closure/start/route.json';
 import m_app_api_admin_projects__projectId__closure_start_route_en from '@json/en/src/app/api/admin/projects/[projectId]/closure/start/route.json';
+import m_app_api_admin_projects__projectId__closure_start_route_hu from '@json/hu/src/app/api/admin/projects/[projectId]/closure/start/route.json';
 import m_app_api_admin_projects__projectId__collaborators__userId__route_tr from '@json/src/app/api/admin/projects/[projectId]/collaborators/[userId]/route.json';
 import m_app_api_admin_projects__projectId__collaborators__userId__route_en from '@json/en/src/app/api/admin/projects/[projectId]/collaborators/[userId]/route.json';
+import m_app_api_admin_projects__projectId__collaborators__userId__route_hu from '@json/hu/src/app/api/admin/projects/[projectId]/collaborators/[userId]/route.json';
 import m_app_api_admin_projects__projectId__collaborators_route_tr from '@json/src/app/api/admin/projects/[projectId]/collaborators/route.json';
 import m_app_api_admin_projects__projectId__collaborators_route_en from '@json/en/src/app/api/admin/projects/[projectId]/collaborators/route.json';
+import m_app_api_admin_projects__projectId__collaborators_route_hu from '@json/hu/src/app/api/admin/projects/[projectId]/collaborators/route.json';
 import m_app_api_admin_projects__projectId__day_reports__id__route_tr from '@json/src/app/api/admin/projects/[projectId]/day-reports/[id]/route.json';
 import m_app_api_admin_projects__projectId__day_reports__id__route_en from '@json/en/src/app/api/admin/projects/[projectId]/day-reports/[id]/route.json';
+import m_app_api_admin_projects__projectId__day_reports__id__route_hu from '@json/hu/src/app/api/admin/projects/[projectId]/day-reports/[id]/route.json';
 import m_app_api_admin_projects__projectId__day_reports_route_tr from '@json/src/app/api/admin/projects/[projectId]/day-reports/route.json';
 import m_app_api_admin_projects__projectId__day_reports_route_en from '@json/en/src/app/api/admin/projects/[projectId]/day-reports/route.json';
+import m_app_api_admin_projects__projectId__day_reports_route_hu from '@json/hu/src/app/api/admin/projects/[projectId]/day-reports/route.json';
 import m_app_api_admin_projects__projectId__deductions__recordId__route_tr from '@json/src/app/api/admin/projects/[projectId]/deductions/[recordId]/route.json';
 import m_app_api_admin_projects__projectId__deductions__recordId__route_en from '@json/en/src/app/api/admin/projects/[projectId]/deductions/[recordId]/route.json';
+import m_app_api_admin_projects__projectId__deductions__recordId__route_hu from '@json/hu/src/app/api/admin/projects/[projectId]/deductions/[recordId]/route.json';
 import m_app_api_admin_projects__projectId__deductions_route_tr from '@json/src/app/api/admin/projects/[projectId]/deductions/route.json';
 import m_app_api_admin_projects__projectId__deductions_route_en from '@json/en/src/app/api/admin/projects/[projectId]/deductions/route.json';
+import m_app_api_admin_projects__projectId__deductions_route_hu from '@json/hu/src/app/api/admin/projects/[projectId]/deductions/route.json';
 import m_app_api_admin_projects__projectId__employees__employeeId__photo_route_tr from '@json/src/app/api/admin/projects/[projectId]/employees/[employeeId]/photo/route.json';
 import m_app_api_admin_projects__projectId__employees__employeeId__photo_route_en from '@json/en/src/app/api/admin/projects/[projectId]/employees/[employeeId]/photo/route.json';
+import m_app_api_admin_projects__projectId__employees__employeeId__photo_route_hu from '@json/hu/src/app/api/admin/projects/[projectId]/employees/[employeeId]/photo/route.json';
 import m_app_api_admin_projects__projectId__employees__employeeId__route_tr from '@json/src/app/api/admin/projects/[projectId]/employees/[employeeId]/route.json';
 import m_app_api_admin_projects__projectId__employees__employeeId__route_en from '@json/en/src/app/api/admin/projects/[projectId]/employees/[employeeId]/route.json';
+import m_app_api_admin_projects__projectId__employees__employeeId__route_hu from '@json/hu/src/app/api/admin/projects/[projectId]/employees/[employeeId]/route.json';
 import m_app_api_admin_projects__projectId__employees__employeeId__sensitive_route_tr from '@json/src/app/api/admin/projects/[projectId]/employees/[employeeId]/sensitive/route.json';
 import m_app_api_admin_projects__projectId__employees__employeeId__sensitive_route_en from '@json/en/src/app/api/admin/projects/[projectId]/employees/[employeeId]/sensitive/route.json';
+import m_app_api_admin_projects__projectId__employees__employeeId__sensitive_route_hu from '@json/hu/src/app/api/admin/projects/[projectId]/employees/[employeeId]/sensitive/route.json';
 import m_app_api_admin_projects__projectId__employees_pins_route_tr from '@json/src/app/api/admin/projects/[projectId]/employees/pins/route.json';
 import m_app_api_admin_projects__projectId__employees_pins_route_en from '@json/en/src/app/api/admin/projects/[projectId]/employees/pins/route.json';
+import m_app_api_admin_projects__projectId__employees_pins_route_hu from '@json/hu/src/app/api/admin/projects/[projectId]/employees/pins/route.json';
 import m_app_api_admin_projects__projectId__employees_route_tr from '@json/src/app/api/admin/projects/[projectId]/employees/route.json';
 import m_app_api_admin_projects__projectId__employees_route_en from '@json/en/src/app/api/admin/projects/[projectId]/employees/route.json';
+import m_app_api_admin_projects__projectId__employees_route_hu from '@json/hu/src/app/api/admin/projects/[projectId]/employees/route.json';
 import m_app_api_admin_projects__projectId__jobs__jobId__expenses__expenseId__route_tr from '@json/src/app/api/admin/projects/[projectId]/jobs/[jobId]/expenses/[expenseId]/route.json';
 import m_app_api_admin_projects__projectId__jobs__jobId__expenses__expenseId__route_en from '@json/en/src/app/api/admin/projects/[projectId]/jobs/[jobId]/expenses/[expenseId]/route.json';
+import m_app_api_admin_projects__projectId__jobs__jobId__expenses__expenseId__route_hu from '@json/hu/src/app/api/admin/projects/[projectId]/jobs/[jobId]/expenses/[expenseId]/route.json';
 import m_app_api_admin_projects__projectId__jobs__jobId__expenses_route_tr from '@json/src/app/api/admin/projects/[projectId]/jobs/[jobId]/expenses/route.json';
 import m_app_api_admin_projects__projectId__jobs__jobId__expenses_route_en from '@json/en/src/app/api/admin/projects/[projectId]/jobs/[jobId]/expenses/route.json';
+import m_app_api_admin_projects__projectId__jobs__jobId__expenses_route_hu from '@json/hu/src/app/api/admin/projects/[projectId]/jobs/[jobId]/expenses/route.json';
 import m_app_api_admin_projects__projectId__jobs__jobId__route_tr from '@json/src/app/api/admin/projects/[projectId]/jobs/[jobId]/route.json';
 import m_app_api_admin_projects__projectId__jobs__jobId__route_en from '@json/en/src/app/api/admin/projects/[projectId]/jobs/[jobId]/route.json';
+import m_app_api_admin_projects__projectId__jobs__jobId__route_hu from '@json/hu/src/app/api/admin/projects/[projectId]/jobs/[jobId]/route.json';
 import m_app_api_admin_projects__projectId__jobs_route_tr from '@json/src/app/api/admin/projects/[projectId]/jobs/route.json';
 import m_app_api_admin_projects__projectId__jobs_route_en from '@json/en/src/app/api/admin/projects/[projectId]/jobs/route.json';
+import m_app_api_admin_projects__projectId__jobs_route_hu from '@json/hu/src/app/api/admin/projects/[projectId]/jobs/route.json';
 import m_app_api_admin_projects__projectId__minimum_wages__recordId__route_tr from '@json/src/app/api/admin/projects/[projectId]/minimum-wages/[recordId]/route.json';
 import m_app_api_admin_projects__projectId__minimum_wages__recordId__route_en from '@json/en/src/app/api/admin/projects/[projectId]/minimum-wages/[recordId]/route.json';
+import m_app_api_admin_projects__projectId__minimum_wages__recordId__route_hu from '@json/hu/src/app/api/admin/projects/[projectId]/minimum-wages/[recordId]/route.json';
 import m_app_api_admin_projects__projectId__minimum_wages_route_tr from '@json/src/app/api/admin/projects/[projectId]/minimum-wages/route.json';
 import m_app_api_admin_projects__projectId__minimum_wages_route_en from '@json/en/src/app/api/admin/projects/[projectId]/minimum-wages/route.json';
+import m_app_api_admin_projects__projectId__minimum_wages_route_hu from '@json/hu/src/app/api/admin/projects/[projectId]/minimum-wages/route.json';
 import m_app_api_admin_projects__projectId__partners_route_tr from '@json/src/app/api/admin/projects/[projectId]/partners/route.json';
 import m_app_api_admin_projects__projectId__partners_route_en from '@json/en/src/app/api/admin/projects/[projectId]/partners/route.json';
+import m_app_api_admin_projects__projectId__partners_route_hu from '@json/hu/src/app/api/admin/projects/[projectId]/partners/route.json';
 import m_app_api_admin_projects__projectId__payroll_route_tr from '@json/src/app/api/admin/projects/[projectId]/payroll/route.json';
 import m_app_api_admin_projects__projectId__payroll_route_en from '@json/en/src/app/api/admin/projects/[projectId]/payroll/route.json';
+import m_app_api_admin_projects__projectId__payroll_route_hu from '@json/hu/src/app/api/admin/projects/[projectId]/payroll/route.json';
 import m_app_api_admin_projects__projectId__profit_route_tr from '@json/src/app/api/admin/projects/[projectId]/profit/route.json';
 import m_app_api_admin_projects__projectId__profit_route_en from '@json/en/src/app/api/admin/projects/[projectId]/profit/route.json';
+import m_app_api_admin_projects__projectId__profit_route_hu from '@json/hu/src/app/api/admin/projects/[projectId]/profit/route.json';
 import m_app_api_admin_projects__projectId__route_tr from '@json/src/app/api/admin/projects/[projectId]/route.json';
 import m_app_api_admin_projects__projectId__route_en from '@json/en/src/app/api/admin/projects/[projectId]/route.json';
+import m_app_api_admin_projects__projectId__route_hu from '@json/hu/src/app/api/admin/projects/[projectId]/route.json';
 import m_app_api_admin_projects__projectId__teams__teamId__members_route_tr from '@json/src/app/api/admin/projects/[projectId]/teams/[teamId]/members/route.json';
 import m_app_api_admin_projects__projectId__teams__teamId__members_route_en from '@json/en/src/app/api/admin/projects/[projectId]/teams/[teamId]/members/route.json';
+import m_app_api_admin_projects__projectId__teams__teamId__members_route_hu from '@json/hu/src/app/api/admin/projects/[projectId]/teams/[teamId]/members/route.json';
 import m_app_api_admin_projects__projectId__teams_route_tr from '@json/src/app/api/admin/projects/[projectId]/teams/route.json';
 import m_app_api_admin_projects__projectId__teams_route_en from '@json/en/src/app/api/admin/projects/[projectId]/teams/route.json';
+import m_app_api_admin_projects__projectId__teams_route_hu from '@json/hu/src/app/api/admin/projects/[projectId]/teams/route.json';
 import m_app_api_admin_projects__projectId__work_logs__recordId__route_tr from '@json/src/app/api/admin/projects/[projectId]/work-logs/[recordId]/route.json';
 import m_app_api_admin_projects__projectId__work_logs__recordId__route_en from '@json/en/src/app/api/admin/projects/[projectId]/work-logs/[recordId]/route.json';
+import m_app_api_admin_projects__projectId__work_logs__recordId__route_hu from '@json/hu/src/app/api/admin/projects/[projectId]/work-logs/[recordId]/route.json';
 import m_app_api_admin_projects__projectId__work_logs_route_tr from '@json/src/app/api/admin/projects/[projectId]/work-logs/route.json';
 import m_app_api_admin_projects__projectId__work_logs_route_en from '@json/en/src/app/api/admin/projects/[projectId]/work-logs/route.json';
+import m_app_api_admin_projects__projectId__work_logs_route_hu from '@json/hu/src/app/api/admin/projects/[projectId]/work-logs/route.json';
 import m_app_api_admin_projects_join_collab_route_tr from '@json/src/app/api/admin/projects/join-collab/route.json';
 import m_app_api_admin_projects_join_collab_route_en from '@json/en/src/app/api/admin/projects/join-collab/route.json';
+import m_app_api_admin_projects_join_collab_route_hu from '@json/hu/src/app/api/admin/projects/join-collab/route.json';
 import m_app_api_admin_projects_route_tr from '@json/src/app/api/admin/projects/route.json';
 import m_app_api_admin_projects_route_en from '@json/en/src/app/api/admin/projects/route.json';
+import m_app_api_admin_projects_route_hu from '@json/hu/src/app/api/admin/projects/route.json';
 import m_app_api_admin_registrations_lookup_route_tr from '@json/src/app/api/admin/registrations/lookup/route.json';
 import m_app_api_admin_registrations_lookup_route_en from '@json/en/src/app/api/admin/registrations/lookup/route.json';
+import m_app_api_admin_registrations_lookup_route_hu from '@json/hu/src/app/api/admin/registrations/lookup/route.json';
 import m_app_api_auth_admin_register_route_tr from '@json/src/app/api/auth/admin/register/route.json';
 import m_app_api_auth_admin_register_route_en from '@json/en/src/app/api/auth/admin/register/route.json';
+import m_app_api_auth_admin_register_route_hu from '@json/hu/src/app/api/auth/admin/register/route.json';
 import m_app_api_auth_personnel_employees_route_tr from '@json/src/app/api/auth/personnel/employees/route.json';
 import m_app_api_auth_personnel_employees_route_en from '@json/en/src/app/api/auth/personnel/employees/route.json';
+import m_app_api_auth_personnel_employees_route_hu from '@json/hu/src/app/api/auth/personnel/employees/route.json';
 import m_app_api_auth_personnel_login_route_tr from '@json/src/app/api/auth/personnel/login/route.json';
 import m_app_api_auth_personnel_login_route_en from '@json/en/src/app/api/auth/personnel/login/route.json';
+import m_app_api_auth_personnel_login_route_hu from '@json/hu/src/app/api/auth/personnel/login/route.json';
 import m_app_api_auth_personnel_projects_route_tr from '@json/src/app/api/auth/personnel/projects/route.json';
 import m_app_api_auth_personnel_projects_route_en from '@json/en/src/app/api/auth/personnel/projects/route.json';
+import m_app_api_auth_personnel_projects_route_hu from '@json/hu/src/app/api/auth/personnel/projects/route.json';
 import m_app_api_auth_personnel_unlock_route_tr from '@json/src/app/api/auth/personnel/unlock/route.json';
 import m_app_api_auth_personnel_unlock_route_en from '@json/en/src/app/api/auth/personnel/unlock/route.json';
+import m_app_api_auth_personnel_unlock_route_hu from '@json/hu/src/app/api/auth/personnel/unlock/route.json';
 import m_app_api_cron_personnel_pending_reminders_route_tr from '@json/src/app/api/cron/personnel-pending-reminders/route.json';
 import m_app_api_cron_personnel_pending_reminders_route_en from '@json/en/src/app/api/cron/personnel-pending-reminders/route.json';
+import m_app_api_cron_personnel_pending_reminders_route_hu from '@json/hu/src/app/api/cron/personnel-pending-reminders/route.json';
 import m_app_api_cron_supabase_keepalive_route_tr from '@json/src/app/api/cron/supabase-keepalive/route.json';
 import m_app_api_cron_supabase_keepalive_route_en from '@json/en/src/app/api/cron/supabase-keepalive/route.json';
+import m_app_api_cron_supabase_keepalive_route_hu from '@json/hu/src/app/api/cron/supabase-keepalive/route.json';
 import m_app_api_developer_codes__codeId__route_tr from '@json/src/app/api/developer/codes/[codeId]/route.json';
 import m_app_api_developer_codes__codeId__route_en from '@json/en/src/app/api/developer/codes/[codeId]/route.json';
+import m_app_api_developer_codes__codeId__route_hu from '@json/hu/src/app/api/developer/codes/[codeId]/route.json';
 import m_app_api_developer_codes_route_tr from '@json/src/app/api/developer/codes/route.json';
 import m_app_api_developer_codes_route_en from '@json/en/src/app/api/developer/codes/route.json';
+import m_app_api_developer_codes_route_hu from '@json/hu/src/app/api/developer/codes/route.json';
 import m_app_api_developer_releases__id__publish_route_tr from '@json/src/app/api/developer/releases/[id]/publish/route.json';
 import m_app_api_developer_releases__id__publish_route_en from '@json/en/src/app/api/developer/releases/[id]/publish/route.json';
+import m_app_api_developer_releases__id__publish_route_hu from '@json/hu/src/app/api/developer/releases/[id]/publish/route.json';
 import m_app_api_developer_releases__id__route_tr from '@json/src/app/api/developer/releases/[id]/route.json';
 import m_app_api_developer_releases__id__route_en from '@json/en/src/app/api/developer/releases/[id]/route.json';
+import m_app_api_developer_releases__id__route_hu from '@json/hu/src/app/api/developer/releases/[id]/route.json';
 import m_app_api_developer_releases_route_tr from '@json/src/app/api/developer/releases/route.json';
 import m_app_api_developer_releases_route_en from '@json/en/src/app/api/developer/releases/route.json';
+import m_app_api_developer_releases_route_hu from '@json/hu/src/app/api/developer/releases/route.json';
 import m_app_api_developer_wipe_database_route_tr from '@json/src/app/api/developer/wipe-database/route.json';
 import m_app_api_developer_wipe_database_route_en from '@json/en/src/app/api/developer/wipe-database/route.json';
+import m_app_api_developer_wipe_database_route_hu from '@json/hu/src/app/api/developer/wipe-database/route.json';
 import m_app_api_personnel_advance_requests__id__cancel_route_tr from '@json/src/app/api/personnel/advance-requests/[id]/cancel/route.json';
 import m_app_api_personnel_advance_requests__id__cancel_route_en from '@json/en/src/app/api/personnel/advance-requests/[id]/cancel/route.json';
+import m_app_api_personnel_advance_requests__id__cancel_route_hu from '@json/hu/src/app/api/personnel/advance-requests/[id]/cancel/route.json';
 import m_app_api_personnel_advance_requests_confirm_cash_route_tr from '@json/src/app/api/personnel/advance-requests/confirm-cash/route.json';
 import m_app_api_personnel_advance_requests_confirm_cash_route_en from '@json/en/src/app/api/personnel/advance-requests/confirm-cash/route.json';
+import m_app_api_personnel_advance_requests_confirm_cash_route_hu from '@json/hu/src/app/api/personnel/advance-requests/confirm-cash/route.json';
 import m_app_api_personnel_advance_requests_route_tr from '@json/src/app/api/personnel/advance-requests/route.json';
 import m_app_api_personnel_advance_requests_route_en from '@json/en/src/app/api/personnel/advance-requests/route.json';
+import m_app_api_personnel_advance_requests_route_hu from '@json/hu/src/app/api/personnel/advance-requests/route.json';
 import m_app_api_personnel_asgari_route_tr from '@json/src/app/api/personnel/asgari/route.json';
 import m_app_api_personnel_asgari_route_en from '@json/en/src/app/api/personnel/asgari/route.json';
+import m_app_api_personnel_asgari_route_hu from '@json/hu/src/app/api/personnel/asgari/route.json';
 import m_app_api_personnel_attendance_qr_status_route_tr from '@json/src/app/api/personnel/attendance-qr/status/route.json';
 import m_app_api_personnel_attendance_qr_status_route_en from '@json/en/src/app/api/personnel/attendance-qr/status/route.json';
+import m_app_api_personnel_attendance_qr_status_route_hu from '@json/hu/src/app/api/personnel/attendance-qr/status/route.json';
 import m_app_api_personnel_change_password_route_tr from '@json/src/app/api/personnel/change-password/route.json';
 import m_app_api_personnel_change_password_route_en from '@json/en/src/app/api/personnel/change-password/route.json';
+import m_app_api_personnel_change_password_route_hu from '@json/hu/src/app/api/personnel/change-password/route.json';
 import m_app_api_personnel_closure_accelerate_deletion_route_tr from '@json/src/app/api/personnel/closure/accelerate-deletion/route.json';
 import m_app_api_personnel_closure_accelerate_deletion_route_en from '@json/en/src/app/api/personnel/closure/accelerate-deletion/route.json';
+import m_app_api_personnel_closure_accelerate_deletion_route_hu from '@json/hu/src/app/api/personnel/closure/accelerate-deletion/route.json';
 import m_app_api_personnel_closure_acknowledge_export_route_tr from '@json/src/app/api/personnel/closure/acknowledge-export/route.json';
 import m_app_api_personnel_closure_acknowledge_export_route_en from '@json/en/src/app/api/personnel/closure/acknowledge-export/route.json';
+import m_app_api_personnel_closure_acknowledge_export_route_hu from '@json/hu/src/app/api/personnel/closure/acknowledge-export/route.json';
 import m_app_api_personnel_closure_consent_route_tr from '@json/src/app/api/personnel/closure/consent/route.json';
 import m_app_api_personnel_closure_consent_route_en from '@json/en/src/app/api/personnel/closure/consent/route.json';
+import m_app_api_personnel_closure_consent_route_hu from '@json/hu/src/app/api/personnel/closure/consent/route.json';
 import m_app_api_personnel_closure_execute_deletion_route_tr from '@json/src/app/api/personnel/closure/execute-deletion/route.json';
 import m_app_api_personnel_closure_execute_deletion_route_en from '@json/en/src/app/api/personnel/closure/execute-deletion/route.json';
+import m_app_api_personnel_closure_execute_deletion_route_hu from '@json/hu/src/app/api/personnel/closure/execute-deletion/route.json';
 import m_app_api_personnel_closure_status_route_tr from '@json/src/app/api/personnel/closure/status/route.json';
 import m_app_api_personnel_closure_status_route_en from '@json/en/src/app/api/personnel/closure/status/route.json';
+import m_app_api_personnel_closure_status_route_hu from '@json/hu/src/app/api/personnel/closure/status/route.json';
 import m_app_api_personnel_contracts_route_tr from '@json/src/app/api/personnel/contracts/route.json';
 import m_app_api_personnel_contracts_route_en from '@json/en/src/app/api/personnel/contracts/route.json';
+import m_app_api_personnel_contracts_route_hu from '@json/hu/src/app/api/personnel/contracts/route.json';
 import m_app_api_personnel_day_reports_route_tr from '@json/src/app/api/personnel/day-reports/route.json';
 import m_app_api_personnel_day_reports_route_en from '@json/en/src/app/api/personnel/day-reports/route.json';
+import m_app_api_personnel_day_reports_route_hu from '@json/hu/src/app/api/personnel/day-reports/route.json';
 import m_app_api_personnel_deductions_route_tr from '@json/src/app/api/personnel/deductions/route.json';
 import m_app_api_personnel_deductions_route_en from '@json/en/src/app/api/personnel/deductions/route.json';
+import m_app_api_personnel_deductions_route_hu from '@json/hu/src/app/api/personnel/deductions/route.json';
 import m_app_api_personnel_me_photo_route_tr from '@json/src/app/api/personnel/me/photo/route.json';
 import m_app_api_personnel_me_photo_route_en from '@json/en/src/app/api/personnel/me/photo/route.json';
+import m_app_api_personnel_me_photo_route_hu from '@json/hu/src/app/api/personnel/me/photo/route.json';
 import m_app_api_personnel_me_route_tr from '@json/src/app/api/personnel/me/route.json';
 import m_app_api_personnel_me_route_en from '@json/en/src/app/api/personnel/me/route.json';
+import m_app_api_personnel_me_route_hu from '@json/hu/src/app/api/personnel/me/route.json';
 import m_app_api_personnel_minimum_wages_route_tr from '@json/src/app/api/personnel/minimum-wages/route.json';
 import m_app_api_personnel_minimum_wages_route_en from '@json/en/src/app/api/personnel/minimum-wages/route.json';
+import m_app_api_personnel_minimum_wages_route_hu from '@json/hu/src/app/api/personnel/minimum-wages/route.json';
 import m_app_api_personnel_my_dossier_route_tr from '@json/src/app/api/personnel/my-dossier/route.json';
 import m_app_api_personnel_my_dossier_route_en from '@json/en/src/app/api/personnel/my-dossier/route.json';
+import m_app_api_personnel_my_dossier_route_hu from '@json/hu/src/app/api/personnel/my-dossier/route.json';
 import m_app_api_personnel_my_dossier_sections_route_tr from '@json/src/app/api/personnel/my-dossier/sections/route.json';
 import m_app_api_personnel_my_dossier_sections_route_en from '@json/en/src/app/api/personnel/my-dossier/sections/route.json';
+import m_app_api_personnel_my_dossier_sections_route_hu from '@json/hu/src/app/api/personnel/my-dossier/sections/route.json';
 import m_app_api_personnel_push_subscribe_route_tr from '@json/src/app/api/personnel/push/subscribe/route.json';
 import m_app_api_personnel_push_subscribe_route_en from '@json/en/src/app/api/personnel/push/subscribe/route.json';
+import m_app_api_personnel_push_subscribe_route_hu from '@json/hu/src/app/api/personnel/push/subscribe/route.json';
 import m_app_api_personnel_summary_route_tr from '@json/src/app/api/personnel/summary/route.json';
 import m_app_api_personnel_summary_route_en from '@json/en/src/app/api/personnel/summary/route.json';
+import m_app_api_personnel_summary_route_hu from '@json/hu/src/app/api/personnel/summary/route.json';
 import m_app_api_personnel_work_logs__recordId__dispute_route_tr from '@json/src/app/api/personnel/work-logs/[recordId]/dispute/route.json';
 import m_app_api_personnel_work_logs__recordId__dispute_route_en from '@json/en/src/app/api/personnel/work-logs/[recordId]/dispute/route.json';
+import m_app_api_personnel_work_logs__recordId__dispute_route_hu from '@json/hu/src/app/api/personnel/work-logs/[recordId]/dispute/route.json';
 import m_app_api_personnel_work_logs_confirm_route_tr from '@json/src/app/api/personnel/work-logs/confirm/route.json';
 import m_app_api_personnel_work_logs_confirm_route_en from '@json/en/src/app/api/personnel/work-logs/confirm/route.json';
+import m_app_api_personnel_work_logs_confirm_route_hu from '@json/hu/src/app/api/personnel/work-logs/confirm/route.json';
 import m_app_api_personnel_work_logs_route_tr from '@json/src/app/api/personnel/work-logs/route.json';
 import m_app_api_personnel_work_logs_route_en from '@json/en/src/app/api/personnel/work-logs/route.json';
+import m_app_api_personnel_work_logs_route_hu from '@json/hu/src/app/api/personnel/work-logs/route.json';
 import m_app_api_personnel_work_logs_today_route_tr from '@json/src/app/api/personnel/work-logs/today/route.json';
 import m_app_api_personnel_work_logs_today_route_en from '@json/en/src/app/api/personnel/work-logs/today/route.json';
+import m_app_api_personnel_work_logs_today_route_hu from '@json/hu/src/app/api/personnel/work-logs/today/route.json';
 import m_app_api_public_contract_otp_confirm_link_route_tr from '@json/src/app/api/public/contract-otp/confirm-link/route.json';
 import m_app_api_public_contract_otp_confirm_link_route_en from '@json/en/src/app/api/public/contract-otp/confirm-link/route.json';
+import m_app_api_public_contract_otp_confirm_link_route_hu from '@json/hu/src/app/api/public/contract-otp/confirm-link/route.json';
 import m_app_api_public_contract_otp_prepare_route_tr from '@json/src/app/api/public/contract-otp/prepare/route.json';
 import m_app_api_public_contract_otp_prepare_route_en from '@json/en/src/app/api/public/contract-otp/prepare/route.json';
+import m_app_api_public_contract_otp_prepare_route_hu from '@json/hu/src/app/api/public/contract-otp/prepare/route.json';
 import m_app_api_public_contract_otp_send_route_tr from '@json/src/app/api/public/contract-otp/send/route.json';
 import m_app_api_public_contract_otp_send_route_en from '@json/en/src/app/api/public/contract-otp/send/route.json';
+import m_app_api_public_contract_otp_send_route_hu from '@json/hu/src/app/api/public/contract-otp/send/route.json';
 import m_app_api_public_contract_otp_verify_route_tr from '@json/src/app/api/public/contract-otp/verify/route.json';
 import m_app_api_public_contract_otp_verify_route_en from '@json/en/src/app/api/public/contract-otp/verify/route.json';
+import m_app_api_public_contract_otp_verify_route_hu from '@json/hu/src/app/api/public/contract-otp/verify/route.json';
 import m_app_api_public_contracts_route_tr from '@json/src/app/api/public/contracts/route.json';
 import m_app_api_public_contracts_route_en from '@json/en/src/app/api/public/contracts/route.json';
+import m_app_api_public_contracts_route_hu from '@json/hu/src/app/api/public/contracts/route.json';
 import m_app_api_public_contracts_view_route_tr from '@json/src/app/api/public/contracts/view/route.json';
 import m_app_api_public_contracts_view_route_en from '@json/en/src/app/api/public/contracts/view/route.json';
+import m_app_api_public_contracts_view_route_hu from '@json/hu/src/app/api/public/contracts/view/route.json';
 import m_app_api_public_personnel_pin_reset_complete_route_tr from '@json/src/app/api/public/personnel-pin-reset/complete/route.json';
 import m_app_api_public_personnel_pin_reset_complete_route_en from '@json/en/src/app/api/public/personnel-pin-reset/complete/route.json';
+import m_app_api_public_personnel_pin_reset_complete_route_hu from '@json/hu/src/app/api/public/personnel-pin-reset/complete/route.json';
 import m_app_api_public_personnel_pin_reset_route_tr from '@json/src/app/api/public/personnel-pin-reset/route.json';
 import m_app_api_public_personnel_pin_reset_route_en from '@json/en/src/app/api/public/personnel-pin-reset/route.json';
+import m_app_api_public_personnel_pin_reset_route_hu from '@json/hu/src/app/api/public/personnel-pin-reset/route.json';
 import m_app_api_public_personnel_registration_access_route_tr from '@json/src/app/api/public/personnel-registration/access/route.json';
 import m_app_api_public_personnel_registration_access_route_en from '@json/en/src/app/api/public/personnel-registration/access/route.json';
+import m_app_api_public_personnel_registration_access_route_hu from '@json/hu/src/app/api/public/personnel-registration/access/route.json';
 import m_app_api_public_personnel_registration_route_tr from '@json/src/app/api/public/personnel-registration/route.json';
 import m_app_api_public_personnel_registration_route_en from '@json/en/src/app/api/public/personnel-registration/route.json';
+import m_app_api_public_personnel_registration_route_hu from '@json/hu/src/app/api/public/personnel-registration/route.json';
 import m_app_api_public_personnel_registration_status_route_tr from '@json/src/app/api/public/personnel-registration/status/route.json';
 import m_app_api_public_personnel_registration_status_route_en from '@json/en/src/app/api/public/personnel-registration/status/route.json';
+import m_app_api_public_personnel_registration_status_route_hu from '@json/hu/src/app/api/public/personnel-registration/status/route.json';
 import m_app_api_public_releases__appType__download_route_tr from '@json/src/app/api/public/releases/[appType]/download/route.json';
 import m_app_api_public_releases__appType__download_route_en from '@json/en/src/app/api/public/releases/[appType]/download/route.json';
+import m_app_api_public_releases__appType__download_route_hu from '@json/hu/src/app/api/public/releases/[appType]/download/route.json';
 import m_app_api_public_releases_route_tr from '@json/src/app/api/public/releases/route.json';
 import m_app_api_public_releases_route_en from '@json/en/src/app/api/public/releases/route.json';
+import m_app_api_public_releases_route_hu from '@json/hu/src/app/api/public/releases/route.json';
 import m_app_api_public_screen_report_route_tr from '@json/src/app/api/public/screen-report/route.json';
 import m_app_api_public_screen_report_route_en from '@json/en/src/app/api/public/screen-report/route.json';
+import m_app_api_public_screen_report_route_hu from '@json/hu/src/app/api/public/screen-report/route.json';
 import m_app_api_reset_password_route_tr from '@json/src/app/api/reset-password/route.json';
 import m_app_api_reset_password_route_en from '@json/en/src/app/api/reset-password/route.json';
+import m_app_api_reset_password_route_hu from '@json/hu/src/app/api/reset-password/route.json';
 import m_app_apk_page_tr from '@json/src/app/apk/page.json';
 import m_app_apk_page_en from '@json/en/src/app/apk/page.json';
+import m_app_apk_page_hu from '@json/hu/src/app/apk/page.json';
 import m_app_auth_yeni_sifre_page_tr from '@json/src/app/auth/yeni-sifre/page.json';
 import m_app_auth_yeni_sifre_page_en from '@json/en/src/app/auth/yeni-sifre/page.json';
+import m_app_auth_yeni_sifre_page_hu from '@json/hu/src/app/auth/yeni-sifre/page.json';
 import m_app_developer_panel_login_page_tr from '@json/src/app/developer-panel/login/page.json';
 import m_app_developer_panel_login_page_en from '@json/en/src/app/developer-panel/login/page.json';
+import m_app_developer_panel_login_page_hu from '@json/hu/src/app/developer-panel/login/page.json';
 import m_app_developer_panel_page_tr from '@json/src/app/developer-panel/page.json';
 import m_app_developer_panel_page_en from '@json/en/src/app/developer-panel/page.json';
+import m_app_developer_panel_page_hu from '@json/hu/src/app/developer-panel/page.json';
 import m_app_developer_panel_releases_page_tr from '@json/src/app/developer-panel/releases/page.json';
 import m_app_developer_panel_releases_page_en from '@json/en/src/app/developer-panel/releases/page.json';
+import m_app_developer_panel_releases_page_hu from '@json/hu/src/app/developer-panel/releases/page.json';
 import m_app_gizlilik_page_tr from '@json/src/app/gizlilik/page.json';
 import m_app_gizlilik_page_en from '@json/en/src/app/gizlilik/page.json';
+import m_app_gizlilik_page_hu from '@json/hu/src/app/gizlilik/page.json';
 import m_app_kullanim_sartlari_page_tr from '@json/src/app/kullanim-sartlari/page.json';
 import m_app_kullanim_sartlari_page_en from '@json/en/src/app/kullanim-sartlari/page.json';
+import m_app_kullanim_sartlari_page_hu from '@json/hu/src/app/kullanim-sartlari/page.json';
 import m_app_kvkk_page_tr from '@json/src/app/kvkk/page.json';
 import m_app_kvkk_page_en from '@json/en/src/app/kvkk/page.json';
+import m_app_kvkk_page_hu from '@json/hu/src/app/kvkk/page.json';
 import m_app_layout_tr from '@json/src/app/layout.json';
 import m_app_layout_en from '@json/en/src/app/layout.json';
+import m_app_layout_hu from '@json/hu/src/app/layout.json';
 import m_app_personnel_panel_avans_onay_page_tr from '@json/src/app/personnel-panel/avans-onay/page.json';
 import m_app_personnel_panel_avans_onay_page_en from '@json/en/src/app/personnel-panel/avans-onay/page.json';
+import m_app_personnel_panel_avans_onay_page_hu from '@json/hu/src/app/personnel-panel/avans-onay/page.json';
 import m_app_personnel_panel_avans_page_tr from '@json/src/app/personnel-panel/avans/page.json';
 import m_app_personnel_panel_avans_page_en from '@json/en/src/app/personnel-panel/avans/page.json';
+import m_app_personnel_panel_avans_page_hu from '@json/hu/src/app/personnel-panel/avans/page.json';
 import m_app_personnel_panel_basvuru_dogrula_page_tr from '@json/src/app/personnel-panel/basvuru/dogrula/page.json';
 import m_app_personnel_panel_basvuru_dogrula_page_en from '@json/en/src/app/personnel-panel/basvuru/dogrula/page.json';
+import m_app_personnel_panel_basvuru_dogrula_page_hu from '@json/hu/src/app/personnel-panel/basvuru/dogrula/page.json';
 import m_app_personnel_panel_basvuru_page_tr from '@json/src/app/personnel-panel/basvuru/page.json';
 import m_app_personnel_panel_basvuru_page_en from '@json/en/src/app/personnel-panel/basvuru/page.json';
+import m_app_personnel_panel_basvuru_page_hu from '@json/hu/src/app/personnel-panel/basvuru/page.json';
 import m_app_personnel_panel_layout_tr from '@json/src/app/personnel-panel/layout.json';
 import m_app_personnel_panel_layout_en from '@json/en/src/app/personnel-panel/layout.json';
+import m_app_personnel_panel_layout_hu from '@json/hu/src/app/personnel-panel/layout.json';
 import m_app_personnel_panel_login_page_tr from '@json/src/app/personnel-panel/login/page.json';
 import m_app_personnel_panel_login_page_en from '@json/en/src/app/personnel-panel/login/page.json';
+import m_app_personnel_panel_login_page_hu from '@json/hu/src/app/personnel-panel/login/page.json';
 import m_app_personnel_panel_page_tr from '@json/src/app/personnel-panel/page.json';
 import m_app_personnel_panel_page_en from '@json/en/src/app/personnel-panel/page.json';
+import m_app_personnel_panel_page_hu from '@json/hu/src/app/personnel-panel/page.json';
 import m_app_personnel_panel_pin_sifirla_page_tr from '@json/src/app/personnel-panel/pin-sifirla/page.json';
 import m_app_personnel_panel_pin_sifirla_page_en from '@json/en/src/app/personnel-panel/pin-sifirla/page.json';
+import m_app_personnel_panel_pin_sifirla_page_hu from '@json/hu/src/app/personnel-panel/pin-sifirla/page.json';
 import m_app_personnel_panel_sifremi_unuttum_page_tr from '@json/src/app/personnel-panel/sifremi-unuttum/page.json';
 import m_app_personnel_panel_sifremi_unuttum_page_en from '@json/en/src/app/personnel-panel/sifremi-unuttum/page.json';
+import m_app_personnel_panel_sifremi_unuttum_page_hu from '@json/hu/src/app/personnel-panel/sifremi-unuttum/page.json';
 import m_app_personnel_panel_unlock_page_tr from '@json/src/app/personnel-panel/unlock/page.json';
 import m_app_personnel_panel_unlock_page_en from '@json/en/src/app/personnel-panel/unlock/page.json';
+import m_app_personnel_panel_unlock_page_hu from '@json/hu/src/app/personnel-panel/unlock/page.json';
 import m_app_personnel_panel_yoklama_page_tr from '@json/src/app/personnel-panel/yoklama/page.json';
 import m_app_personnel_panel_yoklama_page_en from '@json/en/src/app/personnel-panel/yoklama/page.json';
+import m_app_personnel_panel_yoklama_page_hu from '@json/hu/src/app/personnel-panel/yoklama/page.json';
 import m_app_sozlesme__slug__page_tr from '@json/src/app/sozlesme/[slug]/page.json';
 import m_app_sozlesme__slug__page_en from '@json/en/src/app/sozlesme/[slug]/page.json';
+import m_app_sozlesme__slug__page_hu from '@json/hu/src/app/sozlesme/[slug]/page.json';
 import m_app_supabase_page_tr from '@json/src/app/supabase/page.json';
 import m_app_supabase_page_en from '@json/en/src/app/supabase/page.json';
+import m_app_supabase_page_hu from '@json/hu/src/app/supabase/page.json';
 import m_components_ThemeToggle_tr from '@json/src/components/ThemeToggle.json';
 import m_components_ThemeToggle_en from '@json/en/src/components/ThemeToggle.json';
+import m_components_ThemeToggle_hu from '@json/hu/src/components/ThemeToggle.json';
 import m_components_admin_AdminAppIntro_tr from '@json/src/components/admin/AdminAppIntro.json';
 import m_components_admin_AdminAppIntro_en from '@json/en/src/components/admin/AdminAppIntro.json';
+import m_components_admin_AdminAppIntro_hu from '@json/hu/src/components/admin/AdminAppIntro.json';
 import m_components_admin_AdminAppSettings_tr from '@json/src/components/admin/AdminAppSettings.json';
 import m_components_admin_AdminAppSettings_en from '@json/en/src/components/admin/AdminAppSettings.json';
+import m_components_admin_AdminAppSettings_hu from '@json/hu/src/components/admin/AdminAppSettings.json';
 import m_components_admin_AdminAttendanceModal_tr from '@json/src/components/admin/AdminAttendanceModal.json';
 import m_components_admin_AdminAttendanceModal_en from '@json/en/src/components/admin/AdminAttendanceModal.json';
+import m_components_admin_AdminAttendanceModal_hu from '@json/hu/src/components/admin/AdminAttendanceModal.json';
 import m_components_admin_AdminProjectClosureScreen_tr from '@json/src/components/admin/AdminProjectClosureScreen.json';
 import m_components_admin_AdminProjectClosureScreen_en from '@json/en/src/components/admin/AdminProjectClosureScreen.json';
+import m_components_admin_AdminProjectClosureScreen_hu from '@json/hu/src/components/admin/AdminProjectClosureScreen.json';
 import m_components_admin_AdminWorkLogDisputeActions_tr from '@json/src/components/admin/AdminWorkLogDisputeActions.json';
 import m_components_admin_AdminWorkLogDisputeActions_en from '@json/en/src/components/admin/AdminWorkLogDisputeActions.json';
+import m_components_admin_AdminWorkLogDisputeActions_hu from '@json/hu/src/components/admin/AdminWorkLogDisputeActions.json';
 import m_components_admin_DekontSharePanel_tr from '@json/src/components/admin/DekontSharePanel.json';
 import m_components_admin_DekontSharePanel_en from '@json/en/src/components/admin/DekontSharePanel.json';
+import m_components_admin_DekontSharePanel_hu from '@json/hu/src/components/admin/DekontSharePanel.json';
 import m_components_admin_LegalDossierDownloadButton_tr from '@json/src/components/admin/LegalDossierDownloadButton.json';
 import m_components_admin_LegalDossierDownloadButton_en from '@json/en/src/components/admin/LegalDossierDownloadButton.json';
+import m_components_admin_LegalDossierDownloadButton_hu from '@json/hu/src/components/admin/LegalDossierDownloadButton.json';
 import m_components_admin_ProjectLegalDossierDownloadButton_tr from '@json/src/components/admin/ProjectLegalDossierDownloadButton.json';
 import m_components_admin_ProjectLegalDossierDownloadButton_en from '@json/en/src/components/admin/ProjectLegalDossierDownloadButton.json';
+import m_components_admin_ProjectLegalDossierDownloadButton_hu from '@json/hu/src/components/admin/ProjectLegalDossierDownloadButton.json';
 import m_components_advance_AdminAdvanceRequestsPanel_tr from '@json/src/components/advance/AdminAdvanceRequestsPanel.json';
 import m_components_advance_AdminAdvanceRequestsPanel_en from '@json/en/src/components/advance/AdminAdvanceRequestsPanel.json';
+import m_components_advance_AdminAdvanceRequestsPanel_hu from '@json/hu/src/components/advance/AdminAdvanceRequestsPanel.json';
 import m_components_auth_AdminRegisterLayout_tr from '@json/src/components/auth/AdminRegisterLayout.json';
 import m_components_auth_AdminRegisterLayout_en from '@json/en/src/components/auth/AdminRegisterLayout.json';
+import m_components_auth_AdminRegisterLayout_hu from '@json/hu/src/components/auth/AdminRegisterLayout.json';
 import m_components_auth_AuthLayout_tr from '@json/src/components/auth/AuthLayout.json';
 import m_components_auth_AuthLayout_en from '@json/en/src/components/auth/AuthLayout.json';
+import m_components_auth_AuthLayout_hu from '@json/hu/src/components/auth/AuthLayout.json';
 import m_components_auth_AuthReportContext_tr from '@json/src/components/auth/AuthReportContext.json';
 import m_components_auth_AuthReportContext_en from '@json/en/src/components/auth/AuthReportContext.json';
+import m_components_auth_AuthReportContext_hu from '@json/hu/src/components/auth/AuthReportContext.json';
 import m_components_auth_ForgotPinModal_tr from '@json/src/components/auth/ForgotPinModal.json';
 import m_components_auth_ForgotPinModal_en from '@json/en/src/components/auth/ForgotPinModal.json';
+import m_components_auth_ForgotPinModal_hu from '@json/hu/src/components/auth/ForgotPinModal.json';
 import m_components_auth_PinResetPageContent_tr from '@json/src/components/auth/PinResetPageContent.json';
 import m_components_auth_PinResetPageContent_en from '@json/en/src/components/auth/PinResetPageContent.json';
+import m_components_auth_PinResetPageContent_hu from '@json/hu/src/components/auth/PinResetPageContent.json';
 import m_components_auth_ScreenReportButton_tr from '@json/src/components/auth/ScreenReportButton.json';
 import m_components_auth_ScreenReportButton_en from '@json/en/src/components/auth/ScreenReportButton.json';
+import m_components_auth_ScreenReportButton_hu from '@json/hu/src/components/auth/ScreenReportButton.json';
 import m_components_auth_ThemeToggleButton_tr from '@json/src/components/auth/ThemeToggleButton.json';
 import m_components_auth_ThemeToggleButton_en from '@json/en/src/components/auth/ThemeToggleButton.json';
+import m_components_auth_ThemeToggleButton_hu from '@json/hu/src/components/auth/ThemeToggleButton.json';
 import m_components_brand_BrandMark_tr from '@json/src/components/brand/BrandMark.json';
 import m_components_brand_BrandMark_en from '@json/en/src/components/brand/BrandMark.json';
+import m_components_brand_BrandMark_hu from '@json/hu/src/components/brand/BrandMark.json';
 import m_components_closure_ClosureCountdown_tr from '@json/src/components/closure/ClosureCountdown.json';
 import m_components_closure_ClosureCountdown_en from '@json/en/src/components/closure/ClosureCountdown.json';
+import m_components_closure_ClosureCountdown_hu from '@json/hu/src/components/closure/ClosureCountdown.json';
 import m_components_contracts_ContractAcceptanceBlock_tr from '@json/src/components/contracts/ContractAcceptanceBlock.json';
 import m_components_contracts_ContractAcceptanceBlock_en from '@json/en/src/components/contracts/ContractAcceptanceBlock.json';
+import m_components_contracts_ContractAcceptanceBlock_hu from '@json/hu/src/components/contracts/ContractAcceptanceBlock.json';
 import m_components_contracts_ContractAcceptanceModal_tr from '@json/src/components/contracts/ContractAcceptanceModal.json';
 import m_components_contracts_ContractAcceptanceModal_en from '@json/en/src/components/contracts/ContractAcceptanceModal.json';
+import m_components_contracts_ContractAcceptanceModal_hu from '@json/hu/src/components/contracts/ContractAcceptanceModal.json';
 import m_components_contracts_ContractEmailVerificationModal_tr from '@json/src/components/contracts/ContractEmailVerificationModal.json';
 import m_components_contracts_ContractEmailVerificationModal_en from '@json/en/src/components/contracts/ContractEmailVerificationModal.json';
+import m_components_contracts_ContractEmailVerificationModal_hu from '@json/hu/src/components/contracts/ContractEmailVerificationModal.json';
 import m_components_contracts_ContractScrollReader_tr from '@json/src/components/contracts/ContractScrollReader.json';
 import m_components_contracts_ContractScrollReader_en from '@json/en/src/components/contracts/ContractScrollReader.json';
+import m_components_contracts_ContractScrollReader_hu from '@json/hu/src/components/contracts/ContractScrollReader.json';
 import m_components_dashboard_AdminAppBottomNav_tr from '@json/src/components/dashboard/AdminAppBottomNav.json';
 import m_components_dashboard_AdminAppBottomNav_en from '@json/en/src/components/dashboard/AdminAppBottomNav.json';
+import m_components_dashboard_AdminAppBottomNav_hu from '@json/hu/src/components/dashboard/AdminAppBottomNav.json';
 import m_components_dashboard_AdminMenuChrome_tr from '@json/src/components/dashboard/AdminMenuChrome.json';
 import m_components_dashboard_AdminMenuChrome_en from '@json/en/src/components/dashboard/AdminMenuChrome.json';
+import m_components_dashboard_AdminMenuChrome_hu from '@json/hu/src/components/dashboard/AdminMenuChrome.json';
 import m_components_dashboard_AdminNavSheet_tr from '@json/src/components/dashboard/AdminNavSheet.json';
 import m_components_dashboard_AdminNavSheet_en from '@json/en/src/components/dashboard/AdminNavSheet.json';
+import m_components_dashboard_AdminNavSheet_hu from '@json/hu/src/components/dashboard/AdminNavSheet.json';
 import m_components_dashboard_AdminProjectBottomNav_tr from '@json/src/components/dashboard/AdminProjectBottomNav.json';
 import m_components_dashboard_AdminProjectBottomNav_en from '@json/en/src/components/dashboard/AdminProjectBottomNav.json';
+import m_components_dashboard_AdminProjectBottomNav_hu from '@json/hu/src/components/dashboard/AdminProjectBottomNav.json';
 import m_components_dashboard_AdminSimpleModeGuard_tr from '@json/src/components/dashboard/AdminSimpleModeGuard.json';
 import m_components_dashboard_AdminSimpleModeGuard_en from '@json/en/src/components/dashboard/AdminSimpleModeGuard.json';
+import m_components_dashboard_AdminSimpleModeGuard_hu from '@json/hu/src/components/dashboard/AdminSimpleModeGuard.json';
 import m_components_dashboard_AdminTopBar_tr from '@json/src/components/dashboard/AdminTopBar.json';
 import m_components_dashboard_AdminTopBar_en from '@json/en/src/components/dashboard/AdminTopBar.json';
+import m_components_dashboard_AdminTopBar_hu from '@json/hu/src/components/dashboard/AdminTopBar.json';
 import m_components_dashboard_AdminUiModeToggle_tr from '@json/src/components/dashboard/AdminUiModeToggle.json';
 import m_components_dashboard_AdminUiModeToggle_en from '@json/en/src/components/dashboard/AdminUiModeToggle.json';
+import m_components_dashboard_AdminUiModeToggle_hu from '@json/hu/src/components/dashboard/AdminUiModeToggle.json';
 import m_components_dashboard_DashboardShell_tr from '@json/src/components/dashboard/DashboardShell.json';
 import m_components_dashboard_DashboardShell_en from '@json/en/src/components/dashboard/DashboardShell.json';
+import m_components_dashboard_DashboardShell_hu from '@json/hu/src/components/dashboard/DashboardShell.json';
 import m_components_developer_DeveloperShell_tr from '@json/src/components/developer/DeveloperShell.json';
 import m_components_developer_DeveloperShell_en from '@json/en/src/components/developer/DeveloperShell.json';
+import m_components_developer_DeveloperShell_hu from '@json/hu/src/components/developer/DeveloperShell.json';
 import m_components_employee_EmployeePhotoPicker_tr from '@json/src/components/employee/EmployeePhotoPicker.json';
 import m_components_employee_EmployeePhotoPicker_en from '@json/en/src/components/employee/EmployeePhotoPicker.json';
+import m_components_employee_EmployeePhotoPicker_hu from '@json/hu/src/components/employee/EmployeePhotoPicker.json';
 import m_components_employee_EmployeePhotoUpload_tr from '@json/src/components/employee/EmployeePhotoUpload.json';
 import m_components_employee_EmployeePhotoUpload_en from '@json/en/src/components/employee/EmployeePhotoUpload.json';
+import m_components_employee_EmployeePhotoUpload_hu from '@json/hu/src/components/employee/EmployeePhotoUpload.json';
 import m_components_employee_SelfieCameraModal_tr from '@json/src/components/employee/SelfieCameraModal.json';
 import m_components_employee_SelfieCameraModal_en from '@json/en/src/components/employee/SelfieCameraModal.json';
+import m_components_employee_SelfieCameraModal_hu from '@json/hu/src/components/employee/SelfieCameraModal.json';
 import m_components_forms_BirthDatePicker_tr from '@json/src/components/forms/BirthDatePicker.json';
 import m_components_forms_BirthDatePicker_en from '@json/en/src/components/forms/BirthDatePicker.json';
+import m_components_forms_BirthDatePicker_hu from '@json/hu/src/components/forms/BirthDatePicker.json';
 import m_components_forms_TurkishPhoneInput_tr from '@json/src/components/forms/TurkishPhoneInput.json';
 import m_components_forms_TurkishPhoneInput_en from '@json/en/src/components/forms/TurkishPhoneInput.json';
+import m_components_forms_TurkishPhoneInput_hu from '@json/hu/src/components/forms/TurkishPhoneInput.json';
 import m_components_home_FeaturesSection_tr from '@json/src/components/home/FeaturesSection.json';
 import m_components_home_FeaturesSection_en from '@json/en/src/components/home/FeaturesSection.json';
+import m_components_home_FeaturesSection_hu from '@json/hu/src/components/home/FeaturesSection.json';
 import m_components_home_GooglePlayBadge_tr from '@json/src/components/home/GooglePlayBadge.json';
 import m_components_home_GooglePlayBadge_en from '@json/en/src/components/home/GooglePlayBadge.json';
+import m_components_home_GooglePlayBadge_hu from '@json/hu/src/components/home/GooglePlayBadge.json';
 import m_components_home_HeroPlayStorePromo_tr from '@json/src/components/home/HeroPlayStorePromo.json';
 import m_components_home_HeroPlayStorePromo_en from '@json/en/src/components/home/HeroPlayStorePromo.json';
+import m_components_home_HeroPlayStorePromo_hu from '@json/hu/src/components/home/HeroPlayStorePromo.json';
 import m_components_home_HeroSection_tr from '@json/src/components/home/HeroSection.json';
 import m_components_home_HeroSection_en from '@json/en/src/components/home/HeroSection.json';
+import m_components_home_HeroSection_hu from '@json/hu/src/components/home/HeroSection.json';
 import m_components_home_HomeFooter_tr from '@json/src/components/home/HomeFooter.json';
 import m_components_home_HomeFooter_en from '@json/en/src/components/home/HomeFooter.json';
+import m_components_home_HomeFooter_hu from '@json/hu/src/components/home/HomeFooter.json';
 import m_components_home_HomeHeader_tr from '@json/src/components/home/HomeHeader.json';
 import m_components_home_HomeHeader_en from '@json/en/src/components/home/HomeHeader.json';
+import m_components_home_HomeHeader_hu from '@json/hu/src/components/home/HomeHeader.json';
 import m_components_home_LoginRolePicker_tr from '@json/src/components/home/LoginRolePicker.json';
 import m_components_home_LoginRolePicker_en from '@json/en/src/components/home/LoginRolePicker.json';
+import m_components_home_LoginRolePicker_hu from '@json/hu/src/components/home/LoginRolePicker.json';
 import m_components_home_PlayStoreSection_tr from '@json/src/components/home/PlayStoreSection.json';
 import m_components_home_PlayStoreSection_en from '@json/en/src/components/home/PlayStoreSection.json';
+import m_components_home_PlayStoreSection_hu from '@json/hu/src/components/home/PlayStoreSection.json';
 import m_components_home_ScrollingBanner_tr from '@json/src/components/home/ScrollingBanner.json';
 import m_components_home_ScrollingBanner_en from '@json/en/src/components/home/ScrollingBanner.json';
+import m_components_home_ScrollingBanner_hu from '@json/hu/src/components/home/ScrollingBanner.json';
 import m_components_modals_AddWorkLogModal_tr from '@json/src/components/modals/AddWorkLogModal.json';
 import m_components_modals_AddWorkLogModal_en from '@json/en/src/components/modals/AddWorkLogModal.json';
+import m_components_modals_AddWorkLogModal_hu from '@json/hu/src/components/modals/AddWorkLogModal.json';
 import m_components_modals_ProjectSettingsModal_tr from '@json/src/components/modals/ProjectSettingsModal.json';
 import m_components_modals_ProjectSettingsModal_en from '@json/en/src/components/modals/ProjectSettingsModal.json';
+import m_components_modals_ProjectSettingsModal_hu from '@json/hu/src/components/modals/ProjectSettingsModal.json';
 import m_components_personnel_ApplicationApprovedScreen_tr from '@json/src/components/personnel/ApplicationApprovedScreen.json';
 import m_components_personnel_ApplicationApprovedScreen_en from '@json/en/src/components/personnel/ApplicationApprovedScreen.json';
+import m_components_personnel_ApplicationApprovedScreen_hu from '@json/hu/src/components/personnel/ApplicationApprovedScreen.json';
 import m_components_personnel_ApplicationRejectedScreen_tr from '@json/src/components/personnel/ApplicationRejectedScreen.json';
 import m_components_personnel_ApplicationRejectedScreen_en from '@json/en/src/components/personnel/ApplicationRejectedScreen.json';
+import m_components_personnel_ApplicationRejectedScreen_hu from '@json/hu/src/components/personnel/ApplicationRejectedScreen.json';
 import m_components_personnel_AttendanceCodeSheet_tr from '@json/src/components/personnel/AttendanceCodeSheet.json';
 import m_components_personnel_AttendanceCodeSheet_en from '@json/en/src/components/personnel/AttendanceCodeSheet.json';
+import m_components_personnel_AttendanceCodeSheet_hu from '@json/hu/src/components/personnel/AttendanceCodeSheet.json';
 import m_components_personnel_AttendanceQrScanner_tr from '@json/src/components/personnel/AttendanceQrScanner.json';
 import m_components_personnel_AttendanceQrScanner_en from '@json/en/src/components/personnel/AttendanceQrScanner.json';
+import m_components_personnel_AttendanceQrScanner_hu from '@json/hu/src/components/personnel/AttendanceQrScanner.json';
 import m_components_personnel_AttendanceStatusSticker_tr from '@json/src/components/personnel/AttendanceStatusSticker.json';
 import m_components_personnel_AttendanceStatusSticker_en from '@json/en/src/components/personnel/AttendanceStatusSticker.json';
+import m_components_personnel_AttendanceStatusSticker_hu from '@json/hu/src/components/personnel/AttendanceStatusSticker.json';
 import m_components_personnel_PendingApplicationWaitingScreen_tr from '@json/src/components/personnel/PendingApplicationWaitingScreen.json';
 import m_components_personnel_PendingApplicationWaitingScreen_en from '@json/en/src/components/personnel/PendingApplicationWaitingScreen.json';
+import m_components_personnel_PendingApplicationWaitingScreen_hu from '@json/hu/src/components/personnel/PendingApplicationWaitingScreen.json';
 import m_components_personnel_PersonnelActiveDevices_tr from '@json/src/components/personnel/PersonnelActiveDevices.json';
 import m_components_personnel_PersonnelActiveDevices_en from '@json/en/src/components/personnel/PersonnelActiveDevices.json';
+import m_components_personnel_PersonnelActiveDevices_hu from '@json/hu/src/components/personnel/PersonnelActiveDevices.json';
 import m_components_personnel_PersonnelAppBottomNav_tr from '@json/src/components/personnel/PersonnelAppBottomNav.json';
 import m_components_personnel_PersonnelAppBottomNav_en from '@json/en/src/components/personnel/PersonnelAppBottomNav.json';
+import m_components_personnel_PersonnelAppBottomNav_hu from '@json/hu/src/components/personnel/PersonnelAppBottomNav.json';
 import m_components_personnel_PersonnelAppIntro_tr from '@json/src/components/personnel/PersonnelAppIntro.json';
 import m_components_personnel_PersonnelAppIntro_en from '@json/en/src/components/personnel/PersonnelAppIntro.json';
+import m_components_personnel_PersonnelAppIntro_hu from '@json/hu/src/components/personnel/PersonnelAppIntro.json';
 import m_components_personnel_PersonnelAppSettings_tr from '@json/src/components/personnel/PersonnelAppSettings.json';
 import m_components_personnel_PersonnelAppSettings_en from '@json/en/src/components/personnel/PersonnelAppSettings.json';
+import m_components_personnel_PersonnelAppSettings_hu from '@json/hu/src/components/personnel/PersonnelAppSettings.json';
 import m_components_personnel_PersonnelAsgariPanel_tr from '@json/src/components/personnel/PersonnelAsgariPanel.json';
 import m_components_personnel_PersonnelAsgariPanel_en from '@json/en/src/components/personnel/PersonnelAsgariPanel.json';
+import m_components_personnel_PersonnelAsgariPanel_hu from '@json/hu/src/components/personnel/PersonnelAsgariPanel.json';
 import m_components_personnel_PersonnelCalendar_tr from '@json/src/components/personnel/PersonnelCalendar.json';
 import m_components_personnel_PersonnelCalendar_en from '@json/en/src/components/personnel/PersonnelCalendar.json';
+import m_components_personnel_PersonnelCalendar_hu from '@json/hu/src/components/personnel/PersonnelCalendar.json';
 import m_components_personnel_PersonnelCalendarDayModal_tr from '@json/src/components/personnel/PersonnelCalendarDayModal.json';
 import m_components_personnel_PersonnelCalendarDayModal_en from '@json/en/src/components/personnel/PersonnelCalendarDayModal.json';
+import m_components_personnel_PersonnelCalendarDayModal_hu from '@json/hu/src/components/personnel/PersonnelCalendarDayModal.json';
 import m_components_personnel_PersonnelClosureAcceleration_tr from '@json/src/components/personnel/PersonnelClosureAcceleration.json';
 import m_components_personnel_PersonnelClosureAcceleration_en from '@json/en/src/components/personnel/PersonnelClosureAcceleration.json';
+import m_components_personnel_PersonnelClosureAcceleration_hu from '@json/hu/src/components/personnel/PersonnelClosureAcceleration.json';
 import m_components_personnel_PersonnelClosureDossierPanel_tr from '@json/src/components/personnel/PersonnelClosureDossierPanel.json';
 import m_components_personnel_PersonnelClosureDossierPanel_en from '@json/en/src/components/personnel/PersonnelClosureDossierPanel.json';
+import m_components_personnel_PersonnelClosureDossierPanel_hu from '@json/hu/src/components/personnel/PersonnelClosureDossierPanel.json';
 import m_components_personnel_PersonnelClosureScreen_tr from '@json/src/components/personnel/PersonnelClosureScreen.json';
 import m_components_personnel_PersonnelClosureScreen_en from '@json/en/src/components/personnel/PersonnelClosureScreen.json';
+import m_components_personnel_PersonnelClosureScreen_hu from '@json/hu/src/components/personnel/PersonnelClosureScreen.json';
 import m_components_personnel_PersonnelContractsSection_tr from '@json/src/components/personnel/PersonnelContractsSection.json';
 import m_components_personnel_PersonnelContractsSection_en from '@json/en/src/components/personnel/PersonnelContractsSection.json';
+import m_components_personnel_PersonnelContractsSection_hu from '@json/hu/src/components/personnel/PersonnelContractsSection.json';
 import m_components_personnel_PersonnelDisplaySettings_tr from '@json/src/components/personnel/PersonnelDisplaySettings.json';
 import m_components_personnel_PersonnelDisplaySettings_en from '@json/en/src/components/personnel/PersonnelDisplaySettings.json';
+import m_components_personnel_PersonnelDisplaySettings_hu from '@json/hu/src/components/personnel/PersonnelDisplaySettings.json';
 import m_components_personnel_PersonnelFairnessCard_tr from '@json/src/components/personnel/PersonnelFairnessCard.json';
 import m_components_personnel_PersonnelFairnessCard_en from '@json/en/src/components/personnel/PersonnelFairnessCard.json';
+import m_components_personnel_PersonnelFairnessCard_hu from '@json/hu/src/components/personnel/PersonnelFairnessCard.json';
 import m_components_personnel_PersonnelFinancePanel_tr from '@json/src/components/personnel/PersonnelFinancePanel.json';
 import m_components_personnel_PersonnelFinancePanel_en from '@json/en/src/components/personnel/PersonnelFinancePanel.json';
+import m_components_personnel_PersonnelFinancePanel_hu from '@json/hu/src/components/personnel/PersonnelFinancePanel.json';
 import m_components_personnel_PersonnelLoginLayout_tr from '@json/src/components/personnel/PersonnelLoginLayout.json';
 import m_components_personnel_PersonnelLoginLayout_en from '@json/en/src/components/personnel/PersonnelLoginLayout.json';
+import m_components_personnel_PersonnelLoginLayout_hu from '@json/hu/src/components/personnel/PersonnelLoginLayout.json';
 import m_components_personnel_PersonnelMesaiCalendar_tr from '@json/src/components/personnel/PersonnelMesaiCalendar.json';
 import m_components_personnel_PersonnelMesaiCalendar_en from '@json/en/src/components/personnel/PersonnelMesaiCalendar.json';
+import m_components_personnel_PersonnelMesaiCalendar_hu from '@json/hu/src/components/personnel/PersonnelMesaiCalendar.json';
 import m_components_personnel_PersonnelMesaiPanel_tr from '@json/src/components/personnel/PersonnelMesaiPanel.json';
 import m_components_personnel_PersonnelMesaiPanel_en from '@json/en/src/components/personnel/PersonnelMesaiPanel.json';
+import m_components_personnel_PersonnelMesaiPanel_hu from '@json/hu/src/components/personnel/PersonnelMesaiPanel.json';
 import m_components_personnel_PersonnelMesaiSummary_tr from '@json/src/components/personnel/PersonnelMesaiSummary.json';
 import m_components_personnel_PersonnelMesaiSummary_en from '@json/en/src/components/personnel/PersonnelMesaiSummary.json';
+import m_components_personnel_PersonnelMesaiSummary_hu from '@json/hu/src/components/personnel/PersonnelMesaiSummary.json';
 import m_components_personnel_PersonnelMonthChip_tr from '@json/src/components/personnel/PersonnelMonthChip.json';
 import m_components_personnel_PersonnelMonthChip_en from '@json/en/src/components/personnel/PersonnelMonthChip.json';
+import m_components_personnel_PersonnelMonthChip_hu from '@json/hu/src/components/personnel/PersonnelMonthChip.json';
 import m_components_personnel_PersonnelMonthFilter_tr from '@json/src/components/personnel/PersonnelMonthFilter.json';
 import m_components_personnel_PersonnelMonthFilter_en from '@json/en/src/components/personnel/PersonnelMonthFilter.json';
+import m_components_personnel_PersonnelMonthFilter_hu from '@json/hu/src/components/personnel/PersonnelMonthFilter.json';
 import m_components_personnel_PersonnelMyDossierDownload_tr from '@json/src/components/personnel/PersonnelMyDossierDownload.json';
 import m_components_personnel_PersonnelMyDossierDownload_en from '@json/en/src/components/personnel/PersonnelMyDossierDownload.json';
+import m_components_personnel_PersonnelMyDossierDownload_hu from '@json/hu/src/components/personnel/PersonnelMyDossierDownload.json';
 import m_components_personnel_PersonnelNavHub_tr from '@json/src/components/personnel/PersonnelNavHub.json';
 import m_components_personnel_PersonnelNavHub_en from '@json/en/src/components/personnel/PersonnelNavHub.json';
+import m_components_personnel_PersonnelNavHub_hu from '@json/hu/src/components/personnel/PersonnelNavHub.json';
 import m_components_personnel_PersonnelNetHero_tr from '@json/src/components/personnel/PersonnelNetHero.json';
 import m_components_personnel_PersonnelNetHero_en from '@json/en/src/components/personnel/PersonnelNetHero.json';
+import m_components_personnel_PersonnelNetHero_hu from '@json/hu/src/components/personnel/PersonnelNetHero.json';
 import m_components_personnel_PersonnelNotificationPermissionPrompt_tr from '@json/src/components/personnel/PersonnelNotificationPermissionPrompt.json';
 import m_components_personnel_PersonnelNotificationPermissionPrompt_en from '@json/en/src/components/personnel/PersonnelNotificationPermissionPrompt.json';
+import m_components_personnel_PersonnelNotificationPermissionPrompt_hu from '@json/hu/src/components/personnel/PersonnelNotificationPermissionPrompt.json';
 import m_components_personnel_PersonnelNotificationsBell_tr from '@json/src/components/personnel/PersonnelNotificationsBell.json';
 import m_components_personnel_PersonnelNotificationsBell_en from '@json/en/src/components/personnel/PersonnelNotificationsBell.json';
+import m_components_personnel_PersonnelNotificationsBell_hu from '@json/hu/src/components/personnel/PersonnelNotificationsBell.json';
 import m_components_personnel_PersonnelPasswordForm_tr from '@json/src/components/personnel/PersonnelPasswordForm.json';
 import m_components_personnel_PersonnelPasswordForm_en from '@json/en/src/components/personnel/PersonnelPasswordForm.json';
+import m_components_personnel_PersonnelPasswordForm_hu from '@json/hu/src/components/personnel/PersonnelPasswordForm.json';
 import m_components_personnel_PersonnelPasswordModal_tr from '@json/src/components/personnel/PersonnelPasswordModal.json';
 import m_components_personnel_PersonnelPasswordModal_en from '@json/en/src/components/personnel/PersonnelPasswordModal.json';
+import m_components_personnel_PersonnelPasswordModal_hu from '@json/hu/src/components/personnel/PersonnelPasswordModal.json';
 import m_components_personnel_PersonnelPayrollPrint_tr from '@json/src/components/personnel/PersonnelPayrollPrint.json';
 import m_components_personnel_PersonnelPayrollPrint_en from '@json/en/src/components/personnel/PersonnelPayrollPrint.json';
+import m_components_personnel_PersonnelPayrollPrint_hu from '@json/hu/src/components/personnel/PersonnelPayrollPrint.json';
 import m_components_personnel_PersonnelProjectCard_tr from '@json/src/components/personnel/PersonnelProjectCard.json';
 import m_components_personnel_PersonnelProjectCard_en from '@json/en/src/components/personnel/PersonnelProjectCard.json';
+import m_components_personnel_PersonnelProjectCard_hu from '@json/hu/src/components/personnel/PersonnelProjectCard.json';
 import m_components_personnel_PersonnelPullToRefresh_tr from '@json/src/components/personnel/PersonnelPullToRefresh.json';
 import m_components_personnel_PersonnelPullToRefresh_en from '@json/en/src/components/personnel/PersonnelPullToRefresh.json';
+import m_components_personnel_PersonnelPullToRefresh_hu from '@json/hu/src/components/personnel/PersonnelPullToRefresh.json';
 import m_components_personnel_PersonnelRecordCard_tr from '@json/src/components/personnel/PersonnelRecordCard.json';
 import m_components_personnel_PersonnelRecordCard_en from '@json/en/src/components/personnel/PersonnelRecordCard.json';
+import m_components_personnel_PersonnelRecordCard_hu from '@json/hu/src/components/personnel/PersonnelRecordCard.json';
 import m_components_personnel_PersonnelRightsPanel_tr from '@json/src/components/personnel/PersonnelRightsPanel.json';
 import m_components_personnel_PersonnelRightsPanel_en from '@json/en/src/components/personnel/PersonnelRightsPanel.json';
+import m_components_personnel_PersonnelRightsPanel_hu from '@json/hu/src/components/personnel/PersonnelRightsPanel.json';
 import m_components_personnel_PersonnelSettingsPage_tr from '@json/src/components/personnel/PersonnelSettingsPage.json';
 import m_components_personnel_PersonnelSettingsPage_en from '@json/en/src/components/personnel/PersonnelSettingsPage.json';
+import m_components_personnel_PersonnelSettingsPage_hu from '@json/hu/src/components/personnel/PersonnelSettingsPage.json';
 import m_components_personnel_PersonnelTodayAttendance_tr from '@json/src/components/personnel/PersonnelTodayAttendance.json';
 import m_components_personnel_PersonnelTodayAttendance_en from '@json/en/src/components/personnel/PersonnelTodayAttendance.json';
+import m_components_personnel_PersonnelTodayAttendance_hu from '@json/hu/src/components/personnel/PersonnelTodayAttendance.json';
 import m_components_personnel_PersonnelTrustFooter_tr from '@json/src/components/personnel/PersonnelTrustFooter.json';
 import m_components_personnel_PersonnelTrustFooter_en from '@json/en/src/components/personnel/PersonnelTrustFooter.json';
+import m_components_personnel_PersonnelTrustFooter_hu from '@json/hu/src/components/personnel/PersonnelTrustFooter.json';
 import m_components_personnel_PersonnelUnifiedCalendar_tr from '@json/src/components/personnel/PersonnelUnifiedCalendar.json';
 import m_components_personnel_PersonnelUnifiedCalendar_en from '@json/en/src/components/personnel/PersonnelUnifiedCalendar.json';
+import m_components_personnel_PersonnelUnifiedCalendar_hu from '@json/hu/src/components/personnel/PersonnelUnifiedCalendar.json';
 import m_components_personnel_PersonnelUnlockLayout_tr from '@json/src/components/personnel/PersonnelUnlockLayout.json';
 import m_components_personnel_PersonnelUnlockLayout_en from '@json/en/src/components/personnel/PersonnelUnlockLayout.json';
+import m_components_personnel_PersonnelUnlockLayout_hu from '@json/hu/src/components/personnel/PersonnelUnlockLayout.json';
 import m_components_personnel_PersonnelWorkLogItem_tr from '@json/src/components/personnel/PersonnelWorkLogItem.json';
 import m_components_personnel_PersonnelWorkLogItem_en from '@json/en/src/components/personnel/PersonnelWorkLogItem.json';
+import m_components_personnel_PersonnelWorkLogItem_hu from '@json/hu/src/components/personnel/PersonnelWorkLogItem.json';
 import m_components_project_AttendanceQrPanel_tr from '@json/src/components/project/AttendanceQrPanel.json';
 import m_components_project_AttendanceQrPanel_en from '@json/en/src/components/project/AttendanceQrPanel.json';
+import m_components_project_AttendanceQrPanel_hu from '@json/hu/src/components/project/AttendanceQrPanel.json';
 import m_components_project_EmployeeSelect_tr from '@json/src/components/project/EmployeeSelect.json';
 import m_components_project_EmployeeSelect_en from '@json/en/src/components/project/EmployeeSelect.json';
+import m_components_project_EmployeeSelect_hu from '@json/hu/src/components/project/EmployeeSelect.json';
 import m_components_project_EntryFormCard_tr from '@json/src/components/project/EntryFormCard.json';
 import m_components_project_EntryFormCard_en from '@json/en/src/components/project/EntryFormCard.json';
+import m_components_project_EntryFormCard_hu from '@json/hu/src/components/project/EntryFormCard.json';
 import m_components_project_JobSelectField_tr from '@json/src/components/project/JobSelectField.json';
 import m_components_project_JobSelectField_en from '@json/en/src/components/project/JobSelectField.json';
+import m_components_project_JobSelectField_hu from '@json/hu/src/components/project/JobSelectField.json';
 import m_components_project_ProjectDetailHeader_tr from '@json/src/components/project/ProjectDetailHeader.json';
 import m_components_project_ProjectDetailHeader_en from '@json/en/src/components/project/ProjectDetailHeader.json';
+import m_components_project_ProjectDetailHeader_hu from '@json/hu/src/components/project/ProjectDetailHeader.json';
 import m_components_project_ProjectEmployeeTable_tr from '@json/src/components/project/ProjectEmployeeTable.json';
 import m_components_project_ProjectEmployeeTable_en from '@json/en/src/components/project/ProjectEmployeeTable.json';
+import m_components_project_ProjectEmployeeTable_hu from '@json/hu/src/components/project/ProjectEmployeeTable.json';
 import m_components_project_ProjectNavMenu_tr from '@json/src/components/project/ProjectNavMenu.json';
 import m_components_project_ProjectNavMenu_en from '@json/en/src/components/project/ProjectNavMenu.json';
+import m_components_project_ProjectNavMenu_hu from '@json/hu/src/components/project/ProjectNavMenu.json';
 import m_components_project_ProjectOverviewStats_tr from '@json/src/components/project/ProjectOverviewStats.json';
 import m_components_project_ProjectOverviewStats_en from '@json/en/src/components/project/ProjectOverviewStats.json';
+import m_components_project_ProjectOverviewStats_hu from '@json/hu/src/components/project/ProjectOverviewStats.json';
 import m_components_project_ProjectSummaryHero_tr from '@json/src/components/project/ProjectSummaryHero.json';
 import m_components_project_ProjectSummaryHero_en from '@json/en/src/components/project/ProjectSummaryHero.json';
+import m_components_project_ProjectSummaryHero_hu from '@json/hu/src/components/project/ProjectSummaryHero.json';
 import m_components_project_ProjectTodayAttendanceCard_tr from '@json/src/components/project/ProjectTodayAttendanceCard.json';
 import m_components_project_ProjectTodayAttendanceCard_en from '@json/en/src/components/project/ProjectTodayAttendanceCard.json';
+import m_components_project_ProjectTodayAttendanceCard_hu from '@json/hu/src/components/project/ProjectTodayAttendanceCard.json';
 import m_components_project_QueryFilters_tr from '@json/src/components/project/QueryFilters.json';
 import m_components_project_QueryFilters_en from '@json/en/src/components/project/QueryFilters.json';
+import m_components_project_QueryFilters_hu from '@json/hu/src/components/project/QueryFilters.json';
 import m_components_project_RecordEditActions_tr from '@json/src/components/project/RecordEditActions.json';
 import m_components_project_RecordEditActions_en from '@json/en/src/components/project/RecordEditActions.json';
+import m_components_project_RecordEditActions_hu from '@json/hu/src/components/project/RecordEditActions.json';
 import m_components_project_RecordsTable_tr from '@json/src/components/project/RecordsTable.json';
 import m_components_project_RecordsTable_en from '@json/en/src/components/project/RecordsTable.json';
+import m_components_project_RecordsTable_hu from '@json/hu/src/components/project/RecordsTable.json';
 import m_components_project_WagePolicyForm_tr from '@json/src/components/project/WagePolicyForm.json';
 import m_components_project_WagePolicyForm_en from '@json/en/src/components/project/WagePolicyForm.json';
+import m_components_project_WagePolicyForm_hu from '@json/hu/src/components/project/WagePolicyForm.json';
 import m_components_project_profit_AddJobModal_tr from '@json/src/components/project/profit/AddJobModal.json';
 import m_components_project_profit_AddJobModal_en from '@json/en/src/components/project/profit/AddJobModal.json';
+import m_components_project_profit_AddJobModal_hu from '@json/hu/src/components/project/profit/AddJobModal.json';
 import m_components_project_profit_BlockProfitCard_tr from '@json/src/components/project/profit/BlockProfitCard.json';
 import m_components_project_profit_BlockProfitCard_en from '@json/en/src/components/project/profit/BlockProfitCard.json';
+import m_components_project_profit_BlockProfitCard_hu from '@json/hu/src/components/project/profit/BlockProfitCard.json';
 import m_components_project_profit_JobProfitCard_tr from '@json/src/components/project/profit/JobProfitCard.json';
 import m_components_project_profit_JobProfitCard_en from '@json/en/src/components/project/profit/JobProfitCard.json';
+import m_components_project_profit_JobProfitCard_hu from '@json/hu/src/components/project/profit/JobProfitCard.json';
 import m_components_project_profit_PartnerSettings_tr from '@json/src/components/project/profit/PartnerSettings.json';
 import m_components_project_profit_PartnerSettings_en from '@json/en/src/components/project/profit/PartnerSettings.json';
+import m_components_project_profit_PartnerSettings_hu from '@json/hu/src/components/project/profit/PartnerSettings.json';
 import m_components_project_profit_ProfitFormulaHelp_tr from '@json/src/components/project/profit/ProfitFormulaHelp.json';
 import m_components_project_profit_ProfitFormulaHelp_en from '@json/en/src/components/project/profit/ProfitFormulaHelp.json';
+import m_components_project_profit_ProfitFormulaHelp_hu from '@json/hu/src/components/project/profit/ProfitFormulaHelp.json';
 import m_components_project_profit_ProfitQuickActions_tr from '@json/src/components/project/profit/ProfitQuickActions.json';
 import m_components_project_profit_ProfitQuickActions_en from '@json/en/src/components/project/profit/ProfitQuickActions.json';
+import m_components_project_profit_ProfitQuickActions_hu from '@json/hu/src/components/project/profit/ProfitQuickActions.json';
 import m_components_project_profit_ProfitTotalsStrip_tr from '@json/src/components/project/profit/ProfitTotalsStrip.json';
 import m_components_project_profit_ProfitTotalsStrip_en from '@json/en/src/components/project/profit/ProfitTotalsStrip.json';
+import m_components_project_profit_ProfitTotalsStrip_hu from '@json/hu/src/components/project/profit/ProfitTotalsStrip.json';
 import m_components_pwa_InstallPrompt_tr from '@json/src/components/pwa/InstallPrompt.json';
 import m_components_pwa_InstallPrompt_en from '@json/en/src/components/pwa/InstallPrompt.json';
+import m_components_pwa_InstallPrompt_hu from '@json/hu/src/components/pwa/InstallPrompt.json';
 import m_components_registration_AdminBasvuruOnayModal_tr from '@json/src/components/registration/AdminBasvuruOnayModal.json';
 import m_components_registration_AdminBasvuruOnayModal_en from '@json/en/src/components/registration/AdminBasvuruOnayModal.json';
+import m_components_registration_AdminBasvuruOnayModal_hu from '@json/hu/src/components/registration/AdminBasvuruOnayModal.json';
 import m_components_registration_AdminBasvuruOnayPanel_tr from '@json/src/components/registration/AdminBasvuruOnayPanel.json';
 import m_components_registration_AdminBasvuruOnayPanel_en from '@json/en/src/components/registration/AdminBasvuruOnayPanel.json';
+import m_components_registration_AdminBasvuruOnayPanel_hu from '@json/hu/src/components/registration/AdminBasvuruOnayPanel.json';
 import m_components_registration_QrCameraScanner_tr from '@json/src/components/registration/QrCameraScanner.json';
 import m_components_registration_QrCameraScanner_en from '@json/en/src/components/registration/QrCameraScanner.json';
+import m_components_registration_QrCameraScanner_hu from '@json/hu/src/components/registration/QrCameraScanner.json';
 import m_components_registration_RegistrationQrCode_tr from '@json/src/components/registration/RegistrationQrCode.json';
 import m_components_registration_RegistrationQrCode_en from '@json/en/src/components/registration/RegistrationQrCode.json';
+import m_components_registration_RegistrationQrCode_hu from '@json/hu/src/components/registration/RegistrationQrCode.json';
 import m_components_supabase_SupabaseStatusPage_tr from '@json/src/components/supabase/SupabaseStatusPage.json';
 import m_components_supabase_SupabaseStatusPage_en from '@json/en/src/components/supabase/SupabaseStatusPage.json';
+import m_components_supabase_SupabaseStatusPage_hu from '@json/hu/src/components/supabase/SupabaseStatusPage.json';
 import m_components_tables_DeductionTable_tr from '@json/src/components/tables/DeductionTable.json';
 import m_components_tables_DeductionTable_en from '@json/en/src/components/tables/DeductionTable.json';
+import m_components_tables_DeductionTable_hu from '@json/hu/src/components/tables/DeductionTable.json';
 import m_components_tables_EmployeeTable_tr from '@json/src/components/tables/EmployeeTable.json';
 import m_components_tables_EmployeeTable_en from '@json/en/src/components/tables/EmployeeTable.json';
+import m_components_tables_EmployeeTable_hu from '@json/hu/src/components/tables/EmployeeTable.json';
 import m_components_ui_MobileMenu_tr from '@json/src/components/ui/MobileMenu.json';
 import m_components_ui_MobileMenu_en from '@json/en/src/components/ui/MobileMenu.json';
+import m_components_ui_MobileMenu_hu from '@json/hu/src/components/ui/MobileMenu.json';
 import m_components_ui_Sidebar_LogoutButton_tr from '@json/src/components/ui/Sidebar/LogoutButton.json';
 import m_components_ui_Sidebar_LogoutButton_en from '@json/en/src/components/ui/Sidebar/LogoutButton.json';
+import m_components_ui_Sidebar_LogoutButton_hu from '@json/hu/src/components/ui/Sidebar/LogoutButton.json';
 import m_components_ui_Sidebar_MenuItems_tr from '@json/src/components/ui/Sidebar/MenuItems.json';
 import m_components_ui_Sidebar_MenuItems_en from '@json/en/src/components/ui/Sidebar/MenuItems.json';
+import m_components_ui_Sidebar_MenuItems_hu from '@json/hu/src/components/ui/Sidebar/MenuItems.json';
 import m_config_admin_mobile_nav_tr from '@json/src/config/admin-mobile-nav.json';
 import m_config_admin_mobile_nav_en from '@json/en/src/config/admin-mobile-nav.json';
+import m_config_admin_mobile_nav_hu from '@json/hu/src/config/admin-mobile-nav.json';
 import m_config_admin_register_tr from '@json/src/config/admin-register.json';
 import m_config_admin_register_en from '@json/en/src/config/admin-register.json';
+import m_config_admin_register_hu from '@json/hu/src/config/admin-register.json';
 import m_config_personnel_mobile_nav_tr from '@json/src/config/personnel-mobile-nav.json';
 import m_config_personnel_mobile_nav_en from '@json/en/src/config/personnel-mobile-nav.json';
+import m_config_personnel_mobile_nav_hu from '@json/hu/src/config/personnel-mobile-nav.json';
 import m_config_projectMenu_tr from '@json/src/config/projectMenu.json';
 import m_config_projectMenu_en from '@json/en/src/config/projectMenu.json';
+import m_config_projectMenu_hu from '@json/hu/src/config/projectMenu.json';
 import m_hooks_useAdminUiMode_tr from '@json/src/hooks/useAdminUiMode.json';
 import m_hooks_useAdminUiMode_en from '@json/en/src/hooks/useAdminUiMode.json';
+import m_hooks_useAdminUiMode_hu from '@json/hu/src/hooks/useAdminUiMode.json';
 import m_hooks_usePersonnelAsgari_tr from '@json/src/hooks/usePersonnelAsgari.json';
 import m_hooks_usePersonnelAsgari_en from '@json/en/src/hooks/usePersonnelAsgari.json';
+import m_hooks_usePersonnelAsgari_hu from '@json/hu/src/hooks/usePersonnelAsgari.json';
 import m_hooks_usePersonnelDashboard_tr from '@json/src/hooks/usePersonnelDashboard.json';
 import m_hooks_usePersonnelDashboard_en from '@json/en/src/hooks/usePersonnelDashboard.json';
+import m_hooks_usePersonnelDashboard_hu from '@json/hu/src/hooks/usePersonnelDashboard.json';
 import m_hooks_useProjectEmployees_tr from '@json/src/hooks/useProjectEmployees.json';
 import m_hooks_useProjectEmployees_en from '@json/en/src/hooks/useProjectEmployees.json';
+import m_hooks_useProjectEmployees_hu from '@json/hu/src/hooks/useProjectEmployees.json';
 import m_lib_admin_intro_boot_script_tr from '@json/src/lib/admin-intro-boot-script.json';
 import m_lib_admin_intro_boot_script_en from '@json/en/src/lib/admin-intro-boot-script.json';
+import m_lib_admin_intro_boot_script_hu from '@json/hu/src/lib/admin-intro-boot-script.json';
 import m_lib_admin_register_validation_tr from '@json/src/lib/admin-register-validation.json';
 import m_lib_admin_register_validation_en from '@json/en/src/lib/admin-register-validation.json';
+import m_lib_admin_register_validation_hu from '@json/hu/src/lib/admin-register-validation.json';
 import m_lib_admin_ui_mode_tr from '@json/src/lib/admin-ui-mode.json';
 import m_lib_admin_ui_mode_en from '@json/en/src/lib/admin-ui-mode.json';
+import m_lib_admin_ui_mode_hu from '@json/hu/src/lib/admin-ui-mode.json';
 import m_lib_advance_dekont_match_tr from '@json/src/lib/advance-dekont-match.json';
 import m_lib_advance_dekont_match_en from '@json/en/src/lib/advance-dekont-match.json';
+import m_lib_advance_dekont_match_hu from '@json/hu/src/lib/advance-dekont-match.json';
 import m_lib_advance_request_service_tr from '@json/src/lib/advance-request-service.json';
 import m_lib_advance_request_service_en from '@json/en/src/lib/advance-request-service.json';
+import m_lib_advance_request_service_hu from '@json/hu/src/lib/advance-request-service.json';
 import m_lib_advance_types_tr from '@json/src/lib/advance-types.json';
 import m_lib_advance_types_en from '@json/en/src/lib/advance-types.json';
+import m_lib_advance_types_hu from '@json/hu/src/lib/advance-types.json';
 import m_lib_age_validation_tr from '@json/src/lib/age-validation.json';
 import m_lib_age_validation_en from '@json/en/src/lib/age-validation.json';
+import m_lib_age_validation_hu from '@json/hu/src/lib/age-validation.json';
 import m_lib_app_releases_tr from '@json/src/lib/app-releases.json';
 import m_lib_app_releases_en from '@json/en/src/lib/app-releases.json';
+import m_lib_app_releases_hu from '@json/hu/src/lib/app-releases.json';
 import m_lib_attendance_qr_service_tr from '@json/src/lib/attendance-qr-service.json';
 import m_lib_attendance_qr_service_en from '@json/en/src/lib/attendance-qr-service.json';
+import m_lib_attendance_qr_service_hu from '@json/hu/src/lib/attendance-qr-service.json';
 import m_lib_attendance_window_tr from '@json/src/lib/attendance-window.json';
 import m_lib_attendance_window_en from '@json/en/src/lib/attendance-window.json';
+import m_lib_attendance_window_hu from '@json/hu/src/lib/attendance-window.json';
 import m_lib_block_team_service_tr from '@json/src/lib/block-team-service.json';
 import m_lib_block_team_service_en from '@json/en/src/lib/block-team-service.json';
+import m_lib_block_team_service_hu from '@json/hu/src/lib/block-team-service.json';
 import m_lib_capture_screen_tr from '@json/src/lib/capture-screen.json';
 import m_lib_capture_screen_en from '@json/en/src/lib/capture-screen.json';
+import m_lib_capture_screen_hu from '@json/hu/src/lib/capture-screen.json';
 import m_lib_closure_deletion_acceleration_tr from '@json/src/lib/closure-deletion-acceleration.json';
 import m_lib_closure_deletion_acceleration_en from '@json/en/src/lib/closure-deletion-acceleration.json';
+import m_lib_closure_deletion_acceleration_hu from '@json/hu/src/lib/closure-deletion-acceleration.json';
 import m_lib_contract_service_tr from '@json/src/lib/contract-service.json';
 import m_lib_contract_service_en from '@json/en/src/lib/contract-service.json';
+import m_lib_contract_service_hu from '@json/hu/src/lib/contract-service.json';
 import m_lib_dekont_import_service_tr from '@json/src/lib/dekont-import-service.json';
 import m_lib_dekont_import_service_en from '@json/en/src/lib/dekont-import-service.json';
+import m_lib_dekont_import_service_hu from '@json/hu/src/lib/dekont-import-service.json';
 import m_lib_dekont_ocr_tr from '@json/src/lib/dekont-ocr.json';
 import m_lib_dekont_ocr_en from '@json/en/src/lib/dekont-ocr.json';
+import m_lib_dekont_ocr_hu from '@json/hu/src/lib/dekont-ocr.json';
 import m_lib_dekont_validation_tr from '@json/src/lib/dekont-validation.json';
 import m_lib_dekont_validation_en from '@json/en/src/lib/dekont-validation.json';
+import m_lib_dekont_validation_hu from '@json/hu/src/lib/dekont-validation.json';
 import m_lib_field_encryption_tr from '@json/src/lib/field-encryption.json';
 import m_lib_field_encryption_en from '@json/en/src/lib/field-encryption.json';
+import m_lib_field_encryption_hu from '@json/hu/src/lib/field-encryption.json';
 import m_lib_i18n_attendance_messages_tr from '@json/src/lib/i18n/attendance-messages.json';
 import m_lib_i18n_attendance_messages_en from '@json/en/src/lib/i18n/attendance-messages.json';
+import m_lib_i18n_attendance_messages_hu from '@json/hu/src/lib/i18n/attendance-messages.json';
 import m_lib_i18n_locale_ui_tr from '@json/src/lib/i18n/locale-ui.json';
 import m_lib_i18n_locale_ui_en from '@json/en/src/lib/i18n/locale-ui.json';
+import m_lib_i18n_locale_ui_hu from '@json/hu/src/lib/i18n/locale-ui.json';
 import m_lib_identity_uniqueness_tr from '@json/src/lib/identity-uniqueness.json';
 import m_lib_identity_uniqueness_en from '@json/en/src/lib/identity-uniqueness.json';
+import m_lib_identity_uniqueness_hu from '@json/hu/src/lib/identity-uniqueness.json';
 import m_lib_legal_dossier_build_legal_dossier_tr from '@json/src/lib/legal-dossier/build-legal-dossier.json';
 import m_lib_legal_dossier_build_legal_dossier_en from '@json/en/src/lib/legal-dossier/build-legal-dossier.json';
+import m_lib_legal_dossier_build_legal_dossier_hu from '@json/hu/src/lib/legal-dossier/build-legal-dossier.json';
 import m_lib_legal_dossier_collectors_index_tr from '@json/src/lib/legal-dossier/collectors/index.json';
 import m_lib_legal_dossier_collectors_index_en from '@json/en/src/lib/legal-dossier/collectors/index.json';
+import m_lib_legal_dossier_collectors_index_hu from '@json/hu/src/lib/legal-dossier/collectors/index.json';
 import m_lib_legal_dossier_render_summary_html_tr from '@json/src/lib/legal-dossier/render-summary-html.json';
 import m_lib_legal_dossier_render_summary_html_en from '@json/en/src/lib/legal-dossier/render-summary-html.json';
+import m_lib_legal_dossier_render_summary_html_hu from '@json/hu/src/lib/legal-dossier/render-summary-html.json';
 import m_lib_otp_delivery_tr from '@json/src/lib/otp-delivery.json';
 import m_lib_otp_delivery_en from '@json/en/src/lib/otp-delivery.json';
+import m_lib_otp_delivery_hu from '@json/hu/src/lib/otp-delivery.json';
 import m_lib_otp_registration_tr from '@json/src/lib/otp-registration.json';
 import m_lib_otp_registration_en from '@json/en/src/lib/otp-registration.json';
+import m_lib_otp_registration_hu from '@json/hu/src/lib/otp-registration.json';
 import m_lib_otp_service_tr from '@json/src/lib/otp-service.json';
 import m_lib_otp_service_en from '@json/en/src/lib/otp-service.json';
+import m_lib_otp_service_hu from '@json/hu/src/lib/otp-service.json';
 import m_lib_parse_registration_qr_tr from '@json/src/lib/parse-registration-qr.json';
 import m_lib_parse_registration_qr_en from '@json/en/src/lib/parse-registration-qr.json';
+import m_lib_parse_registration_qr_hu from '@json/hu/src/lib/parse-registration-qr.json';
 import m_lib_personnel_display_preferences_tr from '@json/src/lib/personnel-display-preferences.json';
 import m_lib_personnel_display_preferences_en from '@json/en/src/lib/personnel-display-preferences.json';
+import m_lib_personnel_display_preferences_hu from '@json/hu/src/lib/personnel-display-preferences.json';
 import m_lib_personnel_intro_boot_script_tr from '@json/src/lib/personnel-intro-boot-script.json';
 import m_lib_personnel_intro_boot_script_en from '@json/en/src/lib/personnel-intro-boot-script.json';
+import m_lib_personnel_intro_boot_script_hu from '@json/hu/src/lib/personnel-intro-boot-script.json';
 import m_lib_personnel_notifications_tr from '@json/src/lib/personnel-notifications.json';
 import m_lib_personnel_notifications_en from '@json/en/src/lib/personnel-notifications.json';
+import m_lib_personnel_notifications_hu from '@json/hu/src/lib/personnel-notifications.json';
 import m_lib_personnel_pin_tr from '@json/src/lib/personnel-pin.json';
 import m_lib_personnel_pin_en from '@json/en/src/lib/personnel-pin.json';
+import m_lib_personnel_pin_hu from '@json/hu/src/lib/personnel-pin.json';
 import m_lib_personnel_pin_reset_tr from '@json/src/lib/personnel-pin-reset.json';
 import m_lib_personnel_pin_reset_en from '@json/en/src/lib/personnel-pin-reset.json';
+import m_lib_personnel_pin_reset_hu from '@json/hu/src/lib/personnel-pin-reset.json';
 import m_lib_personnel_reminder_email_tr from '@json/src/lib/personnel-reminder-email.json';
 import m_lib_personnel_reminder_email_en from '@json/en/src/lib/personnel-reminder-email.json';
+import m_lib_personnel_reminder_email_hu from '@json/hu/src/lib/personnel-reminder-email.json';
 import m_lib_personnel_stats_tr from '@json/src/lib/personnel-stats.json';
 import m_lib_personnel_stats_en from '@json/en/src/lib/personnel-stats.json';
+import m_lib_personnel_stats_hu from '@json/hu/src/lib/personnel-stats.json';
 import m_lib_personnel_theme_tr from '@json/src/lib/personnel-theme.json';
 import m_lib_personnel_theme_en from '@json/en/src/lib/personnel-theme.json';
+import m_lib_personnel_theme_hu from '@json/hu/src/lib/personnel-theme.json';
 import m_lib_platform_legal_content_tr from '@json/src/lib/platform-legal-content.json';
 import m_lib_platform_legal_content_en from '@json/en/src/lib/platform-legal-content.json';
+import m_lib_platform_legal_content_hu from '@json/hu/src/lib/platform-legal-content.json';
 import m_lib_profit_display_tr from '@json/src/lib/profit-display.json';
 import m_lib_profit_display_en from '@json/en/src/lib/profit-display.json';
+import m_lib_profit_display_hu from '@json/hu/src/lib/profit-display.json';
 import m_lib_project_closure_service_tr from '@json/src/lib/project-closure-service.json';
 import m_lib_project_closure_service_en from '@json/en/src/lib/project-closure-service.json';
+import m_lib_project_closure_service_hu from '@json/hu/src/lib/project-closure-service.json';
 import m_lib_project_queries_tr from '@json/src/lib/project-queries.json';
 import m_lib_project_queries_en from '@json/en/src/lib/project-queries.json';
+import m_lib_project_queries_hu from '@json/hu/src/lib/project-queries.json';
 import m_lib_registration_draft_validation_tr from '@json/src/lib/registration-draft-validation.json';
 import m_lib_registration_draft_validation_en from '@json/en/src/lib/registration-draft-validation.json';
+import m_lib_registration_draft_validation_hu from '@json/hu/src/lib/registration-draft-validation.json';
 import m_lib_registration_photo_tr from '@json/src/lib/registration-photo.json';
 import m_lib_registration_photo_en from '@json/en/src/lib/registration-photo.json';
+import m_lib_registration_photo_hu from '@json/hu/src/lib/registration-photo.json';
 import m_lib_registration_service_tr from '@json/src/lib/registration-service.json';
 import m_lib_registration_service_en from '@json/en/src/lib/registration-service.json';
+import m_lib_registration_service_hu from '@json/hu/src/lib/registration-service.json';
 import m_lib_screen_report_discord_tr from '@json/src/lib/screen-report-discord.json';
 import m_lib_screen_report_discord_en from '@json/en/src/lib/screen-report-discord.json';
+import m_lib_screen_report_discord_hu from '@json/hu/src/lib/screen-report-discord.json';
 import m_lib_screen_report_email_tr from '@json/src/lib/screen-report-email.json';
 import m_lib_screen_report_email_en from '@json/en/src/lib/screen-report-email.json';
+import m_lib_screen_report_email_hu from '@json/hu/src/lib/screen-report-email.json';
 import m_lib_team_work_guard_tr from '@json/src/lib/team-work-guard.json';
 import m_lib_team_work_guard_en from '@json/en/src/lib/team-work-guard.json';
+import m_lib_team_work_guard_hu from '@json/hu/src/lib/team-work-guard.json';
 import m_lib_wage_policy_service_tr from '@json/src/lib/wage-policy-service.json';
 import m_lib_wage_policy_service_en from '@json/en/src/lib/wage-policy-service.json';
+import m_lib_wage_policy_service_hu from '@json/hu/src/lib/wage-policy-service.json';
 import m_lib_web_updates_tr from '@json/src/lib/web-updates.json';
 import m_lib_web_updates_en from '@json/en/src/lib/web-updates.json';
+import m_lib_web_updates_hu from '@json/hu/src/lib/web-updates.json';
 import m_lib_work_log_tr from '@json/src/lib/work-log.json';
 import m_lib_work_log_en from '@json/en/src/lib/work-log.json';
+import m_lib_work_log_hu from '@json/hu/src/lib/work-log.json';
 import m_lib_work_log_service_tr from '@json/src/lib/work-log-service.json';
 import m_lib_work_log_service_en from '@json/en/src/lib/work-log-service.json';
+import m_lib_work_log_service_hu from '@json/hu/src/lib/work-log-service.json';
 import m_types_project_tr from '@json/src/types/project.json';
 import m_types_project_en from '@json/en/src/types/project.json';
+import m_types_project_hu from '@json/hu/src/types/project.json';
 import m_types_project_block_tr from '@json/src/types/project-block.json';
 import m_types_project_block_en from '@json/en/src/types/project-block.json';
+import m_types_project_block_hu from '@json/hu/src/types/project-block.json';
 import m_types_project_job_tr from '@json/src/types/project-job.json';
 import m_types_project_job_en from '@json/en/src/types/project-job.json';
+import m_types_project_job_hu from '@json/hu/src/types/project-job.json';
 import m_types_wage_policy_tr from '@json/src/types/wage-policy.json';
 import m_types_wage_policy_en from '@json/en/src/types/wage-policy.json';
+import m_types_wage_policy_hu from '@json/hu/src/types/wage-policy.json';
 
 export const STRINGS_REGISTRY = {
-  'api/projects': { tr: m_api_projects_tr, en: m_api_projects_en },
-  'app/admin-panel/arjen/avans/list': { tr: m_app_admin_panel_arjen_avans_list_tr, en: m_app_admin_panel_arjen_avans_list_en },
-  'app/admin-panel/arjen/avans/page': { tr: m_app_admin_panel_arjen_avans_page_tr, en: m_app_admin_panel_arjen_avans_page_en },
-  'app/admin-panel/arjen/sorgulama/[projectId]/page': { tr: m_app_admin_panel_arjen_sorgulama__projectId__page_tr, en: m_app_admin_panel_arjen_sorgulama__projectId__page_en },
-  'app/admin-panel/arjen/yevmiye/list': { tr: m_app_admin_panel_arjen_yevmiye_list_tr, en: m_app_admin_panel_arjen_yevmiye_list_en },
-  'app/admin-panel/arjen/yevmiye/page': { tr: m_app_admin_panel_arjen_yevmiye_page_tr, en: m_app_admin_panel_arjen_yevmiye_page_en },
-  'app/admin-panel/ayarlar/page': { tr: m_app_admin_panel_ayarlar_page_tr, en: m_app_admin_panel_ayarlar_page_en },
-  'app/admin-panel/basvuru-onay/page': { tr: m_app_admin_panel_basvuru_onay_page_tr, en: m_app_admin_panel_basvuru_onay_page_en },
-  'app/admin-panel/layout': { tr: m_app_admin_panel_layout_tr, en: m_app_admin_panel_layout_en },
-  'app/admin-panel/login/page': { tr: m_app_admin_panel_login_page_tr, en: m_app_admin_panel_login_page_en },
-  'app/admin-panel/login/yedek': { tr: m_app_admin_panel_login_yedek_tr, en: m_app_admin_panel_login_yedek_en },
-  'app/admin-panel/maas-politikasi/page': { tr: m_app_admin_panel_maas_politikasi_page_tr, en: m_app_admin_panel_maas_politikasi_page_en },
-  'app/admin-panel/page': { tr: m_app_admin_panel_page_tr, en: m_app_admin_panel_page_en },
-  'app/admin-panel/proje/ProjectFilters': { tr: m_app_admin_panel_proje_ProjectFilters_tr, en: m_app_admin_panel_proje_ProjectFilters_en },
-  'app/admin-panel/proje/ProjectForm': { tr: m_app_admin_panel_proje_ProjectForm_tr, en: m_app_admin_panel_proje_ProjectForm_en },
-  'app/admin-panel/proje/ProjectList': { tr: m_app_admin_panel_proje_ProjectList_tr, en: m_app_admin_panel_proje_ProjectList_en },
-  'app/admin-panel/proje/[projectId]/asgari/page': { tr: m_app_admin_panel_proje__projectId__asgari_page_tr, en: m_app_admin_panel_proje__projectId__asgari_page_en },
-  'app/admin-panel/proje/[projectId]/avans-talepleri/page': { tr: m_app_admin_panel_proje__projectId__avans_talepleri_page_tr, en: m_app_admin_panel_proje__projectId__avans_talepleri_page_en },
-  'app/admin-panel/proje/[projectId]/avans/page': { tr: m_app_admin_panel_proje__projectId__avans_page_tr, en: m_app_admin_panel_proje__projectId__avans_page_en },
-  'app/admin-panel/proje/[projectId]/basvuru-onay/page': { tr: m_app_admin_panel_proje__projectId__basvuru_onay_page_tr, en: m_app_admin_panel_proje__projectId__basvuru_onay_page_en },
-  'app/admin-panel/proje/[projectId]/bloklar/page': { tr: m_app_admin_panel_proje__projectId__bloklar_page_tr, en: m_app_admin_panel_proje__projectId__bloklar_page_en },
-  'app/admin-panel/proje/[projectId]/bordro/page': { tr: m_app_admin_panel_proje__projectId__bordro_page_tr, en: m_app_admin_panel_proje__projectId__bordro_page_en },
-  'app/admin-panel/proje/[projectId]/durum/page': { tr: m_app_admin_panel_proje__projectId__durum_page_tr, en: m_app_admin_panel_proje__projectId__durum_page_en },
-  'app/admin-panel/proje/[projectId]/ekiplar/page': { tr: m_app_admin_panel_proje__projectId__ekiplar_page_tr, en: m_app_admin_panel_proje__projectId__ekiplar_page_en },
-  'app/admin-panel/proje/[projectId]/itirazlar/page': { tr: m_app_admin_panel_proje__projectId__itirazlar_page_tr, en: m_app_admin_panel_proje__projectId__itirazlar_page_en },
-  'app/admin-panel/proje/[projectId]/kar/page': { tr: m_app_admin_panel_proje__projectId__kar_page_tr, en: m_app_admin_panel_proje__projectId__kar_page_en },
-  'app/admin-panel/proje/[projectId]/kayit-gecmisi/page': { tr: m_app_admin_panel_proje__projectId__kayit_gecmisi_page_tr, en: m_app_admin_panel_proje__projectId__kayit_gecmisi_page_en },
-  'app/admin-panel/proje/[projectId]/kesinti/page': { tr: m_app_admin_panel_proje__projectId__kesinti_page_tr, en: m_app_admin_panel_proje__projectId__kesinti_page_en },
-  'app/admin-panel/proje/[projectId]/list/[employeeId]/page': { tr: m_app_admin_panel_proje__projectId__list__employeeId__page_tr, en: m_app_admin_panel_proje__projectId__list__employeeId__page_en },
-  'app/admin-panel/proje/[projectId]/list/page': { tr: m_app_admin_panel_proje__projectId__list_page_tr, en: m_app_admin_panel_proje__projectId__list_page_en },
-  'app/admin-panel/proje/[projectId]/maas-politikasi/page': { tr: m_app_admin_panel_proje__projectId__maas_politikasi_page_tr, en: m_app_admin_panel_proje__projectId__maas_politikasi_page_en },
-  'app/admin-panel/proje/[projectId]/new/page': { tr: m_app_admin_panel_proje__projectId__new_page_tr, en: m_app_admin_panel_proje__projectId__new_page_en },
-  'app/admin-panel/proje/[projectId]/page': { tr: m_app_admin_panel_proje__projectId__page_tr, en: m_app_admin_panel_proje__projectId__page_en },
-  'app/admin-panel/proje/[projectId]/raporlar/onaylanan/page': { tr: m_app_admin_panel_proje__projectId__raporlar_onaylanan_page_tr, en: m_app_admin_panel_proje__projectId__raporlar_onaylanan_page_en },
-  'app/admin-panel/proje/[projectId]/raporlar/onaysiz/page': { tr: m_app_admin_panel_proje__projectId__raporlar_onaysiz_page_tr, en: m_app_admin_panel_proje__projectId__raporlar_onaysiz_page_en },
-  'app/admin-panel/proje/[projectId]/raporlar/page': { tr: m_app_admin_panel_proje__projectId__raporlar_page_tr, en: m_app_admin_panel_proje__projectId__raporlar_page_en },
-  'app/admin-panel/proje/[projectId]/sorgulama/admin/page': { tr: m_app_admin_panel_proje__projectId__sorgulama_admin_page_tr, en: m_app_admin_panel_proje__projectId__sorgulama_admin_page_en },
-  'app/admin-panel/proje/[projectId]/sorgulama/asgari/page': { tr: m_app_admin_panel_proje__projectId__sorgulama_asgari_page_tr, en: m_app_admin_panel_proje__projectId__sorgulama_asgari_page_en },
-  'app/admin-panel/proje/[projectId]/sorgulama/avans/page': { tr: m_app_admin_panel_proje__projectId__sorgulama_avans_page_tr, en: m_app_admin_panel_proje__projectId__sorgulama_avans_page_en },
-  'app/admin-panel/proje/[projectId]/sorgulama/kesinti/page': { tr: m_app_admin_panel_proje__projectId__sorgulama_kesinti_page_tr, en: m_app_admin_panel_proje__projectId__sorgulama_kesinti_page_en },
-  'app/admin-panel/proje/[projectId]/sorgulama/page': { tr: m_app_admin_panel_proje__projectId__sorgulama_page_tr, en: m_app_admin_panel_proje__projectId__sorgulama_page_en },
-  'app/admin-panel/proje/[projectId]/sorgulama/personel-sifreleri/page': { tr: m_app_admin_panel_proje__projectId__sorgulama_personel_sifreleri_page_tr, en: m_app_admin_panel_proje__projectId__sorgulama_personel_sifreleri_page_en },
-  'app/admin-panel/proje/[projectId]/sorgulama/yevmiye/page': { tr: m_app_admin_panel_proje__projectId__sorgulama_yevmiye_page_tr, en: m_app_admin_panel_proje__projectId__sorgulama_yevmiye_page_en },
-  'app/admin-panel/proje/[projectId]/yevmiye/page': { tr: m_app_admin_panel_proje__projectId__yevmiye_page_tr, en: m_app_admin_panel_proje__projectId__yevmiye_page_en },
-  'app/admin-panel/register/page': { tr: m_app_admin_panel_register_page_tr, en: m_app_admin_panel_register_page_en },
-  'app/api/admin/dekont/analyze/route': { tr: m_app_api_admin_dekont_analyze_route_tr, en: m_app_api_admin_dekont_analyze_route_en },
-  'app/api/admin/dekont/drafts/[id]/apply-ocr/route': { tr: m_app_api_admin_dekont_drafts__id__apply_ocr_route_tr, en: m_app_api_admin_dekont_drafts__id__apply_ocr_route_en },
-  'app/api/admin/dekont/drafts/[id]/file/route': { tr: m_app_api_admin_dekont_drafts__id__file_route_tr, en: m_app_api_admin_dekont_drafts__id__file_route_en },
-  'app/api/admin/dekont/drafts/[id]/process/route': { tr: m_app_api_admin_dekont_drafts__id__process_route_tr, en: m_app_api_admin_dekont_drafts__id__process_route_en },
-  'app/api/admin/dekont/drafts/[id]/route': { tr: m_app_api_admin_dekont_drafts__id__route_tr, en: m_app_api_admin_dekont_drafts__id__route_en },
-  'app/api/admin/dekont/share-ingest/route': { tr: m_app_api_admin_dekont_share_ingest_route_tr, en: m_app_api_admin_dekont_share_ingest_route_en },
-  'app/api/admin/employees/route': { tr: m_app_api_admin_employees_route_tr, en: m_app_api_admin_employees_route_en },
-  'app/api/admin/projects/[projectId]/advance-requests/[id]/approve/route': { tr: m_app_api_admin_projects__projectId__advance_requests__id__approve_route_tr, en: m_app_api_admin_projects__projectId__advance_requests__id__approve_route_en },
-  'app/api/admin/projects/[projectId]/advance-requests/[id]/cash-qr/route': { tr: m_app_api_admin_projects__projectId__advance_requests__id__cash_qr_route_tr, en: m_app_api_admin_projects__projectId__advance_requests__id__cash_qr_route_en },
-  'app/api/admin/projects/[projectId]/advance-requests/[id]/record-payment/route': { tr: m_app_api_admin_projects__projectId__advance_requests__id__record_payment_route_tr, en: m_app_api_admin_projects__projectId__advance_requests__id__record_payment_route_en },
-  'app/api/admin/projects/[projectId]/advance-requests/[id]/reject/route': { tr: m_app_api_admin_projects__projectId__advance_requests__id__reject_route_tr, en: m_app_api_admin_projects__projectId__advance_requests__id__reject_route_en },
-  'app/api/admin/projects/[projectId]/advance-requests/[id]/transfer-code/route': { tr: m_app_api_admin_projects__projectId__advance_requests__id__transfer_code_route_tr, en: m_app_api_admin_projects__projectId__advance_requests__id__transfer_code_route_en },
-  'app/api/admin/projects/[projectId]/advance-requests/retroactive/route': { tr: m_app_api_admin_projects__projectId__advance_requests_retroactive_route_tr, en: m_app_api_admin_projects__projectId__advance_requests_retroactive_route_en },
-  'app/api/admin/projects/[projectId]/advance-requests/route': { tr: m_app_api_admin_projects__projectId__advance_requests_route_tr, en: m_app_api_admin_projects__projectId__advance_requests_route_en },
-  'app/api/admin/projects/[projectId]/attendance-qr/checkins/[checkInId]/route': { tr: m_app_api_admin_projects__projectId__attendance_qr_checkins__checkInId__route_tr, en: m_app_api_admin_projects__projectId__attendance_qr_checkins__checkInId__route_en },
-  'app/api/admin/projects/[projectId]/attendance-qr/complete/route': { tr: m_app_api_admin_projects__projectId__attendance_qr_complete_route_tr, en: m_app_api_admin_projects__projectId__attendance_qr_complete_route_en },
-  'app/api/admin/projects/[projectId]/attendance-qr/route': { tr: m_app_api_admin_projects__projectId__attendance_qr_route_tr, en: m_app_api_admin_projects__projectId__attendance_qr_route_en },
-  'app/api/admin/projects/[projectId]/blocks/[blockId]/route': { tr: m_app_api_admin_projects__projectId__blocks__blockId__route_tr, en: m_app_api_admin_projects__projectId__blocks__blockId__route_en },
-  'app/api/admin/projects/[projectId]/blocks/route': { tr: m_app_api_admin_projects__projectId__blocks_route_tr, en: m_app_api_admin_projects__projectId__blocks_route_en },
-  'app/api/admin/projects/[projectId]/closure/start/route': { tr: m_app_api_admin_projects__projectId__closure_start_route_tr, en: m_app_api_admin_projects__projectId__closure_start_route_en },
-  'app/api/admin/projects/[projectId]/collaborators/[userId]/route': { tr: m_app_api_admin_projects__projectId__collaborators__userId__route_tr, en: m_app_api_admin_projects__projectId__collaborators__userId__route_en },
-  'app/api/admin/projects/[projectId]/collaborators/route': { tr: m_app_api_admin_projects__projectId__collaborators_route_tr, en: m_app_api_admin_projects__projectId__collaborators_route_en },
-  'app/api/admin/projects/[projectId]/day-reports/[id]/route': { tr: m_app_api_admin_projects__projectId__day_reports__id__route_tr, en: m_app_api_admin_projects__projectId__day_reports__id__route_en },
-  'app/api/admin/projects/[projectId]/day-reports/route': { tr: m_app_api_admin_projects__projectId__day_reports_route_tr, en: m_app_api_admin_projects__projectId__day_reports_route_en },
-  'app/api/admin/projects/[projectId]/deductions/[recordId]/route': { tr: m_app_api_admin_projects__projectId__deductions__recordId__route_tr, en: m_app_api_admin_projects__projectId__deductions__recordId__route_en },
-  'app/api/admin/projects/[projectId]/deductions/route': { tr: m_app_api_admin_projects__projectId__deductions_route_tr, en: m_app_api_admin_projects__projectId__deductions_route_en },
-  'app/api/admin/projects/[projectId]/employees/[employeeId]/photo/route': { tr: m_app_api_admin_projects__projectId__employees__employeeId__photo_route_tr, en: m_app_api_admin_projects__projectId__employees__employeeId__photo_route_en },
-  'app/api/admin/projects/[projectId]/employees/[employeeId]/route': { tr: m_app_api_admin_projects__projectId__employees__employeeId__route_tr, en: m_app_api_admin_projects__projectId__employees__employeeId__route_en },
-  'app/api/admin/projects/[projectId]/employees/[employeeId]/sensitive/route': { tr: m_app_api_admin_projects__projectId__employees__employeeId__sensitive_route_tr, en: m_app_api_admin_projects__projectId__employees__employeeId__sensitive_route_en },
-  'app/api/admin/projects/[projectId]/employees/pins/route': { tr: m_app_api_admin_projects__projectId__employees_pins_route_tr, en: m_app_api_admin_projects__projectId__employees_pins_route_en },
-  'app/api/admin/projects/[projectId]/employees/route': { tr: m_app_api_admin_projects__projectId__employees_route_tr, en: m_app_api_admin_projects__projectId__employees_route_en },
-  'app/api/admin/projects/[projectId]/jobs/[jobId]/expenses/[expenseId]/route': { tr: m_app_api_admin_projects__projectId__jobs__jobId__expenses__expenseId__route_tr, en: m_app_api_admin_projects__projectId__jobs__jobId__expenses__expenseId__route_en },
-  'app/api/admin/projects/[projectId]/jobs/[jobId]/expenses/route': { tr: m_app_api_admin_projects__projectId__jobs__jobId__expenses_route_tr, en: m_app_api_admin_projects__projectId__jobs__jobId__expenses_route_en },
-  'app/api/admin/projects/[projectId]/jobs/[jobId]/route': { tr: m_app_api_admin_projects__projectId__jobs__jobId__route_tr, en: m_app_api_admin_projects__projectId__jobs__jobId__route_en },
-  'app/api/admin/projects/[projectId]/jobs/route': { tr: m_app_api_admin_projects__projectId__jobs_route_tr, en: m_app_api_admin_projects__projectId__jobs_route_en },
-  'app/api/admin/projects/[projectId]/minimum-wages/[recordId]/route': { tr: m_app_api_admin_projects__projectId__minimum_wages__recordId__route_tr, en: m_app_api_admin_projects__projectId__minimum_wages__recordId__route_en },
-  'app/api/admin/projects/[projectId]/minimum-wages/route': { tr: m_app_api_admin_projects__projectId__minimum_wages_route_tr, en: m_app_api_admin_projects__projectId__minimum_wages_route_en },
-  'app/api/admin/projects/[projectId]/partners/route': { tr: m_app_api_admin_projects__projectId__partners_route_tr, en: m_app_api_admin_projects__projectId__partners_route_en },
-  'app/api/admin/projects/[projectId]/payroll/route': { tr: m_app_api_admin_projects__projectId__payroll_route_tr, en: m_app_api_admin_projects__projectId__payroll_route_en },
-  'app/api/admin/projects/[projectId]/profit/route': { tr: m_app_api_admin_projects__projectId__profit_route_tr, en: m_app_api_admin_projects__projectId__profit_route_en },
-  'app/api/admin/projects/[projectId]/route': { tr: m_app_api_admin_projects__projectId__route_tr, en: m_app_api_admin_projects__projectId__route_en },
-  'app/api/admin/projects/[projectId]/teams/[teamId]/members/route': { tr: m_app_api_admin_projects__projectId__teams__teamId__members_route_tr, en: m_app_api_admin_projects__projectId__teams__teamId__members_route_en },
-  'app/api/admin/projects/[projectId]/teams/route': { tr: m_app_api_admin_projects__projectId__teams_route_tr, en: m_app_api_admin_projects__projectId__teams_route_en },
-  'app/api/admin/projects/[projectId]/work-logs/[recordId]/route': { tr: m_app_api_admin_projects__projectId__work_logs__recordId__route_tr, en: m_app_api_admin_projects__projectId__work_logs__recordId__route_en },
-  'app/api/admin/projects/[projectId]/work-logs/route': { tr: m_app_api_admin_projects__projectId__work_logs_route_tr, en: m_app_api_admin_projects__projectId__work_logs_route_en },
-  'app/api/admin/projects/join-collab/route': { tr: m_app_api_admin_projects_join_collab_route_tr, en: m_app_api_admin_projects_join_collab_route_en },
-  'app/api/admin/projects/route': { tr: m_app_api_admin_projects_route_tr, en: m_app_api_admin_projects_route_en },
-  'app/api/admin/registrations/lookup/route': { tr: m_app_api_admin_registrations_lookup_route_tr, en: m_app_api_admin_registrations_lookup_route_en },
-  'app/api/auth/admin/register/route': { tr: m_app_api_auth_admin_register_route_tr, en: m_app_api_auth_admin_register_route_en },
-  'app/api/auth/personnel/employees/route': { tr: m_app_api_auth_personnel_employees_route_tr, en: m_app_api_auth_personnel_employees_route_en },
-  'app/api/auth/personnel/login/route': { tr: m_app_api_auth_personnel_login_route_tr, en: m_app_api_auth_personnel_login_route_en },
-  'app/api/auth/personnel/projects/route': { tr: m_app_api_auth_personnel_projects_route_tr, en: m_app_api_auth_personnel_projects_route_en },
-  'app/api/auth/personnel/unlock/route': { tr: m_app_api_auth_personnel_unlock_route_tr, en: m_app_api_auth_personnel_unlock_route_en },
-  'app/api/cron/personnel-pending-reminders/route': { tr: m_app_api_cron_personnel_pending_reminders_route_tr, en: m_app_api_cron_personnel_pending_reminders_route_en },
-  'app/api/cron/supabase-keepalive/route': { tr: m_app_api_cron_supabase_keepalive_route_tr, en: m_app_api_cron_supabase_keepalive_route_en },
-  'app/api/developer/codes/[codeId]/route': { tr: m_app_api_developer_codes__codeId__route_tr, en: m_app_api_developer_codes__codeId__route_en },
-  'app/api/developer/codes/route': { tr: m_app_api_developer_codes_route_tr, en: m_app_api_developer_codes_route_en },
-  'app/api/developer/releases/[id]/publish/route': { tr: m_app_api_developer_releases__id__publish_route_tr, en: m_app_api_developer_releases__id__publish_route_en },
-  'app/api/developer/releases/[id]/route': { tr: m_app_api_developer_releases__id__route_tr, en: m_app_api_developer_releases__id__route_en },
-  'app/api/developer/releases/route': { tr: m_app_api_developer_releases_route_tr, en: m_app_api_developer_releases_route_en },
-  'app/api/developer/wipe-database/route': { tr: m_app_api_developer_wipe_database_route_tr, en: m_app_api_developer_wipe_database_route_en },
-  'app/api/personnel/advance-requests/[id]/cancel/route': { tr: m_app_api_personnel_advance_requests__id__cancel_route_tr, en: m_app_api_personnel_advance_requests__id__cancel_route_en },
-  'app/api/personnel/advance-requests/confirm-cash/route': { tr: m_app_api_personnel_advance_requests_confirm_cash_route_tr, en: m_app_api_personnel_advance_requests_confirm_cash_route_en },
-  'app/api/personnel/advance-requests/route': { tr: m_app_api_personnel_advance_requests_route_tr, en: m_app_api_personnel_advance_requests_route_en },
-  'app/api/personnel/asgari/route': { tr: m_app_api_personnel_asgari_route_tr, en: m_app_api_personnel_asgari_route_en },
-  'app/api/personnel/attendance-qr/status/route': { tr: m_app_api_personnel_attendance_qr_status_route_tr, en: m_app_api_personnel_attendance_qr_status_route_en },
-  'app/api/personnel/change-password/route': { tr: m_app_api_personnel_change_password_route_tr, en: m_app_api_personnel_change_password_route_en },
-  'app/api/personnel/closure/accelerate-deletion/route': { tr: m_app_api_personnel_closure_accelerate_deletion_route_tr, en: m_app_api_personnel_closure_accelerate_deletion_route_en },
-  'app/api/personnel/closure/acknowledge-export/route': { tr: m_app_api_personnel_closure_acknowledge_export_route_tr, en: m_app_api_personnel_closure_acknowledge_export_route_en },
-  'app/api/personnel/closure/consent/route': { tr: m_app_api_personnel_closure_consent_route_tr, en: m_app_api_personnel_closure_consent_route_en },
-  'app/api/personnel/closure/execute-deletion/route': { tr: m_app_api_personnel_closure_execute_deletion_route_tr, en: m_app_api_personnel_closure_execute_deletion_route_en },
-  'app/api/personnel/closure/status/route': { tr: m_app_api_personnel_closure_status_route_tr, en: m_app_api_personnel_closure_status_route_en },
-  'app/api/personnel/contracts/route': { tr: m_app_api_personnel_contracts_route_tr, en: m_app_api_personnel_contracts_route_en },
-  'app/api/personnel/day-reports/route': { tr: m_app_api_personnel_day_reports_route_tr, en: m_app_api_personnel_day_reports_route_en },
-  'app/api/personnel/deductions/route': { tr: m_app_api_personnel_deductions_route_tr, en: m_app_api_personnel_deductions_route_en },
-  'app/api/personnel/me/photo/route': { tr: m_app_api_personnel_me_photo_route_tr, en: m_app_api_personnel_me_photo_route_en },
-  'app/api/personnel/me/route': { tr: m_app_api_personnel_me_route_tr, en: m_app_api_personnel_me_route_en },
-  'app/api/personnel/minimum-wages/route': { tr: m_app_api_personnel_minimum_wages_route_tr, en: m_app_api_personnel_minimum_wages_route_en },
-  'app/api/personnel/my-dossier/route': { tr: m_app_api_personnel_my_dossier_route_tr, en: m_app_api_personnel_my_dossier_route_en },
-  'app/api/personnel/my-dossier/sections/route': { tr: m_app_api_personnel_my_dossier_sections_route_tr, en: m_app_api_personnel_my_dossier_sections_route_en },
-  'app/api/personnel/push/subscribe/route': { tr: m_app_api_personnel_push_subscribe_route_tr, en: m_app_api_personnel_push_subscribe_route_en },
-  'app/api/personnel/summary/route': { tr: m_app_api_personnel_summary_route_tr, en: m_app_api_personnel_summary_route_en },
-  'app/api/personnel/work-logs/[recordId]/dispute/route': { tr: m_app_api_personnel_work_logs__recordId__dispute_route_tr, en: m_app_api_personnel_work_logs__recordId__dispute_route_en },
-  'app/api/personnel/work-logs/confirm/route': { tr: m_app_api_personnel_work_logs_confirm_route_tr, en: m_app_api_personnel_work_logs_confirm_route_en },
-  'app/api/personnel/work-logs/route': { tr: m_app_api_personnel_work_logs_route_tr, en: m_app_api_personnel_work_logs_route_en },
-  'app/api/personnel/work-logs/today/route': { tr: m_app_api_personnel_work_logs_today_route_tr, en: m_app_api_personnel_work_logs_today_route_en },
-  'app/api/public/contract-otp/confirm-link/route': { tr: m_app_api_public_contract_otp_confirm_link_route_tr, en: m_app_api_public_contract_otp_confirm_link_route_en },
-  'app/api/public/contract-otp/prepare/route': { tr: m_app_api_public_contract_otp_prepare_route_tr, en: m_app_api_public_contract_otp_prepare_route_en },
-  'app/api/public/contract-otp/send/route': { tr: m_app_api_public_contract_otp_send_route_tr, en: m_app_api_public_contract_otp_send_route_en },
-  'app/api/public/contract-otp/verify/route': { tr: m_app_api_public_contract_otp_verify_route_tr, en: m_app_api_public_contract_otp_verify_route_en },
-  'app/api/public/contracts/route': { tr: m_app_api_public_contracts_route_tr, en: m_app_api_public_contracts_route_en },
-  'app/api/public/contracts/view/route': { tr: m_app_api_public_contracts_view_route_tr, en: m_app_api_public_contracts_view_route_en },
-  'app/api/public/personnel-pin-reset/complete/route': { tr: m_app_api_public_personnel_pin_reset_complete_route_tr, en: m_app_api_public_personnel_pin_reset_complete_route_en },
-  'app/api/public/personnel-pin-reset/route': { tr: m_app_api_public_personnel_pin_reset_route_tr, en: m_app_api_public_personnel_pin_reset_route_en },
-  'app/api/public/personnel-registration/access/route': { tr: m_app_api_public_personnel_registration_access_route_tr, en: m_app_api_public_personnel_registration_access_route_en },
-  'app/api/public/personnel-registration/route': { tr: m_app_api_public_personnel_registration_route_tr, en: m_app_api_public_personnel_registration_route_en },
-  'app/api/public/personnel-registration/status/route': { tr: m_app_api_public_personnel_registration_status_route_tr, en: m_app_api_public_personnel_registration_status_route_en },
-  'app/api/public/releases/[appType]/download/route': { tr: m_app_api_public_releases__appType__download_route_tr, en: m_app_api_public_releases__appType__download_route_en },
-  'app/api/public/releases/route': { tr: m_app_api_public_releases_route_tr, en: m_app_api_public_releases_route_en },
-  'app/api/public/screen-report/route': { tr: m_app_api_public_screen_report_route_tr, en: m_app_api_public_screen_report_route_en },
-  'app/api/reset-password/route': { tr: m_app_api_reset_password_route_tr, en: m_app_api_reset_password_route_en },
-  'app/apk/page': { tr: m_app_apk_page_tr, en: m_app_apk_page_en },
-  'app/auth/yeni-sifre/page': { tr: m_app_auth_yeni_sifre_page_tr, en: m_app_auth_yeni_sifre_page_en },
-  'app/developer-panel/login/page': { tr: m_app_developer_panel_login_page_tr, en: m_app_developer_panel_login_page_en },
-  'app/developer-panel/page': { tr: m_app_developer_panel_page_tr, en: m_app_developer_panel_page_en },
-  'app/developer-panel/releases/page': { tr: m_app_developer_panel_releases_page_tr, en: m_app_developer_panel_releases_page_en },
-  'app/gizlilik/page': { tr: m_app_gizlilik_page_tr, en: m_app_gizlilik_page_en },
-  'app/kullanim-sartlari/page': { tr: m_app_kullanim_sartlari_page_tr, en: m_app_kullanim_sartlari_page_en },
-  'app/kvkk/page': { tr: m_app_kvkk_page_tr, en: m_app_kvkk_page_en },
-  'app/layout': { tr: m_app_layout_tr, en: m_app_layout_en },
-  'app/personnel-panel/avans-onay/page': { tr: m_app_personnel_panel_avans_onay_page_tr, en: m_app_personnel_panel_avans_onay_page_en },
-  'app/personnel-panel/avans/page': { tr: m_app_personnel_panel_avans_page_tr, en: m_app_personnel_panel_avans_page_en },
-  'app/personnel-panel/basvuru/dogrula/page': { tr: m_app_personnel_panel_basvuru_dogrula_page_tr, en: m_app_personnel_panel_basvuru_dogrula_page_en },
-  'app/personnel-panel/basvuru/page': { tr: m_app_personnel_panel_basvuru_page_tr, en: m_app_personnel_panel_basvuru_page_en },
-  'app/personnel-panel/layout': { tr: m_app_personnel_panel_layout_tr, en: m_app_personnel_panel_layout_en },
-  'app/personnel-panel/login/page': { tr: m_app_personnel_panel_login_page_tr, en: m_app_personnel_panel_login_page_en },
-  'app/personnel-panel/page': { tr: m_app_personnel_panel_page_tr, en: m_app_personnel_panel_page_en },
-  'app/personnel-panel/pin-sifirla/page': { tr: m_app_personnel_panel_pin_sifirla_page_tr, en: m_app_personnel_panel_pin_sifirla_page_en },
-  'app/personnel-panel/sifremi-unuttum/page': { tr: m_app_personnel_panel_sifremi_unuttum_page_tr, en: m_app_personnel_panel_sifremi_unuttum_page_en },
-  'app/personnel-panel/unlock/page': { tr: m_app_personnel_panel_unlock_page_tr, en: m_app_personnel_panel_unlock_page_en },
-  'app/personnel-panel/yoklama/page': { tr: m_app_personnel_panel_yoklama_page_tr, en: m_app_personnel_panel_yoklama_page_en },
-  'app/sozlesme/[slug]/page': { tr: m_app_sozlesme__slug__page_tr, en: m_app_sozlesme__slug__page_en },
-  'app/supabase/page': { tr: m_app_supabase_page_tr, en: m_app_supabase_page_en },
-  'components/ThemeToggle': { tr: m_components_ThemeToggle_tr, en: m_components_ThemeToggle_en },
-  'components/admin/AdminAppIntro': { tr: m_components_admin_AdminAppIntro_tr, en: m_components_admin_AdminAppIntro_en },
-  'components/admin/AdminAppSettings': { tr: m_components_admin_AdminAppSettings_tr, en: m_components_admin_AdminAppSettings_en },
-  'components/admin/AdminAttendanceModal': { tr: m_components_admin_AdminAttendanceModal_tr, en: m_components_admin_AdminAttendanceModal_en },
-  'components/admin/AdminProjectClosureScreen': { tr: m_components_admin_AdminProjectClosureScreen_tr, en: m_components_admin_AdminProjectClosureScreen_en },
-  'components/admin/AdminWorkLogDisputeActions': { tr: m_components_admin_AdminWorkLogDisputeActions_tr, en: m_components_admin_AdminWorkLogDisputeActions_en },
-  'components/admin/DekontSharePanel': { tr: m_components_admin_DekontSharePanel_tr, en: m_components_admin_DekontSharePanel_en },
-  'components/admin/LegalDossierDownloadButton': { tr: m_components_admin_LegalDossierDownloadButton_tr, en: m_components_admin_LegalDossierDownloadButton_en },
-  'components/admin/ProjectLegalDossierDownloadButton': { tr: m_components_admin_ProjectLegalDossierDownloadButton_tr, en: m_components_admin_ProjectLegalDossierDownloadButton_en },
-  'components/advance/AdminAdvanceRequestsPanel': { tr: m_components_advance_AdminAdvanceRequestsPanel_tr, en: m_components_advance_AdminAdvanceRequestsPanel_en },
-  'components/auth/AdminRegisterLayout': { tr: m_components_auth_AdminRegisterLayout_tr, en: m_components_auth_AdminRegisterLayout_en },
-  'components/auth/AuthLayout': { tr: m_components_auth_AuthLayout_tr, en: m_components_auth_AuthLayout_en },
-  'components/auth/AuthReportContext': { tr: m_components_auth_AuthReportContext_tr, en: m_components_auth_AuthReportContext_en },
-  'components/auth/ForgotPinModal': { tr: m_components_auth_ForgotPinModal_tr, en: m_components_auth_ForgotPinModal_en },
-  'components/auth/PinResetPageContent': { tr: m_components_auth_PinResetPageContent_tr, en: m_components_auth_PinResetPageContent_en },
-  'components/auth/ScreenReportButton': { tr: m_components_auth_ScreenReportButton_tr, en: m_components_auth_ScreenReportButton_en },
-  'components/auth/ThemeToggleButton': { tr: m_components_auth_ThemeToggleButton_tr, en: m_components_auth_ThemeToggleButton_en },
-  'components/brand/BrandMark': { tr: m_components_brand_BrandMark_tr, en: m_components_brand_BrandMark_en },
-  'components/closure/ClosureCountdown': { tr: m_components_closure_ClosureCountdown_tr, en: m_components_closure_ClosureCountdown_en },
-  'components/contracts/ContractAcceptanceBlock': { tr: m_components_contracts_ContractAcceptanceBlock_tr, en: m_components_contracts_ContractAcceptanceBlock_en },
-  'components/contracts/ContractAcceptanceModal': { tr: m_components_contracts_ContractAcceptanceModal_tr, en: m_components_contracts_ContractAcceptanceModal_en },
-  'components/contracts/ContractEmailVerificationModal': { tr: m_components_contracts_ContractEmailVerificationModal_tr, en: m_components_contracts_ContractEmailVerificationModal_en },
-  'components/contracts/ContractScrollReader': { tr: m_components_contracts_ContractScrollReader_tr, en: m_components_contracts_ContractScrollReader_en },
-  'components/dashboard/AdminAppBottomNav': { tr: m_components_dashboard_AdminAppBottomNav_tr, en: m_components_dashboard_AdminAppBottomNav_en },
-  'components/dashboard/AdminMenuChrome': { tr: m_components_dashboard_AdminMenuChrome_tr, en: m_components_dashboard_AdminMenuChrome_en },
-  'components/dashboard/AdminNavSheet': { tr: m_components_dashboard_AdminNavSheet_tr, en: m_components_dashboard_AdminNavSheet_en },
-  'components/dashboard/AdminProjectBottomNav': { tr: m_components_dashboard_AdminProjectBottomNav_tr, en: m_components_dashboard_AdminProjectBottomNav_en },
-  'components/dashboard/AdminSimpleModeGuard': { tr: m_components_dashboard_AdminSimpleModeGuard_tr, en: m_components_dashboard_AdminSimpleModeGuard_en },
-  'components/dashboard/AdminTopBar': { tr: m_components_dashboard_AdminTopBar_tr, en: m_components_dashboard_AdminTopBar_en },
-  'components/dashboard/AdminUiModeToggle': { tr: m_components_dashboard_AdminUiModeToggle_tr, en: m_components_dashboard_AdminUiModeToggle_en },
-  'components/dashboard/DashboardShell': { tr: m_components_dashboard_DashboardShell_tr, en: m_components_dashboard_DashboardShell_en },
-  'components/developer/DeveloperShell': { tr: m_components_developer_DeveloperShell_tr, en: m_components_developer_DeveloperShell_en },
-  'components/employee/EmployeePhotoPicker': { tr: m_components_employee_EmployeePhotoPicker_tr, en: m_components_employee_EmployeePhotoPicker_en },
-  'components/employee/EmployeePhotoUpload': { tr: m_components_employee_EmployeePhotoUpload_tr, en: m_components_employee_EmployeePhotoUpload_en },
-  'components/employee/SelfieCameraModal': { tr: m_components_employee_SelfieCameraModal_tr, en: m_components_employee_SelfieCameraModal_en },
-  'components/forms/BirthDatePicker': { tr: m_components_forms_BirthDatePicker_tr, en: m_components_forms_BirthDatePicker_en },
-  'components/forms/TurkishPhoneInput': { tr: m_components_forms_TurkishPhoneInput_tr, en: m_components_forms_TurkishPhoneInput_en },
-  'components/home/FeaturesSection': { tr: m_components_home_FeaturesSection_tr, en: m_components_home_FeaturesSection_en },
-  'components/home/GooglePlayBadge': { tr: m_components_home_GooglePlayBadge_tr, en: m_components_home_GooglePlayBadge_en },
-  'components/home/HeroPlayStorePromo': { tr: m_components_home_HeroPlayStorePromo_tr, en: m_components_home_HeroPlayStorePromo_en },
-  'components/home/HeroSection': { tr: m_components_home_HeroSection_tr, en: m_components_home_HeroSection_en },
-  'components/home/HomeFooter': { tr: m_components_home_HomeFooter_tr, en: m_components_home_HomeFooter_en },
-  'components/home/HomeHeader': { tr: m_components_home_HomeHeader_tr, en: m_components_home_HomeHeader_en },
-  'components/home/LoginRolePicker': { tr: m_components_home_LoginRolePicker_tr, en: m_components_home_LoginRolePicker_en },
-  'components/home/PlayStoreSection': { tr: m_components_home_PlayStoreSection_tr, en: m_components_home_PlayStoreSection_en },
-  'components/home/ScrollingBanner': { tr: m_components_home_ScrollingBanner_tr, en: m_components_home_ScrollingBanner_en },
-  'components/modals/AddWorkLogModal': { tr: m_components_modals_AddWorkLogModal_tr, en: m_components_modals_AddWorkLogModal_en },
-  'components/modals/ProjectSettingsModal': { tr: m_components_modals_ProjectSettingsModal_tr, en: m_components_modals_ProjectSettingsModal_en },
-  'components/personnel/ApplicationApprovedScreen': { tr: m_components_personnel_ApplicationApprovedScreen_tr, en: m_components_personnel_ApplicationApprovedScreen_en },
-  'components/personnel/ApplicationRejectedScreen': { tr: m_components_personnel_ApplicationRejectedScreen_tr, en: m_components_personnel_ApplicationRejectedScreen_en },
-  'components/personnel/AttendanceCodeSheet': { tr: m_components_personnel_AttendanceCodeSheet_tr, en: m_components_personnel_AttendanceCodeSheet_en },
-  'components/personnel/AttendanceQrScanner': { tr: m_components_personnel_AttendanceQrScanner_tr, en: m_components_personnel_AttendanceQrScanner_en },
-  'components/personnel/AttendanceStatusSticker': { tr: m_components_personnel_AttendanceStatusSticker_tr, en: m_components_personnel_AttendanceStatusSticker_en },
-  'components/personnel/PendingApplicationWaitingScreen': { tr: m_components_personnel_PendingApplicationWaitingScreen_tr, en: m_components_personnel_PendingApplicationWaitingScreen_en },
-  'components/personnel/PersonnelActiveDevices': { tr: m_components_personnel_PersonnelActiveDevices_tr, en: m_components_personnel_PersonnelActiveDevices_en },
-  'components/personnel/PersonnelAppBottomNav': { tr: m_components_personnel_PersonnelAppBottomNav_tr, en: m_components_personnel_PersonnelAppBottomNav_en },
-  'components/personnel/PersonnelAppIntro': { tr: m_components_personnel_PersonnelAppIntro_tr, en: m_components_personnel_PersonnelAppIntro_en },
-  'components/personnel/PersonnelAppSettings': { tr: m_components_personnel_PersonnelAppSettings_tr, en: m_components_personnel_PersonnelAppSettings_en },
-  'components/personnel/PersonnelAsgariPanel': { tr: m_components_personnel_PersonnelAsgariPanel_tr, en: m_components_personnel_PersonnelAsgariPanel_en },
-  'components/personnel/PersonnelCalendar': { tr: m_components_personnel_PersonnelCalendar_tr, en: m_components_personnel_PersonnelCalendar_en },
-  'components/personnel/PersonnelCalendarDayModal': { tr: m_components_personnel_PersonnelCalendarDayModal_tr, en: m_components_personnel_PersonnelCalendarDayModal_en },
-  'components/personnel/PersonnelClosureAcceleration': { tr: m_components_personnel_PersonnelClosureAcceleration_tr, en: m_components_personnel_PersonnelClosureAcceleration_en },
-  'components/personnel/PersonnelClosureDossierPanel': { tr: m_components_personnel_PersonnelClosureDossierPanel_tr, en: m_components_personnel_PersonnelClosureDossierPanel_en },
-  'components/personnel/PersonnelClosureScreen': { tr: m_components_personnel_PersonnelClosureScreen_tr, en: m_components_personnel_PersonnelClosureScreen_en },
-  'components/personnel/PersonnelContractsSection': { tr: m_components_personnel_PersonnelContractsSection_tr, en: m_components_personnel_PersonnelContractsSection_en },
-  'components/personnel/PersonnelDisplaySettings': { tr: m_components_personnel_PersonnelDisplaySettings_tr, en: m_components_personnel_PersonnelDisplaySettings_en },
-  'components/personnel/PersonnelFairnessCard': { tr: m_components_personnel_PersonnelFairnessCard_tr, en: m_components_personnel_PersonnelFairnessCard_en },
-  'components/personnel/PersonnelFinancePanel': { tr: m_components_personnel_PersonnelFinancePanel_tr, en: m_components_personnel_PersonnelFinancePanel_en },
-  'components/personnel/PersonnelLoginLayout': { tr: m_components_personnel_PersonnelLoginLayout_tr, en: m_components_personnel_PersonnelLoginLayout_en },
-  'components/personnel/PersonnelMesaiCalendar': { tr: m_components_personnel_PersonnelMesaiCalendar_tr, en: m_components_personnel_PersonnelMesaiCalendar_en },
-  'components/personnel/PersonnelMesaiPanel': { tr: m_components_personnel_PersonnelMesaiPanel_tr, en: m_components_personnel_PersonnelMesaiPanel_en },
-  'components/personnel/PersonnelMesaiSummary': { tr: m_components_personnel_PersonnelMesaiSummary_tr, en: m_components_personnel_PersonnelMesaiSummary_en },
-  'components/personnel/PersonnelMonthChip': { tr: m_components_personnel_PersonnelMonthChip_tr, en: m_components_personnel_PersonnelMonthChip_en },
-  'components/personnel/PersonnelMonthFilter': { tr: m_components_personnel_PersonnelMonthFilter_tr, en: m_components_personnel_PersonnelMonthFilter_en },
-  'components/personnel/PersonnelMyDossierDownload': { tr: m_components_personnel_PersonnelMyDossierDownload_tr, en: m_components_personnel_PersonnelMyDossierDownload_en },
-  'components/personnel/PersonnelNavHub': { tr: m_components_personnel_PersonnelNavHub_tr, en: m_components_personnel_PersonnelNavHub_en },
-  'components/personnel/PersonnelNetHero': { tr: m_components_personnel_PersonnelNetHero_tr, en: m_components_personnel_PersonnelNetHero_en },
-  'components/personnel/PersonnelNotificationPermissionPrompt': { tr: m_components_personnel_PersonnelNotificationPermissionPrompt_tr, en: m_components_personnel_PersonnelNotificationPermissionPrompt_en },
-  'components/personnel/PersonnelNotificationsBell': { tr: m_components_personnel_PersonnelNotificationsBell_tr, en: m_components_personnel_PersonnelNotificationsBell_en },
-  'components/personnel/PersonnelPasswordForm': { tr: m_components_personnel_PersonnelPasswordForm_tr, en: m_components_personnel_PersonnelPasswordForm_en },
-  'components/personnel/PersonnelPasswordModal': { tr: m_components_personnel_PersonnelPasswordModal_tr, en: m_components_personnel_PersonnelPasswordModal_en },
-  'components/personnel/PersonnelPayrollPrint': { tr: m_components_personnel_PersonnelPayrollPrint_tr, en: m_components_personnel_PersonnelPayrollPrint_en },
-  'components/personnel/PersonnelProjectCard': { tr: m_components_personnel_PersonnelProjectCard_tr, en: m_components_personnel_PersonnelProjectCard_en },
-  'components/personnel/PersonnelPullToRefresh': { tr: m_components_personnel_PersonnelPullToRefresh_tr, en: m_components_personnel_PersonnelPullToRefresh_en },
-  'components/personnel/PersonnelRecordCard': { tr: m_components_personnel_PersonnelRecordCard_tr, en: m_components_personnel_PersonnelRecordCard_en },
-  'components/personnel/PersonnelRightsPanel': { tr: m_components_personnel_PersonnelRightsPanel_tr, en: m_components_personnel_PersonnelRightsPanel_en },
-  'components/personnel/PersonnelSettingsPage': { tr: m_components_personnel_PersonnelSettingsPage_tr, en: m_components_personnel_PersonnelSettingsPage_en },
-  'components/personnel/PersonnelTodayAttendance': { tr: m_components_personnel_PersonnelTodayAttendance_tr, en: m_components_personnel_PersonnelTodayAttendance_en },
-  'components/personnel/PersonnelTrustFooter': { tr: m_components_personnel_PersonnelTrustFooter_tr, en: m_components_personnel_PersonnelTrustFooter_en },
-  'components/personnel/PersonnelUnifiedCalendar': { tr: m_components_personnel_PersonnelUnifiedCalendar_tr, en: m_components_personnel_PersonnelUnifiedCalendar_en },
-  'components/personnel/PersonnelUnlockLayout': { tr: m_components_personnel_PersonnelUnlockLayout_tr, en: m_components_personnel_PersonnelUnlockLayout_en },
-  'components/personnel/PersonnelWorkLogItem': { tr: m_components_personnel_PersonnelWorkLogItem_tr, en: m_components_personnel_PersonnelWorkLogItem_en },
-  'components/project/AttendanceQrPanel': { tr: m_components_project_AttendanceQrPanel_tr, en: m_components_project_AttendanceQrPanel_en },
-  'components/project/EmployeeSelect': { tr: m_components_project_EmployeeSelect_tr, en: m_components_project_EmployeeSelect_en },
-  'components/project/EntryFormCard': { tr: m_components_project_EntryFormCard_tr, en: m_components_project_EntryFormCard_en },
-  'components/project/JobSelectField': { tr: m_components_project_JobSelectField_tr, en: m_components_project_JobSelectField_en },
-  'components/project/ProjectDetailHeader': { tr: m_components_project_ProjectDetailHeader_tr, en: m_components_project_ProjectDetailHeader_en },
-  'components/project/ProjectEmployeeTable': { tr: m_components_project_ProjectEmployeeTable_tr, en: m_components_project_ProjectEmployeeTable_en },
-  'components/project/ProjectNavMenu': { tr: m_components_project_ProjectNavMenu_tr, en: m_components_project_ProjectNavMenu_en },
-  'components/project/ProjectOverviewStats': { tr: m_components_project_ProjectOverviewStats_tr, en: m_components_project_ProjectOverviewStats_en },
-  'components/project/ProjectSummaryHero': { tr: m_components_project_ProjectSummaryHero_tr, en: m_components_project_ProjectSummaryHero_en },
-  'components/project/ProjectTodayAttendanceCard': { tr: m_components_project_ProjectTodayAttendanceCard_tr, en: m_components_project_ProjectTodayAttendanceCard_en },
-  'components/project/QueryFilters': { tr: m_components_project_QueryFilters_tr, en: m_components_project_QueryFilters_en },
-  'components/project/RecordEditActions': { tr: m_components_project_RecordEditActions_tr, en: m_components_project_RecordEditActions_en },
-  'components/project/RecordsTable': { tr: m_components_project_RecordsTable_tr, en: m_components_project_RecordsTable_en },
-  'components/project/WagePolicyForm': { tr: m_components_project_WagePolicyForm_tr, en: m_components_project_WagePolicyForm_en },
-  'components/project/profit/AddJobModal': { tr: m_components_project_profit_AddJobModal_tr, en: m_components_project_profit_AddJobModal_en },
-  'components/project/profit/BlockProfitCard': { tr: m_components_project_profit_BlockProfitCard_tr, en: m_components_project_profit_BlockProfitCard_en },
-  'components/project/profit/JobProfitCard': { tr: m_components_project_profit_JobProfitCard_tr, en: m_components_project_profit_JobProfitCard_en },
-  'components/project/profit/PartnerSettings': { tr: m_components_project_profit_PartnerSettings_tr, en: m_components_project_profit_PartnerSettings_en },
-  'components/project/profit/ProfitFormulaHelp': { tr: m_components_project_profit_ProfitFormulaHelp_tr, en: m_components_project_profit_ProfitFormulaHelp_en },
-  'components/project/profit/ProfitQuickActions': { tr: m_components_project_profit_ProfitQuickActions_tr, en: m_components_project_profit_ProfitQuickActions_en },
-  'components/project/profit/ProfitTotalsStrip': { tr: m_components_project_profit_ProfitTotalsStrip_tr, en: m_components_project_profit_ProfitTotalsStrip_en },
-  'components/pwa/InstallPrompt': { tr: m_components_pwa_InstallPrompt_tr, en: m_components_pwa_InstallPrompt_en },
-  'components/registration/AdminBasvuruOnayModal': { tr: m_components_registration_AdminBasvuruOnayModal_tr, en: m_components_registration_AdminBasvuruOnayModal_en },
-  'components/registration/AdminBasvuruOnayPanel': { tr: m_components_registration_AdminBasvuruOnayPanel_tr, en: m_components_registration_AdminBasvuruOnayPanel_en },
-  'components/registration/QrCameraScanner': { tr: m_components_registration_QrCameraScanner_tr, en: m_components_registration_QrCameraScanner_en },
-  'components/registration/RegistrationQrCode': { tr: m_components_registration_RegistrationQrCode_tr, en: m_components_registration_RegistrationQrCode_en },
-  'components/supabase/SupabaseStatusPage': { tr: m_components_supabase_SupabaseStatusPage_tr, en: m_components_supabase_SupabaseStatusPage_en },
-  'components/tables/DeductionTable': { tr: m_components_tables_DeductionTable_tr, en: m_components_tables_DeductionTable_en },
-  'components/tables/EmployeeTable': { tr: m_components_tables_EmployeeTable_tr, en: m_components_tables_EmployeeTable_en },
-  'components/ui/MobileMenu': { tr: m_components_ui_MobileMenu_tr, en: m_components_ui_MobileMenu_en },
-  'components/ui/Sidebar/LogoutButton': { tr: m_components_ui_Sidebar_LogoutButton_tr, en: m_components_ui_Sidebar_LogoutButton_en },
-  'components/ui/Sidebar/MenuItems': { tr: m_components_ui_Sidebar_MenuItems_tr, en: m_components_ui_Sidebar_MenuItems_en },
-  'config/admin-mobile-nav': { tr: m_config_admin_mobile_nav_tr, en: m_config_admin_mobile_nav_en },
-  'config/admin-register': { tr: m_config_admin_register_tr, en: m_config_admin_register_en },
-  'config/personnel-mobile-nav': { tr: m_config_personnel_mobile_nav_tr, en: m_config_personnel_mobile_nav_en },
-  'config/projectMenu': { tr: m_config_projectMenu_tr, en: m_config_projectMenu_en },
-  'hooks/useAdminUiMode': { tr: m_hooks_useAdminUiMode_tr, en: m_hooks_useAdminUiMode_en },
-  'hooks/usePersonnelAsgari': { tr: m_hooks_usePersonnelAsgari_tr, en: m_hooks_usePersonnelAsgari_en },
-  'hooks/usePersonnelDashboard': { tr: m_hooks_usePersonnelDashboard_tr, en: m_hooks_usePersonnelDashboard_en },
-  'hooks/useProjectEmployees': { tr: m_hooks_useProjectEmployees_tr, en: m_hooks_useProjectEmployees_en },
-  'lib/admin-intro-boot-script': { tr: m_lib_admin_intro_boot_script_tr, en: m_lib_admin_intro_boot_script_en },
-  'lib/admin-register-validation': { tr: m_lib_admin_register_validation_tr, en: m_lib_admin_register_validation_en },
-  'lib/admin-ui-mode': { tr: m_lib_admin_ui_mode_tr, en: m_lib_admin_ui_mode_en },
-  'lib/advance-dekont-match': { tr: m_lib_advance_dekont_match_tr, en: m_lib_advance_dekont_match_en },
-  'lib/advance-request-service': { tr: m_lib_advance_request_service_tr, en: m_lib_advance_request_service_en },
-  'lib/advance-types': { tr: m_lib_advance_types_tr, en: m_lib_advance_types_en },
-  'lib/age-validation': { tr: m_lib_age_validation_tr, en: m_lib_age_validation_en },
-  'lib/app-releases': { tr: m_lib_app_releases_tr, en: m_lib_app_releases_en },
-  'lib/attendance-qr-service': { tr: m_lib_attendance_qr_service_tr, en: m_lib_attendance_qr_service_en },
-  'lib/attendance-window': { tr: m_lib_attendance_window_tr, en: m_lib_attendance_window_en },
-  'lib/block-team-service': { tr: m_lib_block_team_service_tr, en: m_lib_block_team_service_en },
-  'lib/capture-screen': { tr: m_lib_capture_screen_tr, en: m_lib_capture_screen_en },
-  'lib/closure-deletion-acceleration': { tr: m_lib_closure_deletion_acceleration_tr, en: m_lib_closure_deletion_acceleration_en },
-  'lib/contract-service': { tr: m_lib_contract_service_tr, en: m_lib_contract_service_en },
-  'lib/dekont-import-service': { tr: m_lib_dekont_import_service_tr, en: m_lib_dekont_import_service_en },
-  'lib/dekont-ocr': { tr: m_lib_dekont_ocr_tr, en: m_lib_dekont_ocr_en },
-  'lib/dekont-validation': { tr: m_lib_dekont_validation_tr, en: m_lib_dekont_validation_en },
-  'lib/field-encryption': { tr: m_lib_field_encryption_tr, en: m_lib_field_encryption_en },
-  'lib/i18n/attendance-messages': { tr: m_lib_i18n_attendance_messages_tr, en: m_lib_i18n_attendance_messages_en },
-  'lib/i18n/locale-ui': { tr: m_lib_i18n_locale_ui_tr, en: m_lib_i18n_locale_ui_en },
-  'lib/identity-uniqueness': { tr: m_lib_identity_uniqueness_tr, en: m_lib_identity_uniqueness_en },
-  'lib/legal-dossier/build-legal-dossier': { tr: m_lib_legal_dossier_build_legal_dossier_tr, en: m_lib_legal_dossier_build_legal_dossier_en },
-  'lib/legal-dossier/collectors/index': { tr: m_lib_legal_dossier_collectors_index_tr, en: m_lib_legal_dossier_collectors_index_en },
-  'lib/legal-dossier/render-summary-html': { tr: m_lib_legal_dossier_render_summary_html_tr, en: m_lib_legal_dossier_render_summary_html_en },
-  'lib/otp-delivery': { tr: m_lib_otp_delivery_tr, en: m_lib_otp_delivery_en },
-  'lib/otp-registration': { tr: m_lib_otp_registration_tr, en: m_lib_otp_registration_en },
-  'lib/otp-service': { tr: m_lib_otp_service_tr, en: m_lib_otp_service_en },
-  'lib/parse-registration-qr': { tr: m_lib_parse_registration_qr_tr, en: m_lib_parse_registration_qr_en },
-  'lib/personnel-display-preferences': { tr: m_lib_personnel_display_preferences_tr, en: m_lib_personnel_display_preferences_en },
-  'lib/personnel-intro-boot-script': { tr: m_lib_personnel_intro_boot_script_tr, en: m_lib_personnel_intro_boot_script_en },
-  'lib/personnel-notifications': { tr: m_lib_personnel_notifications_tr, en: m_lib_personnel_notifications_en },
-  'lib/personnel-pin': { tr: m_lib_personnel_pin_tr, en: m_lib_personnel_pin_en },
-  'lib/personnel-pin-reset': { tr: m_lib_personnel_pin_reset_tr, en: m_lib_personnel_pin_reset_en },
-  'lib/personnel-reminder-email': { tr: m_lib_personnel_reminder_email_tr, en: m_lib_personnel_reminder_email_en },
-  'lib/personnel-stats': { tr: m_lib_personnel_stats_tr, en: m_lib_personnel_stats_en },
-  'lib/personnel-theme': { tr: m_lib_personnel_theme_tr, en: m_lib_personnel_theme_en },
-  'lib/platform-legal-content': { tr: m_lib_platform_legal_content_tr, en: m_lib_platform_legal_content_en },
-  'lib/profit-display': { tr: m_lib_profit_display_tr, en: m_lib_profit_display_en },
-  'lib/project-closure-service': { tr: m_lib_project_closure_service_tr, en: m_lib_project_closure_service_en },
-  'lib/project-queries': { tr: m_lib_project_queries_tr, en: m_lib_project_queries_en },
-  'lib/registration-draft-validation': { tr: m_lib_registration_draft_validation_tr, en: m_lib_registration_draft_validation_en },
-  'lib/registration-photo': { tr: m_lib_registration_photo_tr, en: m_lib_registration_photo_en },
-  'lib/registration-service': { tr: m_lib_registration_service_tr, en: m_lib_registration_service_en },
-  'lib/screen-report-discord': { tr: m_lib_screen_report_discord_tr, en: m_lib_screen_report_discord_en },
-  'lib/screen-report-email': { tr: m_lib_screen_report_email_tr, en: m_lib_screen_report_email_en },
-  'lib/team-work-guard': { tr: m_lib_team_work_guard_tr, en: m_lib_team_work_guard_en },
-  'lib/wage-policy-service': { tr: m_lib_wage_policy_service_tr, en: m_lib_wage_policy_service_en },
-  'lib/web-updates': { tr: m_lib_web_updates_tr, en: m_lib_web_updates_en },
-  'lib/work-log': { tr: m_lib_work_log_tr, en: m_lib_work_log_en },
-  'lib/work-log-service': { tr: m_lib_work_log_service_tr, en: m_lib_work_log_service_en },
-  'types/project': { tr: m_types_project_tr, en: m_types_project_en },
-  'types/project-block': { tr: m_types_project_block_tr, en: m_types_project_block_en },
-  'types/project-job': { tr: m_types_project_job_tr, en: m_types_project_job_en },
-  'types/wage-policy': { tr: m_types_wage_policy_tr, en: m_types_wage_policy_en },
+  'api/projects': { tr: m_api_projects_tr, en: m_api_projects_en, hu: m_api_projects_hu },
+  'app/admin-panel/arjen/avans/list': { tr: m_app_admin_panel_arjen_avans_list_tr, en: m_app_admin_panel_arjen_avans_list_en, hu: m_app_admin_panel_arjen_avans_list_hu },
+  'app/admin-panel/arjen/avans/page': { tr: m_app_admin_panel_arjen_avans_page_tr, en: m_app_admin_panel_arjen_avans_page_en, hu: m_app_admin_panel_arjen_avans_page_hu },
+  'app/admin-panel/arjen/sorgulama/[projectId]/page': { tr: m_app_admin_panel_arjen_sorgulama__projectId__page_tr, en: m_app_admin_panel_arjen_sorgulama__projectId__page_en, hu: m_app_admin_panel_arjen_sorgulama__projectId__page_hu },
+  'app/admin-panel/arjen/yevmiye/list': { tr: m_app_admin_panel_arjen_yevmiye_list_tr, en: m_app_admin_panel_arjen_yevmiye_list_en, hu: m_app_admin_panel_arjen_yevmiye_list_hu },
+  'app/admin-panel/arjen/yevmiye/page': { tr: m_app_admin_panel_arjen_yevmiye_page_tr, en: m_app_admin_panel_arjen_yevmiye_page_en, hu: m_app_admin_panel_arjen_yevmiye_page_hu },
+  'app/admin-panel/ayarlar/page': { tr: m_app_admin_panel_ayarlar_page_tr, en: m_app_admin_panel_ayarlar_page_en, hu: m_app_admin_panel_ayarlar_page_hu },
+  'app/admin-panel/basvuru-onay/page': { tr: m_app_admin_panel_basvuru_onay_page_tr, en: m_app_admin_panel_basvuru_onay_page_en, hu: m_app_admin_panel_basvuru_onay_page_hu },
+  'app/admin-panel/layout': { tr: m_app_admin_panel_layout_tr, en: m_app_admin_panel_layout_en, hu: m_app_admin_panel_layout_hu },
+  'app/admin-panel/login/page': { tr: m_app_admin_panel_login_page_tr, en: m_app_admin_panel_login_page_en, hu: m_app_admin_panel_login_page_hu },
+  'app/admin-panel/login/yedek': { tr: m_app_admin_panel_login_yedek_tr, en: m_app_admin_panel_login_yedek_en, hu: m_app_admin_panel_login_yedek_hu },
+  'app/admin-panel/maas-politikasi/page': { tr: m_app_admin_panel_maas_politikasi_page_tr, en: m_app_admin_panel_maas_politikasi_page_en, hu: m_app_admin_panel_maas_politikasi_page_hu },
+  'app/admin-panel/page': { tr: m_app_admin_panel_page_tr, en: m_app_admin_panel_page_en, hu: m_app_admin_panel_page_hu },
+  'app/admin-panel/proje/ProjectFilters': { tr: m_app_admin_panel_proje_ProjectFilters_tr, en: m_app_admin_panel_proje_ProjectFilters_en, hu: m_app_admin_panel_proje_ProjectFilters_hu },
+  'app/admin-panel/proje/ProjectForm': { tr: m_app_admin_panel_proje_ProjectForm_tr, en: m_app_admin_panel_proje_ProjectForm_en, hu: m_app_admin_panel_proje_ProjectForm_hu },
+  'app/admin-panel/proje/ProjectList': { tr: m_app_admin_panel_proje_ProjectList_tr, en: m_app_admin_panel_proje_ProjectList_en, hu: m_app_admin_panel_proje_ProjectList_hu },
+  'app/admin-panel/proje/[projectId]/asgari/page': { tr: m_app_admin_panel_proje__projectId__asgari_page_tr, en: m_app_admin_panel_proje__projectId__asgari_page_en, hu: m_app_admin_panel_proje__projectId__asgari_page_hu },
+  'app/admin-panel/proje/[projectId]/avans-talepleri/page': { tr: m_app_admin_panel_proje__projectId__avans_talepleri_page_tr, en: m_app_admin_panel_proje__projectId__avans_talepleri_page_en, hu: m_app_admin_panel_proje__projectId__avans_talepleri_page_hu },
+  'app/admin-panel/proje/[projectId]/avans/page': { tr: m_app_admin_panel_proje__projectId__avans_page_tr, en: m_app_admin_panel_proje__projectId__avans_page_en, hu: m_app_admin_panel_proje__projectId__avans_page_hu },
+  'app/admin-panel/proje/[projectId]/basvuru-onay/page': { tr: m_app_admin_panel_proje__projectId__basvuru_onay_page_tr, en: m_app_admin_panel_proje__projectId__basvuru_onay_page_en, hu: m_app_admin_panel_proje__projectId__basvuru_onay_page_hu },
+  'app/admin-panel/proje/[projectId]/bloklar/page': { tr: m_app_admin_panel_proje__projectId__bloklar_page_tr, en: m_app_admin_panel_proje__projectId__bloklar_page_en, hu: m_app_admin_panel_proje__projectId__bloklar_page_hu },
+  'app/admin-panel/proje/[projectId]/bordro/page': { tr: m_app_admin_panel_proje__projectId__bordro_page_tr, en: m_app_admin_panel_proje__projectId__bordro_page_en, hu: m_app_admin_panel_proje__projectId__bordro_page_hu },
+  'app/admin-panel/proje/[projectId]/durum/page': { tr: m_app_admin_panel_proje__projectId__durum_page_tr, en: m_app_admin_panel_proje__projectId__durum_page_en, hu: m_app_admin_panel_proje__projectId__durum_page_hu },
+  'app/admin-panel/proje/[projectId]/ekiplar/page': { tr: m_app_admin_panel_proje__projectId__ekiplar_page_tr, en: m_app_admin_panel_proje__projectId__ekiplar_page_en, hu: m_app_admin_panel_proje__projectId__ekiplar_page_hu },
+  'app/admin-panel/proje/[projectId]/itirazlar/page': { tr: m_app_admin_panel_proje__projectId__itirazlar_page_tr, en: m_app_admin_panel_proje__projectId__itirazlar_page_en, hu: m_app_admin_panel_proje__projectId__itirazlar_page_hu },
+  'app/admin-panel/proje/[projectId]/kar/page': { tr: m_app_admin_panel_proje__projectId__kar_page_tr, en: m_app_admin_panel_proje__projectId__kar_page_en, hu: m_app_admin_panel_proje__projectId__kar_page_hu },
+  'app/admin-panel/proje/[projectId]/kayit-gecmisi/page': { tr: m_app_admin_panel_proje__projectId__kayit_gecmisi_page_tr, en: m_app_admin_panel_proje__projectId__kayit_gecmisi_page_en, hu: m_app_admin_panel_proje__projectId__kayit_gecmisi_page_hu },
+  'app/admin-panel/proje/[projectId]/kesinti/page': { tr: m_app_admin_panel_proje__projectId__kesinti_page_tr, en: m_app_admin_panel_proje__projectId__kesinti_page_en, hu: m_app_admin_panel_proje__projectId__kesinti_page_hu },
+  'app/admin-panel/proje/[projectId]/list/[employeeId]/page': { tr: m_app_admin_panel_proje__projectId__list__employeeId__page_tr, en: m_app_admin_panel_proje__projectId__list__employeeId__page_en, hu: m_app_admin_panel_proje__projectId__list__employeeId__page_hu },
+  'app/admin-panel/proje/[projectId]/list/page': { tr: m_app_admin_panel_proje__projectId__list_page_tr, en: m_app_admin_panel_proje__projectId__list_page_en, hu: m_app_admin_panel_proje__projectId__list_page_hu },
+  'app/admin-panel/proje/[projectId]/maas-politikasi/page': { tr: m_app_admin_panel_proje__projectId__maas_politikasi_page_tr, en: m_app_admin_panel_proje__projectId__maas_politikasi_page_en, hu: m_app_admin_panel_proje__projectId__maas_politikasi_page_hu },
+  'app/admin-panel/proje/[projectId]/new/page': { tr: m_app_admin_panel_proje__projectId__new_page_tr, en: m_app_admin_panel_proje__projectId__new_page_en, hu: m_app_admin_panel_proje__projectId__new_page_hu },
+  'app/admin-panel/proje/[projectId]/page': { tr: m_app_admin_panel_proje__projectId__page_tr, en: m_app_admin_panel_proje__projectId__page_en, hu: m_app_admin_panel_proje__projectId__page_hu },
+  'app/admin-panel/proje/[projectId]/raporlar/onaylanan/page': { tr: m_app_admin_panel_proje__projectId__raporlar_onaylanan_page_tr, en: m_app_admin_panel_proje__projectId__raporlar_onaylanan_page_en, hu: m_app_admin_panel_proje__projectId__raporlar_onaylanan_page_hu },
+  'app/admin-panel/proje/[projectId]/raporlar/onaysiz/page': { tr: m_app_admin_panel_proje__projectId__raporlar_onaysiz_page_tr, en: m_app_admin_panel_proje__projectId__raporlar_onaysiz_page_en, hu: m_app_admin_panel_proje__projectId__raporlar_onaysiz_page_hu },
+  'app/admin-panel/proje/[projectId]/raporlar/page': { tr: m_app_admin_panel_proje__projectId__raporlar_page_tr, en: m_app_admin_panel_proje__projectId__raporlar_page_en, hu: m_app_admin_panel_proje__projectId__raporlar_page_hu },
+  'app/admin-panel/proje/[projectId]/sorgulama/admin/page': { tr: m_app_admin_panel_proje__projectId__sorgulama_admin_page_tr, en: m_app_admin_panel_proje__projectId__sorgulama_admin_page_en, hu: m_app_admin_panel_proje__projectId__sorgulama_admin_page_hu },
+  'app/admin-panel/proje/[projectId]/sorgulama/asgari/page': { tr: m_app_admin_panel_proje__projectId__sorgulama_asgari_page_tr, en: m_app_admin_panel_proje__projectId__sorgulama_asgari_page_en, hu: m_app_admin_panel_proje__projectId__sorgulama_asgari_page_hu },
+  'app/admin-panel/proje/[projectId]/sorgulama/avans/page': { tr: m_app_admin_panel_proje__projectId__sorgulama_avans_page_tr, en: m_app_admin_panel_proje__projectId__sorgulama_avans_page_en, hu: m_app_admin_panel_proje__projectId__sorgulama_avans_page_hu },
+  'app/admin-panel/proje/[projectId]/sorgulama/kesinti/page': { tr: m_app_admin_panel_proje__projectId__sorgulama_kesinti_page_tr, en: m_app_admin_panel_proje__projectId__sorgulama_kesinti_page_en, hu: m_app_admin_panel_proje__projectId__sorgulama_kesinti_page_hu },
+  'app/admin-panel/proje/[projectId]/sorgulama/page': { tr: m_app_admin_panel_proje__projectId__sorgulama_page_tr, en: m_app_admin_panel_proje__projectId__sorgulama_page_en, hu: m_app_admin_panel_proje__projectId__sorgulama_page_hu },
+  'app/admin-panel/proje/[projectId]/sorgulama/personel-sifreleri/page': { tr: m_app_admin_panel_proje__projectId__sorgulama_personel_sifreleri_page_tr, en: m_app_admin_panel_proje__projectId__sorgulama_personel_sifreleri_page_en, hu: m_app_admin_panel_proje__projectId__sorgulama_personel_sifreleri_page_hu },
+  'app/admin-panel/proje/[projectId]/sorgulama/yevmiye/page': { tr: m_app_admin_panel_proje__projectId__sorgulama_yevmiye_page_tr, en: m_app_admin_panel_proje__projectId__sorgulama_yevmiye_page_en, hu: m_app_admin_panel_proje__projectId__sorgulama_yevmiye_page_hu },
+  'app/admin-panel/proje/[projectId]/yevmiye/page': { tr: m_app_admin_panel_proje__projectId__yevmiye_page_tr, en: m_app_admin_panel_proje__projectId__yevmiye_page_en, hu: m_app_admin_panel_proje__projectId__yevmiye_page_hu },
+  'app/admin-panel/register/page': { tr: m_app_admin_panel_register_page_tr, en: m_app_admin_panel_register_page_en, hu: m_app_admin_panel_register_page_hu },
+  'app/api/admin/dekont/analyze/route': { tr: m_app_api_admin_dekont_analyze_route_tr, en: m_app_api_admin_dekont_analyze_route_en, hu: m_app_api_admin_dekont_analyze_route_hu },
+  'app/api/admin/dekont/drafts/[id]/apply-ocr/route': { tr: m_app_api_admin_dekont_drafts__id__apply_ocr_route_tr, en: m_app_api_admin_dekont_drafts__id__apply_ocr_route_en, hu: m_app_api_admin_dekont_drafts__id__apply_ocr_route_hu },
+  'app/api/admin/dekont/drafts/[id]/file/route': { tr: m_app_api_admin_dekont_drafts__id__file_route_tr, en: m_app_api_admin_dekont_drafts__id__file_route_en, hu: m_app_api_admin_dekont_drafts__id__file_route_hu },
+  'app/api/admin/dekont/drafts/[id]/process/route': { tr: m_app_api_admin_dekont_drafts__id__process_route_tr, en: m_app_api_admin_dekont_drafts__id__process_route_en, hu: m_app_api_admin_dekont_drafts__id__process_route_hu },
+  'app/api/admin/dekont/drafts/[id]/route': { tr: m_app_api_admin_dekont_drafts__id__route_tr, en: m_app_api_admin_dekont_drafts__id__route_en, hu: m_app_api_admin_dekont_drafts__id__route_hu },
+  'app/api/admin/dekont/share-ingest/route': { tr: m_app_api_admin_dekont_share_ingest_route_tr, en: m_app_api_admin_dekont_share_ingest_route_en, hu: m_app_api_admin_dekont_share_ingest_route_hu },
+  'app/api/admin/employees/route': { tr: m_app_api_admin_employees_route_tr, en: m_app_api_admin_employees_route_en, hu: m_app_api_admin_employees_route_hu },
+  'app/api/admin/projects/[projectId]/advance-requests/[id]/approve/route': { tr: m_app_api_admin_projects__projectId__advance_requests__id__approve_route_tr, en: m_app_api_admin_projects__projectId__advance_requests__id__approve_route_en, hu: m_app_api_admin_projects__projectId__advance_requests__id__approve_route_hu },
+  'app/api/admin/projects/[projectId]/advance-requests/[id]/cash-qr/route': { tr: m_app_api_admin_projects__projectId__advance_requests__id__cash_qr_route_tr, en: m_app_api_admin_projects__projectId__advance_requests__id__cash_qr_route_en, hu: m_app_api_admin_projects__projectId__advance_requests__id__cash_qr_route_hu },
+  'app/api/admin/projects/[projectId]/advance-requests/[id]/record-payment/route': { tr: m_app_api_admin_projects__projectId__advance_requests__id__record_payment_route_tr, en: m_app_api_admin_projects__projectId__advance_requests__id__record_payment_route_en, hu: m_app_api_admin_projects__projectId__advance_requests__id__record_payment_route_hu },
+  'app/api/admin/projects/[projectId]/advance-requests/[id]/reject/route': { tr: m_app_api_admin_projects__projectId__advance_requests__id__reject_route_tr, en: m_app_api_admin_projects__projectId__advance_requests__id__reject_route_en, hu: m_app_api_admin_projects__projectId__advance_requests__id__reject_route_hu },
+  'app/api/admin/projects/[projectId]/advance-requests/[id]/transfer-code/route': { tr: m_app_api_admin_projects__projectId__advance_requests__id__transfer_code_route_tr, en: m_app_api_admin_projects__projectId__advance_requests__id__transfer_code_route_en, hu: m_app_api_admin_projects__projectId__advance_requests__id__transfer_code_route_hu },
+  'app/api/admin/projects/[projectId]/advance-requests/retroactive/route': { tr: m_app_api_admin_projects__projectId__advance_requests_retroactive_route_tr, en: m_app_api_admin_projects__projectId__advance_requests_retroactive_route_en, hu: m_app_api_admin_projects__projectId__advance_requests_retroactive_route_hu },
+  'app/api/admin/projects/[projectId]/advance-requests/route': { tr: m_app_api_admin_projects__projectId__advance_requests_route_tr, en: m_app_api_admin_projects__projectId__advance_requests_route_en, hu: m_app_api_admin_projects__projectId__advance_requests_route_hu },
+  'app/api/admin/projects/[projectId]/attendance-qr/checkins/[checkInId]/route': { tr: m_app_api_admin_projects__projectId__attendance_qr_checkins__checkInId__route_tr, en: m_app_api_admin_projects__projectId__attendance_qr_checkins__checkInId__route_en, hu: m_app_api_admin_projects__projectId__attendance_qr_checkins__checkInId__route_hu },
+  'app/api/admin/projects/[projectId]/attendance-qr/complete/route': { tr: m_app_api_admin_projects__projectId__attendance_qr_complete_route_tr, en: m_app_api_admin_projects__projectId__attendance_qr_complete_route_en, hu: m_app_api_admin_projects__projectId__attendance_qr_complete_route_hu },
+  'app/api/admin/projects/[projectId]/attendance-qr/route': { tr: m_app_api_admin_projects__projectId__attendance_qr_route_tr, en: m_app_api_admin_projects__projectId__attendance_qr_route_en, hu: m_app_api_admin_projects__projectId__attendance_qr_route_hu },
+  'app/api/admin/projects/[projectId]/blocks/[blockId]/route': { tr: m_app_api_admin_projects__projectId__blocks__blockId__route_tr, en: m_app_api_admin_projects__projectId__blocks__blockId__route_en, hu: m_app_api_admin_projects__projectId__blocks__blockId__route_hu },
+  'app/api/admin/projects/[projectId]/blocks/route': { tr: m_app_api_admin_projects__projectId__blocks_route_tr, en: m_app_api_admin_projects__projectId__blocks_route_en, hu: m_app_api_admin_projects__projectId__blocks_route_hu },
+  'app/api/admin/projects/[projectId]/closure/start/route': { tr: m_app_api_admin_projects__projectId__closure_start_route_tr, en: m_app_api_admin_projects__projectId__closure_start_route_en, hu: m_app_api_admin_projects__projectId__closure_start_route_hu },
+  'app/api/admin/projects/[projectId]/collaborators/[userId]/route': { tr: m_app_api_admin_projects__projectId__collaborators__userId__route_tr, en: m_app_api_admin_projects__projectId__collaborators__userId__route_en, hu: m_app_api_admin_projects__projectId__collaborators__userId__route_hu },
+  'app/api/admin/projects/[projectId]/collaborators/route': { tr: m_app_api_admin_projects__projectId__collaborators_route_tr, en: m_app_api_admin_projects__projectId__collaborators_route_en, hu: m_app_api_admin_projects__projectId__collaborators_route_hu },
+  'app/api/admin/projects/[projectId]/day-reports/[id]/route': { tr: m_app_api_admin_projects__projectId__day_reports__id__route_tr, en: m_app_api_admin_projects__projectId__day_reports__id__route_en, hu: m_app_api_admin_projects__projectId__day_reports__id__route_hu },
+  'app/api/admin/projects/[projectId]/day-reports/route': { tr: m_app_api_admin_projects__projectId__day_reports_route_tr, en: m_app_api_admin_projects__projectId__day_reports_route_en, hu: m_app_api_admin_projects__projectId__day_reports_route_hu },
+  'app/api/admin/projects/[projectId]/deductions/[recordId]/route': { tr: m_app_api_admin_projects__projectId__deductions__recordId__route_tr, en: m_app_api_admin_projects__projectId__deductions__recordId__route_en, hu: m_app_api_admin_projects__projectId__deductions__recordId__route_hu },
+  'app/api/admin/projects/[projectId]/deductions/route': { tr: m_app_api_admin_projects__projectId__deductions_route_tr, en: m_app_api_admin_projects__projectId__deductions_route_en, hu: m_app_api_admin_projects__projectId__deductions_route_hu },
+  'app/api/admin/projects/[projectId]/employees/[employeeId]/photo/route': { tr: m_app_api_admin_projects__projectId__employees__employeeId__photo_route_tr, en: m_app_api_admin_projects__projectId__employees__employeeId__photo_route_en, hu: m_app_api_admin_projects__projectId__employees__employeeId__photo_route_hu },
+  'app/api/admin/projects/[projectId]/employees/[employeeId]/route': { tr: m_app_api_admin_projects__projectId__employees__employeeId__route_tr, en: m_app_api_admin_projects__projectId__employees__employeeId__route_en, hu: m_app_api_admin_projects__projectId__employees__employeeId__route_hu },
+  'app/api/admin/projects/[projectId]/employees/[employeeId]/sensitive/route': { tr: m_app_api_admin_projects__projectId__employees__employeeId__sensitive_route_tr, en: m_app_api_admin_projects__projectId__employees__employeeId__sensitive_route_en, hu: m_app_api_admin_projects__projectId__employees__employeeId__sensitive_route_hu },
+  'app/api/admin/projects/[projectId]/employees/pins/route': { tr: m_app_api_admin_projects__projectId__employees_pins_route_tr, en: m_app_api_admin_projects__projectId__employees_pins_route_en, hu: m_app_api_admin_projects__projectId__employees_pins_route_hu },
+  'app/api/admin/projects/[projectId]/employees/route': { tr: m_app_api_admin_projects__projectId__employees_route_tr, en: m_app_api_admin_projects__projectId__employees_route_en, hu: m_app_api_admin_projects__projectId__employees_route_hu },
+  'app/api/admin/projects/[projectId]/jobs/[jobId]/expenses/[expenseId]/route': { tr: m_app_api_admin_projects__projectId__jobs__jobId__expenses__expenseId__route_tr, en: m_app_api_admin_projects__projectId__jobs__jobId__expenses__expenseId__route_en, hu: m_app_api_admin_projects__projectId__jobs__jobId__expenses__expenseId__route_hu },
+  'app/api/admin/projects/[projectId]/jobs/[jobId]/expenses/route': { tr: m_app_api_admin_projects__projectId__jobs__jobId__expenses_route_tr, en: m_app_api_admin_projects__projectId__jobs__jobId__expenses_route_en, hu: m_app_api_admin_projects__projectId__jobs__jobId__expenses_route_hu },
+  'app/api/admin/projects/[projectId]/jobs/[jobId]/route': { tr: m_app_api_admin_projects__projectId__jobs__jobId__route_tr, en: m_app_api_admin_projects__projectId__jobs__jobId__route_en, hu: m_app_api_admin_projects__projectId__jobs__jobId__route_hu },
+  'app/api/admin/projects/[projectId]/jobs/route': { tr: m_app_api_admin_projects__projectId__jobs_route_tr, en: m_app_api_admin_projects__projectId__jobs_route_en, hu: m_app_api_admin_projects__projectId__jobs_route_hu },
+  'app/api/admin/projects/[projectId]/minimum-wages/[recordId]/route': { tr: m_app_api_admin_projects__projectId__minimum_wages__recordId__route_tr, en: m_app_api_admin_projects__projectId__minimum_wages__recordId__route_en, hu: m_app_api_admin_projects__projectId__minimum_wages__recordId__route_hu },
+  'app/api/admin/projects/[projectId]/minimum-wages/route': { tr: m_app_api_admin_projects__projectId__minimum_wages_route_tr, en: m_app_api_admin_projects__projectId__minimum_wages_route_en, hu: m_app_api_admin_projects__projectId__minimum_wages_route_hu },
+  'app/api/admin/projects/[projectId]/partners/route': { tr: m_app_api_admin_projects__projectId__partners_route_tr, en: m_app_api_admin_projects__projectId__partners_route_en, hu: m_app_api_admin_projects__projectId__partners_route_hu },
+  'app/api/admin/projects/[projectId]/payroll/route': { tr: m_app_api_admin_projects__projectId__payroll_route_tr, en: m_app_api_admin_projects__projectId__payroll_route_en, hu: m_app_api_admin_projects__projectId__payroll_route_hu },
+  'app/api/admin/projects/[projectId]/profit/route': { tr: m_app_api_admin_projects__projectId__profit_route_tr, en: m_app_api_admin_projects__projectId__profit_route_en, hu: m_app_api_admin_projects__projectId__profit_route_hu },
+  'app/api/admin/projects/[projectId]/route': { tr: m_app_api_admin_projects__projectId__route_tr, en: m_app_api_admin_projects__projectId__route_en, hu: m_app_api_admin_projects__projectId__route_hu },
+  'app/api/admin/projects/[projectId]/teams/[teamId]/members/route': { tr: m_app_api_admin_projects__projectId__teams__teamId__members_route_tr, en: m_app_api_admin_projects__projectId__teams__teamId__members_route_en, hu: m_app_api_admin_projects__projectId__teams__teamId__members_route_hu },
+  'app/api/admin/projects/[projectId]/teams/route': { tr: m_app_api_admin_projects__projectId__teams_route_tr, en: m_app_api_admin_projects__projectId__teams_route_en, hu: m_app_api_admin_projects__projectId__teams_route_hu },
+  'app/api/admin/projects/[projectId]/work-logs/[recordId]/route': { tr: m_app_api_admin_projects__projectId__work_logs__recordId__route_tr, en: m_app_api_admin_projects__projectId__work_logs__recordId__route_en, hu: m_app_api_admin_projects__projectId__work_logs__recordId__route_hu },
+  'app/api/admin/projects/[projectId]/work-logs/route': { tr: m_app_api_admin_projects__projectId__work_logs_route_tr, en: m_app_api_admin_projects__projectId__work_logs_route_en, hu: m_app_api_admin_projects__projectId__work_logs_route_hu },
+  'app/api/admin/projects/join-collab/route': { tr: m_app_api_admin_projects_join_collab_route_tr, en: m_app_api_admin_projects_join_collab_route_en, hu: m_app_api_admin_projects_join_collab_route_hu },
+  'app/api/admin/projects/route': { tr: m_app_api_admin_projects_route_tr, en: m_app_api_admin_projects_route_en, hu: m_app_api_admin_projects_route_hu },
+  'app/api/admin/registrations/lookup/route': { tr: m_app_api_admin_registrations_lookup_route_tr, en: m_app_api_admin_registrations_lookup_route_en, hu: m_app_api_admin_registrations_lookup_route_hu },
+  'app/api/auth/admin/register/route': { tr: m_app_api_auth_admin_register_route_tr, en: m_app_api_auth_admin_register_route_en, hu: m_app_api_auth_admin_register_route_hu },
+  'app/api/auth/personnel/employees/route': { tr: m_app_api_auth_personnel_employees_route_tr, en: m_app_api_auth_personnel_employees_route_en, hu: m_app_api_auth_personnel_employees_route_hu },
+  'app/api/auth/personnel/login/route': { tr: m_app_api_auth_personnel_login_route_tr, en: m_app_api_auth_personnel_login_route_en, hu: m_app_api_auth_personnel_login_route_hu },
+  'app/api/auth/personnel/projects/route': { tr: m_app_api_auth_personnel_projects_route_tr, en: m_app_api_auth_personnel_projects_route_en, hu: m_app_api_auth_personnel_projects_route_hu },
+  'app/api/auth/personnel/unlock/route': { tr: m_app_api_auth_personnel_unlock_route_tr, en: m_app_api_auth_personnel_unlock_route_en, hu: m_app_api_auth_personnel_unlock_route_hu },
+  'app/api/cron/personnel-pending-reminders/route': { tr: m_app_api_cron_personnel_pending_reminders_route_tr, en: m_app_api_cron_personnel_pending_reminders_route_en, hu: m_app_api_cron_personnel_pending_reminders_route_hu },
+  'app/api/cron/supabase-keepalive/route': { tr: m_app_api_cron_supabase_keepalive_route_tr, en: m_app_api_cron_supabase_keepalive_route_en, hu: m_app_api_cron_supabase_keepalive_route_hu },
+  'app/api/developer/codes/[codeId]/route': { tr: m_app_api_developer_codes__codeId__route_tr, en: m_app_api_developer_codes__codeId__route_en, hu: m_app_api_developer_codes__codeId__route_hu },
+  'app/api/developer/codes/route': { tr: m_app_api_developer_codes_route_tr, en: m_app_api_developer_codes_route_en, hu: m_app_api_developer_codes_route_hu },
+  'app/api/developer/releases/[id]/publish/route': { tr: m_app_api_developer_releases__id__publish_route_tr, en: m_app_api_developer_releases__id__publish_route_en, hu: m_app_api_developer_releases__id__publish_route_hu },
+  'app/api/developer/releases/[id]/route': { tr: m_app_api_developer_releases__id__route_tr, en: m_app_api_developer_releases__id__route_en, hu: m_app_api_developer_releases__id__route_hu },
+  'app/api/developer/releases/route': { tr: m_app_api_developer_releases_route_tr, en: m_app_api_developer_releases_route_en, hu: m_app_api_developer_releases_route_hu },
+  'app/api/developer/wipe-database/route': { tr: m_app_api_developer_wipe_database_route_tr, en: m_app_api_developer_wipe_database_route_en, hu: m_app_api_developer_wipe_database_route_hu },
+  'app/api/personnel/advance-requests/[id]/cancel/route': { tr: m_app_api_personnel_advance_requests__id__cancel_route_tr, en: m_app_api_personnel_advance_requests__id__cancel_route_en, hu: m_app_api_personnel_advance_requests__id__cancel_route_hu },
+  'app/api/personnel/advance-requests/confirm-cash/route': { tr: m_app_api_personnel_advance_requests_confirm_cash_route_tr, en: m_app_api_personnel_advance_requests_confirm_cash_route_en, hu: m_app_api_personnel_advance_requests_confirm_cash_route_hu },
+  'app/api/personnel/advance-requests/route': { tr: m_app_api_personnel_advance_requests_route_tr, en: m_app_api_personnel_advance_requests_route_en, hu: m_app_api_personnel_advance_requests_route_hu },
+  'app/api/personnel/asgari/route': { tr: m_app_api_personnel_asgari_route_tr, en: m_app_api_personnel_asgari_route_en, hu: m_app_api_personnel_asgari_route_hu },
+  'app/api/personnel/attendance-qr/status/route': { tr: m_app_api_personnel_attendance_qr_status_route_tr, en: m_app_api_personnel_attendance_qr_status_route_en, hu: m_app_api_personnel_attendance_qr_status_route_hu },
+  'app/api/personnel/change-password/route': { tr: m_app_api_personnel_change_password_route_tr, en: m_app_api_personnel_change_password_route_en, hu: m_app_api_personnel_change_password_route_hu },
+  'app/api/personnel/closure/accelerate-deletion/route': { tr: m_app_api_personnel_closure_accelerate_deletion_route_tr, en: m_app_api_personnel_closure_accelerate_deletion_route_en, hu: m_app_api_personnel_closure_accelerate_deletion_route_hu },
+  'app/api/personnel/closure/acknowledge-export/route': { tr: m_app_api_personnel_closure_acknowledge_export_route_tr, en: m_app_api_personnel_closure_acknowledge_export_route_en, hu: m_app_api_personnel_closure_acknowledge_export_route_hu },
+  'app/api/personnel/closure/consent/route': { tr: m_app_api_personnel_closure_consent_route_tr, en: m_app_api_personnel_closure_consent_route_en, hu: m_app_api_personnel_closure_consent_route_hu },
+  'app/api/personnel/closure/execute-deletion/route': { tr: m_app_api_personnel_closure_execute_deletion_route_tr, en: m_app_api_personnel_closure_execute_deletion_route_en, hu: m_app_api_personnel_closure_execute_deletion_route_hu },
+  'app/api/personnel/closure/status/route': { tr: m_app_api_personnel_closure_status_route_tr, en: m_app_api_personnel_closure_status_route_en, hu: m_app_api_personnel_closure_status_route_hu },
+  'app/api/personnel/contracts/route': { tr: m_app_api_personnel_contracts_route_tr, en: m_app_api_personnel_contracts_route_en, hu: m_app_api_personnel_contracts_route_hu },
+  'app/api/personnel/day-reports/route': { tr: m_app_api_personnel_day_reports_route_tr, en: m_app_api_personnel_day_reports_route_en, hu: m_app_api_personnel_day_reports_route_hu },
+  'app/api/personnel/deductions/route': { tr: m_app_api_personnel_deductions_route_tr, en: m_app_api_personnel_deductions_route_en, hu: m_app_api_personnel_deductions_route_hu },
+  'app/api/personnel/me/photo/route': { tr: m_app_api_personnel_me_photo_route_tr, en: m_app_api_personnel_me_photo_route_en, hu: m_app_api_personnel_me_photo_route_hu },
+  'app/api/personnel/me/route': { tr: m_app_api_personnel_me_route_tr, en: m_app_api_personnel_me_route_en, hu: m_app_api_personnel_me_route_hu },
+  'app/api/personnel/minimum-wages/route': { tr: m_app_api_personnel_minimum_wages_route_tr, en: m_app_api_personnel_minimum_wages_route_en, hu: m_app_api_personnel_minimum_wages_route_hu },
+  'app/api/personnel/my-dossier/route': { tr: m_app_api_personnel_my_dossier_route_tr, en: m_app_api_personnel_my_dossier_route_en, hu: m_app_api_personnel_my_dossier_route_hu },
+  'app/api/personnel/my-dossier/sections/route': { tr: m_app_api_personnel_my_dossier_sections_route_tr, en: m_app_api_personnel_my_dossier_sections_route_en, hu: m_app_api_personnel_my_dossier_sections_route_hu },
+  'app/api/personnel/push/subscribe/route': { tr: m_app_api_personnel_push_subscribe_route_tr, en: m_app_api_personnel_push_subscribe_route_en, hu: m_app_api_personnel_push_subscribe_route_hu },
+  'app/api/personnel/summary/route': { tr: m_app_api_personnel_summary_route_tr, en: m_app_api_personnel_summary_route_en, hu: m_app_api_personnel_summary_route_hu },
+  'app/api/personnel/work-logs/[recordId]/dispute/route': { tr: m_app_api_personnel_work_logs__recordId__dispute_route_tr, en: m_app_api_personnel_work_logs__recordId__dispute_route_en, hu: m_app_api_personnel_work_logs__recordId__dispute_route_hu },
+  'app/api/personnel/work-logs/confirm/route': { tr: m_app_api_personnel_work_logs_confirm_route_tr, en: m_app_api_personnel_work_logs_confirm_route_en, hu: m_app_api_personnel_work_logs_confirm_route_hu },
+  'app/api/personnel/work-logs/route': { tr: m_app_api_personnel_work_logs_route_tr, en: m_app_api_personnel_work_logs_route_en, hu: m_app_api_personnel_work_logs_route_hu },
+  'app/api/personnel/work-logs/today/route': { tr: m_app_api_personnel_work_logs_today_route_tr, en: m_app_api_personnel_work_logs_today_route_en, hu: m_app_api_personnel_work_logs_today_route_hu },
+  'app/api/public/contract-otp/confirm-link/route': { tr: m_app_api_public_contract_otp_confirm_link_route_tr, en: m_app_api_public_contract_otp_confirm_link_route_en, hu: m_app_api_public_contract_otp_confirm_link_route_hu },
+  'app/api/public/contract-otp/prepare/route': { tr: m_app_api_public_contract_otp_prepare_route_tr, en: m_app_api_public_contract_otp_prepare_route_en, hu: m_app_api_public_contract_otp_prepare_route_hu },
+  'app/api/public/contract-otp/send/route': { tr: m_app_api_public_contract_otp_send_route_tr, en: m_app_api_public_contract_otp_send_route_en, hu: m_app_api_public_contract_otp_send_route_hu },
+  'app/api/public/contract-otp/verify/route': { tr: m_app_api_public_contract_otp_verify_route_tr, en: m_app_api_public_contract_otp_verify_route_en, hu: m_app_api_public_contract_otp_verify_route_hu },
+  'app/api/public/contracts/route': { tr: m_app_api_public_contracts_route_tr, en: m_app_api_public_contracts_route_en, hu: m_app_api_public_contracts_route_hu },
+  'app/api/public/contracts/view/route': { tr: m_app_api_public_contracts_view_route_tr, en: m_app_api_public_contracts_view_route_en, hu: m_app_api_public_contracts_view_route_hu },
+  'app/api/public/personnel-pin-reset/complete/route': { tr: m_app_api_public_personnel_pin_reset_complete_route_tr, en: m_app_api_public_personnel_pin_reset_complete_route_en, hu: m_app_api_public_personnel_pin_reset_complete_route_hu },
+  'app/api/public/personnel-pin-reset/route': { tr: m_app_api_public_personnel_pin_reset_route_tr, en: m_app_api_public_personnel_pin_reset_route_en, hu: m_app_api_public_personnel_pin_reset_route_hu },
+  'app/api/public/personnel-registration/access/route': { tr: m_app_api_public_personnel_registration_access_route_tr, en: m_app_api_public_personnel_registration_access_route_en, hu: m_app_api_public_personnel_registration_access_route_hu },
+  'app/api/public/personnel-registration/route': { tr: m_app_api_public_personnel_registration_route_tr, en: m_app_api_public_personnel_registration_route_en, hu: m_app_api_public_personnel_registration_route_hu },
+  'app/api/public/personnel-registration/status/route': { tr: m_app_api_public_personnel_registration_status_route_tr, en: m_app_api_public_personnel_registration_status_route_en, hu: m_app_api_public_personnel_registration_status_route_hu },
+  'app/api/public/releases/[appType]/download/route': { tr: m_app_api_public_releases__appType__download_route_tr, en: m_app_api_public_releases__appType__download_route_en, hu: m_app_api_public_releases__appType__download_route_hu },
+  'app/api/public/releases/route': { tr: m_app_api_public_releases_route_tr, en: m_app_api_public_releases_route_en, hu: m_app_api_public_releases_route_hu },
+  'app/api/public/screen-report/route': { tr: m_app_api_public_screen_report_route_tr, en: m_app_api_public_screen_report_route_en, hu: m_app_api_public_screen_report_route_hu },
+  'app/api/reset-password/route': { tr: m_app_api_reset_password_route_tr, en: m_app_api_reset_password_route_en, hu: m_app_api_reset_password_route_hu },
+  'app/apk/page': { tr: m_app_apk_page_tr, en: m_app_apk_page_en, hu: m_app_apk_page_hu },
+  'app/auth/yeni-sifre/page': { tr: m_app_auth_yeni_sifre_page_tr, en: m_app_auth_yeni_sifre_page_en, hu: m_app_auth_yeni_sifre_page_hu },
+  'app/developer-panel/login/page': { tr: m_app_developer_panel_login_page_tr, en: m_app_developer_panel_login_page_en, hu: m_app_developer_panel_login_page_hu },
+  'app/developer-panel/page': { tr: m_app_developer_panel_page_tr, en: m_app_developer_panel_page_en, hu: m_app_developer_panel_page_hu },
+  'app/developer-panel/releases/page': { tr: m_app_developer_panel_releases_page_tr, en: m_app_developer_panel_releases_page_en, hu: m_app_developer_panel_releases_page_hu },
+  'app/gizlilik/page': { tr: m_app_gizlilik_page_tr, en: m_app_gizlilik_page_en, hu: m_app_gizlilik_page_hu },
+  'app/kullanim-sartlari/page': { tr: m_app_kullanim_sartlari_page_tr, en: m_app_kullanim_sartlari_page_en, hu: m_app_kullanim_sartlari_page_hu },
+  'app/kvkk/page': { tr: m_app_kvkk_page_tr, en: m_app_kvkk_page_en, hu: m_app_kvkk_page_hu },
+  'app/layout': { tr: m_app_layout_tr, en: m_app_layout_en, hu: m_app_layout_hu },
+  'app/personnel-panel/avans-onay/page': { tr: m_app_personnel_panel_avans_onay_page_tr, en: m_app_personnel_panel_avans_onay_page_en, hu: m_app_personnel_panel_avans_onay_page_hu },
+  'app/personnel-panel/avans/page': { tr: m_app_personnel_panel_avans_page_tr, en: m_app_personnel_panel_avans_page_en, hu: m_app_personnel_panel_avans_page_hu },
+  'app/personnel-panel/basvuru/dogrula/page': { tr: m_app_personnel_panel_basvuru_dogrula_page_tr, en: m_app_personnel_panel_basvuru_dogrula_page_en, hu: m_app_personnel_panel_basvuru_dogrula_page_hu },
+  'app/personnel-panel/basvuru/page': { tr: m_app_personnel_panel_basvuru_page_tr, en: m_app_personnel_panel_basvuru_page_en, hu: m_app_personnel_panel_basvuru_page_hu },
+  'app/personnel-panel/layout': { tr: m_app_personnel_panel_layout_tr, en: m_app_personnel_panel_layout_en, hu: m_app_personnel_panel_layout_hu },
+  'app/personnel-panel/login/page': { tr: m_app_personnel_panel_login_page_tr, en: m_app_personnel_panel_login_page_en, hu: m_app_personnel_panel_login_page_hu },
+  'app/personnel-panel/page': { tr: m_app_personnel_panel_page_tr, en: m_app_personnel_panel_page_en, hu: m_app_personnel_panel_page_hu },
+  'app/personnel-panel/pin-sifirla/page': { tr: m_app_personnel_panel_pin_sifirla_page_tr, en: m_app_personnel_panel_pin_sifirla_page_en, hu: m_app_personnel_panel_pin_sifirla_page_hu },
+  'app/personnel-panel/sifremi-unuttum/page': { tr: m_app_personnel_panel_sifremi_unuttum_page_tr, en: m_app_personnel_panel_sifremi_unuttum_page_en, hu: m_app_personnel_panel_sifremi_unuttum_page_hu },
+  'app/personnel-panel/unlock/page': { tr: m_app_personnel_panel_unlock_page_tr, en: m_app_personnel_panel_unlock_page_en, hu: m_app_personnel_panel_unlock_page_hu },
+  'app/personnel-panel/yoklama/page': { tr: m_app_personnel_panel_yoklama_page_tr, en: m_app_personnel_panel_yoklama_page_en, hu: m_app_personnel_panel_yoklama_page_hu },
+  'app/sozlesme/[slug]/page': { tr: m_app_sozlesme__slug__page_tr, en: m_app_sozlesme__slug__page_en, hu: m_app_sozlesme__slug__page_hu },
+  'app/supabase/page': { tr: m_app_supabase_page_tr, en: m_app_supabase_page_en, hu: m_app_supabase_page_hu },
+  'components/ThemeToggle': { tr: m_components_ThemeToggle_tr, en: m_components_ThemeToggle_en, hu: m_components_ThemeToggle_hu },
+  'components/admin/AdminAppIntro': { tr: m_components_admin_AdminAppIntro_tr, en: m_components_admin_AdminAppIntro_en, hu: m_components_admin_AdminAppIntro_hu },
+  'components/admin/AdminAppSettings': { tr: m_components_admin_AdminAppSettings_tr, en: m_components_admin_AdminAppSettings_en, hu: m_components_admin_AdminAppSettings_hu },
+  'components/admin/AdminAttendanceModal': { tr: m_components_admin_AdminAttendanceModal_tr, en: m_components_admin_AdminAttendanceModal_en, hu: m_components_admin_AdminAttendanceModal_hu },
+  'components/admin/AdminProjectClosureScreen': { tr: m_components_admin_AdminProjectClosureScreen_tr, en: m_components_admin_AdminProjectClosureScreen_en, hu: m_components_admin_AdminProjectClosureScreen_hu },
+  'components/admin/AdminWorkLogDisputeActions': { tr: m_components_admin_AdminWorkLogDisputeActions_tr, en: m_components_admin_AdminWorkLogDisputeActions_en, hu: m_components_admin_AdminWorkLogDisputeActions_hu },
+  'components/admin/DekontSharePanel': { tr: m_components_admin_DekontSharePanel_tr, en: m_components_admin_DekontSharePanel_en, hu: m_components_admin_DekontSharePanel_hu },
+  'components/admin/LegalDossierDownloadButton': { tr: m_components_admin_LegalDossierDownloadButton_tr, en: m_components_admin_LegalDossierDownloadButton_en, hu: m_components_admin_LegalDossierDownloadButton_hu },
+  'components/admin/ProjectLegalDossierDownloadButton': { tr: m_components_admin_ProjectLegalDossierDownloadButton_tr, en: m_components_admin_ProjectLegalDossierDownloadButton_en, hu: m_components_admin_ProjectLegalDossierDownloadButton_hu },
+  'components/advance/AdminAdvanceRequestsPanel': { tr: m_components_advance_AdminAdvanceRequestsPanel_tr, en: m_components_advance_AdminAdvanceRequestsPanel_en, hu: m_components_advance_AdminAdvanceRequestsPanel_hu },
+  'components/auth/AdminRegisterLayout': { tr: m_components_auth_AdminRegisterLayout_tr, en: m_components_auth_AdminRegisterLayout_en, hu: m_components_auth_AdminRegisterLayout_hu },
+  'components/auth/AuthLayout': { tr: m_components_auth_AuthLayout_tr, en: m_components_auth_AuthLayout_en, hu: m_components_auth_AuthLayout_hu },
+  'components/auth/AuthReportContext': { tr: m_components_auth_AuthReportContext_tr, en: m_components_auth_AuthReportContext_en, hu: m_components_auth_AuthReportContext_hu },
+  'components/auth/ForgotPinModal': { tr: m_components_auth_ForgotPinModal_tr, en: m_components_auth_ForgotPinModal_en, hu: m_components_auth_ForgotPinModal_hu },
+  'components/auth/PinResetPageContent': { tr: m_components_auth_PinResetPageContent_tr, en: m_components_auth_PinResetPageContent_en, hu: m_components_auth_PinResetPageContent_hu },
+  'components/auth/ScreenReportButton': { tr: m_components_auth_ScreenReportButton_tr, en: m_components_auth_ScreenReportButton_en, hu: m_components_auth_ScreenReportButton_hu },
+  'components/auth/ThemeToggleButton': { tr: m_components_auth_ThemeToggleButton_tr, en: m_components_auth_ThemeToggleButton_en, hu: m_components_auth_ThemeToggleButton_hu },
+  'components/brand/BrandMark': { tr: m_components_brand_BrandMark_tr, en: m_components_brand_BrandMark_en, hu: m_components_brand_BrandMark_hu },
+  'components/closure/ClosureCountdown': { tr: m_components_closure_ClosureCountdown_tr, en: m_components_closure_ClosureCountdown_en, hu: m_components_closure_ClosureCountdown_hu },
+  'components/contracts/ContractAcceptanceBlock': { tr: m_components_contracts_ContractAcceptanceBlock_tr, en: m_components_contracts_ContractAcceptanceBlock_en, hu: m_components_contracts_ContractAcceptanceBlock_hu },
+  'components/contracts/ContractAcceptanceModal': { tr: m_components_contracts_ContractAcceptanceModal_tr, en: m_components_contracts_ContractAcceptanceModal_en, hu: m_components_contracts_ContractAcceptanceModal_hu },
+  'components/contracts/ContractEmailVerificationModal': { tr: m_components_contracts_ContractEmailVerificationModal_tr, en: m_components_contracts_ContractEmailVerificationModal_en, hu: m_components_contracts_ContractEmailVerificationModal_hu },
+  'components/contracts/ContractScrollReader': { tr: m_components_contracts_ContractScrollReader_tr, en: m_components_contracts_ContractScrollReader_en, hu: m_components_contracts_ContractScrollReader_hu },
+  'components/dashboard/AdminAppBottomNav': { tr: m_components_dashboard_AdminAppBottomNav_tr, en: m_components_dashboard_AdminAppBottomNav_en, hu: m_components_dashboard_AdminAppBottomNav_hu },
+  'components/dashboard/AdminMenuChrome': { tr: m_components_dashboard_AdminMenuChrome_tr, en: m_components_dashboard_AdminMenuChrome_en, hu: m_components_dashboard_AdminMenuChrome_hu },
+  'components/dashboard/AdminNavSheet': { tr: m_components_dashboard_AdminNavSheet_tr, en: m_components_dashboard_AdminNavSheet_en, hu: m_components_dashboard_AdminNavSheet_hu },
+  'components/dashboard/AdminProjectBottomNav': { tr: m_components_dashboard_AdminProjectBottomNav_tr, en: m_components_dashboard_AdminProjectBottomNav_en, hu: m_components_dashboard_AdminProjectBottomNav_hu },
+  'components/dashboard/AdminSimpleModeGuard': { tr: m_components_dashboard_AdminSimpleModeGuard_tr, en: m_components_dashboard_AdminSimpleModeGuard_en, hu: m_components_dashboard_AdminSimpleModeGuard_hu },
+  'components/dashboard/AdminTopBar': { tr: m_components_dashboard_AdminTopBar_tr, en: m_components_dashboard_AdminTopBar_en, hu: m_components_dashboard_AdminTopBar_hu },
+  'components/dashboard/AdminUiModeToggle': { tr: m_components_dashboard_AdminUiModeToggle_tr, en: m_components_dashboard_AdminUiModeToggle_en, hu: m_components_dashboard_AdminUiModeToggle_hu },
+  'components/dashboard/DashboardShell': { tr: m_components_dashboard_DashboardShell_tr, en: m_components_dashboard_DashboardShell_en, hu: m_components_dashboard_DashboardShell_hu },
+  'components/developer/DeveloperShell': { tr: m_components_developer_DeveloperShell_tr, en: m_components_developer_DeveloperShell_en, hu: m_components_developer_DeveloperShell_hu },
+  'components/employee/EmployeePhotoPicker': { tr: m_components_employee_EmployeePhotoPicker_tr, en: m_components_employee_EmployeePhotoPicker_en, hu: m_components_employee_EmployeePhotoPicker_hu },
+  'components/employee/EmployeePhotoUpload': { tr: m_components_employee_EmployeePhotoUpload_tr, en: m_components_employee_EmployeePhotoUpload_en, hu: m_components_employee_EmployeePhotoUpload_hu },
+  'components/employee/SelfieCameraModal': { tr: m_components_employee_SelfieCameraModal_tr, en: m_components_employee_SelfieCameraModal_en, hu: m_components_employee_SelfieCameraModal_hu },
+  'components/forms/BirthDatePicker': { tr: m_components_forms_BirthDatePicker_tr, en: m_components_forms_BirthDatePicker_en, hu: m_components_forms_BirthDatePicker_hu },
+  'components/forms/TurkishPhoneInput': { tr: m_components_forms_TurkishPhoneInput_tr, en: m_components_forms_TurkishPhoneInput_en, hu: m_components_forms_TurkishPhoneInput_hu },
+  'components/home/FeaturesSection': { tr: m_components_home_FeaturesSection_tr, en: m_components_home_FeaturesSection_en, hu: m_components_home_FeaturesSection_hu },
+  'components/home/GooglePlayBadge': { tr: m_components_home_GooglePlayBadge_tr, en: m_components_home_GooglePlayBadge_en, hu: m_components_home_GooglePlayBadge_hu },
+  'components/home/HeroPlayStorePromo': { tr: m_components_home_HeroPlayStorePromo_tr, en: m_components_home_HeroPlayStorePromo_en, hu: m_components_home_HeroPlayStorePromo_hu },
+  'components/home/HeroSection': { tr: m_components_home_HeroSection_tr, en: m_components_home_HeroSection_en, hu: m_components_home_HeroSection_hu },
+  'components/home/HomeFooter': { tr: m_components_home_HomeFooter_tr, en: m_components_home_HomeFooter_en, hu: m_components_home_HomeFooter_hu },
+  'components/home/HomeHeader': { tr: m_components_home_HomeHeader_tr, en: m_components_home_HomeHeader_en, hu: m_components_home_HomeHeader_hu },
+  'components/home/LoginRolePicker': { tr: m_components_home_LoginRolePicker_tr, en: m_components_home_LoginRolePicker_en, hu: m_components_home_LoginRolePicker_hu },
+  'components/home/PlayStoreSection': { tr: m_components_home_PlayStoreSection_tr, en: m_components_home_PlayStoreSection_en, hu: m_components_home_PlayStoreSection_hu },
+  'components/home/ScrollingBanner': { tr: m_components_home_ScrollingBanner_tr, en: m_components_home_ScrollingBanner_en, hu: m_components_home_ScrollingBanner_hu },
+  'components/modals/AddWorkLogModal': { tr: m_components_modals_AddWorkLogModal_tr, en: m_components_modals_AddWorkLogModal_en, hu: m_components_modals_AddWorkLogModal_hu },
+  'components/modals/ProjectSettingsModal': { tr: m_components_modals_ProjectSettingsModal_tr, en: m_components_modals_ProjectSettingsModal_en, hu: m_components_modals_ProjectSettingsModal_hu },
+  'components/personnel/ApplicationApprovedScreen': { tr: m_components_personnel_ApplicationApprovedScreen_tr, en: m_components_personnel_ApplicationApprovedScreen_en, hu: m_components_personnel_ApplicationApprovedScreen_hu },
+  'components/personnel/ApplicationRejectedScreen': { tr: m_components_personnel_ApplicationRejectedScreen_tr, en: m_components_personnel_ApplicationRejectedScreen_en, hu: m_components_personnel_ApplicationRejectedScreen_hu },
+  'components/personnel/AttendanceCodeSheet': { tr: m_components_personnel_AttendanceCodeSheet_tr, en: m_components_personnel_AttendanceCodeSheet_en, hu: m_components_personnel_AttendanceCodeSheet_hu },
+  'components/personnel/AttendanceQrScanner': { tr: m_components_personnel_AttendanceQrScanner_tr, en: m_components_personnel_AttendanceQrScanner_en, hu: m_components_personnel_AttendanceQrScanner_hu },
+  'components/personnel/AttendanceStatusSticker': { tr: m_components_personnel_AttendanceStatusSticker_tr, en: m_components_personnel_AttendanceStatusSticker_en, hu: m_components_personnel_AttendanceStatusSticker_hu },
+  'components/personnel/PendingApplicationWaitingScreen': { tr: m_components_personnel_PendingApplicationWaitingScreen_tr, en: m_components_personnel_PendingApplicationWaitingScreen_en, hu: m_components_personnel_PendingApplicationWaitingScreen_hu },
+  'components/personnel/PersonnelActiveDevices': { tr: m_components_personnel_PersonnelActiveDevices_tr, en: m_components_personnel_PersonnelActiveDevices_en, hu: m_components_personnel_PersonnelActiveDevices_hu },
+  'components/personnel/PersonnelAppBottomNav': { tr: m_components_personnel_PersonnelAppBottomNav_tr, en: m_components_personnel_PersonnelAppBottomNav_en, hu: m_components_personnel_PersonnelAppBottomNav_hu },
+  'components/personnel/PersonnelAppIntro': { tr: m_components_personnel_PersonnelAppIntro_tr, en: m_components_personnel_PersonnelAppIntro_en, hu: m_components_personnel_PersonnelAppIntro_hu },
+  'components/personnel/PersonnelAppSettings': { tr: m_components_personnel_PersonnelAppSettings_tr, en: m_components_personnel_PersonnelAppSettings_en, hu: m_components_personnel_PersonnelAppSettings_hu },
+  'components/personnel/PersonnelAsgariPanel': { tr: m_components_personnel_PersonnelAsgariPanel_tr, en: m_components_personnel_PersonnelAsgariPanel_en, hu: m_components_personnel_PersonnelAsgariPanel_hu },
+  'components/personnel/PersonnelCalendar': { tr: m_components_personnel_PersonnelCalendar_tr, en: m_components_personnel_PersonnelCalendar_en, hu: m_components_personnel_PersonnelCalendar_hu },
+  'components/personnel/PersonnelCalendarDayModal': { tr: m_components_personnel_PersonnelCalendarDayModal_tr, en: m_components_personnel_PersonnelCalendarDayModal_en, hu: m_components_personnel_PersonnelCalendarDayModal_hu },
+  'components/personnel/PersonnelClosureAcceleration': { tr: m_components_personnel_PersonnelClosureAcceleration_tr, en: m_components_personnel_PersonnelClosureAcceleration_en, hu: m_components_personnel_PersonnelClosureAcceleration_hu },
+  'components/personnel/PersonnelClosureDossierPanel': { tr: m_components_personnel_PersonnelClosureDossierPanel_tr, en: m_components_personnel_PersonnelClosureDossierPanel_en, hu: m_components_personnel_PersonnelClosureDossierPanel_hu },
+  'components/personnel/PersonnelClosureScreen': { tr: m_components_personnel_PersonnelClosureScreen_tr, en: m_components_personnel_PersonnelClosureScreen_en, hu: m_components_personnel_PersonnelClosureScreen_hu },
+  'components/personnel/PersonnelContractsSection': { tr: m_components_personnel_PersonnelContractsSection_tr, en: m_components_personnel_PersonnelContractsSection_en, hu: m_components_personnel_PersonnelContractsSection_hu },
+  'components/personnel/PersonnelDisplaySettings': { tr: m_components_personnel_PersonnelDisplaySettings_tr, en: m_components_personnel_PersonnelDisplaySettings_en, hu: m_components_personnel_PersonnelDisplaySettings_hu },
+  'components/personnel/PersonnelFairnessCard': { tr: m_components_personnel_PersonnelFairnessCard_tr, en: m_components_personnel_PersonnelFairnessCard_en, hu: m_components_personnel_PersonnelFairnessCard_hu },
+  'components/personnel/PersonnelFinancePanel': { tr: m_components_personnel_PersonnelFinancePanel_tr, en: m_components_personnel_PersonnelFinancePanel_en, hu: m_components_personnel_PersonnelFinancePanel_hu },
+  'components/personnel/PersonnelLoginLayout': { tr: m_components_personnel_PersonnelLoginLayout_tr, en: m_components_personnel_PersonnelLoginLayout_en, hu: m_components_personnel_PersonnelLoginLayout_hu },
+  'components/personnel/PersonnelMesaiCalendar': { tr: m_components_personnel_PersonnelMesaiCalendar_tr, en: m_components_personnel_PersonnelMesaiCalendar_en, hu: m_components_personnel_PersonnelMesaiCalendar_hu },
+  'components/personnel/PersonnelMesaiPanel': { tr: m_components_personnel_PersonnelMesaiPanel_tr, en: m_components_personnel_PersonnelMesaiPanel_en, hu: m_components_personnel_PersonnelMesaiPanel_hu },
+  'components/personnel/PersonnelMesaiSummary': { tr: m_components_personnel_PersonnelMesaiSummary_tr, en: m_components_personnel_PersonnelMesaiSummary_en, hu: m_components_personnel_PersonnelMesaiSummary_hu },
+  'components/personnel/PersonnelMonthChip': { tr: m_components_personnel_PersonnelMonthChip_tr, en: m_components_personnel_PersonnelMonthChip_en, hu: m_components_personnel_PersonnelMonthChip_hu },
+  'components/personnel/PersonnelMonthFilter': { tr: m_components_personnel_PersonnelMonthFilter_tr, en: m_components_personnel_PersonnelMonthFilter_en, hu: m_components_personnel_PersonnelMonthFilter_hu },
+  'components/personnel/PersonnelMyDossierDownload': { tr: m_components_personnel_PersonnelMyDossierDownload_tr, en: m_components_personnel_PersonnelMyDossierDownload_en, hu: m_components_personnel_PersonnelMyDossierDownload_hu },
+  'components/personnel/PersonnelNavHub': { tr: m_components_personnel_PersonnelNavHub_tr, en: m_components_personnel_PersonnelNavHub_en, hu: m_components_personnel_PersonnelNavHub_hu },
+  'components/personnel/PersonnelNetHero': { tr: m_components_personnel_PersonnelNetHero_tr, en: m_components_personnel_PersonnelNetHero_en, hu: m_components_personnel_PersonnelNetHero_hu },
+  'components/personnel/PersonnelNotificationPermissionPrompt': { tr: m_components_personnel_PersonnelNotificationPermissionPrompt_tr, en: m_components_personnel_PersonnelNotificationPermissionPrompt_en, hu: m_components_personnel_PersonnelNotificationPermissionPrompt_hu },
+  'components/personnel/PersonnelNotificationsBell': { tr: m_components_personnel_PersonnelNotificationsBell_tr, en: m_components_personnel_PersonnelNotificationsBell_en, hu: m_components_personnel_PersonnelNotificationsBell_hu },
+  'components/personnel/PersonnelPasswordForm': { tr: m_components_personnel_PersonnelPasswordForm_tr, en: m_components_personnel_PersonnelPasswordForm_en, hu: m_components_personnel_PersonnelPasswordForm_hu },
+  'components/personnel/PersonnelPasswordModal': { tr: m_components_personnel_PersonnelPasswordModal_tr, en: m_components_personnel_PersonnelPasswordModal_en, hu: m_components_personnel_PersonnelPasswordModal_hu },
+  'components/personnel/PersonnelPayrollPrint': { tr: m_components_personnel_PersonnelPayrollPrint_tr, en: m_components_personnel_PersonnelPayrollPrint_en, hu: m_components_personnel_PersonnelPayrollPrint_hu },
+  'components/personnel/PersonnelProjectCard': { tr: m_components_personnel_PersonnelProjectCard_tr, en: m_components_personnel_PersonnelProjectCard_en, hu: m_components_personnel_PersonnelProjectCard_hu },
+  'components/personnel/PersonnelPullToRefresh': { tr: m_components_personnel_PersonnelPullToRefresh_tr, en: m_components_personnel_PersonnelPullToRefresh_en, hu: m_components_personnel_PersonnelPullToRefresh_hu },
+  'components/personnel/PersonnelRecordCard': { tr: m_components_personnel_PersonnelRecordCard_tr, en: m_components_personnel_PersonnelRecordCard_en, hu: m_components_personnel_PersonnelRecordCard_hu },
+  'components/personnel/PersonnelRightsPanel': { tr: m_components_personnel_PersonnelRightsPanel_tr, en: m_components_personnel_PersonnelRightsPanel_en, hu: m_components_personnel_PersonnelRightsPanel_hu },
+  'components/personnel/PersonnelSettingsPage': { tr: m_components_personnel_PersonnelSettingsPage_tr, en: m_components_personnel_PersonnelSettingsPage_en, hu: m_components_personnel_PersonnelSettingsPage_hu },
+  'components/personnel/PersonnelTodayAttendance': { tr: m_components_personnel_PersonnelTodayAttendance_tr, en: m_components_personnel_PersonnelTodayAttendance_en, hu: m_components_personnel_PersonnelTodayAttendance_hu },
+  'components/personnel/PersonnelTrustFooter': { tr: m_components_personnel_PersonnelTrustFooter_tr, en: m_components_personnel_PersonnelTrustFooter_en, hu: m_components_personnel_PersonnelTrustFooter_hu },
+  'components/personnel/PersonnelUnifiedCalendar': { tr: m_components_personnel_PersonnelUnifiedCalendar_tr, en: m_components_personnel_PersonnelUnifiedCalendar_en, hu: m_components_personnel_PersonnelUnifiedCalendar_hu },
+  'components/personnel/PersonnelUnlockLayout': { tr: m_components_personnel_PersonnelUnlockLayout_tr, en: m_components_personnel_PersonnelUnlockLayout_en, hu: m_components_personnel_PersonnelUnlockLayout_hu },
+  'components/personnel/PersonnelWorkLogItem': { tr: m_components_personnel_PersonnelWorkLogItem_tr, en: m_components_personnel_PersonnelWorkLogItem_en, hu: m_components_personnel_PersonnelWorkLogItem_hu },
+  'components/project/AttendanceQrPanel': { tr: m_components_project_AttendanceQrPanel_tr, en: m_components_project_AttendanceQrPanel_en, hu: m_components_project_AttendanceQrPanel_hu },
+  'components/project/EmployeeSelect': { tr: m_components_project_EmployeeSelect_tr, en: m_components_project_EmployeeSelect_en, hu: m_components_project_EmployeeSelect_hu },
+  'components/project/EntryFormCard': { tr: m_components_project_EntryFormCard_tr, en: m_components_project_EntryFormCard_en, hu: m_components_project_EntryFormCard_hu },
+  'components/project/JobSelectField': { tr: m_components_project_JobSelectField_tr, en: m_components_project_JobSelectField_en, hu: m_components_project_JobSelectField_hu },
+  'components/project/ProjectDetailHeader': { tr: m_components_project_ProjectDetailHeader_tr, en: m_components_project_ProjectDetailHeader_en, hu: m_components_project_ProjectDetailHeader_hu },
+  'components/project/ProjectEmployeeTable': { tr: m_components_project_ProjectEmployeeTable_tr, en: m_components_project_ProjectEmployeeTable_en, hu: m_components_project_ProjectEmployeeTable_hu },
+  'components/project/ProjectNavMenu': { tr: m_components_project_ProjectNavMenu_tr, en: m_components_project_ProjectNavMenu_en, hu: m_components_project_ProjectNavMenu_hu },
+  'components/project/ProjectOverviewStats': { tr: m_components_project_ProjectOverviewStats_tr, en: m_components_project_ProjectOverviewStats_en, hu: m_components_project_ProjectOverviewStats_hu },
+  'components/project/ProjectSummaryHero': { tr: m_components_project_ProjectSummaryHero_tr, en: m_components_project_ProjectSummaryHero_en, hu: m_components_project_ProjectSummaryHero_hu },
+  'components/project/ProjectTodayAttendanceCard': { tr: m_components_project_ProjectTodayAttendanceCard_tr, en: m_components_project_ProjectTodayAttendanceCard_en, hu: m_components_project_ProjectTodayAttendanceCard_hu },
+  'components/project/QueryFilters': { tr: m_components_project_QueryFilters_tr, en: m_components_project_QueryFilters_en, hu: m_components_project_QueryFilters_hu },
+  'components/project/RecordEditActions': { tr: m_components_project_RecordEditActions_tr, en: m_components_project_RecordEditActions_en, hu: m_components_project_RecordEditActions_hu },
+  'components/project/RecordsTable': { tr: m_components_project_RecordsTable_tr, en: m_components_project_RecordsTable_en, hu: m_components_project_RecordsTable_hu },
+  'components/project/WagePolicyForm': { tr: m_components_project_WagePolicyForm_tr, en: m_components_project_WagePolicyForm_en, hu: m_components_project_WagePolicyForm_hu },
+  'components/project/profit/AddJobModal': { tr: m_components_project_profit_AddJobModal_tr, en: m_components_project_profit_AddJobModal_en, hu: m_components_project_profit_AddJobModal_hu },
+  'components/project/profit/BlockProfitCard': { tr: m_components_project_profit_BlockProfitCard_tr, en: m_components_project_profit_BlockProfitCard_en, hu: m_components_project_profit_BlockProfitCard_hu },
+  'components/project/profit/JobProfitCard': { tr: m_components_project_profit_JobProfitCard_tr, en: m_components_project_profit_JobProfitCard_en, hu: m_components_project_profit_JobProfitCard_hu },
+  'components/project/profit/PartnerSettings': { tr: m_components_project_profit_PartnerSettings_tr, en: m_components_project_profit_PartnerSettings_en, hu: m_components_project_profit_PartnerSettings_hu },
+  'components/project/profit/ProfitFormulaHelp': { tr: m_components_project_profit_ProfitFormulaHelp_tr, en: m_components_project_profit_ProfitFormulaHelp_en, hu: m_components_project_profit_ProfitFormulaHelp_hu },
+  'components/project/profit/ProfitQuickActions': { tr: m_components_project_profit_ProfitQuickActions_tr, en: m_components_project_profit_ProfitQuickActions_en, hu: m_components_project_profit_ProfitQuickActions_hu },
+  'components/project/profit/ProfitTotalsStrip': { tr: m_components_project_profit_ProfitTotalsStrip_tr, en: m_components_project_profit_ProfitTotalsStrip_en, hu: m_components_project_profit_ProfitTotalsStrip_hu },
+  'components/pwa/InstallPrompt': { tr: m_components_pwa_InstallPrompt_tr, en: m_components_pwa_InstallPrompt_en, hu: m_components_pwa_InstallPrompt_hu },
+  'components/registration/AdminBasvuruOnayModal': { tr: m_components_registration_AdminBasvuruOnayModal_tr, en: m_components_registration_AdminBasvuruOnayModal_en, hu: m_components_registration_AdminBasvuruOnayModal_hu },
+  'components/registration/AdminBasvuruOnayPanel': { tr: m_components_registration_AdminBasvuruOnayPanel_tr, en: m_components_registration_AdminBasvuruOnayPanel_en, hu: m_components_registration_AdminBasvuruOnayPanel_hu },
+  'components/registration/QrCameraScanner': { tr: m_components_registration_QrCameraScanner_tr, en: m_components_registration_QrCameraScanner_en, hu: m_components_registration_QrCameraScanner_hu },
+  'components/registration/RegistrationQrCode': { tr: m_components_registration_RegistrationQrCode_tr, en: m_components_registration_RegistrationQrCode_en, hu: m_components_registration_RegistrationQrCode_hu },
+  'components/supabase/SupabaseStatusPage': { tr: m_components_supabase_SupabaseStatusPage_tr, en: m_components_supabase_SupabaseStatusPage_en, hu: m_components_supabase_SupabaseStatusPage_hu },
+  'components/tables/DeductionTable': { tr: m_components_tables_DeductionTable_tr, en: m_components_tables_DeductionTable_en, hu: m_components_tables_DeductionTable_hu },
+  'components/tables/EmployeeTable': { tr: m_components_tables_EmployeeTable_tr, en: m_components_tables_EmployeeTable_en, hu: m_components_tables_EmployeeTable_hu },
+  'components/ui/MobileMenu': { tr: m_components_ui_MobileMenu_tr, en: m_components_ui_MobileMenu_en, hu: m_components_ui_MobileMenu_hu },
+  'components/ui/Sidebar/LogoutButton': { tr: m_components_ui_Sidebar_LogoutButton_tr, en: m_components_ui_Sidebar_LogoutButton_en, hu: m_components_ui_Sidebar_LogoutButton_hu },
+  'components/ui/Sidebar/MenuItems': { tr: m_components_ui_Sidebar_MenuItems_tr, en: m_components_ui_Sidebar_MenuItems_en, hu: m_components_ui_Sidebar_MenuItems_hu },
+  'config/admin-mobile-nav': { tr: m_config_admin_mobile_nav_tr, en: m_config_admin_mobile_nav_en, hu: m_config_admin_mobile_nav_hu },
+  'config/admin-register': { tr: m_config_admin_register_tr, en: m_config_admin_register_en, hu: m_config_admin_register_hu },
+  'config/personnel-mobile-nav': { tr: m_config_personnel_mobile_nav_tr, en: m_config_personnel_mobile_nav_en, hu: m_config_personnel_mobile_nav_hu },
+  'config/projectMenu': { tr: m_config_projectMenu_tr, en: m_config_projectMenu_en, hu: m_config_projectMenu_hu },
+  'hooks/useAdminUiMode': { tr: m_hooks_useAdminUiMode_tr, en: m_hooks_useAdminUiMode_en, hu: m_hooks_useAdminUiMode_hu },
+  'hooks/usePersonnelAsgari': { tr: m_hooks_usePersonnelAsgari_tr, en: m_hooks_usePersonnelAsgari_en, hu: m_hooks_usePersonnelAsgari_hu },
+  'hooks/usePersonnelDashboard': { tr: m_hooks_usePersonnelDashboard_tr, en: m_hooks_usePersonnelDashboard_en, hu: m_hooks_usePersonnelDashboard_hu },
+  'hooks/useProjectEmployees': { tr: m_hooks_useProjectEmployees_tr, en: m_hooks_useProjectEmployees_en, hu: m_hooks_useProjectEmployees_hu },
+  'lib/admin-intro-boot-script': { tr: m_lib_admin_intro_boot_script_tr, en: m_lib_admin_intro_boot_script_en, hu: m_lib_admin_intro_boot_script_hu },
+  'lib/admin-register-validation': { tr: m_lib_admin_register_validation_tr, en: m_lib_admin_register_validation_en, hu: m_lib_admin_register_validation_hu },
+  'lib/admin-ui-mode': { tr: m_lib_admin_ui_mode_tr, en: m_lib_admin_ui_mode_en, hu: m_lib_admin_ui_mode_hu },
+  'lib/advance-dekont-match': { tr: m_lib_advance_dekont_match_tr, en: m_lib_advance_dekont_match_en, hu: m_lib_advance_dekont_match_hu },
+  'lib/advance-request-service': { tr: m_lib_advance_request_service_tr, en: m_lib_advance_request_service_en, hu: m_lib_advance_request_service_hu },
+  'lib/advance-types': { tr: m_lib_advance_types_tr, en: m_lib_advance_types_en, hu: m_lib_advance_types_hu },
+  'lib/age-validation': { tr: m_lib_age_validation_tr, en: m_lib_age_validation_en, hu: m_lib_age_validation_hu },
+  'lib/app-releases': { tr: m_lib_app_releases_tr, en: m_lib_app_releases_en, hu: m_lib_app_releases_hu },
+  'lib/attendance-qr-service': { tr: m_lib_attendance_qr_service_tr, en: m_lib_attendance_qr_service_en, hu: m_lib_attendance_qr_service_hu },
+  'lib/attendance-window': { tr: m_lib_attendance_window_tr, en: m_lib_attendance_window_en, hu: m_lib_attendance_window_hu },
+  'lib/block-team-service': { tr: m_lib_block_team_service_tr, en: m_lib_block_team_service_en, hu: m_lib_block_team_service_hu },
+  'lib/capture-screen': { tr: m_lib_capture_screen_tr, en: m_lib_capture_screen_en, hu: m_lib_capture_screen_hu },
+  'lib/closure-deletion-acceleration': { tr: m_lib_closure_deletion_acceleration_tr, en: m_lib_closure_deletion_acceleration_en, hu: m_lib_closure_deletion_acceleration_hu },
+  'lib/contract-service': { tr: m_lib_contract_service_tr, en: m_lib_contract_service_en, hu: m_lib_contract_service_hu },
+  'lib/dekont-import-service': { tr: m_lib_dekont_import_service_tr, en: m_lib_dekont_import_service_en, hu: m_lib_dekont_import_service_hu },
+  'lib/dekont-ocr': { tr: m_lib_dekont_ocr_tr, en: m_lib_dekont_ocr_en, hu: m_lib_dekont_ocr_hu },
+  'lib/dekont-validation': { tr: m_lib_dekont_validation_tr, en: m_lib_dekont_validation_en, hu: m_lib_dekont_validation_hu },
+  'lib/field-encryption': { tr: m_lib_field_encryption_tr, en: m_lib_field_encryption_en, hu: m_lib_field_encryption_hu },
+  'lib/i18n/attendance-messages': { tr: m_lib_i18n_attendance_messages_tr, en: m_lib_i18n_attendance_messages_en, hu: m_lib_i18n_attendance_messages_hu },
+  'lib/i18n/locale-ui': { tr: m_lib_i18n_locale_ui_tr, en: m_lib_i18n_locale_ui_en, hu: m_lib_i18n_locale_ui_hu },
+  'lib/identity-uniqueness': { tr: m_lib_identity_uniqueness_tr, en: m_lib_identity_uniqueness_en, hu: m_lib_identity_uniqueness_hu },
+  'lib/legal-dossier/build-legal-dossier': { tr: m_lib_legal_dossier_build_legal_dossier_tr, en: m_lib_legal_dossier_build_legal_dossier_en, hu: m_lib_legal_dossier_build_legal_dossier_hu },
+  'lib/legal-dossier/collectors/index': { tr: m_lib_legal_dossier_collectors_index_tr, en: m_lib_legal_dossier_collectors_index_en, hu: m_lib_legal_dossier_collectors_index_hu },
+  'lib/legal-dossier/render-summary-html': { tr: m_lib_legal_dossier_render_summary_html_tr, en: m_lib_legal_dossier_render_summary_html_en, hu: m_lib_legal_dossier_render_summary_html_hu },
+  'lib/otp-delivery': { tr: m_lib_otp_delivery_tr, en: m_lib_otp_delivery_en, hu: m_lib_otp_delivery_hu },
+  'lib/otp-registration': { tr: m_lib_otp_registration_tr, en: m_lib_otp_registration_en, hu: m_lib_otp_registration_hu },
+  'lib/otp-service': { tr: m_lib_otp_service_tr, en: m_lib_otp_service_en, hu: m_lib_otp_service_hu },
+  'lib/parse-registration-qr': { tr: m_lib_parse_registration_qr_tr, en: m_lib_parse_registration_qr_en, hu: m_lib_parse_registration_qr_hu },
+  'lib/personnel-display-preferences': { tr: m_lib_personnel_display_preferences_tr, en: m_lib_personnel_display_preferences_en, hu: m_lib_personnel_display_preferences_hu },
+  'lib/personnel-intro-boot-script': { tr: m_lib_personnel_intro_boot_script_tr, en: m_lib_personnel_intro_boot_script_en, hu: m_lib_personnel_intro_boot_script_hu },
+  'lib/personnel-notifications': { tr: m_lib_personnel_notifications_tr, en: m_lib_personnel_notifications_en, hu: m_lib_personnel_notifications_hu },
+  'lib/personnel-pin': { tr: m_lib_personnel_pin_tr, en: m_lib_personnel_pin_en, hu: m_lib_personnel_pin_hu },
+  'lib/personnel-pin-reset': { tr: m_lib_personnel_pin_reset_tr, en: m_lib_personnel_pin_reset_en, hu: m_lib_personnel_pin_reset_hu },
+  'lib/personnel-reminder-email': { tr: m_lib_personnel_reminder_email_tr, en: m_lib_personnel_reminder_email_en, hu: m_lib_personnel_reminder_email_hu },
+  'lib/personnel-stats': { tr: m_lib_personnel_stats_tr, en: m_lib_personnel_stats_en, hu: m_lib_personnel_stats_hu },
+  'lib/personnel-theme': { tr: m_lib_personnel_theme_tr, en: m_lib_personnel_theme_en, hu: m_lib_personnel_theme_hu },
+  'lib/platform-legal-content': { tr: m_lib_platform_legal_content_tr, en: m_lib_platform_legal_content_en, hu: m_lib_platform_legal_content_hu },
+  'lib/profit-display': { tr: m_lib_profit_display_tr, en: m_lib_profit_display_en, hu: m_lib_profit_display_hu },
+  'lib/project-closure-service': { tr: m_lib_project_closure_service_tr, en: m_lib_project_closure_service_en, hu: m_lib_project_closure_service_hu },
+  'lib/project-queries': { tr: m_lib_project_queries_tr, en: m_lib_project_queries_en, hu: m_lib_project_queries_hu },
+  'lib/registration-draft-validation': { tr: m_lib_registration_draft_validation_tr, en: m_lib_registration_draft_validation_en, hu: m_lib_registration_draft_validation_hu },
+  'lib/registration-photo': { tr: m_lib_registration_photo_tr, en: m_lib_registration_photo_en, hu: m_lib_registration_photo_hu },
+  'lib/registration-service': { tr: m_lib_registration_service_tr, en: m_lib_registration_service_en, hu: m_lib_registration_service_hu },
+  'lib/screen-report-discord': { tr: m_lib_screen_report_discord_tr, en: m_lib_screen_report_discord_en, hu: m_lib_screen_report_discord_hu },
+  'lib/screen-report-email': { tr: m_lib_screen_report_email_tr, en: m_lib_screen_report_email_en, hu: m_lib_screen_report_email_hu },
+  'lib/team-work-guard': { tr: m_lib_team_work_guard_tr, en: m_lib_team_work_guard_en, hu: m_lib_team_work_guard_hu },
+  'lib/wage-policy-service': { tr: m_lib_wage_policy_service_tr, en: m_lib_wage_policy_service_en, hu: m_lib_wage_policy_service_hu },
+  'lib/web-updates': { tr: m_lib_web_updates_tr, en: m_lib_web_updates_en, hu: m_lib_web_updates_hu },
+  'lib/work-log': { tr: m_lib_work_log_tr, en: m_lib_work_log_en, hu: m_lib_work_log_hu },
+  'lib/work-log-service': { tr: m_lib_work_log_service_tr, en: m_lib_work_log_service_en, hu: m_lib_work_log_service_hu },
+  'types/project': { tr: m_types_project_tr, en: m_types_project_en, hu: m_types_project_hu },
+  'types/project-block': { tr: m_types_project_block_tr, en: m_types_project_block_en, hu: m_types_project_block_hu },
+  'types/project-job': { tr: m_types_project_job_tr, en: m_types_project_job_en, hu: m_types_project_job_hu },
+  'types/wage-policy': { tr: m_types_wage_policy_tr, en: m_types_wage_policy_en, hu: m_types_wage_policy_hu },
 } as const;
 
 export type StringRegistryKey = keyof typeof STRINGS_REGISTRY;
@@ -1078,5 +1432,5 @@ export function getRegistryStrings<K extends StringRegistryKey>(
   locale: Locale
 ): (typeof STRINGS_REGISTRY)[K]['tr'] {
   const bundle = STRINGS_REGISTRY[key];
-  return pickStrings(locale, bundle.tr, bundle.en) as (typeof STRINGS_REGISTRY)[K]['tr'];
+  return pickStrings(locale, bundle.tr, bundle.en, bundle.hu) as (typeof STRINGS_REGISTRY)[K]['tr'];
 }

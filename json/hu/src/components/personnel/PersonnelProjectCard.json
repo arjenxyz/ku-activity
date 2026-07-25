@@ -1,0 +1,10 @@
+{
+  "sectionTitle": "Projekt / Építési helyszín",
+  "codePrefix": "Kód: {code}",
+  "status": {
+    "active": "Aktív",
+    "paused": "szüneteltetve",
+    "completed": "elkészült",
+    "planning": "Tervezés"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "totalPayLabel": "Teljes munkajövedelem",
+  "recordCountLabel": "Munkaidő nyilvántartás",
+  "byTypeTitle": "Mesai türüne göre kazanç",
+  "recordCountSuffix": "({count} regisztráció)",
+  "recordsTitle": "Munkafelvételek · {month}",
+  "emptyRecords": "Ebben az időszakban nincs túlóra feljegyzés."
+}

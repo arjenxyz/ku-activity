@@ -1,0 +1,14 @@
+{
+  "sectionTitle": "Maaş dökümü",
+  "printTitle": "Detaylı döküm",
+  "printHint": "Nyomtassa ki vagy mentse el a PDF-et",
+  "rows": {
+    "basePay": "Yevmiye (gün × ücret)",
+    "mesaiPay": "Túlóra bevétel (+)",
+    "gross": "Brüt toplam",
+    "advances": "Előlegek (-)",
+    "deductions": "Levonások (-)",
+    "minimum": "Asgari ödemeler (+)"
+  },
+  "net": "Nettó"
+}

@@ -1,0 +1,14 @@
+{
+  "nameRequired": "A név és a vezetéknév megadása kötelező.",
+  "emailRequired": "E-mail cím megadása kötelező.",
+  "emailInvalid": "Adjon meg egy érvényes e-mail címet.",
+  "phoneRequired": "Telefonszám megadása kötelező.",
+  "phoneInvalid": "Adjon meg egy érvényes mobiltelefonszámot (pl. 534 968 5678).",
+  "companyRequired": "A cég vagy az építkezés neve kötelező.",
+  "jobTitleRequired": "Görev / unvan seçin.",
+  "cityRequired": "A város információi kötelezőek.",
+  "teamSizeRequired": "Válassza ki a becsült létszámot.",
+  "projectCountRequired": "Válassza ki az aktív építkezések számát.",
+  "passwordTooShort": "Şifre en az 6 karakter olmalıdır.",
+  "passwordMismatch": "A jelszavak nem egyeznek."
+}

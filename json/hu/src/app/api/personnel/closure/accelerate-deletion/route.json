@@ -1,0 +1,18 @@
+{
+  "unauthorized": "Jogosulatlan",
+  "closureNotActive": "A bezárás nem aktív.",
+  "consentRequired": "Először fogadja el a bezárási hozzájárulást.",
+  "downloadRequired": "Először töltse le a rekordokat.",
+  "ackRequired": "Először töltse ki a letöltés megerősítését.",
+  "alreadyAccelerated": "A fiók törlése már felgyorsult.",
+  "invalidEmail": "Nem található regisztrált e-mail cím.",
+  "emailNotConfigured": "Az e-mail-ellenőrzés nem érhető el.",
+  "rateLimited": "Túl sok kódkérés. Kérjük, várjon.",
+  "invalidCode": "Érvénytelen vagy lejárt kód.",
+  "challengeExpired": "Code expired. Request a new one.",
+  "tooManyAttempts": "Túl sok sikertelen próbálkozás.",
+  "codeRequired": "Ellenőrző kód szükséges.",
+  "linkRequired": "Érvénytelen link.",
+  "invalidLink": "Érvénytelen vagy lejárt link.",
+  "generic": "A művelet nem sikerült"
+}

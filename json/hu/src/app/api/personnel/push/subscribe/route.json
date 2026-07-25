@@ -1,0 +1,6 @@
+{
+  "invalidSubscription": "Érvénytelen előfizetési adatok",
+  "endpointRequired": "Érvényes végpont szükséges",
+  "saveFailed": "Nem sikerült menteni az előfizetést",
+  "deleteFailed": "Nem sikerült eltávolítani az előfizetést"
+}

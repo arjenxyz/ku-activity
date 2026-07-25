@@ -32,7 +32,8 @@ type Props = {
 };
 
 function monthTitle(month: string, locale: Locale) {
-  const tag = contentLocale(locale) === 'en' ? 'en-GB' : 'tr-TR';
+  const content = contentLocale(locale);
+  const tag = content === 'en' ? 'en-GB' : content === 'hu' ? 'hu-HU' : 'tr-TR';
   return new Date(`${month}-01T12:00:00`).toLocaleDateString(tag, {
     month: 'long',
     year: 'numeric',

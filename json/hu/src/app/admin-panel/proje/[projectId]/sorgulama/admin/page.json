@@ -1,0 +1,14 @@
+{
+  "pageTitle": "Admin kérdezés",
+  "pageDescription": "Tüm personelin aylık finansal özeti.",
+  "labelMonth": "Ó",
+  "totalGross": "Toplam Brüt",
+  "totalAdvances": "Teljes előleg",
+  "totalNet": "Teljes nettó",
+  "colEmployee": "Munkavállaló",
+  "colDays": "Gün",
+  "colGross": "Brüt",
+  "colAdvance": "Előleg",
+  "colMinimum": "Minimális",
+  "colNet": "Nettó"
+}

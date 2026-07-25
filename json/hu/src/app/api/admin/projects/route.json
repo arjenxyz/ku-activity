@@ -1,0 +1,8 @@
+{
+  "projeAdıGerekli": "A projekt neve kötelező",
+  "geçersizDurum": "Érvénytelen állapot",
+  "oturumGerekli": "Munkamenet szükséges",
+  "activeProjectLimit": "Legfeljebb 2 aktív projektje lehet. A lezárás alatt álló projektek nem számítanak bele ebbe a limitbe.",
+  "migrationRequired": "Adatbázis migráció szükséges (065_project_admin_limits.sql)",
+  "buProjeKoduZatenKullanılıyor": "Ez a projektkód már használatban van"
+}

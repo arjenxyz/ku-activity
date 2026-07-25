@@ -14,6 +14,7 @@ import { formatString } from '@/lib/strings/format';
 import { usePersonnelNotificationsContext } from '@/contexts/PersonnelNotificationsContext';
 import trStrings from '@json/src/components/personnel/PersonnelNotificationsBell.json';
 import enStrings from '@json/en/src/components/personnel/PersonnelNotificationsBell.json';
+import huStrings from '@json/hu/src/components/personnel/PersonnelNotificationsBell.json';
 import { isPersonnelTwaRuntime, openPersonnelAppNotificationSettings } from '@/lib/personnel-app-runtime';
 import {
   markNotificationsUnlocked,
@@ -327,7 +328,7 @@ function SwipeNotificationRow({
 }
 
 export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpenProp, className = '' }: Props) {
-  const strings = useLocalizedStrings(trStrings, enStrings);
+  const strings = useLocalizedStrings(trStrings, enStrings, huStrings);
   const {
     items,
     unreadCount,

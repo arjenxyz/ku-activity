@@ -1,0 +1,8 @@
+{
+  "loading": "Sözleşmeler yükleniyor…",
+  "sectionTitle": "Sözleşmelerim",
+  "empty": "Nincs olyan szerződés, amelyet jóváhagyott.",
+  "sectionTitleWithCount": "Saját szerződéseim ({count})",
+  "versionLine": "Sürüm {version} · {date}",
+  "open": "Éhes"
+}

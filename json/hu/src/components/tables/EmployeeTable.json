@@ -1,0 +1,13 @@
+{
+  "nameHeader": "Hirdetés",
+  "daysWorkedHeader": "Çalışılan Gün",
+  "totalSalaryHeader": "Teljes fizetés",
+  "todayHeader": "Bugün",
+  "actionsHeader": "Tranzakciók",
+  "empty": "Nem található regisztrált személyzet",
+  "daysSuffix": " Gün",
+  "daysOfMonth": " gün",
+  "verified": "Jóváhagyott",
+  "unverified": "Jóvá nem hagyva",
+  "approve": "Erősítse meg"
+}

@@ -1,0 +1,68 @@
+{
+  "jobTitles": [
+    "Helyszínvezető / Mester",
+    "Alvállalkozó cég tulajdonosa",
+    "Proje müdürü",
+    "Humán erőforrás / Számvitel",
+    "Üzemeltetés / Tervezés",
+    "Más"
+  ],
+  "teamSizes": [
+    {
+      "value": "1-10",
+      "label": "1-10 fő"
+    },
+    {
+      "value": "11-25",
+      "label": "11-25 fő"
+    },
+    {
+      "value": "26-50",
+      "label": "26-50 fő"
+    },
+    {
+      "value": "51-100",
+      "label": "51-100 fő"
+    },
+    {
+      "value": "100+",
+      "label": "100+ alkalmazott"
+    }
+  ],
+  "projectCounts": [
+    {
+      "value": "1",
+      "label": "1 aktív építkezés"
+    },
+    {
+      "value": "2-3",
+      "label": "2-3 építkezés"
+    },
+    {
+      "value": "4+",
+      "label": "4 vagy több"
+    }
+  ],
+  "referralSources": [
+    {
+      "value": "keresés",
+      "label": "Google/arama"
+    },
+    {
+      "value": "áttétel",
+      "label": "Ismerkedés/referencia"
+    },
+    {
+      "value": "szociális",
+      "label": "közösségi média"
+    },
+    {
+      "value": "esemény",
+      "label": "Vásár / rendezvény"
+    },
+    {
+      "value": "más",
+      "label": "Más"
+    }
+  ]
+}

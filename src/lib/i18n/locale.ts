@@ -16,7 +16,7 @@ export type Locale =
   | 'hu';
 
 /** Çeviri dosyası olan diller — diğerleri İngilizce metne düşer. */
-export type ContentLocale = 'tr' | 'en';
+export type ContentLocale = 'tr' | 'en' | 'hu';
 
 export const LOCALES: Locale[] = [
   'tr',
@@ -83,9 +83,11 @@ export function flagImageUrl(countryCode: string, width = 40) {
 
 const LOCALE_SET = new Set<string>(LOCALES);
 
-/** UI metinleri için: TR → tr, diğer seçimler şimdilik EN. */
+/** UI metinleri için: TR → tr, HU → hu, diğer seçimler şimdilik EN. */
 export function contentLocale(locale: Locale): ContentLocale {
-  return locale === 'tr' ? 'tr' : 'en';
+  if (locale === 'tr') return 'tr';
+  if (locale === 'hu') return 'hu';
+  return 'en';
 }
 
 export function parseLocale(value: string | null | undefined): Locale {

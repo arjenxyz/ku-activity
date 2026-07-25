@@ -1,0 +1,15 @@
+{
+  "pageTitle": "Személyzeti vizsgálat",
+  "pageDescription": "Seçili personelin aylık özetini görüntüleyin.",
+  "selectEmployeeHint": "Válassza ki az összefoglaló személyzetet.",
+  "loading": "Yükleniyor…",
+  "workDays": "Çalışılan Gün",
+  "gross": "Brüt",
+  "advances": "Előleg",
+  "minimum": "Minimális",
+  "sectionWorkLogs": "Jevmiyeler",
+  "sectionAdvances": "előlegeket",
+  "sectionMinimum": "Asgari Ödemeler",
+  "noRecords": "Nincs rekord.",
+  "workDaysUnit": "{amount} gün"
+}

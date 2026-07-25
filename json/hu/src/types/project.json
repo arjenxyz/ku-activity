@@ -1,0 +1,9 @@
+{
+  "statusLabels": {
+    "active": "Aktív",
+    "planned": "tervezett",
+    "paused": "megállt",
+    "completed": "elkészült",
+    "archived": "Archivált"
+  }
+}

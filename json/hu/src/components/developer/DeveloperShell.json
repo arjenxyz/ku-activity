@@ -1,0 +1,13 @@
+{
+  "nav": {
+    "codes": "Ellenőrző kódok",
+    "releases": "APK Sürümleri"
+  },
+  "subtitle": {
+    "releases": "APK sürüm yönetimi",
+    "codes": "Ellenőrző kódok"
+  },
+  "panelTitle": "Fejlesztői panel",
+  "logout": "Kijárat",
+  "backHome": "Ana sayfaya dön"
+}

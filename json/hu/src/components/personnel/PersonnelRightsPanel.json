@@ -1,0 +1,28 @@
+{
+  "heroTitle": "Az én jogaim",
+  "heroSubtitle": "GDPR · szerződések · nyilvántartások",
+  "downloadCta": "Töltse le az adataimat",
+  "preparing": "Felkészülés…",
+  "contactCta": "Jogok kérése",
+  "quickLinksTitle": "A rekordjaid",
+  "quickLinks": {
+    "finance": "Bérszámfejtés",
+    "work": "Napi bér",
+    "mesai": "Túlóra",
+    "asgari": "Minimálbér"
+  },
+  "kvkkTitle": "Adatvédelmi jogok",
+  "kvkkRights": [
+    "Tudja, hogy az adatokat feldolgozzák-e",
+    "Kérjen információt",
+    "Kérjen javítást",
+    "Törlés kérése",
+    "Ismerje meg a harmadik fél címzettjeit"
+  ],
+  "mailSubject": "Jogkérés – CrewLedger",
+  "errors": {
+    "downloadFailed": "Letöltés sikertelen",
+    "generic": "Letöltés sikertelen"
+  },
+  "fallbackFilename": "crewleger-my-records.zip"
+}

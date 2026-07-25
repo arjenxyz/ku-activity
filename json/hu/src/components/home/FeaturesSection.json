@@ -1,0 +1,39 @@
+{
+  "sectionBadge": "Platform jellemzők",
+  "sectionTitle": "Valódi modulok a munkaidő-nyilvántartástól a bérszámfejtésig",
+  "sectionSubtitle": "A napibérek, a túlórák, az előlegek, a levonások, a minimálbér-feltöltések és a bérszámfejtés projektenként történik. A személyzeti alkalmazás ugyanazokat a rekordokat jeleníti meg, mint az adminisztrációs panel.",
+  "marqueePaused": "Szüneteltetve – érintse meg ismét a négyzetet a folytatáshoz",
+  "marqueeHint": "Csúsztassa az ujját; a görgetés szünetelteti az áramlást, koppintson a dobozra a rögzítéshez",
+  "features": [
+    {
+      "title": "Kettős jóváhagyott napibér",
+      "tag": "Munkaidő-nyilvántartások",
+      "description": "Teljes/félnapos jelenlét és negyed-, fél- vagy teljes túlóra-bejegyzések. Admin belép; a személyzet jóváhagyja vagy vitatja – a feljegyzéseket nem véglegesítik mindkét fél nélkül."
+    },
+    {
+      "title": "Előlegek és levonások",
+      "tag": "Pénzügy",
+      "description": "Projekt alapú előleg és levonás bejegyzések. A bruttó, előleg, levonás és nettó összegek kiszámítása ugyanazzal a képlettel történik a bérszámfejtésben és a személyi finanszírozás lapon."
+    },
+    {
+      "title": "Minimálbér-feltöltés",
+      "tag": "Politika",
+      "description": "Megkeresett, kifizetett és fennmaradó összegek vállalatonként és projektenkénti bérpolitikánként. Alvállalkozói hiányokra vonatkozó javaslatok; a személyzet a minimálbér fülön lásd a bontást."
+    },
+    {
+      "title": "Projektalapú webhelyek",
+      "tag": "Műveletek",
+      "description": "Each site is a separate project; personnel, blocks, teams, and finance records stay within the project. Admins only access projects they created."
+    },
+    {
+      "title": "Jelentések és bérszámfejtés",
+      "tag": "Jelentés",
+      "description": "Jóváhagyott és függőben lévő napibérek, nyitott személyzeti viták, bérszámfejtések, valamint a bérek, előlegek és levonások archív lekérdezései."
+    },
+    {
+      "title": "Személyzeti alkalmazás",
+      "tag": "Mobil PWA",
+      "description": "Install as a PWA on your phone. Overview, daily wages, overtime, finance, minimum wage, and rights tabs — fed from the same database as the admin panel."
+    }
+  ]
+}

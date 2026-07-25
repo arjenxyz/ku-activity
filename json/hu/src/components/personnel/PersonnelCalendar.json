@@ -1,0 +1,26 @@
+{
+  "prevMonth": "Önceki ay",
+  "nextMonth": "jövő hónapban",
+  "thisMonth": "ebben a hónapban",
+  "summary": "{recorded} regisztrált nap · {confirmed} jóváhagyva · {pending} függőben",
+  "selectMonth": "Válassza ki a hónapot:",
+  "weekdays": [
+    "Pt",
+    "-on",
+    "Hogy",
+    "Pe",
+    "Cu",
+    "Ct",
+    "Pz"
+  ],
+  "cellTitle": "{date} · {amount} · {status}",
+  "tapForDetail": "Tap a highlighted day for details",
+  "status": {
+    "confirmed": "Jóváhagyott",
+    "pending_employee": "Az Ön beleegyezése",
+    "pending_admin": "Yönetici onayı",
+    "disputed": "Kifogás",
+    "none": "folyamatban",
+    "empty": "Nincs rekord"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "systemError": "Rendszerhiba",
+  "unauthorized": "Nincs szükség munkamenetre vagy rendszergazdai jogosultságra",
+  "forbidden": "Nincs jogosultsága a projekt elérésére",
+  "missingServiceRoleKey": "Hiányzik a szerver konfigurációja (SERVICE_ROLE_KEY)"
+}

@@ -1,0 +1,12 @@
+{
+  "title": "Töltse le a felvételeimet",
+  "description": "A KVKK 11. cikkének hatálya alá tartozó ZIP formátumban szerezze be napi bérének, fizetésének, szerződésének és profiladatainak teljes másolatát. Ez ugyanaz az adatkészlet, mint az adminisztrátora által látott rekordok – az átláthatóság érdekében.",
+  "dailyLimit": "Naponta legfeljebb {limit}-szer tölthet le.",
+  "preparing": "Felkészülés…",
+  "downloadCta": "Felvételeim letöltése (ZIP)",
+  "errors": {
+    "downloadFailed": "Nem sikerült letölteni",
+    "generic": "Letöltés sikertelen"
+  },
+  "fallbackFilename": "crewledger-kayitlarim.zip"
+}

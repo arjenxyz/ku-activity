@@ -1,0 +1,15 @@
+{
+  "statusLabels": {
+    "pending": "Kérés függőben",
+    "approved": "Jóváhagyva – fizetés függőben",
+    "awaiting_receipt": "Készpénzes szállítás várt",
+    "paid": "Ödendi",
+    "rejected": "elutasítva",
+    "cancelled": "törölve",
+    "expired": "Süresi doldu"
+  },
+  "paymentMethodLabels": {
+    "bank_transfer": "Csekk / EFT",
+    "cash": "talált"
+  }
+}

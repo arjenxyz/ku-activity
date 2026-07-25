@@ -1,0 +1,13 @@
+{
+  "pageTitle": "Jevmije Sorgulama",
+  "pageDescription": "Yevmiye kayıtlarını görüntüleyin, iş kalemini düzenleyin veya silin.",
+  "colEmployee": "Munkavállaló",
+  "colDate": "Történelem",
+  "colDays": "Gün",
+  "colJob": "munkadarab",
+  "colStatus": "Durum",
+  "colDispute": "Kifogás",
+  "colDescription": "Magyarázat",
+  "colActions": "Folyamat",
+  "emptyCell": "—"
+}

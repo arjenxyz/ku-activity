@@ -1,0 +1,7 @@
+{
+  "title": "Fejlett interfész szükséges",
+  "description": "Ez az oldal olyan speciális műveletekre szolgál, mint a blokkkezelés, bérszámfejtés, jelentésarchívum. Használja az egyszerű felületet a napi részvételhez és a naplóbejegyzésekhez.",
+  "warningMessage": "Egyszerű módban a jelenléti QR, az előleg és a kifogás oldalak érhetők el.",
+  "backToDaily": "Günlük işlemlere dön",
+  "backToProjects": "Vissza a projektlistához"
+}

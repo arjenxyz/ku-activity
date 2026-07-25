@@ -1,0 +1,144 @@
+{
+  "dock": {
+    "summary": "Áttekintés",
+    "approval": "Jóváhagyni",
+    "attendance": "Részvétel",
+    "profit": "Nyereség",
+    "payroll": "Bérszámfejtés",
+    "status": "Állapot",
+    "menu": "Menü"
+  },
+  "hub": {
+    "essentialsTitle": "Napi elengedhetetlen kellékek",
+    "essentialsSubtitle": "Minden nap használt áttekintés, jóváhagyások és jelenlét",
+    "periodicTitle": "Heti és időszakos",
+    "periodicSubtitle": "Heti vagy hónap végi műveletek",
+    "personnelTitle": "Személyzet",
+    "siteTitle": "Telek",
+    "recordsTitle": "Feljegyzések és javítások",
+    "recordsSubtitle": "Külön nyilvántartási, jóváhagyási és archív oldalak",
+    "generalTitle": "Általános",
+    "generalSubtitle": "Minden projekt és számla",
+    "general": {
+      "projects": "Projektek",
+      "arjenAdvance": "Arjen előre",
+      "arjenAttendance": "Arjen munkaidő-nyilvántartás",
+      "applications": "Alkalmazások",
+      "policy": "Fizetési politika",
+      "settings": "Beállítások elemre"
+    }
+  },
+  "simpleEssentialItems": [
+    {
+      "label": "Projekt áttekintése",
+      "path": "",
+      "hint": "Személyzeti lista és napi állapot"
+    },
+    {
+      "label": "Pályázat jóváhagyása",
+      "path": "pályázat-jóváhagyás",
+      "hint": "Új személyzeti pályázatok"
+    },
+    {
+      "label": "Részvétel / QR",
+      "path": "bér",
+      "hint": "Itt van betervezve a nap, a túlóra és a munkaidő"
+    }
+  ],
+  "periodicItems": [
+    {
+      "label": "Alvállalkozói nyereség",
+      "path": "jobbra",
+      "hint": "Blokkok, munkahelyek és profit"
+    },
+    {
+      "label": "Ahol mi állunk",
+      "path": "durum",
+      "hint": "Projektfinanszírozás összefoglalója"
+    },
+    {
+      "label": "Bérszámfejtés",
+      "path": "bérszámfejtés",
+      "hint": "Időszaki bérszámfejtés"
+    },
+    {
+      "label": "Jelentések",
+      "path": "jelentéseket",
+      "hint": "Jóváhagyás és összefoglaló jelentések"
+    },
+    {
+      "label": "Előzetes kérések",
+      "path": "előzetes kérések",
+      "hint": "Személyzeti kérések"
+    },
+    {
+      "label": "Nyugta megosztása",
+      "absolutePath": "/admin-panel/receipt-share",
+      "hint": "OCR egyeztetés"
+    },
+    {
+      "label": "Fizetési politika",
+      "path": "fizetési politika",
+      "hint": "Projekt bérezési szabályok"
+    }
+  ],
+  "personnelItems": [
+    {
+      "label": "Személyzeti lista",
+      "path": "lista"
+    },
+    {
+      "label": "Új személyzet",
+      "path": "új"
+    },
+    {
+      "label": "Pályázat jóváhagyása",
+      "path": "pályázat-jóváhagyás",
+      "hint": "Új személyzeti pályázatok"
+    },
+    {
+      "label": "Részvétel / QR",
+      "path": "bér",
+      "hint": "Itt van betervezve a nap, a túlóra és a munkaidő"
+    },
+    {
+      "label": "Személyzeti jelszavak",
+      "path": "megkeresés/személyzeti jelszavak"
+    }
+  ],
+  "siteItems": [
+    {
+      "label": "Blokkok",
+      "path": "blokkok"
+    },
+    {
+      "label": "Csapatok",
+      "path": "csapatok"
+    }
+  ],
+  "recordsItems": [
+    {
+      "label": "Előleg",
+      "path": "előleg",
+      "hint": "Külön előlegfelvétel"
+    },
+    {
+      "label": "Levonás",
+      "path": "megszakítás",
+      "hint": "Külön levonási nyilvántartás"
+    },
+    {
+      "label": "Jóváhagyott",
+      "path": "jelentések/jóváhagyták"
+    },
+    {
+      "label": "Függőben lévő rekordok",
+      "path": "jelentések/jóvá nem hagyott"
+    },
+    {
+      "label": "Előzmények rögzítése",
+      "path": "log-történet",
+      "hint": "Lekérdezés és archiválás"
+    }
+  ]
+}

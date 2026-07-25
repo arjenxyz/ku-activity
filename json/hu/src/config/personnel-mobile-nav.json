@@ -1,0 +1,72 @@
+{
+  "tabTitles": {
+    "overview": "Otthon",
+    "work": "Naptár",
+    "asgari": "Minimálbér",
+    "finance": "Bérszámfejtés",
+    "rights": "Az én jogaim",
+    "settings": "Beállítások elemre"
+  },
+  "hubSections": [
+    {
+      "title": "A helyszínen",
+      "subtitle": "Napi munkanyilvántartás",
+      "items": [
+        {
+          "id": "munka",
+          "tab": "munka",
+          "label": "Naptár",
+          "description": "Munkanapok, túlóra és fizetés"
+        },
+        {
+          "id": "névsorolvasás",
+          "href": "/személyzeti panel/szavazás",
+          "label": "Részvétel",
+          "description": "QR bejelentkezés"
+        }
+      ]
+    },
+    {
+      "title": "Pénzügy",
+      "subtitle": "Fizetés és kifizetések",
+      "items": [
+        {
+          "id": "pénzügy",
+          "tab": "pénzügy",
+          "label": "Bérszámfejtés",
+          "description": "Nettó bérösszegzés"
+        },
+        {
+          "id": "előleg",
+          "href": "/staff-panel/avans",
+          "label": "Előzetes kérés",
+          "description": "Kérések létrehozása és nyomon követése"
+        },
+        {
+          "id": "minimális",
+          "tab": "minimális",
+          "label": "Minimálbér",
+          "description": "Feltöltés állapota"
+        }
+      ]
+    },
+    {
+      "title": "fiók",
+      "subtitle": "Profil és dokumentumok",
+      "items": [
+        {
+          "id": "jogokat",
+          "tab": "jogokat",
+          "label": "Az én jogaim",
+          "description": "Szerződések"
+        },
+        {
+          "id": "beállításokat",
+          "tab": "beállításokat",
+          "label": "Beállítások elemre",
+          "description": "PIN-kód és profil"
+        }
+      ]
+    }
+  ]
+}

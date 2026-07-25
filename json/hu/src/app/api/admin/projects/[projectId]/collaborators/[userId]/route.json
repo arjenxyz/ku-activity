@@ -1,0 +1,6 @@
+{
+  "invalidId": "Érvénytelen azonosító",
+  "removeFailed": "Nem sikerült eltávolítani az együttműködőt",
+  "ownerOnly": "Ezt csak a projekt tulajdonosa teheti meg",
+  "migrationRequired": "Az együttműködők migrációja még nincs alkalmazva (076_project_collaborators.sql)"
+}

@@ -1,0 +1,9 @@
+{
+  "adminPanelLabel": "Yönetici Paneli",
+  "personnelPanelLabel": "Személyzeti testület",
+  "adminScreenLabel": "Yönetici Giriş",
+  "personnelScreenLabel": "Személyzeti bejelentkezés",
+  "adminAlternatePrompt": "Ön alkalmazott?",
+  "personnelAlternatePrompt": "Yönetici misiniz?",
+  "homeLink": "← Kezdőlap"
+}

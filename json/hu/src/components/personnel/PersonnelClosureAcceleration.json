@@ -1,0 +1,24 @@
+{
+  "accelerateCta": "Törölje a fiókomat 3 percen belül",
+  "accelerateHint": "Confirm via email to speed up deletion and join a new project.",
+  "acceleratedBadge": "Gyorsított – törlés 3 percen belül",
+  "modalTitle": "E-mail megerősítés",
+  "modalSubtitle": "A code was sent to {email}.",
+  "otpPlaceholder": "6 számjegyű kód",
+  "resend": "Új kód küldése",
+  "verify": "Erősítse meg",
+  "cancel": "Mégsem",
+  "preparing": "Küldés…",
+  "verifying": "Ellenőrzés…",
+  "successTitle": "A törlés felgyorsult",
+  "successBody": "Your account will be deleted in 3 minutes. You can apply to a new project.",
+  "acceleratingLabel": "A visszaszámlálás felgyorsítása…",
+  "purgingLabel": "Fiókod törlése…",
+  "linkConfirmTitle": "Megerősítés…",
+  "linkConfirmSuccess": "A fiók törlése felgyorsult.",
+  "linkConfirmError": "Érvénytelen vagy lejárt link.",
+  "errors": {
+    "generic": "A művelet nem sikerült",
+    "invalidCode": "Érvénytelen kód"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "defaultLabel": "Munkaelem (alvállalkozói nyereség – nem kötelező)",
+  "defaultHint": "Láthatatlan a személyzeten; Csak a nyereség kiszámításához használják.",
+  "notSelected": "Nincs kiválasztva",
+  "completedSuffix": "(befejezve)"
+}

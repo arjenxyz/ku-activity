@@ -1,0 +1,17 @@
+{
+  "buttonDefault": "Jelentkezzen be",
+  "closeOverlayAriaLabel": "Zárja be a bejelentkezési menüt",
+  "closeButtonAriaLabel": "Közeli",
+  "modalTitle": "Válassza a bejelentkezést",
+  "footerNote": "Válassza ki a szerepkörének megfelelő panelt a bejelentkezéshez.",
+  "panels": {
+    "personel": {
+      "title": "Személyzet",
+      "description": "Jelenlét, bérek és bérszámfejtés"
+    },
+    "admin": {
+      "title": "Admin",
+      "description": "Projektek, jóváhagyások és jelentések"
+    }
+  }
+}

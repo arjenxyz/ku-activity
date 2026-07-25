@@ -1,0 +1,17 @@
+{
+  "prevMonth": "Önceki ay",
+  "nextMonth": "jövő hónapban",
+  "thisMonth": "ebben a hónapban",
+  "summary": "{mesaiDays} munkanap · {totalPay} teljes bevétel",
+  "selectMonth": "Válassza ki a hónapot:",
+  "weekdays": [
+    "Pt",
+    "-on",
+    "Hogy",
+    "Pe",
+    "Cu",
+    "Ct",
+    "Pz"
+  ],
+  "tapForDetail": "A részletekért koppintson egy narancssárga napra"
+}

@@ -1,0 +1,11 @@
+{
+  "unauthorized": "A munkamenet érvénytelen",
+  "loadFailed": "Nem sikerült betölteni a jelentéseket",
+  "invalidBody": "Érvénytelen kérés",
+  "invalidDate": "Érvénytelen dátum",
+  "categoriesRequired": "Válasszon ki legalább egy hibakategóriát",
+  "noteTooShort": "A leírásnak legalább 5 karakterből kell állnia",
+  "createFailed": "Nem sikerült beküldeni a jelentést",
+  "migrationRequired": "Futtassa a 077_day_error_reports.sql áttelepítést",
+  "projectClosed": "A projekt lezárul; jelentéseket nem lehet benyújtani"
+}

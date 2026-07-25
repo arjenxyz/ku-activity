@@ -1,0 +1,11 @@
+{
+  "uploadFailed": "Yükleme başarısız",
+  "removeConfirm": "Biztosan eltávolítja a fényképet?",
+  "deleteFailed": "Nem sikerült törölni",
+  "uploadTitle": "Fotoğraf yükle",
+  "formatHint": "JPEG, PNG, WebP · max 5 MB",
+  "uploading": "Yükleniyor…",
+  "change": "Változás",
+  "upload": "Yükle",
+  "remove": "Távolítsa el"
+}

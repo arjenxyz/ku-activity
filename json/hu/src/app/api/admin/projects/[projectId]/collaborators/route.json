@@ -1,0 +1,6 @@
+{
+  "loadFailed": "Nem sikerült betölteni az együttműködőket",
+  "rotateFailed": "Nem sikerült elforgatni a kódot",
+  "ownerOnly": "Ezt csak a projekt tulajdonosa teheti meg",
+  "migrationRequired": "Az együttműködők migrációja még nincs alkalmazva (076_project_collaborators.sql)"
+}

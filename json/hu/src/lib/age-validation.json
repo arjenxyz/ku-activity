@@ -1,0 +1,17 @@
+{
+  "months": [
+    "Kandalló",
+    "február",
+    "Mart",
+    "Nisan",
+    "május",
+    "június",
+    "július",
+    "augusztus",
+    "Eylül",
+    "október",
+    "november",
+    "december"
+  ],
+  "constructionAgeError": "İnşaat sahasında çalışmak için en az {minAge} yaşında olmanız gerekir."
+}

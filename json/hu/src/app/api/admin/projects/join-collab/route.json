@@ -1,0 +1,8 @@
+{
+  "joinFailed": "Nem sikerült csatlakozni a projekthez",
+  "invalidCode": "Érvénytelen együttműködő kód",
+  "codeNotFound": "Ez a kód nem található, vagy lehet, hogy elforgatták",
+  "alreadyOwner": "Ön már a tulajdonosa ennek a projektnek",
+  "alreadyCollaborator": "Ön már együttműködő ebben a projektben",
+  "migrationRequired": "Az együttműködők migrációja még nincs alkalmazva (076_project_collaborators.sql)"
+}

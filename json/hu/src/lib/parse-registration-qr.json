@@ -1,0 +1,6 @@
+{
+  "approved": "Ezt a kérelmet már jóváhagyták. Ez a kód nem használható fel újra; személyi állomány szerepel a rendszerben.",
+  "rejected": "Ezt a kérelmet elutasították. A személyzet ugyanazokkal az adatokkal újra jelentkezhet.",
+  "expired": "A jelentkezési határidő lejárt. A személyzetnek új jelentkezést kell benyújtania.",
+  "unknownStatus": "Ez a referenciaállapot: {status}"
+}

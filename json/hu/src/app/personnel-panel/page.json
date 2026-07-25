@@ -1,0 +1,32 @@
+{
+  "tabs": {
+    "overview": "Áttekintés",
+    "work": "Naptár",
+    "asgari": "Minimálbér",
+    "finance": "Bérszámfejtés",
+    "rights": "Az én jogaim",
+    "settings": "Beállítások elemre"
+  },
+  "mesaiFallbackLabels": {
+    "full": "Teljes túlóra",
+    "quarter": "Negyed túlóra",
+    "half": "Fél túlóra"
+  },
+  "stats": {
+    "gross": "Bruttó fizetés",
+    "totalAdvance": "Összes előleg",
+    "deduction": "Levonások",
+    "netSalary": "Nettó fizetés"
+  },
+  "loadingData": "Adatok betöltése…",
+  "workLogSectionTitle": "Munkanaplók · {monthLabel}",
+  "advanceRequestTitle": "Előzetes kérés",
+  "advanceRequestSubtitle": "Create a request or check status →",
+  "loading": "Terhelés…",
+  "loadingFinance": "Pénzügyi adatok betöltése…",
+  "periodSummary": "Időszak összefoglalója",
+  "workDaysTitle": "Munkanapok",
+  "mesaiDistributionTitle": "Túlóra összesen",
+  "mesaiSuffix": "túlóra",
+  "headerSubtitle": "Részvételi és fizetési összefoglaló"
+}

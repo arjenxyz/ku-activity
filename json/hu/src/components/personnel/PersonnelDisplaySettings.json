@@ -1,0 +1,10 @@
+{
+  "languageSectionTitle": "Nyelv",
+  "languageLabel": "Nyelv",
+  "languageHint": "Válassza ki az alkalmazás nyelvét",
+  "sectionTitle": "Kijelző",
+  "largeTextLabel": "Nagy szöveg",
+  "largeTextHint": "Növeli a szöveg méretét",
+  "highContrastLabel": "Magas kontraszt",
+  "highContrastHint": "Könnyebben olvasható a helyszínen"
+}

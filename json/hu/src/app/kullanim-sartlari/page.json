@@ -1,0 +1,52 @@
+{
+  "metadataTitle": "Felhasználási feltételek",
+  "metadataDescription": "CrewLedger gönüllülük platformu kullanım şartları.",
+  "title": "Felhasználási feltételek",
+  "lastUpdatedPrefix": "Son güncelleme:",
+  "sections": {
+    "nature": {
+      "heading": "1. A platform jellege",
+      "platformLineSuffix": "({url}) a {nature}, a {developerName} fejlesztette. Nem jár el részvénytársaság, korlátolt felelősségű társaság, alvállalkozó vagy hivatalos munkáltató nevében; Nincs jogi személyisége."
+    },
+    "voluntary": {
+      "heading": "2. Gönüllülük ve zorunluluk olmaması",
+      "adminLine": "A vezetők (telephelyvezető, csoportvezető, projektmenedzser stb.) csak saját kezdeményezésükre használhatják a platformot. A személyzet megtagadhatja a platform használatát; Ebben az esetben a felek közötti bér- és munkaviszony külön-külön, a jogszabályokban foglalt hatósági eljárások szerint történik."
+    },
+    "scope": {
+      "heading": "3. A szolgáltatás köre",
+      "body": "Platform; Közvetíti a napló, számla, névsor (QR), előleg igénylés, levonás, minimálbér nyomon követés és hasonló pénzügyi/működési nyilvántartások digitális környezetben történő vezetését, megtekintését mind a vezetők, mind a személyzet által. A cél az, hogy az építkezések pénzügyi nyomon követése kényelmes, digitális és átlátható legyen."
+    },
+    "asIs": {
+      "heading": "4. „Ahogy van” bemutató",
+      "body": "A platform ingyenes és önkéntes alapon áll rendelkezésre. A zavartalan működést, az adatvesztés hiányát vagy a konkrét jogi következményeket nem garantáljuk. Műszaki karbantartás, frissítés vagy a projekt leállítása lehetséges."
+    },
+    "legalValidity": {
+      "heading": "5. Hivatalos érvényesség és bírósági bizonyítékok",
+      "importantPrefix": "Önemli:",
+      "items": [
+        "Nem helyettesíti a hivatalos bérszámfejtést / társadalombiztosítási / adónyilvántartást. A munkajogi vitákban elsőbbséget élveznek a hivatalos munkáltatói nyilvántartások, bérszámfejtés, banki bizonylatok és tanúvallomások.",
+        "Az elektronikus jóváhagyási nyilvántartások (szerződéselfogadás, OTP, dátum-idő naplók) alátámasztó bizonyítékként szolgálhatnak a 6098. számú TBK és a vonatkozó jogszabályok keretein belül; Nem garantált, hogy önmagában meggyőző bizonyítéknak minősül.",
+        "A napló-, előleg- és levonás-nyilvántartás a rendszerben az átláthatóságot és a felek közötti megbékélést célozza; Nem állítják, hogy ez kötelező érvényű folyamatdokumentum a bíróságon.",
+        "T.R. a hitelesítés nem NVI/KPS/e-Government segítségével történik; csak a formátumvezérlést és a rendszergazdai kézi jóváhagyást alkalmazzák.",
+        "A nyugta OCR elemzése hasznos eszköz; Nem helyettesíti a banki nyilvántartásokat."
+      ]
+    },
+    "liability": {
+      "heading": "6. A felelősség határa",
+      "body": "{developerName}, mint platform üzemeltetője; nem tehető közvetlenül felelőssé olyan helyszíni eseményekért, mint a felhasználók által megadott adatok pontossága, a vezetők és a személyzet közötti magánjogi viszony, a bérek elmaradása, hibás levonások vagy munkabalesetek. Az ezekben a kérdésekben fennálló kötelezettségekre a vonatkozó munkáltatói, vállalkozói és jogszabályi rendelkezések vonatkoznak."
+    },
+    "ip": {
+      "heading": "7. Fikri mülkiyet",
+      "body": "A szoftver, az interfész és a branding elemek a {developerName}-hez tartoznak. Tilos kereskedelmi reprodukció vagy értékesítés engedély nélkül; A jövőbeni engedélyezést külön jelentik be."
+    },
+    "contact": {
+      "heading": "8. Kommunikáció",
+      "bodyPrefix": "Kérdéseihez:"
+    }
+  },
+  "shell": {
+    "footerHome": "← Kezdőlap",
+    "footerPrivacy": "Biztonság",
+    "footerKvkk": "KVKK"
+  }
+}

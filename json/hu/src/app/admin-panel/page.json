@@ -1,0 +1,24 @@
+{
+  "title": "Projektek",
+  "subtitle": "Hozzon létre, szerkesszen és kezeljen álláshelyeit",
+  "newProject": "Új projekt",
+  "newProjectLimitTitle": "Legfeljebb 2 aktív projektet hozhat létre (bezárási projektek nélkül)",
+  "loadFailed": "Nem sikerült betölteni a projekteket",
+  "adminHint": "Győződjön meg arról, hogy be van jelentkezve, és rendelkezik rendszergazdai profil bejegyzéssel.",
+  "closureFailed": "Nem sikerült elindítani a bezárást",
+  "closureTitle": "Projekt bezárása?",
+  "closureBody": "belép a lezárási folyamatba. Az adatok nem törlődnek azonnal; a személyzetnek 30 nap áll rendelkezésére a hozzájárulásra és a nyilvántartások letöltésére.",
+  "cancel": "Mégsem",
+  "closing": "Indítás...",
+  "confirmClosure": "Indítsa el a bezárást",
+  "joinCollab": {
+    "title": "Legyen a projekt munkatársa",
+    "hint": "Adja meg a projekt tulajdonosától kapott ORTAK-kódot, hogy csatlakozzon a műveleti hozzáféréshez.",
+    "open": "Csatlakozz kóddal",
+    "placeholder": "PARTNER-…",
+    "submit": "Csatlakozik",
+    "saving": "Csatlakozás…",
+    "failed": "Nem sikerült csatlakozni",
+    "success": "Ön együttműködőként csatlakozott a {name}-hoz."
+  }
+}

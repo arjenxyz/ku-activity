@@ -1,0 +1,9 @@
+{
+  "title": {
+    "ok": "Sikeres – folyamatban",
+    "critical": "probléma van",
+    "warning": "A ping késik",
+    "unknown": "Henüz bilinmiyor"
+  },
+  "lastPing": "Son ping: {date}"
+}

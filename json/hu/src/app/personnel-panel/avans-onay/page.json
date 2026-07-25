@@ -1,0 +1,18 @@
+{
+  "cameraLoading": "Kamera yükleniyor…",
+  "invalidTokenError": "Olvasson be vagy írjon be egy érvényes AVN-kódot",
+  "confirmFailed": "A megerősítést nem sikerült elmenteni",
+  "successTitle": "Készpénzelőleg jóváhagyva",
+  "successMessage": "A kézbesítést rögzítettük. Az előleget levonják a fizetéséből.",
+  "successLink": "Előzetes kéréseim",
+  "headerTitle": "Készpénzelőleg jóváhagyása",
+  "headerSubtitle": "Ha megkapta a pénzt, olvassa be a QR-kódot",
+  "invalidQrMessage": "Ez nem érvényes előzetes QR-kód (AVN-).",
+  "codeModeTitle": "AVN - írja be a kódot",
+  "codePlaceholder": "AVN-XXXXXXXXXXXX",
+  "submitting": "Felvétel…",
+  "confirmButton": "Erősítse meg",
+  "switchToCode": "A kód megadja",
+  "switchToScan": "QR rendben",
+  "loading": "Yükleniyor…"
+}

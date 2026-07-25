@@ -1,0 +1,29 @@
+{
+  "waterfall": {
+    "contract": {
+      "label": "Felső alvállalkozótól kapjuk",
+      "hint": "{unitPrice} ₺/{unitLabel} × {quantity} {unitLabel}"
+    },
+    "labor": {
+      "label": "Munkavállaló napi bére (jóváhagyva)",
+      "hint": "{approvedWorkDays} megerősített nap"
+    },
+    "advance": {
+      "label": "előlegeket",
+      "hint": "Ezzel a munkával kapcsolatos előzetes nyilvántartások"
+    },
+    "deduction": {
+      "label": "levonások"
+    },
+    "material": {
+      "label": "anyagköltség",
+      "hint": "{expenseCount} regiszter"
+    },
+    "profit": {
+      "label": "Nettó nyereség"
+    },
+    "share": {
+      "label": "Partnerenként ({shareCount} fő)"
+    }
+  }
+}

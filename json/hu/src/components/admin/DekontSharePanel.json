@@ -1,0 +1,65 @@
+{
+  "shell": {
+    "backToPanel": "Vissza a panelhez"
+  },
+  "steps": {
+    "upload": "Feltöltés",
+    "analyze": "Letapogatás",
+    "review": "Erősítse meg"
+  },
+  "trustLabel": "pontszám",
+  "validation": {
+    "scanRejectedTitle": "Nem sikerült elolvasni a nyugtát"
+  },
+  "errors": {
+    "draftLoadFailed": "Nem sikerült betölteni a huzatot",
+    "analyzeFailed": "Az elemzés sikertelen",
+    "saveFailed": "A mentés nem sikerült"
+  },
+  "success": {
+    "paymentSaved": "Fizetés rögzítve.",
+    "doneTitle": "Kész",
+    "uploadAnother": "Új nyugta"
+  },
+  "header": {
+    "title": "Nyugta szkennelés",
+    "description": ""
+  },
+  "upload": {
+    "title": "Dobja ide a fájlt",
+    "description": "PDF vagy kép – vagy ossza meg banki alkalmazásából",
+    "selectFile": "Válasszon fájlt",
+    "fileHint": "PDF, JPG, PNG · max 10 MB"
+  },
+  "analyze": {
+    "title": "Nyugta olvasása…"
+  },
+  "review": {
+    "matchTitle": "Match előre",
+    "viewProfile": "Profil",
+    "approvedOn": "Jóváhagyva {date}",
+    "amountMatch": "Összeg",
+    "noMatchTitle": "Nem található megfelelő előleg",
+    "goToProjects": "Ugrás a panelre",
+    "referenceLabel": "Referencia",
+    "paymentDateLabel": "Fizetési dátum",
+    "amountLabel": "Összeg (TRY)",
+    "ibanLabel": "Címzett IBAN",
+    "amountHint": "Adja meg kézzel az összeget a nyugtából",
+    "saveSaving": "Megtakarítás…",
+    "savePayment": "Mentse el a fizetést",
+    "anotherDekont": "Újabb nyugta",
+    "transferCodeLabel": "Várható átviteli kód",
+    "transferCodeHint": "Ennek a kódnak meg kell jelennie a nyugtán, ha hozzáadta az átutalás leírásához",
+    "transferCodeOverride": "A kód nem olvasható a kézhezvételkor – mindenképpen mentse el",
+    "forcePayment": "Fizetés kényszerítése",
+    "forcePaymentHint": "A fizetés az előzetes jóváhagyás előtt történt (az utolsó {maxDays} napon belül). Az IBAN-nak és az összegnek egyeznie kell.",
+    "forcePaymentSaving": "Mentés kényszerítése…",
+    "retroactiveTitle": "Visszamenőleges fizetés (kérelem nélkül)",
+    "retroactiveHint": "Válassza ki az IBAN-nak megfelelő alkalmazottat – a fizetés korábban történt",
+    "retroactiveSave": "Mentés visszamenőleges fizetésként",
+    "retroactiveNoEmployee": "Nem található alkalmazott ezzel az IBAN-nal",
+    "payrollMonthNotice": "A fizetés a következő napon történt: {paymentDate}. Ez az előleg a {payrollMonth} bérjegyzékbe kerül."
+  },
+  "loading": "Terhelés…"
+}

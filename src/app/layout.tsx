@@ -9,6 +9,7 @@ import { ContentProtection } from '@/components/ContentProtection';
 import { LocaleShell } from '@/components/i18n/LocaleShell';
 import trLayoutStrings from '@json/src/app/layout.json';
 import enLayoutStrings from '@json/en/src/app/layout.json';
+import huLayoutStrings from '@json/hu/src/app/layout.json';
 import { APP_NAME, CREWLEDGER_APP_ICON } from '@/lib/brand';
 import { formatString } from '@/lib/strings/format';
 import { pickStrings } from '@/lib/i18n/pickStrings';
@@ -46,7 +47,7 @@ export async function generateMetadata(): Promise<Metadata> {
     cookieStore.get(LOCALE_COOKIE)?.value,
     headerList.get('accept-language')
   );
-  const strings = pickStrings(locale, trLayoutStrings, enLayoutStrings);
+  const strings = pickStrings(locale, trLayoutStrings, enLayoutStrings, huLayoutStrings);
 
   return {
     title: formatString(strings.title, { appName: APP_NAME }),

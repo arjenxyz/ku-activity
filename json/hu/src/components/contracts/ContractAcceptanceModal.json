@@ -1,0 +1,16 @@
+{
+  "stepLabel": "Sözleşme {stepLabel}",
+  "version": "Sürüm {version}",
+  "accepted": "· Jóváhagyva",
+  "readComplete": "· Az olvasás rendben van",
+  "scrollRequired": "· Görgesse a szöveget a végére",
+  "close": "Negyed",
+  "summaryTitle": "Kısa özet",
+  "scrollHint": "Görgessen a szöveg végére",
+  "acceptedLabel": "Jóváhagyott",
+  "closeButton": "Negyed",
+  "consentDesktop": "Elolvastam és megértettem az összefoglalót és a teljes szerződésszöveget, és ezúton adom vállalati hozzájárulásomat.",
+  "consentMobile": "Elolvastam a szöveget és elfogadom.",
+  "approve": "Sözleşmeyi onayla",
+  "later": "Később"
+}

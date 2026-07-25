@@ -1,0 +1,20 @@
+{
+  "loadFailedAdmin": "Sözleşmeler yüklenemedi. Yöneticinize bildirin.",
+  "loadFailed": "Sözleşmeler yüklenemedi.",
+  "loading": "Sözleşmeler yükleniyor…",
+  "gateComplete": "Sözleşmeler tamam",
+  "gateTitle": "Sözleşmeler",
+  "gateReadyHint": "A jelentkezést elküldheti.",
+  "gatePendingHint": "Olvassa el és erősítse meg sorrendben.",
+  "acceptedCount": "{accepted}/{total} jóváhagyva",
+  "reviewContracts": "Sözleşmeleri gözden geçir",
+  "openContracts": "Sözleşmeleri aç",
+  "resumeContracts": "Folytassa ott, ahol abbahagyta ({accepted}/{total})",
+  "requiredTitle": "Kötelező szerződések",
+  "requiredHint": "Nyissa meg az egyes szerződéseket, és olvassa el a végéig ({accepted}/{total}).",
+  "sidebarHint": "Olvassa el és fogadja el alaposan az egyes szerződéseket.",
+  "sidebarComplete": "{accepted}/{total} rendben",
+  "version": "Sürüm {version}",
+  "accepted": "· Jóváhagyva",
+  "openAndRead": "· Nyissa meg, olvassa el és erősítse meg"
+}

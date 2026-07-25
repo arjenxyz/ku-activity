@@ -1,0 +1,13 @@
+{
+  "emptyTitle": "Még nincsenek projektek",
+  "emptySubtitle": "Az Új projekt segítségével adja hozzá első munkahelyét.",
+  "startDate": "Kezdés: {date}",
+  "employeeCount": "{active} aktív / {total} személyzet",
+  "open": "Nyitott",
+  "editAriaLabel": "Szerkesztés",
+  "deleteAriaLabel": "Indítsa el a bezárást",
+  "closureBadge": "Lezárásban",
+  "emptyDate": "—",
+  "ownerBadge": "Tulajdonos",
+  "collaboratorBadge": "Együttműködő"
+}

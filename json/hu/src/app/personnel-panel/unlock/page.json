@@ -1,0 +1,15 @@
+{
+  "greeting": "Szia {name}",
+  "pinLabel": "PIN",
+  "unlockButton": "Folytatás",
+  "unlocking": "Ellenőrzés…",
+  "forgotPin": "Elfelejtette a PIN-kódot",
+  "forgetMe": "Felejts el engem",
+  "forgetMeConfirm": "A munkamenet ezen az eszközön le lesz zárva. Folytatja?",
+  "screenLabel": "Lezárási képernyő",
+  "subtitle": "A folytatáshoz írja be a PIN-kódot.",
+  "checking": "Terhelés…",
+  "invalidPin": "Helytelen PIN-kód",
+  "systemError": "Valami elromlott",
+  "pinDigitAria": "PIN számjegy"
+}

@@ -1,0 +1,26 @@
+{
+  "title": "Tisztességes regisztrációs rendszer – kettős részvétel",
+  "descriptionBefore": "Hiçbir yevmiye günü tek taraflı kesinleşmez. Yönetici ve siz aynı günü onayladığınızda kayıt ",
+  "descriptionAfter": "és megjelenik a bérszámlán.",
+  "confirmedLabel": "Jóváhagyott",
+  "items": {
+    "confirmed": {
+      "label": "Onaylı gün",
+      "hint": "Mindkét fél megerősítette – benne van a fizetésben"
+    },
+    "pendingEmployee": {
+      "label": "Az Ön beleegyezése",
+      "hint": "Adminisztrátori bevitel – a jóváhagyás után véglegesítjük"
+    },
+    "pendingAdmin": {
+      "label": "Yönetici onayı",
+      "hint": "Ön értesítette – akkor válik véglegessé, amikor az adminisztrátor jóváhagyja"
+    }
+  },
+  "unrecorded": "Bu dönemde {count} kayıt henüz onay sürecinde değil veya eksik.",
+  "steps": [
+    "Gün bildirimi (siz veya yönetici)",
+    "A másik fél hozzájárulása",
+    "Jóváhagyott állapot → mérlegelés a bérszámlán"
+  ]
+}

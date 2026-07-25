@@ -1,0 +1,16 @@
+{
+  "confirmDelete": "Biztosan törli ezt a rekordot?",
+  "deleteError": "Silme hatsı: {message}",
+  "title": "Naplóbejegyzések",
+  "loading": "Yükleniyor...",
+  "colEmployee": "Munkás",
+  "colDate": "Történelem",
+  "colType": "Tipp",
+  "colDescription": "Magyarázat",
+  "colDelete": "Sil",
+  "fullDay": "Tam Gün",
+  "halfDay": "Yarım Gün",
+  "emptyValue": "-",
+  "deleteRecordTitle": "Rekord törlése",
+  "noRecords": "Nem található rekord."
+}

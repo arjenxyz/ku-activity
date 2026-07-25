@@ -1,0 +1,11 @@
+{
+  "noAccessibleProject": "Nem található elérhető projekt",
+  "runMigration": "Futtassa a 057_receipt_import_drafts.sql fájlt",
+  "draftNotFound": "Piszkozat nem található",
+  "draftAlreadyUsed": "Ezt a vázlatot már használták",
+  "draftExpired": "Piszkozat lejárt – ossza meg újra a nyugtát",
+  "matchValidationFailed": "Az egyezést nem sikerült ellenőrizni",
+  "proofFileNotFound": "A nyugtafájl nem található",
+  "ocrTextEmpty": "Nem sikerült szöveget olvasni a nyugtából",
+  "retroactiveAmountRequired": "A visszamenőleges fizetéshez összeg szükséges"
+}

@@ -1,0 +1,14 @@
+{
+  "embedScreen": "Képernyő",
+  "embedScreenDefault": "Auth",
+  "embedTime": "Idő",
+  "embedPage": "oldal",
+  "embedBrowser": "Scanner",
+  "embedFormError": "Űrlaphiba",
+  "embedUserNote": "Felhasználói megjegyzés",
+  "embedDiagnostics": "Diagnosztika",
+  "reportTitle": "{appName} — Jelentés megjelenítése",
+  "newReportContent": "🚩 **Új képernyőjelentés**",
+  "sendFailed": "Nem sikerült elküldeni a Discord jelentést ({status}){detail}",
+  "notConfigured": "A nézeteltérés-jelentés nincs konfigurálva (DISCORD_REPORT_WEBHOOK_URL vagy DISCORD_BOT_TOKEN)"
+}

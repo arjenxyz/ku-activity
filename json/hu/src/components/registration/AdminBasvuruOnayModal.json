@@ -1,0 +1,49 @@
+{
+  "status": {
+    "pending": "Jóváhagyásra vár",
+    "approved": "Jóváhagyott",
+    "rejected": "elutasítva",
+    "expired": "Süresi dolmuş"
+  },
+  "checklist": {
+    "photo": "Személyi igazolvánnyal/arccal kompatibilis alkalmazásfotó",
+    "nameIdentity": "A vezetéknév-vezetéknév és az azonosítószám kompatibilis egymással",
+    "contact": "Telefon ve e-posta adresi başvuru sahibine ait görünüyor"
+  },
+  "identity": {
+    "foreign": "Külföldi személyi igazolvány / útlevél",
+    "tc": "T.C. Kimlik Nem"
+  },
+  "errors": {
+    "formIncomplete": "Töltse ki a pozíciót, a napi bért és a foglalkoztatás dátumát.",
+    "checklistIncomplete": "A megerősítés előtt ellenőrizze az összes személyazonosság-ellenőrző elemet.",
+    "approveFailed": "A megerősítés sikertelen"
+  },
+  "closeOverlayAriaLabel": "Negyed",
+  "modalTitle": "Pályázat áttekintése",
+  "closeModalAriaLabel": "Modális bezárása",
+  "applicationDates": "Hivatkozás {createdDate} · Vége {expiresDate}",
+  "ageSuffix": "· {age} életkor",
+  "identitySectionTitle": "Kimlik & ödeme",
+  "identitySectionSubtitle": "Jóváhagyás előtt ellenőrizze",
+  "birthDateLabel": "Születési idő",
+  "ibanLabel": "IBAN",
+  "hideSensitive": "Érzékeny információk elrejtése",
+  "showSensitive": "Teljes azonosító és IBAN megjelenítése",
+  "checklistTitle": "Személyazonosság-ellenőrzési ellenőrzőlista",
+  "checklistHint": "Hivatalos NVI-ellenőrzés nem történik; A megerősítés előtt manuálisan erősítse meg a következő elemeket.",
+  "assignmentTitle": "Projektfeladat",
+  "assignmentSubtitle": "hozzáadásra kerül a {projectName} alatt",
+  "assignmentSubtitleFallback": "Kiválasztott projekt",
+  "loginHint": "Személyzeti bejelentkezés: a kérelemben megadott azonosító szám + PIN.",
+  "positionLabel": "pozíció *",
+  "positionPlaceholder": "Örn. Demir işçisi, Kalıpçı",
+  "dailyWageLabel": "Günlük yevmiye (₺) *",
+  "dailyWagePlaceholder": "1500",
+  "hireDateLabel": "Foglalkoztatás dátuma*",
+  "notPendingMessage": "Ezzel az alkalmazással nem tehetünk semmit. Futtasson le egy új vizsgálatot, vagy kérje a személyzettől a frissített alkalmazáskódot.",
+  "reject": "Mentve",
+  "approveSaving": "Felvétel…",
+  "approve": "Erősítse meg és mentse el",
+  "close": "Negyed"
+}

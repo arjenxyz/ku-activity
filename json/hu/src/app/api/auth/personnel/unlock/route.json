@@ -1,0 +1,6 @@
+{
+  "unauthorized": "Érvénytelen munkamenet",
+  "invalidPin": "Helytelen PIN-kód",
+  "unlockRequired": "Feloldás szükséges",
+  "failed": "A művelet nem sikerült"
+}

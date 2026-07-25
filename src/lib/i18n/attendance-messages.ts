@@ -6,7 +6,7 @@
 import messages from '@json/src/lib/i18n/attendance-messages.json';
 import { LOCALE_COOKIE } from '@/lib/i18n/locale';
 
-export type AttendanceLocale = 'tr' | 'en';
+export type AttendanceLocale = 'tr' | 'en' | 'hu';
 
 export const ATTENDANCE_MESSAGE_CODES = {
   QR_ALREADY_USED: 'attendance.qr_already_used',
@@ -45,6 +45,7 @@ export function resolveAttendanceLocale(acceptLanguage?: string | null): Attenda
   if (!acceptLanguage) return 'tr';
   const primary = acceptLanguage.split(',')[0]?.trim().toLowerCase() ?? '';
   if (primary.startsWith('en')) return 'en';
+  if (primary.startsWith('hu')) return 'hu';
   return 'tr';
 }
 
@@ -56,7 +57,7 @@ export function resolveAttendanceLocale(acceptLanguage?: string | null): Attenda
 export function resolveAttendanceLocaleFromRequest(request: Request): AttendanceLocale {
   const cookieHeader = request.headers.get('cookie');
   if (cookieHeader) {
-    const match = cookieHeader.match(new RegExp(`(?:^|;\\s*)${LOCALE_COOKIE}=(tr|en)`));
+    const match = cookieHeader.match(new RegExp(`(?:^|;\\s*)${LOCALE_COOKIE}=(tr|en|hu)`));
     if (match) return match[1] as AttendanceLocale;
   }
   return resolveAttendanceLocale(request.headers.get('accept-language'));

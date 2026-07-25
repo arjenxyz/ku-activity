@@ -1,0 +1,6 @@
+{
+  "authFailed": "Nem sikerült betölteni a frissítési megjegyzéseket (GitHub hitelesítés szükséges).",
+  "repoNotFound": "Az adattár nem található.",
+  "fetchFailed": "Nem sikerült betölteni a frissítési megjegyzéseket.",
+  "sistemHatası": "Rendszerhiba"
+}

@@ -1,0 +1,10 @@
+{
+  "label": "Születési idő",
+  "yearAriaLabel": "születési év",
+  "yearPlaceholder": "Év",
+  "monthAriaLabel": "születési hónap",
+  "monthPlaceholder": "Ó",
+  "dayAriaLabel": "Doğum günü",
+  "dayPlaceholder": "Gün",
+  "hint": "İnşaat sahasında çalışmak için en az {minAge} yaşında olmalısınız. {maxBirthDate} ve öncesi tarihler seçilebilir."
+}

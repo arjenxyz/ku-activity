@@ -1,0 +1,6 @@
+{
+  "statusLabels": {
+    "active": "folyamatban van",
+    "completed": "elkészült"
+  }
+}

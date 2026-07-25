@@ -1,0 +1,24 @@
+{
+  "errors": {
+    "invalidAmount": "A napi mennyiségnek teljesnek (1) vagy félnek (0,5) kell lennie.",
+    "updateFailed": "Nem sikerült frissíteni a rekordot",
+    "deleteFailed": "Nem sikerült törölni"
+  },
+  "deleteConfirm": "Biztosan törli ezt a naplóbejegyzést? A személyzet kifogása is lezárult.",
+  "resolveButton": "Düzelt ve yeniden gönder",
+  "deleteButton": "rekord törlése",
+  "modalTitle": "İtirazı çöz",
+  "disputeLabel": "A személyzet ellenvetése",
+  "resolveHint": "A nyilvántartás javítása után a személyzetnek újra jóvá kell hagynia azt.",
+  "dateLabel": "Történelem",
+  "dayLabel": "Gün",
+  "fullDayOption": "Tam gün (1)",
+  "halfDayOption": "Yarım gün (0.5)",
+  "mesaiLabel": "Váltás",
+  "descriptionLabel": "Magyarázat",
+  "previewLabel": "Önizleme:",
+  "submitSaving": "Felvétel…",
+  "submit": "Küldje el a személyzet jóváhagyására",
+  "cancel": "Mégsem",
+  "disputePrefix": "Kifogás:"
+}

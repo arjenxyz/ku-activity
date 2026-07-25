@@ -1,0 +1,48 @@
+{
+  "pageSubtitle": "Kezelheti a megjelenést, a nyelvet, az értesítéseket és az alkalmazásbeállításokat.",
+  "sections": {
+    "display": "Megjelenés",
+    "language": "Nyelv",
+    "interface": "Felület",
+    "notifications": "Értesítések",
+    "about": "App",
+    "data": "Adatok ezen az eszközön"
+  },
+  "largeTextLabel": "Nagy szöveg",
+  "largeTextHint": "Növeli a szöveg méretét a könnyebb olvashatóság érdekében",
+  "highContrastLabel": "Magas kontraszt",
+  "highContrastHint": "Különösebbé teszi a színeket",
+  "languageLabel": "Alkalmazás nyelve",
+  "languageHint": "török ​​vagy angol",
+  "interfaceLabel": "UI divat",
+  "interfaceHint": "Egyszerű vagy haladó admin felület",
+  "notifications": {
+    "statusLabel": "Értesítési engedély",
+    "granted": "On",
+    "denied": "Le",
+    "default": "Még nem kérték",
+    "unsupported": "Nem támogatott",
+    "enableButton": "Értesítések engedélyezése",
+    "openSettingsButton": "Nyissa meg a rendszerbeállításokat",
+    "refreshButton": "Frissítési állapot",
+    "enabling": "Engedélyezés…",
+    "hintGranted": "Fontos rendszergazdai értesítések küldhetők erre az eszközre.",
+    "hintDenied": "Az értesítések ki vannak kapcsolva. Engedélyezze őket a rendszerbeállításokban vagy az alábbi gombbal.",
+    "hintDefault": "Értesítések engedélyezése az alkalmazásokról és a projektfrissítésekről."
+  },
+  "about": {
+    "versionLabel": "Változat",
+    "publishedLabel": "Közzétett",
+    "unknownVersion": "—",
+    "loading": "Verzióinformációk betöltése…",
+    "loadFailed": "Nem sikerült betölteni a verzióadatokat",
+    "checkUpdates": "Kiadási megjegyzések megtekintése",
+    "apkHint": "If a new version is available, install it from the APK download page."
+  },
+  "data": {
+    "clearLabel": "Törölje a gyorsítótárat ezen a telefonon",
+    "clearHint": "Törli a cookie-kat és az ideiglenes fájlokat. A fiók és a szerver rekordjai nem törlődnek; újra be kell jelentkeznie.",
+    "clearing": "Klíring…",
+    "confirm": "Ezen az eszközön csak a CrewLedger cookie-k, a munkamenet és a gyorsítótár törlődik, és Ön kijelentkezett. Fiók- és szerverrekordjai nem törlődnek. Folytatja?"
+  }
+}

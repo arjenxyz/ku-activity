@@ -1,0 +1,22 @@
+{
+  "loadFailed": "Yüklenemedi",
+  "submitFailed": "A kérést nem sikerült elküldeni",
+  "submitSuccess": "Előlegfizetési kérelmét elküldtük. Jóváhagyás vár.",
+  "cancelConfirm": "Biztosan visszavonja a kérést?",
+  "cancelFailed": "A lemondás nem sikerült",
+  "cancelSuccess": "A kérést törölték.",
+  "pageTitle": "előzetes kérés",
+  "panelReturnHint": "Érintse meg a panel visszatéréséhez",
+  "pageSubtitle": "A visszaigazolást követően a fizetés külön lépésekben történik",
+  "awaitingCashTitle": "Készpénzes előreszállítás vár",
+  "awaitingCashSubtitle": "Ha megkapta a pénzt, olvassa be a QR-kódot, vagy írja be a kódot →",
+  "paymentPendingNotice": "Előleg fizetése vár fizetésre vagy szállításra. A meglévő előleg befizetéséig új igény nem nyitható.",
+  "newRequestButton": "Új előzetes kérés",
+  "amountLabel": "Összeg (TL)",
+  "noteLabel": "Megjegyzés (nem kötelező)",
+  "submitButton": "Gönder",
+  "cancelButton": "Mégsem",
+  "loading": "Yükleniyor…",
+  "emptyList": "Még nincs előzetes kérése.",
+  "cancelRequestButton": "törölni"
+}

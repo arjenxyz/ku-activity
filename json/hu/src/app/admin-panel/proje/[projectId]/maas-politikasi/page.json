@@ -1,0 +1,19 @@
+{
+  "loadFailed": "Yüklenemedi",
+  "saveFailed": "A regisztráció sikertelen",
+  "saveFailedAlt": "Nem sikerült menteni",
+  "successUpdated": "A projekt szabályzata frissült.",
+  "pageTitle": "Proje maaş politikaiı",
+  "pageDescription": "Ez a webhely használhatja a vállalati alapértelmezést, vagy meghatározhatja saját szabályát.",
+  "linkAsgari": "Lépjen a Minimális kiegészítés oldalra →",
+  "linkCompanyPolicy": "Şirket politikaı",
+  "useCompanyDefault": "Használja a vállalati alapértelmezett házirendet",
+  "yevmiyePrefix": "Bér:",
+  "sourceDefault": "Alapértelmezés szerint még nincs kitöltve",
+  "sourceCompany": "Şirket politikaı",
+  "sourceLabel": "Forrás:",
+  "customFormTitle": "Speciális szabályok erre a projektre",
+  "customFormSubtitle": "A beállítások csak erre a munkaterületre érvényesek.",
+  "saving": "Felvétel…",
+  "saveButton": "Megtakarítás"
+}

@@ -1,0 +1,37 @@
+{
+  "statusLoadFailed": "Nem sikerült betölteni a részvételi állapotot. Kérjük, próbálja újra.",
+  "invalidQrMessage": "This is not a valid attendance QR code.",
+  "rescanSuccess": "Újra felvett.",
+  "scanSuccess": "A beolvasás sikeres.",
+  "scanFailed": "A beolvasás nem sikerült",
+  "exitHint": "Érintse meg a panelre való visszatéréshez",
+  "exitAriaLabel": "Vissza a panelhez",
+  "enterCodeButton": "Írja be a kódot",
+  "cancelCodeButton": "Mégsem",
+  "cancelCodeAriaLabel": "Zárja be a kód bevitelét",
+  "rescanModeNewQr": "Re-scan mode — you can scan a new QR.",
+  "rescanModeReplace": "Újrakeresési mód – a korábbi rekord törlődik.",
+  "cancelRescanAriaLabel": "Az újrakeresés megszakítása",
+  "outsideWindowTitle": "Látogatási időn kívül",
+  "countdown": {
+    "opensLabel": "Benyílik",
+    "closesLabel": "Bezárul",
+    "dayShort": "d"
+  },
+  "desktop": {
+    "eyebrow": "Napi látogatottság",
+    "title": "Részvétel kód szerint",
+    "subtitle": "Írja be alább a felettesétől kapott jelenléti kódot.",
+    "qrNotSupportedTitle": "A QR-keresés nem támogatott ezen az eszközön",
+    "qrNotSupportedBody": "To scan a QR code, please use the mobile app. This device only supports manual code entry.",
+    "qrNotSupportedShort": "Használja a mobilalkalmazást a kamerával történő szkenneléshez.",
+    "rescanButton": "Újra rögzíteni",
+    "cancelRescanButton": "Törölje az újrafelvételt",
+    "codeLabel": "Jelenléti kód",
+    "codePlaceholder": "NEM-…",
+    "submitScanning": "Beküldés…",
+    "submitRescan": "Újra rögzíteni",
+    "submitJoin": "Csatlakozzon a részvételhez",
+    "codeHint": "Szerezze be a kódot a felettesétől; nem érzékeny a kis- és nagybetűkre."
+  }
+}

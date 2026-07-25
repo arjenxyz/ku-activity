@@ -1,0 +1,11 @@
+{
+  "errors": {
+    "downloadFailed": "A projektarchívum letöltése nem sikerült",
+    "genericFailed": "Letöltés sikertelen"
+  },
+  "loading": "Felkészülés…",
+  "button": "Töltse le a teljes projekt archívumot",
+  "buttonCompact": "Archívum letöltése",
+  "hint": "Az összes személyzeti mappa, bezárási összefoglaló, csapat-/blokk-feladatok és bérpolitika egy ZIP-ben.",
+  "fallbackFilename": "projektzárás-archívum.zip"
+}

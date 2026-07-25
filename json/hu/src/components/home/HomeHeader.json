@@ -1,0 +1,12 @@
+{
+  "navLinks": {
+    "hero": "Otthon",
+    "features": "Jellemzők",
+    "playStore": "Google Play",
+    "apk": "Töltse le az APK-t",
+    "contact": "Érintkezés"
+  },
+  "menuOpenAriaLabel": "Menü megnyitása",
+  "menuCloseAriaLabel": "Menü bezárása",
+  "mobileMenuTitle": "Menü"
+}

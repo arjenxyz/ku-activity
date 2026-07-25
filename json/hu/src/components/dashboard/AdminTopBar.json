@@ -1,0 +1,10 @@
+{
+  "tagline": "Admin panel",
+  "projectSettingsTitle": "Projektbeállítások",
+  "projectSettingsAriaLabel": "Projektbeállítások",
+  "loadingProject": "Terhelés…",
+  "logout": "Jelentkezzen ki",
+  "exitAriaLabel": "Vissza haza",
+  "menu": "Menü",
+  "menuAriaLabel": "Menü megnyitása"
+}

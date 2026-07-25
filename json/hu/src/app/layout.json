@@ -1,0 +1,6 @@
+{
+  "title": "{appName} | Építőipari Munkaerő Platform",
+  "description": "Jelenlét, napibérek, szerződések és személyzeti menedzsment az építkezéseken. Next.js és Supabase segítségével készült.",
+  "applicationName": "{appName}",
+  "appleWebAppTitle": "{appName}"
+}

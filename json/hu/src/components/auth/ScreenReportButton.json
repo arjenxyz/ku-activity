@@ -1,0 +1,18 @@
+{
+  "reportAriaLabel": "Probléma bejelentése",
+  "reportTitle": "Probléma bejelentése",
+  "reportButton": "Ő tudja",
+  "screenshotFailed": "Ekran görüntüsü alınamadı. Lütfen tekrar deneyin.",
+  "modalTitle": "Probléma bejelentése",
+  "modalDescription": "Ezt a képernyőképet és az alkalmazáshiba-információkat továbbítjuk fejlesztői csapatunknak. Az adatokat csak a probléma megoldására használjuk fel. Jóváhagyod?",
+  "close": "Negyed",
+  "previewAlt": "Ekran önizlemesi",
+  "noteLabel": "Megjegyzés (nem kötelező)",
+  "notePlaceholder": "Röviden leírhatnád, hogy mi az…",
+  "success": "Köszönjük, bejelentését elküldtük.",
+  "sendFailed": "Gönderilemedi",
+  "reportSendFailed": "A jelentést nem sikerült elküldeni",
+  "cancel": "Mégsem",
+  "submitting": "Gönderiliyor…",
+  "confirmAndSend": "Onayla ve gönder"
+}

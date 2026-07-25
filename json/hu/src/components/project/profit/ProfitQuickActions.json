@@ -1,0 +1,12 @@
+{
+  "addJob": "új munkadarab",
+  "refreshTitle": "Frissítés",
+  "refresh": "Frissítés",
+  "links": {
+    "blocks": "Blokkok",
+    "teams": "Csapatok",
+    "workLogs": "Jevmiye",
+    "advance": "Előleg",
+    "deduction": "Megszakítás"
+  }
+}

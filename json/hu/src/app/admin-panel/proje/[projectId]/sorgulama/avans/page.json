@@ -1,0 +1,11 @@
+{
+  "pageTitle": "Előzetes érdeklődés",
+  "pageDescription": "Avans kayıtlarını görüntüleyin, iş kalemini düzenleyin veya silin.",
+  "colEmployee": "Munkavállaló",
+  "colDate": "Történelem",
+  "colAmount": "Tutár",
+  "colJob": "munkadarab",
+  "colDescription": "Magyarázat",
+  "colActions": "Folyamat",
+  "emptyCell": "—"
+}

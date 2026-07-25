@@ -1,0 +1,71 @@
+{
+  "errors": {
+    "employeeNotFound": "A személyzet nem található"
+  },
+  "collectors": {
+    "profile": {
+      "title": "Személyzeti profil"
+    },
+    "sensitive": {
+      "title": "Érzékeny személyazonosító és banki adatok",
+      "noDataNote": "Nem található érzékeny adatrekord, vagy nincs konfigurálva a titkosítás"
+    },
+    "project": {
+      "title": "Projekt és munkahely"
+    },
+    "workLogs": {
+      "title": "Napló és bérszámfejtés"
+    },
+    "deductions": {
+      "title": "Előlegek és levonások"
+    },
+    "minimumWages": {
+      "title": "Minimálbér nyilvántartás"
+    },
+    "payroll": {
+      "title": "Bérszámfejtési időszakok és sorok"
+    },
+    "contracts": {
+      "title": "Szerződés visszaigazolások és szövegek"
+    },
+    "registration": {
+      "title": "Jelentkezési és jóváhagyási előzmények"
+    },
+    "advanceRequests": {
+      "title": "Előzetes kérések (jóváhagyás, fizetés, nyugta)",
+      "proofNote": "A nyugtafájlok nem másolódnak a ZIP-be; A proof_* mezők csak hivatkozási és OCR metaadatokat tartalmaznak."
+    },
+    "attendance": {
+      "title": "Jelenléti bejelentkezések és ülések értesítései"
+    },
+    "notifications": {
+      "title": "Alkalmazáson belüli értesítési előzmények"
+    },
+    "closureConsent": {
+      "title": "Projektbezárási hozzájárulás",
+      "notInClosure": "A projekt még nem zárult le, vagy még nincs beleegyező nyilatkozat"
+    },
+    "company": {
+      "title": "Vállalkozási / adatkezelői információk"
+    },
+    "extensionsPlaceholder": {
+      "title": "Bővíthető modul helyőrző"
+    }
+  },
+  "contractHtml": {
+    "approvedLabel": "Jóváhagyás:",
+    "versionLabel": "Sürüm:",
+    "contentHashLabel": "Tartalom hash:"
+  },
+  "extensionsPlaceholder": {
+    "message": "A CrewLedger jogi fájlrendszer bővíthető. A registerDossierCollector() új tulajdonságokat ad hozzá.",
+    "reservedModules": [
+      "szabadság_kérelmek — Távolléti/távolléti kérelmek",
+      "dokumentumok — Feltöltött dokumentumok",
+      "fegyelmi — Fegyelmi jegyzőkönyvek",
+      "kommunikáció — Értesítési és üzenetnaplók",
+      "jelenléti_eszközök — Eszközalapú jelenlét"
+    ],
+    "integration": "Adjon hozzá egy új fájlt az src/lib/legal-dossier/collectors/ alatt, és hívja meg a registerDossierCollector programot."
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "submitError": "Hiba történt a regisztráció során.",
+  "title": "Naplóbejegyzés hozzáadása",
+  "employeeLabel": "Munkás",
+  "selectPlaceholder": "Válassza ki",
+  "dateLabel": "Történelem",
+  "workTypeLabel": "Működési típus",
+  "fullDay": "Tam Gün",
+  "halfDay": "Yarım Gün",
+  "descriptionLabel": "Magyarázat",
+  "submitSaving": "Felvétel...",
+  "submit": "Megtakarítás",
+  "cancel": "Mégsem"
+}

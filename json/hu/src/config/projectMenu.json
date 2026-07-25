@@ -1,0 +1,158 @@
+{
+  "primary": [
+    {
+      "label": "Proje özeti",
+      "path": "",
+      "hint": "Personel ve günlük durum"
+    },
+    {
+      "label": "Jevmiye",
+      "path": "bér",
+      "hint": "Günlük çalışma kaydı"
+    },
+    {
+      "label": "alvállalkozói nyereség",
+      "path": "jobbra",
+      "hint": "Blokk, munkaelem és nyereség"
+    }
+  ],
+  "groups": [
+    {
+      "id": "személyi",
+      "label": "Munkavállaló",
+      "links": [
+        {
+          "label": "A személyzet listája",
+          "path": "lista"
+        },
+        {
+          "label": "új személyzet",
+          "path": "új"
+        },
+        {
+          "label": "Pályázat jóváhagyása",
+          "path": "pályázat-jóváhagyás"
+        },
+        {
+          "label": "Személyzeti jelszavak",
+          "path": "megkeresés/személyzeti jelszavak"
+        }
+      ]
+    },
+    {
+      "id": "rekordokat",
+      "label": "Egyéb rekordok",
+      "links": [
+        {
+          "label": "Előleg",
+          "path": "előleg"
+        },
+        {
+          "label": "Előzetes kérések",
+          "path": "előzetes kérések",
+          "hint": "Személyzeti kérelmek – jóváhagyás és kifizetés"
+        },
+        {
+          "label": "Nyugta megosztása (OCR)",
+          "absolutePath": "/admin-panel/receipt-share",
+          "hint": "Megosztás bankból – automatikus egyeztetés"
+        },
+        {
+          "label": "Megszakítás",
+          "path": "megszakítás"
+        },
+        {
+          "label": "Asgari ücret",
+          "path": "minimális"
+        }
+      ]
+    },
+    {
+      "id": "santiye",
+      "label": "Építési telek",
+      "links": [
+        {
+          "label": "Blokkok",
+          "path": "blokkok"
+        },
+        {
+          "label": "Csapatok",
+          "path": "csapatok"
+        }
+      ]
+    },
+    {
+      "id": "pénzügy",
+      "label": "Pénzügy",
+      "links": [
+        {
+          "label": "Hogy állunk?",
+          "path": "durum"
+        },
+        {
+          "label": "bérszámfejtés",
+          "path": "bérszámfejtés"
+        },
+        {
+          "label": "Maaş politikai",
+          "path": "fizetési politika"
+        }
+      ]
+    },
+    {
+      "id": "ellenőrzés",
+      "label": "Ellenőrzés és jelentés",
+      "links": [
+        {
+          "label": "Jelentések",
+          "path": "jelentéseket"
+        },
+        {
+          "label": "Jóváhagyott",
+          "path": "jelentések/jóváhagyták"
+        },
+        {
+          "label": "Függőben lévő regisztrációk",
+          "path": "jelentések/jóvá nem hagyott"
+        },
+        {
+          "label": "Regisztrációs előzmények",
+          "path": "log-történet",
+          "hint": "Lekérdezés és archiválás"
+        }
+      ]
+    }
+  ],
+  "recordArchive": [
+    {
+      "label": "Aylık özet",
+      "desc": "Az összes alkalmazott napi bére, előlegei és nettó státusza havonta",
+      "path": "érdeklődés/admin"
+    },
+    {
+      "label": "Személyzet alapú",
+      "desc": "Egyetlen alkalmazott napibére, előlegei és minimum nyilvántartásai",
+      "path": "kérdezősködni"
+    },
+    {
+      "label": "folyóirat archívuma",
+      "desc": "Napi bérlista dátum és személyzet szerint",
+      "path": "megkeresés/napló"
+    },
+    {
+      "label": "Előzetes archívum",
+      "desc": "A megadott előlegek listája",
+      "path": "megkeresés/előzetes"
+    },
+    {
+      "label": "Kimaradási archívum",
+      "desc": "Levonási nyilvántartások",
+      "path": "megkeresés/megszakítás"
+    },
+    {
+      "label": "Minimális archívum",
+      "desc": "Minimálbér teljesítési nyilvántartása",
+      "path": "lekérdezés/minimum"
+    }
+  ]
+}

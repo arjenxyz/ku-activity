@@ -1,0 +1,6 @@
+{
+  "invalidStatus": "Érvénytelen állapot",
+  "resolveFailed": "Nem sikerült megoldani a jelentést",
+  "notFound": "A jelentés nem található, vagy már megoldva",
+  "migrationRequired": "Futtassa a 077_day_error_reports.sql áttelepítést"
+}

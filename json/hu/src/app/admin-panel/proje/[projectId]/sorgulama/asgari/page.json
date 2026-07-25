@@ -1,0 +1,11 @@
+{
+  "pageTitle": "Minimális Érdeklődés",
+  "pageDescription": "Asgari ödeme kayıtlarını görüntüleyin, düzenleyin veya silin.",
+  "colEmployee": "Munkavállaló",
+  "colDate": "Történelem",
+  "colAmount": "Tutár",
+  "colDescription": "Magyarázat",
+  "colActions": "Folyamat",
+  "emptyCell": "—",
+  "total": "Összesen: {amount}"
+}

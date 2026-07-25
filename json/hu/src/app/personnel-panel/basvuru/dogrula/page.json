@@ -1,0 +1,15 @@
+{
+  "invalidLinkError": "Érvénytelen ellenőrző link.",
+  "verificationFailed": "Az ellenőrzés nem sikerült",
+  "loadingTitle": "Megerősítés…",
+  "loadingSubtitle": "Jelentkezését elküldjük, kérjük, várjon.",
+  "loadingMessage": "E-mail link ellenőrzése…",
+  "errorTitle": "Az ellenőrzés nem sikerült",
+  "errorSubtitle": "A link érvénytelen vagy lejárt.",
+  "backToApplication": "Vissza a pályázati oldalra",
+  "successTitle": "Başvuru gönderildi",
+  "successSubtitle": "Megjelenik a rendszergazda megerősítő képernyője…",
+  "successMessage": "Az e-mailt ellenőriztük, és a jelentkezését megkaptuk.",
+  "redirectHint": "Hamarosan a megerősítésre váró képernyőre lép…",
+  "suspenseTitle": "Yükleniyor…"
+}

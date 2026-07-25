@@ -1,0 +1,15 @@
+{
+  "ariaLabel": "szelfi kamera",
+  "title": "Szelfi fegyver",
+  "close": "Negyed",
+  "opening": "Kinyílik a kamera…",
+  "browserUnsupported": "Az Ön böngészője nem támogatja a kamera hozzáférést.",
+  "permissionDenied": "Nem adták meg a kameraengedélyt. Engedélyezze a böngésző beállításaiból.",
+  "notFound": "A kamera nem található.",
+  "openFailed": "A kamerát nem lehetett kinyitni. Próbálja ki az alábbi alternatívát.",
+  "openNativeCamera": "Kapcsolja be a telefon kameráját",
+  "faceHint": "Yüzünüz oval çerçeveye gelsin",
+  "cancel": "Mégsem",
+  "captureAriaLabel": "szerezd be a fényképet",
+  "nativeCamera": "telefon kamera"
+}

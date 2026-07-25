@@ -3,6 +3,7 @@
 import dayjs from 'dayjs';
 import 'dayjs/locale/en';
 import 'dayjs/locale/tr';
+import 'dayjs/locale/hu';
 import { FiCalendar } from 'react-icons/fi';
 import { useLocale } from '@/lib/i18n/LocaleProvider';
 import { contentLocale } from '@/lib/i18n/locale';

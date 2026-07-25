@@ -1,0 +1,11 @@
+{
+  "employeeAmountRequired": "A létszám és a létszám kötelező.",
+  "successCreated": "Előzetes rekord jött létre.",
+  "saveFailed": "A regisztráció sikertelen",
+  "pageTitle": "Advance hozzáadása",
+  "pageDescription": "Personele avas kaydı girin. İsteğe bağlı iş kalemine bağlayarak taşeron kârına yansıtın.",
+  "formTitle": "Új Advance",
+  "labelDate": "Történelem",
+  "labelAmount": "tutár (₺)",
+  "labelDescription": "Magyarázat"
+}

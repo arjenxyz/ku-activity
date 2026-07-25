@@ -1,0 +1,9 @@
+{
+  "summaryTitle": "Közös megosztás ({count} személy)",
+  "hint": "Önt is beleértve hány ember osztozik egyenlően a nyereségen? A közönséges nevek csak címkézési célokat szolgálnak.",
+  "shareCountLabel": "Emberek száma",
+  "shareCountOption": "{count} személy",
+  "apply": "Alkalmazni",
+  "partnerNamePlaceholder": "Közönséges név (nem kötelező)",
+  "add": "Hozzáadás"
+}

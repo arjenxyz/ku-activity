@@ -1,0 +1,14 @@
+{
+  "pageTitle": "Rendszergazdai jelentések",
+  "pageDescription": "Projektszintű pénzügyi összefoglaló és havi statisztikák.",
+  "labelMonth": "Hónap (havi részlet)",
+  "loading": "Yükleniyor…",
+  "totalWorkPay": "Teljes napibér (₺)",
+  "workDays": "Çalışılan Gün",
+  "totalAdvances": "Teljes előleg",
+  "activeEmployees": "Aktív személyzet",
+  "approvedYevmiye": "Jóváhagyott folyóirat",
+  "pendingYevmiye": "Bekleyen Jevmiye",
+  "monthAdvanceTotal": "Havi előleg összesen",
+  "detailLink": "Részletek →"
+}

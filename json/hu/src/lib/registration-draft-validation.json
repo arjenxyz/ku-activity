@@ -1,0 +1,12 @@
+{
+  "nameRequired": "A név és a vezetéknév megadása kötelező.",
+  "emailRequired": "E-mail cím megadása kötelező.",
+  "emailInvalid": "Adjon meg egy érvényes e-mail címet.",
+  "phoneRequired": "Telefonszám megadása kötelező.",
+  "phoneInvalid": "Adjon meg egy érvényes telefonszámot (az országkóddal együtt).",
+  "tcInvalid": "Egy érvényes T.R. Írja be az azonosító számát.",
+  "foreignIdInvalid": "Adjon meg egy érvényes külföldi személyazonosító/útlevélszámot.",
+  "birthDateRequired": "A születési dátum kötelező.",
+  "ibanRequired": "Az IBAN megadása kötelező.",
+  "ibanInvalid": "Adjon meg egy érvényes IBAN-t (26 karakter TR-vel, az ellenőrző számjegynek helyesnek kell lennie)."
+}

@@ -1,0 +1,27 @@
+{
+  "errors": {
+    "addFailed": "Nem sikerült hozzáadni"
+  },
+  "deleteExpenseConfirm": "Törli ezt a költséget?",
+  "receivable": "követelhető",
+  "expense": "Költség",
+  "margin": "{margin}%marj",
+  "perShare": "{amount}/fő",
+  "summaryTitle": "Hesap özeti",
+  "pendingDays": "{days} gün",
+  "pendingHint": "jóváhagyásra vár. Becsült nyereség, ha jóváhagyják",
+  "quickActionsTitle": "Gyors tranzakció",
+  "quickActionsHint": "Ez a munka automatikusan kiválasztásra kerül a regisztráció során.",
+  "materialTitle": "Anyag ({amount})",
+  "closeExpenseForm": "Negyed",
+  "addExpense": "+ Költség hozzáadása",
+  "dateLabel": "Történelem",
+  "amountLabel": "Tutár",
+  "descriptionPlaceholder": "Leírás (csempe, cement…)",
+  "submit": "Megtakarítás",
+  "deleteTitle": "Sil",
+  "noMaterialExpenses": "Anyagi kiadás nincs.",
+  "markCompleted": "elkészült",
+  "reopen": "nyissa meg újra",
+  "deleteJob": "feladat törlése"
+}

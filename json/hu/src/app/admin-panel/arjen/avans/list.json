@@ -1,0 +1,17 @@
+{
+  "confirmDelete": "Biztosan törli ezt a rekordot?",
+  "deleteError": "Silme hatsı: {message}",
+  "title": "Előleg/levonás rekordok",
+  "loading": "Yükleniyor...",
+  "colEmployee": "Munkás",
+  "colDate": "Történelem",
+  "colType": "Tür",
+  "colAmount": "Tutár",
+  "colDescription": "Magyarázat",
+  "colDelete": "Sil",
+  "typeAdvance": "Előleg",
+  "typeSubcontractorCut": "Alvállalkozói levonás",
+  "emptyValue": "-",
+  "deleteRecordTitle": "Rekord törlése",
+  "noRecords": "Nem található rekord."
+}

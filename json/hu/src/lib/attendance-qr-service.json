@@ -1,0 +1,14 @@
+{
+  "qrCreateFailed": "Nem sikerült létrehozni a jelenléti QR-kódot",
+  "employeeFallback": "Személyzet",
+  "workLogDescription": "QR látogatottság",
+  "noActiveSession": "Nincs aktív részvételi ülés",
+  "noSessionToCancel": "Nincs megszakítandó aktív munkamenet",
+  "recordNotFound": "A rekord nem található",
+  "removeActiveOnly": "Csak aktív munkamenetből távolítható el",
+  "cannotRemoveWithWorkLog": "Cannot remove a record that already has a timesheet",
+  "planActiveOnly": "Csak aktív munkamenet alatt szerkeszthető",
+  "cannotPlanWithWorkLog": "Cannot edit a record that already has a timesheet",
+  "completeFailed": "A jelenléti munkamenetet nem lehetett befejezni",
+  "dayAlreadyCompleted": "Attendance for this day is already completed. A second session cannot be opened — duplicate pay risk."
+}

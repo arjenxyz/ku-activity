@@ -1,0 +1,6 @@
+{
+  "kimlikNumarasıVePinGerekli": "Azonosítószám és PIN-kód szükséges",
+  "başvuruSüresiDolmuşYeniBaşvuruYapabilirsiniz": "A jelentkezési határidő lejárt. Új alkalmazást készíthet.",
+  "geçersizKimlikNumarasıVeyaPin": "Érvénytelen azonosítószám vagy PIN-kód",
+  "erişimBaşarısız": "A hozzáférés sikertelen"
+}

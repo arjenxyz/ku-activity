@@ -1,0 +1,10 @@
+{
+  "title": "Hátralévő idő",
+  "expired": "A határidő lejárt",
+  "days": "d",
+  "hours": "h",
+  "minutes": "m",
+  "seconds": "s",
+  "phasePending": "A személyzet beleegyezésére vár",
+  "phaseExport": "Adatexportálási ablak"
+}

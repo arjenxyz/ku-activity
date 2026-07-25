@@ -1,0 +1,17 @@
+{
+  "deductionTypeDeduction": "Megszakítás",
+  "deductionTypeSubcontractor": "Alvállalkozói levonás",
+  "deductionTypeOther": "Más",
+  "employeeAmountRequired": "A létszám és a létszám kötelező.",
+  "successCreated": "Kimaradási rekord készült.",
+  "saveFailed": "A regisztráció sikertelen",
+  "pageTitle": "Levonás hozzáadása",
+  "pageDescription": "Adjon meg egy levonási nyilvántartást, amelyet le kell vonni a munkavállaló fizetéséből.",
+  "formTitle": "Új levonás",
+  "labelDeductionType": "Kesinti türü *",
+  "labelDate": "Tarih*",
+  "labelAmount": "tutar (₺) *",
+  "labelDescription": "Magyarázat",
+  "saving": "Felvétel…",
+  "saveButton": "Megszakítás mentése"
+}

@@ -1,0 +1,15 @@
+{
+  "kimlikNumarasıVeŞifreGerekli": "Azonosítószám és jelszó szükséges",
+  "geçersizKimlikNumarasıVeyaŞifre": "Érvénytelen azonosítószám vagy jelszó",
+  "sunucuYapılandırmasıEksikEnvDosyasınaSupabase": "Sunucu yapılandırması eksik: .env dosyasına SUPABASE_SERVICE_ROLE_KEY ekleyin (Supabase → Beállítások → API → service_role)",
+  "sunucuYapılandırmasıEksikFieldEncryptionKey": "Sunucu yapılandırması exik: FIELD_ENCRYPTION_KEY tanımlı değil",
+  "başvuruSüresiDolmuşYeniBaşvuruYapabilirsiniz": "A jelentkezési határidő lejárt. Új alkalmazást készíthet.",
+  "personelHesabınızPasifYöneticinizleIletişimeGeçin": "A személyzeti fiókja inaktív. Forduljon a rendszergazdához.",
+  "personelŞifresiTanımlıDeğilYöneticinizleIletişime": "A személyi jelszó nincs megadva. Forduljon a rendszergazdához.",
+  "personelŞifreKaydıBozukYöneticiPanelinden": "A személyzeti jelszórekord sérült. Állítsa vissza a jelszót az adminisztrációs panelről.",
+  "err001InitialSchemaSqlIçindekiPersonnel": "Futtassa a personnel_sessions táblát a 001_initial_schema.sql fájlban.",
+  "oturumOluşturulamadıVeritabanıKurulumunuKontrolEdin": "Nem sikerült létrehozni a munkamenetet. Ellenőrizze az adatbázis beállítását.",
+  "oturumOluşturulamadıHint": "Nem sikerült létrehozni a munkamenetet: {hint}",
+  "supabaseServiceRoleKeyEnvDosyasındaTanımlıDeğil": "A SUPABASE_SERVICE_ROLE_KEY nincs megadva az .env fájlban.",
+  "beklenmeyenSunucuHatasıKonsolLoglarınıKontrolEdin": "Váratlan szerverhiba. Ellenőrizze a konzolnaplókat."
+}

@@ -1,0 +1,14 @@
+{
+  "regionAriaLabel": "Uygulamayı yükle",
+  "closeAriaLabel": "Negyed",
+  "brandLabel": "CREWLEDGER",
+  "title": "Hozzáadás a kezdőképernyőhöz",
+  "iosHintPrefix": "Safari'de",
+  "iosShare": "Részesedés",
+  "iosHintSuffix": "→",
+  "iosAddToHome": "Hozzáadás a kezdőképernyőhöz",
+  "androidHint": "Gyors indítás, mint egy alkalmazás a jelenléthez és a naplókhoz – egyetlen érintés, és a panel készen áll.",
+  "installButton": "Hozzáadás a kezdőképernyőhöz",
+  "iosSafariNote": "A telepítés csak a Safarin keresztül történik; A menü Chrome-ban vagy más böngészőben eltérő lehet.",
+  "dismiss": "Később"
+}

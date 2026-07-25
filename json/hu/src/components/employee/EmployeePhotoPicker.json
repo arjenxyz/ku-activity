@@ -1,0 +1,15 @@
+{
+  "invalidFormat": "Válassza a JPEG, PNG, WebP vagy GIF lehetőséget",
+  "maxSize": "A fájl mérete legfeljebb 5 MB lehet",
+  "defaultName": "Munkavállaló",
+  "selfieTitle": "saját fényképét",
+  "adminTitle": "A személyzet fotója",
+  "selfieHint": "Ön kamerayla yüzünüzün net göründüğü bir selfie çekin. Mobilde doğrudan telefon kamerası açılır.",
+  "adminHint": "Készítsen vagy töltsön fel külön fényképeket minden alkalmazottról. Ez a fénykép a személyzeti panelen is megjelenik.",
+  "takeSelfie": "Cseh szelfi",
+  "takePhoto": "Fotó készítése",
+  "pickFromGallery": "válassz a galériából",
+  "pickFromGalleryCapital": "Válasszon a Galériából",
+  "remove": "Távolítsa el",
+  "requiredHint": "A regisztrációhoz a személyzet fényképe kötelező."
+}

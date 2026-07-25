@@ -1,0 +1,12 @@
+{
+  "notify": {
+    "title": "{projectName} bezár",
+    "body": "Ez a projekt a CrewLedgerben lezárul. Fogadja el a hozzájárulást, és töltse le adatait a {deadline} címen."
+  },
+  "errors": {
+    "projectNotFound": "Projekt nem található",
+    "alreadyInClosure": "A projekt már lezárás alatt van",
+    "alreadyPurged": "A projektet már lezárták",
+    "instantDeleteDisabled": "Az azonnali törlés le van tiltva. Először indítsa el a projektzárási folyamatot; Az adatokat a határidő lejárta után eltávolítják, miután az exportálás befejeződött."
+  }
+}

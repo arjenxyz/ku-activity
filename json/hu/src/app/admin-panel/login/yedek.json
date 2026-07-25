@@ -1,0 +1,12 @@
+{
+  "invalidEmail": "Geçerli bir email cím giriniz",
+  "passwordMinLength": "Şifre en az 8 karakter olmalıdır",
+  "invalidCredentials": "Érvénytelen hitelesítő adatok",
+  "sessionFailed": "Nem sikerült létrehozni a munkamenetet",
+  "genericError": "Hiba történt. Kérjük, próbálja újra.",
+  "title": "Yönetici Girişi",
+  "emailLabel": "Email",
+  "passwordLabel": "Jelszó",
+  "loggingIn": "Bejelentkezés...",
+  "loginButton": "Bejelentkezés"
+}

@@ -1,0 +1,20 @@
+{
+  "modeLabels": {
+    "simple": "Egyszerű",
+    "advanced": "Fejlett"
+  },
+  "simpleMenu": {
+    "summary": {
+      "label": "Projekt áttekintése",
+      "hint": "Személyzeti lista és napi állapot"
+    },
+    "approval": {
+      "label": "Pályázat jóváhagyása",
+      "hint": "Új személyzeti pályázatok"
+    },
+    "attendance": {
+      "label": "Részvétel / QR",
+      "hint": "Itt van betervezve a nap, a túlóra és a munkaidő"
+    }
+  }
+}

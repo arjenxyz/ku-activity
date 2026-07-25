@@ -1,0 +1,100 @@
+{
+  "attendanceReminder": {
+    "title": "Jelenléti emlékeztető",
+    "body": "Kérjük, olvassa be a QR-kódot a mai részvétel rögzítéséhez."
+  },
+  "attendanceSessionCancelled": {
+    "title": "A jelenléti ülés törölve",
+    "body": "A {workDate} részvételi ülését {actorName} törölte."
+  },
+  "attendanceRemovedFromList": {
+    "title": "A jelenléti ív frissítve",
+    "body": "{workDate} részvételi rekordját eltávolította a listáról {actorName}."
+  },
+  "attendanceDidNotWork": {
+    "title": "Elvetették a bért",
+    "body": "{workDate} napi bérét törölte {actorName}; nem működöttként jelölték meg."
+  },
+  "attendanceSessionCompleted": {
+    "title": "A részvétel befejeződött",
+    "body": "A {workDate} rendezvényen való részvételét megerősítették, és feljegyezték a bérjegyzékébe."
+  },
+  "workLogRecorded": {
+    "title": "Munkaidő-nyilvántartás rögzítve",
+    "body": "A timesheet of {amount} day(s) for {workDate} was created by {actorName}."
+  },
+  "workLogUpdated": {
+    "title": "Munkaidő-nyilvántartás frissítve",
+    "body": "A {workDate} munkaidő-nyilvántartását {actorName} frissítette."
+  },
+  "workLogDeleted": {
+    "title": "Munkaidő-nyilvántartás törölve",
+    "body": "A {workDate} munkaidő-nyilvántartását {actorName} törölte."
+  },
+  "advanceApproved": {
+    "title": "Előzetes kérés jóváhagyva",
+    "body": "A {amount} TL-re vonatkozó előzetes kérését jóváhagytuk. Adja hozzá ezt a kódot az átvitel leírásához: {transferCode}"
+  },
+  "advanceApprovedNoCode": {
+    "title": "Előzetes kérés jóváhagyva",
+    "body": "A {amount} TL-re vonatkozó előzetes kérését jóváhagytuk. A fizetés feldolgozása megkezdődött."
+  },
+  "advanceCashReady": {
+    "title": "Készpénzelőleg kész",
+    "body": "{amount} TL készpénzelőleged készen áll. Olvassa be a QR-kódot az átvétel megerősítéséhez."
+  },
+  "advanceRejected": {
+    "title": "Előlegigénylés elutasítva",
+    "body": "{reason}"
+  },
+  "advanceRejectedNoReason": {
+    "title": "Előlegigénylés elutasítva",
+    "body": "Kérelmét a rendszergazda elutasította."
+  },
+  "advancePaid": {
+    "title": "Előleg befizetés rögzítve",
+    "body": "{amount} TL előleget rögzítettünk a bérjegyzékében."
+  },
+  "minimumWagePaid": {
+    "title": "Minimálbér kifizetés",
+    "body": "A minimum wage payment of {amount} TL was recorded by {actorName}."
+  },
+  "minimumWageUpdated": {
+    "title": "Minimálbér frissítve",
+    "body": "A {date} minimálbérrekordját {amount} TL értékre frissítette {actorName}."
+  },
+  "minimumWageRemoved": {
+    "title": "A minimálbért eltávolították",
+    "body": "A {amount} TL minimálbér rekordját a {date} esetében törölte {actorName}."
+  },
+  "salaryPaid": {
+    "title": "Fizetés teljesítve",
+    "body": "A {month} ({amount} TL) nettó fizetése kifizetettként lett megjelölve."
+  },
+  "deductionAdded": {
+    "title": "Bérszámfejtés frissítés",
+    "body": "A {typeLabel} of {amount} TL was applied to your payroll by {actorName}."
+  },
+  "deductionUpdated": {
+    "title": "Bérnyilvántartás frissítve",
+    "body": "A {date} {typeLabel}-jét {amount} TL-re frissítette a {actorName}."
+  },
+  "deductionRemoved": {
+    "title": "Bérszámfejtés eltávolítva",
+    "body": "A {amount} TL {typeLabel} a {date} számára törölte a {actorName}."
+  },
+  "deductionTypeLabels": {
+    "advance": "előleg",
+    "deduction": "levonás",
+    "subcontractor_cut": "alvállalkozói levonás",
+    "other": "levonás"
+  },
+  "pushTest": {
+    "title": "Értesítések engedélyezve",
+    "body": "A CrewLedger személyzeti értesítései sikeresen be vannak állítva."
+  },
+  "migrationHint": "Futtassa a 059_personnel_notifications.sql migrációt",
+  "errors": {
+    "notFound": "Az értesítés nem található"
+  }
+}

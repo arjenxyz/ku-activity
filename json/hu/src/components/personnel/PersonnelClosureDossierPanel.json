@@ -1,0 +1,24 @@
+{
+  "title": "Töltsd le a lemezeimet",
+  "description": "Under GDPR/KVKK Art. 11, download a full copy of your work logs, payments, contracts, and profile as ZIP. Same dataset your manager can see — for transparency.",
+  "closureTitle": "Töltse le adatait",
+  "closureDescription": "Download a ZIP copy of all records below and keep it safely on your device.",
+  "checklistTitle": "A ZIP-ben szereplő szakaszok",
+  "checklistLoading": "Tartalomlista betöltése…",
+  "dailyLimit": "Naponta legfeljebb {limit}-szer tölthet le.",
+  "preparing": "Felkészülés…",
+  "downloadCta": "Feljegyzéseim letöltése (ZIP)",
+  "closureDownloadCta": "Töltse le a ZIP-t",
+  "consentCta": "egyetértek",
+  "consentText": "Ez a projekt a CrewLedgerben lezárul. Tudomásul veszem, hogy az operatív feljegyzéseket a határidő lejárta után töröljük, és én vagyok felelős a saját archívum megőrzéséért.",
+  "ackCta": "Letöltöttem és elmentettem az adataimat",
+  "ackDone": "Letöltési visszaigazolását rögzítettük.",
+  "deadlineNote": "Végső letöltési dátum: {date}",
+  "errors": {
+    "downloadFailed": "Letöltés sikertelen",
+    "consentFailed": "A hozzájárulást nem sikerült menteni",
+    "ackFailed": "A nyugtát nem sikerült elmenteni",
+    "generic": "Letöltés sikertelen"
+  },
+  "fallbackFilename": "crewleger-my-records.zip"
+}

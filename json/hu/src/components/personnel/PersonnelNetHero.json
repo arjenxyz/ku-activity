@@ -1,0 +1,9 @@
+{
+  "estimatedNet": "Becsült nettó fizetés",
+  "gross": "Bruttó",
+  "deduction": "Levonások",
+  "advance": "Előlegek",
+  "financeDetail": "Bérszámfejtés és pénzügyi adatok",
+  "sectionAriaLabel": "Profil és havi fizetés összefoglaló",
+  "defaultName": "Személyzet"
+}

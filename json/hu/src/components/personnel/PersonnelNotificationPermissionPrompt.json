@@ -1,0 +1,12 @@
+{
+  "title": "Engedélyezi az értesítéseket?",
+  "bodyBrowser": "Figyelmeztetések engedélyezése a jelenléti emlékeztetőkről, az előzetes jóváhagyásokról és a bérszámfejtésekről.",
+  "bodyTwa": "Kapcsolja be az értesítéseket az alkalmazás beállításaiban a jelenléti, előleg- és fizetési riasztásokhoz.",
+  "twaHint": "Beállítások → Alkalmazások → CrewLedger → Értesítések",
+  "enableButton": "Értesítések engedélyezése",
+  "openSettingsButton": "Nyissa meg az alkalmazás beállításait",
+  "confirmSettingsButton": "Engedélyeztem őket, folytasd",
+  "twaAwaitingSettings": "Miután visszatért a beállításokból, érintse meg az „Engedélyeztem őket, folytassa” elemet.",
+  "laterButton": "Most nem",
+  "requesting": "Engedély kérése…"
+}

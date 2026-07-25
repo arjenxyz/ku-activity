@@ -1,0 +1,5 @@
+{
+  "pinWrongLength": "A bejelentkezési jelszónak (PIN) {length} számjegyből kell állnia",
+  "pinDigitsOnly": "A PIN-kód csak számokat tartalmazhat",
+  "pinMismatch": "A PIN-kód ismétlése nem egyezik"
+}

@@ -1,0 +1,12 @@
+{
+  "accountDeletionNote": "Fiókja törlésre kerül ekkor: {date}",
+  "accountDeletionNoteAccelerated": "Fiókja 3 percen belül törlődik",
+  "countdownLabel": "A fiók törléséig hátralévő idő",
+  "downloadHint": "Download and keep a ZIP copy of your work logs, payments, and contracts.",
+  "fastDeleteTitle": "Gyorsabban szeretné törölni fiókját?",
+  "fastDeleteIntro": "A várakozási idő lerövidítéséhez és a törlés felgyorsításához hajtsa végre az alábbi lépéseket sorrendben:",
+  "fastDeleteStep1": "Download your data as a ZIP file",
+  "fastDeleteStep2": "Koppintson a „Letöltöttem, folytatás” gombra",
+  "fastDeleteStep3": "Erősítse meg az e-mailes ellenőrzéssel megjelenő gyors törlési lehetőséget",
+  "fastDeleteFooter": "A lépések végrehajtása után a gyors törlés opció automatikusan megjelenik ezen a képernyőn."
+}

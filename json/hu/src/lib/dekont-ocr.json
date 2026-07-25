@@ -1,0 +1,7 @@
+{
+  "visionFailed": "A Vision OCR nem sikerült – engedélyezve van a Cloud Vision API?",
+  "visionPdfEmpty": "Nem sikerült szöveget kivonni a PDF nyugtából",
+  "tesseractFailed": "A Tesseact OCR nem sikerült",
+  "tesseractPdfEmpty": "Nem sikerült a PDF-oldalt képpé konvertálni",
+  "unsupportedFileType": "Unrecognized file type — send a PDF or image (JPG/PNG)"
+}

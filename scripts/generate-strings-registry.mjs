@@ -38,9 +38,11 @@ function main() {
   for (const key of keys) {
     const trVar = `${toImportVar(key)}_tr`;
     const enVar = `${toImportVar(key)}_en`;
+    const huVar = `${toImportVar(key)}_hu`;
     imports.push(`import ${trVar} from '@json/src/${key}.json';`);
     imports.push(`import ${enVar} from '@json/en/src/${key}.json';`);
-    registryEntries.push(`  '${key}': { tr: ${trVar}, en: ${enVar} },`);
+    imports.push(`import ${huVar} from '@json/hu/src/${key}.json';`);
+    registryEntries.push(`  '${key}': { tr: ${trVar}, en: ${enVar}, hu: ${huVar} },`);
   }
 
   const content = `/* eslint-disable @typescript-eslint/no-explicit-any */
@@ -63,7 +65,7 @@ export function getRegistryStrings<K extends StringRegistryKey>(
   locale: Locale
 ): (typeof STRINGS_REGISTRY)[K]['tr'] {
   const bundle = STRINGS_REGISTRY[key];
-  return pickStrings(locale, bundle.tr, bundle.en) as (typeof STRINGS_REGISTRY)[K]['tr'];
+  return pickStrings(locale, bundle.tr, bundle.en, bundle.hu) as (typeof STRINGS_REGISTRY)[K]['tr'];
 }
 `;
 
