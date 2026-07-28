@@ -97,7 +97,7 @@ function LocaleOptionTile({
       {active ? (
         <FiCheck
           className={`h-4 w-4 shrink-0 ${
-            layout === 'overlay' ? 'text-[#0E1548] dark:text-blue-300' : 'text-[#0E1548] dark:text-blue-300'
+            layout === 'overlay' ? 'text-white' : 'text-[#0E1548] dark:text-blue-300'
           }`}
         />
       ) : (
