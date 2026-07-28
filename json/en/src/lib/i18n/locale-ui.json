@@ -2,6 +2,7 @@
   "switchAriaLabel": "Select language",
   "menuTitle": "Language",
   "modalTitle": "Select language",
+  "exitHint": "Tap to exit",
   "closeButtonAriaLabel": "Close",
   "closeOverlayAriaLabel": "Close",
   "footerNote": "Your choice is saved on this device."

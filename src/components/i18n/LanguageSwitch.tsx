@@ -4,6 +4,7 @@ import { useEffect, useId, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { FiCheck, FiChevronDown, FiChevronRight, FiX } from 'react-icons/fi';
+import { BrandMark } from '@/components/brand/BrandMark';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useLocale } from '@/lib/i18n/LocaleProvider';
 import { flagImageUrl, LOCALE_OPTIONS, type Locale } from '@/lib/i18n/locale';
@@ -149,6 +150,7 @@ function LanguageOverlay({
   locale,
   onSelect,
   title,
+  exitHint,
   footerNote,
   closeButtonAriaLabel,
   closeOverlayAriaLabel,
@@ -159,6 +161,7 @@ function LanguageOverlay({
   locale: Locale;
   onSelect: (id: Locale) => void;
   title: string;
+  exitHint: string;
   footerNote: string;
   closeButtonAriaLabel: string;
   closeOverlayAriaLabel: string;
@@ -207,25 +210,51 @@ function LanguageOverlay({
             exit={{ opacity: 0, y: 8 }}
             transition={{ duration: 0.18, ease: 'easeOut' }}
             className="flex h-full min-h-0 flex-col"
-            onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex shrink-0 items-center justify-between gap-3 px-4 pb-2 pt-5 sm:px-6 sm:pt-6">
-              <h2 id={titleId} className="text-xl font-semibold text-white sm:text-2xl">
-                {title}
-              </h2>
-              <button
-                type="button"
-                onClick={onClose}
-                className="-mr-1 flex h-10 w-10 shrink-0 items-center justify-center text-white/75 transition-colors hover:text-white"
-                aria-label={closeButtonAriaLabel}
-              >
-                <FiX className="h-6 w-6" />
-              </button>
-            </div>
+            <header
+              className="safe-pt shrink-0 bg-transparent px-3 pb-2"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="mx-auto max-w-5xl">
+                <div className="flex h-14 items-center justify-between gap-3 rounded-2xl border border-white/15 bg-black/60 px-3 shadow-lg shadow-black/30 backdrop-blur-xl sm:px-4">
+                  <button
+                    type="button"
+                    onClick={onClose}
+                    className="flex min-w-0 flex-1 items-center gap-2.5 text-left transition-opacity hover:opacity-90 active:opacity-80"
+                    aria-label={closeOverlayAriaLabel}
+                  >
+                    <BrandMark size="sm" className="shrink-0 shadow-lg ring-2 ring-white/20" />
+                    <div className="min-w-0">
+                      <p
+                        id={titleId}
+                        className="truncate text-[13px] font-bold leading-tight tracking-[0.08em] text-white"
+                      >
+                        {title}
+                      </p>
+                      <p className="truncate text-[10px] font-medium leading-tight text-white/55">
+                        {exitHint}
+                      </p>
+                    </div>
+                  </button>
+
+                  <div className="shrink-0 rounded-xl bg-white/10 p-0.5">
+                    <button
+                      type="button"
+                      onClick={onClose}
+                      className="inline-flex h-10 w-10 items-center justify-center rounded-xl text-white transition-colors hover:bg-white/10"
+                      aria-label={closeButtonAriaLabel}
+                    >
+                      <FiX className="h-5 w-5" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </header>
 
             <div
-              className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 pb-8 [-webkit-overflow-scrolling:touch] sm:px-6"
+              className="mx-auto min-h-0 w-full max-w-5xl flex-1 overflow-y-auto overscroll-contain px-3 pb-8 [-webkit-overflow-scrolling:touch] sm:px-4"
               data-allow-scroll
+              onClick={(e) => e.stopPropagation()}
             >
               <LocaleOptionsList
                 locale={locale}
@@ -267,6 +296,7 @@ export function LanguageSwitch({
       locale={locale}
       onSelect={select}
       title={strings.modalTitle}
+      exitHint={strings.exitHint}
       footerNote={strings.footerNote}
       closeButtonAriaLabel={strings.closeButtonAriaLabel}
       closeOverlayAriaLabel={strings.closeOverlayAriaLabel}

@@ -4,5 +4,6 @@
   "modalTitle": "Select language",
   "closeButtonAriaLabel": "Close",
   "closeOverlayAriaLabel": "Close",
-  "footerNote": "Your choice is saved on this device."
+  "footerNote": "Your choice is saved on this device.",
+  "exitHint": "Ketuk untuk keluar"
 }

@@ -1,8 +1,9 @@
 {
-  "switchAriaLabel": "Select language",
-  "menuTitle": "Language",
-  "modalTitle": "Select language",
-  "closeButtonAriaLabel": "Close",
-  "closeOverlayAriaLabel": "Close",
-  "footerNote": "Your choice is saved on this device."
+  "switchAriaLabel": "ভাষা নির্বাচন করুন",
+  "menuTitle": "ভাষা",
+  "modalTitle": "ভাষা নির্বাচন করুন",
+  "closeButtonAriaLabel": "বন্ধ",
+  "closeOverlayAriaLabel": "বন্ধ",
+  "footerNote": "আপনার পছন্দ এই ডিভাইসে সংরক্ষিত আছে.",
+  "exitHint": "প্রস্থান করতে আলতো চাপুন"
 }

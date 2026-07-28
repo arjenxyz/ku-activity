@@ -2,6 +2,7 @@
   "switchAriaLabel": "Dil seçin",
   "menuTitle": "Dil",
   "modalTitle": "Dil seçin",
+  "exitHint": "Çıkmak için dokunun",
   "closeButtonAriaLabel": "Kapat",
   "closeOverlayAriaLabel": "Kapat",
   "footerNote": "Seçim cihazınıza kaydedilir."

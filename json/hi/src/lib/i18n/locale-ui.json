@@ -4,5 +4,6 @@
   "modalTitle": "भाषा चुने",
   "closeButtonAriaLabel": "बंद करना",
   "closeOverlayAriaLabel": "बंद करना",
-  "footerNote": "आपकी पसंद इस डिवाइस पर सहेजी गई है."
+  "footerNote": "आपकी पसंद इस डिवाइस पर सहेजी गई है.",
+  "exitHint": "बाहर निकलने के लिए टैप करें"
 }
