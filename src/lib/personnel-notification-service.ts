@@ -316,7 +316,7 @@ export async function notifyAdvanceRejected(
     title: strings.advanceRejected.title,
     body,
     href: '/personnel-panel/avans',
-    data: { requestId: params.requestId },
+    data: { requestId: params.requestId, reason: params.reason?.trim() || null },
   });
 }
 

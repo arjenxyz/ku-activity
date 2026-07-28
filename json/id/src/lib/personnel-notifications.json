@@ -96,5 +96,8 @@
   "migrationHint": "Jalankan migrasi 059_personnel_notifications.sql",
   "errors": {
     "notFound": "Notifikasi tidak ditemukan"
+  },
+  "defaults": {
+    "actorName": "Administrator"
   }
 }

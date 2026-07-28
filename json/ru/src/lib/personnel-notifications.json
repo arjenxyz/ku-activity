@@ -96,5 +96,8 @@
   "migrationHint": "Запустите миграцию 059_personnel_notifications.sql",
   "errors": {
     "notFound": "Уведомление не найдено"
+  },
+  "defaults": {
+    "actorName": "Администратор"
   }
 }

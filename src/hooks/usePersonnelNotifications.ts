@@ -8,6 +8,7 @@ export type PersonnelNotificationItem = {
   title: string;
   body: string;
   href: string | null;
+  data?: Record<string, unknown> | null;
   read_at: string | null;
   created_at: string;
 };

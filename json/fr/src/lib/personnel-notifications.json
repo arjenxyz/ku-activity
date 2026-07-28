@@ -96,5 +96,8 @@
   "migrationHint": "Exécutez la migration 059_personnel_notifications.sql",
   "errors": {
     "notFound": "Notification introuvable"
+  },
+  "defaults": {
+    "actorName": "Administrateur"
   }
 }

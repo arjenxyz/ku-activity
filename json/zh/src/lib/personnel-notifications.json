@@ -96,5 +96,8 @@
   "migrationHint": "运行 059_personnel_notifications.sql 迁移",
   "errors": {
     "notFound": "未找到通知"
+  },
+  "defaults": {
+    "actorName": "管理员"
   }
 }

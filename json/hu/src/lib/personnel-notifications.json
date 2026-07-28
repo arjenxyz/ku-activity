@@ -96,5 +96,8 @@
   "migrationHint": "Futtassa a 059_personnel_notifications.sql migrációt",
   "errors": {
     "notFound": "Az értesítés nem található"
+  },
+  "defaults": {
+    "actorName": "Adminisztrátor"
   }
 }

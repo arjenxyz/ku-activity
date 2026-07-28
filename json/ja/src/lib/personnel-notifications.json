@@ -96,5 +96,8 @@
   "migrationHint": "059_personnel_notifications.sql 移行を実行する",
   "errors": {
     "notFound": "通知が見つかりません"
+  },
+  "defaults": {
+    "actorName": "管理者"
   }
 }

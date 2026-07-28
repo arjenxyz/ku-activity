@@ -46,7 +46,7 @@ export async function GET() {
 
           const { data, error } = await admin
             .from('personnel_notifications')
-            .select('id, type, title, body, href, read_at, created_at')
+            .select('id, type, title, body, href, data, read_at, created_at')
             .eq('employee_id', session.employeeId)
             .gt('created_at', since)
             .order('created_at', { ascending: true });

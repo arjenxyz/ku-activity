@@ -10,8 +10,10 @@ import {
   HonorIconTile,
 } from '@/components/icons/HonorIcons';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
+import { useLocale } from '@/lib/i18n/LocaleProvider';
 import { getRegistryStrings } from '@/lib/i18n/strings-registry';
 import { formatString } from '@/lib/strings/format';
+import { resolvePersonnelNotificationCopy } from '@/lib/personnel-notification-i18n';
 import { usePersonnelNotificationsContext } from '@/contexts/PersonnelNotificationsContext';
 import { isPersonnelTwaRuntime, openPersonnelAppNotificationSettings } from '@/lib/personnel-app-runtime';
 import {
@@ -331,6 +333,7 @@ function SwipeNotificationRow({
 
 export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpenProp, className = '' }: Props) {
   const strings = useRegistryStrings('components/personnel/PersonnelNotificationsBell');
+  const { locale } = useLocale();
   const {
     items,
     unreadCount,
@@ -531,6 +534,7 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
 
   const renderNotificationRow = (item: (typeof items)[number]) => {
     const unread = !item.read_at;
+    const copy = resolvePersonnelNotificationCopy(locale, item);
     const rowClass = `relative z-[1] flex w-full items-start gap-2.5 rounded-xl border px-2.5 py-2.5 text-left ${
       unread
         ? 'border-slate-200 bg-white shadow-sm shadow-slate-900/[0.05] dark:border-slate-600 dark:bg-slate-900'
@@ -567,8 +571,8 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
           >
             <NotificationRowContent
               unread={unread}
-              title={item.title}
-              body={sanitizeNotificationBody(item.body)}
+              title={copy.title}
+              body={sanitizeNotificationBody(copy.body)}
               timeLabel={formatRelativeTime(item.created_at, strings)}
               showChevron
             />
@@ -588,8 +592,8 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
           >
             <NotificationRowContent
               unread={unread}
-              title={item.title}
-              body={sanitizeNotificationBody(item.body)}
+              title={copy.title}
+              body={sanitizeNotificationBody(copy.body)}
               timeLabel={formatRelativeTime(item.created_at, strings)}
             />
           </button>

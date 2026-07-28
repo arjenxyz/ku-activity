@@ -14,6 +14,8 @@ import {
   usePersonnelNotifications,
   type PersonnelNotificationItem,
 } from '@/hooks/usePersonnelNotifications';
+import { useLocale } from '@/lib/i18n/LocaleProvider';
+import { resolvePersonnelNotificationCopy } from '@/lib/personnel-notification-i18n';
 import { PersonnelInAppNotificationBanner } from '@/components/personnel/PersonnelInAppNotificationBanner';
 import { playInAppNotificationSound } from '@/lib/in-app-notification-sound';
 import { isNotificationsMuted } from '@/lib/personnel-notification-storage';
@@ -37,16 +39,21 @@ const PersonnelNotificationsContext = createContext<PersonnelNotificationsContex
   null
 );
 
-function toToast(item: Pick<PersonnelNotificationItem, 'id' | 'title' | 'body' | 'href'>): InAppToast {
+function toToast(
+  locale: Parameters<typeof resolvePersonnelNotificationCopy>[0],
+  item: PersonnelNotificationItem
+): InAppToast {
+  const copy = resolvePersonnelNotificationCopy(locale, item);
   return {
     id: item.id,
-    title: item.title,
-    body: item.body,
+    title: copy.title,
+    body: copy.body,
     href: item.href,
   };
 }
 
 export function PersonnelNotificationsProvider({ children }: { children: ReactNode }) {
+  const { locale } = useLocale();
   const notifications = usePersonnelNotifications();
   const [panelOpen, setPanelOpen] = useState(false);
   const [toast, setToast] = useState<InAppToast | null>(null);
@@ -92,9 +99,9 @@ export function PersonnelNotificationsProvider({ children }: { children: ReactNo
     seenIdsRef.current = currentIds;
 
     if (fresh) {
-      showToast(toToast(fresh));
+      showToast(toToast(locale, fresh));
     }
-  }, [notifications.items, notifications.loading, showToast]);
+  }, [notifications.items, notifications.loading, showToast, locale]);
 
   useEffect(() => {
     const onSwMessage = (event: MessageEvent) => {

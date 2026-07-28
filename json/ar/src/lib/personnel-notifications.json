@@ -96,5 +96,8 @@
   "migrationHint": "قم بتشغيل ترحيل 059_personnel_notifications.sql",
   "errors": {
     "notFound": "لم يتم العثور على الإخطار"
+  },
+  "defaults": {
+    "actorName": "المسؤول"
   }
 }

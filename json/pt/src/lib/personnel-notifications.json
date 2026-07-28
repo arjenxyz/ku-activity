@@ -96,5 +96,8 @@
   "migrationHint": "Execute a migração 059_personnel_notifications.sql",
   "errors": {
     "notFound": "Notificação não encontrada"
+  },
+  "defaults": {
+    "actorName": "Administrador"
   }
 }
