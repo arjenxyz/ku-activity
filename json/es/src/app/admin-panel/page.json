@@ -1,0 +1,24 @@
+{
+  "title": "Projects",
+  "subtitle": "Create, edit, and manage your job sites",
+  "newProject": "New project",
+  "newProjectLimitTitle": "You can create at most 2 active projects (closure projects excluded)",
+  "loadFailed": "Could not load projects",
+  "adminHint": "Make sure you are signed in and have an admin profile record.",
+  "closureFailed": "Could not start closure",
+  "closureTitle": "Close project?",
+  "closureBody": " will enter the closure process. Data is not deleted immediately; personnel have 30 days to consent and download records.",
+  "cancel": "Cancel",
+  "closing": "Starting...",
+  "confirmClosure": "Start closure",
+  "joinCollab": {
+    "title": "Become project collaborator",
+    "hint": "Enter the ORTAK- code from the project owner to join with operations access.",
+    "open": "Join with code",
+    "placeholder": "ORTAK-…",
+    "submit": "Join",
+    "saving": "Joining…",
+    "failed": "Could not join",
+    "success": "You joined {name} as a collaborator."
+  }
+}

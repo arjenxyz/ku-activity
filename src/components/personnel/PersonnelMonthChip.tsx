@@ -1,12 +1,24 @@
 'use client';
 
 import dayjs from 'dayjs';
+import 'dayjs/locale/ar';
+import 'dayjs/locale/bn';
+import 'dayjs/locale/de';
 import 'dayjs/locale/en';
-import 'dayjs/locale/tr';
+import 'dayjs/locale/es';
+import 'dayjs/locale/fr';
+import 'dayjs/locale/hi';
 import 'dayjs/locale/hu';
+import 'dayjs/locale/id';
+import 'dayjs/locale/ja';
+import 'dayjs/locale/pt-br';
+import 'dayjs/locale/ru';
+import 'dayjs/locale/tr';
+import 'dayjs/locale/ur';
+import 'dayjs/locale/zh-cn';
 import { FiCalendar } from 'react-icons/fi';
 import { useLocale } from '@/lib/i18n/LocaleProvider';
-import { contentLocale } from '@/lib/i18n/locale';
+import { DAYJS_LOCALE } from '@/lib/i18n/locale';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 
 type Props = {
@@ -20,7 +32,7 @@ export function PersonnelMonthChip({ month, onChange, tone = 'default', classNam
   const strings = useRegistryStrings('components/personnel/PersonnelMonthChip');
   const { locale } = useLocale();
   const label = dayjs(`${month}-01`)
-    .locale(contentLocale(locale))
+    .locale(DAYJS_LOCALE[locale])
     .format('MMMM YYYY');
 
   const shellClass =

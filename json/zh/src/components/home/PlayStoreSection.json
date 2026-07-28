@@ -1,0 +1,18 @@
+{
+  "sectionBadge": "手机应用程序",
+  "sectionTitle": "从 Google Play 下载",
+  "sectionSubtitlePrefix": "如果您无法使用 Play 商店，",
+  "sectionSubtitleLink": "访问APK下载页面",
+  "sectionSubtitleSuffix": ".",
+  "platformLabel": "安卓·免费",
+  "apps": {
+    "personel": {
+      "title": "人事应用程序",
+      "description": "出勤、日工资、加班和工资查看。专为应用程序和日常任务而设计。"
+    },
+    "admin": {
+      "title": "管理应用程序",
+      "description": "项目管理、人事审批、日工资、报告。从办公室或现场完全控制。"
+    }
+  }
+}

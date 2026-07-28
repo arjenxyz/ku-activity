@@ -1,0 +1,12 @@
+{
+  "navLinks": {
+    "hero": "Home",
+    "features": "Features",
+    "playStore": "Google Play",
+    "apk": "Download APK",
+    "contact": "Contact"
+  },
+  "menuOpenAriaLabel": "Open menu",
+  "menuCloseAriaLabel": "Close menu",
+  "mobileMenuTitle": "Menu"
+}

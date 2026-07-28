@@ -1,0 +1,49 @@
+{
+  "status": {
+    "pending": "奥奈·贝克勒约尔",
+    "approved": "奥奈兰米什",
+    "rejected": "雷德迪尔米斯",
+    "expired": "苏雷西·多尔穆斯"
+  },
+  "checklist": {
+    "photo": "Başvuru fotoğrafı kimlik kartı / yüz ile uyumlu",
+    "nameIdentity": "Ad-soyad ile kimlik numarası birbiriyle uyumlu",
+    "contact": "电话 ve e-posta adresi başvuru sahibine ait görünüyor"
+  },
+  "identity": {
+    "foreign": "Yabancı Kimlik / Pasaport",
+    "tc": "T.C.金利克诺"
+  },
+  "errors": {
+    "formIncomplete": "Pozisyon，yevmiye ve işe giriş tarihini doldurun。",
+    "checklistIncomplete": "Onaylamadan önce kimlik teyit maddelerinin tamamını işaretleyin。",
+    "approveFailed": "奥奈·巴斯里兹兹"
+  },
+  "closeOverlayAriaLabel": "卡帕特",
+  "modalTitle": "巴什武鲁因塞莱梅",
+  "closeModalAriaLabel": "莫达里卡帕特",
+  "applicationDates": "巴什武鲁 {createdDate} · 儿子 {expiresDate}",
+  "ageSuffix": "· {age} yaş",
+  "identitySectionTitle": "金利克和奥德梅",
+  "identitySectionSubtitle": "奥奈·恩塞西·多鲁拉伊恩",
+  "birthDateLabel": "多古姆·塔里希",
+  "ibanLabel": "IBAN",
+  "hideSensitive": "哈萨斯·比尔吉勒·吉兹勒",
+  "showSensitive": "Tam kimlik ve IBAN göster",
+  "checklistTitle": "Kimlik teyit 控制列表",
+  "checklistHint": "Resmi NVI doğrulaması yapılmaz; Onay öncesi aşağıdaki maddeleri manuel teyit edin。",
+  "assignmentTitle": "阿塔玛斯项目",
+  "assignmentSubtitle": "{projectName} 阿尔蒂纳·埃克伦内切克",
+  "assignmentSubtitleFallback": "塞西利项目",
+  "loginHint": "个人信息： kimlik numarası + başvuruda belirrediği PIN。",
+  "positionLabel": "波齐松 *",
+  "positionPlaceholder": "奥恩。德米尔·伊西西 (Demir işçisi)、卡利普西 (Kalıpçı)",
+  "dailyWageLabel": "Günlük yevmiye (₺) *",
+  "dailyWagePlaceholder": "1500",
+  "hireDateLabel": "伊瑟·吉里·塔里​​希 *",
+  "notPendingMessage": "Bu başvuru üzerinde işlem yapılamaz。 Yeni bir tarama yapın veya personelin güncel başvuru kodunu isteyin。",
+  "reject": "雷德特",
+  "approveSaving": "凯德迪利约尔…",
+  "approve": "奥奈拉·韦·凯代特",
+  "close": "卡帕特"
+}

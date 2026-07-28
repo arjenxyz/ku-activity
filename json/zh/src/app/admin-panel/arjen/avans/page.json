@@ -1,0 +1,20 @@
+{
+  "employeesLoadFailed": "Çalışanlar yüklenemedi: {message}",
+  "requiredFields": "Lütfen tüm zorunlu alanları doldurun。",
+  "invalidAmount": "Tutar pozitif ve sayısal olmalı。",
+  "saveError": "Kayıt hatası: {message}",
+  "saveSuccess": "Kayıt başarıyla eklendi！",
+  "title": "埃文斯 / Taşeron Kesintisi Kaydı",
+  "subtitle": "请注意，请注意以下事项：",
+  "employeeLabel": "伊什西",
+  "selectEmployee": "伊什西·塞西尼兹",
+  "dateLabel": "塔里赫",
+  "amountLabel": "图塔尔",
+  "amountPlaceholder": "奥恩：1000",
+  "typeLabel": "图尔",
+  "typeAdvance": "埃文斯",
+  "typeSubcontractorCut": "塔瑟龙·凯辛蒂西",
+  "descriptionLabel": "阿奇克拉玛",
+  "descriptionPlaceholder": "（Isteğe bağlı）",
+  "saveButton": "凯代特"
+}

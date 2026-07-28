@@ -1,0 +1,96 @@
+{
+  "title": "工资单",
+  "printedAt": "打印：",
+  "documentNo": "文件编号：",
+  "employeeInfo": "员工信息",
+  "periodSummary": "期间总结",
+  "workLogsTitle": "工作日志记录({count})",
+  "mesaiSummary": "加班总结",
+  "advancesTitle": "进展 ({count})",
+  "deductionsTitle": "扣除额 ({count})",
+  "minimumWagesTitle": "最低工资支付（{count}）",
+  "calcSummary": "计算总结",
+  "emptyValue": "—",
+  "fields": {
+    "fullName": "姓名",
+    "position": "位置",
+    "project": "项目/场地",
+    "dailyWage": "日工资",
+    "tcKimlik": "国民身份证",
+    "hireDate": "雇用日期"
+  },
+  "summary": {
+    "workDays": "工作日",
+    "approvedDays": "批准天数",
+    "pendingDays": "待处理天数",
+    "mesaiUnits": "加班单位",
+    "netEstimate": "预计净工资"
+  },
+  "table": {
+    "date": "日期",
+    "dateTime": "日期/时间",
+    "work": "工作",
+    "mesai": "随着时间的推移",
+    "wage": "工资",
+    "mesaiPay": "加班₺",
+    "rowTotal": "行总数",
+    "status": "地位",
+    "total": "全部的",
+    "type": "类型",
+    "record": "记录",
+    "unit": "单元",
+    "amount": "数量",
+    "description": "描述",
+    "deductionType": "类型"
+  },
+  "mesaiTypes": {
+    "ceyrek": "季度加班",
+    "yarim": "半个加时赛",
+    "tam": "全程加班"
+  },
+  "empty": {
+    "workLogs": "此期间无工作日志记录。",
+    "advances": "没有预先记录。",
+    "deductions": "无扣费记录。",
+    "minimumWages": "没有最低工资追加支付。"
+  },
+  "defaults": {
+    "advance": "进步",
+    "minimumWage": "最低工资补充"
+  },
+  "totals": {
+    "grand": "累计",
+    "advances": "预付款总额",
+    "deductions": "总扣除额",
+    "minimumWages": "最低工资总额"
+  },
+  "calc": {
+    "basePay": "工资（{days} 天数 x {wage}）",
+    "mesaiPay": "加班收入（+）",
+    "gross": "总计",
+    "advances": "进展 (-)",
+    "deductions": "扣除额 (-)",
+    "minimumWages": "最低工资支付 (-)",
+    "netPayment": "预计净工资",
+    "note": "净额公式： 总额({gross})-预支({advances})-扣除({deductions}){minimumPart} = {net}",
+    "minimumPart": "- 最小值 ({amount})"
+  },
+  "footer": {
+    "employee": "员工",
+    "employer": "雇主/经理",
+    "employeeRole": "审查本文件的人员",
+    "employerRole": "经理/雇主批准本文件",
+    "signedAt": "文件日期",
+    "signatureHint": "全名 - 日期 - 签名",
+    "clausesTitle": "文件通知",
+    "clauses": [
+      "本文件仅供参考，并非官方工资单、社会保障备案或税务文件。",
+      "记录是从{appName}人员和管理面板中的同一数据库生成的。",
+      "在雇佣纠纷中，签署的官方工资单、银行收据和法律要求的文件优先。",
+      "该文件以电子方式创建，并通过数字系统记录进行验证；不需要湿墨水签名。"
+    ],
+    "digitalSeal": "数字批准标志",
+    "digitalSealHint": "由 CrewLedger 系统记录验证",
+    "brandTagline": "建筑劳动力平台"
+  }
+}

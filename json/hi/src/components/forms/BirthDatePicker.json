@@ -1,0 +1,10 @@
+{
+  "label": "दोगुम तारिही",
+  "yearAriaLabel": "दोगुम यिलि",
+  "yearPlaceholder": "यिल",
+  "monthAriaLabel": "दोगुम अयी",
+  "monthPlaceholder": "एय",
+  "dayAriaLabel": "दोगुम गुनु",
+  "dayPlaceholder": "गुन",
+  "hint": "एक {minAge} या अधिक समय तक काम करने की क्षमता। {maxBirthDate} और एक बार से अधिक सुरक्षित."
+}

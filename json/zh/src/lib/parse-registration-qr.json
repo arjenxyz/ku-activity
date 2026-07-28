@@ -1,0 +1,6 @@
+{
+  "approved": "Bu başvuru zaten onaylanmış。 Bu kod tekrar kullanılamaz;人员系统。",
+  "rejected": "Bu başvuru reddedilmiş。人员可能会受到影响。",
+  "expired": "Başvuru süresi dolmuş。人员yeni başvuru yapmalı。",
+  "unknownStatus": "Bu başvuru durumu: {status}"
+}

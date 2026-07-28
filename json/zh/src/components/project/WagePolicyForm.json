@@ -1,0 +1,23 @@
+{
+  "defaultTitle": "Maaş ve asgari politikası",
+  "defaultSubtitle": "Ana Yetkili bu ayarları bir kez doldurur； Asgari ve yevmiye hesapları buna gore yapılır。",
+  "loading": "于克勒尼约尔…",
+  "yevmiyeSectionTitle": "Yevmiye ne zaman ödenir？",
+  "yevmiyeSectionHint": "Birden fazla seçebilirsiniz。系统 bu bilgiyi taşeron borcu ekranlarında hatırlatma olarak gosterir；请注意管理塔拉芬丹吉里利尔。",
+  "notesLabel": "Ek not (isteğe bağlı)",
+  "notesPlaceholder": "Örn: Çatı ödemesigenelde cumartesi elden yapılır。",
+  "minimumSectionTitle": "阿斯加里 ücret nasıl hesaplansın 吗？",
+  "minimumInfo": "Karmaşık“brüt/net”terimlerini kullanmıyoruz。参考：Devletin belirrediği aylık asgari (varsayılan {amount})。人员也可能会发生变化。",
+  "minimumReferenceLabel": "Aylık asgari 引用 (₺)",
+  "minimumReferencePlaceholder": "Boş bırak = {amount} (sistem varsayılanı)",
+  "prorationCheckbox": "Ay ortasında işe girenler için oranlama uygula (işe giriş tarihine göre)",
+  "prorationModeLabel": "奥兰拉马永泰米",
+  "dekontSectionTitle": "阿斯加里德孔图 (yakında)",
+  "dekontSectionHint": "Banka dekontu veya SGK/BES belgesi yükleyerek ödenen tutarı otomatik okuma hedefleniyor。 BES、SGK 是由手动操作完成的。",
+  "dekontAutoCheckbox": "Otomatik dekont okuma (henüz aktif değil)",
+  "dekontDeductionsLabel": "Dekont kesintileri (hazırlık ayarı)",
+  "dekontNotesLabel": "Dekont / muhasebe notu",
+  "dekontNotesPlaceholder": "恩：BES kesintisi ayrı satırda，taşeron net yatırıyor。",
+  "submitSaving": "凯德迪利约尔…",
+  "submit": "政治研究"
+}

@@ -1,0 +1,6 @@
+{
+  "loadFailed": "Could not load collaborators",
+  "rotateFailed": "Could not rotate code",
+  "ownerOnly": "Only the project owner can do this",
+  "migrationRequired": "Collaborator migration not applied yet (076_project_collaborators.sql)"
+}

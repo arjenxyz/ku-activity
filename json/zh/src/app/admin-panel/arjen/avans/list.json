@@ -1,0 +1,17 @@
+{
+  "confirmDelete": "您是否认为自己错了？",
+  "deleteError": "Silme hatası: {message}",
+  "title": "埃文斯 / Kesinti Kayıtları",
+  "loading": "于克勒尼约尔...",
+  "colEmployee": "伊什西",
+  "colDate": "塔里赫",
+  "colType": "图尔",
+  "colAmount": "图塔尔",
+  "colDescription": "阿奇克拉玛",
+  "colDelete": "西尔",
+  "typeAdvance": "埃文斯",
+  "typeSubcontractorCut": "塔瑟龙·凯辛蒂西",
+  "emptyValue": "-",
+  "deleteRecordTitle": "凯迪·希尔",
+  "noRecords": "Kayıt bulunamadı。"
+}

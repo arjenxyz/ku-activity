@@ -1,0 +1,32 @@
+{
+  "tabs": {
+    "overview": "सिंहावलोकन",
+    "work": "कैलेंडर",
+    "asgari": "न्यूनतम वेतन",
+    "finance": "पेरोल",
+    "rights": "मेरे अधिकार",
+    "settings": "सेटिंग्स"
+  },
+  "mesaiFallbackLabels": {
+    "full": "पूरा ओवरटाइम",
+    "quarter": "क्वार्टर ओवरटाइम",
+    "half": "आधा ओवरटाइम"
+  },
+  "stats": {
+    "gross": "सकल भुगतान",
+    "totalAdvance": "कुल अग्रिम",
+    "deduction": "कटौती",
+    "netSalary": "कुल भुगतान"
+  },
+  "loadingData": "आपका डेटा लोड हो रहा है...",
+  "workLogSectionTitle": "कार्य लॉग · {monthLabel}",
+  "advanceRequestTitle": "अग्रिम अनुरोध",
+  "advanceRequestSubtitle": "एक अनुरोध बनाएं या स्थिति जांचें →",
+  "loading": "लोड हो रहा है...",
+  "loadingFinance": "वित्त डेटा लोड हो रहा है...",
+  "periodSummary": "अवधि सारांश",
+  "workDaysTitle": "कार्य दिवस",
+  "mesaiDistributionTitle": "कुल ओवरटाइम",
+  "mesaiSuffix": "अधिक समय तक",
+  "headerSubtitle": "उपस्थिति और वेतन सारांश"
+}

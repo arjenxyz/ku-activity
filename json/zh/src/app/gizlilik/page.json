@@ -1,0 +1,56 @@
+{
+  "metadataTitle": "政治学",
+  "metadataDescription": "CrewLedger 是一个政治政策平台。",
+  "headerSubtitle": "政治活动",
+  "title": "政治学",
+  "lastUpdatedPrefix": "儿子冈塞莱姆：",
+  "sections": {
+    "who": {
+      "heading": "1.基米兹？",
+      "bodyPrefix": "{developerLine} {noCompanyLine} 平台地址："
+    },
+    "dataCollected": {
+      "heading": "2. 托普兰维耶尔",
+      "personnel": "人员：",
+      "personnelDetail": "kimlik、iletişim、IBAN、doğum tarihi、profile fotoğrafı、yevmiye、avans、kesinti、yoklama ve puantaj kayıtları。",
+      "admin": "约内蒂奇：",
+      "adminDetail": "广告、电子邮报、proje/şantiye bilgileri、oturum güvenliği。",
+      "technical": "技术：",
+      "technicalDetail": "HttpOnly 是的，cihaz türü，hata günlükleri。"
+    },
+    "transparency": {
+      "heading": "3. Şeffaflik ilkesi",
+      "body": "{transparencyLine}"
+    },
+    "purposes": {
+      "heading": "4. 爱我的心",
+      "body": "Veriler yalnızca dijital personel takibi、şeffaf fansal kayıt、yoklama、sözleşme onayı ve 平台 güvenliği için işlenir。 Veri satışı veya reklam profillemesi yapılmaz。"
+    },
+    "security": {
+      "heading": "5. 萨克拉玛和古文利克",
+      "body": "HTTPS 文件； AES-256-GCM şifreleme； rol tabanlı erişim。 T.C. kimlik NVI ile doğrulanmaz — 控制算法格式。"
+    },
+    "thirdParties": {
+      "heading": "6. Üçüncü taraflar",
+      "body": "Vercel (barındırma)、Supabase (veritabanı)、Brevo (e-posta)。 Yalnızca hizmet sunumu için gerekli verilere erişirler。"
+    },
+    "devicePermissions": {
+      "heading": "7. Cihaz izinleri",
+      "body": "相机 QR yoklama gibi açık kullanıcı eylemlerinde，cihaz izniyle kullanılır。 Arka planda gizli kayıt yapılmaz。 Ayrıntılar 人员 sözleşmelerindeki“Cihaz izinleri”metninde yer alır。"
+    },
+    "rights": {
+      "heading": "8. 哈克拉勒尼兹",
+      "bodyPrefix": "KVKK kapsamındaki haklarınız için önce kaydı oluşturan yöneticinize veya",
+      "bodySuffix": "Adresine başvurabilirsiniz。"
+    },
+    "volunteer": {
+      "heading": "9. 哥努鲁鲁克",
+      "body": "{optionalUseLine}"
+    }
+  },
+  "footer": {
+    "home": "← 安娜赛法",
+    "kvkk": "KVKK 艾登拉特玛",
+    "terms": "库拉尼姆·萨特拉勒"
+  }
+}

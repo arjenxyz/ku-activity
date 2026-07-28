@@ -1,0 +1,28 @@
+{
+  "heroTitle": "我的权利",
+  "heroSubtitle": "GDPR · 合同 · 记录",
+  "downloadCta": "下载我的数据",
+  "preparing": "正在准备……",
+  "contactCta": "权利要求",
+  "quickLinksTitle": "您的记录",
+  "quickLinks": {
+    "finance": "工资单",
+    "work": "日工资",
+    "mesai": "随着时间的推移",
+    "asgari": "最低工资"
+  },
+  "kvkkTitle": "数据保护权",
+  "kvkkRights": [
+    "了解数据是否被处理",
+    "索取信息",
+    "请求更正",
+    "请求删除",
+    "了解第三方收件人"
+  ],
+  "mailSubject": "权利请求 - CrewLedger",
+  "errors": {
+    "downloadFailed": "下载失败",
+    "generic": "下载失败"
+  },
+  "fallbackFilename": "rewledger-我的记录.zip"
+}

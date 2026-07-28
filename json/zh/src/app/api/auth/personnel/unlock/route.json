@@ -1,0 +1,6 @@
+{
+  "unauthorized": "无效会话",
+  "invalidPin": "PIN 码不正确",
+  "unlockRequired": "需要解锁",
+  "failed": "操作失败"
+}

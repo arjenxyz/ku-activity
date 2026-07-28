@@ -1,0 +1,8 @@
+{
+  "joinFailed": "无法加入项目",
+  "invalidCode": "协作者代码无效",
+  "codeNotFound": "该代码未找到或可能已被轮换",
+  "alreadyOwner": "您已经拥有该项目",
+  "alreadyCollaborator": "您已经是该项目的合作者",
+  "migrationRequired": "尚未应用协作者迁移 (076_project_collaborators.sql)"
+}

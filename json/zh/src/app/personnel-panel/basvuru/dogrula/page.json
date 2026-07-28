@@ -1,0 +1,15 @@
+{
+  "invalidLinkError": "Geçersiz doğrulama bağlantısı。",
+  "verificationFailed": "多鲁拉马·巴斯里兹兹",
+  "loadingTitle": "多鲁拉尼约尔…",
+  "loadingSubtitle": "Başvurunuz gönderiliyor，lütfen bekleyin。",
+  "loadingMessage": "电子邮局 bağlantınız doğrulanıyor...",
+  "errorTitle": "多鲁拉马·巴斯里兹兹",
+  "errorSubtitle": "关闭电源。",
+  "backToApplication": "Başvuru sayfasına dön",
+  "successTitle": "巴什武鲁·贡德里尔迪",
+  "successSubtitle": "Yönetici onay ekranına yönlendiriliyorsunuz…",
+  "successMessage": "电子邮局已发送。",
+  "redirectHint": "Birazdan onay bekleme ekranına geçeceksiniz…",
+  "suspenseTitle": "于克勒尼约尔…"
+}

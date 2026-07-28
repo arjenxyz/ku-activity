@@ -1,0 +1,31 @@
+{
+  "filters": {
+    "all": "तुम कायट्लर",
+    "work": "येवमीये",
+    "advance": "अवंसलर",
+    "deduction": "केसिंटिलर",
+    "salary": "मास ओज़ेटी"
+  },
+  "workLogsTitle": "येवमीये कायितलारी",
+  "advanceRecordsTitle": "अवंस कायितलारि",
+  "deductionRecordsTitle": "केसिंटि कायटलारि",
+  "colDate": "तरीह",
+  "colType": "बख्शीश",
+  "colDescription": "विवरण",
+  "colAmount": "तुतार",
+  "colKind": "तूर",
+  "fullDay": "तम गुन",
+  "halfDay": "यारिम गुन",
+  "emptyValue": "-",
+  "summaryTotalWork": "टोप्लाम Çalışma",
+  "summaryTotalAdvance": "टोपलम अवांस",
+  "summaryTotalDeduction": "टोपलम केसिंति",
+  "summaryNetSalary": "नेट मास",
+  "backTitle": "गेरी",
+  "backLabel": "गेरी",
+  "pageTitle": "कार्मिक सोरगुलामा",
+  "selectEmployee": "अतिरिक्त सुरक्षा...",
+  "loading": "युकलेनियोर...",
+  "selectEmployeeFirst": "एक बार और अधिक पढ़ें.",
+  "noRecords": "कायट बुलुनामादि"
+}

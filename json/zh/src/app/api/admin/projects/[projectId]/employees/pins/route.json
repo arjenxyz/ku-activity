@@ -1,0 +1,4 @@
+{
+  "fieldEncryptionKeyEksik": "FIELD_ENCRYPTION_KEY eksik",
+  "err040EmployeePinEncryptedSqlMigration": "040_employee_pin_encrypted.sql 迁移"
+}

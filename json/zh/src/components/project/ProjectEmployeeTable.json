@@ -1,0 +1,11 @@
+{
+  "title": "人员",
+  "subtitle": "今天的状态",
+  "empty": "该项目还没有人员。",
+  "loading": "加载中…",
+  "confirmed": "展示",
+  "none": "待办的",
+  "daysSuffix": "天",
+  "seeAll": "查看全部",
+  "emptyValue": "—"
+}

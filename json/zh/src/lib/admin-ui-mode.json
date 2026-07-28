@@ -1,0 +1,20 @@
+{
+  "modeLabels": {
+    "simple": "简单的",
+    "advanced": "先进的"
+  },
+  "simpleMenu": {
+    "summary": {
+      "label": "项目概况",
+      "hint": "人员名单及日常状态"
+    },
+    "approval": {
+      "label": "申请批准",
+      "hint": "新人事申请"
+    },
+    "attendance": {
+      "label": "考勤/二维码",
+      "hint": "工作日、加班费和时间表都在这里计划"
+    }
+  }
+}

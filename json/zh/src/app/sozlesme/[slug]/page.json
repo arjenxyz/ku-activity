@@ -1,0 +1,11 @@
+{
+  "errors": {
+    "invalidLink": "Geçersiz bağlantı。",
+    "loadFailed": "于克列内梅迪"
+  },
+  "loading": "于克勒尼约尔…",
+  "backToRights": "哈克拉里马敦",
+  "print": "亚兹迪尔 / PDF kaydet",
+  "versionLine": "苏伦 {version} · 奥纳拉扬: {fullName} ({email}) · {acceptedAt}",
+  "footer": "Bu Belge dijital onay kaydı ile ilişkilidir。 Saklamaniz önerilir。"
+}

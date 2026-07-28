@@ -1,0 +1,6 @@
+{
+  "invalidSubscription": "Invalid subscription data",
+  "endpointRequired": "A valid endpoint is required",
+  "saveFailed": "Could not save subscription",
+  "deleteFailed": "Could not remove subscription"
+}

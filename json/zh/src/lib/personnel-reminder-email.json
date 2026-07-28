@@ -1,0 +1,12 @@
+{
+  "subject": "{appName} — Onayınızı bekleyen yevmiye kayıtları",
+  "headerSubtitle": "叶夫米耶·奥纳伊·哈特尔拉特马斯",
+  "greeting": "梅尔哈巴{name}，",
+  "bodyHtmlSuffix": "yevmiye kaydı onayınızı bekliyor。 Onaylamadan ödeme hesabına dahil edilmez。",
+  "buttonLabel": "面板 git",
+  "textTitle": "{appName} — Yevmiye onayı",
+  "textBody": "{count} yevmiye kaydı onayınızı bekliyor。",
+  "textPanel": "面板：{panelUrl}",
+  "emailNotConfigured": "电子邮政 yapılandırılmamış",
+  "sendFailed": "Hatırlatma gönderilemedi ({status}){detail}"
+}

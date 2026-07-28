@@ -1,0 +1,6 @@
+{
+  "authFailed": "Could not load update notes (GitHub auth required).",
+  "repoNotFound": "Repository not found.",
+  "fetchFailed": "Could not load update notes.",
+  "sistemHatası": "System error"
+}

@@ -1,0 +1,6 @@
+{
+  "title": "{appName} | निर्माण कार्यबल मंच",
+  "description": "निर्माण स्थलों के लिए उपस्थिति, दैनिक वेतन, अनुबंध और चालक दल प्रबंधन। Next.js और Supabase के साथ निर्मित।",
+  "applicationName": "{appName}",
+  "appleWebAppTitle": "{appName}"
+}

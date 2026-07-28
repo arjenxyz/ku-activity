@@ -1,0 +1,19 @@
+{
+  "mesaiNoneLabel": "Mesai yok",
+  "mesaiNoneHint": "Ek mesai ücreti yok",
+  "mesaiQuarterLabel": "Çeyrek mesai",
+  "mesaiQuarterHint": "Günlük yevmiyenin %25'i ek",
+  "mesaiHalfLabel": "Yarım mesai",
+  "mesaiHalfHint": "Günlük yevmiyenin yarısı ek",
+  "mesaiFullLabel": "Tam mesai",
+  "mesaiFullHint": "Tam günlük yevmiye ek",
+  "fullDay": "Tam gün",
+  "halfDay": "Yarım gün",
+  "statusConfirmed": "Onaylı",
+  "statusPendingEmployee": "Personel onayı bekliyor",
+  "statusPendingAdmin": "Yönetici onayı bekliyor",
+  "statusDisputed": "İtiraz edildi",
+  "statusNone": "Kayıt yok",
+  "dayAmount": "{amount} gün",
+  "summaryWithMesai": "{day} + {mesai}"
+}

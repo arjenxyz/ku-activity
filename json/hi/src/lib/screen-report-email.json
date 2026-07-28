@@ -1,0 +1,17 @@
+{
+  "title": "{appName} — एकरान रैपोरु",
+  "screenLabel": "एकरान:",
+  "pageLabel": "सैफा:",
+  "timeLabel": "ज़मान:",
+  "browserLabel": "तारयिक:",
+  "formErrorLabel": "प्रपत्र हतासी:",
+  "userNoteLabel": "नोट:",
+  "diagnosticsTitle": "Tanılama",
+  "noDiagnostics": "एक साल पहले",
+  "screenshotNote": "एकरान गोरुन्तुसु ई-पोस्टा एककिंडे।",
+  "defaultScreenLabel": "प्रमाणीकरण",
+  "textDiagnosticsNone": "(योक)",
+  "subjectSuffix": "{appName} — एकरान रैपोरू ({screenLabel})",
+  "emailNotConfigured": "ईमेल पते पर ईमेल भेजें (BREVO_API_KEY, BREVO_SENDER_EMAIL)",
+  "sendFailed": "रैपोर गोंडेरिलेमेडी ({status}){detail}"
+}

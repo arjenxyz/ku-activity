@@ -1,0 +1,14 @@
+{
+  "embedScreen": "埃克兰",
+  "embedScreenDefault": "授权",
+  "embedTime": "扎曼",
+  "embedPage": "赛法",
+  "embedBrowser": "塔拉伊茨",
+  "embedFormError": "形式哈塔斯",
+  "embedUserNote": "库拉尼奇诺图",
+  "embedDiagnostics": "塔尼拉马",
+  "reportTitle": "{appName} — Ekran raporu",
+  "newReportContent": "🚩 **Yeni ekran raporu**",
+  "sendFailed": "不和谐 raporu gönderilemedi ({status}){detail}",
+  "notConfigured": "Discord raporu yapılandırılmamış (DISCORD_REPORT_WEBHOOK_URL veya DISCORD_BOT_TOKEN)"
+}

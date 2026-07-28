@@ -1,0 +1,18 @@
+{
+  "unauthorized": "未经授权",
+  "closureNotActive": "关闭未激活。",
+  "consentRequired": "首先接受关闭同意。",
+  "downloadRequired": "首先下载您的记录。",
+  "ackRequired": "首先完成下载确认。",
+  "alreadyAccelerated": "帐户删除已经加速。",
+  "invalidEmail": "找不到注册的电子邮件地址。",
+  "emailNotConfigured": "电子邮件验证不可用。",
+  "rateLimited": "代码请求太多。请稍等。",
+  "invalidCode": "代码无效或过期。",
+  "challengeExpired": "代码已过期。请求一份新的。",
+  "tooManyAttempts": "失败的尝试太多了。",
+  "codeRequired": "需要验证码。",
+  "linkRequired": "链接无效。",
+  "invalidLink": "链接无效或过期。",
+  "generic": "操作失败"
+}

@@ -1,0 +1,23 @@
+{
+  "loadFailed": "于克列内梅迪",
+  "successCreated": "Blok oluşturuldu。 Ekiplere atayın。",
+  "saveFailed": "凯伊特·巴斯里兹",
+  "completeConfirm": "“{name}” tamamlandı olarak işaretlensin mi？\n\nBu bloktaki ekiplerin blok ataması kaldırılır。 Yeni blok oluşturup ekiplere atamanız gerekir。",
+  "successCompleted": "“{name}”tamamlandı。 Ekipler sayfasından Yeni blok atayın。",
+  "actionFailed": "伊斯兰国家",
+  "pageTitle": "布洛克拉",
+  "pageDescription": "这是一个块 olarak tanımlayın。 Ekipler 博客 atanır； onaylı yevmiye otomatik işlenir。",
+  "sectionNewBlock": "新布洛克",
+  "labelBlockName": "布洛克阿迪",
+  "placeholderBlockName": "奥恩。布洛克，3.凯特",
+  "addButton": "埃克勒",
+  "hintAfterCompletePrefix": "Blok tamamlanınca ekiplerin ataması sıfırlanır。",
+  "hintTeamsLink": "埃基普勒",
+  "hintAfterCompleteSuffix": "sayfasından Yeni blok atayın。",
+  "loading": "于克勒尼约尔…",
+  "activeBlocksTitle": "活动布洛克拉",
+  "activeBlocksEmpty": "Henüz aktif blok yok。",
+  "completedBlocksTitle": "塔玛拉南·布洛克拉",
+  "defaultEmpty": "凯伊特 yok。",
+  "completeButton": "塔马兰迪"
+}

@@ -1,0 +1,13 @@
+{
+  "cells": {
+    "receivable": "टोपलम अलाकाक",
+    "expense": "टोपलम गिडर",
+    "profit": "नेट कार",
+    "perShare": "समय बर्बाद"
+  },
+  "jobCount": "{count} यह कलमी है",
+  "laborCost": "येवमीये {amount}",
+  "margin": "%{margin} मार्ज",
+  "shareSummary": "{shareCount} व्यक्ति · {activeCount} सक्रिय है",
+  "emptyValue": "—"
+}

@@ -1,0 +1,23 @@
+{
+  "sectionTitle": "Active devices",
+  "sectionHint": "Devices signed in to your account. Remove any device you do not recognize.",
+  "loading": "Loading devices…",
+  "loadFailed": "Could not load devices",
+  "empty": "No active devices found",
+  "unknownDevice": "Unknown device",
+  "thisDevice": "This device",
+  "remove": "Remove",
+  "removing": "Removing…",
+  "removeFailed": "Could not remove device",
+  "retry": "Try again",
+  "signedInAt": "Signed in: {date}",
+  "lastActive": "Last active: {time}",
+  "timeJustNow": "Just now",
+  "timeMinutesAgo": "{count} min ago",
+  "timeHoursAgo": "{count} hr ago",
+  "timeDaysAgo": "{count} days ago",
+  "confirmRemoveTitle": "Remove device",
+  "confirmRemoveBody": "This will sign out that device. They will need to sign in again.",
+  "confirmRemoveAction": "Remove",
+  "cancel": "Cancel"
+}

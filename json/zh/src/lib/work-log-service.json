@@ -1,0 +1,10 @@
+{
+  "duplicateWorkLog": "该日期的时间表已存在",
+  "alreadyConfirmed": "你已经确认了这一天",
+  "duplicateRecord": "该日期已存在一条记录",
+  "disputeNoteTooShort": "争议备注必须至少 5 个字符",
+  "recordNotFound": "未找到时间表",
+  "cannotDisputeApproved": "无法对批准的记录提出异议",
+  "cannotDisputeConfirmed": "无法对您已确认的记录提出异议",
+  "alreadyPaidNeedOverwrite": "此人已有该日期的时间表。确认覆盖。"
+}

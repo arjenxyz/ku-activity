@@ -1,0 +1,78 @@
+{
+  "errors": {
+    "loadFailed": "无法加载",
+    "startFailed": "无法启动会话",
+    "emptyList": "名单上没有人。完成之前必须至少有一个人进行扫描。",
+    "completeFailed": "无法完成出勤",
+    "cancelFailed": "无法取消",
+    "removeFailed": "无法删除",
+    "planSaveFailed": "无法保存",
+    "copyFailed": "无法复制代码"
+  },
+  "confirm": {
+    "complete": "为 {count} 人员编写有计划的工作日和加班的时间表？",
+    "cancel": "出席将被取消。不会为名单上的人员编写时间表。你确定吗？",
+    "removeCheckIn": "从列表中删除{name}？",
+    "markDidNotWork": "删除{name}的工资并标记为无效？"
+  },
+  "success": {
+    "completed": "出席完毕。",
+    "cancelled": "出席取消。",
+    "removedCheckIn": "{name} 从列表中删除。",
+    "markedDidNotWork": "{name} 标记为无效；工资被取消。"
+  },
+  "header": {
+    "title": "出席率",
+    "subtitle": "自动、二维码或手动 — 三者协同工作。"
+  },
+  "autoToggle": {
+    "label": "自动考勤（21:00）",
+    "hintOn": "开启：在职员工的出勤时间为每天 21:00。用“没来”删除未出现的情况。",
+    "hintOff": "关闭：您通过二维码或手动时间表进行考勤。",
+    "saving": "保存…"
+  },
+  "stats": {
+    "checkInCount": "{count}人",
+    "loading": "加载中…",
+    "active": "进行中",
+    "completed": "完全的",
+    "notStarted": "未开始"
+  },
+  "dateLabel": "日期",
+  "nextScan": "工作人员扫描此码",
+  "qrHint": "每次扫描后代码都会刷新。",
+  "manualCodeLabel": "手动代码",
+  "manualCodeHint": "没有相机的工作人员通过考勤页面上的“输入代码”输入此信息。",
+  "manualCodeCopy": "复制代码",
+  "manualCodeCopied": "已复制",
+  "checkInsTitle": "已扫描",
+  "checkInsRemoveHint": "使用“删除”删除未出现的情况；没有为他们写工资。",
+  "emptyCheckInsHint": "还没有扫描。人员应从考勤页面进行扫描。",
+  "editPlan": "计划",
+  "checkInPlanHint": "当您完成出勤后，将使用这些值。",
+  "checkInPlanSave": "节省",
+  "removeFromListTitle": "从列表中删除",
+  "removeFromListButton": "消除",
+  "removingLabel": "…",
+  "removeAriaLabel": "删除{name}",
+  "completeSaving": "保存…",
+  "complete": "完成出席",
+  "cancelSession": "取消",
+  "cancelAriaLabel": "取消",
+  "completedTitle": "签到完毕",
+  "completedSummary": "为 {count} 人保存了时间表。",
+  "completedRemoveHint": "对于未出现的情况，点击“未来”——工资将被删除，并且日历显示未出现。",
+  "dayLockedHint": "这一天被锁定了。无法打开第二个 QR 会话（重复付费保护）。解决方法：使用“没来”或通过手动时间表覆盖。",
+  "workLogWritten": "已保存",
+  "didNotWorkLabel": "没有工作",
+  "markDidNotWorkTitle": "删除工资，标记不起作用",
+  "markDidNotWorkButton": "没来",
+  "autoSourceBadge": "汽车",
+  "restart": "重新开始",
+  "noSessionTitle": "{date} 无人出席",
+  "noSessionOpenHint": "开始出勤；人们在扫描时就会被添加。",
+  "noSessionClosedHint": "出勤窗口已关闭。下班后重试。",
+  "startSaving": "开始…",
+  "start": "开始出席",
+  "finishMobile": "完成 ({count})"
+}

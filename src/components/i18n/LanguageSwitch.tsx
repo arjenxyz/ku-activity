@@ -5,13 +5,10 @@ import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { FiCheck, FiChevronDown, FiChevronRight, FiX } from 'react-icons/fi';
 import { APP_NAME } from '@/lib/brand';
-import { useLocalizedStrings } from '@/lib/i18n/useLocalizedStrings';
+import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useLocale } from '@/lib/i18n/LocaleProvider';
 import { flagImageUrl, LOCALE_OPTIONS, type Locale } from '@/lib/i18n/locale';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
-import trLocaleUi from '@json/src/lib/i18n/locale-ui.json';
-import enLocaleUi from '@json/en/src/lib/i18n/locale-ui.json';
-import huLocaleUi from '@json/hu/src/lib/i18n/locale-ui.json';
 
 type LanguageSwitchProps = {
   className?: string;
@@ -211,7 +208,7 @@ export function LanguageSwitch({
   tone = 'default',
 }: LanguageSwitchProps) {
   const { locale, setLocale } = useLocale();
-  const strings = useLocalizedStrings(trLocaleUi, enLocaleUi, huLocaleUi);
+  const strings = useRegistryStrings('lib/i18n/locale-ui');
   const [open, setOpen] = useState(false);
   const titleId = useId();
   const current = localeMeta(locale);

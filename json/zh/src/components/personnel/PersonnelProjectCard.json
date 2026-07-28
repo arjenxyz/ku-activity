@@ -1,0 +1,10 @@
+{
+  "sectionTitle": "项目/Şantiye",
+  "codePrefix": "科德：{code}",
+  "status": {
+    "active": "阿克蒂夫",
+    "paused": "杜拉克拉特尔迪",
+    "completed": "塔马兰迪",
+    "planning": "普兰拉玛"
+  }
+}

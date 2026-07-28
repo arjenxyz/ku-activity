@@ -1,0 +1,49 @@
+{
+  "status": {
+    "pending": "ओनै बेकलियर",
+    "approved": "Onaylanmış",
+    "rejected": "Reddedilmiş",
+    "expired": "सुरेसि डोल्मुस"
+  },
+  "checklist": {
+    "photo": "बसवुरु फ़ोटोग्राफ़ी किमलिक कार्ति / युज़ इले उयुम्लु",
+    "nameIdentity": "विज्ञापन-सोयद इल किमलिक नुमारासी बिरबिरिइले उयुमलू",
+    "contact": "टेलीफोन और ई-पोस्ट पता बसवुरु साहिबीन ऐट गोरुनुयोर"
+  },
+  "identity": {
+    "foreign": "याबांसी किम्लिक / पासापोर्ट",
+    "tc": "टी.सी. किम्लिक नं"
+  },
+  "errors": {
+    "formIncomplete": "पॉज़िसयोन, येव्मिये और ये गिरीस तारिहिनी डोल्डुरुन।",
+    "checklistIncomplete": "एक बार जब आप इसे प्राप्त करना चाहते हैं तो आप इसे प्राप्त कर सकते हैं।",
+    "approveFailed": "एक और बात"
+  },
+  "closeOverlayAriaLabel": "कपाट",
+  "modalTitle": "बासवुरु इनसेलेमे",
+  "closeModalAriaLabel": "मोडलि कपाट",
+  "applicationDates": "बासवुरु {createdDate} · बेटा {expiresDate}",
+  "ageSuffix": "· {age} हां",
+  "identitySectionTitle": "किमलिक और ओडेम",
+  "identitySectionSubtitle": "एक बार फिर से प्रयास करें",
+  "birthDateLabel": "दोगुम तारिही",
+  "ibanLabel": "IBAN",
+  "hideSensitive": "हस्सास बिल्गिलेरी गिज़ल",
+  "showSensitive": "टैम किमलिक और आईबीएएन गोस्टर",
+  "checklistTitle": "सूची पर नियंत्रण स्थापित करना",
+  "checklistHint": "रेसमी एनवीआई डोगरुलामासी यापिलमाज़; एक बार फिर मैनुएल टेयिट एडिन के साथ काम करना शुरू कर दिया।",
+  "assignmentTitle": "प्रोजे अटामासी",
+  "assignmentSubtitle": "{projectName} वैकल्पिक एकल",
+  "assignmentSubtitleFallback": "सेसिली परियोजना",
+  "loginHint": "व्यक्तिगत अंक: अंक संख्या + पिन विवरण।",
+  "positionLabel": "पोजिशन*",
+  "positionPlaceholder": "ओर्न. डेमिर इस्कीसी, कलिप्सी",
+  "dailyWageLabel": "गुनलुक येवमीये (₺)*",
+  "dailyWagePlaceholder": "1500",
+  "hireDateLabel": "यह गिरीस तारिही *",
+  "notPendingMessage": "यदि आप इस समस्या का समाधान चाहते हैं तो यह पर्याप्त है। येनी बीर तारामा यापिन वेया पर्सोनेलिन गुन्सेल बसवुरु कोडुनु इस्तेयिन।",
+  "reject": "Reddet",
+  "approveSaving": "कायदेडिलिओर…",
+  "approve": "ओनायला और कायदेत",
+  "close": "कपाट"
+}

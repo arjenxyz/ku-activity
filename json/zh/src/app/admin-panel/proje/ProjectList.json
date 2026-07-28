@@ -1,0 +1,13 @@
+{
+  "emptyTitle": "还没有项目",
+  "emptySubtitle": "使用新项目添加您的第一个工作地点。",
+  "startDate": "开始：{date}",
+  "employeeCount": "{active} 活跃 / {total} 人员",
+  "open": "打开",
+  "editAriaLabel": "编辑",
+  "deleteAriaLabel": "开始关闭",
+  "closureBadge": "关闭中",
+  "emptyDate": "—",
+  "ownerBadge": "所有者",
+  "collaboratorBadge": "合作者"
+}

@@ -1,0 +1,53 @@
+{
+  "errors": {
+    "projectNotFound": "布卢纳马迪项目",
+    "outsideWindow": "Yoklama saati dışında。 {workDate} için izin verilen 当然：{windowStartLabel} – {windowEndLabel} ({timezone})。"
+  },
+  "messages": {
+    "open": "{date} yoklaması şu an açık ({startLabel} – {endLabel}, {timezone})。",
+    "otherDateOpen": "但它是在 yoklama kapalı 中。 Şu {currentOpenWorkDate} günü için yoklama yapılabilir。",
+    "closed": "Yoklama penceresi kapalı。 {date} için izin verilen 当然：{startLabel} – {endLabel} ({timezone})。这是 1 dk öncesine kadar 的情况。"
+  },
+  "timezones": [
+    {
+      "value": "欧洲/伊斯坦布尔",
+      "label": "土耳其（伊斯坦布尔）"
+    },
+    {
+      "value": "欧洲/柏林",
+      "label": "阿尔马尼亚（柏林）"
+    },
+    {
+      "value": "欧洲/伦敦",
+      "label": "英吉尔泰雷（伦敦）"
+    },
+    {
+      "value": "欧洲/巴黎",
+      "label": "弗兰萨（巴黎）"
+    },
+    {
+      "value": "欧洲/阿姆斯特丹",
+      "label": "霍兰达（阿姆斯特丹）"
+    },
+    {
+      "value": "亚洲/迪拜",
+      "label": "英国航空航天公司（迪拜）"
+    },
+    {
+      "value": "亚洲/利雅得",
+      "label": "苏迪阿拉伯斯坦（利雅得）"
+    },
+    {
+      "value": "亚洲/卡塔尔",
+      "label": "卡塔尔（多哈）"
+    },
+    {
+      "value": "亚洲/巴库",
+      "label": "阿塞拜疆（巴库）"
+    },
+    {
+      "value": "欧洲/莫斯科",
+      "label": "俄罗斯（莫斯科）"
+    }
+  ]
+}

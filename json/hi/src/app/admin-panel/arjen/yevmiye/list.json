@@ -1,0 +1,16 @@
+{
+  "confirmDelete": "क्या आप वास्तव में एमिन मिसिनिज़ का उपयोग कर सकते हैं?",
+  "deleteError": "मेरा मतलब: {message}",
+  "title": "येवमीये कायितलारी",
+  "loading": "युकलेनियोर...",
+  "colEmployee": "इस्की",
+  "colDate": "तरीह",
+  "colType": "बख्शीश",
+  "colDescription": "विवरण",
+  "colDelete": "एसआईएल",
+  "fullDay": "तम गुन",
+  "halfDay": "यारिम गुन",
+  "emptyValue": "-",
+  "deleteRecordTitle": "कायदी सिल",
+  "noRecords": "कायट बुलुनामादि."
+}

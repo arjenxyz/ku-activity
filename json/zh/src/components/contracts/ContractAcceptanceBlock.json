@@ -1,0 +1,20 @@
+{
+  "loadFailedAdmin": "Sözleşmeler yüklenemedi。 Yöneticinize bildirin。",
+  "loadFailed": "Sözleşmeler yüklenemedi。",
+  "loading": "Sözleşmeler yükleniyor…",
+  "gateComplete": "索兹勒斯梅勒·塔玛姆",
+  "gateTitle": "索兹勒斯梅勒",
+  "gateReadyHint": "Başvuruyu gönderebilirsiniz。",
+  "gatePendingHint": "Sırayla okuyup onaylayın。",
+  "acceptedCount": "{accepted}/{total} 奥奈兰",
+  "reviewContracts": "Sözleşmeleri gözden geçir",
+  "openContracts": "索兹勒斯梅莱里·阿克",
+  "resumeContracts": "Kaldığın yerden devam et ({accepted}/{total})",
+  "requiredTitle": "佐伦鲁·索兹勒斯梅勒",
+  "requiredHint": "她的sözleşmeyi açıp sonuna kadar okuyun ({accepted}/{total})。",
+  "sidebarHint": "她的sözleşmeyi sonuna kadar okuyup onaylayın。",
+  "sidebarComplete": "{accepted}/{total} 塔玛姆",
+  "version": "苏鲁姆 {version}",
+  "accepted": "· 奥奈兰迪",
+  "openAndRead": "· Açıp okuyun ve onaylayın"
+}

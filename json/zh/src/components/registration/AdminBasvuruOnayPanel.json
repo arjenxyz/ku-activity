@@ -1,0 +1,28 @@
+{
+  "cameraLoading": "相机模块 yükleniyor…",
+  "pageTitle": "巴什武鲁·奥纳伊",
+  "pageDescriptionWithProject": "{projectName} — QR okutun veya kod girin； başvuru bulununca onay penceresi açılır。",
+  "pageDescription": "QR okutun veya kod girin； başvuru bulununca onay penceresi açılır。",
+  "scanSectionTitle": "赫兹利塔拉马",
+  "scanSectionDescription": "人员请使用 QR kodu okutun。 Eşleşme bulunursa onay formu otomatik açılır。",
+  "orCodeDivider": "韦亚科德岛",
+  "codeLabel": "巴什乌鲁科杜",
+  "codePlaceholder": "ARJ-XXXXXX",
+  "searching": "阿拉尼约尔…",
+  "search": "布尔",
+  "codeHint": "Kod tamamlanınca otomatik aranır。 QR okunamazsa personelin ekranındaki ARJ- kodunu yazın。",
+  "lookupLoading": "巴斯武鲁阿拉尼约尔…",
+  "backToProject": "← 奥泽廷项目",
+  "errors": {
+    "invalidCode": "请注意，该系统已安装完毕。人员控制 ARJ- kodunu 控制编辑。",
+    "notFound": "布卢纳马迪",
+    "lookupFailed": "阿拉玛巴沙里兹兹",
+    "approveFailed": "奥奈·巴斯里兹兹",
+    "rejectFailed": "红色巴士"
+  },
+  "success": {
+    "approved": "{firstName} {lastName} onaylandı。 {email} adresi ile giriş yapabilir — PIN bilgisini personele iletin。",
+    "rejected": "Başvuru reddedildi ve veritabanından silindi。"
+  },
+  "confirmReject": "Başvuruyu reddetmek istediğinize emin Misiniz？ Kayıt，照片已被删除；人员 aynı bilgilerle Yeniden başvurabilir。"
+}

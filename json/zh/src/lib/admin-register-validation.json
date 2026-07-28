@@ -1,0 +1,14 @@
+{
+  "nameRequired": "Ad ve soyad zorunludur。",
+  "emailRequired": "E-posta adresi zorunludur。",
+  "emailInvalid": "Geçerli bir e-posta adresi girin。",
+  "phoneRequired": "电话号码。",
+  "phoneInvalid": "Geçerli bir cep telefonu girin (ör. 534 968 5678)。",
+  "companyRequired": "Firma veya şantiye adı zorunludur。",
+  "jobTitleRequired": "Görev / unvan seçin。",
+  "cityRequired": "Şehir bilgisi zorunludur。",
+  "teamSizeRequired": "Tahmini 人员说我是这样的。",
+  "projectCountRequired": "Aktif şantiye sayısını seçin。",
+  "passwordTooShort": "Şifre en az 6 karakter olmalıdır。",
+  "passwordMismatch": "Şifreler eşleşmiyor。"
+}

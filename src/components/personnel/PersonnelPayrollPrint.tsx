@@ -2,7 +2,7 @@
 
 import { APP_NAME, CREWLEDGER_APP_ICON } from '@/lib/brand';
 import { useLocale } from '@/lib/i18n/LocaleProvider';
-import { contentLocale, type Locale } from '@/lib/i18n/locale';
+import { LOCALE_BCP47, type Locale } from '@/lib/i18n/locale';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { formatDate, formatDateTime, formatDateWithTime, formatMoney } from '@/lib/format';
 import { maskTcKimlik } from '@/lib/field-encryption';
@@ -32,9 +32,7 @@ type Props = {
 };
 
 function monthTitle(month: string, locale: Locale) {
-  const content = contentLocale(locale);
-  const tag = content === 'en' ? 'en-GB' : content === 'hu' ? 'hu-HU' : 'tr-TR';
-  return new Date(`${month}-01T12:00:00`).toLocaleDateString(tag, {
+  return new Date(`${month}-01T12:00:00`).toLocaleDateString(LOCALE_BCP47[locale], {
     month: 'long',
     year: 'numeric',
     timeZone: 'Europe/Istanbul',

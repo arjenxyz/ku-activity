@@ -1,0 +1,5 @@
+{
+  "failed": "Record could not be updated",
+  "consentRequired": "You must accept closure consent first",
+  "downloadRequired": "You must download your data first"
+}

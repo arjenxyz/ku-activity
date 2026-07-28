@@ -1,0 +1,26 @@
+{
+  "prevMonth": "एन्सेकी अय",
+  "nextMonth": "सोनराकी अय",
+  "thisMonth": "बू अय",
+  "summary": "{recorded} काइटली गन · {confirmed} ओनायल · {pending} बेकलेयन",
+  "selectMonth": "दूसरा:",
+  "weekdays": [
+    "पं",
+    "एसए",
+    "Ça",
+    "पे",
+    "घन",
+    "सीटी",
+    "पज़"
+  ],
+  "cellTitle": "{date} · {amount} · {status}",
+  "tapForDetail": "विवरण के लिए हाइलाइट किए गए दिन पर टैप करें",
+  "status": {
+    "confirmed": "ओनैली",
+    "pending_employee": "सिज़िन ओनायिनिज़",
+    "pending_admin": "योनेटिसी ओनायि",
+    "disputed": "इतिराज़",
+    "none": "İşlemde",
+    "empty": "कायट योक"
+  }
+}

@@ -1,9 +1,9 @@
 'use client';
 
 import { useLocale } from './LocaleProvider';
-import { pickStrings } from './pickStrings';
+import { pickStrings, type LocaleBundle } from './pickStrings';
 
-export function useLocalizedStrings<T>(tr: T, en: T, hu?: T): T {
+export function useLocalizedStrings<T>(bundle: LocaleBundle<T>): T {
   const { locale } = useLocale();
-  return pickStrings(locale, tr, en, hu);
+  return pickStrings(locale, bundle);
 }

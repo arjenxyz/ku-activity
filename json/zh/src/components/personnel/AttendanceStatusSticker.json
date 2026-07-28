@@ -1,0 +1,37 @@
+{
+  "close": "关闭",
+  "dismissError": "消除错误",
+  "rescanIssue": "有问题 — 重新扫描",
+  "rescan": "重新扫描",
+  "states": {
+    "waiting": {
+      "pill": "出席",
+      "title": "您已被添加到列表中",
+      "hint": "等到您的主管完成出勤。"
+    },
+    "completed": {
+      "pill": "完全的",
+      "title": "今天完成",
+      "hintDefault": "您的全天记录已创建。"
+    },
+    "cancelled": {
+      "pill": "取消",
+      "title": "出席取消",
+      "hint": "您的经理取消了这次出席。请联系他们。"
+    },
+    "removed": {
+      "pill": "从列表中删除",
+      "title": "你没有出席",
+      "hint": "扫描新的二维码或与您的主管联系。"
+    },
+    "didNotWork": {
+      "pill": "没有工作",
+      "title": "标记为今天不工作",
+      "hint": "没有记录日工资。"
+    }
+  },
+  "scanError": {
+    "pill": "扫描失败",
+    "title": "无法读取二维码"
+  }
+}

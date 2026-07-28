@@ -1,0 +1,29 @@
+{
+  "prevMonth": "Previous month",
+  "nextMonth": "Next month",
+  "thisMonth": "This month",
+  "summary": "{recorded} recorded days · {confirmed} confirmed · {mesaiPay} overtime",
+  "selectMonth": "Select month:",
+  "weekdays": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+  "cellTitle": "{date} · {detail}",
+  "tapForDetail": "Tap marked days for details",
+  "legend": {
+    "work": "Work days",
+    "mesai": "Overtime",
+    "advance": "Advance",
+    "deduction": "Deduction",
+    "minimum": "Minimum wage"
+  },
+  "presence": {
+    "worked": "At work",
+    "absent": "Absent",
+    "leave": "Leave"
+  },
+  "status": {
+    "confirmed": "Confirmed",
+    "pending_employee": "Your approval",
+    "pending_admin": "Admin approval",
+    "disputed": "Disputed",
+    "none": "In progress"
+  }
+}

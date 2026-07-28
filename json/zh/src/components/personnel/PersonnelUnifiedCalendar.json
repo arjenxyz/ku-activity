@@ -1,0 +1,37 @@
+{
+  "prevMonth": "上个月",
+  "nextMonth": "下个月",
+  "thisMonth": "本月",
+  "summary": "{recorded} 已记录天数 · {confirmed} 已确认 · {mesaiPay} 加班",
+  "selectMonth": "选择月份：",
+  "weekdays": [
+    "周一",
+    "星期二",
+    "周三",
+    "星期四",
+    "周五",
+    "星期六",
+    "太阳"
+  ],
+  "cellTitle": "{date}·{detail}",
+  "tapForDetail": "点击标记的日期了解详细信息",
+  "legend": {
+    "work": "工作日",
+    "mesai": "随着时间的推移",
+    "advance": "进步",
+    "deduction": "扣除",
+    "minimum": "最低工资"
+  },
+  "presence": {
+    "worked": "在上班",
+    "absent": "缺席的",
+    "leave": "离开"
+  },
+  "status": {
+    "confirmed": "确认的",
+    "pending_employee": "您的认可",
+    "pending_admin": "管理员批准",
+    "disputed": "争议",
+    "none": "进行中"
+  }
+}

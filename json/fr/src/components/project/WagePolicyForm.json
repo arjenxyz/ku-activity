@@ -1,0 +1,23 @@
+{
+  "defaultTitle": "Maaş ve asgari politikası",
+  "defaultSubtitle": "Ana yetkili bu ayarları bir kez doldurur; asgari ve yevmiye hesapları buna göre yapılır.",
+  "loading": "Yükleniyor…",
+  "yevmiyeSectionTitle": "Yevmiye ne zaman ödenir?",
+  "yevmiyeSectionHint": "Birden fazla seçebilirsiniz. Sistem bu bilgiyi taşeron borcu ekranlarında hatırlatma olarak gösterir; ödeme kaydı yine admin tarafından girilir.",
+  "notesLabel": "Ek not (isteğe bağlı)",
+  "notesPlaceholder": "Örn: Çatı ödemesi genelde cumartesi elden yapılır.",
+  "minimumSectionTitle": "Asgari ücret nasıl hesaplansın?",
+  "minimumInfo": "Karmaşık \"brüt/net\" terimlerini kullanmıyoruz. Referans: Devletin belirlediği aylık asgari (varsayılan {amount}). Personelin yevmiye toplamı bunun altındaysa fark taşeron borcudur.",
+  "minimumReferenceLabel": "Aylık asgari referans (₺)",
+  "minimumReferencePlaceholder": "Boş bırak = {amount} (sistem varsayılanı)",
+  "prorationCheckbox": "Ay ortasında işe girenler için oranlama uygula (işe giriş tarihine göre)",
+  "prorationModeLabel": "Oranlama yöntemi",
+  "dekontSectionTitle": "Asgari dekontu (yakında)",
+  "dekontSectionHint": "Banka dekontu veya SGK/BES belgesi yükleyerek ödenen tutarı otomatik okuma hedefleniyor. BES, SGK işçi payı gibi kesintiler dekontta farklı satırlarda göründüğü için önce manuel onay modu önerilir.",
+  "dekontAutoCheckbox": "Otomatik dekont okuma (henüz aktif değil)",
+  "dekontDeductionsLabel": "Dekont kesintileri (hazırlık ayarı)",
+  "dekontNotesLabel": "Dekont / muhasebe notu",
+  "dekontNotesPlaceholder": "Örn: BES kesintisi ayrı satırda, taşeron net yatırıyor.",
+  "submitSaving": "Kaydediliyor…",
+  "submit": "Politikayı kaydet"
+}

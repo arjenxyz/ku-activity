@@ -1,0 +1,15 @@
+{
+  "greeting": "नमस्ते {name}",
+  "pinLabel": "PIN",
+  "unlockButton": "जारी रखना",
+  "unlocking": "सत्यापन किया जा रहा है...",
+  "forgotPin": "पिन भूल गए",
+  "forgetMe": "मुझे भूल जाओ",
+  "forgetMeConfirm": "इस डिवाइस पर आपका सत्र बंद हो जाएगा. जारी रखना?",
+  "screenLabel": "लॉक स्क्रीन",
+  "subtitle": "जारी रखने के लिए अपना पिन दर्ज करें।",
+  "checking": "लोड हो रहा है...",
+  "invalidPin": "ग़लत पिन",
+  "systemError": "कुछ गलत हो गया",
+  "pinDigitAria": "पिन अंक"
+}

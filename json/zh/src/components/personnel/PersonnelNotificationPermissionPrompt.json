@@ -1,0 +1,12 @@
+{
+  "title": "启用通知？",
+  "bodyBrowser": "允许出勤提醒、提前批准和工资更新提醒。",
+  "bodyTwa": "在应用程序设置中打开出勤、预付款和工资提醒的通知。",
+  "twaHint": "设置 → 应用程序 → CrewLedger → 通知",
+  "enableButton": "启用通知",
+  "openSettingsButton": "打开应用程序设置",
+  "confirmSettingsButton": "我启用了它们，继续",
+  "twaAwaitingSettings": "从设置返回后，点击“我启用了它们，继续”。",
+  "laterButton": "现在不要",
+  "requesting": "请求许可..."
+}

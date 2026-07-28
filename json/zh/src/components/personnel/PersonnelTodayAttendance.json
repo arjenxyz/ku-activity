@@ -1,0 +1,24 @@
+{
+  "badge": "今日出席人数",
+  "shiftHours": "工作时间{start}{end}",
+  "shiftEnd": "– {end}",
+  "confirmed": "您已注册全天",
+  "notConfirmed": "还没有参加",
+  "scanQr": "扫描主管二维码",
+  "rescanQr": "再次扫描二维码",
+  "loadFailed": "无法加载",
+  "states": {
+    "waiting": {
+      "title": "您已在出席名单中",
+      "hint": "等到您的主管完成出勤。"
+    },
+    "cancelled": {
+      "title": "出席取消",
+      "hint": "您的主管取消了本次会议。请联系他们。"
+    },
+    "removed": {
+      "title": "从列表中删除",
+      "hint": "扫描新的二维码或与您的主管联系。"
+    }
+  }
+}

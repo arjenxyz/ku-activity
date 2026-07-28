@@ -1,0 +1,11 @@
+{
+  "noAccessibleProject": "एरीसिलेबिलिर प्रोजे बुलुनामाडी",
+  "runMigration": "057_dekont_import_drafts.sql अद्यतन",
+  "draftNotFound": "तस्लाक बुलुनमादि",
+  "draftAlreadyUsed": "यह सुनिश्चित करने के लिए पर्याप्त है",
+  "draftExpired": "तसलाक सुरेसी डोल्डु - डेकोंटू येनिडेन पेलासिन",
+  "matchValidationFailed": "एस्लेसेमे डोग्रुलानामादि",
+  "proofFileNotFound": "रसीद फ़ाइल नहीं मिली",
+  "ocrTextEmpty": "रसीद से पाठ नहीं पढ़ा जा सका",
+  "retroactiveAmountRequired": "पूर्वव्यापी भुगतान के लिए राशि आवश्यक है"
+}

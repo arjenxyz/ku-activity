@@ -1,0 +1,23 @@
+{
+  "sectionTitle": "有源设备",
+  "sectionHint": "设备已登录您的帐户。删除任何您不认识的设备。",
+  "loading": "加载设备...",
+  "loadFailed": "无法加载设备",
+  "empty": "未找到活动设备",
+  "unknownDevice": "未知设备",
+  "thisDevice": "这个装置",
+  "remove": "消除",
+  "removing": "正在删除...",
+  "removeFailed": "无法删除设备",
+  "retry": "再试一次",
+  "signedInAt": "登录：{date}",
+  "lastActive": "最后活跃：{time}",
+  "timeJustNow": "现在",
+  "timeMinutesAgo": "{count} 分钟前",
+  "timeHoursAgo": "{count} 小时前",
+  "timeDaysAgo": "{count} 天前",
+  "confirmRemoveTitle": "移除设备",
+  "confirmRemoveBody": "这将注销该设备。他们需要重新登录。",
+  "confirmRemoveAction": "消除",
+  "cancel": "取消"
+}

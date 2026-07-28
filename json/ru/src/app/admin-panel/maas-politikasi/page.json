@@ -1,0 +1,9 @@
+{
+  "loadFailed": "Yüklenemedi",
+  "saveFailed": "Kaydedilemedi",
+  "saveSuccess": "Şirket politikası kaydedildi. Projeler varsayılan olarak bunu kullanır.",
+  "saveError": "Kayıt başarısız",
+  "backToProjects": "← Projelere dön",
+  "title": "Şirket maaş politikası",
+  "subtitle": "Ana yetkili: yevmiye ödeme zamanı ve asgari hesap kurallarını burada belirleyin. Her proje isterse kendi özel kuralını tanımlayabilir."
+}

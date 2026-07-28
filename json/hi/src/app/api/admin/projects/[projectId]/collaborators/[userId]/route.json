@@ -1,0 +1,6 @@
+{
+  "invalidId": "अमान्य आईडी",
+  "removeFailed": "सहयोगी को हटाया नहीं जा सका",
+  "ownerOnly": "ऐसा केवल प्रोजेक्ट स्वामी ही कर सकता है",
+  "migrationRequired": "सहयोगी माइग्रेशन अभी तक लागू नहीं किया गया है (076_project_collaborator.sql)"
+}

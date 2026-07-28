@@ -1,0 +1,100 @@
+{
+  "attendanceReminder": {
+    "title": "Attendance reminder",
+    "body": "Please scan the QR code to record today's attendance."
+  },
+  "attendanceSessionCancelled": {
+    "title": "Attendance session cancelled",
+    "body": "The attendance session for {workDate} was cancelled by {actorName}."
+  },
+  "attendanceRemovedFromList": {
+    "title": "Attendance record updated",
+    "body": "Your attendance record for {workDate} was removed from the list by {actorName}."
+  },
+  "attendanceDidNotWork": {
+    "title": "Wage removed",
+    "body": "Your daily wage for {workDate} was deleted by {actorName}; you were marked as did not work."
+  },
+  "attendanceSessionCompleted": {
+    "title": "Attendance completed",
+    "body": "Your attendance for {workDate} has been confirmed and recorded on your payroll."
+  },
+  "workLogRecorded": {
+    "title": "Timesheet recorded",
+    "body": "A timesheet of {amount} day(s) for {workDate} was created by {actorName}."
+  },
+  "workLogUpdated": {
+    "title": "Timesheet updated",
+    "body": "Your timesheet for {workDate} was updated by {actorName}."
+  },
+  "workLogDeleted": {
+    "title": "Timesheet deleted",
+    "body": "Your timesheet for {workDate} was deleted by {actorName}."
+  },
+  "advanceApproved": {
+    "title": "Advance request approved",
+    "body": "Your advance request for {amount} TL has been approved. Add this code to the transfer description: {transferCode}"
+  },
+  "advanceApprovedNoCode": {
+    "title": "Advance request approved",
+    "body": "Your advance request for {amount} TL has been approved. Payment processing has started."
+  },
+  "advanceCashReady": {
+    "title": "Cash advance ready",
+    "body": "Your cash advance of {amount} TL is ready. Scan the QR code to confirm receipt."
+  },
+  "advanceRejected": {
+    "title": "Advance request declined",
+    "body": "{reason}"
+  },
+  "advanceRejectedNoReason": {
+    "title": "Advance request declined",
+    "body": "Your request has been declined by the administrator."
+  },
+  "advancePaid": {
+    "title": "Advance payment recorded",
+    "body": "An advance payment of {amount} TL has been recorded on your payroll."
+  },
+  "minimumWagePaid": {
+    "title": "Minimum wage payment",
+    "body": "A minimum wage payment of {amount} TL was recorded by {actorName}."
+  },
+  "minimumWageUpdated": {
+    "title": "Minimum wage updated",
+    "body": "Your minimum wage record for {date} was updated to {amount} TL by {actorName}."
+  },
+  "minimumWageRemoved": {
+    "title": "Minimum wage removed",
+    "body": "Your {amount} TL minimum wage record for {date} was deleted by {actorName}."
+  },
+  "salaryPaid": {
+    "title": "Salary payment completed",
+    "body": "Your net salary for {month} ({amount} TL) has been marked as paid."
+  },
+  "deductionAdded": {
+    "title": "Payroll update",
+    "body": "A {typeLabel} of {amount} TL was applied to your payroll by {actorName}."
+  },
+  "deductionUpdated": {
+    "title": "Payroll record updated",
+    "body": "Your {typeLabel} for {date} was updated to {amount} TL by {actorName}."
+  },
+  "deductionRemoved": {
+    "title": "Payroll record removed",
+    "body": "Your {amount} TL {typeLabel} for {date} was deleted by {actorName}."
+  },
+  "deductionTypeLabels": {
+    "advance": "advance",
+    "deduction": "deduction",
+    "subcontractor_cut": "subcontractor deduction",
+    "other": "deduction"
+  },
+  "pushTest": {
+    "title": "Notifications enabled",
+    "body": "CrewLedger personnel notifications are set up successfully."
+  },
+  "migrationHint": "Run 059_personnel_notifications.sql migration",
+  "errors": {
+    "notFound": "Notification not found"
+  }
+}

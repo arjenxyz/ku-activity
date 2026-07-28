@@ -1,0 +1,10 @@
+{
+  "sectionTitle": "प्रोजे/संतिये",
+  "codePrefix": "कोड: {code}",
+  "status": {
+    "active": "अक्तीफ़",
+    "paused": "दुराकलातिल्डी",
+    "completed": "तमामलंदी",
+    "planning": "प्लानलामा"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "statusLabels": {
+    "pending": "तलेप बेकलियर",
+    "approved": "ओनायलैंडि - ओडेमे बेक्लेनिओर",
+    "awaiting_receipt": "नाकित टेस्लामी बेकलेनियोर",
+    "paid": "ओडेन्डी",
+    "rejected": "Reddedildi",
+    "cancelled": "इप्टल एडिल्डी",
+    "expired": "सुरेसी डोल्डु"
+  },
+  "paymentMethodLabels": {
+    "bank_transfer": "हवाला/ईएफ़टी",
+    "cash": "नकित"
+  }
+}

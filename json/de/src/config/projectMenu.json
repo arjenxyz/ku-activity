@@ -1,0 +1,113 @@
+{
+  "primary": [
+    {
+      "label": "Proje özeti",
+      "path": "",
+      "hint": "Personel ve günlük durum"
+    },
+    {
+      "label": "Yevmiye",
+      "path": "yevmiye",
+      "hint": "Günlük çalışma kaydı"
+    },
+    {
+      "label": "Taşeron karı",
+      "path": "kar",
+      "hint": "Blok, iş kalemi ve kâr"
+    }
+  ],
+  "groups": [
+    {
+      "id": "personel",
+      "label": "Personel",
+      "links": [
+        { "label": "Personel listesi", "path": "list" },
+        { "label": "Yeni personel", "path": "new" },
+        { "label": "Başvuru onayı", "path": "basvuru-onay" },
+        { "label": "Personel şifreleri", "path": "sorgulama/personel-sifreleri" }
+      ]
+    },
+    {
+      "id": "kayitlar",
+      "label": "Diğer kayıtlar",
+      "links": [
+        { "label": "Avans", "path": "avans" },
+        {
+          "label": "Avans talepleri",
+          "path": "avans-talepleri",
+          "hint": "Personel talepleri — onay ve ödeme"
+        },
+        {
+          "label": "Dekont paylaş (OCR)",
+          "absolutePath": "/admin-panel/dekont-paylas",
+          "hint": "Bankadan paylaş — otomatik eşleştirme"
+        },
+        { "label": "Kesinti", "path": "kesinti" },
+        { "label": "Asgari ücret", "path": "asgari" }
+      ]
+    },
+    {
+      "id": "santiye",
+      "label": "Şantiye",
+      "links": [
+        { "label": "Bloklar", "path": "bloklar" },
+        { "label": "Ekipler", "path": "ekiplar" }
+      ]
+    },
+    {
+      "id": "finans",
+      "label": "Finans",
+      "links": [
+        { "label": "Ne durumdayız?", "path": "durum" },
+        { "label": "Maaş bordrosu", "path": "bordro" },
+        { "label": "Maaş politikası", "path": "maas-politikasi" }
+      ]
+    },
+    {
+      "id": "kontrol",
+      "label": "Kontrol & rapor",
+      "links": [
+        { "label": "Raporlar", "path": "raporlar" },
+        { "label": "Onaylananlar", "path": "raporlar/onaylanan" },
+        { "label": "Bekleyen kayıtlar", "path": "raporlar/onaysiz" },
+        {
+          "label": "Kayıt geçmişi",
+          "path": "kayit-gecmisi",
+          "hint": "Sorgulama ve arşiv"
+        }
+      ]
+    }
+  ],
+  "recordArchive": [
+    {
+      "label": "Aylık özet",
+      "desc": "Tüm personelin ay bazında yevmiye, avans ve net durumu",
+      "path": "sorgulama/admin"
+    },
+    {
+      "label": "Personel bazlı",
+      "desc": "Tek personelin yevmiye, avans ve asgari kayıtları",
+      "path": "sorgulama"
+    },
+    {
+      "label": "Yevmiye arşivi",
+      "desc": "Tarih ve personele göre yevmiye listesi",
+      "path": "sorgulama/yevmiye"
+    },
+    {
+      "label": "Avans arşivi",
+      "desc": "Verilen avansların listesi",
+      "path": "sorgulama/avans"
+    },
+    {
+      "label": "Kesinti arşivi",
+      "desc": "Kesinti kayıtları",
+      "path": "sorgulama/kesinti"
+    },
+    {
+      "label": "Asgari arşivi",
+      "desc": "Asgari ücret tamamlama kayıtları",
+      "path": "sorgulama/asgari"
+    }
+  ]
+}

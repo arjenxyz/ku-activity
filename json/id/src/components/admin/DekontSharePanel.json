@@ -1,0 +1,65 @@
+{
+  "shell": {
+    "backToPanel": "Back to panel"
+  },
+  "steps": {
+    "upload": "Upload",
+    "analyze": "Scan",
+    "review": "Confirm"
+  },
+  "trustLabel": "score",
+  "validation": {
+    "scanRejectedTitle": "Could not read receipt"
+  },
+  "errors": {
+    "draftLoadFailed": "Could not load draft",
+    "analyzeFailed": "Analysis failed",
+    "saveFailed": "Save failed"
+  },
+  "success": {
+    "paymentSaved": "Payment recorded.",
+    "doneTitle": "Done",
+    "uploadAnother": "New receipt"
+  },
+  "header": {
+    "title": "Receipt scan",
+    "description": ""
+  },
+  "upload": {
+    "title": "Drop file here",
+    "description": "PDF or image — or share from your banking app",
+    "selectFile": "Choose file",
+    "fileHint": "PDF, JPG, PNG · max 10 MB"
+  },
+  "analyze": {
+    "title": "Reading receipt…"
+  },
+  "review": {
+    "matchTitle": "Match advance",
+    "viewProfile": "Profile",
+    "approvedOn": "Approved {date}",
+    "amountMatch": "Amount",
+    "noMatchTitle": "No matching advance found",
+    "goToProjects": "Go to panel",
+    "referenceLabel": "Reference",
+    "paymentDateLabel": "Payment date",
+    "amountLabel": "Amount (TRY)",
+    "ibanLabel": "Recipient IBAN",
+    "amountHint": "Enter amount from receipt manually",
+    "saveSaving": "Saving…",
+    "savePayment": "Save payment",
+    "anotherDekont": "Another receipt",
+    "transferCodeLabel": "Expected transfer code",
+    "transferCodeHint": "This code should appear on the receipt if you added it to the transfer description",
+    "transferCodeOverride": "Code not readable on receipt — save anyway",
+    "forcePayment": "Force save payment",
+    "forcePaymentHint": "Payment was made before advance approval (within last {maxDays} days). IBAN and amount must match.",
+    "forcePaymentSaving": "Force saving…",
+    "retroactiveTitle": "Retroactive payment (no request)",
+    "retroactiveHint": "Select employee matching IBAN — payment was made earlier",
+    "retroactiveSave": "Save as retroactive payment",
+    "retroactiveNoEmployee": "No employee found with this IBAN",
+    "payrollMonthNotice": "Payment was made on {paymentDate}. This advance will be posted to the {payrollMonth} payroll."
+  },
+  "loading": "Loading…"
+}

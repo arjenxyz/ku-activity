@@ -1,0 +1,19 @@
+{
+  "mesaiNoneLabel": "मेसाई योक",
+  "mesaiNoneHint": "एक मेसाई उक्रेति योक",
+  "mesaiQuarterLabel": "सेयेरेक मेसाई",
+  "mesaiQuarterHint": "गुणलुक येव्मियेनिन %25'आई एक",
+  "mesaiHalfLabel": "यारिम मेसाई",
+  "mesaiHalfHint": "एक वर्ष से अधिक समय पहले",
+  "mesaiFullLabel": "तम मेसै",
+  "mesaiFullHint": "टैम गुनलुक येव्मिये एक",
+  "fullDay": "तम गुन",
+  "halfDay": "यारिम गुन",
+  "statusConfirmed": "ओनैली",
+  "statusPendingEmployee": "व्यक्तिगत लाभ",
+  "statusPendingAdmin": "योनेटिसी ओनैय बेकलियॉर",
+  "statusDisputed": "इतिराज़ एडिल्डी",
+  "statusNone": "कायट योक",
+  "dayAmount": "{amount} गन",
+  "summaryWithMesai": "{day} + {mesai}"
+}

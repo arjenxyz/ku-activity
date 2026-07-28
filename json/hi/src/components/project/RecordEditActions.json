@@ -1,0 +1,20 @@
+{
+  "errors": {
+    "updateFailed": "गुन्सेलेनेमेडी",
+    "deleteFailed": "सिलिनमेडी"
+  },
+  "deleteConfirm": "क्या आप वास्तव में एमिन मिसिनिज़ का उपयोग कर सकते हैं?",
+  "editTitle": "डुज़ेनले",
+  "deleteTitle": "एसआईएल",
+  "modalTitle": "कायदी ड्यूज़ेनले",
+  "dateLabel": "तरीह",
+  "daysLabel": "बहुत बढ़िया",
+  "amountLabel": "तुतार (₺)",
+  "approvedLabel": "ओनैली",
+  "jobLabel": "यह काला है",
+  "jobHint": "इससे पहले कि यह ठीक हो जाए।",
+  "descriptionLabel": "विवरण",
+  "submitSaving": "कायदेडिलिओर…",
+  "submit": "कायदेत",
+  "cancel": "इप्टाल"
+}

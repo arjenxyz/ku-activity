@@ -1,0 +1,47 @@
+{
+  "errors": {
+    "employeeNotFound": "Personel bulunamadı"
+  },
+  "collectors": {
+    "profile": { "title": "Personel profili" },
+    "sensitive": {
+      "title": "Hassas kimlik ve banka bilgileri",
+      "noDataNote": "Hassas veri kaydı bulunamadı veya şifreleme yapılandırılmamış"
+    },
+    "project": { "title": "Proje ve çalışma yeri" },
+    "workLogs": { "title": "Yevmiye ve puantaj kayıtları" },
+    "deductions": { "title": "Avans ve kesintiler" },
+    "minimumWages": { "title": "Asgari ücret kayıtları" },
+    "payroll": { "title": "Bordro dönemleri ve satırlar" },
+    "contracts": { "title": "Sözleşme onayları ve metinleri" },
+    "registration": { "title": "Application and approval history" },
+    "advanceRequests": {
+      "title": "Advance requests (approval, payment, receipt)",
+      "proofNote": "Receipt files are not copied into the ZIP; proof_* fields contain reference and OCR metadata only."
+    },
+    "attendance": { "title": "Attendance check-ins and session notices" },
+    "notifications": { "title": "In-app notification history" },
+    "closureConsent": {
+      "title": "Project closure consent",
+      "notInClosure": "Project is not in closure or no consent record yet"
+    },
+    "company": { "title": "Business / data controller info" },
+    "extensionsPlaceholder": { "title": "Extensible module placeholder" }
+  },
+  "contractHtml": {
+    "approvedLabel": "Onay:",
+    "versionLabel": "Sürüm:",
+    "contentHashLabel": "İçerik hash:"
+  },
+  "extensionsPlaceholder": {
+    "message": "CrewLedger hukuki dosya sistemi genişletilebilir. Yeni özellikler registerDossierCollector() ile eklenir.",
+    "reservedModules": [
+      "leave_requests — İzin / devamsızlık talepleri",
+      "documents — Yüklenen belgeler",
+      "disciplinary — Disiplin kayıtları",
+      "communications — Bildirim ve mesaj logları",
+      "attendance_devices — Cihaz bazlı yoklama"
+    ],
+    "integration": "src/lib/legal-dossier/collectors/ altına yeni dosya ekleyip registerDossierCollector çağırın."
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "subject": "{appName} — Onayınızı bekleyen yevmiye kayııtları",
+  "headerSubtitle": "येव्मिये ओनाय हतिरलातमसि",
+  "greeting": "मरहबा {name},",
+  "bodyHtmlSuffix": "येवमिये कायदी ओनायिनिज़ी बेकलियॉर। ओनायलमडन ओडेमे हेसबिना दहिल एडिल्मेज़।",
+  "buttonLabel": "पैनल गिट",
+  "textTitle": "{appName} - येवमीये ओनायि",
+  "textBody": "{count} येवमिये कायदी ओनायिनिज़ी बेकलियॉर।",
+  "textPanel": "पैनल: {panelUrl}",
+  "emailNotConfigured": "ई-पोस्ट यापिलैंड्रिलमामिस",
+  "sendFailed": "हतिरलात्मा गोंडेरिलेमेडी ({status}){detail}"
+}

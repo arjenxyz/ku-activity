@@ -1,0 +1,6 @@
+{
+  "invalidSubscription": "अमान्य सदस्यता डेटा",
+  "endpointRequired": "एक वैध समापन बिंदु आवश्यक है",
+  "saveFailed": "सदस्यता सहेजी नहीं जा सकी",
+  "deleteFailed": "सदस्यता नहीं हटाई जा सकी"
+}

@@ -1,0 +1,17 @@
+{
+  "loginFailedWithStatus": "गिरीस बासारिज़ ({status})",
+  "systemError": "सिस्टम हटासि - लुटफेन टेकरर डेनेयिन",
+  "tcKimlikLabel": "टी.सी. किम्लिक नं",
+  "tcKimlikPlaceholder": "11 हनेलि टी.सी. किमलिक संख्या",
+  "pinLabel": "गिरीस पिन",
+  "pinPlaceholder": "{pinLength} हनेलि पिन",
+  "loggingIn": "गिरीस यापिलियोर…",
+  "loginButton": "गिरीस याप",
+  "noAccountPrompt": "हेसबीनिज़ माय योक?",
+  "applyLink": "बसवुरु यापिन",
+  "forgotPin": "सिफ़्रेमी उनुट्टम",
+  "screenLabel": "कार्मिक गिरीस",
+  "subtitle": "टी.सी. किमलिक नंबर और पिन आइल गिरीस यापिन।",
+  "checkingSession": "ओटूरम कंट्रोल एडिलियोर…",
+  "loading": "युकलेनियोर..."
+}

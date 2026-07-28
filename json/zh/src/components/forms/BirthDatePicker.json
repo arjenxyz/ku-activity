@@ -1,0 +1,10 @@
+{
+  "label": "多姆·塔里希",
+  "yearAriaLabel": "多古姆·伊勒",
+  "yearPlaceholder": "耶尔",
+  "monthAriaLabel": "多古姆阿伊",
+  "monthPlaceholder": "哎呀",
+  "dayAriaLabel": "多古姆古努",
+  "dayPlaceholder": "枪",
+  "hint": "{minAge} yaşında olmalısınız。 {maxBirthDate} ve öncesi tarihler seçilebilir。"
+}

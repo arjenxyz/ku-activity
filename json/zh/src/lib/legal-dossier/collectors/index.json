@@ -1,0 +1,71 @@
+{
+  "errors": {
+    "employeeNotFound": "人员布卢纳马迪"
+  },
+  "collectors": {
+    "profile": {
+      "title": "人员概况"
+    },
+    "sensitive": {
+      "title": "哈萨斯金姆利克银行",
+      "noDataNote": "Hassas veri kaydı bulunamadı veya şifreleme yapılandırılmamış"
+    },
+    "project": {
+      "title": "Proje ve çalışma yeri"
+    },
+    "workLogs": {
+      "title": "Yevmiye ve puantaj kayıtları"
+    },
+    "deductions": {
+      "title": "埃文斯·维·凯辛提勒"
+    },
+    "minimumWages": {
+      "title": "阿斯加里 ücret kayıtları"
+    },
+    "payroll": {
+      "title": "巴德罗·德内姆勒里和萨特尔拉"
+    },
+    "contracts": {
+      "title": "Sözleşme onayları ve metinleri"
+    },
+    "registration": {
+      "title": "申请和批准历史"
+    },
+    "advanceRequests": {
+      "title": "提前请求（批准、付款、收据）",
+      "proofNote": "收据文件不会复制到 ZIP 中； proof_* 字段仅包含参考和 OCR 元数据。"
+    },
+    "attendance": {
+      "title": "出席签到和会议通知"
+    },
+    "notifications": {
+      "title": "应用内通知历史记录"
+    },
+    "closureConsent": {
+      "title": "项目结束同意书",
+      "notInClosure": "项目尚未结束或尚未获得同意记录"
+    },
+    "company": {
+      "title": "业务/数据控制者信息"
+    },
+    "extensionsPlaceholder": {
+      "title": "可扩展模块占位符"
+    }
+  },
+  "contractHtml": {
+    "approvedLabel": "奥奈：",
+    "versionLabel": "苏鲁姆:",
+    "contentHashLabel": "伊塞里克哈希："
+  },
+  "extensionsPlaceholder": {
+    "message": "CrewLedger hukuki dosya sistemi genişletilebilir。可以使用 registerDossierCollector() 来查看。",
+    "reservedModules": [
+      "leave_requests — izin / devmsızlık talepleri",
+      "文档 - Yüklenen belgeler",
+      "纪律 — Disiplin kayıtları",
+      "通讯 — Bildirim ve mesaj logları",
+      "出勤设备 — Cihaz bazlı yoklama"
+    ],
+    "integration": "src/lib/legal-dossier/collectors/ 注册 DossierCollector çağırın。"
+  }
+}

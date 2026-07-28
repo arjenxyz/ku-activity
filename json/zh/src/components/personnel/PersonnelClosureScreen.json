@@ -1,0 +1,12 @@
+{
+  "accountDeletionNote": "您的帐户将于{date}删除",
+  "accountDeletionNoteAccelerated": "您的帐户将在 3 分钟后被删除",
+  "countdownLabel": "距离您的帐户被删除还剩多少时间",
+  "downloadHint": "下载并保存您的工作日志、付款和合同的 ZIP 副本。",
+  "fastDeleteTitle": "想要更快地删除您的帐户吗？",
+  "fastDeleteIntro": "为了缩短等待时间并加快删除速度，请按顺序完成以下步骤：",
+  "fastDeleteStep1": "将您的数据下载为 ZIP 文件",
+  "fastDeleteStep2": "点击“我已下载，继续”按钮",
+  "fastDeleteStep3": "使用电子邮件验证确认出现的快速删除选项",
+  "fastDeleteFooter": "完成这些步骤后，快速删除选项会自动出现在此屏幕上。"
+}

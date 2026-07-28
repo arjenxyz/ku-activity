@@ -1,0 +1,17 @@
+{
+  "buttonDefault": "दाखिल करना",
+  "closeOverlayAriaLabel": "साइन-इन मेनू बंद करें",
+  "closeButtonAriaLabel": "बंद करना",
+  "modalTitle": "साइन-इन चुनें",
+  "footerNote": "साइन इन करने के लिए वह पैनल चुनें जो आपकी भूमिका से मेल खाता हो।",
+  "panels": {
+    "personel": {
+      "title": "कार्मिक",
+      "description": "उपस्थिति, वेतन और पेरोल"
+    },
+    "admin": {
+      "title": "व्यवस्थापक",
+      "description": "परियोजनाएं, अनुमोदन और रिपोर्ट"
+    }
+  }
+}

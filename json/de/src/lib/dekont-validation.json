@@ -1,0 +1,118 @@
+{
+  "checks": {
+    "readable": {
+      "label": "Belge okunabilir",
+      "detailChars": "{count} karakter okundu",
+      "detailFailed": "Metin çıkarılamadı — net bir dekont/görsel yükleyin"
+    },
+    "bankContext": {
+      "label": "Banka / havale içeriği",
+      "detailFailed": "Dekont, havale veya EFT ifadeleri bulunamadı"
+    },
+    "iban": {
+      "label": "Geçerli alıcı IBAN",
+      "detailPassed": "TR IBAN doğrulandı",
+      "detailFailed": "Geçerli alıcı IBAN okunamadı"
+    },
+    "amount": {
+      "label": "İşlem / transfer tutarı",
+      "detailFailed": "Tutar tespit edilemedi (İşlem Tutarı veya TL satırı okunamadı)",
+      "detailAmount": "{amount} ₺"
+    },
+    "transferShape": {
+      "label": "Dekont yapısı (IBAN + tutar + tarih/referans)",
+      "detailPassed": "{count}/4 alan eşleşti",
+      "detailFailed": "Eksik alanlar var — rastgele PDF kabul edilmez",
+      "detailMissing": "Eksik: {fields}"
+    },
+    "reference": {
+      "label": "Referans / işlem no",
+      "detailFailed": "Okunamadı (önerilir)"
+    },
+    "date": {
+      "label": "İşlem tarihi",
+      "detailFailed": "Okunamadı (önerilir)"
+    }
+  },
+  "summary": {
+    "accepted": "Dekont doğrulandı — avans eşleştirmesine geçilebilir",
+    "lowScore": "Güven skoru düşük — daha net bir dekont yükleyin",
+    "rejected": "Dekont doğrulanamadı"
+  },
+  "rejection": {
+    "issuesHeader": "Tespit edilemeyen veya eksik bilgiler:",
+    "scoreLine": "Güven skoru: {score} / 100 (minimum {minScore})",
+    "statusPassed": "Geçti",
+    "foundHeader": "Okunan bilgiler:",
+    "foundIban": "IBAN: {iban}",
+    "foundAmount": "Tutar: {amount} ₺",
+    "foundChars": "Metin: {count} karakter",
+    "foundNothing": "Dosyadan anlamlı metin çıkarılamadı",
+    "tipUnreadable": "Banka uygulamasında işlem onay ekranı yerine «Dekont», «İşlem belgesi» veya «PDF paylaş» seçeneğini kullanın. Mümkünse ekran görüntüsü değil PDF gönderin.",
+    "tipPartialRead": "Dekont paylaşıldı ancak IBAN veya tutar net okunamadı. PDF dekontu tercih edin veya daha yüksek çözünürlüklü bir görsel deneyin.",
+    "tipLowScore": "Bazı alanlar okundu ancak güven skoru yetersiz ({score}/{minScore}). Eksik alanları kontrol edin veya daha net bir belge yükleyin.",
+    "bullet": "• {label}: {detail}",
+    "passedHeader": "Kabul edilen kontroller",
+    "failedHeader": "Reddedilen kontroller",
+    "optionalHeader": "Eksik (opsiyonel — zorunlu değil)",
+    "noPassed": "Hiçbir kontrol geçmedi",
+    "noFailed": "Zorunlu kontrollerde sorun yok",
+    "ocrErrorLine": "OCR hatası: {message}"
+  },
+  "match": {
+    "docAccepted": {
+      "label": "Dekont belgesi güvenilir"
+    },
+    "matchSelected": {
+      "label": "Avans talebi seçildi",
+      "detailFailed": "Listeden bir talep seçin",
+      "detailPassed": "{employeeName}{projectSuffix}"
+    },
+    "ibanMatch": {
+      "label": "Alıcı IBAN personel kaydıyla eşleşiyor",
+      "detailMismatch": "{iban} — kayıtlı IBAN ile uyuşmuyor",
+      "detailNoIban": "Dekonttan IBAN okunamadı"
+    },
+    "amountMatch": {
+      "label": "Transfer tutarı onaylı avansla uyumlu",
+      "detailCompare": "Dekont: {ocrAmount} ₺ · Onaylı avans: {approvedAmount} ₺",
+      "detailFailed": "Dekont tutarı okunamadı"
+    },
+    "matchScore": {
+      "label": "Match score (minimum {minScore})",
+      "detailPassed": "Score: {score} — sufficient",
+      "detailFailed": "Score: {score} — at least {minScore} required"
+    },
+    "transferCode": {
+      "label": "Transfer reference code (HVL-)",
+      "detailPassed": "{code}",
+      "detailFailed": "Expected: {expectedCode}",
+      "detailMissing": "No code defined for this request"
+    },
+    "paymentDate": {
+      "label": "Payment after advance approval",
+      "detailFailed": "Receipt date is before approval"
+    },
+    "bonusDetail": "Additional match signal"
+  },
+  "confirm": {
+    "noMatchSelected": "No advance request selected for confirmation",
+    "scoreInsufficient": "Match score too low ({score}/{minScore}). IBAN and amount must match.",
+    "ibanMismatch": "Recipient IBAN does not match employee record — payment cannot be recorded",
+    "amountMismatch": "Receipt amount ({ocrAmount} ₺) does not match approved advance ({approvedAmount} ₺)",
+    "transferCodeMismatch": "Transfer reference code not found on receipt (expected: {expectedCode})",
+    "paymentBeforeApproval": "Receipt date appears to be before advance approval"
+  },
+  "retroactive": {
+    "ibanRequired": "Recipient IBAN must be read from the receipt for retroactive payment",
+    "amountRequired": "Amount must be read from the receipt for retroactive payment",
+    "amountMismatch": "Receipt amount ({ocrAmount} ₺) does not match entered amount ({amount} ₺)",
+    "employeeRequired": "Select an employee"
+  },
+  "forcePayment": {
+    "dateRequired": "Payment date is required for force save",
+    "noApprovalDate": "Advance approval date not found",
+    "notBeforeApproval": "Force save is only allowed when payment was made before advance approval",
+    "tooOld": "Payment is older than {maxDays} days — force save not allowed"
+  }
+}

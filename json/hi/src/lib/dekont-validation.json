@@ -1,0 +1,118 @@
+{
+  "checks": {
+    "readable": {
+      "label": "बेल्ज ओकुनाबिलिर",
+      "detailChars": "{count} कारक ओकुंडु",
+      "detailFailed": "मेटिन सिकारिलामाडी - नेट बीर डेकॉन्ट/गॉरसेल युकलेइन"
+    },
+    "bankContext": {
+      "label": "बांका/हवाले इस प्रकार हैं",
+      "detailFailed": "देखें, ईएफ़टी के साथ काम करने का मौका मिला"
+    },
+    "iban": {
+      "label": "IBAN के बारे में जानकारी प्राप्त करें",
+      "detailPassed": "टीआर आईबीएएन डोग्रुलंदी",
+      "detailFailed": "IBAN ठीक है"
+    },
+    "amount": {
+      "label": "İşlem / स्थानांतरण तुतारी",
+      "detailFailed": "टुटार टेस्पिट एडिलेमेडी (आइस्लेम टुटारि वेया टीएल सैट्री ओकुनामाडी)",
+      "detailAmount": "{amount} ₺"
+    },
+    "transferShape": {
+      "label": "डेकॉन्ट यापीएसआई (आईबीएएन + टुटार + तारिह/रेफ़रन्स)",
+      "detailPassed": "{count}/4 एलन एस्लेस्टी",
+      "detailFailed": "एक और ऑनलाइन संस्करण - पीडीएफ फाइल डाउनलोड करें",
+      "detailMissing": "विशेष: {fields}"
+    },
+    "reference": {
+      "label": "रेफरेंस/आइस्लेम नं",
+      "detailFailed": "ओकुनामाडी (ओनेरिलिर)"
+    },
+    "date": {
+      "label": "इस्लेम तारिही",
+      "detailFailed": "ओकुनामाडी (ओनेरिलिर)"
+    }
+  },
+  "summary": {
+    "accepted": "डेकॉन्ट डोग्रुलैंडी - एवांस एस्लेस्टिरमेसिन गेसीलेबिलिर",
+    "lowScore": "गुवेन स्कोरू दुसुक - दाहा नेट बिर डेकॉन्ट युकलेइन",
+    "rejected": "डेकॉन्ट डोग्रुलानामादि"
+  },
+  "rejection": {
+    "issuesHeader": "टेस्पिट एडिलेमेयेन वेया एक्सिक बिल्गिलर:",
+    "scoreLine": "गुवेन स्कोर: {score} / 100 (न्यूनतम {minScore})",
+    "statusPassed": "Geçti",
+    "foundHeader": "ओकुनान बिल्गिलर:",
+    "foundIban": "आईबीएएन: {iban}",
+    "foundAmount": "टूटर: {amount} ₺",
+    "foundChars": "मेटिन: {count} कारक",
+    "foundNothing": "अन्य प्रश्नावली को ठीक करने के लिए",
+    "tipUnreadable": "एक वर्ष से अधिक समय तक केवल एक ही बार में \"डेकॉन्ट\", \"आइस्लेम बेल्गेसी\" और \"पीडीएफ भुगतान\" सेकनीगिनी। मुमकुनसे एक्रान गोरुंटसु डेगिल पीडीएफ गोंडरिन।",
+    "tipPartialRead": "IBAN और आपके नेटवर्क को ठीक से व्यवस्थित करने के लिए भुगतान प्राप्त करें। पीडीएफ देखें जब तक यह ठीक न हो जाए।",
+    "tipLowScore": "बाज़ी अलनलर ओकुंडु एंचक गुवेन स्कोरू येटर्सिज़ ({score}/{minScore})। एक्ज़िक एलनलर नियंत्रण एडिन वेया दाहा नेट बीर बेल्ज युक्लेयिन।",
+    "bullet": "• {label}: {detail}",
+    "passedHeader": "काबुल एडिलेन नियंत्रक",
+    "failedHeader": "Reddedilen नियंत्रणकर्ता",
+    "optionalHeader": "एक्सिक (opsiyonel — zorunlu değil)",
+    "noPassed": "नियंत्रण नियंत्रण",
+    "noFailed": "ज़ोरुनलू नियंत्रण सोरुन योक",
+    "ocrErrorLine": "ओसीआर हटास: {message}"
+  },
+  "match": {
+    "docAccepted": {
+      "label": "डेकॉन्ट बेल्गेसी गुवेनिलिर"
+    },
+    "matchSelected": {
+      "label": "अवांस तलेबी सेसिल्डी",
+      "detailFailed": "कुछ दिनों पहले सुनें",
+      "detailPassed": "{employeeName}{projectSuffix}"
+    },
+    "ibanMatch": {
+      "label": "एलिसी आईबीएएन कार्मिक कायडियला ​​एस्लेसियोर",
+      "detailMismatch": "{iban} — kayıtlı IBAN ile uyuşmuyor",
+      "detailNoIban": "डेकॉन्ट्टन आईबीएएन ठीक है"
+    },
+    "amountMatch": {
+      "label": "स्थानांतरण तुतारी ओनायली अवांसला उयुमलू",
+      "detailCompare": "डेकॉन्ट: {ocrAmount} ₺ · ऑनलाईन अवांस: {approvedAmount} ₺",
+      "detailFailed": "ठीक है ठीक है"
+    },
+    "matchScore": {
+      "label": "मैच स्कोर (न्यूनतम {minScore})",
+      "detailPassed": "स्कोर: {score} - पर्याप्त",
+      "detailFailed": "स्कोर: {score} - कम से कम {minScore} आवश्यक है"
+    },
+    "transferCode": {
+      "label": "स्थानांतरण संदर्भ कोड (HVL-)",
+      "detailPassed": "{code}",
+      "detailFailed": "अपेक्षित: {expectedCode}",
+      "detailMissing": "इस अनुरोध के लिए कोई कोड परिभाषित नहीं है"
+    },
+    "paymentDate": {
+      "label": "अग्रिम अनुमोदन के बाद भुगतान",
+      "detailFailed": "प्राप्ति दिनांक अनुमोदन से पहले की है"
+    },
+    "bonusDetail": "अतिरिक्त मिलान संकेत"
+  },
+  "confirm": {
+    "noMatchSelected": "पुष्टिकरण के लिए कोई अग्रिम अनुरोध नहीं चुना गया",
+    "scoreInsufficient": "मैच का स्कोर बहुत कम है ({score}/{minScore})। IBAN और राशि का मिलान होना चाहिए.",
+    "ibanMismatch": "प्राप्तकर्ता IBAN कर्मचारी रिकॉर्ड से मेल नहीं खाता - भुगतान रिकॉर्ड नहीं किया जा सकता",
+    "amountMismatch": "रसीद राशि ({ocrAmount} ₺) स्वीकृत अग्रिम से मेल नहीं खाती ({approvedAmount} ₺)",
+    "transferCodeMismatch": "रसीद पर स्थानांतरण संदर्भ कोड नहीं मिला (अपेक्षित: {expectedCode})",
+    "paymentBeforeApproval": "प्राप्ति तिथि अग्रिम अनुमोदन से पहले की प्रतीत होती है"
+  },
+  "retroactive": {
+    "ibanRequired": "पूर्वव्यापी भुगतान के लिए प्राप्तकर्ता IBAN को रसीद से पढ़ा जाना चाहिए",
+    "amountRequired": "पूर्वव्यापी भुगतान के लिए राशि को रसीद से पढ़ा जाना चाहिए",
+    "amountMismatch": "रसीद राशि ({ocrAmount} ₺) दर्ज की गई राशि से मेल नहीं खाती ({amount} ₺)",
+    "employeeRequired": "एक कर्मचारी चुनें"
+  },
+  "forcePayment": {
+    "dateRequired": "बल बचाने के लिए भुगतान तिथि आवश्यक है",
+    "noApprovalDate": "अग्रिम अनुमोदन तिथि नहीं मिली",
+    "notBeforeApproval": "फ़ोर्स सेव की अनुमति केवल तभी दी जाती है जब भुगतान अग्रिम अनुमोदन से पहले किया गया हो",
+    "tooOld": "भुगतान {maxDays} दिनों से अधिक पुराना है - फ़ोर्स सेव की अनुमति नहीं है"
+  }
+}

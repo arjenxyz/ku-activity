@@ -1,0 +1,17 @@
+{
+  "buttonDefault": "Sign In",
+  "closeOverlayAriaLabel": "Close sign-in menu",
+  "closeButtonAriaLabel": "Close",
+  "modalTitle": "Choose sign-in",
+  "footerNote": "Choose the panel that matches your role to sign in.",
+  "panels": {
+    "personel": {
+      "title": "Personnel",
+      "description": "Attendance, wages, and payroll"
+    },
+    "admin": {
+      "title": "Admin",
+      "description": "Projects, approvals, and reports"
+    }
+  }
+}

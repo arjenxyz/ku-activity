@@ -1,12 +1,11 @@
 /**
  * Yoklama mesaj kataloğu — çok dilli genişletmeye hazır.
- * Yeni dil: AttendanceLocale union + messages altına ekleyin.
  */
 
 import messages from '@json/src/lib/i18n/attendance-messages.json';
-import { LOCALE_COOKIE } from '@/lib/i18n/locale';
+import { LOCALE_COOKIE, LOCALES, resolveLocaleFromAcceptLanguage, type Locale } from '@/lib/i18n/locale';
 
-export type AttendanceLocale = 'tr' | 'en' | 'hu';
+export type AttendanceLocale = Locale;
 
 export const ATTENDANCE_MESSAGE_CODES = {
   QR_ALREADY_USED: 'attendance.qr_already_used',
@@ -32,32 +31,32 @@ export const ATTENDANCE_MESSAGE_CODES = {
 export type AttendanceMessageCode =
   (typeof ATTENDANCE_MESSAGE_CODES)[keyof typeof ATTENDANCE_MESSAGE_CODES];
 
+type MessageCatalog = Record<string, string>;
+
 export function tAttendance(
   code: AttendanceMessageCode,
   locale: AttendanceLocale = 'tr'
 ): string {
-  const localeMessages = messages[locale] as Record<string, string>;
-  const fallbackMessages = messages.tr as Record<string, string>;
-  return localeMessages[code] ?? fallbackMessages[code] ?? code;
+  const catalog = messages as Record<string, MessageCatalog>;
+  const localeMessages = catalog[locale];
+  const enMessages = catalog.en;
+  const trMessages = catalog.tr;
+  return localeMessages?.[code] ?? enMessages?.[code] ?? trMessages?.[code] ?? code;
 }
 
 export function resolveAttendanceLocale(acceptLanguage?: string | null): AttendanceLocale {
-  if (!acceptLanguage) return 'tr';
-  const primary = acceptLanguage.split(',')[0]?.trim().toLowerCase() ?? '';
-  if (primary.startsWith('en')) return 'en';
-  if (primary.startsWith('hu')) return 'hu';
-  return 'tr';
+  return resolveLocaleFromAcceptLanguage(acceptLanguage);
 }
 
 /**
  * İstekten dili çöz. Kullanıcının uygulamada seçtiği dil çerezi (crewledger_locale)
- * tarayıcının Accept-Language başlığından önceliklidir; böylece EN seçili bir kullanıcı
- * TR tarayıcıda bile İngilizce mesaj alır.
+ * tarayıcının Accept-Language başlığından önceliklidir.
  */
 export function resolveAttendanceLocaleFromRequest(request: Request): AttendanceLocale {
   const cookieHeader = request.headers.get('cookie');
   if (cookieHeader) {
-    const match = cookieHeader.match(new RegExp(`(?:^|;\\s*)${LOCALE_COOKIE}=(tr|en|hu)`));
+    const pattern = `(?:^|;\\s*)${LOCALE_COOKIE}=(${LOCALES.join('|')})`;
+    const match = cookieHeader.match(new RegExp(pattern));
     if (match) return match[1] as AttendanceLocale;
   }
   return resolveAttendanceLocale(request.headers.get('accept-language'));

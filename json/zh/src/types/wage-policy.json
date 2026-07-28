@@ -1,0 +1,17 @@
+{
+  "yevmiyeTriggerLabels": {
+    "month_end": "艾索南达",
+    "roof_complete": "恰蒂/阿萨玛·比特恩斯",
+    "job_complete": "伊什·比特明德"
+  },
+  "prorationModeLabels": {
+    "calendar_days": "şe girişten ay sonuna (takvim günü)",
+    "worked_days": "Sadece çalışılan güne göre",
+    "full_month": "Her zaman tam ay (oranlama yok)"
+  },
+  "dekontDeductionLabels": {
+    "manual_review": "Dekontu admin onaylasın (BES/kesinti elle)",
+    "ignore": "Kesintileri yok say（萨德斯网 yatan tutar）",
+    "auto_separate": "Kesintileri ayrı satır olarak kaydet (ileride)"
+  }
+}

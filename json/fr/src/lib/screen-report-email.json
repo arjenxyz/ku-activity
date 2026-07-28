@@ -1,0 +1,17 @@
+{
+  "title": "{appName} — Ekran raporu",
+  "screenLabel": "Ekran:",
+  "pageLabel": "Sayfa:",
+  "timeLabel": "Zaman:",
+  "browserLabel": "Tarayıcı:",
+  "formErrorLabel": "Form hatası:",
+  "userNoteLabel": "Kullanıcı notu:",
+  "diagnosticsTitle": "Tanılama",
+  "noDiagnostics": "Ek tanılama kaydı yok",
+  "screenshotNote": "Ekran görüntüsü e-posta ekinde.",
+  "defaultScreenLabel": "Auth",
+  "textDiagnosticsNone": "(yok)",
+  "subjectSuffix": "{appName} — Ekran raporu ({screenLabel})",
+  "emailNotConfigured": "Rapor e-postası yapılandırılmamış (BREVO_API_KEY, BREVO_SENDER_EMAIL)",
+  "sendFailed": "Rapor gönderilemedi ({status}){detail}"
+}

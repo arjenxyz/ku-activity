@@ -1,0 +1,6 @@
+{
+  "requiredContractsMissing": "Tüm zorunlu sözleşmeleri okuyup onaylamanız gerekir",
+  "invalidAcceptance": "停止工作",
+  "contractUpdated": "“{title}”güncellendi。 Sayfayı menileyip sözleşmeleri tekrar okuyun。",
+  "acceptancesSaveFailed": "Sözleşme onayları kaydedilemedi: {message}"
+}

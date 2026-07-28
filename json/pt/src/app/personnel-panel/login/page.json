@@ -1,0 +1,17 @@
+{
+  "loginFailedWithStatus": "Giriş başarısız ({status})",
+  "systemError": "Sistem hatası — lütfen tekrar deneyin",
+  "tcKimlikLabel": "T.C. Kimlik No",
+  "tcKimlikPlaceholder": "11 haneli T.C. kimlik numarası",
+  "pinLabel": "Giriş PIN",
+  "pinPlaceholder": "{pinLength} haneli PIN",
+  "loggingIn": "Giriş yapılıyor…",
+  "loginButton": "Giriş Yap",
+  "noAccountPrompt": "Hesabınız mı yok?",
+  "applyLink": "Başvuru yapın",
+  "forgotPin": "Şifremi unuttum",
+  "screenLabel": "Personel Giriş",
+  "subtitle": "T.C. kimlik numaranız ve PIN ile giriş yapın.",
+  "checkingSession": "Oturum kontrol ediliyor…",
+  "loading": "Yükleniyor…"
+}

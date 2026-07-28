@@ -1,0 +1,6 @@
+{
+  "invalidSubscription": "订阅数据无效",
+  "endpointRequired": "需要有效的端点",
+  "saveFailed": "无法保存订阅",
+  "deleteFailed": "无法删除订阅"
+}

@@ -1,0 +1,37 @@
+{
+  "statusLoadFailed": "无法加载出勤状态。请再试一次。",
+  "invalidQrMessage": "这不是有效的考勤二维码。",
+  "rescanSuccess": "重新录制。",
+  "scanSuccess": "扫描成功。",
+  "scanFailed": "扫描失败",
+  "exitHint": "点击返回面板",
+  "exitAriaLabel": "返回面板",
+  "enterCodeButton": "输入代码",
+  "cancelCodeButton": "取消",
+  "cancelCodeAriaLabel": "关闭代码输入",
+  "rescanModeNewQr": "重新扫描模式——您可以扫描新的二维码。",
+  "rescanModeReplace": "重新扫描模式——您之前的记录将被删除。",
+  "cancelRescanAriaLabel": "取消重新扫描",
+  "outsideWindowTitle": "出勤时间以外",
+  "countdown": {
+    "opensLabel": "打开于",
+    "closesLabel": "收市于",
+    "dayShort": "d"
+  },
+  "desktop": {
+    "eyebrow": "每日出勤率",
+    "title": "通过代码出席",
+    "subtitle": "在下面输入您的主管给您的出勤代码。",
+    "qrNotSupportedTitle": "此设备不支持 QR 扫描",
+    "qrNotSupportedBody": "要扫描二维码，请使用移动应用程序。该设备仅支持手动输入代码。",
+    "qrNotSupportedShort": "使用移动应用程序用相机扫描。",
+    "rescanButton": "重新录制",
+    "cancelRescanButton": "取消重新录制",
+    "codeLabel": "考勤码",
+    "codePlaceholder": "约克-…",
+    "submitScanning": "正在提交...",
+    "submitRescan": "重新录制",
+    "submitJoin": "加入出席",
+    "codeHint": "从您的主管处获取代码；它不区分大小写。"
+  }
+}

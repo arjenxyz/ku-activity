@@ -1,0 +1,24 @@
+{
+  "title": "下载我的记录",
+  "description": "根据 GDPR/KVKK 艺术。 11、以 ZIP 格式下载您的工作日志、付款、合同和个人资料的完整副本。您的经理可以看到相同的数据集 - 以提高透明度。",
+  "closureTitle": "下载您的数据",
+  "closureDescription": "下载以下所有记录的 ZIP 副本并将其安全地保存在您的设备上。",
+  "checklistTitle": "ZIP 中包含的部分",
+  "checklistLoading": "正在加载内容列表...",
+  "dailyLimit": "您每天最多可以下载{limit}次。",
+  "preparing": "正在准备……",
+  "downloadCta": "下载我的记录 (ZIP)",
+  "closureDownloadCta": "下载压缩包",
+  "consentCta": "我同意",
+  "consentText": "该项目即将在 CrewLedger 上结束。我了解操作记录将在截止日期后删除，并且我有责任保留自己的档案。",
+  "ackCta": "我已下载并保存我的数据",
+  "ackDone": "您的下载确认已被记录。",
+  "deadlineNote": "最终下载日期：{date}",
+  "errors": {
+    "downloadFailed": "下载失败",
+    "consentFailed": "无法保存同意",
+    "ackFailed": "确认无法保存",
+    "generic": "下载失败"
+  },
+  "fallbackFilename": "rewledger-我的记录.zip"
+}

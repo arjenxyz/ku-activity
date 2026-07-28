@@ -11,6 +11,24 @@ const ROOT = path.resolve(__dirname, '..');
 const SRC_DIR = path.join(ROOT, 'json', 'src');
 const OUT_FILE = path.join(ROOT, 'src', 'lib', 'i18n', 'strings-registry.ts');
 
+const CONTENT_LOCALES = [
+  'tr',
+  'en',
+  'zh',
+  'hi',
+  'es',
+  'fr',
+  'ar',
+  'bn',
+  'pt',
+  'ru',
+  'ur',
+  'id',
+  'de',
+  'ja',
+  'hu',
+];
+
 function walkJsonFiles(dir, base = '') {
   const entries = fs.readdirSync(dir, { withFileTypes: true });
   const files = [];
@@ -30,19 +48,24 @@ function toImportVar(key) {
   return `m_${key.replace(/[^a-zA-Z0-9]/g, '_')}`;
 }
 
+function jsonImportPath(locale, key) {
+  if (locale === 'tr') return `@json/src/${key}.json`;
+  return `@json/${locale}/src/${key}.json`;
+}
+
 function main() {
   const keys = walkJsonFiles(SRC_DIR);
   const imports = [];
   const registryEntries = [];
 
   for (const key of keys) {
-    const trVar = `${toImportVar(key)}_tr`;
-    const enVar = `${toImportVar(key)}_en`;
-    const huVar = `${toImportVar(key)}_hu`;
-    imports.push(`import ${trVar} from '@json/src/${key}.json';`);
-    imports.push(`import ${enVar} from '@json/en/src/${key}.json';`);
-    imports.push(`import ${huVar} from '@json/hu/src/${key}.json';`);
-    registryEntries.push(`  '${key}': { tr: ${trVar}, en: ${enVar}, hu: ${huVar} },`);
+    const bundleParts = [];
+    for (const locale of CONTENT_LOCALES) {
+      const varName = `${toImportVar(key)}_${locale}`;
+      imports.push(`import ${varName} from '${jsonImportPath(locale, key)}';`);
+      bundleParts.push(`${locale}: ${varName}`);
+    }
+    registryEntries.push(`  '${key}': { ${bundleParts.join(', ')} },`);
   }
 
   const content = `/* eslint-disable @typescript-eslint/no-explicit-any */
@@ -65,12 +88,12 @@ export function getRegistryStrings<K extends StringRegistryKey>(
   locale: Locale
 ): (typeof STRINGS_REGISTRY)[K]['tr'] {
   const bundle = STRINGS_REGISTRY[key];
-  return pickStrings(locale, bundle.tr, bundle.en, bundle.hu) as (typeof STRINGS_REGISTRY)[K]['tr'];
+  return pickStrings(locale, bundle) as (typeof STRINGS_REGISTRY)[K]['tr'];
 }
 `;
 
   fs.writeFileSync(OUT_FILE, content);
-  console.log(`Generated ${OUT_FILE} with ${keys.length} entries.`);
+  console.log(`Generated ${OUT_FILE} with ${keys.length} entries × ${CONTENT_LOCALES.length} locales.`);
 }
 
 main();

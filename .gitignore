@@ -42,3 +42,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# i18n translation caches (local, resumable)
+scripts/_translate-cache-*.json

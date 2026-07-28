@@ -1,0 +1,8 @@
+{
+  "projeAdıGerekli": "प्रोजेक्ट का नाम आवश्यक है",
+  "geçersizDurum": "अमान्य स्थिति",
+  "oturumGerekli": "सत्र आवश्यक है",
+  "activeProjectLimit": "आपके पास अधिकतम 2 सक्रिय प्रोजेक्ट हो सकते हैं. बंद होने वाली परियोजनाओं को इस सीमा में नहीं गिना जाता है।",
+  "migrationRequired": "डेटाबेस माइग्रेशन आवश्यक (065_project_admin_limits.sql)",
+  "buProjeKoduZatenKullanılıyor": "यह प्रोजेक्ट कोड पहले से ही उपयोग में है"
+}

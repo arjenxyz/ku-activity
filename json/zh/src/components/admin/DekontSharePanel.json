@@ -1,0 +1,65 @@
+{
+  "shell": {
+    "backToPanel": "返回面板"
+  },
+  "steps": {
+    "upload": "上传",
+    "analyze": "扫描",
+    "review": "确认"
+  },
+  "trustLabel": "分数",
+  "validation": {
+    "scanRejectedTitle": "无法读取收据"
+  },
+  "errors": {
+    "draftLoadFailed": "无法加载草稿",
+    "analyzeFailed": "分析失败",
+    "saveFailed": "保存失败"
+  },
+  "success": {
+    "paymentSaved": "已记录付款。",
+    "doneTitle": "完毕",
+    "uploadAnother": "新收据"
+  },
+  "header": {
+    "title": "收据扫描",
+    "description": ""
+  },
+  "upload": {
+    "title": "将文件拖放到此处",
+    "description": "PDF 或图像 — 或从您的银行应用程序共享",
+    "selectFile": "选择文件",
+    "fileHint": "PDF、JPG、PNG · 最大 10 MB"
+  },
+  "analyze": {
+    "title": "正在阅读收据..."
+  },
+  "review": {
+    "matchTitle": "比赛提前",
+    "viewProfile": "轮廓",
+    "approvedOn": "已批准{date}",
+    "amountMatch": "数量",
+    "noMatchTitle": "未找到匹配的预付款",
+    "goToProjects": "转到面板",
+    "referenceLabel": "参考",
+    "paymentDateLabel": "付款日期",
+    "amountLabel": "金额（土耳其里拉）",
+    "ibanLabel": "收件人 IBAN",
+    "amountHint": "手动输入收据中的金额",
+    "saveSaving": "保存…",
+    "savePayment": "保存付款",
+    "anotherDekont": "另一张收据",
+    "transferCodeLabel": "预期转移代码",
+    "transferCodeHint": "如果您将此代码添加到转账说明中，则该代码应出现在收据上",
+    "transferCodeOverride": "收据上的代码无法读取 - 请保存",
+    "forcePayment": "强制保存付款",
+    "forcePaymentHint": "在预先批准之前付款（在最后{maxDays}天内）。 IBAN 和金额必须匹配。",
+    "forcePaymentSaving": "强制保存...",
+    "retroactiveTitle": "追溯付款（无要求）",
+    "retroactiveHint": "选择与 IBAN 匹配的员工 — 付款已提前完成",
+    "retroactiveSave": "保存为追溯付款",
+    "retroactiveNoEmployee": "未找到具有此 IBAN 的员工",
+    "payrollMonthNotice": "付款已于{paymentDate}完成。这笔预付款将记入{payrollMonth}工资单。"
+  },
+  "loading": "加载中…"
+}

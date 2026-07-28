@@ -1,0 +1,17 @@
+{
+  "subject": "{appName} — Başvuru doğrulama kodu",
+  "headerSubtitle": "人员 başvuru doğrulaması",
+  "codeIntro": "Başvurunuzu tamamlamak için doğrulama kodunuz：",
+  "codeHint": "Kodu kopyalayıp başvuru ekranına yapıştırabilirsiniz。",
+  "confirmButton": "Başvurumu doğrula ve gönder",
+  "validityHtml": "Bu kod ve bağlantı <strong>{minutes} dakika</strong> geçerlidir。<br>请发送电子邮件至 yok sayın。",
+  "footer": "{appName} · 个人信息",
+  "textTitle": "{appName} — Başvuru doğrulama",
+  "textCode": "Doğrulama kodunuz: {code}",
+  "textConfirmLink": "Tek tıkla onay ve gönderim: {url}",
+  "textValidity": "Bu kod {minutes} dakika geçerlidir。",
+  "textIgnore": "如果您通过电子邮件发送邮件，请联系我们。",
+  "emailNotConfigured": "电子邮局 yapılandırılmamış (BREVO_API_KEY, BREVO_SENDER_EMAIL)",
+  "invalidApiKey": "电子邮政服务 yapılandırması hatalı (Brevo API anahtarı geçersiz)。 Yöneticinize bildirin。",
+  "sendFailed": "电子邮局 gönderilemedi ({status}){detail}"
+}

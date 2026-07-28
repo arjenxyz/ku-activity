@@ -1,0 +1,26 @@
+{
+  "title": "Adil kayıt sistemi — çift onay",
+  "descriptionBefore": "您可以使用此功能。 Yönetici ve size aynı günü onayladığınızda kayıt",
+  "descriptionAfter": "olur ve maaş hesabına yansır。",
+  "confirmedLabel": "奥纳伊勒",
+  "items": {
+    "confirmed": {
+      "label": "奥纳伊勒·古恩",
+      "hint": "她的 iki taraf da onayladı — ödemeye dahil"
+    },
+    "pendingEmployee": {
+      "label": "尺寸",
+      "hint": "Yönetici girdi — 大小 onaylayınca kesinleşir"
+    },
+    "pendingAdmin": {
+      "label": "约内蒂奇·奥纳伊",
+      "hint": "Siz bildirdiniz — yönetici onaylayınca kesinleşir"
+    }
+  },
+  "unrecorded": "但是 {count} kayıt henüz onay sürecinde değil veya eksik。",
+  "steps": [
+    "Gün bildirimi (siz veya yönetici)",
+    "卡尔西·塔拉芬·奥纳伊",
+    "Onaylı statü → maaş hesabına yansıma"
+  ]
+}

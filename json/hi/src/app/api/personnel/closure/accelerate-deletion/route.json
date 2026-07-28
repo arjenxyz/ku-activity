@@ -1,0 +1,18 @@
+{
+  "unauthorized": "अनधिकृत",
+  "closureNotActive": "बंद सक्रिय नहीं है.",
+  "consentRequired": "पहले समापन सहमति स्वीकार करें.",
+  "downloadRequired": "सबसे पहले अपने रिकॉर्ड डाउनलोड करें.",
+  "ackRequired": "पहले डाउनलोड की पुष्टि पूरी करें।",
+  "alreadyAccelerated": "खाता हटाना पहले ही तेज़ हो चुका है।",
+  "invalidEmail": "कोई पंजीकृत ईमेल पता नहीं मिला.",
+  "emailNotConfigured": "ईमेल सत्यापन उपलब्ध नहीं है.",
+  "rateLimited": "बहुत सारे कोड अनुरोध. कृपया प्रतीक्षा करें।",
+  "invalidCode": "अमान्य या समाप्त कोड.",
+  "challengeExpired": "कोड समाप्त हो गया. नये का अनुरोध करें.",
+  "tooManyAttempts": "कई विफल प्रयास।",
+  "codeRequired": "सत्यापन कोड आवश्यक है.",
+  "linkRequired": "अमान्य लिंक.",
+  "invalidLink": "अमान्य या समाप्त लिंक.",
+  "generic": "प्रचालन विफल रहा"
+}

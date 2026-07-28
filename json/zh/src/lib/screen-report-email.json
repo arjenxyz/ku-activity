@@ -1,0 +1,17 @@
+{
+  "title": "{appName} — Ekran raporu",
+  "screenLabel": "艾克兰：",
+  "pageLabel": "赛法：",
+  "timeLabel": "扎曼：",
+  "browserLabel": "塔拉伊奇：",
+  "formErrorLabel": "形式 hatasi:",
+  "userNoteLabel": "库拉尼奇：",
+  "diagnosticsTitle": "塔尼拉马",
+  "noDiagnostics": "Ek tanılama kaydı yok",
+  "screenshotNote": "Ekran görüntüsü e-posta ekinde。",
+  "defaultScreenLabel": "授权",
+  "textDiagnosticsNone": "（蛋黄）",
+  "subjectSuffix": "{appName} — Ekran raporu ({screenLabel})",
+  "emailNotConfigured": "Rapor e-postası yapılandırılmamış (BREVO_API_KEY, BREVO_SENDER_EMAIL)",
+  "sendFailed": "Rapor gönderilemedi ({status}){detail}"
+}

@@ -1,0 +1,12 @@
+{
+  "accountDeletionNote": "Your account will be deleted on {date}",
+  "accountDeletionNoteAccelerated": "Your account will be deleted in 3 minutes",
+  "countdownLabel": "Time remaining until your account is deleted",
+  "downloadHint": "Download and keep a ZIP copy of your work logs, payments, and contracts.",
+  "fastDeleteTitle": "Want to delete your account faster?",
+  "fastDeleteIntro": "To shorten the waiting period and speed up deletion, complete the steps below in order:",
+  "fastDeleteStep1": "Download your data as a ZIP file",
+  "fastDeleteStep2": "Tap the “I downloaded, continue” button",
+  "fastDeleteStep3": "Confirm the fast deletion option that appears using email verification",
+  "fastDeleteFooter": "Once you complete the steps, the fast deletion option appears automatically on this screen."
+}

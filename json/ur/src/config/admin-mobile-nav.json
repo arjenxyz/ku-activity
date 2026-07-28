@@ -1,0 +1,63 @@
+{
+  "dock": {
+    "summary": "Overview",
+    "approval": "Approve",
+    "attendance": "Attendance",
+    "profit": "Profit",
+    "payroll": "Payroll",
+    "status": "Status",
+    "menu": "Menu"
+  },
+  "hub": {
+    "essentialsTitle": "Daily essentials",
+    "essentialsSubtitle": "Overview, approvals and attendance used every day",
+    "periodicTitle": "Weekly & periodic",
+    "periodicSubtitle": "Weekly or month-end operations",
+    "personnelTitle": "Personnel",
+    "siteTitle": "Site",
+    "recordsTitle": "Records & corrections",
+    "recordsSubtitle": "Separate record, approval and archive pages",
+    "generalTitle": "General",
+    "generalSubtitle": "All projects and account",
+    "general": {
+      "projects": "Projects",
+      "arjenAdvance": "Arjen advance",
+      "arjenAttendance": "Arjen timesheet",
+      "applications": "Applications",
+      "policy": "Salary policy",
+      "settings": "Settings"
+    }
+  },
+  "simpleEssentialItems": [
+    { "label": "Project overview", "path": "", "hint": "Personnel list and daily status" },
+    { "label": "Application approval", "path": "basvuru-onay", "hint": "New personnel applications" },
+    { "label": "Attendance / QR", "path": "yevmiye", "hint": "Day, overtime and timesheet are planned here" }
+  ],
+  "periodicItems": [
+    { "label": "Subcontractor profit", "path": "kar", "hint": "Blocks, jobs and profit" },
+    { "label": "Where we stand", "path": "durum", "hint": "Project finance summary" },
+    { "label": "Payroll", "path": "bordro", "hint": "Period payroll" },
+    { "label": "Reports", "path": "raporlar", "hint": "Approval and summary reports" },
+    { "label": "Advance requests", "path": "avans-talepleri", "hint": "Personnel requests" },
+    { "label": "Share receipt", "absolutePath": "/admin-panel/dekont-paylas", "hint": "OCR matching" },
+    { "label": "Salary policy", "path": "maas-politikasi", "hint": "Project salary rules" }
+  ],
+  "personnelItems": [
+    { "label": "Personnel list", "path": "list" },
+    { "label": "New personnel", "path": "new" },
+    { "label": "Application approval", "path": "basvuru-onay", "hint": "New personnel applications" },
+    { "label": "Attendance / QR", "path": "yevmiye", "hint": "Day, overtime and timesheet are planned here" },
+    { "label": "Personnel passwords", "path": "sorgulama/personel-sifreleri" }
+  ],
+  "siteItems": [
+    { "label": "Blocks", "path": "bloklar" },
+    { "label": "Teams", "path": "ekiplar" }
+  ],
+  "recordsItems": [
+    { "label": "Advance", "path": "avans", "hint": "Separate advance record" },
+    { "label": "Deduction", "path": "kesinti", "hint": "Separate deduction record" },
+    { "label": "Approved", "path": "raporlar/onaylanan" },
+    { "label": "Pending records", "path": "raporlar/onaysiz" },
+    { "label": "Record history", "path": "kayit-gecmisi", "hint": "Query and archive" }
+  ]
+}

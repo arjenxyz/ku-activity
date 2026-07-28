@@ -1,0 +1,15 @@
+{
+  "kimlikNumarasıVeŞifreGerekli": "उदाहरण के लिए और अधिक पढ़ें",
+  "geçersizKimlikNumarasıVeyaŞifre": "आपके पास जो कुछ भी है उसका विवरण देखें",
+  "sunucuYapılandırmasıEksikEnvDosyasınaSupabase": "डाउनलोड करें: .env डाउनलोड करें SUPABASE_SERVICE_ROLE_KEY एकल (SUPABASE → सेटिंग्स → API → service_role)",
+  "sunucuYapılandırmasıEksikFieldEncryptionKey": "एक वर्ष से अधिक की सुरक्षा: FIELD_ENCRYPTION_KEY अंतिम चरण",
+  "başvuruSüresiDolmuşYeniBaşvuruYapabilirsiniz": "बसवुरु सुरेसी डोलमुस। येनी बसवुरु यापाबिलिरसिनिज़.",
+  "personelHesabınızPasifYöneticinizleIletişimeGeçin": "व्यक्तिगत परेशानी. योनेटिसिनिज़ल इलेटीसिमे गेसीन.",
+  "personelŞifresiTanımlıDeğilYöneticinizleIletişime": "व्यक्तिगत सुरक्षा रणनीतियाँ. योनेटिसिनिज़ल इलेटीसिमे गेसीन.",
+  "personelŞifreKaydıBozukYöneticiPanelinden": "कार्मिक अधिकारी ने कहा. योनेटिसी पैनलिंडेन सिफ्रेई येनिलेयिन।",
+  "err001InitialSchemaSqlIçindekiPersonnel": "001_initial_schema.sql कर्मियों_सत्रों की तालिका में सुधार करता है।",
+  "oturumOluşturulamadıVeritabanıKurulumunuKontrolEdin": "ओटुरम ओलुस्टुरुलामाडी. वेरिटाबनि कुरुलुमुनु नियंत्रण एडिन।",
+  "oturumOluşturulamadıHint": "Oturum oluşturulamadı: {hint}",
+  "supabaseServiceRoleKeyEnvDosyasındaTanımlıDeğil": "SUPABASE_SERVICE_ROLE_KEY .env डॉस्यासिंडा तनिमली डेगिल।",
+  "beklenmeyenSunucuHatasıKonsolLoglarınıKontrolEdin": "बेकलेनमेयेन सुनुकु हतासि. कंसोल लॉगरिऑन नियंत्रण एडिन."
+}

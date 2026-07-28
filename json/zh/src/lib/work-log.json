@@ -1,0 +1,19 @@
+{
+  "mesaiNoneLabel": "梅赛约克",
+  "mesaiNoneHint": "Ek mesai ücreti yok",
+  "mesaiQuarterLabel": "切雷克·梅赛",
+  "mesaiQuarterHint": "Günlük yevmiyenin %25'i ek",
+  "mesaiHalfLabel": "亚里姆·梅赛",
+  "mesaiHalfHint": "古鲁克·耶夫米耶宁·亚里西埃克",
+  "mesaiFullLabel": "塔姆梅赛",
+  "mesaiFullHint": "塔姆·古鲁克·耶夫米耶克",
+  "fullDay": "谭军",
+  "halfDay": "亚里姆·古恩",
+  "statusConfirmed": "奥纳伊勒",
+  "statusPendingEmployee": "个人信息",
+  "statusPendingAdmin": "约内蒂奇·奥纳伊·贝克利约尔",
+  "statusDisputed": "伊蒂拉兹·埃迪尔迪",
+  "statusNone": "凯伊特·约克",
+  "dayAmount": "{amount}枪",
+  "summaryWithMesai": "{day} + {mesai}"
+}

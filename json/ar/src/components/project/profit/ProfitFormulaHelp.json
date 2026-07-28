@@ -1,0 +1,24 @@
+{
+  "title": "Nasıl hesaplanır?",
+  "formulaProfit": "Kâr = Alacak − Yevmiye − Avans − Kesinti − Malzeme",
+  "formulaShare": "Ortak başı = Kâr ÷ kişi sayısı",
+  "steps": [
+    {
+      "title": "İş kalemi ekleyin",
+      "body": "üst taşerondan aldığınız birim fiyat × miktar (ör. 100 ₺/m² × 890)"
+    },
+    {
+      "title": "Giderleri bağlayın",
+      "body": "yevmiye, avans ve kesinti girerken iş kalemini seçin"
+    },
+    {
+      "title": "Malzeme ekleyin",
+      "body": "iş kartındaki malzeme bölümünden (personeli etkilemez)"
+    },
+    {
+      "title": "Ortak sayısını",
+      "body": "ayarlayın — kâr eşit bölünür"
+    }
+  ],
+  "footer": "Personel paneli ve bordro normal çalışır; iş kalemi yalnızca sizin kâr tablonuz içindir."
+}

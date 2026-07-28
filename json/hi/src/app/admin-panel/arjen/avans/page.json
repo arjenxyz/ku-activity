@@ -1,0 +1,20 @@
+{
+  "employeesLoadFailed": "अतिरिक्त लाभ: {message}",
+  "requiredFields": "आप एक वर्ष से अधिक समय तक जीवित रहें।",
+  "invalidAmount": "टुटार पॉज़िटिफ़ और सईसाल ओल्माली.",
+  "saveError": "उत्तर: {message}",
+  "saveSuccess": "बहुत बढ़िया!",
+  "title": "अवांस/तासेरोन केसिंतिसी कायदी",
+  "subtitle": "यह मेरे लिए एक अच्छा विकल्प है।",
+  "employeeLabel": "इस्की",
+  "selectEmployee": "İşçi Seçiniz",
+  "dateLabel": "तरीह",
+  "amountLabel": "तुतार",
+  "amountPlaceholder": "ओर्न: 1000",
+  "typeLabel": "तूर",
+  "typeAdvance": "अवांस",
+  "typeSubcontractorCut": "टैसेरोन केसिंटिसी",
+  "descriptionLabel": "विवरण",
+  "descriptionPlaceholder": "(इस्टेगे बैली)",
+  "saveButton": "कायदेत"
+}

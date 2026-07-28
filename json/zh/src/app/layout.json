@@ -1,0 +1,6 @@
+{
+  "title": "{appName} |建筑劳动力平台",
+  "description": "建筑工地的出勤、日工资、合同和人员管理。使用 Next.js 和 Supabase 构建。",
+  "applicationName": "{appName}",
+  "appleWebAppTitle": "{appName}"
+}

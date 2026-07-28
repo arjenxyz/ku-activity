@@ -1,0 +1,10 @@
+{
+  "err054AppReleasesSqlÇalıştırın": "054_app_releases.sql अद्यतन",
+  "apptypePersonnelVeyaAdminOlmalı": "ऐपटाइप कार्मिक या व्यवस्थापक कार्यालय",
+  "versionnameGerekli": "संस्करणनाम गेरेकली",
+  "versioncodePozitifTamSayıOlmalı": "वर्जनकोड पॉज़िटिफ़ टैम सई ओल्माली",
+  "apkDosyasıGerekli": "एपीके डाउनलोड करें",
+  "buUygulamaIçinAynıSürümKodu": "एक अंतिम चरण में एक वर्ष से अधिक समय तक काम करना",
+  "apkYüklendiDeveloperPaneldenYayınlayın": "एपीके युकलेंडी। डेवलपर पैनलडेन yayınlayın।",
+  "apkYüklendiYayınlamakIçinOnaylayın": "एपीके युकलेंडी। यह एक अच्छा विचार है."
+}

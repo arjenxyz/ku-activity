@@ -1,0 +1,17 @@
+{
+  "employeesLoadFailed": "अतिरिक्त लाभ: {message}",
+  "requiredFields": "आप एक वर्ष से अधिक समय तक जीवित रहें।",
+  "saveError": "उत्तर: {message}",
+  "saveSuccess": "बहुत बढ़िया!",
+  "title": "येवमीये कायदी ओलुस्तुर",
+  "subtitle": "लाभ यह है कि आप एक वर्ष से अधिक समय तक लाभ कमा सकते हैं।",
+  "employeeLabel": "इस्की",
+  "selectEmployee": "İşçi Seçiniz",
+  "dateLabel": "तरीह",
+  "durationLabel": "Çalışma सुरसी",
+  "fullDay": "तम गुन",
+  "halfDay": "यारिम गुन",
+  "descriptionLabel": "विवरण",
+  "descriptionPlaceholder": "(इस्तेगेज बाली) ओर्न: एरकेन सिक्कटी, याग्मुर वर्डी...",
+  "saveButton": "कायदेत"
+}

@@ -1,0 +1,20 @@
+{
+  "loadFailedAdmin": "सोज़्लेस्मेलर युकलेनेमेडी. योनेटिसिनाइज़ बिल्डिरिन।",
+  "loadFailed": "सोज़्लेस्मेलर युकलेनेमेडी.",
+  "loading": "सॉज़लेस्मेलर युकलेनियोर…",
+  "gateComplete": "सब कुछ ठीक है",
+  "gateTitle": "Sözleşmeler",
+  "gateReadyHint": "बसवुरुयु गोंडेरेबिलिर्सिनिज़।",
+  "gatePendingHint": "सिरायला ओकुयुप ओनायलैयिन।",
+  "acceptedCount": "{accepted}/{total} onaylandı",
+  "reviewContracts": "आपका व्यवसाय सुरक्षित है",
+  "openContracts": "सोज़्लेस्मेलेरी ए.सी",
+  "resumeContracts": "कलदिन येर्डेन देवम एट ({accepted}/{total})",
+  "requiredTitle": "ज़ोरुनलू सॉज़लेस्मेलर",
+  "requiredHint": "उसका sözleşmeyi açıp सोनुना कादर ओकुयुन ({accepted}/{total})।",
+  "sidebarHint": "उसका सोज़लेस्मेयी सोनुना कादर ओकुयुप ओनायलैयिन।",
+  "sidebarComplete": "{accepted}/{total} तमाम",
+  "version": "सरुम {version}",
+  "accepted": "· ओनायलैंडि",
+  "openAndRead": "· कृपया मुझे बताएं"
+}

@@ -1,0 +1,72 @@
+{
+  "tabTitles": {
+    "overview": "Home",
+    "work": "Calendar",
+    "asgari": "Minimum wage",
+    "finance": "Payroll",
+    "rights": "My rights",
+    "settings": "Settings"
+  },
+  "hubSections": [
+    {
+      "title": "On site",
+      "subtitle": "Daily work records",
+      "items": [
+        {
+          "id": "work",
+          "tab": "work",
+          "label": "Calendar",
+          "description": "Work days, overtime, and payments"
+        },
+        {
+          "id": "yoklama",
+          "href": "/personnel-panel/yoklama",
+          "label": "Attendance",
+          "description": "QR check-in"
+        }
+      ]
+    },
+    {
+      "title": "Finance",
+      "subtitle": "Pay and payments",
+      "items": [
+        {
+          "id": "finance",
+          "tab": "finance",
+          "label": "Payroll",
+          "description": "Net pay summary"
+        },
+        {
+          "id": "avans",
+          "href": "/personnel-panel/avans",
+          "label": "Advance request",
+          "description": "Create and track requests"
+        },
+        {
+          "id": "asgari",
+          "tab": "asgari",
+          "label": "Minimum wage",
+          "description": "Top-up status"
+        }
+      ]
+    },
+    {
+      "title": "Account",
+      "subtitle": "Profile and documents",
+      "items": [
+        {
+          "id": "rights",
+          "tab": "rights",
+          "label": "My rights",
+          "description": "Contracts"
+        },
+        {
+          "id": "settings",
+          "tab": "settings",
+          "label": "Settings",
+          "description": "PIN and profile"
+        }
+      ]
+    }
+  ]
+}

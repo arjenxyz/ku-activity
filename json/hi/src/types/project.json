@@ -1,0 +1,9 @@
+{
+  "statusLabels": {
+    "active": "अक्तीफ़",
+    "planned": "प्लानलानन",
+    "paused": "दुर्दुरुलडु",
+    "completed": "तमामलंदी",
+    "archived": "Arşivlendi"
+  }
+}

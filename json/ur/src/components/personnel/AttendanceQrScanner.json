@@ -1,0 +1,14 @@
+{
+  "errors": {
+    "regionNotReady": "The camera area could not be prepared.",
+    "permissionDenied": "Camera permission is required. Allow it from settings or the address bar.",
+    "notFound": "No camera found.",
+    "secureContext": "The camera only works over a secure connection (HTTPS).",
+    "openFailed": "Couldn't open the camera. Try Enter code instead.",
+    "unsupported": "Your browser doesn't support camera access.",
+    "httpsRequired": "The camera only works over HTTPS.",
+    "cameraFailed": "Couldn't open the camera"
+  },
+  "invalidQrMessage": "This is not a valid attendance QR code.",
+  "openingCamera": "Opening camera…"
+}

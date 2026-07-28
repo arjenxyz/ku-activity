@@ -1,0 +1,20 @@
+{
+  "linkInvalidOrExpired": "सिफिरलामा बैकलैंटिसी गेसरिज़ वेया सुरेसी डॉलमुस। येनिडेन इस्तेयिन.",
+  "sessionNotFound": "ओटुरम बुलुनमादि. ई-पोस्टडाकी सिफिरलामा लिंकिन टेकरार टिक्लायिन।",
+  "developerPanelLabel": "डेवलपर पैनली",
+  "adminPanelLabel": "योनेटिसी पैनलि",
+  "title": "येनी सिफ्रे बेलिरले",
+  "subtitleForPanel": "{panelLabel} गिरीसी यहाँ",
+  "passwordUpdatedRedirect": "सिफ्रेनिज़ गुनेलेन्डी। {panelLabel} गिरीस सफ़ासिना योनलेंडिरिलीयोरसुनुज़…",
+  "checkingSession": "ओटूरम कंट्रोल एडिलियोर…",
+  "invalidLinkRetry": "सिफ़रलामा लिंकी गेसरिज़. गिरीस सैफसिन्दन टेकरार सिफ्रे सिफिरलामा इस्तेयिन।",
+  "newPasswordLabel": "येनी सिफ़्रे",
+  "confirmPasswordLabel": "येनी सिफ़्रे (टेकरार)",
+  "passwordMinLength": "सिफ़्रे एन एज़ 6 कैरेक्टर ओल्मली.",
+  "passwordMismatch": "सिफ़्रेलर एस्लेस्मीयोर.",
+  "passwordUpdateFailed": "सिफ़्रे गुन्सेलेनेमेडी",
+  "saving": "कायदेडिलिओर…",
+  "savePassword": "Şifrei kaydet",
+  "backToLogin": "गिरीस सैफसिना डॉन",
+  "loading": "युकलेनियोर..."
+}

@@ -1,0 +1,29 @@
+{
+  "waterfall": {
+    "contract": {
+      "label": "乌斯特·塔瑟隆丹·阿拉恰克",
+      "hint": "{unitPrice} ₺/{unitLabel} × {quantity} {unitLabel}"
+    },
+    "labor": {
+      "label": "? yevmiyesi (onaylı)",
+      "hint": "{approvedWorkDays} onaylı gün"
+    },
+    "advance": {
+      "label": "阿万斯拉尔",
+      "hint": "Bu işe bağlı avans kayıtları"
+    },
+    "deduction": {
+      "label": "凯辛蒂莱尔"
+    },
+    "material": {
+      "label": "马尔泽姆·吉德里",
+      "hint": "{expenseCount} 凯伊特"
+    },
+    "profit": {
+      "label": "网络卡"
+    },
+    "share": {
+      "label": "Ortak başı ({shareCount} kişi)"
+    }
+  }
+}

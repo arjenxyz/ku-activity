@@ -1,0 +1,14 @@
+{
+  "errors": {
+    "regionNotReady": "无法准备相机区域。",
+    "permissionDenied": "需要相机许可。从设置或地址栏允许它。",
+    "notFound": "没有找到相机。",
+    "secureContext": "摄像头只能通过安全连接 (HTTPS) 运行。",
+    "openFailed": "无法打开相机。请尝试输入代码。",
+    "unsupported": "您的浏览器不支持相机访问。",
+    "httpsRequired": "相机只能通过 HTTPS 运行。",
+    "cameraFailed": "无法打开相机"
+  },
+  "invalidQrMessage": "这不是有效的考勤二维码。",
+  "openingCamera": "打开相机..."
+}

@@ -1,0 +1,11 @@
+{
+  "unauthorized": "सत्र अमान्य",
+  "loadFailed": "रिपोर्ट लोड नहीं हो सकी",
+  "invalidBody": "अमान्य अनुरोध",
+  "invalidDate": "अमान्य दिनांक",
+  "categoriesRequired": "कम से कम एक त्रुटि श्रेणी का चयन करें",
+  "noteTooShort": "विवरण कम से कम 5 अक्षर का होना चाहिए",
+  "createFailed": "रिपोर्ट प्रस्तुत नहीं हो सकी",
+  "migrationRequired": "माइग्रेशन 077_day_error_reports.sql चलाएँ",
+  "projectClosed": "परियोजना बंद हो रही है; रिपोर्ट प्रस्तुत नहीं की जा सकती"
+}

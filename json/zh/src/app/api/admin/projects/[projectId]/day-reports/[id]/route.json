@@ -1,0 +1,6 @@
+{
+  "invalidStatus": "无效状态",
+  "resolveFailed": "无法解决报告",
+  "notFound": "报告未找到或已解决",
+  "migrationRequired": "运行迁移 077_day_error_reports.sql"
+}

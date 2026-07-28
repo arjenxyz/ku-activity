@@ -1,0 +1,7 @@
+{
+  "visionFailed": "Vision OCR 失败 - 是否启用了 Cloud Vision API？",
+  "visionPdfEmpty": "无法从 PDF 收据中提取文本",
+  "tesseractFailed": "Tesseract OCR 失败",
+  "tesseractPdfEmpty": "无法将 PDF 页面转换为图像",
+  "unsupportedFileType": "无法识别的文件类型 — 发送 PDF 或图像 (JPG/PNG)"
+}

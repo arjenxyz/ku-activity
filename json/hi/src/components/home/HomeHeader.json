@@ -1,0 +1,12 @@
+{
+  "navLinks": {
+    "hero": "घर",
+    "features": "विशेषताएँ",
+    "playStore": "गूगल प्ले",
+    "apk": "एपीके डाउनलोड करें",
+    "contact": "संपर्क"
+  },
+  "menuOpenAriaLabel": "मेनू खोलें",
+  "menuCloseAriaLabel": "मेनू बंद करें",
+  "mobileMenuTitle": "मेनू"
+}

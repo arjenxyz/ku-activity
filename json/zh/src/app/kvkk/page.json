@@ -1,0 +1,57 @@
+{
+  "metadataTitle": "KVKK 艾登拉特马·梅特尼",
+  "metadataDescription": "CrewLedger Kişisel Verilerin Korunması Kanunu aydınlatma metni。",
+  "headerSubtitle": "KVKK 艾登拉特马·梅特尼",
+  "title": "KVKK 艾登拉特马·梅特尼",
+  "lead": "6698 sayılı Kişisel Verilerin Korunması Kanunu (“KVKK”) m.10 uyarınca bilgilendirme metnidir。",
+  "sections": {
+    "structure": {
+      "heading": "1. 平台veri sorumlusu yapısı",
+      "platformLine": ", {developerName} tarafından işletilen {nature}dur。 Tüzel kişiliği yoktur；如果您有任何疑问，请联系我们。",
+      "adminLine": "人员 başvurusu ve kayıtları，pratikte platformu kullanan yönetici kişi（şantiye sorumlusu，ekip başı vb.）tarafından oluşturulur。这是一个非常重要的问题。",
+      "operatorPrefix": "平台运营商/teknik veriişleyen：",
+      "operatorLine": "{developerName} — altyapı、barındırma、şifreleme ve yazılım hizmeti sunar。伊莱蒂希姆："
+    },
+    "categories": {
+      "heading": "2. 真实类别",
+      "items": [
+        "Kimlik：ad-soyad，T.C. kimlik numarası（格式 kontrolü；NVI doğrulaması yok）、doğum tarihi",
+        "电子邮件：电话、电子邮政",
+        "Finans: IBAN、yevmiye、avans、kesinti、asgari ücret kayıtları",
+        "操作： puantaj、yoklama (QR)、mesai、proje ataması",
+        "Görsel：başvuru fotoğrafı (yönetici manuel teyidi)",
+        "名称: oturum, onay logları, IP (sınırlı)"
+      ]
+    },
+    "purposes": {
+      "heading": "3. 关闭 amaçları",
+      "body": "维里勒；个人凯迪、财务金融、约克拉马、sözleşme onayı、技术设计和管理。 Ticari pazarlama veya üçüncü tarafa satış yapılmaz。"
+    },
+    "legalBasis": {
+      "heading": "4.胡库基·塞贝普勒",
+      "body": "Açık rıza (KVKK m.5/1)、sözleşmenin kurulması/ifası (m.5/2-c)、hukuki yükümlülük (m.5/2-ç) 和 meşru menfaat (m.5/2-f) — ölçülülük ilkesine uygun olarak。"
+    },
+    "transfer": {
+      "heading": "5. 阿克塔林",
+      "body": "Barındırma (Vercel)、veritabanı (Supabase)、e-posta (Brevo) gibi teknik hizmet sağlayıcıları；亚萨尔·佐伦卢卢克·哈林德·雷斯米·马卡姆拉。 Veri satışı yapılmaz。"
+    },
+    "security": {
+      "heading": "6. 居文利克",
+      "body": "T.C. kimlik、IBAN 和 doğum tarihi AES-256-GCM ile şifrelenir； arama 位于 HMAC 哈希库中。 HTTPS 已生效。"
+    },
+    "rights": {
+      "heading": "7. Haklarınız (KVKK m.11)",
+      "bodyPrefix": "Bilgi talebi、düzeltme、silme、itiraz ve şikâyet (KVKK Kurulu) haklarınız vardır。 Önce kaydı oluşturan yöneticinize；科努拉达技术公司",
+      "bodySuffix": "Adresine başvurabilirsiniz。"
+    },
+    "retention": {
+      "heading": "8. 萨克拉马",
+      "body": "Veriler，işleme amacının gerektirdiği süre boyunca saklanır； amaç ortadan kalktığında silinir veya anonimleştirilir。"
+    }
+  },
+  "footer": {
+    "home": "← 安娜赛法",
+    "privacy": "政治学",
+    "terms": "库拉尼姆·萨特拉勒"
+  }
+}

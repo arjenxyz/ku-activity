@@ -1,0 +1,60 @@
+{
+  "loading": "Asgari bilgileriniz yükleniyor…",
+  "retry": "Tekrar dene",
+  "policyNotConfigured": "İşveren henüz maaş politikasını tanımlamamış. Gösterilen tutarlar varsayılan kurallara göredir.",
+  "estimatedRemaining": "tahmini kalan",
+  "noExtraCompletion": "Ek tamamlama gerekmiyor",
+  "progressLabel": "Yevmiye + ödenen asgari",
+  "targetLine": "Hedef: {amount} (dönem tavanı)",
+  "howCalculated": "Nasıl hesaplanır?",
+  "fullPeriod": "Tam dönem",
+  "approvedDaysHint": "{days} onaylı gün",
+  "paymentTimingTitle": "Ödeme zamanı (işveren kuralı)",
+  "recordsTitle": "Asgari ödemeler · {month}",
+  "emptyRecords": "Bu dönemde henüz asgari ödeme kaydı yok",
+  "defaultRecordDescription": "Asgari tamamlama",
+  "total": "Toplam: {amount}",
+  "faqTitle": "Sık sorulanlar",
+  "faq": {
+    "whatIs": {
+      "question": "Asgari tamamlama nedir?",
+      "answer": "Onaylı yevmiye toplamınız, işverenin belirlediği dönem tavanının altındaysa aradaki fark asgari tamamlama olarak ödenebilir."
+    },
+    "whenFinal": {
+      "question": "Kesin tutar ne zaman belli olur?",
+      "answer": "Buradaki kalan tutar tahminidir. Kesin ödeme işveren / taşeron kayıtlarına göre belirlenir."
+    },
+    "hireDate": "İşe giriş:",
+    "hireDateNote": "{date} — dönem tavanı buna göre oranlanmış olabilir."
+  },
+  "status": {
+    "complete": {
+      "label": "Tamamlandı",
+      "sub": "Bu dönem için asgari tamamlama hedefi karşılandı."
+    },
+    "partial": {
+      "label": "Kısmen ödendi",
+      "sub": "Bir kısmı yatırıldı; kalan tutar işveren tarafından tamamlanabilir."
+    },
+    "open": {
+      "label": "Bekleyen tamamlama",
+      "sub": "Onaylı yevmiyeniz dönem tavanının altında; fark henüz ödenmemiş olabilir."
+    },
+    "default": {
+      "label": "Bilgi",
+      "sub": "Bu dönem için asgari hesaplaması henüz oluşmadı."
+    }
+  },
+  "stats": {
+    "approvedGross": "Onaylı yevmiye",
+    "eligibleMinimum": "Hak edilen asgari",
+    "minimumPaid": "Ödenen asgari",
+    "remainingGap": "Kalan (tahmini)"
+  },
+  "calcRows": {
+    "approvedGross": "Onaylı yevmiye",
+    "eligibleMinimum": "Dönem asgari tavanı",
+    "minimumPaid": "Ödenen tamamlama",
+    "remainingGap": "Tahmini kalan"
+  }
+}

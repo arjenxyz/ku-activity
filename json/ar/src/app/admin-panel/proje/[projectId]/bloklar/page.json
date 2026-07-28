@@ -1,0 +1,23 @@
+{
+  "loadFailed": "Yüklenemedi",
+  "successCreated": "Blok oluşturuldu. Ekiplere atayın.",
+  "saveFailed": "Kayıt başarısız",
+  "completeConfirm": "\"{name}\" tamamlandı olarak işaretlensin mi?\n\nBu bloktaki ekiplerin blok ataması kaldırılır. Yeni blok oluşturup ekiplere atamanız gerekir.",
+  "successCompleted": "\"{name}\" tamamlandı. Ekipler sayfasından yeni blok atayın.",
+  "actionFailed": "İşlem başarısız",
+  "pageTitle": "Bloklar",
+  "pageDescription": "İş alanlarını blok olarak tanımlayın. Ekipler bloğa atanır; onaylı yevmiye otomatik işlenir.",
+  "sectionNewBlock": "Yeni blok",
+  "labelBlockName": "Blok adı",
+  "placeholderBlockName": "Örn. A Blok, 3. Kat",
+  "addButton": "Ekle",
+  "hintAfterCompletePrefix": "Blok tamamlanınca ekiplerin ataması sıfırlanır.",
+  "hintTeamsLink": "Ekipler",
+  "hintAfterCompleteSuffix": "sayfasından yeni blok atayın.",
+  "loading": "Yükleniyor…",
+  "activeBlocksTitle": "Aktif bloklar",
+  "activeBlocksEmpty": "Henüz aktif blok yok.",
+  "completedBlocksTitle": "Tamamlanan bloklar",
+  "defaultEmpty": "Kayıt yok.",
+  "completeButton": "Tamamlandı"
+}

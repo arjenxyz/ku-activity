@@ -1,0 +1,7 @@
+{
+  "encryptionKeyMissing": "FIELD_ENCRYPTION_KEY एक नया बॉक्स (.env)",
+  "invalidTcKimlik": "गेसेर्सिज़ टी.सी. किमलिक संख्या",
+  "invalidIdentity": "अधिक अंक प्राप्त करें",
+  "invalidPhone": "गेसरसाइज़ टेलीफ़ोन संख्या",
+  "invalidIban": "गेसेर्सिज़ आईबीएएन"
+}

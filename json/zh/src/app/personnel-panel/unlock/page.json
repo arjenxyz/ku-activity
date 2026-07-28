@@ -1,0 +1,15 @@
+{
+  "greeting": "你好{name}",
+  "pinLabel": "PIN",
+  "unlockButton": "继续",
+  "unlocking": "正在验证...",
+  "forgotPin": "忘记密码",
+  "forgetMe": "忘记我",
+  "forgetMeConfirm": "您在此设备上的会话将关闭。继续？",
+  "screenLabel": "锁屏",
+  "subtitle": "输入您的 PIN 码以继续。",
+  "checking": "加载中…",
+  "invalidPin": "PIN 码不正确",
+  "systemError": "出了点问题",
+  "pinDigitAria": "密码位数"
+}

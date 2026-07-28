@@ -1,0 +1,12 @@
+{
+  "nameRequired": "Ad ve soyad zorunludur。",
+  "emailRequired": "E-posta adresi zorunludur。",
+  "emailInvalid": "Geçerli bir e-posta adresi girin。",
+  "phoneRequired": "电话号码。",
+  "phoneInvalid": "请使用电话号码 (ülke kodu dahil)。",
+  "tcInvalid": "Geçerli bir T.C. kimlik numarası girin。",
+  "foreignIdInvalid": "关闭电源/关闭电源。",
+  "birthDateRequired": "Doğum tarihi zorunludur。",
+  "ibanRequired": "IBAN 佐伦卢杜尔。",
+  "ibanInvalid": "Geçerli bir IBAN girin（TR ile 26 karakter，kontrol hanesi doğru olmalı）。"
+}

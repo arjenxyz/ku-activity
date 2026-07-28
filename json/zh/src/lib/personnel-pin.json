@@ -1,0 +1,5 @@
+{
+  "pinWrongLength": "Giriş şifresi (PIN) {length} haneli olmalıdır",
+  "pinDigitsOnly": "PIN ylnızca rakam içermelidir",
+  "pinMismatch": "密码 tekrarı eşleşmiyor"
+}

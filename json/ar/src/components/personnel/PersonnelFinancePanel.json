@@ -1,0 +1,14 @@
+{
+  "sectionTitle": "Maaş dökümü",
+  "printTitle": "Detaylı döküm",
+  "printHint": "Yazdır veya PDF kaydet",
+  "rows": {
+    "basePay": "Yevmiye (gün × ücret)",
+    "mesaiPay": "Mesai kazancı (+)",
+    "gross": "Brüt toplam",
+    "advances": "Avanslar (−)",
+    "deductions": "Kesintiler (−)",
+    "minimum": "Asgari ödemeler (+)"
+  },
+  "net": "Net"
+}

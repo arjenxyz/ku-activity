@@ -1,0 +1,18 @@
+{
+  "sectionBadge": "मोबाइल एप्लिकेशन",
+  "sectionTitle": "Google Play से डाउनलोड करें",
+  "sectionSubtitlePrefix": "यदि आप Play Store का उपयोग नहीं कर सकते,",
+  "sectionSubtitleLink": "एपीके डाउनलोड पेज पर जाएं",
+  "sectionSubtitleSuffix": ".",
+  "platformLabel": "एंड्रॉइड · मुफ़्त",
+  "apps": {
+    "personel": {
+      "title": "कार्मिक ऐप",
+      "description": "उपस्थिति, दैनिक वेतन, ओवरटाइम और पेरोल देखना। अनुप्रयोगों और दैनिक कार्यों के लिए डिज़ाइन किया गया।"
+    },
+    "admin": {
+      "title": "एडमिन ऐप",
+      "description": "परियोजना प्रबंधन, कार्मिक अनुमोदन, दैनिक वेतन और रिपोर्ट। कार्यालय या साइट से पूर्ण नियंत्रण."
+    }
+  }
+}

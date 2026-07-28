@@ -1,0 +1,31 @@
+{
+  "filters": {
+    "all": "Tüm Kayıtlar",
+    "work": "Yevmiye",
+    "advance": "Avanslar",
+    "deduction": "Kesintiler",
+    "salary": "Maaş Özeti"
+  },
+  "workLogsTitle": "Yevmiye Kayıtları",
+  "advanceRecordsTitle": "Avans Kayıtları",
+  "deductionRecordsTitle": "Kesinti Kayıtları",
+  "colDate": "Tarih",
+  "colType": "Tip",
+  "colDescription": "Açıklama",
+  "colAmount": "Tutar",
+  "colKind": "Tür",
+  "fullDay": "Tam Gün",
+  "halfDay": "Yarım Gün",
+  "emptyValue": "-",
+  "summaryTotalWork": "Toplam Çalışma",
+  "summaryTotalAdvance": "Toplam Avans",
+  "summaryTotalDeduction": "Toplam Kesinti",
+  "summaryNetSalary": "Net Maaş",
+  "backTitle": "Geri",
+  "backLabel": "Geri",
+  "pageTitle": "Personel Sorgulama",
+  "selectEmployee": "Çalışan seçiniz...",
+  "loading": "Yükleniyor...",
+  "selectEmployeeFirst": "Önce bir çalışan seçin.",
+  "noRecords": "Kayıt bulunamadı"
+}

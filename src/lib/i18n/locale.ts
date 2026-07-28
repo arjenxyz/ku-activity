@@ -15,8 +15,8 @@ export type Locale =
   | 'ja'
   | 'hu';
 
-/** Çeviri dosyası olan diller — diğerleri İngilizce metne düşer. */
-export type ContentLocale = 'tr' | 'en' | 'hu';
+/** Çeviri dosyası olan diller — tüm seçici dilleri kapsar. */
+export type ContentLocale = Locale;
 
 export const LOCALES: Locale[] = [
   'tr',
@@ -36,11 +36,14 @@ export const LOCALES: Locale[] = [
   'hu',
 ];
 
+/** json/{locale}/src ağacı olan diller (tr → json/src). */
+export const CONTENT_LOCALES: ContentLocale[] = [...LOCALES];
+
 export const DEFAULT_LOCALE: Locale = 'tr';
 export const LOCALE_COOKIE = 'crewledger_locale';
 export const LOCALE_STORAGE_KEY = 'crewledger_locale';
 
-/** Dil seçici menüsü — bayrak + ad (çeviri JSON’u ayrı iş). */
+/** Dil seçici menüsü — bayrak + ad (çeviri JSON'u ayrı iş). */
 export type LocaleOption = {
   id: Locale;
   short: string;
@@ -71,6 +74,44 @@ export const LOCALE_OPTIONS: LocaleOption[] = [
   { id: 'ur', short: 'UR', countryCode: 'pk', nativeLabel: 'اردو', englishName: 'Urdu' },
 ];
 
+/** Tarih/sayı biçimlendirme için BCP 47 etiketleri. */
+export const LOCALE_BCP47: Record<Locale, string> = {
+  tr: 'tr-TR',
+  en: 'en-GB',
+  zh: 'zh-CN',
+  hi: 'hi-IN',
+  es: 'es-ES',
+  fr: 'fr-FR',
+  ar: 'ar-SA',
+  bn: 'bn-BD',
+  pt: 'pt-BR',
+  ru: 'ru-RU',
+  ur: 'ur-PK',
+  id: 'id-ID',
+  de: 'de-DE',
+  ja: 'ja-JP',
+  hu: 'hu-HU',
+};
+
+/** dayjs locale() için kısa kodlar. */
+export const DAYJS_LOCALE: Record<Locale, string> = {
+  tr: 'tr',
+  en: 'en',
+  zh: 'zh-cn',
+  hi: 'hi',
+  es: 'es',
+  fr: 'fr',
+  ar: 'ar',
+  bn: 'bn',
+  pt: 'pt-br',
+  ru: 'ru',
+  ur: 'ur',
+  id: 'id',
+  de: 'de',
+  ja: 'ja',
+  hu: 'hu',
+};
+
 /** flagcdn yalnızca bu genişlikleri sunar (w28 vb. 404 verir). */
 const FLAGCDN_WIDTHS = [20, 40, 80, 160, 320] as const;
 
@@ -83,11 +124,8 @@ export function flagImageUrl(countryCode: string, width = 40) {
 
 const LOCALE_SET = new Set<string>(LOCALES);
 
-/** UI metinleri için: TR → tr, HU → hu, diğer seçimler şimdilik EN. */
 export function contentLocale(locale: Locale): ContentLocale {
-  if (locale === 'tr') return 'tr';
-  if (locale === 'hu') return 'hu';
-  return 'en';
+  return locale;
 }
 
 export function parseLocale(value: string | null | undefined): Locale {

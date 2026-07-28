@@ -1,0 +1,52 @@
+{
+  "metadataTitle": "库拉尼姆·萨特拉勒",
+  "metadataDescription": "CrewLedger 是一个成熟的平台。",
+  "title": "库拉尼姆·萨特拉勒",
+  "lastUpdatedPrefix": "儿子冈塞莱姆：",
+  "sections": {
+    "nature": {
+      "heading": "1. 平台",
+      "platformLineSuffix": "({url})、{developerName} tarafından geliştirilen、{nature}dur。 Herhangi bir anonim şirket、limited şirket、taşeron Firması veya resmi işveren unvanı adına hareket etmez； tüzel kişiliği bulunmaz。"
+    },
+    "voluntary": {
+      "heading": "2. Gönüllülük ve zorunluluk olmaması",
+      "adminLine": "Yöneticiler（şantiye sorumlusu、ekip başı、proje yöneticisi vb.）平台 yalnızca kendi inisiyatifleriyle kullanabilir。人员、平台u kullanmayı reddedebilir； Bu durumda taraflar arasındaki ücret ve çalışma ilişkisi mevzuattaki resmi usullere gore ayrıca yürütülür。"
+    },
+    "scope": {
+      "heading": "3. 希兹梅丁·卡普萨米",
+      "body": "平台;耶夫米耶、普安塔吉、约克拉马 (QR)、前线、前线、阿斯加里·克雷特·塔基比和本泽里财务/运营中心的迪吉塔·奥塔姆达·图图尔马西纳和所有人员和工作人员。 Amaç, şantiye finansal takibini rahat, dijital veşeffaf kılmaktır."
+    },
+    "asIs": {
+      "heading": "4.“Olduğu gibi”苏努姆",
+      "body": "平台已关闭并已关闭。如果您有任何疑问，请联系我们的客服人员。 Teknik bakım，güncelleme veya projenin sonlandırılması mümkündür。"
+    },
+    "legalValidity": {
+      "heading": "5. Resmi geçerlilik ve mahkeme delili",
+      "importantPrefix": "奥内姆利：",
+      "items": [
+        "Resmi bordro / SGK / vergi kayıtlarının yerine geçmez。您可以通过以下方式联系我们： 房屋、银行、银行和银行。",
+        "Elektronik onay kayıtları（sözleşme kabulü、OTP、tarih-saat logları）6098 说 TBK ve ilgili mevzuat çerçevesinde destekleyici delil niteliğinde olabilir； Tek başına kesin delil sayılması garanti edilmez。",
+        "系统、系统、设备和设备； mahkemede bağlayıcı hakediş Belgesi olduğu iddia edilmez。",
+        "T.C. kimlik doğrulaması NVI/KPS/e-Devlet ile yapılmaz； yalnızca 格式控制和手动操作。",
+        "Dekont OCR 分析码；银行卡 kayıtlarının yerine geçmez。"
+      ]
+    },
+    "liability": {
+      "heading": "6. Sorumluluk sınırı",
+      "body": "{developerName}，平台运营商sıfatıyla；库拉尼奇拉瑞恩·吉尔迪·维里莱林·多鲁鲁古，你的个人阿拉斯·安达基·奥泽尔·胡库克·伊利什·基勒里，你会发现，他们的行为是卡扎西·吉比·萨哈·奥莱拉·安丹·索鲁姆·图图拉马兹。如果您有任何问题，请联系我们。"
+    },
+    "ip": {
+      "heading": "7. 菲克里穆尔基耶特",
+      "body": "Yazılım，arayüz ve marka unsurları {developerName}'a ittir。 izinsiz ticari çoğaltma veya satış yapılamaz; gelecekte lisanslama ayrıca duyurulur。"
+    },
+    "contact": {
+      "heading": "8. 伊莱蒂希姆",
+      "bodyPrefix": "解决方案："
+    }
+  },
+  "shell": {
+    "footerHome": "← 安娜赛法",
+    "footerPrivacy": "吉兹利利克",
+    "footerKvkk": "KVKK"
+  }
+}

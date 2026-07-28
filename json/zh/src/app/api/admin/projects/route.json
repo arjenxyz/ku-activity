@@ -1,0 +1,8 @@
+{
+  "projeAdıGerekli": "项目名称为必填项",
+  "geçersizDurum": "无效状态",
+  "oturumGerekli": "需要会话",
+  "activeProjectLimit": "您最多可以有 2 个活动项目。关闭的项目不计入此限制。",
+  "migrationRequired": "需要数据库迁移（065_project_admin_limits.sql）",
+  "buProjeKoduZatenKullanılıyor": "该项目代码已被使用"
+}
