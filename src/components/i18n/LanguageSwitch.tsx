@@ -12,7 +12,7 @@ import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 
 type LanguageSwitchProps = {
   className?: string;
-  /** compact/pill: tetikleyici + modal; list: ayarlar; nav: mobil menü satırı + modal */
+  /** compact/pill: tetikleyici + tam ekran blur katmanı; list: ayarlar; nav: mobil menü satırı + blur katmanı */
   variant?: 'pill' | 'compact' | 'list' | 'nav';
   /** Koyu arka plan üzerinde (hero kart vb.) */
   tone?: 'default' | 'onDark';
@@ -55,55 +55,92 @@ function FlagBadge({
   );
 }
 
+function LocaleOptionTile({
+  option,
+  active,
+  onSelect,
+  layout = 'list',
+}: {
+  option: (typeof LOCALE_OPTIONS)[number];
+  active: boolean;
+  onSelect: (id: Locale) => void;
+  layout?: 'list' | 'overlay';
+}) {
+  const overlayItemClass = active
+    ? 'bg-white/95 text-[#0E1548] shadow-lg shadow-slate-900/10 ring-2 ring-white/80 dark:bg-slate-900/95 dark:text-blue-100 dark:ring-blue-400/40'
+    : 'bg-white/80 text-slate-800 hover:bg-white/95 dark:bg-slate-900/75 dark:text-slate-100 dark:hover:bg-slate-900/90';
+
+  const listItemClass = active
+    ? 'bg-[#0E1548]/[0.06] text-[#0E1548] dark:bg-blue-500/15 dark:text-blue-100'
+    : 'text-slate-700 hover:bg-slate-50 dark:text-slate-200 dark:hover:bg-slate-800/80';
+
+  return (
+    <button
+      type="button"
+      role="option"
+      aria-selected={active}
+      onClick={() => onSelect(option.id)}
+      className={`flex w-full items-center gap-3 rounded-2xl px-3.5 py-3 text-left transition-all ${
+        layout === 'overlay' ? overlayItemClass : listItemClass
+      }`}
+    >
+      <FlagBadge countryCode={option.countryCode} short={option.short} />
+      <span className="min-w-0 flex-1">
+        <span className="block text-sm font-semibold leading-tight">{option.nativeLabel}</span>
+        <span
+          className={`block text-[11px] ${
+            layout === 'overlay'
+              ? 'text-slate-500 dark:text-slate-400'
+              : 'text-slate-500 dark:text-slate-400'
+          }`}
+        >
+          {option.englishName}
+        </span>
+      </span>
+      {active ? (
+        <FiCheck
+          className={`h-4 w-4 shrink-0 ${
+            layout === 'overlay' ? 'text-[#0E1548] dark:text-blue-300' : 'text-[#0E1548] dark:text-blue-300'
+          }`}
+        />
+      ) : (
+        <span className="h-4 w-4 shrink-0" aria-hidden />
+      )}
+    </button>
+  );
+}
+
 function LocaleOptionsList({
   locale,
   onSelect,
+  layout = 'list',
 }: {
   locale: Locale;
   onSelect: (id: Locale) => void;
+  layout?: 'list' | 'overlay';
 }) {
+  const listClass =
+    layout === 'overlay'
+      ? 'grid grid-cols-1 gap-2 sm:grid-cols-2'
+      : 'max-h-[min(55vh,18rem)] space-y-0.5 overflow-y-auto overscroll-none p-1.5 [scrollbar-width:thin] [-webkit-overflow-scrolling:touch]';
+
   return (
-    <ul
-      className="max-h-[min(55vh,18rem)] space-y-0.5 overflow-y-auto overscroll-none p-1.5 [scrollbar-width:thin] [-webkit-overflow-scrolling:touch]"
-      role="listbox"
-      data-allow-scroll
-    >
-      {LOCALE_OPTIONS.map((option) => {
-        const active = locale === option.id;
-        return (
-          <li key={option.id}>
-            <button
-              type="button"
-              role="option"
-              aria-selected={active}
-              onClick={() => onSelect(option.id)}
-              className={`flex w-full items-center gap-2.5 rounded-xl px-2.5 py-2 text-left transition-colors ${
-                active
-                  ? 'bg-[#0E1548]/[0.06] text-[#0E1548] dark:bg-blue-500/15 dark:text-blue-100'
-                  : 'text-slate-700 hover:bg-slate-50 dark:text-slate-200 dark:hover:bg-slate-800/80'
-              }`}
-            >
-              <FlagBadge countryCode={option.countryCode} short={option.short} />
-              <span className="min-w-0 flex-1">
-                <span className="block text-sm font-semibold leading-tight">{option.nativeLabel}</span>
-                <span className="block text-[10px] text-slate-500 dark:text-slate-400">
-                  {option.englishName}
-                </span>
-              </span>
-              {active ? (
-                <FiCheck className="h-3.5 w-3.5 shrink-0 text-[#0E1548] dark:text-blue-300" />
-              ) : (
-                <span className="h-3.5 w-3.5 shrink-0" aria-hidden />
-              )}
-            </button>
-          </li>
-        );
-      })}
+    <ul className={listClass} role="listbox" data-allow-scroll>
+      {LOCALE_OPTIONS.map((option) => (
+        <li key={option.id}>
+          <LocaleOptionTile
+            option={option}
+            active={locale === option.id}
+            onSelect={onSelect}
+            layout={layout}
+          />
+        </li>
+      ))}
     </ul>
   );
 }
 
-function LanguageModal({
+function LanguageOverlay({
   open,
   onClose,
   locale,
@@ -144,54 +181,55 @@ function LanguageModal({
     <AnimatePresence>
       {open ? (
         <motion.div
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby={titleId}
+          className="fixed inset-0 z-[100] flex flex-col bg-slate-900/45 backdrop-blur-[2px]"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.15 }}
+          onClick={onClose}
         >
           <button
             type="button"
-            className="absolute inset-0 bg-slate-900/45 backdrop-blur-[2px]"
+            className="sr-only"
             aria-label={closeOverlayAriaLabel}
             onClick={onClose}
           />
 
           <motion.div
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby={titleId}
-            initial={{ opacity: 0, y: 8, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 6, scale: 0.98 }}
-            transition={{ duration: 0.16, ease: 'easeOut' }}
-            className="relative z-10 w-full max-w-[20rem] overflow-hidden overscroll-none rounded-2xl border border-slate-200/90 bg-white shadow-xl shadow-slate-900/10 dark:border-slate-700 dark:bg-slate-900 dark:shadow-black/40"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 8 }}
+            transition={{ duration: 0.18, ease: 'easeOut' }}
+            className="relative flex min-h-0 flex-1 flex-col px-4 pb-6 pt-5 sm:px-6 sm:pt-6"
+            onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center justify-between gap-2 border-b border-slate-100 px-3.5 py-2.5 dark:border-slate-800">
+            <div className="mx-auto flex w-full max-w-2xl items-start justify-between gap-3">
               <div className="min-w-0">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400 dark:text-slate-500">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-white/55">
                   {APP_NAME}
                 </p>
-                <h2
-                  id={titleId}
-                  className="text-sm font-semibold text-slate-900 dark:text-white"
-                >
+                <h2 id={titleId} className="text-xl font-semibold text-white sm:text-2xl">
                   {title}
                 </h2>
               </div>
               <button
                 type="button"
                 onClick={onClose}
-                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-slate-800 dark:hover:text-slate-200"
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/15 text-white transition-colors hover:bg-white/25"
                 aria-label={closeButtonAriaLabel}
               >
-                <FiX className="h-4 w-4" />
+                <FiX className="h-5 w-5" />
               </button>
             </div>
 
-            <LocaleOptionsList locale={locale} onSelect={onSelect} />
+            <div className="mx-auto mt-5 w-full max-w-2xl flex-1 overflow-y-auto overscroll-none [-webkit-overflow-scrolling:touch]">
+              <LocaleOptionsList locale={locale} onSelect={onSelect} layout="overlay" />
+            </div>
 
-            <p className="border-t border-slate-100 px-3.5 py-2 text-center text-[10px] leading-snug text-slate-400 dark:border-slate-800 dark:text-slate-500">
+            <p className="mx-auto mt-4 w-full max-w-2xl text-center text-xs leading-snug text-white/55">
               {footerNote}
             </p>
           </motion.div>
@@ -218,8 +256,8 @@ export function LanguageSwitch({
     setOpen(false);
   };
 
-  const modal = (
-    <LanguageModal
+  const overlay = (
+    <LanguageOverlay
       open={open}
       onClose={() => setOpen(false)}
       locale={locale}
@@ -288,7 +326,7 @@ export function LanguageSwitch({
           </span>
           <FiChevronRight className="h-4 w-4 shrink-0 text-slate-400" aria-hidden />
         </button>
-        {modal}
+        {overlay}
       </>
     );
   }
@@ -317,7 +355,7 @@ export function LanguageSwitch({
         <span className="tracking-wide">{current.short}</span>
         <FiChevronDown className="h-3.5 w-3.5 shrink-0 opacity-60" aria-hidden />
       </button>
-      {modal}
+      {overlay}
     </>
   );
 }
