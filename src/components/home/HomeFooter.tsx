@@ -5,7 +5,7 @@ import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import Link from 'next/link';
 import { BrandMark } from '@/components/brand/BrandMark';
 import { SkyTwinkleStars } from '@/components/home/SkyTwinkleStars';
-import { APP_NAME, APP_TAGLINE_TR } from '@/lib/brand';
+import { APP_NAME } from '@/lib/brand';
 import { SUPPORT_EMAIL, verificationCodeMailto } from '@/lib/support-email';
 
 export function HomeFooter() {
@@ -36,7 +36,7 @@ export function HomeFooter() {
               <BrandMark size="lg" />
               <div>
                 <h3 className="text-xl font-bold">{APP_NAME}</h3>
-                <p className="text-slate-400 text-sm">{APP_TAGLINE_TR}</p>
+                <p className="text-slate-400 text-sm">{strings.tagline}</p>
               </div>
             </div>
             <p className="text-slate-300 text-sm leading-relaxed max-w-md">

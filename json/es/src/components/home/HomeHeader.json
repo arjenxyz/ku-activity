@@ -1,12 +1,13 @@
 {
   "navLinks": {
-    "hero": "Home",
-    "features": "Features",
-    "playStore": "Google Play",
-    "apk": "Download APK",
-    "contact": "Contact"
+    "hero": "Hogar",
+    "features": "Características",
+    "playStore": "GooglePlay",
+    "apk": "Descargar APK",
+    "contact": "Contacto"
   },
-  "menuOpenAriaLabel": "Open menu",
-  "menuCloseAriaLabel": "Close menu",
-  "mobileMenuTitle": "Menu"
+  "menuOpenAriaLabel": "abrir menú",
+  "menuCloseAriaLabel": "Cerrar menú",
+  "mobileMenuTitle": "Menú",
+  "tagline": "Plataforma de personal de construcción"
 }

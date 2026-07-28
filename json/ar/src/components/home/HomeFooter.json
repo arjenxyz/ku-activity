@@ -1,14 +1,15 @@
 {
-  "bannerAlt": "CrewLedger construction crew",
-  "description": "Workforce management system for construction — daily wages, advances, attendance, and timesheets on one platform.",
-  "contactTitle": "Contact",
-  "emailSuffix": "— verification code",
+  "bannerAlt": "طاقم البناء CrewLedger",
+  "description": "نظام إدارة القوى العاملة في مجال البناء - الأجور اليومية والسلف والحضور والجداول الزمنية على منصة واحدة.",
+  "contactTitle": "اتصال",
+  "emailSuffix": "- رمز التحقق",
   "phone": "+90 212 555 01 02",
-  "address": "Maslak District, Istanbul",
+  "address": "منطقة مسلك، اسطنبول",
   "copyrightYear": "2026",
   "links": {
-    "privacy": "Privacy",
-    "terms": "Terms of Use",
-    "kvkk": "GDPR / KVKK"
-  }
+    "privacy": "خصوصية",
+    "terms": "شروط الاستخدام",
+    "kvkk": "اللائحة العامة لحماية البيانات / KVKK"
+  },
+  "tagline": "منصة إدارة القوى العاملة في البناء"
 }

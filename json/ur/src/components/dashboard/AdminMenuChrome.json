@@ -1,7 +1,8 @@
 {
-  "closeMenuAriaLabel": "Menüyü kapat",
-  "menuTitle": "Menü",
-  "projectSettingsAriaLabel": "Proje ayarları",
-  "activeProjectLabel": "Aktif proje",
-  "projectSettingsButton": "Proje ayarları"
+  "closeMenuAriaLabel": "menüyü kapat",
+  "menuTitle": "مینو",
+  "projectSettingsAriaLabel": "پروجیکٹ ayarları",
+  "activeProjectLabel": "اکٹیف پروجیکٹ",
+  "projectSettingsButton": "پروجیکٹ ayarları",
+  "tagline": "تعمیراتی افرادی قوت کا پلیٹ فارم"
 }

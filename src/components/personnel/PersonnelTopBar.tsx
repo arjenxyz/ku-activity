@@ -7,9 +7,8 @@ import { BrandMark } from '@/components/brand/BrandMark';
 import { PersonnelNotificationsBell } from '@/components/personnel/PersonnelNotificationsBell';
 import { usePersonnelNotificationsContext } from '@/contexts/PersonnelNotificationsContext';
 import { usePersonnelTopBarEnterCodeAction } from '@/contexts/PersonnelTopBarActionsContext';
-import { useLocale } from '@/lib/i18n/LocaleProvider';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
-import { APP_TAGLINE, APP_TAGLINE_TR } from '@/lib/brand';
+import { APP_NAME } from '@/lib/brand';
 import { personnelChromeSurfaceClass } from '@/lib/personnel-chrome-surface';
 
 type Props = {
@@ -19,8 +18,7 @@ type Props = {
 export function PersonnelTopBar({ immersive = false }: Props) {
   const pathname = usePathname() ?? '';
   const searchParams = useSearchParams();
-  const { locale } = useLocale();
-  const defaultTagline = locale === 'tr' ? APP_TAGLINE_TR : APP_TAGLINE;
+  const brandStrings = useRegistryStrings('components/home/HomeHeader');
   const yoklamaStrings = useRegistryStrings('app/personnel-panel/yoklama/page');
   const advanceStrings = useRegistryStrings('app/personnel-panel/avans/page');
   const settingsStrings = useRegistryStrings('components/personnel/PersonnelSettingsPage');
@@ -40,7 +38,7 @@ export function PersonnelTopBar({ immersive = false }: Props) {
       ? advanceStrings.panelReturnHint
     : isSettings
       ? settingsStrings.exitHint
-      : defaultTagline;
+      : brandStrings.tagline;
   const enterCode = isYoklama ? topBarActions?.enterCode : null;
   const surfaceClass = personnelChromeSurfaceClass(pathname, searchParams.get('tab'));
 

@@ -1,7 +1,8 @@
 {
-  "closeMenuAriaLabel": "Menüyü kapat",
-  "menuTitle": "Menü",
-  "projectSettingsAriaLabel": "Proje ayarları",
-  "activeProjectLabel": "Aktif proje",
-  "projectSettingsButton": "Proje ayarları"
+  "closeMenuAriaLabel": "القائمة متاحة",
+  "menuTitle": "قائمة طعام",
+  "projectSettingsAriaLabel": "المشروع قادم",
+  "activeProjectLabel": "مشروع أكتيف",
+  "projectSettingsButton": "المشروع قادم",
+  "tagline": "منصة إدارة القوى العاملة في البناء"
 }

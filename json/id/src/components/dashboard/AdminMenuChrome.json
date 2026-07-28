@@ -1,7 +1,8 @@
 {
-  "closeMenuAriaLabel": "Menüyü kapat",
-  "menuTitle": "Menü",
-  "projectSettingsAriaLabel": "Proje ayarları",
-  "activeProjectLabel": "Aktif proje",
-  "projectSettingsButton": "Proje ayarları"
+  "closeMenuAriaLabel": "Tidak bisa",
+  "menuTitle": "Menu",
+  "projectSettingsAriaLabel": "Proyek ini akan terjadi",
+  "activeProjectLabel": "Proyek aktif",
+  "projectSettingsButton": "Proyek ini akan terjadi",
+  "tagline": "Platform manajemen tenaga kerja konstruksi"
 }

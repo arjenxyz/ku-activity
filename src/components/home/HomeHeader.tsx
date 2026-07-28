@@ -5,15 +5,13 @@ import Link from 'next/link';
 import { LanguageSwitch } from '@/components/i18n/LanguageSwitch';
 import { BrandMark } from '@/components/brand/BrandMark';
 import { LoginRoleButton } from '@/components/home/LoginRolePicker';
-import { APP_NAME, APP_TAGLINE, APP_TAGLINE_TR } from '@/lib/brand';
-import { useLocale } from '@/lib/i18n/LocaleProvider';
+import { APP_NAME } from '@/lib/brand';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 
 export function HomeHeader() {
   const strings = useRegistryStrings('components/home/HomeHeader');
-  const { locale } = useLocale();
-  const tagline = locale === 'tr' ? APP_TAGLINE_TR : APP_TAGLINE;
+  const tagline = strings.tagline;
 
   const navLinks = [
     { href: '#hero', label: strings.navLinks.hero },

@@ -6,8 +6,7 @@ import { FiSliders, FiX } from 'react-icons/fi';
 import { BrandMark } from '@/components/brand/BrandMark';
 import { ProjectStatusBadge } from '@/components/project/ProjectStatusBadge';
 import { LanguageSwitch } from '@/components/i18n/LanguageSwitch';
-import { useLocale } from '@/lib/i18n/LocaleProvider';
-import { APP_NAME, APP_TAGLINE, APP_TAGLINE_TR } from '@/lib/brand';
+import { APP_NAME } from '@/lib/brand';
 import type { Project } from '@/types/project';
 
 type BrandProps = {
@@ -18,8 +17,7 @@ type BrandProps = {
 
 export function AdminMenuBrandBar({ onNavigate, onClose, showClose }: BrandProps) {
   const strings = useRegistryStrings('components/dashboard/AdminMenuChrome');
-  const { locale } = useLocale();
-  const tagline = locale === 'tr' ? APP_TAGLINE_TR : APP_TAGLINE;
+  const tagline = strings.tagline;
 
   return (
     <div className="shrink-0 flex items-center justify-between gap-3 px-4 py-3.5 border-b border-slate-100 bg-white">

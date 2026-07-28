@@ -1,12 +1,13 @@
 {
   "navLinks": {
-    "hero": "Home",
-    "features": "Features",
-    "playStore": "Google Play",
-    "apk": "Download APK",
-    "contact": "Contact"
+    "hero": "বাড়ি",
+    "features": "বৈশিষ্ট্য",
+    "playStore": "গুগল প্লে",
+    "apk": "APK ডাউনলোড করুন",
+    "contact": "যোগাযোগ"
   },
-  "menuOpenAriaLabel": "Open menu",
-  "menuCloseAriaLabel": "Close menu",
-  "mobileMenuTitle": "Menu"
+  "menuOpenAriaLabel": "মেনু খুলুন",
+  "menuCloseAriaLabel": "মেনু বন্ধ করুন",
+  "mobileMenuTitle": "মেনু",
+  "tagline": "নির্মাণ কর্মী ব্যবস্থাপনা প্ল্যাটফর্ম"
 }

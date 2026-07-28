@@ -3,5 +3,6 @@
   "menuTitle": "Меню",
   "projectSettingsAriaLabel": "Открытый проект",
   "activeProjectLabel": "Активный проект",
-  "projectSettingsButton": "Открытый проект"
+  "projectSettingsButton": "Открытый проект",
+  "tagline": "Платформа управления строительным персоналом"
 }

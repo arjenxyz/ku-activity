@@ -1,7 +1,8 @@
 {
-  "closeMenuAriaLabel": "Menüyü kapat",
-  "menuTitle": "Menü",
-  "projectSettingsAriaLabel": "Proje ayarları",
-  "activeProjectLabel": "Aktif proje",
-  "projectSettingsButton": "Proje ayarları"
+  "closeMenuAriaLabel": "menüyü kapat",
+  "menuTitle": "মেনু",
+  "projectSettingsAriaLabel": "প্রকল্প ayarları",
+  "activeProjectLabel": "আকটিফ প্রকল্প",
+  "projectSettingsButton": "প্রকল্প ayarları",
+  "tagline": "নির্মাণ কর্মী ব্যবস্থাপনা প্ল্যাটফর্ম"
 }

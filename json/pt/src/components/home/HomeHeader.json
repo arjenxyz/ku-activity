@@ -1,12 +1,13 @@
 {
   "navLinks": {
-    "hero": "Home",
-    "features": "Features",
+    "hero": "Lar",
+    "features": "Características",
     "playStore": "Google Play",
-    "apk": "Download APK",
-    "contact": "Contact"
+    "apk": "Baixar APK",
+    "contact": "Contato"
   },
-  "menuOpenAriaLabel": "Open menu",
-  "menuCloseAriaLabel": "Close menu",
-  "mobileMenuTitle": "Menu"
+  "menuOpenAriaLabel": "Abrir menu",
+  "menuCloseAriaLabel": "Fechar menu",
+  "mobileMenuTitle": "Menu",
+  "tagline": "Plataforma de mão de obra da construção"
 }

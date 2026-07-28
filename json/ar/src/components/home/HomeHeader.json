@@ -1,12 +1,13 @@
 {
   "navLinks": {
-    "hero": "Home",
-    "features": "Features",
-    "playStore": "Google Play",
-    "apk": "Download APK",
-    "contact": "Contact"
+    "hero": "بيت",
+    "features": "سمات",
+    "playStore": "جوجل بلاي",
+    "apk": "تنزيل APK",
+    "contact": "اتصال"
   },
-  "menuOpenAriaLabel": "Open menu",
-  "menuCloseAriaLabel": "Close menu",
-  "mobileMenuTitle": "Menu"
+  "menuOpenAriaLabel": "فتح القائمة",
+  "menuCloseAriaLabel": "إغلاق القائمة",
+  "mobileMenuTitle": "قائمة طعام",
+  "tagline": "منصة إدارة القوى العاملة في البناء"
 }

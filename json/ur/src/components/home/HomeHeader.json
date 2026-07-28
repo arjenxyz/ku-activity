@@ -1,12 +1,13 @@
 {
   "navLinks": {
-    "hero": "Home",
-    "features": "Features",
-    "playStore": "Google Play",
-    "apk": "Download APK",
-    "contact": "Contact"
+    "hero": "گھر",
+    "features": "خصوصیات",
+    "playStore": "گوگل پلے",
+    "apk": "APK ڈاؤن لوڈ کریں۔",
+    "contact": "رابطہ کریں۔"
   },
-  "menuOpenAriaLabel": "Open menu",
-  "menuCloseAriaLabel": "Close menu",
-  "mobileMenuTitle": "Menu"
+  "menuOpenAriaLabel": "مینو کھولیں۔",
+  "menuCloseAriaLabel": "مینو بند کریں۔",
+  "mobileMenuTitle": "مینو",
+  "tagline": "تعمیراتی افرادی قوت کا پلیٹ فارم"
 }
