@@ -1,14 +1,14 @@
 {
-  "regionAriaLabel": "Uygulamayı yükle",
-  "closeAriaLabel": "কাপাত",
+  "regionAriaLabel": "অ্যাপ ইনস্টল করুন",
+  "closeAriaLabel": "বন্ধ",
   "brandLabel": "CREWLEDGER",
-  "title": "আনা একরানা একলেইন",
-  "iosHintPrefix": "Safari'de",
-  "iosShare": "পেলাস",
+  "title": "হোম স্ক্রিনে যোগ করুন",
+  "iosHintPrefix": "Safari-তে ট্যাপ করুন",
+  "iosShare": "শেয়ার",
   "iosHintSuffix": "→",
-  "iosAddToHome": "আনা একরানা একলে",
-  "androidHint": "Yoklama ve yevmiye için uygulama gibi hızlı açılış — tek dokunuşla paneliniz hazır.",
-  "installButton": "আনা একরানা একলে",
-  "iosSafariNote": "Kurulum yalnızca Safari üzerinden yapılır; Chrome veya başka tarayıcıda menü farklı olabilir.",
-  "dismiss": "দহ সোনার"
+  "iosAddToHome": "হোম স্ক্রিনে যোগ করুন",
+  "androidHint": "হাজিরা ও দৈনিক মজুরির জন্য অ্যাপের মতো দ্রুত খোলা — এক ট্যাপে আপনার প্যানেল প্রস্তুত।",
+  "installButton": "হোম স্ক্রিনে যোগ করুন",
+  "iosSafariNote": "ইনস্টল শুধু Safari-তে কাজ করে; Chrome বা অন্য ব্রাউজারে মেনু আলাদা হতে পারে।",
+  "dismiss": "পরে"
 }

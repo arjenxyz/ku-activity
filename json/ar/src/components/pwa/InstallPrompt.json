@@ -1,14 +1,14 @@
 {
-  "regionAriaLabel": "Uygulamayı yükle",
-  "closeAriaLabel": "كابات",
+  "regionAriaLabel": "تثبيت التطبيق",
+  "closeAriaLabel": "إغلاق",
   "brandLabel": "CREWLEDGER",
-  "title": "أنا إكرانا إكليين",
-  "iosHintPrefix": "سفاري",
-  "iosShare": "بايلاس",
+  "title": "إضافة إلى الشاشة الرئيسية",
+  "iosHintPrefix": "في Safari، اضغط",
+  "iosShare": "مشاركة",
   "iosHintSuffix": "→",
-  "iosAddToHome": "آنا إكرانا إيكل",
-  "androidHint": "Yoklama ve yevmiye için uygulama gibi hızlı açılış — tek dokunuşla Paneliniz hazır.",
-  "installButton": "أنا إكرانا إيكلي",
-  "iosSafariNote": "Kurulum yalnızca Safari üzerinden yapılır؛ اضغط على Chrome لعرض القائمة.",
-  "dismiss": "داها سونرا"
+  "iosAddToHome": "إضافة إلى الشاشة الرئيسية",
+  "androidHint": "فتح سريع كتطبيق للحضور والأجر اليومي — لوحتك جاهزة بلمسة واحدة.",
+  "installButton": "إضافة إلى الشاشة الرئيسية",
+  "iosSafariNote": "التثبيت يعمل فقط عبر Safari؛ قد يختلف القائمة في Chrome أو المتصفحات الأخرى.",
+  "dismiss": "لاحقًا"
 }

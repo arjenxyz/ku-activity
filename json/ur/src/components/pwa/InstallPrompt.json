@@ -1,14 +1,14 @@
 {
-  "regionAriaLabel": "Uygulamayı yükle",
-  "closeAriaLabel": "کپت",
+  "regionAriaLabel": "ایپ انسٹال کریں",
+  "closeAriaLabel": "بند کریں",
   "brandLabel": "CREWLEDGER",
-  "title": "انا ایکرانا ایکلیین",
-  "iosHintPrefix": "Safari'de",
-  "iosShare": "پیلاس",
+  "title": "ہوم اسکرین میں شامل کریں",
+  "iosHintPrefix": "Safari میں تھپتھپائیں",
+  "iosShare": "شیئر",
   "iosHintSuffix": "→",
-  "iosAddToHome": "آنا اکرانا اکلے ۔",
-  "androidHint": "Yoklama ve yevmiye için uygulama gibi hızlı açılış — tek dokunuşla paneliniz hazır.",
-  "installButton": "آنا ایکرانا ایکلے",
-  "iosSafariNote": "Kurulum yalnızca Safari üzerinden yapılır; Chrome veya başka tarayıcıda menü farklı olabilir.",
-  "dismiss": "دہا سونرا"
+  "iosAddToHome": "ہوم اسکرین میں شامل کریں",
+  "androidHint": "حاضری اور یومیہ اجرت کے لیے ایپ جیسی تیز لانچ — ایک تھپکی میں آپ کا پینل تیار۔",
+  "installButton": "ہوم اسکرین میں شامل کریں",
+  "iosSafariNote": "انسٹال صرف Safari میں کام کرتا ہے؛ Chrome یا دیگر براؤزرز میں مینو مختلف ہو سکتا ہے۔",
+  "dismiss": "بعد میں"
 }

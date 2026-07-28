@@ -1,14 +1,14 @@
 {
-  "regionAriaLabel": "Уйгуламайы юкле",
-  "closeAriaLabel": "Капат",
+  "regionAriaLabel": "Установить приложение",
+  "closeAriaLabel": "Закрыть",
   "brandLabel": "CREWLEDGER",
-  "title": "Ана экрана эклейин",
-  "iosHintPrefix": "Сафариде",
-  "iosShare": "Пайлаш",
+  "title": "Добавить на домашний экран",
+  "iosHintPrefix": "В Safari нажмите",
+  "iosShare": "Поделиться",
   "iosHintSuffix": "→",
-  "iosAddToHome": "Ана Экрана Экле",
-  "androidHint": "Yoklama ve evmiye için uygulama gibi hızlı açılış — tek dokunuşla Paneliniz Hazır.",
-  "installButton": "Ана экрана экле",
-  "iosSafariNote": "Kurulum yalnizca Safari üzerinden yapılır; Chrome открывает меню, которое можно отключить.",
-  "dismiss": "Даха сонра"
+  "iosAddToHome": "На экран «Домой»",
+  "androidHint": "Быстрый запуск как в приложении для учёта явки и подённой оплаты — панель готова одним касанием.",
+  "installButton": "Добавить на домашний экран",
+  "iosSafariNote": "Установка работает только в Safari; в Chrome или других браузерах меню может отличаться.",
+  "dismiss": "Позже"
 }

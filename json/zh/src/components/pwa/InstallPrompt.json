@@ -1,14 +1,14 @@
 {
-  "regionAriaLabel": "维古拉玛依·尤克尔",
-  "closeAriaLabel": "卡帕特",
+  "regionAriaLabel": "安装应用",
+  "closeAriaLabel": "关闭",
   "brandLabel": "CREWLEDGER",
-  "title": "安娜·埃克拉纳·埃克莱因",
-  "iosHintPrefix": "萨法里德",
-  "iosShare": "帕拉斯",
+  "title": "添加到主屏幕",
+  "iosHintPrefix": "在 Safari 中点击",
+  "iosShare": "共享",
   "iosHintSuffix": "→",
-  "iosAddToHome": "安娜·埃克拉娜·埃克勒",
-  "androidHint": "Yoklama ve yevmiye için uygulama gibi hızlı açılış — tek dokunuşla paneliniz hazır。",
-  "installButton": "安娜·埃克拉纳·埃克勒",
-  "iosSafariNote": "Kurulum yalnızca Safari üzerinden yapılır; Chrome 浏览器将打开菜单。",
-  "dismiss": "达哈松拉"
+  "iosAddToHome": "添加到主屏幕",
+  "androidHint": "像原生应用一样快速打开考勤与日薪面板——一键即可就绪。",
+  "installButton": "添加到主屏幕",
+  "iosSafariNote": "仅可在 Safari 中安装；Chrome 或其他浏览器中的菜单可能不同。",
+  "dismiss": "稍后"
 }

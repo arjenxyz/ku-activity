@@ -1,14 +1,14 @@
 {
-  "regionAriaLabel": "Uygulamayı yükle",
-  "closeAriaLabel": "Kapat",
+  "regionAriaLabel": "Pasang aplikasi",
+  "closeAriaLabel": "Tutup",
   "brandLabel": "CREWLEDGER",
-  "title": "Ana ekrana ekleyin",
-  "iosHintPrefix": "Safari'de",
-  "iosShare": "Pembayaran",
+  "title": "Tambahkan ke Layar Utama",
+  "iosHintPrefix": "Di Safari, ketuk",
+  "iosShare": "Bagikan",
   "iosHintSuffix": "→",
-  "iosAddToHome": "Ana Ekrana Ekle",
-  "androidHint": "Yoklama and yevmiye için uygulama gibi hizlı açılış — tek dokunuşla paneliniz hazır.",
-  "installButton": "Ana ekrana ekle",
-  "iosSafariNote": "Kurulum yalnızca Safari üzerinden yapılır; Chrome dan menu lainnya tidak dapat dijalankan.",
-  "dismiss": "Ya ampun"
+  "iosAddToHome": "Tambah ke Layar Utama",
+  "androidHint": "Buka cepat seperti aplikasi untuk absensi dan upah harian — panel Anda siap dengan satu ketukan.",
+  "installButton": "Tambahkan ke Layar Utama",
+  "iosSafariNote": "Pemasangan hanya berfungsi di Safari; menu mungkin berbeda di Chrome atau browser lain.",
+  "dismiss": "Nanti"
 }

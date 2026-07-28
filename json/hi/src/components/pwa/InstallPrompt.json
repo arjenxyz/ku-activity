@@ -1,14 +1,14 @@
 {
-  "regionAriaLabel": "उइगुलामाय युकले",
-  "closeAriaLabel": "कपाट",
+  "regionAriaLabel": "ऐप इंस्टॉल करें",
+  "closeAriaLabel": "बंद करें",
   "brandLabel": "CREWLEDGER",
-  "title": "एना एकराना एक्लेयिन",
-  "iosHintPrefix": "सफ़ारी'डी",
-  "iosShare": "Paylaş",
+  "title": "होम स्क्रीन पर जोड़ें",
+  "iosHintPrefix": "Safari में टैप करें",
+  "iosShare": "शेयर",
   "iosHintSuffix": "→",
-  "iosAddToHome": "एना एकराना एकले",
-  "androidHint": "योक्लामा और येव्मिये इन उयगुलामा गिबि हाइज़ली असिलिस - टेक डॉकुनुस्लला पैनलिनिज़ हाज़िर।",
-  "installButton": "एना एकराना एकले",
-  "iosSafariNote": "कुरुलम यालनिज़का सफ़ारी का उपयोग किया गया; क्रोम वेरा बास्क टैरायसीडा मेनू फ़र्कली ओलाबिलिर।",
-  "dismiss": "दाहा सोनरा"
+  "iosAddToHome": "होम स्क्रीन पर जोड़ें",
+  "androidHint": "हाज़िरी और दिहाड़ी के लिए ऐप जैसा तेज़ लॉन्च — एक टैप में आपका पैनल तैयार।",
+  "installButton": "होम स्क्रीन पर जोड़ें",
+  "iosSafariNote": "इंस्टॉल केवल Safari में काम करता है; Chrome या अन्य ब्राउज़र में मेनू अलग हो सकता है।",
+  "dismiss": "बाद में"
 }

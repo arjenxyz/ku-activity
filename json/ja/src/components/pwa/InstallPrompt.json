@@ -1,14 +1,14 @@
 {
-  "regionAriaLabel": "ウイグラマイユクル",
-  "closeAriaLabel": "カパット",
+  "regionAriaLabel": "アプリをインストール",
+  "closeAriaLabel": "閉じる",
   "brandLabel": "CREWLEDGER",
-  "title": "アナ・エクラナ・エクレーン",
-  "iosHintPrefix": "サファリデ",
-  "iosShare": "ペイラス",
+  "title": "ホーム画面に追加",
+  "iosHintPrefix": "Safariで",
+  "iosShare": "共有",
   "iosHintSuffix": "→",
-  "iosAddToHome": "アナ・エクラーナ・エクル",
-  "androidHint": "ヨクラマ ヴェ イェヴミエ イシン ウイグルマ ギビ ヒズル アシュルシュ — テク ドゥクヌシュラ パネルニズ ハズル。",
-  "installButton": "アナ・エクラナ・エクレ",
-  "iosSafariNote": "クルルム ヤルヌスカ サファリ ウゼリンデン ヤプルル;クロムは、あなたがより多くのことを学ぶことができます。",
-  "dismiss": "ダハ ソンラ"
+  "iosAddToHome": "ホーム画面に追加",
+  "androidHint": "出勤と日当をアプリのようにすぐ開ける — タップひとつでパネルの準備完了。",
+  "installButton": "ホーム画面に追加",
+  "iosSafariNote": "インストールはSafariのみ対応です。Chromeなどではメニューが異なる場合があります。",
+  "dismiss": "後で"
 }

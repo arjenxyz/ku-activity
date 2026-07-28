@@ -1,14 +1,14 @@
 {
-  "regionAriaLabel": "Uygulamayı yükle",
-  "closeAriaLabel": "Capat",
+  "regionAriaLabel": "Instalar aplicativo",
+  "closeAriaLabel": "Fechar",
   "brandLabel": "CREWLEDGER",
-  "title": "Ana Ekrana Ekleyin",
-  "iosHintPrefix": "Safari'de",
-  "iosShare": "Paylas",
+  "title": "Adicionar à tela inicial",
+  "iosHintPrefix": "No Safari, toque em",
+  "iosShare": "Compartilhar",
   "iosHintSuffix": "→",
-  "iosAddToHome": "Ana Ekrana Ekle",
-  "androidHint": "Yoklama e yevmiye için uygulama gibi hızlı açılış — tek dokunuşla paneliniz hazır.",
-  "installButton": "Ana ekrana ekle",
-  "iosSafariNote": "Kurulum yalnızca Safari üzerinden yapılır; O menu Chrome ou başka tarayıcıda será ativado.",
-  "dismiss": "Daha sonra"
+  "iosAddToHome": "Adicionar à Tela de Início",
+  "androidHint": "Abertura rápida como um app para presença e diária — seu painel pronto com um toque.",
+  "installButton": "Adicionar à tela inicial",
+  "iosSafariNote": "A instalação só funciona no Safari; o menu pode ser diferente no Chrome ou em outros navegadores.",
+  "dismiss": "Mais tarde"
 }
