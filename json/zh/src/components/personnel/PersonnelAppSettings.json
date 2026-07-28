@@ -9,7 +9,7 @@
   },
   "menuHints": {
     "appearance": "主题、大文本和对比度",
-    "language": "土耳其语或英语",
+    "language": "从 15 种语言中选择",
     "notifications": "权限和推送订阅",
     "about": "版本及更新说明",
     "data": "Cookie 和缓存 — 您的帐户记录会保留"
@@ -26,7 +26,7 @@
   "highContrastLabel": "高对比度",
   "highContrastHint": "让颜色更加鲜明",
   "languageLabel": "应用语言",
-  "languageHint": "土耳其语或英语",
+  "languageHint": "从 15 种语言中选择",
   "notifications": {
     "statusLabel": "通知权限",
     "subscriptionLabel": "推送订阅",

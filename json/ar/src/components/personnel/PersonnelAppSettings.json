@@ -1,62 +1,62 @@
 {
-  "pageSubtitle": "Manage appearance, language, notifications, and app preferences.",
+  "pageSubtitle": "إدارة المظهر واللغة والإشعارات وتفضيلات التطبيق.",
   "sections": {
-    "appearance": "Appearance",
-    "language": "Language",
-    "notifications": "Notifications",
-    "about": "App",
-    "data": "Data on this device"
+    "appearance": "مظهر",
+    "language": "لغة",
+    "notifications": "إشعارات",
+    "about": "برنامج",
+    "data": "البيانات الموجودة على هذا الجهاز"
   },
   "menuHints": {
-    "appearance": "Theme, large text, and contrast",
-    "language": "Turkish or English",
-    "notifications": "Permission and push subscription",
-    "about": "Version and update notes",
-    "data": "Cookies and cache — your account records stay"
+    "appearance": "الموضوع والنص الكبير والتباين",
+    "language": "اختر من بين 15 لغة",
+    "notifications": "إذن ودفع الاشتراك",
+    "about": "ملاحظات الإصدار والتحديث",
+    "data": "ملفات تعريف الارتباط وذاكرة التخزين المؤقت - تبقى سجلات حسابك"
   },
   "theme": {
-    "label": "Theme",
-    "hint": "Use light, dark, or follow your device",
-    "light": "Light",
-    "dark": "Dark",
-    "system": "System"
+    "label": "سمة",
+    "hint": "استخدم الضوء أو الظلام أو اتبع جهازك",
+    "light": "ضوء",
+    "dark": "مظلم",
+    "system": "نظام"
   },
-  "largeTextLabel": "Large text",
-  "largeTextHint": "Increases text size for easier reading on site",
-  "highContrastLabel": "High contrast",
-  "highContrastHint": "Makes colors more distinct",
-  "languageLabel": "App language",
-  "languageHint": "Turkish or English",
+  "largeTextLabel": "نص كبير",
+  "largeTextHint": "زيادة حجم النص لتسهيل القراءة في الموقع",
+  "highContrastLabel": "التباين العالي",
+  "highContrastHint": "يجعل الألوان أكثر وضوحا",
+  "languageLabel": "لغة التطبيق",
+  "languageHint": "اختر من بين 15 لغة",
   "notifications": {
-    "statusLabel": "Notification permission",
-    "subscriptionLabel": "Push subscription",
-    "granted": "On",
-    "denied": "Off",
-    "default": "Not asked yet",
-    "unsupported": "Not supported",
-    "subscribed": "Active",
-    "notSubscribed": "Not registered",
-    "enableButton": "Enable notifications",
-    "openSettingsButton": "Open system settings",
-    "refreshButton": "Refresh status",
-    "enabling": "Enabling…",
-    "hintGranted": "Deductions, advances, and attendance alerts are sent to this device.",
-    "hintDenied": "Notifications are off. Enable them in system settings or with the button below.",
-    "hintDefault": "Allow notifications to stay informed about important updates."
+    "statusLabel": "إذن الإخطار",
+    "subscriptionLabel": "دفع الاشتراك",
+    "granted": "على",
+    "denied": "عن",
+    "default": "لم يطلب بعد",
+    "unsupported": "غير معتمد",
+    "subscribed": "نشيط",
+    "notSubscribed": "غير مسجل",
+    "enableButton": "تمكين الإخطارات",
+    "openSettingsButton": "افتح إعدادات النظام",
+    "refreshButton": "تحديث الحالة",
+    "enabling": "جارٍ التمكين…",
+    "hintGranted": "يتم إرسال تنبيهات الخصومات والسلف والحضور إلى هذا الجهاز.",
+    "hintDenied": "الإخطارات معطلة. قم بتمكينها في إعدادات النظام أو باستخدام الزر أدناه.",
+    "hintDefault": "السماح للإشعارات بالبقاء على اطلاع بالتحديثات المهمة."
   },
   "about": {
-    "versionLabel": "Version",
-    "publishedLabel": "Published",
+    "versionLabel": "إصدار",
+    "publishedLabel": "تم النشر",
     "unknownVersion": "—",
-    "loading": "Loading version info…",
-    "loadFailed": "Could not load version info",
-    "checkUpdates": "View release notes",
-    "apkHint": "If a new version is available, install it from the APK download page."
+    "loading": "جارٍ تحميل معلومات الإصدار…",
+    "loadFailed": "تعذر تحميل معلومات الإصدار",
+    "checkUpdates": "عرض ملاحظات الإصدار",
+    "apkHint": "في حالة توفر إصدار جديد، قم بتثبيته من صفحة تنزيل APK."
   },
   "data": {
-    "clearLabel": "Clear cache on this phone",
-    "clearHint": "Deletes cookies and temporary files. Your account, payroll, and advance records are not deleted; you will need to sign in again.",
-    "clearing": "Clearing…",
-    "confirm": "Only CrewLedger cookies, session, and cache on this device will be cleared and you will be signed out. Your account and server records are not deleted. Other apps are not affected. Continue?"
+    "clearLabel": "مسح ذاكرة التخزين المؤقت على هذا الهاتف",
+    "clearHint": "يحذف ملفات تعريف الارتباط والملفات المؤقتة. لا يتم حذف حسابك وكشوف المرتبات والسجلات المسبقة؛ سوف تحتاج إلى تسجيل الدخول مرة أخرى.",
+    "clearing": "المقاصة…",
+    "confirm": "سيتم مسح ملفات تعريف الارتباط والجلسة وذاكرة التخزين المؤقت الخاصة بـ CrewLedger فقط على هذا الجهاز وسيتم تسجيل خروجك. لا يتم حذف سجلات حسابك والخادم. ولا تتأثر التطبيقات الأخرى. يكمل؟"
   }
 }

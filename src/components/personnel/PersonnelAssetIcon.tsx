@@ -1,24 +1,28 @@
-/** Personel menü / dock PNG ikonları (`public/icons`) */
+'use client';
+
+import { useState } from 'react';
+
+/** Personel menü / dock PNG ikonları (`public/personnel-ui`) — PWA `/icons/*` rotalarından ayrı */
 
 export const PERSONNEL_ICON_SRC = {
-  home: '/icons/home.png',
-  work: '/icons/takvim.png',
-  yoklama: '/icons/qr-code.png',
-  finance: '/icons/docs-check.svg',
-  avans: '/icons/avans.png',
-  asgari: '/icons/security.png',
-  rights: '/icons/agreement.png',
-  settings: '/icons/settings.svg',
-  more: '/icons/menu.png',
-  bell: '/icons/bell.png',
-  camera: '/icons/photo-camera.png',
-  clock: '/icons/clock.png',
-  briefcase: '/icons/is.png',
-  updated: '/icons/updated.png',
-  appSettings: '/icons/app-settings.png',
-  docsCheck: '/icons/docs-check.svg',
-  bordroPng: '/icons/bordro.png',
-  avatar: '/icons/Avatar.svg',
+  home: '/personnel-ui/home.png',
+  work: '/personnel-ui/takvim.png',
+  yoklama: '/personnel-ui/qr-code.png',
+  finance: '/personnel-ui/docs-check.svg',
+  avans: '/personnel-ui/avans.png',
+  asgari: '/personnel-ui/security.png',
+  rights: '/personnel-ui/agreement.png',
+  settings: '/personnel-ui/settings.svg',
+  more: '/personnel-ui/menu.png',
+  bell: '/personnel-ui/bell.png',
+  camera: '/personnel-ui/photo-camera.png',
+  clock: '/personnel-ui/clock.png',
+  briefcase: '/personnel-ui/is.png',
+  updated: '/personnel-ui/updated.png',
+  appSettings: '/personnel-ui/app-settings.png',
+  docsCheck: '/personnel-ui/docs-check.svg',
+  bordroPng: '/personnel-ui/bordro.png',
+  avatar: '/personnel-ui/Avatar.svg',
 } as const;
 
 export type PersonnelIconName = keyof typeof PERSONNEL_ICON_SRC;
@@ -33,7 +37,18 @@ type IconProps = {
  * Beyaz badge üzerinde net görünür.
  */
 export function PersonnelAssetIcon({ name, className = 'h-8 w-8' }: IconProps) {
-  const src = `${PERSONNEL_ICON_SRC[name]}?v=6`;
+  const [failed, setFailed] = useState(false);
+  const src = `${PERSONNEL_ICON_SRC[name]}?v=7`;
+
+  if (failed) {
+    return (
+      <span
+        className={`inline-block rounded-lg bg-slate-200/80 dark:bg-slate-700/80 ${className}`}
+        aria-hidden
+      />
+    );
+  }
+
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
@@ -44,6 +59,7 @@ export function PersonnelAssetIcon({ name, className = 'h-8 w-8' }: IconProps) {
       height={64}
       draggable={false}
       aria-hidden
+      onError={() => setFailed(true)}
     />
   );
 }
@@ -67,7 +83,7 @@ const BADGE_IMG = {
   lg: 'h-11 w-11',
 } as const;
 
-/** Docs check SVG’de fazla boşluk var — dock/menüde büyüt. */
+/** Docs check SVG'de fazla boşluk var — dock/menüde büyüt. */
 const LARGE_FILL_ICONS = new Set<PersonnelIconName>(['finance', 'docsCheck']);
 
 export function PersonnelIconBadge({

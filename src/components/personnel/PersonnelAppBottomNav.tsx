@@ -157,6 +157,7 @@ function NavInner() {
   return (
     <>
       <nav
+        dir="ltr"
         className="personnel-dock fixed bottom-0 inset-x-0 z-50 sm:hidden pointer-events-none no-print"
         aria-label={strings.navAriaLabel}
       >

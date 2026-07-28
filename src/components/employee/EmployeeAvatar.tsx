@@ -11,7 +11,7 @@ const sizeClass: Record<Size, string> = {
   xl: 'w-20 h-20 sm:w-24 sm:h-24 text-2xl',
 };
 
-export const DEFAULT_AVATAR_SRC = '/icons/Avatar.svg';
+export const DEFAULT_AVATAR_SRC = '/personnel-ui/Avatar.svg';
 
 export function EmployeeAvatar({
   name,

@@ -1,91 +1,151 @@
 {
   "photoUploadFailed": "Fotoğraf yüklenemedi",
-  "updatePhotoTitle": "Profil fotoğrafını güncelle",
+  "updatePhotoTitle": "Perfil fotoğrafını güncelle",
   "uploading": "Yükleniyor…",
-  "takePhoto": "Take photo",
-  "uploadFromGallery": "Choose from gallery",
-  "removePhoto": "Remove photo",
-  "photoMenuTitle": "Profile photo",
-  "photoMenuCancel": "Cancel",
-  "photoRemoveFailed": "Could not remove photo",
-  "profilePhoto": "Profile photo",
-  "profilePhotoHint": "Use a clear photo of your face for attendance and your profile.",
-  "profileAccountLabel": "Personnel account",
-  "backToList": "Back",
-  "exitHint": "Tap to return to the panel",
-  "exitAriaLabel": "Return to panel",
-  "logout": "Sign out",
-  "logoutConfirm": "Sign out of your account?",
-  "logoutConfirmButton": "Yes, sign out",
-  "logoutCancel": "Cancel",
-  "digitalApprovalMark": "Digital approval mark",
-  "digitalApprovalMarkAlt": "CrewLedger digital approval mark",
-  "resetData": "Clear cache on this phone",
-  "resetting": "Clearing…",
-  "resetDataConfirm": "Only CrewLedger cookies, session, and cache on this device will be cleared and you will be signed out. Your account and server records are not deleted. Other apps are not affected. Continue?",
-  "resetDataHint": "Deletes cookies and temporary files. Your account, payroll, and advance records are not deleted.",
+  "takePhoto": "Tirar foto",
+  "uploadFromGallery": "Escolha na galeria",
+  "removePhoto": "Remover foto",
+  "photoMenuTitle": "Foto do perfil",
+  "photoMenuCancel": "Cancelar",
+  "photoRemoveFailed": "Não foi possível remover a foto",
+  "profilePhoto": "Foto do perfil",
+  "profilePhotoHint": "Use uma foto nítida do seu rosto para atendimento e perfil.",
+  "profileAccountLabel": "Conta pessoal",
+  "backToList": "Voltar",
+  "exitHint": "Toque para retornar ao painel",
+  "exitAriaLabel": "Voltar ao painel",
+  "logout": "sair",
+  "logoutConfirm": "Sair da sua conta?",
+  "logoutConfirmButton": "Sim, sair",
+  "logoutCancel": "Cancelar",
+  "digitalApprovalMark": "Marca de aprovação digital",
+  "digitalApprovalMarkAlt": "Marca de aprovação digital CrewLedger",
+  "resetData": "Limpe o cache deste telefone",
+  "resetting": "Limpando…",
+  "resetDataConfirm": "Somente cookies, sessão e cache do CrewLedger neste dispositivo serão apagados e você será desconectado. Os registros da sua conta e do servidor não são excluídos. Outros aplicativos não são afetados. Continuar?",
+  "resetDataHint": "Exclui cookies e arquivos temporários. Seus registros de conta, folha de pagamento e adiantamentos não são excluídos.",
   "emptyValue": "—",
-  "pinTitle": "PIN kodu",
+  "pinTitle": "Código PIN",
   "pinSubtitle": "Giriş şifrenizi güncelleyin",
   "sections": {
-    "home": { "title": "Ayarlar", "subtitle": "Hesabınızı ve uygulama tercihlerinizi yönetin." },
-    "profile": { "title": "Profil", "subtitle": "Kişisel bilgiler, iletişim ve banka kayıtlarınız." },
-    "personal": { "title": "Kişisel Ayarlar", "subtitle": "Kimlik ve kişisel bilgileriniz." },
-    "contact": { "title": "İletişim", "subtitle": "E-posta ve telefon bilgileriniz." },
-    "bank": { "title": "Banka Bilgileri", "subtitle": "IBAN bilgileriniz." },
-    "work": { "title": "İş Bilgileri", "subtitle": "Pozisyon, yevmiye ve şantiye bilgileriniz." },
-    "contracts": { "title": "Sözleşmeler", "subtitle": "Onayladığınız sözleşme kayıtları." },
-    "security": { "title": "Güvenlik", "subtitle": "PIN, aktif cihazlar ve hesap güvenliği." },
-    "language": { "title": "Language", "subtitle": "Choose the app language." },
-    "app": { "title": "App Settings", "subtitle": "Theme, language, notifications, and app preferences." },
-    "releases": { "title": "Release Notes", "subtitle": "Recent changes in the web app." }
+    "home": {
+      "title": "Ayarlar",
+      "subtitle": "Hesabınızı e uygulama tercihlerinizi yönetin."
+    },
+    "profile": {
+      "title": "Perfil",
+      "subtitle": "Kişisel bilgiler, iletişim ve banka kayıtlarınız."
+    },
+    "personal": {
+      "title": "Kişisel Ayarlar",
+      "subtitle": "Kimlik e kişisel bilgileriniz."
+    },
+    "contact": {
+      "title": "İletişim",
+      "subtitle": "Bilgileriniz e-mail e telefone."
+    },
+    "bank": {
+      "title": "Banco Bilgileri",
+      "subtitle": "IBAN bilgileriniz."
+    },
+    "work": {
+      "title": "İş Bilgileri",
+      "subtitle": "Posicione, yevmiye e şantiye bilgileriniz."
+    },
+    "contracts": {
+      "title": "Sözleşmeler",
+      "subtitle": "Onayladığınız sözleşme kayıtları."
+    },
+    "security": {
+      "title": "Güvenlik",
+      "subtitle": "PIN, cihazlar ativo e hesap güvenliği."
+    },
+    "language": {
+      "title": "Linguagem",
+      "subtitle": "Escolha o idioma do aplicativo."
+    },
+    "app": {
+      "title": "Configurações do aplicativo",
+      "subtitle": "Tema, idioma, notificações e preferências de aplicativos."
+    },
+    "releases": {
+      "title": "Notas de versão",
+      "subtitle": "Mudanças recentes no aplicativo da web."
+    }
   },
   "menu": {
-    "personal": { "title": "Personal settings", "subtitle": "Profile photo, name, and identity" },
-    "contact": { "title": "İletişim", "subtitle": "E-posta ve telefon numarası" },
-    "bank": { "title": "Banka", "subtitle": "IBAN bilgisi" },
-    "work": { "title": "İş bilgileri", "subtitle": "Pozisyon, yevmiye ve proje" },
-    "contracts": { "title": "Sözleşmeler", "subtitle": "Onayladığınız sözleşmeler" },
-    "security": { "title": "Güvenlik", "subtitle": "PIN kodu, aktif cihazlar ve hesap güvenliği" },
-    "language": { "title": "Language", "subtitle": "App language" },
-    "app": { "title": "App settings", "subtitle": "Theme, language, notifications, and app preferences" },
-    "releases": { "title": "Release notes", "subtitle": "Recent changes in the web app" }
+    "personal": {
+      "title": "Configurações pessoais",
+      "subtitle": "Foto do perfil, nome e identidade"
+    },
+    "contact": {
+      "title": "İletişim",
+      "subtitle": "Postagem eletrônica e telefone em números"
+    },
+    "bank": {
+      "title": "Banco",
+      "subtitle": "Bilgisi IBAN"
+    },
+    "work": {
+      "title": "İş bilgileri",
+      "subtitle": "Posição, yevmiye e projeto"
+    },
+    "contracts": {
+      "title": "Sözleşmeler",
+      "subtitle": "Onayladığınız sözleşmeler"
+    },
+    "security": {
+      "title": "Güvenlik",
+      "subtitle": "PIN código, ativo cihazlar e hesap güvenliği"
+    },
+    "language": {
+      "title": "Linguagem",
+      "subtitle": "Idioma do aplicativo"
+    },
+    "app": {
+      "title": "Configurações do aplicativo",
+      "subtitle": "Tema, idioma, notificações e preferências de aplicativos"
+    },
+    "releases": {
+      "title": "Notas de lançamento",
+      "subtitle": "Mudanças recentes no aplicativo da web"
+    }
   },
   "groups": {
-    "personalInfo": "Kişisel bilgiler",
+    "personalInfo": "Kişisel fotos",
     "contact": "İletişim",
-    "bank": "Banka",
+    "bank": "Banco",
     "workInfo": "İş bilgileri"
   },
   "fields": {
-    "project": "Project",
+    "project": "Projeto",
     "site": "Site",
-    "firstName": "Ad",
+    "firstName": "Anúncio",
     "lastName": "Soyad",
-    "tcKimlik": "T.C. kimlik no",
+    "tcKimlik": "TC. kimlik não",
     "birthDate": "Doğum tarihi",
-    "email": "E-posta",
-    "phone": "Telefon",
+    "email": "Postagem eletrônica",
+    "phone": "Telefone",
     "iban": "IBAN",
-    "bankName": "Bank",
-    "unknownBank": "Bank could not be detected",
-    "position": "Pozisyon",
+    "bankName": "Banco",
+    "unknownBank": "Não foi possível detectar o banco",
+    "position": "Posição",
     "dailyWage": "Günlük yevmiye",
     "hireDate": "İşe giriş"
   },
   "language": {
-    "label": "App language",
-    "hint": "Choose Turkish or English."
+    "label": "Idioma do aplicativo",
+    "hint": "Você pode escolher entre 15 idiomas."
   },
   "releases": {
-    "loading": "Loading update notes…",
-    "loadFailed": "Could not load update notes",
-    "emptyTitle": "No update notes yet",
-    "emptyHint": "When a new web update is published, it will appear here.",
-    "currentVersion": "Web updates",
-    "webUpdatesTitle": "Recent changes",
-    "publishedAt": "Latest update",
-    "notesTitle": "In this period",
-    "noNotes": "No notes for this period."
+    "loading": "Carregando notas de atualização…",
+    "loadFailed": "Não foi possível carregar as notas de atualização",
+    "emptyTitle": "Ainda não há notas de atualização",
+    "emptyHint": "Quando uma nova atualização da web for publicada, ela aparecerá aqui.",
+    "currentVersion": "Atualizações da web",
+    "webUpdatesTitle": "Mudanças recentes",
+    "publishedAt": "Última atualização",
+    "notesTitle": "Neste período",
+    "noNotes": "Não há notas para este período."
   }
 }

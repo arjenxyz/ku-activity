@@ -173,6 +173,6 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    '/((?!_next/static|_next/image|favicon.ico|sw.js|manifest.webmanifest|manifest-personnel.webmanifest|manifest-admin.webmanifest|\\.well-known|icons/|api/pwa-icon|api/twa|gizlilik|.*\\.(?:svg|png|jpg|jpeg|gif|webp|js|css)$).*)',
+    '/((?!_next/static|_next/image|favicon.ico|sw.js|manifest.webmanifest|manifest-personnel.webmanifest|manifest-admin.webmanifest|\\.well-known|icons/|personnel-ui/|api/pwa-icon|api/twa|gizlilik|.*\\.(?:svg|png|jpg|jpeg|gif|webp|js|css)$).*)',
   ],
 };

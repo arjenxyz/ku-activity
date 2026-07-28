@@ -31,8 +31,20 @@ function FlagBadge({
   short: string;
   size?: 'sm' | 'md';
 }) {
-  // CSS kutusu küçük; retina için yüksek çözünürlüklü PNG (w20 bulanık kalır)
+  const [failed, setFailed] = useState(false);
   const box = size === 'sm' ? 'h-5 w-7 rounded-md' : 'h-7 w-9 rounded-lg';
+
+  if (failed) {
+    return (
+      <span
+        className={`inline-flex shrink-0 items-center justify-center bg-slate-100 text-[9px] font-bold uppercase text-slate-600 ring-1 ring-slate-200/80 ${box}`}
+        title={short}
+        aria-hidden
+      >
+        {short}
+      </span>
+    );
+  }
 
   return (
     <span
@@ -50,6 +62,7 @@ function FlagBadge({
         className="h-full w-full object-cover"
         loading="lazy"
         decoding="async"
+        onError={() => setFailed(true)}
       />
     </span>
   );

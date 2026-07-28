@@ -1,48 +1,48 @@
 {
-  "pageSubtitle": "Manage appearance, language, notifications, and app preferences.",
+  "pageSubtitle": "Gérez l'apparence, la langue, les notifications et les préférences des applications.",
   "sections": {
-    "display": "Appearance",
-    "language": "Language",
+    "display": "Apparence",
+    "language": "Langue",
     "interface": "Interface",
     "notifications": "Notifications",
-    "about": "App",
-    "data": "Data on this device"
+    "about": "Application",
+    "data": "Données sur cet appareil"
   },
-  "largeTextLabel": "Large text",
-  "largeTextHint": "Increases text size for easier reading",
-  "highContrastLabel": "High contrast",
-  "highContrastHint": "Makes colors more distinct",
-  "languageLabel": "App language",
-  "languageHint": "Turkish or English",
-  "interfaceLabel": "UI mode",
-  "interfaceHint": "Simple or advanced admin interface",
+  "largeTextLabel": "Grand texte",
+  "largeTextHint": "Augmente la taille du texte pour une lecture plus facile",
+  "highContrastLabel": "Contraste élevé",
+  "highContrastHint": "Rend les couleurs plus distinctes",
+  "languageLabel": "Langue de l'application",
+  "languageHint": "Choisissez parmi 15 langues",
+  "interfaceLabel": "Mode interface utilisateur",
+  "interfaceHint": "Interface d'administration simple ou avancée",
   "notifications": {
-    "statusLabel": "Notification permission",
-    "granted": "On",
-    "denied": "Off",
-    "default": "Not asked yet",
-    "unsupported": "Not supported",
-    "enableButton": "Enable notifications",
-    "openSettingsButton": "Open system settings",
-    "refreshButton": "Refresh status",
-    "enabling": "Enabling…",
-    "hintGranted": "Important admin notifications can be sent to this device.",
-    "hintDenied": "Notifications are off. Enable them in system settings or with the button below.",
-    "hintDefault": "Allow notifications for applications and project updates."
+    "statusLabel": "Autorisation de notification",
+    "granted": "Sur",
+    "denied": "Désactivé",
+    "default": "Pas encore demandé",
+    "unsupported": "Non pris en charge",
+    "enableButton": "Activer les notifications",
+    "openSettingsButton": "Ouvrir les paramètres du système",
+    "refreshButton": "Actualiser l'état",
+    "enabling": "Activation…",
+    "hintGranted": "Des notifications administratives importantes peuvent être envoyées à cet appareil.",
+    "hintDenied": "Les notifications sont désactivées. Activez-les dans les paramètres système ou avec le bouton ci-dessous.",
+    "hintDefault": "Autoriser les notifications pour les applications et les mises à jour de projets."
   },
   "about": {
     "versionLabel": "Version",
-    "publishedLabel": "Published",
+    "publishedLabel": "Publié",
     "unknownVersion": "—",
-    "loading": "Loading version info…",
-    "loadFailed": "Could not load version info",
-    "checkUpdates": "View release notes",
-    "apkHint": "If a new version is available, install it from the APK download page."
+    "loading": "Chargement des informations sur la version…",
+    "loadFailed": "Impossible de charger les informations de version",
+    "checkUpdates": "Afficher les notes de version",
+    "apkHint": "Si une nouvelle version est disponible, installez-la depuis la page de téléchargement de l'APK."
   },
   "data": {
-    "clearLabel": "Clear cache on this phone",
-    "clearHint": "Deletes cookies and temporary files. Your account and server records are not deleted; you will need to sign in again.",
-    "clearing": "Clearing…",
-    "confirm": "Only CrewLedger cookies, session, and cache on this device will be cleared and you will be signed out. Your account and server records are not deleted. Continue?"
+    "clearLabel": "Vider le cache sur ce téléphone",
+    "clearHint": "Supprime les cookies et les fichiers temporaires. Vos enregistrements de compte et de serveur ne sont pas supprimés ; vous devrez vous reconnecter.",
+    "clearing": "Clairière…",
+    "confirm": "Seuls les cookies, la session et le cache CrewLedger sur cet appareil seront effacés et vous serez déconnecté. Vos enregistrements de compte et de serveur ne sont pas supprimés. Continuer?"
   }
 }

@@ -9,11 +9,13 @@ import {
   useState,
   type ReactNode,
 } from 'react';
+import { useRouter } from 'next/navigation';
 import {
   DEFAULT_LOCALE,
   LOCALE_COOKIE,
   LOCALE_STORAGE_KEY,
   localeCookieOptions,
+  localeDirection,
   parseLocale,
   type Locale,
 } from './locale';
@@ -25,6 +27,11 @@ type LocaleContextValue = {
 };
 
 const LocaleContext = createContext<LocaleContextValue | null>(null);
+
+function applyDocumentLocale(locale: Locale) {
+  document.documentElement.lang = locale;
+  document.documentElement.dir = localeDirection(locale);
+}
 
 function persistLocale(locale: Locale) {
   document.cookie = `${LOCALE_COOKIE}=${locale}; path=/; max-age=${localeCookieOptions(locale).maxAge}; samesite=lax`;
@@ -42,6 +49,7 @@ export function LocaleProvider({
   children: ReactNode;
   initialLocale?: Locale;
 }) {
+  const router = useRouter();
   const [locale, setLocaleState] = useState<Locale>(initialLocale);
   const [isReady, setIsReady] = useState(false);
 
@@ -60,16 +68,20 @@ export function LocaleProvider({
 
     const resolved = stored ?? cookieLocale ?? initialLocale;
     setLocaleState(resolved);
-    document.documentElement.lang = resolved;
+    applyDocumentLocale(resolved);
     setIsReady(true);
   }, [initialLocale]);
 
-  const setLocale = useCallback((next: Locale) => {
-    setLocaleState(next);
-    document.documentElement.lang = next;
-    persistLocale(next);
-    window.dispatchEvent(new CustomEvent('crewledger:locale-change', { detail: next }));
-  }, []);
+  const setLocale = useCallback(
+    (next: Locale) => {
+      setLocaleState(next);
+      applyDocumentLocale(next);
+      persistLocale(next);
+      window.dispatchEvent(new CustomEvent('crewledger:locale-change', { detail: next }));
+      router.refresh();
+    },
+    [router]
+  );
 
   const value = useMemo(
     () => ({

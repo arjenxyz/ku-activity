@@ -160,3 +160,13 @@ export function localeCookieOptions(locale: Locale) {
     sameSite: 'lax' as const,
   };
 }
+
+const RTL_LOCALES = new Set<Locale>(['ar', 'ur']);
+
+export function isRtlLocale(locale: Locale): boolean {
+  return RTL_LOCALES.has(locale);
+}
+
+export function localeDirection(locale: Locale): 'ltr' | 'rtl' {
+  return isRtlLocale(locale) ? 'rtl' : 'ltr';
+}

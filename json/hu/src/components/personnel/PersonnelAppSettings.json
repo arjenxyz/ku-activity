@@ -9,7 +9,7 @@
   },
   "menuHints": {
     "appearance": "Téma, nagy szöveg és kontraszt",
-    "language": "török ​​vagy angol",
+    "language": "Válasszon 15 nyelv közül",
     "notifications": "Engedély és push előfizetés",
     "about": "Verzió- és frissítési megjegyzések",
     "data": "Cookie-k és gyorsítótár – fiókadatai megmaradnak"
@@ -26,7 +26,7 @@
   "highContrastLabel": "Magas kontraszt",
   "highContrastHint": "Különösebbé teszi a színeket",
   "languageLabel": "Alkalmazás nyelve",
-  "languageHint": "török ​​vagy angol",
+  "languageHint": "Válasszon 15 nyelv közül",
   "notifications": {
     "statusLabel": "Értesítési engedély",
     "subscriptionLabel": "Push előfizetés",

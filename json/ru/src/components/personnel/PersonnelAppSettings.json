@@ -1,62 +1,62 @@
 {
-  "pageSubtitle": "Manage appearance, language, notifications, and app preferences.",
+  "pageSubtitle": "Управляйте внешним видом, языком, уведомлениями и настройками приложений.",
   "sections": {
-    "appearance": "Appearance",
-    "language": "Language",
-    "notifications": "Notifications",
-    "about": "App",
-    "data": "Data on this device"
+    "appearance": "Появление",
+    "language": "Язык",
+    "notifications": "Уведомления",
+    "about": "Приложение",
+    "data": "Данные на этом устройстве"
   },
   "menuHints": {
-    "appearance": "Theme, large text, and contrast",
-    "language": "Turkish or English",
-    "notifications": "Permission and push subscription",
-    "about": "Version and update notes",
-    "data": "Cookies and cache — your account records stay"
+    "appearance": "Тема, крупный текст и контрастность",
+    "language": "Выберите из 15 языков",
+    "notifications": "Разрешение и принудительная подписка",
+    "about": "Примечания к версии и обновлению",
+    "data": "Файлы cookie и кеш — записи вашей учетной записи остаются"
   },
   "theme": {
-    "label": "Theme",
-    "hint": "Use light, dark, or follow your device",
-    "light": "Light",
-    "dark": "Dark",
-    "system": "System"
+    "label": "Тема",
+    "hint": "Используйте светлый, темный режим или следуйте за своим устройством",
+    "light": "Свет",
+    "dark": "Темный",
+    "system": "Система"
   },
-  "largeTextLabel": "Large text",
-  "largeTextHint": "Increases text size for easier reading on site",
-  "highContrastLabel": "High contrast",
-  "highContrastHint": "Makes colors more distinct",
-  "languageLabel": "App language",
-  "languageHint": "Turkish or English",
+  "largeTextLabel": "Крупный текст",
+  "largeTextHint": "Увеличивает размер текста для облегчения чтения на сайте.",
+  "highContrastLabel": "Высокая контрастность",
+  "highContrastHint": "Делает цвета более отчетливыми",
+  "languageLabel": "Язык приложения",
+  "languageHint": "Выберите из 15 языков",
   "notifications": {
-    "statusLabel": "Notification permission",
-    "subscriptionLabel": "Push subscription",
-    "granted": "On",
-    "denied": "Off",
-    "default": "Not asked yet",
-    "unsupported": "Not supported",
-    "subscribed": "Active",
-    "notSubscribed": "Not registered",
-    "enableButton": "Enable notifications",
-    "openSettingsButton": "Open system settings",
-    "refreshButton": "Refresh status",
-    "enabling": "Enabling…",
-    "hintGranted": "Deductions, advances, and attendance alerts are sent to this device.",
-    "hintDenied": "Notifications are off. Enable them in system settings or with the button below.",
-    "hintDefault": "Allow notifications to stay informed about important updates."
+    "statusLabel": "Разрешение на уведомление",
+    "subscriptionLabel": "Принудительная подписка",
+    "granted": "На",
+    "denied": "Выключенный",
+    "default": "Еще не задано",
+    "unsupported": "Не поддерживается",
+    "subscribed": "Активный",
+    "notSubscribed": "Не зарегистрирован",
+    "enableButton": "Включить уведомления",
+    "openSettingsButton": "Открыть настройки системы",
+    "refreshButton": "Обновить статус",
+    "enabling": "Включение…",
+    "hintGranted": "На это устройство отправляются уведомления о вычетах, авансах и посещаемости.",
+    "hintDenied": "Уведомления отключены. Включите их в настройках системы или с помощью кнопки ниже.",
+    "hintDefault": "Разрешите уведомления, чтобы быть в курсе важных обновлений."
   },
   "about": {
-    "versionLabel": "Version",
-    "publishedLabel": "Published",
+    "versionLabel": "Версия",
+    "publishedLabel": "Опубликовано",
     "unknownVersion": "—",
-    "loading": "Loading version info…",
-    "loadFailed": "Could not load version info",
-    "checkUpdates": "View release notes",
-    "apkHint": "If a new version is available, install it from the APK download page."
+    "loading": "Загрузка информации о версии…",
+    "loadFailed": "Не удалось загрузить информацию о версии",
+    "checkUpdates": "Посмотреть примечания к выпуску",
+    "apkHint": "Если доступна новая версия, установите ее со страницы загрузки APK."
   },
   "data": {
-    "clearLabel": "Clear cache on this phone",
-    "clearHint": "Deletes cookies and temporary files. Your account, payroll, and advance records are not deleted; you will need to sign in again.",
-    "clearing": "Clearing…",
-    "confirm": "Only CrewLedger cookies, session, and cache on this device will be cleared and you will be signed out. Your account and server records are not deleted. Other apps are not affected. Continue?"
+    "clearLabel": "Очистить кеш на этом телефоне",
+    "clearHint": "Удаляет файлы cookie и временные файлы. Ваша учетная запись, платежная ведомость и авансовые отчеты не удаляются; вам нужно будет войти снова.",
+    "clearing": "Очистка…",
+    "confirm": "На этом устройстве будут удалены только файлы cookie, сеанс и кеш CrewLedger, и вы выйдете из системы. Записи вашей учетной записи и сервера не удаляются. Другие приложения не затрагиваются. Продолжать?"
   }
 }

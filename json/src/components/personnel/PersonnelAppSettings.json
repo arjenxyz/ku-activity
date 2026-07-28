@@ -9,7 +9,7 @@
   },
   "menuHints": {
     "appearance": "Tema, büyük yazı ve kontrast",
-    "language": "Türkçe veya İngilizce",
+    "language": "15 dil arasından seçin",
     "notifications": "İzin ve push aboneliği",
     "about": "Sürüm ve güncelleme notları",
     "data": "Çerez ve önbellek — hesap kayıtlarınız silinmez"
@@ -26,7 +26,7 @@
   "highContrastLabel": "Yüksek kontrast",
   "highContrastHint": "Renkleri belirginleştirir",
   "languageLabel": "Uygulama dili",
-  "languageHint": "Türkçe veya İngilizce",
+  "languageHint": "15 dil arasından seçin",
   "notifications": {
     "statusLabel": "Bildirim izni",
     "subscriptionLabel": "Push aboneliği",

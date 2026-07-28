@@ -10,7 +10,7 @@ import { LocaleShell } from '@/components/i18n/LocaleShell';
 import { APP_NAME, CREWLEDGER_APP_ICON } from '@/lib/brand';
 import { formatString } from '@/lib/strings/format';
 import { getRegistryStrings } from '@/lib/i18n/strings-registry';
-import { LOCALE_COOKIE, resolveRequestLocale } from '@/lib/i18n/locale';
+import { LOCALE_COOKIE, resolveRequestLocale, localeDirection } from '@/lib/i18n/locale';
 import { PWA_ASSET_VERSION } from '@/lib/pwa-manifest';
 import {
   ADMIN_CRITICAL_CSS,
@@ -96,7 +96,7 @@ export default async function RootLayout({
     : undefined;
 
   return (
-    <html lang={locale} translate="no" style={pwaSurfaceStyle} suppressHydrationWarning>
+    <html lang={locale} dir={localeDirection(locale)} translate="no" style={pwaSurfaceStyle} suppressHydrationWarning>
       <head>
         {/* Uygulamanın kendi dil seçimi var — Chrome'un otomatik "Sayfayı çevir?" önerisini kapat */}
         <meta name="google" content="notranslate" />

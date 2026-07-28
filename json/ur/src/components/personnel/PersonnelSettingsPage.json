@@ -28,28 +28,88 @@
   "pinTitle": "PIN kodu",
   "pinSubtitle": "Giriş şifrenizi güncelleyin",
   "sections": {
-    "home": { "title": "Ayarlar", "subtitle": "Hesabınızı ve uygulama tercihlerinizi yönetin." },
-    "profile": { "title": "Profil", "subtitle": "Kişisel bilgiler, iletişim ve banka kayıtlarınız." },
-    "personal": { "title": "Kişisel Ayarlar", "subtitle": "Kimlik ve kişisel bilgileriniz." },
-    "contact": { "title": "İletişim", "subtitle": "E-posta ve telefon bilgileriniz." },
-    "bank": { "title": "Banka Bilgileri", "subtitle": "IBAN bilgileriniz." },
-    "work": { "title": "İş Bilgileri", "subtitle": "Pozisyon, yevmiye ve şantiye bilgileriniz." },
-    "contracts": { "title": "Sözleşmeler", "subtitle": "Onayladığınız sözleşme kayıtları." },
-    "security": { "title": "Güvenlik", "subtitle": "PIN, aktif cihazlar ve hesap güvenliği." },
-    "language": { "title": "Language", "subtitle": "Choose the app language." },
-    "app": { "title": "App Settings", "subtitle": "Theme, language, notifications, and app preferences." },
-    "releases": { "title": "Release Notes", "subtitle": "Recent changes in the web app." }
+    "home": {
+      "title": "Ayarlar",
+      "subtitle": "Hesabınızı ve uygulama tercihlerinizi yönetin."
+    },
+    "profile": {
+      "title": "Profil",
+      "subtitle": "Kişisel bilgiler, iletişim ve banka kayıtlarınız."
+    },
+    "personal": {
+      "title": "Kişisel Ayarlar",
+      "subtitle": "Kimlik ve kişisel bilgileriniz."
+    },
+    "contact": {
+      "title": "İletişim",
+      "subtitle": "E-posta ve telefon bilgileriniz."
+    },
+    "bank": {
+      "title": "Banka Bilgileri",
+      "subtitle": "IBAN bilgileriniz."
+    },
+    "work": {
+      "title": "İş Bilgileri",
+      "subtitle": "Pozisyon, yevmiye ve şantiye bilgileriniz."
+    },
+    "contracts": {
+      "title": "Sözleşmeler",
+      "subtitle": "Onayladığınız sözleşme kayıtları."
+    },
+    "security": {
+      "title": "Güvenlik",
+      "subtitle": "PIN, aktif cihazlar ve hesap güvenliği."
+    },
+    "language": {
+      "title": "Language",
+      "subtitle": "Choose the app language."
+    },
+    "app": {
+      "title": "App Settings",
+      "subtitle": "Theme, language, notifications, and app preferences."
+    },
+    "releases": {
+      "title": "Release Notes",
+      "subtitle": "Recent changes in the web app."
+    }
   },
   "menu": {
-    "personal": { "title": "Personal settings", "subtitle": "Profile photo, name, and identity" },
-    "contact": { "title": "İletişim", "subtitle": "E-posta ve telefon numarası" },
-    "bank": { "title": "Banka", "subtitle": "IBAN bilgisi" },
-    "work": { "title": "İş bilgileri", "subtitle": "Pozisyon, yevmiye ve proje" },
-    "contracts": { "title": "Sözleşmeler", "subtitle": "Onayladığınız sözleşmeler" },
-    "security": { "title": "Güvenlik", "subtitle": "PIN kodu, aktif cihazlar ve hesap güvenliği" },
-    "language": { "title": "Language", "subtitle": "App language" },
-    "app": { "title": "App settings", "subtitle": "Theme, language, notifications, and app preferences" },
-    "releases": { "title": "Release notes", "subtitle": "Recent changes in the web app" }
+    "personal": {
+      "title": "Personal settings",
+      "subtitle": "Profile photo, name, and identity"
+    },
+    "contact": {
+      "title": "İletişim",
+      "subtitle": "E-posta ve telefon numarası"
+    },
+    "bank": {
+      "title": "Banka",
+      "subtitle": "IBAN bilgisi"
+    },
+    "work": {
+      "title": "İş bilgileri",
+      "subtitle": "Pozisyon, yevmiye ve proje"
+    },
+    "contracts": {
+      "title": "Sözleşmeler",
+      "subtitle": "Onayladığınız sözleşmeler"
+    },
+    "security": {
+      "title": "Güvenlik",
+      "subtitle": "PIN kodu, aktif cihazlar ve hesap güvenliği"
+    },
+    "language": {
+      "title": "Language",
+      "subtitle": "App language"
+    },
+    "app": {
+      "title": "App settings",
+      "subtitle": "Theme, language, notifications, and app preferences"
+    },
+    "releases": {
+      "title": "Release notes",
+      "subtitle": "Recent changes in the web app"
+    }
   },
   "groups": {
     "personalInfo": "Kişisel bilgiler",
@@ -75,7 +135,7 @@
   },
   "language": {
     "label": "App language",
-    "hint": "Choose Turkish or English."
+    "hint": "آپ 15 زبانوں میں سے انتخاب کر سکتے ہیں۔"
   },
   "releases": {
     "loading": "Loading update notes…",

@@ -43,6 +43,21 @@ body {
   -webkit-touch-callout: none;
 }
 
+html:lang(zh),
+html:lang(ja),
+html:lang(hi),
+html:lang(bn),
+html:lang(ar),
+html:lang(ur),
+html:lang(ru) {
+  font-family: var(--font-geist-sans), system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+.personnel-dock,
+.personnel-topbar {
+  direction: ltr;
+}
+
 /* Form alanlarında seçim / yapıştırma açık kalsın */
 input,
 textarea,

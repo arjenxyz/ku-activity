@@ -45,8 +45,8 @@ export function PersonnelTopBar({ immersive = false }: Props) {
   const surfaceClass = personnelChromeSurfaceClass(pathname, searchParams.get('tab'));
 
   const shellClass = immersivePath
-    ? `fixed top-0 inset-x-0 z-[var(--personnel-topbar-z)] no-print ${surfaceClass}`
-    : 'sticky top-0 z-[var(--personnel-topbar-z)] bg-transparent no-print';
+    ? `personnel-topbar fixed top-0 inset-x-0 z-[var(--personnel-topbar-z)] no-print ${surfaceClass}`
+    : 'personnel-topbar sticky top-0 z-[var(--personnel-topbar-z)] bg-transparent no-print';
 
   const cardClass = immersivePath
     ? 'border-white/15 bg-black/60 shadow-lg shadow-black/30'

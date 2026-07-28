@@ -13,7 +13,7 @@
   "highContrastLabel": "High contrast",
   "highContrastHint": "Makes colors more distinct",
   "languageLabel": "App language",
-  "languageHint": "Turkish or English",
+  "languageHint": "Choose from 15 languages",
   "interfaceLabel": "UI mode",
   "interfaceHint": "Simple or advanced admin interface",
   "notifications": {

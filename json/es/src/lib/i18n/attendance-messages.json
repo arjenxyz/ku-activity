@@ -58,5 +58,25 @@
     "attendance.did_not_work": "Ma nem dolgozóként van megjelölve. Napi bér nem kerül rögzítésre.",
     "attendance.token_required": "QR-kód szükséges.",
     "attendance.scan_failed": "A jelenlétet nem sikerült rögzíteni."
+  },
+  "es": {
+    "attendance.qr_already_used": "This code or QR has already been used. Ask your supervisor for the current code and scan again.",
+    "attendance.invalid_token": "Invalid attendance code. Ask your supervisor for the current QR or code.",
+    "attendance.wrong_project": "This code does not belong to your project.",
+    "attendance.session_cancelled": "Attendance was cancelled. Contact your supervisor and scan again.",
+    "attendance.session_completed": "The attendance session is closed. Contact your supervisor for a new code.",
+    "attendance.session_closed": "The attendance session is closed. Ask your supervisor to start a new session.",
+    "attendance.session_not_active": "The attendance session is not active.",
+    "attendance.window_closed": "Outside the attendance window. Try again during the allowed time.",
+    "attendance.already_listed": "You are already on the attendance list. Your entry will be saved when your supervisor completes the session.",
+    "attendance.scan_success": "You have been added to the list. Your supervisor will finish attendance for the team.",
+    "attendance.scan_replaced": "Re-scan successful. Your previous entry was removed and you were added again.",
+    "attendance.waiting": "You have been added to the list. Your supervisor will complete attendance for the team.",
+    "attendance.completed": "Today's attendance is complete. Your full-day wage has been recorded.",
+    "attendance.none": "No attendance record for this date.",
+    "attendance.removed_from_list": "Your supervisor removed you from attendance. If you believe this is a mistake, contact them.",
+    "attendance.did_not_work": "You are marked as not working today. No daily wage is recorded.",
+    "attendance.token_required": "QR code is required.",
+    "attendance.scan_failed": "Attendance could not be recorded."
   }
 }

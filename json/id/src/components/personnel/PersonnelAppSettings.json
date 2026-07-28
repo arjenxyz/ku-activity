@@ -9,7 +9,7 @@
   },
   "menuHints": {
     "appearance": "Theme, large text, and contrast",
-    "language": "Turkish or English",
+    "language": "Pilih dari 15 bahasa",
     "notifications": "Permission and push subscription",
     "about": "Version and update notes",
     "data": "Cookies and cache — your account records stay"
@@ -26,7 +26,7 @@
   "highContrastLabel": "High contrast",
   "highContrastHint": "Makes colors more distinct",
   "languageLabel": "App language",
-  "languageHint": "Turkish or English",
+  "languageHint": "Pilih dari 15 bahasa",
   "notifications": {
     "statusLabel": "Notification permission",
     "subscriptionLabel": "Push subscription",

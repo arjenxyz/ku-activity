@@ -1,91 +1,151 @@
 {
-  "photoUploadFailed": "Fotoğraf yüklenemedi",
-  "updatePhotoTitle": "Profil fotoğrafını güncelle",
-  "uploading": "Yükleniyor…",
-  "takePhoto": "Take photo",
-  "uploadFromGallery": "Choose from gallery",
-  "removePhoto": "Remove photo",
-  "photoMenuTitle": "Profile photo",
-  "photoMenuCancel": "Cancel",
-  "photoRemoveFailed": "Could not remove photo",
-  "profilePhoto": "Profile photo",
-  "profilePhotoHint": "Use a clear photo of your face for attendance and your profile.",
-  "profileAccountLabel": "Personnel account",
-  "backToList": "Back",
-  "exitHint": "Tap to return to the panel",
-  "exitAriaLabel": "Return to panel",
-  "logout": "Sign out",
-  "logoutConfirm": "Sign out of your account?",
-  "logoutConfirmButton": "Yes, sign out",
-  "logoutCancel": "Cancel",
-  "digitalApprovalMark": "Digital approval mark",
-  "digitalApprovalMarkAlt": "CrewLedger digital approval mark",
-  "resetData": "Clear cache on this phone",
-  "resetting": "Clearing…",
-  "resetDataConfirm": "Only CrewLedger cookies, session, and cache on this device will be cleared and you will be signed out. Your account and server records are not deleted. Other apps are not affected. Continue?",
-  "resetDataHint": "Deletes cookies and temporary files. Your account, payroll, and advance records are not deleted.",
+  "photoUploadFailed": "Photo de référence",
+  "updatePhotoTitle": "Profil photo de güncelle",
+  "uploading": "Yukleniyor…",
+  "takePhoto": "Prendre une photo",
+  "uploadFromGallery": "Choisissez dans la galerie",
+  "removePhoto": "Supprimer la photo",
+  "photoMenuTitle": "Photo de profil",
+  "photoMenuCancel": "Annuler",
+  "photoRemoveFailed": "Impossible de supprimer la photo",
+  "profilePhoto": "Photo de profil",
+  "profilePhotoHint": "Utilisez une photo claire de votre visage pour votre participation et votre profil.",
+  "profileAccountLabel": "Compte personnel",
+  "backToList": "Dos",
+  "exitHint": "Appuyez pour revenir au panneau",
+  "exitAriaLabel": "Retour au panneau",
+  "logout": "se déconnecter",
+  "logoutConfirm": "Vous déconnecter de votre compte ?",
+  "logoutConfirmButton": "Oui, déconnectez-vous",
+  "logoutCancel": "Annuler",
+  "digitalApprovalMark": "Marque d'approbation numérique",
+  "digitalApprovalMarkAlt": "Marque d'approbation numérique CrewLedger",
+  "resetData": "Vider le cache sur ce téléphone",
+  "resetting": "Clairière…",
+  "resetDataConfirm": "Seuls les cookies, la session et le cache CrewLedger sur cet appareil seront effacés et vous serez déconnecté. Vos enregistrements de compte et de serveur ne sont pas supprimés. Les autres applications ne sont pas affectées. Continuer?",
+  "resetDataHint": "Supprime les cookies et les fichiers temporaires. Votre compte, votre paie et vos avances ne sont pas supprimés.",
   "emptyValue": "—",
-  "pinTitle": "PIN kodu",
+  "pinTitle": "Code PIN",
   "pinSubtitle": "Giriş şifrenizi güncelleyin",
   "sections": {
-    "home": { "title": "Ayarlar", "subtitle": "Hesabınızı ve uygulama tercihlerinizi yönetin." },
-    "profile": { "title": "Profil", "subtitle": "Kişisel bilgiler, iletişim ve banka kayıtlarınız." },
-    "personal": { "title": "Kişisel Ayarlar", "subtitle": "Kimlik ve kişisel bilgileriniz." },
-    "contact": { "title": "İletişim", "subtitle": "E-posta ve telefon bilgileriniz." },
-    "bank": { "title": "Banka Bilgileri", "subtitle": "IBAN bilgileriniz." },
-    "work": { "title": "İş Bilgileri", "subtitle": "Pozisyon, yevmiye ve şantiye bilgileriniz." },
-    "contracts": { "title": "Sözleşmeler", "subtitle": "Onayladığınız sözleşme kayıtları." },
-    "security": { "title": "Güvenlik", "subtitle": "PIN, aktif cihazlar ve hesap güvenliği." },
-    "language": { "title": "Language", "subtitle": "Choose the app language." },
-    "app": { "title": "App Settings", "subtitle": "Theme, language, notifications, and app preferences." },
-    "releases": { "title": "Release Notes", "subtitle": "Recent changes in the web app." }
+    "home": {
+      "title": "Ayarlar",
+      "subtitle": "Hesabınızı uygulama tercihlerinizi yönetin."
+    },
+    "profile": {
+      "title": "Profil",
+      "subtitle": "Kişisel bilgiler, iletişim et banka kayıtlarınız."
+    },
+    "personal": {
+      "title": "Kişisel Ayarlar",
+      "subtitle": "Kimlik et Kişisel bilgileriniz."
+    },
+    "contact": {
+      "title": "Iletişim",
+      "subtitle": "E-mail et téléphone bilgileriniz."
+    },
+    "bank": {
+      "title": "Banque de Bilgileri",
+      "subtitle": "IBAN bilgileriniz."
+    },
+    "work": {
+      "title": "Voici les billets de banque",
+      "subtitle": "Pozisyon, yevmiye ve şantiye bilgileriniz."
+    },
+    "contracts": {
+      "title": "Sözlesmeler",
+      "subtitle": "Assurez-vous de bien le faire."
+    },
+    "security": {
+      "title": "Guvenlik",
+      "subtitle": "PIN, actif cihazlar et hesap güvenliği."
+    },
+    "language": {
+      "title": "Langue",
+      "subtitle": "Choisissez la langue de l'application."
+    },
+    "app": {
+      "title": "Paramètres de l'application",
+      "subtitle": "Thème, langue, notifications et préférences d'application."
+    },
+    "releases": {
+      "title": "Notes de version",
+      "subtitle": "Modifications récentes dans l'application Web."
+    }
   },
   "menu": {
-    "personal": { "title": "Personal settings", "subtitle": "Profile photo, name, and identity" },
-    "contact": { "title": "İletişim", "subtitle": "E-posta ve telefon numarası" },
-    "bank": { "title": "Banka", "subtitle": "IBAN bilgisi" },
-    "work": { "title": "İş bilgileri", "subtitle": "Pozisyon, yevmiye ve proje" },
-    "contracts": { "title": "Sözleşmeler", "subtitle": "Onayladığınız sözleşmeler" },
-    "security": { "title": "Güvenlik", "subtitle": "PIN kodu, aktif cihazlar ve hesap güvenliği" },
-    "language": { "title": "Language", "subtitle": "App language" },
-    "app": { "title": "App settings", "subtitle": "Theme, language, notifications, and app preferences" },
-    "releases": { "title": "Release notes", "subtitle": "Recent changes in the web app" }
+    "personal": {
+      "title": "Paramètres personnels",
+      "subtitle": "Photo de profil, nom et identité"
+    },
+    "contact": {
+      "title": "Iletişim",
+      "subtitle": "Numéros de courrier électronique et de téléphone"
+    },
+    "bank": {
+      "title": "Banque",
+      "subtitle": "IBAN belge"
+    },
+    "work": {
+      "title": "Voici les billets de banque",
+      "subtitle": "Pozisyon, yevmiye ve projet"
+    },
+    "contracts": {
+      "title": "Sözlesmeler",
+      "subtitle": "Onayladığınız sözleşmeler"
+    },
+    "security": {
+      "title": "Guvenlik",
+      "subtitle": "Code PIN, actif cihazlar et hesap güvenliği"
+    },
+    "language": {
+      "title": "Langue",
+      "subtitle": "Langue de l'application"
+    },
+    "app": {
+      "title": "Paramètres de l'application",
+      "subtitle": "Thème, langue, notifications et préférences d'application"
+    },
+    "releases": {
+      "title": "Notes de version",
+      "subtitle": "Modifications récentes dans l'application Web"
+    }
   },
   "groups": {
-    "personalInfo": "Kişisel bilgiler",
-    "contact": "İletişim",
-    "bank": "Banka",
-    "workInfo": "İş bilgileri"
+    "personalInfo": "Bilgiler Kişisel",
+    "contact": "Iletişim",
+    "bank": "Banque",
+    "workInfo": "Voici les billets de banque"
   },
   "fields": {
-    "project": "Project",
+    "project": "Projet",
     "site": "Site",
-    "firstName": "Ad",
-    "lastName": "Soyad",
-    "tcKimlik": "T.C. kimlik no",
-    "birthDate": "Doğum tarihi",
-    "email": "E-posta",
-    "phone": "Telefon",
+    "firstName": "Annonce",
+    "lastName": "Soyade",
+    "tcKimlik": "T.C. Kimlik non",
+    "birthDate": "Chien tarihi",
+    "email": "E-post",
+    "phone": "Téléphone",
     "iban": "IBAN",
-    "bankName": "Bank",
-    "unknownBank": "Bank could not be detected",
+    "bankName": "Banque",
+    "unknownBank": "La banque n'a pas pu être détectée",
     "position": "Pozisyon",
-    "dailyWage": "Günlük yevmiye",
-    "hireDate": "İşe giriş"
+    "dailyWage": "Günlük Yevmiye",
+    "hireDate": "C'est une fille"
   },
   "language": {
-    "label": "App language",
-    "hint": "Choose Turkish or English."
+    "label": "Langue de l'application",
+    "hint": "Vous pouvez choisir parmi 15 langues."
   },
   "releases": {
-    "loading": "Loading update notes…",
-    "loadFailed": "Could not load update notes",
-    "emptyTitle": "No update notes yet",
-    "emptyHint": "When a new web update is published, it will appear here.",
-    "currentVersion": "Web updates",
-    "webUpdatesTitle": "Recent changes",
-    "publishedAt": "Latest update",
-    "notesTitle": "In this period",
-    "noNotes": "No notes for this period."
+    "loading": "Chargement des notes de mise à jour…",
+    "loadFailed": "Impossible de charger les notes de mise à jour",
+    "emptyTitle": "Aucune note de mise à jour pour l'instant",
+    "emptyHint": "Lorsqu'une nouvelle mise à jour Web est publiée, elle apparaîtra ici.",
+    "currentVersion": "Mises à jour Web",
+    "webUpdatesTitle": "Modifications récentes",
+    "publishedAt": "Dernière mise à jour",
+    "notesTitle": "Dans cette période",
+    "noNotes": "Aucune note pour cette période."
   }
 }

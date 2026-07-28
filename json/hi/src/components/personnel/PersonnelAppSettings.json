@@ -9,7 +9,7 @@
   },
   "menuHints": {
     "appearance": "थीम, बड़ा पाठ और कंट्रास्ट",
-    "language": "तुर्की या अंग्रेजी",
+    "language": "15 भाषाओं में से चुनें",
     "notifications": "अनुमति और पुश सदस्यता",
     "about": "संस्करण और अद्यतन नोट्स",
     "data": "कुकीज़ और कैश - आपके खाते के रिकॉर्ड बने रहते हैं"
@@ -26,7 +26,7 @@
   "highContrastLabel": "हाई कॉन्ट्रास्ट",
   "highContrastHint": "रंगों को और अधिक विशिष्ट बनाता है",
   "languageLabel": "ऐप भाषा",
-  "languageHint": "तुर्की या अंग्रेजी",
+  "languageHint": "15 भाषाओं में से चुनें",
   "notifications": {
     "statusLabel": "अधिसूचना अनुमति",
     "subscriptionLabel": "सदस्यता पुश करें",
