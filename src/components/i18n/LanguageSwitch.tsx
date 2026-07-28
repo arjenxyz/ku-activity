@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useId, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { FiCheck, FiChevronDown, FiChevronRight } from 'react-icons/fi';
@@ -179,6 +179,9 @@ function LanguageOverlay({
   titleId: string;
 }) {
   const [mounted, setMounted] = useState(false);
+  const [headerHidden, setHeaderHidden] = useState(false);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const scrollEndTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   useBodyScrollLock(open);
 
   useEffect(() => setMounted(true), []);
@@ -191,6 +194,31 @@ function LanguageOverlay({
     document.addEventListener('keydown', onKey);
     return () => document.removeEventListener('keydown', onKey);
   }, [open, onClose]);
+
+  useEffect(() => {
+    if (!open) {
+      setHeaderHidden(false);
+      if (scrollEndTimer.current) clearTimeout(scrollEndTimer.current);
+      return;
+    }
+
+    const el = scrollRef.current;
+    if (!el) return;
+
+    const onScroll = () => {
+      setHeaderHidden(true);
+      if (scrollEndTimer.current) clearTimeout(scrollEndTimer.current);
+      scrollEndTimer.current = setTimeout(() => {
+        setHeaderHidden(false);
+      }, 180);
+    };
+
+    el.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      el.removeEventListener('scroll', onScroll);
+      if (scrollEndTimer.current) clearTimeout(scrollEndTimer.current);
+    };
+  }, [open, mounted]);
 
   if (!mounted) return null;
 
@@ -223,12 +251,17 @@ function LanguageOverlay({
             className="flex h-full min-h-0 flex-col"
           >
             <div
+              ref={scrollRef}
               className="mx-auto min-h-0 w-full max-w-5xl flex-1 overflow-y-auto overscroll-contain px-3 pb-8 [-webkit-overflow-scrolling:touch] [scrollbar-gutter:stable] sm:px-4"
               data-allow-scroll
               onClick={(e) => e.stopPropagation()}
             >
               <header
-                className="safe-pt sticky top-0 z-10 -mx-3 bg-transparent px-3 pb-2 sm:-mx-4 sm:px-4"
+                className={`safe-pt sticky top-0 z-10 -mx-3 bg-transparent px-3 pb-2 transition-all duration-200 ease-out sm:-mx-4 sm:px-4 ${
+                  headerHidden
+                    ? 'pointer-events-none -translate-y-2 opacity-0'
+                    : 'translate-y-0 opacity-100'
+                }`}
                 onClick={(e) => e.stopPropagation()}
               >
                 <button
@@ -236,6 +269,7 @@ function LanguageOverlay({
                   onClick={onClose}
                   className="flex h-14 w-full items-center gap-2.5 rounded-2xl border border-white/80 bg-white/95 px-3 text-left shadow-lg shadow-slate-900/10 backdrop-blur-xl transition-opacity hover:opacity-90 active:opacity-80 sm:px-4"
                   aria-label={closeOverlayAriaLabel}
+                  tabIndex={headerHidden ? -1 : 0}
                 >
                   <BrandMark size="sm" className="shrink-0 shadow-md ring-2 ring-slate-200/80" />
                   <div className="min-w-0">
