@@ -128,12 +128,12 @@ export default async function RootLayout({
       >
         {isPersonnelRoute ? (
           <Script id="personnel-intro-boot-root" strategy="beforeInteractive">
-            {getPersonnelIntroBootScript()}
+            {getPersonnelIntroBootScript(locale)}
           </Script>
         ) : null}
         {isAdminRoute ? (
           <Script id="admin-intro-boot-root" strategy="beforeInteractive">
-            {getAdminIntroBootScript()}
+            {getAdminIntroBootScript(locale)}
           </Script>
         ) : null}
         <PWARegister />
