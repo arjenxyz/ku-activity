@@ -1,70 +1,70 @@
 {
   "tabTitles": {
-    "overview": "Home",
-    "work": "Calendar",
-    "asgari": "Minimum wage",
-    "finance": "Payroll",
-    "rights": "My rights",
-    "settings": "Settings"
+    "overview": "Lar",
+    "work": "Calendário",
+    "asgari": "Salário mínimo",
+    "finance": "Folha de pagamento",
+    "rights": "Meus direitos",
+    "settings": "Configurações"
   },
   "hubSections": [
     {
-      "title": "On site",
-      "subtitle": "Daily work records",
+      "title": "No local",
+      "subtitle": "Registros diários de trabalho",
       "items": [
         {
           "id": "work",
           "tab": "work",
-          "label": "Calendar",
-          "description": "Work days, overtime, and payments"
+          "label": "Calendário",
+          "description": "Dias de trabalho, horas extras e pagamentos"
         },
         {
           "id": "yoklama",
           "href": "/personnel-panel/yoklama",
-          "label": "Attendance",
-          "description": "QR check-in"
+          "label": "Presença",
+          "description": "Check-in QR"
         }
       ]
     },
     {
-      "title": "Finance",
-      "subtitle": "Pay and payments",
+      "title": "Financiar",
+      "subtitle": "Pagamento e pagamentos",
       "items": [
         {
           "id": "finance",
           "tab": "finance",
-          "label": "Payroll",
-          "description": "Net pay summary"
+          "label": "Folha de pagamento",
+          "description": "Resumo do pagamento líquido"
         },
         {
           "id": "avans",
           "href": "/personnel-panel/avans",
-          "label": "Advance request",
-          "description": "Create and track requests"
+          "label": "Solicitação antecipada",
+          "description": "Crie e acompanhe solicitações"
         },
         {
           "id": "asgari",
           "tab": "asgari",
-          "label": "Minimum wage",
-          "description": "Top-up status"
+          "label": "Salário mínimo",
+          "description": "Status de recarga"
         }
       ]
     },
     {
-      "title": "Account",
-      "subtitle": "Profile and documents",
+      "title": "Conta",
+      "subtitle": "Perfil e documentos",
       "items": [
         {
           "id": "rights",
           "tab": "rights",
-          "label": "My rights",
-          "description": "Contracts"
+          "label": "Meus direitos",
+          "description": "Contratos"
         },
         {
           "id": "settings",
           "tab": "settings",
-          "label": "Settings",
-          "description": "PIN and profile"
+          "label": "Configurações",
+          "description": "PIN e perfil"
         }
       ]
     }

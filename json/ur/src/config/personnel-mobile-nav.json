@@ -1,70 +1,70 @@
 {
   "tabTitles": {
-    "overview": "Home",
-    "work": "Calendar",
-    "asgari": "Minimum wage",
-    "finance": "Payroll",
-    "rights": "My rights",
-    "settings": "Settings"
+    "overview": "گھر",
+    "work": "کیلنڈر",
+    "asgari": "کم از کم اجرت",
+    "finance": "پے رول",
+    "rights": "میرے حقوق",
+    "settings": "ترتیبات"
   },
   "hubSections": [
     {
-      "title": "On site",
-      "subtitle": "Daily work records",
+      "title": "سائٹ پر",
+      "subtitle": "روزانہ کام کا ریکارڈ",
       "items": [
         {
           "id": "work",
           "tab": "work",
-          "label": "Calendar",
-          "description": "Work days, overtime, and payments"
+          "label": "کیلنڈر",
+          "description": "کام کے دن، اوور ٹائم، اور ادائیگیاں"
         },
         {
           "id": "yoklama",
           "href": "/personnel-panel/yoklama",
-          "label": "Attendance",
-          "description": "QR check-in"
+          "label": "حاضری",
+          "description": "QR چیک ان"
         }
       ]
     },
     {
-      "title": "Finance",
-      "subtitle": "Pay and payments",
+      "title": "فنانس",
+      "subtitle": "ادائیگی اور ادائیگی",
       "items": [
         {
           "id": "finance",
           "tab": "finance",
-          "label": "Payroll",
-          "description": "Net pay summary"
+          "label": "پے رول",
+          "description": "خالص تنخواہ کا خلاصہ"
         },
         {
           "id": "avans",
           "href": "/personnel-panel/avans",
-          "label": "Advance request",
-          "description": "Create and track requests"
+          "label": "پیشگی درخواست",
+          "description": "درخواستیں بنائیں اور ٹریک کریں۔"
         },
         {
           "id": "asgari",
           "tab": "asgari",
-          "label": "Minimum wage",
-          "description": "Top-up status"
+          "label": "کم از کم اجرت",
+          "description": "ٹاپ اپ اسٹیٹس"
         }
       ]
     },
     {
-      "title": "Account",
-      "subtitle": "Profile and documents",
+      "title": "اکاؤنٹ",
+      "subtitle": "پروفائل اور دستاویزات",
       "items": [
         {
           "id": "rights",
           "tab": "rights",
-          "label": "My rights",
-          "description": "Contracts"
+          "label": "میرے حقوق",
+          "description": "معاہدے"
         },
         {
           "id": "settings",
           "tab": "settings",
-          "label": "Settings",
-          "description": "PIN and profile"
+          "label": "ترتیبات",
+          "description": "پن اور پروفائل"
         }
       ]
     }

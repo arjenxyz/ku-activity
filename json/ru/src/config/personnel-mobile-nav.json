@@ -13,13 +13,13 @@
       "subtitle": "Ежедневные записи о работе",
       "items": [
         {
-          "id": "работа",
-          "tab": "работа",
+          "id": "work",
+          "tab": "work",
           "label": "Календарь",
           "description": "Рабочие дни, сверхурочные и выплаты"
         },
         {
-          "id": "йоклама",
+          "id": "yoklama",
           "href": "/personnel-panel/yoklama",
           "label": "посещаемость",
           "description": "QR-регистрация"
@@ -31,20 +31,20 @@
       "subtitle": "Оплата и платежи",
       "items": [
         {
-          "id": "финансы",
-          "tab": "финансы",
+          "id": "finance",
+          "tab": "finance",
           "label": "Заработная плата",
           "description": "Сводка по чистой заработной плате"
         },
         {
-          "id": "авансы",
+          "id": "avans",
           "href": "/personnel-panel/avans",
           "label": "Предварительный запрос",
           "description": "Создание и отслеживание запросов"
         },
         {
-          "id": "Асгари",
-          "tab": "Асгари",
+          "id": "asgari",
+          "tab": "asgari",
           "label": "Минимальная заработная плата",
           "description": "Статус пополнения"
         }
@@ -55,14 +55,14 @@
       "subtitle": "Профиль и документы",
       "items": [
         {
-          "id": "права",
-          "tab": "права",
+          "id": "rights",
+          "tab": "rights",
           "label": "Мои права",
           "description": "Контракты"
         },
         {
-          "id": "настройки",
-          "tab": "настройки",
+          "id": "settings",
+          "tab": "settings",
           "label": "Настройки",
           "description": "ПИН-код и профиль"
         }

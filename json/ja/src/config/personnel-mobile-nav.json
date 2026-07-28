@@ -1,70 +1,70 @@
 {
   "tabTitles": {
-    "overview": "Home",
-    "work": "Calendar",
-    "asgari": "Minimum wage",
-    "finance": "Payroll",
-    "rights": "My rights",
-    "settings": "Settings"
+    "overview": "家",
+    "work": "カレンダー",
+    "asgari": "最低賃金",
+    "finance": "給与計算",
+    "rights": "私の権利",
+    "settings": "設定"
   },
   "hubSections": [
     {
-      "title": "On site",
-      "subtitle": "Daily work records",
+      "title": "現場で",
+      "subtitle": "日々の作業記録",
       "items": [
         {
           "id": "work",
           "tab": "work",
-          "label": "Calendar",
-          "description": "Work days, overtime, and payments"
+          "label": "カレンダー",
+          "description": "勤務日数、残業代、給与など"
         },
         {
           "id": "yoklama",
           "href": "/personnel-panel/yoklama",
-          "label": "Attendance",
-          "description": "QR check-in"
+          "label": "出席",
+          "description": "QRチェックイン"
         }
       ]
     },
     {
-      "title": "Finance",
-      "subtitle": "Pay and payments",
+      "title": "ファイナンス",
+      "subtitle": "支払いと支払い",
       "items": [
         {
           "id": "finance",
           "tab": "finance",
-          "label": "Payroll",
-          "description": "Net pay summary"
+          "label": "給与計算",
+          "description": "純支払額の概要"
         },
         {
           "id": "avans",
           "href": "/personnel-panel/avans",
-          "label": "Advance request",
-          "description": "Create and track requests"
+          "label": "事前リクエスト",
+          "description": "リクエストの作成と追跡"
         },
         {
           "id": "asgari",
           "tab": "asgari",
-          "label": "Minimum wage",
-          "description": "Top-up status"
+          "label": "最低賃金",
+          "description": "チャージステータス"
         }
       ]
     },
     {
-      "title": "Account",
-      "subtitle": "Profile and documents",
+      "title": "アカウント",
+      "subtitle": "プロフィールと書類",
       "items": [
         {
           "id": "rights",
           "tab": "rights",
-          "label": "My rights",
-          "description": "Contracts"
+          "label": "私の権利",
+          "description": "契約"
         },
         {
           "id": "settings",
           "tab": "settings",
-          "label": "Settings",
-          "description": "PIN and profile"
+          "label": "設定",
+          "description": "PINとプロフィール"
         }
       ]
     }

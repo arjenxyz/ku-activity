@@ -15,6 +15,9 @@ const CONCURRENCY = 2;
 
 const PLACEHOLDER_RE = /\{[a-zA-Z0-9_]+\}/g;
 
+/** Structural keys — never translate (icons, routing, tabs). */
+const SKIP_KEYS = new Set(['id', 'tab', 'href', 'path', 'route', 'icon', 'iconName', 'key', 'code']);
+
 const GOOGLE_TL = {
   tr: 'tr',
   en: 'en',
@@ -37,6 +40,25 @@ function sleep(ms) {
   return new Promise((r) => setTimeout(r, ms));
 }
 
+function writeJsonFile(fullPath, data, attempt = 1) {
+  const payload = JSON.stringify(data, null, 2) + '\n';
+  try {
+    fs.writeFileSync(fullPath, payload, 'utf8');
+  } catch (err) {
+    if (attempt >= 8) throw err;
+    const wait = 400 * attempt;
+    const start = Date.now();
+    while (Date.now() - start < wait) {
+      /* retry after OneDrive / file lock */
+    }
+    writeJsonFile(fullPath, data, attempt + 1);
+  }
+}
+
+async function writeJsonFileAsync(fullPath, data) {
+  await writeJsonFile(fullPath, data);
+}
+
 function walkJsonFiles(dir, base = '') {
   const entries = fs.readdirSync(dir, { withFileTypes: true });
   const files = [];
@@ -49,26 +71,30 @@ function walkJsonFiles(dir, base = '') {
   return files.sort();
 }
 
-function collectStrings(value, set) {
+function collectStrings(value, set, key = '') {
   if (typeof value === 'string') {
+    if (SKIP_KEYS.has(key)) return;
     if (value.trim()) set.add(value);
     return;
   }
   if (Array.isArray(value)) {
-    for (const item of value) collectStrings(item, set);
+    for (const item of value) collectStrings(item, set, key);
     return;
   }
   if (value && typeof value === 'object') {
-    for (const v of Object.values(value)) collectStrings(v, set);
+    for (const [k, v] of Object.entries(value)) collectStrings(v, set, k);
   }
 }
 
-function mapStrings(value, dict) {
-  if (typeof value === 'string') return dict[value] ?? value;
-  if (Array.isArray(value)) return value.map((item) => mapStrings(item, dict));
+function mapStrings(value, dict, key = '') {
+  if (typeof value === 'string') {
+    if (SKIP_KEYS.has(key)) return value;
+    return dict[value] ?? value;
+  }
+  if (Array.isArray(value)) return value.map((item) => mapStrings(item, dict, key));
   if (value && typeof value === 'object') {
     const out = {};
-    for (const [k, v] of Object.entries(value)) out[k] = mapStrings(v, dict);
+    for (const [k, v] of Object.entries(value)) out[k] = mapStrings(v, dict, k);
     return out;
   }
   return value;
@@ -201,14 +227,14 @@ async function main() {
     if (translated && translated !== text) cache[text] = translated;
     else if (translated === null) failed++;
     if (done % 50 === 0 || done === toTranslate.length) {
-      fs.writeFileSync(CACHE_FILE, JSON.stringify(cache, null, 2));
+      writeJsonFile(CACHE_FILE, cache);
       console.log(`[${targetLocale}] progress ${done}/${toTranslate.length} (failed ${failed})`);
     }
     await sleep(150);
     return translated;
   });
 
-  fs.writeFileSync(CACHE_FILE, JSON.stringify(cache, null, 2));
+  await writeJsonFileAsync(CACHE_FILE, cache);
 
   let written = 0;
   for (const [rel, data] of fileData) {
@@ -219,7 +245,7 @@ async function main() {
     } else {
       next = mapStrings(data, cache);
     }
-    fs.writeFileSync(full, JSON.stringify(next, null, 2) + '\n', 'utf8');
+    await writeJsonFileAsync(full, next);
     written++;
   }
 

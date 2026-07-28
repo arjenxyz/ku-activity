@@ -1,70 +1,70 @@
 {
   "tabTitles": {
-    "overview": "Home",
-    "work": "Calendar",
-    "asgari": "Minimum wage",
-    "finance": "Payroll",
-    "rights": "My rights",
-    "settings": "Settings"
+    "overview": "Hogar",
+    "work": "Calendario",
+    "asgari": "Salario mínimo",
+    "finance": "Nómina de sueldos",
+    "rights": "mis derechos",
+    "settings": "Ajustes"
   },
   "hubSections": [
     {
-      "title": "On site",
-      "subtitle": "Daily work records",
+      "title": "En el sitio",
+      "subtitle": "Registros diarios de trabajo",
       "items": [
         {
           "id": "work",
           "tab": "work",
-          "label": "Calendar",
-          "description": "Work days, overtime, and payments"
+          "label": "Calendario",
+          "description": "Jornadas laborales, horas extras y pagos."
         },
         {
           "id": "yoklama",
           "href": "/personnel-panel/yoklama",
-          "label": "Attendance",
-          "description": "QR check-in"
+          "label": "Asistencia",
+          "description": "registro QR"
         }
       ]
     },
     {
-      "title": "Finance",
-      "subtitle": "Pay and payments",
+      "title": "Finanzas",
+      "subtitle": "Pago y pagos",
       "items": [
         {
           "id": "finance",
           "tab": "finance",
-          "label": "Payroll",
-          "description": "Net pay summary"
+          "label": "Nómina de sueldos",
+          "description": "Resumen de salario neto"
         },
         {
           "id": "avans",
           "href": "/personnel-panel/avans",
-          "label": "Advance request",
-          "description": "Create and track requests"
+          "label": "Solicitud anticipada",
+          "description": "Crear y realizar un seguimiento de solicitudes"
         },
         {
           "id": "asgari",
           "tab": "asgari",
-          "label": "Minimum wage",
-          "description": "Top-up status"
+          "label": "Salario mínimo",
+          "description": "Estado de recarga"
         }
       ]
     },
     {
-      "title": "Account",
-      "subtitle": "Profile and documents",
+      "title": "Cuenta",
+      "subtitle": "Perfil y documentos",
       "items": [
         {
           "id": "rights",
           "tab": "rights",
-          "label": "My rights",
-          "description": "Contracts"
+          "label": "mis derechos",
+          "description": "Contratos"
         },
         {
           "id": "settings",
           "tab": "settings",
-          "label": "Settings",
-          "description": "PIN and profile"
+          "label": "Ajustes",
+          "description": "PIN y perfil"
         }
       ]
     }

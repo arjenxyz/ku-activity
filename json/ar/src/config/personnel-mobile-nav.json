@@ -1,70 +1,70 @@
 {
   "tabTitles": {
-    "overview": "Home",
-    "work": "Calendar",
-    "asgari": "Minimum wage",
-    "finance": "Payroll",
-    "rights": "My rights",
-    "settings": "Settings"
+    "overview": "بيت",
+    "work": "تقويم",
+    "asgari": "الحد الأدنى للأجور",
+    "finance": "كشوف المرتبات",
+    "rights": "حقوقي",
+    "settings": "إعدادات"
   },
   "hubSections": [
     {
-      "title": "On site",
-      "subtitle": "Daily work records",
+      "title": "في الموقع",
+      "subtitle": "سجلات العمل اليومية",
       "items": [
         {
           "id": "work",
           "tab": "work",
-          "label": "Calendar",
-          "description": "Work days, overtime, and payments"
+          "label": "تقويم",
+          "description": "أيام العمل والعمل الإضافي والمدفوعات"
         },
         {
           "id": "yoklama",
           "href": "/personnel-panel/yoklama",
-          "label": "Attendance",
-          "description": "QR check-in"
+          "label": "حضور",
+          "description": "تسجيل الوصول QR"
         }
       ]
     },
     {
-      "title": "Finance",
-      "subtitle": "Pay and payments",
+      "title": "تمويل",
+      "subtitle": "الدفع والمدفوعات",
       "items": [
         {
           "id": "finance",
           "tab": "finance",
-          "label": "Payroll",
-          "description": "Net pay summary"
+          "label": "كشوف المرتبات",
+          "description": "ملخص صافي الأجر"
         },
         {
           "id": "avans",
           "href": "/personnel-panel/avans",
-          "label": "Advance request",
-          "description": "Create and track requests"
+          "label": "طلب مسبق",
+          "description": "إنشاء وتتبع الطلبات"
         },
         {
           "id": "asgari",
           "tab": "asgari",
-          "label": "Minimum wage",
-          "description": "Top-up status"
+          "label": "الحد الأدنى للأجور",
+          "description": "حالة تعبئة الرصيد"
         }
       ]
     },
     {
-      "title": "Account",
-      "subtitle": "Profile and documents",
+      "title": "حساب",
+      "subtitle": "الملف الشخصي والوثائق",
       "items": [
         {
           "id": "rights",
           "tab": "rights",
-          "label": "My rights",
-          "description": "Contracts"
+          "label": "حقوقي",
+          "description": "العقود"
         },
         {
           "id": "settings",
           "tab": "settings",
-          "label": "Settings",
-          "description": "PIN and profile"
+          "label": "إعدادات",
+          "description": "رقم التعريف الشخصي والملف الشخصي"
         }
       ]
     }

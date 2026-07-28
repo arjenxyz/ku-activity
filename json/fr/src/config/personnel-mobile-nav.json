@@ -1,70 +1,70 @@
 {
   "tabTitles": {
-    "overview": "Home",
-    "work": "Calendar",
-    "asgari": "Minimum wage",
-    "finance": "Payroll",
-    "rights": "My rights",
-    "settings": "Settings"
+    "overview": "Maison",
+    "work": "Calendrier",
+    "asgari": "Salaire minimum",
+    "finance": "Paie",
+    "rights": "Mes droits",
+    "settings": "Paramètres"
   },
   "hubSections": [
     {
-      "title": "On site",
-      "subtitle": "Daily work records",
+      "title": "Sur place",
+      "subtitle": "Dossiers de travail quotidiens",
       "items": [
         {
           "id": "work",
           "tab": "work",
-          "label": "Calendar",
-          "description": "Work days, overtime, and payments"
+          "label": "Calendrier",
+          "description": "Jours de travail, heures supplémentaires et paiements"
         },
         {
           "id": "yoklama",
           "href": "/personnel-panel/yoklama",
-          "label": "Attendance",
-          "description": "QR check-in"
+          "label": "Présence",
+          "description": "Enregistrement QR"
         }
       ]
     },
     {
       "title": "Finance",
-      "subtitle": "Pay and payments",
+      "subtitle": "Paie et paiements",
       "items": [
         {
           "id": "finance",
           "tab": "finance",
-          "label": "Payroll",
-          "description": "Net pay summary"
+          "label": "Paie",
+          "description": "Récapitulatif du salaire net"
         },
         {
           "id": "avans",
           "href": "/personnel-panel/avans",
-          "label": "Advance request",
-          "description": "Create and track requests"
+          "label": "Demande d'avance",
+          "description": "Créer et suivre les demandes"
         },
         {
           "id": "asgari",
           "tab": "asgari",
-          "label": "Minimum wage",
-          "description": "Top-up status"
+          "label": "Salaire minimum",
+          "description": "Statut de recharge"
         }
       ]
     },
     {
-      "title": "Account",
-      "subtitle": "Profile and documents",
+      "title": "Compte",
+      "subtitle": "Profil et documents",
       "items": [
         {
           "id": "rights",
           "tab": "rights",
-          "label": "My rights",
-          "description": "Contracts"
+          "label": "Mes droits",
+          "description": "Contrats"
         },
         {
           "id": "settings",
           "tab": "settings",
-          "label": "Settings",
-          "description": "PIN and profile"
+          "label": "Paramètres",
+          "description": "Code PIN et profil"
         }
       ]
     }

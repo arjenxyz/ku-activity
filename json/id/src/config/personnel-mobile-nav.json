@@ -1,70 +1,70 @@
 {
   "tabTitles": {
-    "overview": "Home",
-    "work": "Calendar",
-    "asgari": "Minimum wage",
-    "finance": "Payroll",
-    "rights": "My rights",
-    "settings": "Settings"
+    "overview": "Rumah",
+    "work": "Kalender",
+    "asgari": "Upah minimum",
+    "finance": "Daftar gaji",
+    "rights": "Hak saya",
+    "settings": "Pengaturan"
   },
   "hubSections": [
     {
-      "title": "On site",
-      "subtitle": "Daily work records",
+      "title": "Di lokasi",
+      "subtitle": "Catatan pekerjaan harian",
       "items": [
         {
           "id": "work",
           "tab": "work",
-          "label": "Calendar",
-          "description": "Work days, overtime, and payments"
+          "label": "Kalender",
+          "description": "Hari kerja, lembur, dan pembayaran"
         },
         {
           "id": "yoklama",
           "href": "/personnel-panel/yoklama",
-          "label": "Attendance",
-          "description": "QR check-in"
+          "label": "Kehadiran",
+          "description": "QR masuk"
         }
       ]
     },
     {
-      "title": "Finance",
-      "subtitle": "Pay and payments",
+      "title": "Keuangan",
+      "subtitle": "Bayar dan pembayaran",
       "items": [
         {
           "id": "finance",
           "tab": "finance",
-          "label": "Payroll",
-          "description": "Net pay summary"
+          "label": "Daftar gaji",
+          "description": "Ringkasan gaji bersih"
         },
         {
           "id": "avans",
           "href": "/personnel-panel/avans",
-          "label": "Advance request",
-          "description": "Create and track requests"
+          "label": "Permintaan terlebih dahulu",
+          "description": "Buat dan lacak permintaan"
         },
         {
           "id": "asgari",
           "tab": "asgari",
-          "label": "Minimum wage",
-          "description": "Top-up status"
+          "label": "Upah minimum",
+          "description": "Status isi ulang"
         }
       ]
     },
     {
-      "title": "Account",
-      "subtitle": "Profile and documents",
+      "title": "Akun",
+      "subtitle": "Profil dan dokumen",
       "items": [
         {
           "id": "rights",
           "tab": "rights",
-          "label": "My rights",
-          "description": "Contracts"
+          "label": "Hak saya",
+          "description": "Kontrak"
         },
         {
           "id": "settings",
           "tab": "settings",
-          "label": "Settings",
-          "description": "PIN and profile"
+          "label": "Pengaturan",
+          "description": "PIN dan profil"
         }
       ]
     }

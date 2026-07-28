@@ -13,14 +13,14 @@
       "subtitle": "日常工作记录",
       "items": [
         {
-          "id": "工作",
-          "tab": "工作",
+          "id": "work",
+          "tab": "work",
           "label": "日历",
           "description": "工作日、加班费和付款"
         },
         {
-          "id": "约克拉马",
-          "href": "/人事小组/yoklama",
+          "id": "yoklama",
+          "href": "/personnel-panel/yoklama",
           "label": "出席率",
           "description": "二维码签到"
         }
@@ -31,20 +31,20 @@
       "subtitle": "付款和付款",
       "items": [
         {
-          "id": "金融",
-          "tab": "金融",
+          "id": "finance",
+          "tab": "finance",
           "label": "工资单",
           "description": "净工资摘要"
         },
         {
-          "id": "阿万斯",
-          "href": "/人事面板/avans",
+          "id": "avans",
+          "href": "/personnel-panel/avans",
           "label": "提前要求",
           "description": "创建和跟踪请求"
         },
         {
-          "id": "阿斯加里",
-          "tab": "阿斯加里",
+          "id": "asgari",
+          "tab": "asgari",
           "label": "最低工资",
           "description": "充值状态"
         }
@@ -55,14 +55,14 @@
       "subtitle": "简介和文件",
       "items": [
         {
-          "id": "权利",
-          "tab": "权利",
+          "id": "rights",
+          "tab": "rights",
           "label": "我的权利",
           "description": "合约"
         },
         {
-          "id": "设置",
-          "tab": "设置",
+          "id": "settings",
+          "tab": "settings",
           "label": "设置",
           "description": "PIN 码和个人资料"
         }

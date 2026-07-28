@@ -13,14 +13,14 @@
       "subtitle": "Napi munkanyilvántartás",
       "items": [
         {
-          "id": "munka",
-          "tab": "munka",
+          "id": "work",
+          "tab": "work",
           "label": "Naptár",
           "description": "Munkanapok, túlóra és fizetés"
         },
         {
-          "id": "névsorolvasás",
-          "href": "/személyzeti panel/szavazás",
+          "id": "yoklama",
+          "href": "/personnel-panel/yoklama",
           "label": "Részvétel",
           "description": "QR bejelentkezés"
         }
@@ -31,20 +31,20 @@
       "subtitle": "Fizetés és kifizetések",
       "items": [
         {
-          "id": "pénzügy",
-          "tab": "pénzügy",
+          "id": "finance",
+          "tab": "finance",
           "label": "Bérszámfejtés",
           "description": "Nettó bérösszegzés"
         },
         {
-          "id": "előleg",
-          "href": "/staff-panel/avans",
+          "id": "avans",
+          "href": "/personnel-panel/avans",
           "label": "Előzetes kérés",
           "description": "Kérések létrehozása és nyomon követése"
         },
         {
-          "id": "minimális",
-          "tab": "minimális",
+          "id": "asgari",
+          "tab": "asgari",
           "label": "Minimálbér",
           "description": "Feltöltés állapota"
         }
@@ -55,14 +55,14 @@
       "subtitle": "Profil és dokumentumok",
       "items": [
         {
-          "id": "jogokat",
-          "tab": "jogokat",
+          "id": "rights",
+          "tab": "rights",
           "label": "Az én jogaim",
           "description": "Szerződések"
         },
         {
-          "id": "beállításokat",
-          "tab": "beállításokat",
+          "id": "settings",
+          "tab": "settings",
           "label": "Beállítások elemre",
           "description": "PIN-kód és profil"
         }
