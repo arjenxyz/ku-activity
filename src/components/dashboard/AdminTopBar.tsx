@@ -9,11 +9,7 @@ import { AdminUiModeToggle } from '@/components/dashboard/AdminUiModeToggle';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useAdminCurrentProject } from '@/hooks/useAdminCurrentProject';
 import { useAdminUiMode } from '@/hooks/useAdminUiMode';
-import {
-  adminHref,
-  getAdminPanelBase,
-  isAdminDemoPath,
-} from '@/lib/demo/demo-paths';
+import { adminHref, isAdminDemoPath } from '@/lib/demo/demo-paths';
 
 const PROJECT_ID_RE = /^\/admin-panel(?:\/demo)?\/proje\/([a-zA-Z0-9_-]+)/;
 
