@@ -66,8 +66,8 @@ function LocaleOptionTile({
   layout?: 'list' | 'overlay';
 }) {
   const overlayItemClass = active
-    ? 'bg-white/95 text-[#0E1548] shadow-lg shadow-slate-900/10 ring-2 ring-white/80 dark:bg-slate-900/95 dark:text-blue-100 dark:ring-blue-400/40'
-    : 'bg-white/80 text-slate-800 hover:bg-white/95 dark:bg-slate-900/75 dark:text-slate-100 dark:hover:bg-slate-900/90';
+    ? 'bg-white/12 text-white'
+    : 'text-white/90 hover:bg-white/6';
 
   const listItemClass = active
     ? 'bg-[#0E1548]/[0.06] text-[#0E1548] dark:bg-blue-500/15 dark:text-blue-100'
@@ -79,7 +79,7 @@ function LocaleOptionTile({
       role="option"
       aria-selected={active}
       onClick={() => onSelect(option.id)}
-      className={`flex w-full items-center gap-3 rounded-2xl px-3.5 py-3 text-left transition-all ${
+      className={`flex w-full items-center gap-3 rounded-xl px-2 py-2.5 text-left transition-colors sm:px-3 sm:py-3 ${
         layout === 'overlay' ? overlayItemClass : listItemClass
       }`}
     >
@@ -88,9 +88,7 @@ function LocaleOptionTile({
         <span className="block text-sm font-semibold leading-tight">{option.nativeLabel}</span>
         <span
           className={`block text-[11px] ${
-            layout === 'overlay'
-              ? 'text-slate-500 dark:text-slate-400'
-              : 'text-slate-500 dark:text-slate-400'
+            layout === 'overlay' ? 'text-white/55' : 'text-slate-500 dark:text-slate-400'
           }`}
         >
           {option.englishName}
@@ -122,7 +120,7 @@ function LocaleOptionsList({
 }) {
   const listClass =
     layout === 'overlay'
-      ? 'grid grid-cols-1 gap-2 sm:grid-cols-2'
+      ? 'grid grid-cols-1 gap-0.5 sm:grid-cols-2 sm:gap-1'
       : 'max-h-[min(55vh,18rem)] space-y-0.5 overflow-y-auto overscroll-none p-1.5 [scrollbar-width:thin] [-webkit-overflow-scrolling:touch]';
 
   return (
@@ -208,46 +206,36 @@ function LanguageOverlay({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 8 }}
             transition={{ duration: 0.18, ease: 'easeOut' }}
-            className="relative flex min-h-0 flex-1 flex-col px-4 pb-5 pt-5 sm:px-6 sm:pt-6"
+            className="flex h-full min-h-0 flex-col"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="mx-auto flex w-full max-w-2xl shrink-0 items-center justify-between gap-3">
+            <div className="flex shrink-0 items-center justify-between gap-3 px-4 pb-2 pt-5 sm:px-6 sm:pt-6">
               <h2 id={titleId} className="text-xl font-semibold text-white sm:text-2xl">
                 {title}
               </h2>
               <button
                 type="button"
                 onClick={onClose}
-                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/15 text-white transition-colors hover:bg-white/25"
+                className="-mr-1 flex h-10 w-10 shrink-0 items-center justify-center text-white/75 transition-colors hover:text-white"
                 aria-label={closeButtonAriaLabel}
               >
-                <FiX className="h-5 w-5" />
+                <FiX className="h-6 w-6" />
               </button>
             </div>
 
-            <div className="relative mx-auto mt-5 min-h-0 w-full max-w-2xl flex-1">
-              <div
-                className="h-full overflow-y-auto overscroll-contain pb-3 [-webkit-overflow-scrolling:touch]"
-                data-allow-scroll
-              >
-                <LocaleOptionsList
-                  locale={locale}
-                  onSelect={onSelect}
-                  layout="overlay"
-                  scrollable={false}
-                />
-              </div>
-              <div
-                aria-hidden
-                className="pointer-events-none absolute inset-x-0 bottom-0 flex h-16 items-end justify-center bg-gradient-to-t from-slate-900/80 via-slate-900/35 to-transparent pb-1"
-              >
-                <FiChevronDown className="h-5 w-5 animate-bounce text-white/80" />
-              </div>
+            <div
+              className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 pb-8 [-webkit-overflow-scrolling:touch] sm:px-6"
+              data-allow-scroll
+            >
+              <LocaleOptionsList
+                locale={locale}
+                onSelect={onSelect}
+                layout="overlay"
+                scrollable={false}
+              />
             </div>
 
-            <p className="mx-auto mt-3 w-full max-w-2xl shrink-0 text-center text-xs leading-snug text-white/55">
-              {footerNote}
-            </p>
+            <p className="sr-only">{footerNote}</p>
           </motion.div>
         </motion.div>
       ) : null}
