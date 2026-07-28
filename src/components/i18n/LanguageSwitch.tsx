@@ -225,8 +225,15 @@ function LanguageOverlay({
               </button>
             </div>
 
-            <div className="mx-auto mt-5 w-full max-w-2xl flex-1 overflow-y-auto overscroll-none [-webkit-overflow-scrolling:touch]">
+            <div className="mx-auto mt-5 w-full max-w-2xl flex-1 overflow-y-auto overscroll-none pr-1 [-webkit-overflow-scrolling:touch] [scrollbar-width:auto] [scrollbar-color:rgba(255,255,255,0.8)_rgba(255,255,255,0.22)] [&::-webkit-scrollbar]:w-2.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/75 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-white/20">
               <LocaleOptionsList locale={locale} onSelect={onSelect} layout="overlay" />
+            </div>
+
+            <div className="pointer-events-none mx-auto mt-1 flex w-full max-w-2xl justify-end sm:hidden">
+              <div className="inline-flex items-center gap-1 rounded-full bg-white/18 px-2 py-1 text-[11px] text-white/90">
+                <span>Aşağı kaydır</span>
+                <FiChevronDown className="h-3.5 w-3.5 animate-bounce" />
+              </div>
             </div>
 
             <p className="mx-auto mt-4 w-full max-w-2xl text-center text-xs leading-snug text-white/55">
