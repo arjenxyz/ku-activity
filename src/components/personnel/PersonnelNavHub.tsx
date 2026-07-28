@@ -18,6 +18,7 @@ import { useLocale } from '@/lib/i18n/LocaleProvider';
 import type { PersonnelTabId } from '@/hooks/usePersonnelTab';
 import { PERSONNEL_TABS } from '@/hooks/usePersonnelTab';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
+import { isPersonnelSubpath, personnelHref } from '@/lib/demo/demo-paths';
 
 type Props = {
   open: boolean;
@@ -88,9 +89,9 @@ function HubInner({ open, onClose, activeTab, isYoklama }: Props) {
 
   const navigate = (item: PersonnelHubItem) => {
     if (item.href) {
-      router.push(item.href);
+      router.push(personnelHref(pathname, item.href));
     } else if (item.tab) {
-      router.push(`/personnel-panel?tab=${item.tab}`, { scroll: false });
+      router.push(personnelHref(pathname, `/personnel-panel?tab=${item.tab}`), { scroll: false });
     }
     onClose();
   };
@@ -239,7 +240,7 @@ export function PersonnelNavHub(props: Omit<Props, 'activeTab' | 'isYoklama'>) {
   const searchParams = useSearchParams();
   const tabParam = searchParams.get('tab');
   const tab = isValidTab(tabParam) ? tabParam : 'overview';
-  const isYoklama = pathname.startsWith('/personnel-panel/yoklama');
+  const isYoklama = isPersonnelSubpath(pathname, 'yoklama');
 
   return (
     <Suspense fallback={null}>

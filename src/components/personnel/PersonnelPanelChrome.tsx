@@ -11,23 +11,30 @@ import { PersonnelClosureGate } from '@/components/personnel/PersonnelClosureGat
 import { PersonnelClosureLoading } from '@/components/personnel/PersonnelClosureLoading';
 import { usePersonnelClosure } from '@/hooks/usePersonnelClosure';
 import { personnelChromeSurfaceClass } from '@/lib/personnel-chrome-surface';
+import {
+  isPersonnelDemoPath,
+  isPersonnelPanelHome,
+  isPersonnelSubpath,
+} from '@/lib/demo/demo-paths';
+import { PersonnelDemoBanner } from '@/components/personnel/PersonnelDemoBanner';
 
 function ChromeBody({ children }: { children: React.ReactNode }) {
   const pathname = usePathname() ?? '';
   const searchParams = useSearchParams();
   const tab = searchParams.get('tab');
   const surfaceClass = personnelChromeSurfaceClass(pathname, tab);
-  const isYoklama = pathname.startsWith('/personnel-panel/yoklama');
-  const isAvansTalebi = pathname.startsWith('/personnel-panel/avans');
-  const isAvansOnay = pathname.startsWith('/personnel-panel/avans-onay');
-  const isSettingsTab = pathname === '/personnel-panel' && tab === 'settings';
+  const isYoklama = isPersonnelSubpath(pathname, 'yoklama');
+  const isAvansTalebi = isPersonnelSubpath(pathname, 'avans');
+  const isAvansOnay = isPersonnelSubpath(pathname, 'avans-onay');
+  const isSettingsTab = isPersonnelPanelHome(pathname) && tab === 'settings';
   const isImmersive = isYoklama || isAvansOnay;
   const { inClosure, loading: closureLoading } = usePersonnelClosure();
-  const closureLocked = closureLoading || inClosure;
+  const closureLocked = !isPersonnelDemoPath(pathname) && (closureLoading || inClosure);
   const hideBottomNav = isImmersive || closureLocked || isSettingsTab || isAvansTalebi;
 
   return (
     <div className={`min-h-[100dvh] ${surfaceClass} sm:bg-transparent`}>
+      {isPersonnelDemoPath(pathname) ? <PersonnelDemoBanner /> : null}
       {!closureLocked ? <PersonnelTopBar immersive={isImmersive} /> : null}
       <div
         className={

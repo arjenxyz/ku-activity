@@ -28,7 +28,9 @@ function isPersonnelPublicPath(pathname: string) {
     pathname.startsWith('/personnel-panel/basvuru') ||
     pathname.startsWith('/personnel-panel/sifremi-unuttum') ||
     pathname.startsWith('/personnel-panel/pin-sifirla') ||
-    pathname.startsWith('/personnel-panel/kapanis/hizlandirma')
+    pathname.startsWith('/personnel-panel/kapanis/hizlandirma') ||
+    pathname === '/personnel-panel/demo' ||
+    pathname.startsWith('/personnel-panel/demo/')
   );
 }
 

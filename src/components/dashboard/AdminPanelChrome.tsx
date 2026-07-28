@@ -12,8 +12,10 @@ import { AdminNavSheetProvider } from '@/hooks/useAdminNavSheet';
 import { ProjectSettingsModal } from '@/components/modals/ProjectSettingsModal';
 import { useAdminCurrentProject } from '@/hooks/useAdminCurrentProject';
 import type { Project } from '@/types/project';
+import { AdminDemoBanner } from '@/components/personnel/PersonnelDemoBanner';
+import { isAdminDemoPath, isAdminDemoMode } from '@/lib/demo/demo-paths';
 
-const PROJECT_ID_RE = /^\/admin-panel\/proje\/([a-f0-9-]{36})/;
+const PROJECT_ID_RE = /^\/admin-panel(?:\/demo)?\/proje\/([a-zA-Z0-9_-]+)/;
 
 function AdminPanelChromeInner({ children }: { children: React.ReactNode }) {
   const pathname = usePathname() ?? '';
@@ -21,7 +23,8 @@ function AdminPanelChromeInner({ children }: { children: React.ReactNode }) {
   const [navSheetOpen, setNavSheetOpen] = useState(false);
   const projectId = useMemo(() => pathname.match(PROJECT_ID_RE)?.[1] ?? null, [pathname]);
   const { project, setProject } = useAdminCurrentProject(projectId);
-  const isSettings = pathname.startsWith('/admin-panel/ayarlar');
+  const isSettings = pathname.includes('/ayarlar');
+  const isDemo = isAdminDemoPath(pathname);
 
   useEffect(() => {
     document.documentElement.classList.remove('dark');
@@ -32,12 +35,15 @@ function AdminPanelChromeInner({ children }: { children: React.ReactNode }) {
   }, [pathname]);
 
   const handleLogout = async () => {
-    await fetch('/api/auth/admin/logout', { method: 'POST' });
+    if (!isAdminDemoMode()) {
+      await fetch('/api/auth/admin/logout', { method: 'POST' });
+    }
     window.location.href = '/admin-panel/login';
   };
 
   return (
     <div className="min-h-[100dvh] overflow-x-hidden bg-slate-50">
+      {isDemo ? <AdminDemoBanner /> : null}
       <AdminTopBar
         onLogout={() => void handleLogout()}
         onOpenMenu={projectId ? undefined : () => setNavSheetOpen(true)}

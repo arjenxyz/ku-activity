@@ -10,6 +10,11 @@ import { PersonnelNavHub } from '@/components/personnel/PersonnelNavHub';
 import { PERSONNEL_HUB_TABS } from '@/config/personnel-mobile-nav';
 import type { PersonnelTabId } from '@/hooks/usePersonnelTab';
 import { PERSONNEL_TABS } from '@/hooks/usePersonnelTab';
+import {
+  isPersonnelPanelHome,
+  isPersonnelSubpath,
+  personnelHref,
+} from '@/lib/demo/demo-paths';
 
 function isValidTab(value: string | null): value is PersonnelTabId {
   return PERSONNEL_TABS.includes(value as PersonnelTabId);
@@ -96,37 +101,37 @@ function NavInner() {
   const tab = isValidTab(tabParam) ? tabParam : 'overview';
   const [hubOpen, setHubOpen] = useState(false);
 
-  const isHome = pathname === '/personnel-panel' && tab === 'overview';
-  const isWork = pathname === '/personnel-panel' && tab === 'work';
-  const isFinance = pathname === '/personnel-panel' && tab === 'finance';
-  const isYoklama = pathname.startsWith('/personnel-panel/yoklama');
+  const isHome = isPersonnelPanelHome(pathname) && tab === 'overview';
+  const isWork = isPersonnelPanelHome(pathname) && tab === 'work';
+  const isFinance = isPersonnelPanelHome(pathname) && tab === 'finance';
+  const isYoklama = isPersonnelSubpath(pathname, 'yoklama');
   const isMore =
-    hubOpen || (pathname === '/personnel-panel' && PERSONNEL_HUB_TABS.includes(tab));
+    hubOpen || (isPersonnelPanelHome(pathname) && PERSONNEL_HUB_TABS.includes(tab));
 
   const items: DockItem[] = [
     {
       id: 'home',
       label: strings.home,
-      href: '/personnel-panel',
+      href: personnelHref(pathname, '/personnel-panel'),
       iconName: 'home',
     },
     {
       id: 'work',
       label: strings.work,
-      href: '/personnel-panel?tab=work',
+      href: personnelHref(pathname, '/personnel-panel?tab=work'),
       iconName: 'work',
     },
     {
       id: 'yoklama',
       label: strings.yoklama,
-      href: '/personnel-panel/yoklama',
+      href: personnelHref(pathname, '/personnel-panel/yoklama'),
       iconName: 'yoklama',
       isCenter: true,
     },
     {
       id: 'finance',
       label: strings.finance,
-      href: '/personnel-panel?tab=finance',
+      href: personnelHref(pathname, '/personnel-panel?tab=finance'),
       iconName: 'finance',
     },
     {

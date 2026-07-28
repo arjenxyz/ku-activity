@@ -13,5 +13,6 @@
   "screenLabel": "Személyzeti bejelentkezés",
   "subtitle": "T.R. Jelentkezzen be azonosítószámával és PIN-kódjával.",
   "checkingSession": "A munkamenet ellenőrzése…",
-  "loading": "Yükleniyor…"
+  "loading": "Yükleniyor…",
+  "demoTryLink": "Próbáld ki a demót"
 }

@@ -12,6 +12,7 @@ import { useAdminUiMode } from '@/hooks/useAdminUiMode';
 import { getAdminHubSections } from '@/config/admin-mobile-nav';
 import { isMenuPathActive } from '@/config/projectMenu';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
+import { adminHref, getAdminPanelBase } from '@/lib/demo/demo-paths';
 
 type Props = {
   open: boolean;
@@ -59,15 +60,16 @@ export function AdminNavSheet({ open, onClose, projectId }: Props) {
   );
 
   const isActive = (href: string) => {
+    const resolved = adminHref(pathname, href);
     if (projectId && href.includes(`/admin-panel/proje/${projectId}`)) {
-      return isMenuPathActive(projectId, pathname, href);
+      return isMenuPathActive(projectId, pathname, resolved);
     }
-    if (href === '/admin-panel') return pathname === '/admin-panel';
-    return pathname === href || pathname.startsWith(`${href}/`);
+    if (href === '/admin-panel') return pathname === getAdminPanelBase(pathname);
+    return pathname === resolved || pathname.startsWith(`${resolved}/`);
   };
 
   const navigate = (href: string) => {
-    router.push(href);
+    router.push(adminHref(pathname, href));
     onClose();
   };
 

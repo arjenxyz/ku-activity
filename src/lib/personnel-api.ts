@@ -1,6 +1,18 @@
 import type { Deduction, MinimumWage, WorkLog } from '@/lib/personnel-stats';
 import type { WorkLogApprovalStatus } from '@/lib/work-log';
 import { normalizeMonthStats } from '@/lib/personnel-month-stats';
+import { DEMO_WRITE_BLOCKED_MESSAGE, isPersonnelDemoMode } from '@/lib/demo/demo-paths';
+import {
+  DEMO_EMPLOYEE,
+  getDemoAbsenceDates,
+  getDemoAttendanceStatus,
+  getDemoDayReports,
+  getDemoDeductions,
+  getDemoMinimumWages,
+  getDemoMonthStats,
+  getDemoTodayAttendance,
+  getDemoWorkLogs,
+} from '@/lib/demo/personnel-demo-data';
 
 function personnelFetch(input: RequestInfo | URL, init?: RequestInit) {
   return fetch(input, { credentials: 'same-origin', ...init });
@@ -67,7 +79,12 @@ function monthQuery(month?: string) {
   return month ? `?month=${encodeURIComponent(month)}` : '';
 }
 
+function demoWriteBlocked(): never {
+  throw new Error(DEMO_WRITE_BLOCKED_MESSAGE);
+}
+
 export async function fetchPersonnelMe() {
+  if (isPersonnelDemoMode()) return DEMO_EMPLOYEE as PersonnelEmployee;
   const res = await personnelFetch('/api/personnel/me');
   if (!res.ok) throw new Error(await parseError(res));
   const data = await res.json();
@@ -75,6 +92,7 @@ export async function fetchPersonnelMe() {
 }
 
 export async function fetchPersonnelWorkLogs(month?: string) {
+  if (isPersonnelDemoMode()) return getDemoWorkLogs(month);
   const res = await personnelFetch(`/api/personnel/work-logs${monthQuery(month)}`);
   if (!res.ok) throw new Error(await parseError(res));
   const data = await res.json();
@@ -82,6 +100,7 @@ export async function fetchPersonnelWorkLogs(month?: string) {
 }
 
 export async function fetchPersonnelAbsenceDates(month?: string) {
+  if (isPersonnelDemoMode()) return getDemoAbsenceDates(month);
   const res = await personnelFetch(`/api/personnel/attendance/absences${monthQuery(month)}`);
   if (!res.ok) throw new Error(await parseError(res));
   const data = await res.json();
@@ -89,6 +108,7 @@ export async function fetchPersonnelAbsenceDates(month?: string) {
 }
 
 export async function fetchPersonnelDeductions(month?: string) {
+  if (isPersonnelDemoMode()) return getDemoDeductions(month);
   const res = await personnelFetch(`/api/personnel/deductions${monthQuery(month)}`);
   if (!res.ok) throw new Error(await parseError(res));
   const data = await res.json();
@@ -96,6 +116,7 @@ export async function fetchPersonnelDeductions(month?: string) {
 }
 
 export async function fetchPersonnelMinimumWages(month?: string) {
+  if (isPersonnelDemoMode()) return getDemoMinimumWages(month);
   const res = await personnelFetch(`/api/personnel/minimum-wages${monthQuery(month)}`);
   if (!res.ok) throw new Error(await parseError(res));
   const data = await res.json();
@@ -103,6 +124,7 @@ export async function fetchPersonnelMinimumWages(month?: string) {
 }
 
 export async function fetchPersonnelMonthStats(month: string) {
+  if (isPersonnelDemoMode()) return getDemoMonthStats(month);
   const res = await personnelFetch(`/api/personnel/summary?month=${encodeURIComponent(month)}`);
   if (!res.ok) throw new Error(await parseError(res));
   const data = await res.json();
@@ -110,6 +132,7 @@ export async function fetchPersonnelMonthStats(month: string) {
 }
 
 export async function fetchPersonnelTodayAttendance() {
+  if (isPersonnelDemoMode()) return getDemoTodayAttendance();
   const res = await personnelFetch('/api/personnel/work-logs/today');
   if (!res.ok) throw new Error(await parseError(res));
   return res.json() as Promise<{
@@ -125,6 +148,7 @@ export async function fetchPersonnelTodayAttendance() {
 }
 
 export async function confirmPersonnelAttendance(date?: string, amount?: number) {
+  if (isPersonnelDemoMode()) demoWriteBlocked();
   const res = await personnelFetch('/api/personnel/work-logs/confirm', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -139,6 +163,7 @@ export async function confirmPersonnelAttendance(date?: string, amount?: number)
 }
 
 export async function disputePersonnelWorkLog(recordId: string, note: string) {
+  if (isPersonnelDemoMode()) demoWriteBlocked();
   const res = await personnelFetch(`/api/personnel/work-logs/${encodeURIComponent(recordId)}/dispute`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -161,6 +186,7 @@ export type PersonnelDayErrorReport = {
 };
 
 export async function fetchPersonnelDayReports(date?: string) {
+  if (isPersonnelDemoMode()) return { reports: getDemoDayReports() };
   const q = date ? `?date=${encodeURIComponent(date)}` : '';
   const res = await personnelFetch(`/api/personnel/day-reports${q}`);
   if (!res.ok) throw new Error(await parseError(res));
@@ -172,6 +198,7 @@ export async function submitPersonnelDayReport(input: {
   categories: DayErrorCategory[];
   note: string;
 }) {
+  if (isPersonnelDemoMode()) demoWriteBlocked();
   const res = await personnelFetch('/api/personnel/day-reports', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -182,6 +209,16 @@ export async function submitPersonnelDayReport(input: {
 }
 
 export async function scanAttendanceQr(token: string, options?: { replace?: boolean }) {
+  if (isPersonnelDemoMode()) {
+    return {
+      ok: true,
+      alreadyListed: false,
+      message: 'Demo: yoklama kaydı simüle edildi.',
+      messageCode: 'demo_ok',
+      workDate: getDemoAttendanceStatus().workDate,
+      status: { ...getDemoAttendanceStatus(), state: 'completed' as const },
+    };
+  }
   const res = await personnelFetch('/api/personnel/attendance-qr/scan', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -230,6 +267,7 @@ export type PersonnelAttendanceStatusPayload = {
 };
 
 export async function fetchPersonnelAttendanceStatus(date?: string) {
+  if (isPersonnelDemoMode()) return getDemoAttendanceStatus();
   const q = date ? `?date=${encodeURIComponent(date)}` : '';
   const res = await personnelFetch(`/api/personnel/attendance-qr/status${q}`);
   if (!res.ok) throw new Error(await parseError(res));
@@ -237,6 +275,7 @@ export async function fetchPersonnelAttendanceStatus(date?: string) {
 }
 
 export async function changePersonnelPassword(currentPassword: string, newPassword: string) {
+  if (isPersonnelDemoMode()) demoWriteBlocked();
   const res = await personnelFetch('/api/personnel/change-password', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

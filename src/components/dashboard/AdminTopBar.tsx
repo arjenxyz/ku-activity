@@ -9,8 +9,13 @@ import { AdminUiModeToggle } from '@/components/dashboard/AdminUiModeToggle';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useAdminCurrentProject } from '@/hooks/useAdminCurrentProject';
 import { useAdminUiMode } from '@/hooks/useAdminUiMode';
+import {
+  adminHref,
+  getAdminPanelBase,
+  isAdminDemoPath,
+} from '@/lib/demo/demo-paths';
 
-const PROJECT_ID_RE = /^\/admin-panel\/proje\/([a-f0-9-]{36})/;
+const PROJECT_ID_RE = /^\/admin-panel(?:\/demo)?\/proje\/([a-zA-Z0-9_-]+)/;
 
 type Props = {
   onLogout: () => void;
@@ -31,7 +36,7 @@ export function AdminTopBar({ onLogout, onOpenMenu, onProjectSettings }: Props) 
         <div className="mx-auto max-w-5xl">
           <div className="flex h-14 items-center justify-between gap-3 rounded-2xl border border-slate-200/90 bg-white/95 px-3 shadow-md shadow-slate-900/[0.06] backdrop-blur-xl sm:px-4">
             <Link
-              href="/admin-panel"
+              href={adminHref(pathname, '/admin-panel')}
               className="flex min-w-0 flex-1 items-center gap-2.5 transition-opacity hover:opacity-90 active:opacity-80"
               aria-label={strings.exitAriaLabel}
             >
@@ -41,7 +46,7 @@ export function AdminTopBar({ onLogout, onOpenMenu, onProjectSettings }: Props) 
                   CREWLEDGER
                 </p>
                 <p className="truncate text-[10px] font-medium leading-tight text-slate-500">
-                  {project?.name ?? strings.tagline}
+                  {project?.name ?? (isAdminDemoPath(pathname) ? 'Admin demo' : strings.tagline)}
                 </p>
               </div>
             </Link>
@@ -49,7 +54,7 @@ export function AdminTopBar({ onLogout, onOpenMenu, onProjectSettings }: Props) 
             {projectId && project && (
               <div className="hidden sm:flex min-w-0 items-center gap-2">
                 <Link
-                  href={`/admin-panel/proje/${projectId}`}
+                  href={adminHref(pathname, `/admin-panel/proje/${projectId}`)}
                   className="min-w-0 truncate text-sm font-medium text-slate-800 hover:text-[#0E1548]"
                   title={project.name}
                 >

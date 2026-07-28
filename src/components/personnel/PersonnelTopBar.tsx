@@ -9,6 +9,11 @@ import { usePersonnelNotificationsContext } from '@/contexts/PersonnelNotificati
 import { usePersonnelTopBarEnterCodeAction } from '@/contexts/PersonnelTopBarActionsContext';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { personnelChromeSurfaceClass } from '@/lib/personnel-chrome-surface';
+import {
+  isPersonnelPanelHome,
+  isPersonnelSubpath,
+  personnelHref,
+} from '@/lib/demo/demo-paths';
 
 type Props = {
   immersive?: boolean;
@@ -23,13 +28,13 @@ export function PersonnelTopBar({ immersive = false }: Props) {
   const settingsStrings = useRegistryStrings('components/personnel/PersonnelSettingsPage');
   const { panelOpen } = usePersonnelNotificationsContext();
   const topBarActions = usePersonnelTopBarEnterCodeAction();
-  const isYoklama = pathname.startsWith('/personnel-panel/yoklama');
-  const isAdvancePage = pathname.startsWith('/personnel-panel/avans');
-  const isSettings = pathname === '/personnel-panel' && searchParams.get('tab') === 'settings';
+  const isYoklama = isPersonnelSubpath(pathname, 'yoklama');
+  const isAdvancePage = isPersonnelSubpath(pathname, 'avans');
+  const isSettings = isPersonnelPanelHome(pathname) && searchParams.get('tab') === 'settings';
   const immersivePath =
     immersive ||
     isYoklama ||
-    pathname.startsWith('/personnel-panel/avans-onay');
+    isPersonnelSubpath(pathname, 'avans-onay');
 
   const tagline = isYoklama
     ? yoklamaStrings.exitHint
@@ -65,7 +70,7 @@ export function PersonnelTopBar({ immersive = false }: Props) {
             className={`flex h-14 items-center justify-between gap-3 rounded-2xl border px-3 backdrop-blur-xl sm:px-4 ${cardClass}`}
           >
             <Link
-              href="/personnel-panel"
+              href={personnelHref(pathname, '/personnel-panel')}
               className="flex min-w-0 flex-1 items-center gap-2.5 transition-opacity hover:opacity-90 active:opacity-80"
               aria-label={
                 isYoklama

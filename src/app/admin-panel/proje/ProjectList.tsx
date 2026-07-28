@@ -13,11 +13,13 @@ import {
 import { format, parseISO, isValid } from 'date-fns';
 import { tr } from 'date-fns/locale';
 import { useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { formatString } from '@/lib/strings/format';
 import type { Project, ProjectStatus } from '@/types/project';
 import { PROJECT_STATUS_LABELS } from '@/types/project';
 import { shouldShowProjectClosureCard } from '@/lib/closure-phase';
 import { ProjectClosureListCard } from '@/components/admin/ProjectClosureListCard';
+import { adminHref } from '@/lib/demo/demo-paths';
 import { HonorIconTile, type HonorIconTheme } from '@/components/icons/HonorIcons';
 
 const statusBadge: Record<ProjectStatus, string> = {
@@ -62,6 +64,7 @@ export default function ProjectList({
   onDelete?: (id: string) => Promise<void>;
 }) {
   const router = useRouter();
+  const pathname = usePathname() ?? '';
 
   if (loading) {
     return (
@@ -147,7 +150,9 @@ export default function ProjectList({
             <div className="mt-4 flex items-center gap-2 border-t border-slate-100 p-3 sm:px-4">
               <button
                 type="button"
-                onClick={() => router.push(`/admin-panel/proje/${project.id}`)}
+                onClick={() =>
+                  router.push(adminHref(pathname, `/admin-panel/proje/${project.id}`))
+                }
                 className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-[#0E1548] px-3 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#152060]"
               >
                 {strings.open}

@@ -28,6 +28,9 @@ function isPersonnelPublicPath(pathname: string): boolean {
   if (pathname === PERSONNEL_BASVURU || pathname.startsWith(`${PERSONNEL_BASVURU}/`)) {
     return true;
   }
+  if (pathname === '/personnel-panel/demo' || pathname.startsWith('/personnel-panel/demo/')) {
+    return true;
+  }
   return false;
 }
 
@@ -75,7 +78,9 @@ export async function middleware(request: NextRequest) {
 
   const isAdminLogin = pathname === ADMIN_LOGIN;
   const isAdminRegister = pathname === ADMIN_REGISTER;
-  const isAdminPublic = isAdminLogin || isAdminRegister;
+  const isAdminDemo =
+    pathname === '/admin-panel/demo' || pathname.startsWith('/admin-panel/demo/');
+  const isAdminPublic = isAdminLogin || isAdminRegister || isAdminDemo;
   const isPersonnelPublic = isPersonnelPublicPath(pathname);
   const isDeveloperLogin = pathname === DEVELOPER_LOGIN;
   const isAdminRoute = pathname.startsWith('/admin-panel') && !isAdminPublic;

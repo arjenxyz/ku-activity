@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, useRouter, usePathname } from 'next/navigation';
 import dayjs from 'dayjs';
 import { FiCalendar } from 'react-icons/fi';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
@@ -14,11 +14,13 @@ import { PersonnelOverviewStrip } from '@/components/personnel/PersonnelOverview
 import { formatMoney } from '@/lib/format';
 import type { Employee } from '@/types/adminTypes';
 import type { Project } from '@/types/project';
+import { adminHref } from '@/lib/demo/demo-paths';
 
 export default function ProjectDetailPage() {
   const strings = useRegistryStrings('app/admin-panel/proje/[projectId]/page');
   const params = useParams();
   const router = useRouter();
+  const pathname = usePathname() ?? '';
   const projectId = Array.isArray(params.projectId) ? params.projectId[0] : params.projectId;
 
   const [project, setProject] = useState<Project | null>(null);
@@ -104,7 +106,7 @@ export default function ProjectDetailPage() {
   const activeCount = project.active_employee_count ?? employees.length;
 
   const goAttendance = () => {
-    router.push(`/admin-panel/proje/${projectId}/yevmiye`);
+    router.push(adminHref(pathname, `/admin-panel/proje/${projectId}/yevmiye`));
   };
 
   return (

@@ -18,6 +18,10 @@ export function PersonnelClosureProvider({ children }: { children: React.ReactNo
 
   const reload = useCallback(async () => {
     try {
+      if (typeof window !== 'undefined' && window.location.pathname.startsWith('/personnel-panel/demo')) {
+        setStatus(null);
+        return;
+      }
       const res = await fetch('/api/personnel/closure/status', { cache: 'no-store' });
       if (res.ok) {
         setStatus((await res.json()) as PersonnelClosureStatus);

@@ -22,6 +22,7 @@ import { PersonnelPullToRefresh } from '@/components/personnel/PersonnelPullToRe
 import { usePersonnelDashboard } from '@/hooks/usePersonnelDashboard';
 import { usePersonnelTab, type PersonnelTabId } from '@/hooks/usePersonnelTab';
 import { currentMonth } from '@/lib/personnel-stats';
+import { isPersonnelDemoMode } from '@/lib/demo/demo-paths';
 
 function PersonelPanelContent() {
   const strings = useRegistryStrings('app/personnel-panel/page');
@@ -39,7 +40,9 @@ function PersonelPanelContent() {
     usePersonnelDashboard(month, { loadFinance });
 
   const handleLogout = async () => {
-    await fetch('/api/auth/personnel/logout', { method: 'POST' });
+    if (!isPersonnelDemoMode()) {
+      await fetch('/api/auth/personnel/logout', { method: 'POST' });
+    }
     router.replace('/personnel-panel/login');
     router.refresh();
   };

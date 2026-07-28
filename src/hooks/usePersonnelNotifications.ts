@@ -48,6 +48,15 @@ export function usePersonnelNotifications() {
 
   const refresh = useCallback(async () => {
     try {
+      if (typeof window !== 'undefined' && window.location.pathname.startsWith('/personnel-panel/demo')) {
+        const { getDemoNotifications } = await import('@/lib/demo/personnel-demo-data');
+        const items = getDemoNotifications();
+        applyPayload({
+          items,
+          unreadCount: items.filter((i) => !i.read_at).length,
+        });
+        return;
+      }
       const res = await fetch('/api/personnel/notifications', {
         credentials: 'include',
         cache: 'no-store',
@@ -77,6 +86,10 @@ export function usePersonnelNotifications() {
 
   useEffect(() => {
     void refresh();
+
+    if (typeof window !== 'undefined' && window.location.pathname.startsWith('/personnel-panel/demo')) {
+      return;
+    }
 
     const syncPollInterval = () => {
       pollMsRef.current = document.visibilityState === 'visible' ? VISIBLE_POLL_MS : HIDDEN_POLL_MS;
@@ -168,6 +181,11 @@ export function usePersonnelNotifications() {
   }, [refresh, mergeIncoming]);
 
   const markRead = useCallback(async (id: string) => {
+    if (typeof window !== 'undefined' && window.location.pathname.startsWith('/personnel-panel/demo')) {
+      setItems((prev) => prev.map((n) => (n.id === id ? { ...n, read_at: n.read_at ?? new Date().toISOString() } : n)));
+      setUnreadCount((c) => Math.max(0, c - 1));
+      return;
+    }
     const res = await fetch('/api/personnel/notifications', {
       method: 'PATCH',
       credentials: 'include',
@@ -181,6 +199,11 @@ export function usePersonnelNotifications() {
   }, []);
 
   const markAllRead = useCallback(async () => {
+    if (typeof window !== 'undefined' && window.location.pathname.startsWith('/personnel-panel/demo')) {
+      setItems((prev) => prev.map((n) => ({ ...n, read_at: n.read_at ?? new Date().toISOString() })));
+      setUnreadCount(0);
+      return;
+    }
     const res = await fetch('/api/personnel/notifications/read-all', {
       method: 'POST',
       credentials: 'include',
@@ -191,6 +214,14 @@ export function usePersonnelNotifications() {
   }, []);
 
   const deleteNotification = useCallback(async (id: string) => {
+    if (typeof window !== 'undefined' && window.location.pathname.startsWith('/personnel-panel/demo')) {
+      setItems((prev) => {
+        const next = prev.filter((n) => n.id !== id);
+        setUnreadCount(next.filter((n) => !n.read_at).length);
+        return next;
+      });
+      return true;
+    }
     const res = await fetch('/api/personnel/notifications', {
       method: 'DELETE',
       credentials: 'include',
@@ -205,6 +236,11 @@ export function usePersonnelNotifications() {
   }, []);
 
   const clearAllNotifications = useCallback(async () => {
+    if (typeof window !== 'undefined' && window.location.pathname.startsWith('/personnel-panel/demo')) {
+      setItems([]);
+      setUnreadCount(0);
+      return true;
+    }
     const res = await fetch('/api/personnel/notifications/clear', {
       method: 'POST',
       credentials: 'include',

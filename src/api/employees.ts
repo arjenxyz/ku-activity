@@ -3,6 +3,8 @@ import type { PostgrestError } from '@supabase/supabase-js';
 import dayjs from 'dayjs';
 import { fetchProjectEmployees } from '@/lib/project-api';
 import { getWorkLogApprovalStatus, totalPayUnits } from '@/lib/work-log';
+import { isAdminDemoMode } from '@/lib/demo/demo-paths';
+import { getDemoAdminWorkLogs } from '@/lib/demo/admin-demo-data';
 
 type WorkLogSummary = {
   employee_id: string;
@@ -34,11 +36,16 @@ export const fetchEmployees = async (
     project_id: e.project_id ?? projectId,
   })) as Employee[];
 
-  const res = await fetch(
-    `/api/admin/projects/${projectId}/work-logs?month=${encodeURIComponent(selectedMonth)}`
-  );
-  const workPayload = res.ok ? await res.json() : { records: [] };
-  const workLogs = (workPayload.records ?? []) as WorkLogSummary[];
+  let workLogs: WorkLogSummary[] = [];
+  if (isAdminDemoMode()) {
+    workLogs = getDemoAdminWorkLogs(selectedMonth).records;
+  } else {
+    const res = await fetch(
+      `/api/admin/projects/${projectId}/work-logs?month=${encodeURIComponent(selectedMonth)}`
+    );
+    const workPayload = res.ok ? await res.json() : { records: [] };
+    workLogs = (workPayload.records ?? []) as WorkLogSummary[];
+  }
 
   const logs = workLogs.filter((w): w is WorkLogSummary => Boolean(w.employee_id));
   const presentDays = logs.filter((w) => Number(w.amount) > 0).length;

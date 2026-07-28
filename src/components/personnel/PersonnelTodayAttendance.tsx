@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import type { IconType } from 'react-icons';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import dayjs from 'dayjs';
 import { FiAlertCircle, FiCheckCircle, FiClock, FiUserMinus } from 'react-icons/fi';
 import { TbQrcode } from 'react-icons/tb';
@@ -15,6 +16,7 @@ import {
 } from '@/lib/personnel-api';
 import { formatString } from '@/lib/strings/format';
 import { getRegistryStrings } from '@/lib/i18n/strings-registry';
+import { personnelHref } from '@/lib/demo/demo-paths';
 
 type TodayStrings = ReturnType<
   typeof getRegistryStrings<'components/personnel/PersonnelTodayAttendance'>
@@ -115,6 +117,7 @@ function resolveCopy(
 
 export function PersonnelTodayAttendance() {
   const strings = useRegistryStrings('components/personnel/PersonnelTodayAttendance');
+  const pathname = usePathname() ?? '';
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [workLogStatus, setWorkLogStatus] = useState<string>('none');
@@ -216,7 +219,7 @@ export function PersonnelTodayAttendance() {
 
         {showScanAction ? (
           <Link
-            href="/personnel-panel/yoklama"
+            href={personnelHref(pathname, '/personnel-panel/yoklama')}
             className="mt-4 flex w-full items-center justify-center gap-2.5 rounded-2xl bg-blue-600 py-3.5 text-sm font-semibold text-white shadow-lg shadow-blue-600/20 transition-colors hover:bg-blue-700 active:bg-blue-800 touch-target"
           >
             <TbQrcode className="h-5 w-5" aria-hidden />

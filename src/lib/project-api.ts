@@ -1,5 +1,11 @@
 import type { ExtendedProfitOverview } from '@/types/project-job';
 import type { ProjectBlock, TeamWithMembers } from '@/types/project-block';
+import { isAdminDemoMode } from '@/lib/demo/demo-paths';
+import {
+  DEMO_ADMIN_EMPLOYEES,
+  getDemoAdminSummary,
+  getDemoAttendanceQr,
+} from '@/lib/demo/admin-demo-data';
 
 async function parseError(res: Response) {
   const data = await res.json().catch(() => ({}));
@@ -20,6 +26,7 @@ export type ProjectEmployee = {
 };
 
 export async function fetchProjectEmployees(projectId: string) {
+  if (isAdminDemoMode()) return DEMO_ADMIN_EMPLOYEES as ProjectEmployee[];
   const res = await fetch(`/api/admin/projects/${projectId}/employees`);
   if (!res.ok) throw new Error(await parseError(res));
   const data = await res.json();
@@ -46,6 +53,7 @@ export async function deleteEmployeePhoto(projectId: string, employeeId: string)
 }
 
 export async function fetchProjectSummary(projectId: string) {
+  if (isAdminDemoMode()) return getDemoAdminSummary(projectId);
   const res = await fetch(`/api/admin/projects/${projectId}/summary`);
   if (!res.ok) throw new Error(await parseError(res));
   return res.json();
@@ -105,6 +113,7 @@ export type AttendanceWindowPayload = {
 };
 
 export async function fetchAttendanceQr(projectId: string, date?: string) {
+  if (isAdminDemoMode()) return getDemoAttendanceQr() as AttendanceQrPayload;
   const q = date ? `?date=${encodeURIComponent(date)}` : '';
   const res = await fetch(`/api/admin/projects/${projectId}/attendance-qr${q}`);
   if (!res.ok) throw new Error(await parseError(res));

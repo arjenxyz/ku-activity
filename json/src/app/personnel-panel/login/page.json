@@ -13,5 +13,6 @@
   "screenLabel": "Personel Giriş",
   "subtitle": "T.C. kimlik numaranız ve PIN ile giriş yapın.",
   "checkingSession": "Oturum kontrol ediliyor…",
-  "loading": "Yükleniyor…"
+  "loading": "Yükleniyor…",
+  "demoTryLink": "Demoyu dene (örnek veriler)"
 }

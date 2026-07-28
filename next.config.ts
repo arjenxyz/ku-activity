@@ -2,6 +2,35 @@ import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   serverExternalPackages: ['tesseract.js', 'mupdf'],
+  async rewrites() {
+    return [
+      { source: '/personnel-panel/demo', destination: '/personnel-panel' },
+      { source: '/personnel-panel/demo/avans', destination: '/personnel-panel/avans' },
+      { source: '/personnel-panel/demo/avans-onay', destination: '/personnel-panel/avans-onay' },
+      { source: '/personnel-panel/demo/yoklama', destination: '/personnel-panel/yoklama' },
+      { source: '/admin-panel/demo', destination: '/admin-panel' },
+      {
+        source: '/admin-panel/demo/proje/:path*',
+        destination: '/admin-panel/proje/:path*',
+      },
+      {
+        source: '/admin-panel/demo/basvuru-onay',
+        destination: '/admin-panel/basvuru-onay',
+      },
+      {
+        source: '/admin-panel/demo/maas-politikasi',
+        destination: '/admin-panel/maas-politikasi',
+      },
+      {
+        source: '/admin-panel/demo/ayarlar',
+        destination: '/admin-panel/ayarlar',
+      },
+      {
+        source: '/admin-panel/demo/arjen/:path*',
+        destination: '/admin-panel/arjen/:path*',
+      },
+    ];
+  },
   async headers() {
     return [
       {

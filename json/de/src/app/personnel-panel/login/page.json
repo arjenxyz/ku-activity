@@ -13,5 +13,6 @@
   "screenLabel": "Personal Giriş",
   "subtitle": "T.C. Geben Sie die PIN ein und drücken Sie die PIN.",
   "checkingSession": "Oturum kontrol ediliyor…",
-  "loading": "Yükleniyor…"
+  "loading": "Yükleniyor…",
+  "demoTryLink": "Demo ausprobieren"
 }

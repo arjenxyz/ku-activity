@@ -6,6 +6,11 @@ import { Suspense } from 'react';
 import { motion } from 'framer-motion';
 import { HonorIconGlyph, HonorIconTile } from '@/components/icons/HonorIcons';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
+import {
+  adminHref,
+  getAdminPanelBase,
+  isAdminDemoPath,
+} from '@/lib/demo/demo-paths';
 
 type DockItem = {
   id: string;
@@ -53,26 +58,54 @@ function DockSideItem({ item, active }: { item: DockItem; active: boolean }) {
 function NavInner() {
   const strings = useRegistryStrings('components/dashboard/AdminAppBottomNav');
   const pathname = usePathname() ?? '';
+  const base = getAdminPanelBase(pathname);
 
-  const isProjects = pathname === '/admin-panel' || pathname.startsWith('/admin-panel/proje');
-  const isApplications = pathname.startsWith('/admin-panel/basvuru-onay');
-  const isPolicy = pathname.startsWith('/admin-panel/maas-politikasi');
-  const isArjen = pathname.startsWith('/admin-panel/arjen');
-  const isSettings = pathname.startsWith('/admin-panel/ayarlar');
+  const isProjects =
+    pathname === base ||
+    pathname.startsWith(`${base}/proje`) ||
+    (isAdminDemoPath(pathname) && pathname === '/admin-panel/demo');
+  const isApplications = pathname.includes('/basvuru-onay');
+  const isPolicy = pathname.includes('/maas-politikasi');
+  const isArjen = pathname.includes('/arjen');
+  const isSettings = pathname.includes('/ayarlar');
 
   const items: DockItem[] = [
-    { id: 'projects', label: strings.projects, href: '/admin-panel', iconName: 'home', iconTheme: 'blue' },
-    { id: 'arjen', label: strings.arjen, href: '/admin-panel/arjen/avans', iconName: 'chart', iconTheme: 'violet' },
+    {
+      id: 'projects',
+      label: strings.projects,
+      href: adminHref(pathname, '/admin-panel'),
+      iconName: 'home',
+      iconTheme: 'blue',
+    },
+    {
+      id: 'arjen',
+      label: strings.arjen,
+      href: adminHref(pathname, '/admin-panel/arjen/avans'),
+      iconName: 'chart',
+      iconTheme: 'violet',
+    },
     {
       id: 'applications',
       label: strings.applications,
-      href: '/admin-panel/basvuru-onay',
+      href: adminHref(pathname, '/admin-panel/basvuru-onay'),
       iconName: 'inbox',
       iconTheme: 'emerald',
       isCenter: true,
     },
-    { id: 'policy', label: strings.policy, href: '/admin-panel/maas-politikasi', iconName: 'finance', iconTheme: 'indigo' },
-    { id: 'settings', label: strings.settings, href: '/admin-panel/ayarlar', iconName: 'settings', iconTheme: 'slate' },
+    {
+      id: 'policy',
+      label: strings.policy,
+      href: adminHref(pathname, '/admin-panel/maas-politikasi'),
+      iconName: 'finance',
+      iconTheme: 'indigo',
+    },
+    {
+      id: 'settings',
+      label: strings.settings,
+      href: adminHref(pathname, '/admin-panel/ayarlar'),
+      iconName: 'settings',
+      iconTheme: 'slate',
+    },
   ];
 
   const isActive = (id: string) => {

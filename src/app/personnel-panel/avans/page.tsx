@@ -16,6 +16,11 @@ import {
   type AdvanceRequestStatus,
 } from '@/lib/advance-types';
 import { useLocale } from '@/lib/i18n/LocaleProvider';
+import {
+  DEMO_WRITE_BLOCKED_MESSAGE,
+  isPersonnelDemoMode,
+} from '@/lib/demo/demo-paths';
+import { getDemoAdvanceRequests } from '@/lib/demo/personnel-demo-data';
 
 type RequestRow = {
   id: string;
@@ -50,6 +55,10 @@ export default function PersonnelAvansPage() {
     setLoading(true);
     setError(null);
     try {
+      if (isPersonnelDemoMode()) {
+        setRequests(getDemoAdvanceRequests());
+        return;
+      }
       const res = await fetch('/api/personnel/advance-requests');
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || strings.loadFailed);
@@ -59,7 +68,7 @@ export default function PersonnelAvansPage() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [strings.loadFailed]);
 
   useEffect(() => {
     void load();
@@ -71,6 +80,7 @@ export default function PersonnelAvansPage() {
     setError(null);
     setSuccess(null);
     try {
+      if (isPersonnelDemoMode()) throw new Error(DEMO_WRITE_BLOCKED_MESSAGE);
       const res = await fetch('/api/personnel/advance-requests', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -95,6 +105,7 @@ export default function PersonnelAvansPage() {
     setSubmitting(true);
     setError(null);
     try {
+      if (isPersonnelDemoMode()) throw new Error(DEMO_WRITE_BLOCKED_MESSAGE);
       const res = await fetch(`/api/personnel/advance-requests/${id}/cancel`, { method: 'POST' });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || strings.cancelFailed);

@@ -127,6 +127,10 @@ function AdminAuthContent() {
             <a href={verificationCodeMailto()} className="hover:underline">
               {strings.requestVerificationCode}
             </a>
+            {' · '}
+            <Link href="/admin-panel/demo" className="font-semibold hover:underline">
+              {(strings as { demoTryLink?: string }).demoTryLink ?? 'Demoyu dene'}
+            </Link>
           </p>
         )}
         <div className={personnelAuthCardDividerClass} />
