@@ -44,7 +44,20 @@ const ADMIN = {
 function writeJson(rel, data) {
   const dir = path.dirname(rel);
   fs.mkdirSync(dir, { recursive: true });
-  fs.writeFileSync(rel, JSON.stringify(data, null, 2) + '\n');
+  const payload = JSON.stringify(data, null, 2) + '\n';
+  for (let attempt = 1; attempt <= 12; attempt++) {
+    try {
+      fs.writeFileSync(rel, payload);
+      return;
+    } catch (err) {
+      if (attempt >= 12) throw err;
+      const wait = 300 * attempt;
+      const start = Date.now();
+      while (Date.now() - start < wait) {
+        /* OneDrive lock retry */
+      }
+    }
+  }
 }
 
 for (const [loc, p] of Object.entries(PERSONNEL)) {
