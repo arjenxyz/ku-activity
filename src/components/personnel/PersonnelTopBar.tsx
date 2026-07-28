@@ -8,7 +8,6 @@ import { PersonnelNotificationsBell } from '@/components/personnel/PersonnelNoti
 import { usePersonnelNotificationsContext } from '@/contexts/PersonnelNotificationsContext';
 import { usePersonnelTopBarEnterCodeAction } from '@/contexts/PersonnelTopBarActionsContext';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
-import { APP_NAME } from '@/lib/brand';
 import { personnelChromeSurfaceClass } from '@/lib/personnel-chrome-surface';
 
 type Props = {
