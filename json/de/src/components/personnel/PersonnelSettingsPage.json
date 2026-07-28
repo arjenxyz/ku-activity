@@ -53,12 +53,12 @@
       "subtitle": "Pozisyon, yevmiye ve şantiye bilgileriniz."
     },
     "contracts": {
-      "title": "Sözleşmeler",
-      "subtitle": "Bitte beachten Sie, dass dies der Fall ist."
+      "title": "Verträge",
+      "subtitle": "Aufzeichnungen der von Ihnen akzeptierten Vereinbarungen."
     },
     "security": {
-      "title": "Güvenlik",
-      "subtitle": "PIN, aktiviert und aktiviert."
+      "title": "Sicherheit",
+      "subtitle": "PIN, aktive Geräte und Kontosicherheit."
     },
     "language": {
       "title": "Sprache",
@@ -91,12 +91,12 @@
       "subtitle": "Pozisyon, yevmiye ve proje"
     },
     "contracts": {
-      "title": "Sözleşmeler",
-      "subtitle": "Onayladığınız sözleşmeler"
+      "title": "Verträge",
+      "subtitle": "Von Ihnen akzeptierte Vereinbarungen"
     },
     "security": {
-      "title": "Güvenlik",
-      "subtitle": "PIN-Code, aktiviert und aktiviert"
+      "title": "Sicherheit",
+      "subtitle": "PIN, aktive Geräte und Kontosicherheit"
     },
     "language": {
       "title": "Sprache",

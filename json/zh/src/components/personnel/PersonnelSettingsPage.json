@@ -53,12 +53,12 @@
       "subtitle": "Pozisyon，yevmiye ve şantiye bilgileriniz。"
     },
     "contracts": {
-      "title": "索兹勒斯梅勒",
-      "subtitle": "Onayladığınız sözleşme kayıtları。"
+      "title": "合同",
+      "subtitle": "您已接受的协议记录。"
     },
     "security": {
-      "title": "居文利克",
-      "subtitle": "PIN、aktif cihazlar ve hesap güvenliği。"
+      "title": "安全",
+      "subtitle": "PIN、活跃设备与账户安全。"
     },
     "language": {
       "title": "语言",
@@ -91,12 +91,12 @@
       "subtitle": "波齐松、耶夫米耶和项目"
     },
     "contracts": {
-      "title": "索兹勒斯梅勒",
-      "subtitle": "Onayladığınız sözleşmeler"
+      "title": "合同",
+      "subtitle": "您已接受的协议"
     },
     "security": {
-      "title": "居文利克",
-      "subtitle": "PIN kodu、aktif cihazlar ve hesap güvenliği"
+      "title": "安全",
+      "subtitle": "PIN、活跃设备与账户安全"
     },
     "language": {
       "title": "语言",

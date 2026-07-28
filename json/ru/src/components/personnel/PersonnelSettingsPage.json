@@ -53,12 +53,12 @@
       "subtitle": "Pozisyon, evmiye ve şantiye bilgileriniz."
     },
     "contracts": {
-      "title": "Сёзлешмелер",
-      "subtitle": "Onayladığınız sözleşme kayıtları."
+      "title": "Договоры",
+      "subtitle": "Записи принятых вами соглашений."
     },
     "security": {
-      "title": "Гювенлик",
-      "subtitle": "PIN-код активируется и может быть получен."
+      "title": "Безопасность",
+      "subtitle": "PIN, активные устройства и безопасность аккаунта."
     },
     "language": {
       "title": "Язык",
@@ -91,12 +91,12 @@
       "subtitle": "Позисион, евмие и проект"
     },
     "contracts": {
-      "title": "Сёзлешмелер",
-      "subtitle": "Onayladığınız sözleşmeler"
+      "title": "Договоры",
+      "subtitle": "Принятые вами соглашения"
     },
     "security": {
-      "title": "Гювенлик",
-      "subtitle": "PIN-код, активация и доступ к данным"
+      "title": "Безопасность",
+      "subtitle": "PIN, активные устройства и безопасность аккаунта"
     },
     "language": {
       "title": "Язык",

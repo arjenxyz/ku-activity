@@ -53,11 +53,11 @@
       "subtitle": "Az Ön pozíciója, napibére és építkezési adatai."
     },
     "contracts": {
-      "title": "Sözleşmeler",
-      "subtitle": "Az Ön által jóváhagyott szerződési feljegyzések."
+      "title": "Szerződések",
+      "subtitle": "Az Ön által elfogadott megállapodások nyilvántartása."
     },
     "security": {
-      "title": "Güvenlik",
+      "title": "Biztonság",
       "subtitle": "PIN-kód, aktív eszközök és fiókbiztonság."
     },
     "language": {
@@ -91,12 +91,12 @@
       "subtitle": "Beosztás, napibér és projekt"
     },
     "contracts": {
-      "title": "Sözleşmeler",
-      "subtitle": "Az Ön által jóváhagyott megállapodások"
+      "title": "Szerződések",
+      "subtitle": "Az Ön által elfogadott megállapodások"
     },
     "security": {
-      "title": "Güvenlik",
-      "subtitle": "PIN kód, aktív eszközök és fiókbiztonság"
+      "title": "Biztonság",
+      "subtitle": "PIN-kód, aktív eszközök és fiókbiztonság"
     },
     "language": {
       "title": "Nyelv",

@@ -53,12 +53,12 @@
       "subtitle": "Pozisyon, yevmiye dan şantiye bilgileriniz."
     },
     "contracts": {
-      "title": "Sözleşmeler",
-      "subtitle": "Tidak ada pilihan lain."
+      "title": "Kontrak",
+      "subtitle": "Catatan perjanjian yang Anda terima."
     },
     "security": {
-      "title": "Guvenlik",
-      "subtitle": "PIN, aktif cihazlar dan hesap güvenliği."
+      "title": "Keamanan",
+      "subtitle": "PIN, perangkat aktif, dan keamanan akun."
     },
     "language": {
       "title": "Bahasa",
@@ -91,12 +91,12 @@
       "subtitle": "Pozisyon, yevmiye dan proyek"
     },
     "contracts": {
-      "title": "Sözleşmeler",
-      "subtitle": "Onayladığınız sözleşmeler"
+      "title": "Kontrak",
+      "subtitle": "Perjanjian yang Anda terima"
     },
     "security": {
-      "title": "Guvenlik",
-      "subtitle": "PIN kode, aktif cihazlar dan hesap güvenliği"
+      "title": "Keamanan",
+      "subtitle": "PIN, perangkat aktif, dan keamanan akun"
     },
     "language": {
       "title": "Bahasa",

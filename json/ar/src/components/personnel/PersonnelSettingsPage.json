@@ -53,12 +53,12 @@
       "subtitle": "Pozisyon، yevmiye ve şantiye bilgileriniz."
     },
     "contracts": {
-      "title": "Sözleşmeler",
-      "subtitle": "Onayladığınız sözleşme kayıtları."
+      "title": "العقود",
+      "subtitle": "سجلات الاتفاقيات التي وافقت عليها."
     },
     "security": {
-      "title": "جوفنليك",
-      "subtitle": "رقم التعريف الشخصي والمكالمات النشطة والمكالمات الهاتفية."
+      "title": "الأمان",
+      "subtitle": "رمز PIN والأجهزة النشطة وأمان الحساب."
     },
     "language": {
       "title": "لغة",
@@ -91,12 +91,12 @@
       "subtitle": "Pozisyon، yevmiye ve proje"
     },
     "contracts": {
-      "title": "Sözleşmeler",
-      "subtitle": "Onayladığınız sözleşmeler"
+      "title": "العقود",
+      "subtitle": "الاتفاقيات التي وافقت عليها"
     },
     "security": {
-      "title": "جوفنليك",
-      "subtitle": "رمز PIN ومفتاح الاتصال النشط ورقم الهاتف"
+      "title": "الأمان",
+      "subtitle": "رمز PIN والأجهزة النشطة وأمان الحساب"
     },
     "language": {
       "title": "لغة",

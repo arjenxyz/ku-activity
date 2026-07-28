@@ -53,12 +53,12 @@
       "subtitle": "ポジション、エフミエ・ヴェ・シャンティエ・ビルギレリニズ。"
     },
     "contracts": {
-      "title": "ソズレシュメレル",
-      "subtitle": "Onayladığınız sözleşme kayıtları。"
+      "title": "契約",
+      "subtitle": "承認した契約の記録。"
     },
     "security": {
-      "title": "ギュヴェンリク",
-      "subtitle": "PIN、アクティフ・シハズラー・ヴェ・ヘサップ・ギュヴェンリジ。"
+      "title": "セキュリティ",
+      "subtitle": "PIN・利用中の端末・アカウント保護。"
     },
     "language": {
       "title": "言語",
@@ -91,12 +91,12 @@
       "subtitle": "ポジション、エフミエ・ヴェ・プロジェクト"
     },
     "contracts": {
-      "title": "ソズレシュメレル",
-      "subtitle": "オナイラドゥズヌズ・ソズレシュメラー"
+      "title": "契約",
+      "subtitle": "承認した契約"
     },
     "security": {
-      "title": "ギュヴェンリク",
-      "subtitle": "PIN kodu、aktif cihazlar ve hesap güvenliği"
+      "title": "セキュリティ",
+      "subtitle": "PIN・利用中の端末・アカウント保護"
     },
     "language": {
       "title": "言語",

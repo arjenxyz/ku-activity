@@ -53,12 +53,12 @@
       "subtitle": "Pozisyon, yevmiye ve şantiye bilgileriniz."
     },
     "contracts": {
-      "title": "Sözleşmeler",
-      "subtitle": "Onayladığınız sözleşme kayıtları."
+      "title": "চুক্তি",
+      "subtitle": "আপনার গৃহীত চুক্তির রেকর্ড।"
     },
     "security": {
-      "title": "গুভেনলিক",
-      "subtitle": "PIN, aktif cihazlar ve hesap güvenliği."
+      "title": "নিরাপত্তা",
+      "subtitle": "পিন, সক্রিয় ডিভাইস ও অ্যাকাউন্ট নিরাপত্তা।"
     },
     "language": {
       "title": "ভাষা",
@@ -91,12 +91,12 @@
       "subtitle": "পজিসিয়ন, ইয়েভমিয়ে ভে প্রোজে"
     },
     "contracts": {
-      "title": "Sözleşmeler",
-      "subtitle": "Onayladığınız sözleşmeler"
+      "title": "চুক্তি",
+      "subtitle": "আপনার গৃহীত চুক্তি"
     },
     "security": {
-      "title": "গুভেনলিক",
-      "subtitle": "PIN কোড, aktif cihazlar ve hesap güvenliği"
+      "title": "নিরাপত্তা",
+      "subtitle": "পিন, সক্রিয় ডিভাইস ও অ্যাকাউন্ট নিরাপত্তা"
     },
     "language": {
       "title": "ভাষা",

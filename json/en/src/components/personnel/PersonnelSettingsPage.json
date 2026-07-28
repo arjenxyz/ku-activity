@@ -37,28 +37,28 @@
       "subtitle": "Kişisel bilgiler, iletişim ve banka kayıtlarınız."
     },
     "personal": {
-      "title": "Kişisel Ayarlar",
-      "subtitle": "Kimlik ve kişisel bilgileriniz."
+      "title": "Personal settings",
+      "subtitle": "Your identity and personal information."
     },
     "contact": {
-      "title": "İletişim",
-      "subtitle": "E-posta ve telefon bilgileriniz."
+      "title": "Contact",
+      "subtitle": "Your email and phone details."
     },
     "bank": {
-      "title": "Banka Bilgileri",
-      "subtitle": "IBAN bilgileriniz."
+      "title": "Bank details",
+      "subtitle": "Your IBAN details."
     },
     "work": {
-      "title": "İş Bilgileri",
-      "subtitle": "Pozisyon, yevmiye ve şantiye bilgileriniz."
+      "title": "Work details",
+      "subtitle": "Your position, daily wage, and site details."
     },
     "contracts": {
-      "title": "Sözleşmeler",
-      "subtitle": "Onayladığınız sözleşme kayıtları."
+      "title": "Contracts",
+      "subtitle": "Records of agreements you have accepted."
     },
     "security": {
-      "title": "Güvenlik",
-      "subtitle": "PIN, aktif cihazlar ve hesap güvenliği."
+      "title": "Security",
+      "subtitle": "PIN, active devices, and account security."
     },
     "language": {
       "title": "Language",
@@ -79,24 +79,24 @@
       "subtitle": "Profile photo, name, and identity"
     },
     "contact": {
-      "title": "İletişim",
-      "subtitle": "E-posta ve telefon numarası"
+      "title": "Contact",
+      "subtitle": "Email and phone number"
     },
     "bank": {
-      "title": "Banka",
-      "subtitle": "IBAN bilgisi"
+      "title": "Bank",
+      "subtitle": "IBAN details"
     },
     "work": {
-      "title": "İş bilgileri",
-      "subtitle": "Pozisyon, yevmiye ve proje"
+      "title": "Work details",
+      "subtitle": "Position, daily wage, and project"
     },
     "contracts": {
-      "title": "Sözleşmeler",
-      "subtitle": "Onayladığınız sözleşmeler"
+      "title": "Contracts",
+      "subtitle": "Agreements you have accepted"
     },
     "security": {
-      "title": "Güvenlik",
-      "subtitle": "PIN kodu, aktif cihazlar ve hesap güvenliği"
+      "title": "Security",
+      "subtitle": "PIN, active devices, and account security"
     },
     "language": {
       "title": "Language",
