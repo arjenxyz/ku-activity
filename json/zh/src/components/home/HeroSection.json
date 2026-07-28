@@ -3,5 +3,8 @@
   "titlePrefix": "简化",
   "titleHighlight": "船员管理",
   "subtitle": "每日工资、预付款、扣除额、出勤率和时间表——在管理和人事面板中都可见。安全、快速且用户友好的界面可实现站点运营的数字化。",
-  "ctaExplore": "探索功能"
+  "ctaExplore": "探索功能",
+  "demoHint": "无需登录：",
+  "ctaDemoPersonnel": "员工演示",
+  "ctaDemoAdmin": "管理员演示"
 }

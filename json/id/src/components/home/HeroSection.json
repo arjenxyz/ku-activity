@@ -3,5 +3,8 @@
   "titlePrefix": "Menyederhanakan",
   "titleHighlight": "manajemen kru",
   "subtitle": "Gaji harian, uang muka, pemotongan, kehadiran, dan lembar waktu — terlihat di panel admin dan personalia. Antarmuka yang aman, cepat, dan ramah pengguna untuk mendigitalkan operasi situs Anda.",
-  "ctaExplore": "Jelajahi Fitur"
+  "ctaExplore": "Jelajahi Fitur",
+  "demoHint": "Tanpa masuk:",
+  "ctaDemoPersonnel": "Demo personel",
+  "ctaDemoAdmin": "Demo admin"
 }

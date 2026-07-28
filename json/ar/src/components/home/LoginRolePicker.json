@@ -3,7 +3,7 @@
   "closeOverlayAriaLabel": "إغلاق قائمة تسجيل الدخول",
   "closeButtonAriaLabel": "يغلق",
   "modalTitle": "اختر تسجيل الدخول",
-  "footerNote": "اختر اللوحة التي تطابق دورك لتسجيل الدخول.",
+  "footerNote": "اختر لوحتك لتسجيل الدخول، أو جرّب العرض التوضيحي.",
   "panels": {
     "personel": {
       "title": "الموظفين",
@@ -12,6 +12,17 @@
     "admin": {
       "title": "مسؤل",
       "description": "المشاريع والموافقات والتقارير"
+    }
+  },
+  "demoHeading": "جرّب بدون تسجيل الدخول",
+  "demos": {
+    "personel": {
+      "title": "عرض الموظف",
+      "description": "أجور وسلف نموذجية"
+    },
+    "admin": {
+      "title": "عرض المدير",
+      "description": "مشروع وموظفون نموذجيون"
     }
   }
 }

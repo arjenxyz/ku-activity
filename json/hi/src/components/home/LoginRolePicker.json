@@ -3,7 +3,7 @@
   "closeOverlayAriaLabel": "साइन-इन मेनू बंद करें",
   "closeButtonAriaLabel": "बंद करना",
   "modalTitle": "साइन-इन चुनें",
-  "footerNote": "साइन इन करने के लिए वह पैनल चुनें जो आपकी भूमिका से मेल खाता हो।",
+  "footerNote": "साइन इन के लिए पैनल चुनें, या डेमो आज़माएँ।",
   "panels": {
     "personel": {
       "title": "कार्मिक",
@@ -12,6 +12,17 @@
     "admin": {
       "title": "व्यवस्थापक",
       "description": "परियोजनाएं, अनुमोदन और रिपोर्ट"
+    }
+  },
+  "demoHeading": "साइन इन के बिना आज़माएँ",
+  "demos": {
+    "personel": {
+      "title": "कर्मचारी डेमो",
+      "description": "नमूना वेतन और अग्रिम"
+    },
+    "admin": {
+      "title": "एडमिन डेमो",
+      "description": "नमूना प्रोजेक्ट और स्टाफ"
     }
   }
 }

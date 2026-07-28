@@ -3,7 +3,7 @@
   "closeOverlayAriaLabel": "Zárja be a bejelentkezési menüt",
   "closeButtonAriaLabel": "Közeli",
   "modalTitle": "Válassza a bejelentkezést",
-  "footerNote": "Válassza ki a szerepkörének megfelelő panelt a bejelentkezéshez.",
+  "footerNote": "Válassz panelt a belépéshez, vagy próbáld ki a demót.",
   "panels": {
     "personel": {
       "title": "Személyzet",
@@ -12,6 +12,17 @@
     "admin": {
       "title": "Admin",
       "description": "Projektek, jóváhagyások és jelentések"
+    }
+  },
+  "demoHeading": "Próbáld ki bejelentkezés nélkül",
+  "demos": {
+    "personel": {
+      "title": "Személyzeti demó",
+      "description": "Minta bér és előleg"
+    },
+    "admin": {
+      "title": "Admin demó",
+      "description": "Minta projekt és személyzet"
     }
   }
 }

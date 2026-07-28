@@ -21,6 +21,17 @@ const panelMeta = {
   },
 } as const;
 
+const demoMeta = {
+  personel: {
+    href: '/personnel-panel/demo',
+    icon: PLAY_STORE_PERSONNEL_ICON,
+  },
+  admin: {
+    href: '/admin-panel/demo',
+    icon: PLAY_STORE_ADMIN_ICON,
+  },
+} as const;
+
 function useLoginPanels() {
   const strings = useRegistryStrings('components/home/LoginRolePicker');
   return useMemo(
@@ -34,11 +45,24 @@ function useLoginPanels() {
   );
 }
 
+function useDemoPanels() {
+  const strings = useRegistryStrings('components/home/LoginRolePicker');
+  return useMemo(
+    () =>
+      (['personel', 'admin'] as const).map((id) => ({
+        id: `demo-${id}`,
+        ...demoMeta[id],
+        ...strings.demos[id],
+      })),
+    [strings]
+  );
+}
+
 function LoginRoleRow({
   panel,
   onNavigate,
 }: {
-  panel: ReturnType<typeof useLoginPanels>[number];
+  panel: { href: string; icon: string; title: string; description: string; id: string };
   onNavigate?: () => void;
 }) {
   return (
@@ -64,9 +88,18 @@ function LoginRoleRow({
 
 export function LoginRolePickerPanel({ onNavigate }: { onNavigate?: () => void; compact?: boolean }) {
   const loginPanels = useLoginPanels();
+  const demoPanels = useDemoPanels();
+  const strings = useRegistryStrings('components/home/LoginRolePicker');
   return (
     <div className="px-2 pb-2 pt-1">
       {loginPanels.map((panel) => (
+        <LoginRoleRow key={panel.id} panel={panel} onNavigate={onNavigate} />
+      ))}
+      <div className="mx-3 my-2 border-t border-slate-100 dark:border-slate-800" />
+      <p className="px-3 pb-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-400 dark:text-slate-500">
+        {strings.demoHeading}
+      </p>
+      {demoPanels.map((panel) => (
         <LoginRoleRow key={panel.id} panel={panel} onNavigate={onNavigate} />
       ))}
     </div>

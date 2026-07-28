@@ -3,7 +3,7 @@
   "closeOverlayAriaLabel": "Cerrar menú de inicio de sesión",
   "closeButtonAriaLabel": "Cerca",
   "modalTitle": "Elija iniciar sesión",
-  "footerNote": "Elija el panel que coincida con su función para iniciar sesión.",
+  "footerNote": "Elige tu panel para entrar, o prueba la demo.",
   "panels": {
     "personel": {
       "title": "Personal",
@@ -12,6 +12,17 @@
     "admin": {
       "title": "Administración",
       "description": "Proyectos, aprobaciones e informes."
+    }
+  },
+  "demoHeading": "Prueba sin iniciar sesión",
+  "demos": {
+    "personel": {
+      "title": "Demo de personal",
+      "description": "Jornales y anticipos de ejemplo"
+    },
+    "admin": {
+      "title": "Demo de administrador",
+      "description": "Proyecto y personal de ejemplo"
     }
   }
 }

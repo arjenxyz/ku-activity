@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { HeroPlayStorePromo } from '@/components/home/HeroPlayStorePromo';
 import { LoginRoleButton } from '@/components/home/LoginRolePicker';
@@ -57,6 +58,25 @@ export function HeroSection() {
             >
               {strings.ctaExplore}
             </a>
+          </div>
+
+          <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
+            <span className="text-slate-500 dark:text-slate-400">{strings.demoHint}</span>
+            <Link
+              href="/personnel-panel/demo"
+              className="font-semibold text-blue-600 hover:text-blue-700 hover:underline underline-offset-2"
+            >
+              {strings.ctaDemoPersonnel}
+            </Link>
+            <span className="text-slate-300 dark:text-slate-600" aria-hidden>
+              ·
+            </span>
+            <Link
+              href="/admin-panel/demo"
+              className="font-semibold text-blue-600 hover:text-blue-700 hover:underline underline-offset-2"
+            >
+              {strings.ctaDemoAdmin}
+            </Link>
           </div>
         </motion.div>
 

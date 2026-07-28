@@ -3,5 +3,8 @@
   "titlePrefix": "簡素化する",
   "titleHighlight": "乗組員管理",
   "subtitle": "日給、前払い、控除、勤怠、タイムシート - 管理パネルと人事パネルの両方に表示されます。安全、高速、そしてユーザーフレンドリーなインターフェイスにより、サイト運営をデジタル化します。",
-  "ctaExplore": "機能を調べる"
+  "ctaExplore": "機能を調べる",
+  "demoHint": "ログインなし：",
+  "ctaDemoPersonnel": "スタッフデモ",
+  "ctaDemoAdmin": "管理者デモ"
 }

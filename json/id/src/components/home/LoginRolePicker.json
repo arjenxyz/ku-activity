@@ -3,7 +3,7 @@
   "closeOverlayAriaLabel": "Tutup menu masuk",
   "closeButtonAriaLabel": "Menutup",
   "modalTitle": "Pilih masuk",
-  "footerNote": "Pilih panel yang sesuai dengan peran Anda untuk masuk.",
+  "footerNote": "Pilih panel untuk masuk, atau coba demo.",
   "panels": {
     "personel": {
       "title": "Personil",
@@ -12,6 +12,17 @@
     "admin": {
       "title": "Admin",
       "description": "Proyek, persetujuan, dan laporan"
+    }
+  },
+  "demoHeading": "Coba tanpa masuk",
+  "demos": {
+    "personel": {
+      "title": "Demo personel",
+      "description": "Contoh upah dan uang muka"
+    },
+    "admin": {
+      "title": "Demo admin",
+      "description": "Contoh proyek dan staf"
     }
   }
 }

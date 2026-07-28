@@ -3,7 +3,7 @@
   "closeOverlayAriaLabel": "Giriş menüsünü kapat",
   "closeButtonAriaLabel": "Kapat",
   "modalTitle": "Giriş seçin",
-  "footerNote": "Rolünüze uygun paneli seçerek giriş yapın.",
+  "footerNote": "Rolünüze uygun paneli seçin veya demoyu deneyin.",
   "panels": {
     "personel": {
       "title": "Personel",
@@ -12,6 +12,17 @@
     "admin": {
       "title": "Yönetici",
       "description": "Proje, onay ve raporlar"
+    }
+  },
+  "demoHeading": "Giriş yapmadan dene",
+  "demos": {
+    "personel": {
+      "title": "Personel demosu",
+      "description": "Örnek yevmiye ve avans"
+    },
+    "admin": {
+      "title": "Yönetici demosu",
+      "description": "Örnek proje ve personel"
     }
   }
 }

@@ -3,5 +3,8 @@
   "titlePrefix": "Egyszerűsítsd",
   "titleHighlight": "legénység irányítása",
   "subtitle": "Napi bérek, előlegek, levonások, jelenlét és munkaidő-nyilvántartás – látható mind az adminisztrációs, mind a személyzeti panelen. Biztonságos, gyors és felhasználóbarát felület a webhely működésének digitalizálásához.",
-  "ctaExplore": "Fedezze fel a funkciókat"
+  "ctaExplore": "Fedezze fel a funkciókat",
+  "demoHint": "Bejelentkezés nélkül:",
+  "ctaDemoPersonnel": "Személyzeti demó",
+  "ctaDemoAdmin": "Admin demó"
 }

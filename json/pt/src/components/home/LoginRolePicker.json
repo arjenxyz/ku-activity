@@ -3,7 +3,7 @@
   "closeOverlayAriaLabel": "Fechar menu de login",
   "closeButtonAriaLabel": "Fechar",
   "modalTitle": "Escolha o login",
-  "footerNote": "Escolha o painel que corresponde à sua função para fazer login.",
+  "footerNote": "Escolha o painel para entrar, ou experimente a demo.",
   "panels": {
     "personel": {
       "title": "Pessoal",
@@ -12,6 +12,17 @@
     "admin": {
       "title": "Administrador",
       "description": "Projetos, aprovações e relatórios"
+    }
+  },
+  "demoHeading": "Experimente sem entrar",
+  "demos": {
+    "personel": {
+      "title": "Demo de pessoal",
+      "description": "Diárias e adiantamentos de exemplo"
+    },
+    "admin": {
+      "title": "Demo de administrador",
+      "description": "Projeto e equipe de exemplo"
     }
   }
 }

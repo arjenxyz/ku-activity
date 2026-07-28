@@ -3,7 +3,7 @@
   "closeOverlayAriaLabel": "サインインメニューを閉じる",
   "closeButtonAriaLabel": "近い",
   "modalTitle": "サインインを選択する",
-  "footerNote": "サインインする役割に一致するパネルを選択します。",
+  "footerNote": "ログインするパネルを選ぶか、デモをお試しください。",
   "panels": {
     "personel": {
       "title": "職員",
@@ -12,6 +12,17 @@
     "admin": {
       "title": "管理者",
       "description": "プロジェクト、承認、レポート"
+    }
+  },
+  "demoHeading": "ログインせずに試す",
+  "demos": {
+    "personel": {
+      "title": "スタッフデモ",
+      "description": "サンプルの日当と前払い"
+    },
+    "admin": {
+      "title": "管理者デモ",
+      "description": "サンプルのプロジェクトとスタッフ"
     }
   }
 }

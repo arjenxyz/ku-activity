@@ -3,7 +3,7 @@
   "closeOverlayAriaLabel": "Fermer le menu de connexion",
   "closeButtonAriaLabel": "Fermer",
   "modalTitle": "Choisissez de vous connecter",
-  "footerNote": "Choisissez le panneau qui correspond à votre rôle pour vous connecter.",
+  "footerNote": "Choisissez votre panneau pour vous connecter, ou essayez la démo.",
   "panels": {
     "personel": {
       "title": "Personnel",
@@ -12,6 +12,17 @@
     "admin": {
       "title": "Administrateur",
       "description": "Projets, approbations et rapports"
+    }
+  },
+  "demoHeading": "Essayer sans connexion",
+  "demos": {
+    "personel": {
+      "title": "Démo personnel",
+      "description": "Salaires et acomptes exemples"
+    },
+    "admin": {
+      "title": "Démo admin",
+      "description": "Projet et équipe exemples"
     }
   }
 }
