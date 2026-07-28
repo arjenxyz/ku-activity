@@ -66,8 +66,8 @@ function LocaleOptionTile({
   layout?: 'list' | 'overlay';
 }) {
   const overlayItemClass = active
-    ? 'bg-white/12 text-white'
-    : 'text-white/90 hover:bg-white/6';
+    ? 'bg-white/95 text-[#0E1548] shadow-lg shadow-slate-900/10 ring-2 ring-white/80'
+    : 'bg-white/80 text-slate-800 hover:bg-white/95';
 
   const listItemClass = active
     ? 'bg-[#0E1548]/[0.06] text-[#0E1548] dark:bg-blue-500/15 dark:text-blue-100'
@@ -79,7 +79,7 @@ function LocaleOptionTile({
       role="option"
       aria-selected={active}
       onClick={() => onSelect(option.id)}
-      className={`flex w-full items-center gap-3 rounded-xl px-2 py-2.5 text-left transition-colors sm:px-3 sm:py-3 ${
+      className={`flex w-full items-center gap-3 rounded-2xl px-3.5 py-3 text-left transition-all ${
         layout === 'overlay' ? overlayItemClass : listItemClass
       }`}
     >
@@ -88,7 +88,7 @@ function LocaleOptionTile({
         <span className="block text-sm font-semibold leading-tight">{option.nativeLabel}</span>
         <span
           className={`block text-[11px] ${
-            layout === 'overlay' ? 'text-white/55' : 'text-slate-500 dark:text-slate-400'
+            layout === 'overlay' ? 'text-slate-500' : 'text-slate-500 dark:text-slate-400'
           }`}
         >
           {option.englishName}
@@ -97,7 +97,7 @@ function LocaleOptionTile({
       {active ? (
         <FiCheck
           className={`h-4 w-4 shrink-0 ${
-            layout === 'overlay' ? 'text-white' : 'text-[#0E1548] dark:text-blue-300'
+            layout === 'overlay' ? 'text-[#0E1548]' : 'text-[#0E1548] dark:text-blue-300'
           }`}
         />
       ) : (
@@ -120,7 +120,7 @@ function LocaleOptionsList({
 }) {
   const listClass =
     layout === 'overlay'
-      ? 'grid grid-cols-1 gap-0.5 sm:grid-cols-2 sm:gap-1'
+      ? 'grid grid-cols-1 gap-2 sm:grid-cols-2'
       : 'max-h-[min(55vh,18rem)] space-y-0.5 overflow-y-auto overscroll-none p-1.5 [scrollbar-width:thin] [-webkit-overflow-scrolling:touch]';
 
   return (
