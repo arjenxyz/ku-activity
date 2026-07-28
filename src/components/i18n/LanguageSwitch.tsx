@@ -4,7 +4,6 @@ import { useEffect, useId, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { FiCheck, FiChevronDown, FiChevronRight, FiX } from 'react-icons/fi';
-import { APP_NAME } from '@/lib/brand';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useLocale } from '@/lib/i18n/LocaleProvider';
 import { flagImageUrl, LOCALE_OPTIONS, type Locale } from '@/lib/i18n/locale';
@@ -114,10 +113,12 @@ function LocaleOptionsList({
   locale,
   onSelect,
   layout = 'list',
+  scrollable = true,
 }: {
   locale: Locale;
   onSelect: (id: Locale) => void;
   layout?: 'list' | 'overlay';
+  scrollable?: boolean;
 }) {
   const listClass =
     layout === 'overlay'
@@ -125,7 +126,11 @@ function LocaleOptionsList({
       : 'max-h-[min(55vh,18rem)] space-y-0.5 overflow-y-auto overscroll-none p-1.5 [scrollbar-width:thin] [-webkit-overflow-scrolling:touch]';
 
   return (
-    <ul className={listClass} role="listbox" data-allow-scroll>
+    <ul
+      className={listClass}
+      role="listbox"
+      {...(scrollable ? { 'data-allow-scroll': true } : {})}
+    >
       {LOCALE_OPTIONS.map((option) => (
         <li key={option.id}>
           <LocaleOptionTile
@@ -184,7 +189,7 @@ function LanguageOverlay({
           role="dialog"
           aria-modal="true"
           aria-labelledby={titleId}
-          className="fixed inset-0 z-[100] flex flex-col bg-slate-900/45 backdrop-blur-[2px]"
+          className="fixed inset-0 z-[100] flex h-[100dvh] flex-col bg-slate-900/45 backdrop-blur-[2px]"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -203,18 +208,13 @@ function LanguageOverlay({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 8 }}
             transition={{ duration: 0.18, ease: 'easeOut' }}
-            className="relative flex min-h-0 flex-1 flex-col px-4 pb-6 pt-5 sm:px-6 sm:pt-6"
+            className="relative flex min-h-0 flex-1 flex-col px-4 pb-5 pt-5 sm:px-6 sm:pt-6"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="mx-auto flex w-full max-w-2xl items-start justify-between gap-3">
-              <div className="min-w-0">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-white/55">
-                  {APP_NAME}
-                </p>
-                <h2 id={titleId} className="text-xl font-semibold text-white sm:text-2xl">
-                  {title}
-                </h2>
-              </div>
+            <div className="mx-auto flex w-full max-w-2xl shrink-0 items-center justify-between gap-3">
+              <h2 id={titleId} className="text-xl font-semibold text-white sm:text-2xl">
+                {title}
+              </h2>
               <button
                 type="button"
                 onClick={onClose}
@@ -225,18 +225,27 @@ function LanguageOverlay({
               </button>
             </div>
 
-            <div className="mx-auto mt-5 w-full max-w-2xl flex-1 overflow-y-auto overscroll-none pr-1 [-webkit-overflow-scrolling:touch] [scrollbar-width:auto] [scrollbar-color:rgba(255,255,255,0.8)_rgba(255,255,255,0.22)] [&::-webkit-scrollbar]:w-2.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/75 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-white/20">
-              <LocaleOptionsList locale={locale} onSelect={onSelect} layout="overlay" />
-            </div>
-
-            <div className="pointer-events-none mx-auto mt-1 flex w-full max-w-2xl justify-end sm:hidden">
-              <div className="inline-flex items-center gap-1 rounded-full bg-white/18 px-2 py-1 text-[11px] text-white/90">
-                <span>Aşağı kaydır</span>
-                <FiChevronDown className="h-3.5 w-3.5 animate-bounce" />
+            <div className="relative mx-auto mt-5 min-h-0 w-full max-w-2xl flex-1">
+              <div
+                className="h-full overflow-y-auto overscroll-contain pb-3 [-webkit-overflow-scrolling:touch]"
+                data-allow-scroll
+              >
+                <LocaleOptionsList
+                  locale={locale}
+                  onSelect={onSelect}
+                  layout="overlay"
+                  scrollable={false}
+                />
+              </div>
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-x-0 bottom-0 flex h-16 items-end justify-center bg-gradient-to-t from-slate-900/80 via-slate-900/35 to-transparent pb-1"
+              >
+                <FiChevronDown className="h-5 w-5 animate-bounce text-white/80" />
               </div>
             </div>
 
-            <p className="mx-auto mt-4 w-full max-w-2xl text-center text-xs leading-snug text-white/55">
+            <p className="mx-auto mt-3 w-full max-w-2xl shrink-0 text-center text-xs leading-snug text-white/55">
               {footerNote}
             </p>
           </motion.div>
