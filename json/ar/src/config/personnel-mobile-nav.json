@@ -5,7 +5,7 @@
     "asgari": "الحد الأدنى للأجور",
     "finance": "كشوف المرتبات",
     "rights": "حقوقي",
-    "settings": "إعدادات"
+    "settings": "الإعدادات"
   },
   "hubSections": [
     {
@@ -63,8 +63,8 @@
         {
           "id": "settings",
           "tab": "settings",
-          "label": "إعدادات",
-          "description": "رقم التعريف الشخصي والملف الشخصي"
+          "label": "الإعدادات",
+          "description": "رمز PIN والملف الشخصي"
         }
       ]
     }

@@ -39,25 +39,20 @@ const HUB_ITEM_ACCENTS: Record<string, PersonnelMoreAccent> = {
   settings: 'slate',
 };
 
-/** Alt dock’ta olanlar hub’da tekrarlanmaz; asgari/rights kapalı. */
-const HUB_VISIBLE_IDS = new Set(['avans', 'settings']);
-
 export function getPersonnelHubSections(locale: Locale = DEFAULT_LOCALE): PersonnelHubSection[] {
   const strings = getRegistryStrings('config/personnel-mobile-nav', locale);
   return strings.hubSections
     .map((section) => ({
       title: section.title,
       subtitle: section.subtitle,
-      items: section.items
-        .filter((item) => HUB_VISIBLE_IDS.has(item.id))
-        .map((item) => ({
-          id: item.id,
-          label: item.label,
-          description: item.description,
-          accent: HUB_ITEM_ACCENTS[item.id] ?? 'slate',
-          ...(item.tab ? { tab: item.tab as PersonnelTabId } : {}),
-          ...(item.href ? { href: item.href } : {}),
-        })),
+      items: section.items.map((item) => ({
+        id: item.id,
+        label: item.label,
+        description: item.description,
+        accent: HUB_ITEM_ACCENTS[item.id] ?? 'slate',
+        ...(item.tab ? { tab: item.tab as PersonnelTabId } : {}),
+        ...(item.href ? { href: item.href } : {}),
+      })),
     }))
     .filter((section) => section.items.length > 0);
 }

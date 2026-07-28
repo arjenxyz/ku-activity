@@ -64,7 +64,7 @@
           "id": "settings",
           "tab": "settings",
           "label": "Настройки",
-          "description": "ПИН-код и профиль"
+          "description": "PIN и профиль"
         }
       ]
     }

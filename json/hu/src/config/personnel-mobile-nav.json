@@ -5,7 +5,7 @@
     "asgari": "Minimálbér",
     "finance": "Bérszámfejtés",
     "rights": "Az én jogaim",
-    "settings": "Beállítások elemre"
+    "settings": "Beállítások"
   },
   "hubSections": [
     {
@@ -63,7 +63,7 @@
         {
           "id": "settings",
           "tab": "settings",
-          "label": "Beállítások elemre",
+          "label": "Beállítások",
           "description": "PIN-kód és profil"
         }
       ]
