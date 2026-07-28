@@ -1,37 +1,37 @@
 {
-  "close": "Close",
-  "dismissError": "Dismiss error",
-  "rescanIssue": "Something's wrong — re-scan",
-  "rescan": "Re-scan",
+  "close": "近い",
+  "dismissError": "エラーを無視",
+  "rescanIssue": "何かが間違っています - 再スキャン",
+  "rescan": "再スキャン",
   "states": {
     "waiting": {
-      "pill": "In attendance",
-      "title": "You've been added to the list",
-      "hint": "Wait until your supervisor completes attendance."
+      "pill": "出席中",
+      "title": "あなたはリストに追加されました",
+      "hint": "上司が出席を完了するまで待ちます。"
     },
     "completed": {
-      "pill": "Completed",
-      "title": "Completed today",
-      "hintDefault": "Your full-day record has been created."
+      "pill": "完了",
+      "title": "本日完了しました",
+      "hintDefault": "一日の記録が作成されました。"
     },
     "cancelled": {
-      "pill": "Cancelled",
-      "title": "Attendance cancelled",
-      "hint": "Your manager cancelled this attendance. Please contact them."
+      "pill": "キャンセル",
+      "title": "出席がキャンセルされました",
+      "hint": "あなたの上司がこの出席をキャンセルしました。連絡してください。"
     },
     "removed": {
-      "pill": "Removed from list",
-      "title": "You're not in attendance",
-      "hint": "Scan a new QR or talk to your supervisor."
+      "pill": "リストから削除されました",
+      "title": "あなたは出席していません",
+      "hint": "新しい QR をスキャンするか、スーパーバイザーに相談してください。"
     },
     "didNotWork": {
-      "pill": "Did not work",
-      "title": "Marked as not working today",
-      "hint": "No daily wage is recorded."
+      "pill": "機能しませんでした",
+      "title": "今日は動作していないとマークされています",
+      "hint": "日給は記録されません。"
     }
   },
   "scanError": {
-    "pill": "Scan failed",
-    "title": "Couldn't read the QR"
+    "pill": "スキャンに失敗しました",
+    "title": "QRを読み取れませんでした"
   }
 }

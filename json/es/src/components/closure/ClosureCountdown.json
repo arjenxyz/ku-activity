@@ -1,10 +1,10 @@
 {
-  "title": "Time remaining",
-  "expired": "Deadline passed",
+  "title": "Tiempo restante",
+  "expired": "Plazo pasado",
   "days": "d",
   "hours": "h",
-  "minutes": "m",
+  "minutes": "metro",
   "seconds": "s",
-  "phasePending": "Awaiting personnel consents",
-  "phaseExport": "Data export window"
+  "phasePending": "A la espera de consentimientos del personal",
+  "phaseExport": "Ventana de exportación de datos"
 }

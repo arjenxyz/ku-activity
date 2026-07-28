@@ -1,9 +1,9 @@
 {
-  "loadFailed": "Yüklenemedi",
-  "saveFailed": "Kaydedilemedi",
-  "saveSuccess": "Şirket politikası kaydedildi. Projeler varsayılan olarak bunu kullanır.",
+  "loadFailed": "يوكلينيميدي",
+  "saveFailed": "كايديديليدي",
+  "saveSuccess": "سياسة سياسية متقلبة. Projeler varsayılan olarak bullanır.",
   "saveError": "Kayıt başarısız",
-  "backToProjects": "← Projelere dön",
-  "title": "Şirket maaş politikası",
-  "subtitle": "Ana yetkili: yevmiye ödeme zamanı ve asgari hesap kurallarını burada belirleyin. Her proje isterse kendi özel kuralını tanımlayabilir."
+  "backToProjects": "← مشروع دون",
+  "title": "المزيد من السياسة",
+  "subtitle": "Ana Yetkili: yevmiye ödeme zamanı ve asgari hesap kurallarını burada belirleyin. تم تطوير مشروعها المتميز kendi özel kuralını tanımlayabilir."
 }

@@ -1,39 +1,39 @@
 {
-  "sectionBadge": "Platform Features",
-  "sectionTitle": "Real modules from timesheets to payroll",
-  "sectionSubtitle": "Daily wages, overtime, advances, deductions, minimum wage top-ups, and payroll are managed per project. The personnel app shows the same records as the admin panel.",
-  "marqueePaused": "Paused — tap the box again to resume",
-  "marqueeHint": "Swipe with your finger; scrolling pauses the flow, tap the box to pin it",
+  "sectionBadge": "プラットフォームの機能",
+  "sectionTitle": "タイムシートから給与計算までの実際のモジュール",
+  "sectionSubtitle": "日給、残業、前払い、控除、最低賃金の上乗せ、給与計算はプロジェクトごとに管理されます。人事アプリには、管理パネルと同じレコードが表示されます。",
+  "marqueePaused": "一時停止 — 再開するにはボックスをもう一度タップします",
+  "marqueeHint": "指でスワイプします。スクロールするとフローが一時停止します。ボックスをタップして固定します",
   "features": [
     {
-      "title": "Dual-Approved Daily Wages",
-      "tag": "Timesheets",
-      "description": "Full/half-day attendance and quarter, half, or full overtime entries. Admin enters; personnel approves or disputes — records are not finalized without both sides."
+      "title": "二重承認の日給",
+      "tag": "タイムシート",
+      "description": "全日/半日の出席と、四半期、半日、または完全な時間外勤務のエントリ。管理者が入ります。担当者が承認するか異議を唱えるか、双方の合意がなければ記録は完成しません。"
     },
     {
-      "title": "Advances & Deductions",
-      "tag": "Finance",
-      "description": "Project-based advance and deduction entries. Gross, advance, deduction, and net amounts are calculated with the same formula in payroll and the personnel finance tab."
+      "title": "前払いと控除",
+      "tag": "ファイナンス",
+      "description": "プロジェクトベースの前払いおよび控除エントリ。総額、前払い額、控除額、および純額は、給与計算と人事財務タブで同じ計算式を使用して計算されます。"
     },
     {
-      "title": "Minimum Wage Top-Up",
-      "tag": "Policy",
-      "description": "Earned, paid, and remaining amounts per company and project wage policy. Subcontractor gap suggestions; personnel see the breakdown in the minimum wage tab."
+      "title": "最低賃金の補充",
+      "tag": "ポリシー",
+      "description": "会社およびプロジェクトの賃金ポリシーごとの獲得額、支払額、残高。下請け業者とのギャップに関する提案。担当者は最低賃金タブの内訳を参照してください。"
     },
     {
-      "title": "Project-Based Sites",
-      "tag": "Operations",
-      "description": "Each site is a separate project; personnel, blocks, teams, and finance records stay within the project. Admins only access projects they created."
+      "title": "プロジェクトベースのサイト",
+      "tag": "運営",
+      "description": "各サイトは別個のプロジェクトです。人事、ブロック、チーム、財務記録はプロジェクト内に残ります。管理者は、自分が作成したプロジェクトにのみアクセスします。"
     },
     {
-      "title": "Reports & Payroll",
-      "tag": "Reporting",
-      "description": "Approved and pending daily wages, open personnel disputes, payroll runs, and archive queries for wages, advances, and deductions."
+      "title": "レポートと給与計算",
+      "tag": "報告",
+      "description": "承認済みおよび保留中の日給、未解決の人事紛争、給与計算、賃金、前払い、控除に関するクエリのアーカイブ。"
     },
     {
-      "title": "Personnel App",
-      "tag": "Mobile PWA",
-      "description": "Install as a PWA on your phone. Overview, daily wages, overtime, finance, minimum wage, and rights tabs — fed from the same database as the admin panel."
+      "title": "人事アプリ",
+      "tag": "モバイルPWA",
+      "description": "携帯電話に PWA としてインストールします。概要、日給、残業、財務、最低賃金、権利タブ - 管理パネルと同じデータベースから提供されます。"
     }
   ]
 }

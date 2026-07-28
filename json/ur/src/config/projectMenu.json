@@ -1,37 +1,52 @@
 {
   "primary": [
     {
-      "label": "Proje özeti",
+      "label": "منصوبہ بندی",
       "path": "",
       "hint": "Personel ve günlük durum"
     },
     {
-      "label": "Yevmiye",
+      "label": "یومیہ",
       "path": "yevmiye",
       "hint": "Günlük çalışma kaydı"
     },
     {
       "label": "Taşeron karı",
-      "path": "kar",
-      "hint": "Blok, iş kalemi ve kâr"
+      "path": "کار",
+      "hint": "بلاک، iş kalemi ve kâr"
     }
   ],
   "groups": [
     {
-      "id": "personel",
-      "label": "Personel",
+      "id": "پرسنل",
+      "label": "پرسنل",
       "links": [
-        { "label": "Personel listesi", "path": "list" },
-        { "label": "Yeni personel", "path": "new" },
-        { "label": "Başvuru onayı", "path": "basvuru-onay" },
-        { "label": "Personel şifreleri", "path": "sorgulama/personel-sifreleri" }
+        {
+          "label": "پرسنل لسٹیسی",
+          "path": "فہرست"
+        },
+        {
+          "label": "ینی پرسنل",
+          "path": "نیا"
+        },
+        {
+          "label": "Başvuru onayı",
+          "path": "basvuru-onay"
+        },
+        {
+          "label": "پرسنل şifreleri",
+          "path": "sorgulama/personel-sifreleri"
+        }
       ]
     },
     {
       "id": "kayitlar",
       "label": "Diğer kayıtlar",
       "links": [
-        { "label": "Avans", "path": "avans" },
+        {
+          "label": "ایونز",
+          "path": "ایونز"
+        },
         {
           "label": "Avans talepleri",
           "path": "avans-talepleri",
@@ -42,34 +57,64 @@
           "absolutePath": "/admin-panel/dekont-paylas",
           "hint": "Bankadan paylaş — otomatik eşleştirme"
         },
-        { "label": "Kesinti", "path": "kesinti" },
-        { "label": "Asgari ücret", "path": "asgari" }
+        {
+          "label": "کیسنٹی",
+          "path": "کیسینٹی"
+        },
+        {
+          "label": "Asgari ücret",
+          "path": "اصغری"
+        }
       ]
     },
     {
-      "id": "santiye",
-      "label": "Şantiye",
+      "id": "سانتیے",
+      "label": "شانتیے",
       "links": [
-        { "label": "Bloklar", "path": "bloklar" },
-        { "label": "Ekipler", "path": "ekiplar" }
+        {
+          "label": "بلاکلر",
+          "path": "بلاکر"
+        },
+        {
+          "label": "ایکپلر",
+          "path": "ایکپلر"
+        }
       ]
     },
     {
-      "id": "finans",
-      "label": "Finans",
+      "id": "فنانس",
+      "label": "فنانس",
       "links": [
-        { "label": "Ne durumdayız?", "path": "durum" },
-        { "label": "Maaş bordrosu", "path": "bordro" },
-        { "label": "Maaş politikası", "path": "maas-politikasi" }
+        {
+          "label": "نہیں durumdayız؟",
+          "path": "durum"
+        },
+        {
+          "label": "Maaş bordrosu",
+          "path": "بورڈو"
+        },
+        {
+          "label": "Maaş politikası",
+          "path": "maas-politikasi"
+        }
       ]
     },
     {
-      "id": "kontrol",
-      "label": "Kontrol & rapor",
+      "id": "کنٹرول",
+      "label": "کنٹرول اور ریپر",
       "links": [
-        { "label": "Raporlar", "path": "raporlar" },
-        { "label": "Onaylananlar", "path": "raporlar/onaylanan" },
-        { "label": "Bekleyen kayıtlar", "path": "raporlar/onaysiz" },
+        {
+          "label": "ریپورلر",
+          "path": "raporlar"
+        },
+        {
+          "label": "اونیلانانلر",
+          "path": "raporlar/onaylanan"
+        },
+        {
+          "label": "Bekleyen kayıtlar",
+          "path": "raporlar/onaysiz"
+        },
         {
           "label": "Kayıt geçmişi",
           "path": "kayit-gecmisi",
@@ -85,9 +130,9 @@
       "path": "sorgulama/admin"
     },
     {
-      "label": "Personel bazlı",
-      "desc": "Tek personelin yevmiye, avans ve asgari kayıtları",
-      "path": "sorgulama"
+      "label": "پرسنل bazlı",
+      "desc": "Tek personelin yevmiye، avans ve asgari kayıtları",
+      "path": "سورگلاما"
     },
     {
       "label": "Yevmiye arşivi",

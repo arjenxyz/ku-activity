@@ -1,9 +1,9 @@
 {
-  "sectionAriaLabel": "Project overview",
-  "presentToday": "Present today",
-  "active": "Active",
-  "missing": "Pending",
-  "payroll": "Estimate",
-  "openAttendance": "Go to QR attendance",
-  "locationFallback": "No location set"
+  "sectionAriaLabel": "প্রকল্প ওভারভিউ",
+  "presentToday": "আজ উপস্থিত",
+  "active": "সক্রিয়",
+  "missing": "মুলতুবি",
+  "payroll": "অনুমান",
+  "openAttendance": "QR উপস্থিতিতে যান",
+  "locationFallback": "কোনো অবস্থান সেট করা হয়নি"
 }

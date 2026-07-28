@@ -1,8 +1,8 @@
 {
-  "navAriaLabel": "Personnel navigation",
-  "home": "Overview",
-  "work": "Calendar",
-  "yoklama": "Attendance",
-  "finance": "Payroll",
-  "more": "Menu"
+  "navAriaLabel": "কর্মী নেভিগেশন",
+  "home": "ওভারভিউ",
+  "work": "ক্যালেন্ডার",
+  "yoklama": "উপস্থিতি",
+  "finance": "বেতন",
+  "more": "মেনু"
 }

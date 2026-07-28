@@ -1,15 +1,15 @@
 {
   "invalidLinkError": "Geçersiz doğrulama bağlantısı.",
   "verificationFailed": "Doğrulama başarısız",
-  "loadingTitle": "Doğrulanıyor…",
-  "loadingSubtitle": "Başvurunuz gönderiliyor, lütfen bekleyin.",
-  "loadingMessage": "E-posta bağlantınız doğrulanıyor…",
+  "loadingTitle": "دوغرولانييور…",
+  "loadingSubtitle": "Başvurunuz gönderiliyor، lutfen bekleyin.",
+  "loadingMessage": "البريد الإلكتروني bağlantınız doğrulanıyor…",
   "errorTitle": "Doğrulama başarısız",
-  "errorSubtitle": "Bağlantı geçersiz veya süresi dolmuş olabilir.",
+  "errorSubtitle": "قم بتسليم المبلغ أو ضمانه.",
   "backToApplication": "Başvuru sayfasına dön",
-  "successTitle": "Başvuru gönderildi",
+  "successTitle": "باسبورو جونديريلدي",
   "successSubtitle": "Yönetici onay ekranına yönlendiriliyorsunuz…",
-  "successMessage": "E-posta doğrulandı ve başvurunuz alındı.",
+  "successMessage": "يتم إرسال البريد الإلكتروني وإيقافه.",
   "redirectHint": "Birazdan onay bekleme ekranına geçeceksiniz…",
-  "suspenseTitle": "Yükleniyor…"
+  "suspenseTitle": "يوكلينور…"
 }

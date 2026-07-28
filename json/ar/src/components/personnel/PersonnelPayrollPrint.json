@@ -1,96 +1,96 @@
 {
-  "title": "Payroll Statement",
-  "printedAt": "Printed:",
-  "documentNo": "Document no:",
-  "employeeInfo": "Employee information",
-  "periodSummary": "Period summary",
-  "workLogsTitle": "Work log records ({count})",
-  "mesaiSummary": "Overtime summary",
-  "advancesTitle": "Advances ({count})",
-  "deductionsTitle": "Deductions ({count})",
-  "minimumWagesTitle": "Minimum wage payments ({count})",
-  "calcSummary": "Calculation summary",
-  "emptyValue": "\u2014",
+  "title": "بيان الرواتب",
+  "printedAt": "مطبوعة:",
+  "documentNo": "رقم الوثيقة:",
+  "employeeInfo": "معلومات الموظف",
+  "periodSummary": "ملخص الفترة",
+  "workLogsTitle": "سجلات سجل العمل ({count})",
+  "mesaiSummary": "ملخص العمل الإضافي",
+  "advancesTitle": "السلف ({count})",
+  "deductionsTitle": "الخصومات ({count})",
+  "minimumWagesTitle": "مدفوعات الحد الأدنى للأجور ({count})",
+  "calcSummary": "ملخص الحساب",
+  "emptyValue": "—",
   "fields": {
-    "fullName": "Full name",
-    "position": "Position",
-    "project": "Project / site",
-    "dailyWage": "Daily wage",
-    "tcKimlik": "National ID",
-    "hireDate": "Hire date"
+    "fullName": "الاسم الكامل",
+    "position": "موضع",
+    "project": "المشروع / الموقع",
+    "dailyWage": "الأجر اليومي",
+    "tcKimlik": "الهوية الوطنية",
+    "hireDate": "تاريخ الاستئجار"
   },
   "summary": {
-    "workDays": "Worked days",
-    "approvedDays": "Approved days",
-    "pendingDays": "Pending days",
-    "mesaiUnits": "Overtime units",
-    "netEstimate": "Estimated Net Salary"
+    "workDays": "أيام العمل",
+    "approvedDays": "الأيام المعتمدة",
+    "pendingDays": "الأيام المعلقة",
+    "mesaiUnits": "وحدات العمل الإضافي",
+    "netEstimate": "صافي الراتب المقدر"
   },
   "table": {
-    "date": "Date",
-    "dateTime": "Date / Time",
-    "work": "Work",
-    "mesai": "Overtime",
-    "wage": "Wage",
-    "mesaiPay": "Overtime \u20ba",
-    "rowTotal": "Row total",
-    "status": "Status",
-    "total": "Total",
-    "type": "Type",
-    "record": "Record",
-    "unit": "Unit",
-    "amount": "Amount",
-    "description": "Description",
-    "deductionType": "Type"
+    "date": "تاريخ",
+    "dateTime": "التاريخ / الوقت",
+    "work": "عمل",
+    "mesai": "متأخر , بعد فوات الوقت",
+    "wage": "الأجر",
+    "mesaiPay": "العمل الإضافي ₺",
+    "rowTotal": "مجموع الصف",
+    "status": "حالة",
+    "total": "المجموع",
+    "type": "يكتب",
+    "record": "سِجِلّ",
+    "unit": "وحدة",
+    "amount": "كمية",
+    "description": "وصف",
+    "deductionType": "يكتب"
   },
   "mesaiTypes": {
-    "ceyrek": "Quarter overtime",
-    "yarim": "Half overtime",
-    "tam": "Full overtime"
+    "ceyrek": "ربع العمل الإضافي",
+    "yarim": "نصف العمل الإضافي",
+    "tam": "العمل الإضافي الكامل"
   },
   "empty": {
-    "workLogs": "No work log records for this period.",
-    "advances": "No advance records.",
-    "deductions": "No deduction records.",
-    "minimumWages": "No minimum wage top-up payment."
+    "workLogs": "لا توجد سجلات سجل العمل لهذه الفترة.",
+    "advances": "لا توجد سجلات مسبقة.",
+    "deductions": "لا توجد سجلات خصم.",
+    "minimumWages": "لا يوجد حد أدنى للأجور."
   },
   "defaults": {
-    "advance": "Advance",
-    "minimumWage": "Minimum wage top-up"
+    "advance": "يتقدم",
+    "minimumWage": "زيادة الحد الأدنى للأجور"
   },
   "totals": {
-    "grand": "Grand total",
-    "advances": "Total advances",
-    "deductions": "Total deductions",
-    "minimumWages": "Total minimum wage"
+    "grand": "المجموع الإجمالي",
+    "advances": "مجموع السلف",
+    "deductions": "إجمالي الخصومات",
+    "minimumWages": "إجمالي الحد الأدنى للأجور"
   },
   "calc": {
-    "basePay": "Wage ({days} days x {wage})",
-    "mesaiPay": "Overtime earnings (+)",
-    "gross": "Gross total",
-    "advances": "Advances (-)",
-    "deductions": "Deductions (-)",
-    "minimumWages": "Minimum wage payments (-)",
-    "netPayment": "Estimated Net Salary",
-    "note": "Net formula: Gross ({gross}) - Advance ({advances}) - Deduction ({deductions}){minimumPart} = {net}",
-    "minimumPart": " - Minimum ({amount})"
+    "basePay": "الأجر ({days} أيام × {wage})",
+    "mesaiPay": "أرباح العمل الإضافي (+)",
+    "gross": "الإجمالي",
+    "advances": "السلف (-)",
+    "deductions": "الخصومات (-)",
+    "minimumWages": "مدفوعات الحد الأدنى للأجور (-)",
+    "netPayment": "صافي الراتب المقدر",
+    "note": "الصيغة الصافية: الإجمالي ({gross}) - التقدم ({advances}) - الخصم ({deductions}){minimumPart} = {net}",
+    "minimumPart": "- الحد الأدنى ({amount})"
   },
   "footer": {
-    "employee": "Employee",
-    "employer": "Employer / Manager",
-    "employeeRole": "Personnel reviewing this document",
-    "employerRole": "Manager / employer approving this document",
-    "signedAt": "Document date",
-    "signatureHint": "Full name - Date - Signature",
-    "clausesTitle": "Document notices",
+    "employee": "موظف",
+    "employer": "صاحب العمل / المدير",
+    "employeeRole": "يقوم الموظفون بمراجعة هذه الوثيقة",
+    "employerRole": "موافقة المدير / صاحب العمل على هذه الوثيقة",
+    "signedAt": "تاريخ الوثيقة",
+    "signatureHint": "الاسم الكامل - التاريخ - التوقيع",
+    "clausesTitle": "إشعارات الوثيقة",
     "clauses": [
-      "This document is for informational purposes only and is not an official payroll, social-security filing, or tax document.",
-      "Records are generated from the same database in the {appName} personnel and admin panels.",
-      "In employment disputes, signed official payrolls, bank receipts, and legally required documents take precedence.",
-      "This document was created electronically and is verified by digital system records; a wet-ink signature is not required."
+      "هذه الوثيقة لأغراض إعلامية فقط وليست كشوف مرتبات رسمية أو ملف ضمان اجتماعي أو مستند ضريبي.",
+      "يتم إنشاء السجلات من نفس قاعدة البيانات في لوحة الموظفين والإدارة {appName}.",
+      "في منازعات العمل، تكون الأولوية لكشوف المرتبات الرسمية الموقعة، والإيصالات المصرفية، والمستندات المطلوبة قانونًا.",
+      "تم إنشاء هذه الوثيقة إلكترونيًا وتم التحقق منها من خلال سجلات النظام الرقمية؛ التوقيع بالحبر الرطب غير مطلوب."
     ],
-    "digitalSeal": "Digital Approval Mark",
-    "digitalSealHint": "Verified by CrewLedger system records",
-    "brandTagline": "Construction Workforce Platform"
+    "digitalSeal": "علامة الموافقة الرقمية",
+    "digitalSealHint": "تم التحقق منها بواسطة سجلات نظام CrewLedger",
+    "brandTagline": "منصة القوى العاملة في البناء"
   }
 }

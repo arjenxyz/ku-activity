@@ -1,100 +1,100 @@
 {
   "attendanceReminder": {
-    "title": "Attendance reminder",
-    "body": "Please scan the QR code to record today's attendance."
+    "title": "উপস্থিতি অনুস্মারক",
+    "body": "আজকের উপস্থিতি রেকর্ড করতে দয়া করে QR কোড স্ক্যান করুন।"
   },
   "attendanceSessionCancelled": {
-    "title": "Attendance session cancelled",
-    "body": "The attendance session for {workDate} was cancelled by {actorName}."
+    "title": "উপস্থিতি অধিবেশন বাতিল করা হয়েছে",
+    "body": "{workDate}-এর উপস্থিতি অধিবেশন {actorName} দ্বারা বাতিল করা হয়েছে৷"
   },
   "attendanceRemovedFromList": {
-    "title": "Attendance record updated",
-    "body": "Your attendance record for {workDate} was removed from the list by {actorName}."
+    "title": "উপস্থিতি রেকর্ড আপডেট করা হয়েছে",
+    "body": "{workDate} এর জন্য আপনার উপস্থিতির রেকর্ড {actorName} দ্বারা তালিকা থেকে মুছে ফেলা হয়েছে।"
   },
   "attendanceDidNotWork": {
-    "title": "Wage removed",
-    "body": "Your daily wage for {workDate} was deleted by {actorName}; you were marked as did not work."
+    "title": "মজুরি সরানো হয়েছে",
+    "body": "{workDate} এর জন্য আপনার দৈনিক মজুরি {actorName} দ্বারা মুছে ফেলা হয়েছে; আপনি কাজ করেননি হিসাবে চিহ্নিত করা হয়েছে."
   },
   "attendanceSessionCompleted": {
-    "title": "Attendance completed",
-    "body": "Your attendance for {workDate} has been confirmed and recorded on your payroll."
+    "title": "উপস্থিতি সম্পন্ন হয়েছে",
+    "body": "{workDate} এর জন্য আপনার উপস্থিতি নিশ্চিত করা হয়েছে এবং আপনার বেতনের তালিকায় রেকর্ড করা হয়েছে।"
   },
   "workLogRecorded": {
-    "title": "Timesheet recorded",
-    "body": "A timesheet of {amount} day(s) for {workDate} was created by {actorName}."
+    "title": "টাইমশিট রেকর্ড করা হয়েছে",
+    "body": "{workDate} এর জন্য {amount} দিনের(গুলি) একটি টাইমশিট {actorName} দ্বারা তৈরি করা হয়েছে৷"
   },
   "workLogUpdated": {
-    "title": "Timesheet updated",
-    "body": "Your timesheet for {workDate} was updated by {actorName}."
+    "title": "টাইমশীট আপডেট করা হয়েছে",
+    "body": "{workDate} এর জন্য আপনার টাইমশীট {actorName} দ্বারা আপডেট করা হয়েছে৷"
   },
   "workLogDeleted": {
-    "title": "Timesheet deleted",
-    "body": "Your timesheet for {workDate} was deleted by {actorName}."
+    "title": "টাইমশীট মুছে ফেলা হয়েছে",
+    "body": "{workDate} এর জন্য আপনার টাইমশীট {actorName} দ্বারা মুছে ফেলা হয়েছে।"
   },
   "advanceApproved": {
-    "title": "Advance request approved",
-    "body": "Your advance request for {amount} TL has been approved. Add this code to the transfer description: {transferCode}"
+    "title": "অগ্রিম অনুরোধ অনুমোদিত",
+    "body": "{amount} TL-এর জন্য আপনার অগ্রিম অনুরোধ অনুমোদিত হয়েছে। স্থানান্তর বিবরণে এই কোড যোগ করুন: {transferCode}"
   },
   "advanceApprovedNoCode": {
-    "title": "Advance request approved",
-    "body": "Your advance request for {amount} TL has been approved. Payment processing has started."
+    "title": "অগ্রিম অনুরোধ অনুমোদিত",
+    "body": "{amount} TL-এর জন্য আপনার অগ্রিম অনুরোধ অনুমোদিত হয়েছে। পেমেন্ট প্রসেসিং শুরু হয়েছে।"
   },
   "advanceCashReady": {
-    "title": "Cash advance ready",
-    "body": "Your cash advance of {amount} TL is ready. Scan the QR code to confirm receipt."
+    "title": "নগদ অগ্রিম প্রস্তুত",
+    "body": "আপনার {amount} TL নগদ অগ্রিম প্রস্তুত। প্রাপ্তি নিশ্চিত করতে QR কোড স্ক্যান করুন।"
   },
   "advanceRejected": {
-    "title": "Advance request declined",
+    "title": "অগ্রিম অনুরোধ প্রত্যাখ্যান",
     "body": "{reason}"
   },
   "advanceRejectedNoReason": {
-    "title": "Advance request declined",
-    "body": "Your request has been declined by the administrator."
+    "title": "অগ্রিম অনুরোধ প্রত্যাখ্যান",
+    "body": "আপনার অনুরোধ প্রশাসক দ্বারা প্রত্যাখ্যান করা হয়েছে."
   },
   "advancePaid": {
-    "title": "Advance payment recorded",
-    "body": "An advance payment of {amount} TL has been recorded on your payroll."
+    "title": "অগ্রিম পেমেন্ট রেকর্ড করা হয়েছে",
+    "body": "{amount} TL এর অগ্রিম অর্থপ্রদান আপনার বেতনের উপর রেকর্ড করা হয়েছে।"
   },
   "minimumWagePaid": {
-    "title": "Minimum wage payment",
-    "body": "A minimum wage payment of {amount} TL was recorded by {actorName}."
+    "title": "ন্যূনতম মজুরি প্রদান",
+    "body": "{amount} TL একটি ন্যূনতম মজুরি প্রদান {actorName} দ্বারা রেকর্ড করা হয়েছে।"
   },
   "minimumWageUpdated": {
-    "title": "Minimum wage updated",
-    "body": "Your minimum wage record for {date} was updated to {amount} TL by {actorName}."
+    "title": "ন্যূনতম মজুরি আপডেট করা হয়েছে",
+    "body": "{date} এর জন্য আপনার ন্যূনতম মজুরি রেকর্ড {actorName} দ্বারা {amount} TL এ আপডেট করা হয়েছে।"
   },
   "minimumWageRemoved": {
-    "title": "Minimum wage removed",
-    "body": "Your {amount} TL minimum wage record for {date} was deleted by {actorName}."
+    "title": "ন্যূনতম মজুরি সরানো হয়েছে",
+    "body": "{date} এর জন্য আপনার {amount} TL ন্যূনতম মজুরি রেকর্ড {actorName} দ্বারা মুছে ফেলা হয়েছে।"
   },
   "salaryPaid": {
-    "title": "Salary payment completed",
-    "body": "Your net salary for {month} ({amount} TL) has been marked as paid."
+    "title": "বেতন পরিশোধ সম্পন্ন হয়েছে",
+    "body": "{month} ({amount} TL) এর জন্য আপনার নেট বেতন প্রদত্ত হিসাবে চিহ্নিত করা হয়েছে৷"
   },
   "deductionAdded": {
-    "title": "Payroll update",
-    "body": "A {typeLabel} of {amount} TL was applied to your payroll by {actorName}."
+    "title": "বেতনের আপডেট",
+    "body": "{actorName} দ্বারা {amount} TL এর একটি {typeLabel} আপনার বেতনের জন্য প্রয়োগ করা হয়েছে।"
   },
   "deductionUpdated": {
-    "title": "Payroll record updated",
-    "body": "Your {typeLabel} for {date} was updated to {amount} TL by {actorName}."
+    "title": "বেতনের রেকর্ড আপডেট করা হয়েছে",
+    "body": "{date} এর জন্য আপনার {typeLabel} {actorName} দ্বারা {amount} TL এ আপডেট করা হয়েছে।"
   },
   "deductionRemoved": {
-    "title": "Payroll record removed",
-    "body": "Your {amount} TL {typeLabel} for {date} was deleted by {actorName}."
+    "title": "বেতনের রেকর্ড মুছে ফেলা হয়েছে",
+    "body": "{date} এর জন্য আপনার {amount} TL {typeLabel} {actorName} দ্বারা মুছে ফেলা হয়েছে।"
   },
   "deductionTypeLabels": {
-    "advance": "advance",
-    "deduction": "deduction",
-    "subcontractor_cut": "subcontractor deduction",
-    "other": "deduction"
+    "advance": "অগ্রিম",
+    "deduction": "কর্তন",
+    "subcontractor_cut": "সাব-কন্ট্রাক্টর ছাড়",
+    "other": "কর্তন"
   },
   "pushTest": {
-    "title": "Notifications enabled",
-    "body": "CrewLedger personnel notifications are set up successfully."
+    "title": "বিজ্ঞপ্তি সক্রিয়",
+    "body": "CrewLedger কর্মীদের বিজ্ঞপ্তি সফলভাবে সেট আপ করা হয়েছে৷"
   },
-  "migrationHint": "Run 059_personnel_notifications.sql migration",
+  "migrationHint": "059_personnel_notifications.sql মাইগ্রেশন চালান",
   "errors": {
-    "notFound": "Notification not found"
+    "notFound": "বিজ্ঞপ্তি পাওয়া যায়নি"
   }
 }

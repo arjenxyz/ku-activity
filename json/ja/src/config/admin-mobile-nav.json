@@ -1,63 +1,144 @@
 {
   "dock": {
-    "summary": "Overview",
-    "approval": "Approve",
-    "attendance": "Attendance",
-    "profit": "Profit",
-    "payroll": "Payroll",
-    "status": "Status",
-    "menu": "Menu"
+    "summary": "概要",
+    "approval": "承認する",
+    "attendance": "出席",
+    "profit": "利益",
+    "payroll": "給与計算",
+    "status": "状態",
+    "menu": "メニュー"
   },
   "hub": {
-    "essentialsTitle": "Daily essentials",
-    "essentialsSubtitle": "Overview, approvals and attendance used every day",
-    "periodicTitle": "Weekly & periodic",
-    "periodicSubtitle": "Weekly or month-end operations",
-    "personnelTitle": "Personnel",
-    "siteTitle": "Site",
-    "recordsTitle": "Records & corrections",
-    "recordsSubtitle": "Separate record, approval and archive pages",
-    "generalTitle": "General",
-    "generalSubtitle": "All projects and account",
+    "essentialsTitle": "日用品",
+    "essentialsSubtitle": "毎日使用される概要、承認、出席",
+    "periodicTitle": "毎週および定期",
+    "periodicSubtitle": "週次または月末の運用",
+    "personnelTitle": "職員",
+    "siteTitle": "サイト",
+    "recordsTitle": "記録と修正",
+    "recordsSubtitle": "個別の記録、承認、アーカイブのページ",
+    "generalTitle": "一般的な",
+    "generalSubtitle": "すべてのプロジェクトとアカウント",
     "general": {
-      "projects": "Projects",
-      "arjenAdvance": "Arjen advance",
-      "arjenAttendance": "Arjen timesheet",
-      "applications": "Applications",
-      "policy": "Salary policy",
-      "settings": "Settings"
+      "projects": "プロジェクト",
+      "arjenAdvance": "アリジェンの前進",
+      "arjenAttendance": "アリエンのタイムシート",
+      "applications": "アプリケーション",
+      "policy": "給与方針",
+      "settings": "設定"
     }
   },
   "simpleEssentialItems": [
-    { "label": "Project overview", "path": "", "hint": "Personnel list and daily status" },
-    { "label": "Application approval", "path": "basvuru-onay", "hint": "New personnel applications" },
-    { "label": "Attendance / QR", "path": "yevmiye", "hint": "Day, overtime and timesheet are planned here" }
+    {
+      "label": "プロジェクト概要",
+      "path": "",
+      "hint": "職員名簿と日々の状況"
+    },
+    {
+      "label": "申請の承認",
+      "path": "バスヴル・オナイ",
+      "hint": "新規人事申請"
+    },
+    {
+      "label": "出席・QR",
+      "path": "エフミエ",
+      "hint": "一日、残業、タイムシートはここで計画されます"
+    }
   ],
   "periodicItems": [
-    { "label": "Subcontractor profit", "path": "kar", "hint": "Blocks, jobs and profit" },
-    { "label": "Where we stand", "path": "durum", "hint": "Project finance summary" },
-    { "label": "Payroll", "path": "bordro", "hint": "Period payroll" },
-    { "label": "Reports", "path": "raporlar", "hint": "Approval and summary reports" },
-    { "label": "Advance requests", "path": "avans-talepleri", "hint": "Personnel requests" },
-    { "label": "Share receipt", "absolutePath": "/admin-panel/dekont-paylas", "hint": "OCR matching" },
-    { "label": "Salary policy", "path": "maas-politikasi", "hint": "Project salary rules" }
+    {
+      "label": "下請け利益",
+      "path": "カー",
+      "hint": "ブロック、ジョブ、利益"
+    },
+    {
+      "label": "私たちが立っている場所",
+      "path": "デュラム",
+      "hint": "プロジェクトファイナンスの概要"
+    },
+    {
+      "label": "給与計算",
+      "path": "ボルドロ",
+      "hint": "期間給与"
+    },
+    {
+      "label": "レポート",
+      "path": "密接な関係",
+      "hint": "承認および概要レポート"
+    },
+    {
+      "label": "事前リクエスト",
+      "path": "アバンス・タレプレリ",
+      "hint": "人事の要請"
+    },
+    {
+      "label": "株式の領収書",
+      "absolutePath": "/admin-panel/dekont-paylas",
+      "hint": "OCRマッチング"
+    },
+    {
+      "label": "給与方針",
+      "path": "マース・ポリティカシ",
+      "hint": "プロジェクトの給与規定"
+    }
   ],
   "personnelItems": [
-    { "label": "Personnel list", "path": "list" },
-    { "label": "New personnel", "path": "new" },
-    { "label": "Application approval", "path": "basvuru-onay", "hint": "New personnel applications" },
-    { "label": "Attendance / QR", "path": "yevmiye", "hint": "Day, overtime and timesheet are planned here" },
-    { "label": "Personnel passwords", "path": "sorgulama/personel-sifreleri" }
+    {
+      "label": "職員名簿",
+      "path": "リスト"
+    },
+    {
+      "label": "新入社員",
+      "path": "新しい"
+    },
+    {
+      "label": "申請の承認",
+      "path": "バスヴル・オナイ",
+      "hint": "新規人事申請"
+    },
+    {
+      "label": "出席・QR",
+      "path": "エフミエ",
+      "hint": "一日、残業、タイムシートはここで計画されます"
+    },
+    {
+      "label": "従業員のパスワード",
+      "path": "ソルグラマ/パーソネル・シフレレリ"
+    }
   ],
   "siteItems": [
-    { "label": "Blocks", "path": "bloklar" },
-    { "label": "Teams", "path": "ekiplar" }
+    {
+      "label": "ブロック",
+      "path": "ブロックラー"
+    },
+    {
+      "label": "チーム",
+      "path": "エキプラ"
+    }
   ],
   "recordsItems": [
-    { "label": "Advance", "path": "avans", "hint": "Separate advance record" },
-    { "label": "Deduction", "path": "kesinti", "hint": "Separate deduction record" },
-    { "label": "Approved", "path": "raporlar/onaylanan" },
-    { "label": "Pending records", "path": "raporlar/onaysiz" },
-    { "label": "Record history", "path": "kayit-gecmisi", "hint": "Query and archive" }
+    {
+      "label": "前進",
+      "path": "アバン",
+      "hint": "別途事前記録"
+    },
+    {
+      "label": "控除",
+      "path": "ケシンティ",
+      "hint": "個別の控除記録"
+    },
+    {
+      "label": "承認された",
+      "path": "ラポール/オナイラナン"
+    },
+    {
+      "label": "保留中のレコード",
+      "path": "ラポール/オネイシズ"
+    },
+    {
+      "label": "記録履歴",
+      "path": "カイト・ゲクミシ",
+      "hint": "クエリとアーカイブ"
+    }
   ]
 }

@@ -1,18 +1,18 @@
 {
-  "sectionBadge": "Mobile App",
-  "sectionTitle": "Download from Google Play",
-  "sectionSubtitlePrefix": "If you can't use the Play Store,",
-  "sectionSubtitleLink": "visit the APK download page",
+  "sectionBadge": "Aplikasi Seluler",
+  "sectionTitle": "Unduh dari Google Play",
+  "sectionSubtitlePrefix": "Jika Anda tidak dapat menggunakan Play Store,",
+  "sectionSubtitleLink": "kunjungi halaman pengunduhan APK",
   "sectionSubtitleSuffix": ".",
-  "platformLabel": "Android · Free",
+  "platformLabel": "Android · Gratis",
   "apps": {
     "personel": {
-      "title": "Personnel App",
-      "description": "Attendance, daily wages, overtime, and payroll viewing. Designed for applications and daily tasks."
+      "title": "Aplikasi Personil",
+      "description": "Kehadiran, upah harian, lembur, dan melihat gaji. Dirancang untuk aplikasi dan tugas sehari-hari."
     },
     "admin": {
-      "title": "Admin App",
-      "description": "Project management, personnel approval, daily wages, and reports. Full control from office or site."
+      "title": "Aplikasi Admin",
+      "description": "Manajemen proyek, persetujuan personel, gaji harian, dan laporan. Kontrol penuh dari kantor atau situs."
     }
   }
 }

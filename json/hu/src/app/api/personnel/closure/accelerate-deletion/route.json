@@ -9,7 +9,7 @@
   "emailNotConfigured": "Az e-mail-ellenőrzés nem érhető el.",
   "rateLimited": "Túl sok kódkérés. Kérjük, várjon.",
   "invalidCode": "Érvénytelen vagy lejárt kód.",
-  "challengeExpired": "Code expired. Request a new one.",
+  "challengeExpired": "A kód lejárt. Kérjen újat.",
   "tooManyAttempts": "Túl sok sikertelen próbálkozás.",
   "codeRequired": "Ellenőrző kód szükséges.",
   "linkRequired": "Érvénytelen link.",

@@ -1,7 +1,7 @@
 {
-  "searchLabel": "Search projects",
-  "searchPlaceholder": "Search by name, code or location...",
-  "statusLabel": "Status",
-  "allProjects": "All",
-  "clearSearch": "Clear search"
+  "searchLabel": "অনুসন্ধান প্রকল্প",
+  "searchPlaceholder": "নাম, কোড বা অবস্থান দ্বারা অনুসন্ধান করুন...",
+  "statusLabel": "স্ট্যাটাস",
+  "allProjects": "সব",
+  "clearSearch": "সাফ অনুসন্ধান"
 }

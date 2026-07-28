@@ -1,6 +1,6 @@
 {
-  "invalidSubscription": "Invalid subscription data",
-  "endpointRequired": "A valid endpoint is required",
-  "saveFailed": "Could not save subscription",
-  "deleteFailed": "Could not remove subscription"
+  "invalidSubscription": "অবৈধ সাবস্ক্রিপশন ডেটা",
+  "endpointRequired": "একটি বৈধ শেষ বিন্দু প্রয়োজন",
+  "saveFailed": "সদস্যতা সংরক্ষণ করা যায়নি",
+  "deleteFailed": "সদস্যতা সরানো যায়নি"
 }

@@ -1,12 +1,12 @@
 {
-  "addJob": "Yeni iş kalemi",
-  "refreshTitle": "Yenile",
-  "refresh": "Yenile",
+  "addJob": "Yeni itu kalemi",
+  "refreshTitle": "Yenil",
+  "refresh": "Yenil",
   "links": {
     "blocks": "Bloklar",
     "teams": "Ekipler",
     "workLogs": "Yevmiye",
-    "advance": "Avans",
+    "advance": "mobil van",
     "deduction": "Kesinti"
   }
 }

@@ -1,17 +1,17 @@
 {
-  "buttonDefault": "Sign In",
-  "closeOverlayAriaLabel": "Close sign-in menu",
-  "closeButtonAriaLabel": "Close",
-  "modalTitle": "Choose sign-in",
-  "footerNote": "Choose the panel that matches your role to sign in.",
+  "buttonDefault": "サインイン",
+  "closeOverlayAriaLabel": "サインインメニューを閉じる",
+  "closeButtonAriaLabel": "近い",
+  "modalTitle": "サインインを選択する",
+  "footerNote": "サインインする役割に一致するパネルを選択します。",
   "panels": {
     "personel": {
-      "title": "Personnel",
-      "description": "Attendance, wages, and payroll"
+      "title": "職員",
+      "description": "勤怠、賃金、給与計算"
     },
     "admin": {
-      "title": "Admin",
-      "description": "Projects, approvals, and reports"
+      "title": "管理者",
+      "description": "プロジェクト、承認、レポート"
     }
   }
 }

@@ -1,15 +1,15 @@
 {
   "defaultPlaceholder": "5xx xxx xxxx",
   "countryCodeAriaLabel": "Ülke kodu",
-  "phoneAriaLabel": "Telefon numarası",
+  "phoneAriaLabel": "Telefonnummer",
   "mobileAriaLabel": "Cep telefonu numarası",
-  "turkeyAriaLabel": "Türkiye",
+  "turkeyAriaLabel": "Türkei",
   "countries": {
-    "90": "Türkiye",
     "49": "Almanya",
-    "994": "Azerbaycan",
-    "998": "Özbekistan",
+    "90": "Türkei",
     "963": "Suriye",
-    "995": "Gürcistan"
+    "994": "Aserbaidschan",
+    "995": "Gürcistan",
+    "998": "Ösbekistan"
   }
 }

@@ -1,11 +1,11 @@
 {
   "uploadFailed": "Yükleme başarısız",
   "removeConfirm": "Fotoğrafı kaldırmak istediğinize emin misiniz?",
-  "deleteFailed": "Silinemedi",
-  "uploadTitle": "Fotoğraf yükle",
-  "formatHint": "JPEG, PNG, WebP · max 5 MB",
+  "deleteFailed": "سائلینمیڈی",
+  "uploadTitle": "فوٹوگراف yükle",
+  "formatHint": "JPEG, PNG, WebP · زیادہ سے زیادہ 5 MB",
   "uploading": "Yükleniyor…",
   "change": "Değiştir",
-  "upload": "Yükle",
+  "upload": "یوکل",
   "remove": "Kaldır"
 }

@@ -1,7 +1,7 @@
 {
-  "err011PersonnelMonthStatsSqlÇalıştırın": "011_personnel_month_stats.sql çalıştırın",
-  "özetYüklenemedi": "Özet yüklenemedi",
-  "personelBulunamadı": "Personel bulunamadı",
-  "err005PersonnelPanelSqlÇalıştırın": "005_personnel_panel.sql çalıştırın",
-  "oturumGeçersiz": "Oturum geçersiz"
+  "err011PersonnelMonthStatsSqlÇalıştırın": "011_personnel_month_stats.sql の結果",
+  "özetYüklenemedi": "オゼト・ユクレネメディ",
+  "personelBulunamadı": "ブルナマディ人事",
+  "err005PersonnelPanelSqlÇalıştırın": "005_personnel_panel.sql コールシュトゥルン",
+  "oturumGeçersiz": "オトゥルム ゲセルシズ"
 }

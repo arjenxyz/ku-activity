@@ -1,5 +1,5 @@
 {
-  "subject": "{appName} — Onayınızı bekleyen yevmiye kayıtları",
+  "subject": "{appName} — Tidak ada perubahan yang terjadi",
   "headerSubtitle": "Yevmiye onayı hatırlatması",
   "greeting": "Merhaba {name},",
   "bodyHtmlSuffix": "yevmiye kaydı onayınızı bekliyor. Onaylamadan ödeme hesabına dahil edilmez.",
@@ -7,6 +7,6 @@
   "textTitle": "{appName} — Yevmiye onayı",
   "textBody": "{count} yevmiye kaydı onayınızı bekliyor.",
   "textPanel": "Panel: {panelUrl}",
-  "emailNotConfigured": "E-posta yapılandırılmamış",
-  "sendFailed": "Hatırlatma gönderilemedi ({status}){detail}"
+  "emailNotConfigured": "Kiriman elektronik ke email Anda",
+  "sendFailed": "Hatirlatma gönderilemedi ({status}){detail}"
 }

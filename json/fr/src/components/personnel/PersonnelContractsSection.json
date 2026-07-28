@@ -1,8 +1,8 @@
 {
   "loading": "Sözleşmeler yükleniyor…",
-  "sectionTitle": "Sözleşmelerim",
+  "sectionTitle": "Sözlesmelerim",
   "empty": "Onayladığınız sözleşme bulunmuyor.",
   "sectionTitleWithCount": "Sözleşmelerim ({count})",
-  "versionLine": "Sürüm {version} · {date}",
+  "versionLine": "Réponse {version} · {date}",
   "open": "Aç"
 }

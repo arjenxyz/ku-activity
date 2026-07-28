@@ -1,12 +1,12 @@
 {
-  "nameRequired": "Ad ve soyad zorunludur.",
-  "emailRequired": "E-posta adresi zorunludur.",
+  "nameRequired": "আদ ভে সোয়াদ জোরুনলুদুর।",
+  "emailRequired": "ই-পোস্তা আদ্রেসি জোরুনলুদুর।",
   "emailInvalid": "Geçerli bir e-posta adresi girin.",
-  "phoneRequired": "Telefon numarası zorunludur.",
-  "phoneInvalid": "Geçerli bir telefon numarası girin (ülke kodu dahil).",
+  "phoneRequired": "টেলিফোন নম্বর zorunludur.",
+  "phoneInvalid": "Geçerli bir telefon numarası girin (ülke kodu dahil)।",
   "tcInvalid": "Geçerli bir T.C. kimlik numarası girin.",
-  "foreignIdInvalid": "Geçerli bir yabancı kimlik / pasaport numarası girin.",
-  "birthDateRequired": "Doğum tarihi zorunludur.",
+  "foreignIdInvalid": "Geçerli bir yabancı kimlik/pasaport numarası girin.",
+  "birthDateRequired": "দোগুম তারিহি জোরুনলুদুর।",
   "ibanRequired": "IBAN zorunludur.",
-  "ibanInvalid": "Geçerli bir IBAN girin (TR ile 26 karakter, kontrol hanesi doğru olmalı)."
+  "ibanInvalid": "Geçerli bir IBAN girin (TR ile 26 karakter, kontrol hanesi doğru olmalı)।"
 }

@@ -1,7 +1,7 @@
 {
-  "pageTitle": "Personel Sorgulaması",
-  "pageDescription": "Seçili personelin aylık özetini görüntüleyin.",
-  "selectEmployeeHint": "Özet için personel seçin.",
+  "pageTitle": "Personal Sorgulaması",
+  "pageDescription": "Seçili personal aylık özetini görüntüleyin.",
+  "selectEmployeeHint": "Özet için personal seçin.",
   "loading": "Yükleniyor…",
   "workDays": "Çalışılan Gün",
   "gross": "Brüt",

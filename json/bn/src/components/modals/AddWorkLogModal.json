@@ -1,14 +1,14 @@
 {
   "submitError": "Kayıt sırasında bir hata oluştu.",
   "title": "Yevmiye Kaydı Ekle",
-  "employeeLabel": "Çalışan",
-  "selectPlaceholder": "Seçiniz",
-  "dateLabel": "Tarih",
-  "workTypeLabel": "Çalışma Tipi",
-  "fullDay": "Tam Gün",
-  "halfDay": "Yarım Gün",
+  "employeeLabel": "চালিসান",
+  "selectPlaceholder": "সেকিনিজ",
+  "dateLabel": "তারিহ",
+  "workTypeLabel": "ক্যালিসমা টিপি",
+  "fullDay": "ট্যাম গুন",
+  "halfDay": "ইয়ারিম গুন",
   "descriptionLabel": "Açıklama",
-  "submitSaving": "Kaydediliyor...",
+  "submitSaving": "কায়দেদিলিওর...",
   "submit": "Kaydet",
-  "cancel": "İptal"
+  "cancel": "ইপটাল"
 }

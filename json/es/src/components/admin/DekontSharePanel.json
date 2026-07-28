@@ -1,65 +1,65 @@
 {
   "shell": {
-    "backToPanel": "Back to panel"
+    "backToPanel": "Volver al panel"
   },
   "steps": {
-    "upload": "Upload",
-    "analyze": "Scan",
-    "review": "Confirm"
+    "upload": "Subir",
+    "analyze": "Escanear",
+    "review": "Confirmar"
   },
-  "trustLabel": "score",
+  "trustLabel": "puntaje",
   "validation": {
-    "scanRejectedTitle": "Could not read receipt"
+    "scanRejectedTitle": "No se pudo leer el recibo"
   },
   "errors": {
-    "draftLoadFailed": "Could not load draft",
-    "analyzeFailed": "Analysis failed",
-    "saveFailed": "Save failed"
+    "draftLoadFailed": "No se pudo cargar el borrador",
+    "analyzeFailed": "El análisis falló",
+    "saveFailed": "Error al guardar"
   },
   "success": {
-    "paymentSaved": "Payment recorded.",
-    "doneTitle": "Done",
-    "uploadAnother": "New receipt"
+    "paymentSaved": "Pago registrado.",
+    "doneTitle": "Hecho",
+    "uploadAnother": "Nuevo recibo"
   },
   "header": {
-    "title": "Receipt scan",
+    "title": "Escaneo de recibos",
     "description": ""
   },
   "upload": {
-    "title": "Drop file here",
-    "description": "PDF or image — or share from your banking app",
-    "selectFile": "Choose file",
-    "fileHint": "PDF, JPG, PNG · max 10 MB"
+    "title": "Suelta el archivo aquí",
+    "description": "PDF o imagen, o compártala desde su aplicación bancaria",
+    "selectFile": "Elige el archivo",
+    "fileHint": "PDF, JPG, PNG · máximo 10 MB"
   },
   "analyze": {
-    "title": "Reading receipt…"
+    "title": "Leyendo recibo…"
   },
   "review": {
-    "matchTitle": "Match advance",
-    "viewProfile": "Profile",
-    "approvedOn": "Approved {date}",
-    "amountMatch": "Amount",
-    "noMatchTitle": "No matching advance found",
-    "goToProjects": "Go to panel",
-    "referenceLabel": "Reference",
-    "paymentDateLabel": "Payment date",
-    "amountLabel": "Amount (TRY)",
-    "ibanLabel": "Recipient IBAN",
-    "amountHint": "Enter amount from receipt manually",
-    "saveSaving": "Saving…",
-    "savePayment": "Save payment",
-    "anotherDekont": "Another receipt",
-    "transferCodeLabel": "Expected transfer code",
-    "transferCodeHint": "This code should appear on the receipt if you added it to the transfer description",
-    "transferCodeOverride": "Code not readable on receipt — save anyway",
-    "forcePayment": "Force save payment",
-    "forcePaymentHint": "Payment was made before advance approval (within last {maxDays} days). IBAN and amount must match.",
-    "forcePaymentSaving": "Force saving…",
-    "retroactiveTitle": "Retroactive payment (no request)",
-    "retroactiveHint": "Select employee matching IBAN — payment was made earlier",
-    "retroactiveSave": "Save as retroactive payment",
-    "retroactiveNoEmployee": "No employee found with this IBAN",
-    "payrollMonthNotice": "Payment was made on {paymentDate}. This advance will be posted to the {payrollMonth} payroll."
+    "matchTitle": "Avance del partido",
+    "viewProfile": "Perfil",
+    "approvedOn": "Aprobado {date}",
+    "amountMatch": "Cantidad",
+    "noMatchTitle": "No se encontró ningún avance coincidente",
+    "goToProjects": "Ir al panel",
+    "referenceLabel": "Referencia",
+    "paymentDateLabel": "fecha de pago",
+    "amountLabel": "Cantidad (TRY)",
+    "ibanLabel": "IBAN del destinatario",
+    "amountHint": "Ingrese el monto del recibo manualmente",
+    "saveSaving": "Ahorro…",
+    "savePayment": "Guardar pago",
+    "anotherDekont": "Otro recibo",
+    "transferCodeLabel": "Código de transferencia esperado",
+    "transferCodeHint": "Este código debería aparecer en el recibo si lo agregaste a la descripción de la transferencia.",
+    "transferCodeOverride": "El código no se puede leer al recibirlo; guárdelo de todos modos",
+    "forcePayment": "Forzar guardar pago",
+    "forcePaymentHint": "El pago se realizó antes de la aprobación anticipada (en los últimos {maxDays} días). El IBAN y el importe deben coincidir.",
+    "forcePaymentSaving": "Forzar ahorro…",
+    "retroactiveTitle": "Pago retroactivo (sin solicitud)",
+    "retroactiveHint": "Seleccionar empleado que coincida con el IBAN: el pago se realizó antes",
+    "retroactiveSave": "Guardar como pago retroactivo",
+    "retroactiveNoEmployee": "No se encontró ningún empleado con este IBAN",
+    "payrollMonthNotice": "El pago se realizó el {paymentDate}. Este anticipo se contabilizará en la nómina {payrollMonth}."
   },
-  "loading": "Loading…"
+  "loading": "Cargando…"
 }

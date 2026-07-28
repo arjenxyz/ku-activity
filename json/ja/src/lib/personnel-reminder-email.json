@@ -1,12 +1,12 @@
 {
-  "subject": "{appName} — Onayınızı bekleyen yevmiye kayıtları",
-  "headerSubtitle": "Yevmiye onayı hatırlatması",
-  "greeting": "Merhaba {name},",
-  "bodyHtmlSuffix": "yevmiye kaydı onayınızı bekliyor. Onaylamadan ödeme hesabına dahil edilmez.",
-  "buttonLabel": "Panele git",
-  "textTitle": "{appName} — Yevmiye onayı",
-  "textBody": "{count} yevmiye kaydı onayınızı bekliyor.",
-  "textPanel": "Panel: {panelUrl}",
+  "subject": "{appName} — オナイヌズ ベクレーエン イェヴミエ カユットラル",
+  "headerSubtitle": "エフミエ・オナイ・ハトゥルラトマス",
+  "greeting": "メルハバ {name}、",
+  "bodyHtmlSuffix": "イェヴミエ・ケイドゥ・オナイズ・ベクリヨール。オナラマダンは、ヘサブナ、ダヒル、エディルメズです。",
+  "buttonLabel": "パネレギット",
+  "textTitle": "{appName} — エフミエ・オナイ",
+  "textBody": "{count} イェヴミエ・ケイドゥ・オナイズ・ベクリヨール。",
+  "textPanel": "パネル: {panelUrl}",
   "emailNotConfigured": "E-posta yapılandırılmamış",
-  "sendFailed": "Hatırlatma gönderilemedi ({status}){detail}"
+  "sendFailed": "ハットルラトマ ゴンデリーメディ ({status}){detail}"
 }

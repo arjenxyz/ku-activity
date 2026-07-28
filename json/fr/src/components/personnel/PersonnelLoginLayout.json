@@ -1,6 +1,6 @@
 {
   "defaultTitle": "Giriş yapın",
-  "defaultSubtitle": "Kayıtlı e-posta ve şifreniz ile hesabınıza erişin",
-  "defaultScreenLabel": "Personel Auth",
-  "panelLabel": "Personel Paneli"
+  "defaultSubtitle": "Vous pouvez envoyer des courriers électroniques et contacter votre courrier électronique",
+  "defaultScreenLabel": "Authentification personnelle",
+  "panelLabel": "Personnel Paneli"
 }

@@ -1,7 +1,7 @@
 {
-  "visionFailed": "Vision OCR failed — is the Cloud Vision API enabled?",
-  "visionPdfEmpty": "Could not extract text from the PDF receipt",
-  "tesseractFailed": "Tesseract OCR failed",
-  "tesseractPdfEmpty": "Could not convert PDF page to an image",
-  "unsupportedFileType": "Unrecognized file type — send a PDF or image (JPG/PNG)"
+  "visionFailed": "Vision OCR gagal — apakah Cloud Vision API diaktifkan?",
+  "visionPdfEmpty": "Tidak dapat mengekstrak teks dari tanda terima PDF",
+  "tesseractFailed": "Tesseract OCR gagal",
+  "tesseractPdfEmpty": "Tidak dapat mengonversi halaman PDF menjadi gambar",
+  "unsupportedFileType": "Jenis file tidak dikenal — kirim PDF atau gambar (JPG/PNG)"
 }

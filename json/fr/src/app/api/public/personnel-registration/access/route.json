@@ -1,6 +1,6 @@
 {
-  "kimlikNumarasıVePinGerekli": "Kimlik numarası ve PIN gerekli",
-  "başvuruSüresiDolmuşYeniBaşvuruYapabilirsiniz": "Başvuru süresi dolmuş. Yeni başvuru yapabilirsiniz.",
-  "geçersizKimlikNumarasıVeyaPin": "Geçersiz kimlik numarası veya PIN",
+  "kimlikNumarasıVePinGerekli": "Numéros Kimlik et codes PIN",
+  "başvuruSüresiDolmuşYeniBaşvuruYapabilirsiniz": "Başvuru süresi dolmuş. Vous avez la possibilité de le faire.",
+  "geçersizKimlikNumarasıVeyaPin": "Obtenir des numéros de kimlik et un code PIN",
   "erişimBaşarısız": "Erişim başarısız"
 }

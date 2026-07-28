@@ -1,32 +1,32 @@
 {
   "errors": {
-    "invalidTc": "Geçerli bir T.C. kimlik numarası girin.",
-    "invalidPhone": "Geçerli bir telefon numarası girin.",
+    "invalidTc": "Geçerli Bir T.C.キムリク・ヌマラス・ギリン。",
+    "invalidPhone": "電話番号はヌマラスギリンです。",
     "invalidEmail": "Geçerli bir e-posta adresi girin.",
-    "genericMismatch": "Girdiğiniz bilgiler kayıtlarımızla eşleşmedi. Bilgilerinizi kontrol edin veya şantiye yöneticinize başvurun.",
-    "invalidLink": "Geçersiz bağlantı",
-    "linkInvalidOrExpired": "Bağlantı geçersiz veya süresi dolmuş.",
-    "linkAlreadyUsed": "Bu bağlantı daha önce kullanıldı. Yeni bir sıfırlama linki isteyin.",
-    "linkExpired": "Bağlantının süresi doldu ({minutes} dakika). Giriş ekranından yeni link isteyin.",
-    "accountInactive": "Hesap aktif değil. Yöneticinize başvurun.",
-    "pinUpdateFailed": "PIN güncellenemedi",
-    "linkUsedOrExpired": "Bu bağlantı daha önce kullanıldı veya süresi doldu.",
-    "emailNotConfigured": "PIN sıfırlama e-postası yapılandırılmamış",
+    "genericMismatch": "Girdiğiniz bilgiler kayıtlarımızla eşleşmedi。ビルギレリニジ制御は、バシュヴルンを制御します。",
+    "invalidLink": "ゲセルシ・バランティ",
+    "linkInvalidOrExpired": "あなたの人生は最高です。",
+    "linkAlreadyUsed": "ブ・バランティ・ダハ・オンセ・クランヌルドゥ。イェニ ビル スフルラマ リンキ イステイン。",
+    "linkExpired": "Bağlantının süresi doldu ({minutes} dakika)。ギリシュ・エクランダン・イェニ・リンク・イステイン。",
+    "accountInactive": "ヘサップ・アクティフ・デイル。バシュヴルンをヨネチニゼする。",
+    "pinUpdateFailed": "PIN ギュンセレンメディ",
+    "linkUsedOrExpired": "問題は解決します。",
+    "emailNotConfigured": "PIN sıfırlama e-postasıyapılandırılmamış",
     "emailSendFailed": "E-posta gönderilemedi ({status}){detail}"
   },
   "cooldown": {
-    "hoursAndMinutes": "Sıfırlama linki en fazla {cooldownHours} saatte bir gönderilir. {hours} saat {minutes} dakika sonra tekrar deneyin.",
-    "hoursOnly": "Sıfırlama linki en fazla {cooldownHours} saatte bir gönderilir. {hours} saat sonra tekrar deneyin.",
-    "minutesOnly": "Sıfırlama linki en fazla {cooldownHours} saatte bir gönderilir. {minutes} dakika sonra tekrar deneyin."
+    "hoursAndMinutes": "ファズラ {cooldownHours} を参照してください。 {hours} サアト {minutes} ダキカ ソンラ テクラ ル デネイイン。",
+    "hoursOnly": "ファズラ {cooldownHours} を参照してください。 {hours} サアト ソンラ テクラル デネイイン。",
+    "minutesOnly": "ファズラ {cooldownHours} を参照してください。 {minutes} ダキカ ソンラ テクラル デネイイン。"
   },
   "email": {
     "subject": "{appName} — PIN sıfırlama bağlantınız",
-    "greeting": "Merhaba {name},",
-    "bodyIntro": "Girdiğiniz bilgiler sistemdeki kaydınızla uyuştu. Yeni PIN belirlemek için aşağıdaki bağlantıyı kullanın:",
-    "validityNote": "Bağlantı {minutes} dakika geçerlidir ve yalnızca bir kez kullanılabilir.",
-    "ignoreNote": "Bu talebi siz yapmadıysanız bu e-postayı yok sayın ve yöneticinize bildirin.",
-    "buttonLabel": "Yeni PIN belirle",
-    "htmlIntro": "Girdiğiniz bilgiler sistemdeki kaydınızla uyuştu. Yeni PIN belirlemek için aşağıdaki düğmeye tıklayın:",
-    "htmlIgnoreNote": "Bu talebi siz yapmadıysanız bu e-postayı yok sayın."
+    "greeting": "メルハバ {name}、",
+    "bodyIntro": "ギルディニズ ビルギラー システムデキ カイドゥヌズラ ウユシュトゥ。イェニ PIN のベリルレメクの状況:",
+    "validityNote": "Bağlantı {minutes} dakika geçerlidir ve yalnızca bir kez kullanılabilir です。",
+    "ignoreNote": "ビルディリンを使用する前に、電子ポストを確認してください。",
+    "buttonLabel": "イェニ PIN ベリル",
+    "htmlIntro": "ギルディニズ ビルギラー システムデキ カイドゥヌズラ ウユシュトゥ。イェニ ピン ベリルレメク アイコン:",
+    "htmlIgnoreNote": "ヤプマドゥイサニズを電子ポストで確認してください。"
   }
 }

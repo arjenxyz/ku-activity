@@ -1,14 +1,14 @@
 {
   "title": "Avans / Kesinti Kayıtları",
   "workerHeader": "İşçi",
-  "dateHeader": "Tarih",
+  "dateHeader": "تریح",
   "typeHeader": "Tür",
-  "amountHeader": "Tutar",
+  "amountHeader": "توتار",
   "descriptionHeader": "Açıklama",
-  "deleteHeader": "Sil",
-  "loading": "Yükleniyor...",
+  "deleteHeader": "سل",
+  "loading": "یوکلینیور...",
   "empty": "Kayıt bulunamadı",
-  "advanceType": "Avans",
-  "deductionType": "Kesinti",
+  "advanceType": "ایونز",
+  "deductionType": "کیسنٹی",
   "deleteTitle": "Kaydı Sil"
 }

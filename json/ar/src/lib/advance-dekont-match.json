@@ -1,12 +1,12 @@
 {
-  "employeeFallback": "Personel",
+  "employeeFallback": "شخصي",
   "ibanEmpty": "—",
   "reasons": {
-    "ibanMatch": "Alıcı IBAN personel kaydıyla eşleşti",
-    "amountMatch": "Tutar uyumlu ({ocrAmount} ≈ {approvedAmount})",
-    "amountClose": "Tutar yakın",
-    "referenceRead": "Referans no okundu",
-    "singleCandidate": "Tek aday personel",
-    "transferTokenMatch": "Transfer reference code matched"
+    "ibanMatch": "يمكنك استخدام رقم الحساب المصرفي الدولي (IBAN) الخاص بك",
+    "amountMatch": "توتار أويوملو ({ocrAmount} ≈ {approvedAmount})",
+    "amountClose": "توتار ياكين",
+    "referenceRead": "لا يشير إلى أوكوندو",
+    "singleCandidate": "تيك آدي شخصي",
+    "transferTokenMatch": "تمت مطابقة الرمز المرجعي للنقل"
   }
 }

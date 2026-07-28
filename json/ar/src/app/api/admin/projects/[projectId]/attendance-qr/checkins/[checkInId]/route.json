@@ -1,5 +1,5 @@
 {
-  "invalidId": "Invalid record id",
-  "invalidBody": "Invalid request body",
-  "invalidAmount": "Day amount must be 0.5 or 1"
+  "invalidId": "معرف السجل غير صالح",
+  "invalidBody": "نص الطلب غير صالح",
+  "invalidAmount": "يجب أن يكون المبلغ اليومي 0.5 أو 1"
 }

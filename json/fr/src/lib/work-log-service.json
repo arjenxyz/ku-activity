@@ -1,10 +1,10 @@
 {
-  "duplicateWorkLog": "A timesheet already exists for this date",
-  "alreadyConfirmed": "You already confirmed this day",
-  "duplicateRecord": "A record already exists for this date",
-  "disputeNoteTooShort": "Dispute note must be at least 5 characters",
-  "recordNotFound": "Timesheet not found",
-  "cannotDisputeApproved": "Cannot dispute an approved record",
-  "cannotDisputeConfirmed": "Cannot dispute a record you already confirmed",
-  "alreadyPaidNeedOverwrite": "This person already has a timesheet for this date. Confirm to overwrite."
+  "duplicateWorkLog": "Une feuille de temps existe déjà pour cette date",
+  "alreadyConfirmed": "Vous avez déjà confirmé ce jour",
+  "duplicateRecord": "Un enregistrement existe déjà pour cette date",
+  "disputeNoteTooShort": "La note de contestation doit comporter au moins 5 caractères",
+  "recordNotFound": "Feuille de temps introuvable",
+  "cannotDisputeApproved": "Impossible de contester un dossier approuvé",
+  "cannotDisputeConfirmed": "Impossible de contester un enregistrement que vous avez déjà confirmé",
+  "alreadyPaidNeedOverwrite": "Cette personne dispose déjà d'une feuille de temps pour cette date. Confirmez pour écraser."
 }

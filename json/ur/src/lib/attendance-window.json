@@ -1,23 +1,53 @@
 {
   "errors": {
-    "projectNotFound": "Proje bulunamadı",
-    "outsideWindow": "Yoklama saati dışında. {workDate} için izin verilen süre: {windowStartLabel} – {windowEndLabel} ({timezone})."
+    "projectNotFound": "پراجیکٹ bulunamadı",
+    "outsideWindow": "Yoklama saati dışında. {workDate} için izin verilen Süre: {windowStartLabel} – {windowEndLabel} ({timezone})۔"
   },
   "messages": {
-    "open": "{date} yoklaması şu an açık ({startLabel} – {endLabel}, {timezone}).",
+    "open": "{date} yoklaması şu an açık ({startLabel} – {endLabel}, {timezone})۔",
     "otherDateOpen": "Bu tarih için yoklama kapalı. Şu an {currentOpenWorkDate} günü için yoklama yapılabilir.",
-    "closed": "Yoklama penceresi kapalı. {date} için izin verilen süre: {startLabel} – {endLabel} ({timezone}). İş bitişinden sonra, ertesi iş başından 1 dk öncesine kadar."
+    "closed": "یوکلاما پینسرسی کپالی۔ {date} için izin verilen Süre: {startLabel} – {endLabel} ({timezone})۔ İş bitişinden sonra, ertesi iş başından 1 dk öncesine kadar."
   },
   "timezones": [
-    { "value": "Europe/Istanbul", "label": "Türkiye (İstanbul)" },
-    { "value": "Europe/Berlin", "label": "Almanya (Berlin)" },
-    { "value": "Europe/London", "label": "İngiltere (Londra)" },
-    { "value": "Europe/Paris", "label": "Fransa (Paris)" },
-    { "value": "Europe/Amsterdam", "label": "Hollanda (Amsterdam)" },
-    { "value": "Asia/Dubai", "label": "BAE (Dubai)" },
-    { "value": "Asia/Riyadh", "label": "Suudi Arabistan (Riyad)" },
-    { "value": "Asia/Qatar", "label": "Katar (Doha)" },
-    { "value": "Asia/Baku", "label": "Azerbaycan (Bakü)" },
-    { "value": "Europe/Moscow", "label": "Rusya (Moskova)" }
+    {
+      "value": "یورپ/استنبول",
+      "label": "ترکی (استنبول)"
+    },
+    {
+      "value": "یورپ/برلن",
+      "label": "المانیہ (برلن)"
+    },
+    {
+      "value": "یورپ/لندن",
+      "label": "انگلٹیر (لونڈرا)"
+    },
+    {
+      "value": "یورپ/پیرس",
+      "label": "فرانسا (پیرس)"
+    },
+    {
+      "value": "یورپ/ایمسٹرڈیم",
+      "label": "ہالینڈا (ایمسٹرڈیم)"
+    },
+    {
+      "value": "ایشیا/دبئی",
+      "label": "BAE (دبئی)"
+    },
+    {
+      "value": "ایشیا/ریاض",
+      "label": "سعودی عرب (ریاض)"
+    },
+    {
+      "value": "ایشیا/قطر",
+      "label": "قطر (دوحہ)"
+    },
+    {
+      "value": "ایشیا/باکو",
+      "label": "آذربائیکان (باکو)"
+    },
+    {
+      "value": "یورپ/ماسکو",
+      "label": "روسا (ماسکووا)"
+    }
   ]
 }

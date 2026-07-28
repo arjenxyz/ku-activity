@@ -1,20 +1,20 @@
 {
   "modeLabels": {
-    "simple": "Simple",
-    "advanced": "Advanced"
+    "simple": "بسيط",
+    "advanced": "متقدم"
   },
   "simpleMenu": {
     "summary": {
-      "label": "Project overview",
-      "hint": "Personnel list and daily status"
+      "label": "نظرة عامة على المشروع",
+      "hint": "قائمة الموظفين والحالة اليومية"
     },
     "approval": {
-      "label": "Application approval",
-      "hint": "New personnel applications"
+      "label": "الموافقة على الطلب",
+      "hint": "تطبيقات الموظفين الجديدة"
     },
     "attendance": {
-      "label": "Attendance / QR",
-      "hint": "Day, overtime and timesheet are planned here"
+      "label": "الحضور / ريال قطري",
+      "hint": "يتم تخطيط اليوم والعمل الإضافي والجدول الزمني هنا"
     }
   }
 }

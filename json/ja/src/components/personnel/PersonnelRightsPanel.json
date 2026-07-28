@@ -1,28 +1,28 @@
 {
-  "heroTitle": "My rights",
-  "heroSubtitle": "GDPR · contracts · records",
-  "downloadCta": "Download my data",
-  "preparing": "Preparing…",
-  "contactCta": "Rights request",
-  "quickLinksTitle": "Your records",
+  "heroTitle": "私の権利",
+  "heroSubtitle": "GDPR · 契約 · 記録",
+  "downloadCta": "データをダウンロードする",
+  "preparing": "準備中…",
+  "contactCta": "権利要求",
+  "quickLinksTitle": "あなたの記録",
   "quickLinks": {
-    "finance": "Payroll",
-    "work": "Daily wage",
-    "mesai": "Overtime",
-    "asgari": "Minimum wage"
+    "finance": "給与計算",
+    "work": "日給",
+    "mesai": "時間とともに",
+    "asgari": "最低賃金"
   },
-  "kvkkTitle": "Data protection rights",
+  "kvkkTitle": "データ保護の権利",
   "kvkkRights": [
-    "Know whether data is processed",
-    "Request information",
-    "Request correction",
-    "Request deletion",
-    "Know third-party recipients"
+    "データが処理されているかどうかを知る",
+    "情報をリクエストする",
+    "修正依頼",
+    "削除依頼",
+    "サードパーティの受信者を知る"
   ],
-  "mailSubject": "Rights request - CrewLedger",
+  "mailSubject": "権利リクエスト - CrewLedger",
   "errors": {
-    "downloadFailed": "Download failed",
-    "generic": "Download failed"
+    "downloadFailed": "ダウンロードに失敗しました",
+    "generic": "ダウンロードに失敗しました"
   },
   "fallbackFilename": "crewledger-my-records.zip"
 }

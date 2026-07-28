@@ -1,8 +1,8 @@
 {
   "title": "Dönem çalışma özeti",
-  "fullDay": "Tam gün",
-  "halfDay": "Yarım gün",
-  "mesaiHeader": "Mesai ({count} kayıt)",
-  "mesaiDaySuffix": "{count} gün",
+  "fullDay": "ট্যাম গুন",
+  "halfDay": "ইয়ারিম গুন",
+  "mesaiHeader": "মেসাই ({count} kayıt)",
+  "mesaiDaySuffix": "{count} গান",
   "noMesai": "Bu dönemde mesai kaydı yok."
 }

@@ -1,17 +1,17 @@
 {
   "subject": "{appName} — Başvuru doğrulama kodu",
-  "headerSubtitle": "Personel başvuru doğrulaması",
+  "headerSubtitle": "Pessoal başvuru doğrulaması",
   "codeIntro": "Başvurunuzu tamamlamak için doğrulama kodunuz:",
   "codeHint": "Kodu kopyalayıp başvuru ekranına yapıştırabilirsiniz.",
-  "confirmButton": "Başvurumu doğrula ve gönder",
-  "validityHtml": "Bu kod ve bağlantı <strong>{minutes} dakika</strong> geçerlidir.<br>İşlemi siz yapmadıysanız bu e-postayı yok sayın.",
-  "footer": "{appName} · İnşaat personel yönetimi",
+  "confirmButton": "Başvurumu doğrula e gönder",
+  "validityHtml": "Este código é <strong>{minutes} dakika</strong>.<br>İşlemi siz yapmadıysanız bu e-postayı yok sayın.",
+  "footer": "{appName} · İnşaat pessoal yönetimi",
   "textTitle": "{appName} — Başvuru doğrulama",
   "textCode": "Doğrulama kodunuz: {code}",
   "textConfirmLink": "Tek tıkla onay ve gönderim: {url}",
   "textValidity": "Bu kod {minutes} dakika geçerlidir.",
   "textIgnore": "Bu işlemi siz yapmadıysanız bu e-postayı yok sayın.",
-  "emailNotConfigured": "E-posta doğrulama yapılandırılmamış (BREVO_API_KEY, BREVO_SENDER_EMAIL)",
-  "invalidApiKey": "E-posta servisi yapılandırması hatalı (Brevo API anahtarı geçersiz). Yöneticinize bildirin.",
+  "emailNotConfigured": "E-mail doğrulama yapılandırılmamış (BREVO_API_KEY, BREVO_SENDER_EMAIL)",
+  "invalidApiKey": "O serviço de e-mail está disponível (Brevo API anahtarı geçersiz). Yöneticinize bildirin.",
   "sendFailed": "E-posta gönderilemedi ({status}){detail}"
 }

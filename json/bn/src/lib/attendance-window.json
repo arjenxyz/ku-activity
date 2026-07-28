@@ -1,23 +1,53 @@
 {
   "errors": {
-    "projectNotFound": "Proje bulunamadı",
-    "outsideWindow": "Yoklama saati dışında. {workDate} için izin verilen süre: {windowStartLabel} – {windowEndLabel} ({timezone})."
+    "projectNotFound": "প্রকল্প বুলুনমাদি",
+    "outsideWindow": "Yoklama saati dışında. {workDate} için izin verilen süre: {windowStartLabel} – {windowEndLabel} ({timezone})।"
   },
   "messages": {
-    "open": "{date} yoklaması şu an açık ({startLabel} – {endLabel}, {timezone}).",
-    "otherDateOpen": "Bu tarih için yoklama kapalı. Şu an {currentOpenWorkDate} günü için yoklama yapılabilir.",
-    "closed": "Yoklama penceresi kapalı. {date} için izin verilen süre: {startLabel} – {endLabel} ({timezone}). İş bitişinden sonra, ertesi iş başından 1 dk öncesine kadar."
+    "open": "{date} yoklaması şu an açık ({startLabel} – {endLabel}, {timezone})।",
+    "otherDateOpen": "বু তারিহ আইসিন ইয়োক্লামা কাপালী। SU an {currentOpenWorkDate} günü için yoklama yapılabilir.",
+    "closed": "Yoklama penceresi kapalı. {date} için izin verilen süre: {startLabel} – {endLabel} ({timezone})। İş bitişinden sonra, ertesi iş başından 1 dk öncesine kadar."
   },
   "timezones": [
-    { "value": "Europe/Istanbul", "label": "Türkiye (İstanbul)" },
-    { "value": "Europe/Berlin", "label": "Almanya (Berlin)" },
-    { "value": "Europe/London", "label": "İngiltere (Londra)" },
-    { "value": "Europe/Paris", "label": "Fransa (Paris)" },
-    { "value": "Europe/Amsterdam", "label": "Hollanda (Amsterdam)" },
-    { "value": "Asia/Dubai", "label": "BAE (Dubai)" },
-    { "value": "Asia/Riyadh", "label": "Suudi Arabistan (Riyad)" },
-    { "value": "Asia/Qatar", "label": "Katar (Doha)" },
-    { "value": "Asia/Baku", "label": "Azerbaycan (Bakü)" },
-    { "value": "Europe/Moscow", "label": "Rusya (Moskova)" }
+    {
+      "value": "ইউরোপ/ইস্তাম্বুল",
+      "label": "তুর্কিয়ে (ইস্তানবুল)"
+    },
+    {
+      "value": "ইউরোপ/বার্লিন",
+      "label": "আলমানিয়া (বার্লিন)"
+    },
+    {
+      "value": "ইউরোপ/লন্ডন",
+      "label": "ইঙ্গিলটারে (লন্ড্রা)"
+    },
+    {
+      "value": "ইউরোপ/প্যারিস",
+      "label": "ফ্রান্সা (প্যারিস)"
+    },
+    {
+      "value": "ইউরোপ/আমস্টারডাম",
+      "label": "হল্যান্ডা (আমস্টারডাম)"
+    },
+    {
+      "value": "এশিয়া/দুবাই",
+      "label": "BAE (দুবাই)"
+    },
+    {
+      "value": "এশিয়া/রিয়াদ",
+      "label": "সুদি আরবস্থান (রিয়াদ)"
+    },
+    {
+      "value": "এশিয়া/কাতার",
+      "label": "কাতার (দোহা)"
+    },
+    {
+      "value": "এশিয়া/বাকু",
+      "label": "আজারবাইকান (বাকু)"
+    },
+    {
+      "value": "ইউরোপ/মস্কো",
+      "label": "রুশ (মস্কোভা)"
+    }
   ]
 }

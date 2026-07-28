@@ -1,11 +1,11 @@
 {
-  "unauthorized": "Session invalid",
-  "loadFailed": "Could not load reports",
-  "invalidBody": "Invalid request",
-  "invalidDate": "Invalid date",
-  "categoriesRequired": "Select at least one error category",
-  "noteTooShort": "Description must be at least 5 characters",
-  "createFailed": "Could not submit report",
-  "migrationRequired": "Run migration 077_day_error_reports.sql",
-  "projectClosed": "Project is closing; reports cannot be submitted"
+  "unauthorized": "সেশন অবৈধ",
+  "loadFailed": "রিপোর্ট লোড করা যায়নি",
+  "invalidBody": "অবৈধ অনুরোধ",
+  "invalidDate": "অবৈধ তারিখ",
+  "categoriesRequired": "অন্তত একটি ত্রুটি বিভাগ নির্বাচন করুন",
+  "noteTooShort": "বর্ণনা কমপক্ষে 5 অক্ষরের হতে হবে",
+  "createFailed": "রিপোর্ট জমা দিতে পারেনি",
+  "migrationRequired": "মাইগ্রেশন 077_day_error_reports.sql চালান",
+  "projectClosed": "প্রকল্প বন্ধ হচ্ছে; প্রতিবেদন জমা দেওয়া যাবে না"
 }

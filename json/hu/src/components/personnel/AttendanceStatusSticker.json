@@ -22,7 +22,7 @@
     "removed": {
       "pill": "Eltávolítva a listáról",
       "title": "Nem vagy jelen",
-      "hint": "Scan a new QR or talk to your supervisor."
+      "hint": "Olvasson be egy új QR-kódot, vagy beszéljen felettesével."
     },
     "didNotWork": {
       "pill": "Nem működött",

@@ -1,11 +1,11 @@
 {
   "errors": {
-    "invalidLink": "Geçersiz bağlantı.",
-    "loadFailed": "Yüklenemedi"
+    "invalidLink": "احصل على المال.",
+    "loadFailed": "يوكلينيميدي"
   },
-  "loading": "Yükleniyor…",
-  "backToRights": "Haklarıma dön",
-  "print": "Yazdır / PDF kaydet",
-  "versionLine": "Sürüm {version} · Onaylayan: {fullName} ({email}) · {acceptedAt}",
-  "footer": "Bu belge dijital onay kaydı ile ilişkilidir. Saklamanız önerilir."
+  "loading": "يوكلينور…",
+  "backToRights": "لا يوجد",
+  "print": "يزدِر / PDF kaydet",
+  "versionLine": "Sürüm {version} · أونايلايان: {fullName} ({email}) · {acceptedAt}",
+  "footer": "يمكنك استخدام الرقم الرقمي البلجيكي أو اختياره. Saklamanız önerilir."
 }

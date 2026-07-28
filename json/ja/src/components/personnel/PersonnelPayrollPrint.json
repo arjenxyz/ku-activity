@@ -1,96 +1,96 @@
 {
-  "title": "Payroll Statement",
-  "printedAt": "Printed:",
-  "documentNo": "Document no:",
-  "employeeInfo": "Employee information",
-  "periodSummary": "Period summary",
-  "workLogsTitle": "Work log records ({count})",
-  "mesaiSummary": "Overtime summary",
-  "advancesTitle": "Advances ({count})",
-  "deductionsTitle": "Deductions ({count})",
-  "minimumWagesTitle": "Minimum wage payments ({count})",
-  "calcSummary": "Calculation summary",
-  "emptyValue": "\u2014",
+  "title": "給与明細書",
+  "printedAt": "印刷物:",
+  "documentNo": "文書番号:",
+  "employeeInfo": "社員情報",
+  "periodSummary": "期間概要",
+  "workLogsTitle": "作業ログ記録 ({count})",
+  "mesaiSummary": "残業の概要",
+  "advancesTitle": "前進 ({count})",
+  "deductionsTitle": "控除 ({count})",
+  "minimumWagesTitle": "最低賃金の支払い ({count})",
+  "calcSummary": "計算の概要",
+  "emptyValue": "—",
   "fields": {
-    "fullName": "Full name",
-    "position": "Position",
-    "project": "Project / site",
-    "dailyWage": "Daily wage",
-    "tcKimlik": "National ID",
-    "hireDate": "Hire date"
+    "fullName": "フルネーム",
+    "position": "位置",
+    "project": "プロジェクト/サイト",
+    "dailyWage": "日給",
+    "tcKimlik": "国民ID",
+    "hireDate": "レンタル日"
   },
   "summary": {
-    "workDays": "Worked days",
-    "approvedDays": "Approved days",
-    "pendingDays": "Pending days",
-    "mesaiUnits": "Overtime units",
-    "netEstimate": "Estimated Net Salary"
+    "workDays": "勤務日数",
+    "approvedDays": "承認日",
+    "pendingDays": "保留日",
+    "mesaiUnits": "残業単位",
+    "netEstimate": "推定純給与"
   },
   "table": {
-    "date": "Date",
-    "dateTime": "Date / Time",
-    "work": "Work",
-    "mesai": "Overtime",
-    "wage": "Wage",
-    "mesaiPay": "Overtime \u20ba",
-    "rowTotal": "Row total",
-    "status": "Status",
-    "total": "Total",
-    "type": "Type",
-    "record": "Record",
-    "unit": "Unit",
-    "amount": "Amount",
-    "description": "Description",
-    "deductionType": "Type"
+    "date": "日付",
+    "dateTime": "日付/時刻",
+    "work": "仕事",
+    "mesai": "時間とともに",
+    "wage": "賃金",
+    "mesaiPay": "残業₺",
+    "rowTotal": "行の合計",
+    "status": "状態",
+    "total": "合計",
+    "type": "タイプ",
+    "record": "記録",
+    "unit": "ユニット",
+    "amount": "額",
+    "description": "説明",
+    "deductionType": "タイプ"
   },
   "mesaiTypes": {
-    "ceyrek": "Quarter overtime",
-    "yarim": "Half overtime",
-    "tam": "Full overtime"
+    "ceyrek": "四半期残業",
+    "yarim": "半分残業",
+    "tam": "完全残業"
   },
   "empty": {
-    "workLogs": "No work log records for this period.",
-    "advances": "No advance records.",
-    "deductions": "No deduction records.",
-    "minimumWages": "No minimum wage top-up payment."
+    "workLogs": "この期間の作業ログ記録はありません。",
+    "advances": "事前の記録はありません。",
+    "deductions": "控除記録はありません。",
+    "minimumWages": "最低賃金の上乗せ支払いはありません。"
   },
   "defaults": {
-    "advance": "Advance",
-    "minimumWage": "Minimum wage top-up"
+    "advance": "前進",
+    "minimumWage": "最低賃金の上乗せ"
   },
   "totals": {
-    "grand": "Grand total",
-    "advances": "Total advances",
-    "deductions": "Total deductions",
-    "minimumWages": "Total minimum wage"
+    "grand": "総計",
+    "advances": "合計前払い金",
+    "deductions": "控除総額",
+    "minimumWages": "最低賃金の総額"
   },
   "calc": {
-    "basePay": "Wage ({days} days x {wage})",
-    "mesaiPay": "Overtime earnings (+)",
-    "gross": "Gross total",
-    "advances": "Advances (-)",
-    "deductions": "Deductions (-)",
-    "minimumWages": "Minimum wage payments (-)",
-    "netPayment": "Estimated Net Salary",
-    "note": "Net formula: Gross ({gross}) - Advance ({advances}) - Deduction ({deductions}){minimumPart} = {net}",
-    "minimumPart": " - Minimum ({amount})"
+    "basePay": "賃金 ({days} 日 x {wage})",
+    "mesaiPay": "残業代(+)",
+    "gross": "総計",
+    "advances": "前進(-)",
+    "deductions": "控除(-)",
+    "minimumWages": "最低賃金の支払い (-)",
+    "netPayment": "推定純給与",
+    "note": "正味計算式: 総額 ({gross}) - 前払い ({advances}) - 控除 ({deductions}) {minimumPart} = {net}",
+    "minimumPart": "- 最小値 ({amount})"
   },
   "footer": {
-    "employee": "Employee",
-    "employer": "Employer / Manager",
-    "employeeRole": "Personnel reviewing this document",
-    "employerRole": "Manager / employer approving this document",
-    "signedAt": "Document date",
-    "signatureHint": "Full name - Date - Signature",
-    "clausesTitle": "Document notices",
+    "employee": "従業員",
+    "employer": "雇用主 / 管理者",
+    "employeeRole": "この文書をレビューする担当者",
+    "employerRole": "この文書を承認するマネージャー/雇用主",
+    "signedAt": "文書の日付",
+    "signatureHint": "フルネーム - 日付 - 署名",
+    "clausesTitle": "文書通知",
     "clauses": [
-      "This document is for informational purposes only and is not an official payroll, social-security filing, or tax document.",
-      "Records are generated from the same database in the {appName} personnel and admin panels.",
-      "In employment disputes, signed official payrolls, bank receipts, and legally required documents take precedence.",
-      "This document was created electronically and is verified by digital system records; a wet-ink signature is not required."
+      "この文書は情報提供のみを目的としており、正式な給与計算書、社会保障申告書、または税務文書ではありません。",
+      "レコードは、{appName} の担当者パネルと管理者パネルの同じデータベースから生成されます。",
+      "雇用紛争では、署名された正式な給与明細、銀行領収書、および法的に必要な書類が優先されます。",
+      "この文書は電子的に作成され、デジタル システム記録によって検証されます。濡れたインクの署名は必要ありません。"
     ],
-    "digitalSeal": "Digital Approval Mark",
-    "digitalSealHint": "Verified by CrewLedger system records",
-    "brandTagline": "Construction Workforce Platform"
+    "digitalSeal": "デジタル承認マーク",
+    "digitalSealHint": "CrewLedger システム記録によって検証される",
+    "brandTagline": "建設労働力プラットフォーム"
   }
 }

@@ -1,11 +1,11 @@
 {
   "pageTitle": "Avans Sorgulama",
-  "pageDescription": "Avans kayıtlarını görüntüleyin, iş kalemini düzenleyin veya silin.",
-  "colEmployee": "Personel",
+  "pageDescription": "Avans kayıtlarını görüntüleyin, iş kalemini düzenleyin o silin.",
+  "colEmployee": "Personal",
   "colDate": "Tarih",
   "colAmount": "Tutar",
   "colJob": "İş kalemi",
-  "colDescription": "Açıklama",
+  "colDescription": "açıklama",
   "colActions": "İşlem",
   "emptyCell": "—"
 }

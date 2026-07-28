@@ -1,10 +1,10 @@
 {
-  "title": "Yeni iş kalemi",
-  "subtitle": "Aynı bloğa birden fazla iş ekleyebilirsiniz (ör. çatı ahşap + çatı kiremit).",
-  "nameLabel": "İş adı *",
-  "namePlaceholder": "Örn. Çatı ahşap",
-  "blockLabel": "Blok",
-  "blockNotSelected": "Blok seçilmedi",
+  "title": "Oui, c'est kalemi",
+  "subtitle": "Aynı bloğa birden fazla is ekleyebilirsiniz (ör. çatı ahşap + çatı kiremit).",
+  "nameLabel": "Ici c'est *",
+  "namePlaceholder": "Orn. Çatı ahşap",
+  "blockLabel": "Bloc",
+  "blockNotSelected": "Bloc seçilmedi",
   "unitPriceLabel": "Birim fiyat (₺) *",
   "unitPricePlaceholder": "100",
   "quantityLabel": "Miktar *",
@@ -12,9 +12,9 @@
   "unitLabel": "Birim",
   "defaultUnit": "m²",
   "previewLabel": "Toplam alacak",
-  "notesLabel": "Not (isteğe bağlı)",
-  "notesPlaceholder": "Kat, açıklama…",
+  "notesLabel": "Non (isteğe bağlı)",
+  "notesPlaceholder": "Kat, je l'utilise…",
   "submitSaving": "Kaydediliyor…",
   "submit": "Ekle",
-  "cancel": "İptal"
+  "cancel": "Iptal"
 }

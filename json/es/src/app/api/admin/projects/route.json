@@ -1,8 +1,8 @@
 {
-  "projeAdıGerekli": "Project name is required",
-  "geçersizDurum": "Invalid status",
-  "oturumGerekli": "Session required",
-  "activeProjectLimit": "You can have at most 2 active projects. Projects in closure do not count toward this limit.",
-  "migrationRequired": "Database migration required (065_project_admin_limits.sql)",
-  "buProjeKoduZatenKullanılıyor": "This project code is already in use"
+  "projeAdıGerekli": "El nombre del proyecto es obligatorio.",
+  "geçersizDurum": "Estado no válido",
+  "oturumGerekli": "Sesión requerida",
+  "activeProjectLimit": "Puedes tener como máximo 2 proyectos activos. Los proyectos en cierre no cuentan para este límite.",
+  "migrationRequired": "Se requiere migración de base de datos (065_project_admin_limits.sql)",
+  "buProjeKoduZatenKullanılıyor": "Este código de proyecto ya está en uso."
 }

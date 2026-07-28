@@ -1,6 +1,6 @@
 {
-  "invalidId": "Invalid id",
-  "removeFailed": "Could not remove collaborator",
-  "ownerOnly": "Only the project owner can do this",
-  "migrationRequired": "Collaborator migration not applied yet (076_project_collaborators.sql)"
+  "invalidId": "معرف غير صالح",
+  "removeFailed": "تعذرت إزالة المتعاون",
+  "ownerOnly": "فقط صاحب المشروع يمكنه القيام بذلك",
+  "migrationRequired": "لم يتم تطبيق ترحيل المتعاون بعد (076_project_collaborators.sql)"
 }

@@ -1,9 +1,9 @@
 {
-  "estimatedNet": "Estimated Net Salary",
-  "gross": "Gross",
-  "deduction": "Deductions",
-  "advance": "Advances",
-  "financeDetail": "Payroll and finance details",
-  "sectionAriaLabel": "Profile and monthly salary summary",
-  "defaultName": "Personnel"
+  "estimatedNet": "صافي الراتب المقدر",
+  "gross": "إجمالي",
+  "deduction": "الخصومات",
+  "advance": "السلف",
+  "financeDetail": "تفاصيل الرواتب والتمويل",
+  "sectionAriaLabel": "الملف الشخصي وملخص الراتب الشهري",
+  "defaultName": "الموظفين"
 }

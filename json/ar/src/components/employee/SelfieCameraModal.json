@@ -1,15 +1,15 @@
 {
-  "ariaLabel": "Selfie kamerası",
-  "title": "Selfie çek",
-  "close": "Kapat",
-  "opening": "Kamera açılıyor…",
-  "browserUnsupported": "Tarayıcınız kamera erişimini desteklemiyor.",
-  "permissionDenied": "Kamera izni verilmedi. Tarayıcı ayarlarından izin verin.",
-  "notFound": "Kamera bulunamadı.",
-  "openFailed": "Kamera açılamadı. Aşağıdaki alternatifi deneyin.",
-  "openNativeCamera": "Telefon kamerasını aç",
-  "faceHint": "Yüzünüz oval çerçeveye gelsin",
-  "cancel": "İptal",
-  "captureAriaLabel": "Fotoğrafı al",
-  "nativeCamera": "Telefon kamerası"
+  "ariaLabel": "كاميرا سيلفي",
+  "title": "سيلفي تشيك",
+  "close": "كابات",
+  "opening": "الكاميرا أسيليور…",
+  "browserUnsupported": "تم إلغاء قفل الكاميرا Tarayıcınız.",
+  "permissionDenied": "كاميرا إزني فيريلميدي. Tarayıcı ayarlarından izin verin.",
+  "notFound": "كاميرا bulunamadı.",
+  "openFailed": "الكاميرا açılamadı. Aşağıdaki البديل deneyin.",
+  "openNativeCamera": "كاميرات الهاتف",
+  "faceHint": "Yüzünüz cerçeveye gelsin البيضاوي",
+  "cancel": "إبتال",
+  "captureAriaLabel": "الصور الفوتوغرافية آل",
+  "nativeCamera": "كاميرا الهاتف"
 }

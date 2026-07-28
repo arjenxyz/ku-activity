@@ -1,12 +1,12 @@
 {
-  "pageTitle": "Kesinti Sorgulama",
-  "pageDescription": "Kesinti kayıtlarını görüntüleyin, iş kalemini düzenleyin veya silin.",
-  "colEmployee": "Personel",
-  "colDate": "Tarih",
-  "colType": "Tür",
-  "colAmount": "Tutar",
-  "colJob": "İş kalemi",
-  "colDescription": "Açıklama",
-  "colActions": "İşlem",
+  "pageTitle": "كيسينتي سورجولاما",
+  "pageDescription": "Kesinti kayıtlarını görüntüleyin, is kalemini düzenleyin أو silin.",
+  "colEmployee": "شخصي",
+  "colDate": "تاريخ",
+  "colType": "تور",
+  "colAmount": "توتار",
+  "colJob": "هذا كليمي",
+  "colDescription": "أجيكلاما",
+  "colActions": "إسلام",
   "emptyCell": "—"
 }

@@ -4,10 +4,10 @@
     "releases": "APK Sürümleri"
   },
   "subtitle": {
-    "releases": "APK sürüm yönetimi",
-    "codes": "Doğrulama kodları"
+    "releases": "APK atualizado",
+    "codes": "Código Doğrulama"
   },
-  "panelTitle": "Developer Panel",
+  "panelTitle": "Painel do desenvolvedor",
   "logout": "Çıkış",
-  "backHome": "Ana sayfaya dön"
+  "backHome": "Ana Sayfaya Dön"
 }

@@ -1,18 +1,18 @@
 {
-  "reportAriaLabel": "Sorun bildir",
-  "reportTitle": "Sorun bildir",
-  "reportButton": "Bildir",
+  "reportAriaLabel": "Sorun image",
+  "reportTitle": "Sorun image",
+  "reportButton": "Images",
   "screenshotFailed": "Ekran görüntüsü alınamadı. Lütfen tekrar deneyin.",
-  "modalTitle": "Sorun bildir",
-  "modalDescription": "Bu ekran görüntüsü ve uygulama hata bilgileri geliştirici ekibimize iletilecektir. Veriler yalnızca sorunu çözmek için kullanılır. Onaylıyor musunuz?",
+  "modalTitle": "Sorun image",
+  "modalDescription": "Vous êtes en train de voir et d'utiliser des objets de valeur pour ekibimize iletilecektir. Veriler yalnızca sorunu çözmek için kullanılır. Onaylıyor musunuz?",
   "close": "Kapat",
   "previewAlt": "Ekran önizlemesi",
-  "noteLabel": "Not (isteğe bağlı)",
+  "noteLabel": "Non (isteğe bağlı)",
   "notePlaceholder": "Ne olduğunu kısaca yazabilirsiniz…",
   "success": "Teşekkürler, raporunuz iletildi.",
   "sendFailed": "Gönderilemedi",
   "reportSendFailed": "Rapor gönderilemedi",
   "cancel": "Vazgeç",
   "submitting": "Gönderiliyor…",
-  "confirmAndSend": "Onayla ve gönder"
+  "confirmAndSend": "Onayla et moi"
 }

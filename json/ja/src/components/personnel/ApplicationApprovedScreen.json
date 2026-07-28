@@ -1,7 +1,7 @@
 {
-  "badge": "Hesabınız aktif",
-  "title": "Başvurunuz onaylandı",
-  "positionLabel": "Pozisyon:",
-  "loginHint": "Kimlik numaranız ve başvuruda belirlediğiniz PIN ile giriş yapabilirsiniz.",
-  "loginCta": "Panele giriş yap"
+  "badge": "ヘサブニズ アクティフ",
+  "title": "バシュヴルヌズ・オナイランディ",
+  "positionLabel": "ポジション:",
+  "loginHint": "PIN を入力すると、PIN が表示されます。",
+  "loginCta": "パネレ・ギリシュ・ヤップ"
 }

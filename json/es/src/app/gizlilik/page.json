@@ -1,21 +1,21 @@
 {
-  "metadataTitle": "Gizlilik Politikası",
-  "metadataDescription": "CrewLedger gönüllülük platformu gizlilik politikası.",
-  "headerSubtitle": "Gizlilik politikası",
-  "title": "Gizlilik Politikası",
+  "metadataTitle": "Política Gizlilik",
+  "metadataDescription": "CrewLedger es una plataforma política de gran éxito.",
+  "headerSubtitle": "Política gizlilik",
+  "title": "Política Gizlilik",
   "lastUpdatedPrefix": "Son güncelleme:",
   "sections": {
     "who": {
-      "heading": "1. Kimiz?",
-      "bodyPrefix": "{developerLine} {noCompanyLine} Platform adresi:"
+      "heading": "1. ¿Kimiz?",
+      "bodyPrefix": "{developerLine} {noCompanyLine} Dirección de la plataforma:"
     },
     "dataCollected": {
-      "heading": "2. Toplanan veriler",
-      "personnel": "Personel:",
-      "personnelDetail": "kimlik, iletişim, IBAN, doğum tarihi, profil fotoğrafı, yevmiye, avans, kesinti, yoklama ve puantaj kayıtları.",
+      "heading": "2. Veriler toplanano",
+      "personnel": "Personal:",
+      "personnelDetail": "kimlik, iletişim, IBAN, doğum tarihi, perfil fotográfico, yevmiye, avans, kesinti, yoklama y puantaj kayıtları.",
       "admin": "Yönetici:",
       "adminDetail": "ad, e-posta, proje/şantiye bilgileri, oturum güvenliği.",
-      "technical": "Teknik:",
+      "technical": "Técnica:",
       "technicalDetail": "HttpOnly oturum çerezleri, cihaz türü, hata günlükleri."
     },
     "transparency": {
@@ -24,11 +24,11 @@
     },
     "purposes": {
       "heading": "4. İşleme amaçları",
-      "body": "Veriler yalnızca dijital personel takibi, şeffaf finansal kayıt, yoklama, sözleşme onayı ve platform güvenliği için işlenir. Veri satışı veya reklam profillemesi yapılmaz."
+      "body": "Veriler yalnızca dijital personal takibi, şeffaf finansal kayıt, yoklama, sözleşme onayı y platform güvenliği için işlenir. Veri satışı o reklam perfilemesi yapılmaz."
     },
     "security": {
-      "heading": "5. Saklama ve güvenlik",
-      "body": "HTTPS ile iletim; hassas alanlarda AES-256-GCM şifreleme; rol tabanlı erişim. T.C. kimlik NVI ile doğrulanmaz — yalnızca algoritmik format kontrolü uygulanır."
+      "heading": "5. Saklama y güvenlik",
+      "body": "HTTPS ile iletim; hassas alanlarda AES-256-GCM şifreleme; rol tabanlı erişim. TC kimlik NVI ile doğrulanmaz — control de formato algorítmico yalnızca."
     },
     "thirdParties": {
       "heading": "6. Üçüncü taraflar",
@@ -36,7 +36,7 @@
     },
     "devicePermissions": {
       "heading": "7. Cihaz izinleri",
-      "body": "Kamera yalnızca QR yoklama gibi açık kullanıcı eylemlerinde, cihaz izniyle kullanılır. Arka planda gizli kayıt yapılmaz. Ayrıntılar personel sözleşmelerindeki \"Cihaz İzinleri\" metninde yer alır."
+      "body": "Kamera yalnızca QR yoklama gibi açık kullanıcı eylemlerinde, cihaz izniyle kullanılır. Arka planda gizli kayıt yapılmaz. Ayrıntılar personal sözleşmelerindeki \"Cihaz İzinleri\" metninde yer alır."
     },
     "rights": {
       "heading": "8. Haklarınız",
@@ -49,7 +49,7 @@
     }
   },
   "footer": {
-    "home": "← Ana sayfa",
+    "home": "← Ana Sayfa",
     "kvkk": "KVKK Aydınlatma",
     "terms": "Kullanım Şartları"
   }

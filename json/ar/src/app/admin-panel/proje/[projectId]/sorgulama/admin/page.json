@@ -1,14 +1,14 @@
 {
-  "pageTitle": "Admin Sorgulama",
-  "pageDescription": "Tüm personelin aylık finansal özeti.",
-  "labelMonth": "Ay",
-  "totalGross": "Toplam Brüt",
-  "totalAdvances": "Toplam Avans",
-  "totalNet": "Toplam Net",
-  "colEmployee": "Personel",
-  "colDays": "Gün",
-  "colGross": "Brüt",
-  "colAdvance": "Avans",
-  "colMinimum": "Asgari",
-  "colNet": "Net"
+  "pageTitle": "المشرف سورجولاما",
+  "pageDescription": "يمكنك استخدام أموالك الشخصية.",
+  "labelMonth": "نعم",
+  "totalGross": "توبلام بروت",
+  "totalAdvances": "توبلام افانز",
+  "totalNet": "توبلام نت",
+  "colEmployee": "شخصي",
+  "colDays": "بندقية",
+  "colGross": "بروت",
+  "colAdvance": "أفانز",
+  "colMinimum": "أصغري",
+  "colNet": "شبكة"
 }

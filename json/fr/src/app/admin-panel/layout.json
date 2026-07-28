@@ -1,6 +1,6 @@
 {
-  "title": "{appName} Yönetici",
-  "description": "Personel, yevmiye, bordro ve şantiye yönetimi.",
-  "applicationName": "{appName} Yönetici",
+  "title": "{appName} Yonetici",
+  "description": "Personnel, yevmiye, bordro ve şantiye yönetimi.",
+  "applicationName": "{appName} Yonetici",
   "appleWebAppTitle": "CL Yönetici"
 }

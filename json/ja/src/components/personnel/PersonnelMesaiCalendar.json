@@ -1,9 +1,17 @@
 {
-  "prevMonth": "Önceki ay",
-  "nextMonth": "Sonraki ay",
-  "thisMonth": "Bu ay",
-  "summary": "{mesaiDays} mesai günü · {totalPay} toplam kazanç",
-  "selectMonth": "Ay seç:",
-  "weekdays": ["Pt", "Sa", "Ça", "Pe", "Cu", "Ct", "Pz"],
-  "tapForDetail": "Tap an orange day for details"
+  "prevMonth": "オンセキ アイ",
+  "nextMonth": "ソンラキアイ",
+  "thisMonth": "ブアイ",
+  "summary": "{mesaiDays} メサイ ギュヌ · {totalPay} トプラム カザンチ",
+  "selectMonth": "はい秒:",
+  "weekdays": [
+    "ポイント",
+    "サ",
+    "ああ",
+    "ペ",
+    "銅",
+    "CT",
+    "Pz"
+  ],
+  "tapForDetail": "オレンジ色の日をタップすると詳細が表示されます"
 }

@@ -1,63 +1,144 @@
 {
   "dock": {
-    "summary": "Overview",
-    "approval": "Approve",
-    "attendance": "Attendance",
-    "profit": "Profit",
-    "payroll": "Payroll",
-    "status": "Status",
-    "menu": "Menu"
+    "summary": "ملخص",
+    "approval": "يعتمد",
+    "attendance": "حضور",
+    "profit": "ربح",
+    "payroll": "كشوف المرتبات",
+    "status": "حالة",
+    "menu": "قائمة طعام"
   },
   "hub": {
-    "essentialsTitle": "Daily essentials",
-    "essentialsSubtitle": "Overview, approvals and attendance used every day",
-    "periodicTitle": "Weekly & periodic",
-    "periodicSubtitle": "Weekly or month-end operations",
-    "personnelTitle": "Personnel",
-    "siteTitle": "Site",
-    "recordsTitle": "Records & corrections",
-    "recordsSubtitle": "Separate record, approval and archive pages",
-    "generalTitle": "General",
-    "generalSubtitle": "All projects and account",
+    "essentialsTitle": "الضروريات اليومية",
+    "essentialsSubtitle": "نظرة عامة والموافقات والحضور تستخدم كل يوم",
+    "periodicTitle": "أسبوعية ودورية",
+    "periodicSubtitle": "العمليات الأسبوعية أو نهاية الشهر",
+    "personnelTitle": "الموظفين",
+    "siteTitle": "موقع",
+    "recordsTitle": "السجلات والتصحيحات",
+    "recordsSubtitle": "صفحات منفصلة للسجل والموافقة والأرشيف",
+    "generalTitle": "عام",
+    "generalSubtitle": "جميع المشاريع والحساب",
     "general": {
-      "projects": "Projects",
-      "arjenAdvance": "Arjen advance",
-      "arjenAttendance": "Arjen timesheet",
-      "applications": "Applications",
-      "policy": "Salary policy",
-      "settings": "Settings"
+      "projects": "المشاريع",
+      "arjenAdvance": "تقدم ارين",
+      "arjenAttendance": "الجدول الزمني لأرجين",
+      "applications": "التطبيقات",
+      "policy": "سياسة الرواتب",
+      "settings": "إعدادات"
     }
   },
   "simpleEssentialItems": [
-    { "label": "Project overview", "path": "", "hint": "Personnel list and daily status" },
-    { "label": "Application approval", "path": "basvuru-onay", "hint": "New personnel applications" },
-    { "label": "Attendance / QR", "path": "yevmiye", "hint": "Day, overtime and timesheet are planned here" }
+    {
+      "label": "نظرة عامة على المشروع",
+      "path": "",
+      "hint": "قائمة الموظفين والحالة اليومية"
+    },
+    {
+      "label": "الموافقة على الطلب",
+      "path": "باسبورو-أوناي",
+      "hint": "تطبيقات الموظفين الجديدة"
+    },
+    {
+      "label": "الحضور / ريال قطري",
+      "path": "yevmiye",
+      "hint": "يتم تخطيط اليوم والعمل الإضافي والجدول الزمني هنا"
+    }
   ],
   "periodicItems": [
-    { "label": "Subcontractor profit", "path": "kar", "hint": "Blocks, jobs and profit" },
-    { "label": "Where we stand", "path": "durum", "hint": "Project finance summary" },
-    { "label": "Payroll", "path": "bordro", "hint": "Period payroll" },
-    { "label": "Reports", "path": "raporlar", "hint": "Approval and summary reports" },
-    { "label": "Advance requests", "path": "avans-talepleri", "hint": "Personnel requests" },
-    { "label": "Share receipt", "absolutePath": "/admin-panel/dekont-paylas", "hint": "OCR matching" },
-    { "label": "Salary policy", "path": "maas-politikasi", "hint": "Project salary rules" }
+    {
+      "label": "ربح المقاول من الباطن",
+      "path": "كار",
+      "hint": "الكتل والوظائف والأرباح"
+    },
+    {
+      "label": "أين نقف",
+      "path": "القاسي",
+      "hint": "ملخص تمويل المشروع"
+    },
+    {
+      "label": "كشوف المرتبات",
+      "path": "بوردرو",
+      "hint": "رواتب الفترة"
+    },
+    {
+      "label": "التقارير",
+      "path": "رابورلار",
+      "hint": "الموافقة والتقارير الموجزة"
+    },
+    {
+      "label": "الطلبات المسبقة",
+      "path": "avans-talepleri",
+      "hint": "طلبات الموظفين"
+    },
+    {
+      "label": "إيصال المشاركة",
+      "absolutePath": "/admin-panel/dekont-paylas",
+      "hint": "مطابقة التعرف الضوئي على الحروف"
+    },
+    {
+      "label": "سياسة الرواتب",
+      "path": "سياسة أكثر",
+      "hint": "قواعد راتب المشروع"
+    }
   ],
   "personnelItems": [
-    { "label": "Personnel list", "path": "list" },
-    { "label": "New personnel", "path": "new" },
-    { "label": "Application approval", "path": "basvuru-onay", "hint": "New personnel applications" },
-    { "label": "Attendance / QR", "path": "yevmiye", "hint": "Day, overtime and timesheet are planned here" },
-    { "label": "Personnel passwords", "path": "sorgulama/personel-sifreleri" }
+    {
+      "label": "قائمة الموظفين",
+      "path": "قائمة"
+    },
+    {
+      "label": "موظفين جدد",
+      "path": "جديد"
+    },
+    {
+      "label": "الموافقة على الطلب",
+      "path": "باسبورو-أوناي",
+      "hint": "تطبيقات الموظفين الجديدة"
+    },
+    {
+      "label": "الحضور / ريال قطري",
+      "path": "yevmiye",
+      "hint": "يتم تخطيط اليوم والعمل الإضافي والجدول الزمني هنا"
+    },
+    {
+      "label": "كلمات مرور الموظفين",
+      "path": "sorgulama/personel-sifreleri"
+    }
   ],
   "siteItems": [
-    { "label": "Blocks", "path": "bloklar" },
-    { "label": "Teams", "path": "ekiplar" }
+    {
+      "label": "كتل",
+      "path": "bloklar"
+    },
+    {
+      "label": "فرق",
+      "path": "ekiplar"
+    }
   ],
   "recordsItems": [
-    { "label": "Advance", "path": "avans", "hint": "Separate advance record" },
-    { "label": "Deduction", "path": "kesinti", "hint": "Separate deduction record" },
-    { "label": "Approved", "path": "raporlar/onaylanan" },
-    { "label": "Pending records", "path": "raporlar/onaysiz" },
-    { "label": "Record history", "path": "kayit-gecmisi", "hint": "Query and archive" }
+    {
+      "label": "يتقدم",
+      "path": "avans",
+      "hint": "سجل مسبق منفصل"
+    },
+    {
+      "label": "خصم",
+      "path": "كيسينتي",
+      "hint": "سجل خصم منفصل"
+    },
+    {
+      "label": "موافقة",
+      "path": "رابورلار/onaylanan"
+    },
+    {
+      "label": "السجلات المعلقة",
+      "path": "رابورلار/onaysiz"
+    },
+    {
+      "label": "سجل التاريخ",
+      "path": "kayit-gecmisi",
+      "hint": "الاستعلام والأرشيف"
+    }
   ]
 }

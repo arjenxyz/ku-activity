@@ -1,100 +1,100 @@
 {
   "attendanceReminder": {
-    "title": "Attendance reminder",
-    "body": "Please scan the QR code to record today's attendance."
+    "title": "تذكير بالحضور",
+    "body": "يرجى مسح رمز الاستجابة السريعة ضوئيًا لتسجيل حضور اليوم."
   },
   "attendanceSessionCancelled": {
-    "title": "Attendance session cancelled",
-    "body": "The attendance session for {workDate} was cancelled by {actorName}."
+    "title": "تم إلغاء جلسة الحضور",
+    "body": "تم إلغاء جلسة الحضور لـ {workDate} بواسطة {actorName}."
   },
   "attendanceRemovedFromList": {
-    "title": "Attendance record updated",
-    "body": "Your attendance record for {workDate} was removed from the list by {actorName}."
+    "title": "تم تحديث سجل الحضور",
+    "body": "تمت إزالة سجل حضورك لـ {workDate} من القائمة بواسطة {actorName}."
   },
   "attendanceDidNotWork": {
-    "title": "Wage removed",
-    "body": "Your daily wage for {workDate} was deleted by {actorName}; you were marked as did not work."
+    "title": "تمت إزالة الأجر",
+    "body": "تم حذف أجرك اليومي لـ {workDate} بواسطة {actorName}؛ لقد تم وضع علامة على أنك لم تنجح."
   },
   "attendanceSessionCompleted": {
-    "title": "Attendance completed",
-    "body": "Your attendance for {workDate} has been confirmed and recorded on your payroll."
+    "title": "اكتمل الحضور",
+    "body": "تم تأكيد حضورك لـ {workDate} وتسجيله في كشوف المرتبات الخاصة بك."
   },
   "workLogRecorded": {
-    "title": "Timesheet recorded",
-    "body": "A timesheet of {amount} day(s) for {workDate} was created by {actorName}."
+    "title": "تم تسجيل الجدول الزمني",
+    "body": "تم إنشاء جدول زمني {amount} يوم (أيام) لـ {workDate} بواسطة {actorName}."
   },
   "workLogUpdated": {
-    "title": "Timesheet updated",
-    "body": "Your timesheet for {workDate} was updated by {actorName}."
+    "title": "تم تحديث الجدول الزمني",
+    "body": "تم تحديث الجدول الزمني الخاص بك لـ {workDate} بواسطة {actorName}."
   },
   "workLogDeleted": {
-    "title": "Timesheet deleted",
-    "body": "Your timesheet for {workDate} was deleted by {actorName}."
+    "title": "تم حذف الجدول الزمني",
+    "body": "تم حذف الجدول الزمني الخاص بك لـ {workDate} بواسطة {actorName}."
   },
   "advanceApproved": {
-    "title": "Advance request approved",
-    "body": "Your advance request for {amount} TL has been approved. Add this code to the transfer description: {transferCode}"
+    "title": "تمت الموافقة على الطلب المسبق",
+    "body": "تمت الموافقة على طلبك المسبق للحصول على {amount} TL. أضف هذا الرمز إلى وصف النقل: {transferCode}"
   },
   "advanceApprovedNoCode": {
-    "title": "Advance request approved",
-    "body": "Your advance request for {amount} TL has been approved. Payment processing has started."
+    "title": "تمت الموافقة على الطلب المسبق",
+    "body": "تمت الموافقة على طلبك المسبق للحصول على {amount} TL. بدأت معالجة الدفع."
   },
   "advanceCashReady": {
-    "title": "Cash advance ready",
-    "body": "Your cash advance of {amount} TL is ready. Scan the QR code to confirm receipt."
+    "title": "سلفة نقدية جاهزة",
+    "body": "سلفتك النقدية بقيمة {amount} TL جاهزة. امسح رمز الاستجابة السريعة ضوئيًا لتأكيد الاستلام."
   },
   "advanceRejected": {
-    "title": "Advance request declined",
+    "title": "تم رفض الطلب المسبق",
     "body": "{reason}"
   },
   "advanceRejectedNoReason": {
-    "title": "Advance request declined",
-    "body": "Your request has been declined by the administrator."
+    "title": "تم رفض الطلب المسبق",
+    "body": "لقد تم رفض طلبك من قبل المسؤول."
   },
   "advancePaid": {
-    "title": "Advance payment recorded",
-    "body": "An advance payment of {amount} TL has been recorded on your payroll."
+    "title": "تم تسجيل الدفعة المقدمة",
+    "body": "تم تسجيل دفعة مقدمة بقيمة {amount} ليرة تركية في كشوف المرتبات الخاصة بك."
   },
   "minimumWagePaid": {
-    "title": "Minimum wage payment",
-    "body": "A minimum wage payment of {amount} TL was recorded by {actorName}."
+    "title": "دفع الحد الأدنى للأجور",
+    "body": "تم تسجيل الحد الأدنى للأجور بقيمة {amount} TL بواسطة {actorName}."
   },
   "minimumWageUpdated": {
-    "title": "Minimum wage updated",
-    "body": "Your minimum wage record for {date} was updated to {amount} TL by {actorName}."
+    "title": "تم تحديث الحد الأدنى للأجور",
+    "body": "تم تحديث سجل الحد الأدنى للأجور الخاص بك لـ {date} إلى {amount} TL بواسطة {actorName}."
   },
   "minimumWageRemoved": {
-    "title": "Minimum wage removed",
-    "body": "Your {amount} TL minimum wage record for {date} was deleted by {actorName}."
+    "title": "تمت إزالة الحد الأدنى للأجور",
+    "body": "تم حذف سجل الحد الأدنى للأجور {amount} TL لـ {date} بواسطة {actorName}."
   },
   "salaryPaid": {
-    "title": "Salary payment completed",
-    "body": "Your net salary for {month} ({amount} TL) has been marked as paid."
+    "title": "تم الانتهاء من دفع الراتب",
+    "body": "تم وضع علامة على راتبك الصافي لـ {month} ({amount} TL) على أنه مدفوع."
   },
   "deductionAdded": {
-    "title": "Payroll update",
-    "body": "A {typeLabel} of {amount} TL was applied to your payroll by {actorName}."
+    "title": "تحديث الرواتب",
+    "body": "تم تطبيق {typeLabel} من {amount} TL على كشوف المرتبات الخاصة بك بواسطة {actorName}."
   },
   "deductionUpdated": {
-    "title": "Payroll record updated",
-    "body": "Your {typeLabel} for {date} was updated to {amount} TL by {actorName}."
+    "title": "تم تحديث سجل الرواتب",
+    "body": "تم تحديث {typeLabel} لـ {date} إلى {amount} TL بواسطة {actorName}."
   },
   "deductionRemoved": {
-    "title": "Payroll record removed",
-    "body": "Your {amount} TL {typeLabel} for {date} was deleted by {actorName}."
+    "title": "تمت إزالة سجل الرواتب",
+    "body": "تم حذف {amount} TL {typeLabel} لـ {date} بواسطة {actorName}."
   },
   "deductionTypeLabels": {
-    "advance": "advance",
-    "deduction": "deduction",
-    "subcontractor_cut": "subcontractor deduction",
-    "other": "deduction"
+    "advance": "يتقدم",
+    "deduction": "خصم",
+    "subcontractor_cut": "خصم المقاول من الباطن",
+    "other": "خصم"
   },
   "pushTest": {
-    "title": "Notifications enabled",
-    "body": "CrewLedger personnel notifications are set up successfully."
+    "title": "تم تمكين الإخطارات",
+    "body": "تم إعداد إشعارات موظفي CrewLedger بنجاح."
   },
-  "migrationHint": "Run 059_personnel_notifications.sql migration",
+  "migrationHint": "قم بتشغيل ترحيل 059_personnel_notifications.sql",
   "errors": {
-    "notFound": "Notification not found"
+    "notFound": "لم يتم العثور على الإخطار"
   }
 }

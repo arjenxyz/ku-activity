@@ -1,10 +1,10 @@
 {
   "dosyaGerekli": "Dosya gerekli",
   "yalnızcaJpegPngWebpVeyaGif": "Yalnızca JPEG, PNG, WebP veya GIF yükleyebilirsiniz",
-  "dosyaEnFazla5MbOlabilir": "Dosya en fazla 5 MB olabilir",
-  "personelBulunamadı": "Personel bulunamadı",
-  "fotoğrafYüklenemedi": "Fotoğraf yüklenemedi",
-  "fotoğrafKaydıGüncellenemedi": "Fotoğraf kaydı güncellenemedi",
-  "yetkisiz": "Yetkisiz",
-  "fotoğrafKaldırılamadı": "Fotoğraf kaldırılamadı"
+  "dosyaEnFazla5MbOlabilir": "5 এমবি ওলাবিলির ফজলা দোস্য",
+  "personelBulunamadı": "ব্যক্তি বুলুনমাদি",
+  "fotoğrafYüklenemedi": "ফটোগ্রাফ yüklenemedi",
+  "fotoğrafKaydıGüncellenemedi": "ফটোগ্রাফ kaydı güncellenemedi",
+  "yetkisiz": "ইয়েটকিসিজ",
+  "fotoğrafKaldırılamadı": "ফটোগ্রাফ কালদিরিলামাদি"
 }

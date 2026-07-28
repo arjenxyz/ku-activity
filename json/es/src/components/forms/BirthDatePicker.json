@@ -1,10 +1,10 @@
 {
-  "label": "Doğum Tarihi",
+  "label": "Dogum Tarihi",
   "yearAriaLabel": "Doğum yılı",
-  "yearPlaceholder": "Yıl",
-  "monthAriaLabel": "Doğum ayı",
-  "monthPlaceholder": "Ay",
-  "dayAriaLabel": "Doğum günü",
-  "dayPlaceholder": "Gün",
+  "yearPlaceholder": "yil",
+  "monthAriaLabel": "Dogum ayı",
+  "monthPlaceholder": "Sí",
+  "dayAriaLabel": "Dogum günü",
+  "dayPlaceholder": "Pistola",
   "hint": "İnşaat sahasında çalışmak için en az {minAge} yaşında olmalısınız. {maxBirthDate} ve öncesi tarihler seçilebilir."
 }

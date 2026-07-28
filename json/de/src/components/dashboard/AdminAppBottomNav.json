@@ -1,8 +1,8 @@
 {
-  "navAriaLabel": "Admin main menu",
-  "projects": "Projects",
-  "applications": "Applications",
-  "policy": "Wages",
-  "settings": "Settings",
+  "navAriaLabel": "Admin-Hauptmenü",
+  "projects": "Projekte",
+  "applications": "Anwendungen",
+  "policy": "Löhne",
+  "settings": "Einstellungen",
   "arjen": "Arjen"
 }

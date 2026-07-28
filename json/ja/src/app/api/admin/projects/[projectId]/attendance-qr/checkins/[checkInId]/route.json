@@ -1,5 +1,5 @@
 {
-  "invalidId": "Invalid record id",
-  "invalidBody": "Invalid request body",
-  "invalidAmount": "Day amount must be 0.5 or 1"
+  "invalidId": "無効なレコードID",
+  "invalidBody": "無効なリクエスト本文",
+  "invalidAmount": "日額は 0.5 または 1 である必要があります"
 }

@@ -20,7 +20,7 @@
       "hint": "{expenseCount} kayıt"
     },
     "profit": {
-      "label": "Net kâr"
+      "label": "Net kar"
     },
     "share": {
       "label": "Ortak başı ({shareCount} kişi)"

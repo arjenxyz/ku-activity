@@ -1,7 +1,7 @@
 {
   "badge": "Başvuru reddedildi",
   "title": "Başvurunuz kabul edilmedi",
-  "description": "Kayıtlarınız silindi. Yöneticinizle görüşebilir veya bilgilerinizi güncelleyerek yeniden başvurabilirsiniz.",
-  "newApplicationCta": "Yeni başvuru yap",
+  "description": "Kayıtlarınız silindi. Yöneticinizle görüşebilir o bilgilerinizi güncelleyerek yeniden başvurabilirsiniz.",
+  "newApplicationCta": "Yeni başvuru ladra",
   "backToLogin": "Giriş ekranına dön"
 }

@@ -1,12 +1,12 @@
 {
-  "pageTitle": "Yevmiye Sorgulama",
+  "pageTitle": "یومیہ سورگولاما۔",
   "pageDescription": "Yevmiye kayıtlarını görüntüleyin, iş kalemini düzenleyin veya silin.",
-  "colEmployee": "Personel",
-  "colDate": "Tarih",
-  "colDays": "Gün",
+  "colEmployee": "پرسنل",
+  "colDate": "تریح",
+  "colDays": "گن",
   "colJob": "İş kalemi",
-  "colStatus": "Durum",
-  "colDispute": "İtiraz",
+  "colStatus": "ڈورم",
+  "colDispute": "اعتراز",
   "colDescription": "Açıklama",
   "colActions": "İşlem",
   "emptyCell": "—"

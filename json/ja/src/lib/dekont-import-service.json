@@ -1,11 +1,11 @@
 {
-  "noAccessibleProject": "Erişilebilir proje bulunamadı",
-  "runMigration": "057_dekont_import_drafts.sql çalıştırın",
-  "draftNotFound": "Taslak bulunamadı",
-  "draftAlreadyUsed": "Bu taslak zaten kullanıldı",
-  "draftExpired": "Taslak süresi doldu — dekontu yeniden paylaşın",
-  "matchValidationFailed": "Eşleşme doğrulanamadı",
-  "proofFileNotFound": "Receipt file not found",
-  "ocrTextEmpty": "Could not read text from the receipt",
-  "retroactiveAmountRequired": "Amount is required for retroactive payment"
+  "noAccessibleProject": "エリシレビリルプロジェクトブルナマディ",
+  "runMigration": "057_dekont_import_drafts.sql の内容",
+  "draftNotFound": "タスラク・ブルナマディ",
+  "draftAlreadyUsed": "ブ・タスラク・ザテン・クランドゥル",
+  "draftExpired": "タスクラック シュレシ ドルドゥ — デコントゥ イェニデン ペイラシン",
+  "matchValidationFailed": "エシュレシュメ ドゥルラナマディ",
+  "proofFileNotFound": "領収書ファイルが見つかりません",
+  "ocrTextEmpty": "レシートのテキストを読み取れませんでした",
+  "retroactiveAmountRequired": "遡及支払いには金額が必要です"
 }

@@ -1,9 +1,9 @@
 {
   "stats": {
-    "employees": "Toplam Personel",
-    "active": "Aktif Personel",
-    "missing": "Bugün Onaysız",
-    "payroll": "Aylık Tahmini"
+    "employees": "توبلام شخصي",
+    "active": "أكتيف شخصي",
+    "missing": "بوجون أونايزيز",
+    "payroll": "ايليك تهميني"
   },
   "monthWorkLogs": "Bu ay {present} yevmiye kaydı"
 }

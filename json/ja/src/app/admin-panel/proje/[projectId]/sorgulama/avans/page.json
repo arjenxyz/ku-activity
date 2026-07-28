@@ -1,11 +1,11 @@
 {
-  "pageTitle": "Avans Sorgulama",
-  "pageDescription": "Avans kayıtlarını görüntüleyin, iş kalemini düzenleyin veya silin.",
-  "colEmployee": "Personel",
-  "colDate": "Tarih",
-  "colAmount": "Tutar",
-  "colJob": "İş kalemi",
-  "colDescription": "Açıklama",
-  "colActions": "İşlem",
+  "pageTitle": "アバンス・ソルグラマ",
+  "pageDescription": "アバンスは、あなたの人生を、私は、カレミニ・デュゼンレイイン・ヴェヤ・シリンを持っています。",
+  "colEmployee": "人事",
+  "colDate": "タリフ",
+  "colAmount": "ツタール",
+  "colJob": "イシュカレミ",
+  "colDescription": "アチクラマ",
+  "colActions": "イズレム",
   "emptyCell": "—"
 }

@@ -1,100 +1,100 @@
 {
   "attendanceReminder": {
-    "title": "Attendance reminder",
-    "body": "Please scan the QR code to record today's attendance."
+    "title": "出席リマインダー",
+    "body": "QRコードをスキャンして今日の出席を記録してください。"
   },
   "attendanceSessionCancelled": {
-    "title": "Attendance session cancelled",
-    "body": "The attendance session for {workDate} was cancelled by {actorName}."
+    "title": "出席セッションはキャンセルされました",
+    "body": "{workDate} の出席セッションは {actorName} によってキャンセルされました。"
   },
   "attendanceRemovedFromList": {
-    "title": "Attendance record updated",
-    "body": "Your attendance record for {workDate} was removed from the list by {actorName}."
+    "title": "出席記録を更新しました",
+    "body": "{workDate} の出席記録は {actorName} によってリストから削除されました。"
   },
   "attendanceDidNotWork": {
-    "title": "Wage removed",
-    "body": "Your daily wage for {workDate} was deleted by {actorName}; you were marked as did not work."
+    "title": "賃金が削除されました",
+    "body": "{workDate} の日給は {actorName} によって削除されました。機能しなかったとマークされました。"
   },
   "attendanceSessionCompleted": {
-    "title": "Attendance completed",
-    "body": "Your attendance for {workDate} has been confirmed and recorded on your payroll."
+    "title": "出席完了",
+    "body": "{workDate} への出席が確認され、給与明細に記録されました。"
   },
   "workLogRecorded": {
-    "title": "Timesheet recorded",
-    "body": "A timesheet of {amount} day(s) for {workDate} was created by {actorName}."
+    "title": "記録されたタイムシート",
+    "body": "{workDate} の {amount} 日のタイムシートが {actorName} によって作成されました。"
   },
   "workLogUpdated": {
-    "title": "Timesheet updated",
-    "body": "Your timesheet for {workDate} was updated by {actorName}."
+    "title": "タイムシートが更新されました",
+    "body": "{workDate} のタイムシートは {actorName} によって更新されました。"
   },
   "workLogDeleted": {
-    "title": "Timesheet deleted",
-    "body": "Your timesheet for {workDate} was deleted by {actorName}."
+    "title": "タイムシートが削除されました",
+    "body": "{workDate} のタイムシートは {actorName} によって削除されました。"
   },
   "advanceApproved": {
-    "title": "Advance request approved",
-    "body": "Your advance request for {amount} TL has been approved. Add this code to the transfer description: {transferCode}"
+    "title": "事前リクエストが承認されました",
+    "body": "{amount} TLへの事前リクエストが承認されました。このコードを転送の説明に追加します: {transferCode}"
   },
   "advanceApprovedNoCode": {
-    "title": "Advance request approved",
-    "body": "Your advance request for {amount} TL has been approved. Payment processing has started."
+    "title": "事前リクエストが承認されました",
+    "body": "{amount} TLへの事前リクエストが承認されました。支払い処理が開始されました。"
   },
   "advanceCashReady": {
-    "title": "Cash advance ready",
-    "body": "Your cash advance of {amount} TL is ready. Scan the QR code to confirm receipt."
+    "title": "現金前払いの準備ができました",
+    "body": "{amount} TL の現金前払いの準備ができました。 QR コードをスキャンして受信を確認します。"
   },
   "advanceRejected": {
-    "title": "Advance request declined",
+    "title": "事前リクエストは拒否されました",
     "body": "{reason}"
   },
   "advanceRejectedNoReason": {
-    "title": "Advance request declined",
-    "body": "Your request has been declined by the administrator."
+    "title": "事前リクエストは拒否されました",
+    "body": "あなたのリクエストは管理者によって拒否されました。"
   },
   "advancePaid": {
-    "title": "Advance payment recorded",
-    "body": "An advance payment of {amount} TL has been recorded on your payroll."
+    "title": "前払いが記録されています",
+    "body": "{amount} TL の前払いが給与明細に記録されています。"
   },
   "minimumWagePaid": {
-    "title": "Minimum wage payment",
-    "body": "A minimum wage payment of {amount} TL was recorded by {actorName}."
+    "title": "最低賃金の支払い",
+    "body": "{amount} TL の最低賃金支払いが {actorName} によって記録されました。"
   },
   "minimumWageUpdated": {
-    "title": "Minimum wage updated",
-    "body": "Your minimum wage record for {date} was updated to {amount} TL by {actorName}."
+    "title": "最低賃金が更新されました",
+    "body": "{date} の最低賃金記録は、{actorName} までに {amount} TL に更新されました。"
   },
   "minimumWageRemoved": {
-    "title": "Minimum wage removed",
-    "body": "Your {amount} TL minimum wage record for {date} was deleted by {actorName}."
+    "title": "最低賃金は撤廃される",
+    "body": "あなたの {amount} TL 最低賃金記録 ({date}) は {actorName} によって削除されました。"
   },
   "salaryPaid": {
-    "title": "Salary payment completed",
-    "body": "Your net salary for {month} ({amount} TL) has been marked as paid."
+    "title": "給与支払い完了",
+    "body": "{month} ({amount} TL) の純給与が支払済みとしてマークされました。"
   },
   "deductionAdded": {
-    "title": "Payroll update",
-    "body": "A {typeLabel} of {amount} TL was applied to your payroll by {actorName}."
+    "title": "給与計算の更新",
+    "body": "{amount} TL の {typeLabel} が {actorName} によってあなたの給与に適用されました。"
   },
   "deductionUpdated": {
-    "title": "Payroll record updated",
-    "body": "Your {typeLabel} for {date} was updated to {amount} TL by {actorName}."
+    "title": "給与記録が更新されました",
+    "body": "{date} の {typeLabel} は、{actorName} によって {amount} TL に更新されました。"
   },
   "deductionRemoved": {
-    "title": "Payroll record removed",
-    "body": "Your {amount} TL {typeLabel} for {date} was deleted by {actorName}."
+    "title": "給与記録が削除されました",
+    "body": "{date} のあなたの {amount} TL {typeLabel} は {actorName} によって削除されました。"
   },
   "deductionTypeLabels": {
-    "advance": "advance",
-    "deduction": "deduction",
-    "subcontractor_cut": "subcontractor deduction",
-    "other": "deduction"
+    "advance": "前進",
+    "deduction": "控除",
+    "subcontractor_cut": "下請け業者控除",
+    "other": "控除"
   },
   "pushTest": {
-    "title": "Notifications enabled",
-    "body": "CrewLedger personnel notifications are set up successfully."
+    "title": "通知が有効になっています",
+    "body": "CrewLedger の担当者通知が正常に設定されました。"
   },
-  "migrationHint": "Run 059_personnel_notifications.sql migration",
+  "migrationHint": "059_personnel_notifications.sql 移行を実行する",
   "errors": {
-    "notFound": "Notification not found"
+    "notFound": "通知が見つかりません"
   }
 }

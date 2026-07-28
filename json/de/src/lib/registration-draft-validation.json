@@ -1,12 +1,12 @@
 {
   "nameRequired": "Ad ve soyad zorunludur.",
-  "emailRequired": "E-posta adresi zorunludur.",
+  "emailRequired": "E-Mail-Adresse zur E-Mail-Adresse.",
   "emailInvalid": "Geçerli bir e-posta adresi girin.",
-  "phoneRequired": "Telefon numarası zorunludur.",
-  "phoneInvalid": "Geçerli bir telefon numarası girin (ülke kodu dahil).",
-  "tcInvalid": "Geçerli bir T.C. kimlik numarası girin.",
+  "phoneRequired": "Rufnummernanzeige.",
+  "phoneInvalid": "Bitte beachten Sie, dass die Telefonnummer nicht angezeigt wird (kein Fehler).",
+  "tcInvalid": "Geçerli bir T.C. Kimlik Numarası Girin.",
   "foreignIdInvalid": "Geçerli bir yabancı kimlik / pasaport numarası girin.",
   "birthDateRequired": "Doğum tarihi zorunludur.",
   "ibanRequired": "IBAN zorunludur.",
-  "ibanInvalid": "Geçerli bir IBAN girin (TR ile 26 karakter, kontrol hanesi doğru olmalı)."
+  "ibanInvalid": "Bitte beachten Sie, dass die IBAN nur 26 Zeichen lang ist und nur wenige Sekunden lang kontrolliert werden muss."
 }

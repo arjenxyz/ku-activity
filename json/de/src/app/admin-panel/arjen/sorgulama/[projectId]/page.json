@@ -1,7 +1,7 @@
 {
   "filters": {
     "all": "Tüm Kayıtlar",
-    "work": "Yevmiye",
+    "work": "Jewmiye",
     "advance": "Avanslar",
     "deduction": "Kesintiler",
     "salary": "Maaş Özeti"
@@ -10,7 +10,7 @@
   "advanceRecordsTitle": "Avans Kayıtları",
   "deductionRecordsTitle": "Kesinti Kayıtları",
   "colDate": "Tarih",
-  "colType": "Tip",
+  "colType": "Tipp",
   "colDescription": "Açıklama",
   "colAmount": "Tutar",
   "colKind": "Tür",
@@ -23,9 +23,9 @@
   "summaryNetSalary": "Net Maaş",
   "backTitle": "Geri",
   "backLabel": "Geri",
-  "pageTitle": "Personel Sorgulama",
+  "pageTitle": "Personal Sorgulama",
   "selectEmployee": "Çalışan seçiniz...",
   "loading": "Yükleniyor...",
-  "selectEmployeeFirst": "Önce bir çalışan seçin.",
+  "selectEmployeeFirst": "Eine Sekunde später.",
   "noRecords": "Kayıt bulunamadı"
 }

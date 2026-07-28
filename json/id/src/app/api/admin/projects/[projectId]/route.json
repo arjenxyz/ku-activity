@@ -1,6 +1,6 @@
 {
-  "projeBulunamadı": "Project not found",
-  "geçersizDurum": "Invalid status",
-  "buProjeKoduZatenKullanılıyor": "This project code is already in use",
-  "projeKapanışta": "The project is in closure; this action is not allowed."
+  "projeBulunamadı": "Proyek tidak ditemukan",
+  "geçersizDurum": "Statusnya tidak valid",
+  "buProjeKoduZatenKullanılıyor": "Kode proyek ini sudah digunakan",
+  "projeKapanışta": "Proyek ini sedang ditutup; tindakan ini tidak diperbolehkan."
 }

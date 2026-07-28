@@ -1,13 +1,13 @@
 {
   "nav": {
-    "codes": "Doğrulama Kodları",
-    "releases": "APK Sürümleri"
+    "codes": "ドルラマ コドラリ",
+    "releases": "APK シュルムレリ"
   },
   "subtitle": {
-    "releases": "APK sürüm yönetimi",
-    "codes": "Doğrulama kodları"
+    "releases": "APK シュルム・ヨネティミ",
+    "codes": "ドルラマ コドラリ"
   },
-  "panelTitle": "Developer Panel",
-  "logout": "Çıkış",
-  "backHome": "Ana sayfaya dön"
+  "panelTitle": "開発者パネル",
+  "logout": "チクシュ",
+  "backHome": "アナ サイファヤ ドン"
 }

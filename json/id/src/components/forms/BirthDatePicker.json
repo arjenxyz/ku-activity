@@ -1,10 +1,10 @@
 {
   "label": "Doğum Tarihi",
-  "yearAriaLabel": "Doğum yılı",
-  "yearPlaceholder": "Yıl",
-  "monthAriaLabel": "Doğum ayı",
-  "monthPlaceholder": "Ay",
-  "dayAriaLabel": "Doğum günü",
-  "dayPlaceholder": "Gün",
-  "hint": "İnşaat sahasında çalışmak için en az {minAge} yaşında olmalısınız. {maxBirthDate} ve öncesi tarihler seçilebilir."
+  "yearAriaLabel": "Terima kasih",
+  "yearPlaceholder": "Ya",
+  "monthAriaLabel": "Terima kasih",
+  "monthPlaceholder": "Ya",
+  "dayAriaLabel": "Tidak perlu",
+  "dayPlaceholder": "Pistol",
+  "hint": "İnşaat sahasında çalışmak için en az {minAge} yaşında olmalısınız. {maxBirthDate} dan hitungan berikutnya."
 }

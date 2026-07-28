@@ -5,8 +5,8 @@
   "preparing": "Hazırlanıyor…",
   "downloadCta": "Kayıtlarımı indir (ZIP)",
   "errors": {
-    "downloadFailed": "İndirilemedi",
-    "generic": "İndirme başarısız"
+    "downloadFailed": "ইন্দিরিলেমেডি",
+    "generic": "INdirme başarısız"
   },
   "fallbackFilename": "crewledger-kayitlarim.zip"
 }

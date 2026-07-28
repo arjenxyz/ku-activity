@@ -1,29 +1,37 @@
 {
-  "prevMonth": "Previous month",
-  "nextMonth": "Next month",
-  "thisMonth": "This month",
-  "summary": "{recorded} recorded days · {confirmed} confirmed · {mesaiPay} overtime",
-  "selectMonth": "Select month:",
-  "weekdays": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+  "prevMonth": "الشهر السابق",
+  "nextMonth": "الشهر المقبل",
+  "thisMonth": "هذا الشهر",
+  "summary": "{recorded} الأيام المسجلة · {confirmed} تم تأكيدها · {mesaiPay} العمل الإضافي",
+  "selectMonth": "اختر الشهر:",
+  "weekdays": [
+    "الاثنين",
+    "الثلاثاء",
+    "تزوج",
+    "الخميس",
+    "الجمعة",
+    "قعد",
+    "شمس"
+  ],
   "cellTitle": "{date} · {detail}",
-  "tapForDetail": "Tap marked days for details",
+  "tapForDetail": "اضغط على الأيام المحددة للحصول على التفاصيل",
   "legend": {
-    "work": "Work days",
-    "mesai": "Overtime",
-    "advance": "Advance",
-    "deduction": "Deduction",
-    "minimum": "Minimum wage"
+    "work": "أيام العمل",
+    "mesai": "متأخر , بعد فوات الوقت",
+    "advance": "يتقدم",
+    "deduction": "خصم",
+    "minimum": "الحد الأدنى للأجور"
   },
   "presence": {
-    "worked": "At work",
-    "absent": "Absent",
-    "leave": "Leave"
+    "worked": "في العمل",
+    "absent": "غائب",
+    "leave": "يترك"
   },
   "status": {
-    "confirmed": "Confirmed",
-    "pending_employee": "Your approval",
-    "pending_admin": "Admin approval",
-    "disputed": "Disputed",
-    "none": "In progress"
+    "confirmed": "مؤكد",
+    "pending_employee": "موافقتك",
+    "pending_admin": "موافقة المشرف",
+    "disputed": "المتنازع عليها",
+    "none": "في تَقَدم"
   }
 }

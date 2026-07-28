@@ -1,32 +1,32 @@
 {
   "errors": {
     "invalidTc": "Geçerli bir T.C. kimlik numarası girin.",
-    "invalidPhone": "Geçerli bir telefon numarası girin.",
-    "invalidEmail": "Geçerli bir e-posta adresi girin.",
-    "genericMismatch": "Girdiğiniz bilgiler kayıtlarımızla eşleşmedi. Bilgilerinizi kontrol edin veya şantiye yöneticinize başvurun.",
+    "invalidPhone": "Gunakan nomor telepon yang sama.",
+    "invalidEmail": "Silakan kirim email ke alamat Anda.",
+    "genericMismatch": "Gunakan nomor telepon yang sama. Periksa apakah Anda dapat mematikan atau mematikannya.",
     "invalidLink": "Geçersiz bağlantı",
-    "linkInvalidOrExpired": "Bağlantı geçersiz veya süresi dolmuş.",
-    "linkAlreadyUsed": "Bu bağlantı daha önce kullanıldı. Yeni bir sıfırlama linki isteyin.",
+    "linkInvalidOrExpired": "Jangan sentuh atau tekan tombolnya.",
+    "linkAlreadyUsed": "Ini bukan masalah besar. Yeni bir sıfırlama linki isteyin.",
     "linkExpired": "Bağlantının süresi doldu ({minutes} dakika). Giriş ekranından yeni link isteyin.",
-    "accountInactive": "Hesap aktif değil. Yöneticinize başvurun.",
-    "pinUpdateFailed": "PIN güncellenemedi",
-    "linkUsedOrExpired": "Bu bağlantı daha önce kullanıldı veya süresi doldu.",
-    "emailNotConfigured": "PIN sıfırlama e-postası yapılandırılmamış",
-    "emailSendFailed": "E-posta gönderilemedi ({status}){detail}"
+    "accountInactive": "Masih aktif. Matikan baterai.",
+    "pinUpdateFailed": "PIN tidak berfungsi",
+    "linkUsedOrExpired": "Anda tidak perlu khawatir lagi.",
+    "emailNotConfigured": "PIN tidak akan terkirim pada kiriman elektronik",
+    "emailSendFailed": "Pos elektronik gönderilemedi ({status}){detail}"
   },
   "cooldown": {
-    "hoursAndMinutes": "Sıfırlama linki en fazla {cooldownHours} saatte bir gönderilir. {hours} saat {minutes} dakika sonra tekrar deneyin.",
-    "hoursOnly": "Sıfırlama linki en fazla {cooldownHours} saatte bir gönderilir. {hours} saat sonra tekrar deneyin.",
-    "minutesOnly": "Sıfırlama linki en fazla {cooldownHours} saatte bir gönderilir. {minutes} dakika sonra tekrar deneyin."
+    "hoursAndMinutes": "Tautan ini akan diputar dan {cooldownHours} saat ini sedang diputar. {hours} saat {minutes} dakika sonra tekrar deneyin.",
+    "hoursOnly": "Tautan ini akan diputar dan {cooldownHours} saat ini sedang diputar. {hours} saat berbunyi tekrar deneyin.",
+    "minutesOnly": "Tautan ini akan diputar dan {cooldownHours} saat ini sedang diputar. {minutes} dakika sonra tekrar deneyin."
   },
   "email": {
-    "subject": "{appName} — PIN sıfırlama bağlantınız",
+    "subject": "{appName} — PIN tidak dapat diputar",
     "greeting": "Merhaba {name},",
-    "bodyIntro": "Girdiğiniz bilgiler sistemdeki kaydınızla uyuştu. Yeni PIN belirlemek için aşağıdaki bağlantıyı kullanın:",
-    "validityNote": "Bağlantı {minutes} dakika geçerlidir ve yalnızca bir kez kullanılabilir.",
-    "ignoreNote": "Bu talebi siz yapmadıysanız bu e-postayı yok sayın ve yöneticinize bildirin.",
-    "buttonLabel": "Yeni PIN belirle",
-    "htmlIntro": "Girdiğiniz bilgiler sistemdeki kaydınızla uyuştu. Yeni PIN belirlemek için aşağıdaki düğmeye tıklayın:",
-    "htmlIgnoreNote": "Bu talebi siz yapmadıysanız bu e-postayı yok sayın."
+    "bodyIntro": "Pastikan sistem Anda berfungsi dengan baik. Masukkan PIN ini ke dalam daftar berikut:",
+    "validityNote": "{minutes} tidak akan berfungsi dan tidak dapat digunakan lagi.",
+    "ignoreNote": "Namun, jangan lupa untuk mengirimkan email kepada Anda dan Anda akan melakukan bildirin.",
+    "buttonLabel": "Yeni PIN belile",
+    "htmlIntro": "Pastikan sistem Anda berfungsi dengan baik. Gunakan PIN untuk memutar nomor berikut:",
+    "htmlIgnoreNote": "Ini adalah hal yang baik untuk dilakukan."
   }
 }

@@ -1,8 +1,8 @@
 {
-  "navAriaLabel": "Personnel navigation",
-  "home": "Overview",
-  "work": "Calendar",
-  "yoklama": "Attendance",
-  "finance": "Payroll",
-  "more": "Menu"
+  "navAriaLabel": "پرسنل نیویگیشن",
+  "home": "جائزہ",
+  "work": "کیلنڈر",
+  "yoklama": "حاضری",
+  "finance": "پے رول",
+  "more": "مینو"
 }

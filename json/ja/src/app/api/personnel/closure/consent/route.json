@@ -1,4 +1,4 @@
 {
-  "failed": "Consent could not be saved",
-  "closureNotActive": "Project is not in closure"
+  "failed": "同意を保存できませんでした",
+  "closureNotActive": "プロジェクトは終了していません"
 }

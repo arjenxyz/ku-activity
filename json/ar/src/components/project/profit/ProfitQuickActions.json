@@ -1,12 +1,12 @@
 {
-  "addJob": "Yeni iş kalemi",
-  "refreshTitle": "Yenile",
-  "refresh": "Yenile",
+  "addJob": "هذا كل شيء",
+  "refreshTitle": "ينيلي",
+  "refresh": "ينيلي",
   "links": {
-    "blocks": "Bloklar",
-    "teams": "Ekipler",
-    "workLogs": "Yevmiye",
-    "advance": "Avans",
-    "deduction": "Kesinti"
+    "blocks": "بلوكلار",
+    "teams": "إكيبلر",
+    "workLogs": "يفمية",
+    "advance": "أفانز",
+    "deduction": "كيسينتي"
   }
 }

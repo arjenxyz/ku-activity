@@ -1,14 +1,14 @@
 {
-  "submitError": "Kayıt sırasında bir hata oluştu.",
-  "title": "Yevmiye Kaydı Ekle",
-  "employeeLabel": "Çalışan",
-  "selectPlaceholder": "Seçiniz",
-  "dateLabel": "Tarih",
-  "workTypeLabel": "Çalışma Tipi",
-  "fullDay": "Tam Gün",
-  "halfDay": "Yarım Gün",
-  "descriptionLabel": "Açıklama",
-  "submitSaving": "Kaydediliyor...",
-  "submit": "Kaydet",
-  "cancel": "İptal"
+  "submitError": "Kayıt sırasında bir hata oluştu。",
+  "title": "エフミエ・カイドゥ・エクル",
+  "employeeLabel": "チャリシャン",
+  "selectPlaceholder": "セチニス",
+  "dateLabel": "タリフ",
+  "workTypeLabel": "チャリシュマ・ティピ",
+  "fullDay": "タム・ギュン",
+  "halfDay": "ヤルム・ギュン",
+  "descriptionLabel": "アチクラマ",
+  "submitSaving": "カイデディリヨル…",
+  "submit": "ケイデット",
+  "cancel": "イプタル"
 }

@@ -1,11 +1,11 @@
 {
-  "uploadFailed": "Yükleme başarısız",
-  "removeConfirm": "Fotoğrafı kaldırmak istediğinize emin misiniz?",
-  "deleteFailed": "Silinemedi",
-  "uploadTitle": "Fotoğraf yükle",
-  "formatHint": "JPEG, PNG, WebP · max 5 MB",
-  "uploading": "Yükleniyor…",
-  "change": "Değiştir",
-  "upload": "Yükle",
-  "remove": "Kaldır"
+  "uploadFailed": "ユクレメ・バシャリスズ",
+  "removeConfirm": "フォトグラファー カルドゥルマクは、エミン ミスニズを編集していますか?",
+  "deleteFailed": "シリネメディ",
+  "uploadTitle": "写真のユクル",
+  "formatHint": "JPEG、PNG、WebP · 最大 5 MB",
+  "uploading": "ユクレニヨル…",
+  "change": "デジシュティル",
+  "upload": "ユクル",
+  "remove": "カルドゥル"
 }

@@ -1,14 +1,14 @@
 {
-  "embedScreen": "Ekran",
-  "embedScreenDefault": "Auth",
+  "embedScreen": "ekran",
+  "embedScreenDefault": "Penulis",
   "embedTime": "Zaman",
   "embedPage": "Sayfa",
   "embedBrowser": "Tarayıcı",
-  "embedFormError": "Form hatası",
-  "embedUserNote": "Kullanıcı notu",
+  "embedFormError": "Bentuk hatasi",
+  "embedUserNote": "Catatan ini perlu diperhatikan",
   "embedDiagnostics": "Tanılama",
   "reportTitle": "{appName} — Ekran raporu",
   "newReportContent": "🚩 **Yeni ekran raporu**",
-  "sendFailed": "Discord raporu gönderilemedi ({status}){detail}",
-  "notConfigured": "Discord raporu yapılandırılmamış (DISCORD_REPORT_WEBHOOK_URL veya DISCORD_BOT_TOKEN)"
+  "sendFailed": "Perselisihan raporu gönderilemedi ({status}){detail}",
+  "notConfigured": "Discord raporu yapılandırılmamış (DISCORD_REPORT_WEBHOOK_URL dan DISCORD_BOT_TOKEN)"
 }

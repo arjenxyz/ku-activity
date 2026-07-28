@@ -1,14 +1,14 @@
 {
-  "badge": "Today's attendance",
-  "shiftHours": "Work hours {start}{end}",
-  "shiftEnd": " – {end}",
-  "allPresent": "Everyone checked in",
-  "partial": "Attendance underway",
-  "pending": "No attendance yet",
-  "empty": "No personnel on this project",
-  "hintAll": "All {present} personnel are recorded today.",
-  "hintPartial": "{present} present · {missing} pending",
-  "hintPending": "Start QR attendance; people appear as they scan.",
-  "hintEmpty": "Add personnel first.",
-  "scanQr": "Open QR attendance"
+  "badge": "آج کی حاضری ۔",
+  "shiftHours": "کام کے اوقات {start}{end}",
+  "shiftEnd": "– {end}",
+  "allPresent": "سب نے چیک ان کیا۔",
+  "partial": "حاضری جاری ہے۔",
+  "pending": "ابھی تک کوئی حاضری نہیں ہے۔",
+  "empty": "اس منصوبے پر کوئی عملہ نہیں ہے۔",
+  "hintAll": "تمام {present} اہلکاروں کو آج ریکارڈ کیا گیا ہے۔",
+  "hintPartial": "{present} موجودہ · {missing} زیر التواء",
+  "hintPending": "QR حاضری شروع کریں؛ لوگ اسکین کرتے ہی ظاہر ہوتے ہیں۔",
+  "hintEmpty": "پہلے اہلکاروں کو شامل کریں۔",
+  "scanQr": "QR حاضری کھولیں۔"
 }

@@ -1,15 +1,15 @@
 {
-  "greeting": "Hello {name}",
+  "greeting": "Bonjour {name}",
   "pinLabel": "PIN",
-  "unlockButton": "Continue",
-  "unlocking": "Verifying…",
-  "forgotPin": "Forgot PIN",
-  "forgetMe": "Forget me",
-  "forgetMeConfirm": "Your session on this device will be closed. Continue?",
-  "screenLabel": "Lock screen",
-  "subtitle": "Enter your PIN to continue.",
-  "checking": "Loading…",
-  "invalidPin": "Incorrect PIN",
-  "systemError": "Something went wrong",
-  "pinDigitAria": "PIN digit"
+  "unlockButton": "Continuer",
+  "unlocking": "Vérification…",
+  "forgotPin": "Code PIN oublié",
+  "forgetMe": "Oublie-moi",
+  "forgetMeConfirm": "Votre session sur cet appareil sera fermée. Continuer?",
+  "screenLabel": "Écran de verrouillage",
+  "subtitle": "Entrez votre code PIN pour continuer.",
+  "checking": "Chargement…",
+  "invalidPin": "Code PIN incorrect",
+  "systemError": "Quelque chose s'est mal passé",
+  "pinDigitAria": "Chiffre du code PIN"
 }

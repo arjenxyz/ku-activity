@@ -1,56 +1,56 @@
 {
-  "metadataTitle": "Gizlilik Politikası",
-  "metadataDescription": "CrewLedger gönüllülük platformu gizlilik politikası.",
-  "headerSubtitle": "Gizlilik politikası",
-  "title": "Gizlilik Politikası",
-  "lastUpdatedPrefix": "Son güncelleme:",
+  "metadataTitle": "السياسة العامة",
+  "metadataDescription": "CrewLedger هو منصة سياسية شهيرة.",
+  "headerSubtitle": "سياسة سياسية",
+  "title": "السياسة العامة",
+  "lastUpdatedPrefix": "ابن جونسيليم:",
   "sections": {
     "who": {
-      "heading": "1. Kimiz?",
-      "bodyPrefix": "{developerLine} {noCompanyLine} Platform adresi:"
+      "heading": "1. كيميز؟",
+      "bodyPrefix": "{developerLine} {noCompanyLine} عنوان المنصة:"
     },
     "dataCollected": {
-      "heading": "2. Toplanan veriler",
-      "personnel": "Personel:",
-      "personnelDetail": "kimlik, iletişim, IBAN, doğum tarihi, profil fotoğrafı, yevmiye, avans, kesinti, yoklama ve puantaj kayıtları.",
-      "admin": "Yönetici:",
-      "adminDetail": "ad, e-posta, proje/şantiye bilgileri, oturum güvenliği.",
-      "technical": "Teknik:",
-      "technicalDetail": "HttpOnly oturum çerezleri, cihaz türü, hata günlükleri."
+      "heading": "2. توبلانان فيريلر",
+      "personnel": "شخصي:",
+      "personnelDetail": "Kimlik, iletişim, IBAN, doğum tarihi, Profile fotoğrafı, yevmiye, avans, kesinti, yoklama and puantaj kayıtları.",
+      "admin": "يونيتيشي:",
+      "adminDetail": "إعلان، بريد إلكتروني، مشروع/شانتي بيلجيليري، أوتوروم غوفينليغي.",
+      "technical": "تكنيك:",
+      "technicalDetail": "HttpOnly oturum cerezleri, cihaz türü, hata günlükleri."
     },
     "transparency": {
-      "heading": "3. Şeffaflık ilkesi",
+      "heading": "3. صفصافليك",
       "body": "{transparencyLine}"
     },
     "purposes": {
-      "heading": "4. İşleme amaçları",
-      "body": "Veriler yalnızca dijital personel takibi, şeffaf finansal kayıt, yoklama, sözleşme onayı ve platform güvenliği için işlenir. Veri satışı veya reklam profillemesi yapılmaz."
+      "heading": "4. تمتع بالمتعة",
+      "body": "Veriler yalnızca digital personel takibi, seffaf finansal kayıt, yoklama, sözleşme onayı ve Platform güvenliği için işlenir. لقد قمت بالفعل بالإعلان عن ملفك الشخصي."
     },
     "security": {
       "heading": "5. Saklama ve güvenlik",
-      "body": "HTTPS ile iletim; hassas alanlarda AES-256-GCM şifreleme; rol tabanlı erişim. T.C. kimlik NVI ile doğrulanmaz — yalnızca algoritmik format kontrolü uygulanır."
+      "body": "HTTPS ile iletim; hassas alanlarda AES-256-GCM şifreleme; رول تابانلي erişim. تي سي. Kimlik NVI ile doğrulanmaz — yalnızca algoritmik format kontrolü uygulanır."
     },
     "thirdParties": {
       "heading": "6. Üçüncü taraflar",
-      "body": "Vercel (barındırma), Supabase (veritabanı), Brevo (e-posta). Yalnızca hizmet sunumu için gerekli verilere erişirler."
+      "body": "Vercel (barındırma)، Supabase (veritabanı)، Brevo (e-posta). Yalnızca hizmet sunumu için gerekli verilere erişirler."
     },
     "devicePermissions": {
-      "heading": "7. Cihaz izinleri",
-      "body": "Kamera yalnızca QR yoklama gibi açık kullanıcı eylemlerinde, cihaz izniyle kullanılır. Arka planda gizli kayıt yapılmaz. Ayrıntılar personel sözleşmelerindeki \"Cihaz İzinleri\" metninde yer alır."
+      "heading": "7. سيهاز إيزينليري",
+      "body": "Camera yalnızca QR yoklama gibi açık kullanıcı eylemlerinde, cihaz izniyle kullanılır. Arka Planda Gizli kayıt yapılmaz. لقد تم تحديد الأشخاص الذين تم تعيينهم \"للموظفين\" على أنهم كذلك."
     },
     "rights": {
-      "heading": "8. Haklarınız",
+      "heading": "8. هاكلارينيز",
       "bodyPrefix": "KVKK kapsamındaki haklarınız için önce kaydı oluşturan yöneticinize veya",
-      "bodySuffix": "adresine başvurabilirsiniz."
+      "bodySuffix": "أدريسين başvurabilirsiniz."
     },
     "volunteer": {
-      "heading": "9. Gönüllülük",
+      "heading": "9. جونولولوك",
       "body": "{optionalUseLine}"
     }
   },
   "footer": {
-    "home": "← Ana sayfa",
-    "kvkk": "KVKK Aydınlatma",
+    "home": "← أنا سيفا",
+    "kvkk": "KVKK أيدينلاتما",
     "terms": "Kullanım Şartları"
   }
 }

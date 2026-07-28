@@ -1,9 +1,9 @@
 {
   "metadataTitle": "Adatvédelmi szabályzat",
-  "metadataDescription": "CrewLedger gönüllülük platformu gizlilik politikası.",
+  "metadataDescription": "CrewLedger gönüllük platformu gizlilik politikaiı.",
   "headerSubtitle": "Gizlilik politikaı",
   "title": "Adatvédelmi szabályzat",
-  "lastUpdatedPrefix": "Son güncelleme:",
+  "lastUpdatedPrefix": "Güncelleme fiam:",
   "sections": {
     "who": {
       "heading": "1. Kik vagyunk?",
@@ -44,7 +44,7 @@
       "bodySuffix": "Jelentkezni lehet."
     },
     "volunteer": {
-      "heading": "9. Gönüllülük",
+      "heading": "9. Gönüllük",
       "body": "{optionalUseLine}"
     }
   },

@@ -3,12 +3,12 @@
     "regionNotReady": "A kamera területét nem lehetett előkészíteni.",
     "permissionDenied": "Kameraengedély szükséges. Engedélyezze a beállításokból vagy a címsorból.",
     "notFound": "Nem található kamera.",
-    "secureContext": "The camera only works over a secure connection (HTTPS).",
+    "secureContext": "A kamera csak biztonságos kapcsolaton (HTTPS) keresztül működik.",
     "openFailed": "Nem sikerült kinyitni a kamerát. Próbálkozzon inkább a kód megadásával.",
     "unsupported": "Az Ön böngészője nem támogatja a kamera hozzáférést.",
     "httpsRequired": "A kamera csak HTTPS-en keresztül működik.",
     "cameraFailed": "Nem sikerült kinyitni a kamerát"
   },
-  "invalidQrMessage": "This is not a valid attendance QR code.",
+  "invalidQrMessage": "Ez nem érvényes jelenléti QR-kód.",
   "openingCamera": "Kamera megnyitása…"
 }

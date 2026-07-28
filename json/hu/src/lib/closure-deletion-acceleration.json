@@ -11,7 +11,7 @@
   "invalidCode": "Érvénytelen vagy lejárt kód.",
   "tooManyAttempts": "Túl sok sikertelen próbálkozás.",
   "challengeNotFound": "Ellenőrző munkamenet nem található.",
-  "challengeExpired": "Code expired. Request a new one.",
+  "challengeExpired": "A kód lejárt. Kérjen újat.",
   "subject": "{appName} — Fióktörlés megerősítése",
   "codeIntro": "A fiók törlésének felgyorsításához írja be az alábbi kódot:",
   "codeHint": "A megerősítést követően fiókja 3 percen belül törlődik.",

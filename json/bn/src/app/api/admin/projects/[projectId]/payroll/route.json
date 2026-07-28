@@ -1,5 +1,5 @@
 {
-  "ayGerekliYyyyMm": "Month required (YYYY-MM)",
-  "err004MenuFeaturesSqlÇalıştırın": "Run 004_menu_features.sql",
-  "bordroHesaplanamadı": "Could not calculate payroll"
+  "ayGerekliYyyyMm": "মাস প্রয়োজন (YYYY-MM)",
+  "err004MenuFeaturesSqlÇalıştırın": "004_menu_features.sql চালান",
+  "bordroHesaplanamadı": "বেতনের হিসাব করা যায়নি"
 }

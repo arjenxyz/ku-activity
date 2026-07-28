@@ -1,7 +1,7 @@
 {
   "encryptionKeyMissing": "FIELD_ENCRYPTION_KEY eksik veya çok kısa (.env)",
-  "invalidTcKimlik": "Geçersiz T.C. kimlik numarası",
+  "invalidTcKimlik": "جيسيرسيز تي.سي. kimlik numarası",
   "invalidIdentity": "Geçersiz kimlik numarası",
-  "invalidPhone": "Geçersiz telefon numarası",
+  "invalidPhone": "قم بتسجيل أرقام الهاتف",
   "invalidIban": "Geçersiz IBAN"
 }

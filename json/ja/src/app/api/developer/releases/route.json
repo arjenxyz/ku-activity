@@ -1,10 +1,10 @@
 {
-  "err054AppReleasesSqlÇalıştırın": "054_app_releases.sql çalıştırın",
-  "apptypePersonnelVeyaAdminOlmalı": "appType personnel veya admin olmalı",
-  "versionnameGerekli": "versionName gerekli",
-  "versioncodePozitifTamSayıOlmalı": "versionCode pozitif tam sayı olmalı",
-  "apkDosyasıGerekli": "APK dosyası gerekli",
-  "buUygulamaIçinAynıSürümKodu": "Bu uygulama için aynı sürüm kodu zaten kayıtlı",
-  "apkYüklendiDeveloperPaneldenYayınlayın": "APK yüklendi. Developer panelden yayınlayın.",
-  "apkYüklendiYayınlamakIçinOnaylayın": "APK yüklendi. Yayınlamak için onaylayın."
+  "err054AppReleasesSqlÇalıştırın": "054_app_releases.sql の説明",
+  "apptypePersonnelVeyaAdminOlmalı": "appType 担当者が管理者オルマルを担当",
+  "versionnameGerekli": "バージョン名ゲレクリ",
+  "versioncodePozitifTamSayıOlmalı": "バージョンコードを指定してください",
+  "apkDosyasıGerekli": "APK ドシャス ゲレクリ",
+  "buUygulamaIçinAynıSürümKodu": "あなたの人生を豊かにします",
+  "apkYüklendiDeveloperPaneldenYayınlayın": "APK ユクレンディ。開発者パネルのyayınlayın。",
+  "apkYüklendiYayınlamakIçinOnaylayın": "APK ユクレンディ。ヤインラマック・イシン・オナイライン。"
 }

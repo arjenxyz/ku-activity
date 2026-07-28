@@ -3,21 +3,21 @@
     "invalidTc": "Geçerli bir T.C. kimlik numarası girin.",
     "invalidPhone": "Geçerli bir telefon numarası girin.",
     "invalidEmail": "Geçerli bir e-posta adresi girin.",
-    "genericMismatch": "Girdiğiniz bilgiler kayıtlarımızla eşleşmedi. Bilgilerinizi kontrol edin veya şantiye yöneticinize başvurun.",
+    "genericMismatch": "Girdiğiniz bilgiler kayıtlarımızla eşleşmedi. Bilgilerinizi kontrol edin o şantiye yöneticinize başvurun.",
     "invalidLink": "Geçersiz bağlantı",
-    "linkInvalidOrExpired": "Bağlantı geçersiz veya süresi dolmuş.",
+    "linkInvalidOrExpired": "Bağlantı geçersiz o ya süresi dolmuş.",
     "linkAlreadyUsed": "Bu bağlantı daha önce kullanıldı. Yeni bir sıfırlama linki isteyin.",
     "linkExpired": "Bağlantının süresi doldu ({minutes} dakika). Giriş ekranından yeni link isteyin.",
-    "accountInactive": "Hesap aktif değil. Yöneticinize başvurun.",
-    "pinUpdateFailed": "PIN güncellenemedi",
-    "linkUsedOrExpired": "Bu bağlantı daha önce kullanıldı veya süresi doldu.",
-    "emailNotConfigured": "PIN sıfırlama e-postası yapılandırılmamış",
-    "emailSendFailed": "E-posta gönderilemedi ({status}){detail}"
+    "accountInactive": "Hesap actif değil. Yöneticinize başvurun.",
+    "pinUpdateFailed": "PIN güncelenemedi",
+    "linkUsedOrExpired": "Bu bağlantı daha önce kullanıldı o ya süresi doldu.",
+    "emailNotConfigured": "PIN de configuración de publicaciones electrónicas",
+    "emailSendFailed": "Correo electrónico gönderilemedi ({status}){detail}"
   },
   "cooldown": {
-    "hoursAndMinutes": "Sıfırlama linki en fazla {cooldownHours} saatte bir gönderilir. {hours} saat {minutes} dakika sonra tekrar deneyin.",
-    "hoursOnly": "Sıfırlama linki en fazla {cooldownHours} saatte bir gönderilir. {hours} saat sonra tekrar deneyin.",
-    "minutesOnly": "Sıfırlama linki en fazla {cooldownHours} saatte bir gönderilir. {minutes} dakika sonra tekrar deneyin."
+    "hoursAndMinutes": "Sıfırlama linki y fazla {cooldownHours} saatte bir gönderilir. {hours} saat {minutes} dakika sonra tekrar deneyin.",
+    "hoursOnly": "Sıfırlama linki y fazla {cooldownHours} saatte bir gönderilir. {hours} saat sonra tekrar deneyin.",
+    "minutesOnly": "Sıfırlama linki y fazla {cooldownHours} saatte bir gönderilir. {minutes} dakika sonra tekrar deneyin."
   },
   "email": {
     "subject": "{appName} — PIN sıfırlama bağlantınız",

@@ -1,10 +1,10 @@
 {
   "pageTitle": "Asgari Sorgulama",
-  "pageDescription": "Asgari ödeme kayıtlarını görüntüleyin, düzenleyin veya silin.",
-  "colEmployee": "Personel",
+  "pageDescription": "Asgari ödeme kayıtlarını görüntüleyin, düzenleyin o silin.",
+  "colEmployee": "Personal",
   "colDate": "Tarih",
   "colAmount": "Tutar",
-  "colDescription": "Açıklama",
+  "colDescription": "açıklama",
   "colActions": "İşlem",
   "emptyCell": "—",
   "total": "Toplam: {amount}"

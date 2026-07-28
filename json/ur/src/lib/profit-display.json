@@ -13,14 +13,14 @@
       "hint": "Bu işe bağlı avans kayıtları"
     },
     "deduction": {
-      "label": "Kesintiler"
+      "label": "کیسنٹائلر"
     },
     "material": {
-      "label": "Malzeme gideri",
-      "hint": "{expenseCount} kayıt"
+      "label": "مالزیم گیڈری۔",
+      "hint": "{expenseCount} ٹھیک ہے۔"
     },
     "profit": {
-      "label": "Net kâr"
+      "label": "نیٹ کر"
     },
     "share": {
       "label": "Ortak başı ({shareCount} kişi)"

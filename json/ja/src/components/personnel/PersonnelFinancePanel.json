@@ -1,14 +1,14 @@
 {
-  "sectionTitle": "Maaş dökümü",
-  "printTitle": "Detaylı döküm",
-  "printHint": "Yazdır veya PDF kaydet",
+  "sectionTitle": "マーシュ ドキュム",
+  "printTitle": "詳細情報",
+  "printHint": "ヤズドゥル ヴェヤ PDF カイデット",
   "rows": {
-    "basePay": "Yevmiye (gün × ücret)",
-    "mesaiPay": "Mesai kazancı (+)",
-    "gross": "Brüt toplam",
-    "advances": "Avanslar (−)",
-    "deductions": "Kesintiler (−)",
-    "minimum": "Asgari ödemeler (+)"
+    "basePay": "イェヴミエ (ギュン×ユクレット)",
+    "mesaiPay": "メサイ・カザンジュ (+)",
+    "gross": "ブリュット・トップラム",
+    "advances": "アヴァンスラー（−）",
+    "deductions": "ケシンティラー（−）",
+    "minimum": "アスガリ・オーデメラー (+)"
   },
-  "net": "Net"
+  "net": "ネット"
 }

@@ -1,96 +1,96 @@
 {
-  "title": "Payroll Statement",
-  "printedAt": "Printed:",
-  "documentNo": "Document no:",
-  "employeeInfo": "Employee information",
-  "periodSummary": "Period summary",
-  "workLogsTitle": "Work log records ({count})",
-  "mesaiSummary": "Overtime summary",
-  "advancesTitle": "Advances ({count})",
-  "deductionsTitle": "Deductions ({count})",
-  "minimumWagesTitle": "Minimum wage payments ({count})",
-  "calcSummary": "Calculation summary",
-  "emptyValue": "\u2014",
+  "title": "پے رول کا بیان",
+  "printedAt": "مطبوعہ:",
+  "documentNo": "دستاویز نمبر:",
+  "employeeInfo": "ملازم کی معلومات",
+  "periodSummary": "مدت کا خلاصہ",
+  "workLogsTitle": "ورک لاگ ریکارڈز ({count})",
+  "mesaiSummary": "اوور ٹائم کا خلاصہ",
+  "advancesTitle": "ایڈوانسز ({count})",
+  "deductionsTitle": "کٹوتیاں ({count})",
+  "minimumWagesTitle": "کم از کم اجرت کی ادائیگی ({count})",
+  "calcSummary": "حساب کتاب کا خلاصہ",
+  "emptyValue": "—",
   "fields": {
-    "fullName": "Full name",
-    "position": "Position",
-    "project": "Project / site",
-    "dailyWage": "Daily wage",
-    "tcKimlik": "National ID",
-    "hireDate": "Hire date"
+    "fullName": "پورا نام",
+    "position": "پوزیشن",
+    "project": "پروجیکٹ / سائٹ",
+    "dailyWage": "یومیہ اجرت",
+    "tcKimlik": "قومی شناخت",
+    "hireDate": "کرایہ کی تاریخ"
   },
   "summary": {
-    "workDays": "Worked days",
-    "approvedDays": "Approved days",
-    "pendingDays": "Pending days",
-    "mesaiUnits": "Overtime units",
-    "netEstimate": "Estimated Net Salary"
+    "workDays": "کام کے دن",
+    "approvedDays": "منظور شدہ دن",
+    "pendingDays": "زیر التواء دن",
+    "mesaiUnits": "اوور ٹائم یونٹس",
+    "netEstimate": "تخمینہ شدہ خالص تنخواہ"
   },
   "table": {
-    "date": "Date",
-    "dateTime": "Date / Time",
-    "work": "Work",
-    "mesai": "Overtime",
-    "wage": "Wage",
-    "mesaiPay": "Overtime \u20ba",
-    "rowTotal": "Row total",
-    "status": "Status",
-    "total": "Total",
-    "type": "Type",
-    "record": "Record",
-    "unit": "Unit",
-    "amount": "Amount",
-    "description": "Description",
-    "deductionType": "Type"
+    "date": "تاریخ",
+    "dateTime": "تاریخ / وقت",
+    "work": "کام",
+    "mesai": "اوور ٹائم",
+    "wage": "اجرت",
+    "mesaiPay": "اوور ٹائم ₺",
+    "rowTotal": "قطار کا کل",
+    "status": "حیثیت",
+    "total": "کل",
+    "type": "قسم",
+    "record": "ریکارڈ",
+    "unit": "یونٹ",
+    "amount": "رقم",
+    "description": "تفصیل",
+    "deductionType": "قسم"
   },
   "mesaiTypes": {
-    "ceyrek": "Quarter overtime",
-    "yarim": "Half overtime",
-    "tam": "Full overtime"
+    "ceyrek": "کوارٹر اوور ٹائم",
+    "yarim": "آدھا اوور ٹائم",
+    "tam": "مکمل اوور ٹائم"
   },
   "empty": {
-    "workLogs": "No work log records for this period.",
-    "advances": "No advance records.",
-    "deductions": "No deduction records.",
-    "minimumWages": "No minimum wage top-up payment."
+    "workLogs": "اس مدت کے لیے کام کا کوئی ریکارڈ نہیں ہے۔",
+    "advances": "کوئی پیشگی ریکارڈ نہیں۔",
+    "deductions": "کوئی کٹوتی ریکارڈ نہیں ہے۔",
+    "minimumWages": "کوئی کم از کم اجرت ٹاپ اپ ادائیگی نہیں۔"
   },
   "defaults": {
-    "advance": "Advance",
-    "minimumWage": "Minimum wage top-up"
+    "advance": "پیشگی",
+    "minimumWage": "کم از کم اجرت ٹاپ اپ"
   },
   "totals": {
-    "grand": "Grand total",
-    "advances": "Total advances",
-    "deductions": "Total deductions",
-    "minimumWages": "Total minimum wage"
+    "grand": "گرینڈ کل",
+    "advances": "کل ایڈوانسز",
+    "deductions": "کل کٹوتیاں",
+    "minimumWages": "کل کم از کم اجرت"
   },
   "calc": {
-    "basePay": "Wage ({days} days x {wage})",
-    "mesaiPay": "Overtime earnings (+)",
-    "gross": "Gross total",
-    "advances": "Advances (-)",
-    "deductions": "Deductions (-)",
-    "minimumWages": "Minimum wage payments (-)",
-    "netPayment": "Estimated Net Salary",
-    "note": "Net formula: Gross ({gross}) - Advance ({advances}) - Deduction ({deductions}){minimumPart} = {net}",
-    "minimumPart": " - Minimum ({amount})"
+    "basePay": "اجرت ({days} دن x {wage})",
+    "mesaiPay": "اوور ٹائم کمائی (+)",
+    "gross": "مجموعی کل",
+    "advances": "ایڈوانسز (-)",
+    "deductions": "کٹوتیاں (-)",
+    "minimumWages": "کم از کم اجرت کی ادائیگی (-)",
+    "netPayment": "تخمینہ شدہ خالص تنخواہ",
+    "note": "خالص فارمولا: مجموعی ({gross}) - ایڈوانس ({advances}) - کٹوتی ({deductions}){minimumPart} = {net}",
+    "minimumPart": "- کم از کم ({amount})"
   },
   "footer": {
-    "employee": "Employee",
-    "employer": "Employer / Manager",
-    "employeeRole": "Personnel reviewing this document",
-    "employerRole": "Manager / employer approving this document",
-    "signedAt": "Document date",
-    "signatureHint": "Full name - Date - Signature",
-    "clausesTitle": "Document notices",
+    "employee": "ملازم",
+    "employer": "آجر / مینیجر",
+    "employeeRole": "اس دستاویز کا جائزہ لینے والا عملہ",
+    "employerRole": "مینیجر/آجر اس دستاویز کی منظوری دے رہا ہے۔",
+    "signedAt": "دستاویز کی تاریخ",
+    "signatureHint": "پورا نام - تاریخ - دستخط",
+    "clausesTitle": "دستاویزی نوٹس",
     "clauses": [
-      "This document is for informational purposes only and is not an official payroll, social-security filing, or tax document.",
-      "Records are generated from the same database in the {appName} personnel and admin panels.",
-      "In employment disputes, signed official payrolls, bank receipts, and legally required documents take precedence.",
-      "This document was created electronically and is verified by digital system records; a wet-ink signature is not required."
+      "یہ دستاویز صرف معلوماتی مقاصد کے لیے ہے اور یہ سرکاری پے رول، سوشل سیکیورٹی فائلنگ، یا ٹیکس دستاویز نہیں ہے۔",
+      "{appName} اہلکاروں اور ایڈمن پینلز میں ایک ہی ڈیٹا بیس سے ریکارڈز بنائے جاتے ہیں۔",
+      "ملازمت کے تنازعات میں، دستخط شدہ سرکاری پے رول، بینک کی رسیدیں، اور قانونی طور پر مطلوبہ دستاویزات کو ترجیح دی جاتی ہے۔",
+      "یہ دستاویز الیکٹرانک طور پر بنائی گئی تھی اور اس کی تصدیق ڈیجیٹل سسٹم کے ریکارڈ سے ہوتی ہے۔ گیلی سیاہی کے دستخط کی ضرورت نہیں ہے۔"
     ],
-    "digitalSeal": "Digital Approval Mark",
-    "digitalSealHint": "Verified by CrewLedger system records",
-    "brandTagline": "Construction Workforce Platform"
+    "digitalSeal": "ڈیجیٹل منظوری کا نشان",
+    "digitalSealHint": "CrewLedger سسٹم ریکارڈز کے ذریعے تصدیق شدہ",
+    "brandTagline": "تعمیراتی افرادی قوت کا پلیٹ فارم"
   }
 }

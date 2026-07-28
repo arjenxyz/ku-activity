@@ -1,7 +1,7 @@
 {
-  "title": "Gelişmiş arayüz gerekli",
-  "description": "Bu sayfa blok yönetimi, bordro, rapor arşivi gibi gelişmiş işlemler içindir. Günlük yoklama ve yevmiye için basit arayüzü kullanın.",
-  "warningMessage": "Basit modda yoklama QR, avans ve itiraz sayfalarına erişilir.",
-  "backToDaily": "Günlük işlemlere dön",
-  "backToProjects": "Proje listesine dön"
+  "title": "ゲリシュミシュ・アラユズ・ゲレクリ",
+  "description": "あなたのブロック、ボードロ、ラポール、ジビ ゲリシュミシュ、イシュレムラー チシンディルを教えてください。ギュンルク・ヨクラマ・ヴェ・イェヴミエ・イシン・バシット・アラユズ・クランヌ。",
+  "warningMessage": "QR を使って、さまざまな情報を確認してください。",
+  "backToDaily": "ギュンリュック・イズレムレ・デン",
+  "backToProjects": "プロジェクト リステシネ ドン"
 }

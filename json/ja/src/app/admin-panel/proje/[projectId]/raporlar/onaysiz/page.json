@@ -1,8 +1,8 @@
 {
-  "pageTitle": "Onaylanmayanlar",
-  "pageDescription": "Onay bekleyen yevmiye kayıtları.",
-  "colEmployee": "Personel",
-  "colDate": "Tarih",
-  "colDays": "Gün",
+  "pageTitle": "オナイランマヤンラル",
+  "pageDescription": "オナイ・ベクレーエン・イェヴミエ・カイトラル。",
+  "colEmployee": "人事",
+  "colDate": "タリフ",
+  "colDays": "銃",
   "emptyCell": "—"
 }

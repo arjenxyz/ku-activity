@@ -1,9 +1,9 @@
 {
-  "switchAriaLabel": "Select language",
-  "menuTitle": "Language",
-  "modalTitle": "Select language",
-  "closeButtonAriaLabel": "Close",
-  "closeOverlayAriaLabel": "Close",
-  "footerNote": "Your choice is saved on this device.",
+  "switchAriaLabel": "Pilih bahasa",
+  "menuTitle": "Bahasa",
+  "modalTitle": "Pilih bahasa",
+  "closeButtonAriaLabel": "Menutup",
+  "closeOverlayAriaLabel": "Menutup",
+  "footerNote": "Pilihan Anda disimpan di perangkat ini.",
   "exitHint": "Ketuk untuk keluar"
 }

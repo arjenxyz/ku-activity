@@ -1,12 +1,12 @@
 {
-  "invalidProjectUrl": "Invalid project URL",
-  "projectNotFound": "Project not found",
-  "loadError": "Failed to load data",
-  "backToProjectList": "Back to project list",
-  "loadingData": "Loading…",
-  "stripTitle": "This month",
-  "stripPresent": "Today",
-  "stripMissing": "Pending",
-  "stripActive": "Active",
-  "stripPayroll": "Estimate"
+  "invalidProjectUrl": "عنوان URL للمشروع غير صالح",
+  "projectNotFound": "لم يتم العثور على المشروع",
+  "loadError": "فشل تحميل البيانات",
+  "backToProjectList": "العودة إلى قائمة المشاريع",
+  "loadingData": "تحميل…",
+  "stripTitle": "هذا الشهر",
+  "stripPresent": "اليوم",
+  "stripMissing": "قيد الانتظار",
+  "stripActive": "نشيط",
+  "stripPayroll": "تقدير"
 }

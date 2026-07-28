@@ -1,5 +1,5 @@
 {
-  "pinWrongLength": "Giriş şifresi (PIN) {length} haneli olmalıdır",
-  "pinDigitsOnly": "PIN yalnızca rakam içermelidir",
-  "pinMismatch": "PIN tekrarı eşleşmiyor"
+  "pinWrongLength": "ギリシュ・シフレシ (PIN) {length} ハネリ・オルマルドゥル",
+  "pinDigitsOnly": "PIN ヤルヌスカ・ラカム・イチェルメリディル",
+  "pinMismatch": "PIN テクラル エシュレシュミヨール"
 }

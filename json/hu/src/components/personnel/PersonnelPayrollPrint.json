@@ -87,7 +87,7 @@
       "Ez a dokumentum csak tájékoztató jellegű, és nem hivatalos bérszámfejtés, társadalombiztosítási bejelentés vagy adózási dokumentum.",
       "A rekordok ugyanabból az adatbázisból jönnek létre a {appName} személyzeti és adminisztrációs paneleken.",
       "Munkaügyi vitákban az aláírt hivatalos bérjegyzékek, banki bizonylatok és a törvényileg előírt dokumentumok élveznek elsőbbséget.",
-      "This document was created electronically and is verified by digital system records; a wet-ink signature is not required."
+      "Ezt a dokumentumot elektronikusan hozták létre, és digitális rendszernyilvántartással ellenőrzik; nedves tinta aláírása nem szükséges."
     ],
     "digitalSeal": "Digitális jóváhagyási jel",
     "digitalSealHint": "A CrewLedger rendszerrekordok igazolták",

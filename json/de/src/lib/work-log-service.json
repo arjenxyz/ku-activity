@@ -1,10 +1,10 @@
 {
-  "duplicateWorkLog": "A timesheet already exists for this date",
-  "alreadyConfirmed": "You already confirmed this day",
-  "duplicateRecord": "A record already exists for this date",
-  "disputeNoteTooShort": "Dispute note must be at least 5 characters",
-  "recordNotFound": "Timesheet not found",
-  "cannotDisputeApproved": "Cannot dispute an approved record",
-  "cannotDisputeConfirmed": "Cannot dispute a record you already confirmed",
-  "alreadyPaidNeedOverwrite": "This person already has a timesheet for this date. Confirm to overwrite."
+  "duplicateWorkLog": "Für dieses Datum ist bereits eine Arbeitszeittabelle vorhanden",
+  "alreadyConfirmed": "Sie haben diesen Tag bereits bestätigt",
+  "duplicateRecord": "Für dieses Datum existiert bereits ein Datensatz",
+  "disputeNoteTooShort": "Die Streitnotiz muss mindestens 5 Zeichen lang sein",
+  "recordNotFound": "Stundenzettel nicht gefunden",
+  "cannotDisputeApproved": "Ein genehmigter Datensatz kann nicht angefochten werden",
+  "cannotDisputeConfirmed": "Ein bereits bestätigter Datensatz kann nicht angefochten werden",
+  "alreadyPaidNeedOverwrite": "Diese Person verfügt bereits über eine Arbeitszeittabelle für dieses Datum. Zum Überschreiben bestätigen."
 }

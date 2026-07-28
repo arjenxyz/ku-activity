@@ -1,10 +1,10 @@
 {
-  "pageTitle": "Personel Listesi",
-  "pageDescription": "Projedeki tüm personelleri görüntüleyin.",
-  "newEmployeeButton": "Yeni Personel",
+  "pageTitle": "Daftar Personil",
+  "pageDescription": "Proyek ini dilakukan secara pribadi.",
+  "newEmployeeButton": "Personil Yeni",
   "emptyMessage": "Henüz personel eklenmemiş.",
-  "colPhoto": "Fotoğraf",
-  "colName": "Ad Soyad",
+  "colPhoto": "Fotograf",
+  "colName": "Iklan Soyad",
   "colPosition": "Pozisyon",
   "colEmail": "E-posta",
   "colWage": "Yevmiye",
@@ -14,5 +14,5 @@
   "emptyCell": "—",
   "statusActive": "Aktif",
   "statusInactive": "Pasif",
-  "editLink": "Düzenle"
+  "editLink": "Duzenle"
 }

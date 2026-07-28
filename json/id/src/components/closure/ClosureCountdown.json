@@ -1,10 +1,10 @@
 {
-  "title": "Time remaining",
-  "expired": "Deadline passed",
-  "days": "d",
-  "hours": "h",
-  "minutes": "m",
-  "seconds": "s",
-  "phasePending": "Awaiting personnel consents",
-  "phaseExport": "Data export window"
+  "title": "Sisa waktu",
+  "expired": "Batas waktu telah berlalu",
+  "days": "D",
+  "hours": "H",
+  "minutes": "M",
+  "seconds": "S",
+  "phasePending": "Menunggu persetujuan personel",
+  "phaseExport": "Jendela ekspor data"
 }

@@ -1,8 +1,8 @@
 {
-  "dosyaGerekli": "Dosya gerekli",
-  "yalnızcaJpegPngWebpVeyaGif": "Yalnızca JPEG, PNG, WebP veya GIF yükleyebilirsiniz",
+  "dosyaGerekli": "dosya gerekli",
+  "yalnızcaJpegPngWebpVeyaGif": "Archivos JPEG, PNG, WebP o GIF",
   "dosyaEnFazla5MbOlabilir": "Dosya en fazla 5 MB olabilir",
-  "personelBulunamadı": "Personel bulunamadı",
+  "personelBulunamadı": "Personal bulunamadı",
   "fotoğrafYüklenemedi": "Fotoğraf yüklenemedi",
   "fotoğrafKaydıGüncellenemedi": "Fotoğraf kaydı güncellenemedi",
   "yetkisiz": "Yetkisiz",

@@ -1,11 +1,11 @@
 {
-  "unauthorized": "Session invalid",
-  "loadFailed": "Could not load reports",
-  "invalidBody": "Invalid request",
-  "invalidDate": "Invalid date",
-  "categoriesRequired": "Select at least one error category",
-  "noteTooShort": "Description must be at least 5 characters",
-  "createFailed": "Could not submit report",
-  "migrationRequired": "Run migration 077_day_error_reports.sql",
-  "projectClosed": "Project is closing; reports cannot be submitted"
+  "unauthorized": "سیشن غلط ہے۔",
+  "loadFailed": "رپورٹس لوڈ نہیں ہو سکیں",
+  "invalidBody": "غلط درخواست",
+  "invalidDate": "غلط تاریخ",
+  "categoriesRequired": "کم از کم ایک غلطی کا زمرہ منتخب کریں۔",
+  "noteTooShort": "تفصیل کم از کم 5 حروف کی ہونی چاہیے۔",
+  "createFailed": "رپورٹ پیش نہیں کر سکے۔",
+  "migrationRequired": "ہجرت 077_day_error_reports.sql چلائیں۔",
+  "projectClosed": "پروجیکٹ بند ہو رہا ہے؛ رپورٹ پیش نہیں کی جا سکتی"
 }

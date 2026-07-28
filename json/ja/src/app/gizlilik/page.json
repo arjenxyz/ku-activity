@@ -1,56 +1,56 @@
 {
-  "metadataTitle": "Gizlilik Politikası",
-  "metadataDescription": "CrewLedger gönüllülük platformu gizlilik politikası.",
-  "headerSubtitle": "Gizlilik politikası",
-  "title": "Gizlilik Politikası",
-  "lastUpdatedPrefix": "Son güncelleme:",
+  "metadataTitle": "ギズリリク・ポリティカス",
+  "metadataDescription": "CrewLedger は、政治的なプラットフォームを管理します。",
+  "headerSubtitle": "ギズリリク政治",
+  "title": "ギズリリク・ポリティカス",
+  "lastUpdatedPrefix": "ソン・ギュンセレメ：",
   "sections": {
     "who": {
-      "heading": "1. Kimiz?",
-      "bodyPrefix": "{developerLine} {noCompanyLine} Platform adresi:"
+      "heading": "1.キミズ?",
+      "bodyPrefix": "{developerLine} {noCompanyLine} プラットフォームアドレス:"
     },
     "dataCollected": {
-      "heading": "2. Toplanan veriler",
-      "personnel": "Personel:",
-      "personnelDetail": "kimlik, iletişim, IBAN, doğum tarihi, profil fotoğrafı, yevmiye, avans, kesinti, yoklama ve puantaj kayıtları.",
-      "admin": "Yönetici:",
-      "adminDetail": "ad, e-posta, proje/şantiye bilgileri, oturum güvenliği.",
-      "technical": "Teknik:",
-      "technicalDetail": "HttpOnly oturum çerezleri, cihaz türü, hata günlükleri."
+      "heading": "2.トプラナン・ベラー",
+      "personnel": "担当者:",
+      "personnelDetail": "キムリク、イレティシム、IBAN、ドゥム・タリヒ、プロフィール写真、エフミエ、アバンズ、ケシンティ、ヨクラマ・ヴェ・プアンタジ・カユットラル。",
+      "admin": "ヨネティチ:",
+      "adminDetail": "広告、電子投稿、プロジェクト/シャンティエ ビルギレリ、オトゥルム ギュヴェンリジ。",
+      "technical": "テクニック:",
+      "technicalDetail": "http: oturum çerezleri、cihaz türü、hata günlükleri のみ。"
     },
     "transparency": {
-      "heading": "3. Şeffaflık ilkesi",
+      "heading": "3. シェファフルク・イルケシ",
       "body": "{transparencyLine}"
     },
     "purposes": {
-      "heading": "4. İşleme amaçları",
-      "body": "Veriler yalnızca dijital personel takibi, şeffaf finansal kayıt, yoklama, sözleşme onayı ve platform güvenliği için işlenir. Veri satışı veya reklam profillemesi yapılmaz."
+      "heading": "4. アマクララ",
+      "body": "デジタル パーソナル タキビ、シェフファフ ファイナンシャル ケイト、ヨクラマ、ソズレシュメ オンアイ ベ プラットフォームを確認してください。あなたのプロフィールを確認してください。"
     },
     "security": {
-      "heading": "5. Saklama ve güvenlik",
-      "body": "HTTPS ile iletim; hassas alanlarda AES-256-GCM şifreleme; rol tabanlı erişim. T.C. kimlik NVI ile doğrulanmaz — yalnızca algoritmik format kontrolü uygulanır."
+      "heading": "5. サクラマ・ヴェ・ギュヴェンリク",
+      "body": "HTTPS ファイルの空き時間。ハッサス・アランラルダ AES-256-GCM シフレレメ。ロル・タバンル・エリシム。 T.C. kimlik NVI ile doğrulanmaz — yalnızca アルゴリズム形式コントロール。"
     },
     "thirdParties": {
-      "heading": "6. Üçüncü taraflar",
-      "body": "Vercel (barındırma), Supabase (veritabanı), Brevo (e-posta). Yalnızca hizmet sunumu için gerekli verilere erişirler."
+      "heading": "6. ウチュンチュタラフララー",
+      "body": "Vercel (barındırma)、Supabase (veritabanı)、Brevo (e-posta)。ヤルヌスカ・ヒズメット・スヌム・イシン・ゲレクリ・ヴェリレ・エリシルラー。"
     },
     "devicePermissions": {
-      "heading": "7. Cihaz izinleri",
-      "body": "Kamera yalnızca QR yoklama gibi açık kullanıcı eylemlerinde, cihaz izniyle kullanılır. Arka planda gizli kayıt yapılmaz. Ayrıntılar personel sözleşmelerindeki \"Cihaz İzinleri\" metninde yer alır."
+      "heading": "7. シハズ・イズンレリ",
+      "body": "カメラ ヤルヌスカ QR を使用して、カメラを確認してください。アルカ プランダ ギズリ カイト ヤプルマズ。 Ayrıntılar の担当者は、「Cihaz İzinleri」と会いました。"
     },
     "rights": {
-      "heading": "8. Haklarınız",
-      "bodyPrefix": "KVKK kapsamındaki haklarınız için önce kaydı oluşturan yöneticinize veya",
-      "bodySuffix": "adresine başvurabilirsiniz."
+      "heading": "8. ハクラルニズ",
+      "bodyPrefix": "KVKK のカプサムインダキ ハクラルニズ アイス ケイドゥ オルシュトゥラン イェネティシニズ ヴェーヤ",
+      "bodySuffix": "アドレシン・バシュヴラビリルシニズ。"
     },
     "volunteer": {
-      "heading": "9. Gönüllülük",
+      "heading": "9. ギョヌルルク",
       "body": "{optionalUseLine}"
     }
   },
   "footer": {
-    "home": "← Ana sayfa",
-    "kvkk": "KVKK Aydınlatma",
-    "terms": "Kullanım Şartları"
+    "home": "← アナ・サイファ",
+    "kvkk": "KVKK アイドゥンラトマ",
+    "terms": "クラニム・シャルトラリ"
   }
 }

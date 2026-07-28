@@ -1,5 +1,5 @@
 {
-  "loadFailedAdmin": "Sözleşmeler yüklenemedi. Yöneticinize bildirin.",
+  "loadFailedAdmin": "Sözleşmeler yüklenemedi. Yöneticinizar la bildirina.",
   "loadFailed": "Sözleşmeler yüklenemedi.",
   "loading": "Sözleşmeler yükleniyor…",
   "gateComplete": "Sözleşmeler tamam",
@@ -12,9 +12,9 @@
   "resumeContracts": "Kaldığın yerden devam et ({accepted}/{total})",
   "requiredTitle": "Zorunlu sözleşmeler",
   "requiredHint": "Her sözleşmeyi açıp sonuna kadar okuyun ({accepted}/{total}).",
-  "sidebarHint": "Her sözleşmeyi sonuna kadar okuyup onaylayın.",
+  "sidebarHint": "Su sözleşmeyi sonuna kadar okuyup onaylayın.",
   "sidebarComplete": "{accepted}/{total} tamam",
-  "version": "Sürüm {version}",
-  "accepted": " · Onaylandı",
-  "openAndRead": " · Açıp okuyun ve onaylayın"
+  "version": "Surüm {version}",
+  "accepted": "· Onaylandı",
+  "openAndRead": "· Açıp okuyun y onaylayın"
 }

@@ -1,11 +1,11 @@
 {
-  "confirmDelete": "Bu kaydı silmek istediğinize emin misiniz?",
+  "confirmDelete": "Was bedeutet es, dass ich meine Frau vermisse?",
   "deleteError": "Silme hatası: {message}",
   "title": "Yevmiye Kayıtları",
   "loading": "Yükleniyor...",
   "colEmployee": "İşçi",
   "colDate": "Tarih",
-  "colType": "Tip",
+  "colType": "Tipp",
   "colDescription": "Açıklama",
   "colDelete": "Sil",
   "fullDay": "Tam Gün",

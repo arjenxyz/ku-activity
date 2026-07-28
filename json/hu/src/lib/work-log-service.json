@@ -1,10 +1,10 @@
 {
-  "duplicateWorkLog": "A timesheet already exists for this date",
+  "duplicateWorkLog": "Erre a dátumra már létezik munkaidő-nyilvántartás",
   "alreadyConfirmed": "Már megerősítetted ezen a napon",
-  "duplicateRecord": "A record already exists for this date",
+  "duplicateRecord": "Erre a dátumra már létezik rekord",
   "disputeNoteTooShort": "A vitás megjegyzésnek legalább 5 karakterből kell állnia",
   "recordNotFound": "Munkaidő-nyilvántartás nem található",
   "cannotDisputeApproved": "A jóváhagyott rekord nem vitatható",
-  "cannotDisputeConfirmed": "Cannot dispute a record you already confirmed",
-  "alreadyPaidNeedOverwrite": "This person already has a timesheet for this date. Confirm to overwrite."
+  "cannotDisputeConfirmed": "A már megerősített rekordot nem lehet vitatni",
+  "alreadyPaidNeedOverwrite": "Ennek a személynek már van munkaidő-nyilvántartása erre a dátumra. Erősítse meg a felülírást."
 }

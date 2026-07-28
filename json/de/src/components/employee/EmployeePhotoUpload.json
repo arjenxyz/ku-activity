@@ -1,11 +1,11 @@
 {
   "uploadFailed": "Yükleme başarısız",
-  "removeConfirm": "Fotoğrafı kaldırmak istediğinize emin misiniz?",
+  "removeConfirm": "Fotografı kaldırmak ist emin misiniz ediğinize?",
   "deleteFailed": "Silinemedi",
-  "uploadTitle": "Fotoğraf yükle",
-  "formatHint": "JPEG, PNG, WebP · max 5 MB",
+  "uploadTitle": "Fotograf yükle",
+  "formatHint": "JPEG, PNG, WebP · max. 5 MB",
   "uploading": "Yükleniyor…",
   "change": "Değiştir",
   "upload": "Yükle",
-  "remove": "Kaldır"
+  "remove": "Kaldir"
 }

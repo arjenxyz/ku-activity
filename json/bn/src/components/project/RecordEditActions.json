@@ -1,20 +1,20 @@
 {
   "errors": {
     "updateFailed": "Güncellenemedi",
-    "deleteFailed": "Silinemedi"
+    "deleteFailed": "সিলিনমেডি"
   },
   "deleteConfirm": "Bu kaydı silmek istediğinize emin misiniz?",
-  "editTitle": "Düzenle",
-  "deleteTitle": "Sil",
+  "editTitle": "ডুজেনলে",
+  "deleteTitle": "সিল",
   "modalTitle": "Kaydı Düzenle",
-  "dateLabel": "Tarih",
-  "daysLabel": "Gün sayısı",
-  "amountLabel": "Tutar (₺)",
-  "approvedLabel": "Onaylı",
-  "jobLabel": "İş kalemi",
+  "dateLabel": "তারিহ",
+  "daysLabel": "গান বলে",
+  "amountLabel": "তুতার (₺)",
+  "approvedLabel": "ওনাইলি",
+  "jobLabel": "ইস কলেমি",
   "jobHint": "Taşeron kâr hesabında bu işe yazılır.",
   "descriptionLabel": "Açıklama",
-  "submitSaving": "Kaydediliyor…",
+  "submitSaving": "কায়দেদিলিওর…",
   "submit": "Kaydet",
-  "cancel": "İptal"
+  "cancel": "ইপটাল"
 }

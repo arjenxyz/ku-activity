@@ -1,14 +1,14 @@
 {
-  "pageTitle": "Ne durumdayız?",
+  "pageTitle": "لا durumdayız؟",
   "pageDescription": "Projenin güncel finansal durumu.",
-  "loading": "Yükleniyor…",
-  "estimatedNetTitle": "Tahmini Ustadan Ödeme",
-  "estimatedNetHint": "Brüt yevmiye − avans − kesintiler − ödenen asgari (yaklaşık)",
-  "totalWorkPay": "Toplam Yevmiye Ödemesi",
-  "totalWorkDays": "Toplam Çalışılan Gün",
-  "totalAdvances": "Toplam Avans",
-  "totalDeductions": "Toplam Kesinti",
-  "totalMinimum": "Toplam Asgari Ödeme",
-  "employeeCount": "Personel Sayısı",
-  "activeEmployeeCount": "Aktif Personel"
+  "loading": "يوكلينور…",
+  "estimatedNetTitle": "تهميني استادان أوديمي",
+  "estimatedNetHint": "بروت يفميي – أفانز – كيسينتيلير – أودنين أصغري (yaklaşık)",
+  "totalWorkPay": "توبلام يفمي أوديميسي",
+  "totalWorkDays": "توبلام جاليشيلان غون",
+  "totalAdvances": "توبلام افانز",
+  "totalDeductions": "توبلام كيسينتي",
+  "totalMinimum": "توبلام أصغري أوديمي",
+  "employeeCount": "يقول الموظفين",
+  "activeEmployeeCount": "أكتيف شخصي"
 }

@@ -1,6 +1,6 @@
 {
-  "kimlikNumarasıVePinGerekli": "Kimlik numarası ve PIN gerekli",
+  "kimlikNumarasıVePinGerekli": "Kimlik numrası e PIN gerado",
   "başvuruSüresiDolmuşYeniBaşvuruYapabilirsiniz": "Başvuru süresi dolmuş. Yeni başvuru yapabilirsiniz.",
-  "geçersizKimlikNumarasıVeyaPin": "Geçersiz kimlik numarası veya PIN",
+  "geçersizKimlikNumarasıVeyaPin": "Gere um código numérico ou PIN",
   "erişimBaşarısız": "Erişim başarısız"
 }

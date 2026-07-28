@@ -1,8 +1,8 @@
 {
-  "navAriaLabel": "Personnel navigation",
-  "home": "Overview",
-  "work": "Calendar",
-  "yoklama": "Attendance",
-  "finance": "Payroll",
-  "more": "Menu"
+  "navAriaLabel": "人事ナビゲーション",
+  "home": "概要",
+  "work": "カレンダー",
+  "yoklama": "出席",
+  "finance": "給与計算",
+  "more": "メニュー"
 }

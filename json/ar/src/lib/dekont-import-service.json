@@ -4,8 +4,8 @@
   "draftNotFound": "Taslak bulunamadı",
   "draftAlreadyUsed": "Bu taslak zaten kullanıldı",
   "draftExpired": "Taslak süresi doldu — dekontu yeniden paylaşın",
-  "matchValidationFailed": "Eşleşme doğrulanamadı",
-  "proofFileNotFound": "Receipt file not found",
-  "ocrTextEmpty": "Could not read text from the receipt",
-  "retroactiveAmountRequired": "Amount is required for retroactive payment"
+  "matchValidationFailed": "استمتع بذلك",
+  "proofFileNotFound": "لم يتم العثور على ملف الإيصال",
+  "ocrTextEmpty": "لا يمكن قراءة النص من الإيصال",
+  "retroactiveAmountRequired": "المبلغ مطلوب للدفع بأثر رجعي"
 }

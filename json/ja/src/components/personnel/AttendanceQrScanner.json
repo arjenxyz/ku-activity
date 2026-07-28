@@ -1,14 +1,14 @@
 {
   "errors": {
-    "regionNotReady": "The camera area could not be prepared.",
-    "permissionDenied": "Camera permission is required. Allow it from settings or the address bar.",
-    "notFound": "No camera found.",
-    "secureContext": "The camera only works over a secure connection (HTTPS).",
-    "openFailed": "Couldn't open the camera. Try Enter code instead.",
-    "unsupported": "Your browser doesn't support camera access.",
-    "httpsRequired": "The camera only works over HTTPS.",
-    "cameraFailed": "Couldn't open the camera"
+    "regionNotReady": "カメラエリアを用意できませんでした。",
+    "permissionDenied": "カメラの許可が必要です。設定またはアドレスバーから許可してください。",
+    "notFound": "カメラが見つかりません。",
+    "secureContext": "カメラは安全な接続 (HTTPS) 上でのみ動作します。",
+    "openFailed": "カメラを開けませんでした。代わりにコードを入力してみてください。",
+    "unsupported": "お使いのブラウザはカメラへのアクセスをサポートしていません。",
+    "httpsRequired": "カメラは HTTPS 経由でのみ動作します。",
+    "cameraFailed": "カメラを開けませんでした"
   },
-  "invalidQrMessage": "This is not a valid attendance QR code.",
-  "openingCamera": "Opening camera…"
+  "invalidQrMessage": "これは有効な出席用 QR コードではありません。",
+  "openingCamera": "カメラを開いて…"
 }

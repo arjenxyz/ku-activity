@@ -1,13 +1,13 @@
 {
   "nav": {
     "codes": "Doğrulama Kodları",
-    "releases": "APK Sürümleri"
+    "releases": "APK Bahasa Indonesia"
   },
   "subtitle": {
-    "releases": "APK sürüm yönetimi",
-    "codes": "Doğrulama kodları"
+    "releases": "APK pasti ada",
+    "codes": "Doğrulama kodeları"
   },
-  "panelTitle": "Developer Panel",
+  "panelTitle": "Panel Pengembang",
   "logout": "Çıkış",
   "backHome": "Ana sayfaya dön"
 }

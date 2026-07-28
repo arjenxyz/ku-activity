@@ -1,10 +1,10 @@
 {
-  "languageSectionTitle": "Language",
-  "languageLabel": "Language",
-  "languageHint": "Choose the app language",
-  "sectionTitle": "Display",
-  "largeTextLabel": "Large text",
-  "largeTextHint": "Increases text size",
-  "highContrastLabel": "High contrast",
-  "highContrastHint": "Easier to read on site"
+  "languageSectionTitle": "Bahasa",
+  "languageLabel": "Bahasa",
+  "languageHint": "Pilih bahasa aplikasi",
+  "sectionTitle": "Menampilkan",
+  "largeTextLabel": "Teks besar",
+  "largeTextHint": "Meningkatkan ukuran teks",
+  "highContrastLabel": "Kontras tinggi",
+  "highContrastHint": "Lebih mudah dibaca di situs"
 }

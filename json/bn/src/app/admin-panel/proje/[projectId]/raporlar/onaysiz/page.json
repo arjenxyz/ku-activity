@@ -1,8 +1,8 @@
 {
-  "pageTitle": "Onaylanmayanlar",
+  "pageTitle": "অনয়লনময়নলর",
   "pageDescription": "Onay bekleyen yevmiye kayıtları.",
-  "colEmployee": "Personel",
-  "colDate": "Tarih",
-  "colDays": "Gün",
+  "colEmployee": "ব্যক্তি",
+  "colDate": "তারিহ",
+  "colDays": "গুন",
   "emptyCell": "—"
 }

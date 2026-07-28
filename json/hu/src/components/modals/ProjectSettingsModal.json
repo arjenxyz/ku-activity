@@ -25,7 +25,7 @@
   "collab": {
     "title": "Rendszergazdai együttműködők",
     "hint": "Ossza meg ezt a kódot egy másik rendszergazdával; csatlakoznak a projektek oldalán található „Legyen együttműködő” funkcióval. Az együttműködők csak műveleteket hajthatnak végre (munkaidő-nyilvántartás, jelenlét, előlegek…).",
-    "opsOnlyHint": "As a collaborator you have operations access. Settings, invite code, and closure are owner-only.",
+    "opsOnlyHint": "Együttműködőként működési hozzáféréssel rendelkezik. A beállítások, a meghívókód és a bezárás csak a tulajdonosra vonatkozik.",
     "loading": "Együttműködők betöltése…",
     "loadFailed": "Nem sikerült betölteni az együttműködőket",
     "codeLabel": "Együttműködő kódja",

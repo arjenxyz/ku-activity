@@ -6,30 +6,30 @@
   "lead": "6698 sayılı Kişisel Verilerin Korunması Kanunu (\"KVKK\") m.10 uyarınca bilgilendirme metnidir.",
   "sections": {
     "structure": {
-      "heading": "1. Platform ve veri sorumlusu yapısı",
+      "heading": "1. Plataforma e veri sorumlusu yapısı",
       "platformLine": ", {developerName} tarafından işletilen {nature}dur. Tüzel kişiliği yoktur; herhangi bir şirket adına veri sorumlusu sıfatı taşımaz.",
-      "adminLine": "Personel başvurusu ve kayıtları, pratikte platformu kullanan yönetici kişi (şantiye sorumlusu, ekip başı vb.) tarafından oluşturulur. İş ilişkisinin tarafı olan gerçek işveren/yüklenici mevzuat uyarınca ayrı veri sorumlusu olabilir.",
-      "operatorPrefix": "Platform operatörü / teknik veri işleyen:",
-      "operatorLine": "{developerName} — altyapı, barındırma, şifreleme ve yazılım hizmeti sunar. İletişim:"
+      "adminLine": "Pessoal de base e kayıtları, plataforma prática, kullanan yönetici kişi (şantiye sorumlusu, ekip başı vb.) tarafından oluşturulur. İş ilişkisinin tarafı olan gerçek işveren/yüklenici mevzuat uyarınca ayrı veri sorumlusu olabilir.",
+      "operatorPrefix": "Operador da plataforma/técnica verificada:",
+      "operatorLine": "{developerName} — altyapı, barındırma, şifreleme e yazılım hizmeti sunar. İletisim:"
     },
     "categories": {
-      "heading": "2. İşlenen veri kategorileri",
+      "heading": "2. İşlenen veri categorias",
       "items": [
-        "Kimlik: ad-soyad, T.C. kimlik numarası (format kontrolü; NVI doğrulaması yok), doğum tarihi",
-        "İletişim: telefon, e-posta",
-        "Finans: IBAN, yevmiye, avans, kesinti, asgari ücret kayıtları",
-        "Operasyon: puantaj, yoklama (QR), mesai, proje ataması",
+        "Kimlik: ad-soyad, T.C. kimlik numarası (formato kontrolü; NVI doğrulaması yok), doğum tarihi",
+        "İletişim: telefone, e-posta",
+        "Financiadores: IBAN, yevmiye, avans, kesinti, asgari ücret kayıtları",
+        "Operação: puantaj, yoklama (QR), mesai, projeto ataması",
         "Görsel: başvuru fotoğrafı (yönetici manuel teyidi)",
         "İşlem güvenliği: oturum, onay logları, IP (sınırlı)"
       ]
     },
     "purposes": {
       "heading": "3. İşleme amaçları",
-      "body": "Veriler; personel kaydı, şeffaf finansal takip, yoklama, sözleşme onayı, teknik destek ve güvenlik amacıyla işlenir. Ticari pazarlama veya üçüncü tarafa satış yapılmaz."
+      "body": "Veriler; pessoal kaydı, şeffaf financeiro takip, yoklama, sözleşme onayı, teknik destek ve güvenlik amacıyla işlenir. Ticari pazarlama ou üçüncü tarafa satış yapılmaz."
     },
     "legalBasis": {
       "heading": "4. Hukuki sebepler",
-      "body": "Açık rıza (KVKK m.5/1), sözleşmenin kurulması/ifası (m.5/2-c), hukuki yükümlülük (m.5/2-ç) ve meşru menfaat (m.5/2-f) — ölçülülük ilkesine uygun olarak."
+      "body": "Açık rıza (KVKK m.5/1), sözleşmenin kurulması/ifası (m.5/2-c), hukuki yükümlülük (m.5/2-ç) e meşru menfaat (m.5/2-f) — ölçülülük ilkesine uygun olarak."
     },
     "transfer": {
       "heading": "5. Aktarım",
@@ -37,21 +37,21 @@
     },
     "security": {
       "heading": "6. Güvenlik",
-      "body": "T.C. kimlik, IBAN ve doğum tarihi AES-256-GCM ile şifrelenir; arama için HMAC hash kullanılır. HTTPS ve rol tabanlı erişim uygulanır."
+      "body": "TC. kimlik, IBAN e doğum tarihi AES-256-GCM ile şifrelenir; arama için HMAC hash kullanılır. HTTPS e rol tabanlı erişim uygulanır."
     },
     "rights": {
       "heading": "7. Haklarınız (KVKK m.11)",
-      "bodyPrefix": "Bilgi talebi, düzeltme, silme, itiraz ve şikâyet (KVKK Kurulu) haklarınız vardır. Önce kaydı oluşturan yöneticinize; teknik konularda",
-      "bodySuffix": "adresine başvurabilirsiniz."
+      "bodyPrefix": "Bilgi talebi, düzeltme, silme, itiraz e şikâyet (KVKK Kurulu) haklarınız vardır. Uma vez kaydı oluşturan yöneticinize; técnica koularda",
+      "bodySuffix": "adresina başvurabilirsiniz."
     },
     "retention": {
       "heading": "8. Saklama",
-      "body": "Veriler, işleme amacının gerektirdiği süre boyunca saklanır; amaç ortadan kalktığında silinir veya anonimleştirilir."
+      "body": "Veriler, işleme amacının gerektirdiği süre boyunca saklanır; amaç ortadan kalktığında silinir ou anonimleştirilir."
     }
   },
   "footer": {
-    "home": "← Ana sayfa",
-    "privacy": "Gizlilik Politikası",
+    "home": "← Ana Sayfa",
+    "privacy": "Gizlilik Política",
     "terms": "Kullanım Şartları"
   }
 }

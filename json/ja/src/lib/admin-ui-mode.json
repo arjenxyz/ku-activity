@@ -1,20 +1,20 @@
 {
   "modeLabels": {
-    "simple": "Simple",
-    "advanced": "Advanced"
+    "simple": "単純",
+    "advanced": "高度な"
   },
   "simpleMenu": {
     "summary": {
-      "label": "Project overview",
-      "hint": "Personnel list and daily status"
+      "label": "プロジェクト概要",
+      "hint": "職員名簿と日々の状況"
     },
     "approval": {
-      "label": "Application approval",
-      "hint": "New personnel applications"
+      "label": "申請の承認",
+      "hint": "新規人事申請"
     },
     "attendance": {
-      "label": "Attendance / QR",
-      "hint": "Day, overtime and timesheet are planned here"
+      "label": "出席・QR",
+      "hint": "一日、残業、タイムシートはここで計画されます"
     }
   }
 }

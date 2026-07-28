@@ -1,5 +1,5 @@
 {
-  "systemError": "Sistem hatası",
+  "systemError": "نظام ہے",
   "unauthorized": "Oturum yok veya yönetici yetkisi gerekli",
   "forbidden": "Bu projeye erişim yetkiniz yok",
   "missingServiceRoleKey": "Sunucu yapılandırması eksik (SERVICE_ROLE_KEY)"

@@ -1,9 +1,9 @@
 {
-  "estimatedNet": "Estimated Net Salary",
-  "gross": "Gross",
-  "deduction": "Deductions",
-  "advance": "Advances",
-  "financeDetail": "Payroll and finance details",
-  "sectionAriaLabel": "Profile and monthly salary summary",
-  "defaultName": "Personnel"
+  "estimatedNet": "تخمینہ شدہ خالص تنخواہ",
+  "gross": "مجموعی",
+  "deduction": "کٹوتیاں",
+  "advance": "پیش قدمی",
+  "financeDetail": "پے رول اور فنانس کی تفصیلات",
+  "sectionAriaLabel": "پروفائل اور ماہانہ تنخواہ کا خلاصہ",
+  "defaultName": "عملہ"
 }

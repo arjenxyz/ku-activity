@@ -1,15 +1,15 @@
 {
   "statusLabels": {
-    "pending": "Talep bekliyor",
-    "approved": "Onaylandı — ödeme bekleniyor",
-    "awaiting_receipt": "Nakit teslimi bekleniyor",
-    "paid": "Ödendi",
-    "rejected": "Reddedildi",
-    "cancelled": "İptal edildi",
-    "expired": "Süresi doldu"
+    "pending": "タレプ・ベクリヨール",
+    "approved": "オナイランドゥ — オデメ・ベクレニヤル",
+    "awaiting_receipt": "ナキット・テスリミ・ベクレニヤル",
+    "paid": "オーデンディ",
+    "rejected": "レデディルディ",
+    "cancelled": "イプタル・エディルディ",
+    "expired": "スレシ・ドルドゥ"
   },
   "paymentMethodLabels": {
-    "bank_transfer": "Havale / EFT",
-    "cash": "Nakit"
+    "bank_transfer": "ハバレ / EFT",
+    "cash": "ナキット"
   }
 }

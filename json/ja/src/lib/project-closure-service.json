@@ -1,12 +1,12 @@
 {
   "notify": {
-    "title": "{projectName} is closing",
-    "body": "This project is closing on CrewLedger. Accept consent and download your data by {deadline}."
+    "title": "{projectName}は閉店します",
+    "body": "このプロジェクトは CrewLedger で終了しています。同意に同意し、{deadline} までにデータをダウンロードします。"
   },
   "errors": {
-    "projectNotFound": "Project not found",
-    "alreadyInClosure": "Project is already in closure",
-    "alreadyPurged": "Project has already been closed",
-    "instantDeleteDisabled": "Instant delete is disabled. Start the project closure process first; data is removed after the deadline once exports are done."
+    "projectNotFound": "プロジェクトが見つかりません",
+    "alreadyInClosure": "プロジェクトはすでに終了しています",
+    "alreadyPurged": "プロジェクトはすでに終了しています",
+    "instantDeleteDisabled": "即時削除は無効になっています。まずプロジェクトの終了プロセスを開始します。データはエクスポートが完了すると期限を過ぎると削除されます。"
   }
 }

@@ -3,12 +3,12 @@
   "title": "Yevmiye Kaydı Ekle",
   "employeeLabel": "Çalışan",
   "selectPlaceholder": "Seçiniz",
-  "dateLabel": "Tarih",
+  "dateLabel": "تریح",
   "workTypeLabel": "Çalışma Tipi",
-  "fullDay": "Tam Gün",
-  "halfDay": "Yarım Gün",
+  "fullDay": "ٹام گن",
+  "halfDay": "یارم گن",
   "descriptionLabel": "Açıklama",
-  "submitSaving": "Kaydediliyor...",
+  "submitSaving": "کیڈیڈیلیور...",
   "submit": "Kaydet",
-  "cancel": "İptal"
+  "cancel": "اپٹال"
 }

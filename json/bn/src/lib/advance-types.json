@@ -1,15 +1,15 @@
 {
   "statusLabels": {
-    "pending": "Talep bekliyor",
-    "approved": "Onaylandı — ödeme bekleniyor",
-    "awaiting_receipt": "Nakit teslimi bekleniyor",
-    "paid": "Ödendi",
-    "rejected": "Reddedildi",
-    "cancelled": "İptal edildi",
+    "pending": "তালেপ বেকলিয়র",
+    "approved": "Onaylandı — ödeme bekleneyor",
+    "awaiting_receipt": "নকিত তেসলিমি বেকলেনিয়র",
+    "paid": "ওডেন্ডি",
+    "rejected": "রেডডেডিলডি",
+    "cancelled": "ইপ্টাল এডিলডি",
     "expired": "Süresi doldu"
   },
   "paymentMethodLabels": {
-    "bank_transfer": "Havale / EFT",
-    "cash": "Nakit"
+    "bank_transfer": "হাভালে/ইএফটি",
+    "cash": "নকিত"
   }
 }

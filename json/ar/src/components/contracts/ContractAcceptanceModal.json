@@ -1,16 +1,16 @@
 {
-  "stepLabel": "Sözleşme {stepLabel}",
-  "version": "Sürüm {version}",
-  "accepted": " · Onaylandı",
-  "readComplete": " · Okuma tamam",
-  "scrollRequired": " · Metni sonuna kadar kaydırın",
-  "close": "Kapat",
-  "summaryTitle": "Kısa özet",
-  "scrollHint": "Metnin sonuna kadar kaydırın",
-  "acceptedLabel": "Onaylandı",
-  "closeButton": "Kapat",
+  "stepLabel": "سوزلشمي {stepLabel}",
+  "version": "سوروم {version}",
+  "accepted": "· أونايلاندي",
+  "readComplete": "· أوكوما تمام",
+  "scrollRequired": "· Metni sonuna kadar kaydırın",
+  "close": "كابات",
+  "summaryTitle": "كيسا أوزيت",
+  "scrollHint": "المتنين سونونا كادار كاديرين",
+  "acceptedLabel": "أونايلاندي",
+  "closeButton": "كابات",
   "consentDesktop": "Özeti ve sözleşme metninin tamamını okudum, anladım ve kurumsal onayımı veriyorum.",
-  "consentMobile": "Metni okudum ve kabul ediyorum.",
+  "consentMobile": "ميتني أوكودوم وكابول إيديوروم.",
   "approve": "Sözleşmeyi onayla",
-  "later": "Daha sonra"
+  "later": "داها سونرا"
 }

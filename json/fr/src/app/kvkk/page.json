@@ -1,57 +1,57 @@
 {
-  "metadataTitle": "KVKK Aydınlatma Metni",
+  "metadataTitle": "KVKK Aydinlatma Metni",
   "metadataDescription": "CrewLedger Kişisel Verilerin Korunması Kanunu aydınlatma metni.",
-  "headerSubtitle": "KVKK Aydınlatma Metni",
-  "title": "KVKK Aydınlatma Metni",
-  "lead": "6698 sayılı Kişisel Verilerin Korunması Kanunu (\"KVKK\") m.10 uyarınca bilgilendirme metnidir.",
+  "headerSubtitle": "KVKK Aydinlatma Metni",
+  "title": "KVKK Aydinlatma Metni",
+  "lead": "6698 dire Kişisel Verilerin Korunması Kanunu (\"KVKK\") m.10 uyarınca bilgilendirme metnidir.",
   "sections": {
     "structure": {
-      "heading": "1. Platform ve veri sorumlusu yapısı",
-      "platformLine": ", {developerName} tarafından işletilen {nature}dur. Tüzel kişiliği yoktur; herhangi bir şirket adına veri sorumlusu sıfatı taşımaz.",
-      "adminLine": "Personel başvurusu ve kayıtları, pratikte platformu kullanan yönetici kişi (şantiye sorumlusu, ekip başı vb.) tarafından oluşturulur. İş ilişkisinin tarafı olan gerçek işveren/yüklenici mevzuat uyarınca ayrı veri sorumlusu olabilir.",
-      "operatorPrefix": "Platform operatörü / teknik veri işleyen:",
-      "operatorLine": "{developerName} — altyapı, barındırma, şifreleme ve yazılım hizmeti sunar. İletişim:"
+      "heading": "1. Plateforme et veri sorumlusu yapısı",
+      "platformLine": ", {developerName} tarafından işletilen {nature}dur. Tüzel kişiliği yoktur ; herhangi bir şirket adına veri sorumlusu sıfatı taşımaz.",
+      "adminLine": "Le personnel et les utilisateurs peuvent utiliser la plate-forme pratique pour obtenir des informations (şantiye sorumlusu, ekip bası vb.) tarafından oluşturulur. Si vous avez besoin d'un service d'entretien ou de réparation, vous avez la possibilité de vérifier que vous êtes prêt à le faire.",
+      "operatorPrefix": "Exploitant/technique de la plateforme veri işleyen :",
+      "operatorLine": "{developerName} — altyapı, barındırma, şifreleme e yazılım hizmeti sunar. Éléments :"
     },
     "categories": {
-      "heading": "2. İşlenen veri kategorileri",
+      "heading": "2. İşlenen veri catégories",
       "items": [
-        "Kimlik: ad-soyad, T.C. kimlik numarası (format kontrolü; NVI doğrulaması yok), doğum tarihi",
-        "İletişim: telefon, e-posta",
-        "Finans: IBAN, yevmiye, avans, kesinti, asgari ücret kayıtları",
-        "Operasyon: puantaj, yoklama (QR), mesai, proje ataması",
-        "Görsel: başvuru fotoğrafı (yönetici manuel teyidi)",
+        "Kimlik : ad-soyad, T.C. kimlik numarası (format kontrolü; NVI doğrulaması yok), doğum tarihi",
+        "Adresses : téléphone, courrier électronique",
+        "Financiers : IBAN, yevmiye, avans, kesinti, asgari ücret kayıtları",
+        "Opérations : puantaj, yoklama (QR), mesai, projet ataması",
+        "Voir : photos de base (manuel teyidi)",
         "İşlem güvenliği: oturum, onay logları, IP (sınırlı)"
       ]
     },
     "purposes": {
-      "heading": "3. İşleme amaçları",
-      "body": "Veriler; personel kaydı, şeffaf finansal takip, yoklama, sözleşme onayı, teknik destek ve güvenlik amacıyla işlenir. Ticari pazarlama veya üçüncü tarafa satış yapılmaz."
+      "heading": "3. Comment faire pour amaçları",
+      "body": "Veriler; le personnel s'occupe de la gestion financière, du personnel, de la recherche technique et de la gestion des affaires. Ticari pazarlama veya üçüncü tarafa satış yapılmaz."
     },
     "legalBasis": {
-      "heading": "4. Hukuki sebepler",
-      "body": "Açık rıza (KVKK m.5/1), sözleşmenin kurulması/ifası (m.5/2-c), hukuki yükümlülük (m.5/2-ç) ve meşru menfaat (m.5/2-f) — ölçülülük ilkesine uygun olarak."
+      "heading": "4. Hukuki sébépler",
+      "body": "Açık rıza (KVKK m.5/1), sözleşmenin kurulması/ifası (m.5/2-c), hukuki yükümlülük (m.5/2-ç) et meşru menfaat (m.5/2-f) — ölçülülük ilkesine uygun olarak."
     },
     "transfer": {
-      "heading": "5. Aktarım",
-      "body": "Barındırma (Vercel), veritabanı (Supabase), e-posta (Brevo) gibi teknik hizmet sağlayıcıları; yasal zorunluluk halinde resmi makamlar. Veri satışı yapılmaz."
+      "heading": "5. Aktarim",
+      "body": "Barındırma (Vercel), veritabanı (Supabase), e-posta (Brevo) gibi teknik hizmet sağlayıcıları ; yasal zorunluluk halinde resmi makamlar. Je suis vraiment satisfait de votre réponse."
     },
     "security": {
-      "heading": "6. Güvenlik",
-      "body": "T.C. kimlik, IBAN ve doğum tarihi AES-256-GCM ile şifrelenir; arama için HMAC hash kullanılır. HTTPS ve rol tabanlı erişim uygulanır."
+      "heading": "6. Guvenlik",
+      "body": "T.C. kimlik, IBAN et votre numéro de téléphone AES-256-GCM; Vous pouvez utiliser le hachage HMAC. HTTPS et le rôle de tabanlı erişim uygulanır."
     },
     "rights": {
       "heading": "7. Haklarınız (KVKK m.11)",
-      "bodyPrefix": "Bilgi talebi, düzeltme, silme, itiraz ve şikâyet (KVKK Kurulu) haklarınız vardır. Önce kaydı oluşturan yöneticinize; teknik konularda",
+      "bodyPrefix": "Bilgi talebi, düzeltme, silme, itiraz ve şikâyet (KVKK Kurulu) haklarınız vardır. Une fois que vous avez choisi de le faire, vous pouvez le faire ; technique konularda",
       "bodySuffix": "adresine başvurabilirsiniz."
     },
     "retention": {
       "heading": "8. Saklama",
-      "body": "Veriler, işleme amacının gerektirdiği süre boyunca saklanır; amaç ortadan kalktığında silinir veya anonimleştirilir."
+      "body": "Veriler, jeşleme amacının gerektirdiği süre boyunca saklanır ; amaç ortadan kalktığında silinir veya anonimleştirilir."
     }
   },
   "footer": {
-    "home": "← Ana sayfa",
-    "privacy": "Gizlilik Politikası",
+    "home": "← Ana Sayfa",
+    "privacy": "Gizlilik Politique",
     "terms": "Kullanım Şartları"
   }
 }

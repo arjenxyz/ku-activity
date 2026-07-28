@@ -1,10 +1,10 @@
 {
-  "duplicateWorkLog": "A timesheet already exists for this date",
-  "alreadyConfirmed": "You already confirmed this day",
-  "duplicateRecord": "A record already exists for this date",
-  "disputeNoteTooShort": "Dispute note must be at least 5 characters",
-  "recordNotFound": "Timesheet not found",
-  "cannotDisputeApproved": "Cannot dispute an approved record",
-  "cannotDisputeConfirmed": "Cannot dispute a record you already confirmed",
-  "alreadyPaidNeedOverwrite": "This person already has a timesheet for this date. Confirm to overwrite."
+  "duplicateWorkLog": "اس تاریخ کے لیے ایک ٹائم شیٹ پہلے سے موجود ہے۔",
+  "alreadyConfirmed": "آپ نے پہلے ہی اس دن کی تصدیق کر دی ہے۔",
+  "duplicateRecord": "اس تاریخ کا ریکارڈ پہلے سے موجود ہے۔",
+  "disputeNoteTooShort": "اختلافی نوٹ کم از کم 5 حروف کا ہونا چاہیے۔",
+  "recordNotFound": "ٹائم شیٹ نہیں ملی",
+  "cannotDisputeApproved": "منظور شدہ ریکارڈ پر تنازعہ نہیں ہو سکتا",
+  "cannotDisputeConfirmed": "اس ریکارڈ پر تنازعہ نہیں ہو سکتا جس کی آپ پہلے ہی تصدیق کر چکے ہیں۔",
+  "alreadyPaidNeedOverwrite": "اس کے پاس اس تاریخ کے لیے پہلے سے ہی ٹائم شیٹ ہے۔ اوور رائٹ کرنے کی تصدیق کریں۔"
 }

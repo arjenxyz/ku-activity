@@ -1,32 +1,32 @@
 {
   "tabs": {
-    "overview": "Overview",
-    "work": "Calendar",
-    "asgari": "Minimum wage",
-    "finance": "Payroll",
-    "rights": "My rights",
-    "settings": "Settings"
+    "overview": "ওভারভিউ",
+    "work": "ক্যালেন্ডার",
+    "asgari": "ন্যূনতম মজুরি",
+    "finance": "বেতন",
+    "rights": "আমার অধিকার",
+    "settings": "সেটিংস"
   },
   "mesaiFallbackLabels": {
-    "full": "Full overtime",
-    "quarter": "Quarter overtime",
-    "half": "Half overtime"
+    "full": "সম্পূর্ণ ওভারটাইম",
+    "quarter": "কোয়ার্টার ওভারটাইম",
+    "half": "অর্ধেক ওভারটাইম"
   },
   "stats": {
-    "gross": "Gross pay",
-    "totalAdvance": "Total advances",
-    "deduction": "Deductions",
-    "netSalary": "Net pay"
+    "gross": "মোট বেতন",
+    "totalAdvance": "মোট অগ্রগতি",
+    "deduction": "কর্তন",
+    "netSalary": "নেট পে"
   },
-  "loadingData": "Loading your data…",
-  "workLogSectionTitle": "Work logs · {monthLabel}",
-  "advanceRequestTitle": "Advance request",
-  "advanceRequestSubtitle": "Create a request or check status →",
-  "loading": "Loading…",
-  "loadingFinance": "Loading finance data…",
-  "periodSummary": "Period summary",
-  "workDaysTitle": "Work days",
-  "mesaiDistributionTitle": "Overtime total",
-  "mesaiSuffix": " overtime",
-  "headerSubtitle": "Attendance and pay summary"
+  "loadingData": "আপনার ডেটা লোড হচ্ছে...",
+  "workLogSectionTitle": "কাজের লগগুলি · {monthLabel}",
+  "advanceRequestTitle": "অগ্রিম অনুরোধ",
+  "advanceRequestSubtitle": "একটি অনুরোধ তৈরি করুন বা স্থিতি পরীক্ষা করুন →",
+  "loading": "লোড হচ্ছে...",
+  "loadingFinance": "ফাইন্যান্স ডেটা লোড হচ্ছে...",
+  "periodSummary": "সময়ের সারাংশ",
+  "workDaysTitle": "কাজের দিন",
+  "mesaiDistributionTitle": "ওভারটাইম মোট",
+  "mesaiSuffix": "ওভারটাইম",
+  "headerSubtitle": "উপস্থিতি এবং বেতনের সারাংশ"
 }

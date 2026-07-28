@@ -9,7 +9,7 @@
       "heading": "1. Platform és adatkezelő struktúra",
       "platformLine": "a {nature} üzemeltetője a {developerName}. Nem rendelkezik jogi személyiséggel; nem jár el adatkezelőként egyetlen cég nevében sem.",
       "adminLine": "A személyzeti alkalmazásokat és nyilvántartásokat gyakorlatilag a platformot használó menedzser (telephelyvezető, csoportvezető stb.) hozza létre. A munkaviszonyban részt vevő tényleges munkáltató/vállalkozó a jogszabályok szerint külön adatkezelő lehet.",
-      "operatorPrefix": "Platform operatörü / teknik veri işleyen:",
+      "operatorPrefix": "Platform operátor / teknik veri işleyen:",
       "operatorLine": "{developerName} — infrastruktúrát, tárhelyet, titkosítást és szoftverszolgáltatásokat biztosít. Kommunikáció:"
     },
     "categories": {

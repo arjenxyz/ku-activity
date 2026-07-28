@@ -1,5 +1,5 @@
 {
-  "failed": "Record could not be updated",
-  "consentRequired": "You must accept closure consent first",
-  "downloadRequired": "You must download your data first"
+  "failed": "記録を更新できませんでした",
+  "consentRequired": "まず閉鎖の同意に同意する必要があります",
+  "downloadRequired": "最初にデータをダウンロードする必要があります"
 }

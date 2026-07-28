@@ -1,4 +1,4 @@
 {
-  "unauthorized": "Invalid session",
-  "failed": "Deletion failed"
+  "unauthorized": "Sesi tidak valid",
+  "failed": "Penghapusan gagal"
 }

@@ -1,6 +1,6 @@
 {
-  "defaultLabel": "İş kalemi (taşeron kârı — isteğe bağlı)",
-  "defaultHint": "Personelde görünmez; yalnızca kâr hesabında kullanılır.",
-  "notSelected": "Seçilmedi",
-  "completedSuffix": " (tamamlandı)"
+  "defaultLabel": "إيش كاليمي (taşeron kârı — isteğe bağlı)",
+  "defaultHint": "شخصية görünmez; yalnızca kâr hesabında kullanılır.",
+  "notSelected": "سيسيلميدي",
+  "completedSuffix": "(تماملاندي)"
 }

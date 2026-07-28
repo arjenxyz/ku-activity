@@ -1,7 +1,7 @@
 {
-  "searchLabel": "Search projects",
-  "searchPlaceholder": "Search by name, code or location...",
+  "searchLabel": "Cari proyek",
+  "searchPlaceholder": "Cari berdasarkan nama, kode atau lokasi...",
   "statusLabel": "Status",
-  "allProjects": "All",
-  "clearSearch": "Clear search"
+  "allProjects": "Semua",
+  "clearSearch": "Hapus pencarian"
 }

@@ -1,10 +1,10 @@
 {
-  "err054AppReleasesSqlÇalıştırın": "054_app_releases.sql çalıştırın",
-  "apptypePersonnelVeyaAdminOlmalı": "appType personnel veya admin olmalı",
-  "versionnameGerekli": "versionName gerekli",
-  "versioncodePozitifTamSayıOlmalı": "versionCode pozitif tam sayı olmalı",
-  "apkDosyasıGerekli": "APK dosyası gerekli",
-  "buUygulamaIçinAynıSürümKodu": "Bu uygulama için aynı sürüm kodu zaten kayıtlı",
-  "apkYüklendiDeveloperPaneldenYayınlayın": "APK yüklendi. Developer panelden yayınlayın.",
-  "apkYüklendiYayınlamakIçinOnaylayın": "APK yüklendi. Yayınlamak için onaylayın."
+  "err054AppReleasesSqlÇalıştırın": "054_app_releases.sql heruntergeladen",
+  "apptypePersonnelVeyaAdminOlmalı": "appType personal veya admin olmalı",
+  "versionnameGerekli": "versionName geekli",
+  "versioncodePozitifTamSayıOlmalı": "Der versionCode-Pozitif tam sayı olmalı",
+  "apkDosyasıGerekli": "APK wird heruntergeladen",
+  "buUygulamaIçinAynıSürümKodu": "Das bedeutet, dass das Gerät nicht mehr benötigt wird",
+  "apkYüklendiDeveloperPaneldenYayınlayın": "APK kostenlos. Entwicklerpanelden yayınlayın.",
+  "apkYüklendiYayınlamakIçinOnaylayın": "APK kostenlos. Yayınlamak için onaylayın."
 }

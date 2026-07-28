@@ -1,8 +1,8 @@
 {
-  "title": "Gönüllülük Projesi",
-  "developerLine": "{name}, {developerName} tarafından geliştirilmiş {nature}dur.",
+  "title": "Gönüllülük Projekte",
+  "developerLine": "{name}, {developerName} wird in {nature}dur angezeigt.",
   "noCompanyLine": "{establishedNote}",
-  "optionalUseLine": "Hiçbir yönetici veya işveren, personeli bu platformu kullanmaya zorlayamaz. Kullanım tamamen gönüllüdür.",
-  "transparencyLine": "Yevmiye, avans, kesinti, asgari ücret, yoklama ve puantaj kayıtları hem yönetici hem personel panelinde görülebilir; amaç finansal takibi dijital ve şeffaf kılmaktır.",
+  "optionalUseLine": "Es ist nicht einfach, die Leute auf der Plattform zu kontaktieren. Kullanım tamamen gönüllüdür.",
+  "transparencyLine": "Yevmiye, avans, kesinti, asgari ücret, yoklama ve puantaj kayıtları hem yönetici hem personal panelinde görülebilir; Unsere Finanzabteilung hat sich entschieden und ist erfolgreich.",
   "legalLine": "{legalDisclaimer}"
 }

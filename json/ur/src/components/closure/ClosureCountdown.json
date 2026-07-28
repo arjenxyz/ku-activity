@@ -1,10 +1,10 @@
 {
-  "title": "Time remaining",
-  "expired": "Deadline passed",
+  "title": "باقی وقت",
+  "expired": "ڈیڈ لائن گزر گئی۔",
   "days": "d",
   "hours": "h",
   "minutes": "m",
   "seconds": "s",
-  "phasePending": "Awaiting personnel consents",
-  "phaseExport": "Data export window"
+  "phasePending": "اہلکاروں کی رضامندی کا انتظار ہے۔",
+  "phaseExport": "ڈیٹا ایکسپورٹ ونڈو"
 }

@@ -3,5 +3,5 @@
   "visionPdfEmpty": "Nem sikerült szöveget kivonni a PDF nyugtából",
   "tesseractFailed": "A Tesseact OCR nem sikerült",
   "tesseractPdfEmpty": "Nem sikerült a PDF-oldalt képpé konvertálni",
-  "unsupportedFileType": "Unrecognized file type — send a PDF or image (JPG/PNG)"
+  "unsupportedFileType": "Felismeretlen fájltípus – PDF vagy kép küldése (JPG/PNG)"
 }

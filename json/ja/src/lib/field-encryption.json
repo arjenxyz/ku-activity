@@ -1,7 +1,7 @@
 {
-  "encryptionKeyMissing": "FIELD_ENCRYPTION_KEY eksik veya çok kısa (.env)",
-  "invalidTcKimlik": "Geçersiz T.C. kimlik numarası",
-  "invalidIdentity": "Geçersiz kimlik numarası",
-  "invalidPhone": "Geçersiz telefon numarası",
-  "invalidIban": "Geçersiz IBAN"
+  "encryptionKeyMissing": "FIELD_ENCRYPTION_KEY 変更 (.env)",
+  "invalidTcKimlik": "ゲセルシズ T.C.キムリク・ヌマラス",
+  "invalidIdentity": "ゲセルシ・キムリク・ヌマラス",
+  "invalidPhone": "電話番号ヌマラシュ",
+  "invalidIban": "ゲセルシズ IBAN"
 }

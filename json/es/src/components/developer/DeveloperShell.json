@@ -1,13 +1,13 @@
 {
   "nav": {
     "codes": "Doğrulama Kodları",
-    "releases": "APK Sürümleri"
+    "releases": "APK APK"
   },
   "subtitle": {
     "releases": "APK sürüm yönetimi",
     "codes": "Doğrulama kodları"
   },
-  "panelTitle": "Developer Panel",
+  "panelTitle": "Panel de desarrollador",
   "logout": "Çıkış",
   "backHome": "Ana sayfaya dön"
 }

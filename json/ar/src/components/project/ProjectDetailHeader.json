@@ -1,8 +1,8 @@
 {
-  "settingsButton": "Proje Ayarları",
-  "codeLabel": "Proje Kodu",
-  "locationLabel": "Konum",
-  "startLabel": "Başlangıç",
-  "endLabel": "Planlanan Bitiş",
+  "settingsButton": "مشروع أيارلاري",
+  "codeLabel": "مشروع كودو",
+  "locationLabel": "كونوم",
+  "startLabel": "باسلانجيتش",
+  "endLabel": "بلانلانان بيتيش",
   "emptyValue": "—"
 }

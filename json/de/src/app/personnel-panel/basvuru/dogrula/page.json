@@ -5,11 +5,11 @@
   "loadingSubtitle": "Başvurunuz gönderiliyor, lütfen bekleyin.",
   "loadingMessage": "E-posta bağlantınız doğrulanıyor…",
   "errorTitle": "Doğrulama başarısız",
-  "errorSubtitle": "Bağlantı geçersiz veya süresi dolmuş olabilir.",
+  "errorSubtitle": "Bitte beachten Sie, dass die Leistung nicht gewährleistet ist.",
   "backToApplication": "Başvuru sayfasına dön",
   "successTitle": "Başvuru gönderildi",
   "successSubtitle": "Yönetici onay ekranına yönlendiriliyorsunuz…",
-  "successMessage": "E-posta doğrulandı ve başvurunuz alındı.",
+  "successMessage": "E-Mail senden und erneut senden.",
   "redirectHint": "Birazdan onay bekleme ekranına geçeceksiniz…",
   "suspenseTitle": "Yükleniyor…"
 }

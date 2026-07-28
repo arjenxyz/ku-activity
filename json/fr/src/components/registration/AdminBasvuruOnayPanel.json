@@ -1,28 +1,28 @@
 {
-  "cameraLoading": "Kamera modülü yükleniyor…",
+  "cameraLoading": "Module appareil photo disponible…",
   "pageTitle": "Başvuru Onayı",
-  "pageDescriptionWithProject": "{projectName} — QR okutun veya kod girin; başvuru bulununca onay penceresi açılır.",
-  "pageDescription": "QR okutun veya kod girin; başvuru bulununca onay penceresi açılır.",
-  "scanSectionTitle": "Hızlı tarama",
+  "pageDescriptionWithProject": "{projectName} — QR okutun veya kod girin ; Başvuru bulununca onay penceresi açılır.",
+  "pageDescription": "QR okutun veya kod girin ; Başvuru bulununca onay penceresi açılır.",
+  "scanSectionTitle": "Tarama Hızlı",
   "scanSectionDescription": "Personelin bekleme ekranındaki QR kodu okutun. Eşleşme bulunursa onay formu otomatik açılır.",
   "orCodeDivider": "veya kod ile",
   "codeLabel": "Başvuru kodu",
   "codePlaceholder": "ARJ-XXXXXX",
-  "searching": "Aranıyor…",
-  "search": "Bul",
+  "searching": "Araniyor…",
+  "search": "Boul",
   "codeHint": "Kod tamamlanınca otomatik aranır. QR okunamazsa personelin ekranındaki ARJ- kodunu yazın.",
   "lookupLoading": "Başvuru aranıyor…",
-  "backToProject": "← Proje özetine dön",
+  "backToProject": "← Projet en cours",
   "errors": {
-    "invalidCode": "Bu kod geçersiz veya sistemde kayıtlı değil. Personelin ekranındaki ARJ- kodunu kontrol edin.",
-    "notFound": "Bulunamadı",
-    "lookupFailed": "Arama başarısız",
+    "invalidCode": "Vous pouvez utiliser votre système pour l'utiliser. Personelin ekranındaki ARJ- kodunu kontrol edin.",
+    "notFound": "Bulunamadi",
+    "lookupFailed": "Arama basarısız",
     "approveFailed": "Onay başarısız",
-    "rejectFailed": "Red başarısız"
+    "rejectFailed": "Başarısız rouge"
   },
   "success": {
-    "approved": "{firstName} {lastName} onaylandı. {email} adresi ile giriş yapabilir — PIN bilgisini personele iletin.",
-    "rejected": "Başvuru reddedildi ve veritabanından silindi."
+    "approved": "{firstName} {lastName} ici. {email} adressez-vous à votre correspondant — PIN bilgisini personele iletin.",
+    "rejected": "Başvuru reddedildi et veritabanından silindi."
   },
-  "confirmReject": "Başvuruyu reddetmek istediğinize emin misiniz? Kayıt, fotoğraf ve sözleşme onayları kalıcı olarak silinir; personel aynı bilgilerle yeniden başvurabilir."
+  "confirmReject": "Başvuruyu reddetmek istediğinize emin misiniz? Vous pouvez prendre des photos et prendre des photos si vous en avez besoin ; le personnel aynı bilgilerle yeniden başvurabilir."
 }

@@ -4,7 +4,7 @@
   "defaultName": "Munkavállaló",
   "selfieTitle": "saját fényképét",
   "adminTitle": "A személyzet fotója",
-  "selfieHint": "Ön kamerayla yüzünüzün net göründüğü bir selfie çekin. Mobilde doğrudan telefon kamerası açılır.",
+  "selfieHint": "Ön kamerayla yüzünüzün net göründüğü bir szelfi çekin. Mobilde doğrudan telefon kamerası açılır.",
   "adminHint": "Készítsen vagy töltsön fel külön fényképeket minden alkalmazottról. Ez a fénykép a személyzeti panelen is megjelenik.",
   "takeSelfie": "Cseh szelfi",
   "takePhoto": "Fotó készítése",

@@ -1,7 +1,7 @@
 {
   "statusLabels": {
     "pending": "Talep bekliyor",
-    "approved": "Onaylandı — ödeme bekleniyor",
+    "approved": "Onaylandı – ödeme bekleniyor",
     "awaiting_receipt": "Nakit teslimi bekleniyor",
     "paid": "Ödendi",
     "rejected": "Reddedildi",

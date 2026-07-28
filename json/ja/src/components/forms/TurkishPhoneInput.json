@@ -1,15 +1,15 @@
 {
-  "defaultPlaceholder": "5xx xxx xxxx",
-  "countryCodeAriaLabel": "Ülke kodu",
-  "phoneAriaLabel": "Telefon numarası",
-  "mobileAriaLabel": "Cep telefonu numarası",
-  "turkeyAriaLabel": "Türkiye",
+  "defaultPlaceholder": "5xxxxxxxxx",
+  "countryCodeAriaLabel": "ウルケ コドゥ",
+  "phoneAriaLabel": "テレフォン ヌマラス",
+  "mobileAriaLabel": "セップ・テレフォヌ・ヌマラス",
+  "turkeyAriaLabel": "トゥルキエ",
   "countries": {
-    "90": "Türkiye",
-    "49": "Almanya",
-    "994": "Azerbaycan",
-    "998": "Özbekistan",
-    "963": "Suriye",
-    "995": "Gürcistan"
+    "49": "アルマーニャ",
+    "90": "トゥルキエ",
+    "963": "スリエ",
+    "994": "アゼルバイカ人",
+    "995": "グルシスタン州",
+    "998": "オズベキスタン"
   }
 }

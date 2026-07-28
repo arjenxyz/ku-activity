@@ -1,15 +1,15 @@
 {
   "stats": {
-    "workLogs": "Yevmiye",
+    "workLogs": "Evmie",
     "profit": "Kâr",
     "receivable": "Alacak",
     "laborApproved": "Yevmiye (onaylı)",
     "advance": "Avans",
     "deduction": "Kesinti",
-    "material": "Malzeme",
-    "approvedDays": "Onaylı gün",
-    "pendingDays": "Bekleyen gün",
-    "profitPerShare": "Kişi başı kâr"
+    "material": "Malzème",
+    "approvedDays": "Onaylı pistolet",
+    "pendingDays": "Bekleyen pistolet",
+    "profitPerShare": "Kişi bası kâr"
   },
-  "jobsTitle": "İş kalemleri"
+  "jobsTitle": "C'est kalemleri"
 }

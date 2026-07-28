@@ -1,11 +1,11 @@
 {
-  "close": "Close",
-  "badge": "Manual code",
-  "title": "Attendance by code",
-  "description": "Enter the attendance code your supervisor gave you below",
-  "placeholder": "YOK-…",
-  "outsideWindowHint": "Code entry is closed outside attendance hours.",
-  "submitting": "Submitting…",
-  "resubmit": "Re-record",
-  "join": "Join attendance"
+  "close": "বন্ধ",
+  "badge": "ম্যানুয়াল কোড",
+  "title": "কোড দ্বারা উপস্থিতি",
+  "description": "আপনার সুপারভাইজার আপনাকে যে উপস্থিতি কোড দিয়েছেন তা নীচে লিখুন",
+  "placeholder": "ইয়ক-…",
+  "outsideWindowHint": "উপস্থিতি ঘন্টার বাইরে কোড এন্ট্রি বন্ধ।",
+  "submitting": "জমা দেওয়া হচ্ছে...",
+  "resubmit": "পুনরায় রেকর্ড করুন",
+  "join": "উপস্থিতি যোগদান"
 }

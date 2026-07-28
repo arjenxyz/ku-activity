@@ -1,6 +1,6 @@
 {
-  "title": "Project closing",
-  "description": "This project is in closure. Download your data; other actions are temporarily disabled.",
-  "downloadHint": "Download all project records as ZIP",
-  "loading": "Loading closure status…"
+  "title": "প্রকল্প বন্ধ",
+  "description": "এই প্রকল্প বন্ধ আছে. আপনার ডেটা ডাউনলোড করুন; অন্যান্য কর্ম সাময়িকভাবে নিষ্ক্রিয় করা হয়.",
+  "downloadHint": "জিপ হিসাবে সমস্ত প্রকল্প রেকর্ড ডাউনলোড করুন",
+  "loading": "বন্ধের স্থিতি লোড হচ্ছে..."
 }

@@ -1,10 +1,10 @@
 {
   "badge": "Onay bekleniyor",
-  "instruction": "QR kodu veya başvuru kodunu yöneticinize gösterin.",
+  "instruction": "QR kodu atau başvuru kodunu yöneticinize gösterin.",
   "codeLabel": "Başvuru kodu",
   "copyAriaLabel": "Başvuru kodunu kopyala",
-  "copied": "Kopyalandı ✓",
-  "tapToCopy": "Kopyalamak için dokunun",
+  "copied": "Kopyalanı ✓",
+  "tapToCopy": "Kopyalamak dalam dokunun",
   "autoUpdateHint": "Yönetici onaylayınca bu ekran otomatik güncellenir.",
-  "signOut": "Bu cihazda çıkış"
+  "signOut": "Ini adalah hal yang baik"
 }

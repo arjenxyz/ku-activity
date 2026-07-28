@@ -1,11 +1,11 @@
 {
-  "title": "Personnel",
-  "subtitle": "Today's status",
-  "empty": "No personnel on this project yet.",
-  "loading": "Loading…",
-  "confirmed": "Present",
-  "none": "Pending",
-  "daysSuffix": " days",
-  "seeAll": "See all",
+  "title": "Personil",
+  "subtitle": "Status hari ini",
+  "empty": "Belum ada personel di proyek ini.",
+  "loading": "Memuat…",
+  "confirmed": "Hadiah",
+  "none": "Tertunda",
+  "daysSuffix": "hari",
+  "seeAll": "Lihat semuanya",
   "emptyValue": "—"
 }

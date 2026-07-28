@@ -1,8 +1,8 @@
 {
-  "navAriaLabel": "Personnel navigation",
-  "home": "Overview",
-  "work": "Calendar",
-  "yoklama": "Attendance",
-  "finance": "Payroll",
+  "navAriaLabel": "Navigasi personel",
+  "home": "Ringkasan",
+  "work": "Kalender",
+  "yoklama": "Kehadiran",
+  "finance": "Daftar gaji",
   "more": "Menu"
 }

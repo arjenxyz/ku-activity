@@ -1,28 +1,28 @@
 {
-  "heroTitle": "My rights",
-  "heroSubtitle": "GDPR · contracts · records",
-  "downloadCta": "Download my data",
-  "preparing": "Preparing…",
-  "contactCta": "Rights request",
-  "quickLinksTitle": "Your records",
+  "heroTitle": "Hak saya",
+  "heroSubtitle": "GDPR · kontrak · catatan",
+  "downloadCta": "Unduh data saya",
+  "preparing": "Mempersiapkan…",
+  "contactCta": "Permintaan hak",
+  "quickLinksTitle": "Catatan Anda",
   "quickLinks": {
-    "finance": "Payroll",
-    "work": "Daily wage",
-    "mesai": "Overtime",
-    "asgari": "Minimum wage"
+    "finance": "Daftar gaji",
+    "work": "Gaji harian",
+    "mesai": "Lembur",
+    "asgari": "Upah minimum"
   },
-  "kvkkTitle": "Data protection rights",
+  "kvkkTitle": "Hak perlindungan data",
   "kvkkRights": [
-    "Know whether data is processed",
-    "Request information",
-    "Request correction",
-    "Request deletion",
-    "Know third-party recipients"
+    "Ketahui apakah data diproses",
+    "Minta informasi",
+    "Minta koreksi",
+    "Minta penghapusan",
+    "Ketahui penerima pihak ketiga"
   ],
-  "mailSubject": "Rights request - CrewLedger",
+  "mailSubject": "Permintaan hak - CrewLedger",
   "errors": {
-    "downloadFailed": "Download failed",
-    "generic": "Download failed"
+    "downloadFailed": "Pengunduhan gagal",
+    "generic": "Pengunduhan gagal"
   },
-  "fallbackFilename": "crewledger-my-records.zip"
+  "fallbackFilename": "crewledger-catatan-saya.zip"
 }

@@ -1,47 +1,71 @@
 {
   "errors": {
-    "employeeNotFound": "Personel bulunamadı"
+    "employeeNotFound": "Personnel bulunamadi"
   },
   "collectors": {
-    "profile": { "title": "Personel profili" },
+    "profile": {
+      "title": "Profils personnels"
+    },
     "sensitive": {
-      "title": "Hassas kimlik ve banka bilgileri",
+      "title": "Hassas Kimlik et banque de billets",
       "noDataNote": "Hassas veri kaydı bulunamadı veya şifreleme yapılandırılmamış"
     },
-    "project": { "title": "Proje ve çalışma yeri" },
-    "workLogs": { "title": "Yevmiye ve puantaj kayıtları" },
-    "deductions": { "title": "Avans ve kesintiler" },
-    "minimumWages": { "title": "Asgari ücret kayıtları" },
-    "payroll": { "title": "Bordro dönemleri ve satırlar" },
-    "contracts": { "title": "Sözleşme onayları ve metinleri" },
-    "registration": { "title": "Application and approval history" },
+    "project": {
+      "title": "Projet et çalışma yeri"
+    },
+    "workLogs": {
+      "title": "Yevmiye et puantaj kayıtları"
+    },
+    "deductions": {
+      "title": "Avans et kesintiler"
+    },
+    "minimumWages": {
+      "title": "Asgari ücret kayitları"
+    },
+    "payroll": {
+      "title": "Bordro dönemleri e satırlar"
+    },
+    "contracts": {
+      "title": "Sözleşme onayları ve metinleri"
+    },
+    "registration": {
+      "title": "Historique des demandes et des approbations"
+    },
     "advanceRequests": {
-      "title": "Advance requests (approval, payment, receipt)",
-      "proofNote": "Receipt files are not copied into the ZIP; proof_* fields contain reference and OCR metadata only."
+      "title": "Demandes d'avance (approbation, paiement, reçu)",
+      "proofNote": "Les fichiers de reçus ne sont pas copiés dans le ZIP ; Les champs proof_* contiennent uniquement des métadonnées de référence et OCR."
     },
-    "attendance": { "title": "Attendance check-ins and session notices" },
-    "notifications": { "title": "In-app notification history" },
+    "attendance": {
+      "title": "Enregistrements de présence et avis de session"
+    },
+    "notifications": {
+      "title": "Historique des notifications dans l'application"
+    },
     "closureConsent": {
-      "title": "Project closure consent",
-      "notInClosure": "Project is not in closure or no consent record yet"
+      "title": "Consentement de clôture du projet",
+      "notInClosure": "Le projet n'est pas en cours de clôture ou il n'y a pas encore d'enregistrement de consentement"
     },
-    "company": { "title": "Business / data controller info" },
-    "extensionsPlaceholder": { "title": "Extensible module placeholder" }
+    "company": {
+      "title": "Informations sur l'entreprise/le contrôleur de données"
+    },
+    "extensionsPlaceholder": {
+      "title": "Espace réservé au module extensible"
+    }
   },
   "contractHtml": {
-    "approvedLabel": "Onay:",
-    "versionLabel": "Sürüm:",
-    "contentHashLabel": "İçerik hash:"
+    "approvedLabel": "Onay :",
+    "versionLabel": "Réponse :",
+    "contentHashLabel": "Hachage ici :"
   },
   "extensionsPlaceholder": {
-    "message": "CrewLedger hukuki dosya sistemi genişletilebilir. Yeni özellikler registerDossierCollector() ile eklenir.",
+    "message": "CrewLedger dispose d'un système complet. Vous pouvez également enregistrerDossierCollector() ou enregistrer.",
     "reservedModules": [
-      "leave_requests — İzin / devamsızlık talepleri",
+      "Leave_requests — Texte / devamsızlık talepleri",
       "documents — Yüklenen belgeler",
-      "disciplinary — Disiplin kayıtları",
-      "communications — Bildirim ve mesaj logları",
-      "attendance_devices — Cihaz bazlı yoklama"
+      "Discipline — Disiplin kayıtları",
+      "communications — Images et messages",
+      "assistance_devices — Cihaz bazlı yoklama"
     ],
-    "integration": "src/lib/legal-dossier/collectors/ altına yeni dosya ekleyip registerDossierCollector çağırın."
+    "integration": "src/lib/legal-dossier/collectors/ altına yeni dosya ekleyip registerDossierCollector est disponible."
   }
 }

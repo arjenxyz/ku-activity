@@ -1,13 +1,13 @@
 {
   "nav": {
     "codes": "Doğrulama Kodları",
-    "releases": "APK Sürümleri"
+    "releases": "APK سوريمليري"
   },
   "subtitle": {
-    "releases": "APK sürüm yönetimi",
-    "codes": "Doğrulama kodları"
+    "releases": "APK متاح للتنزيل",
+    "codes": "قم بتسليمها"
   },
-  "panelTitle": "Developer Panel",
-  "logout": "Çıkış",
-  "backHome": "Ana sayfaya dön"
+  "panelTitle": "لوحة المطور",
+  "logout": "تشيكيش",
+  "backHome": "أنا سايفايا دون"
 }

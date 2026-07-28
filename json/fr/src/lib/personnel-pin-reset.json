@@ -1,16 +1,16 @@
 {
   "errors": {
     "invalidTc": "Geçerli bir T.C. kimlik numarası girin.",
-    "invalidPhone": "Geçerli bir telefon numarası girin.",
-    "invalidEmail": "Geçerli bir e-posta adresi girin.",
-    "genericMismatch": "Girdiğiniz bilgiler kayıtlarımızla eşleşmedi. Bilgilerinizi kontrol edin veya şantiye yöneticinize başvurun.",
+    "invalidPhone": "Obtenez des numéros de téléphone sur votre téléphone.",
+    "invalidEmail": "Je vous envoie un courrier électronique à votre adresse.",
+    "genericMismatch": "Girdiğiniz bilgiler kayıtlarımızla eşleşmedi. Bilgilerinizi kontrol edin veya şantiye yöneticinize basvurun.",
     "invalidLink": "Geçersiz bağlantı",
     "linkInvalidOrExpired": "Bağlantı geçersiz veya süresi dolmuş.",
-    "linkAlreadyUsed": "Bu bağlantı daha önce kullanıldı. Yeni bir sıfırlama linki isteyin.",
+    "linkAlreadyUsed": "Vous avez besoin d'une fois pour cela. Vous avez un lien vers ce lien.",
     "linkExpired": "Bağlantının süresi doldu ({minutes} dakika). Giriş ekranından yeni link isteyin.",
     "accountInactive": "Hesap aktif değil. Yöneticinize başvurun.",
-    "pinUpdateFailed": "PIN güncellenemedi",
-    "linkUsedOrExpired": "Bu bağlantı daha önce kullanıldı veya süresi doldu.",
+    "pinUpdateFailed": "Code PIN utilisé",
+    "linkUsedOrExpired": "Vous pouvez le faire dès que vous l'utilisez et vous assurer que ce soit le cas.",
     "emailNotConfigured": "PIN sıfırlama e-postası yapılandırılmamış",
     "emailSendFailed": "E-posta gönderilemedi ({status}){detail}"
   },
@@ -22,11 +22,11 @@
   "email": {
     "subject": "{appName} — PIN sıfırlama bağlantınız",
     "greeting": "Merhaba {name},",
-    "bodyIntro": "Girdiğiniz bilgiler sistemdeki kaydınızla uyuştu. Yeni PIN belirlemek için aşağıdaki bağlantıyı kullanın:",
-    "validityNote": "Bağlantı {minutes} dakika geçerlidir ve yalnızca bir kez kullanılabilir.",
-    "ignoreNote": "Bu talebi siz yapmadıysanız bu e-postayı yok sayın ve yöneticinize bildirin.",
+    "bodyIntro": "Girdiğiniz bilgiler sistemdeki kaydınızla uyuştu. Vous pouvez utiliser le code PIN correspondant :",
+    "validityNote": "Bağlantı {minutes} dakika geçerlidir e yalnızca bir kez kullanılabilir.",
+    "ignoreNote": "Mais vous avez dit que c'était un courrier électronique et que vous aviez choisi de l'afficher.",
     "buttonLabel": "Yeni PIN belirle",
-    "htmlIntro": "Girdiğiniz bilgiler sistemdeki kaydınızla uyuştu. Yeni PIN belirlemek için aşağıdaki düğmeye tıklayın:",
+    "htmlIntro": "Girdiğiniz bilgiler sistemdeki kaydınızla uyuştu. Vous pouvez utiliser le code PIN pour obtenir les informations suivantes :",
     "htmlIgnoreNote": "Bu talebi siz yapmadıysanız bu e-postayı yok sayın."
   }
 }

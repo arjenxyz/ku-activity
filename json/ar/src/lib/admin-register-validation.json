@@ -1,14 +1,14 @@
 {
   "nameRequired": "Ad ve soyad zorunludur.",
-  "emailRequired": "E-posta adresi zorunludur.",
-  "emailInvalid": "Geçerli bir e-posta adresi girin.",
-  "phoneRequired": "Telefon numarası zorunludur.",
-  "phoneInvalid": "Geçerli bir cep telefonu girin (ör. 534 968 5678).",
-  "companyRequired": "Firma veya şantiye adı zorunludur.",
-  "jobTitleRequired": "Görev / unvan seçin.",
+  "emailRequired": "عنوان البريد الإلكتروني zorunludur.",
+  "emailInvalid": "أرسل بريدًا إلكترونيًا إلى عنوانك.",
+  "phoneRequired": "تم ضبط أرقام الهاتف.",
+  "phoneInvalid": "رقم الهاتف: 5349685678 (رقم الهاتف: Geçerli bir cep cep).",
+  "companyRequired": "الشركة تتمتع بصحة جيدة.",
+  "jobTitleRequired": "جوريف / unvan seçin.",
   "cityRequired": "Şehir bilgisi zorunludur.",
   "teamSizeRequired": "Tahmini personel sayısını seçin.",
   "projectCountRequired": "Aktif şantiye sayısını seçin.",
-  "passwordTooShort": "Şifre en az 6 karakter olmalıdır.",
+  "passwordTooShort": "الرقم التسلسلي هو 6 أحرف.",
   "passwordMismatch": "Şifreler eşleşmiyor."
 }

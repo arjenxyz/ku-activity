@@ -1,4 +1,4 @@
 {
-  "unauthorized": "Invalid session",
-  "failed": "Deletion failed"
+  "unauthorized": "অবৈধ অধিবেশন",
+  "failed": "মোছা ব্যর্থ হয়েছে৷"
 }

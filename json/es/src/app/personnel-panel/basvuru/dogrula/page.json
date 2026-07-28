@@ -5,7 +5,7 @@
   "loadingSubtitle": "Başvurunuz gönderiliyor, lütfen bekleyin.",
   "loadingMessage": "E-posta bağlantınız doğrulanıyor…",
   "errorTitle": "Doğrulama başarısız",
-  "errorSubtitle": "Bağlantı geçersiz veya süresi dolmuş olabilir.",
+  "errorSubtitle": "Bağlantı geçersiz o ya süresi dolmuş olabilir.",
   "backToApplication": "Başvuru sayfasına dön",
   "successTitle": "Başvuru gönderildi",
   "successSubtitle": "Yönetici onay ekranına yönlendiriliyorsunuz…",

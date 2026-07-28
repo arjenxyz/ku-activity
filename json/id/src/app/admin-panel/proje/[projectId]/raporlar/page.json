@@ -1,14 +1,14 @@
 {
-  "pageTitle": "Admin Raporları",
-  "pageDescription": "Proje genelinde finansal özet ve aylık istatistikler.",
-  "labelMonth": "Ay (aylık detay)",
-  "loading": "Yükleniyor…",
+  "pageTitle": "Admin Raporlari",
+  "pageDescription": "Proyek umum keuangan dan statistik lainnya.",
+  "labelMonth": "Ay (aylık penundaan)",
+  "loading": "Yukleniyor…",
   "totalWorkPay": "Toplam Yevmiye (₺)",
   "workDays": "Çalışılan Gün",
   "totalAdvances": "Toplam Avans",
-  "activeEmployees": "Aktif Personel",
+  "activeEmployees": "Personil Aktif",
   "approvedYevmiye": "Onaylanan Yevmiye",
   "pendingYevmiye": "Bekleyen Yevmiye",
-  "monthAdvanceTotal": "Ay Avans Toplamı",
-  "detailLink": "Detay →"
+  "monthAdvanceTotal": "Ay Avans Toplami",
+  "detailLink": "Penundaan →"
 }

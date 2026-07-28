@@ -1,56 +1,56 @@
 {
   "errors": {
-    "employeeNotFound": "Personel bulunamadı",
-    "dailyLimitReached": "Günlük indirme limitine ulaştınız ({limit}). Yarın tekrar deneyin."
+    "employeeNotFound": "bulunamadı الشخصية",
+    "dailyLimitReached": "Günlük indirme Limitine ulaştınız ({limit}). يارين تيكرار دينين."
   },
   "fairnessManifest": {
-    "title": "CrewLedger Adil Kayıt İlkeleri",
+    "title": "CrewLedger عادل كايت إيلكيليري",
     "principles": [
-      "Çift onay: Her yevmiye günü yönetici kaydı ve personel onayı ile kesinleşir; tek taraflı kayıt ödemeye yansımaz.",
-      "Şeffaflık: Panelde onaylı, bekleyen ve yönetici onayındaki günler ayrı görünür.",
+      "سيفت أوناي: Her yevmiye günü yönetici kaydı ve personel onayı ile kesinleşir; tek taraflı kayıt ödemeye yansımaz.",
+      "Şeffaflık: Panelde onaylı، bekleyen ve yönetici onayındaki günler ayrı görünür.",
       "Erişim hakkı (KVKK m.11): Kendi verilerinizi bu ZIP ile indirebilirsiniz.",
-      "Sözleşme kanıtı: Onayladığınız sözleşmeler sürüm ve hash ile arşivlenir.",
-      "İtiraz: Kayıtlarla ilgili uyuşmazlıkta yöneticiniz veya veri sorumlusuna yazılı başvurabilirsiniz."
+      "خيارات التثبيت: قم بحفظ ملفات التعريف والتجزئة.",
+      "الإرجاع: Kayıtlarla ilgili uyuşmazlıkta yöneticiniz veya veri sorumlusuna yazılı başvurabilirsiniz."
     ],
     "dualApprovalFlow": [
-      "1. Yönetici veya personel günü bildirir",
-      "2. Karşı taraf onaylar",
-      "3. Gün \"Onaylı\" olur ve maaş hesabına dahil edilir"
+      "1. احصل على معلومات شخصية وشخصية",
+      "2. Karşı Taraf onaylar",
+      "3. بندقية \"Onaylı\" olur ve maaş hesabına dahil edilir"
     ]
   },
   "manifestNotes": {
-    "personnelSelf": "Personel self-servis erişim paketi — KVKK m.11 kapsamında.",
+    "personnelSelf": "حزمة الخدمة الذاتية الشخصية — KVKK m.11 kapsamında.",
     "admin": "Yönetici hukuki dosya paketi."
   },
   "readme": {
     "personnelSelf": [
-      "{appName} — Kayıtlarım (Personel Self-Servis)",
-      "Personel: {employeeName}",
-      "Dışa aktarma: {exportedAt}",
+      "{appName} — Kayıtlarım (الخدمة الذاتية للأفراد)",
+      "الشخصية: {employeeName}",
+      "ديشا أكتارما: {exportedAt}",
       "",
-      "Bu paket KVKK m.11 kapsamında kendi verilerinize erişim içindir.",
-      "İçerik: profil, yevmiye, ödemeler, sözleşmeler, başvuru geçmişi.",
-      "Çift onaylı günler \"Onaylı\" statüsünde maaş hesabına yansır.",
+      "تم التحقق من صحة حزمة KVKK m.11 kapsamında.",
+      "الانضمام إلى: الملف الشخصي، الاشتراك، الانضمام، الاشتراك، دعم العملاء.",
+      "çift ​​onaylı günler \"Onaylı\" statüsünde maaş hesabına yansır.",
       "",
       "Dosyayı güvenli saklayın; üçüncü kişilerle paylaşmayın."
     ],
     "admin": [
-      "{appName} — Hukuki Personel Dosyası",
-      "Personel: {employeeName}",
-      "Dışa aktarma: {exportedAt}",
-      "Yönetici: {exportedByEmail}",
+      "{appName} — Hukuki Personal Dosyası",
+      "الشخصية: {employeeName}",
+      "ديشا أكتارما: {exportedAt}",
+      "يونيتيشي: {exportedByEmail}",
       "",
-      "İçerik:",
-      "- manifest.json — dosya indeksi ve özet",
+      "ملاحظة:",
+      "-manifest.json — dosya indeksi ve özet",
       "- OZET.html — yazdırılabilir özet",
-      "- 01-profil … 09-basvuru — modül klasörleri",
+      "- 01-profil ... 09-basvuru — modül klasörleri",
       "- 08-sozlesmeler — onaylanmış sözleşme HTML kopyaları",
       "",
-      "Kişisel verileri KVKK kapsamında koruyun."
+      "تم إنشاء قفل KVKK بواسطة KVKK."
     ]
   },
   "zipFilenames": {
-    "personnelSelf": "crewledger-kayitlarim-{slug}-{date}.zip",
-    "admin": "crewledger-hukuki-dosya-{slug}-{date}.zip"
+    "personnelSelf": "Crewledger-kayitlarim-{slug}-{date}.zip",
+    "admin": "Crewledger-hukuki-dosya-{slug}-{date}.zip"
   }
 }

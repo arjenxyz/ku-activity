@@ -1,6 +1,6 @@
 {
-  "defaultLabel": "İş kalemi (taşeron kârı — isteğe bağlı)",
-  "defaultHint": "Personelde görünmez; yalnızca kâr hesabında kullanılır.",
-  "notSelected": "Seçilmedi",
-  "completedSuffix": " (tamamlandı)"
+  "defaultLabel": "イシュ カレミ (taşeron kârı — isteğe bağlı)",
+  "defaultHint": "ペルソナデ・ゴルンメズ;ヤルヌスカ・カル・ヘサブンダ・クランヌル。",
+  "notSelected": "セシルメディ",
+  "completedSuffix": "(タマンランドゥ)"
 }

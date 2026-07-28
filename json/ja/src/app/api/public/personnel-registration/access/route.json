@@ -1,6 +1,6 @@
 {
-  "kimlikNumarasıVePinGerekli": "Kimlik numarası ve PIN gerekli",
-  "başvuruSüresiDolmuşYeniBaşvuruYapabilirsiniz": "Başvuru süresi dolmuş. Yeni başvuru yapabilirsiniz.",
-  "geçersizKimlikNumarasıVeyaPin": "Geçersiz kimlik numarası veya PIN",
-  "erişimBaşarısız": "Erişim başarısız"
+  "kimlikNumarasıVePinGerekli": "キムリク ヌマラス ヴェ PIN ゲレクリ",
+  "başvuruSüresiDolmuşYeniBaşvuruYapabilirsiniz": "バシュヴル・シュレシ・ドルムシュ。イェニ・バシュヴル・ヤパビリルシニズ。",
+  "geçersizKimlikNumarasıVeyaPin": "キムリク ヌマラス ヴェヤ PIN を取得してください",
+  "erişimBaşarısız": "エリシム・バシャリスズ"
 }

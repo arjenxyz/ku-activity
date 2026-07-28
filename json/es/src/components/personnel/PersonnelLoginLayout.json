@@ -1,6 +1,6 @@
 {
-  "defaultTitle": "Giriş yapın",
+  "defaultTitle": "Giris yapın",
   "defaultSubtitle": "Kayıtlı e-posta ve şifreniz ile hesabınıza erişin",
-  "defaultScreenLabel": "Personel Auth",
-  "panelLabel": "Personel Paneli"
+  "defaultScreenLabel": "Autenticación personal",
+  "panelLabel": "Paneles de personal"
 }

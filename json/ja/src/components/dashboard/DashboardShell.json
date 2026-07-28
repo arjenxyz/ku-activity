@@ -1,9 +1,9 @@
 {
-  "projectSettingsTitle": "Proje ayarları",
-  "projectSettingsAriaLabel": "Proje ayarları",
-  "loadingProject": "Yükleniyor…",
-  "wagePolicy": "Maaş Politikası",
-  "logout": "Çıkış",
-  "openMenuAriaLabel": "Menüyü aç",
-  "closeMenuAriaLabel": "Menüyü kapat"
+  "projectSettingsTitle": "プロジェ・アヤルラリ",
+  "projectSettingsAriaLabel": "プロジェ・アヤルラリ",
+  "loadingProject": "ユクレニヨル…",
+  "wagePolicy": "マシュ・ポリティカス",
+  "logout": "チクシュ",
+  "openMenuAriaLabel": "メニュユ・アシュ",
+  "closeMenuAriaLabel": "メニュユ カパット"
 }

@@ -1,11 +1,11 @@
 {
   "errors": {
-    "downloadFailed": "Project archive download failed",
-    "genericFailed": "Download failed"
+    "downloadFailed": "Der Download des Projektarchivs ist fehlgeschlagen",
+    "genericFailed": "Der Download ist fehlgeschlagen"
   },
-  "loading": "Preparing…",
-  "button": "Download full project archive",
-  "buttonCompact": "Download archive",
-  "hint": "All personnel folders, closure summary, team/block assignments, and wage policy in one ZIP.",
+  "loading": "Vorbereiten…",
+  "button": "Laden Sie das vollständige Projektarchiv herunter",
+  "buttonCompact": "Archiv herunterladen",
+  "hint": "Alle Personalmappen, Abschlussübersicht, Team-/Blockzuordnungen und Lohnpolitik in einer ZIP-Datei.",
   "fallbackFilename": "project-closure-archive.zip"
 }

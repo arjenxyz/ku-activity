@@ -1,9 +1,9 @@
 {
-  "loadFailed": "Yüklenemedi",
-  "saveFailed": "Kaydedilemedi",
-  "saveSuccess": "Şirket politikası kaydedildi. Projeler varsayılan olarak bunu kullanır.",
-  "saveError": "Kayıt başarısız",
-  "backToProjects": "← Projelere dön",
-  "title": "Şirket maaş politikası",
-  "subtitle": "Ana yetkili: yevmiye ödeme zamanı ve asgari hesap kurallarını burada belirleyin. Her proje isterse kendi özel kuralını tanımlayabilir."
+  "loadFailed": "ユクレネメディ",
+  "saveFailed": "カイデディルメディ",
+  "saveSuccess": "政治政治、カイデディルディ。プロジェラー・ヴァルサイラン・オララク・ブヌ・クラヌル。",
+  "saveError": "カイト・バシャリスズ",
+  "backToProjects": "← プロジェクト",
+  "title": "政治政策",
+  "subtitle": "アナ・イエットキリ: イェヴミエは、あなたの命を救ってくれます。彼女のプロジェクトは、クラルヌ・タヌムラヤビリルです。"
 }

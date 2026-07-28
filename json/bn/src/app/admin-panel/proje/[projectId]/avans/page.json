@@ -1,11 +1,11 @@
 {
-  "employeeAmountRequired": "Personel ve tutar zorunludur.",
+  "employeeAmountRequired": "পার্সোনাল ve tutar zorunludur.",
   "successCreated": "Avans kaydı oluşturuldu.",
   "saveFailed": "Kayıt başarısız",
-  "pageTitle": "Avans Ekle",
-  "pageDescription": "Personele avans kaydı girin. İsteğe bağlı iş kalemine bağlayarak taşeron kârına yansıtın.",
-  "formTitle": "Yeni Avans",
-  "labelDate": "Tarih",
-  "labelAmount": "Tutar (₺)",
+  "pageTitle": "আভান্স একলে",
+  "pageDescription": "ব্যক্তিত্ব আভান্স কায়দি গিরিন। İsteğe bağlı iş kalemine bağlayarak taşeron kârına yansıtın.",
+  "formTitle": "ইয়েনি আভান্স",
+  "labelDate": "তারিহ",
+  "labelAmount": "তুতার (₺)",
   "labelDescription": "Açıklama"
 }

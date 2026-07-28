@@ -1,7 +1,7 @@
 {
-  "err011PersonnelMonthStatsSqlÇalıştırın": "011_personnel_month_stats.sql çalıştırın",
+  "err011PersonnelMonthStatsSqlÇalıştırın": "011_personnel_month_stats.sql configuración",
   "özetYüklenemedi": "Özet yüklenemedi",
-  "personelBulunamadı": "Personel bulunamadı",
-  "err005PersonnelPanelSqlÇalıştırın": "005_personnel_panel.sql çalıştırın",
+  "personelBulunamadı": "Personal bulunamadı",
+  "err005PersonnelPanelSqlÇalıştırın": "005_personnel_panel.sql configuración",
   "oturumGeçersiz": "Oturum geçersiz"
 }

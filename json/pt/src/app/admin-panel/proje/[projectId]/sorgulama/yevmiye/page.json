@@ -1,13 +1,13 @@
 {
   "pageTitle": "Yevmiye Sorgulama",
-  "pageDescription": "Yevmiye kayıtlarını görüntüleyin, iş kalemini düzenleyin veya silin.",
-  "colEmployee": "Personel",
+  "pageDescription": "Yevmiye kayıtlarını görüntüleyin, iş kalemini düzenleyin ou silin.",
+  "colEmployee": "Pessoal",
   "colDate": "Tarih",
-  "colDays": "Gün",
+  "colDays": "Pistola",
   "colJob": "İş kalemi",
-  "colStatus": "Durum",
+  "colStatus": "Duro",
   "colDispute": "İtiraz",
   "colDescription": "Açıklama",
-  "colActions": "İşlem",
+  "colActions": "Istambul",
   "emptyCell": "—"
 }

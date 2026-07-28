@@ -1,4 +1,4 @@
 {
-  "notFound": "No active transfer code found",
-  "loadFailed": "Could not load transfer code"
+  "notFound": "কোন সক্রিয় স্থানান্তর কোড পাওয়া যায়নি",
+  "loadFailed": "স্থানান্তর কোড লোড করা যায়নি"
 }

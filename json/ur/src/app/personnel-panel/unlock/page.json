@@ -1,15 +1,15 @@
 {
-  "greeting": "Hello {name}",
+  "greeting": "ہیلو {name}",
   "pinLabel": "PIN",
-  "unlockButton": "Continue",
-  "unlocking": "Verifying…",
-  "forgotPin": "Forgot PIN",
-  "forgetMe": "Forget me",
-  "forgetMeConfirm": "Your session on this device will be closed. Continue?",
-  "screenLabel": "Lock screen",
-  "subtitle": "Enter your PIN to continue.",
-  "checking": "Loading…",
-  "invalidPin": "Incorrect PIN",
-  "systemError": "Something went wrong",
-  "pinDigitAria": "PIN digit"
+  "unlockButton": "جاری رکھیں",
+  "unlocking": "تصدیق ہو رہی ہے…",
+  "forgotPin": "PIN بھول گئے۔",
+  "forgetMe": "مجھے بھول جاؤ",
+  "forgetMeConfirm": "اس ڈیوائس پر آپ کا سیشن بند ہو جائے گا۔ جاری رکھیں؟",
+  "screenLabel": "لاک اسکرین",
+  "subtitle": "جاری رکھنے کے لیے اپنا PIN درج کریں۔",
+  "checking": "لوڈ ہو رہا ہے…",
+  "invalidPin": "غلط PIN",
+  "systemError": "کچھ غلط ہو گیا۔",
+  "pinDigitAria": "پن کا ہندسہ"
 }

@@ -1,18 +1,26 @@
 {
-  "prevMonth": "Önceki ay",
-  "nextMonth": "Sonraki ay",
-  "thisMonth": "Bu ay",
-  "summary": "{recorded} kayıtlı gün · {confirmed} onaylı · {pending} bekleyen",
-  "selectMonth": "Ay seç:",
-  "weekdays": ["Pt", "Sa", "Ça", "Pe", "Cu", "Ct", "Pz"],
+  "prevMonth": "オンセキ アイ",
+  "nextMonth": "ソンラキアイ",
+  "thisMonth": "ブアイ",
+  "summary": "{recorded} ケイトゥルギュン · {confirmed} オナイル · {pending} ベクレーエン",
+  "selectMonth": "はい秒:",
+  "weekdays": [
+    "ポイント",
+    "サ",
+    "ああ",
+    "ペ",
+    "銅",
+    "CT",
+    "Pz"
+  ],
   "cellTitle": "{date} · {amount} · {status}",
-  "tapForDetail": "Tap a highlighted day for details",
+  "tapForDetail": "ハイライト表示された日をタップすると詳細が表示されます",
   "status": {
-    "confirmed": "Onaylı",
-    "pending_employee": "Sizin onayınız",
-    "pending_admin": "Yönetici onayı",
-    "disputed": "İtiraz",
-    "none": "İşlemde",
-    "empty": "Kayıt yok"
+    "confirmed": "オナイリ",
+    "pending_employee": "シジン・オナイズ",
+    "pending_admin": "ヨネティチ・オナイ",
+    "disputed": "イティラス",
+    "none": "イズレムデ",
+    "empty": "カイトヨク"
   }
 }

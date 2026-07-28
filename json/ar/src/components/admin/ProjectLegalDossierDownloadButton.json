@@ -1,11 +1,11 @@
 {
   "errors": {
-    "downloadFailed": "Project archive download failed",
-    "genericFailed": "Download failed"
+    "downloadFailed": "فشل تنزيل أرشيف المشروع",
+    "genericFailed": "فشل التنزيل"
   },
-  "loading": "Preparing…",
-  "button": "Download full project archive",
-  "buttonCompact": "Download archive",
-  "hint": "All personnel folders, closure summary, team/block assignments, and wage policy in one ZIP.",
-  "fallbackFilename": "project-closure-archive.zip"
+  "loading": "جارٍ التحضير…",
+  "button": "تحميل أرشيف المشروع كاملا",
+  "buttonCompact": "تحميل الأرشيف",
+  "hint": "جميع مجلدات الموظفين، وملخص الإغلاق، وتعيينات الفريق/المجموعة، وسياسة الأجور في ملف مضغوط واحد.",
+  "fallbackFilename": "إغلاق المشروع-archive.zip"
 }

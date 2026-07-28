@@ -1,27 +1,27 @@
 {
   "workDay": {
-    "fullDay": "Tam gün",
-    "halfDay": "Yarım gün",
-    "dayAmount": "{amount} gün",
+    "fullDay": "tam gun",
+    "halfDay": "yarim gün",
+    "dayAmount": "{amount} gun",
     "mesaiCeyrek": "{base} + çeyrek mesai",
     "mesaiYarim": "{base} + yarım mesai",
     "mesaiTam": "{base} + tam mesai"
   },
   "deductionTypes": {
-    "advance": "Avans",
+    "advance": "avans",
     "deduction": "Kesinti",
     "other": "Diğer",
     "subcontractor_cut": "Taşeron kesintisi",
     "minimum": "Asgari"
   },
   "mesaiCountLines": {
-    "tam": "Tam mesai",
+    "tam": "tam mesai",
     "ceyrek": "Çeyrek mesai",
-    "yarim": "Yarım mesai"
+    "yarim": "yarım mesai"
   },
   "workDayCountLines": {
-    "full": "Tam gün",
-    "half": "Yarım gün",
-    "total": "Toplam gün"
+    "full": "tam gun",
+    "half": "yarim gün",
+    "total": "Toplam gun"
   }
 }

@@ -1,4 +1,4 @@
 {
-  "noActiveBlock": "\"{teamName}\" ekibine aktif blok atanmamış. Ekipler sayfasından blok atayın.",
-  "blockCompleted": "\"{teamName}\" ekibinin bloğu ({blockName}) tamamlanmış. Yeni blok oluşturup ekibe atayın."
+  "noActiveBlock": "\"{teamName}\" ekibine bloco ativo atanmamış. Ekipler sayfasından blok atayın.",
+  "blockCompleted": "\"{teamName}\" é o nome do blog ({blockName}). Yeni blok oluşturup ekibe atayın."
 }

@@ -1,6 +1,6 @@
 {
-  "invalidSubscription": "Invalid subscription data",
-  "endpointRequired": "A valid endpoint is required",
-  "saveFailed": "Could not save subscription",
-  "deleteFailed": "Could not remove subscription"
+  "invalidSubscription": "بيانات الاشتراك غير صالحة",
+  "endpointRequired": "مطلوب نقطة نهاية صالحة",
+  "saveFailed": "لا يمكن حفظ الاشتراك",
+  "deleteFailed": "لا يمكن إزالة الاشتراك"
 }

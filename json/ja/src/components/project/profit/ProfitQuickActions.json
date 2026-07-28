@@ -1,12 +1,12 @@
 {
-  "addJob": "Yeni iş kalemi",
-  "refreshTitle": "Yenile",
-  "refresh": "Yenile",
+  "addJob": "イェニ・イス・カレミ",
+  "refreshTitle": "イェニレ",
+  "refresh": "イェニレ",
   "links": {
-    "blocks": "Bloklar",
-    "teams": "Ekipler",
-    "workLogs": "Yevmiye",
-    "advance": "Avans",
-    "deduction": "Kesinti"
+    "blocks": "ブロックラー",
+    "teams": "エキプラー",
+    "workLogs": "エフミエ",
+    "advance": "アバンス",
+    "deduction": "ケシンティ"
   }
 }

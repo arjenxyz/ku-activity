@@ -2,30 +2,30 @@
   "photoUploadFailed": "Fotoğraf yüklenemedi",
   "updatePhotoTitle": "Profil fotoğrafını güncelle",
   "uploading": "Yükleniyor…",
-  "takePhoto": "Take photo",
-  "uploadFromGallery": "Choose from gallery",
-  "removePhoto": "Remove photo",
-  "photoMenuTitle": "Profile photo",
-  "photoMenuCancel": "Cancel",
-  "photoRemoveFailed": "Could not remove photo",
-  "profilePhoto": "Profile photo",
-  "profilePhotoHint": "Use a clear photo of your face for attendance and your profile.",
-  "profileAccountLabel": "Personnel account",
-  "backToList": "Back",
-  "exitHint": "Tap to return to the panel",
-  "exitAriaLabel": "Return to panel",
-  "logout": "Sign out",
-  "logoutConfirm": "Sign out of your account?",
-  "logoutConfirmButton": "Yes, sign out",
-  "logoutCancel": "Cancel",
-  "digitalApprovalMark": "Digital approval mark",
-  "digitalApprovalMarkAlt": "CrewLedger digital approval mark",
-  "resetData": "Clear cache on this phone",
+  "takePhoto": "Machen Sie ein Foto",
+  "uploadFromGallery": "Wählen Sie aus der Galerie",
+  "removePhoto": "Foto entfernen",
+  "photoMenuTitle": "Profilfoto",
+  "photoMenuCancel": "Stornieren",
+  "photoRemoveFailed": "Foto konnte nicht entfernt werden",
+  "profilePhoto": "Profilfoto",
+  "profilePhotoHint": "Verwenden Sie für die Teilnahme und Ihr Profil ein klares Foto Ihres Gesichts.",
+  "profileAccountLabel": "Personalkonto",
+  "backToList": "Zurück",
+  "exitHint": "Tippen Sie, um zum Bedienfeld zurückzukehren",
+  "exitAriaLabel": "Zurück zum Panel",
+  "logout": "Abmelden",
+  "logoutConfirm": "Von Ihrem Konto abmelden?",
+  "logoutConfirmButton": "Ja, melden Sie sich ab",
+  "logoutCancel": "Stornieren",
+  "digitalApprovalMark": "Digitales Prüfzeichen",
+  "digitalApprovalMarkAlt": "Digitales Prüfzeichen von CrewLedger",
+  "resetData": "Leeren Sie den Cache auf diesem Telefon",
   "resetting": "Clearing…",
-  "resetDataConfirm": "Only CrewLedger cookies, session, and cache on this device will be cleared and you will be signed out. Your account and server records are not deleted. Other apps are not affected. Continue?",
-  "resetDataHint": "Deletes cookies and temporary files. Your account, payroll, and advance records are not deleted.",
+  "resetDataConfirm": "Nur CrewLedger-Cookies, Sitzung und Cache auf diesem Gerät werden gelöscht und Sie werden abgemeldet. Ihre Konto- und Serverdatensätze werden nicht gelöscht. Andere Apps sind nicht betroffen. Weitermachen?",
+  "resetDataHint": "Löscht Cookies und temporäre Dateien. Ihr Konto, Ihre Gehaltsabrechnung und Ihre Vorschussunterlagen werden nicht gelöscht.",
   "emptyValue": "—",
-  "pinTitle": "PIN kodu",
+  "pinTitle": "PIN-Kodu",
   "pinSubtitle": "Giriş şifrenizi güncelleyin",
   "sections": {
     "home": {
@@ -42,7 +42,7 @@
     },
     "contact": {
       "title": "İletişim",
-      "subtitle": "E-posta ve telefon bilgileriniz."
+      "subtitle": "E-Mail und Telefonanruf."
     },
     "bank": {
       "title": "Banka Bilgileri",
@@ -54,37 +54,37 @@
     },
     "contracts": {
       "title": "Sözleşmeler",
-      "subtitle": "Onayladığınız sözleşme kayıtları."
+      "subtitle": "Bitte beachten Sie, dass dies der Fall ist."
     },
     "security": {
       "title": "Güvenlik",
-      "subtitle": "PIN, aktif cihazlar ve hesap güvenliği."
+      "subtitle": "PIN, aktiviert und aktiviert."
     },
     "language": {
-      "title": "Language",
-      "subtitle": "Choose the app language."
+      "title": "Sprache",
+      "subtitle": "Wählen Sie die App-Sprache."
     },
     "app": {
-      "title": "App Settings",
-      "subtitle": "Theme, language, notifications, and app preferences."
+      "title": "App-Einstellungen",
+      "subtitle": "Thema, Sprache, Benachrichtigungen und App-Einstellungen."
     },
     "releases": {
-      "title": "Release Notes",
-      "subtitle": "Recent changes in the web app."
+      "title": "Versionshinweise",
+      "subtitle": "Aktuelle Änderungen in der Web-App."
     }
   },
   "menu": {
     "personal": {
-      "title": "Personal settings",
-      "subtitle": "Profile photo, name, and identity"
+      "title": "Persönliche Einstellungen",
+      "subtitle": "Profilfoto, Name und Identität"
     },
     "contact": {
       "title": "İletişim",
-      "subtitle": "E-posta ve telefon numarası"
+      "subtitle": "E-Mail und Telefonnummer"
     },
     "bank": {
       "title": "Banka",
-      "subtitle": "IBAN bilgisi"
+      "subtitle": "IBAN Bilgisi"
     },
     "work": {
       "title": "İş bilgileri",
@@ -96,19 +96,19 @@
     },
     "security": {
       "title": "Güvenlik",
-      "subtitle": "PIN kodu, aktif cihazlar ve hesap güvenliği"
+      "subtitle": "PIN-Code, aktiviert und aktiviert"
     },
     "language": {
-      "title": "Language",
-      "subtitle": "App language"
+      "title": "Sprache",
+      "subtitle": "App-Sprache"
     },
     "app": {
-      "title": "App settings",
-      "subtitle": "Theme, language, notifications, and app preferences"
+      "title": "App-Einstellungen",
+      "subtitle": "Thema, Sprache, Benachrichtigungen und App-Einstellungen"
     },
     "releases": {
-      "title": "Release notes",
-      "subtitle": "Recent changes in the web app"
+      "title": "Versionshinweise",
+      "subtitle": "Aktuelle Änderungen in der Web-App"
     }
   },
   "groups": {
@@ -118,34 +118,34 @@
     "workInfo": "İş bilgileri"
   },
   "fields": {
-    "project": "Project",
-    "site": "Site",
-    "firstName": "Ad",
-    "lastName": "Soyad",
-    "tcKimlik": "T.C. kimlik no",
+    "project": "Projekt",
+    "site": "Website",
+    "firstName": "Anzeige",
+    "lastName": "Sojad",
+    "tcKimlik": "T.C. Kimlik Nr",
     "birthDate": "Doğum tarihi",
-    "email": "E-posta",
+    "email": "E-Mail",
     "phone": "Telefon",
     "iban": "IBAN",
     "bankName": "Bank",
-    "unknownBank": "Bank could not be detected",
+    "unknownBank": "Bank konnte nicht erkannt werden",
     "position": "Pozisyon",
     "dailyWage": "Günlük yevmiye",
     "hireDate": "İşe giriş"
   },
   "language": {
-    "label": "App language",
+    "label": "App-Sprache",
     "hint": "Sie können aus 15 Sprachen wählen."
   },
   "releases": {
-    "loading": "Loading update notes…",
-    "loadFailed": "Could not load update notes",
-    "emptyTitle": "No update notes yet",
-    "emptyHint": "When a new web update is published, it will appear here.",
-    "currentVersion": "Web updates",
-    "webUpdatesTitle": "Recent changes",
-    "publishedAt": "Latest update",
-    "notesTitle": "In this period",
-    "noNotes": "No notes for this period."
+    "loading": "Aktualisierungsnotizen werden geladen…",
+    "loadFailed": "Aktualisierungsnotizen konnten nicht geladen werden",
+    "emptyTitle": "Noch keine Update-Hinweise",
+    "emptyHint": "Wenn ein neues Web-Update veröffentlicht wird, wird es hier angezeigt.",
+    "currentVersion": "Web-Updates",
+    "webUpdatesTitle": "Aktuelle Änderungen",
+    "publishedAt": "Neuestes Update",
+    "notesTitle": "In dieser Zeit",
+    "noNotes": "Keine Notizen für diesen Zeitraum."
   }
 }

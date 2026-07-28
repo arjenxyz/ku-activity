@@ -1,14 +1,14 @@
 {
-  "embedScreen": "Ekran",
-  "embedScreenDefault": "Auth",
-  "embedTime": "Zaman",
-  "embedPage": "Sayfa",
-  "embedBrowser": "Tarayıcı",
-  "embedFormError": "Form hatası",
-  "embedUserNote": "Kullanıcı notu",
-  "embedDiagnostics": "Tanılama",
-  "reportTitle": "{appName} — Ekran raporu",
-  "newReportContent": "🚩 **Yeni ekran raporu**",
-  "sendFailed": "Discord raporu gönderilemedi ({status}){detail}",
-  "notConfigured": "Discord raporu yapılandırılmamış (DISCORD_REPORT_WEBHOOK_URL veya DISCORD_BOT_TOKEN)"
+  "embedScreen": "エクラン",
+  "embedScreenDefault": "認証",
+  "embedTime": "ザマン",
+  "embedPage": "サイファ",
+  "embedBrowser": "タラジュ",
+  "embedFormError": "フォームハタシュ",
+  "embedUserNote": "クランジュ ノトゥ",
+  "embedDiagnostics": "タニラマ",
+  "reportTitle": "{appName} — エクラン・ラポル",
+  "newReportContent": "🚩 **イェニ エクラン ラポル**",
+  "sendFailed": "Discord rapor gönderilemedi ({status}){detail}",
+  "notConfigured": "Discord のラポール ヤピランド (DISCORD_REPORT_WEBHOOK_URL veya DISCORD_BOT_TOKEN)"
 }

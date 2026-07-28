@@ -1,18 +1,26 @@
 {
   "prevMonth": "Önceki ay",
-  "nextMonth": "Sonraki ay",
-  "thisMonth": "Bu ay",
+  "nextMonth": "Sonraki sim",
+  "thisMonth": "Mas sim",
   "summary": "{recorded} kayıtlı gün · {confirmed} onaylı · {pending} bekleyen",
-  "selectMonth": "Ay seç:",
-  "weekdays": ["Pt", "Sa", "Ça", "Pe", "Cu", "Ct", "Pz"],
+  "selectMonth": "Sim, sim:",
+  "weekdays": [
+    "Ponto",
+    "Sá",
+    "Ça",
+    "Pe.",
+    "Cu",
+    "CT",
+    "Pz"
+  ],
   "cellTitle": "{date} · {amount} · {status}",
-  "tapForDetail": "Tap a highlighted day for details",
+  "tapForDetail": "Toque em um dia destacado para obter detalhes",
   "status": {
     "confirmed": "Onaylı",
     "pending_employee": "Sizin onayınız",
     "pending_admin": "Yönetici onayı",
     "disputed": "İtiraz",
-    "none": "İşlemde",
-    "empty": "Kayıt yok"
+    "none": "Istambul",
+    "empty": "Kayit yok"
   }
 }

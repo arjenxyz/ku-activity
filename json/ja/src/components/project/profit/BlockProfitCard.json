@@ -1,15 +1,15 @@
 {
   "stats": {
-    "workLogs": "Yevmiye",
-    "profit": "Kâr",
-    "receivable": "Alacak",
-    "laborApproved": "Yevmiye (onaylı)",
-    "advance": "Avans",
-    "deduction": "Kesinti",
-    "material": "Malzeme",
-    "approvedDays": "Onaylı gün",
-    "pendingDays": "Bekleyen gün",
-    "profitPerShare": "Kişi başı kâr"
+    "workLogs": "エフミエ",
+    "profit": "カール",
+    "receivable": "アラチャク",
+    "laborApproved": "エフミエ (オナリ)",
+    "advance": "アバンス",
+    "deduction": "ケシンティ",
+    "material": "マルゼメ",
+    "approvedDays": "オナイル・ギュン",
+    "pendingDays": "ベクレーエン・ギュン",
+    "profitPerShare": "キシ・バシ・カール"
   },
-  "jobsTitle": "İş kalemleri"
+  "jobsTitle": "イシュ・カレムレリ"
 }

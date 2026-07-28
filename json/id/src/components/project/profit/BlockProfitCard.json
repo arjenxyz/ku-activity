@@ -1,15 +1,15 @@
 {
   "stats": {
     "workLogs": "Yevmiye",
-    "profit": "Kâr",
-    "receivable": "Alacak",
+    "profit": "Kar",
+    "receivable": "jejak",
     "laborApproved": "Yevmiye (onaylı)",
-    "advance": "Avans",
+    "advance": "mobil van",
     "deduction": "Kesinti",
-    "material": "Malzeme",
-    "approvedDays": "Onaylı gün",
-    "pendingDays": "Bekleyen gün",
+    "material": "malzeme",
+    "approvedDays": "Bagus sekali",
+    "pendingDays": "Tidak ada gunanya",
     "profitPerShare": "Kişi başı kâr"
   },
-  "jobsTitle": "İş kalemleri"
+  "jobsTitle": "itu kalemleri"
 }

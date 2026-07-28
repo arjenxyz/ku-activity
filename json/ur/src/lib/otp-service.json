@@ -1,10 +1,10 @@
 {
-  "quotaCheckFailed": "OTP kotası kontrol edilemedi",
+  "quotaCheckFailed": "OTP kotası edilemedi کو کنٹرول کرتا ہے۔",
   "rateLimitCheckFailed": "OTP sıklık kontrolü başarısız",
   "invalidEmail": "Geçerli bir e-posta adresi girin",
   "emailNotConfigured": "E-posta doğrulama servisi yapılandırılmamış",
   "contractsMissing": "Sözleşme onayları eksik",
-  "dailyLimitReached": "Günlük doğrulama kodu limitine ulaşıldı ({limit}). Yarın tekrar deneyin.",
+  "dailyLimitReached": "Günlük doğrulama kodu limitine ulaşıldı ({limit})۔ یارِن تکرر دینین۔",
   "tooFrequent": "Çok sık kod istendi. Lütfen bir saat sonra tekrar deneyin.",
   "createFailed": "Doğrulama kodu oluşturulamadı",
   "updateFailed": "Doğrulama kaydı güncellenemedi",

@@ -1,13 +1,12 @@
 {
   "navLinks": {
-    "hero": "Home",
-    "features": "Features",
+    "hero": "Heim",
+    "features": "Merkmale",
     "playStore": "Google Play",
-    "apk": "Download APK",
-    "contact": "Contact"
+    "apk": "APK herunterladen",
+    "contact": "Kontakt"
   },
-  "menuOpenAriaLabel": "Open menu",
-  "menuCloseAriaLabel": "Close menu",
-  "mobileMenuTitle": "Menu",
-  "tagline": "Plattform für Baupersonalverwaltung"
+  "menuOpenAriaLabel": "Menü öffnen",
+  "menuCloseAriaLabel": "Menü schließen",
+  "mobileMenuTitle": "Speisekarte"
 }

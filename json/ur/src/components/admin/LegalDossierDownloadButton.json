@@ -6,6 +6,6 @@
   "title": "{employeeName} için hukuki personel dosyası (ZIP)",
   "loading": "Hazırlanıyor…",
   "button": "Hukuki dosya indir",
-  "hint": "Profile, sensitive data, work logs, advance requests, attendance, payments, contracts, and closure consent in one ZIP.",
+  "hint": "پروفائل، حساس ڈیٹا، ورک لاگ، پیشگی درخواستیں، حاضری، ادائیگیاں، معاہدے، اور بند ہونے کی رضامندی ایک زپ میں۔",
   "fallbackFilename": "crewledger-hukuki-dosya.zip"
 }

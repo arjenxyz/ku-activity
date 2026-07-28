@@ -1,4 +1,4 @@
 {
-  "note": "Your ZIP file includes the sections below. This is the same dataset your manager can see.",
-  "unauthorized": "Session required"
+  "note": "ZIP ファイルには以下のセクションが含まれています。これは、マネージャーが参照できるデータセットと同じです。",
+  "unauthorized": "セッションが必要です"
 }

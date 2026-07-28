@@ -1,8 +1,8 @@
 {
   "title": "Avans / Kesinti Kayıtları",
-  "workerHeader": "İşçi",
+  "workerHeader": "Işçi",
   "dateHeader": "Tarih",
-  "typeHeader": "Tür",
+  "typeHeader": "Tur",
   "amountHeader": "Tutar",
   "descriptionHeader": "Açıklama",
   "deleteHeader": "Sil",
@@ -10,5 +10,5 @@
   "empty": "Kayıt bulunamadı",
   "advanceType": "Avans",
   "deductionType": "Kesinti",
-  "deleteTitle": "Kaydı Sil"
+  "deleteTitle": "Kaydi Sil"
 }

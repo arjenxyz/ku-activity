@@ -1,6 +1,6 @@
 {
-  "loadFailed": "Could not load collaborators",
-  "rotateFailed": "Could not rotate code",
-  "ownerOnly": "Only the project owner can do this",
-  "migrationRequired": "Collaborator migration not applied yet (076_project_collaborators.sql)"
+  "loadFailed": "No se pudieron cargar colaboradores",
+  "rotateFailed": "No se pudo rotar el código",
+  "ownerOnly": "Sólo el propietario del proyecto puede hacer esto.",
+  "migrationRequired": "La migración de colaboradores aún no se ha aplicado (076_project_collaborators.sql)"
 }

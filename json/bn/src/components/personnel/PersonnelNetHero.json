@@ -1,9 +1,9 @@
 {
-  "estimatedNet": "Estimated Net Salary",
-  "gross": "Gross",
-  "deduction": "Deductions",
-  "advance": "Advances",
-  "financeDetail": "Payroll and finance details",
-  "sectionAriaLabel": "Profile and monthly salary summary",
-  "defaultName": "Personnel"
+  "estimatedNet": "আনুমানিক নেট বেতন",
+  "gross": "স্থূল",
+  "deduction": "কর্তন",
+  "advance": "অগ্রিম",
+  "financeDetail": "বেতন এবং আর্থিক বিবরণ",
+  "sectionAriaLabel": "প্রোফাইল এবং মাসিক বেতনের সারাংশ",
+  "defaultName": "কর্মী"
 }

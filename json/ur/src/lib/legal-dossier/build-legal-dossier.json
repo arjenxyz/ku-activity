@@ -1,13 +1,13 @@
 {
   "errors": {
-    "employeeNotFound": "Personel bulunamadı",
-    "dailyLimitReached": "Günlük indirme limitine ulaştınız ({limit}). Yarın tekrar deneyin."
+    "employeeNotFound": "پرسنل bulunamadı",
+    "dailyLimitReached": "Günlük indirme limitine ulaştınız ({limit})۔ یارِن تکرر دینین۔"
   },
   "fairnessManifest": {
     "title": "CrewLedger Adil Kayıt İlkeleri",
     "principles": [
       "Çift onay: Her yevmiye günü yönetici kaydı ve personel onayı ile kesinleşir; tek taraflı kayıt ödemeye yansımaz.",
-      "Şeffaflık: Panelde onaylı, bekleyen ve yönetici onayındaki günler ayrı görünür.",
+      "Şeffaflık: Panelde onaylı، bekleyen ve yönetici onayındaki günler ayrı görünür.",
       "Erişim hakkı (KVKK m.11): Kendi verilerinizi bu ZIP ile indirebilirsiniz.",
       "Sözleşme kanıtı: Onayladığınız sözleşmeler sürüm ve hash ile arşivlenir.",
       "İtiraz: Kayıtlarla ilgili uyuşmazlıkta yöneticiniz veya veri sorumlusuna yazılı başvurabilirsiniz."
@@ -19,31 +19,31 @@
     ]
   },
   "manifestNotes": {
-    "personnelSelf": "Personel self-servis erişim paketi — KVKK m.11 kapsamında.",
+    "personnelSelf": "پرسنل سیلف سروس erişim paketi — KVKK m.11 kapsamında.",
     "admin": "Yönetici hukuki dosya paketi."
   },
   "readme": {
     "personnelSelf": [
-      "{appName} — Kayıtlarım (Personel Self-Servis)",
-      "Personel: {employeeName}",
+      "{appName} — Kayıtlarım (پرسنل سیلف سروس)",
+      "پرسنل: {employeeName}",
       "Dışa aktarma: {exportedAt}",
       "",
       "Bu paket KVKK m.11 kapsamında kendi verilerinize erişim içindir.",
-      "İçerik: profil, yevmiye, ödemeler, sözleşmeler, başvuru geçmişi.",
+      "İçerik: پروفائل، yevmiye، ödemeler، sözleşmeler، başvuru geçmişi۔",
       "Çift onaylı günler \"Onaylı\" statüsünde maaş hesabına yansır.",
       "",
       "Dosyayı güvenli saklayın; üçüncü kişilerle paylaşmayın."
     ],
     "admin": [
       "{appName} — Hukuki Personel Dosyası",
-      "Personel: {employeeName}",
+      "پرسنل: {employeeName}",
       "Dışa aktarma: {exportedAt}",
       "Yönetici: {exportedByEmail}",
       "",
       "İçerik:",
       "- manifest.json — dosya indeksi ve özet",
       "- OZET.html — yazdırılabilir özet",
-      "- 01-profil … 09-basvuru — modül klasörleri",
+      "- 01 پروفائل … 09-basvuru — modül klasörleri",
       "- 08-sozlesmeler — onaylanmış sözleşme HTML kopyaları",
       "",
       "Kişisel verileri KVKK kapsamında koruyun."

@@ -1,5 +1,5 @@
 {
-  "employeeRequired": "Select an employee",
-  "fileRequired": "Receipt file is required",
-  "saveFailed": "Could not save retroactive payment"
+  "employeeRequired": "একজন কর্মচারী নির্বাচন করুন",
+  "fileRequired": "রসিদ ফাইল প্রয়োজন",
+  "saveFailed": "পূর্ববর্তী অর্থপ্রদান সংরক্ষণ করা যায়নি"
 }

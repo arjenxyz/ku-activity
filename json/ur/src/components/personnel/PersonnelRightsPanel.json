@@ -1,28 +1,28 @@
 {
-  "heroTitle": "My rights",
-  "heroSubtitle": "GDPR · contracts · records",
-  "downloadCta": "Download my data",
-  "preparing": "Preparing…",
-  "contactCta": "Rights request",
-  "quickLinksTitle": "Your records",
+  "heroTitle": "میرے حقوق",
+  "heroSubtitle": "جی ڈی پی آر · معاہدے · ریکارڈ",
+  "downloadCta": "میرا ڈیٹا ڈاؤن لوڈ کریں۔",
+  "preparing": "تیار ہو رہا ہے…",
+  "contactCta": "حقوق کی درخواست",
+  "quickLinksTitle": "آپ کے ریکارڈز",
   "quickLinks": {
-    "finance": "Payroll",
-    "work": "Daily wage",
-    "mesai": "Overtime",
-    "asgari": "Minimum wage"
+    "finance": "پے رول",
+    "work": "یومیہ اجرت",
+    "mesai": "اوور ٹائم",
+    "asgari": "کم از کم اجرت"
   },
-  "kvkkTitle": "Data protection rights",
+  "kvkkTitle": "ڈیٹا کے تحفظ کے حقوق",
   "kvkkRights": [
-    "Know whether data is processed",
-    "Request information",
-    "Request correction",
-    "Request deletion",
-    "Know third-party recipients"
+    "جانیں کہ آیا ڈیٹا پر کارروائی ہوتی ہے۔",
+    "معلومات کی درخواست کریں۔",
+    "اصلاح کی درخواست کریں۔",
+    "حذف کرنے کی درخواست کریں۔",
+    "تیسری پارٹی کے وصول کنندگان کو جانیں۔"
   ],
-  "mailSubject": "Rights request - CrewLedger",
+  "mailSubject": "حقوق کی درخواست - CrewLedger",
   "errors": {
-    "downloadFailed": "Download failed",
-    "generic": "Download failed"
+    "downloadFailed": "ڈاؤن لوڈ ناکام ہو گیا۔",
+    "generic": "ڈاؤن لوڈ ناکام ہو گیا۔"
   },
   "fallbackFilename": "crewledger-my-records.zip"
 }

@@ -1,6 +1,6 @@
 {
-  "unauthorized": "Invalid session",
-  "invalidPin": "Incorrect PIN",
-  "unlockRequired": "Unlock required",
-  "failed": "Operation failed"
+  "unauthorized": "جلسة غير صالحة",
+  "invalidPin": "رقم التعريف الشخصي غير صحيح",
+  "unlockRequired": "فتح المطلوبة",
+  "failed": "فشلت العملية"
 }

@@ -1,63 +1,144 @@
 {
   "dock": {
-    "summary": "Overview",
-    "approval": "Approve",
-    "attendance": "Attendance",
-    "profit": "Profit",
-    "payroll": "Payroll",
+    "summary": "Ringkasan",
+    "approval": "Menyetujui",
+    "attendance": "Kehadiran",
+    "profit": "Laba",
+    "payroll": "Daftar gaji",
     "status": "Status",
     "menu": "Menu"
   },
   "hub": {
-    "essentialsTitle": "Daily essentials",
-    "essentialsSubtitle": "Overview, approvals and attendance used every day",
-    "periodicTitle": "Weekly & periodic",
-    "periodicSubtitle": "Weekly or month-end operations",
-    "personnelTitle": "Personnel",
-    "siteTitle": "Site",
-    "recordsTitle": "Records & corrections",
-    "recordsSubtitle": "Separate record, approval and archive pages",
-    "generalTitle": "General",
-    "generalSubtitle": "All projects and account",
+    "essentialsTitle": "Kebutuhan sehari-hari",
+    "essentialsSubtitle": "Ikhtisar, persetujuan dan kehadiran digunakan setiap hari",
+    "periodicTitle": "Mingguan & berkala",
+    "periodicSubtitle": "Operasi mingguan atau akhir bulan",
+    "personnelTitle": "Personil",
+    "siteTitle": "Lokasi",
+    "recordsTitle": "Catatan & koreksi",
+    "recordsSubtitle": "Pisahkan halaman catatan, persetujuan, dan arsip",
+    "generalTitle": "Umum",
+    "generalSubtitle": "Semua proyek dan akun",
     "general": {
-      "projects": "Projects",
-      "arjenAdvance": "Arjen advance",
-      "arjenAttendance": "Arjen timesheet",
-      "applications": "Applications",
-      "policy": "Salary policy",
-      "settings": "Settings"
+      "projects": "Proyek",
+      "arjenAdvance": "Arjen maju",
+      "arjenAttendance": "Kartu absen Arjen",
+      "applications": "Aplikasi",
+      "policy": "Kebijakan gaji",
+      "settings": "Pengaturan"
     }
   },
   "simpleEssentialItems": [
-    { "label": "Project overview", "path": "", "hint": "Personnel list and daily status" },
-    { "label": "Application approval", "path": "basvuru-onay", "hint": "New personnel applications" },
-    { "label": "Attendance / QR", "path": "yevmiye", "hint": "Day, overtime and timesheet are planned here" }
+    {
+      "label": "Ikhtisar proyek",
+      "path": "",
+      "hint": "Daftar personel dan status harian"
+    },
+    {
+      "label": "Persetujuan aplikasi",
+      "path": "basvuru-onay",
+      "hint": "Aplikasi personel baru"
+    },
+    {
+      "label": "Kehadiran / QR",
+      "path": "yevmiye",
+      "hint": "Hari, lembur dan absensi direncanakan di sini"
+    }
   ],
   "periodicItems": [
-    { "label": "Subcontractor profit", "path": "kar", "hint": "Blocks, jobs and profit" },
-    { "label": "Where we stand", "path": "durum", "hint": "Project finance summary" },
-    { "label": "Payroll", "path": "bordro", "hint": "Period payroll" },
-    { "label": "Reports", "path": "raporlar", "hint": "Approval and summary reports" },
-    { "label": "Advance requests", "path": "avans-talepleri", "hint": "Personnel requests" },
-    { "label": "Share receipt", "absolutePath": "/admin-panel/dekont-paylas", "hint": "OCR matching" },
-    { "label": "Salary policy", "path": "maas-politikasi", "hint": "Project salary rules" }
+    {
+      "label": "Keuntungan subkontraktor",
+      "path": "kar",
+      "hint": "Blok, pekerjaan dan keuntungan"
+    },
+    {
+      "label": "Dimana kita berdiri",
+      "path": "keras",
+      "hint": "Ringkasan keuangan proyek"
+    },
+    {
+      "label": "Daftar gaji",
+      "path": "perbatasan",
+      "hint": "Penggajian periode"
+    },
+    {
+      "label": "Laporan",
+      "path": "raporlar",
+      "hint": "Persetujuan dan ringkasan laporan"
+    },
+    {
+      "label": "Permintaan terlebih dahulu",
+      "path": "avans-talepleri",
+      "hint": "Permintaan personel"
+    },
+    {
+      "label": "Bagikan tanda terima",
+      "absolutePath": "/admin-panel/dekont-paylas",
+      "hint": "pencocokan OCR"
+    },
+    {
+      "label": "Kebijakan gaji",
+      "path": "maas-politikasi",
+      "hint": "Aturan gaji proyek"
+    }
   ],
   "personnelItems": [
-    { "label": "Personnel list", "path": "list" },
-    { "label": "New personnel", "path": "new" },
-    { "label": "Application approval", "path": "basvuru-onay", "hint": "New personnel applications" },
-    { "label": "Attendance / QR", "path": "yevmiye", "hint": "Day, overtime and timesheet are planned here" },
-    { "label": "Personnel passwords", "path": "sorgulama/personel-sifreleri" }
+    {
+      "label": "Daftar personel",
+      "path": "daftar"
+    },
+    {
+      "label": "Personil baru",
+      "path": "baru"
+    },
+    {
+      "label": "Persetujuan aplikasi",
+      "path": "basvuru-onay",
+      "hint": "Aplikasi personel baru"
+    },
+    {
+      "label": "Kehadiran / QR",
+      "path": "yevmiye",
+      "hint": "Hari, lembur dan absensi direncanakan di sini"
+    },
+    {
+      "label": "Kata sandi personel",
+      "path": "sorgulama/personel-sifreleri"
+    }
   ],
   "siteItems": [
-    { "label": "Blocks", "path": "bloklar" },
-    { "label": "Teams", "path": "ekiplar" }
+    {
+      "label": "Blok",
+      "path": "bloklar"
+    },
+    {
+      "label": "Tim",
+      "path": "ekiplar"
+    }
   ],
   "recordsItems": [
-    { "label": "Advance", "path": "avans", "hint": "Separate advance record" },
-    { "label": "Deduction", "path": "kesinti", "hint": "Separate deduction record" },
-    { "label": "Approved", "path": "raporlar/onaylanan" },
-    { "label": "Pending records", "path": "raporlar/onaysiz" },
-    { "label": "Record history", "path": "kayit-gecmisi", "hint": "Query and archive" }
+    {
+      "label": "Maju",
+      "path": "avan",
+      "hint": "Catatan awal yang terpisah"
+    },
+    {
+      "label": "Deduksi",
+      "path": "kesinti",
+      "hint": "Catatan pemotongan terpisah"
+    },
+    {
+      "label": "Disetujui",
+      "path": "raporlar/onaylanan"
+    },
+    {
+      "label": "Catatan yang tertunda",
+      "path": "raporlar/onaysiz"
+    },
+    {
+      "label": "Rekam sejarah",
+      "path": "kayit-gecmisi",
+      "hint": "Kueri dan arsip"
+    }
   ]
 }

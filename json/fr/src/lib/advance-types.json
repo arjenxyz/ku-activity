@@ -1,11 +1,11 @@
 {
   "statusLabels": {
-    "pending": "Talep bekliyor",
+    "pending": "Description du conte",
     "approved": "Onaylandı — ödeme bekleniyor",
     "awaiting_receipt": "Nakit teslimi bekleniyor",
     "paid": "Ödendi",
     "rejected": "Reddedildi",
-    "cancelled": "İptal edildi",
+    "cancelled": "Iptal Edildi",
     "expired": "Süresi doldu"
   },
   "paymentMethodLabels": {

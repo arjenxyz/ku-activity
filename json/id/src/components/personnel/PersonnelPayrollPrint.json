@@ -1,96 +1,96 @@
 {
-  "title": "Payroll Statement",
-  "printedAt": "Printed:",
-  "documentNo": "Document no:",
-  "employeeInfo": "Employee information",
-  "periodSummary": "Period summary",
-  "workLogsTitle": "Work log records ({count})",
-  "mesaiSummary": "Overtime summary",
-  "advancesTitle": "Advances ({count})",
-  "deductionsTitle": "Deductions ({count})",
-  "minimumWagesTitle": "Minimum wage payments ({count})",
-  "calcSummary": "Calculation summary",
-  "emptyValue": "\u2014",
+  "title": "Pernyataan Penggajian",
+  "printedAt": "Dicetak:",
+  "documentNo": "Nomor dokumen:",
+  "employeeInfo": "Informasi karyawan",
+  "periodSummary": "Ringkasan periode",
+  "workLogsTitle": "Catatan log kerja ({count})",
+  "mesaiSummary": "Ringkasan lembur",
+  "advancesTitle": "Kemajuan ({count})",
+  "deductionsTitle": "Pengurangan ({count})",
+  "minimumWagesTitle": "Pembayaran upah minimum ({count})",
+  "calcSummary": "Ringkasan perhitungan",
+  "emptyValue": "—",
   "fields": {
-    "fullName": "Full name",
-    "position": "Position",
-    "project": "Project / site",
-    "dailyWage": "Daily wage",
-    "tcKimlik": "National ID",
-    "hireDate": "Hire date"
+    "fullName": "Nama lengkap",
+    "position": "Posisi",
+    "project": "Proyek / situs",
+    "dailyWage": "Gaji harian",
+    "tcKimlik": "tanda pengenal nasional",
+    "hireDate": "Tanggal sewa"
   },
   "summary": {
-    "workDays": "Worked days",
-    "approvedDays": "Approved days",
-    "pendingDays": "Pending days",
-    "mesaiUnits": "Overtime units",
-    "netEstimate": "Estimated Net Salary"
+    "workDays": "Hari kerja",
+    "approvedDays": "Hari yang disetujui",
+    "pendingDays": "Hari-hari yang tertunda",
+    "mesaiUnits": "Unit lembur",
+    "netEstimate": "Perkiraan Gaji Bersih"
   },
   "table": {
-    "date": "Date",
-    "dateTime": "Date / Time",
-    "work": "Work",
-    "mesai": "Overtime",
-    "wage": "Wage",
-    "mesaiPay": "Overtime \u20ba",
-    "rowTotal": "Row total",
+    "date": "Tanggal",
+    "dateTime": "Tanggal / Waktu",
+    "work": "Bekerja",
+    "mesai": "Lembur",
+    "wage": "Gaji",
+    "mesaiPay": "Lembur ₺",
+    "rowTotal": "Jumlah baris",
     "status": "Status",
     "total": "Total",
-    "type": "Type",
-    "record": "Record",
-    "unit": "Unit",
-    "amount": "Amount",
-    "description": "Description",
-    "deductionType": "Type"
+    "type": "Jenis",
+    "record": "Catatan",
+    "unit": "Satuan",
+    "amount": "Jumlah",
+    "description": "Keterangan",
+    "deductionType": "Jenis"
   },
   "mesaiTypes": {
-    "ceyrek": "Quarter overtime",
-    "yarim": "Half overtime",
-    "tam": "Full overtime"
+    "ceyrek": "Seperempat lembur",
+    "yarim": "Setengah lembur",
+    "tam": "Lembur penuh"
   },
   "empty": {
-    "workLogs": "No work log records for this period.",
-    "advances": "No advance records.",
-    "deductions": "No deduction records.",
-    "minimumWages": "No minimum wage top-up payment."
+    "workLogs": "Tidak ada catatan log kerja untuk periode ini.",
+    "advances": "Tidak ada catatan sebelumnya.",
+    "deductions": "Tidak ada catatan pengurangan.",
+    "minimumWages": "Tidak ada pembayaran top-up upah minimum."
   },
   "defaults": {
-    "advance": "Advance",
-    "minimumWage": "Minimum wage top-up"
+    "advance": "Maju",
+    "minimumWage": "Top-up upah minimum"
   },
   "totals": {
-    "grand": "Grand total",
-    "advances": "Total advances",
-    "deductions": "Total deductions",
-    "minimumWages": "Total minimum wage"
+    "grand": "Jumlah keseluruhan",
+    "advances": "Jumlah uang muka",
+    "deductions": "Pengurangan total",
+    "minimumWages": "Total upah minimum"
   },
   "calc": {
-    "basePay": "Wage ({days} days x {wage})",
-    "mesaiPay": "Overtime earnings (+)",
-    "gross": "Gross total",
-    "advances": "Advances (-)",
-    "deductions": "Deductions (-)",
-    "minimumWages": "Minimum wage payments (-)",
-    "netPayment": "Estimated Net Salary",
-    "note": "Net formula: Gross ({gross}) - Advance ({advances}) - Deduction ({deductions}){minimumPart} = {net}",
-    "minimumPart": " - Minimum ({amount})"
+    "basePay": "Upah ({days} hari x {wage})",
+    "mesaiPay": "Penghasilan lembur (+)",
+    "gross": "Jumlah kotor",
+    "advances": "Uang muka (-)",
+    "deductions": "Pengurangan (-)",
+    "minimumWages": "Pembayaran upah minimum (-)",
+    "netPayment": "Perkiraan Gaji Bersih",
+    "note": "Rumus bersih: Kotor ({gross}) - Uang Muka ({advances}) - Pengurangan ({deductions}){minimumPart} = {net}",
+    "minimumPart": "- Minimal ({amount})"
   },
   "footer": {
-    "employee": "Employee",
-    "employer": "Employer / Manager",
-    "employeeRole": "Personnel reviewing this document",
-    "employerRole": "Manager / employer approving this document",
-    "signedAt": "Document date",
-    "signatureHint": "Full name - Date - Signature",
-    "clausesTitle": "Document notices",
+    "employee": "Karyawan",
+    "employer": "Majikan / Manajer",
+    "employeeRole": "Personil meninjau dokumen ini",
+    "employerRole": "Manajer/majikan menyetujui dokumen ini",
+    "signedAt": "Tanggal dokumen",
+    "signatureHint": "Nama lengkap - Tanggal - Tanda Tangan",
+    "clausesTitle": "Pemberitahuan dokumen",
     "clauses": [
-      "This document is for informational purposes only and is not an official payroll, social-security filing, or tax document.",
-      "Records are generated from the same database in the {appName} personnel and admin panels.",
-      "In employment disputes, signed official payrolls, bank receipts, and legally required documents take precedence.",
-      "This document was created electronically and is verified by digital system records; a wet-ink signature is not required."
+      "Dokumen ini hanya untuk tujuan informasi dan bukan merupakan dokumen penggajian resmi, pengajuan jaminan sosial, atau pajak.",
+      "Catatan dihasilkan dari database yang sama di panel personel dan admin {appName}.",
+      "Dalam perselisihan perburuhan, daftar gaji resmi yang ditandatangani, kuitansi bank, dan dokumen yang diwajibkan secara hukum akan diutamakan.",
+      "Dokumen ini dibuat secara elektronik dan diverifikasi oleh catatan sistem digital; tanda tangan tinta basah tidak diperlukan."
     ],
-    "digitalSeal": "Digital Approval Mark",
-    "digitalSealHint": "Verified by CrewLedger system records",
-    "brandTagline": "Construction Workforce Platform"
+    "digitalSeal": "Tanda Persetujuan Digital",
+    "digitalSealHint": "Diverifikasi oleh catatan sistem CrewLedger",
+    "brandTagline": "Platform Tenaga Kerja Konstruksi"
   }
 }

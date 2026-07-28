@@ -1,7 +1,7 @@
 {
-  "searchLabel": "Search projects",
-  "searchPlaceholder": "Search by name, code or location...",
-  "statusLabel": "Status",
-  "allProjects": "All",
-  "clearSearch": "Clear search"
+  "searchLabel": "پروجیکٹس تلاش کریں۔",
+  "searchPlaceholder": "نام، کوڈ یا مقام کے لحاظ سے تلاش کریں...",
+  "statusLabel": "حیثیت",
+  "allProjects": "تمام",
+  "clearSearch": "تلاش صاف کریں۔"
 }

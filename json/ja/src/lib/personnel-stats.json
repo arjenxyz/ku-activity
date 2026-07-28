@@ -1,27 +1,27 @@
 {
   "workDay": {
-    "fullDay": "Tam gün",
-    "halfDay": "Yarım gün",
-    "dayAmount": "{amount} gün",
-    "mesaiCeyrek": "{base} + çeyrek mesai",
-    "mesaiYarim": "{base} + yarım mesai",
-    "mesaiTam": "{base} + tam mesai"
+    "fullDay": "タムグン",
+    "halfDay": "ヤルム・ギュン",
+    "dayAmount": "{amount} ギュン",
+    "mesaiCeyrek": "{base} + チェレク・メサイ",
+    "mesaiYarim": "{base} + ヤルム・メサイ",
+    "mesaiTam": "{base} + タム・メサイ"
   },
   "deductionTypes": {
-    "advance": "Avans",
-    "deduction": "Kesinti",
-    "other": "Diğer",
-    "subcontractor_cut": "Taşeron kesintisi",
-    "minimum": "Asgari"
+    "advance": "アバンス",
+    "deduction": "ケシンティ",
+    "other": "ディアー",
+    "subcontractor_cut": "タシェロン・ケシンティシ",
+    "minimum": "アスガリ"
   },
   "mesaiCountLines": {
-    "tam": "Tam mesai",
-    "ceyrek": "Çeyrek mesai",
-    "yarim": "Yarım mesai"
+    "tam": "タム・メサイ",
+    "ceyrek": "チェレク・メサイ",
+    "yarim": "ヤルム・メサイ"
   },
   "workDayCountLines": {
-    "full": "Tam gün",
-    "half": "Yarım gün",
-    "total": "Toplam gün"
+    "full": "タムグン",
+    "half": "ヤルム・ギュン",
+    "total": "トプラム・ギュン"
   }
 }

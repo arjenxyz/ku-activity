@@ -1,11 +1,11 @@
 {
-  "noAccessibleProject": "Erişilebilir proje bulunamadı",
-  "runMigration": "057_dekont_import_drafts.sql çalıştırın",
+  "noAccessibleProject": "Proyecto erişilebilir bulunamadı",
+  "runMigration": "057_dekont_import_drafts.sql configuración",
   "draftNotFound": "Taslak bulunamadı",
   "draftAlreadyUsed": "Bu taslak zaten kullanıldı",
   "draftExpired": "Taslak süresi doldu — dekontu yeniden paylaşın",
   "matchValidationFailed": "Eşleşme doğrulanamadı",
-  "proofFileNotFound": "Receipt file not found",
-  "ocrTextEmpty": "Could not read text from the receipt",
-  "retroactiveAmountRequired": "Amount is required for retroactive payment"
+  "proofFileNotFound": "Archivo de recibo no encontrado",
+  "ocrTextEmpty": "No se pudo leer el texto del recibo",
+  "retroactiveAmountRequired": "Se requiere monto para pago retroactivo"
 }

@@ -6,21 +6,21 @@
     },
     "labor": {
       "label": "İşçi yevmiyesi (onaylı)",
-      "hint": "{approvedWorkDays} onaylı gün"
+      "hint": "{approvedWorkDays} onaylı gun"
     },
     "advance": {
-      "label": "Avanslar",
+      "label": "আভান্সলার",
       "hint": "Bu işe bağlı avans kayıtları"
     },
     "deduction": {
-      "label": "Kesintiler"
+      "label": "কেসিন্টিলার"
     },
     "material": {
       "label": "Malzeme gideri",
-      "hint": "{expenseCount} kayıt"
+      "hint": "{expenseCount} ঠিক আছে"
     },
     "profit": {
-      "label": "Net kâr"
+      "label": "নেট kâr"
     },
     "share": {
       "label": "Ortak başı ({shareCount} kişi)"

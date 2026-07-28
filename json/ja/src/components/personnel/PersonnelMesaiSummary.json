@@ -1,8 +1,8 @@
 {
-  "title": "Dönem çalışma özeti",
-  "fullDay": "Tam gün",
-  "halfDay": "Yarım gün",
-  "mesaiHeader": "Mesai ({count} kayıt)",
-  "mesaiDaySuffix": "{count} gün",
-  "noMesai": "Bu dönemde mesai kaydı yok."
+  "title": "ドネム・チャリシュマ・エゼティ",
+  "fullDay": "タムグン",
+  "halfDay": "ヤルム・ギュン",
+  "mesaiHeader": "メサイ ({count} kayıt)",
+  "mesaiDaySuffix": "{count} ギュン",
+  "noMesai": "ブ・デネムデ・メサイ・ケイドゥ・ヨーク。"
 }

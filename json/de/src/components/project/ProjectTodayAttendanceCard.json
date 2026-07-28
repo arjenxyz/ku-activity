@@ -1,14 +1,14 @@
 {
-  "badge": "Today's attendance",
-  "shiftHours": "Work hours {start}{end}",
-  "shiftEnd": " – {end}",
-  "allPresent": "Everyone checked in",
-  "partial": "Attendance underway",
-  "pending": "No attendance yet",
-  "empty": "No personnel on this project",
-  "hintAll": "All {present} personnel are recorded today.",
-  "hintPartial": "{present} present · {missing} pending",
-  "hintPending": "Start QR attendance; people appear as they scan.",
-  "hintEmpty": "Add personnel first.",
-  "scanQr": "Open QR attendance"
+  "badge": "Die heutige Anwesenheit",
+  "shiftHours": "Arbeitszeit {start}{end}",
+  "shiftEnd": "– {end}",
+  "allPresent": "Alle haben eingecheckt",
+  "partial": "Anwesenheit läuft",
+  "pending": "Noch keine Anwesenheit",
+  "empty": "Kein Personal für dieses Projekt",
+  "hintAll": "Das gesamte {present}-Personal wird heute erfasst.",
+  "hintPartial": "{present} vorhanden · {missing} ausstehend",
+  "hintPending": "QR-Anwesenheit starten; Beim Scannen erscheinen Personen.",
+  "hintEmpty": "Fügen Sie zuerst Personal hinzu.",
+  "scanQr": "Offene QR-Anwesenheit"
 }

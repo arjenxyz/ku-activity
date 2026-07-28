@@ -1,24 +1,24 @@
 {
-  "badge": "Today's attendance",
-  "shiftHours": "Work hours {start}{end}",
-  "shiftEnd": " – {end}",
-  "confirmed": "You are registered for the full day",
-  "notConfirmed": "No attendance yet",
-  "scanQr": "Scan supervisor QR",
-  "rescanQr": "Scan QR again",
-  "loadFailed": "Could not load",
+  "badge": "asistencia de hoy",
+  "shiftHours": "Horas de trabajo {start}{end}",
+  "shiftEnd": "– {end}",
+  "confirmed": "Estás registrado para el día completo.",
+  "notConfirmed": "Aún no hay asistencia",
+  "scanQr": "Supervisor de escaneo QR",
+  "rescanQr": "Escanear QR nuevamente",
+  "loadFailed": "No se pudo cargar",
   "states": {
     "waiting": {
-      "title": "You are on the attendance list",
-      "hint": "Wait until your supervisor completes attendance."
+      "title": "Estás en la lista de asistencia.",
+      "hint": "Espere hasta que su supervisor complete la asistencia."
     },
     "cancelled": {
-      "title": "Attendance cancelled",
-      "hint": "Your supervisor cancelled this session. Please contact them."
+      "title": "Asistencia cancelada",
+      "hint": "Su supervisor canceló esta sesión. Por favor contacta con ellos."
     },
     "removed": {
-      "title": "Removed from the list",
-      "hint": "Scan a new QR code or speak with your supervisor."
+      "title": "Eliminado de la lista",
+      "hint": "Escanee un nuevo código QR o hable con su supervisor."
     }
   }
 }

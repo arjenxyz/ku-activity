@@ -1,13 +1,13 @@
 {
   "yevmiyeTriggerLabels": {
-    "month_end": "Ay sonunda",
-    "roof_complete": "Çatı / aşama bitince",
-    "job_complete": "İş bitiminde"
+    "month_end": "آي سونندا",
+    "roof_complete": "كاتي / أسامة بيتينس",
+    "job_complete": "هذا هو الحال"
   },
   "prorationModeLabels": {
-    "calendar_days": "İşe girişten ay sonuna (takvim günü)",
-    "worked_days": "Sadece çalışılan güne göre",
-    "full_month": "Her zaman tam ay (oranlama yok)"
+    "calendar_days": "ışe girişten ay sonuna (takvim günü)",
+    "worked_days": "Sadece çalışılan güne gore",
+    "full_month": "لها زمان تام آي (أورانلاما يوك)"
   },
   "dekontDeductionLabels": {
     "manual_review": "Dekontu admin onaylasın (BES/kesinti elle)",

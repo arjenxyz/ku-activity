@@ -3,7 +3,7 @@
   "loadFailed": "Sözleşmeler yüklenemedi.",
   "loading": "Sözleşmeler yükleniyor…",
   "gateComplete": "Sözleşmeler tamam",
-  "gateTitle": "Sözleşmeler",
+  "gateTitle": "Sözlesmeler",
   "gateReadyHint": "Başvuruyu gönderebilirsiniz.",
   "gatePendingHint": "Sırayla okuyup onaylayın.",
   "acceptedCount": "{accepted}/{total} onaylandı",
@@ -11,10 +11,10 @@
   "openContracts": "Sözleşmeleri aç",
   "resumeContracts": "Kaldığın yerden devam et ({accepted}/{total})",
   "requiredTitle": "Zorunlu sözleşmeler",
-  "requiredHint": "Her sözleşmeyi açıp sonuna kadar okuyun ({accepted}/{total}).",
-  "sidebarHint": "Her sözleşmeyi sonuna kadar okuyup onaylayın.",
-  "sidebarComplete": "{accepted}/{total} tamam",
-  "version": "Sürüm {version}",
-  "accepted": " · Onaylandı",
-  "openAndRead": " · Açıp okuyun ve onaylayın"
+  "requiredHint": "Son sözleşmeyi açıp sonuna kadar okuyun ({accepted}/{total}).",
+  "sidebarHint": "Son sözleşmeyi sonuna kadar okuyup onaylayın.",
+  "sidebarComplete": "{accepted}/{total} taam",
+  "version": "Réponse {version}",
+  "accepted": "· Onaylandı",
+  "openAndRead": "· Açıp okuyun ve onaylayın"
 }

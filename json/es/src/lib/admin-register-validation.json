@@ -2,13 +2,13 @@
   "nameRequired": "Ad ve soyad zorunludur.",
   "emailRequired": "E-posta adresi zorunludur.",
   "emailInvalid": "Geçerli bir e-posta adresi girin.",
-  "phoneRequired": "Telefon numarası zorunludur.",
+  "phoneRequired": "Teléfono numarası zorunludur.",
   "phoneInvalid": "Geçerli bir cep telefonu girin (ör. 534 968 5678).",
-  "companyRequired": "Firma veya şantiye adı zorunludur.",
+  "companyRequired": "Firma o ya şantiye adı zorunludur.",
   "jobTitleRequired": "Görev / unvan seçin.",
   "cityRequired": "Şehir bilgisi zorunludur.",
-  "teamSizeRequired": "Tahmini personel sayısını seçin.",
+  "teamSizeRequired": "El personal de Tahmini dice la sección.",
   "projectCountRequired": "Aktif şantiye sayısını seçin.",
-  "passwordTooShort": "Şifre en az 6 karakter olmalıdır.",
+  "passwordTooShort": "Sifre en az 6 caracteres olmalıdır.",
   "passwordMismatch": "Şifreler eşleşmiyor."
 }

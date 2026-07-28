@@ -1,12 +1,12 @@
 {
-  "employeeFallback": "Personel",
+  "employeeFallback": "Pessoal",
   "ibanEmpty": "—",
   "reasons": {
-    "ibanMatch": "Alıcı IBAN personel kaydıyla eşleşti",
+    "ibanMatch": "Alıcı IBAN pessoal kaydıyla eşleşti",
     "amountMatch": "Tutar uyumlu ({ocrAmount} ≈ {approvedAmount})",
     "amountClose": "Tutar yakın",
-    "referenceRead": "Referans no okundu",
-    "singleCandidate": "Tek aday personel",
-    "transferTokenMatch": "Transfer reference code matched"
+    "referenceRead": "Referentes não okundu",
+    "singleCandidate": "Tek aday pessoal",
+    "transferTokenMatch": "Código de referência de transferência correspondente"
   }
 }

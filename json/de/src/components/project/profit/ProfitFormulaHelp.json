@@ -5,20 +5,20 @@
   "steps": [
     {
       "title": "İş kalemi ekleyin",
-      "body": "üst taşerondan aldığınız birim fiyat × miktar (ör. 100 ₺/m² × 890)"
+      "body": "üst taşerondan aldığınız birim fiyat × miktar (oder. 100 ₺/m² × 890)"
     },
     {
       "title": "Giderleri bağlayın",
-      "body": "yevmiye, avans ve kesinti girerken iş kalemini seçin"
+      "body": "yevmiye, avans ve kesinti girerken iş kalemini secin"
     },
     {
       "title": "Malzeme ekleyin",
       "body": "iş kartındaki malzeme bölümünden (personeli etkilemez)"
     },
     {
-      "title": "Ortak sayısını",
-      "body": "ayarlayın — kâr eşit bölünür"
+      "title": "Ortak sagt",
+      "body": "ayarlayın – kâr eşit bölünür"
     }
   ],
-  "footer": "Personel paneli ve bordro normal çalışır; iş kalemi yalnızca sizin kâr tablonuz içindir."
+  "footer": "Das Personalgremium und die normale Grenzkontrolle; Es ist wichtig, dass Sie keine Zeit verlieren."
 }

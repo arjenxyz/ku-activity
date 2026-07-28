@@ -9,18 +9,18 @@
       "hint": "{approvedWorkDays} onaylı gün"
     },
     "advance": {
-      "label": "Avanslar",
+      "label": "Avánslar",
       "hint": "Bu işe bağlı avans kayıtları"
     },
     "deduction": {
       "label": "Kesintiler"
     },
     "material": {
-      "label": "Malzeme gideri",
+      "label": "malzeme gideri",
       "hint": "{expenseCount} kayıt"
     },
     "profit": {
-      "label": "Net kâr"
+      "label": "kâr neto"
     },
     "share": {
       "label": "Ortak başı ({shareCount} kişi)"

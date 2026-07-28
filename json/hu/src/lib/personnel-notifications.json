@@ -21,7 +21,7 @@
   },
   "workLogRecorded": {
     "title": "Munkaidő-nyilvántartás rögzítve",
-    "body": "A timesheet of {amount} day(s) for {workDate} was created by {actorName}."
+    "body": "A {amount} nap(ok)ból álló munkaidő-nyilvántartást a {workDate} számára létrehozta a {actorName}."
   },
   "workLogUpdated": {
     "title": "Munkaidő-nyilvántartás frissítve",
@@ -57,7 +57,7 @@
   },
   "minimumWagePaid": {
     "title": "Minimálbér kifizetés",
-    "body": "A minimum wage payment of {amount} TL was recorded by {actorName}."
+    "body": "{amount} TL minimálbér kifizetést rögzített a {actorName}."
   },
   "minimumWageUpdated": {
     "title": "Minimálbér frissítve",
@@ -73,7 +73,7 @@
   },
   "deductionAdded": {
     "title": "Bérszámfejtés frissítés",
-    "body": "A {typeLabel} of {amount} TL was applied to your payroll by {actorName}."
+    "body": "A {amount} TL {typeLabel} értékét {actorName} alkalmazta a bérszámfejtésére."
   },
   "deductionUpdated": {
     "title": "Bérnyilvántartás frissítve",

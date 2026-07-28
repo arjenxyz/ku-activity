@@ -1,12 +1,12 @@
 {
-  "invalidProjectUrl": "Invalid project URL",
-  "projectNotFound": "Project not found",
-  "loadError": "Failed to load data",
-  "backToProjectList": "Back to project list",
-  "loadingData": "Loading…",
-  "stripTitle": "This month",
-  "stripPresent": "Today",
-  "stripMissing": "Pending",
-  "stripActive": "Active",
-  "stripPayroll": "Estimate"
+  "invalidProjectUrl": "URL del proyecto no válida",
+  "projectNotFound": "Proyecto no encontrado",
+  "loadError": "No se pudieron cargar los datos",
+  "backToProjectList": "Volver a la lista de proyectos",
+  "loadingData": "Cargando…",
+  "stripTitle": "este mes",
+  "stripPresent": "Hoy",
+  "stripMissing": "Pendiente",
+  "stripActive": "Activo",
+  "stripPayroll": "Estimar"
 }

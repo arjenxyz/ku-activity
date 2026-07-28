@@ -1,20 +1,20 @@
 {
   "modeLabels": {
-    "simple": "Simple",
-    "advanced": "Advanced"
+    "simple": "سادہ",
+    "advanced": "اعلی درجے کی"
   },
   "simpleMenu": {
     "summary": {
-      "label": "Project overview",
-      "hint": "Personnel list and daily status"
+      "label": "پروجیکٹ کا جائزہ",
+      "hint": "عملے کی فہرست اور روزانہ کی حیثیت"
     },
     "approval": {
-      "label": "Application approval",
-      "hint": "New personnel applications"
+      "label": "درخواست کی منظوری",
+      "hint": "نئی عملے کی درخواستیں۔"
     },
     "attendance": {
-      "label": "Attendance / QR",
-      "hint": "Day, overtime and timesheet are planned here"
+      "label": "حاضری / QR",
+      "hint": "دن، اوور ٹائم اور ٹائم شیٹ کا یہاں منصوبہ بنایا گیا ہے۔"
     }
   }
 }

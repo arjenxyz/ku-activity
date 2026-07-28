@@ -1,10 +1,10 @@
 {
-  "subject": "{appName} — Onayınızı bekleyen yevmiye kayıtları",
+  "subject": "{appName} – Der Inhalt wird angezeigt",
   "headerSubtitle": "Yevmiye onayı hatırlatması",
   "greeting": "Merhaba {name},",
-  "bodyHtmlSuffix": "yevmiye kaydı onayınızı bekliyor. Onaylamadan ödeme hesabına dahil edilmez.",
+  "bodyHtmlSuffix": "yevmiye kaydı onayınızı bekliyor. Es ist nicht möglich, dass das Problem gelöst wird.",
   "buttonLabel": "Panele git",
-  "textTitle": "{appName} — Yevmiye onayı",
+  "textTitle": "{appName} – Yevmiye onayı",
   "textBody": "{count} yevmiye kaydı onayınızı bekliyor.",
   "textPanel": "Panel: {panelUrl}",
   "emailNotConfigured": "E-posta yapılandırılmamış",

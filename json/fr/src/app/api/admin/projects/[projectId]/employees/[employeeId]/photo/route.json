@@ -1,11 +1,11 @@
 {
-  "dosyaGerekli": "Dosya gerekli",
-  "yalnızcaJpegPngWebpVeyaGif": "Yalnızca JPEG, PNG, WebP veya GIF yükleyebilirsiniz",
-  "dosyaEnFazla5MbOlabilir": "Dosya en fazla 5 MB olabilir",
-  "personelBulunamadı": "Personel bulunamadı",
-  "fotoğrafKaldırılamadı": "Fotoğraf kaldırılamadı",
-  "err025PrivatePhotoStorageSqlÇalıştırın": "025_private_photo_storage.sql çalıştırın",
-  "err025PrivatePhotoStorageSqlÇalıştırın2": "025_private_photo_storage.sql çalıştırın (photo_path kolonu)",
-  "fotoğrafYüklenemedi": "Fotoğraf yüklenemedi",
+  "dosyaGerekli": "Dosia Gerekli",
+  "yalnızcaJpegPngWebpVeyaGif": "Fichiers JPEG, PNG, WebP et GIF",
+  "dosyaEnFazla5MbOlabilir": "Dosya en fazla 5 MB disponible",
+  "personelBulunamadı": "Personnel bulunamadi",
+  "fotoğrafKaldırılamadı": "Photograf kaldırılamadı",
+  "err025PrivatePhotoStorageSqlÇalıştırın": "025_private_photo_storage.sql disponible",
+  "err025PrivatePhotoStorageSqlÇalıştırın2": "025_private_photo_storage.sql disponible (photo_path Kolonu)",
+  "fotoğrafYüklenemedi": "Photo de référence",
   "kayıtGüncellenemedi": "Kayıt güncellenemedi"
 }

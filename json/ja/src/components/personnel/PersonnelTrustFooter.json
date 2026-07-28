@@ -1,7 +1,7 @@
 {
-  "managerWithName": "{name} · Yönetici",
-  "defaultManager": "Proje yöneticisi",
-  "hint": "Puantaj veya maaş hakkında sorularınız için WhatsApp",
+  "managerWithName": "{name} · ヨネチチ",
+  "defaultManager": "プロジェ・ヨネチシ",
+  "hint": "WhatsApp で必要な情報を確認してください",
   "whatsappCta": "WhatsApp'ta yaz",
-  "noPhone": "Yönetici numarası henüz tanımlı değil"
+  "noPhone": "イェネティ ヌマラス ヘニュズ タニムル デイル"
 }

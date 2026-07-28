@@ -1,4 +1,4 @@
 {
-  "failed": "Consent could not be saved",
-  "closureNotActive": "Project is not in closure"
+  "failed": "Die Einwilligung konnte nicht gespeichert werden",
+  "closureNotActive": "Das Projekt ist nicht abgeschlossen"
 }

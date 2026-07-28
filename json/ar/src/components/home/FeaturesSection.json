@@ -1,39 +1,39 @@
 {
-  "sectionBadge": "Platform Features",
-  "sectionTitle": "Real modules from timesheets to payroll",
-  "sectionSubtitle": "Daily wages, overtime, advances, deductions, minimum wage top-ups, and payroll are managed per project. The personnel app shows the same records as the admin panel.",
-  "marqueePaused": "Paused — tap the box again to resume",
-  "marqueeHint": "Swipe with your finger; scrolling pauses the flow, tap the box to pin it",
+  "sectionBadge": "مميزات المنصة",
+  "sectionTitle": "وحدات حقيقية من الجداول الزمنية لكشوف المرتبات",
+  "sectionSubtitle": "تتم إدارة الأجور اليومية والعمل الإضافي والسلف والخصومات وزيادة الحد الأدنى للأجور وكشوف المرتبات لكل مشروع. يعرض تطبيق الموظفين نفس السجلات الموجودة في لوحة الإدارة.",
+  "marqueePaused": "متوقف مؤقتًا - اضغط على المربع مرة أخرى للاستئناف",
+  "marqueeHint": "انتقد بإصبعك. يؤدي التمرير إلى إيقاف التدفق مؤقتًا، ثم انقر فوق المربع لتثبيته",
   "features": [
     {
-      "title": "Dual-Approved Daily Wages",
-      "tag": "Timesheets",
-      "description": "Full/half-day attendance and quarter, half, or full overtime entries. Admin enters; personnel approves or disputes — records are not finalized without both sides."
+      "title": "الأجور اليومية المزدوجة المعتمدة",
+      "tag": "الجداول الزمنية",
+      "description": "حضور كامل / نصف يوم وإدخالات العمل الإضافي ربع أو نصف أو كامل. يدخل المشرف؛ يوافق الموظفون أو يعترضون - لا يتم الانتهاء من السجلات دون كلا الجانبين."
     },
     {
-      "title": "Advances & Deductions",
-      "tag": "Finance",
-      "description": "Project-based advance and deduction entries. Gross, advance, deduction, and net amounts are calculated with the same formula in payroll and the personnel finance tab."
+      "title": "السلف والخصومات",
+      "tag": "تمويل",
+      "description": "إدخالات التقدم والخصم المستندة إلى المشروع. يتم حساب الإجمالي والسلف والخصم والمبالغ الصافية بنفس الصيغة في كشوف المرتبات وعلامة التبويب تمويل الموظفين."
     },
     {
-      "title": "Minimum Wage Top-Up",
-      "tag": "Policy",
-      "description": "Earned, paid, and remaining amounts per company and project wage policy. Subcontractor gap suggestions; personnel see the breakdown in the minimum wage tab."
+      "title": "زيادة الحد الأدنى للأجور",
+      "tag": "سياسة",
+      "description": "المبالغ المكتسبة والمدفوعة والمتبقية لكل شركة وسياسة أجور المشروع. اقتراحات فجوة المقاول من الباطن؛ يرى الموظفون الانهيار في علامة تبويب الحد الأدنى للأجور."
     },
     {
-      "title": "Project-Based Sites",
-      "tag": "Operations",
-      "description": "Each site is a separate project; personnel, blocks, teams, and finance records stay within the project. Admins only access projects they created."
+      "title": "المواقع القائمة على المشاريع",
+      "tag": "العمليات",
+      "description": "كل موقع هو مشروع منفصل. تبقى سجلات الموظفين والكتل والفرق والسجلات المالية داخل المشروع. يستطيع المسؤولون الوصول فقط إلى المشاريع التي قاموا بإنشائها."
     },
     {
-      "title": "Reports & Payroll",
-      "tag": "Reporting",
-      "description": "Approved and pending daily wages, open personnel disputes, payroll runs, and archive queries for wages, advances, and deductions."
+      "title": "التقارير والرواتب",
+      "tag": "إعداد التقارير",
+      "description": "الأجور اليومية المعتمدة والمعلقة، ونزاعات الموظفين المفتوحة، وعمليات كشوف المرتبات، وأرشفة الاستعلامات عن الأجور والسلف والخصومات."
     },
     {
-      "title": "Personnel App",
-      "tag": "Mobile PWA",
-      "description": "Install as a PWA on your phone. Overview, daily wages, overtime, finance, minimum wage, and rights tabs — fed from the same database as the admin panel."
+      "title": "تطبيق شؤون الموظفين",
+      "tag": "موبايل بي دبليو ايه",
+      "description": "قم بالتثبيت باعتباره PWA على هاتفك. نظرة عامة، والأجور اليومية، والعمل الإضافي، والتمويل، والحد الأدنى للأجور، وعلامات التبويب الحقوق - يتم تغذيتها من نفس قاعدة البيانات مثل لوحة الإدارة."
     }
   ]
 }

@@ -1,9 +1,9 @@
 {
-  "estimatedNet": "Estimated Net Salary",
-  "gross": "Gross",
-  "deduction": "Deductions",
-  "advance": "Advances",
-  "financeDetail": "Payroll and finance details",
-  "sectionAriaLabel": "Profile and monthly salary summary",
-  "defaultName": "Personnel"
+  "estimatedNet": "Salario neto estimado",
+  "gross": "Bruto",
+  "deduction": "Deducciones",
+  "advance": "Insinuaciones",
+  "financeDetail": "Detalles de nómina y finanzas",
+  "sectionAriaLabel": "Perfil y resumen salarial mensual",
+  "defaultName": "Personal"
 }

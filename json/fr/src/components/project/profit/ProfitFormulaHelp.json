@@ -4,21 +4,21 @@
   "formulaShare": "Ortak başı = Kâr ÷ kişi sayısı",
   "steps": [
     {
-      "title": "İş kalemi ekleyin",
+      "title": "C'est Kalemi ekleyin",
       "body": "üst taşerondan aldığınız birim fiyat × miktar (ör. 100 ₺/m² × 890)"
     },
     {
       "title": "Giderleri bağlayın",
-      "body": "yevmiye, avans ve kesinti girerken iş kalemini seçin"
+      "body": "yevmiye, avans et kesinti girerken dans kalemini seçin"
     },
     {
       "title": "Malzeme ekleyin",
-      "body": "iş kartındaki malzeme bölümünden (personeli etkilemez)"
+      "body": "je suis kartındaki malzeme bölümünden (personeli etkilemez)"
     },
     {
-      "title": "Ortak sayısını",
+      "title": "Ortak dit",
       "body": "ayarlayın — kâr eşit bölünür"
     }
   ],
-  "footer": "Personel paneli ve bordro normal çalışır; iş kalemi yalnızca sizin kâr tablonuz içindir."
+  "footer": "Personnel paneli ve bordro normal çalışır; iş kalemi yalnızca sizin kâr tablonuz içindir."
 }

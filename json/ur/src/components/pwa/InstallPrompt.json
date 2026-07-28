@@ -1,14 +1,14 @@
 {
   "regionAriaLabel": "Uygulamayı yükle",
-  "closeAriaLabel": "Kapat",
+  "closeAriaLabel": "کپت",
   "brandLabel": "CREWLEDGER",
-  "title": "Ana ekrana ekleyin",
+  "title": "انا ایکرانا ایکلیین",
   "iosHintPrefix": "Safari'de",
-  "iosShare": "Paylaş",
+  "iosShare": "پیلاس",
   "iosHintSuffix": "→",
-  "iosAddToHome": "Ana Ekrana Ekle",
+  "iosAddToHome": "آنا اکرانا اکلے ۔",
   "androidHint": "Yoklama ve yevmiye için uygulama gibi hızlı açılış — tek dokunuşla paneliniz hazır.",
-  "installButton": "Ana ekrana ekle",
+  "installButton": "آنا ایکرانا ایکلے",
   "iosSafariNote": "Kurulum yalnızca Safari üzerinden yapılır; Chrome veya başka tarayıcıda menü farklı olabilir.",
-  "dismiss": "Daha sonra"
+  "dismiss": "دہا سونرا"
 }

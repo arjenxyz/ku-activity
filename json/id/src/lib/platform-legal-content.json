@@ -1,8 +1,8 @@
 {
-  "title": "Gönüllülük Projesi",
+  "title": "Proyek Gönüllülük",
   "developerLine": "{name}, {developerName} tarafından geliştirilmiş {nature}dur.",
   "noCompanyLine": "{establishedNote}",
-  "optionalUseLine": "Hiçbir yönetici veya işveren, personeli bu platformu kullanmaya zorlayamaz. Kullanım tamamen gönüllüdür.",
-  "transparencyLine": "Yevmiye, avans, kesinti, asgari ücret, yoklama ve puantaj kayıtları hem yönetici hem personel panelinde görülebilir; amaç finansal takibi dijital ve şeffaf kılmaktır.",
+  "optionalUseLine": "Hiçbir yönetici veya işveren, personel bu platformu kullanmaya zorlayamaz. Kullanım tamamen gönüllüdür.",
+  "transparencyLine": "Yevmiye, avans, kesinti, asgari ücret, yoklama dan puantaj kayıtları hem yönetici hem personal panelinde görülebilir; amaç finansial takibi digital dan şeffaf kılmaktır.",
   "legalLine": "{legalDisclaimer}"
 }

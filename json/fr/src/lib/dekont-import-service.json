@@ -1,11 +1,11 @@
 {
-  "noAccessibleProject": "Erişilebilir proje bulunamadı",
-  "runMigration": "057_dekont_import_drafts.sql çalıştırın",
-  "draftNotFound": "Taslak bulunamadı",
+  "noAccessibleProject": "Erişilebilir projet bulunamadı",
+  "runMigration": "057_dekont_import_drafts.sql disponible",
+  "draftNotFound": "Taslak bulunamadi",
   "draftAlreadyUsed": "Bu taslak zaten kullanıldı",
   "draftExpired": "Taslak süresi doldu — dekontu yeniden paylaşın",
   "matchValidationFailed": "Eşleşme doğrulanamadı",
-  "proofFileNotFound": "Receipt file not found",
-  "ocrTextEmpty": "Could not read text from the receipt",
-  "retroactiveAmountRequired": "Amount is required for retroactive payment"
+  "proofFileNotFound": "Fichier de reçu introuvable",
+  "ocrTextEmpty": "Impossible de lire le texte du reçu",
+  "retroactiveAmountRequired": "Un montant est requis pour un paiement rétroactif"
 }

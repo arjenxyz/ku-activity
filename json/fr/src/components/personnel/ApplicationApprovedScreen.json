@@ -1,7 +1,7 @@
 {
-  "badge": "Hesabınız aktif",
+  "badge": "Hesabınız actif",
   "title": "Başvurunuz onaylandı",
-  "positionLabel": "Pozisyon:",
-  "loginHint": "Kimlik numaranız ve başvuruda belirlediğiniz PIN ile giriş yapabilirsiniz.",
-  "loginCta": "Panele giriş yap"
+  "positionLabel": "Posologie :",
+  "loginHint": "Kimlik numaranız e başvuruda belirlediğiniz PIN ile giriş yapabilirsiniz.",
+  "loginCta": "Panneau giriş yap"
 }

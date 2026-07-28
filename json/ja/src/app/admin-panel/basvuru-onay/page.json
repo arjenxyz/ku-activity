@@ -1,11 +1,11 @@
 {
-  "loadingProjects": "Projeler yükleniyor…",
-  "title": "Başvuru onayı",
-  "noProjects": "Önce aktif bir proje oluşturmalısınız.",
-  "goToProjects": "Projelere git",
-  "redirecting": "Yönlendiriliyor…",
-  "selectProjectIntro": "Başvuruyu hangi projeye ekleyeceğinizi seçin",
-  "codeWillCarry": " kodu taşınacak)",
-  "allProjects": "← Tüm projeler",
-  "loading": "Yükleniyor…"
+  "loadingProjects": "プロジェラー・ユクレニヨル…",
+  "title": "バシュヴル・オナイ",
+  "noProjects": "これは、プロジェクトの実行に役立ちます。",
+  "goToProjects": "プロジェレレ git",
+  "redirecting": "ヨンレンディリリヨル…",
+  "selectProjectIntro": "Başvuruyu ハンギプロジェクト ekleyeceğinizi seçin",
+  "codeWillCarry": "コドゥ・タシュナカク）",
+  "allProjects": "← トゥム・プロジェラー",
+  "loading": "ユクレニヨル…"
 }

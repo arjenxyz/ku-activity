@@ -1,8 +1,8 @@
 {
-  "joinFailed": "Could not join project",
-  "invalidCode": "Invalid collaborator code",
-  "codeNotFound": "This code was not found or may have been rotated",
-  "alreadyOwner": "You already own this project",
-  "alreadyCollaborator": "You are already a collaborator on this project",
-  "migrationRequired": "Collaborator migration not applied yet (076_project_collaborators.sql)"
+  "joinFailed": "پروجیکٹ میں شامل نہیں ہو سکا",
+  "invalidCode": "غلط معاون کوڈ",
+  "codeNotFound": "یہ کوڈ نہیں ملا یا ہو سکتا ہے اسے گھمایا گیا ہو۔",
+  "alreadyOwner": "آپ پہلے ہی اس پروجیکٹ کے مالک ہیں۔",
+  "alreadyCollaborator": "آپ پہلے سے ہی اس پروجیکٹ پر ایک معاون ہیں۔",
+  "migrationRequired": "تعاون کنندہ کی منتقلی ابھی تک لاگو نہیں ہوئی (076_project_collaborators.sql)"
 }

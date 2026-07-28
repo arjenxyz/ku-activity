@@ -1,18 +1,18 @@
 {
-  "cameraLoading": "Kamera yükleniyor…",
+  "cameraLoading": "ক্যামেরা ইউক্লেনিয়র…",
   "invalidTokenError": "Geçerli bir AVN- kodu okutun veya girin",
-  "confirmFailed": "Onay kaydedilemedi",
+  "confirmFailed": "ওনাই কায়দেদিলেমেদি",
   "successTitle": "Nakit avans onaylandı",
   "successMessage": "Teslim aldığınız kaydedildi. Avans maaşınızdan düşülecek.",
-  "successLink": "Avans taleplerim",
+  "successLink": "আভান্স টেলেপ্লেরিম",
   "headerTitle": "Nakit avans onayı",
-  "headerSubtitle": "Parayı aldıysanız QR okutun",
-  "invalidQrMessage": "Geçerli bir avans QR kodu değil (AVN-).",
+  "headerSubtitle": "কিউআর অকুটুনের জন্য প্যারায়ি আলডিসানিজ",
+  "invalidQrMessage": "Geçerli bir avans QR kodu değil (AVN-)।",
   "codeModeTitle": "AVN- kodu girin",
   "codePlaceholder": "AVN-XXXXXXXXXXXX",
-  "submitting": "Kaydediliyor…",
-  "confirmButton": "Onayla",
-  "switchToCode": "Kod gir",
+  "submitting": "কায়দেদিলিওর…",
+  "confirmButton": "ওনায়লা",
+  "switchToCode": "কোড গির",
   "switchToScan": "QR okut",
-  "loading": "Yükleniyor…"
+  "loading": "ইউক্লেনিয়র…"
 }

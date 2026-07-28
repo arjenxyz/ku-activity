@@ -2,10 +2,10 @@
   "loadingProjects": "Projeler yükleniyor…",
   "title": "Başvuru onayı",
   "noProjects": "Önce aktif bir proje oluşturmalısınız.",
-  "goToProjects": "Projelere git",
+  "goToProjects": "پراجیکٹ کریں",
   "redirecting": "Yönlendiriliyor…",
   "selectProjectIntro": "Başvuruyu hangi projeye ekleyeceğinizi seçin",
-  "codeWillCarry": " kodu taşınacak)",
-  "allProjects": "← Tüm projeler",
+  "codeWillCarry": "kodu taşınacak)",
+  "allProjects": "← تم ​​پروجیکٹر",
   "loading": "Yükleniyor…"
 }

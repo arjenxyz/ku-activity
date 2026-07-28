@@ -1,9 +1,17 @@
 {
   "prevMonth": "Önceki ay",
-  "nextMonth": "Sonraki ay",
-  "thisMonth": "Bu ay",
+  "nextMonth": "Sonraki oui",
+  "thisMonth": "Mais oui",
   "summary": "{mesaiDays} mesai günü · {totalPay} toplam kazanç",
-  "selectMonth": "Ay seç:",
-  "weekdays": ["Pt", "Sa", "Ça", "Pe", "Cu", "Ct", "Pz"],
-  "tapForDetail": "Tap an orange day for details"
+  "selectMonth": "Oui, c'est vrai :",
+  "weekdays": [
+    "Pt",
+    "Sa",
+    "Californie",
+    "Pé",
+    "Cu",
+    "CT",
+    "PZ"
+  ],
+  "tapForDetail": "Appuyez sur un jour orange pour plus de détails"
 }

@@ -1,6 +1,6 @@
 {
-  "invalidSubscription": "Invalid subscription data",
-  "endpointRequired": "A valid endpoint is required",
-  "saveFailed": "Could not save subscription",
-  "deleteFailed": "Could not remove subscription"
+  "invalidSubscription": "غلط سبسکرپشن ڈیٹا",
+  "endpointRequired": "ایک درست اختتامی نقطہ درکار ہے۔",
+  "saveFailed": "سبسکرپشن کو محفوظ نہیں کیا جا سکا",
+  "deleteFailed": "سبسکرپشن کو ہٹایا نہیں جا سکا"
 }

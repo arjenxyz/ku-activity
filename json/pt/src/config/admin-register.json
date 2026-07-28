@@ -2,28 +2,67 @@
   "jobTitles": [
     "Şantiye şefi / Usta",
     "Taşeron firma sahibi",
-    "Proje müdürü",
+    "Projeto Müdürü",
     "İnsan kaynakları / Muhasebe",
-    "Operasyon / Planlama",
+    "Operação / Plano",
     "Diğer"
   ],
   "teamSizes": [
-    { "value": "1-10", "label": "1 – 10 personel" },
-    { "value": "11-25", "label": "11 – 25 personel" },
-    { "value": "26-50", "label": "26 – 50 personel" },
-    { "value": "51-100", "label": "51 – 100 personel" },
-    { "value": "100+", "label": "100+ personel" }
+    {
+      "value": "1-10",
+      "label": "1 – 10 pessoas"
+    },
+    {
+      "value": "11-25",
+      "label": "11 – 25 pessoas"
+    },
+    {
+      "value": "26-50",
+      "label": "26 – 50 pessoas"
+    },
+    {
+      "value": "51-100",
+      "label": "51 – 100 pessoas"
+    },
+    {
+      "value": "100+",
+      "label": "Mais de 100 funcionários"
+    }
   ],
   "projectCounts": [
-    { "value": "1", "label": "1 aktif şantiye" },
-    { "value": "2-3", "label": "2 – 3 şantiye" },
-    { "value": "4+", "label": "4 veya daha fazla" }
+    {
+      "value": "1",
+      "label": "1 ação ativa"
+    },
+    {
+      "value": "2-3",
+      "label": "2 – 3 dias"
+    },
+    {
+      "value": "4+",
+      "label": "4 ou mais"
+    }
   ],
   "referralSources": [
-    { "value": "search", "label": "Google / arama" },
-    { "value": "referral", "label": "Tanıdık / referans" },
-    { "value": "social", "label": "Sosyal medya" },
-    { "value": "event", "label": "Fuar / etkinlik" },
-    { "value": "other", "label": "Diğer" }
+    {
+      "value": "procurar",
+      "label": "Google/arama"
+    },
+    {
+      "value": "referência",
+      "label": "Tanıdık / referentes"
+    },
+    {
+      "value": "social",
+      "label": "Sosyal media"
+    },
+    {
+      "value": "evento",
+      "label": "Fuar / etkinlik"
+    },
+    {
+      "value": "outro",
+      "label": "Diğer"
+    }
   ]
 }

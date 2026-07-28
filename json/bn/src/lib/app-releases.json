@@ -1,6 +1,6 @@
 {
-  "personnelTitle": "Personel Uygulaması",
+  "personnelTitle": "ব্যক্তি Uygulaması",
   "personnelDescription": "Yoklama, yevmiye, mesai ve bordro görüntüleme.",
   "adminTitle": "Yönetici Uygulaması",
-  "adminDescription": "Proje yönetimi, personel onayı, yevmiye ve raporlar."
+  "adminDescription": "প্রজেক্ট yönetimi, personel onayı, yevmiye ve raporlar."
 }

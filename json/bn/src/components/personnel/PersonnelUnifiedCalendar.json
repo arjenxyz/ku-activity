@@ -1,29 +1,37 @@
 {
-  "prevMonth": "Previous month",
-  "nextMonth": "Next month",
-  "thisMonth": "This month",
-  "summary": "{recorded} recorded days · {confirmed} confirmed · {mesaiPay} overtime",
-  "selectMonth": "Select month:",
-  "weekdays": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+  "prevMonth": "আগের মাস",
+  "nextMonth": "পরের মাসে",
+  "thisMonth": "এই মাসে",
+  "summary": "{recorded} রেকর্ড করা দিন · {confirmed} নিশ্চিত করা হয়েছে · {mesaiPay} ওভারটাইম",
+  "selectMonth": "মাস নির্বাচন করুন:",
+  "weekdays": [
+    "সোম",
+    "মঙ্গল",
+    "বুধ",
+    "বৃহ",
+    "শুক্র",
+    "শনি",
+    "সূর্য"
+  ],
   "cellTitle": "{date} · {detail}",
-  "tapForDetail": "Tap marked days for details",
+  "tapForDetail": "বিশদ বিবরণের জন্য চিহ্নিত দিনগুলিতে আলতো চাপুন৷",
   "legend": {
-    "work": "Work days",
-    "mesai": "Overtime",
-    "advance": "Advance",
-    "deduction": "Deduction",
-    "minimum": "Minimum wage"
+    "work": "কাজের দিন",
+    "mesai": "ওভারটাইম",
+    "advance": "অগ্রিম",
+    "deduction": "ডিডাকশন",
+    "minimum": "ন্যূনতম মজুরি"
   },
   "presence": {
-    "worked": "At work",
-    "absent": "Absent",
-    "leave": "Leave"
+    "worked": "কাজে",
+    "absent": "অনুপস্থিত",
+    "leave": "ছেড়ে দিন"
   },
   "status": {
-    "confirmed": "Confirmed",
-    "pending_employee": "Your approval",
-    "pending_admin": "Admin approval",
-    "disputed": "Disputed",
-    "none": "In progress"
+    "confirmed": "নিশ্চিত করা হয়েছে",
+    "pending_employee": "আপনার অনুমোদন",
+    "pending_admin": "অ্যাডমিন অনুমোদন",
+    "disputed": "বিতর্কিত",
+    "none": "চলছে"
   }
 }

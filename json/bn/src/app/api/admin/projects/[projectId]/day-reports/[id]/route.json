@@ -1,6 +1,6 @@
 {
-  "invalidStatus": "Invalid status",
-  "resolveFailed": "Could not resolve report",
-  "notFound": "Report not found or already resolved",
-  "migrationRequired": "Run migration 077_day_error_reports.sql"
+  "invalidStatus": "অবৈধ অবস্থা",
+  "resolveFailed": "রিপোর্ট সমাধান করা যায়নি",
+  "notFound": "রিপোর্ট পাওয়া যায়নি বা ইতিমধ্যে সমাধান করা হয়েছে",
+  "migrationRequired": "মাইগ্রেশন 077_day_error_reports.sql চালান"
 }

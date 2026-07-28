@@ -6,9 +6,9 @@
   "noSessionToCancel": "Nincs megszakítandó aktív munkamenet",
   "recordNotFound": "A rekord nem található",
   "removeActiveOnly": "Csak aktív munkamenetből távolítható el",
-  "cannotRemoveWithWorkLog": "Cannot remove a record that already has a timesheet",
+  "cannotRemoveWithWorkLog": "Nem távolítható el olyan rekord, amelyhez már tartozik munkaidő-nyilvántartás",
   "planActiveOnly": "Csak aktív munkamenet alatt szerkeszthető",
-  "cannotPlanWithWorkLog": "Cannot edit a record that already has a timesheet",
+  "cannotPlanWithWorkLog": "Nem szerkeszthető olyan rekord, amelyhez már tartozik munkaidő-nyilvántartás",
   "completeFailed": "A jelenléti munkamenetet nem lehetett befejezni",
-  "dayAlreadyCompleted": "Attendance for this day is already completed. A second session cannot be opened — duplicate pay risk."
+  "dayAlreadyCompleted": "Ezen a napon a részvétel már lezárult. Második munkamenet nem nyitható meg – duplikált fizetési kockázat."
 }

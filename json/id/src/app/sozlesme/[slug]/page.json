@@ -1,11 +1,11 @@
 {
   "errors": {
     "invalidLink": "Geçersiz bağlantı.",
-    "loadFailed": "Yüklenemedi"
+    "loadFailed": "Yuklenemedi"
   },
-  "loading": "Yükleniyor…",
+  "loading": "Yukleniyor…",
   "backToRights": "Haklarıma dön",
-  "print": "Yazdır / PDF kaydet",
+  "print": "Yazdir / PDF kaydet",
   "versionLine": "Sürüm {version} · Onaylayan: {fullName} ({email}) · {acceptedAt}",
-  "footer": "Bu belge dijital onay kaydı ile ilişkilidir. Saklamanız önerilir."
+  "footer": "Bu belge digital onay kaydı ilişkilidir. Saklamanız önerilir."
 }

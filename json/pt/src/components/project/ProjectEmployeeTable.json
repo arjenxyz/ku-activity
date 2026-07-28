@@ -1,11 +1,11 @@
 {
-  "title": "Personnel",
-  "subtitle": "Today's status",
-  "empty": "No personnel on this project yet.",
-  "loading": "Loading…",
-  "confirmed": "Present",
-  "none": "Pending",
-  "daysSuffix": " days",
-  "seeAll": "See all",
+  "title": "Pessoal",
+  "subtitle": "Situação de hoje",
+  "empty": "Ainda não há pessoal neste projeto.",
+  "loading": "Carregando…",
+  "confirmed": "Presente",
+  "none": "Pendente",
+  "daysSuffix": "dias",
+  "seeAll": "Ver tudo",
   "emptyValue": "—"
 }

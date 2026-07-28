@@ -1,27 +1,27 @@
 {
-  "cameraLoading": "Kamera modülü yükleniyor…",
+  "cameraLoading": "ক্যামেরা মোডুলু ইউক্লেনিয়র…",
   "pageTitle": "Başvuru Onayı",
-  "pageDescriptionWithProject": "{projectName} — QR okutun veya kod girin; başvuru bulununca onay penceresi açılır.",
-  "pageDescription": "QR okutun veya kod girin; başvuru bulununca onay penceresi açılır.",
+  "pageDescriptionWithProject": "{projectName} — QR অকুতুন ভেয়া কোড গিরিন; başvuru bulununca onay penceresi açılır.",
+  "pageDescription": "কিউআর ওকুতুন ভেয়া কোড গিরিন; başvuru bulununca onay penceresi açılır.",
   "scanSectionTitle": "Hızlı tarama",
   "scanSectionDescription": "Personelin bekleme ekranındaki QR kodu okutun. Eşleşme bulunursa onay formu otomatik açılır.",
   "orCodeDivider": "veya kod ile",
-  "codeLabel": "Başvuru kodu",
+  "codeLabel": "বাশভুরু কোডু",
   "codePlaceholder": "ARJ-XXXXXX",
-  "searching": "Aranıyor…",
-  "search": "Bul",
-  "codeHint": "Kod tamamlanınca otomatik aranır. QR okunamazsa personelin ekranındaki ARJ- kodunu yazın.",
+  "searching": "আরানিয়র…",
+  "search": "বুল",
+  "codeHint": "কোড tamamlanınca otomatik aranır. QR okunamazsa personelin ekranındaki ARJ- kodunu yazın.",
   "lookupLoading": "Başvuru aranıyor…",
-  "backToProject": "← Proje özetine dön",
+  "backToProject": "← প্রকল্প",
   "errors": {
-    "invalidCode": "Bu kod geçersiz veya sistemde kayıtlı değil. Personelin ekranındaki ARJ- kodunu kontrol edin.",
-    "notFound": "Bulunamadı",
-    "lookupFailed": "Arama başarısız",
+    "invalidCode": "Bu kod geçersiz veya sistemde kayıtlı değil. Personelin ekranındaki ARJ- kodunu নিয়ন্ত্রণ edin.",
+    "notFound": "বুলুনামাদি",
+    "lookupFailed": "আরমা বাসারিসিজ",
     "approveFailed": "Onay başarısız",
-    "rejectFailed": "Red başarısız"
+    "rejectFailed": "লাল বাসারিসিজ"
   },
   "success": {
-    "approved": "{firstName} {lastName} onaylandı. {email} adresi ile giriş yapabilir — PIN bilgisini personele iletin.",
+    "approved": "{firstName} {lastName} onaylandı. {email} অ্যাড্রেস ইলে গিরিস ইয়াপাবিলির — পিন বিলগিসিনি পার্সোনাল ইলেটিন।",
     "rejected": "Başvuru reddedildi ve veritabanından silindi."
   },
   "confirmReject": "Başvuruyu reddetmek istediğinize emin misiniz? Kayıt, fotoğraf ve sözleşme onayları kalıcı olarak silinir; personel aynı bilgilerle yeniden başvurabilir."

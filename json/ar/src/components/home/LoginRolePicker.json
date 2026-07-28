@@ -1,17 +1,17 @@
 {
-  "buttonDefault": "Sign In",
-  "closeOverlayAriaLabel": "Close sign-in menu",
-  "closeButtonAriaLabel": "Close",
-  "modalTitle": "Choose sign-in",
-  "footerNote": "Choose the panel that matches your role to sign in.",
+  "buttonDefault": "تسجيل الدخول",
+  "closeOverlayAriaLabel": "إغلاق قائمة تسجيل الدخول",
+  "closeButtonAriaLabel": "يغلق",
+  "modalTitle": "اختر تسجيل الدخول",
+  "footerNote": "اختر اللوحة التي تطابق دورك لتسجيل الدخول.",
   "panels": {
     "personel": {
-      "title": "Personnel",
-      "description": "Attendance, wages, and payroll"
+      "title": "الموظفين",
+      "description": "الحضور والأجور والمرتبات"
     },
     "admin": {
-      "title": "Admin",
-      "description": "Projects, approvals, and reports"
+      "title": "مسؤل",
+      "description": "المشاريع والموافقات والتقارير"
     }
   }
 }

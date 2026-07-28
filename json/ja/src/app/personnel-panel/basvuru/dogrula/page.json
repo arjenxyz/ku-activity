@@ -1,15 +1,15 @@
 {
-  "invalidLinkError": "Geçersiz doğrulama bağlantısı.",
-  "verificationFailed": "Doğrulama başarısız",
-  "loadingTitle": "Doğrulanıyor…",
-  "loadingSubtitle": "Başvurunuz gönderiliyor, lütfen bekleyin.",
+  "invalidLinkError": "Geçersiz doğrulama bağlantısı。",
+  "verificationFailed": "ドルラマ・バシャリスズ",
+  "loadingTitle": "ドゥルラニヨール…",
+  "loadingSubtitle": "Başvurunuz gönderiliyor、lütfen bekleyin。",
   "loadingMessage": "E-posta bağlantınız doğrulanıyor…",
-  "errorTitle": "Doğrulama başarısız",
-  "errorSubtitle": "Bağlantı geçersiz veya süresi dolmuş olabilir.",
-  "backToApplication": "Başvuru sayfasına dön",
-  "successTitle": "Başvuru gönderildi",
-  "successSubtitle": "Yönetici onay ekranına yönlendiriliyorsunuz…",
-  "successMessage": "E-posta doğrulandı ve başvurunuz alındı.",
-  "redirectHint": "Birazdan onay bekleme ekranına geçeceksiniz…",
-  "suspenseTitle": "Yükleniyor…"
+  "errorTitle": "ドルラマ・バシャリスズ",
+  "errorSubtitle": "最高のチャンスを与えてください。",
+  "backToApplication": "バシュヴル セイファスナ ドン",
+  "successTitle": "バシュヴル ゴンデリルディ",
+  "successSubtitle": "ヨネチ・オナイ・エクランヌ・ヨンレンディリリヨルスヌズ…",
+  "successMessage": "E-posta doğrulandı ve başvurunuz alındı。",
+  "redirectHint": "ビラズダン・オナイ・ベクレメ・エクランヌ・ゲチェセクシニズ…",
+  "suspenseTitle": "ユクレニヨル…"
 }

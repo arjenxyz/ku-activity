@@ -1,37 +1,37 @@
 {
-  "close": "Close",
-  "dismissError": "Dismiss error",
-  "rescanIssue": "Something's wrong — re-scan",
-  "rescan": "Re-scan",
+  "close": "يغلق",
+  "dismissError": "تجاهل الخطأ",
+  "rescanIssue": "هناك خطأ ما – أعد الفحص",
+  "rescan": "إعادة المسح",
   "states": {
     "waiting": {
-      "pill": "In attendance",
-      "title": "You've been added to the list",
-      "hint": "Wait until your supervisor completes attendance."
+      "pill": "في الحضور",
+      "title": "لقد تمت إضافتك إلى القائمة",
+      "hint": "انتظر حتى يكمل مشرفك الحضور."
     },
     "completed": {
-      "pill": "Completed",
-      "title": "Completed today",
-      "hintDefault": "Your full-day record has been created."
+      "pill": "مكتمل",
+      "title": "اكتمل اليوم",
+      "hintDefault": "تم إنشاء سجل اليوم الكامل الخاص بك."
     },
     "cancelled": {
-      "pill": "Cancelled",
-      "title": "Attendance cancelled",
-      "hint": "Your manager cancelled this attendance. Please contact them."
+      "pill": "تم الإلغاء",
+      "title": "تم الغاء الحضور",
+      "hint": "ألغى مديرك هذا الحضور. يرجى الاتصال بهم."
     },
     "removed": {
-      "pill": "Removed from list",
-      "title": "You're not in attendance",
-      "hint": "Scan a new QR or talk to your supervisor."
+      "pill": "تمت الإزالة من القائمة",
+      "title": "أنت لست حاضرا",
+      "hint": "قم بمسح QR جديد أو تحدث إلى مشرفك."
     },
     "didNotWork": {
-      "pill": "Did not work",
-      "title": "Marked as not working today",
-      "hint": "No daily wage is recorded."
+      "pill": "لم تنجح",
+      "title": "تم وضع علامة على أنها لا تعمل اليوم",
+      "hint": "لا يتم تسجيل الأجر اليومي."
     }
   },
   "scanError": {
-    "pill": "Scan failed",
-    "title": "Couldn't read the QR"
+    "pill": "فشل المسح",
+    "title": "لا يمكن قراءة QR"
   }
 }

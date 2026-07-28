@@ -1,17 +1,17 @@
 {
   "errors": {
-    "invalidTc": "Geçerli bir T.C. kimlik numarası girin.",
+    "invalidTc": "Geçerli bir T.C. Kimlik Numarası Girin.",
     "invalidPhone": "Geçerli bir telefon numarası girin.",
     "invalidEmail": "Geçerli bir e-posta adresi girin.",
-    "genericMismatch": "Girdiğiniz bilgiler kayıtlarımızla eşleşmedi. Bilgilerinizi kontrol edin veya şantiye yöneticinize başvurun.",
+    "genericMismatch": "Girdiğiniz bilgiler kayıtlarımızla eşleşmedi. Die Kontrolle über die Funktionsfähigkeit ist nicht gewährleistet.",
     "invalidLink": "Geçersiz bağlantı",
-    "linkInvalidOrExpired": "Bağlantı geçersiz veya süresi dolmuş.",
-    "linkAlreadyUsed": "Bu bağlantı daha önce kullanıldı. Yeni bir sıfırlama linki isteyin.",
-    "linkExpired": "Bağlantının süresi doldu ({minutes} dakika). Giriş ekranından yeni link isteyin.",
+    "linkInvalidOrExpired": "Bitte beachten Sie, dass die Sicherheit nicht gewährleistet ist.",
+    "linkAlreadyUsed": "Dies ist jedoch nicht der Fall. Yeni bir sıfırlama linki isteyin.",
+    "linkExpired": "Bitte beachten Sie, dass dies nicht der Fall ist ({minutes} dakika). Giriş ekranından yeni link isteyin.",
     "accountInactive": "Hesap aktif değil. Yöneticinize başvurun.",
     "pinUpdateFailed": "PIN güncellenemedi",
-    "linkUsedOrExpired": "Bu bağlantı daha önce kullanıldı veya süresi doldu.",
-    "emailNotConfigured": "PIN sıfırlama e-postası yapılandırılmamış",
+    "linkUsedOrExpired": "Dies ist jedoch nicht der Fall, da dies nicht der Fall ist.",
+    "emailNotConfigured": "Die PIN muss per E-Mail verschickt werden",
     "emailSendFailed": "E-posta gönderilemedi ({status}){detail}"
   },
   "cooldown": {
@@ -20,13 +20,13 @@
     "minutesOnly": "Sıfırlama linki en fazla {cooldownHours} saatte bir gönderilir. {minutes} dakika sonra tekrar deneyin."
   },
   "email": {
-    "subject": "{appName} — PIN sıfırlama bağlantınız",
+    "subject": "{appName} – PIN-Verschlüsselung",
     "greeting": "Merhaba {name},",
-    "bodyIntro": "Girdiğiniz bilgiler sistemdeki kaydınızla uyuştu. Yeni PIN belirlemek için aşağıdaki bağlantıyı kullanın:",
-    "validityNote": "Bağlantı {minutes} dakika geçerlidir ve yalnızca bir kez kullanılabilir.",
-    "ignoreNote": "Bu talebi siz yapmadıysanız bu e-postayı yok sayın ve yöneticinize bildirin.",
-    "buttonLabel": "Yeni PIN belirle",
-    "htmlIntro": "Girdiğiniz bilgiler sistemdeki kaydınızla uyuştu. Yeni PIN belirlemek için aşağıdaki düğmeye tıklayın:",
-    "htmlIgnoreNote": "Bu talebi siz yapmadıysanız bu e-postayı yok sayın."
+    "bodyIntro": "Girdiğiniz bilgiler sistemdeki kaydınızla uyuştu. Der PIN-Code wird in folgender Reihenfolge angezeigt:",
+    "validityNote": "Wenn {minutes} aktiviert ist, wird die Funktion aktiviert und deaktiviert.",
+    "ignoreNote": "Aber die Größe des E-Mail-Postings ist so groß, dass Sie sagen, dass Sie ein Bild erstellen möchten.",
+    "buttonLabel": "Keine PIN",
+    "htmlIntro": "Girdiğiniz bilgiler sistemdeki kaydınızla uyuştu. Die folgende PIN-Nummer wird in folgenden Schritten angezeigt:",
+    "htmlIgnoreNote": "Aber die Größe Ihres E-Mail-Postfachs ist groß."
   }
 }

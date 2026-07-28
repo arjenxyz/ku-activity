@@ -1,27 +1,27 @@
 {
   "errors": {
-    "addFailed": "Eklenemedi"
+    "addFailed": "eklenemedi"
   },
-  "deleteExpenseConfirm": "Bu gideri silmek istiyor musunuz?",
+  "deleteExpenseConfirm": "¿Bu gideri silmek istiyor musunuz?",
   "receivable": "Alacak",
-  "expense": "Gider",
+  "expense": "gider",
   "margin": "{margin}% marj",
   "perShare": "{amount}/kişi",
-  "summaryTitle": "Hesap özeti",
-  "pendingDays": "{days} gün",
-  "pendingHint": " onay bekliyor. Onaylanırsa tahmini kâr ",
-  "quickActionsTitle": "Hızlı işlem",
-  "quickActionsHint": "Kayıt girerken bu iş otomatik seçilir.",
+  "summaryTitle": "hesap özeti",
+  "pendingDays": "{days} gun",
+  "pendingHint": "onay bekliyor. Onaylanırsa tahmini kâr",
+  "quickActionsTitle": "Hizli islem",
+  "quickActionsHint": "Kayıt girerken bu is otomatik seçilir.",
   "materialTitle": "Malzeme ({amount})",
   "closeExpenseForm": "Kapat",
   "addExpense": "+ Gider ekle",
   "dateLabel": "Tarih",
   "amountLabel": "Tutar",
   "descriptionPlaceholder": "Açıklama (kiremit, çimento…)",
-  "submit": "Kaydet",
+  "submit": "kaydet",
   "deleteTitle": "Sil",
   "noMaterialExpenses": "Malzeme gideri yok.",
-  "markCompleted": "Tamamlandı",
+  "markCompleted": "tamamlandia",
   "reopen": "Yeniden aç",
   "deleteJob": "İşi sil"
 }

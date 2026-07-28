@@ -1,20 +1,20 @@
 {
   "modeLabels": {
-    "simple": "Simple",
-    "advanced": "Advanced"
+    "simple": "Sederhana",
+    "advanced": "Canggih"
   },
   "simpleMenu": {
     "summary": {
-      "label": "Project overview",
-      "hint": "Personnel list and daily status"
+      "label": "Ikhtisar proyek",
+      "hint": "Daftar personel dan status harian"
     },
     "approval": {
-      "label": "Application approval",
-      "hint": "New personnel applications"
+      "label": "Persetujuan aplikasi",
+      "hint": "Aplikasi personel baru"
     },
     "attendance": {
-      "label": "Attendance / QR",
-      "hint": "Day, overtime and timesheet are planned here"
+      "label": "Kehadiran / QR",
+      "hint": "Hari, lembur dan absensi direncanakan di sini"
     }
   }
 }

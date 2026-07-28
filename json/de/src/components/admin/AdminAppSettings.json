@@ -1,48 +1,48 @@
 {
-  "pageSubtitle": "Manage appearance, language, notifications, and app preferences.",
+  "pageSubtitle": "Verwalten Sie Aussehen, Sprache, Benachrichtigungen und App-Einstellungen.",
   "sections": {
-    "display": "Appearance",
-    "language": "Language",
-    "interface": "Interface",
-    "notifications": "Notifications",
+    "display": "Aussehen",
+    "language": "Sprache",
+    "interface": "Schnittstelle",
+    "notifications": "Benachrichtigungen",
     "about": "App",
-    "data": "Data on this device"
+    "data": "Daten auf diesem Gerät"
   },
-  "largeTextLabel": "Large text",
-  "largeTextHint": "Increases text size for easier reading",
-  "highContrastLabel": "High contrast",
-  "highContrastHint": "Makes colors more distinct",
-  "languageLabel": "App language",
+  "largeTextLabel": "Großer Text",
+  "largeTextHint": "Erhöht die Textgröße, um das Lesen zu erleichtern",
+  "highContrastLabel": "Hoher Kontrast",
+  "highContrastHint": "Macht Farben deutlicher",
+  "languageLabel": "App-Sprache",
   "languageHint": "Wählen Sie aus 15 Sprachen",
-  "interfaceLabel": "UI mode",
-  "interfaceHint": "Simple or advanced admin interface",
+  "interfaceLabel": "UI-Modus",
+  "interfaceHint": "Einfache oder erweiterte Admin-Oberfläche",
   "notifications": {
-    "statusLabel": "Notification permission",
-    "granted": "On",
-    "denied": "Off",
-    "default": "Not asked yet",
-    "unsupported": "Not supported",
-    "enableButton": "Enable notifications",
-    "openSettingsButton": "Open system settings",
-    "refreshButton": "Refresh status",
-    "enabling": "Enabling…",
-    "hintGranted": "Important admin notifications can be sent to this device.",
-    "hintDenied": "Notifications are off. Enable them in system settings or with the button below.",
-    "hintDefault": "Allow notifications for applications and project updates."
+    "statusLabel": "Benachrichtigungsberechtigung",
+    "granted": "An",
+    "denied": "Aus",
+    "default": "Noch nicht gefragt",
+    "unsupported": "Nicht unterstützt",
+    "enableButton": "Benachrichtigungen aktivieren",
+    "openSettingsButton": "Öffnen Sie die Systemeinstellungen",
+    "refreshButton": "Status aktualisieren",
+    "enabling": "Aktivieren…",
+    "hintGranted": "An dieses Gerät können wichtige Admin-Benachrichtigungen gesendet werden.",
+    "hintDenied": "Benachrichtigungen sind deaktiviert. Aktivieren Sie sie in den Systemeinstellungen oder mit der Schaltfläche unten.",
+    "hintDefault": "Erlauben Sie Benachrichtigungen für Anwendungen und Projektaktualisierungen."
   },
   "about": {
     "versionLabel": "Version",
-    "publishedLabel": "Published",
+    "publishedLabel": "Veröffentlicht",
     "unknownVersion": "—",
-    "loading": "Loading version info…",
-    "loadFailed": "Could not load version info",
-    "checkUpdates": "View release notes",
-    "apkHint": "If a new version is available, install it from the APK download page."
+    "loading": "Versionsinformationen werden geladen…",
+    "loadFailed": "Versionsinformationen konnten nicht geladen werden",
+    "checkUpdates": "Versionshinweise anzeigen",
+    "apkHint": "Wenn eine neue Version verfügbar ist, installieren Sie sie von der APK-Downloadseite."
   },
   "data": {
-    "clearLabel": "Clear cache on this phone",
-    "clearHint": "Deletes cookies and temporary files. Your account and server records are not deleted; you will need to sign in again.",
+    "clearLabel": "Leeren Sie den Cache auf diesem Telefon",
+    "clearHint": "Löscht Cookies und temporäre Dateien. Ihre Konto- und Serverdatensätze werden nicht gelöscht; Sie müssen sich erneut anmelden.",
     "clearing": "Clearing…",
-    "confirm": "Only CrewLedger cookies, session, and cache on this device will be cleared and you will be signed out. Your account and server records are not deleted. Continue?"
+    "confirm": "Nur CrewLedger-Cookies, Sitzung und Cache auf diesem Gerät werden gelöscht und Sie werden abgemeldet. Ihre Konto- und Serverdatensätze werden nicht gelöscht. Weitermachen?"
   }
 }

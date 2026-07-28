@@ -1,14 +1,14 @@
 {
-  "embedScreen": "Ekran",
-  "embedScreenDefault": "Auth",
-  "embedTime": "Zaman",
-  "embedPage": "Sayfa",
-  "embedBrowser": "Tarayıcı",
-  "embedFormError": "Form hatası",
-  "embedUserNote": "Kullanıcı notu",
-  "embedDiagnostics": "Tanılama",
-  "reportTitle": "{appName} — Ekran raporu",
-  "newReportContent": "🚩 **Yeni ekran raporu**",
-  "sendFailed": "Discord raporu gönderilemedi ({status}){detail}",
-  "notConfigured": "Discord raporu yapılandırılmamış (DISCORD_REPORT_WEBHOOK_URL veya DISCORD_BOT_TOKEN)"
+  "embedScreen": "إكران",
+  "embedScreenDefault": "مصادقة",
+  "embedTime": "زمان",
+  "embedPage": "سيفا",
+  "embedBrowser": "تاراييسي",
+  "embedFormError": "شكل قبعة",
+  "embedUserNote": "هذه ملاحظة",
+  "embedDiagnostics": "تانيلاما",
+  "reportTitle": "{appName} — إكران رابورو",
+  "newReportContent": "🚩 **يني إيكران رابورو**",
+  "sendFailed": "Discord Raporu gönderilemedi ({status}){detail}",
+  "notConfigured": "تم تحديث Discord (DISCORD_REPORT_WEBHOOK_URL أو DISCORD_BOT_TOKEN)"
 }

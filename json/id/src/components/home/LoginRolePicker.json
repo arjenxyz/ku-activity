@@ -1,17 +1,17 @@
 {
-  "buttonDefault": "Sign In",
-  "closeOverlayAriaLabel": "Close sign-in menu",
-  "closeButtonAriaLabel": "Close",
-  "modalTitle": "Choose sign-in",
-  "footerNote": "Choose the panel that matches your role to sign in.",
+  "buttonDefault": "Masuk",
+  "closeOverlayAriaLabel": "Tutup menu masuk",
+  "closeButtonAriaLabel": "Menutup",
+  "modalTitle": "Pilih masuk",
+  "footerNote": "Pilih panel yang sesuai dengan peran Anda untuk masuk.",
   "panels": {
     "personel": {
-      "title": "Personnel",
-      "description": "Attendance, wages, and payroll"
+      "title": "Personil",
+      "description": "Kehadiran, gaji, dan penggajian"
     },
     "admin": {
       "title": "Admin",
-      "description": "Projects, approvals, and reports"
+      "description": "Proyek, persetujuan, dan laporan"
     }
   }
 }

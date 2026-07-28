@@ -1,11 +1,11 @@
 {
   "errors": {
-    "invalidLink": "Geçersiz bağlantı.",
-    "loadFailed": "Yüklenemedi"
+    "invalidLink": "Utilisez-le pour le faire fonctionner.",
+    "loadFailed": "Yuklenemedi"
   },
-  "loading": "Yükleniyor…",
-  "backToRights": "Haklarıma dön",
+  "loading": "Yukleniyor…",
+  "backToRights": "Haklarıma don",
   "print": "Yazdır / PDF kaydet",
-  "versionLine": "Sürüm {version} · Onaylayan: {fullName} ({email}) · {acceptedAt}",
-  "footer": "Bu belge dijital onay kaydı ile ilişkilidir. Saklamanız önerilir."
+  "versionLine": "Réponse {version} · Onaylayan : {fullName} ({email}) · {acceptedAt}",
+  "footer": "Le dijital belge est en mesure de le faire. Saklamanız önerilir."
 }

@@ -1,11 +1,11 @@
 {
-  "pageTitle": "Asgari Sorgulama",
-  "pageDescription": "Asgari ödeme kayıtlarını görüntüleyin, düzenleyin veya silin.",
-  "colEmployee": "Personel",
-  "colDate": "Tarih",
-  "colAmount": "Tutar",
-  "colDescription": "Açıklama",
-  "colActions": "İşlem",
+  "pageTitle": "アスガリソルグラマ",
+  "pageDescription": "Asgari ödeme kayıtlarını görüntüleyin、düzenleyin veya silin.",
+  "colEmployee": "人事",
+  "colDate": "タリフ",
+  "colAmount": "ツタール",
+  "colDescription": "アチクラマ",
+  "colActions": "イズレム",
   "emptyCell": "—",
-  "total": "Toplam: {amount}"
+  "total": "トップラム: {amount}"
 }

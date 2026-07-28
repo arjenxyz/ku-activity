@@ -1,11 +1,11 @@
 {
   "errors": {
-    "downloadFailed": "Project archive download failed",
-    "genericFailed": "Download failed"
+    "downloadFailed": "প্রকল্প সংরক্ষণাগার ডাউনলোড ব্যর্থ হয়েছে",
+    "genericFailed": "ডাউনলোড ব্যর্থ হয়েছে৷"
   },
-  "loading": "Preparing…",
-  "button": "Download full project archive",
-  "buttonCompact": "Download archive",
-  "hint": "All personnel folders, closure summary, team/block assignments, and wage policy in one ZIP.",
+  "loading": "প্রস্তুত হচ্ছে...",
+  "button": "সম্পূর্ণ প্রকল্প সংরক্ষণাগার ডাউনলোড করুন",
+  "buttonCompact": "সংরক্ষণাগার ডাউনলোড করুন",
+  "hint": "সমস্ত কর্মী ফোল্ডার, বন্ধের সারাংশ, দল/ব্লক অ্যাসাইনমেন্ট এবং মজুরি নীতি এক জিপে।",
   "fallbackFilename": "project-closure-archive.zip"
 }

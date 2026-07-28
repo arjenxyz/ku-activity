@@ -1,62 +1,62 @@
 {
-  "pageSubtitle": "Manage appearance, language, notifications, and app preferences.",
+  "pageSubtitle": "Verwalten Sie Aussehen, Sprache, Benachrichtigungen und App-Einstellungen.",
   "sections": {
-    "appearance": "Appearance",
-    "language": "Language",
-    "notifications": "Notifications",
+    "appearance": "Aussehen",
+    "language": "Sprache",
+    "notifications": "Benachrichtigungen",
     "about": "App",
-    "data": "Data on this device"
+    "data": "Daten auf diesem Gerät"
   },
   "menuHints": {
-    "appearance": "Theme, large text, and contrast",
+    "appearance": "Thema, großer Text und Kontrast",
     "language": "Wählen Sie aus 15 Sprachen",
-    "notifications": "Permission and push subscription",
-    "about": "Version and update notes",
-    "data": "Cookies and cache — your account records stay"
+    "notifications": "Erlaubnis und Push-Abonnement",
+    "about": "Versions- und Update-Hinweise",
+    "data": "Cookies und Cache – Ihre Kontodaten bleiben erhalten"
   },
   "theme": {
-    "label": "Theme",
-    "hint": "Use light, dark, or follow your device",
-    "light": "Light",
-    "dark": "Dark",
+    "label": "Thema",
+    "hint": "Verwenden Sie Hell, Dunkel oder folgen Sie Ihrem Gerät",
+    "light": "Licht",
+    "dark": "Dunkel",
     "system": "System"
   },
-  "largeTextLabel": "Large text",
-  "largeTextHint": "Increases text size for easier reading on site",
-  "highContrastLabel": "High contrast",
-  "highContrastHint": "Makes colors more distinct",
-  "languageLabel": "App language",
+  "largeTextLabel": "Großer Text",
+  "largeTextHint": "Erhöht die Textgröße, um das Lesen vor Ort zu erleichtern",
+  "highContrastLabel": "Hoher Kontrast",
+  "highContrastHint": "Macht Farben deutlicher",
+  "languageLabel": "App-Sprache",
   "languageHint": "Wählen Sie aus 15 Sprachen",
   "notifications": {
-    "statusLabel": "Notification permission",
-    "subscriptionLabel": "Push subscription",
-    "granted": "On",
-    "denied": "Off",
-    "default": "Not asked yet",
-    "unsupported": "Not supported",
-    "subscribed": "Active",
-    "notSubscribed": "Not registered",
-    "enableButton": "Enable notifications",
-    "openSettingsButton": "Open system settings",
-    "refreshButton": "Refresh status",
-    "enabling": "Enabling…",
-    "hintGranted": "Deductions, advances, and attendance alerts are sent to this device.",
-    "hintDenied": "Notifications are off. Enable them in system settings or with the button below.",
-    "hintDefault": "Allow notifications to stay informed about important updates."
+    "statusLabel": "Benachrichtigungsberechtigung",
+    "subscriptionLabel": "Push-Abonnement",
+    "granted": "An",
+    "denied": "Aus",
+    "default": "Noch nicht gefragt",
+    "unsupported": "Nicht unterstützt",
+    "subscribed": "Aktiv",
+    "notSubscribed": "Nicht registriert",
+    "enableButton": "Benachrichtigungen aktivieren",
+    "openSettingsButton": "Öffnen Sie die Systemeinstellungen",
+    "refreshButton": "Status aktualisieren",
+    "enabling": "Aktivieren…",
+    "hintGranted": "Abzüge, Vorschüsse und Anwesenheitsbenachrichtigungen werden an dieses Gerät gesendet.",
+    "hintDenied": "Benachrichtigungen sind deaktiviert. Aktivieren Sie sie in den Systemeinstellungen oder mit der Schaltfläche unten.",
+    "hintDefault": "Lassen Sie Benachrichtigungen zu, um über wichtige Updates informiert zu bleiben."
   },
   "about": {
     "versionLabel": "Version",
-    "publishedLabel": "Published",
+    "publishedLabel": "Veröffentlicht",
     "unknownVersion": "—",
-    "loading": "Loading version info…",
-    "loadFailed": "Could not load version info",
-    "checkUpdates": "View release notes",
-    "apkHint": "If a new version is available, install it from the APK download page."
+    "loading": "Versionsinformationen werden geladen…",
+    "loadFailed": "Versionsinformationen konnten nicht geladen werden",
+    "checkUpdates": "Versionshinweise anzeigen",
+    "apkHint": "Wenn eine neue Version verfügbar ist, installieren Sie sie von der APK-Downloadseite."
   },
   "data": {
-    "clearLabel": "Clear cache on this phone",
-    "clearHint": "Deletes cookies and temporary files. Your account, payroll, and advance records are not deleted; you will need to sign in again.",
+    "clearLabel": "Leeren Sie den Cache auf diesem Telefon",
+    "clearHint": "Löscht Cookies und temporäre Dateien. Ihr Konto, Ihre Gehaltsabrechnung und Ihre Vorabunterlagen werden nicht gelöscht; Sie müssen sich erneut anmelden.",
     "clearing": "Clearing…",
-    "confirm": "Only CrewLedger cookies, session, and cache on this device will be cleared and you will be signed out. Your account and server records are not deleted. Other apps are not affected. Continue?"
+    "confirm": "Nur CrewLedger-Cookies, Sitzung und Cache auf diesem Gerät werden gelöscht und Sie werden abgemeldet. Ihre Konto- und Serverdatensätze werden nicht gelöscht. Andere Apps sind nicht betroffen. Weitermachen?"
   }
 }

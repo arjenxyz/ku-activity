@@ -1,5 +1,5 @@
 {
-  "failed": "Record could not be updated",
-  "consentRequired": "You must accept closure consent first",
-  "downloadRequired": "You must download your data first"
+  "failed": "لا يمكن تحديث السجل",
+  "consentRequired": "يجب عليك قبول موافقة الإغلاق أولاً",
+  "downloadRequired": "يجب عليك تنزيل بياناتك أولاً"
 }

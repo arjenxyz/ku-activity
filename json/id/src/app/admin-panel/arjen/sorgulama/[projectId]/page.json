@@ -1,6 +1,6 @@
 {
   "filters": {
-    "all": "Tüm Kayıtlar",
+    "all": "Tum Kayıtlar",
     "work": "Yevmiye",
     "advance": "Avanslar",
     "deduction": "Kesintiler",
@@ -13,19 +13,19 @@
   "colType": "Tip",
   "colDescription": "Açıklama",
   "colAmount": "Tutar",
-  "colKind": "Tür",
-  "fullDay": "Tam Gün",
+  "colKind": "Tur",
+  "fullDay": "Tam Gun",
   "halfDay": "Yarım Gün",
   "emptyValue": "-",
   "summaryTotalWork": "Toplam Çalışma",
   "summaryTotalAdvance": "Toplam Avans",
   "summaryTotalDeduction": "Toplam Kesinti",
-  "summaryNetSalary": "Net Maaş",
+  "summaryNetSalary": "Bersih Maaş",
   "backTitle": "Geri",
   "backLabel": "Geri",
   "pageTitle": "Personel Sorgulama",
   "selectEmployee": "Çalışan seçiniz...",
-  "loading": "Yükleniyor...",
-  "selectEmployeeFirst": "Önce bir çalışan seçin.",
+  "loading": "Yukkleniyor...",
+  "selectEmployeeFirst": "Sekali lagi.",
   "noRecords": "Kayıt bulunamadı"
 }

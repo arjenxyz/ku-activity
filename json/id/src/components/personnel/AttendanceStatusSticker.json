@@ -1,37 +1,37 @@
 {
-  "close": "Close",
-  "dismissError": "Dismiss error",
-  "rescanIssue": "Something's wrong — re-scan",
-  "rescan": "Re-scan",
+  "close": "Menutup",
+  "dismissError": "Singkirkan kesalahan",
+  "rescanIssue": "Ada yang salah — pindai ulang",
+  "rescan": "Pindai ulang",
   "states": {
     "waiting": {
-      "pill": "In attendance",
-      "title": "You've been added to the list",
-      "hint": "Wait until your supervisor completes attendance."
+      "pill": "hadir",
+      "title": "Anda telah ditambahkan ke daftar",
+      "hint": "Tunggu sampai supervisor Anda menyelesaikan kehadiran."
     },
     "completed": {
-      "pill": "Completed",
-      "title": "Completed today",
-      "hintDefault": "Your full-day record has been created."
+      "pill": "Selesai",
+      "title": "Selesai hari ini",
+      "hintDefault": "Rekor sehari penuh Anda telah dibuat."
     },
     "cancelled": {
-      "pill": "Cancelled",
-      "title": "Attendance cancelled",
-      "hint": "Your manager cancelled this attendance. Please contact them."
+      "pill": "Dibatalkan",
+      "title": "Kehadiran dibatalkan",
+      "hint": "Manajer Anda membatalkan kehadiran ini. Silakan hubungi mereka."
     },
     "removed": {
-      "pill": "Removed from list",
-      "title": "You're not in attendance",
-      "hint": "Scan a new QR or talk to your supervisor."
+      "pill": "Dihapus dari daftar",
+      "title": "Anda tidak hadir",
+      "hint": "Pindai QR baru atau bicaralah dengan supervisor Anda."
     },
     "didNotWork": {
-      "pill": "Did not work",
-      "title": "Marked as not working today",
-      "hint": "No daily wage is recorded."
+      "pill": "Tidak berhasil",
+      "title": "Ditandai tidak bekerja hari ini",
+      "hint": "Tidak ada upah harian yang dicatat."
     }
   },
   "scanError": {
-    "pill": "Scan failed",
-    "title": "Couldn't read the QR"
+    "pill": "Pemindaian gagal",
+    "title": "Tidak dapat membaca QR"
   }
 }

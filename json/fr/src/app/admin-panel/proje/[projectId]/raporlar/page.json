@@ -1,14 +1,14 @@
 {
-  "pageTitle": "Admin Raporları",
-  "pageDescription": "Proje genelinde finansal özet ve aylık istatistikler.",
+  "pageTitle": "Rapports d'administration",
+  "pageDescription": "Le projet de génération financière est terminé et contient des statistiques.",
   "labelMonth": "Ay (aylık detay)",
-  "loading": "Yükleniyor…",
+  "loading": "Yukleniyor…",
   "totalWorkPay": "Toplam Yevmiye (₺)",
   "workDays": "Çalışılan Gün",
   "totalAdvances": "Toplam Avans",
-  "activeEmployees": "Aktif Personel",
+  "activeEmployees": "Aktif Personnel",
   "approvedYevmiye": "Onaylanan Yevmiye",
   "pendingYevmiye": "Bekleyen Yevmiye",
   "monthAdvanceTotal": "Ay Avans Toplamı",
-  "detailLink": "Detay →"
+  "detailLink": "Retard →"
 }

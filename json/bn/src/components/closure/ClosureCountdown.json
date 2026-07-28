@@ -1,10 +1,10 @@
 {
-  "title": "Time remaining",
-  "expired": "Deadline passed",
+  "title": "বাকি সময়",
+  "expired": "সময়সীমা পেরিয়ে গেছে",
   "days": "d",
-  "hours": "h",
-  "minutes": "m",
+  "hours": "জ",
+  "minutes": "মি",
   "seconds": "s",
-  "phasePending": "Awaiting personnel consents",
-  "phaseExport": "Data export window"
+  "phasePending": "কর্মীদের সম্মতির অপেক্ষায়",
+  "phaseExport": "ডেটা এক্সপোর্ট উইন্ডো"
 }

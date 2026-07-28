@@ -1,4 +1,4 @@
 {
-  "unauthorized": "Invalid session",
-  "failed": "Deletion failed"
+  "unauthorized": "無効なセッション",
+  "failed": "削除に失敗しました"
 }

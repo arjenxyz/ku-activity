@@ -1,10 +1,10 @@
 {
-  "tagline": "Admin panel",
-  "projectSettingsTitle": "Project settings",
-  "projectSettingsAriaLabel": "Project settings",
-  "loadingProject": "Loading…",
-  "logout": "Sign out",
-  "exitAriaLabel": "Back to home",
-  "menu": "Menu",
-  "menuAriaLabel": "Open menu"
+  "tagline": "অ্যাডমিন প্যানেল",
+  "projectSettingsTitle": "প্রকল্প সেটিংস",
+  "projectSettingsAriaLabel": "প্রকল্প সেটিংস",
+  "loadingProject": "লোড হচ্ছে...",
+  "logout": "সাইন আউট করুন",
+  "exitAriaLabel": "বাড়িতে ফিরে",
+  "menu": "মেনু",
+  "menuAriaLabel": "মেনু খুলুন"
 }

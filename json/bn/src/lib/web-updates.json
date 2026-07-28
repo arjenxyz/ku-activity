@@ -1,6 +1,6 @@
 {
-  "authFailed": "Could not load update notes (GitHub auth required).",
-  "repoNotFound": "Repository not found.",
-  "fetchFailed": "Could not load update notes.",
-  "sistemHatası": "System error"
+  "authFailed": "আপডেট নোট লোড করা যায়নি (GitHub প্রমাণীকরণ প্রয়োজন)।",
+  "repoNotFound": "সংগ্রহস্থল পাওয়া যায়নি.",
+  "fetchFailed": "আপডেট নোট লোড করা যায়নি.",
+  "sistemHatası": "সিস্টেম ত্রুটি"
 }

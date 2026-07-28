@@ -3,19 +3,19 @@
   "metadataDescription": "CrewLedger gönüllülük platformu gizlilik politikası.",
   "headerSubtitle": "Gizlilik politikası",
   "title": "Gizlilik Politikası",
-  "lastUpdatedPrefix": "Son güncelleme:",
+  "lastUpdatedPrefix": "بیٹا گونسلیم:",
   "sections": {
     "who": {
-      "heading": "1. Kimiz?",
-      "bodyPrefix": "{developerLine} {noCompanyLine} Platform adresi:"
+      "heading": "1. کمز؟",
+      "bodyPrefix": "{developerLine} {noCompanyLine} پلیٹ فارم ایڈریس:"
     },
     "dataCollected": {
-      "heading": "2. Toplanan veriler",
-      "personnel": "Personel:",
+      "heading": "2. ٹوپلانان ویریلر",
+      "personnel": "پرسنل:",
       "personnelDetail": "kimlik, iletişim, IBAN, doğum tarihi, profil fotoğrafı, yevmiye, avans, kesinti, yoklama ve puantaj kayıtları.",
       "admin": "Yönetici:",
-      "adminDetail": "ad, e-posta, proje/şantiye bilgileri, oturum güvenliği.",
-      "technical": "Teknik:",
+      "adminDetail": "اشتہار، ای پوسٹ، پروجیکٹ/şantiye bilgileri، oturum güvenliği.",
+      "technical": "ٹیکنیک:",
       "technicalDetail": "HttpOnly oturum çerezleri, cihaz türü, hata günlükleri."
     },
     "transparency": {
@@ -28,11 +28,11 @@
     },
     "security": {
       "heading": "5. Saklama ve güvenlik",
-      "body": "HTTPS ile iletim; hassas alanlarda AES-256-GCM şifreleme; rol tabanlı erişim. T.C. kimlik NVI ile doğrulanmaz — yalnızca algoritmik format kontrolü uygulanır."
+      "body": "HTTPS ile iletim; hassas alanlarda AES-256-GCM şifreleme; rol tabanlı erişim. T.C kimlik NVI ile doğrulanmaz — yalnızca algoritmik فارمیٹ kontrolü uygulanır."
     },
     "thirdParties": {
       "heading": "6. Üçüncü taraflar",
-      "body": "Vercel (barındırma), Supabase (veritabanı), Brevo (e-posta). Yalnızca hizmet sunumu için gerekli verilere erişirler."
+      "body": "Vercel (barındırma)، Supabase (veritabanı)، Brevo (e-posta)۔ Yalnızca hizmet sunumu için gerekli verilere erişirler."
     },
     "devicePermissions": {
       "heading": "7. Cihaz izinleri",
@@ -49,7 +49,7 @@
     }
   },
   "footer": {
-    "home": "← Ana sayfa",
+    "home": "← عنا سیفہ",
     "kvkk": "KVKK Aydınlatma",
     "terms": "Kullanım Şartları"
   }

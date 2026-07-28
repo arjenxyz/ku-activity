@@ -1,9 +1,9 @@
 {
   "adminPanelLabel": "Yönetici Paneli",
-  "personnelPanelLabel": "Personel Paneli",
+  "personnelPanelLabel": "پرسنل پینلی۔",
   "adminScreenLabel": "Yönetici Giriş",
-  "personnelScreenLabel": "Personel Giriş",
-  "adminAlternatePrompt": "Personel misiniz?",
-  "personnelAlternatePrompt": "Yönetici misiniz?",
-  "homeLink": "← Ana sayfa"
+  "personnelScreenLabel": "پرسنل گریش",
+  "adminAlternatePrompt": "پرسنل غلط؟",
+  "personnelAlternatePrompt": "Yönetici misiniz؟",
+  "homeLink": "← عنا سیفہ"
 }

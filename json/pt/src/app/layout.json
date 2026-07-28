@@ -1,6 +1,6 @@
 {
-  "title": "{appName} | Construction Workforce Platform",
-  "description": "Attendance, daily wages, contracts, and crew management for construction sites. Built with Next.js and Supabase.",
+  "title": "{appName} | Plataforma de força de trabalho de construção",
+  "description": "Atendimento, diárias, contratos e gerenciamento de equipe para canteiros de obras. Construído com Next.js e Supabase.",
   "applicationName": "{appName}",
   "appleWebAppTitle": "{appName}"
 }

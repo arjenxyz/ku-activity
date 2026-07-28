@@ -1,10 +1,10 @@
 {
-  "tagline": "Admin panel",
-  "projectSettingsTitle": "Project settings",
-  "projectSettingsAriaLabel": "Project settings",
-  "loadingProject": "Loading…",
-  "logout": "Sign out",
-  "exitAriaLabel": "Back to home",
-  "menu": "Menu",
-  "menuAriaLabel": "Open menu"
+  "tagline": "لوحة الإدارة",
+  "projectSettingsTitle": "إعدادات المشروع",
+  "projectSettingsAriaLabel": "إعدادات المشروع",
+  "loadingProject": "تحميل…",
+  "logout": "تسجيل الخروج",
+  "exitAriaLabel": "العودة إلى المنزل",
+  "menu": "قائمة طعام",
+  "menuAriaLabel": "فتح القائمة"
 }

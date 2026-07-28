@@ -1,5 +1,5 @@
 {
-  "employeeRequired": "Select an employee",
-  "fileRequired": "Receipt file is required",
-  "saveFailed": "Could not save retroactive payment"
+  "employeeRequired": "Sélectionnez un employé",
+  "fileRequired": "Le fichier de reçu est requis",
+  "saveFailed": "Impossible d'enregistrer le paiement rétroactif"
 }

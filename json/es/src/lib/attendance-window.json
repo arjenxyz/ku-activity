@@ -1,6 +1,6 @@
 {
   "errors": {
-    "projectNotFound": "Proje bulunamadı",
+    "projectNotFound": "Proyecto bulunamadı",
     "outsideWindow": "Yoklama saati dışında. {workDate} için izin verilen süre: {windowStartLabel} – {windowEndLabel} ({timezone})."
   },
   "messages": {
@@ -9,15 +9,45 @@
     "closed": "Yoklama penceresi kapalı. {date} için izin verilen süre: {startLabel} – {endLabel} ({timezone}). İş bitişinden sonra, ertesi iş başından 1 dk öncesine kadar."
   },
   "timezones": [
-    { "value": "Europe/Istanbul", "label": "Türkiye (İstanbul)" },
-    { "value": "Europe/Berlin", "label": "Almanya (Berlin)" },
-    { "value": "Europe/London", "label": "İngiltere (Londra)" },
-    { "value": "Europe/Paris", "label": "Fransa (Paris)" },
-    { "value": "Europe/Amsterdam", "label": "Hollanda (Amsterdam)" },
-    { "value": "Asia/Dubai", "label": "BAE (Dubai)" },
-    { "value": "Asia/Riyadh", "label": "Suudi Arabistan (Riyad)" },
-    { "value": "Asia/Qatar", "label": "Katar (Doha)" },
-    { "value": "Asia/Baku", "label": "Azerbaycan (Bakü)" },
-    { "value": "Europe/Moscow", "label": "Rusya (Moskova)" }
+    {
+      "value": "Europa/Estambul",
+      "label": "Türkiye (Estambul)"
+    },
+    {
+      "value": "Europa/Berlín",
+      "label": "Almañá (Berlín)"
+    },
+    {
+      "value": "Europa/Londres",
+      "label": "İngiltere (Londres)"
+    },
+    {
+      "value": "Europa/París",
+      "label": "Fransa (París)"
+    },
+    {
+      "value": "Europa/Ámsterdam",
+      "label": "Holanda (Ámsterdam)"
+    },
+    {
+      "value": "Asia/Dubái",
+      "label": "BAE (Dubái)"
+    },
+    {
+      "value": "Asia/Riad",
+      "label": "Arabia Saudita (Riad)"
+    },
+    {
+      "value": "Asia/Qatar",
+      "label": "Katar (Doha)"
+    },
+    {
+      "value": "Asia/Bakú",
+      "label": "Azerbaiyán (Bakü)"
+    },
+    {
+      "value": "Europa/Moscú",
+      "label": "Rusia (Moskova)"
+    }
   ]
 }

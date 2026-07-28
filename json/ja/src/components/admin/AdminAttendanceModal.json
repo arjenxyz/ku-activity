@@ -1,15 +1,15 @@
 {
-  "closeAriaLabel": "Kapat",
-  "title": "Günlük yoklama",
-  "workDayLabel": "Çalışma günü",
-  "mesaiLabel": "Mesai",
-  "mesaiHintDisabled": "Mesai yalnızca tam gün çalışmada tanımlanır.",
-  "noteLabel": "Not (isteğe bağlı)",
-  "notePlaceholder": "Örn. gece mesaisi, kalıntı iş",
-  "approvalHint": "Yönetici onayından sonra personelin de aynı günü onaylaması gerekir. İki taraf onaylayınca yevmiye kesinleşir.",
-  "checkInPlanHint": "Yoklamayı bitirdiğinizde bu değerlerle yevmiye yazılır.",
-  "checkInPlanSubmit": "Kaydet",
-  "submitSaving": "Kaydediliyor…",
+  "closeAriaLabel": "カパット",
+  "title": "ギュンリュック・ヨクラマ",
+  "workDayLabel": "チャリシュマ ギュヌ",
+  "mesaiLabel": "メサイ",
+  "mesaiHintDisabled": "メサイ・ヤルヌズカ・タム・ギュン・チャルシュマダ・タヌムラヌル。",
+  "noteLabel": "そうではない (isteğe bağlı)",
+  "notePlaceholder": "オルン。 gece mesaisi、kalıntı iş",
+  "approvalHint": "ヨネティ・オナイダン・ソンラ・パーソン・デ・アイヌ・ギュヌ・オナイラマス・ゲレキル。キタラフ・オナイラインカ・イェヴミエ・ケシンレシル。",
+  "checkInPlanHint": "Yoklamayı bitirdiğinizde bu değerlerle yevmiye yazılır。",
+  "checkInPlanSubmit": "ケイデット",
+  "submitSaving": "カイデディリヨール…",
   "submit": "Onayla ve personele gönder",
-  "cancel": "Vazgeç"
+  "cancel": "ヴァズゲチ"
 }

@@ -1,10 +1,10 @@
 {
-  "languageSectionTitle": "Language",
-  "languageLabel": "Language",
-  "languageHint": "Choose the app language",
-  "sectionTitle": "Display",
-  "largeTextLabel": "Large text",
-  "largeTextHint": "Increases text size",
-  "highContrastLabel": "High contrast",
-  "highContrastHint": "Easier to read on site"
+  "languageSectionTitle": "ভাষা",
+  "languageLabel": "ভাষা",
+  "languageHint": "অ্যাপের ভাষা বেছে নিন",
+  "sectionTitle": "প্রদর্শন",
+  "largeTextLabel": "বড় লেখা",
+  "largeTextHint": "পাঠ্যের আকার বৃদ্ধি করে",
+  "highContrastLabel": "উচ্চ বৈসাদৃশ্য",
+  "highContrastHint": "সাইটে পড়া সহজ"
 }

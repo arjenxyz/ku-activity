@@ -1,8 +1,8 @@
 {
-  "navAriaLabel": "Admin main menu",
-  "projects": "Projects",
-  "applications": "Applications",
-  "policy": "Wages",
-  "settings": "Settings",
+  "navAriaLabel": "Menu utama Admin",
+  "projects": "Proyek",
+  "applications": "Aplikasi",
+  "policy": "Gaji",
+  "settings": "Pengaturan",
   "arjen": "Arjen"
 }

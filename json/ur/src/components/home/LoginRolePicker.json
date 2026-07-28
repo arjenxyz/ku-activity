@@ -1,17 +1,17 @@
 {
-  "buttonDefault": "Sign In",
-  "closeOverlayAriaLabel": "Close sign-in menu",
-  "closeButtonAriaLabel": "Close",
-  "modalTitle": "Choose sign-in",
-  "footerNote": "Choose the panel that matches your role to sign in.",
+  "buttonDefault": "سائن ان کریں۔",
+  "closeOverlayAriaLabel": "سائن ان مینو بند کریں۔",
+  "closeButtonAriaLabel": "بند",
+  "modalTitle": "سائن ان کا انتخاب کریں۔",
+  "footerNote": "سائن ان کرنے کے لیے وہ پینل منتخب کریں جو آپ کے کردار سے مماثل ہو۔",
   "panels": {
     "personel": {
-      "title": "Personnel",
-      "description": "Attendance, wages, and payroll"
+      "title": "عملہ",
+      "description": "حاضری، اجرت، اور تنخواہ"
     },
     "admin": {
-      "title": "Admin",
-      "description": "Projects, approvals, and reports"
+      "title": "ایڈمن",
+      "description": "پروجیکٹس، منظوری اور رپورٹس"
     }
   }
 }

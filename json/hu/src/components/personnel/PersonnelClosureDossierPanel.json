@@ -1,8 +1,8 @@
 {
   "title": "Töltsd le a lemezeimet",
-  "description": "Under GDPR/KVKK Art. 11, download a full copy of your work logs, payments, contracts, and profile as ZIP. Same dataset your manager can see — for transparency.",
+  "description": "A GDPR/KVKK Art. 11, töltse le munkanaplóinak, kifizetéseinek, szerződéseinek és profiljának teljes másolatát ZIP formátumban. Ugyanaz az adatkészlet, amelyet a menedzser is láthat – az átláthatóság érdekében.",
   "closureTitle": "Töltse le adatait",
-  "closureDescription": "Download a ZIP copy of all records below and keep it safely on your device.",
+  "closureDescription": "Töltse le az összes alábbi irat ZIP-másolatát, és tartsa biztonságosan az eszközén.",
   "checklistTitle": "A ZIP-ben szereplő szakaszok",
   "checklistLoading": "Tartalomlista betöltése…",
   "dailyLimit": "Naponta legfeljebb {limit}-szer tölthet le.",

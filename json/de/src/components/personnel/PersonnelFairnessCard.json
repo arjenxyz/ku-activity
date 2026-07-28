@@ -1,23 +1,23 @@
 {
-  "title": "Adil kayıt sistemi — çift onay",
-  "descriptionBefore": "Hiçbir yevmiye günü tek taraflı kesinleşmez. Yönetici ve siz aynı günü onayladığınızda kayıt ",
-  "descriptionAfter": " olur ve maaş hesabına yansır.",
+  "title": "Adil kayıt sistemi – çift onay",
+  "descriptionBefore": "Hiçbir yevmiye günü tek taraflı kesinleşmez. Die Größe und Größe des Geräts ist groß",
+  "descriptionAfter": "olur ve maaş hesabına yansır.",
   "confirmedLabel": "Onaylı",
   "items": {
     "confirmed": {
       "label": "Onaylı gün",
-      "hint": "Her iki taraf da onayladı — ödemeye dahil"
+      "hint": "Ihr iki taraf da onayladı – ödemeye dahil"
     },
     "pendingEmployee": {
       "label": "Sizin onayınız",
-      "hint": "Yönetici girdi — siz onaylayınca kesinleşir"
+      "hint": "Yönetici girdi – siz onaylayınca kesinleşir"
     },
     "pendingAdmin": {
       "label": "Yönetici onayı",
-      "hint": "Siz bildirdiniz — yönetici onaylayınca kesinleşir"
+      "hint": "Siz bildirdiniz – yönetici onaylayınca kesinleşir"
     }
   },
-  "unrecorded": "Bu dönemde {count} kayıt henüz onay sürecinde değil veya eksik.",
+  "unrecorded": "Mit der Eingabe von {count} konnte ich mich nur noch über die Zeit freuen.",
   "steps": [
     "Gün bildirimi (siz veya yönetici)",
     "Karşı tarafın onayı",

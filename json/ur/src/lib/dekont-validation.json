@@ -2,11 +2,11 @@
   "checks": {
     "readable": {
       "label": "Belge okunabilir",
-      "detailChars": "{count} karakter okundu",
+      "detailChars": "{count} کریکٹر اوکنڈو",
       "detailFailed": "Metin çıkarılamadı — net bir dekont/görsel yükleyin"
     },
     "bankContext": {
-      "label": "Banka / havale içeriği",
+      "label": "بنکا/ havale içeriği",
       "detailFailed": "Dekont, havale veya EFT ifadeleri bulunamadı"
     },
     "iban": {
@@ -15,7 +15,7 @@
       "detailFailed": "Geçerli alıcı IBAN okunamadı"
     },
     "amount": {
-      "label": "İşlem / transfer tutarı",
+      "label": "İşlem / منتقلی tutarı",
       "detailFailed": "Tutar tespit edilemedi (İşlem Tutarı veya TL satırı okunamadı)",
       "detailAmount": "{amount} ₺"
     },
@@ -26,7 +26,7 @@
       "detailMissing": "Eksik: {fields}"
     },
     "reference": {
-      "label": "Referans / işlem no",
+      "label": "حوالہ جات / işlem no",
       "detailFailed": "Okunamadı (önerilir)"
     },
     "date": {
@@ -41,23 +41,23 @@
   },
   "rejection": {
     "issuesHeader": "Tespit edilemeyen veya eksik bilgiler:",
-    "scoreLine": "Güven skoru: {score} / 100 (minimum {minScore})",
+    "scoreLine": "Güven skoru: {score} / 100 (کم از کم {minScore})",
     "statusPassed": "Geçti",
     "foundHeader": "Okunan bilgiler:",
     "foundIban": "IBAN: {iban}",
-    "foundAmount": "Tutar: {amount} ₺",
-    "foundChars": "Metin: {count} karakter",
+    "foundAmount": "توتار: {amount} ₺",
+    "foundChars": "میٹن: {count} کریکٹر",
     "foundNothing": "Dosyadan anlamlı metin çıkarılamadı",
-    "tipUnreadable": "Banka uygulamasında işlem onay ekranı yerine «Dekont», «İşlem belgesi» veya «PDF paylaş» seçeneğini kullanın. Mümkünse ekran görüntüsü değil PDF gönderin.",
+    "tipUnreadable": "Banka uygulamasında işlem onay ekranı yerine «Dekont»، «İşlem belgesi» veya «PDF paylaş» seçeneğini kullanın. Mümkünse ekran görüntüsü değil PDF gönderin.",
     "tipPartialRead": "Dekont paylaşıldı ancak IBAN veya tutar net okunamadı. PDF dekontu tercih edin veya daha yüksek çözünürlüklü bir görsel deneyin.",
-    "tipLowScore": "Bazı alanlar okundu ancak güven skoru yetersiz ({score}/{minScore}). Eksik alanları kontrol edin veya daha net bir belge yükleyin.",
+    "tipLowScore": "Bazı alanlar okundu ancak güven skoru yetersiz ({score}/{minScore})۔ Eksik alanları کنٹرول edin veya daha net bir belge yükleyin.",
     "bullet": "• {label}: {detail}",
-    "passedHeader": "Kabul edilen kontroller",
-    "failedHeader": "Reddedilen kontroller",
+    "passedHeader": "کابل ایڈلین کنٹرولر",
+    "failedHeader": "ریڈڈیلین کنٹرولر",
     "optionalHeader": "Eksik (opsiyonel — zorunlu değil)",
-    "noPassed": "Hiçbir kontrol geçmedi",
+    "noPassed": "Hiçbir کنٹرول geçmedi",
     "noFailed": "Zorunlu kontrollerde sorun yok",
-    "ocrErrorLine": "OCR hatası: {message}"
+    "ocrErrorLine": "OCR حد: {message}"
   },
   "match": {
     "docAccepted": {
@@ -69,50 +69,50 @@
       "detailPassed": "{employeeName}{projectSuffix}"
     },
     "ibanMatch": {
-      "label": "Alıcı IBAN personel kaydıyla eşleşiyor",
+      "label": "Alıcı IBAN پرسنل kaydıyla eşleşiyor",
       "detailMismatch": "{iban} — kayıtlı IBAN ile uyuşmuyor",
       "detailNoIban": "Dekonttan IBAN okunamadı"
     },
     "amountMatch": {
-      "label": "Transfer tutarı onaylı avansla uyumlu",
-      "detailCompare": "Dekont: {ocrAmount} ₺ · Onaylı avans: {approvedAmount} ₺",
+      "label": "منتقلی tutarı onaylı avansla uyumlu",
+      "detailCompare": "ڈیکونٹ: {ocrAmount} ₺ · Onaylı avans: {approvedAmount} ₺",
       "detailFailed": "Dekont tutarı okunamadı"
     },
     "matchScore": {
-      "label": "Match score (minimum {minScore})",
-      "detailPassed": "Score: {score} — sufficient",
-      "detailFailed": "Score: {score} — at least {minScore} required"
+      "label": "میچ اسکور (کم از کم {minScore})",
+      "detailPassed": "اسکور: {score} — کافی ہے۔",
+      "detailFailed": "اسکور: {score} — کم از کم {minScore} درکار ہے۔"
     },
     "transferCode": {
-      "label": "Transfer reference code (HVL-)",
+      "label": "ٹرانسفر ریفرنس کوڈ (HVL-)",
       "detailPassed": "{code}",
-      "detailFailed": "Expected: {expectedCode}",
-      "detailMissing": "No code defined for this request"
+      "detailFailed": "متوقع: {expectedCode}",
+      "detailMissing": "اس درخواست کے لیے کوئی کوڈ متعین نہیں ہے۔"
     },
     "paymentDate": {
-      "label": "Payment after advance approval",
-      "detailFailed": "Receipt date is before approval"
+      "label": "پیشگی منظوری کے بعد ادائیگی",
+      "detailFailed": "رسید کی تاریخ منظوری سے پہلے ہے۔"
     },
-    "bonusDetail": "Additional match signal"
+    "bonusDetail": "اضافی میچ سگنل"
   },
   "confirm": {
-    "noMatchSelected": "No advance request selected for confirmation",
-    "scoreInsufficient": "Match score too low ({score}/{minScore}). IBAN and amount must match.",
-    "ibanMismatch": "Recipient IBAN does not match employee record — payment cannot be recorded",
-    "amountMismatch": "Receipt amount ({ocrAmount} ₺) does not match approved advance ({approvedAmount} ₺)",
-    "transferCodeMismatch": "Transfer reference code not found on receipt (expected: {expectedCode})",
-    "paymentBeforeApproval": "Receipt date appears to be before advance approval"
+    "noMatchSelected": "تصدیق کے لیے کوئی پیشگی درخواست منتخب نہیں کی گئی۔",
+    "scoreInsufficient": "میچ کا اسکور بہت کم ہے ({score}/{minScore})۔ IBAN اور رقم مماثل ہونی چاہیے۔",
+    "ibanMismatch": "وصول کنندہ IBAN ملازم کے ریکارڈ سے میل نہیں کھاتا — ادائیگی کو ریکارڈ نہیں کیا جا سکتا",
+    "amountMismatch": "رسید کی رقم ({ocrAmount} ₺) منظور شدہ پیشگی سے مماثل نہیں ہے ({approvedAmount} ₺)",
+    "transferCodeMismatch": "منتقلی کا حوالہ کوڈ رسید پر نہیں ملا (متوقع: {expectedCode})",
+    "paymentBeforeApproval": "رسید کی تاریخ پیشگی منظوری سے پہلے کی معلوم ہوتی ہے۔"
   },
   "retroactive": {
-    "ibanRequired": "Recipient IBAN must be read from the receipt for retroactive payment",
-    "amountRequired": "Amount must be read from the receipt for retroactive payment",
-    "amountMismatch": "Receipt amount ({ocrAmount} ₺) does not match entered amount ({amount} ₺)",
-    "employeeRequired": "Select an employee"
+    "ibanRequired": "وصول کنندہ IBAN کو سابقہ ​​ادائیگی کے لیے رسید سے پڑھنا چاہیے۔",
+    "amountRequired": "سابقہ ​​ادائیگی کے لیے رقم کو رسید سے پڑھنا ضروری ہے۔",
+    "amountMismatch": "رسید کی رقم ({ocrAmount} ₺) درج کردہ رقم ({amount} ₺) سے میل نہیں کھاتی",
+    "employeeRequired": "ایک ملازم کا انتخاب کریں۔"
   },
   "forcePayment": {
-    "dateRequired": "Payment date is required for force save",
-    "noApprovalDate": "Advance approval date not found",
-    "notBeforeApproval": "Force save is only allowed when payment was made before advance approval",
-    "tooOld": "Payment is older than {maxDays} days — force save not allowed"
+    "dateRequired": "جبری بچت کے لیے ادائیگی کی تاریخ درکار ہے۔",
+    "noApprovalDate": "پیشگی منظوری کی تاریخ نہیں ملی",
+    "notBeforeApproval": "جبری بچت کی اجازت صرف اس صورت میں دی جاتی ہے جب پیشگی منظوری سے پہلے ادائیگی کی گئی ہو۔",
+    "tooOld": "ادائیگی {maxDays} دن سے زیادہ پرانی ہے — زبردستی بچت کی اجازت نہیں ہے۔"
   }
 }

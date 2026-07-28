@@ -1,32 +1,32 @@
 {
   "tabs": {
-    "overview": "Overview",
-    "work": "Calendar",
-    "asgari": "Minimum wage",
-    "finance": "Payroll",
-    "rights": "My rights",
-    "settings": "Settings"
+    "overview": "概要",
+    "work": "カレンダー",
+    "asgari": "最低賃金",
+    "finance": "給与計算",
+    "rights": "私の権利",
+    "settings": "設定"
   },
   "mesaiFallbackLabels": {
-    "full": "Full overtime",
-    "quarter": "Quarter overtime",
-    "half": "Half overtime"
+    "full": "完全残業",
+    "quarter": "四半期残業",
+    "half": "半分残業"
   },
   "stats": {
-    "gross": "Gross pay",
-    "totalAdvance": "Total advances",
-    "deduction": "Deductions",
-    "netSalary": "Net pay"
+    "gross": "総支払額",
+    "totalAdvance": "合計前払い金",
+    "deduction": "控除",
+    "netSalary": "純報酬"
   },
-  "loadingData": "Loading your data…",
-  "workLogSectionTitle": "Work logs · {monthLabel}",
-  "advanceRequestTitle": "Advance request",
-  "advanceRequestSubtitle": "Create a request or check status →",
-  "loading": "Loading…",
-  "loadingFinance": "Loading finance data…",
-  "periodSummary": "Period summary",
-  "workDaysTitle": "Work days",
-  "mesaiDistributionTitle": "Overtime total",
-  "mesaiSuffix": " overtime",
-  "headerSubtitle": "Attendance and pay summary"
+  "loadingData": "データをロードしています…",
+  "workLogSectionTitle": "作業記録 · {monthLabel}",
+  "advanceRequestTitle": "事前リクエスト",
+  "advanceRequestSubtitle": "リクエストの作成またはステータスの確認 →",
+  "loading": "読み込み中…",
+  "loadingFinance": "財務データをロードしています…",
+  "periodSummary": "期間概要",
+  "workDaysTitle": "勤務日",
+  "mesaiDistributionTitle": "残業合計",
+  "mesaiSuffix": "時間とともに",
+  "headerSubtitle": "出席と給与の概要"
 }

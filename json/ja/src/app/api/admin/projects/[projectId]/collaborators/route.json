@@ -1,6 +1,6 @@
 {
-  "loadFailed": "Could not load collaborators",
-  "rotateFailed": "Could not rotate code",
-  "ownerOnly": "Only the project owner can do this",
-  "migrationRequired": "Collaborator migration not applied yet (076_project_collaborators.sql)"
+  "loadFailed": "コラボレーターを読み込めませんでした",
+  "rotateFailed": "コードをローテーションできませんでした",
+  "ownerOnly": "プロジェクト所有者のみがこれを行うことができます",
+  "migrationRequired": "コラボレーターの移行はまだ適用されていません (076_project_collaborators.sql)"
 }

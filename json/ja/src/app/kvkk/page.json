@@ -1,57 +1,57 @@
 {
-  "metadataTitle": "KVKK Aydınlatma Metni",
-  "metadataDescription": "CrewLedger Kişisel Verilerin Korunması Kanunu aydınlatma metni.",
-  "headerSubtitle": "KVKK Aydınlatma Metni",
-  "title": "KVKK Aydınlatma Metni",
-  "lead": "6698 sayılı Kişisel Verilerin Korunması Kanunu (\"KVKK\") m.10 uyarınca bilgilendirme metnidir.",
+  "metadataTitle": "KVKK アイドゥンラトマ メトニ",
+  "metadataDescription": "CrewLedger Kişisel Verilerin Korunması Kanunu aydınlatma metni。",
+  "headerSubtitle": "KVKK アイドゥンラトマ メトニ",
+  "title": "KVKK アイドゥンラトマ メトニ",
+  "lead": "6698 Sayılı Kişisel Verilerin Korunması Kanunu (「KVKK」) m.10 uyarınca bilgilendirmemetnidir。",
   "sections": {
     "structure": {
-      "heading": "1. Platform ve veri sorumlusu yapısı",
-      "platformLine": ", {developerName} tarafından işletilen {nature}dur. Tüzel kişiliği yoktur; herhangi bir şirket adına veri sorumlusu sıfatı taşımaz.",
-      "adminLine": "Personel başvurusu ve kayıtları, pratikte platformu kullanan yönetici kişi (şantiye sorumlusu, ekip başı vb.) tarafından oluşturulur. İş ilişkisinin tarafı olan gerçek işveren/yüklenici mevzuat uyarınca ayrı veri sorumlusu olabilir.",
-      "operatorPrefix": "Platform operatörü / teknik veri işleyen:",
-      "operatorLine": "{developerName} — altyapı, barındırma, şifreleme ve yazılım hizmeti sunar. İletişim:"
+      "heading": "1. プラットフォーム ヴェリ ソルムルス ヤピス",
+      "platformLine": "、{developerName} tarafından işletilen {nature}dur。トゥゼル・キシリヒ・ヨクトゥル。ヘルハンギ ビル シルケット アドゥナ ヴェリ ソルムルス スファトゥ タシュマズ。",
+      "adminLine": "担当者は、さまざまなプラットフォームを利用して、プラットフォームを調整します (şantiye sorumlusu、ekip başı vb.) tarafından oluşturulur。あなたの人生は、あなたの人生を変えることのできるものです。",
+      "operatorPrefix": "プラットフォーム オペレーター / 技術的レベル:",
+      "operatorLine": "{developerName} — アルチャピ、バルンドゥルマ、シフレレメ ヴェ ヤズルム ヒズメティ スナール。イレティシム:"
     },
     "categories": {
-      "heading": "2. İşlenen veri kategorileri",
+      "heading": "2. 正しいカテゴリー",
       "items": [
-        "Kimlik: ad-soyad, T.C. kimlik numarası (format kontrolü; NVI doğrulaması yok), doğum tarihi",
-        "İletişim: telefon, e-posta",
-        "Finans: IBAN, yevmiye, avans, kesinti, asgari ücret kayıtları",
-        "Operasyon: puantaj, yoklama (QR), mesai, proje ataması",
-        "Görsel: başvuru fotoğrafı (yönetici manuel teyidi)",
-        "İşlem güvenliği: oturum, onay logları, IP (sınırlı)"
+        "キムリク: ad-soyad、T.C. kimlik numarası (フォーマット コントロール; NVI doğrulaması yok)、doğum tarihi",
+        "連絡先: 電話、電子ポスタ",
+        "金融機関: IBAN、エフミエ、アバンズ、ケシンティ、アスガリ・ウクレト・カユットラル",
+        "操作: プアンタジ、ヨクラマ (QR)、メサイ、プロジェクト アタマシュ",
+        "ゲルセル: başvuru fotoğrafı (ヨネチ マヌエル テイディ)",
+        "İşlem güvenliği: オトゥルム、オナイ ログラリ、IP (sınırlı)"
       ]
     },
     "purposes": {
-      "heading": "3. İşleme amaçları",
-      "body": "Veriler; personel kaydı, şeffaf finansal takip, yoklama, sözleşme onayı, teknik destek ve güvenlik amacıyla işlenir. Ticari pazarlama veya üçüncü tarafa satış yapılmaz."
+      "heading": "3. アマクララ",
+      "body": "ベライラー。個人的なケイドゥ、シェファフ・フィナンサル・タキプ、ヨクラマ、ソズレシュメ・オナイ、テクニク・デステク・ヴェ・ギュヴェンリク・アマチュラ・イシュレニル。ティカリのパザルラマは、あなたが本当に知っていることです。"
     },
     "legalBasis": {
-      "heading": "4. Hukuki sebepler",
-      "body": "Açık rıza (KVKK m.5/1), sözleşmenin kurulması/ifası (m.5/2-c), hukuki yükümlülük (m.5/2-ç) ve meşru menfaat (m.5/2-f) — ölçülülük ilkesine uygun olarak."
+      "heading": "4.フクキセベプラー",
+      "body": "Açık rıza (KVKK m.5/1)、sözleşmenin kurulması/ifası (m.5/2-c)、hukuki yükümlülük (m.5/2-ç) ve meşru menfaat (m.5/2-f) — ölçülülük ilkesine uygun olarak。"
     },
     "transfer": {
-      "heading": "5. Aktarım",
-      "body": "Barındırma (Vercel), veritabanı (Supabase), e-posta (Brevo) gibi teknik hizmet sağlayıcıları; yasal zorunluluk halinde resmi makamlar. Veri satışı yapılmaz."
+      "heading": "5. アクタルム",
+      "body": "Barındırma (Vercel)、veritabanı (Supabase)、e-posta (Brevo) gibi teknik hizmet sağlayıcıları;ヤサル・ゾルンルルク・ハリンデ・レスミ・マカムラル。ヴェリ・サトゥシュ・ヤプルマズ。"
     },
     "security": {
-      "heading": "6. Güvenlik",
-      "body": "T.C. kimlik, IBAN ve doğum tarihi AES-256-GCM ile şifrelenir; arama için HMAC hash kullanılır. HTTPS ve rol tabanlı erişim uygulanır."
+      "heading": "6. ギュヴェンリク",
+      "body": "T.C. kimlik、IBAN は AES-256-GCM ile şifrelenir を実行します。 HMAC ハッシュ カラヌルを表示します。 HTTPS はタバンルの情報を提供します。"
     },
     "rights": {
-      "heading": "7. Haklarınız (KVKK m.11)",
-      "bodyPrefix": "Bilgi talebi, düzeltme, silme, itiraz ve şikâyet (KVKK Kurulu) haklarınız vardır. Önce kaydı oluşturan yöneticinize; teknik konularda",
-      "bodySuffix": "adresine başvurabilirsiniz."
+      "heading": "7. ハクラルニズ (KVKK m.11)",
+      "bodyPrefix": "ビルギ タレビ、デュゼルトメ、シルメ、イティラズ ヴェ シカイェット (KVKK クルル) ハクラルヌズ ヴァルドゥル。 Önce kaydı oluşturan yöneticinize;テクニク・コヌルダ",
+      "bodySuffix": "アドレシン・バシュヴラビリルシニズ。"
     },
     "retention": {
-      "heading": "8. Saklama",
-      "body": "Veriler, işleme amacının gerektirdiği süre boyunca saklanır; amaç ortadan kalktığında silinir veya anonimleştirilir."
+      "heading": "8. サクラマ",
+      "body": "Veriler、işleme amacının gerektirdiği süre Boyunca saklanır;非常に重要な問題を解決できます。"
     }
   },
   "footer": {
-    "home": "← Ana sayfa",
-    "privacy": "Gizlilik Politikası",
-    "terms": "Kullanım Şartları"
+    "home": "← アナ・サイファ",
+    "privacy": "ギズリリク・ポリティカス",
+    "terms": "クラニム・シャルトラリ"
   }
 }

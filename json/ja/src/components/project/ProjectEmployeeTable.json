@@ -1,11 +1,11 @@
 {
-  "title": "Personnel",
-  "subtitle": "Today's status",
-  "empty": "No personnel on this project yet.",
-  "loading": "Loading…",
-  "confirmed": "Present",
-  "none": "Pending",
-  "daysSuffix": " days",
-  "seeAll": "See all",
+  "title": "職員",
+  "subtitle": "今日のステータス",
+  "empty": "このプロジェクトにはまだ担当者がいません。",
+  "loading": "読み込み中…",
+  "confirmed": "現在",
+  "none": "保留中",
+  "daysSuffix": "日",
+  "seeAll": "全て見る",
   "emptyValue": "—"
 }

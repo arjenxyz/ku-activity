@@ -1,15 +1,15 @@
 {
-  "invalidLinkError": "Geçersiz doğrulama bağlantısı.",
-  "verificationFailed": "Doğrulama başarısız",
+  "invalidLinkError": "Assurez-vous de le faire fonctionner.",
+  "verificationFailed": "Doğrulama basarısız",
   "loadingTitle": "Doğrulanıyor…",
   "loadingSubtitle": "Başvurunuz gönderiliyor, lütfen bekleyin.",
   "loadingMessage": "E-posta bağlantınız doğrulanıyor…",
-  "errorTitle": "Doğrulama başarısız",
+  "errorTitle": "Doğrulama basarısız",
   "errorSubtitle": "Bağlantı geçersiz veya süresi dolmuş olabilir.",
   "backToApplication": "Başvuru sayfasına dön",
-  "successTitle": "Başvuru gönderildi",
+  "successTitle": "Basvuru gönderildi",
   "successSubtitle": "Yönetici onay ekranına yönlendiriliyorsunuz…",
-  "successMessage": "E-posta doğrulandı ve başvurunuz alındı.",
+  "successMessage": "E-posta doğrulandı e başvurunuz alındı.",
   "redirectHint": "Birazdan onay bekleme ekranına geçeceksiniz…",
-  "suspenseTitle": "Yükleniyor…"
+  "suspenseTitle": "Yukleniyor…"
 }

@@ -1,6 +1,6 @@
 {
   "sectionTitle": "Maaş dökümü",
-  "printTitle": "Detaylı döküm",
+  "printTitle": "Detailliert",
   "printHint": "Yazdır veya PDF kaydet",
   "rows": {
     "basePay": "Yevmiye (gün × ücret)",
@@ -10,5 +10,5 @@
     "deductions": "Kesintiler (−)",
     "minimum": "Asgari ödemeler (+)"
   },
-  "net": "Net"
+  "net": "Netto"
 }

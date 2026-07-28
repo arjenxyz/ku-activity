@@ -1,27 +1,27 @@
 {
   "workDay": {
-    "fullDay": "Tam gün",
-    "halfDay": "Yarım gün",
-    "dayAmount": "{amount} gün",
-    "mesaiCeyrek": "{base} + çeyrek mesai",
-    "mesaiYarim": "{base} + yarım mesai",
-    "mesaiTam": "{base} + tam mesai"
+    "fullDay": "ট্যাম গুন",
+    "halfDay": "ইয়ারিম গুন",
+    "dayAmount": "{amount} গান",
+    "mesaiCeyrek": "{base} + সিয়ারেক মেসাই",
+    "mesaiYarim": "{base} + ইয়ারিম মেসাই",
+    "mesaiTam": "{base} + তম মেসাই"
   },
   "deductionTypes": {
-    "advance": "Avans",
-    "deduction": "Kesinti",
-    "other": "Diğer",
+    "advance": "আভান্স",
+    "deduction": "কেসিন্তি",
+    "other": "ডিগার",
     "subcontractor_cut": "Taşeron kesintisi",
-    "minimum": "Asgari"
+    "minimum": "আসগরী"
   },
   "mesaiCountLines": {
-    "tam": "Tam mesai",
-    "ceyrek": "Çeyrek mesai",
-    "yarim": "Yarım mesai"
+    "tam": "তাম মেসাই",
+    "ceyrek": "চেয়ারেক মেসাই",
+    "yarim": "ইয়ারিম মেসাই"
   },
   "workDayCountLines": {
-    "full": "Tam gün",
-    "half": "Yarım gün",
-    "total": "Toplam gün"
+    "full": "ট্যাম গুন",
+    "half": "ইয়ারিম গুন",
+    "total": "টপলাম গান"
   }
 }

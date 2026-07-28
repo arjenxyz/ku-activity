@@ -1,100 +1,100 @@
 {
   "attendanceReminder": {
-    "title": "Attendance reminder",
-    "body": "Please scan the QR code to record today's attendance."
+    "title": "Recordatorio de asistencia",
+    "body": "Escanee el código QR para registrar la asistencia de hoy."
   },
   "attendanceSessionCancelled": {
-    "title": "Attendance session cancelled",
-    "body": "The attendance session for {workDate} was cancelled by {actorName}."
+    "title": "Sesión de asistencia cancelada",
+    "body": "La sesión de asistencia para {workDate} fue cancelada por {actorName}."
   },
   "attendanceRemovedFromList": {
-    "title": "Attendance record updated",
-    "body": "Your attendance record for {workDate} was removed from the list by {actorName}."
+    "title": "Registro de asistencia actualizado",
+    "body": "Su registro de asistencia para {workDate} fue eliminado de la lista por {actorName}."
   },
   "attendanceDidNotWork": {
-    "title": "Wage removed",
-    "body": "Your daily wage for {workDate} was deleted by {actorName}; you were marked as did not work."
+    "title": "Salario eliminado",
+    "body": "Su salario diario de {workDate} fue eliminado por {actorName}; fuiste marcado como no funcionó."
   },
   "attendanceSessionCompleted": {
-    "title": "Attendance completed",
-    "body": "Your attendance for {workDate} has been confirmed and recorded on your payroll."
+    "title": "Asistencia completada",
+    "body": "Su asistencia a {workDate} ha sido confirmada y registrada en su nómina."
   },
   "workLogRecorded": {
-    "title": "Timesheet recorded",
-    "body": "A timesheet of {amount} day(s) for {workDate} was created by {actorName}."
+    "title": "Hoja de horas registrada",
+    "body": "{actorName} creó una hoja de horas de {amount} día(s) para {workDate}."
   },
   "workLogUpdated": {
-    "title": "Timesheet updated",
-    "body": "Your timesheet for {workDate} was updated by {actorName}."
+    "title": "Hoja de horas actualizada",
+    "body": "Su hoja de horas para {workDate} fue actualizada por {actorName}."
   },
   "workLogDeleted": {
-    "title": "Timesheet deleted",
-    "body": "Your timesheet for {workDate} was deleted by {actorName}."
+    "title": "Hoja de horas eliminada",
+    "body": "Su hoja de horas para {workDate} fue eliminada por {actorName}."
   },
   "advanceApproved": {
-    "title": "Advance request approved",
-    "body": "Your advance request for {amount} TL has been approved. Add this code to the transfer description: {transferCode}"
+    "title": "Solicitud anticipada aprobada",
+    "body": "Su solicitud anticipada de {amount} TL ha sido aprobada. Agregue este código a la descripción de la transferencia: {transferCode}"
   },
   "advanceApprovedNoCode": {
-    "title": "Advance request approved",
-    "body": "Your advance request for {amount} TL has been approved. Payment processing has started."
+    "title": "Solicitud anticipada aprobada",
+    "body": "Su solicitud anticipada de {amount} TL ha sido aprobada. El procesamiento de pagos ha comenzado."
   },
   "advanceCashReady": {
-    "title": "Cash advance ready",
-    "body": "Your cash advance of {amount} TL is ready. Scan the QR code to confirm receipt."
+    "title": "Adelanto de efectivo listo",
+    "body": "Su anticipo en efectivo de {amount} TL está listo. Escanea el código QR para confirmar la recepción."
   },
   "advanceRejected": {
-    "title": "Advance request declined",
+    "title": "Solicitud anticipada rechazada",
     "body": "{reason}"
   },
   "advanceRejectedNoReason": {
-    "title": "Advance request declined",
-    "body": "Your request has been declined by the administrator."
+    "title": "Solicitud anticipada rechazada",
+    "body": "El administrador ha rechazado su solicitud."
   },
   "advancePaid": {
-    "title": "Advance payment recorded",
-    "body": "An advance payment of {amount} TL has been recorded on your payroll."
+    "title": "Pago anticipado registrado",
+    "body": "Se ha registrado en su nómina un anticipo de {amount} TL."
   },
   "minimumWagePaid": {
-    "title": "Minimum wage payment",
-    "body": "A minimum wage payment of {amount} TL was recorded by {actorName}."
+    "title": "Pago de salario mínimo",
+    "body": "{actorName} registró un pago de salario mínimo de {amount} TL."
   },
   "minimumWageUpdated": {
-    "title": "Minimum wage updated",
-    "body": "Your minimum wage record for {date} was updated to {amount} TL by {actorName}."
+    "title": "Salario mínimo actualizado",
+    "body": "Su registro de salario mínimo para {date} se actualizó a {amount} TL por {actorName}."
   },
   "minimumWageRemoved": {
-    "title": "Minimum wage removed",
-    "body": "Your {amount} TL minimum wage record for {date} was deleted by {actorName}."
+    "title": "Salario mínimo eliminado",
+    "body": "Su registro de salario mínimo {amount} TL para {date} fue eliminado por {actorName}."
   },
   "salaryPaid": {
-    "title": "Salary payment completed",
-    "body": "Your net salary for {month} ({amount} TL) has been marked as paid."
+    "title": "Pago de salario completado",
+    "body": "Su salario neto para {month} ({amount} TL) se ha marcado como pagado."
   },
   "deductionAdded": {
-    "title": "Payroll update",
-    "body": "A {typeLabel} of {amount} TL was applied to your payroll by {actorName}."
+    "title": "Actualización de nómina",
+    "body": "Un {typeLabel} de {amount} TL se aplicó a su nómina por {actorName}."
   },
   "deductionUpdated": {
-    "title": "Payroll record updated",
-    "body": "Your {typeLabel} for {date} was updated to {amount} TL by {actorName}."
+    "title": "Registro de nómina actualizado",
+    "body": "Su {typeLabel} para {date} fue actualizado a {amount} TL por {actorName}."
   },
   "deductionRemoved": {
-    "title": "Payroll record removed",
-    "body": "Your {amount} TL {typeLabel} for {date} was deleted by {actorName}."
+    "title": "Registro de nómina eliminado",
+    "body": "Su {amount} TL {typeLabel} para {date} fue eliminado por {actorName}."
   },
   "deductionTypeLabels": {
-    "advance": "advance",
-    "deduction": "deduction",
-    "subcontractor_cut": "subcontractor deduction",
-    "other": "deduction"
+    "advance": "avance",
+    "deduction": "deducción",
+    "subcontractor_cut": "deducción de subcontratista",
+    "other": "deducción"
   },
   "pushTest": {
-    "title": "Notifications enabled",
-    "body": "CrewLedger personnel notifications are set up successfully."
+    "title": "Notificaciones habilitadas",
+    "body": "Las notificaciones del personal de CrewLedger se configuraron correctamente."
   },
-  "migrationHint": "Run 059_personnel_notifications.sql migration",
+  "migrationHint": "Ejecute la migración 059_personnel_notifications.sql",
   "errors": {
-    "notFound": "Notification not found"
+    "notFound": "Notificación no encontrada"
   }
 }

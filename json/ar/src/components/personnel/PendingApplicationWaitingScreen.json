@@ -1,10 +1,10 @@
 {
-  "badge": "Onay bekleniyor",
+  "badge": "أوناي بيكلينيور",
   "instruction": "QR kodu veya başvuru kodunu yöneticinize gösterin.",
-  "codeLabel": "Başvuru kodu",
+  "codeLabel": "باسبورو كودو",
   "copyAriaLabel": "Başvuru kodunu kopyala",
-  "copied": "Kopyalandı ✓",
-  "tapToCopy": "Kopyalamak için dokunun",
-  "autoUpdateHint": "Yönetici onaylayınca bu ekran otomatik güncellenir.",
+  "copied": "كوبيالاندي ✓",
+  "tapToCopy": "يمكنك نسخ هذه النسخة",
+  "autoUpdateHint": "Yönetici onaylayınca bu ekran automatik güncellenir.",
   "signOut": "Bu cihazda çıkış"
 }

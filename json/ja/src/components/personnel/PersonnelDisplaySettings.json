@@ -1,10 +1,10 @@
 {
-  "languageSectionTitle": "Language",
-  "languageLabel": "Language",
-  "languageHint": "Choose the app language",
-  "sectionTitle": "Display",
-  "largeTextLabel": "Large text",
-  "largeTextHint": "Increases text size",
-  "highContrastLabel": "High contrast",
-  "highContrastHint": "Easier to read on site"
+  "languageSectionTitle": "言語",
+  "languageLabel": "言語",
+  "languageHint": "アプリの言語を選択してください",
+  "sectionTitle": "画面",
+  "largeTextLabel": "大きいテキスト",
+  "largeTextHint": "文字サイズを大きくします",
+  "highContrastLabel": "ハイコントラスト",
+  "highContrastHint": "現場で読みやすくなる"
 }

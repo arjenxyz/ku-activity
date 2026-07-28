@@ -1,14 +1,14 @@
 {
   "errors": {
-    "employeeNotFound": "Personel bulunamadı",
+    "employeeNotFound": "Personnel bulunamadi",
     "dailyLimitReached": "Günlük indirme limitine ulaştınız ({limit}). Yarın tekrar deneyin."
   },
   "fairnessManifest": {
-    "title": "CrewLedger Adil Kayıt İlkeleri",
+    "title": "CrewLedger Adil Kayit Ilkeleri",
     "principles": [
-      "Çift onay: Her yevmiye günü yönetici kaydı ve personel onayı ile kesinleşir; tek taraflı kayıt ödemeye yansımaz.",
-      "Şeffaflık: Panelde onaylı, bekleyen ve yönetici onayındaki günler ayrı görünür.",
-      "Erişim hakkı (KVKK m.11): Kendi verilerinizi bu ZIP ile indirebilirsiniz.",
+      "Çift onay : Son yevmiye günü yönetici kaydı ve personel onayı ile kesinleşir ; tek taraflı kayıt ödemeye yansımaz.",
+      "Seffaflık: Panelde onaylı, bekleyen e yönetici onayındaki günler ayrı görünür.",
+      "Erişim hakkı (KVKK m.11) : Kendi verilerinizi bu ZIP ile indirebilirsiniz.",
       "Sözleşme kanıtı: Onayladığınız sözleşmeler sürüm ve hash ile arşivlenir.",
       "İtiraz: Kayıtlarla ilgili uyuşmazlıkta yöneticiniz veya veri sorumlusuna yazılı başvurabilirsiniz."
     ],
@@ -19,32 +19,32 @@
     ]
   },
   "manifestNotes": {
-    "personnelSelf": "Personel self-servis erişim paketi — KVKK m.11 kapsamında.",
+    "personnelSelf": "Personnel libre-service erişim paketi — KVKK m.11 kapsamında.",
     "admin": "Yönetici hukuki dosya paketi."
   },
   "readme": {
     "personnelSelf": [
-      "{appName} — Kayıtlarım (Personel Self-Servis)",
-      "Personel: {employeeName}",
-      "Dışa aktarma: {exportedAt}",
+      "{appName} — Kayıtlarım (Libre-service du personnel)",
+      "Personnel : {employeeName}",
+      "Nom de l'utilisateur : {exportedAt}",
       "",
-      "Bu paket KVKK m.11 kapsamında kendi verilerinize erişim içindir.",
-      "İçerik: profil, yevmiye, ödemeler, sözleşmeler, başvuru geçmişi.",
+      "Le paquet KVKK m.11 kapsamında kendi verilerinize erişim içindir.",
+      "Ici: profil, yevmiye, ödemeler, sözleşmeler, basvuru geçmişi.",
       "Çift onaylı günler \"Onaylı\" statüsünde maaş hesabına yansır.",
       "",
-      "Dosyayı güvenli saklayın; üçüncü kişilerle paylaşmayın."
+      "Dosyayı güvenli saklayın ; üçüncü kişilerle paylaşmayın."
     ],
     "admin": [
-      "{appName} — Hukuki Personel Dosyası",
-      "Personel: {employeeName}",
-      "Dışa aktarma: {exportedAt}",
-      "Yönetici: {exportedByEmail}",
+      "{appName} — Dossier personnel Hukuki",
+      "Personnel : {employeeName}",
+      "Nom de l'utilisateur : {exportedAt}",
+      "Yönetici : {exportedByEmail}",
       "",
-      "İçerik:",
-      "- manifest.json — dosya indeksi ve özet",
+      "Ici :",
+      "- manifest.json — deux index et ici",
       "- OZET.html — yazdırılabilir özet",
-      "- 01-profil … 09-basvuru — modül klasörleri",
-      "- 08-sozlesmeler — onaylanmış sözleşme HTML kopyaları",
+      "- 01-profil… 09-basvuru — module classique",
+      "- 08-sozlesmeler — vous pouvez télécharger des copies HTML",
       "",
       "Kişisel verileri KVKK kapsamında koruyun."
     ]

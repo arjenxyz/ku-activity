@@ -1,5 +1,5 @@
 {
-  "personelBulunamadı": "Personel bulunamadı",
+  "personelBulunamadı": "ব্যক্তি বুলুনমাদি",
   "err014PersonnelRegistrationSqlÇalıştırın": "014_personnel_registration.sql çalıştırın",
-  "fieldEncryptionKeyEksik": "FIELD_ENCRYPTION_KEY eksik"
+  "fieldEncryptionKeyEksik": "FIELD_ENCRYPTION_KEY সঠিক"
 }

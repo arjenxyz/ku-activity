@@ -1,39 +1,39 @@
 {
-  "sectionBadge": "Platform Features",
-  "sectionTitle": "Real modules from timesheets to payroll",
-  "sectionSubtitle": "Daily wages, overtime, advances, deductions, minimum wage top-ups, and payroll are managed per project. The personnel app shows the same records as the admin panel.",
-  "marqueePaused": "Paused — tap the box again to resume",
-  "marqueeHint": "Swipe with your finger; scrolling pauses the flow, tap the box to pin it",
+  "sectionBadge": "Fitur Platform",
+  "sectionTitle": "Modul nyata dari timesheets hingga penggajian",
+  "sectionSubtitle": "Gaji harian, lembur, uang muka, pemotongan, penambahan upah minimum, dan penggajian dikelola per proyek. Aplikasi personel memperlihatkan catatan yang sama dengan panel admin.",
+  "marqueePaused": "Dijeda — ketuk lagi kotak itu untuk melanjutkan",
+  "marqueeHint": "Gesek dengan jari Anda; menggulir akan menjeda alur, ketuk kotak untuk menyematkannya",
   "features": [
     {
-      "title": "Dual-Approved Daily Wages",
-      "tag": "Timesheets",
-      "description": "Full/half-day attendance and quarter, half, or full overtime entries. Admin enters; personnel approves or disputes — records are not finalized without both sides."
+      "title": "Gaji Harian yang Disetujui Ganda",
+      "tag": "Lembar waktu",
+      "description": "Kehadiran penuh/setengah hari dan entri seperempat, setengah, atau lembur penuh. Admin masuk; disetujui atau disengketakan oleh personel — catatan tidak akan diselesaikan tanpa kedua belah pihak."
     },
     {
-      "title": "Advances & Deductions",
-      "tag": "Finance",
-      "description": "Project-based advance and deduction entries. Gross, advance, deduction, and net amounts are calculated with the same formula in payroll and the personnel finance tab."
+      "title": "Uang Muka & Pengurangan",
+      "tag": "Keuangan",
+      "description": "Entri uang muka dan pengurangan berbasis proyek. Jumlah kotor, uang muka, pengurangan, dan bersih dihitung dengan rumus yang sama di tab penggajian dan keuangan personalia."
     },
     {
-      "title": "Minimum Wage Top-Up",
-      "tag": "Policy",
-      "description": "Earned, paid, and remaining amounts per company and project wage policy. Subcontractor gap suggestions; personnel see the breakdown in the minimum wage tab."
+      "title": "Top-Up Upah Minimum",
+      "tag": "Kebijakan",
+      "description": "Jumlah yang diperoleh, dibayarkan, dan sisanya per perusahaan dan kebijakan upah proyek. Saran kesenjangan subkontraktor; personel melihat rinciannya di tab upah minimum."
     },
     {
-      "title": "Project-Based Sites",
-      "tag": "Operations",
-      "description": "Each site is a separate project; personnel, blocks, teams, and finance records stay within the project. Admins only access projects they created."
+      "title": "Situs Berbasis Proyek",
+      "tag": "Operasi",
+      "description": "Setiap situs adalah proyek terpisah; catatan personel, blok, tim, dan keuangan tetap berada dalam proyek. Admin hanya mengakses proyek yang mereka buat."
     },
     {
-      "title": "Reports & Payroll",
-      "tag": "Reporting",
-      "description": "Approved and pending daily wages, open personnel disputes, payroll runs, and archive queries for wages, advances, and deductions."
+      "title": "Laporan & Penggajian",
+      "tag": "Pelaporan",
+      "description": "Gaji harian yang disetujui dan tertunda, perselisihan personel terbuka, proses penggajian, dan pertanyaan arsip tentang gaji, uang muka, dan pemotongan."
     },
     {
-      "title": "Personnel App",
-      "tag": "Mobile PWA",
-      "description": "Install as a PWA on your phone. Overview, daily wages, overtime, finance, minimum wage, and rights tabs — fed from the same database as the admin panel."
+      "title": "Aplikasi Personil",
+      "tag": "PWA Seluler",
+      "description": "Instal sebagai PWA di ponsel Anda. Ikhtisar, upah harian, lembur, keuangan, upah minimum, dan tab hak — diambil dari database yang sama dengan panel admin."
     }
   ]
 }

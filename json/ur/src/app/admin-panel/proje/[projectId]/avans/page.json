@@ -4,8 +4,8 @@
   "saveFailed": "Kayıt başarısız",
   "pageTitle": "Avans Ekle",
   "pageDescription": "Personele avans kaydı girin. İsteğe bağlı iş kalemine bağlayarak taşeron kârına yansıtın.",
-  "formTitle": "Yeni Avans",
-  "labelDate": "Tarih",
-  "labelAmount": "Tutar (₺)",
+  "formTitle": "یینی آوانس",
+  "labelDate": "تریح",
+  "labelAmount": "توتار (₺)",
   "labelDescription": "Açıklama"
 }

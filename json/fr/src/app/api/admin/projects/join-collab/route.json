@@ -1,8 +1,8 @@
 {
-  "joinFailed": "Could not join project",
-  "invalidCode": "Invalid collaborator code",
-  "codeNotFound": "This code was not found or may have been rotated",
-  "alreadyOwner": "You already own this project",
-  "alreadyCollaborator": "You are already a collaborator on this project",
-  "migrationRequired": "Collaborator migration not applied yet (076_project_collaborators.sql)"
+  "joinFailed": "Impossible de rejoindre le projet",
+  "invalidCode": "Code collaborateur invalide",
+  "codeNotFound": "Ce code n'a pas été trouvé ou a peut-être été modifié",
+  "alreadyOwner": "Vous possédez déjà ce projet",
+  "alreadyCollaborator": "Vous êtes déjà collaborateur sur ce projet",
+  "migrationRequired": "La migration des collaborateurs n'est pas encore appliquée (076_project_collaborators.sql)"
 }

@@ -1,11 +1,11 @@
 {
-  "employeeAmountRequired": "Personel ve tutar zorunludur.",
-  "successCreated": "Avans kaydı oluşturuldu.",
-  "saveFailed": "Kayıt başarısız",
-  "pageTitle": "Avans Ekle",
-  "pageDescription": "Personele avans kaydı girin. İsteğe bağlı iş kalemine bağlayarak taşeron kârına yansıtın.",
-  "formTitle": "Yeni Avans",
-  "labelDate": "Tarih",
-  "labelAmount": "Tutar (₺)",
-  "labelDescription": "Açıklama"
+  "employeeAmountRequired": "担当者はゾルンルドゥル先生です。",
+  "successCreated": "アバンス・カイドゥ・オルシュトゥルルドゥ。",
+  "saveFailed": "カイト・バシャリスズ",
+  "pageTitle": "アバンス・エクル",
+  "pageDescription": "ペルソナ・アヴァンス・ケイドゥ・ギリン。カレミネ バーラヤラック タシェロン カルナ ヤンストゥン。",
+  "formTitle": "イェニ・アバンス",
+  "labelDate": "タリフ",
+  "labelAmount": "ツタール (₺)",
+  "labelDescription": "アチクラマ"
 }

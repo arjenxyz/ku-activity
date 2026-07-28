@@ -1,96 +1,96 @@
 {
-  "title": "Payroll Statement",
-  "printedAt": "Printed:",
-  "documentNo": "Document no:",
-  "employeeInfo": "Employee information",
-  "periodSummary": "Period summary",
-  "workLogsTitle": "Work log records ({count})",
-  "mesaiSummary": "Overtime summary",
-  "advancesTitle": "Advances ({count})",
-  "deductionsTitle": "Deductions ({count})",
-  "minimumWagesTitle": "Minimum wage payments ({count})",
-  "calcSummary": "Calculation summary",
-  "emptyValue": "\u2014",
+  "title": "Relevé de paie",
+  "printedAt": "Imprimé:",
+  "documentNo": "Numéro de document :",
+  "employeeInfo": "Informations sur les employés",
+  "periodSummary": "Résumé de la période",
+  "workLogsTitle": "Enregistrements du journal de travail ({count})",
+  "mesaiSummary": "Sommaire des heures supplémentaires",
+  "advancesTitle": "Avances ({count})",
+  "deductionsTitle": "Déductions ({count})",
+  "minimumWagesTitle": "Paiements du salaire minimum ({count})",
+  "calcSummary": "Résumé du calcul",
+  "emptyValue": "—",
   "fields": {
-    "fullName": "Full name",
+    "fullName": "Nom et prénom",
     "position": "Position",
-    "project": "Project / site",
-    "dailyWage": "Daily wage",
-    "tcKimlik": "National ID",
-    "hireDate": "Hire date"
+    "project": "Projet/site",
+    "dailyWage": "Salaire journalier",
+    "tcKimlik": "Carte d'identité nationale",
+    "hireDate": "Date d'embauche"
   },
   "summary": {
-    "workDays": "Worked days",
-    "approvedDays": "Approved days",
-    "pendingDays": "Pending days",
-    "mesaiUnits": "Overtime units",
-    "netEstimate": "Estimated Net Salary"
+    "workDays": "Jours travaillés",
+    "approvedDays": "Jours approuvés",
+    "pendingDays": "Jours en attente",
+    "mesaiUnits": "Unités d'heures supplémentaires",
+    "netEstimate": "Salaire net estimé"
   },
   "table": {
     "date": "Date",
-    "dateTime": "Date / Time",
-    "work": "Work",
-    "mesai": "Overtime",
-    "wage": "Wage",
-    "mesaiPay": "Overtime \u20ba",
-    "rowTotal": "Row total",
-    "status": "Status",
+    "dateTime": "Date/Heure",
+    "work": "Travail",
+    "mesai": "Au fil du temps",
+    "wage": "Salaire",
+    "mesaiPay": "Heures supplémentaires ₺",
+    "rowTotal": "Total de la ligne",
+    "status": "Statut",
     "total": "Total",
-    "type": "Type",
-    "record": "Record",
-    "unit": "Unit",
-    "amount": "Amount",
+    "type": "Taper",
+    "record": "Enregistrer",
+    "unit": "Unité",
+    "amount": "Montant",
     "description": "Description",
-    "deductionType": "Type"
+    "deductionType": "Taper"
   },
   "mesaiTypes": {
-    "ceyrek": "Quarter overtime",
-    "yarim": "Half overtime",
-    "tam": "Full overtime"
+    "ceyrek": "Quart d'heures supplémentaires",
+    "yarim": "Demi-heure supplémentaire",
+    "tam": "Heures supplémentaires complètes"
   },
   "empty": {
-    "workLogs": "No work log records for this period.",
-    "advances": "No advance records.",
-    "deductions": "No deduction records.",
-    "minimumWages": "No minimum wage top-up payment."
+    "workLogs": "Aucun enregistrement de journal de travail pour cette période.",
+    "advances": "Aucun enregistrement préalable.",
+    "deductions": "Aucun dossier de déduction.",
+    "minimumWages": "Pas de paiement complémentaire au salaire minimum."
   },
   "defaults": {
-    "advance": "Advance",
-    "minimumWage": "Minimum wage top-up"
+    "advance": "Avance",
+    "minimumWage": "Complément de salaire minimum"
   },
   "totals": {
-    "grand": "Grand total",
-    "advances": "Total advances",
-    "deductions": "Total deductions",
-    "minimumWages": "Total minimum wage"
+    "grand": "total",
+    "advances": "Avances totales",
+    "deductions": "Total des déductions",
+    "minimumWages": "Salaire minimum total"
   },
   "calc": {
-    "basePay": "Wage ({days} days x {wage})",
-    "mesaiPay": "Overtime earnings (+)",
-    "gross": "Gross total",
-    "advances": "Advances (-)",
-    "deductions": "Deductions (-)",
-    "minimumWages": "Minimum wage payments (-)",
-    "netPayment": "Estimated Net Salary",
-    "note": "Net formula: Gross ({gross}) - Advance ({advances}) - Deduction ({deductions}){minimumPart} = {net}",
-    "minimumPart": " - Minimum ({amount})"
+    "basePay": "Salaire ({days} jours x {wage})",
+    "mesaiPay": "Rémunération des heures supplémentaires (+)",
+    "gross": "Total brut",
+    "advances": "Avances (-)",
+    "deductions": "Déductions (-)",
+    "minimumWages": "Paiements du salaire minimum (-)",
+    "netPayment": "Salaire net estimé",
+    "note": "Formule nette : Brut ({gross}) - Avance ({advances}) - Déduction ({deductions}){minimumPart} = {net}",
+    "minimumPart": "- Minimum ({amount})"
   },
   "footer": {
-    "employee": "Employee",
-    "employer": "Employer / Manager",
-    "employeeRole": "Personnel reviewing this document",
-    "employerRole": "Manager / employer approving this document",
-    "signedAt": "Document date",
-    "signatureHint": "Full name - Date - Signature",
-    "clausesTitle": "Document notices",
+    "employee": "Employé",
+    "employer": "Employeur / Gestionnaire",
+    "employeeRole": "Personnel examinant ce document",
+    "employerRole": "Gestionnaire / employeur approuvant ce document",
+    "signedAt": "Date du document",
+    "signatureHint": "Nom complet - Date - Signature",
+    "clausesTitle": "Avis sur les documents",
     "clauses": [
-      "This document is for informational purposes only and is not an official payroll, social-security filing, or tax document.",
-      "Records are generated from the same database in the {appName} personnel and admin panels.",
-      "In employment disputes, signed official payrolls, bank receipts, and legally required documents take precedence.",
-      "This document was created electronically and is verified by digital system records; a wet-ink signature is not required."
+      "Ce document est fourni à titre informatif uniquement et ne constitue pas un document officiel de paie, de sécurité sociale ou fiscal.",
+      "Les enregistrements sont générés à partir de la même base de données dans les panneaux du personnel et d'administration {appName}.",
+      "En cas de conflit de travail, les fiches de paie officielles signées, les reçus bancaires et les documents légalement requis ont préséance.",
+      "Ce document a été créé électroniquement et est vérifié par les enregistrements du système numérique ; une signature à l’encre humide n’est pas requise."
     ],
-    "digitalSeal": "Digital Approval Mark",
-    "digitalSealHint": "Verified by CrewLedger system records",
-    "brandTagline": "Construction Workforce Platform"
+    "digitalSeal": "Marque d'approbation numérique",
+    "digitalSealHint": "Vérifié par les enregistrements du système CrewLedger",
+    "brandTagline": "Plateforme de main-d'œuvre de construction"
   }
 }

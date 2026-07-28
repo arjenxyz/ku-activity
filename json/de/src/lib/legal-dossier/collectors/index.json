@@ -1,47 +1,71 @@
 {
   "errors": {
-    "employeeNotFound": "Personel bulunamadı"
+    "employeeNotFound": "Personal bulunamadı"
   },
   "collectors": {
-    "profile": { "title": "Personel profili" },
+    "profile": {
+      "title": "Persönliche Profile"
+    },
     "sensitive": {
       "title": "Hassas kimlik ve banka bilgileri",
-      "noDataNote": "Hassas veri kaydı bulunamadı veya şifreleme yapılandırılmamış"
+      "noDataNote": "Hassas war sich sicher, dass er dies nicht getan hat"
     },
-    "project": { "title": "Proje ve çalışma yeri" },
-    "workLogs": { "title": "Yevmiye ve puantaj kayıtları" },
-    "deductions": { "title": "Avans ve kesintiler" },
-    "minimumWages": { "title": "Asgari ücret kayıtları" },
-    "payroll": { "title": "Bordro dönemleri ve satırlar" },
-    "contracts": { "title": "Sözleşme onayları ve metinleri" },
-    "registration": { "title": "Application and approval history" },
+    "project": {
+      "title": "Das Projekt ist abgeschlossen"
+    },
+    "workLogs": {
+      "title": "Yevmiye ve puantaj kayıtları"
+    },
+    "deductions": {
+      "title": "Avans ve kesintiler"
+    },
+    "minimumWages": {
+      "title": "Asgari ücret kayıtları"
+    },
+    "payroll": {
+      "title": "Bordro Dönemleri und Satire"
+    },
+    "contracts": {
+      "title": "Sözleşme onayları ve metinleri"
+    },
+    "registration": {
+      "title": "Antrags- und Genehmigungshistorie"
+    },
     "advanceRequests": {
-      "title": "Advance requests (approval, payment, receipt)",
-      "proofNote": "Receipt files are not copied into the ZIP; proof_* fields contain reference and OCR metadata only."
+      "title": "Vorabanfragen (Genehmigung, Zahlung, Quittung)",
+      "proofNote": "Quittungsdateien werden nicht in die ZIP-Datei kopiert; Proof_*-Felder enthalten nur Referenz- und OCR-Metadaten."
     },
-    "attendance": { "title": "Attendance check-ins and session notices" },
-    "notifications": { "title": "In-app notification history" },
+    "attendance": {
+      "title": "Anwesenheitskontrollen und Sitzungsbenachrichtigungen"
+    },
+    "notifications": {
+      "title": "Verlauf der In-App-Benachrichtigungen"
+    },
     "closureConsent": {
-      "title": "Project closure consent",
-      "notInClosure": "Project is not in closure or no consent record yet"
+      "title": "Zustimmung zum Projektabschluss",
+      "notInClosure": "Das Projekt ist noch nicht abgeschlossen oder es liegen noch keine Zustimmungsdaten vor"
     },
-    "company": { "title": "Business / data controller info" },
-    "extensionsPlaceholder": { "title": "Extensible module placeholder" }
+    "company": {
+      "title": "Informationen zum Unternehmen/Datenverantwortlichen"
+    },
+    "extensionsPlaceholder": {
+      "title": "Platzhalter für erweiterbare Module"
+    }
   },
   "contractHtml": {
     "approvedLabel": "Onay:",
-    "versionLabel": "Sürüm:",
-    "contentHashLabel": "İçerik hash:"
+    "versionLabel": "Antwort:",
+    "contentHashLabel": "İçerik-Hash:"
   },
   "extensionsPlaceholder": {
-    "message": "CrewLedger hukuki dosya sistemi genişletilebilir. Yeni özellikler registerDossierCollector() ile eklenir.",
+    "message": "CrewLedger verfügt über ein leistungsstarkes System. Ich habe die Funktion „registerDossierCollector()“ aktiviert.",
     "reservedModules": [
-      "leave_requests — İzin / devamsızlık talepleri",
-      "documents — Yüklenen belgeler",
-      "disciplinary — Disiplin kayıtları",
-      "communications — Bildirim ve mesaj logları",
-      "attendance_devices — Cihaz bazlı yoklama"
+      "Leave_requests – İzin / devamsızlık talepleri",
+      "Dokumente – Yüklenen belgeler",
+      "Disziplinar – Disiplin kayıtları",
+      "Kommunikation – Bildirim ve mesaj logları",
+      "attendance_devices – Cihaz bazlı yoklama"
     ],
-    "integration": "src/lib/legal-dossier/collectors/ altına yeni dosya ekleyip registerDossierCollector çağırın."
+    "integration": "src/lib/legal-dossier/collectors/ Die Datei „registerDossierCollector“ wurde geöffnet."
   }
 }

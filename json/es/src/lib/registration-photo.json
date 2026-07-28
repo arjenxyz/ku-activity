@@ -1,9 +1,9 @@
 {
-  "invalidMime": "JPEG, PNG veya WebP yükleyin",
-  "maxSize": "Fotoğraf en fazla 5 MB olabilir",
-  "bucketMigrationOtp": "025_private_photo_storage.sql çalıştırın",
+  "invalidMime": "JPEG, PNG o WebP disponibles",
+  "maxSize": "Fotografía y fazla 5 MB disponibles",
+  "bucketMigrationOtp": "025_private_photo_storage.sql archivo",
   "uploadFailed": "Fotoğraf yüklenemedi",
   "draftNotFound": "Başvuru fotoğrafı bulunamadı. Lütfen yeniden başvurun.",
   "saveFailed": "Fotoğraf kaydedilemedi",
-  "bucketMigrationRegistration": "025 migration çalıştırın"
+  "bucketMigrationRegistration": "025 migración çalıştırın"
 }

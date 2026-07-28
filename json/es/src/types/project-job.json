@@ -1,6 +1,6 @@
 {
   "statusLabels": {
-    "active": "Devam ediyor",
-    "completed": "Tamamlandı"
+    "active": "editor devam",
+    "completed": "tamamlandia"
   }
 }

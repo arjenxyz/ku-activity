@@ -14,7 +14,7 @@
     "Pz"
   ],
   "cellTitle": "{date} · {amount} · {status}",
-  "tapForDetail": "Tap a highlighted day for details",
+  "tapForDetail": "A részletekért koppintson egy kiemelt napra",
   "status": {
     "confirmed": "Jóváhagyott",
     "pending_employee": "Az Ön beleegyezése",

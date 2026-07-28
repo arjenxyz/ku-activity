@@ -3,13 +3,13 @@
   "verificationFailed": "Doğrulama başarısız",
   "loadingTitle": "Doğrulanıyor…",
   "loadingSubtitle": "Başvurunuz gönderiliyor, lütfen bekleyin.",
-  "loadingMessage": "E-posta bağlantınız doğrulanıyor…",
+  "loadingMessage": "E-posting bağlantınız doğrulanıyor…",
   "errorTitle": "Doğrulama başarısız",
-  "errorSubtitle": "Bağlantı geçersiz veya süresi dolmuş olabilir.",
+  "errorSubtitle": "Tekan tombol atau tekan tombol untuk memutarnya.",
   "backToApplication": "Başvuru sayfasına dön",
   "successTitle": "Başvuru gönderildi",
   "successSubtitle": "Yönetici onay ekranına yönlendiriliyorsunuz…",
-  "successMessage": "E-posta doğrulandı ve başvurunuz alındı.",
+  "successMessage": "E-posting dapat dilakukan dan dibalik.",
   "redirectHint": "Birazdan onay bekleme ekranına geçeceksiniz…",
-  "suspenseTitle": "Yükleniyor…"
+  "suspenseTitle": "Yukleniyor…"
 }

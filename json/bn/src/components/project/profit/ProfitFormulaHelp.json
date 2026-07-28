@@ -1,6 +1,6 @@
 {
   "title": "Nasıl hesaplanır?",
-  "formulaProfit": "Kâr = Alacak − Yevmiye − Avans − Kesinti − Malzeme",
+  "formulaProfit": "কার = আলাকাক − ইয়েভমিয়ে − আভান্স − কেসিন্তি − মালজেমে",
   "formulaShare": "Ortak başı = Kâr ÷ kişi sayısı",
   "steps": [
     {
@@ -8,11 +8,11 @@
       "body": "üst taşerondan aldığınız birim fiyat × miktar (ör. 100 ₺/m² × 890)"
     },
     {
-      "title": "Giderleri bağlayın",
+      "title": "গিডারলেরি ব্যাগলাইন",
       "body": "yevmiye, avans ve kesinti girerken iş kalemini seçin"
     },
     {
-      "title": "Malzeme ekleyin",
+      "title": "মালজেমে একলেইন",
       "body": "iş kartındaki malzeme bölümünden (personeli etkilemez)"
     },
     {
@@ -20,5 +20,5 @@
       "body": "ayarlayın — kâr eşit bölünür"
     }
   ],
-  "footer": "Personel paneli ve bordro normal çalışır; iş kalemi yalnızca sizin kâr tablonuz içindir."
+  "footer": "ব্যক্তিগত প্যানেলি ve bordro স্বাভাবিক çalışır; iş kalemi yalnızca sizin kâr tablonuz içindir."
 }

@@ -1,9 +1,9 @@
 {
   "nameRequired": "Ad ve soyad zorunludur.",
-  "emailRequired": "E-posta adresi zorunludur.",
+  "emailRequired": "ای پوسٹا ایڈریسی زورنلودور۔",
   "emailInvalid": "Geçerli bir e-posta adresi girin.",
-  "phoneRequired": "Telefon numarası zorunludur.",
-  "phoneInvalid": "Geçerli bir cep telefonu girin (ör. 534 968 5678).",
+  "phoneRequired": "ٹیلی فون نمبر zorunludur.",
+  "phoneInvalid": "Geçerli bir cep telefonu girin (ör. 534 968 5678)۔",
   "companyRequired": "Firma veya şantiye adı zorunludur.",
   "jobTitleRequired": "Görev / unvan seçin.",
   "cityRequired": "Şehir bilgisi zorunludur.",

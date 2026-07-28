@@ -1,6 +1,6 @@
 {
-  "personnelTitle": "Personel Uygulaması",
-  "personnelDescription": "Yoklama, yevmiye, mesai ve bordro görüntüleme.",
-  "adminTitle": "Yönetici Uygulaması",
-  "adminDescription": "Proje yönetimi, personel onayı, yevmiye ve raporlar."
+  "personnelTitle": "ウイグラマス人事",
+  "personnelDescription": "ヨクラマ、イェヴミエ、メサイ・ヴェ・ボルドロ・ゴルンテュレメ。",
+  "adminTitle": "ヨネティチ・ウイグラマス",
+  "adminDescription": "プロジェ・ヨネティミ、個人的な意見、エフミエ・ヴェ・ラポーラー。"
 }

@@ -1,12 +1,12 @@
 {
-  "invalidProjectUrl": "Invalid project URL",
-  "projectNotFound": "Project not found",
-  "loadError": "Failed to load data",
-  "backToProjectList": "Back to project list",
-  "loadingData": "Loading…",
-  "stripTitle": "This month",
-  "stripPresent": "Today",
-  "stripMissing": "Pending",
-  "stripActive": "Active",
-  "stripPayroll": "Estimate"
+  "invalidProjectUrl": "無効なプロジェクト URL",
+  "projectNotFound": "プロジェクトが見つかりません",
+  "loadError": "データのロードに失敗しました",
+  "backToProjectList": "プロジェクトリストに戻る",
+  "loadingData": "読み込み中…",
+  "stripTitle": "今月",
+  "stripPresent": "今日",
+  "stripMissing": "保留中",
+  "stripActive": "アクティブ",
+  "stripPayroll": "見積もり"
 }

@@ -1,28 +1,28 @@
 {
-  "heroTitle": "My rights",
-  "heroSubtitle": "GDPR · contracts · records",
-  "downloadCta": "Download my data",
-  "preparing": "Preparing…",
-  "contactCta": "Rights request",
-  "quickLinksTitle": "Your records",
+  "heroTitle": "mis derechos",
+  "heroSubtitle": "RGPD · contratos · registros",
+  "downloadCta": "descargar mis datos",
+  "preparing": "Preparante…",
+  "contactCta": "Solicitud de derechos",
+  "quickLinksTitle": "Tus registros",
   "quickLinks": {
-    "finance": "Payroll",
-    "work": "Daily wage",
-    "mesai": "Overtime",
-    "asgari": "Minimum wage"
+    "finance": "Nómina de sueldos",
+    "work": "Salario diario",
+    "mesai": "Con el tiempo",
+    "asgari": "Salario mínimo"
   },
-  "kvkkTitle": "Data protection rights",
+  "kvkkTitle": "Derechos de protección de datos",
   "kvkkRights": [
-    "Know whether data is processed",
-    "Request information",
-    "Request correction",
-    "Request deletion",
-    "Know third-party recipients"
+    "Saber si se procesan datos",
+    "Solicitar información",
+    "Solicitar corrección",
+    "Solicitar eliminación",
+    "Conocer destinatarios de terceros"
   ],
-  "mailSubject": "Rights request - CrewLedger",
+  "mailSubject": "Solicitud de derechos - CrewLedger",
   "errors": {
-    "downloadFailed": "Download failed",
-    "generic": "Download failed"
+    "downloadFailed": "Descarga fallida",
+    "generic": "Descarga fallida"
   },
-  "fallbackFilename": "crewledger-my-records.zip"
+  "fallbackFilename": "crewledger-mis-registros.zip"
 }

@@ -1,6 +1,6 @@
 {
-  "invalidStatus": "Invalid status",
-  "resolveFailed": "Could not resolve report",
-  "notFound": "Report not found or already resolved",
-  "migrationRequired": "Run migration 077_day_error_reports.sql"
+  "invalidStatus": "Ungültiger Status",
+  "resolveFailed": "Der Bericht konnte nicht gelöst werden",
+  "notFound": "Bericht nicht gefunden oder bereits gelöst",
+  "migrationRequired": "Führen Sie die Migration 077_day_error_reports.sql aus"
 }

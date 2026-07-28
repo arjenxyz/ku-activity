@@ -1,11 +1,11 @@
 {
-  "employeeAmountRequired": "Personel ve tutar zorunludur.",
+  "employeeAmountRequired": "Personil dan tutar zorunludur.",
   "successCreated": "Avans kaydı oluşturuldu.",
-  "saveFailed": "Kayıt başarısız",
+  "saveFailed": "Tidak perlu khawatir",
   "pageTitle": "Avans Ekle",
-  "pageDescription": "Personele avans kaydı girin. İsteğe bağlı iş kalemine bağlayarak taşeron kârına yansıtın.",
+  "pageDescription": "Personel avans kaydı girin. İsteğe bağlı dan kalemine bağlayarak taşeron kârına yansıtın.",
   "formTitle": "Yeni Avans",
   "labelDate": "Tarih",
-  "labelAmount": "Tutar (₺)",
+  "labelAmount": "Guru (₺)",
   "labelDescription": "Açıklama"
 }

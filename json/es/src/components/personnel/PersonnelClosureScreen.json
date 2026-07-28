@@ -1,12 +1,12 @@
 {
-  "accountDeletionNote": "Your account will be deleted on {date}",
-  "accountDeletionNoteAccelerated": "Your account will be deleted in 3 minutes",
-  "countdownLabel": "Time remaining until your account is deleted",
-  "downloadHint": "Download and keep a ZIP copy of your work logs, payments, and contracts.",
-  "fastDeleteTitle": "Want to delete your account faster?",
-  "fastDeleteIntro": "To shorten the waiting period and speed up deletion, complete the steps below in order:",
-  "fastDeleteStep1": "Download your data as a ZIP file",
-  "fastDeleteStep2": "Tap the “I downloaded, continue” button",
-  "fastDeleteStep3": "Confirm the fast deletion option that appears using email verification",
-  "fastDeleteFooter": "Once you complete the steps, the fast deletion option appears automatically on this screen."
+  "accountDeletionNote": "Su cuenta será eliminada el {date}",
+  "accountDeletionNoteAccelerated": "Tu cuenta será eliminada en 3 minutos.",
+  "countdownLabel": "Tiempo restante hasta que se elimine tu cuenta",
+  "downloadHint": "Descargue y guarde una copia ZIP de sus registros de trabajo, pagos y contratos.",
+  "fastDeleteTitle": "¿Quieres eliminar tu cuenta más rápido?",
+  "fastDeleteIntro": "Para acortar el período de espera y acelerar la eliminación, complete los pasos a continuación en orden:",
+  "fastDeleteStep1": "Descarga tus datos como un archivo ZIP",
+  "fastDeleteStep2": "Toque el botón \"Descargué, continuar\"",
+  "fastDeleteStep3": "Confirme la opción de eliminación rápida que aparece mediante la verificación por correo electrónico",
+  "fastDeleteFooter": "Una vez que complete los pasos, la opción de eliminación rápida aparece automáticamente en esta pantalla."
 }

@@ -1,17 +1,17 @@
 {
-  "buttonDefault": "Sign In",
-  "closeOverlayAriaLabel": "Close sign-in menu",
-  "closeButtonAriaLabel": "Close",
-  "modalTitle": "Choose sign-in",
-  "footerNote": "Choose the panel that matches your role to sign in.",
+  "buttonDefault": "Entrar",
+  "closeOverlayAriaLabel": "Fechar menu de login",
+  "closeButtonAriaLabel": "Fechar",
+  "modalTitle": "Escolha o login",
+  "footerNote": "Escolha o painel que corresponde à sua função para fazer login.",
   "panels": {
     "personel": {
-      "title": "Personnel",
-      "description": "Attendance, wages, and payroll"
+      "title": "Pessoal",
+      "description": "Presença, salários e folha de pagamento"
     },
     "admin": {
-      "title": "Admin",
-      "description": "Projects, approvals, and reports"
+      "title": "Administrador",
+      "description": "Projetos, aprovações e relatórios"
     }
   }
 }

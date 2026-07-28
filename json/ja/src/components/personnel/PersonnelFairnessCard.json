@@ -1,26 +1,26 @@
 {
-  "title": "Adil kayıt sistemi — çift onay",
-  "descriptionBefore": "Hiçbir yevmiye günü tek taraflı kesinleşmez. Yönetici ve siz aynı günü onayladığınızda kayıt ",
-  "descriptionAfter": " olur ve maaş hesabına yansır.",
-  "confirmedLabel": "Onaylı",
+  "title": "Adil kayıt システム — cift onay",
+  "descriptionBefore": "Hiçbir yevmiye günü tek taraflı kesinleşmez。 Yönetici ve siz aynı günü onayladığınızda kayıt",
+  "descriptionAfter": "オルル・ヴェ・マーシュ・ヘサブナ・ヤンシル。",
+  "confirmedLabel": "オナイリ",
   "items": {
     "confirmed": {
-      "label": "Onaylı gün",
-      "hint": "Her iki taraf da onayladı — ödemeye dahil"
+      "label": "オナイル・ギュン",
+      "hint": "彼女のイキタラフ・ダ・オナイラドゥ — ödemeye dahil"
     },
     "pendingEmployee": {
-      "label": "Sizin onayınız",
+      "label": "シジン・オナイズ",
       "hint": "Yönetici girdi — siz onaylayınca kesinleşir"
     },
     "pendingAdmin": {
-      "label": "Yönetici onayı",
+      "label": "ヨネティチ・オナイ",
       "hint": "Siz bildirdiniz — yönetici onaylayınca kesinleşir"
     }
   },
-  "unrecorded": "Bu dönemde {count} kayıt henüz onay sürecinde değil veya eksik.",
+  "unrecorded": "{count} は、あなたの安全を確認します。",
   "steps": [
-    "Gün bildirimi (siz veya yönetici)",
-    "Karşı tarafın onayı",
+    "グン ビルディリミ (siz veya yönetici)",
+    "カルシュ タラフィン オナイ",
     "Onaylı statü → maaş hesabına yansıma"
   ]
 }

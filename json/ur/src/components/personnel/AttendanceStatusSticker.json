@@ -1,37 +1,37 @@
 {
-  "close": "Close",
-  "dismissError": "Dismiss error",
-  "rescanIssue": "Something's wrong — re-scan",
-  "rescan": "Re-scan",
+  "close": "بند",
+  "dismissError": "غلطی کو مسترد کریں۔",
+  "rescanIssue": "کچھ گڑبڑ ہے — دوبارہ اسکین کریں۔",
+  "rescan": "دوبارہ اسکین کریں۔",
   "states": {
     "waiting": {
-      "pill": "In attendance",
-      "title": "You've been added to the list",
-      "hint": "Wait until your supervisor completes attendance."
+      "pill": "حاضری میں",
+      "title": "آپ کو فہرست میں شامل کر دیا گیا ہے۔",
+      "hint": "انتظار کریں جب تک کہ آپ کا سپروائزر حاضری مکمل نہ کر لے۔"
     },
     "completed": {
-      "pill": "Completed",
-      "title": "Completed today",
-      "hintDefault": "Your full-day record has been created."
+      "pill": "مکمل",
+      "title": "آج مکمل ہوا۔",
+      "hintDefault": "آپ کے پورے دن کا ریکارڈ بن گیا ہے۔"
     },
     "cancelled": {
-      "pill": "Cancelled",
-      "title": "Attendance cancelled",
-      "hint": "Your manager cancelled this attendance. Please contact them."
+      "pill": "منسوخ",
+      "title": "حاضری منسوخ کر دی گئی۔",
+      "hint": "آپ کے مینیجر نے یہ حاضری منسوخ کر دی ہے۔ براہ کرم ان سے رابطہ کریں۔"
     },
     "removed": {
-      "pill": "Removed from list",
-      "title": "You're not in attendance",
-      "hint": "Scan a new QR or talk to your supervisor."
+      "pill": "فہرست سے ہٹا دیا گیا۔",
+      "title": "آپ حاضری میں نہیں ہیں۔",
+      "hint": "ایک نیا QR اسکین کریں یا اپنے سپروائزر سے بات کریں۔"
     },
     "didNotWork": {
-      "pill": "Did not work",
-      "title": "Marked as not working today",
-      "hint": "No daily wage is recorded."
+      "pill": "کام نہیں ہوا۔",
+      "title": "آج کام نہ کرنے کے بطور نشان زد",
+      "hint": "یومیہ اجرت درج نہیں ہے۔"
     }
   },
   "scanError": {
-    "pill": "Scan failed",
-    "title": "Couldn't read the QR"
+    "pill": "اسکین ناکام ہوگیا۔",
+    "title": "QR نہیں پڑھ سکا"
   }
 }

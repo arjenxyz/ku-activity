@@ -1,14 +1,14 @@
 {
-  "badge": "Today's attendance",
-  "shiftHours": "Work hours {start}{end}",
-  "shiftEnd": " – {end}",
-  "allPresent": "Everyone checked in",
-  "partial": "Attendance underway",
-  "pending": "No attendance yet",
-  "empty": "No personnel on this project",
-  "hintAll": "All {present} personnel are recorded today.",
-  "hintPartial": "{present} present · {missing} pending",
-  "hintPending": "Start QR attendance; people appear as they scan.",
-  "hintEmpty": "Add personnel first.",
-  "scanQr": "Open QR attendance"
+  "badge": "الحضور اليوم",
+  "shiftHours": "مواعيد العمل {start}{end}",
+  "shiftEnd": "– {end}",
+  "allPresent": "الجميع سجل الدخول",
+  "partial": "جاري الحضور",
+  "pending": "لا يوجد حضور بعد",
+  "empty": "لا يوجد موظفين في هذا المشروع",
+  "hintAll": "تم تسجيل جميع أفراد {present} اليوم.",
+  "hintPartial": "{present} موجود · {missing} معلق",
+  "hintPending": "بدء الحضور QR. يظهر الأشخاص أثناء قيامهم بالمسح الضوئي.",
+  "hintEmpty": "أضف الموظفين أولاً.",
+  "scanQr": "فتح الحضور QR"
 }

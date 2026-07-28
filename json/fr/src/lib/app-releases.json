@@ -1,6 +1,6 @@
 {
-  "personnelTitle": "Personel Uygulaması",
-  "personnelDescription": "Yoklama, yevmiye, mesai ve bordro görüntüleme.",
+  "personnelTitle": "Personnel Uygulamasi",
+  "personnelDescription": "Yoklama, yevmiye, mesai et bordro görüntüleme.",
   "adminTitle": "Yönetici Uygulaması",
-  "adminDescription": "Proje yönetimi, personel onayı, yevmiye ve raporlar."
+  "adminDescription": "Le projet est celui du personnel, vous et vos rappeurs."
 }

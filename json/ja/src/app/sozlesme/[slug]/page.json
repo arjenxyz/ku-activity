@@ -1,11 +1,11 @@
 {
   "errors": {
-    "invalidLink": "Geçersiz bağlantı.",
-    "loadFailed": "Yüklenemedi"
+    "invalidLink": "ゲセルシ・バランティ。",
+    "loadFailed": "ユクレネメディ"
   },
-  "loading": "Yükleniyor…",
-  "backToRights": "Haklarıma dön",
-  "print": "Yazdır / PDF kaydet",
-  "versionLine": "Sürüm {version} · Onaylayan: {fullName} ({email}) · {acceptedAt}",
-  "footer": "Bu belge dijital onay kaydı ile ilişkilidir. Saklamanız önerilir."
+  "loading": "ユクレニヨル…",
+  "backToRights": "ハクラリマ ドン",
+  "print": "ヤズドゥル / PDF カイデット",
+  "versionLine": "シュルム {version} · オナイラヤン: {fullName} ({email}) · {acceptedAt}",
+  "footer": "デジタル情報を入手してください。 Saklamanız önerilir."
 }

@@ -1,5 +1,5 @@
 {
-  "invalidId": "Invalid record id",
-  "invalidBody": "Invalid request body",
-  "invalidAmount": "Day amount must be 0.5 or 1"
+  "invalidId": "غلط ریکارڈ کی شناخت",
+  "invalidBody": "غلط درخواست کا باڈی",
+  "invalidAmount": "دن کی رقم 0.5 یا 1 ہونی چاہیے۔"
 }

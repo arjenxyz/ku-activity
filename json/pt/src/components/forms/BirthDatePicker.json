@@ -1,10 +1,10 @@
 {
   "label": "Doğum Tarihi",
   "yearAriaLabel": "Doğum yılı",
-  "yearPlaceholder": "Yıl",
+  "yearPlaceholder": "Sim",
   "monthAriaLabel": "Doğum ayı",
-  "monthPlaceholder": "Ay",
+  "monthPlaceholder": "Sim",
   "dayAriaLabel": "Doğum günü",
-  "dayPlaceholder": "Gün",
-  "hint": "İnşaat sahasında çalışmak için en az {minAge} yaşında olmalısınız. {maxBirthDate} ve öncesi tarihler seçilebilir."
+  "dayPlaceholder": "Pistola",
+  "hint": "İnşaat sahasında çalışmak için en az {minAge} yaşında olmalısınız. {maxBirthDate} e öncesi tarihler seçilebilir."
 }

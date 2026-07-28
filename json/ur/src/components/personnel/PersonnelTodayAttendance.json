@@ -1,24 +1,24 @@
 {
-  "badge": "Today's attendance",
-  "shiftHours": "Work hours {start}{end}",
-  "shiftEnd": " – {end}",
-  "confirmed": "You are registered for the full day",
-  "notConfirmed": "No attendance yet",
-  "scanQr": "Scan supervisor QR",
-  "rescanQr": "Scan QR again",
-  "loadFailed": "Could not load",
+  "badge": "آج کی حاضری ۔",
+  "shiftHours": "کام کے اوقات {start}{end}",
+  "shiftEnd": "– {end}",
+  "confirmed": "آپ پورے دن کے لیے رجسٹرڈ ہیں۔",
+  "notConfirmed": "ابھی تک کوئی حاضری نہیں ہے۔",
+  "scanQr": "اسکین سپروائزر QR",
+  "rescanQr": "QR دوبارہ اسکین کریں۔",
+  "loadFailed": "لوڈ نہیں ہو سکا",
   "states": {
     "waiting": {
-      "title": "You are on the attendance list",
-      "hint": "Wait until your supervisor completes attendance."
+      "title": "آپ حاضری کی فہرست میں ہیں۔",
+      "hint": "انتظار کریں جب تک کہ آپ کا سپروائزر حاضری مکمل نہ کر لے۔"
     },
     "cancelled": {
-      "title": "Attendance cancelled",
-      "hint": "Your supervisor cancelled this session. Please contact them."
+      "title": "حاضری منسوخ کر دی گئی۔",
+      "hint": "آپ کے سپروائزر نے یہ سیشن منسوخ کر دیا ہے۔ براہ کرم ان سے رابطہ کریں۔"
     },
     "removed": {
-      "title": "Removed from the list",
-      "hint": "Scan a new QR code or speak with your supervisor."
+      "title": "فہرست سے نکال دیا گیا۔",
+      "hint": "نیا QR کوڈ اسکین کریں یا اپنے سپروائزر سے بات کریں۔"
     }
   }
 }

@@ -1,29 +1,29 @@
 {
   "waterfall": {
     "contract": {
-      "label": "Üst taşerondan alacak",
+      "label": "最高のタシェロンダン・アラチャク",
       "hint": "{unitPrice} ₺/{unitLabel} × {quantity} {unitLabel}"
     },
     "labor": {
-      "label": "İşçi yevmiyesi (onaylı)",
-      "hint": "{approvedWorkDays} onaylı gün"
+      "label": "İşçi yevmiyesi (オナイル)",
+      "hint": "{approvedWorkDays} オナイルギュン"
     },
     "advance": {
-      "label": "Avanslar",
-      "hint": "Bu işe bağlı avans kayıtları"
+      "label": "アヴァンスラー",
+      "hint": "ブ・イシェ・バール・アバンス・カイトラル"
     },
     "deduction": {
-      "label": "Kesintiler"
+      "label": "ケシンティラー"
     },
     "material": {
-      "label": "Malzeme gideri",
-      "hint": "{expenseCount} kayıt"
+      "label": "マルゼメ・ギデリ",
+      "hint": "{expenseCount} カイト"
     },
     "profit": {
-      "label": "Net kâr"
+      "label": "ネットカール"
     },
     "share": {
-      "label": "Ortak başı ({shareCount} kişi)"
+      "label": "オルタク・バシ ({shareCount} キシ)"
     }
   }
 }

@@ -1,9 +1,9 @@
 {
   "title": {
-    "ok": "Başarılı — devam ediyor",
-    "critical": "Sorun var",
-    "warning": "Ping gecikmiş",
-    "unknown": "Henüz bilinmiyor"
+    "ok": "バシャリル — デヴァム・エディオール",
+    "critical": "ソルン・ヴァール",
+    "warning": "ピン ゲシクミシュ",
+    "unknown": "ヘヌズ・ビリンミヨール"
   },
-  "lastPing": "Son ping: {date}"
+  "lastPing": "息子のping: {date}"
 }

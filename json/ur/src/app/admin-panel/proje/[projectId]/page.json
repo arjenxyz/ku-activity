@@ -1,12 +1,12 @@
 {
-  "invalidProjectUrl": "Invalid project URL",
-  "projectNotFound": "Project not found",
-  "loadError": "Failed to load data",
-  "backToProjectList": "Back to project list",
-  "loadingData": "Loading…",
-  "stripTitle": "This month",
-  "stripPresent": "Today",
-  "stripMissing": "Pending",
-  "stripActive": "Active",
-  "stripPayroll": "Estimate"
+  "invalidProjectUrl": "غلط پروجیکٹ URL",
+  "projectNotFound": "پروجیکٹ نہیں ملا",
+  "loadError": "ڈیٹا لوڈ کرنے میں ناکام",
+  "backToProjectList": "پروجیکٹ کی فہرست پر واپس جائیں۔",
+  "loadingData": "لوڈ ہو رہا ہے…",
+  "stripTitle": "اس مہینے",
+  "stripPresent": "آج",
+  "stripMissing": "زیر التواء",
+  "stripActive": "فعال",
+  "stripPayroll": "اندازہ لگانا"
 }

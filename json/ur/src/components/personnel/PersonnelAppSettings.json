@@ -1,62 +1,62 @@
 {
-  "pageSubtitle": "Manage appearance, language, notifications, and app preferences.",
+  "pageSubtitle": "ظاہری شکل، زبان، اطلاعات اور ایپ کی ترجیحات کا نظم کریں۔",
   "sections": {
-    "appearance": "Appearance",
-    "language": "Language",
-    "notifications": "Notifications",
-    "about": "App",
-    "data": "Data on this device"
+    "appearance": "ظاہری شکل",
+    "language": "زبان",
+    "notifications": "اطلاعات",
+    "about": "ایپ",
+    "data": "اس ڈیوائس پر ڈیٹا"
   },
   "menuHints": {
-    "appearance": "Theme, large text, and contrast",
+    "appearance": "تھیم، بڑا متن، اور کنٹراسٹ",
     "language": "15 زبانوں میں سے منتخب کریں",
-    "notifications": "Permission and push subscription",
-    "about": "Version and update notes",
-    "data": "Cookies and cache — your account records stay"
+    "notifications": "اجازت اور پش سبسکرپشن",
+    "about": "ورژن اور اپ ڈیٹ نوٹ",
+    "data": "کوکیز اور کیش - آپ کے اکاؤنٹ کے ریکارڈ باقی ہیں۔"
   },
   "theme": {
-    "label": "Theme",
-    "hint": "Use light, dark, or follow your device",
-    "light": "Light",
-    "dark": "Dark",
-    "system": "System"
+    "label": "تھیم",
+    "hint": "روشنی، اندھیرا استعمال کریں یا اپنے آلے کی پیروی کریں۔",
+    "light": "روشنی",
+    "dark": "اندھیرا",
+    "system": "سسٹم"
   },
-  "largeTextLabel": "Large text",
-  "largeTextHint": "Increases text size for easier reading on site",
-  "highContrastLabel": "High contrast",
-  "highContrastHint": "Makes colors more distinct",
-  "languageLabel": "App language",
+  "largeTextLabel": "بڑا متن",
+  "largeTextHint": "سائٹ پر آسانی سے پڑھنے کے لیے متن کا سائز بڑھاتا ہے۔",
+  "highContrastLabel": "ہائی کنٹراسٹ",
+  "highContrastHint": "رنگوں کو مزید واضح کرتا ہے۔",
+  "languageLabel": "ایپ کی زبان",
   "languageHint": "15 زبانوں میں سے منتخب کریں",
   "notifications": {
-    "statusLabel": "Notification permission",
-    "subscriptionLabel": "Push subscription",
-    "granted": "On",
-    "denied": "Off",
-    "default": "Not asked yet",
-    "unsupported": "Not supported",
-    "subscribed": "Active",
-    "notSubscribed": "Not registered",
-    "enableButton": "Enable notifications",
-    "openSettingsButton": "Open system settings",
-    "refreshButton": "Refresh status",
-    "enabling": "Enabling…",
-    "hintGranted": "Deductions, advances, and attendance alerts are sent to this device.",
-    "hintDenied": "Notifications are off. Enable them in system settings or with the button below.",
-    "hintDefault": "Allow notifications to stay informed about important updates."
+    "statusLabel": "اطلاع کی اجازت",
+    "subscriptionLabel": "پش سبسکرپشن",
+    "granted": "پر",
+    "denied": "آف",
+    "default": "ابھی تک نہیں پوچھا",
+    "unsupported": "تعاون یافتہ نہیں۔",
+    "subscribed": "فعال",
+    "notSubscribed": "رجسٹرڈ نہیں ہے۔",
+    "enableButton": "اطلاعات کو فعال کریں۔",
+    "openSettingsButton": "سسٹم کی ترتیبات کھولیں۔",
+    "refreshButton": "حالت تازہ کریں۔",
+    "enabling": "فعال کر رہا ہے…",
+    "hintGranted": "کٹوتی، پیش قدمی، اور حاضری کے انتباہات اس ڈیوائس پر بھیجے جاتے ہیں۔",
+    "hintDenied": "اطلاعات بند ہیں۔ انہیں سسٹم کی ترتیبات میں یا نیچے والے بٹن کے ساتھ فعال کریں۔",
+    "hintDefault": "اطلاعات کو اہم اپ ڈیٹس کے بارے میں باخبر رہنے کی اجازت دیں۔"
   },
   "about": {
-    "versionLabel": "Version",
-    "publishedLabel": "Published",
+    "versionLabel": "ورژن",
+    "publishedLabel": "شائع شدہ",
     "unknownVersion": "—",
-    "loading": "Loading version info…",
-    "loadFailed": "Could not load version info",
-    "checkUpdates": "View release notes",
-    "apkHint": "If a new version is available, install it from the APK download page."
+    "loading": "ورژن کی معلومات لوڈ ہو رہی ہے…",
+    "loadFailed": "ورژن کی معلومات لوڈ نہیں ہو سکی",
+    "checkUpdates": "ریلیز نوٹس دیکھیں",
+    "apkHint": "اگر نیا ورژن دستیاب ہے، تو اسے APK ڈاؤن لوڈ صفحہ سے انسٹال کریں۔"
   },
   "data": {
-    "clearLabel": "Clear cache on this phone",
-    "clearHint": "Deletes cookies and temporary files. Your account, payroll, and advance records are not deleted; you will need to sign in again.",
-    "clearing": "Clearing…",
-    "confirm": "Only CrewLedger cookies, session, and cache on this device will be cleared and you will be signed out. Your account and server records are not deleted. Other apps are not affected. Continue?"
+    "clearLabel": "اس فون پر کیشے صاف کریں۔",
+    "clearHint": "کوکیز اور عارضی فائلوں کو حذف کرتا ہے۔ آپ کا اکاؤنٹ، پے رول، اور ایڈوانس ریکارڈز حذف نہیں کیے گئے ہیں۔ آپ کو دوبارہ سائن ان کرنے کی ضرورت ہوگی۔",
+    "clearing": "صاف کیا جا رہا ہے…",
+    "confirm": "اس ڈیوائس پر صرف CrewLedger کوکیز، سیشن اور کیشے کو صاف کیا جائے گا اور آپ سائن آؤٹ ہو جائیں گے۔ آپ کے اکاؤنٹ اور سرور کے ریکارڈز حذف نہیں ہوئے ہیں۔ دیگر ایپس متاثر نہیں ہوتی ہیں۔ جاری رکھیں؟"
   }
 }

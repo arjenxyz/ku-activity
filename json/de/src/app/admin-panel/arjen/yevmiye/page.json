@@ -1,7 +1,7 @@
 {
   "employeesLoadFailed": "Çalışanlar yüklenemedi: {message}",
-  "requiredFields": "Lütfen tüm zorunlu alanları doldurun.",
-  "saveError": "Kayıt hatası: {message}",
+  "requiredFields": "Bitte beachten Sie, dass dies nicht der Fall ist.",
+  "saveError": "Hatası gefunden: {message}",
   "saveSuccess": "Kayıt başarıyla eklendi!",
   "title": "Yevmiye Kaydı Oluştur",
   "subtitle": "Günlük veya yarım günlük çalışma kayıtlarını buradan kolayca ekleyebilirsiniz.",
@@ -12,6 +12,6 @@
   "fullDay": "Tam Gün",
   "halfDay": "Yarım Gün",
   "descriptionLabel": "Açıklama",
-  "descriptionPlaceholder": "(İsteğe bağlı) Örn: Erken çıktı, yağmur vardı...",
+  "descriptionPlaceholder": "(Erste Schritte) Örn: Erken çıktı, yağmur vardı...",
   "saveButton": "Kaydet"
 }

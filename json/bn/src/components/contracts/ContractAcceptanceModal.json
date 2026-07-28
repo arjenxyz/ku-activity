@@ -1,16 +1,16 @@
 {
   "stepLabel": "Sözleşme {stepLabel}",
-  "version": "Sürüm {version}",
-  "accepted": " · Onaylandı",
-  "readComplete": " · Okuma tamam",
-  "scrollRequired": " · Metni sonuna kadar kaydırın",
-  "close": "Kapat",
+  "version": "সুরম {version}",
+  "accepted": "· Onaylandı",
+  "readComplete": "· ওকুমা তামাম",
+  "scrollRequired": "· Metni sonuna kadar kaydırın",
+  "close": "কাপাত",
   "summaryTitle": "Kısa özet",
   "scrollHint": "Metnin sonuna kadar kaydırın",
-  "acceptedLabel": "Onaylandı",
-  "closeButton": "Kapat",
+  "acceptedLabel": "ওনাইল্যান্ড",
+  "closeButton": "কাপাত",
   "consentDesktop": "Özeti ve sözleşme metninin tamamını okudum, anladım ve kurumsal onayımı veriyorum.",
-  "consentMobile": "Metni okudum ve kabul ediyorum.",
+  "consentMobile": "মেটনি ওকুদুম ও কাবুল এডিয়োরুম।",
   "approve": "Sözleşmeyi onayla",
-  "later": "Daha sonra"
+  "later": "দহ সোনার"
 }

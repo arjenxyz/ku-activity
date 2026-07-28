@@ -1,12 +1,12 @@
 {
-  "invalidProjectUrl": "Invalid project URL",
-  "projectNotFound": "Project not found",
-  "loadError": "Failed to load data",
-  "backToProjectList": "Back to project list",
-  "loadingData": "Loading…",
-  "stripTitle": "This month",
-  "stripPresent": "Today",
-  "stripMissing": "Pending",
-  "stripActive": "Active",
-  "stripPayroll": "Estimate"
+  "invalidProjectUrl": "অবৈধ প্রকল্প URL",
+  "projectNotFound": "প্রকল্প পাওয়া যায়নি",
+  "loadError": "ডেটা লোড করতে ব্যর্থ হয়েছে৷",
+  "backToProjectList": "প্রকল্পের তালিকায় ফিরে যান",
+  "loadingData": "লোড হচ্ছে...",
+  "stripTitle": "এই মাসে",
+  "stripPresent": "আজ",
+  "stripMissing": "মুলতুবি",
+  "stripActive": "সক্রিয়",
+  "stripPayroll": "অনুমান"
 }

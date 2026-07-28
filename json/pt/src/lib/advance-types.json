@@ -1,6 +1,6 @@
 {
   "statusLabels": {
-    "pending": "Talep bekliyor",
+    "pending": "Talep Bekliyor",
     "approved": "Onaylandı — ödeme bekleniyor",
     "awaiting_receipt": "Nakit teslimi bekleniyor",
     "paid": "Ödendi",
@@ -9,7 +9,7 @@
     "expired": "Süresi doldu"
   },
   "paymentMethodLabels": {
-    "bank_transfer": "Havale / EFT",
+    "bank_transfer": "Havale/EFT",
     "cash": "Nakit"
   }
 }

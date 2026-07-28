@@ -1,9 +1,9 @@
 {
   "adminPanelLabel": "Yönetici Paneli",
-  "personnelPanelLabel": "Personel Paneli",
+  "personnelPanelLabel": "Personalpaneli",
   "adminScreenLabel": "Yönetici Giriş",
-  "personnelScreenLabel": "Personel Giriş",
-  "adminAlternatePrompt": "Personel misiniz?",
+  "personnelScreenLabel": "Personal Giriş",
+  "adminAlternatePrompt": "Persönliche Fehleinschätzung?",
   "personnelAlternatePrompt": "Yönetici misiniz?",
   "homeLink": "← Ana sayfa"
 }

@@ -1,114 +1,114 @@
 {
   "photoUploadFailed": "Fotoğraf yüklenemedi",
-  "updatePhotoTitle": "Profil fotoğrafını güncelle",
-  "uploading": "Yükleniyor…",
-  "takePhoto": "Take photo",
-  "uploadFromGallery": "Choose from gallery",
-  "removePhoto": "Remove photo",
-  "photoMenuTitle": "Profile photo",
-  "photoMenuCancel": "Cancel",
-  "photoRemoveFailed": "Could not remove photo",
-  "profilePhoto": "Profile photo",
-  "profilePhotoHint": "Use a clear photo of your face for attendance and your profile.",
-  "profileAccountLabel": "Personnel account",
-  "backToList": "Back",
-  "exitHint": "Tap to return to the panel",
-  "exitAriaLabel": "Return to panel",
-  "logout": "Sign out",
-  "logoutConfirm": "Sign out of your account?",
-  "logoutConfirmButton": "Yes, sign out",
-  "logoutCancel": "Cancel",
-  "digitalApprovalMark": "Digital approval mark",
-  "digitalApprovalMarkAlt": "CrewLedger digital approval mark",
-  "resetData": "Clear cache on this phone",
-  "resetting": "Clearing…",
-  "resetDataConfirm": "Only CrewLedger cookies, session, and cache on this device will be cleared and you will be signed out. Your account and server records are not deleted. Other apps are not affected. Continue?",
-  "resetDataHint": "Deletes cookies and temporary files. Your account, payroll, and advance records are not deleted.",
+  "updatePhotoTitle": "Profil foto tidak ditampilkan",
+  "uploading": "Yukleniyor…",
+  "takePhoto": "Ambil foto",
+  "uploadFromGallery": "Pilih dari galeri",
+  "removePhoto": "Hapus foto",
+  "photoMenuTitle": "Foto profil",
+  "photoMenuCancel": "Membatalkan",
+  "photoRemoveFailed": "Tidak dapat menghapus foto",
+  "profilePhoto": "Foto profil",
+  "profilePhotoHint": "Gunakan foto wajah Anda yang jelas untuk kehadiran dan profil Anda.",
+  "profileAccountLabel": "Akun personel",
+  "backToList": "Kembali",
+  "exitHint": "Ketuk untuk kembali ke panel",
+  "exitAriaLabel": "Kembali ke panel",
+  "logout": "Keluar",
+  "logoutConfirm": "Keluar dari akun Anda?",
+  "logoutConfirmButton": "Ya, keluar",
+  "logoutCancel": "Membatalkan",
+  "digitalApprovalMark": "Tanda persetujuan digital",
+  "digitalApprovalMarkAlt": "Tanda persetujuan digital CrewLedger",
+  "resetData": "Hapus cache di ponsel ini",
+  "resetting": "Membersihkan…",
+  "resetDataConfirm": "Hanya cookie, sesi, dan cache CrewLedger di perangkat ini yang akan dihapus dan Anda akan keluar. Catatan akun dan server Anda tidak dihapus. Aplikasi lain tidak terpengaruh. Melanjutkan?",
+  "resetDataHint": "Menghapus cookie dan file sementara. Catatan akun, penggajian, dan uang muka Anda tidak dihapus.",
   "emptyValue": "—",
-  "pinTitle": "PIN kodu",
+  "pinTitle": "Kode PIN",
   "pinSubtitle": "Giriş şifrenizi güncelleyin",
   "sections": {
     "home": {
       "title": "Ayarlar",
-      "subtitle": "Hesabınızı ve uygulama tercihlerinizi yönetin."
+      "subtitle": "Hesabınızı dan uygulama tercihlerinizi yönetin."
     },
     "profile": {
       "title": "Profil",
-      "subtitle": "Kişisel bilgiler, iletişim ve banka kayıtlarınız."
+      "subtitle": "Kişisel bilgiler, iletişim, dan banka kayıtlarınız."
     },
     "personal": {
       "title": "Kişisel Ayarlar",
-      "subtitle": "Kimlik ve kişisel bilgileriniz."
+      "subtitle": "Kimlik dan kişisel bilgileriniz."
     },
     "contact": {
       "title": "İletişim",
-      "subtitle": "E-posta ve telefon bilgileriniz."
+      "subtitle": "E-posta dan telepon bilgileriniz."
     },
     "bank": {
       "title": "Banka Bilgileri",
-      "subtitle": "IBAN bilgileriniz."
+      "subtitle": "Bilgiliniz IBAN."
     },
     "work": {
       "title": "İş Bilgileri",
-      "subtitle": "Pozisyon, yevmiye ve şantiye bilgileriniz."
+      "subtitle": "Pozisyon, yevmiye dan şantiye bilgileriniz."
     },
     "contracts": {
       "title": "Sözleşmeler",
-      "subtitle": "Onayladığınız sözleşme kayıtları."
+      "subtitle": "Tidak ada pilihan lain."
     },
     "security": {
-      "title": "Güvenlik",
-      "subtitle": "PIN, aktif cihazlar ve hesap güvenliği."
+      "title": "Guvenlik",
+      "subtitle": "PIN, aktif cihazlar dan hesap güvenliği."
     },
     "language": {
-      "title": "Language",
-      "subtitle": "Choose the app language."
+      "title": "Bahasa",
+      "subtitle": "Pilih bahasa aplikasi."
     },
     "app": {
-      "title": "App Settings",
-      "subtitle": "Theme, language, notifications, and app preferences."
+      "title": "Pengaturan Aplikasi",
+      "subtitle": "Tema, bahasa, notifikasi, dan preferensi aplikasi."
     },
     "releases": {
-      "title": "Release Notes",
-      "subtitle": "Recent changes in the web app."
+      "title": "Catatan Rilis",
+      "subtitle": "Perubahan terkini di aplikasi web."
     }
   },
   "menu": {
     "personal": {
-      "title": "Personal settings",
-      "subtitle": "Profile photo, name, and identity"
+      "title": "Pengaturan pribadi",
+      "subtitle": "Foto profil, nama, dan identitas"
     },
     "contact": {
       "title": "İletişim",
-      "subtitle": "E-posta ve telefon numarası"
+      "subtitle": "Nomor e-posting dan telepon"
     },
     "bank": {
       "title": "Banka",
-      "subtitle": "IBAN bilgisi"
+      "subtitle": "IBAN bilgi"
     },
     "work": {
       "title": "İş bilgileri",
-      "subtitle": "Pozisyon, yevmiye ve proje"
+      "subtitle": "Pozisyon, yevmiye dan proyek"
     },
     "contracts": {
       "title": "Sözleşmeler",
       "subtitle": "Onayladığınız sözleşmeler"
     },
     "security": {
-      "title": "Güvenlik",
-      "subtitle": "PIN kodu, aktif cihazlar ve hesap güvenliği"
+      "title": "Guvenlik",
+      "subtitle": "PIN kode, aktif cihazlar dan hesap güvenliği"
     },
     "language": {
-      "title": "Language",
-      "subtitle": "App language"
+      "title": "Bahasa",
+      "subtitle": "Bahasa aplikasi"
     },
     "app": {
-      "title": "App settings",
-      "subtitle": "Theme, language, notifications, and app preferences"
+      "title": "Pengaturan aplikasi",
+      "subtitle": "Tema, bahasa, notifikasi, dan preferensi aplikasi"
     },
     "releases": {
-      "title": "Release notes",
-      "subtitle": "Recent changes in the web app"
+      "title": "Catatan rilis",
+      "subtitle": "Perubahan terkini di aplikasi web"
     }
   },
   "groups": {
@@ -118,34 +118,34 @@
     "workInfo": "İş bilgileri"
   },
   "fields": {
-    "project": "Project",
-    "site": "Site",
-    "firstName": "Ad",
-    "lastName": "Soyad",
-    "tcKimlik": "T.C. kimlik no",
-    "birthDate": "Doğum tarihi",
+    "project": "Proyek",
+    "site": "Lokasi",
+    "firstName": "Iklan",
+    "lastName": "kedelai",
+    "tcKimlik": "T.C. kimlik tidak",
+    "birthDate": "Terima kasih",
     "email": "E-posta",
-    "phone": "Telefon",
+    "phone": "Telepon",
     "iban": "IBAN",
     "bankName": "Bank",
-    "unknownBank": "Bank could not be detected",
+    "unknownBank": "Bank tidak dapat dideteksi",
     "position": "Pozisyon",
     "dailyWage": "Günlük yevmiye",
     "hireDate": "İşe giriş"
   },
   "language": {
-    "label": "App language",
+    "label": "Bahasa aplikasi",
     "hint": "Anda dapat memilih dari 15 bahasa."
   },
   "releases": {
-    "loading": "Loading update notes…",
-    "loadFailed": "Could not load update notes",
-    "emptyTitle": "No update notes yet",
-    "emptyHint": "When a new web update is published, it will appear here.",
-    "currentVersion": "Web updates",
-    "webUpdatesTitle": "Recent changes",
-    "publishedAt": "Latest update",
-    "notesTitle": "In this period",
-    "noNotes": "No notes for this period."
+    "loading": "Memuat catatan pembaruan…",
+    "loadFailed": "Tidak dapat memuat catatan pembaruan",
+    "emptyTitle": "Belum ada catatan pembaruan",
+    "emptyHint": "Ketika pembaruan web baru diterbitkan, pembaruan itu akan muncul di sini.",
+    "currentVersion": "Pembaruan web",
+    "webUpdatesTitle": "Perubahan terkini",
+    "publishedAt": "Pembaruan terkini",
+    "notesTitle": "Pada periode ini",
+    "noNotes": "Tidak ada catatan untuk periode ini."
   }
 }

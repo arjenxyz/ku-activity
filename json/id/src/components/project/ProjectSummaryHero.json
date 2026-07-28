@@ -1,9 +1,9 @@
 {
-  "sectionAriaLabel": "Project overview",
-  "presentToday": "Present today",
-  "active": "Active",
-  "missing": "Pending",
-  "payroll": "Estimate",
-  "openAttendance": "Go to QR attendance",
-  "locationFallback": "No location set"
+  "sectionAriaLabel": "Ikhtisar proyek",
+  "presentToday": "Hadir hari ini",
+  "active": "Aktif",
+  "missing": "Tertunda",
+  "payroll": "Memperkirakan",
+  "openAttendance": "Buka kehadiran QR",
+  "locationFallback": "Tidak ada lokasi yang ditetapkan"
 }

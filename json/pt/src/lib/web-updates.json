@@ -1,6 +1,6 @@
 {
-  "authFailed": "Could not load update notes (GitHub auth required).",
-  "repoNotFound": "Repository not found.",
-  "fetchFailed": "Could not load update notes.",
-  "sistemHatası": "System error"
+  "authFailed": "Não foi possível carregar notas de atualização (é necessária autenticação do GitHub).",
+  "repoNotFound": "Repositório não encontrado.",
+  "fetchFailed": "Não foi possível carregar as notas de atualização.",
+  "sistemHatası": "Erro do sistema"
 }

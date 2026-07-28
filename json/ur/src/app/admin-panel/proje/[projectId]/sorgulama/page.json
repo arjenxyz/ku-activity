@@ -1,15 +1,15 @@
 {
-  "pageTitle": "Personel Sorgulaması",
+  "pageTitle": "پرسنل Sorgulaması",
   "pageDescription": "Seçili personelin aylık özetini görüntüleyin.",
   "selectEmployeeHint": "Özet için personel seçin.",
   "loading": "Yükleniyor…",
   "workDays": "Çalışılan Gün",
-  "gross": "Brüt",
-  "advances": "Avans",
-  "minimum": "Asgari",
-  "sectionWorkLogs": "Yevmiyeler",
+  "gross": "برٹ",
+  "advances": "ایونز",
+  "minimum": "اصغری",
+  "sectionWorkLogs": "ییومیلیر",
   "sectionAdvances": "Avanslar",
-  "sectionMinimum": "Asgari Ödemeler",
-  "noRecords": "Kayıt yok.",
-  "workDaysUnit": "{amount} gün"
+  "sectionMinimum": "اصغری اوڈیمیلر",
+  "noRecords": "ٹھیک ہے.",
+  "workDaysUnit": "{amount} گن"
 }

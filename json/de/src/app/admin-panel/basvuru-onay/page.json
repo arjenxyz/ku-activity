@@ -1,11 +1,11 @@
 {
   "loadingProjects": "Projeler yükleniyor…",
-  "title": "Başvuru onayı",
-  "noProjects": "Önce aktif bir proje oluşturmalısınız.",
+  "title": "Bitte nicht",
+  "noProjects": "Sobald das Projekt abgeschlossen ist.",
   "goToProjects": "Projelere git",
   "redirecting": "Yönlendiriliyor…",
-  "selectProjectIntro": "Başvuruyu hangi projeye ekleyeceğinizi seçin",
-  "codeWillCarry": " kodu taşınacak)",
+  "selectProjectIntro": "Das Projekt beginnt in einer Sekunde",
+  "codeWillCarry": "kodu taşınacak)",
   "allProjects": "← Tüm projeler",
   "loading": "Yükleniyor…"
 }

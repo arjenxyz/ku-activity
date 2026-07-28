@@ -1,113 +1,158 @@
 {
   "primary": [
     {
-      "label": "Proje özeti",
+      "label": "プロジェ・エゼティ",
       "path": "",
-      "hint": "Personel ve günlük durum"
+      "hint": "人事担当者"
     },
     {
-      "label": "Yevmiye",
-      "path": "yevmiye",
-      "hint": "Günlük çalışma kaydı"
+      "label": "エフミエ",
+      "path": "エフミエ",
+      "hint": "ギュンリュク・チャルシュマ・カイドゥ"
     },
     {
-      "label": "Taşeron karı",
-      "path": "kar",
-      "hint": "Blok, iş kalemi ve kâr"
+      "label": "タシェロン・カリ",
+      "path": "カー",
+      "hint": "ブロック、カレミ ヴェ カル"
     }
   ],
   "groups": [
     {
-      "id": "personel",
-      "label": "Personel",
+      "id": "個人",
+      "label": "人事",
       "links": [
-        { "label": "Personel listesi", "path": "list" },
-        { "label": "Yeni personel", "path": "new" },
-        { "label": "Başvuru onayı", "path": "basvuru-onay" },
-        { "label": "Personel şifreleri", "path": "sorgulama/personel-sifreleri" }
+        {
+          "label": "人事リスト",
+          "path": "リスト"
+        },
+        {
+          "label": "イェニ要員",
+          "path": "新しい"
+        },
+        {
+          "label": "バシュヴル・オナイ",
+          "path": "バスヴル・オナイ"
+        },
+        {
+          "label": "職員シフレレリ",
+          "path": "ソルグラマ/パーソネル・シフレレリ"
+        }
       ]
     },
     {
-      "id": "kayitlar",
-      "label": "Diğer kayıtlar",
+      "id": "カイトラー",
+      "label": "ディエール・カイトラル",
       "links": [
-        { "label": "Avans", "path": "avans" },
         {
-          "label": "Avans talepleri",
-          "path": "avans-talepleri",
-          "hint": "Personel talepleri — onay ve ödeme"
+          "label": "アバンス",
+          "path": "アバン"
         },
         {
-          "label": "Dekont paylaş (OCR)",
+          "label": "アバンス・タレプレリ",
+          "path": "アバンス・タレプレリ",
+          "hint": "担当者タレプレリ — 大丈夫です"
+        },
+        {
+          "label": "デコント・ペイラス (OCR)",
           "absolutePath": "/admin-panel/dekont-paylas",
           "hint": "Bankadan paylaş — otomatik eşleştirme"
         },
-        { "label": "Kesinti", "path": "kesinti" },
-        { "label": "Asgari ücret", "path": "asgari" }
-      ]
-    },
-    {
-      "id": "santiye",
-      "label": "Şantiye",
-      "links": [
-        { "label": "Bloklar", "path": "bloklar" },
-        { "label": "Ekipler", "path": "ekiplar" }
-      ]
-    },
-    {
-      "id": "finans",
-      "label": "Finans",
-      "links": [
-        { "label": "Ne durumdayız?", "path": "durum" },
-        { "label": "Maaş bordrosu", "path": "bordro" },
-        { "label": "Maaş politikası", "path": "maas-politikasi" }
-      ]
-    },
-    {
-      "id": "kontrol",
-      "label": "Kontrol & rapor",
-      "links": [
-        { "label": "Raporlar", "path": "raporlar" },
-        { "label": "Onaylananlar", "path": "raporlar/onaylanan" },
-        { "label": "Bekleyen kayıtlar", "path": "raporlar/onaysiz" },
         {
-          "label": "Kayıt geçmişi",
-          "path": "kayit-gecmisi",
-          "hint": "Sorgulama ve arşiv"
+          "label": "ケシンティ",
+          "path": "ケシンティ"
+        },
+        {
+          "label": "アスガリ・ユクレット",
+          "path": "アスガリ"
+        }
+      ]
+    },
+    {
+      "id": "サンティエ",
+      "label": "シャンティエ",
+      "links": [
+        {
+          "label": "ブロックラー",
+          "path": "ブロックラー"
+        },
+        {
+          "label": "エキプラー",
+          "path": "エキプラ"
+        }
+      ]
+    },
+    {
+      "id": "金融者",
+      "label": "金融者",
+      "links": [
+        {
+          "label": "ネ・ドゥルムデイズ？",
+          "path": "デュラム"
+        },
+        {
+          "label": "マシュ・ボルドロス",
+          "path": "ボルドロ"
+        },
+        {
+          "label": "マシュ・ポリカス",
+          "path": "マース・ポリティカシ"
+        }
+      ]
+    },
+    {
+      "id": "コントロール",
+      "label": "コントロールとラポール",
+      "links": [
+        {
+          "label": "ラポール",
+          "path": "密接な関係"
+        },
+        {
+          "label": "オナイラナンラル",
+          "path": "ラポール/オナイラナン"
+        },
+        {
+          "label": "ベクレーエン・カイトラル",
+          "path": "ラポール/オネイシズ"
+        },
+        {
+          "label": "カイト・ゲチミシ",
+          "path": "カイト・ゲクミシ",
+          "hint": "ソルグラマ ヴェ アルシヴ"
         }
       ]
     }
   ],
   "recordArchive": [
     {
-      "label": "Aylık özet",
-      "desc": "Tüm personelin ay bazında yevmiye, avans ve net durumu",
-      "path": "sorgulama/admin"
+      "label": "アイルク・エゼト",
+      "desc": "担当者はバズンダ イェヴミエ、ネット デュラムを利用します",
+      "path": "ソルグラマ/管理者"
     },
     {
-      "label": "Personel bazlı",
-      "desc": "Tek personelin yevmiye, avans ve asgari kayıtları",
-      "path": "sorgulama"
+      "label": "人事バズル",
+      "desc": "技術者はエフミエ、アバンスはアスガリ・カユットラーリ",
+      "path": "ソルグラマ"
     },
     {
-      "label": "Yevmiye arşivi",
-      "desc": "Tarih ve personele göre yevmiye listesi",
-      "path": "sorgulama/yevmiye"
+      "label": "エフミエ・アルシヴィ",
+      "desc": "タリフ・ヴェ・パーソンレ・ゴレ・エヴミエ・リストシ",
+      "path": "ソルグラマ/エフミエ"
     },
     {
-      "label": "Avans arşivi",
-      "desc": "Verilen avansların listesi",
-      "path": "sorgulama/avans"
+      "label": "アバンス・アルシヴィ",
+      "desc": "正しい情報を確認する",
+      "path": "ソルグラマ/アバンズ"
     },
     {
-      "label": "Kesinti arşivi",
-      "desc": "Kesinti kayıtları",
-      "path": "sorgulama/kesinti"
+      "label": "ケシンティ・アルシヴィ",
+      "desc": "ケシンティ・カイトラリ",
+      "path": "ソルグラマ/ケシンティ"
     },
     {
-      "label": "Asgari arşivi",
-      "desc": "Asgari ücret tamamlama kayıtları",
-      "path": "sorgulama/asgari"
+      "label": "アスガリ・アルシヴィ",
+      "desc": "アスガリ ユクレット タマムラマ カイトラリ",
+      "path": "ソルグラマ/アスガリ"
     }
   ]
 }

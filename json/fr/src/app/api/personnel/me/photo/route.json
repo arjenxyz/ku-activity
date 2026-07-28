@@ -1,10 +1,10 @@
 {
-  "dosyaGerekli": "Dosya gerekli",
-  "yalnızcaJpegPngWebpVeyaGif": "Yalnızca JPEG, PNG, WebP veya GIF yükleyebilirsiniz",
-  "dosyaEnFazla5MbOlabilir": "Dosya en fazla 5 MB olabilir",
-  "personelBulunamadı": "Personel bulunamadı",
-  "fotoğrafYüklenemedi": "Fotoğraf yüklenemedi",
-  "fotoğrafKaydıGüncellenemedi": "Fotoğraf kaydı güncellenemedi",
+  "dosyaGerekli": "Dosia Gerekli",
+  "yalnızcaJpegPngWebpVeyaGif": "Fichiers JPEG, PNG, WebP et GIF",
+  "dosyaEnFazla5MbOlabilir": "Dosya en fazla 5 MB disponible",
+  "personelBulunamadı": "Personnel bulunamadi",
+  "fotoğrafYüklenemedi": "Photo de référence",
+  "fotoğrafKaydıGüncellenemedi": "Photos disponibles",
   "yetkisiz": "Yetkisiz",
-  "fotoğrafKaldırılamadı": "Fotoğraf kaldırılamadı"
+  "fotoğrafKaldırılamadı": "Photograf kaldırılamadı"
 }

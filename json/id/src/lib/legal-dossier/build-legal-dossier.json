@@ -1,50 +1,50 @@
 {
   "errors": {
-    "employeeNotFound": "Personel bulunamadı",
-    "dailyLimitReached": "Günlük indirme limitine ulaştınız ({limit}). Yarın tekrar deneyin."
+    "employeeNotFound": "Personal bulunamadı",
+    "dailyLimitReached": "Günlük indirme limitine ulaştınız ({limit}). Yaın tekrar deneyin."
   },
   "fairnessManifest": {
     "title": "CrewLedger Adil Kayıt İlkeleri",
     "principles": [
-      "Çift onay: Her yevmiye günü yönetici kaydı ve personel onayı ile kesinleşir; tek taraflı kayıt ödemeye yansımaz.",
-      "Şeffaflık: Panelde onaylı, bekleyen ve yönetici onayındaki günler ayrı görünür.",
+      "Çift onay: Nya yevmiye günü yönetici kaydı dan personal onayı ile kesinleşir; tek taraflı kayıt ödemeye yansımaz.",
+      "Jawaban: Panel tidak aktif, tidak berfungsi, dan tidak berfungsi.",
       "Erişim hakkı (KVKK m.11): Kendi verilerinizi bu ZIP ile indirebilirsiniz.",
-      "Sözleşme kanıtı: Onayladığınız sözleşmeler sürüm ve hash ile arşivlenir.",
-      "İtiraz: Kayıtlarla ilgili uyuşmazlıkta yöneticiniz veya veri sorumlusuna yazılı başvurabilirsiniz."
+      "Fungsi yang dapat diubah: Fungsi ini dipilih dan hashnya diurutkan.",
+      "Istirahat: Anda tidak dapat melakukan apa pun atau tidak."
     ],
     "dualApprovalFlow": [
       "1. Yönetici veya personel günü bildirir",
       "2. Karşı taraf onaylar",
-      "3. Gün \"Onaylı\" olur ve maaş hesabına dahil edilir"
+      "3. Gunakan \"Onaylı\" olur dan maaş hesabına dahil edilir"
     ]
   },
   "manifestNotes": {
-    "personnelSelf": "Personel self-servis erişim paketi — KVKK m.11 kapsamında.",
+    "personnelSelf": "Paket layanan mandiri personel — KVKK m.11 kapsamında.",
     "admin": "Yönetici hukuki dosya paketi."
   },
   "readme": {
     "personnelSelf": [
-      "{appName} — Kayıtlarım (Personel Self-Servis)",
-      "Personel: {employeeName}",
-      "Dışa aktarma: {exportedAt}",
+      "{appName} — Kayıtlarım (Layanan Mandiri Personal)",
+      "Personil: {employeeName}",
+      "Tindakan berikut: {exportedAt}",
       "",
-      "Bu paket KVKK m.11 kapsamında kendi verilerinize erişim içindir.",
-      "İçerik: profil, yevmiye, ödemeler, sözleşmeler, başvuru geçmişi.",
-      "Çift onaylı günler \"Onaylı\" statüsünde maaş hesabına yansır.",
+      "Paket KVKK m.11 dapat diverifikasi dengan benar.",
+      "Jawaban: profil, yevmiye, ödemeler, sözleşmeler, başvuru geçmişi.",
+      "Jika Anda ingin mengaktifkan status \"Onaylı\", jangan lupa untuk mengaktifkannya.",
       "",
       "Dosyayı güvenli saklayın; üçüncü kişilerle paylaşmayın."
     ],
     "admin": [
-      "{appName} — Hukuki Personel Dosyası",
-      "Personel: {employeeName}",
-      "Dışa aktarma: {exportedAt}",
-      "Yönetici: {exportedByEmail}",
+      "{appName} — Personil Hukuki Dosyası",
+      "Personil: {employeeName}",
+      "Tindakan berikut: {exportedAt}",
+      "Yönetisi: {exportedByEmail}",
       "",
-      "İçerik:",
-      "- manifest.json — dosya indeksi ve özet",
+      "Jawaban:",
+      "- manifest.json — indeks apa yang ada di sana",
       "- OZET.html — yazdırılabilir özet",
       "- 01-profil … 09-basvuru — modül klasörleri",
-      "- 08-sozlesmeler — onaylanmış sözleşme HTML kopyaları",
+      "- 08-sozlesmeler — onaylanmış sözleşme HTML salinan",
       "",
       "Kişisel verileri KVKK kapsamında koruyun."
     ]

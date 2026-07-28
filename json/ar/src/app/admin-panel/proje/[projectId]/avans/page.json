@@ -1,11 +1,11 @@
 {
-  "employeeAmountRequired": "Personel ve tutar zorunludur.",
-  "successCreated": "Avans kaydı oluşturuldu.",
+  "employeeAmountRequired": "الموظفين ve tutar zorunludur.",
+  "successCreated": "أفانز كايدى أولوشتورولدو.",
   "saveFailed": "Kayıt başarısız",
-  "pageTitle": "Avans Ekle",
-  "pageDescription": "Personele avans kaydı girin. İsteğe bağlı iş kalemine bağlayarak taşeron kârına yansıtın.",
-  "formTitle": "Yeni Avans",
-  "labelDate": "Tarih",
-  "labelAmount": "Tutar (₺)",
-  "labelDescription": "Açıklama"
+  "pageTitle": "أفانز إيكل",
+  "pageDescription": "الأفراد يتقدمون نحو الأفضل. Еsteğe bağlı is kalmine bağlayarak taşeron kârına yansıtın.",
+  "formTitle": "يني أفانز",
+  "labelDate": "تاريخ",
+  "labelAmount": "توتار (₺)",
+  "labelDescription": "أجيكلاما"
 }

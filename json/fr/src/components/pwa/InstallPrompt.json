@@ -4,11 +4,11 @@
   "brandLabel": "CREWLEDGER",
   "title": "Ana ekrana ekleyin",
   "iosHintPrefix": "Safari'de",
-  "iosShare": "Paylaş",
+  "iosShare": "Paylas",
   "iosHintSuffix": "→",
   "iosAddToHome": "Ana Ekrana Ekle",
-  "androidHint": "Yoklama ve yevmiye için uygulama gibi hızlı açılış — tek dokunuşla paneliniz hazır.",
-  "installButton": "Ana ekrana ekle",
-  "iosSafariNote": "Kurulum yalnızca Safari üzerinden yapılır; Chrome veya başka tarayıcıda menü farklı olabilir.",
-  "dismiss": "Daha sonra"
+  "androidHint": "Yoklama et yevmiye için uygulama gibi hızlı açılış — tek dokunuşla paneliniz hazır.",
+  "installButton": "Ana ekrana eklé",
+  "iosSafariNote": "Kurulum yalnızca Safari üzerinden yapılır; Chrome est également disponible dans le menu de configuration.",
+  "dismiss": "Daha Sonra"
 }

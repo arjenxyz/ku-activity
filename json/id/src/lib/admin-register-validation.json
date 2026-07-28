@@ -1,14 +1,14 @@
 {
   "nameRequired": "Ad ve soyad zorunludur.",
-  "emailRequired": "E-posta adresi zorunludur.",
-  "emailInvalid": "Geçerli bir e-posta adresi girin.",
-  "phoneRequired": "Telefon numarası zorunludur.",
+  "emailRequired": "Alamat emailnya zorunludur.",
+  "emailInvalid": "Silakan kirim email ke alamat Anda.",
+  "phoneRequired": "Telepon nomor zorunludur.",
   "phoneInvalid": "Geçerli bir cep telefonu girin (ör. 534 968 5678).",
   "companyRequired": "Firma veya şantiye adı zorunludur.",
   "jobTitleRequired": "Görev / unvan seçin.",
   "cityRequired": "Şehir bilgisi zorunludur.",
-  "teamSizeRequired": "Tahmini personel sayısını seçin.",
-  "projectCountRequired": "Aktif şantiye sayısını seçin.",
+  "teamSizeRequired": "Personil Tahmini mengatakanısını seçin.",
+  "projectCountRequired": "Aktifkan kata-kata berikutnya.",
   "passwordTooShort": "Şifre en az 6 karakter olmalıdır.",
   "passwordMismatch": "Şifreler eşleşmiyor."
 }

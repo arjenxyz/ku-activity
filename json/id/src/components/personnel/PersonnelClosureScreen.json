@@ -1,12 +1,12 @@
 {
-  "accountDeletionNote": "Your account will be deleted on {date}",
-  "accountDeletionNoteAccelerated": "Your account will be deleted in 3 minutes",
-  "countdownLabel": "Time remaining until your account is deleted",
-  "downloadHint": "Download and keep a ZIP copy of your work logs, payments, and contracts.",
-  "fastDeleteTitle": "Want to delete your account faster?",
-  "fastDeleteIntro": "To shorten the waiting period and speed up deletion, complete the steps below in order:",
-  "fastDeleteStep1": "Download your data as a ZIP file",
-  "fastDeleteStep2": "Tap the “I downloaded, continue” button",
-  "fastDeleteStep3": "Confirm the fast deletion option that appears using email verification",
-  "fastDeleteFooter": "Once you complete the steps, the fast deletion option appears automatically on this screen."
+  "accountDeletionNote": "Akun Anda akan dihapus pada {date}",
+  "accountDeletionNoteAccelerated": "Akun Anda akan dihapus dalam 3 menit",
+  "countdownLabel": "Sisa waktu hingga akun Anda dihapus",
+  "downloadHint": "Unduh dan simpan salinan ZIP log pekerjaan, pembayaran, dan kontrak Anda.",
+  "fastDeleteTitle": "Ingin menghapus akun Anda lebih cepat?",
+  "fastDeleteIntro": "Untuk mempersingkat masa tunggu dan mempercepat penghapusan, selesaikan langkah-langkah di bawah ini secara berurutan:",
+  "fastDeleteStep1": "Unduh data Anda sebagai file ZIP",
+  "fastDeleteStep2": "Ketuk tombol “Saya mengunduh, lanjutkan”.",
+  "fastDeleteStep3": "Konfirmasikan opsi penghapusan cepat yang muncul menggunakan verifikasi email",
+  "fastDeleteFooter": "Setelah Anda menyelesaikan langkah-langkahnya, opsi penghapusan cepat muncul secara otomatis di layar ini."
 }

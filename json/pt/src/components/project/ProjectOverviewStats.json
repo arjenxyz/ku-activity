@@ -1,7 +1,7 @@
 {
   "stats": {
-    "employees": "Toplam Personel",
-    "active": "Aktif Personel",
+    "employees": "Pessoal da Toplam",
+    "active": "Pessoal ativo",
     "missing": "Bugün Onaysız",
     "payroll": "Aylık Tahmini"
   },

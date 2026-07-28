@@ -1,13 +1,13 @@
 {
   "cells": {
     "receivable": "Toplam alacak",
-    "expense": "Toplam gider",
-    "profit": "Net kâr",
-    "perShare": "Ortak başı"
+    "expense": "Support Toplam",
+    "profit": "Net kar",
+    "perShare": "Ortak bası"
   },
-  "jobCount": "{count} iş kalemi",
-  "laborCost": "Yevmiye {amount}",
+  "jobCount": "{count} c'est Kalemi",
+  "laborCost": "Evmiye {amount}",
   "margin": "%{margin} marj",
-  "shareSummary": "{shareCount} kişi · {activeCount} aktif iş",
+  "shareSummary": "{shareCount} je suis · {activeCount} actif",
   "emptyValue": "—"
 }

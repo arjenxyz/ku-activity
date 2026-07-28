@@ -1,4 +1,4 @@
 {
-  "unauthorized": "Invalid session",
-  "failed": "Deletion failed"
+  "unauthorized": "Sessão inválida",
+  "failed": "Falha na exclusão"
 }

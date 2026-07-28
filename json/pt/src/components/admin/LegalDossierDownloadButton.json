@@ -1,11 +1,11 @@
 {
   "errors": {
     "downloadFailed": "Dosya indirilemedi",
-    "genericFailed": "İndirme başarısız"
+    "genericFailed": "Indirme başarısız"
   },
-  "title": "{employeeName} için hukuki personel dosyası (ZIP)",
+  "title": "{employeeName} için hukuki pessoal dosyası (ZIP)",
   "loading": "Hazırlanıyor…",
   "button": "Hukuki dosya indir",
-  "hint": "Profile, sensitive data, work logs, advance requests, attendance, payments, contracts, and closure consent in one ZIP.",
-  "fallbackFilename": "crewledger-hukuki-dosya.zip"
+  "hint": "Perfil, dados confidenciais, registros de trabalho, solicitações antecipadas, atendimento, pagamentos, contratos e consentimento de encerramento em um único ZIP.",
+  "fallbackFilename": "Crewledger-hukuki-dosya.zip"
 }

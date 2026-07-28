@@ -1,11 +1,11 @@
 {
   "dosyaGerekli": "Dosya gerekli",
   "yalnızcaJpegPngWebpVeyaGif": "Yalnızca JPEG, PNG, WebP veya GIF yükleyebilirsiniz",
-  "dosyaEnFazla5MbOlabilir": "Dosya en fazla 5 MB olabilir",
-  "personelBulunamadı": "Personel bulunamadı",
-  "fotoğrafKaldırılamadı": "Fotoğraf kaldırılamadı",
+  "dosyaEnFazla5MbOlabilir": "5 এমবি ওলাবিলির ফজলা দোস্য",
+  "personelBulunamadı": "ব্যক্তি বুলুনমাদি",
+  "fotoğrafKaldırılamadı": "ফটোগ্রাফ কালদিরিলামাদি",
   "err025PrivatePhotoStorageSqlÇalıştırın": "025_private_photo_storage.sql çalıştırın",
-  "err025PrivatePhotoStorageSqlÇalıştırın2": "025_private_photo_storage.sql çalıştırın (photo_path kolonu)",
-  "fotoğrafYüklenemedi": "Fotoğraf yüklenemedi",
+  "err025PrivatePhotoStorageSqlÇalıştırın2": "025_private_photo_storage.sql çalıştırın (ফটো_পথ কলোনু)",
+  "fotoğrafYüklenemedi": "ফটোগ্রাফ yüklenemedi",
   "kayıtGüncellenemedi": "Kayıt güncellenemedi"
 }

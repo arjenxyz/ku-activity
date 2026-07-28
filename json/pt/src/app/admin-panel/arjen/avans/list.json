@@ -3,15 +3,15 @@
   "deleteError": "Silme hatası: {message}",
   "title": "Avans / Kesinti Kayıtları",
   "loading": "Yükleniyor...",
-  "colEmployee": "İşçi",
+  "colEmployee": "Işçi",
   "colDate": "Tarih",
-  "colType": "Tür",
+  "colType": "Tur",
   "colAmount": "Tutar",
   "colDescription": "Açıklama",
   "colDelete": "Sil",
   "typeAdvance": "Avans",
   "typeSubcontractorCut": "Taşeron Kesintisi",
   "emptyValue": "-",
-  "deleteRecordTitle": "Kaydı Sil",
+  "deleteRecordTitle": "Kaydi Sil",
   "noRecords": "Kayıt bulunamadı."
 }

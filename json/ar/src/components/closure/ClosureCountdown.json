@@ -1,10 +1,10 @@
 {
-  "title": "Time remaining",
-  "expired": "Deadline passed",
-  "days": "d",
-  "hours": "h",
-  "minutes": "m",
-  "seconds": "s",
-  "phasePending": "Awaiting personnel consents",
-  "phaseExport": "Data export window"
+  "title": "الوقت المتبقي",
+  "expired": "لقد مر الموعد النهائي",
+  "days": "د",
+  "hours": "ح",
+  "minutes": "م",
+  "seconds": "ق",
+  "phasePending": "في انتظار موافقة الموظفين",
+  "phaseExport": "نافذة تصدير البيانات"
 }

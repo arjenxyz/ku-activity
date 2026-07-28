@@ -3,18 +3,18 @@
     "updateFailed": "Güncellenemedi",
     "deleteFailed": "Silinemedi"
   },
-  "deleteConfirm": "Bu kaydı silmek istediğinize emin misiniz?",
+  "deleteConfirm": "¿Bu kaydı silmek istediğinize emin misiniz?",
   "editTitle": "Düzenle",
   "deleteTitle": "Sil",
-  "modalTitle": "Kaydı Düzenle",
+  "modalTitle": "Kaydi Düzenle",
   "dateLabel": "Tarih",
   "daysLabel": "Gün sayısı",
   "amountLabel": "Tutar (₺)",
   "approvedLabel": "Onaylı",
   "jobLabel": "İş kalemi",
   "jobHint": "Taşeron kâr hesabında bu işe yazılır.",
-  "descriptionLabel": "Açıklama",
+  "descriptionLabel": "açıklama",
   "submitSaving": "Kaydediliyor…",
-  "submit": "Kaydet",
+  "submit": "kaydet",
   "cancel": "İptal"
 }

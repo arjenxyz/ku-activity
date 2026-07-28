@@ -1,11 +1,11 @@
 {
-  "submitError": "Kayıt sırasında bir hata oluştu.",
+  "submitError": "Anda perlu melakukan hal yang sama.",
   "title": "Yevmiye Kaydı Ekle",
   "employeeLabel": "Çalışan",
   "selectPlaceholder": "Seçiniz",
   "dateLabel": "Tarih",
   "workTypeLabel": "Çalışma Tipi",
-  "fullDay": "Tam Gün",
+  "fullDay": "Tam Gun",
   "halfDay": "Yarım Gün",
   "descriptionLabel": "Açıklama",
   "submitSaving": "Kaydediliyor...",

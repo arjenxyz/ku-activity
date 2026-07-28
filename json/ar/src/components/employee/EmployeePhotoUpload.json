@@ -1,11 +1,11 @@
 {
   "uploadFailed": "Yükleme başarısız",
-  "removeConfirm": "Fotoğrafı kaldırmak istediğinize emin misiniz?",
-  "deleteFailed": "Silinemedi",
+  "removeConfirm": "Fotoğrafı kaldırmak istediğinize emin Misiniz?",
+  "deleteFailed": "سيلينيدي",
   "uploadTitle": "Fotoğraf yükle",
-  "formatHint": "JPEG, PNG, WebP · max 5 MB",
-  "uploading": "Yükleniyor…",
-  "change": "Değiştir",
-  "upload": "Yükle",
-  "remove": "Kaldır"
+  "formatHint": "JPEG، PNG، WebP · بحد أقصى 5 ميجابايت",
+  "uploading": "يوكلينور…",
+  "change": "ديجيستير",
+  "upload": "يوكل",
+  "remove": "كالدير"
 }

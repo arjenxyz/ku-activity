@@ -1,14 +1,14 @@
 {
   "pageTitle": "Admin Sorgulama",
-  "pageDescription": "Tüm personelin aylık finansal özeti.",
-  "labelMonth": "Ay",
+  "pageDescription": "Ihr Personal wird finanziell unterstützt.",
+  "labelMonth": "Ja",
   "totalGross": "Toplam Brüt",
   "totalAdvances": "Toplam Avans",
-  "totalNet": "Toplam Net",
-  "colEmployee": "Personel",
-  "colDays": "Gün",
+  "totalNet": "Toplam-Netz",
+  "colEmployee": "Personal",
+  "colDays": "Pistole",
   "colGross": "Brüt",
   "colAdvance": "Avans",
   "colMinimum": "Asgari",
-  "colNet": "Net"
+  "colNet": "Netto"
 }

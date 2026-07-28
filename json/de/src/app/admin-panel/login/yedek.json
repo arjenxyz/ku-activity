@@ -1,11 +1,11 @@
 {
-  "invalidEmail": "Geçerli bir email adresi giriniz",
-  "passwordMinLength": "Şifre en az 8 karakter olmalıdır",
+  "invalidEmail": "Bitte senden Sie mir eine E-Mail-Adresse",
+  "passwordMinLength": "Bitte beachten Sie, dass 8 Zeichen erforderlich sind",
   "invalidCredentials": "Geçersiz kimlik bilgileri",
   "sessionFailed": "Oturum oluşturulamadı",
-  "genericError": "Bir hata oluştu. Lütfen tekrar deneyin.",
+  "genericError": "Das war's. Lütfen tekrar deneyin.",
   "title": "Yönetici Girişi",
-  "emailLabel": "Email",
+  "emailLabel": "E-Mail",
   "passwordLabel": "Şifre",
   "loggingIn": "Giriş Yapılıyor...",
   "loginButton": "Giriş Yap"

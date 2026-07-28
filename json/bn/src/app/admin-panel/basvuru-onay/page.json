@@ -1,11 +1,11 @@
 {
-  "loadingProjects": "Projeler yükleniyor…",
+  "loadingProjects": "প্রজেলার ইউক্লেনিয়র…",
   "title": "Başvuru onayı",
   "noProjects": "Önce aktif bir proje oluşturmalısınız.",
-  "goToProjects": "Projelere git",
+  "goToProjects": "প্রকল্পের গিট",
   "redirecting": "Yönlendiriliyor…",
   "selectProjectIntro": "Başvuruyu hangi projeye ekleyeceğinizi seçin",
-  "codeWillCarry": " kodu taşınacak)",
-  "allProjects": "← Tüm projeler",
-  "loading": "Yükleniyor…"
+  "codeWillCarry": "kodu taşınacak)",
+  "allProjects": "← আপনি প্রজেলার",
+  "loading": "ইউক্লেনিয়র…"
 }

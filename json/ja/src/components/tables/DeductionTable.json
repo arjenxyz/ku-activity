@@ -1,14 +1,14 @@
 {
-  "title": "Avans / Kesinti Kayıtları",
-  "workerHeader": "İşçi",
-  "dateHeader": "Tarih",
-  "typeHeader": "Tür",
-  "amountHeader": "Tutar",
-  "descriptionHeader": "Açıklama",
-  "deleteHeader": "Sil",
-  "loading": "Yükleniyor...",
-  "empty": "Kayıt bulunamadı",
-  "advanceType": "Avans",
-  "deductionType": "Kesinti",
-  "deleteTitle": "Kaydı Sil"
+  "title": "アヴァンス / ケシンティ・カイトラリ",
+  "workerHeader": "イシュチ",
+  "dateHeader": "タリフ",
+  "typeHeader": "トゥール",
+  "amountHeader": "ツタール",
+  "descriptionHeader": "アチクラマ",
+  "deleteHeader": "シル",
+  "loading": "ユクレニヨル…",
+  "empty": "カイト・ブルナマディ",
+  "advanceType": "アバンス",
+  "deductionType": "ケシンティ",
+  "deleteTitle": "ケイドゥ・シル"
 }

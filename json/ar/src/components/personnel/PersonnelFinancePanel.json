@@ -1,14 +1,14 @@
 {
-  "sectionTitle": "Maaş dökümü",
-  "printTitle": "Detaylı döküm",
-  "printHint": "Yazdır veya PDF kaydet",
+  "sectionTitle": "ماش دوكومو",
+  "printTitle": "التفاصيل",
+  "printHint": "قم بالطباعة أو النشر بصيغة PDF",
   "rows": {
-    "basePay": "Yevmiye (gün × ücret)",
-    "mesaiPay": "Mesai kazancı (+)",
-    "gross": "Brüt toplam",
-    "advances": "Avanslar (−)",
-    "deductions": "Kesintiler (−)",
-    "minimum": "Asgari ödemeler (+)"
+    "basePay": "يفمية (gün × ücret)",
+    "mesaiPay": "ميسي كازانجي (+)",
+    "gross": "بروت توبلام",
+    "advances": "افانسلار (-)",
+    "deductions": "كيسينتيلير (-)",
+    "minimum": "أصغري أوديملير (+)"
   },
-  "net": "Net"
+  "net": "شبكة"
 }

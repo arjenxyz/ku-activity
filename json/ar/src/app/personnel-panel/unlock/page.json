@@ -1,15 +1,15 @@
 {
-  "greeting": "Hello {name}",
+  "greeting": "مرحبا {name}",
   "pinLabel": "PIN",
-  "unlockButton": "Continue",
-  "unlocking": "Verifying…",
-  "forgotPin": "Forgot PIN",
-  "forgetMe": "Forget me",
-  "forgetMeConfirm": "Your session on this device will be closed. Continue?",
-  "screenLabel": "Lock screen",
-  "subtitle": "Enter your PIN to continue.",
-  "checking": "Loading…",
-  "invalidPin": "Incorrect PIN",
-  "systemError": "Something went wrong",
-  "pinDigitAria": "PIN digit"
+  "unlockButton": "يكمل",
+  "unlocking": "جارٍ التحقق…",
+  "forgotPin": "نسيت رقم التعريف الشخصي",
+  "forgetMe": "ننسى لي",
+  "forgetMeConfirm": "سيتم إغلاق جلستك على هذا الجهاز. يكمل؟",
+  "screenLabel": "قفل الشاشة",
+  "subtitle": "أدخل رقم التعريف الشخصي الخاص بك للمتابعة.",
+  "checking": "تحميل…",
+  "invalidPin": "رقم التعريف الشخصي غير صحيح",
+  "systemError": "حدث خطأ ما",
+  "pinDigitAria": "رقم التعريف الشخصي"
 }

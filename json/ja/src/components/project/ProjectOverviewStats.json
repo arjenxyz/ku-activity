@@ -1,9 +1,9 @@
 {
   "stats": {
-    "employees": "Toplam Personel",
-    "active": "Aktif Personel",
-    "missing": "Bugün Onaysız",
-    "payroll": "Aylık Tahmini"
+    "employees": "トップラム担当者",
+    "active": "アクティフ職員",
+    "missing": "ブグン・オナイス",
+    "payroll": "アイルク・タハミニ"
   },
-  "monthWorkLogs": "Bu ay {present} yevmiye kaydı"
+  "monthWorkLogs": "ブアイ {present} イェヴミエ・ケイドゥ"
 }

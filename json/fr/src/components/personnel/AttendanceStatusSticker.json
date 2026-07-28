@@ -1,37 +1,37 @@
 {
-  "close": "Close",
-  "dismissError": "Dismiss error",
-  "rescanIssue": "Something's wrong — re-scan",
-  "rescan": "Re-scan",
+  "close": "Fermer",
+  "dismissError": "Ignorer l'erreur",
+  "rescanIssue": "Quelque chose ne va pas – effectuez une nouvelle analyse",
+  "rescan": "Re-scanner",
   "states": {
     "waiting": {
-      "pill": "In attendance",
-      "title": "You've been added to the list",
-      "hint": "Wait until your supervisor completes attendance."
+      "pill": "En présence",
+      "title": "Vous avez été ajouté à la liste",
+      "hint": "Attendez que votre superviseur termine sa présence."
     },
     "completed": {
-      "pill": "Completed",
-      "title": "Completed today",
-      "hintDefault": "Your full-day record has been created."
+      "pill": "Complété",
+      "title": "Terminé aujourd'hui",
+      "hintDefault": "Votre dossier d'une journée complète a été créé."
     },
     "cancelled": {
-      "pill": "Cancelled",
-      "title": "Attendance cancelled",
-      "hint": "Your manager cancelled this attendance. Please contact them."
+      "pill": "Annulé",
+      "title": "Participation annulée",
+      "hint": "Votre responsable a annulé cette participation. Veuillez les contacter."
     },
     "removed": {
-      "pill": "Removed from list",
-      "title": "You're not in attendance",
-      "hint": "Scan a new QR or talk to your supervisor."
+      "pill": "Supprimé de la liste",
+      "title": "Vous n'êtes pas présent",
+      "hint": "Scannez un nouveau QR ou parlez à votre superviseur."
     },
     "didNotWork": {
-      "pill": "Did not work",
-      "title": "Marked as not working today",
-      "hint": "No daily wage is recorded."
+      "pill": "N'a pas fonctionné",
+      "title": "Marqué comme ne fonctionnant pas aujourd'hui",
+      "hint": "Aucun salaire journalier n'est enregistré."
     }
   },
   "scanError": {
-    "pill": "Scan failed",
-    "title": "Couldn't read the QR"
+    "pill": "Échec de l'analyse",
+    "title": "Impossible de lire le QR"
   }
 }

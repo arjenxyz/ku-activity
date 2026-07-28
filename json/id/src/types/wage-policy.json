@@ -1,13 +1,13 @@
 {
   "yevmiyeTriggerLabels": {
-    "month_end": "Ay sonunda",
+    "month_end": "Ya sonunda",
     "roof_complete": "Çatı / aşama bitince",
-    "job_complete": "İş bitiminde"
+    "job_complete": "itu benar"
   },
   "prorationModeLabels": {
     "calendar_days": "İşe girişten ay sonuna (takvim günü)",
-    "worked_days": "Sadece çalışılan güne göre",
-    "full_month": "Her zaman tam ay (oranlama yok)"
+    "worked_days": "Sadece çalışılan güne gore",
+    "full_month": "Zaman tam ay-nya (oranlama yok)"
   },
   "dekontDeductionLabels": {
     "manual_review": "Dekontu admin onaylasın (BES/kesinti elle)",

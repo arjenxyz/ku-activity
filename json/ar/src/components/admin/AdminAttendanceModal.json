@@ -1,15 +1,15 @@
 {
-  "closeAriaLabel": "Kapat",
-  "title": "Günlük yoklama",
-  "workDayLabel": "Çalışma günü",
-  "mesaiLabel": "Mesai",
+  "closeAriaLabel": "كابات",
+  "title": "جونلوك يوكلاما",
+  "workDayLabel": "كاليشما غونو",
+  "mesaiLabel": "ميساي",
   "mesaiHintDisabled": "Mesai yalnızca tam gün çalışmada tanımlanır.",
-  "noteLabel": "Not (isteğe bağlı)",
-  "notePlaceholder": "Örn. gece mesaisi, kalıntı iş",
-  "approvalHint": "Yönetici onayından sonra personelin de aynı günü onaylaması gerekir. İki taraf onaylayınca yevmiye kesinleşir.",
+  "noteLabel": "ليس (isteğe bağlı)",
+  "notePlaceholder": "أورن. gece mesaisi, kalıntı iş",
+  "approvalHint": "Yönetici onayından sonra personelin de aynı günü onaylaması gerekir. iki taraf onaylayınca yevmiye kesinleşir.",
   "checkInPlanHint": "Yoklamayı bitirdiğinizde bu değerlerle yevmiye yazılır.",
-  "checkInPlanSubmit": "Kaydet",
-  "submitSaving": "Kaydediliyor…",
+  "checkInPlanSubmit": "كايديت",
+  "submitSaving": "كايديديليور…",
   "submit": "Onayla ve personele gönder",
-  "cancel": "Vazgeç"
+  "cancel": "فازجيك"
 }

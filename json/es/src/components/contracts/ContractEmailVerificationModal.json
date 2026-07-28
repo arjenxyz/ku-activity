@@ -1,13 +1,13 @@
 {
   "otpDigitAriaLabel": "Doğrulama kodu {index}. hane",
-  "emailSendFailed": "E-posta gönderilemedi",
+  "emailSendFailed": "Correo electrónico gönderilemedi",
   "resumingNotice": "Onay bekleyen başvurunuz bulundu. Doğrulamadan sonra bilgileriniz güncellenecek; mevcut başvuru kodunuz aynı kalır.",
   "verifyFailed": "Doğrulama başarısız",
-  "title": "E-posta doğrulama",
+  "title": "Correo electrónico doğrulama",
   "subtitle": "Başvurunuzu tamamlamak için e-postanızı onaylayın",
   "close": "Kapat",
-  "stepSendEmail": "E-posta gönder",
-  "stepConfirmCode": "Kodu onayla",
+  "stepSendEmail": "Correo electrónico gönder",
+  "stepConfirmCode": "kodu onayla",
   "preparingTitle": "Doğrulama e-postası hazırlanıyor",
   "preparingHint": "Birkaç saniye sürebilir…",
   "sentLabel": "Gönderildi",
@@ -16,9 +16,9 @@
   "quickPathHint": "E-postadaki “Başvurumu doğrula” bağlantısına tıklayın — kod girmeden başvuru tamamlanır.",
   "orEnterCode": "veya 6 haneli kodu girin",
   "submitting": "Başvuru gönderiliyor…",
-  "verifyAndSubmit": "Kodu doğrula ve başvuruyu gönder",
+  "verifyAndSubmit": "Kodu doğrula y başvuruyu gönder",
   "resending": "Yeni kod gönderiliyor…",
-  "resendCode": "Kodu tekrar gönder",
+  "resendCode": "Kodu tekrar abajo",
   "retry": "Tekrar dene",
-  "footerHint": "E-posta gelmediyse spam klasörünü kontrol edin. Kod yalnızca bu başvuru için geçerlidir."
+  "footerHint": "Correo electrónico gelmediyse spam klasörünü kontrol edin. Kod yalnızca bu başvuru için geçerlidir."
 }

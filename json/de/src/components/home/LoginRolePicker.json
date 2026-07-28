@@ -1,17 +1,17 @@
 {
-  "buttonDefault": "Sign In",
-  "closeOverlayAriaLabel": "Close sign-in menu",
-  "closeButtonAriaLabel": "Close",
-  "modalTitle": "Choose sign-in",
-  "footerNote": "Choose the panel that matches your role to sign in.",
+  "buttonDefault": "Anmelden",
+  "closeOverlayAriaLabel": "Anmeldemenü schließen",
+  "closeButtonAriaLabel": "Schließen",
+  "modalTitle": "Wählen Sie „Anmelden“.",
+  "footerNote": "Wählen Sie für die Anmeldung das Panel aus, das Ihrer Rolle entspricht.",
   "panels": {
     "personel": {
-      "title": "Personnel",
-      "description": "Attendance, wages, and payroll"
+      "title": "Personal",
+      "description": "Anwesenheit, Löhne und Gehaltsabrechnung"
     },
     "admin": {
       "title": "Admin",
-      "description": "Projects, approvals, and reports"
+      "description": "Projekte, Genehmigungen und Berichte"
     }
   }
 }

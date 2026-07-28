@@ -1,9 +1,17 @@
 {
   "prevMonth": "Önceki ay",
-  "nextMonth": "Sonraki ay",
-  "thisMonth": "Bu ay",
+  "nextMonth": "Sonraki sim",
+  "thisMonth": "Mas sim",
   "summary": "{mesaiDays} mesai günü · {totalPay} toplam kazanç",
-  "selectMonth": "Ay seç:",
-  "weekdays": ["Pt", "Sa", "Ça", "Pe", "Cu", "Ct", "Pz"],
-  "tapForDetail": "Tap an orange day for details"
+  "selectMonth": "Sim, sim:",
+  "weekdays": [
+    "Ponto",
+    "Sá",
+    "Ça",
+    "Pe.",
+    "Cu",
+    "CT",
+    "Pz"
+  ],
+  "tapForDetail": "Toque em um dia laranja para obter detalhes"
 }

@@ -1,10 +1,10 @@
 {
-  "label": "Doğum Tarihi",
-  "yearAriaLabel": "Doğum yılı",
-  "yearPlaceholder": "Yıl",
-  "monthAriaLabel": "Doğum ayı",
-  "monthPlaceholder": "Ay",
-  "dayAriaLabel": "Doğum günü",
-  "dayPlaceholder": "Gün",
-  "hint": "İnşaat sahasında çalışmak için en az {minAge} yaşında olmalısınız. {maxBirthDate} ve öncesi tarihler seçilebilir."
+  "label": "ドゥム・タリヒ",
+  "yearAriaLabel": "ドゥム・ユル",
+  "yearPlaceholder": "ユル",
+  "monthAriaLabel": "ドゥム・アイ",
+  "monthPlaceholder": "ああ",
+  "dayAriaLabel": "ドゥム ギュヌ",
+  "dayPlaceholder": "銃",
+  "hint": "{minAge} は、すべてを解決します。 {maxBirthDate} は、より安全な情報を提供します。"
 }

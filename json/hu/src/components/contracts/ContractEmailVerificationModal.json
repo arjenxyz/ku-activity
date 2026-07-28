@@ -18,7 +18,7 @@
   "submitting": "A jelentkezés elküldése folyamatban…",
   "verifyAndSubmit": "Ellenőrizze a kódot, és nyújtsa be a kérelmet",
   "resending": "Új kód küldése folyamatban…",
-  "resendCode": "Kodu tekrar gönder",
+  "resendCode": "Kodu tekar gönder",
   "retry": "próbáld újra",
   "footerHint": "Ha nem kapott e-mailt, ellenőrizze a spam mappát. A kód csak erre az alkalmazásra érvényes."
 }

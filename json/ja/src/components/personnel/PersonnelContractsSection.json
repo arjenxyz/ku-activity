@@ -1,8 +1,8 @@
 {
-  "loading": "Sözleşmeler yükleniyor…",
-  "sectionTitle": "Sözleşmelerim",
-  "empty": "Onayladığınız sözleşme bulunmuyor.",
-  "sectionTitleWithCount": "Sözleşmelerim ({count})",
-  "versionLine": "Sürüm {version} · {date}",
-  "open": "Aç"
+  "loading": "ソズレシュメラー ユクレニヨル…",
+  "sectionTitle": "ソズレシュメレリム",
+  "empty": "Onayladığınız sözleşme bulunmuyor。",
+  "sectionTitleWithCount": "ソズレシュメレリム ({count})",
+  "versionLine": "シュルム {version} · {date}",
+  "open": "エース"
 }

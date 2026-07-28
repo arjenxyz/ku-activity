@@ -1,9 +1,9 @@
 {
   "statusLabels": {
-    "active": "Aktif",
-    "planned": "Planlanan",
-    "paused": "Durduruldu",
-    "completed": "Tamamlandı",
-    "archived": "Arşivlendi"
+    "active": "أكتيف",
+    "planned": "بلانلانان",
+    "paused": "دوردورولدو",
+    "completed": "تاملاندي",
+    "archived": "أرشيفليندي"
   }
 }

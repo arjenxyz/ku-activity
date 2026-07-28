@@ -8,7 +8,7 @@
   "notFound": "A kamera nem található.",
   "openFailed": "A kamerát nem lehetett kinyitni. Próbálja ki az alábbi alternatívát.",
   "openNativeCamera": "Kapcsolja be a telefon kameráját",
-  "faceHint": "Yüzünüz oval çerçeveye gelsin",
+  "faceHint": "Yüzünüz ovális çerçeveye gelsin",
   "cancel": "Mégsem",
   "captureAriaLabel": "szerezd be a fényképet",
   "nativeCamera": "telefon kamera"

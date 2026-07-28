@@ -1,6 +1,6 @@
 {
   "status": {
-    "pending": "Onay bekliyor",
+    "pending": "ওনায় বেকলিয়র",
     "approved": "Onaylanmış",
     "rejected": "Reddedilmiş",
     "expired": "Süresi dolmuş"
@@ -8,42 +8,42 @@
   "checklist": {
     "photo": "Başvuru fotoğrafı kimlik kartı / yüz ile uyumlu",
     "nameIdentity": "Ad-soyad ile kimlik numarası birbiriyle uyumlu",
-    "contact": "Telefon ve e-posta adresi başvuru sahibine ait görünüyor"
+    "contact": "টেলিফোন এবং ই-পোস্ট ঠিকানা বাশভুরু সাহেবিন"
   },
   "identity": {
-    "foreign": "Yabancı Kimlik / Pasaport",
-    "tc": "T.C. Kimlik No"
+    "foreign": "ইয়াবাঞ্চি কিমলিক/পাসাপোর্ট",
+    "tc": "টি.সি. কিমলিক নং"
   },
   "errors": {
     "formIncomplete": "Pozisyon, yevmiye ve işe giriş tarihini doldurun.",
     "checklistIncomplete": "Onaylamadan önce kimlik teyit maddelerinin tamamını işaretleyin.",
     "approveFailed": "Onay başarısız"
   },
-  "closeOverlayAriaLabel": "Kapat",
+  "closeOverlayAriaLabel": "কাপাত",
   "modalTitle": "Başvuru inceleme",
-  "closeModalAriaLabel": "Modalı kapat",
-  "applicationDates": "Başvuru {createdDate} · Son {expiresDate}",
-  "ageSuffix": "· {age} yaş",
-  "identitySectionTitle": "Kimlik & ödeme",
+  "closeModalAriaLabel": "মোডালি কাপট",
+  "applicationDates": "বাশভুরু {createdDate} · পুত্র {expiresDate}",
+  "ageSuffix": "· {age} ইয়াস",
+  "identitySectionTitle": "কিমলিক এবং ödeme",
   "identitySectionSubtitle": "Onay öncesi doğrulayın",
-  "birthDateLabel": "Doğum tarihi",
+  "birthDateLabel": "দোগুম তারিহি",
   "ibanLabel": "IBAN",
-  "hideSensitive": "Hassas bilgileri gizle",
+  "hideSensitive": "হাসস বিলগিলেরি গিজলে",
   "showSensitive": "Tam kimlik ve IBAN göster",
-  "checklistTitle": "Kimlik teyit kontrol listesi",
+  "checklistTitle": "কিমলিক টেইটি নিয়ন্ত্রণ লিস্টেসি",
   "checklistHint": "Resmi NVI doğrulaması yapılmaz; onay öncesi aşağıdaki maddeleri manuel teyit edin.",
-  "assignmentTitle": "Proje ataması",
+  "assignmentTitle": "প্রজেক্ট অ্যাটামাসি",
   "assignmentSubtitle": "{projectName} altına eklenecek",
-  "assignmentSubtitleFallback": "Seçili proje",
-  "loginHint": "Personel girişi: kimlik numarası + başvuruda belirlediği PIN.",
-  "positionLabel": "Pozisyon *",
-  "positionPlaceholder": "Örn. Demir işçisi, Kalıpçı",
-  "dailyWageLabel": "Günlük yevmiye (₺) *",
+  "assignmentSubtitleFallback": "সেসিলি প্রকল্প",
+  "loginHint": "ব্যক্তিগত গিরিশি: kimlik numarası + başvuruda belirlediği PIN।",
+  "positionLabel": "অবস্থান *",
+  "positionPlaceholder": "অর্ন Demir işçisi, Kalıpçı",
+  "dailyWageLabel": "গুনলুক ইয়েভমিয়ে (₺) *",
   "dailyWagePlaceholder": "1500",
-  "hireDateLabel": "İşe giriş tarihi *",
-  "notPendingMessage": "Bu başvuru üzerinde işlem yapılamaz. Yeni bir tarama yapın veya personelin güncel başvuru kodunu isteyin.",
+  "hireDateLabel": "ইশে গিরিশ তারিহি *",
+  "notPendingMessage": "Bu başvuru üzerinde işlem yapılamaz. Yeni bir tarama yapın veya personelin guncel başvuru kodunu isteyin.",
   "reject": "Reddet",
-  "approveSaving": "Kaydediliyor…",
+  "approveSaving": "কায়দেদিলিওর…",
   "approve": "Onayla ve kaydet",
-  "close": "Kapat"
+  "close": "কাপাত"
 }

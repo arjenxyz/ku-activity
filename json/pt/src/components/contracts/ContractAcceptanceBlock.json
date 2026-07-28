@@ -2,7 +2,7 @@
   "loadFailedAdmin": "Sözleşmeler yüklenemedi. Yöneticinize bildirin.",
   "loadFailed": "Sözleşmeler yüklenemedi.",
   "loading": "Sözleşmeler yükleniyor…",
-  "gateComplete": "Sözleşmeler tamam",
+  "gateComplete": "Sözleşmeler taam",
   "gateTitle": "Sözleşmeler",
   "gateReadyHint": "Başvuruyu gönderebilirsiniz.",
   "gatePendingHint": "Sırayla okuyup onaylayın.",
@@ -12,9 +12,9 @@
   "resumeContracts": "Kaldığın yerden devam et ({accepted}/{total})",
   "requiredTitle": "Zorunlu sözleşmeler",
   "requiredHint": "Her sözleşmeyi açıp sonuna kadar okuyun ({accepted}/{total}).",
-  "sidebarHint": "Her sözleşmeyi sonuna kadar okuyup onaylayın.",
-  "sidebarComplete": "{accepted}/{total} tamam",
+  "sidebarHint": "Seu sözleşmeyi sonuna kadar okuyup onaylayın.",
+  "sidebarComplete": "{accepted}/{total} também",
   "version": "Sürüm {version}",
-  "accepted": " · Onaylandı",
-  "openAndRead": " · Açıp okuyun ve onaylayın"
+  "accepted": "· Onaylandı",
+  "openAndRead": "· Açıp okuyun e onaylayın"
 }

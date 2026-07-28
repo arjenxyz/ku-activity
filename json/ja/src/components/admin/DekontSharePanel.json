@@ -1,65 +1,65 @@
 {
   "shell": {
-    "backToPanel": "Back to panel"
+    "backToPanel": "パネルに戻る"
   },
   "steps": {
-    "upload": "Upload",
-    "analyze": "Scan",
-    "review": "Confirm"
+    "upload": "アップロード",
+    "analyze": "スキャン",
+    "review": "確認する"
   },
-  "trustLabel": "score",
+  "trustLabel": "スコア",
   "validation": {
-    "scanRejectedTitle": "Could not read receipt"
+    "scanRejectedTitle": "レシートを読み取れませんでした"
   },
   "errors": {
-    "draftLoadFailed": "Could not load draft",
-    "analyzeFailed": "Analysis failed",
-    "saveFailed": "Save failed"
+    "draftLoadFailed": "ドラフトをロードできませんでした",
+    "analyzeFailed": "分析に失敗しました",
+    "saveFailed": "保存に失敗しました"
   },
   "success": {
-    "paymentSaved": "Payment recorded.",
-    "doneTitle": "Done",
-    "uploadAnother": "New receipt"
+    "paymentSaved": "支払いが記録されました。",
+    "doneTitle": "終わり",
+    "uploadAnother": "新しい領収書"
   },
   "header": {
-    "title": "Receipt scan",
+    "title": "レシートスキャン",
     "description": ""
   },
   "upload": {
-    "title": "Drop file here",
-    "description": "PDF or image — or share from your banking app",
-    "selectFile": "Choose file",
-    "fileHint": "PDF, JPG, PNG · max 10 MB"
+    "title": "ここにファイルをドロップします",
+    "description": "PDF または画像 — またはバンキング アプリから共有",
+    "selectFile": "ファイルを選択してください",
+    "fileHint": "PDF、JPG、PNG・最大10MB"
   },
   "analyze": {
-    "title": "Reading receipt…"
+    "title": "レシートを読んでいます…"
   },
   "review": {
-    "matchTitle": "Match advance",
-    "viewProfile": "Profile",
-    "approvedOn": "Approved {date}",
-    "amountMatch": "Amount",
-    "noMatchTitle": "No matching advance found",
-    "goToProjects": "Go to panel",
-    "referenceLabel": "Reference",
-    "paymentDateLabel": "Payment date",
-    "amountLabel": "Amount (TRY)",
-    "ibanLabel": "Recipient IBAN",
-    "amountHint": "Enter amount from receipt manually",
-    "saveSaving": "Saving…",
-    "savePayment": "Save payment",
-    "anotherDekont": "Another receipt",
-    "transferCodeLabel": "Expected transfer code",
-    "transferCodeHint": "This code should appear on the receipt if you added it to the transfer description",
-    "transferCodeOverride": "Code not readable on receipt — save anyway",
-    "forcePayment": "Force save payment",
-    "forcePaymentHint": "Payment was made before advance approval (within last {maxDays} days). IBAN and amount must match.",
-    "forcePaymentSaving": "Force saving…",
-    "retroactiveTitle": "Retroactive payment (no request)",
-    "retroactiveHint": "Select employee matching IBAN — payment was made earlier",
-    "retroactiveSave": "Save as retroactive payment",
-    "retroactiveNoEmployee": "No employee found with this IBAN",
-    "payrollMonthNotice": "Payment was made on {paymentDate}. This advance will be posted to the {payrollMonth} payroll."
+    "matchTitle": "試合の進行",
+    "viewProfile": "プロフィール",
+    "approvedOn": "承認済み {date}",
+    "amountMatch": "額",
+    "noMatchTitle": "一致するアドバンスが見つかりませんでした",
+    "goToProjects": "パネルに移動",
+    "referenceLabel": "参照",
+    "paymentDateLabel": "支払日",
+    "amountLabel": "金額 (トライ)",
+    "ibanLabel": "受信者のIBAN",
+    "amountHint": "レシートから金額を手動で入力",
+    "saveSaving": "保存中…",
+    "savePayment": "支払いを節約する",
+    "anotherDekont": "別の領収書",
+    "transferCodeLabel": "期待される転送コード",
+    "transferCodeHint": "このコードを送金の説明に追加した場合は、領収書に表示されるはずです",
+    "transferCodeOverride": "受信時にコードを読み取ることができません - とにかく保存してください",
+    "forcePayment": "支払いを強制的に保存する",
+    "forcePaymentHint": "支払いは事前承認前 (過去 {maxDays} 日以内) に行われました。 IBAN と金額は一致する必要があります。",
+    "forcePaymentSaving": "強制保存…",
+    "retroactiveTitle": "遡及支払い（請求なし）",
+    "retroactiveHint": "IBAN に一致する従業員を選択 — 支払いは以前に行われました",
+    "retroactiveSave": "遡及支払いとして保存",
+    "retroactiveNoEmployee": "この IBAN を持つ従業員は見つかりませんでした",
+    "payrollMonthNotice": "支払いは{paymentDate}に行われました。この前払いは、{payrollMonth} 給与計算に転記されます。"
   },
-  "loading": "Loading…"
+  "loading": "読み込み中…"
 }

@@ -1,49 +1,49 @@
 {
   "status": {
-    "pending": "Onay bekliyor",
+    "pending": "أوناي بيكليور",
     "approved": "Onaylanmış",
     "rejected": "Reddedilmiş",
-    "expired": "Süresi dolmuş"
+    "expired": "سوريسي دولموس"
   },
   "checklist": {
-    "photo": "Başvuru fotoğrafı kimlik kartı / yüz ile uyumlu",
+    "photo": "قم بتخزين بطاقة الصور الفوتوغرافية / استخدمها مرة أخرى",
     "nameIdentity": "Ad-soyad ile kimlik numarası birbiriyle uyumlu",
-    "contact": "Telefon ve e-posta adresi başvuru sahibine ait görünüyor"
+    "contact": "عنوان الهاتف والبريد الإلكتروني başvuru sahibine ait görünüyor"
   },
   "identity": {
-    "foreign": "Yabancı Kimlik / Pasaport",
-    "tc": "T.C. Kimlik No"
+    "foreign": "يابانجي كيمليك / باسابورت",
+    "tc": "تي سي. رقم كيمليك"
   },
   "errors": {
-    "formIncomplete": "Pozisyon, yevmiye ve işe giriş tarihini doldurun.",
+    "formIncomplete": "Pozisyon, yevmiye and işe giriş tarihini doldurun.",
     "checklistIncomplete": "Onaylamadan önce kimlik teyit maddelerinin tamamını işaretleyin.",
     "approveFailed": "Onay başarısız"
   },
-  "closeOverlayAriaLabel": "Kapat",
-  "modalTitle": "Başvuru inceleme",
-  "closeModalAriaLabel": "Modalı kapat",
-  "applicationDates": "Başvuru {createdDate} · Son {expiresDate}",
-  "ageSuffix": "· {age} yaş",
-  "identitySectionTitle": "Kimlik & ödeme",
+  "closeOverlayAriaLabel": "كابات",
+  "modalTitle": "باسفورو inceleme",
+  "closeModalAriaLabel": "يمكن أن يكون الأمر كذلك",
+  "applicationDates": "باشفورو {createdDate} · الابن {expiresDate}",
+  "ageSuffix": "· {age} ياش",
+  "identitySectionTitle": "كيمليك & أوديمي",
   "identitySectionSubtitle": "Onay öncesi doğrulayın",
-  "birthDateLabel": "Doğum tarihi",
+  "birthDateLabel": "دوغوم تاريهي",
   "ibanLabel": "IBAN",
-  "hideSensitive": "Hassas bilgileri gizle",
+  "hideSensitive": "هاساس بيلجيليري جيزل",
   "showSensitive": "Tam kimlik ve IBAN göster",
-  "checklistTitle": "Kimlik teyit kontrol listesi",
+  "checklistTitle": "قائمة التحكم الرئيسية",
   "checklistHint": "Resmi NVI doğrulaması yapılmaz; onay öncesi aşağıdaki maddeleri manuel teyit edin.",
-  "assignmentTitle": "Proje ataması",
-  "assignmentSubtitle": "{projectName} altına eklenecek",
-  "assignmentSubtitleFallback": "Seçili proje",
-  "loginHint": "Personel girişi: kimlik numarası + başvuruda belirlediği PIN.",
-  "positionLabel": "Pozisyon *",
-  "positionPlaceholder": "Örn. Demir işçisi, Kalıpçı",
-  "dailyWageLabel": "Günlük yevmiye (₺) *",
+  "assignmentTitle": "المشروع قادم",
+  "assignmentSubtitle": "{projectName} كهربائي جديد",
+  "assignmentSubtitleFallback": "مشروع منفصل",
+  "loginHint": "الرقم الشخصي: الرقم السري + رقم التعريف الشخصي السري.",
+  "positionLabel": "بوزيسون *",
+  "positionPlaceholder": "أورن. دمير إشيشي، كاليبجي",
+  "dailyWageLabel": "غونلوك يفميي (₺) *",
   "dailyWagePlaceholder": "1500",
-  "hireDateLabel": "İşe giriş tarihi *",
-  "notPendingMessage": "Bu başvuru üzerinde işlem yapılamaz. Yeni bir tarama yapın veya personelin güncel başvuru kodunu isteyin.",
-  "reject": "Reddet",
-  "approveSaving": "Kaydediliyor…",
+  "hireDateLabel": "ışe giriş tarihi *",
+  "notPendingMessage": "Bu başvuru üzerinde işlem yapılamaz. لقد أصبح هذا الأمر أكثر سهولة ويسرًا من خلال توفير خدمات شخصية.",
+  "reject": "رديت",
+  "approveSaving": "كايديديليور…",
   "approve": "Onayla ve kaydet",
-  "close": "Kapat"
+  "close": "كابات"
 }

@@ -7,8 +7,8 @@
   "iosShare": "Paylaş",
   "iosHintSuffix": "→",
   "iosAddToHome": "Ana Ekrana Ekle",
-  "androidHint": "Yoklama ve yevmiye için uygulama gibi hızlı açılış — tek dokunuşla paneliniz hazır.",
+  "androidHint": "Sie haben die Möglichkeit, den Inhalt zu überprüfen und zu löschen.",
   "installButton": "Ana ekrana ekle",
-  "iosSafariNote": "Kurulum yalnızca Safari üzerinden yapılır; Chrome veya başka tarayıcıda menü farklı olabilir.",
+  "iosSafariNote": "Kurulum yalnızca Safari üzerinden yapılır; Das Chrome-Menü ist nicht mehr verfügbar.",
   "dismiss": "Daha sonra"
 }

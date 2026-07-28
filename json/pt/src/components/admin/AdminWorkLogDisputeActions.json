@@ -1,24 +1,24 @@
 {
   "errors": {
-    "invalidAmount": "Gün miktarı tam (1) veya yarım (0.5) olmalı",
+    "invalidAmount": "Gün miktarı tam (1) ou yarım (0.5) olmalı",
     "updateFailed": "Kayıt güncellenemedi",
     "deleteFailed": "Silinemedi"
   },
   "deleteConfirm": "Bu yevmiye kaydını silmek istediğinize emin misiniz? Personelin itirazı da kapanır.",
-  "resolveButton": "Düzelt ve yeniden gönder",
+  "resolveButton": "Düzelt e yeniden gönder",
   "deleteButton": "Kaydı sil",
-  "modalTitle": "İtirazı çöz",
-  "disputeLabel": "Personel itirazı",
+  "modalTitle": "İtirazıçöz",
+  "disputeLabel": "Pessoal itirazı",
   "resolveHint": "Kaydı düzelttikten sonra personelin tekrar onaylaması gerekir.",
   "dateLabel": "Tarih",
-  "dayLabel": "Gün",
-  "fullDayOption": "Tam gün (1)",
-  "halfDayOption": "Yarım gün (0.5)",
+  "dayLabel": "Pistola",
+  "fullDayOption": "Tam gun (1)",
+  "halfDayOption": "Yarım gun (0,5)",
   "mesaiLabel": "Mesai",
   "descriptionLabel": "Açıklama",
   "previewLabel": "Önizleme:",
   "submitSaving": "Kaydediliyor…",
-  "submit": "Personel onayına gönder",
+  "submit": "Pessoal onayına gönder",
   "cancel": "İptal",
-  "disputePrefix": "İtiraz:"
+  "disputePrefix": "Tiraz:"
 }

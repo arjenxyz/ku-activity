@@ -1,8 +1,8 @@
 {
-  "loadFailedAdmin": "Sözleşmeler yüklenemedi. Yöneticinize bildirin.",
+  "loadFailedAdmin": "Sözleşmeler yüklenemedi. يونيتيسينيز بيلديرين.",
   "loadFailed": "Sözleşmeler yüklenemedi.",
   "loading": "Sözleşmeler yükleniyor…",
-  "gateComplete": "Sözleşmeler tamam",
+  "gateComplete": "Sözleşmeler تمام",
   "gateTitle": "Sözleşmeler",
   "gateReadyHint": "Başvuruyu gönderebilirsiniz.",
   "gatePendingHint": "Sırayla okuyup onaylayın.",
@@ -13,8 +13,8 @@
   "requiredTitle": "Zorunlu sözleşmeler",
   "requiredHint": "Her sözleşmeyi açıp sonuna kadar okuyun ({accepted}/{total}).",
   "sidebarHint": "Her sözleşmeyi sonuna kadar okuyup onaylayın.",
-  "sidebarComplete": "{accepted}/{total} tamam",
-  "version": "Sürüm {version}",
-  "accepted": " · Onaylandı",
-  "openAndRead": " · Açıp okuyun ve onaylayın"
+  "sidebarComplete": "{accepted}/{total} تمام",
+  "version": "سوروم {version}",
+  "accepted": "· أونايلاندي",
+  "openAndRead": "· Açıp okuyun ve onaylayın"
 }

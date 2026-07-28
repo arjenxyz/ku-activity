@@ -1,18 +1,26 @@
 {
   "prevMonth": "Önceki ay",
-  "nextMonth": "Sonraki ay",
-  "thisMonth": "Bu ay",
+  "nextMonth": "সোনারকি আয়",
+  "thisMonth": "বু অয়",
   "summary": "{recorded} kayıtlı gün · {confirmed} onaylı · {pending} bekleyen",
-  "selectMonth": "Ay seç:",
-  "weekdays": ["Pt", "Sa", "Ça", "Pe", "Cu", "Ct", "Pz"],
+  "selectMonth": "আয় সেক:",
+  "weekdays": [
+    "পন্ডিত",
+    "সা",
+    "Ça",
+    "পি",
+    "কু",
+    "Ct",
+    "Pz"
+  ],
   "cellTitle": "{date} · {amount} · {status}",
-  "tapForDetail": "Tap a highlighted day for details",
+  "tapForDetail": "বিশদ বিবরণের জন্য একটি হাইলাইট করা দিন আলতো চাপুন",
   "status": {
-    "confirmed": "Onaylı",
-    "pending_employee": "Sizin onayınız",
+    "confirmed": "ওনাইলি",
+    "pending_employee": "সিজিন onayınız",
     "pending_admin": "Yönetici onayı",
-    "disputed": "İtiraz",
-    "none": "İşlemde",
-    "empty": "Kayıt yok"
+    "disputed": "ইতিরাজ",
+    "none": "ইশ্লেমদে",
+    "empty": "ঠিক আছে"
   }
 }

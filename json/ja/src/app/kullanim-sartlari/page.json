@@ -1,52 +1,52 @@
 {
-  "metadataTitle": "Kullanım Şartları",
-  "metadataDescription": "CrewLedger gönüllülük platformu kullanım şartları.",
-  "title": "Kullanım Şartları",
-  "lastUpdatedPrefix": "Son güncelleme:",
+  "metadataTitle": "クラニム・シャルトラリ",
+  "metadataDescription": "CrewLedger gönüllülük プラットフォームu kullanım şartları。",
+  "title": "クラニム・シャルトラリ",
+  "lastUpdatedPrefix": "ソン・ギュンセレメ：",
   "sections": {
     "nature": {
-      "heading": "1. Platformun niteliği",
-      "platformLineSuffix": " ({url}), {developerName} tarafından geliştirilen, {nature}dur. Herhangi bir anonim şirket, limited şirket, taşeron firması veya resmi işveren unvanı adına hareket etmez; tüzel kişiliği bulunmaz."
+      "heading": "1. プラットフォームンニテリ",
+      "platformLineSuffix": "({url})、{developerName} タラフィンダン ゲリシュティリレン、{nature}dur。ヘルハンギ ビル アノニム シルケット、限定されたシルケット、タシェロン ファームマスは、安全な環境を提供します。トゥゼル・キシリヒ・ブルンマズ。"
     },
     "voluntary": {
-      "heading": "2. Gönüllülük ve zorunluluk olmaması",
-      "adminLine": "Yöneticiler (şantiye sorumlusu, ekip başı, proje yöneticisi vb.) platformu yalnızca kendi inisiyatifleriyle kullanabilir. Personel, platformu kullanmayı reddedebilir; bu durumda taraflar arasındaki ücret ve çalışma ilişkisi mevzuattaki resmi usullere göre ayrıca yürütülür."
+      "heading": "2. ゴヌルルルク ヴェ ゾルンルルク オルママス",
+      "adminLine": "Yöneticiler (şantiye sorumlusu、ekip başı、proje yöneticisi vb.) platformu yalnızca kendi inisiyatifleriyle kullanabilir。人事、プラットフォームu kullanmayı reddedebilir。ドゥルムダ タラフララー アラスンダキ ユクレット ヴェ チャリシュマ イリシュキス メヴズアッタキ レスミ ウスッレレ ゴール エアリーカ ユルトゥルル。"
     },
     "scope": {
-      "heading": "3. Hizmetin kapsamı",
-      "body": "Platform; yevmiye, puantaj, yoklama (QR), avans talebi, kesinti, asgari ücret takibi ve benzeri finansal/operasyonel kayıtların dijital ortamda tutulmasına ve hem yönetici hem personel tarafından görüntülenmesine aracılık eder. Amaç, şantiye finansal takibini rahat, dijital ve şeffaf kılmaktır."
+      "heading": "3. ヒズメティン・カプサム",
+      "body": "プラットフォーム;イェヴミエ、プアンタジ、ヨクラマ (QR)、アヴァンス タレビ、ケシンティ、アスガリ ユークレット タキビ、ベンゼリ ファイナンシャル/オペラショネル デジタル オルタムダ トゥトゥルマス ナ ベ ヘム ヨネティ ヘム タラフィンダン ゴルントゥレンメジンアラチュルク・エデル。お金を節約できますし、デジタル情報も得られます。"
     },
     "asIs": {
-      "heading": "4. \"Olduğu gibi\" sunum",
-      "body": "Platform ücretsiz ve gönüllülük esasına göre sunulur. Kesintisiz çalışma, veri kaybı olmaması veya belirli bir hukuki sonuç doğurması garanti edilmez. Teknik bakım, güncelleme veya projenin sonlandırılması mümkündür."
+      "heading": "4.「Olduğu gibi」スヌム",
+      "body": "プラットフォームは、すべてのプラットフォームにアクセスできます。重要なのは、非常に重要な問題であり、非常に重要な問題です。テクニックを駆使し、息子を育てていくことができます。"
     },
     "legalValidity": {
-      "heading": "5. Resmi geçerlilik ve mahkeme delili",
-      "importantPrefix": "Önemli:",
+      "heading": "5. レズミ・ゲチェルリリク・ヴェ・マフケメ・デリリ",
+      "importantPrefix": "オネムリ:",
       "items": [
-        "Resmi bordro / SGK / vergi kayıtlarının yerine geçmez. İş hukuku uyuşmazlıklarında öncelik resmi işveren kayıtları, bordro, banka dekontları ve tanık beyanlarına aittir.",
-        "Elektronik onay kayıtları (sözleşme kabulü, OTP, tarih-saat logları) 6098 sayılı TBK ve ilgili mevzuat çerçevesinde destekleyici delil niteliğinde olabilir; tek başına kesin delil sayılması garanti edilmez.",
-        "Sistemdeki yevmiye, avans ve kesinti kayıtları taraflar arası şeffaflık ve mutabakat amacı taşır; mahkemede bağlayıcı hakediş belgesi olduğu iddia edilmez.",
-        "T.C. kimlik doğrulaması NVI/KPS/e-Devlet ile yapılmaz; yalnızca format kontrolü ve yönetici manuel onayı uygulanır.",
-        "Dekont OCR analizi yardımcı araçtır; banka kayıtlarının yerine geçmez."
+        "Resmi bordro / SGK / vergi kayıtlarının yerine geçmez.非常に重要な問題を解決し、ボルドロ、バンカ・デコントラルを確認してください。",
+        "Elektronik onay kayıtları (sözleşme kabulü、OTP、tarih-saat logları) 6098 Sayılı TBK ve ilgili mevzuat çerçevesinde destekleyici delil niteliğinde olabilir;テクバシュナケシンデリルセイルマスガランティエディルメズ。",
+        "システムデキ・イェヴミエ、アバンスは私たちを攻撃し、タラフラル・アラスを救い、彼らはアマック・タシュルを攻撃します。マフケメデ・バライチュ・ハケディシュ・ベルゲシ・オールドドゥ・イドディア・エディルメズ。",
+        "T.C. NVI/KPS/e-Devlet ile yapılmaz をキムリクが実行します。ヤルヌスカ フォーマット コントロール ヴェ ヨネチ マヌエル オナイ ウイグラヌル。",
+        "Dekont OCR の分析結果。バンカ・カユトラールヌン・イェリン・ゲチメス。"
       ]
     },
     "liability": {
-      "heading": "6. Sorumluluk sınırı",
-      "body": "{developerName}, platform operatörü sıfatıyla; kullanıcıların girdiği verilerin doğruluğu, yöneticiler ile personel arasındaki özel hukuk ilişkileri, ücret ödenmemesi, yanlış kesinti veya iş kazası gibi saha olaylarından doğrudan sorumlu tutulamaz. Bu konulardaki yükümlülükler ilgili işveren, yüklenici ve mevzuat hükümlerine tabidir."
+      "heading": "6. ソルムルルク・スヌル",
+      "body": "{developerName}、プラットフォーム オペレーター sıfatıyla。クリラリン・ギルディ・ベリリン・ドゥルルフ、私は個人的なアラシンダキ、ゼル・フクク・イリシュキレリ、キュレット・オデンメシ、ヤンルシュ・ケシンティ・ヴェヤ・イシュ・カザス、ギビ・サハ・オライラリンダン・ドルダン・ソルムルトゥトゥラマズ。あなたの人生は、旅の目的を達成するために重要です。"
     },
     "ip": {
-      "heading": "7. Fikri mülkiyet",
-      "body": "Yazılım, arayüz ve marka unsurları {developerName}'a aittir. İzinsiz ticari çoğaltma veya satış yapılamaz; gelecekte lisanslama ayrıca duyurulur."
+      "heading": "7. フィクリ・ムルキエット",
+      "body": "Yazılım、arayuz ve marka unsurları {developerName}'a aittir。あなたのことは、あなたが知っていることです。 gelecekte lisanslama ayrıca duyurulur。"
     },
     "contact": {
-      "heading": "8. İletişim",
-      "bodyPrefix": "Sorularınız için:"
+      "heading": "8. イレティシム",
+      "bodyPrefix": "ソルラリンの表示:"
     }
   },
   "shell": {
-    "footerHome": "← Ana sayfa",
-    "footerPrivacy": "Gizlilik",
+    "footerHome": "← アナ・サイファ",
+    "footerPrivacy": "ギズリリク",
     "footerKvkk": "KVKK"
   }
 }

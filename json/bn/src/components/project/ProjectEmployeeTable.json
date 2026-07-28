@@ -1,11 +1,11 @@
 {
-  "title": "Personnel",
-  "subtitle": "Today's status",
-  "empty": "No personnel on this project yet.",
-  "loading": "Loading…",
-  "confirmed": "Present",
-  "none": "Pending",
-  "daysSuffix": " days",
-  "seeAll": "See all",
+  "title": "কর্মী",
+  "subtitle": "আজকের স্ট্যাটাস",
+  "empty": "এই প্রকল্পে এখনও কোনো কর্মী নেই।",
+  "loading": "লোড হচ্ছে...",
+  "confirmed": "বর্তমান",
+  "none": "মুলতুবি",
+  "daysSuffix": "দিন",
+  "seeAll": "সব দেখুন",
   "emptyValue": "—"
 }

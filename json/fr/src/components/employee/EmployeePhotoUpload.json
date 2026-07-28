@@ -1,11 +1,11 @@
 {
-  "uploadFailed": "Yükleme başarısız",
-  "removeConfirm": "Fotoğrafı kaldırmak istediğinize emin misiniz?",
+  "uploadFailed": "Votre recherche",
+  "removeConfirm": "Une photo est-elle prête à prendre des photos ?",
   "deleteFailed": "Silinemedi",
-  "uploadTitle": "Fotoğraf yükle",
-  "formatHint": "JPEG, PNG, WebP · max 5 MB",
-  "uploading": "Yükleniyor…",
-  "change": "Değiştir",
-  "upload": "Yükle",
+  "uploadTitle": "Photo prise",
+  "formatHint": "JPEG, PNG, WebP · maximum 5 Mo",
+  "uploading": "Yukleniyor…",
+  "change": "Değistir",
+  "upload": "Yukle",
   "remove": "Kaldır"
 }

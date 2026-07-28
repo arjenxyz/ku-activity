@@ -1,14 +1,14 @@
 {
   "errors": {
-    "regionNotReady": "The camera area could not be prepared.",
-    "permissionDenied": "Camera permission is required. Allow it from settings or the address bar.",
-    "notFound": "No camera found.",
-    "secureContext": "The camera only works over a secure connection (HTTPS).",
-    "openFailed": "Couldn't open the camera. Try Enter code instead.",
-    "unsupported": "Your browser doesn't support camera access.",
-    "httpsRequired": "The camera only works over HTTPS.",
-    "cameraFailed": "Couldn't open the camera"
+    "regionNotReady": "کیمرہ ایریا تیار نہیں کیا جا سکا۔",
+    "permissionDenied": "کیمرے کی اجازت درکار ہے۔ اسے ترتیبات یا ایڈریس بار سے اجازت دیں۔",
+    "notFound": "کوئی کیمرہ نہیں ملا۔",
+    "secureContext": "کیمرہ صرف ایک محفوظ کنکشن (HTTPS) پر کام کرتا ہے۔",
+    "openFailed": "کیمرہ نہیں کھول سکا۔ اس کے بجائے کوڈ درج کرنے کی کوشش کریں۔",
+    "unsupported": "آپ کا براؤزر کیمرے تک رسائی کو سپورٹ نہیں کرتا ہے۔",
+    "httpsRequired": "کیمرا صرف HTTPS پر کام کرتا ہے۔",
+    "cameraFailed": "کیمرہ نہیں کھول سکا"
   },
-  "invalidQrMessage": "This is not a valid attendance QR code.",
-  "openingCamera": "Opening camera…"
+  "invalidQrMessage": "یہ حاضری کا درست QR کوڈ نہیں ہے۔",
+  "openingCamera": "کیمرہ کھل رہا ہے…"
 }

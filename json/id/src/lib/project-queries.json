@@ -1,6 +1,6 @@
 {
-  "systemError": "Sistem hatası",
+  "systemError": "Sistem topiasi",
   "unauthorized": "Oturum yok veya yönetici yetkisi gerekli",
-  "forbidden": "Bu projeye erişim yetkiniz yok",
+  "forbidden": "Ini adalah proyek yang belum selesai",
   "missingServiceRoleKey": "Sunucu yapılandırması eksik (SERVICE_ROLE_KEY)"
 }

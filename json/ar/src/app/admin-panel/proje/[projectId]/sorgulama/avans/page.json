@@ -1,11 +1,11 @@
 {
-  "pageTitle": "Avans Sorgulama",
-  "pageDescription": "Avans kayıtlarını görüntüleyin, iş kalemini düzenleyin veya silin.",
-  "colEmployee": "Personel",
-  "colDate": "Tarih",
-  "colAmount": "Tutar",
-  "colJob": "İş kalemi",
-  "colDescription": "Açıklama",
-  "colActions": "İşlem",
+  "pageTitle": "أفانز سورجولاما",
+  "pageDescription": "يتم استخدام AVANs kayıtlarını görüntüleyin، وهي عبارة عن عدد من الأعمدة أو الصفائح.",
+  "colEmployee": "شخصي",
+  "colDate": "تاريخ",
+  "colAmount": "توتار",
+  "colJob": "هذا كليمي",
+  "colDescription": "أجيكلاما",
+  "colActions": "إسلام",
   "emptyCell": "—"
 }

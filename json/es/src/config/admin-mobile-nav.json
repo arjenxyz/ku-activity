@@ -1,63 +1,144 @@
 {
   "dock": {
-    "summary": "Overview",
-    "approval": "Approve",
-    "attendance": "Attendance",
-    "profit": "Profit",
-    "payroll": "Payroll",
-    "status": "Status",
-    "menu": "Menu"
+    "summary": "Descripción general",
+    "approval": "Aprobar",
+    "attendance": "Asistencia",
+    "profit": "Ganancia",
+    "payroll": "Nómina de sueldos",
+    "status": "Estado",
+    "menu": "Menú"
   },
   "hub": {
-    "essentialsTitle": "Daily essentials",
-    "essentialsSubtitle": "Overview, approvals and attendance used every day",
-    "periodicTitle": "Weekly & periodic",
-    "periodicSubtitle": "Weekly or month-end operations",
-    "personnelTitle": "Personnel",
-    "siteTitle": "Site",
-    "recordsTitle": "Records & corrections",
-    "recordsSubtitle": "Separate record, approval and archive pages",
+    "essentialsTitle": "Esenciales diarios",
+    "essentialsSubtitle": "Resumen, aprobaciones y asistencia utilizados todos los días.",
+    "periodicTitle": "Semanal y periódico",
+    "periodicSubtitle": "Operaciones semanales o de fin de mes",
+    "personnelTitle": "Personal",
+    "siteTitle": "Sitio",
+    "recordsTitle": "Registros y correcciones",
+    "recordsSubtitle": "Páginas separadas de registro, aprobación y archivo",
     "generalTitle": "General",
-    "generalSubtitle": "All projects and account",
+    "generalSubtitle": "Todos los proyectos y cuenta.",
     "general": {
-      "projects": "Projects",
-      "arjenAdvance": "Arjen advance",
-      "arjenAttendance": "Arjen timesheet",
-      "applications": "Applications",
-      "policy": "Salary policy",
-      "settings": "Settings"
+      "projects": "Proyectos",
+      "arjenAdvance": "avance de arjen",
+      "arjenAttendance": "Hoja de tiempo de Arjen",
+      "applications": "Aplicaciones",
+      "policy": "Política salarial",
+      "settings": "Ajustes"
     }
   },
   "simpleEssentialItems": [
-    { "label": "Project overview", "path": "", "hint": "Personnel list and daily status" },
-    { "label": "Application approval", "path": "basvuru-onay", "hint": "New personnel applications" },
-    { "label": "Attendance / QR", "path": "yevmiye", "hint": "Day, overtime and timesheet are planned here" }
+    {
+      "label": "Resumen del proyecto",
+      "path": "",
+      "hint": "Lista de personal y estado diario."
+    },
+    {
+      "label": "Aprobación de la solicitud",
+      "path": "basvuru-onay",
+      "hint": "Nuevas aplicaciones de personal"
+    },
+    {
+      "label": "Asistencia / QR",
+      "path": "yevmiye",
+      "hint": "Aquí se planifican los días, las horas extras y la hoja de horas"
+    }
   ],
   "periodicItems": [
-    { "label": "Subcontractor profit", "path": "kar", "hint": "Blocks, jobs and profit" },
-    { "label": "Where we stand", "path": "durum", "hint": "Project finance summary" },
-    { "label": "Payroll", "path": "bordro", "hint": "Period payroll" },
-    { "label": "Reports", "path": "raporlar", "hint": "Approval and summary reports" },
-    { "label": "Advance requests", "path": "avans-talepleri", "hint": "Personnel requests" },
-    { "label": "Share receipt", "absolutePath": "/admin-panel/dekont-paylas", "hint": "OCR matching" },
-    { "label": "Salary policy", "path": "maas-politikasi", "hint": "Project salary rules" }
+    {
+      "label": "Beneficio del subcontratista",
+      "path": "Kar",
+      "hint": "Bloques, empleos y ganancias"
+    },
+    {
+      "label": "donde estamos",
+      "path": "trigo duro",
+      "hint": "Resumen de financiación del proyecto"
+    },
+    {
+      "label": "Nómina de sueldos",
+      "path": "borde",
+      "hint": "Nómina del periodo"
+    },
+    {
+      "label": "Informes",
+      "path": "raporlar",
+      "hint": "Informes de aprobación y resumen"
+    },
+    {
+      "label": "Solicitudes anticipadas",
+      "path": "avans-talepleri",
+      "hint": "Solicitudes de personal"
+    },
+    {
+      "label": "Compartir recibo",
+      "absolutePath": "/panel-admin/dekont-paylas",
+      "hint": "Coincidencia de OCR"
+    },
+    {
+      "label": "Política salarial",
+      "path": "maas-politikasi",
+      "hint": "Reglas salariales del proyecto."
+    }
   ],
   "personnelItems": [
-    { "label": "Personnel list", "path": "list" },
-    { "label": "New personnel", "path": "new" },
-    { "label": "Application approval", "path": "basvuru-onay", "hint": "New personnel applications" },
-    { "label": "Attendance / QR", "path": "yevmiye", "hint": "Day, overtime and timesheet are planned here" },
-    { "label": "Personnel passwords", "path": "sorgulama/personel-sifreleri" }
+    {
+      "label": "lista de personal",
+      "path": "lista"
+    },
+    {
+      "label": "Nuevo personal",
+      "path": "nuevo"
+    },
+    {
+      "label": "Aprobación de la solicitud",
+      "path": "basvuru-onay",
+      "hint": "Nuevas aplicaciones de personal"
+    },
+    {
+      "label": "Asistencia / QR",
+      "path": "yevmiye",
+      "hint": "Aquí se planifican los días, las horas extras y la hoja de horas"
+    },
+    {
+      "label": "Contraseñas de personal",
+      "path": "sorgulama/personal-sifreleri"
+    }
   ],
   "siteItems": [
-    { "label": "Blocks", "path": "bloklar" },
-    { "label": "Teams", "path": "ekiplar" }
+    {
+      "label": "Bloques",
+      "path": "bloquear"
+    },
+    {
+      "label": "equipos",
+      "path": "ekiplar"
+    }
   ],
   "recordsItems": [
-    { "label": "Advance", "path": "avans", "hint": "Separate advance record" },
-    { "label": "Deduction", "path": "kesinti", "hint": "Separate deduction record" },
-    { "label": "Approved", "path": "raporlar/onaylanan" },
-    { "label": "Pending records", "path": "raporlar/onaysiz" },
-    { "label": "Record history", "path": "kayit-gecmisi", "hint": "Query and archive" }
+    {
+      "label": "Avance",
+      "path": "avans",
+      "hint": "Registro de avance separado"
+    },
+    {
+      "label": "Deducción",
+      "path": "kesinti",
+      "hint": "Registro de deducción separado"
+    },
+    {
+      "label": "Aprobado",
+      "path": "raporlar/onaylanan"
+    },
+    {
+      "label": "Registros pendientes",
+      "path": "raporlar/onaysiz"
+    },
+    {
+      "label": "Historial de registros",
+      "path": "kayit-gecmisi",
+      "hint": "Consulta y archivo"
+    }
   ]
 }

@@ -1,23 +1,53 @@
 {
   "errors": {
-    "projectNotFound": "Proje bulunamadı",
-    "outsideWindow": "Yoklama saati dışında. {workDate} için izin verilen süre: {windowStartLabel} – {windowEndLabel} ({timezone})."
+    "projectNotFound": "プロジェクト ブルナマディ",
+    "outsideWindow": "ヨクラマ サーティ ディシュンダ。 {workDate} 確認済み: {windowStartLabel} – {windowEndLabel} ({timezone})。"
   },
   "messages": {
-    "open": "{date} yoklaması şu an açık ({startLabel} – {endLabel}, {timezone}).",
-    "otherDateOpen": "Bu tarih için yoklama kapalı. Şu an {currentOpenWorkDate} günü için yoklama yapılabilir.",
-    "closed": "Yoklama penceresi kapalı. {date} için izin verilen süre: {startLabel} – {endLabel} ({timezone}). İş bitişinden sonra, ertesi iş başından 1 dk öncesine kadar."
+    "open": "{date} ヨクラマス シュアン アシュク ({startLabel} – {endLabel}、{timezone})。",
+    "otherDateOpen": "ブ・タリヒ・イシン・ヨクラマ・カパリ。 {currentOpenWorkDate} を参照してください。",
+    "closed": "ヨクラマ・ペンセレシ・カパリ。 {date} 確認済み: {startLabel} – {endLabel} ({timezone})。 1 階建てのアパートメントです。"
   },
   "timezones": [
-    { "value": "Europe/Istanbul", "label": "Türkiye (İstanbul)" },
-    { "value": "Europe/Berlin", "label": "Almanya (Berlin)" },
-    { "value": "Europe/London", "label": "İngiltere (Londra)" },
-    { "value": "Europe/Paris", "label": "Fransa (Paris)" },
-    { "value": "Europe/Amsterdam", "label": "Hollanda (Amsterdam)" },
-    { "value": "Asia/Dubai", "label": "BAE (Dubai)" },
-    { "value": "Asia/Riyadh", "label": "Suudi Arabistan (Riyad)" },
-    { "value": "Asia/Qatar", "label": "Katar (Doha)" },
-    { "value": "Asia/Baku", "label": "Azerbaycan (Bakü)" },
-    { "value": "Europe/Moscow", "label": "Rusya (Moskova)" }
+    {
+      "value": "ヨーロッパ/イスタンブール",
+      "label": "トゥルキエ (イスタンブール)"
+    },
+    {
+      "value": "ヨーロッパ/ベルリン",
+      "label": "アルマーニャ (ベルリン)"
+    },
+    {
+      "value": "ヨーロッパ/ロンドン",
+      "label": "インギルテレ (ロンドラ)"
+    },
+    {
+      "value": "ヨーロッパ/パリ",
+      "label": "フランサ (パリ)"
+    },
+    {
+      "value": "ヨーロッパ/アムステルダム",
+      "label": "オランダ (アムステルダム)"
+    },
+    {
+      "value": "アジア/ドバイ",
+      "label": "BAE（ドバイ）"
+    },
+    {
+      "value": "アジア/リヤド",
+      "label": "スウジアラビスタン (リヤド)"
+    },
+    {
+      "value": "アジア/カタール",
+      "label": "カタル（ドーハ）"
+    },
+    {
+      "value": "アジア/バクー",
+      "label": "アゼルバイカ語 (バクー)"
+    },
+    {
+      "value": "ヨーロッパ/モスクワ",
+      "label": "ルシャ (モスクワ)"
+    }
   ]
 }

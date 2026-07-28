@@ -1,10 +1,10 @@
 {
-  "tagline": "Admin panel",
-  "projectSettingsTitle": "Project settings",
-  "projectSettingsAriaLabel": "Project settings",
-  "loadingProject": "Loading…",
-  "logout": "Sign out",
-  "exitAriaLabel": "Back to home",
-  "menu": "Menu",
-  "menuAriaLabel": "Open menu"
+  "tagline": "Admin-Panel",
+  "projectSettingsTitle": "Projekteinstellungen",
+  "projectSettingsAriaLabel": "Projekteinstellungen",
+  "loadingProject": "Laden…",
+  "logout": "Abmelden",
+  "exitAriaLabel": "Zurück nach Hause",
+  "menu": "Speisekarte",
+  "menuAriaLabel": "Menü öffnen"
 }

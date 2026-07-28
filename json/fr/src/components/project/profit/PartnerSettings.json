@@ -1,9 +1,9 @@
 {
-  "summaryTitle": "Ortak paylaşımı ({count} kişi)",
-  "hint": "Siz dahil kaç kişi kârı eşit paylaşacak? Ortak adları yalnızca etiket içindir.",
-  "shareCountLabel": "Kişi sayısı",
-  "shareCountOption": "{count} kişi",
-  "apply": "Uygula",
+  "summaryTitle": "Ortak paylaşımı ({count} ici)",
+  "hint": "Si vous avez besoin de payer pour payer ? Essayez d'ajouter l'étiquette correspondante.",
+  "shareCountLabel": "Kişi dit",
+  "shareCountOption": "{count} ici",
+  "apply": "Ouïgula",
   "partnerNamePlaceholder": "Ortak adı (isteğe bağlı)",
   "add": "Ekle"
 }

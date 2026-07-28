@@ -1,9 +1,9 @@
 {
   "addJob": "Yeni iş kalemi",
-  "refreshTitle": "Yenile",
-  "refresh": "Yenile",
+  "refreshTitle": "Ienil",
+  "refresh": "Ienil",
   "links": {
-    "blocks": "Bloklar",
+    "blocks": "Bloco",
     "teams": "Ekipler",
     "workLogs": "Yevmiye",
     "advance": "Avans",

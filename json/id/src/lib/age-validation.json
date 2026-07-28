@@ -2,16 +2,16 @@
   "months": [
     "Ocak",
     "Şubat",
-    "Mart",
+    "Pasar",
     "Nisan",
-    "Mayıs",
+    "Mungkin",
     "Haziran",
-    "Temmuz",
-    "Ağustos",
+    "Temuz",
+    "Benar",
     "Eylül",
     "Ekim",
-    "Kasım",
-    "Aralık"
+    "Kasim",
+    "Aralik"
   ],
   "constructionAgeError": "İnşaat sahasında çalışmak için en az {minAge} yaşında olmanız gerekir."
 }

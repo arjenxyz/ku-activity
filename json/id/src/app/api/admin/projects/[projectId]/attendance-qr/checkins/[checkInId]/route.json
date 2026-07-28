@@ -1,5 +1,5 @@
 {
-  "invalidId": "Invalid record id",
-  "invalidBody": "Invalid request body",
-  "invalidAmount": "Day amount must be 0.5 or 1"
+  "invalidId": "ID rekaman tidak valid",
+  "invalidBody": "Isi permintaan tidak valid",
+  "invalidAmount": "Jumlah hari harus 0,5 atau 1"
 }

@@ -1,27 +1,27 @@
 {
   "workDay": {
-    "fullDay": "Tam gün",
-    "halfDay": "Yarım gün",
-    "dayAmount": "{amount} gün",
+    "fullDay": "تام غون",
+    "halfDay": "يريم غون",
+    "dayAmount": "{amount} بندقية",
     "mesaiCeyrek": "{base} + çeyrek mesai",
-    "mesaiYarim": "{base} + yarım mesai",
-    "mesaiTam": "{base} + tam mesai"
+    "mesaiYarim": "{base} + رسالة حب",
+    "mesaiTam": "{base} + تام ميساى"
   },
   "deductionTypes": {
-    "advance": "Avans",
-    "deduction": "Kesinti",
-    "other": "Diğer",
+    "advance": "أفانز",
+    "deduction": "كيسينتي",
+    "other": "آخر",
     "subcontractor_cut": "Taşeron kesintisi",
-    "minimum": "Asgari"
+    "minimum": "أصغري"
   },
   "mesaiCountLines": {
-    "tam": "Tam mesai",
-    "ceyrek": "Çeyrek mesai",
-    "yarim": "Yarım mesai"
+    "tam": "تام ميسي",
+    "ceyrek": "سيريك ميسي",
+    "yarim": "يريم ميسي"
   },
   "workDayCountLines": {
-    "full": "Tam gün",
-    "half": "Yarım gün",
-    "total": "Toplam gün"
+    "full": "تام غون",
+    "half": "يريم غون",
+    "total": "بندقية توبلام"
   }
 }

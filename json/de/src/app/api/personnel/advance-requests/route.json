@@ -1,7 +1,7 @@
 {
-  "taleplerYüklenemedi": "Could not load requests",
-  "oturumGeçersiz": "Invalid session",
-  "talepOluşturulamadı": "Could not create request",
-  "projeKapanışta": "The project is in closure; advance requests cannot be created.",
-  "geçersizTutar": "Invalid amount"
+  "taleplerYüklenemedi": "Anfragen konnten nicht geladen werden",
+  "oturumGeçersiz": "Ungültige Sitzung",
+  "talepOluşturulamadı": "Anfrage konnte nicht erstellt werden",
+  "projeKapanışta": "Das Projekt befindet sich im Abschluss; Vorabanfragen können nicht erstellt werden.",
+  "geçersizTutar": "Ungültiger Betrag"
 }

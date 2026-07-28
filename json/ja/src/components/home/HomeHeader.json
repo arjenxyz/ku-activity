@@ -1,13 +1,13 @@
 {
   "navLinks": {
-    "hero": "Home",
-    "features": "Features",
-    "playStore": "Google Play",
-    "apk": "Download APK",
-    "contact": "Contact"
+    "hero": "家",
+    "features": "特徴",
+    "playStore": "Googleプレイ",
+    "apk": "APKをダウンロード",
+    "contact": "接触"
   },
-  "menuOpenAriaLabel": "Open menu",
-  "menuCloseAriaLabel": "Close menu",
-  "mobileMenuTitle": "Menu",
+  "menuOpenAriaLabel": "メニューを開く",
+  "menuCloseAriaLabel": "メニューを閉じる",
+  "mobileMenuTitle": "メニュー",
   "tagline": "建設人材管理プラットフォーム"
 }

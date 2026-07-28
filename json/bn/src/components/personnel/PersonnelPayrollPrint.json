@@ -1,96 +1,96 @@
 {
-  "title": "Payroll Statement",
-  "printedAt": "Printed:",
-  "documentNo": "Document no:",
-  "employeeInfo": "Employee information",
-  "periodSummary": "Period summary",
-  "workLogsTitle": "Work log records ({count})",
-  "mesaiSummary": "Overtime summary",
-  "advancesTitle": "Advances ({count})",
-  "deductionsTitle": "Deductions ({count})",
-  "minimumWagesTitle": "Minimum wage payments ({count})",
-  "calcSummary": "Calculation summary",
-  "emptyValue": "\u2014",
+  "title": "বেতন বিবরণী",
+  "printedAt": "মুদ্রিত:",
+  "documentNo": "নথি নং:",
+  "employeeInfo": "কর্মচারী তথ্য",
+  "periodSummary": "সময়ের সারাংশ",
+  "workLogsTitle": "কাজের লগ রেকর্ড ({count})",
+  "mesaiSummary": "ওভারটাইম সারাংশ",
+  "advancesTitle": "অগ্রিম ({count})",
+  "deductionsTitle": "কর্তন ({count})",
+  "minimumWagesTitle": "ন্যূনতম মজুরি প্রদান ({count})",
+  "calcSummary": "গণনার সারাংশ",
+  "emptyValue": "—",
   "fields": {
-    "fullName": "Full name",
-    "position": "Position",
-    "project": "Project / site",
-    "dailyWage": "Daily wage",
-    "tcKimlik": "National ID",
-    "hireDate": "Hire date"
+    "fullName": "পুরো নাম",
+    "position": "অবস্থান",
+    "project": "প্রকল্প / সাইট",
+    "dailyWage": "দৈনিক মজুরি",
+    "tcKimlik": "জাতীয় পরিচয়পত্র",
+    "hireDate": "তারিখ ভাড়া"
   },
   "summary": {
-    "workDays": "Worked days",
-    "approvedDays": "Approved days",
-    "pendingDays": "Pending days",
-    "mesaiUnits": "Overtime units",
-    "netEstimate": "Estimated Net Salary"
+    "workDays": "কাজের দিন",
+    "approvedDays": "অনুমোদিত দিন",
+    "pendingDays": "অমীমাংসিত দিন",
+    "mesaiUnits": "ওভারটাইম ইউনিট",
+    "netEstimate": "আনুমানিক নেট বেতন"
   },
   "table": {
-    "date": "Date",
-    "dateTime": "Date / Time",
-    "work": "Work",
-    "mesai": "Overtime",
-    "wage": "Wage",
-    "mesaiPay": "Overtime \u20ba",
-    "rowTotal": "Row total",
-    "status": "Status",
-    "total": "Total",
-    "type": "Type",
-    "record": "Record",
-    "unit": "Unit",
-    "amount": "Amount",
-    "description": "Description",
-    "deductionType": "Type"
+    "date": "তারিখ",
+    "dateTime": "তারিখ/সময়",
+    "work": "কাজ",
+    "mesai": "ওভারটাইম",
+    "wage": "মজুরি",
+    "mesaiPay": "ওভারটাইম ₺",
+    "rowTotal": "মোট সারি",
+    "status": "স্ট্যাটাস",
+    "total": "মোট",
+    "type": "টাইপ",
+    "record": "রেকর্ড",
+    "unit": "ইউনিট",
+    "amount": "পরিমাণ",
+    "description": "বর্ণনা",
+    "deductionType": "টাইপ"
   },
   "mesaiTypes": {
-    "ceyrek": "Quarter overtime",
-    "yarim": "Half overtime",
-    "tam": "Full overtime"
+    "ceyrek": "কোয়ার্টার ওভারটাইম",
+    "yarim": "অর্ধেক ওভারটাইম",
+    "tam": "সম্পূর্ণ ওভারটাইম"
   },
   "empty": {
-    "workLogs": "No work log records for this period.",
-    "advances": "No advance records.",
-    "deductions": "No deduction records.",
-    "minimumWages": "No minimum wage top-up payment."
+    "workLogs": "এই সময়ের জন্য কোনও কাজের লগ রেকর্ড নেই।",
+    "advances": "কোন অগ্রিম রেকর্ড নেই.",
+    "deductions": "কোন ডিডাকশন রেকর্ড নেই।",
+    "minimumWages": "ন্যূনতম মজুরি টপ-আপ পেমেন্ট নেই।"
   },
   "defaults": {
-    "advance": "Advance",
-    "minimumWage": "Minimum wage top-up"
+    "advance": "অগ্রিম",
+    "minimumWage": "ন্যূনতম মজুরি টপ-আপ"
   },
   "totals": {
-    "grand": "Grand total",
-    "advances": "Total advances",
-    "deductions": "Total deductions",
-    "minimumWages": "Total minimum wage"
+    "grand": "গ্র্যান্ড মোট",
+    "advances": "মোট অগ্রগতি",
+    "deductions": "মোট ছাড়",
+    "minimumWages": "মোট ন্যূনতম মজুরি"
   },
   "calc": {
-    "basePay": "Wage ({days} days x {wage})",
-    "mesaiPay": "Overtime earnings (+)",
-    "gross": "Gross total",
-    "advances": "Advances (-)",
-    "deductions": "Deductions (-)",
-    "minimumWages": "Minimum wage payments (-)",
-    "netPayment": "Estimated Net Salary",
-    "note": "Net formula: Gross ({gross}) - Advance ({advances}) - Deduction ({deductions}){minimumPart} = {net}",
-    "minimumPart": " - Minimum ({amount})"
+    "basePay": "মজুরি ({days} দিন x {wage})",
+    "mesaiPay": "ওভারটাইম উপার্জন (+)",
+    "gross": "মোট মোট",
+    "advances": "অগ্রিম (-)",
+    "deductions": "কর্তন (-)",
+    "minimumWages": "ন্যূনতম মজুরি প্রদান (-)",
+    "netPayment": "আনুমানিক নেট বেতন",
+    "note": "নেট সূত্র: স্থূল ({gross}) - অগ্রিম ({advances}) - কর্তন ({deductions}){minimumPart} = {net}",
+    "minimumPart": "- সর্বনিম্ন ({amount})"
   },
   "footer": {
-    "employee": "Employee",
-    "employer": "Employer / Manager",
-    "employeeRole": "Personnel reviewing this document",
-    "employerRole": "Manager / employer approving this document",
-    "signedAt": "Document date",
-    "signatureHint": "Full name - Date - Signature",
-    "clausesTitle": "Document notices",
+    "employee": "কর্মচারী",
+    "employer": "নিয়োগকর্তা / ব্যবস্থাপক",
+    "employeeRole": "কর্মী এই নথি পর্যালোচনা",
+    "employerRole": "ম্যানেজার / নিয়োগকর্তা এই নথি অনুমোদন",
+    "signedAt": "নথির তারিখ",
+    "signatureHint": "পুরো নাম - তারিখ - স্বাক্ষর",
+    "clausesTitle": "নথি নোটিশ",
     "clauses": [
-      "This document is for informational purposes only and is not an official payroll, social-security filing, or tax document.",
-      "Records are generated from the same database in the {appName} personnel and admin panels.",
-      "In employment disputes, signed official payrolls, bank receipts, and legally required documents take precedence.",
-      "This document was created electronically and is verified by digital system records; a wet-ink signature is not required."
+      "এই নথিটি শুধুমাত্র তথ্যগত উদ্দেশ্যে এবং এটি একটি অফিসিয়াল বেতন, সামাজিক-নিরাপত্তা ফাইলিং, বা ট্যাক্স নথি নয়।",
+      "{appName} কর্মী এবং অ্যাডমিন প্যানেলে একই ডাটাবেস থেকে রেকর্ড তৈরি করা হয়।",
+      "কর্মসংস্থান বিরোধে, স্বাক্ষরিত অফিসিয়াল বেতন, ব্যাঙ্ক রসিদ এবং আইনত প্রয়োজনীয় নথিগুলি অগ্রাধিকার পায়।",
+      "এই নথিটি ইলেকট্রনিকভাবে তৈরি করা হয়েছে এবং ডিজিটাল সিস্টেম রেকর্ড দ্বারা যাচাই করা হয়েছে; একটি ভেজা কালি স্বাক্ষর প্রয়োজন হয় না."
     ],
-    "digitalSeal": "Digital Approval Mark",
-    "digitalSealHint": "Verified by CrewLedger system records",
-    "brandTagline": "Construction Workforce Platform"
+    "digitalSeal": "ডিজিটাল অনুমোদন চিহ্ন",
+    "digitalSealHint": "CrewLedger সিস্টেম রেকর্ড দ্বারা যাচাই করা হয়েছে",
+    "brandTagline": "নির্মাণ কর্মশক্তি প্ল্যাটফর্ম"
   }
 }

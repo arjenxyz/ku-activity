@@ -1,4 +1,4 @@
 {
-  "noActiveBlock": "\"{teamName}\" ekibine aktif blok atanmamış. Ekipler sayfasından blok atayın.",
-  "blockCompleted": "\"{teamName}\" ekibinin bloğu ({blockName}) tamamlanmış. Yeni blok oluşturup ekibe atayın."
+  "noActiveBlock": "\"{teamName}\" ekibine aktif blok atanmamış。エキプラーは、ファシンダンブロックアティンを言います。",
+  "blockCompleted": "「{teamName}」えきびにん bloğu ({blockName}) タマムランミシュ。イェニ・ブロック・オルシュトゥルプ・エキベ・アティン。"
 }

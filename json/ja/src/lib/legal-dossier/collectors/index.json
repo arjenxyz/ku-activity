@@ -1,47 +1,71 @@
 {
   "errors": {
-    "employeeNotFound": "Personel bulunamadı"
+    "employeeNotFound": "ブルナマディ人事"
   },
   "collectors": {
-    "profile": { "title": "Personel profili" },
+    "profile": {
+      "title": "人物プロフィール"
+    },
     "sensitive": {
-      "title": "Hassas kimlik ve banka bilgileri",
-      "noDataNote": "Hassas veri kaydı bulunamadı veya şifreleme yapılandırılmamış"
+      "title": "ハサス・キムリク・ヴェ・バンカ・ビルギレリ",
+      "noDataNote": "ハッサス ヴェリ ケイドゥ ブルナマドゥ ヴェヤ シフレレメ ヤピランドドゥルルマームシュ"
     },
-    "project": { "title": "Proje ve çalışma yeri" },
-    "workLogs": { "title": "Yevmiye ve puantaj kayıtları" },
-    "deductions": { "title": "Avans ve kesintiler" },
-    "minimumWages": { "title": "Asgari ücret kayıtları" },
-    "payroll": { "title": "Bordro dönemleri ve satırlar" },
-    "contracts": { "title": "Sözleşme onayları ve metinleri" },
-    "registration": { "title": "Application and approval history" },
+    "project": {
+      "title": "プロジェクトはカルシュマイェリです"
+    },
+    "workLogs": {
+      "title": "エフミエ ヴェ プアンタジ カイトラリ"
+    },
+    "deductions": {
+      "title": "アバンス・ヴェ・ケシンティラー"
+    },
+    "minimumWages": {
+      "title": "アスガリ ユクレット カイトラリ"
+    },
+    "payroll": {
+      "title": "衛星放送を視聴する"
+    },
+    "contracts": {
+      "title": "ソズレシュメ・オナイラル・ヴェ・メティンレリ"
+    },
+    "registration": {
+      "title": "申請・承認履歴"
+    },
     "advanceRequests": {
-      "title": "Advance requests (approval, payment, receipt)",
-      "proofNote": "Receipt files are not copied into the ZIP; proof_* fields contain reference and OCR metadata only."
+      "title": "事前申請（承認・支払い・領収書）",
+      "proofNote": "受信ファイルは ZIP にコピーされません。 proof_* フィールドには参照メタデータと OCR メタデータのみが含まれます。"
     },
-    "attendance": { "title": "Attendance check-ins and session notices" },
-    "notifications": { "title": "In-app notification history" },
+    "attendance": {
+      "title": "出席チェックインとセッション通知"
+    },
+    "notifications": {
+      "title": "アプリ内通知履歴"
+    },
     "closureConsent": {
-      "title": "Project closure consent",
-      "notInClosure": "Project is not in closure or no consent record yet"
+      "title": "プロジェクト終了の同意",
+      "notInClosure": "プロジェクトは終了していないか、同意記録がまだありません"
     },
-    "company": { "title": "Business / data controller info" },
-    "extensionsPlaceholder": { "title": "Extensible module placeholder" }
+    "company": {
+      "title": "ビジネス/データ管理者情報"
+    },
+    "extensionsPlaceholder": {
+      "title": "拡張可能なモジュールのプレースホルダー"
+    }
   },
   "contractHtml": {
-    "approvedLabel": "Onay:",
-    "versionLabel": "Sürüm:",
-    "contentHashLabel": "İçerik hash:"
+    "approvedLabel": "オナイ:",
+    "versionLabel": "シュルム:",
+    "contentHashLabel": "チェリクハッシュ:"
   },
   "extensionsPlaceholder": {
-    "message": "CrewLedger hukuki dosya sistemi genişletilebilir. Yeni özellikler registerDossierCollector() ile eklenir.",
+    "message": "CrewLedger のフクキ dosya システムは、genişletilebilir です。イェニーは registerDossierCollector() を実行します。",
     "reservedModules": [
-      "leave_requests — İzin / devamsızlık talepleri",
-      "documents — Yüklenen belgeler",
-      "disciplinary — Disiplin kayıtları",
-      "communications — Bildirim ve mesaj logları",
-      "attendance_devices — Cihaz bazlı yoklama"
+      "Leave_requests — İzin / devamsızlık Talepleri",
+      "文書 — ユクレネン・ベルゲラー",
+      "懲戒 — 懲戒",
+      "コミュニケーション — Bildirim ve mesaj logları",
+      "attence_devices — Cihaz bazlı yoklama"
     ],
-    "integration": "src/lib/legal-dossier/collectors/ altına yeni dosya ekleyip registerDossierCollector çağırın."
+    "integration": "src/lib/legal-dossier/collectors/ altınayeni dosya ekleyip registerDossierCollector を参照してください。"
   }
 }

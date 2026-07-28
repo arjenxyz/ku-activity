@@ -1,23 +1,23 @@
 {
-  "invalidQrDefault": "Görselde geçerli başvuru QR kodu bulunamadı.",
+  "invalidQrDefault": "Sélectionnez le code QR correspondant.",
   "errors": {
-    "elementNotReady": "Kamera alanı hazırlanamadı. Sayfayı yenileyip tekrar deneyin.",
-    "cameraNotSupported": "Tarayıcınız kamera erişimini desteklemiyor.",
-    "secureContextRequired": "Kamera yalnızca HTTPS veya localhost üzerinde çalışır.",
-    "permissionDenied": "Kamera izni verilmedi. Tarayıcı adres çubuğundaki kamera ikonundan izin verin.",
-    "cameraNotFound": "Kamera bulunamadı. USB/webcam bağlı mı kontrol edin.",
-    "cameraOpenFailed": "Kamera açılamadı. Farklı tarayıcı deneyin, QR görseli yükleyin veya kodu elle girin.",
-    "qrReadNoCode": "QR okundu ancak geçerli başvuru kodu bulunamadı. Personelin başvuru ekranındaki QR kodunu gösterin.",
+    "elementNotReady": "La caméra est allumée. Sayfayı yenileyip tekrar deneyin.",
+    "cameraNotSupported": "La caméra est alors utilisée pour les appareils photo.",
+    "secureContextRequired": "La caméra HTTPS et l'hôte local sont utilisés.",
+    "permissionDenied": "Caméra izni verilmedi. L'adresse de votre appareil photo est celle de votre appareil photo.",
+    "cameraNotFound": "Appareil photo fourni. Utilisez la webcam/USB pour contrôler votre appareil.",
+    "cameraOpenFailed": "Appareil photo activé. Farklı tarayıcı deneyin, QR görseli yükleyin veya kodu elle girin.",
+    "qrReadNoCode": "QR okundu ancak geçerli basvuru kodu bulunamadı. Personelin başvuru ekranındaki QR kodunu gösterin.",
     "noQrInImage": "Görselde QR kodu bulunamadı. Daha net bir ekran görüntüsü deneyin.",
-    "imageScanFailed": "QR görseli okunamadı. Başvuru kodunu elle girebilirsiniz."
+    "imageScanFailed": "QR goseli okunamadı. Başvuru kodunu elle girebilirsiniz."
   },
-  "scanWithCamera": "Kamera ile QR Tara",
-  "openingCamera": "Kamera açılıyor…",
-  "uploadQrImage": "QR Görseli Yükle",
+  "scanWithCamera": "Appareil photo QR Tara",
+  "openingCamera": "Appareil photo en cours…",
+  "uploadQrImage": "QR Görseli Yukle",
   "scanningFile": "Okunuyor…",
   "stopScan": "Taramayı Durdur",
-  "rawScanPrefix": "Okunan:",
-  "startingCamera": "Kamera başlatılıyor, lütfen bekleyin…",
-  "activeHint": "Personelin başvuru ekranındaki QR kodunu kameraya gösterin. Önizleme aynalı görünebilir; okuma her yönden çalışır. Okumazsa alttaki ARJ- kodunu yazın — otomatik doğrulanır.",
-  "idleHint": "PC'de kamera açılmazsa QR ekran görüntüsünü yükleyin veya başvuru kodunu elle girin."
+  "rawScanPrefix": "Okunan :",
+  "startingCamera": "Caméra de recul, lütfen bekleyin…",
+  "activeHint": "Personelin başvuru ekranındaki QR kodunu kameraya gösterin. Önizleme aynalı görünebilir; okuma son yönden çalışır. Okumazsa alttaki ARJ- kodunu yazın — otomatik doğrulanır.",
+  "idleHint": "L'appareil photo du PC utilise le code QR pour accéder aux paramètres et à la configuration de votre ordinateur."
 }

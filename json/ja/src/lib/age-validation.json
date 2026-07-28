@@ -1,17 +1,17 @@
 {
   "months": [
-    "Ocak",
-    "Şubat",
-    "Mart",
-    "Nisan",
-    "Mayıs",
-    "Haziran",
-    "Temmuz",
-    "Ağustos",
-    "Eylül",
-    "Ekim",
-    "Kasım",
-    "Aralık"
+    "オカク",
+    "シュバト",
+    "マート",
+    "ニサン",
+    "マイス",
+    "ハジラン",
+    "テムズ",
+    "アウストス",
+    "エリュル",
+    "エキム",
+    "カシム",
+    "アラリク"
   ],
-  "constructionAgeError": "İnşaat sahasında çalışmak için en az {minAge} yaşında olmanız gerekir."
+  "constructionAgeError": "{minAge} は、オルマニズ ゲレクキルに直面しています。"
 }

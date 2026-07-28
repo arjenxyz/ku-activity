@@ -1,22 +1,22 @@
 {
-  "loadFailed": "Yüklenemedi",
+  "loadFailed": "yuklenemedi",
   "submitFailed": "Talep gönderilemedi",
   "submitSuccess": "Avans talebiniz iletildi. Onay bekleniyor.",
   "cancelConfirm": "Talebi iptal etmek istediğinize emin misiniz?",
   "cancelFailed": "İptal başarısız",
   "cancelSuccess": "Talep iptal edildi.",
   "pageTitle": "Avans talebi",
-  "panelReturnHint": "Tap to return panel",
+  "panelReturnHint": "Toque para regresar al panel",
   "pageSubtitle": "Onay sonrası ödeme ayrı adımda yapılır",
   "awaitingCashTitle": "Nakit avans teslimi bekleniyor",
-  "awaitingCashSubtitle": "Parayı aldıysanız QR okutun veya kodu girin →",
-  "paymentPendingNotice": "Ödemesi veya teslimi bekleyen avansınız var. Yeni talep, mevcut avans ödenene kadar açılamaz.",
+  "awaitingCashSubtitle": "Parayı aldıysanız QR okutun o kodu girin →",
+  "paymentPendingNotice": "Ödemesi o teslimi bekleyen avansınız var. Yeni talep, mevcut avans ödenene kadar açılamaz.",
   "newRequestButton": "Yeni avans talebi",
   "amountLabel": "Tutar (TL)",
-  "noteLabel": "Not (isteğe bağlı)",
+  "noteLabel": "No (isteğe bağlı)",
   "submitButton": "Gönder",
   "cancelButton": "Vazgeç",
   "loading": "Yükleniyor…",
   "emptyList": "Henüz avans talebiniz yok.",
-  "cancelRequestButton": "İptal et"
+  "cancelRequestButton": "İptal y"
 }

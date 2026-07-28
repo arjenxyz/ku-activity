@@ -1,8 +1,8 @@
 {
-  "closeMenuAriaLabel": "Menüyü kapat",
-  "menuTitle": "Menü",
-  "projectSettingsAriaLabel": "Proje ayarları",
-  "activeProjectLabel": "Aktif proje",
-  "projectSettingsButton": "Proje ayarları",
+  "closeMenuAriaLabel": "メニュユ カパット",
+  "menuTitle": "メニュー",
+  "projectSettingsAriaLabel": "プロジェ・アヤルラリ",
+  "activeProjectLabel": "アクティフプロジェクト",
+  "projectSettingsButton": "プロジェ・アヤルラリ",
   "tagline": "建設人材管理プラットフォーム"
 }

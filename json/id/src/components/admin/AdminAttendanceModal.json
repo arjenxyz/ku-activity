@@ -4,12 +4,12 @@
   "workDayLabel": "Çalışma günü",
   "mesaiLabel": "Mesai",
   "mesaiHintDisabled": "Mesai yalnızca tam gün çalışmada tanımlanır.",
-  "noteLabel": "Not (isteğe bağlı)",
-  "notePlaceholder": "Örn. gece mesaisi, kalıntı iş",
-  "approvalHint": "Yönetici onayından sonra personelin de aynı günü onaylaması gerekir. İki taraf onaylayınca yevmiye kesinleşir.",
+  "noteLabel": "Tidak (isteğe bağlı)",
+  "notePlaceholder": "Ya. gece mesaisi, kalıntı iş",
+  "approvalHint": "Anda dapat menggunakan personel yang tidak bertanggung jawab untuk melakukan aktivitas apa pun. İki taraf onaylayınca yevmiye kesinleşir.",
   "checkInPlanHint": "Yoklamayı bitirdiğinizde bu değerlerle yevmiye yazılır.",
   "checkInPlanSubmit": "Kaydet",
   "submitSaving": "Kaydediliyor…",
-  "submit": "Onayla ve personele gönder",
+  "submit": "Onayla dan personelnya pergi",
   "cancel": "Vazgeç"
 }

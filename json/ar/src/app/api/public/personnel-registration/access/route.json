@@ -1,6 +1,6 @@
 {
-  "kimlikNumarasıVePinGerekli": "Kimlik numarası ve PIN gerekli",
-  "başvuruSüresiDolmuşYeniBaşvuruYapabilirsiniz": "Başvuru süresi dolmuş. Yeni başvuru yapabilirsiniz.",
-  "geçersizKimlikNumarasıVeyaPin": "Geçersiz kimlik numarası veya PIN",
-  "erişimBaşarısız": "Erişim başarısız"
+  "kimlikNumarasıVePinGerekli": "أرقام Kimlik وPIN gerekli",
+  "başvuruSüresiDolmuşYeniBaşvuruYapabilirsiniz": "Başvuru süresi dolmuş. جديد تمامًا.",
+  "geçersizKimlikNumarasıVeyaPin": "قم بإدخال الرقم السري أو رقم التعريف الشخصي (PIN).",
+  "erişimBaşarısız": "إريشيم باساريسيز"
 }

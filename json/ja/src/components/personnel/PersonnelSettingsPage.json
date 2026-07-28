@@ -1,151 +1,151 @@
 {
-  "photoUploadFailed": "Fotoğraf yüklenemedi",
-  "updatePhotoTitle": "Profil fotoğrafını güncelle",
-  "uploading": "Yükleniyor…",
-  "takePhoto": "Take photo",
-  "uploadFromGallery": "Choose from gallery",
-  "removePhoto": "Remove photo",
-  "photoMenuTitle": "Profile photo",
-  "photoMenuCancel": "Cancel",
-  "photoRemoveFailed": "Could not remove photo",
-  "profilePhoto": "Profile photo",
-  "profilePhotoHint": "Use a clear photo of your face for attendance and your profile.",
-  "profileAccountLabel": "Personnel account",
-  "backToList": "Back",
-  "exitHint": "Tap to return to the panel",
-  "exitAriaLabel": "Return to panel",
-  "logout": "Sign out",
-  "logoutConfirm": "Sign out of your account?",
-  "logoutConfirmButton": "Yes, sign out",
-  "logoutCancel": "Cancel",
-  "digitalApprovalMark": "Digital approval mark",
-  "digitalApprovalMarkAlt": "CrewLedger digital approval mark",
-  "resetData": "Clear cache on this phone",
-  "resetting": "Clearing…",
-  "resetDataConfirm": "Only CrewLedger cookies, session, and cache on this device will be cleared and you will be signed out. Your account and server records are not deleted. Other apps are not affected. Continue?",
-  "resetDataHint": "Deletes cookies and temporary files. Your account, payroll, and advance records are not deleted.",
+  "photoUploadFailed": "写真のユクレネメディ",
+  "updatePhotoTitle": "プロフィール写真 ギュンセル",
+  "uploading": "ユクレニヨル…",
+  "takePhoto": "写真を撮る",
+  "uploadFromGallery": "ギャラリーから選ぶ",
+  "removePhoto": "写真を削除",
+  "photoMenuTitle": "プロフィール写真",
+  "photoMenuCancel": "キャンセル",
+  "photoRemoveFailed": "写真を削除できませんでした",
+  "profilePhoto": "プロフィール写真",
+  "profilePhotoHint": "出席とプロフィールには鮮明な顔写真を使用してください。",
+  "profileAccountLabel": "個人アカウント",
+  "backToList": "戻る",
+  "exitHint": "タップしてパネルに戻ります",
+  "exitAriaLabel": "パネルに戻る",
+  "logout": "サインアウト",
+  "logoutConfirm": "アカウントからサインアウトしますか?",
+  "logoutConfirmButton": "はい、サインアウトします",
+  "logoutCancel": "キャンセル",
+  "digitalApprovalMark": "デジタル承認マーク",
+  "digitalApprovalMarkAlt": "CrewLedger デジタル承認マーク",
+  "resetData": "この携帯電話のキャッシュをクリアします",
+  "resetting": "クリア中…",
+  "resetDataConfirm": "このデバイス上の CrewLedger Cookie、セッション、キャッシュのみがクリアされ、サインアウトされます。アカウントとサーバーの記録は削除されません。他のアプリは影響を受けません。続く？",
+  "resetDataHint": "Cookie と一時ファイルを削除します。アカウント、給与計算、前払い記録は削除されません。",
   "emptyValue": "—",
-  "pinTitle": "PIN kodu",
-  "pinSubtitle": "Giriş şifrenizi güncelleyin",
+  "pinTitle": "PINコドゥ",
+  "pinSubtitle": "ギリシュ・シフレニジ・ギュンチェレイン",
   "sections": {
     "home": {
-      "title": "Ayarlar",
+      "title": "アヤラール",
       "subtitle": "Hesabınızı ve uygulama tercihlerinizi yönetin."
     },
     "profile": {
-      "title": "Profil",
-      "subtitle": "Kişisel bilgiler, iletişim ve banka kayıtlarınız."
+      "title": "プロフィール",
+      "subtitle": "キセル・ビルギラー、イレティシム・ヴェ・バンカ・ケイトラルニズ。"
     },
     "personal": {
-      "title": "Kişisel Ayarlar",
-      "subtitle": "Kimlik ve kişisel bilgileriniz."
+      "title": "キシセル・アヤラル",
+      "subtitle": "キムリク・ヴェ・キシセル・ビルギレリニズ。"
     },
     "contact": {
-      "title": "İletişim",
-      "subtitle": "E-posta ve telefon bilgileriniz."
+      "title": "イレティシム",
+      "subtitle": "E-posta ve テレフォン ビルギレリニズ。"
     },
     "bank": {
-      "title": "Banka Bilgileri",
-      "subtitle": "IBAN bilgileriniz."
+      "title": "バンカ・ビルギレリ",
+      "subtitle": "IBANビルギレリニズ。"
     },
     "work": {
-      "title": "İş Bilgileri",
-      "subtitle": "Pozisyon, yevmiye ve şantiye bilgileriniz."
+      "title": "イシュ・ビルギレリ",
+      "subtitle": "ポジション、エフミエ・ヴェ・シャンティエ・ビルギレリニズ。"
     },
     "contracts": {
-      "title": "Sözleşmeler",
-      "subtitle": "Onayladığınız sözleşme kayıtları."
+      "title": "ソズレシュメレル",
+      "subtitle": "Onayladığınız sözleşme kayıtları。"
     },
     "security": {
-      "title": "Güvenlik",
-      "subtitle": "PIN, aktif cihazlar ve hesap güvenliği."
+      "title": "ギュヴェンリク",
+      "subtitle": "PIN、アクティフ・シハズラー・ヴェ・ヘサップ・ギュヴェンリジ。"
     },
     "language": {
-      "title": "Language",
-      "subtitle": "Choose the app language."
+      "title": "言語",
+      "subtitle": "アプリの言語を選択します。"
     },
     "app": {
-      "title": "App Settings",
-      "subtitle": "Theme, language, notifications, and app preferences."
+      "title": "アプリの設定",
+      "subtitle": "テーマ、言語、通知、アプリの設定。"
     },
     "releases": {
-      "title": "Release Notes",
-      "subtitle": "Recent changes in the web app."
+      "title": "リリースノート",
+      "subtitle": "Web アプリの最近の変更。"
     }
   },
   "menu": {
     "personal": {
-      "title": "Personal settings",
-      "subtitle": "Profile photo, name, and identity"
+      "title": "個人設定",
+      "subtitle": "プロフィール写真、名前、身元"
     },
     "contact": {
-      "title": "İletişim",
-      "subtitle": "E-posta ve telefon numarası"
+      "title": "イレティシム",
+      "subtitle": "E-posta ve telefon nubarası"
     },
     "bank": {
-      "title": "Banka",
-      "subtitle": "IBAN bilgisi"
+      "title": "バンカ",
+      "subtitle": "IBANビルギシ"
     },
     "work": {
-      "title": "İş bilgileri",
-      "subtitle": "Pozisyon, yevmiye ve proje"
+      "title": "イシュ・ビルギレリ",
+      "subtitle": "ポジション、エフミエ・ヴェ・プロジェクト"
     },
     "contracts": {
-      "title": "Sözleşmeler",
-      "subtitle": "Onayladığınız sözleşmeler"
+      "title": "ソズレシュメレル",
+      "subtitle": "オナイラドゥズヌズ・ソズレシュメラー"
     },
     "security": {
-      "title": "Güvenlik",
-      "subtitle": "PIN kodu, aktif cihazlar ve hesap güvenliği"
+      "title": "ギュヴェンリク",
+      "subtitle": "PIN kodu、aktif cihazlar ve hesap güvenliği"
     },
     "language": {
-      "title": "Language",
-      "subtitle": "App language"
+      "title": "言語",
+      "subtitle": "アプリ言語"
     },
     "app": {
-      "title": "App settings",
-      "subtitle": "Theme, language, notifications, and app preferences"
+      "title": "アプリの設定",
+      "subtitle": "テーマ、言語、通知、アプリの設定"
     },
     "releases": {
-      "title": "Release notes",
-      "subtitle": "Recent changes in the web app"
+      "title": "リリースノート",
+      "subtitle": "Web アプリの最近の変更点"
     }
   },
   "groups": {
-    "personalInfo": "Kişisel bilgiler",
-    "contact": "İletişim",
-    "bank": "Banka",
-    "workInfo": "İş bilgileri"
+    "personalInfo": "キシセル・ビルギラー",
+    "contact": "イレティシム",
+    "bank": "バンカ",
+    "workInfo": "イシュ・ビルギレリ"
   },
   "fields": {
-    "project": "Project",
-    "site": "Site",
-    "firstName": "Ad",
-    "lastName": "Soyad",
-    "tcKimlik": "T.C. kimlik no",
-    "birthDate": "Doğum tarihi",
-    "email": "E-posta",
-    "phone": "Telefon",
+    "project": "プロジェクト",
+    "site": "サイト",
+    "firstName": "広告",
+    "lastName": "ソヤド",
+    "tcKimlik": "T.C.キムリクいいえ",
+    "birthDate": "ドゥム タリヒ",
+    "email": "電子ポスタ",
+    "phone": "テレフォン",
     "iban": "IBAN",
-    "bankName": "Bank",
-    "unknownBank": "Bank could not be detected",
-    "position": "Pozisyon",
-    "dailyWage": "Günlük yevmiye",
-    "hireDate": "İşe giriş"
+    "bankName": "銀行",
+    "unknownBank": "銀行が検出できませんでした",
+    "position": "ポジション",
+    "dailyWage": "ギュンリュック・イェヴミエ",
+    "hireDate": "ギリシュ"
   },
   "language": {
-    "label": "App language",
+    "label": "アプリ言語",
     "hint": "15言語から選択できます。"
   },
   "releases": {
-    "loading": "Loading update notes…",
-    "loadFailed": "Could not load update notes",
-    "emptyTitle": "No update notes yet",
-    "emptyHint": "When a new web update is published, it will appear here.",
-    "currentVersion": "Web updates",
-    "webUpdatesTitle": "Recent changes",
-    "publishedAt": "Latest update",
-    "notesTitle": "In this period",
-    "noNotes": "No notes for this period."
+    "loading": "アップデートノートを読み込んでいます…",
+    "loadFailed": "アップデートノートを読み込めませんでした",
+    "emptyTitle": "アップデートノートはまだありません",
+    "emptyHint": "新しい Web 更新が公開されると、ここに表示されます。",
+    "currentVersion": "ウェブ更新情報",
+    "webUpdatesTitle": "最近の変更点",
+    "publishedAt": "最新のアップデート",
+    "notesTitle": "この時期に",
+    "noNotes": "この期間のメモはありません。"
   }
 }

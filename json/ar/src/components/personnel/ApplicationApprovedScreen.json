@@ -1,7 +1,7 @@
 {
   "badge": "Hesabınız aktif",
   "title": "Başvurunuz onaylandı",
-  "positionLabel": "Pozisyon:",
-  "loginHint": "Kimlik numaranız ve başvuruda belirlediğiniz PIN ile giriş yapabilirsiniz.",
-  "loginCta": "Panele giriş yap"
+  "positionLabel": "الموقف:",
+  "loginHint": "قم بإخفاء رقم التعريف الشخصي الخاص بك وقم بإخفاء رمز PIN الخاص بك.",
+  "loginCta": "لوحة جيريس ياب"
 }

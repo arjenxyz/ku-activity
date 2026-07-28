@@ -1,11 +1,11 @@
 {
-  "close": "Close",
-  "badge": "Manual code",
-  "title": "Attendance by code",
-  "description": "Enter the attendance code your supervisor gave you below",
+  "close": "Cerca",
+  "badge": "código manual",
+  "title": "Asistencia por código",
+  "description": "Ingrese el código de asistencia que su supervisor le dio a continuación",
   "placeholder": "YOK-…",
-  "outsideWindowHint": "Code entry is closed outside attendance hours.",
-  "submitting": "Submitting…",
-  "resubmit": "Re-record",
-  "join": "Join attendance"
+  "outsideWindowHint": "La entrada de códigos está cerrada fuera del horario de asistencia.",
+  "submitting": "Sumisión…",
+  "resubmit": "Volver a grabar",
+  "join": "Unirse a la asistencia"
 }

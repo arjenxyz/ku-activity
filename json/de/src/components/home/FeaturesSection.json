@@ -1,39 +1,39 @@
 {
-  "sectionBadge": "Platform Features",
-  "sectionTitle": "Real modules from timesheets to payroll",
-  "sectionSubtitle": "Daily wages, overtime, advances, deductions, minimum wage top-ups, and payroll are managed per project. The personnel app shows the same records as the admin panel.",
-  "marqueePaused": "Paused — tap the box again to resume",
-  "marqueeHint": "Swipe with your finger; scrolling pauses the flow, tap the box to pin it",
+  "sectionBadge": "Plattformfunktionen",
+  "sectionTitle": "Echte Module von der Arbeitszeittabelle bis zur Gehaltsabrechnung",
+  "sectionSubtitle": "Tageslöhne, Überstunden, Vorschüsse, Abzüge, Mindestlohnaufstockungen und Gehaltsabrechnungen werden pro Projekt verwaltet. Die Personal-App zeigt die gleichen Datensätze wie das Admin-Panel.",
+  "marqueePaused": "Angehalten – Tippen Sie erneut auf das Feld, um fortzufahren",
+  "marqueeHint": "Wischen Sie mit Ihrem Finger; Durch Scrollen wird der Fluss angehalten. Tippen Sie auf das Kästchen, um es anzupinnen",
   "features": [
     {
-      "title": "Dual-Approved Daily Wages",
-      "tag": "Timesheets",
-      "description": "Full/half-day attendance and quarter, half, or full overtime entries. Admin enters; personnel approves or disputes — records are not finalized without both sides."
+      "title": "Doppelt anerkannter Tageslohn",
+      "tag": "Stundenzettel",
+      "description": "Anwesenheit ganzer/halber Tag und Eintragung von viertel, halber oder ganzer Überstunden. Der Administrator kommt herein; Personal genehmigt oder streitet – Aufzeichnungen werden nicht ohne beide Seiten abgeschlossen."
     },
     {
-      "title": "Advances & Deductions",
-      "tag": "Finance",
-      "description": "Project-based advance and deduction entries. Gross, advance, deduction, and net amounts are calculated with the same formula in payroll and the personnel finance tab."
+      "title": "Vorschüsse und Abzüge",
+      "tag": "Finanzen",
+      "description": "Projektbezogene Vor- und Abschlagsbuchungen. Brutto-, Vorschuss-, Abzugs- und Nettobeträge werden in der Personalabrechnung und auf der Registerkarte Personalfinanzierung nach der gleichen Formel berechnet."
     },
     {
-      "title": "Minimum Wage Top-Up",
-      "tag": "Policy",
-      "description": "Earned, paid, and remaining amounts per company and project wage policy. Subcontractor gap suggestions; personnel see the breakdown in the minimum wage tab."
+      "title": "Mindestlohnaufstockung",
+      "tag": "Politik",
+      "description": "Verdiente, gezahlte und verbleibende Beträge pro Unternehmen und Projektlohnrichtlinie. Vorschläge zu Lücken bei Subunternehmern; Das Personal sieht die Aufschlüsselung in der Registerkarte „Mindestlohn“."
     },
     {
-      "title": "Project-Based Sites",
-      "tag": "Operations",
-      "description": "Each site is a separate project; personnel, blocks, teams, and finance records stay within the project. Admins only access projects they created."
+      "title": "Projektbasierte Websites",
+      "tag": "Operationen",
+      "description": "Jede Site ist ein separates Projekt. Personal, Blöcke, Teams und Finanzunterlagen bleiben im Projekt. Administratoren greifen nur auf Projekte zu, die sie erstellt haben."
     },
     {
-      "title": "Reports & Payroll",
-      "tag": "Reporting",
-      "description": "Approved and pending daily wages, open personnel disputes, payroll runs, and archive queries for wages, advances, and deductions."
+      "title": "Berichte und Gehaltsabrechnung",
+      "tag": "Berichterstattung",
+      "description": "Genehmigte und ausstehende Tageslöhne, offene Personalstreitigkeiten, Lohnabrechnungen sowie Archivabfragen zu Löhnen, Vorschüssen und Abzügen."
     },
     {
-      "title": "Personnel App",
+      "title": "Personal-App",
       "tag": "Mobile PWA",
-      "description": "Install as a PWA on your phone. Overview, daily wages, overtime, finance, minimum wage, and rights tabs — fed from the same database as the admin panel."
+      "description": "Als PWA auf Ihrem Telefon installieren. Registerkarten „Übersicht“, „Tageslohn“, „Überstunden“, „Finanzen“, „Mindestlohn“ und „Rechte“ – gespeist aus derselben Datenbank wie das Admin-Panel."
     }
   ]
 }

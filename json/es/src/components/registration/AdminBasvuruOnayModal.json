@@ -1,6 +1,6 @@
 {
   "status": {
-    "pending": "Onay bekliyor",
+    "pending": "onay bekliyor",
     "approved": "Onaylanmış",
     "rejected": "Reddedilmiş",
     "expired": "Süresi dolmuş"
@@ -8,11 +8,11 @@
   "checklist": {
     "photo": "Başvuru fotoğrafı kimlik kartı / yüz ile uyumlu",
     "nameIdentity": "Ad-soyad ile kimlik numarası birbiriyle uyumlu",
-    "contact": "Telefon ve e-posta adresi başvuru sahibine ait görünüyor"
+    "contact": "Teléfono y dirección postal başvuru sahibine ait görünüyor"
   },
   "identity": {
-    "foreign": "Yabancı Kimlik / Pasaport",
-    "tc": "T.C. Kimlik No"
+    "foreign": "Yabancı Kimlik / Pasaporte",
+    "tc": "TC kimlik no"
   },
   "errors": {
     "formIncomplete": "Pozisyon, yevmiye ve işe giriş tarihini doldurun.",
@@ -21,29 +21,29 @@
   },
   "closeOverlayAriaLabel": "Kapat",
   "modalTitle": "Başvuru inceleme",
-  "closeModalAriaLabel": "Modalı kapat",
-  "applicationDates": "Başvuru {createdDate} · Son {expiresDate}",
+  "closeModalAriaLabel": "capa modal",
+  "applicationDates": "Başvuru {createdDate} · Hijo {expiresDate}",
   "ageSuffix": "· {age} yaş",
-  "identitySectionTitle": "Kimlik & ödeme",
+  "identitySectionTitle": "Kimlik y ödeme",
   "identitySectionSubtitle": "Onay öncesi doğrulayın",
-  "birthDateLabel": "Doğum tarihi",
+  "birthDateLabel": "Dogum tarihi",
   "ibanLabel": "IBAN",
   "hideSensitive": "Hassas bilgileri gizle",
-  "showSensitive": "Tam kimlik ve IBAN göster",
-  "checklistTitle": "Kimlik teyit kontrol listesi",
+  "showSensitive": "Tam kimlik e IBAN göster",
+  "checklistTitle": "Listas de control Kimlik Teyit",
   "checklistHint": "Resmi NVI doğrulaması yapılmaz; onay öncesi aşağıdaki maddeleri manuel teyit edin.",
-  "assignmentTitle": "Proje ataması",
+  "assignmentTitle": "Proyecto atacado",
   "assignmentSubtitle": "{projectName} altına eklenecek",
-  "assignmentSubtitleFallback": "Seçili proje",
-  "loginHint": "Personel girişi: kimlik numarası + başvuruda belirlediği PIN.",
-  "positionLabel": "Pozisyon *",
-  "positionPlaceholder": "Örn. Demir işçisi, Kalıpçı",
+  "assignmentSubtitleFallback": "proyecto seçili",
+  "loginHint": "Personal girişi: kimlik numarası + başvuruda belirlediği PIN.",
+  "positionLabel": "Posición *",
+  "positionPlaceholder": "Örn. Demir işçisi, Kalipçı",
   "dailyWageLabel": "Günlük yevmiye (₺) *",
   "dailyWagePlaceholder": "1500",
   "hireDateLabel": "İşe giriş tarihi *",
-  "notPendingMessage": "Bu başvuru üzerinde işlem yapılamaz. Yeni bir tarama yapın veya personelin güncel başvuru kodunu isteyin.",
+  "notPendingMessage": "Bu başvuru üzerinde işlem yapılamaz. Yeni bir tarama yapın o personelin güncel başvuru kodunu isteyin.",
   "reject": "Reddet",
   "approveSaving": "Kaydediliyor…",
-  "approve": "Onayla ve kaydet",
+  "approve": "Onayla y kaydet",
   "close": "Kapat"
 }

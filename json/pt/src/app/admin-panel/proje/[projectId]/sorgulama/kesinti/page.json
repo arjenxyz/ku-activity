@@ -1,12 +1,12 @@
 {
   "pageTitle": "Kesinti Sorgulama",
-  "pageDescription": "Kesinti kayıtlarını görüntüleyin, iş kalemini düzenleyin veya silin.",
-  "colEmployee": "Personel",
+  "pageDescription": "Kesinti kayıtlarını görüntüleyin, iş kalemini düzenleyin or silin.",
+  "colEmployee": "Pessoal",
   "colDate": "Tarih",
-  "colType": "Tür",
+  "colType": "Tur",
   "colAmount": "Tutar",
   "colJob": "İş kalemi",
   "colDescription": "Açıklama",
-  "colActions": "İşlem",
+  "colActions": "Istambul",
   "emptyCell": "—"
 }

@@ -1,6 +1,6 @@
 {
-  "zorunluAlanlarEksikAdSoyadE": "Zorunlu alanlar eksik (ad, soyad, e-posta, T.C. kimlik)",
-  "geçersizTCKimlikNumarası": "Geçersiz T.C. kimlik numarası",
-  "adVeSoyadZorunludur": "Ad ve soyad zorunludur",
+  "zorunluAlanlarEksikAdSoyadE": "Zorunlu alanlar eksik (ad、soyad、e-posta、T.C. kimlik)",
+  "geçersizTCKimlikNumarası": "ゲセルシズ T.C.キムリク・ヌマラス",
+  "adVeSoyadZorunludur": "アド ヴェ ソヤド ゾルンルドゥル",
   "geçerliBirEPostaGirin": "Geçerli bir e-posta girin"
 }

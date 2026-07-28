@@ -1,23 +1,23 @@
 {
-  "invalidQrDefault": "Görselde geçerli başvuru QR kodu bulunamadı.",
+  "invalidQrDefault": "Gunakan QR untuk menampilkan kode bulunamadı.",
   "errors": {
     "elementNotReady": "Kamera alanı hazırlanamadı. Sayfayı yenileyip tekrar deneyin.",
     "cameraNotSupported": "Tarayıcınız kamera erişimini desteklemiyor.",
-    "secureContextRequired": "Kamera yalnızca HTTPS veya localhost üzerinde çalışır.",
-    "permissionDenied": "Kamera izni verilmedi. Tarayıcı adres çubuğundaki kamera ikonundan izin verin.",
-    "cameraNotFound": "Kamera bulunamadı. USB/webcam bağlı mı kontrol edin.",
-    "cameraOpenFailed": "Kamera açılamadı. Farklı tarayıcı deneyin, QR görseli yükleyin veya kodu elle girin.",
-    "qrReadNoCode": "QR okundu ancak geçerli başvuru kodu bulunamadı. Personelin başvuru ekranındaki QR kodunu gösterin.",
-    "noQrInImage": "Görselde QR kodu bulunamadı. Daha net bir ekran görüntüsü deneyin.",
-    "imageScanFailed": "QR görseli okunamadı. Başvuru kodunu elle girebilirsiniz."
+    "secureContextRequired": "Kamera yalnızca HTTPS dan localhost üzerinde çalışır.",
+    "permissionDenied": "Kamera izni verilmedi. Tarayıcı alamat ikon kamera dan izin verin.",
+    "cameraNotFound": "Kamera bulunamadi. USB/webcam tidak dapat dikontrol.",
+    "cameraOpenFailed": "Kamera menyala. Jika Anda ingin menjelaskannya, QR akan ditampilkan dan kodenya akan ditampilkan.",
+    "qrReadNoCode": "QR okundu tidak akan berfungsi jika Anda ingin menggunakan bulunamadı. Personalisasikan kode QR yang ditampilkan di layar.",
+    "noQrInImage": "Lihat QR kodu bulunamadı. Ini bukan tentang apa yang harus dilakukan.",
+    "imageScanFailed": "QR buka okunamadı. Başvuru kodunu atau girebilirsiniz."
   },
-  "scanWithCamera": "Kamera ile QR Tara",
-  "openingCamera": "Kamera açılıyor…",
-  "uploadQrImage": "QR Görseli Yükle",
+  "scanWithCamera": "Kamera atau QR Tara",
+  "openingCamera": "Kamera berfungsi…",
+  "uploadQrImage": "QR Görseli Yukle",
   "scanningFile": "Okunuyor…",
   "stopScan": "Taramayı Durdur",
   "rawScanPrefix": "Okunan:",
   "startingCamera": "Kamera başlatılıyor, lütfen bekleyin…",
-  "activeHint": "Personelin başvuru ekranındaki QR kodunu kameraya gösterin. Önizleme aynalı görünebilir; okuma her yönden çalışır. Okumazsa alttaki ARJ- kodunu yazın — otomatik doğrulanır.",
-  "idleHint": "PC'de kamera açılmazsa QR ekran görüntüsünü yükleyin veya başvuru kodunu elle girin."
+  "activeHint": "Personalisasi layar QR dengan kamera tersembunyi. Önizleme aynalı görünebilir; okuma dia yönden çalışır. Okumazsa alttaki ARJ- kodunu yazın — otomatik doğrulanır.",
+  "idleHint": "Kamera PC yang mengaktifkan layar QR tidak akan berfungsi dengan baik atau tidak akan berfungsi."
 }

@@ -19,5 +19,5 @@
   "rawScanPrefix": "Olvas:",
   "startingCamera": "A kamera inicializálása folyamatban van, kérjük, várjon…",
   "activeHint": "Mutassa meg a QR-kódot a személyzet alkalmazásának képernyőjén a kamerának. Az előnézet tükrözöttnek tűnhet; Az olvasás minden szempontból működik. Ha nem olvassa el, írja be alább az ARJ-kódot – a rendszer automatikusan ellenőrzi.",
-  "idleHint": "PC'de kamera açılmazsa QR ekran görüntüsünü yükleyin veya başvuru kodunu elle girin."
+  "idleHint": "PC'de kamera açılmazsa QR képernyő görüntüsünü yükleyin veya başvuru kodunu elle girin."
 }

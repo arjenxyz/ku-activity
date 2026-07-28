@@ -1,12 +1,12 @@
 {
   "addJob": "Yeni iş kalemi",
-  "refreshTitle": "Yenile",
-  "refresh": "Yenile",
+  "refreshTitle": "ইয়েনিলে",
+  "refresh": "ইয়েনিলে",
   "links": {
-    "blocks": "Bloklar",
-    "teams": "Ekipler",
-    "workLogs": "Yevmiye",
-    "advance": "Avans",
-    "deduction": "Kesinti"
+    "blocks": "ব্লকলার",
+    "teams": "একিপলার",
+    "workLogs": "ইয়েভমিয়ে",
+    "advance": "আভান্স",
+    "deduction": "কেসিন্তি"
   }
 }

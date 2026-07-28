@@ -1,13 +1,13 @@
 {
-  "pageTitle": "Yevmiye Sorgulama",
-  "pageDescription": "Yevmiye kayıtlarını görüntüleyin, iş kalemini düzenleyin veya silin.",
-  "colEmployee": "Personel",
-  "colDate": "Tarih",
-  "colDays": "Gün",
-  "colJob": "İş kalemi",
-  "colStatus": "Durum",
-  "colDispute": "İtiraz",
-  "colDescription": "Açıklama",
-  "colActions": "İşlem",
+  "pageTitle": "يفميي سورجولاما",
+  "pageDescription": "Yevmiye kayıtlarını görüntüleyin، is kalemini düzenleyin أو silin.",
+  "colEmployee": "شخصي",
+  "colDate": "تاريخ",
+  "colDays": "بندقية",
+  "colJob": "هذا كليمي",
+  "colStatus": "القاسي",
+  "colDispute": "اعتياز",
+  "colDescription": "أجيكلاما",
+  "colActions": "إسلام",
   "emptyCell": "—"
 }

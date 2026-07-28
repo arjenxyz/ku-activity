@@ -1,118 +1,118 @@
 {
   "checks": {
     "readable": {
-      "label": "Belge okunabilir",
-      "detailChars": "{count} karakter okundu",
-      "detailFailed": "Metin çıkarılamadı — net bir dekont/görsel yükleyin"
+      "label": "ベルジ・オクナビリル",
+      "detailChars": "{count} カラクター・オクンドゥ",
+      "detailFailed": "メチン・カルラマディ — ネット・ビル・デコント/ゲルセル・ユクライン"
     },
     "bankContext": {
-      "label": "Banka / havale içeriği",
-      "detailFailed": "Dekont, havale veya EFT ifadeleri bulunamadı"
+      "label": "バンカ / ハヴァレ・イチェリチ",
+      "detailFailed": "デコント、ハバレ ヴェヤ EFT イファデレリ ブルナマディ"
     },
     "iban": {
-      "label": "Geçerli alıcı IBAN",
-      "detailPassed": "TR IBAN doğrulandı",
-      "detailFailed": "Geçerli alıcı IBAN okunamadı"
+      "label": "IBAN の取得",
+      "detailPassed": "TR IBAN ドルランディ",
+      "detailFailed": "IBAN オクナマディ"
     },
     "amount": {
-      "label": "İşlem / transfer tutarı",
-      "detailFailed": "Tutar tespit edilemedi (İşlem Tutarı veya TL satırı okunamadı)",
+      "label": "イズレム / 転送トゥタリ",
+      "detailFailed": "トゥタール テストピット エディルメディ (İşlem Tutarı veya TL satırı okunamadı)",
       "detailAmount": "{amount} ₺"
     },
     "transferShape": {
       "label": "Dekont yapısı (IBAN + tutar + tarih/referans)",
-      "detailPassed": "{count}/4 alan eşleşti",
-      "detailFailed": "Eksik alanlar var — rastgele PDF kabul edilmez",
-      "detailMissing": "Eksik: {fields}"
+      "detailPassed": "{count}/4 アラン・エスレシュティ",
+      "detailFailed": "Eksik alanlar var — rastgele PDF カブール・エディルメズ",
+      "detailMissing": "エクシク: {fields}"
     },
     "reference": {
-      "label": "Referans / işlem no",
-      "detailFailed": "Okunamadı (önerilir)"
+      "label": "参照 / イスラム教",
+      "detailFailed": "オクナマドゥ (オネリリル)"
     },
     "date": {
-      "label": "İşlem tarihi",
-      "detailFailed": "Okunamadı (önerilir)"
+      "label": "イズレム・タリヒ",
+      "detailFailed": "オクナマドゥ (オネリリル)"
     }
   },
   "summary": {
     "accepted": "Dekont doğrulandı — avans eşleştirmesine geçilebilir",
-    "lowScore": "Güven skoru düşük — daha net bir dekont yükleyin",
-    "rejected": "Dekont doğrulanamadı"
+    "lowScore": "Güven skoru düşük — daha net vir dekont yükleyin",
+    "rejected": "デコント・ドゥルラナマディ"
   },
   "rejection": {
-    "issuesHeader": "Tespit edilemeyen veya eksik bilgiler:",
-    "scoreLine": "Güven skoru: {score} / 100 (minimum {minScore})",
-    "statusPassed": "Geçti",
-    "foundHeader": "Okunan bilgiler:",
+    "issuesHeader": "テストピット・エディルメイエン・ヴェヤ・エクシク・ビルギラー:",
+    "scoreLine": "ギュベンスコア: {score} / 100 (最小{minScore})",
+    "statusPassed": "ゲチ",
+    "foundHeader": "オクナンビルギラー：",
     "foundIban": "IBAN: {iban}",
-    "foundAmount": "Tutar: {amount} ₺",
-    "foundChars": "Metin: {count} karakter",
-    "foundNothing": "Dosyadan anlamlı metin çıkarılamadı",
-    "tipUnreadable": "Banka uygulamasında işlem onay ekranı yerine «Dekont», «İşlem belgesi» veya «PDF paylaş» seçeneğini kullanın. Mümkünse ekran görüntüsü değil PDF gönderin.",
-    "tipPartialRead": "Dekont paylaşıldı ancak IBAN veya tutar net okunamadı. PDF dekontu tercih edin veya daha yüksek çözünürlüklü bir görsel deneyin.",
-    "tipLowScore": "Bazı alanlar okundu ancak güven skoru yetersiz ({score}/{minScore}). Eksik alanları kontrol edin veya daha net bir belge yükleyin.",
+    "foundAmount": "家庭教師: {amount} ₺",
+    "foundChars": "メティン: {count} キャラクタ",
+    "foundNothing": "ドシャダン アンラムル メチン シュカルラマディ",
+    "tipUnreadable": "«Dekont»、«İşlem belgesi» veya «PDF paylaş» を確認してください。 PDF を参照してください。",
+    "tipPartialRead": "Dekont paylaşıldı ancak IBAN veya tutar net okunamadı。 PDF を参照してください。",
+    "tipLowScore": "バズ・アランラー・オクンドゥ・アンカク・ギュベン・スコル・イエテルシズ ({score}/{minScore})。コントロールを制御することで、ネット上のセキュリティを強化できます。",
     "bullet": "• {label}: {detail}",
-    "passedHeader": "Kabul edilen kontroller",
-    "failedHeader": "Reddedilen kontroller",
-    "optionalHeader": "Eksik (opsiyonel — zorunlu değil)",
-    "noPassed": "Hiçbir kontrol geçmedi",
-    "noFailed": "Zorunlu kontrollerde sorun yok",
-    "ocrErrorLine": "OCR hatası: {message}"
+    "passedHeader": "カブールエディレンコントローラー",
+    "failedHeader": "レッドディレンコントローラー",
+    "optionalHeader": "エクシク (オプシヨネル — ゾルンル デル)",
+    "noPassed": "ヒスビルコントロールの管理",
+    "noFailed": "ゾルンル コントロールデ ソルン ヨク",
+    "ocrErrorLine": "OCR 処理: {message}"
   },
   "match": {
     "docAccepted": {
-      "label": "Dekont belgesi güvenilir"
+      "label": "デコント・ベルゲシ・グベニリル"
     },
     "matchSelected": {
-      "label": "Avans talebi seçildi",
-      "detailFailed": "Listeden bir talep seçin",
+      "label": "アバンスの物語",
+      "detailFailed": "ビル・タレプ・セチンを聞いた",
       "detailPassed": "{employeeName}{projectSuffix}"
     },
     "ibanMatch": {
-      "label": "Alıcı IBAN personel kaydıyla eşleşiyor",
+      "label": "Alıcı IBAN 担当者 kaydıyla eşleşiyor",
       "detailMismatch": "{iban} — kayıtlı IBAN ile uyuşmuyor",
-      "detailNoIban": "Dekonttan IBAN okunamadı"
+      "detailNoIban": "デコンタン IBAN オクナマディ"
     },
     "amountMatch": {
-      "label": "Transfer tutarı onaylı avansla uyumlu",
-      "detailCompare": "Dekont: {ocrAmount} ₺ · Onaylı avans: {approvedAmount} ₺",
-      "detailFailed": "Dekont tutarı okunamadı"
+      "label": "トゥタリ・オナイル・アバンスラ・ウユムルの移籍",
+      "detailCompare": "デコント: {ocrAmount} ₺ · オナイル・アバンス: {approvedAmount} ₺",
+      "detailFailed": "デコント トゥタリ オクナマディ"
     },
     "matchScore": {
-      "label": "Match score (minimum {minScore})",
-      "detailPassed": "Score: {score} — sufficient",
-      "detailFailed": "Score: {score} — at least {minScore} required"
+      "label": "試合スコア (最小 {minScore})",
+      "detailPassed": "スコア: {score} — 十分",
+      "detailFailed": "スコア: {score} — 少なくとも {minScore} が必要"
     },
     "transferCode": {
-      "label": "Transfer reference code (HVL-)",
+      "label": "転送リファレンスコード(HVL-)",
       "detailPassed": "{code}",
-      "detailFailed": "Expected: {expectedCode}",
-      "detailMissing": "No code defined for this request"
+      "detailFailed": "予想: {expectedCode}",
+      "detailMissing": "このリクエストにはコードが定義されていません"
     },
     "paymentDate": {
-      "label": "Payment after advance approval",
-      "detailFailed": "Receipt date is before approval"
+      "label": "事前承認後のお支払い",
+      "detailFailed": "受信日は承認前です"
     },
-    "bonusDetail": "Additional match signal"
+    "bonusDetail": "追加の一致信号"
   },
   "confirm": {
-    "noMatchSelected": "No advance request selected for confirmation",
-    "scoreInsufficient": "Match score too low ({score}/{minScore}). IBAN and amount must match.",
-    "ibanMismatch": "Recipient IBAN does not match employee record — payment cannot be recorded",
-    "amountMismatch": "Receipt amount ({ocrAmount} ₺) does not match approved advance ({approvedAmount} ₺)",
-    "transferCodeMismatch": "Transfer reference code not found on receipt (expected: {expectedCode})",
-    "paymentBeforeApproval": "Receipt date appears to be before advance approval"
+    "noMatchSelected": "確認のための事前リクエストが選択されていません",
+    "scoreInsufficient": "マッチスコアが低すぎます ({score}/{minScore})。 IBAN と金額は一致する必要があります。",
+    "ibanMismatch": "受取人の IBAN が従業員の記録と一致しません — 支払いを記録できません",
+    "amountMismatch": "入金金額 ({ocrAmount} ₺) が承認された前払い額 ({approvedAmount} ₺) と一致しません",
+    "transferCodeMismatch": "転送参照コードがレシートに見つかりません (予期: {expectedCode})",
+    "paymentBeforeApproval": "受領日は事前承認前のようです"
   },
   "retroactive": {
-    "ibanRequired": "Recipient IBAN must be read from the receipt for retroactive payment",
-    "amountRequired": "Amount must be read from the receipt for retroactive payment",
-    "amountMismatch": "Receipt amount ({ocrAmount} ₺) does not match entered amount ({amount} ₺)",
-    "employeeRequired": "Select an employee"
+    "ibanRequired": "遡及支払いの場合は、領収書から受取人の IBAN を読み取る必要があります",
+    "amountRequired": "遡って支払う場合は領収書から金額を読み取る必要があります",
+    "amountMismatch": "領収金額 ({ocrAmount} ₺) が入力金額 ({amount} ₺) と一致しません",
+    "employeeRequired": "従業員を選択してください"
   },
   "forcePayment": {
-    "dateRequired": "Payment date is required for force save",
-    "noApprovalDate": "Advance approval date not found",
-    "notBeforeApproval": "Force save is only allowed when payment was made before advance approval",
-    "tooOld": "Payment is older than {maxDays} days — force save not allowed"
+    "dateRequired": "強制保存には支払い日が必要です",
+    "noApprovalDate": "事前承認日が見つかりません",
+    "notBeforeApproval": "強制保存は、事前承認前に支払いが行われた場合にのみ許可されます",
+    "tooOld": "支払いが {maxDays} 日以上経過しています — 強制保存は許可されていません"
   }
 }

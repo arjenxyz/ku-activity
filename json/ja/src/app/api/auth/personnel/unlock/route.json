@@ -1,6 +1,6 @@
 {
-  "unauthorized": "Invalid session",
-  "invalidPin": "Incorrect PIN",
-  "unlockRequired": "Unlock required",
-  "failed": "Operation failed"
+  "unauthorized": "無効なセッション",
+  "invalidPin": "間違ったPIN",
+  "unlockRequired": "ロック解除が必要です",
+  "failed": "操作が失敗しました"
 }

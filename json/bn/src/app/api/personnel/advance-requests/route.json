@@ -1,7 +1,7 @@
 {
-  "taleplerYüklenemedi": "Could not load requests",
-  "oturumGeçersiz": "Invalid session",
-  "talepOluşturulamadı": "Could not create request",
-  "projeKapanışta": "The project is in closure; advance requests cannot be created.",
-  "geçersizTutar": "Invalid amount"
+  "taleplerYüklenemedi": "অনুরোধ লোড করা যায়নি",
+  "oturumGeçersiz": "অবৈধ অধিবেশন",
+  "talepOluşturulamadı": "অনুরোধ তৈরি করা যায়নি",
+  "projeKapanışta": "প্রকল্পটি বন্ধ রয়েছে; অগ্রিম অনুরোধ তৈরি করা যাবে না।",
+  "geçersizTutar": "অবৈধ পরিমাণ"
 }

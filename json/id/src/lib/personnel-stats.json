@@ -1,27 +1,27 @@
 {
   "workDay": {
-    "fullDay": "Tam gün",
-    "halfDay": "Yarım gün",
-    "dayAmount": "{amount} gün",
+    "fullDay": "Ini dia",
+    "halfDay": "Benar sekali",
+    "dayAmount": "{amount} senjata",
     "mesaiCeyrek": "{base} + çeyrek mesai",
     "mesaiYarim": "{base} + yarım mesai",
     "mesaiTam": "{base} + tam mesai"
   },
   "deductionTypes": {
-    "advance": "Avans",
+    "advance": "mobil van",
     "deduction": "Kesinti",
     "other": "Diğer",
-    "subcontractor_cut": "Taşeron kesintisi",
+    "subcontractor_cut": "Taseron kesintisi",
     "minimum": "Asgari"
   },
   "mesaiCountLines": {
     "tam": "Tam mesai",
     "ceyrek": "Çeyrek mesai",
-    "yarim": "Yarım mesai"
+    "yarim": "Yarim mesai"
   },
   "workDayCountLines": {
-    "full": "Tam gün",
-    "half": "Yarım gün",
-    "total": "Toplam gün"
+    "full": "Ini dia",
+    "half": "Benar sekali",
+    "total": "Senjata Toplam"
   }
 }

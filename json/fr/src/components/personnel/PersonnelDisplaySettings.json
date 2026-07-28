@@ -1,10 +1,10 @@
 {
-  "languageSectionTitle": "Language",
-  "languageLabel": "Language",
-  "languageHint": "Choose the app language",
-  "sectionTitle": "Display",
-  "largeTextLabel": "Large text",
-  "largeTextHint": "Increases text size",
-  "highContrastLabel": "High contrast",
-  "highContrastHint": "Easier to read on site"
+  "languageSectionTitle": "Langue",
+  "languageLabel": "Langue",
+  "languageHint": "Choisissez la langue de l'application",
+  "sectionTitle": "Afficher",
+  "largeTextLabel": "Grand texte",
+  "largeTextHint": "Augmente la taille du texte",
+  "highContrastLabel": "Contraste élevé",
+  "highContrastHint": "Plus facile à lire sur place"
 }

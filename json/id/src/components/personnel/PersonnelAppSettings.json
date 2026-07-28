@@ -1,62 +1,62 @@
 {
-  "pageSubtitle": "Manage appearance, language, notifications, and app preferences.",
+  "pageSubtitle": "Kelola tampilan, bahasa, notifikasi, dan preferensi aplikasi.",
   "sections": {
-    "appearance": "Appearance",
-    "language": "Language",
-    "notifications": "Notifications",
-    "about": "App",
-    "data": "Data on this device"
+    "appearance": "Penampilan",
+    "language": "Bahasa",
+    "notifications": "Pemberitahuan",
+    "about": "Aplikasi",
+    "data": "Data di perangkat ini"
   },
   "menuHints": {
-    "appearance": "Theme, large text, and contrast",
+    "appearance": "Tema, teks besar, dan kontras",
     "language": "Pilih dari 15 bahasa",
-    "notifications": "Permission and push subscription",
-    "about": "Version and update notes",
-    "data": "Cookies and cache — your account records stay"
+    "notifications": "Izin dan langganan push",
+    "about": "Versi dan pembaruan catatan",
+    "data": "Cookie dan cache — catatan akun Anda tetap ada"
   },
   "theme": {
-    "label": "Theme",
-    "hint": "Use light, dark, or follow your device",
-    "light": "Light",
-    "dark": "Dark",
-    "system": "System"
+    "label": "Tema",
+    "hint": "Gunakan terang, gelap, atau ikuti perangkat Anda",
+    "light": "Lampu",
+    "dark": "Gelap",
+    "system": "Sistem"
   },
-  "largeTextLabel": "Large text",
-  "largeTextHint": "Increases text size for easier reading on site",
-  "highContrastLabel": "High contrast",
-  "highContrastHint": "Makes colors more distinct",
-  "languageLabel": "App language",
+  "largeTextLabel": "Teks besar",
+  "largeTextHint": "Meningkatkan ukuran teks agar lebih mudah dibaca di situs",
+  "highContrastLabel": "Kontras tinggi",
+  "highContrastHint": "Menjadikan warna lebih berbeda",
+  "languageLabel": "Bahasa aplikasi",
   "languageHint": "Pilih dari 15 bahasa",
   "notifications": {
-    "statusLabel": "Notification permission",
-    "subscriptionLabel": "Push subscription",
-    "granted": "On",
-    "denied": "Off",
-    "default": "Not asked yet",
-    "unsupported": "Not supported",
-    "subscribed": "Active",
-    "notSubscribed": "Not registered",
-    "enableButton": "Enable notifications",
-    "openSettingsButton": "Open system settings",
-    "refreshButton": "Refresh status",
-    "enabling": "Enabling…",
-    "hintGranted": "Deductions, advances, and attendance alerts are sent to this device.",
-    "hintDenied": "Notifications are off. Enable them in system settings or with the button below.",
-    "hintDefault": "Allow notifications to stay informed about important updates."
+    "statusLabel": "Izin pemberitahuan",
+    "subscriptionLabel": "Berlangganan dorong",
+    "granted": "Pada",
+    "denied": "Mati",
+    "default": "Belum ditanyakan",
+    "unsupported": "Tidak didukung",
+    "subscribed": "Aktif",
+    "notSubscribed": "Tidak terdaftar",
+    "enableButton": "Aktifkan notifikasi",
+    "openSettingsButton": "Buka pengaturan sistem",
+    "refreshButton": "Segarkan status",
+    "enabling": "Mengaktifkan…",
+    "hintGranted": "Pengurangan, uang muka, dan peringatan kehadiran dikirim ke perangkat ini.",
+    "hintDenied": "Notifikasi tidak aktif. Aktifkan di pengaturan sistem atau dengan tombol di bawah.",
+    "hintDefault": "Izinkan pemberitahuan untuk tetap mendapat informasi tentang pembaruan penting."
   },
   "about": {
-    "versionLabel": "Version",
-    "publishedLabel": "Published",
+    "versionLabel": "Versi",
+    "publishedLabel": "Diterbitkan",
     "unknownVersion": "—",
-    "loading": "Loading version info…",
-    "loadFailed": "Could not load version info",
-    "checkUpdates": "View release notes",
-    "apkHint": "If a new version is available, install it from the APK download page."
+    "loading": "Memuat info versi…",
+    "loadFailed": "Tidak dapat memuat info versi",
+    "checkUpdates": "Lihat catatan rilis",
+    "apkHint": "Jika versi baru tersedia, instal dari halaman download APK."
   },
   "data": {
-    "clearLabel": "Clear cache on this phone",
-    "clearHint": "Deletes cookies and temporary files. Your account, payroll, and advance records are not deleted; you will need to sign in again.",
-    "clearing": "Clearing…",
-    "confirm": "Only CrewLedger cookies, session, and cache on this device will be cleared and you will be signed out. Your account and server records are not deleted. Other apps are not affected. Continue?"
+    "clearLabel": "Hapus cache di ponsel ini",
+    "clearHint": "Menghapus cookie dan file sementara. Catatan akun, penggajian, dan uang muka Anda tidak dihapus; Anda harus masuk lagi.",
+    "clearing": "Membersihkan…",
+    "confirm": "Hanya cookie, sesi, dan cache CrewLedger di perangkat ini yang akan dihapus dan Anda akan keluar. Catatan akun dan server Anda tidak dihapus. Aplikasi lain tidak terpengaruh. Melanjutkan?"
   }
 }

@@ -1,5 +1,5 @@
 {
-  "ayGerekliYyyyMm": "Month required (YYYY-MM)",
-  "err004MenuFeaturesSqlÇalıştırın": "Run 004_menu_features.sql",
-  "bordroHesaplanamadı": "Could not calculate payroll"
+  "ayGerekliYyyyMm": "Mês necessário (AAAA-MM)",
+  "err004MenuFeaturesSqlÇalıştırın": "Execute 004_menu_features.sql",
+  "bordroHesaplanamadı": "Não foi possível calcular a folha de pagamento"
 }

@@ -1,5 +1,5 @@
 {
-  "failed": "Record could not be updated",
-  "consentRequired": "You must accept closure consent first",
-  "downloadRequired": "You must download your data first"
+  "failed": "রেকর্ড আপডেট করা যায়নি",
+  "consentRequired": "আপনাকে প্রথমে বন্ধের সম্মতি গ্রহণ করতে হবে",
+  "downloadRequired": "আপনাকে প্রথমে আপনার ডেটা ডাউনলোড করতে হবে"
 }

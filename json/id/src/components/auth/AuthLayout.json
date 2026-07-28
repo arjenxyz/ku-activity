@@ -1,9 +1,9 @@
 {
-  "adminPanelLabel": "Yönetici Paneli",
-  "personnelPanelLabel": "Personel Paneli",
+  "adminPanelLabel": "Panel Yönetici",
+  "personnelPanelLabel": "Panel Pribadi",
   "adminScreenLabel": "Yönetici Giriş",
-  "personnelScreenLabel": "Personel Giriş",
-  "adminAlternatePrompt": "Personel misiniz?",
-  "personnelAlternatePrompt": "Yönetici misiniz?",
+  "personnelScreenLabel": "Personil Giriş",
+  "adminAlternatePrompt": "Misi personel?",
+  "personnelAlternatePrompt": "Misi Anda?",
   "homeLink": "← Ana sayfa"
 }

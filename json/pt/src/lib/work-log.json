@@ -7,13 +7,13 @@
   "mesaiHalfHint": "Günlük yevmiyenin yarısı ek",
   "mesaiFullLabel": "Tam mesai",
   "mesaiFullHint": "Tam günlük yevmiye ek",
-  "fullDay": "Tam gün",
-  "halfDay": "Yarım gün",
+  "fullDay": "Tam gun",
+  "halfDay": "Yarım gun",
   "statusConfirmed": "Onaylı",
-  "statusPendingEmployee": "Personel onayı bekliyor",
+  "statusPendingEmployee": "Pessoal onayı bekliyor",
   "statusPendingAdmin": "Yönetici onayı bekliyor",
   "statusDisputed": "İtiraz edildi",
-  "statusNone": "Kayıt yok",
+  "statusNone": "Kayit yok",
   "dayAmount": "{amount} gün",
   "summaryWithMesai": "{day} + {mesai}"
 }

@@ -1,14 +1,14 @@
 {
-  "pageTitle": "Admin Sorgulama",
-  "pageDescription": "Tüm personelin aylık finansal özeti.",
-  "labelMonth": "Ay",
-  "totalGross": "Toplam Brüt",
+  "pageTitle": "Administrateur Sorgulama",
+  "pageDescription": "Votre personnel est toujours financier.",
+  "labelMonth": "Oui",
+  "totalGross": "Toplam Brut",
   "totalAdvances": "Toplam Avans",
-  "totalNet": "Toplam Net",
-  "colEmployee": "Personel",
-  "colDays": "Gün",
-  "colGross": "Brüt",
+  "totalNet": "Filet Toplam",
+  "colEmployee": "Personnel",
+  "colDays": "Pistolet",
+  "colGross": "Brut",
   "colAdvance": "Avans",
   "colMinimum": "Asgari",
-  "colNet": "Net"
+  "colNet": "Filet"
 }

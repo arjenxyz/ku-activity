@@ -1,5 +1,5 @@
 {
-  "sunucuYapılandırmasıEksikSupabaseServiceRole": "Sunucu yapılandırması eksik (SUPABASE_SERVICE_ROLE_KEY)",
-  "profilOluşturulamadıSupabaseDe049Admin": "Profil oluşturulamadı. Supabase'de 049_admin_onboarding_fields.sql migration dosyasını çalıştırın.",
+  "sunucuYapılandırmasıEksikSupabaseServiceRole": "スヌク ヤピランドルマス エクシク (SUPABASE_SERVICE_ROLE_KEY)",
+  "profilOluşturulamadıSupabaseDe049Admin": "プロフィール オルシュトゥルラマディ。 Supabase の 049_admin_onboarding_fields.sql 移行の手順。",
   "kayıtSırasındaHataOluştu": "Kayıt sırasında hata oluştu"
 }

@@ -1,5 +1,5 @@
 {
-  "employeeRequired": "Select an employee",
-  "fileRequired": "Receipt file is required",
-  "saveFailed": "Could not save retroactive payment"
+  "employeeRequired": "Pilih seorang karyawan",
+  "fileRequired": "File tanda terima diperlukan",
+  "saveFailed": "Tidak dapat menyimpan pembayaran surut"
 }

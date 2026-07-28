@@ -1,23 +1,53 @@
 {
   "errors": {
-    "projectNotFound": "Proje bulunamadı",
-    "outsideWindow": "Yoklama saati dışında. {workDate} için izin verilen süre: {windowStartLabel} – {windowEndLabel} ({timezone})."
+    "projectNotFound": "مشروع ناجح",
+    "outsideWindow": "Yoklama saati dışında. {workDate} أنا متأكد من: {windowStartLabel} – {windowEndLabel} ({timezone})."
   },
   "messages": {
-    "open": "{date} yoklaması şu an açık ({startLabel} – {endLabel}, {timezone}).",
-    "otherDateOpen": "Bu tarih için yoklama kapalı. Şu an {currentOpenWorkDate} günü için yoklama yapılabilir.",
-    "closed": "Yoklama penceresi kapalı. {date} için izin verilen süre: {startLabel} – {endLabel} ({timezone}). İş bitişinden sonra, ertesi iş başından 1 dk öncesine kadar."
+    "open": "{date} yoklaması şu ançık ({startLabel} – {endLabel}, {timezone}).",
+    "otherDateOpen": "Bu tarih için yoklama kapalı. لقد قمت بتفعيل {currentOpenWorkDate}.",
+    "closed": "Yoklama penceresi kapalı. {date} أنا متأكد من: {startLabel} – {endLabel} ({timezone}). هذا هو الحال, يجب أن يكون 1 dk öncesine kadar."
   },
   "timezones": [
-    { "value": "Europe/Istanbul", "label": "Türkiye (İstanbul)" },
-    { "value": "Europe/Berlin", "label": "Almanya (Berlin)" },
-    { "value": "Europe/London", "label": "İngiltere (Londra)" },
-    { "value": "Europe/Paris", "label": "Fransa (Paris)" },
-    { "value": "Europe/Amsterdam", "label": "Hollanda (Amsterdam)" },
-    { "value": "Asia/Dubai", "label": "BAE (Dubai)" },
-    { "value": "Asia/Riyadh", "label": "Suudi Arabistan (Riyad)" },
-    { "value": "Asia/Qatar", "label": "Katar (Doha)" },
-    { "value": "Asia/Baku", "label": "Azerbaycan (Bakü)" },
-    { "value": "Europe/Moscow", "label": "Rusya (Moskova)" }
+    {
+      "value": "أوروبا/اسطنبول",
+      "label": "تركيا (اسطنبول)"
+    },
+    {
+      "value": "أوروبا/برلين",
+      "label": "ألمانيا (برلين)"
+    },
+    {
+      "value": "أوروبا/لندن",
+      "label": "إنجيلتيري (لندن)"
+    },
+    {
+      "value": "أوروبا/باريس",
+      "label": "فرانسا (باريس)"
+    },
+    {
+      "value": "أوروبا/أمستردام",
+      "label": "هولاندا (أمستردام)"
+    },
+    {
+      "value": "آسيا/دبي",
+      "label": "بي ايه اي (دبي)"
+    },
+    {
+      "value": "اسيا/الرياض",
+      "label": "عربستان السعودية (الرياض)"
+    },
+    {
+      "value": "آسيا/قطر",
+      "label": "قطر (الدوحة)"
+    },
+    {
+      "value": "آسيا/باكو",
+      "label": "أذربيجان (باكو)"
+    },
+    {
+      "value": "أوروبا/موسكو",
+      "label": "روسيا (موسكوفا)"
+    }
   ]
 }

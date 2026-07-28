@@ -1,52 +1,52 @@
 {
   "metadataTitle": "Kullanım Şartları",
-  "metadataDescription": "CrewLedger gönüllülük platformu kullanım şartları.",
+  "metadataDescription": "CrewLedger هي منصة رائعة للتداول.",
   "title": "Kullanım Şartları",
-  "lastUpdatedPrefix": "Son güncelleme:",
+  "lastUpdatedPrefix": "ابن جونسيليم:",
   "sections": {
     "nature": {
-      "heading": "1. Platformun niteliği",
-      "platformLineSuffix": " ({url}), {developerName} tarafından geliştirilen, {nature}dur. Herhangi bir anonim şirket, limited şirket, taşeron firması veya resmi işveren unvanı adına hareket etmez; tüzel kişiliği bulunmaz."
+      "heading": "1. منصة niteliği",
+      "platformLineSuffix": "({url})، {developerName}، {nature}dur. شركة Herhangi bir مجهولة المصدر، شركة محدودة، شركة تأمين أو شركة veya resmi isveren unvanı adına hareket etmez؛ tüzel kişiliği bulunmaz."
     },
     "voluntary": {
-      "heading": "2. Gönüllülük ve zorunluluk olmaması",
-      "adminLine": "Yöneticiler (şantiye sorumlusu, ekip başı, proje yöneticisi vb.) platformu yalnızca kendi inisiyatifleriyle kullanabilir. Personel, platformu kullanmayı reddedebilir; bu durumda taraflar arasındaki ücret ve çalışma ilişkisi mevzuattaki resmi usullere göre ayrıca yürütülür."
+      "heading": "2. التطهير والتطهير",
+      "adminLine": "Yöneticiler (santiye sorumlusu, ekip başı, proje yöneticisi vb.) منصة yalnızca kendi inisiyatifleriyle kullanabilir. الأفراد, منصة kullanmayı reddedebilir; bu durumda taraflar arasındaki ücret ve çalışma ilişkisi mevzuattaki resmi usullere göre ayrıca yürütülür."
     },
     "scope": {
-      "heading": "3. Hizmetin kapsamı",
-      "body": "Platform; yevmiye, puantaj, yoklama (QR), avans talebi, kesinti, asgari ücret takibi ve benzeri finansal/operasyonel kayıtların dijital ortamda tutulmasına ve hem yönetici hem personel tarafından görüntülenmesine aracılık eder. Amaç, şantiye finansal takibini rahat, dijital ve şeffaf kılmaktır."
+      "heading": "3. حكمتين",
+      "body": "منصة؛ Yevmiye, puantaj, yoklama (QR), avans Talibi, kesinti, asgari ücret takibi ve benzeri finansal/operational kayıtların digital ortamda tutulmasına ve hem yönetici hem personel tarafından görüntülenmesine aracılık eder. Amaç, santiye finansal takibini rahat, digital and seffaf kılmaktır."
     },
     "asIs": {
-      "heading": "4. \"Olduğu gibi\" sunum",
-      "body": "Platform ücretsiz ve gönüllülük esasına göre sunulur. Kesintisiz çalışma, veri kaybı olmaması veya belirli bir hukuki sonuç doğurması garanti edilmez. Teknik bakım, güncelleme veya projenin sonlandırılması mümkündür."
+      "heading": "4. \"Olduğu gibi\" سونوم",
+      "body": "منصة ücretsiz ve gönüllülük esasına göre sunulur. Kesintisiz çalışma, veri kaybı olmaması veya beliirli bir hukuki sonuç doğurması garanti edilmez. التكنولوجيا المستخدمة يمكن أن تكون فعالة أو منتجة."
     },
     "legalValidity": {
       "heading": "5. Resmi geçerlilik ve mahkeme delili",
-      "importantPrefix": "Önemli:",
+      "importantPrefix": "أونيملي:",
       "items": [
-        "Resmi bordro / SGK / vergi kayıtlarının yerine geçmez. İş hukuku uyuşmazlıklarında öncelik resmi işveren kayıtları, bordro, banka dekontları ve tanık beyanlarına aittir.",
-        "Elektronik onay kayıtları (sözleşme kabulü, OTP, tarih-saat logları) 6098 sayılı TBK ve ilgili mevzuat çerçevesinde destekleyici delil niteliğinde olabilir; tek başına kesin delil sayılması garanti edilmez.",
-        "Sistemdeki yevmiye, avans ve kesinti kayıtları taraflar arası şeffaflık ve mutabakat amacı taşır; mahkemede bağlayıcı hakediş belgesi olduğu iddia edilmez.",
-        "T.C. kimlik doğrulaması NVI/KPS/e-Devlet ile yapılmaz; yalnızca format kontrolü ve yönetici manuel onayı uygulanır.",
-        "Dekont OCR analizi yardımcı araçtır; banka kayıtlarının yerine geçmez."
+        "Resmi bordro / SGK / vergi kayıtlarının yerine geçmez. لقد تم إنشاء حساب مصرفي وحساب مصرفي وحسابات مصرفية وحسابات مصرفية.",
+        "6098 sayılı TBK ve ilgili mevzuat cerçevesinde destekleyici delil niteliğinde olabilir; tek başına kesin delil sayılması garanti edilmez.",
+        "تم تطوير الأنظمة والتقنيات والأدوات لتتمكن من الوصول إلى المعلومات والاتصال بها؛ mahkemede bağlayıcı hakediş belgesi olduğu iddia edilmez.",
+        "تي سي. قم بتفعيل NVI/KPS/e-Devlet أو yapılmaz; yalnızca format kontrolü ve yönetici manuel onayı uygulanır.",
+        "Dekont OCR analizi yardımcı araçtır؛ Banka kayıtlarının yerine geçmez."
       ]
     },
     "liability": {
       "heading": "6. Sorumluluk sınırı",
-      "body": "{developerName}, platform operatörü sıfatıyla; kullanıcıların girdiği verilerin doğruluğu, yöneticiler ile personel arasındaki özel hukuk ilişkileri, ücret ödenmemesi, yanlış kesinti veya iş kazası gibi saha olaylarından doğrudan sorumlu tutulamaz. Bu konulardaki yükümlülükler ilgili işveren, yüklenici ve mevzuat hükümlerine tabidir."
+      "body": "{developerName}، مشغل المنصة sıfatıyla؛ يمكن أن يؤدي هذا إلى تفاقم المشكلة، مما يؤدي إلى تفاقم المشكلة لدى الأشخاص الذين لديهم صعوبات في التعلم، مما يؤدي إلى تفاقم المشكلة. Bu konulardaki yükümlülükler ilgili işveren, yüklenici ve mevzuat hükümlerine tabidir."
     },
     "ip": {
-      "heading": "7. Fikri mülkiyet",
-      "body": "Yazılım, arayüz ve marka unsurları {developerName}'a aittir. İzinsiz ticari çoğaltma veya satış yapılamaz; gelecekte lisanslama ayrıca duyurulur."
+      "heading": "7. فكري ملكيات",
+      "body": "Yazılım, arayüz ve marka unsurları {developerName}'a aittir. ızinsiz ticari çoğaltma veya satış yapılamaz; gelecekte lisanslama ayrıca duyurulur."
     },
     "contact": {
-      "heading": "8. İletişim",
-      "bodyPrefix": "Sorularınız için:"
+      "heading": "8. الإتقان",
+      "bodyPrefix": "مستلزمات شخصية في:"
     }
   },
   "shell": {
-    "footerHome": "← Ana sayfa",
-    "footerPrivacy": "Gizlilik",
+    "footerHome": "← أنا سيفا",
+    "footerPrivacy": "جيزليليك",
     "footerKvkk": "KVKK"
   }
 }

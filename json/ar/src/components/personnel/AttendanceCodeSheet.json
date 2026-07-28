@@ -1,11 +1,11 @@
 {
-  "close": "Close",
-  "badge": "Manual code",
-  "title": "Attendance by code",
-  "description": "Enter the attendance code your supervisor gave you below",
-  "placeholder": "YOK-…",
-  "outsideWindowHint": "Code entry is closed outside attendance hours.",
-  "submitting": "Submitting…",
-  "resubmit": "Re-record",
-  "join": "Join attendance"
+  "close": "يغلق",
+  "badge": "الكود اليدوي",
+  "title": "الحضور عن طريق الكود",
+  "description": "أدخل رمز الحضور الذي قدمه لك مشرفك أدناه",
+  "placeholder": "يوك-...",
+  "outsideWindowHint": "يتم إغلاق إدخال الرمز خارج ساعات الحضور.",
+  "submitting": "تقديم…",
+  "resubmit": "إعادة التسجيل",
+  "join": "انضم للحضور"
 }

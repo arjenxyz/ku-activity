@@ -1,15 +1,15 @@
 {
-  "pageTitle": "Personel Sorgulaması",
-  "pageDescription": "Seçili personelin aylık özetini görüntüleyin.",
+  "pageTitle": "سورجولاماتسي الشخصية",
+  "pageDescription": "يمكنك اختيار الأشخاص المناسبين لك.",
   "selectEmployeeHint": "Özet için personel seçin.",
-  "loading": "Yükleniyor…",
-  "workDays": "Çalışılan Gün",
-  "gross": "Brüt",
-  "advances": "Avans",
-  "minimum": "Asgari",
-  "sectionWorkLogs": "Yevmiyeler",
-  "sectionAdvances": "Avanslar",
-  "sectionMinimum": "Asgari Ödemeler",
-  "noRecords": "Kayıt yok.",
-  "workDaysUnit": "{amount} gün"
+  "loading": "يوكلينور…",
+  "workDays": "جاليشيلان غون",
+  "gross": "بروت",
+  "advances": "أفانز",
+  "minimum": "أصغري",
+  "sectionWorkLogs": "يفمييلر",
+  "sectionAdvances": "أفانسلار",
+  "sectionMinimum": "أصغري أوديميلر",
+  "noRecords": "كايت يوك.",
+  "workDaysUnit": "{amount} بندقية"
 }

@@ -1,14 +1,14 @@
 {
-  "pageTitle": "Admin Raporları",
-  "pageDescription": "Proje genelinde finansal özet ve aylık istatistikler.",
-  "labelMonth": "Ay (aylık detay)",
-  "loading": "Yükleniyor…",
-  "totalWorkPay": "Toplam Yevmiye (₺)",
-  "workDays": "Çalışılan Gün",
-  "totalAdvances": "Toplam Avans",
-  "activeEmployees": "Aktif Personel",
-  "approvedYevmiye": "Onaylanan Yevmiye",
-  "pendingYevmiye": "Bekleyen Yevmiye",
-  "monthAdvanceTotal": "Ay Avans Toplamı",
-  "detailLink": "Detay →"
+  "pageTitle": "管理者ラポルラリ",
+  "pageDescription": "財政計画は国家統計局によって決定されます。",
+  "labelMonth": "Ay (アイルクディデイ)",
+  "loading": "ユクレニヨル…",
+  "totalWorkPay": "トプラム・エフミエ (₺)",
+  "workDays": "チャリシュラン・ギュン",
+  "totalAdvances": "トップラム・アバンス",
+  "activeEmployees": "アクティフ職員",
+  "approvedYevmiye": "オナイラナン・エフミエ",
+  "pendingYevmiye": "ベクレーエン・エフミエ",
+  "monthAdvanceTotal": "アイ・アバンス・トプラミ",
+  "detailLink": "遅延 →"
 }

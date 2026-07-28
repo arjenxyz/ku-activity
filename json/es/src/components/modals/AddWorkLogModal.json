@@ -5,10 +5,10 @@
   "selectPlaceholder": "Seçiniz",
   "dateLabel": "Tarih",
   "workTypeLabel": "Çalışma Tipi",
-  "fullDay": "Tam Gün",
-  "halfDay": "Yarım Gün",
-  "descriptionLabel": "Açıklama",
+  "fullDay": "Tam Gun",
+  "halfDay": "Yarim Gün",
+  "descriptionLabel": "açıklama",
   "submitSaving": "Kaydediliyor...",
-  "submit": "Kaydet",
+  "submit": "kaydet",
   "cancel": "İptal"
 }

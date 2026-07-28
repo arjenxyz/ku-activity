@@ -1,10 +1,10 @@
 {
-  "sectionTitle": "Proje / Şantiye",
-  "codePrefix": "Kod: {code}",
+  "sectionTitle": "プロジェクト / シャンティエ",
+  "codePrefix": "コッド: {code}",
   "status": {
-    "active": "Aktif",
-    "paused": "Duraklatıldı",
-    "completed": "Tamamlandı",
-    "planning": "Planlama"
+    "active": "アクティフ",
+    "paused": "ドゥラクラティルドゥ",
+    "completed": "タマムランディ",
+    "planning": "プランラマ"
   }
 }

@@ -1,9 +1,17 @@
 {
   "prevMonth": "Önceki ay",
-  "nextMonth": "Sonraki ay",
+  "nextMonth": "سونراکی اے",
   "thisMonth": "Bu ay",
   "summary": "{mesaiDays} mesai günü · {totalPay} toplam kazanç",
-  "selectMonth": "Ay seç:",
-  "weekdays": ["Pt", "Sa", "Ça", "Pe", "Cu", "Ct", "Pz"],
-  "tapForDetail": "Tap an orange day for details"
+  "selectMonth": "اسی طرح:",
+  "weekdays": [
+    "Pt",
+    "ص",
+    "Ça",
+    "پہ",
+    "کیو",
+    "سی ٹی",
+    "Pz"
+  ],
+  "tapForDetail": "تفصیلات کے لیے نارنجی دن کو تھپتھپائیں۔"
 }

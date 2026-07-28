@@ -1,12 +1,12 @@
 {
   "title": "Kayıtlarımı indir",
-  "description": "KVKK m.11 kapsamında yevmiye, ödeme, sözleşme ve profil verilerinizin tam kopyasını ZIP olarak alın. Yöneticinizin gördüğü kayıtlarla aynı veri setidir — şeffaflık için.",
+  "description": "تم تحديث KVKK m.11، وتم التحقق من الملف الشخصي والملف الشخصي والملف الشخصي من خلال نسخ ملف ZIP. Yöneticinizin gördüğü kayıtlarla aynı veri setidir — seffaflık için.",
   "dailyLimit": "Günde en fazla {limit} kez indirebilirsiniz.",
-  "preparing": "Hazırlanıyor…",
+  "preparing": "هازرلانيور…",
   "downloadCta": "Kayıtlarımı indir (ZIP)",
   "errors": {
-    "downloadFailed": "İndirilemedi",
-    "generic": "İndirme başarısız"
+    "downloadFailed": "Indirilemedi",
+    "generic": "Indirme başarısız"
   },
-  "fallbackFilename": "crewledger-kayitlarim.zip"
+  "fallbackFilename": "Crewledger-kayitlarim.zip"
 }

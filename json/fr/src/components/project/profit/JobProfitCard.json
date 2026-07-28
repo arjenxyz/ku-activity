@@ -8,11 +8,11 @@
   "margin": "{margin}% marj",
   "perShare": "{amount}/kişi",
   "summaryTitle": "Hesap özeti",
-  "pendingDays": "{days} gün",
-  "pendingHint": " onay bekliyor. Onaylanırsa tahmini kâr ",
+  "pendingDays": "{days} pistolet",
+  "pendingHint": "onay bekliyor. Onaylanırsa tahmini kâr",
   "quickActionsTitle": "Hızlı işlem",
-  "quickActionsHint": "Kayıt girerken bu iş otomatik seçilir.",
-  "materialTitle": "Malzeme ({amount})",
+  "quickActionsHint": "Vous pouvez le faire en choisissant un véhicule automatique.",
+  "materialTitle": "Malzème ({amount})",
   "closeExpenseForm": "Kapat",
   "addExpense": "+ Gider ekle",
   "dateLabel": "Tarih",
@@ -23,5 +23,5 @@
   "noMaterialExpenses": "Malzeme gideri yok.",
   "markCompleted": "Tamamlandı",
   "reopen": "Yeniden aç",
-  "deleteJob": "İşi sil"
+  "deleteJob": "Ici sil"
 }

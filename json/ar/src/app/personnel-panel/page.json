@@ -1,32 +1,32 @@
 {
   "tabs": {
-    "overview": "Overview",
-    "work": "Calendar",
-    "asgari": "Minimum wage",
-    "finance": "Payroll",
-    "rights": "My rights",
-    "settings": "Settings"
+    "overview": "ملخص",
+    "work": "تقويم",
+    "asgari": "الحد الأدنى للأجور",
+    "finance": "كشوف المرتبات",
+    "rights": "حقوقي",
+    "settings": "إعدادات"
   },
   "mesaiFallbackLabels": {
-    "full": "Full overtime",
-    "quarter": "Quarter overtime",
-    "half": "Half overtime"
+    "full": "العمل الإضافي الكامل",
+    "quarter": "ربع العمل الإضافي",
+    "half": "نصف العمل الإضافي"
   },
   "stats": {
-    "gross": "Gross pay",
-    "totalAdvance": "Total advances",
-    "deduction": "Deductions",
-    "netSalary": "Net pay"
+    "gross": "الأجر الإجمالي",
+    "totalAdvance": "مجموع السلف",
+    "deduction": "الخصومات",
+    "netSalary": "صافي الأجر"
   },
-  "loadingData": "Loading your data…",
-  "workLogSectionTitle": "Work logs · {monthLabel}",
-  "advanceRequestTitle": "Advance request",
-  "advanceRequestSubtitle": "Create a request or check status →",
-  "loading": "Loading…",
-  "loadingFinance": "Loading finance data…",
-  "periodSummary": "Period summary",
-  "workDaysTitle": "Work days",
-  "mesaiDistributionTitle": "Overtime total",
-  "mesaiSuffix": " overtime",
-  "headerSubtitle": "Attendance and pay summary"
+  "loadingData": "جارٍ تحميل بياناتك…",
+  "workLogSectionTitle": "سجلات العمل · {monthLabel}",
+  "advanceRequestTitle": "طلب مسبق",
+  "advanceRequestSubtitle": "أنشئ طلبًا أو تحقق من الحالة →",
+  "loading": "تحميل…",
+  "loadingFinance": "جارٍ تحميل البيانات المالية…",
+  "periodSummary": "ملخص الفترة",
+  "workDaysTitle": "أيام العمل",
+  "mesaiDistributionTitle": "إجمالي العمل الإضافي",
+  "mesaiSuffix": "متأخر , بعد فوات الوقت",
+  "headerSubtitle": "ملخص الحضور والأجور"
 }

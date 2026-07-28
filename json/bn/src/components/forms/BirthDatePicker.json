@@ -1,10 +1,10 @@
 {
-  "label": "Doğum Tarihi",
+  "label": "দোগুম তারিহি",
   "yearAriaLabel": "Doğum yılı",
-  "yearPlaceholder": "Yıl",
+  "yearPlaceholder": "ইল",
   "monthAriaLabel": "Doğum ayı",
-  "monthPlaceholder": "Ay",
-  "dayAriaLabel": "Doğum günü",
-  "dayPlaceholder": "Gün",
+  "monthPlaceholder": "অয়",
+  "dayAriaLabel": "Doğum gunü",
+  "dayPlaceholder": "গুন",
   "hint": "İnşaat sahasında çalışmak için en az {minAge} yaşında olmalısınız. {maxBirthDate} ve öncesi tarihler seçilebilir."
 }

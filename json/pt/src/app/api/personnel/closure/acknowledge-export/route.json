@@ -1,5 +1,5 @@
 {
-  "failed": "Record could not be updated",
-  "consentRequired": "You must accept closure consent first",
-  "downloadRequired": "You must download your data first"
+  "failed": "Não foi possível atualizar o registro",
+  "consentRequired": "Você deve aceitar o consentimento de fechamento primeiro",
+  "downloadRequired": "Você deve baixar seus dados primeiro"
 }

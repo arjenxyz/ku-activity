@@ -1,6 +1,6 @@
 {
-  "approved": "Bu başvuru zaten onaylanmış. Bu kod tekrar kullanılamaz; personel sisteme alınmış.",
-  "rejected": "Bu başvuru reddedilmiş. Personel aynı bilgilerle yeniden başvurabilir.",
-  "expired": "Başvuru süresi dolmuş. Personel yeni başvuru yapmalı.",
-  "unknownStatus": "Bu başvuru durumu: {status}"
+  "approved": "ブ・バシュヴル・ザテン・オナイランミシュ。ブ・コッド・テクラル・クラヌラマズ。個人システム アリンミシュ。",
+  "rejected": "ブ・バシュヴル・レディルミシュ。人事はイェニデン・バスヴラビリルです。",
+  "expired": "バシュヴル・シュレシ・ドルムシュ。人事はイェニ・バシュヴル・ヤプマリ。",
+  "unknownStatus": "ブ バシュヴル ドゥルム: {status}"
 }

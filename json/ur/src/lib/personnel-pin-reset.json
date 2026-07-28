@@ -7,9 +7,9 @@
     "invalidLink": "Geçersiz bağlantı",
     "linkInvalidOrExpired": "Bağlantı geçersiz veya süresi dolmuş.",
     "linkAlreadyUsed": "Bu bağlantı daha önce kullanıldı. Yeni bir sıfırlama linki isteyin.",
-    "linkExpired": "Bağlantının süresi doldu ({minutes} dakika). Giriş ekranından yeni link isteyin.",
+    "linkExpired": "Bağlantının süresi doldu ({minutes} dakika)۔ Giriş ekranından yeni link isteyin.",
     "accountInactive": "Hesap aktif değil. Yöneticinize başvurun.",
-    "pinUpdateFailed": "PIN güncellenemedi",
+    "pinUpdateFailed": "Güncellenemedi PIN",
     "linkUsedOrExpired": "Bu bağlantı daha önce kullanıldı veya süresi doldu.",
     "emailNotConfigured": "PIN sıfırlama e-postası yapılandırılmamış",
     "emailSendFailed": "E-posta gönderilemedi ({status}){detail}"
@@ -21,9 +21,9 @@
   },
   "email": {
     "subject": "{appName} — PIN sıfırlama bağlantınız",
-    "greeting": "Merhaba {name},",
+    "greeting": "مرحبا {name}،",
     "bodyIntro": "Girdiğiniz bilgiler sistemdeki kaydınızla uyuştu. Yeni PIN belirlemek için aşağıdaki bağlantıyı kullanın:",
-    "validityNote": "Bağlantı {minutes} dakika geçerlidir ve yalnızca bir kez kullanılabilir.",
+    "validityNote": "Bağlantı {minutes} dakika geçerlidir ve yalnızca bir kez kullanılabilir۔",
     "ignoreNote": "Bu talebi siz yapmadıysanız bu e-postayı yok sayın ve yöneticinize bildirin.",
     "buttonLabel": "Yeni PIN belirle",
     "htmlIntro": "Girdiğiniz bilgiler sistemdeki kaydınızla uyuştu. Yeni PIN belirlemek için aşağıdaki düğmeye tıklayın:",

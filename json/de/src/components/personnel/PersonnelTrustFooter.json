@@ -1,7 +1,7 @@
 {
   "managerWithName": "{name} · Yönetici",
   "defaultManager": "Proje yöneticisi",
-  "hint": "Puantaj veya maaş hakkında sorularınız için WhatsApp",
+  "hint": "Vielleicht möchten wir Sie in WhatsApp kontaktieren",
   "whatsappCta": "WhatsApp'ta yaz",
-  "noPhone": "Yönetici numarası henüz tanımlı değil"
+  "noPhone": "Sie haben noch nie zuvor eine Nachricht erhalten"
 }

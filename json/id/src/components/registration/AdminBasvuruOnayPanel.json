@@ -1,9 +1,9 @@
 {
-  "cameraLoading": "Kamera modülü yükleniyor…",
+  "cameraLoading": "Modul kamera yükleniyor…",
   "pageTitle": "Başvuru Onayı",
-  "pageDescriptionWithProject": "{projectName} — QR okutun veya kod girin; başvuru bulununca onay penceresi açılır.",
+  "pageDescriptionWithProject": "{projectName} — QR okutun dan kod girin; başvuru bulununca onay penceresi açılır.",
   "pageDescription": "QR okutun veya kod girin; başvuru bulununca onay penceresi açılır.",
-  "scanSectionTitle": "Hızlı tarama",
+  "scanSectionTitle": "Selamat datang",
   "scanSectionDescription": "Personelin bekleme ekranındaki QR kodu okutun. Eşleşme bulunursa onay formu otomatik açılır.",
   "orCodeDivider": "veya kod ile",
   "codeLabel": "Başvuru kodu",
@@ -12,17 +12,17 @@
   "search": "Bul",
   "codeHint": "Kod tamamlanınca otomatik aranır. QR okunamazsa personelin ekranındaki ARJ- kodunu yazın.",
   "lookupLoading": "Başvuru aranıyor…",
-  "backToProject": "← Proje özetine dön",
+  "backToProject": "← Proyek özetine selesai",
   "errors": {
-    "invalidCode": "Bu kod geçersiz veya sistemde kayıtlı değil. Personelin ekranındaki ARJ- kodunu kontrol edin.",
-    "notFound": "Bulunamadı",
+    "invalidCode": "Ini tidak dapat dilakukan dengan sistem apa pun. Personel di ekranındaki ARJ- kode kontrolnya.",
+    "notFound": "Bulunamadi",
     "lookupFailed": "Arama başarısız",
-    "approveFailed": "Onay başarısız",
-    "rejectFailed": "Red başarısız"
+    "approveFailed": "Sekarang başarısız",
+    "rejectFailed": "Başarısız merah"
   },
   "success": {
-    "approved": "{firstName} {lastName} onaylandı. {email} adresi ile giriş yapabilir — PIN bilgisini personele iletin.",
-    "rejected": "Başvuru reddedildi ve veritabanından silindi."
+    "approved": "{firstName} {lastName} onaylandı. {email} alamat email yang Anda kirim — PIN untuk nomor telepon pribadi.",
+    "rejected": "Başvuru reddedildi dan veritabanından silindi."
   },
-  "confirmReject": "Başvuruyu reddetmek istediğinize emin misiniz? Kayıt, fotoğraf ve sözleşme onayları kalıcı olarak silinir; personel aynı bilgilerle yeniden başvurabilir."
+  "confirmReject": "Başvuruyu reddetmek istediğinize emin misiniz? Baik, foto, dan gambar dapat diputar; personel tidak perlu menelepon lagi."
 }

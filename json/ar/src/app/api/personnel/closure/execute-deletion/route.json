@@ -1,4 +1,4 @@
 {
-  "unauthorized": "Invalid session",
-  "failed": "Deletion failed"
+  "unauthorized": "جلسة غير صالحة",
+  "failed": "فشل الحذف"
 }

@@ -1,7 +1,7 @@
 {
-  "googlePlayLabel": "Google Play",
-  "comingSoon": "Coming soon",
-  "downloadAriaLabel": "Download from Google Play",
-  "download": "Download",
-  "badgeAlt": "Get it on Google Play"
+  "googlePlayLabel": "Googleプレイ",
+  "comingSoon": "近日公開",
+  "downloadAriaLabel": "Google Playからダウンロード",
+  "download": "ダウンロード",
+  "badgeAlt": "Google Play で入手"
 }

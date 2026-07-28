@@ -1,11 +1,11 @@
 {
-  "unauthorized": "Session invalid",
-  "loadFailed": "Could not load reports",
-  "invalidBody": "Invalid request",
-  "invalidDate": "Invalid date",
-  "categoriesRequired": "Select at least one error category",
-  "noteTooShort": "Description must be at least 5 characters",
-  "createFailed": "Could not submit report",
-  "migrationRequired": "Run migration 077_day_error_reports.sql",
-  "projectClosed": "Project is closing; reports cannot be submitted"
+  "unauthorized": "Sessão inválida",
+  "loadFailed": "Não foi possível carregar os relatórios",
+  "invalidBody": "Solicitação inválida",
+  "invalidDate": "Data inválida",
+  "categoriesRequired": "Selecione pelo menos uma categoria de erro",
+  "noteTooShort": "A descrição deve ter pelo menos 5 caracteres",
+  "createFailed": "Não foi possível enviar o relatório",
+  "migrationRequired": "Execute a migração 077_day_error_reports.sql",
+  "projectClosed": "O projeto está sendo encerrado; relatórios não podem ser enviados"
 }

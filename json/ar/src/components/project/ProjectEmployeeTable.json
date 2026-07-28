@@ -1,11 +1,11 @@
 {
-  "title": "Personnel",
-  "subtitle": "Today's status",
-  "empty": "No personnel on this project yet.",
-  "loading": "Loading…",
-  "confirmed": "Present",
-  "none": "Pending",
-  "daysSuffix": " days",
-  "seeAll": "See all",
+  "title": "الموظفين",
+  "subtitle": "الوضع اليوم",
+  "empty": "لا يوجد موظفين في هذا المشروع حتى الآن.",
+  "loading": "تحميل…",
+  "confirmed": "حاضر",
+  "none": "قيد الانتظار",
+  "daysSuffix": "أيام",
+  "seeAll": "شاهد الكل",
   "emptyValue": "—"
 }

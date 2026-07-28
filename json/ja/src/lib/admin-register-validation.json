@@ -1,14 +1,14 @@
 {
-  "nameRequired": "Ad ve soyad zorunludur.",
-  "emailRequired": "E-posta adresi zorunludur.",
+  "nameRequired": "アド ヴェ ソヤド ゾルンルドゥル。",
+  "emailRequired": "E-posta adresi zorunludur。",
   "emailInvalid": "Geçerli bir e-posta adresi girin.",
-  "phoneRequired": "Telefon numarası zorunludur.",
-  "phoneInvalid": "Geçerli bir cep telefonu girin (ör. 534 968 5678).",
-  "companyRequired": "Firma veya şantiye adı zorunludur.",
-  "jobTitleRequired": "Görev / unvan seçin.",
-  "cityRequired": "Şehir bilgisi zorunludur.",
-  "teamSizeRequired": "Tahmini personel sayısını seçin.",
-  "projectCountRequired": "Aktif şantiye sayısını seçin.",
-  "passwordTooShort": "Şifre en az 6 karakter olmalıdır.",
-  "passwordMismatch": "Şifreler eşleşmiyor."
+  "phoneRequired": "テレフォン・ヌマラス・ゾルンルドゥル。",
+  "phoneInvalid": "Geçerli bir cep telefonu girin (ör. 534 968 5678)。",
+  "companyRequired": "Firma veya şantiye adı zorunludur。",
+  "jobTitleRequired": "ギョレフ / ウンヴァン・セチン。",
+  "cityRequired": "シェヒル・ビルギシ・ゾルンルドゥル。",
+  "teamSizeRequired": "タヒミニ担当者は言う。",
+  "projectCountRequired": "アクティフ・シャンティエ・セイ・セイシン。",
+  "passwordTooShort": "6 番目の文字が表示されます。",
+  "passwordMismatch": "シフレレル・エシュレシュミヨール。"
 }

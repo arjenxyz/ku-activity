@@ -1,9 +1,9 @@
 {
-  "estimatedNet": "Estimated Net Salary",
-  "gross": "Gross",
-  "deduction": "Deductions",
-  "advance": "Advances",
-  "financeDetail": "Payroll and finance details",
-  "sectionAriaLabel": "Profile and monthly salary summary",
-  "defaultName": "Personnel"
+  "estimatedNet": "推定純給与",
+  "gross": "きもい",
+  "deduction": "控除",
+  "advance": "進歩",
+  "financeDetail": "給与と財務の詳細",
+  "sectionAriaLabel": "プロフィールと月給概要",
+  "defaultName": "職員"
 }

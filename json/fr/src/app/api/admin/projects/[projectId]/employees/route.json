@@ -1,3 +1,3 @@
 {
-  "err013SchemaRepairSqlÇalıştırın": "Veritabanı güncel değil: supabase/migrations/013_schema_repair.sql çalıştırın"
+  "err013SchemaRepairSqlÇalıştırın": "Test de vérification : supabase/migrations/013_schema_repair.sql ici"
 }

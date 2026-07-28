@@ -1,62 +1,62 @@
 {
-  "pageSubtitle": "Manage appearance, language, notifications, and app preferences.",
+  "pageSubtitle": "外観、言語、通知、アプリの設定を管理します。",
   "sections": {
-    "appearance": "Appearance",
-    "language": "Language",
-    "notifications": "Notifications",
-    "about": "App",
-    "data": "Data on this device"
+    "appearance": "外観",
+    "language": "言語",
+    "notifications": "通知",
+    "about": "アプリ",
+    "data": "このデバイス上のデータ"
   },
   "menuHints": {
-    "appearance": "Theme, large text, and contrast",
+    "appearance": "テーマ、大きなテキスト、コントラスト",
     "language": "15言語から選択",
-    "notifications": "Permission and push subscription",
-    "about": "Version and update notes",
-    "data": "Cookies and cache — your account records stay"
+    "notifications": "許可とプッシュサブスクリプション",
+    "about": "バージョンとアップデートに関する注意事項",
+    "data": "Cookie とキャッシュ — アカウントの記録は残ります"
   },
   "theme": {
-    "label": "Theme",
-    "hint": "Use light, dark, or follow your device",
-    "light": "Light",
-    "dark": "Dark",
-    "system": "System"
+    "label": "テーマ",
+    "hint": "明るい、暗いを使用するか、デバイスに従ってください",
+    "light": "ライト",
+    "dark": "暗い",
+    "system": "システム"
   },
-  "largeTextLabel": "Large text",
-  "largeTextHint": "Increases text size for easier reading on site",
-  "highContrastLabel": "High contrast",
-  "highContrastHint": "Makes colors more distinct",
-  "languageLabel": "App language",
+  "largeTextLabel": "大きいテキスト",
+  "largeTextHint": "サイト上で読みやすくするためにテキストサイズを大きくします",
+  "highContrastLabel": "ハイコントラスト",
+  "highContrastHint": "色をより鮮明にします",
+  "languageLabel": "アプリ言語",
   "languageHint": "15言語から選択",
   "notifications": {
-    "statusLabel": "Notification permission",
-    "subscriptionLabel": "Push subscription",
-    "granted": "On",
-    "denied": "Off",
-    "default": "Not asked yet",
-    "unsupported": "Not supported",
-    "subscribed": "Active",
-    "notSubscribed": "Not registered",
-    "enableButton": "Enable notifications",
-    "openSettingsButton": "Open system settings",
-    "refreshButton": "Refresh status",
-    "enabling": "Enabling…",
-    "hintGranted": "Deductions, advances, and attendance alerts are sent to this device.",
-    "hintDenied": "Notifications are off. Enable them in system settings or with the button below.",
-    "hintDefault": "Allow notifications to stay informed about important updates."
+    "statusLabel": "通知許可",
+    "subscriptionLabel": "プッシュ購読",
+    "granted": "の上",
+    "denied": "オフ",
+    "default": "まだ質問されていません",
+    "unsupported": "サポートされていません",
+    "subscribed": "アクティブ",
+    "notSubscribed": "未登録",
+    "enableButton": "通知を有効にする",
+    "openSettingsButton": "システム設定を開く",
+    "refreshButton": "ステータスの更新",
+    "enabling": "有効化中…",
+    "hintGranted": "控除、前払い、および出席アラートがこのデバイスに送信されます。",
+    "hintDenied": "通知はオフになっています。システム設定または下のボタンで有効にします。",
+    "hintDefault": "通知で重要な更新情報を常に把握できるようにします。"
   },
   "about": {
-    "versionLabel": "Version",
-    "publishedLabel": "Published",
+    "versionLabel": "バージョン",
+    "publishedLabel": "発行済み",
     "unknownVersion": "—",
-    "loading": "Loading version info…",
-    "loadFailed": "Could not load version info",
-    "checkUpdates": "View release notes",
-    "apkHint": "If a new version is available, install it from the APK download page."
+    "loading": "バージョン情報を読み込んでいます…",
+    "loadFailed": "バージョン情報を読み込めませんでした",
+    "checkUpdates": "リリースノートを見る",
+    "apkHint": "新しいバージョンが利用可能な場合は、APK ダウンロード ページからインストールします。"
   },
   "data": {
-    "clearLabel": "Clear cache on this phone",
-    "clearHint": "Deletes cookies and temporary files. Your account, payroll, and advance records are not deleted; you will need to sign in again.",
-    "clearing": "Clearing…",
-    "confirm": "Only CrewLedger cookies, session, and cache on this device will be cleared and you will be signed out. Your account and server records are not deleted. Other apps are not affected. Continue?"
+    "clearLabel": "この携帯電話のキャッシュをクリアします",
+    "clearHint": "Cookie と一時ファイルを削除します。あなたのアカウント、給与計算、前払い記録は削除されません。再度サインインする必要があります。",
+    "clearing": "クリア中…",
+    "confirm": "このデバイス上の CrewLedger Cookie、セッション、キャッシュのみがクリアされ、サインアウトされます。アカウントとサーバーの記録は削除されません。他のアプリは影響を受けません。続く？"
   }
 }

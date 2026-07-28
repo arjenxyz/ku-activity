@@ -1,9 +1,9 @@
 {
   "title": {
     "ok": "Başarılı — devam ediyor",
-    "critical": "Sorun var",
-    "warning": "Ping gecikmiş",
-    "unknown": "Henüz bilinmiyor"
+    "critical": "var sorun",
+    "warning": "ping gecikmiş",
+    "unknown": "henüz bilinmiyor"
   },
   "lastPing": "Son ping: {date}"
 }

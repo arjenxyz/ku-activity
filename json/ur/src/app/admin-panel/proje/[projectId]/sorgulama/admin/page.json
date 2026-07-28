@@ -1,14 +1,14 @@
 {
-  "pageTitle": "Admin Sorgulama",
+  "pageTitle": "ایڈمن سورگلامہ",
   "pageDescription": "Tüm personelin aylık finansal özeti.",
-  "labelMonth": "Ay",
+  "labelMonth": "اے",
   "totalGross": "Toplam Brüt",
   "totalAdvances": "Toplam Avans",
-  "totalNet": "Toplam Net",
-  "colEmployee": "Personel",
-  "colDays": "Gün",
-  "colGross": "Brüt",
-  "colAdvance": "Avans",
-  "colMinimum": "Asgari",
-  "colNet": "Net"
+  "totalNet": "ٹاپلم نیٹ",
+  "colEmployee": "پرسنل",
+  "colDays": "گن",
+  "colGross": "برٹ",
+  "colAdvance": "ایونز",
+  "colMinimum": "اصغری",
+  "colNet": "نیٹ"
 }

@@ -1,37 +1,37 @@
 {
-  "close": "Close",
-  "dismissError": "Dismiss error",
-  "rescanIssue": "Something's wrong — re-scan",
-  "rescan": "Re-scan",
+  "close": "Cerca",
+  "dismissError": "Descartar error",
+  "rescanIssue": "Algo anda mal: vuelva a escanear",
+  "rescan": "Volver a escanear",
   "states": {
     "waiting": {
-      "pill": "In attendance",
-      "title": "You've been added to the list",
-      "hint": "Wait until your supervisor completes attendance."
+      "pill": "En asistencia",
+      "title": "Has sido agregado a la lista.",
+      "hint": "Espere hasta que su supervisor complete la asistencia."
     },
     "completed": {
-      "pill": "Completed",
-      "title": "Completed today",
-      "hintDefault": "Your full-day record has been created."
+      "pill": "Terminado",
+      "title": "Completado hoy",
+      "hintDefault": "Se ha creado su registro de día completo."
     },
     "cancelled": {
-      "pill": "Cancelled",
-      "title": "Attendance cancelled",
-      "hint": "Your manager cancelled this attendance. Please contact them."
+      "pill": "Cancelado",
+      "title": "Asistencia cancelada",
+      "hint": "Su gerente canceló esta asistencia. Por favor contacta con ellos."
     },
     "removed": {
-      "pill": "Removed from list",
-      "title": "You're not in attendance",
-      "hint": "Scan a new QR or talk to your supervisor."
+      "pill": "Eliminado de la lista",
+      "title": "no estás presente",
+      "hint": "Escanee un nuevo QR o hable con su supervisor."
     },
     "didNotWork": {
-      "pill": "Did not work",
-      "title": "Marked as not working today",
-      "hint": "No daily wage is recorded."
+      "pill": "no funcionó",
+      "title": "Marcado como no trabajando hoy",
+      "hint": "No se registra ningún salario diario."
     }
   },
   "scanError": {
-    "pill": "Scan failed",
-    "title": "Couldn't read the QR"
+    "pill": "Error de escaneo",
+    "title": "No se pudo leer el QR"
   }
 }

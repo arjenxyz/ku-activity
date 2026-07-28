@@ -1,65 +1,65 @@
 {
   "shell": {
-    "backToPanel": "Back to panel"
+    "backToPanel": "پینل پر واپس جائیں۔"
   },
   "steps": {
-    "upload": "Upload",
-    "analyze": "Scan",
-    "review": "Confirm"
+    "upload": "اپ لوڈ کریں۔",
+    "analyze": "اسکین کریں۔",
+    "review": "تصدیق کریں۔"
   },
-  "trustLabel": "score",
+  "trustLabel": "سکور",
   "validation": {
-    "scanRejectedTitle": "Could not read receipt"
+    "scanRejectedTitle": "رسید نہیں پڑھ سکی"
   },
   "errors": {
-    "draftLoadFailed": "Could not load draft",
-    "analyzeFailed": "Analysis failed",
-    "saveFailed": "Save failed"
+    "draftLoadFailed": "مسودہ لوڈ نہیں ہو سکا",
+    "analyzeFailed": "تجزیہ ناکام ہو گیا۔",
+    "saveFailed": "محفوظ کرنا ناکام ہو گیا۔"
   },
   "success": {
-    "paymentSaved": "Payment recorded.",
-    "doneTitle": "Done",
-    "uploadAnother": "New receipt"
+    "paymentSaved": "ادائیگی ریکارڈ کی گئی۔",
+    "doneTitle": "ہو گیا",
+    "uploadAnother": "نئی رسید"
   },
   "header": {
-    "title": "Receipt scan",
+    "title": "رسید اسکین",
     "description": ""
   },
   "upload": {
-    "title": "Drop file here",
-    "description": "PDF or image — or share from your banking app",
-    "selectFile": "Choose file",
-    "fileHint": "PDF, JPG, PNG · max 10 MB"
+    "title": "فائل یہاں ڈراپ کریں۔",
+    "description": "پی ڈی ایف یا تصویر — یا اپنی بینکنگ ایپ سے شیئر کریں۔",
+    "selectFile": "فائل کا انتخاب کریں۔",
+    "fileHint": "PDF, JPG, PNG · زیادہ سے زیادہ 10 MB"
   },
   "analyze": {
-    "title": "Reading receipt…"
+    "title": "رسید پڑھی جا رہی ہے…"
   },
   "review": {
-    "matchTitle": "Match advance",
-    "viewProfile": "Profile",
-    "approvedOn": "Approved {date}",
-    "amountMatch": "Amount",
-    "noMatchTitle": "No matching advance found",
-    "goToProjects": "Go to panel",
-    "referenceLabel": "Reference",
-    "paymentDateLabel": "Payment date",
-    "amountLabel": "Amount (TRY)",
-    "ibanLabel": "Recipient IBAN",
-    "amountHint": "Enter amount from receipt manually",
-    "saveSaving": "Saving…",
-    "savePayment": "Save payment",
-    "anotherDekont": "Another receipt",
-    "transferCodeLabel": "Expected transfer code",
-    "transferCodeHint": "This code should appear on the receipt if you added it to the transfer description",
-    "transferCodeOverride": "Code not readable on receipt — save anyway",
-    "forcePayment": "Force save payment",
-    "forcePaymentHint": "Payment was made before advance approval (within last {maxDays} days). IBAN and amount must match.",
-    "forcePaymentSaving": "Force saving…",
-    "retroactiveTitle": "Retroactive payment (no request)",
-    "retroactiveHint": "Select employee matching IBAN — payment was made earlier",
-    "retroactiveSave": "Save as retroactive payment",
-    "retroactiveNoEmployee": "No employee found with this IBAN",
-    "payrollMonthNotice": "Payment was made on {paymentDate}. This advance will be posted to the {payrollMonth} payroll."
+    "matchTitle": "میچ ایڈوانس",
+    "viewProfile": "پروفائل",
+    "approvedOn": "منظور شدہ {date}",
+    "amountMatch": "رقم",
+    "noMatchTitle": "کوئی مماثل پیشگی نہیں ملا",
+    "goToProjects": "پینل پر جائیں۔",
+    "referenceLabel": "حوالہ",
+    "paymentDateLabel": "ادائیگی کی تاریخ",
+    "amountLabel": "رقم (TRY)",
+    "ibanLabel": "وصول کنندہ IBAN",
+    "amountHint": "رسید سے رقم دستی طور پر درج کریں۔",
+    "saveSaving": "محفوظ ہو رہا ہے…",
+    "savePayment": "ادائیگی محفوظ کریں۔",
+    "anotherDekont": "ایک اور رسید",
+    "transferCodeLabel": "متوقع منتقلی کوڈ",
+    "transferCodeHint": "اگر آپ نے اسے منتقلی کی تفصیل میں شامل کیا ہے تو یہ کوڈ رسید پر ظاہر ہونا چاہیے۔",
+    "transferCodeOverride": "رسید پر کوڈ پڑھنے کے قابل نہیں ہے - بہرحال محفوظ کریں۔",
+    "forcePayment": "ادائیگی کو بچانے پر مجبور کریں۔",
+    "forcePaymentHint": "ادائیگی پیشگی منظوری سے پہلے کی گئی تھی (آخری {maxDays} دنوں کے اندر)۔ IBAN اور رقم مماثل ہونی چاہیے۔",
+    "forcePaymentSaving": "زبردستی بچت…",
+    "retroactiveTitle": "سابقہ ​​ادائیگی (کوئی درخواست نہیں)",
+    "retroactiveHint": "IBAN سے مماثل ملازم منتخب کریں — ادائیگی پہلے کی گئی تھی۔",
+    "retroactiveSave": "سابقہ ​​ادائیگی کے طور پر محفوظ کریں۔",
+    "retroactiveNoEmployee": "اس IBAN کے ساتھ کوئی ملازم نہیں ملا",
+    "payrollMonthNotice": "ادائیگی {paymentDate} پر کی گئی۔ یہ پیشگی {payrollMonth} پے رول پر پوسٹ کی جائے گی۔"
   },
-  "loading": "Loading…"
+  "loading": "لوڈ ہو رہا ہے…"
 }

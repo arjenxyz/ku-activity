@@ -1,17 +1,17 @@
 {
   "yevmiyeTriggerLabels": {
-    "month_end": "Ay sonunda",
-    "roof_complete": "Çatı / aşama bitince",
-    "job_complete": "İş bitiminde"
+    "month_end": "ああ、ソヌンダ",
+    "roof_complete": "チャティ / アシャマ ビットンス",
+    "job_complete": "ビチミンデ"
   },
   "prorationModeLabels": {
-    "calendar_days": "İşe girişten ay sonuna (takvim günü)",
-    "worked_days": "Sadece çalışılan güne göre",
-    "full_month": "Her zaman tam ay (oranlama yok)"
+    "calendar_days": "ギリシュテン アイ ソナ (タクヴィム ギュヌ)",
+    "worked_days": "サデセ・カルシュラン・ギュネ・ゴレ",
+    "full_month": "彼女のザマン・タム・アイ (オランラマ・ヨーク)"
   },
   "dekontDeductionLabels": {
-    "manual_review": "Dekontu admin onaylasın (BES/kesinti elle)",
-    "ignore": "Kesintileri yok say (sadece net yatan tutar)",
-    "auto_separate": "Kesintileri ayrı satır olarak kaydet (ileride)"
+    "manual_review": "Dekontu 管理者 onaylasın (BES/kesinti elle)",
+    "ignore": "Kesintileri yok Say (Sadece net yatan tutar)",
+    "auto_separate": "Kesintileri ayrı satır olarak kaydet (イレリデ)"
   }
 }

@@ -1,12 +1,20 @@
 {
   "prevMonth": "Önceki ay",
-  "nextMonth": "Sonraki ay",
+  "nextMonth": "Sonraki ja",
   "thisMonth": "Bu ay",
-  "summary": "{recorded} kayıtlı gün · {confirmed} onaylı · {pending} bekleyen",
+  "summary": "{recorded} wird angezeigt · {confirmed} wird angezeigt · {pending} wird angezeigt",
   "selectMonth": "Ay seç:",
-  "weekdays": ["Pt", "Sa", "Ça", "Pe", "Cu", "Ct", "Pz"],
+  "weekdays": [
+    "Pt",
+    "Sa",
+    "Ça",
+    "Pe",
+    "Cu",
+    "Ct",
+    "Pz"
+  ],
   "cellTitle": "{date} · {amount} · {status}",
-  "tapForDetail": "Tap a highlighted day for details",
+  "tapForDetail": "Tippen Sie auf einen markierten Tag, um Einzelheiten anzuzeigen",
   "status": {
     "confirmed": "Onaylı",
     "pending_employee": "Sizin onayınız",

@@ -1,113 +1,158 @@
 {
   "primary": [
     {
-      "label": "Proje özeti",
+      "label": "هذا المشروع",
       "path": "",
-      "hint": "Personel ve günlük durum"
+      "hint": "الأفراد والأصدقاء قاسيون"
     },
     {
-      "label": "Yevmiye",
+      "label": "يفمية",
       "path": "yevmiye",
       "hint": "Günlük çalışma kaydı"
     },
     {
-      "label": "Taşeron karı",
-      "path": "kar",
-      "hint": "Blok, iş kalemi ve kâr"
+      "label": "لقد حدث ذلك",
+      "path": "كار",
+      "hint": "Blok, is kalemi ve kâr"
     }
   ],
   "groups": [
     {
-      "id": "personel",
-      "label": "Personel",
+      "id": "شخصي",
+      "label": "شخصي",
       "links": [
-        { "label": "Personel listesi", "path": "list" },
-        { "label": "Yeni personel", "path": "new" },
-        { "label": "Başvuru onayı", "path": "basvuru-onay" },
-        { "label": "Personel şifreleri", "path": "sorgulama/personel-sifreleri" }
+        {
+          "label": "قوائم الموظفين",
+          "path": "قائمة"
+        },
+        {
+          "label": "يني شخصي",
+          "path": "جديد"
+        },
+        {
+          "label": "Başvuru onayı",
+          "path": "باسبورو-أوناي"
+        },
+        {
+          "label": "خدمة شخصية",
+          "path": "sorgulama/personel-sifreleri"
+        }
       ]
     },
     {
       "id": "kayitlar",
-      "label": "Diğer kayıtlar",
+      "label": "المزيد من المعلومات",
       "links": [
-        { "label": "Avans", "path": "avans" },
         {
-          "label": "Avans talepleri",
+          "label": "أفانز",
+          "path": "avans"
+        },
+        {
+          "label": "أفانز تابليري",
           "path": "avans-talepleri",
-          "hint": "Personel talepleri — onay ve ödeme"
+          "hint": "Personal Talpleri — onay ve ödeme"
         },
         {
-          "label": "Dekont paylaş (OCR)",
+          "label": "ديكونت بايلاس (OCR)",
           "absolutePath": "/admin-panel/dekont-paylas",
-          "hint": "Bankadan paylaş — otomatik eşleştirme"
+          "hint": "Bankadan paylaş — تلقائي"
         },
-        { "label": "Kesinti", "path": "kesinti" },
-        { "label": "Asgari ücret", "path": "asgari" }
+        {
+          "label": "كيسينتي",
+          "path": "كيسينتي"
+        },
+        {
+          "label": "أصغري ücret",
+          "path": "أصغري"
+        }
       ]
     },
     {
-      "id": "santiye",
-      "label": "Şantiye",
+      "id": "سانتيي",
+      "label": "شانتيي",
       "links": [
-        { "label": "Bloklar", "path": "bloklar" },
-        { "label": "Ekipler", "path": "ekiplar" }
+        {
+          "label": "بلوكلار",
+          "path": "bloklar"
+        },
+        {
+          "label": "إكيبلر",
+          "path": "ekiplar"
+        }
       ]
     },
     {
       "id": "finans",
-      "label": "Finans",
+      "label": "المالية",
       "links": [
-        { "label": "Ne durumdayız?", "path": "durum" },
-        { "label": "Maaş bordrosu", "path": "bordro" },
-        { "label": "Maaş politikası", "path": "maas-politikasi" }
+        {
+          "label": "لا durumdayız؟",
+          "path": "القاسي"
+        },
+        {
+          "label": "معاش بوردروسو",
+          "path": "بوردرو"
+        },
+        {
+          "label": "ما السياسة",
+          "path": "سياسة أكثر"
+        }
       ]
     },
     {
-      "id": "kontrol",
-      "label": "Kontrol & rapor",
+      "id": "التحكم",
+      "label": "السيطرة والراب",
       "links": [
-        { "label": "Raporlar", "path": "raporlar" },
-        { "label": "Onaylananlar", "path": "raporlar/onaylanan" },
-        { "label": "Bekleyen kayıtlar", "path": "raporlar/onaysiz" },
         {
-          "label": "Kayıt geçmişi",
+          "label": "رابورلار",
+          "path": "رابورلار"
+        },
+        {
+          "label": "أونايلانانلار",
+          "path": "رابورلار/onaylanan"
+        },
+        {
+          "label": "بيكلين كيتلار",
+          "path": "رابورلار/onaysiz"
+        },
+        {
+          "label": "لا داعي للقلق",
           "path": "kayit-gecmisi",
-          "hint": "Sorgulama ve arşiv"
+          "hint": "سورجولاما وأرشيف"
         }
       ]
     }
   ],
   "recordArchive": [
     {
-      "label": "Aylık özet",
-      "desc": "Tüm personelin ay bazında yevmiye, avans ve net durumu",
-      "path": "sorgulama/admin"
+      "label": "أيليك أوزيت",
+      "desc": "Tüm personelin ay bazında yevmiye، avans ve net durumu",
+      "path": "سورغولاما/admin"
     },
     {
-      "label": "Personel bazlı",
+      "label": "بازلي شخصي",
       "desc": "Tek personelin yevmiye, avans ve asgari kayıtları",
-      "path": "sorgulama"
+      "path": "سورجولاما"
     },
     {
-      "label": "Yevmiye arşivi",
-      "desc": "Tarih ve personele göre yevmiye listesi",
-      "path": "sorgulama/yevmiye"
+      "label": "يرفع أرشيفي",
+      "desc": "تاريخ وأفراد يتابعون قوائمهم",
+      "path": "سورجولاما/يفمي"
     },
     {
-      "label": "Avans arşivi",
-      "desc": "Verilen avansların listesi",
-      "path": "sorgulama/avans"
+      "label": "أرشيفي",
+      "desc": "قوائم الانتظار المتاحة",
+      "path": "سورجولاما/أفانز"
     },
     {
-      "label": "Kesinti arşivi",
-      "desc": "Kesinti kayıtları",
-      "path": "sorgulama/kesinti"
+      "label": "أرشيفي",
+      "desc": "kasinti kayıtları",
+      "path": "سورجولاما/كيسينتي"
     },
     {
-      "label": "Asgari arşivi",
-      "desc": "Asgari ücret tamamlama kayıtları",
-      "path": "sorgulama/asgari"
+      "label": "أصغري أرشيفي",
+      "desc": "Asgari ücret Tamamlama kayıtları",
+      "path": "سورجولاما/اسغاري"
     }
   ]
 }

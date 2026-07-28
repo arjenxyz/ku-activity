@@ -1,8 +1,8 @@
 {
-  "title": "Gönüllülük Projesi",
-  "developerLine": "{name}, {developerName} tarafından geliştirilmiş {nature}dur.",
+  "title": "ゴヌルルルクプロジェクト",
+  "developerLine": "{name}、{developerName} タラフィンダン ゲリシュティリルミシュ {nature}dur。",
   "noCompanyLine": "{establishedNote}",
-  "optionalUseLine": "Hiçbir yönetici veya işveren, personeli bu platformu kullanmaya zorlayamaz. Kullanım tamamen gönüllüdür.",
-  "transparencyLine": "Yevmiye, avans, kesinti, asgari ücret, yoklama ve puantaj kayıtları hem yönetici hem personel panelinde görülebilir; amaç finansal takibi dijital ve şeffaf kılmaktır.",
+  "optionalUseLine": "あなたの仕事は、プラットフォームの人事担当者です。 Kullanim tamamen gönüllüdür。",
+  "transparencyLine": "エフミエ、アヴァンス、ケシンティ、アスガリ・ユークレット、ヨクラマ・ヴェ・プアンタジ・カユトゥラル・ヘム・ヨネチ・ヘム・パーソン・パネルインデ・ゴルレビリル。金融機関のデジタル情報をご覧ください。",
   "legalLine": "{legalDisclaimer}"
 }

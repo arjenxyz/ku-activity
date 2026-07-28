@@ -1,39 +1,39 @@
 {
-  "sectionBadge": "Platform Features",
-  "sectionTitle": "Real modules from timesheets to payroll",
-  "sectionSubtitle": "Daily wages, overtime, advances, deductions, minimum wage top-ups, and payroll are managed per project. The personnel app shows the same records as the admin panel.",
-  "marqueePaused": "Paused — tap the box again to resume",
-  "marqueeHint": "Swipe with your finger; scrolling pauses the flow, tap the box to pin it",
+  "sectionBadge": "پلیٹ فارم کی خصوصیات",
+  "sectionTitle": "ٹائم شیٹس سے لے کر پے رول تک اصلی ماڈیولز",
+  "sectionSubtitle": "یومیہ اجرت، اوور ٹائم، ایڈوانسز، کٹوتیاں، کم از کم اجرت ٹاپ اپس، اور پے رول کا انتظام فی پروجیکٹ کیا جاتا ہے۔ پرسنل ایپ وہی ریکارڈ دکھاتی ہے جیسے ایڈمن پینل۔",
+  "marqueePaused": "روک دیا گیا — دوبارہ شروع کرنے کے لیے باکس کو دوبارہ تھپتھپائیں۔",
+  "marqueeHint": "اپنی انگلی سے سوائپ کریں؛ اسکرولنگ بہاؤ کو روکتی ہے، اسے پن کرنے کے لیے باکس کو تھپتھپائیں۔",
   "features": [
     {
-      "title": "Dual-Approved Daily Wages",
-      "tag": "Timesheets",
-      "description": "Full/half-day attendance and quarter, half, or full overtime entries. Admin enters; personnel approves or disputes — records are not finalized without both sides."
+      "title": "دوہری منظور شدہ یومیہ اجرت",
+      "tag": "ٹائم شیٹس",
+      "description": "مکمل/آدھے دن کی حاضری اور سہ ماہی، نصف، یا مکمل اوور ٹائم اندراجات۔ ایڈمن داخل ہوتا ہے؛ عملے کی منظوری یا تنازعات - دونوں فریقوں کے بغیر ریکارڈ کو حتمی شکل نہیں دی جاتی۔"
     },
     {
-      "title": "Advances & Deductions",
-      "tag": "Finance",
-      "description": "Project-based advance and deduction entries. Gross, advance, deduction, and net amounts are calculated with the same formula in payroll and the personnel finance tab."
+      "title": "ایڈوانسز اور کٹوتیاں",
+      "tag": "فنانس",
+      "description": "پروجیکٹ پر مبنی پیشگی اور کٹوتی اندراجات۔ مجموعی، پیشگی، کٹوتی، اور خالص رقوم کا حساب پے رول اور پرسنل فنانس ٹیب میں ایک ہی فارمولے کے ساتھ کیا جاتا ہے۔"
     },
     {
-      "title": "Minimum Wage Top-Up",
-      "tag": "Policy",
-      "description": "Earned, paid, and remaining amounts per company and project wage policy. Subcontractor gap suggestions; personnel see the breakdown in the minimum wage tab."
+      "title": "کم از کم اجرت ٹاپ اپ",
+      "tag": "پالیسی",
+      "description": "کمائی ہوئی، ادا کی گئی، اور باقی رقم فی کمپنی اور پروجیکٹ کی اجرت کی پالیسی۔ ذیلی ٹھیکیدار کے فرق کی تجاویز؛ اہلکار کم از کم اجرت کے ٹیب میں خرابی کو دیکھتے ہیں۔"
     },
     {
-      "title": "Project-Based Sites",
-      "tag": "Operations",
-      "description": "Each site is a separate project; personnel, blocks, teams, and finance records stay within the project. Admins only access projects they created."
+      "title": "پروجیکٹ پر مبنی سائٹس",
+      "tag": "آپریشنز",
+      "description": "ہر سائٹ ایک الگ پروجیکٹ ہے۔ عملہ، بلاکس، ٹیمیں، اور مالیاتی ریکارڈ پروجیکٹ کے اندر رہتے ہیں۔ ایڈمنز صرف اپنے بنائے ہوئے پروجیکٹس تک رسائی حاصل کرتے ہیں۔"
     },
     {
-      "title": "Reports & Payroll",
-      "tag": "Reporting",
-      "description": "Approved and pending daily wages, open personnel disputes, payroll runs, and archive queries for wages, advances, and deductions."
+      "title": "رپورٹس اور پے رول",
+      "tag": "رپورٹنگ",
+      "description": "منظور شدہ اور زیر التواء یومیہ اجرت، کھلے عملے کے تنازعات، پے رول رنز، اور اجرت، ایڈوانسز، اور کٹوتیوں کے لیے آرکائیو سوالات۔"
     },
     {
-      "title": "Personnel App",
-      "tag": "Mobile PWA",
-      "description": "Install as a PWA on your phone. Overview, daily wages, overtime, finance, minimum wage, and rights tabs — fed from the same database as the admin panel."
+      "title": "پرسنل ایپ",
+      "tag": "موبائل پی ڈبلیو اے",
+      "description": "اپنے فون پر بطور PWA انسٹال کریں۔ جائزہ، یومیہ اجرت، اوور ٹائم، فنانس، کم از کم اجرت، اور حقوق کے ٹیبز — ایڈمن پینل کے اسی ڈیٹا بیس سے فیڈ۔"
     }
   ]
 }

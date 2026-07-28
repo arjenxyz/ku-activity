@@ -1,7 +1,7 @@
 {
   "title": "Gelişmiş arayüz gerekli",
   "description": "Bu sayfa blok yönetimi, bordro, rapor arşivi gibi gelişmiş işlemler içindir. Günlük yoklama ve yevmiye için basit arayüzü kullanın.",
-  "warningMessage": "Basit modda yoklama QR, avans ve itiraz sayfalarına erişilir.",
+  "warningMessage": "Basit modda yoklama QR, avans e itiraz sayfalarına erişilir.",
   "backToDaily": "Günlük işlemlere dön",
-  "backToProjects": "Proje listesine dön"
+  "backToProjects": "Proyecto listesine dön"
 }

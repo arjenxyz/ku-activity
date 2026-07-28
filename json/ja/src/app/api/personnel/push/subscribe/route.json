@@ -1,6 +1,6 @@
 {
-  "invalidSubscription": "Invalid subscription data",
-  "endpointRequired": "A valid endpoint is required",
-  "saveFailed": "Could not save subscription",
-  "deleteFailed": "Could not remove subscription"
+  "invalidSubscription": "無効なサブスクリプション データ",
+  "endpointRequired": "有効なエンドポイントが必要です",
+  "saveFailed": "サブスクリプションを保存できませんでした",
+  "deleteFailed": "サブスクリプションを削除できませんでした"
 }

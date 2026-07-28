@@ -1,12 +1,12 @@
 {
-  "employeeFallback": "Personel",
+  "employeeFallback": "ব্যক্তি",
   "ibanEmpty": "—",
   "reasons": {
-    "ibanMatch": "Alıcı IBAN personel kaydıyla eşleşti",
+    "ibanMatch": "Alıcı IBAN ব্যক্তিত্ব kaydıyla eşleşti",
     "amountMatch": "Tutar uyumlu ({ocrAmount} ≈ {approvedAmount})",
-    "amountClose": "Tutar yakın",
-    "referenceRead": "Referans no okundu",
-    "singleCandidate": "Tek aday personel",
-    "transferTokenMatch": "Transfer reference code matched"
+    "amountClose": "টুটার ইয়াকিন",
+    "referenceRead": "রেফারেন্স কোন ওকুন্ডু",
+    "singleCandidate": "টেক অ্যাডে পার্সোনাল",
+    "transferTokenMatch": "ট্রান্সফার রেফারেন্স কোড মিলেছে"
   }
 }

@@ -1,12 +1,12 @@
 {
-  "accountDeletionNote": "Your account will be deleted on {date}",
-  "accountDeletionNoteAccelerated": "Your account will be deleted in 3 minutes",
-  "countdownLabel": "Time remaining until your account is deleted",
-  "downloadHint": "Download and keep a ZIP copy of your work logs, payments, and contracts.",
-  "fastDeleteTitle": "Want to delete your account faster?",
-  "fastDeleteIntro": "To shorten the waiting period and speed up deletion, complete the steps below in order:",
-  "fastDeleteStep1": "Download your data as a ZIP file",
-  "fastDeleteStep2": "Tap the “I downloaded, continue” button",
-  "fastDeleteStep3": "Confirm the fast deletion option that appears using email verification",
-  "fastDeleteFooter": "Once you complete the steps, the fast deletion option appears automatically on this screen."
+  "accountDeletionNote": "あなたのアカウントは{date}に削除されます",
+  "accountDeletionNoteAccelerated": "アカウントは 3 分以内に削除されます",
+  "countdownLabel": "アカウントが削除されるまでの残り時間",
+  "downloadHint": "作業ログ、支払い、契約の ZIP コピーをダウンロードして保存します。",
+  "fastDeleteTitle": "アカウントをもっと早く削除したいですか?",
+  "fastDeleteIntro": "待機時間を短縮し、削除を高速化するには、以下の手順を順番に実行してください。",
+  "fastDeleteStep1": "データを ZIP ファイルとしてダウンロードする",
+  "fastDeleteStep2": "「ダウンロードしました、続行」ボタンをタップします",
+  "fastDeleteStep3": "電子メール認証を使用して表示される高速削除オプションを確認します",
+  "fastDeleteFooter": "手順を完了すると、この画面に高速削除オプションが自動的に表示されます。"
 }

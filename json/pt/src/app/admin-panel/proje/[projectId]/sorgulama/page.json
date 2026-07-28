@@ -1,15 +1,15 @@
 {
-  "pageTitle": "Personel Sorgulaması",
+  "pageTitle": "Pessoal Sorgulaması",
   "pageDescription": "Seçili personelin aylık özetini görüntüleyin.",
-  "selectEmployeeHint": "Özet için personel seçin.",
+  "selectEmployeeHint": "Selecione a opção pessoal.",
   "loading": "Yükleniyor…",
   "workDays": "Çalışılan Gün",
-  "gross": "Brüt",
+  "gross": "Bruto",
   "advances": "Avans",
   "minimum": "Asgari",
   "sectionWorkLogs": "Yevmiyeler",
   "sectionAdvances": "Avanslar",
   "sectionMinimum": "Asgari Ödemeler",
-  "noRecords": "Kayıt yok.",
+  "noRecords": "Tudo bem.",
   "workDaysUnit": "{amount} gün"
 }

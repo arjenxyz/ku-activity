@@ -1,11 +1,11 @@
 {
-  "close": "Close",
-  "badge": "Manual code",
-  "title": "Attendance by code",
-  "description": "Enter the attendance code your supervisor gave you below",
+  "close": "بند",
+  "badge": "دستی کوڈ",
+  "title": "کوڈ کے ذریعے حاضری",
+  "description": "حاضری کوڈ درج کریں جو آپ کے سپروائزر نے آپ کو دیا ہے۔",
   "placeholder": "YOK-…",
-  "outsideWindowHint": "Code entry is closed outside attendance hours.",
-  "submitting": "Submitting…",
-  "resubmit": "Re-record",
-  "join": "Join attendance"
+  "outsideWindowHint": "کوڈ کا اندراج حاضری کے اوقات سے باہر بند ہے۔",
+  "submitting": "جمع کر رہا ہے…",
+  "resubmit": "دوبارہ ریکارڈ کریں۔",
+  "join": "حاضری لگائیں۔"
 }

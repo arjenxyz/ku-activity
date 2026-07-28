@@ -4,7 +4,7 @@
   "pageDescriptionWithProject": "{projectName} — QR okutun veya kod girin; başvuru bulununca onay penceresi açılır.",
   "pageDescription": "QR okutun veya kod girin; başvuru bulununca onay penceresi açılır.",
   "scanSectionTitle": "Hızlı tarama",
-  "scanSectionDescription": "Personelin bekleme ekranındaki QR kodu okutun. Eşleşme bulunursa onay formu otomatik açılır.",
+  "scanSectionDescription": "Personal bekleme ekranındaki QR kodu okutun. Bitte beachten Sie, dass die otomatische Funktion nicht erfüllt ist.",
   "orCodeDivider": "veya kod ile",
   "codeLabel": "Başvuru kodu",
   "codePlaceholder": "ARJ-XXXXXX",
@@ -12,17 +12,17 @@
   "search": "Bul",
   "codeHint": "Kod tamamlanınca otomatik aranır. QR okunamazsa personelin ekranındaki ARJ- kodunu yazın.",
   "lookupLoading": "Başvuru aranıyor…",
-  "backToProject": "← Proje özetine dön",
+  "backToProject": "← Projekt özetine dön",
   "errors": {
-    "invalidCode": "Bu kod geçersiz veya sistemde kayıtlı değil. Personelin ekranındaki ARJ- kodunu kontrol edin.",
+    "invalidCode": "Der Code muss für das System installiert sein. Personelin ekranındaki ARJ- kodunu kontrol edin.",
     "notFound": "Bulunamadı",
     "lookupFailed": "Arama başarısız",
     "approveFailed": "Onay başarısız",
-    "rejectFailed": "Red başarısız"
+    "rejectFailed": "Red Basarısız"
   },
   "success": {
-    "approved": "{firstName} {lastName} onaylandı. {email} adresi ile giriş yapabilir — PIN bilgisini personele iletin.",
-    "rejected": "Başvuru reddedildi ve veritabanından silindi."
+    "approved": "{firstName} {lastName} onaylandı. {email} Adresse des Benutzers – PIN für die Eingabe von Personen.",
+    "rejected": "Bitte beachten Sie, dass dies nicht der Fall ist."
   },
-  "confirmReject": "Başvuruyu reddetmek istediğinize emin misiniz? Kayıt, fotoğraf ve sözleşme onayları kalıcı olarak silinir; personel aynı bilgilerle yeniden başvurabilir."
+  "confirmReject": "Ist der Grund, warum jemand weiß, was er tut? Nun, das Foto und die Bilder, die ich gemacht habe, sind die Bilder, die ich gemacht habe; Das Personal ist nicht in der Lage, die Sicherheit zu gewährleisten."
 }

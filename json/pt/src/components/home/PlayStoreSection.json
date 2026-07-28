@@ -1,18 +1,18 @@
 {
-  "sectionBadge": "Mobile App",
-  "sectionTitle": "Download from Google Play",
-  "sectionSubtitlePrefix": "If you can't use the Play Store,",
-  "sectionSubtitleLink": "visit the APK download page",
+  "sectionBadge": "Aplicativo móvel",
+  "sectionTitle": "Baixe do Google Play",
+  "sectionSubtitlePrefix": "Se você não consegue usar a Play Store,",
+  "sectionSubtitleLink": "visite a página de download do APK",
   "sectionSubtitleSuffix": ".",
-  "platformLabel": "Android · Free",
+  "platformLabel": "Android · Grátis",
   "apps": {
     "personel": {
-      "title": "Personnel App",
-      "description": "Attendance, daily wages, overtime, and payroll viewing. Designed for applications and daily tasks."
+      "title": "Aplicativo Pessoal",
+      "description": "Presença, salários diários, horas extras e visualização de folha de pagamento. Projetado para aplicações e tarefas diárias."
     },
     "admin": {
-      "title": "Admin App",
-      "description": "Project management, personnel approval, daily wages, and reports. Full control from office or site."
+      "title": "Aplicativo de administração",
+      "description": "Gerenciamento de projetos, aprovação de pessoal, salários diários e relatórios. Controle total do escritório ou local."
     }
   }
 }

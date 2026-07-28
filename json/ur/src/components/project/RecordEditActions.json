@@ -1,20 +1,20 @@
 {
   "errors": {
     "updateFailed": "Güncellenemedi",
-    "deleteFailed": "Silinemedi"
+    "deleteFailed": "سائلینمیڈی"
   },
-  "deleteConfirm": "Bu kaydı silmek istediğinize emin misiniz?",
+  "deleteConfirm": "Bu kaydı silmek istediğinize emin misiniz؟",
   "editTitle": "Düzenle",
-  "deleteTitle": "Sil",
+  "deleteTitle": "سل",
   "modalTitle": "Kaydı Düzenle",
-  "dateLabel": "Tarih",
+  "dateLabel": "تریح",
   "daysLabel": "Gün sayısı",
-  "amountLabel": "Tutar (₺)",
-  "approvedLabel": "Onaylı",
+  "amountLabel": "توتار (₺)",
+  "approvedLabel": "اونائیلی",
   "jobLabel": "İş kalemi",
   "jobHint": "Taşeron kâr hesabında bu işe yazılır.",
   "descriptionLabel": "Açıklama",
-  "submitSaving": "Kaydediliyor…",
+  "submitSaving": "کیڈیڈیلیور…",
   "submit": "Kaydet",
-  "cancel": "İptal"
+  "cancel": "اپٹال"
 }

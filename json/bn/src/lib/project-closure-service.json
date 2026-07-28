@@ -1,12 +1,12 @@
 {
   "notify": {
-    "title": "{projectName} is closing",
-    "body": "This project is closing on CrewLedger. Accept consent and download your data by {deadline}."
+    "title": "{projectName} বন্ধ হচ্ছে",
+    "body": "এই প্রকল্পটি CrewLedger এ বন্ধ হচ্ছে। সম্মতি গ্রহণ করুন এবং {deadline} এর মধ্যে আপনার ডেটা ডাউনলোড করুন।"
   },
   "errors": {
-    "projectNotFound": "Project not found",
-    "alreadyInClosure": "Project is already in closure",
-    "alreadyPurged": "Project has already been closed",
-    "instantDeleteDisabled": "Instant delete is disabled. Start the project closure process first; data is removed after the deadline once exports are done."
+    "projectNotFound": "প্রকল্প পাওয়া যায়নি",
+    "alreadyInClosure": "প্রকল্প ইতিমধ্যে বন্ধ আছে",
+    "alreadyPurged": "প্রকল্প ইতিমধ্যেই বন্ধ হয়ে গেছে",
+    "instantDeleteDisabled": "তাত্ক্ষণিক মুছে ফেলা অক্ষম করা হয়েছে৷ প্রথমে প্রকল্প বন্ধ করার প্রক্রিয়া শুরু করুন; রপ্তানি সম্পন্ন হলে সময়সীমার পরে ডেটা মুছে ফেলা হয়।"
   }
 }

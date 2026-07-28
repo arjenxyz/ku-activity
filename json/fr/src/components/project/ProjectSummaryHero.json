@@ -1,9 +1,9 @@
 {
-  "sectionAriaLabel": "Project overview",
-  "presentToday": "Present today",
-  "active": "Active",
-  "missing": "Pending",
-  "payroll": "Estimate",
-  "openAttendance": "Go to QR attendance",
-  "locationFallback": "No location set"
+  "sectionAriaLabel": "Aperçu du projet",
+  "presentToday": "Présent aujourd'hui",
+  "active": "Actif",
+  "missing": "En attente",
+  "payroll": "Estimation",
+  "openAttendance": "Aller à la présence QR",
+  "locationFallback": "Aucun emplacement défini"
 }

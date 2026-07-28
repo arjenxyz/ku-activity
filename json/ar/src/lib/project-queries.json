@@ -1,6 +1,6 @@
 {
-  "systemError": "Sistem hatası",
-  "unauthorized": "Oturum yok veya yönetici yetkisi gerekli",
-  "forbidden": "Bu projeye erişim yetkiniz yok",
+  "systemError": "هذا النظام",
+  "unauthorized": "Oturum yok veya yönetici Yetkisi gerekli",
+  "forbidden": "Bu projeye erişim Yetkiniz yok",
   "missingServiceRoleKey": "Sunucu yapılandırması eksik (SERVICE_ROLE_KEY)"
 }

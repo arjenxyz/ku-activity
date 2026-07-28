@@ -1,14 +1,14 @@
 {
-  "qrCreateFailed": "Could not create attendance QR",
+  "qrCreateFailed": "Impossible de créer le QR de présence",
   "employeeFallback": "Personnel",
-  "workLogDescription": "QR attendance",
-  "noActiveSession": "No active attendance session",
-  "noSessionToCancel": "No active session to cancel",
-  "recordNotFound": "Record not found",
-  "removeActiveOnly": "Can only remove from an active session",
-  "cannotRemoveWithWorkLog": "Cannot remove a record that already has a timesheet",
-  "planActiveOnly": "Can only edit during an active session",
-  "cannotPlanWithWorkLog": "Cannot edit a record that already has a timesheet",
-  "completeFailed": "Attendance session could not be completed",
-  "dayAlreadyCompleted": "Attendance for this day is already completed. A second session cannot be opened — duplicate pay risk."
+  "workLogDescription": "Présence QR",
+  "noActiveSession": "Aucune séance de présence active",
+  "noSessionToCancel": "Aucune session active à annuler",
+  "recordNotFound": "Enregistrement introuvable",
+  "removeActiveOnly": "Peut uniquement être supprimé d'une session active",
+  "cannotRemoveWithWorkLog": "Impossible de supprimer un enregistrement comportant déjà une feuille de temps",
+  "planActiveOnly": "Ne peut modifier que pendant une session active",
+  "cannotPlanWithWorkLog": "Impossible de modifier un enregistrement comportant déjà une feuille de temps",
+  "completeFailed": "La séance de présence n'a pas pu être complétée",
+  "dayAlreadyCompleted": "La participation à cette journée est déjà terminée. Une deuxième session ne peut pas être ouverte – risque de paiement en double."
 }

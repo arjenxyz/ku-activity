@@ -1,11 +1,11 @@
 {
   "uploadFailed": "Yükleme başarısız",
   "removeConfirm": "Fotoğrafı kaldırmak istediğinize emin misiniz?",
-  "deleteFailed": "Silinemedi",
-  "uploadTitle": "Fotoğraf yükle",
-  "formatHint": "JPEG, PNG, WebP · max 5 MB",
-  "uploading": "Yükleniyor…",
+  "deleteFailed": "সিলিনমেডি",
+  "uploadTitle": "ফটোগ্রাফ yükle",
+  "formatHint": "JPEG, PNG, WebP · সর্বোচ্চ 5 MB",
+  "uploading": "ইউক্লেনিয়র…",
   "change": "Değiştir",
-  "upload": "Yükle",
-  "remove": "Kaldır"
+  "upload": "ইউক্ল",
+  "remove": "কালদির"
 }

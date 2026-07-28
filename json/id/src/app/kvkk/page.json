@@ -6,52 +6,52 @@
   "lead": "6698 sayılı Kişisel Verilerin Korunması Kanunu (\"KVKK\") m.10 uyarınca bilgilendirme metnidir.",
   "sections": {
     "structure": {
-      "heading": "1. Platform ve veri sorumlusu yapısı",
-      "platformLine": ", {developerName} tarafından işletilen {nature}dur. Tüzel kişiliği yoktur; herhangi bir şirket adına veri sorumlusu sıfatı taşımaz.",
-      "adminLine": "Personel başvurusu ve kayıtları, pratikte platformu kullanan yönetici kişi (şantiye sorumlusu, ekip başı vb.) tarafından oluşturulur. İş ilişkisinin tarafı olan gerçek işveren/yüklenici mevzuat uyarınca ayrı veri sorumlusu olabilir.",
-      "operatorPrefix": "Platform operatörü / teknik veri işleyen:",
-      "operatorLine": "{developerName} — altyapı, barındırma, şifreleme ve yazılım hizmeti sunar. İletişim:"
+      "heading": "1. Platform dan veri sorumlusu yapısı",
+      "platformLine": ", {developerName} tarafından dan işletilen {nature}dur. Tüzel kişiliği yoktur; Ini adalah pertanyaan yang sangat penting.",
+      "adminLine": "Personil başvurusu dan kayıtları, pratikte platformu kullanan yönetici kişi (şantiye sorumlusu, ekip başı vb.) tarafından oluşturulur. İş ilişkisinin tarafı olan gerçek işveren/yüklenici mevzuat uyarınca ayrı veri sorumlusu olabilir.",
+      "operatorPrefix": "Operator platform / teknik veri işleyen:",
+      "operatorLine": "{developerName} — altyapı, barındırma, şifreleme dan yazılım hizmeti sunar. İletişim:"
     },
     "categories": {
-      "heading": "2. İşlenen veri kategorileri",
+      "heading": "2. Kategori yang benar",
       "items": [
-        "Kimlik: ad-soyad, T.C. kimlik numarası (format kontrolü; NVI doğrulaması yok), doğum tarihi",
-        "İletişim: telefon, e-posta",
-        "Finans: IBAN, yevmiye, avans, kesinti, asgari ücret kayıtları",
-        "Operasyon: puantaj, yoklama (QR), mesai, proje ataması",
-        "Görsel: başvuru fotoğrafı (yönetici manuel teyidi)",
-        "İşlem güvenliği: oturum, onay logları, IP (sınırlı)"
+        "Kimlik: ad-soyad, T.C. kimlik numarası (format kontrol; NVI doğrulaması yok), doğum tarihi",
+        "Iletişim: telepon, e-posta",
+        "Pembiayaan: IBAN, yevmiye, avans, kesinti, asgari ücret kayıtları",
+        "Operasi: puantaj, yoklama (QR), mesai, proje ataması",
+        "Gambar: başvuru fotoğrafı (yönetici manuel teyidi)",
+        "Jawaban: oturum, onay logları, IP (sınırlı)"
       ]
     },
     "purposes": {
       "heading": "3. İşleme amaçları",
-      "body": "Veriler; personel kaydı, şeffaf finansal takip, yoklama, sözleşme onayı, teknik destek ve güvenlik amacıyla işlenir. Ticari pazarlama veya üçüncü tarafa satış yapılmaz."
+      "body": "Veriler; personel kaydı, şeffaf finansal takip, yoklama, sözleşme onayı, teknik destek dan güvenlik amacıyla işlenir. Ticari pazarlama veya üçüncü tarafa satış yapılmaz."
     },
     "legalBasis": {
       "heading": "4. Hukuki sebepler",
-      "body": "Açık rıza (KVKK m.5/1), sözleşmenin kurulması/ifası (m.5/2-c), hukuki yükümlülük (m.5/2-ç) ve meşru menfaat (m.5/2-f) — ölçülülük ilkesine uygun olarak."
+      "body": "Açık rıza (KVKK m.5/1), sözleşmenin kurulması/ifası (m.5/2-c), hukuki yükümlülük (m.5/2-ç) dan meşru menfaat (m.5/2-f) — ölçülülük ilkesine uygun olarak."
     },
     "transfer": {
-      "heading": "5. Aktarım",
+      "heading": "5. Aktarim",
       "body": "Barındırma (Vercel), veritabanı (Supabase), e-posta (Brevo) gibi teknik hizmet sağlayıcıları; yasal zorunluluk halinde resmi makamlar. Veri satışı yapılmaz."
     },
     "security": {
-      "heading": "6. Güvenlik",
-      "body": "T.C. kimlik, IBAN ve doğum tarihi AES-256-GCM ile şifrelenir; arama için HMAC hash kullanılır. HTTPS ve rol tabanlı erişim uygulanır."
+      "heading": "6. Guvenlik",
+      "body": "T.C. kimlik, IBAN dan doğum tarif AES-256-GCM ile şifrelenir; arama dalam hash kullanır HMAC. HTTPS dan peran tabanlı erişim uygulanır."
     },
     "rights": {
       "heading": "7. Haklarınız (KVKK m.11)",
-      "bodyPrefix": "Bilgi talebi, düzeltme, silme, itiraz ve şikâyet (KVKK Kurulu) haklarınız vardır. Önce kaydı oluşturan yöneticinize; teknik konularda",
+      "bodyPrefix": "Bilgi talebi, düzeltme, silme, itiraz dan şikâyet (KVKK Kurulu) haklarınız vardır. Ketika Anda ingin melakukan Yöneticinize; teknik konularda",
       "bodySuffix": "adresine başvurabilirsiniz."
     },
     "retention": {
       "heading": "8. Saklama",
-      "body": "Veriler, işleme amacının gerektirdiği süre boyunca saklanır; amaç ortadan kalktığında silinir veya anonimleştirilir."
+      "body": "Sebenarnya, jika Anda ingin melakukannya, pastikan untuk melakukannya; amaç ortadan kalktığında silinir atau anonimleştirilir."
     }
   },
   "footer": {
     "home": "← Ana sayfa",
-    "privacy": "Gizlilik Politikası",
+    "privacy": "Gizlilik Politikasi",
     "terms": "Kullanım Şartları"
   }
 }

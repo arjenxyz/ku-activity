@@ -2,17 +2,17 @@
   "reportAriaLabel": "Sorun bildir",
   "reportTitle": "Sorun bildir",
   "reportButton": "Bildir",
-  "screenshotFailed": "Ekran görüntüsü alınamadı. Lütfen tekrar deneyin.",
+  "screenshotFailed": "Layar akan diputar kembali. Lutfen tekrar deneyin.",
   "modalTitle": "Sorun bildir",
-  "modalDescription": "Bu ekran görüntüsü ve uygulama hata bilgileri geliştirici ekibimize iletilecektir. Veriler yalnızca sorunu çözmek için kullanılır. Onaylıyor musunuz?",
+  "modalDescription": "Namun, layarnya tidak dapat digunakan dan tidak ada lagi yang perlu dilakukan. Veriler yalnızca sorunu çözmek için kullanılır. Onaylıyor musunuz?",
   "close": "Kapat",
   "previewAlt": "Ekran önizlemesi",
-  "noteLabel": "Not (isteğe bağlı)",
+  "noteLabel": "Tidak (isteğe bağlı)",
   "notePlaceholder": "Ne olduğunu kısaca yazabilirsiniz…",
   "success": "Teşekkürler, raporunuz iletildi.",
   "sendFailed": "Gönderilemedi",
   "reportSendFailed": "Rapor gönderilemedi",
   "cancel": "Vazgeç",
   "submitting": "Gönderiliyor…",
-  "confirmAndSend": "Onayla ve gönder"
+  "confirmAndSend": "Onayla dan gönder"
 }

@@ -1,25 +1,25 @@
 {
-  "personnelManagement": "Personel Yönetimi",
+  "personnelManagement": "Pessoal Yönetimi",
   "queryManagement": "Sorgulama Yönetimi",
-  "reports": "Raporlar",
-  "finance": "Finans İşlemleri",
+  "reports": "Raparlar",
+  "finance": "Finanças İşlemleri",
   "sub": {
-    "addEmployee": "Yeni Personel Ekle",
-    "employeeList": "Personel Listesi",
+    "addEmployee": "Yeni Pessoal Ekle",
+    "employeeList": "Lista Pessoal",
     "addAdvance": "Avans Ekle",
     "addWorkLog": "Yevmiye Ekle",
     "addMinimum": "Asgari Ekle",
-    "employeeQuery": "Personel Sorgulaması",
-    "adminQuery": "Admin Sorgulama",
-    "employeePasswords": "Personel Şifreleri",
-    "adminPasswords": "Admin Şifreleri",
+    "employeeQuery": "Pessoal Sorgulaması",
+    "adminQuery": "Administrador Sorgulama",
+    "employeePasswords": "Pessoal Sifreleri",
+    "adminPasswords": "Administrador Sifreleri",
     "advanceQuery": "Avans Sorgulama",
     "workLogQuery": "Yevmiye Sorgulama",
     "minimumQuery": "Asgari Sorgulama",
-    "adminReports": "Admin Raporları",
+    "adminReports": "Administrador Raporları",
     "dailyApproved": "Günlük Onaylananlar",
     "notApproved": "Onaylanmayanlar",
-    "status": "Ne durumdayız?",
-    "payroll": "Maaş Bordroları"
+    "status": "Não durumdayız?",
+    "payroll": "Maas Bordroları"
   }
 }

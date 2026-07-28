@@ -1,32 +1,32 @@
 {
   "tabs": {
-    "overview": "Overview",
-    "work": "Calendar",
-    "asgari": "Minimum wage",
-    "finance": "Payroll",
-    "rights": "My rights",
-    "settings": "Settings"
+    "overview": "Descripción general",
+    "work": "Calendario",
+    "asgari": "Salario mínimo",
+    "finance": "Nómina de sueldos",
+    "rights": "mis derechos",
+    "settings": "Ajustes"
   },
   "mesaiFallbackLabels": {
-    "full": "Full overtime",
-    "quarter": "Quarter overtime",
-    "half": "Half overtime"
+    "full": "horas extras completas",
+    "quarter": "Cuarto de tiempo extra",
+    "half": "Media hora extra"
   },
   "stats": {
-    "gross": "Gross pay",
-    "totalAdvance": "Total advances",
-    "deduction": "Deductions",
-    "netSalary": "Net pay"
+    "gross": "salario bruto",
+    "totalAdvance": "Anticipos totales",
+    "deduction": "Deducciones",
+    "netSalary": "salario neto"
   },
-  "loadingData": "Loading your data…",
-  "workLogSectionTitle": "Work logs · {monthLabel}",
-  "advanceRequestTitle": "Advance request",
-  "advanceRequestSubtitle": "Create a request or check status →",
-  "loading": "Loading…",
-  "loadingFinance": "Loading finance data…",
-  "periodSummary": "Period summary",
-  "workDaysTitle": "Work days",
-  "mesaiDistributionTitle": "Overtime total",
-  "mesaiSuffix": " overtime",
-  "headerSubtitle": "Attendance and pay summary"
+  "loadingData": "Cargando tus datos…",
+  "workLogSectionTitle": "Registros de trabajo · {monthLabel}",
+  "advanceRequestTitle": "Solicitud anticipada",
+  "advanceRequestSubtitle": "Crear una solicitud o comprobar el estado →",
+  "loading": "Cargando…",
+  "loadingFinance": "Cargando datos financieros…",
+  "periodSummary": "Resumen del período",
+  "workDaysTitle": "Días laborables",
+  "mesaiDistributionTitle": "Total de horas extras",
+  "mesaiSuffix": "con el tiempo",
+  "headerSubtitle": "Resumen de asistencia y pago"
 }

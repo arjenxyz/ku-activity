@@ -1,15 +1,15 @@
 {
-  "kimlikNumarasıVeŞifreGerekli": "Kimlik numarası ve şifre gerekli",
-  "geçersizKimlikNumarasıVeyaŞifre": "Geçersiz kimlik numarası veya şifre",
-  "sunucuYapılandırmasıEksikEnvDosyasınaSupabase": "Sunucu yapılandırması eksik: .env dosyasına SUPABASE_SERVICE_ROLE_KEY ekleyin (Supabase → Settings → API → service_role)",
+  "kimlikNumarasıVeŞifreGerekli": "Kimlik numarası e şifre gerekli",
+  "geçersizKimlikNumarasıVeyaŞifre": "Geçersiz kimlik numarası ou şifre",
+  "sunucuYapılandırmasıEksikEnvDosyasınaSupabase": "Sunucu yapılandırması eksik: .env dosyasına SUPABASE_SERVICE_ROLE_KEY ekleyin (Supabase → Configurações → API → service_role)",
   "sunucuYapılandırmasıEksikFieldEncryptionKey": "Sunucu yapılandırması eksik: FIELD_ENCRYPTION_KEY tanımlı değil",
   "başvuruSüresiDolmuşYeniBaşvuruYapabilirsiniz": "Başvuru süresi dolmuş. Yeni başvuru yapabilirsiniz.",
-  "personelHesabınızPasifYöneticinizleIletişimeGeçin": "Personel hesabınız pasif. Yöneticinizle iletişime geçin.",
-  "personelŞifresiTanımlıDeğilYöneticinizleIletişime": "Personel şifresi tanımlı değil. Yöneticinizle iletişime geçin.",
-  "personelŞifreKaydıBozukYöneticiPanelinden": "Personel şifre kaydı bozuk. Yönetici panelinden şifreyi yenileyin.",
-  "err001InitialSchemaSqlIçindekiPersonnel": "001_initial_schema.sql içindeki personnel_sessions tablosunu çalıştırın.",
-  "oturumOluşturulamadıVeritabanıKurulumunuKontrolEdin": "Oturum oluşturulamadı. Veritabanı kurulumunu kontrol edin.",
+  "personelHesabınızPasifYöneticinizleIletişimeGeçin": "Pessoal hesabınız pasif. Selecione a opção desejada.",
+  "personelŞifresiTanımlıDeğilYöneticinizleIletişime": "Pessoal şifresi tanımlı değil. Selecione a opção desejada.",
+  "personelŞifreKaydıBozukYöneticiPanelinden": "Pessoal şifre kaydı bozuk. Yönetici panelinden şifreyi yenileyin.",
+  "err001InitialSchemaSqlIçindekiPersonnel": "001_initial_schema.sql exibe a tabela personal_sessions.",
+  "oturumOluşturulamadıVeritabanıKurulumunuKontrolEdin": "Oturum oluşturulamadı. Veritabanı kurulumunu control edin.",
   "oturumOluşturulamadıHint": "Oturum oluşturulamadı: {hint}",
   "supabaseServiceRoleKeyEnvDosyasındaTanımlıDeğil": "SUPABASE_SERVICE_ROLE_KEY .env dosyasında tanımlı değil.",
-  "beklenmeyenSunucuHatasıKonsolLoglarınıKontrolEdin": "Beklenmeyen sunucu hatası. Konsol loglarını kontrol edin."
+  "beklenmeyenSunucuHatasıKonsolLoglarınıKontrolEdin": "Beklenmeyen sunucu hatası. Konsol loglarını control edin."
 }

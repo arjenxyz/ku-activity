@@ -1,6 +1,6 @@
 {
-  "projeBulunamadı": "Project not found",
-  "geçersizDurum": "Invalid status",
-  "buProjeKoduZatenKullanılıyor": "This project code is already in use",
-  "projeKapanışta": "The project is in closure; this action is not allowed."
+  "projeBulunamadı": "প্রকল্প পাওয়া যায়নি",
+  "geçersizDurum": "অবৈধ অবস্থা",
+  "buProjeKoduZatenKullanılıyor": "এই প্রকল্প কোড ইতিমধ্যে ব্যবহার করা হয়",
+  "projeKapanışta": "প্রকল্পটি বন্ধ রয়েছে; এই কর্ম অনুমোদিত নয়."
 }

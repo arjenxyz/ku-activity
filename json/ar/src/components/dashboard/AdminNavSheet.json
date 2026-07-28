@@ -1,6 +1,6 @@
 {
   "brand": "CREWLEDGER",
-  "title": "Menu",
-  "close": "Close",
-  "menuAriaLabel": "Admin menu"
+  "title": "قائمة طعام",
+  "close": "يغلق",
+  "menuAriaLabel": "قائمة المشرف"
 }

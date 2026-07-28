@@ -1,13 +1,13 @@
 {
   "cells": {
-    "receivable": "Toplam alacak",
-    "expense": "Toplam gider",
-    "profit": "Net kâr",
-    "perShare": "Ortak başı"
+    "receivable": "トップラム・アラアク",
+    "expense": "トップラム・ガイダー",
+    "profit": "ネットカール",
+    "perShare": "オルタク・バシ"
   },
-  "jobCount": "{count} iş kalemi",
-  "laborCost": "Yevmiye {amount}",
-  "margin": "%{margin} marj",
-  "shareSummary": "{shareCount} kişi · {activeCount} aktif iş",
+  "jobCount": "{count} イシュカレミ",
+  "laborCost": "エフミエ {amount}",
+  "margin": "%{margin} マージ",
+  "shareSummary": "{shareCount} キシ · {activeCount} アクティフ アイシュ",
   "emptyValue": "—"
 }

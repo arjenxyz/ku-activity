@@ -1,16 +1,16 @@
 {
-  "confirmDelete": "Bu kaydı silmek istediğinize emin misiniz?",
-  "deleteError": "Silme hatası: {message}",
-  "title": "Yevmiye Kayıtları",
-  "loading": "Yükleniyor...",
-  "colEmployee": "İşçi",
+  "confirmDelete": "Comment pouvez-vous faire en sorte qu'ils s'inscrivent dans des missions ?",
+  "deleteError": "Silme hatası : {message}",
+  "title": "Yevmiye Kayitları",
+  "loading": "Yukleniyor...",
+  "colEmployee": "ici",
   "colDate": "Tarih",
-  "colType": "Tip",
-  "colDescription": "Açıklama",
+  "colType": "Conseil",
+  "colDescription": "Description",
   "colDelete": "Sil",
-  "fullDay": "Tam Gün",
-  "halfDay": "Yarım Gün",
+  "fullDay": "Tam Gun",
+  "halfDay": "Yarim Gün",
   "emptyValue": "-",
-  "deleteRecordTitle": "Kaydı Sil",
-  "noRecords": "Kayıt bulunamadı."
+  "deleteRecordTitle": "Kaydi Sil",
+  "noRecords": "Kayıt bulunamadi."
 }

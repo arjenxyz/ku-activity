@@ -1,4 +1,4 @@
 {
-  "notFound": "No active transfer code found",
-  "loadFailed": "Could not load transfer code"
+  "notFound": "有効な転送コードが見つかりません",
+  "loadFailed": "転送コードを読み込めませんでした"
 }

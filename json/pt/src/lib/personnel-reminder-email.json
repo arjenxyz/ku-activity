@@ -3,10 +3,10 @@
   "headerSubtitle": "Yevmiye onayı hatırlatması",
   "greeting": "Merhaba {name},",
   "bodyHtmlSuffix": "yevmiye kaydı onayınızı bekliyor. Onaylamadan ödeme hesabına dahil edilmez.",
-  "buttonLabel": "Panele git",
+  "buttonLabel": "Painel git",
   "textTitle": "{appName} — Yevmiye onayı",
   "textBody": "{count} yevmiye kaydı onayınızı bekliyor.",
-  "textPanel": "Panel: {panelUrl}",
+  "textPanel": "Painel: {panelUrl}",
   "emailNotConfigured": "E-posta yapılandırılmamış",
   "sendFailed": "Hatırlatma gönderilemedi ({status}){detail}"
 }

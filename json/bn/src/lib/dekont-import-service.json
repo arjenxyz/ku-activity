@@ -5,7 +5,7 @@
   "draftAlreadyUsed": "Bu taslak zaten kullanıldı",
   "draftExpired": "Taslak süresi doldu — dekontu yeniden paylaşın",
   "matchValidationFailed": "Eşleşme doğrulanamadı",
-  "proofFileNotFound": "Receipt file not found",
-  "ocrTextEmpty": "Could not read text from the receipt",
-  "retroactiveAmountRequired": "Amount is required for retroactive payment"
+  "proofFileNotFound": "রসিদ ফাইল পাওয়া যায়নি",
+  "ocrTextEmpty": "রসিদ থেকে টেক্সট পড়া যায়নি",
+  "retroactiveAmountRequired": "পূর্ববর্তী অর্থপ্রদানের জন্য পরিমাণ প্রয়োজন"
 }

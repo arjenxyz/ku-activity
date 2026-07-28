@@ -20,7 +20,7 @@
   "noPin": "PIN kód",
   "maskedPin": "••••••",
   "legacyPinHint": "Régi rekord – újra hozzárendelés",
-  "legacyListHint": "Eski personellerde PIN görünmeyebilir. Yeni PIN atayınca listede görünür.",
+  "legacyListHint": "Eski personellerde PIN görünmeyebilir. Yeni PIN atayınca liste görünür.",
   "sectionResetPin": "állítsa vissza a PIN-kódot",
   "labelNewPin": "Új jelszó (PIN) *",
   "pinPlaceholder": "{pinLength} száz PIN",

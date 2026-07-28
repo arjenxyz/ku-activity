@@ -1,13 +1,13 @@
 {
-  "nameHeader": "Ad",
+  "nameHeader": "Annonce",
   "daysWorkedHeader": "Çalışılan Gün",
-  "totalSalaryHeader": "Toplam Maaş",
+  "totalSalaryHeader": "Toplam Maas",
   "todayHeader": "Bugün",
-  "actionsHeader": "İşlemler",
-  "empty": "Kayıtlı personel bulunamadı",
-  "daysSuffix": " Gün",
-  "daysOfMonth": " gün",
-  "verified": "Onaylı",
+  "actionsHeader": "Turquie",
+  "empty": "Kayıtlı personnel bulunamadı",
+  "daysSuffix": "Pistolet",
+  "daysOfMonth": "pistolet",
+  "verified": "Onayli",
   "unverified": "Onaysız",
   "approve": "Onayla"
 }

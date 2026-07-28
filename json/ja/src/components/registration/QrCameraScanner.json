@@ -1,23 +1,23 @@
 {
-  "invalidQrDefault": "Görselde geçerli başvuru QR kodu bulunamadı.",
+  "invalidQrDefault": "Görselde geçerli başvuru QR kodu bulunamadı。",
   "errors": {
-    "elementNotReady": "Kamera alanı hazırlanamadı. Sayfayı yenileyip tekrar deneyin.",
-    "cameraNotSupported": "Tarayıcınız kamera erişimini desteklemiyor.",
-    "secureContextRequired": "Kamera yalnızca HTTPS veya localhost üzerinde çalışır.",
-    "permissionDenied": "Kamera izni verilmedi. Tarayıcı adres çubuğundaki kamera ikonundan izin verin.",
-    "cameraNotFound": "Kamera bulunamadı. USB/webcam bağlı mı kontrol edin.",
-    "cameraOpenFailed": "Kamera açılamadı. Farklı tarayıcı deneyin, QR görseli yükleyin veya kodu elle girin.",
-    "qrReadNoCode": "QR okundu ancak geçerli başvuru kodu bulunamadı. Personelin başvuru ekranındaki QR kodunu gösterin.",
-    "noQrInImage": "Görselde QR kodu bulunamadı. Daha net bir ekran görüntüsü deneyin.",
-    "imageScanFailed": "QR görseli okunamadı. Başvuru kodunu elle girebilirsiniz."
+    "elementNotReady": "カメラ・アラヌ・ハズルラナマドゥ。サイファイ・イェニレイプ・テクラル・デネイイン。",
+    "cameraNotSupported": "Tarayıcınız カメラ エリシミニ デステクレミヨール。",
+    "secureContextRequired": "カメラ yalnızca HTTPS veya localhost üzerinde çalışır。",
+    "permissionDenied": "カメラ・イズニ・ヴェリルメディ。 Tarayıcı は、カメラを見て、ベリンにアクセスします。",
+    "cameraNotFound": "カメラ・ブルナマディ。 USB/ウェブカメラの制御機能。",
+    "cameraOpenFailed": "カメラ・アジュラマディ。 Farklı tarayıcı deneyin、QR görseli yükleyin veya kodu elle girin.",
+    "qrReadNoCode": "QR オクンドゥ アンカク ゲチェルリ バシュヴル コドゥ ブルナマディ。ペルソナ バスヴル エクランンダキ QR コドゥヌ ゲステリン。",
+    "noQrInImage": "Görselde QR kodu bulunamadı。 Daha net bir ekran görüntüsü deneyin.",
+    "imageScanFailed": "QR ゲルセリ オクナマディ。 Başvuru kodunu elle girebilirsiniz。"
   },
-  "scanWithCamera": "Kamera ile QR Tara",
-  "openingCamera": "Kamera açılıyor…",
-  "uploadQrImage": "QR Görseli Yükle",
-  "scanningFile": "Okunuyor…",
-  "stopScan": "Taramayı Durdur",
-  "rawScanPrefix": "Okunan:",
-  "startingCamera": "Kamera başlatılıyor, lütfen bekleyin…",
-  "activeHint": "Personelin başvuru ekranındaki QR kodunu kameraya gösterin. Önizleme aynalı görünebilir; okuma her yönden çalışır. Okumazsa alttaki ARJ- kodunu yazın — otomatik doğrulanır.",
-  "idleHint": "PC'de kamera açılmazsa QR ekran görüntüsünü yükleyin veya başvuru kodunu elle girin."
+  "scanWithCamera": "カメライルQRタラ",
+  "openingCamera": "カメラ・アジュール…",
+  "uploadQrImage": "QR ゲルセリ ユクル",
+  "scanningFile": "オクヌヨル…",
+  "stopScan": "タラマイ・ドゥルドゥル",
+  "rawScanPrefix": "奥南：",
+  "startingCamera": "カメラのバシュラトゥリヨール、ルトフェン ベクレーイン…",
+  "activeHint": "ペルソナ バスヴル エクランンダキ QR コドゥヌ カメラヤ ゲステリン。 Önizleme aynalı görünebilir;オクマ 彼女 yönden çalışır。 Okumazsa alttaki ARJ- kodunu yazın — otomatik doğrulanır。",
+  "idleHint": "PC でカメラを確認し、QR を確認してください。"
 }

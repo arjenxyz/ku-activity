@@ -1,14 +1,14 @@
 {
   "errors": {
-    "regionNotReady": "The camera area could not be prepared.",
-    "permissionDenied": "Camera permission is required. Allow it from settings or the address bar.",
-    "notFound": "No camera found.",
-    "secureContext": "The camera only works over a secure connection (HTTPS).",
-    "openFailed": "Couldn't open the camera. Try Enter code instead.",
-    "unsupported": "Your browser doesn't support camera access.",
-    "httpsRequired": "The camera only works over HTTPS.",
-    "cameraFailed": "Couldn't open the camera"
+    "regionNotReady": "La zone de la caméra n'a pas pu être préparée.",
+    "permissionDenied": "L'autorisation de la caméra est requise. Autorisez-le depuis les paramètres ou la barre d’adresse.",
+    "notFound": "Aucune caméra trouvée.",
+    "secureContext": "La caméra fonctionne uniquement via une connexion sécurisée (HTTPS).",
+    "openFailed": "Impossible d'ouvrir la caméra. Essayez plutôt de saisir le code.",
+    "unsupported": "Votre navigateur ne prend pas en charge l'accès à la caméra.",
+    "httpsRequired": "La caméra fonctionne uniquement via HTTPS.",
+    "cameraFailed": "Impossible d'ouvrir la caméra"
   },
-  "invalidQrMessage": "This is not a valid attendance QR code.",
-  "openingCamera": "Opening camera…"
+  "invalidQrMessage": "Ce n'est pas un code QR de présence valide.",
+  "openingCamera": "Ouverture de la caméra…"
 }

@@ -1,6 +1,6 @@
 {
-  "invalidSubscription": "Invalid subscription data",
-  "endpointRequired": "A valid endpoint is required",
-  "saveFailed": "Could not save subscription",
-  "deleteFailed": "Could not remove subscription"
+  "invalidSubscription": "Données d'abonnement invalides",
+  "endpointRequired": "Un point de terminaison valide est requis",
+  "saveFailed": "Impossible d'enregistrer l'abonnement",
+  "deleteFailed": "Impossible de supprimer l'abonnement"
 }

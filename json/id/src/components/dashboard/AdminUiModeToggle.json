@@ -1,9 +1,9 @@
 {
-  "ariaLabel": "Arayüz modu",
-  "simpleTitle": "Yoklama, yevmiye, avans ve onaylar",
-  "advancedTitle": "Blok, kâr, raporlar ve tüm ayarlar",
-  "simpleCompact": "Basit",
+  "ariaLabel": "Modus Arayüz",
+  "simpleTitle": "Yoklama, yevmiye, avans dan onaylar",
+  "advancedTitle": "Blok, kar, raporlar, dan tüm ayarlar",
+  "simpleCompact": "Dasar",
   "advancedCompact": "Gelişmiş",
-  "simple": "Basit",
+  "simple": "Dasar",
   "advanced": "Gelişmiş"
 }

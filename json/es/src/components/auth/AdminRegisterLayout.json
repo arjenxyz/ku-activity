@@ -1,9 +1,9 @@
 {
   "defaultTitle": "Yönetici hesabı oluştur",
-  "defaultSubtitle": "Şantiye ve personel yönetimine başlamak için bilgilerinizi girin.",
-  "homeLink": "Ana sayfa",
-  "loginLink": "Giriş yap",
+  "defaultSubtitle": "Şantiye ve personal yönetimine başlamak için bilgilerinizi girin.",
+  "homeLink": "ana sayfa",
+  "loginLink": "Giris ladra",
   "badge": "Yönetici Paneli",
-  "personnelPrompt": "Personel misiniz?",
-  "personnelLoginLink": "Personel girişi"
+  "personnelPrompt": "¿Personal equivocado?",
+  "personnelLoginLink": "personal contratado"
 }

@@ -2,14 +2,14 @@
   "statusLabels": {
     "pending": "Talep bekliyor",
     "approved": "Onaylandı — ödeme bekleniyor",
-    "awaiting_receipt": "Nakit teslimi bekleniyor",
+    "awaiting_receipt": "Nak teslimi bekleniyor",
     "paid": "Ödendi",
     "rejected": "Reddedildi",
     "cancelled": "İptal edildi",
-    "expired": "Süresi doldu"
+    "expired": "Tentu saja"
   },
   "paymentMethodLabels": {
     "bank_transfer": "Havale / EFT",
-    "cash": "Nakit"
+    "cash": "Nak"
   }
 }

@@ -1,12 +1,12 @@
 {
-  "employeeFallback": "Personel",
+  "employeeFallback": "人事",
   "ibanEmpty": "—",
   "reasons": {
-    "ibanMatch": "Alıcı IBAN personel kaydıyla eşleşti",
-    "amountMatch": "Tutar uyumlu ({ocrAmount} ≈ {approvedAmount})",
-    "amountClose": "Tutar yakın",
-    "referenceRead": "Referans no okundu",
-    "singleCandidate": "Tek aday personel",
-    "transferTokenMatch": "Transfer reference code matched"
+    "ibanMatch": "Alıcı IBAN 担当者 kaydıyla eşleşti",
+    "amountMatch": "トゥタル・ウユムル ({ocrAmount} ≈ {approvedAmount})",
+    "amountClose": "ツタール・ヤクン",
+    "referenceRead": "レファランス・ノー・オクンドゥ",
+    "singleCandidate": "テック・アデイ担当者",
+    "transferTokenMatch": "転送参照コードが一致しました"
   }
 }

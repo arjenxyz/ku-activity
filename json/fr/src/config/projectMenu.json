@@ -1,111 +1,156 @@
 {
   "primary": [
     {
-      "label": "Proje özeti",
+      "label": "Projet ici",
       "path": "",
-      "hint": "Personel ve günlük durum"
+      "hint": "Personnel et günlük durum"
     },
     {
-      "label": "Yevmiye",
-      "path": "yevmiye",
+      "label": "Evmie",
+      "path": "Evmie",
       "hint": "Günlük çalışma kaydı"
     },
     {
       "label": "Taşeron karı",
       "path": "kar",
-      "hint": "Blok, iş kalemi ve kâr"
+      "hint": "Blok, je suis kalemi et kâr"
     }
   ],
   "groups": [
     {
-      "id": "personel",
-      "label": "Personel",
+      "id": "personnel",
+      "label": "Personnel",
       "links": [
-        { "label": "Personel listesi", "path": "list" },
-        { "label": "Yeni personel", "path": "new" },
-        { "label": "Başvuru onayı", "path": "basvuru-onay" },
-        { "label": "Personel şifreleri", "path": "sorgulama/personel-sifreleri" }
+        {
+          "label": "Listes du personnel",
+          "path": "liste"
+        },
+        {
+          "label": "Personnel Yeni",
+          "path": "nouveau"
+        },
+        {
+          "label": "Başvuru onayı",
+          "path": "basvuru-onay"
+        },
+        {
+          "label": "Personnel sifreleri",
+          "path": "sorgulama/personnel-sifreleri"
+        }
       ]
     },
     {
-      "id": "kayitlar",
-      "label": "Diğer kayıtlar",
+      "id": "Kayitlar",
+      "label": "Lire la suite",
       "links": [
-        { "label": "Avans", "path": "avans" },
+        {
+          "label": "Avans",
+          "path": "les avances"
+        },
         {
           "label": "Avans talepleri",
           "path": "avans-talepleri",
-          "hint": "Personel talepleri — onay ve ödeme"
+          "hint": "Contes personnels — onay ve ödeme"
         },
         {
-          "label": "Dekont paylaş (OCR)",
-          "absolutePath": "/admin-panel/dekont-paylas",
-          "hint": "Bankadan paylaş — otomatik eşleştirme"
+          "label": "Paiements comptables (OCR)",
+          "absolutePath": "/panneau-d'administration/dekont-paylas",
+          "hint": "Paylaş Bankadan — otomatik eşleştirme"
         },
-        { "label": "Kesinti", "path": "kesinti" },
-        { "label": "Asgari ücret", "path": "asgari" }
+        {
+          "label": "Kesinti",
+          "path": "kesinti"
+        },
+        {
+          "label": "Asgari ücret",
+          "path": "asgari"
+        }
       ]
     },
     {
       "id": "santiye",
-      "label": "Şantiye",
+      "label": "Santiye",
       "links": [
-        { "label": "Bloklar", "path": "bloklar" },
-        { "label": "Ekipler", "path": "ekiplar" }
+        {
+          "label": "Bloc",
+          "path": "bloquer"
+        },
+        {
+          "label": "Ékipler",
+          "path": "ekiplar"
+        }
       ]
     },
     {
-      "id": "finans",
-      "label": "Finans",
+      "id": "financiers",
+      "label": "Financiers",
       "links": [
-        { "label": "Ne durumdayız?", "path": "durum" },
-        { "label": "Maaş bordrosu", "path": "bordro" },
-        { "label": "Maaş politikası", "path": "maas-politikasi" }
+        {
+          "label": "Ne durumdayız?",
+          "path": "blé dur"
+        },
+        {
+          "label": "Maaş bordrosu",
+          "path": "bord"
+        },
+        {
+          "label": "Maaş politique",
+          "path": "maas-politikasi"
+        }
       ]
     },
     {
-      "id": "kontrol",
-      "label": "Kontrol & rapor",
+      "id": "contrôler",
+      "label": "Contrôle et rapeur",
       "links": [
-        { "label": "Raporlar", "path": "raporlar" },
-        { "label": "Onaylananlar", "path": "raporlar/onaylanan" },
-        { "label": "Bekleyen kayıtlar", "path": "raporlar/onaysiz" },
+        {
+          "label": "Raporlar",
+          "path": "rapporter"
+        },
+        {
+          "label": "Onaylananlar",
+          "path": "raporlar/onaylanan"
+        },
+        {
+          "label": "Bekleyen kayıtlar",
+          "path": "raporlar/onaysiz"
+        },
         {
           "label": "Kayıt geçmişi",
-          "path": "kayit-gecmisi",
-          "hint": "Sorgulama ve arşiv"
+          "path": "Kayit-gecmisi",
+          "hint": "Sorgulama et Arşiv"
         }
       ]
     }
   ],
   "recordArchive": [
     {
-      "label": "Aylık özet",
-      "desc": "Tüm personelin ay bazında yevmiye, avans ve net durumu",
-      "path": "sorgulama/admin"
+      "label": "Aylik özet",
+      "desc": "Votre personnel est en bas de votre vie, avance et net durumu",
+      "path": "sorgulama/administrateur"
     },
     {
-      "label": "Personel bazlı",
-      "desc": "Tek personelin yevmiye, avans ve asgari kayıtları",
+      "label": "Personnel bazli",
+      "desc": "Tek personelin yevmiye, avans et asgari kayıtları",
       "path": "sorgulama"
     },
     {
-      "label": "Yevmiye arşivi",
-      "desc": "Tarih ve personele göre yevmiye listesi",
+      "label": "Yevmiye Arşivi",
+      "desc": "Tarih et le personnel regardent vos listes",
       "path": "sorgulama/yevmiye"
     },
     {
-      "label": "Avans arşivi",
-      "desc": "Verilen avansların listesi",
+      "label": "Avans Arşivi",
+      "desc": "Vérifier les listes avancées",
       "path": "sorgulama/avans"
     },
     {
-      "label": "Kesinti arşivi",
+      "label": "Kesinti Arşivi",
       "desc": "Kesinti kayıtları",
       "path": "sorgulama/kesinti"
     },
     {
-      "label": "Asgari arşivi",
+      "label": "Asgari Arşivi",
       "desc": "Asgari ücret tamamlama kayıtları",
       "path": "sorgulama/asgari"
     }

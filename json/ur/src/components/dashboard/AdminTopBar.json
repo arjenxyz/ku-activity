@@ -1,10 +1,10 @@
 {
-  "tagline": "Admin panel",
-  "projectSettingsTitle": "Project settings",
-  "projectSettingsAriaLabel": "Project settings",
-  "loadingProject": "Loading…",
-  "logout": "Sign out",
-  "exitAriaLabel": "Back to home",
-  "menu": "Menu",
-  "menuAriaLabel": "Open menu"
+  "tagline": "ایڈمن پینل",
+  "projectSettingsTitle": "پروجیکٹ کی ترتیبات",
+  "projectSettingsAriaLabel": "پروجیکٹ کی ترتیبات",
+  "loadingProject": "لوڈ ہو رہا ہے…",
+  "logout": "سائن آؤٹ کریں۔",
+  "exitAriaLabel": "گھر واپس",
+  "menu": "مینو",
+  "menuAriaLabel": "مینو کھولیں۔"
 }

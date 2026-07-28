@@ -1,9 +1,9 @@
 {
-  "projectSettingsTitle": "Proje ayarları",
-  "projectSettingsAriaLabel": "Proje ayarları",
-  "loadingProject": "Yükleniyor…",
-  "wagePolicy": "Maaş Politikası",
+  "projectSettingsTitle": "প্রকল্প ayarları",
+  "projectSettingsAriaLabel": "প্রকল্প ayarları",
+  "loadingProject": "ইউক্লেনিয়র…",
+  "wagePolicy": "Maaş রাজনীতি",
   "logout": "Çıkış",
   "openMenuAriaLabel": "Menüyü aç",
-  "closeMenuAriaLabel": "Menüyü kapat"
+  "closeMenuAriaLabel": "menüyü kapat"
 }

@@ -1,13 +1,13 @@
 {
-  "nameHeader": "Ad",
+  "nameHeader": "বিজ্ঞাপন",
   "daysWorkedHeader": "Çalışılan Gün",
-  "totalSalaryHeader": "Toplam Maaş",
-  "todayHeader": "Bugün",
-  "actionsHeader": "İşlemler",
+  "totalSalaryHeader": "টপলাম মাশ",
+  "todayHeader": "বুগুন",
+  "actionsHeader": "ইশলেমলার",
   "empty": "Kayıtlı personel bulunamadı",
-  "daysSuffix": " Gün",
-  "daysOfMonth": " gün",
-  "verified": "Onaylı",
-  "unverified": "Onaysız",
-  "approve": "Onayla"
+  "daysSuffix": "গুন",
+  "daysOfMonth": "গুন",
+  "verified": "ওনাইলি",
+  "unverified": "ওনাইসিজ",
+  "approve": "ওনায়লা"
 }

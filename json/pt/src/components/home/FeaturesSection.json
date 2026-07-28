@@ -1,39 +1,39 @@
 {
-  "sectionBadge": "Platform Features",
-  "sectionTitle": "Real modules from timesheets to payroll",
-  "sectionSubtitle": "Daily wages, overtime, advances, deductions, minimum wage top-ups, and payroll are managed per project. The personnel app shows the same records as the admin panel.",
-  "marqueePaused": "Paused — tap the box again to resume",
-  "marqueeHint": "Swipe with your finger; scrolling pauses the flow, tap the box to pin it",
+  "sectionBadge": "Recursos da plataforma",
+  "sectionTitle": "Módulos reais, desde planilhas de horas até folha de pagamento",
+  "sectionSubtitle": "Salários diários, horas extras, adiantamentos, deduções, complementos de salário mínimo e folha de pagamento são gerenciados por projeto. O aplicativo pessoal mostra os mesmos registros do painel de administração.",
+  "marqueePaused": "Pausado – toque na caixa novamente para continuar",
+  "marqueeHint": "Deslize com o dedo; a rolagem pausa o fluxo, toque na caixa para fixá-lo",
   "features": [
     {
-      "title": "Dual-Approved Daily Wages",
-      "tag": "Timesheets",
-      "description": "Full/half-day attendance and quarter, half, or full overtime entries. Admin enters; personnel approves or disputes — records are not finalized without both sides."
+      "title": "Salários Diários Aprovados Duplamente",
+      "tag": "Quadros de horários",
+      "description": "Presença de dia inteiro/meio dia e entradas de trimestre, meio ou horas extras completas. O administrador entra; o pessoal aprova ou contesta — os registros não são finalizados sem ambos os lados."
     },
     {
-      "title": "Advances & Deductions",
-      "tag": "Finance",
-      "description": "Project-based advance and deduction entries. Gross, advance, deduction, and net amounts are calculated with the same formula in payroll and the personnel finance tab."
+      "title": "Adiantamentos e Deduções",
+      "tag": "Financiar",
+      "description": "Entradas de adiantamentos e deduções baseadas em projetos. Os valores brutos, adiantamentos, deduções e líquidos são calculados com a mesma fórmula na folha de pagamento e na guia finanças de pessoal."
     },
     {
-      "title": "Minimum Wage Top-Up",
-      "tag": "Policy",
-      "description": "Earned, paid, and remaining amounts per company and project wage policy. Subcontractor gap suggestions; personnel see the breakdown in the minimum wage tab."
+      "title": "Complemento de salário mínimo",
+      "tag": "Política",
+      "description": "Valores ganhos, pagos e restantes por empresa e política salarial do projeto. Sugestões de lacunas de subcontratados; pessoal veja o detalhamento na aba do salário mínimo."
     },
     {
-      "title": "Project-Based Sites",
-      "tag": "Operations",
-      "description": "Each site is a separate project; personnel, blocks, teams, and finance records stay within the project. Admins only access projects they created."
+      "title": "Sites baseados em projetos",
+      "tag": "Operações",
+      "description": "Cada site é um projeto separado; pessoal, blocos, equipes e registros financeiros permanecem dentro do projeto. Os administradores acessam apenas os projetos que eles criaram."
     },
     {
-      "title": "Reports & Payroll",
-      "tag": "Reporting",
-      "description": "Approved and pending daily wages, open personnel disputes, payroll runs, and archive queries for wages, advances, and deductions."
+      "title": "Relatórios e folha de pagamento",
+      "tag": "Relatórios",
+      "description": "Salários diários aprovados e pendentes, disputas de pessoal abertas, execução de folha de pagamento e consultas de arquivo para salários, adiantamentos e deduções."
     },
     {
-      "title": "Personnel App",
-      "tag": "Mobile PWA",
-      "description": "Install as a PWA on your phone. Overview, daily wages, overtime, finance, minimum wage, and rights tabs — fed from the same database as the admin panel."
+      "title": "Aplicativo Pessoal",
+      "tag": "PWA móvel",
+      "description": "Instale como um PWA no seu telefone. Visão geral, guias de salários diários, horas extras, finanças, salário mínimo e direitos - alimentados no mesmo banco de dados do painel de administração."
     }
   ]
 }

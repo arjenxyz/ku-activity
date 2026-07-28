@@ -1,10 +1,10 @@
 {
-  "badge": "Onay bekleniyor",
-  "instruction": "QR kodu veya başvuru kodunu yöneticinize gösterin.",
-  "codeLabel": "Başvuru kodu",
-  "copyAriaLabel": "Başvuru kodunu kopyala",
-  "copied": "Kopyalandı ✓",
-  "tapToCopy": "Kopyalamak için dokunun",
-  "autoUpdateHint": "Yönetici onaylayınca bu ekran otomatik güncellenir.",
-  "signOut": "Bu cihazda çıkış"
+  "badge": "オナイ・ベクレニヤル",
+  "instruction": "QR kodu veya başvuru kodunu yöneticinize gösterin。",
+  "codeLabel": "バシュヴル コドゥ",
+  "copyAriaLabel": "バシュヴル コドゥヌ コピャラ",
+  "copied": "コピヤランドゥ ✓",
+  "tapToCopy": "コピャラマク・イシン・ドクヌン",
+  "autoUpdateHint": "ヨネチ・オナイラインカ・ブ・エクラン・オトマティック・ギュンチェレニル。",
+  "signOut": "ブ・シハズダ・チクシュ"
 }

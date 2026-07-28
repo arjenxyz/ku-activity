@@ -1,18 +1,18 @@
 {
-  "reportAriaLabel": "Sorun bildir",
-  "reportTitle": "Sorun bildir",
-  "reportButton": "Bildir",
-  "screenshotFailed": "Ekran görüntüsü alınamadı. Lütfen tekrar deneyin.",
-  "modalTitle": "Sorun bildir",
-  "modalDescription": "Bu ekran görüntüsü ve uygulama hata bilgileri geliştirici ekibimize iletilecektir. Veriler yalnızca sorunu çözmek için kullanılır. Onaylıyor musunuz?",
-  "close": "Kapat",
+  "reportAriaLabel": "সোরুন বিলদির",
+  "reportTitle": "সোরুন বিলদির",
+  "reportButton": "বিলদির",
+  "screenshotFailed": "Ekran görüntüsü alınamadı. লুটফেন টেকরার ডেনেইন।",
+  "modalTitle": "সোরুন বিলদির",
+  "modalDescription": "Bu ekran görüntüsü ve uygulama hata bilgileri geliştirici ekibimize iletilecektir. Veriler yalnızca sorunu çözmek için kullanılır. ওনাইলিয়র মুসুনুজ?",
+  "close": "কাপাত",
   "previewAlt": "Ekran önizlemesi",
-  "noteLabel": "Not (isteğe bağlı)",
+  "noteLabel": "না (isteğe bağlı)",
   "notePlaceholder": "Ne olduğunu kısaca yazabilirsiniz…",
   "success": "Teşekkürler, raporunuz iletildi.",
-  "sendFailed": "Gönderilemedi",
+  "sendFailed": "গোন্ডারিলেমেডি",
   "reportSendFailed": "Rapor gönderilemedi",
   "cancel": "Vazgeç",
   "submitting": "Gönderiliyor…",
-  "confirmAndSend": "Onayla ve gönder"
+  "confirmAndSend": "ওনাইলা ও গন্ডার"
 }

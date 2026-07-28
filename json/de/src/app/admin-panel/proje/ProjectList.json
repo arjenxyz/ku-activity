@@ -1,13 +1,13 @@
 {
-  "emptyTitle": "No projects yet",
-  "emptySubtitle": "Use New project to add your first job site.",
-  "startDate": "Start: {date}",
-  "employeeCount": "{active} active / {total} personnel",
-  "open": "Open",
-  "editAriaLabel": "Edit",
-  "deleteAriaLabel": "Start closure",
-  "closureBadge": "In closure",
+  "emptyTitle": "Noch keine Projekte",
+  "emptySubtitle": "Verwenden Sie „Neues Projekt“, um Ihre erste Baustelle hinzuzufügen.",
+  "startDate": "Beginn: {date}",
+  "employeeCount": "{active} aktiv / {total} Personal",
+  "open": "Offen",
+  "editAriaLabel": "Bearbeiten",
+  "deleteAriaLabel": "Schließung starten",
+  "closureBadge": "Zum Schluss",
   "emptyDate": "—",
-  "ownerBadge": "Owner",
-  "collaboratorBadge": "Collaborator"
+  "ownerBadge": "Eigentümer",
+  "collaboratorBadge": "Mitarbeiter"
 }

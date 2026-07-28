@@ -1,7 +1,7 @@
 {
-  "searchLabel": "Search projects",
-  "searchPlaceholder": "Search by name, code or location...",
-  "statusLabel": "Status",
-  "allProjects": "All",
-  "clearSearch": "Clear search"
+  "searchLabel": "Rechercher des projets",
+  "searchPlaceholder": "Recherche par nom, code ou lieu...",
+  "statusLabel": "Statut",
+  "allProjects": "Tous",
+  "clearSearch": "Effacer la recherche"
 }

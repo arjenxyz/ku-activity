@@ -1,9 +1,17 @@
 {
   "prevMonth": "Önceki ay",
-  "nextMonth": "Sonraki ay",
+  "nextMonth": "Sonraki ja",
   "thisMonth": "Bu ay",
-  "summary": "{mesaiDays} mesai günü · {totalPay} toplam kazanç",
+  "summary": "{mesaiDays} Mesai Günü · {totalPay} Toplam Kazanç",
   "selectMonth": "Ay seç:",
-  "weekdays": ["Pt", "Sa", "Ça", "Pe", "Cu", "Ct", "Pz"],
-  "tapForDetail": "Tap an orange day for details"
+  "weekdays": [
+    "Pt",
+    "Sa",
+    "Ça",
+    "Pe",
+    "Cu",
+    "Ct",
+    "Pz"
+  ],
+  "tapForDetail": "Tippen Sie auf einen orangefarbenen Tag, um Einzelheiten zu erfahren"
 }

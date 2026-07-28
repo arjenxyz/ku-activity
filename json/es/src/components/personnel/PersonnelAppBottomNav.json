@@ -1,8 +1,8 @@
 {
-  "navAriaLabel": "Personnel navigation",
-  "home": "Overview",
-  "work": "Calendar",
-  "yoklama": "Attendance",
-  "finance": "Payroll",
-  "more": "Menu"
+  "navAriaLabel": "Navegación de personal",
+  "home": "Descripción general",
+  "work": "Calendario",
+  "yoklama": "Asistencia",
+  "finance": "Nómina de sueldos",
+  "more": "Menú"
 }

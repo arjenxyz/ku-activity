@@ -23,7 +23,7 @@
     {
       "title": "Projektalapú webhelyek",
       "tag": "Műveletek",
-      "description": "Each site is a separate project; personnel, blocks, teams, and finance records stay within the project. Admins only access projects they created."
+      "description": "Minden oldal külön projekt; a személyzet, a blokkok, a csapatok és a pénzügyi nyilvántartások a projekten belül maradnak. A rendszergazdák csak az általuk létrehozott projektekhez férhetnek hozzá."
     },
     {
       "title": "Jelentések és bérszámfejtés",
@@ -33,7 +33,7 @@
     {
       "title": "Személyzeti alkalmazás",
       "tag": "Mobil PWA",
-      "description": "Install as a PWA on your phone. Overview, daily wages, overtime, finance, minimum wage, and rights tabs — fed from the same database as the admin panel."
+      "description": "Telepítse PWA-ként a telefonjára. Áttekintés, napibérek, túlórák, pénzügyek, minimálbér és jogok lapok – ugyanabból az adatbázisból, mint az adminisztrációs panel."
     }
   ]
 }

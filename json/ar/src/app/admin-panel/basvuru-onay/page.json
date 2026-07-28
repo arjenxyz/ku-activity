@@ -1,11 +1,11 @@
 {
-  "loadingProjects": "Projeler yükleniyor…",
+  "loadingProjects": "بروجيلر يوكلينور…",
   "title": "Başvuru onayı",
-  "noProjects": "Önce aktif bir proje oluşturmalısınız.",
-  "goToProjects": "Projelere git",
-  "redirecting": "Yönlendiriliyor…",
-  "selectProjectIntro": "Başvuruyu hangi projeye ekleyeceğinizi seçin",
-  "codeWillCarry": " kodu taşınacak)",
-  "allProjects": "← Tüm projeler",
-  "loading": "Yükleniyor…"
+  "noProjects": "بمجرد بدء مشروعك الجديد.",
+  "goToProjects": "بوابة projelere",
+  "redirecting": "يونلينديريلييور…",
+  "selectProjectIntro": "تم إنشاء مشروع ekleyeceğinizi seçin بنجاح",
+  "codeWillCarry": "كودو تاشيناجاك)",
+  "allProjects": "← توم بروجيلر",
+  "loading": "يوكلينور…"
 }

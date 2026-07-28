@@ -1,12 +1,12 @@
 {
-  "accountDeletionNote": "Your account will be deleted on {date}",
-  "accountDeletionNoteAccelerated": "Your account will be deleted in 3 minutes",
-  "countdownLabel": "Time remaining until your account is deleted",
-  "downloadHint": "Download and keep a ZIP copy of your work logs, payments, and contracts.",
-  "fastDeleteTitle": "Want to delete your account faster?",
-  "fastDeleteIntro": "To shorten the waiting period and speed up deletion, complete the steps below in order:",
-  "fastDeleteStep1": "Download your data as a ZIP file",
-  "fastDeleteStep2": "Tap the “I downloaded, continue” button",
-  "fastDeleteStep3": "Confirm the fast deletion option that appears using email verification",
-  "fastDeleteFooter": "Once you complete the steps, the fast deletion option appears automatically on this screen."
+  "accountDeletionNote": "آپ کا اکاؤنٹ {date} پر حذف کر دیا جائے گا",
+  "accountDeletionNoteAccelerated": "آپ کا اکاؤنٹ 3 منٹ میں حذف کر دیا جائے گا۔",
+  "countdownLabel": "آپ کا اکاؤنٹ حذف ہونے تک باقی وقت",
+  "downloadHint": "اپنے کام کے لاگ، ادائیگیوں اور معاہدوں کی زپ کاپی ڈاؤن لوڈ کریں اور اپنے پاس رکھیں۔",
+  "fastDeleteTitle": "اپنے اکاؤنٹ کو تیزی سے حذف کرنا چاہتے ہیں؟",
+  "fastDeleteIntro": "انتظار کی مدت کو کم کرنے اور حذف کرنے کی رفتار تیز کرنے کے لیے، ترتیب سے نیچے دیے گئے اقدامات کو مکمل کریں:",
+  "fastDeleteStep1": "اپنے ڈیٹا کو زپ فائل کے طور پر ڈاؤن لوڈ کریں۔",
+  "fastDeleteStep2": "\"میں نے ڈاؤن لوڈ کیا، جاری رکھیں\" بٹن کو تھپتھپائیں۔",
+  "fastDeleteStep3": "ای میل کی تصدیق کا استعمال کرتے ہوئے ظاہر ہونے والے تیزی سے حذف کرنے کے آپشن کی تصدیق کریں۔",
+  "fastDeleteFooter": "ایک بار جب آپ اقدامات مکمل کر لیتے ہیں، تو اس اسکرین پر تیزی سے حذف کرنے کا آپشن خود بخود ظاہر ہو جاتا ہے۔"
 }

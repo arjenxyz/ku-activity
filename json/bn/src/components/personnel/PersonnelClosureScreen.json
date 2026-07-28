@@ -1,12 +1,12 @@
 {
-  "accountDeletionNote": "Your account will be deleted on {date}",
-  "accountDeletionNoteAccelerated": "Your account will be deleted in 3 minutes",
-  "countdownLabel": "Time remaining until your account is deleted",
-  "downloadHint": "Download and keep a ZIP copy of your work logs, payments, and contracts.",
-  "fastDeleteTitle": "Want to delete your account faster?",
-  "fastDeleteIntro": "To shorten the waiting period and speed up deletion, complete the steps below in order:",
-  "fastDeleteStep1": "Download your data as a ZIP file",
-  "fastDeleteStep2": "Tap the “I downloaded, continue” button",
-  "fastDeleteStep3": "Confirm the fast deletion option that appears using email verification",
-  "fastDeleteFooter": "Once you complete the steps, the fast deletion option appears automatically on this screen."
+  "accountDeletionNote": "আপনার অ্যাকাউন্ট {date} এ মুছে ফেলা হবে",
+  "accountDeletionNoteAccelerated": "আপনার অ্যাকাউন্ট 3 মিনিটের মধ্যে মুছে ফেলা হবে",
+  "countdownLabel": "আপনার অ্যাকাউন্ট মুছে ফেলা পর্যন্ত বাকি সময়",
+  "downloadHint": "আপনার কাজের লগ, অর্থপ্রদান এবং চুক্তির একটি জিপ কপি ডাউনলোড করুন এবং রাখুন।",
+  "fastDeleteTitle": "আপনার অ্যাকাউন্ট দ্রুত মুছে ফেলতে চান?",
+  "fastDeleteIntro": "অপেক্ষার সময় কমাতে এবং মুছে ফেলার গতি বাড়ানোর জন্য নিচের ধাপগুলি ক্রমানুসারে সম্পূর্ণ করুন:",
+  "fastDeleteStep1": "জিপ ফাইল হিসাবে আপনার ডেটা ডাউনলোড করুন",
+  "fastDeleteStep2": "\"আমি ডাউনলোড করেছি, চালিয়ে যান\" বোতামটি আলতো চাপুন",
+  "fastDeleteStep3": "ইমেল যাচাইকরণ ব্যবহার করে প্রদর্শিত দ্রুত মুছে ফেলার বিকল্পটি নিশ্চিত করুন",
+  "fastDeleteFooter": "একবার আপনি পদক্ষেপগুলি সম্পূর্ণ করলে, দ্রুত মুছে ফেলার বিকল্পটি এই স্ক্রিনে স্বয়ংক্রিয়ভাবে প্রদর্শিত হবে।"
 }

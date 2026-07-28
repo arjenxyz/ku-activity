@@ -1,24 +1,24 @@
 {
-  "badge": "Today's attendance",
-  "shiftHours": "Work hours {start}{end}",
-  "shiftEnd": " – {end}",
-  "confirmed": "You are registered for the full day",
-  "notConfirmed": "No attendance yet",
-  "scanQr": "Scan supervisor QR",
-  "rescanQr": "Scan QR again",
-  "loadFailed": "Could not load",
+  "badge": "আজকের উপস্থিতি",
+  "shiftHours": "কাজের সময় {start}{end}",
+  "shiftEnd": "– {end}",
+  "confirmed": "আপনি পুরো দিনের জন্য নিবন্ধিত হয়",
+  "notConfirmed": "এখনো কোনো উপস্থিতি নেই",
+  "scanQr": "স্ক্যান সুপারভাইজার QR",
+  "rescanQr": "আবার QR স্ক্যান করুন",
+  "loadFailed": "লোড করা যায়নি",
   "states": {
     "waiting": {
-      "title": "You are on the attendance list",
-      "hint": "Wait until your supervisor completes attendance."
+      "title": "আপনি উপস্থিতির তালিকায় আছেন",
+      "hint": "আপনার সুপারভাইজার উপস্থিতি সম্পূর্ণ না হওয়া পর্যন্ত অপেক্ষা করুন।"
     },
     "cancelled": {
-      "title": "Attendance cancelled",
-      "hint": "Your supervisor cancelled this session. Please contact them."
+      "title": "উপস্থিতি বাতিল",
+      "hint": "আপনার সুপারভাইজার এই অধিবেশন বাতিল করেছেন. তাদের সাথে যোগাযোগ করুন."
     },
     "removed": {
-      "title": "Removed from the list",
-      "hint": "Scan a new QR code or speak with your supervisor."
+      "title": "তালিকা থেকে সরানো হয়েছে",
+      "hint": "একটি নতুন QR কোড স্ক্যান করুন বা আপনার সুপারভাইজারের সাথে কথা বলুন।"
     }
   }
 }

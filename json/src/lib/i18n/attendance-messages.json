@@ -278,5 +278,25 @@
     "attendance.did_not_work": "Sie sind heute als nicht arbeitend markiert. Es wird kein Tageslohn erfasst.",
     "attendance.token_required": "QR-Code ist erforderlich.",
     "attendance.scan_failed": "Die Anwesenheit konnte nicht erfasst werden."
+  },
+  "ja": {
+    "attendance.qr_already_used": "このコードまたは QR はすでに使用されています。上司に現在のコードを尋ねて、もう一度スキャンしてください。",
+    "attendance.invalid_token": "出席コードが無効です。上司に現在の QR またはコードを尋ねてください。",
+    "attendance.wrong_project": "このコードはあなたのプロジェクトに属していません。",
+    "attendance.session_cancelled": "出席はキャンセルされました。 Contact your supervisor and scan again.",
+    "attendance.session_completed": "出席セッションは終了しました。新しいコードについては上司に問い合わせてください。",
+    "attendance.session_closed": "出席セッションは終了しました。スーパーバイザーに新しいセッションを開始するよう依頼してください。",
+    "attendance.session_not_active": "出席セッションはアクティブではありません。",
+    "attendance.window_closed": "出席枠の外。許可された時間内にもう一度お試しください。",
+    "attendance.already_listed": "あなたはすでに出席リストに登録されています。スーパーバイザーがセッションを完了すると、エントリが保存されます。",
+    "attendance.scan_success": "あなたはリストに追加されました。あなたの上司がチームの出席を終了します。",
+    "attendance.scan_replaced": "再スキャンが成功しました。以前のエントリが削除され、再度追加されました。",
+    "attendance.waiting": "あなたはリストに追加されました。あなたの上司がチームの出席を完了します。",
+    "attendance.completed": "本日の出席は完了です。あなたの一日分の賃金が記録されました。",
+    "attendance.none": "この日の出席記録はありません。",
+    "attendance.removed_from_list": "上司があなたを出席から外しました。これが間違いだと思われる場合は、連絡してください。",
+    "attendance.did_not_work": "今日は仕事をしていないとマークされています。日給は記録されません。",
+    "attendance.token_required": "QRコードが必要です。",
+    "attendance.scan_failed": "出席を記録できませんでした。"
   }
 }

@@ -1,20 +1,20 @@
 {
   "modeLabels": {
-    "simple": "Simple",
-    "advanced": "Advanced"
+    "simple": "সরল",
+    "advanced": "উন্নত"
   },
   "simpleMenu": {
     "summary": {
-      "label": "Project overview",
-      "hint": "Personnel list and daily status"
+      "label": "প্রকল্প ওভারভিউ",
+      "hint": "কর্মীদের তালিকা এবং দৈনিক অবস্থা"
     },
     "approval": {
-      "label": "Application approval",
-      "hint": "New personnel applications"
+      "label": "আবেদনের অনুমোদন",
+      "hint": "নতুন কর্মীদের আবেদন"
     },
     "attendance": {
-      "label": "Attendance / QR",
-      "hint": "Day, overtime and timesheet are planned here"
+      "label": "উপস্থিতি / QR",
+      "hint": "দিন, ওভারটাইম এবং টাইমশীট এখানে পরিকল্পনা করা হয়"
     }
   }
 }

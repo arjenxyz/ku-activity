@@ -9,16 +9,16 @@
     },
     {
       "title": "Giderleri bağlayın",
-      "body": "yevmiye, avans ve kesinti girerken iş kalemini seçin"
+      "body": "yevmiye, avans y kesinti girerken iş kalemini seçin"
     },
     {
-      "title": "Malzeme ekleyin",
-      "body": "iş kartındaki malzeme bölümünden (personeli etkilemez)"
+      "title": "malzeme ekleyin",
+      "body": "iş kartındaki malzeme bölümünden (personal etkilemez)"
     },
     {
-      "title": "Ortak sayısını",
+      "title": "Ortak decirısını",
       "body": "ayarlayın — kâr eşit bölünür"
     }
   ],
-  "footer": "Personel paneli ve bordro normal çalışır; iş kalemi yalnızca sizin kâr tablonuz içindir."
+  "footer": "Paneles de personal y bordes normales çalışır; iş kalemi yalnızca sizin kâr tablonuz içindir."
 }

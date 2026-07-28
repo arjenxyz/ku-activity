@@ -34,7 +34,7 @@
   "emailHint": "Az ellenőrző kódot erre a címre küldjük.",
   "ibanHint": "Személyazonosságát és IBAN-adatait titkosítva tároljuk.",
   "pinHint": "{pinLength} számjegyű szám. A panelbe való bejelentkezéshez használjuk.",
-  "contractsReadyHintBefore": "Sözleşmeler tamam. ",
+  "contractsReadyHintBefore": "Sözleşmeler tamam.",
   "contractsReadyHintBold": "Başvuruyu Gönder",
   "contractsReadyHintAfter": "Ha ezt mondja, egy ellenőrző kódot és egy egykattintásos megerősítő linket küldünk az e-mail címére.",
   "backButton": "Vissza",

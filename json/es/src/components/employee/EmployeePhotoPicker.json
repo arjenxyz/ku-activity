@@ -1,15 +1,15 @@
 {
-  "invalidFormat": "JPEG, PNG, WebP veya GIF seçin",
+  "invalidFormat": "Sección JPEG, PNG, WebP o GIF",
   "maxSize": "Dosya en fazla 5 MB olabilir",
-  "defaultName": "Personel",
-  "selfieTitle": "Kendi fotoğrafınız",
-  "adminTitle": "Personel fotoğrafı",
-  "selfieHint": "Ön kamerayla yüzünüzün net göründüğü bir selfie çekin. Mobilde doğrudan telefon kamerası açılır.",
-  "adminHint": "Her personel için ayrı fotoğraf çekin veya yükleyin. Bu fotoğraf personel panelinde de görünür.",
+  "defaultName": "Personal",
+  "selfieTitle": "Kendi fotografía",
+  "adminTitle": "Fotografías del personal",
+  "selfieHint": "En la cámara yüzünüzün net göründüğü bir selfie çekin. Se activa la cámara de teléfono móvil.",
+  "adminHint": "Su personal için ayrı fotoğraf çekin oya yükleyin. Bu fotoğraf personal panelinde görünür.",
   "takeSelfie": "Selfie Çek",
   "takePhoto": "Fotoğraf Çek",
-  "pickFromGallery": "Galeriden seç",
-  "pickFromGalleryCapital": "Galeriden Seç",
-  "remove": "Kaldır",
-  "requiredHint": "Kayıt için personel fotoğrafı zorunludur."
+  "pickFromGallery": "Galeriden sección",
+  "pickFromGalleryCapital": "Galeriden Sección",
+  "remove": "Kaldir",
+  "requiredHint": "Kayıt için personal fotoğrafı zorunludur."
 }

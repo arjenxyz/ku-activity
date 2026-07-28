@@ -1,5 +1,5 @@
 {
-  "invalidId": "Invalid record id",
-  "invalidBody": "Invalid request body",
-  "invalidAmount": "Day amount must be 0.5 or 1"
+  "invalidId": "অবৈধ রেকর্ড আইডি",
+  "invalidBody": "অবৈধ অনুরোধের অংশ",
+  "invalidAmount": "দিনের পরিমাণ 0.5 বা 1 হতে হবে"
 }

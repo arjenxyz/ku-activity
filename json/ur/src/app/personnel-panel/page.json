@@ -1,32 +1,32 @@
 {
   "tabs": {
-    "overview": "Overview",
-    "work": "Calendar",
-    "asgari": "Minimum wage",
-    "finance": "Payroll",
-    "rights": "My rights",
-    "settings": "Settings"
+    "overview": "جائزہ",
+    "work": "کیلنڈر",
+    "asgari": "کم از کم اجرت",
+    "finance": "پے رول",
+    "rights": "میرے حقوق",
+    "settings": "ترتیبات"
   },
   "mesaiFallbackLabels": {
-    "full": "Full overtime",
-    "quarter": "Quarter overtime",
-    "half": "Half overtime"
+    "full": "مکمل اوور ٹائم",
+    "quarter": "کوارٹر اوور ٹائم",
+    "half": "آدھا اوور ٹائم"
   },
   "stats": {
-    "gross": "Gross pay",
-    "totalAdvance": "Total advances",
-    "deduction": "Deductions",
-    "netSalary": "Net pay"
+    "gross": "مجموعی تنخواہ",
+    "totalAdvance": "کل ایڈوانسز",
+    "deduction": "کٹوتیاں",
+    "netSalary": "خالص تنخواہ"
   },
-  "loadingData": "Loading your data…",
-  "workLogSectionTitle": "Work logs · {monthLabel}",
-  "advanceRequestTitle": "Advance request",
-  "advanceRequestSubtitle": "Create a request or check status →",
-  "loading": "Loading…",
-  "loadingFinance": "Loading finance data…",
-  "periodSummary": "Period summary",
-  "workDaysTitle": "Work days",
-  "mesaiDistributionTitle": "Overtime total",
-  "mesaiSuffix": " overtime",
-  "headerSubtitle": "Attendance and pay summary"
+  "loadingData": "آپ کا ڈیٹا لوڈ ہو رہا ہے…",
+  "workLogSectionTitle": "کام کے نوشتہ جات · {monthLabel}",
+  "advanceRequestTitle": "پیشگی درخواست",
+  "advanceRequestSubtitle": "ایک درخواست بنائیں یا اسٹیٹس چیک کریں →",
+  "loading": "لوڈ ہو رہا ہے…",
+  "loadingFinance": "فنانس ڈیٹا لوڈ ہو رہا ہے…",
+  "periodSummary": "مدت کا خلاصہ",
+  "workDaysTitle": "کام کے دن",
+  "mesaiDistributionTitle": "اوور ٹائم کل",
+  "mesaiSuffix": "اوور ٹائم",
+  "headerSubtitle": "حاضری اور تنخواہ کا خلاصہ"
 }

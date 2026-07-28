@@ -1,13 +1,13 @@
 {
-  "emptyTitle": "No projects yet",
-  "emptySubtitle": "Use New project to add your first job site.",
-  "startDate": "Start: {date}",
-  "employeeCount": "{active} active / {total} personnel",
-  "open": "Open",
-  "editAriaLabel": "Edit",
-  "deleteAriaLabel": "Start closure",
-  "closureBadge": "In closure",
+  "emptyTitle": "ابھی تک کوئی پروجیکٹ نہیں ہے۔",
+  "emptySubtitle": "اپنی پہلی جاب سائٹ کو شامل کرنے کے لیے نیا پروجیکٹ استعمال کریں۔",
+  "startDate": "شروع کریں: {date}",
+  "employeeCount": "{active} فعال / {total} اہلکار",
+  "open": "کھولیں۔",
+  "editAriaLabel": "ترمیم کریں۔",
+  "deleteAriaLabel": "بندش شروع کریں۔",
+  "closureBadge": "بندش میں",
   "emptyDate": "—",
-  "ownerBadge": "Owner",
-  "collaboratorBadge": "Collaborator"
+  "ownerBadge": "مالک",
+  "collaboratorBadge": "تعاون کرنے والا"
 }

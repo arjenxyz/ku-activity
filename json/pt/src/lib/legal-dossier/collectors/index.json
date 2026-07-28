@@ -1,46 +1,70 @@
 {
   "errors": {
-    "employeeNotFound": "Personel bulunamadı"
+    "employeeNotFound": "Pessoal bulunamadı"
   },
   "collectors": {
-    "profile": { "title": "Personel profili" },
+    "profile": {
+      "title": "Perfil pessoal"
+    },
     "sensitive": {
-      "title": "Hassas kimlik ve banka bilgileri",
-      "noDataNote": "Hassas veri kaydı bulunamadı veya şifreleme yapılandırılmamış"
+      "title": "Hassas Kimlik e Banka Bilgileri",
+      "noDataNote": "Hassas veri kaydı bulunamadı ou şifreleme yapılandırılmamış"
     },
-    "project": { "title": "Proje ve çalışma yeri" },
-    "workLogs": { "title": "Yevmiye ve puantaj kayıtları" },
-    "deductions": { "title": "Avans ve kesintiler" },
-    "minimumWages": { "title": "Asgari ücret kayıtları" },
-    "payroll": { "title": "Bordro dönemleri ve satırlar" },
-    "contracts": { "title": "Sözleşme onayları ve metinleri" },
-    "registration": { "title": "Application and approval history" },
+    "project": {
+      "title": "Projeto e sucesso"
+    },
+    "workLogs": {
+      "title": "Yevmiye e puantaj kayıtları"
+    },
+    "deductions": {
+      "title": "Avans e kesintiler"
+    },
+    "minimumWages": {
+      "title": "Asgari ücret kayıtları"
+    },
+    "payroll": {
+      "title": "Bordro dönemleri e satırlar"
+    },
+    "contracts": {
+      "title": "Sözleşme onayları e metinleri"
+    },
+    "registration": {
+      "title": "Histórico de inscrições e aprovações"
+    },
     "advanceRequests": {
-      "title": "Advance requests (approval, payment, receipt)",
-      "proofNote": "Receipt files are not copied into the ZIP; proof_* fields contain reference and OCR metadata only."
+      "title": "Solicitações antecipadas (aprovação, pagamento, recebimento)",
+      "proofNote": "Os arquivos de recibo não são copiados para o ZIP; Os campos proof_* contêm apenas metadados de referência e OCR."
     },
-    "attendance": { "title": "Attendance check-ins and session notices" },
-    "notifications": { "title": "In-app notification history" },
+    "attendance": {
+      "title": "Check-ins de presença e avisos de sessão"
+    },
+    "notifications": {
+      "title": "Histórico de notificações no aplicativo"
+    },
     "closureConsent": {
-      "title": "Project closure consent",
-      "notInClosure": "Project is not in closure or no consent record yet"
+      "title": "Consentimento de encerramento do projeto",
+      "notInClosure": "O projeto não está encerrado ou ainda não há registro de consentimento"
     },
-    "company": { "title": "Business / data controller info" },
-    "extensionsPlaceholder": { "title": "Extensible module placeholder" }
+    "company": {
+      "title": "Informações comerciais/controlador de dados"
+    },
+    "extensionsPlaceholder": {
+      "title": "Espaço reservado para módulo extensível"
+    }
   },
   "contractHtml": {
     "approvedLabel": "Onay:",
-    "versionLabel": "Sürüm:",
-    "contentHashLabel": "İçerik hash:"
+    "versionLabel": "Surum:",
+    "contentHashLabel": "Hash de İçerik:"
   },
   "extensionsPlaceholder": {
-    "message": "CrewLedger hukuki dosya sistemi genişletilebilir. Yeni özellikler registerDossierCollector() ile eklenir.",
+    "message": "CrewLedger hukuki dosya sistemi genişletilebilir. Você pode usar RegisterDossierCollector() para visualizar.",
     "reservedModules": [
-      "leave_requests — İzin / devamsızlık talepleri",
-      "documents — Yüklenen belgeler",
-      "disciplinary — Disiplin kayıtları",
-      "communications — Bildirim ve mesaj logları",
-      "attendance_devices — Cihaz bazlı yoklama"
+      "Leave_requests — İzin / devamsızlık talepleri",
+      "documentos – Yüklenen begeler",
+      "disciplinar – Disiplin kayıtları",
+      "comunicações — Bildirim e mesaj logları",
+      "atendimento_devices — Cihaz bazlı yoklama"
     ],
     "integration": "src/lib/legal-dossier/collectors/ altına yeni dosya ekleyip registerDossierCollector çağırın."
   }

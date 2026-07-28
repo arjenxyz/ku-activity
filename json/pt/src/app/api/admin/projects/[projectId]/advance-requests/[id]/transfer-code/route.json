@@ -1,4 +1,4 @@
 {
-  "notFound": "No active transfer code found",
-  "loadFailed": "Could not load transfer code"
+  "notFound": "Nenhum código de transferência ativo encontrado",
+  "loadFailed": "Não foi possível carregar o código de transferência"
 }

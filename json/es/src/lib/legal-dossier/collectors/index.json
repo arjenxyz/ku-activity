@@ -1,47 +1,71 @@
 {
   "errors": {
-    "employeeNotFound": "Personel bulunamadı"
+    "employeeNotFound": "Personal bulunamadı"
   },
   "collectors": {
-    "profile": { "title": "Personel profili" },
+    "profile": {
+      "title": "perfil personal"
+    },
     "sensitive": {
-      "title": "Hassas kimlik ve banka bilgileri",
-      "noDataNote": "Hassas veri kaydı bulunamadı veya şifreleme yapılandırılmamış"
+      "title": "Hassas kimlik y banka bilgileri",
+      "noDataNote": "Hassas veri kaydı bulunamadı oya şifreleme yapılandırılmamış"
     },
-    "project": { "title": "Proje ve çalışma yeri" },
-    "workLogs": { "title": "Yevmiye ve puantaj kayıtları" },
-    "deductions": { "title": "Avans ve kesintiler" },
-    "minimumWages": { "title": "Asgari ücret kayıtları" },
-    "payroll": { "title": "Bordro dönemleri ve satırlar" },
-    "contracts": { "title": "Sözleşme onayları ve metinleri" },
-    "registration": { "title": "Application and approval history" },
+    "project": {
+      "title": "Proyecto ve çalışma yeri"
+    },
+    "workLogs": {
+      "title": "Yevmiye ve puantaj kayıtları"
+    },
+    "deductions": {
+      "title": "Avans y kesintiler"
+    },
+    "minimumWages": {
+      "title": "Asgari ücret kayıtları"
+    },
+    "payroll": {
+      "title": "Bordro dönemleri y satırlar"
+    },
+    "contracts": {
+      "title": "Sözleşme onayları ve metinleri"
+    },
+    "registration": {
+      "title": "Historial de solicitudes y aprobaciones"
+    },
     "advanceRequests": {
-      "title": "Advance requests (approval, payment, receipt)",
-      "proofNote": "Receipt files are not copied into the ZIP; proof_* fields contain reference and OCR metadata only."
+      "title": "Solicitudes anticipadas (aprobación, pago, recibo)",
+      "proofNote": "Los archivos de recibos no se copian en el ZIP; Los camposproof_* contienen metadatos de referencia y OCR únicamente."
     },
-    "attendance": { "title": "Attendance check-ins and session notices" },
-    "notifications": { "title": "In-app notification history" },
+    "attendance": {
+      "title": "Registros de asistencia y avisos de sesiones."
+    },
+    "notifications": {
+      "title": "Historial de notificaciones en la aplicación"
+    },
     "closureConsent": {
-      "title": "Project closure consent",
-      "notInClosure": "Project is not in closure or no consent record yet"
+      "title": "Consentimiento de cierre del proyecto",
+      "notInClosure": "El proyecto no está cerrado o aún no hay registro de consentimiento"
     },
-    "company": { "title": "Business / data controller info" },
-    "extensionsPlaceholder": { "title": "Extensible module placeholder" }
+    "company": {
+      "title": "Información comercial/responsable del tratamiento de datos"
+    },
+    "extensionsPlaceholder": {
+      "title": "Marcador de posición de módulo extensible"
+    }
   },
   "contractHtml": {
     "approvedLabel": "Onay:",
-    "versionLabel": "Sürüm:",
-    "contentHashLabel": "İçerik hash:"
+    "versionLabel": "Surüm:",
+    "contentHashLabel": "Hash İçerik:"
   },
   "extensionsPlaceholder": {
-    "message": "CrewLedger hukuki dosya sistemi genişletilebilir. Yeni özellikler registerDossierCollector() ile eklenir.",
+    "message": "CrewLedger hukuki dosya sistema de genişletilebilir. Continúe registrandoDossierCollector() ile eklenir.",
     "reservedModules": [
-      "leave_requests — İzin / devamsızlık talepleri",
-      "documents — Yüklenen belgeler",
-      "disciplinary — Disiplin kayıtları",
-      "communications — Bildirim ve mesaj logları",
-      "attendance_devices — Cihaz bazlı yoklama"
+      "Leave_requests — İzin / devamsızlık talepleri",
+      "documentos — Yüklenen belgeler",
+      "disciplinario — Disiplin kayıtları",
+      "comunicaciones — Bildirim ve mesaj logları",
+      "Assistance_devices — Cihaz bazlı yoklama"
     ],
-    "integration": "src/lib/legal-dossier/collectors/ altına yeni dosya ekleyip registerDossierCollector çağırın."
+    "integration": "src/lib/legal-dossier/collectors/ altına yeni dosya ekleyip RegisterDossierCollector çağırın."
   }
 }

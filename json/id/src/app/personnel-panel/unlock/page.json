@@ -1,15 +1,15 @@
 {
-  "greeting": "Hello {name}",
+  "greeting": "Halo {name}",
   "pinLabel": "PIN",
-  "unlockButton": "Continue",
-  "unlocking": "Verifying…",
-  "forgotPin": "Forgot PIN",
-  "forgetMe": "Forget me",
-  "forgetMeConfirm": "Your session on this device will be closed. Continue?",
-  "screenLabel": "Lock screen",
-  "subtitle": "Enter your PIN to continue.",
-  "checking": "Loading…",
-  "invalidPin": "Incorrect PIN",
-  "systemError": "Something went wrong",
-  "pinDigitAria": "PIN digit"
+  "unlockButton": "Melanjutkan",
+  "unlocking": "Memverifikasi…",
+  "forgotPin": "Lupa PINnya",
+  "forgetMe": "Lupakan aku",
+  "forgetMeConfirm": "Sesi Anda di perangkat ini akan ditutup. Melanjutkan?",
+  "screenLabel": "Layar kunci",
+  "subtitle": "Masukkan PIN Anda untuk melanjutkan.",
+  "checking": "Memuat…",
+  "invalidPin": "PIN salah",
+  "systemError": "Ada yang tidak beres",
+  "pinDigitAria": "angka PIN"
 }

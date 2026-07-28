@@ -1,4 +1,4 @@
 {
-  "started": "Closure process started. Personnel have been notified.",
-  "failed": "Could not start closure"
+  "started": "閉鎖プロセスが開始されました。担当者には通知済みです。",
+  "failed": "クロージャを開始できませんでした"
 }

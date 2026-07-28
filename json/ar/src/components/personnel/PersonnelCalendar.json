@@ -1,18 +1,26 @@
 {
-  "prevMonth": "Önceki ay",
-  "nextMonth": "Sonraki ay",
-  "thisMonth": "Bu ay",
+  "prevMonth": "Önceki نعم",
+  "nextMonth": "سونراكي آي",
+  "thisMonth": "بو آي",
   "summary": "{recorded} kayıtlı gün · {confirmed} onaylı · {pending} bekleyen",
-  "selectMonth": "Ay seç:",
-  "weekdays": ["Pt", "Sa", "Ça", "Pe", "Cu", "Ct", "Pz"],
+  "selectMonth": "الآن:",
+  "weekdays": [
+    "نقطة",
+    "سا",
+    "جا",
+    "بي",
+    "النحاس",
+    "ط م",
+    "PZ"
+  ],
   "cellTitle": "{date} · {amount} · {status}",
-  "tapForDetail": "Tap a highlighted day for details",
+  "tapForDetail": "اضغط على يوم مميز للحصول على التفاصيل",
   "status": {
-    "confirmed": "Onaylı",
-    "pending_employee": "Sizin onayınız",
+    "confirmed": "أونايلي",
+    "pending_employee": "سيزين أوناينيز",
     "pending_admin": "Yönetici onayı",
-    "disputed": "İtiraz",
-    "none": "İşlemde",
-    "empty": "Kayıt yok"
+    "disputed": "اعتياز",
+    "none": "إسلامدي",
+    "empty": "كايت يوك"
   }
 }

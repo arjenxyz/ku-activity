@@ -1,65 +1,65 @@
 {
   "shell": {
-    "backToPanel": "Back to panel"
+    "backToPanel": "العودة إلى اللوحة"
   },
   "steps": {
-    "upload": "Upload",
-    "analyze": "Scan",
-    "review": "Confirm"
+    "upload": "رفع",
+    "analyze": "مسح",
+    "review": "يتأكد"
   },
-  "trustLabel": "score",
+  "trustLabel": "نتيجة",
   "validation": {
-    "scanRejectedTitle": "Could not read receipt"
+    "scanRejectedTitle": "لا يمكن قراءة الإيصال"
   },
   "errors": {
-    "draftLoadFailed": "Could not load draft",
-    "analyzeFailed": "Analysis failed",
-    "saveFailed": "Save failed"
+    "draftLoadFailed": "تعذر تحميل المسودة",
+    "analyzeFailed": "فشل التحليل",
+    "saveFailed": "فشل الحفظ"
   },
   "success": {
-    "paymentSaved": "Payment recorded.",
-    "doneTitle": "Done",
-    "uploadAnother": "New receipt"
+    "paymentSaved": "تم تسجيل الدفع.",
+    "doneTitle": "منتهي",
+    "uploadAnother": "إيصال جديد"
   },
   "header": {
-    "title": "Receipt scan",
+    "title": "مسح الإيصالات",
     "description": ""
   },
   "upload": {
-    "title": "Drop file here",
-    "description": "PDF or image — or share from your banking app",
-    "selectFile": "Choose file",
-    "fileHint": "PDF, JPG, PNG · max 10 MB"
+    "title": "قم بإسقاط الملف هنا",
+    "description": "PDF أو صورة — أو شاركها من تطبيقك المصرفي",
+    "selectFile": "اختر الملف",
+    "fileHint": "PDF، JPG، PNG · الحد الأقصى 10 ميجابايت"
   },
   "analyze": {
-    "title": "Reading receipt…"
+    "title": "قراءة الإيصال…"
   },
   "review": {
-    "matchTitle": "Match advance",
-    "viewProfile": "Profile",
-    "approvedOn": "Approved {date}",
-    "amountMatch": "Amount",
-    "noMatchTitle": "No matching advance found",
-    "goToProjects": "Go to panel",
-    "referenceLabel": "Reference",
-    "paymentDateLabel": "Payment date",
-    "amountLabel": "Amount (TRY)",
-    "ibanLabel": "Recipient IBAN",
-    "amountHint": "Enter amount from receipt manually",
-    "saveSaving": "Saving…",
-    "savePayment": "Save payment",
-    "anotherDekont": "Another receipt",
-    "transferCodeLabel": "Expected transfer code",
-    "transferCodeHint": "This code should appear on the receipt if you added it to the transfer description",
-    "transferCodeOverride": "Code not readable on receipt — save anyway",
-    "forcePayment": "Force save payment",
-    "forcePaymentHint": "Payment was made before advance approval (within last {maxDays} days). IBAN and amount must match.",
-    "forcePaymentSaving": "Force saving…",
-    "retroactiveTitle": "Retroactive payment (no request)",
-    "retroactiveHint": "Select employee matching IBAN — payment was made earlier",
-    "retroactiveSave": "Save as retroactive payment",
-    "retroactiveNoEmployee": "No employee found with this IBAN",
-    "payrollMonthNotice": "Payment was made on {paymentDate}. This advance will be posted to the {payrollMonth} payroll."
+    "matchTitle": "تقدم المباراة",
+    "viewProfile": "حساب تعريفي",
+    "approvedOn": "تمت الموافقة عليه {date}",
+    "amountMatch": "كمية",
+    "noMatchTitle": "لم يتم العثور على تقدم مطابق",
+    "goToProjects": "اذهب إلى اللوحة",
+    "referenceLabel": "مرجع",
+    "paymentDateLabel": "تاريخ الدفع",
+    "amountLabel": "المبلغ (ليرة تركية)",
+    "ibanLabel": "رقم الحساب المصرفي الدولي للمستلم",
+    "amountHint": "أدخل المبلغ من الاستلام يدويا",
+    "saveSaving": "توفير…",
+    "savePayment": "حفظ الدفع",
+    "anotherDekont": "إيصال آخر",
+    "transferCodeLabel": "رمز النقل المتوقع",
+    "transferCodeHint": "يجب أن يظهر هذا الرمز على الإيصال إذا قمت بإضافته إلى وصف التحويل",
+    "transferCodeOverride": "الرمز غير قابل للقراءة عند الاستلام - احفظه على أي حال",
+    "forcePayment": "فرض حفظ الدفع",
+    "forcePaymentHint": "تم الدفع قبل الموافقة المسبقة (خلال {maxDays} أيام الماضية). يجب أن يتطابق رقم IBAN والمبلغ.",
+    "forcePaymentSaving": "حفظ القوة…",
+    "retroactiveTitle": "الدفع بأثر رجعي (بدون طلب)",
+    "retroactiveHint": "حدد الموظف المطابق لرقم IBAN — تم الدفع مسبقًا",
+    "retroactiveSave": "حفظ كدفعة بأثر رجعي",
+    "retroactiveNoEmployee": "لم يتم العثور على موظف لديه رقم IBAN هذا",
+    "payrollMonthNotice": "تم الدفع على {paymentDate}. سيتم نشر هذه السلفة في كشوف المرتبات {payrollMonth}."
   },
-  "loading": "Loading…"
+  "loading": "تحميل…"
 }

@@ -1,9 +1,17 @@
 {
   "prevMonth": "Önceki ay",
-  "nextMonth": "Sonraki ay",
-  "thisMonth": "Bu ay",
-  "summary": "{mesaiDays} mesai günü · {totalPay} toplam kazanç",
-  "selectMonth": "Ay seç:",
-  "weekdays": ["Pt", "Sa", "Ça", "Pe", "Cu", "Ct", "Pz"],
-  "tapForDetail": "Tap an orange day for details"
+  "nextMonth": "সোনারকি আয়",
+  "thisMonth": "বু অয়",
+  "summary": "{mesaiDays} মেসাই গুনু · {totalPay} টপলাম কাজান",
+  "selectMonth": "আয় সেক:",
+  "weekdays": [
+    "পন্ডিত",
+    "সা",
+    "Ça",
+    "পি",
+    "কু",
+    "Ct",
+    "Pz"
+  ],
+  "tapForDetail": "বিশদ বিবরণের জন্য একটি কমলা দিনে আলতো চাপুন"
 }

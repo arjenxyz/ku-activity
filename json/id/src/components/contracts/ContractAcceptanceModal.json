@@ -1,16 +1,16 @@
 {
-  "stepLabel": "Sözleşme {stepLabel}",
-  "version": "Sürüm {version}",
-  "accepted": " · Onaylandı",
-  "readComplete": " · Okuma tamam",
-  "scrollRequired": " · Metni sonuna kadar kaydırın",
+  "stepLabel": "Unduh {stepLabel}",
+  "version": "Surum {version}",
+  "accepted": "· Onaylandi",
+  "readComplete": "· Okuma tamam",
+  "scrollRequired": "· Metni sonuna kadar kaydırın",
   "close": "Kapat",
   "summaryTitle": "Kısa özet",
   "scrollHint": "Metnin sonuna kadar kaydırın",
-  "acceptedLabel": "Onaylandı",
+  "acceptedLabel": "Onaylandi",
   "closeButton": "Kapat",
-  "consentDesktop": "Özeti ve sözleşme metninin tamamını okudum, anladım ve kurumsal onayımı veriyorum.",
-  "consentMobile": "Metni okudum ve kabul ediyorum.",
+  "consentDesktop": "Özeti dan sözleşme metninin tamamını okudum, anladım dan kurumsal onayımı veriyorum.",
+  "consentMobile": "Metni okudum dan kabul ediyorum.",
   "approve": "Sözleşmeyi onayla",
-  "later": "Daha sonra"
+  "later": "Ya ampun"
 }

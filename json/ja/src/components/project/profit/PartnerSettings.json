@@ -1,9 +1,9 @@
 {
-  "summaryTitle": "Ortak paylaşımı ({count} kişi)",
-  "hint": "Siz dahil kaç kişi kârı eşit paylaşacak? Ortak adları yalnızca etiket içindir.",
-  "shareCountLabel": "Kişi sayısı",
-  "shareCountOption": "{count} kişi",
-  "apply": "Uygula",
-  "partnerNamePlaceholder": "Ortak adı (isteğe bağlı)",
-  "add": "Ekle"
+  "summaryTitle": "オルタク・ペイラシュミ ({count} kişi)",
+  "hint": "お金はかかりますか?または、ヤルヌスカの情報を確認してください。",
+  "shareCountLabel": "キシ・サイス",
+  "shareCountOption": "{count} キシ",
+  "apply": "ウイグラ",
+  "partnerNamePlaceholder": "オルタク アドゥ (isteğe bağlı)",
+  "add": "エクル"
 }

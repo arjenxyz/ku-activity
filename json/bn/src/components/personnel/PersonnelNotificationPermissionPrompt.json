@@ -1,12 +1,12 @@
 {
-  "title": "Enable notifications?",
-  "bodyBrowser": "Allow alerts for attendance reminders, advance approvals, and payroll updates.",
-  "bodyTwa": "Turn on notifications in app settings for attendance, advance, and payroll alerts.",
-  "twaHint": "Settings → Apps → CrewLedger → Notifications",
-  "enableButton": "Enable notifications",
-  "openSettingsButton": "Open app settings",
-  "confirmSettingsButton": "I enabled them, continue",
-  "twaAwaitingSettings": "After returning from settings, tap «I enabled them, continue».",
-  "laterButton": "Not now",
-  "requesting": "Requesting permission…"
+  "title": "বিজ্ঞপ্তি চালু করবেন?",
+  "bodyBrowser": "উপস্থিতি অনুস্মারক, অগ্রিম অনুমোদন, এবং বেতনের আপডেটের জন্য সতর্কতার অনুমতি দিন।",
+  "bodyTwa": "উপস্থিতি, অগ্রিম এবং বেতন সংক্রান্ত সতর্কতার জন্য অ্যাপ সেটিংসে বিজ্ঞপ্তিগুলি চালু করুন।",
+  "twaHint": "সেটিংস → অ্যাপস → ক্রুলেজার → বিজ্ঞপ্তি",
+  "enableButton": "বিজ্ঞপ্তি সক্রিয় করুন",
+  "openSettingsButton": "অ্যাপ সেটিংস খুলুন",
+  "confirmSettingsButton": "আমি তাদের সক্রিয়, চালিয়ে যান",
+  "twaAwaitingSettings": "সেটিংস থেকে ফিরে আসার পরে, \"আমি তাদের সক্ষম করেছি, চালিয়ে যান\" এ আলতো চাপুন।",
+  "laterButton": "এখন না",
+  "requesting": "অনুমতির অনুরোধ করা হচ্ছে..."
 }

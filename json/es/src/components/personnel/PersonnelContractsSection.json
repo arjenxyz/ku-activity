@@ -3,6 +3,6 @@
   "sectionTitle": "Sözleşmelerim",
   "empty": "Onayladığınız sözleşme bulunmuyor.",
   "sectionTitleWithCount": "Sözleşmelerim ({count})",
-  "versionLine": "Sürüm {version} · {date}",
-  "open": "Aç"
+  "versionLine": "Surüm {version} · {date}",
+  "open": "C.A"
 }

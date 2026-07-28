@@ -1,17 +1,25 @@
 {
   "prevMonth": "Önceki ay",
-  "nextMonth": "Sonraki ay",
-  "thisMonth": "Bu ay",
+  "nextMonth": "Sonraki oui",
+  "thisMonth": "Mais oui",
   "summary": "{recorded} kayıtlı gün · {confirmed} onaylı · {pending} bekleyen",
-  "selectMonth": "Ay seç:",
-  "weekdays": ["Pt", "Sa", "Ça", "Pe", "Cu", "Ct", "Pz"],
+  "selectMonth": "Oui, c'est vrai :",
+  "weekdays": [
+    "Pt",
+    "Sa",
+    "Californie",
+    "Pé",
+    "Cu",
+    "CT",
+    "PZ"
+  ],
   "cellTitle": "{date} · {amount} · {status}",
-  "tapForDetail": "Tap a highlighted day for details",
+  "tapForDetail": "Appuyez sur un jour en surbrillance pour plus de détails",
   "status": {
-    "confirmed": "Onaylı",
-    "pending_employee": "Sizin onayınız",
+    "confirmed": "Onayli",
+    "pending_employee": "Taille onayınız",
     "pending_admin": "Yönetici onayı",
-    "disputed": "İtiraz",
+    "disputed": "Itiraz",
     "none": "İşlemde",
     "empty": "Kayıt yok"
   }

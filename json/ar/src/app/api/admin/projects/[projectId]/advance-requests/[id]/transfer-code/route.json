@@ -1,4 +1,4 @@
 {
-  "notFound": "No active transfer code found",
-  "loadFailed": "Could not load transfer code"
+  "notFound": "لم يتم العثور على رمز النقل النشط",
+  "loadFailed": "تعذر تحميل رمز النقل"
 }

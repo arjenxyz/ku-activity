@@ -1,11 +1,11 @@
 {
   "errors": {
-    "downloadFailed": "Project archive download failed",
-    "genericFailed": "Download failed"
+    "downloadFailed": "Pengunduhan arsip proyek gagal",
+    "genericFailed": "Pengunduhan gagal"
   },
-  "loading": "Preparing…",
-  "button": "Download full project archive",
-  "buttonCompact": "Download archive",
-  "hint": "All personnel folders, closure summary, team/block assignments, and wage policy in one ZIP.",
-  "fallbackFilename": "project-closure-archive.zip"
+  "loading": "Mempersiapkan…",
+  "button": "Unduh arsip proyek lengkap",
+  "buttonCompact": "Unduh arsip",
+  "hint": "Semua folder personel, ringkasan penutupan, penugasan tim/blok, dan kebijakan gaji dalam satu ZIP.",
+  "fallbackFilename": "proyek-penutupan-arsip.zip"
 }

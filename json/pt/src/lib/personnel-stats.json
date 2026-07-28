@@ -1,7 +1,7 @@
 {
   "workDay": {
-    "fullDay": "Tam gün",
-    "halfDay": "Yarım gün",
+    "fullDay": "Tam gun",
+    "halfDay": "Yarım gun",
     "dayAmount": "{amount} gün",
     "mesaiCeyrek": "{base} + çeyrek mesai",
     "mesaiYarim": "{base} + yarım mesai",
@@ -20,8 +20,8 @@
     "yarim": "Yarım mesai"
   },
   "workDayCountLines": {
-    "full": "Tam gün",
-    "half": "Yarım gün",
-    "total": "Toplam gün"
+    "full": "Tam gun",
+    "half": "Yarım gun",
+    "total": "Toplam arma"
   }
 }

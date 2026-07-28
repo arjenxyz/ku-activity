@@ -1,17 +1,17 @@
 {
-  "employeesLoadFailed": "Çalışanlar yüklenemedi: {message}",
+  "employeesLoadFailed": "çalışanlar yüklenemedi: {message}",
   "requiredFields": "Lütfen tüm zorunlu alanları doldurun.",
-  "saveError": "Kayıt hatası: {message}",
+  "saveError": "اسم العنوان: {message}",
   "saveSuccess": "Kayıt başarıyla eklendi!",
-  "title": "Yevmiye Kaydı Oluştur",
+  "title": "يفمي كايدي أولوشتور",
   "subtitle": "Günlük veya yarım günlük çalışma kayıtlarını buradan kolayca ekleyebilirsiniz.",
-  "employeeLabel": "İşçi",
+  "employeeLabel": "جيد",
   "selectEmployee": "İşçi Seçiniz",
-  "dateLabel": "Tarih",
-  "durationLabel": "Çalışma Süresi",
-  "fullDay": "Tam Gün",
-  "halfDay": "Yarım Gün",
-  "descriptionLabel": "Açıklama",
-  "descriptionPlaceholder": "(İsteğe bağlı) Örn: Erken çıktı, yağmur vardı...",
-  "saveButton": "Kaydet"
+  "dateLabel": "تاريخ",
+  "durationLabel": "كاليشما سوريسي",
+  "fullDay": "تام جون",
+  "halfDay": "ياريم غون",
+  "descriptionLabel": "أجيكلاما",
+  "descriptionPlaceholder": "(İsteğe bağlı) Örn: Erken çıktı، yağmur vardı...",
+  "saveButton": "كايديت"
 }

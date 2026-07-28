@@ -37,7 +37,7 @@
     "loading": "Verzióinformációk betöltése…",
     "loadFailed": "Nem sikerült betölteni a verzióadatokat",
     "checkUpdates": "Kiadási megjegyzések megtekintése",
-    "apkHint": "If a new version is available, install it from the APK download page."
+    "apkHint": "Ha elérhető új verzió, telepítse az APK letöltési oldaláról."
   },
   "data": {
     "clearLabel": "Törölje a gyorsítótárat ezen a telefonon",

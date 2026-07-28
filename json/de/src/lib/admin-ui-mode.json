@@ -1,20 +1,20 @@
 {
   "modeLabels": {
-    "simple": "Simple",
-    "advanced": "Advanced"
+    "simple": "Einfach",
+    "advanced": "Fortschrittlich"
   },
   "simpleMenu": {
     "summary": {
-      "label": "Project overview",
-      "hint": "Personnel list and daily status"
+      "label": "Projektübersicht",
+      "hint": "Personalliste und Tagesstatus"
     },
     "approval": {
-      "label": "Application approval",
-      "hint": "New personnel applications"
+      "label": "Antragsgenehmigung",
+      "hint": "Neue Personalbewerbungen"
     },
     "attendance": {
-      "label": "Attendance / QR",
-      "hint": "Day, overtime and timesheet are planned here"
+      "label": "Anwesenheit / QR",
+      "hint": "Hier werden Tag, Überstunden und Stundenzettel geplant"
     }
   }
 }

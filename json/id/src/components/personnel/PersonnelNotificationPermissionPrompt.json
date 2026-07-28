@@ -1,12 +1,12 @@
 {
-  "title": "Enable notifications?",
-  "bodyBrowser": "Allow alerts for attendance reminders, advance approvals, and payroll updates.",
-  "bodyTwa": "Turn on notifications in app settings for attendance, advance, and payroll alerts.",
-  "twaHint": "Settings → Apps → CrewLedger → Notifications",
-  "enableButton": "Enable notifications",
-  "openSettingsButton": "Open app settings",
-  "confirmSettingsButton": "I enabled them, continue",
-  "twaAwaitingSettings": "After returning from settings, tap «I enabled them, continue».",
-  "laterButton": "Not now",
-  "requesting": "Requesting permission…"
+  "title": "Aktifkan notifikasi?",
+  "bodyBrowser": "Izinkan peringatan untuk pengingat kehadiran, persetujuan di muka, dan pembaruan penggajian.",
+  "bodyTwa": "Aktifkan notifikasi di pengaturan aplikasi untuk pemberitahuan kehadiran, pembayaran di muka, dan penggajian.",
+  "twaHint": "Pengaturan → Aplikasi → CrewLedger → Notifikasi",
+  "enableButton": "Aktifkan notifikasi",
+  "openSettingsButton": "Buka pengaturan aplikasi",
+  "confirmSettingsButton": "Saya mengaktifkannya, lanjutkan",
+  "twaAwaitingSettings": "Setelah kembali dari pengaturan, ketuk «Saya mengaktifkannya, lanjutkan».",
+  "laterButton": "Tidak sekarang",
+  "requesting": "Meminta izin…"
 }

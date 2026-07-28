@@ -3,7 +3,15 @@
   "nextMonth": "Sonraki ay",
   "thisMonth": "Bu ay",
   "summary": "{mesaiDays} mesai günü · {totalPay} toplam kazanç",
-  "selectMonth": "Ay seç:",
-  "weekdays": ["Pt", "Sa", "Ça", "Pe", "Cu", "Ct", "Pz"],
-  "tapForDetail": "Tap an orange day for details"
+  "selectMonth": "Ay sección:",
+  "weekdays": [
+    "punto",
+    "sa",
+    "California",
+    "pe",
+    "Cu",
+    "Connecticut",
+    "pz"
+  ],
+  "tapForDetail": "Toca un día naranja para obtener más detalles"
 }

@@ -1,11 +1,11 @@
 {
   "errors": {
-    "downloadFailed": "Project archive download failed",
-    "genericFailed": "Download failed"
+    "downloadFailed": "Échec du téléchargement de l'archive du projet",
+    "genericFailed": "Le téléchargement a échoué"
   },
-  "loading": "Preparing…",
-  "button": "Download full project archive",
-  "buttonCompact": "Download archive",
-  "hint": "All personnel folders, closure summary, team/block assignments, and wage policy in one ZIP.",
-  "fallbackFilename": "project-closure-archive.zip"
+  "loading": "Préparation…",
+  "button": "Télécharger l'archive complète du projet",
+  "buttonCompact": "Télécharger les archives",
+  "hint": "Tous les dossiers du personnel, le résumé de fermeture, les affectations d'équipes/blocs et la politique salariale dans un seul ZIP.",
+  "fallbackFilename": "projet-clôture-archive.zip"
 }

@@ -1,5 +1,5 @@
 {
-  "invalidId": "Invalid record id",
-  "invalidBody": "Invalid request body",
-  "invalidAmount": "Day amount must be 0.5 or 1"
+  "invalidId": "ID de registro no válido",
+  "invalidBody": "Cuerpo de solicitud no válido",
+  "invalidAmount": "La cantidad del día debe ser 0,5 o 1"
 }

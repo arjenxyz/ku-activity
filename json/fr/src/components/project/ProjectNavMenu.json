@@ -1,8 +1,8 @@
 {
   "dailySimple": "Günlük işlemler",
-  "daily": "Günlük",
-  "menu": "Menü",
+  "daily": "Gunlük",
+  "menu": "Menu",
   "recordHistoryLabel": "Kayıt geçmişi",
   "uiSection": "Arayüz",
-  "simpleModeHint": "Gelişmiş mod: taşeron kârı, bloklar, bordro ve arşiv."
+  "simpleModeHint": "Modalités : taşeron kârı, bloklar, bordro e arşiv."
 }

@@ -1,28 +1,28 @@
 {
   "loading": "Asgari bilgileriniz yükleniyor…",
-  "retry": "Tekrar dene",
-  "policyNotConfigured": "İşveren henüz maaş politikasını tanımlamamış. Gösterilen tutarlar varsayılan kurallara göredir.",
-  "estimatedRemaining": "tahmini kalan",
+  "retry": "ٹیکرر دینا",
+  "policyNotConfigured": "İşveren henüz maaş politikasını tanımlamamış۔ Gösterilen tutarlar varsayılan kurallara göredir.",
+  "estimatedRemaining": "تہمینی کلاں",
   "noExtraCompletion": "Ek tamamlama gerekmiyor",
   "progressLabel": "Yevmiye + ödenen asgari",
   "targetLine": "Hedef: {amount} (dönem tavanı)",
-  "howCalculated": "Nasıl hesaplanır?",
-  "fullPeriod": "Tam dönem",
+  "howCalculated": "Nasıl hesaplanır؟",
+  "fullPeriod": "تم دن",
   "approvedDaysHint": "{days} onaylı gün",
   "paymentTimingTitle": "Ödeme zamanı (işveren kuralı)",
   "recordsTitle": "Asgari ödemeler · {month}",
   "emptyRecords": "Bu dönemde henüz asgari ödeme kaydı yok",
-  "defaultRecordDescription": "Asgari tamamlama",
-  "total": "Toplam: {amount}",
+  "defaultRecordDescription": "اصغری تملامہ",
+  "total": "ٹاپلام: {amount}",
   "faqTitle": "Sık sorulanlar",
   "faq": {
     "whatIs": {
-      "question": "Asgari tamamlama nedir?",
-      "answer": "Onaylı yevmiye toplamınız, işverenin belirlediği dönem tavanının altındaysa aradaki fark asgari tamamlama olarak ödenebilir."
+      "question": "Asgari tamalamama nedir?",
+      "answer": "Onaylı yevmiye toplamınız، işverenin belirlediği dönem tavanının altındaysa aradaki fark asgari tamamlama olarak ödenebilir."
     },
     "whenFinal": {
-      "question": "Kesin tutar ne zaman belli olur?",
-      "answer": "Buradaki kalan tutar tahminidir. Kesin ödeme işveren / taşeron kayıtlarına göre belirlenir."
+      "question": "کسن توتر نی زمان بیلی اولور؟",
+      "answer": "برادکی کلاں توتار تہمنیدر۔ Kesin ödeme işveren / taşeron kayıtlarına göre belirlenir."
     },
     "hireDate": "İşe giriş:",
     "hireDateNote": "{date} — dönem tavanı buna göre oranlanmış olabilir."
@@ -37,24 +37,24 @@
       "sub": "Bir kısmı yatırıldı; kalan tutar işveren tarafından tamamlanabilir."
     },
     "open": {
-      "label": "Bekleyen tamamlama",
+      "label": "بیکلیین تملامہ",
       "sub": "Onaylı yevmiyeniz dönem tavanının altında; fark henüz ödenmemiş olabilir."
     },
     "default": {
-      "label": "Bilgi",
+      "label": "بلجی",
       "sub": "Bu dönem için asgari hesaplaması henüz oluşmadı."
     }
   },
   "stats": {
     "approvedGross": "Onaylı yevmiye",
-    "eligibleMinimum": "Hak edilen asgari",
+    "eligibleMinimum": "ہاک ایڈیلن اصغری",
     "minimumPaid": "Ödenen asgari",
-    "remainingGap": "Kalan (tahmini)"
+    "remainingGap": "کلاں (تہمنی)"
   },
   "calcRows": {
     "approvedGross": "Onaylı yevmiye",
     "eligibleMinimum": "Dönem asgari tavanı",
-    "minimumPaid": "Ödenen tamamlama",
-    "remainingGap": "Tahmini kalan"
+    "minimumPaid": "Ödenen tamalamama",
+    "remainingGap": "تہمینی کلاں"
   }
 }

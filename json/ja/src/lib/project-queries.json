@@ -1,6 +1,6 @@
 {
-  "systemError": "Sistem hatası",
-  "unauthorized": "Oturum yok veya yönetici yetkisi gerekli",
-  "forbidden": "Bu projeye erişim yetkiniz yok",
-  "missingServiceRoleKey": "Sunucu yapılandırması eksik (SERVICE_ROLE_KEY)"
+  "systemError": "システムハタシュ",
+  "unauthorized": "オトゥルム ヨーク ヴェヤ ヨネチ イエティキシ ゲレクリ",
+  "forbidden": "ブ・プロジェクト・エリシム・イエトキニズ・ヨーク",
+  "missingServiceRoleKey": "スヌク ヤピランドルマス エクシク (SERVICE_ROLE_KEY)"
 }

@@ -1,9 +1,9 @@
 {
-  "ariaLabel": "Arayüz modu",
-  "simpleTitle": "Yoklama, yevmiye, avans ve onaylar",
+  "ariaLabel": "আরায়ুজ মোডু",
+  "simpleTitle": "ইয়োক্লামা, ইয়েভমিয়ে, আভান্স ভে ওনাইলার",
   "advancedTitle": "Blok, kâr, raporlar ve tüm ayarlar",
-  "simpleCompact": "Basit",
-  "advancedCompact": "Gelişmiş",
-  "simple": "Basit",
-  "advanced": "Gelişmiş"
+  "simpleCompact": "বাসিত",
+  "advancedCompact": "জেলিসমিস",
+  "simple": "বাসিত",
+  "advanced": "জেলিসমিস"
 }

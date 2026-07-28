@@ -1,17 +1,17 @@
 {
-  "buttonDefault": "Sign In",
-  "closeOverlayAriaLabel": "Close sign-in menu",
-  "closeButtonAriaLabel": "Close",
-  "modalTitle": "Choose sign-in",
-  "footerNote": "Choose the panel that matches your role to sign in.",
+  "buttonDefault": "সাইন ইন করুন",
+  "closeOverlayAriaLabel": "সাইন-ইন মেনু বন্ধ করুন",
+  "closeButtonAriaLabel": "বন্ধ",
+  "modalTitle": "সাইন-ইন নির্বাচন করুন",
+  "footerNote": "সাইন ইন করার জন্য আপনার ভূমিকার সাথে মেলে এমন প্যানেলটি বেছে নিন।",
   "panels": {
     "personel": {
-      "title": "Personnel",
-      "description": "Attendance, wages, and payroll"
+      "title": "কর্মী",
+      "description": "উপস্থিতি, মজুরি, এবং বেতন"
     },
     "admin": {
-      "title": "Admin",
-      "description": "Projects, approvals, and reports"
+      "title": "অ্যাডমিন",
+      "description": "প্রকল্প, অনুমোদন, এবং রিপোর্ট"
     }
   }
 }

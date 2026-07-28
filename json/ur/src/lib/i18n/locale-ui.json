@@ -1,9 +1,9 @@
 {
-  "switchAriaLabel": "Select language",
-  "menuTitle": "Language",
-  "modalTitle": "Select language",
-  "closeButtonAriaLabel": "Close",
-  "closeOverlayAriaLabel": "Close",
-  "footerNote": "Your choice is saved on this device.",
+  "switchAriaLabel": "زبان منتخب کریں۔",
+  "menuTitle": "زبان",
+  "modalTitle": "زبان منتخب کریں۔",
+  "closeButtonAriaLabel": "بند",
+  "closeOverlayAriaLabel": "بند",
+  "footerNote": "آپ کا انتخاب اس آلہ پر محفوظ ہے۔",
   "exitHint": "باہر نکلنے کے لیے تھپتھپائیں"
 }

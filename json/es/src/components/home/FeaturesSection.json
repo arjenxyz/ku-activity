@@ -1,39 +1,39 @@
 {
-  "sectionBadge": "Platform Features",
-  "sectionTitle": "Real modules from timesheets to payroll",
-  "sectionSubtitle": "Daily wages, overtime, advances, deductions, minimum wage top-ups, and payroll are managed per project. The personnel app shows the same records as the admin panel.",
-  "marqueePaused": "Paused — tap the box again to resume",
-  "marqueeHint": "Swipe with your finger; scrolling pauses the flow, tap the box to pin it",
+  "sectionBadge": "Características de la plataforma",
+  "sectionTitle": "Módulos reales desde hojas de horas hasta nómina",
+  "sectionSubtitle": "Los jornales, horas extras, anticipos, deducciones, complementos de salario mínimo y nómina se gestionan por proyecto. La aplicación de personal muestra los mismos registros que el panel de administración.",
+  "marqueePaused": "En pausa: toca el cuadro nuevamente para reanudar",
+  "marqueeHint": "Desliza el dedo; al desplazarse se detiene el flujo, toque el cuadro para fijarlo",
   "features": [
     {
-      "title": "Dual-Approved Daily Wages",
-      "tag": "Timesheets",
-      "description": "Full/half-day attendance and quarter, half, or full overtime entries. Admin enters; personnel approves or disputes — records are not finalized without both sides."
+      "title": "Salario diario doblemente aprobado",
+      "tag": "Hojas de tiempo",
+      "description": "Asistencia de jornada completa/media jornada y entradas de horas extras de un cuarto, media o completa. El administrador entra; el personal lo aprueba o lo disputa: los registros no se finalizan sin ambas partes."
     },
     {
-      "title": "Advances & Deductions",
-      "tag": "Finance",
-      "description": "Project-based advance and deduction entries. Gross, advance, deduction, and net amounts are calculated with the same formula in payroll and the personnel finance tab."
+      "title": "Anticipos y Deducciones",
+      "tag": "Finanzas",
+      "description": "Entradas de anticipos y deducciones basadas en proyectos. Los montos brutos, anticipos, deducciones y netos se calculan con la misma fórmula en la pestaña de nómina y finanzas de personal."
     },
     {
-      "title": "Minimum Wage Top-Up",
-      "tag": "Policy",
-      "description": "Earned, paid, and remaining amounts per company and project wage policy. Subcontractor gap suggestions; personnel see the breakdown in the minimum wage tab."
+      "title": "Recarga de salario mínimo",
+      "tag": "Política",
+      "description": "Montos ganados, pagados y restantes por política salarial de la empresa y del proyecto. Sugerencias sobre brechas de subcontratistas; El personal ve el desglose en la pestaña de salario mínimo."
     },
     {
-      "title": "Project-Based Sites",
-      "tag": "Operations",
-      "description": "Each site is a separate project; personnel, blocks, teams, and finance records stay within the project. Admins only access projects they created."
+      "title": "Sitios basados ​​en proyectos",
+      "tag": "Operaciones",
+      "description": "Cada sitio es un proyecto separado; El personal, los bloques, los equipos y los registros financieros permanecen dentro del proyecto. Los administradores solo acceden a los proyectos que crearon."
     },
     {
-      "title": "Reports & Payroll",
-      "tag": "Reporting",
-      "description": "Approved and pending daily wages, open personnel disputes, payroll runs, and archive queries for wages, advances, and deductions."
+      "title": "Informes y Nómina",
+      "tag": "Informes",
+      "description": "Salarios diarios aprobados y pendientes, disputas abiertas de personal, ejecuciones de nómina y consultas de archivo de salarios, anticipos y deducciones."
     },
     {
-      "title": "Personnel App",
-      "tag": "Mobile PWA",
-      "description": "Install as a PWA on your phone. Overview, daily wages, overtime, finance, minimum wage, and rights tabs — fed from the same database as the admin panel."
+      "title": "Aplicación de personal",
+      "tag": "PWA móvil",
+      "description": "Instálelo como PWA en su teléfono. Pestañas de descripción general, salario diario, horas extras, finanzas, salario mínimo y derechos, alimentadas desde la misma base de datos que el panel de administración."
     }
   ]
 }

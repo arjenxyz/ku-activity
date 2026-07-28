@@ -1,15 +1,15 @@
 {
-  "ariaLabel": "Selfie kamerası",
-  "title": "Selfie çek",
-  "close": "Kapat",
-  "opening": "Kamera açılıyor…",
+  "ariaLabel": "سیلفی کیمرے",
+  "title": "سیلفی لیں۔",
+  "close": "کپت",
+  "opening": "کیمرہ درست…",
   "browserUnsupported": "Tarayıcınız kamera erişimini desteklemiyor.",
-  "permissionDenied": "Kamera izni verilmedi. Tarayıcı ayarlarından izin verin.",
-  "notFound": "Kamera bulunamadı.",
-  "openFailed": "Kamera açılamadı. Aşağıdaki alternatifi deneyin.",
-  "openNativeCamera": "Telefon kamerasını aç",
-  "faceHint": "Yüzünüz oval çerçeveye gelsin",
-  "cancel": "İptal",
+  "permissionDenied": "Camera izni verilmedi. Tarayıcı ayarlarından izin verin.",
+  "notFound": "Camera bulunamadı.",
+  "openFailed": "Camera açılamadı. Aşağıdaki alternatifi deneyin.",
+  "openNativeCamera": "ٹیلی فون kamerasını aç",
+  "faceHint": "Yüzünüz اوول çerçeveye gelsin",
+  "cancel": "اپٹال",
   "captureAriaLabel": "Fotoğrafı al",
-  "nativeCamera": "Telefon kamerası"
+  "nativeCamera": "ٹیلی فون کیمرے"
 }
