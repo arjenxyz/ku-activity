@@ -1,8 +1,8 @@
 {
-  "title": "Gönüllülük Projesi",
+  "title": "Генюллюлюк Проекти",
   "developerLine": "{name}, {developerName} tarafından geliştirilmiş {nature}dur.",
   "noCompanyLine": "{establishedNote}",
-  "optionalUseLine": "Hiçbir yönetici veya işveren, personeli bu platformu kullanmaya zorlayamaz. Kullanım tamamen gönüllüdür.",
-  "transparencyLine": "Yevmiye, avans, kesinti, asgari ücret, yoklama ve puantaj kayıtları hem yönetici hem personel panelinde görülebilir; amaç finansal takibi dijital ve şeffaf kılmaktır.",
+  "optionalUseLine": "Hiçbir yönetici veya işveren, персонал на платформе kullanmaya zorlayamaz. Кулланым тамамен гёнюллюдур.",
+  "transparencyLine": "Евмие, аванс, кесинти, асгари юкрет, йоклама и пуантадж кайытлары хем йёнетичи хем персональные панели горюлебилир; финансовые расходы и финансовые затраты.",
   "legalLine": "{legalDisclaimer}"
 }

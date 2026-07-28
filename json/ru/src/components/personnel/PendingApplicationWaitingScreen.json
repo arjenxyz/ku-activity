@@ -1,10 +1,10 @@
 {
-  "badge": "Onay bekleniyor",
-  "instruction": "QR kodu veya başvuru kodunu yöneticinize gösterin.",
-  "codeLabel": "Başvuru kodu",
-  "copyAriaLabel": "Başvuru kodunu kopyala",
-  "copied": "Kopyalandı ✓",
-  "tapToCopy": "Kopyalamak için dokunun",
-  "autoUpdateHint": "Yönetici onaylayınca bu ekran otomatik güncellenir.",
-  "signOut": "Bu cihazda çıkış"
+  "badge": "Онай беклениейор",
+  "instruction": "QR-код вводит код, который можно использовать для получения сертификата.",
+  "codeLabel": "Башвуру коду",
+  "copyAriaLabel": "Башвуру кодуну копьяла",
+  "copied": "Копьяланды ✓",
+  "tapToCopy": "Копьяламак в документации",
+  "autoUpdateHint": "На экране появится автоматический отводной экран.",
+  "signOut": "Бу джихазда чикыш"
 }

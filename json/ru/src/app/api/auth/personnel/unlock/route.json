@@ -1,6 +1,6 @@
 {
-  "unauthorized": "Invalid session",
-  "invalidPin": "Incorrect PIN",
-  "unlockRequired": "Unlock required",
-  "failed": "Operation failed"
+  "unauthorized": "Неверный сеанс",
+  "invalidPin": "Неправильный PIN-код",
+  "unlockRequired": "Требуется разблокировка",
+  "failed": "Операция не удалась"
 }

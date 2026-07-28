@@ -1,11 +1,11 @@
 {
-  "employeeAmountRequired": "Personel ve tutar zorunludur.",
+  "employeeAmountRequired": "Персонал и все, что нужно.",
   "successCreated": "Avans kaydı oluşturuldu.",
-  "saveFailed": "Kayıt başarısız",
-  "pageTitle": "Avans Ekle",
-  "pageDescription": "Personele avans kaydı girin. İsteğe bağlı iş kalemine bağlayarak taşeron kârına yansıtın.",
-  "formTitle": "Yeni Avans",
-  "labelDate": "Tarih",
-  "labelAmount": "Tutar (₺)",
-  "labelDescription": "Açıklama"
+  "saveFailed": "Кайыт Башарисыз",
+  "pageTitle": "Аванс Экле",
+  "pageDescription": "Персонал всегда готов к работе. İsteğe bağlı ş kalemine bağlayarak taseron kârına yansıtın.",
+  "formTitle": "Ени Аванс",
+  "labelDate": "Тарих",
+  "labelAmount": "Тутар (₺)",
+  "labelDescription": "Ачиклама"
 }

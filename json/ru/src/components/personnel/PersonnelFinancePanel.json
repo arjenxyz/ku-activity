@@ -1,14 +1,14 @@
 {
-  "sectionTitle": "Maaş dökümü",
-  "printTitle": "Detaylı döküm",
-  "printHint": "Yazdır veya PDF kaydet",
+  "sectionTitle": "Мааш докуму",
+  "printTitle": "Подробные сведения",
+  "printHint": "Йездыр вея PDF кайдет",
   "rows": {
-    "basePay": "Yevmiye (gün × ücret)",
-    "mesaiPay": "Mesai kazancı (+)",
-    "gross": "Brüt toplam",
-    "advances": "Avanslar (−)",
-    "deductions": "Kesintiler (−)",
-    "minimum": "Asgari ödemeler (+)"
+    "basePay": "Евмие (gün × ücret)",
+    "mesaiPay": "Месаи казанджи (+)",
+    "gross": "Брют топлам",
+    "advances": "Аванслар (−)",
+    "deductions": "Кесинтилер (-)",
+    "minimum": "Асгари Одемелер (+)"
   },
-  "net": "Net"
+  "net": "Сеть"
 }

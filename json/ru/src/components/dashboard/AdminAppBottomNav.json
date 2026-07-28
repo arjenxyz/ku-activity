@@ -1,8 +1,8 @@
 {
-  "navAriaLabel": "Admin main menu",
-  "projects": "Projects",
-  "applications": "Applications",
-  "policy": "Wages",
-  "settings": "Settings",
-  "arjen": "Arjen"
+  "navAriaLabel": "Главное меню администратора",
+  "projects": "Проекты",
+  "applications": "Приложения",
+  "policy": "Заработная плата",
+  "settings": "Настройки",
+  "arjen": "Арьен"
 }

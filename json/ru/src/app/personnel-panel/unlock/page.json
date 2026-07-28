@@ -1,15 +1,15 @@
 {
-  "greeting": "Hello {name}",
+  "greeting": "Привет {name}",
   "pinLabel": "PIN",
-  "unlockButton": "Continue",
-  "unlocking": "Verifying…",
-  "forgotPin": "Forgot PIN",
-  "forgetMe": "Forget me",
-  "forgetMeConfirm": "Your session on this device will be closed. Continue?",
-  "screenLabel": "Lock screen",
-  "subtitle": "Enter your PIN to continue.",
-  "checking": "Loading…",
-  "invalidPin": "Incorrect PIN",
-  "systemError": "Something went wrong",
-  "pinDigitAria": "PIN digit"
+  "unlockButton": "Продолжать",
+  "unlocking": "Проверка…",
+  "forgotPin": "Забыл PIN-код",
+  "forgetMe": "Забудь меня",
+  "forgetMeConfirm": "Ваш сеанс на этом устройстве будет закрыт. Продолжать?",
+  "screenLabel": "Экран блокировки",
+  "subtitle": "Введите свой PIN-код, чтобы продолжить.",
+  "checking": "Загрузка…",
+  "invalidPin": "Неправильный PIN-код",
+  "systemError": "Что-то пошло не так",
+  "pinDigitAria": "ПИН-цифра"
 }

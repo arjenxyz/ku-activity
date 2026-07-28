@@ -1,23 +1,23 @@
 {
-  "invalidQrDefault": "Görselde geçerli başvuru QR kodu bulunamadı.",
+  "invalidQrDefault": "Нажмите QR-код, чтобы получить доступ к QR-коду.",
   "errors": {
-    "elementNotReady": "Kamera alanı hazırlanamadı. Sayfayı yenileyip tekrar deneyin.",
-    "cameraNotSupported": "Tarayıcınız kamera erişimini desteklemiyor.",
-    "secureContextRequired": "Kamera yalnızca HTTPS veya localhost üzerinde çalışır.",
-    "permissionDenied": "Kamera izni verilmedi. Tarayıcı adres çubuğundaki kamera ikonundan izin verin.",
-    "cameraNotFound": "Kamera bulunamadı. USB/webcam bağlı mı kontrol edin.",
-    "cameraOpenFailed": "Kamera açılamadı. Farklı tarayıcı deneyin, QR görseli yükleyin veya kodu elle girin.",
-    "qrReadNoCode": "QR okundu ancak geçerli başvuru kodu bulunamadı. Personelin başvuru ekranındaki QR kodunu gösterin.",
-    "noQrInImage": "Görselde QR kodu bulunamadı. Daha net bir ekran görüntüsü deneyin.",
-    "imageScanFailed": "QR görseli okunamadı. Başvuru kodunu elle girebilirsiniz."
+    "elementNotReady": "Камера находится в зоне действия камеры. Sayfayı yenileyip tekrar deneyin.",
+    "cameraNotSupported": "Камера закрыта.",
+    "secureContextRequired": "Камера поддерживает HTTPS с подключением к локальному хосту.",
+    "permissionDenied": "Камера изни верилмеди. Адрес камеры указан как значок камеры.",
+    "cameraNotFound": "Камера булунамады. USB/веб-камера позволяет мне управлять устройством.",
+    "cameraOpenFailed": "Камера установлена. Чтобы получить доступ к QR-коду, выберите код доступа.",
+    "qrReadNoCode": "QR-код будет закрыт. Персональный экран на экране QR-кода.",
+    "noQrInImage": "Откройте QR-код. Daha net bir ekran gorüntüsü deneyin.",
+    "imageScanFailed": "QR-код открыт. Башвуру кодуну elle girebilirsiniz."
   },
-  "scanWithCamera": "Kamera ile QR Tara",
-  "openingCamera": "Kamera açılıyor…",
-  "uploadQrImage": "QR Görseli Yükle",
-  "scanningFile": "Okunuyor…",
-  "stopScan": "Taramayı Durdur",
-  "rawScanPrefix": "Okunan:",
-  "startingCamera": "Kamera başlatılıyor, lütfen bekleyin…",
-  "activeHint": "Personelin başvuru ekranındaki QR kodunu kameraya gösterin. Önizleme aynalı görünebilir; okuma her yönden çalışır. Okumazsa alttaki ARJ- kodunu yazın — otomatik doğrulanır.",
-  "idleHint": "PC'de kamera açılmazsa QR ekran görüntüsünü yükleyin veya başvuru kodunu elle girin."
+  "scanWithCamera": "Камера и QR Тара",
+  "openingCamera": "Камера ачилийор…",
+  "uploadQrImage": "QR Гёрсели Юкле",
+  "scanningFile": "Окунуёр…",
+  "stopScan": "Тарамайи Дурдур",
+  "rawScanPrefix": "Окунан:",
+  "startingCamera": "Камера başlatılıyor, lütfen bekleyin…",
+  "activeHint": "Персональный экран на экране QR-кода камеры. Önizleme aynalı görünebilir; Окума ее йонден чалышир. Okumazsa alttaki ARJ- кодуну языка — otomatik doğrulanır.",
+  "idleHint": "Камера на ПК активирует QR-экран, который можно использовать для ввода кода доступа."
 }

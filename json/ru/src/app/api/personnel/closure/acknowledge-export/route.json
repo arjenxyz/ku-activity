@@ -1,5 +1,5 @@
 {
-  "failed": "Record could not be updated",
-  "consentRequired": "You must accept closure consent first",
-  "downloadRequired": "You must download your data first"
+  "failed": "Запись не удалось обновить",
+  "consentRequired": "Сначала вы должны принять согласие на закрытие",
+  "downloadRequired": "Сначала вы должны загрузить свои данные"
 }

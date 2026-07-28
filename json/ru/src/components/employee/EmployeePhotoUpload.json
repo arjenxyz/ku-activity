@@ -1,11 +1,11 @@
 {
-  "uploadFailed": "Yükleme başarısız",
-  "removeConfirm": "Fotoğrafı kaldırmak istediğinize emin misiniz?",
-  "deleteFailed": "Silinemedi",
-  "uploadTitle": "Fotoğraf yükle",
-  "formatHint": "JPEG, PNG, WebP · max 5 MB",
-  "uploading": "Yükleniyor…",
-  "change": "Değiştir",
-  "upload": "Yükle",
-  "remove": "Kaldır"
+  "uploadFailed": "Юклеме Башарисыз",
+  "removeConfirm": "Фотография kaldırmak istediğinize emin misiniz?",
+  "deleteFailed": "Силинемеди",
+  "uploadTitle": "Фотограф Юкле",
+  "formatHint": "JPEG, PNG, WebP · максимум 5 МБ",
+  "uploading": "Юклениёр…",
+  "change": "Дегиштир",
+  "upload": "Юкле",
+  "remove": "Калдыр"
 }

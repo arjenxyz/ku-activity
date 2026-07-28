@@ -1,11 +1,11 @@
 {
-  "loadingProjects": "Projeler yükleniyor…",
-  "title": "Başvuru onayı",
-  "noProjects": "Önce aktif bir proje oluşturmalısınız.",
-  "goToProjects": "Projelere git",
-  "redirecting": "Yönlendiriliyor…",
-  "selectProjectIntro": "Başvuruyu hangi projeye ekleyeceğinizi seçin",
-  "codeWillCarry": " kodu taşınacak)",
-  "allProjects": "← Tüm projeler",
-  "loading": "Yükleniyor…"
+  "loadingProjects": "Прожелер yükleniyor…",
+  "title": "Башвуру онайы",
+  "noProjects": "Однажды активируется проект oluşturmalısınız.",
+  "goToProjects": "Проект git",
+  "redirecting": "Ёнлендирилиёр…",
+  "selectProjectIntro": "Подробный проект проекта ekleyeceğinizi в этом разделе",
+  "codeWillCarry": "коду ташинаджак)",
+  "allProjects": "← Тюм прожелер",
+  "loading": "Юклениёр…"
 }

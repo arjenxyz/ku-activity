@@ -1,24 +1,24 @@
 {
-  "badge": "Today's attendance",
-  "shiftHours": "Work hours {start}{end}",
-  "shiftEnd": " – {end}",
-  "confirmed": "You are registered for the full day",
-  "notConfirmed": "No attendance yet",
-  "scanQr": "Scan supervisor QR",
-  "rescanQr": "Scan QR again",
-  "loadFailed": "Could not load",
+  "badge": "Сегодняшняя посещаемость",
+  "shiftHours": "Часы работы {start}{end}",
+  "shiftEnd": "– {end}",
+  "confirmed": "Вы зарегистрированы на полный день",
+  "notConfirmed": "Пока нет посещений",
+  "scanQr": "Сканировать супервизор QR",
+  "rescanQr": "Сканируйте QR еще раз",
+  "loadFailed": "Не удалось загрузить",
   "states": {
     "waiting": {
-      "title": "You are on the attendance list",
-      "hint": "Wait until your supervisor completes attendance."
+      "title": "Вы в списке участников",
+      "hint": "Подождите, пока ваш руководитель завершит явку."
     },
     "cancelled": {
-      "title": "Attendance cancelled",
-      "hint": "Your supervisor cancelled this session. Please contact them."
+      "title": "Посещение отменено",
+      "hint": "Ваш руководитель отменил этот сеанс. Пожалуйста, свяжитесь с ними."
     },
     "removed": {
-      "title": "Removed from the list",
-      "hint": "Scan a new QR code or speak with your supervisor."
+      "title": "Удален из списка",
+      "hint": "Отсканируйте новый QR-код или поговорите со своим руководителем."
     }
   }
 }

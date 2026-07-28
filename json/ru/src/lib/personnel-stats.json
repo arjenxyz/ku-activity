@@ -1,27 +1,27 @@
 {
   "workDay": {
-    "fullDay": "Tam gün",
-    "halfDay": "Yarım gün",
-    "dayAmount": "{amount} gün",
-    "mesaiCeyrek": "{base} + çeyrek mesai",
-    "mesaiYarim": "{base} + yarım mesai",
-    "mesaiTam": "{base} + tam mesai"
+    "fullDay": "Там Гюн",
+    "halfDay": "Ярим Гюн",
+    "dayAmount": "{amount} пистолет",
+    "mesaiCeyrek": "{base} + Чейрек Месаи",
+    "mesaiYarim": "{base} + ярим месай",
+    "mesaiTam": "{base} + там месай"
   },
   "deductionTypes": {
-    "advance": "Avans",
-    "deduction": "Kesinti",
-    "other": "Diğer",
-    "subcontractor_cut": "Taşeron kesintisi",
-    "minimum": "Asgari"
+    "advance": "Аванс",
+    "deduction": "Кесинти",
+    "other": "Дигер",
+    "subcontractor_cut": "Ташерон кесинтиси",
+    "minimum": "Асгари"
   },
   "mesaiCountLines": {
-    "tam": "Tam mesai",
-    "ceyrek": "Çeyrek mesai",
-    "yarim": "Yarım mesai"
+    "tam": "Там Месаи",
+    "ceyrek": "Чейрек месай",
+    "yarim": "Ярим Месаи"
   },
   "workDayCountLines": {
-    "full": "Tam gün",
-    "half": "Yarım gün",
-    "total": "Toplam gün"
+    "full": "Там Гюн",
+    "half": "Ярим Гюн",
+    "total": "Топлам пистолет"
   }
 }

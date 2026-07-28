@@ -1,29 +1,29 @@
 {
   "waterfall": {
     "contract": {
-      "label": "Üst taşerondan alacak",
+      "label": "Üst taşerondan алачак",
       "hint": "{unitPrice} ₺/{unitLabel} × {quantity} {unitLabel}"
     },
     "labor": {
-      "label": "İşçi yevmiyesi (onaylı)",
-      "hint": "{approvedWorkDays} onaylı gün"
+      "label": "Ишчи евмиеси (онайлы)",
+      "hint": "{approvedWorkDays} оналайлы гюн"
     },
     "advance": {
-      "label": "Avanslar",
-      "hint": "Bu işe bağlı avans kayıtları"
+      "label": "Аванслар",
+      "hint": "Bu ise bağlı avans kayıtları"
     },
     "deduction": {
-      "label": "Kesintiler"
+      "label": "Кесинтилер"
     },
     "material": {
-      "label": "Malzeme gideri",
-      "hint": "{expenseCount} kayıt"
+      "label": "Мальземе Гидери",
+      "hint": "{expenseCount} дайыт"
     },
     "profit": {
-      "label": "Net kâr"
+      "label": "Нет Кар"
     },
     "share": {
-      "label": "Ortak başı ({shareCount} kişi)"
+      "label": "Ортак башы ({shareCount} киши)"
     }
   }
 }

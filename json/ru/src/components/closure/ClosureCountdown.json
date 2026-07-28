@@ -1,10 +1,10 @@
 {
-  "title": "Time remaining",
-  "expired": "Deadline passed",
-  "days": "d",
-  "hours": "h",
-  "minutes": "m",
-  "seconds": "s",
-  "phasePending": "Awaiting personnel consents",
-  "phaseExport": "Data export window"
+  "title": "Оставшееся время",
+  "expired": "Срок истек",
+  "days": "д",
+  "hours": "час",
+  "minutes": "м",
+  "seconds": "с",
+  "phasePending": "Ожидаем согласия персонала",
+  "phaseExport": "Окно экспорта данных"
 }

@@ -1,100 +1,100 @@
 {
   "attendanceReminder": {
-    "title": "Attendance reminder",
-    "body": "Please scan the QR code to record today's attendance."
+    "title": "Напоминание о посещаемости",
+    "body": "Пожалуйста, отсканируйте QR-код, чтобы записать сегодняшнюю посещаемость."
   },
   "attendanceSessionCancelled": {
-    "title": "Attendance session cancelled",
-    "body": "The attendance session for {workDate} was cancelled by {actorName}."
+    "title": "Сеанс присутствия отменен",
+    "body": "Сеанс присутствия для {workDate} был отменен {actorName}."
   },
   "attendanceRemovedFromList": {
-    "title": "Attendance record updated",
-    "body": "Your attendance record for {workDate} was removed from the list by {actorName}."
+    "title": "Запись посещаемости обновлена",
+    "body": "Ваш рекорд посещаемости для {workDate} был удален из списка пользователем {actorName}."
   },
   "attendanceDidNotWork": {
-    "title": "Wage removed",
-    "body": "Your daily wage for {workDate} was deleted by {actorName}; you were marked as did not work."
+    "title": "Заработная плата удалена",
+    "body": "Ваш дневной заработок за {workDate} был удален пользователем {actorName}; вы были отмечены как не сработавшие."
   },
   "attendanceSessionCompleted": {
-    "title": "Attendance completed",
-    "body": "Your attendance for {workDate} has been confirmed and recorded on your payroll."
+    "title": "Посещаемость завершена",
+    "body": "Ваше участие в {workDate} подтверждено и записано в вашей платежной ведомости."
   },
   "workLogRecorded": {
-    "title": "Timesheet recorded",
-    "body": "A timesheet of {amount} day(s) for {workDate} was created by {actorName}."
+    "title": "Табель учета рабочего времени записан",
+    "body": "Расписание на {amount} дней для {workDate} было создано {actorName}."
   },
   "workLogUpdated": {
-    "title": "Timesheet updated",
-    "body": "Your timesheet for {workDate} was updated by {actorName}."
+    "title": "Расписание обновлено",
+    "body": "Ваше расписание на {workDate} было обновлено {actorName}."
   },
   "workLogDeleted": {
-    "title": "Timesheet deleted",
-    "body": "Your timesheet for {workDate} was deleted by {actorName}."
+    "title": "Расписание удалено.",
+    "body": "Ваше расписание на {workDate} было удалено {actorName}."
   },
   "advanceApproved": {
-    "title": "Advance request approved",
-    "body": "Your advance request for {amount} TL has been approved. Add this code to the transfer description: {transferCode}"
+    "title": "Предварительный запрос одобрен",
+    "body": "Ваш предварительный запрос на {amount} TL одобрен. Добавьте этот код в описание перевода: {transferCode}"
   },
   "advanceApprovedNoCode": {
-    "title": "Advance request approved",
-    "body": "Your advance request for {amount} TL has been approved. Payment processing has started."
+    "title": "Предварительный запрос одобрен",
+    "body": "Ваш предварительный запрос на {amount} TL одобрен. Обработка платежа началась."
   },
   "advanceCashReady": {
-    "title": "Cash advance ready",
-    "body": "Your cash advance of {amount} TL is ready. Scan the QR code to confirm receipt."
+    "title": "Предоплата наличными готова",
+    "body": "Ваш денежный аванс в размере {amount} TL готов. Отсканируйте QR-код, чтобы подтвердить получение."
   },
   "advanceRejected": {
-    "title": "Advance request declined",
+    "title": "Предварительный запрос отклонен",
     "body": "{reason}"
   },
   "advanceRejectedNoReason": {
-    "title": "Advance request declined",
-    "body": "Your request has been declined by the administrator."
+    "title": "Предварительный запрос отклонен",
+    "body": "Ваш запрос отклонен администратором."
   },
   "advancePaid": {
-    "title": "Advance payment recorded",
-    "body": "An advance payment of {amount} TL has been recorded on your payroll."
+    "title": "Предоплата зафиксирована",
+    "body": "В вашей платежной ведомости записан авансовый платеж в размере {amount} TL."
   },
   "minimumWagePaid": {
-    "title": "Minimum wage payment",
-    "body": "A minimum wage payment of {amount} TL was recorded by {actorName}."
+    "title": "Минимальная заработная плата",
+    "body": "Выплата минимальной заработной платы в размере {amount} TL была зафиксирована {actorName}."
   },
   "minimumWageUpdated": {
-    "title": "Minimum wage updated",
-    "body": "Your minimum wage record for {date} was updated to {amount} TL by {actorName}."
+    "title": "Минимальная заработная плата обновлена",
+    "body": "Ваша запись о минимальной заработной плате для {date} была обновлена ​​до {amount} TL {actorName}."
   },
   "minimumWageRemoved": {
-    "title": "Minimum wage removed",
-    "body": "Your {amount} TL minimum wage record for {date} was deleted by {actorName}."
+    "title": "Минимальная заработная плата удалена",
+    "body": "Ваша запись о минимальной заработной плате {amount} TL для {date} была удалена {actorName}."
   },
   "salaryPaid": {
-    "title": "Salary payment completed",
-    "body": "Your net salary for {month} ({amount} TL) has been marked as paid."
+    "title": "Выплата зарплаты завершена",
+    "body": "Ваша чистая зарплата за {month} ({amount} TL) отмечена как выплаченная."
   },
   "deductionAdded": {
-    "title": "Payroll update",
-    "body": "A {typeLabel} of {amount} TL was applied to your payroll by {actorName}."
+    "title": "Обновление заработной платы",
+    "body": "{typeLabel} в размере {amount} TL был применен к вашей заработной плате {actorName}."
   },
   "deductionUpdated": {
-    "title": "Payroll record updated",
-    "body": "Your {typeLabel} for {date} was updated to {amount} TL by {actorName}."
+    "title": "Запись о заработной плате обновлена",
+    "body": "Ваш {typeLabel} для {date} был обновлен до {amount} TL пользователем {actorName}."
   },
   "deductionRemoved": {
-    "title": "Payroll record removed",
-    "body": "Your {amount} TL {typeLabel} for {date} was deleted by {actorName}."
+    "title": "Запись о заработной плате удалена.",
+    "body": "Ваш {amount} TL {typeLabel} для {date} был удален пользователем {actorName}."
   },
   "deductionTypeLabels": {
-    "advance": "advance",
-    "deduction": "deduction",
-    "subcontractor_cut": "subcontractor deduction",
-    "other": "deduction"
+    "advance": "продвигать",
+    "deduction": "вычет",
+    "subcontractor_cut": "вычет субподрядчика",
+    "other": "вычет"
   },
   "pushTest": {
-    "title": "Notifications enabled",
-    "body": "CrewLedger personnel notifications are set up successfully."
+    "title": "Уведомления включены",
+    "body": "Уведомления персонала CrewLedger настроены успешно."
   },
-  "migrationHint": "Run 059_personnel_notifications.sql migration",
+  "migrationHint": "Запустите миграцию 059_personnel_notifications.sql",
   "errors": {
-    "notFound": "Notification not found"
+    "notFound": "Уведомление не найдено"
   }
 }

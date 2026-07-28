@@ -1,32 +1,32 @@
 {
   "tabs": {
-    "overview": "Overview",
-    "work": "Calendar",
-    "asgari": "Minimum wage",
-    "finance": "Payroll",
-    "rights": "My rights",
-    "settings": "Settings"
+    "overview": "Обзор",
+    "work": "Календарь",
+    "asgari": "Минимальная заработная плата",
+    "finance": "Заработная плата",
+    "rights": "Мои права",
+    "settings": "Настройки"
   },
   "mesaiFallbackLabels": {
-    "full": "Full overtime",
-    "quarter": "Quarter overtime",
-    "half": "Half overtime"
+    "full": "Полная сверхурочная работа",
+    "quarter": "Четверть сверхурочной работы",
+    "half": "Половина сверхурочной работы"
   },
   "stats": {
-    "gross": "Gross pay",
-    "totalAdvance": "Total advances",
-    "deduction": "Deductions",
-    "netSalary": "Net pay"
+    "gross": "Валовая заработная плата",
+    "totalAdvance": "Всего авансов",
+    "deduction": "Вычеты",
+    "netSalary": "Чистая заработная плата"
   },
-  "loadingData": "Loading your data…",
-  "workLogSectionTitle": "Work logs · {monthLabel}",
-  "advanceRequestTitle": "Advance request",
-  "advanceRequestSubtitle": "Create a request or check status →",
-  "loading": "Loading…",
-  "loadingFinance": "Loading finance data…",
-  "periodSummary": "Period summary",
-  "workDaysTitle": "Work days",
-  "mesaiDistributionTitle": "Overtime total",
-  "mesaiSuffix": " overtime",
-  "headerSubtitle": "Attendance and pay summary"
+  "loadingData": "Загрузка данных…",
+  "workLogSectionTitle": "Журналы работы · {monthLabel}",
+  "advanceRequestTitle": "Предварительный запрос",
+  "advanceRequestSubtitle": "Создать заявку или проверить статус →",
+  "loading": "Загрузка…",
+  "loadingFinance": "Загрузка финансовых данных…",
+  "periodSummary": "Сводка периода",
+  "workDaysTitle": "Рабочие дни",
+  "mesaiDistributionTitle": "Всего сверхурочных",
+  "mesaiSuffix": "через некоторое время",
+  "headerSubtitle": "Сводка посещаемости и оплаты"
 }

@@ -1,96 +1,96 @@
 {
-  "title": "Payroll Statement",
-  "printedAt": "Printed:",
-  "documentNo": "Document no:",
-  "employeeInfo": "Employee information",
-  "periodSummary": "Period summary",
-  "workLogsTitle": "Work log records ({count})",
-  "mesaiSummary": "Overtime summary",
-  "advancesTitle": "Advances ({count})",
-  "deductionsTitle": "Deductions ({count})",
-  "minimumWagesTitle": "Minimum wage payments ({count})",
-  "calcSummary": "Calculation summary",
-  "emptyValue": "\u2014",
+  "title": "Отчет о заработной плате",
+  "printedAt": "Напечатано:",
+  "documentNo": "Номер документа:",
+  "employeeInfo": "Информация о сотруднике",
+  "periodSummary": "Сводка периода",
+  "workLogsTitle": "Записи журнала работы ({count})",
+  "mesaiSummary": "Сводка сверхурочной работы",
+  "advancesTitle": "Достижения ({count})",
+  "deductionsTitle": "Вычеты ({count})",
+  "minimumWagesTitle": "Выплаты минимальной заработной платы ({count})",
+  "calcSummary": "Сводка расчета",
+  "emptyValue": "—",
   "fields": {
-    "fullName": "Full name",
-    "position": "Position",
-    "project": "Project / site",
-    "dailyWage": "Daily wage",
-    "tcKimlik": "National ID",
-    "hireDate": "Hire date"
+    "fullName": "Полное имя",
+    "position": "Позиция",
+    "project": "Проект/сайт",
+    "dailyWage": "Дневная заработная плата",
+    "tcKimlik": "Национальный идентификатор",
+    "hireDate": "Дата найма"
   },
   "summary": {
-    "workDays": "Worked days",
-    "approvedDays": "Approved days",
-    "pendingDays": "Pending days",
-    "mesaiUnits": "Overtime units",
-    "netEstimate": "Estimated Net Salary"
+    "workDays": "Рабочие дни",
+    "approvedDays": "Утвержденные дни",
+    "pendingDays": "Ожидаемые дни",
+    "mesaiUnits": "Сверхурочные единицы",
+    "netEstimate": "Ориентировочная чистая зарплата"
   },
   "table": {
-    "date": "Date",
-    "dateTime": "Date / Time",
-    "work": "Work",
-    "mesai": "Overtime",
-    "wage": "Wage",
-    "mesaiPay": "Overtime \u20ba",
-    "rowTotal": "Row total",
-    "status": "Status",
-    "total": "Total",
-    "type": "Type",
-    "record": "Record",
-    "unit": "Unit",
-    "amount": "Amount",
-    "description": "Description",
-    "deductionType": "Type"
+    "date": "Дата",
+    "dateTime": "Дата/Время",
+    "work": "Работа",
+    "mesai": "Через некоторое время",
+    "wage": "Заработная плата",
+    "mesaiPay": "Сверхурочные ₺",
+    "rowTotal": "Итого по строке",
+    "status": "Статус",
+    "total": "Общий",
+    "type": "Тип",
+    "record": "Записывать",
+    "unit": "Единица",
+    "amount": "Количество",
+    "description": "Описание",
+    "deductionType": "Тип"
   },
   "mesaiTypes": {
-    "ceyrek": "Quarter overtime",
-    "yarim": "Half overtime",
-    "tam": "Full overtime"
+    "ceyrek": "Четверть сверхурочной работы",
+    "yarim": "Половина сверхурочной работы",
+    "tam": "Полная сверхурочная работа"
   },
   "empty": {
-    "workLogs": "No work log records for this period.",
-    "advances": "No advance records.",
-    "deductions": "No deduction records.",
-    "minimumWages": "No minimum wage top-up payment."
+    "workLogs": "Записей в трудовом журнале за этот период нет.",
+    "advances": "Никаких предварительных записей.",
+    "deductions": "Никаких записей о вычетах.",
+    "minimumWages": "Никаких надбавок к минимальной заработной плате."
   },
   "defaults": {
-    "advance": "Advance",
-    "minimumWage": "Minimum wage top-up"
+    "advance": "Продвигать",
+    "minimumWage": "Надбавка к минимальной заработной плате"
   },
   "totals": {
-    "grand": "Grand total",
-    "advances": "Total advances",
-    "deductions": "Total deductions",
-    "minimumWages": "Total minimum wage"
+    "grand": "общий итог",
+    "advances": "Всего авансов",
+    "deductions": "Итого вычеты",
+    "minimumWages": "Общая минимальная заработная плата"
   },
   "calc": {
-    "basePay": "Wage ({days} days x {wage})",
-    "mesaiPay": "Overtime earnings (+)",
-    "gross": "Gross total",
-    "advances": "Advances (-)",
-    "deductions": "Deductions (-)",
-    "minimumWages": "Minimum wage payments (-)",
-    "netPayment": "Estimated Net Salary",
-    "note": "Net formula: Gross ({gross}) - Advance ({advances}) - Deduction ({deductions}){minimumPart} = {net}",
-    "minimumPart": " - Minimum ({amount})"
+    "basePay": "Заработная плата ({days} дней x {wage})",
+    "mesaiPay": "Заработок за сверхурочную работу (+)",
+    "gross": "Общая сумма",
+    "advances": "Авансы (-)",
+    "deductions": "Вычеты (-)",
+    "minimumWages": "Выплаты минимальной заработной платы (-)",
+    "netPayment": "Ориентировочная чистая зарплата",
+    "note": "Чистая формула: Валовая сумма ({gross}) – Аванс ({advances}) – Вычет ({deductions}){minimumPart} = {net}",
+    "minimumPart": "- Минимум ({amount})"
   },
   "footer": {
-    "employee": "Employee",
-    "employer": "Employer / Manager",
-    "employeeRole": "Personnel reviewing this document",
-    "employerRole": "Manager / employer approving this document",
-    "signedAt": "Document date",
-    "signatureHint": "Full name - Date - Signature",
-    "clausesTitle": "Document notices",
+    "employee": "Сотрудник",
+    "employer": "Работодатель / Менеджер",
+    "employeeRole": "Персонал, проверяющий этот документ",
+    "employerRole": "Руководитель/работодатель, утверждающий этот документ",
+    "signedAt": "Дата документа",
+    "signatureHint": "Полное имя - Дата - Подпись",
+    "clausesTitle": "Уведомления о документах",
     "clauses": [
-      "This document is for informational purposes only and is not an official payroll, social-security filing, or tax document.",
-      "Records are generated from the same database in the {appName} personnel and admin panels.",
-      "In employment disputes, signed official payrolls, bank receipts, and legally required documents take precedence.",
-      "This document was created electronically and is verified by digital system records; a wet-ink signature is not required."
+      "Этот документ предназначен только для информационных целей и не является официальным расчетом заработной платы, декларацией социального обеспечения или налоговым документом.",
+      "Записи генерируются из одной и той же базы данных в личном и административном панелях {appName}.",
+      "В трудовых спорах преимущественную силу имеют подписанные официальные ведомости заработной платы, банковские квитанции и требуемые по закону документы.",
+      "Этот документ создан в электронном виде и подтвержден записями цифровой системы; подпись мокрыми чернилами не требуется."
     ],
-    "digitalSeal": "Digital Approval Mark",
-    "digitalSealHint": "Verified by CrewLedger system records",
-    "brandTagline": "Construction Workforce Platform"
+    "digitalSeal": "Цифровой знак одобрения",
+    "digitalSealHint": "Проверено записями системы CrewLedger",
+    "brandTagline": "Платформа строительной рабочей силы"
   }
 }

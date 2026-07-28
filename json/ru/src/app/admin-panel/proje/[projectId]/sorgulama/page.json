@@ -1,15 +1,15 @@
 {
-  "pageTitle": "Personel Sorgulaması",
+  "pageTitle": "Персонал Соргумасы",
   "pageDescription": "Seçili personelin aylık özetini görüntüleyin.",
-  "selectEmployeeHint": "Özet için personel seçin.",
-  "loading": "Yükleniyor…",
-  "workDays": "Çalışılan Gün",
-  "gross": "Brüt",
-  "advances": "Avans",
-  "minimum": "Asgari",
-  "sectionWorkLogs": "Yevmiyeler",
-  "sectionAdvances": "Avanslar",
-  "sectionMinimum": "Asgari Ödemeler",
-  "noRecords": "Kayıt yok.",
-  "workDaysUnit": "{amount} gün"
+  "selectEmployeeHint": "Озет является личным сообщением.",
+  "loading": "Юклениёр…",
+  "workDays": "Чалышилан Гюн",
+  "gross": "Брют",
+  "advances": "Аванс",
+  "minimum": "Асгари",
+  "sectionWorkLogs": "Евмиелер",
+  "sectionAdvances": "Аванслар",
+  "sectionMinimum": "Асгари Одемелер",
+  "noRecords": "Кайит йок.",
+  "workDaysUnit": "{amount} пистолет"
 }

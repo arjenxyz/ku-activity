@@ -1,13 +1,13 @@
 {
   "nav": {
-    "codes": "Doğrulama Kodları",
-    "releases": "APK Sürümleri"
+    "codes": "Догрулама Кодлары",
+    "releases": "APK Сюрюмлери"
   },
   "subtitle": {
-    "releases": "APK sürüm yönetimi",
-    "codes": "Doğrulama kodları"
+    "releases": "APK Сюрюм йёнетими",
+    "codes": "Догрулама кодлары"
   },
-  "panelTitle": "Developer Panel",
-  "logout": "Çıkış",
-  "backHome": "Ana sayfaya dön"
+  "panelTitle": "Панель разработчика",
+  "logout": "Чикиш",
+  "backHome": "Ана Сайфая Дон"
 }

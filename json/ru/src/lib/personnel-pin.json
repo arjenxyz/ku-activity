@@ -1,5 +1,5 @@
 {
-  "pinWrongLength": "Giriş şifresi (PIN) {length} haneli olmalıdır",
-  "pinDigitsOnly": "PIN yalnızca rakam içermelidir",
-  "pinMismatch": "PIN tekrarı eşleşmiyor"
+  "pinWrongLength": "Гириш шифреси (PIN) {length} Ханели олмалыдыр",
+  "pinDigitsOnly": "ПИН-код для доступа в Интернет",
+  "pinMismatch": "PIN-код можно изменить"
 }

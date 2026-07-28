@@ -1,12 +1,12 @@
 {
-  "employeeFallback": "Personel",
+  "employeeFallback": "Персонал",
   "ibanEmpty": "—",
   "reasons": {
-    "ibanMatch": "Alıcı IBAN personel kaydıyla eşleşti",
-    "amountMatch": "Tutar uyumlu ({ocrAmount} ≈ {approvedAmount})",
-    "amountClose": "Tutar yakın",
-    "referenceRead": "Referans no okundu",
-    "singleCandidate": "Tek aday personel",
-    "transferTokenMatch": "Transfer reference code matched"
+    "ibanMatch": "Alıcı IBAN личный кабинет",
+    "amountMatch": "Тутар уюмлу ({ocrAmount} ≈ {approvedAmount})",
+    "amountClose": "Тутар якин",
+    "referenceRead": "Реферанс не окунду",
+    "singleCandidate": "Тек Адай персонал",
+    "transferTokenMatch": "Справочный код перевода совпадает"
   }
 }

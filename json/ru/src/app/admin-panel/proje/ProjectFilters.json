@@ -1,7 +1,7 @@
 {
-  "searchLabel": "Search projects",
-  "searchPlaceholder": "Search by name, code or location...",
-  "statusLabel": "Status",
-  "allProjects": "All",
-  "clearSearch": "Clear search"
+  "searchLabel": "Поиск проектов",
+  "searchPlaceholder": "Поиск по имени, коду или местоположению...",
+  "statusLabel": "Статус",
+  "allProjects": "Все",
+  "clearSearch": "Очистить поиск"
 }

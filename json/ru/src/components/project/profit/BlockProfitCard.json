@@ -1,15 +1,15 @@
 {
   "stats": {
-    "workLogs": "Yevmiye",
-    "profit": "Kâr",
-    "receivable": "Alacak",
-    "laborApproved": "Yevmiye (onaylı)",
-    "advance": "Avans",
-    "deduction": "Kesinti",
-    "material": "Malzeme",
-    "approvedDays": "Onaylı gün",
-    "pendingDays": "Bekleyen gün",
-    "profitPerShare": "Kişi başı kâr"
+    "workLogs": "Евмие",
+    "profit": "Кар",
+    "receivable": "Алачак",
+    "laborApproved": "Евмие (онайлы)",
+    "advance": "Аванс",
+    "deduction": "Кесинти",
+    "material": "Мальземе",
+    "approvedDays": "Онайлы гун",
+    "pendingDays": "Беклейен гун",
+    "profitPerShare": "Киши Баши Кар"
   },
-  "jobsTitle": "İş kalemleri"
+  "jobsTitle": "Иш Калемлери"
 }

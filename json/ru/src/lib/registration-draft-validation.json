@@ -1,12 +1,12 @@
 {
   "nameRequired": "Ad ve soyad zorunludur.",
-  "emailRequired": "E-posta adresi zorunludur.",
-  "emailInvalid": "Geçerli bir e-posta adresi girin.",
-  "phoneRequired": "Telefon numarası zorunludur.",
-  "phoneInvalid": "Geçerli bir telefon numarası girin (ülke kodu dahil).",
-  "tcInvalid": "Geçerli bir T.C. kimlik numarası girin.",
-  "foreignIdInvalid": "Geçerli bir yabancı kimlik / pasaport numarası girin.",
-  "birthDateRequired": "Doğum tarihi zorunludur.",
-  "ibanRequired": "IBAN zorunludur.",
-  "ibanInvalid": "Geçerli bir IBAN girin (TR ile 26 karakter, kontrol hanesi doğru olmalı)."
+  "emailRequired": "Электронный адрес zorunludur.",
+  "emailInvalid": "Получите адрес электронной почты.",
+  "phoneRequired": "Телефонные номера звонят.",
+  "phoneInvalid": "Получите номер телефона (ülke kodu dahil).",
+  "tcInvalid": "Гечерли бир Т.С. Кимлик Нумарасы Гирин.",
+  "foreignIdInvalid": "Вы можете получить доступ к кимлик/пассапорту с нумерацией.",
+  "birthDateRequired": "Догум тарихи зорунлудур.",
+  "ibanRequired": "IBAN зорунлудур.",
+  "ibanInvalid": "Используйте IBAN (TR — 26 символов, контроль над входом в банк)."
 }

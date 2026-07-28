@@ -1,11 +1,11 @@
 {
-  "close": "Close",
-  "badge": "Manual code",
-  "title": "Attendance by code",
-  "description": "Enter the attendance code your supervisor gave you below",
-  "placeholder": "YOK-…",
-  "outsideWindowHint": "Code entry is closed outside attendance hours.",
-  "submitting": "Submitting…",
-  "resubmit": "Re-record",
-  "join": "Join attendance"
+  "close": "Закрывать",
+  "badge": "Ручной код",
+  "title": "Посещаемость по коду",
+  "description": "Введите ниже код присутствия, который вам дал руководитель",
+  "placeholder": "ЙОК-…",
+  "outsideWindowHint": "Ввод кода закрыт в нерабочее время.",
+  "submitting": "Отправка…",
+  "resubmit": "Перезапись",
+  "join": "Присоединяйтесь к посещению"
 }

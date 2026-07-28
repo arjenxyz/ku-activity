@@ -1,9 +1,17 @@
 {
-  "prevMonth": "Önceki ay",
-  "nextMonth": "Sonraki ay",
-  "thisMonth": "Bu ay",
-  "summary": "{mesaiDays} mesai günü · {totalPay} toplam kazanç",
-  "selectMonth": "Ay seç:",
-  "weekdays": ["Pt", "Sa", "Ça", "Pe", "Cu", "Ct", "Pz"],
-  "tapForDetail": "Tap an orange day for details"
+  "prevMonth": "Онцеки ай",
+  "nextMonth": "Сонраки ай",
+  "thisMonth": "Бу ай",
+  "summary": "{mesaiDays} mesai günü · {totalPay} топлам казанч",
+  "selectMonth": "Да, вот так:",
+  "weekdays": [
+    "Пт",
+    "суббота",
+    "Ча",
+    "Пе",
+    "Cu",
+    "Кт",
+    "Пз"
+  ],
+  "tapForDetail": "Нажмите на оранжевый день, чтобы узнать подробности"
 }

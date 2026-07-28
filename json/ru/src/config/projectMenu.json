@@ -1,113 +1,158 @@
 {
   "primary": [
     {
-      "label": "Proje özeti",
+      "label": "Проект Озети",
       "path": "",
-      "hint": "Personel ve günlük durum"
+      "hint": "Персонал и работа в дуруме"
     },
     {
-      "label": "Yevmiye",
-      "path": "yevmiye",
+      "label": "Евмие",
+      "path": "евмие",
       "hint": "Günlük çalışma kaydı"
     },
     {
-      "label": "Taşeron karı",
-      "path": "kar",
-      "hint": "Blok, iş kalemi ve kâr"
+      "label": "Ташерон Кары",
+      "path": "Кар",
+      "hint": "Блок, иш калими ве кар"
     }
   ],
   "groups": [
     {
-      "id": "personel",
-      "label": "Personel",
+      "id": "персонал",
+      "label": "Персонал",
       "links": [
-        { "label": "Personel listesi", "path": "list" },
-        { "label": "Yeni personel", "path": "new" },
-        { "label": "Başvuru onayı", "path": "basvuru-onay" },
-        { "label": "Personel şifreleri", "path": "sorgulama/personel-sifreleri" }
+        {
+          "label": "Персональные списки",
+          "path": "список"
+        },
+        {
+          "label": "Йени персонал",
+          "path": "новый"
+        },
+        {
+          "label": "Башвуру онайы",
+          "path": "басвуру-онай"
+        },
+        {
+          "label": "Персональные цифреры",
+          "path": "соргулама/персонал-сифрелери"
+        }
       ]
     },
     {
-      "id": "kayitlar",
-      "label": "Diğer kayıtlar",
+      "id": "Кайитлар",
+      "label": "Дигер кайтлар",
       "links": [
-        { "label": "Avans", "path": "avans" },
         {
-          "label": "Avans talepleri",
-          "path": "avans-talepleri",
-          "hint": "Personel talepleri — onay ve ödeme"
+          "label": "Аванс",
+          "path": "авансы"
         },
         {
-          "label": "Dekont paylaş (OCR)",
-          "absolutePath": "/admin-panel/dekont-paylas",
+          "label": "Аванс талеплери",
+          "path": "Аванс-Талеплери",
+          "hint": "Персональные талеплери — онай ве одеме"
+        },
+        {
+          "label": "Деконт пайлаш (OCR)",
+          "absolutePath": "/admin-панель/dekont-paylas",
           "hint": "Bankadan paylaş — otomatik eşleştirme"
         },
-        { "label": "Kesinti", "path": "kesinti" },
-        { "label": "Asgari ücret", "path": "asgari" }
-      ]
-    },
-    {
-      "id": "santiye",
-      "label": "Şantiye",
-      "links": [
-        { "label": "Bloklar", "path": "bloklar" },
-        { "label": "Ekipler", "path": "ekiplar" }
-      ]
-    },
-    {
-      "id": "finans",
-      "label": "Finans",
-      "links": [
-        { "label": "Ne durumdayız?", "path": "durum" },
-        { "label": "Maaş bordrosu", "path": "bordro" },
-        { "label": "Maaş politikası", "path": "maas-politikasi" }
-      ]
-    },
-    {
-      "id": "kontrol",
-      "label": "Kontrol & rapor",
-      "links": [
-        { "label": "Raporlar", "path": "raporlar" },
-        { "label": "Onaylananlar", "path": "raporlar/onaylanan" },
-        { "label": "Bekleyen kayıtlar", "path": "raporlar/onaysiz" },
         {
-          "label": "Kayıt geçmişi",
-          "path": "kayit-gecmisi",
-          "hint": "Sorgulama ve arşiv"
+          "label": "Кесинти",
+          "path": "кесинти"
+        },
+        {
+          "label": "Асгари Укрет",
+          "path": "Асгари"
+        }
+      ]
+    },
+    {
+      "id": "Сантье",
+      "label": "Шантье",
+      "links": [
+        {
+          "label": "Блоклар",
+          "path": "блокляр"
+        },
+        {
+          "label": "Экиплер",
+          "path": "экиплар"
+        }
+      ]
+    },
+    {
+      "id": "финансы",
+      "label": "Финанс",
+      "links": [
+        {
+          "label": "Ne durumdayız?",
+          "path": "дурум"
+        },
+        {
+          "label": "Маас бордросу",
+          "path": "бордро"
+        },
+        {
+          "label": "Мааша политика",
+          "path": "маас-политикаси"
+        }
+      ]
+    },
+    {
+      "id": "контроль",
+      "label": "Контроль и рапор",
+      "links": [
+        {
+          "label": "Рапорлар",
+          "path": "рапорлар"
+        },
+        {
+          "label": "Онайлананлар",
+          "path": "рапорлар/онайланан"
+        },
+        {
+          "label": "Беклеен кайтлар",
+          "path": "рапорлар/онайсиз"
+        },
+        {
+          "label": "Кайыт гечмиши",
+          "path": "Кайит-Гечмиси",
+          "hint": "Соргулама и Аршив"
         }
       ]
     }
   ],
   "recordArchive": [
     {
-      "label": "Aylık özet",
-      "desc": "Tüm personelin ay bazında yevmiye, avans ve net durumu",
-      "path": "sorgulama/admin"
+      "label": "Айлык озет",
+      "desc": "Ваш персонал является базой, аванс ве нет дуруму",
+      "path": "Соргулама/админ"
     },
     {
-      "label": "Personel bazlı",
-      "desc": "Tek personelin yevmiye, avans ve asgari kayıtları",
-      "path": "sorgulama"
+      "label": "Персональные базлы",
+      "desc": "Ваш личный персонал, авансы и асгари кайытлары",
+      "path": "соргулама"
     },
     {
-      "label": "Yevmiye arşivi",
-      "desc": "Tarih ve personele göre yevmiye listesi",
-      "path": "sorgulama/yevmiye"
+      "label": "Евмие аршиви",
+      "desc": "Тарих ве персонале евреи листеси",
+      "path": "соргулама/евмие"
     },
     {
-      "label": "Avans arşivi",
-      "desc": "Verilen avansların listesi",
-      "path": "sorgulama/avans"
+      "label": "Аванс аршиви",
+      "desc": "Верилен в списке",
+      "path": "соргулама/аваны"
     },
     {
-      "label": "Kesinti arşivi",
-      "desc": "Kesinti kayıtları",
-      "path": "sorgulama/kesinti"
+      "label": "Кесинти аршиви",
+      "desc": "Кесинти кайтлары",
+      "path": "соргулама/кесинти"
     },
     {
-      "label": "Asgari arşivi",
-      "desc": "Asgari ücret tamamlama kayıtları",
-      "path": "sorgulama/asgari"
+      "label": "Асгари аршиви",
+      "desc": "Асгари ücret тамамлама кайтлары",
+      "path": "соргулама/асгари"
     }
   ]
 }

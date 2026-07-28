@@ -1,14 +1,14 @@
 {
   "errors": {
-    "regionNotReady": "The camera area could not be prepared.",
-    "permissionDenied": "Camera permission is required. Allow it from settings or the address bar.",
-    "notFound": "No camera found.",
-    "secureContext": "The camera only works over a secure connection (HTTPS).",
-    "openFailed": "Couldn't open the camera. Try Enter code instead.",
-    "unsupported": "Your browser doesn't support camera access.",
-    "httpsRequired": "The camera only works over HTTPS.",
-    "cameraFailed": "Couldn't open the camera"
+    "regionNotReady": "Место для камеры подготовить не удалось.",
+    "permissionDenied": "Требуется разрешение камеры. Разрешите это в настройках или адресной строке.",
+    "notFound": "Камера не найдена.",
+    "secureContext": "Камера работает только через безопасное соединение (HTTPS).",
+    "openFailed": "Не удалось открыть камеру. Вместо этого попробуйте ввести код.",
+    "unsupported": "Ваш браузер не поддерживает доступ к камере.",
+    "httpsRequired": "Камера работает только через HTTPS.",
+    "cameraFailed": "Не удалось открыть камеру"
   },
-  "invalidQrMessage": "This is not a valid attendance QR code.",
-  "openingCamera": "Opening camera…"
+  "invalidQrMessage": "Это недействительный QR-код посещаемости.",
+  "openingCamera": "Открытие камеры…"
 }

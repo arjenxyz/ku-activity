@@ -1,13 +1,13 @@
 {
-  "pageTitle": "Yevmiye Sorgulama",
-  "pageDescription": "Yevmiye kayıtlarını görüntüleyin, iş kalemini düzenleyin veya silin.",
-  "colEmployee": "Personel",
-  "colDate": "Tarih",
-  "colDays": "Gün",
-  "colJob": "İş kalemi",
-  "colStatus": "Durum",
-  "colDispute": "İtiraz",
-  "colDescription": "Açıklama",
-  "colActions": "İşlem",
+  "pageTitle": "Евмие Соргулама",
+  "pageDescription": "Если вы не хотите, чтобы это произошло, это означает, что вы можете потерять сознание.",
+  "colEmployee": "Персонал",
+  "colDate": "Тарих",
+  "colDays": "Пистолет",
+  "colJob": "Иш Калеми",
+  "colStatus": "Дурум",
+  "colDispute": "Итираз",
+  "colDescription": "Ачиклама",
+  "colActions": "Ишлам",
   "emptyCell": "—"
 }

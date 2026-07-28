@@ -1,39 +1,39 @@
 {
-  "sectionBadge": "Platform Features",
-  "sectionTitle": "Real modules from timesheets to payroll",
-  "sectionSubtitle": "Daily wages, overtime, advances, deductions, minimum wage top-ups, and payroll are managed per project. The personnel app shows the same records as the admin panel.",
-  "marqueePaused": "Paused — tap the box again to resume",
-  "marqueeHint": "Swipe with your finger; scrolling pauses the flow, tap the box to pin it",
+  "sectionBadge": "Возможности платформы",
+  "sectionTitle": "Реальные модули от табелей учета рабочего времени до расчета заработной платы",
+  "sectionSubtitle": "Ежедневная заработная плата, сверхурочная работа, авансы, отчисления, надбавки к минимальной заработной плате и расчет заработной платы управляются для каждого проекта. В приложении для персонала отображаются те же записи, что и в админке.",
+  "marqueePaused": "Приостановлено — коснитесь поля еще раз, чтобы возобновить",
+  "marqueeHint": "Проведите пальцем; прокрутка приостанавливает поток, коснитесь поля, чтобы закрепить его",
   "features": [
     {
-      "title": "Dual-Approved Daily Wages",
-      "tag": "Timesheets",
-      "description": "Full/half-day attendance and quarter, half, or full overtime entries. Admin enters; personnel approves or disputes — records are not finalized without both sides."
+      "title": "Двойная утвержденная дневная заработная плата",
+      "tag": "Табели учета рабочего времени",
+      "description": "Присутствие на полный/половинный день и запись на сверхурочную работу за квартал, половину или полную работу. Входит администратор; персонал одобряет или оспаривает — записи не будут завершены без участия обеих сторон."
     },
     {
-      "title": "Advances & Deductions",
-      "tag": "Finance",
-      "description": "Project-based advance and deduction entries. Gross, advance, deduction, and net amounts are calculated with the same formula in payroll and the personnel finance tab."
+      "title": "Авансы и вычеты",
+      "tag": "Финансы",
+      "description": "Записи авансов и вычетов по проектам. Валовая сумма, аванс, вычеты и чистые суммы рассчитываются по одной и той же формуле в расчете заработной платы и на вкладке «Финансы на персонал»."
     },
     {
-      "title": "Minimum Wage Top-Up",
-      "tag": "Policy",
-      "description": "Earned, paid, and remaining amounts per company and project wage policy. Subcontractor gap suggestions; personnel see the breakdown in the minimum wage tab."
+      "title": "Надбавка к минимальной заработной плате",
+      "tag": "Политика",
+      "description": "Заработанные, выплаченные и оставшиеся суммы по политике заработной платы компании и проекта. Предложения по пробелам субподрядчиков; персонал видит разбивку на вкладке «Минимальная заработная плата»."
     },
     {
-      "title": "Project-Based Sites",
-      "tag": "Operations",
-      "description": "Each site is a separate project; personnel, blocks, teams, and finance records stay within the project. Admins only access projects they created."
+      "title": "Сайты на основе проектов",
+      "tag": "Операции",
+      "description": "Каждый сайт — это отдельный проект; personnel, blocks, teams, and finance records stay within the project. Администраторы получают доступ только к проектам, которые они создали."
     },
     {
-      "title": "Reports & Payroll",
-      "tag": "Reporting",
-      "description": "Approved and pending daily wages, open personnel disputes, payroll runs, and archive queries for wages, advances, and deductions."
+      "title": "Отчеты и расчет заработной платы",
+      "tag": "Отчетность",
+      "description": "Утвержденная и ожидающая решения дневная заработная плата, открытые кадровые споры, расчеты заработной платы и архивные запросы по заработной плате, авансам и удержаниям."
     },
     {
-      "title": "Personnel App",
-      "tag": "Mobile PWA",
-      "description": "Install as a PWA on your phone. Overview, daily wages, overtime, finance, minimum wage, and rights tabs — fed from the same database as the admin panel."
+      "title": "Кадровое приложение",
+      "tag": "Мобильное PWA",
+      "description": "Установите как PWA на свой телефон. Вкладки «Обзор», «дневная заработная плата», «сверхурочные», «финансы», «минимальная заработная плата» и «права» — данные из той же базы данных, что и панель администратора."
     }
   ]
 }

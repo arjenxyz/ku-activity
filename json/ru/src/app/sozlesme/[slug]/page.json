@@ -1,11 +1,11 @@
 {
   "errors": {
-    "invalidLink": "Geçersiz bağlantı.",
-    "loadFailed": "Yüklenemedi"
+    "invalidLink": "Получите скидку.",
+    "loadFailed": "Юкленемеди"
   },
-  "loading": "Yükleniyor…",
-  "backToRights": "Haklarıma dön",
-  "print": "Yazdır / PDF kaydet",
-  "versionLine": "Sürüm {version} · Onaylayan: {fullName} ({email}) · {acceptedAt}",
-  "footer": "Bu belge dijital onay kaydı ile ilişkilidir. Saklamanız önerilir."
+  "loading": "Юклениёр…",
+  "backToRights": "Хакларима дон",
+  "print": "Йездыр / PDF кайдет",
+  "versionLine": "Сюрум {version} · Оналайян: {fullName} ({email}) · {acceptedAt}",
+  "footer": "Но в Бельгии все будет хорошо. Сакламаныз önerilir."
 }

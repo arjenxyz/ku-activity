@@ -1,15 +1,15 @@
 {
-  "invalidLinkError": "Geçersiz doğrulama bağlantısı.",
-  "verificationFailed": "Doğrulama başarısız",
-  "loadingTitle": "Doğrulanıyor…",
-  "loadingSubtitle": "Başvurunuz gönderiliyor, lütfen bekleyin.",
-  "loadingMessage": "E-posta bağlantınız doğrulanıyor…",
-  "errorTitle": "Doğrulama başarısız",
-  "errorSubtitle": "Bağlantı geçersiz veya süresi dolmuş olabilir.",
-  "backToApplication": "Başvuru sayfasına dön",
-  "successTitle": "Başvuru gönderildi",
+  "invalidLinkError": "Получите дополнительную информацию.",
+  "verificationFailed": "Догрулама Башарисыз",
+  "loadingTitle": "Догруланийёр…",
+  "loadingSubtitle": "Башвурунуз gönderiliyor, lütfen bekleyin.",
+  "loadingMessage": "Электронная почта о доставке…",
+  "errorTitle": "Догрулама Башарисыз",
+  "errorSubtitle": "В случае необходимости вы можете быть уверены в том, что вам потребуется помощь.",
+  "backToApplication": "Башвуру Сайфасына Дён",
+  "successTitle": "Башвуру гондерилди",
   "successSubtitle": "Yönetici onay ekranına yönlendiriliyorsunuz…",
-  "successMessage": "E-posta doğrulandı ve başvurunuz alındı.",
+  "successMessage": "Электронная почта отправлена ​​и отправлена ​​обратно.",
   "redirectHint": "Birazdan onay bekleme ekranına geçeceksiniz…",
-  "suspenseTitle": "Yükleniyor…"
+  "suspenseTitle": "Юклениёр…"
 }

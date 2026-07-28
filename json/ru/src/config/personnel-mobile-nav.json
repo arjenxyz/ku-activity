@@ -1,70 +1,70 @@
 {
   "tabTitles": {
-    "overview": "Home",
-    "work": "Calendar",
-    "asgari": "Minimum wage",
-    "finance": "Payroll",
-    "rights": "My rights",
-    "settings": "Settings"
+    "overview": "Дом",
+    "work": "Календарь",
+    "asgari": "Минимальная заработная плата",
+    "finance": "Заработная плата",
+    "rights": "Мои права",
+    "settings": "Настройки"
   },
   "hubSections": [
     {
-      "title": "On site",
-      "subtitle": "Daily work records",
+      "title": "На месте",
+      "subtitle": "Ежедневные записи о работе",
       "items": [
         {
-          "id": "work",
-          "tab": "work",
-          "label": "Calendar",
-          "description": "Work days, overtime, and payments"
+          "id": "работа",
+          "tab": "работа",
+          "label": "Календарь",
+          "description": "Рабочие дни, сверхурочные и выплаты"
         },
         {
-          "id": "yoklama",
+          "id": "йоклама",
           "href": "/personnel-panel/yoklama",
-          "label": "Attendance",
-          "description": "QR check-in"
+          "label": "посещаемость",
+          "description": "QR-регистрация"
         }
       ]
     },
     {
-      "title": "Finance",
-      "subtitle": "Pay and payments",
+      "title": "Финансы",
+      "subtitle": "Оплата и платежи",
       "items": [
         {
-          "id": "finance",
-          "tab": "finance",
-          "label": "Payroll",
-          "description": "Net pay summary"
+          "id": "финансы",
+          "tab": "финансы",
+          "label": "Заработная плата",
+          "description": "Сводка по чистой заработной плате"
         },
         {
-          "id": "avans",
+          "id": "авансы",
           "href": "/personnel-panel/avans",
-          "label": "Advance request",
-          "description": "Create and track requests"
+          "label": "Предварительный запрос",
+          "description": "Создание и отслеживание запросов"
         },
         {
-          "id": "asgari",
-          "tab": "asgari",
-          "label": "Minimum wage",
-          "description": "Top-up status"
+          "id": "Асгари",
+          "tab": "Асгари",
+          "label": "Минимальная заработная плата",
+          "description": "Статус пополнения"
         }
       ]
     },
     {
-      "title": "Account",
-      "subtitle": "Profile and documents",
+      "title": "Счет",
+      "subtitle": "Профиль и документы",
       "items": [
         {
-          "id": "rights",
-          "tab": "rights",
-          "label": "My rights",
-          "description": "Contracts"
+          "id": "права",
+          "tab": "права",
+          "label": "Мои права",
+          "description": "Контракты"
         },
         {
-          "id": "settings",
-          "tab": "settings",
-          "label": "Settings",
-          "description": "PIN and profile"
+          "id": "настройки",
+          "tab": "настройки",
+          "label": "Настройки",
+          "description": "ПИН-код и профиль"
         }
       ]
     }

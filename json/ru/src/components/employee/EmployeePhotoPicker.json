@@ -1,15 +1,15 @@
 {
-  "invalidFormat": "JPEG, PNG, WebP veya GIF seçin",
-  "maxSize": "Dosya en fazla 5 MB olabilir",
-  "defaultName": "Personel",
-  "selfieTitle": "Kendi fotoğrafınız",
-  "adminTitle": "Personel fotoğrafı",
-  "selfieHint": "Ön kamerayla yüzünüzün net göründüğü bir selfie çekin. Mobilde doğrudan telefon kamerası açılır.",
-  "adminHint": "Her personel için ayrı fotoğraf çekin veya yükleyin. Bu fotoğraf personel panelinde de görünür.",
-  "takeSelfie": "Selfie Çek",
-  "takePhoto": "Fotoğraf Çek",
-  "pickFromGallery": "Galeriden seç",
-  "pickFromGalleryCapital": "Galeriden Seç",
-  "remove": "Kaldır",
-  "requiredHint": "Kayıt için personel fotoğrafı zorunludur."
+  "invalidFormat": "JPEG, PNG, WebP или GIF-изображение",
+  "maxSize": "Дося и фазла 5 МБ доступны",
+  "defaultName": "Персонал",
+  "selfieTitle": "Кенди фотографический",
+  "adminTitle": "Персональные фотографии",
+  "selfieHint": "На камере вы сможете сделать селфи. Мобильные телефонные камеры доступны.",
+  "adminHint": "Ее личные фотографии также очень популярны. На личной панели вы можете сделать фотографию.",
+  "takeSelfie": "Селфи Чек",
+  "takePhoto": "Фотограф Чек",
+  "pickFromGallery": "Галериден сек",
+  "pickFromGalleryCapital": "Галериден Сеч",
+  "remove": "Калдыр",
+  "requiredHint": "Откройте для себя личные фотографии."
 }

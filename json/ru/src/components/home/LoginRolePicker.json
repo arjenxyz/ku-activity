@@ -1,17 +1,17 @@
 {
-  "buttonDefault": "Sign In",
-  "closeOverlayAriaLabel": "Close sign-in menu",
-  "closeButtonAriaLabel": "Close",
-  "modalTitle": "Choose sign-in",
-  "footerNote": "Choose the panel that matches your role to sign in.",
+  "buttonDefault": "Войти",
+  "closeOverlayAriaLabel": "Закрыть меню входа",
+  "closeButtonAriaLabel": "Закрывать",
+  "modalTitle": "Выберите вход",
+  "footerNote": "Для входа выберите панель, соответствующую вашей роли.",
   "panels": {
     "personel": {
-      "title": "Personnel",
-      "description": "Attendance, wages, and payroll"
+      "title": "Персонал",
+      "description": "Посещаемость, заработная плата и расчет заработной платы"
     },
     "admin": {
-      "title": "Admin",
-      "description": "Projects, approvals, and reports"
+      "title": "Админ",
+      "description": "Проекты, согласования и отчеты"
     }
   }
 }

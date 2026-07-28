@@ -1,12 +1,12 @@
 {
-  "title": "Enable notifications?",
-  "bodyBrowser": "Allow alerts for attendance reminders, advance approvals, and payroll updates.",
-  "bodyTwa": "Turn on notifications in app settings for attendance, advance, and payroll alerts.",
-  "twaHint": "Settings → Apps → CrewLedger → Notifications",
-  "enableButton": "Enable notifications",
-  "openSettingsButton": "Open app settings",
-  "confirmSettingsButton": "I enabled them, continue",
-  "twaAwaitingSettings": "After returning from settings, tap «I enabled them, continue».",
-  "laterButton": "Not now",
-  "requesting": "Requesting permission…"
+  "title": "Включить уведомления?",
+  "bodyBrowser": "Разрешите оповещения о напоминаниях о посещаемости, предварительных утверждениях и обновлениях заработной платы.",
+  "bodyTwa": "Включите уведомления в настройках приложения для оповещений о посещаемости, авансе и зарплате.",
+  "twaHint": "Настройки → Приложения → CrewLedger → Уведомления.",
+  "enableButton": "Включить уведомления",
+  "openSettingsButton": "Открыть настройки приложения",
+  "confirmSettingsButton": "Я включил их, продолжайте",
+  "twaAwaitingSettings": "Вернувшись из настроек, нажмите «Я включил их, продолжить».",
+  "laterButton": "Не сейчас",
+  "requesting": "Запрос разрешения…"
 }

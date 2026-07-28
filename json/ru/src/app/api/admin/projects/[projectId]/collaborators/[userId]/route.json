@@ -1,6 +1,6 @@
 {
-  "invalidId": "Invalid id",
-  "removeFailed": "Could not remove collaborator",
-  "ownerOnly": "Only the project owner can do this",
-  "migrationRequired": "Collaborator migration not applied yet (076_project_collaborators.sql)"
+  "invalidId": "Неверный идентификатор",
+  "removeFailed": "Не удалось удалить соавтора.",
+  "ownerOnly": "Это может сделать только владелец проекта.",
+  "migrationRequired": "Миграция Collaborator еще не применена (076_project_collaborators.sql)"
 }

@@ -1,14 +1,14 @@
 {
-  "regionAriaLabel": "Uygulamayı yükle",
-  "closeAriaLabel": "Kapat",
+  "regionAriaLabel": "Уйгуламайы юкле",
+  "closeAriaLabel": "Капат",
   "brandLabel": "CREWLEDGER",
-  "title": "Ana ekrana ekleyin",
-  "iosHintPrefix": "Safari'de",
-  "iosShare": "Paylaş",
+  "title": "Ана экрана эклейин",
+  "iosHintPrefix": "Сафариде",
+  "iosShare": "Пайлаш",
   "iosHintSuffix": "→",
-  "iosAddToHome": "Ana Ekrana Ekle",
-  "androidHint": "Yoklama ve yevmiye için uygulama gibi hızlı açılış — tek dokunuşla paneliniz hazır.",
-  "installButton": "Ana ekrana ekle",
-  "iosSafariNote": "Kurulum yalnızca Safari üzerinden yapılır; Chrome veya başka tarayıcıda menü farklı olabilir.",
-  "dismiss": "Daha sonra"
+  "iosAddToHome": "Ана Экрана Экле",
+  "androidHint": "Yoklama ve evmiye için uygulama gibi hızlı açılış — tek dokunuşla Paneliniz Hazır.",
+  "installButton": "Ана экрана экле",
+  "iosSafariNote": "Kurulum yalnizca Safari üzerinden yapılır; Chrome открывает меню, которое можно отключить.",
+  "dismiss": "Даха сонра"
 }

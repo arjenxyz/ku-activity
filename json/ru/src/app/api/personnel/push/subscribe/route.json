@@ -1,6 +1,6 @@
 {
-  "invalidSubscription": "Invalid subscription data",
-  "endpointRequired": "A valid endpoint is required",
-  "saveFailed": "Could not save subscription",
-  "deleteFailed": "Could not remove subscription"
+  "invalidSubscription": "Неверные данные подписки",
+  "endpointRequired": "Требуется действительная конечная точка.",
+  "saveFailed": "Не удалось сохранить подписку",
+  "deleteFailed": "Не удалось удалить подписку"
 }

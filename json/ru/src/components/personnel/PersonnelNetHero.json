@@ -1,9 +1,9 @@
 {
-  "estimatedNet": "Estimated Net Salary",
-  "gross": "Gross",
-  "deduction": "Deductions",
-  "advance": "Advances",
-  "financeDetail": "Payroll and finance details",
-  "sectionAriaLabel": "Profile and monthly salary summary",
-  "defaultName": "Personnel"
+  "estimatedNet": "Ориентировочная чистая зарплата",
+  "gross": "Валовой",
+  "deduction": "Вычеты",
+  "advance": "Авансы",
+  "financeDetail": "Подробности о заработной плате и финансах",
+  "sectionAriaLabel": "Профиль и сводка ежемесячной зарплаты",
+  "defaultName": "Персонал"
 }

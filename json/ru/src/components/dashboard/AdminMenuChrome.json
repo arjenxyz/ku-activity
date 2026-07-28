@@ -1,7 +1,7 @@
 {
-  "closeMenuAriaLabel": "Menüyü kapat",
-  "menuTitle": "Menü",
-  "projectSettingsAriaLabel": "Proje ayarları",
-  "activeProjectLabel": "Aktif proje",
-  "projectSettingsButton": "Proje ayarları"
+  "closeMenuAriaLabel": "Меню капат",
+  "menuTitle": "Меню",
+  "projectSettingsAriaLabel": "Открытый проект",
+  "activeProjectLabel": "Активный проект",
+  "projectSettingsButton": "Открытый проект"
 }

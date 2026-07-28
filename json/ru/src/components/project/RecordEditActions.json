@@ -1,20 +1,20 @@
 {
   "errors": {
-    "updateFailed": "Güncellenemedi",
-    "deleteFailed": "Silinemedi"
+    "updateFailed": "Гючелленемеди",
+    "deleteFailed": "Силинемеди"
   },
-  "deleteConfirm": "Bu kaydı silmek istediğinize emin misiniz?",
-  "editTitle": "Düzenle",
-  "deleteTitle": "Sil",
-  "modalTitle": "Kaydı Düzenle",
-  "dateLabel": "Tarih",
-  "daysLabel": "Gün sayısı",
-  "amountLabel": "Tutar (₺)",
-  "approvedLabel": "Onaylı",
-  "jobLabel": "İş kalemi",
-  "jobHint": "Taşeron kâr hesabında bu işe yazılır.",
-  "descriptionLabel": "Açıklama",
-  "submitSaving": "Kaydediliyor…",
-  "submit": "Kaydet",
-  "cancel": "İptal"
+  "deleteConfirm": "Может быть, вы хотите охарактеризовать Эмина Мисиниза?",
+  "editTitle": "Дюзенле",
+  "deleteTitle": "Сил",
+  "modalTitle": "Кайды Дюзенле",
+  "dateLabel": "Тарих",
+  "daysLabel": "Гюн Сайысы",
+  "amountLabel": "Тутар (₺)",
+  "approvedLabel": "Онайлы",
+  "jobLabel": "Иш Калеми",
+  "jobHint": "Taseron kâr hesabında bu ise yazılır.",
+  "descriptionLabel": "Ачиклама",
+  "submitSaving": "Кайдедилёр…",
+  "submit": "Кайдет",
+  "cancel": "Иптал"
 }

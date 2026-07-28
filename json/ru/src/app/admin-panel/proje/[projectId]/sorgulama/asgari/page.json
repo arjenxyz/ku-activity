@@ -1,11 +1,11 @@
 {
-  "pageTitle": "Asgari Sorgulama",
+  "pageTitle": "Асгари Соргулама",
   "pageDescription": "Asgari ödeme kayıtlarını görüntüleyin, düzenleyin veya silin.",
-  "colEmployee": "Personel",
-  "colDate": "Tarih",
-  "colAmount": "Tutar",
-  "colDescription": "Açıklama",
-  "colActions": "İşlem",
+  "colEmployee": "Персонал",
+  "colDate": "Тарих",
+  "colAmount": "Тутар",
+  "colDescription": "Ачиклама",
+  "colActions": "Ишлам",
   "emptyCell": "—",
-  "total": "Toplam: {amount}"
+  "total": "Топлам: {amount}"
 }

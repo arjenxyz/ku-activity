@@ -1,20 +1,20 @@
 {
   "modeLabels": {
-    "simple": "Simple",
-    "advanced": "Advanced"
+    "simple": "Простой",
+    "advanced": "Передовой"
   },
   "simpleMenu": {
     "summary": {
-      "label": "Project overview",
-      "hint": "Personnel list and daily status"
+      "label": "Обзор проекта",
+      "hint": "Список персонала и ежедневный статус"
     },
     "approval": {
-      "label": "Application approval",
-      "hint": "New personnel applications"
+      "label": "Одобрение заявки",
+      "hint": "Новые кадровые заявки"
     },
     "attendance": {
-      "label": "Attendance / QR",
-      "hint": "Day, overtime and timesheet are planned here"
+      "label": "Посещаемость/QR",
+      "hint": "Здесь планируются рабочий день, сверхурочная работа и табель учета рабочего времени."
     }
   }
 }

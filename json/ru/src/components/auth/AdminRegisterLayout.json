@@ -1,9 +1,9 @@
 {
-  "defaultTitle": "Yönetici hesabı oluştur",
-  "defaultSubtitle": "Şantiye ve personel yönetimine başlamak için bilgilerinizi girin.",
-  "homeLink": "Ana sayfa",
-  "loginLink": "Giriş yap",
-  "badge": "Yönetici Paneli",
-  "personnelPrompt": "Personel misiniz?",
-  "personnelLoginLink": "Personel girişi"
+  "defaultTitle": "Йонетичи хесаби олуштур",
+  "defaultSubtitle": "Шантие и персонал yönetimine başlamak в bilgilerinizi girin.",
+  "homeLink": "Ана Сайфа",
+  "loginLink": "Гириш да",
+  "badge": "Йонетичи Панели",
+  "personnelPrompt": "Персональный мисиниз?",
+  "personnelLoginLink": "Персональные гириши"
 }

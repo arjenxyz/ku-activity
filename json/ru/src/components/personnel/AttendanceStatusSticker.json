@@ -1,37 +1,37 @@
 {
-  "close": "Close",
-  "dismissError": "Dismiss error",
-  "rescanIssue": "Something's wrong — re-scan",
-  "rescan": "Re-scan",
+  "close": "Закрывать",
+  "dismissError": "Ошибка закрытия",
+  "rescanIssue": "Что-то не так — повторите сканирование",
+  "rescan": "Повторное сканирование",
   "states": {
     "waiting": {
-      "pill": "In attendance",
-      "title": "You've been added to the list",
-      "hint": "Wait until your supervisor completes attendance."
+      "pill": "Присутствие",
+      "title": "Вы добавлены в список",
+      "hint": "Подождите, пока ваш руководитель завершит явку."
     },
     "completed": {
-      "pill": "Completed",
-      "title": "Completed today",
-      "hintDefault": "Your full-day record has been created."
+      "pill": "Завершенный",
+      "title": "Завершено сегодня",
+      "hintDefault": "Ваш рекорд за полный день создан."
     },
     "cancelled": {
-      "pill": "Cancelled",
-      "title": "Attendance cancelled",
-      "hint": "Your manager cancelled this attendance. Please contact them."
+      "pill": "Отменено",
+      "title": "Посещение отменено",
+      "hint": "Ваш менеджер отменил это посещение. Пожалуйста, свяжитесь с ними."
     },
     "removed": {
-      "pill": "Removed from list",
-      "title": "You're not in attendance",
-      "hint": "Scan a new QR or talk to your supervisor."
+      "pill": "Удалено из списка",
+      "title": "Вы не присутствуете",
+      "hint": "Отсканируйте новый QR-код или поговорите со своим руководителем."
     },
     "didNotWork": {
-      "pill": "Did not work",
-      "title": "Marked as not working today",
-      "hint": "No daily wage is recorded."
+      "pill": "Не сработало",
+      "title": "Помечено как не работающее сегодня",
+      "hint": "Дневная заработная плата не учитывается."
     }
   },
   "scanError": {
-    "pill": "Scan failed",
-    "title": "Couldn't read the QR"
+    "pill": "Сканирование не удалось",
+    "title": "Не удалось прочитать QR"
   }
 }

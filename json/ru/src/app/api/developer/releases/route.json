@@ -1,10 +1,10 @@
 {
-  "err054AppReleasesSqlÇalıştırın": "054_app_releases.sql çalıştırın",
-  "apptypePersonnelVeyaAdminOlmalı": "appType personnel veya admin olmalı",
-  "versionnameGerekli": "versionName gerekli",
-  "versioncodePozitifTamSayıOlmalı": "versionCode pozitif tam sayı olmalı",
-  "apkDosyasıGerekli": "APK dosyası gerekli",
+  "err054AppReleasesSqlÇalıştırın": "Файл 054_app_releases.sql",
+  "apptypePersonnelVeyaAdminOlmalı": "AppType Персонал для администратора",
+  "versionnameGerekli": "имя версии gerekli",
+  "versioncodePozitifTamSayıOlmalı": "Позитивный код версии там говорите olmalı",
+  "apkDosyasıGerekli": "Дополнительные APK-файлы",
   "buUygulamaIçinAynıSürümKodu": "Bu uygulama için aynı sürüm kodu zaten kayıtlı",
-  "apkYüklendiDeveloperPaneldenYayınlayın": "APK yüklendi. Developer panelden yayınlayın.",
-  "apkYüklendiYayınlamakIçinOnaylayın": "APK yüklendi. Yayınlamak için onaylayın."
+  "apkYüklendiDeveloperPaneldenYayınlayın": "APK-файлы. Панель разработчика готова.",
+  "apkYüklendiYayınlamakIçinOnaylayın": "APK-файлы. Yayınlamak için onaylayın."
 }

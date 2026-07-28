@@ -1,65 +1,65 @@
 {
   "shell": {
-    "backToPanel": "Back to panel"
+    "backToPanel": "Вернуться к панели"
   },
   "steps": {
-    "upload": "Upload",
-    "analyze": "Scan",
-    "review": "Confirm"
+    "upload": "Загрузить",
+    "analyze": "Сканировать",
+    "review": "Подтверждать"
   },
-  "trustLabel": "score",
+  "trustLabel": "счет",
   "validation": {
-    "scanRejectedTitle": "Could not read receipt"
+    "scanRejectedTitle": "Не удалось прочитать квитанцию"
   },
   "errors": {
-    "draftLoadFailed": "Could not load draft",
-    "analyzeFailed": "Analysis failed",
-    "saveFailed": "Save failed"
+    "draftLoadFailed": "Не удалось загрузить черновик",
+    "analyzeFailed": "Анализ не удался",
+    "saveFailed": "Сохранить не удалось"
   },
   "success": {
-    "paymentSaved": "Payment recorded.",
-    "doneTitle": "Done",
-    "uploadAnother": "New receipt"
+    "paymentSaved": "Оплата зафиксирована.",
+    "doneTitle": "Сделанный",
+    "uploadAnother": "Новая квитанция"
   },
   "header": {
-    "title": "Receipt scan",
+    "title": "Скан чека",
     "description": ""
   },
   "upload": {
-    "title": "Drop file here",
-    "description": "PDF or image — or share from your banking app",
-    "selectFile": "Choose file",
-    "fileHint": "PDF, JPG, PNG · max 10 MB"
+    "title": "Перетащите файл сюда",
+    "description": "PDF-файл или изображение — или поделитесь им из банковского приложения.",
+    "selectFile": "Выбрать файл",
+    "fileHint": "PDF, JPG, PNG · не более 10 МБ"
   },
   "analyze": {
-    "title": "Reading receipt…"
+    "title": "Чтение квитанции…"
   },
   "review": {
-    "matchTitle": "Match advance",
-    "viewProfile": "Profile",
-    "approvedOn": "Approved {date}",
-    "amountMatch": "Amount",
-    "noMatchTitle": "No matching advance found",
-    "goToProjects": "Go to panel",
-    "referenceLabel": "Reference",
-    "paymentDateLabel": "Payment date",
-    "amountLabel": "Amount (TRY)",
-    "ibanLabel": "Recipient IBAN",
-    "amountHint": "Enter amount from receipt manually",
-    "saveSaving": "Saving…",
-    "savePayment": "Save payment",
-    "anotherDekont": "Another receipt",
-    "transferCodeLabel": "Expected transfer code",
-    "transferCodeHint": "This code should appear on the receipt if you added it to the transfer description",
-    "transferCodeOverride": "Code not readable on receipt — save anyway",
-    "forcePayment": "Force save payment",
-    "forcePaymentHint": "Payment was made before advance approval (within last {maxDays} days). IBAN and amount must match.",
-    "forcePaymentSaving": "Force saving…",
-    "retroactiveTitle": "Retroactive payment (no request)",
-    "retroactiveHint": "Select employee matching IBAN — payment was made earlier",
-    "retroactiveSave": "Save as retroactive payment",
-    "retroactiveNoEmployee": "No employee found with this IBAN",
-    "payrollMonthNotice": "Payment was made on {paymentDate}. This advance will be posted to the {payrollMonth} payroll."
+    "matchTitle": "Продвижение матча",
+    "viewProfile": "Профиль",
+    "approvedOn": "Одобрено {date}",
+    "amountMatch": "Количество",
+    "noMatchTitle": "Подходящего аванса не найдено",
+    "goToProjects": "Перейти на панель",
+    "referenceLabel": "Ссылка",
+    "paymentDateLabel": "Дата платежа",
+    "amountLabel": "Сумма (турецких лир)",
+    "ibanLabel": "IBAN получателя",
+    "amountHint": "Введите сумму из чека вручную",
+    "saveSaving": "Сохранение…",
+    "savePayment": "Сохранить платеж",
+    "anotherDekont": "Еще одна квитанция",
+    "transferCodeLabel": "Ожидаемый код перевода",
+    "transferCodeHint": "Этот код должен появиться в квитанции, если вы добавили его в описание перевода.",
+    "transferCodeOverride": "Код не читается при получении — все равно сохраните",
+    "forcePayment": "Принудительно сохранить платеж",
+    "forcePaymentHint": "Оплата была произведена до предварительного одобрения (в течение последних {maxDays} дней). IBAN и сумма должны совпадать.",
+    "forcePaymentSaving": "Экономия сил…",
+    "retroactiveTitle": "Ретроактивный платеж (без запроса)",
+    "retroactiveHint": "Выберите сотрудника с соответствующим IBAN — оплата была произведена раньше",
+    "retroactiveSave": "Сохранить как ретроактивный платеж",
+    "retroactiveNoEmployee": "Ни один сотрудник не найден с этим IBAN",
+    "payrollMonthNotice": "Оплата была произведена {paymentDate}. Этот аванс будет учтен в платежной ведомости {payrollMonth}."
   },
-  "loading": "Loading…"
+  "loading": "Загрузка…"
 }

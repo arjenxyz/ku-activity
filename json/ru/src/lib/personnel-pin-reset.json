@@ -1,32 +1,32 @@
 {
   "errors": {
-    "invalidTc": "Geçerli bir T.C. kimlik numarası girin.",
-    "invalidPhone": "Geçerli bir telefon numarası girin.",
-    "invalidEmail": "Geçerli bir e-posta adresi girin.",
-    "genericMismatch": "Girdiğiniz bilgiler kayıtlarımızla eşleşmedi. Bilgilerinizi kontrol edin veya şantiye yöneticinize başvurun.",
-    "invalidLink": "Geçersiz bağlantı",
-    "linkInvalidOrExpired": "Bağlantı geçersiz veya süresi dolmuş.",
-    "linkAlreadyUsed": "Bu bağlantı daha önce kullanıldı. Yeni bir sıfırlama linki isteyin.",
-    "linkExpired": "Bağlantının süresi doldu ({minutes} dakika). Giriş ekranından yeni link isteyin.",
-    "accountInactive": "Hesap aktif değil. Yöneticinize başvurun.",
-    "pinUpdateFailed": "PIN güncellenemedi",
-    "linkUsedOrExpired": "Bu bağlantı daha önce kullanıldı veya süresi doldu.",
-    "emailNotConfigured": "PIN sıfırlama e-postası yapılandırılmamış",
-    "emailSendFailed": "E-posta gönderilemedi ({status}){detail}"
+    "invalidTc": "Гечерли бир Т.С. Кимлик Нумарасы Гирин.",
+    "invalidPhone": "Вам нужно будет позвонить по номеру телефона.",
+    "invalidEmail": "Получите адрес электронной почты.",
+    "genericMismatch": "Girdiğiniz bilgiler kayıtlarımızla eşleşmedi. Контроль за проверкой состояния может осуществляться только в режиме онлайн.",
+    "invalidLink": "Geçersiz Baglantı",
+    "linkInvalidOrExpired": "Если вы хотите, чтобы вы были уверены в своих долмушах.",
+    "linkAlreadyUsed": "Но однажды это произойдет. Йени бир сыфирлама линки истейин.",
+    "linkExpired": "Баглантинин сюреси долду ({minutes} дакика). Гириш экраниндан йени ссылка истейин.",
+    "accountInactive": "Hesap aktif değil. Йонетицинизировать башвурун.",
+    "pinUpdateFailed": "ПИН-код",
+    "linkUsedOrExpired": "Если вы хотите, чтобы это произошло, вы должны быть уверены в том, что это произойдет.",
+    "emailNotConfigured": "PIN-код электронной почты в Япыландырылмамиш",
+    "emailSendFailed": "Электронная почта gönderilemedi ({status}){detail}"
   },
   "cooldown": {
-    "hoursAndMinutes": "Sıfırlama linki en fazla {cooldownHours} saatte bir gönderilir. {hours} saat {minutes} dakika sonra tekrar deneyin.",
-    "hoursOnly": "Sıfırlama linki en fazla {cooldownHours} saatte bir gönderilir. {hours} saat sonra tekrar deneyin.",
-    "minutesOnly": "Sıfırlama linki en fazla {cooldownHours} saatte bir gönderilir. {minutes} dakika sonra tekrar deneyin."
+    "hoursAndMinutes": "Нажмите ссылку на ссылку {cooldownHours}, чтобы найти ссылку. {hours} сат {minutes} дакика сонра текрар денейин.",
+    "hoursOnly": "Нажмите ссылку на ссылку {cooldownHours}, чтобы найти ссылку. {hours} сат сонра текрар денейин.",
+    "minutesOnly": "Нажмите ссылку на ссылку {cooldownHours}, чтобы найти ссылку. {minutes} дакика сонра текрар денейин."
   },
   "email": {
-    "subject": "{appName} — PIN sıfırlama bağlantınız",
-    "greeting": "Merhaba {name},",
-    "bodyIntro": "Girdiğiniz bilgiler sistemdeki kaydınızla uyuştu. Yeni PIN belirlemek için aşağıdaki bağlantıyı kullanın:",
-    "validityNote": "Bağlantı {minutes} dakika geçerlidir ve yalnızca bir kez kullanılabilir.",
-    "ignoreNote": "Bu talebi siz yapmadıysanız bu e-postayı yok sayın ve yöneticinize bildirin.",
-    "buttonLabel": "Yeni PIN belirle",
-    "htmlIntro": "Girdiğiniz bilgiler sistemdeki kaydınızla uyuştu. Yeni PIN belirlemek için aşağıdaki düğmeye tıklayın:",
-    "htmlIgnoreNote": "Bu talebi siz yapmadıysanız bu e-postayı yok sayın."
+    "subject": "{appName} — PIN-код подтверждения",
+    "greeting": "Мерхаба {name},",
+    "bodyIntro": "Girdiğiniz bilgiler sistemdeki kaydınızla uyuştu. Йени ПИН-код будет выбран в качестве ответа на вопрос:",
+    "validityNote": "Выберите {minutes}, чтобы получить доступ к значку {minutes}.",
+    "ignoreNote": "Если вы отправите электронное сообщение, вы скажете, что вам нужно отправить сообщение.",
+    "buttonLabel": "Йени ПИН Белирле",
+    "htmlIntro": "Girdiğiniz bilgiler sistemdeki kaydınızla uyuştu. Если вы хотите использовать PIN-код, выберите следующую ссылку:",
+    "htmlIgnoreNote": "Но вы можете сообщить об этом по электронной почте."
   }
 }

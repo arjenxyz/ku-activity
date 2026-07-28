@@ -1,29 +1,37 @@
 {
-  "prevMonth": "Previous month",
-  "nextMonth": "Next month",
-  "thisMonth": "This month",
-  "summary": "{recorded} recorded days · {confirmed} confirmed · {mesaiPay} overtime",
-  "selectMonth": "Select month:",
-  "weekdays": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+  "prevMonth": "Предыдущий месяц",
+  "nextMonth": "В следующем месяце",
+  "thisMonth": "В этом месяце",
+  "summary": "{recorded} записанных дней · {confirmed} подтверждено · {mesaiPay} сверхурочных",
+  "selectMonth": "Выберите месяц:",
+  "weekdays": [
+    "Пн.",
+    "Вт",
+    "Обвенчались",
+    "Чт",
+    "Пт",
+    "Суббота",
+    "Солнце"
+  ],
   "cellTitle": "{date} · {detail}",
-  "tapForDetail": "Tap marked days for details",
+  "tapForDetail": "Нажмите отмеченные дни, чтобы узнать подробности.",
   "legend": {
-    "work": "Work days",
-    "mesai": "Overtime",
-    "advance": "Advance",
-    "deduction": "Deduction",
-    "minimum": "Minimum wage"
+    "work": "Рабочие дни",
+    "mesai": "Через некоторое время",
+    "advance": "Продвигать",
+    "deduction": "Вычет",
+    "minimum": "Минимальная заработная плата"
   },
   "presence": {
-    "worked": "At work",
-    "absent": "Absent",
-    "leave": "Leave"
+    "worked": "На работе",
+    "absent": "Отсутствующий",
+    "leave": "Оставлять"
   },
   "status": {
-    "confirmed": "Confirmed",
-    "pending_employee": "Your approval",
-    "pending_admin": "Admin approval",
-    "disputed": "Disputed",
-    "none": "In progress"
+    "confirmed": "Подтвержденный",
+    "pending_employee": "Ваше одобрение",
+    "pending_admin": "Одобрение администратора",
+    "disputed": "Оспаривается",
+    "none": "В ходе выполнения"
   }
 }

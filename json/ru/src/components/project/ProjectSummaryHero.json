@@ -1,9 +1,9 @@
 {
-  "sectionAriaLabel": "Project overview",
-  "presentToday": "Present today",
-  "active": "Active",
-  "missing": "Pending",
-  "payroll": "Estimate",
-  "openAttendance": "Go to QR attendance",
-  "locationFallback": "No location set"
+  "sectionAriaLabel": "Обзор проекта",
+  "presentToday": "Настоящее сегодня",
+  "active": "Активный",
+  "missing": "В ожидании",
+  "payroll": "Оценивать",
+  "openAttendance": "Перейти к QR-посещаемости",
+  "locationFallback": "Местоположение не установлено"
 }

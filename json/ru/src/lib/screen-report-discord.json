@@ -1,14 +1,14 @@
 {
-  "embedScreen": "Ekran",
-  "embedScreenDefault": "Auth",
-  "embedTime": "Zaman",
-  "embedPage": "Sayfa",
-  "embedBrowser": "Tarayıcı",
-  "embedFormError": "Form hatası",
-  "embedUserNote": "Kullanıcı notu",
-  "embedDiagnostics": "Tanılama",
-  "reportTitle": "{appName} — Ekran raporu",
-  "newReportContent": "🚩 **Yeni ekran raporu**",
+  "embedScreen": "Экран",
+  "embedScreenDefault": "Авторизация",
+  "embedTime": "Заман",
+  "embedPage": "Сайфа",
+  "embedBrowser": "Тарайычи",
+  "embedFormError": "Форма хатасы",
+  "embedUserNote": "Кулланычи ноту",
+  "embedDiagnostics": "Танилама",
+  "reportTitle": "{appName} — Экран рапору",
+  "newReportContent": "🚩 **Ени экран рапору**",
   "sendFailed": "Discord raporu gönderilemedi ({status}){detail}",
-  "notConfigured": "Discord raporu yapılandırılmamış (DISCORD_REPORT_WEBHOOK_URL veya DISCORD_BOT_TOKEN)"
+  "notConfigured": "Discord raporu yapılandırılmamış (DISCORD_REPORT_WEBHOOK_URL с DISCORD_BOT_TOKEN)"
 }

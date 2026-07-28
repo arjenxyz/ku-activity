@@ -1,29 +1,68 @@
 {
   "jobTitles": [
-    "Şantiye şefi / Usta",
-    "Taşeron firma sahibi",
-    "Proje müdürü",
-    "İnsan kaynakları / Muhasebe",
-    "Operasyon / Planlama",
-    "Diğer"
+    "Шантие Шефи / Уста",
+    "Ташерон фирма Сахиби",
+    "Проект мюдюрю",
+    "Инсан кайнаклары / Мухасебе",
+    "Операсион / Планлама",
+    "Дигер"
   ],
   "teamSizes": [
-    { "value": "1-10", "label": "1 – 10 personel" },
-    { "value": "11-25", "label": "11 – 25 personel" },
-    { "value": "26-50", "label": "26 – 50 personel" },
-    { "value": "51-100", "label": "51 – 100 personel" },
-    { "value": "100+", "label": "100+ personel" }
+    {
+      "value": "1-10",
+      "label": "1–10 человек"
+    },
+    {
+      "value": "11-25",
+      "label": "11 – 25 человек"
+    },
+    {
+      "value": "26-50",
+      "label": "26 – 50 человек"
+    },
+    {
+      "value": "51-100",
+      "label": "51 – 100 человек"
+    },
+    {
+      "value": "100+",
+      "label": "100+ сотрудников"
+    }
   ],
   "projectCounts": [
-    { "value": "1", "label": "1 aktif şantiye" },
-    { "value": "2-3", "label": "2 – 3 şantiye" },
-    { "value": "4+", "label": "4 veya daha fazla" }
+    {
+      "value": "1",
+      "label": "1 актиф шантие"
+    },
+    {
+      "value": "2-3",
+      "label": "2 – 3 шантие"
+    },
+    {
+      "value": "4+",
+      "label": "4 вея даха фазла"
+    }
   ],
   "referralSources": [
-    { "value": "search", "label": "Google / arama" },
-    { "value": "referral", "label": "Tanıdık / referans" },
-    { "value": "social", "label": "Sosyal medya" },
-    { "value": "event", "label": "Fuar / etkinlik" },
-    { "value": "other", "label": "Diğer" }
+    {
+      "value": "поиск",
+      "label": "Гугл/арама"
+    },
+    {
+      "value": "направление",
+      "label": "Таныдык / реферансы"
+    },
+    {
+      "value": "социальный",
+      "label": "Сосял Медья"
+    },
+    {
+      "value": "событие",
+      "label": "Фуар/эткинлик"
+    },
+    {
+      "value": "другой",
+      "label": "Дигер"
+    }
   ]
 }

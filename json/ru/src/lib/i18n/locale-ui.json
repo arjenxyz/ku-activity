@@ -1,9 +1,8 @@
 {
-  "switchAriaLabel": "Select language",
-  "menuTitle": "Language",
-  "modalTitle": "Select language",
-  "closeButtonAriaLabel": "Close",
-  "closeOverlayAriaLabel": "Close",
-  "footerNote": "Your choice is saved on this device.",
-  "exitHint": "Нажмите, чтобы выйти"
+  "switchAriaLabel": "Выберите язык",
+  "menuTitle": "Язык",
+  "modalTitle": "Выберите язык",
+  "closeButtonAriaLabel": "Закрывать",
+  "closeOverlayAriaLabel": "Закрывать",
+  "footerNote": "Ваш выбор сохраняется на этом устройстве."
 }

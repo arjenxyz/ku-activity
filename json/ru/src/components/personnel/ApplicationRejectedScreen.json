@@ -1,7 +1,7 @@
 {
-  "badge": "Başvuru reddedildi",
-  "title": "Başvurunuz kabul edilmedi",
-  "description": "Kayıtlarınız silindi. Yöneticinizle görüşebilir veya bilgilerinizi güncelleyerek yeniden başvurabilirsiniz.",
-  "newApplicationCta": "Yeni başvuru yap",
-  "backToLogin": "Giriş ekranına dön"
+  "badge": "Башвуру Реддедилди",
+  "title": "Башвурунуз Кабул Эдилмеди",
+  "description": "Кайытларыныз силунди. Yöneticinizle görüşebilir veya bilgilerinizi güncelleyerek yeniden başvurabilirsiniz.",
+  "newApplicationCta": "Йени башвуру ага",
+  "backToLogin": "Гириш экран на экране"
 }

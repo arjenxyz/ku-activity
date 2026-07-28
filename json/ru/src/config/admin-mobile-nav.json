@@ -1,63 +1,144 @@
 {
   "dock": {
-    "summary": "Overview",
-    "approval": "Approve",
-    "attendance": "Attendance",
-    "profit": "Profit",
-    "payroll": "Payroll",
-    "status": "Status",
-    "menu": "Menu"
+    "summary": "Обзор",
+    "approval": "Утвердить",
+    "attendance": "посещаемость",
+    "profit": "Выгода",
+    "payroll": "Заработная плата",
+    "status": "Статус",
+    "menu": "Меню"
   },
   "hub": {
-    "essentialsTitle": "Daily essentials",
-    "essentialsSubtitle": "Overview, approvals and attendance used every day",
-    "periodicTitle": "Weekly & periodic",
-    "periodicSubtitle": "Weekly or month-end operations",
-    "personnelTitle": "Personnel",
-    "siteTitle": "Site",
-    "recordsTitle": "Records & corrections",
-    "recordsSubtitle": "Separate record, approval and archive pages",
-    "generalTitle": "General",
-    "generalSubtitle": "All projects and account",
+    "essentialsTitle": "Ежедневные предметы первой необходимости",
+    "essentialsSubtitle": "Обзор, одобрения и посещаемость используются каждый день",
+    "periodicTitle": "Еженедельно и периодически",
+    "periodicSubtitle": "Еженедельные или ежемесячные операции",
+    "personnelTitle": "Персонал",
+    "siteTitle": "Сайт",
+    "recordsTitle": "Записи и исправления",
+    "recordsSubtitle": "Отдельные страницы записи, утверждения и архива",
+    "generalTitle": "Общий",
+    "generalSubtitle": "Все проекты и аккаунт",
     "general": {
-      "projects": "Projects",
-      "arjenAdvance": "Arjen advance",
-      "arjenAttendance": "Arjen timesheet",
-      "applications": "Applications",
-      "policy": "Salary policy",
-      "settings": "Settings"
+      "projects": "Проекты",
+      "arjenAdvance": "Арьен наступление",
+      "arjenAttendance": "Расписание Арьена",
+      "applications": "Приложения",
+      "policy": "Зарплатная политика",
+      "settings": "Настройки"
     }
   },
   "simpleEssentialItems": [
-    { "label": "Project overview", "path": "", "hint": "Personnel list and daily status" },
-    { "label": "Application approval", "path": "basvuru-onay", "hint": "New personnel applications" },
-    { "label": "Attendance / QR", "path": "yevmiye", "hint": "Day, overtime and timesheet are planned here" }
+    {
+      "label": "Обзор проекта",
+      "path": "",
+      "hint": "Список персонала и ежедневный статус"
+    },
+    {
+      "label": "Одобрение заявки",
+      "path": "басвуру-онай",
+      "hint": "Новые кадровые заявки"
+    },
+    {
+      "label": "Посещаемость/QR",
+      "path": "евмие",
+      "hint": "Здесь планируются рабочий день, сверхурочная работа и табель учета рабочего времени."
+    }
   ],
   "periodicItems": [
-    { "label": "Subcontractor profit", "path": "kar", "hint": "Blocks, jobs and profit" },
-    { "label": "Where we stand", "path": "durum", "hint": "Project finance summary" },
-    { "label": "Payroll", "path": "bordro", "hint": "Period payroll" },
-    { "label": "Reports", "path": "raporlar", "hint": "Approval and summary reports" },
-    { "label": "Advance requests", "path": "avans-talepleri", "hint": "Personnel requests" },
-    { "label": "Share receipt", "absolutePath": "/admin-panel/dekont-paylas", "hint": "OCR matching" },
-    { "label": "Salary policy", "path": "maas-politikasi", "hint": "Project salary rules" }
+    {
+      "label": "Прибыль субподрядчика",
+      "path": "Кар",
+      "hint": "Блоки, рабочие места и прибыль"
+    },
+    {
+      "label": "Где мы стоим",
+      "path": "дурум",
+      "hint": "Краткое описание финансирования проекта"
+    },
+    {
+      "label": "Заработная плата",
+      "path": "бордро",
+      "hint": "Расчет заработной платы за период"
+    },
+    {
+      "label": "Отчеты",
+      "path": "рапорлар",
+      "hint": "Утверждение и сводные отчеты"
+    },
+    {
+      "label": "Предварительные запросы",
+      "path": "Аванс-Талеплери",
+      "hint": "Запросы персонала"
+    },
+    {
+      "label": "Получение акций",
+      "absolutePath": "/admin-панель/dekont-paylas",
+      "hint": "Сопоставление оптического распознавания символов"
+    },
+    {
+      "label": "Зарплатная политика",
+      "path": "маас-политикаси",
+      "hint": "Правила зарплаты в проекте"
+    }
   ],
   "personnelItems": [
-    { "label": "Personnel list", "path": "list" },
-    { "label": "New personnel", "path": "new" },
-    { "label": "Application approval", "path": "basvuru-onay", "hint": "New personnel applications" },
-    { "label": "Attendance / QR", "path": "yevmiye", "hint": "Day, overtime and timesheet are planned here" },
-    { "label": "Personnel passwords", "path": "sorgulama/personel-sifreleri" }
+    {
+      "label": "Кадровый состав",
+      "path": "список"
+    },
+    {
+      "label": "Новый персонал",
+      "path": "новый"
+    },
+    {
+      "label": "Одобрение заявки",
+      "path": "басвуру-онай",
+      "hint": "Новые кадровые заявки"
+    },
+    {
+      "label": "Посещаемость/QR",
+      "path": "евмие",
+      "hint": "Здесь планируются рабочий день, сверхурочная работа и табель учета рабочего времени."
+    },
+    {
+      "label": "Пароли персонала",
+      "path": "соргулама/персонал-сифрелери"
+    }
   ],
   "siteItems": [
-    { "label": "Blocks", "path": "bloklar" },
-    { "label": "Teams", "path": "ekiplar" }
+    {
+      "label": "Блоки",
+      "path": "блокляр"
+    },
+    {
+      "label": "Команды",
+      "path": "экиплар"
+    }
   ],
   "recordsItems": [
-    { "label": "Advance", "path": "avans", "hint": "Separate advance record" },
-    { "label": "Deduction", "path": "kesinti", "hint": "Separate deduction record" },
-    { "label": "Approved", "path": "raporlar/onaylanan" },
-    { "label": "Pending records", "path": "raporlar/onaysiz" },
-    { "label": "Record history", "path": "kayit-gecmisi", "hint": "Query and archive" }
+    {
+      "label": "Продвигать",
+      "path": "авансы",
+      "hint": "Отдельная предварительная запись"
+    },
+    {
+      "label": "Вычет",
+      "path": "кесинти",
+      "hint": "Отдельная запись о вычете"
+    },
+    {
+      "label": "Одобренный",
+      "path": "рапорлар/онайланан"
+    },
+    {
+      "label": "Ожидающие записи",
+      "path": "рапорлар/онайсиз"
+    },
+    {
+      "label": "История записи",
+      "path": "Кайит-Гечмиси",
+      "hint": "Запрос и архив"
+    }
   ]
 }

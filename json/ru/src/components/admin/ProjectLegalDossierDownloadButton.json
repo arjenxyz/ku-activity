@@ -1,11 +1,11 @@
 {
   "errors": {
-    "downloadFailed": "Project archive download failed",
-    "genericFailed": "Download failed"
+    "downloadFailed": "Загрузка архива проекта не удалась",
+    "genericFailed": "Загрузка не удалась"
   },
-  "loading": "Preparing…",
-  "button": "Download full project archive",
-  "buttonCompact": "Download archive",
-  "hint": "All personnel folders, closure summary, team/block assignments, and wage policy in one ZIP.",
-  "fallbackFilename": "project-closure-archive.zip"
+  "loading": "Подготовка…",
+  "button": "Скачать полный архив проекта",
+  "buttonCompact": "Скачать архив",
+  "hint": "Все папки с персоналом, сводка закрытия, назначения команд/блоков и политика заработной платы в одном ZIP-архиве.",
+  "fallbackFilename": "проект-закрытие-архив.zip"
 }

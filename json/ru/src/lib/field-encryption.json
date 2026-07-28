@@ -1,7 +1,7 @@
 {
-  "encryptionKeyMissing": "FIELD_ENCRYPTION_KEY eksik veya çok kısa (.env)",
-  "invalidTcKimlik": "Geçersiz T.C. kimlik numarası",
+  "encryptionKeyMissing": "FIELD_ENCRYPTION_KEY внешний вид файла (.env)",
+  "invalidTcKimlik": "Гечерсиз Т.С. Кимлик Нумарасы",
   "invalidIdentity": "Geçersiz kimlik numarası",
-  "invalidPhone": "Geçersiz telefon numarası",
-  "invalidIban": "Geçersiz IBAN"
+  "invalidPhone": "Телефонные номера",
+  "invalidIban": "Общий IBAN"
 }

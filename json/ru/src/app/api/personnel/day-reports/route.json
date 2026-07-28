@@ -1,11 +1,11 @@
 {
-  "unauthorized": "Session invalid",
-  "loadFailed": "Could not load reports",
-  "invalidBody": "Invalid request",
-  "invalidDate": "Invalid date",
-  "categoriesRequired": "Select at least one error category",
-  "noteTooShort": "Description must be at least 5 characters",
-  "createFailed": "Could not submit report",
-  "migrationRequired": "Run migration 077_day_error_reports.sql",
-  "projectClosed": "Project is closing; reports cannot be submitted"
+  "unauthorized": "Сеанс недействителен",
+  "loadFailed": "Не удалось загрузить отчеты",
+  "invalidBody": "Неверный запрос",
+  "invalidDate": "Неверная дата",
+  "categoriesRequired": "Выберите хотя бы одну категорию ошибок",
+  "noteTooShort": "Описание должно быть не менее 5 символов.",
+  "createFailed": "Не удалось отправить отчет",
+  "migrationRequired": "Запустите миграцию 077_day_error_reports.sql",
+  "projectClosed": "Проект закрывается; отчеты не могут быть сданы"
 }

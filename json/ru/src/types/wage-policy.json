@@ -1,17 +1,17 @@
 {
   "yevmiyeTriggerLabels": {
-    "month_end": "Ay sonunda",
-    "roof_complete": "Çatı / aşama bitince",
-    "job_complete": "İş bitiminde"
+    "month_end": "Ай, сонунда",
+    "roof_complete": "Чаты / ашама битинце",
+    "job_complete": "Иш битиминде"
   },
   "prorationModeLabels": {
     "calendar_days": "İşe girişten ay sonuna (takvim günü)",
-    "worked_days": "Sadece çalışılan güne göre",
-    "full_month": "Her zaman tam ay (oranlama yok)"
+    "worked_days": "Садече Чалышилан Гюне Горе",
+    "full_month": "Ее заман там ай (оранлама йок)"
   },
   "dekontDeductionLabels": {
-    "manual_review": "Dekontu admin onaylasın (BES/kesinti elle)",
-    "ignore": "Kesintileri yok say (sadece net yatan tutar)",
+    "manual_review": "Окончание администратора (BES/название объекта)",
+    "ignore": "Кесинтилери йок сай (садеце нет ятан тутар)",
     "auto_separate": "Kesintileri ayrı satır olarak kaydet (ileride)"
   }
 }

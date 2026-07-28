@@ -1,18 +1,26 @@
 {
-  "prevMonth": "Önceki ay",
-  "nextMonth": "Sonraki ay",
-  "thisMonth": "Bu ay",
-  "summary": "{recorded} kayıtlı gün · {confirmed} onaylı · {pending} bekleyen",
-  "selectMonth": "Ay seç:",
-  "weekdays": ["Pt", "Sa", "Ça", "Pe", "Cu", "Ct", "Pz"],
+  "prevMonth": "Онцеки ай",
+  "nextMonth": "Сонраки ай",
+  "thisMonth": "Бу ай",
+  "summary": "{recorded} kayıtlı gün · {confirmed} онайлы · {pending} bekleyen",
+  "selectMonth": "Да, вот так:",
+  "weekdays": [
+    "Пт",
+    "суббота",
+    "Ча",
+    "Пе",
+    "Cu",
+    "Кт",
+    "Пз"
+  ],
   "cellTitle": "{date} · {amount} · {status}",
-  "tapForDetail": "Tap a highlighted day for details",
+  "tapForDetail": "Нажмите на выделенный день, чтобы узнать подробности",
   "status": {
-    "confirmed": "Onaylı",
-    "pending_employee": "Sizin onayınız",
-    "pending_admin": "Yönetici onayı",
-    "disputed": "İtiraz",
-    "none": "İşlemde",
-    "empty": "Kayıt yok"
+    "confirmed": "Онайлы",
+    "pending_employee": "Сизин онаыныз",
+    "pending_admin": "Йонетичи онайы",
+    "disputed": "Итираз",
+    "none": "Ислемде",
+    "empty": "Кайит йок"
   }
 }

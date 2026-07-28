@@ -1,6 +1,6 @@
 {
-  "authFailed": "Could not load update notes (GitHub auth required).",
-  "repoNotFound": "Repository not found.",
-  "fetchFailed": "Could not load update notes.",
-  "sistemHatası": "System error"
+  "authFailed": "Не удалось загрузить примечания к обновлению (требуется авторизация GitHub).",
+  "repoNotFound": "Репозиторий не найден.",
+  "fetchFailed": "Не удалось загрузить примечания к обновлению.",
+  "sistemHatası": "Системная ошибка"
 }
