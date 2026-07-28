@@ -190,7 +190,7 @@ function LanguageOverlay({
           role="dialog"
           aria-modal="true"
           aria-labelledby={titleId}
-          className="fixed inset-0 z-[100] flex h-[100dvh] flex-col bg-slate-900/45 backdrop-blur-[2px]"
+          className="fixed inset-0 z-[100] flex h-[100dvh] flex-col bg-slate-900/65 backdrop-blur-md"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -216,32 +216,32 @@ function LanguageOverlay({
               onClick={(e) => e.stopPropagation()}
             >
               <div className="mx-auto max-w-5xl">
-                <div className="flex h-14 items-center justify-between gap-3 rounded-2xl border border-white/15 bg-black/60 px-3 shadow-lg shadow-black/30 backdrop-blur-xl sm:px-4">
+                <div className="flex h-14 items-center justify-between gap-3 rounded-2xl border border-white/80 bg-white/95 px-3 shadow-lg shadow-slate-900/10 backdrop-blur-xl sm:px-4">
                   <button
                     type="button"
                     onClick={onClose}
                     className="flex min-w-0 flex-1 items-center gap-2.5 text-left transition-opacity hover:opacity-90 active:opacity-80"
                     aria-label={closeOverlayAriaLabel}
                   >
-                    <BrandMark size="sm" className="shrink-0 shadow-lg ring-2 ring-white/20" />
+                    <BrandMark size="sm" className="shrink-0 shadow-md ring-2 ring-slate-200/80" />
                     <div className="min-w-0">
                       <p
                         id={titleId}
-                        className="truncate text-[13px] font-bold leading-tight tracking-[0.08em] text-white"
+                        className="truncate text-[13px] font-bold leading-tight tracking-[0.08em] text-[#0E1548]"
                       >
                         {title}
                       </p>
-                      <p className="truncate text-[10px] font-medium leading-tight text-white/55">
+                      <p className="truncate text-[10px] font-medium leading-tight text-slate-500">
                         {exitHint}
                       </p>
                     </div>
                   </button>
 
-                  <div className="shrink-0 rounded-xl bg-white/10 p-0.5">
+                  <div className="shrink-0 rounded-xl bg-slate-100/80 p-0.5">
                     <button
                       type="button"
                       onClick={onClose}
-                      className="inline-flex h-10 w-10 items-center justify-center rounded-xl text-white transition-colors hover:bg-white/10"
+                      className="inline-flex h-10 w-10 items-center justify-center rounded-xl text-[#0E1548] transition-colors hover:bg-slate-200/70"
                       aria-label={closeButtonAriaLabel}
                     >
                       <FiX className="h-5 w-5" />
