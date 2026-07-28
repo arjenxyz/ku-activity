@@ -10,6 +10,7 @@ import {
   HonorIconTile,
 } from '@/components/icons/HonorIcons';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
+import { getRegistryStrings } from '@/lib/i18n/strings-registry';
 import { formatString } from '@/lib/strings/format';
 import { usePersonnelNotificationsContext } from '@/contexts/PersonnelNotificationsContext';
 import { isPersonnelTwaRuntime, openPersonnelAppNotificationSettings } from '@/lib/personnel-app-runtime';
@@ -82,7 +83,11 @@ function SettingsToggle({
   );
 }
 
-function formatRelativeTime(iso: string, strings: typeof trStrings) {
+type NotificationBellStrings = ReturnType<
+  typeof getRegistryStrings<'components/personnel/PersonnelNotificationsBell'>
+>;
+
+function formatRelativeTime(iso: string, strings: NotificationBellStrings) {
   const diffMs = Date.now() - new Date(iso).getTime();
   const mins = Math.floor(diffMs / 60_000);
   if (mins < 1) return strings.timeJustNow;
