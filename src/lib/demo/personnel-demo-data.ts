@@ -94,7 +94,7 @@ export function getDemoDeductions(month: string = MONTH): Deduction[] {
   ];
 }
 
-export function getDemoMinimumWages(): MinimumWage[] {
+export function getDemoMinimumWages(_month: string = MONTH): MinimumWage[] {
   return [];
 }
 

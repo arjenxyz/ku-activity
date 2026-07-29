@@ -47,7 +47,7 @@ const MIN_RESTART_GAP_MS = 120;
 let activeLocale: Locale | null = null;
 let playbackGeneration = 0;
 let lastStartedAt = 0;
-let hoverTimer: ReturnType<typeof setTimeout> | null = null;
+let hoverTimer: number | null = null;
 let pendingHoverLocale: Locale | null = null;
 
 /** Tek oynatıcı — aynı anda yalnızca bir ses. */

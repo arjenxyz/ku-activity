@@ -293,7 +293,7 @@ export function DemoRoleButton({
   pill = false,
 }: {
   className?: string;
-  children?: ReactNode;
+  children?: string;
   pill?: boolean;
 }) {
   const hero = useRegistryStrings('components/home/HeroSection');
