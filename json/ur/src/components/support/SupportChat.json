@@ -1,6 +1,6 @@
 {
   "title": "CrewLedger AI",
-  "subtitle": "حاضری، پے رول، ایڈوانس اور ایپ کا استعمال",
+  "subtitle": "مزید کے لیے /help · خرابی: /bug-report",
   "placeholder": "اپنا سوال لکھیں…",
   "send": "بھیجیں",
   "close": "چیٹ بند کریں",
@@ -17,5 +17,24 @@
     "مفت ڈیمو کیسے آزمائیں؟"
   ],
   "errorQuota": "AI کوٹہ ختم ہو گیا۔ بعد میں کوشش کریں۔",
-  "errorUnavailable": "AI سپورٹ عارضی طور پر دستیاب نہیں۔ بعد میں کوشش کریں۔"
+  "errorUnavailable": "AI سپورٹ عارضی طور پر دستیاب نہیں۔ بعد میں کوشش کریں۔",
+  "inputHint": "کمانڈز کے لیے / لکھیں۔ مزید: /help · خرابی: /bug-report",
+  "slashCommandsLabel": "کمانڈز",
+  "helpIntro": "دستیاب کمانڈز (ہمیشہ انگریزی میں):",
+  "bugReportPrompt": "براہ کرم بگ مختصر بیان کریں (کیا ہوا، کون سی اسکرین، ممکن ہو تو مراحل)۔",
+  "bugReportSuggestions": [
+    "QR اسکین نہیں ہوتا",
+    "ایڈوانس نہیں بھیج پا رہا",
+    "پے رول غلط دکھ رہا"
+  ],
+  "slashCommands": [
+    {
+      "command": "/help",
+      "description": "کمانڈ فہرست دکھائیں"
+    },
+    {
+      "command": "/bug-report",
+      "description": "بگ یا مسئلہ رپورٹ کریں"
+    }
+  ]
 }

@@ -1,6 +1,6 @@
 {
   "title": "CrewLedger AI",
-  "subtitle": "Pointage, paie, acomptes et utilisation de l’appli",
+  "subtitle": "Plus d’infos: /help · Bugs: /bug-report",
   "placeholder": "Tapez votre question…",
   "send": "Envoyer",
   "close": "Fermer le chat",
@@ -8,7 +8,7 @@
   "connectionLostReconnecting": "Connexion perdue, reconnexion en cours…",
   "errorGeneric": "Je ne peux pas répondre pour le moment. Réessayez.",
   "errorRateLimit": "Trop de demandes. Attendez un instant et réessayez.",
-  "errorNotConfigured": "L’assistance IA n’est pas encore configurée. Réessayez plus tard.",
+  "errorNotConfigured": "L'assistance IA n'est pas encore configurée. Réessayez plus tard.",
   "welcomeMessage": "Bonjour ! Je peux vous aider sur la gestion du personnel CrewLedger, le pointage QR, la paie et les acomptes. Que souhaitez-vous savoir ?",
   "suggestions": [
     "Comment fonctionne le pointage QR ?",
@@ -17,5 +17,24 @@
     "Comment essayer la démo gratuite ?"
   ],
   "errorQuota": "Quota IA dépassé. Réessayez plus tard.",
-  "errorUnavailable": "L'assistance IA est temporairement indisponible. Réessayez plus tard."
+  "errorUnavailable": "L'assistance IA est temporairement indisponible. Réessayez plus tard.",
+  "inputHint": "Tapez / pour les commandes. Plus: /help · Bugs: /bug-report",
+  "slashCommandsLabel": "Commandes",
+  "helpIntro": "Commandes disponibles (toujours en anglais) :",
+  "bugReportPrompt": "Décrivez brièvement le problème (ce qui s'est passé, quel écran, étapes si possible).",
+  "bugReportSuggestions": [
+    "Le QR ne scanne pas",
+    "Impossible d'envoyer un acompte",
+    "La paie semble incorrecte"
+  ],
+  "slashCommands": [
+    {
+      "command": "/help",
+      "description": "Afficher la liste des commandes"
+    },
+    {
+      "command": "/bug-report",
+      "description": "Signaler un bug ou un problème"
+    }
+  ]
 }

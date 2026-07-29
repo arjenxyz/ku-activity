@@ -1,6 +1,6 @@
 {
   "title": "CrewLedger AI",
-  "subtitle": "Yoklama, bordro, avans ve uygulama kullanımı",
+  "subtitle": "Daha fazlası için /help yazın · Hata: /bug-report",
   "placeholder": "Sorunuzu yazın…",
   "send": "Gönder",
   "close": "Sohbeti kapat",
@@ -17,5 +17,24 @@
     "Ücretsiz demo nasıl denenir?"
   ],
   "errorQuota": "AI kotası doldu. Lütfen biraz sonra tekrar deneyin.",
-  "errorUnavailable": "AI destek şu an yoğun. Lütfen biraz sonra tekrar deneyin."
+  "errorUnavailable": "AI destek şu an yoğun. Lütfen biraz sonra tekrar deneyin.",
+  "inputHint": "Komutlar için / yazın. Daha fazlası: /help · Hata: /bug-report",
+  "slashCommandsLabel": "Komutlar",
+  "helpIntro": "Kullanılabilir komutlar (her zaman İngilizce):",
+  "bugReportPrompt": "Hata bildirimi için lütfen sorunu kısaca anlatın (ne oldu, hangi ekran, mümkünse adımlar).",
+  "bugReportSuggestions": [
+    "QR okutulmuyor",
+    "Avans talebi gönderilemiyor",
+    "Bordro yanlış görünüyor"
+  ],
+  "slashCommands": [
+    {
+      "command": "/help",
+      "description": "Komut listesini göster"
+    },
+    {
+      "command": "/bug-report",
+      "description": "Hata veya sorun bildir"
+    }
+  ]
 }

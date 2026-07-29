@@ -1,6 +1,6 @@
 {
   "title": "CrewLedger KI",
-  "subtitle": "Anwesenheit, Abrechnung, Vorschüsse und App-Nutzung",
+  "subtitle": "Mehr mit /help · Fehler: /bug-report",
   "placeholder": "Frage eingeben…",
   "send": "Senden",
   "close": "Chat schließen",
@@ -17,5 +17,24 @@
     "Wie teste ich die kostenlose Demo?"
   ],
   "errorQuota": "KI-Kontingent erschöpft. Bitte später erneut versuchen.",
-  "errorUnavailable": "KI-Support ist vorübergehend nicht verfügbar. Bitte später erneut versuchen."
+  "errorUnavailable": "KI-Support ist vorübergehend nicht verfügbar. Bitte später erneut versuchen.",
+  "inputHint": "Tippe / für Befehle. Mehr: /help · Fehler: /bug-report",
+  "slashCommandsLabel": "Befehle",
+  "helpIntro": "Verfügbare Befehle (immer Englisch):",
+  "bugReportPrompt": "Bitte beschreiben Sie den Fehler kurz (was passiert ist, welcher Bildschirm, ggf. Schritte).",
+  "bugReportSuggestions": [
+    "QR wird nicht gescannt",
+    "Vorschuss kann nicht gesendet werden",
+    "Abrechnung sieht falsch aus"
+  ],
+  "slashCommands": [
+    {
+      "command": "/help",
+      "description": "Befehlsliste anzeigen"
+    },
+    {
+      "command": "/bug-report",
+      "description": "Fehler oder Problem melden"
+    }
+  ]
 }

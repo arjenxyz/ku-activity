@@ -1,6 +1,6 @@
 {
   "title": "CrewLedger AI",
-  "subtitle": "Absensi, penggajian, uang muka, dan penggunaan aplikasi",
+  "subtitle": "Selengkapnya: /help · Bug: /bug-report",
   "placeholder": "Ketik pertanyaan Anda…",
   "send": "Kirim",
   "close": "Tutup obrolan",
@@ -17,5 +17,24 @@
     "Bagaimana mencoba demo gratis?"
   ],
   "errorQuota": "Kuota AI habis. Coba lagi nanti.",
-  "errorUnavailable": "Dukungan AI sementara tidak tersedia. Coba lagi nanti."
+  "errorUnavailable": "Dukungan AI sementara tidak tersedia. Coba lagi nanti.",
+  "inputHint": "Ketik / untuk perintah. Lainnya: /help · Bug: /bug-report",
+  "slashCommandsLabel": "Perintah",
+  "helpIntro": "Perintah tersedia (selalu dalam bahasa Inggris):",
+  "bugReportPrompt": "Jelaskan bug secara singkat (apa yang terjadi, layar mana, langkah jika bisa).",
+  "bugReportSuggestions": [
+    "QR tidak terpindai",
+    "Tidak bisa kirim uang muka",
+    "Gaji terlihat salah"
+  ],
+  "slashCommands": [
+    {
+      "command": "/help",
+      "description": "Tampilkan daftar perintah"
+    },
+    {
+      "command": "/bug-report",
+      "description": "Laporkan bug atau masalah"
+    }
+  ]
 }

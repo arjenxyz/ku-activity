@@ -8,6 +8,10 @@ import {
   SupportChatError,
   type SupportChatMessage,
 } from '@/lib/support-chat';
+import {
+  handleSupportBugReport,
+  isBugReportMessage,
+} from '@/lib/support-bug-report';
 
 export const dynamic = 'force-dynamic';
 
@@ -77,9 +81,22 @@ export async function POST(req: NextRequest) {
     }
 
     const locale = parseLocale(typeof body.locale === 'string' ? body.locale : null);
-    const reply = await generateSupportChatReply(messages, locale);
 
-    return NextResponse.json({ reply });
+    if (isBugReportMessage(last.content)) {
+      const result = await handleSupportBugReport(messages, locale);
+      return NextResponse.json({
+        reply: result.reply,
+        suggestedFollowUps: result.suggestedFollowUps,
+        ticket: result.ticket,
+      });
+    }
+
+    const result = await generateSupportChatReply(messages, locale);
+
+    return NextResponse.json({
+      reply: result.reply,
+      suggestedFollowUps: result.suggestedFollowUps,
+    });
   } catch (err) {
     if (err instanceof SupportChatError) {
       switch (err.code) {

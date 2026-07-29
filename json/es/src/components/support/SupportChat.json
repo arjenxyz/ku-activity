@@ -1,6 +1,6 @@
 {
   "title": "CrewLedger AI",
-  "subtitle": "Asistencia, nómina, anticipos y uso de la app",
+  "subtitle": "Más con /help · Errores: /bug-report",
   "placeholder": "Escribe tu pregunta…",
   "send": "Enviar",
   "close": "Cerrar chat",
@@ -17,5 +17,24 @@
     "¿Cómo pruebo la demo gratuita?"
   ],
   "errorQuota": "Cuota de IA agotada. Inténtalo más tarde.",
-  "errorUnavailable": "El soporte IA no está disponible temporalmente. Inténtalo más tarde."
+  "errorUnavailable": "El soporte IA no está disponible temporalmente. Inténtalo más tarde.",
+  "inputHint": "Escribe / para comandos. Más: /help · Errores: /bug-report",
+  "slashCommandsLabel": "Comandos",
+  "helpIntro": "Comandos disponibles (siempre en inglés):",
+  "bugReportPrompt": "Describe brevemente el error (qué ocurrió, qué pantalla, pasos si es posible).",
+  "bugReportSuggestions": [
+    "El QR no escanea",
+    "No puedo enviar anticipo",
+    "La nómina se ve mal"
+  ],
+  "slashCommands": [
+    {
+      "command": "/help",
+      "description": "Mostrar lista de comandos"
+    },
+    {
+      "command": "/bug-report",
+      "description": "Informar un error o problema"
+    }
+  ]
 }

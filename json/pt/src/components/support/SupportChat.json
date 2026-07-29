@@ -1,6 +1,6 @@
 {
   "title": "CrewLedger AI",
-  "subtitle": "Assiduidade, folha, adiantamentos e uso da app",
+  "subtitle": "Mais com /help · Bugs: /bug-report",
   "placeholder": "Escreva a sua pergunta…",
   "send": "Enviar",
   "close": "Fechar chat",
@@ -17,5 +17,24 @@
     "Como experimento a demo gratuita?"
   ],
   "errorQuota": "Cota de IA esgotada. Tente novamente mais tarde.",
-  "errorUnavailable": "O suporte IA está temporariamente indisponível. Tente mais tarde."
+  "errorUnavailable": "O suporte IA está temporariamente indisponível. Tente mais tarde.",
+  "inputHint": "Digite / para comandos. Mais: /help · Bugs: /bug-report",
+  "slashCommandsLabel": "Comandos",
+  "helpIntro": "Comandos disponíveis (sempre em inglês):",
+  "bugReportPrompt": "Descreva brevemente o erro (o que aconteceu, qual ecrã, passos se possível).",
+  "bugReportSuggestions": [
+    "QR não digitaliza",
+    "Não consigo enviar adiantamento",
+    "Folha parece errada"
+  ],
+  "slashCommands": [
+    {
+      "command": "/help",
+      "description": "Mostrar lista de comandos"
+    },
+    {
+      "command": "/bug-report",
+      "description": "Relatar um bug ou problema"
+    }
+  ]
 }

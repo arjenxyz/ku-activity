@@ -1,6 +1,6 @@
 {
   "title": "CrewLedger AI",
-  "subtitle": "Attendance, payroll, advances and app usage",
+  "subtitle": "Type /help for more · Bugs: /bug-report",
   "placeholder": "Type your question…",
   "send": "Send",
   "close": "Close chat",
@@ -17,5 +17,24 @@
     "How can I try the free demo?"
   ],
   "errorQuota": "AI quota exceeded. Please try again later.",
-  "errorUnavailable": "AI support is temporarily unavailable. Please try again later."
+  "errorUnavailable": "AI support is temporarily unavailable. Please try again later.",
+  "inputHint": "Type / for commands. More: /help · Bugs: /bug-report",
+  "slashCommandsLabel": "Commands",
+  "helpIntro": "Available commands (always in English):",
+  "bugReportPrompt": "Please briefly describe the bug (what happened, which screen, steps if possible).",
+  "bugReportSuggestions": [
+    "QR will not scan",
+    "Cannot submit advance request",
+    "Payroll looks wrong"
+  ],
+  "slashCommands": [
+    {
+      "command": "/help",
+      "description": "Show command list"
+    },
+    {
+      "command": "/bug-report",
+      "description": "Report a bug or issue"
+    }
+  ]
 }

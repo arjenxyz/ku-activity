@@ -7,6 +7,11 @@ export type SupportChatMessage = {
   content: string;
 };
 
+export type SupportChatReply = {
+  reply: string;
+  suggestedFollowUps: string[];
+};
+
 export type SupportChatErrorCode =
   | 'NOT_CONFIGURED'
   | 'AUTH'
@@ -66,7 +71,26 @@ function systemPrompt(locale: Locale): string {
 
 ${languageHint}
 
-${CREWLEDGER_KNOWLEDGE}`;
+${CREWLEDGER_KNOWLEDGE}
+
+Bug reports:
+- Normal chat should guide users to the English slash command /bug-report (never invent localized command names).
+- Messages starting with "[BUG REPORT]" are handled by a separate triage pipeline — you will not normally see them here.
+- Do not claim you filed a GitHub ticket unless the system message says so.
+
+Output format (REQUIRED):
+Return ONLY valid JSON with this shape:
+{
+  "reply": "your helpful answer as plain text",
+  "suggestedFollowUps": ["short follow-up question 1", "short follow-up question 2"]
+}
+
+Rules for suggestedFollowUps:
+- Provide 2 to 4 short follow-up questions the user might ask next.
+- They must relate to your reply and the conversation topic.
+- Same language as the reply.
+- Keep each under ~60 characters.
+- Do not include slash commands unless relevant.`;
 }
 
 function getGeminiApiKey(): string | null {
@@ -125,12 +149,66 @@ type GeminiGenerateResponse = {
   error?: { message?: string; code?: number; status?: string };
 };
 
+function sanitizeFollowUps(raw: unknown): string[] {
+  if (!Array.isArray(raw)) return [];
+  const items: string[] = [];
+  const seen = new Set<string>();
+  for (const item of raw) {
+    if (typeof item !== 'string') continue;
+    const trimmed = item.trim().replace(/\s+/g, ' ');
+    if (!trimmed || trimmed.length > 120) continue;
+    const key = trimmed.toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    items.push(trimmed);
+    if (items.length >= 4) break;
+  }
+  return items;
+}
+
+export function parseSupportChatReply(text: string): SupportChatReply {
+  const cleaned = text
+    .trim()
+    .replace(/^```(?:json)?\s*/i, '')
+    .replace(/\s*```$/i, '')
+    .trim();
+
+  try {
+    const parsed = JSON.parse(cleaned) as { reply?: unknown; suggestedFollowUps?: unknown };
+    if (typeof parsed.reply === 'string' && parsed.reply.trim()) {
+      return {
+        reply: parsed.reply.trim(),
+        suggestedFollowUps: sanitizeFollowUps(parsed.suggestedFollowUps),
+      };
+    }
+  } catch {
+    // Fall through to plain-text handling.
+  }
+
+  const jsonMatch = cleaned.match(/\{[\s\S]*\}/);
+  if (jsonMatch) {
+    try {
+      const parsed = JSON.parse(jsonMatch[0]) as { reply?: unknown; suggestedFollowUps?: unknown };
+      if (typeof parsed.reply === 'string' && parsed.reply.trim()) {
+        return {
+          reply: parsed.reply.trim(),
+          suggestedFollowUps: sanitizeFollowUps(parsed.suggestedFollowUps),
+        };
+      }
+    } catch {
+      // Ignore and use plain text.
+    }
+  }
+
+  return { reply: cleaned, suggestedFollowUps: [] };
+}
+
 async function callGeminiGenerateContent(
   apiKey: string,
   model: string,
   messages: SupportChatMessage[],
   locale: Locale
-): Promise<string> {
+): Promise<SupportChatReply> {
   const contents = messages.map((message) => ({
     role: message.role === 'assistant' ? 'model' : 'user',
     parts: [{ text: message.content }],
@@ -150,6 +228,7 @@ async function callGeminiGenerateContent(
           temperature: 0.55,
           // Flash 3.x may reserve thinking tokens from the same budget.
           maxOutputTokens: 2048,
+          responseMimeType: 'application/json',
         },
         safetySettings: [
           { category: 'HARM_CATEGORY_HARASSMENT', threshold: 'BLOCK_MEDIUM_AND_ABOVE' },
@@ -178,13 +257,17 @@ async function callGeminiGenerateContent(
     throw new SupportChatError('EMPTY', 'GEMINI_EMPTY', res.status);
   }
 
-  return text;
+  const parsed = parseSupportChatReply(text);
+  if (!parsed.reply) {
+    throw new SupportChatError('EMPTY', 'GEMINI_EMPTY', res.status);
+  }
+  return parsed;
 }
 
 export async function generateSupportChatReply(
   messages: SupportChatMessage[],
   locale: Locale
-): Promise<string> {
+): Promise<SupportChatReply> {
   const apiKey = getGeminiApiKey();
   if (!apiKey) {
     throw new SupportChatError('NOT_CONFIGURED', 'SUPPORT_CHAT_NOT_CONFIGURED');

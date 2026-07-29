@@ -1,6 +1,6 @@
 {
   "title": "CrewLedger AI",
-  "subtitle": "出勤、給与、前払い、アプリの使い方",
+  "subtitle": "詳細は /help · 不具合: /bug-report",
   "placeholder": "質問を入力…",
   "send": "送信",
   "close": "チャットを閉じる",
@@ -17,5 +17,24 @@
     "無料デモはどう試しますか？"
   ],
   "errorQuota": "AI の利用上限に達しました。しばらくしてから再度お試しください。",
-  "errorUnavailable": "AI サポートは一時的に利用できません。しばらくしてから再度お試しください。"
+  "errorUnavailable": "AI サポートは一時的に利用できません。しばらくしてから再度お試しください。",
+  "inputHint": "コマンドは / 。詳細: /help · 不具合: /bug-report",
+  "slashCommandsLabel": "コマンド",
+  "helpIntro": "利用可能なコマンド（常に英語）：",
+  "bugReportPrompt": "不具合を短く説明してください（何が起きたか、どの画面か、可能なら手順）。",
+  "bugReportSuggestions": [
+    "QR が読み取れない",
+    "前払いを送れない",
+    "給与表示がおかしい"
+  ],
+  "slashCommands": [
+    {
+      "command": "/help",
+      "description": "コマンド一覧を表示"
+    },
+    {
+      "command": "/bug-report",
+      "description": "不具合や問題を報告"
+    }
+  ]
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import Image from 'next/image';
 import { FiSend, FiX } from 'react-icons/fi';
 import { useLocale } from '@/lib/i18n/LocaleProvider';
@@ -12,8 +12,22 @@ type ChatMessage = {
   content: string;
 };
 
+/** Slash command tokens are always English, regardless of UI locale. */
+const HELP_COMMAND = '/help';
+const BUG_REPORT_COMMAND = '/bug-report';
+const HELP_RE = /^\/help(?:\s+.*)?$/i;
+const BUG_REPORT_RE = /^\/bug-report(?:\s+([\s\S]*))?$/i;
+const CANONICAL_SLASH_COMMANDS = [
+  { command: HELP_COMMAND },
+  { command: BUG_REPORT_COMMAND },
+] as const;
+
 function createId() {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+}
+
+function formatBugReportPayload(description: string): string {
+  return `[BUG REPORT]\n${description.trim()}`;
 }
 
 function isNetworkFailure(err: unknown): boolean {
@@ -53,11 +67,15 @@ export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelPr
   const [reconnecting, setReconnecting] = useState(
     () => typeof navigator !== 'undefined' && !navigator.onLine,
   );
+  const [slashHighlight, setSlashHighlight] = useState(0);
+  const [dynamicSuggestions, setDynamicSuggestions] = useState<string[] | null>(null);
   const listRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const messagesRef = useRef(messages);
   const loadingRef = useRef(loading);
+  const awaitingBugReportRef = useRef(false);
   const pendingRetryRef = useRef<string | null>(null);
+  const pendingApiContentRef = useRef<string | null>(null);
   const retryCountRef = useRef(0);
   const retryTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const sendMessageRef = useRef<(text: string, options?: { retry?: boolean }) => Promise<void>>(
@@ -66,6 +84,40 @@ export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelPr
 
   messagesRef.current = messages;
   loadingRef.current = loading;
+
+  const suggestionChips = dynamicSuggestions ?? strings.suggestions;
+
+  const slashQuery = useMemo(() => {
+    if (!input.startsWith('/')) return null;
+    if (input.includes(' ')) return null;
+    return input.slice(1).toLowerCase();
+  }, [input]);
+
+  const slashCatalog = useMemo(
+    () =>
+      CANONICAL_SLASH_COMMANDS.map((canonical) => {
+        const localized = strings.slashCommands.find(
+          (item) => item.command.toLowerCase() === canonical.command,
+        );
+        return {
+          command: canonical.command,
+          description: localized?.description ?? canonical.command,
+        };
+      }),
+    [strings.slashCommands],
+  );
+
+  const slashSuggestions = useMemo(() => {
+    if (slashQuery === null) return [];
+    return slashCatalog.filter((item) => {
+      const command = item.command.toLowerCase();
+      return command === `/${slashQuery}` || command.startsWith(`/${slashQuery}`);
+    });
+  }, [slashQuery, slashCatalog]);
+
+  useEffect(() => {
+    setSlashHighlight(0);
+  }, [slashQuery, slashSuggestions.length]);
 
   const clearRetryTimer = () => {
     if (retryTimerRef.current) {
@@ -93,19 +145,76 @@ export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelPr
     inputRef.current?.focus();
   }, []);
 
+  const applySlashCommand = (command: string) => {
+    setInput(command === HELP_COMMAND ? command : `${command} `);
+    setSlashHighlight(0);
+    inputRef.current?.focus();
+  };
+
+  const buildHelpMessage = () =>
+    [strings.helpIntro, ...slashCatalog.map((item) => `• ${item.command} — ${item.description}`)].join(
+      '\n',
+    );
+
   const sendMessage = async (text: string, options?: { retry?: boolean }) => {
     const trimmed = text.trim();
     if (!trimmed || loadingRef.current) return;
 
     setError(null);
 
+    let apiContent = options?.retry ? pendingApiContentRef.current || trimmed : trimmed;
     let nextMessages = messagesRef.current;
+
     if (!options?.retry) {
+      if (HELP_RE.test(trimmed)) {
+        setInput('');
+        const userMessage: ChatMessage = { id: createId(), role: 'user', content: HELP_COMMAND };
+        const helpMessage: ChatMessage = {
+          id: createId(),
+          role: 'assistant',
+          content: buildHelpMessage(),
+        };
+        nextMessages = [...messagesRef.current, userMessage, helpMessage];
+        setMessages(nextMessages);
+        messagesRef.current = nextMessages;
+        awaitingBugReportRef.current = false;
+        setDynamicSuggestions(null);
+        return;
+      }
+
+      const bugMatch = trimmed.match(BUG_REPORT_RE);
+      const awaitingBug = awaitingBugReportRef.current;
+
+      if (bugMatch && !bugMatch[1]?.trim()) {
+        setInput('');
+        const userMessage: ChatMessage = { id: createId(), role: 'user', content: BUG_REPORT_COMMAND };
+        const promptMessage: ChatMessage = {
+          id: createId(),
+          role: 'assistant',
+          content: strings.bugReportPrompt,
+        };
+        nextMessages = [...messagesRef.current, userMessage, promptMessage];
+        setMessages(nextMessages);
+        messagesRef.current = nextMessages;
+        awaitingBugReportRef.current = true;
+        setDynamicSuggestions(strings.bugReportSuggestions);
+        return;
+      }
+
+      if (bugMatch?.[1]?.trim()) {
+        apiContent = formatBugReportPayload(bugMatch[1].trim());
+        awaitingBugReportRef.current = false;
+      } else if (awaitingBug) {
+        apiContent = formatBugReportPayload(trimmed);
+        awaitingBugReportRef.current = false;
+      }
+
       setInput('');
       const userMessage: ChatMessage = { id: createId(), role: 'user', content: trimmed };
       nextMessages = [...messagesRef.current, userMessage];
       setMessages(nextMessages);
       messagesRef.current = nextMessages;
+      pendingApiContentRef.current = apiContent;
     }
 
     if (typeof navigator !== 'undefined' && !navigator.onLine) {
@@ -121,7 +230,13 @@ export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelPr
       const history = nextMessages
         .filter((message) => message.id !== 'welcome')
         .slice(-12)
-        .map(({ role, content }) => ({ role, content }));
+        .map(({ role, content }, index, list) => {
+          const isLastUser = role === 'user' && index === list.length - 1;
+          return {
+            role,
+            content: isLastUser ? apiContent : content,
+          };
+        });
 
       const res = await fetch('/api/public/support-chat', {
         method: 'POST',
@@ -129,9 +244,14 @@ export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelPr
         body: JSON.stringify({ messages: history, locale }),
       });
 
-      let data: { reply?: string; error?: string; code?: string } = {};
+      let data: {
+        reply?: string;
+        suggestedFollowUps?: string[];
+        error?: string;
+        code?: string;
+      } = {};
       try {
-        data = (await res.json()) as { reply?: string; error?: string; code?: string };
+        data = (await res.json()) as typeof data;
       } catch {
         throw new Error(strings.errorGeneric);
       }
@@ -160,10 +280,20 @@ export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelPr
       }
 
       pendingRetryRef.current = null;
+      pendingApiContentRef.current = null;
       retryCountRef.current = 0;
       clearRetryTimer();
       setReconnecting(false);
       setMessages((current) => [...current, { id: createId(), role: 'assistant', content: data.reply! }]);
+
+      const followUps = Array.isArray(data.suggestedFollowUps)
+        ? data.suggestedFollowUps
+            .filter((item): item is string => typeof item === 'string')
+            .map((item) => item.trim())
+            .filter(Boolean)
+            .slice(0, 4)
+        : [];
+      setDynamicSuggestions(followUps);
     } catch (err) {
       if (isNetworkFailure(err)) {
         pendingRetryRef.current = trimmed;
@@ -173,6 +303,7 @@ export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelPr
         }
       } else {
         pendingRetryRef.current = null;
+        pendingApiContentRef.current = null;
         retryCountRef.current = 0;
         clearRetryTimer();
         const message = err instanceof Error ? err.message : strings.errorGeneric;
@@ -222,6 +353,13 @@ export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelPr
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+    if (slashSuggestions.length > 0) {
+      const selected = slashSuggestions[slashHighlight] ?? slashSuggestions[0];
+      if (selected) {
+        applySlashCommand(selected.command);
+        return;
+      }
+    }
     void sendMessage(input);
   };
 
@@ -290,20 +428,54 @@ export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelPr
         </div>
       ) : null}
 
-      <div className="border-t border-slate-100 bg-white px-3.5 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
-        <div className="mb-2.5 flex flex-wrap gap-1.5">
-          {strings.suggestions.map((suggestion) => (
-            <button
-              key={suggestion}
-              type="button"
-              onClick={() => void sendMessage(suggestion)}
-              disabled={loading}
-              className="rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-[10px] font-medium text-slate-600 transition hover:border-[#0E1548]/20 hover:bg-[#0E1548]/[0.04] hover:text-[#0E1548] disabled:opacity-50"
-            >
-              {suggestion}
-            </button>
-          ))}
-        </div>
+      <div className="relative border-t border-slate-100 bg-white px-3.5 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+        {suggestionChips.length > 0 ? (
+          <div className="mb-2.5 flex flex-wrap gap-1.5">
+            {suggestionChips.map((suggestion) => (
+              <button
+                key={suggestion}
+                type="button"
+                onClick={() => void sendMessage(suggestion)}
+                disabled={loading}
+                className="rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-[10px] font-medium text-slate-600 transition hover:border-[#0E1548]/20 hover:bg-[#0E1548]/[0.04] hover:text-[#0E1548] disabled:opacity-50"
+              >
+                {suggestion}
+              </button>
+            ))}
+          </div>
+        ) : null}
+
+        {slashSuggestions.length > 0 ? (
+          <div
+            className="absolute bottom-[calc(100%-0.25rem)] left-3.5 right-3.5 z-10 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-[0_12px_32px_-16px_rgba(14,21,72,0.35)]"
+            role="listbox"
+            aria-label={strings.slashCommandsLabel}
+          >
+            {slashSuggestions.map((item, index) => (
+              <button
+                key={item.command}
+                type="button"
+                role="option"
+                aria-selected={index === slashHighlight}
+                onMouseDown={(event) => {
+                  event.preventDefault();
+                  applySlashCommand(item.command);
+                }}
+                onMouseEnter={() => setSlashHighlight(index)}
+                className={`flex w-full items-start gap-2 px-3 py-2.5 text-left transition ${
+                  index === slashHighlight ? 'bg-[#0E1548]/[0.06]' : 'bg-white hover:bg-slate-50'
+                }`}
+              >
+                <span className="rounded-md bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] font-semibold text-[#0E1548]">
+                  {item.command}
+                </span>
+                <span className="text-[11px] leading-snug text-slate-600">{item.description}</span>
+              </button>
+            ))}
+          </div>
+        ) : null}
+
+        <p className="mb-2 text-[10px] leading-snug text-slate-400">{strings.inputHint}</p>
 
         <form onSubmit={handleSubmit} className="flex items-end gap-2">
           <textarea
@@ -311,6 +483,38 @@ export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelPr
             value={input}
             onChange={(event) => setInput(event.target.value)}
             onKeyDown={(event) => {
+              if (slashSuggestions.length > 0) {
+                if (event.key === 'ArrowDown') {
+                  event.preventDefault();
+                  setSlashHighlight((current) => (current + 1) % slashSuggestions.length);
+                  return;
+                }
+                if (event.key === 'ArrowUp') {
+                  event.preventDefault();
+                  setSlashHighlight(
+                    (current) => (current - 1 + slashSuggestions.length) % slashSuggestions.length,
+                  );
+                  return;
+                }
+                if (event.key === 'Tab') {
+                  event.preventDefault();
+                  const selected = slashSuggestions[slashHighlight] ?? slashSuggestions[0];
+                  if (selected) applySlashCommand(selected.command);
+                  return;
+                }
+                if (event.key === 'Escape') {
+                  event.preventDefault();
+                  setInput('');
+                  return;
+                }
+                if (event.key === 'Enter' && !event.shiftKey) {
+                  event.preventDefault();
+                  const selected = slashSuggestions[slashHighlight] ?? slashSuggestions[0];
+                  if (selected) applySlashCommand(selected.command);
+                  return;
+                }
+              }
+
               if (event.key === 'Enter' && !event.shiftKey) {
                 event.preventDefault();
                 void sendMessage(input);
@@ -323,7 +527,7 @@ export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelPr
           />
           <button
             type="submit"
-            disabled={loading || !input.trim()}
+            disabled={loading || (!input.trim() && slashSuggestions.length === 0)}
             className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#0E1548] text-white transition hover:bg-[#141d5c] disabled:cursor-not-allowed disabled:opacity-50"
             aria-label={strings.send}
           >

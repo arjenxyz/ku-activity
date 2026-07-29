@@ -1,6 +1,6 @@
 {
   "title": "CrewLedger AI",
-  "subtitle": "Jelenlét, bér, előleg és app használat",
+  "subtitle": "Több: /help · Hibák: /bug-report",
   "placeholder": "Írja be a kérdését…",
   "send": "Küldés",
   "close": "Csevegés bezárása",
@@ -17,5 +17,24 @@
     "Hogyan próbálom ki az ingyenes demót?"
   ],
   "errorQuota": "Az AI kvóta kimerült. Próbálja később.",
-  "errorUnavailable": "Az AI támogatás átmenetileg nem elérhető. Próbálja később."
+  "errorUnavailable": "Az AI támogatás átmenetileg nem elérhető. Próbálja később.",
+  "inputHint": "Parancsokhoz írd: /. Több: /help · Hibák: /bug-report",
+  "slashCommandsLabel": "Parancsok",
+  "helpIntro": "Elérhető parancsok (mindig angolul):",
+  "bugReportPrompt": "Röviden írja le a hibát (mi történt, melyik képernyő, ha lehet lépések).",
+  "bugReportSuggestions": [
+    "QR nem olvasható",
+    "Előleg nem küldhető",
+    "Bér hibásnak tűnik"
+  ],
+  "slashCommands": [
+    {
+      "command": "/help",
+      "description": "Parancslista megjelenítése"
+    },
+    {
+      "command": "/bug-report",
+      "description": "Hiba vagy probléma jelentése"
+    }
+  ]
 }
