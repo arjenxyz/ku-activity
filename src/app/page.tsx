@@ -6,7 +6,6 @@ import { HeroSection } from '@/components/home/HeroSection';
 import { ScrollingBanner } from '@/components/home/ScrollingBanner';
 import { HomeStoriesSlider } from '@/components/home/HomeStoriesSlider';
 import { FeaturesSection } from '@/components/home/FeaturesSection';
-import { HomeMobileShowcase } from '@/components/home/HomeMobileShowcase';
 import { PlayStoreSection } from '@/components/home/PlayStoreSection';
 import { HomeFaqSection } from '@/components/home/HomeFaqSection';
 import { HomeFooter } from '@/components/home/HomeFooter';
@@ -35,7 +34,6 @@ export default function Home() {
         <ScrollingBanner />
         <HomeStoriesSlider />
         <FeaturesSection />
-        <HomeMobileShowcase />
         <PlayStoreSection />
         <HomeFaqSection />
       </main>
