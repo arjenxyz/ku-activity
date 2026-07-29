@@ -27,7 +27,7 @@ export function HomeDownloadBanner() {
   return (
     <div
       id="nav-2"
-      className="pointer-events-none fixed inset-x-0 bottom-0 z-40 flex justify-center px-3 pb-[max(0.5rem,env(safe-area-inset-bottom))] sm:px-4 sm:pb-[max(1rem,env(safe-area-inset-bottom))]"
+      className="pointer-events-none fixed inset-x-0 top-[calc(env(safe-area-inset-top)+2.75rem)] z-30 flex justify-center px-3 pt-1.5 sm:top-[calc(env(safe-area-inset-top)+3.25rem)] sm:px-4 sm:pt-2"
     >
       <div
         id="nav-inner"
@@ -36,7 +36,7 @@ export function HomeDownloadBanner() {
         <button
           type="button"
           onClick={dismiss}
-          className="absolute -left-0.5 -top-1.5 flex h-5 w-5 items-center justify-center rounded-full border border-sky-200 bg-white text-sky-600 shadow-sm transition hover:bg-sky-50 sm:-left-1 sm:-top-2 sm:h-7 sm:w-7"
+          className="absolute -right-0.5 -top-1.5 flex h-5 w-5 items-center justify-center rounded-full border border-sky-200 bg-white text-sky-600 shadow-sm transition hover:bg-sky-50 sm:-right-1 sm:-top-2 sm:h-7 sm:w-7"
           aria-label={strings.closeAriaLabel}
         >
           <svg viewBox="0 0 20 20" fill="currentColor" className="h-2.5 w-2.5 sm:h-3.5 sm:w-3.5" aria-hidden>
