@@ -58,8 +58,8 @@ export function InstallPrompt() {
   const [dismissed, setDismissed] = useState(true);
   const [mounted, setMounted] = useState(false);
 
-  const isPersonnelContext =
-    pathname.startsWith('/personnel-panel') || pathname === '/';
+  // Homepage uses HomeDownloadBanner; keep PWA install prompt on personnel panel only.
+  const isPersonnelContext = pathname.startsWith('/personnel-panel');
 
   const visible =
     mounted &&
