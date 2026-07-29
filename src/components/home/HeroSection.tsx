@@ -1,13 +1,11 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import Link from 'next/link';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { HeroPlayStorePromo } from '@/components/home/HeroPlayStorePromo';
-import { LoginRoleButton } from '@/components/home/LoginRolePicker';
+import { DemoRoleButton, LoginRoleButton } from '@/components/home/LoginRolePicker';
 
 export function HeroSection() {
-
   const strings = useRegistryStrings('components/home/HeroSection');
   return (
     <section id="hero" className="relative pt-[max(6.5rem,calc(env(safe-area-inset-top)+5rem))] pb-12 sm:pb-16 lg:pt-36 lg:pb-24 overflow-hidden">
@@ -52,31 +50,7 @@ export function HeroSection() {
 
           <div className="mt-8 flex flex-col sm:flex-row gap-3">
             <LoginRoleButton variant="hero" />
-            <a
-              href="#features"
-              className="touch-target inline-flex items-center justify-center border-2 border-gray-200 dark:border-slate-600 text-gray-700 dark:text-gray-200 px-8 py-3.5 rounded-xl font-semibold hover:bg-gray-50 dark:hover:bg-slate-800 active:bg-gray-100 transition-colors w-full sm:w-auto"
-            >
-              {strings.ctaExplore}
-            </a>
-          </div>
-
-          <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
-            <span className="text-slate-500 dark:text-slate-400">{strings.demoHint}</span>
-            <Link
-              href="/personnel-panel/demo"
-              className="font-semibold text-blue-600 hover:text-blue-700 hover:underline underline-offset-2"
-            >
-              {strings.ctaDemoPersonnel}
-            </Link>
-            <span className="text-slate-300 dark:text-slate-600" aria-hidden>
-              ·
-            </span>
-            <Link
-              href="/admin-panel/demo"
-              className="font-semibold text-blue-600 hover:text-blue-700 hover:underline underline-offset-2"
-            >
-              {strings.ctaDemoAdmin}
-            </Link>
+            <DemoRoleButton />
           </div>
         </motion.div>
 

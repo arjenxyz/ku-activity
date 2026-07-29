@@ -3,7 +3,7 @@
   "closeOverlayAriaLabel": "Close sign-in menu",
   "closeButtonAriaLabel": "Close",
   "modalTitle": "Choose sign-in",
-  "footerNote": "Pick your panel to sign in, or try the demo.",
+  "footerNote": "Choose the panel that matches your role to sign in.",
   "panels": {
     "personel": {
       "title": "Personnel",
@@ -24,5 +24,7 @@
       "title": "Admin demo",
       "description": "Sample project and staff"
     }
-  }
+  },
+  "demoModalTitle": "Choose a demo",
+  "demoFooterNote": "No sign-in needed — browse with sample data."
 }

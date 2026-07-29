@@ -3,7 +3,7 @@
   "closeOverlayAriaLabel": "Anmeldemenü schließen",
   "closeButtonAriaLabel": "Schließen",
   "modalTitle": "Wählen Sie „Anmelden“.",
-  "footerNote": "Wählen Sie Ihr Panel zum Anmelden, oder testen Sie die Demo.",
+  "footerNote": "Wählen Sie das zu Ihrer Rolle passende Panel zum Anmelden.",
   "panels": {
     "personel": {
       "title": "Personal",
@@ -24,5 +24,7 @@
       "title": "Admin-Demo",
       "description": "Beispielprojekt und Personal"
     }
-  }
+  },
+  "demoModalTitle": "Demo wählen",
+  "demoFooterNote": "Keine Anmeldung nötig — mit Beispieldaten stöbern."
 }

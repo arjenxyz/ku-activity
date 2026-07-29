@@ -3,7 +3,7 @@
   "closeOverlayAriaLabel": "关闭登录菜单",
   "closeButtonAriaLabel": "关闭",
   "modalTitle": "选择登录",
-  "footerNote": "选择面板登录，或试用演示。",
+  "footerNote": "选择与您角色匹配的面板登录。",
   "panels": {
     "personel": {
       "title": "人员",
@@ -24,5 +24,7 @@
       "title": "管理员演示",
       "description": "示例项目与人员"
     }
-  }
+  },
+  "demoModalTitle": "选择演示",
+  "demoFooterNote": "无需登录 — 使用示例数据浏览。"
 }

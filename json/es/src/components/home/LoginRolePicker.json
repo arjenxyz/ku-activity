@@ -3,7 +3,7 @@
   "closeOverlayAriaLabel": "Cerrar menú de inicio de sesión",
   "closeButtonAriaLabel": "Cerca",
   "modalTitle": "Elija iniciar sesión",
-  "footerNote": "Elige tu panel para entrar, o prueba la demo.",
+  "footerNote": "Elige el panel que corresponda a tu rol para iniciar sesión.",
   "panels": {
     "personel": {
       "title": "Personal",
@@ -24,5 +24,7 @@
       "title": "Demo de administrador",
       "description": "Proyecto y personal de ejemplo"
     }
-  }
+  },
+  "demoModalTitle": "Elige una demo",
+  "demoFooterNote": "Sin inicio de sesión — explora con datos de ejemplo."
 }

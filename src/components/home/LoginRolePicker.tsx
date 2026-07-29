@@ -88,18 +88,9 @@ function LoginRoleRow({
 
 export function LoginRolePickerPanel({ onNavigate }: { onNavigate?: () => void; compact?: boolean }) {
   const loginPanels = useLoginPanels();
-  const demoPanels = useDemoPanels();
-  const strings = useRegistryStrings('components/home/LoginRolePicker');
   return (
     <div className="px-2 pb-2 pt-1">
       {loginPanels.map((panel) => (
-        <LoginRoleRow key={panel.id} panel={panel} onNavigate={onNavigate} />
-      ))}
-      <div className="mx-3 my-2 border-t border-slate-100 dark:border-slate-800" />
-      <p className="px-3 pb-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-400 dark:text-slate-500">
-        {strings.demoHeading}
-      </p>
-      {demoPanels.map((panel) => (
         <LoginRoleRow key={panel.id} panel={panel} onNavigate={onNavigate} />
       ))}
     </div>
@@ -251,6 +242,122 @@ export function LoginRoleButton({
         </span>
       </button>
       <LoginRoleModal open={open} onClose={close} />
+    </>
+  );
+}
+
+export function DemoRolePickerPanel({ onNavigate }: { onNavigate?: () => void }) {
+  const demoPanels = useDemoPanels();
+  return (
+    <div className="px-2 pb-2 pt-1">
+      {demoPanels.map((panel) => (
+        <LoginRoleRow key={panel.id} panel={panel} onNavigate={onNavigate} />
+      ))}
+    </div>
+  );
+}
+
+export function DemoRoleModal({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const strings = useRegistryStrings('components/home/LoginRolePicker');
+  useBodyScrollLock(open);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [open, onClose]);
+
+  return (
+    <AnimatePresence>
+      {open && (
+        <motion.div
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.15 }}
+        >
+          <button
+            type="button"
+            className="absolute inset-0 bg-slate-900/45 backdrop-blur-[2px]"
+            aria-label={strings.closeOverlayAriaLabel}
+            onClick={onClose}
+          />
+
+          <motion.div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="demo-role-modal-title"
+            initial={{ opacity: 0, y: 8, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 6, scale: 0.98 }}
+            transition={{ duration: 0.16, ease: 'easeOut' }}
+            className="relative z-10 w-full max-w-[20rem] overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-xl shadow-slate-900/10 dark:border-slate-700 dark:bg-slate-900 dark:shadow-black/40"
+          >
+            <div className="flex items-center justify-between gap-2 border-b border-slate-100 px-3.5 py-2.5 dark:border-slate-800">
+              <div className="min-w-0">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400 dark:text-slate-500">
+                  {APP_NAME}
+                </p>
+                <h2
+                  id="demo-role-modal-title"
+                  className="text-sm font-semibold text-slate-900 dark:text-white"
+                >
+                  {strings.demoModalTitle}
+                </h2>
+              </div>
+              <button
+                type="button"
+                onClick={onClose}
+                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-slate-800 dark:hover:text-slate-200"
+                aria-label={strings.closeButtonAriaLabel}
+              >
+                <FiX className="h-4 w-4" />
+              </button>
+            </div>
+
+            <DemoRolePickerPanel onNavigate={onClose} />
+
+            <p className="border-t border-slate-100 px-3.5 py-2 text-center text-[10px] leading-snug text-slate-400 dark:border-slate-800 dark:text-slate-500">
+              {strings.demoFooterNote}
+            </p>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
+
+const demoButtonStyles = [
+  'touch-target inline-flex items-center justify-center gap-2',
+  'rounded-xl border-2 border-gray-200 dark:border-slate-600',
+  'px-8 py-3.5 text-base font-semibold text-gray-700 dark:text-gray-200',
+  'hover:bg-gray-50 dark:hover:bg-slate-800 active:bg-gray-100 transition-colors',
+  'w-full sm:w-auto',
+].join(' ');
+
+/** Hero ikincil CTA — personel / yönetici demo seçimi. */
+export function DemoRoleButton({
+  className,
+  children,
+}: {
+  className?: string;
+  children?: ReactNode;
+}) {
+  const hero = useRegistryStrings('components/home/HeroSection');
+  const label = children ?? hero.ctaDemo;
+  const [open, setOpen] = useState(false);
+  const close = useCallback(() => setOpen(false), []);
+
+  return (
+    <>
+      <button type="button" onClick={() => setOpen(true)} className={className ?? demoButtonStyles}>
+        {label}
+      </button>
+      <DemoRoleModal open={open} onClose={close} />
     </>
   );
 }

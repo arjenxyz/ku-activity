@@ -3,7 +3,7 @@
   "closeOverlayAriaLabel": "Giriş menüsünü kapat",
   "closeButtonAriaLabel": "Kapat",
   "modalTitle": "Giriş seçin",
-  "footerNote": "Rolünüze uygun paneli seçin veya demoyu deneyin.",
+  "footerNote": "Rolünüze uygun paneli seçerek giriş yapın.",
   "panels": {
     "personel": {
       "title": "Personel",
@@ -24,5 +24,7 @@
       "title": "Yönetici demosu",
       "description": "Örnek proje ve personel"
     }
-  }
+  },
+  "demoModalTitle": "Demo seçin",
+  "demoFooterNote": "Giriş gerekmez — örnek verilerle gezin."
 }

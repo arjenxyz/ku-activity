@@ -3,7 +3,7 @@
   "closeOverlayAriaLabel": "سائن ان مینو بند کریں۔",
   "closeButtonAriaLabel": "بند",
   "modalTitle": "سائن ان کا انتخاب کریں۔",
-  "footerNote": "سائن ان کے لیے پینل منتخب کریں، یا ڈیمو آزمائیں۔",
+  "footerNote": "سائن ان کے لیے اپنے کردار کے مطابق پینل منتخب کریں۔",
   "panels": {
     "personel": {
       "title": "عملہ",
@@ -24,5 +24,7 @@
       "title": "ایڈمن ڈیمو",
       "description": "نمونہ پروجیکٹ اور عملہ"
     }
-  }
+  },
+  "demoModalTitle": "ڈیمو منتخب کریں",
+  "demoFooterNote": "سائن ان کی ضرورت نہیں — نمونہ ڈیٹا سے دیکھیں۔"
 }
