@@ -15,5 +15,7 @@
     "Wie öffne ich den Personalbereich?",
     "Wie beantrage ich einen Vorschuss?",
     "Wie teste ich die kostenlose Demo?"
-  ]
+  ],
+  "errorQuota": "KI-Kontingent erschöpft. Bitte später erneut versuchen.",
+  "errorUnavailable": "KI-Support ist vorübergehend nicht verfügbar. Bitte später erneut versuchen."
 }

@@ -15,5 +15,7 @@
     "Comment accéder au panneau personnel ?",
     "Comment demander un acompte ?",
     "Comment essayer la démo gratuite ?"
-  ]
+  ],
+  "errorQuota": "Quota IA dépassé. Réessayez plus tard.",
+  "errorUnavailable": "L'assistance IA est temporairement indisponible. Réessayez plus tard."
 }

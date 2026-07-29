@@ -129,11 +129,30 @@ export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelPr
         body: JSON.stringify({ messages: history, locale }),
       });
 
-      const data = (await res.json()) as { reply?: string; error?: string };
+      let data: { reply?: string; error?: string; code?: string } = {};
+      try {
+        data = (await res.json()) as { reply?: string; error?: string; code?: string };
+      } catch {
+        throw new Error(strings.errorGeneric);
+      }
 
       if (!res.ok) {
-        if (res.status === 429) throw new Error(strings.errorRateLimit);
-        if (res.status === 503) throw new Error(strings.errorNotConfigured);
+        const code = data.code;
+        if (code === 'RATE_LIMIT' || (res.status === 429 && code !== 'QUOTA')) {
+          throw new Error(strings.errorRateLimit);
+        }
+        if (code === 'QUOTA') {
+          throw new Error(strings.errorQuota || strings.errorRateLimit);
+        }
+        if (code === 'NOT_CONFIGURED' || code === 'AUTH') {
+          throw new Error(strings.errorNotConfigured);
+        }
+        if (code === 'MODEL' || code === 'UNAVAILABLE') {
+          throw new Error(strings.errorUnavailable || strings.errorGeneric);
+        }
+        if (res.status === 503) {
+          throw new Error(strings.errorNotConfigured);
+        }
         throw new Error(data.error || strings.errorGeneric);
       }
       if (!data.reply) {

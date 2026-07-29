@@ -3,5 +3,7 @@
   "mesajÇokUzun": "Mesaj çok uzun.",
   "rateLimit": "Çok fazla istek. Lütfen bir süre bekleyin.",
   "aiYapılandırılmamış": "AI destek şu an yapılandırılmamış.",
-  "yanıtAlınamadı": "Yanıt alınamadı. Lütfen tekrar deneyin."
+  "yanıtAlınamadı": "Yanıt alınamadı. Lütfen tekrar deneyin.",
+  "kotaAşıldı": "AI kotası doldu. Lütfen biraz sonra tekrar deneyin.",
+  "geçiciOlarakKullanılamıyor": "AI destek şu an yoğun. Lütfen biraz sonra tekrar deneyin."
 }

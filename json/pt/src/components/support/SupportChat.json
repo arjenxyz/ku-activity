@@ -15,5 +15,7 @@
     "Como acedo ao painel de pessoal?",
     "Como peço um adiantamento?",
     "Como experimento a demo gratuita?"
-  ]
+  ],
+  "errorQuota": "Cota de IA esgotada. Tente novamente mais tarde.",
+  "errorUnavailable": "O suporte IA está temporariamente indisponível. Tente mais tarde."
 }

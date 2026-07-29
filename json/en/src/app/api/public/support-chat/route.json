@@ -3,5 +3,7 @@
   "mesajÇokUzun": "Message is too long.",
   "rateLimit": "Too many requests. Please wait a moment.",
   "aiYapılandırılmamış": "AI support is not configured.",
-  "yanıtAlınamadı": "Could not get a response. Please try again."
+  "yanıtAlınamadı": "Could not get a response. Please try again.",
+  "kotaAşıldı": "AI quota exceeded. Please try again later.",
+  "geçiciOlarakKullanılamıyor": "AI support is temporarily unavailable. Please try again later."
 }

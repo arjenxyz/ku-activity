@@ -15,5 +15,7 @@
     "How do I access the personnel panel?",
     "How do I request an advance?",
     "How can I try the free demo?"
-  ]
+  ],
+  "errorQuota": "AI quota exceeded. Please try again later.",
+  "errorUnavailable": "AI support is temporarily unavailable. Please try again later."
 }

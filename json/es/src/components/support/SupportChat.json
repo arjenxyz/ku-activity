@@ -15,5 +15,7 @@
     "¿Cómo accedo al panel de personal?",
     "¿Cómo solicito un anticipo?",
     "¿Cómo pruebo la demo gratuita?"
-  ]
+  ],
+  "errorQuota": "Cuota de IA agotada. Inténtalo más tarde.",
+  "errorUnavailable": "El soporte IA no está disponible temporalmente. Inténtalo más tarde."
 }

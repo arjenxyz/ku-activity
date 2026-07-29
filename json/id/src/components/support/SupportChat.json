@@ -15,5 +15,7 @@
     "Bagaimana membuka panel personel?",
     "Bagaimana meminta uang muka?",
     "Bagaimana mencoba demo gratis?"
-  ]
+  ],
+  "errorQuota": "Kuota AI habis. Coba lagi nanti.",
+  "errorUnavailable": "Dukungan AI sementara tidak tersedia. Coba lagi nanti."
 }

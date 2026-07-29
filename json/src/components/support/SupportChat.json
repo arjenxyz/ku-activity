@@ -15,5 +15,7 @@
     "Personel paneline nasıl girerim?",
     "Avans talebi nasıl oluşturulur?",
     "Ücretsiz demo nasıl denenir?"
-  ]
+  ],
+  "errorQuota": "AI kotası doldu. Lütfen biraz sonra tekrar deneyin.",
+  "errorUnavailable": "AI destek şu an yoğun. Lütfen biraz sonra tekrar deneyin."
 }

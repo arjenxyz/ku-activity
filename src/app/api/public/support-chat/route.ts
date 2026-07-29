@@ -2,7 +2,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import strings from '@json/src/app/api/public/support-chat/route.json';
 import { parseLocale } from '@/lib/i18n/locale';
 import { checkSupportChatRateLimit } from '@/lib/support-chat-rate-limit';
-import { generateSupportChatReply, isSupportChatConfigured, type SupportChatMessage } from '@/lib/support-chat';
+import {
+  generateSupportChatReply,
+  isSupportChatConfigured,
+  SupportChatError,
+  type SupportChatMessage,
+} from '@/lib/support-chat';
 
 export const dynamic = 'force-dynamic';
 
@@ -35,30 +40,40 @@ function sanitizeMessages(raw: unknown): SupportChatMessage[] | null {
   return messages.length ? messages : null;
 }
 
+function errorResponse(error: string, code: string, status: number) {
+  return NextResponse.json({ error, code }, { status });
+}
+
 export async function POST(req: NextRequest) {
   try {
     if (!isSupportChatConfigured()) {
-      return NextResponse.json({ error: strings.aiYapılandırılmamış }, { status: 503 });
+      return errorResponse(strings.aiYapılandırılmamış, 'NOT_CONFIGURED', 503);
     }
 
     const ip = clientIp(req);
     const allowed = await checkSupportChatRateLimit(`support-chat:${ip}`);
     if (!allowed) {
-      return NextResponse.json({ error: strings.rateLimit }, { status: 429 });
+      return errorResponse(strings.rateLimit, 'RATE_LIMIT', 429);
     }
 
-    const body = (await req.json()) as { messages?: unknown; locale?: unknown };
+    let body: { messages?: unknown; locale?: unknown };
+    try {
+      body = (await req.json()) as { messages?: unknown; locale?: unknown };
+    } catch {
+      return errorResponse(strings.geçersizMesaj, 'INVALID', 400);
+    }
+
     const messages = sanitizeMessages(body.messages);
     if (!messages) {
-      return NextResponse.json({ error: strings.geçersizMesaj }, { status: 400 });
+      return errorResponse(strings.geçersizMesaj, 'INVALID', 400);
     }
 
     const last = messages[messages.length - 1];
     if (last.role !== 'user') {
-      return NextResponse.json({ error: strings.geçersizMesaj }, { status: 400 });
+      return errorResponse(strings.geçersizMesaj, 'INVALID', 400);
     }
     if (last.content.length > MAX_MESSAGE) {
-      return NextResponse.json({ error: strings.mesajÇokUzun }, { status: 413 });
+      return errorResponse(strings.mesajÇokUzun, 'TOO_LONG', 413);
     }
 
     const locale = parseLocale(typeof body.locale === 'string' ? body.locale : null);
@@ -66,10 +81,28 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ reply });
   } catch (err) {
+    if (err instanceof SupportChatError) {
+      switch (err.code) {
+        case 'NOT_CONFIGURED':
+          return errorResponse(strings.aiYapılandırılmamış, 'NOT_CONFIGURED', 503);
+        case 'AUTH':
+          return errorResponse(strings.aiYapılandırılmamış, 'AUTH', 503);
+        case 'QUOTA':
+          return errorResponse(strings.kotaAşıldı, 'QUOTA', 429);
+        case 'MODEL':
+        case 'UNAVAILABLE':
+          return errorResponse(strings.geçiciOlarakKullanılamıyor, err.code, 503);
+        case 'EMPTY':
+        case 'UPSTREAM':
+        default:
+          return errorResponse(strings.yanıtAlınamadı, err.code, 502);
+      }
+    }
+
     const message = err instanceof Error ? err.message : '';
     if (message === 'SUPPORT_CHAT_NOT_CONFIGURED') {
-      return NextResponse.json({ error: strings.aiYapılandırılmamış }, { status: 503 });
+      return errorResponse(strings.aiYapılandırılmamış, 'NOT_CONFIGURED', 503);
     }
-    return NextResponse.json({ error: strings.yanıtAlınamadı }, { status: 500 });
+    return errorResponse(strings.yanıtAlınamadı, 'UPSTREAM', 502);
   }
 }

@@ -15,5 +15,7 @@
     "Hogyan érem el a személyzeti panelt?",
     "Hogyan kérek előleget?",
     "Hogyan próbálom ki az ingyenes demót?"
-  ]
+  ],
+  "errorQuota": "Az AI kvóta kimerült. Próbálja később.",
+  "errorUnavailable": "Az AI támogatás átmenetileg nem elérhető. Próbálja később."
 }
