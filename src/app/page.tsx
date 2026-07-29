@@ -9,7 +9,6 @@ import { FeaturesSection } from '@/components/home/FeaturesSection';
 import { PlayStoreSection } from '@/components/home/PlayStoreSection';
 import { HomeFaqSection } from '@/components/home/HomeFaqSection';
 import { HomeFooter } from '@/components/home/HomeFooter';
-import { HomeDownloadBanner } from '@/components/home/HomeDownloadBanner';
 
 /** Landing her zaman aydınlık — dark class varsa kaldır. */
 function useForceLightTheme() {
@@ -28,7 +27,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white scroll-smooth">
-      <HomeHeader />
+      <HomeHeader showDownloadBanner />
       <main>
         <HeroSection />
         <ScrollingBanner />
@@ -38,7 +37,6 @@ export default function Home() {
         <HomeFaqSection />
       </main>
       <HomeFooter />
-      <HomeDownloadBanner />
     </div>
   );
 }

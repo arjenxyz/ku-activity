@@ -12,7 +12,7 @@ export function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative overflow-hidden pt-[calc(env(safe-area-inset-top)+4rem)] pb-10 sm:pb-14 sm:pt-[max(4.5rem,calc(env(safe-area-inset-top)+3.5rem))] lg:pb-16 lg:pt-20"
+      className="relative overflow-hidden pt-[calc(var(--home-chrome-h,3.5rem)+0.75rem)] pb-10 sm:pb-14 sm:pt-[calc(var(--home-chrome-h,3.75rem)+1rem)] lg:pb-16 lg:pt-[calc(var(--home-chrome-h,4rem)+1.25rem)]"
     >
       <div className="absolute inset-0 -z-10">
         <div className="absolute inset-0 bg-gradient-to-b from-white via-[#f7fbff] to-white" />

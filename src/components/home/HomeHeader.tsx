@@ -1,15 +1,21 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import { LanguageSwitch } from '@/components/i18n/LanguageSwitch';
 import { BrandMark } from '@/components/brand/BrandMark';
 import { LoginRoleButton } from '@/components/home/LoginRolePicker';
+import { HomeDownloadBanner } from '@/components/home/HomeDownloadBanner';
 import { APP_NAME } from '@/lib/brand';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 
-export function HomeHeader() {
+type HomeHeaderProps = {
+  /** Renders the slim download prompt as part of the same fixed chrome (homepage only). */
+  showDownloadBanner?: boolean;
+};
+
+export function HomeHeader({ showDownloadBanner = false }: HomeHeaderProps) {
   const strings = useRegistryStrings('components/home/HomeHeader');
   const tagline = strings.tagline;
 
@@ -23,6 +29,24 @@ export function HomeHeader() {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [bannerVisible, setBannerVisible] = useState(false);
+  const headerRef = useRef<HTMLElement>(null);
+  const solidChrome = scrolled || isMenuOpen || bannerVisible;
+
+  const syncChromeHeight = useCallback(() => {
+    const el = headerRef.current;
+    if (!el) return;
+    document.documentElement.style.setProperty('--home-chrome-h', `${el.offsetHeight}px`);
+  }, []);
+
+  const handleBannerVisibility = useCallback(
+    (visible: boolean) => {
+      setBannerVisible(visible);
+      // Remeasure after paint so dismissed height is accurate.
+      requestAnimationFrame(syncChromeHeight);
+    },
+    [syncChromeHeight]
+  );
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -30,13 +54,28 @@ export function HomeHeader() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  useEffect(() => {
+    const el = headerRef.current;
+    if (!el) return;
+
+    syncChromeHeight();
+    const ro = new ResizeObserver(syncChromeHeight);
+    ro.observe(el);
+
+    return () => {
+      ro.disconnect();
+      document.documentElement.style.removeProperty('--home-chrome-h');
+    };
+  }, [syncChromeHeight, showDownloadBanner, bannerVisible]);
+
   useBodyScrollLock(isMenuOpen);
 
   return (
     <>
       <header
+        ref={headerRef}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 pt-safe-top ${
-          scrolled || isMenuOpen
+          solidChrome
             ? 'bg-white/95 backdrop-blur-lg shadow-sm border-b border-gray-200/60'
             : 'bg-white/80 backdrop-blur-sm lg:bg-transparent'
         }`}
@@ -94,6 +133,10 @@ export function HomeHeader() {
             </div>
           </div>
         </div>
+
+        {showDownloadBanner ? (
+          <HomeDownloadBanner onVisibilityChange={handleBannerVisibility} />
+        ) : null}
       </header>
 
       <div
