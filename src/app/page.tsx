@@ -4,7 +4,6 @@ import { useEffect } from 'react';
 import { HomeHeader } from '@/components/home/HomeHeader';
 import { HeroSection } from '@/components/home/HeroSection';
 import { ScrollingBanner } from '@/components/home/ScrollingBanner';
-import { HomeStoriesSlider } from '@/components/home/HomeStoriesSlider';
 import { FeaturesSection } from '@/components/home/FeaturesSection';
 import { PlayStoreSection } from '@/components/home/PlayStoreSection';
 import { HomeFaqSection } from '@/components/home/HomeFaqSection';
@@ -31,7 +30,6 @@ export default function Home() {
       <main>
         <HeroSection />
         <ScrollingBanner />
-        <HomeStoriesSlider />
         <FeaturesSection />
         <PlayStoreSection />
         <HomeFaqSection />
