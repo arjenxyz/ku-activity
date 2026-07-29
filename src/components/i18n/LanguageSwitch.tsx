@@ -109,9 +109,6 @@ function LocaleOptionTile({
         >
           {option.englishName}
         </span>
-        {isOverlay ? (
-          <span className="mt-0.5 block text-[10px] italic leading-tight text-white/45">{welcomePhrase}</span>
-        ) : null}
       </span>
     </>
   );
@@ -126,7 +123,7 @@ function LocaleOptionTile({
       <div
         role="option"
         aria-selected={active}
-        aria-label={`${option.nativeLabel}. ${welcomePhrase}`}
+        aria-label={`${option.nativeLabel}, ${option.englishName}`}
         onPointerEnter={(event) => {
           if (event.pointerType === 'mouse') scheduleLocaleWelcomePreview(option.id);
         }}
@@ -138,7 +135,7 @@ function LocaleOptionTile({
         <button
           type="button"
           onClick={selectLocale}
-          className="flex min-w-0 flex-1 items-center gap-3 px-3.5 py-3 text-left"
+          className="flex min-w-0 flex-1 items-center gap-3 px-3.5 py-3.5 text-left"
         >
           {labelBlock}
         </button>
@@ -290,27 +287,27 @@ function LanguageOverlay({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 8 }}
             transition={{ duration: 0.18, ease: 'easeOut' }}
-            className="flex h-full min-h-0 items-center justify-center overflow-y-auto overscroll-contain px-4 py-[max(1.25rem,env(safe-area-inset-top))] pb-[max(2rem,env(safe-area-inset-bottom))] [-webkit-overflow-scrolling:touch]"
+            className="h-full min-h-0 overflow-y-auto overscroll-contain px-4 [-webkit-overflow-scrolling:touch]"
             data-allow-scroll
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="mx-auto w-full max-w-md sm:max-w-2xl">
-              <h2 id={titleId} className="sr-only">
-                {title}
-              </h2>
+            <div className="mx-auto flex min-h-full w-full max-w-md flex-col justify-center py-[max(1.5rem,env(safe-area-inset-top))] pb-[max(2.25rem,env(safe-area-inset-bottom))] sm:max-w-2xl">
+              <div className="w-full">
+                <h2 id={titleId} className="sr-only">
+                  {title}
+                </h2>
 
-              <LocaleOptionsList
-                locale={locale}
-                onSelect={onSelect}
-                layout="overlay"
-                scrollable={false}
-              />
+                <LocaleOptionsList
+                  locale={locale}
+                  onSelect={onSelect}
+                  layout="overlay"
+                  scrollable={false}
+                />
 
-              <p className="mt-4 text-center text-[11px] leading-relaxed text-white/50 sm:hidden">
-                {mobilePreviewHint}
-              </p>
-              <p className="mt-1.5 text-center text-[10px] text-white/35 sm:hidden">{exitHint}</p>
-              <p className="sr-only">{footerNote}</p>
+                <p className="sr-only">
+                  {mobilePreviewHint} {exitHint} {footerNote}
+                </p>
+              </div>
             </div>
           </motion.div>
         </motion.div>
