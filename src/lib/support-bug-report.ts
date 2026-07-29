@@ -235,15 +235,21 @@ ${reportText}`;
         throw new SupportChatError('UPSTREAM', `GEMINI_ERROR:${res.status}`, res.status);
       }
 
-      let data: { candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }> } | null =
-        null;
+      type GeminiGenerateResponse = {
+        candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }>;
+      };
+
+      let data: GeminiGenerateResponse | null = null;
       try {
-        data = raw ? (JSON.parse(raw) as typeof data) : null;
+        data = raw ? (JSON.parse(raw) as GeminiGenerateResponse) : null;
       } catch {
         data = null;
       }
 
-      const text = data?.candidates?.[0]?.content?.parts?.map((p) => p.text ?? '').join('').trim();
+      const text = data?.candidates?.[0]?.content?.parts
+        ?.map((part) => part.text ?? '')
+        .join('')
+        .trim();
       if (!text) {
         lastError = new SupportChatError('EMPTY', 'GEMINI_EMPTY', res.status);
         continue;
