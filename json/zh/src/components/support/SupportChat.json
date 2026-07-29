@@ -5,6 +5,7 @@
   "send": "发送",
   "close": "关闭聊天",
   "thinking": "正在准备回答…",
+  "connectionLostReconnecting": "连接已断开，正在重新连接…",
   "errorGeneric": "暂时无法回复。请重试。",
   "errorRateLimit": "请求过多。请稍候再试。",
   "errorNotConfigured": "AI 支持尚未配置。请稍后再试。",

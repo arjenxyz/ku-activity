@@ -5,6 +5,7 @@
   "send": "Envoyer",
   "close": "Fermer le chat",
   "thinking": "Préparation de la réponse…",
+  "connectionLostReconnecting": "Connexion perdue, reconnexion en cours…",
   "errorGeneric": "Je ne peux pas répondre pour le moment. Réessayez.",
   "errorRateLimit": "Trop de demandes. Attendez un instant et réessayez.",
   "errorNotConfigured": "L’assistance IA n’est pas encore configurée. Réessayez plus tard.",

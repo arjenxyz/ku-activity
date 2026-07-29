@@ -5,6 +5,7 @@
   "send": "Kirim",
   "close": "Tutup obrolan",
   "thinking": "Menyiapkan jawaban…",
+  "connectionLostReconnecting": "Koneksi terputus, menghubungkan kembali…",
   "errorGeneric": "Saya tidak dapat menjawab sekarang. Coba lagi.",
   "errorRateLimit": "Terlalu banyak permintaan. Tunggu sebentar lalu coba lagi.",
   "errorNotConfigured": "Dukungan AI belum dikonfigurasi. Coba lagi nanti.",

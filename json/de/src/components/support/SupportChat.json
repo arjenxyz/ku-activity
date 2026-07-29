@@ -5,6 +5,7 @@
   "send": "Senden",
   "close": "Chat schließen",
   "thinking": "Antwort wird vorbereitet…",
+  "connectionLostReconnecting": "Verbindung unterbrochen, wird wiederhergestellt…",
   "errorGeneric": "Ich kann gerade nicht antworten. Bitte erneut versuchen.",
   "errorRateLimit": "Zu viele Anfragen. Bitte kurz warten und erneut versuchen.",
   "errorNotConfigured": "KI-Support ist noch nicht konfiguriert. Bitte später erneut versuchen.",

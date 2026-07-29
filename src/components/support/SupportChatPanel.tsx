@@ -16,6 +16,26 @@ function createId() {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 }
 
+function isNetworkFailure(err: unknown): boolean {
+  if (typeof navigator !== 'undefined' && !navigator.onLine) return true;
+  if (err instanceof TypeError) return true;
+  if (err instanceof DOMException && (err.name === 'AbortError' || err.name === 'TimeoutError')) {
+    return true;
+  }
+  if (err instanceof Error) {
+    const message = err.message.toLowerCase();
+    return (
+      message.includes('failed to fetch') ||
+      message.includes('networkerror') ||
+      message.includes('network request failed') ||
+      message.includes('load failed') ||
+      message.includes('fetch failed') ||
+      message.includes('aborted')
+    );
+  }
+  return false;
+}
+
 type SupportChatPanelProps = {
   onClose?: () => void;
   className?: string;
@@ -30,30 +50,75 @@ export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelPr
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [reconnecting, setReconnecting] = useState(
+    () => typeof navigator !== 'undefined' && !navigator.onLine,
+  );
   const listRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const messagesRef = useRef(messages);
+  const loadingRef = useRef(loading);
+  const pendingRetryRef = useRef<string | null>(null);
+  const retryCountRef = useRef(0);
+  const retryTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const sendMessageRef = useRef<(text: string, options?: { retry?: boolean }) => Promise<void>>(
+    async () => undefined,
+  );
+
+  messagesRef.current = messages;
+  loadingRef.current = loading;
+
+  const clearRetryTimer = () => {
+    if (retryTimerRef.current) {
+      clearTimeout(retryTimerRef.current);
+      retryTimerRef.current = null;
+    }
+  };
+
+  const scheduleRetry = (text: string) => {
+    if (retryCountRef.current >= 3) return;
+    clearRetryTimer();
+    retryCountRef.current += 1;
+    retryTimerRef.current = setTimeout(() => {
+      if (pendingRetryRef.current === text && !loadingRef.current) {
+        void sendMessageRef.current(text, { retry: true });
+      }
+    }, 1500 * retryCountRef.current);
+  };
 
   useEffect(() => {
     listRef.current?.scrollTo({ top: listRef.current.scrollHeight, behavior: 'smooth' });
-  }, [messages, loading]);
+  }, [messages, loading, reconnecting]);
 
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
 
-  const sendMessage = async (text: string) => {
+  const sendMessage = async (text: string, options?: { retry?: boolean }) => {
     const trimmed = text.trim();
-    if (!trimmed || loading) return;
+    if (!trimmed || loadingRef.current) return;
 
     setError(null);
-    setInput('');
 
-    const userMessage: ChatMessage = { id: createId(), role: 'user', content: trimmed };
-    setMessages((current) => [...current, userMessage]);
+    let nextMessages = messagesRef.current;
+    if (!options?.retry) {
+      setInput('');
+      const userMessage: ChatMessage = { id: createId(), role: 'user', content: trimmed };
+      nextMessages = [...messagesRef.current, userMessage];
+      setMessages(nextMessages);
+      messagesRef.current = nextMessages;
+    }
+
+    if (typeof navigator !== 'undefined' && !navigator.onLine) {
+      pendingRetryRef.current = trimmed;
+      setReconnecting(true);
+      return;
+    }
+
     setLoading(true);
+    loadingRef.current = true;
 
     try {
-      const history = [...messages, userMessage]
+      const history = nextMessages
         .filter((message) => message.id !== 'welcome')
         .slice(-12)
         .map(({ role, content }) => ({ role, content }));
@@ -75,15 +140,66 @@ export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelPr
         throw new Error(strings.errorGeneric);
       }
 
+      pendingRetryRef.current = null;
+      retryCountRef.current = 0;
+      clearRetryTimer();
+      setReconnecting(false);
       setMessages((current) => [...current, { id: createId(), role: 'assistant', content: data.reply! }]);
     } catch (err) {
-      const message = err instanceof Error ? err.message : strings.errorGeneric;
-      setError(message);
+      if (isNetworkFailure(err)) {
+        pendingRetryRef.current = trimmed;
+        setReconnecting(true);
+        if (typeof navigator === 'undefined' || navigator.onLine) {
+          scheduleRetry(trimmed);
+        }
+      } else {
+        pendingRetryRef.current = null;
+        retryCountRef.current = 0;
+        clearRetryTimer();
+        const message = err instanceof Error ? err.message : strings.errorGeneric;
+        setError(message);
+      }
     } finally {
       setLoading(false);
+      loadingRef.current = false;
       inputRef.current?.focus();
     }
   };
+
+  sendMessageRef.current = sendMessage;
+
+  useEffect(() => {
+    const onOffline = () => {
+      setReconnecting(true);
+    };
+
+    const onOnline = () => {
+      const pending = pendingRetryRef.current;
+      if (pending) {
+        retryCountRef.current = 0;
+        setReconnecting(true);
+        void sendMessageRef.current(pending, { retry: true });
+        return;
+      }
+      setReconnecting(false);
+    };
+
+    window.addEventListener('offline', onOffline);
+    window.addEventListener('online', onOnline);
+
+    if (typeof navigator !== 'undefined' && !navigator.onLine) {
+      setReconnecting(true);
+    }
+
+    return () => {
+      window.removeEventListener('offline', onOffline);
+      window.removeEventListener('online', onOnline);
+      if (retryTimerRef.current) {
+        clearTimeout(retryTimerRef.current);
+        retryTimerRef.current = null;
+      }
+    };
+  }, []);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -137,6 +253,14 @@ export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelPr
             <div className="rounded-2xl border border-slate-200/80 bg-white px-3.5 py-2.5 text-sm text-slate-500 shadow-sm">
               {strings.thinking}
             </div>
+          </div>
+        ) : null}
+
+        {reconnecting ? (
+          <div className="flex justify-center px-2" role="status" aria-live="polite">
+            <p className="rounded-full border border-amber-200/80 bg-amber-50 px-3 py-1.5 text-center text-[11px] font-medium text-amber-800 shadow-sm">
+              {strings.connectionLostReconnecting}
+            </p>
           </div>
         ) : null}
       </div>

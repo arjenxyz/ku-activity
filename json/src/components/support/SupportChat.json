@@ -5,6 +5,7 @@
   "send": "Gönder",
   "close": "Sohbeti kapat",
   "thinking": "Yanıt hazırlanıyor…",
+  "connectionLostReconnecting": "Bağlantı koptu, tekrar bağlanılıyor…",
   "errorGeneric": "Şu an yanıt veremiyorum. Lütfen tekrar deneyin.",
   "errorRateLimit": "Çok fazla istek gönderdiniz. Biraz bekleyip tekrar deneyin.",
   "errorNotConfigured": "AI destek şu an yapılandırılmamış. Lütfen daha sonra tekrar deneyin.",

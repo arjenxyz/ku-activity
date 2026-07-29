@@ -5,6 +5,7 @@
   "send": "送信",
   "close": "チャットを閉じる",
   "thinking": "回答を準備中…",
+  "connectionLostReconnecting": "接続が切れました。再接続しています…",
   "errorGeneric": "現在応答できません。もう一度お試しください。",
   "errorRateLimit": "リクエストが多すぎます。しばらくしてから再試行してください。",
   "errorNotConfigured": "AI サポートはまだ設定されていません。後でもう一度お試しください。",

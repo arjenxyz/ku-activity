@@ -5,6 +5,7 @@
   "send": "Küldés",
   "close": "Csevegés bezárása",
   "thinking": "Válasz előkészítése…",
+  "connectionLostReconnecting": "A kapcsolat megszakadt, újracsatlakozás…",
   "errorGeneric": "Most nem tudok válaszolni. Próbálja újra.",
   "errorRateLimit": "Túl sok kérés. Várjon egy kicsit, majd próbálja újra.",
   "errorNotConfigured": "Az AI támogatás még nincs beállítva. Próbálja később.",
