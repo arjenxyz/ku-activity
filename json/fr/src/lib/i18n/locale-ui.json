@@ -5,5 +5,6 @@
   "closeButtonAriaLabel": "Fermer",
   "closeOverlayAriaLabel": "Fermer",
   "footerNote": "Votre choix est enregistré sur cet appareil.",
-  "exitHint": "Appuyez pour quitter"
+  "exitHint": "Appuyez pour quitter",
+  "mobilePreviewHint": "Appuyez sur l'icône haut-parleur pour écouter l'accueil. Appuyez sur la ligne pour choisir une langue."
 }

@@ -9,6 +9,7 @@ import { BrandMark } from '@/components/brand/BrandMark';
 import {
   HonorIconTile,
 } from '@/components/icons/HonorIcons';
+import { PersonnelAssetIcon } from '@/components/personnel/PersonnelAssetIcon';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useLocale } from '@/lib/i18n/LocaleProvider';
 import { getRegistryStrings } from '@/lib/i18n/strings-registry';
@@ -950,66 +951,59 @@ export function PersonnelNotificationsBell({ tone = 'light', panelOpen: panelOpe
             data-allow-scroll
           >
             {!canViewNotifications ? (
-              <div className="flex min-h-full flex-col items-center justify-center px-6 py-12 text-center">
-                <div className="relative mb-6">
-                  <div
-                    className="absolute inset-0 scale-150 rounded-full bg-violet-400/20 blur-2xl"
-                    aria-hidden
-                  />
-                  <HonorIconTile
-                    name="bell"
-                    theme="violet"
-                    size="xl"
-                    className="relative shadow-lg shadow-violet-500/25"
-                  />
-                </div>
-                <p className="text-base font-semibold text-[#0E1548] dark:text-white">
-                  {strings.permissionRequiredTitle}
-                </p>
-                <p className="mt-2 max-w-sm text-sm leading-relaxed text-slate-500 dark:text-slate-400">
-                  {permissionBody()}
-                </p>
-                {isTwaApp && notificationAccess !== 'unsupported' && (
-                  <div className="mt-6 flex w-full max-w-sm flex-col gap-2">
-                    <button
-                      type="button"
-                      onClick={openPersonnelAppNotificationSettings}
-                      className="inline-flex min-h-12 items-center justify-center rounded-2xl bg-[#0E1548] px-5 text-sm font-semibold text-white"
-                    >
-                      {strings.permissionOpenAppSettingsButton}
-                    </button>
-                    <p className="text-xs leading-relaxed text-slate-400">{strings.permissionTwaSettingsHint}</p>
+              <div className="flex min-h-full items-center justify-center px-4 py-8 sm:px-6">
+                <div className="w-full max-w-md rounded-3xl border border-slate-200/85 bg-white/95 p-5 text-center shadow-xl shadow-slate-900/10 backdrop-blur-sm dark:border-slate-700 dark:bg-slate-900/95">
+                  <div className="mx-auto mb-4 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-500 shadow-lg shadow-violet-500/30 ring-1 ring-white/40">
+                    <PersonnelAssetIcon name="bell" className="h-11 w-11" />
+                  </div>
+                  <p className="text-base font-semibold text-[#0E1548] dark:text-white">
+                    {strings.permissionRequiredTitle}
+                  </p>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
+                    {permissionBody()}
+                  </p>
+                  {isTwaApp && notificationAccess !== 'unsupported' && (
+                    <div className="mt-6 flex w-full flex-col gap-2">
+                      <button
+                        type="button"
+                        onClick={openPersonnelAppNotificationSettings}
+                        className="inline-flex min-h-12 items-center justify-center rounded-2xl bg-[#0E1548] px-5 text-sm font-semibold text-white"
+                      >
+                        {strings.permissionOpenAppSettingsButton}
+                      </button>
+                      <p className="text-xs leading-relaxed text-slate-400">{strings.permissionTwaSettingsHint}</p>
+                      <button
+                        type="button"
+                        disabled={requestingPermission}
+                        onClick={() => void recheckTwaNotificationAccess()}
+                        className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-slate-200 bg-white px-5 text-sm font-semibold text-[#0E1548] disabled:opacity-60 dark:border-slate-600 dark:bg-slate-900 dark:text-white"
+                      >
+                        {requestingPermission
+                          ? strings.permissionRequesting
+                          : strings.permissionTwaConfirmButton}
+                      </button>
+                    </div>
+                  )}
+                  {!isTwaApp && notificationAccess === 'default' && (
                     <button
                       type="button"
                       disabled={requestingPermission}
-                      onClick={() => void recheckTwaNotificationAccess()}
-                      className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-slate-200 bg-white px-5 text-sm font-semibold text-[#0E1548] disabled:opacity-60 dark:border-slate-600 dark:bg-slate-900 dark:text-white"
+                      onClick={() => void requestBrowserNotificationAccess()}
+                      className="mt-6 inline-flex min-h-12 w-full items-center justify-center rounded-2xl bg-[#0E1548] px-6 text-sm font-semibold text-white shadow-md shadow-[#0E1548]/20 disabled:opacity-60"
                     >
-                      {requestingPermission
-                        ? strings.permissionRequesting
-                        : strings.permissionTwaConfirmButton}
+                      {requestingPermission ? strings.permissionRequesting : strings.permissionRequestButton}
                     </button>
-                  </div>
-                )}
-                {!isTwaApp && notificationAccess === 'default' && (
-                  <button
-                    type="button"
-                    disabled={requestingPermission}
-                    onClick={() => void requestBrowserNotificationAccess()}
-                    className="mt-6 inline-flex min-h-12 items-center justify-center rounded-2xl bg-[#0E1548] px-6 text-sm font-semibold text-white shadow-md shadow-[#0E1548]/20 disabled:opacity-60"
-                  >
-                    {requestingPermission ? strings.permissionRequesting : strings.permissionRequestButton}
-                  </button>
-                )}
-                {!isTwaApp && notificationAccess === 'denied' && (
-                  <button
-                    type="button"
-                    onClick={() => void syncNotificationAccess()}
-                    className="mt-6 inline-flex min-h-12 items-center justify-center rounded-2xl border border-slate-200 bg-white px-6 text-sm font-semibold text-[#0E1548] dark:border-slate-600 dark:bg-slate-900 dark:text-white"
-                  >
-                    {strings.permissionTwaConfirmButton}
-                  </button>
-                )}
+                  )}
+                  {!isTwaApp && notificationAccess === 'denied' && (
+                    <button
+                      type="button"
+                      onClick={() => void syncNotificationAccess()}
+                      className="mt-6 inline-flex min-h-12 w-full items-center justify-center rounded-2xl border border-slate-200 bg-white px-6 text-sm font-semibold text-[#0E1548] dark:border-slate-600 dark:bg-slate-900 dark:text-white"
+                    >
+                      {strings.permissionTwaConfirmButton}
+                    </button>
+                  )}
+                </div>
               </div>
             ) : loading && items.length === 0 ? (
               <p className="px-4 py-16 text-center text-sm text-slate-500">{strings.loading}</p>

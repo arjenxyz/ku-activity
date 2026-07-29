@@ -1,12 +1,17 @@
 {
-  "bannerAlt": "CrewLedger 施工人员",
-  "description": "建筑业劳动力管理系统 — 日工资、预付款、出勤和时间表均在一个平台上。",
-  "contactTitle": "接触",
+  "bannerAlt": "CrewLedger construction site team",
+  "tagline": "Construction Workforce Management",
+  "description": "Personnel management for construction — daily wages, advances, attendance and payroll in one platform.",
+  "contactTitle": "Contact",
+  "companyName": "CrewLedger",
+  "rightsReserved": "Tüm Hakları Saklıdır.",
+  "legalHub": "Sözleşmeler ve Politikalar",
+  "apkLabel": "APK İndir",
+  "apkAriaLabel": "APK indirme sayfasına git",
   "copyrightYear": "2026",
   "links": {
-    "privacy": "隐私",
-    "terms": "使用条款",
-    "kvkk": "GDPR / KVKK"
-  },
-  "tagline": "建筑劳动力管理平台"
+    "privacy": "Gizlilik",
+    "terms": "Kullanım Şartları",
+    "kvkk": "KVKK"
+  }
 }

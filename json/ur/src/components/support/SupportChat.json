@@ -1,0 +1,18 @@
+{
+  "title": "CrewLedger AI Support",
+  "subtitle": "Attendance, payroll, advances and app usage",
+  "placeholder": "Type your question…",
+  "send": "Send",
+  "close": "Close chat",
+  "thinking": "Preparing answer…",
+  "errorGeneric": "I can't respond right now. Please try again.",
+  "errorRateLimit": "Too many requests. Please wait a moment and try again.",
+  "errorNotConfigured": "AI support is not configured yet. Please try again later.",
+  "welcomeMessage": "Hello! I can help with CrewLedger personnel management, QR attendance, payroll and advances. What would you like to know?",
+  "suggestions": [
+    "How does QR attendance work?",
+    "How do I access the personnel panel?",
+    "How do I request an advance?",
+    "How can I try the free demo?"
+  ]
+}

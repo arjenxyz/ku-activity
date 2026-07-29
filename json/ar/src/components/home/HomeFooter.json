@@ -1,12 +1,17 @@
 {
-  "bannerAlt": "طاقم البناء CrewLedger",
-  "description": "نظام إدارة القوى العاملة في مجال البناء - الأجور اليومية والسلف والحضور والجداول الزمنية على منصة واحدة.",
-  "contactTitle": "اتصال",
+  "bannerAlt": "CrewLedger construction site team",
+  "tagline": "Construction Workforce Management",
+  "description": "Personnel management for construction — daily wages, advances, attendance and payroll in one platform.",
+  "contactTitle": "Contact",
+  "companyName": "CrewLedger",
+  "rightsReserved": "Tüm Hakları Saklıdır.",
+  "legalHub": "Sözleşmeler ve Politikalar",
+  "apkLabel": "APK İndir",
+  "apkAriaLabel": "APK indirme sayfasına git",
   "copyrightYear": "2026",
   "links": {
-    "privacy": "خصوصية",
-    "terms": "شروط الاستخدام",
-    "kvkk": "اللائحة العامة لحماية البيانات / KVKK"
-  },
-  "tagline": "منصة إدارة القوى العاملة في البناء"
+    "privacy": "Gizlilik",
+    "terms": "Kullanım Şartları",
+    "kvkk": "KVKK"
+  }
 }

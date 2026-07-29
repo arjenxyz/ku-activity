@@ -52,7 +52,7 @@ export function PersonnelTopBar({ immersive = false }: Props) {
 
   const cardClass = immersivePath
     ? 'border-white/15 bg-black/60 shadow-lg shadow-black/30'
-    : 'border-slate-200/90 bg-white/95 shadow-md shadow-slate-900/[0.06] dark:border-slate-700/80 dark:bg-slate-900/95 dark:shadow-black/25';
+    : 'border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900';
 
   const wordmarkClass = immersivePath
     ? 'text-white'
@@ -65,9 +65,9 @@ export function PersonnelTopBar({ immersive = false }: Props) {
   return (
     <header className={shellClass}>
       <div className="safe-pt px-3 pb-2">
-        <div className="mx-auto max-w-5xl">
+        <div className="mx-auto w-full max-w-6xl">
           <div
-            className={`flex h-14 items-center justify-between gap-3 rounded-2xl border px-3 backdrop-blur-xl sm:px-4 ${cardClass}`}
+            className={`flex h-14 items-center justify-between gap-3 rounded-2xl border px-3 sm:px-4 ${cardClass}`}
           >
             <Link
               href={personnelHref(pathname, '/personnel-panel')}

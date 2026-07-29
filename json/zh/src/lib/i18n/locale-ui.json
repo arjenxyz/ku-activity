@@ -5,5 +5,6 @@
   "closeButtonAriaLabel": "关闭",
   "closeOverlayAriaLabel": "关闭",
   "footerNote": "您的选择将保存在此设备上。",
-  "exitHint": "点击退出"
+  "exitHint": "点击退出",
+  "mobilePreviewHint": "点击扬声器图标收听欢迎语。点击行选择语言。"
 }

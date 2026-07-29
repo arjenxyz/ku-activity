@@ -42,14 +42,12 @@ export function HomeHeader() {
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 safe-px">
-          <div className="flex justify-between items-center py-3 sm:py-4">
-            <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group min-w-0">
-              <BrandMark size="sm" className="sm:w-10 sm:h-10" />
-              <div className="min-w-0">
-                <p className="text-base sm:text-xl font-bold text-gray-900 truncate">{APP_NAME}</p>
-                <p className="text-[10px] sm:text-xs text-gray-500 truncate hidden sm:block">
-                  {tagline}
-                </p>
+          <div className="flex items-center justify-between py-1.5 sm:py-2">
+            <Link href="/" className="group flex min-w-0 items-center gap-2 sm:gap-2.5">
+              <BrandMark size="sm" className="!h-8 !w-8 sm:!h-9 sm:!w-9" />
+              <div className="min-w-0 leading-tight">
+                <p className="truncate text-sm font-bold text-gray-900 sm:text-base">{APP_NAME}</p>
+                <p className="hidden truncate text-[10px] text-gray-500 sm:block">{tagline}</p>
               </div>
             </Link>
 
@@ -65,14 +63,14 @@ export function HomeHeader() {
               ))}
             </nav>
 
-            <div className="hidden md:flex items-center gap-2">
+            <div className="hidden items-center gap-1.5 md:flex">
               <LanguageSwitch variant="compact" />
               <LoginRoleButton variant="header" showIcon={false} />
             </div>
 
-            <div className="flex items-center gap-1 md:hidden">
+            <div className="flex items-center gap-0.5 md:hidden">
               <button
-                className="touch-target flex flex-col justify-center items-center w-11 h-11 rounded-xl hover:bg-gray-100 transition-colors"
+                className="touch-target flex h-10 w-10 flex-col items-center justify-center rounded-xl transition-colors hover:bg-gray-100"
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 aria-label={isMenuOpen ? strings.menuCloseAriaLabel : strings.menuOpenAriaLabel}
                 aria-expanded={isMenuOpen}

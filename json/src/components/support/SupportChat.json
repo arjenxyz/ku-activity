@@ -1,0 +1,18 @@
+{
+  "title": "CrewLedger AI Destek",
+  "subtitle": "Yoklama, bordro, avans ve uygulama kullanımı",
+  "placeholder": "Sorunuzu yazın…",
+  "send": "Gönder",
+  "close": "Sohbeti kapat",
+  "thinking": "Yanıt hazırlanıyor…",
+  "errorGeneric": "Şu an yanıt veremiyorum. Lütfen tekrar deneyin.",
+  "errorRateLimit": "Çok fazla istek gönderdiniz. Biraz bekleyip tekrar deneyin.",
+  "errorNotConfigured": "AI destek şu an yapılandırılmamış. Lütfen daha sonra tekrar deneyin.",
+  "welcomeMessage": "Merhaba! CrewLedger personel yönetimi, QR yoklama, bordro ve avans konularında size yardımcı olabilirim. Ne öğrenmek istersiniz?",
+  "suggestions": [
+    "QR yoklama nasıl çalışır?",
+    "Personel paneline nasıl girerim?",
+    "Avans talebi nasıl oluşturulur?",
+    "Ücretsiz demo nasıl denenir?"
+  ]
+}

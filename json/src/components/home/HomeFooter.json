@@ -1,12 +1,26 @@
 {
   "bannerAlt": "CrewLedger şantiye ekibi",
+  "tagline": "İnşaat Personel Yönetimi",
   "description": "İnşaat sektörü için personel yönetim sistemi — yevmiye, avans, yoklama ve puantaj tek platformda.",
+  "navTitle": "Keşfet",
+  "legalTitle": "Yasal",
+  "downloadTitle": "Mobil Uygulama",
+  "downloadHeadline": "Şantiye İK süreçleri cebinizde",
+  "downloadSubtitle": "Yoklama, yevmiye, avans ve bordro — personel uygulamasıyla her yerden erişin.",
+  "downloadAppsBadge": "Personel",
+  "downloadPlatform": "Android · Ücretsiz",
   "contactTitle": "İletişim",
+  "companyName": "CrewLedger",
+  "rightsReserved": "Tüm Hakları Saklıdır.",
+  "legalHub": "Sözleşmeler ve Politikalar",
+  "apkLabel": "APK İndir",
+  "apkBadgeTop": "İNDİRİN",
+  "apkBadgeBottom": "Apk",
+  "apkAriaLabel": "APK indirme sayfasına git",
   "copyrightYear": "2026",
   "links": {
     "privacy": "Gizlilik",
     "terms": "Kullanım Şartları",
     "kvkk": "KVKK"
-  },
-  "tagline": "İnşaat Personel Yönetimi"
+  }
 }

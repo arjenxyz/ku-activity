@@ -5,5 +5,6 @@
   "closeButtonAriaLabel": "Cerca",
   "closeOverlayAriaLabel": "Cerca",
   "footerNote": "Su elección se guarda en este dispositivo.",
-  "exitHint": "Toque para salir"
+  "exitHint": "Toque para salir",
+  "mobilePreviewHint": "Toque el icono del altavoz para escuchar la bienvenida. Toque la fila para seleccionar un idioma."
 }

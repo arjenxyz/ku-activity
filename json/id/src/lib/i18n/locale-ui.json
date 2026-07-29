@@ -5,5 +5,6 @@
   "closeButtonAriaLabel": "Menutup",
   "closeOverlayAriaLabel": "Menutup",
   "footerNote": "Pilihan Anda disimpan di perangkat ini.",
-  "exitHint": "Ketuk untuk keluar"
+  "exitHint": "Ketuk untuk keluar",
+  "mobilePreviewHint": "Ketuk ikon speaker untuk mendengarkan sambutan. Ketuk baris untuk memilih bahasa."
 }

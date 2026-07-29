@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
-import { PLAY_STORE_BADGE_TR } from '@/lib/play-store';
+import { PLAY_STORE_BADGE_TR, STORE_BADGE_SM_CLASS, STORE_BADGE_SM_HEIGHT, STORE_BADGE_SM_LINK_CLASS, STORE_BADGE_SM_WIDTH } from '@/lib/play-store';
 
 export const GOOGLE_PLAY_ICON_SRC = '/Google_Play_icon.svg';
 
@@ -29,7 +29,9 @@ type GooglePlayBadgeProps = {
 
 export function GooglePlayBadge({ href, enabled, size = 'md', fullWidth = false }: GooglePlayBadgeProps) {
   const strings = useRegistryStrings('components/home/GooglePlayBadge');
-  const badgeHeight = size === 'sm' ? 'h-[44px]' : 'h-[56px]';
+  const badgeClass = size === 'sm' ? STORE_BADGE_SM_CLASS : 'h-[56px] w-auto';
+  const badgeWidth = size === 'sm' ? STORE_BADGE_SM_WIDTH : 200;
+  const badgeHeight = size === 'sm' ? STORE_BADGE_SM_HEIGHT : 59;
   const widthClass = fullWidth ? 'flex w-full' : 'inline-flex';
 
   if (!enabled) {
@@ -78,15 +80,16 @@ export function GooglePlayBadge({ href, enabled, size = 'md', fullWidth = false 
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="inline-block transition-transform hover:scale-[1.03] active:scale-[0.98] drop-shadow-lg"
+      style={size === 'sm' ? { width: STORE_BADGE_SM_WIDTH, height: STORE_BADGE_SM_HEIGHT } : undefined}
+      className={size === 'sm' ? STORE_BADGE_SM_LINK_CLASS : 'inline-block transition-transform hover:scale-[1.03] active:scale-[0.98] drop-shadow-lg'}
       aria-label={strings.downloadAriaLabel}
     >
       <Image
         src={PLAY_STORE_BADGE_TR}
         alt={strings.badgeAlt}
-        width={200}
-        height={59}
-        className={`${badgeHeight} w-auto`}
+        width={badgeWidth}
+        height={badgeHeight}
+        className={badgeClass}
         unoptimized
       />
     </a>

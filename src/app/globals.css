@@ -235,6 +235,26 @@ html.dark body {
   }
 }
 
+@keyframes trusted-logos-fall {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(0, -50%, 0);
+  }
+}
+
+.trusted-logos-fall {
+  animation: trusted-logos-fall linear infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .trusted-logos-fall {
+    animation: none;
+  }
+}
+
 @keyframes star-twinkle {
   0%,
   100% {
@@ -257,6 +277,12 @@ html.dark body {
   box-shadow:
     0 0 4px 1px rgba(255, 255, 255, 0.55),
     0 0 10px 2px rgba(186, 230, 253, 0.25);
+}
+
+.sky-twinkle-star--glow-blue {
+  box-shadow:
+    0 0 4px 1px rgba(45, 106, 246, 0.45),
+    0 0 10px 2px rgba(127, 174, 255, 0.35);
 }
 
 @keyframes brand-icon-rain {

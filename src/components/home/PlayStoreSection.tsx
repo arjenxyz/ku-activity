@@ -7,44 +7,20 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { GooglePlayBadge, GooglePlayIcon } from '@/components/home/GooglePlayBadge';
 import { BrandIconRain } from '@/components/home/BrandIconRain';
-import {
-  PLAY_STORE_ADMIN_ICON,
-  PLAY_STORE_ADMIN_URL,
-  PLAY_STORE_PERSONNEL_ICON,
-  PLAY_STORE_PERSONNEL_URL,
-} from '@/lib/play-store';
+import { PLAY_STORE_PERSONNEL_ICON, PLAY_STORE_PERSONNEL_URL } from '@/lib/play-store';
 
 type PlayStoreApp = {
-  id: 'personel' | 'admin';
   title: string;
   description: string;
   playUrl: string;
   iconSrc: string;
 };
 
-function CardsConnector({ layout }: { layout: 'row' | 'column' }) {
-  if (layout === 'column') {
-    return (
-      <div className="flex justify-center py-1" aria-hidden>
-        <div className="h-px w-full max-w-xs bg-gradient-to-r from-transparent via-slate-200 to-transparent dark:via-slate-700" />
-      </div>
-    );
-  }
-
-  return (
-    <div className="flex h-full justify-center px-2 sm:px-3" aria-hidden>
-      <div className="w-px self-stretch bg-gradient-to-b from-transparent via-slate-200 to-transparent dark:via-slate-700" />
-    </div>
-  );
-}
-
 function AppCard({
   app,
-  index,
   platformLabel,
 }: {
   app: PlayStoreApp;
-  index: number;
   platformLabel: string;
 }) {
   const hasPlayLink = Boolean(app.playUrl);
@@ -55,7 +31,7 @@ function AppCard({
       initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
-      transition={{ delay: index * 0.08, duration: 0.4 }}
+      transition={{ duration: 0.4 }}
     >
       <div className="flex items-center gap-4">
         <div className="h-14 w-14 shrink-0 overflow-hidden rounded-xl ring-1 ring-slate-200/80 dark:ring-slate-700">
@@ -79,23 +55,13 @@ function AppCard({
 export function PlayStoreSection() {
   const strings = useRegistryStrings('components/home/PlayStoreSection');
 
-  const apps = useMemo<PlayStoreApp[]>(
-    () => [
-      {
-        id: 'personel',
-        title: strings.apps.personel.title,
-        description: strings.apps.personel.description,
-        playUrl: PLAY_STORE_PERSONNEL_URL,
-        iconSrc: PLAY_STORE_PERSONNEL_ICON,
-      },
-      {
-        id: 'admin',
-        title: strings.apps.admin.title,
-        description: strings.apps.admin.description,
-        playUrl: PLAY_STORE_ADMIN_URL,
-        iconSrc: PLAY_STORE_ADMIN_ICON,
-      },
-    ],
+  const app = useMemo<PlayStoreApp>(
+    () => ({
+      title: strings.apps.personel.title,
+      description: strings.apps.personel.description,
+      playUrl: PLAY_STORE_PERSONNEL_URL,
+      iconSrc: PLAY_STORE_PERSONNEL_ICON,
+    }),
     [strings]
   );
 
@@ -126,34 +92,8 @@ export function PlayStoreSection() {
           </p>
         </motion.div>
 
-        <div className="mx-auto max-w-4xl">
-          <div className="hidden sm:grid sm:grid-cols-[1fr_auto_1fr] sm:items-stretch sm:gap-0">
-            <AppCard
-              app={apps[0]}
-              index={0}
-              platformLabel={strings.platformLabel}
-            />
-            <CardsConnector layout="row" />
-            <AppCard
-              app={apps[1]}
-              index={1}
-              platformLabel={strings.platformLabel}
-            />
-          </div>
-
-          <div className="space-y-4 sm:hidden">
-            <AppCard
-              app={apps[0]}
-              index={0}
-              platformLabel={strings.platformLabel}
-            />
-            <CardsConnector layout="column" />
-            <AppCard
-              app={apps[1]}
-              index={1}
-              platformLabel={strings.platformLabel}
-            />
-          </div>
+        <div className="mx-auto max-w-md">
+          <AppCard app={app} platformLabel={strings.platformLabel} />
         </div>
       </div>
     </section>

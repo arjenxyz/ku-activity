@@ -1,0 +1,30 @@
+{
+  "title": "Frequently Asked Questions",
+  "description": "We answered common questions before you start with CrewLedger and gathered the essentials in one place. Take a look!",
+  "items": [
+    {
+      "question": "Which apps does CrewLedger include?",
+      "answer": "The personnel app is for workers on site; the manager app is for site and HR teams. Both run on web and mobile and use the same records."
+    },
+    {
+      "question": "Do I need technical knowledge to use CrewLedger?",
+      "answer": "No. Daily workflows use simple interfaces. Attendance, advances, and payroll steps are guided on screen — no extra setup or IT support required."
+    },
+    {
+      "question": "Can employees log in to the system?",
+      "answer": "Yes. From the personnel panel they can handle attendance, approve daily wages, request advances, and view payroll with their own accounts."
+    },
+    {
+      "question": "Is my data secure?",
+      "answer": "User data is encrypted with SSL and stored on secure servers. We fulfil our data-processing obligations under KVKK."
+    },
+    {
+      "question": "Can I manage multiple sites or projects?",
+      "answer": "Yes. Each project is set up as a separate site; personnel, attendance, advances, and payroll are kept per project."
+    },
+    {
+      "question": "How can I download the app?",
+      "answer": "On Android you can choose the personnel or manager app from Google Play. If Play Store is unavailable, install from the APK page on this site."
+    }
+  ]
+}

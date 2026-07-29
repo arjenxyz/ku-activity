@@ -1,12 +1,17 @@
 {
-  "bannerAlt": "क्रूलेजर निर्माण दल",
-  "description": "निर्माण के लिए कार्यबल प्रबंधन प्रणाली - एक मंच पर दैनिक वेतन, अग्रिम, उपस्थिति और टाइमशीट।",
-  "contactTitle": "संपर्क",
+  "bannerAlt": "CrewLedger construction site team",
+  "tagline": "Construction Workforce Management",
+  "description": "Personnel management for construction — daily wages, advances, attendance and payroll in one platform.",
+  "contactTitle": "Contact",
+  "companyName": "CrewLedger",
+  "rightsReserved": "Tüm Hakları Saklıdır.",
+  "legalHub": "Sözleşmeler ve Politikalar",
+  "apkLabel": "APK İndir",
+  "apkAriaLabel": "APK indirme sayfasına git",
   "copyrightYear": "2026",
   "links": {
-    "privacy": "गोपनीयता",
-    "terms": "उपयोग की शर्तें",
-    "kvkk": "जीडीपीआर/केवीकेके"
-  },
-  "tagline": "निर्माण कार्यबल प्लेटफ़ॉर्म"
+    "privacy": "Gizlilik",
+    "terms": "Kullanım Şartları",
+    "kvkk": "KVKK"
+  }
 }

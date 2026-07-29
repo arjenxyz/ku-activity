@@ -3,6 +3,7 @@
   "menuTitle": "Language",
   "modalTitle": "Select language",
   "exitHint": "Tap to exit",
+  "mobilePreviewHint": "Tap the speaker icon to hear the welcome. Tap the row to select a language.",
   "closeButtonAriaLabel": "Close",
   "closeOverlayAriaLabel": "Close",
   "footerNote": "Your choice is saved on this device."

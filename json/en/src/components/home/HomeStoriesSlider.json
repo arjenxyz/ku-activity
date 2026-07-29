@@ -1,0 +1,32 @@
+{
+  "eyebrow": "Success stories",
+  "title": "How field teams work with CrewLedger",
+  "readStory": "Read the story",
+  "stories": [
+    {
+      "name": "Gökçe Gökkurt",
+      "role": "HR Manager",
+      "company": "YAPIKON"
+    },
+    {
+      "name": "Mehmet Kaya",
+      "role": "Site Coordinator",
+      "company": "KENTYAPI"
+    },
+    {
+      "name": "Yunus Emre Ölmez",
+      "role": "Human Resources Specialist",
+      "company": "YAPIKON"
+    },
+    {
+      "name": "Can Öztürk",
+      "role": "Project Manager",
+      "company": "ALFA GRUP"
+    },
+    {
+      "name": "Ayşe Demir",
+      "role": "HR Director",
+      "company": "NEXUS YAPI"
+    }
+  ]
+}

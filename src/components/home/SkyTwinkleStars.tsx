@@ -49,6 +49,8 @@ type SkyTwinkleStarsProps = {
   /** Yıldızların yerleşebileceği maksimum üst yükseklik (%) */
   maxTopPercent?: number;
   density?: number;
+  /** night: footer gece gökyüzü; blue: açık zemin üzerinde mavi yıldızlar */
+  palette?: 'night' | 'blue';
 };
 
 export function SkyTwinkleStars({
@@ -57,6 +59,7 @@ export function SkyTwinkleStars({
   maskFadeEnd = 40,
   maxTopPercent = 32,
   density = 40,
+  palette = 'night',
 }: SkyTwinkleStarsProps) {
   const stars = useMemo(() => buildStars(density, maxTopPercent), [density, maxTopPercent]);
   const midFade = (maskSolidEnd + maskFadeEnd) / 2;
@@ -68,12 +71,26 @@ export function SkyTwinkleStars({
       style={{ maskImage: mask, WebkitMaskImage: mask }}
       aria-hidden
     >
-      {stars.map((star) => (
+      {stars.map((star) => {
+        const colorClass =
+          palette === 'blue'
+            ? star.cool
+              ? 'bg-[#2D6AF6]'
+              : 'bg-[#7FAEFF]'
+            : star.cool
+              ? 'bg-sky-100'
+              : 'bg-white';
+        const glowClass =
+          star.glow && palette === 'blue'
+            ? 'sky-twinkle-star--glow-blue'
+            : star.glow
+              ? 'sky-twinkle-star--glow'
+              : '';
+
+        return (
         <span
           key={star.id}
-          className={`sky-twinkle-star absolute rounded-full ${star.glow ? 'sky-twinkle-star--glow' : ''} ${
-            star.cool ? 'bg-sky-100' : 'bg-white'
-          }`}
+          className={`sky-twinkle-star absolute rounded-full ${glowClass} ${colorClass}`}
           style={
             {
               left: `${star.left}%`,
@@ -87,7 +104,8 @@ export function SkyTwinkleStars({
             } as CSSProperties
           }
         />
-      ))}
+        );
+      })}
     </div>
   );
 }

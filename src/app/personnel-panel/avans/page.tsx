@@ -122,7 +122,7 @@ export default function PersonnelAvansPage() {
   const awaitingPayment = requests.some((r) => hasAdvanceAwaitingPayment(r.status));
 
   return (
-    <div className="mx-auto max-w-lg px-4 py-4 pb-28">
+    <div className="mx-auto w-full px-4 py-4 pb-28 sm:max-w-4xl">
       <div className="mb-4">
         <h1 className="text-lg font-bold text-slate-900 dark:text-white">{strings.pageTitle}</h1>
         <p className="text-xs text-slate-500">{strings.pageSubtitle}</p>

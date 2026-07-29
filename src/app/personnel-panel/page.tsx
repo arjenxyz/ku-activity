@@ -4,23 +4,18 @@
 import { Suspense, useEffect, useState } from 'react';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useRouter } from 'next/navigation';
-import {
-  FiBriefcase,
-  FiDollarSign,
-  FiList,
-  FiSettings,
-} from 'react-icons/fi';
+import { FiBriefcase, FiDollarSign, FiList, FiSettings } from 'react-icons/fi';
 import { PersonnelNetHero } from '@/components/personnel/PersonnelNetHero';
 import { PersonnelUnifiedCalendarPanel } from '@/components/personnel/PersonnelUnifiedCalendarPanel';
 import { PersonnelTodayAttendance } from '@/components/personnel/PersonnelTodayAttendance';
 import { PersonnelPayrollPrint } from '@/components/personnel/PersonnelPayrollPrint';
 import { PersonnelSettingsPage } from '@/components/personnel/PersonnelSettingsPage';
 import { PersonnelShell } from '@/components/personnel/PersonnelShell';
-import { PersonnelTabNav } from '@/components/personnel/PersonnelTabNav';
 import { PersonnelFinancePanel } from '@/components/personnel/PersonnelFinancePanel';
 import { PersonnelPullToRefresh } from '@/components/personnel/PersonnelPullToRefresh';
 import { usePersonnelDashboard } from '@/hooks/usePersonnelDashboard';
 import { usePersonnelTab, type PersonnelTabId } from '@/hooks/usePersonnelTab';
+import { formatMoney } from '@/lib/format';
 import { currentMonth } from '@/lib/personnel-stats';
 import { isPersonnelDemoMode } from '@/lib/demo/demo-paths';
 
@@ -49,7 +44,6 @@ function PersonelPanelContent() {
 
   const advances = deductions.filter((d) => d.type === 'advance');
   const otherDeductions = deductions.filter((d) => d.type !== 'advance');
-  const tabsWithBadges = DESKTOP_TABS.map((tab) => ({ ...tab }));
 
   const handlePrint = () => {
     window.print();
@@ -57,6 +51,7 @@ function PersonelPanelContent() {
 
   const goTab = (id: string) => setActiveTab(id as PersonnelTabId);
   const isWorkTab = activeTab === 'work';
+  const isOverviewTab = activeTab === 'overview';
 
   useEffect(() => {
     if (!isWorkTab) return;
@@ -104,7 +99,7 @@ function PersonelPanelContent() {
 
     if (activeTab === 'finance' && stats && employee) {
       return (
-        <div className="max-w-lg mx-auto w-full">
+        <div className="mx-auto w-full sm:max-w-3xl">
           <PersonnelFinancePanel stats={stats} onPrint={handlePrint} />
         </div>
       );
@@ -134,27 +129,33 @@ function PersonelPanelContent() {
       );
     }
 
-    return (
-      <div className="space-y-4 sm:space-y-5">
-        {employee && stats && (
-          <PersonnelNetHero
-            fullName={employee.name}
-            position={employee.position}
-            photoUrl={employee.photo_url}
-            net={stats.net}
-            gross={stats.gross}
-            totalAdvance={stats.totalAdvance}
-            totalDeduct={stats.totalDeduct}
-            month={month}
-            onMonthChange={setMonth}
-            onOpenFinance={() => goTab('finance')}
-          />
-        )}
+    if (employee && stats) {
+      return (
+        <div className="space-y-4 sm:space-y-6">
+          <div className="grid gap-4 xl:grid-cols-12 xl:items-start">
+            <div className="xl:col-span-9">
+              <PersonnelNetHero
+                fullName={employee.name}
+                position={employee.position}
+                photoUrl={employee.photo_url}
+                net={stats.net}
+                gross={stats.gross}
+                totalAdvance={stats.totalAdvance}
+                totalDeduct={stats.totalDeduct}
+                month={month}
+                onMonthChange={setMonth}
+                onOpenFinance={() => goTab('finance')}
+              />
+            </div>
+            <div className="xl:col-span-3">
+              <PersonnelTodayAttendance />
+            </div>
+          </div>
+        </div>
+      );
+    }
 
-        <PersonnelTodayAttendance />
-
-      </div>
-    );
+    return <PersonnelTodayAttendance />;
   };
 
   return (
@@ -167,10 +168,66 @@ function PersonelPanelContent() {
           }}
         >
           <div className={`no-print ${isWorkTab ? 'w-full' : ''}`}>
-            <div className="mb-4 sm:mb-6 no-print hidden sm:block">
-              <PersonnelTabNav tabs={tabsWithBadges} active={activeTab} onChange={goTab} />
-            </div>
-            {renderContent()}
+            {isWorkTab ? (
+              renderContent()
+            ) : (
+              <>
+                <div className="hidden sm:grid sm:grid-cols-12 sm:gap-5">
+                  <aside className="sm:col-span-4 lg:col-span-3">
+                    <div className="sticky top-[calc(var(--personnel-topbar-h)+1rem)] space-y-4 rounded-3xl border border-slate-200/90 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+                      {employee ? (
+                        <div className="rounded-2xl border border-slate-200 bg-slate-50 px-3 py-3 dark:border-slate-700 dark:bg-slate-800/70">
+                          <p className="truncate text-base font-bold text-[#0E1548] dark:text-white">
+                            {employee.name}
+                          </p>
+                          <p className="mt-1 truncate text-xs text-slate-500 dark:text-slate-400">
+                            {employee.position || strings.tabs.overview}
+                          </p>
+                        </div>
+                      ) : null}
+                      <nav className="space-y-1.5">
+                        {DESKTOP_TABS.map((tab) => {
+                          const isActive = activeTab === tab.id;
+                          return (
+                            <button
+                              key={tab.id}
+                              type="button"
+                              onClick={() => goTab(tab.id)}
+                              className={`flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-left text-sm font-semibold transition ${
+                                isActive
+                                  ? 'bg-[#0E1548] text-white shadow-md shadow-[#0E1548]/20'
+                                  : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'
+                              }`}
+                            >
+                              {tab.icon}
+                              <span>{tab.label}</span>
+                            </button>
+                          );
+                        })}
+                      </nav>
+                      {isOverviewTab && stats ? (
+                        <div className="space-y-2 border-t border-slate-200 pt-3 dark:border-slate-700">
+                          <div className="rounded-xl bg-slate-50 px-3 py-2 dark:bg-slate-800">
+                            <p className="text-[11px] text-slate-500 dark:text-slate-400">Net</p>
+                            <p className="text-sm font-semibold text-[#0E1548] dark:text-white">
+                              {formatMoney(stats.net)}
+                            </p>
+                          </div>
+                          <div className="rounded-xl bg-slate-50 px-3 py-2 dark:bg-slate-800">
+                            <p className="text-[11px] text-slate-500 dark:text-slate-400">Brut</p>
+                            <p className="text-sm font-semibold text-[#0E1548] dark:text-white">
+                              {formatMoney(stats.gross)}
+                            </p>
+                          </div>
+                        </div>
+                      ) : null}
+                    </div>
+                  </aside>
+                  <section className="sm:col-span-8 lg:col-span-9">{renderContent()}</section>
+                </div>
+                <div className="sm:hidden">{renderContent()}</div>
+              </>
+            )}
           </div>
         </PersonnelPullToRefresh>
       </PersonnelShell>

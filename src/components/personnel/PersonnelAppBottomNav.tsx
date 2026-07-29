@@ -163,7 +163,7 @@ function NavInner() {
     <>
       <nav
         dir="ltr"
-        className="personnel-dock fixed bottom-0 inset-x-0 z-50 sm:hidden pointer-events-none no-print"
+        className="personnel-dock fixed bottom-0 inset-x-0 z-50 pointer-events-none no-print sm:hidden"
         aria-label={strings.navAriaLabel}
       >
         <div className="mx-auto max-w-lg px-3 pb-[max(0.45rem,env(safe-area-inset-bottom))] pointer-events-auto">

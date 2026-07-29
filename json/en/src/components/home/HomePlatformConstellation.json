@@ -1,0 +1,14 @@
+{
+  "title": "Site workflows united on one platform",
+  "description": "Instead of scattered spreadsheets, broken approvals, and duplicate data entry, CrewLedger modules stay connected on the same records.",
+  "modules": [
+    { "label": "Attendance", "tone": "sky" },
+    { "label": "Daily wage", "tone": "amber" },
+    { "label": "Advances", "tone": "emerald" },
+    { "label": "Payroll", "tone": "indigo" },
+    { "label": "Site", "tone": "slate" },
+    { "label": "Personnel", "tone": "rose" },
+    { "label": "Reports", "tone": "violet" },
+    { "label": "Alerts", "tone": "cyan" }
+  ]
+}

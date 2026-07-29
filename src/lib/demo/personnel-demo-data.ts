@@ -21,10 +21,10 @@ function daysInMonth(month: string) {
 
 export const DEMO_EMPLOYEE = {
   id: 'demo-employee-1',
-  name: 'Ali Yılmaz',
-  first_name: 'Ali',
-  last_name: 'Yılmaz',
-  email: 'ali.yilmaz@demo.crewledger.app',
+  name: 'Arjen',
+  first_name: 'Arjen',
+  last_name: '',
+  email: 'arjen@demo.crewledger.app',
   phone: '0532 000 00 00',
   daily_wage: 2500,
   position: 'Usta',

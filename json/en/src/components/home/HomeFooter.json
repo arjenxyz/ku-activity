@@ -1,12 +1,26 @@
 {
-  "bannerAlt": "CrewLedger construction crew",
-  "description": "Workforce management system for construction — daily wages, advances, attendance, and timesheets on one platform.",
+  "bannerAlt": "CrewLedger construction site team",
+  "tagline": "Construction Workforce Management",
+  "description": "Personnel management for construction — daily wages, advances, attendance and payroll in one platform.",
+  "navTitle": "Explore",
+  "legalTitle": "Legal",
+  "downloadTitle": "Mobile App",
+  "downloadHeadline": "Site HR workflows in your pocket",
+  "downloadSubtitle": "Attendance, payroll, advances and payslips — access anywhere with the personnel app.",
+  "downloadAppsBadge": "Personnel",
+  "downloadPlatform": "Android · Free",
   "contactTitle": "Contact",
+  "companyName": "CrewLedger",
+  "rightsReserved": "All rights reserved.",
+  "legalHub": "Agreements & Policies",
+  "apkLabel": "Download APK",
+  "apkBadgeTop": "GET IT ON",
+  "apkBadgeBottom": "Apk",
+  "apkAriaLabel": "Go to APK download page",
   "copyrightYear": "2026",
   "links": {
     "privacy": "Privacy",
     "terms": "Terms of Use",
     "kvkk": "GDPR / KVKK"
-  },
-  "tagline": "Construction Workforce Platform"
+  }
 }

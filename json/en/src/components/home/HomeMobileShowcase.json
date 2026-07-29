@@ -1,0 +1,23 @@
+{
+  "title": "All site HR processes in your pocket!",
+  "description": "Work doesn't stop when you're away from the office. Attendance, daily wages, advances, payroll — all in your pocket. Reach every workflow from anywhere with the CrewLedger mobile app.",
+  "phonePreviewAlt": "CrewLedger personnel mobile app screenshot",
+  "features": [
+    {
+      "title": "Stay informed",
+      "description": "Get instant notifications for attendance approvals, payroll, and advance updates."
+    },
+    {
+      "title": "Manage requests",
+      "description": "Track leave, advance, and overtime requests from a single screen."
+    },
+    {
+      "title": "Stay connected",
+      "description": "Communicate transparently with site and HR teams on shared records."
+    },
+    {
+      "title": "Use it easily",
+      "description": "A simple interface — reach the module you need in a few taps."
+    }
+  ]
+}

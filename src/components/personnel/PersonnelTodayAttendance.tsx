@@ -176,9 +176,9 @@ export function PersonnelTodayAttendance() {
   return (
     <section
       aria-label={strings.badge}
-      className={`relative overflow-hidden rounded-2xl sm:rounded-3xl border shadow-sm ${style.shell}`}
+      className={`relative overflow-hidden rounded-2xl border shadow-sm sm:rounded-3xl ${style.shell}`}
     >
-      <div className="p-4 sm:p-5">
+      <div className="p-4 sm:p-4">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0 flex-1">
             <p className={`text-[11px] font-bold uppercase tracking-wider ${style.badge}`}>{strings.badge}</p>
@@ -206,7 +206,7 @@ export function PersonnelTodayAttendance() {
         <p className="mt-3 text-base font-semibold text-slate-900 dark:text-white">{copy.title}</p>
 
         {copy.hint ? (
-          <p className="mt-1 text-sm leading-relaxed text-slate-600 dark:text-slate-400">{copy.hint}</p>
+          <p className="mt-1 text-sm leading-relaxed text-slate-600 dark:text-slate-400 sm:line-clamp-2">{copy.hint}</p>
         ) : null}
 
         {showWorkLogSummary && workLog ? (
@@ -220,7 +220,7 @@ export function PersonnelTodayAttendance() {
         {showScanAction ? (
           <Link
             href={personnelHref(pathname, '/personnel-panel/yoklama')}
-            className="mt-4 flex w-full items-center justify-center gap-2.5 rounded-2xl bg-blue-600 py-3.5 text-sm font-semibold text-white shadow-lg shadow-blue-600/20 transition-colors hover:bg-blue-700 active:bg-blue-800 touch-target"
+            className="mt-4 flex w-full items-center justify-center gap-2.5 rounded-2xl bg-blue-600 py-3.5 text-sm font-semibold text-white shadow-lg shadow-blue-600/20 transition-colors hover:bg-blue-700 active:bg-blue-800 touch-target sm:py-2.5"
           >
             <TbQrcode className="h-5 w-5" aria-hidden />
             {scanLabel}

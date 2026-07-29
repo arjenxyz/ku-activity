@@ -1,247 +1,247 @@
 {
-  "generatedAt": "2026-07-22T18:29:23.319Z",
+  "generatedAt": "2026-07-28T13:54:10.025Z",
   "updates": [
     {
-      "sha": "d7cbe451825014d1ea4f81af959a72e8079e0352",
-      "shortSha": "d7cbe45",
-      "message": "Show logout confirmation as a blurred modal overlay.",
-      "date": "2026-07-22T21:25:04+03:00"
+      "sha": "988d6577ff5dd0b6fbac4b33dcf81ab2bbb621d6",
+      "shortSha": "988d657",
+      "message": "Integrate all 15 UI locales into the i18n system.",
+      "date": "2026-07-28T16:44:03+03:00"
     },
     {
-      "sha": "59744edb9f672088721face54cac141c328f374d",
-      "shortSha": "59744ed",
-      "message": "Confirm before signing out from personnel settings.",
-      "date": "2026-07-22T21:21:04+03:00"
+      "sha": "e5b47c1100057205fead014e36658f2b03ccb4d7",
+      "shortSha": "e5b47c1",
+      "message": "Add Hungarian (Magyar) as a full content locale.",
+      "date": "2026-07-25T11:21:09+03:00"
     },
     {
-      "sha": "b1a4a974b8afea81c8bb98c4e99f828f5b9d1817",
-      "shortSha": "b1a4a97",
-      "message": "Make the settings logout button permanently red.",
-      "date": "2026-07-22T21:13:45+03:00"
+      "sha": "0bb1c7073c7c0bc1ce750f17728f93e9fb1da5ea",
+      "shortSha": "0bb1c70",
+      "message": "Harden personnel APIs, locale labels, and silent failure UX.",
+      "date": "2026-07-23T18:36:32+03:00"
     },
     {
-      "sha": "5f22337d880eb7fdd47188d3a3e4e66c4f602de0",
-      "shortSha": "5f22337",
-      "message": "Replace digital approval mark with the cropped asset.",
-      "date": "2026-07-22T21:09:58+03:00"
+      "sha": "cb06ba73e46d89bc0f2054c09c759dd26944af1a",
+      "shortSha": "cb06ba7",
+      "message": "Redesign payroll print footer with formal signatures and clauses.",
+      "date": "2026-07-23T16:58:16+03:00"
     },
     {
-      "sha": "96d7f1fda7a896304e0af15f299a72e55e9355eb",
-      "shortSha": "96d7f1f",
-      "message": "Restore full-size digital approval mark display.",
-      "date": "2026-07-22T21:08:22+03:00"
+      "sha": "233a9d854b3aa957d80618254801c4f6e5b2d157",
+      "shortSha": "233a9d8",
+      "message": "Clarify device cache vs account data in privacy labels.",
+      "date": "2026-07-23T16:50:34+03:00"
     },
     {
-      "sha": "431fe5e5cfb8719f5b330b5b563fbda9c0127733",
-      "shortSha": "431fe5e",
-      "message": "Limit digital approval mark height in settings.",
-      "date": "2026-07-22T21:04:40+03:00"
+      "sha": "4d2dffa9576b717a24c0eb617e831f82eece8b76",
+      "shortSha": "4d2dffa",
+      "message": "Capitalize Dijital Onay İşareti label in settings.",
+      "date": "2026-07-23T16:48:22+03:00"
     },
     {
-      "sha": "67d2ea0c64b900b28399c2aa8877ac37366a2ee4",
-      "shortSha": "67d2ea0",
-      "message": "Restore the notifications bell on the personnel top bar.",
-      "date": "2026-07-22T21:01:43+03:00"
+      "sha": "0b49045807cceff12607d8922a8ea521d6448bbf",
+      "shortSha": "0b49045",
+      "message": "Restore FiBell for personnel notification icon.",
+      "date": "2026-07-23T16:46:38+03:00"
     },
     {
-      "sha": "97f2b03d4097d66bad2ddae7d541cd6e70df563b",
-      "shortSha": "97f2b03",
-      "message": "Swap top-bar notifications for logout and calm the calendar palette.",
-      "date": "2026-07-22T21:00:33+03:00"
+      "sha": "c70fbf67beb0b5173ed209ff382cb5234406409a",
+      "shortSha": "c70fbf6",
+      "message": "Remove photo-camera icon plate background for transparent badge.",
+      "date": "2026-07-23T16:45:11+03:00"
     },
     {
-      "sha": "8030df23291f860aae93dead06141aa3715b9780",
-      "shortSha": "8030df2",
-      "message": "Make the digital approval mark larger in settings.",
-      "date": "2026-07-22T20:53:52+03:00"
+      "sha": "e56e2ede2ca9caa0d793f922ab35590315cde005",
+      "shortSha": "e56e2ed",
+      "message": "Use app-settings.png for settings app menu row.",
+      "date": "2026-07-23T16:42:21+03:00"
     },
     {
-      "sha": "ca2cd21b48b9359be6ff2d596f8b89f4193178c8",
-      "shortSha": "ca2cd21",
-      "message": "Remove the black frame around the digital approval mark.",
-      "date": "2026-07-22T20:50:46+03:00"
+      "sha": "0c9c382f4b6bd848e891bb82bf868b1f2d5e429a",
+      "shortSha": "0c9c382",
+      "message": "Use updated.png for settings release notes menu row.",
+      "date": "2026-07-23T16:41:47+03:00"
     },
     {
-      "sha": "7f9e9adc1e572f69a9d0114f3798f2de9c45e04c",
-      "shortSha": "7f9e9ad",
-      "message": "Show the digital approval mark under settings logout.",
-      "date": "2026-07-22T20:46:04+03:00"
+      "sha": "72f844b5e1fe7c98b186c2a567dd2986a536d889",
+      "shortSha": "72f844b",
+      "message": "Use security.png for settings security menu row.",
+      "date": "2026-07-23T16:41:01+03:00"
     },
     {
-      "sha": "1ceb847e32e9c916bb4b9b05af4d69269d970187",
-      "shortSha": "1ceb847",
-      "message": "Align calendar colors with the homepage navy and blue palette.",
-      "date": "2026-07-22T20:30:51+03:00"
+      "sha": "31160d23eaaf4760beb9b6f9060373286a1fc985",
+      "shortSha": "31160d2",
+      "message": "Use agreement.png for settings contracts menu row.",
+      "date": "2026-07-23T16:40:28+03:00"
     },
     {
-      "sha": "0e7c08ba00ca347563b80ae4aea59a9479e72b99",
-      "shortSha": "0e7c08b",
-      "message": "Soften the calendar chrome with CrewLedger blue tones.",
-      "date": "2026-07-22T20:16:16+03:00"
+      "sha": "f0116398a211b09ed5dbf46eb8e511ea039d6070",
+      "shortSha": "f011639",
+      "message": "Use is.png for settings work info menu row.",
+      "date": "2026-07-23T16:39:50+03:00"
     },
     {
-      "sha": "fd645dec2235fc0db9d9968f3d2815b69eeddbee",
-      "shortSha": "fd645de",
-      "message": "Use CrewLedger navy borders on calendar days with records.",
-      "date": "2026-07-22T20:06:27+03:00"
+      "sha": "7520f6cf1cd9f31c069a8f86d7776f9bc9fdfa28",
+      "shortSha": "7520f6c",
+      "message": "Replace notification bell trigger with bell.png asset.",
+      "date": "2026-07-23T16:38:54+03:00"
     },
     {
-      "sha": "203a7258baac29539860a2ce2f236894ef96eba0",
-      "shortSha": "203a725",
-      "message": "Increase calendar border and legend contrast for field readability.",
-      "date": "2026-07-22T19:59:20+03:00"
+      "sha": "3c05c03a2a57e88461a8b32cf956b5ec84c1234e",
+      "shortSha": "3c05c03",
+      "message": "Use photo-camera.png on the profile photo edit badge.",
+      "date": "2026-07-23T16:37:30+03:00"
     },
     {
-      "sha": "be648cde36e44c8078ed031069451986bcf9dd65",
-      "shortSha": "be648cd",
-      "message": "Center the work-tab calendar in the viewport and lock page scroll.",
-      "date": "2026-07-22T19:49:40+03:00"
+      "sha": "14c94d1fdcb74200ea45b759d4318020fa6cf22b",
+      "shortSha": "14c94d1",
+      "message": "Open profile photo actions from avatar; add remove option.",
+      "date": "2026-07-23T16:31:09+03:00"
     },
     {
-      "sha": "7df8123efcdc080b7b8a19b0064816374b452ee4",
-      "shortSha": "7df8123",
-      "message": "Separate adjacent calendar day highlights with border and gap.",
-      "date": "2026-07-22T19:47:03+03:00"
+      "sha": "4fcb56e69fa43f9debd23013650a832fff99753c",
+      "shortSha": "4fcb56e",
+      "message": "Update home dock icon asset.",
+      "date": "2026-07-23T16:27:47+03:00"
     },
     {
-      "sha": "c59d22f511a974f02af49b054c813e4d351f6746",
-      "shortSha": "c59d22f",
-      "message": "Remove the this-month badge from the unified calendar header.",
-      "date": "2026-07-22T19:44:41+03:00"
+      "sha": "722848c88a989b44db21f56ea9edc045f1fdace4",
+      "shortSha": "722848c",
+      "message": "Default to Avatar.svg when no photo; use settings.svg in menu.",
+      "date": "2026-07-23T16:22:55+03:00"
     },
     {
-      "sha": "c01cab667719b70ad39ad4d2e7bc4c0ae17a71a4",
-      "shortSha": "c01cab6",
-      "message": "Slim the day summary modal sticky header.",
-      "date": "2026-07-22T19:43:54+03:00"
+      "sha": "be8b3609f7c0ecdebd0885c6d40ec7a6ab9c58f8",
+      "shortSha": "be8b360",
+      "message": "Remove obsolete qr.png after qr-code.png swap.",
+      "date": "2026-07-23T16:15:43+03:00"
     },
     {
-      "sha": "614b70dc9686d07d1524bf344f0ca4dced2b5d31",
-      "shortSha": "614b70d",
-      "message": "Include deductions in the day summary balance.",
-      "date": "2026-07-22T19:43:19+03:00"
+      "sha": "14129f1c8d211f205522865d3f2fd870831376c2",
+      "shortSha": "14129f1",
+      "message": "Swap yoklama dock icon to new qr-code.png.",
+      "date": "2026-07-23T16:15:16+03:00"
     },
     {
-      "sha": "c43808f5374a73db4eb693c8d7c842ebd5790730",
-      "shortSha": "c43808f",
-      "message": "Redesign day summary modal into a formal detail sheet.",
-      "date": "2026-07-22T19:38:56+03:00"
+      "sha": "baaca8747cbb23ec36804f80468c6c83cbb6b54b",
+      "shortSha": "baaca87",
+      "message": "Remove icon boxes from personnel dock and menu hub.",
+      "date": "2026-07-23T15:55:16+03:00"
     },
     {
-      "sha": "2bc69cecf336ffb871ea21d8df6c0fd52cee4250",
-      "shortSha": "2bc69ce",
-      "message": "Show panel title instead of CrewLedger wordmark in notifications header.",
-      "date": "2026-07-22T19:12:01+03:00"
+      "sha": "4c6336ed28b74d64af0079a821df9024d2c10007",
+      "shortSha": "4c6336e",
+      "message": "Enlarge Bordro docs-check icon and cache-bust asset URLs.",
+      "date": "2026-07-23T15:42:02+03:00"
     },
     {
-      "sha": "d39aa8c8290740d60a18a5501a98ff159ef73039",
-      "shortSha": "d39aa8c",
-      "message": "Tone down notification row icons to match panel chrome.",
-      "date": "2026-07-22T19:11:18+03:00"
+      "sha": "b3fe7b89417d45ef22244fffee893c30a9b1323c",
+      "shortSha": "b3fe7b8",
+      "message": "Use white icon badges; strip black PNG backgrounds for clarity.",
+      "date": "2026-07-23T15:40:49+03:00"
     },
     {
-      "sha": "376810c3f06d97c0adaac4e99429d5b6ee89e712",
-      "shortSha": "376810c",
-      "message": "Match notifications panel header to the personnel top bar card.",
-      "date": "2026-07-22T19:06:08+03:00"
+      "sha": "bfa20d6c7a9602f70a7975cbb0a038e54baa658a",
+      "shortSha": "bfa20d6",
+      "message": "Fix faint menu icons: drop lighten blend, render on navy tiles.",
+      "date": "2026-07-23T15:34:32+03:00"
     },
     {
-      "sha": "1249e3441e5b3c4f9d4945a86f0867d2343c7bb6",
-      "shortSha": "1249e34",
-      "message": "Use a refined bell SVG on all notification cards.",
-      "date": "2026-07-22T19:04:52+03:00"
+      "sha": "3aa1e0346a4c72b4e60036c0606faabce16ece90",
+      "shortSha": "3aa1e03",
+      "message": "Normalize Bordro SVG size after switching from padded PNG.",
+      "date": "2026-07-23T15:32:04+03:00"
     },
     {
-      "sha": "d63e53d9d5216a03c0888ed4ca93c8acc63e4096",
-      "shortSha": "d63e53d",
-      "message": "Use the main CrewLedger mark in the notifications header.",
-      "date": "2026-07-22T19:03:07+03:00"
+      "sha": "5b433b23e034ef752d3fec196c0a50320ae64815",
+      "shortSha": "5b433b2",
+      "message": "Use Docs check SVG for Bordro — clearer payroll document metaphor.",
+      "date": "2026-07-23T15:31:42+03:00"
     },
     {
-      "sha": "3149cd396ebd006cf5d7de317dcc129b2d7ebb81",
-      "shortSha": "3149cd3",
-      "message": "Remove the redundant back button from notifications header.",
-      "date": "2026-07-22T19:02:07+03:00"
+      "sha": "78f376e28faf8a5836285c808064c2972cf58606",
+      "shortSha": "78f376e",
+      "message": "Scale up Bordro icon to compensate for PNG padding.",
+      "date": "2026-07-23T15:30:00+03:00"
     },
     {
-      "sha": "7cd5a10f5864117e88c2d8d15322df563a0b8274",
-      "shortSha": "7cd5a10",
-      "message": "Slim notification cards into a compact list row layout.",
-      "date": "2026-07-22T18:51:14+03:00"
+      "sha": "3b7c70f497ecf783afeba68d13656125abd811ae",
+      "shortSha": "3b7c70f",
+      "message": "Replace personnel dock and hub icons with custom PNG assets.",
+      "date": "2026-07-23T15:29:08+03:00"
     },
     {
-      "sha": "66a1639ac5b573464ded9a80225c972171c058b3",
-      "shortSha": "66a1639",
-      "message": "Give notification cards a frosted glass background.",
-      "date": "2026-07-22T18:50:14+03:00"
+      "sha": "add00780dc949a62f9f4e24ced28d50d4acfb8c0",
+      "shortSha": "add0078",
+      "message": "Use Docs check SVG as Bordro icon in dock and menu hub.",
+      "date": "2026-07-23T15:24:09+03:00"
     },
     {
-      "sha": "c129d8adaa0f046578764ad33d65cb2505477f85",
-      "shortSha": "c129d8a",
-      "message": "Make notifications panel header bar background transparent.",
-      "date": "2026-07-22T18:49:25+03:00"
+      "sha": "b808c94e78860b1287f6f62188a2a8307e178451",
+      "shortSha": "b808c94",
+      "message": "Replace glossy hub icons with flat tinted Feather icons.",
+      "date": "2026-07-23T14:42:25+03:00"
     },
     {
-      "sha": "5ce285411870cb2ddfd4d6bc0c4d51ed0fabd402",
-      "shortSha": "5ce2854",
-      "message": "Show tap-to-close hint under notifications brand mark.",
-      "date": "2026-07-22T18:48:50+03:00"
+      "sha": "7d92433f8a6b0e0eaef129bb101a8485b5162847",
+      "shortSha": "7d92433",
+      "message": "Bump service worker cache to v26 so clients pick up latest UI.",
+      "date": "2026-07-23T10:38:32+03:00"
     },
     {
-      "sha": "0bcb23a168a115f5d0784d196bf14114032e24bf",
-      "shortSha": "0bcb23a",
-      "message": "Match notifications panel chrome to the personnel top bar.",
-      "date": "2026-07-22T18:41:36+03:00"
+      "sha": "b17b810c377747840fdade6bcb4abfc507c2e62d",
+      "shortSha": "b17b810",
+      "message": "Fix personnel hub menu icons for calendar, payroll, and advance.",
+      "date": "2026-07-23T10:26:48+03:00"
     },
     {
-      "sha": "62c380bc681e189e4bf6545cc746315f1f0c53e2",
-      "shortSha": "62c380b",
-      "message": "Refine notification cards with CrewLedger accent and Honor tiles.",
-      "date": "2026-07-22T18:39:23+03:00"
+      "sha": "6805b50520ac41c5de57b250b7642d1b4931cf1d",
+      "shortSha": "6805b50",
+      "message": "Use thin glass scrollbar on personnel menu hub sheet.",
+      "date": "2026-07-23T10:24:55+03:00"
     },
     {
-      "sha": "7897bc40a78d8d47ff62c9464bed599230d2428e",
-      "shortSha": "7897bc4",
-      "message": "Align notifications panel with CrewLedger personnel chrome.",
-      "date": "2026-07-22T18:37:49+03:00"
+      "sha": "0b9787668eb893aa199eff8b381ea4a2ed76df2c",
+      "shortSha": "0b97876",
+      "message": "Open day error report form as a nested modal on Bildir.",
+      "date": "2026-07-23T10:15:21+03:00"
     },
     {
-      "sha": "3171118e32df5784a950d1eed1b6a58446680fd7",
-      "shortSha": "3171118",
-      "message": "Polish notifications panel header and replace emoji bells with Honor icons.",
-      "date": "2026-07-22T18:35:48+03:00"
+      "sha": "c062d68532e05dad4c8ce9807aa53ca5d88c607b",
+      "shortSha": "c062d68",
+      "message": "Add missing EN strings for web-updates to fix Vercel build.",
+      "date": "2026-07-23T10:10:17+03:00"
     },
     {
-      "sha": "1f58c358deaf8924ef329776149144c50b375cf1",
-      "shortSha": "1f58c35",
-      "message": "Use a filled amber warning triangle on the screen report control.",
-      "date": "2026-07-22T18:24:28+03:00"
+      "sha": "0a0696a96cb7a05e29f150ffd2db730cc0d5b345",
+      "shortSha": "0a0696a",
+      "message": "Rename personnel dock finance tab to Bordro.",
+      "date": "2026-07-23T10:05:30+03:00"
     },
     {
-      "sha": "88ccdfd90f8434c27cc26237b89f073bcee5f565",
-      "shortSha": "88ccdfd",
-      "message": "Restore sky-blue panel label on personnel auth header.",
-      "date": "2026-07-22T18:23:42+03:00"
+      "sha": "c1b1336c16696f85045da47ffdfe6b5fc82cac99",
+      "shortSha": "c1b1336",
+      "message": "Add day error reports from calendar Bildir to admin Itirazlar.",
+      "date": "2026-07-23T10:03:49+03:00"
     },
     {
-      "sha": "b07944559edd7ef2e163f83478c9cd2e30fa88c6",
-      "shortSha": "b079445",
-      "message": "Strip the pill chrome from the screen report header control.",
-      "date": "2026-07-22T18:21:58+03:00"
+      "sha": "295cd2cf47d3add6cd50714e6932d58e81c6fc1a",
+      "shortSha": "295cd2c",
+      "message": "Rename personnel dock work tab from Yevmiye to Takvim.",
+      "date": "2026-07-23T09:51:43+03:00"
     },
     {
-      "sha": "778b38cac996a0ebdecfb1af478bf8911d7204c4",
-      "shortSha": "778b38c",
-      "message": "Replace screen report alert icon with a notification bell.",
-      "date": "2026-07-22T18:21:27+03:00"
+      "sha": "e964f80729f1017da993c28c7582937140fb2daa",
+      "shortSha": "e964f80",
+      "message": "Center calendar day numbers and place marker dots on cell edges.",
+      "date": "2026-07-23T09:46:21+03:00"
     },
     {
-      "sha": "abca7a76443c464b94fdca4cf83600fcee456d7c",
-      "shortSha": "abca7a7",
-      "message": "Use personnel BrandMark variant on personnel auth screens.",
-      "date": "2026-07-22T18:20:49+03:00"
+      "sha": "ff99626aba2fcb2e074d35c45be221c2c7e8330a",
+      "shortSha": "ff99626",
+      "message": "Use gray borders on worked calendar days while keeping green fill.",
+      "date": "2026-07-23T09:43:46+03:00"
     }
   ],
-  "latestAt": "2026-07-22T21:25:04+03:00",
+  "latestAt": "2026-07-28T16:44:03+03:00",
   "source": "git"
 }

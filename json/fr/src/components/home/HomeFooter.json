@@ -1,12 +1,17 @@
 {
-  "bannerAlt": "Équipe de construction CrewLedger",
-  "description": "Système de gestion de la main-d'œuvre pour la construction : salaires quotidiens, avances, présences et feuilles de temps sur une seule plateforme.",
+  "bannerAlt": "CrewLedger construction site team",
+  "tagline": "Construction Workforce Management",
+  "description": "Personnel management for construction — daily wages, advances, attendance and payroll in one platform.",
   "contactTitle": "Contact",
+  "companyName": "CrewLedger",
+  "rightsReserved": "Tüm Hakları Saklıdır.",
+  "legalHub": "Sözleşmeler ve Politikalar",
+  "apkLabel": "APK İndir",
+  "apkAriaLabel": "APK indirme sayfasına git",
   "copyrightYear": "2026",
   "links": {
-    "privacy": "Confidentialité",
-    "terms": "Conditions d'utilisation",
-    "kvkk": "RGPD / KVKK"
-  },
-  "tagline": "Plateforme de gestion du personnel du BTP"
+    "privacy": "Gizlilik",
+    "terms": "Kullanım Şartları",
+    "kvkk": "KVKK"
+  }
 }

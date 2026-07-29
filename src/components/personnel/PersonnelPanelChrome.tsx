@@ -46,7 +46,7 @@ function ChromeBody({ children }: { children: React.ReactNode }) {
                 : isSettingsTab
                   ? 'pb-0'
                   : 'pb-0 personnel-topbar-offset'
-              : 'pb-[calc(5.25rem+env(safe-area-inset-bottom))]'
+              : 'pb-[calc(5.25rem+env(safe-area-inset-bottom))] sm:pb-0'
         }
       >
         <PersonnelClosureGate>{children}</PersonnelClosureGate>

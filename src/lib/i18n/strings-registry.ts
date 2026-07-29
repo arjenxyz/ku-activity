@@ -2179,6 +2179,21 @@ import m_app_api_public_screen_report_route_id from '@json/id/src/app/api/public
 import m_app_api_public_screen_report_route_de from '@json/de/src/app/api/public/screen-report/route.json';
 import m_app_api_public_screen_report_route_ja from '@json/ja/src/app/api/public/screen-report/route.json';
 import m_app_api_public_screen_report_route_hu from '@json/hu/src/app/api/public/screen-report/route.json';
+import m_app_api_public_support_chat_route_tr from '@json/src/app/api/public/support-chat/route.json';
+import m_app_api_public_support_chat_route_en from '@json/en/src/app/api/public/support-chat/route.json';
+import m_app_api_public_support_chat_route_zh from '@json/zh/src/app/api/public/support-chat/route.json';
+import m_app_api_public_support_chat_route_hi from '@json/hi/src/app/api/public/support-chat/route.json';
+import m_app_api_public_support_chat_route_es from '@json/es/src/app/api/public/support-chat/route.json';
+import m_app_api_public_support_chat_route_fr from '@json/fr/src/app/api/public/support-chat/route.json';
+import m_app_api_public_support_chat_route_ar from '@json/ar/src/app/api/public/support-chat/route.json';
+import m_app_api_public_support_chat_route_bn from '@json/bn/src/app/api/public/support-chat/route.json';
+import m_app_api_public_support_chat_route_pt from '@json/pt/src/app/api/public/support-chat/route.json';
+import m_app_api_public_support_chat_route_ru from '@json/ru/src/app/api/public/support-chat/route.json';
+import m_app_api_public_support_chat_route_ur from '@json/ur/src/app/api/public/support-chat/route.json';
+import m_app_api_public_support_chat_route_id from '@json/id/src/app/api/public/support-chat/route.json';
+import m_app_api_public_support_chat_route_de from '@json/de/src/app/api/public/support-chat/route.json';
+import m_app_api_public_support_chat_route_ja from '@json/ja/src/app/api/public/support-chat/route.json';
+import m_app_api_public_support_chat_route_hu from '@json/hu/src/app/api/public/support-chat/route.json';
 import m_app_api_reset_password_route_tr from '@json/src/app/api/reset-password/route.json';
 import m_app_api_reset_password_route_en from '@json/en/src/app/api/reset-password/route.json';
 import m_app_api_reset_password_route_zh from '@json/zh/src/app/api/reset-password/route.json';
@@ -2224,6 +2239,21 @@ import m_app_auth_yeni_sifre_page_id from '@json/id/src/app/auth/yeni-sifre/page
 import m_app_auth_yeni_sifre_page_de from '@json/de/src/app/auth/yeni-sifre/page.json';
 import m_app_auth_yeni_sifre_page_ja from '@json/ja/src/app/auth/yeni-sifre/page.json';
 import m_app_auth_yeni_sifre_page_hu from '@json/hu/src/app/auth/yeni-sifre/page.json';
+import m_app_destek_page_tr from '@json/src/app/destek/page.json';
+import m_app_destek_page_en from '@json/en/src/app/destek/page.json';
+import m_app_destek_page_zh from '@json/zh/src/app/destek/page.json';
+import m_app_destek_page_hi from '@json/hi/src/app/destek/page.json';
+import m_app_destek_page_es from '@json/es/src/app/destek/page.json';
+import m_app_destek_page_fr from '@json/fr/src/app/destek/page.json';
+import m_app_destek_page_ar from '@json/ar/src/app/destek/page.json';
+import m_app_destek_page_bn from '@json/bn/src/app/destek/page.json';
+import m_app_destek_page_pt from '@json/pt/src/app/destek/page.json';
+import m_app_destek_page_ru from '@json/ru/src/app/destek/page.json';
+import m_app_destek_page_ur from '@json/ur/src/app/destek/page.json';
+import m_app_destek_page_id from '@json/id/src/app/destek/page.json';
+import m_app_destek_page_de from '@json/de/src/app/destek/page.json';
+import m_app_destek_page_ja from '@json/ja/src/app/destek/page.json';
+import m_app_destek_page_hu from '@json/hu/src/app/destek/page.json';
 import m_app_developer_panel_login_page_tr from '@json/src/app/developer-panel/login/page.json';
 import m_app_developer_panel_login_page_en from '@json/en/src/app/developer-panel/login/page.json';
 import m_app_developer_panel_login_page_zh from '@json/zh/src/app/developer-panel/login/page.json';
@@ -3139,6 +3169,51 @@ import m_components_home_HeroSection_id from '@json/id/src/components/home/HeroS
 import m_components_home_HeroSection_de from '@json/de/src/components/home/HeroSection.json';
 import m_components_home_HeroSection_ja from '@json/ja/src/components/home/HeroSection.json';
 import m_components_home_HeroSection_hu from '@json/hu/src/components/home/HeroSection.json';
+import m_components_home_HomeDataSecurity_tr from '@json/src/components/home/HomeDataSecurity.json';
+import m_components_home_HomeDataSecurity_en from '@json/en/src/components/home/HomeDataSecurity.json';
+import m_components_home_HomeDataSecurity_zh from '@json/zh/src/components/home/HomeDataSecurity.json';
+import m_components_home_HomeDataSecurity_hi from '@json/hi/src/components/home/HomeDataSecurity.json';
+import m_components_home_HomeDataSecurity_es from '@json/es/src/components/home/HomeDataSecurity.json';
+import m_components_home_HomeDataSecurity_fr from '@json/fr/src/components/home/HomeDataSecurity.json';
+import m_components_home_HomeDataSecurity_ar from '@json/ar/src/components/home/HomeDataSecurity.json';
+import m_components_home_HomeDataSecurity_bn from '@json/bn/src/components/home/HomeDataSecurity.json';
+import m_components_home_HomeDataSecurity_pt from '@json/pt/src/components/home/HomeDataSecurity.json';
+import m_components_home_HomeDataSecurity_ru from '@json/ru/src/components/home/HomeDataSecurity.json';
+import m_components_home_HomeDataSecurity_ur from '@json/ur/src/components/home/HomeDataSecurity.json';
+import m_components_home_HomeDataSecurity_id from '@json/id/src/components/home/HomeDataSecurity.json';
+import m_components_home_HomeDataSecurity_de from '@json/de/src/components/home/HomeDataSecurity.json';
+import m_components_home_HomeDataSecurity_ja from '@json/ja/src/components/home/HomeDataSecurity.json';
+import m_components_home_HomeDataSecurity_hu from '@json/hu/src/components/home/HomeDataSecurity.json';
+import m_components_home_HomeDownloadBanner_tr from '@json/src/components/home/HomeDownloadBanner.json';
+import m_components_home_HomeDownloadBanner_en from '@json/en/src/components/home/HomeDownloadBanner.json';
+import m_components_home_HomeDownloadBanner_zh from '@json/zh/src/components/home/HomeDownloadBanner.json';
+import m_components_home_HomeDownloadBanner_hi from '@json/hi/src/components/home/HomeDownloadBanner.json';
+import m_components_home_HomeDownloadBanner_es from '@json/es/src/components/home/HomeDownloadBanner.json';
+import m_components_home_HomeDownloadBanner_fr from '@json/fr/src/components/home/HomeDownloadBanner.json';
+import m_components_home_HomeDownloadBanner_ar from '@json/ar/src/components/home/HomeDownloadBanner.json';
+import m_components_home_HomeDownloadBanner_bn from '@json/bn/src/components/home/HomeDownloadBanner.json';
+import m_components_home_HomeDownloadBanner_pt from '@json/pt/src/components/home/HomeDownloadBanner.json';
+import m_components_home_HomeDownloadBanner_ru from '@json/ru/src/components/home/HomeDownloadBanner.json';
+import m_components_home_HomeDownloadBanner_ur from '@json/ur/src/components/home/HomeDownloadBanner.json';
+import m_components_home_HomeDownloadBanner_id from '@json/id/src/components/home/HomeDownloadBanner.json';
+import m_components_home_HomeDownloadBanner_de from '@json/de/src/components/home/HomeDownloadBanner.json';
+import m_components_home_HomeDownloadBanner_ja from '@json/ja/src/components/home/HomeDownloadBanner.json';
+import m_components_home_HomeDownloadBanner_hu from '@json/hu/src/components/home/HomeDownloadBanner.json';
+import m_components_home_HomeFaqSection_tr from '@json/src/components/home/HomeFaqSection.json';
+import m_components_home_HomeFaqSection_en from '@json/en/src/components/home/HomeFaqSection.json';
+import m_components_home_HomeFaqSection_zh from '@json/zh/src/components/home/HomeFaqSection.json';
+import m_components_home_HomeFaqSection_hi from '@json/hi/src/components/home/HomeFaqSection.json';
+import m_components_home_HomeFaqSection_es from '@json/es/src/components/home/HomeFaqSection.json';
+import m_components_home_HomeFaqSection_fr from '@json/fr/src/components/home/HomeFaqSection.json';
+import m_components_home_HomeFaqSection_ar from '@json/ar/src/components/home/HomeFaqSection.json';
+import m_components_home_HomeFaqSection_bn from '@json/bn/src/components/home/HomeFaqSection.json';
+import m_components_home_HomeFaqSection_pt from '@json/pt/src/components/home/HomeFaqSection.json';
+import m_components_home_HomeFaqSection_ru from '@json/ru/src/components/home/HomeFaqSection.json';
+import m_components_home_HomeFaqSection_ur from '@json/ur/src/components/home/HomeFaqSection.json';
+import m_components_home_HomeFaqSection_id from '@json/id/src/components/home/HomeFaqSection.json';
+import m_components_home_HomeFaqSection_de from '@json/de/src/components/home/HomeFaqSection.json';
+import m_components_home_HomeFaqSection_ja from '@json/ja/src/components/home/HomeFaqSection.json';
+import m_components_home_HomeFaqSection_hu from '@json/hu/src/components/home/HomeFaqSection.json';
 import m_components_home_HomeFooter_tr from '@json/src/components/home/HomeFooter.json';
 import m_components_home_HomeFooter_en from '@json/en/src/components/home/HomeFooter.json';
 import m_components_home_HomeFooter_zh from '@json/zh/src/components/home/HomeFooter.json';
@@ -3169,6 +3244,96 @@ import m_components_home_HomeHeader_id from '@json/id/src/components/home/HomeHe
 import m_components_home_HomeHeader_de from '@json/de/src/components/home/HomeHeader.json';
 import m_components_home_HomeHeader_ja from '@json/ja/src/components/home/HomeHeader.json';
 import m_components_home_HomeHeader_hu from '@json/hu/src/components/home/HomeHeader.json';
+import m_components_home_HomeMobileShowcase_tr from '@json/src/components/home/HomeMobileShowcase.json';
+import m_components_home_HomeMobileShowcase_en from '@json/en/src/components/home/HomeMobileShowcase.json';
+import m_components_home_HomeMobileShowcase_zh from '@json/zh/src/components/home/HomeMobileShowcase.json';
+import m_components_home_HomeMobileShowcase_hi from '@json/hi/src/components/home/HomeMobileShowcase.json';
+import m_components_home_HomeMobileShowcase_es from '@json/es/src/components/home/HomeMobileShowcase.json';
+import m_components_home_HomeMobileShowcase_fr from '@json/fr/src/components/home/HomeMobileShowcase.json';
+import m_components_home_HomeMobileShowcase_ar from '@json/ar/src/components/home/HomeMobileShowcase.json';
+import m_components_home_HomeMobileShowcase_bn from '@json/bn/src/components/home/HomeMobileShowcase.json';
+import m_components_home_HomeMobileShowcase_pt from '@json/pt/src/components/home/HomeMobileShowcase.json';
+import m_components_home_HomeMobileShowcase_ru from '@json/ru/src/components/home/HomeMobileShowcase.json';
+import m_components_home_HomeMobileShowcase_ur from '@json/ur/src/components/home/HomeMobileShowcase.json';
+import m_components_home_HomeMobileShowcase_id from '@json/id/src/components/home/HomeMobileShowcase.json';
+import m_components_home_HomeMobileShowcase_de from '@json/de/src/components/home/HomeMobileShowcase.json';
+import m_components_home_HomeMobileShowcase_ja from '@json/ja/src/components/home/HomeMobileShowcase.json';
+import m_components_home_HomeMobileShowcase_hu from '@json/hu/src/components/home/HomeMobileShowcase.json';
+import m_components_home_HomePlatformConstellation_tr from '@json/src/components/home/HomePlatformConstellation.json';
+import m_components_home_HomePlatformConstellation_en from '@json/en/src/components/home/HomePlatformConstellation.json';
+import m_components_home_HomePlatformConstellation_zh from '@json/zh/src/components/home/HomePlatformConstellation.json';
+import m_components_home_HomePlatformConstellation_hi from '@json/hi/src/components/home/HomePlatformConstellation.json';
+import m_components_home_HomePlatformConstellation_es from '@json/es/src/components/home/HomePlatformConstellation.json';
+import m_components_home_HomePlatformConstellation_fr from '@json/fr/src/components/home/HomePlatformConstellation.json';
+import m_components_home_HomePlatformConstellation_ar from '@json/ar/src/components/home/HomePlatformConstellation.json';
+import m_components_home_HomePlatformConstellation_bn from '@json/bn/src/components/home/HomePlatformConstellation.json';
+import m_components_home_HomePlatformConstellation_pt from '@json/pt/src/components/home/HomePlatformConstellation.json';
+import m_components_home_HomePlatformConstellation_ru from '@json/ru/src/components/home/HomePlatformConstellation.json';
+import m_components_home_HomePlatformConstellation_ur from '@json/ur/src/components/home/HomePlatformConstellation.json';
+import m_components_home_HomePlatformConstellation_id from '@json/id/src/components/home/HomePlatformConstellation.json';
+import m_components_home_HomePlatformConstellation_de from '@json/de/src/components/home/HomePlatformConstellation.json';
+import m_components_home_HomePlatformConstellation_ja from '@json/ja/src/components/home/HomePlatformConstellation.json';
+import m_components_home_HomePlatformConstellation_hu from '@json/hu/src/components/home/HomePlatformConstellation.json';
+import m_components_home_HomeQuickLook_tr from '@json/src/components/home/HomeQuickLook.json';
+import m_components_home_HomeQuickLook_en from '@json/en/src/components/home/HomeQuickLook.json';
+import m_components_home_HomeQuickLook_zh from '@json/zh/src/components/home/HomeQuickLook.json';
+import m_components_home_HomeQuickLook_hi from '@json/hi/src/components/home/HomeQuickLook.json';
+import m_components_home_HomeQuickLook_es from '@json/es/src/components/home/HomeQuickLook.json';
+import m_components_home_HomeQuickLook_fr from '@json/fr/src/components/home/HomeQuickLook.json';
+import m_components_home_HomeQuickLook_ar from '@json/ar/src/components/home/HomeQuickLook.json';
+import m_components_home_HomeQuickLook_bn from '@json/bn/src/components/home/HomeQuickLook.json';
+import m_components_home_HomeQuickLook_pt from '@json/pt/src/components/home/HomeQuickLook.json';
+import m_components_home_HomeQuickLook_ru from '@json/ru/src/components/home/HomeQuickLook.json';
+import m_components_home_HomeQuickLook_ur from '@json/ur/src/components/home/HomeQuickLook.json';
+import m_components_home_HomeQuickLook_id from '@json/id/src/components/home/HomeQuickLook.json';
+import m_components_home_HomeQuickLook_de from '@json/de/src/components/home/HomeQuickLook.json';
+import m_components_home_HomeQuickLook_ja from '@json/ja/src/components/home/HomeQuickLook.json';
+import m_components_home_HomeQuickLook_hu from '@json/hu/src/components/home/HomeQuickLook.json';
+import m_components_home_HomeStoriesSlider_tr from '@json/src/components/home/HomeStoriesSlider.json';
+import m_components_home_HomeStoriesSlider_en from '@json/en/src/components/home/HomeStoriesSlider.json';
+import m_components_home_HomeStoriesSlider_zh from '@json/zh/src/components/home/HomeStoriesSlider.json';
+import m_components_home_HomeStoriesSlider_hi from '@json/hi/src/components/home/HomeStoriesSlider.json';
+import m_components_home_HomeStoriesSlider_es from '@json/es/src/components/home/HomeStoriesSlider.json';
+import m_components_home_HomeStoriesSlider_fr from '@json/fr/src/components/home/HomeStoriesSlider.json';
+import m_components_home_HomeStoriesSlider_ar from '@json/ar/src/components/home/HomeStoriesSlider.json';
+import m_components_home_HomeStoriesSlider_bn from '@json/bn/src/components/home/HomeStoriesSlider.json';
+import m_components_home_HomeStoriesSlider_pt from '@json/pt/src/components/home/HomeStoriesSlider.json';
+import m_components_home_HomeStoriesSlider_ru from '@json/ru/src/components/home/HomeStoriesSlider.json';
+import m_components_home_HomeStoriesSlider_ur from '@json/ur/src/components/home/HomeStoriesSlider.json';
+import m_components_home_HomeStoriesSlider_id from '@json/id/src/components/home/HomeStoriesSlider.json';
+import m_components_home_HomeStoriesSlider_de from '@json/de/src/components/home/HomeStoriesSlider.json';
+import m_components_home_HomeStoriesSlider_ja from '@json/ja/src/components/home/HomeStoriesSlider.json';
+import m_components_home_HomeStoriesSlider_hu from '@json/hu/src/components/home/HomeStoriesSlider.json';
+import m_components_home_HomeTrustedLogos_tr from '@json/src/components/home/HomeTrustedLogos.json';
+import m_components_home_HomeTrustedLogos_en from '@json/en/src/components/home/HomeTrustedLogos.json';
+import m_components_home_HomeTrustedLogos_zh from '@json/zh/src/components/home/HomeTrustedLogos.json';
+import m_components_home_HomeTrustedLogos_hi from '@json/hi/src/components/home/HomeTrustedLogos.json';
+import m_components_home_HomeTrustedLogos_es from '@json/es/src/components/home/HomeTrustedLogos.json';
+import m_components_home_HomeTrustedLogos_fr from '@json/fr/src/components/home/HomeTrustedLogos.json';
+import m_components_home_HomeTrustedLogos_ar from '@json/ar/src/components/home/HomeTrustedLogos.json';
+import m_components_home_HomeTrustedLogos_bn from '@json/bn/src/components/home/HomeTrustedLogos.json';
+import m_components_home_HomeTrustedLogos_pt from '@json/pt/src/components/home/HomeTrustedLogos.json';
+import m_components_home_HomeTrustedLogos_ru from '@json/ru/src/components/home/HomeTrustedLogos.json';
+import m_components_home_HomeTrustedLogos_ur from '@json/ur/src/components/home/HomeTrustedLogos.json';
+import m_components_home_HomeTrustedLogos_id from '@json/id/src/components/home/HomeTrustedLogos.json';
+import m_components_home_HomeTrustedLogos_de from '@json/de/src/components/home/HomeTrustedLogos.json';
+import m_components_home_HomeTrustedLogos_ja from '@json/ja/src/components/home/HomeTrustedLogos.json';
+import m_components_home_HomeTrustedLogos_hu from '@json/hu/src/components/home/HomeTrustedLogos.json';
+import m_components_home_HomeWhySection_tr from '@json/src/components/home/HomeWhySection.json';
+import m_components_home_HomeWhySection_en from '@json/en/src/components/home/HomeWhySection.json';
+import m_components_home_HomeWhySection_zh from '@json/zh/src/components/home/HomeWhySection.json';
+import m_components_home_HomeWhySection_hi from '@json/hi/src/components/home/HomeWhySection.json';
+import m_components_home_HomeWhySection_es from '@json/es/src/components/home/HomeWhySection.json';
+import m_components_home_HomeWhySection_fr from '@json/fr/src/components/home/HomeWhySection.json';
+import m_components_home_HomeWhySection_ar from '@json/ar/src/components/home/HomeWhySection.json';
+import m_components_home_HomeWhySection_bn from '@json/bn/src/components/home/HomeWhySection.json';
+import m_components_home_HomeWhySection_pt from '@json/pt/src/components/home/HomeWhySection.json';
+import m_components_home_HomeWhySection_ru from '@json/ru/src/components/home/HomeWhySection.json';
+import m_components_home_HomeWhySection_ur from '@json/ur/src/components/home/HomeWhySection.json';
+import m_components_home_HomeWhySection_id from '@json/id/src/components/home/HomeWhySection.json';
+import m_components_home_HomeWhySection_de from '@json/de/src/components/home/HomeWhySection.json';
+import m_components_home_HomeWhySection_ja from '@json/ja/src/components/home/HomeWhySection.json';
+import m_components_home_HomeWhySection_hu from '@json/hu/src/components/home/HomeWhySection.json';
 import m_components_home_LoginRolePicker_tr from '@json/src/components/home/LoginRolePicker.json';
 import m_components_home_LoginRolePicker_en from '@json/en/src/components/home/LoginRolePicker.json';
 import m_components_home_LoginRolePicker_zh from '@json/zh/src/components/home/LoginRolePicker.json';
@@ -4309,6 +4474,36 @@ import m_components_supabase_SupabaseStatusPage_id from '@json/id/src/components
 import m_components_supabase_SupabaseStatusPage_de from '@json/de/src/components/supabase/SupabaseStatusPage.json';
 import m_components_supabase_SupabaseStatusPage_ja from '@json/ja/src/components/supabase/SupabaseStatusPage.json';
 import m_components_supabase_SupabaseStatusPage_hu from '@json/hu/src/components/supabase/SupabaseStatusPage.json';
+import m_components_support_HomeSupportFab_tr from '@json/src/components/support/HomeSupportFab.json';
+import m_components_support_HomeSupportFab_en from '@json/en/src/components/support/HomeSupportFab.json';
+import m_components_support_HomeSupportFab_zh from '@json/zh/src/components/support/HomeSupportFab.json';
+import m_components_support_HomeSupportFab_hi from '@json/hi/src/components/support/HomeSupportFab.json';
+import m_components_support_HomeSupportFab_es from '@json/es/src/components/support/HomeSupportFab.json';
+import m_components_support_HomeSupportFab_fr from '@json/fr/src/components/support/HomeSupportFab.json';
+import m_components_support_HomeSupportFab_ar from '@json/ar/src/components/support/HomeSupportFab.json';
+import m_components_support_HomeSupportFab_bn from '@json/bn/src/components/support/HomeSupportFab.json';
+import m_components_support_HomeSupportFab_pt from '@json/pt/src/components/support/HomeSupportFab.json';
+import m_components_support_HomeSupportFab_ru from '@json/ru/src/components/support/HomeSupportFab.json';
+import m_components_support_HomeSupportFab_ur from '@json/ur/src/components/support/HomeSupportFab.json';
+import m_components_support_HomeSupportFab_id from '@json/id/src/components/support/HomeSupportFab.json';
+import m_components_support_HomeSupportFab_de from '@json/de/src/components/support/HomeSupportFab.json';
+import m_components_support_HomeSupportFab_ja from '@json/ja/src/components/support/HomeSupportFab.json';
+import m_components_support_HomeSupportFab_hu from '@json/hu/src/components/support/HomeSupportFab.json';
+import m_components_support_SupportChat_tr from '@json/src/components/support/SupportChat.json';
+import m_components_support_SupportChat_en from '@json/en/src/components/support/SupportChat.json';
+import m_components_support_SupportChat_zh from '@json/zh/src/components/support/SupportChat.json';
+import m_components_support_SupportChat_hi from '@json/hi/src/components/support/SupportChat.json';
+import m_components_support_SupportChat_es from '@json/es/src/components/support/SupportChat.json';
+import m_components_support_SupportChat_fr from '@json/fr/src/components/support/SupportChat.json';
+import m_components_support_SupportChat_ar from '@json/ar/src/components/support/SupportChat.json';
+import m_components_support_SupportChat_bn from '@json/bn/src/components/support/SupportChat.json';
+import m_components_support_SupportChat_pt from '@json/pt/src/components/support/SupportChat.json';
+import m_components_support_SupportChat_ru from '@json/ru/src/components/support/SupportChat.json';
+import m_components_support_SupportChat_ur from '@json/ur/src/components/support/SupportChat.json';
+import m_components_support_SupportChat_id from '@json/id/src/components/support/SupportChat.json';
+import m_components_support_SupportChat_de from '@json/de/src/components/support/SupportChat.json';
+import m_components_support_SupportChat_ja from '@json/ja/src/components/support/SupportChat.json';
+import m_components_support_SupportChat_hu from '@json/hu/src/components/support/SupportChat.json';
 import m_components_tables_DeductionTable_tr from '@json/src/components/tables/DeductionTable.json';
 import m_components_tables_DeductionTable_en from '@json/en/src/components/tables/DeductionTable.json';
 import m_components_tables_DeductionTable_zh from '@json/zh/src/components/tables/DeductionTable.json';
@@ -5461,9 +5656,11 @@ export const STRINGS_REGISTRY = {
   'app/api/public/releases/[appType]/download/route': { tr: m_app_api_public_releases__appType__download_route_tr, en: m_app_api_public_releases__appType__download_route_en, zh: m_app_api_public_releases__appType__download_route_zh, hi: m_app_api_public_releases__appType__download_route_hi, es: m_app_api_public_releases__appType__download_route_es, fr: m_app_api_public_releases__appType__download_route_fr, ar: m_app_api_public_releases__appType__download_route_ar, bn: m_app_api_public_releases__appType__download_route_bn, pt: m_app_api_public_releases__appType__download_route_pt, ru: m_app_api_public_releases__appType__download_route_ru, ur: m_app_api_public_releases__appType__download_route_ur, id: m_app_api_public_releases__appType__download_route_id, de: m_app_api_public_releases__appType__download_route_de, ja: m_app_api_public_releases__appType__download_route_ja, hu: m_app_api_public_releases__appType__download_route_hu },
   'app/api/public/releases/route': { tr: m_app_api_public_releases_route_tr, en: m_app_api_public_releases_route_en, zh: m_app_api_public_releases_route_zh, hi: m_app_api_public_releases_route_hi, es: m_app_api_public_releases_route_es, fr: m_app_api_public_releases_route_fr, ar: m_app_api_public_releases_route_ar, bn: m_app_api_public_releases_route_bn, pt: m_app_api_public_releases_route_pt, ru: m_app_api_public_releases_route_ru, ur: m_app_api_public_releases_route_ur, id: m_app_api_public_releases_route_id, de: m_app_api_public_releases_route_de, ja: m_app_api_public_releases_route_ja, hu: m_app_api_public_releases_route_hu },
   'app/api/public/screen-report/route': { tr: m_app_api_public_screen_report_route_tr, en: m_app_api_public_screen_report_route_en, zh: m_app_api_public_screen_report_route_zh, hi: m_app_api_public_screen_report_route_hi, es: m_app_api_public_screen_report_route_es, fr: m_app_api_public_screen_report_route_fr, ar: m_app_api_public_screen_report_route_ar, bn: m_app_api_public_screen_report_route_bn, pt: m_app_api_public_screen_report_route_pt, ru: m_app_api_public_screen_report_route_ru, ur: m_app_api_public_screen_report_route_ur, id: m_app_api_public_screen_report_route_id, de: m_app_api_public_screen_report_route_de, ja: m_app_api_public_screen_report_route_ja, hu: m_app_api_public_screen_report_route_hu },
+  'app/api/public/support-chat/route': { tr: m_app_api_public_support_chat_route_tr, en: m_app_api_public_support_chat_route_en, zh: m_app_api_public_support_chat_route_zh, hi: m_app_api_public_support_chat_route_hi, es: m_app_api_public_support_chat_route_es, fr: m_app_api_public_support_chat_route_fr, ar: m_app_api_public_support_chat_route_ar, bn: m_app_api_public_support_chat_route_bn, pt: m_app_api_public_support_chat_route_pt, ru: m_app_api_public_support_chat_route_ru, ur: m_app_api_public_support_chat_route_ur, id: m_app_api_public_support_chat_route_id, de: m_app_api_public_support_chat_route_de, ja: m_app_api_public_support_chat_route_ja, hu: m_app_api_public_support_chat_route_hu },
   'app/api/reset-password/route': { tr: m_app_api_reset_password_route_tr, en: m_app_api_reset_password_route_en, zh: m_app_api_reset_password_route_zh, hi: m_app_api_reset_password_route_hi, es: m_app_api_reset_password_route_es, fr: m_app_api_reset_password_route_fr, ar: m_app_api_reset_password_route_ar, bn: m_app_api_reset_password_route_bn, pt: m_app_api_reset_password_route_pt, ru: m_app_api_reset_password_route_ru, ur: m_app_api_reset_password_route_ur, id: m_app_api_reset_password_route_id, de: m_app_api_reset_password_route_de, ja: m_app_api_reset_password_route_ja, hu: m_app_api_reset_password_route_hu },
   'app/apk/page': { tr: m_app_apk_page_tr, en: m_app_apk_page_en, zh: m_app_apk_page_zh, hi: m_app_apk_page_hi, es: m_app_apk_page_es, fr: m_app_apk_page_fr, ar: m_app_apk_page_ar, bn: m_app_apk_page_bn, pt: m_app_apk_page_pt, ru: m_app_apk_page_ru, ur: m_app_apk_page_ur, id: m_app_apk_page_id, de: m_app_apk_page_de, ja: m_app_apk_page_ja, hu: m_app_apk_page_hu },
   'app/auth/yeni-sifre/page': { tr: m_app_auth_yeni_sifre_page_tr, en: m_app_auth_yeni_sifre_page_en, zh: m_app_auth_yeni_sifre_page_zh, hi: m_app_auth_yeni_sifre_page_hi, es: m_app_auth_yeni_sifre_page_es, fr: m_app_auth_yeni_sifre_page_fr, ar: m_app_auth_yeni_sifre_page_ar, bn: m_app_auth_yeni_sifre_page_bn, pt: m_app_auth_yeni_sifre_page_pt, ru: m_app_auth_yeni_sifre_page_ru, ur: m_app_auth_yeni_sifre_page_ur, id: m_app_auth_yeni_sifre_page_id, de: m_app_auth_yeni_sifre_page_de, ja: m_app_auth_yeni_sifre_page_ja, hu: m_app_auth_yeni_sifre_page_hu },
+  'app/destek/page': { tr: m_app_destek_page_tr, en: m_app_destek_page_en, zh: m_app_destek_page_zh, hi: m_app_destek_page_hi, es: m_app_destek_page_es, fr: m_app_destek_page_fr, ar: m_app_destek_page_ar, bn: m_app_destek_page_bn, pt: m_app_destek_page_pt, ru: m_app_destek_page_ru, ur: m_app_destek_page_ur, id: m_app_destek_page_id, de: m_app_destek_page_de, ja: m_app_destek_page_ja, hu: m_app_destek_page_hu },
   'app/developer-panel/login/page': { tr: m_app_developer_panel_login_page_tr, en: m_app_developer_panel_login_page_en, zh: m_app_developer_panel_login_page_zh, hi: m_app_developer_panel_login_page_hi, es: m_app_developer_panel_login_page_es, fr: m_app_developer_panel_login_page_fr, ar: m_app_developer_panel_login_page_ar, bn: m_app_developer_panel_login_page_bn, pt: m_app_developer_panel_login_page_pt, ru: m_app_developer_panel_login_page_ru, ur: m_app_developer_panel_login_page_ur, id: m_app_developer_panel_login_page_id, de: m_app_developer_panel_login_page_de, ja: m_app_developer_panel_login_page_ja, hu: m_app_developer_panel_login_page_hu },
   'app/developer-panel/page': { tr: m_app_developer_panel_page_tr, en: m_app_developer_panel_page_en, zh: m_app_developer_panel_page_zh, hi: m_app_developer_panel_page_hi, es: m_app_developer_panel_page_es, fr: m_app_developer_panel_page_fr, ar: m_app_developer_panel_page_ar, bn: m_app_developer_panel_page_bn, pt: m_app_developer_panel_page_pt, ru: m_app_developer_panel_page_ru, ur: m_app_developer_panel_page_ur, id: m_app_developer_panel_page_id, de: m_app_developer_panel_page_de, ja: m_app_developer_panel_page_ja, hu: m_app_developer_panel_page_hu },
   'app/developer-panel/releases/page': { tr: m_app_developer_panel_releases_page_tr, en: m_app_developer_panel_releases_page_en, zh: m_app_developer_panel_releases_page_zh, hi: m_app_developer_panel_releases_page_hi, es: m_app_developer_panel_releases_page_es, fr: m_app_developer_panel_releases_page_fr, ar: m_app_developer_panel_releases_page_ar, bn: m_app_developer_panel_releases_page_bn, pt: m_app_developer_panel_releases_page_pt, ru: m_app_developer_panel_releases_page_ru, ur: m_app_developer_panel_releases_page_ur, id: m_app_developer_panel_releases_page_id, de: m_app_developer_panel_releases_page_de, ja: m_app_developer_panel_releases_page_ja, hu: m_app_developer_panel_releases_page_hu },
@@ -5525,8 +5722,17 @@ export const STRINGS_REGISTRY = {
   'components/home/GooglePlayBadge': { tr: m_components_home_GooglePlayBadge_tr, en: m_components_home_GooglePlayBadge_en, zh: m_components_home_GooglePlayBadge_zh, hi: m_components_home_GooglePlayBadge_hi, es: m_components_home_GooglePlayBadge_es, fr: m_components_home_GooglePlayBadge_fr, ar: m_components_home_GooglePlayBadge_ar, bn: m_components_home_GooglePlayBadge_bn, pt: m_components_home_GooglePlayBadge_pt, ru: m_components_home_GooglePlayBadge_ru, ur: m_components_home_GooglePlayBadge_ur, id: m_components_home_GooglePlayBadge_id, de: m_components_home_GooglePlayBadge_de, ja: m_components_home_GooglePlayBadge_ja, hu: m_components_home_GooglePlayBadge_hu },
   'components/home/HeroPlayStorePromo': { tr: m_components_home_HeroPlayStorePromo_tr, en: m_components_home_HeroPlayStorePromo_en, zh: m_components_home_HeroPlayStorePromo_zh, hi: m_components_home_HeroPlayStorePromo_hi, es: m_components_home_HeroPlayStorePromo_es, fr: m_components_home_HeroPlayStorePromo_fr, ar: m_components_home_HeroPlayStorePromo_ar, bn: m_components_home_HeroPlayStorePromo_bn, pt: m_components_home_HeroPlayStorePromo_pt, ru: m_components_home_HeroPlayStorePromo_ru, ur: m_components_home_HeroPlayStorePromo_ur, id: m_components_home_HeroPlayStorePromo_id, de: m_components_home_HeroPlayStorePromo_de, ja: m_components_home_HeroPlayStorePromo_ja, hu: m_components_home_HeroPlayStorePromo_hu },
   'components/home/HeroSection': { tr: m_components_home_HeroSection_tr, en: m_components_home_HeroSection_en, zh: m_components_home_HeroSection_zh, hi: m_components_home_HeroSection_hi, es: m_components_home_HeroSection_es, fr: m_components_home_HeroSection_fr, ar: m_components_home_HeroSection_ar, bn: m_components_home_HeroSection_bn, pt: m_components_home_HeroSection_pt, ru: m_components_home_HeroSection_ru, ur: m_components_home_HeroSection_ur, id: m_components_home_HeroSection_id, de: m_components_home_HeroSection_de, ja: m_components_home_HeroSection_ja, hu: m_components_home_HeroSection_hu },
+  'components/home/HomeDataSecurity': { tr: m_components_home_HomeDataSecurity_tr, en: m_components_home_HomeDataSecurity_en, zh: m_components_home_HomeDataSecurity_zh, hi: m_components_home_HomeDataSecurity_hi, es: m_components_home_HomeDataSecurity_es, fr: m_components_home_HomeDataSecurity_fr, ar: m_components_home_HomeDataSecurity_ar, bn: m_components_home_HomeDataSecurity_bn, pt: m_components_home_HomeDataSecurity_pt, ru: m_components_home_HomeDataSecurity_ru, ur: m_components_home_HomeDataSecurity_ur, id: m_components_home_HomeDataSecurity_id, de: m_components_home_HomeDataSecurity_de, ja: m_components_home_HomeDataSecurity_ja, hu: m_components_home_HomeDataSecurity_hu },
+  'components/home/HomeDownloadBanner': { tr: m_components_home_HomeDownloadBanner_tr, en: m_components_home_HomeDownloadBanner_en, zh: m_components_home_HomeDownloadBanner_zh, hi: m_components_home_HomeDownloadBanner_hi, es: m_components_home_HomeDownloadBanner_es, fr: m_components_home_HomeDownloadBanner_fr, ar: m_components_home_HomeDownloadBanner_ar, bn: m_components_home_HomeDownloadBanner_bn, pt: m_components_home_HomeDownloadBanner_pt, ru: m_components_home_HomeDownloadBanner_ru, ur: m_components_home_HomeDownloadBanner_ur, id: m_components_home_HomeDownloadBanner_id, de: m_components_home_HomeDownloadBanner_de, ja: m_components_home_HomeDownloadBanner_ja, hu: m_components_home_HomeDownloadBanner_hu },
+  'components/home/HomeFaqSection': { tr: m_components_home_HomeFaqSection_tr, en: m_components_home_HomeFaqSection_en, zh: m_components_home_HomeFaqSection_zh, hi: m_components_home_HomeFaqSection_hi, es: m_components_home_HomeFaqSection_es, fr: m_components_home_HomeFaqSection_fr, ar: m_components_home_HomeFaqSection_ar, bn: m_components_home_HomeFaqSection_bn, pt: m_components_home_HomeFaqSection_pt, ru: m_components_home_HomeFaqSection_ru, ur: m_components_home_HomeFaqSection_ur, id: m_components_home_HomeFaqSection_id, de: m_components_home_HomeFaqSection_de, ja: m_components_home_HomeFaqSection_ja, hu: m_components_home_HomeFaqSection_hu },
   'components/home/HomeFooter': { tr: m_components_home_HomeFooter_tr, en: m_components_home_HomeFooter_en, zh: m_components_home_HomeFooter_zh, hi: m_components_home_HomeFooter_hi, es: m_components_home_HomeFooter_es, fr: m_components_home_HomeFooter_fr, ar: m_components_home_HomeFooter_ar, bn: m_components_home_HomeFooter_bn, pt: m_components_home_HomeFooter_pt, ru: m_components_home_HomeFooter_ru, ur: m_components_home_HomeFooter_ur, id: m_components_home_HomeFooter_id, de: m_components_home_HomeFooter_de, ja: m_components_home_HomeFooter_ja, hu: m_components_home_HomeFooter_hu },
   'components/home/HomeHeader': { tr: m_components_home_HomeHeader_tr, en: m_components_home_HomeHeader_en, zh: m_components_home_HomeHeader_zh, hi: m_components_home_HomeHeader_hi, es: m_components_home_HomeHeader_es, fr: m_components_home_HomeHeader_fr, ar: m_components_home_HomeHeader_ar, bn: m_components_home_HomeHeader_bn, pt: m_components_home_HomeHeader_pt, ru: m_components_home_HomeHeader_ru, ur: m_components_home_HomeHeader_ur, id: m_components_home_HomeHeader_id, de: m_components_home_HomeHeader_de, ja: m_components_home_HomeHeader_ja, hu: m_components_home_HomeHeader_hu },
+  'components/home/HomeMobileShowcase': { tr: m_components_home_HomeMobileShowcase_tr, en: m_components_home_HomeMobileShowcase_en, zh: m_components_home_HomeMobileShowcase_zh, hi: m_components_home_HomeMobileShowcase_hi, es: m_components_home_HomeMobileShowcase_es, fr: m_components_home_HomeMobileShowcase_fr, ar: m_components_home_HomeMobileShowcase_ar, bn: m_components_home_HomeMobileShowcase_bn, pt: m_components_home_HomeMobileShowcase_pt, ru: m_components_home_HomeMobileShowcase_ru, ur: m_components_home_HomeMobileShowcase_ur, id: m_components_home_HomeMobileShowcase_id, de: m_components_home_HomeMobileShowcase_de, ja: m_components_home_HomeMobileShowcase_ja, hu: m_components_home_HomeMobileShowcase_hu },
+  'components/home/HomePlatformConstellation': { tr: m_components_home_HomePlatformConstellation_tr, en: m_components_home_HomePlatformConstellation_en, zh: m_components_home_HomePlatformConstellation_zh, hi: m_components_home_HomePlatformConstellation_hi, es: m_components_home_HomePlatformConstellation_es, fr: m_components_home_HomePlatformConstellation_fr, ar: m_components_home_HomePlatformConstellation_ar, bn: m_components_home_HomePlatformConstellation_bn, pt: m_components_home_HomePlatformConstellation_pt, ru: m_components_home_HomePlatformConstellation_ru, ur: m_components_home_HomePlatformConstellation_ur, id: m_components_home_HomePlatformConstellation_id, de: m_components_home_HomePlatformConstellation_de, ja: m_components_home_HomePlatformConstellation_ja, hu: m_components_home_HomePlatformConstellation_hu },
+  'components/home/HomeQuickLook': { tr: m_components_home_HomeQuickLook_tr, en: m_components_home_HomeQuickLook_en, zh: m_components_home_HomeQuickLook_zh, hi: m_components_home_HomeQuickLook_hi, es: m_components_home_HomeQuickLook_es, fr: m_components_home_HomeQuickLook_fr, ar: m_components_home_HomeQuickLook_ar, bn: m_components_home_HomeQuickLook_bn, pt: m_components_home_HomeQuickLook_pt, ru: m_components_home_HomeQuickLook_ru, ur: m_components_home_HomeQuickLook_ur, id: m_components_home_HomeQuickLook_id, de: m_components_home_HomeQuickLook_de, ja: m_components_home_HomeQuickLook_ja, hu: m_components_home_HomeQuickLook_hu },
+  'components/home/HomeStoriesSlider': { tr: m_components_home_HomeStoriesSlider_tr, en: m_components_home_HomeStoriesSlider_en, zh: m_components_home_HomeStoriesSlider_zh, hi: m_components_home_HomeStoriesSlider_hi, es: m_components_home_HomeStoriesSlider_es, fr: m_components_home_HomeStoriesSlider_fr, ar: m_components_home_HomeStoriesSlider_ar, bn: m_components_home_HomeStoriesSlider_bn, pt: m_components_home_HomeStoriesSlider_pt, ru: m_components_home_HomeStoriesSlider_ru, ur: m_components_home_HomeStoriesSlider_ur, id: m_components_home_HomeStoriesSlider_id, de: m_components_home_HomeStoriesSlider_de, ja: m_components_home_HomeStoriesSlider_ja, hu: m_components_home_HomeStoriesSlider_hu },
+  'components/home/HomeTrustedLogos': { tr: m_components_home_HomeTrustedLogos_tr, en: m_components_home_HomeTrustedLogos_en, zh: m_components_home_HomeTrustedLogos_zh, hi: m_components_home_HomeTrustedLogos_hi, es: m_components_home_HomeTrustedLogos_es, fr: m_components_home_HomeTrustedLogos_fr, ar: m_components_home_HomeTrustedLogos_ar, bn: m_components_home_HomeTrustedLogos_bn, pt: m_components_home_HomeTrustedLogos_pt, ru: m_components_home_HomeTrustedLogos_ru, ur: m_components_home_HomeTrustedLogos_ur, id: m_components_home_HomeTrustedLogos_id, de: m_components_home_HomeTrustedLogos_de, ja: m_components_home_HomeTrustedLogos_ja, hu: m_components_home_HomeTrustedLogos_hu },
+  'components/home/HomeWhySection': { tr: m_components_home_HomeWhySection_tr, en: m_components_home_HomeWhySection_en, zh: m_components_home_HomeWhySection_zh, hi: m_components_home_HomeWhySection_hi, es: m_components_home_HomeWhySection_es, fr: m_components_home_HomeWhySection_fr, ar: m_components_home_HomeWhySection_ar, bn: m_components_home_HomeWhySection_bn, pt: m_components_home_HomeWhySection_pt, ru: m_components_home_HomeWhySection_ru, ur: m_components_home_HomeWhySection_ur, id: m_components_home_HomeWhySection_id, de: m_components_home_HomeWhySection_de, ja: m_components_home_HomeWhySection_ja, hu: m_components_home_HomeWhySection_hu },
   'components/home/LoginRolePicker': { tr: m_components_home_LoginRolePicker_tr, en: m_components_home_LoginRolePicker_en, zh: m_components_home_LoginRolePicker_zh, hi: m_components_home_LoginRolePicker_hi, es: m_components_home_LoginRolePicker_es, fr: m_components_home_LoginRolePicker_fr, ar: m_components_home_LoginRolePicker_ar, bn: m_components_home_LoginRolePicker_bn, pt: m_components_home_LoginRolePicker_pt, ru: m_components_home_LoginRolePicker_ru, ur: m_components_home_LoginRolePicker_ur, id: m_components_home_LoginRolePicker_id, de: m_components_home_LoginRolePicker_de, ja: m_components_home_LoginRolePicker_ja, hu: m_components_home_LoginRolePicker_hu },
   'components/home/PlayStoreSection': { tr: m_components_home_PlayStoreSection_tr, en: m_components_home_PlayStoreSection_en, zh: m_components_home_PlayStoreSection_zh, hi: m_components_home_PlayStoreSection_hi, es: m_components_home_PlayStoreSection_es, fr: m_components_home_PlayStoreSection_fr, ar: m_components_home_PlayStoreSection_ar, bn: m_components_home_PlayStoreSection_bn, pt: m_components_home_PlayStoreSection_pt, ru: m_components_home_PlayStoreSection_ru, ur: m_components_home_PlayStoreSection_ur, id: m_components_home_PlayStoreSection_id, de: m_components_home_PlayStoreSection_de, ja: m_components_home_PlayStoreSection_ja, hu: m_components_home_PlayStoreSection_hu },
   'components/home/ScrollingBanner': { tr: m_components_home_ScrollingBanner_tr, en: m_components_home_ScrollingBanner_en, zh: m_components_home_ScrollingBanner_zh, hi: m_components_home_ScrollingBanner_hi, es: m_components_home_ScrollingBanner_es, fr: m_components_home_ScrollingBanner_fr, ar: m_components_home_ScrollingBanner_ar, bn: m_components_home_ScrollingBanner_bn, pt: m_components_home_ScrollingBanner_pt, ru: m_components_home_ScrollingBanner_ru, ur: m_components_home_ScrollingBanner_ur, id: m_components_home_ScrollingBanner_id, de: m_components_home_ScrollingBanner_de, ja: m_components_home_ScrollingBanner_ja, hu: m_components_home_ScrollingBanner_hu },
@@ -5603,6 +5809,8 @@ export const STRINGS_REGISTRY = {
   'components/registration/QrCameraScanner': { tr: m_components_registration_QrCameraScanner_tr, en: m_components_registration_QrCameraScanner_en, zh: m_components_registration_QrCameraScanner_zh, hi: m_components_registration_QrCameraScanner_hi, es: m_components_registration_QrCameraScanner_es, fr: m_components_registration_QrCameraScanner_fr, ar: m_components_registration_QrCameraScanner_ar, bn: m_components_registration_QrCameraScanner_bn, pt: m_components_registration_QrCameraScanner_pt, ru: m_components_registration_QrCameraScanner_ru, ur: m_components_registration_QrCameraScanner_ur, id: m_components_registration_QrCameraScanner_id, de: m_components_registration_QrCameraScanner_de, ja: m_components_registration_QrCameraScanner_ja, hu: m_components_registration_QrCameraScanner_hu },
   'components/registration/RegistrationQrCode': { tr: m_components_registration_RegistrationQrCode_tr, en: m_components_registration_RegistrationQrCode_en, zh: m_components_registration_RegistrationQrCode_zh, hi: m_components_registration_RegistrationQrCode_hi, es: m_components_registration_RegistrationQrCode_es, fr: m_components_registration_RegistrationQrCode_fr, ar: m_components_registration_RegistrationQrCode_ar, bn: m_components_registration_RegistrationQrCode_bn, pt: m_components_registration_RegistrationQrCode_pt, ru: m_components_registration_RegistrationQrCode_ru, ur: m_components_registration_RegistrationQrCode_ur, id: m_components_registration_RegistrationQrCode_id, de: m_components_registration_RegistrationQrCode_de, ja: m_components_registration_RegistrationQrCode_ja, hu: m_components_registration_RegistrationQrCode_hu },
   'components/supabase/SupabaseStatusPage': { tr: m_components_supabase_SupabaseStatusPage_tr, en: m_components_supabase_SupabaseStatusPage_en, zh: m_components_supabase_SupabaseStatusPage_zh, hi: m_components_supabase_SupabaseStatusPage_hi, es: m_components_supabase_SupabaseStatusPage_es, fr: m_components_supabase_SupabaseStatusPage_fr, ar: m_components_supabase_SupabaseStatusPage_ar, bn: m_components_supabase_SupabaseStatusPage_bn, pt: m_components_supabase_SupabaseStatusPage_pt, ru: m_components_supabase_SupabaseStatusPage_ru, ur: m_components_supabase_SupabaseStatusPage_ur, id: m_components_supabase_SupabaseStatusPage_id, de: m_components_supabase_SupabaseStatusPage_de, ja: m_components_supabase_SupabaseStatusPage_ja, hu: m_components_supabase_SupabaseStatusPage_hu },
+  'components/support/HomeSupportFab': { tr: m_components_support_HomeSupportFab_tr, en: m_components_support_HomeSupportFab_en, zh: m_components_support_HomeSupportFab_zh, hi: m_components_support_HomeSupportFab_hi, es: m_components_support_HomeSupportFab_es, fr: m_components_support_HomeSupportFab_fr, ar: m_components_support_HomeSupportFab_ar, bn: m_components_support_HomeSupportFab_bn, pt: m_components_support_HomeSupportFab_pt, ru: m_components_support_HomeSupportFab_ru, ur: m_components_support_HomeSupportFab_ur, id: m_components_support_HomeSupportFab_id, de: m_components_support_HomeSupportFab_de, ja: m_components_support_HomeSupportFab_ja, hu: m_components_support_HomeSupportFab_hu },
+  'components/support/SupportChat': { tr: m_components_support_SupportChat_tr, en: m_components_support_SupportChat_en, zh: m_components_support_SupportChat_zh, hi: m_components_support_SupportChat_hi, es: m_components_support_SupportChat_es, fr: m_components_support_SupportChat_fr, ar: m_components_support_SupportChat_ar, bn: m_components_support_SupportChat_bn, pt: m_components_support_SupportChat_pt, ru: m_components_support_SupportChat_ru, ur: m_components_support_SupportChat_ur, id: m_components_support_SupportChat_id, de: m_components_support_SupportChat_de, ja: m_components_support_SupportChat_ja, hu: m_components_support_SupportChat_hu },
   'components/tables/DeductionTable': { tr: m_components_tables_DeductionTable_tr, en: m_components_tables_DeductionTable_en, zh: m_components_tables_DeductionTable_zh, hi: m_components_tables_DeductionTable_hi, es: m_components_tables_DeductionTable_es, fr: m_components_tables_DeductionTable_fr, ar: m_components_tables_DeductionTable_ar, bn: m_components_tables_DeductionTable_bn, pt: m_components_tables_DeductionTable_pt, ru: m_components_tables_DeductionTable_ru, ur: m_components_tables_DeductionTable_ur, id: m_components_tables_DeductionTable_id, de: m_components_tables_DeductionTable_de, ja: m_components_tables_DeductionTable_ja, hu: m_components_tables_DeductionTable_hu },
   'components/tables/EmployeeTable': { tr: m_components_tables_EmployeeTable_tr, en: m_components_tables_EmployeeTable_en, zh: m_components_tables_EmployeeTable_zh, hi: m_components_tables_EmployeeTable_hi, es: m_components_tables_EmployeeTable_es, fr: m_components_tables_EmployeeTable_fr, ar: m_components_tables_EmployeeTable_ar, bn: m_components_tables_EmployeeTable_bn, pt: m_components_tables_EmployeeTable_pt, ru: m_components_tables_EmployeeTable_ru, ur: m_components_tables_EmployeeTable_ur, id: m_components_tables_EmployeeTable_id, de: m_components_tables_EmployeeTable_de, ja: m_components_tables_EmployeeTable_ja, hu: m_components_tables_EmployeeTable_hu },
   'components/ui/MobileMenu': { tr: m_components_ui_MobileMenu_tr, en: m_components_ui_MobileMenu_en, zh: m_components_ui_MobileMenu_zh, hi: m_components_ui_MobileMenu_hi, es: m_components_ui_MobileMenu_es, fr: m_components_ui_MobileMenu_fr, ar: m_components_ui_MobileMenu_ar, bn: m_components_ui_MobileMenu_bn, pt: m_components_ui_MobileMenu_pt, ru: m_components_ui_MobileMenu_ru, ur: m_components_ui_MobileMenu_ur, id: m_components_ui_MobileMenu_id, de: m_components_ui_MobileMenu_de, ja: m_components_ui_MobileMenu_ja, hu: m_components_ui_MobileMenu_hu },

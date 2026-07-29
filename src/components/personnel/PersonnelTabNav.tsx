@@ -20,7 +20,7 @@ export function PersonnelTabNav({
 }) {
   return (
     <div className="mb-5 sm:mb-6 -mx-3 sm:mx-0">
-      <div className="flex gap-1.5 sm:gap-2 overflow-x-auto px-3 sm:px-0 pb-1 scrollbar-hide snap-x snap-mandatory">
+      <div className="flex gap-1.5 sm:gap-2 overflow-x-auto px-3 sm:px-2 pb-1 scrollbar-hide snap-x snap-mandatory sm:rounded-2xl sm:border sm:border-slate-200/80 sm:bg-white/75 sm:py-2 sm:shadow-sm dark:sm:border-slate-700 dark:sm:bg-slate-900/55">
         {tabs.map((tab) => {
           const isActive = active === tab.id;
           return (

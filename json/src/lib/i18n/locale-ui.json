@@ -3,6 +3,7 @@
   "menuTitle": "Dil",
   "modalTitle": "Dil seçin",
   "exitHint": "Çıkmak için dokunun",
+  "mobilePreviewHint": "Sesi dinlemek için hoparlör simgesine dokunun. Dil seçmek için kutuya dokunun.",
   "closeButtonAriaLabel": "Kapat",
   "closeOverlayAriaLabel": "Kapat",
   "footerNote": "Seçim cihazınıza kaydedilir."

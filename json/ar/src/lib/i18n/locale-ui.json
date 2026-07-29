@@ -5,5 +5,6 @@
   "closeButtonAriaLabel": "يغلق",
   "closeOverlayAriaLabel": "يغلق",
   "footerNote": "يتم حفظ اختيارك على هذا الجهاز.",
-  "exitHint": "انقر للخروج"
+  "exitHint": "انقر للخروج",
+  "mobilePreviewHint": "اضغط على أيقونة السماعة لسماع الترحيب. اضغط على الصف لاختيار اللغة."
 }

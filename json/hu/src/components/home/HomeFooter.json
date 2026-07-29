@@ -1,12 +1,17 @@
 {
-  "bannerAlt": "CrewLedger építő személyzet",
-  "description": "Munkaerő-menedzsment rendszer az építőiparhoz – napi bérek, előlegek, jelenlét és munkaidő-nyilvántartás egy platformon.",
-  "contactTitle": "Érintkezés",
+  "bannerAlt": "CrewLedger construction site team",
+  "tagline": "Construction Workforce Management",
+  "description": "Personnel management for construction — daily wages, advances, attendance and payroll in one platform.",
+  "contactTitle": "Contact",
+  "companyName": "CrewLedger",
+  "rightsReserved": "Tüm Hakları Saklıdır.",
+  "legalHub": "Sözleşmeler ve Politikalar",
+  "apkLabel": "APK İndir",
+  "apkAriaLabel": "APK indirme sayfasına git",
   "copyrightYear": "2026",
   "links": {
-    "privacy": "Magánélet",
-    "terms": "Felhasználási feltételek",
-    "kvkk": "GDPR / KVKK"
-  },
-  "tagline": "Építőipari személyzetkezelő platform"
+    "privacy": "Gizlilik",
+    "terms": "Kullanım Şartları",
+    "kvkk": "KVKK"
+  }
 }

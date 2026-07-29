@@ -1,12 +1,17 @@
 {
-  "bannerAlt": "ক্রুলেজার নির্মাণ ক্রু",
-  "description": "নির্মাণের জন্য কর্মশক্তি ব্যবস্থাপনা সিস্টেম — দৈনিক মজুরি, অগ্রিম, উপস্থিতি, এবং একটি প্ল্যাটফর্মে টাইমশীট।",
-  "contactTitle": "যোগাযোগ",
+  "bannerAlt": "CrewLedger construction site team",
+  "tagline": "Construction Workforce Management",
+  "description": "Personnel management for construction — daily wages, advances, attendance and payroll in one platform.",
+  "contactTitle": "Contact",
+  "companyName": "CrewLedger",
+  "rightsReserved": "Tüm Hakları Saklıdır.",
+  "legalHub": "Sözleşmeler ve Politikalar",
+  "apkLabel": "APK İndir",
+  "apkAriaLabel": "APK indirme sayfasına git",
   "copyrightYear": "2026",
   "links": {
-    "privacy": "গোপনীয়তা",
-    "terms": "ব্যবহারের শর্তাবলী",
-    "kvkk": "জিডিপিআর/কেভিকেকে"
-  },
-  "tagline": "নির্মাণ কর্মী ব্যবস্থাপনা প্ল্যাটফর্ম"
+    "privacy": "Gizlilik",
+    "terms": "Kullanım Şartları",
+    "kvkk": "KVKK"
+  }
 }

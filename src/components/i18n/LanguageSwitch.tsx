@@ -1,13 +1,20 @@
 'use client';
 
-import { useEffect, useId, useRef, useState } from 'react';
+import { useEffect, useId, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import { FiCheck, FiChevronDown, FiChevronRight } from 'react-icons/fi';
-import { BrandMark } from '@/components/brand/BrandMark';
+import { FiCheck, FiChevronDown, FiChevronRight, FiVolume2 } from 'react-icons/fi';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { useLocale } from '@/lib/i18n/LocaleProvider';
 import { flagImageUrl, LOCALE_OPTIONS, type Locale } from '@/lib/i18n/locale';
+import {
+  LOCALE_WELCOME_PHRASES,
+  cancelLocaleWelcomePreview,
+  cancelLocaleWelcomeSpeech,
+  scheduleLocaleWelcomePreview,
+  speakLocaleWelcome,
+  warmUpLocaleWelcomeSpeech,
+} from '@/lib/i18n/locale-welcome-speech';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 
 type LanguageSwitchProps = {
@@ -80,40 +87,88 @@ function LocaleOptionTile({
   layout?: 'list' | 'overlay';
 }) {
   const overlayItemClass = active
-    ? 'bg-white/95 text-[#0E1548] shadow-lg shadow-slate-900/10 ring-2 ring-white/80'
-    : 'bg-white/80 text-slate-800 hover:bg-white/95';
+    ? 'bg-white/15 text-white ring-2 ring-white/50 backdrop-blur-sm'
+    : 'bg-transparent text-white/90 ring-1 ring-white/25 hover:bg-white/10 hover:ring-white/40';
 
   const listItemClass = active
     ? 'bg-[#0E1548]/[0.06] text-[#0E1548] dark:bg-blue-500/15 dark:text-blue-100'
     : 'text-slate-700 hover:bg-slate-50 dark:text-slate-200 dark:hover:bg-slate-800/80';
+
+  const welcomePhrase = LOCALE_WELCOME_PHRASES[option.id];
+  const isOverlay = layout === 'overlay';
+
+  const labelBlock = (
+    <>
+      <FlagBadge countryCode={option.countryCode} short={option.short} />
+      <span className="min-w-0 flex-1">
+        <span className="block text-sm font-semibold leading-tight">{option.nativeLabel}</span>
+        <span
+          className={`block text-[11px] ${
+            isOverlay ? 'text-white/60' : 'text-slate-500 dark:text-slate-400'
+          }`}
+        >
+          {option.englishName}
+        </span>
+        {isOverlay ? (
+          <span className="mt-0.5 block text-[10px] italic leading-tight text-white/45">{welcomePhrase}</span>
+        ) : null}
+      </span>
+    </>
+  );
+
+  const selectLocale = () => {
+    if (isOverlay) speakLocaleWelcome(option.id);
+    onSelect(option.id);
+  };
+
+  if (isOverlay) {
+    return (
+      <div
+        role="option"
+        aria-selected={active}
+        aria-label={`${option.nativeLabel}. ${welcomePhrase}`}
+        onPointerEnter={(event) => {
+          if (event.pointerType === 'mouse') scheduleLocaleWelcomePreview(option.id);
+        }}
+        onPointerLeave={() => {
+          cancelLocaleWelcomePreview();
+        }}
+        className={`flex w-full items-center gap-1 rounded-2xl pr-1.5 transition-all ${overlayItemClass}`}
+      >
+        <button
+          type="button"
+          onClick={selectLocale}
+          className="flex min-w-0 flex-1 items-center gap-3 px-3.5 py-3 text-left"
+        >
+          {labelBlock}
+        </button>
+        {active ? (
+          <FiCheck className="mr-2.5 h-4 w-4 shrink-0 text-white" aria-hidden />
+        ) : (
+          <button
+            type="button"
+            onClick={() => speakLocaleWelcome(option.id)}
+            aria-label={welcomePhrase}
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-white/45 transition-colors active:bg-white/15 active:text-white/80 sm:h-9 sm:w-9"
+          >
+            <FiVolume2 className="h-4 w-4" aria-hidden />
+          </button>
+        )}
+      </div>
+    );
+  }
 
   return (
     <button
       type="button"
       role="option"
       aria-selected={active}
-      onClick={() => onSelect(option.id)}
-      className={`flex w-full items-center gap-3 rounded-2xl px-3.5 py-3 text-left transition-all ${
-        layout === 'overlay' ? overlayItemClass : listItemClass
-      }`}
+      onClick={selectLocale}
+      className={`flex w-full items-center gap-3 rounded-2xl px-3.5 py-3 text-left transition-all ${listItemClass}`}
     >
-      <FlagBadge countryCode={option.countryCode} short={option.short} />
-      <span className="min-w-0 flex-1">
-        <span className="block text-sm font-semibold leading-tight">{option.nativeLabel}</span>
-        <span
-          className={`block text-[11px] ${
-            layout === 'overlay' ? 'text-slate-500' : 'text-slate-500 dark:text-slate-400'
-          }`}
-        >
-          {option.englishName}
-        </span>
-      </span>
+      {labelBlock}
       {active ? (
-        <FiCheck
-          className={`h-4 w-4 shrink-0 ${
-            layout === 'overlay' ? 'text-[#0E1548]' : 'text-[#0E1548] dark:text-blue-300'
-          }`}
-        />
+        <FiCheck className="h-4 w-4 shrink-0 text-[#0E1548] dark:text-blue-300" />
       ) : (
         <span className="h-4 w-4 shrink-0" aria-hidden />
       )}
@@ -134,7 +189,7 @@ function LocaleOptionsList({
 }) {
   const listClass =
     layout === 'overlay'
-      ? 'grid grid-cols-1 gap-2 sm:grid-cols-2'
+      ? 'grid w-full grid-cols-1 gap-2.5 sm:grid-cols-2 sm:gap-3'
       : 'max-h-[min(55vh,18rem)] space-y-0.5 overflow-y-auto overscroll-none p-1.5 [scrollbar-width:thin] [-webkit-overflow-scrolling:touch]';
 
   return (
@@ -163,8 +218,9 @@ function LanguageOverlay({
   locale,
   onSelect,
   title,
-  exitHint,
   footerNote,
+  exitHint,
+  mobilePreviewHint,
   closeOverlayAriaLabel,
   titleId,
 }: {
@@ -173,52 +229,32 @@ function LanguageOverlay({
   locale: Locale;
   onSelect: (id: Locale) => void;
   title: string;
-  exitHint: string;
   footerNote: string;
+  exitHint: string;
+  mobilePreviewHint: string;
   closeOverlayAriaLabel: string;
   titleId: string;
 }) {
   const [mounted, setMounted] = useState(false);
-  const [headerHidden, setHeaderHidden] = useState(false);
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const scrollEndTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   useBodyScrollLock(open);
 
   useEffect(() => setMounted(true), []);
 
   useEffect(() => {
+    if (open) warmUpLocaleWelcomeSpeech();
+  }, [open]);
+
+  useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
+      if (e.key === 'Escape') {
+        cancelLocaleWelcomeSpeech();
+        onClose();
+      }
     };
     document.addEventListener('keydown', onKey);
     return () => document.removeEventListener('keydown', onKey);
   }, [open, onClose]);
-
-  useEffect(() => {
-    if (!open) {
-      setHeaderHidden(false);
-      if (scrollEndTimer.current) clearTimeout(scrollEndTimer.current);
-      return;
-    }
-
-    const el = scrollRef.current;
-    if (!el) return;
-
-    const onScroll = () => {
-      setHeaderHidden(true);
-      if (scrollEndTimer.current) clearTimeout(scrollEndTimer.current);
-      scrollEndTimer.current = setTimeout(() => {
-        setHeaderHidden(false);
-      }, 180);
-    };
-
-    el.addEventListener('scroll', onScroll, { passive: true });
-    return () => {
-      el.removeEventListener('scroll', onScroll);
-      if (scrollEndTimer.current) clearTimeout(scrollEndTimer.current);
-    };
-  }, [open, mounted]);
 
   if (!mounted) return null;
 
@@ -234,13 +270,19 @@ function LanguageOverlay({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.15 }}
-          onClick={onClose}
+          onClick={() => {
+            cancelLocaleWelcomeSpeech();
+            onClose();
+          }}
         >
           <button
             type="button"
             className="sr-only"
             aria-label={closeOverlayAriaLabel}
-            onClick={onClose}
+            onClick={() => {
+              cancelLocaleWelcomeSpeech();
+              onClose();
+            }}
           />
 
           <motion.div
@@ -248,43 +290,14 @@ function LanguageOverlay({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 8 }}
             transition={{ duration: 0.18, ease: 'easeOut' }}
-            className="flex h-full min-h-0 flex-col"
+            className="flex h-full min-h-0 items-center justify-center overflow-y-auto overscroll-contain px-4 py-[max(1.25rem,env(safe-area-inset-top))] pb-[max(2rem,env(safe-area-inset-bottom))] [-webkit-overflow-scrolling:touch]"
+            data-allow-scroll
+            onClick={(e) => e.stopPropagation()}
           >
-            <div
-              ref={scrollRef}
-              className="mx-auto min-h-0 w-full max-w-5xl flex-1 overflow-y-auto overscroll-contain px-3 pb-8 [-webkit-overflow-scrolling:touch] [scrollbar-gutter:stable] sm:px-4"
-              data-allow-scroll
-              onClick={(e) => e.stopPropagation()}
-            >
-              <header
-                className={`safe-pt sticky top-0 z-10 -mx-3 bg-transparent px-3 pb-2 transition-all duration-200 ease-out sm:-mx-4 sm:px-4 ${
-                  headerHidden
-                    ? 'pointer-events-none -translate-y-2 opacity-0'
-                    : 'translate-y-0 opacity-100'
-                }`}
-                onClick={(e) => e.stopPropagation()}
-              >
-                <button
-                  type="button"
-                  onClick={onClose}
-                  className="flex h-14 w-full items-center gap-2.5 rounded-2xl border border-white/80 bg-white/95 px-3 text-left shadow-lg shadow-slate-900/10 backdrop-blur-xl transition-opacity hover:opacity-90 active:opacity-80 sm:px-4"
-                  aria-label={closeOverlayAriaLabel}
-                  tabIndex={headerHidden ? -1 : 0}
-                >
-                  <BrandMark size="sm" className="shrink-0 shadow-md ring-2 ring-slate-200/80" />
-                  <div className="min-w-0">
-                    <p
-                      id={titleId}
-                      className="truncate text-[13px] font-bold leading-tight tracking-[0.08em] text-[#0E1548]"
-                    >
-                      {title}
-                    </p>
-                    <p className="truncate text-[10px] font-medium leading-tight text-slate-500">
-                      {exitHint}
-                    </p>
-                  </div>
-                </button>
-              </header>
+            <div className="mx-auto w-full max-w-md sm:max-w-2xl">
+              <h2 id={titleId} className="sr-only">
+                {title}
+              </h2>
 
               <LocaleOptionsList
                 locale={locale}
@@ -292,9 +305,13 @@ function LanguageOverlay({
                 layout="overlay"
                 scrollable={false}
               />
-            </div>
 
-            <p className="sr-only">{footerNote}</p>
+              <p className="mt-4 text-center text-[11px] leading-relaxed text-white/50 sm:hidden">
+                {mobilePreviewHint}
+              </p>
+              <p className="mt-1.5 text-center text-[10px] text-white/35 sm:hidden">{exitHint}</p>
+              <p className="sr-only">{footerNote}</p>
+            </div>
           </motion.div>
         </motion.div>
       ) : null}
@@ -326,8 +343,9 @@ export function LanguageSwitch({
       locale={locale}
       onSelect={select}
       title={strings.modalTitle}
-      exitHint={strings.exitHint}
       footerNote={strings.footerNote}
+      exitHint={strings.exitHint}
+      mobilePreviewHint={strings.mobilePreviewHint}
       closeOverlayAriaLabel={strings.closeOverlayAriaLabel}
       titleId={titleId}
     />

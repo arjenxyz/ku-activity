@@ -1,0 +1,23 @@
+{
+  "title": "Tüm şantiye İK süreçleri cebinizde!",
+  "description": "Ofiste olmasanız da işler aksamaz. Yoklama, yevmiye, avans, bordro… Hepsi cebinizde. CrewLedger mobil uygulamasıyla tüm süreçlere istediğiniz yerden ulaşın.",
+  "phonePreviewAlt": "CrewLedger personel mobil uygulaması ekran görüntüsü",
+  "features": [
+    {
+      "title": "Haberdar olun",
+      "description": "Puantaj onayı, bordro ve avans hareketleri için anlık bildirim alın."
+    },
+    {
+      "title": "Talebi yönetin",
+      "description": "İzin, avans ve mesai taleplerini tek ekrandan takip edin."
+    },
+    {
+      "title": "İletişimde kalın",
+      "description": "Şantiye ve İK ekibiyle kayıt üzerinden şeffaf iletişim kurun."
+    },
+    {
+      "title": "Kolay kullanın",
+      "description": "Sade arayüz; aradığınız modüle birkaç dokunuşla ulaşın."
+    }
+  ]
+}

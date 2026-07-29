@@ -7,6 +7,7 @@ import { PWARegister } from '@/components/pwa/PWARegister';
 import { InstallPrompt } from '@/components/pwa/InstallPrompt';
 import { ContentProtection } from '@/components/ContentProtection';
 import { LocaleShell } from '@/components/i18n/LocaleShell';
+import { SupportChatWidget } from '@/components/support/SupportChatWidget';
 import { APP_NAME, CREWLEDGER_APP_ICON } from '@/lib/brand';
 import { formatString } from '@/lib/strings/format';
 import { getRegistryStrings } from '@/lib/i18n/strings-registry';
@@ -141,6 +142,7 @@ export default async function RootLayout({
         <LocaleShell initialLocale={locale}>
           {children}
           <InstallPrompt />
+          <SupportChatWidget />
         </LocaleShell>
       </body>
     </html>

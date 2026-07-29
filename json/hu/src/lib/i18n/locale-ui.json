@@ -3,6 +3,7 @@
   "menuTitle": "Nyelv",
   "modalTitle": "Nyelv kiválasztása",
   "exitHint": "Kilépéshez érintse meg",
+  "mobilePreviewHint": "Koppintson a hangszóró ikonra az üdvözlés meghallgatásához. Koppintson a sorra a nyelv kiválasztásához.",
   "closeButtonAriaLabel": "Bezárás",
   "closeOverlayAriaLabel": "Bezárás",
   "footerNote": "Választása ezen az eszközön mentésre kerül."

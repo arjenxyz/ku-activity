@@ -5,5 +5,6 @@
   "closeButtonAriaLabel": "Schließen",
   "closeOverlayAriaLabel": "Schließen",
   "footerNote": "Ihre Auswahl wird auf diesem Gerät gespeichert.",
-  "exitHint": "Zum Beenden tippen"
+  "exitHint": "Zum Beenden tippen",
+  "mobilePreviewHint": "Tippen Sie auf das Lautsprechersymbol, um die Begrüßung zu hören. Tippen Sie auf die Zeile, um eine Sprache auszuwählen."
 }

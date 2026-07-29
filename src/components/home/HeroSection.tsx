@@ -2,59 +2,90 @@
 
 import { motion } from 'framer-motion';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
-import { HeroPlayStorePromo } from '@/components/home/HeroPlayStorePromo';
-import { DemoRoleButton, LoginRoleButton } from '@/components/home/LoginRolePicker';
+import { DemoRoleButton } from '@/components/home/LoginRolePicker';
+import { PhoneMockup } from '@/components/home/PhoneMockup';
 
 export function HeroSection() {
   const strings = useRegistryStrings('components/home/HeroSection');
+  const showcaseStrings = useRegistryStrings('components/home/HomeMobileShowcase');
+
   return (
-    <section id="hero" className="relative pt-[max(6.5rem,calc(env(safe-area-inset-top)+5rem))] pb-12 sm:pb-16 lg:pt-36 lg:pb-24 overflow-hidden">
+    <section
+      id="hero"
+      className="relative overflow-hidden pt-[calc(env(safe-area-inset-top)+4rem)] pb-10 sm:pb-14 sm:pt-[max(4.5rem,calc(env(safe-area-inset-top)+3.5rem))] lg:pb-16 lg:pt-20"
+    >
       <div className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-slate-950 dark:via-slate-900 dark:to-blue-950" />
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-400/10 dark:bg-blue-500/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3" />
-        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-indigo-400/10 dark:bg-indigo-500/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/3" />
+        <div className="absolute inset-0 bg-gradient-to-b from-white via-[#f7fbff] to-white" />
+        <div className="absolute -top-28 left-1/4 h-72 w-72 -translate-x-1/2 rounded-full bg-blue-100/50 blur-3xl" />
         <div
-          className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%232563eb' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-          }}
+          className="absolute right-[-4rem] top-24 h-[28rem] w-[28rem] rounded-full bg-sky-100/45 blur-3xl"
+          aria-hidden
+        />
+        <div
+          className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white to-transparent"
+          aria-hidden
         />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 lg:gap-10 xl:gap-14 items-center">
-        <motion.div
-          className="max-w-3xl"
-          initial={false}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 text-sm font-medium mb-6">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500" />
-            </span>
-            {strings.badge}
-          </div>
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div className="grid items-center gap-6 sm:gap-8 md:grid-cols-[minmax(0,1.1fr)_auto] md:gap-8 lg:gap-12 xl:gap-16">
+          <motion.div
+            className="px-1 pt-2 text-center sm:px-4 sm:pt-8 md:col-start-1 md:row-start-1 md:py-10 md:text-left lg:px-0"
+            initial={false}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55 }}
+          >
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-white/90 px-3.5 py-1.5 text-sm font-medium text-slate-600 shadow-sm ring-1 ring-slate-200/80 sm:mb-7">
+              <span className="tracking-wide text-amber-400">★★★★☆</span>
+              <span>{strings.badge}</span>
+            </div>
 
-          <h1 className="text-3xl sm:text-4xl md:text-5xl xl:text-6xl font-bold tracking-tight text-gray-900 dark:text-white leading-[1.15]">
-            {strings.titlePrefix}{' '}
-            <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+            <h1 className="text-balance text-[2.15rem] font-bold tracking-tight text-[#2D6AF6] sm:text-5xl lg:text-[3.25rem] xl:text-6xl xl:leading-[1.05]">
+              {strings.titlePrefix}
+            </h1>
+            <h2 className="mt-1.5 text-balance text-[2.15rem] font-bold tracking-tight text-slate-900 sm:mt-2 sm:text-5xl lg:text-[3.25rem] xl:text-6xl xl:leading-[1.05]">
               {strings.titleHighlight}
-            </span>
-          </h1>
+            </h2>
+          </motion.div>
 
-          <p className="mt-6 text-lg text-gray-600 dark:text-gray-300 max-w-xl leading-relaxed">
-            {strings.subtitle}
-          </p>
+          <motion.div
+            className="relative flex justify-center md:col-start-2 md:row-start-1 md:row-span-2 md:justify-end md:self-center md:pr-2 lg:pr-0"
+            initial={{ opacity: 0, y: 22, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.65, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <div className="relative">
+              <div
+                className="pointer-events-none absolute -left-10 top-16 hidden h-40 w-40 rounded-3xl border border-sky-100/80 bg-white/50 shadow-sm backdrop-blur-sm md:block"
+                aria-hidden
+              />
+              <div
+                className="pointer-events-none absolute -right-6 bottom-20 hidden h-28 w-28 rounded-2xl border border-blue-100/70 bg-blue-50/60 md:block"
+                aria-hidden
+              />
+              <PhoneMockup
+                previewLabel={showcaseStrings.phonePreviewAlt}
+                size="sm"
+                float
+                className="relative z-10 rotate-[1.5deg] md:rotate-[2deg]"
+              />
+            </div>
+          </motion.div>
 
-          <div className="mt-8 flex flex-col sm:flex-row gap-3">
-            <LoginRoleButton variant="hero" />
-            <DemoRoleButton />
-          </div>
-        </motion.div>
+          <motion.div
+            className="px-1 pb-6 text-center sm:px-4 sm:pb-8 md:col-start-1 md:row-start-2 md:pb-10 md:text-left lg:px-0"
+            initial={false}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, delay: 0.04 }}
+          >
+            <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-slate-600 sm:mt-6 sm:text-xl md:mx-0 lg:max-w-lg lg:text-xl">
+              {strings.subtitle}
+            </p>
 
-        <HeroPlayStorePromo />
+            <div className="mt-8 flex justify-center md:justify-start">
+              <DemoRoleButton pill>{strings.ctaDemo}</DemoRoleButton>
+            </div>
+          </motion.div>
         </div>
       </div>
     </section>
