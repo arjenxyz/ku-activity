@@ -35,65 +35,69 @@ export function SupportChatWidget() {
   if (hidden) return null;
 
   return (
-    <div className="pointer-events-none fixed inset-x-0 bottom-0 z-[55] flex justify-end p-4 pb-[max(1rem,env(safe-area-inset-bottom))] sm:p-5">
-      <div className="pointer-events-auto relative flex flex-col items-end gap-3">
-        <AnimatePresence>
-          {open ? (
-            <motion.div
-              key="support-chat-panel"
-              initial={{ opacity: 0, y: 16, scale: 0.96 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 12, scale: 0.98 }}
-              transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-              className="w-[min(calc(100vw-2rem),380px)]"
-            >
-              <SupportChatPanel onClose={() => setOpen(false)} />
-            </motion.div>
-          ) : null}
-        </AnimatePresence>
+    <>
+      <AnimatePresence>
+        {open ? (
+          <motion.div
+            key="support-chat-panel"
+            initial={{ opacity: 0, y: 16, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 12, scale: 0.99 }}
+            transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+            className="pointer-events-auto fixed inset-0 z-[56] flex flex-col sm:inset-auto sm:bottom-[calc(3.5rem+1.25rem+0.75rem)] sm:right-5 sm:h-auto sm:w-[min(calc(100vw-2.5rem),380px)] sm:p-0"
+          >
+            <SupportChatPanel onClose={() => setOpen(false)} />
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
 
-        <motion.button
-          type="button"
-          onClick={() => setOpen((value) => !value)}
-          aria-label={open ? strings.ariaLabelClose : strings.ariaLabelOpen}
-          aria-expanded={open}
-          className="relative flex h-14 w-14 items-center justify-center overflow-hidden rounded-2xl bg-white shadow-[0_12px_32px_rgba(14,21,72,0.22)] ring-1 ring-slate-200/80 transition hover:scale-[1.03] active:scale-[0.98]"
-          whileTap={{ scale: 0.96 }}
-        >
-          <AnimatePresence mode="wait" initial={false}>
-            {open ? (
-              <motion.span
-                key="close"
-                initial={{ opacity: 0, rotate: -90, scale: 0.8 }}
-                animate={{ opacity: 1, rotate: 0, scale: 1 }}
-                exit={{ opacity: 0, rotate: 90, scale: 0.8 }}
-                transition={{ duration: 0.15 }}
-                className="flex h-full w-full items-center justify-center bg-[#0E1548] text-white"
-              >
-                <FiX className="h-6 w-6" aria-hidden />
-              </motion.span>
-            ) : (
-              <motion.span
-                key="open"
-                initial={{ opacity: 0, scale: 0.85 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.85 }}
-                transition={{ duration: 0.15 }}
-                className="h-full w-full"
-              >
-                <Image
-                  src="/ai-destek.png"
-                  alt=""
-                  width={56}
-                  height={56}
-                  className="h-full w-full object-cover"
-                  priority
-                />
-              </motion.span>
-            )}
-          </AnimatePresence>
-        </motion.button>
+      <div className="pointer-events-none fixed inset-x-0 bottom-0 z-[55] flex justify-end p-4 pb-[max(1rem,env(safe-area-inset-bottom))] sm:p-5">
+        <div className="pointer-events-auto relative flex flex-col items-end gap-3">
+          <motion.button
+            type="button"
+            onClick={() => setOpen((value) => !value)}
+            aria-label={open ? strings.ariaLabelClose : strings.ariaLabelOpen}
+            aria-expanded={open}
+            className={`relative flex h-14 w-14 items-center justify-center overflow-hidden rounded-2xl bg-white shadow-[0_12px_32px_rgba(14,21,72,0.22)] ring-1 ring-slate-200/80 transition hover:scale-[1.03] active:scale-[0.98] ${
+              open ? 'hidden sm:flex' : ''
+            }`}
+            whileTap={{ scale: 0.96 }}
+          >
+            <AnimatePresence mode="wait" initial={false}>
+              {open ? (
+                <motion.span
+                  key="close"
+                  initial={{ opacity: 0, rotate: -90, scale: 0.8 }}
+                  animate={{ opacity: 1, rotate: 0, scale: 1 }}
+                  exit={{ opacity: 0, rotate: 90, scale: 0.8 }}
+                  transition={{ duration: 0.15 }}
+                  className="flex h-full w-full items-center justify-center bg-[#0E1548] text-white"
+                >
+                  <FiX className="h-6 w-6" aria-hidden />
+                </motion.span>
+              ) : (
+                <motion.span
+                  key="open"
+                  initial={{ opacity: 0, scale: 0.85 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.85 }}
+                  transition={{ duration: 0.15 }}
+                  className="h-full w-full"
+                >
+                  <Image
+                    src="/ai-destek.png"
+                    alt=""
+                    width={56}
+                    height={56}
+                    className="h-full w-full object-cover"
+                    priority
+                  />
+                </motion.span>
+              )}
+            </AnimatePresence>
+          </motion.button>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
