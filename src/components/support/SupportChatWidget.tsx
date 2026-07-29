@@ -58,8 +58,8 @@ export function SupportChatWidget() {
             onClick={() => setOpen((value) => !value)}
             aria-label={open ? strings.ariaLabelClose : strings.ariaLabelOpen}
             aria-expanded={open}
-            className={`relative flex h-14 w-14 items-center justify-center overflow-hidden rounded-full bg-[#0E1548] shadow-[0_12px_32px_rgba(14,21,72,0.32)] ring-1 ring-white/20 transition hover:scale-[1.03] active:scale-[0.98] ${
-              open ? 'hidden sm:flex' : ''
+            className={`relative flex h-14 w-14 items-center justify-center overflow-hidden rounded-full shadow-[0_8px_24px_rgba(14,21,72,0.22)] transition hover:scale-[1.03] active:scale-[0.98] ${
+              open ? 'hidden sm:flex bg-[#0E1548]' : 'bg-transparent'
             }`}
             whileTap={{ scale: 0.96 }}
           >
@@ -71,7 +71,7 @@ export function SupportChatWidget() {
                   animate={{ opacity: 1, rotate: 0, scale: 1 }}
                   exit={{ opacity: 0, rotate: 90, scale: 0.8 }}
                   transition={{ duration: 0.15 }}
-                  className="flex h-full w-full items-center justify-center bg-[#0E1548] text-white"
+                  className="flex h-full w-full items-center justify-center text-white"
                 >
                   <FiX className="h-6 w-6" aria-hidden />
                 </motion.span>
@@ -82,18 +82,16 @@ export function SupportChatWidget() {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.85 }}
                   transition={{ duration: 0.15 }}
-                  className="flex h-full w-full items-center justify-center p-2"
+                  className="flex h-full w-full"
                 >
-                  <span className="flex h-full w-full items-center justify-center rounded-full bg-white p-1 shadow-sm">
-                    <Image
-                      src="/ai-destek.png"
-                      alt=""
-                      width={56}
-                      height={56}
-                      className="h-full w-full object-contain"
-                      priority
-                    />
-                  </span>
+                  <Image
+                    src="/ai-destek.png"
+                    alt=""
+                    width={56}
+                    height={56}
+                    className="h-full w-full object-cover"
+                    priority
+                  />
                 </motion.span>
               )}
             </AnimatePresence>
