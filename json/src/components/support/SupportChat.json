@@ -21,10 +21,10 @@
   "inputHint": "Komutlar için / yazın. Daha fazlası: /help · Hata: /bug-report",
   "slashCommandsLabel": "Komutlar",
   "helpIntro": "Kullanılabilir komutlar (her zaman İngilizce):",
-  "bugReportPrompt": "Hata bildirimi için lütfen sorunu kısaca anlatın (ne oldu, hangi ekran, mümkünse adımlar).",
+  "bugReportPrompt": "Hata için adımları yazın ve ekran görüntüsü alın. İkisi de zorunlu.",
   "bugReportSuggestions": [
     "QR okutulmuyor",
-    "Avans talebi gönderilemiyor",
+    "Avans gönderilemiyor",
     "Bordro yanlış görünüyor"
   ],
   "slashCommands": [
@@ -36,5 +36,58 @@
       "command": "/bug-report",
       "description": "Hata veya sorun bildir"
     }
-  ]
+  ],
+  "bugReportFormTitle": "Hata raporu",
+  "bugReportStepsPlaceholder": "1) Ne yaptınız?\n2) Ne olmasını beklediniz?\n3) Ne oldu?",
+  "bugReportCapture": "Ekran görüntüsü al",
+  "bugReportCapturing": "Alınıyor…",
+  "bugReportScreenshotReady": "Görüntü eklendi",
+  "bugReportScreenshotRequired": "Ekran görüntüsü zorunlu",
+  "bugReportScreenshotFailed": "Ekran görüntüsü alınamadı. Tekrar deneyin.",
+  "bugReportStepsRequired": "Lütfen adımları daha ayrıntılı yazın.",
+  "bugReportSubmit": "Raporu gönder",
+  "bugReportCancel": "Vazgeç",
+  "topicSuggestions": {
+    "attendance": [
+      "QR nasıl okutulur?",
+      "Yoklama onaylanmadı ne yapmalıyım?",
+      "Şantiye QR kodu nerede?"
+    ],
+    "advance": [
+      "Avans talebi nasıl oluşturulur?",
+      "Avans onay süreci nasıl işler?",
+      "Dekont nasıl yüklenir?"
+    ],
+    "payroll": [
+      "Bordroda net maaş nasıl hesaplanır?",
+      "Yevmiye nereden görülür?",
+      "Mesai nasıl eklenir?"
+    ],
+    "login": [
+      "Personel paneline nasıl girerim?",
+      "Şifremi unuttum ne yapmalıyım?",
+      "Yönetici girişi nerede?"
+    ],
+    "demo": [
+      "Ücretsiz demoyu nasıl açarım?",
+      "Demo verileri gerçek mi?",
+      "Demo kaç gün sürer?"
+    ],
+    "download": [
+      "APK nereden indirilir?",
+      "Play Store yakında mı?",
+      "Uygulama Android'de mi?"
+    ],
+    "bug": [
+      "QR okutulmuyor",
+      "Avans gönderilemiyor",
+      "Bordro yanlış görünüyor"
+    ],
+    "default": [
+      "QR yoklama nasıl çalışır?",
+      "Personel paneline nasıl girerim?",
+      "Avans talebi nasıl oluşturulur?",
+      "Ücretsiz demo nasıl denenir?"
+    ]
+  }
 }

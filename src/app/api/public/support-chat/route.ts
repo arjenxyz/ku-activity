@@ -60,9 +60,14 @@ export async function POST(req: NextRequest) {
       return errorResponse(strings.rateLimit, 'RATE_LIMIT', 429);
     }
 
-    let body: { messages?: unknown; locale?: unknown };
+    let body: {
+      messages?: unknown;
+      locale?: unknown;
+      screenshot?: unknown;
+      browserErrors?: unknown;
+    };
     try {
-      body = (await req.json()) as { messages?: unknown; locale?: unknown };
+      body = (await req.json()) as typeof body;
     } catch {
       return errorResponse(strings.geçersizMesaj, 'INVALID', 400);
     }
@@ -82,11 +87,26 @@ export async function POST(req: NextRequest) {
 
     const locale = parseLocale(typeof body.locale === 'string' ? body.locale : null);
 
+    const screenshot =
+      typeof body.screenshot === 'string' && body.screenshot.startsWith('data:image/')
+        ? body.screenshot.slice(0, 2_500_000)
+        : undefined;
+    const browserErrors = Array.isArray(body.browserErrors)
+      ? body.browserErrors
+          .filter((item): item is string => typeof item === 'string')
+          .map((item) => item.trim().slice(0, 280))
+          .filter(Boolean)
+          .slice(0, 12)
+      : [];
+
     if (isBugReportMessage(last.content)) {
-      const result = await handleSupportBugReport(messages, locale);
+      const result = await handleSupportBugReport(messages, locale, {
+        screenshotBase64: screenshot,
+        browserErrors,
+      });
       return NextResponse.json({
         reply: result.reply,
-        suggestedFollowUps: result.suggestedFollowUps,
+        suggestedFollowUps: [],
         ticket: result.ticket,
       });
     }
@@ -95,7 +115,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({
       reply: result.reply,
-      suggestedFollowUps: result.suggestedFollowUps,
+      suggestedFollowUps: [],
     });
   } catch (err) {
     if (err instanceof SupportChatError) {

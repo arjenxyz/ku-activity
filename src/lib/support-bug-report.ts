@@ -1,4 +1,4 @@
-import 'server-only';
+﻿import 'server-only';
 
 import type { Locale } from '@/lib/i18n/locale';
 import {
@@ -169,9 +169,15 @@ async function verifyWithGemini(
 
 ${languageHint}
 
-Decide if the report is a real product bug worth a GitHub issue.
+Decide if the report is a real product bug worth a Discord ticket.
 
-verified=true ONLY when category is "bug" and there is a concrete reproducible product problem.
+verified=true ONLY when:
+- category is "bug"
+- there are concrete steps / what happened
+- screenshot is marked as attached
+- the report is actionable for a developer
+
+If steps are vague or screenshot is missing, use category "insufficient" and verified=false.
 Use:
 - bug: concrete malfunction (crash, wrong data, broken flow)
 - feature: enhancement request (not a bug)
@@ -356,10 +362,10 @@ async function createGithubIssue(params: {
 function filedSuffix(locale: Locale, opts: { issueNumber?: number; discord?: boolean }): string {
   if (locale === 'tr') {
     if (opts.issueNumber) {
-      return `\n\nRaporunuz geliştiriciye iletildi (#${opts.issueNumber}).`;
+      return `\n\nRaporunuz geliÅŸtiriciye iletildi (#${opts.issueNumber}).`;
     }
     if (opts.discord) {
-      return '\n\nRaporunuz geliştiriciye iletildi.';
+      return '\n\nRaporunuz geliÅŸtiriciye iletildi.';
     }
     return '';
   }
@@ -378,31 +384,52 @@ function filedSuffix(locale: Locale, opts: { issueNumber?: number; discord?: boo
  */
 export async function handleSupportBugReport(
   messages: SupportChatMessage[],
-  locale: Locale
+  locale: Locale,
+  extras?: { screenshotBase64?: string; browserErrors?: string[] }
 ): Promise<BugReportResult> {
   const last = messages[messages.length - 1];
   const originalReport = extractReportBody(last?.content ?? '');
-  if (!originalReport) {
+  if (!originalReport || originalReport.trim().length < 20) {
     return {
       reply:
         locale === 'tr'
-          ? 'Hata bildirimi için lütfen sorunu kısaca yazın.'
-          : 'Please briefly describe the bug to report it.',
+          ? 'Hata bildirimi iÃ§in adÄ±mlarÄ± en az birkaÃ§ cÃ¼mle yazÄ±n (ne yaptÄ±nÄ±z, ne oldu).'
+          : 'Please describe the steps in a few sentences (what you did and what happened).',
       suggestedFollowUps: [],
       ticket: { filed: false, reason: 'not_verified' },
     };
   }
 
+  if (!extras?.screenshotBase64?.startsWith('data:image/')) {
+    return {
+      reply:
+        locale === 'tr'
+          ? 'Ekran gÃ¶rÃ¼ntÃ¼sÃ¼ zorunlu. LÃ¼tfen â€œEkran gÃ¶rÃ¼ntÃ¼sÃ¼ alâ€ ile sayfanÄ±n gÃ¶rÃ¼ntÃ¼sÃ¼nÃ¼ ekleyip tekrar gÃ¶nderin.'
+          : 'A screenshot is required. Capture the page screenshot and send the report again.',
+      suggestedFollowUps: [],
+      ticket: { filed: false, reason: 'not_verified' },
+    };
+  }
+
+  const reportWithErrors = [
+    originalReport,
+    '',
+    extras.browserErrors?.length
+      ? `Browser errors:\n${extras.browserErrors.map((item, i) => `${i + 1}. ${item}`).join('\n')}`
+      : 'Browser errors: (none captured)',
+    '',
+    'Screenshot: attached',
+  ].join('\n');
+
   let verification: VerificationPayload;
   try {
-    verification = await verifyWithGemini(originalReport, locale, messages.slice(0, -1));
+    verification = await verifyWithGemini(reportWithErrors, locale, messages.slice(0, -1));
   } catch (err) {
-    // Fallback: still answer via normal support chat so the user is not stuck.
     if (err instanceof SupportChatError) throw err;
     const fallback = await generateSupportChatReply(messages, locale);
     return {
       reply: fallback.reply,
-      suggestedFollowUps: fallback.suggestedFollowUps,
+      suggestedFollowUps: [],
       ticket: { filed: false, reason: 'create_failed' },
     };
   }
@@ -410,7 +437,7 @@ export async function handleSupportBugReport(
   if (!verification.verified) {
     return {
       reply: verification.userReply,
-      suggestedFollowUps: verification.suggestedFollowUps,
+      suggestedFollowUps: [],
       ticket: { filed: false, reason: 'not_verified' },
     };
   }
@@ -418,7 +445,7 @@ export async function handleSupportBugReport(
   if (!isBugReportDeliveryConfigured()) {
     return {
       reply: verification.userReply,
-      suggestedFollowUps: verification.suggestedFollowUps,
+      suggestedFollowUps: [],
       ticket: { filed: false, reason: 'not_configured' },
     };
   }
@@ -427,7 +454,7 @@ export async function handleSupportBugReport(
     ? await createGithubIssue({
         title: verification.title,
         summary: verification.summary,
-        originalReport,
+        originalReport: reportWithErrors,
         locale,
       })
     : null;
@@ -436,17 +463,19 @@ export async function handleSupportBugReport(
     ? await sendAiBugReportDiscord({
         title: verification.title,
         summary: verification.summary,
-        originalReport,
+        originalReport: reportWithErrors,
         locale,
         category: verification.category,
         githubIssueUrl: issue?.url,
+        screenshotBase64: extras.screenshotBase64,
+        browserErrors: extras.browserErrors,
       })
     : false;
 
   if (!discordOk && !issue) {
     return {
       reply: verification.userReply,
-      suggestedFollowUps: verification.suggestedFollowUps,
+      suggestedFollowUps: [],
       ticket: { filed: false, reason: 'create_failed' },
     };
   }
@@ -456,7 +485,7 @@ export async function handleSupportBugReport(
       issueNumber: issue?.number,
       discord: discordOk,
     })}`,
-    suggestedFollowUps: verification.suggestedFollowUps,
+    suggestedFollowUps: [],
     ticket: {
       filed: true,
       number: issue?.number,
@@ -469,3 +498,5 @@ export async function handleSupportBugReport(
 export function isBugReportMessage(content: string): boolean {
   return /^\s*\[BUG REPORT\]/i.test(content);
 }
+
+

@@ -11,21 +11,21 @@
   "errorNotConfigured": "L'assistance IA n'est pas encore configurée. Réessayez plus tard.",
   "welcomeMessage": "Bonjour ! Je peux vous aider sur la gestion du personnel CrewLedger, le pointage QR, la paie et les acomptes. Que souhaitez-vous savoir ?",
   "suggestions": [
-    "Comment fonctionne le pointage QR ?",
-    "Comment accéder au panneau personnel ?",
-    "Comment demander un acompte ?",
-    "Comment essayer la démo gratuite ?"
+    "How does QR attendance work?",
+    "How do I access the personnel panel?",
+    "How do I request an advance?",
+    "How can I try the free demo?"
   ],
   "errorQuota": "Quota IA dépassé. Réessayez plus tard.",
   "errorUnavailable": "L'assistance IA est temporairement indisponible. Réessayez plus tard.",
   "inputHint": "Tapez / pour les commandes. Plus: /help · Bugs: /bug-report",
   "slashCommandsLabel": "Commandes",
   "helpIntro": "Commandes disponibles (toujours en anglais) :",
-  "bugReportPrompt": "Décrivez brièvement le problème (ce qui s'est passé, quel écran, étapes si possible).",
+  "bugReportPrompt": "Write the steps and capture a screenshot. Both are required.",
   "bugReportSuggestions": [
-    "Le QR ne scanne pas",
-    "Impossible d'envoyer un acompte",
-    "La paie semble incorrecte"
+    "QR won't scan",
+    "Can't submit advance",
+    "Payroll looks wrong"
   ],
   "slashCommands": [
     {
@@ -36,5 +36,58 @@
       "command": "/bug-report",
       "description": "Signaler un bug ou un problème"
     }
-  ]
+  ],
+  "bugReportFormTitle": "Bug report",
+  "bugReportStepsPlaceholder": "1) What did you do?\n2) What did you expect?\n3) What happened?",
+  "bugReportCapture": "Capture screenshot",
+  "bugReportCapturing": "Capturing…",
+  "bugReportScreenshotReady": "Screenshot attached",
+  "bugReportScreenshotRequired": "Screenshot is required",
+  "bugReportScreenshotFailed": "Could not capture screenshot. Try again.",
+  "bugReportStepsRequired": "Please describe the steps in more detail.",
+  "bugReportSubmit": "Submit report",
+  "bugReportCancel": "Cancel",
+  "topicSuggestions": {
+    "attendance": [
+      "How do I scan the QR?",
+      "Attendance not approved — what next?",
+      "Where is the site QR code?"
+    ],
+    "advance": [
+      "How do I request an advance?",
+      "How does advance approval work?",
+      "How do I upload a receipt?"
+    ],
+    "payroll": [
+      "How is net pay calculated?",
+      "Where do I see daily wages?",
+      "How is overtime added?"
+    ],
+    "login": [
+      "How do I open the personnel panel?",
+      "I forgot my password",
+      "Where is admin login?"
+    ],
+    "demo": [
+      "How do I open the free demo?",
+      "Is demo data real?",
+      "How long does the demo last?"
+    ],
+    "download": [
+      "Where do I download the APK?",
+      "Is Play Store coming soon?",
+      "Is the app for Android?"
+    ],
+    "bug": [
+      "QR won't scan",
+      "Can't submit advance",
+      "Payroll looks wrong"
+    ],
+    "default": [
+      "How does QR attendance work?",
+      "How do I access the personnel panel?",
+      "How do I request an advance?",
+      "How can I try the free demo?"
+    ]
+  }
 }

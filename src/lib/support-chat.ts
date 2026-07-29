@@ -86,11 +86,8 @@ Return ONLY valid JSON with this shape:
 }
 
 Rules for suggestedFollowUps:
-- Provide 2 to 4 short follow-up questions the user might ask next.
-- They must relate to your reply and the conversation topic.
-- Same language as the reply.
-- Keep each under ~60 characters.
-- Do not include slash commands unless relevant.`;
+- Always return an empty array [].
+- Do NOT invent follow-up questions. The client uses a curated topic chip bank.`;
 }
 
 function getGeminiApiKey(): string | null {

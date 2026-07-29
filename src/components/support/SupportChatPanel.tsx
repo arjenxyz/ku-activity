@@ -2,9 +2,16 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Image from 'next/image';
-import { FiSend, FiX } from 'react-icons/fi';
+import { FiCamera, FiSend, FiX } from 'react-icons/fi';
 import { useLocale } from '@/lib/i18n/LocaleProvider';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
+import { captureElementScreenshot } from '@/lib/capture-screen';
+import {
+  formatBrowserErrorsForReport,
+  getRecentBrowserErrors,
+  installSupportConsoleBuffer,
+} from '@/lib/support-console-buffer';
+import { resolveTopicSuggestions } from '@/lib/support-topic-suggestions';
 
 type ChatMessage = {
   id: string;
@@ -21,13 +28,14 @@ const CANONICAL_SLASH_COMMANDS = [
   { command: HELP_COMMAND },
   { command: BUG_REPORT_COMMAND },
 ] as const;
+const MIN_BUG_STEPS = 20;
 
 function createId() {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 }
 
-function formatBugReportPayload(description: string): string {
-  return `[BUG REPORT]\n${description.trim()}`;
+function formatBugReportPayload(description: string, browserErrors: string[]): string {
+  return `[BUG REPORT]\n${description.trim()}\n\n${formatBrowserErrorsForReport(browserErrors)}`;
 }
 
 function isNetworkFailure(err: unknown): boolean {
@@ -68,14 +76,19 @@ export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelPr
     () => typeof navigator !== 'undefined' && !navigator.onLine,
   );
   const [slashHighlight, setSlashHighlight] = useState(0);
-  const [dynamicSuggestions, setDynamicSuggestions] = useState<string[] | null>(null);
+  const [topicSeed, setTopicSeed] = useState(strings.welcomeMessage);
+  const [bugMode, setBugMode] = useState(false);
+  const [bugSteps, setBugSteps] = useState('');
+  const [bugScreenshot, setBugScreenshot] = useState<string | null>(null);
+  const [capturing, setCapturing] = useState(false);
   const listRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const messagesRef = useRef(messages);
   const loadingRef = useRef(loading);
-  const awaitingBugReportRef = useRef(false);
   const pendingRetryRef = useRef<string | null>(null);
   const pendingApiContentRef = useRef<string | null>(null);
+  const pendingScreenshotRef = useRef<string | null>(null);
+  const pendingBrowserErrorsRef = useRef<string[]>([]);
   const retryCountRef = useRef(0);
   const retryTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const sendMessageRef = useRef<(text: string, options?: { retry?: boolean }) => Promise<void>>(
@@ -85,7 +98,18 @@ export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelPr
   messagesRef.current = messages;
   loadingRef.current = loading;
 
-  const suggestionChips = dynamicSuggestions ?? strings.suggestions;
+  const suggestionChips = useMemo(
+    () =>
+      bugMode
+        ? []
+        : resolveTopicSuggestions(
+            strings.topicSuggestions,
+            strings.suggestions,
+            topicSeed,
+            messages[messages.length - 1]?.content ?? '',
+          ),
+    [bugMode, strings.topicSuggestions, strings.suggestions, topicSeed, messages],
+  );
 
   const slashQuery = useMemo(() => {
     if (!input.startsWith('/')) return null;
@@ -116,6 +140,10 @@ export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelPr
   }, [slashQuery, slashCatalog]);
 
   useEffect(() => {
+    installSupportConsoleBuffer();
+  }, []);
+
+  useEffect(() => {
     setSlashHighlight(0);
   }, [slashQuery, slashSuggestions.length]);
 
@@ -139,7 +167,7 @@ export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelPr
 
   useEffect(() => {
     listRef.current?.scrollTo({ top: listRef.current.scrollHeight, behavior: 'smooth' });
-  }, [messages, loading, reconnecting]);
+  }, [messages, loading, reconnecting, bugMode]);
 
   useEffect(() => {
     inputRef.current?.focus();
@@ -156,14 +184,86 @@ export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelPr
       '\n',
     );
 
-  const sendMessage = async (text: string, options?: { retry?: boolean }) => {
+  const startBugMode = (seedText?: string) => {
+    setBugMode(true);
+    setBugSteps(seedText?.trim() || '');
+    setBugScreenshot(null);
+    setDynamicTopicFromText(seedText || BUG_REPORT_COMMAND);
+    setInput('');
+  };
+
+  const setDynamicTopicFromText = (text: string) => {
+    setTopicSeed(text);
+  };
+
+  const captureBugScreenshot = async () => {
+    setCapturing(true);
+    setError(null);
+    try {
+      const dataUrl = await captureElementScreenshot(document.documentElement, {
+        maxWidth: 1280,
+        quality: 0.8,
+      });
+      setBugScreenshot(dataUrl);
+    } catch {
+      setError(strings.bugReportScreenshotFailed);
+    } finally {
+      setCapturing(false);
+    }
+  };
+
+  const submitBugReport = async () => {
+    const steps = bugSteps.trim();
+    if (steps.length < MIN_BUG_STEPS) {
+      setError(strings.bugReportStepsRequired);
+      return;
+    }
+    if (!bugScreenshot) {
+      setError(strings.bugReportScreenshotRequired);
+      return;
+    }
+
+    const browserErrors = getRecentBrowserErrors();
+    const apiContent = formatBugReportPayload(steps, browserErrors);
+    const displayText = `${BUG_REPORT_COMMAND} ${steps}`;
+
+    setBugMode(false);
+    setBugSteps('');
+    pendingScreenshotRef.current = bugScreenshot;
+    pendingBrowserErrorsRef.current = browserErrors;
+    setBugScreenshot(null);
+
+    await sendMessage(displayText, {
+      apiContent,
+      screenshot: pendingScreenshotRef.current,
+      browserErrors,
+    });
+  };
+
+  const sendMessage = async (
+    text: string,
+    options?: {
+      retry?: boolean;
+      apiContent?: string;
+      screenshot?: string | null;
+      browserErrors?: string[];
+    },
+  ) => {
     const trimmed = text.trim();
     if (!trimmed || loadingRef.current) return;
 
     setError(null);
 
-    let apiContent = options?.retry ? pendingApiContentRef.current || trimmed : trimmed;
+    let apiContent = options?.retry
+      ? pendingApiContentRef.current || trimmed
+      : options?.apiContent || trimmed;
     let nextMessages = messagesRef.current;
+    let screenshot = options?.retry
+      ? pendingScreenshotRef.current
+      : options?.screenshot ?? null;
+    let browserErrors = options?.retry
+      ? pendingBrowserErrorsRef.current
+      : options?.browserErrors ?? [];
 
     if (!options?.retry) {
       if (HELP_RE.test(trimmed)) {
@@ -177,17 +277,21 @@ export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelPr
         nextMessages = [...messagesRef.current, userMessage, helpMessage];
         setMessages(nextMessages);
         messagesRef.current = nextMessages;
-        awaitingBugReportRef.current = false;
-        setDynamicSuggestions(null);
+        setBugMode(false);
+        setDynamicTopicFromText(HELP_COMMAND);
         return;
       }
 
       const bugMatch = trimmed.match(BUG_REPORT_RE);
-      const awaitingBug = awaitingBugReportRef.current;
-
-      if (bugMatch && !bugMatch[1]?.trim()) {
+      if (bugMatch && !options?.apiContent) {
         setInput('');
-        const userMessage: ChatMessage = { id: createId(), role: 'user', content: BUG_REPORT_COMMAND };
+        const userMessage: ChatMessage = {
+          id: createId(),
+          role: 'user',
+          content: bugMatch[1]?.trim()
+            ? `${BUG_REPORT_COMMAND} ${bugMatch[1].trim()}`
+            : BUG_REPORT_COMMAND,
+        };
         const promptMessage: ChatMessage = {
           id: createId(),
           role: 'assistant',
@@ -196,17 +300,8 @@ export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelPr
         nextMessages = [...messagesRef.current, userMessage, promptMessage];
         setMessages(nextMessages);
         messagesRef.current = nextMessages;
-        awaitingBugReportRef.current = true;
-        setDynamicSuggestions(strings.bugReportSuggestions);
+        startBugMode(bugMatch[1]?.trim());
         return;
-      }
-
-      if (bugMatch?.[1]?.trim()) {
-        apiContent = formatBugReportPayload(bugMatch[1].trim());
-        awaitingBugReportRef.current = false;
-      } else if (awaitingBug) {
-        apiContent = formatBugReportPayload(trimmed);
-        awaitingBugReportRef.current = false;
       }
 
       setInput('');
@@ -215,6 +310,9 @@ export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelPr
       setMessages(nextMessages);
       messagesRef.current = nextMessages;
       pendingApiContentRef.current = apiContent;
+      pendingScreenshotRef.current = screenshot;
+      pendingBrowserErrorsRef.current = browserErrors;
+      setDynamicTopicFromText(trimmed);
     }
 
     if (typeof navigator !== 'undefined' && !navigator.onLine) {
@@ -241,12 +339,16 @@ export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelPr
       const res = await fetch('/api/public/support-chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: history, locale }),
+        body: JSON.stringify({
+          messages: history,
+          locale,
+          screenshot: screenshot || undefined,
+          browserErrors,
+        }),
       });
 
       let data: {
         reply?: string;
-        suggestedFollowUps?: string[];
         error?: string;
         code?: string;
       } = {};
@@ -281,19 +383,13 @@ export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelPr
 
       pendingRetryRef.current = null;
       pendingApiContentRef.current = null;
+      pendingScreenshotRef.current = null;
+      pendingBrowserErrorsRef.current = [];
       retryCountRef.current = 0;
       clearRetryTimer();
       setReconnecting(false);
       setMessages((current) => [...current, { id: createId(), role: 'assistant', content: data.reply! }]);
-
-      const followUps = Array.isArray(data.suggestedFollowUps)
-        ? data.suggestedFollowUps
-            .filter((item): item is string => typeof item === 'string')
-            .map((item) => item.trim())
-            .filter(Boolean)
-            .slice(0, 4)
-        : [];
-      setDynamicSuggestions(followUps);
+      setDynamicTopicFromText(`${trimmed}\n${data.reply}`);
     } catch (err) {
       if (isNetworkFailure(err)) {
         pendingRetryRef.current = trimmed;
@@ -353,6 +449,10 @@ export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelPr
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+    if (bugMode) {
+      void submitBugReport();
+      return;
+    }
     if (slashSuggestions.length > 0) {
       const selected = slashSuggestions[slashHighlight] ?? slashSuggestions[0];
       if (selected) {
@@ -365,7 +465,7 @@ export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelPr
 
   return (
     <div
-      className={`flex h-dvh max-h-dvh w-full flex-col overflow-hidden rounded-none border-0 bg-white shadow-none sm:h-[min(72dvh,520px)] sm:max-h-none sm:rounded-2xl sm:border sm:border-slate-200/90 sm:shadow-[0_20px_60px_-20px_rgba(14,21,72,0.35)] ${className}`}
+      className={`screen-report-ignore flex h-dvh max-h-dvh w-full flex-col overflow-hidden rounded-none border-0 bg-white shadow-none sm:h-[min(72dvh,560px)] sm:max-h-none sm:rounded-2xl sm:border sm:border-slate-200/90 sm:shadow-[0_20px_60px_-20px_rgba(14,21,72,0.35)] ${className}`}
     >
       <div className="flex items-center gap-3 border-b border-slate-100 bg-[#0E1548] px-4 py-3.5 pt-[max(0.875rem,env(safe-area-inset-top))] text-white">
         <span className="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full">
@@ -394,7 +494,7 @@ export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelPr
             className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
           >
             <div
-              className={`max-w-[88%] rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed ${
+              className={`max-w-[88%] whitespace-pre-wrap rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed ${
                 message.role === 'user'
                   ? 'bg-[#0E1548] text-white'
                   : 'border border-slate-200/80 bg-white text-slate-800 shadow-sm'
@@ -429,7 +529,67 @@ export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelPr
       ) : null}
 
       <div className="relative border-t border-slate-100 bg-white px-3.5 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
-        {suggestionChips.length > 0 ? (
+        {bugMode ? (
+          <div className="mb-3 space-y-2.5 rounded-xl border border-slate-200 bg-slate-50/80 p-3">
+            <p className="text-[11px] font-medium text-slate-600">{strings.bugReportFormTitle}</p>
+            <textarea
+              value={bugSteps}
+              onChange={(event) => setBugSteps(event.target.value)}
+              rows={3}
+              placeholder={strings.bugReportStepsPlaceholder}
+              className="w-full resize-none rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800 outline-none focus:border-[#0E1548]/30 focus:ring-2 focus:ring-[#0E1548]/10"
+            />
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => void captureBugScreenshot()}
+                disabled={capturing || loading}
+                className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-[11px] font-medium text-slate-700 transition hover:bg-slate-50 disabled:opacity-50"
+              >
+                <FiCamera className="h-3.5 w-3.5" aria-hidden />
+                {capturing ? strings.bugReportCapturing : strings.bugReportCapture}
+              </button>
+              {bugScreenshot ? (
+                <span className="text-[11px] font-medium text-emerald-700">
+                  {strings.bugReportScreenshotReady}
+                </span>
+              ) : (
+                <span className="text-[11px] text-slate-400">{strings.bugReportScreenshotRequired}</span>
+              )}
+            </div>
+            {bugScreenshot ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={bugScreenshot}
+                alt=""
+                className="max-h-28 w-full rounded-lg border border-slate-200 object-cover object-top"
+              />
+            ) : null}
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  setBugMode(false);
+                  setBugSteps('');
+                  setBugScreenshot(null);
+                }}
+                className="rounded-lg px-3 py-2 text-[11px] font-medium text-slate-500 hover:bg-slate-100"
+              >
+                {strings.bugReportCancel}
+              </button>
+              <button
+                type="button"
+                onClick={() => void submitBugReport()}
+                disabled={loading || capturing}
+                className="ml-auto rounded-lg bg-[#0E1548] px-3 py-2 text-[11px] font-semibold text-white disabled:opacity-50"
+              >
+                {strings.bugReportSubmit}
+              </button>
+            </div>
+          </div>
+        ) : null}
+
+        {!bugMode && suggestionChips.length > 0 ? (
           <div className="mb-2.5 flex flex-wrap gap-1.5">
             {suggestionChips.map((suggestion) => (
               <button
@@ -445,7 +605,7 @@ export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelPr
           </div>
         ) : null}
 
-        {slashSuggestions.length > 0 ? (
+        {!bugMode && slashSuggestions.length > 0 ? (
           <div
             className="absolute bottom-[calc(100%-0.25rem)] left-3.5 right-3.5 z-10 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-[0_12px_32px_-16px_rgba(14,21,72,0.35)]"
             role="listbox"
@@ -475,65 +635,69 @@ export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelPr
           </div>
         ) : null}
 
-        <p className="mb-2 text-[10px] leading-snug text-slate-400">{strings.inputHint}</p>
+        {!bugMode ? (
+          <>
+            <p className="mb-2 text-[10px] leading-snug text-slate-400">{strings.inputHint}</p>
+            <form onSubmit={handleSubmit} className="flex items-end gap-2">
+              <textarea
+                ref={inputRef}
+                value={input}
+                onChange={(event) => setInput(event.target.value)}
+                onKeyDown={(event) => {
+                  if (slashSuggestions.length > 0) {
+                    if (event.key === 'ArrowDown') {
+                      event.preventDefault();
+                      setSlashHighlight((current) => (current + 1) % slashSuggestions.length);
+                      return;
+                    }
+                    if (event.key === 'ArrowUp') {
+                      event.preventDefault();
+                      setSlashHighlight(
+                        (current) =>
+                          (current - 1 + slashSuggestions.length) % slashSuggestions.length,
+                      );
+                      return;
+                    }
+                    if (event.key === 'Tab') {
+                      event.preventDefault();
+                      const selected = slashSuggestions[slashHighlight] ?? slashSuggestions[0];
+                      if (selected) applySlashCommand(selected.command);
+                      return;
+                    }
+                    if (event.key === 'Escape') {
+                      event.preventDefault();
+                      setInput('');
+                      return;
+                    }
+                    if (event.key === 'Enter' && !event.shiftKey) {
+                      event.preventDefault();
+                      const selected = slashSuggestions[slashHighlight] ?? slashSuggestions[0];
+                      if (selected) applySlashCommand(selected.command);
+                      return;
+                    }
+                  }
 
-        <form onSubmit={handleSubmit} className="flex items-end gap-2">
-          <textarea
-            ref={inputRef}
-            value={input}
-            onChange={(event) => setInput(event.target.value)}
-            onKeyDown={(event) => {
-              if (slashSuggestions.length > 0) {
-                if (event.key === 'ArrowDown') {
-                  event.preventDefault();
-                  setSlashHighlight((current) => (current + 1) % slashSuggestions.length);
-                  return;
-                }
-                if (event.key === 'ArrowUp') {
-                  event.preventDefault();
-                  setSlashHighlight(
-                    (current) => (current - 1 + slashSuggestions.length) % slashSuggestions.length,
-                  );
-                  return;
-                }
-                if (event.key === 'Tab') {
-                  event.preventDefault();
-                  const selected = slashSuggestions[slashHighlight] ?? slashSuggestions[0];
-                  if (selected) applySlashCommand(selected.command);
-                  return;
-                }
-                if (event.key === 'Escape') {
-                  event.preventDefault();
-                  setInput('');
-                  return;
-                }
-                if (event.key === 'Enter' && !event.shiftKey) {
-                  event.preventDefault();
-                  const selected = slashSuggestions[slashHighlight] ?? slashSuggestions[0];
-                  if (selected) applySlashCommand(selected.command);
-                  return;
-                }
-              }
-
-              if (event.key === 'Enter' && !event.shiftKey) {
-                event.preventDefault();
-                void sendMessage(input);
-              }
-            }}
-            rows={2}
-            placeholder={strings.placeholder}
-            disabled={loading}
-            className="min-h-[42px] flex-1 resize-none rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800 outline-none transition focus:border-[#0E1548]/30 focus:ring-2 focus:ring-[#0E1548]/10 disabled:opacity-60"
-          />
-          <button
-            type="submit"
-            disabled={loading || (!input.trim() && slashSuggestions.length === 0)}
-            className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#0E1548] text-white transition hover:bg-[#141d5c] disabled:cursor-not-allowed disabled:opacity-50"
-            aria-label={strings.send}
-          >
-            <FiSend className="h-4 w-4" aria-hidden />
-          </button>
-        </form>
+                  if (event.key === 'Enter' && !event.shiftKey) {
+                    event.preventDefault();
+                    void sendMessage(input);
+                  }
+                }}
+                rows={2}
+                placeholder={strings.placeholder}
+                disabled={loading}
+                className="min-h-[42px] flex-1 resize-none rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800 outline-none transition focus:border-[#0E1548]/30 focus:ring-2 focus:ring-[#0E1548]/10 disabled:opacity-60"
+              />
+              <button
+                type="submit"
+                disabled={loading || (!input.trim() && slashSuggestions.length === 0)}
+                className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#0E1548] text-white transition hover:bg-[#141d5c] disabled:cursor-not-allowed disabled:opacity-50"
+                aria-label={strings.send}
+              >
+                <FiSend className="h-4 w-4" aria-hidden />
+              </button>
+            </form>
+          </>
+        ) : null}
       </div>
     </div>
   );

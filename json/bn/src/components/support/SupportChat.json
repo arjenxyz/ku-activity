@@ -11,21 +11,21 @@
   "errorNotConfigured": "AI সহায়তা এখনও কনফিগার করা হয়নি। পরে চেষ্টা করুন।",
   "welcomeMessage": "হ্যালো! আমি CrewLedger কর্মী ব্যবস্থাপনা, QR উপস্থিতি, বেতন ও অগ্রিমে সাহায্য করতে পারি। আপনি কী জানতে চান?",
   "suggestions": [
-    "QR উপস্থিতি কীভাবে কাজ করে?",
-    "কর্মচারী প্যানেল কীভাবে খুলব?",
-    "অগ্রিম কীভাবে চাইব?",
-    "বিনামূল্যে ডেমো কীভাবে চেষ্টা করব?"
+    "How does QR attendance work?",
+    "How do I access the personnel panel?",
+    "How do I request an advance?",
+    "How can I try the free demo?"
   ],
   "errorQuota": "AI কোটা শেষ। পরে আবার চেষ্টা করুন।",
   "errorUnavailable": "AI সহায়তা সাময়িকভাবে অনুপলব্ধ। পরে চেষ্টা করুন।",
   "inputHint": "কমান্ডের জন্য / লিখুন। আরও: /help · বাগ: /bug-report",
   "slashCommandsLabel": "কমান্ড",
   "helpIntro": "উপলব্ধ কমান্ড (সবসময় ইংরেজিতে):",
-  "bugReportPrompt": "অনুগ্রহ করে বাগ সংক্ষেপে বর্ণনা করুন (কী হয়েছে, কোন স্ক্রিন, সম্ভব হলে ধাপ)।",
+  "bugReportPrompt": "Write the steps and capture a screenshot. Both are required.",
   "bugReportSuggestions": [
-    "QR স্ক্যান হয় না",
-    "অগ্রিম পাঠানো যাচ্ছে না",
-    "বেতন ভুল দেখাচ্ছে"
+    "QR won't scan",
+    "Can't submit advance",
+    "Payroll looks wrong"
   ],
   "slashCommands": [
     {
@@ -36,5 +36,58 @@
       "command": "/bug-report",
       "description": "বাগ বা সমস্যা রিপোর্ট করুন"
     }
-  ]
+  ],
+  "bugReportFormTitle": "Bug report",
+  "bugReportStepsPlaceholder": "1) What did you do?\n2) What did you expect?\n3) What happened?",
+  "bugReportCapture": "Capture screenshot",
+  "bugReportCapturing": "Capturing…",
+  "bugReportScreenshotReady": "Screenshot attached",
+  "bugReportScreenshotRequired": "Screenshot is required",
+  "bugReportScreenshotFailed": "Could not capture screenshot. Try again.",
+  "bugReportStepsRequired": "Please describe the steps in more detail.",
+  "bugReportSubmit": "Submit report",
+  "bugReportCancel": "Cancel",
+  "topicSuggestions": {
+    "attendance": [
+      "How do I scan the QR?",
+      "Attendance not approved — what next?",
+      "Where is the site QR code?"
+    ],
+    "advance": [
+      "How do I request an advance?",
+      "How does advance approval work?",
+      "How do I upload a receipt?"
+    ],
+    "payroll": [
+      "How is net pay calculated?",
+      "Where do I see daily wages?",
+      "How is overtime added?"
+    ],
+    "login": [
+      "How do I open the personnel panel?",
+      "I forgot my password",
+      "Where is admin login?"
+    ],
+    "demo": [
+      "How do I open the free demo?",
+      "Is demo data real?",
+      "How long does the demo last?"
+    ],
+    "download": [
+      "Where do I download the APK?",
+      "Is Play Store coming soon?",
+      "Is the app for Android?"
+    ],
+    "bug": [
+      "QR won't scan",
+      "Can't submit advance",
+      "Payroll looks wrong"
+    ],
+    "default": [
+      "How does QR attendance work?",
+      "How do I access the personnel panel?",
+      "How do I request an advance?",
+      "How can I try the free demo?"
+    ]
+  }
 }
