@@ -1,18 +1,18 @@
 {
-  "title": "CrewLedger AI Support",
-  "subtitle": "Attendance, payroll, advances and app usage",
-  "placeholder": "Type your question…",
-  "send": "Send",
-  "close": "Close chat",
-  "thinking": "Preparing answer…",
-  "errorGeneric": "I can't respond right now. Please try again.",
-  "errorRateLimit": "Too many requests. Please wait a moment and try again.",
-  "errorNotConfigured": "AI support is not configured yet. Please try again later.",
-  "welcomeMessage": "Hello! I can help with CrewLedger personnel management, QR attendance, payroll and advances. What would you like to know?",
+  "title": "CrewLedger AI সহায়তা",
+  "subtitle": "উপস্থিতি, বেতন, অগ্রিম ও অ্যাপ ব্যবহার",
+  "placeholder": "আপনার প্রশ্ন লিখুন…",
+  "send": "পাঠান",
+  "close": "চ্যাট বন্ধ করুন",
+  "thinking": "উত্তর প্রস্তুত হচ্ছে…",
+  "errorGeneric": "এখন উত্তর দিতে পারছি না। আবার চেষ্টা করুন।",
+  "errorRateLimit": "অতিরিক্ত অনুরোধ। একটু অপেক্ষা করে আবার চেষ্টা করুন।",
+  "errorNotConfigured": "AI সহায়তা এখনও কনফিগার করা হয়নি। পরে চেষ্টা করুন।",
+  "welcomeMessage": "হ্যালো! আমি CrewLedger কর্মী ব্যবস্থাপনা, QR উপস্থিতি, বেতন ও অগ্রিমে সাহায্য করতে পারি। আপনি কী জানতে চান?",
   "suggestions": [
-    "How does QR attendance work?",
-    "How do I access the personnel panel?",
-    "How do I request an advance?",
-    "How can I try the free demo?"
+    "QR উপস্থিতি কীভাবে কাজ করে?",
+    "কর্মচারী প্যানেল কীভাবে খুলব?",
+    "অগ্রিম কীভাবে চাইব?",
+    "বিনামূল্যে ডেমো কীভাবে চেষ্টা করব?"
   ]
 }

@@ -1,18 +1,18 @@
 {
-  "title": "CrewLedger AI Support",
-  "subtitle": "Attendance, payroll, advances and app usage",
-  "placeholder": "Type your question…",
-  "send": "Send",
-  "close": "Close chat",
-  "thinking": "Preparing answer…",
-  "errorGeneric": "I can't respond right now. Please try again.",
-  "errorRateLimit": "Too many requests. Please wait a moment and try again.",
-  "errorNotConfigured": "AI support is not configured yet. Please try again later.",
-  "welcomeMessage": "Hello! I can help with CrewLedger personnel management, QR attendance, payroll and advances. What would you like to know?",
+  "title": "CrewLedger AI سپورٹ",
+  "subtitle": "حاضری، پے رول، ایڈوانس اور ایپ کا استعمال",
+  "placeholder": "اپنا سوال لکھیں…",
+  "send": "بھیجیں",
+  "close": "چیٹ بند کریں",
+  "thinking": "جواب تیار ہو رہا ہے…",
+  "errorGeneric": "ابھی جواب نہیں دے سکتا۔ دوبارہ کوشش کریں۔",
+  "errorRateLimit": "بہت زیادہ درخواستیں۔ تھوڑی دیر بعد کوشش کریں۔",
+  "errorNotConfigured": "AI سپورٹ ابھی کنفیگر نہیں ہے۔ بعد میں کوشش کریں۔",
+  "welcomeMessage": "ہیلو! میں CrewLedger پرسنل مینجمنٹ، QR حاضری، پے رول اور ایڈوانس میں مدد کر سکتا ہوں۔ آپ کیا جاننا چاہیں گے؟",
   "suggestions": [
-    "How does QR attendance work?",
-    "How do I access the personnel panel?",
-    "How do I request an advance?",
-    "How can I try the free demo?"
+    "QR حاضری کیسے کام کرتی ہے؟",
+    "پرسنل پینل کیسے کھولیں؟",
+    "ایڈوانس کیسے مانگیں؟",
+    "مفت ڈیمو کیسے آزمائیں؟"
   ]
 }

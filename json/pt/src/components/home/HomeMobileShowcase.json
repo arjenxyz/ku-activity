@@ -1,23 +1,23 @@
 {
-  "title": "Tüm şantiye İK süreçleri cebinizde!",
-  "description": "Ofiste olmasanız da işler aksamaz. Yoklama, yevmiye, avans, bordro… Hepsi cebinizde. CrewLedger mobil uygulamasıyla tüm süreçlere istediğiniz yerden ulaşın.",
-  "phonePreviewAlt": "CrewLedger personel mobil uygulaması ekran görüntüsü",
+  "title": "Todos os processos de RH de obra no bolso!",
+  "description": "O trabalho não para longe do escritório. Assiduidade, diárias, adiantamentos, folha… tudo no bolso. Aceda a cada fluxo de qualquer lugar com a app móvel CrewLedger.",
+  "phonePreviewAlt": "Captura da app móvel de pessoal CrewLedger",
   "features": [
     {
-      "title": "Haberdar olun",
-      "description": "Puantaj onayı, bordro ve avans hareketleri için anlık bildirim alın."
+      "title": "Fique informado",
+      "description": "Receba notificações instantâneas de aprovações, folha e adiantamentos."
     },
     {
-      "title": "Talebi yönetin",
-      "description": "İzin, avans ve mesai taleplerini tek ekrandan takip edin."
+      "title": "Gerir pedidos",
+      "description": "Acompanhe férias, adiantamentos e horas extra num só ecrã."
     },
     {
-      "title": "İletişimde kalın",
-      "description": "Şantiye ve İK ekibiyle kayıt üzerinden şeffaf iletişim kurun."
+      "title": "Mantenha-se ligado",
+      "description": "Comunique com transparência com obra e RH em registos partilhados."
     },
     {
-      "title": "Kolay kullanın",
-      "description": "Sade arayüz; aradığınız modüle birkaç dokunuşla ulaşın."
+      "title": "Use com facilidade",
+      "description": "Interface simples — chegue ao módulo certo em poucos toques."
     }
   ]
 }

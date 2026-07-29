@@ -1,30 +1,30 @@
 {
-  "title": "Sıkça Sorulan Sorular",
-  "description": "CrewLedger deneyiminize başlamadan önce aklınızdaki soruları cevapladık, ihtiyaç duyduğunuz temel bilgileri bir araya getirdik. Hemen inceleyin!",
+  "title": "よくある質問",
+  "description": "CrewLedger を始める前によくある質問にお答えし、必要な情報をまとめました。ぜひご覧ください。",
   "items": [
     {
-      "question": "CrewLedger'da hangi uygulamalar var?",
-      "answer": "Personel uygulaması sahadaki çalışanlar için; yönetici uygulaması şantiye ve İK ekipleri için tasarlandı. Her ikisi de web ve mobilde çalışır, aynı kayıtları kullanır."
+      "question": "CrewLedger にはどのアプリがありますか？",
+      "answer": "従業員アプリは現場作業者向け、管理者アプリは現場・人事チーム向けです。どちらも Web とモバイルで動作し、同じ記録を使います。"
     },
     {
-      "question": "CrewLedger'ı kullanmak için teknik bilgiye ihtiyacım var mı?",
-      "answer": "Hayır. Günlük işlemler sade arayüzlerle yürütülür. Puantaj, avans ve bordro adımları ekranda yönlendirilir; ekstra kurulum veya IT desteği gerekmez."
+      "question": "CrewLedger の利用に技術知識は必要ですか？",
+      "answer": "いいえ。日常業務はシンプルな画面で進めます。出勤、前払い、給与の手順は画面上で案内され、追加セットアップや IT サポートは不要です。"
     },
     {
-      "question": "Çalışanlar da sisteme giriş yapabiliyor mu?",
-      "answer": "Evet. Personel panelinden yoklama, yevmiye onayı, avans talebi ve bordro görüntüleme işlemlerini kendi hesaplarıyla yapabilirler."
+      "question": "従業員もシステムにログインできますか？",
+      "answer": "はい。従業員パネルから出勤、日当承認、前払い申請、給与明細の確認を自分のアカウントで行えます。"
     },
     {
-      "question": "Verilerim güvende mi?",
-      "answer": "Kullanıcı verileri SSL ile şifrelenir ve güvenli sunucularda saklanır. KVKK kapsamındaki veri işleme yükümlülüklerimizi eksiksiz yerine getiririz."
+      "question": "データは安全ですか？",
+      "answer": "ユーザーデータは SSL で暗号化され、安全なサーバーに保存されます。KVKK に基づくデータ処理義務を果たします。"
     },
     {
-      "question": "Birden fazla şantiye veya projeyi yönetebilir miyim?",
-      "answer": "Evet. Her proje ayrı şantiye olarak tanımlanır; personel, puantaj, avans ve bordro kayıtları proje bazında tutulur."
+      "question": "複数の現場やプロジェクトを管理できますか？",
+      "answer": "はい。各プロジェクトは別の現場として設定され、人員・出勤・前払い・給与はプロジェクト単位で管理されます。"
     },
     {
-      "question": "Uygulamayı nasıl indirebilirim?",
-      "answer": "Android için Google Play'den personel veya yönetici uygulamasını seçebilirsiniz. Play Store kullanamıyorsanız sitedeki APK sayfasından da kurulum yapılabilir."
+      "question": "アプリはどのようにダウンロードしますか？",
+      "answer": "Android では Google Play から従業員または管理者アプリを選べます。Play ストアが使えない場合は、本サイトの APK ページからインストールできます。"
     }
   ]
 }

@@ -1,23 +1,23 @@
 {
-  "title": "Tüm şantiye İK süreçleri cebinizde!",
-  "description": "Ofiste olmasanız da işler aksamaz. Yoklama, yevmiye, avans, bordro… Hepsi cebinizde. CrewLedger mobil uygulamasıyla tüm süreçlere istediğiniz yerden ulaşın.",
-  "phonePreviewAlt": "CrewLedger personel mobil uygulaması ekran görüntüsü",
+  "title": "Все HR-процессы объекта в кармане!",
+  "description": "Работа не останавливается вне офиса. Явка, дневная оплата, авансы, зарплата… всё в кармане. Доступ к каждому процессу отовсюду с мобильным приложением CrewLedger.",
+  "phonePreviewAlt": "Снимок экрана мобильного приложения для сотрудников CrewLedger",
   "features": [
     {
-      "title": "Haberdar olun",
-      "description": "Puantaj onayı, bordro ve avans hareketleri için anlık bildirim alın."
+      "title": "Будьте в курсе",
+      "description": "Мгновенные уведомления о подтверждениях явки, зарплате и авансах."
     },
     {
-      "title": "Talebi yönetin",
-      "description": "İzin, avans ve mesai taleplerini tek ekrandan takip edin."
+      "title": "Управляйте заявками",
+      "description": "Отслеживайте отпуска, авансы и сверхурочные на одном экране."
     },
     {
-      "title": "İletişimde kalın",
-      "description": "Şantiye ve İK ekibiyle kayıt üzerinden şeffaf iletişim kurun."
+      "title": "Оставайтесь на связи",
+      "description": "Прозрачно общайтесь с объектом и HR по общим записям."
     },
     {
-      "title": "Kolay kullanın",
-      "description": "Sade arayüz; aradığınız modüle birkaç dokunuşla ulaşın."
+      "title": "Используйте легко",
+      "description": "Простой интерфейс — нужный модуль за несколько касаний."
     }
   ]
 }

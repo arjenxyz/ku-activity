@@ -1,8 +1,9 @@
 {
-  "badge": "Pelacakan tenaga kerja dibangun untuk konstruksi",
-  "titlePrefix": "Menyederhanakan",
+  "badge": "Pelacakan tenaga kerja untuk konstruksi",
+  "titlePrefix": "Sederhanakan",
   "titleHighlight": "manajemen kru",
-  "subtitle": "Gaji harian, uang muka, pemotongan, kehadiran, dan lembar waktu — terlihat di panel admin dan personalia. Antarmuka yang aman, cepat, dan ramah pengguna untuk mendigitalkan operasi situs Anda.",
-  "ctaExplore": "Jelajahi Fitur",
-  "ctaDemo": "Coba demo"
+  "subtitle": "Upah harian, uang muka, potongan, absensi, dan lembar waktu — terlihat di panel admin dan personel. Antarmuka aman, cepat, dan mudah dipakai untuk mendigitalkan operasi lokasi.",
+  "ctaExplore": "Jelajahi fitur",
+  "ctaDemo": "Coba demo gratis",
+  "ctaDemoHover": "Mulai demo sekarang"
 }

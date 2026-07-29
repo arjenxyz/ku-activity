@@ -1,18 +1,18 @@
 {
-  "title": "CrewLedger AI Support",
-  "subtitle": "Attendance, payroll, advances and app usage",
-  "placeholder": "Type your question…",
-  "send": "Send",
-  "close": "Close chat",
-  "thinking": "Preparing answer…",
-  "errorGeneric": "I can't respond right now. Please try again.",
-  "errorRateLimit": "Too many requests. Please wait a moment and try again.",
-  "errorNotConfigured": "AI support is not configured yet. Please try again later.",
-  "welcomeMessage": "Hello! I can help with CrewLedger personnel management, QR attendance, payroll and advances. What would you like to know?",
+  "title": "ИИ-поддержка CrewLedger",
+  "subtitle": "Явка, зарплата, авансы и работа с приложением",
+  "placeholder": "Введите вопрос…",
+  "send": "Отправить",
+  "close": "Закрыть чат",
+  "thinking": "Готовим ответ…",
+  "errorGeneric": "Сейчас не могу ответить. Попробуйте ещё раз.",
+  "errorRateLimit": "Слишком много запросов. Подождите немного и повторите.",
+  "errorNotConfigured": "ИИ-поддержка ещё не настроена. Попробуйте позже.",
+  "welcomeMessage": "Здравствуйте! Я помогу с управлением персоналом CrewLedger, QR-явкой, зарплатой и авансами. Что хотите узнать?",
   "suggestions": [
-    "How does QR attendance work?",
-    "How do I access the personnel panel?",
-    "How do I request an advance?",
-    "How can I try the free demo?"
+    "Как работает QR-явка?",
+    "Как открыть панель сотрудника?",
+    "Как запросить аванс?",
+    "Как попробовать бесплатное демо?"
   ]
 }

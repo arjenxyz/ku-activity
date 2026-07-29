@@ -1,8 +1,9 @@
 {
-  "badge": "Suivi des effectifs conçu pour la construction",
-  "titlePrefix": "Simplifier",
-  "titleHighlight": "gestion de l'équipage",
-  "subtitle": "Salaires quotidiens, avances, retenues, présences et feuilles de temps – visibles dans les panneaux d'administration et du personnel. Interface sécurisée, rapide et conviviale pour numériser les opérations de votre site.",
-  "ctaExplore": "Explorer les fonctionnalités",
-  "ctaDemo": "Essayer la démo"
+  "badge": "Suivi du personnel conçu pour le BTP",
+  "titlePrefix": "Simplifiez",
+  "titleHighlight": "la gestion d’équipe",
+  "subtitle": "Journées, acomptes, retenues, pointage et feuilles de temps — visibles dans les panneaux admin et personnel. Interface sécurisée, rapide et conviviale pour digitaliser vos opérations de chantier.",
+  "ctaExplore": "Découvrir les fonctionnalités",
+  "ctaDemo": "Essayer la démo gratuitement",
+  "ctaDemoHover": "Lancer la démo maintenant"
 }

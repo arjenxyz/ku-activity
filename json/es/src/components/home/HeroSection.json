@@ -1,8 +1,9 @@
 {
-  "badge": "Seguimiento de la fuerza laboral diseñado para la construcción",
-  "titlePrefix": "Simplificar",
-  "titleHighlight": "gestión de tripulación",
-  "subtitle": "Salarios diarios, anticipos, deducciones, asistencia y hojas de horas, visibles tanto en los paneles de administración como de personal. Interfaz segura, rápida y fácil de usar para digitalizar las operaciones de su sitio.",
+  "badge": "Seguimiento de personal pensado para la construcción",
+  "titlePrefix": "Simplifica",
+  "titleHighlight": "la gestión de equipos",
+  "subtitle": "Jornales, anticipos, descuentos, asistencia y partes — visibles en los paneles de administración y de personal. Interfaz segura, rápida y fácil de usar para digitalizar la obra.",
   "ctaExplore": "Explorar funciones",
-  "ctaDemo": "Probar la demo"
+  "ctaDemo": "Probar demo gratis",
+  "ctaDemoHover": "Inicia la demo ahora"
 }

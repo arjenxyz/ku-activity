@@ -1,18 +1,18 @@
 {
-  "title": "CrewLedger AI Support",
-  "subtitle": "Attendance, payroll, advances and app usage",
-  "placeholder": "Type your question…",
-  "send": "Send",
-  "close": "Close chat",
-  "thinking": "Preparing answer…",
-  "errorGeneric": "I can't respond right now. Please try again.",
-  "errorRateLimit": "Too many requests. Please wait a moment and try again.",
-  "errorNotConfigured": "AI support is not configured yet. Please try again later.",
-  "welcomeMessage": "Hello! I can help with CrewLedger personnel management, QR attendance, payroll and advances. What would you like to know?",
+  "title": "Assistance IA CrewLedger",
+  "subtitle": "Pointage, paie, acomptes et utilisation de l’appli",
+  "placeholder": "Tapez votre question…",
+  "send": "Envoyer",
+  "close": "Fermer le chat",
+  "thinking": "Préparation de la réponse…",
+  "errorGeneric": "Je ne peux pas répondre pour le moment. Réessayez.",
+  "errorRateLimit": "Trop de demandes. Attendez un instant et réessayez.",
+  "errorNotConfigured": "L’assistance IA n’est pas encore configurée. Réessayez plus tard.",
+  "welcomeMessage": "Bonjour ! Je peux vous aider sur la gestion du personnel CrewLedger, le pointage QR, la paie et les acomptes. Que souhaitez-vous savoir ?",
   "suggestions": [
-    "How does QR attendance work?",
-    "How do I access the personnel panel?",
-    "How do I request an advance?",
-    "How can I try the free demo?"
+    "Comment fonctionne le pointage QR ?",
+    "Comment accéder au panneau personnel ?",
+    "Comment demander un acompte ?",
+    "Comment essayer la démo gratuite ?"
   ]
 }

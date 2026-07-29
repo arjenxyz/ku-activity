@@ -1,5 +1,5 @@
 {
-  "ariaLabelOpen": "Open AI support chat",
-  "ariaLabelClose": "Close AI support chat",
-  "tooltip": "AI Support"
+  "ariaLabelOpen": "Открыть чат ИИ-поддержки",
+  "ariaLabelClose": "Закрыть чат ИИ-поддержки",
+  "tooltip": "ИИ-поддержка"
 }

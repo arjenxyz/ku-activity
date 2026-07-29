@@ -1,31 +1,31 @@
 {
-  "eyebrow": "Başarı hikayeleri",
-  "title": "Saha ekipleri CrewLedger ile nasıl çalışıyor?",
-  "readStory": "Hikayeyi oku",
+  "eyebrow": "Historias de éxito",
+  "title": "¿Cómo trabajan los equipos de campo con CrewLedger?",
+  "readStory": "Leer la historia",
   "stories": [
     {
       "name": "Gökçe Gökkurt",
-      "role": "İnsan Kaynakları Yöneticisi",
+      "role": "Responsable de RR. HH.",
       "company": "YAPIKON"
     },
     {
       "name": "Mehmet Kaya",
-      "role": "Şantiye Koordinatörü",
+      "role": "Coordinador de obra",
       "company": "KENTYAPI"
     },
     {
-      "name": "Selin Arslan",
-      "role": "Bordro ve Özlük Sorumlusu",
-      "company": "VİRA İNŞAAT"
+      "name": "Yunus Emre Ölmez",
+      "role": "Especialista en RR. HH.",
+      "company": "YAPIKON"
     },
     {
       "name": "Can Öztürk",
-      "role": "Proje Müdürü",
+      "role": "Jefe de proyecto",
       "company": "ALFA GRUP"
     },
     {
       "name": "Ayşe Demir",
-      "role": "İK Müdürü",
+      "role": "Directora de RR. HH.",
       "company": "NEXUS YAPI"
     }
   ]

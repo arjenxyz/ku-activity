@@ -1,23 +1,23 @@
 {
-  "title": "Tüm şantiye İK süreçleri cebinizde!",
-  "description": "Ofiste olmasanız da işler aksamaz. Yoklama, yevmiye, avans, bordro… Hepsi cebinizde. CrewLedger mobil uygulamasıyla tüm süreçlere istediğiniz yerden ulaşın.",
-  "phonePreviewAlt": "CrewLedger personel mobil uygulaması ekran görüntüsü",
+  "title": "সব সাইট HR প্রক্রিয়া আপনার পকেটে!",
+  "description": "অফিস থেকে দূরে থাকলেও কাজ থেমে থাকে না। উপস্থিতি, দৈনিক মজুরি, অগ্রিম, বেতন — সব আপনার পকেটে। CrewLedger মোবাইল অ্যাপ দিয়ে যেকোনো জায়গা থেকে প্রতিটি ওয়ার্কফ্লোতে পৌঁছান।",
+  "phonePreviewAlt": "CrewLedger কর্মচারী মোবাইল অ্যাপের স্ক্রিনশট",
   "features": [
     {
-      "title": "Haberdar olun",
-      "description": "Puantaj onayı, bordro ve avans hareketleri için anlık bildirim alın."
+      "title": "অবগত থাকুন",
+      "description": "উপস্থিতি অনুমোদন, বেতন ও অগ্রিম আপডেটের তাৎক্ষণিক নোটিফিকেশন পান।"
     },
     {
-      "title": "Talebi yönetin",
-      "description": "İzin, avans ve mesai taleplerini tek ekrandan takip edin."
+      "title": "অনুরোধ পরিচালনা করুন",
+      "description": "ছুটি, অগ্রিম ও ওভারটাইম অনুরোধ এক স্ক্রিন থেকে ট্র্যাক করুন।"
     },
     {
-      "title": "İletişimde kalın",
-      "description": "Şantiye ve İK ekibiyle kayıt üzerinden şeffaf iletişim kurun."
+      "title": "সংযুক্ত থাকুন",
+      "description": "শেয়ার করা রেকর্ডে সাইট ও HR দলের সাথে স্বচ্ছ যোগাযোগ রাখুন।"
     },
     {
-      "title": "Kolay kullanın",
-      "description": "Sade arayüz; aradığınız modüle birkaç dokunuşla ulaşın."
+      "title": "সহজে ব্যবহার করুন",
+      "description": "সহজ ইন্টারফেস — কয়েক ট্যাপে প্রয়োজনীয় মডিউলে পৌঁছান।"
     }
   ]
 }

@@ -1,7 +1,7 @@
 {
-  "geçersizMesaj": "Invalid message.",
-  "mesajÇokUzun": "Message is too long.",
-  "rateLimit": "Too many requests. Please wait a moment.",
-  "aiYapılandırılmamış": "AI support is not configured.",
-  "yanıtAlınamadı": "Could not get a response. Please try again."
+  "geçersizMesaj": "Mensagem inválida.",
+  "mesajÇokUzun": "A mensagem é demasiado longa.",
+  "rateLimit": "Demasiados pedidos. Aguarde um momento.",
+  "aiYapılandırılmamış": "O suporte IA não está configurado.",
+  "yanıtAlınamadı": "Não foi possível obter uma resposta. Tente novamente."
 }

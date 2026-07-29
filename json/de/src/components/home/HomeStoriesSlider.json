@@ -1,31 +1,31 @@
 {
-  "eyebrow": "Başarı hikayeleri",
-  "title": "Saha ekipleri CrewLedger ile nasıl çalışıyor?",
-  "readStory": "Hikayeyi oku",
+  "eyebrow": "Erfolgsgeschichten",
+  "title": "Wie Außenteams mit CrewLedger arbeiten",
+  "readStory": "Geschichte lesen",
   "stories": [
     {
       "name": "Gökçe Gökkurt",
-      "role": "İnsan Kaynakları Yöneticisi",
+      "role": "Personalmanagerin",
       "company": "YAPIKON"
     },
     {
       "name": "Mehmet Kaya",
-      "role": "Şantiye Koordinatörü",
+      "role": "Baustellenkoordinator",
       "company": "KENTYAPI"
     },
     {
-      "name": "Selin Arslan",
-      "role": "Bordro ve Özlük Sorumlusu",
-      "company": "VİRA İNŞAAT"
+      "name": "Yunus Emre Ölmez",
+      "role": "HR-Spezialist",
+      "company": "YAPIKON"
     },
     {
       "name": "Can Öztürk",
-      "role": "Proje Müdürü",
+      "role": "Projektleiter",
       "company": "ALFA GRUP"
     },
     {
       "name": "Ayşe Demir",
-      "role": "İK Müdürü",
+      "role": "HR-Direktorin",
       "company": "NEXUS YAPI"
     }
   ]

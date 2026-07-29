@@ -1,30 +1,30 @@
 {
-  "title": "Sıkça Sorulan Sorular",
-  "description": "CrewLedger deneyiminize başlamadan önce aklınızdaki soruları cevapladık, ihtiyaç duyduğunuz temel bilgileri bir araya getirdik. Hemen inceleyin!",
+  "title": "Часто задаваемые вопросы",
+  "description": "Мы ответили на типичные вопросы перед стартом с CrewLedger и собрали важное в одном месте. Посмотрите!",
   "items": [
     {
-      "question": "CrewLedger'da hangi uygulamalar var?",
-      "answer": "Personel uygulaması sahadaki çalışanlar için; yönetici uygulaması şantiye ve İK ekipleri için tasarlandı. Her ikisi de web ve mobilde çalışır, aynı kayıtları kullanır."
+      "question": "Какие приложения есть в CrewLedger?",
+      "answer": "Приложение для сотрудников — для рабочих на объекте; приложение для руководителей — для команд объекта и HR. Оба работают в вебе и на мобильных и используют одни и те же записи."
     },
     {
-      "question": "CrewLedger'ı kullanmak için teknik bilgiye ihtiyacım var mı?",
-      "answer": "Hayır. Günlük işlemler sade arayüzlerle yürütülür. Puantaj, avans ve bordro adımları ekranda yönlendirilir; ekstra kurulum veya IT desteği gerekmez."
+      "question": "Нужны ли технические знания для работы с CrewLedger?",
+      "answer": "Нет. Ежедневные операции выполняются через простой интерфейс. Учёт явки, авансы и расчёт зарплаты подсказываются на экране — без дополнительной настройки и IT-поддержки."
     },
     {
-      "question": "Çalışanlar da sisteme giriş yapabiliyor mu?",
-      "answer": "Evet. Personel panelinden yoklama, yevmiye onayı, avans talebi ve bordro görüntüleme işlemlerini kendi hesaplarıyla yapabilirler."
+      "question": "Могут ли сотрудники тоже входить в систему?",
+      "answer": "Да. В панели сотрудника они могут отмечать явку, подтверждать дневную оплату, запрашивать авансы и просматривать расчётные листы."
     },
     {
-      "question": "Verilerim güvende mi?",
-      "answer": "Kullanıcı verileri SSL ile şifrelenir ve güvenli sunucularda saklanır. KVKK kapsamındaki veri işleme yükümlülüklerimizi eksiksiz yerine getiririz."
+      "question": "Безопасны ли мои данные?",
+      "answer": "Данные пользователей шифруются SSL и хранятся на защищённых серверах. Мы выполняем обязательства по обработке данных в рамках KVKK."
     },
     {
-      "question": "Birden fazla şantiye veya projeyi yönetebilir miyim?",
-      "answer": "Evet. Her proje ayrı şantiye olarak tanımlanır; personel, puantaj, avans ve bordro kayıtları proje bazında tutulur."
+      "question": "Можно ли управлять несколькими объектами или проектами?",
+      "answer": "Да. Каждый проект настраивается как отдельный объект; персонал, явка, авансы и зарплата ведутся по проектам."
     },
     {
-      "question": "Uygulamayı nasıl indirebilirim?",
-      "answer": "Android için Google Play'den personel veya yönetici uygulamasını seçebilirsiniz. Play Store kullanamıyorsanız sitedeki APK sayfasından da kurulum yapılabilir."
+      "question": "Как скачать приложение?",
+      "answer": "На Android выберите приложение для сотрудников или руководителей в Google Play. Если Play Store недоступен, установите со страницы APK на этом сайте."
     }
   ]
 }

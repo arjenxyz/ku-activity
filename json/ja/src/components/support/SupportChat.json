@@ -1,18 +1,18 @@
 {
-  "title": "CrewLedger AI Support",
-  "subtitle": "Attendance, payroll, advances and app usage",
-  "placeholder": "Type your question…",
-  "send": "Send",
-  "close": "Close chat",
-  "thinking": "Preparing answer…",
-  "errorGeneric": "I can't respond right now. Please try again.",
-  "errorRateLimit": "Too many requests. Please wait a moment and try again.",
-  "errorNotConfigured": "AI support is not configured yet. Please try again later.",
-  "welcomeMessage": "Hello! I can help with CrewLedger personnel management, QR attendance, payroll and advances. What would you like to know?",
+  "title": "CrewLedger AI サポート",
+  "subtitle": "出勤、給与、前払い、アプリの使い方",
+  "placeholder": "質問を入力…",
+  "send": "送信",
+  "close": "チャットを閉じる",
+  "thinking": "回答を準備中…",
+  "errorGeneric": "現在応答できません。もう一度お試しください。",
+  "errorRateLimit": "リクエストが多すぎます。しばらくしてから再試行してください。",
+  "errorNotConfigured": "AI サポートはまだ設定されていません。後でもう一度お試しください。",
+  "welcomeMessage": "こんにちは！CrewLedger の人員管理、QR 出勤、給与、前払いについてお手伝いできます。何を知りたいですか？",
   "suggestions": [
-    "How does QR attendance work?",
-    "How do I access the personnel panel?",
-    "How do I request an advance?",
-    "How can I try the free demo?"
+    "QR 出勤はどのように動作しますか？",
+    "従業員パネルにはどうアクセスしますか？",
+    "前払いはどう申請しますか？",
+    "無料デモはどう試しますか？"
   ]
 }

@@ -1,30 +1,30 @@
 {
-  "title": "Sıkça Sorulan Sorular",
-  "description": "CrewLedger deneyiminize başlamadan önce aklınızdaki soruları cevapladık, ihtiyaç duyduğunuz temel bilgileri bir araya getirdik. Hemen inceleyin!",
+  "title": "Gyakran ismételt kérdések",
+  "description": "A CrewLedger indítása előtt megválaszoltuk a gyakori kérdéseket, és egy helyre gyűjtöttük a lényeget. Nézze meg!",
   "items": [
     {
-      "question": "CrewLedger'da hangi uygulamalar var?",
-      "answer": "Personel uygulaması sahadaki çalışanlar için; yönetici uygulaması şantiye ve İK ekipleri için tasarlandı. Her ikisi de web ve mobilde çalışır, aynı kayıtları kullanır."
+      "question": "Milyen alkalmazások vannak a CrewLedgerben?",
+      "answer": "A személyzeti app a helyszíni dolgozóknak; a vezetői app az építkezési és HR-csapatoknak. Mindkettő weben és mobilon fut, és ugyanazokat a nyilvántartásokat használja."
     },
     {
-      "question": "CrewLedger'ı kullanmak için teknik bilgiye ihtiyacım var mı?",
-      "answer": "Hayır. Günlük işlemler sade arayüzlerle yürütülür. Puantaj, avans ve bordro adımları ekranda yönlendirilir; ekstra kurulum veya IT desteği gerekmez."
+      "question": "Kell technikai tudás a CrewLedger használatához?",
+      "answer": "Nem. A napi folyamatok egyszerű felületeken zajlanak. A jelenlét, előleg és bérszámfejtés lépéseit a képernyő vezeti — nincs extra telepítés vagy IT-támogatás."
     },
     {
-      "question": "Çalışanlar da sisteme giriş yapabiliyor mu?",
-      "answer": "Evet. Personel panelinden yoklama, yevmiye onayı, avans talebi ve bordro görüntüleme işlemlerini kendi hesaplarıyla yapabilirler."
+      "question": "A munkavállalók is be tudnak jelentkezni?",
+      "answer": "Igen. A személyzeti panelről saját fiókjukkal intézhetik a jelenlétet, a napidíj jóváhagyását, az előlegkérelmet és a bérjegyzék megtekintését."
     },
     {
-      "question": "Verilerim güvende mi?",
-      "answer": "Kullanıcı verileri SSL ile şifrelenir ve güvenli sunucularda saklanır. KVKK kapsamındaki veri işleme yükümlülüklerimizi eksiksiz yerine getiririz."
+      "question": "Biztonságban vannak az adataim?",
+      "answer": "A felhasználói adatok SSL-lel vannak titkosítva, és biztonságos szervereken tárolódnak. Teljesítjük a KVKK szerinti adatkezelési kötelezettségeket."
     },
     {
-      "question": "Birden fazla şantiye veya projeyi yönetebilir miyim?",
-      "answer": "Evet. Her proje ayrı şantiye olarak tanımlanır; personel, puantaj, avans ve bordro kayıtları proje bazında tutulur."
+      "question": "Több építkezést vagy projektet is kezelhetek?",
+      "answer": "Igen. Minden projekt külön építkezésként van beállítva; a személyzet, jelenlét, előleg és bérszámfejtés projektenként vezetve."
     },
     {
-      "question": "Uygulamayı nasıl indirebilirim?",
-      "answer": "Android için Google Play'den personel veya yönetici uygulamasını seçebilirsiniz. Play Store kullanamıyorsanız sitedeki APK sayfasından da kurulum yapılabilir."
+      "question": "Hogyan tölthetem le az alkalmazást?",
+      "answer": "Androidon a Google Playről választhatja a személyzeti vagy vezetői appot. Ha a Play Áruház nem elérhető, telepítsen az oldal APK oldaláról."
     }
   ]
 }

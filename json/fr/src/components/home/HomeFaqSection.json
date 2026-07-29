@@ -1,30 +1,30 @@
 {
-  "title": "Sıkça Sorulan Sorular",
-  "description": "CrewLedger deneyiminize başlamadan önce aklınızdaki soruları cevapladık, ihtiyaç duyduğunuz temel bilgileri bir araya getirdik. Hemen inceleyin!",
+  "title": "Questions fréquentes",
+  "description": "Nous avons répondu aux questions courantes avant de démarrer avec CrewLedger et rassemblé l’essentiel au même endroit. Jetez-y un œil !",
   "items": [
     {
-      "question": "CrewLedger'da hangi uygulamalar var?",
-      "answer": "Personel uygulaması sahadaki çalışanlar için; yönetici uygulaması şantiye ve İK ekipleri için tasarlandı. Her ikisi de web ve mobilde çalışır, aynı kayıtları kullanır."
+      "question": "Quelles applications CrewLedger propose-t-il ?",
+      "answer": "L’appli personnel est destinée aux ouvriers sur le chantier ; l’appli manager aux équipes chantier et RH. Les deux fonctionnent sur le web et le mobile et utilisent les mêmes enregistrements."
     },
     {
-      "question": "CrewLedger'ı kullanmak için teknik bilgiye ihtiyacım var mı?",
-      "answer": "Hayır. Günlük işlemler sade arayüzlerle yürütülür. Puantaj, avans ve bordro adımları ekranda yönlendirilir; ekstra kurulum veya IT desteği gerekmez."
+      "question": "Faut-il des compétences techniques pour utiliser CrewLedger ?",
+      "answer": "Non. Les opérations quotidiennes passent par des interfaces simples. Pointage, acomptes et paie sont guidés à l’écran — aucune installation ni support IT supplémentaire."
     },
     {
-      "question": "Çalışanlar da sisteme giriş yapabiliyor mu?",
-      "answer": "Evet. Personel panelinden yoklama, yevmiye onayı, avans talebi ve bordro görüntüleme işlemlerini kendi hesaplarıyla yapabilirler."
+      "question": "Les employés peuvent-ils aussi se connecter ?",
+      "answer": "Oui. Depuis le panneau personnel, ils peuvent pointer, valider les journées, demander des acomptes et consulter la paie avec leur compte."
     },
     {
-      "question": "Verilerim güvende mi?",
-      "answer": "Kullanıcı verileri SSL ile şifrelenir ve güvenli sunucularda saklanır. KVKK kapsamındaki veri işleme yükümlülüklerimizi eksiksiz yerine getiririz."
+      "question": "Mes données sont-elles protégées ?",
+      "answer": "Les données utilisateur sont chiffrées en SSL et stockées sur des serveurs sécurisés. Nous respectons nos obligations de traitement des données au titre de la KVKK."
     },
     {
-      "question": "Birden fazla şantiye veya projeyi yönetebilir miyim?",
-      "answer": "Evet. Her proje ayrı şantiye olarak tanımlanır; personel, puantaj, avans ve bordro kayıtları proje bazında tutulur."
+      "question": "Puis-je gérer plusieurs chantiers ou projets ?",
+      "answer": "Oui. Chaque projet est défini comme un chantier distinct ; personnel, pointage, acomptes et paie sont tenus par projet."
     },
     {
-      "question": "Uygulamayı nasıl indirebilirim?",
-      "answer": "Android için Google Play'den personel veya yönetici uygulamasını seçebilirsiniz. Play Store kullanamıyorsanız sitedeki APK sayfasından da kurulum yapılabilir."
+      "question": "Comment télécharger l’application ?",
+      "answer": "Sur Android, choisissez l’appli personnel ou manager sur Google Play. Si le Play Store n’est pas disponible, installez depuis la page APK de ce site."
     }
   ]
 }

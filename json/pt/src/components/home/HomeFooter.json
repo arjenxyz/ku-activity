@@ -1,17 +1,26 @@
 {
-  "bannerAlt": "CrewLedger construction site team",
-  "tagline": "Construction Workforce Management",
-  "description": "Personnel management for construction — daily wages, advances, attendance and payroll in one platform.",
-  "contactTitle": "Contact",
+  "bannerAlt": "Equipa de obra CrewLedger",
+  "tagline": "Gestão de pessoal na construção",
+  "description": "Sistema de gestão de pessoal para a construção — diárias, adiantamentos, assiduidade e folha numa só plataforma.",
+  "navTitle": "Explorar",
+  "legalTitle": "Legal",
+  "downloadTitle": "App móvel",
+  "downloadHeadline": "Processos de RH de obra no bolso",
+  "downloadSubtitle": "Assiduidade, folha, adiantamentos e recibos — aceda de qualquer lugar com a app de pessoal.",
+  "downloadAppsBadge": "Pessoal",
+  "downloadPlatform": "Android · Grátis",
+  "contactTitle": "Contacto",
   "companyName": "CrewLedger",
-  "rightsReserved": "Tüm Hakları Saklıdır.",
-  "legalHub": "Sözleşmeler ve Politikalar",
-  "apkLabel": "APK İndir",
-  "apkAriaLabel": "APK indirme sayfasına git",
+  "rightsReserved": "Todos os direitos reservados.",
+  "legalHub": "Acordos e políticas",
+  "apkLabel": "Descarregar APK",
+  "apkBadgeTop": "OBTENHA EM",
+  "apkBadgeBottom": "Apk",
+  "apkAriaLabel": "Ir para a página de descarga de APK",
   "copyrightYear": "2026",
   "links": {
-    "privacy": "Gizlilik",
-    "terms": "Kullanım Şartları",
-    "kvkk": "KVKK"
+    "privacy": "Privacidade",
+    "terms": "Termos de utilização",
+    "kvkk": "KVKK / RGPD"
   }
 }

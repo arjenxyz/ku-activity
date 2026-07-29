@@ -1,8 +1,9 @@
 {
-  "badge": "Rastreamento de força de trabalho desenvolvido para construção",
-  "titlePrefix": "Simplificar",
-  "titleHighlight": "gestão de tripulação",
-  "subtitle": "Salários diários, adiantamentos, deduções, presença e planilhas de horas — visíveis nos painéis administrativo e de pessoal. Interface segura, rápida e fácil de usar para digitalizar as operações do seu site.",
-  "ctaExplore": "Explorar recursos",
-  "ctaDemo": "Experimentar a demo"
+  "badge": "Controlo de pessoal feito para a construção",
+  "titlePrefix": "Simplifique",
+  "titleHighlight": "a gestão de equipas",
+  "subtitle": "Diárias, adiantamentos, descontos, assiduidade e folhas de horas — visíveis nos painéis de administração e de pessoal. Interface segura, rápida e fácil de usar para digitalizar a obra.",
+  "ctaExplore": "Explorar funcionalidades",
+  "ctaDemo": "Experimentar demo grátis",
+  "ctaDemoHover": "Iniciar a demo agora"
 }

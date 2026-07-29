@@ -1,23 +1,23 @@
 {
-  "title": "Tüm şantiye İK süreçleri cebinizde!",
-  "description": "Ofiste olmasanız da işler aksamaz. Yoklama, yevmiye, avans, bordro… Hepsi cebinizde. CrewLedger mobil uygulamasıyla tüm süreçlere istediğiniz yerden ulaşın.",
-  "phonePreviewAlt": "CrewLedger personel mobil uygulaması ekran görüntüsü",
+  "title": "Minden építkezési HR-folyamat a zsebében!",
+  "description": "Az iroda nélkül sem áll le a munka. Jelenlét, napidíj, előleg, bér… mind a zsebében. A CrewLedger mobilappal bárhonnan elérheti az összes folyamatot.",
+  "phonePreviewAlt": "CrewLedger személyzeti mobilalkalmazás képernyőképe",
   "features": [
     {
-      "title": "Haberdar olun",
-      "description": "Puantaj onayı, bordro ve avans hareketleri için anlık bildirim alın."
+      "title": "Maradjon tájékozott",
+      "description": "Azonnali értesítések jelenlét-jóváhagyásról, bérről és előlegről."
     },
     {
-      "title": "Talebi yönetin",
-      "description": "İzin, avans ve mesai taleplerini tek ekrandan takip edin."
+      "title": "Kérelmek kezelése",
+      "description": "Szabadság, előleg és túlóra kérelmek követése egy képernyőről."
     },
     {
-      "title": "İletişimde kalın",
-      "description": "Şantiye ve İK ekibiyle kayıt üzerinden şeffaf iletişim kurun."
+      "title": "Maradjon kapcsolatban",
+      "description": "Átlátható kommunikáció az építkezéssel és a HR-rel közös nyilvántartásokon."
     },
     {
-      "title": "Kolay kullanın",
-      "description": "Sade arayüz; aradığınız modüle birkaç dokunuşla ulaşın."
+      "title": "Könnyű használat",
+      "description": "Egyszerű felület — néhány koppintással a kívánt modulhoz."
     }
   ]
 }

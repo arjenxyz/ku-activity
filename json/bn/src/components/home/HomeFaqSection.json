@@ -1,30 +1,30 @@
 {
-  "title": "Sıkça Sorulan Sorular",
-  "description": "CrewLedger deneyiminize başlamadan önce aklınızdaki soruları cevapladık, ihtiyaç duyduğunuz temel bilgileri bir araya getirdik. Hemen inceleyin!",
+  "title": "প্রায়শই জিজ্ঞাসিত প্রশ্ন",
+  "description": "CrewLedger শুরু করার আগে সাধারণ প্রশ্নের উত্তর দিয়েছি এবং প্রয়োজনীয় তথ্য এক জায়গায় এনেছি। একবার দেখে নিন!",
   "items": [
     {
-      "question": "CrewLedger'da hangi uygulamalar var?",
-      "answer": "Personel uygulaması sahadaki çalışanlar için; yönetici uygulaması şantiye ve İK ekipleri için tasarlandı. Her ikisi de web ve mobilde çalışır, aynı kayıtları kullanır."
+      "question": "CrewLedger-এ কোন অ্যাপগুলো আছে?",
+      "answer": "কর্মচারী অ্যাপ সাইটের কর্মীদের জন্য; ম্যানেজার অ্যাপ সাইট ও HR দলের জন্য। দুটোই ওয়েব ও মোবাইলে চলে এবং একই রেকর্ড ব্যবহার করে।"
     },
     {
-      "question": "CrewLedger'ı kullanmak için teknik bilgiye ihtiyacım var mı?",
-      "answer": "Hayır. Günlük işlemler sade arayüzlerle yürütülür. Puantaj, avans ve bordro adımları ekranda yönlendirilir; ekstra kurulum veya IT desteği gerekmez."
+      "question": "CrewLedger ব্যবহার করতে কি প্রযুক্তিগত জ্ঞান লাগে?",
+      "answer": "না। দৈনন্দিন কাজ সহজ ইন্টারফেসে হয়। উপস্থিতি, অগ্রিম ও বেতন ধাপ স্ক্রিনে নির্দেশিত — অতিরিক্ত সেটআপ বা IT সহায়তা লাগে না।"
     },
     {
-      "question": "Çalışanlar da sisteme giriş yapabiliyor mu?",
-      "answer": "Evet. Personel panelinden yoklama, yevmiye onayı, avans talebi ve bordro görüntüleme işlemlerini kendi hesaplarıyla yapabilirler."
+      "question": "কর্মচারীরাও কি সিস্টেমে লগ ইন করতে পারে?",
+      "answer": "হ্যাঁ। কর্মচারী প্যানেল থেকে তারা উপস্থিতি, দৈনিক মজুরি অনুমোদন, অগ্রিম অনুরোধ ও বেতন দেখতে পারে।"
     },
     {
-      "question": "Verilerim güvende mi?",
-      "answer": "Kullanıcı verileri SSL ile şifrelenir ve güvenli sunucularda saklanır. KVKK kapsamındaki veri işleme yükümlülüklerimizi eksiksiz yerine getiririz."
+      "question": "আমার ডেটা কি নিরাপদ?",
+      "answer": "ব্যবহারকারীর ডেটা SSL দিয়ে এনক্রিপ্ট হয় এবং নিরাপদ সার্ভারে সংরক্ষিত হয়। আমরা KVKK অনুযায়ী ডেটা-প্রক্রিয়াকরণ দায়িত্ব পালন করি।"
     },
     {
-      "question": "Birden fazla şantiye veya projeyi yönetebilir miyim?",
-      "answer": "Evet. Her proje ayrı şantiye olarak tanımlanır; personel, puantaj, avans ve bordro kayıtları proje bazında tutulur."
+      "question": "একাধিক সাইট বা প্রকল্প পরিচালনা করা যায়?",
+      "answer": "হ্যাঁ। প্রতিটি প্রকল্প আলাদা সাইট হিসেবে সেট হয়; কর্মী, উপস্থিতি, অগ্রিম ও বেতন প্রকল্পভিত্তিক রাখা হয়।"
     },
     {
-      "question": "Uygulamayı nasıl indirebilirim?",
-      "answer": "Android için Google Play'den personel veya yönetici uygulamasını seçebilirsiniz. Play Store kullanamıyorsanız sitedeki APK sayfasından da kurulum yapılabilir."
+      "question": "অ্যাপ কীভাবে ডাউনলোড করব?",
+      "answer": "Android-এ Google Play থেকে কর্মচারী বা ম্যানেজার অ্যাপ বেছে নিন। Play Store না থাকলে এই সাইটের APK পেজ থেকে ইনস্টল করুন।"
     }
   ]
 }

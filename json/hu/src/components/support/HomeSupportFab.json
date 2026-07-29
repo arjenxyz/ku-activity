@@ -1,5 +1,5 @@
 {
-  "ariaLabelOpen": "Open AI support chat",
-  "ariaLabelClose": "Close AI support chat",
-  "tooltip": "AI Support"
+  "ariaLabelOpen": "AI támogatási csevegés megnyitása",
+  "ariaLabelClose": "AI támogatási csevegés bezárása",
+  "tooltip": "AI támogatás"
 }

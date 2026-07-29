@@ -1,30 +1,30 @@
 {
-  "title": "Sıkça Sorulan Sorular",
-  "description": "CrewLedger deneyiminize başlamadan önce aklınızdaki soruları cevapladık, ihtiyaç duyduğunuz temel bilgileri bir araya getirdik. Hemen inceleyin!",
+  "title": "常见问题",
+  "description": "在开始使用 CrewLedger 之前，我们整理了常见问题与必备信息。马上了解！",
   "items": [
     {
-      "question": "CrewLedger'da hangi uygulamalar var?",
-      "answer": "Personel uygulaması sahadaki çalışanlar için; yönetici uygulaması şantiye ve İK ekipleri için tasarlandı. Her ikisi de web ve mobilde çalışır, aynı kayıtları kullanır."
+      "question": "CrewLedger 包含哪些应用？",
+      "answer": "员工应用面向现场工作人员；管理员应用面向工地与人力资源团队。两者均可在网页与移动端使用，并共享同一套记录。"
     },
     {
-      "question": "CrewLedger'ı kullanmak için teknik bilgiye ihtiyacım var mı?",
-      "answer": "Hayır. Günlük işlemler sade arayüzlerle yürütülür. Puantaj, avans ve bordro adımları ekranda yönlendirilir; ekstra kurulum veya IT desteği gerekmez."
+      "question": "使用 CrewLedger 需要技术背景吗？",
+      "answer": "不需要。日常操作采用简洁界面。考勤、预支与工资单流程均有屏幕引导，无需额外安装或 IT 支持。"
     },
     {
-      "question": "Çalışanlar da sisteme giriş yapabiliyor mu?",
-      "answer": "Evet. Personel panelinden yoklama, yevmiye onayı, avans talebi ve bordro görüntüleme işlemlerini kendi hesaplarıyla yapabilirler."
+      "question": "员工也可以登录系统吗？",
+      "answer": "可以。员工可从员工面板自行办理考勤、日薪确认、预支申请与查看工资单。"
     },
     {
-      "question": "Verilerim güvende mi?",
-      "answer": "Kullanıcı verileri SSL ile şifrelenir ve güvenli sunucularda saklanır. KVKK kapsamındaki veri işleme yükümlülüklerimizi eksiksiz yerine getiririz."
+      "question": "我的数据安全吗？",
+      "answer": "用户数据经 SSL 加密，并存储在安全服务器上。我们全面履行 KVKK 规定的数据处理义务。"
     },
     {
-      "question": "Birden fazla şantiye veya projeyi yönetebilir miyim?",
-      "answer": "Evet. Her proje ayrı şantiye olarak tanımlanır; personel, puantaj, avans ve bordro kayıtları proje bazında tutulur."
+      "question": "可以管理多个工地或项目吗？",
+      "answer": "可以。每个项目作为独立工地管理；人员、考勤、预支与工资记录均按项目保存。"
     },
     {
-      "question": "Uygulamayı nasıl indirebilirim?",
-      "answer": "Android için Google Play'den personel veya yönetici uygulamasını seçebilirsiniz. Play Store kullanamıyorsanız sitedeki APK sayfasından da kurulum yapılabilir."
+      "question": "如何下载应用？",
+      "answer": "在 Android 上可从 Google Play 选择员工或管理员应用。若无法使用 Play 商店，也可从本站 APK 页面安装。"
     }
   ]
 }
