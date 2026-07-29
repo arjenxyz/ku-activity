@@ -6,6 +6,10 @@ import {
   generateSupportChatReply,
   type SupportChatMessage,
 } from '@/lib/support-chat';
+import {
+  isDiscordAiReportConfigured,
+  sendAiBugReportDiscord,
+} from '@/lib/support-bug-report-discord';
 
 export type BugReportCategory = 'bug' | 'feature' | 'question' | 'spam' | 'insufficient';
 
@@ -13,6 +17,7 @@ export type BugReportTicket = {
   filed: boolean;
   number?: number;
   url?: string;
+  discord?: boolean;
   reason?: 'not_verified' | 'not_configured' | 'create_failed';
 };
 
@@ -74,6 +79,11 @@ function githubConfig() {
   return { token, repo };
 }
 
+export function isBugReportDeliveryConfigured(): boolean {
+  return isDiscordAiReportConfigured() || isBugReportGithubConfigured();
+}
+
+/** @deprecated use isBugReportDeliveryConfigured */
 export function isBugReportGithubConfigured(): boolean {
   return Boolean(githubConfig().token);
 }
@@ -343,16 +353,28 @@ async function createGithubIssue(params: {
   return { number: data.number, url: data.html_url };
 }
 
-function filedSuffix(locale: Locale, issueNumber: number): string {
+function filedSuffix(locale: Locale, opts: { issueNumber?: number; discord?: boolean }): string {
   if (locale === 'tr') {
-    return `\n\nRaporunuz geliştiriciye iletildi (#${issueNumber}).`;
+    if (opts.issueNumber) {
+      return `\n\nRaporunuz geliştiriciye iletildi (#${opts.issueNumber}).`;
+    }
+    if (opts.discord) {
+      return '\n\nRaporunuz geliştiriciye iletildi.';
+    }
+    return '';
   }
-  return `\n\nYour report was sent to the developer (#${issueNumber}).`;
+  if (opts.issueNumber) {
+    return `\n\nYour report was sent to the developer (#${opts.issueNumber}).`;
+  }
+  if (opts.discord) {
+    return '\n\nYour report was sent to the developer.';
+  }
+  return '';
 }
 
 /**
- * Triage a `[BUG REPORT]` message. If Gemini verifies a real bug and GitHub is configured,
- * open an issue for the developer (works on Vercel — no local PC required).
+ * Triage a `[BUG REPORT]` message. If Gemini verifies a real bug, notify the developer
+ * via Discord (AI reports channel) and optionally open a GitHub issue.
  */
 export async function handleSupportBugReport(
   messages: SupportChatMessage[],
@@ -393,7 +415,7 @@ export async function handleSupportBugReport(
     };
   }
 
-  if (!isBugReportGithubConfigured()) {
+  if (!isBugReportDeliveryConfigured()) {
     return {
       reply: verification.userReply,
       suggestedFollowUps: verification.suggestedFollowUps,
@@ -401,14 +423,27 @@ export async function handleSupportBugReport(
     };
   }
 
-  const issue = await createGithubIssue({
-    title: verification.title,
-    summary: verification.summary,
-    originalReport,
-    locale,
-  });
+  const issue = isBugReportGithubConfigured()
+    ? await createGithubIssue({
+        title: verification.title,
+        summary: verification.summary,
+        originalReport,
+        locale,
+      })
+    : null;
 
-  if (!issue) {
+  const discordOk = isDiscordAiReportConfigured()
+    ? await sendAiBugReportDiscord({
+        title: verification.title,
+        summary: verification.summary,
+        originalReport,
+        locale,
+        category: verification.category,
+        githubIssueUrl: issue?.url,
+      })
+    : false;
+
+  if (!discordOk && !issue) {
     return {
       reply: verification.userReply,
       suggestedFollowUps: verification.suggestedFollowUps,
@@ -417,9 +452,17 @@ export async function handleSupportBugReport(
   }
 
   return {
-    reply: `${verification.userReply.trim()}${filedSuffix(locale, issue.number)}`,
+    reply: `${verification.userReply.trim()}${filedSuffix(locale, {
+      issueNumber: issue?.number,
+      discord: discordOk,
+    })}`,
     suggestedFollowUps: verification.suggestedFollowUps,
-    ticket: { filed: true, number: issue.number, url: issue.url },
+    ticket: {
+      filed: true,
+      number: issue?.number,
+      url: issue?.url,
+      discord: discordOk,
+    },
   };
 }
 
