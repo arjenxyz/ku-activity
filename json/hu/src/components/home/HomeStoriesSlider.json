@@ -27,6 +27,21 @@
       "name": "Ayşe Demir",
       "role": "HR-igazgató",
       "company": "NEXUS YAPI"
+    },
+    {
+      "name": "Elif Yılmaz",
+      "role": "Bérügyi szakértő",
+      "company": "METRO İNŞAAT"
+    },
+    {
+      "name": "Burak Şahin",
+      "role": "Helyszíni vezető",
+      "company": "DOĞU YAPI"
+    },
+    {
+      "name": "Zeynep Kara",
+      "role": "HR szakértő",
+      "company": "GÜNEŞ GRUP"
     }
   ]
 }

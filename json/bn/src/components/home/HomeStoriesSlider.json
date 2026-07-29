@@ -27,6 +27,21 @@
       "name": "Ayşe Demir",
       "role": "মানবসম্পদ পরিচালক",
       "company": "NEXUS YAPI"
+    },
+    {
+      "name": "Elif Yılmaz",
+      "role": "বেতন বিশেষজ্ঞ",
+      "company": "METRO İNŞAAT"
+    },
+    {
+      "name": "Burak Şahin",
+      "role": "সাইট সুপারভাইজার",
+      "company": "DOĞU YAPI"
+    },
+    {
+      "name": "Zeynep Kara",
+      "role": "এইচআর বিশেষজ্ঞ",
+      "company": "GÜNEŞ GRUP"
     }
   ]
 }

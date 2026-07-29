@@ -27,6 +27,21 @@
       "name": "Ayşe Demir",
       "role": "İK Müdürü",
       "company": "NEXUS YAPI"
+    },
+    {
+      "name": "Elif Yılmaz",
+      "role": "Bordro Uzmanı",
+      "company": "METRO İNŞAAT"
+    },
+    {
+      "name": "Burak Şahin",
+      "role": "Saha Şefi",
+      "company": "DOĞU YAPI"
+    },
+    {
+      "name": "Zeynep Kara",
+      "role": "İK Uzmanı",
+      "company": "GÜNEŞ GRUP"
     }
   ]
 }

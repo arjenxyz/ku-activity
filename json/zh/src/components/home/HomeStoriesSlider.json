@@ -27,6 +27,21 @@
       "name": "Ayşe Demir",
       "role": "人力资源总监",
       "company": "NEXUS YAPI"
+    },
+    {
+      "name": "Elif Yılmaz",
+      "role": "薪资专员",
+      "company": "METRO İNŞAAT"
+    },
+    {
+      "name": "Burak Şahin",
+      "role": "现场主管",
+      "company": "DOĞU YAPI"
+    },
+    {
+      "name": "Zeynep Kara",
+      "role": "人力资源专员",
+      "company": "GÜNEŞ GRUP"
     }
   ]
 }
