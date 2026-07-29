@@ -58,7 +58,7 @@ export function SupportChatWidget() {
             onClick={() => setOpen((value) => !value)}
             aria-label={open ? strings.ariaLabelClose : strings.ariaLabelOpen}
             aria-expanded={open}
-            className={`relative flex h-14 w-14 items-center justify-center overflow-hidden rounded-2xl bg-white shadow-[0_12px_32px_rgba(14,21,72,0.22)] ring-1 ring-slate-200/80 transition hover:scale-[1.03] active:scale-[0.98] ${
+            className={`relative flex h-14 w-14 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-[#2D6AF6] via-[#1a4fd4] to-[#0E1548] shadow-[0_12px_32px_rgba(14,21,72,0.32)] ring-1 ring-white/25 transition hover:scale-[1.03] active:scale-[0.98] ${
               open ? 'hidden sm:flex' : ''
             }`}
             whileTap={{ scale: 0.96 }}
@@ -82,14 +82,14 @@ export function SupportChatWidget() {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.85 }}
                   transition={{ duration: 0.15 }}
-                  className="h-full w-full"
+                  className="flex h-full w-full items-center justify-center p-2.5"
                 >
                   <Image
                     src="/ai-destek.png"
                     alt=""
                     width={56}
                     height={56}
-                    className="h-full w-full object-cover"
+                    className="h-full w-full object-contain"
                     priority
                   />
                 </motion.span>

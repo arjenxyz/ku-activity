@@ -230,8 +230,8 @@ export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelPr
       className={`flex h-dvh max-h-dvh w-full flex-col overflow-hidden rounded-none border-0 bg-white shadow-none sm:h-[min(72dvh,520px)] sm:max-h-none sm:rounded-2xl sm:border sm:border-slate-200/90 sm:shadow-[0_20px_60px_-20px_rgba(14,21,72,0.35)] ${className}`}
     >
       <div className="flex items-center gap-3 border-b border-slate-100 bg-[#0E1548] px-4 py-3.5 pt-[max(0.875rem,env(safe-area-inset-top))] text-white">
-        <span className="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-xl ring-2 ring-white/20">
-          <Image src="/ai-destek.png" alt="" width={40} height={40} className="h-full w-full object-cover" />
+        <span className="relative flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-[#2D6AF6] via-[#1a4fd4] to-[#0E1548] p-1.5 ring-2 ring-white/25">
+          <Image src="/ai-destek.png" alt="" width={40} height={40} className="h-full w-full object-contain" />
         </span>
         <div className="min-w-0 flex-1">
           <p className="text-sm font-bold leading-tight">{strings.title}</p>
