@@ -9,53 +9,10 @@ import { GooglePlayBadge, GooglePlayIcon } from '@/components/home/GooglePlayBad
 import { BrandIconRain } from '@/components/home/BrandIconRain';
 import { PLAY_STORE_PERSONNEL_ICON, PLAY_STORE_PERSONNEL_URL } from '@/lib/play-store';
 
-type PlayStoreApp = {
-  title: string;
-  description: string;
-  playUrl: string;
-  iconSrc: string;
-};
-
-function AppCard({
-  app,
-  platformLabel,
-}: {
-  app: PlayStoreApp;
-  platformLabel: string;
-}) {
-  const hasPlayLink = Boolean(app.playUrl);
-
-  return (
-    <motion.article
-      className="flex h-full flex-col rounded-2xl border border-slate-200/90 bg-white p-6 shadow-sm transition-shadow hover:shadow-md dark:border-slate-800 dark:bg-slate-900 sm:p-7"
-      initial={{ opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-40px' }}
-      transition={{ duration: 0.4 }}
-    >
-      <div className="flex items-center gap-4">
-        <div className="h-14 w-14 shrink-0 overflow-hidden rounded-xl ring-1 ring-slate-200/80 dark:ring-slate-700">
-          <Image src={app.iconSrc} alt="" width={56} height={56} className="h-full w-full object-cover" />
-        </div>
-        <div className="min-w-0">
-          <p className="text-xs text-slate-400">{platformLabel}</p>
-          <h3 className="mt-1 text-lg font-bold tracking-tight text-slate-900 dark:text-white">{app.title}</h3>
-        </div>
-      </div>
-
-      <p className="mt-5 flex-1 text-sm leading-relaxed text-slate-600 dark:text-slate-400">{app.description}</p>
-
-      <div className="mt-6 border-t border-slate-100 pt-5 dark:border-slate-800">
-        <GooglePlayBadge href={app.playUrl} enabled={hasPlayLink} fullWidth />
-      </div>
-    </motion.article>
-  );
-}
-
 export function PlayStoreSection() {
   const strings = useRegistryStrings('components/home/PlayStoreSection');
 
-  const app = useMemo<PlayStoreApp>(
+  const app = useMemo(
     () => ({
       title: strings.apps.personel.title,
       description: strings.apps.personel.description,
@@ -65,36 +22,58 @@ export function PlayStoreSection() {
     [strings]
   );
 
-  return (
-    <section id="play-store" className="relative overflow-hidden py-20 lg:py-24">
-      <BrandIconRain />
-      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <motion.div
-          className="mx-auto mb-12 max-w-2xl text-center"
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4 }}
-        >
-          <div className="mb-4 inline-flex items-center gap-2 text-sm font-semibold text-blue-600 dark:text-blue-400">
-            <GooglePlayIcon className="h-4 w-4" />
-            {strings.sectionBadge}
-          </div>
-          <h2 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
-            {strings.sectionTitle}
-          </h2>
-          <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">
-            {strings.sectionSubtitlePrefix}{' '}
-            <Link href="/apk" className="font-medium text-blue-600 hover:underline dark:text-blue-400">
-              {strings.sectionSubtitleLink}
-            </Link>{' '}
-            {strings.sectionSubtitleSuffix}
-          </p>
-        </motion.div>
+  const hasPlayLink = Boolean(app.playUrl);
 
-        <div className="mx-auto max-w-md">
-          <AppCard app={app} platformLabel={strings.platformLabel} />
-        </div>
+  return (
+    <section id="play-store" className="relative overflow-hidden py-10 sm:py-12">
+      <BrandIconRain />
+      <div className="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+        <motion.div
+          className="rounded-2xl border border-slate-200/90 bg-white/95 p-4 shadow-sm backdrop-blur-sm sm:p-5"
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-24px' }}
+          transition={{ duration: 0.35 }}
+        >
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-5">
+            <div className="flex min-w-0 flex-1 items-start gap-3 sm:items-center">
+              <div className="h-12 w-12 shrink-0 overflow-hidden rounded-xl ring-1 ring-slate-200/80">
+                <Image
+                  src={app.iconSrc}
+                  alt=""
+                  width={48}
+                  height={48}
+                  className="h-full w-full object-cover"
+                />
+              </div>
+              <div className="min-w-0">
+                <div className="mb-1 inline-flex items-center gap-1.5 text-xs font-semibold text-blue-600">
+                  <GooglePlayIcon className="h-3.5 w-3.5" />
+                  {strings.sectionBadge}
+                </div>
+                <h2 className="text-lg font-bold tracking-tight text-slate-900 sm:text-xl">
+                  {strings.sectionTitle}
+                </h2>
+                <p className="mt-0.5 text-sm font-semibold text-slate-800">{app.title}</p>
+                <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-slate-500 sm:text-[13px]">
+                  {app.description}
+                </p>
+                <p className="mt-2 text-[11px] text-slate-400">
+                  {strings.sectionSubtitlePrefix}{' '}
+                  <Link href="/apk" className="font-medium text-blue-600 hover:underline">
+                    {strings.sectionSubtitleLink}
+                  </Link>{' '}
+                  {strings.sectionSubtitleSuffix}
+                </p>
+              </div>
+            </div>
+
+            <div className="w-full shrink-0 sm:w-[200px]">
+              <GooglePlayBadge href={app.playUrl} enabled={hasPlayLink} fullWidth />
+              <p className="mt-1.5 text-center text-[10px] text-slate-400">{strings.platformLabel}</p>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
