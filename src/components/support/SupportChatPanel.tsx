@@ -317,14 +317,14 @@ export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelPr
       }
     }
 
-    let apiContent = options?.retry
+    const apiContent = options?.retry
       ? pendingApiContentRef.current || trimmed
       : options?.apiContent || trimmed;
     let nextMessages = messagesRef.current;
-    let screenshot = options?.retry
+    const screenshot = options?.retry
       ? pendingScreenshotRef.current
       : options?.screenshot ?? null;
-    let browserErrors = options?.retry
+    const browserErrors = options?.retry
       ? pendingBrowserErrorsRef.current
       : options?.browserErrors ?? [];
 
