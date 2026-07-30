@@ -29,6 +29,8 @@ const CANONICAL_SLASH_COMMANDS = [
   { command: BUG_REPORT_COMMAND },
 ] as const;
 const MIN_BUG_STEPS = 20;
+const SEND_COOLDOWN_MS = 10_000;
+const HISTORY_STORAGE_PREFIX = 'support-chat-history-v1';
 
 function createId() {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
@@ -63,6 +65,13 @@ type SupportChatPanelProps = {
   className?: string;
 };
 
+type SendOptions = {
+  retry?: boolean;
+  apiContent?: string;
+  screenshot?: string | null;
+  browserErrors?: string[];
+};
+
 export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelProps) {
   const strings = useRegistryStrings('components/support/SupportChat');
   const { locale } = useLocale();
@@ -81,6 +90,8 @@ export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelPr
   const [bugSteps, setBugSteps] = useState('');
   const [bugScreenshot, setBugScreenshot] = useState<string | null>(null);
   const [capturing, setCapturing] = useState(false);
+  const [cooldownUntil, setCooldownUntil] = useState(0);
+  const [nowMs, setNowMs] = useState(() => Date.now());
   const listRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const messagesRef = useRef(messages);
@@ -89,9 +100,10 @@ export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelPr
   const pendingApiContentRef = useRef<string | null>(null);
   const pendingScreenshotRef = useRef<string | null>(null);
   const pendingBrowserErrorsRef = useRef<string[]>([]);
+  const lastSentAtRef = useRef(0);
   const retryCountRef = useRef(0);
   const retryTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const sendMessageRef = useRef<(text: string, options?: { retry?: boolean }) => Promise<void>>(
+  const sendMessageRef = useRef<(text: string, options?: SendOptions) => Promise<void>>(
     async () => undefined,
   );
 
@@ -110,6 +122,9 @@ export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelPr
           ),
     [bugMode, strings.topicSuggestions, strings.suggestions, topicSeed, messages],
   );
+  const historyStorageKey = `${HISTORY_STORAGE_PREFIX}:${locale}`;
+  const cooldownRemainingMs = Math.max(0, cooldownUntil - nowMs);
+  const cooldownRemainingSec = Math.ceil(cooldownRemainingMs / 1000);
 
   const slashQuery = useMemo(() => {
     if (!input.startsWith('/')) return null;
@@ -142,6 +157,51 @@ export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelPr
   useEffect(() => {
     installSupportConsoleBuffer();
   }, []);
+
+  useEffect(() => {
+    try {
+      const raw = window.sessionStorage.getItem(historyStorageKey);
+      if (!raw) return;
+      const parsed = JSON.parse(raw) as {
+        messages?: ChatMessage[];
+        topicSeed?: string;
+      };
+      if (Array.isArray(parsed.messages) && parsed.messages.length > 0) {
+        const clean = parsed.messages
+          .filter((m) => m && (m.role === 'user' || m.role === 'assistant') && typeof m.content === 'string')
+          .slice(-24);
+        if (clean.length > 0) {
+          setMessages(clean);
+          messagesRef.current = clean;
+        }
+      }
+      if (typeof parsed.topicSeed === 'string' && parsed.topicSeed.trim()) {
+        setTopicSeed(parsed.topicSeed);
+      }
+    } catch {
+      // ignore storage parse errors
+    }
+  }, [historyStorageKey]);
+
+  useEffect(() => {
+    try {
+      window.sessionStorage.setItem(
+        historyStorageKey,
+        JSON.stringify({
+          messages: messages.slice(-24),
+          topicSeed,
+        }),
+      );
+    } catch {
+      // ignore storage write errors
+    }
+  }, [messages, topicSeed, historyStorageKey]);
+
+  useEffect(() => {
+    if (cooldownRemainingMs <= 0) return;
+    const timer = window.setInterval(() => setNowMs(Date.now()), 250);
+    return () => window.clearInterval(timer);
+  }, [cooldownRemainingMs]);
 
   useEffect(() => {
     setSlashHighlight(0);
@@ -240,19 +300,22 @@ export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelPr
     });
   };
 
-  const sendMessage = async (
-    text: string,
-    options?: {
-      retry?: boolean;
-      apiContent?: string;
-      screenshot?: string | null;
-      browserErrors?: string[];
-    },
-  ) => {
+  const sendMessage = async (text: string, options?: SendOptions) => {
     const trimmed = text.trim();
     if (!trimmed || loadingRef.current) return;
 
     setError(null);
+
+    const isCommand = HELP_RE.test(trimmed) || BUG_REPORT_RE.test(trimmed);
+    if (!options?.retry && !isCommand) {
+      const now = Date.now();
+      const remaining = cooldownUntil - now;
+      if (remaining > 0) {
+        const secs = Math.ceil(remaining / 1000);
+        setError(`${strings.errorRateLimit} (${secs}s)`);
+        return;
+      }
+    }
 
     let apiContent = options?.retry
       ? pendingApiContentRef.current || trimmed
@@ -313,6 +376,13 @@ export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelPr
       pendingScreenshotRef.current = screenshot;
       pendingBrowserErrorsRef.current = browserErrors;
       setDynamicTopicFromText(trimmed);
+
+      if (!isCommand) {
+        const now = Date.now();
+        lastSentAtRef.current = now;
+        setCooldownUntil(now + SEND_COOLDOWN_MS);
+        setNowMs(now);
+      }
     }
 
     if (typeof navigator !== 'undefined' && !navigator.onLine) {
@@ -637,7 +707,10 @@ export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelPr
 
         {!bugMode ? (
           <>
-            <p className="mb-2 text-[10px] leading-snug text-slate-400">{strings.inputHint}</p>
+            <p className="mb-2 text-[10px] leading-snug text-slate-400">
+              {strings.inputHint}
+              {cooldownRemainingSec > 0 ? ` · Slow down: ${cooldownRemainingSec}s` : ''}
+            </p>
             <form onSubmit={handleSubmit} className="flex items-end gap-2">
               <textarea
                 ref={inputRef}
@@ -689,7 +762,11 @@ export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelPr
               />
               <button
                 type="submit"
-                disabled={loading || (!input.trim() && slashSuggestions.length === 0)}
+                disabled={
+                  loading ||
+                  cooldownRemainingSec > 0 ||
+                  (!input.trim() && slashSuggestions.length === 0)
+                }
                 className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#0E1548] text-white transition hover:bg-[#141d5c] disabled:cursor-not-allowed disabled:opacity-50"
                 aria-label={strings.send}
               >
