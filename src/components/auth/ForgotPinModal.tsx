@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { FiLoader, FiX } from 'react-icons/fi';
 import { AuthAlert } from '@/components/auth/AuthAlerts';
@@ -171,9 +172,9 @@ export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
 
   if (!open) return null;
 
-  return (
+  return createPortal(
     <div
-      className="fixed inset-0 z-[100] flex items-end justify-center bg-slate-900/40 p-4 backdrop-blur-[2px] sm:items-center sm:p-6"
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/50 p-4"
       role="dialog"
       aria-modal="true"
       aria-labelledby="forgot-pin-title"
@@ -380,6 +381,7 @@ export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
           )}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
