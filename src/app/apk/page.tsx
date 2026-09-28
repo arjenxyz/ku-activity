@@ -77,8 +77,8 @@ export default function ApkDownloadPage() {
             </p>
           </motion.div>
 
-          <div className="grid gap-6 sm:grid-cols-2">
-            {APP_RELEASE_TYPES.map((appType, index) => {
+          <div className="mx-auto grid max-w-md gap-6">
+            {APP_RELEASE_TYPES.filter((appType) => appType !== 'admin').map((appType, index) => {
               const meta = getAppReleaseLabel(appType);
               const release = releases.find((row) => row.appType === appType);
               const hasApk = Boolean(release?.id);
