@@ -1,6 +1,7 @@
 'use client';
 
-import { createContext, useCallback, useContext, useMemo, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { getRecentBrowserErrors, installSupportConsoleBuffer } from '@/lib/support-console-buffer';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 
 type AuthReportContextValue = {
@@ -28,6 +29,10 @@ export function pushAuthDiagnostic(message: string) {
 export function AuthReportProvider({ children }: { children: React.ReactNode }) {
   const [formError, setFormErrorState] = useState<string | undefined>();
 
+  useEffect(() => {
+    installSupportConsoleBuffer();
+  }, []);
+
   const setFormError = useCallback((message?: string) => {
     setFormErrorState(message?.trim() || undefined);
     if (message?.trim()) {
@@ -38,7 +43,7 @@ export function AuthReportProvider({ children }: { children: React.ReactNode }) 
   const getReportPayload = useCallback(
     () => ({
       formError,
-      diagnostics: [...diagnostics],
+      diagnostics: [...new Set([...diagnostics, ...getRecentBrowserErrors()])].slice(0, 12),
       pageUrl: typeof window !== 'undefined' ? window.location.href : '',
       userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : '',
       capturedAt: new Date().toISOString(),

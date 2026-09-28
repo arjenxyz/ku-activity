@@ -31,12 +31,12 @@ function buildEmbed(input: ScreenReportInput) {
     fields.push({ name: strings.embedUserNote, value: truncate(input.note, 1024) });
   }
 
-  const diag =
-    input.diagnostics && input.diagnostics.length > 0
-      ? input.diagnostics.map((d) => `• ${d}`).join('\n')
-      : '—';
-
-  fields.push({ name: strings.embedDiagnostics, value: truncate(diag, 1024) });
+  if (input.diagnostics && input.diagnostics.length > 0) {
+    fields.push({
+      name: strings.embedDiagnostics,
+      value: truncate(input.diagnostics.map((item, index) => `${index + 1}. ${item}`).join('\n'), 1024),
+    });
+  }
 
   return {
     title: formatString(strings.reportTitle, { appName: APP_NAME }),
@@ -105,6 +105,7 @@ export async function sendScreenReportDiscord(input: ScreenReportInput): Promise
       pageUrl: input.pageUrl,
       formError: input.formError,
       note: input.note,
+      diagnostics: input.diagnostics,
       screenshotBytes: stripScreenshotDataUrl(input.screenshotBase64).length,
     });
     return;

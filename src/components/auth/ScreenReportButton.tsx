@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { FiLoader, FiX } from 'react-icons/fi';
 import { IoWarning } from 'react-icons/io5';
@@ -126,21 +127,19 @@ export function ScreenReportButton({ captureRootRef, screenLabel, tone = 'photo'
         </span>
       </button>
 
-      {open && screenshot ? (
+      {open && screenshot
+        ? createPortal(
         <div
-          className="screen-report-modal-root fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-sm"
+          className="screen-report-modal-root fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/50"
           role="dialog"
           aria-modal="true"
           aria-labelledby="screen-report-title"
         >
-          <div className="w-full max-w-md rounded-2xl bg-white shadow-2xl overflow-hidden">
-            <div className="flex items-start justify-between gap-3 px-5 pt-5 pb-3 border-b border-slate-200">
-              <div>
-                <h2 id="screen-report-title" className="text-lg font-bold text-slate-900">
-                  {strings.modalTitle}
-                </h2>
-                <p className="mt-1 text-sm text-slate-500 leading-relaxed">{strings.modalDescription}</p>
-              </div>
+          <div className="w-full max-w-sm overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_24px_60px_-28px_rgba(14,21,72,0.45)]">
+            <div className="flex items-center justify-between gap-3 border-b border-slate-200 px-5 py-4">
+              <h2 id="screen-report-title" className="text-lg font-semibold tracking-tight text-[#0E1548]">
+                {strings.modalTitle}
+              </h2>
               <button
                 type="button"
                 onClick={() => {
@@ -165,7 +164,7 @@ export function ScreenReportButton({ captureRootRef, screenLabel, tone = 'photo'
               </div>
 
               <div>
-                <label htmlFor="screen-report-note" className="block text-sm font-medium text-slate-700 mb-1.5">
+                <label htmlFor="screen-report-note" className="sr-only">
                   {strings.noteLabel}
                 </label>
                 <textarea
@@ -219,7 +218,8 @@ export function ScreenReportButton({ captureRootRef, screenLabel, tone = 'photo'
               </button>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       ) : null}
     </>
   );
