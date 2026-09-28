@@ -57,9 +57,21 @@ Yanıt kuralları:
 - Türk inşaat sektörü terminolojisine uygun konuş (usta, yevmiye, şantiye, puantaj).
 `.trim();
 
-/** Free-tier friendly defaults; 2.0 Flash was shut down June 2026. */
-const DEFAULT_MODEL = 'gemini-3.5-flash-lite';
-const FALLBACK_MODELS = ['gemini-3.6-flash', 'gemini-flash-latest', 'gemini-3.1-flash-lite'] as const;
+/** 2.0 Flash was shut down June 2026. Prefer the high-throughput stable model, then fall back. */
+const DEFAULT_MODEL = 'gemini-3.5-flash';
+const FALLBACK_MODELS = [
+  'gemini-3.5-flash-lite',
+  'gemini-3.8-flash',
+  'gemini-3.6-flash',
+  'gemini-flash-latest',
+  'gemini-3.1-flash-lite',
+] as const;
+const RETIRED_MODELS = new Set([
+  'gemini-2.0-flash',
+  'gemini-2.0-flash-001',
+  'gemini-2.0-flash-lite',
+  'gemini-2.0-flash-lite-001',
+]);
 
 function systemPrompt(locale: Locale): string {
   const languageHint =
@@ -107,7 +119,7 @@ function modelCandidates(): string[] {
   const seen = new Set<string>();
   const list: string[] = [];
   for (const model of [preferred, DEFAULT_MODEL, ...FALLBACK_MODELS]) {
-    if (!model || seen.has(model)) continue;
+    if (!model || seen.has(model) || RETIRED_MODELS.has(model)) continue;
     seen.add(model);
     list.push(model);
   }
@@ -216,6 +228,7 @@ async function callGeminiGenerateContent(
     {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      signal: AbortSignal.timeout(20_000),
       body: JSON.stringify({
         systemInstruction: {
           parts: [{ text: systemPrompt(locale) }],
@@ -223,9 +236,7 @@ async function callGeminiGenerateContent(
         contents,
         generationConfig: {
           temperature: 0.55,
-          // Flash 3.x may reserve thinking tokens from the same budget.
-          maxOutputTokens: 2048,
-          responseMimeType: 'application/json',
+          maxOutputTokens: 1024,
         },
         safetySettings: [
           { category: 'HARM_CATEGORY_HARASSMENT', threshold: 'BLOCK_MEDIUM_AND_ABOVE' },
@@ -279,11 +290,20 @@ export async function generateSupportChatReply(
     } catch (err) {
       if (err instanceof SupportChatError) {
         lastError = err;
-        // Retry next model when this one is missing / overloaded / empty.
-        if (err.code === 'MODEL' || err.code === 'UNAVAILABLE' || err.code === 'EMPTY') {
+        // Try the next model when this one is missing, overloaded, empty, or out of quota.
+        if (
+          err.code === 'MODEL' ||
+          err.code === 'UNAVAILABLE' ||
+          err.code === 'EMPTY' ||
+          err.code === 'QUOTA'
+        ) {
           continue;
         }
         throw err;
+      }
+      if (err instanceof Error && (err.name === 'TimeoutError' || err.name === 'AbortError')) {
+        lastError = new SupportChatError('UNAVAILABLE', 'GEMINI_TIMEOUT');
+        continue;
       }
       throw err;
     }

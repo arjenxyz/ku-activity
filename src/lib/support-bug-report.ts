@@ -53,12 +53,18 @@ function getGeminiApiKey(): string | null {
 }
 
 function getPreferredModel(): string {
-  return process.env.GEMINI_MODEL?.trim() || 'gemini-3.5-flash-lite';
+  return process.env.GEMINI_MODEL?.trim() || 'gemini-3.5-flash';
 }
 
 function modelCandidates(): string[] {
   const preferred = getPreferredModel();
-  const fallbacks = ['gemini-3.5-flash-lite', 'gemini-3.6-flash', 'gemini-flash-latest'];
+  const fallbacks = [
+    'gemini-3.5-flash',
+    'gemini-3.5-flash-lite',
+    'gemini-3.8-flash',
+    'gemini-3.6-flash',
+    'gemini-flash-latest',
+  ];
   const seen = new Set<string>();
   const list: string[] = [];
   for (const model of [preferred, ...fallbacks]) {
