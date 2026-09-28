@@ -173,15 +173,15 @@ export function ForgotPinModal({ open, onClose, initialTc = '' }: Props) {
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-sm"
+      className="fixed inset-0 z-[100] flex items-end justify-center bg-slate-900/40 p-4 backdrop-blur-[2px] sm:items-center sm:p-6"
       role="dialog"
       aria-modal="true"
       aria-labelledby="forgot-pin-title"
     >
-      <div className="w-full max-w-md rounded-2xl bg-white shadow-2xl overflow-hidden max-h-[min(92dvh,720px)] flex flex-col">
-        <div className="flex items-start justify-between gap-3 px-5 pt-5 pb-3 border-b border-slate-200 shrink-0">
+      <div className="flex max-h-[min(92dvh,720px)] w-full max-w-md flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_24px_60px_-28px_rgba(14,21,72,0.45)]">
+        <div className="flex shrink-0 items-start justify-between gap-3 border-b border-slate-200 px-5 pb-3 pt-5">
           <div>
-            <h2 id="forgot-pin-title" className="text-lg font-bold text-slate-900">
+            <h2 id="forgot-pin-title" className="text-lg font-semibold tracking-tight text-[#0E1548]">
               {strings.title}
             </h2>
             <p className="mt-1 text-sm text-slate-500 leading-relaxed">{subtitle}</p>

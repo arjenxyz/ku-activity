@@ -50,20 +50,20 @@ export function PendingApplicationWaitingScreen({
   return (
     <div className="relative flex min-h-[100dvh] flex-col overflow-x-hidden">
       <div className="fixed inset-0 -z-10 pointer-events-none overflow-hidden" aria-hidden>
-        <div className="absolute inset-0 bg-gradient-to-b from-blue-600 via-blue-500 to-indigo-600" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.12),transparent_55%)]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-white via-[#f7fbff] to-white" />
+        <div className="absolute -top-24 left-1/3 h-72 w-72 rounded-full bg-blue-100/60 blur-3xl" />
       </div>
 
       <div className="flex flex-1 flex-col px-4 pt-5 pb-6 safe-pt safe-pb max-w-md mx-auto w-full">
         <BrandLockup
           size="sm"
           className="mb-5"
-          iconClassName="ring-2 ring-white/30"
-          wordmarkClassName="text-white/95 font-semibold"
+          iconClassName="ring-1 ring-slate-200"
+          wordmarkClassName="font-semibold text-[#0E1548]"
         />
 
         <div className="flex flex-1 flex-col justify-center">
-          <div className="rounded-3xl bg-white shadow-2xl shadow-blue-950/25 overflow-hidden">
+          <div className="overflow-hidden rounded-3xl border border-slate-200/90 bg-white shadow-[0_24px_60px_-28px_rgba(14,21,72,0.35)]">
             <div className="px-5 pt-5 pb-4 border-b border-slate-100">
               <div className="inline-flex items-center gap-2 rounded-full bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-800">
                 <span className="relative flex h-2 w-2">

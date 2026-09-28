@@ -16,9 +16,10 @@ import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 type Props = {
   captureRootRef: React.RefObject<HTMLElement | null>;
   screenLabel?: string;
+  tone?: 'photo' | 'home';
 };
 
-export function ScreenReportButton({ captureRootRef, screenLabel }: Props) {
+export function ScreenReportButton({ captureRootRef, screenLabel, tone = 'photo' }: Props) {
 
   const strings = useRegistryStrings('components/auth/ScreenReportButton');
   const { getReportPayload } = useAuthReport();
@@ -101,14 +102,26 @@ export function ScreenReportButton({ captureRootRef, screenLabel }: Props) {
         disabled={capturing}
         aria-label={strings.reportAriaLabel}
         title={strings.reportTitle}
-        className="screen-report-ignore inline-flex h-9 shrink-0 items-center gap-1.5 px-1 text-white/90 transition-colors hover:text-white disabled:opacity-60"
+        className={`screen-report-ignore inline-flex h-9 shrink-0 items-center gap-1.5 px-1 transition-colors disabled:opacity-60 ${
+          tone === 'home' ? 'text-slate-500 hover:text-[#0E1548]' : 'text-white/90 hover:text-white'
+        }`}
       >
         {capturing ? (
-          <FiLoader className="h-4 w-4 animate-spin text-white/80" aria-hidden />
+          <FiLoader
+            className={`h-4 w-4 animate-spin ${tone === 'home' ? 'text-slate-400' : 'text-white/80'}`}
+            aria-hidden
+          />
         ) : (
-          <IoWarning className="h-4 w-4 shrink-0 text-amber-400 drop-shadow-[0_1px_2px_rgba(0,0,0,0.45)]" aria-hidden />
+          <IoWarning
+            className={`h-4 w-4 shrink-0 text-amber-500 ${tone === 'home' ? '' : 'drop-shadow-[0_1px_2px_rgba(0,0,0,0.45)]'}`}
+            aria-hidden
+          />
         )}
-        <span className="text-xs font-semibold tracking-wide drop-shadow-[0_1px_3px_rgba(0,0,0,0.6)]">
+        <span
+          className={`text-xs font-semibold tracking-wide ${
+            tone === 'home' ? '' : 'drop-shadow-[0_1px_3px_rgba(0,0,0,0.6)]'
+          }`}
+        >
           {strings.reportButton}
         </span>
       </button>

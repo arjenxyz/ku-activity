@@ -36,13 +36,13 @@ export function PersonnelLoginLayout({
   const resolvedTitle = title ?? strings.defaultTitle;
   const resolvedSubtitle = subtitle ?? strings.defaultSubtitle;
   const resolvedScreenLabel = screenLabel ?? strings.defaultScreenLabel;
-  const maxWidthClass = size === 'wide' ? 'max-w-7xl' : 'max-w-md';
+  const maxWidthClass = size === 'wide' ? 'max-w-3xl' : 'max-w-md';
   const isCompact = compact || (size === 'wide' && alignTop);
   const isDense = dense && !isCompact;
   const verticalAlignTop = alignTop && !isDense;
 
   return (
-    <AuthScreenShell screenLabel={resolvedScreenLabel} panelLabel={strings.panelLabel}>
+    <AuthScreenShell screenLabel={resolvedScreenLabel} panelLabel={strings.panelLabel} tone="home">
       <div
         className={`flex flex-col flex-1 ${
           verticalAlignTop ? '' : 'min-h-0'
@@ -71,7 +71,7 @@ export function PersonnelLoginLayout({
             >
               {!isCompact && (
                 <div className="mb-5 sm:mb-6">
-                  <h1 className="text-xl font-bold text-slate-900 tracking-tight">{resolvedTitle}</h1>
+                  <h1 className="text-xl font-semibold tracking-tight text-[#0E1548]">{resolvedTitle}</h1>
                   {resolvedSubtitle && (
                     <p className="mt-1 text-sm text-slate-500 leading-relaxed">{resolvedSubtitle}</p>
                   )}
@@ -81,7 +81,7 @@ export function PersonnelLoginLayout({
 
               {isCompact && (
                 <div className="mb-4 sm:mb-5">
-                  <h1 className="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">{resolvedTitle}</h1>
+                  <h1 className="text-lg font-semibold tracking-tight text-[#0E1548] sm:text-xl">{resolvedTitle}</h1>
                   {resolvedSubtitle && (
                     <p className="mt-1 text-sm text-slate-500 leading-relaxed">{resolvedSubtitle}</p>
                   )}

@@ -16,20 +16,20 @@ export function ApplicationApprovedScreen({ loginHref, position }: Props) {
   return (
     <div className="relative flex min-h-[100dvh] flex-col overflow-x-hidden">
       <div className="fixed inset-0 -z-10 pointer-events-none overflow-hidden" aria-hidden>
-        <div className="absolute inset-0 bg-gradient-to-b from-emerald-600 via-emerald-500 to-teal-600" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.14),transparent_55%)]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-white via-[#f7fbff] to-white" />
+        <div className="absolute -top-24 left-1/3 h-72 w-72 rounded-full bg-emerald-100/70 blur-3xl" />
       </div>
 
       <div className="flex flex-1 flex-col px-4 pt-5 pb-6 safe-pt safe-pb max-w-md mx-auto w-full">
         <BrandLockup
           size="sm"
           className="mb-5"
-          iconClassName="ring-2 ring-white/30"
-          wordmarkClassName="text-white/95 font-semibold"
+          iconClassName="ring-1 ring-slate-200"
+          wordmarkClassName="font-semibold text-[#0E1548]"
         />
 
         <div className="flex flex-1 flex-col justify-center">
-          <div className="rounded-3xl bg-white shadow-2xl shadow-emerald-950/20 overflow-hidden text-center">
+          <div className="overflow-hidden rounded-3xl border border-slate-200/90 bg-white text-center shadow-[0_24px_60px_-28px_rgba(14,21,72,0.35)]">
             <div className="px-6 pt-8 pb-2">
               <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-600">
                 <FiCheck className="w-8 h-8" strokeWidth={2.5} />
@@ -52,7 +52,7 @@ export function ApplicationApprovedScreen({ loginHref, position }: Props) {
               </p>
               <Link
                 href={loginHref}
-                className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-emerald-600 py-3.5 text-sm font-semibold text-white hover:bg-emerald-700 active:scale-[0.98] transition-all shadow-lg shadow-emerald-600/25"
+                className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#0E1548] py-3.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[#152060]"
               >
                 {strings.loginCta}
                 <FiArrowRight className="w-4 h-4" />

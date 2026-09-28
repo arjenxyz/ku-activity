@@ -460,6 +460,10 @@ a {
   color-scheme: dark;
 }
 
+.personnel-auth-page--home {
+  color-scheme: light;
+}
+
 .personnel-auth-input {
   -webkit-appearance: none;
   appearance: none;
