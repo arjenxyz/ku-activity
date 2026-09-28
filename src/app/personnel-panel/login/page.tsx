@@ -194,11 +194,6 @@ function LoginForm() {
           </Link>
         </p>
         <p>
-          <Link href="/personnel-panel/demo" prefetch className={personnelAuthLinkClass}>
-            {(strings as { demoTryLink?: string }).demoTryLink ?? 'Demoyu dene'}
-          </Link>
-        </p>
-        <p>
           <button
             type="button"
             onClick={() => setForgotOpen(true)}
