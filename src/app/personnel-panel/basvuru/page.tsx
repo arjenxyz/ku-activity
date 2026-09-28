@@ -3,7 +3,6 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
-import Link from 'next/link';
 import { ContractAcceptanceBlock } from '@/components/contracts/ContractAcceptanceBlock';
 import { ContractEmailVerificationModal } from '@/components/contracts/ContractEmailVerificationModal';
 import { PersonnelLoginLayout } from '@/components/personnel/PersonnelLoginLayout';
@@ -34,10 +33,8 @@ const STATUS_POLL_MS = 15_000;
 
 import {
   personnelAuthDividerClass,
-  personnelAuthInfoBannerClass,
   personnelAuthInputClass,
   personnelAuthLabelClass,
-  personnelAuthLinkClass,
   personnelAuthMutedTextClass,
   personnelAuthPrimaryBtnClass,
   personnelAuthSecondaryBtnClass,
@@ -401,14 +398,6 @@ export default function PersonnelApplicationPage() {
     >
       {error && <AuthAlert type="error" message={error} tone="personnel" />}
 
-      <p className={personnelAuthInfoBannerClass}>
-        {strings.infoBannerPrefix}{' '}
-        <Link href="/personnel-panel/login" className={`${personnelAuthLinkClass} underline underline-offset-2`}>
-          {strings.infoBannerLink}
-        </Link>{' '}
-        {strings.infoBannerSuffix}
-      </p>
-
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-3 gap-2">
           {[
@@ -474,9 +463,6 @@ export default function PersonnelApplicationPage() {
                   placeholder={strings.tcKimlikPlaceholder}
                   required
                 />
-                <p className="mt-1.5 text-xs text-slate-500 leading-relaxed">
-                  {strings.tcKimlikHint}
-                </p>
               </div>
               <div>
                 <label className={labelClass} htmlFor="basvuru-phone">

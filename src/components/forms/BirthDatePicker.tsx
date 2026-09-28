@@ -9,10 +9,7 @@ import {
   getEligibleBirthDays,
   getEligibleBirthMonths,
   getEligibleBirthYears,
-  getMaxBirthDate,
-  MIN_CONSTRUCTION_AGE,
 } from '@/lib/age-validation';
-import { formatString } from '@/lib/strings/format';
 
 type Props = {
   value: string;
@@ -48,7 +45,6 @@ export function BirthDatePicker({
   const [day, setDay] = useState('');
 
   const years = useMemo(() => getEligibleBirthYears(), []);
-  const maxBirthLabel = getMaxBirthDate().format('DD.MM.YYYY');
 
   useEffect(() => {
     const parsed = parseValue(value);
@@ -176,9 +172,6 @@ export function BirthDatePicker({
           ))}
         </select>
       </div>
-      <p className="text-xs text-slate-500 dark:text-slate-400 mt-1.5">
-        {formatString(strings.hint, { minAge: MIN_CONSTRUCTION_AGE, maxBirthDate: maxBirthLabel })}
-      </p>
     </div>
   );
 }
