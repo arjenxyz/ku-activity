@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
-import { FiLoader, FiX } from 'react-icons/fi';
+import { FiLoader } from 'react-icons/fi';
 import { IoWarning } from 'react-icons/io5';
 import { captureElementScreenshot } from '@/lib/capture-screen';
 import {
@@ -136,21 +136,10 @@ export function ScreenReportButton({ captureRootRef, screenLabel, tone = 'photo'
           aria-labelledby="screen-report-title"
         >
           <div className="w-full max-w-sm overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_24px_60px_-28px_rgba(14,21,72,0.45)]">
-            <div className="flex items-center justify-between gap-3 border-b border-slate-200 px-5 py-4">
+            <div className="border-b border-slate-200 px-5 py-4">
               <h2 id="screen-report-title" className="text-lg font-semibold tracking-tight text-[#0E1548]">
                 {strings.modalTitle}
               </h2>
-              <button
-                type="button"
-                onClick={() => {
-                  if (!submitting) handleClose();
-                }}
-                disabled={submitting}
-                className="shrink-0 rounded-lg p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-600"
-                aria-label={strings.close}
-              >
-                <FiX className="h-5 w-5" />
-              </button>
             </div>
 
             <div className="px-5 py-4 space-y-4">
