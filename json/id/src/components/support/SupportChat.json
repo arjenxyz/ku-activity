@@ -19,6 +19,7 @@
   "errorQuota": "Kuota AI habis. Coba lagi nanti.",
   "errorUnavailable": "Dukungan AI sementara tidak tersedia. Coba lagi nanti.",
   "inputHint": "/help · /bug-report",
+  "suggestionsToggle": "Pertanyaan saran",
   "slashCommandsLabel": "Perintah",
   "helpIntro": "Perintah tersedia (selalu dalam bahasa Inggris):",
   "bugReportPrompt": "Write the steps and capture a screenshot. Both are required.",

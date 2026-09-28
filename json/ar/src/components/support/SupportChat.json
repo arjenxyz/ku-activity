@@ -19,6 +19,7 @@
   "errorQuota": "تم تجاوز حصة الذكاء الاصطناعي. حاول لاحقاً.",
   "errorUnavailable": "دعم الذكاء الاصطناعي غير متاح مؤقتاً. حاول لاحقاً.",
   "inputHint": "/help · /bug-report",
+  "suggestionsToggle": "أسئلة مقترحة",
   "slashCommandsLabel": "الأوامر",
   "helpIntro": "الأوامر المتاحة (دائمًا بالإنجليزية):",
   "bugReportPrompt": "Write the steps and capture a screenshot. Both are required.",

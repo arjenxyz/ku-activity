@@ -19,6 +19,7 @@
   "errorQuota": "AI 配额已用尽。请稍后再试。",
   "errorUnavailable": "AI 支持暂时不可用。请稍后再试。",
   "inputHint": "/help · /bug-report",
+  "suggestionsToggle": "推荐问题",
   "slashCommandsLabel": "命令",
   "helpIntro": "可用命令（始终为英文）：",
   "bugReportPrompt": "Write the steps and capture a screenshot. Both are required.",

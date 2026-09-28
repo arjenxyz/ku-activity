@@ -19,6 +19,7 @@
   "errorQuota": "AI कोटा समाप्त हो गया। बाद में प्रयास करें।",
   "errorUnavailable": "AI सहायता अस्थायी रूप से अनुपलब्ध है। बाद में प्रयास करें।",
   "inputHint": "/help · /bug-report",
+  "suggestionsToggle": "सुझाए गए प्रश्न",
   "slashCommandsLabel": "कमांड",
   "helpIntro": "उपलब्ध कमांड (हमेशा अंग्रेज़ी में):",
   "bugReportPrompt": "Write the steps and capture a screenshot. Both are required.",

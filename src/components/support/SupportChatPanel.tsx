@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Image from 'next/image';
-import { FiCamera, FiSend, FiX } from 'react-icons/fi';
+import { FiCamera, FiPlus, FiSend, FiX } from 'react-icons/fi';
 import { useLocale } from '@/lib/i18n/LocaleProvider';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import { captureElementScreenshot } from '@/lib/capture-screen';
@@ -92,8 +92,10 @@ export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelPr
   const [capturing, setCapturing] = useState(false);
   const [cooldownUntil, setCooldownUntil] = useState(0);
   const [nowMs, setNowMs] = useState(() => Date.now());
+  const [suggestionsOpen, setSuggestionsOpen] = useState(false);
   const listRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const composerRef = useRef<HTMLDivElement>(null);
   const messagesRef = useRef(messages);
   const loadingRef = useRef(loading);
   const pendingRetryRef = useRef<string | null>(null);
@@ -153,6 +155,21 @@ export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelPr
       return command === `/${slashQuery}` || command.startsWith(`/${slashQuery}`);
     });
   }, [slashQuery, slashCatalog]);
+
+  useEffect(() => {
+    if (slashSuggestions.length > 0) setSuggestionsOpen(false);
+  }, [slashSuggestions.length]);
+
+  useEffect(() => {
+    if (!suggestionsOpen) return;
+    const onPointerDown = (event: PointerEvent) => {
+      const root = composerRef.current;
+      if (!root || !(event.target instanceof Node) || root.contains(event.target)) return;
+      setSuggestionsOpen(false);
+    };
+    document.addEventListener('pointerdown', onPointerDown);
+    return () => document.removeEventListener('pointerdown', onPointerDown);
+  }, [suggestionsOpen]);
 
   useEffect(() => {
     installSupportConsoleBuffer();
@@ -576,21 +593,6 @@ export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelPr
           <div className="rounded-2xl border border-slate-200/80 bg-white p-4 shadow-sm shadow-slate-900/[0.04]">
             <p className="text-sm font-semibold tracking-tight text-slate-900">{strings.title}</p>
             <p className="mt-1.5 text-sm leading-relaxed text-slate-600">{messages[0].content}</p>
-            {suggestionChips.length > 0 ? (
-              <div className="mt-3.5 space-y-2">
-                {suggestionChips.map((suggestion) => (
-                  <button
-                    key={suggestion}
-                    type="button"
-                    onClick={() => void sendMessage(suggestion)}
-                    disabled={loading}
-                    className="flex w-full items-center rounded-xl border border-slate-200 bg-[#f7fbff] px-3 py-2.5 text-left text-sm text-slate-700 transition hover:border-[#2D6AF6]/30 hover:bg-white disabled:opacity-50"
-                  >
-                    {suggestion}
-                  </button>
-                ))}
-              </div>
-            ) : null}
           </div>
         ) : (
           messages.map((message) => (
@@ -637,7 +639,10 @@ export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelPr
         </div>
       ) : null}
 
-      <div className="relative border-t border-slate-100 bg-white px-3.5 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+      <div
+        ref={composerRef}
+        className="relative border-t border-slate-100 bg-white px-3.5 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]"
+      >
         {bugMode ? (
           <div className="mb-3 space-y-2.5 rounded-xl border border-slate-200 bg-slate-50/80 p-3">
             <p className="text-[11px] font-medium text-slate-600">{strings.bugReportFormTitle}</p>
@@ -698,15 +703,23 @@ export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelPr
           </div>
         ) : null}
 
-        {!bugMode && !welcomeOnly && suggestionChips.length > 0 ? (
-          <div className="mb-3 flex flex-wrap gap-2">
+        {!bugMode && suggestionsOpen && suggestionChips.length > 0 ? (
+          <div
+            className="absolute bottom-[calc(100%-0.25rem)] left-3.5 right-3.5 z-10 overflow-hidden rounded-2xl border border-slate-200 bg-white p-1.5 shadow-[0_12px_32px_-16px_rgba(14,21,72,0.35)]"
+            role="listbox"
+            aria-label={strings.suggestionsToggle}
+          >
             {suggestionChips.map((suggestion) => (
               <button
                 key={suggestion}
                 type="button"
-                onClick={() => void sendMessage(suggestion)}
+                role="option"
+                onClick={() => {
+                  setSuggestionsOpen(false);
+                  void sendMessage(suggestion);
+                }}
                 disabled={loading || cooldownRemainingSec > 0}
-                className="max-w-full rounded-full border border-slate-200 bg-white px-3 py-1.5 text-left text-xs font-medium leading-snug text-slate-600 transition hover:border-[#2D6AF6]/30 hover:bg-[#f4f8ff] hover:text-[#0E1548] disabled:opacity-50"
+                className="flex w-full items-center rounded-xl px-3 py-2.5 text-left text-sm text-slate-700 transition hover:bg-[#f4f8ff] hover:text-[#0E1548] disabled:opacity-50"
               >
                 {suggestion}
               </button>
@@ -748,8 +761,26 @@ export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelPr
           <>
             <form
               onSubmit={handleSubmit}
-              className="flex items-center gap-1.5 rounded-full border border-slate-200 bg-white py-1 pl-4 pr-1 shadow-sm transition focus-within:border-[#2D6AF6]/40 focus-within:ring-2 focus-within:ring-[#2D6AF6]/15"
+              className={`flex items-center gap-1 rounded-full border border-slate-200 bg-white py-1 pr-1 shadow-sm transition focus-within:border-[#2D6AF6]/40 focus-within:ring-2 focus-within:ring-[#2D6AF6]/15 ${
+                suggestionChips.length > 0 ? 'pl-1' : 'pl-4'
+              }`}
             >
+              {suggestionChips.length > 0 ? (
+                <button
+                  type="button"
+                  aria-expanded={suggestionsOpen}
+                  aria-label={strings.suggestionsToggle}
+                  onClick={() => setSuggestionsOpen((open) => !open)}
+                  className={`inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-[#0E1548] transition hover:bg-slate-100 ${
+                    suggestionsOpen ? 'bg-[#0E1548]/[0.06]' : ''
+                  }`}
+                >
+                  <FiPlus
+                    className={`h-5 w-5 transition-transform ${suggestionsOpen ? 'rotate-45' : ''}`}
+                    aria-hidden
+                  />
+                </button>
+              ) : null}
               <textarea
                 ref={inputRef}
                 value={input}

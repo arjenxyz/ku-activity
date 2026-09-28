@@ -19,6 +19,7 @@
   "errorQuota": "Cota de IA esgotada. Tente novamente mais tarde.",
   "errorUnavailable": "O suporte IA está temporariamente indisponível. Tente mais tarde.",
   "inputHint": "/help · /bug-report",
+  "suggestionsToggle": "Perguntas sugeridas",
   "slashCommandsLabel": "Comandos",
   "helpIntro": "Comandos disponíveis (sempre em inglês):",
   "bugReportPrompt": "Write the steps and capture a screenshot. Both are required.",

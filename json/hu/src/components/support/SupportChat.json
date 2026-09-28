@@ -19,6 +19,7 @@
   "errorQuota": "Az AI kvóta kimerült. Próbálja később.",
   "errorUnavailable": "Az AI támogatás átmenetileg nem elérhető. Próbálja később.",
   "inputHint": "/help · /bug-report",
+  "suggestionsToggle": "Javasolt kérdések",
   "slashCommandsLabel": "Parancsok",
   "helpIntro": "Elérhető parancsok (mindig angolul):",
   "bugReportPrompt": "Write the steps and capture a screenshot. Both are required.",

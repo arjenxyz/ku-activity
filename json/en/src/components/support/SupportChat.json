@@ -19,6 +19,7 @@
   "errorQuota": "AI quota exceeded. Please try again later.",
   "errorUnavailable": "AI support is temporarily unavailable. Please try again later.",
   "inputHint": "/help · /bug-report",
+  "suggestionsToggle": "Suggested questions",
   "slashCommandsLabel": "Commands",
   "helpIntro": "Available commands (always in English):",
   "bugReportPrompt": "Write the steps and capture a screenshot. Both are required.",

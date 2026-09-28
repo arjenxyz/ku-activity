@@ -19,6 +19,7 @@
   "errorQuota": "AI kotası doldu. Lütfen biraz sonra tekrar deneyin.",
   "errorUnavailable": "AI destek şu an yoğun. Lütfen biraz sonra tekrar deneyin.",
   "inputHint": "/help · /bug-report",
+  "suggestionsToggle": "Önerilen sorular",
   "slashCommandsLabel": "Komutlar",
   "helpIntro": "Kullanılabilir komutlar (her zaman İngilizce):",
   "bugReportPrompt": "Hata için adımları yazın ve ekran görüntüsü alın. İkisi de zorunlu.",
