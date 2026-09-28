@@ -57,11 +57,9 @@ Yanıt kuralları:
 - Türk inşaat sektörü terminolojisine uygun konuş (usta, yevmiye, şantiye, puantaj).
 `.trim();
 
-/** 2.0 Flash was shut down June 2026. Prefer the high-throughput stable model, then fall back. */
-const DEFAULT_MODEL = 'gemini-3.5-flash';
+/** 2.0 Flash was shut down June 2026. Default stays on the previous live model. */
+const DEFAULT_MODEL = 'gemini-3.5-flash-lite';
 const FALLBACK_MODELS = [
-  'gemini-3.5-flash-lite',
-  'gemini-3.8-flash',
   'gemini-3.6-flash',
   'gemini-flash-latest',
   'gemini-3.1-flash-lite',
