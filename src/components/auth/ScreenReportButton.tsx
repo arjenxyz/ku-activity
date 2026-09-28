@@ -130,7 +130,7 @@ export function ScreenReportButton({ captureRootRef, screenLabel, tone = 'photo'
       {open && screenshot
         ? createPortal(
         <div
-          className="screen-report-modal-root fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/50"
+          className="screen-report-modal-root fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/45 p-4 backdrop-blur-3xl"
           role="dialog"
           aria-modal="true"
           aria-labelledby="screen-report-title"
