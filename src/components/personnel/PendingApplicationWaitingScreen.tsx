@@ -50,8 +50,8 @@ export function PendingApplicationWaitingScreen({
   return (
     <div className="relative flex min-h-[100dvh] flex-col overflow-x-hidden">
       <div className="fixed inset-0 -z-10 pointer-events-none overflow-hidden" aria-hidden>
-        <div className="absolute inset-0 bg-gradient-to-b from-white via-[#f7fbff] to-white" />
-        <div className="absolute -top-24 left-1/3 h-72 w-72 rounded-full bg-blue-100/60 blur-3xl" />
+        <div className="absolute inset-0 bg-[#e7eef8]" />
+        <div className="absolute -top-24 left-1/3 h-72 w-72 rounded-full bg-[#2D6AF6]/20 blur-3xl" />
       </div>
 
       <div className="flex flex-1 flex-col px-4 pt-5 pb-6 safe-pt safe-pb max-w-md mx-auto w-full">

@@ -42,7 +42,7 @@ export function PersonnelLoginLayout({
   const verticalAlignTop = alignTop && !isDense;
 
   return (
-    <AuthScreenShell screenLabel={resolvedScreenLabel} panelLabel={strings.panelLabel} tone="home">
+    <AuthScreenShell screenLabel={resolvedScreenLabel} panelLabel={strings.panelLabel}>
       <div
         className={`flex flex-col flex-1 ${
           verticalAlignTop ? '' : 'min-h-0'

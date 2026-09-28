@@ -103,12 +103,12 @@ export function ScreenReportButton({ captureRootRef, screenLabel, tone = 'photo'
         aria-label={strings.reportAriaLabel}
         title={strings.reportTitle}
         className={`screen-report-ignore inline-flex h-9 shrink-0 items-center gap-1.5 px-1 transition-colors disabled:opacity-60 ${
-          tone === 'home' ? 'text-slate-500 hover:text-[#0E1548]' : 'text-white/90 hover:text-white'
+          tone === 'home' ? 'text-sky-100/90 hover:text-white' : 'text-white/90 hover:text-white'
         }`}
       >
         {capturing ? (
           <FiLoader
-            className={`h-4 w-4 animate-spin ${tone === 'home' ? 'text-slate-400' : 'text-white/80'}`}
+            className={`h-4 w-4 animate-spin ${tone === 'home' ? 'text-sky-100/80' : 'text-white/80'}`}
             aria-hidden
           />
         ) : (

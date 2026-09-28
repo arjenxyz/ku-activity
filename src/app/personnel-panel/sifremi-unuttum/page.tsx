@@ -17,7 +17,7 @@ export default function PersonnelForgotPasswordRedirectPage() {
   }, [router]);
 
   return (
-    <div className="flex min-h-[100dvh] flex-col items-center justify-center gap-3 bg-[#f7fbff] text-slate-600">
+    <div className="flex min-h-[100dvh] flex-col items-center justify-center gap-3 bg-[#e7eef8] text-slate-600">
       <LoadingSpinner />
       <p className="text-sm">{strings.redirecting}</p>
     </div>

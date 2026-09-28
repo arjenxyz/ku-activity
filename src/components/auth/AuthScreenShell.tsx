@@ -30,7 +30,7 @@ export function AuthScreenShell({
 }: AuthScreenShellProps) {
   const captureRef = useRef<HTMLDivElement>(null);
   const home = tone === 'home';
-  usePersonnelAuthPageBackground(home ? '#f7fbff' : undefined);
+  usePersonnelAuthPageBackground(home ? '#e7eef8' : undefined);
 
   useEffect(() => {
     const onError = (event: ErrorEvent) => {
@@ -60,9 +60,10 @@ export function AuthScreenShell({
         <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden>
           {home ? (
             <>
-              <div className="absolute inset-0 bg-gradient-to-b from-white via-[#f7fbff] to-white" />
-              <div className="absolute -top-24 left-1/4 h-72 w-72 -translate-x-1/2 rounded-full bg-blue-100/60 blur-3xl" />
-              <div className="absolute right-[-4rem] top-24 h-80 w-80 rounded-full bg-sky-100/50 blur-3xl" />
+              <div className="absolute inset-0 bg-[#e7eef8]" />
+              <div className="absolute -top-28 left-1/4 h-80 w-80 -translate-x-1/2 rounded-full bg-[#2D6AF6]/20 blur-3xl" />
+              <div className="absolute right-[-5rem] top-16 h-96 w-96 rounded-full bg-[#8eb4f8]/35 blur-3xl" />
+              <div className="absolute bottom-[-6rem] left-[-3rem] h-72 w-72 rounded-full bg-[#0E1548]/10 blur-3xl" />
             </>
           ) : (
             <>
@@ -91,7 +92,7 @@ export function AuthScreenShell({
         <header
           className={`relative z-20 flex shrink-0 items-center justify-between gap-3 safe-pt safe-px ${
             home
-              ? 'border-b border-slate-200/80 bg-white/90 px-4 py-3 backdrop-blur-md sm:px-6'
+              ? 'bg-[#0E1548] px-4 py-3 sm:px-6'
               : 'px-4 pb-2 pt-4 sm:px-6'
           }`}
         >
@@ -101,7 +102,7 @@ export function AuthScreenShell({
               variant="personnel"
               className={
                 home
-                  ? 'shrink-0 ring-1 ring-slate-200/80'
+                  ? 'shrink-0 ring-1 ring-white/25'
                   : 'shrink-0 shadow-lg shadow-black/40 ring-1 ring-white/10'
               }
             />
@@ -109,7 +110,7 @@ export function AuthScreenShell({
               <p
                 className={
                   home
-                    ? 'text-sm font-semibold tracking-tight text-[#0E1548]'
+                    ? 'text-sm font-semibold tracking-tight text-white'
                     : 'text-sm font-semibold tracking-wide text-white drop-shadow-[0_1px_4px_rgba(0,0,0,0.7)]'
                 }
               >
@@ -119,7 +120,7 @@ export function AuthScreenShell({
                 <p
                   className={
                     home
-                      ? 'truncate text-[11px] text-slate-500'
+                      ? 'truncate text-[11px] text-sky-100/80'
                       : 'truncate text-[10px] font-medium uppercase tracking-[0.2em] text-sky-200/80'
                   }
                 >
