@@ -18,7 +18,7 @@
   ],
   "errorQuota": "AI の利用上限に達しました。しばらくしてから再度お試しください。",
   "errorUnavailable": "AI サポートは一時的に利用できません。しばらくしてから再度お試しください。",
-  "inputHint": "コマンドは / 。詳細: /help · 不具合: /bug-report",
+  "inputHint": "/help · /bug-report",
   "slashCommandsLabel": "コマンド",
   "helpIntro": "利用可能なコマンド（常に英語）：",
   "bugReportPrompt": "Write the steps and capture a screenshot. Both are required.",

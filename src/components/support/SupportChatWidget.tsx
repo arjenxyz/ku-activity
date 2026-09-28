@@ -168,7 +168,7 @@ export function SupportChatWidget() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 12, scale: 0.99 }}
             transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-            className="screen-report-ignore pointer-events-auto fixed inset-0 z-[56] flex flex-col sm:inset-auto sm:bottom-[calc(3.5rem+1.25rem+0.75rem)] sm:right-5 sm:h-auto sm:w-[min(calc(100vw-2.5rem),380px)] sm:p-0"
+            className="screen-report-ignore pointer-events-auto fixed inset-0 z-[56] flex flex-col sm:inset-auto sm:bottom-[calc(3.5rem+1.25rem+0.75rem)] sm:right-5 sm:h-auto sm:w-[min(calc(100vw-2.5rem),400px)] sm:p-0"
           >
             <SupportChatPanel onClose={() => setOpen(false)} />
           </motion.div>

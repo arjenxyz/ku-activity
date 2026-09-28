@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { createPortal } from 'react-dom';
 import { useRegistryStrings } from '@/lib/i18n/useRegistryStrings';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -42,23 +43,41 @@ function LoginRoleRow({
   panel: { href: string; icon: string; title: string; description: string; id: string };
   onNavigate?: () => void;
 }) {
+  const isAdmin = panel.id === 'admin';
+
   return (
     <Link
       href={panel.href}
       onClick={onNavigate}
-      className="group flex items-center gap-3 rounded-xl px-3 py-2.5 transition-colors hover:bg-slate-50 active:bg-slate-100 dark:hover:bg-slate-800/80 dark:active:bg-slate-800"
+      className={[
+        'group flex items-center gap-3.5 rounded-2xl border bg-white px-3.5 py-3 shadow-sm transition-all',
+        'active:scale-[0.99] dark:bg-slate-900',
+        isAdmin
+          ? 'border-slate-200/90 hover:border-teal-200 hover:bg-teal-50/70 hover:shadow-md hover:shadow-teal-900/5 dark:border-slate-700 dark:hover:border-teal-800 dark:hover:bg-teal-950/30'
+          : 'border-slate-200/90 hover:border-blue-200 hover:bg-[#f4f8ff] hover:shadow-md hover:shadow-[#2D6AF6]/10 dark:border-slate-700 dark:hover:border-blue-800 dark:hover:bg-blue-950/30',
+      ].join(' ')}
     >
-      <span className="relative h-9 w-9 shrink-0 overflow-hidden rounded-lg shadow-sm ring-1 ring-slate-200/80 dark:ring-slate-700">
-        <Image src={panel.icon} alt="" width={36} height={36} className="h-full w-full object-cover" />
+      <span className="relative h-11 w-11 shrink-0 overflow-hidden rounded-[22%] shadow-md shadow-slate-900/15 ring-1 ring-black/5">
+        <Image src={panel.icon} alt="" width={44} height={44} className="h-full w-full object-cover" />
       </span>
       <span className="min-w-0 flex-1">
-        <span className="block text-sm font-semibold text-slate-900 dark:text-white">{panel.title}</span>
-        <span className="block text-xs text-slate-500 dark:text-slate-400">{panel.description}</span>
+        <span className="block text-[15px] font-semibold tracking-tight text-slate-900 dark:text-white">
+          {panel.title}
+        </span>
+        <span className="mt-0.5 block text-xs leading-snug text-slate-500 dark:text-slate-400">
+          {panel.description}
+        </span>
       </span>
-      <FiArrowRight
-        className="h-4 w-4 shrink-0 text-slate-300 transition-transform group-hover:translate-x-0.5 group-hover:text-slate-500 dark:text-slate-600 dark:group-hover:text-slate-400"
-        aria-hidden
-      />
+      <span
+        className={[
+          'flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition-colors',
+          isAdmin
+            ? 'bg-slate-100 text-slate-400 group-hover:bg-teal-600 group-hover:text-white dark:bg-slate-800 dark:text-slate-500'
+            : 'bg-slate-100 text-slate-400 group-hover:bg-[#0E1548] group-hover:text-white dark:bg-slate-800 dark:text-slate-500',
+        ].join(' ')}
+      >
+        <FiArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
+      </span>
     </Link>
   );
 }
@@ -66,7 +85,7 @@ function LoginRoleRow({
 export function LoginRolePickerPanel({ onNavigate }: { onNavigate?: () => void; compact?: boolean }) {
   const loginPanels = useLoginPanels();
   return (
-    <div className="px-2 pb-2 pt-1">
+    <div className="space-y-2.5 bg-gradient-to-b from-[#f7fbff] to-white px-4 py-4 dark:from-slate-900 dark:to-slate-900">
       {loginPanels.map((panel) => (
         <LoginRoleRow key={panel.id} panel={panel} onNavigate={onNavigate} />
       ))}
@@ -76,7 +95,10 @@ export function LoginRolePickerPanel({ onNavigate }: { onNavigate?: () => void; 
 
 export function LoginRoleModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   const strings = useRegistryStrings('components/home/LoginRolePicker');
+  const [mounted, setMounted] = useState(false);
   useBodyScrollLock(open);
+
+  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
     if (!open) return;
@@ -87,7 +109,9 @@ export function LoginRoleModal({ open, onClose }: { open: boolean; onClose: () =
     return () => document.removeEventListener('keydown', onKey);
   }, [open, onClose]);
 
-  return (
+  if (!mounted) return null;
+
+  return createPortal(
     <AnimatePresence>
       {open && (
         <motion.div
@@ -99,7 +123,7 @@ export function LoginRoleModal({ open, onClose }: { open: boolean; onClose: () =
         >
           <button
             type="button"
-            className="absolute inset-0 bg-slate-900/45 backdrop-blur-[2px]"
+            className="absolute inset-0 bg-slate-900/55 backdrop-blur-sm"
             aria-label={strings.closeOverlayAriaLabel}
             onClick={onClose}
           />
@@ -108,43 +132,51 @@ export function LoginRoleModal({ open, onClose }: { open: boolean; onClose: () =
             role="dialog"
             aria-modal="true"
             aria-labelledby="login-role-modal-title"
-            initial={{ opacity: 0, y: 8, scale: 0.98 }}
+            initial={{ opacity: 0, y: 10, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 6, scale: 0.98 }}
-            transition={{ duration: 0.16, ease: 'easeOut' }}
-            className="relative z-10 w-full max-w-[20rem] overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-xl shadow-slate-900/10 dark:border-slate-700 dark:bg-slate-900 dark:shadow-black/40"
+            exit={{ opacity: 0, y: 8, scale: 0.98 }}
+            transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
+            className="relative z-10 w-full max-w-sm overflow-hidden rounded-3xl border border-white/20 bg-white shadow-[0_24px_64px_rgba(14,21,72,0.28)] dark:border-slate-700 dark:bg-slate-900"
           >
-            <div className="flex items-center justify-between gap-2 border-b border-slate-100 px-3.5 py-2.5 dark:border-slate-800">
-              <div className="min-w-0">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400 dark:text-slate-500">
-                  {APP_NAME}
-                </p>
-                <h2
-                  id="login-role-modal-title"
-                  className="text-sm font-semibold text-slate-900 dark:text-white"
+            <div className="relative overflow-hidden bg-[#0E1548] px-5 pb-4 pt-4 text-white">
+              <div
+                className="pointer-events-none absolute -right-10 -top-12 h-32 w-32 rounded-full bg-[#2D6AF6]/45 blur-2xl"
+                aria-hidden
+              />
+              <div
+                className="pointer-events-none absolute -left-8 bottom-0 h-16 w-24 rounded-full bg-sky-300/20 blur-2xl"
+                aria-hidden
+              />
+              <div className="relative flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-sky-200/80">
+                    {APP_NAME}
+                  </p>
+                  <h2 id="login-role-modal-title" className="mt-1 text-lg font-semibold tracking-tight">
+                    {strings.modalTitle}
+                  </h2>
+                </div>
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
+                  aria-label={strings.closeButtonAriaLabel}
                 >
-                  {strings.modalTitle}
-                </h2>
+                  <FiX className="h-4 w-4" />
+                </button>
               </div>
-              <button
-                type="button"
-                onClick={onClose}
-                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-slate-800 dark:hover:text-slate-200"
-                aria-label={strings.closeButtonAriaLabel}
-              >
-                <FiX className="h-4 w-4" />
-              </button>
             </div>
 
             <LoginRolePickerPanel onNavigate={onClose} />
 
-            <p className="border-t border-slate-100 px-3.5 py-2 text-center text-[10px] leading-snug text-slate-400 dark:border-slate-800 dark:text-slate-500">
+            <p className="border-t border-slate-100 px-5 py-3 text-center text-xs leading-snug text-slate-500 dark:border-slate-800 dark:text-slate-400">
               {strings.footerNote}
             </p>
           </motion.div>
         </motion.div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 }
 

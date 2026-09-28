@@ -18,7 +18,7 @@
   ],
   "errorQuota": "Квота ИИ исчерпана. Попробуйте позже.",
   "errorUnavailable": "ИИ-поддержка временно недоступна. Попробуйте позже.",
-  "inputHint": "Введите / для команд. Ещё: /help · Ошибки: /bug-report",
+  "inputHint": "/help · /bug-report",
   "slashCommandsLabel": "Команды",
   "helpIntro": "Доступные команды (всегда на английском):",
   "bugReportPrompt": "Write the steps and capture a screenshot. Both are required.",

@@ -533,52 +533,91 @@ export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelPr
     void sendMessage(input);
   };
 
+  const welcomeOnly = messages.length === 1 && messages[0]?.id === 'welcome' && !bugMode;
+
   return (
     <div
-      className={`screen-report-ignore flex h-dvh max-h-dvh w-full flex-col overflow-hidden rounded-none border-0 bg-white shadow-none sm:h-[min(72dvh,560px)] sm:max-h-none sm:rounded-2xl sm:border sm:border-slate-200/90 sm:shadow-[0_20px_60px_-20px_rgba(14,21,72,0.35)] ${className}`}
+      className={`screen-report-ignore flex h-dvh max-h-dvh w-full flex-col overflow-hidden rounded-none border-0 bg-white shadow-none sm:h-[min(72dvh,600px)] sm:max-h-none sm:rounded-3xl sm:border sm:border-slate-200/90 sm:shadow-[0_24px_64px_-24px_rgba(14,21,72,0.4)] ${className}`}
     >
-      <div className="flex items-center gap-3 border-b border-slate-100 bg-[#0E1548] px-4 py-3.5 pt-[max(0.875rem,env(safe-area-inset-top))] text-white">
-        <span className="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full">
-          <Image src="/ai-destek.png" alt="" width={40} height={40} className="h-full w-full object-cover" />
-        </span>
-        <div className="min-w-0 flex-1">
-          <p className="text-sm font-bold leading-tight">{strings.title}</p>
-          <p className="text-[11px] text-white/70">{strings.subtitle}</p>
+      <div className="relative overflow-hidden bg-[#0E1548] px-4 py-3.5 pt-[max(0.875rem,env(safe-area-inset-top))] text-white">
+        <div
+          className="pointer-events-none absolute -right-8 -top-10 h-24 w-24 rounded-full bg-[#2D6AF6]/40 blur-2xl"
+          aria-hidden
+        />
+        <div className="relative flex items-center gap-3">
+          <span className="relative flex h-11 w-11 shrink-0 overflow-hidden rounded-[22%] shadow-md shadow-black/20 ring-1 ring-white/20">
+            <Image src="/ai-destek.png" alt="" width={44} height={44} className="h-full w-full object-cover" />
+          </span>
+          <div className="min-w-0 flex-1">
+            <p className="text-[15px] font-semibold leading-tight tracking-tight">{strings.title}</p>
+            <p className="mt-0.5 flex items-center gap-1.5 text-[11px] text-sky-100/80">
+              <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-400" aria-hidden />
+              <span className="truncate">{strings.subtitle}</span>
+            </p>
+          </div>
+          {onClose ? (
+            <button
+              type="button"
+              onClick={onClose}
+              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20"
+              aria-label={strings.close}
+            >
+              <FiX className="h-4 w-4" aria-hidden />
+            </button>
+          ) : null}
         </div>
-        {onClose ? (
-          <button
-            type="button"
-            onClick={onClose}
-            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white/10 text-white transition hover:bg-white/20"
-            aria-label={strings.close}
-          >
-            <FiX className="h-5 w-5" aria-hidden />
-          </button>
-        ) : null}
       </div>
 
-      <div ref={listRef} className="flex-1 space-y-3 overflow-y-auto bg-slate-50/80 px-3.5 py-3.5">
-        {messages.map((message) => (
-          <div
-            key={message.id}
-            className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
-          >
-            <div
-              className={`max-w-[88%] whitespace-pre-wrap rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed ${
-                message.role === 'user'
-                  ? 'bg-[#0E1548] text-white'
-                  : 'border border-slate-200/80 bg-white text-slate-800 shadow-sm'
-              }`}
-            >
-              {message.content}
-            </div>
+      <div
+        ref={listRef}
+        className="flex-1 space-y-3 overflow-y-auto bg-gradient-to-b from-[#f7fbff] to-white px-4 py-4"
+      >
+        {welcomeOnly ? (
+          <div className="rounded-2xl border border-slate-200/80 bg-white p-4 shadow-sm shadow-slate-900/[0.04]">
+            <p className="text-sm font-semibold tracking-tight text-slate-900">{strings.title}</p>
+            <p className="mt-1.5 text-sm leading-relaxed text-slate-600">{messages[0].content}</p>
+            {suggestionChips.length > 0 ? (
+              <div className="mt-3.5 space-y-2">
+                {suggestionChips.map((suggestion) => (
+                  <button
+                    key={suggestion}
+                    type="button"
+                    onClick={() => void sendMessage(suggestion)}
+                    disabled={loading}
+                    className="flex w-full items-center rounded-xl border border-slate-200 bg-[#f7fbff] px-3 py-2.5 text-left text-sm text-slate-700 transition hover:border-[#2D6AF6]/30 hover:bg-white disabled:opacity-50"
+                  >
+                    {suggestion}
+                  </button>
+                ))}
+              </div>
+            ) : null}
           </div>
-        ))}
+        ) : (
+          messages.map((message) => (
+            <div
+              key={message.id}
+              className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
+            >
+              <div
+                className={`max-w-[86%] whitespace-pre-wrap px-3.5 py-2.5 text-sm leading-relaxed ${
+                  message.role === 'user'
+                    ? 'rounded-2xl rounded-br-md bg-[#0E1548] text-white shadow-sm shadow-[#0E1548]/20'
+                    : 'rounded-2xl rounded-bl-md border border-slate-200/80 bg-white text-slate-800 shadow-sm'
+                }`}
+              >
+                {message.content}
+              </div>
+            </div>
+          ))
+        )}
 
         {loading ? (
-          <div className="flex justify-start">
-            <div className="rounded-2xl border border-slate-200/80 bg-white px-3.5 py-2.5 text-sm text-slate-500 shadow-sm">
-              {strings.thinking}
+          <div className="flex justify-start" role="status" aria-live="polite">
+            <div className="inline-flex items-center gap-1.5 rounded-2xl rounded-bl-md border border-slate-200/80 bg-white px-3.5 py-3 shadow-sm">
+              <span className="sr-only">{strings.thinking}</span>
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-slate-300" />
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-slate-400 [animation-delay:150ms]" />
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#2D6AF6] [animation-delay:300ms]" />
             </div>
           </div>
         ) : null}
@@ -659,15 +698,15 @@ export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelPr
           </div>
         ) : null}
 
-        {!bugMode && suggestionChips.length > 0 ? (
-          <div className="mb-2.5 flex flex-wrap gap-1.5">
+        {!bugMode && !welcomeOnly && suggestionChips.length > 0 ? (
+          <div className="mb-3 flex flex-wrap gap-2">
             {suggestionChips.map((suggestion) => (
               <button
                 key={suggestion}
                 type="button"
                 onClick={() => void sendMessage(suggestion)}
-                disabled={loading}
-                className="rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-[10px] font-medium text-slate-600 transition hover:border-[#0E1548]/20 hover:bg-[#0E1548]/[0.04] hover:text-[#0E1548] disabled:opacity-50"
+                disabled={loading || cooldownRemainingSec > 0}
+                className="max-w-full rounded-full border border-slate-200 bg-white px-3 py-1.5 text-left text-xs font-medium leading-snug text-slate-600 transition hover:border-[#2D6AF6]/30 hover:bg-[#f4f8ff] hover:text-[#0E1548] disabled:opacity-50"
               >
                 {suggestion}
               </button>
@@ -707,11 +746,10 @@ export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelPr
 
         {!bugMode ? (
           <>
-            <p className="mb-2 text-[10px] leading-snug text-slate-400">
-              {strings.inputHint}
-              {cooldownRemainingSec > 0 ? ` · Slow down: ${cooldownRemainingSec}s` : ''}
-            </p>
-            <form onSubmit={handleSubmit} className="flex items-end gap-2">
+            <form
+              onSubmit={handleSubmit}
+              className="flex items-center gap-1.5 rounded-full border border-slate-200 bg-white py-1 pl-4 pr-1 shadow-sm transition focus-within:border-[#2D6AF6]/40 focus-within:ring-2 focus-within:ring-[#2D6AF6]/15"
+            >
               <textarea
                 ref={inputRef}
                 value={input}
@@ -755,10 +793,10 @@ export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelPr
                     void sendMessage(input);
                   }
                 }}
-                rows={2}
+                rows={1}
                 placeholder={strings.placeholder}
                 disabled={loading}
-                className="min-h-[42px] flex-1 resize-none rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800 outline-none transition focus:border-[#0E1548]/30 focus:ring-2 focus:ring-[#0E1548]/10 disabled:opacity-60"
+                className="max-h-24 min-h-10 flex-1 resize-none bg-transparent py-2.5 text-sm leading-5 text-slate-800 outline-none placeholder:text-slate-400 disabled:opacity-60"
               />
               <button
                 type="submit"
@@ -767,12 +805,17 @@ export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelPr
                   cooldownRemainingSec > 0 ||
                   (!input.trim() && slashSuggestions.length === 0)
                 }
-                className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#0E1548] text-white transition hover:bg-[#141d5c] disabled:cursor-not-allowed disabled:opacity-50"
-                aria-label={strings.send}
+                className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#0E1548] text-white transition hover:bg-[#152060] disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-400"
+                aria-label={
+                  cooldownRemainingSec > 0 ? `${strings.send} ${cooldownRemainingSec}s` : strings.send
+                }
               >
                 <FiSend className="h-4 w-4" aria-hidden />
               </button>
             </form>
+            <p className="mt-2 px-2 text-center text-[11px] leading-relaxed text-slate-400">
+              {strings.inputHint}
+            </p>
           </>
         ) : null}
       </div>

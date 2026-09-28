@@ -18,7 +18,7 @@
   ],
   "errorQuota": "Quota IA dépassé. Réessayez plus tard.",
   "errorUnavailable": "L'assistance IA est temporairement indisponible. Réessayez plus tard.",
-  "inputHint": "Tapez / pour les commandes. Plus: /help · Bugs: /bug-report",
+  "inputHint": "/help · /bug-report",
   "slashCommandsLabel": "Commandes",
   "helpIntro": "Commandes disponibles (toujours en anglais) :",
   "bugReportPrompt": "Write the steps and capture a screenshot. Both are required.",

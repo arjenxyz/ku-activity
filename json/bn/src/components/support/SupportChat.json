@@ -18,7 +18,7 @@
   ],
   "errorQuota": "AI কোটা শেষ। পরে আবার চেষ্টা করুন।",
   "errorUnavailable": "AI সহায়তা সাময়িকভাবে অনুপলব্ধ। পরে চেষ্টা করুন।",
-  "inputHint": "কমান্ডের জন্য / লিখুন। আরও: /help · বাগ: /bug-report",
+  "inputHint": "/help · /bug-report",
   "slashCommandsLabel": "কমান্ড",
   "helpIntro": "উপলব্ধ কমান্ড (সবসময় ইংরেজিতে):",
   "bugReportPrompt": "Write the steps and capture a screenshot. Both are required.",

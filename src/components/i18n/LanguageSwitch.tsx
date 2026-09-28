@@ -194,6 +194,7 @@ function LocaleOptionsList({
       className={listClass}
       role="listbox"
       {...(scrollable ? { 'data-allow-scroll': true } : {})}
+      onClick={layout === 'overlay' ? (event) => event.stopPropagation() : undefined}
     >
       {LOCALE_OPTIONS.map((option) => (
         <li key={option.id}>
@@ -289,7 +290,6 @@ function LanguageOverlay({
             transition={{ duration: 0.18, ease: 'easeOut' }}
             className="h-full min-h-0 overflow-y-auto overscroll-contain px-4 [-webkit-overflow-scrolling:touch]"
             data-allow-scroll
-            onClick={(e) => e.stopPropagation()}
           >
             <div className="mx-auto flex min-h-full w-full max-w-md flex-col justify-center py-[max(1.5rem,env(safe-area-inset-top))] pb-[max(2.25rem,env(safe-area-inset-bottom))] sm:max-w-2xl">
               <div className="w-full">

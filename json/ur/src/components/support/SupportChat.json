@@ -18,7 +18,7 @@
   ],
   "errorQuota": "AI کوٹہ ختم ہو گیا۔ بعد میں کوشش کریں۔",
   "errorUnavailable": "AI سپورٹ عارضی طور پر دستیاب نہیں۔ بعد میں کوشش کریں۔",
-  "inputHint": "کمانڈز کے لیے / لکھیں۔ مزید: /help · خرابی: /bug-report",
+  "inputHint": "/help · /bug-report",
   "slashCommandsLabel": "کمانڈز",
   "helpIntro": "دستیاب کمانڈز (ہمیشہ انگریزی میں):",
   "bugReportPrompt": "Write the steps and capture a screenshot. Both are required.",

@@ -18,7 +18,7 @@
   ],
   "errorQuota": "Cuota de IA agotada. Inténtalo más tarde.",
   "errorUnavailable": "El soporte IA no está disponible temporalmente. Inténtalo más tarde.",
-  "inputHint": "Escribe / para comandos. Más: /help · Errores: /bug-report",
+  "inputHint": "/help · /bug-report",
   "slashCommandsLabel": "Comandos",
   "helpIntro": "Comandos disponibles (siempre en inglés):",
   "bugReportPrompt": "Write the steps and capture a screenshot. Both are required.",

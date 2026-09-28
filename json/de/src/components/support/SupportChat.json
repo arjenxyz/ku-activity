@@ -18,7 +18,7 @@
   ],
   "errorQuota": "KI-Kontingent erschöpft. Bitte später erneut versuchen.",
   "errorUnavailable": "KI-Support ist vorübergehend nicht verfügbar. Bitte später erneut versuchen.",
-  "inputHint": "Tippe / für Befehle. Mehr: /help · Fehler: /bug-report",
+  "inputHint": "/help · /bug-report",
   "slashCommandsLabel": "Befehle",
   "helpIntro": "Verfügbare Befehle (immer Englisch):",
   "bugReportPrompt": "Write the steps and capture a screenshot. Both are required.",
