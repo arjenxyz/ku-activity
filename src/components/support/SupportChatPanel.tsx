@@ -844,9 +844,6 @@ export function SupportChatPanel({ onClose, className = '' }: SupportChatPanelPr
                 <FiSend className="h-4 w-4" aria-hidden />
               </button>
             </form>
-            <p className="mt-2 px-2 text-center text-[11px] leading-relaxed text-slate-400">
-              {strings.inputHint}
-            </p>
           </>
         ) : null}
       </div>
