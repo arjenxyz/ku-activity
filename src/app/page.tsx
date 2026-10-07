@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { BrandMark } from '@/components/brand/BrandMark';
 import { APP_NAME, APP_TAGLINE_TR } from '@/lib/brand';
-import { btnPrimary, btnSecondary, cardClass } from '@/components/ui/styles';
+import { btnPrimary, cardClass } from '@/components/ui/styles';
 
 export default function HomePage() {
   return (
@@ -13,12 +13,9 @@ export default function HomePage() {
           </div>
           <h1 className="text-xl font-bold tracking-tight text-[#0E1548]">{APP_NAME}</h1>
           <p className="mt-2 text-sm text-slate-600">{APP_TAGLINE_TR}</p>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
+          <div className="mt-8 flex justify-center">
             <Link href="/login" className={btnPrimary}>
               Giriş yap
-            </Link>
-            <Link href="/student" className={btnSecondary}>
-              Öğrenci paneli
             </Link>
           </div>
         </div>
