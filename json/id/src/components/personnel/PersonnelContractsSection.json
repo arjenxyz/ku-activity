@@ -1,8 +1,0 @@
-{
-  "loading": "Sözleşmeler yükleniyor…",
-  "sectionTitle": "Sözleşmelerim",
-  "empty": "Onayladığınız sözleşme bulunmuyor.",
-  "sectionTitleWithCount": "Sözleşmelerim ({count})",
-  "versionLine": "Surum {version} · {date}",
-  "open": "Aç"
-}

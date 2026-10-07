@@ -1,6 +1,0 @@
-{
-  "invalidStatus": "Statusnya tidak valid",
-  "resolveFailed": "Tidak dapat menyelesaikan laporan",
-  "notFound": "Laporan tidak ditemukan atau sudah terselesaikan",
-  "migrationRequired": "Jalankan migrasi 077_day_error_reports.sql"
-}

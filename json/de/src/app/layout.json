@@ -1,6 +1,0 @@
-{
-  "title": "{appName} | Plattform für Bauarbeiter",
-  "description": "Anwesenheit, Tageslöhne, Verträge und Personalmanagement für Baustellen. Gebaut mit Next.js und Supabase.",
-  "applicationName": "{appName}",
-  "appleWebAppTitle": "{appName}"
-}

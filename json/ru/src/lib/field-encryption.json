@@ -1,7 +1,0 @@
-{
-  "encryptionKeyMissing": "FIELD_ENCRYPTION_KEY внешний вид файла (.env)",
-  "invalidTcKimlik": "Гечерсиз Т.С. Кимлик Нумарасы",
-  "invalidIdentity": "Geçersiz kimlik numarası",
-  "invalidPhone": "Телефонные номера",
-  "invalidIban": "Общий IBAN"
-}

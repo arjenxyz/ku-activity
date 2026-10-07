@@ -1,9 +1,0 @@
-{
-  "title": {
-    "ok": "Başarılı — devam ediyor",
-    "critical": "সোরুন ভার",
-    "warning": "পিং gecikmiş",
-    "unknown": "হেনুজ বিলিনমিওর"
-  },
-  "lastPing": "সন পিং: {date}"
-}

@@ -1,6 +1,0 @@
-{
-  "invalidId": "Identifiant invalide",
-  "removeFailed": "Impossible de supprimer un collaborateur",
-  "ownerOnly": "Seul le porteur du projet peut le faire",
-  "migrationRequired": "La migration des collaborateurs n'est pas encore appliquée (076_project_collaborators.sql)"
-}

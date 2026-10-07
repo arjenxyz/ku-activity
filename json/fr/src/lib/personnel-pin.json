@@ -1,5 +1,0 @@
-{
-  "pinWrongLength": "Giriş şifresi (PIN) {length} Haneli olmalıdır",
-  "pinDigitsOnly": "PIN yalnızca rakam içermelidir",
-  "pinMismatch": "PIN afficher le code PIN"
-}

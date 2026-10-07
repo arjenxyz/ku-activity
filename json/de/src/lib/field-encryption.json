@@ -1,7 +1,0 @@
-{
-  "encryptionKeyMissing": "FIELD_ENCRYPTION_KEY wird als Datei verwendet (.env)",
-  "invalidTcKimlik": "Geçersiz T.C. Kimlik Numarası",
-  "invalidIdentity": "Geçersiz kimlik numarası",
-  "invalidPhone": "Rufen Sie die Telefonnummer ab",
-  "invalidIban": "Geçersiz IBAN"
-}

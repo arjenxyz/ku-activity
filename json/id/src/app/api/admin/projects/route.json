@@ -1,8 +1,0 @@
-{
-  "projeAdıGerekli": "Nama proyek wajib diisi",
-  "geçersizDurum": "Statusnya tidak valid",
-  "oturumGerekli": "Sesi diperlukan",
-  "activeProjectLimit": "Anda dapat memiliki maksimal 2 proyek aktif. Proyek yang sedang ditutup tidak diperhitungkan dalam batas ini.",
-  "migrationRequired": "Diperlukan migrasi basis data (065_project_admin_limits.sql)",
-  "buProjeKoduZatenKullanılıyor": "Kode proyek ini sudah digunakan"
-}

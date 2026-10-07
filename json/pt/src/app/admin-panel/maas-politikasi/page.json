@@ -1,9 +1,0 @@
-{
-  "loadFailed": "Yüklenemedi",
-  "saveFailed": "Kaydedilemedi",
-  "saveSuccess": "Şirket politikası kaydedildi. O projeto foi executado sem problemas.",
-  "saveError": "Kayıt başarısız",
-  "backToProjects": "← Projetos feitos",
-  "title": "Şirket maaş politikasi",
-  "subtitle": "Ana Yetkili: yevmiye ödeme zamanı e asgari hesap kurallarını burada belirleyin. Seu projeto é kendi özel kuralını tanımlayabilir."
-}

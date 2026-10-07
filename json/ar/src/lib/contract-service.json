@@ -1,6 +1,0 @@
-{
-  "requiredContractsMissing": "Tüm zorunlu sözleşmeleri okuyup onaylamanız gerekir",
-  "invalidAcceptance": "Geçersiz sözleşme onayı",
-  "contractUpdated": "\"{title}\" غونسيلندي. Sayfayı yenileyip sözleşmeleri tekrar okuyun.",
-  "acceptancesSaveFailed": "معلومات الاتصال بنايلاري kaydedilemedi: {message}"
-}

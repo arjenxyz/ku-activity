@@ -1,6 +1,0 @@
-{
-  "requiredContractsMissing": "Tüm zorunlu sözleşmeleri okuyup onaylamanız gerekir",
-  "invalidAcceptance": "Geçersiz sözleşme onayı",
-  "contractUpdated": "\"{title}\" гюнчелленди. Sayfayı yenileyip sözleşmeleri tekrar okuyun.",
-  "acceptancesSaveFailed": "Получите доступ к информации: {message}"
-}

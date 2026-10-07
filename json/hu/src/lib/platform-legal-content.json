@@ -1,8 +1,0 @@
-{
-  "title": "Gönüllülük Projesi",
-  "developerLine": "A {name} a {nature}, amelyet {developerName} fejlesztett ki.",
-  "noCompanyLine": "{establishedNote}",
-  "optionalUseLine": "Egyetlen menedzser vagy munkáltató sem kényszerítheti a személyzetet ennek a platformnak a használatára. A használat teljesen önkéntes.",
-  "transparencyLine": "A napló-, előleg-, levonás-, minimálbér-, jelenléti és bérszámfejtési nyilvántartás megtekinthető mind a vezetői, mind a személyzeti panelen; A cél a pénzügyi nyomon követés digitálissá és átláthatóvá tétele.",
-  "legalLine": "{legalDisclaimer}"
-}

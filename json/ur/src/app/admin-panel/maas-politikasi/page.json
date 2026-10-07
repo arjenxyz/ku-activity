@@ -1,9 +1,0 @@
-{
-  "loadFailed": "یوکلینیمیڈی",
-  "saveFailed": "Kaydedilemedi",
-  "saveSuccess": "Şirket politikası kaydedildi. Projeler varsayılan olarak bunu kullanır.",
-  "saveError": "Kayıt başarısız",
-  "backToProjects": "← منصوبہ بندی کریں",
-  "title": "Şirket maaş politikası",
-  "subtitle": "Ana Yetkili: yevmiye ödeme zamanı ve asgari hesap kurallarını burada belirleyin. Her proje isterse kendi özel kuralını tanımlayabilir."
-}

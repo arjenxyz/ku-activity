@@ -1,6 +1,0 @@
-{
-  "loadFailed": "Não foi possível carregar os colaboradores",
-  "rotateFailed": "Não foi possível girar o código",
-  "ownerOnly": "Somente o proprietário do projeto pode fazer isso",
-  "migrationRequired": "Migração de colaboradores ainda não aplicada (076_project_collaborators.sql)"
-}

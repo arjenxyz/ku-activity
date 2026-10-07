@@ -1,12 +1,14 @@
 import { NextResponse } from 'next/server';
-import { getKeepaliveStatus } from '@/lib/supabase-keepalive';
 
 export const dynamic = 'force-dynamic';
 
+/** Public health check — does not expose secrets. */
 export async function GET() {
-  const status = await getKeepaliveStatus();
+  const configured = Boolean(
+    process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  );
   return NextResponse.json({
-    ...status,
+    configured,
     checkedAt: new Date().toISOString(),
   });
 }

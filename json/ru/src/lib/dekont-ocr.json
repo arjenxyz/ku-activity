@@ -1,7 +1,0 @@
-{
-  "visionFailed": "Ошибка распознавания текста Vision. Включен ли API Cloud Vision?",
-  "visionPdfEmpty": "Не удалось извлечь текст из квитанции в формате PDF.",
-  "tesseractFailed": "Ошибка распознавания текста Тессеракта",
-  "tesseractPdfEmpty": "Не удалось преобразовать страницу PDF в изображение.",
-  "unsupportedFileType": "Нераспознанный тип файла — отправьте PDF-файл или изображение (JPG/PNG)."
-}

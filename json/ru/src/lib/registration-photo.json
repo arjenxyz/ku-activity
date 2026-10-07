@@ -1,9 +1,0 @@
-{
-  "invalidMime": "JPEG, PNG с поддержкой WebP",
-  "maxSize": "Фотографии на странице 5 МБ доступные",
-  "bucketMigrationOtp": "025_private_photo_storage.sql — файл",
-  "uploadFailed": "Фотограф Юкленемеди",
-  "draftNotFound": "Невероятно красивые фотографии. Лютфен йениден башвурун.",
-  "saveFailed": "Фотография Кайдедилемеди",
-  "bucketMigrationRegistration": "025 миграция Чалыштырын"
-}

@@ -1,9 +1,0 @@
-{
-  "stats": {
-    "employees": "Personnel Toplam",
-    "active": "Aktif Personnel",
-    "missing": "Bugün Onaysiz",
-    "payroll": "Aylik Tahmini"
-  },
-  "monthWorkLogs": "Bu ay {present} yevmiye kaydı"
-}

@@ -1,6 +1,0 @@
-{
-  "requiredContractsMissing": "Minden kötelező szerződést el kell olvasnia és el kell fogadnia",
-  "invalidAcceptance": "Érvénytelen szerződés visszaigazolás",
-  "contractUpdated": "„{title}” frissítve. Frissítse az oldalt, és olvassa el újra a megállapodásokat.",
-  "acceptancesSaveFailed": "Nem sikerült menteni a szerződés visszaigazolásait: {message}"
-}

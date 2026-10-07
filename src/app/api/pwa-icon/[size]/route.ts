@@ -10,7 +10,12 @@ export async function GET(
   const { size: sizeParam } = await params;
   const size = parseInt(sizeParam, 10);
   const variantParam = new URL(request.url).searchParams.get('variant');
-  const variant: AppIconVariant = variantParam === 'admin' ? 'admin' : 'personnel';
+  const variant: AppIconVariant =
+    variantParam === 'admin' || variantParam === 'staff'
+      ? 'admin'
+      : variantParam === 'student'
+        ? 'student'
+        : 'personnel';
 
   if (!ALLOWED.includes(size as (typeof ALLOWED)[number])) {
     return new Response('Invalid size', { status: 400 });

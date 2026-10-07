@@ -1,7 +1,0 @@
-{
-  "visionFailed": "Vision OCR fehlgeschlagen – ist die Cloud Vision API aktiviert?",
-  "visionPdfEmpty": "Text aus der PDF-Quittung konnte nicht extrahiert werden",
-  "tesseractFailed": "Tesseract OCR ist fehlgeschlagen",
-  "tesseractPdfEmpty": "Die PDF-Seite konnte nicht in ein Bild konvertiert werden",
-  "unsupportedFileType": "Unbekannter Dateityp – senden Sie ein PDF oder Bild (JPG/PNG)"
-}

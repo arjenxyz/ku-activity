@@ -1,7 +1,0 @@
-{
-  "encryptionKeyMissing": "FIELD_ENCRYPTION_KEY tidak dapat diakses (.env)",
-  "invalidTcKimlik": "Geçersiz T.C. kimlik numarası",
-  "invalidIdentity": "Geçersiz kimlik numarası",
-  "invalidPhone": "Gunakan nomor telepon",
-  "invalidIban": "Geçersiz IBAN"
-}

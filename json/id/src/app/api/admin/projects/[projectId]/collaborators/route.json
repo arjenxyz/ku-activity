@@ -1,6 +1,0 @@
-{
-  "loadFailed": "Tidak dapat memuat kolaborator",
-  "rotateFailed": "Tidak dapat memutar kode",
-  "ownerOnly": "Hanya pemilik proyek yang dapat melakukan hal ini",
-  "migrationRequired": "Migrasi kolaborator belum diterapkan (076_project_collaborators.sql)"
-}

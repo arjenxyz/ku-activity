@@ -1,9 +1,0 @@
-{
-  "title": {
-    "ok": "Başarılı — devam editor",
-    "critical": "Sorun var",
-    "warning": "Ping gecikmiş",
-    "unknown": "Henüz bilinmiyor"
-  },
-  "lastPing": "Filho ping: {date}"
-}

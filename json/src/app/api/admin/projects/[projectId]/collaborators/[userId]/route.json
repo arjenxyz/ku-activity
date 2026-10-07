@@ -1,6 +1,0 @@
-{
-  "invalidId": "Geçersiz kimlik",
-  "removeFailed": "Ortak çıkarılamadı",
-  "ownerOnly": "Bu işlem yalnızca proje sahibine açıktır",
-  "migrationRequired": "Ortaklık migration’ı henüz uygulanmadı (076_project_collaborators.sql)"
-}

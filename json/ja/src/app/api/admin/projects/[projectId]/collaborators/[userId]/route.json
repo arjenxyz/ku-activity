@@ -1,6 +1,0 @@
-{
-  "invalidId": "無効なID",
-  "removeFailed": "共同編集者を削除できませんでした",
-  "ownerOnly": "プロジェクト所有者のみがこれを行うことができます",
-  "migrationRequired": "コラボレーターの移行はまだ適用されていません (076_project_collaborators.sql)"
-}

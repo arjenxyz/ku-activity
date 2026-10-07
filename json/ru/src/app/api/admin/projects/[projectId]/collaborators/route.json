@@ -1,6 +1,0 @@
-{
-  "loadFailed": "Не удалось загрузить соавторов.",
-  "rotateFailed": "Не удалось повернуть код",
-  "ownerOnly": "Это может сделать только владелец проекта.",
-  "migrationRequired": "Миграция Collaborator еще не применена (076_project_collaborators.sql)"
-}

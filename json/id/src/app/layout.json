@@ -1,6 +1,0 @@
-{
-  "title": "{appName} | Platform Tenaga Kerja Konstruksi",
-  "description": "Kehadiran, gaji harian, kontrak, dan manajemen kru untuk lokasi konstruksi. Dibangun dengan Next.js dan Supabase.",
-  "applicationName": "{appName}",
-  "appleWebAppTitle": "{appName}"
-}

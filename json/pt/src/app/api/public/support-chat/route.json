@@ -1,9 +1,0 @@
-{
-  "geçersizMesaj": "Mensagem inválida.",
-  "mesajÇokUzun": "A mensagem é demasiado longa.",
-  "rateLimit": "Demasiados pedidos. Aguarde um momento.",
-  "aiYapılandırılmamış": "O suporte IA não está configurado.",
-  "yanıtAlınamadı": "Não foi possível obter uma resposta. Tente novamente.",
-  "kotaAşıldı": "Cota de IA esgotada. Tente novamente mais tarde.",
-  "geçiciOlarakKullanılamıyor": "O suporte IA está temporariamente indisponível. Tente mais tarde."
-}

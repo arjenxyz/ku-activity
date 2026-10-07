@@ -1,7 +1,0 @@
-{
-  "visionFailed": "Vision OCR başarısız — Cloud Vision API etkin mi?",
-  "visionPdfEmpty": "PDF dekonttan metin çıkarılamadı",
-  "tesseractFailed": "Tesseract OCR başarısız",
-  "tesseractPdfEmpty": "PDF sayfası görsele dönüştürülemedi",
-  "unsupportedFileType": "Dosya türü tanınamadı — PDF veya görsel (JPG/PNG) gönderin"
-}

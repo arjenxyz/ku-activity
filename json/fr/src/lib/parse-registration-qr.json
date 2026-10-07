@@ -1,6 +1,0 @@
-{
-  "approved": "Vous avez choisi de le faire. Bu kod tekrar kullanılamaz; personnel sisteme alınmış.",
-  "rejected": "J'ai başvuru reddedilmiş. Le personnel est toujours disponible.",
-  "expired": "Başvuru süresi dolmuş. Le personnel est là pour vous répondre.",
-  "unknownStatus": "J'ai basvuru durumu : {status}"
-}

@@ -1,6 +1,0 @@
-{
-  "loadFailed": "Ortaklar yüklenemedi",
-  "rotateFailed": "Kod yenilenemedi",
-  "ownerOnly": "Bu işlem yalnızca proje sahibine açıktır",
-  "migrationRequired": "Ortaklık migration’ı henüz uygulanmadı (076_project_collaborators.sql)"
-}

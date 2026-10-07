@@ -1,9 +1,0 @@
-{
-  "adminPanelLabel": "Yönetici Paneli",
-  "personnelPanelLabel": "Paneles de personal",
-  "adminScreenLabel": "Yönetici Giris",
-  "personnelScreenLabel": "Personal Giris",
-  "adminAlternatePrompt": "¿Personal equivocado?",
-  "personnelAlternatePrompt": "¿Yönetici misiniz?",
-  "homeLink": "← Ana Sayfa"
-}

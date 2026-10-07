@@ -1,5 +1,0 @@
-{
-  "sunucuYapılandırmasıEksikSupabaseServiceRole": "Hiányzik a szerver konfigurációja (SUPABASE_SERVICE_ROLE_KEY)",
-  "profilOluşturulamadıSupabaseDe049Admin": "Profil oluşturulamadı. Supabase'de 049_admin_onboarding_fields.sql migrációs dosyasını çalıştırın.",
-  "kayıtSırasındaHataOluştu": "Hiba történt a regisztráció során"
-}

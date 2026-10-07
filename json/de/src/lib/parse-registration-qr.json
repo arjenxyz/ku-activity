@@ -1,6 +1,0 @@
-{
-  "approved": "Dies ist jedoch nicht der Fall. Bu kod tekrar kullanılamaz; Personalsystem alınmış.",
-  "rejected": "Das ist nicht der Fall. Das Personal ist nicht vertrauenswürdig.",
-  "expired": "Bitte beachten Sie, dass dies nicht der Fall ist. Personal yeni başvuru yapmalı.",
-  "unknownStatus": "Ihr Name ist: {status}"
-}

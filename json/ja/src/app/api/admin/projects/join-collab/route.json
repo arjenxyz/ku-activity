@@ -1,8 +1,0 @@
-{
-  "joinFailed": "プロジェクトに参加できませんでした",
-  "invalidCode": "無効なコラボレーターコードです",
-  "codeNotFound": "このコードは見つからないか、ローテーションされた可能性があります",
-  "alreadyOwner": "あなたはすでにこのプロジェクトを所有しています",
-  "alreadyCollaborator": "あなたはすでにこのプロジェクトのコラボレーターです",
-  "migrationRequired": "コラボレーターの移行はまだ適用されていません (076_project_collaborators.sql)"
-}

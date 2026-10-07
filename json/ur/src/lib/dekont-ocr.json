@@ -1,7 +1,0 @@
-{
-  "visionFailed": "ویژن OCR ناکام ہو گیا — کیا Cloud Vision API فعال ہے؟",
-  "visionPdfEmpty": "PDF رسید سے متن نہیں نکالا جا سکا",
-  "tesseractFailed": "ٹیسریکٹ OCR ناکام ہوگیا۔",
-  "tesseractPdfEmpty": "PDF صفحہ کو تصویر میں تبدیل نہیں کیا جا سکا",
-  "unsupportedFileType": "غیر تسلیم شدہ فائل کی قسم - پی ڈی ایف یا تصویر بھیجیں (JPG/PNG)"
-}

@@ -1,6 +1,0 @@
-{
-  "invalidStatus": "अमान्य स्थिति",
-  "resolveFailed": "रिपोर्ट का समाधान नहीं हो सका",
-  "notFound": "रिपोर्ट नहीं मिली या पहले ही हल हो चुकी है",
-  "migrationRequired": "माइग्रेशन 077_day_error_reports.sql चलाएँ"
-}

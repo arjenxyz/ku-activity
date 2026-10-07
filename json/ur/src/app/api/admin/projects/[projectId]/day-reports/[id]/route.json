@@ -1,6 +1,0 @@
-{
-  "invalidStatus": "غلط حیثیت",
-  "resolveFailed": "رپورٹ کو حل نہیں کیا جا سکا",
-  "notFound": "رپورٹ نہیں ملی یا پہلے ہی حل ہو چکی ہے۔",
-  "migrationRequired": "ہجرت 077_day_error_reports.sql چلائیں۔"
-}

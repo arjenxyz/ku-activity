@@ -1,7 +1,0 @@
-{
-  "encryptionKeyMissing": "A FIELD_ENCRYPTION_KEY hiányzik vagy túl rövid (.env)",
-  "invalidTcKimlik": "Érvénytelen T.R. azonosító szám",
-  "invalidIdentity": "Érvénytelen azonosítószám",
-  "invalidPhone": "Érvénytelen telefonszám",
-  "invalidIban": "Érvénytelen IBAN"
-}

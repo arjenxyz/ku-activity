@@ -1,7 +1,0 @@
-{
-  "visionFailed": "Vision OCR falló: ¿está habilitada la API de Cloud Vision?",
-  "visionPdfEmpty": "No se pudo extraer el texto del recibo en PDF",
-  "tesseractFailed": "El OCR de Tesseract falló",
-  "tesseractPdfEmpty": "No se pudo convertir la página PDF a una imagen",
-  "unsupportedFileType": "Tipo de archivo no reconocido: envíe un PDF o una imagen (JPG/PNG)"
-}

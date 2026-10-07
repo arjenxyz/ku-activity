@@ -1,25 +1,33 @@
-export const APP_NAME = 'CrewLedger';
-export const APP_SHORT_NAME = 'CrewLedger';
-export const APP_TAGLINE = 'Construction Workforce Platform';
-export const APP_TAGLINE_TR = 'İnşaat Personel Yönetimi';
-export const DEFAULT_APP_URL = 'https://crewledger.vercel.app';
-export const DEFAULT_SUPPORT_EMAIL = 'newlifearjen@gmail.com';
-export const DEFAULT_DEVELOPER_NAME = 'Arjen';
+export const APP_NAME = 'EVENT MANAGEMENT SYSTEM';
+export const APP_SHORT_NAME = 'EMS';
+export const APP_TAGLINE = 'Kastamonu Üniversitesi Turizm Fakültesi';
+export const APP_TAGLINE_TR = 'Kastamonu Üniversitesi Turizm Fakültesi Öğrenci Etkinlik Yönetimi';
+export const DEFAULT_APP_URL = 'http://localhost:3000';
+export const DEFAULT_SUPPORT_EMAIL = '';
+export const DEFAULT_DEVELOPER_NAME = '';
 
-/** Ana site / genel marka */
-export const CREWLEDGER_APP_ICON = '/crewledger.png';
+/** Ana site / genel marka — mevcut CrewLedger görsel asset (geçici) */
+export const APP_ICON = '/crewledger.png';
 
-/** Personel uygulaması (PWA, TWA, Play Store) */
-export const PERSONNEL_APP_ICON = '/personel-icon.png';
+/** @deprecated use APP_ICON */
+export const CREWLEDGER_APP_ICON = APP_ICON;
 
-/** Yönetici uygulaması (PWA, TWA, Play Store) */
+/** Student app icon (reuses existing design asset) */
+export const STUDENT_APP_ICON = '/personel-icon.png';
+
+/** @deprecated use STUDENT_APP_ICON */
+export const PERSONNEL_APP_ICON = STUDENT_APP_ICON;
+
+/** Admin / staff app icon */
 export const ADMIN_APP_ICON = '/yönetici.png';
 
-export type AppIconVariant = 'personnel' | 'admin';
+export type AppIconVariant = 'student' | 'staff' | 'admin' | 'personnel';
 
 const APP_ICON_BY_VARIANT: Record<AppIconVariant, string> = {
-  personnel: PERSONNEL_APP_ICON,
+  student: STUDENT_APP_ICON,
+  staff: ADMIN_APP_ICON,
   admin: ADMIN_APP_ICON,
+  personnel: STUDENT_APP_ICON,
 };
 
 export function appIconForVariant(variant: AppIconVariant) {
@@ -30,6 +38,10 @@ export function appIconFileName(variant: AppIconVariant) {
   return APP_ICON_BY_VARIANT[variant].replace(/^\//, '');
 }
 
-export function notificationMonochromeIconPath(variant: AppIconVariant, size: 96 | 192 = 96) {
-  return `/icons/${variant}/notification/${size}`;
+export function notificationMonochromeIconPath(
+  variant: AppIconVariant,
+  size: 96 | 192 = 96
+) {
+  const folder = variant === 'student' || variant === 'personnel' ? 'personnel' : 'admin';
+  return `/icons/${folder}/notification/${size}`;
 }

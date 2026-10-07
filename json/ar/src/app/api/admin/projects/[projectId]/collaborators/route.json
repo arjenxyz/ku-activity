@@ -1,6 +1,0 @@
-{
-  "loadFailed": "تعذر تحميل المتعاونين",
-  "rotateFailed": "لا يمكن تدوير التعليمات البرمجية",
-  "ownerOnly": "فقط صاحب المشروع يمكنه القيام بذلك",
-  "migrationRequired": "لم يتم تطبيق ترحيل المتعاون بعد (076_project_collaborators.sql)"
-}

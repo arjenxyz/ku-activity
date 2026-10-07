@@ -1,6 +1,0 @@
-{
-  "title": "{appName} | Plataforma para la fuerza laboral de la construcción",
-  "description": "Asistencia, jornales, contratos y gestión de cuadrillas para obras de construcción. Construido con Next.js y Supabase.",
-  "applicationName": "{appName}",
-  "appleWebAppTitle": "{appName}"
-}

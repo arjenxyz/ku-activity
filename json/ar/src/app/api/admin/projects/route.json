@@ -1,8 +1,0 @@
-{
-  "projeAdıGerekli": "اسم المشروع مطلوب",
-  "geçersizDurum": "الحالة غير صالحة",
-  "oturumGerekli": "الجلسة مطلوبة",
-  "activeProjectLimit": "يمكنك الحصول على مشروعين نشطين على الأكثر. ولا يتم احتساب المشاريع المغلقة ضمن هذا الحد.",
-  "migrationRequired": "مطلوب ترحيل قاعدة البيانات (065_project_admin_limits.sql)",
-  "buProjeKoduZatenKullanılıyor": "رمز المشروع هذا قيد الاستخدام بالفعل"
-}

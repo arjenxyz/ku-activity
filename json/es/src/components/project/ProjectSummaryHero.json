@@ -1,9 +1,0 @@
-{
-  "sectionAriaLabel": "Resumen del proyecto",
-  "presentToday": "presente hoy",
-  "active": "Activo",
-  "missing": "Pendiente",
-  "payroll": "Estimar",
-  "openAttendance": "Ir a asistencia QR",
-  "locationFallback": "No hay ubicación establecida"
-}

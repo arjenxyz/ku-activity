@@ -1,6 +1,0 @@
-{
-  "invalidId": "Ungültige ID",
-  "removeFailed": "Der Mitarbeiter konnte nicht entfernt werden",
-  "ownerOnly": "Dies kann nur der Projekteigentümer tun",
-  "migrationRequired": "Mitarbeitermigration noch nicht angewendet (076_project_collaborators.sql)"
-}

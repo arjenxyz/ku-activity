@@ -1,6 +1,0 @@
-{
-  "invalidId": "Identitas tidak valid",
-  "removeFailed": "Tidak dapat menghapus kolaborator",
-  "ownerOnly": "Hanya pemilik proyek yang dapat melakukan hal ini",
-  "migrationRequired": "Migrasi kolaborator belum diterapkan (076_project_collaborators.sql)"
-}

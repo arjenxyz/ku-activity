@@ -1,6 +1,0 @@
-{
-  "invalidStatus": "Ungültiger Status",
-  "resolveFailed": "Der Bericht konnte nicht gelöst werden",
-  "notFound": "Bericht nicht gefunden oder bereits gelöst",
-  "migrationRequired": "Führen Sie die Migration 077_day_error_reports.sql aus"
-}

@@ -1,8 +1,0 @@
-{
-  "projeAdıGerekli": "প্রকল্পের নাম প্রয়োজন",
-  "geçersizDurum": "অবৈধ অবস্থা",
-  "oturumGerekli": "সেশন প্রয়োজন",
-  "activeProjectLimit": "আপনার সর্বাধিক 2টি সক্রিয় প্রকল্প থাকতে পারে। বন্ধ থাকা প্রকল্পগুলি এই সীমার মধ্যে গণনা করা হয় না।",
-  "migrationRequired": "ডেটাবেস স্থানান্তর প্রয়োজন (065_project_admin_limits.sql)",
-  "buProjeKoduZatenKullanılıyor": "এই প্রকল্প কোড ইতিমধ্যে ব্যবহার করা হয়"
-}

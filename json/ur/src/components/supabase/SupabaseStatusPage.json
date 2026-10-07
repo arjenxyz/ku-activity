@@ -1,9 +1,0 @@
-{
-  "title": {
-    "ok": "Başarılı — devam ediyor",
-    "critical": "سورون ور",
-    "warning": "پنگ گیکیکمیس",
-    "unknown": "Henüz bilinmiyor"
-  },
-  "lastPing": "سون پنگ: {date}"
-}

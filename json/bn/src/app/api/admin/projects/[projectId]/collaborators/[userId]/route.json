@@ -1,6 +1,0 @@
-{
-  "invalidId": "অবৈধ আইডি",
-  "removeFailed": "সহযোগীকে সরানো যায়নি৷",
-  "ownerOnly": "শুধুমাত্র প্রকল্পের মালিক এটি করতে পারেন",
-  "migrationRequired": "সহযোগী স্থানান্তর এখনও প্রয়োগ করা হয়নি (076_project_collaborators.sql)"
-}

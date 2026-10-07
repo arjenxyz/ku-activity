@@ -1,8 +1,0 @@
-{
-  "joinFailed": "لا يمكن الانضمام إلى المشروع",
-  "invalidCode": "رمز المتعاون غير صالح",
-  "codeNotFound": "لم يتم العثور على هذا الرمز أو ربما تم تدويره",
-  "alreadyOwner": "أنت تمتلك هذا المشروع بالفعل",
-  "alreadyCollaborator": "أنت بالفعل متعاون في هذا المشروع",
-  "migrationRequired": "لم يتم تطبيق ترحيل المتعاون بعد (076_project_collaborators.sql)"
-}

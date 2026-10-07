@@ -1,4 +1,5 @@
 import { BrandMark } from '@/components/brand/BrandMark';
+import { APP_SHORT_NAME } from '@/lib/brand';
 
 type BrandLockupSize = 'sm' | 'md' | 'lg';
 type BrandLockupLayout = 'inline' | 'stacked';
@@ -52,7 +53,7 @@ export function BrandLockup({
     <span
       className={`inline-flex items-center font-semibold text-white whitespace-nowrap ${cfg.wordmark} ${wordmarkClassName}`}
     >
-      CREWLEDGER
+      {APP_SHORT_NAME}
     </span>
   );
 

@@ -1,7 +1,0 @@
-{
-  "encryptionKeyMissing": "FIELD_ENCRYPTION_KEY 変更 (.env)",
-  "invalidTcKimlik": "ゲセルシズ T.C.キムリク・ヌマラス",
-  "invalidIdentity": "ゲセルシ・キムリク・ヌマラス",
-  "invalidPhone": "電話番号ヌマラシュ",
-  "invalidIban": "ゲセルシズ IBAN"
-}

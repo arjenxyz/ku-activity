@@ -1,11 +1,3 @@
-import strings from '@json/src/lib/project-queries.json';
-import { AdvanceRequestError } from '@/lib/advance-request-service';
-import { AttendanceScanError } from '@/lib/i18n/attendance-messages';
-import {
-  PersonnelClosureWriteBlockedError,
-  PersonnelUnlockRequiredError,
-} from '@/lib/personnel-auth';
-import { ProjectClosureWriteBlockedError } from '@/lib/project-closure-guard';
 import { NextResponse } from 'next/server';
 
 const INTERNAL_ERROR_PATTERNS = [
@@ -34,40 +26,17 @@ export function logServerError(context: string, err: unknown): void {
 
 export function resolveApiError(
   err: unknown,
-  fallback = strings.systemError
+  fallback = 'Sistem hatası'
 ): { status: number; message: string } {
-  if (err instanceof AdvanceRequestError) {
-    if (err.status >= 500 || isInternalErrorMessage(err.message)) {
-      logServerError('advance-request', err);
-      return { status: err.status, message: fallback };
-    }
-    return { status: err.status, message: err.message };
-  }
-
-  if (err instanceof AttendanceScanError) {
-    return { status: 400, message: err.message };
-  }
-
-  if (err instanceof PersonnelUnlockRequiredError) {
-    return { status: 423, message: 'UNLOCK_REQUIRED' };
-  }
-
-  if (
-    err instanceof ProjectClosureWriteBlockedError ||
-    err instanceof PersonnelClosureWriteBlockedError
-  ) {
-    return { status: 423, message: 'PROJECT_IN_CLOSURE' };
-  }
-
   if (err instanceof Error) {
     if (err.message === 'UNAUTHORIZED' || err.message === 'Unauthorized') {
       return { status: 401, message: 'UNAUTHORIZED' };
     }
     if (err.message === 'FORBIDDEN') {
-      return { status: 403, message: strings.forbidden };
+      return { status: 403, message: 'FORBIDDEN' };
     }
     if (err.message.includes('SUPABASE_SERVICE_ROLE_KEY')) {
-      return { status: 500, message: strings.missingServiceRoleKey };
+      return { status: 500, message: 'Server configuration error' };
     }
     if (isInternalErrorMessage(err.message)) {
       logServerError('api', err);
@@ -84,8 +53,7 @@ export function resolveApiError(
   return { status: 500, message: fallback };
 }
 
-/** Personel API catch blokları için tek tip JSON hata yanıtı. */
-export function personnelApiErrorResponse(err: unknown, fallback: string) {
+export function apiErrorResponse(err: unknown, fallback: string) {
   const { status, message } = resolveApiError(err, fallback);
   return NextResponse.json({ error: message }, { status });
 }

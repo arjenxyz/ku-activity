@@ -1,9 +1,0 @@
-{
-  "sectionAriaLabel": "Project overview",
-  "presentToday": "Present today",
-  "active": "Active",
-  "missing": "Pending",
-  "payroll": "Estimate",
-  "openAttendance": "Go to QR attendance",
-  "locationFallback": "No location set"
-}

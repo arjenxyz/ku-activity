@@ -1,8 +1,0 @@
-{
-  "projeAdıGerekli": "Proje adı gerekli",
-  "geçersizDurum": "Geçersiz durum",
-  "oturumGerekli": "Oturum gerekli",
-  "activeProjectLimit": "En fazla 2 aktif projeniz olabilir. Kapanış sürecindeki projeler bu limite dahil değildir.",
-  "migrationRequired": "Veritabanı güncellemesi gerekli (065_project_admin_limits.sql)",
-  "buProjeKoduZatenKullanılıyor": "Bu proje kodu zaten kullanılıyor"
-}

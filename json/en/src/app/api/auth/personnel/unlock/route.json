@@ -1,6 +1,0 @@
-{
-  "unauthorized": "Invalid session",
-  "invalidPin": "Incorrect PIN",
-  "unlockRequired": "Unlock required",
-  "failed": "Operation failed"
-}

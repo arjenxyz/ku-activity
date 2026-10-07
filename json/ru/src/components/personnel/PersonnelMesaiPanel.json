@@ -1,8 +1,0 @@
-{
-  "totalPayLabel": "Топлам Месаи Казанджи",
-  "recordCountLabel": "Месаи Кайды",
-  "byTypeTitle": "Mesai türüne gore kazanç",
-  "recordCountSuffix": "({count} понятно)",
-  "recordsTitle": "Месаи Кайытлары · {month}",
-  "emptyRecords": "Bu dönemde mesai kaydı yok"
-}

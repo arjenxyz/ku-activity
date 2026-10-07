@@ -1,7 +1,0 @@
-{
-  "visionFailed": "Vision OCR が失敗しました — Cloud Vision API は有効ですか?",
-  "visionPdfEmpty": "PDF 領収書からテキストを抽出できませんでした",
-  "tesseractFailed": "Tesseract OCR が失敗しました",
-  "tesseractPdfEmpty": "PDF ページを画像に変換できませんでした",
-  "unsupportedFileType": "認識できないファイル タイプ - PDF または画像 (JPG/PNG) を送信します"
-}

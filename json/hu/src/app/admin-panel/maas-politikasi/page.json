@@ -1,9 +1,0 @@
-{
-  "loadFailed": "Yüklenemedi",
-  "saveFailed": "Nem sikerült menteni",
-  "saveSuccess": "A vállalati szabályzat rögzítésre került. A projektek alapértelmezés szerint ezt használják.",
-  "saveError": "A regisztráció sikertelen",
-  "backToProjects": "← Projelere dön",
-  "title": "Vállalati bérpolitika",
-  "subtitle": "Fő jogosultság: itt állítsa be a naplófizetési időt és a minimális számlaszabályokat. Minden projekt definiálhat saját egyéni szabályt, ha akarja."
-}

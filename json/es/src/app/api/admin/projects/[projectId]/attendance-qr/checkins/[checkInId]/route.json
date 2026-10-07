@@ -1,5 +1,0 @@
-{
-  "invalidId": "ID de registro no válido",
-  "invalidBody": "Cuerpo de solicitud no válido",
-  "invalidAmount": "La cantidad del día debe ser 0,5 o 1"
-}

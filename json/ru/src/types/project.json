@@ -1,9 +1,0 @@
-{
-  "statusLabels": {
-    "active": "Актиф",
-    "planned": "Планланан",
-    "paused": "Дурдурулду",
-    "completed": "Тамамланды",
-    "archived": "Аршивленди"
-  }
-}

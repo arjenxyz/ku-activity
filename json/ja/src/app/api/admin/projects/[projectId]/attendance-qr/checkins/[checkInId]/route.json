@@ -1,5 +1,0 @@
-{
-  "invalidId": "無効なレコードID",
-  "invalidBody": "無効なリクエスト本文",
-  "invalidAmount": "日額は 0.5 または 1 である必要があります"
-}

@@ -5,15 +5,3 @@ export function getAppBaseUrl(): string {
     'http://localhost:3000';
   return base.replace(/\/$/, '');
 }
-
-export function buildContractOtpConfirmUrl(linkToken: string): string {
-  return `${getAppBaseUrl()}/personnel-panel/basvuru/dogrula?k=${encodeURIComponent(linkToken)}`;
-}
-
-export function buildPersonnelPinResetUrl(linkToken: string): string {
-  return `${getAppBaseUrl()}/personnel-panel/pin-sifirla?k=${encodeURIComponent(linkToken)}`;
-}
-
-export function buildClosureAccelerationConfirmUrl(linkToken: string): string {
-  return `${getAppBaseUrl()}/personnel-panel/kapanis/hizlandirma?k=${encodeURIComponent(linkToken)}`;
-}

@@ -1,9 +1,0 @@
-{
-  "statusLabels": {
-    "active": "activo",
-    "planned": "Planlanán",
-    "paused": "Durduruldu",
-    "completed": "tamamlandia",
-    "archived": "Arşivlendi"
-  }
-}

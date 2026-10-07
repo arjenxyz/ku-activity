@@ -1,6 +1,0 @@
-{
-  "invalidStatus": "Statut invalide",
-  "resolveFailed": "Impossible de résoudre le rapport",
-  "notFound": "Rapport introuvable ou déjà résolu",
-  "migrationRequired": "Exécutez la migration 077_day_error_reports.sql"
-}

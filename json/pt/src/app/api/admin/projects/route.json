@@ -1,8 +1,0 @@
-{
-  "projeAdıGerekli": "O nome do projeto é obrigatório",
-  "geçersizDurum": "Status inválido",
-  "oturumGerekli": "Sessão necessária",
-  "activeProjectLimit": "Você pode ter no máximo 2 projetos ativos. Projetos em encerramento não contam para esse limite.",
-  "migrationRequired": "Migração de banco de dados necessária (065_project_admin_limits.sql)",
-  "buProjeKoduZatenKullanılıyor": "Este código do projeto já está em uso"
-}

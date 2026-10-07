@@ -1,6 +1,0 @@
-{
-  "invalidId": "غلط آئی ڈی",
-  "removeFailed": "معاون کو ہٹایا نہیں جا سکا",
-  "ownerOnly": "یہ کام صرف پروجیکٹ کا مالک ہی کرسکتا ہے۔",
-  "migrationRequired": "تعاون کنندہ کی منتقلی ابھی تک لاگو نہیں ہوئی (076_project_collaborators.sql)"
-}

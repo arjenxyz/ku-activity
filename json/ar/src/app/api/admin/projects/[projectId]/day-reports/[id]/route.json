@@ -1,6 +1,0 @@
-{
-  "invalidStatus": "الحالة غير صالحة",
-  "resolveFailed": "تعذر حل التقرير",
-  "notFound": "لم يتم العثور على التقرير أو تم حله بالفعل",
-  "migrationRequired": "قم بتشغيل الترحيل 077_day_error_reports.sql"
-}

@@ -1,9 +1,0 @@
-{
-  "stats": {
-    "employees": "Топлам Персонал",
-    "active": "Актиф Персонал",
-    "missing": "Бугюн Онайсиз",
-    "payroll": "Айлык Тахмини"
-  },
-  "monthWorkLogs": "Бу да {present} евмие кайды"
-}

@@ -1,6 +1,0 @@
-{
-  "invalidStatus": "無効なステータス",
-  "resolveFailed": "レポートを解決できませんでした",
-  "notFound": "レポートが見つからないか、すでに解決されています",
-  "migrationRequired": "移行 077_day_error_reports.sql を実行します。"
-}

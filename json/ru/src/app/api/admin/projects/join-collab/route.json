@@ -1,8 +1,0 @@
-{
-  "joinFailed": "Не удалось присоединиться к проекту",
-  "invalidCode": "Неверный код соавтора",
-  "codeNotFound": "Этот код не был найден или, возможно, был поменян.",
-  "alreadyOwner": "У вас уже есть этот проект",
-  "alreadyCollaborator": "Вы уже участвуете в этом проекте",
-  "migrationRequired": "Миграция Collaborator еще не применена (076_project_collaborators.sql)"
-}

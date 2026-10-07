@@ -1,6 +1,0 @@
-{
-  "authFailed": "No se pudieron cargar las notas de actualización (se requiere autenticación de GitHub).",
-  "repoNotFound": "Repositorio no encontrado.",
-  "fetchFailed": "No se pudieron cargar las notas de actualización.",
-  "sistemHatası": "error del sistema"
-}

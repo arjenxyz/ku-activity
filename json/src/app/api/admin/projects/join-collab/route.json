@@ -1,8 +1,0 @@
-{
-  "joinFailed": "Projeye ortak olunamadı",
-  "invalidCode": "Geçersiz ortak kodu",
-  "codeNotFound": "Bu kod bulunamadı veya yenilenmiş olabilir",
-  "alreadyOwner": "Bu projenin zaten sahibisiniz",
-  "alreadyCollaborator": "Bu projeye zaten ortak olarak eklisiniz",
-  "migrationRequired": "Ortaklık migration’ı henüz uygulanmadı (076_project_collaborators.sql)"
-}

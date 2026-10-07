@@ -1,6 +1,0 @@
-{
-  "requiredContractsMissing": "Tüm zorunlu sözleşmeleri okuyup onaylamanız gerekir",
-  "invalidAcceptance": "Geçersiz sözleşme onayı",
-  "contractUpdated": "„{title}“ Güncellendi. Bitte beachten Sie, dass der Vorgang nicht abgeschlossen ist.",
-  "acceptancesSaveFailed": "Sözleşme onayları kaydedilemedi: {message}"
-}

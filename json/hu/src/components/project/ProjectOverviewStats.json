@@ -1,9 +1,0 @@
-{
-  "stats": {
-    "employees": "Teljes személyzet",
-    "active": "Aktív személyzet",
-    "missing": "Bugün Onaysız",
-    "payroll": "Havi előrejelzés"
-  },
-  "monthWorkLogs": "E havi naplóbejegyzés {present}"
-}

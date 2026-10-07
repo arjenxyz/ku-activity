@@ -1,6 +1,0 @@
-{
-  "invalidId": "معرف غير صالح",
-  "removeFailed": "تعذرت إزالة المتعاون",
-  "ownerOnly": "فقط صاحب المشروع يمكنه القيام بذلك",
-  "migrationRequired": "لم يتم تطبيق ترحيل المتعاون بعد (076_project_collaborators.sql)"
-}

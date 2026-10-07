@@ -1,8 +1,0 @@
-{
-  "projeAdıGerekli": "پروجیکٹ کا نام درکار ہے۔",
-  "geçersizDurum": "غلط حیثیت",
-  "oturumGerekli": "سیشن درکار ہے۔",
-  "activeProjectLimit": "آپ کے پاس زیادہ سے زیادہ 2 فعال پروجیکٹ ہوسکتے ہیں۔ بند ہونے والے پروجیکٹس اس حد میں شمار نہیں ہوتے ہیں۔",
-  "migrationRequired": "ڈیٹا بیس کی منتقلی درکار ہے (065_project_admin_limits.sql)",
-  "buProjeKoduZatenKullanılıyor": "یہ پروجیکٹ کوڈ پہلے ہی استعمال میں ہے۔"
-}

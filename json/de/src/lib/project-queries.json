@@ -1,6 +1,0 @@
-{
-  "systemError": "System hatası",
-  "unauthorized": "Oturum yok veya yönetici Yetkisi gerekli",
-  "forbidden": "Das Projekt ist noch nicht abgeschlossen",
-  "missingServiceRoleKey": "Neue Benutzeroberfläche (SERVICE_ROLE_KEY)"
-}

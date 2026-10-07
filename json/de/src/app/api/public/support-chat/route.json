@@ -1,9 +1,0 @@
-{
-  "geçersizMesaj": "Ungültige Nachricht.",
-  "mesajÇokUzun": "Nachricht ist zu lang.",
-  "rateLimit": "Zu viele Anfragen. Bitte kurz warten.",
-  "aiYapılandırılmamış": "KI-Support ist nicht konfiguriert.",
-  "yanıtAlınamadı": "Antwort konnte nicht abgerufen werden. Bitte erneut versuchen.",
-  "kotaAşıldı": "KI-Kontingent erschöpft. Bitte später erneut versuchen.",
-  "geçiciOlarakKullanılamıyor": "KI-Support ist vorübergehend nicht verfügbar. Bitte später erneut versuchen."
-}

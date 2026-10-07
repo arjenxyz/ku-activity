@@ -1,6 +1,0 @@
-{
-  "loadFailed": "コラボレーターを読み込めませんでした",
-  "rotateFailed": "コードをローテーションできませんでした",
-  "ownerOnly": "プロジェクト所有者のみがこれを行うことができます",
-  "migrationRequired": "コラボレーターの移行はまだ適用されていません (076_project_collaborators.sql)"
-}

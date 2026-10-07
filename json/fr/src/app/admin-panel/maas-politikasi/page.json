@@ -1,9 +1,0 @@
-{
-  "loadFailed": "Yuklenemedi",
-  "saveFailed": "Kaydedilemedi",
-  "saveSuccess": "Şirket politikası kaydedildi. Les projets ont déjà été résolus.",
-  "saveError": "Kayıt başarısız",
-  "backToProjects": "← Projets à faire",
-  "title": "Sirket maaş politique",
-  "subtitle": "Ana yetkili : vous avez déjà lu et asgari hesap kurallarını burada belirleyin. Son projet est Kendi özel kuralını tanımlayabilir."
-}

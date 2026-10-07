@@ -1,183 +1,90 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { updateSession, getSupabaseMiddlewareClient } from '@/utils/supabase/middleware';
-import { PERSONNEL_COOKIE, PERSONNEL_UNLOCK_COOKIE } from '@/lib/personnel-cookie';
-import { verifyPersonnelUnlockCookieValue } from '@/lib/personnel-unlock-cookie';
-import { PENDING_REGISTRATION_COOKIE } from '@/lib/registration-pending-storage';
-import { ADMIN_ROUTE_HEADER } from '@/lib/admin-intro-boot-script';
-import { PERSONNEL_ROUTE_HEADER } from '@/lib/personnel-intro-boot-script';
+import { homePathForRole, isAppRole, type AppRole } from '@/lib/auth/roles';
 
-const ADMIN_LOGIN = '/admin-panel/login';
-const ADMIN_REGISTER = '/admin-panel/register';
-const PERSONNEL_LOGIN = '/personnel-panel/login';
-const PERSONNEL_UNLOCK = '/personnel-panel/unlock';
-const PERSONNEL_BASVURU = '/personnel-panel/basvuru';
-const PERSONNEL_SIFREMI_UNUTTUM = '/personnel-panel/sifremi-unuttum';
-const PERSONNEL_PIN_SIFIRLA = '/personnel-panel/pin-sifirla';
-const DEVELOPER_LOGIN = '/developer-panel/login';
+const PUBLIC_PREFIXES = ['/login', '/auth', '/gizlilik', '/kvkk', '/kullanim-sartlari', '/api/public'];
 
-function isPersonnelUnlockBypassPath(pathname: string) {
-  return pathname.startsWith('/personnel-panel/kapanis/hizlandirma');
+function isPublicPath(pathname: string) {
+  if (pathname === '/') return true;
+  return PUBLIC_PREFIXES.some((p) => pathname === p || pathname.startsWith(`${p}/`));
 }
 
-function isPersonnelPublicPath(pathname: string): boolean {
-  if (pathname === PERSONNEL_LOGIN) return true;
-  if (pathname === PERSONNEL_UNLOCK) return true;
-  if (pathname === PERSONNEL_SIFREMI_UNUTTUM) return true;
-  if (pathname === PERSONNEL_PIN_SIFIRLA) return true;
-  if (pathname === PERSONNEL_BASVURU || pathname.startsWith(`${PERSONNEL_BASVURU}/`)) {
-    return true;
-  }
-  if (pathname === '/personnel-panel/demo' || pathname.startsWith('/personnel-panel/demo/')) {
-    return true;
-  }
-  return false;
-}
+async function getRole(request: NextRequest): Promise<AppRole | null> {
+  const supabase = await getSupabaseMiddlewareClient(request);
+  if (!supabase) return null;
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return null;
 
-function shouldRefreshSupabaseSession(pathname: string) {
-  if (pathname.startsWith('/auth/')) return false;
-  if (pathname.startsWith('/api/public')) return false;
-  if (pathname.startsWith('/api/auth/personnel')) return false;
-  if (pathname.startsWith('/sozlesme')) return false;
-  if (isPersonnelPublicPath(pathname)) return false;
-  if (pathname === ADMIN_LOGIN || pathname === ADMIN_REGISTER) return false;
-  if (pathname === DEVELOPER_LOGIN) return false;
-  return true;
-}
-
-/** Root layout SSR'da PWA intro için ilk kare (personel / yönetici) */
-function withPwaRouteHint(response: NextResponse, pathname: string, request: NextRequest) {
-  const isPersonnel = pathname.startsWith('/personnel-panel');
-  const isAdmin = pathname.startsWith('/admin-panel');
-  if (!isPersonnel && !isAdmin) {
-    return response;
-  }
-
-  const requestHeaders = new Headers(request.headers);
-  if (isPersonnel) requestHeaders.set(PERSONNEL_ROUTE_HEADER, '1');
-  if (isAdmin) requestHeaders.set(ADMIN_ROUTE_HEADER, '1');
-
-  const next = NextResponse.next({
-    request: { headers: requestHeaders },
-  });
-
-  response.cookies.getAll().forEach((cookie) => {
-    next.cookies.set(cookie.name, cookie.value);
-  });
-
-  return next;
+  const { data } = await supabase.from('profiles').select('role, is_active').eq('id', user.id).maybeSingle();
+  if (!data?.is_active || !isAppRole(data.role)) return null;
+  return data.role;
 }
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  const finish = (response: NextResponse) => withPwaRouteHint(response, pathname, request);
-
-  const response = shouldRefreshSupabaseSession(pathname)
-    ? await updateSession(request)
-    : NextResponse.next({ request: { headers: request.headers } });
-
-  const isAdminLogin = pathname === ADMIN_LOGIN;
-  const isAdminRegister = pathname === ADMIN_REGISTER;
-  const isAdminDemo =
-    pathname === '/admin-panel/demo' || pathname.startsWith('/admin-panel/demo/');
-  const isAdminPublic = isAdminLogin || isAdminRegister || isAdminDemo;
-  const isPersonnelPublic = isPersonnelPublicPath(pathname);
-  const isDeveloperLogin = pathname === DEVELOPER_LOGIN;
-  const isAdminRoute = pathname.startsWith('/admin-panel') && !isAdminPublic;
-  const isDeveloperRoute = pathname.startsWith('/developer-panel') && !isDeveloperLogin;
-  const isPersonnelRoute =
-    pathname.startsWith('/personnel-panel') && !isPersonnelPublic;
-
-  if (isDeveloperRoute || isDeveloperLogin) {
-    const supabase = await getSupabaseMiddlewareClient(request);
-    if (!supabase) return finish(response);
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
-    if (user) {
-      const { data: isDeveloper } = await supabase.rpc('is_developer');
-      if (isDeveloper && isDeveloperLogin) {
-        return finish(NextResponse.redirect(new URL('/developer-panel', request.url)));
-      }
-      if (isDeveloperRoute && !isDeveloper) {
-        const url = new URL(DEVELOPER_LOGIN, request.url);
-        url.searchParams.set('error', 'yetkisiz');
-        return finish(NextResponse.redirect(url));
-      }
-    } else if (isDeveloperRoute) {
-      return finish(NextResponse.redirect(new URL(DEVELOPER_LOGIN, request.url)));
-    }
-  }
-
-  if (isAdminRoute || isAdminPublic) {
-    const supabase = await getSupabaseMiddlewareClient(request);
-    if (!supabase) return finish(response);
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
-    if (user) {
-      const { data: isAdmin } = await supabase.rpc('is_admin');
-      if (isAdmin && (isAdminLogin || isAdminRegister)) {
-        return finish(NextResponse.redirect(new URL('/admin-panel', request.url)));
-      }
-      if (isAdminRoute && !isAdmin) {
-        const url = new URL(ADMIN_LOGIN, request.url);
-        url.searchParams.set('error', 'yetkisiz');
-        return finish(NextResponse.redirect(url));
-      }
-    } else if (isAdminRoute) {
-      return finish(NextResponse.redirect(new URL(ADMIN_LOGIN, request.url)));
-    }
-  }
-
-  const hasPersonnelCookie = Boolean(request.cookies.get(PERSONNEL_COOKIE)?.value);
-  const pendingCode = request.cookies.get(PENDING_REGISTRATION_COOKIE)?.value?.trim();
-  const hasPendingApplicationCookie = Boolean(pendingCode && pendingCode !== '1');
+  const response = await updateSession(request);
 
   if (
-    !hasPersonnelCookie &&
-    hasPendingApplicationCookie &&
-    (pathname === PERSONNEL_LOGIN || isPersonnelRoute)
+    pathname.startsWith('/_next') ||
+    pathname.startsWith('/icons') ||
+    pathname.startsWith('/api/cron') ||
+    pathname.startsWith('/api/pwa-icon') ||
+    pathname.startsWith('/api/twa') ||
+    pathname.includes('.')
   ) {
-    return finish(NextResponse.redirect(new URL(PERSONNEL_BASVURU, request.url)));
+    return response;
   }
 
-  if (isPersonnelRoute || pathname === PERSONNEL_LOGIN || pathname === PERSONNEL_UNLOCK) {
-    const sessionToken = request.cookies.get(PERSONNEL_COOKIE)?.value;
-    const unlockValue = request.cookies.get(PERSONNEL_UNLOCK_COOKIE)?.value;
-    const unlocked = sessionToken
-      ? await verifyPersonnelUnlockCookieValue(sessionToken, unlockValue)
-      : false;
+  const role = await getRole(request);
+  const isAuthed = Boolean(role);
 
-    if (hasPersonnelCookie && pathname === PERSONNEL_LOGIN) {
-      const target = unlocked ? '/personnel-panel' : PERSONNEL_UNLOCK;
-      return finish(NextResponse.redirect(new URL(target, request.url)));
+  if (pathname === '/login') {
+    if (isAuthed && role) {
+      return NextResponse.redirect(new URL(homePathForRole(role), request.url));
     }
-
-    if (hasPersonnelCookie && pathname === PERSONNEL_UNLOCK && unlocked) {
-      return finish(NextResponse.redirect(new URL('/personnel-panel', request.url)));
-    }
-
-    if (hasPersonnelCookie && isPersonnelRoute && !unlocked && !isPersonnelUnlockBypassPath(pathname)) {
-      return finish(NextResponse.redirect(new URL(PERSONNEL_UNLOCK, request.url)));
-    }
-
-    if (!hasPersonnelCookie && isPersonnelRoute) {
-      return finish(NextResponse.redirect(new URL(PERSONNEL_LOGIN, request.url)));
-    }
-
-    if (!hasPersonnelCookie && pathname === PERSONNEL_UNLOCK) {
-      return finish(NextResponse.redirect(new URL(PERSONNEL_LOGIN, request.url)));
-    }
+    return response;
   }
 
-  return finish(response);
+  if (isPublicPath(pathname)) {
+    return response;
+  }
+
+  if (pathname.startsWith('/admin')) {
+    if (!isAuthed) {
+      return NextResponse.redirect(new URL('/login', request.url));
+    }
+    if (role !== 'admin') {
+      return NextResponse.redirect(new URL(homePathForRole(role!), request.url));
+    }
+    return response;
+  }
+
+  if (pathname.startsWith('/staff')) {
+    if (!isAuthed) {
+      return NextResponse.redirect(new URL('/login', request.url));
+    }
+    if (role !== 'staff' && role !== 'admin') {
+      return NextResponse.redirect(new URL(homePathForRole(role!), request.url));
+    }
+    return response;
+  }
+
+  if (pathname.startsWith('/student')) {
+    if (!isAuthed) {
+      return NextResponse.redirect(new URL('/login', request.url));
+    }
+    if (role !== 'student' && role !== 'admin') {
+      return NextResponse.redirect(new URL(homePathForRole(role!), request.url));
+    }
+    return response;
+  }
+
+  return response;
 }
 
 export const config = {
-  matcher: [
-    '/((?!_next/static|_next/image|favicon.ico|sw.js|manifest.webmanifest|manifest-personnel.webmanifest|manifest-admin.webmanifest|\\.well-known|icons/|personnel-ui/|api/pwa-icon|api/twa|gizlilik|.*\\.(?:svg|png|jpg|jpeg|gif|webp|js|css)$).*)',
-  ],
+  matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
 };

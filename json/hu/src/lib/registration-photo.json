@@ -1,9 +1,0 @@
-{
-  "invalidMime": "JPEG, PNG vagy WebP fájl feltöltése",
-  "maxSize": "A fénykép legfeljebb 5 MB lehet",
-  "bucketMigrationOtp": "Futtassa a 025_private_photo_storage.sql fájlt",
-  "uploadFailed": "A fényképet nem sikerült betölteni",
-  "draftNotFound": "Az alkalmazás fotója nem található. Kérjük, jelentkezzen újra.",
-  "saveFailed": "A fénykép mentése nem sikerült",
-  "bucketMigrationRegistration": "futtassa a 025-ös migrációt"
-}

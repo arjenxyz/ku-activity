@@ -1,8 +1,0 @@
-{
-  "joinFailed": "Impossible de rejoindre le projet",
-  "invalidCode": "Code collaborateur invalide",
-  "codeNotFound": "Ce code n'a pas été trouvé ou a peut-être été modifié",
-  "alreadyOwner": "Vous possédez déjà ce projet",
-  "alreadyCollaborator": "Vous êtes déjà collaborateur sur ce projet",
-  "migrationRequired": "La migration des collaborateurs n'est pas encore appliquée (076_project_collaborators.sql)"
-}

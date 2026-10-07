@@ -1,7 +1,0 @@
-{
-  "visionFailed": "Échec de Vision OCR : l'API Cloud Vision est-elle activée ?",
-  "visionPdfEmpty": "Impossible d'extraire le texte du reçu PDF",
-  "tesseractFailed": "Échec de l'OCR Tesseract",
-  "tesseractPdfEmpty": "Impossible de convertir la page PDF en image",
-  "unsupportedFileType": "Type de fichier non reconnu : envoyez un PDF ou une image (JPG/PNG)"
-}

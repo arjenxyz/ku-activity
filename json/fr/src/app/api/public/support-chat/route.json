@@ -1,9 +1,0 @@
-{
-  "geçersizMesaj": "Message invalide.",
-  "mesajÇokUzun": "Le message est trop long.",
-  "rateLimit": "Trop de demandes. Veuillez patienter un instant.",
-  "aiYapılandırılmamış": "L’assistance IA n’est pas configurée.",
-  "yanıtAlınamadı": "Impossible d’obtenir une réponse. Réessayez.",
-  "kotaAşıldı": "Quota IA dépassé. Réessayez plus tard.",
-  "geçiciOlarakKullanılamıyor": "L'assistance IA est temporairement indisponible. Réessayez plus tard."
-}

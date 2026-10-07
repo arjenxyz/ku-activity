@@ -1,6 +1,0 @@
-{
-  "invalidStatus": "Неверный статус",
-  "resolveFailed": "Не удалось решить отчет",
-  "notFound": "Отчет не найден или уже решен",
-  "migrationRequired": "Запустите миграцию 077_day_error_reports.sql"
-}

@@ -1,8 +1,0 @@
-{
-  "totalPayLabel": "Toplam Mesai Kazancı",
-  "recordCountLabel": "Mesai Kaydı",
-  "byTypeTitle": "Mesai türüne göre kazanç",
-  "recordCountSuffix": "({count} gefunden)",
-  "recordsTitle": "Mesai Kayıtları · {month}",
-  "emptyRecords": "Aber das ist noch nicht alles"
-}

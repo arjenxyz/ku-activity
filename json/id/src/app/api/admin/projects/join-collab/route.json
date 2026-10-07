@@ -1,8 +1,0 @@
-{
-  "joinFailed": "Tidak dapat bergabung dengan proyek",
-  "invalidCode": "Kode kolaborator tidak valid",
-  "codeNotFound": "Kode ini tidak ditemukan atau mungkin telah diputar",
-  "alreadyOwner": "Anda sudah memiliki proyek ini",
-  "alreadyCollaborator": "Anda sudah menjadi kolaborator dalam proyek ini",
-  "migrationRequired": "Migrasi kolaborator belum diterapkan (076_project_collaborators.sql)"
-}

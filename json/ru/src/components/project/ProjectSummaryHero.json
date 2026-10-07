@@ -1,9 +1,0 @@
-{
-  "sectionAriaLabel": "Обзор проекта",
-  "presentToday": "Настоящее сегодня",
-  "active": "Активный",
-  "missing": "В ожидании",
-  "payroll": "Оценивать",
-  "openAttendance": "Перейти к QR-посещаемости",
-  "locationFallback": "Местоположение не установлено"
-}

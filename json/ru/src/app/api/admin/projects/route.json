@@ -1,8 +1,0 @@
-{
-  "projeAdıGerekli": "Укажите название проекта.",
-  "geçersizDurum": "Неверный статус",
-  "oturumGerekli": "Требуется сеанс",
-  "activeProjectLimit": "У вас может быть не более 2 активных проектов. Завершаемые проекты не учитываются в этом лимите.",
-  "migrationRequired": "Требуется миграция базы данных (065_project_admin_limits.sql)",
-  "buProjeKoduZatenKullanılıyor": "Этот код проекта уже используется"
-}

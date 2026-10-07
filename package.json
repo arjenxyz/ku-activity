@@ -1,10 +1,9 @@
 {
-  "name": "crewledger",
+  "name": "event-management-system",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "prebuild": "node scripts/generate-web-changelog.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",

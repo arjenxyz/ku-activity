@@ -1,9 +1,0 @@
-{
-  "geçersizMesaj": "Pesan tidak valid.",
-  "mesajÇokUzun": "Pesan terlalu panjang.",
-  "rateLimit": "Terlalu banyak permintaan. Harap tunggu sebentar.",
-  "aiYapılandırılmamış": "Dukungan AI belum dikonfigurasi.",
-  "yanıtAlınamadı": "Tidak dapat memperoleh jawaban. Coba lagi.",
-  "kotaAşıldı": "Kuota AI habis. Coba lagi nanti.",
-  "geçiciOlarakKullanılamıyor": "Dukungan AI sementara tidak tersedia. Coba lagi nanti."
-}

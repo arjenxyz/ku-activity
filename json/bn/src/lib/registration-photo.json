@@ -1,9 +1,0 @@
-{
-  "invalidMime": "JPEG, PNG এবং WebP yükleyin",
-  "maxSize": "ফটোগ্রাফ এবং ফজলা 5 এমবি অলবিলির",
-  "bucketMigrationOtp": "025_private_photo_storage.sql çalıştırın",
-  "uploadFailed": "ফটোগ্রাফ yüklenemedi",
-  "draftNotFound": "Başvuru fotoğrafı bulunamadı. Lütfen yeniden başvurun.",
-  "saveFailed": "ফটোগ্রাফ kaydedilemedi",
-  "bucketMigrationRegistration": "025 মাইগ্রেশন çalıştırın"
-}

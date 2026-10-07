@@ -1,6 +1,0 @@
-{
-  "approved": "Bu başvuru zaten onaylanmış. Bu kod tekrar kullanılamaz; personel sisteme alınmış.",
-  "rejected": "Bu başvuru reddedilmiş. Personel aynı bilgilerle yeniden başvurabilir.",
-  "expired": "Başvuru süresi dolmuş. Personel yeni başvuru yapmalı.",
-  "unknownStatus": "Bu başvuru durumu: {status}"
-}

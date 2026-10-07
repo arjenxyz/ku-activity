@@ -1,32 +1,10 @@
 import type { Metadata, Viewport } from 'next';
-import { cookies, headers } from 'next/headers';
-import Script from 'next/script';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { PWARegister } from '@/components/pwa/PWARegister';
-import { InstallPrompt } from '@/components/pwa/InstallPrompt';
 import { ContentProtection } from '@/components/ContentProtection';
-import { LocaleShell } from '@/components/i18n/LocaleShell';
-import { SupportChatWidget } from '@/components/support/SupportChatWidget';
-import { APP_NAME, CREWLEDGER_APP_ICON } from '@/lib/brand';
-import { formatString } from '@/lib/strings/format';
-import { getRegistryStrings } from '@/lib/i18n/strings-registry';
-import { LOCALE_COOKIE, resolveRequestLocale, localeDirection } from '@/lib/i18n/locale';
+import { APP_NAME, APP_ICON, APP_TAGLINE_TR } from '@/lib/brand';
 import { PWA_ASSET_VERSION } from '@/lib/pwa-manifest';
-import {
-  ADMIN_CRITICAL_CSS,
-  ADMIN_MOBILE_THEME_COLOR,
-  ADMIN_ROUTE_HEADER,
-  getAdminIntroBootScript,
-} from '@/lib/admin-intro-boot-script';
-import { ADMIN_INTRO_IMAGE, ADMIN_PWA_SPLASH_BG } from '@/lib/admin-pwa-brand';
-import {
-  getPersonnelIntroBootScript,
-  PERSONNEL_CRITICAL_CSS,
-  PERSONNEL_MOBILE_THEME_COLOR,
-  PERSONNEL_ROUTE_HEADER,
-} from '@/lib/personnel-intro-boot-script';
-import { PERSONNEL_INTRO_IMAGE, PERSONNEL_PWA_SPLASH_BG } from '@/lib/personnel-pwa-brand';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -38,33 +16,20 @@ const geistMono = Geist_Mono({
   subsets: ['latin'],
 });
 
-export async function generateMetadata(): Promise<Metadata> {
-  const cookieStore = await cookies();
-  const headerList = await headers();
-  const locale = resolveRequestLocale(
-    cookieStore.get(LOCALE_COOKIE)?.value,
-    headerList.get('accept-language')
-  );
-  const strings = getRegistryStrings('app/layout', locale);
-
-  return {
-    title: formatString(strings.title, { appName: APP_NAME }),
-    description: strings.description,
-    applicationName: formatString(strings.applicationName, { appName: APP_NAME }),
-    appleWebApp: {
-      capable: true,
-      statusBarStyle: 'default',
-      title: formatString(strings.appleWebAppTitle, { appName: APP_NAME }),
-    },
-    formatDetection: {
-      telephone: false,
-    },
-    icons: {
-      icon: [{ url: `${CREWLEDGER_APP_ICON}?v=${PWA_ASSET_VERSION}`, sizes: '512x512', type: 'image/png' }],
-      apple: [{ url: `${CREWLEDGER_APP_ICON}?v=${PWA_ASSET_VERSION}`, sizes: '512x512', type: 'image/png' }],
-    },
-  };
-}
+export const metadata: Metadata = {
+  title: APP_NAME,
+  description: APP_TAGLINE_TR,
+  applicationName: APP_NAME,
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: APP_NAME,
+  },
+  icons: {
+    icon: [{ url: `${APP_ICON}?v=${PWA_ASSET_VERSION}`, sizes: '512x512', type: 'image/png' }],
+    apple: [{ url: `${APP_ICON}?v=${PWA_ASSET_VERSION}`, sizes: '512x512', type: 'image/png' }],
+  },
+};
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -72,78 +37,28 @@ export const viewport: Viewport = {
   maximumScale: 5,
   viewportFit: 'cover',
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#2563eb' },
+    { media: '(prefers-color-scheme: light)', color: '#0E1548' },
     { media: '(prefers-color-scheme: dark)', color: '#0f172a' },
   ],
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const headerList = await headers();
-  const cookieStore = await cookies();
-  const locale = resolveRequestLocale(
-    cookieStore.get(LOCALE_COOKIE)?.value,
-    headerList.get('accept-language')
-  );
-  const isPersonnelRoute = headerList.get(PERSONNEL_ROUTE_HEADER) === '1';
-  const isAdminRoute = headerList.get(ADMIN_ROUTE_HEADER) === '1';
-  const isPwaIntroRoute = isPersonnelRoute || isAdminRoute;
-  const pwaSplashBg = isPersonnelRoute ? PERSONNEL_PWA_SPLASH_BG : ADMIN_PWA_SPLASH_BG;
-  const pwaSurfaceStyle = isPwaIntroRoute
-    ? ({ backgroundColor: pwaSplashBg, colorScheme: 'dark' as const })
-    : undefined;
-
   return (
-    <html lang={locale} dir={localeDirection(locale)} translate="no" style={pwaSurfaceStyle} suppressHydrationWarning>
+    <html lang="tr" translate="no" suppressHydrationWarning>
       <head>
-        {/* Uygulamanın kendi dil seçimi var — Chrome'un otomatik "Sayfayı çevir?" önerisini kapat */}
         <meta name="google" content="notranslate" />
-        {isPersonnelRoute ? (
-          <>
-            <style dangerouslySetInnerHTML={{ __html: PERSONNEL_CRITICAL_CSS }} />
-            <meta name="color-scheme" content="dark" />
-            <meta name="theme-color" content={PERSONNEL_MOBILE_THEME_COLOR} />
-            <link rel="preload" as="image" href={PERSONNEL_INTRO_IMAGE} fetchPriority="high" />
-          </>
-        ) : null}
-        {isAdminRoute ? (
-          <>
-            <style dangerouslySetInnerHTML={{ __html: ADMIN_CRITICAL_CSS }} />
-            <meta name="color-scheme" content="dark" />
-            <meta name="theme-color" content={ADMIN_MOBILE_THEME_COLOR} />
-            <link rel="preload" as="image" href={ADMIN_INTRO_IMAGE} fetchPriority="high" />
-          </>
-        ) : null}
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased transition-colors duration-300 ${
-          isPwaIntroRoute
-            ? 'text-gray-100'
-            : 'bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100'
-        }`}
-        style={pwaSurfaceStyle}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white text-gray-900`}
         suppressHydrationWarning
       >
-        {isPersonnelRoute ? (
-          <Script id="personnel-intro-boot-root" strategy="beforeInteractive">
-            {getPersonnelIntroBootScript(locale)}
-          </Script>
-        ) : null}
-        {isAdminRoute ? (
-          <Script id="admin-intro-boot-root" strategy="beforeInteractive">
-            {getAdminIntroBootScript(locale)}
-          </Script>
-        ) : null}
         <PWARegister />
         <ContentProtection />
-        <LocaleShell initialLocale={locale}>
-          {children}
-          <InstallPrompt />
-          <SupportChatWidget />
-        </LocaleShell>
+        {children}
       </body>
     </html>
   );

@@ -1,9 +1,0 @@
-{
-  "geçersizMesaj": "Érvénytelen üzenet.",
-  "mesajÇokUzun": "Az üzenet túl hosszú.",
-  "rateLimit": "Túl sok kérés. Kérjük, várjon egy kicsit.",
-  "aiYapılandırılmamış": "Az AI támogatás nincs beállítva.",
-  "yanıtAlınamadı": "Nem sikerült választ kapni. Próbálja újra.",
-  "kotaAşıldı": "Az AI kvóta kimerült. Próbálja később.",
-  "geçiciOlarakKullanılamıyor": "Az AI támogatás átmenetileg nem elérhető. Próbálja később."
-}

@@ -1,17 +1,17 @@
 import Image from 'next/image';
 import {
   ADMIN_APP_ICON,
-  CREWLEDGER_APP_ICON,
-  PERSONNEL_APP_ICON,
+  APP_ICON,
+  APP_NAME,
+  STUDENT_APP_ICON,
   type AppIconVariant,
 } from '@/lib/brand';
-import strings from '@json/src/components/brand/BrandMark.json';
 
 type Props = {
   size?: 'sm' | 'md' | 'lg';
   className?: string;
-  /** Varsayılan: ana marka. Personel/yönetici auth için ilgili uygulama ikonu. */
-  variant?: 'crewledger' | AppIconVariant;
+  /** Varsayılan: ana marka. Student/staff/admin için ilgili uygulama ikonu. */
+  variant?: 'default' | 'crewledger' | AppIconVariant;
 };
 
 const sizeClass = {
@@ -20,24 +20,27 @@ const sizeClass = {
   lg: 'w-12 h-12 rounded-[24%]',
 } as const;
 
-const ICON_BY_VARIANT = {
-  crewledger: CREWLEDGER_APP_ICON,
-  personnel: PERSONNEL_APP_ICON,
+const ICON_BY_VARIANT: Record<string, string> = {
+  default: APP_ICON,
+  crewledger: APP_ICON,
+  student: STUDENT_APP_ICON,
+  personnel: STUDENT_APP_ICON,
+  staff: ADMIN_APP_ICON,
   admin: ADMIN_APP_ICON,
-} as const;
+};
 
-export function BrandMark({ size = 'md', className = '', variant = 'crewledger' }: Props) {
+export function BrandMark({ size = 'md', className = '', variant = 'default' }: Props) {
   return (
     <div
       className={`relative overflow-hidden flex-shrink-0 shadow-lg shadow-slate-900/20 ${sizeClass[size]} ${className}`}
     >
       <Image
-        src={ICON_BY_VARIANT[variant]}
-        alt={strings.alt}
+        src={ICON_BY_VARIANT[variant] ?? APP_ICON}
+        alt={APP_NAME}
         fill
         className="object-cover"
         sizes={size === 'lg' ? '48px' : size === 'sm' ? '36px' : '40px'}
-        priority={variant !== 'crewledger'}
+        priority={variant !== 'default' && variant !== 'crewledger'}
       />
     </div>
   );
