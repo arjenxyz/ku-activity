@@ -1,10 +1,5 @@
-﻿import { PlaceholderCard } from '@/components/dashboard/PlaceholderCard';
+﻿import { DemoPanel } from '@/components/demo/DemoPanel';
 
 export default function Page() {
-  return (
-    <PlaceholderCard
-      title="Staff Check-in"
-      description="QR okutma ve katılım onayı sonraki phase."
-    />
-  );
+  return <DemoPanel view="staff-checkin" />;
 }

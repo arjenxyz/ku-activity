@@ -1,10 +1,5 @@
-﻿import { PlaceholderCard } from '@/components/dashboard/PlaceholderCard';
+﻿import { DemoPanel } from '@/components/demo/DemoPanel';
 
 export default function Page() {
-  return (
-    <PlaceholderCard
-      title="Audit Logs"
-      description="Denetim kayıtları sonraki phase."
-    />
-  );
+  return <DemoPanel view="admin-audit" />;
 }

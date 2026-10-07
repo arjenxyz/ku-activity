@@ -1,10 +1,5 @@
-﻿import { PlaceholderCard } from '@/components/dashboard/PlaceholderCard';
+﻿import { DemoPanel } from '@/components/demo/DemoPanel';
 
 export default function Page() {
-  return (
-    <PlaceholderCard
-      title="My QR"
-      description="Güvenli katılım QR kodu sonraki phase."
-    />
-  );
+  return <DemoPanel view="student-qr" />;
 }

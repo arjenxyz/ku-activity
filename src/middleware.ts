@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { updateSession, getSupabaseMiddlewareClient } from '@/utils/supabase/middleware';
 import { homePathForRole, isAppRole, type AppRole } from '@/lib/auth/roles';
+import { DEMO_COOKIE, parseDemoRole } from '@/lib/demo/session';
 
 const PUBLIC_PREFIXES = ['/login', '/auth', '/gizlilik', '/kvkk', '/kullanim-sartlari', '/api/public'];
 
@@ -11,6 +12,9 @@ function isPublicPath(pathname: string) {
 }
 
 async function getRole(request: NextRequest): Promise<AppRole | null> {
+  const demoRole = parseDemoRole(request.cookies.get(DEMO_COOKIE)?.value);
+  if (demoRole) return demoRole;
+
   const supabase = await getSupabaseMiddlewareClient(request);
   if (!supabase) return null;
   const {

@@ -31,8 +31,13 @@ export function PanelChrome({ children, homeHref, subtitle, navItems }: Props) {
   }, [pathname]);
 
   const handleLogout = async () => {
-    const supabase = createClient();
-    await supabase.auth.signOut();
+    await fetch('/api/demo/logout', { method: 'POST' }).catch(() => undefined);
+    try {
+      const supabase = createClient();
+      await supabase.auth.signOut();
+    } catch {
+      // Demo oturumunda Supabase yapılandırılmamış olabilir.
+    }
     router.replace('/login');
     router.refresh();
   };

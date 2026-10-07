@@ -6,8 +6,9 @@ import { BrandMark } from '@/components/brand/BrandMark';
 import { APP_NAME, APP_TAGLINE_TR } from '@/lib/brand';
 import { createClient } from '@/utils/supabase/client';
 import { homePathForRole, isAppRole } from '@/lib/auth/roles';
+import { DEMO_ACCOUNTS, findDemoAccount } from '@/lib/demo/accounts';
 import { inputClass, labelClass, primaryButtonClass } from '@/components/auth/authStyles';
-import { cardClass } from '@/components/ui/styles';
+import { btnSecondary, cardClass } from '@/components/ui/styles';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -16,11 +17,32 @@ export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
+  async function enterDemo(nextEmail: string, nextPassword: string) {
+    const response = await fetch('/api/demo/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: nextEmail, password: nextPassword }),
+    });
+    const payload = (await response.json().catch(() => null)) as { role?: string; error?: string } | null;
+    if (!response.ok || !isAppRole(payload?.role)) {
+      setError(payload?.error ?? 'Demo girişi başarısız');
+      return false;
+    }
+    router.replace(homePathForRole(payload.role));
+    router.refresh();
+    return true;
+  }
+
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
     setError(null);
     setLoading(true);
     try {
+      if (findDemoAccount(email, password)) {
+        await enterDemo(email, password);
+        return;
+      }
+
       const supabase = createClient();
       const { error: signError } = await supabase.auth.signInWithPassword({ email, password });
       if (signError) {
@@ -101,6 +123,31 @@ export default function LoginPage() {
               {loading ? 'Giriş yapılıyor…' : 'Giriş yap'}
             </button>
           </form>
+
+          <div className="mt-6 border-t border-slate-100 pt-5">
+            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Demo giriş</p>
+            <p className="mt-1 text-xs text-slate-500">Şifre hepsi için Demo1234. Veriler örnektir.</p>
+            <div className="mt-3 space-y-2">
+              {DEMO_ACCOUNTS.map((account) => (
+                <button
+                  key={account.email}
+                  type="button"
+                  className={`${btnSecondary} w-full justify-between`}
+                  disabled={loading}
+                  onClick={() => {
+                    setEmail(account.email);
+                    setPassword(account.password);
+                    setError(null);
+                    setLoading(true);
+                    void enterDemo(account.email, account.password).finally(() => setLoading(false));
+                  }}
+                >
+                  <span>{account.label}</span>
+                  <span className="truncate text-xs font-normal text-slate-500">{account.email}</span>
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </div>

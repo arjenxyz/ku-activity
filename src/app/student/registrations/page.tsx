@@ -1,10 +1,5 @@
-﻿import { PlaceholderCard } from '@/components/dashboard/PlaceholderCard';
+﻿import { DemoPanel } from '@/components/demo/DemoPanel';
 
 export default function Page() {
-  return (
-    <PlaceholderCard
-      title="My registrations"
-      description="Kayıtlarınız burada görünecek."
-    />
-  );
+  return <DemoPanel view="student-registrations" />;
 }
