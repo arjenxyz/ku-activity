@@ -15,7 +15,8 @@ import { inputClass, labelClass, linkButtonClass, primaryButtonClass } from '@/c
 import { ResetCodeField } from '@/components/auth/ResetCodeField';
 import { btnSecondary, cardClass } from '@/components/ui/styles';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
-import { classOptions, FACULTY_DEPARTMENTS } from '@/lib/faculty';
+import { classOptions, DEPARTMENT_CHOICES, OTHER_DEPARTMENT } from '@/lib/faculty';
+import { FormSelect } from '@/components/auth/FormSelect';
 
 type Panel = 'login' | 'register' | 'pending';
 
@@ -29,6 +30,7 @@ export default function LoginPage() {
   const [studentNo, setStudentNo] = useState('');
   const [phone, setPhone] = useState('');
   const [department, setDepartment] = useState('');
+  const [otherDepartment, setOtherDepartment] = useState('');
   const [classYear, setClassYear] = useState('');
   const [confirm, setConfirm] = useState('');
   const [code, setCode] = useState('');
@@ -65,6 +67,7 @@ export default function LoginPage() {
     setLastName('');
     setPhone('');
     setDepartment('');
+    setOtherDepartment('');
     setClassYear('');
     setStudentNo('');
   }
@@ -240,6 +243,18 @@ export default function LoginPage() {
       setError('Telefon numarası 05xx xxx xx xx biçiminde olmalı');
       return;
     }
+    if (department === OTHER_DEPARTMENT && !otherDepartment.trim()) {
+      setError('Bölüm adını yaz');
+      return;
+    }
+    if (!department) {
+      setError('Bölüm seç');
+      return;
+    }
+    if (!classYear) {
+      setError('Sınıf seç');
+      return;
+    }
     const key = email.trim().toLowerCase();
     if (DEMO_ACCOUNTS.some((account) => account.email === key)) {
       setError('Bu e-posta demo hesaplarda kayıtlı');
@@ -253,7 +268,7 @@ export default function LoginPage() {
       fullName: `${firstName.trim()} ${lastName.trim()}`,
       studentNo: studentNo.trim(),
       phone: normalizedPhone,
-      department,
+      department: department === OTHER_DEPARTMENT ? otherDepartment.trim() : department,
       classYear,
     });
     setPassword('');
@@ -499,32 +514,40 @@ export default function LoginPage() {
               </div>
               <div>
                 <label htmlFor="department" className={labelClass}>Bölüm</label>
-                <select
+                <FormSelect
                   id="department"
-                  required
-                  className={inputClass}
+                  placeholder="Seç"
                   value={department}
-                  onChange={(e) => {
-                    const next = e.target.value;
+                  options={DEPARTMENT_CHOICES}
+                  onChange={(next) => {
                     setDepartment(next);
                     const allowed = new Set(classOptions(next).map((item) => item.value));
                     setClassYear((current) => (allowed.has(current) ? current : ''));
                   }}
-                >
-                  <option value="">Seç</option>
-                  {FACULTY_DEPARTMENTS.map((item) => (
-                    <option key={item}>{item}</option>
-                  ))}
-                </select>
+                />
               </div>
+              {department === OTHER_DEPARTMENT ? (
+                <div>
+                  <label htmlFor="departmentOther" className={labelClass}>Bölümün</label>
+                  <input
+                    id="departmentOther"
+                    required
+                    className={inputClass}
+                    placeholder="Örneğin Coğrafya"
+                    value={otherDepartment}
+                    onChange={(e) => setOtherDepartment(e.target.value)}
+                  />
+                </div>
+              ) : null}
               <div>
                 <label htmlFor="classYear" className={labelClass}>Sınıf</label>
-                <select id="classYear" required className={inputClass} value={classYear} onChange={(e) => setClassYear(e.target.value)}>
-                  <option value="">Seç</option>
-                  {classOptions(department).map((item) => (
-                    <option key={item.value} value={item.value}>{item.label}</option>
-                  ))}
-                </select>
+                <FormSelect
+                  id="classYear"
+                  placeholder="Seç"
+                  value={classYear}
+                  options={classOptions(department)}
+                  onChange={setClassYear}
+                />
               </div>
               <div className="sm:col-span-2">
                 <label htmlFor="regEmail" className={labelClass}>E-posta</label>

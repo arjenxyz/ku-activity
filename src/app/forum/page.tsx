@@ -6,7 +6,8 @@ import Link from 'next/link';
 import { FiX } from 'react-icons/fi';
 import { inputClass, primaryButtonClass } from '@/components/auth/authStyles';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
-import { classOptions, FACULTY_DEPARTMENTS } from '@/lib/faculty';
+import { classOptions, DEPARTMENT_CHOICES, OTHER_DEPARTMENT } from '@/lib/faculty';
+import { FormSelect } from '@/components/auth/FormSelect';
 import { cardClass } from '@/components/ui/styles';
 
 function Field({
@@ -45,6 +46,7 @@ export default function ForumPage() {
   const [studentNo, setStudentNo] = useState('');
   const [phone, setPhone] = useState('');
   const [department, setDepartment] = useState('');
+  const [otherDepartment, setOtherDepartment] = useState('');
   const [classYear, setClassYear] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -75,6 +77,18 @@ export default function ForumPage() {
     }
     if (!normalizePhone(phone)) {
       setError('Telefon numarası 05xx xxx xx xx biçiminde olmalı');
+      return;
+    }
+    if (department === OTHER_DEPARTMENT && !otherDepartment.trim()) {
+      setError('Bölüm adını yaz');
+      return;
+    }
+    if (!department) {
+      setError('Bölüm seç');
+      return;
+    }
+    if (!classYear) {
+      setError('Sınıf seç');
       return;
     }
     if (password.length < 8) {
@@ -132,31 +146,38 @@ export default function ForumPage() {
                 <input id="forum-phone" required type="tel" autoComplete="tel" placeholder="05xx xxx xx xx" className={inputClass} value={phone} onChange={(e) => setPhone(e.target.value)} />
               </Field>
               <Field id="forum-dept" label="Bölüm">
-                <select
+                <FormSelect
                   id="forum-dept"
-                  required
-                  className={inputClass}
+                  placeholder="Seç"
                   value={department}
-                  onChange={(e) => {
-                    const next = e.target.value;
+                  options={DEPARTMENT_CHOICES}
+                  onChange={(next) => {
                     setDepartment(next);
                     const allowed = new Set(classOptions(next).map((item) => item.value));
                     setClassYear((current) => (allowed.has(current) ? current : ''));
                   }}
-                >
-                  <option value="">Seç</option>
-                  {FACULTY_DEPARTMENTS.map((item) => (
-                    <option key={item}>{item}</option>
-                  ))}
-                </select>
+                />
               </Field>
+              {department === OTHER_DEPARTMENT ? (
+                <Field id="forum-dept-other" label="Bölümün">
+                  <input
+                    id="forum-dept-other"
+                    required
+                    className={inputClass}
+                    placeholder="Örneğin Coğrafya"
+                    value={otherDepartment}
+                    onChange={(e) => setOtherDepartment(e.target.value)}
+                  />
+                </Field>
+              ) : null}
               <Field id="forum-class" label="Sınıf">
-                <select id="forum-class" required className={inputClass} value={classYear} onChange={(e) => setClassYear(e.target.value)}>
-                  <option value="">Seç</option>
-                  {classOptions(department).map((item) => (
-                    <option key={item.value} value={item.value}>{item.label}</option>
-                  ))}
-                </select>
+                <FormSelect
+                  id="forum-class"
+                  placeholder="Seç"
+                  value={classYear}
+                  options={classOptions(department)}
+                  onChange={setClassYear}
+                />
               </Field>
               <Field id="forum-email" label="E-posta">
                 <input id="forum-email" required type="email" autoComplete="email" className={inputClass} value={email} onChange={(e) => setEmail(e.target.value)} />
