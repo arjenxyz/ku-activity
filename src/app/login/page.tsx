@@ -38,10 +38,20 @@ export default function LoginPage() {
   const [pending, setPending] = useState<LocalSignup | null>(null);
   const [forgotOpen, setForgotOpen] = useState(false);
   const [stepsOpen, setStepsOpen] = useState(false);
+  const [demoOpen, setDemoOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
-  useBodyScrollLock(forgotOpen);
+  useBodyScrollLock(forgotOpen || demoOpen);
   useEffect(() => setMounted(true), []);
+
+  useEffect(() => {
+    if (!demoOpen) return;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setDemoOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [demoOpen]);
 
   function openPanel(next: Panel) {
     setPanel(next);
@@ -548,31 +558,60 @@ export default function LoginPage() {
           ) : null}
       </div>
       {panel === 'login' ? (
-        <div className="mt-4 w-full max-w-md">
-          <p className="mb-2 text-center text-[11px] font-medium uppercase tracking-wide text-slate-400">
+        <div className="w-full max-w-md text-center">
+          <button
+            type="button"
+            aria-haspopup="dialog"
+            aria-expanded={demoOpen}
+            className="text-[11px] font-medium uppercase tracking-wide text-slate-400 hover:text-slate-600"
+            onClick={() => setDemoOpen(true)}
+          >
             Geçici demo
-          </p>
-          <div className="flex flex-col gap-2 sm:flex-row">
-            {DEMO_ACCOUNTS.map((account) => (
-              <button
-                key={account.email}
-                type="button"
-                className={`${btnSecondary} w-full justify-center bg-white/80 px-3 py-2 text-xs`}
-                disabled={loading}
-                onClick={() => {
-                  setEmail(account.email);
-                  setPassword(account.password);
-                  setError(null);
-                  setLoading(true);
-                  void enterDemo(account.email, account.password).finally(() => setLoading(false));
-                }}
-              >
-                {account.label}
-              </button>
-            ))}
-          </div>
+          </button>
         </div>
       ) : null}
+      {mounted && demoOpen
+        ? createPortal(
+            <div
+              role="dialog"
+              aria-modal="true"
+              aria-label="Geçici demo"
+              className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/70 px-4 backdrop-blur-md"
+              onClick={() => setDemoOpen(false)}
+            >
+              <div
+                className={`${cardClass} w-full max-w-sm p-4`}
+                data-scroll-lock-allow=""
+                onClick={(event) => event.stopPropagation()}
+              >
+                <p className="px-1 pb-3 text-center text-[11px] font-medium uppercase tracking-wide text-slate-400">
+                  Geçici demo
+                </p>
+                <div className="flex flex-col gap-2">
+                  {DEMO_ACCOUNTS.map((account) => (
+                    <button
+                      key={account.email}
+                      type="button"
+                      className={`${btnSecondary} w-full justify-center px-3 py-2 text-sm`}
+                      disabled={loading}
+                      onClick={() => {
+                        setDemoOpen(false);
+                        setEmail(account.email);
+                        setPassword(account.password);
+                        setError(null);
+                        setLoading(true);
+                        void enterDemo(account.email, account.password).finally(() => setLoading(false));
+                      }}
+                    >
+                      {account.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>,
+            document.body,
+          )
+        : null}
       {forgotModal}
     </div>
   );
