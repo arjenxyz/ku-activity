@@ -8,9 +8,15 @@ import {
   buildScanConfig,
   createQrScanner,
   enhanceRunningCamera,
-  isLikelyDesktop,
   pickCameraConfigs,
 } from '@/lib/qr-scanner';
+
+function isDesktopComputer() {
+  if (typeof window === 'undefined') return false;
+  const touch = navigator.maxTouchPoints > 0;
+  const fineHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  return fineHover && !touch;
+}
 
 export function ResetCodeField({
   id,
@@ -22,11 +28,12 @@ export function ResetCodeField({
   onChange: (value: string) => void;
 }) {
   const [open, setOpen] = useState(false);
+  const [desktopBlocked, setDesktopBlocked] = useState(false);
   const [scanError, setScanError] = useState<string | null>(null);
   useBodyScrollLock(open);
 
   useEffect(() => {
-    if (!open) return;
+    if (!open || desktopBlocked) return;
     const scanner = createQrScanner('reset-qr-reader');
     let stopped = false;
 
@@ -46,14 +53,13 @@ export function ResetCodeField({
     };
 
     void (async () => {
-      const desktop = isLikelyDesktop();
       const configs = await pickCameraConfigs();
       for (const camera of configs) {
         if (stopped) return;
         try {
           await scanner.start(
-            buildCameraConstraint(camera, desktop),
-            buildScanConfig(desktop, 'embedded'),
+            buildCameraConstraint(camera, false),
+            buildScanConfig(false, 'fullscreen'),
             (text) => {
               onChange(text.trim());
               setOpen(false);
@@ -73,7 +79,7 @@ export function ResetCodeField({
     return () => {
       void stop();
     };
-  }, [open, onChange]);
+  }, [open, desktopBlocked, onChange]);
 
   return (
     <>
@@ -93,6 +99,7 @@ export function ResetCodeField({
           aria-label="QR okut"
           onClick={() => {
             setScanError(null);
+            setDesktopBlocked(isDesktopComputer());
             setOpen(true);
           }}
         >
@@ -106,18 +113,53 @@ export function ResetCodeField({
         </button>
       </div>
 
-      {open ? (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/70 px-4 backdrop-blur-md">
-          <div className="w-full max-w-sm overflow-hidden rounded-3xl bg-white p-4 shadow-2xl" data-scroll-lock-allow="">
-            <div className="mb-3 flex items-center justify-between">
-              <p className="text-sm font-semibold text-[#0E1548]">QR okut</p>
-              <button type="button" className="text-sm text-slate-500" onClick={() => setOpen(false)}>
-                Kapat
-              </button>
-            </div>
-            <div id="reset-qr-reader" className="overflow-hidden rounded-2xl bg-slate-900" />
-            {scanError ? <p className="mt-3 text-sm text-red-700">{scanError}</p> : null}
+      {open && desktopBlocked ? (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/70 px-6 backdrop-blur-md">
+          <div className="w-full max-w-sm rounded-3xl bg-white p-6 text-center shadow-2xl">
+            <p className="text-base font-semibold text-[#0E1548]">Masaüstünde desteklenmemektir</p>
+            <p className="mt-2 text-sm leading-relaxed text-slate-600">
+              QR okutmak için telefon veya tablet kullan.
+            </p>
+            <button
+              type="button"
+              className="mt-5 w-full rounded-2xl bg-[#0E1548] px-4 py-3 text-sm font-medium text-white"
+              onClick={() => setOpen(false)}
+            >
+              Kapat
+            </button>
           </div>
+        </div>
+      ) : null}
+
+      {open && !desktopBlocked ? (
+        <div className="fixed inset-0 z-[100] bg-black text-white">
+          <div id="reset-qr-reader" className="attendance-scanner" />
+          <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+            <div className="relative h-64 w-64">
+              <span className="absolute left-0 top-0 h-8 w-8 rounded-tl-2xl border-l-4 border-t-4 border-white" />
+              <span className="absolute right-0 top-0 h-8 w-8 rounded-tr-2xl border-r-4 border-t-4 border-white" />
+              <span className="absolute bottom-0 left-0 h-8 w-8 rounded-bl-2xl border-b-4 border-l-4 border-white" />
+              <span className="absolute bottom-0 right-0 h-8 w-8 rounded-br-2xl border-b-4 border-r-4 border-white" />
+            </div>
+          </div>
+          <div className="absolute inset-x-0 top-0 flex items-center justify-between px-5 pt-[max(1rem,env(safe-area-inset-top))]">
+            <p className="text-base font-semibold">QR okut</p>
+            <button
+              type="button"
+              className="rounded-full bg-white/15 px-4 py-2 text-sm font-medium backdrop-blur"
+              onClick={() => setOpen(false)}
+            >
+              Kapat
+            </button>
+          </div>
+          <p className="absolute inset-x-0 bottom-[max(2rem,env(safe-area-inset-bottom))] px-8 text-center text-sm text-white/90">
+            Yönetici kodunu çerçevenin içine getir.
+          </p>
+          {scanError ? (
+            <p className="absolute inset-x-6 top-24 rounded-2xl bg-white px-4 py-3 text-center text-sm text-red-700">
+              {scanError}
+            </p>
+          ) : null}
         </div>
       ) : null}
     </>
