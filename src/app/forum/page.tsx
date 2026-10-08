@@ -5,9 +5,9 @@ import { inputClass, primaryButtonClass } from '@/components/auth/authStyles';
 
 const DEPARTMENTS = [
   'Turizm İşletmeciliği',
+  'Turizm İşletmeciliği (İngilizce)',
   'Turizm Rehberliği',
   'Gastronomi ve Mutfak Sanatları',
-  'Rekreasyon Yönetimi',
 ];
 
 function Field({

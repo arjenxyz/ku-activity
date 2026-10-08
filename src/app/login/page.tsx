@@ -501,9 +501,9 @@ export default function LoginPage() {
                 <select id="department" required className={inputClass} value={department} onChange={(e) => setDepartment(e.target.value)}>
                   <option value="">Seç</option>
                   <option>Turizm İşletmeciliği</option>
+                  <option>Turizm İşletmeciliği (İngilizce)</option>
                   <option>Turizm Rehberliği</option>
                   <option>Gastronomi ve Mutfak Sanatları</option>
-                  <option>Rekreasyon Yönetimi</option>
                 </select>
               </div>
               <div>
