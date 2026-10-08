@@ -78,7 +78,7 @@ export default function ForumPage() {
       return;
     }
     if (!studentKind) {
-      setError('Öğrenci türünü seç');
+      setError('Ülke seç');
       return;
     }
     if (studentKind === 'international') {
@@ -158,14 +158,14 @@ export default function ForumPage() {
               <Field id="forum-no" label="Öğrenci no">
                 <input id="forum-no" required inputMode="numeric" placeholder="202100184" className={inputClass} value={studentNo} onChange={(e) => setStudentNo(e.target.value)} />
               </Field>
-              <Field id="forum-kind" label="Öğrenci türü">
+              <Field id="forum-kind" label="Ülke">
                 <FormSelect
                   id="forum-kind"
                   placeholder="Seç"
                   value={studentKind}
                   options={[
                     { value: 'local', label: 'Türkiye', hint: 'Telefon 05 ile başlar' },
-                    { value: 'international', label: 'Uluslararası öğrenci', hint: 'Telefon ülke koduyla yazılır' },
+                    { value: 'international', label: 'Başka ülke', hint: 'Telefon ülke koduyla yazılır' },
                   ]}
                   onChange={(next) => {
                     setStudentKind(next as 'local' | 'international');
