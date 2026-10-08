@@ -1,6 +1,7 @@
 'use client';
 
 import { FormEvent, useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useRouter } from 'next/navigation';
 import { BrandMark } from '@/components/brand/BrandMark';
 import { APP_NAME, APP_TAGLINE } from '@/lib/brand';
@@ -12,8 +13,9 @@ import { DEMO_RESET_CODE, isResetCode } from '@/lib/demo/reset-code';
 import { inputClass, labelClass, linkButtonClass, primaryButtonClass } from '@/components/auth/authStyles';
 import { ResetCodeField } from '@/components/auth/ResetCodeField';
 import { btnSecondary, cardClass } from '@/components/ui/styles';
+import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 
-type Panel = 'login' | 'register' | 'forgot' | 'pending';
+type Panel = 'login' | 'register' | 'pending';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -29,6 +31,11 @@ export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [pending, setPending] = useState<LocalSignup | null>(null);
+  const [forgotOpen, setForgotOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useBodyScrollLock(forgotOpen);
+  useEffect(() => setMounted(true), []);
 
   function openPanel(next: Panel) {
     setPanel(next);
@@ -38,6 +45,33 @@ export default function LoginPage() {
     setCode('');
     setConfirm('');
   }
+
+  function openForgot() {
+    setForgotOpen(true);
+    setError(null);
+    setCodeOk(false);
+    setCode('');
+    setConfirm('');
+    setPassword('');
+  }
+
+  function closeForgot() {
+    setForgotOpen(false);
+    setError(null);
+    setCodeOk(false);
+    setCode('');
+    setConfirm('');
+    setPassword('');
+  }
+
+  useEffect(() => {
+    if (!forgotOpen) return;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') closeForgot();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [forgotOpen]);
 
   useEffect(() => {
     if (panel !== 'pending' || !pending) return;
@@ -202,54 +236,117 @@ export default function LoginPage() {
     setPassword('');
     setConfirm('');
     setNotice('Şifre yenilendi. Yeni şifrenle giriş yap.');
-    openPanel('login');
+    setForgotOpen(false);
+    setCodeOk(false);
+    setCode('');
+    setPanel('login');
   }
 
   const title =
-    panel === 'register' ? 'Kayıt ol' : panel === 'forgot' ? 'Şifremi unuttum' : panel === 'pending' ? 'Onay bekleniyor' : 'Giriş yap';
+    panel === 'register' ? 'Kayıt ol' : panel === 'pending' ? 'Onay bekleniyor' : 'Giriş yap';
+
+  const forgotModal =
+    mounted && forgotOpen
+      ? createPortal(
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="forgot-title"
+            className="fixed inset-0 z-[100] overflow-y-auto bg-slate-900/70 backdrop-blur-md"
+            onClick={closeForgot}
+          >
+            <div className="flex min-h-full items-center justify-center px-4 py-6">
+            <div
+              className="flex w-full max-w-4xl flex-col items-stretch justify-center gap-6 lg:flex-row lg:items-start"
+              data-scroll-lock-allow=""
+              onClick={(event) => event.stopPropagation()}
+            >
+              <section className={`${cardClass} w-full max-w-md p-6 sm:p-8`}>
+                <p className="text-center text-sm font-semibold text-slate-800">Nasıl sıfırlanır</p>
+                <ol className="mt-6 flex flex-col gap-5">
+                  {[
+                    {
+                      title: 'Ekip sayfasına gir',
+                      body: (
+                        <>
+                          <a href="/ekip" className="font-medium text-[#0E1548] underline">Ekip</a> sayfasından şifre sıfırlama iste.
+                        </>
+                      ),
+                    },
+                    {
+                      title: 'Ekiple iletişime geç',
+                      body: 'Öğrenci kimlik kartını yanında bulundur. Kim olduğunu ekip doğrular.',
+                    },
+                    {
+                      title: 'Kod veya QR al',
+                      body: 'Ekip sana bir kod verir ya da aynı kodu QR olarak okutur.',
+                    },
+                    {
+                      title: 'Yeni şifreni oluştur',
+                      body: 'Kodu yandaki kutuya yaz. Doğrulama bitince yeni şifreni belirle.',
+                    },
+                  ].map((step, index) => (
+                    <li key={step.title} className="flex gap-3">
+                      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#0E1548] text-xs font-semibold text-white">
+                        {index + 1}
+                      </span>
+                      <span>
+                        <p className="text-sm font-semibold text-[#0E1548]">{step.title}</p>
+                        <p className="mt-0.5 text-sm leading-relaxed text-slate-600">{step.body}</p>
+                      </span>
+                    </li>
+                  ))}
+                </ol>
+              </section>
+              <div className={`${cardClass} w-full max-w-md p-6 sm:p-8`}>
+                <div className="mb-5 flex flex-col items-center text-center">
+                  <BrandMark size="lg" className="mb-3 ring-2 ring-[#0E1548]/10" />
+                  <h2 id="forgot-title" className="text-lg font-bold text-[#0E1548]">{APP_NAME}</h2>
+                  <p className="mt-1 text-xs text-slate-500">{APP_TAGLINE}</p>
+                  <p className="mt-3 text-sm font-semibold text-slate-800">Şifremi unuttum</p>
+                </div>
+                {!codeOk ? (
+                  <form onSubmit={onCheckCode} className="space-y-4">
+                    <div>
+                      <label htmlFor="resetEmail" className={labelClass}>E-posta</label>
+                      <input id="resetEmail" type="email" required className={inputClass} value={email} onChange={(e) => setEmail(e.target.value)} />
+                    </div>
+                    <div>
+                      <label htmlFor="resetCode" className={labelClass}>Yönetici kodu</label>
+                      <ResetCodeField id="resetCode" value={code} onChange={setCode} />
+                      <p className="mt-1 text-xs text-slate-500">Örnek kod: {DEMO_RESET_CODE}</p>
+                    </div>
+                    {error ? <p className="rounded-xl bg-red-50 px-3 py-2 text-sm text-red-700" role="alert">{error}</p> : null}
+                    <button type="submit" className={primaryButtonClass}>Kodu doğrula</button>
+                  </form>
+                ) : (
+                  <form onSubmit={onResetPassword} className="space-y-4">
+                    <div>
+                      <label htmlFor="newPassword" className={labelClass}>Yeni şifre</label>
+                      <input id="newPassword" type="password" required className={inputClass} value={password} onChange={(e) => setPassword(e.target.value)} />
+                    </div>
+                    <div>
+                      <label htmlFor="newConfirm" className={labelClass}>Yeni şifre tekrar</label>
+                      <input id="newConfirm" type="password" required className={inputClass} value={confirm} onChange={(e) => setConfirm(e.target.value)} />
+                    </div>
+                    {error ? <p className="rounded-xl bg-red-50 px-3 py-2 text-sm text-red-700" role="alert">{error}</p> : null}
+                    <button type="submit" className={primaryButtonClass}>Şifreyi kaydet ve girişe dön</button>
+                  </form>
+                )}
+                <p className="mt-4 text-center text-sm">
+                  <button type="button" className={linkButtonClass} onClick={closeForgot}>Girişe dön</button>
+                </p>
+              </div>
+            </div>
+            </div>
+          </div>,
+          document.body,
+        )
+      : null;
 
   return (
-    <div className={`flex min-h-[100dvh] flex-col items-center justify-center gap-8 bg-gradient-to-br from-blue-50 via-white to-indigo-50 px-4 py-6 lg:h-[100dvh] lg:overflow-hidden lg:px-10 ${panel === 'forgot' ? 'lg:flex-row lg:items-center' : ''}`}>
-      {panel === 'forgot' ? (
-        <section className={`${cardClass} w-full max-w-md p-6 sm:p-8`}>
-          <p className="text-center text-sm font-semibold text-slate-800">Nasıl sıfırlanır</p>
-          <ol className="mt-6 flex flex-col gap-5">
-            {[
-              {
-                title: 'Ekip sayfasına gir',
-                body: (
-                  <>
-                    <a href="/ekip" className="font-medium text-[#0E1548] underline">Ekip</a> sayfasından şifre sıfırlama iste.
-                  </>
-                ),
-              },
-              {
-                title: 'Ekiple iletişime geç',
-                body: 'Öğrenci kimlik kartını yanında bulundur. Kim olduğunu ekip doğrular.',
-              },
-              {
-                title: 'Kod veya QR al',
-                body: 'Ekip sana bir kod verir ya da aynı kodu QR olarak okutur.',
-              },
-              {
-                title: 'Yeni şifreni oluştur',
-                body: 'Kodu yandaki kutuya yaz. Doğrulama bitince yeni şifreni belirle.',
-              },
-            ].map((step, index) => (
-              <li key={step.title} className="flex gap-3">
-                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#0E1548] text-xs font-semibold text-white">
-                  {index + 1}
-                </span>
-                <span>
-                  <p className="text-sm font-semibold text-[#0E1548]">{step.title}</p>
-                  <p className="mt-0.5 text-sm leading-relaxed text-slate-600">{step.body}</p>
-                </span>
-              </li>
-            ))}
-          </ol>
-        </section>
-      ) : null}
-      <div className={`${cardClass} flex w-full max-w-md flex-col p-6 sm:p-8 ${panel === 'login' || panel === 'forgot' ? '' : 'lg:max-w-3xl'}`}>
+    <div className="flex min-h-[100dvh] flex-col items-center justify-center gap-8 bg-gradient-to-br from-blue-50 via-white to-indigo-50 px-4 py-6 lg:h-[100dvh] lg:overflow-hidden lg:px-10">
+      <div className={`${cardClass} flex w-full max-w-md flex-col p-6 sm:p-8 ${panel === 'login' ? '' : 'lg:max-w-3xl'}`}>
           <div className="mb-5 flex flex-col items-center text-center lg:mb-4">
             <BrandMark size="lg" className="mb-3 ring-2 ring-[#0E1548]/10" />
             <h1 className="text-lg font-bold text-[#0E1548]">{APP_NAME}</h1>
@@ -272,7 +369,7 @@ export default function LoginPage() {
                 <div>
                   <div className="mb-1.5 flex items-center justify-between gap-3">
                     <label htmlFor="password" className="text-sm font-medium text-gray-700">Şifre</label>
-                    <button type="button" className={linkButtonClass} onClick={() => openPanel('forgot')}>
+                    <button type="button" className={linkButtonClass} aria-haspopup="dialog" aria-expanded={forgotOpen} onClick={openForgot}>
                       Şifremi unuttum
                     </button>
                   </div>
@@ -344,42 +441,6 @@ export default function LoginPage() {
               </button>
             </div>
           ) : null}
-
-          {panel === 'forgot' ? (
-            <div className="space-y-4">
-              {!codeOk ? (
-                <form onSubmit={onCheckCode} className="space-y-4">
-                  <div>
-                    <label htmlFor="resetEmail" className={labelClass}>E-posta</label>
-                    <input id="resetEmail" type="email" required className={inputClass} value={email} onChange={(e) => setEmail(e.target.value)} />
-                  </div>
-                  <div>
-                    <label htmlFor="resetCode" className={labelClass}>Yönetici kodu</label>
-                    <ResetCodeField id="resetCode" value={code} onChange={setCode} />
-                    <p className="mt-1 text-xs text-slate-500">Örnek kod: {DEMO_RESET_CODE}</p>
-                  </div>
-                  {error ? <p className="rounded-xl bg-red-50 px-3 py-2 text-sm text-red-700" role="alert">{error}</p> : null}
-                  <button type="submit" className={primaryButtonClass}>Kodu doğrula</button>
-                </form>
-              ) : (
-                <form onSubmit={onResetPassword} className="space-y-4">
-                  <div>
-                    <label htmlFor="newPassword" className={labelClass}>Yeni şifre</label>
-                    <input id="newPassword" type="password" required className={inputClass} value={password} onChange={(e) => setPassword(e.target.value)} />
-                  </div>
-                  <div>
-                    <label htmlFor="newConfirm" className={labelClass}>Yeni şifre tekrar</label>
-                    <input id="newConfirm" type="password" required className={inputClass} value={confirm} onChange={(e) => setConfirm(e.target.value)} />
-                  </div>
-                  {error ? <p className="rounded-xl bg-red-50 px-3 py-2 text-sm text-red-700" role="alert">{error}</p> : null}
-                  <button type="submit" className={primaryButtonClass}>Şifreyi kaydet ve girişe dön</button>
-                </form>
-              )}
-              <p className="text-center text-sm">
-                <button type="button" className={linkButtonClass} onClick={() => openPanel('login')}>Girişe dön</button>
-              </p>
-            </div>
-          ) : null}
       </div>
       {panel === 'login' ? (
         <div className="mt-4 w-full max-w-md">
@@ -407,6 +468,7 @@ export default function LoginPage() {
           </div>
         </div>
       ) : null}
+      {forgotModal}
     </div>
   );
 }
