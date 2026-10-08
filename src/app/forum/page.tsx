@@ -165,7 +165,7 @@ export default function ForumPage() {
                   value={studentKind}
                   options={[
                     { value: 'local', label: 'Türkiye', hint: 'Telefon 05 ile başlar' },
-                    { value: 'international', label: 'Başka ülke', hint: 'Telefon ülke koduyla yazılır' },
+                    { value: 'international', label: 'Diğer', hint: 'Telefon ülke koduyla yazılır' },
                   ]}
                   onChange={(next) => {
                     setStudentKind(next as 'local' | 'international');
