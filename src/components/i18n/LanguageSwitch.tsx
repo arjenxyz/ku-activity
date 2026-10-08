@@ -7,6 +7,8 @@ import { useLocale } from '@/lib/i18n/LocaleProvider';
 import { flagImageUrl, LOCALE_OPTIONS, type Locale } from '@/lib/i18n/locale';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 
+const MENU_LOCALES = LOCALE_OPTIONS.filter((option) => option.id === 'tr' || option.id === 'en');
+
 function FlagBadge({ countryCode, short }: { countryCode: string; short: string }) {
   const [failed, setFailed] = useState(false);
   if (failed) {
@@ -33,7 +35,7 @@ export function LanguageSwitch({ variant = 'nav' }: { variant?: 'nav' | 'compact
   const { locale, setLocale } = useLocale();
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const current = LOCALE_OPTIONS.find((option) => option.id === locale) ?? LOCALE_OPTIONS[0];
+  const current = MENU_LOCALES.find((option) => option.id === locale) ?? MENU_LOCALES[0];
 
   useBodyScrollLock(open);
 
@@ -55,7 +57,7 @@ export function LanguageSwitch({ variant = 'nav' }: { variant?: 'nav' | 'compact
             onClick={() => setOpen(false)}
           >
             <div className="mx-auto grid w-full max-w-md gap-2" onClick={(event) => event.stopPropagation()}>
-              {LOCALE_OPTIONS.map((option) => {
+              {MENU_LOCALES.map((option) => {
                 const active = option.id === locale;
                 return (
                   <button
