@@ -26,6 +26,7 @@ export function HomeHeader() {
   }, []);
 
   return (
+    <>
     <header
       className={`fixed inset-x-0 top-0 z-50 safe-pt transition-all duration-300 ${
         scrolled || open
@@ -72,30 +73,52 @@ export function HomeHeader() {
           <span className={`block h-0.5 w-5 rounded-sm bg-[#0E1548] transition ${open ? '-translate-y-1 -rotate-45' : ''}`} />
         </button>
       </div>
+    </header>
 
-      {open ? (
-        <div className="border-t border-slate-100 bg-white px-4 py-3 md:hidden">
-          <nav className="flex flex-col" aria-label="Mobil menü">
-            {NAV.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                className="rounded-xl px-3 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50"
+      <div
+        className={`fixed inset-0 z-40 transition-opacity duration-300 md:hidden ${
+          open ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'
+        }`}
+        aria-hidden={!open}
+      >
+        <button
+          type="button"
+          className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+          aria-label="Menüyü kapat"
+          onClick={() => setOpen(false)}
+        />
+        <nav
+          className={`absolute right-0 top-0 flex h-full w-[min(100%,320px)] flex-col bg-white shadow-2xl transition-transform duration-300 safe-pt safe-pb ${
+            open ? 'translate-x-0' : 'translate-x-full'
+          }`}
+          aria-label="Mobil menü"
+        >
+          <div className="flex h-full flex-col p-5 pt-16">
+            <p className="mb-3 px-2 text-xs font-semibold uppercase tracking-wider text-slate-400">Menü</p>
+            <div className="min-h-0 flex-1 overflow-y-auto">
+              {NAV.map((item) => (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setOpen(false)}
+                  className="flex items-center rounded-xl px-3 py-3.5 font-medium text-slate-700 hover:bg-slate-50"
+                >
+                  {item.label}
+                </a>
+              ))}
+            </div>
+            <div className="mt-3 shrink-0 border-t border-slate-200 pt-3">
+              <Link
+                href="/login"
+                className="flex items-center justify-center rounded-2xl bg-[#0E1548] px-4 py-3 text-sm font-medium text-white"
                 onClick={() => setOpen(false)}
               >
-                {item.label}
-              </a>
-            ))}
-            <Link
-              href="/login"
-              className="mt-2 rounded-2xl bg-[#0E1548] px-4 py-3 text-center text-sm font-medium text-white"
-              onClick={() => setOpen(false)}
-            >
-              Giriş yap
-            </Link>
-          </nav>
-        </div>
-      ) : null}
-    </header>
+                Giriş yap
+              </Link>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </>
   );
 }
