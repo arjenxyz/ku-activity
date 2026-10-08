@@ -2,14 +2,15 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import { FiCalendar, FiChevronRight, FiUsers } from 'react-icons/fi';
 import { BrandMark } from '@/components/brand/BrandMark';
 import { LanguageSwitch } from '@/components/i18n/LanguageSwitch';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 import { APP_NAME, APP_TAGLINE } from '@/lib/brand';
 
 const MENU_LINKS = [
-  { href: '/etkinlikler', label: 'Etkinlikler' },
-  { href: '/ekip', label: 'Ekip üyeleri' },
+  { href: '/etkinlikler', label: 'Etkinlikler', icon: FiCalendar },
+  { href: '/ekip', label: 'Ekip üyeleri', icon: FiUsers },
 ];
 
 export function ExploreMenuButton({ className }: { className?: string }) {
@@ -143,21 +144,29 @@ export function HomeHeader() {
         aria-hidden={!open}
         data-scroll-lock-allow=""
       >
-          <div className="flex flex-col px-2 py-2">
-            {MENU_LINKS.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="rounded-xl px-3 py-2.5 text-sm font-medium text-[#0E1548] hover:bg-slate-50"
-                onClick={() => setOpen(false)}
-              >
-                {item.label}
-              </Link>
-            ))}
+          <div className="flex flex-col gap-1 p-2">
+            {MENU_LINKS.map((item) => {
+              const Icon = item.icon;
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="flex items-center gap-3 rounded-xl px-2 py-2 text-[#0E1548] hover:bg-slate-50"
+                  onClick={() => setOpen(false)}
+                >
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e8f0ff]">
+                    <Icon className="h-4 w-4" aria-hidden />
+                  </span>
+                  <span className="min-w-0 flex-1 text-sm font-medium">{item.label}</span>
+                  <FiChevronRight className="h-4 w-4 shrink-0 text-slate-400" aria-hidden />
+                </Link>
+              );
+            })}
+            <div className="mx-2 my-1 h-px bg-slate-100" />
             <LanguageSwitch variant="nav" />
             <Link
               href="/login"
-              className="mx-2 mb-2 mt-1 flex items-center justify-center rounded-2xl bg-[#0E1548] px-4 py-2.5 text-sm font-medium text-white"
+              className="mx-1 mb-1 mt-1 flex items-center justify-center rounded-2xl bg-[#0E1548] px-4 py-2.5 text-sm font-medium text-white"
               onClick={() => setOpen(false)}
             >
               Giriş yap
