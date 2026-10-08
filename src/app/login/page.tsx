@@ -3,6 +3,7 @@
 import { FormEvent, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useRouter } from 'next/navigation';
+import { FiInfo } from 'react-icons/fi';
 import { BrandMark } from '@/components/brand/BrandMark';
 import { APP_NAME, APP_TAGLINE } from '@/lib/brand';
 import { createClient } from '@/utils/supabase/client';
@@ -298,9 +299,9 @@ export default function LoginPage() {
                     aria-haspopup="dialog"
                     aria-expanded={stepsOpen}
                     onClick={() => setStepsOpen(true)}
-                    className="absolute left-4 top-4 flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold italic text-[#0E1548] ring-1 ring-[#0E1548]/20 hover:bg-slate-50"
+                    className="absolute left-4 top-4 flex h-8 w-8 items-center justify-center rounded-full text-[#0E1548] hover:bg-slate-50"
                   >
-                    i
+                    <FiInfo className="h-6 w-6" aria-hidden />
                   </button>
                   <div className="mb-5 flex flex-col items-center text-center">
                     <BrandMark size="lg" className="mb-3 ring-2 ring-[#0E1548]/10" />
