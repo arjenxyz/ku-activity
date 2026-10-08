@@ -43,7 +43,7 @@ export function HomeHeader() {
     <>
     <header
       ref={headerRef}
-      className={`fixed inset-x-0 top-0 z-50 safe-pt transition-all duration-300 ${
+      className={`fixed inset-x-0 top-0 z-50 pt-[env(safe-area-inset-top)] transition-all duration-300 ${
         open
           ? 'bg-white'
           : scrolled
@@ -51,7 +51,7 @@ export function HomeHeader() {
             : 'bg-white/80 backdrop-blur-sm'
       }`}
     >
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-2.5 sm:px-6">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-2 sm:px-6">
         <Link href="/" className="flex min-w-0 items-center gap-2.5">
           <BrandMark size="sm" className="!h-9 !w-9" />
           <span className="min-w-0">
