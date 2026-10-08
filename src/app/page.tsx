@@ -1,6 +1,5 @@
-import Link from 'next/link';
 import { HomeFooter } from '@/components/home/HomeFooter';
-import { HomeHeader } from '@/components/home/HomeHeader';
+import { ExploreMenuButton, HomeHeader } from '@/components/home/HomeHeader';
 import { RegistrationPreview } from '@/components/home/RegistrationPreview';
 import { SlidingStars } from '@/components/home/SlidingStars';
 import { APP_TAGLINE_TR } from '@/lib/brand';
@@ -32,12 +31,7 @@ export default function HomePage() {
                 {APP_TAGLINE_TR}
               </p>
               <div className="mt-6 flex justify-center lg:justify-start">
-                <Link
-                  href="/login"
-                  className="inline-flex w-full items-center justify-center rounded-2xl bg-[#0E1548] px-6 py-3.5 text-sm font-medium text-white shadow-sm transition hover:bg-[#152060] sm:w-auto sm:min-w-40"
-                >
-                  Giriş yap
-                </Link>
+                <ExploreMenuButton className="inline-flex w-full items-center justify-center rounded-2xl bg-[#0E1548] px-6 py-3.5 text-sm font-medium text-white shadow-sm transition hover:bg-[#152060] sm:w-auto sm:min-w-40" />
               </div>
             </div>
 

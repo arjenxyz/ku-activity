@@ -7,6 +7,18 @@ import { LanguageSwitch } from '@/components/i18n/LanguageSwitch';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 import { APP_NAME, APP_TAGLINE } from '@/lib/brand';
 
+export function ExploreMenuButton({ className }: { className?: string }) {
+  return (
+    <button
+      type="button"
+      className={className}
+      onClick={() => window.dispatchEvent(new Event('ems-open-menu'))}
+    >
+      Keşfet
+    </button>
+  );
+}
+
 export function HomeHeader() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -19,6 +31,12 @@ export function HomeHeader() {
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  useEffect(() => {
+    const openMenu = () => setOpen(true);
+    window.addEventListener('ems-open-menu', openMenu);
+    return () => window.removeEventListener('ems-open-menu', openMenu);
   }, []);
 
   useEffect(() => {
@@ -79,7 +97,7 @@ export function HomeHeader() {
     </header>
 
       <div
-        className={`fixed inset-0 z-40 transition-opacity duration-300 md:hidden ${
+        className={`fixed inset-0 z-40 transition-opacity duration-300 ${
           open ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'
         }`}
         aria-hidden={!open}
@@ -103,7 +121,7 @@ export function HomeHeader() {
         </nav>
       </div>
       <nav
-        className={`fixed right-3 z-50 w-[min(78vw,280px)] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl shadow-slate-900/10 transition-transform duration-300 md:hidden ${
+        className={`fixed right-3 z-50 w-[min(78vw,280px)] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl shadow-slate-900/10 transition-transform duration-300 ${
           open ? 'translate-x-0' : 'pointer-events-none translate-x-[120%]'
         }`}
         style={{ top: 'calc(var(--home-chrome-h, 4rem) + 0.5rem)' }}
