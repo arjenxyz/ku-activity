@@ -3,7 +3,7 @@
 import { FormEvent, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useRouter } from 'next/navigation';
-import { FiInfo } from 'react-icons/fi';
+import { FiInfo, FiX } from 'react-icons/fi';
 import { BrandMark } from '@/components/brand/BrandMark';
 import { APP_NAME, APP_TAGLINE } from '@/lib/brand';
 import { createClient } from '@/utils/supabase/client';
@@ -285,7 +285,6 @@ export default function LoginPage() {
               aria-modal="true"
               aria-labelledby="forgot-title"
               className="fixed inset-0 z-[100] overflow-y-auto bg-slate-900/70 backdrop-blur-md"
-              onClick={closeForgot}
             >
               <div className="flex min-h-full items-center justify-center px-4 py-6">
                 <div
@@ -302,6 +301,14 @@ export default function LoginPage() {
                     className="absolute left-4 top-4 flex h-8 w-8 items-center justify-center rounded-full text-[#0E1548] hover:bg-slate-50"
                   >
                     <FiInfo className="h-6 w-6" aria-hidden />
+                  </button>
+                  <button
+                    type="button"
+                    aria-label="Kapat"
+                    onClick={closeForgot}
+                    className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full text-[#0E1548] hover:bg-slate-50"
+                  >
+                    <FiX className="h-5 w-5" aria-hidden />
                   </button>
                   <div className="mb-5 flex flex-col items-center text-center">
                     <BrandMark size="lg" className="mb-3 ring-2 ring-[#0E1548]/10" />
@@ -337,9 +344,6 @@ export default function LoginPage() {
                       <button type="submit" className={primaryButtonClass}>Şifreyi kaydet ve girişe dön</button>
                     </form>
                   )}
-                  <p className="mt-4 text-center text-sm">
-                    <button type="button" className={linkButtonClass} onClick={closeForgot}>Girişe dön</button>
-                  </p>
                 </div>
               </div>
             </div>
