@@ -7,6 +7,11 @@ import { LanguageSwitch } from '@/components/i18n/LanguageSwitch';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 import { APP_NAME, APP_TAGLINE } from '@/lib/brand';
 
+const MENU_LINKS = [
+  { href: '/etkinlikler', label: 'Etkinlikler' },
+  { href: '/ekip', label: 'Ekip üyeleri' },
+];
+
 export function ExploreMenuButton({ className }: { className?: string }) {
   return (
     <button
@@ -73,6 +78,15 @@ export function HomeHeader() {
         </Link>
 
         <nav className="hidden items-center gap-1 md:flex" aria-label="Sayfa">
+          {MENU_LINKS.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="rounded-xl px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 hover:text-[#0E1548]"
+            >
+              {item.label}
+            </Link>
+          ))}
           <LanguageSwitch variant="compact" />
           <Link
             href="/login"
@@ -130,6 +144,16 @@ export function HomeHeader() {
         data-scroll-lock-allow=""
       >
           <div className="flex flex-col px-2 py-2">
+            {MENU_LINKS.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="rounded-xl px-3 py-2.5 text-sm font-medium text-[#0E1548] hover:bg-slate-50"
+                onClick={() => setOpen(false)}
+              >
+                {item.label}
+              </Link>
+            ))}
             <LanguageSwitch variant="nav" />
             <Link
               href="/login"
