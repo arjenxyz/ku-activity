@@ -11,6 +11,7 @@ export function homePathForRole(role: AppRole): string {
     case 'staff':
       return '/staff';
     default:
-      return '/student';
+      // Students stay on the public site; only staff/admin use panels.
+      return '/';
   }
 }

@@ -2,16 +2,33 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { FiCalendar, FiChevronRight, FiUsers } from 'react-icons/fi';
+import { useRouter } from 'next/navigation';
+import { FiCalendar, FiChevronRight, FiClipboard, FiLogOut, FiQrCode, FiUsers } from 'react-icons/fi';
 import { BrandMark } from '@/components/brand/BrandMark';
 import { LanguageSwitch } from '@/components/i18n/LanguageSwitch';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
+import type { AppRole } from '@/lib/auth/roles';
+import { homePathForRole } from '@/lib/auth/roles';
 import { APP_NAME, APP_TAGLINE } from '@/lib/brand';
+import { createClient } from '@/utils/supabase/client';
 
-const MENU_LINKS = [
+const PUBLIC_LINKS = [
   { href: '/etkinlikler', label: 'Etkinlikler', icon: FiCalendar },
   { href: '/ekip', label: 'Ekip üyeleri', icon: FiUsers },
 ];
+
+const STUDENT_LINKS = [
+  { href: '/etkinlikler', label: 'Etkinlikler', icon: FiCalendar },
+  { href: '/kayitlarim', label: 'Kayıtlarım', icon: FiClipboard },
+  { href: '/qr', label: 'QR kodum', icon: FiQrCode },
+  { href: '/ekip', label: 'Ekip üyeleri', icon: FiUsers },
+];
+
+type SiteSession = {
+  role: AppRole;
+  name: string;
+  demo: boolean;
+};
 
 export function ExploreMenuButton({ className }: { className?: string }) {
   return (
@@ -26,8 +43,10 @@ export function ExploreMenuButton({ className }: { className?: string }) {
 }
 
 export function HomeHeader() {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [session, setSession] = useState<SiteSession | null>(null);
   const headerRef = useRef<HTMLElement>(null);
 
   useBodyScrollLock(open);
@@ -46,6 +65,21 @@ export function HomeHeader() {
   }, []);
 
   useEffect(() => {
+    let cancelled = false;
+    fetch('/api/session')
+      .then((res) => res.json())
+      .then((payload: { session?: SiteSession | null }) => {
+        if (!cancelled) setSession(payload.session ?? null);
+      })
+      .catch(() => {
+        if (!cancelled) setSession(null);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
     const el = headerRef.current;
     if (!el) return;
     const sync = () => {
@@ -57,59 +91,96 @@ export function HomeHeader() {
     return () => observer.disconnect();
   }, [open]);
 
+  const isStudent = session?.role === 'student';
+  const isStaffPanel = session?.role === 'admin' || session?.role === 'staff';
+  const menuLinks = isStudent ? STUDENT_LINKS : PUBLIC_LINKS;
+
+  async function logout() {
+    setOpen(false);
+    await fetch('/api/demo/logout', { method: 'POST' }).catch(() => undefined);
+    try {
+      const supabase = createClient();
+      await supabase.auth.signOut();
+    } catch {
+      // Demo oturumunda Supabase yapılandırılmamış olabilir.
+    }
+    setSession(null);
+    router.replace('/');
+    router.refresh();
+  }
+
   return (
     <>
-    <header
-      ref={headerRef}
-      className="fixed inset-x-0 top-0 z-50 bg-transparent px-3 pt-[max(0.5rem,env(safe-area-inset-top))] sm:px-6 lg:px-8"
-    >
-      <div
-        className={`mx-auto flex max-w-6xl items-center justify-between gap-3 rounded-2xl border px-3 py-2 shadow-sm transition-all duration-300 sm:px-4 ${
-          open || scrolled
-            ? 'border-slate-200 bg-white shadow-md shadow-slate-900/[0.06]'
-            : 'border-slate-200/80 bg-white/95 backdrop-blur-lg'
-        }`}
+      <header
+        ref={headerRef}
+        className="fixed inset-x-0 top-0 z-50 bg-transparent px-3 pt-[max(0.5rem,env(safe-area-inset-top))] sm:px-6 lg:px-8"
       >
-        <Link href="/" className="flex min-w-0 items-center gap-2.5">
-          <BrandMark size="sm" className="!h-9 !w-9" />
-          <span className="min-w-0">
-            <span className="block truncate text-sm font-bold text-[#0E1548]">{APP_NAME}</span>
-            <span className="hidden truncate text-[10px] text-slate-500 sm:block">{APP_TAGLINE}</span>
-          </span>
-        </Link>
-
-        <nav className="hidden items-center gap-1 md:flex" aria-label="Sayfa">
-          {MENU_LINKS.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="rounded-xl px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 hover:text-[#0E1548]"
-            >
-              {item.label}
-            </Link>
-          ))}
-          <LanguageSwitch variant="compact" />
-          <Link
-            href="/login"
-            className="ml-2 rounded-2xl bg-[#0E1548] px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-[#152060]"
-          >
-            Giriş yap
-          </Link>
-        </nav>
-
-        <button
-          type="button"
-          className="flex h-10 w-10 flex-col items-center justify-center rounded-xl hover:bg-slate-100 md:hidden"
-          aria-label={open ? 'Menüyü kapat' : 'Menüyü aç'}
-          aria-expanded={open}
-          onClick={() => setOpen((value) => !value)}
+        <div
+          className={`mx-auto flex max-w-6xl items-center justify-between gap-3 rounded-2xl border px-3 py-2 shadow-sm transition-all duration-300 sm:px-4 ${
+            open || scrolled
+              ? 'border-slate-200 bg-white shadow-md shadow-slate-900/[0.06]'
+              : 'border-slate-200/80 bg-white/95 backdrop-blur-lg'
+          }`}
         >
-          <span className={`block h-0.5 w-5 rounded-sm bg-[#0E1548] transition ${open ? 'translate-y-1 rotate-45' : ''}`} />
-          <span className={`my-1 block h-0.5 w-5 rounded-sm bg-[#0E1548] transition ${open ? 'opacity-0' : ''}`} />
-          <span className={`block h-0.5 w-5 rounded-sm bg-[#0E1548] transition ${open ? '-translate-y-1 -rotate-45' : ''}`} />
-        </button>
-      </div>
-    </header>
+          <Link href="/" className="flex min-w-0 items-center gap-2.5">
+            <BrandMark size="sm" className="!h-9 !w-9" />
+            <span className="min-w-0">
+              <span className="block truncate text-sm font-bold text-[#0E1548]">{APP_NAME}</span>
+              <span className="hidden truncate text-[10px] text-slate-500 sm:block">{APP_TAGLINE}</span>
+            </span>
+          </Link>
+
+          <nav className="hidden items-center gap-1 md:flex" aria-label="Sayfa">
+            {menuLinks.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="rounded-xl px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 hover:text-[#0E1548]"
+              >
+                {item.label}
+              </Link>
+            ))}
+            <LanguageSwitch variant="compact" />
+            {session ? (
+              isStaffPanel ? (
+                <Link
+                  href={homePathForRole(session.role)}
+                  className="ml-2 rounded-2xl bg-[#0E1548] px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-[#152060]"
+                >
+                  Panele git
+                </Link>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => void logout()}
+                  className="ml-2 rounded-2xl bg-[#0E1548] px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-[#152060]"
+                >
+                  Çıkış
+                </button>
+              )
+            ) : (
+              <Link
+                href="/login"
+                className="ml-2 rounded-2xl bg-[#0E1548] px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-[#152060]"
+              >
+                Giriş yap
+              </Link>
+            )}
+          </nav>
+
+          <button
+            type="button"
+            className="flex h-10 w-10 flex-col items-center justify-center rounded-xl hover:bg-slate-100 md:hidden"
+            aria-label={open ? 'Menüyü kapat' : 'Menüyü aç'}
+            aria-expanded={open}
+            onClick={() => setOpen((value) => !value)}
+          >
+            <span className={`block h-0.5 w-5 rounded-sm bg-[#0E1548] transition ${open ? 'translate-y-1 rotate-45' : ''}`} />
+            <span className={`my-1 block h-0.5 w-5 rounded-sm bg-[#0E1548] transition ${open ? 'opacity-0' : ''}`} />
+            <span className={`block h-0.5 w-5 rounded-sm bg-[#0E1548] transition ${open ? '-translate-y-1 -rotate-45' : ''}`} />
+          </button>
+        </div>
+      </header>
 
       <div
         className={`fixed inset-0 z-40 transition-opacity duration-300 ${
@@ -144,26 +215,52 @@ export function HomeHeader() {
         aria-hidden={!open}
         data-scroll-lock-allow=""
       >
-          <div className="flex flex-col gap-1 p-2">
-            <LanguageSwitch variant="nav" />
-            <div className="mx-2 my-1 h-px bg-slate-100" />
-            {MENU_LINKS.map((item) => {
-              const Icon = item.icon;
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="flex items-center gap-3 rounded-xl px-2 py-2 text-[#0E1548] hover:bg-slate-50"
-                  onClick={() => setOpen(false)}
-                >
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e8f0ff]">
-                    <Icon className="h-4 w-4" aria-hidden />
-                  </span>
-                  <span className="min-w-0 flex-1 text-sm font-medium">{item.label}</span>
-                  <FiChevronRight className="h-4 w-4 shrink-0 text-slate-400" aria-hidden />
-                </Link>
-              );
-            })}
+        <div className="flex flex-col gap-1 p-2">
+          <LanguageSwitch variant="nav" />
+          <div className="mx-2 my-1 h-px bg-slate-100" />
+          {session ? (
+            <p className="px-3 py-1.5 text-xs font-medium text-slate-500">
+              {session.name}
+              {session.demo ? ' · demo' : ''}
+            </p>
+          ) : null}
+          {menuLinks.map((item) => {
+            const Icon = item.icon;
+            return (
+              <Link
+                key={`${item.href}-${item.label}`}
+                href={item.href}
+                className="flex items-center gap-3 rounded-xl px-2 py-2 text-[#0E1548] hover:bg-slate-50"
+                onClick={() => setOpen(false)}
+              >
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e8f0ff]">
+                  <Icon className="h-4 w-4" aria-hidden />
+                </span>
+                <span className="min-w-0 flex-1 text-sm font-medium">{item.label}</span>
+                <FiChevronRight className="h-4 w-4 shrink-0 text-slate-400" aria-hidden />
+              </Link>
+            );
+          })}
+          {session ? (
+            isStaffPanel ? (
+              <Link
+                href={homePathForRole(session.role)}
+                className="mx-1 mb-1 mt-1 flex items-center justify-center rounded-2xl bg-[#0E1548] px-4 py-2.5 text-sm font-medium text-white"
+                onClick={() => setOpen(false)}
+              >
+                Panele git
+              </Link>
+            ) : (
+              <button
+                type="button"
+                onClick={() => void logout()}
+                className="mx-1 mb-1 mt-1 flex items-center justify-center gap-2 rounded-2xl bg-[#0E1548] px-4 py-2.5 text-sm font-medium text-white"
+              >
+                <FiLogOut className="h-4 w-4" aria-hidden />
+                Çıkış yap
+              </button>
+            )
+          ) : (
             <Link
               href="/login"
               className="mx-1 mb-1 mt-1 flex items-center justify-center rounded-2xl bg-[#0E1548] px-4 py-2.5 text-sm font-medium text-white"
@@ -171,8 +268,9 @@ export function HomeHeader() {
             >
               Giriş yap
             </Link>
-          </div>
-        </nav>
+          )}
+        </div>
+      </nav>
     </>
   );
 }

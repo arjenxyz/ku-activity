@@ -4,7 +4,19 @@ import { updateSession, getSupabaseMiddlewareClient } from '@/utils/supabase/mid
 import { homePathForRole, isAppRole, type AppRole } from '@/lib/auth/roles';
 import { DEMO_COOKIE, parseDemoRole } from '@/lib/demo/session';
 
-const PUBLIC_PREFIXES = ['/login', '/auth', '/gizlilik', '/kvkk', '/kullanim-sartlari', '/forum', '/api/public'];
+const PUBLIC_PREFIXES = [
+  '/login',
+  '/auth',
+  '/gizlilik',
+  '/kvkk',
+  '/kullanim-sartlari',
+  '/forum',
+  '/etkinlikler',
+  '/ekip',
+  '/api/public',
+  '/api/session',
+  '/api/demo',
+];
 
 function isPublicPath(pathname: string) {
   if (pathname === '/') return true;
@@ -27,6 +39,16 @@ async function getRole(request: NextRequest): Promise<AppRole | null> {
   return data.role;
 }
 
+function studentLegacyRedirect(pathname: string, request: NextRequest) {
+  if (pathname.startsWith('/student/registrations')) {
+    return NextResponse.redirect(new URL('/kayitlarim', request.url));
+  }
+  if (pathname.startsWith('/student/qr')) {
+    return NextResponse.redirect(new URL('/qr', request.url));
+  }
+  return NextResponse.redirect(new URL('/etkinlikler', request.url));
+}
+
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const response = await updateSession(request);
@@ -40,6 +62,11 @@ export async function middleware(request: NextRequest) {
     pathname.includes('.')
   ) {
     return response;
+  }
+
+  // Old student panel routes → public site surfaces
+  if (pathname.startsWith('/student')) {
+    return studentLegacyRedirect(pathname, request);
   }
 
   const role = await getRole(request);
@@ -76,7 +103,8 @@ export async function middleware(request: NextRequest) {
     return response;
   }
 
-  if (pathname.startsWith('/student')) {
+  // Student-only surfaces on the public site
+  if (pathname.startsWith('/kayitlarim') || pathname.startsWith('/qr')) {
     if (!isAuthed) {
       return NextResponse.redirect(new URL('/login', request.url));
     }
