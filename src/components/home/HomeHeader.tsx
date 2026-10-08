@@ -43,15 +43,15 @@ export function HomeHeader() {
     <>
     <header
       ref={headerRef}
-      className={`fixed inset-x-0 top-0 z-50 pt-[env(safe-area-inset-top)] transition-all duration-300 ${
-        open
-          ? 'bg-white'
-          : scrolled
-            ? 'border-b border-slate-200/70 bg-white/95 shadow-sm backdrop-blur-lg'
-            : 'bg-white/80 backdrop-blur-sm'
-      }`}
+      className="fixed inset-x-0 top-0 z-50 bg-transparent px-3 pt-[max(0.5rem,env(safe-area-inset-top))]"
     >
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-2 sm:px-6">
+      <div
+        className={`mx-auto flex max-w-6xl items-center justify-between gap-3 rounded-2xl border px-3 py-2 shadow-sm transition-all duration-300 sm:px-4 ${
+          open || scrolled
+            ? 'border-slate-200 bg-white shadow-md shadow-slate-900/[0.06]'
+            : 'border-slate-200/80 bg-white/95 backdrop-blur-lg'
+        }`}
+      >
         <Link href="/" className="flex min-w-0 items-center gap-2.5">
           <BrandMark size="sm" className="!h-9 !w-9" />
           <span className="min-w-0">
