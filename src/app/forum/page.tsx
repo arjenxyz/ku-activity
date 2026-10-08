@@ -48,7 +48,8 @@ export default function ForumPage() {
   const [studentNo, setStudentNo] = useState('');
   const [callingCode, setCallingCode] = useState('90');
   const [phone, setPhone] = useState('');
-  const [contactAck, setContactAck] = useState(false);
+  const [contactDecision, setContactDecision] = useState<'accepted' | 'rejected' | null>(null);
+  const [contactOpen, setContactOpen] = useState(false);
   const [department, setDepartment] = useState('');
   const [otherDepartment, setOtherDepartment] = useState('');
   const [classYear, setClassYear] = useState('');
@@ -62,7 +63,7 @@ export default function ForumPage() {
   const [codeOpen, setCodeOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
-  useBodyScrollLock(legal !== null || codeOpen);
+  useBodyScrollLock(legal !== null || codeOpen || contactOpen);
   useEffect(() => setMounted(true), []);
   useEffect(() => {
     if (!legal) return;
@@ -86,8 +87,12 @@ export default function ForumPage() {
       setError(invalidPhone);
       return;
     }
-    if (!contactAck) {
-      setError('Ulaşamayınca nasıl haber vereceğimizi onaylaman gerekir.');
+    if (contactDecision === 'rejected') {
+      setError('Bilgilendirme reddedildi. Kayıt tamamlanamaz.');
+      return;
+    }
+    if (contactDecision !== 'accepted') {
+      setError('Önce bilgilendirmeyi okuyup kabul et.');
       return;
     }
     if (department === OTHER_DEPARTMENT && !otherDepartment.trim()) {
@@ -154,14 +159,14 @@ export default function ForumPage() {
                 <input id="forum-no" required inputMode="numeric" placeholder="202100184" className={inputClass} value={studentNo} onChange={(e) => setStudentNo(e.target.value)} />
               </Field>
               <Field id="forum-phone" label="Telefon" className={codeOpen ? 'relative z-50' : undefined}>
-                <div className="flex gap-2">
+                <div className="flex gap-2 [container-type:inline-size]">
                   <div className="w-28 shrink-0">
                     <FormSelect
                       id="forum-code"
                       placeholder="+90"
                       value={callingCode}
                       options={callingCodeChoices()}
-                      menuClassName="scrollbar-thin-glass w-56"
+                      menuClassName="scrollbar-thin-glass left-0 w-[100cqw]"
                       inline
                       onOpenChange={setCodeOpen}
                       onChange={(next) => {
@@ -189,19 +194,32 @@ export default function ForumPage() {
                   />
                 </div>
               </Field>
-              <label className="flex items-start gap-3 text-sm leading-relaxed text-slate-600">
-                  <input
-                    type="checkbox"
-                    required
-                    checked={contactAck}
-                    onChange={(e) => setContactAck(e.target.checked)}
-                    className="mt-1 h-4 w-4 shrink-0 rounded border-slate-300"
-                  />
-                  <span>
-                    Etkinlik günlerinde size ulaşamazsak, güvenlik veya etkinlik bilgilendirmesi için gerekirse WhatsApp veya alternatif uygulamalarla ekibimiz sizlere ulaşır.
-                    <span className="text-red-500" aria-hidden> *</span>
-                  </span>
-                </label>
+              <button
+                type="button"
+                aria-pressed={contactDecision === 'accepted'}
+                onClick={() => setContactOpen(true)}
+                className="flex items-start gap-3 text-left text-sm leading-relaxed text-slate-600"
+              >
+                <span
+                  aria-hidden
+                  className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border text-[10px] ${
+                    contactDecision === 'accepted'
+                      ? 'border-[#0E1548] bg-[#0E1548] text-white'
+                      : contactDecision === 'rejected'
+                        ? 'border-red-600 bg-red-600 text-white'
+                        : 'border-slate-300 bg-white'
+                  }`}
+                >
+                  {contactDecision === 'accepted' ? '✓' : contactDecision === 'rejected' ? '×' : ''}
+                </span>
+                <span>
+                  {contactDecision === null ? 'Bilgilendirmeyi oku' : 'Bilgilendirmeyi tekrar oku'}
+                  {contactDecision !== 'accepted' ? <span className="text-red-500" aria-hidden> *</span> : null}
+                </span>
+              </button>
+              {contactDecision === 'rejected' ? (
+                <p className="-mt-4 text-sm text-red-700">Bilgilendirme reddedildi. Kayıt tamamlanamaz.</p>
+              ) : null}
               <Field id="forum-dept" label="Bölüm">
                 <FormSelect
                   id="forum-dept"
@@ -265,7 +283,7 @@ export default function ForumPage() {
                   {' '}metinlerini okudum.
                 </span>
               </label>
-              <button type="submit" className={primaryButtonClass}>Kaydı tamamla</button>
+              <button type="submit" className={primaryButtonClass} disabled={contactDecision === 'rejected'}>Kaydı tamamla</button>
             </form>
           </>
         )}
@@ -273,6 +291,46 @@ export default function ForumPage() {
       {mounted && codeOpen
         ? createPortal(
             <div className="fixed inset-0 z-40 bg-slate-900/35 backdrop-blur-md" />,
+            document.body,
+          )
+        : null}
+      {mounted && contactOpen
+        ? createPortal(
+            <div
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="forum-contact-title"
+              className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/70 px-4 py-6 backdrop-blur-md"
+            >
+              <section className={`${cardClass} w-full max-w-lg p-6`} data-scroll-lock-allow="">
+                <h2 id="forum-contact-title" className="text-lg font-semibold text-[#0E1548]">Bilgilendirme</h2>
+                <p className="mt-4 text-sm leading-relaxed text-slate-600">
+                  Etkinlik günlerinde size ulaşamazsak, güvenlik veya etkinlik bilgilendirmesi için gerekirse WhatsApp veya alternatif uygulamalarla ekibimiz sizlere ulaşır.
+                </p>
+                <div className="mt-6 grid grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    className="rounded-xl px-3 py-2.5 text-sm font-medium text-[#0E1548] ring-1 ring-slate-200 hover:bg-slate-50"
+                    onClick={() => {
+                      setContactDecision('rejected');
+                      setContactOpen(false);
+                    }}
+                  >
+                    Reddet
+                  </button>
+                  <button
+                    type="button"
+                    className="rounded-xl bg-[#0E1548] px-3 py-2.5 text-sm font-medium text-white"
+                    onClick={() => {
+                      setContactDecision('accepted');
+                      setContactOpen(false);
+                    }}
+                  >
+                    Kabul et
+                  </button>
+                </div>
+              </section>
+            </div>,
             document.body,
           )
         : null}
