@@ -94,24 +94,26 @@ export function HomeHeader() {
     </header>
 
       <div
-        className={`fixed inset-x-0 bottom-0 z-40 transition-opacity duration-300 md:hidden ${
+        className={`fixed inset-0 z-40 transition-opacity duration-300 md:hidden ${
           open ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'
         }`}
-        style={{ top: 'var(--home-chrome-h, 3.5rem)' }}
         aria-hidden={!open}
       >
         <button
           type="button"
-          className="absolute inset-0 bg-[#0E1548]/40"
+          className="absolute inset-0 bg-[#0E1548]/60 backdrop-blur-2xl"
           aria-label="Menüyü kapat"
           onClick={() => setOpen(false)}
         />
-        <nav
-          className={`absolute right-3 top-2 flex h-auto w-[min(78vw,280px)] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl shadow-slate-900/10 transition-transform duration-300 ${
-            open ? 'translate-x-0' : 'translate-x-[110%]'
-          }`}
-          aria-label="Mobil menü"
-        >
+      </div>
+      <nav
+        className={`fixed right-3 z-50 w-[min(78vw,280px)] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl shadow-slate-900/10 transition-transform duration-300 md:hidden ${
+          open ? 'translate-x-0' : 'pointer-events-none translate-x-[120%]'
+        }`}
+        style={{ top: 'calc(var(--home-chrome-h, 4rem) + 0.5rem)' }}
+        aria-label="Mobil menü"
+        aria-hidden={!open}
+      >
           <div className="flex flex-col px-2 py-2">
             <LanguageSwitch variant="nav" />
             {NAV.map((item) => (
@@ -133,7 +135,6 @@ export function HomeHeader() {
             </Link>
           </div>
         </nav>
-      </div>
     </>
   );
 }
