@@ -87,12 +87,12 @@ export default function ForumPage() {
         setError('Telefonu ülke koduyla yaz. Örneğin +49 151 2345678');
         return;
       }
-      if (!contactAck) {
-        setError('Ulaşamayınca nasıl haber vereceğimizi onaylaman gerekir.');
-        return;
-      }
     } else if (!normalizePhone(phone)) {
       setError('Telefon numarası 05xx xxx xx xx biçiminde olmalı');
+      return;
+    }
+    if (!contactAck) {
+      setError('Ulaşamayınca nasıl haber vereceğimizi onaylaman gerekir.');
       return;
     }
     if (department === OTHER_DEPARTMENT && !otherDepartment.trim()) {
@@ -187,8 +187,7 @@ export default function ForumPage() {
                   onChange={(e) => setPhone(e.target.value)}
                 />
               </Field>
-              {studentKind === 'international' ? (
-                <label className="flex items-start gap-3 text-sm leading-relaxed text-slate-600">
+              <label className="flex items-start gap-3 text-sm leading-relaxed text-slate-600">
                   <input
                     type="checkbox"
                     required
@@ -201,7 +200,6 @@ export default function ForumPage() {
                     <span className="text-red-500" aria-hidden> *</span>
                   </span>
                 </label>
-              ) : null}
               <Field id="forum-dept" label="Bölüm">
                 <FormSelect
                   id="forum-dept"
