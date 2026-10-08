@@ -7,7 +7,7 @@ import { FiLock, FiX } from 'react-icons/fi';
 import { inputClass, primaryButtonClass } from '@/components/auth/authStyles';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 import { classOptions, DEPARTMENT_CHOICES, OTHER_DEPARTMENT } from '@/lib/faculty';
-import { callingCodeChoices, findCallingCode } from '@/lib/calling-codes';
+import { callingCodeChoices, findCallingCode, matchCallingCode } from '@/lib/calling-codes';
 import { FormSelect } from '@/components/auth/FormSelect';
 import { cardClass } from '@/components/ui/styles';
 
@@ -16,12 +16,14 @@ function Field({
   label,
   className,
   locked = false,
+  note,
   children,
 }: {
   id: string;
   label: string;
   className?: string;
   locked?: boolean;
+  note?: string | null;
   children: ReactNode;
 }) {
   return (
@@ -38,6 +40,7 @@ function Field({
           <FiLock className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" aria-hidden />
         ) : null}
       </div>
+      {note ? <p className="mt-1.5 text-xs text-red-600">{note}</p> : null}
     </div>
   );
 }
@@ -132,6 +135,12 @@ export default function ForumPage() {
   const phoneDigits = phone.replace(/\D/g, '');
   const phoneReady = phoneDigits.length > 0 && phoneError(callingCode, phoneDigits) === null;
   const departmentReady = department.length > 0 && (department !== OTHER_DEPARTMENT || otherDepartment.trim().length > 0);
+  const studentNote = studentNo.trim() && !/^\d{9}$/.test(studentNo.trim()) ? 'Öğrenci numarası 9 haneli olmalı' : null;
+  const phoneNote = phoneDigits && !phoneReady ? phoneError(callingCode, phoneDigits) : null;
+  const emailNote = email.trim() && !email.includes('@') ? 'E-postada @ olmalı' : null;
+  const passwordNote = password && password.length < 8 ? 'Şifre en az 8 karakter olmalı' : null;
+  const confirmNote = confirm && confirm !== password ? 'Şifreler aynı değil' : null;
+  const otherNote = department === OTHER_DEPARTMENT && !otherDepartment.trim() ? 'Bölüm adını yaz' : null;
   const filled = [
     firstName.trim().length > 0,
     lastName.trim().length > 0,
@@ -180,10 +189,10 @@ export default function ForumPage() {
               <Field id="forum-last" label="Soyad" locked={locked(1)}>
                 <input id="forum-last" required autoComplete="family-name" disabled={locked(1)} className={inputClass} value={lastName} onChange={(e) => setLastName(e.target.value)} />
               </Field>
-              <Field id="forum-no" label="Öğrenci no" locked={locked(2)}>
+              <Field id="forum-no" label="Öğrenci no" locked={locked(2)} note={studentNote}>
                 <input id="forum-no" required inputMode="numeric" placeholder="202100184" disabled={locked(2)} className={inputClass} value={studentNo} onChange={(e) => setStudentNo(e.target.value)} />
               </Field>
-              <Field id="forum-phone" label="Telefon" locked={locked(3)} className={codeOpen ? 'relative z-50' : undefined}>
+              <Field id="forum-phone" label="Telefon" locked={locked(3)} note={phoneNote} className={codeOpen ? 'relative z-50' : undefined}>
                 <div className="flex gap-2 [container-type:inline-size]">
                   <div className="w-28 shrink-0">
                     <FormSelect
@@ -209,13 +218,28 @@ export default function ForumPage() {
                     autoComplete="tel"
                     inputMode="numeric"
                     disabled={locked(3)}
-                    placeholder={callingCode === '90' ? '5xx xxx xx xx' : `${findCallingCode(callingCode).max} hane`}
+                    placeholder="05xx veya +49…"
                     className={inputClass}
                     value={phone}
                     onChange={(event) => {
+                      const raw = event.target.value.trim();
+                      const digits = raw.replace(/\D/g, '');
+                      const international = raw.startsWith('+') || raw.startsWith('00');
+                      if (international) {
+                        const body = digits.replace(/^00/, '');
+                        const match = matchCallingCode(body);
+                        if (match) {
+                          setCallingCode(match.code);
+                          setPhone(body.slice(match.code.length).slice(0, match.max));
+                          return;
+                        }
+                      }
+                      if (digits.startsWith('0') || digits.startsWith('5') || callingCode === '90') {
+                        setCallingCode('90');
+                        setPhone(digits.replace(/^0+/, '').slice(0, 10));
+                        return;
+                      }
                       const rule = findCallingCode(callingCode);
-                      let digits = event.target.value.replace(/\D/g, '');
-                      if (callingCode === '90') digits = digits.replace(/^0+/, '');
                       setPhone(digits.slice(0, rule.max));
                     }}
                   />
@@ -265,7 +289,7 @@ export default function ForumPage() {
                 />
               </Field>
               {department === OTHER_DEPARTMENT ? (
-                <Field id="forum-dept-other" label="Bölümün" locked={locked(5)}>
+                <Field id="forum-dept-other" label="Bölümün" locked={locked(5)} note={otherNote}>
                   <input
                     id="forum-dept-other"
                     required
@@ -287,13 +311,13 @@ export default function ForumPage() {
                   onChange={setClassYear}
                 />
               </Field>
-              <Field id="forum-email" label="E-posta" locked={locked(7)}>
+              <Field id="forum-email" label="E-posta" locked={locked(7)} note={emailNote}>
                 <input id="forum-email" required type="email" autoComplete="email" disabled={locked(7)} className={inputClass} value={email} onChange={(e) => setEmail(e.target.value)} />
               </Field>
-              <Field id="forum-password" label="Şifre" locked={locked(8)}>
+              <Field id="forum-password" label="Şifre" locked={locked(8)} note={passwordNote}>
                 <input id="forum-password" required type="password" autoComplete="new-password" disabled={locked(8)} className={inputClass} value={password} onChange={(e) => setPassword(e.target.value)} />
               </Field>
-              <Field id="forum-confirm" label="Şifre tekrar" locked={locked(9)}>
+              <Field id="forum-confirm" label="Şifre tekrar" locked={locked(9)} note={confirmNote}>
                 <input id="forum-confirm" required type="password" autoComplete="new-password" disabled={locked(9)} className={inputClass} value={confirm} onChange={(e) => setConfirm(e.target.value)} />
               </Field>
               {error ? <p className="rounded-xl bg-red-50 px-3 py-2 text-sm text-red-700" role="alert">{error}</p> : null}
