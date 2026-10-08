@@ -46,7 +46,7 @@ export default function ForumPage() {
   const [studentNo, setStudentNo] = useState('');
   const [studentKind, setStudentKind] = useState<'local' | 'international' | ''>('');
   const [phone, setPhone] = useState('');
-  const [whatsapp, setWhatsapp] = useState<'yes' | 'no' | ''>('');
+  const [contactAck, setContactAck] = useState(false);
   const [department, setDepartment] = useState('');
   const [otherDepartment, setOtherDepartment] = useState('');
   const [classYear, setClassYear] = useState('');
@@ -87,8 +87,8 @@ export default function ForumPage() {
         setError('Telefonu ülke koduyla yaz. Örneğin +49 151 2345678');
         return;
       }
-      if (!whatsapp) {
-        setError('WhatsApp ile ulaşılıp ulaşılamayacağını seç');
+      if (!contactAck) {
+        setError('Ulaşamayınca nasıl haber vereceğimizi onaylaman gerekir.');
         return;
       }
     } else if (!normalizePhone(phone)) {
@@ -170,7 +170,7 @@ export default function ForumPage() {
                   onChange={(next) => {
                     setStudentKind(next as 'local' | 'international');
                     setPhone('');
-                    setWhatsapp('');
+                    setContactAck(false);
                   }}
                 />
               </Field>
@@ -188,32 +188,19 @@ export default function ForumPage() {
                 />
               </Field>
               {studentKind === 'international' ? (
-                <div>
-                  <p className="mb-2 text-sm font-medium text-[#0E1548]">
-                    Etkinlik günleri WhatsApp ile sizlere ulaşabilir miyiz?
-                    <span className="ml-0.5 text-red-500" aria-hidden>*</span>
-                  </p>
-                  <div className="grid grid-cols-2 gap-2">
-                    {([
-                      ['yes', 'Evet'],
-                      ['no', 'Hayır'],
-                    ] as const).map(([value, label]) => (
-                      <button
-                        key={value}
-                        type="button"
-                        aria-pressed={whatsapp === value}
-                        onClick={() => setWhatsapp(value)}
-                        className={`rounded-xl px-3 py-2.5 text-sm font-medium ${
-                          whatsapp === value
-                            ? 'bg-[#0E1548] text-white'
-                            : 'bg-white text-[#0E1548] ring-1 ring-slate-200 hover:bg-slate-50'
-                        }`}
-                      >
-                        {label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
+                <label className="flex items-start gap-3 text-sm leading-relaxed text-slate-600">
+                  <input
+                    type="checkbox"
+                    required
+                    checked={contactAck}
+                    onChange={(e) => setContactAck(e.target.checked)}
+                    className="mt-1 h-4 w-4 shrink-0 rounded border-slate-300"
+                  />
+                  <span>
+                    Etkinlik günlerinde size ulaşamazsak, güvenliğiniz için gerekirse WhatsApp veya alternatif uygulamalarla ekibimiz sizlere ulaşır.
+                    <span className="text-red-500" aria-hidden> *</span>
+                  </span>
+                </label>
               ) : null}
               <Field id="forum-dept" label="Bölüm">
                 <FormSelect
