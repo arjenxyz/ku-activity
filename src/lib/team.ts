@@ -1,7 +1,9 @@
 export type TeamMember = {
   name: string;
+  handle: string;
   role: string;
   about: string;
+  image?: string;
 };
 
 export const TEAM_MEMBERS: TeamMember[] = [];
