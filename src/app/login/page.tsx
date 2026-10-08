@@ -23,8 +23,12 @@ export default function LoginPage() {
   const [panel, setPanel] = useState<Panel>('login');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [fullName, setFullName] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [studentNo, setStudentNo] = useState('');
+  const [phone, setPhone] = useState('');
+  const [department, setDepartment] = useState('');
+  const [classYear, setClassYear] = useState('');
   const [confirm, setConfirm] = useState('');
   const [code, setCode] = useState('');
   const [codeOk, setCodeOk] = useState(false);
@@ -46,6 +50,12 @@ export default function LoginPage() {
     setCodeOk(false);
     setCode('');
     setConfirm('');
+    setFirstName('');
+    setLastName('');
+    setPhone('');
+    setDepartment('');
+    setClassYear('');
+    setStudentNo('');
   }
 
   function openForgot() {
@@ -202,12 +212,39 @@ export default function LoginPage() {
       setError('Şifreler aynı değil');
       return;
     }
+    if (!/^\d{9}$/.test(studentNo.trim())) {
+      setError('Öğrenci numarası 9 haneli olmalı');
+      return;
+    }
+    const phoneDigits = phone.replace(/\D/g, '');
+    const normalizedPhone =
+      phoneDigits.length === 12 && phoneDigits.startsWith('90')
+        ? `0${phoneDigits.slice(2)}`
+        : phoneDigits.length === 10 && phoneDigits.startsWith('5')
+          ? `0${phoneDigits}`
+          : phoneDigits.length === 11 && phoneDigits.startsWith('05')
+            ? phoneDigits
+            : null;
+    if (!normalizedPhone) {
+      setError('Telefon numarası 05xx xxx xx xx biçiminde olmalı');
+      return;
+    }
     const key = email.trim().toLowerCase();
     if (DEMO_ACCOUNTS.some((account) => account.email === key)) {
       setError('Bu e-posta demo hesaplarda kayıtlı');
       return;
     }
-    const record = saveSignup({ email: key, password, fullName: fullName.trim(), studentNo: studentNo.trim() });
+    const record = saveSignup({
+      email: key,
+      password,
+      firstName: firstName.trim(),
+      lastName: lastName.trim(),
+      fullName: `${firstName.trim()} ${lastName.trim()}`,
+      studentNo: studentNo.trim(),
+      phone: normalizedPhone,
+      department,
+      classYear,
+    });
     setPassword('');
     setConfirm('');
     setPending(record);
@@ -387,8 +424,8 @@ export default function LoginPage() {
       : null;
 
   return (
-    <div className="flex min-h-[100dvh] flex-col items-center justify-center gap-8 bg-gradient-to-br from-blue-50 via-white to-indigo-50 px-4 py-6 lg:h-[100dvh] lg:overflow-hidden lg:px-10">
-      <div className={`${cardClass} flex w-full max-w-md flex-col p-6 sm:p-8 ${panel === 'login' ? '' : 'lg:max-w-3xl'}`}>
+    <div className={`flex min-h-[100dvh] flex-col items-center bg-gradient-to-br from-blue-50 via-white to-indigo-50 px-4 lg:px-10 ${panel === 'login' ? 'justify-center gap-8 py-6 lg:h-[100dvh] lg:overflow-hidden' : 'overflow-y-auto py-6'}`}>
+      <div className={`${cardClass} flex w-full max-w-md flex-col p-6 sm:p-8 ${panel === 'login' ? '' : 'my-auto lg:max-w-3xl'}`}>
           <div className="mb-5 flex flex-col items-center text-center lg:mb-4">
             <BrandMark size="lg" className="mb-3 ring-2 ring-[#0E1548]/10" />
             <h1 className="text-lg font-bold text-[#0E1548]">{APP_NAME}</h1>
@@ -432,28 +469,54 @@ export default function LoginPage() {
 
           {panel === 'register' ? (
             <form onSubmit={onRegister} className="space-y-4">
-              <div className="grid gap-4 lg:grid-cols-2">
+              <div className="grid gap-4 sm:grid-cols-2">
               <div>
-                <label htmlFor="fullName" className={labelClass}>Ad soyad</label>
-                <input id="fullName" required className={inputClass} value={fullName} onChange={(e) => setFullName(e.target.value)} />
+                <label htmlFor="firstName" className={labelClass}>Ad</label>
+                <input id="firstName" autoComplete="given-name" required className={inputClass} value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+              </div>
+              <div>
+                <label htmlFor="lastName" className={labelClass}>Soyad</label>
+                <input id="lastName" autoComplete="family-name" required className={inputClass} value={lastName} onChange={(e) => setLastName(e.target.value)} />
               </div>
               <div>
                 <label htmlFor="studentNo" className={labelClass}>Öğrenci no</label>
-                <input id="studentNo" required className={inputClass} value={studentNo} onChange={(e) => setStudentNo(e.target.value)} />
+                <input id="studentNo" inputMode="numeric" autoComplete="off" required placeholder="202100184" className={inputClass} value={studentNo} onChange={(e) => setStudentNo(e.target.value)} />
               </div>
               <div>
+                <label htmlFor="phone" className={labelClass}>Telefon</label>
+                <input id="phone" type="tel" autoComplete="tel" required placeholder="05xx xxx xx xx" className={inputClass} value={phone} onChange={(e) => setPhone(e.target.value)} />
+              </div>
+              <div>
+                <label htmlFor="department" className={labelClass}>Bölüm</label>
+                <select id="department" required className={inputClass} value={department} onChange={(e) => setDepartment(e.target.value)}>
+                  <option value="">Seç</option>
+                  <option>Turizm İşletmeciliği</option>
+                  <option>Turizm Rehberliği</option>
+                  <option>Gastronomi ve Mutfak Sanatları</option>
+                  <option>Rekreasyon Yönetimi</option>
+                </select>
+              </div>
+              <div>
+                <label htmlFor="classYear" className={labelClass}>Sınıf</label>
+                <select id="classYear" required className={inputClass} value={classYear} onChange={(e) => setClassYear(e.target.value)}>
+                  <option value="">Seç</option>
+                  <option value="1">1. sınıf</option>
+                  <option value="2">2. sınıf</option>
+                  <option value="3">3. sınıf</option>
+                  <option value="4">4. sınıf</option>
+                </select>
+              </div>
+              <div className="sm:col-span-2">
                 <label htmlFor="regEmail" className={labelClass}>E-posta</label>
-                <input id="regEmail" type="email" required className={inputClass} value={email} onChange={(e) => setEmail(e.target.value)} />
+                <input id="regEmail" type="email" autoComplete="email" required className={inputClass} value={email} onChange={(e) => setEmail(e.target.value)} />
               </div>
-              </div>
-              <div className="grid gap-4 lg:grid-cols-2">
               <div>
                 <label htmlFor="regPassword" className={labelClass}>Şifre</label>
-                <input id="regPassword" type="password" required className={inputClass} value={password} onChange={(e) => setPassword(e.target.value)} />
+                <input id="regPassword" type="password" autoComplete="new-password" required className={inputClass} value={password} onChange={(e) => setPassword(e.target.value)} />
               </div>
               <div>
                 <label htmlFor="regConfirm" className={labelClass}>Şifre tekrar</label>
-                <input id="regConfirm" type="password" required className={inputClass} value={confirm} onChange={(e) => setConfirm(e.target.value)} />
+                <input id="regConfirm" type="password" autoComplete="new-password" required className={inputClass} value={confirm} onChange={(e) => setConfirm(e.target.value)} />
               </div>
               </div>
               {error ? <p className="rounded-xl bg-red-50 px-3 py-2 text-sm text-red-700" role="alert">{error}</p> : null}

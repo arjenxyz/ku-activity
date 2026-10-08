@@ -7,7 +7,12 @@ export type LocalSignup = {
   email: string;
   password: string;
   fullName: string;
+  firstName?: string;
+  lastName?: string;
   studentNo: string;
+  phone?: string;
+  department?: string;
+  classYear?: string;
   approvalCode: string;
   status: SignupStatus;
 };
