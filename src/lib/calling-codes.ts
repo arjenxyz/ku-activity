@@ -78,6 +78,6 @@ export function callingCodeChoices() {
   return CALLING_CODES.map((item) => ({
     value: item.code,
     label: `+${item.code}`,
-    hint: item.min === item.max ? `${item.name} · ${item.max} hane` : `${item.name} · ${item.min}–${item.max} hane`,
+    hint: item.name,
   }));
 }

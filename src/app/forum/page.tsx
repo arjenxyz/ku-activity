@@ -158,6 +158,8 @@ export default function ForumPage() {
                       placeholder="+90"
                       value={callingCode}
                       options={callingCodeChoices()}
+                      menuClassName="w-56"
+                      inline
                       onChange={(next) => {
                         const rule = findCallingCode(next);
                         setCallingCode(next);

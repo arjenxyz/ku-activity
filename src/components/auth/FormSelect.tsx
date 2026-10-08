@@ -11,12 +11,16 @@ export function FormSelect({
   onChange,
   placeholder,
   options,
+  menuClassName,
+  inline = false,
 }: {
   id: string;
   value: string;
   onChange: (value: string) => void;
   placeholder: string;
   options: Choice[];
+  menuClassName?: string;
+  inline?: boolean;
 }) {
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
@@ -55,7 +59,7 @@ export function FormSelect({
         <ul
           role="listbox"
           aria-labelledby={id}
-          className="absolute z-20 mt-2 max-h-72 w-full overflow-y-auto rounded-2xl bg-white p-1.5 shadow-xl ring-1 ring-black/10"
+          className={`absolute z-20 mt-2 max-h-72 overflow-y-auto rounded-2xl bg-white p-1.5 shadow-xl ring-1 ring-black/10 ${menuClassName ?? 'w-full'}`}
         >
           {options.map((option) => {
             const selected = option.value === value;
@@ -65,14 +69,23 @@ export function FormSelect({
                   type="button"
                   role="option"
                   aria-selected={selected}
-                  className={`w-full rounded-xl px-3 py-2.5 text-left ${selected ? 'bg-[#0E1548]/[0.06]' : 'hover:bg-slate-50'}`}
+                  className={`w-full rounded-xl px-3 text-left ${inline ? 'py-2' : 'py-2.5'} ${selected ? 'bg-[#0E1548]/[0.06]' : 'hover:bg-slate-50'}`}
                   onClick={() => {
                     onChange(option.value);
                     setOpen(false);
                   }}
                 >
-                  <span className="block text-sm font-medium text-[#0E1548]">{option.label}</span>
-                  <span className="mt-0.5 block text-xs text-slate-500">{option.hint}</span>
+                  {inline ? (
+                    <span className="flex items-center justify-between gap-3">
+                      <span className="text-sm font-medium text-[#0E1548]">{option.label}</span>
+                      <span className="truncate text-xs text-slate-500">{option.hint}</span>
+                    </span>
+                  ) : (
+                    <>
+                      <span className="block text-sm font-medium text-[#0E1548]">{option.label}</span>
+                      <span className="mt-0.5 block text-xs text-slate-500">{option.hint}</span>
+                    </>
+                  )}
                 </button>
               </li>
             );
