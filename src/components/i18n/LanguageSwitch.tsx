@@ -87,9 +87,11 @@ export function LanguageSwitch({ variant = 'nav' }: { variant?: 'nav' | 'compact
                     <FlagBadge countryCode={option.countryCode} short={option.short} />
                     <span className="min-w-0 flex-1">
                       <span className="block text-sm font-semibold">
-                        {option.id === 'en' ? 'İngilizce' : option.nativeLabel}
+                        {option.id === 'en' ? 'English' : option.nativeLabel}
                       </span>
-                      <span className="block text-[11px] text-slate-500">{option.englishName}</span>
+                      <span className="block text-[11px] text-slate-500">
+                        {option.id === 'en' ? 'İngilizce' : option.englishName}
+                      </span>
                     </span>
                     {active ? <FiCheck className="h-4 w-4 shrink-0 text-[#0E1548]" /> : null}
                   </button>
