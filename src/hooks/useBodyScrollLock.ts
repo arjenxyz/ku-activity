@@ -52,6 +52,7 @@ function unlockDocument() {
   document.removeEventListener('touchmove', preventBackgroundScroll);
   document.removeEventListener('wheel', preventBackgroundScroll);
   document.documentElement.style.overflow = previousHtmlOverflow;
+  document.documentElement.style.scrollBehavior = 'auto';
   document.body.style.position = previousBody.position;
   document.body.style.top = previousBody.top;
   document.body.style.left = previousBody.left;
@@ -60,6 +61,9 @@ function unlockDocument() {
   document.body.style.overflow = previousBody.overflow;
   previousBody = null;
   window.scrollTo(0, savedScrollY);
+  requestAnimationFrame(() => {
+    document.documentElement.style.scrollBehavior = '';
+  });
 }
 
 /** Keeps the page still while a menu or modal is open. Nested locks stay closed until the last one releases. */
