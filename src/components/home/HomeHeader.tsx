@@ -145,6 +145,8 @@ export function HomeHeader() {
         data-scroll-lock-allow=""
       >
           <div className="flex flex-col gap-1 p-2">
+            <LanguageSwitch variant="nav" />
+            <div className="mx-2 my-1 h-px bg-slate-100" />
             {MENU_LINKS.map((item) => {
               const Icon = item.icon;
               return (
@@ -162,8 +164,6 @@ export function HomeHeader() {
                 </Link>
               );
             })}
-            <div className="mx-2 my-1 h-px bg-slate-100" />
-            <LanguageSwitch variant="nav" />
             <Link
               href="/login"
               className="mx-1 mb-1 mt-1 flex items-center justify-center rounded-2xl bg-[#0E1548] px-4 py-2.5 text-sm font-medium text-white"
