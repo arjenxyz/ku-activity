@@ -15,6 +15,7 @@ import { inputClass, labelClass, linkButtonClass, primaryButtonClass } from '@/c
 import { ResetCodeField } from '@/components/auth/ResetCodeField';
 import { btnSecondary, cardClass } from '@/components/ui/styles';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
+import { classOptions, FACULTY_DEPARTMENTS } from '@/lib/faculty';
 
 type Panel = 'login' | 'register' | 'pending';
 
@@ -498,22 +499,31 @@ export default function LoginPage() {
               </div>
               <div>
                 <label htmlFor="department" className={labelClass}>Bölüm</label>
-                <select id="department" required className={inputClass} value={department} onChange={(e) => setDepartment(e.target.value)}>
+                <select
+                  id="department"
+                  required
+                  className={inputClass}
+                  value={department}
+                  onChange={(e) => {
+                    const next = e.target.value;
+                    setDepartment(next);
+                    const allowed = new Set(classOptions(next).map((item) => item.value));
+                    setClassYear((current) => (allowed.has(current) ? current : ''));
+                  }}
+                >
                   <option value="">Seç</option>
-                  <option>Turizm İşletmeciliği</option>
-                  <option>Turizm İşletmeciliği (İngilizce)</option>
-                  <option>Turizm Rehberliği</option>
-                  <option>Gastronomi ve Mutfak Sanatları</option>
+                  {FACULTY_DEPARTMENTS.map((item) => (
+                    <option key={item}>{item}</option>
+                  ))}
                 </select>
               </div>
               <div>
                 <label htmlFor="classYear" className={labelClass}>Sınıf</label>
                 <select id="classYear" required className={inputClass} value={classYear} onChange={(e) => setClassYear(e.target.value)}>
                   <option value="">Seç</option>
-                  <option value="1">1. sınıf</option>
-                  <option value="2">2. sınıf</option>
-                  <option value="3">3. sınıf</option>
-                  <option value="4">4. sınıf</option>
+                  {classOptions(department).map((item) => (
+                    <option key={item.value} value={item.value}>{item.label}</option>
+                  ))}
                 </select>
               </div>
               <div className="sm:col-span-2">

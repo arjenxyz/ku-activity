@@ -2,13 +2,7 @@
 
 import { FormEvent, useState, type ReactNode } from 'react';
 import { inputClass, primaryButtonClass } from '@/components/auth/authStyles';
-
-const DEPARTMENTS = [
-  'Turizm İşletmeciliği',
-  'Turizm İşletmeciliği (İngilizce)',
-  'Turizm Rehberliği',
-  'Gastronomi ve Mutfak Sanatları',
-];
+import { classOptions, FACULTY_DEPARTMENTS } from '@/lib/faculty';
 
 function Field({
   id,
@@ -109,9 +103,20 @@ export default function ForumPage() {
                 <input id="forum-phone" required type="tel" autoComplete="tel" placeholder="05xx xxx xx xx" className={inputClass} value={phone} onChange={(e) => setPhone(e.target.value)} />
               </Field>
               <Field id="forum-dept" label="Bölüm">
-                <select id="forum-dept" required className={inputClass} value={department} onChange={(e) => setDepartment(e.target.value)}>
+                <select
+                  id="forum-dept"
+                  required
+                  className={inputClass}
+                  value={department}
+                  onChange={(e) => {
+                    const next = e.target.value;
+                    setDepartment(next);
+                    const allowed = new Set(classOptions(next).map((item) => item.value));
+                    setClassYear((current) => (allowed.has(current) ? current : ''));
+                  }}
+                >
                   <option value="">Seç</option>
-                  {DEPARTMENTS.map((item) => (
+                  {FACULTY_DEPARTMENTS.map((item) => (
                     <option key={item}>{item}</option>
                   ))}
                 </select>
@@ -119,10 +124,9 @@ export default function ForumPage() {
               <Field id="forum-class" label="Sınıf">
                 <select id="forum-class" required className={inputClass} value={classYear} onChange={(e) => setClassYear(e.target.value)}>
                   <option value="">Seç</option>
-                  <option value="1">1. sınıf</option>
-                  <option value="2">2. sınıf</option>
-                  <option value="3">3. sınıf</option>
-                  <option value="4">4. sınıf</option>
+                  {classOptions(department).map((item) => (
+                    <option key={item.value} value={item.value}>{item.label}</option>
+                  ))}
                 </select>
               </Field>
               <Field id="forum-email" label="E-posta">
