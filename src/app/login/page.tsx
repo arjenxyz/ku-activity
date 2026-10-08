@@ -1,18 +1,18 @@
 'use client';
 
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { BrandMark } from '@/components/brand/BrandMark';
 import { APP_NAME, APP_TAGLINE } from '@/lib/brand';
 import { createClient } from '@/utils/supabase/client';
 import { homePathForRole, isAppRole, type AppRole } from '@/lib/auth/roles';
 import { DEMO_ACCOUNTS, DEMO_PASSWORD, findDemoAccount } from '@/lib/demo/accounts';
-import { findSignup, passwordOverride, savePasswordOverride, saveSignup } from '@/lib/demo/local-accounts';
+import { findSignup, findSignupByEmail, passwordOverride, savePasswordOverride, saveSignup, type LocalSignup } from '@/lib/demo/local-accounts';
 import { DEMO_RESET_CODE, isResetCode } from '@/lib/demo/reset-code';
 import { inputClass, labelClass, linkButtonClass, primaryButtonClass } from '@/components/auth/authStyles';
 import { btnSecondary, cardClass } from '@/components/ui/styles';
 
-type Panel = 'login' | 'register' | 'forgot';
+type Panel = 'login' | 'register' | 'forgot' | 'pending';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -27,6 +27,8 @@ export default function LoginPage() {
   const [notice, setNotice] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [pending, setPending] = useState<LocalSignup | null>(null);
+  const [qrUrl, setQrUrl] = useState<string | null>(null);
 
   function openPanel(next: Panel) {
     setPanel(next);
@@ -36,6 +38,43 @@ export default function LoginPage() {
     setCode('');
     setConfirm('');
   }
+
+  useEffect(() => {
+    if (!pending) {
+      setQrUrl(null);
+      return;
+    }
+    let cancelled = false;
+    void import('qrcode').then((QRCode) =>
+      QRCode.toDataURL(pending.approvalCode, { margin: 1, width: 220 }).then((url) => {
+        if (!cancelled) setQrUrl(url);
+      })
+    );
+    return () => {
+      cancelled = true;
+    };
+  }, [pending]);
+
+  useEffect(() => {
+    if (panel !== 'pending' || !pending) return;
+    const check = () => {
+      const current = findSignupByEmail(pending.email);
+      if (current?.status === 'approved') {
+        setPending(current);
+        setNotice('Yönetici onayladı. Yeni şifrenle giriş yapabilirsin.');
+        setPanel('login');
+      }
+    };
+    check();
+    const timer = window.setInterval(check, 1000);
+    window.addEventListener('storage', check);
+    window.addEventListener('ems-signups', check);
+    return () => {
+      window.clearInterval(timer);
+      window.removeEventListener('storage', check);
+      window.removeEventListener('ems-signups', check);
+    };
+  }, [panel, pending]);
 
   async function enterDemo(nextEmail: string, nextPassword: string) {
     const response = await fetch('/api/demo/login', {
@@ -73,6 +112,14 @@ export default function LoginPage() {
         }
         const builtin = DEMO_ACCOUNTS.find((account) => account.email === key);
         await enterAs(builtin?.role ?? 'student', builtin?.email ?? key);
+        return;
+      }
+
+      const signup = findSignupByEmail(key);
+      if (signup?.status === 'pending') {
+        setPending(signup);
+        setPanel('pending');
+        setError('Kaydın henüz onaylanmadı. Öğrenci kimliğinle yöneticiye git.');
         return;
       }
 
@@ -134,11 +181,12 @@ export default function LoginPage() {
       setError('Bu e-posta demo hesaplarda kayıtlı');
       return;
     }
-    saveSignup({ email: key, password, fullName: fullName.trim(), studentNo: studentNo.trim() });
+    const record = saveSignup({ email: key, password, fullName: fullName.trim(), studentNo: studentNo.trim() });
     setPassword('');
     setConfirm('');
-    setNotice('Kayıt alındı. Yeni şifrenle giriş yapabilirsin.');
-    setPanel('login');
+    setPending(record);
+    setNotice(null);
+    setPanel('pending');
   }
 
   function onCheckCode(e: FormEvent) {
@@ -174,7 +222,7 @@ export default function LoginPage() {
   }
 
   const title =
-    panel === 'register' ? 'Kayıt ol' : panel === 'forgot' ? 'Şifremi unuttum' : 'Giriş yap';
+    panel === 'register' ? 'Kayıt ol' : panel === 'forgot' ? 'Şifremi unuttum' : panel === 'pending' ? 'Onay bekleniyor' : 'Giriş yap';
 
   return (
     <div className="min-h-[100dvh] bg-gradient-to-br from-blue-50 via-white to-indigo-50">
@@ -250,6 +298,25 @@ export default function LoginPage() {
                 <button type="button" className={linkButtonClass} onClick={() => openPanel('login')}>Giriş yap</button>
               </p>
             </form>
+          ) : null}
+
+          {panel === 'pending' && pending ? (
+            <div className="space-y-4 text-center">
+              <p className="text-sm leading-relaxed text-slate-600">
+                Kaydın alındı. Öğrenci kimlik kartınla yöneticiye git. Yönetici bu QR kodu okur veya kodu onaylar. Onay gelmeden giriş yapamazsın.
+              </p>
+              {qrUrl ? (
+                <img src={qrUrl} alt="" className="mx-auto h-44 w-44 rounded-2xl bg-white p-2 ring-1 ring-slate-200" />
+              ) : (
+                <div className="mx-auto h-44 w-44 animate-pulse rounded-2xl bg-slate-100" />
+              )}
+              <p className="text-sm font-semibold tracking-wide text-[#0E1548]">{pending.approvalCode}</p>
+              <p className="text-xs text-slate-500">QR yalnızca bu onay kodunu taşır. Adın ve öğrenci numaran kodun içinde yoktur.</p>
+              <p className="text-sm text-slate-600">Onay bekleniyor…</p>
+              <button type="button" className={linkButtonClass} onClick={() => openPanel('login')}>
+                Giriş ekranına dön
+              </button>
+            </div>
           ) : null}
 
           {panel === 'forgot' ? (
