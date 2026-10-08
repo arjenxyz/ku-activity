@@ -119,7 +119,7 @@ export function EventCard({
                 : 'bg-[#0E1548] text-white group-hover:bg-[#152060]'
             }`}
           >
-            {alreadyIn ? 'Kaydıma git' : 'Detay / kayıt'}
+            {alreadyIn ? 'Kaydıma git' : 'Başvur'}
             <FiArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" aria-hidden />
           </span>
         </div>
