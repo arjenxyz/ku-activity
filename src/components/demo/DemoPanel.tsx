@@ -1,5 +1,4 @@
 import { cookies } from 'next/headers';
-import { PlaceholderCard } from '@/components/dashboard/PlaceholderCard';
 import { StatCard } from '@/components/ui/StatCard';
 import { TableCell, TableHeader } from '@/components/ui/Table';
 import { cardClass } from '@/components/ui/styles';
@@ -178,23 +177,32 @@ function bodyFor(view: DemoView, role: AppRole) {
   );
 }
 
+function SampleBanner() {
+  return (
+    <p className="rounded-2xl bg-[#0E1548]/5 px-3 py-2 text-xs font-medium text-[#0E1548]">
+      Örnek veri — canlı etkinlik kaydı henüz bağlanmadı; ekrandaki kayıtlar demedir.
+    </p>
+  );
+}
+
 export async function DemoPanel({ view }: { view: DemoView }) {
   const jar = await cookies();
   const role = parseDemoRole(jar.get(DEMO_COOKIE)?.value);
   const copy = TITLES[view];
+  const inferredRole: AppRole = role
+    ?? (view.startsWith('admin-') ? 'admin' : view.startsWith('staff-') ? 'staff' : 'student');
 
-  if (!role) {
-    return <PlaceholderCard title={copy.title} description={copy.description} />;
-  }
-
+  // Phase 1: show DEMO_* tables for every authenticated panel visit.
+  // Real Supabase login has no demo cookie; without this fallback the student
+  // Events page only rendered an empty PlaceholderCard.
   return (
     <div className="space-y-4">
-      <Banner />
+      {role ? <Banner /> : <SampleBanner />}
       <div>
         <h1 className="text-lg font-bold text-[#0E1548]">{copy.title}</h1>
         <p className="mt-1 text-sm text-slate-600">{copy.description}</p>
       </div>
-      {bodyFor(view, role)}
+      {bodyFor(view, inferredRole)}
     </div>
   );
 }
