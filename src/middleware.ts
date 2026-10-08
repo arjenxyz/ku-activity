@@ -4,7 +4,7 @@ import { updateSession, getSupabaseMiddlewareClient } from '@/utils/supabase/mid
 import { homePathForRole, isAppRole, type AppRole } from '@/lib/auth/roles';
 import { DEMO_COOKIE, parseDemoRole } from '@/lib/demo/session';
 
-const PUBLIC_PREFIXES = ['/login', '/auth', '/gizlilik', '/kvkk', '/kullanim-sartlari', '/api/public'];
+const PUBLIC_PREFIXES = ['/login', '/auth', '/gizlilik', '/kvkk', '/kullanim-sartlari', '/forum', '/api/public'];
 
 function isPublicPath(pathname: string) {
   if (pathname === '/') return true;
