@@ -13,6 +13,7 @@ export function FormSelect({
   options,
   menuClassName,
   inline = false,
+  disabled = false,
   onOpenChange,
 }: {
   id: string;
@@ -22,6 +23,7 @@ export function FormSelect({
   options: Choice[];
   menuClassName?: string;
   inline?: boolean;
+  disabled?: boolean;
   onOpenChange?: (open: boolean) => void;
 }) {
   const [open, setOpen] = useState(false);
@@ -56,8 +58,11 @@ export function FormSelect({
         type="button"
         aria-haspopup="listbox"
         aria-expanded={open}
-        className={`${inputClass} flex items-center justify-between gap-3 text-left`}
-        onClick={() => setMenu(!open)}
+        disabled={disabled}
+        className={`${inputClass} flex items-center justify-between gap-3 text-left disabled:cursor-not-allowed`}
+        onClick={() => {
+          if (!disabled) setMenu(!open);
+        }}
       >
         <span className={current ? 'text-gray-900' : 'text-gray-400'}>{current?.label ?? placeholder}</span>
         <FiChevronDown className={`h-4 w-4 shrink-0 text-slate-500 transition ${open ? 'rotate-180' : ''}`} aria-hidden />

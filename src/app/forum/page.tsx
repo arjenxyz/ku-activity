@@ -3,7 +3,7 @@
 import { FormEvent, useEffect, useState, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import Link from 'next/link';
-import { FiX } from 'react-icons/fi';
+import { FiLock, FiX } from 'react-icons/fi';
 import { inputClass, primaryButtonClass } from '@/components/auth/authStyles';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 import { classOptions, DEPARTMENT_CHOICES, OTHER_DEPARTMENT } from '@/lib/faculty';
@@ -15,22 +15,29 @@ function Field({
   id,
   label,
   className,
+  locked = false,
   children,
 }: {
   id: string;
   label: string;
   className?: string;
+  locked?: boolean;
   children: ReactNode;
 }) {
   return (
     <div className={className}>
-      <label htmlFor={id} className="mb-2 block text-sm font-medium text-[#0E1548]">
+      <label htmlFor={id} className={`mb-2 block text-sm font-medium ${locked ? 'text-slate-400' : 'text-[#0E1548]'}`}>
         {label}
         <span className="ml-0.5 text-red-500" aria-hidden>
           *
         </span>
       </label>
-      {children}
+      <div className="relative">
+        <div className={locked ? 'pointer-events-none' : undefined}>{children}</div>
+        {locked ? (
+          <FiLock className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" aria-hidden />
+        ) : null}
+      </div>
     </div>
   );
 }
@@ -122,6 +129,24 @@ export default function ForumPage() {
     setSent(true);
   }
 
+  const phoneDigits = phone.replace(/\D/g, '');
+  const phoneReady = phoneDigits.length > 0 && phoneError(callingCode, phoneDigits) === null;
+  const departmentReady = department.length > 0 && (department !== OTHER_DEPARTMENT || otherDepartment.trim().length > 0);
+  const filled = [
+    firstName.trim().length > 0,
+    lastName.trim().length > 0,
+    /^\d{9}$/.test(studentNo.trim()),
+    phoneReady,
+    contactDecision === 'accepted',
+    departmentReady,
+    classYear.length > 0,
+    email.includes('@'),
+    password.length >= 8,
+    confirm.length > 0 && confirm === password,
+    accepted,
+  ];
+  const locked = (step: number) => filled.slice(0, step).some((done) => !done);
+
   return (
     <div className="min-h-[100dvh] bg-[#f5f6f7] px-4 py-8 sm:py-12">
       <div className="mx-auto w-full max-w-xl rounded-2xl bg-white px-5 py-8 shadow-sm ring-1 ring-black/[0.04] sm:px-8">
@@ -152,13 +177,13 @@ export default function ForumPage() {
               <Field id="forum-first" label="Ad">
                 <input id="forum-first" required autoComplete="given-name" className={inputClass} value={firstName} onChange={(e) => setFirstName(e.target.value)} />
               </Field>
-              <Field id="forum-last" label="Soyad">
-                <input id="forum-last" required autoComplete="family-name" className={inputClass} value={lastName} onChange={(e) => setLastName(e.target.value)} />
+              <Field id="forum-last" label="Soyad" locked={locked(1)}>
+                <input id="forum-last" required autoComplete="family-name" disabled={locked(1)} className={inputClass} value={lastName} onChange={(e) => setLastName(e.target.value)} />
               </Field>
-              <Field id="forum-no" label="Öğrenci no">
-                <input id="forum-no" required inputMode="numeric" placeholder="202100184" className={inputClass} value={studentNo} onChange={(e) => setStudentNo(e.target.value)} />
+              <Field id="forum-no" label="Öğrenci no" locked={locked(2)}>
+                <input id="forum-no" required inputMode="numeric" placeholder="202100184" disabled={locked(2)} className={inputClass} value={studentNo} onChange={(e) => setStudentNo(e.target.value)} />
               </Field>
-              <Field id="forum-phone" label="Telefon" className={codeOpen ? 'relative z-50' : undefined}>
+              <Field id="forum-phone" label="Telefon" locked={locked(3)} className={codeOpen ? 'relative z-50' : undefined}>
                 <div className="flex gap-2 [container-type:inline-size]">
                   <div className="w-28 shrink-0">
                     <FormSelect
@@ -168,6 +193,7 @@ export default function ForumPage() {
                       options={callingCodeChoices()}
                       menuClassName="scrollbar-thin-glass left-0 w-[100cqw]"
                       inline
+                      disabled={locked(3)}
                       onOpenChange={setCodeOpen}
                       onChange={(next) => {
                         const rule = findCallingCode(next);
@@ -182,6 +208,7 @@ export default function ForumPage() {
                     type="tel"
                     autoComplete="tel"
                     inputMode="numeric"
+                    disabled={locked(3)}
                     placeholder={callingCode === '90' ? '5xx xxx xx xx' : `${findCallingCode(callingCode).max} hane`}
                     className={inputClass}
                     value={phone}
@@ -197,20 +224,23 @@ export default function ForumPage() {
               <button
                 type="button"
                 aria-pressed={contactDecision === 'accepted'}
+                disabled={locked(4)}
                 onClick={() => setContactOpen(true)}
-                className="flex items-start gap-3 text-left text-sm leading-relaxed text-slate-600"
+                className={`flex items-start gap-3 text-left text-sm leading-relaxed ${locked(4) ? 'text-slate-400' : 'text-slate-600'}`}
               >
                 <span
                   aria-hidden
                   className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border text-[10px] ${
-                    contactDecision === 'accepted'
+                    locked(4)
+                      ? 'border-slate-200 bg-slate-50 text-slate-400'
+                      : contactDecision === 'accepted'
                       ? 'border-[#0E1548] bg-[#0E1548] text-white'
                       : contactDecision === 'rejected'
                         ? 'border-red-600 bg-red-600 text-white'
                         : 'border-slate-300 bg-white'
                   }`}
                 >
-                  {contactDecision === 'accepted' ? '✓' : contactDecision === 'rejected' ? '×' : ''}
+                  {locked(4) ? <FiLock className="h-3 w-3" /> : contactDecision === 'accepted' ? '✓' : contactDecision === 'rejected' ? '×' : ''}
                 </span>
                 <span>
                   {contactDecision === null ? 'Bilgilendirmeyi oku' : 'Bilgilendirmeyi tekrar oku'}
@@ -220,11 +250,12 @@ export default function ForumPage() {
               {contactDecision === 'rejected' ? (
                 <p className="-mt-4 text-sm text-red-700">Bilgilendirme reddedildi. Kayıt tamamlanamaz.</p>
               ) : null}
-              <Field id="forum-dept" label="Bölüm">
+              <Field id="forum-dept" label="Bölüm" locked={locked(5)}>
                 <FormSelect
                   id="forum-dept"
                   placeholder="Seç"
                   value={department}
+                  disabled={locked(5)}
                   options={DEPARTMENT_CHOICES}
                   onChange={(next) => {
                     setDepartment(next);
@@ -234,10 +265,11 @@ export default function ForumPage() {
                 />
               </Field>
               {department === OTHER_DEPARTMENT ? (
-                <Field id="forum-dept-other" label="Bölümün">
+                <Field id="forum-dept-other" label="Bölümün" locked={locked(5)}>
                   <input
                     id="forum-dept-other"
                     required
+                    disabled={locked(5)}
                     className={inputClass}
                     placeholder="Örneğin Coğrafya"
                     value={otherDepartment}
@@ -245,45 +277,48 @@ export default function ForumPage() {
                   />
                 </Field>
               ) : null}
-              <Field id="forum-class" label="Sınıf">
+              <Field id="forum-class" label="Sınıf" locked={locked(6)}>
                 <FormSelect
                   id="forum-class"
                   placeholder="Seç"
                   value={classYear}
+                  disabled={locked(6)}
                   options={classOptions(department)}
                   onChange={setClassYear}
                 />
               </Field>
-              <Field id="forum-email" label="E-posta">
-                <input id="forum-email" required type="email" autoComplete="email" className={inputClass} value={email} onChange={(e) => setEmail(e.target.value)} />
+              <Field id="forum-email" label="E-posta" locked={locked(7)}>
+                <input id="forum-email" required type="email" autoComplete="email" disabled={locked(7)} className={inputClass} value={email} onChange={(e) => setEmail(e.target.value)} />
               </Field>
-              <Field id="forum-password" label="Şifre">
-                <input id="forum-password" required type="password" autoComplete="new-password" className={inputClass} value={password} onChange={(e) => setPassword(e.target.value)} />
+              <Field id="forum-password" label="Şifre" locked={locked(8)}>
+                <input id="forum-password" required type="password" autoComplete="new-password" disabled={locked(8)} className={inputClass} value={password} onChange={(e) => setPassword(e.target.value)} />
               </Field>
-              <Field id="forum-confirm" label="Şifre tekrar">
-                <input id="forum-confirm" required type="password" autoComplete="new-password" className={inputClass} value={confirm} onChange={(e) => setConfirm(e.target.value)} />
+              <Field id="forum-confirm" label="Şifre tekrar" locked={locked(9)}>
+                <input id="forum-confirm" required type="password" autoComplete="new-password" disabled={locked(9)} className={inputClass} value={confirm} onChange={(e) => setConfirm(e.target.value)} />
               </Field>
               {error ? <p className="rounded-xl bg-red-50 px-3 py-2 text-sm text-red-700" role="alert">{error}</p> : null}
-              <label className="flex items-start gap-3 text-sm leading-relaxed text-slate-600">
+              <label className={`relative flex items-start gap-3 text-sm leading-relaxed ${locked(10) ? 'pointer-events-none text-slate-400' : 'text-slate-600'}`}>
                 <input
                   type="checkbox"
                   required
                   checked={accepted}
+                  disabled={locked(10)}
                   onChange={(e) => setAccepted(e.target.checked)}
                   className="mt-1 h-4 w-4 shrink-0 rounded border-slate-300"
                 />
                 <span>
-                  <button type="button" className="font-medium text-[#0E1548] underline" onClick={() => setLegal('gizlilik')}>
+                  <button type="button" className="font-medium underline disabled:text-slate-400" disabled={locked(10)} onClick={() => setLegal('gizlilik')}>
                     Gizlilik
                   </button>
                   {' '}ve{' '}
-                  <button type="button" className="font-medium text-[#0E1548] underline" onClick={() => setLegal('kvkk')}>
+                  <button type="button" className="font-medium underline disabled:text-slate-400" disabled={locked(10)} onClick={() => setLegal('kvkk')}>
                     KVKK
                   </button>
                   {' '}metinlerini okudum.
                 </span>
+                {locked(10) ? <FiLock className="ml-auto h-4 w-4 shrink-0 text-slate-400" aria-hidden /> : null}
               </label>
-              <button type="submit" className={primaryButtonClass} disabled={contactDecision === 'rejected'}>Kaydı tamamla</button>
+              <button type="submit" className={primaryButtonClass} disabled={locked(11) || contactDecision === 'rejected'}>Kaydı tamamla</button>
             </form>
           </>
         )}
