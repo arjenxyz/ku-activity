@@ -3,7 +3,7 @@
 import { FormEvent, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { BrandMark } from '@/components/brand/BrandMark';
-import { APP_NAME, APP_TAGLINE_TR } from '@/lib/brand';
+import { APP_NAME, APP_TAGLINE } from '@/lib/brand';
 import { createClient } from '@/utils/supabase/client';
 import { homePathForRole, isAppRole } from '@/lib/auth/roles';
 import { DEMO_ACCOUNTS, findDemoAccount } from '@/lib/demo/accounts';
@@ -82,7 +82,7 @@ export default function LoginPage() {
           <div className="mb-6 flex flex-col items-center text-center">
             <BrandMark size="lg" className="mb-3 ring-2 ring-[#0E1548]/10" />
             <h1 className="text-lg font-bold text-[#0E1548]">{APP_NAME}</h1>
-            <p className="mt-1 text-xs text-slate-500">{APP_TAGLINE_TR}</p>
+            <p className="mt-1 text-xs text-slate-500">{APP_TAGLINE}</p>
           </div>
 
           <form onSubmit={onSubmit} className="space-y-4">

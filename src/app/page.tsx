@@ -34,7 +34,7 @@ export default function HomePage() {
 
           <div className="mx-auto max-w-3xl text-center">
             <p className="inline-flex rounded-full bg-white px-3.5 py-1.5 text-xs font-medium text-slate-600 shadow-sm ring-1 ring-slate-200/80">
-              Kastamonu Üniversitesi · Turizm Fakültesi
+              Öğrenci hizmeti · üniversiteden bağımsız
             </p>
             <h1 className="mt-5 text-balance text-4xl font-bold tracking-tight text-[#2D6AF6] sm:text-5xl">
               Etkinlikleri gör,
@@ -43,7 +43,7 @@ export default function HomePage() {
               kaydını tamamla.
             </h2>
             <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-slate-600 sm:text-lg">
-              {APP_TAGLINE_TR}. Öğrenci kaydı, görevli check-in ve yönetim aynı yerde.
+              {APP_TAGLINE_TR}
             </p>
             <div className="mt-8 flex justify-center">
               <Link
@@ -76,8 +76,8 @@ export default function HomePage() {
                 <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Örnek etkinlik</p>
                 <h2 className="mt-2 text-2xl font-bold text-[#0E1548]">Abana 2027</h2>
                 <p className="mt-3 max-w-lg text-sm leading-relaxed text-slate-600">
-                  Turizm Fakültesi öğrencileri için kıyı etkinliği. Kayıt açıkken günlerini seçer,
-                  kayıt numaranı alırsın.
+                  Üniversite içinde düzenlenen bir etkinlik örneği. Katılımcı sayısı, maliyet ve
+                  etkinlik ayrıntıları burada kamuoyuna açık tutulur.
                 </p>
                 <dl className="mt-6 grid grid-cols-2 gap-4 text-sm">
                   <div>
@@ -100,7 +100,7 @@ export default function HomePage() {
               </div>
               <div className="flex items-end bg-gradient-to-br from-[#0E1548] to-[#2D6AF6] p-6 text-white sm:p-8">
                 <p className="text-sm leading-relaxed text-white/90">
-                  Giriş yaptıktan sonra kendi rolüne göre etkinliği, kaydını veya check-in listesini görürsün.
+                  Amaç büyütmek değil: etkinlik anında kişileri ve maliyeti hesaplamak, sonucu açıkça paylaşmak.
                 </p>
               </div>
             </div>

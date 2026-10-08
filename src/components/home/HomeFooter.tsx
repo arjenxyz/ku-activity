@@ -15,7 +15,7 @@ export function HomeFooter() {
             </div>
           </div>
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-slate-300">
-            Öğrenciler etkinliği görür, kayıt olur ve katılım bilgisini buradan takip eder.
+            Etkinlik katılımcıları ve maliyeti burada hesaplanır, ayrıntılar kamuoyuna açık paylaşılır.
           </p>
         </div>
         <div>
@@ -36,7 +36,7 @@ export function HomeFooter() {
         </div>
       </div>
       <div className="border-t border-white/10 px-4 py-5 text-center text-xs text-slate-400 sm:px-6">
-        Kastamonu Üniversitesi Turizm Fakültesi
+Üniversiteye bağlı değildir. Üniversite içi etkinlikler için kullanılır.
       </div>
     </footer>
   );

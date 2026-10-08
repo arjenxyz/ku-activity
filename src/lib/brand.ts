@@ -1,7 +1,8 @@
 export const APP_NAME = 'EVENT MANAGEMENT SYSTEM';
 export const APP_SHORT_NAME = 'EMS';
-export const APP_TAGLINE = 'Kastamonu Üniversitesi Turizm Fakültesi';
-export const APP_TAGLINE_TR = 'Kastamonu Üniversitesi Turizm Fakültesi Öğrenci Etkinlik Yönetimi';
+export const APP_TAGLINE = 'Öğrenci etkinlik hizmeti';
+export const APP_TAGLINE_TR =
+  'Etkinlik gününde katılımcıları ve maliyeti hesaplamak, bunları kamuoyuna açık paylaşmak için kurulmuş bir öğrenci hizmetidir. Üniversiteye bağlı değildir; üniversite içi etkinlikler için kullanılır.';
 export const DEFAULT_APP_URL = '';
 export const DEFAULT_SUPPORT_EMAIL = '';
 export const DEFAULT_DEVELOPER_NAME = '';
