@@ -8,7 +8,6 @@ import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 import { APP_NAME, APP_TAGLINE } from '@/lib/brand';
 
 const NAV = [
-  { href: '#nasil', label: 'Nasıl çalışır' },
   { href: '#etkinlik', label: 'Etkinlik' },
   { href: '#iletisim', label: 'İletişim' },
 ];

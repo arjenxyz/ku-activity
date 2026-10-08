@@ -4,21 +4,6 @@ import { HomeHeader } from '@/components/home/HomeHeader';
 import { APP_TAGLINE_TR } from '@/lib/brand';
 import { cardClass } from '@/components/ui/styles';
 
-const STEPS = [
-  {
-    title: 'Etkinliği gör',
-    text: 'Yayınlanan etkinliğin tarihini, yerini ve kontenjanını aç.',
-  },
-  {
-    title: 'Kayıt ol',
-    text: 'Formu doldur. Sana bir kayıt numarası verilir.',
-  },
-  {
-    title: 'Katılımını göster',
-    text: 'Gününde QR bilgini görevliye okut.',
-  },
-];
-
 export default function HomePage() {
   return (
     <div className="min-h-[100dvh] bg-white text-slate-900">
@@ -53,19 +38,6 @@ export default function HomePage() {
                 Giriş yap
               </Link>
             </div>
-          </div>
-        </section>
-
-        <section id="nasil" className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-10">
-          <h2 className="text-center text-lg font-bold text-[#0E1548]">Nasıl çalışır</h2>
-          <div className="mt-5 grid gap-3 sm:grid-cols-3">
-            {STEPS.map((step, index) => (
-              <article key={step.title} className={`${cardClass} p-5`}>
-                <p className="text-xs font-semibold tracking-wide text-[#2D6AF6]">0{index + 1}</p>
-                <h3 className="mt-2 text-base font-bold text-slate-900">{step.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-slate-600">{step.text}</p>
-              </article>
-            ))}
           </div>
         </section>
 
