@@ -211,25 +211,39 @@ export default function LoginPage() {
   return (
     <div className={`flex min-h-[100dvh] flex-col items-center justify-center gap-8 bg-gradient-to-br from-blue-50 via-white to-indigo-50 px-4 py-6 lg:h-[100dvh] lg:overflow-hidden lg:px-10 ${panel === 'forgot' ? 'lg:flex-row' : ''}`}>
       {panel === 'forgot' ? (
-        <ol className="w-full max-w-sm space-y-4 text-sm text-slate-700">
-          <li>
-            <p className="font-semibold text-[#0E1548]">1. Ekip sayfasına gir</p>
-            <p className="mt-1 leading-relaxed">
-              <a href="/ekip" className="font-medium text-[#2D6AF6] underline">Ekip</a> sayfasından şifre sıfırlama iste.
-            </p>
-          </li>
-          <li>
-            <p className="font-semibold text-[#0E1548]">2. Ekiple iletişime geç</p>
-            <p className="mt-1 leading-relaxed">Öğrenci kimlik kartını yanında bulundur. Kim olduğunu ekip doğrular.</p>
-          </li>
-          <li>
-            <p className="font-semibold text-[#0E1548]">3. Kod veya QR al</p>
-            <p className="mt-1 leading-relaxed">Ekip sana bir kod verir ya da aynı kodu QR olarak okutur.</p>
-          </li>
-          <li>
-            <p className="font-semibold text-[#0E1548]">4. Yeni şifreni oluştur</p>
-            <p className="mt-1 leading-relaxed">Kodu yandaki kutuya yaz. Doğrulama bitince yeni şifreni belirle.</p>
-          </li>
+        <ol className={`${cardClass} w-full max-w-sm space-y-3 p-5`}>
+          {[
+            {
+              title: 'Ekip sayfasına gir',
+              body: (
+                <>
+                  <a href="/ekip" className="font-medium text-[#0E1548] underline">Ekip</a> sayfasından şifre sıfırlama iste.
+                </>
+              ),
+            },
+            {
+              title: 'Ekiple iletişime geç',
+              body: 'Öğrenci kimlik kartını yanında bulundur. Kim olduğunu ekip doğrular.',
+            },
+            {
+              title: 'Kod veya QR al',
+              body: 'Ekip sana bir kod verir ya da aynı kodu QR olarak okutur.',
+            },
+            {
+              title: 'Yeni şifreni oluştur',
+              body: 'Kodu yandaki kutuya yaz. Doğrulama bitince yeni şifreni belirle.',
+            },
+          ].map((step, index) => (
+            <li key={step.title} className="flex gap-3">
+              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#0E1548] text-xs font-semibold text-white">
+                {index + 1}
+              </span>
+              <span>
+                <p className="text-sm font-semibold text-[#0E1548]">{step.title}</p>
+                <p className="mt-0.5 text-sm leading-relaxed text-slate-600">{step.body}</p>
+              </span>
+            </li>
+          ))}
         </ol>
       ) : null}
       <div className={`${cardClass} w-full max-w-md p-6 sm:p-8 ${panel === 'login' || panel === 'forgot' ? '' : 'lg:max-w-3xl'}`}>
