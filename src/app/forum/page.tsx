@@ -7,6 +7,7 @@ import { FiX } from 'react-icons/fi';
 import { inputClass, primaryButtonClass } from '@/components/auth/authStyles';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 import { classOptions, DEPARTMENT_CHOICES, OTHER_DEPARTMENT } from '@/lib/faculty';
+import { callingCodeChoices, findCallingCode } from '@/lib/calling-codes';
 import { FormSelect } from '@/components/auth/FormSelect';
 import { cardClass } from '@/components/ui/styles';
 
@@ -32,19 +33,18 @@ function Field({
   );
 }
 
-function normalizePhone(value: string) {
-  const digits = value.replace(/\D/g, '');
-  if (digits.length === 12 && digits.startsWith('90')) return `0${digits.slice(2)}`;
-  if (digits.length === 10 && digits.startsWith('5')) return `0${digits}`;
-  if (digits.length === 11 && digits.startsWith('05')) return digits;
-  return null;
+function phoneError(code: string, digits: string) {
+  const rule = findCallingCode(code);
+  if (digits.length >= rule.min && digits.length <= rule.max) return null;
+  const span = rule.min === rule.max ? `${rule.max} hane` : `${rule.min}–${rule.max} hane`;
+  return `+${rule.code} numarası ${span} olmalı`;
 }
 
 export default function ForumPage() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [studentNo, setStudentNo] = useState('');
-  const [studentKind, setStudentKind] = useState<'local' | 'international' | ''>('');
+  const [callingCode, setCallingCode] = useState('90');
   const [phone, setPhone] = useState('');
   const [contactAck, setContactAck] = useState(false);
   const [department, setDepartment] = useState('');
@@ -77,18 +77,10 @@ export default function ForumPage() {
       setError('Öğrenci numarası 9 haneli olmalı');
       return;
     }
-    if (!studentKind) {
-      setError('Ülke seç');
-      return;
-    }
-    if (studentKind === 'international') {
-      const digits = phone.replace(/\D/g, '');
-      if (digits.length < 8 || digits.length > 15) {
-        setError('Telefonu ülke koduyla yaz. Örneğin +49 151 2345678');
-        return;
-      }
-    } else if (!normalizePhone(phone)) {
-      setError('Telefon numarası 05xx xxx xx xx biçiminde olmalı');
+    const phoneDigits = phone.replace(/\D/g, '');
+    const invalidPhone = phoneError(callingCode, phoneDigits);
+    if (invalidPhone) {
+      setError(invalidPhone);
       return;
     }
     if (!contactAck) {
@@ -158,34 +150,38 @@ export default function ForumPage() {
               <Field id="forum-no" label="Öğrenci no">
                 <input id="forum-no" required inputMode="numeric" placeholder="202100184" className={inputClass} value={studentNo} onChange={(e) => setStudentNo(e.target.value)} />
               </Field>
-              <Field id="forum-kind" label="Ülke">
-                <FormSelect
-                  id="forum-kind"
-                  placeholder="Seç"
-                  value={studentKind}
-                  options={[
-                    { value: 'local', label: 'Türkiye', hint: 'Telefon 05 ile başlar' },
-                    { value: 'international', label: 'Diğer', hint: 'Telefon ülke koduyla yazılır' },
-                  ]}
-                  onChange={(next) => {
-                    setStudentKind(next as 'local' | 'international');
-                    setPhone('');
-                    setContactAck(false);
-                  }}
-                />
-              </Field>
               <Field id="forum-phone" label="Telefon">
-                <input
-                  id="forum-phone"
-                  required
-                  type="tel"
-                  autoComplete="tel"
-                  inputMode="tel"
-                  placeholder={studentKind === 'international' ? '+49 151 2345678' : '05xx xxx xx xx'}
-                  className={inputClass}
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                />
+                <div className="flex gap-2">
+                  <div className="w-28 shrink-0">
+                    <FormSelect
+                      id="forum-code"
+                      placeholder="+90"
+                      value={callingCode}
+                      options={callingCodeChoices()}
+                      onChange={(next) => {
+                        const rule = findCallingCode(next);
+                        setCallingCode(next);
+                        setPhone((current) => current.replace(/\D/g, '').slice(0, rule.max));
+                      }}
+                    />
+                  </div>
+                  <input
+                    id="forum-phone"
+                    required
+                    type="tel"
+                    autoComplete="tel"
+                    inputMode="numeric"
+                    placeholder={callingCode === '90' ? '5xx xxx xx xx' : `${findCallingCode(callingCode).max} hane`}
+                    className={inputClass}
+                    value={phone}
+                    onChange={(event) => {
+                      const rule = findCallingCode(callingCode);
+                      let digits = event.target.value.replace(/\D/g, '');
+                      if (callingCode === '90') digits = digits.replace(/^0+/, '');
+                      setPhone(digits.slice(0, rule.max));
+                    }}
+                  />
+                </div>
               </Field>
               <label className="flex items-start gap-3 text-sm leading-relaxed text-slate-600">
                   <input
