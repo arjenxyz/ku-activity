@@ -13,15 +13,11 @@ function FlagBadge({ countryCode }: { countryCode: string; short: string }) {
   const clipId = useId();
   if (countryCode === 'tr') {
     return (
-      <svg viewBox="0 0 36 36" className="h-7 w-7 shrink-0" aria-hidden>
-        <circle cx="18" cy="18" r="18" fill="#E30A17" />
-        <circle cx="14.4" cy="18" r="6.4" fill="#fff" />
-        <circle cx="16.4" cy="18" r="5.1" fill="#E30A17" />
-        <polygon
-          fill="#fff"
-          points="23.2,18 20.7,18.8 21.6,21.2 20,19.2 17.5,19.8 19.6,18 17.6,16 20.1,16.7 21.6,14.6 21.1,17.1"
-        />
-      </svg>
+      <img
+        src="/Turkiye.png"
+        alt=""
+        className="h-7 w-7 shrink-0 rounded-full object-cover"
+      />
     );
   }
 
