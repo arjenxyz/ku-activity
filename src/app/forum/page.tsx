@@ -197,7 +197,7 @@ export default function ForumPage() {
                     className="mt-1 h-4 w-4 shrink-0 rounded border-slate-300"
                   />
                   <span>
-                    Etkinlik günlerinde size ulaşamazsak, güvenliğiniz için gerekirse WhatsApp veya alternatif uygulamalarla ekibimiz sizlere ulaşır.
+                    Etkinlik günlerinde size ulaşamazsak, güvenlik veya etkinlik bilgilendirmesi için gerekirse WhatsApp veya alternatif uygulamalarla ekibimiz sizlere ulaşır.
                     <span className="text-red-500" aria-hidden> *</span>
                   </span>
                 </label>
