@@ -1,14 +1,8 @@
 import Link from 'next/link';
 import { HomeFooter } from '@/components/home/HomeFooter';
 import { HomeHeader } from '@/components/home/HomeHeader';
+import { RegistrationPreview } from '@/components/home/RegistrationPreview';
 import { APP_TAGLINE_TR } from '@/lib/brand';
-import { cardClass } from '@/components/ui/styles';
-
-const POINTS = [
-  { title: 'Katılımcılar', text: 'Etkinlikte kim var, sayısı ne.' },
-  { title: 'Maliyet', text: 'Giderler tek yerde toplanır.' },
-  { title: 'Açık paylaşım', text: 'Ayrıntılar kamuoyuna görünür.' },
-];
 
 export default function HomePage() {
   return (
@@ -47,17 +41,7 @@ export default function HomePage() {
               </div>
             </div>
 
-            <div className={`${cardClass} hidden p-6 sm:block lg:p-8`}>
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#2D6AF6]">Bu hizmet</p>
-              <ul className="mt-4 divide-y divide-slate-100">
-                {POINTS.map((point) => (
-                  <li key={point.title} className="py-4 first:pt-0 last:pb-0">
-                    <p className="text-base font-semibold text-[#0E1548]">{point.title}</p>
-                    <p className="mt-1 text-sm text-slate-600">{point.text}</p>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <RegistrationPreview />
           </div>
         </section>
       </main>
