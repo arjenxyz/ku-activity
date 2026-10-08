@@ -11,7 +11,7 @@ export default function HomePage() {
       <HomeHeader />
 
       <main className="flex flex-1 flex-col">
-        <section className="relative flex flex-1 items-center overflow-hidden px-4 py-8 pt-[calc(var(--home-chrome-h,4.5rem)+1rem)] sm:px-6 lg:px-8">
+        <section className="relative flex flex-1 items-center overflow-hidden px-4 py-8 pt-[calc(var(--home-chrome-h,4.5rem)+1rem)] sm:px-6 lg:pl-60 lg:pr-8">
           <div className="pointer-events-none absolute inset-0 -z-10">
             <div className="absolute inset-0 bg-gradient-to-b from-white via-[#f7fbff] to-white" />
             <div className="absolute -top-24 left-1/4 h-72 w-72 -translate-x-1/2 rounded-full bg-blue-100/60 blur-3xl lg:h-[28rem] lg:w-[28rem]" />
