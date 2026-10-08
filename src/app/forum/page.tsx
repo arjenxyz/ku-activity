@@ -44,7 +44,9 @@ export default function ForumPage() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [studentNo, setStudentNo] = useState('');
+  const [studentKind, setStudentKind] = useState<'local' | 'international' | ''>('');
   const [phone, setPhone] = useState('');
+  const [whatsapp, setWhatsapp] = useState<'yes' | 'no' | ''>('');
   const [department, setDepartment] = useState('');
   const [otherDepartment, setOtherDepartment] = useState('');
   const [classYear, setClassYear] = useState('');
@@ -75,7 +77,21 @@ export default function ForumPage() {
       setError('Öğrenci numarası 9 haneli olmalı');
       return;
     }
-    if (!normalizePhone(phone)) {
+    if (!studentKind) {
+      setError('Öğrenci türünü seç');
+      return;
+    }
+    if (studentKind === 'international') {
+      const digits = phone.replace(/\D/g, '');
+      if (digits.length < 8 || digits.length > 15) {
+        setError('Telefonu ülke koduyla yaz. Örneğin +49 151 2345678');
+        return;
+      }
+      if (!whatsapp) {
+        setError('WhatsApp ile ulaşılıp ulaşılamayacağını seç');
+        return;
+      }
+    } else if (!normalizePhone(phone)) {
       setError('Telefon numarası 05xx xxx xx xx biçiminde olmalı');
       return;
     }
@@ -142,9 +158,63 @@ export default function ForumPage() {
               <Field id="forum-no" label="Öğrenci no">
                 <input id="forum-no" required inputMode="numeric" placeholder="202100184" className={inputClass} value={studentNo} onChange={(e) => setStudentNo(e.target.value)} />
               </Field>
-              <Field id="forum-phone" label="Telefon">
-                <input id="forum-phone" required type="tel" autoComplete="tel" placeholder="05xx xxx xx xx" className={inputClass} value={phone} onChange={(e) => setPhone(e.target.value)} />
+              <Field id="forum-kind" label="Öğrenci türü">
+                <FormSelect
+                  id="forum-kind"
+                  placeholder="Seç"
+                  value={studentKind}
+                  options={[
+                    { value: 'local', label: 'Türkiye', hint: 'Telefon 05 ile başlar' },
+                    { value: 'international', label: 'Uluslararası öğrenci', hint: 'Telefon ülke koduyla yazılır' },
+                  ]}
+                  onChange={(next) => {
+                    setStudentKind(next as 'local' | 'international');
+                    setPhone('');
+                    setWhatsapp('');
+                  }}
+                />
               </Field>
+              <Field id="forum-phone" label="Telefon">
+                <input
+                  id="forum-phone"
+                  required
+                  type="tel"
+                  autoComplete="tel"
+                  inputMode="tel"
+                  placeholder={studentKind === 'international' ? '+49 151 2345678' : '05xx xxx xx xx'}
+                  className={inputClass}
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                />
+              </Field>
+              {studentKind === 'international' ? (
+                <div>
+                  <p className="mb-2 text-sm font-medium text-[#0E1548]">
+                    Etkinlik günleri WhatsApp ile sizlere ulaşabilir miyiz?
+                    <span className="ml-0.5 text-red-500" aria-hidden>*</span>
+                  </p>
+                  <div className="grid grid-cols-2 gap-2">
+                    {([
+                      ['yes', 'Evet'],
+                      ['no', 'Hayır'],
+                    ] as const).map(([value, label]) => (
+                      <button
+                        key={value}
+                        type="button"
+                        aria-pressed={whatsapp === value}
+                        onClick={() => setWhatsapp(value)}
+                        className={`rounded-xl px-3 py-2.5 text-sm font-medium ${
+                          whatsapp === value
+                            ? 'bg-[#0E1548] text-white'
+                            : 'bg-white text-[#0E1548] ring-1 ring-slate-200 hover:bg-slate-50'
+                        }`}
+                      >
+                        {label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
               <Field id="forum-dept" label="Bölüm">
                 <FormSelect
                   id="forum-dept"
