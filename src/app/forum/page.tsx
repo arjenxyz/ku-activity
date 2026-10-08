@@ -1,9 +1,13 @@
 'use client';
 
-import { FormEvent, useState, type ReactNode } from 'react';
+import { FormEvent, useEffect, useState, type ReactNode } from 'react';
+import { createPortal } from 'react-dom';
 import Link from 'next/link';
+import { FiX } from 'react-icons/fi';
 import { inputClass, primaryButtonClass } from '@/components/auth/authStyles';
+import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 import { classOptions, FACULTY_DEPARTMENTS } from '@/lib/faculty';
+import { cardClass } from '@/components/ui/styles';
 
 function Field({
   id,
@@ -48,6 +52,19 @@ export default function ForumPage() {
   const [accepted, setAccepted] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [sent, setSent] = useState(false);
+  const [legal, setLegal] = useState<'gizlilik' | 'kvkk' | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useBodyScrollLock(legal !== null);
+  useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    if (!legal) return;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setLegal(null);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [legal]);
 
   function onSubmit(event: FormEvent) {
     event.preventDefault();
@@ -160,9 +177,13 @@ export default function ForumPage() {
                   className="mt-1 h-4 w-4 shrink-0 rounded border-slate-300"
                 />
                 <span>
-                  <Link href="/gizlilik" className="font-medium text-[#0E1548] underline" target="_blank">Gizlilik</Link>
+                  <button type="button" className="font-medium text-[#0E1548] underline" onClick={() => setLegal('gizlilik')}>
+                    Gizlilik
+                  </button>
                   {' '}ve{' '}
-                  <Link href="/kvkk" className="font-medium text-[#0E1548] underline" target="_blank">KVKK</Link>
+                  <button type="button" className="font-medium text-[#0E1548] underline" onClick={() => setLegal('kvkk')}>
+                    KVKK
+                  </button>
                   {' '}metinlerini okudum.
                 </span>
               </label>
@@ -171,6 +192,44 @@ export default function ForumPage() {
           </>
         )}
       </div>
+      {mounted && legal
+        ? createPortal(
+            <div
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="forum-legal-title"
+              className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/70 px-4 py-6 backdrop-blur-md"
+            >
+              <section className={`${cardClass} flex max-h-[min(32rem,calc(100dvh-3rem))] w-full max-w-lg flex-col p-6`} data-scroll-lock-allow="">
+                <div className="flex items-start justify-between gap-4">
+                  <h2 id="forum-legal-title" className="text-lg font-semibold text-[#0E1548]">
+                    {legal === 'gizlilik' ? 'Gizlilik' : 'KVKK'}
+                  </h2>
+                  <button
+                    type="button"
+                    aria-label="Kapat"
+                    onClick={() => setLegal(null)}
+                    className="flex h-8 w-8 items-center justify-center rounded-full text-[#0E1548] hover:bg-slate-50"
+                  >
+                    <FiX className="h-5 w-5" aria-hidden />
+                  </button>
+                </div>
+                <div className="mt-4 overflow-y-auto text-sm leading-relaxed text-slate-600">
+                  {legal === 'gizlilik' ? (
+                    <p>
+                      Bu form ad, soyad, öğrenci numarası, telefon, bölüm, sınıf ve e-posta bilgini yalnızca etkinlik kaydın için tutar. Bilgiler gönüllü ekibin kaydı öğrenci kimliğinle doğrulaması içindir. Üniversite adına toplanmaz ve başka bir hizmete aktarılmaz.
+                    </p>
+                  ) : (
+                    <p>
+                      Kişisel verileriniz, kayıt oluşturmak ve kimliğini doğrulamak için 6698 sayılı Kanun kapsamında işlenir. Verilerine ilişkin taleplerini gönüllü ekibe iletebilirsin. Onaylanmayan kayıt girişe açılmaz.
+                    </p>
+                  )}
+                </div>
+              </section>
+            </div>,
+            document.body,
+          )
+        : null}
     </div>
   );
 }
