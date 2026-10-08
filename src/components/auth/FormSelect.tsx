@@ -65,7 +65,7 @@ export function FormSelect({
         }}
       >
         <span className={current ? 'text-gray-900' : 'text-gray-400'}>{current?.label ?? placeholder}</span>
-        <FiChevronDown className={`h-4 w-4 shrink-0 text-slate-500 transition ${open ? 'rotate-180' : ''}`} aria-hidden />
+        <FiChevronDown className={`h-4 w-4 shrink-0 text-slate-500 transition ${disabled ? 'invisible' : ''} ${open ? 'rotate-180' : ''}`} aria-hidden />
       </button>
       {open ? (
         <ul
