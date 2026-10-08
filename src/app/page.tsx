@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { HomeFooter } from '@/components/home/HomeFooter';
 import { HomeHeader } from '@/components/home/HomeHeader';
 import { RegistrationPreview } from '@/components/home/RegistrationPreview';
+import { SlidingStars } from '@/components/home/SlidingStars';
 import { APP_TAGLINE_TR } from '@/lib/brand';
 
 export default function HomePage() {
@@ -15,6 +16,7 @@ export default function HomePage() {
             <div className="absolute inset-0 bg-gradient-to-b from-white via-[#f7fbff] to-white" />
             <div className="absolute -top-24 left-1/4 h-72 w-72 -translate-x-1/2 rounded-full bg-blue-100/60 blur-3xl lg:h-[28rem] lg:w-[28rem]" />
             <div className="absolute right-0 top-1/3 hidden h-80 w-80 rounded-full bg-indigo-100/40 blur-3xl lg:block" />
+            <SlidingStars />
           </div>
 
           <div className="mx-auto grid w-full max-w-6xl items-center gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(22rem,34rem)] lg:gap-14">

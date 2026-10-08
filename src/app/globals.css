@@ -255,6 +255,26 @@ html.dark body {
   }
 }
 
+@keyframes star-slide {
+  from {
+    transform: translateX(-8vw);
+  }
+  to {
+    transform: translateX(108vw);
+  }
+}
+
+.home-slide-star {
+  animation: star-slide var(--slide-duration, 24s) linear infinite;
+  animation-delay: var(--slide-delay, 0s);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-slide-star {
+    animation: none;
+  }
+}
+
 @keyframes star-twinkle {
   0%,
   100% {
