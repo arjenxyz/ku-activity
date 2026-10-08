@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { BrandMark } from '@/components/brand/BrandMark';
 import { LanguageSwitch } from '@/components/i18n/LanguageSwitch';
@@ -16,6 +16,7 @@ const NAV = [
 export function HomeHeader() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const headerRef = useRef<HTMLElement>(null);
 
   useBodyScrollLock(open);
 
@@ -26,13 +27,28 @@ export function HomeHeader() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  useEffect(() => {
+    const el = headerRef.current;
+    if (!el) return;
+    const sync = () => {
+      document.documentElement.style.setProperty('--home-chrome-h', `${el.offsetHeight}px`);
+    };
+    sync();
+    const observer = new ResizeObserver(sync);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [open]);
+
   return (
     <>
     <header
+      ref={headerRef}
       className={`fixed inset-x-0 top-0 z-50 safe-pt transition-all duration-300 ${
-        scrolled || open
-          ? 'border-b border-slate-200/70 bg-white/95 shadow-sm backdrop-blur-lg'
-          : 'bg-white/80 backdrop-blur-sm'
+        open
+          ? 'bg-white'
+          : scrolled
+            ? 'border-b border-slate-200/70 bg-white/95 shadow-sm backdrop-blur-lg'
+            : 'bg-white/80 backdrop-blur-sm'
       }`}
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-2.5 sm:px-6">
@@ -78,47 +94,43 @@ export function HomeHeader() {
     </header>
 
       <div
-        className={`fixed inset-0 z-40 transition-opacity duration-300 md:hidden ${
+        className={`fixed inset-x-0 bottom-0 z-40 transition-opacity duration-300 md:hidden ${
           open ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'
         }`}
+        style={{ top: 'var(--home-chrome-h, 3.5rem)' }}
         aria-hidden={!open}
       >
         <button
           type="button"
-          className="absolute inset-0 bg-[#0E1548]/55"
+          className="absolute inset-0 bg-[#0E1548]/40"
           aria-label="Menüyü kapat"
           onClick={() => setOpen(false)}
         />
         <nav
-          className={`absolute bottom-0 right-0 top-0 flex w-[min(86vw,320px)] flex-col border-l border-slate-200 bg-white shadow-2xl shadow-slate-900/20 transition-transform duration-300 safe-pb ${
-            open ? 'translate-x-0' : 'translate-x-full'
+          className={`absolute right-3 top-2 flex h-auto w-[min(78vw,280px)] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl shadow-slate-900/10 transition-transform duration-300 ${
+            open ? 'translate-x-0' : 'translate-x-[110%]'
           }`}
           aria-label="Mobil menü"
         >
-          <div className="flex h-full flex-col p-5 pt-16">
-            <p className="mb-2 px-2 text-xs font-semibold uppercase tracking-wider text-slate-400">Menü</p>
+          <div className="flex flex-col px-2 py-2">
             <LanguageSwitch variant="nav" />
-            <div className="min-h-0 flex-1 overflow-y-auto">
-              {NAV.map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  onClick={() => setOpen(false)}
-                  className="flex items-center rounded-xl px-3 py-3.5 font-medium text-slate-700 hover:bg-slate-50"
-                >
-                  {item.label}
-                </a>
-              ))}
-            </div>
-            <div className="mt-3 shrink-0 border-t border-slate-200 pt-3">
-              <Link
-                href="/login"
-                className="flex items-center justify-center rounded-2xl bg-[#0E1548] px-4 py-3 text-sm font-medium text-white"
+            {NAV.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
                 onClick={() => setOpen(false)}
+                className="rounded-xl px-3 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50"
               >
-                Giriş yap
-              </Link>
-            </div>
+                {item.label}
+              </a>
+            ))}
+            <Link
+              href="/login"
+              className="mx-2 mb-2 mt-1 flex items-center justify-center rounded-2xl bg-[#0E1548] px-4 py-2.5 text-sm font-medium text-white"
+              onClick={() => setOpen(false)}
+            >
+              Giriş yap
+            </Link>
           </div>
         </nav>
       </div>
