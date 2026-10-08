@@ -57,10 +57,10 @@ export function LanguageSwitch({ variant = 'nav' }: { variant?: 'nav' | 'compact
             onClick={() => setOpen(false)}
           >
             <div
-              className="w-full max-w-sm rounded-3xl border border-white/15 bg-[#0E1548]/90 p-4 shadow-2xl"
+              className="w-full max-w-sm rounded-3xl border border-slate-200 bg-white p-4 shadow-2xl shadow-slate-900/10"
               onClick={(event) => event.stopPropagation()}
             >
-              <p className="px-1 pb-3 text-sm font-semibold text-white">Dil</p>
+              <p className="px-1 pb-3 text-sm font-semibold text-[#0E1548]">Dil</p>
               <div className="grid gap-2">
               {MENU_LOCALES.map((option) => {
                 const active = option.id === locale;
@@ -69,16 +69,18 @@ export function LanguageSwitch({ variant = 'nav' }: { variant?: 'nav' | 'compact
                     key={option.id}
                     type="button"
                     onClick={() => select(option.id)}
-                    className={`flex items-center gap-3 rounded-2xl px-3 py-3 text-left text-white ${
-                      active ? 'bg-white/15 ring-2 ring-white/50' : 'ring-1 ring-white/25 hover:bg-white/10'
+                    className={`flex items-center gap-3 rounded-2xl px-3 py-3 text-left ${
+                      active
+                        ? 'bg-[#0E1548]/[0.06] text-[#0E1548] ring-1 ring-[#0E1548]/15'
+                        : 'text-slate-700 ring-1 ring-slate-200 hover:bg-slate-50'
                     }`}
                   >
                     <FlagBadge countryCode={option.countryCode} short={option.short} />
                     <span className="min-w-0 flex-1">
                       <span className="block text-sm font-semibold">{option.nativeLabel}</span>
-                      <span className="block text-[11px] text-white/60">{option.englishName}</span>
+                      <span className="block text-[11px] text-slate-500">{option.englishName}</span>
                     </span>
-                    {active ? <FiCheck className="h-4 w-4 shrink-0" /> : null}
+                    {active ? <FiCheck className="h-4 w-4 shrink-0 text-[#0E1548]" /> : null}
                   </button>
                 );
               })}
