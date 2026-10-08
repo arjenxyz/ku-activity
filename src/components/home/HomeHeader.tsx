@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { BrandMark } from '@/components/brand/BrandMark';
+import { LanguageSwitch } from '@/components/i18n/LanguageSwitch';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 import { APP_NAME, APP_TAGLINE } from '@/lib/brand';
 
@@ -53,6 +54,7 @@ export function HomeHeader() {
               {item.label}
             </a>
           ))}
+          <LanguageSwitch variant="compact" />
           <Link
             href="/login"
             className="ml-2 rounded-2xl bg-[#0E1548] px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-[#152060]"
@@ -83,18 +85,19 @@ export function HomeHeader() {
       >
         <button
           type="button"
-          className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+          className="absolute inset-0 bg-[#0E1548]/55"
           aria-label="Menüyü kapat"
           onClick={() => setOpen(false)}
         />
         <nav
-          className={`absolute right-0 top-0 flex h-full w-[min(100%,320px)] flex-col bg-white shadow-2xl transition-transform duration-300 safe-pt safe-pb ${
+          className={`absolute bottom-0 right-0 top-0 flex w-[min(86vw,320px)] flex-col border-l border-slate-200 bg-white shadow-2xl shadow-slate-900/20 transition-transform duration-300 safe-pb ${
             open ? 'translate-x-0' : 'translate-x-full'
           }`}
           aria-label="Mobil menü"
         >
           <div className="flex h-full flex-col p-5 pt-16">
-            <p className="mb-3 px-2 text-xs font-semibold uppercase tracking-wider text-slate-400">Menü</p>
+            <p className="mb-2 px-2 text-xs font-semibold uppercase tracking-wider text-slate-400">Menü</p>
+            <LanguageSwitch variant="nav" />
             <div className="min-h-0 flex-1 overflow-y-auto">
               {NAV.map((item) => (
                 <a

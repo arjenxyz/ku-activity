@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { PWARegister } from '@/components/pwa/PWARegister';
 import { ContentProtection } from '@/components/ContentProtection';
+import { LocaleShell } from '@/components/i18n/LocaleShell';
 import { APP_NAME, APP_ICON, APP_TAGLINE_TR } from '@/lib/brand';
 import { PWA_ASSET_VERSION } from '@/lib/pwa-manifest';
 
@@ -58,7 +59,7 @@ export default function RootLayout({
       >
         <PWARegister />
         <ContentProtection />
-        {children}
+        <LocaleShell initialLocale="tr">{children}</LocaleShell>
       </body>
     </html>
   );
