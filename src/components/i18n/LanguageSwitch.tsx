@@ -53,10 +53,15 @@ export function LanguageSwitch({ variant = 'nav' }: { variant?: 'nav' | 'compact
             role="dialog"
             aria-modal="true"
             aria-label="Dil"
-            className="fixed inset-0 z-[100] overflow-y-auto bg-slate-900/70 px-4 py-8 backdrop-blur-md"
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/70 px-4 backdrop-blur-md"
             onClick={() => setOpen(false)}
           >
-            <div className="mx-auto grid w-full max-w-md gap-2" onClick={(event) => event.stopPropagation()}>
+            <div
+              className="w-full max-w-sm rounded-3xl border border-white/15 bg-[#0E1548]/90 p-4 shadow-2xl"
+              onClick={(event) => event.stopPropagation()}
+            >
+              <p className="px-1 pb-3 text-sm font-semibold text-white">Dil</p>
+              <div className="grid gap-2">
               {MENU_LOCALES.map((option) => {
                 const active = option.id === locale;
                 return (
@@ -77,6 +82,7 @@ export function LanguageSwitch({ variant = 'nav' }: { variant?: 'nav' | 'compact
                   </button>
                 );
               })}
+              </div>
             </div>
           </div>,
           document.body
