@@ -28,7 +28,6 @@ export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [pending, setPending] = useState<LocalSignup | null>(null);
-  const [qrUrl, setQrUrl] = useState<string | null>(null);
 
   function openPanel(next: Panel) {
     setPanel(next);
@@ -38,22 +37,6 @@ export default function LoginPage() {
     setCode('');
     setConfirm('');
   }
-
-  useEffect(() => {
-    if (!pending) {
-      setQrUrl(null);
-      return;
-    }
-    let cancelled = false;
-    void import('qrcode').then((QRCode) =>
-      QRCode.toDataURL(pending.approvalCode, { margin: 1, width: 220 }).then((url) => {
-        if (!cancelled) setQrUrl(url);
-      })
-    );
-    return () => {
-      cancelled = true;
-    };
-  }, [pending]);
 
   useEffect(() => {
     if (panel !== 'pending' || !pending) return;
@@ -305,11 +288,11 @@ export default function LoginPage() {
               <p className="text-sm leading-relaxed text-slate-600">
                 Kaydın alındı. Öğrenci kimlik kartınla yöneticiye git. Yönetici bu QR kodu okur veya kodu onaylar. Onay gelmeden giriş yapamazsın.
               </p>
-              {qrUrl ? (
-                <img src={qrUrl} alt="" className="mx-auto h-44 w-44 rounded-2xl bg-white p-2 ring-1 ring-slate-200" />
-              ) : (
-                <div className="mx-auto h-44 w-44 animate-pulse rounded-2xl bg-slate-100" />
-              )}
+              <img
+                src={`/api/qr?code=${encodeURIComponent(pending.approvalCode)}`}
+                alt=""
+                className="mx-auto h-44 w-44 rounded-2xl bg-white p-2 ring-1 ring-slate-200"
+              />
               <p className="text-sm font-semibold tracking-wide text-[#0E1548]">{pending.approvalCode}</p>
               <p className="text-xs text-slate-500">QR yalnızca bu onay kodunu taşır. Adın ve öğrenci numaran kodun içinde yoktur.</p>
               <p className="text-sm text-slate-600">Onay bekleniyor…</p>
