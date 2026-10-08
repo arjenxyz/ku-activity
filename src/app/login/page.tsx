@@ -32,6 +32,7 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [pending, setPending] = useState<LocalSignup | null>(null);
   const [forgotOpen, setForgotOpen] = useState(false);
+  const [stepsOpen, setStepsOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   useBodyScrollLock(forgotOpen);
@@ -57,6 +58,7 @@ export default function LoginPage() {
 
   function closeForgot() {
     setForgotOpen(false);
+    setStepsOpen(false);
     setError(null);
     setCodeOk(false);
     setCode('');
@@ -67,11 +69,16 @@ export default function LoginPage() {
   useEffect(() => {
     if (!forgotOpen) return;
     const onKey = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') closeForgot();
+      if (event.key !== 'Escape') return;
+      if (stepsOpen) {
+        setStepsOpen(false);
+        return;
+      }
+      closeForgot();
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [forgotOpen]);
+  }, [forgotOpen, stepsOpen]);
 
   useEffect(() => {
     if (panel !== 'pending' || !pending) return;
@@ -245,101 +252,132 @@ export default function LoginPage() {
   const title =
     panel === 'register' ? 'Kayıt ol' : panel === 'pending' ? 'Onay bekleniyor' : 'Giriş yap';
 
+  const resetSteps = [
+    {
+      title: 'Ekip sayfasına gir',
+      body: (
+        <>
+          <a href="/ekip" className="font-medium text-[#0E1548] underline">Ekip</a> sayfasından şifre sıfırlama iste.
+        </>
+      ),
+    },
+    {
+      title: 'Ekiple iletişime geç',
+      body: 'Öğrenci kimlik kartını yanında bulundur. Kim olduğunu ekip doğrular.',
+    },
+    {
+      title: 'Kod veya QR al',
+      body: 'Ekip sana bir kod verir ya da aynı kodu QR olarak okutur.',
+    },
+    {
+      title: 'Yeni şifreni oluştur',
+      body: 'Kodu forma yaz. Doğrulama bitince yeni şifreni belirle.',
+    },
+  ];
+
   const forgotModal =
     mounted && forgotOpen
       ? createPortal(
-          <div
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="forgot-title"
-            className="fixed inset-0 z-[100] overflow-y-auto bg-slate-900/70 backdrop-blur-md"
-            onClick={closeForgot}
-          >
-            <div className="flex min-h-full items-center justify-center px-4 py-6">
+          <>
             <div
-              className="flex w-full max-w-4xl flex-col items-stretch justify-center gap-6 lg:flex-row lg:items-start"
-              data-scroll-lock-allow=""
-              onClick={(event) => event.stopPropagation()}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="forgot-title"
+              className="fixed inset-0 z-[100] overflow-y-auto bg-slate-900/70 backdrop-blur-md"
+              onClick={closeForgot}
             >
-              <section className={`${cardClass} w-full max-w-md p-6 sm:p-8`}>
-                <p className="text-center text-sm font-semibold text-slate-800">Nasıl sıfırlanır</p>
-                <ol className="mt-6 flex flex-col gap-5">
-                  {[
-                    {
-                      title: 'Ekip sayfasına gir',
-                      body: (
-                        <>
-                          <a href="/ekip" className="font-medium text-[#0E1548] underline">Ekip</a> sayfasından şifre sıfırlama iste.
-                        </>
-                      ),
-                    },
-                    {
-                      title: 'Ekiple iletişime geç',
-                      body: 'Öğrenci kimlik kartını yanında bulundur. Kim olduğunu ekip doğrular.',
-                    },
-                    {
-                      title: 'Kod veya QR al',
-                      body: 'Ekip sana bir kod verir ya da aynı kodu QR olarak okutur.',
-                    },
-                    {
-                      title: 'Yeni şifreni oluştur',
-                      body: 'Kodu yandaki kutuya yaz. Doğrulama bitince yeni şifreni belirle.',
-                    },
-                  ].map((step, index) => (
-                    <li key={step.title} className="flex gap-3">
-                      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#0E1548] text-xs font-semibold text-white">
-                        {index + 1}
-                      </span>
-                      <span>
-                        <p className="text-sm font-semibold text-[#0E1548]">{step.title}</p>
-                        <p className="mt-0.5 text-sm leading-relaxed text-slate-600">{step.body}</p>
-                      </span>
-                    </li>
-                  ))}
-                </ol>
-              </section>
-              <div className={`${cardClass} w-full max-w-md p-6 sm:p-8`}>
-                <div className="mb-5 flex flex-col items-center text-center">
-                  <BrandMark size="lg" className="mb-3 ring-2 ring-[#0E1548]/10" />
-                  <h2 id="forgot-title" className="text-lg font-bold text-[#0E1548]">{APP_NAME}</h2>
-                  <p className="mt-1 text-xs text-slate-500">{APP_TAGLINE}</p>
-                  <p className="mt-3 text-sm font-semibold text-slate-800">Şifremi unuttum</p>
+              <div className="flex min-h-full items-center justify-center px-4 py-6">
+                <div
+                  className={`${cardClass} relative w-full max-w-md p-6 sm:p-8`}
+                  data-scroll-lock-allow=""
+                  onClick={(event) => event.stopPropagation()}
+                >
+                  <button
+                    type="button"
+                    aria-label="Bilgi"
+                    aria-haspopup="dialog"
+                    aria-expanded={stepsOpen}
+                    onClick={() => setStepsOpen(true)}
+                    className="absolute left-4 top-4 flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold italic text-[#0E1548] ring-1 ring-[#0E1548]/20 hover:bg-slate-50"
+                  >
+                    i
+                  </button>
+                  <div className="mb-5 flex flex-col items-center text-center">
+                    <BrandMark size="lg" className="mb-3 ring-2 ring-[#0E1548]/10" />
+                    <h2 id="forgot-title" className="text-lg font-bold text-[#0E1548]">{APP_NAME}</h2>
+                    <p className="mt-1 text-xs text-slate-500">{APP_TAGLINE}</p>
+                    <p className="mt-3 text-sm font-semibold text-slate-800">Şifremi unuttum</p>
+                  </div>
+                  {!codeOk ? (
+                    <form onSubmit={onCheckCode} className="space-y-4">
+                      <div>
+                        <label htmlFor="resetEmail" className={labelClass}>E-posta</label>
+                        <input id="resetEmail" type="email" required className={inputClass} value={email} onChange={(e) => setEmail(e.target.value)} />
+                      </div>
+                      <div>
+                        <label htmlFor="resetCode" className={labelClass}>Yönetici kodu</label>
+                        <ResetCodeField id="resetCode" value={code} onChange={setCode} />
+                        <p className="mt-1 text-xs text-slate-500">Örnek kod: {DEMO_RESET_CODE}</p>
+                      </div>
+                      {error ? <p className="rounded-xl bg-red-50 px-3 py-2 text-sm text-red-700" role="alert">{error}</p> : null}
+                      <button type="submit" className={primaryButtonClass}>Kodu doğrula</button>
+                    </form>
+                  ) : (
+                    <form onSubmit={onResetPassword} className="space-y-4">
+                      <div>
+                        <label htmlFor="newPassword" className={labelClass}>Yeni şifre</label>
+                        <input id="newPassword" type="password" required className={inputClass} value={password} onChange={(e) => setPassword(e.target.value)} />
+                      </div>
+                      <div>
+                        <label htmlFor="newConfirm" className={labelClass}>Yeni şifre tekrar</label>
+                        <input id="newConfirm" type="password" required className={inputClass} value={confirm} onChange={(e) => setConfirm(e.target.value)} />
+                      </div>
+                      {error ? <p className="rounded-xl bg-red-50 px-3 py-2 text-sm text-red-700" role="alert">{error}</p> : null}
+                      <button type="submit" className={primaryButtonClass}>Şifreyi kaydet ve girişe dön</button>
+                    </form>
+                  )}
+                  <p className="mt-4 text-center text-sm">
+                    <button type="button" className={linkButtonClass} onClick={closeForgot}>Girişe dön</button>
+                  </p>
                 </div>
-                {!codeOk ? (
-                  <form onSubmit={onCheckCode} className="space-y-4">
-                    <div>
-                      <label htmlFor="resetEmail" className={labelClass}>E-posta</label>
-                      <input id="resetEmail" type="email" required className={inputClass} value={email} onChange={(e) => setEmail(e.target.value)} />
-                    </div>
-                    <div>
-                      <label htmlFor="resetCode" className={labelClass}>Yönetici kodu</label>
-                      <ResetCodeField id="resetCode" value={code} onChange={setCode} />
-                      <p className="mt-1 text-xs text-slate-500">Örnek kod: {DEMO_RESET_CODE}</p>
-                    </div>
-                    {error ? <p className="rounded-xl bg-red-50 px-3 py-2 text-sm text-red-700" role="alert">{error}</p> : null}
-                    <button type="submit" className={primaryButtonClass}>Kodu doğrula</button>
-                  </form>
-                ) : (
-                  <form onSubmit={onResetPassword} className="space-y-4">
-                    <div>
-                      <label htmlFor="newPassword" className={labelClass}>Yeni şifre</label>
-                      <input id="newPassword" type="password" required className={inputClass} value={password} onChange={(e) => setPassword(e.target.value)} />
-                    </div>
-                    <div>
-                      <label htmlFor="newConfirm" className={labelClass}>Yeni şifre tekrar</label>
-                      <input id="newConfirm" type="password" required className={inputClass} value={confirm} onChange={(e) => setConfirm(e.target.value)} />
-                    </div>
-                    {error ? <p className="rounded-xl bg-red-50 px-3 py-2 text-sm text-red-700" role="alert">{error}</p> : null}
-                    <button type="submit" className={primaryButtonClass}>Şifreyi kaydet ve girişe dön</button>
-                  </form>
-                )}
-                <p className="mt-4 text-center text-sm">
-                  <button type="button" className={linkButtonClass} onClick={closeForgot}>Girişe dön</button>
-                </p>
               </div>
             </div>
-            </div>
-          </div>,
+            {stepsOpen ? (
+              <div
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="reset-steps-title"
+                className="fixed inset-0 z-[110] overflow-y-auto bg-slate-900/70 backdrop-blur-md"
+                onClick={() => setStepsOpen(false)}
+              >
+                <div className="flex min-h-full items-center justify-center px-4 py-6">
+                  <section
+                    className={`${cardClass} w-full max-w-md p-6 sm:p-8`}
+                    data-scroll-lock-allow=""
+                    onClick={(event) => event.stopPropagation()}
+                  >
+                    <p id="reset-steps-title" className="text-center text-sm font-semibold text-slate-800">Nasıl sıfırlanır</p>
+                    <ol className="mt-6 flex flex-col gap-5">
+                      {resetSteps.map((step, index) => (
+                        <li key={step.title} className="flex gap-3">
+                          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#0E1548] text-xs font-semibold text-white">
+                            {index + 1}
+                          </span>
+                          <span>
+                            <p className="text-sm font-semibold text-[#0E1548]">{step.title}</p>
+                            <p className="mt-0.5 text-sm leading-relaxed text-slate-600">{step.body}</p>
+                          </span>
+                        </li>
+                      ))}
+                    </ol>
+                    <p className="mt-6 text-center text-sm">
+                      <button type="button" className={linkButtonClass} onClick={() => setStepsOpen(false)}>Kapat</button>
+                    </p>
+                  </section>
+                </div>
+              </div>
+            ) : null}
+          </>,
           document.body,
         )
       : null;
