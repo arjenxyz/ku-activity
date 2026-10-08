@@ -1,64 +1,54 @@
 'use client';
 
 import Link from 'next/link';
-import { FiLogOut, FiMenu } from 'react-icons/fi';
 import { BrandMark } from '@/components/brand/BrandMark';
 import { APP_NAME, APP_SHORT_NAME } from '@/lib/brand';
 
 type Props = {
   homeHref: string;
   subtitle?: string;
-  onLogout?: () => void;
-  onOpenMenu?: () => void;
+  menuOpen?: boolean;
+  onToggleMenu?: () => void;
 };
 
-/** Preserves CrewLedger AdminTopBar visual language without domain logic. */
-export function AppTopBar({ homeHref, subtitle, onLogout, onOpenMenu }: Props) {
+/** Panel top bar — matches public HomeHeader chrome. */
+export function AppTopBar({ homeHref, subtitle, menuOpen, onToggleMenu }: Props) {
   return (
-    <header className="sticky top-0 z-[var(--personnel-topbar-z,40)] bg-transparent">
-      <div className="safe-pt px-3 pb-2">
-        <div className="mx-auto max-w-5xl">
-          <div className="flex h-14 items-center justify-between gap-3 rounded-2xl border border-slate-200/90 bg-white/95 px-3 shadow-md shadow-slate-900/[0.06] backdrop-blur-xl sm:px-4">
-            <Link
-              href={homeHref}
-              className="flex min-w-0 flex-1 items-center gap-2.5 transition-opacity hover:opacity-90 active:opacity-80"
-              aria-label={APP_NAME}
-            >
-              <BrandMark size="sm" className="shrink-0 ring-2 ring-[#0E1548]/10 shadow-md" />
-              <div className="min-w-0">
-                <p className="truncate text-[13px] font-bold tracking-[0.08em] leading-tight text-[#0E1548]">
-                  {APP_SHORT_NAME}
-                </p>
-                <p className="truncate text-[10px] font-medium leading-tight text-slate-500">
-                  {subtitle ?? APP_NAME}
-                </p>
-              </div>
-            </Link>
+    <header className="fixed inset-x-0 top-0 z-50 bg-transparent px-3 pt-[max(0.5rem,env(safe-area-inset-top))] sm:px-6">
+      <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 rounded-2xl border border-slate-200/80 bg-white/95 px-3 py-2 shadow-sm backdrop-blur-lg sm:px-4">
+        <Link href={homeHref} className="flex min-w-0 items-center gap-2.5" aria-label={APP_NAME}>
+          <BrandMark size="sm" className="!h-9 !w-9" />
+          <span className="min-w-0">
+            <span className="block truncate text-sm font-bold text-[#0E1548]">{APP_SHORT_NAME}</span>
+            <span className="block truncate text-[10px] text-slate-500">{subtitle ?? APP_NAME}</span>
+          </span>
+        </Link>
 
-            <div className="flex shrink-0 items-center gap-1.5">
-              {onOpenMenu ? (
-                <button
-                  type="button"
-                  onClick={onOpenMenu}
-                  className="flex h-10 w-10 items-center justify-center rounded-xl text-slate-600 transition hover:bg-slate-100 hover:text-[#0E1548]"
-                  aria-label="Menü"
-                >
-                  <FiMenu className="h-5 w-5" />
-                </button>
-              ) : null}
-              {onLogout ? (
-                <button
-                  type="button"
-                  onClick={onLogout}
-                  className="flex h-10 w-10 items-center justify-center rounded-xl text-slate-600 transition hover:bg-slate-100 hover:text-[#0E1548]"
-                  aria-label="Çıkış"
-                >
-                  <FiLogOut className="h-5 w-5" />
-                </button>
-              ) : null}
-            </div>
-          </div>
-        </div>
+        {onToggleMenu ? (
+          <button
+            type="button"
+            className="flex h-10 w-10 flex-col items-center justify-center rounded-xl hover:bg-slate-100"
+            aria-label={menuOpen ? 'Menüyü kapat' : 'Menüyü aç'}
+            aria-expanded={menuOpen}
+            onClick={onToggleMenu}
+          >
+            <span
+              className={`block h-0.5 w-5 rounded-sm bg-[#0E1548] transition ${
+                menuOpen ? 'translate-y-1 rotate-45' : ''
+              }`}
+            />
+            <span
+              className={`my-1 block h-0.5 w-5 rounded-sm bg-[#0E1548] transition ${
+                menuOpen ? 'opacity-0' : ''
+              }`}
+            />
+            <span
+              className={`block h-0.5 w-5 rounded-sm bg-[#0E1548] transition ${
+                menuOpen ? '-translate-y-1 -rotate-45' : ''
+              }`}
+            />
+          </button>
+        ) : null}
       </div>
     </header>
   );

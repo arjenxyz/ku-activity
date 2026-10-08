@@ -3,12 +3,12 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
+import { FiChevronRight, FiLogOut } from 'react-icons/fi';
 import { createClient } from '@/utils/supabase/client';
 import { AdminShell } from '@/components/dashboard/AdminShell';
 import { AppTopBar } from '@/components/dashboard/AppTopBar';
-import { cardClass } from '@/components/ui/styles';
-
-export type NavItem = { href: string; label: string };
+import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
+import type { NavItem } from '@/config/panel-nav';
 
 type Props = {
   children: React.ReactNode;
@@ -22,6 +22,8 @@ export function PanelChrome({ children, homeHref, subtitle, navItems }: Props) {
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
 
+  useBodyScrollLock(menuOpen);
+
   useEffect(() => {
     document.documentElement.classList.remove('dark');
   }, [pathname]);
@@ -31,6 +33,7 @@ export function PanelChrome({ children, homeHref, subtitle, navItems }: Props) {
   }, [pathname]);
 
   const handleLogout = async () => {
+    setMenuOpen(false);
     await fetch('/api/demo/logout', { method: 'POST' }).catch(() => undefined);
     try {
       const supabase = createClient();
@@ -47,59 +50,103 @@ export function PanelChrome({ children, homeHref, subtitle, navItems }: Props) {
       <AppTopBar
         homeHref={homeHref}
         subtitle={subtitle}
-        onLogout={() => void handleLogout()}
-        onOpenMenu={() => setMenuOpen(true)}
+        menuOpen={menuOpen}
+        onToggleMenu={() => setMenuOpen((value) => !value)}
       />
-      <AdminShell>
-        <nav className="mb-4 hidden gap-2 overflow-x-auto sm:flex" aria-label="Ana menü">
+
+      <div className="pt-[calc(4.5rem+env(safe-area-inset-top))]">
+        <AdminShell>
+          <nav className="mb-4 hidden gap-1 overflow-x-auto md:flex" aria-label="Ana menü">
+            {navItems.map((item) => {
+              const active =
+                item.href === homeHref
+                  ? pathname === item.href
+                  : pathname === item.href || pathname.startsWith(`${item.href}/`);
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`shrink-0 rounded-xl px-3 py-2 text-sm font-medium transition ${
+                    active
+                      ? 'bg-slate-100 text-[#0E1548]'
+                      : 'text-slate-700 hover:bg-slate-50 hover:text-[#0E1548]'
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
+            <button
+              type="button"
+              onClick={() => void handleLogout()}
+              className="ml-auto shrink-0 rounded-2xl bg-[#0E1548] px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-[#152060]"
+            >
+              Çıkış
+            </button>
+          </nav>
+          {children}
+        </AdminShell>
+      </div>
+
+      <div
+        className={`fixed inset-0 z-40 transition-opacity duration-300 ${
+          menuOpen ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'
+        }`}
+        aria-hidden={!menuOpen}
+      >
+        <button
+          type="button"
+          className="absolute inset-0 bg-[#0E1548]/60 backdrop-blur-2xl"
+          aria-label="Menüyü kapat"
+          onClick={() => setMenuOpen(false)}
+        />
+      </div>
+
+      <nav
+        className={`fixed right-3 z-50 w-[min(78vw,280px)] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl shadow-slate-900/10 transition-transform duration-300 ${
+          menuOpen ? 'translate-x-0' : 'pointer-events-none translate-x-[120%]'
+        }`}
+        style={{ top: 'calc(4.5rem + env(safe-area-inset-top, 0px))' }}
+        aria-label="Mobil menü"
+        aria-hidden={!menuOpen}
+        data-scroll-lock-allow=""
+      >
+        <div className="flex flex-col gap-1 p-2">
+          <p className="px-3 py-1.5 text-xs font-medium text-slate-500">{subtitle}</p>
+          <div className="mx-2 my-1 h-px bg-slate-100" />
           {navItems.map((item) => {
-            const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
+            const Icon = item.icon;
+            const active =
+              item.href === homeHref
+                ? pathname === item.href
+                : pathname === item.href || pathname.startsWith(`${item.href}/`);
             return (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`shrink-0 rounded-2xl px-3 py-2 text-sm font-medium transition ${
-                  active
-                    ? 'bg-[#0E1548] text-white shadow-sm'
-                    : 'bg-white text-slate-700 ring-1 ring-slate-200 hover:bg-slate-50'
+                className={`flex items-center gap-3 rounded-xl px-2 py-2 text-[#0E1548] ${
+                  active ? 'bg-[#e8f0ff]' : 'hover:bg-slate-50'
                 }`}
+                onClick={() => setMenuOpen(false)}
               >
-                {item.label}
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e8f0ff]">
+                  <Icon className="h-4 w-4" aria-hidden />
+                </span>
+                <span className="min-w-0 flex-1 text-sm font-medium">{item.label}</span>
+                <FiChevronRight className="h-4 w-4 shrink-0 text-slate-400" aria-hidden />
               </Link>
             );
           })}
-        </nav>
-        {children}
-      </AdminShell>
-
-      {menuOpen ? (
-        <div className="fixed inset-0 z-50 sm:hidden" role="dialog" aria-modal="true">
           <button
             type="button"
-            className="absolute inset-0 bg-slate-900/40"
-            aria-label="Kapat"
-            onClick={() => setMenuOpen(false)}
-          />
-          <div className={`absolute inset-x-3 bottom-3 safe-pb ${cardClass} p-3`}>
-            <p className="mb-2 px-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
-              Menü
-            </p>
-            <ul className="space-y-1">
-              {navItems.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className="block rounded-xl px-3 py-3 text-sm font-medium text-slate-800 hover:bg-slate-50"
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+            onClick={() => void handleLogout()}
+            className="mx-1 mb-1 mt-1 flex items-center justify-center gap-2 rounded-2xl bg-[#0E1548] px-4 py-2.5 text-sm font-medium text-white"
+          >
+            <FiLogOut className="h-4 w-4" aria-hidden />
+            Çıkış yap
+          </button>
         </div>
-      ) : null}
+      </nav>
     </div>
   );
 }
