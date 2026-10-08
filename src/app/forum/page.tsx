@@ -1,6 +1,7 @@
 'use client';
 
 import { FormEvent, useState, type ReactNode } from 'react';
+import Link from 'next/link';
 import { inputClass, primaryButtonClass } from '@/components/auth/authStyles';
 import { classOptions, FACULTY_DEPARTMENTS } from '@/lib/faculty';
 
@@ -44,6 +45,7 @@ export default function ForumPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
+  const [accepted, setAccepted] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [sent, setSent] = useState(false);
 
@@ -66,6 +68,10 @@ export default function ForumPage() {
       setError('Şifreler aynı değil');
       return;
     }
+    if (!accepted) {
+      setError('Kayıttan önce Gizlilik ve KVKK metinlerini okuman gerekir.');
+      return;
+    }
     setSent(true);
   }
 
@@ -73,11 +79,17 @@ export default function ForumPage() {
     <div className="min-h-[100dvh] bg-[#f5f6f7] px-4 py-8 sm:py-12">
       <div className="mx-auto w-full max-w-xl rounded-2xl bg-white px-5 py-8 shadow-sm ring-1 ring-black/[0.04] sm:px-8">
         {sent ? (
-          <div className="py-10 text-center">
-            <p className="text-xl font-semibold text-[#0E1548]">Gönderildi</p>
+          <div className="py-6">
+            <p className="text-xl font-semibold text-[#0E1548]">Kaydın alındı</p>
+            <p className="mt-3 text-sm leading-relaxed text-slate-600">
+              Gönüllü ekip üyeleriyle iletişime geç. Öğrenci kimlik kartınla kaydını onaylat. Onay gelmeden giriş yapamazsın.
+            </p>
+            <Link href="/ekip" className="mt-4 inline-block text-sm font-medium text-blue-600 hover:text-blue-800">
+              Ekip sayfasına git
+            </Link>
             <button
               type="button"
-              className="mt-6 text-sm font-medium text-blue-600 hover:text-blue-800"
+              className="mt-6 block text-sm font-medium text-slate-500 hover:text-slate-700"
               onClick={() => setSent(false)}
             >
               Yeniden doldur
@@ -139,6 +151,21 @@ export default function ForumPage() {
                 <input id="forum-confirm" required type="password" autoComplete="new-password" className={inputClass} value={confirm} onChange={(e) => setConfirm(e.target.value)} />
               </Field>
               {error ? <p className="rounded-xl bg-red-50 px-3 py-2 text-sm text-red-700" role="alert">{error}</p> : null}
+              <label className="flex items-start gap-3 text-sm leading-relaxed text-slate-600">
+                <input
+                  type="checkbox"
+                  required
+                  checked={accepted}
+                  onChange={(e) => setAccepted(e.target.checked)}
+                  className="mt-1 h-4 w-4 shrink-0 rounded border-slate-300"
+                />
+                <span>
+                  <Link href="/gizlilik" className="font-medium text-[#0E1548] underline" target="_blank">Gizlilik</Link>
+                  {' '}ve{' '}
+                  <Link href="/kvkk" className="font-medium text-[#0E1548] underline" target="_blank">KVKK</Link>
+                  {' '}metinlerini okudum.
+                </span>
+              </label>
               <button type="submit" className={primaryButtonClass}>Kaydı tamamla</button>
             </form>
           </>
