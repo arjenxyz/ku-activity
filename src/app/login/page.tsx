@@ -209,8 +209,30 @@ export default function LoginPage() {
     panel === 'register' ? 'Kayıt ol' : panel === 'forgot' ? 'Şifremi unuttum' : panel === 'pending' ? 'Onay bekleniyor' : 'Giriş yap';
 
   return (
-    <div className="flex min-h-[100dvh] flex-col items-center justify-center bg-gradient-to-br from-blue-50 via-white to-indigo-50 px-4 py-6 lg:h-[100dvh] lg:overflow-hidden lg:px-10">
-      <div className={`${cardClass} w-full max-w-md p-6 sm:p-8 ${panel === 'login' ? '' : 'lg:max-w-3xl'}`}>
+    <div className={`flex min-h-[100dvh] flex-col items-center justify-center gap-8 bg-gradient-to-br from-blue-50 via-white to-indigo-50 px-4 py-6 lg:h-[100dvh] lg:overflow-hidden lg:px-10 ${panel === 'forgot' ? 'lg:flex-row' : ''}`}>
+      {panel === 'forgot' ? (
+        <ol className="w-full max-w-sm space-y-4 text-sm text-slate-700">
+          <li>
+            <p className="font-semibold text-[#0E1548]">1. Ekip sayfasına gir</p>
+            <p className="mt-1 leading-relaxed">
+              <a href="/ekip" className="font-medium text-[#2D6AF6] underline">Ekip</a> sayfasından şifre sıfırlama iste.
+            </p>
+          </li>
+          <li>
+            <p className="font-semibold text-[#0E1548]">2. Ekiple iletişime geç</p>
+            <p className="mt-1 leading-relaxed">Öğrenci kimlik kartını yanında bulundur. Kim olduğunu ekip doğrular.</p>
+          </li>
+          <li>
+            <p className="font-semibold text-[#0E1548]">3. Kod veya QR al</p>
+            <p className="mt-1 leading-relaxed">Ekip sana bir kod verir ya da aynı kodu QR olarak okutur.</p>
+          </li>
+          <li>
+            <p className="font-semibold text-[#0E1548]">4. Yeni şifreni oluştur</p>
+            <p className="mt-1 leading-relaxed">Kodu yandaki kutuya yaz. Doğrulama bitince yeni şifreni belirle.</p>
+          </li>
+        </ol>
+      ) : null}
+      <div className={`${cardClass} w-full max-w-md p-6 sm:p-8 ${panel === 'login' || panel === 'forgot' ? '' : 'lg:max-w-3xl'}`}>
           <div className="mb-5 flex flex-col items-center text-center lg:mb-4">
             <BrandMark size="lg" className="mb-3 ring-2 ring-[#0E1548]/10" />
             <h1 className="text-lg font-bold text-[#0E1548]">{APP_NAME}</h1>
@@ -307,10 +329,7 @@ export default function LoginPage() {
           ) : null}
 
           {panel === 'forgot' ? (
-            <div className="space-y-4 lg:grid lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center lg:gap-8 lg:space-y-0">
-              <p className="rounded-xl bg-slate-50 px-3 py-3 text-sm leading-relaxed text-slate-600">
-                Şifreyi buradan kendi başına sıfırlayamazsın. Yöneticine başvur. Sana bir kod veya bu kodu taşıyan bir QR verir. Kodu girince yeni şifreni oluşturursun.
-              </p>
+            <div className="space-y-4">
               {!codeOk ? (
                 <form onSubmit={onCheckCode} className="space-y-4">
                   <div>
@@ -339,7 +358,7 @@ export default function LoginPage() {
                   <button type="submit" className={primaryButtonClass}>Şifreyi kaydet ve girişe dön</button>
                 </form>
               )}
-              <p className="text-center text-sm lg:col-span-2">
+              <p className="text-center text-sm">
                 <button type="button" className={linkButtonClass} onClick={() => openPanel('login')}>Girişe dön</button>
               </p>
             </div>
