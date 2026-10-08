@@ -39,7 +39,7 @@ export function HomeHeader() {
     <>
     <header
       ref={headerRef}
-      className="fixed inset-x-0 top-0 z-50 bg-transparent px-3 pt-[max(0.5rem,env(safe-area-inset-top))]"
+      className="fixed inset-x-0 top-0 z-50 bg-transparent px-3 pt-[max(0.5rem,env(safe-area-inset-top))] sm:px-6 lg:px-8"
     >
       <div
         className={`mx-auto flex max-w-6xl items-center justify-between gap-3 rounded-2xl border px-3 py-2 shadow-sm transition-all duration-300 sm:px-4 ${
