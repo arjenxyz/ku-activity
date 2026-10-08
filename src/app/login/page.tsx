@@ -209,10 +209,9 @@ export default function LoginPage() {
     panel === 'register' ? 'Kayıt ol' : panel === 'forgot' ? 'Şifremi unuttum' : panel === 'pending' ? 'Onay bekleniyor' : 'Giriş yap';
 
   return (
-    <div className="min-h-[100dvh] bg-gradient-to-br from-blue-50 via-white to-indigo-50">
-      <div className="mx-auto flex min-h-[100dvh] max-w-md flex-col justify-center px-4 py-10 lg:max-w-lg">
-        <div className={`${cardClass} p-6 sm:p-8`}>
-          <div className="mb-6 flex flex-col items-center text-center">
+    <div className="flex min-h-[100dvh] items-center justify-center bg-gradient-to-br from-blue-50 via-white to-indigo-50 px-4 py-6 lg:h-[100dvh] lg:overflow-hidden lg:px-10">
+      <div className={`${cardClass} w-full max-w-md p-6 sm:p-8 lg:max-w-4xl lg:p-8`}>
+          <div className="mb-5 flex flex-col items-center text-center lg:mb-4">
             <BrandMark size="lg" className="mb-3 ring-2 ring-[#0E1548]/10" />
             <h1 className="text-lg font-bold text-[#0E1548]">{APP_NAME}</h1>
             <p className="mt-1 text-xs text-slate-500">{APP_TAGLINE}</p>
@@ -226,35 +225,62 @@ export default function LoginPage() {
           ) : null}
 
           {panel === 'login' ? (
-            <form onSubmit={onLogin} className="space-y-4">
-              <div>
-                <label htmlFor="email" className={labelClass}>E-posta</label>
-                <input id="email" type="email" autoComplete="email" required className={inputClass} value={email} onChange={(e) => setEmail(e.target.value)} />
-              </div>
-              <div>
-                <div className="mb-1.5 flex items-center justify-between gap-3">
-                  <label htmlFor="password" className="text-sm font-medium text-gray-700">Şifre</label>
-                  <button type="button" className={linkButtonClass} onClick={() => openPanel('forgot')}>
-                    Şifremi unuttum
-                  </button>
+            <div className="lg:grid lg:grid-cols-2 lg:items-start lg:gap-8">
+              <form onSubmit={onLogin} className="space-y-4">
+                <div>
+                  <label htmlFor="email" className={labelClass}>E-posta</label>
+                  <input id="email" type="email" autoComplete="email" required className={inputClass} value={email} onChange={(e) => setEmail(e.target.value)} />
                 </div>
-                <input id="password" type="password" autoComplete="current-password" required className={inputClass} value={password} onChange={(e) => setPassword(e.target.value)} />
-              </div>
-              {error ? <p className="rounded-xl bg-red-50 px-3 py-2 text-sm text-red-700" role="alert">{error}</p> : null}
-              <button type="submit" className={primaryButtonClass} disabled={loading}>
-                {loading ? 'Giriş yapılıyor…' : 'Giriş yap'}
-              </button>
-              <p className="text-center text-sm text-slate-600">
-                Hesabın yok mu?{' '}
-                <button type="button" className={linkButtonClass} onClick={() => openPanel('register')}>
-                  Kayıt ol
+                <div>
+                  <div className="mb-1.5 flex items-center justify-between gap-3">
+                    <label htmlFor="password" className="text-sm font-medium text-gray-700">Şifre</label>
+                    <button type="button" className={linkButtonClass} onClick={() => openPanel('forgot')}>
+                      Şifremi unuttum
+                    </button>
+                  </div>
+                  <input id="password" type="password" autoComplete="current-password" required className={inputClass} value={password} onChange={(e) => setPassword(e.target.value)} />
+                </div>
+                {error ? <p className="rounded-xl bg-red-50 px-3 py-2 text-sm text-red-700" role="alert">{error}</p> : null}
+                <button type="submit" className={primaryButtonClass} disabled={loading}>
+                  {loading ? 'Giriş yapılıyor…' : 'Giriş yap'}
                 </button>
-              </p>
-            </form>
+                <p className="text-center text-sm text-slate-600">
+                  Hesabın yok mu?{' '}
+                  <button type="button" className={linkButtonClass} onClick={() => openPanel('register')}>
+                    Kayıt ol
+                  </button>
+                </p>
+              </form>
+              <div className="mt-6 border-t border-slate-100 pt-5 lg:mt-0 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
+                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Demo giriş</p>
+                <p className="mt-1 text-xs text-slate-500">Şifre hepsi için Demo1234. Veriler örnektir.</p>
+                <div className="mt-3 space-y-2">
+                  {DEMO_ACCOUNTS.map((account) => (
+                    <button
+                      key={account.email}
+                      type="button"
+                      className={`${btnSecondary} w-full justify-between`}
+                      disabled={loading}
+                      onClick={() => {
+                        setEmail(account.email);
+                        setPassword(account.password);
+                        setError(null);
+                        setLoading(true);
+                        void enterDemo(account.email, account.password).finally(() => setLoading(false));
+                      }}
+                    >
+                      <span>{account.label}</span>
+                      <span className="truncate text-xs font-normal text-slate-500">{account.email}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
           ) : null}
 
           {panel === 'register' ? (
             <form onSubmit={onRegister} className="space-y-4">
+              <div className="grid gap-4 lg:grid-cols-2">
               <div>
                 <label htmlFor="fullName" className={labelClass}>Ad soyad</label>
                 <input id="fullName" required className={inputClass} value={fullName} onChange={(e) => setFullName(e.target.value)} />
@@ -267,6 +293,8 @@ export default function LoginPage() {
                 <label htmlFor="regEmail" className={labelClass}>E-posta</label>
                 <input id="regEmail" type="email" required className={inputClass} value={email} onChange={(e) => setEmail(e.target.value)} />
               </div>
+              </div>
+              <div className="grid gap-4 lg:grid-cols-2">
               <div>
                 <label htmlFor="regPassword" className={labelClass}>Şifre</label>
                 <input id="regPassword" type="password" required className={inputClass} value={password} onChange={(e) => setPassword(e.target.value)} />
@@ -274,6 +302,7 @@ export default function LoginPage() {
               <div>
                 <label htmlFor="regConfirm" className={labelClass}>Şifre tekrar</label>
                 <input id="regConfirm" type="password" required className={inputClass} value={confirm} onChange={(e) => setConfirm(e.target.value)} />
+              </div>
               </div>
               {error ? <p className="rounded-xl bg-red-50 px-3 py-2 text-sm text-red-700" role="alert">{error}</p> : null}
               <button type="submit" className={primaryButtonClass}>Kaydı tamamla</button>
@@ -304,7 +333,7 @@ export default function LoginPage() {
           ) : null}
 
           {panel === 'forgot' ? (
-            <div className="space-y-4">
+            <div className="space-y-4 lg:grid lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center lg:gap-8 lg:space-y-0">
               <p className="rounded-xl bg-slate-50 px-3 py-3 text-sm leading-relaxed text-slate-600">
                 Şifreyi buradan kendi başına sıfırlayamazsın. Yöneticine başvur. Sana bir kod veya bu kodu taşıyan bir QR verir. Kodu girince yeni şifreni oluşturursun.
               </p>
@@ -336,36 +365,9 @@ export default function LoginPage() {
                   <button type="submit" className={primaryButtonClass}>Şifreyi kaydet ve girişe dön</button>
                 </form>
               )}
-              <p className="text-center text-sm">
+              <p className="text-center text-sm lg:col-span-2">
                 <button type="button" className={linkButtonClass} onClick={() => openPanel('login')}>Girişe dön</button>
               </p>
-            </div>
-          ) : null}
-
-          {panel === 'login' ? (
-            <div className="mt-6 border-t border-slate-100 pt-5">
-              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Demo giriş</p>
-              <p className="mt-1 text-xs text-slate-500">Şifre hepsi için Demo1234. Veriler örnektir.</p>
-              <div className="mt-3 space-y-2">
-                {DEMO_ACCOUNTS.map((account) => (
-                  <button
-                    key={account.email}
-                    type="button"
-                    className={`${btnSecondary} w-full justify-between`}
-                    disabled={loading}
-                    onClick={() => {
-                      setEmail(account.email);
-                      setPassword(account.password);
-                      setError(null);
-                      setLoading(true);
-                      void enterDemo(account.email, account.password).finally(() => setLoading(false));
-                    }}
-                  >
-                    <span>{account.label}</span>
-                    <span className="truncate text-xs font-normal text-slate-500">{account.email}</span>
-                  </button>
-                ))}
-              </div>
             </div>
           ) : null}
         </div>
