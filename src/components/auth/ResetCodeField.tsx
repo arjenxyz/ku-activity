@@ -90,7 +90,7 @@ export function ResetCodeField({
           className={`${inputClass} pr-12`}
           value={value}
           onChange={(event) => onChange(event.target.value)}
-          placeholder="QR içindeki kod"
+          placeholder="KU-1A2B"
           autoComplete="one-time-code"
         />
         <button

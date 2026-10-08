@@ -10,7 +10,7 @@ import { createClient } from '@/utils/supabase/client';
 import { homePathForRole, isAppRole, type AppRole } from '@/lib/auth/roles';
 import { DEMO_ACCOUNTS, DEMO_PASSWORD, findDemoAccount } from '@/lib/demo/accounts';
 import { findSignup, findSignupByEmail, passwordOverride, savePasswordOverride, saveSignup, type LocalSignup } from '@/lib/demo/local-accounts';
-import { DEMO_RESET_CODE, isResetCode } from '@/lib/demo/reset-code';
+import { isResetCode } from '@/lib/demo/reset-code';
 import { inputClass, labelClass, linkButtonClass, primaryButtonClass } from '@/components/auth/authStyles';
 import { ResetCodeField } from '@/components/auth/ResetCodeField';
 import { btnSecondary, cardClass } from '@/components/ui/styles';
@@ -325,7 +325,6 @@ export default function LoginPage() {
                       <div>
                         <label htmlFor="resetCode" className={labelClass}>Yönetici kodu</label>
                         <ResetCodeField id="resetCode" value={code} onChange={setCode} />
-                        <p className="mt-1 text-xs text-slate-500">Örnek kod: {DEMO_RESET_CODE}</p>
                       </div>
                       {error ? <p className="rounded-xl bg-red-50 px-3 py-2 text-sm text-red-700" role="alert">{error}</p> : null}
                       <button type="submit" className={primaryButtonClass}>Kodu doğrula</button>
