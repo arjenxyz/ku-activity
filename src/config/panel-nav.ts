@@ -1,37 +1,35 @@
-import type { IconType } from 'react-icons';
-import {
-  FiCalendar,
-  FiCheckSquare,
-  FiClipboard,
-  FiFileText,
-  FiHome,
-  FiSettings,
-  FiUsers,
-} from 'react-icons/fi';
+export type NavIconName =
+  | 'home'
+  | 'calendar'
+  | 'users'
+  | 'check'
+  | 'file'
+  | 'clipboard'
+  | 'settings';
 
 export type NavItem = {
   href: string;
   label: string;
-  icon: IconType;
+  icon: NavIconName;
 };
 
 export const ADMIN_NAV: NavItem[] = [
-  { href: '/admin', label: 'Dashboard', icon: FiHome },
-  { href: '/admin/events', label: 'Events', icon: FiCalendar },
-  { href: '/admin/participants', label: 'Participants', icon: FiUsers },
-  { href: '/admin/check-in', label: 'Check-in', icon: FiCheckSquare },
-  { href: '/admin/reports', label: 'Reports', icon: FiFileText },
-  { href: '/admin/audit-logs', label: 'Audit Logs', icon: FiClipboard },
-  { href: '/admin/settings', label: 'Settings', icon: FiSettings },
+  { href: '/admin', label: 'Dashboard', icon: 'home' },
+  { href: '/admin/events', label: 'Events', icon: 'calendar' },
+  { href: '/admin/participants', label: 'Participants', icon: 'users' },
+  { href: '/admin/check-in', label: 'Check-in', icon: 'check' },
+  { href: '/admin/reports', label: 'Reports', icon: 'file' },
+  { href: '/admin/audit-logs', label: 'Audit Logs', icon: 'clipboard' },
+  { href: '/admin/settings', label: 'Settings', icon: 'settings' },
 ];
 
 export const STAFF_NAV: NavItem[] = [
-  { href: '/staff', label: 'Events', icon: FiCalendar },
-  { href: '/staff/check-in', label: 'Check-in', icon: FiCheckSquare },
+  { href: '/staff', label: 'Events', icon: 'calendar' },
+  { href: '/staff/check-in', label: 'Check-in', icon: 'check' },
 ];
 
 export const STUDENT_NAV: NavItem[] = [
-  { href: '/student', label: 'Events', icon: FiCalendar },
-  { href: '/student/registrations', label: 'My registrations', icon: FiClipboard },
-  { href: '/student/qr', label: 'My QR', icon: FiCheckSquare },
+  { href: '/student', label: 'Events', icon: 'calendar' },
+  { href: '/student/registrations', label: 'My registrations', icon: 'clipboard' },
+  { href: '/student/qr', label: 'My QR', icon: 'check' },
 ];

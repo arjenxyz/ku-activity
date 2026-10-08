@@ -3,12 +3,34 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { FiChevronRight, FiLogOut } from 'react-icons/fi';
+import {
+  FiCalendar,
+  FiCheckSquare,
+  FiChevronRight,
+  FiClipboard,
+  FiFileText,
+  FiHome,
+  FiLogOut,
+  FiSettings,
+  FiUsers,
+} from 'react-icons/fi';
+import type { IconType } from 'react-icons';
 import { createClient } from '@/utils/supabase/client';
 import { AdminShell } from '@/components/dashboard/AdminShell';
 import { AppTopBar } from '@/components/dashboard/AppTopBar';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
-import type { NavItem } from '@/config/panel-nav';
+import type { NavIconName, NavItem } from '@/config/panel-nav';
+
+const NAV_ICONS: Record<NavIconName, IconType> = {
+  home: FiHome,
+  calendar: FiCalendar,
+  users: FiUsers,
+  check: FiCheckSquare,
+  file: FiFileText,
+  clipboard: FiClipboard,
+  settings: FiSettings,
+};
+
 
 type Props = {
   children: React.ReactNode;
@@ -115,7 +137,7 @@ export function PanelChrome({ children, homeHref, subtitle, navItems }: Props) {
           <p className="px-3 py-1.5 text-xs font-medium text-slate-500">{subtitle}</p>
           <div className="mx-2 my-1 h-px bg-slate-100" />
           {navItems.map((item) => {
-            const Icon = item.icon;
+            const Icon = NAV_ICONS[item.icon];
             const active =
               item.href === homeHref
                 ? pathname === item.href
