@@ -14,14 +14,16 @@ import { cardClass } from '@/components/ui/styles';
 function Field({
   id,
   label,
+  className,
   children,
 }: {
   id: string;
   label: string;
+  className?: string;
   children: ReactNode;
 }) {
   return (
-    <div>
+    <div className={className}>
       <label htmlFor={id} className="mb-2 block text-sm font-medium text-[#0E1548]">
         {label}
         <span className="ml-0.5 text-red-500" aria-hidden>
@@ -57,9 +59,10 @@ export default function ForumPage() {
   const [error, setError] = useState<string | null>(null);
   const [sent, setSent] = useState(false);
   const [legal, setLegal] = useState<'gizlilik' | 'kvkk' | null>(null);
+  const [codeOpen, setCodeOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
-  useBodyScrollLock(legal !== null);
+  useBodyScrollLock(legal !== null || codeOpen);
   useEffect(() => setMounted(true), []);
   useEffect(() => {
     if (!legal) return;
@@ -150,7 +153,7 @@ export default function ForumPage() {
               <Field id="forum-no" label="Öğrenci no">
                 <input id="forum-no" required inputMode="numeric" placeholder="202100184" className={inputClass} value={studentNo} onChange={(e) => setStudentNo(e.target.value)} />
               </Field>
-              <Field id="forum-phone" label="Telefon">
+              <Field id="forum-phone" label="Telefon" className={codeOpen ? 'relative z-50' : undefined}>
                 <div className="flex gap-2">
                   <div className="w-28 shrink-0">
                     <FormSelect
@@ -158,8 +161,9 @@ export default function ForumPage() {
                       placeholder="+90"
                       value={callingCode}
                       options={callingCodeChoices()}
-                      menuClassName="w-56"
+                      menuClassName="scrollbar-thin-glass w-56"
                       inline
+                      onOpenChange={setCodeOpen}
                       onChange={(next) => {
                         const rule = findCallingCode(next);
                         setCallingCode(next);
@@ -266,6 +270,12 @@ export default function ForumPage() {
           </>
         )}
       </div>
+      {mounted && codeOpen
+        ? createPortal(
+            <div className="fixed inset-0 z-40 bg-slate-900/35 backdrop-blur-md" />,
+            document.body,
+          )
+        : null}
       {mounted && legal
         ? createPortal(
             <div
