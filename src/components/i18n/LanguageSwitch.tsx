@@ -1,33 +1,45 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useId, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { FiCheck, FiChevronRight } from 'react-icons/fi';
 import { useLocale } from '@/lib/i18n/LocaleProvider';
-import { flagImageUrl, LOCALE_OPTIONS, type Locale } from '@/lib/i18n/locale';
+import { LOCALE_OPTIONS, type Locale } from '@/lib/i18n/locale';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 
 const MENU_LOCALES = LOCALE_OPTIONS.filter((option) => option.id === 'tr' || option.id === 'en');
 
-function FlagBadge({ countryCode, short }: { countryCode: string; short: string }) {
-  const [failed, setFailed] = useState(false);
-  if (failed) {
+function FlagBadge({ countryCode }: { countryCode: string; short: string }) {
+  const clipId = useId();
+  if (countryCode === 'tr') {
     return (
-      <span className="inline-flex h-7 w-9 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-[9px] font-bold text-slate-600 ring-1 ring-slate-200">
-        {short}
-      </span>
+      <svg viewBox="0 0 36 36" className="h-7 w-7 shrink-0" aria-hidden>
+        <circle cx="18" cy="18" r="18" fill="#E30A17" />
+        <circle cx="14.4" cy="18" r="6.4" fill="#fff" />
+        <circle cx="16.4" cy="18" r="5.1" fill="#E30A17" />
+        <polygon
+          fill="#fff"
+          points="23.2,18 20.7,18.8 21.6,21.2 20,19.2 17.5,19.8 19.6,18 17.6,16 20.1,16.7 21.6,14.6 21.1,17.1"
+        />
+      </svg>
     );
   }
+
   return (
-    <span className="relative inline-flex h-7 w-9 shrink-0 overflow-hidden rounded-lg bg-slate-100 ring-1 ring-slate-200">
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={flagImageUrl(countryCode, 80)}
-        alt=""
-        className="h-full w-full object-cover"
-        onError={() => setFailed(true)}
-      />
-    </span>
+    <svg viewBox="0 0 60 60" className="h-7 w-7 shrink-0" aria-hidden>
+      <defs>
+        <clipPath id={clipId}>
+          <circle cx="30" cy="30" r="30" />
+        </clipPath>
+      </defs>
+      <g clipPath={`url(#${clipId})`}>
+        <rect width="60" height="60" fill="#012169" />
+        <path d="M0 0 L60 60 M60 0 L0 60" stroke="#fff" strokeWidth="14" />
+        <path d="M0 0 L60 60 M60 0 L0 60" stroke="#C8102E" strokeWidth="8" />
+        <path d="M30 0 V60 M0 30 H60" stroke="#fff" strokeWidth="22" />
+        <path d="M30 0 V60 M0 30 H60" stroke="#C8102E" strokeWidth="12" />
+      </g>
+    </svg>
   );
 }
 
