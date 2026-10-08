@@ -209,8 +209,8 @@ export default function LoginPage() {
     panel === 'register' ? 'Kayıt ol' : panel === 'forgot' ? 'Şifremi unuttum' : panel === 'pending' ? 'Onay bekleniyor' : 'Giriş yap';
 
   return (
-    <div className="flex min-h-[100dvh] items-center justify-center bg-gradient-to-br from-blue-50 via-white to-indigo-50 px-4 py-6 lg:h-[100dvh] lg:overflow-hidden lg:px-10">
-      <div className={`${cardClass} w-full max-w-md p-6 sm:p-8 lg:max-w-4xl lg:p-8`}>
+    <div className="flex min-h-[100dvh] flex-col items-center justify-center bg-gradient-to-br from-blue-50 via-white to-indigo-50 px-4 py-6 lg:h-[100dvh] lg:overflow-hidden lg:px-10">
+      <div className={`${cardClass} w-full max-w-md p-6 sm:p-8 ${panel === 'login' ? '' : 'lg:max-w-3xl'}`}>
           <div className="mb-5 flex flex-col items-center text-center lg:mb-4">
             <BrandMark size="lg" className="mb-3 ring-2 ring-[#0E1548]/10" />
             <h1 className="text-lg font-bold text-[#0E1548]">{APP_NAME}</h1>
@@ -225,8 +225,7 @@ export default function LoginPage() {
           ) : null}
 
           {panel === 'login' ? (
-            <div className="lg:grid lg:grid-cols-2 lg:items-start lg:gap-8">
-              <form onSubmit={onLogin} className="space-y-4">
+            <form onSubmit={onLogin} className="space-y-4">
                 <div>
                   <label htmlFor="email" className={labelClass}>E-posta</label>
                   <input id="email" type="email" autoComplete="email" required className={inputClass} value={email} onChange={(e) => setEmail(e.target.value)} />
@@ -251,31 +250,6 @@ export default function LoginPage() {
                   </button>
                 </p>
               </form>
-              <div className="mt-6 border-t border-slate-100 pt-5 lg:mt-0 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
-                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Demo giriş</p>
-                <p className="mt-1 text-xs text-slate-500">Şifre hepsi için Demo1234. Veriler örnektir.</p>
-                <div className="mt-3 space-y-2">
-                  {DEMO_ACCOUNTS.map((account) => (
-                    <button
-                      key={account.email}
-                      type="button"
-                      className={`${btnSecondary} w-full justify-between`}
-                      disabled={loading}
-                      onClick={() => {
-                        setEmail(account.email);
-                        setPassword(account.password);
-                        setError(null);
-                        setLoading(true);
-                        void enterDemo(account.email, account.password).finally(() => setLoading(false));
-                      }}
-                    >
-                      <span>{account.label}</span>
-                      <span className="truncate text-xs font-normal text-slate-500">{account.email}</span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
           ) : null}
 
           {panel === 'register' ? (
@@ -371,6 +345,32 @@ export default function LoginPage() {
             </div>
           ) : null}
       </div>
+      {panel === 'login' ? (
+        <div className="mt-4 w-full max-w-md">
+          <p className="mb-2 text-center text-[11px] font-medium uppercase tracking-wide text-slate-400">
+            Geçici demo
+          </p>
+          <div className="flex flex-col gap-2 sm:flex-row">
+            {DEMO_ACCOUNTS.map((account) => (
+              <button
+                key={account.email}
+                type="button"
+                className={`${btnSecondary} w-full justify-center bg-white/80 px-3 py-2 text-xs`}
+                disabled={loading}
+                onClick={() => {
+                  setEmail(account.email);
+                  setPassword(account.password);
+                  setError(null);
+                  setLoading(true);
+                  void enterDemo(account.email, account.password).finally(() => setLoading(false));
+                }}
+              >
+                {account.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }
