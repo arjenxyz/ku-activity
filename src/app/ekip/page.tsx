@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
-import Link from 'next/link';
 import { FiX } from 'react-icons/fi';
 import { HomeHeader } from '@/components/home/HomeHeader';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
@@ -92,60 +91,50 @@ export default function TeamPage() {
   }
 
   return (
-    <div className="min-h-[100dvh] bg-gradient-to-b from-white via-[#f7fbff] to-white px-4 pb-10 pt-[calc(var(--home-chrome-h,4.5rem)+1.5rem)] text-slate-900">
+    <div className="min-h-[100dvh] bg-[#e7f3fb] px-4 pb-10 pt-[calc(var(--home-chrome-h,4.5rem)+2rem)] text-slate-900 sm:px-8">
       <HomeHeader />
-      <div className="mx-auto w-full max-w-md">
+      <div className="mx-auto w-full max-w-5xl">
         <h1 className="text-center text-2xl font-semibold text-[#0E1548]">Ekip</h1>
-        <p className="mx-auto mt-2 max-w-xs text-center text-sm leading-relaxed text-slate-500">
+        <p className="mx-auto mt-2 max-w-md text-center text-sm leading-relaxed text-slate-500">
           Kayıt onayı ve şifre sıfırlama için görüşeceğin ekip.
         </p>
-        <ul className="mt-8 grid grid-cols-2 gap-3">
+        <ul className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
           {TEAM_MEMBERS.map((member) => (
             <li key={member.handle}>
               <button
                 type="button"
                 onClick={() => setSelected(member)}
-                className="flex w-full flex-col items-center rounded-2xl bg-white px-3 py-6 text-center shadow-sm ring-1 ring-slate-200 transition hover:bg-[#e8f0ff] hover:ring-[#2D6AF6]/30"
+                className="flex w-full flex-col items-center rounded-2xl border border-slate-200/80 bg-white/70 px-3 py-5 text-center transition hover:border-[#2D6AF6]/30 hover:bg-[#e8f0ff]"
               >
-                <Portrait member={member} className="h-28 w-28 rounded-full" />
-                <span className="mt-4 text-sm font-medium text-[#0E1548]">{member.name}</span>
+                <Portrait member={member} className="h-24 w-24 rounded-full sm:h-28 sm:w-28" />
+                <span className="mt-3 text-sm text-slate-700">{member.name}</span>
               </button>
             </li>
           ))}
-          {opening ? (
-            <li>
-              {applied ? (
-                <div className="flex h-full min-h-44 flex-col items-center justify-center rounded-2xl bg-white px-3 py-6 text-center shadow-sm ring-1 ring-slate-200">
-                  <span className="text-sm font-medium text-slate-500">Başvurdun</span>
-                </div>
-              ) : userId ? (
-                <button
-                  type="button"
-                  onClick={() => setApplyOpen(true)}
-                  className="flex h-full min-h-44 w-full flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 bg-white px-3 py-6 text-center text-[#0E1548] transition hover:bg-[#e8f0ff] hover:border-[#2D6AF6]/40"
-                >
-                  <span className="text-sm font-semibold">Apply</span>
-                  <span className="mt-1 text-xs text-slate-500">{opening.title}</span>
-                </button>
-              ) : (
-                <Link
-                  href="/login"
-                  className="flex h-full min-h-44 flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 bg-white px-3 py-6 text-center text-[#0E1548] transition hover:bg-[#e8f0ff] hover:border-[#2D6AF6]/40"
-                >
-                  <span className="text-sm font-semibold">Apply</span>
-                  <span className="mt-1 text-xs text-slate-500">Giriş yap</span>
-                </Link>
-              )}
-            </li>
-          ) : TEAM_MEMBERS.length === 0
-            ? [0, 1, 2, 3].map((slot) => (
-                <li key={slot}>
-                  <div className="flex flex-col items-center rounded-2xl bg-white px-3 py-6 shadow-sm ring-1 ring-slate-200">
-                    <span className="h-28 w-28 rounded-full border border-dashed border-slate-300" />
-                  </div>
-                </li>
-              ))
-            : null}
+          <li>
+            {applied ? (
+              <div className="flex h-full min-h-48 flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 bg-white/40 px-3 py-5 text-center">
+                <span className="flex h-14 w-14 items-center justify-center rounded-full border border-slate-300 text-sm text-slate-500">✓</span>
+                <span className="mt-4 text-sm text-slate-600">Başvurdun</span>
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={() => {
+                  if (!opening) return;
+                  if (!userId) {
+                    window.location.href = '/login';
+                    return;
+                  }
+                  setApplyOpen(true);
+                }}
+                className="flex h-full min-h-48 w-full flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 bg-white/40 px-3 py-5 text-center transition hover:border-[#2D6AF6]/40 hover:bg-[#e8f0ff]"
+              >
+                <span className="flex h-14 w-14 items-center justify-center rounded-full border border-slate-300 text-2xl font-light text-slate-500">+</span>
+                <span className="mt-4 text-sm text-slate-600">Apply</span>
+              </button>
+            )}
+          </li>
         </ul>
       </div>
       {mounted && selected
