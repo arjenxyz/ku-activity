@@ -209,11 +209,11 @@ export default function LoginPage() {
     panel === 'register' ? 'Kayıt ol' : panel === 'forgot' ? 'Şifremi unuttum' : panel === 'pending' ? 'Onay bekleniyor' : 'Giriş yap';
 
   return (
-    <div className={`flex min-h-[100dvh] flex-col items-center justify-center gap-8 bg-gradient-to-br from-blue-50 via-white to-indigo-50 px-4 py-6 lg:h-[100dvh] lg:overflow-hidden lg:px-10 ${panel === 'forgot' ? 'lg:flex-row lg:items-stretch lg:justify-center lg:py-10' : ''}`}>
+    <div className={`flex min-h-[100dvh] flex-col items-center justify-center gap-8 bg-gradient-to-br from-blue-50 via-white to-indigo-50 px-4 py-6 lg:h-[100dvh] lg:overflow-hidden lg:px-10 ${panel === 'forgot' ? 'lg:flex-row lg:items-center' : ''}`}>
       {panel === 'forgot' ? (
-        <section className={`${cardClass} flex w-full max-w-md flex-col p-6 sm:p-8`}>
+        <section className={`${cardClass} w-full max-w-md p-6 sm:p-8`}>
           <p className="text-center text-sm font-semibold text-slate-800">Nasıl sıfırlanır</p>
-          <ol className="mt-6 flex flex-1 flex-col justify-between gap-4">
+          <ol className="mt-6 flex flex-col gap-5">
             {[
               {
                 title: 'Ekip sayfasına gir',
