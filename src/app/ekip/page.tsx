@@ -13,9 +13,6 @@ export default function TeamPage() {
           <span className="text-sm font-bold text-[#0E1548]">{APP_NAME}</span>
         </Link>
         <h1 className="text-xl font-bold text-[#0E1548]">Ekip</h1>
-        <p className="mt-3 text-sm leading-relaxed text-slate-600">
-          Kayıt onayı ve şifre sıfırlama için ekiple görüş. Yanında öğrenci kimlik kartın olsun.
-        </p>
         {TEAM_MEMBERS.length > 0 ? (
           <ul className="mt-6 divide-y divide-slate-100">
             {TEAM_MEMBERS.map((member) => (
@@ -32,14 +29,6 @@ export default function TeamPage() {
             ))}
           </ul>
         ) : null}
-        <ol className="mt-6 space-y-3 text-sm text-slate-700">
-          <li>Kim olduğunu ve e-postanı ekibe söyle.</li>
-          <li>Ekip sana bir kod veya QR verir.</li>
-          <li>Kodu şifre sıfırlama ekranına yazıp yeni şifreni oluştur.</li>
-        </ol>
-        <Link href="/login" className="mt-6 inline-block text-sm font-medium text-[#2D6AF6] hover:underline">
-          Şifre sıfırlamaya dön
-        </Link>
       </div>
     </div>
   );
