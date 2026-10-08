@@ -2,7 +2,6 @@ import { HomeFooter } from '@/components/home/HomeFooter';
 import { ExploreMenuButton, HomeHeader } from '@/components/home/HomeHeader';
 import { RegistrationPreview } from '@/components/home/RegistrationPreview';
 import { SlidingStars } from '@/components/home/SlidingStars';
-import { StudentHomeTools } from '@/components/home/StudentHomeTools';
 import { APP_TAGLINE_TR } from '@/lib/brand';
 
 export default function HomePage() {
@@ -39,8 +38,6 @@ export default function HomePage() {
             <RegistrationPreview />
           </div>
         </section>
-
-        <StudentHomeTools />
       </main>
 
       <HomeFooter />
