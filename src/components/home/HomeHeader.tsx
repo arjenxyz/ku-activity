@@ -113,6 +113,7 @@ export function HomeHeader() {
         style={{ top: 'calc(var(--home-chrome-h, 4rem) + 0.5rem)' }}
         aria-label="Mobil menü"
         aria-hidden={!open}
+        data-scroll-lock-allow=""
       >
           <div className="flex flex-col px-2 py-2">
             <LanguageSwitch variant="nav" />

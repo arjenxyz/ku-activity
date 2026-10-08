@@ -58,6 +58,7 @@ export function LanguageSwitch({ variant = 'nav' }: { variant?: 'nav' | 'compact
           >
             <div
               className="w-full max-w-sm rounded-3xl border border-slate-200 bg-white p-4 shadow-2xl shadow-slate-900/10"
+              data-scroll-lock-allow=""
               onClick={(event) => event.stopPropagation()}
             >
               <p className="px-1 pb-3 text-sm font-semibold text-[#0E1548]">Dil</p>
