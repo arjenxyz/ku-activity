@@ -22,6 +22,9 @@ export type DemoParticipant = {
   isDemoStudent: boolean;
 };
 
+/** Opaque check-in payload for the demo student QR (no name / student no). */
+export const DEMO_CHECKIN_TOKEN = 'ems_demo_ck_7f3a9c2e1b8d4f60';
+
 export const DEMO_EVENTS: DemoEvent[] = [
   {
     id: 'abana-2027',

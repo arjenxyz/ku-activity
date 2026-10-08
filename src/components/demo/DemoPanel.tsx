@@ -2,7 +2,7 @@ import { cookies } from 'next/headers';
 import { StatCard } from '@/components/ui/StatCard';
 import { TableCell, TableHeader } from '@/components/ui/Table';
 import { cardClass } from '@/components/ui/styles';
-import { DEMO_AUDIT, DEMO_EVENTS, DEMO_PARTICIPANTS } from '@/lib/demo/data';
+import { DEMO_AUDIT, DEMO_CHECKIN_TOKEN, DEMO_EVENTS, DEMO_PARTICIPANTS } from '@/lib/demo/data';
 import { DEMO_COOKIE, parseDemoRole } from '@/lib/demo/session';
 import type { AppRole } from '@/lib/auth/roles';
 
@@ -156,14 +156,14 @@ function bodyFor(view: DemoView, role: AppRole) {
     const mine = DEMO_PARTICIPANTS.find((row) => row.isDemoStudent);
     return (
       <div className={`${cardClass} mx-auto max-w-sm p-6 text-center`}>
-        <div className="mx-auto grid h-40 w-40 grid-cols-5 gap-1 rounded-2xl bg-[#0E1548] p-3">
-          {Array.from({ length: 25 }).map((_, index) => (
-            <span
-              key={index}
-              className={`rounded-sm ${index % 3 === 0 ? 'bg-white' : 'bg-[#0E1548]'}`}
-            />
-          ))}
-        </div>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={`/api/qr?token=${encodeURIComponent(DEMO_CHECKIN_TOKEN)}`}
+          alt="Check-in QR kodu"
+          width={220}
+          height={220}
+          className="mx-auto h-44 w-44 rounded-2xl bg-white p-2 shadow-sm ring-1 ring-slate-100"
+        />
         <p className="mt-4 text-sm font-semibold text-[#0E1548]">{mine?.registrationNo}</p>
         <p className="mt-1 text-xs text-slate-500">{mine?.name} · {mine?.event}</p>
         <p className="mt-3 text-xs text-slate-500">QR içeriği yalnızca demo tokendır; ad ve öğrenci numarası kodun içinde yoktur.</p>
