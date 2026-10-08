@@ -8,7 +8,7 @@ const LINKS = [
 
 export function HomeFooter() {
   return (
-    <footer className="mt-auto border-t border-slate-200 bg-white">
+    <footer className="mt-auto bg-white">
       <div className="mx-auto flex max-w-6xl flex-col items-center gap-2 px-4 py-4 sm:flex-row sm:justify-center sm:gap-6">
         <nav className="flex flex-wrap items-center justify-center gap-4" aria-label="Yasal">
           {LINKS.map((link) => (
