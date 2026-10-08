@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import { FiX } from 'react-icons/fi';
+import { HomeHeader } from '@/components/home/HomeHeader';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 import { memberInitials, TEAM_MEMBERS, type TeamMember } from '@/lib/team';
 import { createClient } from '@/utils/supabase/client';
@@ -13,7 +14,7 @@ function Portrait({ member, className }: { member: TeamMember; className: string
     return <img src={member.image} alt="" className={`${className} object-cover`} />;
   }
   return (
-    <span className={`${className} flex items-center justify-center bg-[#1c2a44] text-2xl font-semibold text-white`}>
+    <span className={`${className} flex items-center justify-center bg-[#0E1548] text-2xl font-semibold text-white`}>
       {memberInitials(member.name)}
     </span>
   );
@@ -91,10 +92,11 @@ export default function TeamPage() {
   }
 
   return (
-    <div className="min-h-[100dvh] bg-[#0B1220] px-4 py-10 text-white">
+    <div className="min-h-[100dvh] bg-gradient-to-b from-white via-[#f7fbff] to-white px-4 pb-10 pt-[calc(var(--home-chrome-h,4.5rem)+1.5rem)] text-slate-900">
+      <HomeHeader />
       <div className="mx-auto w-full max-w-md">
-        <h1 className="text-center text-2xl font-semibold">Ekip</h1>
-        <p className="mx-auto mt-2 max-w-xs text-center text-sm leading-relaxed text-slate-400">
+        <h1 className="text-center text-2xl font-semibold text-[#0E1548]">Ekip</h1>
+        <p className="mx-auto mt-2 max-w-xs text-center text-sm leading-relaxed text-slate-500">
           Kayıt onayı ve şifre sıfırlama için görüşeceğin ekip.
         </p>
         <ul className="mt-8 grid grid-cols-2 gap-3">
@@ -103,43 +105,43 @@ export default function TeamPage() {
               <button
                 type="button"
                 onClick={() => setSelected(member)}
-                className="flex w-full flex-col items-center rounded-2xl bg-[#121A2B] px-3 py-6 text-center"
+                className="flex w-full flex-col items-center rounded-2xl bg-white px-3 py-6 text-center shadow-sm ring-1 ring-slate-200 transition hover:bg-[#e8f0ff] hover:ring-[#2D6AF6]/30"
               >
                 <Portrait member={member} className="h-28 w-28 rounded-full" />
-                <span className="mt-4 text-sm font-medium">{member.name}</span>
+                <span className="mt-4 text-sm font-medium text-[#0E1548]">{member.name}</span>
               </button>
             </li>
           ))}
           {opening ? (
             <li>
               {applied ? (
-                <div className="flex h-full min-h-44 flex-col items-center justify-center rounded-2xl bg-[#121A2B] px-3 py-6 text-center">
-                  <span className="text-sm font-medium text-slate-300">Başvurdun</span>
+                <div className="flex h-full min-h-44 flex-col items-center justify-center rounded-2xl bg-white px-3 py-6 text-center shadow-sm ring-1 ring-slate-200">
+                  <span className="text-sm font-medium text-slate-500">Başvurdun</span>
                 </div>
               ) : userId ? (
                 <button
                   type="button"
                   onClick={() => setApplyOpen(true)}
-                  className="flex h-full min-h-44 w-full flex-col items-center justify-center rounded-2xl border border-dashed border-slate-600 bg-[#121A2B] px-3 py-6 text-center"
+                  className="flex h-full min-h-44 w-full flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 bg-white px-3 py-6 text-center text-[#0E1548] transition hover:bg-[#e8f0ff] hover:border-[#2D6AF6]/40"
                 >
                   <span className="text-sm font-semibold">Apply</span>
-                  <span className="mt-1 text-xs text-slate-400">{opening.title}</span>
+                  <span className="mt-1 text-xs text-slate-500">{opening.title}</span>
                 </button>
               ) : (
                 <Link
                   href="/login"
-                  className="flex h-full min-h-44 flex-col items-center justify-center rounded-2xl border border-dashed border-slate-600 bg-[#121A2B] px-3 py-6 text-center"
+                  className="flex h-full min-h-44 flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 bg-white px-3 py-6 text-center text-[#0E1548] transition hover:bg-[#e8f0ff] hover:border-[#2D6AF6]/40"
                 >
                   <span className="text-sm font-semibold">Apply</span>
-                  <span className="mt-1 text-xs text-slate-400">Giriş yap</span>
+                  <span className="mt-1 text-xs text-slate-500">Giriş yap</span>
                 </Link>
               )}
             </li>
           ) : TEAM_MEMBERS.length === 0
             ? [0, 1, 2, 3].map((slot) => (
                 <li key={slot}>
-                  <div className="flex flex-col items-center rounded-2xl bg-[#121A2B] px-3 py-6">
-                    <span className="h-28 w-28 rounded-full border border-dashed border-slate-600" />
+                  <div className="flex flex-col items-center rounded-2xl bg-white px-3 py-6 shadow-sm ring-1 ring-slate-200">
+                    <span className="h-28 w-28 rounded-full border border-dashed border-slate-300" />
                   </div>
                 </li>
               ))
@@ -152,29 +154,29 @@ export default function TeamPage() {
               role="dialog"
               aria-modal="true"
               aria-labelledby="team-member-title"
-              className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 px-4 backdrop-blur-sm"
+              className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/70 px-4 backdrop-blur-md"
               onClick={() => setSelected(null)}
             >
               <section
-                className="relative w-full max-w-sm rounded-3xl bg-[#121A2B] px-6 pb-8 pt-5 text-center text-white shadow-2xl ring-1 ring-white/10"
+                className="relative w-full max-w-sm rounded-3xl bg-white px-6 pb-8 pt-5 text-center text-slate-900 shadow-2xl ring-1 ring-slate-200"
                 data-scroll-lock-allow=""
                 onClick={(event) => event.stopPropagation()}
               >
                 <div className="flex items-start justify-between gap-3 text-left">
-                  <h2 id="team-member-title" className="text-xl font-semibold">{selected.name}</h2>
+                  <h2 id="team-member-title" className="text-xl font-semibold text-[#0E1548]">{selected.name}</h2>
                   <button
                     type="button"
                     aria-label="Kapat"
                     onClick={() => setSelected(null)}
-                    className="flex h-8 w-8 items-center justify-center rounded-full text-slate-300 hover:bg-white/10"
+                    className="flex h-8 w-8 items-center justify-center rounded-full text-[#0E1548] hover:bg-slate-50"
                   >
                     <FiX className="h-5 w-5" aria-hidden />
                   </button>
                 </div>
                 <p className="mt-1 text-left text-sm text-slate-400">{selected.handle}</p>
                 <Portrait member={selected} className="mx-auto mt-6 h-40 w-40 rounded-full" />
-                <p className="mt-6 text-sm leading-relaxed text-slate-300">{selected.about}</p>
-                {selected.role ? <p className="mt-3 text-xs font-medium text-[#8EB4FF]">{selected.role}</p> : null}
+                <p className="mt-6 text-sm leading-relaxed text-slate-600">{selected.about}</p>
+                {selected.role ? <p className="mt-3 text-xs font-medium text-[#2D6AF6]">{selected.role}</p> : null}
               </section>
             </div>,
             document.body,
@@ -186,26 +188,26 @@ export default function TeamPage() {
               role="dialog"
               aria-modal="true"
               aria-labelledby="team-apply-title"
-              className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 px-4 backdrop-blur-sm"
+              className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/70 px-4 backdrop-blur-md"
               onClick={() => setApplyOpen(false)}
             >
               <section
-                className="w-full max-w-sm rounded-3xl bg-[#121A2B] p-6 text-white shadow-2xl ring-1 ring-white/10"
+                className="w-full max-w-sm rounded-3xl bg-white p-6 text-slate-900 shadow-2xl ring-1 ring-slate-200"
                 data-scroll-lock-allow=""
                 onClick={(event) => event.stopPropagation()}
               >
-                <h2 id="team-apply-title" className="text-lg font-semibold">{opening.title}</h2>
-                {opening.description ? <p className="mt-2 text-sm leading-relaxed text-slate-300">{opening.description}</p> : null}
-                <label htmlFor="apply-note" className="mt-4 block text-sm text-slate-400">Kısa not</label>
+                <h2 id="team-apply-title" className="text-lg font-semibold text-[#0E1548]">{opening.title}</h2>
+                {opening.description ? <p className="mt-2 text-sm leading-relaxed text-slate-600">{opening.description}</p> : null}
+                <label htmlFor="apply-note" className="mt-4 block text-sm text-slate-500">Kısa not</label>
                 <textarea
                   id="apply-note"
                   rows={3}
                   value={note}
                   onChange={(event) => setNote(event.target.value)}
-                  className="mt-1 w-full rounded-xl border border-white/10 bg-[#0B1220] px-3 py-2 text-sm"
+                  className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm"
                 />
-                {applyError ? <p className="mt-2 text-sm text-red-300">{applyError}</p> : null}
-                <button type="button" onClick={() => void submitApplication()} className="mt-4 w-full rounded-xl bg-white px-3 py-2.5 text-sm font-semibold text-[#0B1220]">
+                {applyError ? <p className="mt-2 text-sm text-red-700">{applyError}</p> : null}
+                <button type="button" onClick={() => void submitApplication()} className="mt-4 w-full rounded-xl bg-[#0E1548] px-3 py-2.5 text-sm font-semibold text-white">
                   Başvur
                 </button>
               </section>
