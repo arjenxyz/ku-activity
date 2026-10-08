@@ -104,7 +104,11 @@ export async function middleware(request: NextRequest) {
   }
 
   // Student-only surfaces on the public site
-  if (pathname.startsWith('/kayitlarim') || pathname.startsWith('/qr')) {
+  if (
+    pathname.startsWith('/kayitlarim') ||
+    pathname.startsWith('/qr') ||
+    pathname.startsWith('/profil')
+  ) {
     if (!isAuthed) {
       return NextResponse.redirect(new URL('/login', request.url));
     }

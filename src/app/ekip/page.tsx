@@ -30,6 +30,7 @@ export default function TeamPage() {
   const [opening, setOpening] = useState<{ id: string; title: string; description: string | null } | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
   const [applied, setApplied] = useState(false);
+  const [applyStatus, setApplyStatus] = useState<string | null>(null);
   const [applyOpen, setApplyOpen] = useState(false);
   const [note, setNote] = useState('');
   const [applyError, setApplyError] = useState<string | null>(null);
@@ -63,11 +64,12 @@ export default function TeamPage() {
       if (!current || !user) return;
       const { data: mine } = await supabase
         .from('team_applications')
-        .select('id')
+        .select('id, status')
         .eq('opening_id', current.id)
         .eq('profile_id', user.id)
         .maybeSingle();
       setApplied(Boolean(mine));
+      setApplyStatus(mine?.status ?? null);
     })();
   }, [applyDone]);
 
@@ -86,9 +88,19 @@ export default function TeamPage() {
       return;
     }
     setApplied(true);
+    setApplyStatus('pending');
     setApplyDone(true);
     setApplyOpen(false);
   }
+
+  const applyStatusLabel =
+    applyStatus === 'accepted'
+      ? 'Kabul edildi'
+      : applyStatus === 'rejected'
+        ? 'Reddedildi'
+        : applyStatus === 'pending'
+          ? 'Bekliyor'
+          : 'Başvurdun';
 
   return (
     <div className="min-h-[100dvh] bg-[#e7f3fb] px-4 pb-10 pt-[calc(var(--home-chrome-h,4.5rem)+2rem)] text-slate-900 sm:px-8">
@@ -115,7 +127,7 @@ export default function TeamPage() {
             {applied ? (
               <div className="flex h-full min-h-48 flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 bg-white/40 px-3 py-5 text-center">
                 <span className="flex h-14 w-14 items-center justify-center rounded-full border border-slate-300 text-sm text-slate-500">✓</span>
-                <span className="mt-4 text-sm text-slate-600">Başvurdun</span>
+                <span className="mt-4 text-sm text-slate-600">{applyStatusLabel}</span>
               </div>
             ) : (
               <button

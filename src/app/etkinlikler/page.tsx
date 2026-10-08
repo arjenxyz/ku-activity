@@ -1,13 +1,18 @@
 import Link from 'next/link';
 import { HomeHeader } from '@/components/home/HomeHeader';
 import { getSiteSession } from '@/lib/auth/get-site-session';
-import { DEMO_EVENTS, DEMO_PARTICIPANTS } from '@/lib/demo/data';
+import { listCatalogEvents } from '@/lib/events/catalog';
+import { listRegistrationsForEvent, listRegistrationsForOwner, ownerKeyForRole } from '@/lib/demo/registrations-store';
 
 export default async function EventsPage() {
   const session = await getSiteSession();
   const isStudent = session?.role === 'student';
-  const registeredTitles = new Set(
-    DEMO_PARTICIPANTS.filter((row) => row.isDemoStudent).map((row) => row.event)
+  const mineIds = new Set(
+    isStudent
+      ? listRegistrationsForOwner(ownerKeyForRole('student'))
+          .filter((row) => row.status !== 'cancelled')
+          .map((row) => row.eventId)
+      : []
   );
 
   return (
@@ -19,27 +24,30 @@ export default async function EventsPage() {
           Yayındaki etkinlikler burada listelenir.
         </p>
         <ul className="mt-10 grid gap-4 sm:grid-cols-2">
-          {DEMO_EVENTS.map((event) => {
-            const alreadyIn = isStudent && registeredTitles.has(event.title);
+          {listCatalogEvents().map((event) => {
+            const alreadyIn = mineIds.has(event.id);
+            const taken = listRegistrationsForEvent(event.id).length;
             return (
               <li key={event.id}>
                 <article className="flex h-full flex-col rounded-2xl border border-slate-200/80 bg-white/70 px-5 py-5 transition hover:border-[#2D6AF6]/30 hover:bg-[#e8f0ff]">
                   <div className="flex items-start justify-between gap-3">
                     <h2 className="text-lg font-semibold text-[#0E1548]">{event.title}</h2>
                     <span className="shrink-0 rounded-full bg-[#e8f0ff] px-2.5 py-1 text-xs font-medium text-[#2D6AF6]">
-                      {alreadyIn ? 'Kayıtlısın' : event.status}
+                      {alreadyIn ? 'Kayıtlısın' : event.statusLabel}
                     </span>
                   </div>
                   <p className="mt-3 text-sm text-slate-600">{event.location}</p>
                   <p className="mt-1 text-sm text-slate-500">
                     {event.startsAt === event.endsAt ? event.startsAt : `${event.startsAt} – ${event.endsAt}`}
                   </p>
-                  <p className="mt-4 text-xs text-slate-500">Kontenjan {event.capacity}</p>
+                  <p className="mt-4 text-xs text-slate-500">
+                    Kontenjan {event.capacity} · Kalan {Math.max(0, event.capacity - taken)}
+                  </p>
                   <Link
-                    href={alreadyIn ? '/kayitlarim' : '/forum'}
+                    href={`/etkinlikler/${event.id}`}
                     className="mt-5 inline-flex items-center justify-center rounded-2xl bg-[#0E1548] px-4 py-2.5 text-sm font-medium text-white transition hover:bg-[#152060]"
                   >
-                    {alreadyIn ? 'Kaydıma git' : 'Kayda git'}
+                    {alreadyIn ? 'Kaydıma git' : 'Detay / kayıt'}
                   </Link>
                 </article>
               </li>

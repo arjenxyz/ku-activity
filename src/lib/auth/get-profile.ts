@@ -8,6 +8,7 @@ export type Profile = {
   student_no: string | null;
   department: string | null;
   class_year: string | null;
+  phone?: string | null;
   role: AppRole;
   is_active: boolean;
 };
@@ -21,7 +22,7 @@ export async function getSessionProfile(): Promise<Profile | null> {
 
   const { data, error } = await supabase
     .from('profiles')
-    .select('id, full_name, email, student_no, department, class_year, role, is_active')
+    .select('id, full_name, email, student_no, department, class_year, phone, role, is_active')
     .eq('id', user.id)
     .maybeSingle();
 
