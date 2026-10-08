@@ -370,7 +370,6 @@ export default function LoginPage() {
               </p>
             </div>
           ) : null}
-        </div>
       </div>
     </div>
   );
