@@ -74,6 +74,14 @@ export function findCallingCode(code: string) {
   return CALLING_CODES.find((item) => item.code === code) ?? CALLING_CODES[0];
 }
 
+/** Longest-prefix match for an international number body (no + / 00). */
+export function matchCallingCode(digits: string): CallingCode | null {
+  const body = digits.replace(/\D/g, '');
+  if (!body) return null;
+  const ranked = [...CALLING_CODES].sort((a, b) => b.code.length - a.code.length);
+  return ranked.find((item) => body.startsWith(item.code)) ?? null;
+}
+
 export function callingCodeChoices() {
   return CALLING_CODES.map((item) => ({
     value: item.code,

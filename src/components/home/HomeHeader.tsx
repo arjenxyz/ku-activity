@@ -3,7 +3,8 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { FiCalendar, FiChevronRight, FiClipboard, FiLogOut, FiQrCode, FiUsers } from 'react-icons/fi';
+import { FiCalendar, FiChevronRight, FiClipboard, FiLogOut, FiUsers } from 'react-icons/fi';
+import { MdQrCode } from 'react-icons/md';
 import { BrandMark } from '@/components/brand/BrandMark';
 import { LanguageSwitch } from '@/components/i18n/LanguageSwitch';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
@@ -20,7 +21,7 @@ const PUBLIC_LINKS = [
 const STUDENT_LINKS = [
   { href: '/etkinlikler', label: 'Etkinlikler', icon: FiCalendar },
   { href: '/kayitlarim', label: 'Kayıtlarım', icon: FiClipboard },
-  { href: '/qr', label: 'QR kodum', icon: FiQrCode },
+  { href: '/qr', label: 'QR kodum', icon: MdQrCode },
   { href: '/ekip', label: 'Ekip üyeleri', icon: FiUsers },
 ];
 
