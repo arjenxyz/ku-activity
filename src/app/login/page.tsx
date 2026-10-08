@@ -209,44 +209,47 @@ export default function LoginPage() {
     panel === 'register' ? 'Kayıt ol' : panel === 'forgot' ? 'Şifremi unuttum' : panel === 'pending' ? 'Onay bekleniyor' : 'Giriş yap';
 
   return (
-    <div className={`flex min-h-[100dvh] flex-col items-center justify-center gap-8 bg-gradient-to-br from-blue-50 via-white to-indigo-50 px-4 py-6 lg:h-[100dvh] lg:overflow-hidden lg:px-10 ${panel === 'forgot' ? 'lg:flex-row' : ''}`}>
+    <div className={`flex min-h-[100dvh] flex-col items-center justify-center gap-8 bg-gradient-to-br from-blue-50 via-white to-indigo-50 px-4 py-6 lg:h-[100dvh] lg:overflow-hidden lg:px-10 ${panel === 'forgot' ? 'lg:flex-row lg:items-stretch lg:justify-center lg:py-10' : ''}`}>
       {panel === 'forgot' ? (
-        <ol className={`${cardClass} w-full max-w-sm space-y-3 p-5`}>
-          {[
-            {
-              title: 'Ekip sayfasına gir',
-              body: (
-                <>
-                  <a href="/ekip" className="font-medium text-[#0E1548] underline">Ekip</a> sayfasından şifre sıfırlama iste.
-                </>
-              ),
-            },
-            {
-              title: 'Ekiple iletişime geç',
-              body: 'Öğrenci kimlik kartını yanında bulundur. Kim olduğunu ekip doğrular.',
-            },
-            {
-              title: 'Kod veya QR al',
-              body: 'Ekip sana bir kod verir ya da aynı kodu QR olarak okutur.',
-            },
-            {
-              title: 'Yeni şifreni oluştur',
-              body: 'Kodu yandaki kutuya yaz. Doğrulama bitince yeni şifreni belirle.',
-            },
-          ].map((step, index) => (
-            <li key={step.title} className="flex gap-3">
-              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#0E1548] text-xs font-semibold text-white">
-                {index + 1}
-              </span>
-              <span>
-                <p className="text-sm font-semibold text-[#0E1548]">{step.title}</p>
-                <p className="mt-0.5 text-sm leading-relaxed text-slate-600">{step.body}</p>
-              </span>
-            </li>
-          ))}
-        </ol>
+        <section className={`${cardClass} flex w-full max-w-md flex-col p-6 sm:p-8`}>
+          <p className="text-center text-sm font-semibold text-slate-800">Nasıl sıfırlanır</p>
+          <ol className="mt-6 flex flex-1 flex-col justify-between gap-4">
+            {[
+              {
+                title: 'Ekip sayfasına gir',
+                body: (
+                  <>
+                    <a href="/ekip" className="font-medium text-[#0E1548] underline">Ekip</a> sayfasından şifre sıfırlama iste.
+                  </>
+                ),
+              },
+              {
+                title: 'Ekiple iletişime geç',
+                body: 'Öğrenci kimlik kartını yanında bulundur. Kim olduğunu ekip doğrular.',
+              },
+              {
+                title: 'Kod veya QR al',
+                body: 'Ekip sana bir kod verir ya da aynı kodu QR olarak okutur.',
+              },
+              {
+                title: 'Yeni şifreni oluştur',
+                body: 'Kodu yandaki kutuya yaz. Doğrulama bitince yeni şifreni belirle.',
+              },
+            ].map((step, index) => (
+              <li key={step.title} className="flex gap-3">
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#0E1548] text-xs font-semibold text-white">
+                  {index + 1}
+                </span>
+                <span>
+                  <p className="text-sm font-semibold text-[#0E1548]">{step.title}</p>
+                  <p className="mt-0.5 text-sm leading-relaxed text-slate-600">{step.body}</p>
+                </span>
+              </li>
+            ))}
+          </ol>
+        </section>
       ) : null}
-      <div className={`${cardClass} w-full max-w-md p-6 sm:p-8 ${panel === 'login' || panel === 'forgot' ? '' : 'lg:max-w-3xl'}`}>
+      <div className={`${cardClass} flex w-full max-w-md flex-col p-6 sm:p-8 ${panel === 'login' || panel === 'forgot' ? '' : 'lg:max-w-3xl'}`}>
           <div className="mb-5 flex flex-col items-center text-center lg:mb-4">
             <BrandMark size="lg" className="mb-3 ring-2 ring-[#0E1548]/10" />
             <h1 className="text-lg font-bold text-[#0E1548]">{APP_NAME}</h1>
