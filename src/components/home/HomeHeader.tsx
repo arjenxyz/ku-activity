@@ -7,6 +7,11 @@ import { LanguageSwitch } from '@/components/i18n/LanguageSwitch';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 import { APP_NAME, APP_TAGLINE } from '@/lib/brand';
 
+const LEGAL = [
+  { href: '/gizlilik', label: 'Gizlilik' },
+  { href: '/kvkk', label: 'KVKK' },
+];
+
 export function HomeHeader() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -55,6 +60,15 @@ export function HomeHeader() {
         </Link>
 
         <nav className="hidden items-center gap-1 md:flex" aria-label="Sayfa">
+          {LEGAL.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="rounded-xl px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-50 hover:text-[#0E1548]"
+            >
+              {item.label}
+            </Link>
+          ))}
           <LanguageSwitch variant="compact" />
           <Link
             href="/login"
@@ -102,6 +116,16 @@ export function HomeHeader() {
       >
           <div className="flex flex-col px-2 py-2">
             <LanguageSwitch variant="nav" />
+            {LEGAL.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setOpen(false)}
+                className="rounded-xl px-3 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50"
+              >
+                {item.label}
+              </Link>
+            ))}
             <Link
               href="/login"
               className="mx-2 mb-2 mt-1 flex items-center justify-center rounded-2xl bg-[#0E1548] px-4 py-2.5 text-sm font-medium text-white"
