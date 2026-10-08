@@ -7,10 +7,7 @@ import { LanguageSwitch } from '@/components/i18n/LanguageSwitch';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 import { APP_NAME, APP_TAGLINE } from '@/lib/brand';
 
-const NAV = [
-  { href: '#etkinlik', label: 'Etkinlik' },
-  { href: '#iletisim', label: 'İletişim' },
-];
+const NAV = [{ href: '#iletisim', label: 'İletişim' }];
 
 export function HomeHeader() {
   const [open, setOpen] = useState(false);

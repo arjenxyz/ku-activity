@@ -2,7 +2,6 @@ import Link from 'next/link';
 import { HomeFooter } from '@/components/home/HomeFooter';
 import { HomeHeader } from '@/components/home/HomeHeader';
 import { APP_TAGLINE_TR } from '@/lib/brand';
-import { cardClass } from '@/components/ui/styles';
 
 export default function HomePage() {
   return (
@@ -39,44 +38,6 @@ export default function HomePage() {
               </Link>
             </div>
           </div>
-        </section>
-
-        <section id="etkinlik" className="mx-auto max-w-6xl px-4 pb-16 pt-4 sm:px-6">
-          <article className={`${cardClass} overflow-hidden`}>
-            <div className="grid gap-0 md:grid-cols-[1.2fr_0.8fr]">
-              <div className="p-6 sm:p-8">
-                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Örnek etkinlik</p>
-                <h2 className="mt-2 text-2xl font-bold text-[#0E1548]">Abana 2027</h2>
-                <p className="mt-3 max-w-lg text-sm leading-relaxed text-slate-600">
-                  Üniversite içinde düzenlenen bir etkinlik örneği. Katılımcı sayısı, maliyet ve
-                  etkinlik ayrıntıları burada kamuoyuna açık tutulur.
-                </p>
-                <dl className="mt-6 grid grid-cols-2 gap-4 text-sm">
-                  <div>
-                    <dt className="text-slate-500">Tarih</dt>
-                    <dd className="font-medium text-slate-900">12–14 Mayıs 2027</dd>
-                  </div>
-                  <div>
-                    <dt className="text-slate-500">Yer</dt>
-                    <dd className="font-medium text-slate-900">Abana, Kastamonu</dd>
-                  </div>
-                  <div>
-                    <dt className="text-slate-500">Kontenjan</dt>
-                    <dd className="font-medium text-slate-900">120</dd>
-                  </div>
-                  <div>
-                    <dt className="text-slate-500">Durum</dt>
-                    <dd className="font-medium text-[#0E1548]">Kayıt açık</dd>
-                  </div>
-                </dl>
-              </div>
-              <div className="flex items-end bg-gradient-to-br from-[#0E1548] to-[#2D6AF6] p-6 text-white sm:p-8">
-                <p className="text-sm leading-relaxed text-white/90">
-                  Amaç büyütmek değil: etkinlik anında kişileri ve maliyeti hesaplamak, sonucu açıkça paylaşmak.
-                </p>
-              </div>
-            </div>
-          </article>
         </section>
       </main>
 

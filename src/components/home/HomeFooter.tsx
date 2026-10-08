@@ -21,7 +21,6 @@ export function HomeFooter() {
         <div>
           <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#7FAEFF]">Sayfa</p>
           <nav className="mt-3 flex flex-col gap-2 text-sm text-slate-300">
-            <a href="#etkinlik" className="hover:text-white">Etkinlik</a>
             <Link href="/login" className="hover:text-white">Giriş</Link>
           </nav>
         </div>
