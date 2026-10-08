@@ -2,9 +2,11 @@
 
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
+import Link from 'next/link';
 import { FiX } from 'react-icons/fi';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 import { memberInitials, TEAM_MEMBERS, type TeamMember } from '@/lib/team';
+import { createClient } from '@/utils/supabase/client';
 
 function Portrait({ member, className }: { member: TeamMember; className: string }) {
   if (member.image) {
@@ -17,11 +19,23 @@ function Portrait({ member, className }: { member: TeamMember; className: string
   );
 }
 
+function browserSupabase() {
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) return null;
+  return createClient();
+}
+
 export default function TeamPage() {
   const [selected, setSelected] = useState<TeamMember | null>(null);
   const [mounted, setMounted] = useState(false);
+  const [opening, setOpening] = useState<{ id: string; title: string; description: string | null } | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
+  const [applied, setApplied] = useState(false);
+  const [applyOpen, setApplyOpen] = useState(false);
+  const [note, setNote] = useState('');
+  const [applyError, setApplyError] = useState<string | null>(null);
+  const [applyDone, setApplyDone] = useState(false);
 
-  useBodyScrollLock(selected !== null);
+  useBodyScrollLock(selected !== null || applyOpen);
   useEffect(() => setMounted(true), []);
   useEffect(() => {
     if (!selected) return;
@@ -31,6 +45,50 @@ export default function TeamPage() {
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, [selected]);
+
+  useEffect(() => {
+    const supabase = browserSupabase();
+    if (!supabase) return;
+    void (async () => {
+      const { data: openings } = await supabase
+        .from('team_openings')
+        .select('id, title, description')
+        .eq('is_open', true)
+        .order('created_at', { ascending: false })
+        .limit(1);
+      const current = openings?.[0] ?? null;
+      setOpening(current);
+      const { data: { user } } = await supabase.auth.getUser();
+      setUserId(user?.id ?? null);
+      if (!current || !user) return;
+      const { data: mine } = await supabase
+        .from('team_applications')
+        .select('id')
+        .eq('opening_id', current.id)
+        .eq('profile_id', user.id)
+        .maybeSingle();
+      setApplied(Boolean(mine));
+    })();
+  }, [applyDone]);
+
+  async function submitApplication() {
+    if (!opening || !userId) return;
+    setApplyError(null);
+    const supabase = browserSupabase();
+    if (!supabase) return;
+    const { error } = await supabase.from('team_applications').insert({
+      opening_id: opening.id,
+      profile_id: userId,
+      note: note.trim() || null,
+    });
+    if (error) {
+      setApplyError(error.message);
+      return;
+    }
+    setApplied(true);
+    setApplyDone(true);
+    setApplyOpen(false);
+  }
 
   return (
     <div className="min-h-[100dvh] bg-[#0B1220] px-4 py-10 text-white">
@@ -52,7 +110,32 @@ export default function TeamPage() {
               </button>
             </li>
           ))}
-          {TEAM_MEMBERS.length === 0
+          {opening ? (
+            <li>
+              {applied ? (
+                <div className="flex h-full min-h-44 flex-col items-center justify-center rounded-2xl bg-[#121A2B] px-3 py-6 text-center">
+                  <span className="text-sm font-medium text-slate-300">Başvurdun</span>
+                </div>
+              ) : userId ? (
+                <button
+                  type="button"
+                  onClick={() => setApplyOpen(true)}
+                  className="flex h-full min-h-44 w-full flex-col items-center justify-center rounded-2xl border border-dashed border-slate-600 bg-[#121A2B] px-3 py-6 text-center"
+                >
+                  <span className="text-sm font-semibold">Apply</span>
+                  <span className="mt-1 text-xs text-slate-400">{opening.title}</span>
+                </button>
+              ) : (
+                <Link
+                  href="/login"
+                  className="flex h-full min-h-44 flex-col items-center justify-center rounded-2xl border border-dashed border-slate-600 bg-[#121A2B] px-3 py-6 text-center"
+                >
+                  <span className="text-sm font-semibold">Apply</span>
+                  <span className="mt-1 text-xs text-slate-400">Giriş yap</span>
+                </Link>
+              )}
+            </li>
+          ) : TEAM_MEMBERS.length === 0
             ? [0, 1, 2, 3].map((slot) => (
                 <li key={slot}>
                   <div className="flex flex-col items-center rounded-2xl bg-[#121A2B] px-3 py-6">
@@ -92,6 +175,39 @@ export default function TeamPage() {
                 <Portrait member={selected} className="mx-auto mt-6 h-40 w-40 rounded-full" />
                 <p className="mt-6 text-sm leading-relaxed text-slate-300">{selected.about}</p>
                 {selected.role ? <p className="mt-3 text-xs font-medium text-[#8EB4FF]">{selected.role}</p> : null}
+              </section>
+            </div>,
+            document.body,
+          )
+        : null}
+      {mounted && applyOpen && opening
+        ? createPortal(
+            <div
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="team-apply-title"
+              className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 px-4 backdrop-blur-sm"
+              onClick={() => setApplyOpen(false)}
+            >
+              <section
+                className="w-full max-w-sm rounded-3xl bg-[#121A2B] p-6 text-white shadow-2xl ring-1 ring-white/10"
+                data-scroll-lock-allow=""
+                onClick={(event) => event.stopPropagation()}
+              >
+                <h2 id="team-apply-title" className="text-lg font-semibold">{opening.title}</h2>
+                {opening.description ? <p className="mt-2 text-sm leading-relaxed text-slate-300">{opening.description}</p> : null}
+                <label htmlFor="apply-note" className="mt-4 block text-sm text-slate-400">Kısa not</label>
+                <textarea
+                  id="apply-note"
+                  rows={3}
+                  value={note}
+                  onChange={(event) => setNote(event.target.value)}
+                  className="mt-1 w-full rounded-xl border border-white/10 bg-[#0B1220] px-3 py-2 text-sm"
+                />
+                {applyError ? <p className="mt-2 text-sm text-red-300">{applyError}</p> : null}
+                <button type="button" onClick={() => void submitApplication()} className="mt-4 w-full rounded-xl bg-white px-3 py-2.5 text-sm font-semibold text-[#0B1220]">
+                  Başvur
+                </button>
               </section>
             </div>,
             document.body,
