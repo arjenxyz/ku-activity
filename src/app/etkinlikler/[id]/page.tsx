@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import { HomeHeader } from '@/components/home/HomeHeader';
 import { RegisterForm } from '@/components/events/RegisterForm';
 import { getSiteSession } from '@/lib/auth/get-site-session';
-import { getCatalogEvent, isRegistrationOpen } from '@/lib/events/catalog';
+import { getCatalogEvent, isRegistrationOpen } from '@/lib/events/catalog-store';
 import { listRegistrationsForEvent, listRegistrationsForOwner, ownerKeyForRole } from '@/lib/demo/registrations-store';
 
 type Props = { params: Promise<{ id: string }> };

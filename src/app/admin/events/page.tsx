@@ -1,5 +1,5 @@
-﻿import { DemoPanel } from '@/components/demo/DemoPanel';
+﻿import { AdminEventsPanel } from '@/components/admin/AdminEventsPanel';
 
 export default function Page() {
-  return <DemoPanel view="admin-events" />;
+  return <AdminEventsPanel />;
 }

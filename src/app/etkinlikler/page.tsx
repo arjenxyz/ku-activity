@@ -1,7 +1,7 @@
 import { EventCard } from '@/components/events/EventCard';
 import { HomeHeader } from '@/components/home/HomeHeader';
 import { getSiteSession } from '@/lib/auth/get-site-session';
-import { listCatalogEvents } from '@/lib/events/catalog';
+import { listCatalogEvents } from '@/lib/events/catalog-store';
 import { listRegistrationsForEvent, listRegistrationsForOwner, ownerKeyForRole } from '@/lib/demo/registrations-store';
 
 export default async function EventsPage() {

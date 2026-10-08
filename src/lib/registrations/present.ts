@@ -1,5 +1,5 @@
 import type { DemoRegistration } from '@/lib/demo/registrations-store';
-import { getCatalogEvent } from '@/lib/events/catalog';
+import { getCatalogEvent } from '@/lib/events/catalog-store';
 
 export function attendanceLabel(reg: DemoRegistration) {
   if (reg.status === 'cancelled') return 'İptal';

@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSiteSession } from '@/lib/auth/get-site-session';
-import { getCatalogEvent } from '@/lib/events/catalog';
+import { getCatalogEvent } from '@/lib/events/catalog-store';
 import { recordCheckIn } from '@/lib/demo/registrations-store';
 import { isCheckinQrToken } from '@/lib/qr/qr-service';
 

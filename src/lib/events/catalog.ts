@@ -11,6 +11,12 @@ export type CatalogActivity = {
   startsAt?: string;
 };
 
+export type CatalogEventStatus =
+  | 'published'
+  | 'registration_open'
+  | 'registration_closed'
+  | 'completed';
+
 export type CatalogEvent = {
   id: string;
   title: string;
@@ -21,7 +27,7 @@ export type CatalogEvent = {
   startsAtIso: string;
   endsAtIso: string;
   capacity: number;
-  status: 'published' | 'registration_open' | 'registration_closed' | 'completed';
+  status: CatalogEventStatus;
   statusLabel: string;
   registrationDeadlineIso: string;
   assignedToStaff: boolean;
@@ -30,8 +36,34 @@ export type CatalogEvent = {
   activities: CatalogActivity[];
 };
 
-/** Public/demo event catalog — used when Supabase events table is empty. */
-export const EVENT_CATALOG: CatalogEvent[] = [
+export const STATUS_LABELS: Record<CatalogEventStatus, string> = {
+  published: 'Yayında',
+  registration_open: 'Kayıt açık',
+  registration_closed: 'Kayıt kapalı',
+  completed: 'Tamamlandı',
+};
+
+export function formatTrDate(iso: string) {
+  return new Date(iso).toLocaleDateString('tr-TR', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
+}
+
+export function slugifyEventId(title: string) {
+  const base = title
+    .toLocaleLowerCase('tr-TR')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '')
+    .slice(0, 40);
+  return `${base || 'etkinlik'}-${Date.now().toString(36)}`;
+}
+
+/** Seed catalog — runtime mutations live in catalog-store. */
+export const EVENT_CATALOG_SEED: CatalogEvent[] = [
   {
     id: 'abana-2027',
     title: 'Abana 2027',
@@ -83,15 +115,5 @@ export const EVENT_CATALOG: CatalogEvent[] = [
   },
 ];
 
-export function getCatalogEvent(id: string) {
-  return EVENT_CATALOG.find((event) => event.id === id) ?? null;
-}
-
-export function listCatalogEvents() {
-  return EVENT_CATALOG;
-}
-
-export function isRegistrationOpen(event: CatalogEvent, now = new Date()) {
-  if (event.status !== 'registration_open' && event.status !== 'published') return false;
-  return now.getTime() <= new Date(event.registrationDeadlineIso).getTime();
-}
+/** Static seed snapshot — runtime list is managed by catalog-store. */
+export const EVENT_CATALOG = EVENT_CATALOG_SEED;

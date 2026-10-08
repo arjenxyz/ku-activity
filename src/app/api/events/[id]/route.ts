@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getCatalogEvent } from '@/lib/events/catalog';
+import { getCatalogEvent } from '@/lib/events/catalog-store';
 import { listRegistrationsForEvent } from '@/lib/demo/registrations-store';
 
 type Params = { params: Promise<{ id: string }> };

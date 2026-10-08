@@ -7,9 +7,15 @@ import {
   createQrScanner,
   pickCameraConfigs,
 } from '@/lib/qr-scanner';
-import { listCatalogEvents } from '@/lib/events/catalog';
 import { inputClass, labelClass, primaryButtonClass } from '@/components/auth/authStyles';
 import { cardClass } from '@/components/ui/styles';
+
+type CatalogLite = {
+  id: string;
+  title: string;
+  assignedToStaff: boolean;
+  days: Array<{ id: string; label: string; date: string }>;
+};
 
 type Result = {
   ok: boolean;
@@ -23,11 +29,9 @@ type Result = {
 };
 
 export function StaffCheckInClient({ staffOnlyAssigned }: { staffOnlyAssigned?: boolean }) {
-  const visibleEvents = staffOnlyAssigned
-    ? listCatalogEvents().filter((event) => event.assignedToStaff)
-    : listCatalogEvents();
-  const [eventId, setEventId] = useState(visibleEvents[0]?.id ?? '');
-  const [dayId, setDayId] = useState(visibleEvents[0]?.days[0]?.id ?? '');
+  const [events, setEvents] = useState<CatalogLite[]>([]);
+  const [eventId, setEventId] = useState('');
+  const [dayId, setDayId] = useState('');
   const [manualToken, setManualToken] = useState('');
   const [scanning, setScanning] = useState(false);
   const [result, setResult] = useState<Result | null>(null);
@@ -35,7 +39,20 @@ export function StaffCheckInClient({ staffOnlyAssigned }: { staffOnlyAssigned?: 
   const busyRef = useRef(false);
   const scannerRef = useRef<ReturnType<typeof createQrScanner> | null>(null);
 
-  const event = visibleEvents.find((item) => item.id === eventId) ?? visibleEvents[0];
+  useEffect(() => {
+    void (async () => {
+      const response = await fetch('/api/events');
+      const payload = (await response.json().catch(() => null)) as { events?: CatalogLite[] } | null;
+      const rows = (payload?.events ?? []).filter((item) =>
+        staffOnlyAssigned ? item.assignedToStaff : true
+      );
+      setEvents(rows);
+      setEventId((prev) => prev || rows[0]?.id || '');
+      setDayId((prev) => prev || rows[0]?.days[0]?.id || '');
+    })();
+  }, [staffOnlyAssigned]);
+
+  const event = events.find((item) => item.id === eventId) ?? events[0];
 
   useEffect(() => {
     if (!event) return;
@@ -120,7 +137,7 @@ export function StaffCheckInClient({ staffOnlyAssigned }: { staffOnlyAssigned?: 
             value={eventId}
             onChange={(e) => setEventId(e.target.value)}
           >
-            {visibleEvents.map((item) => (
+            {events.map((item) => (
               <option key={item.id} value={item.id}>
                 {item.title}
               </option>

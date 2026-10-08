@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { listCatalogEvents } from '@/lib/events/catalog';
+import { listCatalogEvents } from '@/lib/events/catalog-store';
 import { listRegistrationsForEvent } from '@/lib/demo/registrations-store';
 
 export async function GET() {

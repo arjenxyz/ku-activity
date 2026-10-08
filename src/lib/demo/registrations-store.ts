@@ -5,7 +5,7 @@ import {
   hashCheckinToken,
 } from '@/lib/checkin-token';
 import { DEMO_CHECKIN_TOKEN } from '@/lib/demo/data';
-import { getCatalogEvent } from '@/lib/events/catalog';
+import { getCatalogEvent } from '@/lib/events/catalog-store';
 import type { AppRole } from '@/lib/auth/roles';
 
 export type RegistrationStatus = 'pending' | 'confirmed' | 'cancelled';

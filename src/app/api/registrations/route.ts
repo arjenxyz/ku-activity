@@ -6,7 +6,7 @@ import {
   ownerKeyForRole,
 } from '@/lib/demo/registrations-store';
 import { getDemoProfile } from '@/lib/demo/profiles-store';
-import { getCatalogEvent, isRegistrationOpen } from '@/lib/events/catalog';
+import { getCatalogEvent, isRegistrationOpen } from '@/lib/events/catalog-store';
 import { presentRegistration } from '@/lib/registrations/present';
 
 export async function GET() {
