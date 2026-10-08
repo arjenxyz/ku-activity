@@ -113,10 +113,10 @@ export function EventCard({
           </div>
 
           <span
-            className={`mt-5 inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-2.5 text-sm font-medium transition ${
+            className={`mt-5 inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-2.5 text-sm font-medium text-white shadow-sm transition ${
               alreadyIn
-                ? 'bg-emerald-600 text-white group-hover:bg-emerald-700'
-                : 'bg-[#0E1548] text-white group-hover:bg-[#152060]'
+                ? 'bg-[#0E1548] group-hover:bg-[#152060]'
+                : 'bg-emerald-600 shadow-emerald-600/20 group-hover:bg-emerald-700'
             }`}
           >
             {alreadyIn ? 'Kaydıma git' : 'Başvur'}
