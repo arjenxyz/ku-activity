@@ -4,10 +4,9 @@ import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { FiArrowLeft, FiArrowRight, FiRotateCcw } from 'react-icons/fi';
-import { GUIDE_STEPS, getGuideProgress } from '@/lib/admin/live-guide/script';
+import { GUIDE_STEPS } from '@/lib/admin/live-guide/script';
 import { GUIDE_STORAGE_KEY } from '@/lib/admin/live-guide/types';
 import { GuideBotBubble } from './GuideBotBubble';
-import { GuideProgress } from './GuideProgress';
 import { GuideStage } from './GuideStage';
 import { GuideWelcome } from './GuideWelcome';
 
@@ -18,8 +17,7 @@ export function AdminLiveGuide() {
   const [phase, setPhase] = useState<Phase>('welcome');
   const [stepIndex, setStepIndex] = useState(0);
 
-  const progress = getGuideProgress(stepIndex);
-  const step = progress.step;
+  const step = GUIDE_STEPS[Math.min(stepIndex, GUIDE_STEPS.length - 1)];
   const isLast = stepIndex >= GUIDE_STEPS.length - 1;
   const navMode = step.navMode ?? 'root';
 
@@ -112,11 +110,6 @@ export function AdminLiveGuide() {
   return (
     <div className="relative pb-24 sm:pb-8">
       <div className="space-y-4">
-        <GuideProgress
-          current={progress.current}
-          total={progress.total}
-          percent={progress.percent}
-        />
         <GuideBotBubble text={step.botText} chapter={step.chapter} />
         <GuideStage
           stage={step.stage}
