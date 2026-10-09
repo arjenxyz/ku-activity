@@ -12,6 +12,7 @@ import {
 } from 'react-icons/fi';
 import { AdminStatusSelect } from '@/components/admin/AdminStatusSelect';
 import type { CatalogEvent, CatalogEventStatus } from '@/lib/events/catalog';
+import { STATUS_LABELS } from '@/lib/events/catalog';
 
 type AdminEvent = CatalogEvent & { registeredCount?: number };
 type FilterKey = 'all' | 'registration_open' | 'published' | 'other';
@@ -25,11 +26,13 @@ function bandFor(id: string) {
 export function AdminEventsPanel() {
   const [events, setEvents] = useState<AdminEvent[]>([]);
   const [filter, setFilter] = useState<FilterKey>('all');
+  const [ready, setReady] = useState(false);
 
   async function load() {
     const response = await fetch('/api/admin/events');
     const payload = (await response.json().catch(() => null)) as { events?: AdminEvent[] } | null;
     setEvents(payload?.events ?? []);
+    setReady(true);
   }
 
   useEffect(() => {
@@ -45,11 +48,20 @@ export function AdminEventsPanel() {
   });
 
   async function setStatus(id: string, status: CatalogEventStatus) {
-    await fetch('/api/admin/events', {
+    setEvents((prev) =>
+      prev.map((event) =>
+        event.id === id ? { ...event, status, statusLabel: STATUS_LABELS[status] } : event
+      )
+    );
+    const response = await fetch('/api/admin/events', {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id, status }),
     });
+    if (!response.ok) {
+      await load();
+      return;
+    }
     await load();
   }
 
@@ -102,19 +114,24 @@ export function AdminEventsPanel() {
       </div>
 
       <ul className="grid gap-3">
-        {filtered.length === 0 ? (
+        {!ready ? (
+          <li className="rounded-2xl border border-slate-200 bg-white/70 px-5 py-8 text-center text-sm text-slate-500">
+            Yükleniyor…
+          </li>
+        ) : filtered.length === 0 ? (
           <li className="rounded-2xl border border-dashed border-slate-200 bg-white/70 px-5 py-8 text-center text-sm text-slate-500">
             Bu filtrede etkinlik yok.
           </li>
         ) : null}
-        {filtered.map((event) => {
+        {ready
+          ? filtered.map((event) => {
           const taken = event.registeredCount ?? 0;
           const fill = Math.min(100, Math.round((taken / Math.max(1, event.capacity)) * 100));
           const dateLabel =
             event.startsAt === event.endsAt ? event.startsAt : `${event.startsAt} – ${event.endsAt}`;
           return (
-            <li key={event.id} className="overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-sm">
-              <div className={`h-1.5 bg-gradient-to-r ${bandFor(event.id)}`} />
+            <li key={event.id} className="rounded-2xl border border-slate-200/80 bg-white shadow-sm">
+              <div className={`h-1.5 overflow-hidden rounded-t-2xl bg-gradient-to-r ${bandFor(event.id)}`} />
               <div className="space-y-2.5 p-3.5">
                 <div className="min-w-0">
                   <h2 className="truncate text-base font-semibold tracking-tight text-[#0E1548]">{event.title}</h2>
@@ -165,7 +182,8 @@ export function AdminEventsPanel() {
               </div>
             </li>
           );
-        })}
+        })
+          : null}
       </ul>
     </div>
   );
