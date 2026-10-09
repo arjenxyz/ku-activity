@@ -77,37 +77,7 @@ export function PanelChrome({ children, homeHref, subtitle, navItems }: Props) {
       />
 
       <div className="pt-[calc(4.5rem+env(safe-area-inset-top))]">
-        <AdminShell>
-          <nav className="mb-4 hidden gap-1 overflow-x-auto md:flex" aria-label="Ana menü">
-            {navItems.map((item) => {
-              const active =
-                item.href === homeHref
-                  ? pathname === item.href
-                  : pathname === item.href || pathname.startsWith(`${item.href}/`);
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={`shrink-0 rounded-xl px-3 py-2 text-sm font-medium transition ${
-                    active
-                      ? 'bg-slate-100 text-[#0E1548]'
-                      : 'text-slate-700 hover:bg-slate-50 hover:text-[#0E1548]'
-                  }`}
-                >
-                  {item.label}
-                </Link>
-              );
-            })}
-            <button
-              type="button"
-              onClick={() => void handleLogout()}
-              className="ml-auto shrink-0 rounded-2xl bg-[#0E1548] px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-[#152060]"
-            >
-              Çıkış
-            </button>
-          </nav>
-          {children}
-        </AdminShell>
+        <AdminShell>{children}</AdminShell>
       </div>
 
       <div
