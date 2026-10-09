@@ -5,14 +5,6 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { BrandMark } from '@/components/brand/BrandMark';
 import { APP_NAME, APP_SHORT_NAME } from '@/lib/brand';
-import type { AppRole } from '@/lib/auth/roles';
-
-const ROLE_LABELS: Record<AppRole, string> = {
-  admin: 'Yönetici',
-  staff: 'Görevli',
-  student: 'Öğrenci',
-};
-
 type Props = {
   homeHref: string;
   menuOpen?: boolean;
@@ -23,7 +15,6 @@ type Props = {
 export function AppTopBar({ homeHref, menuOpen, onToggleMenu }: Props) {
   const pathname = usePathname() ?? '';
   const [sessionName, setSessionName] = useState<string | null>(null);
-  const [sessionRole, setSessionRole] = useState<AppRole | null>(null);
 
   const isEventsSection =
     pathname === '/admin/events' || pathname.startsWith('/admin/events/');
@@ -41,10 +32,9 @@ export function AppTopBar({ homeHref, menuOpen, onToggleMenu }: Props) {
     void (async () => {
       const response = await fetch('/api/session');
       const payload = (await response.json().catch(() => null)) as {
-        session?: { name: string; role: AppRole } | null;
+        session?: { name: string } | null;
       } | null;
       setSessionName(payload?.session?.name?.trim() || null);
-      setSessionRole(payload?.session?.role ?? null);
     })();
   }, []);
 
@@ -55,14 +45,7 @@ export function AppTopBar({ homeHref, menuOpen, onToggleMenu }: Props) {
         ? 'Admin Panel'
         : APP_SHORT_NAME;
 
-  const subtitle = menuOpen
-    ? sessionRole
-      ? ROLE_LABELS[sessionRole]
-      : null
-    : isEventsSection
-      ? 'geri dönmek için tıklayın'
-      : null;
-
+  const subtitle = menuOpen ? null : isEventsSection ? 'geri dönmek için tıklayın' : null;
   return (
     <header className="fixed inset-x-0 top-0 z-50 bg-transparent px-3 pt-[max(0.5rem,env(safe-area-inset-top))] sm:px-6">
       <div className="mx-auto flex w-full items-center justify-between gap-3 rounded-2xl border border-slate-200/80 bg-white/95 px-3 py-2 shadow-sm backdrop-blur-lg sm:px-4">
