@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import {
+  FiArrowLeft,
   FiCalendar,
   FiCheckSquare,
   FiChevronRight,
@@ -20,7 +21,13 @@ import { AdminShell } from '@/components/dashboard/AdminShell';
 import { AppTopBar } from '@/components/dashboard/AppTopBar';
 import { LanguageSwitch } from '@/components/i18n/LanguageSwitch';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
-import type { NavIconName, NavItem } from '@/config/panel-nav';
+import {
+  isNavItemActive,
+  resolveNavSection,
+  type NavIconName,
+  type NavItem,
+  type NavSection,
+} from '@/config/panel-nav';
 
 const NAV_ICONS: Record<NavIconName, IconType> = {
   home: FiHome,
@@ -32,19 +39,50 @@ const NAV_ICONS: Record<NavIconName, IconType> = {
   settings: FiSettings,
 };
 
-
 type Props = {
   children: React.ReactNode;
   homeHref: string;
-  navItems: NavItem[];
+  navItems: NavSection[];
 };
+
+function NavLinkRow({
+  item,
+  active,
+  onNavigate,
+}: {
+  item: NavItem;
+  active: boolean;
+  onNavigate: () => void;
+}) {
+  const Icon = NAV_ICONS[item.icon];
+  return (
+    <Link
+      href={item.href}
+      className={`flex items-center gap-3 rounded-xl px-2 py-2 text-[#0E1548] ${
+        active ? 'bg-[#e8f0ff]' : 'hover:bg-slate-50'
+      }`}
+      onClick={onNavigate}
+    >
+      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e8f0ff]">
+        <Icon className="h-4 w-4" aria-hidden />
+      </span>
+      <span className="min-w-0 flex-1 text-sm font-medium">{item.label}</span>
+      <FiChevronRight className="h-4 w-4 shrink-0 text-slate-400" aria-hidden />
+    </Link>
+  );
+}
 
 export function PanelChrome({ children, homeHref, navItems }: Props) {
   const pathname = usePathname() ?? '';
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
+  /** When a section has children, open on those; user can flip to full root. */
+  const [forceRoot, setForceRoot] = useState(false);
 
   useBodyScrollLock(menuOpen);
+
+  const contextSection = resolveNavSection(pathname, navItems, homeHref);
+  const showContext = Boolean(contextSection?.children?.length) && !forceRoot;
 
   useEffect(() => {
     document.documentElement.classList.remove('dark');
@@ -52,6 +90,7 @@ export function PanelChrome({ children, homeHref, navItems }: Props) {
 
   useEffect(() => {
     setMenuOpen(false);
+    setForceRoot(false);
   }, [pathname]);
 
   const handleLogout = async () => {
@@ -72,7 +111,12 @@ export function PanelChrome({ children, homeHref, navItems }: Props) {
       <AppTopBar
         homeHref={homeHref}
         menuOpen={menuOpen}
-        onToggleMenu={() => setMenuOpen((value) => !value)}
+        onToggleMenu={() => {
+          setMenuOpen((value) => {
+            if (!value) setForceRoot(false);
+            return !value;
+          });
+        }}
       />
 
       <div className="pt-[calc(4.5rem+env(safe-area-inset-top))]">
@@ -105,29 +149,45 @@ export function PanelChrome({ children, homeHref, navItems }: Props) {
         <div className="flex flex-col gap-1 p-2">
           <LanguageSwitch variant="nav" />
           <div className="mx-2 my-1 h-px bg-slate-100" />
-          {navItems.map((item) => {
-            const Icon = NAV_ICONS[item.icon];
-            const active =
-              item.href === homeHref
-                ? pathname === item.href
-                : pathname === item.href || pathname.startsWith(`${item.href}/`);
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`flex items-center gap-3 rounded-xl px-2 py-2 text-[#0E1548] ${
-                  active ? 'bg-[#e8f0ff]' : 'hover:bg-slate-50'
-                }`}
-                onClick={() => setMenuOpen(false)}
+
+          {showContext && contextSection ? (
+            <>
+              <button
+                type="button"
+                onClick={() => setForceRoot(true)}
+                className="flex items-center gap-3 rounded-xl px-2 py-2 text-[#0E1548] hover:bg-slate-50"
               >
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e8f0ff]">
-                  <Icon className="h-4 w-4" aria-hidden />
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-slate-100">
+                  <FiArrowLeft className="h-4 w-4" aria-hidden />
                 </span>
-                <span className="min-w-0 flex-1 text-sm font-medium">{item.label}</span>
-                <FiChevronRight className="h-4 w-4 shrink-0 text-slate-400" aria-hidden />
-              </Link>
-            );
-          })}
+                <span className="min-w-0 flex-1 text-left">
+                  <span className="block text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+                    {contextSection.label}
+                  </span>
+                  <span className="block text-sm font-medium">Ana menü</span>
+                </span>
+              </button>
+              <div className="mx-2 my-1 h-px bg-slate-100" />
+              {contextSection.children!.map((item) => (
+                <NavLinkRow
+                  key={`${contextSection.href}:${item.href}:${item.label}`}
+                  item={item}
+                  active={isNavItemActive(pathname, item, homeHref)}
+                  onNavigate={() => setMenuOpen(false)}
+                />
+              ))}
+            </>
+          ) : (
+            navItems.map((item) => (
+              <NavLinkRow
+                key={item.href}
+                item={item}
+                active={isNavItemActive(pathname, item, homeHref)}
+                onNavigate={() => setMenuOpen(false)}
+              />
+            ))
+          )}
+
           <button
             type="button"
             onClick={() => void handleLogout()}
