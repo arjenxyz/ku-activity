@@ -1,4 +1,5 @@
 import { DEMO_PARTICIPANTS, type DemoParticipant } from '@/lib/demo/data';
+import { DEMO_PAYMENT_CLAIMS } from '@/lib/payments/demo-claims';
 import type {
   CashHandoff,
   CustodyChannel,
@@ -15,16 +16,16 @@ type Store = {
 };
 
 function store(): Store {
-  const g = globalThis as typeof globalThis & { __emsPaymentStoreV1?: Store };
-  if (!g.__emsPaymentStoreV1) {
-    g.__emsPaymentStoreV1 = {
+  const g = globalThis as typeof globalThis & { __emsPaymentStoreV2?: Store };
+  if (!g.__emsPaymentStoreV2) {
+    g.__emsPaymentStoreV2 = {
       participants: structuredClone(DEMO_PARTICIPANTS),
-      claims: [],
+      claims: structuredClone(DEMO_PAYMENT_CLAIMS),
       handoffs: [],
       custody: [],
     };
   }
-  return g.__emsPaymentStoreV1;
+  return g.__emsPaymentStoreV2;
 }
 
 function nowIso() {
