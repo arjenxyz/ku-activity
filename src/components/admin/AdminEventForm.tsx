@@ -3,7 +3,7 @@
 import { FormEvent, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { FiArrowLeft, FiPlus, FiTrash2 } from 'react-icons/fi';
+import { FiPlus, FiTrash2 } from 'react-icons/fi';
 import { inputClass, labelClass } from '@/components/auth/authStyles';
 import type { CatalogEvent, CatalogEventStatus, CostBearer, EventPlanning, MealSlot } from '@/lib/events/catalog';
 import {
@@ -244,16 +244,6 @@ export function AdminEventForm({
 
   return (
     <div className="space-y-4 lg:space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <Link
-          href="/admin/events"
-          className="inline-flex items-center gap-2 text-sm font-medium text-[#2D6AF6] hover:underline"
-        >
-          <FiArrowLeft className="h-4 w-4" />
-          Etkinlik listesi
-        </Link>
-      </div>
-
       {/* Mobile / tablet: compact horizontal chips */}
       <nav
         className="sticky top-[calc(4.5rem+env(safe-area-inset-top))] z-10 -mx-1 overflow-x-auto rounded-2xl border border-slate-200/80 bg-white/95 px-2 py-2 shadow-sm backdrop-blur lg:hidden"
