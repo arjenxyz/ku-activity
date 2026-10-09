@@ -258,8 +258,12 @@ function NavLinksBody({
       </nav>
 
       <div className="mt-3 shrink-0 space-y-2 rounded-2xl border border-slate-100 bg-slate-50/80 p-2.5">
-        <PanelSessionCard compact />
-        <div className="h-px bg-slate-200/70" />
+        {isSidebar ? (
+          <>
+            <PanelSessionCard compact />
+            <div className="h-px bg-slate-200/70" />
+          </>
+        ) : null}
         <div className="flex items-center justify-between gap-2 px-1">
           <span className="text-[11px] font-medium uppercase tracking-wider text-slate-400">Dil</span>
           <LanguageSwitch variant="compact" />
