@@ -30,7 +30,7 @@ export function AppTopBar({ homeHref, menuOpen, onToggleMenu }: Props) {
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 bg-transparent px-3 pt-[max(0.5rem,env(safe-area-inset-top))] sm:px-6">
-      <div className="mx-auto flex w-full max-w-md items-center justify-between gap-3 rounded-2xl border border-slate-200/80 bg-white/95 px-3 py-2 shadow-sm backdrop-blur-lg sm:max-w-lg sm:px-4">
+      <div className="mx-auto flex w-full items-center justify-between gap-3 rounded-2xl border border-slate-200/80 bg-white/95 px-3 py-2 shadow-sm backdrop-blur-lg sm:px-4">
         <Link href={brandHref} className="flex min-w-0 items-center gap-2.5" aria-label={brandLabel}>
           <BrandMark size="sm" className="!h-9 !w-9" />
           <span className="min-w-0">
