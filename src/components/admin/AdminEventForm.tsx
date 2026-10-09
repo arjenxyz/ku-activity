@@ -48,7 +48,7 @@ const SECTION_NAV = [
 ] as const;
 
 const sectionClass =
-  'scroll-mt-28 space-y-3 rounded-2xl border border-slate-100 bg-slate-50/50 p-4 sm:scroll-mt-32 sm:p-5 lg:scroll-mt-4';
+  'scroll-mt-28 space-y-3 rounded-2xl border border-slate-100 bg-slate-50/50 p-4 sm:scroll-mt-32 sm:p-5 lg:scroll-mt-28';
 
 const emptyForm: FormState = {
   title: '',
@@ -243,8 +243,8 @@ export function AdminEventForm({
   const { planning } = form;
 
   return (
-    <div className="flex flex-col gap-4 lg:h-[calc(100dvh-8.5rem-env(safe-area-inset-top,0px))] lg:overflow-hidden">
-      <div className="flex shrink-0 flex-wrap items-center justify-between gap-3">
+    <div className="space-y-4 lg:space-y-6">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <Link
           href="/admin/events"
           className="inline-flex items-center gap-2 text-sm font-medium text-[#2D6AF6] hover:underline"
@@ -256,7 +256,7 @@ export function AdminEventForm({
 
       {/* Mobile / tablet: compact horizontal chips */}
       <nav
-        className="sticky top-[calc(4.5rem+env(safe-area-inset-top))] z-10 -mx-1 shrink-0 overflow-x-auto rounded-2xl border border-slate-200/80 bg-white/95 px-2 py-2 shadow-sm backdrop-blur lg:hidden"
+        className="sticky top-[calc(4.5rem+env(safe-area-inset-top))] z-10 -mx-1 overflow-x-auto rounded-2xl border border-slate-200/80 bg-white/95 px-2 py-2 shadow-sm backdrop-blur lg:hidden"
         aria-label="Form bölümleri"
       >
         <ul className="flex min-w-max gap-1.5">
@@ -276,14 +276,14 @@ export function AdminEventForm({
         </ul>
       </nav>
 
-      {/* Desktop: left nav stays put; only the form column scrolls */}
-      <div className="min-h-0 flex-1 lg:grid lg:grid-cols-[15rem_minmax(0,1fr)] lg:gap-6 xl:grid-cols-[16rem_minmax(0,1fr)]">
-        <aside className="hidden lg:flex lg:min-h-0 lg:flex-col">
+      {/* Desktop: sticky sidebar + normal page scroll on the form */}
+      <div className="lg:grid lg:grid-cols-[15rem_minmax(0,1fr)] lg:items-start lg:gap-6 xl:grid-cols-[16rem_minmax(0,1fr)]">
+        <aside className="hidden lg:block">
           <nav
-            className="flex min-h-0 flex-1 flex-col overflow-y-auto rounded-2xl border border-slate-200/80 bg-white p-3 shadow-sm"
+            className="sticky top-[calc(5rem+env(safe-area-inset-top))] max-h-[calc(100dvh-6rem)] overflow-y-auto rounded-2xl border border-slate-200/80 bg-white p-3 shadow-sm"
             aria-label="Form bölümleri"
           >
-            <p className="shrink-0 px-2 pb-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400">
+            <p className="px-2 pb-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400">
               Bölümler
             </p>
             <ul className="space-y-0.5">
@@ -306,9 +306,9 @@ export function AdminEventForm({
 
         <form
           onSubmit={onSubmit}
-          className="min-h-0 overflow-hidden rounded-[1.35rem] border border-slate-200/80 bg-white shadow-sm lg:flex lg:flex-col lg:overflow-hidden"
+          className="overflow-hidden rounded-[1.35rem] border border-slate-200/80 bg-white shadow-sm"
         >
-          <div className="shrink-0 bg-gradient-to-br from-[#0E1548] to-[#2D6AF6] px-5 py-6 text-white sm:px-7 sm:py-7">
+          <div className="bg-gradient-to-br from-[#0E1548] to-[#2D6AF6] px-5 py-6 text-white sm:px-7 sm:py-7">
             <p className="text-xs font-semibold uppercase tracking-[0.16em] text-white/70">
               {mode === 'edit' ? 'Düzenleme' : 'Yeni kayıt'}
             </p>
@@ -320,7 +320,7 @@ export function AdminEventForm({
             </p>
           </div>
 
-          <div className="space-y-5 p-4 sm:space-y-6 sm:p-6 lg:min-h-0 lg:flex-1 lg:overflow-y-auto lg:scroll-smooth lg:p-7">
+          <div className="space-y-5 p-4 sm:space-y-6 sm:p-6 lg:p-7">
           <section id="sec-1" className={sectionClass}>
             <h2 className="text-sm font-semibold text-[#0E1548]">1 · Temel bilgiler</h2>
             <div>

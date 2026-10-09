@@ -69,7 +69,7 @@ export function PanelChrome({ children, homeHref, subtitle, navItems }: Props) {
   };
 
   return (
-    <div className="min-h-[100dvh] overflow-x-hidden bg-slate-50">
+    <div className="min-h-[100dvh] overflow-x-clip bg-slate-50">
       <AppTopBar
         homeHref={homeHref}
         subtitle={subtitle}
