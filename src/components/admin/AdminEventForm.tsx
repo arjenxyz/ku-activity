@@ -33,19 +33,21 @@ type FormState = {
 };
 
 const SECTION_NAV = [
-  { id: 'sec-1', label: '1 Temel' },
-  { id: 'sec-2', label: '2 Tarih' },
-  { id: 'sec-3', label: '3 Günler' },
-  { id: 'sec-4', label: '4 Aktivite' },
-  { id: 'sec-5', label: '5 Ücret' },
-  { id: 'sec-6', label: '6 Ulaşım' },
-  { id: 'sec-7', label: '7 Konaklama' },
-  { id: 'sec-8', label: '8 Yemek' },
-  { id: 'sec-9', label: '9 Ekip' },
-  { id: 'sec-10', label: '10 Sponsor' },
-  { id: 'sec-11', label: '11 Şartlar' },
-  { id: 'sec-12', label: '12 Durum' },
+  { id: 'sec-1', short: 'Temel', label: 'Temel bilgiler' },
+  { id: 'sec-2', short: 'Tarih', label: 'Tarih ve kontenjan' },
+  { id: 'sec-3', short: 'Günler', label: 'Program günleri' },
+  { id: 'sec-4', short: 'Aktivite', label: 'Aktiviteler' },
+  { id: 'sec-5', short: 'Ücret', label: 'Ücret ve dahil olanlar' },
+  { id: 'sec-6', short: 'Ulaşım', label: 'Ulaşım' },
+  { id: 'sec-7', short: 'Konaklama', label: 'Konaklama' },
+  { id: 'sec-8', short: 'Yemek', label: 'Yemek planı' },
+  { id: 'sec-9', short: 'Ekip', label: 'Ekip ve danışman' },
+  { id: 'sec-10', short: 'Sponsor', label: 'Sponsorlar' },
+  { id: 'sec-11', short: 'Şartlar', label: 'Katılım şartları' },
+  { id: 'sec-12', short: 'Durum', label: 'Yayın durumu' },
 ] as const;
+
+const sectionClass = 'scroll-mt-28 space-y-3 rounded-2xl border border-slate-100 bg-slate-50/50 p-4 sm:scroll-mt-32 sm:p-5 lg:scroll-mt-8';
 
 const emptyForm: FormState = {
   title: '',
@@ -240,7 +242,7 @@ export function AdminEventForm({
   const { planning } = form;
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-4 lg:space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <Link
           href="/admin/events"
@@ -251,36 +253,74 @@ export function AdminEventForm({
         </Link>
       </div>
 
-      <nav className="sticky top-[calc(4.5rem+env(safe-area-inset-top))] z-10 -mx-1 overflow-x-auto rounded-2xl border border-slate-200/80 bg-white/95 px-2 py-2 shadow-sm backdrop-blur">
-        <ul className="flex min-w-max gap-1">
-          {SECTION_NAV.map((item) => (
+      {/* Mobile / tablet: compact horizontal chips */}
+      <nav
+        className="sticky top-[calc(4.5rem+env(safe-area-inset-top))] z-10 -mx-1 overflow-x-auto rounded-2xl border border-slate-200/80 bg-white/95 px-2 py-2 shadow-sm backdrop-blur lg:hidden"
+        aria-label="Form bölümleri"
+      >
+        <ul className="flex min-w-max gap-1.5">
+          {SECTION_NAV.map((item, index) => (
             <li key={item.id}>
               <a
                 href={`#${item.id}`}
-                className="inline-flex rounded-xl px-2.5 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-100 hover:text-[#0E1548]"
+                className="inline-flex items-center gap-1.5 rounded-full bg-slate-50 px-3 py-1.5 text-xs font-medium text-slate-600 ring-1 ring-slate-200/80 hover:bg-[#e8f0ff] hover:text-[#0E1548] hover:ring-[#2D6AF6]/20"
               >
-                {item.label}
+                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#0E1548] text-[10px] font-semibold text-white">
+                  {index + 1}
+                </span>
+                {item.short}
               </a>
             </li>
           ))}
         </ul>
       </nav>
 
-      <form onSubmit={onSubmit} className="overflow-hidden rounded-[1.35rem] border border-slate-200/80 bg-white shadow-sm">
-        <div className="bg-gradient-to-br from-[#0E1548] to-[#2D6AF6] px-5 py-6 text-white">
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-white/70">
-            {mode === 'edit' ? 'Düzenleme' : 'Yeni kayıt'}
-          </p>
-          <h1 className="mt-2 text-2xl font-semibold tracking-tight">
-            {mode === 'edit' ? 'Etkinliği düzenle' : 'Etkinlik oluştur'}
-          </h1>
-          <p className="mt-2 text-sm text-white/80">
-            Program, lojistik, yemek, ekip ve ücret bilgisini detaylı planla.
-          </p>
-        </div>
+      <div className="lg:grid lg:grid-cols-[15rem_minmax(0,1fr)] lg:items-start lg:gap-6 xl:grid-cols-[16rem_minmax(0,1fr)]">
+        {/* Desktop: sticky side nav */}
+        <aside className="hidden lg:block">
+          <nav
+            className="sticky top-[calc(5rem+env(safe-area-inset-top))] rounded-2xl border border-slate-200/80 bg-white p-3 shadow-sm"
+            aria-label="Form bölümleri"
+          >
+            <p className="px-2 pb-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400">
+              Bölümler
+            </p>
+            <ul className="space-y-0.5">
+              {SECTION_NAV.map((item, index) => (
+                <li key={item.id}>
+                  <a
+                    href={`#${item.id}`}
+                    className="flex items-center gap-2.5 rounded-xl px-2 py-2 text-sm text-slate-600 transition hover:bg-[#e8f0ff] hover:text-[#0E1548]"
+                  >
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-[11px] font-semibold text-[#0E1548]">
+                      {index + 1}
+                    </span>
+                    <span className="min-w-0 truncate font-medium">{item.label}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </aside>
 
-        <div className="space-y-8 p-5">
-          <section id="sec-1" className="scroll-mt-36 space-y-3">
+        <form
+          onSubmit={onSubmit}
+          className="overflow-hidden rounded-[1.35rem] border border-slate-200/80 bg-white shadow-sm"
+        >
+          <div className="bg-gradient-to-br from-[#0E1548] to-[#2D6AF6] px-5 py-6 text-white sm:px-7 sm:py-7">
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-white/70">
+              {mode === 'edit' ? 'Düzenleme' : 'Yeni kayıt'}
+            </p>
+            <h1 className="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">
+              {mode === 'edit' ? 'Etkinliği düzenle' : 'Etkinlik oluştur'}
+            </h1>
+            <p className="mt-2 max-w-xl text-sm text-white/80">
+              Program, lojistik, yemek, ekip ve ücret bilgisini detaylı planla.
+            </p>
+          </div>
+
+          <div className="space-y-5 p-4 sm:space-y-6 sm:p-6 lg:p-7">
+          <section id="sec-1" className={sectionClass}>
             <h2 className="text-sm font-semibold text-[#0E1548]">1 · Temel bilgiler</h2>
             <div>
               <label htmlFor="title" className={labelClass}>Başlık</label>
@@ -302,9 +342,9 @@ export function AdminEventForm({
             </div>
           </section>
 
-          <section id="sec-2" className="scroll-mt-36 space-y-3">
+          <section id="sec-2" className={sectionClass}>
             <h2 className="text-sm font-semibold text-[#0E1548]">2 · Tarih ve kontenjan</h2>
-            <div className="grid gap-3 sm:grid-cols-2">
+            <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
               <div>
                 <label htmlFor="starts" className={labelClass}>Başlangıç</label>
                 <input
@@ -338,7 +378,7 @@ export function AdminEventForm({
             </div>
           </section>
 
-          <section id="sec-3" className="scroll-mt-36 space-y-3">
+          <section id="sec-3" className={sectionClass}>
             <div className="flex items-center justify-between gap-2">
               <h2 className="text-sm font-semibold text-[#0E1548]">3 · Program günleri</h2>
               <button
@@ -367,7 +407,7 @@ export function AdminEventForm({
             </div>
           </section>
 
-          <section id="sec-4" className="scroll-mt-36 space-y-3">
+          <section id="sec-4" className={sectionClass}>
             <div className="flex items-center justify-between gap-2">
               <h2 className="text-sm font-semibold text-[#0E1548]">4 · Aktiviteler</h2>
               <button
@@ -396,7 +436,7 @@ export function AdminEventForm({
             </div>
           </section>
 
-          <section id="sec-5" className="scroll-mt-36 space-y-3 rounded-2xl border border-slate-100 bg-slate-50/60 p-4">
+          <section id="sec-5" className={sectionClass}>
             <h2 className="text-sm font-semibold text-[#0E1548]">5 · Ücret ve dahil olanlar</h2>
             <div className="grid gap-3 sm:grid-cols-2">
               <div>
@@ -483,7 +523,7 @@ export function AdminEventForm({
             </div>
           </section>
 
-          <section id="sec-6" className="scroll-mt-36 space-y-3 rounded-2xl border border-slate-100 bg-slate-50/60 p-4">
+          <section id="sec-6" className={sectionClass}>
             <h2 className="text-sm font-semibold text-[#0E1548]">6 · Ulaşım</h2>
             <label className="flex items-center gap-2 text-sm text-slate-700">
               <input
@@ -607,7 +647,7 @@ export function AdminEventForm({
             </div>
           </section>
 
-          <section id="sec-7" className="scroll-mt-36 space-y-3 rounded-2xl border border-slate-100 bg-slate-50/60 p-4">
+          <section id="sec-7" className={sectionClass}>
             <h2 className="text-sm font-semibold text-[#0E1548]">7 · Konaklama</h2>
             <label className="flex items-center gap-2 text-sm text-slate-700">
               <input
@@ -730,7 +770,7 @@ export function AdminEventForm({
             </div>
           </section>
 
-          <section id="sec-8" className="scroll-mt-36 space-y-3 rounded-2xl border border-slate-100 bg-slate-50/60 p-4">
+          <section id="sec-8" className={sectionClass}>
             <div className="flex items-center justify-between gap-2">
               <h2 className="text-sm font-semibold text-[#0E1548]">8 · Yemek planı</h2>
               <button
@@ -821,7 +861,7 @@ export function AdminEventForm({
             </div>
           </section>
 
-          <section id="sec-9" className="scroll-mt-36 space-y-3 rounded-2xl border border-slate-100 bg-slate-50/60 p-4">
+          <section id="sec-9" className={sectionClass}>
             <h2 className="text-sm font-semibold text-[#0E1548]">9 · Ekip ve danışman</h2>
             <div className="grid gap-3 sm:grid-cols-3">
               <div>
@@ -951,7 +991,7 @@ export function AdminEventForm({
             </div>
           </section>
 
-          <section id="sec-10" className="scroll-mt-36 space-y-3 rounded-2xl border border-slate-100 bg-slate-50/60 p-4">
+          <section id="sec-10" className={sectionClass}>
             <div className="flex items-center justify-between gap-2">
               <h2 className="text-sm font-semibold text-[#0E1548]">10 · Sponsorlar</h2>
               <button
@@ -1015,7 +1055,7 @@ export function AdminEventForm({
             ))}
           </section>
 
-          <section id="sec-11" className="scroll-mt-36 space-y-3 rounded-2xl border border-slate-100 bg-slate-50/60 p-4">
+          <section id="sec-11" className={sectionClass}>
             <h2 className="text-sm font-semibold text-[#0E1548]">11 · Katılım şartları</h2>
             <div>
               <label htmlFor="meetingPoint" className={labelClass}>Buluşma noktası</label>
@@ -1128,34 +1168,37 @@ export function AdminEventForm({
             </div>
           </section>
 
-          <section id="sec-12" className="scroll-mt-36 grid gap-3 sm:grid-cols-2">
-            <div>
-              <h2 className="mb-3 text-sm font-semibold text-[#0E1548]">12 · Durum</h2>
-              <label htmlFor="status" className={labelClass}>Yayın durumu</label>
-              <select id="status" className={inputClass} value={form.status} onChange={(e) => patch('status', e.target.value as CatalogEventStatus)}>
-                {(Object.keys(STATUS_LABELS) as CatalogEventStatus[]).map((key) => (
-                  <option key={key} value={key}>{STATUS_LABELS[key]}</option>
-                ))}
-              </select>
+          <section id="sec-12" className={sectionClass}>
+            <h2 className="text-sm font-semibold text-[#0E1548]">12 · Yayın durumu</h2>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <div>
+                <label htmlFor="status" className={labelClass}>Durum</label>
+                <select id="status" className={inputClass} value={form.status} onChange={(e) => patch('status', e.target.value as CatalogEventStatus)}>
+                  {(Object.keys(STATUS_LABELS) as CatalogEventStatus[]).map((key) => (
+                    <option key={key} value={key}>{STATUS_LABELS[key]}</option>
+                  ))}
+                </select>
+              </div>
+              <label className="mt-7 flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700">
+                <input type="checkbox" checked={form.assignedToStaff} onChange={(e) => patch('assignedToStaff', e.target.checked)} />
+                Görevliye ata (check-in)
+              </label>
             </div>
-            <label className="mt-8 flex items-center gap-2 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700">
-              <input type="checkbox" checked={form.assignedToStaff} onChange={(e) => patch('assignedToStaff', e.target.checked)} />
-              Görevliye ata (check-in)
-            </label>
           </section>
 
           {error ? <p className="text-sm text-red-700">{error}</p> : null}
 
-          <div className="flex flex-wrap gap-2">
-            <button type="submit" disabled={loading} className="inline-flex flex-1 items-center justify-center rounded-2xl bg-emerald-600 px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700 disabled:opacity-70 sm:flex-none">
+          <div className="sticky bottom-3 z-[5] flex flex-wrap gap-2 rounded-2xl border border-slate-200/80 bg-white/95 p-3 shadow-lg shadow-slate-900/5 backdrop-blur sm:bottom-4">
+            <button type="submit" disabled={loading} className="inline-flex flex-1 items-center justify-center rounded-2xl bg-emerald-600 px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700 disabled:opacity-70 sm:flex-none sm:min-w-[12rem]">
               {loading ? 'Kaydediliyor…' : mode === 'edit' ? 'Değişiklikleri kaydet' : 'Etkinliği oluştur'}
             </button>
             <Link href="/admin/events" className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50">
               Vazgeç
             </Link>
           </div>
-        </div>
-      </form>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }
