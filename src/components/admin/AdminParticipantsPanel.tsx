@@ -256,32 +256,40 @@ export function AdminParticipantsPanel() {
               </tr>
             </thead>
             <tbody>
-              {filteredRows.map((row) => (
-                <tr key={`desk-${row.registrationNo}`} className="border-t border-slate-100">
-                  <td className="px-4 py-3">
-                    <p className="font-medium text-[#0E1548]">{row.name}</p>
-                    <p className="text-xs text-slate-500">
-                      {row.registrationNo} · {row.studentNo}
-                    </p>
-                  </td>
-                  <td className="px-4 py-3 text-slate-600">
-                    {row.department}
-                    <span className="block text-xs text-slate-400">Sn. {row.classYear}</span>
-                  </td>
-                  <td className="px-4 py-3">
-                    <span className={`rounded-md px-2 py-0.5 text-[11px] font-semibold ${paymentTone(row.paymentStatus)}`}>
-                      {PAYMENT_STATUS_LABELS[row.paymentStatus]}
-                    </span>
-                  </td>
-                  <td className="px-4 py-3 text-slate-700">
-                    {row.paidAmount}/{row.paymentAmount} TRY
-                  </td>
-                  <td className="px-4 py-3 text-slate-600">
-                    {row.attendance}
-                    <span className="block text-xs text-slate-400">{row.day}</span>
+              {filteredRows.length === 0 ? (
+                <tr>
+                  <td colSpan={5} className="px-4 py-10 text-center text-sm text-slate-500">
+                    Bu filtrede kayıt yok.
                   </td>
                 </tr>
-              ))}
+              ) : (
+                filteredRows.map((row) => (
+                  <tr key={`desk-${row.registrationNo}`} className="border-t border-slate-100">
+                    <td className="px-4 py-3">
+                      <p className="font-medium text-[#0E1548]">{row.name}</p>
+                      <p className="text-xs text-slate-500">
+                        {row.registrationNo} · {row.studentNo}
+                      </p>
+                    </td>
+                    <td className="px-4 py-3 text-slate-600">
+                      {row.department}
+                      <span className="block text-xs text-slate-400">Sn. {row.classYear}</span>
+                    </td>
+                    <td className="px-4 py-3">
+                      <span className={`rounded-md px-2 py-0.5 text-[11px] font-semibold ${paymentTone(row.paymentStatus)}`}>
+                        {PAYMENT_STATUS_LABELS[row.paymentStatus]}
+                      </span>
+                    </td>
+                    <td className="px-4 py-3 text-slate-700">
+                      {row.paidAmount}/{row.paymentAmount} TRY
+                    </td>
+                    <td className="px-4 py-3 text-slate-600">
+                      {row.attendance}
+                      <span className="block text-xs text-slate-400">{row.day}</span>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
