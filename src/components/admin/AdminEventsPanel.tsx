@@ -4,6 +4,7 @@ import { FormEvent, useEffect, useMemo, useState } from 'react';
 import {
   FiCalendar,
   FiCheckCircle,
+  FiEdit2,
   FiMapPin,
   FiPlus,
   FiTrash2,
@@ -62,9 +63,38 @@ function bandFor(id: string) {
   return 'from-[#0E1548] to-[#2D6AF6]';
 }
 
+function eventToForm(event: AdminEvent) {
+  const dayIndexById = new Map(event.days.map((day, index) => [day.id, index]));
+  return {
+    title: event.title,
+    description: event.description,
+    location: event.location,
+    startsAtIso: toLocalInput(event.startsAtIso),
+    endsAtIso: toLocalInput(event.endsAtIso),
+    capacity: event.capacity,
+    status: event.status,
+    registrationDeadlineIso: toLocalInput(event.registrationDeadlineIso),
+    assignedToStaff: event.assignedToStaff,
+    registrationPrefix: event.registrationPrefix,
+    days: event.days.map((day) => ({
+      label: day.label,
+      dateIso: toLocalInput(day.dateIso || event.startsAtIso),
+    })),
+    activities:
+      event.activities.length > 0
+        ? event.activities.map((activity) => ({
+            dayIndex: dayIndexById.get(activity.dayId) ?? 0,
+            title: activity.title,
+            startsAt: activity.startsAt ?? '',
+          }))
+        : [{ dayIndex: 0, title: '', startsAt: '' }],
+  };
+}
+
 export function AdminEventsPanel() {
   const [events, setEvents] = useState<AdminEvent[]>([]);
   const [open, setOpen] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
   const [filter, setFilter] = useState<FilterKey>('all');
   const [form, setForm] = useState(emptyForm);
   const [error, setError] = useState<string | null>(null);
@@ -118,36 +148,61 @@ export function AdminEventsPanel() {
     setForm((prev) => ({ ...prev, [key]: value }));
   }
 
+  function closeForm() {
+    setOpen(false);
+    setEditingId(null);
+    setForm(emptyForm);
+    setError(null);
+  }
+
+  function startCreate() {
+    setEditingId(null);
+    setForm(emptyForm);
+    setError(null);
+    setMessage(null);
+    setOpen(true);
+  }
+
+  function startEdit(event: AdminEvent) {
+    setEditingId(event.id);
+    setForm(eventToForm(event));
+    setError(null);
+    setMessage(null);
+    setOpen(true);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
     setLoading(true);
     setError(null);
     setMessage(null);
     try {
+      const payloadBody = {
+        ...(editingId ? { id: editingId } : {}),
+        ...form,
+        startsAtIso: fromLocalInput(form.startsAtIso),
+        endsAtIso: fromLocalInput(form.endsAtIso),
+        registrationDeadlineIso: fromLocalInput(form.registrationDeadlineIso),
+        registrationPrefix: form.registrationPrefix.trim() || prefixHint,
+        days: form.days.map((day) => ({
+          label: day.label,
+          dateIso: fromLocalInput(day.dateIso) || fromLocalInput(form.startsAtIso),
+        })),
+        activities: form.activities.filter((item) => item.title.trim()),
+      };
       const response = await fetch('/api/admin/events', {
-        method: 'POST',
+        method: editingId ? 'PATCH' : 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...form,
-          startsAtIso: fromLocalInput(form.startsAtIso),
-          endsAtIso: fromLocalInput(form.endsAtIso),
-          registrationDeadlineIso: fromLocalInput(form.registrationDeadlineIso),
-          registrationPrefix: form.registrationPrefix.trim() || prefixHint,
-          days: form.days.map((day) => ({
-            label: day.label,
-            dateIso: fromLocalInput(day.dateIso) || fromLocalInput(form.startsAtIso),
-          })),
-          activities: form.activities.filter((item) => item.title.trim()),
-        }),
+        body: JSON.stringify(payloadBody),
       });
       const payload = (await response.json().catch(() => null)) as { error?: string } | null;
       if (!response.ok) {
-        setError(payload?.error ?? 'Oluşturulamadı');
+        setError(payload?.error ?? (editingId ? 'Güncellenemedi' : 'Oluşturulamadı'));
         return;
       }
-      setMessage('Etkinlik oluşturuldu.');
-      setForm(emptyForm);
-      setOpen(false);
+      setMessage(editingId ? 'Etkinlik güncellendi.' : 'Etkinlik oluşturuldu.');
+      closeForm();
       await load();
     } finally {
       setLoading(false);
@@ -179,9 +234,8 @@ export function AdminEventsPanel() {
             <button
               type="button"
               onClick={() => {
-                setOpen((value) => !value);
-                setError(null);
-                setMessage(null);
+                if (open) closeForm();
+                else startCreate();
               }}
               className="inline-flex items-center gap-2 rounded-2xl bg-emerald-500 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-600"
             >
@@ -210,8 +264,12 @@ export function AdminEventsPanel() {
       {open ? (
         <form onSubmit={onSubmit} className="overflow-hidden rounded-[1.35rem] border border-slate-200/80 bg-white shadow-sm">
           <div className="border-b border-slate-100 px-5 py-4">
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#2D6AF6]">Yeni kayıt</p>
-            <h2 className="mt-1 text-lg font-semibold text-[#0E1548]">Etkinlik oluştur</h2>
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#2D6AF6]">
+              {editingId ? 'Düzenleme' : 'Yeni kayıt'}
+            </p>
+            <h2 className="mt-1 text-lg font-semibold text-[#0E1548]">
+              {editingId ? 'Etkinliği düzenle' : 'Etkinlik oluştur'}
+            </h2>
           </div>
 
           <div className="space-y-6 p-5">
@@ -360,7 +418,7 @@ export function AdminEventsPanel() {
             {error ? <p className="text-sm text-red-700">{error}</p> : null}
 
             <button type="submit" disabled={loading} className="inline-flex w-full items-center justify-center rounded-2xl bg-emerald-600 px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700 disabled:opacity-70 sm:w-auto">
-              {loading ? 'Kaydediliyor…' : 'Etkinliği oluştur'}
+              {loading ? 'Kaydediliyor…' : editingId ? 'Değişiklikleri kaydet' : 'Etkinliği oluştur'}
             </button>
           </div>
         </form>
@@ -452,7 +510,7 @@ export function AdminEventsPanel() {
                   </div>
                 </div>
 
-                <div className="flex flex-wrap items-center gap-2 border-t border-slate-100 pt-4">
+                <div className="flex flex-wrap items-end gap-2 border-t border-slate-100 pt-4">
                   <label className="flex min-w-[10rem] flex-1 flex-col gap-1 text-xs font-medium text-slate-500">
                     Durum
                     <select
@@ -468,6 +526,14 @@ export function AdminEventsPanel() {
                   <p className="rounded-xl bg-slate-50 px-3 py-2.5 text-xs text-slate-500">
                     Önek <span className="font-semibold text-[#0E1548]">{event.registrationPrefix}</span>
                   </p>
+                  <button
+                    type="button"
+                    onClick={() => startEdit(event)}
+                    className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-medium text-[#0E1548] transition hover:bg-[#e8f0ff]"
+                  >
+                    <FiEdit2 className="h-4 w-4" />
+                    Düzenle
+                  </button>
                 </div>
               </div>
             </li>

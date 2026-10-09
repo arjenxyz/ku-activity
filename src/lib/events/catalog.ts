@@ -2,6 +2,8 @@ export type CatalogDay = {
   id: string;
   label: string;
   date: string;
+  /** ISO datetime used when editing the program in admin */
+  dateIso?: string;
 };
 
 export type CatalogActivity = {
@@ -81,9 +83,9 @@ export const EVENT_CATALOG_SEED: CatalogEvent[] = [
     assignedToStaff: true,
     registrationPrefix: 'ABN-2027',
     days: [
-      { id: 'abana-d1', label: 'Gün 1', date: '12 Mayıs 2027' },
-      { id: 'abana-d2', label: 'Gün 2', date: '13 Mayıs 2027' },
-      { id: 'abana-d3', label: 'Gün 3', date: '14 Mayıs 2027' },
+      { id: 'abana-d1', label: 'Gün 1', date: '12 Mayıs 2027', dateIso: '2027-05-12T09:00:00+03:00' },
+      { id: 'abana-d2', label: 'Gün 2', date: '13 Mayıs 2027', dateIso: '2027-05-13T09:00:00+03:00' },
+      { id: 'abana-d3', label: 'Gün 3', date: '14 Mayıs 2027', dateIso: '2027-05-14T09:00:00+03:00' },
     ],
     activities: [
       { id: 'abana-a1', dayId: 'abana-d1', title: 'Kalkış ve yol', startsAt: '08:00' },
@@ -107,7 +109,7 @@ export const EVENT_CATALOG_SEED: CatalogEvent[] = [
     registrationDeadlineIso: '2026-10-17T23:59:59+03:00',
     assignedToStaff: false,
     registrationPrefix: 'TNS-2026',
-    days: [{ id: 'tanisma-d1', label: 'Etkinlik günü', date: '18 Ekim 2026' }],
+    days: [{ id: 'tanisma-d1', label: 'Etkinlik günü', date: '18 Ekim 2026', dateIso: '2026-10-18T13:00:00+03:00' }],
     activities: [
       { id: 'tanisma-a1', dayId: 'tanisma-d1', title: 'Açılış ve tanışma', startsAt: '13:00' },
       { id: 'tanisma-a2', dayId: 'tanisma-d1', title: 'Atölye', startsAt: '15:00' },

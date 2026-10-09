@@ -51,7 +51,7 @@ export type CreateCatalogEventInput = {
   activities: Array<{ dayIndex: number; title: string; startsAt?: string }>;
 };
 
-export function createCatalogEvent(input: CreateCatalogEventInput): CatalogEvent {
+function buildEventPayload(eventId: string, input: CreateCatalogEventInput): CatalogEvent {
   const title = input.title.trim();
   if (!title) throw new Error('Başlık gerekli');
   if (!input.location.trim()) throw new Error('Konum gerekli');
@@ -65,12 +65,11 @@ export function createCatalogEvent(input: CreateCatalogEventInput): CatalogEvent
   if (!input.registrationPrefix.trim()) throw new Error('Kayıt öneki gerekli');
   if (!input.days.length) throw new Error('En az bir gün ekle');
 
-  const eventId = slugifyEventId(title);
-
   const days: CatalogDay[] = input.days.map((day, index) => ({
     id: `${eventId}-d${index + 1}`,
     label: day.label.trim() || `Gün ${index + 1}`,
     date: formatTrDate(day.dateIso),
+    dateIso: day.dateIso,
   }));
 
   const activities: CatalogActivity[] = input.activities
@@ -86,7 +85,7 @@ export function createCatalogEvent(input: CreateCatalogEventInput): CatalogEvent
       };
     });
 
-  const event: CatalogEvent = {
+  return {
     id: eventId,
     title,
     description: input.description.trim(),
@@ -104,8 +103,19 @@ export function createCatalogEvent(input: CreateCatalogEventInput): CatalogEvent
     days,
     activities,
   };
+}
 
+export function createCatalogEvent(input: CreateCatalogEventInput): CatalogEvent {
+  const event = buildEventPayload(slugifyEventId(input.title), input);
   store().events = [event, ...store().events];
+  return event;
+}
+
+export function updateCatalogEvent(id: string, input: CreateCatalogEventInput): CatalogEvent {
+  const index = store().events.findIndex((event) => event.id === id);
+  if (index < 0) throw new Error('Etkinlik bulunamadı');
+  const event = buildEventPayload(id, input);
+  store().events[index] = event;
   return event;
 }
 
