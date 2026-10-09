@@ -7,6 +7,7 @@ import {
   FiDownload,
   FiMapPin,
   FiUsers,
+  FiX,
 } from 'react-icons/fi';
 import {
   DEMO_PARTICIPANTS,
@@ -17,6 +18,7 @@ import {
 import type { CatalogEvent } from '@/lib/events/catalog';
 import { formatFeeTry } from '@/lib/events/catalog';
 import { downloadExcelCsv } from '@/lib/export/excel-csv';
+import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 
 type AdminEvent = CatalogEvent & { registeredCount?: number };
 type ListFilter = 'all' | 'payment_open' | 'paid' | 'attended';
@@ -103,6 +105,87 @@ function exportParticipants(eventTitle: string, rows: DemoParticipant[]) {
   );
 }
 
+function DetailRow({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex items-start justify-between gap-4 border-b border-slate-100 py-2.5 last:border-0">
+      <dt className="shrink-0 text-xs text-slate-400">{label}</dt>
+      <dd className="min-w-0 text-right text-sm font-medium text-[#0E1548]">{value || '—'}</dd>
+    </div>
+  );
+}
+
+function ParticipantDetailModal({
+  row,
+  onClose,
+}: {
+  row: DemoParticipant;
+  onClose: () => void;
+}) {
+  useBodyScrollLock(true);
+
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [onClose]);
+
+  return (
+    <div className="fixed inset-0 z-[60] flex items-end justify-center sm:items-center sm:p-4">
+      <button
+        type="button"
+        className="absolute inset-0 bg-[#0E1548]/50 backdrop-blur-sm"
+        aria-label="Kapat"
+        onClick={onClose}
+      />
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="participant-detail-title"
+        className="relative z-10 max-h-[85dvh] w-full overflow-y-auto rounded-t-3xl border border-slate-200 bg-white shadow-xl sm:max-w-md sm:rounded-3xl"
+        data-scroll-lock-allow=""
+      >
+        <div className="sticky top-0 flex items-start justify-between gap-3 border-b border-slate-100 bg-white px-5 py-4">
+          <div className="min-w-0">
+            <h2 id="participant-detail-title" className="text-lg font-semibold text-[#0E1548]">
+              {row.name}
+            </h2>
+            <p className="mt-0.5 text-xs text-slate-500">{row.registrationNo}</p>
+          </div>
+          <div className="flex shrink-0 items-center gap-2">
+            <span className={`rounded-md px-2 py-1 text-[11px] font-semibold ${paymentTone(row.paymentStatus)}`}>
+              {PAYMENT_STATUS_LABELS[row.paymentStatus]}
+            </span>
+            <button
+              type="button"
+              onClick={onClose}
+              className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-100 hover:text-slate-700"
+              aria-label="Kapat"
+            >
+              <FiX className="h-4 w-4" />
+            </button>
+          </div>
+        </div>
+
+        <dl className="px-5 py-2">
+          <DetailRow label="Öğrenci no" value={row.studentNo} />
+          <DetailRow label="Bölüm" value={row.department} />
+          <DetailRow label="Sınıf" value={row.classYear} />
+          <DetailRow label="Telefon" value={row.phone} />
+          <DetailRow label="E-posta" value={row.email} />
+          <DetailRow label="Kayıt tarihi" value={row.registeredAt} />
+          <DetailRow label="Katılım" value={`${row.attendance}${row.day ? ` · ${row.day}` : ''}`} />
+          <DetailRow label="Ücret" value={moneyTry(row.paymentAmount)} />
+          <DetailRow label="Ödenen" value={moneyTry(row.paidAmount)} />
+          <DetailRow label="Ödeme yöntemi" value={row.paymentMethod} />
+          <DetailRow label="Ödeme notu" value={row.paymentNote} />
+        </dl>
+      </div>
+    </div>
+  );
+}
+
 const FILTERS: Array<{ key: ListFilter; label: string }> = [
   { key: 'all', label: 'Tümü' },
   { key: 'payment_open', label: 'Ödeme açık' },
@@ -115,6 +198,7 @@ export function AdminParticipantsPanel() {
   const [ready, setReady] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [filter, setFilter] = useState<ListFilter>('all');
+  const [detail, setDetail] = useState<DemoParticipant | null>(null);
 
   useEffect(() => {
     void (async () => {
@@ -156,6 +240,7 @@ export function AdminParticipantsPanel() {
             onClick={() => {
               setSelectedId(null);
               setFilter('all');
+              setDetail(null);
             }}
             className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white text-[#0E1548] hover:bg-slate-50"
             aria-label="Etkinlik listesine dön"
@@ -197,102 +282,32 @@ export function AdminParticipantsPanel() {
           ))}
         </div>
 
-        <div className="overflow-hidden rounded-2xl border border-slate-200/80 bg-white lg:hidden">
+        <div className="overflow-hidden rounded-2xl border border-slate-200/80 bg-white">
           {filteredRows.length === 0 ? (
             <p className="px-4 py-10 text-center text-sm text-slate-500">Bu filtrede kayıt yok.</p>
           ) : (
             <ul className="divide-y divide-slate-100">
               {filteredRows.map((row) => (
-                <li key={row.registrationNo} className="px-4 py-3.5">
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="min-w-0">
-                      <p className="font-medium text-[#0E1548]">{row.name}</p>
-                      <p className="mt-0.5 text-xs text-slate-500">
-                        {row.registrationNo} · {row.studentNo}
-                      </p>
-                      <p className="mt-1 truncate text-xs text-slate-400">
-                        {row.department} · Sn. {row.classYear}
-                      </p>
-                    </div>
+                <li key={row.registrationNo}>
+                  <button
+                    type="button"
+                    onClick={() => setDetail(row)}
+                    className="flex w-full items-center justify-between gap-3 px-4 py-3.5 text-left transition hover:bg-slate-50"
+                  >
+                    <span className="min-w-0 truncate font-medium text-[#0E1548]">{row.name}</span>
                     <span
                       className={`shrink-0 rounded-md px-2 py-0.5 text-[11px] font-semibold ${paymentTone(row.paymentStatus)}`}
                     >
                       {PAYMENT_STATUS_LABELS[row.paymentStatus]}
                     </span>
-                  </div>
-                  <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-xs text-slate-600">
-                    <span>
-                      {row.paidAmount === row.paymentAmount
-                        ? moneyTry(row.paymentAmount)
-                        : `${moneyTry(row.paidAmount)} / ${moneyTry(row.paymentAmount)}`}
-                    </span>
-                    <span className="text-slate-300">·</span>
-                    <span>
-                      {row.attendance}
-                      {row.day ? ` · ${row.day}` : ''}
-                    </span>
-                    {row.paymentMethod ? (
-                      <>
-                        <span className="text-slate-300">·</span>
-                        <span>{row.paymentMethod}</span>
-                      </>
-                    ) : null}
-                  </div>
+                  </button>
                 </li>
               ))}
             </ul>
           )}
         </div>
 
-        <div className="hidden overflow-x-auto rounded-2xl border border-slate-200/80 bg-white lg:block">
-          <table className="min-w-full text-sm">
-            <thead>
-              <tr className="border-b border-slate-100 text-left text-[11px] font-semibold uppercase tracking-wide text-slate-400">
-                <th className="px-4 py-3">Katılımcı</th>
-                <th className="px-4 py-3">Bölüm</th>
-                <th className="px-4 py-3">Ödeme</th>
-                <th className="px-4 py-3">Tutar</th>
-                <th className="px-4 py-3">Katılım</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredRows.length === 0 ? (
-                <tr>
-                  <td colSpan={5} className="px-4 py-10 text-center text-sm text-slate-500">
-                    Bu filtrede kayıt yok.
-                  </td>
-                </tr>
-              ) : (
-                filteredRows.map((row) => (
-                  <tr key={`desk-${row.registrationNo}`} className="border-t border-slate-100">
-                    <td className="px-4 py-3">
-                      <p className="font-medium text-[#0E1548]">{row.name}</p>
-                      <p className="text-xs text-slate-500">
-                        {row.registrationNo} · {row.studentNo}
-                      </p>
-                    </td>
-                    <td className="px-4 py-3 text-slate-600">
-                      {row.department}
-                      <span className="block text-xs text-slate-400">Sn. {row.classYear}</span>
-                    </td>
-                    <td className="px-4 py-3">
-                      <span className={`rounded-md px-2 py-0.5 text-[11px] font-semibold ${paymentTone(row.paymentStatus)}`}>
-                        {PAYMENT_STATUS_LABELS[row.paymentStatus]}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3 text-slate-700">
-                      {row.paidAmount}/{row.paymentAmount} TRY
-                    </td>
-                    <td className="px-4 py-3 text-slate-600">
-                      {row.attendance}
-                      <span className="block text-xs text-slate-400">{row.day}</span>
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        </div>
+        {detail ? <ParticipantDetailModal row={detail} onClose={() => setDetail(null)} /> : null}
       </div>
     );
   }
