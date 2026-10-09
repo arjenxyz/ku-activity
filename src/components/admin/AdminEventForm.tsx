@@ -51,7 +51,7 @@ const sectionClass =
   'scroll-mt-28 space-y-3 rounded-2xl border border-slate-100 bg-slate-50/50 p-4 sm:scroll-mt-32 sm:p-5 lg:scroll-mt-28';
 
 const iconBtnClass =
-  'inline-flex h-11 min-h-11 w-full shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white px-3 text-slate-500 sm:w-11 disabled:opacity-40';
+  'inline-flex h-11 min-h-11 w-full shrink-0 items-center justify-center rounded-xl border border-red-200 bg-red-50 px-3 text-red-600 transition hover:bg-red-100 hover:text-red-700 sm:w-11 disabled:opacity-40';
 
 const emptyForm: FormState = {
   title: '',
