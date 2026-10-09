@@ -72,8 +72,7 @@ export function AdminEventsPanel() {
           <div className="absolute inset-0 opacity-[0.12] [background-image:radial-gradient(circle_at_1px_1px,#fff_1px,transparent_0)] [background-size:14px_14px]" />
           <div className="relative flex flex-wrap items-center justify-between gap-3">
             <div className="min-w-0">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-white/70">Yönetim</p>
-              <h1 className="mt-0.5 text-lg font-semibold tracking-tight sm:text-xl">Etkinlikler</h1>
+              <h1 className="text-lg font-semibold tracking-tight sm:text-xl">Etkinlikler</h1>
               <p className="mt-0.5 max-w-lg text-xs text-white/75">
                 Listeyi yönet; oluşturma ve düzenleme ayrı sayfada.
               </p>
@@ -158,33 +157,37 @@ export function AdminEventsPanel() {
                 </div>
 
                 <div className="mt-auto space-y-3">
-                  <div className="flex items-center gap-3 text-xs text-slate-500">
-                    <span className="inline-flex items-center gap-1">
-                      <FiUsers className="h-3.5 w-3.5" />
-                      {taken}/{event.capacity}
-                    </span>
-                    <div className="h-1 flex-1 overflow-hidden rounded-full bg-slate-100">
+                  <div className="space-y-1.5">
+                    <div className="flex items-center justify-between gap-2 text-xs text-slate-500">
+                      <span className="inline-flex items-center gap-1">
+                        <FiUsers className="h-3.5 w-3.5" />
+                        {taken}/{event.capacity}
+                      </span>
+                      {event.assignedToStaff ? (
+                        <span className="inline-flex items-center gap-1 text-emerald-700">
+                          <FiUserCheck className="h-3.5 w-3.5" />
+                          Görevli
+                        </span>
+                      ) : null}
+                    </div>
+                    <div className="h-1 overflow-hidden rounded-full bg-slate-100">
                       <div
                         className="h-full rounded-full bg-[#2D6AF6]"
                         style={{ width: `${Math.max(fill, taken > 0 ? 6 : 0)}%` }}
                       />
                     </div>
-                    {event.assignedToStaff ? (
-                      <span className="inline-flex items-center gap-1 text-emerald-700">
-                        <FiUserCheck className="h-3.5 w-3.5" />
-                        Görevli
-                      </span>
-                    ) : null}
                   </div>
 
-                  <div className="flex items-center gap-2 border-t border-slate-100 pt-3">
-                    <AdminStatusSelect
-                      value={event.status}
-                      onChange={(status) => void setStatus(event.id, status)}
-                    />
+                  <div className="flex items-stretch gap-2 border-t border-slate-100 pt-3">
+                    <div className="min-w-0 flex-1">
+                      <AdminStatusSelect
+                        value={event.status}
+                        onChange={(status) => void setStatus(event.id, status)}
+                      />
+                    </div>
                     <Link
                       href={`/admin/events/${event.id}/edit`}
-                      className="inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-medium text-[#0E1548] transition hover:bg-[#e8f0ff]"
+                      className="inline-flex shrink-0 items-center gap-1.5 self-center rounded-lg border border-slate-200 bg-white px-2.5 py-2 text-xs font-medium text-[#0E1548] transition hover:bg-[#e8f0ff]"
                     >
                       <FiEdit2 className="h-3.5 w-3.5" />
                       Düzenle

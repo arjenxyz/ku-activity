@@ -48,10 +48,12 @@ const SECTION_NAV = [
 ] as const;
 
 const sectionClass =
-  'scroll-mt-28 space-y-3 rounded-2xl border border-slate-100 bg-slate-50/50 p-4 sm:scroll-mt-32 sm:p-5 lg:scroll-mt-28';
+  'scroll-mt-24 space-y-3 rounded-2xl border border-slate-100 bg-slate-50/50 p-3 sm:scroll-mt-32 sm:p-5 lg:scroll-mt-28';
 
 const iconBtnClass =
-  'inline-flex h-11 min-h-11 w-full shrink-0 items-center justify-center rounded-xl border border-red-200 bg-red-50 px-3 text-red-600 transition hover:bg-red-100 hover:text-red-700 sm:w-11 disabled:opacity-40';
+  'inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-red-200 bg-red-50 text-red-600 transition hover:bg-red-100 hover:text-red-700 disabled:opacity-40';
+
+const rowInputClass = `${inputClass} min-w-0 flex-1`;
 
 const emptyForm: FormState = {
   title: '',
@@ -277,9 +279,9 @@ export function AdminEventForm({
 
         <form
           onSubmit={onSubmit}
-          className="overflow-hidden rounded-[1.35rem] border border-slate-200/80 bg-white shadow-sm"
+          className="rounded-[1.35rem] border border-slate-200/80 bg-white shadow-sm"
         >
-          <div className="bg-gradient-to-br from-[#0E1548] to-[#2D6AF6] px-4 py-3.5 text-white sm:px-5 sm:py-4">
+          <div className="overflow-hidden rounded-t-[1.35rem] bg-gradient-to-br from-[#0E1548] to-[#2D6AF6] px-4 py-3.5 text-white sm:px-5 sm:py-4">
             <h1 className="text-lg font-semibold tracking-tight sm:text-xl">
               {mode === 'edit' ? 'Etkinliği düzenle' : 'Etkinlik oluştur'}
             </h1>
@@ -288,7 +290,7 @@ export function AdminEventForm({
             </p>
           </div>
 
-          <div className="space-y-5 p-4 sm:space-y-6 sm:p-6 lg:p-7">
+          <div className="space-y-4 p-3 sm:space-y-6 sm:p-6 lg:p-7">
           <section id="sec-1" className={sectionClass}>
             <h2 className="text-sm font-semibold text-[#0E1548]">1 · Temel bilgiler</h2>
             <div>
@@ -314,13 +316,13 @@ export function AdminEventForm({
           <section id="sec-2" className={sectionClass}>
             <h2 className="text-sm font-semibold text-[#0E1548]">2 · Tarih ve kontenjan</h2>
             <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-              <div>
+              <div className="min-w-0">
                 <label htmlFor="starts" className={labelClass}>Başlangıç</label>
                 <input
                   id="starts"
                   type="datetime-local"
                   required
-                  className={inputClass}
+                  className={`${inputClass} min-w-0`}
                   value={form.startsAtIso}
                   onChange={(e) => {
                     patch('startsAtIso', e.target.value);
@@ -332,13 +334,13 @@ export function AdminEventForm({
                   }}
                 />
               </div>
-              <div>
+              <div className="min-w-0">
                 <label htmlFor="ends" className={labelClass}>Bitiş</label>
-                <input id="ends" type="datetime-local" required className={inputClass} value={form.endsAtIso} onChange={(e) => patch('endsAtIso', e.target.value)} />
+                <input id="ends" type="datetime-local" required className={`${inputClass} min-w-0`} value={form.endsAtIso} onChange={(e) => patch('endsAtIso', e.target.value)} />
               </div>
-              <div>
+              <div className="min-w-0">
                 <label htmlFor="deadline" className={labelClass}>Kayıt son tarihi</label>
-                <input id="deadline" type="datetime-local" required className={inputClass} value={form.registrationDeadlineIso} onChange={(e) => patch('registrationDeadlineIso', e.target.value)} />
+                <input id="deadline" type="datetime-local" required className={`${inputClass} min-w-0`} value={form.registrationDeadlineIso} onChange={(e) => patch('registrationDeadlineIso', e.target.value)} />
               </div>
               <div>
                 <label htmlFor="capacity" className={labelClass}>Kontenjan</label>
@@ -360,14 +362,17 @@ export function AdminEventForm({
             </div>
             <div className="space-y-2">
               {form.days.map((day, index) => (
-                <div key={index} className="grid gap-2 rounded-2xl bg-slate-50 p-3 sm:grid-cols-[1fr_1fr_auto]">
-                  <input className={inputClass} value={day.label} onChange={(e) => { const next = [...form.days]; next[index] = { ...day, label: e.target.value }; patch('days', next); }} placeholder="Gün 1" />
-                  <input type="datetime-local" className={inputClass} value={day.dateIso} onChange={(e) => { const next = [...form.days]; next[index] = { ...day, dateIso: e.target.value }; patch('days', next); }} />
+                <div key={index} className="flex items-start gap-2 rounded-2xl bg-slate-50 p-3">
+                  <div className="grid min-w-0 flex-1 gap-2 sm:grid-cols-2">
+                    <input className={inputClass} value={day.label} onChange={(e) => { const next = [...form.days]; next[index] = { ...day, label: e.target.value }; patch('days', next); }} placeholder="Gün 1" />
+                    <input type="datetime-local" className={`${inputClass} min-w-0`} value={day.dateIso} onChange={(e) => { const next = [...form.days]; next[index] = { ...day, dateIso: e.target.value }; patch('days', next); }} />
+                  </div>
                   <button
                     type="button"
                     disabled={form.days.length === 1}
                     className={iconBtnClass}
                     onClick={() => removeDay(index)}
+                    aria-label="Günü sil"
                   >
                     <FiTrash2 className="h-4 w-4" />
                   </button>
@@ -389,15 +394,17 @@ export function AdminEventForm({
             </div>
             <div className="space-y-2">
               {form.activities.map((activity, index) => (
-                <div key={index} className="grid gap-2 rounded-2xl bg-slate-50 p-3 sm:grid-cols-[7rem_1fr_6rem_auto]">
-                  <select className={inputClass} value={activity.dayIndex} onChange={(e) => { const next = [...form.activities]; next[index] = { ...activity, dayIndex: Number(e.target.value) }; patch('activities', next); }}>
-                    {form.days.map((day, dayIndex) => (
-                      <option key={dayIndex} value={dayIndex}>{day.label || `Gün ${dayIndex + 1}`}</option>
-                    ))}
-                  </select>
-                  <input className={inputClass} value={activity.title} onChange={(e) => { const next = [...form.activities]; next[index] = { ...activity, title: e.target.value }; patch('activities', next); }} placeholder="Aktivite adı" />
-                  <input className={inputClass} value={activity.startsAt} onChange={(e) => { const next = [...form.activities]; next[index] = { ...activity, startsAt: e.target.value }; patch('activities', next); }} placeholder="10:00" />
-                  <button type="button" className={iconBtnClass} onClick={() => patch('activities', form.activities.filter((_, i) => i !== index))}>
+                <div key={index} className="flex items-start gap-2 rounded-2xl bg-slate-50 p-3">
+                  <div className="grid min-w-0 flex-1 gap-2 sm:grid-cols-[7rem_1fr_6rem]">
+                    <select className={inputClass} value={activity.dayIndex} onChange={(e) => { const next = [...form.activities]; next[index] = { ...activity, dayIndex: Number(e.target.value) }; patch('activities', next); }}>
+                      {form.days.map((day, dayIndex) => (
+                        <option key={dayIndex} value={dayIndex}>{day.label || `Gün ${dayIndex + 1}`}</option>
+                      ))}
+                    </select>
+                    <input className={inputClass} value={activity.title} onChange={(e) => { const next = [...form.activities]; next[index] = { ...activity, title: e.target.value }; patch('activities', next); }} placeholder="Aktivite adı" />
+                    <input className={inputClass} value={activity.startsAt} onChange={(e) => { const next = [...form.activities]; next[index] = { ...activity, startsAt: e.target.value }; patch('activities', next); }} placeholder="10:00" />
+                  </div>
+                  <button type="button" className={iconBtnClass} onClick={() => patch('activities', form.activities.filter((_, i) => i !== index))} aria-label="Aktiviteyi sil">
                     <FiTrash2 className="h-4 w-4" />
                   </button>
                 </div>
@@ -428,10 +435,11 @@ export function AdminEventForm({
                   placeholder="Boş = ücretsiz"
                 />
               </div>
-              <div>
+              <div className="sm:col-span-2">
                 <label htmlFor="feeNotes" className={labelClass}>Ücret notu</label>
-                <input
+                <textarea
                   id="feeNotes"
+                  rows={2}
                   className={inputClass}
                   value={planning.pricing.feeNotes}
                   onChange={(e) =>
@@ -461,9 +469,9 @@ export function AdminEventForm({
                 </button>
               </div>
               {planning.pricing.includes.map((item, index) => (
-                <div key={index} className="flex gap-2">
+                <div key={index} className="flex items-center gap-2">
                   <input
-                    className={inputClass}
+                    className={rowInputClass}
                     value={item}
                     onChange={(e) => {
                       const includes = [...planning.pricing.includes];
@@ -484,6 +492,7 @@ export function AdminEventForm({
                         },
                       }))
                     }
+                    aria-label="Maddeyi sil"
                   >
                     <FiTrash2 className="h-4 w-4" />
                   </button>
@@ -763,56 +772,58 @@ export function AdminEventForm({
                 <p className="text-sm text-slate-500">Henüz öğün yok. Günlük menü ve kimin karşıladığını ekle.</p>
               ) : null}
               {planning.meals.map((meal, index) => (
-                <div key={index} className="grid gap-2 rounded-2xl bg-white p-3 sm:grid-cols-[7rem_7rem_8rem_1fr_auto]">
-                  <select
-                    className={inputClass}
-                    value={meal.dayIndex}
-                    onChange={(e) => {
-                      const meals = [...planning.meals];
-                      meals[index] = { ...meal, dayIndex: Number(e.target.value) };
-                      patchPlanning((p) => ({ ...p, meals }));
-                    }}
-                  >
-                    {form.days.map((day, dayIndex) => (
-                      <option key={dayIndex} value={dayIndex}>
-                        {day.label || `Gün ${dayIndex + 1}`}
-                      </option>
-                    ))}
-                  </select>
-                  <select
-                    className={inputClass}
-                    value={meal.slot}
-                    onChange={(e) => {
-                      const meals = [...planning.meals];
-                      meals[index] = { ...meal, slot: e.target.value as MealSlot };
-                      patchPlanning((p) => ({ ...p, meals }));
-                    }}
-                  >
-                    {(Object.keys(MEAL_SLOT_LABELS) as MealSlot[]).map((slot) => (
-                      <option key={slot} value={slot}>
-                        {MEAL_SLOT_LABELS[slot]}
-                      </option>
-                    ))}
-                  </select>
-                  <CostBearerSelect
-                    id={`meal-bearer-${index}`}
-                    value={meal.providedBy}
-                    onChange={(providedBy) => {
-                      const meals = [...planning.meals];
-                      meals[index] = { ...meal, providedBy };
-                      patchPlanning((p) => ({ ...p, meals }));
-                    }}
-                  />
-                  <input
-                    className={inputClass}
-                    value={meal.menu}
-                    onChange={(e) => {
-                      const meals = [...planning.meals];
-                      meals[index] = { ...meal, menu: e.target.value };
-                      patchPlanning((p) => ({ ...p, meals }));
-                    }}
-                    placeholder="Menü"
-                  />
+                <div key={index} className="flex items-start gap-2 rounded-2xl bg-white p-3 ring-1 ring-slate-100">
+                  <div className="grid min-w-0 flex-1 gap-2 sm:grid-cols-2 lg:grid-cols-[7rem_7rem_8rem_1fr]">
+                    <select
+                      className={inputClass}
+                      value={meal.dayIndex}
+                      onChange={(e) => {
+                        const meals = [...planning.meals];
+                        meals[index] = { ...meal, dayIndex: Number(e.target.value) };
+                        patchPlanning((p) => ({ ...p, meals }));
+                      }}
+                    >
+                      {form.days.map((day, dayIndex) => (
+                        <option key={dayIndex} value={dayIndex}>
+                          {day.label || `Gün ${dayIndex + 1}`}
+                        </option>
+                      ))}
+                    </select>
+                    <select
+                      className={inputClass}
+                      value={meal.slot}
+                      onChange={(e) => {
+                        const meals = [...planning.meals];
+                        meals[index] = { ...meal, slot: e.target.value as MealSlot };
+                        patchPlanning((p) => ({ ...p, meals }));
+                      }}
+                    >
+                      {(Object.keys(MEAL_SLOT_LABELS) as MealSlot[]).map((slot) => (
+                        <option key={slot} value={slot}>
+                          {MEAL_SLOT_LABELS[slot]}
+                        </option>
+                      ))}
+                    </select>
+                    <CostBearerSelect
+                      id={`meal-bearer-${index}`}
+                      value={meal.providedBy}
+                      onChange={(providedBy) => {
+                        const meals = [...planning.meals];
+                        meals[index] = { ...meal, providedBy };
+                        patchPlanning((p) => ({ ...p, meals }));
+                      }}
+                    />
+                    <input
+                      className={inputClass}
+                      value={meal.menu}
+                      onChange={(e) => {
+                        const meals = [...planning.meals];
+                        meals[index] = { ...meal, menu: e.target.value };
+                        patchPlanning((p) => ({ ...p, meals }));
+                      }}
+                      placeholder="Menü"
+                    />
+                  </div>
                   <button
                     type="button"
                     className={iconBtnClass}
@@ -822,6 +833,7 @@ export function AdminEventForm({
                         meals: p.meals.filter((_, i) => i !== index),
                       }))
                     }
+                    aria-label="Öğünü sil"
                   >
                     <FiTrash2 className="h-4 w-4" />
                   </button>
@@ -919,27 +931,29 @@ export function AdminEventForm({
                 </button>
               </div>
               {planning.team.organizers.map((org, index) => (
-                <div key={index} className="grid gap-2 sm:grid-cols-[1fr_1fr_auto]">
-                  <input
-                    className={inputClass}
-                    value={org.name}
-                    onChange={(e) => {
-                      const organizers = [...planning.team.organizers];
-                      organizers[index] = { ...org, name: e.target.value };
-                      patchPlanning((p) => ({ ...p, team: { ...p.team, organizers } }));
-                    }}
-                    placeholder="Ad"
-                  />
-                  <input
-                    className={inputClass}
-                    value={org.role}
-                    onChange={(e) => {
-                      const organizers = [...planning.team.organizers];
-                      organizers[index] = { ...org, role: e.target.value };
-                      patchPlanning((p) => ({ ...p, team: { ...p.team, organizers } }));
-                    }}
-                    placeholder="Rol"
-                  />
+                <div key={index} className="flex items-start gap-2">
+                  <div className="grid min-w-0 flex-1 gap-2 sm:grid-cols-2">
+                    <input
+                      className={inputClass}
+                      value={org.name}
+                      onChange={(e) => {
+                        const organizers = [...planning.team.organizers];
+                        organizers[index] = { ...org, name: e.target.value };
+                        patchPlanning((p) => ({ ...p, team: { ...p.team, organizers } }));
+                      }}
+                      placeholder="Ad"
+                    />
+                    <input
+                      className={inputClass}
+                      value={org.role}
+                      onChange={(e) => {
+                        const organizers = [...planning.team.organizers];
+                        organizers[index] = { ...org, role: e.target.value };
+                        patchPlanning((p) => ({ ...p, team: { ...p.team, organizers } }));
+                      }}
+                      placeholder="Rol"
+                    />
+                  </div>
                   <button
                     type="button"
                     className={iconBtnClass}
@@ -952,6 +966,7 @@ export function AdminEventForm({
                         },
                       }))
                     }
+                    aria-label="Organizatörü sil"
                   >
                     <FiTrash2 className="h-4 w-4" />
                   </button>
@@ -977,37 +992,39 @@ export function AdminEventForm({
               </button>
             </div>
             {planning.sponsors.map((sponsor, index) => (
-              <div key={index} className="grid gap-2 rounded-2xl bg-white p-3 sm:grid-cols-[1fr_1fr_1fr_auto]">
-                <input
-                  className={inputClass}
-                  value={sponsor.name}
-                  onChange={(e) => {
-                    const sponsors = [...planning.sponsors];
-                    sponsors[index] = { ...sponsor, name: e.target.value };
-                    patchPlanning((p) => ({ ...p, sponsors }));
-                  }}
-                  placeholder="Sponsor adı"
-                />
-                <input
-                  className={inputClass}
-                  value={sponsor.contribution}
-                  onChange={(e) => {
-                    const sponsors = [...planning.sponsors];
-                    sponsors[index] = { ...sponsor, contribution: e.target.value };
-                    patchPlanning((p) => ({ ...p, sponsors }));
-                  }}
-                  placeholder="Katkı"
-                />
-                <input
-                  className={inputClass}
-                  value={sponsor.url}
-                  onChange={(e) => {
-                    const sponsors = [...planning.sponsors];
-                    sponsors[index] = { ...sponsor, url: e.target.value };
-                    patchPlanning((p) => ({ ...p, sponsors }));
-                  }}
-                  placeholder="URL (isteğe bağlı)"
-                />
+              <div key={index} className="flex items-start gap-2 rounded-2xl bg-white p-3 ring-1 ring-slate-100">
+                <div className="grid min-w-0 flex-1 gap-2 sm:grid-cols-3">
+                  <input
+                    className={inputClass}
+                    value={sponsor.name}
+                    onChange={(e) => {
+                      const sponsors = [...planning.sponsors];
+                      sponsors[index] = { ...sponsor, name: e.target.value };
+                      patchPlanning((p) => ({ ...p, sponsors }));
+                    }}
+                    placeholder="Sponsor adı"
+                  />
+                  <input
+                    className={inputClass}
+                    value={sponsor.contribution}
+                    onChange={(e) => {
+                      const sponsors = [...planning.sponsors];
+                      sponsors[index] = { ...sponsor, contribution: e.target.value };
+                      patchPlanning((p) => ({ ...p, sponsors }));
+                    }}
+                    placeholder="Katkı"
+                  />
+                  <input
+                    className={inputClass}
+                    value={sponsor.url}
+                    onChange={(e) => {
+                      const sponsors = [...planning.sponsors];
+                      sponsors[index] = { ...sponsor, url: e.target.value };
+                      patchPlanning((p) => ({ ...p, sponsors }));
+                    }}
+                    placeholder="URL (isteğe bağlı)"
+                  />
+                </div>
                 <button
                   type="button"
                   className={iconBtnClass}
@@ -1017,6 +1034,7 @@ export function AdminEventForm({
                       sponsors: p.sponsors.filter((_, i) => i !== index),
                     }))
                   }
+                  aria-label="Sponsoru sil"
                 >
                   <FiTrash2 className="h-4 w-4" />
                 </button>
@@ -1057,9 +1075,9 @@ export function AdminEventForm({
                 </button>
               </div>
               {planning.requirements.documents.map((doc, index) => (
-                <div key={index} className="flex gap-2">
+                <div key={index} className="flex items-center gap-2">
                   <input
-                    className={inputClass}
+                    className={rowInputClass}
                     value={doc}
                     onChange={(e) => {
                       const documents = [...planning.requirements.documents];
@@ -1082,6 +1100,7 @@ export function AdminEventForm({
                         },
                       }))
                     }
+                    aria-label="Belgeyi sil"
                   >
                     <FiTrash2 className="h-4 w-4" />
                   </button>
@@ -1157,11 +1176,11 @@ export function AdminEventForm({
 
           {error ? <p className="text-sm text-red-700">{error}</p> : null}
 
-          <div className="sticky bottom-3 z-[5] flex flex-wrap gap-2 rounded-2xl border border-slate-200/80 bg-white/95 p-3 shadow-lg shadow-slate-900/5 backdrop-blur sm:bottom-4">
-            <button type="submit" disabled={loading} className="inline-flex flex-1 items-center justify-center rounded-2xl bg-emerald-600 px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700 disabled:opacity-70 sm:flex-none sm:min-w-[12rem]">
-              {loading ? 'Kaydediliyor…' : mode === 'edit' ? 'Değişiklikleri kaydet' : 'Etkinliği oluştur'}
+          <div className="sticky bottom-3 z-[5] flex gap-2 rounded-2xl border border-slate-200/80 bg-white/95 p-2.5 shadow-lg shadow-slate-900/5 backdrop-blur sm:bottom-4 sm:p-3">
+            <button type="submit" disabled={loading} className="inline-flex min-w-0 flex-1 items-center justify-center rounded-xl bg-emerald-600 px-3 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700 disabled:opacity-70 sm:rounded-2xl sm:px-4 sm:py-3 sm:flex-none sm:min-w-[12rem]">
+              {loading ? 'Kaydediliyor…' : mode === 'edit' ? 'Kaydet' : 'Oluştur'}
             </button>
-            <Link href="/admin/events" className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50">
+            <Link href="/admin/events" className="inline-flex shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 sm:rounded-2xl sm:px-4 sm:py-3">
               Vazgeç
             </Link>
           </div>
