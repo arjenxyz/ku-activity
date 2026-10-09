@@ -30,6 +30,7 @@ export const ADMIN_NAV: NavSection[] = [
       { href: '/admin/events/new', label: 'Yeni etkinlik', icon: 'calendar' },
     ],
   },
+  { href: '/admin/team', label: 'Ekip ilanı', icon: 'users' },
   { href: '/admin/audit-logs', label: 'Denetim kayıtları', icon: 'file' },
   { href: '/admin/settings', label: 'Ayarlar', icon: 'settings' },
 ];
