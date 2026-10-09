@@ -22,6 +22,7 @@ export type GuideHighlight =
   | 'nav-home'
   | 'nav-events'
   | 'nav-team'
+  | 'nav-guide'
   | 'nav-audit'
   | 'nav-settings'
   | 'nav-workspace'

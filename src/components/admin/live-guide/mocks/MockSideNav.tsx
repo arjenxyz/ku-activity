@@ -15,6 +15,7 @@ const ROOT = [
   { id: 'nav-home' as const, label: 'Admin ana sayfası', icon: FiHome },
   { id: 'nav-events' as const, label: 'Etkinlikler', icon: FiCalendar },
   { id: 'nav-team' as const, label: 'Ekip ilanı', icon: FiUsers },
+  { id: 'nav-guide' as const, label: 'Panel Eğitimi', icon: FiClipboard },
   { id: 'nav-audit' as const, label: 'Denetim kayıtları', icon: FiFileText },
   { id: 'nav-settings' as const, label: 'Ayarlar', icon: FiSettings },
 ];

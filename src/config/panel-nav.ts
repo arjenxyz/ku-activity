@@ -31,6 +31,7 @@ export const ADMIN_NAV: NavSection[] = [
     ],
   },
   { href: '/admin/team', label: 'Ekip ilanı', icon: 'users' },
+  { href: '/admin/egitim', label: 'Panel Eğitimi', icon: 'clipboard' },
   { href: '/admin/audit-logs', label: 'Denetim kayıtları', icon: 'file' },
   { href: '/admin/settings', label: 'Ayarlar', icon: 'settings' },
 ];

@@ -12,7 +12,7 @@ export function GuideWelcome({ onStart, onSkip }: Props) {
     <div className="flex min-h-[min(70dvh,560px)] flex-col items-center justify-center px-2 text-center">
       <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">Admin</p>
       <h1 className="mt-3 text-2xl font-semibold tracking-tight text-[#0E1548] sm:text-3xl">
-        Admin ana sayfası
+        Panel Eğitimi
       </h1>
       <p className="mt-3 max-w-md text-sm leading-relaxed text-slate-600">
         Canlı rehber, menüleri ve araçları taklit ederek adım adım gösterir. Gerçek veriye
