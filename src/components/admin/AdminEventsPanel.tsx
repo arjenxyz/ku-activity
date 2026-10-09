@@ -133,18 +133,23 @@ export function AdminEventsPanel() {
             <li key={event.id} className="rounded-2xl border border-slate-200/80 bg-white shadow-sm">
               <div className={`h-1.5 overflow-hidden rounded-t-2xl bg-gradient-to-r ${bandFor(event.id)}`} />
               <div className="space-y-2.5 p-3.5">
-                <div className="min-w-0">
-                  <h2 className="truncate text-base font-semibold tracking-tight text-[#0E1548]">{event.title}</h2>
-                  <p className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-500">
-                    <span className="inline-flex items-center gap-1">
-                      <FiMapPin className="h-3.5 w-3.5 text-[#2D6AF6]" />
-                      {event.location}
-                    </span>
-                    <span className="inline-flex items-center gap-1">
-                      <FiCalendar className="h-3.5 w-3.5 text-[#2D6AF6]" />
-                      {dateLabel}
-                    </span>
-                  </p>
+                <div className="flex items-start justify-between gap-2">
+                  <div className="min-w-0">
+                    <h2 className="truncate text-base font-semibold tracking-tight text-[#0E1548]">{event.title}</h2>
+                    <p className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-500">
+                      <span className="inline-flex items-center gap-1">
+                        <FiMapPin className="h-3.5 w-3.5 text-[#2D6AF6]" />
+                        {event.location}
+                      </span>
+                      <span className="inline-flex items-center gap-1">
+                        <FiCalendar className="h-3.5 w-3.5 text-[#2D6AF6]" />
+                        {dateLabel}
+                      </span>
+                    </p>
+                  </div>
+                  <span className="shrink-0 rounded-lg bg-slate-50 px-2 py-1 text-[11px] font-medium text-slate-500">
+                    {event.registrationPrefix}
+                  </span>
                 </div>
 
                 <div className="flex items-center gap-3 text-xs text-slate-500">
@@ -168,9 +173,6 @@ export function AdminEventsPanel() {
                     value={event.status}
                     onChange={(status) => void setStatus(event.id, status)}
                   />
-                  <span className="rounded-lg bg-slate-50 px-2 py-1.5 text-[11px] text-slate-500">
-                    {event.registrationPrefix}
-                  </span>
                   <Link
                     href={`/admin/events/${event.id}/edit`}
                     className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-medium text-[#0E1548] transition hover:bg-[#e8f0ff]"
