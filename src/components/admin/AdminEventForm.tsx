@@ -276,11 +276,11 @@ export function AdminEventForm({
         </ul>
       </nav>
 
-      {/* Desktop: sticky sidebar + normal page scroll on the form */}
-      <div className="lg:grid lg:grid-cols-[15rem_minmax(0,1fr)] lg:items-start lg:gap-6 xl:grid-cols-[16rem_minmax(0,1fr)]">
+      {/* Desktop: aside stretches with form so sticky has room to stay on screen */}
+      <div className="lg:grid lg:grid-cols-[15rem_minmax(0,1fr)] lg:gap-6 xl:grid-cols-[16rem_minmax(0,1fr)]">
         <aside className="hidden lg:block">
           <nav
-            className="sticky top-[calc(5rem+env(safe-area-inset-top))] max-h-[calc(100dvh-6rem)] overflow-y-auto rounded-2xl border border-slate-200/80 bg-white p-3 shadow-sm"
+            className="sticky top-[calc(5rem+env(safe-area-inset-top))] z-20 max-h-[calc(100dvh-6rem)] overflow-y-auto rounded-2xl border border-slate-200/80 bg-white p-3 shadow-sm"
             aria-label="Form bölümleri"
           >
             <p className="px-2 pb-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400">
