@@ -55,7 +55,7 @@ function fromLocalInput(value: string) {
   return Number.isNaN(d.getTime()) ? '' : d.toISOString();
 }
 
-export function eventToForm(event: AdminEvent): FormState {
+function eventToForm(event: AdminEvent): FormState {
   const dayIndexById = new Map(event.days.map((day, index) => [day.id, index]));
   return {
     title: event.title,
@@ -86,14 +86,14 @@ export function eventToForm(event: AdminEvent): FormState {
 export function AdminEventForm({
   mode,
   eventId,
-  initial,
+  event,
 }: {
   mode: 'create' | 'edit';
   eventId?: string;
-  initial?: FormState;
+  event?: AdminEvent;
 }) {
   const router = useRouter();
-  const [form, setForm] = useState<FormState>(initial ?? emptyForm);
+  const [form, setForm] = useState<FormState>(() => (event ? eventToForm(event) : emptyForm));
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 

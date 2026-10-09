@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { AdminEventForm, eventToForm } from '@/components/admin/AdminEventForm';
+import { AdminEventForm } from '@/components/admin/AdminEventForm';
 import { getCatalogEvent } from '@/lib/events/catalog-store';
 import { listRegistrationsForEvent } from '@/lib/demo/registrations-store';
 
@@ -10,10 +10,14 @@ export default async function EditEventPage({ params }: Props) {
   const event = getCatalogEvent(id);
   if (!event) notFound();
 
-  const initial = eventToForm({
-    ...event,
-    registeredCount: listRegistrationsForEvent(event.id).length,
-  });
-
-  return <AdminEventForm mode="edit" eventId={event.id} initial={initial} />;
+  return (
+    <AdminEventForm
+      mode="edit"
+      eventId={event.id}
+      event={{
+        ...event,
+        registeredCount: listRegistrationsForEvent(event.id).length,
+      }}
+    />
+  );
 }
