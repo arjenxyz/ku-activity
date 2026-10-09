@@ -3,14 +3,19 @@
 import { FormEvent, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import type { CatalogEvent } from '@/lib/events/catalog';
+import { emptyPlanning } from '@/lib/events/catalog';
 import { inputClass, labelClass, primaryButtonClass } from '@/components/auth/authStyles';
 
 export function RegisterForm({ event }: { event: CatalogEvent }) {
   const router = useRouter();
+  const planning = event.planning ?? emptyPlanning();
+  const transportProvided = planning.transport.provided;
+  const hasMeals = planning.meals.length > 0;
+
   const [dayIds, setDayIds] = useState<string[]>(event.days.map((day) => day.id));
   const [activityIds, setActivityIds] = useState<string[]>([]);
-  const [transport, setTransport] = useState('otobus');
-  const [meal, setMeal] = useState('standart');
+  const [transport, setTransport] = useState(transportProvided ? 'otobus' : 'kendi');
+  const [meal, setMeal] = useState(hasMeals ? 'standart' : 'yok');
   const [note, setNote] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -31,7 +36,11 @@ export function RegisterForm({ event }: { event: CatalogEvent }) {
           eventId: event.id,
           dayIds,
           activityIds,
-          logistics: { transport, meal, note },
+          logistics: {
+            transport,
+            meal: hasMeals ? meal : 'yok',
+            note,
+          },
         }),
       });
       const payload = (await response.json().catch(() => null)) as {
@@ -90,19 +99,35 @@ export function RegisterForm({ event }: { event: CatalogEvent }) {
       <div>
         <label htmlFor="transport" className={labelClass}>Ulaşım</label>
         <select id="transport" className={inputClass} value={transport} onChange={(e) => setTransport(e.target.value)}>
-          <option value="otobus">Otobüs</option>
-          <option value="kendi">Kendi aracım</option>
-          <option value="yok">Ulaşım istemiyorum</option>
+          {transportProvided ? (
+            <>
+              <option value="otobus">
+                {planning.transport.mode || 'Organizasyon ulaşımı'} (katılmak istiyorum)
+              </option>
+              <option value="kendi">Kendi aracım</option>
+              <option value="yok">Ulaşım istemiyorum</option>
+            </>
+          ) : (
+            <>
+              <option value="kendi">Kendi aracım</option>
+              <option value="yok">Ulaşım istemiyorum</option>
+            </>
+          )}
         </select>
       </div>
-      <div>
-        <label htmlFor="meal" className={labelClass}>Yemek</label>
-        <select id="meal" className={inputClass} value={meal} onChange={(e) => setMeal(e.target.value)}>
-          <option value="standart">Standart</option>
-          <option value="vejetaryen">Vejetaryen</option>
-          <option value="yok">Yemek istemiyorum</option>
-        </select>
-      </div>
+      {hasMeals ? (
+        <div>
+          <label htmlFor="meal" className={labelClass}>Yemek tercihi</label>
+          <select id="meal" className={inputClass} value={meal} onChange={(e) => setMeal(e.target.value)}>
+            <option value="standart">Standart</option>
+            <option value="vejetaryen">Vejetaryen</option>
+            <option value="yok">Yemek istemiyorum</option>
+          </select>
+          <p className="mt-1 text-xs text-slate-500">
+            Detaylı menü ve kim karşılıyor bilgisi yukarıdaki yemek planında.
+          </p>
+        </div>
+      ) : null}
       <div>
         <label htmlFor="note" className={labelClass}>Not</label>
         <textarea id="note" className={inputClass} rows={2} value={note} onChange={(e) => setNote(e.target.value)} />

@@ -2,11 +2,13 @@ import {
   EVENT_CATALOG_SEED,
   STATUS_LABELS,
   formatTrDate,
+  normalizePlanning,
   slugifyEventId,
   type CatalogActivity,
   type CatalogDay,
   type CatalogEvent,
   type CatalogEventStatus,
+  type EventPlanning,
 } from '@/lib/events/catalog';
 
 type Store = {
@@ -14,21 +16,29 @@ type Store = {
 };
 
 function store(): Store {
-  const g = globalThis as typeof globalThis & { __emsEventCatalog?: Store };
-  if (!g.__emsEventCatalog) {
-    g.__emsEventCatalog = {
+  const g = globalThis as typeof globalThis & { __emsEventCatalogV2?: Store };
+  if (!g.__emsEventCatalogV2) {
+    g.__emsEventCatalogV2 = {
       events: structuredClone(EVENT_CATALOG_SEED),
     };
   }
-  return g.__emsEventCatalog;
+  return g.__emsEventCatalogV2;
+}
+
+function ensurePlanning(event: CatalogEvent): CatalogEvent {
+  if (!event.planning) {
+    event.planning = normalizePlanning(undefined);
+  }
+  return event;
 }
 
 export function listCatalogEvents() {
-  return store().events;
+  return store().events.map(ensurePlanning);
 }
 
 export function getCatalogEvent(id: string) {
-  return store().events.find((event) => event.id === id) ?? null;
+  const event = store().events.find((row) => row.id === id) ?? null;
+  return event ? ensurePlanning(event) : null;
 }
 
 export function isRegistrationOpen(event: CatalogEvent, now = new Date()) {
@@ -49,6 +59,7 @@ export type CreateCatalogEventInput = {
   registrationPrefix: string;
   days: Array<{ label: string; dateIso: string }>;
   activities: Array<{ dayIndex: number; title: string; startsAt?: string }>;
+  planning?: EventPlanning | unknown;
 };
 
 function buildEventPayload(eventId: string, input: CreateCatalogEventInput): CatalogEvent {
@@ -102,6 +113,7 @@ function buildEventPayload(eventId: string, input: CreateCatalogEventInput): Cat
     registrationPrefix: input.registrationPrefix.trim().toUpperCase(),
     days,
     activities,
+    planning: normalizePlanning(input.planning),
   };
 }
 

@@ -24,6 +24,7 @@ type EventBody = {
   registrationPrefix?: string;
   days?: Array<{ label: string; dateIso: string }>;
   activities?: Array<{ dayIndex: number; title: string; startsAt?: string }>;
+  planning?: unknown;
 };
 
 function toInput(body: EventBody | null): CreateCatalogEventInput {
@@ -40,6 +41,7 @@ function toInput(body: EventBody | null): CreateCatalogEventInput {
     registrationPrefix: body?.registrationPrefix ?? '',
     days: Array.isArray(body?.days) ? body.days : [],
     activities: Array.isArray(body?.activities) ? body.activities : [],
+    planning: body?.planning,
   };
 }
 

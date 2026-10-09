@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { HomeHeader } from '@/components/home/HomeHeader';
+import { EventPlanningSections } from '@/components/events/EventPlanningSections';
 import { RegisterForm } from '@/components/events/RegisterForm';
 import { getSiteSession } from '@/lib/auth/get-site-session';
 import { getCatalogEvent, isRegistrationOpen } from '@/lib/events/catalog-store';
@@ -68,6 +69,8 @@ export default async function EventDetailPage({ params }: Props) {
             ))}
           </ul>
         </section>
+
+        <EventPlanningSections event={event} />
 
         <div className="mt-8">
           {mine ? (
