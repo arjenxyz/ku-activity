@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { FiArrowRight } from 'react-icons/fi';
-import { BrandMark } from '@/components/brand/BrandMark';
 
 export function AdminDashboard() {
   const [name, setName] = useState<string | null>(null);
@@ -39,9 +38,7 @@ export function AdminDashboard() {
           ready ? 'translate-y-0 opacity-100' : 'translate-y-2 opacity-0'
         }`}
       >
-        <BrandMark size="lg" variant="admin" className="!h-14 !w-14 shadow-md shadow-[#0E1548]/15" />
-
-        <p className="mt-6 text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-400">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-400">
           Admin
         </p>
 
