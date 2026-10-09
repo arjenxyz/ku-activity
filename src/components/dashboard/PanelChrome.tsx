@@ -15,6 +15,7 @@ import {
   FiSettings,
   FiUser,
   FiUsers,
+  FiX,
 } from 'react-icons/fi';
 import type { IconType } from 'react-icons';
 import { createClient } from '@/utils/supabase/client';
@@ -252,28 +253,18 @@ function NavLinksBody({
             item={item}
             active={isNavItemActive(pathname, item, homeHref, search)}
             onNavigate={onNavigate}
-            showChevron={!isSidebar}
+            showChevron={false}
           />
         ))}
       </nav>
 
-      <div
-        className={`mt-3 shrink-0 space-y-2 rounded-2xl border border-slate-100 bg-slate-50/80 p-2 ${
-          isSidebar ? '' : 'mx-0'
-        }`}
-      >
-        <PanelSessionCard compact={isSidebar} />
+      <div className="mt-3 shrink-0 space-y-2 rounded-2xl border border-slate-100 bg-slate-50/80 p-2.5">
+        <PanelSessionCard compact />
         <div className="h-px bg-slate-200/70" />
-        {isSidebar ? (
-          <div className="flex items-center justify-between gap-2 px-1">
-            <span className="text-[11px] font-medium uppercase tracking-wider text-slate-400">
-              Dil
-            </span>
-            <LanguageSwitch variant="compact" />
-          </div>
-        ) : (
-          <LanguageSwitch variant="nav" />
-        )}
+        <div className="flex items-center justify-between gap-2 px-1">
+          <span className="text-[11px] font-medium uppercase tracking-wider text-slate-400">Dil</span>
+          <LanguageSwitch variant="compact" />
+        </div>
         <button
           type="button"
           onClick={onLogout}
@@ -318,22 +309,47 @@ function MobileDrawer({
       >
         <button
           type="button"
-          className="absolute inset-0 bg-[#0E1548]/60 backdrop-blur-2xl"
+          className="absolute inset-0 bg-[#0E1548]/55 backdrop-blur-sm"
           aria-label="Menüyü kapat"
           onClick={() => setMenuOpen(false)}
         />
       </div>
 
       <nav
-        className={`fixed right-3 z-50 w-[min(78vw,280px)] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl shadow-slate-900/10 transition-transform duration-300 lg:hidden ${
-          menuOpen ? 'translate-x-0' : 'pointer-events-none translate-x-[120%]'
+        className={`fixed inset-y-0 right-0 z-50 flex w-[min(100%,20.5rem)] max-w-[88vw] flex-col border-l border-slate-200 bg-white shadow-2xl shadow-slate-900/20 transition-transform duration-300 ease-out lg:hidden ${
+          menuOpen ? 'translate-x-0' : 'pointer-events-none translate-x-full'
         }`}
-        style={{ top: 'calc(4.5rem + env(safe-area-inset-top, 0px))' }}
+        style={{
+          paddingTop: 'env(safe-area-inset-top, 0px)',
+          paddingBottom: 'env(safe-area-inset-bottom, 0px)',
+        }}
         aria-label="Mobil menü"
         aria-hidden={!menuOpen}
         data-scroll-lock-allow=""
       >
-        <div className="flex max-h-[min(80dvh,640px)] flex-col overflow-y-auto p-2">
+        <div className="flex h-14 shrink-0 items-center justify-between gap-2 border-b border-slate-100 px-4">
+          <Link
+            href={homeHref}
+            className="flex min-w-0 items-center gap-2.5"
+            aria-label={APP_SHORT_NAME}
+            onClick={() => setMenuOpen(false)}
+          >
+            <BrandMark size="sm" className="!h-8 !w-8" />
+            <span className="truncate text-sm font-bold tracking-tight text-[#0E1548]">
+              {APP_SHORT_NAME}
+            </span>
+          </Link>
+          <button
+            type="button"
+            aria-label="Menüyü kapat"
+            onClick={() => setMenuOpen(false)}
+            className="flex h-10 w-10 items-center justify-center rounded-xl text-[#0E1548] hover:bg-slate-50"
+          >
+            <FiX className="h-5 w-5" aria-hidden />
+          </button>
+        </div>
+
+        <div className="flex min-h-0 flex-1 flex-col px-3 py-3">
           <NavLinksBody
             homeHref={homeHref}
             navItems={navItems}
