@@ -107,8 +107,6 @@ export function PanelChrome({ children, homeHref, subtitle, navItems }: Props) {
         <div className="flex flex-col gap-1 p-2">
           <LanguageSwitch variant="nav" />
           <div className="mx-2 my-1 h-px bg-slate-100" />
-          <p className="px-3 py-1.5 text-xs font-medium text-slate-500">{subtitle}</p>
-          <div className="mx-2 my-1 h-px bg-slate-100" />
           {navItems.map((item) => {
             const Icon = NAV_ICONS[item.icon];
             const active =
