@@ -123,19 +123,6 @@ export function AdminEventsPanel() {
     return letters ? `${letters}-${year}` : `EVT-${year}`;
   }, [form.title, form.startsAtIso]);
 
-  const stats = useMemo(() => {
-    const openCount = events.filter((e) => e.status === 'registration_open').length;
-    const published = events.filter((e) => e.status === 'published').length;
-    const regs = events.reduce((sum, e) => sum + (e.registeredCount ?? 0), 0);
-    const staff = events.filter((e) => e.assignedToStaff).length;
-    return [
-      { label: 'Toplam', value: events.length },
-      { label: 'Kayıt açık', value: openCount },
-      { label: 'Yayında', value: published },
-      { label: 'Kayıt / görevli', value: `${regs} / ${staff}` },
-    ];
-  }, [events]);
-
   const filtered = events.filter((event) => {
     if (filter === 'all') return true;
     if (filter === 'other') {
@@ -243,14 +230,6 @@ export function AdminEventsPanel() {
               {open ? 'Formu kapat' : 'Yeni etkinlik'}
             </button>
           </div>
-        </div>
-        <div className="grid gap-px bg-slate-100 sm:grid-cols-4">
-          {stats.map((stat) => (
-            <div key={stat.label} className="bg-white px-4 py-3">
-              <p className="text-[11px] font-medium uppercase tracking-wide text-slate-500">{stat.label}</p>
-              <p className="mt-1 text-xl font-semibold text-[#0E1548]">{stat.value}</p>
-            </div>
-          ))}
         </div>
       </section>
 
