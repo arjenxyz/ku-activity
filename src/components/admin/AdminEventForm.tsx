@@ -276,14 +276,14 @@ export function AdminEventForm({
           onSubmit={onSubmit}
           className="overflow-hidden rounded-[1.35rem] border border-slate-200/80 bg-white shadow-sm"
         >
-          <div className="bg-gradient-to-br from-[#0E1548] to-[#2D6AF6] px-5 py-6 text-white sm:px-7 sm:py-7">
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-white/70">
+          <div className="bg-gradient-to-br from-[#0E1548] to-[#2D6AF6] px-4 py-3.5 text-white sm:px-5 sm:py-4">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-white/70">
               {mode === 'edit' ? 'Düzenleme' : 'Yeni kayıt'}
             </p>
-            <h1 className="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">
+            <h1 className="mt-0.5 text-lg font-semibold tracking-tight sm:text-xl">
               {mode === 'edit' ? 'Etkinliği düzenle' : 'Etkinlik oluştur'}
             </h1>
-            <p className="mt-2 max-w-xl text-sm text-white/80">
+            <p className="mt-0.5 max-w-xl text-xs text-white/75">
               Program, lojistik, yemek, ekip ve ücret bilgisini detaylı planla.
             </p>
           </div>
