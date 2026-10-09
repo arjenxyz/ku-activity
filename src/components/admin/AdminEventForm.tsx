@@ -277,10 +277,7 @@ export function AdminEventForm({
           className="overflow-hidden rounded-[1.35rem] border border-slate-200/80 bg-white shadow-sm"
         >
           <div className="bg-gradient-to-br from-[#0E1548] to-[#2D6AF6] px-4 py-3.5 text-white sm:px-5 sm:py-4">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-white/70">
-              {mode === 'edit' ? 'Düzenleme' : 'Yeni kayıt'}
-            </p>
-            <h1 className="mt-0.5 text-lg font-semibold tracking-tight sm:text-xl">
+            <h1 className="text-lg font-semibold tracking-tight sm:text-xl">
               {mode === 'edit' ? 'Etkinliği düzenle' : 'Etkinlik oluştur'}
             </h1>
             <p className="mt-0.5 max-w-xl text-xs text-white/75">
