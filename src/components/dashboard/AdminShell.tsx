@@ -16,8 +16,8 @@ export function AdminShell({ children, compact = false }: AdminShellProps) {
       <main
         className={
           compact
-            ? 'mx-auto max-w-5xl overflow-x-hidden px-3 py-0 sm:px-6 sm:py-4 sm:safe-pb'
-            : 'mx-auto max-w-5xl overflow-x-hidden px-3 py-3 sm:px-6 sm:py-6 sm:safe-pb'
+            ? 'mx-auto max-w-6xl overflow-x-hidden px-3 py-0 sm:px-6 sm:py-4 lg:max-w-7xl lg:px-8 sm:safe-pb'
+            : 'mx-auto max-w-6xl overflow-x-hidden px-3 py-3 sm:px-6 sm:py-6 lg:max-w-7xl lg:px-8 sm:safe-pb'
         }
       >
         {children}

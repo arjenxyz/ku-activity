@@ -66,15 +66,15 @@ export function AdminEventsPanel() {
   }
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-5 lg:space-y-6">
       <section className="overflow-hidden rounded-[1.35rem] border border-slate-200/80 bg-white shadow-sm">
-        <div className="relative bg-gradient-to-br from-[#0E1548] via-[#152060] to-[#2D6AF6] px-5 py-6 text-white">
+        <div className="relative bg-gradient-to-br from-[#0E1548] via-[#152060] to-[#2D6AF6] px-5 py-6 text-white sm:px-7 sm:py-7 lg:px-8 lg:py-8">
           <div className="absolute inset-0 opacity-[0.12] [background-image:radial-gradient(circle_at_1px_1px,#fff_1px,transparent_0)] [background-size:14px_14px]" />
           <div className="relative flex flex-wrap items-end justify-between gap-4">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/70">Yönetim</p>
-              <h1 className="mt-2 text-2xl font-semibold tracking-tight">Etkinlikler</h1>
-              <p className="mt-2 max-w-md text-sm text-white/80">
+              <h1 className="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">Etkinlikler</h1>
+              <p className="mt-2 max-w-lg text-sm text-white/80">
                 Listeyi yönet; oluşturma ve düzenleme ayrı sayfada.
               </p>
             </div>
@@ -89,7 +89,7 @@ export function AdminEventsPanel() {
         </div>
       </section>
 
-      <div className="flex gap-2 overflow-x-auto pb-1">
+      <div className="flex gap-2 overflow-x-auto pb-1 sm:flex-wrap sm:overflow-visible">
         {(
           [
             { key: 'all', label: 'Tümü' },
@@ -102,7 +102,7 @@ export function AdminEventsPanel() {
             key={item.key}
             type="button"
             onClick={() => setFilter(item.key)}
-            className={`shrink-0 rounded-full px-3 py-1.5 text-xs font-semibold transition ${
+            className={`shrink-0 rounded-full px-3 py-1.5 text-xs font-semibold transition sm:px-3.5 sm:py-2 ${
               filter === item.key
                 ? 'bg-[#0E1548] text-white'
                 : 'bg-white text-slate-600 ring-1 ring-slate-200 hover:bg-slate-50'
@@ -113,13 +113,13 @@ export function AdminEventsPanel() {
         ))}
       </div>
 
-      <ul className="grid gap-3">
+      <ul className="grid gap-3 sm:gap-4 md:grid-cols-2 xl:grid-cols-3">
         {!ready ? (
-          <li className="rounded-2xl border border-slate-200 bg-white/70 px-5 py-8 text-center text-sm text-slate-500">
+          <li className="rounded-2xl border border-slate-200 bg-white/70 px-5 py-8 text-center text-sm text-slate-500 md:col-span-2 xl:col-span-3">
             Yükleniyor…
           </li>
         ) : filtered.length === 0 ? (
-          <li className="rounded-2xl border border-dashed border-slate-200 bg-white/70 px-5 py-8 text-center text-sm text-slate-500">
+          <li className="rounded-2xl border border-dashed border-slate-200 bg-white/70 px-5 py-8 text-center text-sm text-slate-500 md:col-span-2 xl:col-span-3">
             Bu filtrede etkinlik yok.
           </li>
         ) : null}
@@ -130,20 +130,25 @@ export function AdminEventsPanel() {
           const dateLabel =
             event.startsAt === event.endsAt ? event.startsAt : `${event.startsAt} – ${event.endsAt}`;
           return (
-            <li key={event.id} className="rounded-2xl border border-slate-200/80 bg-white shadow-sm">
+            <li
+              key={event.id}
+              className="flex flex-col rounded-2xl border border-slate-200/80 bg-white shadow-sm transition hover:border-[#2D6AF6]/25 hover:shadow-md"
+            >
               <div className={`h-1.5 overflow-hidden rounded-t-2xl bg-gradient-to-r ${bandFor(event.id)}`} />
-              <div className="space-y-2.5 p-3.5">
+              <div className="flex flex-1 flex-col gap-3 p-3.5 sm:p-4">
                 <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0">
-                    <h2 className="truncate text-base font-semibold tracking-tight text-[#0E1548]">{event.title}</h2>
-                    <p className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-500">
-                      <span className="inline-flex items-center gap-1">
-                        <FiMapPin className="h-3.5 w-3.5 text-[#2D6AF6]" />
-                        {event.location}
+                    <h2 className="truncate text-base font-semibold tracking-tight text-[#0E1548] sm:text-lg">
+                      {event.title}
+                    </h2>
+                    <p className="mt-1.5 flex flex-col gap-1 text-xs text-slate-500 sm:mt-2">
+                      <span className="inline-flex items-center gap-1.5">
+                        <FiMapPin className="h-3.5 w-3.5 shrink-0 text-[#2D6AF6]" />
+                        <span className="truncate">{event.location}</span>
                       </span>
-                      <span className="inline-flex items-center gap-1">
-                        <FiCalendar className="h-3.5 w-3.5 text-[#2D6AF6]" />
-                        {dateLabel}
+                      <span className="inline-flex items-center gap-1.5">
+                        <FiCalendar className="h-3.5 w-3.5 shrink-0 text-[#2D6AF6]" />
+                        <span className="truncate">{dateLabel}</span>
                       </span>
                     </p>
                   </div>
@@ -152,34 +157,39 @@ export function AdminEventsPanel() {
                   </span>
                 </div>
 
-                <div className="flex items-center gap-3 text-xs text-slate-500">
-                  <span className="inline-flex items-center gap-1">
-                    <FiUsers className="h-3.5 w-3.5" />
-                    {taken}/{event.capacity}
-                  </span>
-                  <div className="h-1 flex-1 overflow-hidden rounded-full bg-slate-100">
-                    <div className="h-full rounded-full bg-[#2D6AF6]" style={{ width: `${Math.max(fill, taken > 0 ? 6 : 0)}%` }} />
-                  </div>
-                  {event.assignedToStaff ? (
-                    <span className="inline-flex items-center gap-1 text-emerald-700">
-                      <FiUserCheck className="h-3.5 w-3.5" />
-                      Görevli
+                <div className="mt-auto space-y-3">
+                  <div className="flex items-center gap-3 text-xs text-slate-500">
+                    <span className="inline-flex items-center gap-1">
+                      <FiUsers className="h-3.5 w-3.5" />
+                      {taken}/{event.capacity}
                     </span>
-                  ) : null}
-                </div>
+                    <div className="h-1 flex-1 overflow-hidden rounded-full bg-slate-100">
+                      <div
+                        className="h-full rounded-full bg-[#2D6AF6]"
+                        style={{ width: `${Math.max(fill, taken > 0 ? 6 : 0)}%` }}
+                      />
+                    </div>
+                    {event.assignedToStaff ? (
+                      <span className="inline-flex items-center gap-1 text-emerald-700">
+                        <FiUserCheck className="h-3.5 w-3.5" />
+                        Görevli
+                      </span>
+                    ) : null}
+                  </div>
 
-                <div className="flex flex-wrap items-center gap-2">
-                  <AdminStatusSelect
-                    value={event.status}
-                    onChange={(status) => void setStatus(event.id, status)}
-                  />
-                  <Link
-                    href={`/admin/events/${event.id}/edit`}
-                    className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-medium text-[#0E1548] transition hover:bg-[#e8f0ff]"
-                  >
-                    <FiEdit2 className="h-3.5 w-3.5" />
-                    Düzenle
-                  </Link>
+                  <div className="flex items-center gap-2 border-t border-slate-100 pt-3">
+                    <AdminStatusSelect
+                      value={event.status}
+                      onChange={(status) => void setStatus(event.id, status)}
+                    />
+                    <Link
+                      href={`/admin/events/${event.id}/edit`}
+                      className="inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-medium text-[#0E1548] transition hover:bg-[#e8f0ff]"
+                    >
+                      <FiEdit2 className="h-3.5 w-3.5" />
+                      Düzenle
+                    </Link>
+                  </div>
                 </div>
               </div>
             </li>
