@@ -171,9 +171,6 @@ function NavLinksBody({
 
   return (
     <div className="flex min-h-0 flex-1 flex-col gap-1">
-      <LanguageSwitch variant="nav" />
-      <div className="mx-2 my-1 h-px bg-slate-100" />
-
       {showContext ? (
         <>
           <button
@@ -206,14 +203,17 @@ function NavLinksBody({
         ))}
       </div>
 
-      <button
-        type="button"
-        onClick={onLogout}
-        className="mx-1 mb-1 mt-2 flex items-center justify-center gap-2 rounded-2xl bg-[#0E1548] px-4 py-2.5 text-sm font-medium text-white"
-      >
-        <FiLogOut className="h-4 w-4" aria-hidden />
-        Çıkış yap
-      </button>
+      <div className="mt-auto space-y-1 border-t border-slate-100 pt-2">
+        <LanguageSwitch variant="nav" />
+        <button
+          type="button"
+          onClick={onLogout}
+          className="mx-1 mb-1 flex w-[calc(100%-0.5rem)] items-center justify-center gap-2 rounded-2xl bg-[#0E1548] px-4 py-2.5 text-sm font-medium text-white"
+        >
+          <FiLogOut className="h-4 w-4" aria-hidden />
+          Çıkış yap
+        </button>
+      </div>
     </div>
   );
 }
