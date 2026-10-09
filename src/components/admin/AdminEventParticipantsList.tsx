@@ -100,28 +100,27 @@ export function AdminEventParticipantsList({ eventId }: { eventId: string }) {
         </button>
       </header>
 
-      <div className="-mx-3 flex gap-1.5 overflow-x-auto px-3 pb-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        {PARTICIPANT_FILTERS.map((item) => {
-          const count =
-            item.key === 'all' ? rows.length : filterParticipants(rows, item.key).length;
-          return (
-            <button
-              key={item.key}
-              type="button"
-              onClick={() => setFilter(item.key)}
-              className={`shrink-0 rounded-full px-3 py-1.5 text-xs font-semibold transition ${
-                filter === item.key
-                  ? 'bg-[#0E1548] text-white'
-                  : 'bg-white text-slate-600 ring-1 ring-slate-200 hover:bg-slate-50'
-              }`}
-            >
-              {item.label}
-              <span className={`ml-1.5 tabular-nums ${filter === item.key ? 'text-white/70' : 'text-slate-400'}`}>
-                {count}
-              </span>
-            </button>
-          );
-        })}
+      <div
+        className="grid grid-cols-5 gap-0.5 rounded-xl bg-slate-100/90 p-1"
+        role="tablist"
+        aria-label="Katılımcı filtresi"
+      >
+        {PARTICIPANT_FILTERS.map((item) => (
+          <button
+            key={item.key}
+            type="button"
+            role="tab"
+            aria-selected={filter === item.key}
+            onClick={() => setFilter(item.key)}
+            className={`rounded-lg px-1 py-2 text-center text-[11px] font-semibold leading-tight transition sm:text-xs ${
+              filter === item.key
+                ? 'bg-white text-[#0E1548] shadow-sm'
+                : 'text-slate-500 hover:text-slate-700'
+            }`}
+          >
+            {item.label}
+          </button>
+        ))}
       </div>
 
       <div className="overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-sm">

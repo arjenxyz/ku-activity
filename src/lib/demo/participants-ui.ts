@@ -136,8 +136,8 @@ export function exportParticipants(eventTitle: string, rows: DemoParticipant[]) 
 
 export const PARTICIPANT_FILTERS: Array<{ key: ListFilter; label: string }> = [
   { key: 'all', label: 'Tümü' },
-  { key: 'payment_open', label: 'Ödeme açık' },
-  { key: 'claimed', label: 'İncelemede' },
+  { key: 'payment_open', label: 'Açık' },
+  { key: 'claimed', label: 'İnceleme' },
   { key: 'paid', label: 'Ödendi' },
   { key: 'attended', label: 'Katıldı' },
 ];
