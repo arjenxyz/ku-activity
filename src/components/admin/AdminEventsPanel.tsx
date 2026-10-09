@@ -10,18 +10,11 @@ import {
   FiUsers,
   FiUserCheck,
 } from 'react-icons/fi';
+import { AdminStatusSelect } from '@/components/admin/AdminStatusSelect';
 import type { CatalogEvent, CatalogEventStatus } from '@/lib/events/catalog';
-import { STATUS_LABELS } from '@/lib/events/catalog';
 
 type AdminEvent = CatalogEvent & { registeredCount?: number };
 type FilterKey = 'all' | 'registration_open' | 'published' | 'other';
-
-function statusTone(status: CatalogEventStatus | string) {
-  if (status === 'registration_open') return 'bg-emerald-50 text-emerald-800 ring-emerald-100';
-  if (status === 'published') return 'bg-[#e8f0ff] text-[#2D6AF6] ring-[#d6e4ff]';
-  if (status === 'registration_closed') return 'bg-amber-50 text-amber-800 ring-amber-100';
-  return 'bg-slate-100 text-slate-600 ring-slate-200';
-}
 
 function bandFor(id: string) {
   if (id.includes('abana')) return 'from-[#0E1548] via-[#1a3a7a] to-[#2D6AF6]';
@@ -123,23 +116,18 @@ export function AdminEventsPanel() {
             <li key={event.id} className="overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-sm">
               <div className={`h-1.5 bg-gradient-to-r ${bandFor(event.id)}`} />
               <div className="space-y-2.5 p-3.5">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="min-w-0">
-                    <h2 className="truncate text-base font-semibold tracking-tight text-[#0E1548]">{event.title}</h2>
-                    <p className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-500">
-                      <span className="inline-flex items-center gap-1">
-                        <FiMapPin className="h-3.5 w-3.5 text-[#2D6AF6]" />
-                        {event.location}
-                      </span>
-                      <span className="inline-flex items-center gap-1">
-                        <FiCalendar className="h-3.5 w-3.5 text-[#2D6AF6]" />
-                        {dateLabel}
-                      </span>
-                    </p>
-                  </div>
-                  <span className={`shrink-0 rounded-full px-2 py-0.5 text-[11px] font-semibold ring-1 ${statusTone(event.status)}`}>
-                    {event.statusLabel}
-                  </span>
+                <div className="min-w-0">
+                  <h2 className="truncate text-base font-semibold tracking-tight text-[#0E1548]">{event.title}</h2>
+                  <p className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-500">
+                    <span className="inline-flex items-center gap-1">
+                      <FiMapPin className="h-3.5 w-3.5 text-[#2D6AF6]" />
+                      {event.location}
+                    </span>
+                    <span className="inline-flex items-center gap-1">
+                      <FiCalendar className="h-3.5 w-3.5 text-[#2D6AF6]" />
+                      {dateLabel}
+                    </span>
+                  </p>
                 </div>
 
                 <div className="flex items-center gap-3 text-xs text-slate-500">
@@ -159,16 +147,10 @@ export function AdminEventsPanel() {
                 </div>
 
                 <div className="flex flex-wrap items-center gap-2">
-                  <select
-                    aria-label="Durum"
-                    className="min-w-0 flex-1 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-medium text-[#0E1548]"
+                  <AdminStatusSelect
                     value={event.status}
-                    onChange={(e) => void setStatus(event.id, e.target.value as CatalogEventStatus)}
-                  >
-                    {(Object.keys(STATUS_LABELS) as CatalogEventStatus[]).map((key) => (
-                      <option key={key} value={key}>{STATUS_LABELS[key]}</option>
-                    ))}
-                  </select>
+                    onChange={(status) => void setStatus(event.id, status)}
+                  />
                   <span className="rounded-lg bg-slate-50 px-2 py-1.5 text-[11px] text-slate-500">
                     {event.registrationPrefix}
                   </span>
