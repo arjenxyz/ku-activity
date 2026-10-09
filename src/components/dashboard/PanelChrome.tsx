@@ -255,30 +255,28 @@ function NavLinksBody({
             showChevron={false}
           />
         ))}
-      </nav>
-
-      <div className="mt-3 shrink-0 space-y-2 rounded-2xl border border-slate-100 bg-slate-50/80 p-2.5">
-        {isSidebar ? (
-          <>
-            <PanelSessionCard compact />
-            <div className="h-px bg-slate-200/70" />
-            <div className="flex items-center justify-between gap-2 px-1">
-              <span className="text-[11px] font-medium uppercase tracking-wider text-slate-400">
-                Dil
-              </span>
-              <LanguageSwitch variant="compact" />
-            </div>
-          </>
-        ) : null}
         <button
           type="button"
           onClick={onLogout}
-          className="flex w-full items-center justify-center gap-2 rounded-xl bg-red-600 px-3 py-2.5 text-sm font-medium text-white hover:bg-red-700"
+          className="flex w-full items-center gap-2.5 rounded-xl px-2.5 py-2 text-left font-medium text-red-600 transition hover:bg-red-50"
         >
-          <FiLogOut className="h-4 w-4" aria-hidden />
-          Çıkış yap
+          <FiLogOut className="h-4 w-4 shrink-0" aria-hidden />
+          <span className="min-w-0 flex-1 truncate text-sm">Çıkış yap</span>
         </button>
-      </div>
+      </nav>
+
+      {isSidebar ? (
+        <div className="mt-3 shrink-0 space-y-2 rounded-2xl border border-slate-100 bg-slate-50/80 p-2.5">
+          <PanelSessionCard compact />
+          <div className="h-px bg-slate-200/70" />
+          <div className="flex items-center justify-between gap-2 px-1">
+            <span className="text-[11px] font-medium uppercase tracking-wider text-slate-400">
+              Dil
+            </span>
+            <LanguageSwitch variant="compact" />
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }
