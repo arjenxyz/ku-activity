@@ -8,13 +8,12 @@ import { GUIDE_STEPS } from '@/lib/admin/live-guide/script';
 import { GUIDE_STORAGE_KEY } from '@/lib/admin/live-guide/types';
 import { GuideBotBubble } from './GuideBotBubble';
 import { GuideStage } from './GuideStage';
-import { GuideWelcome } from './GuideWelcome';
 
-type Phase = 'welcome' | 'tour' | 'done';
+type Phase = 'tour' | 'done';
 
 export function AdminLiveGuide() {
   const router = useRouter();
-  const [phase, setPhase] = useState<Phase>('welcome');
+  const [phase, setPhase] = useState<Phase>('tour');
   const [stepIndex, setStepIndex] = useState(0);
 
   const step = GUIDE_STEPS[Math.min(stepIndex, GUIDE_STEPS.length - 1)];
@@ -34,11 +33,6 @@ export function AdminLiveGuide() {
     router.push('/admin/events');
   }, [markDone, router]);
 
-  const start = () => {
-    setPhase('tour');
-    setStepIndex(0);
-  };
-
   const next = useCallback(() => {
     if (isLast) {
       markDone();
@@ -49,15 +43,11 @@ export function AdminLiveGuide() {
   }, [isLast, markDone]);
 
   const back = () => {
-    if (stepIndex <= 0) {
-      setPhase('welcome');
-      return;
-    }
     setStepIndex((i) => Math.max(i - 1, 0));
   };
 
   const restart = () => {
-    setPhase('welcome');
+    setPhase('tour');
     setStepIndex(0);
   };
 
@@ -72,10 +62,6 @@ export function AdminLiveGuide() {
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, [phase, next]);
-
-  if (phase === 'welcome') {
-    return <GuideWelcome onStart={start} onSkip={goEvents} />;
-  }
 
   if (phase === 'done') {
     return (
@@ -119,12 +105,12 @@ export function AdminLiveGuide() {
         />
       </div>
 
-      {/* Desktop / tablet controls */}
       <div className="mt-6 hidden items-center justify-between gap-3 sm:flex">
         <button
           type="button"
           onClick={back}
-          className="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100"
+          disabled={stepIndex <= 0}
+          className="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 disabled:opacity-40"
         >
           <FiArrowLeft className="h-4 w-4" />
           Geri
@@ -148,13 +134,13 @@ export function AdminLiveGuide() {
         </div>
       </div>
 
-      {/* Mobile sticky bar */}
       <div className="fixed inset-x-0 bottom-0 z-30 border-t border-slate-200 bg-white/95 px-3 py-3 backdrop-blur-lg sm:hidden safe-pb">
         <div className="mx-auto flex max-w-lg items-center gap-2">
           <button
             type="button"
             onClick={back}
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-slate-200 text-slate-600"
+            disabled={stepIndex <= 0}
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-slate-200 text-slate-600 disabled:opacity-40"
             aria-label="Geri"
           >
             <FiArrowLeft className="h-4 w-4" />
