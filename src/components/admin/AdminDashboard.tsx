@@ -10,9 +10,6 @@ import {
 import { listCatalogEvents } from '@/lib/events/catalog-store';
 import { listRegistrationsForEvent } from '@/lib/demo/registrations-store';
 import { DEMO_AUDIT } from '@/lib/demo/data';
-import { SignupApproval } from '@/components/admin/SignupApproval';
-import { TeamOpeningPanel } from '@/components/admin/TeamOpeningPanel';
-
 const QUICK_LINKS = [
   {
     href: '/admin/events',
@@ -209,10 +206,6 @@ export function AdminDashboard() {
         </div>
       </section>
 
-      <section className="grid gap-4 lg:grid-cols-2">
-        <SignupApproval />
-        <TeamOpeningPanel />
-      </section>
     </div>
   );
 }
