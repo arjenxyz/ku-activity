@@ -13,6 +13,7 @@ import {
   FiHome,
   FiLogOut,
   FiSettings,
+  FiUser,
   FiUsers,
 } from 'react-icons/fi';
 import type { IconType } from 'react-icons';
@@ -23,6 +24,7 @@ import { AppTopBar } from '@/components/dashboard/AppTopBar';
 import { LanguageSwitch } from '@/components/i18n/LanguageSwitch';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 import { APP_SHORT_NAME } from '@/lib/brand';
+import type { AppRole } from '@/lib/auth/roles';
 import {
   buildAdminEventNav,
   buildStaffEventNav,
@@ -33,6 +35,56 @@ import {
   type NavItem,
   type NavSection,
 } from '@/config/panel-nav';
+
+const ROLE_LABELS: Record<AppRole, string> = {
+  admin: 'Yönetici',
+  staff: 'Görevli',
+  student: 'Öğrenci',
+};
+
+function PanelSessionCard() {
+  const [session, setSession] = useState<{ name: string; role: AppRole; demo: boolean } | null>(
+    null
+  );
+
+  useEffect(() => {
+    void (async () => {
+      const response = await fetch('/api/session');
+      const payload = (await response.json().catch(() => null)) as {
+        session?: { name: string; role: AppRole; demo: boolean } | null;
+      } | null;
+      setSession(payload?.session ?? null);
+    })();
+  }, []);
+
+  if (!session) {
+    return (
+      <div className="mx-1 flex items-center gap-2.5 rounded-xl bg-slate-50 px-2.5 py-2.5">
+        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-slate-200/80 text-slate-500">
+          <FiUser className="h-4 w-4" aria-hidden />
+        </span>
+        <span className="min-w-0 flex-1">
+          <span className="block truncate text-sm font-medium text-slate-400">Oturum…</span>
+        </span>
+      </div>
+    );
+  }
+
+  return (
+    <div className="mx-1 flex items-center gap-2.5 rounded-xl bg-slate-50 px-2.5 py-2.5">
+      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e8f0ff] text-[#2D6AF6]">
+        <FiUser className="h-4 w-4" aria-hidden />
+      </span>
+      <span className="min-w-0 flex-1">
+        <span className="block truncate text-sm font-semibold text-[#0E1548]">{session.name}</span>
+        <span className="block truncate text-[11px] text-slate-500">
+          {ROLE_LABELS[session.role]}
+          {session.demo ? ' · Demo' : ''}
+        </span>
+      </span>
+    </div>
+  );
+}
 
 const NAV_ICONS: Record<NavIconName, IconType> = {
   home: FiHome,
@@ -203,7 +255,8 @@ function NavLinksBody({
         ))}
       </div>
 
-      <div className="mt-auto space-y-1 border-t border-slate-100 pt-2">
+      <div className="mt-auto space-y-1.5 border-t border-slate-100 pt-2">
+        <PanelSessionCard />
         <LanguageSwitch variant="nav" />
         <button
           type="button"
