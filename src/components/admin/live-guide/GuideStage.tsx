@@ -22,7 +22,10 @@ type Props = {
   pulse?: boolean;
 };
 
-function StageBody({
+/** Stages that teach the menu itself — show only mock nav. */
+const NAV_ONLY_STAGES: GuideStageId[] = ['welcome', 'menu', 'event-nav'];
+
+function ContentBody({
   stage,
   highlight,
   pulse,
@@ -32,21 +35,8 @@ function StageBody({
   pulse?: boolean;
 }) {
   switch (stage) {
-    case 'welcome':
-    case 'menu':
-      return (
-        <p className="text-xs leading-relaxed text-slate-500">
-          Soldaki menüyü izle — bir sonraki adımda Etkinlikler listesi açılacak.
-        </p>
-      );
     case 'events':
       return <MockEventsList highlight={highlight} pulse={pulse} />;
-    case 'event-nav':
-      return (
-        <p className="text-xs leading-relaxed text-slate-500">
-          Menü etkinlik moduna geçti. Soldaki öğeler artık Abana 2027’ye özel.
-        </p>
-      );
     case 'workspace':
       return <MockEventWorkspace highlight={highlight} pulse={pulse} />;
     case 'participants':
@@ -69,27 +59,33 @@ function StageBody({
       return <MockAudit highlight={highlight} pulse={pulse} />;
     case 'settings':
       return <MockSettings highlight={highlight} pulse={pulse} />;
-    case 'done':
-      return (
-        <p className="text-xs leading-relaxed text-slate-500">
-          Taklit bitti. Bitir’e basınca gerçek Etkinlikler’e geçebilirsin.
-        </p>
-      );
     default:
       return null;
   }
 }
 
 export function GuideStage({ stage, navMode, highlight, pulse }: Props) {
+  if (stage === 'done') {
+    return null;
+  }
+
+  const focusNav =
+    NAV_ONLY_STAGES.includes(stage) || Boolean(highlight?.startsWith('nav-'));
+
+  if (focusNav) {
+    return (
+      <div key={`${stage}-nav-${highlight ?? ''}-${navMode}`}>
+        <MockSideNav mode={navMode} highlight={highlight} pulse={pulse} />
+      </div>
+    );
+  }
+
   return (
     <div
-      key={`${stage}-${highlight ?? ''}`}
-      className="grid gap-3 sm:grid-cols-[minmax(0,11rem)_1fr] lg:grid-cols-[13rem_1fr]"
+      key={`${stage}-body-${highlight ?? ''}`}
+      className="rounded-2xl border border-slate-200 bg-white p-3 sm:p-4"
     >
-      <MockSideNav mode={navMode} highlight={highlight} pulse={pulse} />
-      <div className="min-h-[200px] rounded-2xl border border-slate-200 bg-slate-50/80 p-3 sm:p-4">
-        <StageBody stage={stage} highlight={highlight} pulse={pulse} />
-      </div>
+      <ContentBody stage={stage} highlight={highlight} pulse={pulse} />
     </div>
   );
 }
