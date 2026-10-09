@@ -1,5 +1,5 @@
-﻿import { DemoPanel } from '@/components/demo/DemoPanel';
+﻿import { AdminParticipantsPanel } from '@/components/admin/AdminParticipantsPanel';
 
-export default function Page() {
-  return <DemoPanel view="admin-participants" />;
+export default function AdminParticipantsPage() {
+  return <AdminParticipantsPanel />;
 }
