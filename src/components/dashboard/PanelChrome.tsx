@@ -36,11 +36,10 @@ const NAV_ICONS: Record<NavIconName, IconType> = {
 type Props = {
   children: React.ReactNode;
   homeHref: string;
-  title?: string;
   navItems: NavItem[];
 };
 
-export function PanelChrome({ children, homeHref, title = 'Admin Panel', navItems }: Props) {
+export function PanelChrome({ children, homeHref, navItems }: Props) {
   const pathname = usePathname() ?? '';
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -72,7 +71,6 @@ export function PanelChrome({ children, homeHref, title = 'Admin Panel', navItem
     <div className="min-h-[100dvh] overflow-x-clip bg-slate-50">
       <AppTopBar
         homeHref={homeHref}
-        title={title}
         menuOpen={menuOpen}
         onToggleMenu={() => setMenuOpen((value) => !value)}
       />

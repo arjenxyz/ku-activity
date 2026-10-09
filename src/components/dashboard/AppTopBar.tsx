@@ -1,32 +1,39 @@
 'use client';
 
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { BrandMark } from '@/components/brand/BrandMark';
+import { APP_NAME, APP_SHORT_NAME } from '@/lib/brand';
 
 type Props = {
-  /** Panel home (e.g. /admin) — kept for callers; brand link goes to site home. */
   homeHref: string;
-  title?: string;
   menuOpen?: boolean;
   onToggleMenu?: () => void;
 };
 
 /** Panel top bar — matches public HomeHeader chrome. */
-export function AppTopBar({
-  title = 'Admin Panel',
-  menuOpen,
-  onToggleMenu,
-}: Props) {
+export function AppTopBar({ homeHref, menuOpen, onToggleMenu }: Props) {
+  const pathname = usePathname() ?? '';
+  const isEventsSection =
+    pathname === '/admin/events' || pathname.startsWith('/admin/events/');
+
+  const brandHref = isEventsSection ? '/' : homeHref;
+  const brandLabel = isEventsSection ? 'Ana sayfaya dön' : APP_NAME;
+  const title = isEventsSection ? 'Admin Panel' : APP_SHORT_NAME;
+  const subtitle = isEventsSection ? 'geri dönmek için tıklayın' : null;
+
   return (
     <header className="fixed inset-x-0 top-0 z-50 bg-transparent px-3 pt-[max(0.5rem,env(safe-area-inset-top))] sm:px-6">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 rounded-2xl border border-slate-200/80 bg-white/95 px-3 py-2 shadow-sm backdrop-blur-lg sm:px-4 lg:max-w-7xl">
-        <Link href="/" className="flex min-w-0 items-center gap-2.5" aria-label="Ana sayfaya dön">
+        <Link href={brandHref} className="flex min-w-0 items-center gap-2.5" aria-label={brandLabel}>
           <BrandMark size="sm" className="!h-9 !w-9" />
           <span className="min-w-0">
             <span className="block truncate text-sm font-bold text-[#0E1548]">{title}</span>
-            <span className="block truncate text-[10px] text-slate-500 hover:text-[#2D6AF6]">
-              geri dönmek için tıklayın
-            </span>
+            {subtitle ? (
+              <span className="block truncate text-[10px] text-slate-500 hover:text-[#2D6AF6]">
+                {subtitle}
+              </span>
+            ) : null}
           </span>
         </Link>
 
