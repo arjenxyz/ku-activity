@@ -82,7 +82,7 @@ export function AdminDashboard() {
             </p>
             <div className="mt-5 flex flex-wrap gap-2">
               <Link
-                href="/admin/events"
+                href="/admin/events/new"
                 className="inline-flex items-center gap-2 rounded-2xl bg-emerald-500 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-600"
               >
                 Yeni etkinlik
