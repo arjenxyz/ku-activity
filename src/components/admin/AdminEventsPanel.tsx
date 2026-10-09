@@ -67,22 +67,22 @@ export function AdminEventsPanel() {
 
   return (
     <div className="space-y-5 lg:space-y-6">
-      <section className="overflow-hidden rounded-[1.35rem] border border-slate-200/80 bg-white shadow-sm">
-        <div className="relative bg-gradient-to-br from-[#0E1548] via-[#152060] to-[#2D6AF6] px-5 py-6 text-white sm:px-7 sm:py-7 lg:px-8 lg:py-8">
+      <section className="overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-sm">
+        <div className="relative bg-gradient-to-br from-[#0E1548] via-[#152060] to-[#2D6AF6] px-4 py-3.5 text-white sm:px-5 sm:py-4">
           <div className="absolute inset-0 opacity-[0.12] [background-image:radial-gradient(circle_at_1px_1px,#fff_1px,transparent_0)] [background-size:14px_14px]" />
-          <div className="relative flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/70">Yönetim</p>
-              <h1 className="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">Etkinlikler</h1>
-              <p className="mt-2 max-w-lg text-sm text-white/80">
+          <div className="relative flex flex-wrap items-center justify-between gap-3">
+            <div className="min-w-0">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-white/70">Yönetim</p>
+              <h1 className="mt-0.5 text-lg font-semibold tracking-tight sm:text-xl">Etkinlikler</h1>
+              <p className="mt-0.5 max-w-lg text-xs text-white/75">
                 Listeyi yönet; oluşturma ve düzenleme ayrı sayfada.
               </p>
             </div>
             <Link
               href="/admin/events/new"
-              className="inline-flex items-center gap-2 rounded-2xl bg-emerald-500 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-600"
+              className="inline-flex items-center gap-1.5 rounded-xl bg-emerald-500 px-3 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-emerald-600 sm:text-sm"
             >
-              <FiPlus className="h-4 w-4" />
+              <FiPlus className="h-3.5 w-3.5" />
               Yeni etkinlik
             </Link>
           </div>
