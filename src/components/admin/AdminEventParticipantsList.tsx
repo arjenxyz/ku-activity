@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { FiArrowLeft, FiDownload } from 'react-icons/fi';
+import { FiArrowLeft, FiChevronRight, FiDownload } from 'react-icons/fi';
 import { PAYMENT_STATUS_LABELS, type DemoParticipant } from '@/lib/demo/data';
 import type { CatalogEvent } from '@/lib/events/catalog';
 import {
@@ -48,9 +48,18 @@ export function AdminEventParticipantsList({ eventId }: { eventId: string }) {
   const filteredRows = useMemo(() => filterParticipants(rows, filter), [rows, filter]);
   const selectedStats = statsFor(rows);
 
+  const summary = [
+    `${selectedStats.total} kayıt`,
+    `${selectedStats.paid} ödendi`,
+    selectedStats.claimed > 0 ? `${selectedStats.claimed} incelemede` : null,
+    moneyTry(selectedStats.collected),
+  ]
+    .filter(Boolean)
+    .join(' · ');
+
   if (ready && !event) {
     return (
-      <div className="space-y-4">
+      <div className="space-y-3">
         <p className="text-sm text-slate-600">Etkinlik bulunamadı.</p>
         <Link href="/admin/participants" className="text-sm font-medium text-[#2D6AF6] hover:underline">
           Katılımcılara dön
@@ -60,25 +69,21 @@ export function AdminEventParticipantsList({ eventId }: { eventId: string }) {
   }
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center gap-2">
+    <div className="space-y-5">
+      <header className="flex items-start gap-2">
         <button
           type="button"
           onClick={() => router.push('/admin/participants')}
-          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white text-[#0E1548] hover:bg-slate-50"
+          className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white text-[#0E1548] hover:bg-slate-50"
           aria-label="Etkinlik listesine dön"
         >
           <FiArrowLeft className="h-4 w-4" />
         </button>
         <div className="min-w-0 flex-1">
-          <h1 className="truncate text-base font-semibold text-[#0E1548] sm:text-lg">
+          <h1 className="truncate text-lg font-semibold tracking-tight text-[#0E1548]">
             {event?.title ?? '…'}
           </h1>
-          <p className="truncate text-xs text-slate-500">
-            {selectedStats.total} kayıt · {selectedStats.paid} ödendi
-            {selectedStats.claimed > 0 ? ` · ${selectedStats.claimed} incelemede` : ''} ·{' '}
-            {moneyTry(selectedStats.collected)}
-          </p>
+          <p className="mt-1 truncate text-sm text-slate-500">{ready ? summary : '…'}</p>
         </div>
         <button
           type="button"
@@ -87,31 +92,39 @@ export function AdminEventParticipantsList({ eventId }: { eventId: string }) {
             if (!event) return;
             exportParticipants(event.title, filter === 'all' ? rows : filteredRows);
           }}
-          className="inline-flex shrink-0 items-center gap-1.5 rounded-xl bg-[#0E1548] px-3 py-2 text-xs font-semibold text-white hover:bg-[#152060] disabled:opacity-50"
+          className="mt-0.5 inline-flex h-9 shrink-0 items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-2.5 text-xs font-semibold text-[#0E1548] hover:bg-slate-50 disabled:opacity-50 sm:px-3"
+          aria-label="Excel olarak indir"
         >
           <FiDownload className="h-3.5 w-3.5" />
-          Excel
+          <span className="hidden sm:inline">Excel</span>
         </button>
+      </header>
+
+      <div className="-mx-3 flex gap-1.5 overflow-x-auto px-3 pb-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        {PARTICIPANT_FILTERS.map((item) => {
+          const count =
+            item.key === 'all' ? rows.length : filterParticipants(rows, item.key).length;
+          return (
+            <button
+              key={item.key}
+              type="button"
+              onClick={() => setFilter(item.key)}
+              className={`shrink-0 rounded-full px-3 py-1.5 text-xs font-semibold transition ${
+                filter === item.key
+                  ? 'bg-[#0E1548] text-white'
+                  : 'bg-white text-slate-600 ring-1 ring-slate-200 hover:bg-slate-50'
+              }`}
+            >
+              {item.label}
+              <span className={`ml-1.5 tabular-nums ${filter === item.key ? 'text-white/70' : 'text-slate-400'}`}>
+                {count}
+              </span>
+            </button>
+          );
+        })}
       </div>
 
-      <div className="flex gap-1 overflow-x-auto rounded-xl bg-slate-100/80 p-1">
-        {PARTICIPANT_FILTERS.map((item) => (
-          <button
-            key={item.key}
-            type="button"
-            onClick={() => setFilter(item.key)}
-            className={`shrink-0 flex-1 rounded-lg px-2 py-2 text-center text-[11px] font-semibold transition sm:text-xs ${
-              filter === item.key
-                ? 'bg-white text-[#0E1548] shadow-sm'
-                : 'text-slate-500 hover:text-slate-700'
-            }`}
-          >
-            {item.label}
-          </button>
-        ))}
-      </div>
-
-      <div className="overflow-hidden rounded-2xl border border-slate-200/80 bg-white">
+      <div className="overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-sm">
         {!ready ? (
           <p className="px-4 py-10 text-center text-sm text-slate-500">Yükleniyor…</p>
         ) : filteredRows.length === 0 ? (
@@ -122,14 +135,15 @@ export function AdminEventParticipantsList({ eventId }: { eventId: string }) {
               <li key={row.registrationNo}>
                 <Link
                   href={`/admin/participants/${eventId}/${encodeURIComponent(row.registrationNo)}`}
-                  className="flex w-full items-center justify-between gap-3 px-4 py-3.5 transition hover:bg-slate-50"
+                  className="group flex w-full items-center gap-3 px-4 py-3.5 transition hover:bg-slate-50"
                 >
-                  <span className="min-w-0 truncate font-medium text-[#0E1548]">{row.name}</span>
+                  <span className="min-w-0 flex-1 truncate font-medium text-[#0E1548]">{row.name}</span>
                   <span
                     className={`shrink-0 rounded-md px-2 py-0.5 text-[11px] font-semibold ${paymentTone(row.paymentStatus)}`}
                   >
                     {PAYMENT_STATUS_LABELS[row.paymentStatus]}
                   </span>
+                  <FiChevronRight className="h-4 w-4 shrink-0 text-slate-300 transition group-hover:text-[#2D6AF6]" />
                 </Link>
               </li>
             ))}
