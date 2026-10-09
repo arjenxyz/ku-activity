@@ -1,9 +1,17 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { BrandMark } from '@/components/brand/BrandMark';
 import { APP_NAME, APP_SHORT_NAME } from '@/lib/brand';
+import type { AppRole } from '@/lib/auth/roles';
+
+const ROLE_LABELS: Record<AppRole, string> = {
+  admin: 'Yönetici',
+  staff: 'Görevli',
+  student: 'Öğrenci',
+};
 
 type Props = {
   homeHref: string;
@@ -14,6 +22,9 @@ type Props = {
 /** Panel top bar — matches public HomeHeader chrome. */
 export function AppTopBar({ homeHref, menuOpen, onToggleMenu }: Props) {
   const pathname = usePathname() ?? '';
+  const [sessionName, setSessionName] = useState<string | null>(null);
+  const [sessionRole, setSessionRole] = useState<AppRole | null>(null);
+
   const isEventsSection =
     pathname === '/admin/events' || pathname.startsWith('/admin/events/');
   const isEventsForm =
@@ -25,8 +36,32 @@ export function AppTopBar({ homeHref, menuOpen, onToggleMenu }: Props) {
     : isEventsSection
       ? 'Admin paneline dön'
       : APP_NAME;
-  const title = isEventsSection ? 'Admin Panel' : APP_SHORT_NAME;
-  const subtitle = isEventsSection ? 'geri dönmek için tıklayın' : null;
+
+  useEffect(() => {
+    void (async () => {
+      const response = await fetch('/api/session');
+      const payload = (await response.json().catch(() => null)) as {
+        session?: { name: string; role: AppRole } | null;
+      } | null;
+      setSessionName(payload?.session?.name?.trim() || null);
+      setSessionRole(payload?.session?.role ?? null);
+    })();
+  }, []);
+
+  const title =
+    menuOpen && sessionName
+      ? sessionName
+      : isEventsSection
+        ? 'Admin Panel'
+        : APP_SHORT_NAME;
+
+  const subtitle = menuOpen
+    ? sessionRole
+      ? ROLE_LABELS[sessionRole]
+      : null
+    : isEventsSection
+      ? 'geri dönmek için tıklayın'
+      : null;
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 bg-transparent px-3 pt-[max(0.5rem,env(safe-area-inset-top))] sm:px-6">
