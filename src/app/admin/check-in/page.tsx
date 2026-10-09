@@ -1,13 +1,16 @@
-﻿import { StaffCheckInClient } from '@/components/checkin/StaffCheckInClient';
+﻿import { Suspense } from 'react';
+import { redirect } from 'next/navigation';
+import { AdminCheckInClient } from '@/components/admin/AdminCheckInClient';
 
-export default function AdminCheckInPage() {
+type Props = { searchParams: Promise<{ eventId?: string }> };
+
+export default async function AdminCheckInPage({ searchParams }: Props) {
+  const { eventId } = await searchParams;
+  if (!eventId?.trim()) redirect('/admin/events');
+
   return (
-    <div className="space-y-4">
-      <div>
-        <h1 className="text-lg font-bold text-[#0E1548]">Check-in</h1>
-        <p className="mt-1 text-sm text-slate-600">Tüm etkinliklerde QR ile yoklama al.</p>
-      </div>
-      <StaffCheckInClient />
-    </div>
+    <Suspense fallback={<p className="text-sm text-slate-500">Yükleniyor…</p>}>
+      <AdminCheckInClient eventId={eventId.trim()} />
+    </Suspense>
   );
 }

@@ -6,11 +6,19 @@ import { usePathname, useSearchParams } from 'next/navigation';
 import { FiArrowLeft } from 'react-icons/fi';
 import { moneyTry } from '@/lib/demo/participants-ui';
 
-export function AdminCashAccept() {
+export function AdminCashAccept({ eventId: eventIdProp }: { eventId?: string } = {}) {
   const pathname = usePathname() ?? '';
   const search = useSearchParams();
-  const backHref = pathname.startsWith('/staff') ? '/staff' : '/admin/participants';
+  const eventId = eventIdProp ?? search.get('eventId') ?? '';
+  const backHref = pathname.startsWith('/staff')
+    ? eventId
+      ? `/staff/events/${eventId}`
+      : '/staff'
+    : eventId
+      ? `/admin/events/${eventId}`
+      : '/admin/events';
   const [token, setToken] = useState(search.get('token') ?? '');
+
   const [info, setInfo] = useState<{
     registrationNo: string;
     amount: number;

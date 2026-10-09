@@ -229,7 +229,7 @@ export function AdminParticipantDetail({
           />
           <p className="mt-2 break-all font-mono text-[10px] text-emerald-900/70">{cashToken}</p>
           <Link
-            href={`/staff/payments/cash?token=${encodeURIComponent(cashToken)}`}
+            href={`/staff/payments/cash?eventId=${encodeURIComponent(eventId)}&token=${encodeURIComponent(cashToken)}`}
             className="mt-3 inline-block text-xs font-medium text-emerald-800 underline"
           >
             Yetkili okuma sayfası

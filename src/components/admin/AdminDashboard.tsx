@@ -6,7 +6,6 @@ import {
   FiClipboard,
   FiMapPin,
   FiSettings,
-  FiUsers,
 } from 'react-icons/fi';
 import { listCatalogEvents } from '@/lib/events/catalog-store';
 import { listRegistrationsForEvent } from '@/lib/demo/registrations-store';
@@ -18,29 +17,29 @@ const QUICK_LINKS = [
   {
     href: '/admin/events',
     label: 'Etkinlikler',
-    hint: 'Oluştur ve yayınla',
+    hint: 'Seç, yönet, araçları aç',
     icon: FiCalendar,
     tone: 'bg-[#e8f0ff] text-[#2D6AF6]',
   },
   {
-    href: '/admin/check-in',
-    label: 'Check-in',
-    hint: 'QR ile yoklama',
-    icon: FiCheckSquare,
+    href: '/admin/events/new',
+    label: 'Yeni etkinlik',
+    hint: 'Oluştur ve yayınla',
+    icon: FiClipboard,
     tone: 'bg-emerald-50 text-emerald-700',
   },
   {
-    href: '/admin/participants',
-    label: 'Katılımcılar',
-    hint: 'Kayıt listeleri',
-    icon: FiUsers,
+    href: '/admin/audit-logs',
+    label: 'Denetim',
+    hint: 'Son işlem kayıtları',
+    icon: FiCheckSquare,
     tone: 'bg-sky-50 text-sky-700',
   },
   {
-    href: '/admin/reports',
-    label: 'Raporlar',
-    hint: 'Özet ve dışa aktarma',
-    icon: FiClipboard,
+    href: '/admin/settings',
+    label: 'Ayarlar',
+    hint: 'Panel tercihleri',
+    icon: FiSettings,
     tone: 'bg-amber-50 text-amber-800',
   },
 ];
@@ -152,7 +151,7 @@ export function AdminDashboard() {
               return (
                 <li key={event.id}>
                   <Link
-                    href="/admin/events"
+                    href={`/admin/events/${event.id}`}
                     className="block rounded-2xl border border-slate-100 bg-slate-50/80 px-3 py-3 transition hover:border-[#2D6AF6]/25 hover:bg-[#e8f0ff]/40"
                   >
                     <div className="flex items-start justify-between gap-3">

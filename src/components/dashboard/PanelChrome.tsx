@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import {
   FiArrowLeft,
   FiCalendar,
@@ -22,6 +22,9 @@ import { AppTopBar } from '@/components/dashboard/AppTopBar';
 import { LanguageSwitch } from '@/components/i18n/LanguageSwitch';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 import {
+  buildAdminEventNav,
+  buildStaffEventNav,
+  extractEventId,
   isNavItemActive,
   resolveNavSection,
   type NavIconName,
@@ -72,26 +75,73 @@ function NavLinkRow({
   );
 }
 
-export function PanelChrome({ children, homeHref, navItems }: Props) {
+function PanelMenu({
+  homeHref,
+  navItems,
+  menuOpen,
+  setMenuOpen,
+}: {
+  homeHref: string;
+  navItems: NavSection[];
+  menuOpen: boolean;
+  setMenuOpen: (open: boolean | ((prev: boolean) => boolean)) => void;
+}) {
   const pathname = usePathname() ?? '';
+  const searchParams = useSearchParams();
   const router = useRouter();
-  const [menuOpen, setMenuOpen] = useState(false);
-  /** When a section has children, open on those; user can flip to full root. */
   const [forceRoot, setForceRoot] = useState(false);
+  const [eventTitle, setEventTitle] = useState<string | null>(null);
+  const wasOpen = useRef(false);
 
-  useBodyScrollLock(menuOpen);
+  const role: 'admin' | 'staff' = homeHref.startsWith('/staff') ? 'staff' : 'admin';
+  const eventId = extractEventId(pathname, searchParams, role);
+  const search = searchParams.toString();
 
-  const contextSection = resolveNavSection(pathname, navItems, homeHref);
-  const showContext = Boolean(contextSection?.children?.length) && !forceRoot;
+  const eventChildren = eventId
+    ? role === 'staff'
+      ? buildStaffEventNav(eventId)
+      : buildAdminEventNav(eventId)
+    : null;
 
-  useEffect(() => {
-    document.documentElement.classList.remove('dark');
-  }, [pathname]);
+  const listSection = resolveNavSection(pathname, navItems, homeHref);
+  const showEventContext = Boolean(eventChildren?.length) && !forceRoot;
+  const showListContext = !showEventContext && Boolean(listSection?.children?.length) && !forceRoot;
 
   useEffect(() => {
     setMenuOpen(false);
     setForceRoot(false);
-  }, [pathname]);
+  }, [pathname, search, setMenuOpen]);
+
+  useEffect(() => {
+    if (menuOpen && !wasOpen.current) setForceRoot(false);
+    wasOpen.current = menuOpen;
+  }, [menuOpen]);
+
+  useEffect(() => {
+    if (!eventId) {
+      setEventTitle(null);
+      return;
+    }
+    let cancelled = false;
+    void (async () => {
+      if (role === 'staff') {
+        const { DEMO_EVENTS } = await import('@/lib/demo/data');
+        if (!cancelled) {
+          setEventTitle(DEMO_EVENTS.find((item) => item.id === eventId)?.title ?? null);
+        }
+        return;
+      }
+      const response = await fetch('/api/admin/events');
+      const payload = (await response.json().catch(() => null)) as {
+        events?: Array<{ id: string; title: string }>;
+      } | null;
+      if (cancelled) return;
+      setEventTitle(payload?.events?.find((item) => item.id === eventId)?.title ?? null);
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [eventId, role]);
 
   const handleLogout = async () => {
     setMenuOpen(false);
@@ -106,23 +156,12 @@ export function PanelChrome({ children, homeHref, navItems }: Props) {
     router.refresh();
   };
 
+  const contextLabel = showEventContext
+    ? eventTitle ?? 'Etkinlik'
+    : listSection?.label ?? '';
+
   return (
-    <div className="min-h-[100dvh] overflow-x-clip bg-slate-50">
-      <AppTopBar
-        homeHref={homeHref}
-        menuOpen={menuOpen}
-        onToggleMenu={() => {
-          setMenuOpen((value) => {
-            if (!value) setForceRoot(false);
-            return !value;
-          });
-        }}
-      />
-
-      <div className="pt-[calc(4.5rem+env(safe-area-inset-top))]">
-        <AdminShell>{children}</AdminShell>
-      </div>
-
+    <>
       <div
         className={`fixed inset-0 z-40 transition-opacity duration-300 ${
           menuOpen ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'
@@ -146,11 +185,11 @@ export function PanelChrome({ children, homeHref, navItems }: Props) {
         aria-hidden={!menuOpen}
         data-scroll-lock-allow=""
       >
-        <div className="flex flex-col gap-1 p-2">
+        <div className="flex max-h-[min(80dvh,640px)] flex-col gap-1 overflow-y-auto p-2">
           <LanguageSwitch variant="nav" />
           <div className="mx-2 my-1 h-px bg-slate-100" />
 
-          {showContext && contextSection ? (
+          {showEventContext || showListContext ? (
             <>
               <button
                 type="button"
@@ -161,18 +200,18 @@ export function PanelChrome({ children, homeHref, navItems }: Props) {
                   <FiArrowLeft className="h-4 w-4" aria-hidden />
                 </span>
                 <span className="min-w-0 flex-1 text-left">
-                  <span className="block text-[10px] font-semibold uppercase tracking-wide text-slate-400">
-                    {contextSection.label}
+                  <span className="block truncate text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+                    {contextLabel}
                   </span>
                   <span className="block text-sm font-medium">Ana menü</span>
                 </span>
               </button>
               <div className="mx-2 my-1 h-px bg-slate-100" />
-              {contextSection.children!.map((item) => (
+              {(showEventContext ? eventChildren! : listSection!.children!).map((item) => (
                 <NavLinkRow
-                  key={`${contextSection.href}:${item.href}:${item.label}`}
+                  key={`${item.href}:${item.label}`}
                   item={item}
-                  active={isNavItemActive(pathname, item, homeHref)}
+                  active={isNavItemActive(pathname, item, homeHref, search)}
                   onNavigate={() => setMenuOpen(false)}
                 />
               ))}
@@ -182,7 +221,7 @@ export function PanelChrome({ children, homeHref, navItems }: Props) {
               <NavLinkRow
                 key={item.href}
                 item={item}
-                active={isNavItemActive(pathname, item, homeHref)}
+                active={isNavItemActive(pathname, item, homeHref, search)}
                 onNavigate={() => setMenuOpen(false)}
               />
             ))
@@ -198,6 +237,40 @@ export function PanelChrome({ children, homeHref, navItems }: Props) {
           </button>
         </div>
       </nav>
+    </>
+  );
+}
+
+export function PanelChrome({ children, homeHref, navItems }: Props) {
+  const pathname = usePathname() ?? '';
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  useBodyScrollLock(menuOpen);
+
+  useEffect(() => {
+    document.documentElement.classList.remove('dark');
+  }, [pathname]);
+
+  return (
+    <div className="min-h-[100dvh] overflow-x-clip bg-slate-50">
+      <AppTopBar
+        homeHref={homeHref}
+        menuOpen={menuOpen}
+        onToggleMenu={() => setMenuOpen((value) => !value)}
+      />
+
+      <div className="pt-[calc(4.5rem+env(safe-area-inset-top))]">
+        <AdminShell>{children}</AdminShell>
+      </div>
+
+      <Suspense fallback={null}>
+        <PanelMenu
+          homeHref={homeHref}
+          navItems={navItems}
+          menuOpen={menuOpen}
+          setMenuOpen={setMenuOpen}
+        />
+      </Suspense>
     </div>
   );
 }

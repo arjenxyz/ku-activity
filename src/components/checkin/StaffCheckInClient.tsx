@@ -28,9 +28,15 @@ type Result = {
   error?: string;
 };
 
-export function StaffCheckInClient({ staffOnlyAssigned }: { staffOnlyAssigned?: boolean }) {
+export function StaffCheckInClient({
+  staffOnlyAssigned,
+  lockedEventId,
+}: {
+  staffOnlyAssigned?: boolean;
+  lockedEventId?: string;
+}) {
   const [events, setEvents] = useState<CatalogLite[]>([]);
-  const [eventId, setEventId] = useState('');
+  const [eventId, setEventId] = useState(lockedEventId ?? '');
   const [dayId, setDayId] = useState('');
   const [manualToken, setManualToken] = useState('');
   const [scanning, setScanning] = useState(false);
@@ -43,21 +49,27 @@ export function StaffCheckInClient({ staffOnlyAssigned }: { staffOnlyAssigned?: 
     void (async () => {
       const response = await fetch('/api/events');
       const payload = (await response.json().catch(() => null)) as { events?: CatalogLite[] } | null;
-      const rows = (payload?.events ?? []).filter((item) =>
+      let rows = (payload?.events ?? []).filter((item) =>
         staffOnlyAssigned ? item.assignedToStaff : true
       );
+      if (lockedEventId) {
+        rows = rows.filter((item) => item.id === lockedEventId);
+      }
       setEvents(rows);
-      setEventId((prev) => prev || rows[0]?.id || '');
-      setDayId((prev) => prev || rows[0]?.days[0]?.id || '');
+      const initial = lockedEventId || rows[0]?.id || '';
+      setEventId(initial);
+      const first = rows.find((item) => item.id === initial) ?? rows[0];
+      setDayId(first?.days[0]?.id || '');
     })();
-  }, [staffOnlyAssigned]);
+  }, [staffOnlyAssigned, lockedEventId]);
 
   const event = events.find((item) => item.id === eventId) ?? events[0];
 
   useEffect(() => {
     if (!event) return;
+    if (lockedEventId && event.id !== lockedEventId) return;
     setDayId(event.days[0]?.id ?? '');
-  }, [eventId, event]);
+  }, [eventId, event, lockedEventId]);
 
   useEffect(() => {
     return () => {
@@ -129,25 +141,40 @@ export function StaffCheckInClient({ staffOnlyAssigned }: { staffOnlyAssigned?: 
   return (
     <div className="space-y-4">
       <div className={`${cardClass} space-y-3 p-4`}>
-        <div>
-          <label htmlFor="event" className={labelClass}>Etkinlik</label>
-          <select
-            id="event"
-            className={inputClass}
-            value={eventId}
-            onChange={(e) => setEventId(e.target.value)}
-          >
-            {events.map((item) => (
-              <option key={item.id} value={item.id}>
-                {item.title}
-              </option>
-            ))}
-          </select>
-        </div>
+        {lockedEventId ? (
+          <p className="text-sm font-medium text-[#0E1548]">
+            {event?.title ?? 'Etkinlik'}
+          </p>
+        ) : (
+          <div>
+            <label htmlFor="event" className={labelClass}>
+              Etkinlik
+            </label>
+            <select
+              id="event"
+              className={inputClass}
+              value={eventId}
+              onChange={(e) => setEventId(e.target.value)}
+            >
+              {events.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.title}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
         {event?.days.length ? (
           <div>
-            <label htmlFor="day" className={labelClass}>Gün</label>
-            <select id="day" className={inputClass} value={dayId} onChange={(e) => setDayId(e.target.value)}>
+            <label htmlFor="day" className={labelClass}>
+              Gün
+            </label>
+            <select
+              id="day"
+              className={inputClass}
+              value={dayId}
+              onChange={(e) => setDayId(e.target.value)}
+            >
               {event.days.map((day) => (
                 <option key={day.id} value={day.id}>
                   {day.label} · {day.date}

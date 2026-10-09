@@ -1,20 +1,15 @@
-﻿import { Suspense } from 'react';
-import { redirect } from 'next/navigation';
+'use client';
+
 import Link from 'next/link';
 import { FiArrowLeft } from 'react-icons/fi';
 import { StaffCheckInClient } from '@/components/checkin/StaffCheckInClient';
 
-type Props = { searchParams: Promise<{ eventId?: string }> };
-
-export default async function StaffCheckInPage({ searchParams }: Props) {
-  const { eventId } = await searchParams;
-  if (!eventId?.trim()) redirect('/staff');
-
+export function AdminCheckInClient({ eventId }: { eventId: string }) {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-2">
         <Link
-          href={`/staff/events/${eventId}`}
+          href={`/admin/events/${eventId}`}
           className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-white text-[#0E1548]"
           aria-label="Çalışma alanına dön"
         >
@@ -25,9 +20,7 @@ export default async function StaffCheckInPage({ searchParams }: Props) {
           <p className="text-xs text-slate-500">Bu etkinlik için QR yoklama.</p>
         </div>
       </div>
-      <Suspense fallback={<p className="text-sm text-slate-500">Yükleniyor…</p>}>
-        <StaffCheckInClient staffOnlyAssigned lockedEventId={eventId.trim()} />
-      </Suspense>
+      <StaffCheckInClient lockedEventId={eventId} />
     </div>
   );
 }

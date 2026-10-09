@@ -61,8 +61,8 @@ export function AdminEventParticipantsList({ eventId }: { eventId: string }) {
     return (
       <div className="space-y-3">
         <p className="text-sm text-slate-600">Etkinlik bulunamadı.</p>
-        <Link href="/admin/participants" className="text-sm font-medium text-[#2D6AF6] hover:underline">
-          Katılımcılara dön
+        <Link href="/admin/events" className="text-sm font-medium text-[#2D6AF6] hover:underline">
+          Etkinliklere dön
         </Link>
       </div>
     );
@@ -73,9 +73,9 @@ export function AdminEventParticipantsList({ eventId }: { eventId: string }) {
       <header className="flex items-start gap-2">
         <button
           type="button"
-          onClick={() => router.push('/admin/participants')}
+          onClick={() => router.push(`/admin/events/${eventId}`)}
           className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white text-[#0E1548] hover:bg-slate-50"
-          aria-label="Etkinlik listesine dön"
+          aria-label="Çalışma alanına dön"
         >
           <FiArrowLeft className="h-4 w-4" />
         </button>

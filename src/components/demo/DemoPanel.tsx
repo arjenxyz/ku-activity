@@ -1,4 +1,5 @@
 import { cookies } from 'next/headers';
+import Link from 'next/link';
 import { StatCard } from '@/components/ui/StatCard';
 import { TableCell, TableHeader } from '@/components/ui/Table';
 import { cardClass } from '@/components/ui/styles';
@@ -46,30 +47,22 @@ function Banner() {
 function EventTable({ staffOnly }: { staffOnly?: boolean }) {
   const rows = staffOnly ? DEMO_EVENTS.filter((event) => event.assignedToStaff) : DEMO_EVENTS;
   return (
-    <div className={`${cardClass} overflow-x-auto`}>
-      <table className="min-w-full">
-        <thead>
-          <tr>
-            <TableHeader>Etkinlik</TableHeader>
-            <TableHeader>Tarih</TableHeader>
-            <TableHeader>Yer</TableHeader>
-            <TableHeader>Kontenjan</TableHeader>
-            <TableHeader>Durum</TableHeader>
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((event) => (
-            <tr key={event.id} className="border-t border-slate-100">
-              <TableCell className="font-medium text-slate-900">{event.title}</TableCell>
-              <TableCell>{event.startsAt}</TableCell>
-              <TableCell>{event.location}</TableCell>
-              <TableCell>{event.capacity}</TableCell>
-              <TableCell>{event.status}</TableCell>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <ul className="space-y-3">
+      {rows.map((event) => (
+        <li key={event.id}>
+          <Link
+            href={staffOnly ? `/staff/events/${event.id}` : `/admin/events/${event.id}`}
+            className={`${cardClass} block p-4 transition hover:border-[#2D6AF6]/30`}
+          >
+            <p className="font-semibold text-[#0E1548]">{event.title}</p>
+            <p className="mt-1 text-xs text-slate-500">
+              {event.location} · {event.startsAt} · {event.status}
+            </p>
+            <p className="mt-2 text-xs font-medium text-[#2D6AF6]">Çalışma alanını aç</p>
+          </Link>
+        </li>
+      ))}
+    </ul>
   );
 }
 

@@ -12,10 +12,14 @@ type Holder = { staffId: string; staffName: string; amount: number; count: numbe
 export function AdminCustodyPanel() {
   const pathname = usePathname() ?? '';
   const search = useSearchParams();
-  const eventId = search.get('eventId') ?? 'abana-2027';
+  const eventId = search.get('eventId') ?? '';
   const backHref = pathname.startsWith('/staff')
-    ? '/staff'
-    : `/admin/participants/${eventId}`;
+    ? eventId
+      ? `/staff/events/${eventId}`
+      : '/staff'
+    : eventId
+      ? `/admin/events/${eventId}`
+      : '/admin/events';
   const [holders, setHolders] = useState<Holder[]>([]);
   const [transfers, setTransfers] = useState<CustodyTransfer[]>([]);
   const [amount, setAmount] = useState('');

@@ -1,5 +1,5 @@
-﻿import { AdminParticipantsPanel } from '@/components/admin/AdminParticipantsPanel';
+﻿import { redirect } from 'next/navigation';
 
 export default function AdminParticipantsPage() {
-  return <AdminParticipantsPanel />;
+  redirect('/admin/events');
 }

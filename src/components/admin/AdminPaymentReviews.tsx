@@ -6,7 +6,7 @@ import { FiArrowLeft } from 'react-icons/fi';
 import { ADMIN_DISCLAIMER, type PaymentClaim } from '@/lib/payments/types';
 import { moneyTry } from '@/lib/demo/participants-ui';
 
-export function AdminPaymentReviews() {
+export function AdminPaymentReviews({ eventId }: { eventId: string }) {
   const [claims, setClaims] = useState<PaymentClaim[]>([]);
   const [ready, setReady] = useState(false);
   const [ack, setAck] = useState<Record<string, boolean>>({});
@@ -14,11 +14,13 @@ export function AdminPaymentReviews() {
   const [error, setError] = useState<string | null>(null);
 
   const load = useCallback(async () => {
-    const response = await fetch('/api/payments/claims?awaiting=1');
+    const response = await fetch(
+      `/api/payments/claims?awaiting=1&eventId=${encodeURIComponent(eventId)}`
+    );
     const payload = (await response.json().catch(() => null)) as { claims?: PaymentClaim[] } | null;
     setClaims(payload?.claims ?? []);
     setReady(true);
-  }, []);
+  }, [eventId]);
 
   useEffect(() => {
     void load();
@@ -58,9 +60,9 @@ export function AdminPaymentReviews() {
     <div className="mx-auto max-w-2xl space-y-4">
       <div className="flex items-center gap-2">
         <Link
-          href="/admin/participants"
+          href={`/admin/events/${eventId}`}
           className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-white text-[#0E1548]"
-          aria-label="Geri"
+          aria-label="Çalışma alanına dön"
         >
           <FiArrowLeft className="h-4 w-4" />
         </Link>
