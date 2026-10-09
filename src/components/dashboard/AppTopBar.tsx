@@ -4,7 +4,9 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { BrandMark } from '@/components/brand/BrandMark';
+import { LanguageSwitch } from '@/components/i18n/LanguageSwitch';
 import { APP_NAME, APP_SHORT_NAME } from '@/lib/brand';
+
 type Props = {
   homeHref: string;
   menuOpen?: boolean;
@@ -62,29 +64,32 @@ export function AppTopBar({ homeHref, menuOpen, onToggleMenu }: Props) {
         </Link>
 
         {onToggleMenu ? (
-          <button
-            type="button"
-            className="flex h-10 w-10 flex-col items-center justify-center rounded-xl hover:bg-slate-100"
-            aria-label={menuOpen ? 'Menüyü kapat' : 'Menüyü aç'}
-            aria-expanded={menuOpen}
-            onClick={onToggleMenu}
-          >
-            <span
-              className={`block h-0.5 w-5 rounded-sm bg-[#0E1548] transition ${
-                menuOpen ? 'translate-y-1 rotate-45' : ''
-              }`}
-            />
-            <span
-              className={`my-1 block h-0.5 w-5 rounded-sm bg-[#0E1548] transition ${
-                menuOpen ? 'opacity-0' : ''
-              }`}
-            />
-            <span
-              className={`block h-0.5 w-5 rounded-sm bg-[#0E1548] transition ${
-                menuOpen ? '-translate-y-1 -rotate-45' : ''
-              }`}
-            />
-          </button>
+          <div className="flex shrink-0 items-center gap-0.5">
+            <LanguageSwitch variant="flag" />
+            <button
+              type="button"
+              className="flex h-10 w-10 flex-col items-center justify-center rounded-xl hover:bg-slate-100"
+              aria-label={menuOpen ? 'Menüyü kapat' : 'Menüyü aç'}
+              aria-expanded={menuOpen}
+              onClick={onToggleMenu}
+            >
+              <span
+                className={`block h-0.5 w-5 rounded-sm bg-[#0E1548] transition ${
+                  menuOpen ? 'translate-y-1 rotate-45' : ''
+                }`}
+              />
+              <span
+                className={`my-1 block h-0.5 w-5 rounded-sm bg-[#0E1548] transition ${
+                  menuOpen ? 'opacity-0' : ''
+                }`}
+              />
+              <span
+                className={`block h-0.5 w-5 rounded-sm bg-[#0E1548] transition ${
+                  menuOpen ? '-translate-y-1 -rotate-45' : ''
+                }`}
+              />
+            </button>
+          </div>
         ) : null}
       </div>
     </header>

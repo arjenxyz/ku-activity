@@ -262,16 +262,18 @@ function NavLinksBody({
           <>
             <PanelSessionCard compact />
             <div className="h-px bg-slate-200/70" />
+            <div className="flex items-center justify-between gap-2 px-1">
+              <span className="text-[11px] font-medium uppercase tracking-wider text-slate-400">
+                Dil
+              </span>
+              <LanguageSwitch variant="compact" />
+            </div>
           </>
         ) : null}
-        <div className="flex items-center justify-between gap-2 px-1">
-          <span className="text-[11px] font-medium uppercase tracking-wider text-slate-400">Dil</span>
-          <LanguageSwitch variant="compact" />
-        </div>
         <button
           type="button"
           onClick={onLogout}
-          className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#0E1548] px-3 py-2.5 text-sm font-medium text-white hover:bg-[#152060]"
+          className="flex w-full items-center justify-center gap-2 rounded-xl bg-red-600 px-3 py-2.5 text-sm font-medium text-white hover:bg-red-700"
         >
           <FiLogOut className="h-4 w-4" aria-hidden />
           Çıkış yap

@@ -39,7 +39,11 @@ function FlagBadge({ countryCode }: { countryCode: string; short: string }) {
   );
 }
 
-export function LanguageSwitch({ variant = 'nav' }: { variant?: 'nav' | 'compact' }) {
+export function LanguageSwitch({
+  variant = 'nav',
+}: {
+  variant?: 'nav' | 'compact' | 'flag';
+}) {
   const { locale, setLocale } = useLocale();
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -103,6 +107,24 @@ export function LanguageSwitch({ variant = 'nav' }: { variant?: 'nav' | 'compact
           document.body
         )
       : null;
+
+  if (variant === 'flag') {
+    return (
+      <>
+        <button
+          type="button"
+          aria-haspopup="dialog"
+          aria-expanded={open}
+          aria-label="Dil"
+          onClick={() => setOpen(true)}
+          className="flex h-10 w-10 items-center justify-center rounded-xl hover:bg-slate-100"
+        >
+          <FlagBadge countryCode={current.countryCode} short={current.short} />
+        </button>
+        {overlay}
+      </>
+    );
+  }
 
   if (variant === 'compact') {
     return (
