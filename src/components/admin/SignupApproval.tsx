@@ -1,7 +1,7 @@
 'use client';
 
-import { FormEvent, useState } from 'react';
-import { approveSignupCode, listSignups } from '@/lib/demo/local-accounts';
+import { FormEvent, useEffect, useState } from 'react';
+import { approveSignupCode, listSignups, type LocalSignup } from '@/lib/demo/local-accounts';
 import { inputClass, labelClass, primaryButtonClass } from '@/components/auth/authStyles';
 import { cardClass } from '@/components/ui/styles';
 
@@ -9,11 +9,15 @@ export function SignupApproval() {
   const [code, setCode] = useState('');
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [pending, setPending] = useState(listSignups().filter((item) => item.status === 'pending'));
+  const [pending, setPending] = useState<LocalSignup[]>([]);
 
   function refresh() {
     setPending(listSignups().filter((item) => item.status === 'pending'));
   }
+
+  useEffect(() => {
+    refresh();
+  }, []);
 
   function onSubmit(event: FormEvent) {
     event.preventDefault();
