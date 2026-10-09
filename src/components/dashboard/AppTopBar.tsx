@@ -16,9 +16,15 @@ export function AppTopBar({ homeHref, menuOpen, onToggleMenu }: Props) {
   const pathname = usePathname() ?? '';
   const isEventsSection =
     pathname === '/admin/events' || pathname.startsWith('/admin/events/');
+  const isEventsForm =
+    pathname === '/admin/events/new' || /\/admin\/events\/[^/]+\/edit\/?$/.test(pathname);
 
-  const brandHref = homeHref;
-  const brandLabel = isEventsSection ? 'Admin paneline dön' : APP_NAME;
+  const brandHref = isEventsForm ? '/admin/events' : homeHref;
+  const brandLabel = isEventsForm
+    ? 'Etkinlik listesine dön'
+    : isEventsSection
+      ? 'Admin paneline dön'
+      : APP_NAME;
   const title = isEventsSection ? 'Admin Panel' : APP_SHORT_NAME;
   const subtitle = isEventsSection ? 'geri dönmek için tıklayın' : null;
 
