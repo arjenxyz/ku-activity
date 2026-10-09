@@ -17,7 +17,9 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const eventId = searchParams.get('eventId') ?? undefined;
   const awaiting = searchParams.get('awaiting') === '1';
-  const claims = awaiting ? listAwaitingClaims() : listClaims(eventId);
+  const claims = awaiting
+    ? listAwaitingClaims().filter((claim) => (eventId ? claim.eventId === eventId : true))
+    : listClaims(eventId);
   return NextResponse.json({ claims });
 }
 
