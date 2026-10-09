@@ -239,13 +239,6 @@ export function AdminParticipantDetail({
 
       {message ? <p className="text-sm text-emerald-700">{message}</p> : null}
       {error ? <p className="text-sm text-red-600">{error}</p> : null}
-
-      <Link
-        href="/admin/payments/reviews"
-        className="block text-center text-sm font-medium text-[#2D6AF6] hover:underline"
-      >
-        Havale inceleme kuyruğu
-      </Link>
     </div>
   );
 }

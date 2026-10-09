@@ -136,18 +136,6 @@ export function AdminEventParticipantsList({ eventId }: { eventId: string }) {
           </ul>
         )}
       </div>
-
-      <div className="flex flex-wrap gap-3 text-xs">
-        <Link href="/admin/payments/reviews" className="font-medium text-[#2D6AF6] hover:underline">
-          Havale incelemeleri
-        </Link>
-        <Link
-          href={`/admin/payments/custody?eventId=${encodeURIComponent(eventId)}`}
-          className="font-medium text-[#2D6AF6] hover:underline"
-        >
-          Yetkili kasa / devir
-        </Link>
-      </div>
     </div>
   );
 }
