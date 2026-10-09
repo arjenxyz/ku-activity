@@ -18,6 +18,7 @@ import type { IconType } from 'react-icons';
 import { createClient } from '@/utils/supabase/client';
 import { AdminShell } from '@/components/dashboard/AdminShell';
 import { AppTopBar } from '@/components/dashboard/AppTopBar';
+import { LanguageSwitch } from '@/components/i18n/LanguageSwitch';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 import type { NavIconName, NavItem } from '@/config/panel-nav';
 
@@ -104,6 +105,8 @@ export function PanelChrome({ children, homeHref, subtitle, navItems }: Props) {
         data-scroll-lock-allow=""
       >
         <div className="flex flex-col gap-1 p-2">
+          <LanguageSwitch variant="nav" />
+          <div className="mx-2 my-1 h-px bg-slate-100" />
           <p className="px-3 py-1.5 text-xs font-medium text-slate-500">{subtitle}</p>
           <div className="mx-2 my-1 h-px bg-slate-100" />
           {navItems.map((item) => {
