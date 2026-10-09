@@ -20,7 +20,7 @@ export type NavSection = NavItem & {
 
 /** Global admin menu — event tools live under an event workspace. */
 export const ADMIN_NAV: NavSection[] = [
-  { href: '/admin', label: 'Kontrol paneli', icon: 'home' },
+  { href: '/admin', label: 'Admin ana sayfası', icon: 'home' },
   {
     href: '/admin/events',
     label: 'Etkinlikler',
