@@ -6,7 +6,7 @@ import {
 } from '@/lib/demo/data';
 import { downloadExcelCsv } from '@/lib/export/excel-csv';
 
-export type ListFilter = 'all' | 'payment_open' | 'paid' | 'attended';
+export type ListFilter = 'all' | 'payment_open' | 'paid' | 'claimed' | 'attended';
 
 export function moneyTry(amount: number) {
   return new Intl.NumberFormat('tr-TR', {
@@ -26,6 +26,10 @@ export function paymentTone(status: PaymentStatus) {
       return 'text-sky-700 bg-sky-50';
     case 'waived':
       return 'text-slate-600 bg-slate-100';
+    case 'claimed':
+      return 'text-indigo-700 bg-indigo-50';
+    case 'rejected':
+      return 'text-red-700 bg-red-50';
   }
 }
 
@@ -39,13 +43,20 @@ export function statsFor(rows: DemoParticipant[]) {
   return {
     total: rows.length,
     paid: rows.filter((r) => r.paymentStatus === 'paid' || r.paymentStatus === 'waived').length,
-    pending: rows.filter((r) => r.paymentStatus === 'pending' || r.paymentStatus === 'partial').length,
+    pending: rows.filter(
+      (r) =>
+        r.paymentStatus === 'pending' ||
+        r.paymentStatus === 'partial' ||
+        r.paymentStatus === 'rejected'
+    ).length,
+    claimed: rows.filter((r) => r.paymentStatus === 'claimed').length,
     attended: rows.filter((r) => r.attendance === 'Katıldı').length,
     collected: rows.reduce((sum, r) => sum + r.paidAmount, 0),
     expected: rows.reduce((sum, r) => sum + (r.paymentStatus === 'waived' ? 0 : r.paymentAmount), 0),
   };
 }
 
+/** Seed snapshot only — live data comes from /api/payments/participants. */
 export function participantsForEvent(eventId: string) {
   return DEMO_PARTICIPANTS.filter((row) => row.eventId === eventId);
 }
@@ -54,15 +65,20 @@ export function findParticipant(eventId: string, registrationNo: string) {
   const decoded = decodeURIComponent(registrationNo);
   return DEMO_PARTICIPANTS.find(
     (row) => row.eventId === eventId && row.registrationNo === decoded
-  );
+  ) ?? null;
 }
 
 export function filterParticipants(rows: DemoParticipant[], filter: ListFilter) {
   return rows.filter((row) => {
     if (filter === 'all') return true;
     if (filter === 'payment_open') {
-      return row.paymentStatus === 'pending' || row.paymentStatus === 'partial';
+      return (
+        row.paymentStatus === 'pending' ||
+        row.paymentStatus === 'partial' ||
+        row.paymentStatus === 'rejected'
+      );
     }
+    if (filter === 'claimed') return row.paymentStatus === 'claimed';
     if (filter === 'paid') {
       return row.paymentStatus === 'paid' || row.paymentStatus === 'waived';
     }
@@ -87,11 +103,13 @@ export function exportParticipants(eventTitle: string, rows: DemoParticipant[]) 
       'Kayıt tarihi',
       'Katılım',
       'Gün',
+      'Ödeme kodu',
       'Ödeme durumu',
       'Ücret (TRY)',
       'Ödenen (TRY)',
       'Ödeme yöntemi',
       'Ödeme notu',
+      'Sorumlu yetkili',
     ],
     rows.map((row) => [
       row.registrationNo,
@@ -105,11 +123,13 @@ export function exportParticipants(eventTitle: string, rows: DemoParticipant[]) 
       row.registeredAt,
       row.attendance,
       row.day,
+      row.paymentCode,
       PAYMENT_STATUS_LABELS[row.paymentStatus],
       row.paymentAmount,
       row.paidAmount,
       row.paymentMethod,
       row.paymentNote,
+      row.custodianName ?? '',
     ])
   );
 }
@@ -117,6 +137,7 @@ export function exportParticipants(eventTitle: string, rows: DemoParticipant[]) 
 export const PARTICIPANT_FILTERS: Array<{ key: ListFilter; label: string }> = [
   { key: 'all', label: 'Tümü' },
   { key: 'payment_open', label: 'Ödeme açık' },
+  { key: 'claimed', label: 'İncelemede' },
   { key: 'paid', label: 'Ödendi' },
   { key: 'attended', label: 'Katıldı' },
 ];

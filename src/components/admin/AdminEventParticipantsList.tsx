@@ -1,17 +1,16 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { FiArrowLeft, FiDownload } from 'react-icons/fi';
-import { PAYMENT_STATUS_LABELS } from '@/lib/demo/data';
+import { PAYMENT_STATUS_LABELS, type DemoParticipant } from '@/lib/demo/data';
 import type { CatalogEvent } from '@/lib/events/catalog';
 import {
   PARTICIPANT_FILTERS,
   exportParticipants,
   filterParticipants,
   moneyTry,
-  participantsForEvent,
   paymentTone,
   statsFor,
   type ListFilter,
@@ -22,22 +21,32 @@ type AdminEvent = CatalogEvent & { registeredCount?: number };
 export function AdminEventParticipantsList({ eventId }: { eventId: string }) {
   const router = useRouter();
   const [event, setEvent] = useState<AdminEvent | null>(null);
+  const [rows, setRows] = useState<DemoParticipant[]>([]);
   const [ready, setReady] = useState(false);
   const [filter, setFilter] = useState<ListFilter>('all');
 
-  const eventRows = useMemo(() => participantsForEvent(eventId), [eventId]);
-  const filteredRows = useMemo(() => filterParticipants(eventRows, filter), [eventRows, filter]);
-  const selectedStats = statsFor(eventRows);
+  const load = useCallback(async () => {
+    const [eventsRes, partsRes] = await Promise.all([
+      fetch('/api/admin/events'),
+      fetch(`/api/payments/participants?eventId=${encodeURIComponent(eventId)}`),
+    ]);
+    const eventsPayload = (await eventsRes.json().catch(() => null)) as {
+      events?: AdminEvent[];
+    } | null;
+    const partsPayload = (await partsRes.json().catch(() => null)) as {
+      participants?: DemoParticipant[];
+    } | null;
+    setEvent(eventsPayload?.events?.find((item) => item.id === eventId) ?? null);
+    setRows(partsPayload?.participants ?? []);
+    setReady(true);
+  }, [eventId]);
 
   useEffect(() => {
-    void (async () => {
-      const response = await fetch('/api/admin/events');
-      const payload = (await response.json().catch(() => null)) as { events?: AdminEvent[] } | null;
-      const found = payload?.events?.find((item) => item.id === eventId) ?? null;
-      setEvent(found);
-      setReady(true);
-    })();
-  }, [eventId]);
+    void load();
+  }, [load]);
+
+  const filteredRows = useMemo(() => filterParticipants(rows, filter), [rows, filter]);
+  const selectedStats = statsFor(rows);
 
   if (ready && !event) {
     return (
@@ -66,7 +75,9 @@ export function AdminEventParticipantsList({ eventId }: { eventId: string }) {
             {event?.title ?? '…'}
           </h1>
           <p className="truncate text-xs text-slate-500">
-            {selectedStats.total} kayıt · {selectedStats.paid} ödendi · {moneyTry(selectedStats.collected)}
+            {selectedStats.total} kayıt · {selectedStats.paid} ödendi
+            {selectedStats.claimed > 0 ? ` · ${selectedStats.claimed} incelemede` : ''} ·{' '}
+            {moneyTry(selectedStats.collected)}
           </p>
         </div>
         <button
@@ -74,7 +85,7 @@ export function AdminEventParticipantsList({ eventId }: { eventId: string }) {
           disabled={!event}
           onClick={() => {
             if (!event) return;
-            exportParticipants(event.title, filter === 'all' ? eventRows : filteredRows);
+            exportParticipants(event.title, filter === 'all' ? rows : filteredRows);
           }}
           className="inline-flex shrink-0 items-center gap-1.5 rounded-xl bg-[#0E1548] px-3 py-2 text-xs font-semibold text-white hover:bg-[#152060] disabled:opacity-50"
         >
@@ -83,13 +94,13 @@ export function AdminEventParticipantsList({ eventId }: { eventId: string }) {
         </button>
       </div>
 
-      <div className="flex gap-1.5 rounded-xl bg-slate-100/80 p-1">
+      <div className="flex gap-1 overflow-x-auto rounded-xl bg-slate-100/80 p-1">
         {PARTICIPANT_FILTERS.map((item) => (
           <button
             key={item.key}
             type="button"
             onClick={() => setFilter(item.key)}
-            className={`flex-1 rounded-lg px-2 py-2 text-center text-[11px] font-semibold transition sm:text-xs ${
+            className={`shrink-0 flex-1 rounded-lg px-2 py-2 text-center text-[11px] font-semibold transition sm:text-xs ${
               filter === item.key
                 ? 'bg-white text-[#0E1548] shadow-sm'
                 : 'text-slate-500 hover:text-slate-700'
@@ -101,7 +112,9 @@ export function AdminEventParticipantsList({ eventId }: { eventId: string }) {
       </div>
 
       <div className="overflow-hidden rounded-2xl border border-slate-200/80 bg-white">
-        {filteredRows.length === 0 ? (
+        {!ready ? (
+          <p className="px-4 py-10 text-center text-sm text-slate-500">Yükleniyor…</p>
+        ) : filteredRows.length === 0 ? (
           <p className="px-4 py-10 text-center text-sm text-slate-500">Bu filtrede kayıt yok.</p>
         ) : (
           <ul className="divide-y divide-slate-100">
@@ -122,6 +135,18 @@ export function AdminEventParticipantsList({ eventId }: { eventId: string }) {
             ))}
           </ul>
         )}
+      </div>
+
+      <div className="flex flex-wrap gap-3 text-xs">
+        <Link href="/admin/payments/reviews" className="font-medium text-[#2D6AF6] hover:underline">
+          Havale incelemeleri
+        </Link>
+        <Link
+          href={`/admin/payments/custody?eventId=${encodeURIComponent(eventId)}`}
+          className="font-medium text-[#2D6AF6] hover:underline"
+        >
+          Yetkili kasa / devir
+        </Link>
       </div>
     </div>
   );

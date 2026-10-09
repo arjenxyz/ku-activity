@@ -1,3 +1,7 @@
+import type { PaymentMethod, PaymentStatus } from '@/lib/payments/types';
+export type { PaymentStatus } from '@/lib/payments/types';
+export { PAYMENT_STATUS_LABELS } from '@/lib/payments/types';
+
 export type DemoEvent = {
   id: string;
   title: string;
@@ -8,8 +12,6 @@ export type DemoEvent = {
   status: string;
   assignedToStaff: boolean;
 };
-
-export type PaymentStatus = 'paid' | 'pending' | 'partial' | 'waived';
 
 export type DemoParticipant = {
   registrationNo: string;
@@ -25,22 +27,18 @@ export type DemoParticipant = {
   isDemoStudent: boolean;
   phone: string;
   email: string;
+  paymentCode: string;
   paymentStatus: PaymentStatus;
   paymentAmount: number;
   paidAmount: number;
-  paymentMethod: string;
+  paymentMethod: PaymentMethod | string;
   paymentNote: string;
+  custodianStaffId: string | null;
+  custodianName: string | null;
 };
 
 /** Opaque check-in payload for the demo student QR (no name / student no). */
 export const DEMO_CHECKIN_TOKEN = 'ems_demo_ck_7f3a9c2e1b8d4f60';
-
-export const PAYMENT_STATUS_LABELS: Record<PaymentStatus, string> = {
-  paid: 'Ödendi',
-  pending: 'Bekliyor',
-  partial: 'Kısmi',
-  waived: 'Muaf',
-};
 
 export const DEMO_EVENTS: DemoEvent[] = [
   {
@@ -80,11 +78,14 @@ export const DEMO_PARTICIPANTS: DemoParticipant[] = [
     isDemoStudent: true,
     phone: '0532 000 01 84',
     email: 'ornek.ayse@ogrenci.kastamonu.edu.tr',
+    paymentCode: 'ABN-7F2K',
     paymentStatus: 'paid',
     paymentAmount: 850,
     paidAmount: 850,
-    paymentMethod: 'Havale',
-    paymentNote: 'Dekont alındı',
+    paymentMethod: 'transfer',
+    paymentNote: 'Admin onaylı havale',
+    custodianStaffId: 'demo-admin',
+    custodianName: 'Demo Admin',
   },
   {
     registrationNo: 'ABN-2027-000185',
@@ -100,11 +101,14 @@ export const DEMO_PARTICIPANTS: DemoParticipant[] = [
     isDemoStudent: false,
     phone: '0533 000 02 21',
     email: 'ornek.mehmet@ogrenci.kastamonu.edu.tr',
+    paymentCode: 'ABN-9C1M',
     paymentStatus: 'pending',
     paymentAmount: 850,
     paidAmount: 0,
     paymentMethod: '',
-    paymentNote: 'Ödeme bekleniyor',
+    paymentNote: '',
+    custodianStaffId: null,
+    custodianName: null,
   },
   {
     registrationNo: 'ABN-2027-000186',
@@ -120,11 +124,14 @@ export const DEMO_PARTICIPANTS: DemoParticipant[] = [
     isDemoStudent: false,
     phone: '0541 000 00 44',
     email: 'ornek.elif@ogrenci.kastamonu.edu.tr',
+    paymentCode: 'ABN-4H8P',
     paymentStatus: 'partial',
     paymentAmount: 850,
     paidAmount: 400,
-    paymentMethod: 'Nakit',
-    paymentNote: 'Kalan 450 TRY',
+    paymentMethod: 'cash',
+    paymentNote: 'Kısmi elden',
+    custodianStaffId: 'demo-staff',
+    custodianName: 'Demo Görevli',
   },
   {
     registrationNo: 'ABN-2027-000187',
@@ -140,11 +147,14 @@ export const DEMO_PARTICIPANTS: DemoParticipant[] = [
     isDemoStudent: false,
     phone: '0555 000 03 12',
     email: 'ornek.can@ogrenci.kastamonu.edu.tr',
+    paymentCode: 'ABN-2Q6R',
     paymentStatus: 'waived',
     paymentAmount: 850,
     paidAmount: 0,
     paymentMethod: '',
     paymentNote: 'Organizasyon muafiyeti',
+    custodianStaffId: null,
+    custodianName: null,
   },
   {
     registrationNo: 'TNS-2026-000011',
@@ -160,11 +170,14 @@ export const DEMO_PARTICIPANTS: DemoParticipant[] = [
     isDemoStudent: false,
     phone: '0532 111 00 11',
     email: 'ornek.zeynep@ogrenci.kastamonu.edu.tr',
+    paymentCode: 'TNS-1A0B',
     paymentStatus: 'paid',
     paymentAmount: 0,
     paidAmount: 0,
     paymentMethod: '',
     paymentNote: 'Ücretsiz etkinlik',
+    custodianStaffId: null,
+    custodianName: null,
   },
   {
     registrationNo: 'TNS-2026-000012',
@@ -180,11 +193,14 @@ export const DEMO_PARTICIPANTS: DemoParticipant[] = [
     isDemoStudent: false,
     phone: '0544 111 00 12',
     email: 'ornek.burak@ogrenci.kastamonu.edu.tr',
+    paymentCode: 'TNS-8D3E',
     paymentStatus: 'paid',
     paymentAmount: 0,
     paidAmount: 0,
     paymentMethod: '',
     paymentNote: 'Ücretsiz etkinlik',
+    custodianStaffId: null,
+    custodianName: null,
   },
 ];
 

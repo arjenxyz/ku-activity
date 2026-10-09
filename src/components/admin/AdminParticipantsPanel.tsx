@@ -3,32 +3,57 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { FiCalendar, FiMapPin, FiUsers } from 'react-icons/fi';
-import { DEMO_PARTICIPANTS } from '@/lib/demo/data';
+import type { DemoParticipant } from '@/lib/demo/data';
 import type { CatalogEvent } from '@/lib/events/catalog';
 import { formatFeeTry } from '@/lib/events/catalog';
 import { bandFor, moneyTry, statsFor } from '@/lib/demo/participants-ui';
 
 type AdminEvent = CatalogEvent & { registeredCount?: number };
+type EventStats = ReturnType<typeof statsFor>;
 
 /** Event cards — pick an event to manage participants. */
 export function AdminParticipantsPanel() {
   const [events, setEvents] = useState<AdminEvent[]>([]);
+  const [statsByEvent, setStatsByEvent] = useState<Record<string, EventStats>>({});
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
     void (async () => {
       const response = await fetch('/api/admin/events');
       const payload = (await response.json().catch(() => null)) as { events?: AdminEvent[] } | null;
-      setEvents(payload?.events ?? []);
+      const list = payload?.events ?? [];
+      setEvents(list);
+
+      const next: Record<string, EventStats> = {};
+      await Promise.all(
+        list.map(async (event) => {
+          const partsRes = await fetch(
+            `/api/payments/participants?eventId=${encodeURIComponent(event.id)}`
+          );
+          const partsPayload = (await partsRes.json().catch(() => null)) as {
+            participants?: DemoParticipant[];
+          } | null;
+          next[event.id] = statsFor(partsPayload?.participants ?? []);
+        })
+      );
+      setStatsByEvent(next);
       setReady(true);
     })();
   }, []);
 
   return (
     <div className="space-y-4">
-      <div>
-        <h1 className="text-lg font-semibold text-[#0E1548]">Katılımcılar</h1>
-        <p className="mt-0.5 text-sm text-slate-500">Etkinlik seçerek listeyi ve ödemeleri yönet.</p>
+      <div className="flex flex-wrap items-end justify-between gap-2">
+        <div>
+          <h1 className="text-lg font-semibold text-[#0E1548]">Katılımcılar</h1>
+          <p className="mt-0.5 text-sm text-slate-500">Etkinlik seçerek listeyi ve ödemeleri yönet.</p>
+        </div>
+        <Link
+          href="/admin/payments/reviews"
+          className="text-xs font-medium text-[#2D6AF6] hover:underline"
+        >
+          Havale incelemeleri
+        </Link>
       </div>
 
       <ul className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
@@ -42,8 +67,7 @@ export function AdminParticipantsPanel() {
           </li>
         ) : (
           events.map((event) => {
-            const rows = DEMO_PARTICIPANTS.filter((row) => row.eventId === event.id);
-            const stats = statsFor(rows);
+            const stats = statsByEvent[event.id] ?? statsFor([]);
             const fee = event.planning?.pricing?.feeAmount;
             const dateLabel =
               event.startsAt === event.endsAt ? event.startsAt : `${event.startsAt} – ${event.endsAt}`;
@@ -73,6 +97,7 @@ export function AdminParticipantsPanel() {
                       <span>
                         {stats.total} kayıt
                         {stats.pending > 0 ? ` · ${stats.pending} ödeme açık` : ''}
+                        {stats.claimed > 0 ? ` · ${stats.claimed} incelemede` : ''}
                       </span>
                     </p>
                     <p className="text-xs text-slate-400">
