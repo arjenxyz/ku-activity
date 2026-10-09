@@ -50,6 +50,9 @@ const SECTION_NAV = [
 const sectionClass =
   'scroll-mt-28 space-y-3 rounded-2xl border border-slate-100 bg-slate-50/50 p-4 sm:scroll-mt-32 sm:p-5 lg:scroll-mt-28';
 
+const iconBtnClass =
+  'inline-flex h-11 min-h-11 w-full shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white px-3 text-slate-500 sm:w-11 disabled:opacity-40';
+
 const emptyForm: FormState = {
   title: '',
   description: '',
@@ -363,7 +366,7 @@ export function AdminEventForm({
                   <button
                     type="button"
                     disabled={form.days.length === 1}
-                    className="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-3 text-slate-500 disabled:opacity-40"
+                    className={iconBtnClass}
                     onClick={() => removeDay(index)}
                   >
                     <FiTrash2 className="h-4 w-4" />
@@ -394,7 +397,7 @@ export function AdminEventForm({
                   </select>
                   <input className={inputClass} value={activity.title} onChange={(e) => { const next = [...form.activities]; next[index] = { ...activity, title: e.target.value }; patch('activities', next); }} placeholder="Aktivite adı" />
                   <input className={inputClass} value={activity.startsAt} onChange={(e) => { const next = [...form.activities]; next[index] = { ...activity, startsAt: e.target.value }; patch('activities', next); }} placeholder="10:00" />
-                  <button type="button" className="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-3 text-slate-500" onClick={() => patch('activities', form.activities.filter((_, i) => i !== index))}>
+                  <button type="button" className={iconBtnClass} onClick={() => patch('activities', form.activities.filter((_, i) => i !== index))}>
                     <FiTrash2 className="h-4 w-4" />
                   </button>
                 </div>
@@ -471,7 +474,7 @@ export function AdminEventForm({
                   />
                   <button
                     type="button"
-                    className="rounded-xl border border-slate-200 bg-white px-3 text-slate-500"
+                    className={iconBtnClass}
                     onClick={() =>
                       patchPlanning((p) => ({
                         ...p,
@@ -812,7 +815,7 @@ export function AdminEventForm({
                   />
                   <button
                     type="button"
-                    className="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-3 text-slate-500"
+                    className={iconBtnClass}
                     onClick={() =>
                       patchPlanning((p) => ({
                         ...p,
@@ -939,7 +942,7 @@ export function AdminEventForm({
                   />
                   <button
                     type="button"
-                    className="rounded-xl border border-slate-200 bg-white px-3 text-slate-500"
+                    className={iconBtnClass}
                     onClick={() =>
                       patchPlanning((p) => ({
                         ...p,
@@ -1007,7 +1010,7 @@ export function AdminEventForm({
                 />
                 <button
                   type="button"
-                  className="rounded-xl border border-slate-200 bg-white px-3 text-slate-500"
+                  className={iconBtnClass}
                   onClick={() =>
                     patchPlanning((p) => ({
                       ...p,
@@ -1069,7 +1072,7 @@ export function AdminEventForm({
                   />
                   <button
                     type="button"
-                    className="rounded-xl border border-slate-200 bg-white px-3 text-slate-500"
+                    className={iconBtnClass}
                     onClick={() =>
                       patchPlanning((p) => ({
                         ...p,
