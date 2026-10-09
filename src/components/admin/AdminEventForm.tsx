@@ -33,18 +33,18 @@ type FormState = {
 };
 
 const SECTION_NAV = [
-  { id: 'sec-1', short: 'Temel', label: 'Temel bilgiler' },
-  { id: 'sec-2', short: 'Tarih', label: 'Tarih ve kontenjan' },
-  { id: 'sec-3', short: 'Günler', label: 'Program günleri' },
-  { id: 'sec-4', short: 'Aktivite', label: 'Aktiviteler' },
-  { id: 'sec-5', short: 'Ücret', label: 'Ücret ve dahil olanlar' },
-  { id: 'sec-6', short: 'Ulaşım', label: 'Ulaşım' },
-  { id: 'sec-7', short: 'Konaklama', label: 'Konaklama' },
-  { id: 'sec-8', short: 'Yemek', label: 'Yemek planı' },
-  { id: 'sec-9', short: 'Ekip', label: 'Ekip ve danışman' },
-  { id: 'sec-10', short: 'Sponsor', label: 'Sponsorlar' },
-  { id: 'sec-11', short: 'Şartlar', label: 'Katılım şartları' },
-  { id: 'sec-12', short: 'Durum', label: 'Yayın durumu' },
+  { id: 'sec-1', label: 'Temel bilgiler' },
+  { id: 'sec-2', label: 'Tarih ve kontenjan' },
+  { id: 'sec-3', label: 'Program günleri' },
+  { id: 'sec-4', label: 'Aktiviteler' },
+  { id: 'sec-5', label: 'Ücret ve dahil olanlar' },
+  { id: 'sec-6', label: 'Ulaşım' },
+  { id: 'sec-7', label: 'Konaklama' },
+  { id: 'sec-8', label: 'Yemek planı' },
+  { id: 'sec-9', label: 'Ekip ve danışman' },
+  { id: 'sec-10', label: 'Sponsorlar' },
+  { id: 'sec-11', label: 'Katılım şartları' },
+  { id: 'sec-12', label: 'Yayın durumu' },
 ] as const;
 
 const sectionClass =
@@ -244,28 +244,6 @@ export function AdminEventForm({
 
   return (
     <div className="space-y-4 lg:space-y-6">
-      {/* Mobile / tablet: compact horizontal chips */}
-      <nav
-        className="sticky top-[calc(4.5rem+env(safe-area-inset-top))] z-10 -mx-1 overflow-x-auto rounded-2xl border border-slate-200/80 bg-white/95 px-2 py-2 shadow-sm backdrop-blur lg:hidden"
-        aria-label="Form bölümleri"
-      >
-        <ul className="flex min-w-max gap-1.5">
-          {SECTION_NAV.map((item, index) => (
-            <li key={item.id}>
-              <a
-                href={`#${item.id}`}
-                className="inline-flex items-center gap-1.5 rounded-full bg-slate-50 px-3 py-1.5 text-xs font-medium text-slate-600 ring-1 ring-slate-200/80 hover:bg-[#e8f0ff] hover:text-[#0E1548] hover:ring-[#2D6AF6]/20"
-              >
-                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#0E1548] text-[10px] font-semibold text-white">
-                  {index + 1}
-                </span>
-                {item.short}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </nav>
-
       {/* Desktop: aside stretches with form so sticky has room to stay on screen */}
       <div className="lg:grid lg:grid-cols-[15rem_minmax(0,1fr)] lg:gap-6 xl:grid-cols-[16rem_minmax(0,1fr)]">
         <aside className="hidden lg:block">
