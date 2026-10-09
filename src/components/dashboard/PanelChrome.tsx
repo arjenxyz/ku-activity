@@ -42,7 +42,7 @@ const ROLE_LABELS: Record<AppRole, string> = {
   student: 'Öğrenci',
 };
 
-function PanelSessionCard() {
+function PanelSessionCard({ compact }: { compact?: boolean }) {
   const [session, setSession] = useState<{ name: string; role: AppRole; demo: boolean } | null>(
     null
   );
@@ -57,30 +57,27 @@ function PanelSessionCard() {
     })();
   }, []);
 
-  if (!session) {
-    return (
-      <div className="mx-1 flex items-center gap-2.5 rounded-xl bg-slate-50 px-2.5 py-2.5">
-        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-slate-200/80 text-slate-500">
-          <FiUser className="h-4 w-4" aria-hidden />
-        </span>
-        <span className="min-w-0 flex-1">
-          <span className="block truncate text-sm font-medium text-slate-400">Oturum…</span>
-        </span>
-      </div>
-    );
-  }
+  const name = session?.name ?? 'Oturum…';
+  const meta = session
+    ? `${ROLE_LABELS[session.role]}${session.demo ? ' · Demo' : ''}`
+    : '…';
 
   return (
-    <div className="mx-1 flex items-center gap-2.5 rounded-xl bg-slate-50 px-2.5 py-2.5">
-      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e8f0ff] text-[#2D6AF6]">
-        <FiUser className="h-4 w-4" aria-hidden />
+    <div
+      className={`flex items-center gap-2.5 ${compact ? 'px-1 py-1' : 'px-1 py-0.5'}`}
+    >
+      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#0E1548] text-white">
+        <FiUser className="h-3.5 w-3.5" aria-hidden />
       </span>
       <span className="min-w-0 flex-1">
-        <span className="block truncate text-sm font-semibold text-[#0E1548]">{session.name}</span>
-        <span className="block truncate text-[11px] text-slate-500">
-          {ROLE_LABELS[session.role]}
-          {session.demo ? ' · Demo' : ''}
+        <span
+          className={`block truncate font-semibold text-[#0E1548] ${
+            session ? 'text-sm' : 'text-sm text-slate-400'
+          }`}
+        >
+          {name}
         </span>
+        <span className="block truncate text-[11px] text-slate-500">{meta}</span>
       </span>
     </div>
   );
@@ -108,27 +105,30 @@ function NavLinkRow({
   item,
   active,
   onNavigate,
-  dense,
+  showChevron,
 }: {
   item: NavItem;
   active: boolean;
   onNavigate: () => void;
-  dense?: boolean;
+  showChevron?: boolean;
 }) {
   const Icon = NAV_ICONS[item.icon];
   return (
     <Link
       href={item.href}
-      className={`flex items-center gap-3 rounded-xl text-[#0E1548] ${
-        dense ? 'px-2 py-2' : 'px-2.5 py-2.5'
-      } ${active ? 'bg-[#e8f0ff]' : 'hover:bg-slate-50'}`}
+      className={`flex items-center gap-2.5 rounded-xl px-2.5 py-2 text-[#0E1548] transition ${
+        active ? 'bg-[#e8f0ff] font-semibold' : 'font-medium hover:bg-slate-50'
+      }`}
       onClick={onNavigate}
     >
-      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e8f0ff]">
-        <Icon className="h-4 w-4" aria-hidden />
-      </span>
-      <span className="min-w-0 flex-1 text-sm font-medium">{item.label}</span>
-      <FiChevronRight className="h-4 w-4 shrink-0 text-slate-400" aria-hidden />
+      <Icon
+        className={`h-4 w-4 shrink-0 ${active ? 'text-[#2D6AF6]' : 'text-slate-500'}`}
+        aria-hidden
+      />
+      <span className="min-w-0 flex-1 truncate text-sm">{item.label}</span>
+      {showChevron ? (
+        <FiChevronRight className="h-4 w-4 shrink-0 text-slate-300" aria-hidden />
+      ) : null}
     </Link>
   );
 }
@@ -210,58 +210,74 @@ function NavLinksBody({
   navItems,
   onNavigate,
   onLogout,
+  layout,
 }: {
   homeHref: string;
   navItems: NavSection[];
   onNavigate: () => void;
   onLogout: () => void;
+  layout: 'sidebar' | 'drawer';
 }) {
   const { pathname, search, showContext, contextLabel, items, setForceRoot } = usePanelNavState(
     homeHref,
     navItems
   );
+  const isSidebar = layout === 'sidebar';
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col gap-1">
+    <div className="flex min-h-0 flex-1 flex-col">
       {showContext ? (
-        <>
+        <div className="mb-2 space-y-1">
           <button
             type="button"
             onClick={() => setForceRoot(true)}
-            className="flex items-center gap-3 rounded-xl px-2 py-2 text-[#0E1548] hover:bg-slate-50"
+            className="flex w-full items-center gap-2 rounded-xl px-2.5 py-2 text-left text-[#0E1548] hover:bg-slate-50"
           >
-            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-slate-100">
-              <FiArrowLeft className="h-4 w-4" aria-hidden />
-            </span>
-            <span className="min-w-0 flex-1 text-left">
+            <FiArrowLeft className="h-4 w-4 shrink-0 text-slate-500" aria-hidden />
+            <span className="min-w-0 flex-1">
               <span className="block truncate text-[10px] font-semibold uppercase tracking-wide text-slate-400">
                 {contextLabel}
               </span>
               <span className="block text-sm font-medium">Ana menü</span>
             </span>
           </button>
-          <div className="mx-2 my-1 h-px bg-slate-100" />
-        </>
+          <div className="mx-2 h-px bg-slate-100" />
+        </div>
       ) : null}
 
-      <div className="min-h-0 flex-1 space-y-0.5 overflow-y-auto">
+      <nav className="min-h-0 flex-1 space-y-0.5 overflow-y-auto pr-0.5" aria-label="Sayfalar">
         {items.map((item) => (
           <NavLinkRow
             key={`${item.href}:${item.label}`}
             item={item}
             active={isNavItemActive(pathname, item, homeHref, search)}
             onNavigate={onNavigate}
+            showChevron={!isSidebar}
           />
         ))}
-      </div>
+      </nav>
 
-      <div className="mt-auto space-y-1.5 border-t border-slate-100 pt-2">
-        <PanelSessionCard />
-        <LanguageSwitch variant="nav" />
+      <div
+        className={`mt-3 shrink-0 space-y-2 rounded-2xl border border-slate-100 bg-slate-50/80 p-2 ${
+          isSidebar ? '' : 'mx-0'
+        }`}
+      >
+        <PanelSessionCard compact={isSidebar} />
+        <div className="h-px bg-slate-200/70" />
+        {isSidebar ? (
+          <div className="flex items-center justify-between gap-2 px-1">
+            <span className="text-[11px] font-medium uppercase tracking-wider text-slate-400">
+              Dil
+            </span>
+            <LanguageSwitch variant="compact" />
+          </div>
+        ) : (
+          <LanguageSwitch variant="nav" />
+        )}
         <button
           type="button"
           onClick={onLogout}
-          className="mx-1 mb-1 flex w-[calc(100%-0.5rem)] items-center justify-center gap-2 rounded-2xl bg-[#0E1548] px-4 py-2.5 text-sm font-medium text-white"
+          className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#0E1548] px-3 py-2.5 text-sm font-medium text-white hover:bg-[#152060]"
         >
           <FiLogOut className="h-4 w-4" aria-hidden />
           Çıkış yap
@@ -317,12 +333,13 @@ function MobileDrawer({
         aria-hidden={!menuOpen}
         data-scroll-lock-allow=""
       >
-        <div className="flex max-h-[min(80dvh,640px)] flex-col gap-1 overflow-y-auto p-2">
+        <div className="flex max-h-[min(80dvh,640px)] flex-col overflow-y-auto p-2">
           <NavLinksBody
             homeHref={homeHref}
             navItems={navItems}
             onNavigate={() => setMenuOpen(false)}
             onLogout={onLogout}
+            layout="drawer"
           />
         </div>
       </nav>
@@ -341,19 +358,26 @@ function DesktopSidebar({
 }) {
   return (
     <aside
-      className={`fixed inset-y-0 left-0 z-40 hidden ${SIDEBAR_W} flex-col border-r border-slate-200/80 bg-white/95 px-3 py-4 backdrop-blur-lg lg:flex`}
+      className={`fixed inset-y-0 left-0 z-40 hidden ${SIDEBAR_W} flex-col border-r border-slate-200/80 bg-white lg:flex`}
       aria-label="Yan menü"
     >
-      <Link href={homeHref} className="mb-4 flex items-center gap-2.5 px-2" aria-label={APP_SHORT_NAME}>
-        <BrandMark size="sm" className="!h-9 !w-9" />
-        <span className="text-sm font-bold text-[#0E1548]">{APP_SHORT_NAME}</span>
-      </Link>
-      <NavLinksBody
-        homeHref={homeHref}
-        navItems={navItems}
-        onNavigate={() => undefined}
-        onLogout={onLogout}
-      />
+      <div className="flex h-14 shrink-0 items-center gap-2.5 border-b border-slate-100 px-4">
+        <Link href={homeHref} className="flex min-w-0 items-center gap-2.5" aria-label={APP_SHORT_NAME}>
+          <BrandMark size="sm" className="!h-8 !w-8" />
+          <span className="truncate text-sm font-bold tracking-tight text-[#0E1548]">
+            {APP_SHORT_NAME}
+          </span>
+        </Link>
+      </div>
+      <div className="flex min-h-0 flex-1 flex-col px-2.5 py-3">
+        <NavLinksBody
+          homeHref={homeHref}
+          navItems={navItems}
+          onNavigate={() => undefined}
+          onLogout={onLogout}
+          layout="sidebar"
+        />
+      </div>
     </aside>
   );
 }
