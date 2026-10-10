@@ -12,7 +12,6 @@ type Props = {
   onClose: () => void;
   eventTitle: string;
   feeLabel?: string | null;
-  feeNotes?: string | null;
   paymentIban?: string | null;
   cashPaymentEnabled?: boolean;
   cashContactName?: string | null;
@@ -25,7 +24,6 @@ export function FeePaymentModal({
   onClose,
   eventTitle,
   feeLabel = null,
-  feeNotes = null,
   paymentIban = null,
   cashPaymentEnabled = false,
   cashContactName = null,
@@ -123,53 +121,38 @@ export function FeePaymentModal({
 
         <div className="overflow-y-auto px-5 py-5">
           {feeLabel ? (
-            <p className="mb-4 text-sm font-semibold text-[#0E1548]">
-              Ödeme tutarı <span className="text-[#E8770A]">{feeLabel}</span>
-            </p>
+            <p className="mb-4 text-2xl font-bold tracking-tight text-[#E8770A]">{feeLabel}</p>
           ) : null}
 
           {!method ? (
-            <div className="space-y-3">
-              <p className="text-sm leading-relaxed text-slate-600">
-                Ödemeyi nasıl yapmak istediğini seç. Onay sonrası geçiş kartın açılır.
-              </p>
+            <div className="space-y-2.5">
               {hasTransfer ? (
                 <button
                   type="button"
                   onClick={() => setMethod('transfer')}
-                  className="flex w-full items-start gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3.5 text-left transition hover:border-[#E8770A]/50 hover:bg-[#FFF8F0]"
+                  className="flex w-full items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3.5 text-left transition hover:border-[#E8770A]/50 hover:bg-[#FFF8F0]"
                 >
-                  <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#FFF1E0] text-[#E8770A]">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#FFF1E0] text-[#E8770A]">
                     <FiCreditCard className="h-5 w-5" aria-hidden />
                   </span>
-                  <span className="min-w-0">
-                    <span className="block text-sm font-semibold text-[#0E1548]">Havale / EFT</span>
-                    <span className="mt-0.5 block text-sm text-slate-500">
-                      IBAN’a transfer et; açıklamaya kayıt numaranı yaz.
-                    </span>
-                  </span>
+                  <span className="text-sm font-semibold text-[#0E1548]">Havale / EFT</span>
                 </button>
               ) : null}
               {hasCash ? (
                 <button
                   type="button"
                   onClick={() => setMethod('cash')}
-                  className="flex w-full items-start gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3.5 text-left transition hover:border-[#E8770A]/50 hover:bg-[#FFF8F0]"
+                  className="flex w-full items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3.5 text-left transition hover:border-[#E8770A]/50 hover:bg-[#FFF8F0]"
                 >
-                  <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#FFF1E0] text-[#E8770A]">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#FFF1E0] text-[#E8770A]">
                     <FiDollarSign className="h-5 w-5" aria-hidden />
                   </span>
-                  <span className="min-w-0">
-                    <span className="block text-sm font-semibold text-[#0E1548]">Elden ödeme</span>
-                    <span className="mt-0.5 block text-sm text-slate-500">
-                      Ücreti sorumlu kişiye nakit teslim et.
-                    </span>
-                  </span>
+                  <span className="text-sm font-semibold text-[#0E1548]">Elden ödeme</span>
                 </button>
               ) : null}
               {!hasAny ? (
                 <p className="rounded-2xl bg-slate-50 px-4 py-3 text-sm text-slate-600">
-                  Ödeme bilgisi henüz eklenmedi. Organizasyon ekibiyle iletişime geç.
+                  Ödeme bilgisi yok.
                 </p>
               ) : null}
             </div>
@@ -177,9 +160,6 @@ export function FeePaymentModal({
 
           {method === 'transfer' && paymentIban ? (
             <div className="space-y-3">
-              {feeNotes ? (
-                <p className="text-sm leading-relaxed text-slate-600">{feeNotes}</p>
-              ) : null}
               <div className="rounded-2xl bg-slate-50 px-4 py-3.5 ring-1 ring-slate-200">
                 <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
                   IBAN
@@ -193,7 +173,7 @@ export function FeePaymentModal({
                   className="mt-2 inline-flex items-center gap-1.5 text-sm font-medium text-[#2D6AF6]"
                 >
                   <FiCopy className="h-3.5 w-3.5" aria-hidden />
-                  {copied ? 'Kopyalandı' : 'IBAN kopyala'}
+                  {copied ? 'Kopyalandı' : 'Kopyala'}
                 </button>
               </div>
               {registrationNo ? (
@@ -204,33 +184,21 @@ export function FeePaymentModal({
                   <p className="mt-1 font-mono text-sm font-semibold text-[#0E1548]">
                     {registrationNo}
                   </p>
-                  <p className="mt-1 text-xs text-slate-500">
-                    Havale açıklamasına bu kayıt numarasını yaz.
-                  </p>
                 </div>
               ) : null}
             </div>
           ) : null}
 
           {method === 'cash' ? (
-            <div className="space-y-3">
-              <div className="rounded-2xl bg-slate-50 px-4 py-3.5 ring-1 ring-slate-200">
-                <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
-                  Sorumlu
-                </p>
-                <p className="mt-1 text-sm font-semibold text-[#0E1548]">
-                  {cashContactName || 'Sorumlu ekip arkadaşı'}
-                </p>
-                {cashContactNote ? (
-                  <p className="mt-1.5 text-sm leading-relaxed text-slate-600">{cashContactNote}</p>
-                ) : (
-                  <p className="mt-1.5 text-sm leading-relaxed text-slate-600">
-                    Ücreti etkinlik ekibindeki sorumlu kişiye elden teslim edebilirsin.
-                  </p>
-                )}
-              </div>
-              {feeNotes ? (
-                <p className="text-sm leading-relaxed text-slate-600">{feeNotes}</p>
+            <div className="rounded-2xl bg-slate-50 px-4 py-3.5 ring-1 ring-slate-200">
+              <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+                Sorumlu
+              </p>
+              <p className="mt-1 text-sm font-semibold text-[#0E1548]">
+                {cashContactName || 'Sorumlu'}
+              </p>
+              {cashContactNote ? (
+                <p className="mt-1.5 text-sm leading-relaxed text-slate-600">{cashContactNote}</p>
               ) : null}
             </div>
           ) : null}

@@ -27,7 +27,6 @@ type Props = {
   /** When true, CTA opens fee payment modal instead of pass. */
   needsPayment?: boolean;
   feeLabel?: string | null;
-  feeNotes?: string | null;
   paymentIban?: string | null;
   cashPaymentEnabled?: boolean;
   cashContactName?: string | null;
@@ -47,7 +46,6 @@ export function RegisteredEventExtras({
   passengerName,
   needsPayment = false,
   feeLabel = null,
-  feeNotes = null,
   paymentIban = null,
   cashPaymentEnabled = false,
   cashContactName = null,
@@ -426,7 +424,6 @@ export function RegisteredEventExtras({
         onClose={() => setPayOpen(false)}
         eventTitle={eventTitle}
         feeLabel={feeLabel}
-        feeNotes={feeNotes}
         paymentIban={paymentIban}
         cashPaymentEnabled={cashPaymentEnabled}
         cashContactName={cashContactName}
