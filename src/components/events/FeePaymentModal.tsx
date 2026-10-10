@@ -12,6 +12,11 @@ import {
   FiX,
 } from 'react-icons/fi';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
+import {
+  isAllowedReceiptFile,
+  RECEIPT_FILE_ACCEPT,
+  RECEIPT_FILE_TYPE_ERROR,
+} from '@/lib/payments/receipt-file';
 
 type Method = 'transfer' | 'cash';
 type CopyKey = 'iban' | 'name' | 'note';
@@ -163,6 +168,10 @@ export function FeePaymentModal({
   async function uploadReceipt(file: File) {
     if (!eventId || !registrationNo) {
       setReceiptError('Kayıt bilgisi eksik');
+      return;
+    }
+    if (!isAllowedReceiptFile(file)) {
+      setReceiptError(RECEIPT_FILE_TYPE_ERROR);
       return;
     }
     setReceiptBusy(true);
@@ -394,7 +403,7 @@ export function FeePaymentModal({
               {receiptBusy ? 'Yükleniyor…' : receiptMessage ? 'Yeni dekont yükle' : 'Dekont yükle'}
               <input
                 type="file"
-                accept="image/*,application/pdf"
+                accept={RECEIPT_FILE_ACCEPT}
                 className="sr-only"
                 disabled={receiptBusy}
                 onChange={(event) => {

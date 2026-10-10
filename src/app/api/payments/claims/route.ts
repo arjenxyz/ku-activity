@@ -7,6 +7,10 @@ import {
   listClaims,
   reviewClaim,
 } from '@/lib/payments/payment-store';
+import {
+  isAllowedReceiptFile,
+  RECEIPT_FILE_TYPE_ERROR,
+} from '@/lib/payments/receipt-file';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -35,6 +39,9 @@ export async function POST(request: Request) {
     }
     if (!(file instanceof File)) {
       return NextResponse.json({ error: 'Dekont dosyası gerekli' }, { status: 400 });
+    }
+    if (!isAllowedReceiptFile(file)) {
+      return NextResponse.json({ error: RECEIPT_FILE_TYPE_ERROR }, { status: 400 });
     }
     if (file.size > MAX_BYTES) {
       return NextResponse.json({ error: 'Dosya en fazla 4 MB olabilir' }, { status: 400 });

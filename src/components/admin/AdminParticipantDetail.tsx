@@ -5,6 +5,11 @@ import Link from 'next/link';
 import { FiArrowLeft, FiCopy, FiUpload } from 'react-icons/fi';
 import { PAYMENT_STATUS_LABELS, type DemoParticipant } from '@/lib/demo/data';
 import { moneyTry, paymentTone } from '@/lib/demo/participants-ui';
+import {
+  isAllowedReceiptFile,
+  RECEIPT_FILE_ACCEPT,
+  RECEIPT_FILE_TYPE_ERROR,
+} from '@/lib/payments/receipt-file';
 
 function DetailRow({ label, value }: { label: string; value: string }) {
   return (
@@ -46,6 +51,10 @@ export function AdminParticipantDetail({
   }, [load]);
 
   async function uploadReceipt(file: File) {
+    if (!isAllowedReceiptFile(file)) {
+      setError(RECEIPT_FILE_TYPE_ERROR);
+      return;
+    }
     setBusy(true);
     setError(null);
     setMessage(null);
@@ -194,7 +203,7 @@ export function AdminParticipantDetail({
             {busy ? 'Yükleniyor…' : 'Havale dekontu yükle'}
             <input
               type="file"
-              accept="image/*,.pdf,text/plain"
+              accept={RECEIPT_FILE_ACCEPT}
               className="hidden"
               disabled={busy}
               onChange={(e) => {
