@@ -3,17 +3,15 @@ import { HomeHeader } from '@/components/home/HomeHeader';
 import { getSiteSession } from '@/lib/auth/get-site-session';
 import { listCatalogEvents } from '@/lib/events/catalog-store';
 import { listRegistrationsForEvent, listRegistrationsForOwner, ownerKeyForRole } from '@/lib/demo/registrations-store';
+import { presentRegistration } from '@/lib/registrations/present';
 
 export default async function EventsPage() {
   const session = await getSiteSession();
   const isStudent = session?.role === 'student';
-  const mineIds = new Set(
-    isStudent
-      ? listRegistrationsForOwner(ownerKeyForRole('student'))
-          .filter((row) => row.status !== 'cancelled')
-          .map((row) => row.eventId)
-      : []
-  );
+  const myRegs = isStudent
+    ? listRegistrationsForOwner(ownerKeyForRole('student')).filter((row) => row.status !== 'cancelled')
+    : [];
+  const mineByEvent = new Map(myRegs.map((row) => [row.eventId, row]));
   const events = listCatalogEvents();
 
   return (
@@ -29,14 +27,18 @@ export default async function EventsPage() {
           </p>
         </header>
         <ul className="mt-10 grid gap-5 sm:grid-cols-2">
-          {events.map((event) => (
-            <EventCard
-              key={event.id}
-              event={event}
-              alreadyIn={mineIds.has(event.id)}
-              taken={listRegistrationsForEvent(event.id).length}
-            />
-          ))}
+          {events.map((event) => {
+            const mine = mineByEvent.get(event.id) ?? null;
+            return (
+              <EventCard
+                key={event.id}
+                event={event}
+                alreadyIn={Boolean(mine)}
+                needsPayment={mine ? presentRegistration(mine).needsPayment : false}
+                taken={listRegistrationsForEvent(event.id).length}
+              />
+            );
+          })}
         </ul>
       </div>
     </div>

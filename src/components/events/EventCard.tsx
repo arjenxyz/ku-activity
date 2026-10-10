@@ -29,10 +29,12 @@ export function EventCard({
   event,
   alreadyIn,
   taken,
+  needsPayment = false,
 }: {
   event: CatalogEvent;
   alreadyIn: boolean;
   taken: number;
+  needsPayment?: boolean;
 }) {
   const theme = themeFor(event.id);
   const seatsLeft = Math.max(0, event.capacity - taken);
@@ -40,15 +42,18 @@ export function EventCard({
   const dateLabel =
     event.startsAt === event.endsAt ? event.startsAt : `${event.startsAt} – ${event.endsAt}`;
   const dayCount = event.days.length;
+  const awaitingFee = alreadyIn && needsPayment;
 
   return (
     <li className="group">
       <Link
         href={`/etkinlikler/${event.id}`}
         className={`relative flex h-full flex-col overflow-hidden rounded-[1.35rem] border bg-white/85 shadow-sm shadow-slate-900/[0.04] transition duration-300 hover:-translate-y-0.5 hover:shadow-md hover:shadow-slate-900/[0.08] ${
-          alreadyIn
-            ? 'border-emerald-200/90 ring-1 ring-emerald-100'
-            : 'border-slate-200/80 hover:border-[#2D6AF6]/35'
+          awaitingFee
+            ? 'border-amber-200/90 ring-1 ring-amber-100'
+            : alreadyIn
+              ? 'border-emerald-200/90 ring-1 ring-emerald-100'
+              : 'border-slate-200/80 hover:border-[#2D6AF6]/35'
         }`}
       >
         <div className={`relative h-28 overflow-hidden bg-gradient-to-br ${theme.band}`}>
@@ -61,13 +66,15 @@ export function EventCard({
             </span>
             <span
               className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold backdrop-blur-sm ${
-                alreadyIn
-                  ? 'bg-emerald-400/95 text-[#0B3D2E]'
-                  : 'bg-white/95 text-[#0E1548]'
+                awaitingFee
+                  ? 'bg-[#E8770A]/95 text-white'
+                  : alreadyIn
+                    ? 'bg-emerald-400/95 text-[#0B3D2E]'
+                    : 'bg-white/95 text-[#0E1548]'
               }`}
             >
-              {alreadyIn ? <FiCheck className="h-3.5 w-3.5" aria-hidden /> : null}
-              {alreadyIn ? 'Kayıtlısın' : event.statusLabel}
+              {alreadyIn && !awaitingFee ? <FiCheck className="h-3.5 w-3.5" aria-hidden /> : null}
+              {alreadyIn ? (awaitingFee ? 'Bekleniyor' : 'Kayıtlısın') : event.statusLabel}
             </span>
           </div>
           <p className="absolute bottom-3 left-4 text-xs font-medium text-white/80">
