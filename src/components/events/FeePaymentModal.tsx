@@ -10,7 +10,6 @@ type Method = 'transfer' | 'cash';
 type Props = {
   open: boolean;
   onClose: () => void;
-  eventTitle: string;
   paymentIban?: string | null;
   cashPaymentEnabled?: boolean;
   cashContactName?: string | null;
@@ -21,7 +20,6 @@ type Props = {
 export function FeePaymentModal({
   open,
   onClose,
-  eventTitle,
   paymentIban = null,
   cashPaymentEnabled = false,
   cashContactName = null,
@@ -86,34 +84,33 @@ export function FeePaymentModal({
         aria-labelledby="fee-pay-title"
         className="relative z-[1] flex max-h-[min(92dvh,40rem)] w-full max-w-md flex-col overflow-hidden rounded-3xl bg-white shadow-2xl"
       >
-        <div className="flex items-start justify-between gap-3 border-b border-slate-100 px-5 py-4">
-          <div className="min-w-0">
+        <div className="flex items-center justify-between gap-2 border-b border-slate-100 px-4 py-2.5">
+          <div className="flex min-w-0 items-center gap-2">
             {method ? (
               <button
                 type="button"
                 onClick={() => setMethod(null)}
-                className="mb-1 inline-flex items-center gap-1 text-xs font-medium text-[#2D6AF6]"
+                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[#2D6AF6] hover:bg-slate-100"
+                aria-label="Geri"
               >
-                <FiArrowLeft className="h-3.5 w-3.5" aria-hidden />
-                Yöntemler
+                <FiArrowLeft className="h-4 w-4" aria-hidden />
               </button>
             ) : null}
-            <p id="fee-pay-title" className="text-lg font-semibold tracking-tight text-[#0E1548]">
+            <p id="fee-pay-title" className="truncate text-sm font-semibold text-[#0E1548]">
               {method === 'transfer'
                 ? 'Havale / EFT'
                 : method === 'cash'
                   ? 'Elden ödeme'
-                  : 'Ödeme yöntemi'}
+                  : 'Ödeme'}
             </p>
-            <p className="mt-0.5 truncate text-sm text-slate-500">{eventTitle}</p>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200"
+            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200"
             aria-label="Kapat"
           >
-            <FiX className="h-5 w-5" aria-hidden />
+            <FiX className="h-4 w-4" aria-hidden />
           </button>
         </div>
 
