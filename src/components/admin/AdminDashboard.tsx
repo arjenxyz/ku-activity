@@ -3,7 +3,6 @@ import {
   FiArrowRight,
   FiBookOpen,
   FiCalendar,
-  FiCheckSquare,
   FiClipboard,
   FiMapPin,
   FiSettings,

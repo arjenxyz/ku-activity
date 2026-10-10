@@ -154,8 +154,8 @@ export function RegisteredEventExtras({
           {cardNumber != null ? `#${cardNumber}` : '#'}
         </span>
         <div className="min-w-0">
-          <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-white/70">
-            Geçiş kartı
+          <p className="truncate text-[10px] font-semibold uppercase tracking-[0.14em] text-white/70">
+            {eventTitle}
           </p>
           <p className="truncate text-[15px] font-bold leading-tight">{cardTitle}</p>
         </div>
