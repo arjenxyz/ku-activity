@@ -31,7 +31,7 @@ export function presentRegistration(reg: DemoRegistration) {
     registrationNo: reg.registrationNo,
     manualCode: reg.manualCode,
     status: reg.status,
-    statusLabel: attendanceLabel(reg),
+    statusLabel: needsPayment ? 'Bekleniyor' : attendanceLabel(reg),
     logistics: reg.logistics,
     dayIds: reg.dayIds,
     activityIds: reg.activityIds,

@@ -106,7 +106,13 @@ export function MyRegistrationsClient() {
                 <p className="font-semibold text-[#0E1548]">{row.eventTitle}</p>
                 <p className="mt-1 text-sm text-slate-500">{row.registrationNo}</p>
               </div>
-              <span className="shrink-0 rounded-full bg-[#e8f0ff] px-2.5 py-1 text-xs font-medium text-[#2D6AF6]">
+              <span
+                className={`shrink-0 rounded-full px-2.5 py-1 text-xs font-medium ${
+                  row.needsPayment
+                    ? 'bg-[#FFF1E0] text-[#C45F00]'
+                    : 'bg-[#e8f0ff] text-[#2D6AF6]'
+                }`}
+              >
                 {row.statusLabel}
               </span>
             </div>
