@@ -322,8 +322,9 @@ export function FeePaymentModal({
                   setReceiptError(null);
                   setReceiptOpen(true);
                 }}
-                className="flex h-11 w-full items-center justify-center rounded-xl bg-[#0E1548] text-sm font-semibold text-white hover:bg-[#152060]"
+                className="flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 text-sm font-semibold text-white hover:bg-emerald-700"
               >
+                <FiCheck className="h-4 w-4" aria-hidden />
                 Ödemeyi yaptım
               </button>
             </div>
