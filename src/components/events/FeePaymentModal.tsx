@@ -399,14 +399,14 @@ export function FeePaymentModal({
 
       {receiptOpen ? (
         <div className="fixed inset-0 z-[90] flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-slate-950/55 backdrop-blur-[2px]" aria-hidden />
+          <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-sm" aria-hidden />
           <div
             role="dialog"
             aria-modal="true"
             aria-labelledby="receipt-upload-title"
-            className="relative z-[1] w-full max-w-sm overflow-hidden rounded-3xl bg-white shadow-2xl"
+            className="relative z-[1] w-full max-w-sm overflow-hidden rounded-3xl bg-[#f4f7fb] shadow-2xl ring-1 ring-slate-200/80"
           >
-            <div className="flex items-center justify-between gap-2 border-b border-slate-100 px-4 py-2.5">
+            <div className="flex items-center justify-between gap-2 border-b border-slate-200/80 bg-white/70 px-4 py-2.5">
               <p
                 id="receipt-upload-title"
                 className="truncate text-sm font-semibold text-[#0E1548]"
@@ -416,7 +416,7 @@ export function FeePaymentModal({
               <button
                 type="button"
                 onClick={() => setReceiptOpen(false)}
-                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200"
+                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-200/80 text-slate-600 hover:bg-slate-200"
                 aria-label="Kapat"
               >
                 <FiX className="h-4 w-4" aria-hidden />
