@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { FiChevronDown, FiQrCode } from 'react-icons/fi';
+import { FiChevronDown, FiMaximize } from 'react-icons/fi';
 
 type Props = {
   eventId: string;
@@ -32,7 +32,7 @@ export function RegisteredEventExtras({
           href={`/qr?registration=${encodeURIComponent(registrationId)}&event=${encodeURIComponent(eventId)}`}
           className="mt-4 flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-[#0E1548] text-sm font-semibold text-white hover:bg-[#152060]"
         >
-          <FiQrCode className="h-4 w-4" aria-hidden />
+          <FiMaximize className="h-4 w-4" aria-hidden />
           Bu etkinliğin QR kodu
         </Link>
       </div>
