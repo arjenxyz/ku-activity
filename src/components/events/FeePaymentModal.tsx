@@ -11,7 +11,6 @@ type Props = {
   open: boolean;
   onClose: () => void;
   eventTitle: string;
-  feeLabel?: string | null;
   paymentIban?: string | null;
   cashPaymentEnabled?: boolean;
   cashContactName?: string | null;
@@ -23,7 +22,6 @@ export function FeePaymentModal({
   open,
   onClose,
   eventTitle,
-  feeLabel = null,
   paymentIban = null,
   cashPaymentEnabled = false,
   cashContactName = null,
@@ -120,10 +118,6 @@ export function FeePaymentModal({
         </div>
 
         <div className="overflow-y-auto px-5 py-5">
-          {feeLabel ? (
-            <p className="mb-4 text-2xl font-bold tracking-tight text-[#E8770A]">{feeLabel}</p>
-          ) : null}
-
           {!method ? (
             <div className="space-y-2.5">
               <p className="text-sm text-slate-500">Ödeme yöntemi seç</p>
