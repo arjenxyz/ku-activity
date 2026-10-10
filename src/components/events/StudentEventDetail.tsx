@@ -90,12 +90,20 @@ export function StudentEventDetail({
               <span
                 className={`ml-auto inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold ${
                   mine
-                    ? 'bg-emerald-400/95 text-[#0B3D2E]'
+                    ? presentedMine?.needsPayment
+                      ? 'bg-[#E8770A]/95 text-white'
+                      : 'bg-emerald-400/95 text-[#0B3D2E]'
                     : 'bg-white/95 text-[#0E1548]'
                 }`}
               >
-                {mine ? <FiCheck className="h-3.5 w-3.5" aria-hidden /> : null}
-                {mine ? 'Kayıtlısın' : event.statusLabel}
+                {mine && !presentedMine?.needsPayment ? (
+                  <FiCheck className="h-3.5 w-3.5" aria-hidden />
+                ) : null}
+                {mine
+                  ? presentedMine?.needsPayment
+                    ? 'Bekleniyor'
+                    : 'Kayıtlısın'
+                  : event.statusLabel}
               </span>
             </div>
 
