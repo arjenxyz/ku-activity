@@ -231,10 +231,10 @@ export function RegisteredEventExtras({
                         </div>
                         <div className="text-right">
                           <p className="text-[9px] font-semibold uppercase tracking-[0.12em] text-slate-400">
-                            Öğrenci no
+                            Kayıt no
                           </p>
                           <p className="mt-0.5 font-mono text-sm font-bold text-[#111827]">
-                            {studentNo || '—'}
+                            {registrationNo}
                           </p>
                         </div>
                       </div>
