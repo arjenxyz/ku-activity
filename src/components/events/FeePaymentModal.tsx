@@ -101,7 +101,7 @@ export function FeePaymentModal({
                 ? 'Havale / EFT'
                 : method === 'cash'
                   ? 'Elden ödeme'
-                  : 'Ödeme'}
+                  : 'Ödeme yöntemi seç'}
             </p>
           </div>
           <button
