@@ -25,7 +25,7 @@ type Props = {
   children: React.ReactNode;
 };
 
-/** THY-style event check card + collapsible details for registered students. */
+/** Ticket-style geçiş kartı modal (THY boarding-pass look, event content). */
 export function RegisteredEventExtras({
   eventId,
   registrationId,
@@ -113,9 +113,8 @@ export function RegisteredEventExtras({
 
   const qrSrc = token ? `/api/qr?token=${encodeURIComponent(token)}` : null;
   const fromLabel = location.split(',')[0]?.trim() || location;
-  const cardTitle = checkCard?.completed
-    ? 'Tamamlandı'
-    : checkCard?.name || 'Geçiş kartı';
+  const cardTitle = checkCard?.name || 'Geçiş kartı';
+  const completed = Boolean(checkCard?.completed);
 
   const modal =
     mounted && qrOpen
@@ -133,7 +132,7 @@ export function RegisteredEventExtras({
               onClick={(event) => event.stopPropagation()}
             >
               <div className="mb-3 flex items-center justify-between px-1">
-                <p className="text-sm font-bold tracking-[0.06em] text-white">ETKİNLİK KARTI</p>
+                <p className="text-sm font-bold tracking-[0.08em] text-white">ETKİNLİK KARTI</p>
                 <button
                   type="button"
                   aria-label="Kapat"
@@ -144,67 +143,116 @@ export function RegisteredEventExtras({
                 </button>
               </div>
 
-              <div className="overflow-hidden rounded-[1.25rem] bg-gradient-to-b from-[#E30613] via-[#C70A2C] to-[#6B0A1A] p-3 shadow-2xl shadow-black/50">
-                <div className="px-1.5 pb-1 pt-1.5 text-white">
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/70">
+              <div className="relative overflow-hidden rounded-[1.35rem] bg-gradient-to-b from-[#E30613] via-[#C70A2C] to-[#5C0818] p-3.5 shadow-2xl shadow-black/55">
+                {/* Brand + event */}
+                <div className="flex items-center gap-2.5 px-0.5 pt-0.5 text-white">
+                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-[11px] font-black tracking-tight text-[#C70A2C]">
                     {APP_SHORT_NAME}
-                  </p>
-                  <p className="mt-1 truncate text-lg font-bold leading-tight tracking-tight">
-                    {eventTitle}
-                  </p>
+                  </span>
+                  <div className="min-w-0">
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-white/75">
+                      Event Management System
+                    </p>
+                    <p className="truncate text-[15px] font-bold leading-tight">{eventTitle}</p>
+                  </div>
                 </div>
 
-                <div className="mt-4 rounded-xl bg-white px-3.5 py-3 shadow-sm">
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400">
-                    Yolcu
+                {/* Ticket meta strip (THY route band — event fields) */}
+                <div className="mt-4 grid grid-cols-2 gap-3 px-0.5 text-white">
+                  <div className="min-w-0">
+                    <p className="text-[9px] font-semibold uppercase tracking-[0.14em] text-white/65">
+                      Yer
+                    </p>
+                    <p className="mt-0.5 truncate text-base font-bold">{fromLabel}</p>
+                  </div>
+                  <div className="min-w-0 text-right">
+                    <p className="text-[9px] font-semibold uppercase tracking-[0.14em] text-white/65">
+                      Tarih
+                    </p>
+                    <p className="mt-0.5 text-[13px] font-bold leading-snug">{dateLabel}</p>
+                  </div>
+                </div>
+
+                {/* Passenger panel */}
+                <div className="mt-4 rounded-2xl bg-white px-4 py-3.5 shadow-sm">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-400">
+                    Katılımcı
                   </p>
-                  <p className="mt-1 text-[1.05rem] font-black uppercase leading-snug tracking-wide text-[#111827]">
+                  <p className="mt-1 text-[1.15rem] font-black uppercase leading-snug tracking-wide text-[#111827]">
                     {passengerName.toLocaleUpperCase('tr-TR')}
                   </p>
-                  <p className="mt-1 text-[11px] font-medium text-slate-500">
-                    {registrationNo} / ÖĞRENCİ
-                  </p>
+                  <div className="mt-2 flex flex-wrap items-center gap-2">
+                    <span className="rounded-md bg-slate-100 px-2 py-0.5 font-mono text-[11px] font-semibold text-slate-600">
+                      {registrationNo}
+                    </span>
+                    <span className="rounded-md bg-[#FFF1F2] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-[#C70A2C]">
+                      Öğrenci
+                    </span>
+                  </div>
                 </div>
 
-                <div className="mt-2.5 rounded-xl bg-white px-3.5 py-3 shadow-sm">
-                  {checkCard?.completed ? (
-                    <div className="flex flex-col items-center px-1 py-6 text-center">
-                      <span className="flex h-14 w-14 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
-                        <FiCheck className="h-7 w-7" aria-hidden />
-                      </span>
-                      <p className="mt-3 text-base font-bold text-[#0E1548]">
+                {/* Perforation */}
+                <div className="relative my-3.5">
+                  <div
+                    className="pointer-events-none absolute -left-3.5 top-1/2 h-5 w-5 -translate-y-1/2 rounded-full bg-black/75"
+                    aria-hidden
+                  />
+                  <div
+                    className="pointer-events-none absolute -right-3.5 top-1/2 h-5 w-5 -translate-y-1/2 rounded-full bg-black/75"
+                    aria-hidden
+                  />
+                  <div className="border-t border-dashed border-white/45" />
+                </div>
+
+                {/* Stub */}
+                <div className="rounded-2xl bg-white px-4 py-3.5 shadow-sm">
+                  {completed ? (
+                    <div className="text-center">
+                      <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-emerald-50 ring-4 ring-emerald-50/80">
+                        <FiCheck className="h-6 w-6 text-emerald-600" aria-hidden />
+                      </div>
+                      <p className="mt-3 text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-700">
+                        Tamamlandı
+                      </p>
+                      <p className="mt-1.5 text-lg font-black tracking-tight text-[#111827]">
                         Etkinliği tamamladınız
                       </p>
-                      <p className="mt-2 text-sm leading-relaxed text-slate-600">
+                      <p className="mt-1.5 text-sm text-slate-600">
                         Katılımınız için teşekkür ederiz.
                       </p>
+                      <div className="mt-4 grid grid-cols-2 gap-3 border-t border-slate-100 pt-3 text-left">
+                        <div>
+                          <p className="text-[9px] font-semibold uppercase tracking-[0.12em] text-slate-400">
+                            Durum
+                          </p>
+                          <p className="mt-0.5 text-sm font-bold text-[#111827]">Geçişler bitti</p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-[9px] font-semibold uppercase tracking-[0.12em] text-slate-400">
+                            Kayıt
+                          </p>
+                          <p className="mt-0.5 font-mono text-sm font-bold text-[#111827]">
+                            {registrationNo}
+                          </p>
+                        </div>
+                      </div>
                     </div>
                   ) : (
                     <>
                       <div className="flex items-start gap-3">
-                        <div className="grid min-w-0 flex-1 grid-cols-2 gap-x-3 gap-y-3.5">
+                        <div className="grid min-w-0 flex-1 grid-cols-2 gap-x-3 gap-y-3">
                           <div className="col-span-2">
                             <p className="text-[9px] font-semibold uppercase tracking-[0.12em] text-slate-400">
                               Geçiş kartı
                             </p>
-                            <p className="mt-0.5 text-[15px] font-bold text-[#111827]">
-                              {cardTitle}
-                            </p>
+                            <p className="mt-0.5 text-[15px] font-bold text-[#111827]">{cardTitle}</p>
                           </div>
                           <div>
                             <p className="text-[9px] font-semibold uppercase tracking-[0.12em] text-slate-400">
                               Yer
                             </p>
-                            <p className="mt-0.5 truncate text-[15px] font-bold uppercase text-[#111827]">
+                            <p className="mt-0.5 truncate text-sm font-bold uppercase text-[#111827]">
                               {fromLabel}
-                            </p>
-                          </div>
-                          <div>
-                            <p className="text-[9px] font-semibold uppercase tracking-[0.12em] text-slate-400">
-                              Tarih
-                            </p>
-                            <p className="mt-0.5 text-[13px] font-bold uppercase leading-snug text-[#111827]">
-                              {dateLabel}
                             </p>
                           </div>
                           <div>
@@ -216,12 +264,11 @@ export function RegisteredEventExtras({
                             </p>
                           </div>
                         </div>
-
-                        <div className="shrink-0 rounded-lg bg-white p-1">
+                        <div className="shrink-0 rounded-xl border border-slate-100 bg-white p-1.5">
                           {loading ? (
-                            <div className="h-[112px] w-[112px] animate-pulse rounded bg-slate-100" />
+                            <div className="h-[108px] w-[108px] animate-pulse rounded-lg bg-slate-100" />
                           ) : error ? (
-                            <div className="flex h-[112px] w-[112px] items-center justify-center px-2 text-center text-[10px] text-red-600">
+                            <div className="flex h-[108px] w-[108px] items-center justify-center px-2 text-center text-[10px] text-red-600">
                               {error}
                             </div>
                           ) : qrSrc ? (
@@ -229,14 +276,13 @@ export function RegisteredEventExtras({
                             <img
                               src={qrSrc}
                               alt="Geçiş kartı QR kodu"
-                              width={112}
-                              height={112}
-                              className="h-[112px] w-[112px] bg-white"
+                              width={108}
+                              height={108}
+                              className="h-[108px] w-[108px] bg-white"
                             />
                           ) : null}
                         </div>
                       </div>
-
                       <div className="mt-3 flex items-center gap-2 border-t border-slate-100 pt-2.5">
                         <FiInfo className="h-3.5 w-3.5 shrink-0 text-[#C70A2C]" aria-hidden />
                         <p className="text-[11px] leading-none text-slate-600">
@@ -247,10 +293,12 @@ export function RegisteredEventExtras({
                   )}
                 </div>
 
-                <div className="mt-3 px-1 pb-1 text-center">
+                <div className="mt-3.5 flex items-center justify-center gap-2 px-1">
+                  <span className="h-px w-6 bg-white/30" aria-hidden />
                   <p className="text-[9px] font-bold uppercase tracking-[0.22em] text-white/85">
                     {APP_SHORT_NAME} · Geçiş kartları
                   </p>
+                  <span className="h-px w-6 bg-white/30" aria-hidden />
                 </div>
               </div>
             </div>
@@ -265,7 +313,7 @@ export function RegisteredEventExtras({
         <p className="text-sm font-semibold text-[#0E1548]">Kayıtlısın</p>
         <p className="mt-0.5 text-xs text-slate-600">Kayıt no {registrationNo}</p>
         <p className="mt-2 text-sm text-slate-600">
-          {checkCard?.completed
+          {completed
             ? 'Etkinliği tamamladınız. Katılımınız için teşekkürler.'
             : checkCard?.name
               ? `Şu an gösterilecek kart: ${checkCard.name}${
@@ -278,7 +326,7 @@ export function RegisteredEventExtras({
           onClick={() => setQrOpen(true)}
           className="mt-4 flex h-11 w-full items-center justify-center rounded-xl bg-[#C70A2C] text-sm font-bold uppercase tracking-wide text-white hover:bg-[#A80824]"
         >
-          {checkCard?.completed ? 'Teşekkürler' : checkCard?.name || 'Geçiş kartı'}
+          {completed ? 'Teşekkürler' : checkCard?.name || 'Geçiş kartı'}
         </button>
       </div>
 
