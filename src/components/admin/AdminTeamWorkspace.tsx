@@ -150,131 +150,108 @@ export function AdminTeamWorkspace() {
   const active = data?.activeOpening ?? null;
 
   return (
-    <div className="space-y-4 pb-6 sm:space-y-5">
-      <section className="overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-sm">
-        <div className="relative bg-gradient-to-br from-[#0E1548] via-[#152060] to-[#2D6AF6] px-4 py-3.5 text-white sm:px-5 sm:py-4">
-          <div className="absolute inset-0 opacity-[0.12] [background-image:radial-gradient(circle_at_1px_1px,#fff_1px,transparent_0)] [background-size:14px_14px]" />
-          <div className="relative">
-            <div className="flex flex-wrap items-start justify-between gap-2">
-              <div className="min-w-0">
-                <h1 className="text-lg font-semibold tracking-tight sm:text-xl">Ekip ilanı</h1>
-                <p className="mt-0.5 max-w-lg text-xs text-white/75">
-                  İlanı yönet; başvuruları kabul veya reddet.
-                </p>
-              </div>
-              <span
-                className={`shrink-0 rounded-lg px-2.5 py-1 text-[11px] font-semibold ${
-                  active
-                    ? 'bg-emerald-400/20 text-emerald-100 ring-1 ring-emerald-300/40'
-                    : 'bg-white/10 text-white/80 ring-1 ring-white/20'
-                }`}
-              >
-                {active ? 'Açık' : 'Kapalı'}
-              </span>
-            </div>
-
-            {ready ? (
-              <div className="mt-3 flex gap-2 overflow-x-auto pb-0.5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                {[
-                  { label: 'Başvuru', value: String(counts.total) },
-                  { label: 'Bekleyen', value: String(counts.pending) },
-                  { label: 'Kabul', value: String(counts.accepted) },
-                  { label: 'Red', value: String(counts.rejected) },
-                ].map((item) => (
-                  <div
-                    key={item.label}
-                    className="min-w-[4.75rem] shrink-0 rounded-xl bg-white/10 px-3 py-2 ring-1 ring-white/15 backdrop-blur-sm"
-                  >
-                    <p className="text-[10px] font-medium uppercase tracking-wide text-white/65">
-                      {item.label}
-                    </p>
-                    <p className="mt-0.5 text-lg font-semibold tabular-nums leading-none">
-                      {item.value}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            ) : null}
-          </div>
+    <div className="space-y-3 pb-4">
+      <header className="flex items-start justify-between gap-2">
+        <div className="min-w-0">
+          <h1 className="text-base font-semibold tracking-tight text-[#0E1548]">Ekip ilanı</h1>
+          <p className="mt-0.5 text-xs text-slate-500">İlan ve başvuruları yönet.</p>
         </div>
-      </section>
+        <span
+          className={`shrink-0 rounded-md px-2 py-0.5 text-[10px] font-semibold ${
+            active ? 'bg-emerald-50 text-emerald-700' : 'bg-slate-100 text-slate-600'
+          }`}
+        >
+          {active ? 'Açık' : 'Kapalı'}
+        </span>
+      </header>
+
+      {ready ? (
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-600">
+          {[
+            { label: 'Başvuru', value: counts.total },
+            { label: 'Bekleyen', value: counts.pending },
+            { label: 'Kabul', value: counts.accepted },
+            { label: 'Red', value: counts.rejected },
+          ].map((item) => (
+            <span key={item.label} className="inline-flex items-baseline gap-1">
+              <span className="text-slate-400">{item.label}</span>
+              <span className="font-semibold tabular-nums text-[#0E1548]">{item.value}</span>
+            </span>
+          ))}
+        </div>
+      ) : null}
 
       {!ready ? (
-        <p className="rounded-2xl border border-slate-200 bg-white px-4 py-8 text-center text-sm text-slate-500">
-          Yükleniyor…
-        </p>
+        <p className="py-6 text-center text-sm text-slate-500">Yükleniyor…</p>
       ) : (
         <>
-          <section className="overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-sm">
-            <div className="border-b border-slate-100 px-3.5 py-2.5 sm:px-4">
-              <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-400">
-                {active ? 'Aktif ilan' : 'Yeni ilan'}
-              </p>
-            </div>
-            <div className="p-3.5 sm:p-4">
-              {active ? (
-                <div className="space-y-3">
-                  <h2 className="text-base font-semibold leading-snug text-[#0E1548]">
-                    {active.title}
-                  </h2>
-                  {active.description ? (
-                    <p className="text-sm leading-relaxed text-slate-600">{active.description}</p>
-                  ) : null}
-                  <p className="text-xs text-slate-400">Açılış · {formatWhen(active.createdAt)}</p>
+          <section className="rounded-xl border border-slate-200 bg-white p-3">
+            {active ? (
+              <div className="space-y-2">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="min-w-0">
+                    <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+                      Aktif ilan
+                    </p>
+                    <h2 className="mt-0.5 text-sm font-semibold text-[#0E1548]">{active.title}</h2>
+                  </div>
                   <button
                     type="button"
                     disabled={busy}
                     onClick={() => void onClose(active.id)}
-                    className="flex h-11 w-full items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-sm font-semibold text-slate-700 hover:bg-slate-100 disabled:opacity-50"
+                    className="shrink-0 rounded-lg border border-slate-200 px-2.5 py-1.5 text-[11px] font-semibold text-slate-600 hover:bg-slate-50 disabled:opacity-50"
                   >
-                    İlanı kapat
+                    Kapat
                   </button>
                 </div>
-              ) : (
-                <form onSubmit={(e) => void onCreate(e)} className="space-y-3">
-                  <p className="text-sm text-slate-500">
-                    Açık ilan yok. Başlık ve açıklama ile yeni çağrı aç — /ekip sayfasında görünür.
+                {active.description ? (
+                  <p className="line-clamp-3 text-xs leading-relaxed text-slate-500">
+                    {active.description}
                   </p>
-                  <label className="block">
-                    <span className="text-xs font-medium text-slate-500">Başlık</span>
-                    <input
-                      required
-                      className="mt-1 h-11 w-full rounded-xl border border-slate-200 px-3 text-sm outline-none focus:border-[#2D6AF6]"
-                      value={title}
-                      onChange={(e) => setTitle(e.target.value)}
-                      placeholder="Örn. 2026 Gönüllü Ekip"
-                    />
-                  </label>
-                  <label className="block">
-                    <span className="text-xs font-medium text-slate-500">Açıklama</span>
-                    <textarea
-                      rows={3}
-                      className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm outline-none focus:border-[#2D6AF6]"
-                      value={description}
-                      onChange={(e) => setDescription(e.target.value)}
-                      placeholder="Beklenen görevler, uygun günler…"
-                    />
-                  </label>
-                  <button
-                    type="submit"
-                    disabled={busy || !title.trim()}
-                    className="flex h-11 w-full items-center justify-center rounded-xl bg-[#0E1548] text-sm font-semibold text-white disabled:opacity-50"
-                  >
-                    İlanı aç
-                  </button>
-                </form>
-              )}
-            </div>
+                ) : null}
+                <p className="text-[11px] text-slate-400">Açılış · {formatWhen(active.createdAt)}</p>
+              </div>
+            ) : (
+              <form onSubmit={(e) => void onCreate(e)} className="space-y-2.5">
+                <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+                  Yeni ilan
+                </p>
+                <p className="text-xs text-slate-500">
+                  Açık ilan yok. /ekip sayfasında görünecek çağrıyı aç.
+                </p>
+                <input
+                  required
+                  className="h-9 w-full rounded-lg border border-slate-200 px-2.5 text-sm outline-none focus:border-[#2D6AF6]"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  placeholder="Başlık"
+                />
+                <textarea
+                  rows={2}
+                  className="w-full rounded-lg border border-slate-200 px-2.5 py-2 text-sm outline-none focus:border-[#2D6AF6]"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  placeholder="Açıklama"
+                />
+                <button
+                  type="submit"
+                  disabled={busy || !title.trim()}
+                  className="h-9 w-full rounded-lg bg-[#0E1548] text-xs font-semibold text-white disabled:opacity-50"
+                >
+                  İlanı aç
+                </button>
+              </form>
+            )}
           </section>
 
-          <section className="space-y-3">
-            <div className="flex items-center justify-between gap-2 px-0.5">
+          <section className="space-y-2">
+            <div className="flex items-center justify-between gap-2">
               <h2 className="text-sm font-semibold text-[#0E1548]">Başvurular</h2>
-              {!active ? <span className="text-xs text-slate-400">Önce bir ilan aç</span> : null}
+              {!active ? <span className="text-[11px] text-slate-400">Önce ilan aç</span> : null}
             </div>
 
             <div
-              className="flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+              className="flex gap-1.5 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
               role="tablist"
               aria-label="Başvuru filtresi"
             >
@@ -294,18 +271,14 @@ export function AdminTeamWorkspace() {
                     role="tab"
                     aria-selected={filter === item.key}
                     onClick={() => setFilter(item.key)}
-                    className={`inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full px-3.5 text-xs font-semibold transition ${
+                    className={`inline-flex h-7 shrink-0 items-center gap-1 rounded-md px-2.5 text-[11px] font-semibold transition ${
                       filter === item.key
                         ? 'bg-[#0E1548] text-white'
-                        : 'bg-white text-slate-600 ring-1 ring-slate-200 hover:bg-slate-50'
+                        : 'bg-white text-slate-600 ring-1 ring-slate-200'
                     }`}
                   >
                     {item.label}
-                    <span
-                      className={`tabular-nums ${
-                        filter === item.key ? 'text-white/70' : 'text-slate-400'
-                      }`}
-                    >
+                    <span className={filter === item.key ? 'text-white/70' : 'text-slate-400'}>
                       {count}
                     </span>
                   </button>
@@ -313,48 +286,44 @@ export function AdminTeamWorkspace() {
               })}
             </div>
 
-            <ul className="space-y-2.5">
+            <ul className="divide-y divide-slate-100 rounded-xl border border-slate-200 bg-white">
               {filteredApps.length === 0 ? (
-                <li className="rounded-2xl border border-dashed border-slate-200 bg-white px-4 py-10 text-center text-sm text-slate-500">
-                  {active ? 'Bu filtrede başvuru yok.' : 'Başvuru listesi boş.'}
+                <li className="px-3 py-6 text-center text-xs text-slate-500">
+                  {active ? 'Bu filtrede başvuru yok.' : 'Başvuru yok.'}
                 </li>
               ) : (
                 filteredApps.map((app) => (
-                  <li
-                    key={app.id}
-                    className="rounded-2xl border border-slate-200/80 bg-white p-3.5 shadow-sm sm:p-4"
-                  >
-                    <div className="flex items-start gap-3">
-                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#e8f0ff] text-[#2D6AF6]">
-                        <FiUser className="h-4 w-4" aria-hidden />
+                  <li key={app.id} className="px-3 py-2.5">
+                    <div className="flex items-start gap-2.5">
+                      <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-slate-50 text-slate-500">
+                        <FiUser className="h-3.5 w-3.5" aria-hidden />
                       </span>
                       <div className="min-w-0 flex-1">
                         <div className="flex items-start justify-between gap-2">
                           <div className="min-w-0">
-                            <p className="truncate font-semibold text-[#0E1548]">{app.fullName}</p>
-                            <p className="mt-0.5 truncate text-xs text-slate-500">
-                              {app.email || '—'}
+                            <p className="truncate text-sm font-medium text-[#0E1548]">
+                              {app.fullName}
                             </p>
-                            <p className="mt-0.5 text-[11px] text-slate-400">
-                              {formatWhen(app.createdAt)}
+                            <p className="truncate text-[11px] text-slate-500">
+                              {app.email || '—'} · {formatWhen(app.createdAt)}
                             </p>
                           </div>
                           <span
-                            className={`shrink-0 rounded-md px-2 py-0.5 text-[11px] font-semibold ${teamStatusTone(app.status)}`}
+                            className={`shrink-0 rounded px-1.5 py-0.5 text-[10px] font-semibold ${teamStatusTone(app.status)}`}
                           >
                             {TEAM_STATUS_LABELS[app.status]}
                           </span>
                         </div>
                         {app.note ? (
-                          <p className="mt-2 text-sm leading-relaxed text-slate-600">{app.note}</p>
+                          <p className="mt-1 line-clamp-2 text-xs text-slate-500">{app.note}</p>
                         ) : null}
                         {app.status === 'pending' ? (
-                          <div className="mt-3 grid grid-cols-2 gap-2">
+                          <div className="mt-2 flex gap-1.5">
                             <button
                               type="button"
                               disabled={busy}
                               onClick={() => void onReview(app.id, 'accepted')}
-                              className="flex h-11 items-center justify-center rounded-xl bg-emerald-600 text-sm font-semibold text-white disabled:opacity-50"
+                              className="h-8 flex-1 rounded-lg bg-emerald-600 text-[11px] font-semibold text-white disabled:opacity-50"
                             >
                               Kabul
                             </button>
@@ -362,7 +331,7 @@ export function AdminTeamWorkspace() {
                               type="button"
                               disabled={busy}
                               onClick={() => void onReview(app.id, 'rejected')}
-                              className="flex h-11 items-center justify-center rounded-xl border border-slate-200 bg-white text-sm font-semibold text-slate-700 disabled:opacity-50"
+                              className="h-8 flex-1 rounded-lg border border-slate-200 text-[11px] font-semibold text-slate-600 disabled:opacity-50"
                             >
                               Reddet
                             </button>
@@ -378,12 +347,8 @@ export function AdminTeamWorkspace() {
         </>
       )}
 
-      {message ? (
-        <p className="rounded-xl bg-emerald-50 px-3 py-2 text-sm text-emerald-800">{message}</p>
-      ) : null}
-      {error ? (
-        <p className="rounded-xl bg-red-50 px-3 py-2 text-sm text-red-700">{error}</p>
-      ) : null}
+      {message ? <p className="text-xs text-emerald-700">{message}</p> : null}
+      {error ? <p className="text-xs text-red-600">{error}</p> : null}
     </div>
   );
 }
