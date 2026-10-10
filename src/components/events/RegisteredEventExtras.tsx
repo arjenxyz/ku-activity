@@ -302,24 +302,16 @@ export function RegisteredEventExtras({
 
               {completed ? (
                 <div className="relative perspective-[1200px]">
-                  {/* Top half — notches clip to semicircle bites on the tear edge */}
+                  {/* Top half — tear edge is dashed only (no punch dots) */}
                   <div
-                    className={`relative origin-bottom overflow-hidden rounded-t-[1.35rem] bg-gradient-to-b from-[#E30613] via-[#C70A2C] to-[#A80824] px-3.5 pb-3.5 pt-3.5 shadow-2xl shadow-black/40 transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform ${
+                    className={`origin-bottom rounded-t-[1.35rem] bg-gradient-to-b from-[#E30613] via-[#C70A2C] to-[#A80824] px-3.5 pb-3.5 pt-3.5 shadow-2xl shadow-black/40 transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform ${
                       ticketSplit
                         ? '-translate-y-5 -rotate-[3.5deg] opacity-95'
                         : 'translate-y-0 rotate-0 opacity-100'
                     }`}
                   >
                     {ticketTop}
-                    <div className="mt-3.5 border-t border-dashed border-white/50" />
-                    <span
-                      className="pointer-events-none absolute bottom-0 left-0 h-5 w-5 -translate-x-1/2 translate-y-1/2 rounded-full bg-black/75"
-                      aria-hidden
-                    />
-                    <span
-                      className="pointer-events-none absolute bottom-0 right-0 h-5 w-5 translate-x-1/2 translate-y-1/2 rounded-full bg-black/75"
-                      aria-hidden
-                    />
+                    <div className="mt-3.5 border-t border-dashed border-white/55" />
                   </div>
 
                   <div
@@ -331,22 +323,14 @@ export function RegisteredEventExtras({
 
                   {/* Bottom half */}
                   <div
-                    className={`relative origin-top overflow-hidden rounded-b-[1.35rem] bg-gradient-to-b from-[#A80824] via-[#8B061F] to-[#5C0818] px-3.5 pb-3.5 pt-3.5 shadow-2xl shadow-black/50 transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform ${
+                    className={`origin-top rounded-b-[1.35rem] bg-gradient-to-b from-[#A80824] via-[#8B061F] to-[#5C0818] px-3.5 pb-3.5 pt-3.5 shadow-2xl shadow-black/50 transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform ${
                       ticketSplit
                         ? 'translate-y-5 rotate-[3.5deg] opacity-95'
                         : 'translate-y-0 rotate-0 opacity-100'
                     }`}
                   >
-                    <span
-                      className="pointer-events-none absolute left-0 top-0 h-5 w-5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-black/75"
-                      aria-hidden
-                    />
-                    <span
-                      className="pointer-events-none absolute right-0 top-0 h-5 w-5 translate-x-1/2 -translate-y-1/2 rounded-full bg-black/75"
-                      aria-hidden
-                    />
                     {ticketSplit ? (
-                      <div className="mb-3.5 border-t border-dashed border-white/50" />
+                      <div className="mb-3.5 border-t-2 border-dashed border-white/55" />
                     ) : null}
                     <div className="rounded-2xl bg-white px-4 py-3.5 shadow-sm">{ticketStub}</div>
                     <div className="mt-3.5 flex items-center justify-center gap-2 px-1">
