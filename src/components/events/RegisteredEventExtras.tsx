@@ -145,8 +145,8 @@ export function RegisteredEventExtras({
                   <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white/20 text-[10px] font-black">
                     {APP_SHORT_NAME}
                   </span>
-                  <p className="text-[12px] font-semibold tracking-wide">
-                    Event Management System
+                  <p className="truncate text-[12px] font-semibold tracking-wide">
+                    {eventTitle}
                   </p>
                 </div>
 
