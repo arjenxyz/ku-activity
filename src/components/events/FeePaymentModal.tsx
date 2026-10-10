@@ -12,6 +12,7 @@ type Props = {
   open: boolean;
   onClose: () => void;
   passengerName?: string | null;
+  feeLabel?: string | null;
   paymentIban?: string | null;
   cashPaymentEnabled?: boolean;
   cashContactName?: string | null;
@@ -23,6 +24,7 @@ export function FeePaymentModal({
   open,
   onClose,
   passengerName = null,
+  feeLabel = null,
   paymentIban = null,
   cashPaymentEnabled = false,
   cashContactName = null,
@@ -169,6 +171,14 @@ export function FeePaymentModal({
                   copied={copied === 'name'}
                   onCopy={() => void copyText('name', passengerName)}
                 />
+              ) : null}
+              {feeLabel ? (
+                <div className="rounded-2xl bg-slate-50 px-4 py-3.5 ring-1 ring-slate-200">
+                  <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+                    Ücret
+                  </p>
+                  <p className="mt-1 text-sm font-semibold text-[#E8770A]">{feeLabel}</p>
+                </div>
               ) : null}
               {registrationNo ? (
                 <CopyCard

@@ -423,6 +423,7 @@ export function RegisteredEventExtras({
         open={payOpen}
         onClose={() => setPayOpen(false)}
         passengerName={passengerName}
+        feeLabel={feeLabel}
         paymentIban={paymentIban}
         cashPaymentEnabled={cashPaymentEnabled}
         cashContactName={cashContactName}
