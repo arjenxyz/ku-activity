@@ -302,16 +302,15 @@ export function RegisteredEventExtras({
 
               {completed ? (
                 <div className="relative perspective-[1200px]">
-                  {/* Top half — tear edge is dashed only (no punch dots) */}
+                  {/* Top half — clean edges after split (no dashed tear scratches) */}
                   <div
-                    className={`origin-bottom rounded-t-[1.35rem] bg-gradient-to-b from-[#E30613] via-[#C70A2C] to-[#A80824] px-3.5 pb-3.5 pt-3.5 shadow-2xl shadow-black/40 transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform ${
+                    className={`origin-bottom bg-gradient-to-b from-[#E30613] via-[#C70A2C] to-[#A80824] px-3.5 pb-3.5 pt-3.5 shadow-xl shadow-black/30 transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform ${
                       ticketSplit
-                        ? '-translate-y-5 -rotate-[3.5deg] opacity-95'
-                        : 'translate-y-0 rotate-0 opacity-100'
+                        ? '-translate-y-5 -rotate-[3.5deg] rounded-[1.35rem]'
+                        : 'translate-y-0 rotate-0 rounded-t-[1.35rem]'
                     }`}
                   >
                     {ticketTop}
-                    <div className="mt-3.5 border-t border-dashed border-white/55" />
                   </div>
 
                   <div
@@ -323,15 +322,12 @@ export function RegisteredEventExtras({
 
                   {/* Bottom half */}
                   <div
-                    className={`origin-top rounded-b-[1.35rem] bg-gradient-to-b from-[#A80824] via-[#8B061F] to-[#5C0818] px-3.5 pb-3.5 pt-3.5 shadow-2xl shadow-black/50 transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform ${
+                    className={`origin-top bg-gradient-to-b from-[#A80824] via-[#8B061F] to-[#5C0818] px-3.5 pb-3.5 pt-3.5 shadow-xl shadow-black/35 transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform ${
                       ticketSplit
-                        ? 'translate-y-5 rotate-[3.5deg] opacity-95'
-                        : 'translate-y-0 rotate-0 opacity-100'
+                        ? 'translate-y-5 rotate-[3.5deg] rounded-[1.35rem]'
+                        : 'translate-y-0 rotate-0 rounded-b-[1.35rem]'
                     }`}
                   >
-                    {ticketSplit ? (
-                      <div className="mb-3.5 border-t-2 border-dashed border-white/55" />
-                    ) : null}
                     <div className="rounded-2xl bg-white px-4 py-3.5 shadow-sm">{ticketStub}</div>
                     <div className="mt-3.5 flex items-center justify-center gap-2 px-1">
                       <span className="h-px w-6 bg-white/30" aria-hidden />
