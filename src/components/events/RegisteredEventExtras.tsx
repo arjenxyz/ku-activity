@@ -89,7 +89,12 @@ export function RegisteredEventExtras({
   }, [qrOpen]);
 
   const qrSrc = token ? `/api/qr?token=${encodeURIComponent(token)}` : null;
-  const placeLabel = location.split(',')[0]?.trim() || location;
+  const nameParts = passengerName.trim().split(/\s+/).filter(Boolean);
+  const initials = (
+    nameParts.length >= 2
+      ? `${nameParts[0][0]}${nameParts[nameParts.length - 1][0]}`
+      : passengerName.slice(0, 2)
+  ).toLocaleUpperCase('tr-TR');
 
   const modal =
     mounted && qrOpen
@@ -143,13 +148,25 @@ export function RegisteredEventExtras({
               </div>
 
               <div className="px-4 py-4">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400">
-                  Katılımcı
-                </p>
-                <p className="mt-1 text-lg font-bold tracking-tight text-[#0E1548]">
-                  {passengerName}
-                </p>
-                <p className="mt-0.5 font-mono text-xs text-slate-500">{registrationNo}</p>
+                <div className="flex items-center gap-3 rounded-2xl border border-slate-200/80 bg-gradient-to-r from-slate-50 to-white px-3 py-3">
+                  <div
+                    className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#0E1548] text-sm font-bold tracking-wide text-white"
+                    aria-hidden
+                  >
+                    {initials}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400">
+                      Katılımcı
+                    </p>
+                    <p className="mt-0.5 truncate text-base font-bold tracking-tight text-[#0E1548]">
+                      {passengerName}
+                    </p>
+                    <p className="mt-1 inline-flex max-w-full items-center rounded-md bg-slate-100 px-2 py-0.5 font-mono text-[11px] font-semibold text-slate-600">
+                      {registrationNo}
+                    </p>
+                  </div>
+                </div>
 
                 <div className="mt-4 flex flex-col items-center">
                   <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-3 ring-1 ring-slate-100">
