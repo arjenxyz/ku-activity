@@ -138,6 +138,10 @@ export function StudentEventDetail({
             eventId={event.id}
             registrationId={mine.id}
             registrationNo={mine.registrationNo}
+            eventTitle={event.title}
+            location={event.location}
+            dateLabel={dateLabel}
+            passengerName={mine.ownerName}
           >
             <EventDetailBody event={event} />
             <div className="border-t border-slate-100 pt-4">
