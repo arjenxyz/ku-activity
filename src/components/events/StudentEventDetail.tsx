@@ -8,6 +8,7 @@ import {
   FiUsers,
 } from 'react-icons/fi';
 import { EventPlanningSections } from '@/components/events/EventPlanningSections';
+import { RegisteredEventExtras } from '@/components/events/RegisteredEventExtras';
 import { RegisterForm } from '@/components/events/RegisterForm';
 import type { CatalogEvent } from '@/lib/events/catalog';
 import type { DemoRegistration } from '@/lib/demo/registrations-store';
@@ -132,115 +133,115 @@ export function StudentEventDetail({
           </div>
         </div>
 
-        <div className="space-y-8 px-5 py-6 sm:px-6">
-          <section>
-            <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-400">
-              Hakkında
-            </h2>
-            <p className="mt-2 text-[15px] leading-relaxed text-slate-700">{event.description}</p>
-          </section>
-
-          <section>
-            <div className="flex items-end justify-between gap-3">
-              <h2 className="text-lg font-semibold text-[#0E1548]">Program</h2>
-              <span className="text-xs text-slate-400">{event.days.length} gün</span>
+        {mine ? (
+          <RegisteredEventExtras
+            eventId={event.id}
+            registrationId={mine.id}
+            registrationNo={mine.registrationNo}
+          >
+            <EventDetailBody event={event} />
+            <div className="border-t border-slate-100 pt-4">
+              <Link
+                href="/kayitlarim"
+                className="inline-flex h-10 items-center justify-center rounded-xl border border-slate-200 bg-white px-4 text-sm font-semibold text-[#0E1548]"
+              >
+                Kaydıma git
+              </Link>
             </div>
-            <ol className="relative mt-4 space-y-4 before:absolute before:bottom-2 before:left-[0.95rem] before:top-2 before:w-px before:bg-slate-200">
-              {event.days.map((day, index) => {
-                const dayActivities = event.activities.filter(
-                  (activity) => activity.dayId === day.id
-                );
-                return (
-                  <li key={day.id} className="relative pl-10">
-                    <span className="absolute left-0 top-0 flex h-8 w-8 items-center justify-center rounded-full border border-[#2D6AF6]/25 bg-[#e8f0ff] text-xs font-semibold text-[#2D6AF6]">
-                      {index + 1}
-                    </span>
-                    <div className="rounded-2xl border border-slate-200/90 bg-slate-50/80 px-3.5 py-3 sm:px-4">
-                      <p className="text-sm font-semibold text-[#0E1548]">
-                        {day.label}
-                        <span className="ml-2 font-normal text-slate-500">{day.date}</span>
-                      </p>
-                      {dayActivities.length === 0 ? (
-                        <p className="mt-2 text-sm text-slate-500">Bu gün için etkinlik yok.</p>
-                      ) : (
-                        <ul className="mt-2.5 space-y-2">
-                          {dayActivities.map((activity) => (
-                            <li
-                              key={activity.id}
-                              className="flex items-start gap-2.5 text-sm text-slate-700"
-                            >
-                              <span className="mt-0.5 inline-flex min-w-[3.25rem] items-center gap-1 rounded-md bg-white px-1.5 py-0.5 text-[11px] font-semibold tabular-nums text-[#0E1548] ring-1 ring-slate-200">
-                                <FiClock className="h-3 w-3 text-[#2D6AF6]" aria-hidden />
-                                {activity.startsAt || '—'}
-                              </span>
-                              <span className="min-w-0 leading-snug">{activity.title}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                    </div>
-                  </li>
-                );
-              })}
-            </ol>
-          </section>
-
-          <EventPlanningSections event={event} />
-
-          <section className="border-t border-slate-100 pt-6">
-            {mine ? (
-              <div className="rounded-2xl border border-emerald-200 bg-emerald-50/60 px-4 py-4 sm:px-5">
-                <p className="text-sm font-semibold text-[#0E1548]">
-                  Kayıt no {mine.registrationNo}
+          </RegisteredEventExtras>
+        ) : (
+          <div className="space-y-8 px-5 py-6 sm:px-6">
+            <EventDetailBody event={event} />
+            <section className="border-t border-slate-100 pt-6">
+              {isStudent && open && seatsLeft > 0 ? (
+                <div>
+                  <h2 className="text-lg font-semibold text-[#0E1548]">Kayıt ol</h2>
+                  <p className="mt-1 text-sm text-slate-500">
+                    Formu doldur; onay sonrası check-in QR’ın oluşur.
+                  </p>
+                  <div className="mt-4">
+                    <RegisterForm event={event} />
+                  </div>
+                </div>
+              ) : isStudent ? (
+                <p className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-600">
+                  Kayıt şu an kapalı veya kontenjan dolu.
                 </p>
-                <p className="mt-1 text-sm text-slate-600">
-                  Bu etkinliğe kayıtlısın. Check-in için QR kodunu görevliye göster.
-                </p>
-                <div className="mt-4 flex flex-col gap-2 sm:flex-row">
+              ) : (
+                <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4">
+                  <p className="text-sm text-slate-600">
+                    Bu etkinliğe kayıt olmak için öğrenci hesabınla giriş yap.
+                  </p>
                   <Link
-                    href="/kayitlarim"
-                    className="inline-flex h-11 items-center justify-center rounded-xl bg-[#0E1548] px-4 text-sm font-semibold text-white"
+                    href="/login"
+                    className="mt-3 inline-flex h-11 items-center justify-center rounded-xl bg-[#0E1548] px-4 text-sm font-semibold text-white"
                   >
-                    Kaydıma git
-                  </Link>
-                  <Link
-                    href={`/qr?registration=${mine.id}`}
-                    className="inline-flex h-11 items-center justify-center rounded-xl border border-slate-200 bg-white px-4 text-sm font-semibold text-[#0E1548]"
-                  >
-                    QR göster
+                    Giriş yap
                   </Link>
                 </div>
-              </div>
-            ) : isStudent && open && seatsLeft > 0 ? (
-              <div>
-                <h2 className="text-lg font-semibold text-[#0E1548]">Kayıt ol</h2>
-                <p className="mt-1 text-sm text-slate-500">
-                  Formu doldur; onay sonrası check-in QR’ın oluşur.
-                </p>
-                <div className="mt-4">
-                  <RegisterForm event={event} />
-                </div>
-              </div>
-            ) : isStudent ? (
-              <p className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-600">
-                Kayıt şu an kapalı veya kontenjan dolu.
-              </p>
-            ) : (
-              <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4">
-                <p className="text-sm text-slate-600">
-                  Bu etkinliğe kayıt olmak için öğrenci hesabınla giriş yap.
-                </p>
-                <Link
-                  href="/login"
-                  className="mt-3 inline-flex h-11 items-center justify-center rounded-xl bg-[#0E1548] px-4 text-sm font-semibold text-white"
-                >
-                  Giriş yap
-                </Link>
-              </div>
-            )}
-          </section>
-        </div>
+              )}
+            </section>
+          </div>
+        )}
       </article>
     </div>
+  );
+}
+
+function EventDetailBody({ event }: { event: CatalogEvent }) {
+  return (
+    <>
+      <section>
+        <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-400">Hakkında</h2>
+        <p className="mt-2 text-[15px] leading-relaxed text-slate-700">{event.description}</p>
+      </section>
+
+      <section>
+        <div className="flex items-end justify-between gap-3">
+          <h2 className="text-lg font-semibold text-[#0E1548]">Program</h2>
+          <span className="text-xs text-slate-400">{event.days.length} gün</span>
+        </div>
+        <ol className="relative mt-4 space-y-4 before:absolute before:bottom-2 before:left-[0.95rem] before:top-2 before:w-px before:bg-slate-200">
+          {event.days.map((day, index) => {
+            const dayActivities = event.activities.filter(
+              (activity) => activity.dayId === day.id
+            );
+            return (
+              <li key={day.id} className="relative pl-10">
+                <span className="absolute left-0 top-0 flex h-8 w-8 items-center justify-center rounded-full border border-[#2D6AF6]/25 bg-[#e8f0ff] text-xs font-semibold text-[#2D6AF6]">
+                  {index + 1}
+                </span>
+                <div className="rounded-2xl border border-slate-200/90 bg-slate-50/80 px-3.5 py-3 sm:px-4">
+                  <p className="text-sm font-semibold text-[#0E1548]">
+                    {day.label}
+                    <span className="ml-2 font-normal text-slate-500">{day.date}</span>
+                  </p>
+                  {dayActivities.length === 0 ? (
+                    <p className="mt-2 text-sm text-slate-500">Bu gün için etkinlik yok.</p>
+                  ) : (
+                    <ul className="mt-2.5 space-y-2">
+                      {dayActivities.map((activity) => (
+                        <li
+                          key={activity.id}
+                          className="flex items-start gap-2.5 text-sm text-slate-700"
+                        >
+                          <span className="mt-0.5 inline-flex min-w-[3.25rem] items-center gap-1 rounded-md bg-white px-1.5 py-0.5 text-[11px] font-semibold tabular-nums text-[#0E1548] ring-1 ring-slate-200">
+                            <FiClock className="h-3 w-3 text-[#2D6AF6]" aria-hidden />
+                            {activity.startsAt || '—'}
+                          </span>
+                          <span className="min-w-0 leading-snug">{activity.title}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              </li>
+            );
+          })}
+        </ol>
+      </section>
+
+      <EventPlanningSections event={event} />
+    </>
   );
 }

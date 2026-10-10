@@ -6,6 +6,7 @@ import { useSearchParams } from 'next/navigation';
 
 type RegOption = {
   id: string;
+  eventId: string;
   eventTitle: string;
   registrationNo: string;
   canShowQr: boolean;
@@ -14,27 +15,41 @@ type RegOption = {
 export function StudentQrClient({ demoHint }: { demoHint?: boolean }) {
   const searchParams = useSearchParams();
   const preferred = searchParams.get('registration');
+  const lockedEventId = searchParams.get('event')?.trim() || null;
   const [regs, setRegs] = useState<RegOption[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(preferred);
   const [token, setToken] = useState<string | null>(null);
-  const [meta, setMeta] = useState<{ registrationNo: string; eventTitle: string } | null>(null);
+  const [meta, setMeta] = useState<{
+    registrationNo: string;
+    eventTitle: string;
+    eventId: string;
+  } | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const selectable = useMemo(() => regs.filter((row) => row.canShowQr), [regs]);
+  const selectable = useMemo(() => {
+    const confirmed = regs.filter((row) => row.canShowQr);
+    if (!lockedEventId) return confirmed;
+    return confirmed.filter((row) => row.eventId === lockedEventId);
+  }, [regs, lockedEventId]);
 
   useEffect(() => {
     void (async () => {
       const response = await fetch('/api/registrations');
-      const payload = (await response.json().catch(() => null)) as { registrations?: RegOption[] } | null;
+      const payload = (await response.json().catch(() => null)) as {
+        registrations?: RegOption[];
+      } | null;
       const rows = payload?.registrations ?? [];
       setRegs(rows);
+
+      const scoped = lockedEventId
+        ? rows.filter((row) => row.eventId === lockedEventId && row.canShowQr)
+        : rows.filter((row) => row.canShowQr);
+
       const first =
-        rows.find((row) => row.id === preferred && row.canShowQr) ??
-        rows.find((row) => row.canShowQr) ??
-        null;
+        scoped.find((row) => row.id === preferred) ?? scoped[0] ?? null;
       setSelectedId(first?.id ?? null);
     })();
-  }, [preferred]);
+  }, [preferred, lockedEventId]);
 
   useEffect(() => {
     if (!selectedId) {
@@ -42,13 +57,25 @@ export function StudentQrClient({ demoHint }: { demoHint?: boolean }) {
       setMeta(null);
       return;
     }
+    const reg = regs.find((row) => row.id === selectedId);
+    if (lockedEventId && reg && reg.eventId !== lockedEventId) {
+      setError('Bu QR bu etkinliğe ait değil');
+      setToken(null);
+      setMeta(null);
+      return;
+    }
+
     let cancelled = false;
     void (async () => {
       setError(null);
-      const response = await fetch(`/api/registrations/${selectedId}/token`);
+      const qs = lockedEventId
+        ? `?eventId=${encodeURIComponent(lockedEventId)}`
+        : '';
+      const response = await fetch(`/api/registrations/${selectedId}/token${qs}`);
       const payload = (await response.json().catch(() => null)) as {
         token?: string;
         registrationNo?: string;
+        eventId?: string;
         error?: string;
       } | null;
       if (cancelled) return;
@@ -58,29 +85,37 @@ export function StudentQrClient({ demoHint }: { demoHint?: boolean }) {
         return;
       }
       setToken(payload.token);
-      const reg = regs.find((row) => row.id === selectedId);
       setMeta({
         registrationNo: payload.registrationNo ?? reg?.registrationNo ?? '',
         eventTitle: reg?.eventTitle ?? '',
+        eventId: payload.eventId ?? reg?.eventId ?? '',
       });
     })();
     return () => {
       cancelled = true;
     };
-  }, [selectedId, regs]);
+  }, [selectedId, regs, lockedEventId]);
 
   if (selectable.length === 0) {
     return (
       <div className="mt-8 rounded-2xl border border-slate-200/80 bg-white/70 px-6 py-8 text-center">
-        <p className="text-sm text-slate-600">Onaylı kayıt bulunamadı.</p>
-        <Link href="/etkinlikler" className="mt-4 inline-flex text-sm font-medium text-[#2D6AF6] hover:underline">
-          Etkinliklere git
+        <p className="text-sm text-slate-600">
+          {lockedEventId
+            ? 'Bu etkinlik için onaylı kayıt / QR bulunamadı.'
+            : 'Onaylı kayıt bulunamadı.'}
+        </p>
+        <Link
+          href={lockedEventId ? `/etkinlikler/${lockedEventId}` : '/etkinlikler'}
+          className="mt-4 inline-flex text-sm font-medium text-[#2D6AF6] hover:underline"
+        >
+          Etkinliğe dön
         </Link>
       </div>
     );
   }
 
   const qrSrc = token ? `/api/qr?token=${encodeURIComponent(token)}` : null;
+  const locked = Boolean(lockedEventId);
 
   return (
     <div className="mt-6 space-y-4">
@@ -89,7 +124,13 @@ export function StudentQrClient({ demoHint }: { demoHint?: boolean }) {
           Gerçek QR — içerik yalnızca check-in token; ad veya öğrenci no yok.
         </p>
       ) : null}
-      {selectable.length > 1 ? (
+      {locked ? (
+        <p className="rounded-2xl border border-[#2D6AF6]/20 bg-[#e8f0ff]/60 px-3 py-2 text-center text-xs font-medium text-[#0E1548]">
+          Bu QR yalnızca <span className="font-semibold">{meta?.eventTitle || 'seçili etkinlik'}</span>{' '}
+          check-in’inde geçerlidir.
+        </p>
+      ) : null}
+      {!locked && selectable.length > 1 ? (
         <label className="block text-sm text-slate-600">
           Kayıt seç
           <select

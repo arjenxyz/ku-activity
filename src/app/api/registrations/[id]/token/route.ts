@@ -9,7 +9,7 @@ import {
 type Params = { params: Promise<{ id: string }> };
 
 /** Returns opaque check-in token for the student's own registration QR. */
-export async function GET(_request: Request, { params }: Params) {
+export async function GET(request: Request, { params }: Params) {
   const session = await getSiteSession();
   if (!session || (session.role !== 'student' && session.role !== 'admin')) {
     return NextResponse.json({ error: 'Oturum gerekli' }, { status: 401 });
@@ -19,6 +19,10 @@ export async function GET(_request: Request, { params }: Params) {
   const ownerKey = ownerKeyForRole('student');
   if (!row || (row.ownerKey !== ownerKey && session.role !== 'admin')) {
     return NextResponse.json({ error: 'Kayıt bulunamadı' }, { status: 404 });
+  }
+  const eventId = new URL(request.url).searchParams.get('eventId')?.trim();
+  if (eventId && row.eventId !== eventId) {
+    return NextResponse.json({ error: 'Bu QR bu etkinliğe ait değil' }, { status: 400 });
   }
   if (row.status !== 'confirmed') {
     return NextResponse.json({ error: 'Bu kayıt için QR yok' }, { status: 400 });
