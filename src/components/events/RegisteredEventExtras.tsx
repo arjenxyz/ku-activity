@@ -194,9 +194,9 @@ export function RegisteredEventExtras({
                     </div>
                   </div>
 
-                  <div className="mt-3 flex items-start gap-2 border-t border-slate-100 pt-2.5">
-                    <FiInfo className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#C70A2C]" aria-hidden />
-                    <p className="text-[11px] leading-snug text-slate-600">
+                  <div className="mt-3 flex items-center gap-2 border-t border-slate-100 pt-2.5">
+                    <FiInfo className="h-3.5 w-3.5 shrink-0 text-[#C70A2C]" aria-hidden />
+                    <p className="text-[11px] leading-none text-slate-600">
                       Bu kartı yalnızca yetkili personele gösterin.
                     </p>
                   </div>
