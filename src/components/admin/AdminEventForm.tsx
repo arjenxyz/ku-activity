@@ -16,6 +16,7 @@ import {
 type AdminEvent = CatalogEvent & { registeredCount?: number };
 type DayDraft = { label: string; dateIso: string };
 type ActivityDraft = { dayIndex: number; title: string; startsAt: string };
+type CheckCardDraft = { id: string; name: string };
 type FormState = {
   title: string;
   description: string;
@@ -30,6 +31,7 @@ type FormState = {
   days: DayDraft[];
   activities: ActivityDraft[];
   planning: EventPlanning;
+  checkCards: CheckCardDraft[];
 };
 
 const SECTION_NAV = [
@@ -44,7 +46,8 @@ const SECTION_NAV = [
   { id: 'sec-9', label: 'Ekip ve danışman' },
   { id: 'sec-10', label: 'Sponsorlar' },
   { id: 'sec-11', label: 'Katılım şartları' },
-  { id: 'sec-12', label: 'Yayın durumu' },
+  { id: 'sec-12', label: 'Check kartları' },
+  { id: 'sec-13', label: 'Yayın durumu' },
 ] as const;
 
 const sectionClass =
@@ -69,6 +72,7 @@ const emptyForm: FormState = {
   days: [{ label: 'Gün 1', dateIso: '' }],
   activities: [{ dayIndex: 0, title: '', startsAt: '' }],
   planning: emptyPlanning(),
+  checkCards: [{ id: '', name: 'Giriş' }],
 };
 
 function toLocalInput(iso: string) {
@@ -111,6 +115,10 @@ function eventToForm(event: AdminEvent): FormState {
           }))
         : [{ dayIndex: 0, title: '', startsAt: '' }],
     planning: event.planning ?? emptyPlanning(),
+    checkCards:
+      event.checkCards?.length > 0
+        ? event.checkCards.map((card) => ({ id: card.id, name: card.name }))
+        : [{ id: '', name: 'Giriş' }],
   };
 }
 
@@ -210,6 +218,9 @@ export function AdminEventForm({
           dateIso: fromLocalInput(day.dateIso) || fromLocalInput(form.startsAtIso),
         })),
         activities: form.activities.filter((item) => item.title.trim()),
+        checkCards: form.checkCards
+          .map((card) => ({ id: card.id || undefined, name: card.name.trim() }))
+          .filter((card) => card.name),
         planning: {
           ...form.planning,
           pricing: {
@@ -1157,7 +1168,65 @@ export function AdminEventForm({
           </section>
 
           <section id="sec-12" className={sectionClass}>
-            <h2 className="text-sm font-semibold text-[#0E1548]">12 · Yayın durumu</h2>
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <h2 className="text-sm font-semibold text-[#0E1548]">12 · Check kartları</h2>
+                <p className="mt-1 text-xs text-slate-500">
+                  Öğrenci sırayla bu kartları görür. Görevli okutunca bir sonraki karta geçer
+                  (ör. otobüs, konaklama, alan girişi).
+                </p>
+              </div>
+              <button
+                type="button"
+                className="inline-flex h-10 items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 text-sm font-semibold text-[#0E1548] hover:bg-slate-50"
+                onClick={() =>
+                  patch('checkCards', [
+                    ...form.checkCards,
+                    { id: '', name: `Check ${form.checkCards.length + 1}` },
+                  ])
+                }
+              >
+                <FiPlus className="h-4 w-4" aria-hidden />
+                Kart ekle
+              </button>
+            </div>
+            <div className="space-y-2">
+              {form.checkCards.map((card, index) => (
+                <div key={`cc-${index}`} className="flex items-center gap-2">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white text-xs font-bold text-[#0E1548] ring-1 ring-slate-200">
+                    {index + 1}
+                  </span>
+                  <input
+                    className={rowInputClass}
+                    value={card.name}
+                    onChange={(e) => {
+                      const next = [...form.checkCards];
+                      next[index] = { ...card, name: e.target.value };
+                      patch('checkCards', next);
+                    }}
+                    placeholder="Örn. Otobüs bineceği"
+                  />
+                  <button
+                    type="button"
+                    className={iconBtnClass}
+                    disabled={form.checkCards.length <= 1}
+                    onClick={() =>
+                      patch(
+                        'checkCards',
+                        form.checkCards.filter((_, i) => i !== index)
+                      )
+                    }
+                    aria-label="Kartı sil"
+                  >
+                    <FiTrash2 className="h-4 w-4" aria-hidden />
+                  </button>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section id="sec-13" className={sectionClass}>
+            <h2 className="text-sm font-semibold text-[#0E1548]">13 · Yayın durumu</h2>
             <div className="grid gap-3 sm:grid-cols-2">
               <div>
                 <label htmlFor="status" className={labelClass}>Durum</label>

@@ -51,17 +51,37 @@ export async function POST(request: Request) {
       staffKey: session.role,
     });
     const day = event.days.find((item) => item.id === result.attendance.dayId);
+    const cardName = result.checkCard?.name ?? null;
+    const nextName = result.nextCheckCard?.name ?? null;
+    let message: string;
+    if (result.duplicate && result.completed) {
+      message = 'Tüm check kartları tamamlandı';
+    } else if (result.duplicate) {
+      message = cardName
+        ? `“${cardName}” zaten okutulmuş`
+        : 'Bu katılımcı için check-in zaten kayıtlı';
+    } else if (result.completed) {
+      message = cardName
+        ? `“${cardName}” kaydedildi · tüm kartlar tamam`
+        : 'Check-in kaydedildi · tüm kartlar tamam';
+    } else {
+      message = cardName
+        ? `“${cardName}” kaydedildi${nextName ? ` · sıradaki: ${nextName}` : ''}`
+        : 'Check-in kaydedildi';
+    }
+
     return NextResponse.json({
       ok: true,
       duplicate: result.duplicate,
+      completed: result.completed,
       registrationNo: result.registration.registrationNo,
       name: result.registration.ownerName,
       eventTitle: event.title,
       dayLabel: day?.label ?? null,
       checkedInAt: result.attendance.checkedInAt,
-      message: result.duplicate
-        ? 'Bu katılımcı için check-in zaten kayıtlı'
-        : 'Check-in kaydedildi',
+      checkCardName: cardName,
+      nextCheckCardName: nextName,
+      message,
     });
   } catch (err) {
     return NextResponse.json(

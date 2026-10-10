@@ -20,11 +20,14 @@ type CatalogLite = {
 type Result = {
   ok: boolean;
   duplicate?: boolean;
+  completed?: boolean;
   message?: string;
   registrationNo?: string;
   name?: string;
   eventTitle?: string;
   dayLabel?: string | null;
+  checkCardName?: string | null;
+  nextCheckCardName?: string | null;
   error?: string;
 };
 
@@ -238,6 +241,16 @@ export function StaffCheckInClient({
             {result.eventTitle}
             {result.dayLabel ? ` · ${result.dayLabel}` : ''}
           </p>
+          {result.checkCardName ? (
+            <p className="mt-2 text-sm font-medium text-[#0E1548]">
+              Okutulan: {result.checkCardName}
+              {result.nextCheckCardName
+                ? ` → sıradaki: ${result.nextCheckCardName}`
+                : result.completed
+                  ? ' → tamamlandı'
+                  : ''}
+            </p>
+          ) : null}
         </div>
       ) : null}
     </div>

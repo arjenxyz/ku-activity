@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getSiteSession } from '@/lib/auth/get-site-session';
 import {
+  getCheckCardProgress,
   getRawToken,
   getRegistration,
   ownerKeyForRole,
@@ -28,13 +29,21 @@ export async function GET(request: Request, { params }: Params) {
     return NextResponse.json({ error: 'Bu kayıt için QR yok' }, { status: 400 });
   }
   try {
-    const token = getRawToken(row);
+    const progress = getCheckCardProgress(row);
+    const token = progress.completed ? null : getRawToken(row);
     return NextResponse.json({
       token,
       registrationId: row.id,
       registrationNo: row.registrationNo,
-      manualCode: row.manualCode,
+      manualCode: progress.completed ? null : row.manualCode,
       eventId: row.eventId,
+      checkCard: {
+        index: progress.index,
+        total: progress.total,
+        completed: progress.completed,
+        name: progress.current?.name ?? null,
+        id: progress.current?.id ?? null,
+      },
     });
   } catch {
     return NextResponse.json({ error: 'Token okunamadı' }, { status: 500 });

@@ -30,6 +30,12 @@ export type CatalogEventStatus =
   | 'registration_closed'
   | 'completed';
 
+/** Ordered staff scan stages (bus boarding, venue entry, …). */
+export type EventCheckCard = {
+  id: string;
+  name: string;
+};
+
 export type CatalogEvent = {
   id: string;
   title: string;
@@ -48,7 +54,30 @@ export type CatalogEvent = {
   days: CatalogDay[];
   activities: CatalogActivity[];
   planning: EventPlanning;
+  /** Named check cards students show in order; staff scan advances to the next. */
+  checkCards: EventCheckCard[];
 };
+
+/** Normalize admin input; empty list becomes a single default “Giriş” card. */
+export function normalizeCheckCards(
+  eventId: string,
+  cards: Array<{ id?: string; name?: string }> | null | undefined
+): EventCheckCard[] {
+  const named = (Array.isArray(cards) ? cards : [])
+    .map((card, index) => ({
+      id: card.id?.trim() || `${eventId}-cc${index + 1}`,
+      name: (card.name ?? '').trim(),
+    }))
+    .filter((card) => card.name.length > 0)
+    .map((card, index) => ({
+      id: card.id || `${eventId}-cc${index + 1}`,
+      name: card.name,
+    }));
+  if (named.length === 0) {
+    return [{ id: `${eventId}-cc1`, name: 'Giriş' }];
+  }
+  return named;
+}
 
 export const STATUS_LABELS: Record<CatalogEventStatus, string> = {
   published: 'Yayında',
@@ -192,6 +221,11 @@ export const EVENT_CATALOG_SEED: CatalogEvent[] = [
       { id: 'abana-a4', dayId: 'abana-d3', title: 'Dönüş', startsAt: '14:00' },
     ],
     planning: ABANA_PLANNING,
+    checkCards: [
+      { id: 'abana-cc1', name: 'Otobüs bineceği' },
+      { id: 'abana-cc2', name: 'Konaklama giriş' },
+      { id: 'abana-cc3', name: 'Etkinlik alan giriş' },
+    ],
   },
   {
     id: 'tanisma-2026',
@@ -214,6 +248,7 @@ export const EVENT_CATALOG_SEED: CatalogEvent[] = [
       { id: 'tanisma-a2', dayId: 'tanisma-d1', title: 'Atölye', startsAt: '15:00' },
     ],
     planning: TANISMA_PLANNING,
+    checkCards: [{ id: 'tanisma-cc1', name: 'Giriş' }],
   },
 ];
 

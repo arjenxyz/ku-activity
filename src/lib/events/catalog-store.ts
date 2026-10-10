@@ -2,6 +2,7 @@ import {
   EVENT_CATALOG_SEED,
   STATUS_LABELS,
   formatTrDate,
+  normalizeCheckCards,
   normalizePlanning,
   slugifyEventId,
   type CatalogActivity,
@@ -16,19 +17,20 @@ type Store = {
 };
 
 function store(): Store {
-  const g = globalThis as typeof globalThis & { __emsEventCatalogV2?: Store };
-  if (!g.__emsEventCatalogV2) {
-    g.__emsEventCatalogV2 = {
+  const g = globalThis as typeof globalThis & { __emsEventCatalogV3?: Store };
+  if (!g.__emsEventCatalogV3) {
+    g.__emsEventCatalogV3 = {
       events: structuredClone(EVENT_CATALOG_SEED),
     };
   }
-  return g.__emsEventCatalogV2;
+  return g.__emsEventCatalogV3;
 }
 
 function ensurePlanning(event: CatalogEvent): CatalogEvent {
   if (!event.planning) {
     event.planning = normalizePlanning(undefined);
   }
+  event.checkCards = normalizeCheckCards(event.id, event.checkCards);
   return event;
 }
 
@@ -60,6 +62,7 @@ export type CreateCatalogEventInput = {
   days: Array<{ label: string; dateIso: string }>;
   activities: Array<{ dayIndex: number; title: string; startsAt?: string }>;
   planning?: EventPlanning | unknown;
+  checkCards?: Array<{ id?: string; name?: string }>;
 };
 
 function buildEventPayload(eventId: string, input: CreateCatalogEventInput): CatalogEvent {
@@ -114,6 +117,7 @@ function buildEventPayload(eventId: string, input: CreateCatalogEventInput): Cat
     days,
     activities,
     planning: normalizePlanning(input.planning),
+    checkCards: normalizeCheckCards(eventId, input.checkCards),
   };
 }
 

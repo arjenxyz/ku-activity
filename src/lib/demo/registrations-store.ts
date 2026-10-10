@@ -8,6 +8,7 @@ import {
   normalizeManualCode,
 } from '@/lib/checkin-token';
 import { DEMO_CHECKIN_TOKEN } from '@/lib/demo/data';
+import { normalizeCheckCards, type EventCheckCard } from '@/lib/events/catalog';
 import { getCatalogEvent } from '@/lib/events/catalog-store';
 import type { AppRole } from '@/lib/auth/roles';
 
@@ -15,6 +16,12 @@ export type RegistrationStatus = 'pending' | 'confirmed' | 'cancelled';
 
 export type DemoAttendance = {
   dayId: string | null;
+  checkedInAt: string;
+  checkedInBy: string;
+};
+
+export type DemoCheckCardScan = {
+  checkCardId: string;
   checkedInAt: string;
   checkedInBy: string;
 };
@@ -39,6 +46,17 @@ export type DemoRegistration = {
   activityIds: string[];
   registeredAt: string;
   attendance: DemoAttendance[];
+  /** Index of the check card the student should currently show. */
+  checkCardIndex: number;
+  checkCardScans: DemoCheckCardScan[];
+};
+
+export type CheckCardProgress = {
+  index: number;
+  total: number;
+  completed: boolean;
+  current: EventCheckCard | null;
+  cards: EventCheckCard[];
 };
 
 type Store = {
@@ -46,19 +64,25 @@ type Store = {
   seq: number;
 };
 
+function ensureRegFields(row: DemoRegistration) {
+  if (!row.manualCode) row.manualCode = generateManualCode();
+  if (typeof row.checkCardIndex !== 'number' || row.checkCardIndex < 0) {
+    row.checkCardIndex = 0;
+  }
+  if (!Array.isArray(row.checkCardScans)) row.checkCardScans = [];
+  return row;
+}
+
 function store(): Store {
-  const g = globalThis as typeof globalThis & { __emsRegStore?: Store };
-  if (!g.__emsRegStore) {
-    g.__emsRegStore = { regs: new Map(), seq: 184 };
-    seed(g.__emsRegStore);
+  const g = globalThis as typeof globalThis & { __emsRegStoreV2?: Store };
+  if (!g.__emsRegStoreV2) {
+    g.__emsRegStoreV2 = { regs: new Map(), seq: 184 };
+    seed(g.__emsRegStoreV2);
   }
-  // Hot-reload / eski seed: eksik manuel kodları tamamla
-  for (const row of g.__emsRegStore.regs.values()) {
-    if (!row.manualCode) {
-      row.manualCode = generateManualCode();
-    }
+  for (const row of g.__emsRegStoreV2.regs.values()) {
+    ensureRegFields(row);
   }
-  return g.__emsRegStore;
+  return g.__emsRegStoreV2;
 }
 
 function seed(s: Store) {
@@ -77,13 +101,9 @@ function seed(s: Store) {
     dayIds: ['abana-d1', 'abana-d2', 'abana-d3'],
     activityIds: ['abana-a1', 'abana-a2'],
     registeredAt: '2026-10-02T10:00:00+03:00',
-    attendance: [
-      {
-        dayId: 'abana-d1',
-        checkedInAt: '2026-10-07T21:24:00+03:00',
-        checkedInBy: 'staff',
-      },
-    ],
+    attendance: [],
+    checkCardIndex: 0,
+    checkCardScans: [],
   };
   s.regs.set(row.id, row);
 }
@@ -100,21 +120,23 @@ export function listRegistrationsForOwner(ownerKey: string) {
 }
 
 export function getRegistration(id: string) {
-  return store().regs.get(id) ?? null;
+  const row = store().regs.get(id) ?? null;
+  return row ? ensureRegFields(row) : null;
 }
 
 export function findRegistrationByToken(token: string) {
   const hash = hashCheckinToken(token);
-  return [...store().regs.values()].find((row) => row.tokenHash === hash) ?? null;
+  const row = [...store().regs.values()].find((item) => item.tokenHash === hash) ?? null;
+  return row ? ensureRegFields(row) : null;
 }
 
 export function findRegistrationByManualCode(code: string) {
   const normalized = normalizeManualCode(code);
-  return (
+  const row =
     [...store().regs.values()].find(
-      (row) => normalizeManualCode(row.manualCode || '') === normalized
-    ) ?? null
-  );
+      (item) => normalizeManualCode(item.manualCode || '') === normalized
+    ) ?? null;
+  return row ? ensureRegFields(row) : null;
 }
 
 /** Resolve registration from scanned QR token or typed manual code. */
@@ -129,6 +151,20 @@ export function findRegistrationByCheckinInput(value: string) {
 
 export function getRawToken(reg: DemoRegistration) {
   return decryptCheckinToken(reg.tokenEncrypted);
+}
+
+export function getCheckCardProgress(reg: DemoRegistration): CheckCardProgress {
+  const event = getCatalogEvent(reg.eventId);
+  const cards = normalizeCheckCards(reg.eventId, event?.checkCards);
+  const index = Math.min(Math.max(0, reg.checkCardIndex ?? 0), cards.length);
+  const completed = index >= cards.length;
+  return {
+    index,
+    total: cards.length,
+    completed,
+    current: completed ? null : (cards[index] ?? null),
+    cards,
+  };
 }
 
 export function createRegistration(input: {
@@ -168,6 +204,8 @@ export function createRegistration(input: {
     activityIds: input.activityIds,
     registeredAt: new Date().toISOString(),
     attendance: [],
+    checkCardIndex: 0,
+    checkCardScans: [],
   };
   s.regs.set(row.id, row);
   return row;
@@ -198,24 +236,89 @@ export function recordCheckIn(input: {
   if (row.status === 'cancelled') throw new Error('Kayıt iptal edilmiş');
   if (row.status === 'pending') throw new Error('Kayıt henüz onaylanmadı');
 
-  const dayId = input.dayId;
-  const already = row.attendance.find((item) =>
-    dayId ? item.dayId === dayId : item.dayId === null || item.dayId === dayId
-  );
-  if (already) {
-    return { registration: row, duplicate: true as const, attendance: already };
+  const progress = getCheckCardProgress(row);
+  const now = new Date().toISOString();
+
+  if (progress.completed || !progress.current) {
+    const lastScan = row.checkCardScans[row.checkCardScans.length - 1];
+    return {
+      registration: row,
+      duplicate: true as const,
+      completed: true as const,
+      checkCard: progress.cards[progress.cards.length - 1] ?? null,
+      nextCheckCard: null,
+      attendance: lastScan
+        ? {
+            dayId: input.dayId,
+            checkedInAt: lastScan.checkedInAt,
+            checkedInBy: lastScan.checkedInBy,
+          }
+        : {
+            dayId: input.dayId,
+            checkedInAt: now,
+            checkedInBy: input.staffKey,
+          },
+    };
   }
 
-  const attendance: DemoAttendance = {
-    dayId,
-    checkedInAt: new Date().toISOString(),
+  const current = progress.current;
+  const alreadyCard = row.checkCardScans.find((scan) => scan.checkCardId === current.id);
+  if (alreadyCard) {
+    row.checkCardIndex = Math.max(row.checkCardIndex, progress.index + 1);
+    store().regs.set(row.id, row);
+    const nextProgress = getCheckCardProgress(row);
+    return {
+      registration: row,
+      duplicate: true as const,
+      completed: nextProgress.completed,
+      checkCard: current,
+      nextCheckCard: nextProgress.current,
+      attendance: {
+        dayId: input.dayId,
+        checkedInAt: alreadyCard.checkedInAt,
+        checkedInBy: alreadyCard.checkedInBy,
+      },
+    };
+  }
+
+  const scan: DemoCheckCardScan = {
+    checkCardId: current.id,
+    checkedInAt: now,
     checkedInBy: input.staffKey,
   };
-  row.attendance.push(attendance);
+  row.checkCardScans.push(scan);
+  row.checkCardIndex = progress.index + 1;
+
+  const dayId = input.dayId;
+  const alreadyDay = row.attendance.find((item) =>
+    dayId ? item.dayId === dayId : item.dayId === null || item.dayId === dayId
+  );
+  let attendance: DemoAttendance;
+  if (alreadyDay) {
+    attendance = alreadyDay;
+  } else {
+    attendance = {
+      dayId,
+      checkedInAt: now,
+      checkedInBy: input.staffKey,
+    };
+    row.attendance.push(attendance);
+  }
+
   store().regs.set(row.id, row);
-  return { registration: row, duplicate: false as const, attendance };
+  const nextProgress = getCheckCardProgress(row);
+  return {
+    registration: row,
+    duplicate: false as const,
+    completed: nextProgress.completed,
+    checkCard: current,
+    nextCheckCard: nextProgress.current,
+    attendance,
+  };
 }
 
 export function listRegistrationsForEvent(eventId: string) {
-  return [...store().regs.values()].filter((row) => row.eventId === eventId && row.status !== 'cancelled');
+  return [...store().regs.values()]
+    .map(ensureRegFields)
+    .filter((row) => row.eventId === eventId && row.status !== 'cancelled');
 }
