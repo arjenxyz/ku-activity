@@ -225,7 +225,7 @@ export function RegisteredEventExtras({
                           <p className="text-[9px] font-semibold uppercase tracking-[0.12em] text-slate-400">
                             Durum
                           </p>
-                          <p className="mt-0.5 text-sm font-bold text-[#111827]">Geçişler bitti</p>
+                          <p className="mt-0.5 text-sm font-bold text-[#111827]">Onaylandı</p>
                         </div>
                         <div className="text-right">
                           <p className="text-[9px] font-semibold uppercase tracking-[0.12em] text-slate-400">
