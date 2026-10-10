@@ -9,7 +9,6 @@ import {
 } from 'react-icons/fi';
 import { EventPlanningSections } from '@/components/events/EventPlanningSections';
 import { RegisteredEventExtras } from '@/components/events/RegisteredEventExtras';
-import { RegisterForm } from '@/components/events/RegisterForm';
 import type { CatalogEvent } from '@/lib/events/catalog';
 import type { DemoRegistration } from '@/lib/demo/registrations-store';
 
@@ -40,9 +39,7 @@ type Props = {
   event: CatalogEvent;
   taken: number;
   seatsLeft: number;
-  open: boolean;
   mine: DemoRegistration | null;
-  isStudent: boolean;
   studentNo?: string | null;
 };
 
@@ -50,9 +47,7 @@ export function StudentEventDetail({
   event,
   taken,
   seatsLeft,
-  open,
   mine,
-  isStudent,
   studentNo = null,
 }: Props) {
   const theme = themeFor(event.id);
@@ -159,35 +154,6 @@ export function StudentEventDetail({
         ) : (
           <div className="space-y-8 px-5 py-6 sm:px-6">
             <EventDetailBody event={event} />
-            <section className="border-t border-slate-100 pt-6">
-              {isStudent && open && seatsLeft > 0 ? (
-                <div>
-                  <h2 className="text-lg font-semibold text-[#0E1548]">Kayıt ol</h2>
-                  <p className="mt-1 text-sm text-slate-500">
-                    Formu doldur; onay sonrası check-in QR’ın oluşur.
-                  </p>
-                  <div className="mt-4">
-                    <RegisterForm event={event} />
-                  </div>
-                </div>
-              ) : isStudent ? (
-                <p className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-600">
-                  Kayıt şu an kapalı veya kontenjan dolu.
-                </p>
-              ) : (
-                <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4">
-                  <p className="text-sm text-slate-600">
-                    Bu etkinliğe kayıt olmak için öğrenci hesabınla giriş yap.
-                  </p>
-                  <Link
-                    href="/login"
-                    className="mt-3 inline-flex h-11 items-center justify-center rounded-xl bg-[#0E1548] px-4 text-sm font-semibold text-white"
-                  >
-                    Giriş yap
-                  </Link>
-                </div>
-              )}
-            </section>
           </div>
         )}
       </article>

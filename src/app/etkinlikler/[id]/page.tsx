@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import { HomeHeader } from '@/components/home/HomeHeader';
 import { StudentEventDetail } from '@/components/events/StudentEventDetail';
 import { getSiteSession } from '@/lib/auth/get-site-session';
-import { getCatalogEvent, isRegistrationOpen } from '@/lib/events/catalog-store';
+import { getCatalogEvent } from '@/lib/events/catalog-store';
 import {
   listRegistrationsForEvent,
   listRegistrationsForOwner,
@@ -20,7 +20,6 @@ export default async function EventDetailPage({ params }: Props) {
   const session = await getSiteSession();
   const taken = listRegistrationsForEvent(event.id).length;
   const seatsLeft = Math.max(0, event.capacity - taken);
-  const open = isRegistrationOpen(event);
   const mine =
     session?.role === 'student'
       ? listRegistrationsForOwner(ownerKeyForRole('student')).find(
@@ -37,9 +36,7 @@ export default async function EventDetailPage({ params }: Props) {
         event={event}
         taken={taken}
         seatsLeft={seatsLeft}
-        open={open}
         mine={mine ?? null}
-        isStudent={session?.role === 'student'}
         studentNo={studentNo}
       />
     </div>
