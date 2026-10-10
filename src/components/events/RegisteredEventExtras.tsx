@@ -221,14 +221,6 @@ export function RegisteredEventExtras({
                       </div>
                       <div>
                         <p className="text-[9px] font-semibold uppercase tracking-[0.12em] text-slate-400">
-                          Kayıt no
-                        </p>
-                        <p className="mt-0.5 font-mono text-[12px] font-bold text-[#111827]">
-                          {registrationNo}
-                        </p>
-                      </div>
-                      <div>
-                        <p className="text-[9px] font-semibold uppercase tracking-[0.12em] text-slate-400">
                           Manuel
                         </p>
                         <p className="mt-0.5 font-mono text-[15px] font-black tracking-wide text-[#C70A2C]">
