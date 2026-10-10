@@ -98,7 +98,7 @@ export function RegisteredEventExtras({
             role="dialog"
             aria-modal="true"
             aria-label="Check-in kartı"
-            className="fixed inset-0 z-[100] flex items-end justify-center bg-slate-950/80 px-3 py-5 backdrop-blur-md sm:items-center sm:px-5"
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/80 px-3 py-5 backdrop-blur-md sm:px-5"
             onClick={() => setQrOpen(false)}
           >
             <div
