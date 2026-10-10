@@ -22,10 +22,10 @@ export const GUIDE_STEPS: GuideStep[] = [
   {
     id: 'menu-1',
     chapter: 'Menü',
-    botText: 'Soldaki (veya mobil menüdeki) ana öğeler her zaman durur: ana sayfa, etkinlikler, ekip, denetim, ayarlar.',
+    botText: 'Soldaki (veya mobil menüdeki) ana öğeler her zaman durur: etkinlikler, ekip, eğitim, denetim, ayarlar.',
     stage: 'menu',
     navMode: 'root',
-    highlight: 'nav-home',
+    highlight: 'nav-events',
   },
   {
     id: 'menu-2',

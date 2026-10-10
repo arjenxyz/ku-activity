@@ -7,7 +7,7 @@ export function isAppRole(value: unknown): value is AppRole {
 export function homePathForRole(role: AppRole): string {
   switch (role) {
     case 'admin':
-      return '/admin';
+      return '/admin/events';
     case 'staff':
       return '/staff';
     default:

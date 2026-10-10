@@ -12,7 +12,6 @@ import type { GuideHighlight, GuideNavMode } from '@/lib/admin/live-guide/types'
 import { hlClass } from '../highlight';
 
 const ROOT = [
-  { id: 'nav-home' as const, label: 'Admin ana sayfası', icon: FiHome },
   { id: 'nav-events' as const, label: 'Etkinlikler', icon: FiCalendar },
   { id: 'nav-team' as const, label: 'Ekip ilanı', icon: FiUsers },
   { id: 'nav-guide' as const, label: 'Panel Eğitimi', icon: FiClipboard },

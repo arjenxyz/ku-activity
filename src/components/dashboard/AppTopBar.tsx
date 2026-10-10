@@ -18,17 +18,15 @@ export function AppTopBar({ homeHref, menuOpen, onToggleMenu }: Props) {
   const pathname = usePathname() ?? '';
   const [sessionName, setSessionName] = useState<string | null>(null);
 
-  const isEventsSection =
-    pathname === '/admin/events' || pathname.startsWith('/admin/events/');
+  const isEventsList = pathname === '/admin/events';
   const isEventsForm =
     pathname === '/admin/events/new' || /\/admin\/events\/[^/]+\/edit\/?$/.test(pathname);
+  const isEventsNested =
+    pathname.startsWith('/admin/events/') && !isEventsForm;
 
-  const brandHref = isEventsForm ? '/admin/events' : homeHref;
-  const brandLabel = isEventsForm
-    ? 'Etkinlik listesine dön'
-    : isEventsSection
-      ? 'Admin paneline dön'
-      : APP_NAME;
+  const brandHref = isEventsForm || isEventsNested ? '/admin/events' : homeHref;
+  const brandLabel =
+    isEventsForm || isEventsNested ? 'Etkinlik listesine dön' : APP_NAME;
 
   useEffect(() => {
     void (async () => {
@@ -43,11 +41,16 @@ export function AppTopBar({ homeHref, menuOpen, onToggleMenu }: Props) {
   const title =
     menuOpen && sessionName
       ? sessionName
-      : isEventsSection
+      : isEventsList || isEventsNested || isEventsForm
         ? 'Admin Panel'
         : APP_SHORT_NAME;
 
-  const subtitle = menuOpen ? null : isEventsSection ? 'geri dönmek için tıklayın' : null;
+  const subtitle =
+    menuOpen || isEventsList
+      ? null
+      : isEventsForm || isEventsNested
+        ? 'geri dönmek için tıklayın'
+        : null;
   return (
     <header className="fixed inset-x-0 top-0 z-50 bg-transparent px-3 pt-[max(0.5rem,env(safe-area-inset-top))] sm:px-6">
       <div className="mx-auto flex w-full items-center justify-between gap-3 rounded-2xl border border-slate-200/80 bg-white/95 px-3 py-2 shadow-sm backdrop-blur-lg sm:px-4">

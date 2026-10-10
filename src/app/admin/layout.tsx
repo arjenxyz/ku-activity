@@ -3,7 +3,7 @@ import { ADMIN_NAV } from '@/config/panel-nav';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
-    <PanelChrome homeHref="/admin" navItems={ADMIN_NAV}>
+    <PanelChrome homeHref="/admin/events" navItems={ADMIN_NAV}>
       {children}
     </PanelChrome>
   );
