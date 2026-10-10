@@ -190,8 +190,8 @@ export function RegisteredEventExtras({
                         Etkinliği tamamladınız
                       </p>
                       <p className="mt-2 text-sm leading-relaxed text-slate-600">
-                        Katılımınız için teşekkürler. Tüm check noktalarını başarıyla geçtiniz;
-                        etkinliği sağ salim tamamladınız.
+                        Katılımınız için teşekkür ederiz. Tüm kontrol noktaları başarıyla
+                        tamamlandı.
                       </p>
                     </div>
                   ) : (
