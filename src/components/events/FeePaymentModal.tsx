@@ -2,7 +2,15 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { FiArrowLeft, FiCheck, FiCopy, FiCreditCard, FiDollarSign, FiX } from 'react-icons/fi';
+import {
+  FiArrowLeft,
+  FiCheck,
+  FiCopy,
+  FiCreditCard,
+  FiDollarSign,
+  FiUpload,
+  FiX,
+} from 'react-icons/fi';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 
 type Method = 'transfer' | 'cash';
@@ -43,6 +51,9 @@ export function FeePaymentModal({
   const [cashBusy, setCashBusy] = useState(false);
   const [cashError, setCashError] = useState<string | null>(null);
   const [cashPaid, setCashPaid] = useState(false);
+  const [receiptBusy, setReceiptBusy] = useState(false);
+  const [receiptError, setReceiptError] = useState<string | null>(null);
+  const [receiptMessage, setReceiptMessage] = useState<string | null>(null);
 
   useBodyScrollLock(open);
 
@@ -56,6 +67,9 @@ export function FeePaymentModal({
       setCashError(null);
       setCashBusy(false);
       setCashPaid(false);
+      setReceiptBusy(false);
+      setReceiptError(null);
+      setReceiptMessage(null);
     }
   }, [open]);
 
@@ -143,6 +157,33 @@ export function FeePaymentModal({
       window.setTimeout(() => setCopied((current) => (current === key ? null : current)), 2000);
     } catch {
       /* ignore */
+    }
+  }
+
+  async function uploadReceipt(file: File) {
+    if (!eventId || !registrationNo) {
+      setReceiptError('Kayıt bilgisi eksik');
+      return;
+    }
+    setReceiptBusy(true);
+    setReceiptError(null);
+    setReceiptMessage(null);
+    try {
+      const form = new FormData();
+      form.set('eventId', eventId);
+      form.set('registrationNo', registrationNo);
+      form.set('receipt', file);
+      const response = await fetch('/api/payments/claims', { method: 'POST', body: form });
+      const payload = (await response.json().catch(() => null)) as {
+        error?: string;
+        claim?: { codeMatched?: boolean; amountMatched?: boolean };
+      } | null;
+      if (!response.ok) throw new Error(payload?.error ?? 'Yükleme başarısız');
+      setReceiptMessage('Dekont inceleme kuyruğuna alındı');
+    } catch (err) {
+      setReceiptError(err instanceof Error ? err.message : 'Yükleme başarısız');
+    } finally {
+      setReceiptBusy(false);
     }
   }
 
@@ -328,6 +369,38 @@ export function FeePaymentModal({
             </div>
           ) : null}
         </div>
+
+        {method === 'transfer' && paymentIban ? (
+          <div className="shrink-0 border-t border-slate-100 bg-white px-5 py-3.5">
+            {receiptMessage ? (
+              <p className="mb-2 text-center text-sm font-medium text-emerald-700">
+                {receiptMessage}
+              </p>
+            ) : null}
+            {receiptError ? (
+              <p className="mb-2 text-center text-sm text-red-600">{receiptError}</p>
+            ) : null}
+            <label
+              className={`flex h-11 w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-[#0E1548] text-sm font-semibold text-white hover:bg-[#152060] ${
+                receiptBusy ? 'pointer-events-none opacity-60' : ''
+              }`}
+            >
+              <FiUpload className="h-4 w-4" aria-hidden />
+              {receiptBusy ? 'Yükleniyor…' : receiptMessage ? 'Yeni dekont yükle' : 'Dekont yükle'}
+              <input
+                type="file"
+                accept="image/*,application/pdf"
+                className="sr-only"
+                disabled={receiptBusy}
+                onChange={(event) => {
+                  const file = event.target.files?.[0];
+                  if (file) void uploadReceipt(file);
+                  event.target.value = '';
+                }}
+              />
+            </label>
+          </div>
+        ) : null}
       </div>
     </div>,
     document.body
