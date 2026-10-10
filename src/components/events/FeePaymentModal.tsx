@@ -126,6 +126,7 @@ export function FeePaymentModal({
 
           {!method ? (
             <div className="space-y-2.5">
+              <p className="text-sm text-slate-500">Ödeme yöntemi seç</p>
               {hasTransfer ? (
                 <button
                   type="button"
