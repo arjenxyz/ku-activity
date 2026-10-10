@@ -78,12 +78,7 @@ export function FeePaymentModal({
 
   return createPortal(
     <div className="fixed inset-0 z-[80] flex items-center justify-center p-4">
-      <button
-        type="button"
-        aria-label="Kapat"
-        className="absolute inset-0 bg-slate-950/50 backdrop-blur-[2px]"
-        onClick={onClose}
-      />
+      <div className="absolute inset-0 bg-slate-950/50 backdrop-blur-[2px]" aria-hidden />
       <div
         role="dialog"
         aria-modal="true"
