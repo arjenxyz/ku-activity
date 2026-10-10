@@ -115,8 +115,14 @@ export function RegisteredEventExtras({
 
   const qrSrc = token ? `/api/qr?token=${encodeURIComponent(token)}` : null;
   const fromLabel = location.split(',')[0]?.trim() || location;
-  const cardTitle = checkCard?.name || 'Geçiş kartı';
   const completed = Boolean(checkCard?.completed);
+  const cardTitle = completed ? 'Tamamlandı' : checkCard?.name || 'Geçiş kartı';
+  const cardNumber =
+    checkCard && checkCard.total > 0
+      ? completed
+        ? checkCard.total
+        : checkCard.index + 1
+      : null;
 
   const modal =
     mounted && qrOpen
@@ -146,16 +152,16 @@ export function RegisteredEventExtras({
               </div>
 
               <div className="relative overflow-hidden rounded-[1.35rem] bg-gradient-to-b from-[#E30613] via-[#C70A2C] to-[#5C0818] p-3.5 shadow-2xl shadow-black/55">
-                {/* Brand + event */}
+                {/* Current geçiş kartı */}
                 <div className="flex items-center gap-2.5 px-0.5 pt-0.5 text-white">
-                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-[11px] font-black tracking-tight text-[#C70A2C]">
-                    {APP_SHORT_NAME}
+                  <span className="flex h-9 min-w-9 items-center justify-center rounded-full bg-white px-1.5 text-[12px] font-black tracking-tight text-[#C70A2C]">
+                    {cardNumber != null ? `#${cardNumber}` : '#'}
                   </span>
                   <div className="min-w-0">
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-white/75">
-                      Event Management System
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-white/70">
+                      Geçiş kartı
                     </p>
-                    <p className="truncate text-[15px] font-bold leading-tight">{eventTitle}</p>
+                    <p className="truncate text-[15px] font-bold leading-tight">{cardTitle}</p>
                   </div>
                 </div>
 
