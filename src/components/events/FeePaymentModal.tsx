@@ -8,6 +8,7 @@ import {
   FiCopy,
   FiCreditCard,
   FiDollarSign,
+  FiFileText,
   FiUpload,
   FiX,
 } from 'react-icons/fi';
@@ -404,77 +405,113 @@ export function FeePaymentModal({
             role="dialog"
             aria-modal="true"
             aria-labelledby="receipt-upload-title"
-            className="relative z-[1] w-full max-w-sm overflow-hidden rounded-3xl bg-[#f4f7fb] shadow-2xl ring-1 ring-slate-200/80"
+            className="relative z-[1] w-full max-w-sm overflow-hidden rounded-[1.5rem] bg-white shadow-2xl shadow-slate-950/25"
           >
-            <div className="flex items-center justify-between gap-2 border-b border-slate-200/80 bg-white/70 px-4 py-2.5">
-              <p
-                id="receipt-upload-title"
-                className="truncate text-sm font-semibold text-[#0E1548]"
-              >
-                Dekont yükle
-              </p>
-              <button
-                type="button"
-                onClick={() => setReceiptOpen(false)}
-                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-200/80 text-slate-600 hover:bg-slate-200"
-                aria-label="Kapat"
-              >
-                <FiX className="h-4 w-4" aria-hidden />
-              </button>
-            </div>
-            <div className="space-y-3 px-5 py-5">
-              <p className="rounded-xl bg-amber-50 px-3 py-2 text-center text-xs font-semibold text-amber-800 ring-1 ring-amber-200/80">
-                Dekont yüklemek zorunlu
-              </p>
-              <div className="space-y-2 text-left text-xs leading-relaxed text-slate-600">
-                <p>
-                  Banka dekontu, havalenin sizin adınıza ve doğru tutarda yapıldığını doğrulamak
-                  için gereklidir. Açıklama alanındaki kayıt numaranızın dekontta görünmesi
-                  eşleştirmeyi hızlandırır.
-                </p>
-                <p>
-                  Yüklenen belge organizasyon ekibi tarafından incelenir. Onaylandıktan sonra
-                  geçiş kartınız açılır; dekont olmadan ödeme tamamlanmış sayılmaz.
-                </p>
-              </div>
-              <p className="text-center text-xs text-slate-500">PDF veya görsel · en fazla 4 MB</p>
-              {receiptMessage ? (
-                <p className="text-center text-sm font-medium text-emerald-700">{receiptMessage}</p>
-              ) : null}
-              {receiptError ? (
-                <p className="text-center text-sm text-red-600">{receiptError}</p>
-              ) : null}
-              <label
-                className={`flex h-11 w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-[#0E1548] text-sm font-semibold text-white hover:bg-[#152060] ${
-                  receiptBusy ? 'pointer-events-none opacity-60' : ''
-                }`}
-              >
-                <FiUpload className="h-4 w-4" aria-hidden />
-                {receiptBusy ? 'Yükleniyor…' : receiptMessage ? 'Yeni dekont yükle' : 'Dosya seç'}
-                <input
-                  type="file"
-                  accept={RECEIPT_FILE_ACCEPT}
-                  className="sr-only"
-                  disabled={receiptBusy}
-                  onChange={(event) => {
-                    const file = event.target.files?.[0];
-                    if (file) void uploadReceipt(file);
-                    event.target.value = '';
-                  }}
-                />
-              </label>
-              {receiptMessage ? (
+            <div className="relative overflow-hidden bg-gradient-to-br from-[#0E1548] to-[#1a3a7a] px-5 pb-5 pt-4 text-white">
+              <div className="absolute inset-0 opacity-[0.12] [background-image:radial-gradient(circle_at_1px_1px,#fff_1px,transparent_0)] [background-size:12px_12px]" />
+              <div className="relative flex items-start justify-between gap-3">
+                <div className="flex min-w-0 items-start gap-3">
+                  <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-white/15">
+                    <FiFileText className="h-5 w-5" aria-hidden />
+                  </span>
+                  <div className="min-w-0">
+                    <p id="receipt-upload-title" className="text-base font-semibold tracking-tight">
+                      Dekont yükle
+                    </p>
+                    <p className="mt-0.5 text-xs text-white/70">Ödeme kanıtı · zorunlu adım</p>
+                  </div>
+                </div>
                 <button
                   type="button"
-                  onClick={() => {
-                    setReceiptOpen(false);
-                    onClose();
-                  }}
-                  className="flex h-10 w-full items-center justify-center rounded-xl border border-slate-200 text-sm font-semibold text-[#0E1548] hover:bg-slate-50"
+                  onClick={() => setReceiptOpen(false)}
+                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/15 text-white hover:bg-white/25"
+                  aria-label="Kapat"
                 >
-                  Tamam
+                  <FiX className="h-4 w-4" aria-hidden />
                 </button>
-              ) : null}
+              </div>
+            </div>
+
+            <div className="space-y-4 px-5 py-5">
+              <ol className="space-y-2.5">
+                <li className="flex gap-3 text-xs leading-relaxed text-slate-600">
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#e8f0ff] text-[10px] font-bold text-[#2D6AF6]">
+                    1
+                  </span>
+                  <span>
+                    Dekont, havalenin adınıza ve doğru tutarda yapıldığını doğrular.
+                  </span>
+                </li>
+                <li className="flex gap-3 text-xs leading-relaxed text-slate-600">
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#e8f0ff] text-[10px] font-bold text-[#2D6AF6]">
+                    2
+                  </span>
+                  <span>
+                    Açıklamadaki kayıt numaranız dekontta görünürse eşleştirme hızlanır.
+                  </span>
+                </li>
+                <li className="flex gap-3 text-xs leading-relaxed text-slate-600">
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#e8f0ff] text-[10px] font-bold text-[#2D6AF6]">
+                    3
+                  </span>
+                  <span>
+                    Ekip inceler; onaydan sonra geçiş kartınız açılır.
+                  </span>
+                </li>
+              </ol>
+
+              {receiptMessage ? (
+                <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-4 text-center">
+                  <span className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">
+                    <FiCheck className="h-5 w-5" aria-hidden />
+                  </span>
+                  <p className="mt-2.5 text-sm font-semibold text-emerald-800">{receiptMessage}</p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setReceiptOpen(false);
+                      onClose();
+                    }}
+                    className="mt-3 inline-flex h-10 w-full items-center justify-center rounded-xl bg-emerald-700 text-sm font-semibold text-white hover:bg-emerald-800"
+                  >
+                    Tamam
+                  </button>
+                </div>
+              ) : (
+                <>
+                  {receiptError ? (
+                    <p className="rounded-xl bg-red-50 px-3 py-2 text-center text-xs font-medium text-red-700 ring-1 ring-red-100">
+                      {receiptError}
+                    </p>
+                  ) : null}
+                  <label
+                    className={`group flex cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50/80 px-4 py-6 text-center transition hover:border-[#2D6AF6]/45 hover:bg-[#e8f0ff]/40 ${
+                      receiptBusy ? 'pointer-events-none opacity-60' : ''
+                    }`}
+                  >
+                    <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-[#0E1548] shadow-sm ring-1 ring-slate-200/80 group-hover:text-[#2D6AF6]">
+                      <FiUpload className="h-5 w-5" aria-hidden />
+                    </span>
+                    <span className="mt-3 text-sm font-semibold text-[#0E1548]">
+                      {receiptBusy ? 'Yükleniyor…' : 'Dosya seç'}
+                    </span>
+                    <span className="mt-1 text-[11px] text-slate-500">
+                      PDF, JPG, PNG · en fazla 4 MB
+                    </span>
+                    <input
+                      type="file"
+                      accept={RECEIPT_FILE_ACCEPT}
+                      className="sr-only"
+                      disabled={receiptBusy}
+                      onChange={(event) => {
+                        const file = event.target.files?.[0];
+                        if (file) void uploadReceipt(file);
+                        event.target.value = '';
+                      }}
+                    />
+                  </label>
+                </>
+              )}
             </div>
           </div>
         </div>
