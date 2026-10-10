@@ -6,10 +6,12 @@ import { FiArrowLeft, FiCopy, FiCreditCard, FiDollarSign, FiX } from 'react-icon
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 
 type Method = 'transfer' | 'cash';
+type CopyKey = 'iban' | 'name' | 'note';
 
 type Props = {
   open: boolean;
   onClose: () => void;
+  passengerName?: string | null;
   paymentIban?: string | null;
   cashPaymentEnabled?: boolean;
   cashContactName?: string | null;
@@ -20,6 +22,7 @@ type Props = {
 export function FeePaymentModal({
   open,
   onClose,
+  passengerName = null,
   paymentIban = null,
   cashPaymentEnabled = false,
   cashContactName = null,
@@ -28,7 +31,7 @@ export function FeePaymentModal({
 }: Props) {
   const [mounted, setMounted] = useState(false);
   const [method, setMethod] = useState<Method | null>(null);
-  const [copied, setCopied] = useState(false);
+  const [copied, setCopied] = useState<CopyKey | null>(null);
 
   useBodyScrollLock(open);
 
@@ -37,7 +40,7 @@ export function FeePaymentModal({
   useEffect(() => {
     if (!open) {
       setMethod(null);
-      setCopied(false);
+      setCopied(null);
     }
   }, [open]);
 
@@ -53,12 +56,13 @@ export function FeePaymentModal({
     return () => window.removeEventListener('keydown', onKey);
   }, [open, method, onClose]);
 
-  async function copyIban() {
-    if (!paymentIban) return;
+  async function copyText(key: CopyKey, value: string, stripSpaces = false) {
+    const text = stripSpaces ? value.replace(/\s+/g, '') : value;
+    if (!text) return;
     try {
-      await navigator.clipboard.writeText(paymentIban.replace(/\s+/g, ''));
-      setCopied(true);
-      window.setTimeout(() => setCopied(false), 2000);
+      await navigator.clipboard.writeText(text);
+      setCopied(key);
+      window.setTimeout(() => setCopied((current) => (current === key ? null : current)), 2000);
     } catch {
       /* ignore */
     }
@@ -151,31 +155,29 @@ export function FeePaymentModal({
 
           {method === 'transfer' && paymentIban ? (
             <div className="space-y-3">
-              <div className="rounded-2xl bg-slate-50 px-4 py-3.5 ring-1 ring-slate-200">
-                <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
-                  IBAN
-                </p>
-                <p className="mt-1 break-all font-mono text-sm font-semibold text-[#0E1548]">
-                  {paymentIban}
-                </p>
-                <button
-                  type="button"
-                  onClick={() => void copyIban()}
-                  className="mt-2 inline-flex items-center gap-1.5 text-sm font-medium text-[#2D6AF6]"
-                >
-                  <FiCopy className="h-3.5 w-3.5" aria-hidden />
-                  {copied ? 'Kopyalandı' : 'Kopyala'}
-                </button>
-              </div>
+              <CopyCard
+                label="IBAN"
+                value={paymentIban}
+                mono
+                copied={copied === 'iban'}
+                onCopy={() => void copyText('iban', paymentIban, true)}
+              />
+              {passengerName ? (
+                <CopyCard
+                  label="Ad soyad"
+                  value={passengerName}
+                  copied={copied === 'name'}
+                  onCopy={() => void copyText('name', passengerName)}
+                />
+              ) : null}
               {registrationNo ? (
-                <div className="rounded-2xl bg-slate-50 px-4 py-3.5 ring-1 ring-slate-200">
-                  <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
-                    Açıklama
-                  </p>
-                  <p className="mt-1 font-mono text-sm font-semibold text-[#0E1548]">
-                    {registrationNo}
-                  </p>
-                </div>
+                <CopyCard
+                  label="Açıklama"
+                  value={registrationNo}
+                  mono
+                  copied={copied === 'note'}
+                  onCopy={() => void copyText('note', registrationNo)}
+                />
               ) : null}
             </div>
           ) : null}
@@ -197,5 +199,38 @@ export function FeePaymentModal({
       </div>
     </div>,
     document.body
+  );
+}
+
+function CopyCard({
+  label,
+  value,
+  mono = false,
+  copied,
+  onCopy,
+}: {
+  label: string;
+  value: string;
+  mono?: boolean;
+  copied: boolean;
+  onCopy: () => void;
+}) {
+  return (
+    <div className="rounded-2xl bg-slate-50 px-4 py-3.5 ring-1 ring-slate-200">
+      <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">{label}</p>
+      <p
+        className={`mt-1 break-all text-sm font-semibold text-[#0E1548] ${mono ? 'font-mono' : ''}`}
+      >
+        {value}
+      </p>
+      <button
+        type="button"
+        onClick={onCopy}
+        className="mt-2 inline-flex items-center gap-1.5 text-sm font-medium text-[#2D6AF6]"
+      >
+        <FiCopy className="h-3.5 w-3.5" aria-hidden />
+        {copied ? 'Kopyalandı' : 'Kopyala'}
+      </button>
+    </div>
   );
 }
