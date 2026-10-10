@@ -372,6 +372,11 @@ export function FeePaymentModal({
 
         {method === 'transfer' && paymentIban ? (
           <div className="shrink-0 border-t border-slate-100 bg-white px-5 py-3.5">
+            {!receiptMessage ? (
+              <p className="mb-2.5 text-center text-xs leading-relaxed text-slate-500">
+                Havale sonrası dekont yüklemek zorunludur. İnceleme onaylanınca geçiş kartın açılır.
+              </p>
+            ) : null}
             {receiptMessage ? (
               <p className="mb-2 text-center text-sm font-medium text-emerald-700">
                 {receiptMessage}
