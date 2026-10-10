@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { FiChevronDown, FiInfo, FiX } from 'react-icons/fi';
-import { MdFlight } from 'react-icons/md';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 import { APP_SHORT_NAME } from '@/lib/brand';
 
@@ -17,21 +16,6 @@ type Props = {
   passengerName: string;
   children: React.ReactNode;
 };
-
-/** Short code for THY-style route endpoints. */
-function routeCode(text: string, fallback: string) {
-  const cleaned = text
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/[^a-zA-Z0-9\s]/g, ' ')
-    .trim();
-  const words = cleaned.split(/\s+/).filter(Boolean);
-  if (words.length >= 2) {
-    return (words[0].slice(0, 1) + words[1].slice(0, 2)).toUpperCase();
-  }
-  if (words[0]?.length >= 3) return words[0].slice(0, 3).toUpperCase();
-  return fallback;
-}
 
 /** THY-style event entry card + collapsible details for registered students. */
 export function RegisteredEventExtras({
@@ -106,9 +90,6 @@ export function RegisteredEventExtras({
 
   const qrSrc = token ? `/api/qr?token=${encodeURIComponent(token)}` : null;
   const fromLabel = location.split(',')[0]?.trim() || location;
-  const toLabel = eventTitle;
-  const fromCode = routeCode(fromLabel, 'LOC');
-  const toCode = routeCode(toLabel, 'EVT');
 
   const modal =
     mounted && qrOpen
@@ -148,42 +129,6 @@ export function RegisteredEventExtras({
                   <p className="truncate text-[12px] font-semibold tracking-wide">
                     {eventTitle}
                   </p>
-                </div>
-
-                <div className="mt-4 grid grid-cols-[1fr_auto_1fr] items-start gap-1 px-1 text-white">
-                  <div className="min-w-0">
-                    <p className="text-[2.15rem] font-black leading-none tracking-tight">
-                      {fromCode}
-                    </p>
-                    <p className="mt-1.5 truncate text-[11px] font-medium text-white/90">
-                      {fromLabel}
-                    </p>
-                    <p className="mt-0.5 text-[11px] text-white/75">{dateLabel}</p>
-                  </div>
-
-                  <div className="flex flex-col items-center px-1.5 pt-1">
-                    <p className="max-w-[7.5rem] truncate text-center text-[11px] font-bold tracking-wide">
-                      {registrationNo}
-                    </p>
-                    <div className="mt-2 flex w-full min-w-[78px] items-center gap-1">
-                      <span className="h-px flex-1 border-t border-dashed border-white/60" />
-                      <MdFlight className="h-4 w-4 rotate-90 text-white" aria-hidden />
-                      <span className="h-px flex-1 border-t border-dashed border-white/60" />
-                    </div>
-                    <p className="mt-2 text-[10px] font-semibold uppercase tracking-wider text-white/80">
-                      Giriş
-                    </p>
-                  </div>
-
-                  <div className="min-w-0 text-right">
-                    <p className="text-[2.15rem] font-black leading-none tracking-tight">
-                      {toCode}
-                    </p>
-                    <p className="mt-1.5 truncate text-[11px] font-medium text-white/90">
-                      {toLabel}
-                    </p>
-                    <p className="mt-0.5 text-[11px] text-white/75">Etkinlik</p>
-                  </div>
                 </div>
 
                 {/* Passenger white card */}
