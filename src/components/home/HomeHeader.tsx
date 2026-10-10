@@ -20,7 +20,7 @@ const PUBLIC_LINKS = [
 
 const STUDENT_LINKS = [
   { href: '/etkinlikler', label: 'Etkinlikler', icon: FiCalendar },
-  { href: '/kayitlarim', label: 'Kayıtlarım', icon: FiClipboard },
+  { href: '/kayitlarim', label: 'Etkinliklerim', icon: FiClipboard },
   { href: '/qr', label: 'QR kodum', icon: MdQrCode },
   { href: '/profil', label: 'Profil', icon: FiUser },
   { href: '/ekip', label: 'Ekip üyeleri', icon: FiUsers },
