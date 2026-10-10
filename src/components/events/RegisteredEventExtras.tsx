@@ -115,13 +115,7 @@ export function RegisteredEventExtras({
   const fromLabel = location.split(',')[0]?.trim() || location;
   const cardTitle = checkCard?.completed
     ? 'Tamamlandı'
-    : checkCard?.name || 'Geçiş kartı'
-  const cardStep =
-    checkCard && checkCard.total > 0
-      ? checkCard.completed
-        ? `${checkCard.total}/${checkCard.total}`
-        : `${checkCard.index + 1}/${checkCard.total}`
-      : null;
+    : checkCard?.name || 'Geçiş kartı';
 
   const modal =
     mounted && qrOpen
@@ -139,14 +133,7 @@ export function RegisteredEventExtras({
               onClick={(event) => event.stopPropagation()}
             >
               <div className="mb-3 flex items-center justify-between px-1">
-                <div>
-                  <p className="text-sm font-bold tracking-[0.06em] text-white">ETKİNLİK KARTI</p>
-                  {cardStep ? (
-                    <p className="mt-0.5 text-[11px] font-medium text-white/70">
-                      Kart {cardStep}
-                    </p>
-                  ) : null}
-                </div>
+                <p className="text-sm font-bold tracking-[0.06em] text-white">ETKİNLİK KARTI</p>
                 <button
                   type="button"
                   aria-label="Kapat"
@@ -158,14 +145,13 @@ export function RegisteredEventExtras({
               </div>
 
               <div className="overflow-hidden rounded-[1.25rem] bg-gradient-to-b from-[#E30613] via-[#C70A2C] to-[#6B0A1A] p-3 shadow-2xl shadow-black/50">
-                <div className="flex items-center gap-2 px-1 pt-1 text-white">
-                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white/20 text-[10px] font-black">
+                <div className="px-1.5 pb-1 pt-1.5 text-white">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/70">
                     {APP_SHORT_NAME}
-                  </span>
-                  <div className="min-w-0">
-                    <p className="truncate text-[12px] font-semibold tracking-wide">{eventTitle}</p>
-                    <p className="truncate text-[11px] font-medium text-white/80">{cardTitle}</p>
-                  </div>
+                  </p>
+                  <p className="mt-1 truncate text-lg font-bold leading-tight tracking-tight">
+                    {eventTitle}
+                  </p>
                 </div>
 
                 <div className="mt-4 rounded-xl bg-white px-3.5 py-3 shadow-sm">
