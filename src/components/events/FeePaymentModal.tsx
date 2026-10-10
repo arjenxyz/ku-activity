@@ -426,10 +426,18 @@ export function FeePaymentModal({
               <p className="rounded-xl bg-amber-50 px-3 py-2 text-center text-xs font-semibold text-amber-800 ring-1 ring-amber-200/80">
                 Dekont yüklemek zorunlu
               </p>
-              <p className="text-center text-xs leading-relaxed text-slate-600">
-                Havale kanıtı olmadan ödeme onaylanamaz; inceleme sonrası geçiş kartın açılır.
-              </p>
-              <p className="text-center text-xs text-slate-500">PDF veya görsel</p>
+              <div className="space-y-2 text-left text-xs leading-relaxed text-slate-600">
+                <p>
+                  Banka dekontu, havalenin sizin adınıza ve doğru tutarda yapıldığını doğrulamak
+                  için gereklidir. Açıklama alanındaki kayıt numaranızın dekontta görünmesi
+                  eşleştirmeyi hızlandırır.
+                </p>
+                <p>
+                  Yüklenen belge organizasyon ekibi tarafından incelenir. Onaylandıktan sonra
+                  geçiş kartınız açılır; dekont olmadan ödeme tamamlanmış sayılmaz.
+                </p>
+              </div>
+              <p className="text-center text-xs text-slate-500">PDF veya görsel · en fazla 4 MB</p>
               {receiptMessage ? (
                 <p className="text-center text-sm font-medium text-emerald-700">{receiptMessage}</p>
               ) : null}
