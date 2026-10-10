@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { FiCalendar, FiChevronDown, FiInfo, FiMapPin, FiX } from 'react-icons/fi';
+import { FiChevronDown, FiInfo, FiX } from 'react-icons/fi';
+import { MdFlight } from 'react-icons/md';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 import { APP_SHORT_NAME } from '@/lib/brand';
 
@@ -17,7 +18,22 @@ type Props = {
   children: React.ReactNode;
 };
 
-/** Check-in entry card modal + collapsible details for registered students. */
+/** Short code for THY-style route endpoints. */
+function routeCode(text: string, fallback: string) {
+  const cleaned = text
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-zA-Z0-9\s]/g, ' ')
+    .trim();
+  const words = cleaned.split(/\s+/).filter(Boolean);
+  if (words.length >= 2) {
+    return (words[0].slice(0, 1) + words[1].slice(0, 2)).toUpperCase();
+  }
+  if (words[0]?.length >= 3) return words[0].slice(0, 3).toUpperCase();
+  return fallback;
+}
+
+/** THY-style event entry card + collapsible details for registered students. */
 export function RegisteredEventExtras({
   eventId,
   registrationId,
@@ -89,12 +105,10 @@ export function RegisteredEventExtras({
   }, [qrOpen]);
 
   const qrSrc = token ? `/api/qr?token=${encodeURIComponent(token)}` : null;
-  const nameParts = passengerName.trim().split(/\s+/).filter(Boolean);
-  const initials = (
-    nameParts.length >= 2
-      ? `${nameParts[0][0]}${nameParts[nameParts.length - 1][0]}`
-      : passengerName.slice(0, 2)
-  ).toLocaleUpperCase('tr-TR');
+  const fromLabel = location.split(',')[0]?.trim() || location;
+  const toLabel = eventTitle;
+  const fromCode = routeCode(fromLabel, 'LOC');
+  const toCode = routeCode(toLabel, 'EVT');
 
   const modal =
     mounted && qrOpen
@@ -107,103 +121,153 @@ export function RegisteredEventExtras({
             onClick={() => setQrOpen(false)}
           >
             <div
-              className="relative w-full max-w-[360px] overflow-hidden rounded-[1.35rem] bg-white shadow-2xl shadow-black/50"
+              className="relative w-full max-w-[380px]"
               data-scroll-lock-allow=""
               onClick={(event) => event.stopPropagation()}
             >
-              <div className="relative overflow-hidden bg-gradient-to-br from-[#0E1548] via-[#1a3a7a] to-[#2D6AF6] px-4 pb-5 pt-3.5 text-white">
-                <div className="absolute -right-10 -top-12 h-36 w-36 rounded-full bg-sky-300/25 blur-3xl" />
-                <div className="absolute -bottom-14 left-6 h-32 w-32 rounded-full bg-white/10 blur-3xl" />
-                <div className="absolute inset-0 opacity-[0.1] [background-image:radial-gradient(circle_at_1px_1px,#fff_1px,transparent_0)] [background-size:14px_14px]" />
-
-                <div className="relative flex items-start justify-between gap-3">
-                  <div className="min-w-0">
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/70">
-                      {APP_SHORT_NAME} · Giriş kartı
-                    </p>
-                    <h2 className="mt-2 text-xl font-bold leading-snug tracking-tight">
-                      {eventTitle}
-                    </h2>
-                  </div>
-                  <button
-                    type="button"
-                    aria-label="Kapat"
-                    onClick={() => setQrOpen(false)}
-                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/15 text-white hover:bg-white/25"
-                  >
-                    <FiX className="h-4 w-4" aria-hidden />
-                  </button>
-                </div>
-
-                <div className="relative mt-4 space-y-1.5 text-[12px] text-white/85">
-                  <p className="flex items-center gap-1.5">
-                    <FiCalendar className="h-3.5 w-3.5 shrink-0 opacity-80" aria-hidden />
-                    <span>{dateLabel}</span>
-                  </p>
-                  <p className="flex items-center gap-1.5">
-                    <FiMapPin className="h-3.5 w-3.5 shrink-0 opacity-80" aria-hidden />
-                    <span className="truncate">{location}</span>
-                  </p>
-                </div>
+              <div className="mb-3 flex items-center justify-between px-1">
+                <p className="text-sm font-bold tracking-[0.06em] text-white">
+                  ETKİNLİK GİRİŞ KARTI
+                </p>
+                <button
+                  type="button"
+                  aria-label="Kapat"
+                  onClick={() => setQrOpen(false)}
+                  className="flex h-9 w-9 items-center justify-center rounded-full bg-white/15 text-white hover:bg-white/25"
+                >
+                  <FiX className="h-4 w-4" aria-hidden />
+                </button>
               </div>
 
-              <div className="px-4 py-4">
-                <div className="flex items-center gap-3 rounded-2xl border border-slate-200/80 bg-gradient-to-r from-slate-50 to-white px-3 py-3">
-                  <div
-                    className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#0E1548] text-sm font-bold tracking-wide text-white"
-                    aria-hidden
-                  >
-                    {initials}
+              {/* Full red pass — THY layout */}
+              <div className="overflow-hidden rounded-[1.25rem] bg-gradient-to-b from-[#E30613] via-[#C70A2C] to-[#6B0A1A] p-3 shadow-2xl shadow-black/50">
+                <div className="flex items-center gap-2 px-1 pt-1 text-white">
+                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white/20 text-[10px] font-black">
+                    {APP_SHORT_NAME}
+                  </span>
+                  <p className="text-[12px] font-semibold tracking-wide">
+                    Event Management System
+                  </p>
+                </div>
+
+                <div className="mt-4 grid grid-cols-[1fr_auto_1fr] items-start gap-1 px-1 text-white">
+                  <div className="min-w-0">
+                    <p className="text-[2.15rem] font-black leading-none tracking-tight">
+                      {fromCode}
+                    </p>
+                    <p className="mt-1.5 truncate text-[11px] font-medium text-white/90">
+                      {fromLabel}
+                    </p>
+                    <p className="mt-0.5 text-[11px] text-white/75">{dateLabel}</p>
                   </div>
-                  <div className="min-w-0 flex-1">
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400">
-                      Katılımcı
-                    </p>
-                    <p className="mt-0.5 truncate text-base font-bold tracking-tight text-[#0E1548]">
-                      {passengerName}
-                    </p>
-                    <p className="mt-1 inline-flex max-w-full items-center rounded-md bg-slate-100 px-2 py-0.5 font-mono text-[11px] font-semibold text-slate-600">
+
+                  <div className="flex flex-col items-center px-1.5 pt-1">
+                    <p className="max-w-[7.5rem] truncate text-center text-[11px] font-bold tracking-wide">
                       {registrationNo}
                     </p>
-                  </div>
-                </div>
-
-                <div className="mt-4 flex flex-col items-center">
-                  <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-3 ring-1 ring-slate-100">
-                    {loading ? (
-                      <div className="h-44 w-44 animate-pulse rounded-xl bg-slate-200/80" />
-                    ) : error ? (
-                      <div className="flex h-44 w-44 items-center justify-center px-3 text-center text-sm text-red-600">
-                        {error}
-                      </div>
-                    ) : qrSrc ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        src={qrSrc}
-                        alt="Giriş QR kodu"
-                        width={176}
-                        height={176}
-                        className="h-44 w-44 rounded-lg bg-white"
-                      />
-                    ) : null}
-                  </div>
-
-                  {manualCode && !loading && !error ? (
-                    <div className="mt-3 text-center">
-                      <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-400">
-                        Manuel kod
-                      </p>
-                      <p className="mt-1 font-mono text-xl font-bold tracking-[0.18em] text-[#C70A2C]">
-                        {manualCode}
-                      </p>
+                    <div className="mt-2 flex w-full min-w-[78px] items-center gap-1">
+                      <span className="h-px flex-1 border-t border-dashed border-white/60" />
+                      <MdFlight className="h-4 w-4 rotate-90 text-white" aria-hidden />
+                      <span className="h-px flex-1 border-t border-dashed border-white/60" />
                     </div>
-                  ) : null}
+                    <p className="mt-2 text-[10px] font-semibold uppercase tracking-wider text-white/80">
+                      Giriş
+                    </p>
+                  </div>
+
+                  <div className="min-w-0 text-right">
+                    <p className="text-[2.15rem] font-black leading-none tracking-tight">
+                      {toCode}
+                    </p>
+                    <p className="mt-1.5 truncate text-[11px] font-medium text-white/90">
+                      {toLabel}
+                    </p>
+                    <p className="mt-0.5 text-[11px] text-white/75">Etkinlik</p>
+                  </div>
                 </div>
 
-                <div className="mt-4 flex items-start gap-2 rounded-xl bg-[#FFF5F5] px-3 py-2.5">
-                  <FiInfo className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#C70A2C]" aria-hidden />
-                  <p className="text-[11px] leading-snug text-slate-600">
-                    Bu kartı yalnızca yetkili personele gösterin.
+                {/* Passenger white card */}
+                <div className="mt-4 rounded-xl bg-white px-3.5 py-3 shadow-sm">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400">
+                    Yolcu
+                  </p>
+                  <p className="mt-1 text-[1.05rem] font-black uppercase leading-snug tracking-wide text-[#111827]">
+                    {passengerName.toLocaleUpperCase('tr-TR')}
+                  </p>
+                  <p className="mt-1 text-[11px] font-medium text-slate-500">
+                    {registrationNo} / ÖĞRENCİ
+                  </p>
+                </div>
+
+                {/* Logistics + QR white card */}
+                <div className="mt-2.5 rounded-xl bg-white px-3.5 py-3 shadow-sm">
+                  <div className="flex items-start gap-3">
+                    <div className="grid min-w-0 flex-1 grid-cols-2 gap-x-3 gap-y-3.5">
+                      <div>
+                        <p className="text-[9px] font-semibold uppercase tracking-[0.12em] text-slate-400">
+                          Yer
+                        </p>
+                        <p className="mt-0.5 truncate text-[15px] font-bold uppercase text-[#111827]">
+                          {fromLabel}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-[9px] font-semibold uppercase tracking-[0.12em] text-slate-400">
+                          Tarih
+                        </p>
+                        <p className="mt-0.5 text-[13px] font-bold uppercase leading-snug text-[#111827]">
+                          {dateLabel}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-[9px] font-semibold uppercase tracking-[0.12em] text-slate-400">
+                          Kayıt no
+                        </p>
+                        <p className="mt-0.5 font-mono text-[12px] font-bold text-[#111827]">
+                          {registrationNo}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-[9px] font-semibold uppercase tracking-[0.12em] text-slate-400">
+                          Manuel
+                        </p>
+                        <p className="mt-0.5 font-mono text-[15px] font-black tracking-wide text-[#C70A2C]">
+                          {loading ? '······' : (manualCode ?? '—')}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="shrink-0 rounded-lg bg-white p-1">
+                      {loading ? (
+                        <div className="h-[112px] w-[112px] animate-pulse rounded bg-slate-100" />
+                      ) : error ? (
+                        <div className="flex h-[112px] w-[112px] items-center justify-center px-2 text-center text-[10px] text-red-600">
+                          {error}
+                        </div>
+                      ) : qrSrc ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={qrSrc}
+                          alt="Giriş QR kodu"
+                          width={112}
+                          height={112}
+                          className="h-[112px] w-[112px] bg-white"
+                        />
+                      ) : null}
+                    </div>
+                  </div>
+
+                  <div className="mt-3 flex items-start gap-2 border-t border-slate-100 pt-2.5">
+                    <FiInfo className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#C70A2C]" aria-hidden />
+                    <p className="text-[11px] leading-snug text-slate-600">
+                      Bu kartı yalnızca yetkili personele gösterin.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="mt-3 px-1 pb-1 text-center">
+                  <p className="text-[9px] font-bold uppercase tracking-[0.22em] text-white/85">
+                    {APP_SHORT_NAME} · Event check-in
                   </p>
                 </div>
               </div>
