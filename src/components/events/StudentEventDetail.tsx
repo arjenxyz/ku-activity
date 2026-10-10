@@ -43,6 +43,7 @@ type Props = {
   open: boolean;
   mine: DemoRegistration | null;
   isStudent: boolean;
+  studentNo?: string | null;
 };
 
 export function StudentEventDetail({
@@ -52,6 +53,7 @@ export function StudentEventDetail({
   open,
   mine,
   isStudent,
+  studentNo = null,
 }: Props) {
   const theme = themeFor(event.id);
   const dateLabel =
@@ -138,6 +140,7 @@ export function StudentEventDetail({
             eventId={event.id}
             registrationId={mine.id}
             registrationNo={mine.registrationNo}
+            studentNo={studentNo}
             eventTitle={event.title}
             location={event.location}
             dateLabel={dateLabel}

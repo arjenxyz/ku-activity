@@ -8,6 +8,7 @@ import {
   listRegistrationsForOwner,
   ownerKeyForRole,
 } from '@/lib/demo/registrations-store';
+import { getDemoProfile } from '@/lib/demo/profiles-store';
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -26,6 +27,8 @@ export default async function EventDetailPage({ params }: Props) {
           (row) => row.eventId === event.id && row.status !== 'cancelled'
         )
       : null;
+  const studentNo =
+    session?.role === 'student' ? getDemoProfile('student')?.studentNo ?? null : null;
 
   return (
     <div className="min-h-[100dvh] bg-[#e7f3fb] px-4 pb-12 pt-[calc(var(--home-chrome-h,4.5rem)+2rem)] text-slate-900 sm:px-8">
@@ -37,6 +40,7 @@ export default async function EventDetailPage({ params }: Props) {
         open={open}
         mine={mine ?? null}
         isStudent={session?.role === 'student'}
+        studentNo={studentNo}
       />
     </div>
   );

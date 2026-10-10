@@ -18,6 +18,7 @@ type Props = {
   eventId: string;
   registrationId: string;
   registrationNo: string;
+  studentNo?: string | null;
   eventTitle: string;
   location: string;
   dateLabel: string;
@@ -30,6 +31,7 @@ export function RegisteredEventExtras({
   eventId,
   registrationId,
   registrationNo,
+  studentNo = null,
   eventTitle,
   location,
   dateLabel,
@@ -183,7 +185,7 @@ export function RegisteredEventExtras({
                   </p>
                   <div className="mt-2 flex flex-wrap items-center gap-2">
                     <span className="rounded-md bg-slate-100 px-2 py-0.5 font-mono text-[11px] font-semibold text-slate-600">
-                      {registrationNo}
+                      {studentNo || '—'}
                     </span>
                     <span className="rounded-md bg-[#FFF1F2] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-[#C70A2C]">
                       Öğrenci
@@ -229,10 +231,10 @@ export function RegisteredEventExtras({
                         </div>
                         <div className="text-right">
                           <p className="text-[9px] font-semibold uppercase tracking-[0.12em] text-slate-400">
-                            Kayıt
+                            Öğrenci no
                           </p>
                           <p className="mt-0.5 font-mono text-sm font-bold text-[#111827]">
-                            {registrationNo}
+                            {studentNo || '—'}
                           </p>
                         </div>
                       </div>
