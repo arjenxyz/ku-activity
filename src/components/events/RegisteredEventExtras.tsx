@@ -113,7 +113,6 @@ export function RegisteredEventExtras({
                     <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-white/80">
                       Event check-in
                     </p>
-                    <p className="mt-1 text-lg font-bold tracking-tight">BOARDING PASS</p>
                   </div>
                   <button
                     type="button"
