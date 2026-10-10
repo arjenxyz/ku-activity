@@ -116,7 +116,7 @@ export function RegisteredEventExtras({
           <div
             role="dialog"
             aria-modal="true"
-            aria-label="Boarding pass"
+            aria-label="Etkinlik giriş kartı"
             className="fixed inset-0 z-[100] flex items-center justify-center bg-[#1a1f36]/92 px-3 py-5 backdrop-blur-md sm:px-5"
             onClick={() => setQrOpen(false)}
           >
@@ -126,19 +126,21 @@ export function RegisteredEventExtras({
               onClick={(event) => event.stopPropagation()}
             >
               {/* App chrome — like THY “BOARDING PASS” header */}
-              <div className="mb-3 flex items-center justify-between px-1 text-white">
-                <p className="text-sm font-bold tracking-[0.08em]">BOARDING PASS</p>
-                <button
-                  type="button"
-                  aria-label="Kapat"
-                  onClick={() => setQrOpen(false)}
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20"
-                >
-                  <FiX className="h-4 w-4" aria-hidden />
-                </button>
-              </div>
-
               <div className="overflow-hidden rounded-2xl bg-white shadow-2xl shadow-black/50">
+                <div className="flex items-center justify-between px-4 pb-2 pt-3">
+                  <p className="text-sm font-bold tracking-[0.08em] text-black">
+                    ETKİNLİK GİRİŞ KARTI
+                  </p>
+                  <button
+                    type="button"
+                    aria-label="Kapat"
+                    onClick={() => setQrOpen(false)}
+                    className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-black hover:bg-slate-200"
+                  >
+                    <FiX className="h-4 w-4" aria-hidden />
+                  </button>
+                </div>
+
                 {/* Red route header */}
                 <div className="bg-[#C70A2C] px-4 pb-4 pt-3.5 text-white">
                   <div className="flex items-center gap-2">
