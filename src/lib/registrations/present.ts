@@ -1,6 +1,9 @@
 import type { DemoRegistration } from '@/lib/demo/registrations-store';
 import { emptyPlanning, formatFeeTry } from '@/lib/events/catalog';
 import { getCatalogEvent } from '@/lib/events/catalog-store';
+import { isRegistrationFeeCleared } from '@/lib/payments/fee-gate';
+
+export { isRegistrationFeeCleared } from '@/lib/payments/fee-gate';
 
 export function attendanceLabel(reg: DemoRegistration) {
   if (reg.status === 'cancelled') return 'İptal';
@@ -16,8 +19,9 @@ export function presentRegistration(reg: DemoRegistration) {
   const event = getCatalogEvent(reg.eventId);
   const pricing = event?.planning?.pricing ?? emptyPlanning().pricing;
   const feeAmount = pricing.feeAmount;
-  const needsPayment =
-    reg.status !== 'cancelled' && typeof feeAmount === 'number' && feeAmount > 0;
+  const hasFee = typeof feeAmount === 'number' && feeAmount > 0;
+  const feeCleared = isRegistrationFeeCleared(reg);
+  const needsPayment = reg.status !== 'cancelled' && hasFee && !feeCleared;
 
   return {
     id: reg.id,
@@ -33,13 +37,14 @@ export function presentRegistration(reg: DemoRegistration) {
     activityIds: reg.activityIds,
     registeredAt: reg.registeredAt,
     attendanceCount: reg.attendance.length,
-    canShowQr: reg.status === 'confirmed',
+    canShowQr: reg.status === 'confirmed' && feeCleared,
     canCancel:
       reg.status !== 'cancelled' &&
       Boolean(event && new Date() <= new Date(event.registrationDeadlineIso)),
     needsPayment,
+    feeCleared,
     feeAmount,
-    feeLabel: needsPayment ? formatFeeTry(feeAmount) : null,
+    feeLabel: hasFee ? formatFeeTry(feeAmount) : null,
     feeNotes: pricing.feeNotes || null,
     paymentIban: pricing.paymentIban || null,
     cashPaymentEnabled: Boolean(pricing.cashPaymentEnabled),

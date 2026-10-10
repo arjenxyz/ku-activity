@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
+import Link from 'next/link';
 import { createPortal } from 'react-dom';
 import { FiCheck, FiChevronDown, FiInfo, FiX } from 'react-icons/fi';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
@@ -23,6 +24,9 @@ type Props = {
   location: string;
   dateLabel: string;
   passengerName: string;
+  /** When true, CTA becomes pay link and pass modal stays closed. */
+  needsPayment?: boolean;
+  feeLabel?: string | null;
   children: React.ReactNode;
 };
 
@@ -36,6 +40,8 @@ export function RegisteredEventExtras({
   location,
   dateLabel,
   passengerName,
+  needsPayment = false,
+  feeLabel = null,
   children,
 }: Props) {
   const [detailsOpen, setDetailsOpen] = useState(false);
@@ -93,17 +99,18 @@ export function RegisteredEventExtras({
   );
 
   useEffect(() => {
+    if (needsPayment) return;
     void loadPass({ silent: true });
-  }, [loadPass]);
+  }, [loadPass, needsPayment]);
 
   useEffect(() => {
-    if (!qrOpen) return;
+    if (!qrOpen || needsPayment) return;
     void loadPass();
     const timer = window.setInterval(() => {
       void loadPass({ silent: true });
     }, 2500);
     return () => window.clearInterval(timer);
-  }, [qrOpen, loadPass]);
+  }, [qrOpen, loadPass, needsPayment]);
 
   useEffect(() => {
     if (!qrOpen) return;
@@ -370,13 +377,22 @@ export function RegisteredEventExtras({
 
   return (
     <div className="space-y-4 px-5 py-5 sm:px-6">
-      <button
-        type="button"
-        onClick={() => setQrOpen(true)}
-        className="flex h-11 w-full items-center justify-center rounded-xl bg-[#C70A2C] text-sm font-bold uppercase tracking-wide text-white hover:bg-[#A80824]"
-      >
-        {completed ? 'Teşekkürler' : checkCard?.name || 'Geçiş kartı'}
-      </button>
+      {needsPayment ? (
+        <Link
+          href={`/kayitlarim?highlight=${encodeURIComponent(registrationId)}`}
+          className="flex h-11 w-full items-center justify-center rounded-xl bg-[#E8770A] text-sm font-bold uppercase tracking-wide text-white hover:bg-[#CF6A09]"
+        >
+          Ücreti öde{feeLabel ? ` · ${feeLabel}` : ''}
+        </Link>
+      ) : (
+        <button
+          type="button"
+          onClick={() => setQrOpen(true)}
+          className="flex h-11 w-full items-center justify-center rounded-xl bg-[#C70A2C] text-sm font-bold uppercase tracking-wide text-white hover:bg-[#A80824]"
+        >
+          {completed ? 'Teşekkürler' : checkCard?.name || 'Geçiş kartı'}
+        </button>
+      )}
 
       <button
         type="button"
@@ -392,7 +408,7 @@ export function RegisteredEventExtras({
       </button>
 
       {detailsOpen ? <div className="space-y-8 pt-1">{children}</div> : null}
-      {modal}
+      {needsPayment ? null : modal}
     </div>
   );
 }

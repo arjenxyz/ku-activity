@@ -6,6 +6,7 @@ import {
   getRegistration,
   ownerKeyForRole,
 } from '@/lib/demo/registrations-store';
+import { isRegistrationFeeCleared } from '@/lib/payments/fee-gate';
 
 type Params = { params: Promise<{ id: string }> };
 
@@ -27,6 +28,12 @@ export async function GET(request: Request, { params }: Params) {
   }
   if (row.status !== 'confirmed') {
     return NextResponse.json({ error: 'Bu kayıt için QR yok' }, { status: 400 });
+  }
+  if (!isRegistrationFeeCleared(row)) {
+    return NextResponse.json(
+      { error: 'Ücret onayı verilmeden geçiş kartı açılamaz' },
+      { status: 403 }
+    );
   }
   try {
     const progress = getCheckCardProgress(row);

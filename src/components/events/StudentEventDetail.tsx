@@ -12,6 +12,7 @@ import { JoinApplyButton } from '@/components/events/JoinApplyButton';
 import { RegisteredEventExtras } from '@/components/events/RegisteredEventExtras';
 import type { CatalogEvent } from '@/lib/events/catalog';
 import type { DemoRegistration } from '@/lib/demo/registrations-store';
+import { presentRegistration } from '@/lib/registrations/present';
 
 const THEMES: Record<string, { band: string; glow: string; mark: string }> = {
   'abana-2027': {
@@ -60,6 +61,7 @@ export function StudentEventDetail({
     event.startsAt === event.endsAt ? event.startsAt : `${event.startsAt} – ${event.endsAt}`;
   const fill = Math.min(100, Math.round((taken / Math.max(1, event.capacity)) * 100));
   const dayCount = event.days.length;
+  const presentedMine = mine ? presentRegistration(mine) : null;
 
   return (
     <div className="mx-auto w-full max-w-3xl">
@@ -145,6 +147,8 @@ export function StudentEventDetail({
             location={event.location}
             dateLabel={dateLabel}
             passengerName={mine.ownerName}
+            needsPayment={presentedMine?.needsPayment}
+            feeLabel={presentedMine?.feeLabel}
           >
             <EventDetailBody event={event} />
             <div className="border-t border-slate-100 pt-4">

@@ -117,7 +117,7 @@ export function MyRegistrationsClient() {
                   type="button"
                   aria-expanded={payOpen}
                   onClick={() => setPayOpenId(payOpen ? null : row.id)}
-                  className="inline-flex items-center gap-1.5 rounded-2xl bg-[#C70A2C] px-3 py-2 text-sm font-medium text-white"
+                  className="inline-flex items-center gap-1.5 rounded-2xl bg-[#E8770A] px-3 py-2 text-sm font-medium text-white"
                 >
                   Ücreti öde
                   {row.feeLabel ? ` · ${row.feeLabel}` : ''}

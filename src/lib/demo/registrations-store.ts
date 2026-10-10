@@ -10,6 +10,8 @@ import {
 import { DEMO_CHECKIN_TOKEN } from '@/lib/demo/data';
 import { normalizeCheckCards, type EventCheckCard } from '@/lib/events/catalog';
 import { getCatalogEvent } from '@/lib/events/catalog-store';
+import { isRegistrationFeeCleared } from '@/lib/payments/fee-gate';
+import { ensurePaymentParticipant } from '@/lib/payments/payment-store';
 import type { AppRole } from '@/lib/auth/roles';
 
 export type RegistrationStatus = 'pending' | 'confirmed' | 'cancelled';
@@ -208,6 +210,18 @@ export function createRegistration(input: {
     checkCardScans: [],
   };
   s.regs.set(row.id, row);
+
+  const feeAmount = event.planning?.pricing?.feeAmount;
+  if (typeof feeAmount === 'number' && feeAmount > 0) {
+    ensurePaymentParticipant({
+      eventId: event.id,
+      eventTitle: event.title,
+      registrationNo: row.registrationNo,
+      name: row.ownerName,
+      paymentAmount: feeAmount,
+    });
+  }
+
   return row;
 }
 
@@ -235,6 +249,9 @@ export function recordCheckIn(input: {
   if (row.eventId !== input.eventId) throw new Error('Bu kod bu etkinliğe ait değil');
   if (row.status === 'cancelled') throw new Error('Kayıt iptal edilmiş');
   if (row.status === 'pending') throw new Error('Kayıt henüz onaylanmadı');
+  if (!isRegistrationFeeCleared(row)) {
+    throw new Error('Ücret onayı olmadan giriş yapılamaz');
+  }
 
   const progress = getCheckCardProgress(row);
   const now = new Date().toISOString();

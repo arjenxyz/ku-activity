@@ -16,16 +16,16 @@ type Store = {
 };
 
 function store(): Store {
-  const g = globalThis as typeof globalThis & { __emsPaymentStoreV2?: Store };
-  if (!g.__emsPaymentStoreV2) {
-    g.__emsPaymentStoreV2 = {
+  const g = globalThis as typeof globalThis & { __emsPaymentStoreV3?: Store };
+  if (!g.__emsPaymentStoreV3) {
+    g.__emsPaymentStoreV3 = {
       participants: structuredClone(DEMO_PARTICIPANTS),
       claims: structuredClone(DEMO_PAYMENT_CLAIMS),
       handoffs: [],
       custody: [],
     };
   }
-  return g.__emsPaymentStoreV2;
+  return g.__emsPaymentStoreV3;
 }
 
 function nowIso() {
@@ -50,6 +50,48 @@ export function getParticipant(eventId: string, registrationNo: string) {
     (item) => item.eventId === eventId && item.registrationNo === decoded
   );
   return row ? { ...row } : null;
+}
+
+/** Ensure a payment row exists for a newly created registration (pending until approved). */
+export function ensurePaymentParticipant(input: {
+  eventId: string;
+  eventTitle: string;
+  registrationNo: string;
+  name: string;
+  paymentAmount: number;
+}) {
+  const existing = store().participants.find(
+    (item) => item.eventId === input.eventId && item.registrationNo === input.registrationNo
+  );
+  if (existing) return { ...existing };
+
+  const prefix = input.registrationNo.split('-')[0] || 'EMS';
+  const code = `${prefix}-${Math.random().toString(36).slice(2, 6).toUpperCase()}`;
+  const row: DemoParticipant = {
+    registrationNo: input.registrationNo,
+    name: input.name,
+    studentNo: '',
+    department: '',
+    classYear: '',
+    eventId: input.eventId,
+    event: input.eventTitle,
+    registeredAt: new Date().toLocaleDateString('tr-TR'),
+    attendance: 'Bekliyor',
+    day: '',
+    isDemoStudent: false,
+    phone: '',
+    email: '',
+    paymentCode: code,
+    paymentStatus: input.paymentAmount > 0 ? 'pending' : 'paid',
+    paymentAmount: Math.max(0, input.paymentAmount),
+    paidAmount: 0,
+    paymentMethod: '',
+    paymentNote: '',
+    custodianStaffId: null,
+    custodianName: null,
+  };
+  store().participants.unshift(row);
+  return { ...row };
 }
 
 function mutateParticipant(
