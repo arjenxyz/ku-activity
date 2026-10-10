@@ -117,7 +117,6 @@ export function FeePaymentModal({
         <div className="overflow-y-auto px-5 py-5">
           {!method ? (
             <div className="space-y-2.5">
-              <p className="text-sm text-slate-500">Ödeme yöntemi seç</p>
               {hasTransfer ? (
                 <button
                   type="button"
