@@ -208,44 +208,66 @@ export function FeePaymentModal({
   const hasTransfer = Boolean(paymentIban);
   const hasCash = Boolean(cashPaymentEnabled);
   const hasAny = hasTransfer || hasCash;
+  const headerTitle =
+    method === 'transfer'
+      ? 'Havale / EFT'
+      : method === 'cash'
+        ? 'Elden ödeme'
+        : 'Ödeme yöntemi seç';
+  const headerSubtitle =
+    method === 'transfer'
+      ? 'Banka bilgileri · dekont zorunlu'
+      : method === 'cash'
+        ? 'Nakit teslim · QR ile onay'
+        : feeLabel
+          ? `Tutar ${feeLabel}`
+          : 'Katılım ücretini tamamla';
+  const HeaderIcon =
+    method === 'transfer' ? FiCreditCard : method === 'cash' ? FiDollarSign : FiFileText;
 
   return createPortal(
     <div className="fixed inset-0 z-[80] flex items-center justify-center p-4">
-      <div className="absolute inset-0 bg-slate-950/50 backdrop-blur-[2px]" aria-hidden />
+      <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-sm" aria-hidden />
       <div
         role="dialog"
         aria-modal="true"
         aria-labelledby="fee-pay-title"
-        className="relative z-[1] flex max-h-[min(92dvh,40rem)] w-full max-w-md flex-col overflow-hidden rounded-3xl bg-white shadow-2xl"
+        className="relative z-[1] flex max-h-[min(92dvh,40rem)] w-full max-w-md flex-col overflow-hidden rounded-[1.5rem] bg-white shadow-2xl shadow-slate-950/25"
       >
-        <div className="flex items-center justify-between gap-2 border-b border-slate-100 px-4 py-2.5">
-          <div className="flex min-w-0 items-center gap-2">
-            {method ? (
-              <button
-                type="button"
-                onClick={() => setMethod(null)}
-                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[#2D6AF6] hover:bg-slate-100"
-                aria-label="Geri"
-              >
-                <FiArrowLeft className="h-4 w-4" aria-hidden />
-              </button>
-            ) : null}
-            <p id="fee-pay-title" className="truncate text-sm font-semibold text-[#0E1548]">
-              {method === 'transfer'
-                ? 'Havale / EFT'
-                : method === 'cash'
-                  ? 'Elden ödeme'
-                  : 'Ödeme yöntemi seç'}
-            </p>
+        <div className="relative shrink-0 overflow-hidden bg-gradient-to-br from-[#0E1548] to-[#1a3a7a] px-5 pb-5 pt-4 text-white">
+          <div className="absolute inset-0 opacity-[0.12] [background-image:radial-gradient(circle_at_1px_1px,#fff_1px,transparent_0)] [background-size:12px_12px]" />
+          <div className="relative flex items-start justify-between gap-3">
+            <div className="flex min-w-0 items-start gap-3">
+              {method ? (
+                <button
+                  type="button"
+                  onClick={() => setMethod(null)}
+                  className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-white/15 text-white hover:bg-white/25"
+                  aria-label="Geri"
+                >
+                  <FiArrowLeft className="h-5 w-5" aria-hidden />
+                </button>
+              ) : (
+                <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-white/15">
+                  <HeaderIcon className="h-5 w-5" aria-hidden />
+                </span>
+              )}
+              <div className="min-w-0">
+                <p id="fee-pay-title" className="text-base font-semibold tracking-tight">
+                  {headerTitle}
+                </p>
+                <p className="mt-0.5 truncate text-xs text-white/70">{headerSubtitle}</p>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={onClose}
+              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/15 text-white hover:bg-white/25"
+              aria-label="Kapat"
+            >
+              <FiX className="h-4 w-4" aria-hidden />
+            </button>
           </div>
-          <button
-            type="button"
-            onClick={onClose}
-            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200"
-            aria-label="Kapat"
-          >
-            <FiX className="h-4 w-4" aria-hidden />
-          </button>
         </div>
 
         <div className="overflow-y-auto px-5 py-5">
@@ -255,24 +277,34 @@ export function FeePaymentModal({
                 <button
                   type="button"
                   onClick={() => setMethod('transfer')}
-                  className="flex w-full items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3.5 text-left transition hover:border-[#E8770A]/50 hover:bg-[#FFF8F0]"
+                  className="flex w-full items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50/60 px-4 py-3.5 text-left transition hover:border-[#2D6AF6]/35 hover:bg-[#e8f0ff]/50"
                 >
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#FFF1E0] text-[#E8770A]">
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white text-[#0E1548] shadow-sm ring-1 ring-slate-200/80">
                     <FiCreditCard className="h-5 w-5" aria-hidden />
                   </span>
-                  <span className="text-sm font-semibold text-[#0E1548]">Havale / EFT</span>
+                  <span className="min-w-0">
+                    <span className="block text-sm font-semibold text-[#0E1548]">Havale / EFT</span>
+                    <span className="mt-0.5 block text-xs text-slate-500">
+                      IBAN’a gönder, dekont yükle
+                    </span>
+                  </span>
                 </button>
               ) : null}
               {hasCash ? (
                 <button
                   type="button"
                   onClick={() => setMethod('cash')}
-                  className="flex w-full items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3.5 text-left transition hover:border-[#E8770A]/50 hover:bg-[#FFF8F0]"
+                  className="flex w-full items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50/60 px-4 py-3.5 text-left transition hover:border-[#2D6AF6]/35 hover:bg-[#e8f0ff]/50"
                 >
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#FFF1E0] text-[#E8770A]">
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white text-[#0E1548] shadow-sm ring-1 ring-slate-200/80">
                     <FiDollarSign className="h-5 w-5" aria-hidden />
                   </span>
-                  <span className="text-sm font-semibold text-[#0E1548]">Elden ödeme</span>
+                  <span className="min-w-0">
+                    <span className="block text-sm font-semibold text-[#0E1548]">Elden ödeme</span>
+                    <span className="mt-0.5 block text-xs text-slate-500">
+                      Teslim et, QR ile onaylat
+                    </span>
+                  </span>
                 </button>
               ) : null}
               {!hasAny ? (
@@ -301,11 +333,11 @@ export function FeePaymentModal({
                 />
               ) : null}
               {feeLabel ? (
-                <div className="rounded-2xl bg-slate-50 px-4 py-3.5 ring-1 ring-slate-200">
+                <div className="rounded-2xl border border-slate-200/80 bg-slate-50/80 px-4 py-3.5">
                   <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
                     Ücret
                   </p>
-                  <p className="mt-1 text-sm font-semibold text-[#E8770A]">{feeLabel}</p>
+                  <p className="mt-1 text-lg font-bold tracking-tight text-[#E8770A]">{feeLabel}</p>
                 </div>
               ) : null}
               {registrationNo ? (
@@ -323,7 +355,7 @@ export function FeePaymentModal({
                   setReceiptError(null);
                   setReceiptOpen(true);
                 }}
-                className="flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 text-sm font-semibold text-white hover:bg-emerald-700"
+                className="flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 text-sm font-semibold text-white shadow-sm shadow-emerald-600/20 hover:bg-emerald-700"
               >
                 <FiCheck className="h-4 w-4" aria-hidden />
                 Ödemeyi yaptım
@@ -333,7 +365,7 @@ export function FeePaymentModal({
 
           {method === 'cash' ? (
             <div className="space-y-3">
-              <div className="rounded-2xl bg-slate-50 px-4 py-3.5 ring-1 ring-slate-200">
+              <div className="rounded-2xl border border-slate-200/80 bg-slate-50/80 px-4 py-3.5">
                 <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
                   Sorumlu
                 </p>
@@ -344,7 +376,7 @@ export function FeePaymentModal({
                   <p className="mt-1.5 text-sm leading-relaxed text-slate-600">{cashContactNote}</p>
                 ) : null}
                 {feeLabel ? (
-                  <p className="mt-2 text-sm font-semibold text-[#E8770A]">{feeLabel}</p>
+                  <p className="mt-2 text-base font-bold text-[#E8770A]">{feeLabel}</p>
                 ) : null}
               </div>
 
@@ -364,7 +396,7 @@ export function FeePaymentModal({
                   </button>
                 </div>
               ) : (
-                <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4 text-center">
+                <div className="rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50/80 px-4 py-5 text-center">
                   <p className="text-sm font-semibold text-[#0E1548]">Teslim QR</p>
                   {cashBusy && !cashToken ? (
                     <p className="mt-6 text-sm text-slate-500">QR hazırlanıyor…</p>
@@ -535,7 +567,7 @@ function CopyCard({
   onCopy: () => void;
 }) {
   return (
-    <div className="rounded-2xl bg-slate-50 px-4 py-3.5 ring-1 ring-slate-200">
+    <div className="rounded-2xl border border-slate-200/80 bg-slate-50/80 px-4 py-3.5">
       <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">{label}</p>
       <p
         className={`mt-1 break-all text-sm font-semibold text-[#0E1548] ${mono ? 'font-mono' : ''}`}
@@ -545,7 +577,7 @@ function CopyCard({
       <button
         type="button"
         onClick={onCopy}
-        className="mt-2 inline-flex items-center gap-1.5 text-sm font-medium text-[#2D6AF6]"
+        className="mt-2 inline-flex items-center gap-1.5 text-xs font-semibold text-[#2D6AF6] hover:text-[#1d4ed8]"
       >
         <FiCopy className="h-3.5 w-3.5" aria-hidden />
         {copied ? 'Kopyalandı' : 'Kopyala'}
