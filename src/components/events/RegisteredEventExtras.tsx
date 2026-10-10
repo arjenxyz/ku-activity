@@ -83,37 +83,56 @@ export function RegisteredEventExtras({
             role="dialog"
             aria-modal="true"
             aria-label="Check-in QR kodu"
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/75 px-5 backdrop-blur-sm"
+            className="fixed inset-0 z-[100] flex items-end justify-center bg-slate-900/80 px-4 py-6 backdrop-blur-md sm:items-center sm:px-5"
             onClick={() => setQrOpen(false)}
           >
             <div
-              className="relative w-full max-w-[280px]"
+              className="relative w-full max-w-sm overflow-hidden rounded-[1.5rem] bg-white shadow-2xl shadow-slate-900/30"
               data-scroll-lock-allow=""
               onClick={(event) => event.stopPropagation()}
             >
-              <button
-                type="button"
-                aria-label="Kapat"
-                onClick={() => setQrOpen(false)}
-                className="absolute -right-1 -top-10 flex h-9 w-9 items-center justify-center rounded-full bg-white/15 text-white hover:bg-white/25"
-              >
-                <FiX className="h-5 w-5" aria-hidden />
-              </button>
-              <div className="rounded-3xl bg-white p-4 shadow-2xl">
+              <div className="flex items-center justify-between border-b border-slate-100 px-4 py-3">
+                <div className="min-w-0">
+                  <p className="text-sm font-semibold text-[#0E1548]">Check-in QR</p>
+                  <p className="truncate text-[11px] text-slate-500">Kayıt no {registrationNo}</p>
+                </div>
+                <button
+                  type="button"
+                  aria-label="Kapat"
+                  onClick={() => setQrOpen(false)}
+                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200"
+                >
+                  <FiX className="h-4 w-4" aria-hidden />
+                </button>
+              </div>
+
+              <div className="px-5 py-5">
                 {loading ? (
-                  <div className="mx-auto h-56 w-56 animate-pulse rounded-2xl bg-slate-100" />
+                  <div className="mx-auto h-52 w-52 animate-pulse rounded-2xl bg-slate-100" />
                 ) : error ? (
-                  <p className="px-2 py-16 text-center text-sm text-red-600">{error}</p>
+                  <p className="px-2 py-14 text-center text-sm text-red-600">{error}</p>
                 ) : qrSrc ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
                     src={qrSrc}
-                    alt=""
-                    width={240}
-                    height={240}
-                    className="mx-auto h-56 w-56 rounded-2xl bg-white"
+                    alt="Check-in QR kodu"
+                    width={220}
+                    height={220}
+                    className="mx-auto h-52 w-52 rounded-2xl bg-white ring-1 ring-slate-100"
                   />
                 ) : null}
+
+                <div className="mt-5 rounded-2xl border border-amber-200/80 bg-amber-50 px-3.5 py-3">
+                  <p className="text-[11px] font-semibold uppercase tracking-wide text-amber-800">
+                    Güvenlik uyarısı
+                  </p>
+                  <p className="mt-1.5 text-xs leading-relaxed text-amber-950/85">
+                    Bu ekranı yetkili personel dışında kimseyle paylaşmayın. Ekran görüntüsü alınmasına
+                    veya fotoğraf çekilmesine izin vermeyin. QR kodunuz; güvenliğiniz, etkinlik
+                    süreçleriniz ve ödemeleriniz için kişiseldir — yanlış ellere geçmesi sorun
+                    oluşturabilir.
+                  </p>
+                </div>
               </div>
             </div>
           </div>,
