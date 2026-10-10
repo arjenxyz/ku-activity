@@ -312,7 +312,6 @@ export function FeePaymentModal({
                         alt="Elden teslim QR"
                         className="mx-auto mt-4 h-44 w-44 rounded-2xl bg-white p-2 shadow-sm ring-1 ring-slate-200"
                       />
-                      <p className="mt-3 text-xs text-slate-500">Yetkili okuyunca onaylanır</p>
                     </>
                   ) : null}
                   {cashError ? (
