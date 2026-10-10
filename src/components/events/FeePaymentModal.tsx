@@ -298,9 +298,6 @@ export function FeePaymentModal({
               ) : (
                 <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4 text-center">
                   <p className="text-sm font-semibold text-[#0E1548]">Teslim QR</p>
-                  <p className="mt-1 text-xs text-slate-500">
-                    Ücreti ver, bu kodu yetkiliye okut.
-                  </p>
                   {cashBusy && !cashToken ? (
                     <p className="mt-6 text-sm text-slate-500">QR hazırlanıyor…</p>
                   ) : null}
