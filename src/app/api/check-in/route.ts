@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSiteSession } from '@/lib/auth/get-site-session';
+import { isManualCheckinCode } from '@/lib/checkin-token';
 import { getCatalogEvent } from '@/lib/events/catalog-store';
 import { recordCheckIn } from '@/lib/demo/registrations-store';
 import { isCheckinQrToken } from '@/lib/qr/qr-service';
@@ -18,8 +19,8 @@ export async function POST(request: Request) {
 
   const token = body?.token?.trim() ?? '';
   const eventId = body?.eventId?.trim() ?? '';
-  if (!isCheckinQrToken(token)) {
-    return NextResponse.json({ error: 'Geçersiz QR' }, { status: 400 });
+  if (!isCheckinQrToken(token) && !isManualCheckinCode(token)) {
+    return NextResponse.json({ error: 'Geçersiz QR veya manuel kod' }, { status: 400 });
   }
   if (!eventId) {
     return NextResponse.json({ error: 'Etkinlik seçilmedi' }, { status: 400 });

@@ -2,7 +2,10 @@ import {
   decryptCheckinToken,
   encryptCheckinToken,
   generateCheckinToken,
+  generateManualCode,
   hashCheckinToken,
+  isManualCheckinCode,
+  normalizeManualCode,
 } from '@/lib/checkin-token';
 import { DEMO_CHECKIN_TOKEN } from '@/lib/demo/data';
 import { getCatalogEvent } from '@/lib/events/catalog-store';
@@ -22,6 +25,8 @@ export type DemoRegistration = {
   ownerKey: string;
   ownerName: string;
   registrationNo: string;
+  /** Short code shown under QR for offline/manual check-in */
+  manualCode: string;
   tokenHash: string;
   tokenEncrypted: string;
   status: RegistrationStatus;
@@ -47,6 +52,12 @@ function store(): Store {
     g.__emsRegStore = { regs: new Map(), seq: 184 };
     seed(g.__emsRegStore);
   }
+  // Hot-reload / eski seed: eksik manuel kodları tamamla
+  for (const row of g.__emsRegStore.regs.values()) {
+    if (!row.manualCode) {
+      row.manualCode = generateManualCode();
+    }
+  }
   return g.__emsRegStore;
 }
 
@@ -58,6 +69,7 @@ function seed(s: Store) {
     ownerKey: 'student',
     ownerName: 'Ayşe Yılmaz',
     registrationNo: 'ABN-2027-000184',
+    manualCode: 'EMS-7F3A9C',
     tokenHash: hashCheckinToken(DEMO_CHECKIN_TOKEN),
     tokenEncrypted: encrypted,
     status: 'confirmed',
@@ -96,6 +108,25 @@ export function findRegistrationByToken(token: string) {
   return [...store().regs.values()].find((row) => row.tokenHash === hash) ?? null;
 }
 
+export function findRegistrationByManualCode(code: string) {
+  const normalized = normalizeManualCode(code);
+  return (
+    [...store().regs.values()].find(
+      (row) => normalizeManualCode(row.manualCode || '') === normalized
+    ) ?? null
+  );
+}
+
+/** Resolve registration from scanned QR token or typed manual code. */
+export function findRegistrationByCheckinInput(value: string) {
+  const trimmed = value.trim();
+  if (!trimmed) return null;
+  if (isManualCheckinCode(trimmed)) {
+    return findRegistrationByManualCode(trimmed);
+  }
+  return findRegistrationByToken(trimmed);
+}
+
 export function getRawToken(reg: DemoRegistration) {
   return decryptCheckinToken(reg.tokenEncrypted);
 }
@@ -128,6 +159,7 @@ export function createRegistration(input: {
     ownerKey: input.ownerKey,
     ownerName: input.ownerName,
     registrationNo: `${event.registrationPrefix}-${String(s.seq).padStart(6, '0')}`,
+    manualCode: generateManualCode(),
     tokenHash,
     tokenEncrypted,
     status: 'confirmed',
@@ -160,9 +192,9 @@ export function recordCheckIn(input: {
   dayId: string | null;
   staffKey: string;
 }) {
-  const row = findRegistrationByToken(input.token);
-  if (!row) throw new Error('QR tanınmadı');
-  if (row.eventId !== input.eventId) throw new Error('Bu QR bu etkinliğe ait değil');
+  const row = findRegistrationByCheckinInput(input.token);
+  if (!row) throw new Error('QR / manuel kod tanınmadı');
+  if (row.eventId !== input.eventId) throw new Error('Bu kod bu etkinliğe ait değil');
   if (row.status === 'cancelled') throw new Error('Kayıt iptal edilmiş');
   if (row.status === 'pending') throw new Error('Kayıt henüz onaylanmadı');
 

@@ -211,13 +211,16 @@ export function StaffCheckInClient({
           void submitToken(manualToken.trim());
         }}
       >
-        <label htmlFor="token" className={labelClass}>Elle token</label>
+        <label htmlFor="token" className={labelClass}>Manuel kod / QR</label>
         <input
           id="token"
           className={inputClass}
           value={manualToken}
           onChange={(e) => setManualToken(e.target.value)}
-          placeholder="QR içeriğini yapıştır"
+          placeholder="EMS-XXXXXX veya QR içeriği"
+          autoCapitalize="characters"
+          autoCorrect="off"
+          spellCheck={false}
         />
         <button type="submit" className={primaryButtonClass}>
           Check-in yap

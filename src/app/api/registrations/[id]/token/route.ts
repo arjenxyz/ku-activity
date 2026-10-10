@@ -33,6 +33,7 @@ export async function GET(request: Request, { params }: Params) {
       token,
       registrationId: row.id,
       registrationNo: row.registrationNo,
+      manualCode: row.manualCode,
       eventId: row.eventId,
     });
   } catch {

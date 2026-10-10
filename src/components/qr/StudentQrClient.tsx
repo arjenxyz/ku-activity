@@ -19,6 +19,7 @@ export function StudentQrClient({ demoHint }: { demoHint?: boolean }) {
   const [regs, setRegs] = useState<RegOption[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(preferred);
   const [token, setToken] = useState<string | null>(null);
+  const [manualCode, setManualCode] = useState<string | null>(null);
   const [meta, setMeta] = useState<{
     registrationNo: string;
     eventTitle: string;
@@ -54,6 +55,7 @@ export function StudentQrClient({ demoHint }: { demoHint?: boolean }) {
   useEffect(() => {
     if (!selectedId) {
       setToken(null);
+      setManualCode(null);
       setMeta(null);
       return;
     }
@@ -61,6 +63,7 @@ export function StudentQrClient({ demoHint }: { demoHint?: boolean }) {
     if (lockedEventId && reg && reg.eventId !== lockedEventId) {
       setError('Bu QR bu etkinliğe ait değil');
       setToken(null);
+      setManualCode(null);
       setMeta(null);
       return;
     }
@@ -75,6 +78,7 @@ export function StudentQrClient({ demoHint }: { demoHint?: boolean }) {
       const payload = (await response.json().catch(() => null)) as {
         token?: string;
         registrationNo?: string;
+        manualCode?: string;
         eventId?: string;
         error?: string;
       } | null;
@@ -82,9 +86,11 @@ export function StudentQrClient({ demoHint }: { demoHint?: boolean }) {
       if (!response.ok || !payload?.token) {
         setError(payload?.error ?? 'QR yüklenemedi');
         setToken(null);
+        setManualCode(null);
         return;
       }
       setToken(payload.token);
+      setManualCode(payload.manualCode ?? null);
       setMeta({
         registrationNo: payload.registrationNo ?? reg?.registrationNo ?? '',
         eventTitle: reg?.eventTitle ?? '',
@@ -162,6 +168,19 @@ export function StudentQrClient({ demoHint }: { demoHint?: boolean }) {
         )}
         <p className="mt-4 text-sm font-semibold text-[#0E1548]">{meta?.registrationNo}</p>
         <p className="mt-1 text-xs text-slate-500">{meta?.eventTitle}</p>
+        {manualCode ? (
+          <div className="mt-4 border-t border-slate-100 pt-4">
+            <p className="text-[11px] font-medium uppercase tracking-wide text-slate-400">
+              Manuel kod
+            </p>
+            <p className="mt-1 font-mono text-lg font-semibold tracking-[0.18em] text-[#0E1548]">
+              {manualCode}
+            </p>
+            <p className="mt-1 text-[11px] text-slate-500">
+              Kamera okumazsa görevliye bu kodu söyleyin
+            </p>
+          </div>
+        ) : null}
       </div>
     </div>
   );

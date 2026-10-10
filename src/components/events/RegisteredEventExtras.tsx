@@ -23,6 +23,7 @@ export function RegisteredEventExtras({
   const [qrOpen, setQrOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [token, setToken] = useState<string | null>(null);
+  const [manualCode, setManualCode] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -33,6 +34,7 @@ export function RegisteredEventExtras({
   useEffect(() => {
     if (!qrOpen) {
       setToken(null);
+      setManualCode(null);
       setError(null);
       setLoading(false);
       return;
@@ -47,16 +49,19 @@ export function RegisteredEventExtras({
       );
       const payload = (await response.json().catch(() => null)) as {
         token?: string;
+        manualCode?: string;
         error?: string;
       } | null;
       if (cancelled) return;
       if (!response.ok || !payload?.token) {
         setError(payload?.error ?? 'QR yüklenemedi');
         setToken(null);
+        setManualCode(null);
         setLoading(false);
         return;
       }
       setToken(payload.token);
+      setManualCode(payload.manualCode ?? null);
       setLoading(false);
     })();
 
@@ -120,6 +125,20 @@ export function RegisteredEventExtras({
                     height={220}
                     className="mx-auto h-52 w-52 rounded-2xl bg-white ring-1 ring-slate-100"
                   />
+                ) : null}
+
+                {manualCode && !loading && !error ? (
+                  <div className="mt-4 text-center">
+                    <p className="text-[11px] font-medium uppercase tracking-wide text-slate-400">
+                      Manuel kod
+                    </p>
+                    <p className="mt-1 font-mono text-lg font-semibold tracking-[0.18em] text-[#0E1548]">
+                      {manualCode}
+                    </p>
+                    <p className="mt-1 text-[11px] text-slate-500">
+                      Kamera okumazsa görevliye bu kodu söyleyin
+                    </p>
+                  </div>
                 ) : null}
 
                 <div className="mt-5 rounded-2xl border border-amber-200/80 bg-amber-50 px-3.5 py-3">

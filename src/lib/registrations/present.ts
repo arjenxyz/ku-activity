@@ -19,6 +19,7 @@ export function presentRegistration(reg: DemoRegistration) {
     eventTitle: event?.title ?? reg.eventId,
     location: event?.location ?? '',
     registrationNo: reg.registrationNo,
+    manualCode: reg.manualCode,
     status: reg.status,
     statusLabel: attendanceLabel(reg),
     logistics: reg.logistics,

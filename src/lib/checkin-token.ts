@@ -14,6 +14,26 @@ export function generateCheckinToken(): { token: string; tokenHash: string; toke
   };
 }
 
+/** Short typed fallback shown under QR — not PII. */
+const MANUAL_ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+
+export function generateManualCode(): string {
+  const bytes = randomBytes(6);
+  let out = '';
+  for (let i = 0; i < 6; i += 1) {
+    out += MANUAL_ALPHABET[bytes[i]! % MANUAL_ALPHABET.length];
+  }
+  return `EMS-${out}`;
+}
+
+export function normalizeManualCode(value: string) {
+  return value.trim().toUpperCase().replace(/\s+/g, '');
+}
+
+export function isManualCheckinCode(value: string) {
+  return /^EMS-[A-HJ-NP-Z2-9]{6}$/.test(normalizeManualCode(value));
+}
+
 export function hashCheckinToken(token: string): string {
   return createHash('sha256').update(token, 'utf8').digest('hex');
 }
