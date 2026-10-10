@@ -8,6 +8,7 @@ import {
   FiUsers,
 } from 'react-icons/fi';
 import { EventPlanningSections } from '@/components/events/EventPlanningSections';
+import { JoinApplyButton } from '@/components/events/JoinApplyButton';
 import { RegisteredEventExtras } from '@/components/events/RegisteredEventExtras';
 import type { CatalogEvent } from '@/lib/events/catalog';
 import type { DemoRegistration } from '@/lib/demo/registrations-store';
@@ -39,7 +40,9 @@ type Props = {
   event: CatalogEvent;
   taken: number;
   seatsLeft: number;
+  registrationOpen: boolean;
   mine: DemoRegistration | null;
+  isStudent: boolean;
   studentNo?: string | null;
 };
 
@@ -47,7 +50,9 @@ export function StudentEventDetail({
   event,
   taken,
   seatsLeft,
+  registrationOpen,
   mine,
+  isStudent,
   studentNo = null,
 }: Props) {
   const theme = themeFor(event.id);
@@ -154,6 +159,20 @@ export function StudentEventDetail({
         ) : (
           <div className="space-y-8 px-5 py-6 sm:px-6">
             <EventDetailBody event={event} />
+            <section className="border-t border-slate-100 pt-6">
+              <h2 className="text-lg font-semibold text-[#0E1548]">Katılım başvurusu</h2>
+              <p className="mt-1 text-sm text-slate-500">
+                Tek tuşla başvurun; ücret varsa ödemeyi Etkinliklerim’den tamamlayın.
+              </p>
+              <div className="mt-4">
+                <JoinApplyButton
+                  event={event}
+                  isStudent={isStudent}
+                  registrationOpen={registrationOpen}
+                  seatsLeft={seatsLeft}
+                />
+              </div>
+            </section>
           </div>
         )}
       </article>

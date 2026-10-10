@@ -459,9 +459,75 @@ export function AdminEventForm({
                       pricing: { ...p.pricing, feeNotes: e.target.value },
                     }))
                   }
-                  placeholder="Ödeme süresi, IBAN bilgisi vb."
+                  placeholder="Ödeme süresi ve açıklama"
                 />
               </div>
+              <div className="sm:col-span-2">
+                <label htmlFor="paymentIban" className={labelClass}>Ödeme IBAN</label>
+                <input
+                  id="paymentIban"
+                  className={inputClass}
+                  value={planning.pricing.paymentIban}
+                  onChange={(e) =>
+                    patchPlanning((p) => ({
+                      ...p,
+                      pricing: { ...p.pricing, paymentIban: e.target.value },
+                    }))
+                  }
+                  placeholder="TR00 0000 0000 0000 0000 0000 00"
+                />
+              </div>
+              <label className="flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 sm:col-span-2">
+                <input
+                  type="checkbox"
+                  checked={planning.pricing.cashPaymentEnabled}
+                  onChange={(e) =>
+                    patchPlanning((p) => ({
+                      ...p,
+                      pricing: { ...p.pricing, cashPaymentEnabled: e.target.checked },
+                    }))
+                  }
+                />
+                Elden ücret ödemesi açık
+              </label>
+              {planning.pricing.cashPaymentEnabled ? (
+                <>
+                  <div>
+                    <label htmlFor="cashContactName" className={labelClass}>
+                      Elden ödeme sorumlusu
+                    </label>
+                    <input
+                      id="cashContactName"
+                      className={inputClass}
+                      value={planning.pricing.cashContactName}
+                      onChange={(e) =>
+                        patchPlanning((p) => ({
+                          ...p,
+                          pricing: { ...p.pricing, cashContactName: e.target.value },
+                        }))
+                      }
+                      placeholder="Ekip arkadaşı adı"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="cashContactNote" className={labelClass}>
+                      Elden ödeme notu
+                    </label>
+                    <input
+                      id="cashContactNote"
+                      className={inputClass}
+                      value={planning.pricing.cashContactNote}
+                      onChange={(e) =>
+                        patchPlanning((p) => ({
+                          ...p,
+                          pricing: { ...p.pricing, cashContactNote: e.target.value },
+                        }))
+                      }
+                      placeholder="Nerede / ne zaman teslim edilecek"
+                    />
+                  </div>
+                </>
+              ) : null}
             </div>
             <div className="space-y-2">
               <div className="flex items-center justify-between gap-2">

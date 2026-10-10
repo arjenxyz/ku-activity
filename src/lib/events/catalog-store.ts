@@ -17,13 +17,13 @@ type Store = {
 };
 
 function store(): Store {
-  const g = globalThis as typeof globalThis & { __emsEventCatalogV3?: Store };
-  if (!g.__emsEventCatalogV3) {
-    g.__emsEventCatalogV3 = {
+  const g = globalThis as typeof globalThis & { __emsEventCatalogV4?: Store };
+  if (!g.__emsEventCatalogV4) {
+    g.__emsEventCatalogV4 = {
       events: structuredClone(EVENT_CATALOG_SEED),
     };
   }
-  return g.__emsEventCatalogV3;
+  return g.__emsEventCatalogV4;
 }
 
 function ensurePlanning(event: CatalogEvent): CatalogEvent {

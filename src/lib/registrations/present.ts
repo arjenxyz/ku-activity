@@ -1,4 +1,5 @@
 import type { DemoRegistration } from '@/lib/demo/registrations-store';
+import { emptyPlanning, formatFeeTry } from '@/lib/events/catalog';
 import { getCatalogEvent } from '@/lib/events/catalog-store';
 
 export function attendanceLabel(reg: DemoRegistration) {
@@ -13,6 +14,11 @@ export function attendanceLabel(reg: DemoRegistration) {
 
 export function presentRegistration(reg: DemoRegistration) {
   const event = getCatalogEvent(reg.eventId);
+  const pricing = event?.planning?.pricing ?? emptyPlanning().pricing;
+  const feeAmount = pricing.feeAmount;
+  const needsPayment =
+    reg.status !== 'cancelled' && typeof feeAmount === 'number' && feeAmount > 0;
+
   return {
     id: reg.id,
     eventId: reg.eventId,
@@ -31,5 +37,13 @@ export function presentRegistration(reg: DemoRegistration) {
     canCancel:
       reg.status !== 'cancelled' &&
       Boolean(event && new Date() <= new Date(event.registrationDeadlineIso)),
+    needsPayment,
+    feeAmount,
+    feeLabel: needsPayment ? formatFeeTry(feeAmount) : null,
+    feeNotes: pricing.feeNotes || null,
+    paymentIban: pricing.paymentIban || null,
+    cashPaymentEnabled: Boolean(pricing.cashPaymentEnabled),
+    cashContactName: pricing.cashContactName || null,
+    cashContactNote: pricing.cashContactNote || null,
   };
 }

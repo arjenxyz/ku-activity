@@ -16,6 +16,12 @@ export type EventPlanning = {
     currency: 'TRY';
     feeNotes: string;
     includes: string[];
+    /** Bank transfer details for paid events */
+    paymentIban: string;
+    /** Allow paying in cash to a team member */
+    cashPaymentEnabled: boolean;
+    cashContactName: string;
+    cashContactNote: string;
   };
   transport: {
     provided: boolean;
@@ -75,6 +81,10 @@ export function emptyPlanning(): EventPlanning {
       currency: 'TRY',
       feeNotes: '',
       includes: [],
+      paymentIban: '',
+      cashPaymentEnabled: false,
+      cashContactName: '',
+      cashContactNote: '',
     },
     transport: {
       provided: false,
@@ -202,6 +212,10 @@ export function normalizePlanning(raw: unknown): EventPlanning {
       currency: 'TRY',
       feeNotes: asString(pricing.feeNotes),
       includes: asStringList(pricing.includes),
+      paymentIban: asString(pricing.paymentIban).toUpperCase().replace(/\s+/g, ' ').trim(),
+      cashPaymentEnabled: Boolean(pricing.cashPaymentEnabled),
+      cashContactName: asString(pricing.cashContactName),
+      cashContactNote: asString(pricing.cashContactNote),
     },
     transport: {
       provided: Boolean(transport.provided),

@@ -111,6 +111,10 @@ const ABANA_PLANNING: EventPlanning = {
     currency: 'TRY',
     feeNotes: 'Katılım ücreti kayıt onayından sonra 7 gün içinde yatırılır.',
     includes: ['Gidiş-dönüş otobüs', '2 gece konaklama', 'Kahvaltı ve öğle yemeği', 'Rehberli kültür gezisi'],
+    paymentIban: 'TR33 0006 1005 1978 6457 8413 26',
+    cashPaymentEnabled: true,
+    cashContactName: 'Zeynep Yılmaz',
+    cashContactNote: 'Lojistik sorumlusu — kampüs buluşmasında elden teslim',
   },
   transport: {
     provided: true,

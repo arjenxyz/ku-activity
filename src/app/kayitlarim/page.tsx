@@ -10,10 +10,10 @@ export default async function MyRegistrationsPage() {
     <div className="min-h-[100dvh] bg-[#e7f3fb] px-4 pb-10 pt-[calc(var(--home-chrome-h,4.5rem)+2rem)] text-slate-900 sm:px-8">
       <HomeHeader />
       <div className="mx-auto w-full max-w-3xl">
-        <h1 className="text-center text-2xl font-semibold text-[#0E1548]">Kayıtlarım</h1>
+        <h1 className="text-center text-2xl font-semibold text-[#0E1548]">Etkinliklerim</h1>
         <p className="mx-auto mt-2 max-w-md text-center text-sm leading-relaxed text-slate-500">
           {session?.name ? `${session.name} · ` : ''}
-          Etkinlik kayıtların ve check-in durumun burada.
+          Başvuruların, ücret ödemesi ve geçiş kartların burada.
         </p>
         {session?.demo ? (
           <p className="mx-auto mt-4 max-w-md rounded-2xl bg-white/70 px-3 py-2 text-center text-xs font-medium text-[#0E1548]">
