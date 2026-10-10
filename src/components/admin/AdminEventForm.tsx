@@ -46,7 +46,7 @@ const SECTION_NAV = [
   { id: 'sec-9', label: 'Ekip ve danışman' },
   { id: 'sec-10', label: 'Sponsorlar' },
   { id: 'sec-11', label: 'Katılım şartları' },
-  { id: 'sec-12', label: 'Check kartları' },
+  { id: 'sec-12', label: 'Geçiş kartları' },
   { id: 'sec-13', label: 'Yayın durumu' },
 ] as const;
 
@@ -1170,7 +1170,7 @@ export function AdminEventForm({
           <section id="sec-12" className={sectionClass}>
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div>
-                <h2 className="text-sm font-semibold text-[#0E1548]">12 · Check kartları</h2>
+                <h2 className="text-sm font-semibold text-[#0E1548]">12 · Geçiş kartları</h2>
                 <p className="mt-1 text-xs text-slate-500">
                   Öğrenci sırayla bu kartları görür. Görevli okutunca bir sonraki karta geçer
                   (ör. otobüs, konaklama, alan girişi).
@@ -1182,7 +1182,7 @@ export function AdminEventForm({
                 onClick={() =>
                   patch('checkCards', [
                     ...form.checkCards,
-                    { id: '', name: `Check ${form.checkCards.length + 1}` },
+                    { id: '', name: `Geçiş ${form.checkCards.length + 1}` },
                   ])
                 }
               >

@@ -55,7 +55,7 @@ export async function POST(request: Request) {
     const nextName = result.nextCheckCard?.name ?? null;
     let message: string;
     if (result.duplicate && result.completed) {
-      message = 'Tüm check kartları tamamlandı';
+      message = 'Tüm geçiş kartları tamamlandı';
     } else if (result.duplicate) {
       message = cardName
         ? `“${cardName}” zaten okutulmuş`

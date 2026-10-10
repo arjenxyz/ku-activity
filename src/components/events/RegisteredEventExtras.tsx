@@ -115,7 +115,7 @@ export function RegisteredEventExtras({
   const fromLabel = location.split(',')[0]?.trim() || location;
   const cardTitle = checkCard?.completed
     ? 'Tamamlandı'
-    : checkCard?.name || 'Check kartı';
+    : checkCard?.name || 'Geçiş kartı'
   const cardStep =
     checkCard && checkCard.total > 0
       ? checkCard.completed
@@ -199,7 +199,7 @@ export function RegisteredEventExtras({
                         <div className="grid min-w-0 flex-1 grid-cols-2 gap-x-3 gap-y-3.5">
                           <div className="col-span-2">
                             <p className="text-[9px] font-semibold uppercase tracking-[0.12em] text-slate-400">
-                              Check kart
+                              Geçiş kartı
                             </p>
                             <p className="mt-0.5 text-[15px] font-bold text-[#111827]">
                               {cardTitle}
@@ -242,7 +242,7 @@ export function RegisteredEventExtras({
                             // eslint-disable-next-line @next/next/no-img-element
                             <img
                               src={qrSrc}
-                              alt="Check kart QR kodu"
+                              alt="Geçiş kartı QR kodu"
                               width={112}
                               height={112}
                               className="h-[112px] w-[112px] bg-white"
@@ -263,7 +263,7 @@ export function RegisteredEventExtras({
 
                 <div className="mt-3 px-1 pb-1 text-center">
                   <p className="text-[9px] font-bold uppercase tracking-[0.22em] text-white/85">
-                    {APP_SHORT_NAME} · Check kart
+                    {APP_SHORT_NAME} · Geçiş kartları
                   </p>
                 </div>
               </div>
@@ -285,14 +285,14 @@ export function RegisteredEventExtras({
               ? `Şu an gösterilecek kart: ${checkCard.name}${
                   checkCard.total > 1 ? ` (${checkCard.index + 1}/${checkCard.total})` : ''
                 }. Okutulunca sıradaki kart otomatik gelir.`
-              : 'Check kartını yalnızca bu etkinlikte görevliye göster.'}
+              : 'Geçiş kartını yalnızca bu etkinlikte görevliye göster.'}
         </p>
         <button
           type="button"
           onClick={() => setQrOpen(true)}
           className="mt-4 flex h-11 w-full items-center justify-center rounded-xl bg-[#C70A2C] text-sm font-bold uppercase tracking-wide text-white hover:bg-[#A80824]"
         >
-          {checkCard?.completed ? 'Teşekkürler' : checkCard?.name || 'Check kartı'}
+          {checkCard?.completed ? 'Teşekkürler' : checkCard?.name || 'Geçiş kartı'}
         </button>
       </div>
 
