@@ -259,8 +259,7 @@ export function RegisteredEventExtras({
                   <div className="mt-3.5 flex items-start gap-2 rounded-lg bg-slate-50 px-2.5 py-2">
                     <FiInfo className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#C70A2C]" aria-hidden />
                     <p className="text-[11px] leading-snug text-slate-600">
-                      Bu kartı yalnızca yetkili personele gösterin. QR ve manuel kod kişiseldir;
-                      paylaşmayın, ekran görüntüsü aldırın.
+                      Bu kartı yalnızca yetkili personele gösterin.
                     </p>
                   </div>
                 </div>
