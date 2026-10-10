@@ -182,13 +182,16 @@ export function RegisteredEventExtras({
 
                 <div className="mt-2.5 rounded-xl bg-white px-3.5 py-3 shadow-sm">
                   {checkCard?.completed ? (
-                    <div className="flex flex-col items-center py-6 text-center">
+                    <div className="flex flex-col items-center px-1 py-6 text-center">
                       <span className="flex h-14 w-14 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
                         <FiCheck className="h-7 w-7" aria-hidden />
                       </span>
-                      <p className="mt-3 text-base font-bold text-[#0E1548]">Tüm check kartları tamam</p>
-                      <p className="mt-1 text-sm text-slate-500">
-                        Bu etkinlik için başka kart gösterilmeyecek.
+                      <p className="mt-3 text-base font-bold text-[#0E1548]">
+                        Etkinliği tamamladınız
+                      </p>
+                      <p className="mt-2 text-sm leading-relaxed text-slate-600">
+                        Katılımınız için teşekkürler. Tüm check noktalarını başarıyla geçtiniz;
+                        etkinliği sağ salim tamamladınız.
                       </p>
                     </div>
                   ) : (
@@ -278,7 +281,7 @@ export function RegisteredEventExtras({
         <p className="mt-0.5 text-xs text-slate-600">Kayıt no {registrationNo}</p>
         <p className="mt-2 text-sm text-slate-600">
           {checkCard?.completed
-            ? 'Tüm check kartların okutuldu.'
+            ? 'Etkinliği tamamladınız. Katılımınız için teşekkürler.'
             : checkCard?.name
               ? `Şu an gösterilecek kart: ${checkCard.name}${
                   checkCard.total > 1 ? ` (${checkCard.index + 1}/${checkCard.total})` : ''
@@ -290,7 +293,7 @@ export function RegisteredEventExtras({
           onClick={() => setQrOpen(true)}
           className="mt-4 flex h-11 w-full items-center justify-center rounded-xl bg-[#C70A2C] text-sm font-bold uppercase tracking-wide text-white hover:bg-[#A80824]"
         >
-          {checkCard?.completed ? 'Kartlar tamam' : checkCard?.name || 'Check kartı'}
+          {checkCard?.completed ? 'Teşekkürler' : checkCard?.name || 'Check kartı'}
         </button>
       </div>
 
