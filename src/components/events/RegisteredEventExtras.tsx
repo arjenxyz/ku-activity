@@ -1,9 +1,9 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import Link from 'next/link';
 import { createPortal } from 'react-dom';
 import { FiCheck, FiChevronDown, FiInfo, FiX } from 'react-icons/fi';
+import { FeePaymentModal } from '@/components/events/FeePaymentModal';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 import { APP_SHORT_NAME } from '@/lib/brand';
 
@@ -24,9 +24,14 @@ type Props = {
   location: string;
   dateLabel: string;
   passengerName: string;
-  /** When true, CTA becomes pay link and pass modal stays closed. */
+  /** When true, CTA opens fee payment modal instead of pass. */
   needsPayment?: boolean;
   feeLabel?: string | null;
+  feeNotes?: string | null;
+  paymentIban?: string | null;
+  cashPaymentEnabled?: boolean;
+  cashContactName?: string | null;
+  cashContactNote?: string | null;
   children: React.ReactNode;
 };
 
@@ -42,10 +47,16 @@ export function RegisteredEventExtras({
   passengerName,
   needsPayment = false,
   feeLabel = null,
+  feeNotes = null,
+  paymentIban = null,
+  cashPaymentEnabled = false,
+  cashContactName = null,
+  cashContactNote = null,
   children,
 }: Props) {
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [qrOpen, setQrOpen] = useState(false);
+  const [payOpen, setPayOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [token, setToken] = useState<string | null>(null);
   const [manualCode, setManualCode] = useState<string | null>(null);
@@ -378,12 +389,13 @@ export function RegisteredEventExtras({
   return (
     <div className="space-y-4 px-5 py-5 sm:px-6">
       {needsPayment ? (
-        <Link
-          href={`/kayitlarim?highlight=${encodeURIComponent(registrationId)}`}
+        <button
+          type="button"
+          onClick={() => setPayOpen(true)}
           className="flex h-11 w-full items-center justify-center rounded-xl bg-[#E8770A] text-sm font-bold uppercase tracking-wide text-white hover:bg-[#CF6A09]"
         >
           Ücreti öde{feeLabel ? ` · ${feeLabel}` : ''}
-        </Link>
+        </button>
       ) : (
         <button
           type="button"
@@ -409,6 +421,18 @@ export function RegisteredEventExtras({
 
       {detailsOpen ? <div className="space-y-8 pt-1">{children}</div> : null}
       {needsPayment ? null : modal}
+      <FeePaymentModal
+        open={payOpen}
+        onClose={() => setPayOpen(false)}
+        eventTitle={eventTitle}
+        feeLabel={feeLabel}
+        feeNotes={feeNotes}
+        paymentIban={paymentIban}
+        cashPaymentEnabled={cashPaymentEnabled}
+        cashContactName={cashContactName}
+        cashContactNote={cashContactNote}
+        registrationNo={registrationNo}
+      />
     </div>
   );
 }
