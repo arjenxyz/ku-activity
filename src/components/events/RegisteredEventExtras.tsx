@@ -116,7 +116,7 @@ export function RegisteredEventExtras({
           <div
             role="dialog"
             aria-modal="true"
-            aria-label="Etkinlik giriş kartı"
+            aria-label="Etkinlik kartı"
             className="fixed inset-0 z-[100] flex items-center justify-center bg-black/75 px-3 py-5 backdrop-blur-[2px] sm:px-5"
             onClick={() => setQrOpen(false)}
           >
@@ -127,7 +127,7 @@ export function RegisteredEventExtras({
             >
               <div className="mb-3 flex items-center justify-between px-1">
                 <p className="text-sm font-bold tracking-[0.06em] text-white">
-                  ETKİNLİK GİRİŞ KARTI
+                  ETKİNLİK KARTI
                 </p>
                 <button
                   type="button"
