@@ -393,26 +393,13 @@ export function RegisteredEventExtras({
 
   return (
     <div className="space-y-4 px-5 py-5 sm:px-6">
-      <div className="rounded-2xl border border-emerald-200 bg-emerald-50/70 px-4 py-4">
-        <p className="text-sm font-semibold text-[#0E1548]">Kayıtlısın</p>
-        <p className="mt-0.5 text-xs text-slate-600">Kayıt no {registrationNo}</p>
-        <p className="mt-2 text-sm text-slate-600">
-          {completed
-            ? 'Etkinliği tamamladınız. Katılımınız için teşekkürler.'
-            : checkCard?.name
-              ? `Şu an gösterilecek kart: ${checkCard.name}${
-                  checkCard.total > 1 ? ` (${checkCard.index + 1}/${checkCard.total})` : ''
-                }. Okutulunca sıradaki kart otomatik gelir.`
-              : 'Geçiş kartını yalnızca bu etkinlikte görevliye göster.'}
-        </p>
-        <button
-          type="button"
-          onClick={() => setQrOpen(true)}
-          className="mt-4 flex h-11 w-full items-center justify-center rounded-xl bg-[#C70A2C] text-sm font-bold uppercase tracking-wide text-white hover:bg-[#A80824]"
-        >
-          {completed ? 'Teşekkürler' : checkCard?.name || 'Geçiş kartı'}
-        </button>
-      </div>
+      <button
+        type="button"
+        onClick={() => setQrOpen(true)}
+        className="flex h-11 w-full items-center justify-center rounded-xl bg-[#C70A2C] text-sm font-bold uppercase tracking-wide text-white hover:bg-[#A80824]"
+      >
+        {completed ? 'Teşekkürler' : checkCard?.name || 'Geçiş kartı'}
+      </button>
 
       <button
         type="button"
