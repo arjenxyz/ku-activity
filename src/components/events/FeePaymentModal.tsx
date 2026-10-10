@@ -56,6 +56,7 @@ export function FeePaymentModal({
   const [cashBusy, setCashBusy] = useState(false);
   const [cashError, setCashError] = useState<string | null>(null);
   const [cashPaid, setCashPaid] = useState(false);
+  const [receiptOpen, setReceiptOpen] = useState(false);
   const [receiptBusy, setReceiptBusy] = useState(false);
   const [receiptError, setReceiptError] = useState<string | null>(null);
   const [receiptMessage, setReceiptMessage] = useState<string | null>(null);
@@ -72,6 +73,7 @@ export function FeePaymentModal({
       setCashError(null);
       setCashBusy(false);
       setCashPaid(false);
+      setReceiptOpen(false);
       setReceiptBusy(false);
       setReceiptError(null);
       setReceiptMessage(null);
@@ -82,13 +84,17 @@ export function FeePaymentModal({
     if (!open) return;
     const onKey = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
+        if (receiptOpen) {
+          setReceiptOpen(false);
+          return;
+        }
         if (method) setMethod(null);
         else onClose();
       }
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [open, method, onClose]);
+  }, [open, method, onClose, receiptOpen]);
 
   const createCashQr = useCallback(async () => {
     if (!eventId || !registrationNo) {
@@ -310,6 +316,16 @@ export function FeePaymentModal({
                   onCopy={() => void copyText('note', registrationNo)}
                 />
               ) : null}
+              <button
+                type="button"
+                onClick={() => {
+                  setReceiptError(null);
+                  setReceiptOpen(true);
+                }}
+                className="flex h-11 w-full items-center justify-center rounded-xl bg-[#0E1548] text-sm font-semibold text-white hover:bg-[#152060]"
+              >
+                Ödemeyi yaptım
+              </button>
             </div>
           ) : null}
 
@@ -378,44 +394,79 @@ export function FeePaymentModal({
             </div>
           ) : null}
         </div>
+      </div>
 
-        {method === 'transfer' && paymentIban ? (
-          <div className="shrink-0 border-t border-slate-100 bg-white px-5 py-3.5">
-            {!receiptMessage ? (
-              <p className="mb-2.5 rounded-xl bg-amber-50 px-3 py-2 text-center text-xs font-semibold text-amber-800 ring-1 ring-amber-200/80">
+      {receiptOpen ? (
+        <div className="fixed inset-0 z-[90] flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-slate-950/55 backdrop-blur-[2px]" aria-hidden />
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="receipt-upload-title"
+            className="relative z-[1] w-full max-w-sm overflow-hidden rounded-3xl bg-white shadow-2xl"
+          >
+            <div className="flex items-center justify-between gap-2 border-b border-slate-100 px-4 py-2.5">
+              <p
+                id="receipt-upload-title"
+                className="truncate text-sm font-semibold text-[#0E1548]"
+              >
+                Dekont yükle
+              </p>
+              <button
+                type="button"
+                onClick={() => setReceiptOpen(false)}
+                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200"
+                aria-label="Kapat"
+              >
+                <FiX className="h-4 w-4" aria-hidden />
+              </button>
+            </div>
+            <div className="space-y-3 px-5 py-5">
+              <p className="rounded-xl bg-amber-50 px-3 py-2 text-center text-xs font-semibold text-amber-800 ring-1 ring-amber-200/80">
                 Dekont yüklemek zorunlu
               </p>
-            ) : null}
-            {receiptMessage ? (
-              <p className="mb-2 text-center text-sm font-medium text-emerald-700">
-                {receiptMessage}
-              </p>
-            ) : null}
-            {receiptError ? (
-              <p className="mb-2 text-center text-sm text-red-600">{receiptError}</p>
-            ) : null}
-            <label
-              className={`flex h-11 w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-[#0E1548] text-sm font-semibold text-white hover:bg-[#152060] ${
-                receiptBusy ? 'pointer-events-none opacity-60' : ''
-              }`}
-            >
-              <FiUpload className="h-4 w-4" aria-hidden />
-              {receiptBusy ? 'Yükleniyor…' : receiptMessage ? 'Yeni dekont yükle' : 'Dekont yükle'}
-              <input
-                type="file"
-                accept={RECEIPT_FILE_ACCEPT}
-                className="sr-only"
-                disabled={receiptBusy}
-                onChange={(event) => {
-                  const file = event.target.files?.[0];
-                  if (file) void uploadReceipt(file);
-                  event.target.value = '';
-                }}
-              />
-            </label>
+              <p className="text-center text-xs text-slate-500">PDF veya görsel</p>
+              {receiptMessage ? (
+                <p className="text-center text-sm font-medium text-emerald-700">{receiptMessage}</p>
+              ) : null}
+              {receiptError ? (
+                <p className="text-center text-sm text-red-600">{receiptError}</p>
+              ) : null}
+              <label
+                className={`flex h-11 w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-[#0E1548] text-sm font-semibold text-white hover:bg-[#152060] ${
+                  receiptBusy ? 'pointer-events-none opacity-60' : ''
+                }`}
+              >
+                <FiUpload className="h-4 w-4" aria-hidden />
+                {receiptBusy ? 'Yükleniyor…' : receiptMessage ? 'Yeni dekont yükle' : 'Dosya seç'}
+                <input
+                  type="file"
+                  accept={RECEIPT_FILE_ACCEPT}
+                  className="sr-only"
+                  disabled={receiptBusy}
+                  onChange={(event) => {
+                    const file = event.target.files?.[0];
+                    if (file) void uploadReceipt(file);
+                    event.target.value = '';
+                  }}
+                />
+              </label>
+              {receiptMessage ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setReceiptOpen(false);
+                    onClose();
+                  }}
+                  className="flex h-10 w-full items-center justify-center rounded-xl border border-slate-200 text-sm font-semibold text-[#0E1548] hover:bg-slate-50"
+                >
+                  Tamam
+                </button>
+              ) : null}
+            </div>
           </div>
-        ) : null}
-      </div>
+        </div>
+      ) : null}
     </div>,
     document.body
   );
