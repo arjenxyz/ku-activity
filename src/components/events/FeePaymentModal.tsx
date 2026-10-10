@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { FiArrowLeft, FiCopy, FiCreditCard, FiDollarSign, FiX } from 'react-icons/fi';
+import { FiArrowLeft, FiCheck, FiCopy, FiCreditCard, FiDollarSign, FiX } from 'react-icons/fi';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 
 type Method = 'transfer' | 'cash';
@@ -11,6 +11,9 @@ type CopyKey = 'iban' | 'name' | 'note';
 type Props = {
   open: boolean;
   onClose: () => void;
+  /** Called when cash QR is accepted (payment cleared). */
+  onPaid?: () => void;
+  eventId?: string;
   passengerName?: string | null;
   feeLabel?: string | null;
   paymentIban?: string | null;
@@ -23,6 +26,8 @@ type Props = {
 export function FeePaymentModal({
   open,
   onClose,
+  onPaid,
+  eventId,
   passengerName = null,
   feeLabel = null,
   paymentIban = null,
@@ -34,6 +39,10 @@ export function FeePaymentModal({
   const [mounted, setMounted] = useState(false);
   const [method, setMethod] = useState<Method | null>(null);
   const [copied, setCopied] = useState<CopyKey | null>(null);
+  const [cashToken, setCashToken] = useState<string | null>(null);
+  const [cashBusy, setCashBusy] = useState(false);
+  const [cashError, setCashError] = useState<string | null>(null);
+  const [cashPaid, setCashPaid] = useState(false);
 
   useBodyScrollLock(open);
 
@@ -43,6 +52,10 @@ export function FeePaymentModal({
     if (!open) {
       setMethod(null);
       setCopied(null);
+      setCashToken(null);
+      setCashError(null);
+      setCashBusy(false);
+      setCashPaid(false);
     }
   }, [open]);
 
@@ -57,6 +70,69 @@ export function FeePaymentModal({
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, [open, method, onClose]);
+
+  const createCashQr = useCallback(async () => {
+    if (!eventId || !registrationNo) {
+      setCashError('Kayıt bilgisi eksik');
+      return;
+    }
+    setCashBusy(true);
+    setCashError(null);
+    try {
+      const response = await fetch('/api/payments/cash', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'create',
+          eventId,
+          registrationNo,
+        }),
+      });
+      const payload = (await response.json().catch(() => null)) as {
+        error?: string;
+        handoff?: { token: string };
+      } | null;
+      if (!response.ok) throw new Error(payload?.error ?? 'QR oluşturulamadı');
+      setCashToken(payload?.handoff?.token ?? null);
+    } catch (err) {
+      setCashError(err instanceof Error ? err.message : 'QR oluşturulamadı');
+    } finally {
+      setCashBusy(false);
+    }
+  }, [eventId, registrationNo]);
+
+  useEffect(() => {
+    if (method !== 'cash' || cashToken || cashBusy || cashPaid) return;
+    void createCashQr();
+  }, [method, cashToken, cashBusy, cashPaid, createCashQr]);
+
+  useEffect(() => {
+    if (method !== 'cash' || !cashToken || cashPaid) return;
+    let cancelled = false;
+    const poll = async () => {
+      try {
+        const response = await fetch(
+          `/api/payments/cash?token=${encodeURIComponent(cashToken)}`
+        );
+        const payload = (await response.json().catch(() => null)) as {
+          handoff?: { consumedAt?: string | null };
+        } | null;
+        if (cancelled) return;
+        if (payload?.handoff?.consumedAt) {
+          setCashPaid(true);
+          onPaid?.();
+        }
+      } catch {
+        /* ignore poll errors */
+      }
+    };
+    void poll();
+    const timer = window.setInterval(() => void poll(), 2500);
+    return () => {
+      cancelled = true;
+      window.clearInterval(timer);
+    };
+  }, [method, cashToken, cashPaid, onPaid]);
 
   async function copyText(key: CopyKey, value: string, stripSpaces = false) {
     const text = stripSpaces ? value.replace(/\s+/g, '') : value;
@@ -188,16 +264,71 @@ export function FeePaymentModal({
           ) : null}
 
           {method === 'cash' ? (
-            <div className="rounded-2xl bg-slate-50 px-4 py-3.5 ring-1 ring-slate-200">
-              <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
-                Sorumlu
-              </p>
-              <p className="mt-1 text-sm font-semibold text-[#0E1548]">
-                {cashContactName || 'Sorumlu'}
-              </p>
-              {cashContactNote ? (
-                <p className="mt-1.5 text-sm leading-relaxed text-slate-600">{cashContactNote}</p>
-              ) : null}
+            <div className="space-y-3">
+              <div className="rounded-2xl bg-slate-50 px-4 py-3.5 ring-1 ring-slate-200">
+                <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+                  Sorumlu
+                </p>
+                <p className="mt-1 text-sm font-semibold text-[#0E1548]">
+                  {cashContactName || 'Sorumlu'}
+                </p>
+                {cashContactNote ? (
+                  <p className="mt-1.5 text-sm leading-relaxed text-slate-600">{cashContactNote}</p>
+                ) : null}
+                {feeLabel ? (
+                  <p className="mt-2 text-sm font-semibold text-[#E8770A]">{feeLabel}</p>
+                ) : null}
+              </div>
+
+              {cashPaid ? (
+                <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-5 text-center">
+                  <span className="mx-auto flex h-11 w-11 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">
+                    <FiCheck className="h-5 w-5" aria-hidden />
+                  </span>
+                  <p className="mt-3 text-sm font-semibold text-emerald-800">Teslim onaylandı</p>
+                  <p className="mt-1 text-sm text-emerald-700/90">Geçiş kartın açıldı.</p>
+                  <button
+                    type="button"
+                    onClick={onClose}
+                    className="mt-4 inline-flex h-10 items-center justify-center rounded-xl bg-emerald-700 px-4 text-sm font-semibold text-white"
+                  >
+                    Tamam
+                  </button>
+                </div>
+              ) : (
+                <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4 text-center">
+                  <p className="text-sm font-semibold text-[#0E1548]">Teslim QR</p>
+                  <p className="mt-1 text-xs text-slate-500">
+                    Ücreti ver, bu kodu yetkiliye okut.
+                  </p>
+                  {cashBusy && !cashToken ? (
+                    <p className="mt-6 text-sm text-slate-500">QR hazırlanıyor…</p>
+                  ) : null}
+                  {cashToken ? (
+                    <>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={`/api/qr?token=${encodeURIComponent(cashToken)}`}
+                        alt="Elden teslim QR"
+                        className="mx-auto mt-4 h-44 w-44 rounded-2xl bg-white p-2 shadow-sm ring-1 ring-slate-200"
+                      />
+                      <p className="mt-3 text-xs text-slate-500">Yetkili okuyunca onaylanır</p>
+                    </>
+                  ) : null}
+                  {cashError ? (
+                    <div className="mt-4 space-y-2">
+                      <p className="text-sm text-red-600">{cashError}</p>
+                      <button
+                        type="button"
+                        onClick={() => void createCashQr()}
+                        className="text-sm font-medium text-[#2D6AF6]"
+                      >
+                        Tekrar dene
+                      </button>
+                    </div>
+                  ) : null}
+                </div>
+              )}
             </div>
           ) : null}
         </div>

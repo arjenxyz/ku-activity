@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { useRouter } from 'next/navigation';
 import { FiCheck, FiChevronDown, FiInfo, FiX } from 'react-icons/fi';
 import { FeePaymentModal } from '@/components/events/FeePaymentModal';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
@@ -52,6 +53,7 @@ export function RegisteredEventExtras({
   cashContactNote = null,
   children,
 }: Props) {
+  const router = useRouter();
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [qrOpen, setQrOpen] = useState(false);
   const [payOpen, setPayOpen] = useState(false);
@@ -417,6 +419,8 @@ export function RegisteredEventExtras({
       <FeePaymentModal
         open={payOpen}
         onClose={() => setPayOpen(false)}
+        onPaid={() => router.refresh()}
+        eventId={eventId}
         passengerName={passengerName}
         feeLabel={feeLabel}
         paymentIban={paymentIban}
