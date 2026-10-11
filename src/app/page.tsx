@@ -3,7 +3,7 @@ import { ExploreMenuButton, HomeHeader } from '@/components/home/HomeHeader';
 import { HomeSponsors } from '@/components/home/HomeSponsors';
 import { RegistrationPreview } from '@/components/home/RegistrationPreview';
 import { SlidingStars } from '@/components/home/SlidingStars';
-import { APP_TAGLINE_TR } from '@/lib/brand';
+import { APP_TAGLINE, APP_TAGLINE_TR } from '@/lib/brand';
 import { listPublicSponsors } from '@/lib/sponsors/sponsors-store';
 
 export const dynamic = 'force-dynamic';
@@ -27,7 +27,7 @@ export default function HomePage() {
           <div className="mx-auto grid w-full max-w-6xl items-center gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(22rem,34rem)] lg:gap-14">
             <div className="mx-auto max-w-xl text-center lg:mx-0 lg:max-w-none lg:text-left">
               <p className="inline-flex rounded-full bg-white px-3.5 py-1.5 text-xs font-medium text-slate-600 shadow-sm ring-1 ring-slate-200/80">
-                Öğrenci hizmeti · üniversiteden bağımsız
+                {APP_TAGLINE}
               </p>
               <h1 className="mt-4 text-balance text-[2rem] font-bold leading-[1.1] tracking-tight text-[#2D6AF6] sm:text-5xl">
                 Etkinlikleri gör,{' '}
