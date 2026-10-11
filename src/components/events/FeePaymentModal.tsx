@@ -365,7 +365,7 @@ export function FeePaymentModal({
                     onCopy={() => void copyText('code', paymentCode)}
                   />
                   <p className="px-1 text-[11px] text-slate-500">
-                    Havale açıklamasına bu kodu yaz. Kayıt no: {registrationNo}
+                    Havale açıklamasına bu kodu yaz.
                   </p>
                 </div>
               ) : registrationNo ? (
