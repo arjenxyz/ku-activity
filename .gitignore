@@ -43,5 +43,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# Tesseract language packs (downloaded via postinstall / npm run tessdata:ensure)
+src/lib/payments/tessdata/*.traineddata
+src/lib/payments/tessdata/*.traineddata.gz
+
 # i18n translation caches (local, resumable)
 scripts/_translate-cache-*.json

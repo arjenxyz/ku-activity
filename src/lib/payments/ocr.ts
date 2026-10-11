@@ -1,9 +1,13 @@
+import fs from 'node:fs';
+import path from 'node:path';
 import type { ExtractMethod, MatchConfidence, PaymentOcrResult } from '@/lib/payments/types';
 
 const CODE_RE = /\b([A-Z]{2,5}-[A-Z0-9]{3,8})\b/g;
 const REG_NO_RE = /\b([A-Z]{2,5}-\d{4}-\d{4,8})\b/g;
 const AMOUNT_RE =
   /(?:₺|TRY|TL)?\s*(\d{1,3}(?:[.,]\d{3})*(?:[.,]\d{2})?|\d+)\s*(?:₺|TRY|TL)?/gi;
+const LABELED_AMOUNT_RE =
+  /(?:TUTAR|ODEME|ÖDEME|ISLEM|İŞLEM|HAVALE|TRANSFER|AMOUNT)[^\d]{0,48}(\d{1,3}(?:[.,]\d{3})*(?:[.,]\d{2})?|\d+)/gi;
 
 /** Strong bank-receipt cues — single generic words (BANKA, TUTAR) are not enough. */
 const BANK_KEYWORDS = [
@@ -22,8 +26,9 @@ const BANK_KEYWORDS = [
 ] as const;
 
 const MIN_PDF_TEXT_CHARS = 40;
-/** Cap total extract time so the upload UI does not hang on Tesseract. */
-const EXTRACT_BUDGET_MS = 8_000;
+/** Soft cap for the full extract pipeline (claims maxDuration is 60s). */
+const EXTRACT_BUDGET_MS = 28_000;
+const OCR_JOB_BUDGET_MS = 22_000;
 
 export const RECEIPT_NOT_RECOGNIZED_ERROR =
   'Dosya dekont gibi görünmüyor. Banka dekontu (PDF/foto) yükleyin.';
@@ -35,6 +40,13 @@ export type ReceiptExtractResult = {
   text: string;
   method: ExtractMethod;
   pageCount: number;
+};
+
+type TessWorker = Awaited<ReturnType<typeof import('tesseract.js').createWorker>>;
+
+const globalOcr = globalThis as typeof globalThis & {
+  __emsTessWorker?: TessWorker;
+  __emsTessWorkerPromise?: Promise<TessWorker>;
 };
 
 function withBudget<T>(promise: Promise<T>, fallback: T, ms = EXTRACT_BUDGET_MS): Promise<T> {
@@ -73,11 +85,24 @@ function compactAlnum(value: string) {
   return value.toUpperCase().replace(/[^A-Z0-9]/g, '');
 }
 
+/** Normalize OCR confusables for payment-code comparison. */
+function normalizeOcrCode(value: string) {
+  return compactAlnum(value).replace(/O/g, '0').replace(/[IL]/g, '1');
+}
+
 function textIncludesLoose(haystack: string, needle: string) {
   if (!needle) return false;
   const upper = haystack.toUpperCase();
   if (upper.includes(needle.toUpperCase())) return true;
-  return compactAlnum(haystack).includes(compactAlnum(needle));
+  if (compactAlnum(haystack).includes(compactAlnum(needle))) return true;
+  return normalizeOcrCode(haystack).includes(normalizeOcrCode(needle));
+}
+
+function codesMatch(a: string | null | undefined, b: string | null | undefined) {
+  if (!a || !b) return false;
+  if (a.toUpperCase() === b.toUpperCase()) return true;
+  if (compactAlnum(a) === compactAlnum(b)) return true;
+  return normalizeOcrCode(a) === normalizeOcrCode(b);
 }
 
 function findIban(text: string): string | null {
@@ -95,7 +120,6 @@ function parseAmount(raw: string): number | null {
   }
   if (cleaned.includes(',')) {
     const parts = cleaned.split(',');
-    // "850,00" → 850; "1.250,00" handled above
     if (parts[1] && parts[1].length <= 2) {
       const n = Number(parts[0].replace(/\D/g, ''));
       return Number.isFinite(n) ? n : null;
@@ -103,7 +127,6 @@ function parseAmount(raw: string): number | null {
     const n = Number(parts[0].replace(/\D/g, ''));
     return Number.isFinite(n) ? n : null;
   }
-  // Prefer "850.00" as 850 when 2 decimal digits; else strip dots as thousand separators
   if (/^\d+\.\d{2}$/.test(cleaned)) {
     const n = Number(cleaned);
     return Number.isFinite(n) ? Math.round(n) : null;
@@ -112,35 +135,107 @@ function parseAmount(raw: string): number | null {
   return Number.isFinite(n) && n > 0 ? n : null;
 }
 
-async function ocrBuffer(buffer: Buffer | Uint8Array): Promise<string> {
-  try {
-    const Tesseract = await import('tesseract.js');
-    // Single language pack is faster than eng+tur for first load.
-    const result = await Tesseract.recognize(Buffer.from(buffer), 'tur', {
-      logger: () => undefined,
-    });
-    return result.data.text ?? '';
-  } catch {
-    try {
-      const Tesseract = await import('tesseract.js');
-      const result = await Tesseract.recognize(Buffer.from(buffer), 'eng', {
+function tessdataDir() {
+  return path.join(process.cwd(), 'src', 'lib', 'payments', 'tessdata');
+}
+
+async function getOcrWorker(): Promise<TessWorker> {
+  if (globalOcr.__emsTessWorker) return globalOcr.__emsTessWorker;
+  if (!globalOcr.__emsTessWorkerPromise) {
+    globalOcr.__emsTessWorkerPromise = (async () => {
+      const { createWorker, PSM } = await import('tesseract.js');
+      const langPath = tessdataDir();
+      const turPath = path.join(langPath, 'tur.traineddata.gz');
+      const engPath = path.join(langPath, 'eng.traineddata.gz');
+      if (!fs.existsSync(turPath) || !fs.existsSync(engPath)) {
+        throw new Error('Tessdata missing — run npm run tessdata:ensure');
+      }
+      // Local langPath (not URL) → Node adapter reads .gz from disk; no CDN.
+      const worker = await createWorker('tur+eng', 1, {
+        langPath,
+        cachePath: langPath,
+        cacheMethod: 'none',
+        gzip: true,
         logger: () => undefined,
       });
-      return result.data.text ?? '';
-    } catch {
-      return '';
+      await worker.setParameters({
+        tessedit_pageseg_mode: PSM.AUTO,
+        user_defined_dpi: '300',
+        preserve_interword_spaces: '1',
+      });
+      return worker;
+    })().catch((error) => {
+      globalOcr.__emsTessWorkerPromise = undefined;
+      throw error;
+    });
+  }
+  globalOcr.__emsTessWorker = await globalOcr.__emsTessWorkerPromise;
+  return globalOcr.__emsTessWorker;
+}
+
+async function preprocessForOcr(buffer: Buffer): Promise<Buffer> {
+  try {
+    const sharp = (await import('sharp')).default;
+    const meta = await sharp(buffer).rotate().metadata();
+    const width = meta.width ?? 0;
+    const height = meta.height ?? 0;
+    const minSide = Math.min(width, height);
+    const scale = minSide > 0 && minSide < 1200 ? 2 : 1;
+
+    let pipeline = sharp(buffer).rotate().greyscale().normalize();
+    if (scale > 1 && width > 0 && height > 0) {
+      pipeline = pipeline.resize({
+        width: Math.round(width * scale),
+        height: Math.round(height * scale),
+        kernel: 'lanczos3',
+      });
     }
+    return await pipeline.sharpen({ sigma: 1 }).png().toBuffer();
+  } catch {
+    return Buffer.from(buffer);
+  }
+}
+
+async function ocrImageBuffer(buffer: Buffer): Promise<string> {
+  try {
+    const prepared = await preprocessForOcr(buffer);
+    const worker = await getOcrWorker();
+    const result = await withBudget(
+      worker.recognize(prepared),
+      { data: { text: '' } } as Awaited<ReturnType<TessWorker['recognize']>>,
+      OCR_JOB_BUDGET_MS
+    );
+    return (result.data.text ?? '').trim();
+  } catch {
+    return '';
+  }
+}
+
+async function rasterizePdfFirstPage(buffer: Buffer): Promise<{ png: Buffer; pageCount: number } | null> {
+  try {
+    const mupdf = await import('mupdf');
+    const doc = mupdf.Document.openDocument(buffer, 'application/pdf');
+    const pageCount = doc.countPages();
+    if (pageCount < 1) return null;
+    const page = doc.loadPage(0);
+    // ~180 DPI (72 * 2.5)
+    const matrix = mupdf.Matrix.scale(2.5, 2.5);
+    const pixmap = page.toPixmap(matrix, mupdf.ColorSpace.DeviceRGB, false, true);
+    return { png: Buffer.from(pixmap.asPNG()), pageCount };
+  } catch {
+    return null;
   }
 }
 
 async function extractPdf(buffer: Buffer): Promise<ReceiptExtractResult> {
+  let pageCount = 0;
   try {
     const { PDFParse } = await import('pdf-parse');
     const parser = new PDFParse({ data: buffer });
     try {
       const textResult = await parser.getText({ first: 1, last: 2 });
       const text = (textResult.text ?? '').trim();
-      const pageCount =
+      pageCount =
         typeof textResult.total === 'number'
           ? textResult.total
           : Array.isArray(textResult.pages)
@@ -150,16 +245,23 @@ async function extractPdf(buffer: Buffer): Promise<ReceiptExtractResult> {
       if (text.replace(/\s+/g, ' ').length >= MIN_PDF_TEXT_CHARS) {
         return { text, method: 'pdf-text', pageCount };
       }
-
-      // Scanned/image-only PDFs: skip heavy page-render OCR in the request path
-      // so upload stays snappy; admin reviews the file visually.
-      return { text: '', method: 'empty', pageCount: pageCount || 1 };
     } finally {
       await parser.destroy().catch(() => undefined);
     }
   } catch {
-    return { text: '', method: 'empty', pageCount: 0 };
+    // fall through to raster OCR
   }
+
+  const raster = await rasterizePdfFirstPage(buffer);
+  if (!raster) {
+    return { text: '', method: 'empty', pageCount: pageCount || 0 };
+  }
+  const ocrText = await ocrImageBuffer(raster.png);
+  return {
+    text: ocrText,
+    method: ocrText ? 'ocr' : 'empty',
+    pageCount: raster.pageCount || pageCount || 1,
+  };
 }
 
 async function extractReceiptContentInner(
@@ -175,7 +277,7 @@ async function extractReceiptContentInner(
   }
 
   if (mimeType.startsWith('image/')) {
-    const text = (await withBudget(ocrBuffer(buffer), '', 6_000)).trim();
+    const text = await ocrImageBuffer(buffer);
     return { text, method: text ? 'ocr' : 'empty', pageCount: 1 };
   }
 
@@ -184,7 +286,7 @@ async function extractReceiptContentInner(
 
 /**
  * Extract text from receipt PDF/image for matching.
- * Never throws — empty/timeout falls through to admin review.
+ * Never throws — empty/timeout falls through to gate evaluation.
  */
 export async function extractReceiptContent(
   buffer: Buffer,
@@ -228,6 +330,28 @@ function collectAmounts(text: string): number[] {
   return amounts;
 }
 
+function collectLabeledAmounts(text: string): number[] {
+  const amounts: number[] = [];
+  for (const match of text.matchAll(LABELED_AMOUNT_RE)) {
+    const parsed = parseAmount(match[1] ?? '');
+    if (parsed != null && parsed >= 10 && parsed <= 1_000_000) amounts.push(parsed);
+  }
+  return amounts;
+}
+
+function pickAmount(text: string, expected?: number | null): number | null {
+  const labeled = collectLabeledAmounts(text);
+  const all = collectAmounts(text);
+  const pool = labeled.length ? labeled : all;
+  if (!pool.length) return null;
+  if (typeof expected === 'number') {
+    return pool.reduce((best, cur) =>
+      Math.abs(cur - expected) < Math.abs(best - expected) ? cur : best
+    );
+  }
+  return pool.sort((a, b) => b - a)[0] ?? null;
+}
+
 function normalizeReceiptText(rawText: string) {
   return rawText
     .toUpperCase()
@@ -252,7 +376,6 @@ export function looksLikeBankReceipt(rawText: string): boolean {
     if (normalized.includes(keyword)) hits += 1;
     if (hits >= 2) return true;
   }
-  // A single very strong cue is enough.
   return (
     normalized.includes('DEKONT') ||
     normalized.includes('HAVALE') ||
@@ -262,10 +385,7 @@ export function looksLikeBankReceipt(rawText: string): boolean {
 
 /**
  * Decide whether a weak/empty extract may enter the admin queue.
- * - Field match (partial/strong): always accept
- * - Weak + bank-like text: review
- * - Empty scanned PDF: review (banks often ship image-only PDFs)
- * - Empty images / unrelated text: reject
+ * Empty PDF is no longer auto-accepted — raster OCR must produce signals.
  */
 export function evaluateReceiptUpload(input: {
   confidence: MatchConfidence;
@@ -279,10 +399,7 @@ export function evaluateReceiptUpload(input: {
   }
 
   const unreadable = !input.text.trim() || input.method === 'empty';
-  const isPdf = input.mime === 'application/pdf' || input.mime === 'application/x-pdf';
-
   if (unreadable) {
-    if (isPdf && input.pageCount >= 1) return { accept: true };
     return { accept: false, error: RECEIPT_UNREADABLE_ERROR };
   }
 
@@ -310,33 +427,23 @@ export function parseReceiptText(
   const expectedReg = options.expectedRegistrationNo?.toUpperCase().trim() || null;
 
   let code: string | null = null;
-  if (expectedPayment && (allCodes.some((c) => c === expectedPayment) || textIncludesLoose(text, expectedPayment))) {
+  if (
+    expectedPayment &&
+    (allCodes.some((c) => codesMatch(c, expectedPayment)) || textIncludesLoose(text, expectedPayment))
+  ) {
     code = expectedPayment;
   } else if (
     expectedReg &&
-    (allCodes.some((c) => c === expectedReg) || textIncludesLoose(text, expectedReg))
+    (allCodes.some((c) => codesMatch(c, expectedReg)) || textIncludesLoose(text, expectedReg))
   ) {
     code = expectedReg;
   } else if (allCodes.length) {
     code = allCodes[0] ?? null;
   }
 
-  const amounts = collectAmounts(text);
-  let amount: number | null = null;
-  if (amounts.length) {
-    const expected = options.expectedAmount;
-    if (typeof expected === 'number') {
-      amount = amounts.reduce((best, cur) =>
-        Math.abs(cur - expected) < Math.abs(best - expected) ? cur : best
-      );
-    } else {
-      amount = amounts.sort((a, b) => b - a)[0] ?? null;
-    }
-  }
-
   return {
     code,
-    amount,
+    amount: pickAmount(text, options.expectedAmount),
     iban: foundIban,
     dateText: null,
     rawText: rawText.slice(0, 4000),
@@ -354,8 +461,8 @@ export function scoreReceiptMatch(
   const expectedReg = options.expectedRegistrationNo?.toUpperCase().trim() || '';
   const codeMatched = Boolean(
     (expectedPayment &&
-      (ocr.code === expectedPayment || textIncludesLoose(text, expectedPayment))) ||
-      (expectedReg && (ocr.code === expectedReg || textIncludesLoose(text, expectedReg)))
+      (codesMatch(ocr.code, expectedPayment) || textIncludesLoose(text, expectedPayment))) ||
+      (expectedReg && (codesMatch(ocr.code, expectedReg) || textIncludesLoose(text, expectedReg)))
   );
 
   const expectedAmount = options.expectedAmount;

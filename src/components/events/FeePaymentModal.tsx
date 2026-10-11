@@ -553,12 +553,12 @@ export function FeePaymentModal({
                       <FiUpload className="h-5 w-5" aria-hidden />
                     </span>
                     <span className="mt-3 text-sm font-semibold text-[#0E1548]">
-                      {receiptBusy ? 'Okunuyor…' : 'Dosya seç'}
+                      {receiptBusy ? 'Dekont okunuyor…' : 'Dosya seç'}
                     </span>
                     <span className="mt-1 text-[11px] text-slate-500">
                       {receiptBusy
                         ? 'Birkaç saniye sürebilir'
-                        : 'PDF, JPG, PNG · en fazla 4 MB'}
+                        : 'PDF, JPG, PNG, WEBP · en fazla 4 MB'}
                     </span>
                     <input
                       type="file"

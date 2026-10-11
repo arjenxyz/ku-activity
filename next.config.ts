@@ -1,6 +1,15 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
+  serverExternalPackages: ['tesseract.js', 'tesseract.js-core', 'sharp', 'mupdf'],
+  outputFileTracingIncludes: {
+    '/api/payments/claims': [
+      './src/lib/payments/tessdata/**/*',
+      './node_modules/tesseract.js/**/*',
+      './node_modules/tesseract.js-core/**/*',
+      './node_modules/mupdf/dist/**/*',
+    ],
+  },
   async headers() {
     return [
       {

@@ -15,11 +15,12 @@ import {
 import {
   isAllowedReceiptFile,
   RECEIPT_FILE_TYPE_ERROR,
-  resolveReceiptMime,
+  resolveVerifiedReceiptMime,
 } from '@/lib/payments/receipt-file';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
+export const maxDuration = 60;
 
 const MAX_BYTES = 4 * 1024 * 1024;
 
@@ -62,7 +63,10 @@ export async function POST(request: Request) {
     const expectedIban = event?.planning?.pricing?.paymentIban || null;
 
     const buffer = Buffer.from(await file.arrayBuffer());
-    const mime = resolveReceiptMime(file);
+    const mime = resolveVerifiedReceiptMime(file, buffer);
+    if (!mime) {
+      return NextResponse.json({ error: RECEIPT_FILE_TYPE_ERROR }, { status: 400 });
+    }
     const extracted = await extractReceiptContent(buffer, mime);
     const scored = scoreReceiptMatch(extracted.text, {
       expectedPaymentCode: participant.paymentCode,
