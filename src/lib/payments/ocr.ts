@@ -7,12 +7,41 @@ const AMOUNT_RE =
   /(?:₺|TRY|TL)?\s*(\d{1,3}(?:[.,]\d{3})*(?:[.,]\d{2})?|\d+)\s*(?:₺|TRY|TL)?/gi;
 
 const MIN_PDF_TEXT_CHARS = 40;
+/** Cap total extract time so the upload UI does not hang on Tesseract. */
+const EXTRACT_BUDGET_MS = 6_000;
 
 export type ReceiptExtractResult = {
   text: string;
   method: ExtractMethod;
   pageCount: number;
 };
+
+function withBudget<T>(promise: Promise<T>, fallback: T, ms = EXTRACT_BUDGET_MS): Promise<T> {
+  return new Promise((resolve) => {
+    let settled = false;
+    const timer = setTimeout(() => {
+      if (!settled) {
+        settled = true;
+        resolve(fallback);
+      }
+    }, ms);
+    promise
+      .then((value) => {
+        if (!settled) {
+          settled = true;
+          clearTimeout(timer);
+          resolve(value);
+        }
+      })
+      .catch(() => {
+        if (!settled) {
+          settled = true;
+          clearTimeout(timer);
+          resolve(fallback);
+        }
+      });
+  });
+}
 
 export function normalizeIban(value: string | null | undefined) {
   if (!value) return '';
@@ -38,12 +67,21 @@ function parseAmount(raw: string): number | null {
 async function ocrBuffer(buffer: Buffer | Uint8Array): Promise<string> {
   try {
     const Tesseract = await import('tesseract.js');
-    const result = await Tesseract.recognize(Buffer.from(buffer), 'eng+tur', {
+    // Single language pack is faster than eng+tur for first load.
+    const result = await Tesseract.recognize(Buffer.from(buffer), 'tur', {
       logger: () => undefined,
     });
     return result.data.text ?? '';
   } catch {
-    return '';
+    try {
+      const Tesseract = await import('tesseract.js');
+      const result = await Tesseract.recognize(Buffer.from(buffer), 'eng', {
+        logger: () => undefined,
+      });
+      return result.data.text ?? '';
+    } catch {
+      return '';
+    }
   }
 }
 
@@ -52,7 +90,7 @@ async function extractPdf(buffer: Buffer): Promise<ReceiptExtractResult> {
     const { PDFParse } = await import('pdf-parse');
     const parser = new PDFParse({ data: buffer });
     try {
-      const textResult = await parser.getText({ first: 1, last: 3 });
+      const textResult = await parser.getText({ first: 1, last: 2 });
       const text = (textResult.text ?? '').trim();
       const pageCount =
         typeof textResult.total === 'number'
@@ -65,36 +103,9 @@ async function extractPdf(buffer: Buffer): Promise<ReceiptExtractResult> {
         return { text, method: 'pdf-text', pageCount };
       }
 
-      const shot = await parser.getScreenshot({ first: 1, last: Math.min(2, pageCount || 2) });
-      const pages = (Array.isArray(shot?.pages) ? shot.pages : []) as Array<{
-        dataUrl?: string;
-        data?: Uint8Array | Buffer;
-      }>;
-      const chunks: string[] = [];
-      for (const page of pages) {
-        const dataUrl = typeof page?.dataUrl === 'string' ? page.dataUrl : null;
-        const bin =
-          page?.data instanceof Uint8Array
-            ? page.data
-            : Buffer.isBuffer(page?.data)
-              ? page.data
-              : null;
-
-        if (bin) {
-          chunks.push(await ocrBuffer(bin));
-          continue;
-        }
-        if (dataUrl?.startsWith('data:')) {
-          const b64 = dataUrl.split(',')[1] ?? '';
-          if (b64) chunks.push(await ocrBuffer(Buffer.from(b64, 'base64')));
-        }
-      }
-      const ocrText = chunks.join('\n').trim();
-      return {
-        text: ocrText,
-        method: ocrText ? 'ocr' : 'empty',
-        pageCount: pages.length || pageCount || 1,
-      };
+      // Scanned/image-only PDFs: skip heavy page-render OCR in the request path
+      // so upload stays snappy; admin reviews the file visually.
+      return { text: '', method: 'empty', pageCount: pageCount || 1 };
     } finally {
       await parser.destroy().catch(() => undefined);
     }
@@ -103,11 +114,7 @@ async function extractPdf(buffer: Buffer): Promise<ReceiptExtractResult> {
   }
 }
 
-/**
- * Extract text from receipt PDF/image for matching.
- * Never throws — empty text falls through to admin review.
- */
-export async function extractReceiptContent(
+async function extractReceiptContentInner(
   buffer: Buffer,
   mimeType: string
 ): Promise<ReceiptExtractResult> {
@@ -120,11 +127,26 @@ export async function extractReceiptContent(
   }
 
   if (mimeType.startsWith('image/')) {
-    const text = (await ocrBuffer(buffer)).trim();
+    const text = (await withBudget(ocrBuffer(buffer), '', 7_000)).trim();
     return { text, method: text ? 'ocr' : 'empty', pageCount: 1 };
   }
 
   return { text: '', method: 'empty', pageCount: 0 };
+}
+
+/**
+ * Extract text from receipt PDF/image for matching.
+ * Never throws — empty/timeout falls through to admin review.
+ */
+export async function extractReceiptContent(
+  buffer: Buffer,
+  mimeType: string
+): Promise<ReceiptExtractResult> {
+  return withBudget(
+    extractReceiptContentInner(buffer, mimeType),
+    { text: '', method: 'empty', pageCount: 0 },
+    EXTRACT_BUDGET_MS
+  );
 }
 
 /** @deprecated Prefer extractReceiptContent — kept for callers expecting a string. */
