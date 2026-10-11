@@ -4,24 +4,26 @@ const ALLOWED_MIME = new Set([
   'image/jpg',
   'image/png',
   'image/webp',
-  'image/gif',
-  'image/heic',
-  'image/heif',
 ]);
 
-const ALLOWED_EXT = new Set(['.pdf', '.jpg', '.jpeg', '.png', '.webp', '.gif', '.heic', '.heif']);
+const ALLOWED_EXT = new Set(['.pdf', '.jpg', '.jpeg', '.png', '.webp']);
 
-export const RECEIPT_FILE_ACCEPT = 'image/jpeg,image/png,image/webp,image/gif,image/heic,image/heif,application/pdf,.pdf,.jpg,.jpeg,.png,.webp,.gif';
+export const RECEIPT_FILE_ACCEPT =
+  'application/pdf,image/jpeg,image/png,image/webp,.pdf,.jpg,.jpeg,.png,.webp';
 
 export function isAllowedReceiptFile(file: { name?: string; type?: string }) {
   const mime = (file.type || '').toLowerCase().trim();
-  if (mime && ALLOWED_MIME.has(mime)) return true;
-  if (mime.startsWith('image/') && mime !== 'image/svg+xml') return true;
-
   const name = (file.name || '').toLowerCase();
   const dot = name.lastIndexOf('.');
-  if (dot >= 0 && ALLOWED_EXT.has(name.slice(dot))) return true;
-  return false;
+  const ext = dot >= 0 ? name.slice(dot) : '';
+
+  // Extension is required and must be on the allowlist.
+  if (!ext || !ALLOWED_EXT.has(ext)) return false;
+
+  // If the browser reports a MIME type, it must also be allowlisted.
+  if (mime && !ALLOWED_MIME.has(mime)) return false;
+
+  return true;
 }
 
-export const RECEIPT_FILE_TYPE_ERROR = 'Sadece PDF veya görsel (JPG, PNG, WEBP) kabul edilir';
+export const RECEIPT_FILE_TYPE_ERROR = 'Bu format kabul edilmez. PDF, JPG, PNG veya WEBP yükleyin.';
