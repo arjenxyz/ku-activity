@@ -1,16 +1,19 @@
 import type { ExtractMethod, MatchConfidence, PaymentOcrResult } from '@/lib/payments/types';
 
-const IBAN_RE = /\bTR\d{2}\s?\d{4}\s?\d{4}\s?\d{4}\s?\d{4}\s?\d{4}\s?\d{2}\b/i;
 const CODE_RE = /\b([A-Z]{2,5}-[A-Z0-9]{3,8})\b/g;
 const REG_NO_RE = /\b([A-Z]{2,5}-\d{4}-\d{4,8})\b/g;
 const AMOUNT_RE =
   /(?:₺|TRY|TL)?\s*(\d{1,3}(?:[.,]\d{3})*(?:[.,]\d{2})?|\d+)\s*(?:₺|TRY|TL)?/gi;
 
+const BANK_HINT_RE =
+  /DEKONT|HAVALE|EFT|FAST|IBAN|ALICI|G[OÖ]NDEREN|TUTAR|TRANSFER|BANKA|[OÖ]DEME|HESAP|[Iİ][SŞ]LEM|REF\.?|RECEIPT|PAYMENT/;
+
 const MIN_PDF_TEXT_CHARS = 40;
 /** Cap total extract time so the upload UI does not hang on Tesseract. */
-const EXTRACT_BUDGET_MS = 6_000;
+const EXTRACT_BUDGET_MS = 8_000;
 
-export const RECEIPT_NOT_RECOGNIZED_ERROR = 'Dekont gibi görünmüyor. Doğru dosyayı yükleyin.';
+export const RECEIPT_NOT_RECOGNIZED_ERROR =
+  'Dosya dekont gibi görünmüyor. Banka dekontu (PDF/foto) yükleyin.';
 
 export type ReceiptExtractResult = {
   text: string;
@@ -50,6 +53,23 @@ export function normalizeIban(value: string | null | undefined) {
   return value.toUpperCase().replace(/[^A-Z0-9]/g, '');
 }
 
+function compactAlnum(value: string) {
+  return value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+}
+
+function textIncludesLoose(haystack: string, needle: string) {
+  if (!needle) return false;
+  const upper = haystack.toUpperCase();
+  if (upper.includes(needle.toUpperCase())) return true;
+  return compactAlnum(haystack).includes(compactAlnum(needle));
+}
+
+function findIban(text: string): string | null {
+  const compact = compactAlnum(text);
+  const match = compact.match(/TR\d{24}/);
+  return match ? match[0] : null;
+}
+
 function parseAmount(raw: string): number | null {
   const cleaned = raw.replace(/\s/g, '').replace(/₺|TRY|TL/gi, '');
   if (cleaned.includes(',') && cleaned.includes('.')) {
@@ -59,8 +79,18 @@ function parseAmount(raw: string): number | null {
   }
   if (cleaned.includes(',')) {
     const parts = cleaned.split(',');
+    // "850,00" → 850; "1.250,00" handled above
+    if (parts[1] && parts[1].length <= 2) {
+      const n = Number(parts[0].replace(/\D/g, ''));
+      return Number.isFinite(n) ? n : null;
+    }
     const n = Number(parts[0].replace(/\D/g, ''));
     return Number.isFinite(n) ? n : null;
+  }
+  // Prefer "850.00" as 850 when 2 decimal digits; else strip dots as thousand separators
+  if (/^\d+\.\d{2}$/.test(cleaned)) {
+    const n = Number(cleaned);
+    return Number.isFinite(n) ? Math.round(n) : null;
   }
   const n = Number(cleaned.replace(/\./g, '').replace(/[^\d]/g, ''));
   return Number.isFinite(n) && n > 0 ? n : null;
@@ -129,7 +159,7 @@ async function extractReceiptContentInner(
   }
 
   if (mimeType.startsWith('image/')) {
-    const text = (await withBudget(ocrBuffer(buffer), '', 5_000)).trim();
+    const text = (await withBudget(ocrBuffer(buffer), '', 6_000)).trim();
     return { text, method: text ? 'ocr' : 'empty', pageCount: 1 };
   }
 
@@ -173,6 +203,25 @@ export type ParsedReceiptMatch = PaymentOcrResult & {
   extractMethod: ExtractMethod;
 };
 
+function collectAmounts(text: string): number[] {
+  const amounts: number[] = [];
+  for (const match of text.matchAll(AMOUNT_RE)) {
+    const parsed = parseAmount(match[1] ?? '');
+    if (parsed != null && parsed >= 10 && parsed <= 1_000_000) amounts.push(parsed);
+  }
+  return amounts;
+}
+
+/** True when OCR text has common bank-receipt signals (even if fields don't match). */
+export function looksLikeBankReceipt(rawText: string): boolean {
+  const text = (rawText || '').trim();
+  if (!text) return false;
+  const upper = text.toUpperCase();
+  if (findIban(upper)) return true;
+  if (BANK_HINT_RE.test(upper)) return true;
+  return false;
+}
+
 /** Parse bank-receipt-like text and score matches against expected payment fields. */
 export function parseReceiptText(
   rawText: string,
@@ -184,7 +233,7 @@ export function parseReceiptText(
       : expectedCodeOrOptions;
 
   const text = rawText.toUpperCase();
-  const ibanMatch = text.match(IBAN_RE);
+  const foundIban = findIban(text);
   const shortCodes = [...text.matchAll(CODE_RE)].map((m) => m[1]);
   const regNos = [...text.matchAll(REG_NO_RE)].map((m) => m[1]);
   const allCodes = [...new Set([...shortCodes, ...regNos])];
@@ -193,28 +242,34 @@ export function parseReceiptText(
   const expectedReg = options.expectedRegistrationNo?.toUpperCase().trim() || null;
 
   let code: string | null = null;
-  if (expectedPayment && allCodes.some((c) => c === expectedPayment)) {
+  if (expectedPayment && (allCodes.some((c) => c === expectedPayment) || textIncludesLoose(text, expectedPayment))) {
     code = expectedPayment;
-  } else if (expectedReg && (allCodes.some((c) => c === expectedReg) || text.includes(expectedReg))) {
+  } else if (
+    expectedReg &&
+    (allCodes.some((c) => c === expectedReg) || textIncludesLoose(text, expectedReg))
+  ) {
     code = expectedReg;
   } else if (allCodes.length) {
     code = allCodes[0] ?? null;
   }
 
+  const amounts = collectAmounts(text);
   let amount: number | null = null;
-  const amounts: number[] = [];
-  for (const match of text.matchAll(AMOUNT_RE)) {
-    const parsed = parseAmount(match[1] ?? '');
-    if (parsed != null && parsed >= 10) amounts.push(parsed);
-  }
   if (amounts.length) {
-    amount = amounts.sort((a, b) => b - a)[0] ?? null;
+    const expected = options.expectedAmount;
+    if (typeof expected === 'number') {
+      amount = amounts.reduce((best, cur) =>
+        Math.abs(cur - expected) < Math.abs(best - expected) ? cur : best
+      );
+    } else {
+      amount = amounts.sort((a, b) => b - a)[0] ?? null;
+    }
   }
 
   return {
     code,
     amount,
-    iban: ibanMatch ? normalizeIban(ibanMatch[0]) : null,
+    iban: foundIban,
     dateText: null,
     rawText: rawText.slice(0, 4000),
   };
@@ -231,8 +286,8 @@ export function scoreReceiptMatch(
   const expectedReg = options.expectedRegistrationNo?.toUpperCase().trim() || '';
   const codeMatched = Boolean(
     (expectedPayment &&
-      (ocr.code === expectedPayment || text.includes(expectedPayment))) ||
-      (expectedReg && (ocr.code === expectedReg || text.includes(expectedReg)))
+      (ocr.code === expectedPayment || textIncludesLoose(text, expectedPayment))) ||
+      (expectedReg && (ocr.code === expectedReg || textIncludesLoose(text, expectedReg)))
   );
 
   const expectedAmount = options.expectedAmount;
@@ -244,7 +299,9 @@ export function scoreReceiptMatch(
   const expectedIban = normalizeIban(options.expectedIban);
   const foundIban = normalizeIban(ocr.iban);
   const ibanMatched = Boolean(
-    expectedIban && foundIban && (foundIban === expectedIban || text.includes(expectedIban))
+    expectedIban &&
+      foundIban &&
+      (foundIban === expectedIban || textIncludesLoose(text, expectedIban))
   );
 
   const hits = [codeMatched, amountMatched, ibanMatched].filter(Boolean).length;

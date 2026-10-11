@@ -21,9 +21,34 @@ export function isAllowedReceiptFile(file: { name?: string; type?: string }) {
   if (!ext || !ALLOWED_EXT.has(ext)) return false;
 
   // If the browser reports a MIME type, it must also be allowlisted.
-  if (mime && !ALLOWED_MIME.has(mime)) return false;
+  if (mime && mime !== 'application/octet-stream' && !ALLOWED_MIME.has(mime)) {
+    return false;
+  }
 
   return true;
+}
+
+/** Prefer browser MIME; fall back to extension when empty/octet-stream. */
+export function resolveReceiptMime(file: { name?: string; type?: string }): string {
+  const mime = (file.type || '').toLowerCase().trim();
+  if (mime && mime !== 'application/octet-stream' && ALLOWED_MIME.has(mime)) {
+    return mime === 'image/jpg' ? 'image/jpeg' : mime;
+  }
+  const name = (file.name || '').toLowerCase();
+  const ext = name.includes('.') ? name.slice(name.lastIndexOf('.')) : '';
+  switch (ext) {
+    case '.pdf':
+      return 'application/pdf';
+    case '.jpg':
+    case '.jpeg':
+      return 'image/jpeg';
+    case '.png':
+      return 'image/png';
+    case '.webp':
+      return 'image/webp';
+    default:
+      return mime || 'application/octet-stream';
+  }
 }
 
 export const RECEIPT_FILE_TYPE_ERROR = 'Bu format kabul edilmez. PDF, JPG, PNG veya WEBP yükleyin.';

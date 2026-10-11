@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { getCatalogEvent } from '@/lib/events/catalog-store';
 import {
   extractReceiptContent,
+  looksLikeBankReceipt,
   RECEIPT_NOT_RECOGNIZED_ERROR,
   scoreReceiptMatch,
 } from '@/lib/payments/ocr';
@@ -15,6 +16,7 @@ import {
 import {
   isAllowedReceiptFile,
   RECEIPT_FILE_TYPE_ERROR,
+  resolveReceiptMime,
 } from '@/lib/payments/receipt-file';
 
 export const runtime = 'nodejs';
@@ -61,7 +63,7 @@ export async function POST(request: Request) {
     const expectedIban = event?.planning?.pricing?.paymentIban || null;
 
     const buffer = Buffer.from(await file.arrayBuffer());
-    const mime = file.type || 'application/octet-stream';
+    const mime = resolveReceiptMime(file);
     const extracted = await extractReceiptContent(buffer, mime);
     const scored = scoreReceiptMatch(extracted.text, {
       expectedPaymentCode: participant.paymentCode,
@@ -71,8 +73,15 @@ export async function POST(request: Request) {
       extractMethod: extracted.method,
     });
 
-    // Weak / unreadable uploads must not clog the admin review queue.
-    if (scored.confidence === 'weak') {
+    // Only hard-reject when OCR produced readable text that clearly is not a bank receipt.
+    // Empty/timeout/scanned PDFs and receipt-like weak matches go to admin review.
+    const unreadable = !extracted.text.trim() || extracted.method === 'empty';
+    const clearlyNotReceipt =
+      scored.confidence === 'weak' &&
+      !unreadable &&
+      !looksLikeBankReceipt(extracted.text);
+
+    if (clearlyNotReceipt) {
       return NextResponse.json(
         {
           error: RECEIPT_NOT_RECOGNIZED_ERROR,
