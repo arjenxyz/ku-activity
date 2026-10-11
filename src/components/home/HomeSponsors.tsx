@@ -1,11 +1,22 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
+import { SponsorDetailModal } from '@/components/home/SponsorDetailModal';
 import type { StoredSponsor } from '@/lib/sponsors/sponsors-store';
 
-function SponsorCard({ sponsor }: { sponsor: StoredSponsor }) {
-  const body = (
-    <>
+function SponsorCard({
+  sponsor,
+  onOpen,
+}: {
+  sponsor: StoredSponsor;
+  onOpen: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onOpen}
+      className="flex h-full w-full flex-col rounded-2xl border border-slate-200/80 bg-white px-3 py-3 text-center transition hover:border-[#2D6AF6]/35 hover:bg-[#f8fbff] sm:px-4 sm:py-4"
+    >
       <div className="flex h-20 items-center justify-center rounded-xl bg-[#f4f8fd] px-3 py-2 sm:h-24">
         {sponsor.logoUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
@@ -22,30 +33,13 @@ function SponsorCard({ sponsor }: { sponsor: StoredSponsor }) {
       </div>
       <p className="mt-3 text-sm font-semibold text-[#0E1548]">{sponsor.name}</p>
       {sponsor.blurb ? <p className="mt-0.5 text-xs text-slate-500">{sponsor.blurb}</p> : null}
-    </>
+    </button>
   );
-
-  const className =
-    'flex flex-col rounded-2xl border border-slate-200/80 bg-white px-3 py-3 text-center sm:px-4 sm:py-4';
-
-  if (sponsor.url) {
-    return (
-      <a
-        href={sponsor.url}
-        target="_blank"
-        rel="noreferrer"
-        className={`${className} transition hover:border-[#2D6AF6]/35 hover:bg-[#f8fbff]`}
-      >
-        {body}
-      </a>
-    );
-  }
-
-  return <div className={className}>{body}</div>;
 }
 
 export function HomeSponsors({ initialSponsors }: { initialSponsors: StoredSponsor[] }) {
   const [sponsors, setSponsors] = useState(initialSponsors);
+  const [selected, setSelected] = useState<StoredSponsor | null>(null);
 
   const refresh = useCallback(async () => {
     try {
@@ -78,11 +72,15 @@ export function HomeSponsors({ initialSponsors }: { initialSponsors: StoredSpons
         <ul className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-5">
           {sponsors.map((sponsor) => (
             <li key={sponsor.id}>
-              <SponsorCard sponsor={sponsor} />
+              <SponsorCard sponsor={sponsor} onOpen={() => setSelected(sponsor)} />
             </li>
           ))}
         </ul>
       </div>
+
+      {selected ? (
+        <SponsorDetailModal sponsor={selected} onClose={() => setSelected(null)} />
+      ) : null}
     </section>
   );
 }

@@ -35,12 +35,14 @@ export async function POST(request: Request) {
       url?: string;
       logoUrl?: string;
       blurb?: string;
+      about?: string;
     };
     const sponsor = createSponsor({
       name: body.name ?? '',
       url: body.url,
       logoUrl: body.logoUrl,
       blurb: body.blurb,
+      about: body.about,
     });
     return NextResponse.json({
       sponsor,
@@ -66,6 +68,7 @@ export async function PATCH(request: Request) {
       url?: string;
       logoUrl?: string;
       blurb?: string;
+      about?: string;
     };
     if (!body.id) {
       return NextResponse.json({ error: 'id gerekli' }, { status: 400 });
@@ -75,6 +78,7 @@ export async function PATCH(request: Request) {
       url: body.url,
       logoUrl: body.logoUrl,
       blurb: body.blurb,
+      about: body.about,
     });
     return NextResponse.json({
       sponsor,
