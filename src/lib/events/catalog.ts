@@ -177,6 +177,10 @@ const TANISMA_PLANNING: EventPlanning = {
     currency: 'TRY',
     feeNotes: 'Ücretsiz kampüs etkinliği',
     includes: ['İkram', 'Atölye malzemeleri'],
+    paymentIban: '',
+    cashPaymentEnabled: false,
+    cashContactName: '',
+    cashContactNote: '',
   },
   meals: [
     {
