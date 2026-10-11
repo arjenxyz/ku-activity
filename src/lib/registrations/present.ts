@@ -2,6 +2,7 @@ import type { DemoRegistration } from '@/lib/demo/registrations-store';
 import { emptyPlanning, formatFeeTry } from '@/lib/events/catalog';
 import { getCatalogEvent } from '@/lib/events/catalog-store';
 import { isRegistrationFeeCleared } from '@/lib/payments/fee-gate';
+import { getParticipant } from '@/lib/payments/payment-store';
 
 export { isRegistrationFeeCleared } from '@/lib/payments/fee-gate';
 
@@ -22,6 +23,7 @@ export function presentRegistration(reg: DemoRegistration) {
   const hasFee = typeof feeAmount === 'number' && feeAmount > 0;
   const feeCleared = isRegistrationFeeCleared(reg);
   const needsPayment = reg.status !== 'cancelled' && hasFee && !feeCleared;
+  const participant = getParticipant(reg.eventId, reg.registrationNo);
 
   return {
     id: reg.id,
@@ -29,6 +31,7 @@ export function presentRegistration(reg: DemoRegistration) {
     eventTitle: event?.title ?? reg.eventId,
     location: event?.location ?? '',
     registrationNo: reg.registrationNo,
+    paymentCode: participant?.paymentCode ?? null,
     manualCode: reg.manualCode,
     status: reg.status,
     statusLabel: needsPayment ? 'Bekleniyor' : attendanceLabel(reg),

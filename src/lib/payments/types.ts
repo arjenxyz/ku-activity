@@ -12,6 +12,10 @@ export type ClaimStatus = 'awaiting_review' | 'approved' | 'rejected';
 
 export type CustodyChannel = 'cash' | 'bank_transfer';
 
+export type ExtractMethod = 'pdf-text' | 'ocr' | 'empty';
+
+export type MatchConfidence = 'strong' | 'partial' | 'weak';
+
 export type PaymentOcrResult = {
   code: string | null;
   amount: number | null;
@@ -32,6 +36,9 @@ export type PaymentClaim = {
   ocr: PaymentOcrResult;
   codeMatched: boolean;
   amountMatched: boolean;
+  ibanMatched: boolean;
+  confidence: MatchConfidence;
+  extractMethod: ExtractMethod;
   status: ClaimStatus;
   submittedAt: string;
   reviewedAt: string | null;
@@ -39,6 +46,8 @@ export type PaymentClaim = {
   reviewedByName: string | null;
   reviewNote: string;
   disclaimerAck: boolean;
+  /** True when system auto-approved on strong OCR match. */
+  autoApproved?: boolean;
 };
 
 export type CustodyTransfer = {

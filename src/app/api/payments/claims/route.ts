@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
-import { extractReceiptText, parseReceiptText } from '@/lib/payments/ocr';
+import { getCatalogEvent } from '@/lib/events/catalog-store';
+import { extractReceiptContent, scoreReceiptMatch } from '@/lib/payments/ocr';
 import {
   createTransferClaim,
   getParticipant,
@@ -52,18 +53,38 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Katılımcı bulunamadı' }, { status: 404 });
     }
 
+    const event = getCatalogEvent(eventId);
+    const expectedIban = event?.planning?.pricing?.paymentIban || null;
+
     const buffer = Buffer.from(await file.arrayBuffer());
     const mime = file.type || 'application/octet-stream';
-    const rawText = await extractReceiptText(buffer, mime);
-    const dataUrl = `data:${mime};base64,${buffer.toString('base64')}`;
-    const ocr = parseReceiptText(rawText, participant.paymentCode);
+    const extracted = await extractReceiptContent(buffer, mime);
+    const scored = scoreReceiptMatch(extracted.text, {
+      expectedPaymentCode: participant.paymentCode,
+      expectedRegistrationNo: participant.registrationNo,
+      expectedAmount: participant.paymentAmount,
+      expectedIban,
+      extractMethod: extracted.method,
+    });
 
+    const dataUrl = `data:${mime};base64,${buffer.toString('base64')}`;
     const result = createTransferClaim({
       eventId,
       registrationNo,
       receiptDataUrl: dataUrl,
       receiptFileName: file.name || 'dekont',
-      ocr,
+      ocr: {
+        code: scored.code,
+        amount: scored.amount,
+        iban: scored.iban,
+        dateText: scored.dateText,
+        rawText: scored.rawText,
+      },
+      codeMatched: scored.codeMatched,
+      amountMatched: scored.amountMatched,
+      ibanMatched: scored.ibanMatched,
+      confidence: scored.confidence,
+      extractMethod: scored.extractMethod,
     });
 
     return NextResponse.json(result);

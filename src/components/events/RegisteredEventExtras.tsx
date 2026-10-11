@@ -29,6 +29,7 @@ type Props = {
   needsPayment?: boolean;
   feeLabel?: string | null;
   paymentIban?: string | null;
+  paymentCode?: string | null;
   cashPaymentEnabled?: boolean;
   cashContactName?: string | null;
   cashContactNote?: string | null;
@@ -48,6 +49,7 @@ export function RegisteredEventExtras({
   needsPayment = false,
   feeLabel = null,
   paymentIban = null,
+  paymentCode = null,
   cashPaymentEnabled = false,
   cashContactName = null,
   cashContactNote = null,
@@ -424,6 +426,7 @@ export function RegisteredEventExtras({
         passengerName={passengerName}
         feeLabel={feeLabel}
         paymentIban={paymentIban}
+        paymentCode={paymentCode}
         cashPaymentEnabled={cashPaymentEnabled}
         cashContactName={cashContactName}
         cashContactNote={cashContactNote}

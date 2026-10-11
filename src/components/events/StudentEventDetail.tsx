@@ -158,6 +158,7 @@ export function StudentEventDetail({
             needsPayment={presentedMine?.needsPayment}
             feeLabel={presentedMine?.feeLabel}
             paymentIban={presentedMine?.paymentIban}
+            paymentCode={presentedMine?.paymentCode}
             cashPaymentEnabled={presentedMine?.cashPaymentEnabled}
             cashContactName={presentedMine?.cashContactName}
             cashContactNote={presentedMine?.cashContactNote}

@@ -6,6 +6,38 @@ import { FiArrowLeft } from 'react-icons/fi';
 import { ADMIN_DISCLAIMER, type PaymentClaim } from '@/lib/payments/types';
 import { moneyTry } from '@/lib/demo/participants-ui';
 
+function MatchBadge({
+  ok,
+  label,
+  detail,
+}: {
+  ok: boolean;
+  label: string;
+  detail?: string | null;
+}) {
+  return (
+    <span
+      className={`rounded-lg px-2 py-1.5 text-xs font-medium ${
+        ok ? 'bg-emerald-50 text-emerald-800' : 'bg-amber-50 text-amber-800'
+      }`}
+    >
+      {label}: {ok ? 'Eşleşti' : detail || 'Okunamadı'}
+    </span>
+  );
+}
+
+const CONFIDENCE_LABEL: Record<string, string> = {
+  strong: 'Güçlü',
+  partial: 'Kısmi',
+  weak: 'Zayıf',
+};
+
+const METHOD_LABEL: Record<string, string> = {
+  'pdf-text': 'PDF metin',
+  ocr: 'OCR',
+  empty: 'Metin yok',
+};
+
 export function AdminPaymentReviews({ eventId }: { eventId: string }) {
   const [claims, setClaims] = useState<PaymentClaim[]>([]);
   const [ready, setReady] = useState(false);
@@ -68,7 +100,9 @@ export function AdminPaymentReviews({ eventId }: { eventId: string }) {
         </Link>
         <div>
           <h1 className="text-lg font-semibold text-[#0E1548]">Havale incelemeleri</h1>
-          <p className="text-xs text-slate-500">Yalnızca dekont iddiaları — elden ödemeler burada değildir.</p>
+          <p className="text-xs text-slate-500">
+            OCR ipuçlarıyla dekont incelemesi — elden ödemeler burada değildir.
+          </p>
         </div>
       </div>
 
@@ -91,24 +125,49 @@ export function AdminPaymentReviews({ eventId }: { eventId: string }) {
                     {claim.registrationNo} · kod {claim.expectedCode}
                   </p>
                 </div>
-                <p className="text-sm font-semibold text-[#0E1548]">{moneyTry(claim.expectedAmount)}</p>
+                <div className="text-right">
+                  <p className="text-sm font-semibold text-[#0E1548]">
+                    {moneyTry(claim.expectedAmount)}
+                  </p>
+                  <p className="mt-0.5 text-[10px] font-medium uppercase tracking-wide text-slate-400">
+                    {CONFIDENCE_LABEL[claim.confidence] ?? claim.confidence} ·{' '}
+                    {METHOD_LABEL[claim.extractMethod] ?? claim.extractMethod}
+                  </p>
+                </div>
               </div>
 
-              <div className="mt-3 grid grid-cols-2 gap-2 text-xs">
-                <span
-                  className={`rounded-lg px-2 py-1.5 font-medium ${
-                    claim.codeMatched ? 'bg-emerald-50 text-emerald-800' : 'bg-amber-50 text-amber-800'
-                  }`}
-                >
-                  Kod: {claim.codeMatched ? 'Eşleşti' : claim.ocr.code ?? 'Okunamadı'}
-                </span>
-                <span
-                  className={`rounded-lg px-2 py-1.5 font-medium ${
-                    claim.amountMatched ? 'bg-emerald-50 text-emerald-800' : 'bg-amber-50 text-amber-800'
-                  }`}
-                >
-                  Tutar: {claim.amountMatched ? 'Eşleşti' : claim.ocr.amount != null ? moneyTry(claim.ocr.amount) : 'Okunamadı'}
-                </span>
+              <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-3">
+                <MatchBadge
+                  ok={claim.codeMatched}
+                  label="Kod"
+                  detail={claim.ocr.code}
+                />
+                <MatchBadge
+                  ok={claim.amountMatched}
+                  label="Tutar"
+                  detail={
+                    claim.ocr.amount != null ? moneyTry(claim.ocr.amount) : null
+                  }
+                />
+                <MatchBadge
+                  ok={Boolean(claim.ibanMatched)}
+                  label="IBAN"
+                  detail={claim.ocr.iban}
+                />
+              </div>
+
+              <div className="mt-3 rounded-xl bg-slate-50 px-3 py-2.5 text-xs text-slate-600">
+                <p className="font-semibold text-slate-500">OCR özeti</p>
+                <p className="mt-1 font-mono text-[11px] leading-relaxed text-[#0E1548]">
+                  Kod: {claim.ocr.code || '—'} · Tutar:{' '}
+                  {claim.ocr.amount != null ? moneyTry(claim.ocr.amount) : '—'} · IBAN:{' '}
+                  {claim.ocr.iban || '—'}
+                </p>
+                {claim.ocr.rawText ? (
+                  <p className="mt-1.5 line-clamp-3 text-[11px] text-slate-500">
+                    {claim.ocr.rawText}
+                  </p>
+                ) : null}
               </div>
 
               {claim.receiptDataUrl.startsWith('data:image') ? (

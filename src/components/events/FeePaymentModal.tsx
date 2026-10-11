@@ -20,17 +20,18 @@ import {
 } from '@/lib/payments/receipt-file';
 
 type Method = 'transfer' | 'cash';
-type CopyKey = 'iban' | 'name' | 'note';
+type CopyKey = 'iban' | 'name' | 'code';
 
 type Props = {
   open: boolean;
   onClose: () => void;
-  /** Called when cash QR is accepted (payment cleared). */
+  /** Called when cash QR is accepted or transfer auto-approved. */
   onPaid?: () => void;
   eventId?: string;
   passengerName?: string | null;
   feeLabel?: string | null;
   paymentIban?: string | null;
+  paymentCode?: string | null;
   cashPaymentEnabled?: boolean;
   cashContactName?: string | null;
   cashContactNote?: string | null;
@@ -45,6 +46,7 @@ export function FeePaymentModal({
   passengerName = null,
   feeLabel = null,
   paymentIban = null,
+  paymentCode = null,
   cashPaymentEnabled = false,
   cashContactName = null,
   cashContactNote = null,
@@ -192,10 +194,18 @@ export function FeePaymentModal({
       const response = await fetch('/api/payments/claims', { method: 'POST', body: form });
       const payload = (await response.json().catch(() => null)) as {
         error?: string;
-        claim?: { codeMatched?: boolean; amountMatched?: boolean };
+        autoApproved?: boolean;
+        claim?: { autoApproved?: boolean; confidence?: string };
       } | null;
       if (!response.ok) throw new Error(payload?.error ?? 'Yükleme başarısız');
-      setReceiptMessage('Dekont inceleme kuyruğuna alındı');
+      const auto =
+        Boolean(payload?.autoApproved) || Boolean(payload?.claim?.autoApproved);
+      if (auto) {
+        setReceiptMessage('Ödeme otomatik onaylandı');
+        onPaid?.();
+      } else {
+        setReceiptMessage('Dekont inceleme kuyruğuna alındı');
+      }
     } catch (err) {
       setReceiptError(err instanceof Error ? err.message : 'Yükleme başarısız');
     } finally {
@@ -340,13 +350,26 @@ export function FeePaymentModal({
                   <p className="mt-1 text-lg font-bold tracking-tight text-[#E8770A]">{feeLabel}</p>
                 </div>
               ) : null}
-              {registrationNo ? (
+              {paymentCode ? (
+                <div className="space-y-1">
+                  <CopyCard
+                    label="Açıklama (havale kodu)"
+                    value={paymentCode}
+                    mono
+                    copied={copied === 'code'}
+                    onCopy={() => void copyText('code', paymentCode)}
+                  />
+                  <p className="px-1 text-[11px] text-slate-500">
+                    Havale açıklamasına bu kodu yaz. Kayıt no: {registrationNo}
+                  </p>
+                </div>
+              ) : registrationNo ? (
                 <CopyCard
                   label="Açıklama"
                   value={registrationNo}
                   mono
-                  copied={copied === 'note'}
-                  onCopy={() => void copyText('note', registrationNo)}
+                  copied={copied === 'code'}
+                  onCopy={() => void copyText('code', registrationNo)}
                 />
               ) : null}
               <button
@@ -479,7 +502,7 @@ export function FeePaymentModal({
                     2
                   </span>
                   <span>
-                    Açıklamadaki kayıt numaranız dekontta görünürse eşleştirme hızlanır.
+                    Havale açıklamasındaki ödeme kodunuz dekontta görünürse eşleştirme hızlanır.
                   </span>
                 </li>
                 <li className="flex gap-3 text-xs leading-relaxed text-slate-600">

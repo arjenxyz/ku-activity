@@ -1,9 +1,23 @@
-import type { PaymentOcrResult } from '@/lib/payments/types';
+import type { ExtractMethod, MatchConfidence, PaymentOcrResult } from '@/lib/payments/types';
 
 const IBAN_RE = /\bTR\d{2}\s?\d{4}\s?\d{4}\s?\d{4}\s?\d{4}\s?\d{4}\s?\d{2}\b/i;
-const CODE_RE = /\b([A-Z]{2,5}-[A-Z0-9]{3,6})\b/g;
+const CODE_RE = /\b([A-Z]{2,5}-[A-Z0-9]{3,8})\b/g;
+const REG_NO_RE = /\b([A-Z]{2,5}-\d{4}-\d{4,8})\b/g;
 const AMOUNT_RE =
   /(?:₺|TRY|TL)?\s*(\d{1,3}(?:[.,]\d{3})*(?:[.,]\d{2})?|\d+)\s*(?:₺|TRY|TL)?/gi;
+
+const MIN_PDF_TEXT_CHARS = 40;
+
+export type ReceiptExtractResult = {
+  text: string;
+  method: ExtractMethod;
+  pageCount: number;
+};
+
+export function normalizeIban(value: string | null | undefined) {
+  if (!value) return '';
+  return value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+}
 
 function parseAmount(raw: string): number | null {
   const cleaned = raw.replace(/\s/g, '').replace(/₺|TRY|TL/gi, '');
@@ -21,16 +35,146 @@ function parseAmount(raw: string): number | null {
   return Number.isFinite(n) && n > 0 ? n : null;
 }
 
-/** Parse bank-receipt-like text for payment code, amount, IBAN. */
-export function parseReceiptText(rawText: string, expectedCode?: string): PaymentOcrResult {
+async function ocrBuffer(buffer: Buffer | Uint8Array): Promise<string> {
+  try {
+    const Tesseract = await import('tesseract.js');
+    const result = await Tesseract.recognize(Buffer.from(buffer), 'eng+tur', {
+      logger: () => undefined,
+    });
+    return result.data.text ?? '';
+  } catch {
+    return '';
+  }
+}
+
+async function extractPdf(buffer: Buffer): Promise<ReceiptExtractResult> {
+  try {
+    const { PDFParse } = await import('pdf-parse');
+    const parser = new PDFParse({ data: buffer });
+    try {
+      const textResult = await parser.getText({ first: 1, last: 3 });
+      const text = (textResult.text ?? '').trim();
+      const pageCount =
+        typeof textResult.total === 'number'
+          ? textResult.total
+          : Array.isArray(textResult.pages)
+            ? textResult.pages.length
+            : 1;
+
+      if (text.replace(/\s+/g, ' ').length >= MIN_PDF_TEXT_CHARS) {
+        return { text, method: 'pdf-text', pageCount };
+      }
+
+      const shot = await parser.getScreenshot({ first: 1, last: Math.min(2, pageCount || 2) });
+      const pages = (Array.isArray(shot?.pages) ? shot.pages : []) as Array<{
+        dataUrl?: string;
+        data?: Uint8Array | Buffer;
+      }>;
+      const chunks: string[] = [];
+      for (const page of pages) {
+        const dataUrl = typeof page?.dataUrl === 'string' ? page.dataUrl : null;
+        const bin =
+          page?.data instanceof Uint8Array
+            ? page.data
+            : Buffer.isBuffer(page?.data)
+              ? page.data
+              : null;
+
+        if (bin) {
+          chunks.push(await ocrBuffer(bin));
+          continue;
+        }
+        if (dataUrl?.startsWith('data:')) {
+          const b64 = dataUrl.split(',')[1] ?? '';
+          if (b64) chunks.push(await ocrBuffer(Buffer.from(b64, 'base64')));
+        }
+      }
+      const ocrText = chunks.join('\n').trim();
+      return {
+        text: ocrText,
+        method: ocrText ? 'ocr' : 'empty',
+        pageCount: pages.length || pageCount || 1,
+      };
+    } finally {
+      await parser.destroy().catch(() => undefined);
+    }
+  } catch {
+    return { text: '', method: 'empty', pageCount: 0 };
+  }
+}
+
+/**
+ * Extract text from receipt PDF/image for matching.
+ * Never throws — empty text falls through to admin review.
+ */
+export async function extractReceiptContent(
+  buffer: Buffer,
+  mimeType: string
+): Promise<ReceiptExtractResult> {
+  if (mimeType.startsWith('text/') || mimeType === 'application/json') {
+    return { text: buffer.toString('utf8'), method: 'pdf-text', pageCount: 1 };
+  }
+
+  if (mimeType === 'application/pdf' || mimeType === 'application/x-pdf') {
+    return extractPdf(buffer);
+  }
+
+  if (mimeType.startsWith('image/')) {
+    const text = (await ocrBuffer(buffer)).trim();
+    return { text, method: text ? 'ocr' : 'empty', pageCount: 1 };
+  }
+
+  return { text: '', method: 'empty', pageCount: 0 };
+}
+
+/** @deprecated Prefer extractReceiptContent — kept for callers expecting a string. */
+export async function extractReceiptText(buffer: Buffer, mimeType: string): Promise<string> {
+  const result = await extractReceiptContent(buffer, mimeType);
+  return result.text;
+}
+
+export type ParseReceiptOptions = {
+  expectedPaymentCode?: string | null;
+  expectedRegistrationNo?: string | null;
+  expectedAmount?: number | null;
+  expectedIban?: string | null;
+  extractMethod?: ExtractMethod;
+};
+
+export type ParsedReceiptMatch = PaymentOcrResult & {
+  codeMatched: boolean;
+  amountMatched: boolean;
+  ibanMatched: boolean;
+  confidence: MatchConfidence;
+  extractMethod: ExtractMethod;
+};
+
+/** Parse bank-receipt-like text and score matches against expected payment fields. */
+export function parseReceiptText(
+  rawText: string,
+  expectedCodeOrOptions?: string | ParseReceiptOptions
+): PaymentOcrResult {
+  const options: ParseReceiptOptions =
+    typeof expectedCodeOrOptions === 'string' || expectedCodeOrOptions == null
+      ? { expectedPaymentCode: expectedCodeOrOptions ?? undefined }
+      : expectedCodeOrOptions;
+
   const text = rawText.toUpperCase();
   const ibanMatch = text.match(IBAN_RE);
-  const codes = [...text.matchAll(CODE_RE)].map((m) => m[1]);
+  const shortCodes = [...text.matchAll(CODE_RE)].map((m) => m[1]);
+  const regNos = [...text.matchAll(REG_NO_RE)].map((m) => m[1]);
+  const allCodes = [...new Set([...shortCodes, ...regNos])];
+
+  const expectedPayment = options.expectedPaymentCode?.toUpperCase().trim() || null;
+  const expectedReg = options.expectedRegistrationNo?.toUpperCase().trim() || null;
+
   let code: string | null = null;
-  if (expectedCode && codes.some((c) => c === expectedCode.toUpperCase())) {
-    code = expectedCode.toUpperCase();
-  } else if (codes.length) {
-    code = codes[0];
+  if (expectedPayment && allCodes.some((c) => c === expectedPayment)) {
+    code = expectedPayment;
+  } else if (expectedReg && (allCodes.some((c) => c === expectedReg) || text.includes(expectedReg))) {
+    code = expectedReg;
+  } else if (allCodes.length) {
+    code = allCodes[0] ?? null;
   }
 
   let amount: number | null = null;
@@ -46,29 +190,49 @@ export function parseReceiptText(rawText: string, expectedCode?: string): Paymen
   return {
     code,
     amount,
-    iban: ibanMatch ? ibanMatch[0].replace(/\s/g, '') : null,
+    iban: ibanMatch ? normalizeIban(ibanMatch[0]) : null,
     dateText: null,
     rawText: rawText.slice(0, 4000),
   };
 }
 
-/**
- * Lightweight OCR for demo: prefer Tesseract when available; otherwise
- * treat UTF-8 text payloads / filename hints. Never throws.
- */
-export async function extractReceiptText(buffer: Buffer, mimeType: string): Promise<string> {
-  if (mimeType.startsWith('text/') || mimeType === 'application/json') {
-    return buffer.toString('utf8');
-  }
+export function scoreReceiptMatch(
+  rawText: string,
+  options: ParseReceiptOptions
+): ParsedReceiptMatch {
+  const ocr = parseReceiptText(rawText, options);
+  const text = rawText.toUpperCase();
 
-  try {
-    const Tesseract = await import('tesseract.js');
-    const result = await Tesseract.recognize(buffer, 'eng+tur', {
-      logger: () => undefined,
-    });
-    return result.data.text ?? '';
-  } catch {
-    // Fallback: no OCR engine — admin still reviews the image visually.
-    return '';
-  }
+  const expectedPayment = options.expectedPaymentCode?.toUpperCase().trim() || '';
+  const expectedReg = options.expectedRegistrationNo?.toUpperCase().trim() || '';
+  const codeMatched = Boolean(
+    (expectedPayment &&
+      (ocr.code === expectedPayment || text.includes(expectedPayment))) ||
+      (expectedReg && (ocr.code === expectedReg || text.includes(expectedReg)))
+  );
+
+  const expectedAmount = options.expectedAmount;
+  const amountMatched =
+    typeof expectedAmount === 'number' &&
+    ocr.amount != null &&
+    Math.abs(ocr.amount - expectedAmount) <= 1;
+
+  const expectedIban = normalizeIban(options.expectedIban);
+  const foundIban = normalizeIban(ocr.iban);
+  const ibanMatched = Boolean(
+    expectedIban && foundIban && (foundIban === expectedIban || text.includes(expectedIban))
+  );
+
+  const hits = [codeMatched, amountMatched, ibanMatched].filter(Boolean).length;
+  const confidence: MatchConfidence =
+    hits === 3 ? 'strong' : hits >= 1 ? 'partial' : 'weak';
+
+  return {
+    ...ocr,
+    codeMatched,
+    amountMatched,
+    ibanMatched,
+    confidence,
+    extractMethod: options.extractMethod ?? 'empty',
+  };
 }

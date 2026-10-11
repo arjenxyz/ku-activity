@@ -16,16 +16,16 @@ type Store = {
 };
 
 function store(): Store {
-  const g = globalThis as typeof globalThis & { __emsPaymentStoreV3?: Store };
-  if (!g.__emsPaymentStoreV3) {
-    g.__emsPaymentStoreV3 = {
+  const g = globalThis as typeof globalThis & { __emsPaymentStoreV4?: Store };
+  if (!g.__emsPaymentStoreV4) {
+    g.__emsPaymentStoreV4 = {
       participants: structuredClone(DEMO_PARTICIPANTS),
       claims: structuredClone(DEMO_PAYMENT_CLAIMS),
       handoffs: [],
       custody: [],
     };
   }
-  return g.__emsPaymentStoreV3;
+  return g.__emsPaymentStoreV4;
 }
 
 function nowIso() {
@@ -125,6 +125,11 @@ export function createTransferClaim(input: {
   receiptDataUrl: string;
   receiptFileName: string;
   ocr: PaymentOcrResult;
+  codeMatched: boolean;
+  amountMatched: boolean;
+  ibanMatched: boolean;
+  confidence: 'strong' | 'partial' | 'weak';
+  extractMethod: 'pdf-text' | 'ocr' | 'empty';
 }) {
   const participant = store().participants.find(
     (row) => row.eventId === input.eventId && row.registrationNo === input.registrationNo
@@ -135,19 +140,19 @@ export function createTransferClaim(input: {
     throw new Error('Ödeme zaten tamamlanmış');
   }
 
-  const codeMatched =
-    !!input.ocr.code &&
-    input.ocr.code.toUpperCase() === participant.paymentCode.toUpperCase();
-  const amountMatched =
-    input.ocr.amount != null &&
-    Math.abs(input.ocr.amount - participant.paymentAmount) <= 1;
-
   const open = store().claims.find(
     (claim) =>
       claim.registrationNo === participant.registrationNo &&
       claim.status === 'awaiting_review'
   );
   if (open) throw new Error('Zaten incelemede bir dekont var');
+
+  const strong =
+    input.confidence === 'strong' &&
+    input.codeMatched &&
+    input.amountMatched &&
+    input.ibanMatched;
+  const now = nowIso();
 
   const claim: PaymentClaim = {
     id: uid('claim'),
@@ -159,25 +164,45 @@ export function createTransferClaim(input: {
     receiptDataUrl: input.receiptDataUrl,
     receiptFileName: input.receiptFileName,
     ocr: input.ocr,
-    codeMatched,
-    amountMatched,
-    status: 'awaiting_review',
-    submittedAt: nowIso(),
-    reviewedAt: null,
-    reviewedById: null,
-    reviewedByName: null,
-    reviewNote: '',
-    disclaimerAck: false,
+    codeMatched: input.codeMatched,
+    amountMatched: input.amountMatched,
+    ibanMatched: input.ibanMatched,
+    confidence: input.confidence,
+    extractMethod: input.extractMethod,
+    status: strong ? 'approved' : 'awaiting_review',
+    submittedAt: now,
+    reviewedAt: strong ? now : null,
+    reviewedById: strong ? 'system' : null,
+    reviewedByName: strong ? 'Sistem' : null,
+    reviewNote: strong ? 'Otomatik onay: kod, tutar ve IBAN eşleşti' : '',
+    disclaimerAck: strong,
+    autoApproved: strong,
   };
 
   store().claims.unshift(claim);
-  mutateParticipant(participant.eventId, participant.registrationNo, {
-    paymentStatus: 'claimed',
-    paymentMethod: 'transfer',
-    paymentNote: 'Dekont yüklendi — admin incelemesi bekleniyor',
-  });
 
-  return { claim: { ...claim }, participant: getParticipant(participant.eventId, participant.registrationNo)! };
+  if (strong) {
+    mutateParticipant(participant.eventId, participant.registrationNo, {
+      paymentStatus: 'paid',
+      paidAmount: participant.paymentAmount,
+      paymentMethod: 'transfer',
+      paymentNote: 'Otomatik onaylı havale (OCR)',
+      custodianStaffId: 'system',
+      custodianName: 'Sistem',
+    });
+  } else {
+    mutateParticipant(participant.eventId, participant.registrationNo, {
+      paymentStatus: 'claimed',
+      paymentMethod: 'transfer',
+      paymentNote: 'Dekont yüklendi — admin incelemesi bekleniyor',
+    });
+  }
+
+  return {
+    claim: { ...claim },
+    participant: getParticipant(participant.eventId, participant.registrationNo)!,
+    autoApproved: strong,
+  };
 }
 
 export function reviewClaim(input: {
