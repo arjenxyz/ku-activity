@@ -385,7 +385,9 @@ export function looksLikeBankReceipt(rawText: string): boolean {
 
 /**
  * Decide whether a weak/empty extract may enter the admin queue.
- * Empty PDF is no longer auto-accepted — raster OCR must produce signals.
+ * Magic-byte–verified PDF/image files still enter review when OCR fails
+ * (common for bank screenshots / scanned PDFs) so students see “İnceleniyor”.
+ * Readable text that clearly is not a bank receipt is rejected.
  */
 export function evaluateReceiptUpload(input: {
   confidence: MatchConfidence;
@@ -399,7 +401,14 @@ export function evaluateReceiptUpload(input: {
   }
 
   const unreadable = !input.text.trim() || input.method === 'empty';
+  const isVerifiedBinary =
+    input.mime === 'application/pdf' ||
+    input.mime === 'application/x-pdf' ||
+    input.mime.startsWith('image/');
+
   if (unreadable) {
+    // OCR miss — admin reviews the file visually (format already verified).
+    if (isVerifiedBinary) return { accept: true };
     return { accept: false, error: RECEIPT_UNREADABLE_ERROR };
   }
 

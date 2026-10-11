@@ -76,6 +76,9 @@ export function FeePaymentModal({
   const [cancelBusy, setCancelBusy] = useState(false);
   const [cancelError, setCancelError] = useState<string | null>(null);
   const [resumeAfterReject, setResumeAfterReject] = useState(false);
+  /** Optimistic review state right after a successful upload (before props refresh). */
+  const [localReviewing, setLocalReviewing] = useState(false);
+  const [localClaimId, setLocalClaimId] = useState<string | null>(null);
 
   useBodyScrollLock(open);
 
@@ -96,6 +99,8 @@ export function FeePaymentModal({
       setCancelBusy(false);
       setCancelError(null);
       setResumeAfterReject(false);
+      setLocalReviewing(false);
+      setLocalClaimId(null);
     }
   }, [open]);
 
@@ -211,7 +216,7 @@ export function FeePaymentModal({
       const payload = (await response.json().catch(() => null)) as {
         error?: string;
         autoApproved?: boolean;
-        claim?: { autoApproved?: boolean; confidence?: string };
+        claim?: { id?: string; autoApproved?: boolean; confidence?: string };
       } | null;
       if (!response.ok) throw new Error(payload?.error ?? 'Yükleme başarısız');
       const auto =
@@ -220,7 +225,11 @@ export function FeePaymentModal({
         setReceiptMessage('Ödeme otomatik onaylandı');
         onPaid?.();
       } else {
-        setReceiptMessage('Dekont inceleme kuyruğuna alındı');
+        // Drop upload sheet immediately and show “İnceleniyor” in the main modal.
+        setReceiptOpen(false);
+        setReceiptMessage(null);
+        setLocalClaimId(payload?.claim?.id ?? null);
+        setLocalReviewing(true);
         onStatusChange?.();
       }
     } catch (err) {
@@ -231,7 +240,8 @@ export function FeePaymentModal({
   }
 
   async function cancelPendingClaim() {
-    if (!openClaimId || !eventId || !registrationNo) {
+    const claimId = openClaimId || localClaimId;
+    if (!claimId || !eventId || !registrationNo) {
       setCancelError('Talep bilgisi eksik');
       return;
     }
@@ -242,7 +252,7 @@ export function FeePaymentModal({
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          claimId: openClaimId,
+          claimId,
           cancel: true,
           eventId,
           registrationNo,
@@ -250,6 +260,8 @@ export function FeePaymentModal({
       });
       const payload = (await response.json().catch(() => null)) as { error?: string } | null;
       if (!response.ok) throw new Error(payload?.error ?? 'İptal başarısız');
+      setLocalReviewing(false);
+      setLocalClaimId(null);
       onStatusChange?.();
       onClose();
     } catch (err) {
@@ -261,8 +273,10 @@ export function FeePaymentModal({
 
   if (!mounted || !open) return null;
 
-  const showReviewing = paymentStatus === 'claimed' && Boolean(openClaimId);
-  const showRejected = paymentStatus === 'rejected' && !resumeAfterReject;
+  const effectiveClaimId = openClaimId || localClaimId;
+  const showReviewing =
+    localReviewing || (paymentStatus === 'claimed' && Boolean(effectiveClaimId));
+  const showRejected = paymentStatus === 'rejected' && !resumeAfterReject && !localReviewing;
   const hasTransfer = Boolean(paymentIban);
   const hasCash = Boolean(cashPaymentEnabled);
   const hasAny = hasTransfer || hasCash;
