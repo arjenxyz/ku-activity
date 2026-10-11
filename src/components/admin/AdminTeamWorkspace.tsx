@@ -2,6 +2,7 @@
 
 import { FormEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { FiUser } from 'react-icons/fi';
+import { AdminTeamRoster } from '@/components/admin/AdminTeamRoster';
 import {
   TEAM_STATUS_LABELS,
   teamStatusTone,
@@ -150,8 +151,10 @@ export function AdminTeamWorkspace() {
   const active = data?.activeOpening ?? null;
 
   return (
-    <div className="space-y-3 pb-4">
-      <header className="flex items-start justify-between gap-2">
+    <div className="space-y-5 pb-4">
+      <AdminTeamRoster />
+
+      <header className="flex items-start justify-between gap-2 border-t border-slate-100 pt-4">
         <div className="min-w-0">
           <h1 className="text-base font-semibold tracking-tight text-[#0E1548]">Ekip ilanı</h1>
           <p className="mt-0.5 text-xs text-slate-500">İlan ve başvuruları yönet.</p>
@@ -336,6 +339,11 @@ export function AdminTeamWorkspace() {
                               Reddet
                             </button>
                           </div>
+                        ) : null}
+                        {app.status === 'accepted' ? (
+                          <p className="mt-1.5 text-[11px] text-slate-400">
+                            Üstteki “Kayıtlı kişiyi ata” ile ekibe eklenebilir.
+                          </p>
                         ) : null}
                       </div>
                     </div>

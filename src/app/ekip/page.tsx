@@ -5,10 +5,12 @@ import { createPortal } from 'react-dom';
 import { FiX } from 'react-icons/fi';
 import { HomeHeader } from '@/components/home/HomeHeader';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
-import { memberInitials, TEAM_MEMBERS, type TeamMember } from '@/lib/team';
+import { memberInitials, type TeamMember } from '@/lib/team';
 import { createClient } from '@/utils/supabase/client';
 
-function Portrait({ member, className }: { member: TeamMember; className: string }) {
+type RosterMember = TeamMember & { id?: string };
+
+function Portrait({ member, className }: { member: RosterMember; className: string }) {
   if (member.image) {
     return <img src={member.image} alt="" className={`${className} object-cover`} />;
   }
@@ -25,7 +27,9 @@ function browserSupabase() {
 }
 
 export default function TeamPage() {
-  const [selected, setSelected] = useState<TeamMember | null>(null);
+  const [members, setMembers] = useState<RosterMember[]>([]);
+  const [membersReady, setMembersReady] = useState(false);
+  const [selected, setSelected] = useState<RosterMember | null>(null);
   const [mounted, setMounted] = useState(false);
   const [opening, setOpening] = useState<{ id: string; title: string; description: string | null } | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
@@ -46,6 +50,22 @@ export default function TeamPage() {
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, [selected]);
+
+  useEffect(() => {
+    void (async () => {
+      try {
+        const response = await fetch('/api/team/members');
+        const payload = (await response.json().catch(() => null)) as {
+          members?: RosterMember[];
+        } | null;
+        setMembers(payload?.members ?? []);
+      } catch {
+        setMembers([]);
+      } finally {
+        setMembersReady(true);
+      }
+    })();
+  }, []);
 
   useEffect(() => {
     const supabase = browserSupabase();
@@ -111,8 +131,13 @@ export default function TeamPage() {
           Kayıt onayı ve şifre sıfırlama için görüşeceğin ekip.
         </p>
         <ul className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-          {TEAM_MEMBERS.map((member) => (
-            <li key={member.handle}>
+          {!membersReady ? (
+            <li className="col-span-2 py-8 text-center text-sm text-slate-500 sm:col-span-3 lg:col-span-4">
+              Yükleniyor…
+            </li>
+          ) : null}
+          {members.map((member) => (
+            <li key={member.id ?? member.handle}>
               <button
                 type="button"
                 onClick={() => setSelected(member)}
