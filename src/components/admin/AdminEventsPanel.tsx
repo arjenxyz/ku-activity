@@ -7,9 +7,11 @@ import {
   FiEdit2,
   FiMapPin,
   FiPlus,
+  FiTrash2,
   FiUsers,
   FiUserCheck,
 } from 'react-icons/fi';
+import { AdminEventDeleteModal } from '@/components/admin/AdminEventDeleteModal';
 import { AdminStatusSelect } from '@/components/admin/AdminStatusSelect';
 import type { CatalogEvent, CatalogEventStatus } from '@/lib/events/catalog';
 import { STATUS_LABELS } from '@/lib/events/catalog';
@@ -27,9 +29,10 @@ export function AdminEventsPanel() {
   const [events, setEvents] = useState<AdminEvent[]>([]);
   const [filter, setFilter] = useState<FilterKey>('all');
   const [ready, setReady] = useState(false);
+  const [pendingDelete, setPendingDelete] = useState<AdminEvent | null>(null);
 
   async function load() {
-    const response = await fetch('/api/admin/events');
+    const response = await fetch('/api/admin/events', { cache: 'no-store' });
     const payload = (await response.json().catch(() => null)) as { events?: AdminEvent[] } | null;
     setEvents(payload?.events ?? []);
     setReady(true);
@@ -151,13 +154,24 @@ export function AdminEventsPanel() {
                       </span>
                     </p>
                   </div>
-                  <Link
-                    href={`/admin/events/${event.id}/edit`}
-                    className="inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-2.5 py-2 text-xs font-medium text-[#0E1548] transition hover:bg-[#e8f0ff]"
-                  >
-                    <FiEdit2 className="h-3.5 w-3.5" />
-                    Düzenle
-                  </Link>
+                  <div className="flex shrink-0 items-center gap-1.5">
+                    <Link
+                      href={`/admin/events/${event.id}/edit`}
+                      className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-2.5 py-2 text-xs font-medium text-[#0E1548] transition hover:bg-[#e8f0ff]"
+                    >
+                      <FiEdit2 className="h-3.5 w-3.5" />
+                      Düzenle
+                    </Link>
+                    <button
+                      type="button"
+                      onClick={() => setPendingDelete(event)}
+                      className="inline-flex items-center gap-1.5 rounded-lg border border-red-200 bg-white px-2.5 py-2 text-xs font-medium text-red-600 transition hover:bg-red-50"
+                      aria-label={`${event.title} sil`}
+                    >
+                      <FiTrash2 className="h-3.5 w-3.5" />
+                      Sil
+                    </button>
+                  </div>
                 </div>
 
                 <div className="mt-auto space-y-1.5">
@@ -201,6 +215,18 @@ export function AdminEventsPanel() {
         })
           : null}
       </ul>
+
+      {pendingDelete ? (
+        <AdminEventDeleteModal
+          eventId={pendingDelete.id}
+          eventTitle={pendingDelete.title}
+          onClose={() => setPendingDelete(null)}
+          onDeleted={() => {
+            setEvents((prev) => prev.filter((row) => row.id !== pendingDelete.id));
+            void load();
+          }}
+        />
+      ) : null}
     </div>
   );
 }

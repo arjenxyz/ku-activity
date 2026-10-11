@@ -142,3 +142,10 @@ export function updateCatalogEventStatus(id: string, status: CatalogEventStatus)
   event.statusLabel = STATUS_LABELS[status];
   return event;
 }
+
+export function deleteCatalogEvent(id: string) {
+  const index = store().events.findIndex((event) => event.id === id);
+  if (index < 0) throw new Error('Etkinlik bulunamadı');
+  const [removed] = store().events.splice(index, 1);
+  return removed;
+}

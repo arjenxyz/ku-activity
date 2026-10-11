@@ -8,6 +8,8 @@ import {
   updateCatalogEventStatus,
   type CreateCatalogEventInput,
 } from '@/lib/events/catalog-store';
+import { consumeDeleteChallenge } from '@/lib/events/delete-challenge';
+import { purgeEventEverywhere } from '@/lib/events/purge-event';
 import { listRegistrationsForEvent } from '@/lib/demo/registrations-store';
 
 type EventBody = {
@@ -47,6 +49,8 @@ function toInput(body: EventBody | null): CreateCatalogEventInput {
   };
 }
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   const session = await getSiteSession();
   if (!session || session.role !== 'admin') {
@@ -57,7 +61,10 @@ export async function GET() {
     ...event,
     registeredCount: listRegistrationsForEvent(event.id).length,
   }));
-  return NextResponse.json({ events });
+  return NextResponse.json(
+    { events },
+    { headers: { 'Cache-Control': 'no-store' } }
+  );
 }
 
 export async function POST(request: Request) {
@@ -107,6 +114,48 @@ export async function PATCH(request: Request) {
   } catch (err) {
     return NextResponse.json(
       { error: err instanceof Error ? err.message : 'Güncellenemedi' },
+      { status: 400 }
+    );
+  }
+}
+
+export async function DELETE(request: Request) {
+  const session = await getSiteSession();
+  if (!session || session.role !== 'admin') {
+    return NextResponse.json({ error: 'Admin oturumu gerekli' }, { status: 401 });
+  }
+
+  const body = (await request.json().catch(() => null)) as {
+    id?: string;
+    confirmCode?: string;
+  } | null;
+
+  const id = body?.id?.trim();
+  if (!id) {
+    return NextResponse.json({ error: 'id gerekli' }, { status: 400 });
+  }
+
+  const confirmCode = (body?.confirmCode ?? '').trim();
+  if (!/^\d{6}$/.test(confirmCode)) {
+    return NextResponse.json({ error: '6 haneli onay kodu gerekli' }, { status: 400 });
+  }
+  if (!consumeDeleteChallenge(id, confirmCode)) {
+    return NextResponse.json({ error: 'Onay kodu geçersiz veya süresi dolmuş' }, { status: 400 });
+  }
+
+  try {
+    const result = await purgeEventEverywhere(id);
+    return NextResponse.json({
+      ok: true,
+      eventId: result.event.id,
+      registrationsRemoved: result.registrationsRemoved,
+      paymentsRemoved: result.paymentsRemoved,
+      supabaseDeleted: result.supabaseDeleted,
+      supabaseWarning: result.supabaseError,
+    });
+  } catch (err) {
+    return NextResponse.json(
+      { error: err instanceof Error ? err.message : 'Silinemedi' },
       { status: 400 }
     );
   }

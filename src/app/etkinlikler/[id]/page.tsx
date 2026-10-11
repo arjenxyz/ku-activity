@@ -12,6 +12,8 @@ import { getDemoProfile } from '@/lib/demo/profiles-store';
 
 type Props = { params: Promise<{ id: string }> };
 
+export const dynamic = 'force-dynamic';
+
 export default async function EventDetailPage({ params }: Props) {
   const { id } = await params;
   const event = getCatalogEvent(id);

@@ -40,6 +40,27 @@ export function listParticipants() {
   return store().participants.map((row) => ({ ...row }));
 }
 
+/** Drop payment rows that belong only to this event. */
+export function purgePaymentDataForEvent(eventId: string) {
+  const s = store();
+  const before = {
+    participants: s.participants.length,
+    claims: s.claims.length,
+    handoffs: s.handoffs.length,
+    custody: s.custody.length,
+  };
+  s.participants = s.participants.filter((row) => row.eventId !== eventId);
+  s.claims = s.claims.filter((row) => row.eventId !== eventId);
+  s.handoffs = s.handoffs.filter((row) => row.eventId !== eventId);
+  s.custody = s.custody.filter((row) => row.eventId !== eventId);
+  return {
+    participants: before.participants - s.participants.length,
+    claims: before.claims - s.claims.length,
+    handoffs: before.handoffs - s.handoffs.length,
+    custody: before.custody - s.custody.length,
+  };
+}
+
 export function listParticipantsForEvent(eventId: string) {
   return store().participants.filter((row) => row.eventId === eventId).map((row) => ({ ...row }));
 }

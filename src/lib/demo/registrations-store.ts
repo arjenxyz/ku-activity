@@ -339,3 +339,15 @@ export function listRegistrationsForEvent(eventId: string) {
     .map(ensureRegFields)
     .filter((row) => row.eventId === eventId && row.status !== 'cancelled');
 }
+
+/** Remove every registration row for an event (hard delete for cascade cleanup). */
+export function removeRegistrationsForEvent(eventId: string) {
+  let removed = 0;
+  for (const [id, row] of store().regs) {
+    if (row.eventId === eventId) {
+      store().regs.delete(id);
+      removed += 1;
+    }
+  }
+  return removed;
+}
