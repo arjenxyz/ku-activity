@@ -1,9 +1,8 @@
 import { NextResponse } from 'next/server';
 import { getCatalogEvent } from '@/lib/events/catalog-store';
 import {
+  evaluateReceiptUpload,
   extractReceiptContent,
-  looksLikeBankReceipt,
-  RECEIPT_NOT_RECOGNIZED_ERROR,
   scoreReceiptMatch,
 } from '@/lib/payments/ocr';
 import {
@@ -73,18 +72,17 @@ export async function POST(request: Request) {
       extractMethod: extracted.method,
     });
 
-    // Only hard-reject when OCR produced readable text that clearly is not a bank receipt.
-    // Empty/timeout/scanned PDFs and receipt-like weak matches go to admin review.
-    const unreadable = !extracted.text.trim() || extracted.method === 'empty';
-    const clearlyNotReceipt =
-      scored.confidence === 'weak' &&
-      !unreadable &&
-      !looksLikeBankReceipt(extracted.text);
-
-    if (clearlyNotReceipt) {
+    const gate = evaluateReceiptUpload({
+      confidence: scored.confidence,
+      text: extracted.text,
+      method: extracted.method,
+      mime,
+      pageCount: extracted.pageCount,
+    });
+    if (!gate.accept) {
       return NextResponse.json(
         {
-          error: RECEIPT_NOT_RECOGNIZED_ERROR,
+          error: gate.error,
           confidence: scored.confidence,
           extractMethod: scored.extractMethod,
         },

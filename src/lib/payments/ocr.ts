@@ -5,8 +5,21 @@ const REG_NO_RE = /\b([A-Z]{2,5}-\d{4}-\d{4,8})\b/g;
 const AMOUNT_RE =
   /(?:₺|TRY|TL)?\s*(\d{1,3}(?:[.,]\d{3})*(?:[.,]\d{2})?|\d+)\s*(?:₺|TRY|TL)?/gi;
 
-const BANK_HINT_RE =
-  /DEKONT|HAVALE|EFT|FAST|IBAN|ALICI|G[OÖ]NDEREN|TUTAR|TRANSFER|BANKA|[OÖ]DEME|HESAP|[Iİ][SŞ]LEM|REF\.?|RECEIPT|PAYMENT/;
+/** Strong bank-receipt cues — single generic words (BANKA, TUTAR) are not enough. */
+const BANK_KEYWORDS = [
+  'DEKONT',
+  'HAVALE',
+  'EFT',
+  'FAST',
+  'IBAN',
+  'ALICI',
+  'GONDEREN',
+  'TRANSFER',
+  'RECEIPT',
+  'ODEME TUTARI',
+  'ISLEM TUTARI',
+  'ISLEM SONUCU',
+] as const;
 
 const MIN_PDF_TEXT_CHARS = 40;
 /** Cap total extract time so the upload UI does not hang on Tesseract. */
@@ -14,6 +27,9 @@ const EXTRACT_BUDGET_MS = 8_000;
 
 export const RECEIPT_NOT_RECOGNIZED_ERROR =
   'Dosya dekont gibi görünmüyor. Banka dekontu (PDF/foto) yükleyin.';
+
+export const RECEIPT_UNREADABLE_ERROR =
+  'Dekont okunamadı. Daha net bir foto veya metin içeren PDF yükleyin.';
 
 export type ReceiptExtractResult = {
   text: string;
@@ -212,14 +228,66 @@ function collectAmounts(text: string): number[] {
   return amounts;
 }
 
-/** True when OCR text has common bank-receipt signals (even if fields don't match). */
+function normalizeReceiptText(rawText: string) {
+  return rawText
+    .toUpperCase()
+    .normalize('NFD')
+    .replace(/\p{M}/gu, '')
+    .replace(/İ/g, 'I')
+    .replace(/Ş/g, 'S')
+    .replace(/Ğ/g, 'G')
+    .replace(/Ü/g, 'U')
+    .replace(/Ö/g, 'O')
+    .replace(/Ç/g, 'C');
+}
+
+/** True when OCR text has strong bank-receipt signals (even if fields don't match). */
 export function looksLikeBankReceipt(rawText: string): boolean {
   const text = (rawText || '').trim();
   if (!text) return false;
-  const upper = text.toUpperCase();
-  if (findIban(upper)) return true;
-  if (BANK_HINT_RE.test(upper)) return true;
-  return false;
+  if (findIban(text)) return true;
+  const normalized = normalizeReceiptText(text);
+  let hits = 0;
+  for (const keyword of BANK_KEYWORDS) {
+    if (normalized.includes(keyword)) hits += 1;
+    if (hits >= 2) return true;
+  }
+  // A single very strong cue is enough.
+  return (
+    normalized.includes('DEKONT') ||
+    normalized.includes('HAVALE') ||
+    normalized.includes('IBAN')
+  );
+}
+
+/**
+ * Decide whether a weak/empty extract may enter the admin queue.
+ * - Field match (partial/strong): always accept
+ * - Weak + bank-like text: review
+ * - Empty scanned PDF: review (banks often ship image-only PDFs)
+ * - Empty images / unrelated text: reject
+ */
+export function evaluateReceiptUpload(input: {
+  confidence: MatchConfidence;
+  text: string;
+  method: ExtractMethod;
+  mime: string;
+  pageCount: number;
+}): { accept: true } | { accept: false; error: string } {
+  if (input.confidence === 'strong' || input.confidence === 'partial') {
+    return { accept: true };
+  }
+
+  const unreadable = !input.text.trim() || input.method === 'empty';
+  const isPdf = input.mime === 'application/pdf' || input.mime === 'application/x-pdf';
+
+  if (unreadable) {
+    if (isPdf && input.pageCount >= 1) return { accept: true };
+    return { accept: false, error: RECEIPT_UNREADABLE_ERROR };
+  }
+
+  if (looksLikeBankReceipt(input.text)) return { accept: true };
+  return { accept: false, error: RECEIPT_NOT_RECOGNIZED_ERROR };
 }
 
 /** Parse bank-receipt-like text and score matches against expected payment fields. */
