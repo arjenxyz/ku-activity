@@ -304,19 +304,21 @@ export function FeePaymentModal({
                 <button
                   type="button"
                   onClick={() => setMethod('cash')}
-                  className="flex w-full items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50/60 px-4 py-3.5 text-left transition hover:border-[#2D6AF6]/35 hover:bg-[#e8f0ff]/50"
+                  className="flex w-full items-center gap-3 rounded-2xl border border-emerald-200/80 bg-emerald-50/40 px-4 py-3.5 text-left transition hover:border-emerald-300 hover:bg-emerald-50/70"
                 >
                   <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white text-[#0E1548] shadow-sm ring-1 ring-slate-200/80">
                     <FiDollarSign className="h-5 w-5" aria-hidden />
                   </span>
-                  <span className="min-w-0">
-                    <span className="block text-sm font-semibold text-[#0E1548]">Elden ödeme</span>
+                  <span className="min-w-0 flex-1">
+                    <span className="flex items-center justify-between gap-2">
+                      <span className="text-sm font-semibold text-[#0E1548]">Elden ödeme</span>
+                      <span className="shrink-0 rounded-md bg-emerald-100 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-emerald-700">
+                        önerilen
+                      </span>
+                    </span>
                     <span className="mt-0.5 block text-xs text-slate-500">
                       Teslim et, QR ile onaylat
                     </span>
-                  </span>
-                  <span className="ml-auto shrink-0 self-start text-xs font-medium text-emerald-600">
-                    önerilen
                   </span>
                 </button>
               ) : null}
