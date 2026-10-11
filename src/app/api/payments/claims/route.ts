@@ -1,6 +1,10 @@
 import { NextResponse } from 'next/server';
 import { getCatalogEvent } from '@/lib/events/catalog-store';
-import { extractReceiptContent, scoreReceiptMatch } from '@/lib/payments/ocr';
+import {
+  extractReceiptContent,
+  RECEIPT_NOT_RECOGNIZED_ERROR,
+  scoreReceiptMatch,
+} from '@/lib/payments/ocr';
 import {
   createTransferClaim,
   getParticipant,
@@ -66,6 +70,18 @@ export async function POST(request: Request) {
       expectedIban,
       extractMethod: extracted.method,
     });
+
+    // Weak / unreadable uploads must not clog the admin review queue.
+    if (scored.confidence === 'weak') {
+      return NextResponse.json(
+        {
+          error: RECEIPT_NOT_RECOGNIZED_ERROR,
+          confidence: scored.confidence,
+          extractMethod: scored.extractMethod,
+        },
+        { status: 422 }
+      );
+    }
 
     const dataUrl = `data:${mime};base64,${buffer.toString('base64')}`;
     const result = createTransferClaim({
