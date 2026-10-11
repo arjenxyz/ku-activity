@@ -13,7 +13,7 @@ export default function ProfilePage() {
           </p>
           <h1 className="mt-2 text-3xl font-semibold tracking-tight text-[#0E1548]">Profil</h1>
           <p className="mx-auto mt-2 max-w-md text-sm leading-relaxed text-slate-500">
-            İletişim ve bölüm bilgilerini güncelle. E-posta ve öğrenci numarası kilitlidir.
+            Kayıt bilgilerin burada. İstediğin alanı güncelle — adım adım kilit yok.
           </p>
         </header>
         <div className="mt-8">

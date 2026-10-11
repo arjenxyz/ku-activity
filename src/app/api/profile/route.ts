@@ -81,6 +81,8 @@ export async function PATCH(request: Request) {
   }
 
   const raw = (body ?? {}) as {
+    firstName?: string;
+    lastName?: string;
     fullName?: string;
     department?: string;
     classYear?: string;

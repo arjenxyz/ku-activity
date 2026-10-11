@@ -5,6 +5,8 @@ import {
 } from '@/lib/faculty';
 
 export type ProfilePatchInput = {
+  firstName?: string;
+  lastName?: string;
   fullName?: string;
   department?: string;
   classYear?: string;
@@ -13,13 +15,15 @@ export type ProfilePatchInput = {
 };
 
 export type ValidatedProfilePatch = {
+  firstName: string;
+  lastName: string;
   fullName: string;
   department: string;
   classYear: string;
   phone: string;
 };
 
-const NAME_RE = /^[\p{L}\s'.-]{2,80}$/u;
+const PART_RE = /^[\p{L}'.-]{1,40}$/u;
 const TR_MOBILE_RE = /^5\d{9}$/;
 
 export function digitsOnlyPhone(value: string) {
@@ -32,6 +36,16 @@ export function normalizeTrMobile(value: string) {
   if (digits.startsWith('90') && digits.length === 12) digits = digits.slice(2);
   if (digits.startsWith('0') && digits.length === 11) digits = digits.slice(1);
   return digits.slice(0, 10);
+}
+
+export function splitFullName(fullName: string | null | undefined): {
+  firstName: string;
+  lastName: string;
+} {
+  const parts = (fullName || '').trim().split(/\s+/).filter(Boolean);
+  if (!parts.length) return { firstName: '', lastName: '' };
+  if (parts.length === 1) return { firstName: parts[0]!, lastName: '' };
+  return { firstName: parts[0]!, lastName: parts.slice(1).join(' ') };
 }
 
 export function resolveDepartmentUi(stored: string | null | undefined): {
@@ -55,17 +69,32 @@ export function resolveDepartmentUi(stored: string | null | undefined): {
 export function validateProfilePatch(
   input: ProfilePatchInput
 ): { ok: true; data: ValidatedProfilePatch } | { ok: false; error: string; field?: string } {
-  const fullName = (input.fullName ?? '').trim().replace(/\s+/g, ' ');
-  if (!fullName) {
-    return { ok: false, error: 'Ad soyad gerekli', field: 'fullName' };
+  let firstName = (input.firstName ?? '').trim();
+  let lastName = (input.lastName ?? '').trim();
+
+  if (!firstName && !lastName && input.fullName) {
+    const split = splitFullName(input.fullName);
+    firstName = split.firstName;
+    lastName = split.lastName;
   }
-  if (!NAME_RE.test(fullName)) {
-    return {
-      ok: false,
-      error: 'Ad soyad 2–80 karakter olmalı (harf ve boşluk)',
-      field: 'fullName',
-    };
+
+  if (!firstName) {
+    return { ok: false, error: 'Ad gerekli', field: 'firstName' };
   }
+  if (!PART_RE.test(firstName)) {
+    return { ok: false, error: 'Ad geçersiz', field: 'firstName' };
+  }
+  if (!lastName) {
+    return { ok: false, error: 'Soyad gerekli', field: 'lastName' };
+  }
+  if (!PART_RE.test(lastName.replace(/\s+/g, ''))) {
+    // allow multi-word surnames with spaces
+    if (!/^[\p{L}\s'.-]{1,60}$/u.test(lastName)) {
+      return { ok: false, error: 'Soyad geçersiz', field: 'lastName' };
+    }
+  }
+
+  const fullName = `${firstName} ${lastName}`.replace(/\s+/g, ' ').trim();
 
   let department = (input.department ?? '').trim();
   if (!department) {
@@ -91,7 +120,6 @@ export function validateProfilePatch(
   if (!classYear) {
     return { ok: false, error: 'Sınıf seçin', field: 'classYear' };
   }
-  // Validate against options for the selected faculty department (not custom other label).
   const deptForClass =
     (input.department ?? '').trim() === OTHER_DEPARTMENT
       ? OTHER_DEPARTMENT
@@ -108,13 +136,13 @@ export function validateProfilePatch(
   if (!TR_MOBILE_RE.test(phone)) {
     return {
       ok: false,
-      error: 'Telefon 5 ile başlayan 10 haneli olmalı',
+      error: 'Telefon 5 ile başlayan 10 haneli olmalı (05xx…)',
       field: 'phone',
     };
   }
 
   return {
     ok: true,
-    data: { fullName, department, classYear, phone },
+    data: { firstName, lastName, fullName, department, classYear, phone },
   };
 }

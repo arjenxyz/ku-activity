@@ -1,12 +1,13 @@
 'use client';
 
 import { FormEvent, useCallback, useEffect, useMemo, useState } from 'react';
-import { FiAlertCircle, FiCheck, FiLock, FiRefreshCw, FiUser } from 'react-icons/fi';
+import { FiAlertCircle, FiCheck, FiLock, FiRefreshCw } from 'react-icons/fi';
 import { FormSelect } from '@/components/auth/FormSelect';
 import { classOptions, DEPARTMENT_CHOICES, OTHER_DEPARTMENT } from '@/lib/faculty';
 import {
   normalizeTrMobile,
   resolveDepartmentUi,
+  splitFullName,
   validateProfilePatch,
 } from '@/lib/profile/validate';
 
@@ -19,13 +20,19 @@ type Profile = {
   phone: string | null;
 };
 
-type FieldKey = 'fullName' | 'department' | 'otherDepartment' | 'classYear' | 'phone';
+type FieldKey =
+  | 'firstName'
+  | 'lastName'
+  | 'department'
+  | 'otherDepartment'
+  | 'classYear'
+  | 'phone';
 
-function initialsOf(name: string) {
-  const parts = name.trim().split(/\s+/).filter(Boolean);
-  if (!parts.length) return '?';
-  if (parts.length === 1) return parts[0]!.slice(0, 2).toUpperCase();
-  return `${parts[0]![0] ?? ''}${parts[parts.length - 1]![0] ?? ''}`.toUpperCase();
+function initialsOf(firstName: string, lastName: string) {
+  const a = firstName.trim()[0] ?? '';
+  const b = lastName.trim()[0] ?? '';
+  const out = `${a}${b}`.toUpperCase();
+  return out || '?';
 }
 
 function Skeleton() {
@@ -47,7 +54,8 @@ function Skeleton() {
 
 export function StudentProfileForm() {
   const [profile, setProfile] = useState<Profile | null>(null);
-  const [fullName, setFullName] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [department, setDepartment] = useState(DEPARTMENT_CHOICES[0]?.value ?? '');
   const [otherDepartment, setOtherDepartment] = useState('');
   const [classYear, setClassYear] = useState('1');
@@ -61,7 +69,9 @@ export function StudentProfileForm() {
 
   const applyProfile = useCallback((row: Profile) => {
     setProfile(row);
-    setFullName(row.fullName ?? '');
+    const names = splitFullName(row.fullName);
+    setFirstName(names.firstName);
+    setLastName(names.lastName);
     const deptUi = resolveDepartmentUi(row.department);
     setDepartment(deptUi.department);
     setOtherDepartment(deptUi.otherDepartment);
@@ -112,6 +122,7 @@ export function StudentProfileForm() {
 
   const baseline = useMemo(() => {
     if (!profile) return null;
+    const names = splitFullName(profile.fullName);
     const deptUi = resolveDepartmentUi(profile.department);
     const years = classOptions(deptUi.department).map((item) => item.value);
     const year =
@@ -119,7 +130,8 @@ export function StudentProfileForm() {
         ? profile.classYear
         : (years[0] ?? '1');
     return {
-      fullName: (profile.fullName ?? '').trim(),
+      firstName: names.firstName,
+      lastName: names.lastName,
       department: deptUi.department,
       otherDepartment: deptUi.otherDepartment,
       classYear: year,
@@ -130,13 +142,14 @@ export function StudentProfileForm() {
   const dirty = useMemo(() => {
     if (!baseline) return false;
     return (
-      fullName.trim() !== baseline.fullName ||
+      firstName.trim() !== baseline.firstName ||
+      lastName.trim() !== baseline.lastName ||
       department !== baseline.department ||
       otherDepartment.trim() !== baseline.otherDepartment ||
       classYear !== baseline.classYear ||
       normalizeTrMobile(phone) !== baseline.phone
     );
-  }, [baseline, fullName, department, otherDepartment, classYear, phone]);
+  }, [baseline, firstName, lastName, department, otherDepartment, classYear, phone]);
 
   function clearFieldError(key: FieldKey) {
     setFieldError((prev) => {
@@ -154,7 +167,8 @@ export function StudentProfileForm() {
     setFieldError({});
 
     const validated = validateProfilePatch({
-      fullName,
+      firstName,
+      lastName,
       department,
       otherDepartment,
       classYear,
@@ -178,6 +192,8 @@ export function StudentProfileForm() {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          firstName: validated.data.firstName,
+          lastName: validated.data.lastName,
           fullName: validated.data.fullName,
           department,
           otherDepartment,
@@ -250,11 +266,11 @@ export function StudentProfileForm() {
       <div className="border-b border-slate-100 bg-gradient-to-br from-[#0E1548] to-[#1a3a7a] px-5 py-5 text-white">
         <div className="flex items-center gap-3">
           <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white/15 text-lg font-bold tracking-wide ring-1 ring-white/20">
-            {initialsOf(fullName || profile.fullName || 'Ö')}
+            {initialsOf(firstName, lastName)}
           </span>
           <div className="min-w-0">
             <p className="truncate text-base font-semibold tracking-tight">
-              {fullName.trim() || profile.fullName || 'Öğrenci'}
+              {[firstName, lastName].filter(Boolean).join(' ') || profile.fullName || 'Öğrenci'}
             </p>
             <p className="mt-0.5 truncate text-xs text-white/70">{profile.email}</p>
           </div>
@@ -262,52 +278,94 @@ export function StudentProfileForm() {
       </div>
 
       <div className="space-y-4 px-5 py-5">
-        <div className="grid gap-3 sm:grid-cols-2">
-          <div className="rounded-xl bg-slate-50 px-3.5 py-3 ring-1 ring-slate-100">
-            <p className="flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wide text-slate-400">
-              <FiLock className="h-3 w-3" aria-hidden />
-              E-posta
-            </p>
-            <p className="mt-1 break-all text-sm font-medium text-slate-700">
-              {profile.email || '—'}
-            </p>
+        <p className="text-xs leading-relaxed text-slate-500">
+          Kayıt sırasında verdiğin bilgiler. Hepsi aynı anda düzenlenebilir; e-posta ve öğrenci
+          numarası güvenlik için kilitlidir.
+        </p>
+
+        {/* Same field order as registration — no progressive lock */}
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div>
+            <label htmlFor="firstName" className="mb-1.5 block text-sm font-medium text-slate-700">
+              Ad
+            </label>
+            <input
+              id="firstName"
+              name="firstName"
+              autoComplete="given-name"
+              className={fieldError.firstName ? inputBad : inputOk}
+              value={firstName}
+              onChange={(e) => {
+                setFirstName(e.target.value);
+                clearFieldError('firstName');
+              }}
+              maxLength={40}
+              required
+            />
+            {fieldError.firstName ? (
+              <p className="mt-1 text-xs text-red-600">{fieldError.firstName}</p>
+            ) : null}
           </div>
-          <div className="rounded-xl bg-slate-50 px-3.5 py-3 ring-1 ring-slate-100">
-            <p className="flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wide text-slate-400">
-              <FiLock className="h-3 w-3" aria-hidden />
-              Öğrenci no
-            </p>
-            <p className="mt-1 font-mono text-sm font-medium text-slate-700">
-              {profile.studentNo || '—'}
-            </p>
+          <div>
+            <label htmlFor="lastName" className="mb-1.5 block text-sm font-medium text-slate-700">
+              Soyad
+            </label>
+            <input
+              id="lastName"
+              name="lastName"
+              autoComplete="family-name"
+              className={fieldError.lastName ? inputBad : inputOk}
+              value={lastName}
+              onChange={(e) => {
+                setLastName(e.target.value);
+                clearFieldError('lastName');
+              }}
+              maxLength={60}
+              required
+            />
+            {fieldError.lastName ? (
+              <p className="mt-1 text-xs text-red-600">{fieldError.lastName}</p>
+            ) : null}
           </div>
         </div>
 
+        <div className="rounded-xl bg-slate-50 px-3.5 py-3 ring-1 ring-slate-100">
+          <p className="flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+            <FiLock className="h-3 w-3" aria-hidden />
+            Öğrenci no
+          </p>
+          <p className="mt-1 font-mono text-sm font-medium text-slate-700">
+            {profile.studentNo || '—'}
+          </p>
+        </div>
+
         <div>
-          <label htmlFor="fullName" className="mb-1.5 block text-sm font-medium text-slate-700">
-            Ad soyad
+          <label htmlFor="phone" className="mb-1.5 block text-sm font-medium text-slate-700">
+            Telefon
           </label>
-          <div className="relative">
-            <FiUser
-              className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"
-              aria-hidden
-            />
+          <div className="flex gap-2">
+            <span className="inline-flex h-[42px] shrink-0 items-center rounded-xl border border-slate-200 bg-slate-50 px-3 text-sm font-medium text-slate-600">
+              +90
+            </span>
             <input
-              id="fullName"
-              name="fullName"
-              autoComplete="name"
-              className={`pl-10 ${fieldError.fullName ? inputBad : inputOk}`}
-              value={fullName}
+              id="phone"
+              name="phone"
+              type="tel"
+              inputMode="numeric"
+              autoComplete="tel-national"
+              className={fieldError.phone ? inputBad : inputOk}
+              value={phone}
               onChange={(e) => {
-                setFullName(e.target.value);
-                clearFieldError('fullName');
+                setPhone(normalizeTrMobile(e.target.value));
+                clearFieldError('phone');
               }}
-              maxLength={80}
-              required
+              placeholder="5xxxxxxxxx"
+              maxLength={10}
             />
           </div>
-          {fieldError.fullName ? (
-            <p className="mt-1 text-xs text-red-600">{fieldError.fullName}</p>
+          <p className="mt-1 text-[11px] text-slate-400">05xx xxx xx xx — baştaki 0 olmadan</p>
+          {fieldError.phone ? (
+            <p className="mt-1 text-xs text-red-600">{fieldError.phone}</p>
           ) : null}
         </div>
 
@@ -338,7 +396,7 @@ export function StudentProfileForm() {
               htmlFor="otherDepartment"
               className="mb-1.5 block text-sm font-medium text-slate-700"
             >
-              Bölüm adı
+              Bölümün
             </label>
             <input
               id="otherDepartment"
@@ -374,31 +432,14 @@ export function StudentProfileForm() {
           ) : null}
         </div>
 
-        <div>
-          <label htmlFor="phone" className="mb-1.5 block text-sm font-medium text-slate-700">
-            Telefon
-          </label>
-          <input
-            id="phone"
-            name="phone"
-            type="tel"
-            inputMode="numeric"
-            autoComplete="tel"
-            className={fieldError.phone ? inputBad : inputOk}
-            value={phone}
-            onChange={(e) => {
-              setPhone(normalizeTrMobile(e.target.value));
-              clearFieldError('phone');
-            }}
-            placeholder="5xxxxxxxxx"
-            maxLength={10}
-          />
-          <p className="mt-1 text-[11px] text-slate-400">
-            5 ile başlayan 10 haneli cep telefonu
+        <div className="rounded-xl bg-slate-50 px-3.5 py-3 ring-1 ring-slate-100">
+          <p className="flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+            <FiLock className="h-3 w-3" aria-hidden />
+            E-posta
           </p>
-          {fieldError.phone ? (
-            <p className="mt-1 text-xs text-red-600">{fieldError.phone}</p>
-          ) : null}
+          <p className="mt-1 break-all text-sm font-medium text-slate-700">
+            {profile.email || '—'}
+          </p>
         </div>
 
         {error ? (
