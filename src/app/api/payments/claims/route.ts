@@ -6,6 +6,7 @@ import {
   scoreReceiptMatch,
 } from '@/lib/payments/ocr';
 import {
+  cancelClaim,
   createTransferClaim,
   getParticipant,
   listAwaitingClaims,
@@ -126,13 +127,32 @@ export async function PATCH(request: Request) {
     const body = (await request.json()) as {
       claimId?: string;
       approve?: boolean;
+      cancel?: boolean;
+      eventId?: string;
+      registrationNo?: string;
       disclaimerAck?: boolean;
       note?: string;
       reviewerId?: string;
       reviewerName?: string;
     };
 
-    if (!body.claimId || typeof body.approve !== 'boolean') {
+    if (!body.claimId) {
+      return NextResponse.json({ error: 'Geçersiz istek' }, { status: 400 });
+    }
+
+    if (body.cancel) {
+      if (!body.eventId || !body.registrationNo) {
+        return NextResponse.json({ error: 'Eksik alan' }, { status: 400 });
+      }
+      const result = cancelClaim({
+        claimId: body.claimId,
+        eventId: body.eventId,
+        registrationNo: body.registrationNo,
+      });
+      return NextResponse.json(result);
+    }
+
+    if (typeof body.approve !== 'boolean') {
       return NextResponse.json({ error: 'Geçersiz istek' }, { status: 400 });
     }
 

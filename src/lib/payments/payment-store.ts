@@ -119,6 +119,45 @@ export function listAwaitingClaims() {
     .map((claim) => ({ ...claim }));
 }
 
+export function getAwaitingClaim(eventId: string, registrationNo: string) {
+  const decoded = decodeURIComponent(registrationNo);
+  const claim = store().claims.find(
+    (row) =>
+      row.eventId === eventId &&
+      row.registrationNo === decoded &&
+      row.status === 'awaiting_review'
+  );
+  return claim ? { ...claim } : null;
+}
+
+/** Student cancels a pending receipt so they can re-upload. */
+export function cancelClaim(input: {
+  claimId: string;
+  eventId: string;
+  registrationNo: string;
+}) {
+  const decoded = decodeURIComponent(input.registrationNo);
+  const claim = store().claims.find((row) => row.id === input.claimId);
+  if (!claim) throw new Error('Talep bulunamadı');
+  if (claim.status !== 'awaiting_review') throw new Error('Talep zaten sonuçlanmış');
+  if (claim.eventId !== input.eventId || claim.registrationNo !== decoded) {
+    throw new Error('Talep bu kayda ait değil');
+  }
+
+  const idx = store().claims.findIndex((row) => row.id === input.claimId);
+  if (idx >= 0) store().claims.splice(idx, 1);
+
+  mutateParticipant(input.eventId, decoded, {
+    paymentStatus: 'pending',
+    paymentMethod: '',
+    paymentNote: '',
+  });
+
+  return {
+    participant: getParticipant(input.eventId, decoded)!,
+  };
+}
+
 export function createTransferClaim(input: {
   eventId: string;
   registrationNo: string;
@@ -219,12 +258,16 @@ export function reviewClaim(input: {
   if (input.approve && !input.disclaimerAck) {
     throw new Error('Onay için sorumluluk metnini kabul etmelisiniz');
   }
+  const note = input.note?.trim() ?? '';
+  if (!input.approve && !note) {
+    throw new Error('Red nedeni yazmalısınız');
+  }
 
   claim.status = input.approve ? 'approved' : 'rejected';
   claim.reviewedAt = nowIso();
   claim.reviewedById = input.reviewerId;
   claim.reviewedByName = input.reviewerName;
-  claim.reviewNote = input.note?.trim() ?? '';
+  claim.reviewNote = note;
   claim.disclaimerAck = input.approve ? input.disclaimerAck : false;
 
   if (input.approve) {
@@ -239,7 +282,7 @@ export function reviewClaim(input: {
   } else {
     mutateParticipant(claim.eventId, claim.registrationNo, {
       paymentStatus: 'rejected',
-      paymentNote: claim.reviewNote || 'Dekont reddedildi — yeniden yükleyin',
+      paymentNote: claim.reviewNote,
     });
   }
 

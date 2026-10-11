@@ -91,7 +91,11 @@ export function StudentEventDetail({
                 className={`ml-auto inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold ${
                   mine
                     ? presentedMine?.needsPayment
-                      ? 'bg-[#E8770A]/95 text-white'
+                      ? presentedMine.paymentStatus === 'claimed'
+                        ? 'bg-amber-500/95 text-white'
+                        : presentedMine.paymentStatus === 'rejected'
+                          ? 'bg-red-500/95 text-white'
+                          : 'bg-[#E8770A]/95 text-white'
                       : 'bg-emerald-400/95 text-[#0B3D2E]'
                     : 'bg-white/95 text-[#0E1548]'
                 }`}
@@ -101,7 +105,7 @@ export function StudentEventDetail({
                 ) : null}
                 {mine
                   ? presentedMine?.needsPayment
-                    ? 'Bekleniyor'
+                    ? presentedMine.statusLabel
                     : 'Kayıtlısın'
                   : event.statusLabel}
               </span>
@@ -162,6 +166,9 @@ export function StudentEventDetail({
             cashPaymentEnabled={presentedMine?.cashPaymentEnabled}
             cashContactName={presentedMine?.cashContactName}
             cashContactNote={presentedMine?.cashContactNote}
+            paymentStatus={presentedMine?.paymentStatus}
+            paymentNote={presentedMine?.paymentNote}
+            openClaimId={presentedMine?.openClaimId}
           >
             <EventDetailBody event={event} />
             <div className="border-t border-slate-100 pt-4">

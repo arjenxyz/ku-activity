@@ -7,6 +7,7 @@ import { FiCheck, FiChevronDown, FiInfo, FiX } from 'react-icons/fi';
 import { FeePaymentModal } from '@/components/events/FeePaymentModal';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 import { APP_SHORT_NAME } from '@/lib/brand';
+import type { PaymentStatus } from '@/lib/payments/types';
 
 type CheckCardState = {
   index: number;
@@ -33,6 +34,9 @@ type Props = {
   cashPaymentEnabled?: boolean;
   cashContactName?: string | null;
   cashContactNote?: string | null;
+  paymentStatus?: PaymentStatus | null;
+  paymentNote?: string | null;
+  openClaimId?: string | null;
   children: React.ReactNode;
 };
 
@@ -53,6 +57,9 @@ export function RegisteredEventExtras({
   cashPaymentEnabled = false,
   cashContactName = null,
   cashContactNote = null,
+  paymentStatus = null,
+  paymentNote = null,
+  openClaimId = null,
   children,
 }: Props) {
   const router = useRouter();
@@ -389,9 +396,19 @@ export function RegisteredEventExtras({
         <button
           type="button"
           onClick={() => setPayOpen(true)}
-          className="flex h-11 w-full items-center justify-center rounded-xl bg-[#E8770A] text-sm font-bold uppercase tracking-wide text-white hover:bg-[#CF6A09]"
+          className={`flex h-11 w-full items-center justify-center rounded-xl text-sm font-bold uppercase tracking-wide text-white ${
+            paymentStatus === 'claimed'
+              ? 'bg-amber-500 hover:bg-amber-600'
+              : paymentStatus === 'rejected'
+                ? 'bg-red-600 hover:bg-red-700'
+                : 'bg-[#E8770A] hover:bg-[#CF6A09]'
+          }`}
         >
-          Ücreti öde{feeLabel ? ` · ${feeLabel}` : ''}
+          {paymentStatus === 'claimed'
+            ? 'İnceleniyor…'
+            : paymentStatus === 'rejected'
+              ? 'Ödeme reddedildi'
+              : `Ücreti öde${feeLabel ? ` · ${feeLabel}` : ''}`}
         </button>
       ) : (
         <button
@@ -422,6 +439,7 @@ export function RegisteredEventExtras({
         open={payOpen}
         onClose={() => setPayOpen(false)}
         onPaid={() => router.refresh()}
+        onStatusChange={() => router.refresh()}
         eventId={eventId}
         passengerName={passengerName}
         feeLabel={feeLabel}
@@ -431,6 +449,9 @@ export function RegisteredEventExtras({
         cashContactName={cashContactName}
         cashContactNote={cashContactNote}
         registrationNo={registrationNo}
+        paymentStatus={paymentStatus}
+        paymentNote={paymentNote}
+        openClaimId={openClaimId}
       />
     </div>
   );

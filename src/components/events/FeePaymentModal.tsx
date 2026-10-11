@@ -18,6 +18,7 @@ import {
   RECEIPT_FILE_ACCEPT,
   RECEIPT_FILE_TYPE_ERROR,
 } from '@/lib/payments/receipt-file';
+import type { PaymentStatus } from '@/lib/payments/types';
 
 type Method = 'transfer' | 'cash';
 type CopyKey = 'iban' | 'name' | 'code';
@@ -27,6 +28,8 @@ type Props = {
   onClose: () => void;
   /** Called when cash QR is accepted or transfer auto-approved. */
   onPaid?: () => void;
+  /** Called after cancel / re-upload path needs a refresh. */
+  onStatusChange?: () => void;
   eventId?: string;
   passengerName?: string | null;
   feeLabel?: string | null;
@@ -36,12 +39,16 @@ type Props = {
   cashContactName?: string | null;
   cashContactNote?: string | null;
   registrationNo?: string;
+  paymentStatus?: PaymentStatus | null;
+  paymentNote?: string | null;
+  openClaimId?: string | null;
 };
 
 export function FeePaymentModal({
   open,
   onClose,
   onPaid,
+  onStatusChange,
   eventId,
   passengerName = null,
   feeLabel = null,
@@ -51,6 +58,9 @@ export function FeePaymentModal({
   cashContactName = null,
   cashContactNote = null,
   registrationNo,
+  paymentStatus = null,
+  paymentNote = null,
+  openClaimId = null,
 }: Props) {
   const [mounted, setMounted] = useState(false);
   const [method, setMethod] = useState<Method | null>(null);
@@ -63,6 +73,9 @@ export function FeePaymentModal({
   const [receiptBusy, setReceiptBusy] = useState(false);
   const [receiptError, setReceiptError] = useState<string | null>(null);
   const [receiptMessage, setReceiptMessage] = useState<string | null>(null);
+  const [cancelBusy, setCancelBusy] = useState(false);
+  const [cancelError, setCancelError] = useState<string | null>(null);
+  const [resumeAfterReject, setResumeAfterReject] = useState(false);
 
   useBodyScrollLock(open);
 
@@ -80,6 +93,9 @@ export function FeePaymentModal({
       setReceiptBusy(false);
       setReceiptError(null);
       setReceiptMessage(null);
+      setCancelBusy(false);
+      setCancelError(null);
+      setResumeAfterReject(false);
     }
   }, [open]);
 
@@ -205,6 +221,7 @@ export function FeePaymentModal({
         onPaid?.();
       } else {
         setReceiptMessage('Dekont inceleme kuyruğuna alındı');
+        onStatusChange?.();
       }
     } catch (err) {
       setReceiptError(err instanceof Error ? err.message : 'Yükleme başarısız');
@@ -213,25 +230,62 @@ export function FeePaymentModal({
     }
   }
 
+  async function cancelPendingClaim() {
+    if (!openClaimId || !eventId || !registrationNo) {
+      setCancelError('Talep bilgisi eksik');
+      return;
+    }
+    setCancelBusy(true);
+    setCancelError(null);
+    try {
+      const response = await fetch('/api/payments/claims', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          claimId: openClaimId,
+          cancel: true,
+          eventId,
+          registrationNo,
+        }),
+      });
+      const payload = (await response.json().catch(() => null)) as { error?: string } | null;
+      if (!response.ok) throw new Error(payload?.error ?? 'İptal başarısız');
+      onStatusChange?.();
+      onClose();
+    } catch (err) {
+      setCancelError(err instanceof Error ? err.message : 'İptal başarısız');
+    } finally {
+      setCancelBusy(false);
+    }
+  }
+
   if (!mounted || !open) return null;
 
+  const showReviewing = paymentStatus === 'claimed' && Boolean(openClaimId);
+  const showRejected = paymentStatus === 'rejected' && !resumeAfterReject;
   const hasTransfer = Boolean(paymentIban);
   const hasCash = Boolean(cashPaymentEnabled);
   const hasAny = hasTransfer || hasCash;
-  const headerTitle =
-    method === 'transfer'
-      ? 'Havale / EFT'
-      : method === 'cash'
-        ? 'Elden ödeme'
-        : 'Ödeme yöntemi seç';
-  const headerSubtitle =
-    method === 'transfer'
-      ? 'Banka bilgileri · dekont zorunlu'
-      : method === 'cash'
-        ? 'Nakit teslim · QR ile onay'
-        : feeLabel
-          ? `Tutar ${feeLabel}`
-          : 'Katılım ücretini tamamla';
+  const headerTitle = showReviewing
+    ? 'İnceleniyor'
+    : showRejected
+      ? 'Ödeme reddedildi'
+      : method === 'transfer'
+        ? 'Havale / EFT'
+        : method === 'cash'
+          ? 'Elden ödeme'
+          : 'Ödeme yöntemi seç';
+  const headerSubtitle = showReviewing
+    ? 'Dekontunuz ekip tarafından kontrol ediliyor'
+    : showRejected
+      ? 'Yeni dekont yükleyebilirsiniz'
+      : method === 'transfer'
+        ? 'Banka bilgileri · dekont zorunlu'
+        : method === 'cash'
+          ? 'Nakit teslim · QR ile onay'
+          : feeLabel
+            ? `Tutar ${feeLabel}`
+            : 'Katılım ücretini tamamla';
   const HeaderIcon =
     method === 'transfer' ? FiCreditCard : method === 'cash' ? FiDollarSign : FiFileText;
 
@@ -248,7 +302,7 @@ export function FeePaymentModal({
           <div className="absolute inset-0 opacity-[0.12] [background-image:radial-gradient(circle_at_1px_1px,#fff_1px,transparent_0)] [background-size:12px_12px]" />
           <div className="relative flex items-start justify-between gap-3">
             <div className="flex min-w-0 items-start gap-3">
-              {method ? (
+              {method && !showReviewing && !showRejected ? (
                 <button
                   type="button"
                   onClick={() => setMethod(null)}
@@ -281,7 +335,64 @@ export function FeePaymentModal({
         </div>
 
         <div className="overflow-y-auto px-5 py-5">
-          {!method ? (
+          {showReviewing ? (
+            <div className="space-y-4">
+              <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-5 text-center">
+                <p className="text-sm font-semibold text-amber-900">İnceleniyor…</p>
+                <p className="mt-1.5 text-xs leading-relaxed text-amber-800/90">
+                  Dekontunuz yüklendi. Ekip onayladıktan sonra geçiş kartınız açılır. Yanlış
+                  dosya gönderdiyseniz talebi iptal edip yeniden yükleyebilirsiniz.
+                </p>
+              </div>
+              {cancelError ? (
+                <p className="text-center text-xs font-medium text-red-600">{cancelError}</p>
+              ) : null}
+              <button
+                type="button"
+                disabled={cancelBusy}
+                onClick={() => void cancelPendingClaim()}
+                className="flex h-11 w-full items-center justify-center rounded-xl border border-slate-200 bg-white text-sm font-semibold text-slate-700 hover:bg-slate-50 disabled:opacity-60"
+              >
+                {cancelBusy ? 'İptal ediliyor…' : 'Talebi iptal et'}
+              </button>
+              <button
+                type="button"
+                onClick={onClose}
+                className="flex h-11 w-full items-center justify-center rounded-xl bg-[#0E1548] text-sm font-semibold text-white hover:bg-[#16206a]"
+              >
+                Tamam
+              </button>
+            </div>
+          ) : showRejected ? (
+            <div className="space-y-4">
+              <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-5 text-center">
+                <p className="text-sm font-semibold text-red-800">Ödemeniz reddedildi</p>
+                <p className="mt-2 text-xs leading-relaxed text-red-700/90">
+                  {paymentNote?.trim() || 'Dekont uygun bulunmadı. Lütfen yeniden yükleyin.'}
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  setResumeAfterReject(true);
+                  if (paymentIban) {
+                    setMethod('transfer');
+                    setReceiptOpen(true);
+                  }
+                }}
+                className="flex h-11 w-full items-center justify-center rounded-xl bg-[#E8770A] text-sm font-semibold text-white hover:bg-[#CF6A09]"
+              >
+                Yeni dekont yükle
+              </button>
+              <button
+                type="button"
+                onClick={onClose}
+                className="flex h-11 w-full items-center justify-center rounded-xl border border-slate-200 bg-white text-sm font-semibold text-slate-700"
+              >
+                Kapat
+              </button>
+            </div>
+          ) : !method ? (
             <div className="space-y-2.5">
               {hasTransfer ? (
                 <button

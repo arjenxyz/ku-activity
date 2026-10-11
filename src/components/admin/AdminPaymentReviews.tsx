@@ -42,6 +42,7 @@ export function AdminPaymentReviews({ eventId }: { eventId: string }) {
   const [claims, setClaims] = useState<PaymentClaim[]>([]);
   const [ready, setReady] = useState(false);
   const [ack, setAck] = useState<Record<string, boolean>>({});
+  const [rejectNotes, setRejectNotes] = useState<Record<string, string>>({});
   const [busyId, setBusyId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -63,6 +64,11 @@ export function AdminPaymentReviews({ eventId }: { eventId: string }) {
       setError('Onay için sorumluluk metnini işaretleyin.');
       return;
     }
+    const rejectNote = (rejectNotes[claimId] || '').trim();
+    if (!approve && !rejectNote) {
+      setError('Reddetmeden önce neden yazın.');
+      return;
+    }
     setBusyId(claimId);
     setError(null);
     try {
@@ -75,7 +81,7 @@ export function AdminPaymentReviews({ eventId }: { eventId: string }) {
           disclaimerAck: Boolean(ack[claimId]),
           reviewerId: 'demo-admin',
           reviewerName: 'Demo Admin',
-          note: approve ? 'Hesap hareketi kontrol edildi' : 'Dekont yetersiz / kod yok',
+          note: approve ? 'Hesap hareketi kontrol edildi' : rejectNote,
         }),
       });
       const payload = (await response.json().catch(() => null)) as { error?: string } | null;
@@ -190,6 +196,21 @@ export function AdminPaymentReviews({ eventId }: { eventId: string }) {
                 />
                 <span>{ADMIN_DISCLAIMER}</span>
               </label>
+
+              <div className="mt-3">
+                <label className="block text-[11px] font-semibold uppercase tracking-wide text-slate-400">
+                  Red nedeni (öğrenciye gösterilir)
+                </label>
+                <textarea
+                  value={rejectNotes[claim.id] ?? ''}
+                  onChange={(e) =>
+                    setRejectNotes((prev) => ({ ...prev, [claim.id]: e.target.value }))
+                  }
+                  rows={2}
+                  placeholder="Örn. Tutar eksik / ödeme kodu yok / dekont okunaksız"
+                  className="mt-1.5 w-full resize-none rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-[#0E1548] outline-none ring-[#2D6AF6]/30 focus:ring-2"
+                />
+              </div>
 
               <div className="mt-3 flex gap-2">
                 <button

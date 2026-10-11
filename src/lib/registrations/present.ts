@@ -2,7 +2,7 @@ import type { DemoRegistration } from '@/lib/demo/registrations-store';
 import { emptyPlanning, formatFeeTry } from '@/lib/events/catalog';
 import { getCatalogEvent } from '@/lib/events/catalog-store';
 import { isRegistrationFeeCleared } from '@/lib/payments/fee-gate';
-import { getParticipant } from '@/lib/payments/payment-store';
+import { getAwaitingClaim, getParticipant } from '@/lib/payments/payment-store';
 
 export { isRegistrationFeeCleared } from '@/lib/payments/fee-gate';
 
@@ -24,6 +24,15 @@ export function presentRegistration(reg: DemoRegistration) {
   const feeCleared = isRegistrationFeeCleared(reg);
   const needsPayment = reg.status !== 'cancelled' && hasFee && !feeCleared;
   const participant = getParticipant(reg.eventId, reg.registrationNo);
+  const paymentStatus = participant?.paymentStatus ?? (hasFee ? 'pending' : 'paid');
+  const openClaim = getAwaitingClaim(reg.eventId, reg.registrationNo);
+
+  let statusLabel = attendanceLabel(reg);
+  if (needsPayment) {
+    if (paymentStatus === 'claimed') statusLabel = 'İnceleniyor';
+    else if (paymentStatus === 'rejected') statusLabel = 'Reddedildi';
+    else statusLabel = 'Bekleniyor';
+  }
 
   return {
     id: reg.id,
@@ -32,9 +41,12 @@ export function presentRegistration(reg: DemoRegistration) {
     location: event?.location ?? '',
     registrationNo: reg.registrationNo,
     paymentCode: participant?.paymentCode ?? null,
+    paymentStatus,
+    paymentNote: participant?.paymentNote ?? null,
+    openClaimId: openClaim?.id ?? null,
     manualCode: reg.manualCode,
     status: reg.status,
-    statusLabel: needsPayment ? 'Bekleniyor' : attendanceLabel(reg),
+    statusLabel,
     logistics: reg.logistics,
     dayIds: reg.dayIds,
     activityIds: reg.activityIds,
