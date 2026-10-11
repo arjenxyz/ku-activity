@@ -13,11 +13,36 @@ type Store = {
 };
 
 const SEED: Array<Omit<StoredSponsor, 'id' | 'sortOrder' | 'active'>> = [
-  { name: 'Abana Seyahat', url: null, logoUrl: null, blurb: 'Ulaşım sponsoru' },
-  { name: 'Abana Belediyesi', url: null, logoUrl: null, blurb: 'Yerel destek' },
-  { name: 'Kastamonu Turizm', url: null, logoUrl: null, blurb: 'Konaklama desteği' },
-  { name: 'Karadeniz Lojistik', url: null, logoUrl: null, blurb: 'Lojistik' },
-  { name: 'Sahil Cafe', url: null, logoUrl: null, blurb: 'İkram' },
+  {
+    name: 'Abana Seyahat',
+    url: null,
+    logoUrl: '/sponsors/abana-seyahat.svg',
+    blurb: 'Ulaşım sponsoru',
+  },
+  {
+    name: 'Abana Belediyesi',
+    url: null,
+    logoUrl: '/sponsors/abana-belediyesi.svg',
+    blurb: 'Yerel destek',
+  },
+  {
+    name: 'Kastamonu Turizm',
+    url: null,
+    logoUrl: '/sponsors/kastamonu-turizm.svg',
+    blurb: 'Konaklama desteği',
+  },
+  {
+    name: 'Karadeniz Lojistik',
+    url: null,
+    logoUrl: '/sponsors/karadeniz-lojistik.svg',
+    blurb: 'Lojistik',
+  },
+  {
+    name: 'Sahil Cafe',
+    url: null,
+    logoUrl: '/sponsors/sahil-cafe.svg',
+    blurb: 'İkram',
+  },
 ];
 
 function uid(prefix: string) {
@@ -25,9 +50,9 @@ function uid(prefix: string) {
 }
 
 function store(): Store {
-  const g = globalThis as typeof globalThis & { __emsSponsorsV1?: Store };
-  if (!g.__emsSponsorsV1) {
-    g.__emsSponsorsV1 = {
+  const g = globalThis as typeof globalThis & { __emsSponsorsV2?: Store };
+  if (!g.__emsSponsorsV2) {
+    g.__emsSponsorsV2 = {
       sponsors: SEED.map((row, index) => ({
         id: `sponsor_seed_${index + 1}`,
         name: row.name,
@@ -39,7 +64,7 @@ function store(): Store {
       })),
     };
   }
-  return g.__emsSponsorsV1;
+  return g.__emsSponsorsV2;
 }
 
 export function listPublicSponsors() {
