@@ -127,7 +127,7 @@ async function extractReceiptContentInner(
   }
 
   if (mimeType.startsWith('image/')) {
-    const text = (await withBudget(ocrBuffer(buffer), '', 7_000)).trim();
+    const text = (await withBudget(ocrBuffer(buffer), '', 5_000)).trim();
     return { text, method: text ? 'ocr' : 'empty', pageCount: 1 };
   }
 
