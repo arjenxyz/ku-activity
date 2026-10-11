@@ -2,7 +2,7 @@ export const APP_NAME = 'EVENT MANAGEMENT SYSTEM';
 export const APP_SHORT_NAME = 'EMS';
 export const APP_TAGLINE = 'Öğrenci etkinlik hizmeti';
 export const APP_TAGLINE_TR =
-  'Etkinlik gününde katılımcıları ve maliyeti hesaplamak, bunları kamuoyuna açık paylaşmak için kurulmuş bir öğrenci hizmetidir. Üniversiteye bağlı değildir; üniversite içi etkinlikler için kullanılır.';
+  'Kampüs etkinliklerini keşfet, kaydını bitir. Katılım ve maliyet açık; üniversiteden bağımsız.';
 export const DEFAULT_APP_URL = '';
 export const DEFAULT_SUPPORT_EMAIL = '';
 export const DEFAULT_DEVELOPER_NAME = '';
