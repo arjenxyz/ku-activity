@@ -315,6 +315,9 @@ export function FeePaymentModal({
                       Teslim et, QR ile onaylat
                     </span>
                   </span>
+                  <span className="ml-auto shrink-0 self-start text-xs font-medium text-emerald-600">
+                    önerilen
+                  </span>
                 </button>
               ) : null}
               {!hasAny ? (
