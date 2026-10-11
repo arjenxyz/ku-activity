@@ -14,6 +14,7 @@ const PUBLIC_PREFIXES = [
   '/etkinlikler',
   '/ekip',
   '/api/public',
+  '/api/sponsors',
   '/api/session',
   '/api/demo',
 ];

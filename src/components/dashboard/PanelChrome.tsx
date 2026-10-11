@@ -13,6 +13,7 @@ import {
   FiHome,
   FiLogOut,
   FiSettings,
+  FiStar,
   FiUser,
   FiUsers,
 } from 'react-icons/fi';
@@ -91,6 +92,7 @@ const NAV_ICONS: Record<NavIconName, IconType> = {
   file: FiFileText,
   clipboard: FiClipboard,
   settings: FiSettings,
+  star: FiStar,
 };
 
 const SIDEBAR_W = 'lg:w-64';

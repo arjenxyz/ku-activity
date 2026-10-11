@@ -1,10 +1,16 @@
 import { HomeFooter } from '@/components/home/HomeFooter';
 import { ExploreMenuButton, HomeHeader } from '@/components/home/HomeHeader';
+import { HomeSponsors } from '@/components/home/HomeSponsors';
 import { RegistrationPreview } from '@/components/home/RegistrationPreview';
 import { SlidingStars } from '@/components/home/SlidingStars';
 import { APP_TAGLINE_TR } from '@/lib/brand';
+import { listPublicSponsors } from '@/lib/sponsors/sponsors-store';
+
+export const dynamic = 'force-dynamic';
 
 export default function HomePage() {
+  const sponsors = listPublicSponsors();
+
   return (
     <div className="flex min-h-[100dvh] flex-col bg-white text-slate-900">
       <HomeHeader />
@@ -38,6 +44,8 @@ export default function HomePage() {
             <RegistrationPreview />
           </div>
         </section>
+
+        <HomeSponsors initialSponsors={sponsors} />
       </main>
 
       <HomeFooter />
