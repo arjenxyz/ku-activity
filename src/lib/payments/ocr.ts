@@ -10,8 +10,7 @@ const MIN_PDF_TEXT_CHARS = 40;
 /** Cap total extract time so the upload UI does not hang on Tesseract. */
 const EXTRACT_BUDGET_MS = 6_000;
 
-export const RECEIPT_NOT_RECOGNIZED_ERROR =
-  'Dekont gibi görünmüyor. Ödeme kodu, tutar veya IBAN okunamadı — doğru banka dekontunu yükleyin.';
+export const RECEIPT_NOT_RECOGNIZED_ERROR = 'Dekont gibi görünmüyor. Doğru dosyayı yükleyin.';
 
 export type ReceiptExtractResult = {
   text: string;
