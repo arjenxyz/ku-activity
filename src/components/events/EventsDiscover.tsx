@@ -72,15 +72,17 @@ export function EventsDiscover({
   return (
     <>
       <header className="mx-auto max-w-lg text-center">
-        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#2D6AF6]">Keşfet</p>
-        <h1 className="mt-2 text-3xl font-semibold tracking-tight text-[#0E1548]">Etkinlikler</h1>
+        <p className="inline-flex rounded-full bg-white px-3.5 py-1.5 text-xs font-medium text-slate-600 shadow-sm ring-1 ring-slate-200/80">
+          Keşfet
+        </p>
+        <h1 className="mt-3 text-3xl font-bold tracking-tight text-[#0E1548]">Etkinlikler</h1>
         <p className="mt-2 text-sm leading-relaxed text-slate-500">
           Yayındaki etkinlikler · {events.length} kayıt
         </p>
       </header>
       <ul className="mt-10 grid gap-5 sm:grid-cols-2">
         {events.length === 0 ? (
-          <li className="col-span-full rounded-2xl border border-dashed border-slate-200 bg-white/70 px-5 py-10 text-center text-sm text-slate-500">
+          <li className="col-span-full rounded-2xl border border-dashed border-slate-200/80 bg-white/80 px-5 py-10 text-center text-sm text-slate-500 shadow-sm">
             Şu an listelenecek etkinlik yok.
           </li>
         ) : (
