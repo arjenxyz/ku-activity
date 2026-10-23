@@ -206,14 +206,11 @@ export default function TeamPage() {
               <button
                 type="button"
                 onClick={() => setSelected(member)}
-                className="group flex w-full flex-col items-center rounded-3xl border border-slate-200 bg-white px-3 py-5 text-center shadow-sm shadow-slate-900/[0.03] transition hover:-translate-y-1 hover:border-[#2D6AF6]/30 hover:shadow-lg hover:shadow-blue-900/[0.08]"
+                aria-label={`${member.name} profilini görüntüle`}
+                className="group flex min-h-[190px] w-full flex-col items-center justify-center rounded-2xl border border-slate-200 bg-white px-3 py-6 text-center shadow-sm shadow-slate-900/[0.03] transition hover:-translate-y-1 hover:border-[#2D6AF6]/30 hover:shadow-lg hover:shadow-blue-900/[0.08] sm:min-h-[230px] sm:px-4"
               >
-                <Portrait member={member} className="h-24 w-24 rounded-[1.5rem] ring-4 ring-[#e8f0ff] transition group-hover:ring-blue-100 sm:h-28 sm:w-28" />
-                <span className="mt-4 text-sm font-bold text-[#0E1548]">{member.name}</span>
-                <span className="mt-1 text-xs text-slate-500">{member.role || 'Ekip üyesi'}</span>
-                <span className="mt-4 inline-flex items-center gap-1 text-[11px] font-semibold text-[#2D6AF6]">
-                  Profili gör <FiArrowUpRight className="h-3.5 w-3.5" aria-hidden />
-                </span>
+                <Portrait member={member} className="h-24 w-24 rounded-full ring-0 transition group-hover:scale-105 sm:h-28 sm:w-28" />
+                <span className="mt-4 text-sm font-medium text-[#0E1548] sm:text-base">{member.name}</span>
               </button>
             </li>
           ))}
