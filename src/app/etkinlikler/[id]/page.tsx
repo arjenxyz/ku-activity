@@ -37,7 +37,6 @@ export default async function EventDetailPage({ params }: Props) {
       <HomeHeader />
       <StudentEventDetail
         event={event}
-        taken={taken}
         seatsLeft={seatsLeft}
         registrationOpen={registrationOpen}
         mine={mine ?? null}

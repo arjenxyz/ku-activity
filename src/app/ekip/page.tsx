@@ -46,7 +46,6 @@ export default function TeamPage() {
   const [selectedOpening, setSelectedOpening] = useState<TeamOpening | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
-  const [appliedOpeningIds, setAppliedOpeningIds] = useState<string[]>([]);
   const [applyOpen, setApplyOpen] = useState(false);
   const [siteSession, setSiteSession] = useState<boolean | null>(null);
   const [demoSession, setDemoSession] = useState(false);
@@ -93,13 +92,6 @@ export default function TeamPage() {
       setOpenings(openingRows ?? []);
       const { data: { user } } = await supabase.auth.getUser();
       setUserId(user?.id ?? null);
-      if (!user || !openingRows?.length) return;
-      const { data: mine } = await supabase
-        .from('team_applications')
-        .select('opening_id')
-        .eq('profile_id', user.id)
-        .in('opening_id', openingRows.map((row) => row.id));
-      setAppliedOpeningIds((mine ?? []).map((row) => row.opening_id as string));
     })();
   }, [applyDone]);
 
@@ -158,7 +150,6 @@ export default function TeamPage() {
       setApplyError(error.message);
       return;
     }
-    setAppliedOpeningIds((current) => [...current, selectedOpening.id]);
     setApplyDone(true);
     setSelectedOpening(null);
     setApplyOpen(false);

@@ -39,7 +39,6 @@ function themeFor(id: string) {
 
 type Props = {
   event: CatalogEvent;
-  taken: number;
   seatsLeft: number;
   registrationOpen: boolean;
   mine: DemoRegistration | null;
@@ -49,7 +48,6 @@ type Props = {
 
 export function StudentEventDetail({
   event,
-  taken,
   seatsLeft,
   registrationOpen,
   mine,
