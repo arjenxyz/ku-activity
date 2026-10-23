@@ -1,29 +1,41 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
+import { FiArrowUpRight, FiHeart, FiPlus } from 'react-icons/fi';
 import { SponsorDetailModal } from '@/components/home/SponsorDetailModal';
 import type { StoredSponsor } from '@/lib/sponsors/sponsors-store';
 
 function SponsorCard({
   sponsor,
   onOpen,
+  featured = false,
 }: {
   sponsor: StoredSponsor;
   onOpen: () => void;
+  featured?: boolean;
 }) {
   return (
     <button
       type="button"
       onClick={onOpen}
-      className="flex h-full w-full flex-col rounded-2xl border border-slate-200/80 bg-white px-3 py-3 text-center transition hover:border-[#2D6AF6]/35 hover:bg-[#f8fbff] sm:px-4 sm:py-4"
+      className={`group relative flex h-full w-full flex-col overflow-hidden rounded-[1.35rem] border text-left transition duration-300 ${
+        featured
+          ? 'border-[#d6e3ff] bg-gradient-to-br from-[#edf4ff] via-white to-white p-5 shadow-[0_16px_40px_rgba(45,106,246,0.10)] hover:-translate-y-1 hover:shadow-[0_22px_48px_rgba(45,106,246,0.16)] sm:p-6'
+          : 'border-slate-200/80 bg-white p-3.5 shadow-sm shadow-slate-900/[0.03] hover:-translate-y-1 hover:border-[#2D6AF6]/30 hover:shadow-lg hover:shadow-blue-900/[0.08] sm:p-4'
+      }`}
     >
-      <div className="flex h-20 items-center justify-center rounded-xl bg-[#f4f8fd] px-3 py-2 sm:h-24">
+      {featured ? (
+        <span className="absolute right-4 top-4 inline-flex items-center gap-1 rounded-full bg-white/90 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-[#2D6AF6] shadow-sm ring-1 ring-blue-100">
+          Öne çıkan
+        </span>
+      ) : null}
+      <div className={`flex items-center justify-center rounded-xl bg-white px-3 py-2 ring-1 ring-inset ring-blue-100/70 ${featured ? 'h-28 sm:h-32' : 'h-20 sm:h-24'}`}>
         {sponsor.logoUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={sponsor.logoUrl}
             alt=""
-            className="h-full w-full max-w-[9rem] object-contain"
+            className={`h-full w-full object-contain transition duration-300 group-hover:scale-105 ${featured ? 'max-w-[13rem]' : 'max-w-[9rem]'}`}
           />
         ) : (
           <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#0E1548] text-lg font-semibold text-white">
@@ -31,8 +43,11 @@ function SponsorCard({
           </span>
         )}
       </div>
-      <p className="mt-3 text-sm font-semibold text-[#0E1548]">{sponsor.name}</p>
-      {sponsor.blurb ? <p className="mt-0.5 text-xs text-slate-500">{sponsor.blurb}</p> : null}
+      <div className="mt-3 flex items-start justify-between gap-2">
+        <span className={`font-semibold text-[#0E1548] ${featured ? 'text-base' : 'text-sm'}`}>{sponsor.name}</span>
+        <FiArrowUpRight className="mt-0.5 h-4 w-4 shrink-0 text-[#2D6AF6] opacity-0 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100" aria-hidden />
+      </div>
+      {sponsor.blurb ? <p className="mt-1 text-xs leading-5 text-slate-500">{sponsor.blurb}</p> : null}
     </button>
   );
 }
@@ -60,22 +75,38 @@ export function HomeSponsors({ initialSponsors }: { initialSponsors: StoredSpons
   if (sponsors.length === 0) return null;
 
   return (
-    <section className="relative border-t border-slate-100 bg-gradient-to-b from-white via-[#f7fbff] to-white px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
-      <div className="mx-auto max-w-6xl">
-        <p className="text-center text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400">
-          Sponsorlarımız
-        </p>
-        <h2 className="mt-1.5 text-center text-base font-semibold text-[#0E1548] sm:text-lg">
-          Destekleyenler
-        </h2>
+    <section className="relative overflow-hidden border-t border-slate-100 bg-gradient-to-b from-white via-[#f4f9ff] to-white px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
+      <div className="pointer-events-none absolute -right-24 top-8 h-56 w-56 rounded-full bg-blue-100/50 blur-3xl" />
+      <div className="pointer-events-none absolute -left-24 bottom-0 h-48 w-48 rounded-full bg-indigo-100/40 blur-3xl" />
+      <div className="relative mx-auto max-w-6xl">
+        <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+          <div className="max-w-xl">
+            <span className="inline-flex items-center gap-2 rounded-full bg-[#e8f0ff] px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.16em] text-[#2D6AF6]">
+              <FiHeart className="h-3.5 w-3.5" aria-hidden /> Birlikte güçlüyüz
+            </span>
+            <h2 className="mt-3 text-2xl font-bold tracking-tight text-[#0E1548] sm:text-3xl">
+              Etkinliklerimize değer katanlar
+            </h2>
+            <p className="mt-2 max-w-lg text-sm leading-6 text-slate-600">
+              Öğrenci deneyimini daha iyi hale getirmek için bize destek olan çözüm ortaklarımız.
+            </p>
+          </div>
+          <div className="inline-flex w-fit items-center gap-2 rounded-2xl border border-blue-100 bg-white/80 px-3.5 py-2.5 text-xs font-semibold text-slate-600 shadow-sm">
+            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#e8f0ff] text-[#2D6AF6]">
+              <FiPlus className="h-4 w-4" aria-hidden />
+            </span>
+            {sponsors.length} değerli destekçi
+          </div>
+        </div>
 
-        <ul className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-5">
-          {sponsors.map((sponsor) => (
-            <li key={sponsor.id}>
-              <SponsorCard sponsor={sponsor} onOpen={() => setSelected(sponsor)} />
+        <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {sponsors.map((sponsor, index) => (
+            <li key={sponsor.id} className={index === 0 ? 'sm:col-span-2 lg:col-span-2' : ''}>
+              <SponsorCard sponsor={sponsor} featured={index === 0} onOpen={() => setSelected(sponsor)} />
             </li>
           ))}
         </ul>
+        <p className="mt-6 text-center text-xs text-slate-400">Bir sponsorun detaylarını görmek için kartını seç.</p>
       </div>
 
       {selected ? (
