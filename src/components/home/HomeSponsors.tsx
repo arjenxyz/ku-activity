@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import { FiArrowUpRight, FiHeart, FiPlus } from 'react-icons/fi';
+import { FiArrowUpRight, FiHeart, FiMail, FiPlus } from 'react-icons/fi';
 import { SponsorDetailModal } from '@/components/home/SponsorDetailModal';
 import type { StoredSponsor } from '@/lib/sponsors/sponsors-store';
 
@@ -105,6 +105,32 @@ export function HomeSponsors({ initialSponsors }: { initialSponsors: StoredSpons
               <SponsorCard sponsor={sponsor} featured={index === 0} onOpen={() => setSelected(sponsor)} />
             </li>
           ))}
+          <li className="sm:col-span-2 lg:col-span-2">
+            <a
+              href="https://arjenofficial.com"
+              target="_blank"
+              rel="noreferrer"
+              className="group flex h-full min-h-[152px] items-center justify-between gap-5 overflow-hidden rounded-[1.35rem] border border-[#cfe0ff] bg-[#0E1548] px-5 py-5 text-left shadow-[0_16px_40px_rgba(14,21,72,0.16)] transition duration-300 hover:-translate-y-1 hover:bg-[#152060] hover:shadow-[0_22px_48px_rgba(14,21,72,0.22)] sm:px-6"
+            >
+              <span className="flex min-w-0 items-center gap-4">
+                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white/10 text-blue-200 ring-1 ring-white/15">
+                  <FiMail className="h-5 w-5" aria-hidden />
+                </span>
+                <span className="min-w-0">
+                  <span className="block text-[10px] font-bold uppercase tracking-[0.15em] text-blue-200">
+                    Birlikte üretelim
+                  </span>
+                  <span className="mt-1 block text-base font-bold text-white sm:text-lg">
+                    Sponsor olmak ister misiniz?
+                  </span>
+                  <span className="mt-1 block text-xs leading-5 text-blue-100/75">
+                    İş birliği fırsatlarını konuşmak için bizimle iletişime geçin.
+                  </span>
+                </span>
+              </span>
+              <FiArrowUpRight className="h-5 w-5 shrink-0 text-white transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden />
+            </a>
+          </li>
         </ul>
         <p className="mt-6 text-center text-xs text-slate-400">Bir sponsorun detaylarını görmek için kartını seç.</p>
       </div>
