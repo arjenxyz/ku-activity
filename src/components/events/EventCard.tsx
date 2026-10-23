@@ -39,50 +39,62 @@ export function EventCard({
     <li className="group">
       <Link
         href={`/etkinlikler/${event.id}`}
-        className="relative flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-sm shadow-slate-900/[0.04] ring-1 ring-black/[0.03] transition duration-300 hover:-translate-y-0.5 hover:border-[#2D6AF6]/30 hover:shadow-md hover:shadow-slate-900/[0.06]"
+        className="relative flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl shadow-slate-900/[0.08] transition duration-300 hover:-translate-y-1 hover:border-[#2D6AF6]/35 hover:shadow-2xl hover:shadow-[#2D6AF6]/10"
       >
-        <div className="relative overflow-hidden border-b border-slate-100 bg-gradient-to-br from-[#f7fbff] via-white to-[#eef4ff] px-4 pb-4 pt-4 sm:px-5">
-          <div className="pointer-events-none absolute -right-8 -top-10 h-28 w-28 rounded-full bg-[#2D6AF6]/10 blur-2xl" />
-          <div className="relative flex items-start justify-between gap-3">
-            <p className="inline-flex rounded-full bg-white px-2.5 py-1 text-[11px] font-medium text-slate-600 shadow-sm ring-1 ring-slate-200/80">
-              {categoryFor(event.id)}
-              <span className="mx-1.5 text-slate-300">·</span>
-              {dayCount > 1 ? `${dayCount} gün` : 'Tek gün'}
-            </p>
+        <div className="flex items-center gap-3 border-b border-slate-200 bg-slate-50 px-4 py-2.5">
+          <span className="flex gap-1.5" aria-hidden>
+            <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
+            <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
+            <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
+          </span>
+          <span className="min-w-0 flex-1 truncate rounded-lg bg-white px-3 py-1 text-[11px] text-slate-500 ring-1 ring-slate-200">
+            /etkinlikler/{event.id}
+          </span>
+        </div>
+
+        <div className="border-b border-slate-100 bg-white px-5 pb-4 pt-5 sm:px-6">
+          <div className="relative flex items-center justify-between gap-3">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#2D6AF6]">Kayıt</p>
             <span
-              className={`inline-flex shrink-0 items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-semibold shadow-sm ring-1 ${
+              className={`inline-flex shrink-0 items-center gap-1 rounded-full bg-white px-2.5 py-1 text-[11px] font-semibold shadow-sm ring-1 ${
                 awaitingFee
-                  ? 'bg-amber-50 text-amber-800 ring-amber-100'
+                  ? 'bg-gradient-to-r from-amber-50 to-orange-50 text-amber-800 ring-amber-200'
                   : alreadyIn
-                    ? 'bg-emerald-50 text-emerald-800 ring-emerald-100'
-                    : 'bg-white text-[#0E1548] ring-slate-200/80'
+                    ? 'bg-gradient-to-r from-emerald-50 to-green-50 text-emerald-700 ring-emerald-200'
+                    : event.statusLabel === 'Kayıt açık'
+                      ? 'bg-gradient-to-r from-emerald-50 to-lime-50 text-emerald-700 ring-emerald-200'
+                      : 'bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-700 ring-blue-200'
               }`}
             >
               {alreadyIn && !awaitingFee ? <FiCheck className="h-3 w-3" aria-hidden /> : null}
               {statusLabel}
             </span>
           </div>
-          <h2 className="relative mt-4 text-xl font-bold tracking-tight text-[#0E1548] transition group-hover:text-[#152060]">
+          <h2 className="mt-2 text-xl font-bold tracking-tight text-[#0E1548] transition group-hover:text-[#152060] sm:text-2xl">
             {event.title}
           </h2>
+          <p className="mt-1 text-xs font-medium text-slate-500">
+            {categoryFor(event.id)} <span className="mx-1 text-slate-300">·</span>{' '}
+            {dayCount > 1 ? `${dayCount} gün` : 'Tek gün'}
+          </p>
         </div>
 
-        <div className="flex flex-1 flex-col px-4 pb-4 pt-3 sm:px-5 sm:pb-5">
+        <div className="flex flex-1 flex-col bg-white px-5 pb-5 pt-4 sm:px-6 sm:pb-6">
           <p className="line-clamp-2 text-sm leading-relaxed text-slate-500">{event.description}</p>
 
           <div className="mt-4 space-y-2 text-sm text-slate-600">
-            <p className="flex items-start gap-2">
-              <FiMapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#2D6AF6]" aria-hidden />
-              <span>{event.location}</span>
+            <p className="flex items-center gap-2.5">
+              <FiMapPin className="h-4 w-4 shrink-0 text-[#2D6AF6]" aria-hidden />
+              <span className="truncate">{event.location}</span>
             </p>
-            <p className="flex items-start gap-2">
-              <FiCalendar className="mt-0.5 h-4 w-4 shrink-0 text-[#2D6AF6]" aria-hidden />
-              <span>{dateLabel}</span>
+            <p className="flex items-center gap-2.5">
+              <FiCalendar className="h-4 w-4 shrink-0 text-[#2D6AF6]" aria-hidden />
+              <span className="truncate">{dateLabel}</span>
             </p>
           </div>
 
           <div className="mt-5">
-            <div className="mb-1.5 flex items-center justify-between text-xs text-slate-500">
+            <div className="mb-2 flex items-center justify-between text-xs text-slate-500">
               <span className="inline-flex items-center gap-1.5">
                 <FiUsers className="h-3.5 w-3.5" aria-hidden />
                 Kontenjan {event.capacity}
@@ -91,18 +103,28 @@ export function EventCard({
                 {seatsLeft} kalan
               </span>
             </div>
-            <div className="h-1.5 overflow-hidden rounded-full bg-slate-100">
+            <div className="h-2 overflow-hidden rounded-full bg-slate-100">
               <div
                 className={`h-full rounded-full transition-all ${
-                  alreadyIn && !awaitingFee ? 'bg-emerald-500' : 'bg-[#2D6AF6]'
+                  alreadyIn && !awaitingFee
+                    ? 'bg-gradient-to-r from-emerald-400 to-emerald-500'
+                    : 'bg-gradient-to-r from-[#2D6AF6] to-[#6d9bff]'
                 }`}
                 style={{ width: `${Math.max(fill, taken > 0 ? 6 : 0)}%` }}
               />
             </div>
           </div>
 
-          <span className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-[#0E1548] px-4 py-2.5 text-sm font-medium text-white shadow-sm transition group-hover:bg-[#152060]">
-            {alreadyIn ? 'Kaydıma git' : 'Başvur'}
+          <span
+            className={`mt-5 inline-flex w-full items-center justify-center gap-2 rounded-2xl px-4 py-3 text-sm font-semibold text-white shadow-md transition ${
+              awaitingFee
+                ? 'bg-amber-500 shadow-amber-500/20 group-hover:bg-amber-600'
+                : alreadyIn
+                  ? 'bg-emerald-600 shadow-emerald-600/20 group-hover:bg-emerald-700'
+                  : 'bg-gradient-to-r from-[#2D6AF6] via-[#3978f7] to-[#6d9bff] shadow-lg shadow-blue-500/25 hover:brightness-105 group-hover:shadow-blue-500/35'
+            }`}
+          >
+            {alreadyIn ? 'Kaydıma git' : 'Detayları göster'}
             <FiArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" aria-hidden />
           </span>
         </div>

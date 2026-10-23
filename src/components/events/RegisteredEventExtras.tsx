@@ -307,7 +307,7 @@ export function RegisteredEventExtras({
             role="dialog"
             aria-modal="true"
             aria-label="Etkinlik kartı"
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/75 px-3 py-5 backdrop-blur-[2px] sm:px-5"
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/70 px-3 py-5 backdrop-blur-md sm:px-5"
           >
             <div className="relative w-full max-w-[380px]" data-scroll-lock-allow="">
               <div className="mb-3 flex items-center justify-between px-1">
@@ -396,12 +396,12 @@ export function RegisteredEventExtras({
         <button
           type="button"
           onClick={() => setPayOpen(true)}
-          className={`flex h-11 w-full items-center justify-center rounded-xl text-sm font-bold uppercase tracking-wide text-white ${
+          className={`flex h-11 w-full items-center justify-center rounded-xl text-sm font-bold uppercase tracking-wide transition ${
             paymentStatus === 'claimed'
-              ? 'bg-amber-500 hover:bg-amber-600'
+              ? 'border border-amber-200 bg-gradient-to-r from-amber-50 to-orange-50 text-amber-800 shadow-sm shadow-amber-200/60 hover:from-amber-100 hover:to-orange-100'
               : paymentStatus === 'rejected'
-                ? 'bg-red-600 hover:bg-red-700'
-                : 'bg-[#E8770A] hover:bg-[#CF6A09]'
+                ? 'border border-rose-200 bg-gradient-to-r from-rose-50 to-red-50 text-rose-700 shadow-sm shadow-rose-200/60 hover:from-rose-100 hover:to-red-100'
+                : 'border border-amber-200 bg-gradient-to-r from-[#fff7ed] via-[#ffedd5] to-[#fed7aa] text-[#9a4d0b] shadow-sm shadow-orange-200/70 hover:from-[#ffedd5] hover:to-[#fdba74]'
           }`}
         >
           {paymentStatus === 'claimed'

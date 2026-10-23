@@ -16,7 +16,9 @@ function FlagBadge({ countryCode }: { countryCode: string; short: string }) {
       <img
         src="/Turkiye.png"
         alt=""
-        className="h-7 w-7 shrink-0 rounded-full object-cover"
+        className="h-7 w-7 max-h-7 max-w-7 shrink-0 rounded-full object-cover"
+        width={28}
+        height={28}
       />
     );
   }

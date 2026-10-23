@@ -45,7 +45,12 @@ export default function LoginPage() {
   const [mounted, setMounted] = useState(false);
 
   useBodyScrollLock(forgotOpen || demoOpen);
-  useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    setMounted(true);
+    if (new URLSearchParams(window.location.search).get('panel') === 'register') {
+      setPanel('register');
+    }
+  }, []);
 
   useEffect(() => {
     if (!demoOpen) return;

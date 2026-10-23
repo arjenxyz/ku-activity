@@ -304,43 +304,48 @@ export function FeePaymentModal({
     method === 'transfer' ? FiCreditCard : method === 'cash' ? FiDollarSign : FiFileText;
 
   return createPortal(
-    <div className="fixed inset-0 z-[80] flex items-center justify-center p-4">
-      <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-sm" aria-hidden />
+    <div className="fixed inset-0 z-[80] flex items-center justify-center bg-slate-900/70 p-4 backdrop-blur-md">
+      <div className="absolute inset-0" aria-hidden />
       <div
         role="dialog"
         aria-modal="true"
         aria-labelledby="fee-pay-title"
-        className="relative z-[1] flex max-h-[min(92dvh,40rem)] w-full max-w-md flex-col overflow-hidden rounded-[1.5rem] bg-white shadow-2xl shadow-slate-950/25"
+        className="relative z-[1] flex max-h-[min(92dvh,40rem)] w-full max-w-md flex-col overflow-hidden rounded-3xl bg-white shadow-2xl shadow-slate-950/25 ring-1 ring-slate-200"
       >
-        <div className="relative shrink-0 overflow-hidden bg-gradient-to-br from-[#0E1548] to-[#1a3a7a] px-5 pb-5 pt-4 text-white">
+        <div className="relative shrink-0 overflow-hidden border-b border-slate-200 bg-slate-50 px-5 pb-5 pt-3 text-[#0E1548]">
           <div className="absolute inset-0 opacity-[0.12] [background-image:radial-gradient(circle_at_1px_1px,#fff_1px,transparent_0)] [background-size:12px_12px]" />
+          <div className="relative mb-3 flex gap-1.5" aria-hidden>
+            <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
+            <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
+            <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
+          </div>
           <div className="relative flex items-start justify-between gap-3">
             <div className="flex min-w-0 items-start gap-3">
               {method && !showReviewing && !showRejected ? (
                 <button
                   type="button"
                   onClick={() => setMethod(null)}
-                  className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-white/15 text-white hover:bg-white/25"
+                  className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-white text-[#0E1548] shadow-sm ring-1 ring-slate-200 hover:bg-slate-100"
                   aria-label="Geri"
                 >
                   <FiArrowLeft className="h-5 w-5" aria-hidden />
                 </button>
               ) : (
                 <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-white/15">
-                  <HeaderIcon className="h-5 w-5" aria-hidden />
+                  <HeaderIcon className="h-5 w-5 text-[#2D6AF6]" aria-hidden />
                 </span>
               )}
               <div className="min-w-0">
                 <p id="fee-pay-title" className="text-base font-semibold tracking-tight">
                   {headerTitle}
                 </p>
-                <p className="mt-0.5 truncate text-xs text-white/70">{headerSubtitle}</p>
+                <p className="mt-0.5 truncate text-xs text-slate-500">{headerSubtitle}</p>
               </div>
             </div>
             <button
               type="button"
               onClick={onClose}
-              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/15 text-white hover:bg-white/25"
+              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white text-[#0E1548] shadow-sm ring-1 ring-slate-200 hover:bg-slate-100"
               aria-label="Kapat"
             >
               <FiX className="h-4 w-4" aria-hidden />
@@ -585,31 +590,36 @@ export function FeePaymentModal({
 
       {receiptOpen ? (
         <div className="fixed inset-0 z-[90] flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-sm" aria-hidden />
+          <div className="absolute inset-0 bg-slate-900/70 backdrop-blur-md" aria-hidden />
           <div
             role="dialog"
             aria-modal="true"
             aria-labelledby="receipt-upload-title"
-            className="relative z-[1] w-full max-w-sm overflow-hidden rounded-[1.5rem] bg-white shadow-2xl shadow-slate-950/25"
+            className="relative z-[1] w-full max-w-sm overflow-hidden rounded-3xl bg-white shadow-2xl shadow-slate-950/25 ring-1 ring-slate-200"
           >
-            <div className="relative overflow-hidden bg-gradient-to-br from-[#0E1548] to-[#1a3a7a] px-5 pb-5 pt-4 text-white">
+            <div className="relative overflow-hidden border-b border-slate-200 bg-slate-50 px-5 pb-5 pt-3 text-[#0E1548]">
               <div className="absolute inset-0 opacity-[0.12] [background-image:radial-gradient(circle_at_1px_1px,#fff_1px,transparent_0)] [background-size:12px_12px]" />
+              <div className="relative mb-3 flex gap-1.5" aria-hidden>
+                <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
+                <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
+                <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
+              </div>
               <div className="relative flex items-start justify-between gap-3">
                 <div className="flex min-w-0 items-start gap-3">
                   <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-white/15">
-                    <FiFileText className="h-5 w-5" aria-hidden />
+                    <FiFileText className="h-5 w-5 text-[#2D6AF6]" aria-hidden />
                   </span>
                   <div className="min-w-0">
                     <p id="receipt-upload-title" className="text-base font-semibold tracking-tight">
                       Dekont yükle
                     </p>
-                    <p className="mt-0.5 text-xs text-white/70">Ödeme kanıtı · zorunlu adım</p>
+                    <p className="mt-0.5 text-xs text-slate-500">Ödeme kanıtı · zorunlu adım</p>
                   </div>
                 </div>
                 <button
                   type="button"
                   onClick={() => setReceiptOpen(false)}
-                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/15 text-white hover:bg-white/25"
+                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white text-[#0E1548] shadow-sm ring-1 ring-slate-200 hover:bg-slate-100"
                   aria-label="Kapat"
                 >
                   <FiX className="h-4 w-4" aria-hidden />

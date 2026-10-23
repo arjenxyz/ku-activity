@@ -34,7 +34,7 @@ function Block({
         </span>
         <h2 className="text-base font-semibold text-[#0E1548] sm:text-lg">{title}</h2>
       </div>
-      <div className="mt-3 rounded-2xl border border-slate-200/90 bg-slate-50/70 px-3.5 py-3.5 text-sm leading-relaxed text-slate-700 sm:px-4">
+      <div className="mt-3 rounded-2xl border border-slate-200 bg-white px-3.5 py-3.5 text-sm leading-relaxed text-slate-700 shadow-sm shadow-slate-900/[0.03] sm:px-4">
         {children}
       </div>
     </section>
