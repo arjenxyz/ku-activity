@@ -186,13 +186,13 @@ export default function TeamPage() {
           </div>
 
           <div className="mt-8 px-1 py-2 sm:mt-10 sm:px-2">
-            <div className="mb-5 flex items-center justify-between gap-3">
+            <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <h2 className="text-lg font-bold text-[#0E1548]">Sana yardımcı olmak için buradayız</h2>
                 <p className="mt-1 text-xs text-slate-500">Detayları görmek için bir ekip kartı seç.</p>
               </div>
-              <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-500">
-                {members.length} üye
+              <span className="inline-flex w-fit items-center rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-500">
+                {members.length} ekip üyesi
               </span>
             </div>
         <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
