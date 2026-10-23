@@ -5,6 +5,7 @@ import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import { FiArrowUpRight, FiChevronRight, FiPlus, FiUsers, FiX } from 'react-icons/fi';
 import { HomeHeader } from '@/components/home/HomeHeader';
+import { HomeFooter } from '@/components/home/HomeFooter';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 import { memberInitials, type TeamMember } from '@/lib/team';
 import { createClient } from '@/utils/supabase/client';
@@ -164,9 +165,9 @@ export default function TeamPage() {
   }
 
   return (
-    <div className="min-h-[100dvh] bg-gradient-to-b from-[#e7f3fb] via-[#f5fbff] to-[#e7f3fb] px-4 pb-12 pt-[calc(var(--home-chrome-h,4.5rem)+1.5rem)] text-slate-900 sm:px-8">
+    <div className="flex min-h-[100dvh] flex-col bg-gradient-to-b from-[#e7f3fb] via-[#f5fbff] to-[#e7f3fb] px-4 pt-[calc(var(--home-chrome-h,4.5rem)+1.5rem)] text-slate-900 sm:px-8">
       <HomeHeader />
-      <div className="mx-auto w-full max-w-6xl">
+      <div className="mx-auto w-full max-w-6xl flex-1 pb-12">
           <div className="px-1 py-5 sm:px-2 sm:py-8">
             <div>
               <div className="max-w-2xl">
@@ -238,6 +239,7 @@ export default function TeamPage() {
         </Link>
           </div>
       </div>
+      <HomeFooter />
       {mounted && selected
         ? createPortal(
             <div
