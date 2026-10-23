@@ -24,7 +24,7 @@ export default function HomePage() {
             <SlidingStars />
           </div>
 
-          <div className="mx-auto grid w-full max-w-6xl items-center gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(22rem,34rem)] lg:gap-14">
+          <div className="mx-auto grid w-full max-w-6xl translate-y-5 items-center gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(22rem,34rem)] lg:gap-14 lg:translate-y-8">
             <div className="mx-auto max-w-xl text-center lg:mx-0 lg:max-w-none lg:text-left">
               <p className="inline-flex rounded-full bg-white px-3.5 py-1.5 text-xs font-medium text-slate-600 shadow-sm ring-1 ring-slate-200/80">
                 {APP_TAGLINE}
