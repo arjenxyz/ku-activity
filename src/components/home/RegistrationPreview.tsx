@@ -44,19 +44,6 @@ function RegisterPreview({
         <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#2D6AF6]">Etkinlik kaydı</p>
         <span className="text-[10px] font-medium text-slate-400">Demo akışı</span>
       </div>
-      <div className="mt-3 flex items-center gap-1.5">
-        {[
-          ['event', 'Seç'],
-          ['join', 'Katıl'],
-          ['payment', 'Öde'],
-          ['success', 'Tamam'],
-        ].map(([item, label], index) => (
-          <span key={item} className="flex min-w-0 flex-1 items-center gap-1.5">
-            <span className={`h-1.5 flex-1 rounded-full transition-colors ${item === step || ['join', 'payment', 'success'].indexOf(step) > index ? 'bg-[#2D6AF6]' : 'bg-slate-200'}`} />
-            <span className={`text-[9px] font-semibold ${item === step ? 'text-[#2D6AF6]' : 'text-slate-400'}`}>{label}</span>
-          </span>
-        ))}
-      </div>
       <h3 className={`mt-1 font-bold text-[#0E1548] ${compact ? 'text-base' : 'text-xl'}`}>
         {step === 'payment' ? 'Katılım ücretini tamamla' : step === 'success' ? 'Hazırsın, görüşürüz!' : 'Sana uygun etkinliğe katıl'}
       </h3>
