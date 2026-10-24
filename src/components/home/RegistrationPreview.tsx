@@ -14,13 +14,13 @@ function DemoPointer({ step }: { step: DemoStep }) {
 
   return (
     <span
-      className="pointer-events-none absolute bottom-2 right-3 z-10 flex -translate-y-0.5 items-center gap-1.5"
+      className="pointer-events-none absolute right-3 top-1/2 z-10 flex -translate-y-1/2 items-center"
       aria-hidden
     >
-      <span className="absolute bottom-8 right-0 whitespace-nowrap rounded-full bg-[#0E1548] px-2 py-1 text-[9px] font-semibold text-white shadow-lg shadow-[#0E1548]/20">
+      <span className="absolute bottom-full right-0 mb-1 whitespace-nowrap rounded-full bg-[#0E1548] px-2 py-1 text-[9px] font-semibold text-white shadow-lg shadow-[#0E1548]/20">
         Dokun
       </span>
-      <span className="relative flex h-8 w-8 items-center justify-center rounded-full bg-white text-[#2D6AF6] shadow-md ring-1 ring-blue-100">
+      <span className="relative flex h-7 w-7 items-center justify-center rounded-full bg-white/95 text-[#2D6AF6] shadow-md ring-1 ring-blue-100">
         <FaHandPointer className="h-5 w-5 animate-pulse" />
         <span className="absolute inset-0 rounded-full ring-4 ring-[#2D6AF6]/15" />
       </span>
@@ -37,7 +37,6 @@ function RegisterPreview({
 }) {
   return (
     <div className={`relative ${compact ? 'bg-slate-50 p-4' : 'bg-gradient-to-b from-white to-slate-50 p-6'}`}>
-      <DemoPointer step={step} />
       <div className="flex items-center justify-between gap-3">
         <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#2D6AF6]">Etkinlik kaydı</p>
         <span className="text-[10px] font-medium text-slate-400">Demo akışı</span>
@@ -118,8 +117,11 @@ function RegisterPreview({
           </div>
         </div>
       ) : null}
-      <div className={`${btnPrimary} pointer-events-none mt-4 !w-full transition-transform ${step === 'join' ? 'scale-[0.98]' : ''} ${step === 'payment' ? 'bg-amber-500' : ''} ${step === 'success' ? 'bg-emerald-600' : ''}`}>
-        {step === 'event' ? 'Etkinlik detayını gör' : step === 'join' ? 'Etkinliğe katıl' : step === 'payment' ? 'Ödemeyi tamamla' : 'Etkinlik biletini görüntüle'}
+      <div className="relative mt-4">
+        <div className={`${btnPrimary} pointer-events-none !w-full pr-14 transition-transform ${step === 'join' ? 'scale-[0.98]' : ''} ${step === 'payment' ? 'bg-amber-500' : ''} ${step === 'success' ? 'bg-emerald-600' : ''}`}>
+          {step === 'event' ? 'Etkinlik detayını gör' : step === 'join' ? 'Etkinliğe katıl' : step === 'payment' ? 'Ödemeyi tamamla' : 'Etkinlik biletini görüntüle'}
+        </div>
+        {step !== 'success' ? <DemoPointer step={step} /> : null}
       </div>
     </div>
   );
