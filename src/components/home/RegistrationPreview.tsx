@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { FiCalendar, FiCheckCircle, FiCreditCard, FiMapPin, FiUploadCloud, FiUsers } from 'react-icons/fi';
+import { FiCalendar, FiCheckCircle, FiCreditCard, FiMapPin, FiUploadCloud } from 'react-icons/fi';
 import { FaHandPointer } from 'react-icons/fa';
 import { btnPrimary } from '@/components/ui/styles';
 
@@ -45,7 +45,13 @@ function RegisterPreview({
         <span className="text-[10px] font-medium text-slate-400">Demo akışı</span>
       </div>
       <h3 className={`mt-1 font-bold text-[#0E1548] ${compact ? 'text-base' : 'text-xl'}`}>
-        {step === 'payment' ? 'Katılım ücretini tamamla' : step === 'success' ? 'Hazırsın, görüşürüz!' : 'Sana uygun etkinliğe katıl'}
+        {step === 'event'
+          ? 'Etkinlik detaylarını keşfet'
+          : step === 'join'
+            ? 'Katılımını tamamla'
+            : step === 'payment'
+              ? 'Katılım ücretini tamamla'
+              : 'Hazırsın, görüşürüz!'}
       </h3>
       <p className="mt-1 text-xs leading-relaxed text-slate-500">
         {step === 'payment'
@@ -78,29 +84,44 @@ function RegisterPreview({
             <p className="mt-0.5 text-xs text-emerald-700">Biletin ve etkinlik bilgilerin hazır.</p>
           </div>
         </div>
-      ) : (
+      ) : step === 'event' ? (
+        <div className="mt-4 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+          <div className="h-16 bg-gradient-to-br from-[#dbeafe] via-[#eef4ff] to-white" />
+          <div className="p-3.5">
+            <div className="flex items-start justify-between gap-3">
+              <div className="min-w-0">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#2D6AF6]">Etkinlik detayları</p>
+                <p className="mt-1 truncate text-sm font-bold text-[#0E1548]">{EVENT_NAME}</p>
+              </div>
+              <span className="shrink-0 rounded-full bg-blue-50 px-2 py-1 text-[10px] font-semibold text-[#2D6AF6]">Gezi</span>
+            </div>
+            <p className="mt-2 text-xs leading-5 text-slate-500">
+              Kampüste yeni insanlarla tanış, birlikte keyifli bir gün geçir ve öğrenci topluluğuna katıl.
+            </p>
+            <div className="mt-3 grid grid-cols-2 gap-2 text-xs text-slate-500">
+              <span className="inline-flex items-center gap-1.5"><FiCalendar className="h-3.5 w-3.5 text-[#2D6AF6]" aria-hidden /> 18 Mayıs, 14:00</span>
+              <span className="inline-flex items-center gap-1.5"><FiMapPin className="h-3.5 w-3.5 text-[#2D6AF6]" aria-hidden /> Merkez kampüs</span>
+            </div>
+          </div>
+        </div>
+      ) : step === 'join' ? (
         <div className="mt-4 rounded-2xl border border-blue-100 bg-white p-3.5 shadow-sm">
           <div className="flex items-start justify-between gap-3">
             <div className="min-w-0">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#2D6AF6]">Yaklaşan etkinlik</p>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#2D6AF6]">Katılım özeti</p>
               <p className="mt-1 truncate text-sm font-bold text-[#0E1548]">{EVENT_NAME}</p>
             </div>
-            <span className="shrink-0 rounded-full bg-emerald-50 px-2 py-1 text-[10px] font-semibold text-emerald-700">Kontenjan var</span>
+            <span className="shrink-0 rounded-full bg-emerald-50 px-2 py-1 text-[10px] font-semibold text-emerald-700">Uygun</span>
           </div>
-          <div className="mt-3 grid gap-2 text-xs text-slate-500 sm:grid-cols-3">
-            <span className="inline-flex items-center gap-1.5"><FiCalendar className="h-3.5 w-3.5 text-[#2D6AF6]" aria-hidden /> 18 Mayıs</span>
-            <span className="inline-flex items-center gap-1.5"><FiMapPin className="h-3.5 w-3.5 text-[#2D6AF6]" aria-hidden /> Kampüs</span>
-            <span className="inline-flex items-center gap-1.5"><FiUsers className="h-3.5 w-3.5 text-[#2D6AF6]" aria-hidden /> 24 kişi</span>
+          <div className="mt-3 space-y-2 text-xs text-slate-500">
+            <span className="flex items-center justify-between"><span>Katılımcı</span><strong className="font-semibold text-slate-700">Ayşe Yılmaz</strong></span>
+            <span className="flex items-center justify-between"><span>Kontenjan</span><strong className="font-semibold text-slate-700">24 kişilik yer</strong></span>
+            <span className="flex items-center justify-between"><span>Ücret</span><strong className="font-semibold text-slate-700">₺150,00</strong></span>
           </div>
         </div>
-      )}
+      ) : null}
       <div className={`${btnPrimary} pointer-events-none mt-4 !w-full transition-transform ${step === 'join' ? 'scale-[0.98]' : ''} ${step === 'payment' ? 'bg-amber-500' : ''} ${step === 'success' ? 'bg-emerald-600' : ''}`}>
         {step === 'event' ? 'Etkinlik detayını gör' : step === 'join' ? 'Etkinliğe katıl' : step === 'payment' ? 'Ödemeyi tamamla' : 'Etkinlik biletini görüntüle'}
-      </div>
-      <div className="mt-4 flex items-center justify-center gap-1.5" aria-label="Demo adımları">
-        {(['event', 'join', 'payment', 'success'] as DemoStep[]).map((item) => (
-          <span key={item} className={`h-1.5 rounded-full transition-all ${item === step ? 'w-6 bg-[#2D6AF6]' : 'w-1.5 bg-slate-200'}`} />
-        ))}
       </div>
     </div>
   );
