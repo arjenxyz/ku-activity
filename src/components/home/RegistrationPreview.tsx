@@ -14,7 +14,7 @@ function DemoPointer({ step }: { step: DemoStep }) {
 
   return (
     <span
-      className="pointer-events-none inline-flex shrink-0 items-center gap-1.5"
+      className="pointer-events-none absolute left-1/2 top-full z-10 inline-flex -translate-x-1/2 translate-y-1/2 items-center gap-1.5 rounded-full bg-[#0E1548]/90 px-2.5 py-1.5 shadow-lg shadow-[#0E1548]/15"
       aria-hidden
     >
       <span className="relative flex h-6 w-6 items-center justify-center rounded-full bg-white/95 text-[#2D6AF6] shadow-sm ring-1 ring-blue-100">
@@ -114,7 +114,7 @@ function RegisterPreview({
           </div>
         </div>
       ) : null}
-      <div className={`${btnPrimary} pointer-events-none mt-4 !w-full gap-2 transition-transform ${step === 'join' ? 'scale-[0.98]' : ''} ${step === 'payment' ? 'bg-amber-500' : ''} ${step === 'success' ? 'bg-emerald-600' : ''}`}>
+      <div className={`relative ${btnPrimary} pointer-events-none mt-4 !w-full gap-2 transition-transform ${step === 'join' ? 'scale-[0.98]' : ''} ${step === 'payment' ? 'bg-amber-500' : ''} ${step === 'success' ? 'bg-emerald-600' : ''}`}>
         <span>
           {step === 'event' ? 'Etkinlik detayını gör' : step === 'join' ? 'Etkinliğe katıl' : step === 'payment' ? 'Ödemeyi tamamla' : 'Etkinlik biletini görüntüle'}
         </span>
@@ -143,7 +143,7 @@ export function RegistrationPreview() {
       while (!cancelled) {
         for (const nextStep of ['event', 'join', 'payment', 'success'] as DemoStep[]) {
           setStep(nextStep);
-          await wait(nextStep === 'payment' ? 2200 : 1800);
+          await wait(nextStep === 'payment' ? 4500 : 3500);
           if (cancelled) return;
         }
       }
