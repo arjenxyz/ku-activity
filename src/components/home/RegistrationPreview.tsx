@@ -14,15 +14,13 @@ function DemoPointer({ step }: { step: DemoStep }) {
 
   return (
     <span
-      className={`pointer-events-none absolute z-10 flex items-center gap-1.5 transition-all duration-500 ease-out ${
-        step === 'event' ? 'right-8 top-[11.2rem]' : step === 'join' ? 'right-5 bottom-[4.25rem]' : 'right-8 top-[12.2rem]'
-      }`}
+      className="pointer-events-none absolute bottom-2 right-3 z-10 flex -translate-y-0.5 items-center gap-1.5"
       aria-hidden
     >
-      <span className="rounded-full bg-[#0E1548] px-2.5 py-1 text-[10px] font-semibold text-white shadow-lg shadow-[#0E1548]/20">
+      <span className="absolute bottom-8 right-0 whitespace-nowrap rounded-full bg-[#0E1548] px-2 py-1 text-[9px] font-semibold text-white shadow-lg shadow-[#0E1548]/20">
         Dokun
       </span>
-      <span className="relative flex h-9 w-9 items-center justify-center rounded-full bg-white text-[#2D6AF6] shadow-lg ring-1 ring-blue-100">
+      <span className="relative flex h-8 w-8 items-center justify-center rounded-full bg-white text-[#2D6AF6] shadow-md ring-1 ring-blue-100">
         <FaHandPointer className="h-5 w-5 animate-pulse" />
         <span className="absolute inset-0 rounded-full ring-4 ring-[#2D6AF6]/15" />
       </span>
