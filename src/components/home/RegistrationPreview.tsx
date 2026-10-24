@@ -2,28 +2,11 @@
 
 import { useEffect, useState } from 'react';
 import { FiCalendar, FiCheckCircle, FiCreditCard, FiMapPin, FiUploadCloud } from 'react-icons/fi';
-import { FaHandPointer } from 'react-icons/fa';
 import { btnPrimary } from '@/components/ui/styles';
 
 const EVENT_NAME = 'Kampüs tanışma buluşması';
 
 type DemoStep = 'event' | 'join' | 'payment' | 'success';
-
-function DemoPointer({ step }: { step: DemoStep }) {
-  if (step === 'success') return null;
-
-  return (
-    <span
-      className="pointer-events-none absolute left-1/2 top-full z-10 inline-flex -translate-x-1/2 translate-y-1/2 items-center gap-1.5 rounded-full bg-[#0E1548]/90 px-2.5 py-1.5 shadow-lg shadow-[#0E1548]/15"
-      aria-hidden
-    >
-      <span className="relative flex h-6 w-6 items-center justify-center rounded-full bg-white/95 text-[#2D6AF6] shadow-sm ring-1 ring-blue-100">
-        <FaHandPointer className="h-5 w-5 animate-pulse" />
-      </span>
-      <span className="whitespace-nowrap text-[10px] font-semibold text-white/90">Dokun</span>
-    </span>
-  );
-}
 
 function RegisterPreview({
   compact = false,
@@ -114,11 +97,10 @@ function RegisterPreview({
           </div>
         </div>
       ) : null}
-      <div className={`relative ${btnPrimary} pointer-events-none mt-4 !w-full gap-2 transition-transform ${step === 'join' ? 'scale-[0.98]' : ''} ${step === 'payment' ? 'bg-amber-500' : ''} ${step === 'success' ? 'bg-emerald-600' : ''}`}>
+      <div className={`${btnPrimary} pointer-events-none mt-4 !w-full gap-2 ${step === 'payment' ? 'bg-amber-500' : ''} ${step === 'success' ? 'bg-emerald-600' : ''}`}>
         <span>
           {step === 'event' ? 'Etkinlik detayını gör' : step === 'join' ? 'Etkinliğe katıl' : step === 'payment' ? 'Ödemeyi tamamla' : 'Etkinlik biletini görüntüle'}
         </span>
-        {step !== 'success' ? <DemoPointer step={step} /> : null}
       </div>
     </div>
   );
@@ -143,7 +125,7 @@ export function RegistrationPreview() {
       while (!cancelled) {
         for (const nextStep of ['event', 'join', 'payment', 'success'] as DemoStep[]) {
           setStep(nextStep);
-          await wait(nextStep === 'payment' ? 4500 : 3500);
+          await wait(nextStep === 'payment' ? 9000 : 7000);
           if (cancelled) return;
         }
       }
