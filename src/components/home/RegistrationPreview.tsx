@@ -14,16 +14,13 @@ function DemoPointer({ step }: { step: DemoStep }) {
 
   return (
     <span
-      className="pointer-events-none absolute right-3 top-1/2 z-10 flex -translate-y-1/2 items-center"
+      className="pointer-events-none inline-flex shrink-0 items-center gap-1.5"
       aria-hidden
     >
-      <span className="absolute bottom-full right-0 mb-1 whitespace-nowrap rounded-full bg-[#0E1548] px-2 py-1 text-[9px] font-semibold text-white shadow-lg shadow-[#0E1548]/20">
-        Dokun
-      </span>
-      <span className="relative flex h-7 w-7 items-center justify-center rounded-full bg-white/95 text-[#2D6AF6] shadow-md ring-1 ring-blue-100">
+      <span className="relative flex h-6 w-6 items-center justify-center rounded-full bg-white/95 text-[#2D6AF6] shadow-sm ring-1 ring-blue-100">
         <FaHandPointer className="h-5 w-5 animate-pulse" />
-        <span className="absolute inset-0 rounded-full ring-4 ring-[#2D6AF6]/15" />
       </span>
+      <span className="whitespace-nowrap text-[10px] font-semibold text-white/90">Dokun</span>
     </span>
   );
 }
@@ -117,10 +114,10 @@ function RegisterPreview({
           </div>
         </div>
       ) : null}
-      <div className="relative mt-4">
-        <div className={`${btnPrimary} pointer-events-none !w-full pr-14 transition-transform ${step === 'join' ? 'scale-[0.98]' : ''} ${step === 'payment' ? 'bg-amber-500' : ''} ${step === 'success' ? 'bg-emerald-600' : ''}`}>
+      <div className={`${btnPrimary} pointer-events-none mt-4 !w-full gap-2 transition-transform ${step === 'join' ? 'scale-[0.98]' : ''} ${step === 'payment' ? 'bg-amber-500' : ''} ${step === 'success' ? 'bg-emerald-600' : ''}`}>
+        <span>
           {step === 'event' ? 'Etkinlik detayını gör' : step === 'join' ? 'Etkinliğe katıl' : step === 'payment' ? 'Ödemeyi tamamla' : 'Etkinlik biletini görüntüle'}
-        </div>
+        </span>
         {step !== 'success' ? <DemoPointer step={step} /> : null}
       </div>
     </div>
