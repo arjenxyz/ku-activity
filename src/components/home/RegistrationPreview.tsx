@@ -2,11 +2,33 @@
 
 import { useEffect, useState } from 'react';
 import { FiCalendar, FiCheckCircle, FiCreditCard, FiMapPin, FiUploadCloud, FiUsers } from 'react-icons/fi';
+import { FaHandPointer } from 'react-icons/fa';
 import { btnPrimary } from '@/components/ui/styles';
 
 const EVENT_NAME = 'Kampüs tanışma buluşması';
 
 type DemoStep = 'event' | 'join' | 'payment' | 'success';
+
+function DemoPointer({ step }: { step: DemoStep }) {
+  if (step === 'success') return null;
+
+  return (
+    <span
+      className={`pointer-events-none absolute z-10 flex items-center gap-1.5 transition-all duration-500 ease-out ${
+        step === 'event' ? 'right-8 top-[11.2rem]' : step === 'join' ? 'right-5 bottom-[4.25rem]' : 'right-8 top-[12.2rem]'
+      }`}
+      aria-hidden
+    >
+      <span className="rounded-full bg-[#0E1548] px-2.5 py-1 text-[10px] font-semibold text-white shadow-lg shadow-[#0E1548]/20">
+        Dokun
+      </span>
+      <span className="relative flex h-9 w-9 items-center justify-center rounded-full bg-white text-[#2D6AF6] shadow-lg ring-1 ring-blue-100">
+        <FaHandPointer className="h-5 w-5 animate-pulse" />
+        <span className="absolute inset-0 rounded-full ring-4 ring-[#2D6AF6]/15" />
+      </span>
+    </span>
+  );
+}
 
 function RegisterPreview({
   compact = false,
@@ -16,10 +38,24 @@ function RegisterPreview({
   step: DemoStep;
 }) {
   return (
-    <div className={compact ? 'bg-slate-50 p-4' : 'bg-gradient-to-b from-white to-slate-50 p-6'}>
+    <div className={`relative ${compact ? 'bg-slate-50 p-4' : 'bg-gradient-to-b from-white to-slate-50 p-6'}`}>
+      <DemoPointer step={step} />
       <div className="flex items-center justify-between gap-3">
         <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#2D6AF6]">Etkinlik kaydı</p>
         <span className="text-[10px] font-medium text-slate-400">Demo akışı</span>
+      </div>
+      <div className="mt-3 flex items-center gap-1.5">
+        {[
+          ['event', 'Seç'],
+          ['join', 'Katıl'],
+          ['payment', 'Öde'],
+          ['success', 'Tamam'],
+        ].map(([item, label], index) => (
+          <span key={item} className="flex min-w-0 flex-1 items-center gap-1.5">
+            <span className={`h-1.5 flex-1 rounded-full transition-colors ${item === step || ['join', 'payment', 'success'].indexOf(step) > index ? 'bg-[#2D6AF6]' : 'bg-slate-200'}`} />
+            <span className={`text-[9px] font-semibold ${item === step ? 'text-[#2D6AF6]' : 'text-slate-400'}`}>{label}</span>
+          </span>
+        ))}
       </div>
       <h3 className={`mt-1 font-bold text-[#0E1548] ${compact ? 'text-base' : 'text-xl'}`}>
         {step === 'payment' ? 'Katılım ücretini tamamla' : step === 'success' ? 'Hazırsın, görüşürüz!' : 'Sana uygun etkinliğe katıl'}
@@ -71,7 +107,7 @@ function RegisterPreview({
           </div>
         </div>
       )}
-      <div className={`${btnPrimary} pointer-events-none mt-4 !w-full ${step === 'payment' ? 'bg-amber-500' : ''} ${step === 'success' ? 'bg-emerald-600' : ''}`}>
+      <div className={`${btnPrimary} pointer-events-none mt-4 !w-full transition-transform ${step === 'join' ? 'scale-[0.98]' : ''} ${step === 'payment' ? 'bg-amber-500' : ''} ${step === 'success' ? 'bg-emerald-600' : ''}`}>
         {step === 'event' ? 'Etkinlik detayını gör' : step === 'join' ? 'Etkinliğe katıl' : step === 'payment' ? 'Ödemeyi tamamla' : 'Etkinlik biletini görüntüle'}
       </div>
       <div className="mt-4 flex items-center justify-center gap-1.5" aria-label="Demo adımları">
