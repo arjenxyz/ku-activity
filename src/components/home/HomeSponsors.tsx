@@ -73,7 +73,7 @@ export function HomeSponsors({ initialSponsors }: { initialSponsors: StoredSpons
     const timer = setTimeout(() => {
       setMarqueePaused(false);
       setResumeTimer(null);
-    }, 5000);
+    }, 2000);
     setResumeTimer(timer);
   };
 
