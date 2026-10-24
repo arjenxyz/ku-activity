@@ -125,7 +125,7 @@ export function RegistrationPreview() {
       while (!cancelled) {
         for (const nextStep of ['event', 'join', 'payment', 'success'] as DemoStep[]) {
           setStep(nextStep);
-          await wait(nextStep === 'payment' ? 9000 : 7000);
+          await wait(nextStep === 'payment' ? 4500 : 3500);
           if (cancelled) return;
         }
       }
