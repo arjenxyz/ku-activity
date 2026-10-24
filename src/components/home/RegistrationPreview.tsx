@@ -139,7 +139,7 @@ export function RegistrationPreview() {
 
   return (
     <>
-      <div className="mx-auto hidden w-full max-w-sm sm:block lg:hidden" aria-hidden>
+      <div className="mx-auto hidden w-full max-w-sm" aria-hidden>
         <div className="rounded-[2rem] border-[10px] border-[#0E1548] bg-[#0E1548] shadow-xl shadow-slate-900/15">
           <div className="overflow-hidden rounded-[1.25rem] bg-white">
             <div className="flex justify-center bg-white py-2">
@@ -150,7 +150,7 @@ export function RegistrationPreview() {
         </div>
       </div>
 
-      <div className="hidden lg:block" aria-hidden>
+      <div className="hidden md:block" aria-hidden>
         <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl shadow-slate-900/10">
           <div className="flex items-center gap-3 border-b border-slate-200 bg-slate-50 px-4 py-2.5">
             <span className="flex gap-1.5" aria-hidden>
