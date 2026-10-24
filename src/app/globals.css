@@ -913,3 +913,12 @@ a {
     transform: scale(1.03) translateX(2px);
   }
 }
+@keyframes sponsor-marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(calc(-50% - 0.5rem));
+  }
+}
