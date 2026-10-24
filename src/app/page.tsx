@@ -24,8 +24,8 @@ export default function HomePage() {
             <SlidingStars />
           </div>
 
-          <div className="mx-auto grid w-full max-w-6xl -translate-y-8 items-center gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(22rem,34rem)] lg:gap-14 lg:-translate-y-12">
-            <div className="mx-auto max-w-xl text-center lg:mx-0 lg:max-w-none lg:text-left">
+          <div className="mx-auto grid w-full max-w-6xl -translate-y-8 items-center gap-8 md:grid-cols-[minmax(0,1fr)_minmax(18rem,28rem)] md:gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(22rem,34rem)] lg:gap-14 lg:-translate-y-12">
+            <div className="mx-auto max-w-xl text-center md:mx-0 md:max-w-none md:text-left">
               <p className="inline-flex rounded-full bg-white px-3.5 py-1.5 text-xs font-medium text-slate-600 shadow-sm ring-1 ring-slate-200/80">
                 {APP_TAGLINE}
               </p>
@@ -33,10 +33,10 @@ export default function HomePage() {
                 Etkinlikleri gör,{' '}
                 <span className="text-slate-900">kaydını tamamla.</span>
               </h1>
-              <p className="mx-auto mt-4 max-w-lg text-base leading-relaxed text-slate-600 sm:text-lg lg:mx-0">
+              <p className="mx-auto mt-4 max-w-lg text-base leading-relaxed text-slate-600 sm:text-lg md:mx-0">
                 {APP_TAGLINE_TR}
               </p>
-              <div className="mt-6 flex justify-center lg:justify-start">
+              <div className="mt-6 flex justify-center md:justify-start">
                 <ExploreMenuButton className="inline-flex w-full items-center justify-center rounded-2xl bg-[#0E1548] px-6 py-3.5 text-sm font-medium text-white shadow-sm transition hover:bg-[#152060] sm:w-auto sm:min-w-40" />
               </div>
             </div>

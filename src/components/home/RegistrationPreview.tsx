@@ -139,7 +139,7 @@ export function RegistrationPreview() {
 
   return (
     <>
-      <div className="mx-auto hidden w-full max-w-sm" aria-hidden>
+      <div className="mx-auto hidden w-full max-w-sm md:hidden" aria-hidden>
         <div className="rounded-[2rem] border-[10px] border-[#0E1548] bg-[#0E1548] shadow-xl shadow-slate-900/15">
           <div className="overflow-hidden rounded-[1.25rem] bg-white">
             <div className="flex justify-center bg-white py-2">
